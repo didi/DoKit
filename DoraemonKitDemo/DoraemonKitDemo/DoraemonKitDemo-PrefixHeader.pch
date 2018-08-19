@@ -1,0 +1,17 @@
+//
+//  DoraemonKitDemo-PrefixHeader.pch
+//  DoraemonKitDemo
+//
+//  Created by yixiang on 2017/12/13.
+//  Copyright © 2017年 yixiang. All rights reserved.
+//
+
+#ifndef DoraemonKitDemo_PrefixHeader_pch
+#define DoraemonKitDemo_PrefixHeader_pch
+
+
+#import <CocoaLumberjack/CocoaLumberjack.h>
+
+static const DDLogLevel ddLogLevel = DDLogLevelDebug;
+
+#endif /* DoraemonKitDemo_PrefixHeader_pch */

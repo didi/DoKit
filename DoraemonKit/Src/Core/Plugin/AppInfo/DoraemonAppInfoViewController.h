@@ -1,0 +1,13 @@
+//
+//  DoraemonAppInfoViewController.h
+//  DoraemonKit-DoraemonKit
+//
+//  Created by yixiang on 2018/4/13.
+//
+
+#import <DoraemonKit/DoraemonKit.h>
+#import "DoraemonBaseViewController.h"
+
+@interface DoraemonAppInfoViewController : DoraemonBaseViewController
+
+@end

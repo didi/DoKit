@@ -1,0 +1,68 @@
+PODS:
+  - AFNetworking (2.6.3):
+    - AFNetworking/NSURLConnection (= 2.6.3)
+    - AFNetworking/NSURLSession (= 2.6.3)
+    - AFNetworking/Reachability (= 2.6.3)
+    - AFNetworking/Security (= 2.6.3)
+    - AFNetworking/Serialization (= 2.6.3)
+    - AFNetworking/UIKit (= 2.6.3)
+  - AFNetworking/NSURLConnection (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.6.3):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.6.3)
+  - AFNetworking/Security (2.6.3)
+  - AFNetworking/Serialization (2.6.3)
+  - AFNetworking/UIKit (2.6.3):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - CocoaLumberjack (3.3.0):
+    - CocoaLumberjack/Default (= 3.3.0)
+    - CocoaLumberjack/Extensions (= 3.3.0)
+  - CocoaLumberjack/Default (3.3.0)
+  - CocoaLumberjack/Extensions (3.3.0):
+    - CocoaLumberjack/Default
+  - DoraemonKit/Core (0.0.74):
+    - PNChart
+    - "UIView+Positioning"
+  - DoraemonKit/WithLogger (0.0.74):
+    - CocoaLumberjack
+    - DoraemonKit/Core
+    - PNChart
+    - "UIView+Positioning"
+  - PNChart (0.8.9):
+    - UICountingLabel (~> 1.2.0)
+  - UICountingLabel (1.2.0)
+  - "UIView+Positioning (1.1)"
+
+DEPENDENCIES:
+  - AFNetworking (= 2.6.3)
+  - DoraemonKit/WithLogger (from `../`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AFNetworking
+    - CocoaLumberjack
+    - PNChart
+    - UICountingLabel
+    - "UIView+Positioning"
+
+EXTERNAL SOURCES:
+  DoraemonKit:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
+  DoraemonKit: 39436f78c282885d9ca7b3892f7429d50e02f231
+  PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
+  UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
+  "UIView+Positioning": e93fe9e3186d1ed7d60e344aa12787911e902056
+
+PODFILE CHECKSUM: ef13b525233facfa2130fd850a5b840cef2d6678
+
+COCOAPODS: 1.5.3
