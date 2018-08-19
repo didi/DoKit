@@ -6,7 +6,7 @@
 //
 
 #import "DoraemonLoggerConsoleSwitchView.h"
-#import <UIView+Positioning/UIView+Positioning.h>
+#import "UIView+Positioning.h"
 
 @interface DoraemonLoggerConsoleSwitchView()
 

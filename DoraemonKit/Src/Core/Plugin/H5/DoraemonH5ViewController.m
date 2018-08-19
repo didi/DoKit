@@ -6,7 +6,7 @@
 //
 
 #import "DoraemonH5ViewController.h"
-#import <UIView+Positioning/UIView+Positioning.h>
+#import "UIView+Positioning.h"
 #import "DoraemonToastUtil.h"
 #import "DoraemonDefine.h"
 

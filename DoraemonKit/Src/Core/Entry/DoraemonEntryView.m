@@ -9,7 +9,7 @@
 #import "DoraemonEntryView.h"
 #import "DoraemonDefine.h"
 #import "DoraemonUtil.h"
-#import <UIView+Positioning/UIView+Positioning.h>
+#import "UIView+Positioning.h"
 #import "UIImage+DoraemonKit.h"
 #import "DoraemonDefine.h"
 #import "DoraemonHomeWindow.h"

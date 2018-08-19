@@ -6,7 +6,7 @@
 //
 
 #import "DoraemonAllTestViewController.h"
-#import <UIView+Positioning/UIView+Positioning.h>
+#import "UIView+Positioning.h"
 #import "DoraemonDefine.h"
 #import "DoraemonCacheManager.h"
 #import "DoraemonAllTestManager.h"

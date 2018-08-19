@@ -7,7 +7,7 @@
 
 #import "DoraemonBaseSwitchViewController.h"
 #import "DoraemonDefine.h"
-#import <UIView+Positioning/UIView+Positioning.h>
+#import "UIView+Positioning.h"
 
 @interface DoraemonBaseSwitchViewController ()
 

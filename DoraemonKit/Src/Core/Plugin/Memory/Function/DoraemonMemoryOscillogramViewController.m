@@ -7,7 +7,7 @@
 
 #import "DoraemonMemoryOscillogramViewController.h"
 #import "DoraemonOscillogramView.h"
-#import <UIView+Positioning/UIView+Positioning.h>
+#import "UIView+Positioning.h"
 #import "DoraemonMemoryUtil.h"
 
 @interface DoraemonMemoryOscillogramViewController ()

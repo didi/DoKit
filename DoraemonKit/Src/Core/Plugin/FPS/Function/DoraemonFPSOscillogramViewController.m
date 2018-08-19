@@ -7,7 +7,7 @@
 
 #import "DoraemonFPSOscillogramViewController.h"
 #import "DoraemonOscillogramView.h"
-#import <UIView+Positioning/UIView+Positioning.h>
+#import "UIView+Positioning.h"
 
 @interface DoraemonFPSOscillogramViewController ()
 

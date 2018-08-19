@@ -7,7 +7,7 @@
 //
 
 #import "DoraemonDemoPerformanceViewController.h"
-#import <UIView+Positioning/UIView+Positioning.h>
+#import "UIView+Positioning.h"
 #import <AFNetworking/AFNetworking.h>
 
 @interface DoraemonDemoPerformanceViewController (){

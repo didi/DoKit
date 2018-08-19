@@ -7,7 +7,7 @@
 
 #import "DoraemonSwitchView.h"
 #import "UIColor+DoreamonKit.h"
-#import <UIView+Positioning/UIView+Positioning.h>
+#import "UIView+Positioning.h"
 
 @interface DoraemonSwitchView()
 

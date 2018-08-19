@@ -7,7 +7,7 @@
 //
 
 #import "DoraemonDemoNetViewController.h"
-#import <UIView+Positioning/UIView+Positioning.h>
+#import "UIView+Positioning.h"
 #import <AFNetworking/AFNetworking.h>
 #import <DoraemonKit/DoraemonNSURLProtocol.h>
 

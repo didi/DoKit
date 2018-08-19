@@ -10,7 +10,7 @@
 #import "DoraemonNetFlowListCell.h"
 #import "DoraemonNetFlowHttpModel.h"
 #import "DoraemonNetFlowDetailViewController.h"
-#import <UIView+Positioning/UIView+Positioning.h>
+#import "UIView+Positioning.h"
 
 @interface DoraemonNetFlowListViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
 

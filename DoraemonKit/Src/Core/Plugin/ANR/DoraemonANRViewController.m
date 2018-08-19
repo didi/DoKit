@@ -7,7 +7,7 @@
 
 #import "DoraemonANRViewController.h"
 #import "DoraemonSwitchView.h"
-#import <UIView+Positioning/UIView+Positioning.h>
+#import "UIView+Positioning.h"
 #import "DoraemonANRManager.h"
 #import "DoraemonCellButton.h"
 #import "DoraemonANRListViewController.h"

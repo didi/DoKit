@@ -9,7 +9,7 @@
 #import "UIImage+DoraemonKit.h"
 #import "DoraemonDefine.h"
 #import "UIColor+DoreamonKit.h"
-#import <UIView+Positioning/UIView+Positioning.h>
+#import "UIView+Positioning.h"
 
 static CGFloat const kViewCheckSize = 40;
 

@@ -28,16 +28,13 @@ PODS:
     - CocoaLumberjack/Default
   - DoraemonKit/Core (1.0.0):
     - PNChart
-    - "UIView+Positioning (<= 1.1)"
   - DoraemonKit/WithLogger (1.0.0):
     - CocoaLumberjack
     - DoraemonKit/Core
     - PNChart
-    - "UIView+Positioning (<= 1.1)"
   - PNChart (0.8.9):
     - UICountingLabel (~> 1.2.0)
   - UICountingLabel (1.2.0)
-  - "UIView+Positioning (1.1)"
 
 DEPENDENCIES:
   - AFNetworking (= 2.6.3)
@@ -49,7 +46,6 @@ SPEC REPOS:
     - CocoaLumberjack
     - PNChart
     - UICountingLabel
-    - "UIView+Positioning"
 
 EXTERNAL SOURCES:
   DoraemonKit:
@@ -58,10 +54,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   CocoaLumberjack: db7cc9e464771f12054c22ff6947c5a58d43a0fd
-  DoraemonKit: db2c8c9f70a127de422f34922d112e44925c3330
+  DoraemonKit: 5f4600265062e2f5343cfbe553dd03c15c42a1da
   PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
-  "UIView+Positioning": e93fe9e3186d1ed7d60e344aa12787911e902056
 
 PODFILE CHECKSUM: ef13b525233facfa2130fd850a5b840cef2d6678
 
