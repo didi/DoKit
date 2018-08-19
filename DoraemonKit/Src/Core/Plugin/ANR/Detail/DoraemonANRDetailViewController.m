@@ -7,7 +7,7 @@
 
 #import "DoraemonANRDetailViewController.h"
 #import "UIColor+DoreamonKit.h"
-#import <UIView+Positioning/UIView+Positioning.h>
+//#import <UIView+Positioning/UIView+Positioning.h>
 
 @interface DoraemonANRDetailViewController ()
 
@@ -27,7 +27,7 @@
     _contentLabel.numberOfLines = 0;
     _contentLabel.text = _anrInfo[@"content"];
     
-    CGSize fontSize = [_contentLabel sizeThatFits:CGSizeMake(self.view.width-40, MAXFLOAT)];
+    CGSize fontSize = [_contentLabel sizeThatFits:CGSizeMake(self.view.frame.size.width-40, MAXFLOAT)];
     _contentLabel.frame = CGRectMake(20, 20, fontSize.width, fontSize.height);
     [self.view addSubview:_contentLabel];
     
