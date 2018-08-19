@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
     ss.dependency 'CocoaLumberjack'
   end
 
-  s.dependency 'UIView+Positioning'
+  s.dependency 'UIView+Positioning' , '<= 1.1'
   s.dependency 'PNChart'
 
 end

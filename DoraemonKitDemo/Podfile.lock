@@ -20,20 +20,20 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - CocoaLumberjack (3.3.0):
-    - CocoaLumberjack/Default (= 3.3.0)
-    - CocoaLumberjack/Extensions (= 3.3.0)
-  - CocoaLumberjack/Default (3.3.0)
-  - CocoaLumberjack/Extensions (3.3.0):
+  - CocoaLumberjack (3.4.2):
+    - CocoaLumberjack/Default (= 3.4.2)
+    - CocoaLumberjack/Extensions (= 3.4.2)
+  - CocoaLumberjack/Default (3.4.2)
+  - CocoaLumberjack/Extensions (3.4.2):
     - CocoaLumberjack/Default
-  - DoraemonKit/Core (0.0.74):
+  - DoraemonKit/Core (1.0.0):
     - PNChart
-    - "UIView+Positioning"
-  - DoraemonKit/WithLogger (0.0.74):
+    - "UIView+Positioning (<= 1.1)"
+  - DoraemonKit/WithLogger (1.0.0):
     - CocoaLumberjack
     - DoraemonKit/Core
     - PNChart
-    - "UIView+Positioning"
+    - "UIView+Positioning (<= 1.1)"
   - PNChart (0.8.9):
     - UICountingLabel (~> 1.2.0)
   - UICountingLabel (1.2.0)
@@ -57,8 +57,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
-  CocoaLumberjack: 3c8c74683302f9012bb168e1c4b7ae3c0b558431
-  DoraemonKit: 39436f78c282885d9ca7b3892f7429d50e02f231
+  CocoaLumberjack: db7cc9e464771f12054c22ff6947c5a58d43a0fd
+  DoraemonKit: db2c8c9f70a127de422f34922d112e44925c3330
   PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
   "UIView+Positioning": e93fe9e3186d1ed7d60e344aa12787911e902056
