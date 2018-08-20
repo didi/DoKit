@@ -44,13 +44,13 @@
 包含两个subspec，一个是包含“日志显示”的“WithLogger” subspec
 
 ```
-pod 'DoraemonKit',:subspecs => ['WithLogger'], :git => "上线之后的Git地址", :tag => 'tag'
+pod 'DoraemonKit',:subspecs => ['WithLogger'], :git => "https://github.com/didichuxing/DoraemonKit", :tag => 'tag'
 ```
 
 一个是不包含“日志显示”的“Core” subspec
 
 ```
-pod 'DoraemonKit',:subspecs => ['Core'], :git => "线上代码仓库", :tag => 'tag'
+pod 'DoraemonKit',:subspecs => ['Core'], :git => "https://github.com/didichuxing/DoraemonKit", :tag => 'tag'
 ```
 
 默认引入“Core” subspec。
@@ -123,7 +123,7 @@ tip：为什么要分区subspec呢？
 
 ## DoraemonKit相关文档
 
-[英文介绍]()
+[英文介绍](https://github.com/didichuxing/DoraemonKit)
 
 
 
