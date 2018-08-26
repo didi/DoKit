@@ -119,7 +119,6 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithTitle:@"CPU" icon:@"doraemon_cpu" desc:@"CPU监控" pluginName:@"DoraemonCPUPlugin" atModule:@"性能监控"];
     [self addPluginWithTitle:@"内存" icon:@"doraemon_memory" desc:@"内存监控" pluginName:@"DoraemonMemoryPlugin" atModule:@"性能监控"];
     [self addPluginWithTitle:@"流量" icon:@"doraemon_flow" desc:@"流量监控" pluginName:@"DoraemonNetFlowPlugin" atModule:@"性能监控"];
-    [self addPluginWithTitle:@"卡顿" icon:@"doraemon_anr" desc:@"卡顿检测" pluginName:@"DoraemonANRPlugin" atModule:@"性能监控"];
     [self addPluginWithTitle:@"自定义" icon:@"doraemon_alltest" desc:@"自定义你要选择测试的性能项" pluginName:@"DoraemonAllTestPlugin" atModule:@"性能监控"];
     
     [self addPluginWithTitle:@"颜色吸管" icon:@"doraemon_straw" desc:@"颜色拾取器" pluginName:@"DoraemonColorPickPlugin" atModule:@"视觉工具"];
