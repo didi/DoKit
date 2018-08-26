@@ -28,7 +28,7 @@ A collection of testing tools for iOS App development.
 
 ## Function Show
 <div  align="center">    
- <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/openSource/doraemonKit.jpeg" width = "300" height = "500" alt="图片名称" align=center />
+ <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/openSource/github/DoraemonKit.png" width = "300" height = "565" alt="图片名称" align=center />
 </div>
 tips: Tools in the top two lines are user-defined. Others are built-in.
 

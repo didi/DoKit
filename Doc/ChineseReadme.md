@@ -32,7 +32,7 @@
 
 ## 效果演示
 <div  align="center">    
- <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/openSource/doraemonKit.jpeg" width = "300" height = "500" alt="图片名称" align=center />
+  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/openSource/github/DoraemonKit.png" width = "300" height = "565" alt="图片名称" align=center />
 </div>
 
 上面两行是业务线自定义的工具，接入方可以自定义。除此之外都是内置工具集合。
