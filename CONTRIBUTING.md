@@ -13,7 +13,7 @@ Before sending pull request to this project, please read and follow guidelines b
 
 Add device mode, API version, related log, screenshots and other related information in your pull request if possible.
 
-NOTE: We assume all your contribution can be licensed under the [Apache License 2.0](https://github.com/didi/DoraemonKit/blob/master/LICENSE).
+NOTE: We assume all your contribution can be licensed under the [MIT License](https://github.com/didi/DoraemonKit/blob/master/LICENSE).
 
 ## Issues
 
