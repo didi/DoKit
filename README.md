@@ -14,6 +14,8 @@
 
 A collection of testing tools for iOS App development.
 
+[Chinese Readme](https://github.com/didi/DoraemonKit/blob/master/Doc/ChineseReadme.md)
+
 ## Function List
 
 1. Including an entrance to examine information of device, app and app's permissions.
