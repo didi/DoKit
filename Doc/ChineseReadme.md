@@ -44,13 +44,13 @@
 包含两个subspec，一个是包含“日志显示”的“WithLogger” subspec
 
 ```
-pod 'DoraemonKit',:subspecs => ['WithLogger'], :git => "https://github.com/didi/DoraemonKit", :tag => '1.0.0'
+pod 'DoraemonKit/WithLogger', '~> 1.0.0'
 ```
 
 一个是不包含“日志显示”的“Core” subspec
 
 ```
-pod 'DoraemonKit',:subspecs => ['Core'], :git => "https://github.com/didi/DoraemonKit", :tag => '1.0.0'
+pod 'DoraemonKit/Core', '~> 1.0.0'
 ```
 
 默认引入“Core” subspec。
