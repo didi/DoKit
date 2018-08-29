@@ -116,7 +116,7 @@ Take our App as an example:
 
 ## Related documents
 
-[Chinese Readme](https://github.com/didichuxing/DoraemonKit/blob/master/Doc/ChineseReadme.md)
+[Chinese Readme](https://github.com/didi/DoraemonKit/blob/master/Doc/ChineseReadme.md)
 
 
 

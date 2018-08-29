@@ -13,10 +13,10 @@ Pod::Spec.new do |s|
                           iOS各式各样的工具集合 Desc
                        DESC
 
-  s.homepage         = 'https://github.com/didichuxing/DoraemonKit'
+  s.homepage         = 'https://github.com/didi/DoraemonKit'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'yixiang' => 'javer_yi@163.com' }
-  s.source           = { :git => 'https://github.com/didichuxing/DoraemonKit', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/didi/DoraemonKit', :tag => s.version.to_s }
   s.ios.deployment_target = '8.0'
 
 
