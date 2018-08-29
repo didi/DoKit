@@ -39,13 +39,13 @@ DoraemonKit contains two subspecs.
 One is the "WithLogger" subspec that contains the log display  function based on ‘CocoaLumberjack’.
 
 ```
-pod 'DoraemonKit',:subspecs => ['WithLogger'], :git => "https://github.com/didichuxing/DoraemonKit", :tag => '1.0.0'
+pod 'DoraemonKit',:subspecs => ['WithLogger'], :git => "https://github.com/didi/DoraemonKit", :tag => '1.0.0'
 ```
 
 The other one is the "Core" subspec that does not contain the log display function.
 
 ```
-pod 'DoraemonKit',:subspecs => ['Core'], :git => "https://github.com/didichuxing/DoraemonKit", :tag => '1.0.0'
+pod 'DoraemonKit',:subspecs => ['Core'], :git => "https://github.com/didi/DoraemonKit", :tag => '1.0.0'
 ```
 
 The "Core" subspec is introduced by default.
