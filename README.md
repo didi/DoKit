@@ -16,7 +16,7 @@ A collection of testing tools for iOS App development.
 
 [Chinese Readme](https://github.com/didi/DoraemonKit/blob/master/Doc/ChineseReadme.md)
 
-## Function List
+## Feature List
 
 1. Including an entrance to examine information of device, app and app's permissions.
 2. Including a file browser, with a convenient way to transfer file through airDrop.
@@ -28,7 +28,7 @@ A collection of testing tools for iOS App development.
 8. Including a UI viewer, obtaining properties, such as name, position, background color and font size, of every view.
 9. Including a coordinate ruler, a useful tool to acquire screen coordinates and to check the alignment of views.
 
-## Function Show
+## Feature Demonstration
 <div  align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/openSource/github/DoraemonKit.png" width = "300" height = "565" alt="图片名称" align=center />
 </div>
