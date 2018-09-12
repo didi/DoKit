@@ -17,7 +17,17 @@
 
 + (NSString *)netAuthority;
 
-+ (NSString *)takePhotoAuthority;
++ (NSString *)cameraAuthority;
 
 + (NSString *)audioAuthority;
+
++ (NSString *)photoAuthority;
+
++ (NSString *)addressAuthority;
+
++ (NSString *)calendarAuthority;
+
++ (NSString *)remindAuthority;
+
++ (NSString *)bluetoothAuthority;
 @end

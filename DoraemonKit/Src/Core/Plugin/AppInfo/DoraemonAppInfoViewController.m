@@ -9,6 +9,7 @@
 #import "DoraemonAppInfoCell.h"
 #import "DoraemonDefine.h"
 #import "DoraemonAppInfoUtil.h"
+#import "UIView+Positioning.h"
 
 @interface DoraemonAppInfoViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -47,10 +48,22 @@
     NSString *pushAuthority = [DoraemonAppInfoUtil pushAuthority];
     
     //获取拍照权限
-    NSString *takePhotoAuthority = [DoraemonAppInfoUtil takePhotoAuthority];
+    NSString *cameraAuthority = [DoraemonAppInfoUtil cameraAuthority];
     
     //获取麦克风权限
     NSString *audioAuthority = [DoraemonAppInfoUtil audioAuthority];
+    
+    //获取相册权限
+    NSString *photoAuthority = [DoraemonAppInfoUtil photoAuthority];
+    
+    //获取通讯录权限
+    NSString *addressAuthority = [DoraemonAppInfoUtil addressAuthority];
+    
+    //获取日历权限
+    NSString *calendarAuthority = [DoraemonAppInfoUtil calendarAuthority];
+    
+    //获取提醒事项权限
+    NSString *remindAuthority = [DoraemonAppInfoUtil remindAuthority];
     
     NSArray *dataArray = @[
                             @{
@@ -87,31 +100,51 @@
                                                @"title":@"地理位置权限",
                                                @"value":locationAuthority
                                                },
-//                                           @{
-//                                               @"title":@"网络权限",
-//                                               @"value":netAuthority
-//                                               },
+                                           @{
+                                               @"title":@"网络权限",
+                                               @"value":netAuthority
+                                               },
                                            @{
                                                @"title":@"推送权限",
                                                @"value":pushAuthority
                                                },
                                            @{
-                                               @"title":@"拍照权限",
-                                               @"value":takePhotoAuthority
+                                               @"title":@"相机权限",
+                                               @"value":cameraAuthority
                                                },
                                            @{
                                                @"title":@"麦克风权限",
                                                @"value":audioAuthority
+                                               },
+                                           @{
+                                               @"title":@"相册权限",
+                                               @"value":photoAuthority
+                                               },
+                                           @{
+                                               @"title":@"通讯录权限",
+                                               @"value":addressAuthority
+                                               },
+                                           @{
+                                               @"title":@"日历权限",
+                                               @"value":calendarAuthority
+                                               },
+                                           @{
+                                               @"title":@"提醒事项权限",
+                                               @"value":remindAuthority
                                                }
                                            ]
                                 }
                             ];
     _dataArray = dataArray;
     
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
+    CGFloat navBarHeight = self.navigationController.navigationBar.height+[[UIApplication sharedApplication] statusBarFrame].size.height;
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height-navBarHeight) style:UITableViewStyleGrouped];
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.estimatedRowHeight = 0.;
+    self.tableView.estimatedSectionFooterHeight = 0.;
+    self.tableView.estimatedSectionHeaderHeight = 0.;
     [self.view addSubview:self.tableView];
 }
 

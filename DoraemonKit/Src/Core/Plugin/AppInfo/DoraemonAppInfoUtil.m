@@ -9,7 +9,11 @@
 #import <sys/utsname.h>
 #import <CoreLocation/CLLocationManager.h>
 #import <AVFoundation/AVFoundation.h>
+#import <Photos/Photos.h>
+#import <AddressBook/AddressBook.h>
+#import <Contacts/Contacts.h>
 @import CoreTelephony;
+@import EventKit;
 
 #define IOS8 ([[[UIDevice currentDevice] systemVersion] doubleValue] >=8.0 ? YES : NO)
 
@@ -53,12 +57,26 @@
 }
 
 + (NSString *)locationAuthority{
-    if ([CLLocationManager locationServicesEnabled] && ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized) || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
-        return @"YES";
-    }else if ([CLLocationManager authorizationStatus] ==kCLAuthorizationStatusDenied ) {
-        return @"NO";
+    NSString *authority = @"";
+    if ([CLLocationManager locationServicesEnabled]) {
+        CLAuthorizationStatus state = [CLLocationManager authorizationStatus];
+        if (state == kCLAuthorizationStatusNotDetermined) {
+            authority = @"NotDetermined";
+        }else if(state == kCLAuthorizationStatusRestricted){
+            authority = @"Restricted";
+        }else if(state == kCLAuthorizationStatusDenied){
+            authority = @"Denied";
+        }else if(state == kCLAuthorizationStatusAuthorizedAlways){
+            authority = @"Always";
+        }else if(state == kCLAuthorizationStatusAuthorizedWhenInUse){
+            authority = @"WhenInUse";
+        }else if(state == kCLAuthorizationStatusAuthorized){
+            authority = @"Authorized";
+        }
+    }else{
+        authority = @"NoEnabled";
     }
-    return @"NO";
+    return authority;
 }
 
 + (NSString *)pushAuthority{
@@ -80,10 +98,10 @@
     NSString *authority = @"Unknown";
     switch (state) {
         case kCTCellularDataRestricted:
-            authority = @"Restricrted";
+            authority = @"Restricted";
             break;
         case kCTCellularDataNotRestricted:
-            authority = @"Not Restricted";
+            authority = @"NotRestricted";
             break;
         case kCTCellularDataRestrictedStateUnknown:
             authority = @"Unknown";
@@ -94,22 +112,208 @@
     return authority;
 }
 
-+ (NSString *)takePhotoAuthority{
++ (NSString *)cameraAuthority{
+    NSString *authority = @"";
     NSString *mediaType = AVMediaTypeVideo;//读取媒体类型
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];//读取设备授权状态
-    if(authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied){
-        return @"NO";
+    switch (authStatus) {
+        case AVAuthorizationStatusNotDetermined:
+            authority = @"NotDetermined";
+            break;
+        case AVAuthorizationStatusRestricted:
+            authority = @"Restricted";
+            break;
+        case AVAuthorizationStatusDenied:
+            authority = @"Denied";
+            break;
+        case AVAuthorizationStatusAuthorized:
+            authority = @"Authorized";
+            break;
+        default:
+            break;
     }
-    return @"YES";
+    return authority;
 }
 
 + (NSString *)audioAuthority{
+    NSString *authority = @"";
     NSString *mediaType = AVMediaTypeAudio;//读取媒体类型
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:mediaType];//读取设备授权状态
-    if(authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied){
-        return @"NO";
+    switch (authStatus) {
+        case AVAuthorizationStatusNotDetermined:
+            authority = @"NotDetermined";
+            break;
+        case AVAuthorizationStatusRestricted:
+            authority = @"Restricted";
+            break;
+        case AVAuthorizationStatusDenied:
+            authority = @"Denied";
+            break;
+        case AVAuthorizationStatusAuthorized:
+            authority = @"Authorized";
+            break;
+        default:
+            break;
     }
-    return @"YES";
+    return authority;
+}
+
++ (NSString *)photoAuthority{
+    NSString *authority = @"";
+#if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_8_0 //iOS 8.0以下使用AssetsLibrary.framework
+    ALAuthorizationStatus status = [ALAssetsLibrary authorizationStatus];
+    switch (status) {
+        case ALAuthorizationStatusNotDetermined:    //用户还没有选择
+        {
+            authority = @"NotDetermined";
+        }
+            break;
+        case ALAuthorizationStatusRestricted:       //家长控制
+        {
+            authority = @"Restricted";
+        }
+            break;
+        case ALAuthorizationStatusDenied:           //用户拒绝
+        {
+            authority = @"Denied";
+        }
+            break;
+        case ALAuthorizationStatusAuthorized:       //已授权
+        {
+            authority = @"Authorized";
+        }
+            break;
+        default:
+            break;
+    }
+#else   //iOS 8.0以上使用Photos.framework
+    PHAuthorizationStatus current = [PHPhotoLibrary authorizationStatus];
+    switch (current) {
+        case PHAuthorizationStatusNotDetermined:    //用户还没有选择(第一次)
+        {
+            authority = @"NotDetermined";
+        }
+            break;
+        case PHAuthorizationStatusRestricted:       //家长控制
+        {
+            authority = @"Restricted";
+        }
+            break;
+        case PHAuthorizationStatusDenied:           //用户拒绝
+        {
+            authority = @"Denied";
+        }
+            break;
+        case PHAuthorizationStatusAuthorized:       //已授权
+        {
+            authority = @"Authorized";
+        }
+            break;
+        default:
+            break;
+    }
+#endif
+    return authority;
+}
+
++ (NSString *)addressAuthority{
+    NSString *authority = @"";
+    //iOS9.0之前
+    if([[UIDevice currentDevice].systemVersion floatValue] <= __IPHONE_9_0)
+    {
+        ABAuthorizationStatus authorStatus = ABAddressBookGetAuthorizationStatus();
+        switch (authorStatus) {
+            case kABAuthorizationStatusAuthorized:
+                authority = @"Authorized";
+                break;
+            case kABAuthorizationStatusDenied:
+            {
+                authority = @"Denied";
+            }
+                break;
+            case kABAuthorizationStatusNotDetermined:
+            {
+                authority = @"NotDetermined";
+            }
+                break;
+            case kABAuthorizationStatusRestricted:
+                authority = @"Restricted";
+                break;
+            default:
+                break;
+        }
+    }
+    else//iOS9.0之后
+    {
+        CNAuthorizationStatus authStatus = [CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts];
+        switch (authStatus) {
+            case CNAuthorizationStatusAuthorized:
+                authority = @"Authorized";
+                break;
+            case CNAuthorizationStatusDenied:
+            {
+                authority = @"Denied";
+            }
+                break;
+            case CNAuthorizationStatusNotDetermined:
+            {
+                authority = @"NotDetermined";
+            }
+                break;
+            case CNAuthorizationStatusRestricted:
+                authority = @"Restricted";
+                break;
+        }
+    }
+    return authority;
+}
+
++ (NSString *)calendarAuthority{
+    NSString *authority = @"";
+    EKAuthorizationStatus status = [EKEventStore authorizationStatusForEntityType:EKEntityTypeEvent];
+    switch (status) {
+        case EKAuthorizationStatusNotDetermined:
+            authority = @"NotDetermined";
+            break;
+        case EKAuthorizationStatusRestricted:
+            authority = @"Restricted";
+            break;
+        case EKAuthorizationStatusDenied:
+            authority = @"Denied";
+            break;
+        case EKAuthorizationStatusAuthorized:
+            authority = @"Authorized";
+            break;
+        default:
+            break;
+    }
+    return authority;
+}
+
++ (NSString *)remindAuthority{
+    NSString *authority = @"";
+    EKAuthorizationStatus status = [EKEventStore authorizationStatusForEntityType:EKEntityTypeReminder];
+    switch (status) {
+        case EKAuthorizationStatusNotDetermined:
+            authority = @"NotDetermined";
+            break;
+        case EKAuthorizationStatusRestricted:
+            authority = @"Restricted";
+            break;
+        case EKAuthorizationStatusDenied:
+            authority = @"Denied";
+            break;
+        case EKAuthorizationStatusAuthorized:
+            authority = @"Authorized";
+            break;
+        default:
+            break;
+    }
+    return authority;
+}
+
++ (NSString *)bluetoothAuthority{
+    return @"";
 }
 
 @end
