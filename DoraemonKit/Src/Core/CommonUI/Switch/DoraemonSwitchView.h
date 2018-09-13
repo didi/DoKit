@@ -17,6 +17,8 @@
 
 @property (nonatomic, weak) id<DoraemonSwitchViewDelegate> delegate;
 
+@property (nonatomic, strong) UISwitch *switchView;
+
 - (void)renderUIWithTitle:(NSString *)title switchOn:(BOOL)on;
 
 - (void)needTopLine;

@@ -15,6 +15,7 @@ static NSString * const kDoraemonCpuKey = @"doraemon_cpu_key";
 static NSString * const kDoraemonMemoryKey = @"doraemon_memory_key";
 static NSString * const kDoraemonNetFlowKey = @"doraemon_netflow_key";
 static NSString * const kDoraemonNetFlowShowOscillogramKey = @"doraemon_netflow_show_oscillogram_key";
+static NSString * const kDoraemonSubThreadUICheckKey = @"doraemon_sub_thread_ui_check_key";
 
 @implementation DoraemonCacheManager
 
@@ -131,6 +132,18 @@ static NSString * const kDoraemonNetFlowShowOscillogramKey = @"doraemon_netflow_
 - (BOOL)netFlowShowOscillogramSwitch{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     return [defaults boolForKey:kDoraemonNetFlowShowOscillogramKey];
+}
+
+
+- (void)saveSubThreadUICheckSwitch:(BOOL)on{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:on forKey:kDoraemonSubThreadUICheckKey];
+    [defaults synchronize];
+}
+
+- (BOOL)subThreadUICheckSwitch{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults boolForKey:kDoraemonSubThreadUICheckKey];
 }
 
 @end

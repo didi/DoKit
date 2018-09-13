@@ -44,5 +44,7 @@
 
 - (BOOL)netFlowShowOscillogramSwitch;
 
+- (void)saveSubThreadUICheckSwitch:(BOOL)on;
 
+- (BOOL)subThreadUICheckSwitch;
 @end

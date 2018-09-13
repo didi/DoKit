@@ -12,7 +12,6 @@
 @interface DoraemonSwitchView()
 
 @property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UISwitch *switchView;
 @property (nonatomic, strong) UIView *topLine;
 @property (nonatomic, strong) UIView *downLine;
 
