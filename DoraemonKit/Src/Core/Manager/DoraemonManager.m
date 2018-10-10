@@ -111,6 +111,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithTitle:@"沙盒浏览" icon:@"file" desc:@"沙盒浏览" pluginName:@"DoraemonSandboxPlugin" atModule:@"常用工具集"];
     [self addPluginWithTitle:@"MockGPS" icon:@"doraemon_gps" desc:@"mock GPS" pluginName:@"DoraemonGPSPlugin" atModule:@"常用工具集"];
     [self addPluginWithTitle:@"H5任意门" icon:@"doraemon_h5" desc:@"H5通用跳转" pluginName:@"DoraemonH5Plugin" atModule:@"常用工具集"];
+    [self addPluginWithTitle:@"子线程UI" icon:@"doraemon_ui" desc:@"非主线程UI渲染检查" pluginName:@"DoraemonSubThreadUICheckPlugin" atModule:@"常用工具集"];
 #if DoraemonWithLogger
     [self addPluginWithTitle:@"日志显示" icon:@"logger" desc:@"日志显示" pluginName:@"DoraemonLoggerPlugin" atModule:@"常用工具集"];
 #endif
