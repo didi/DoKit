@@ -61,12 +61,12 @@
 
 - (void)netForURLConnection{
     //发送一条异步请求，block方式
-    NSURL *url = [NSURL URLWithString:@"http://172.23.160.242:8080/YxReactServerDemo/message/getAllMessage"];
+    NSURL *url = [NSURL URLWithString:@"https://www.taobao.com/"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init]completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
         if ((data != nil) && (connectionError == nil)) {
-            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            NSLog(@"response == %@",jsonDict);
+//            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            NSLog(@"response == %@",data);
         }
         
     }];
@@ -80,7 +80,7 @@
 - (void)netForNSURLSession{
     //发送一条异步请求，block方式
     NSURLSession *session = [NSURLSession sharedSession];
-    NSURL *url = [NSURL URLWithString:@"http://172.23.160.242:8080/YxReactServerDemo/message/getAllMessage"];
+    NSURL *url = [NSURL URLWithString:@"https://www.taobao.com/"];
     // 通过URL初始化task,在block内部可以直接对返回的数据进行处理
     NSURLSessionTask *task = [session dataTaskWithURL:url
                                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -88,8 +88,8 @@
                                             NSLog(@"error == %@",error);
                                             return ;
                                         }
-                                        NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-                                        NSLog(@"%@", result);
+//                                        NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+                                        NSLog(@"%@", data);
                                     }];
     
     // 启动任务
@@ -123,19 +123,19 @@
     session.requestSerializer = [AFHTTPRequestSerializer serializer];// 请求
     session.responseSerializer = [AFHTTPResponseSerializer serializer];// 响应
     session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json",@"text/javascript",@"text/html", nil];
-//    [session GET:@"https://www.baidu.com/" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-//        NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-//        NSLog(@"请求成功 %@",string);
-//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-//        NSLog(@"请求失败");
-//    }];
-    
-    [session POST:@"http://172.23.160.242:8080/YxReactServerDemo/message/getAllMessage" parameters:@{@"name":@"yixiang1"} success:^(NSURLSessionDataTask *task, id responseObject) {
+    [session GET:@"https://www.taobao.com/" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSLog(@"请求成功 %@",string);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"请求失败");
     }];
+    
+//    [session POST:@"http://172.23.160.242:8080/YxReactServerDemo/message/getAllMessage" parameters:@{@"name":@"yixiang1"} success:^(NSURLSessionDataTask *task, id responseObject) {
+//        NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+//        NSLog(@"请求成功 %@",string);
+//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//        NSLog(@"请求失败");
+//    }];
 }
 
 - (void)netForAFNetworking2{
@@ -143,7 +143,14 @@
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];// 请求
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];// 响应
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json",@"text/javascript",@"text/html", nil];
-    [manager POST:@"http://172.23.160.242:8080/YxReactServerDemo/message/getAllMessage" parameters:@{@"name":@"yixiang2"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//    [manager POST:@"http://172.23.160.242:8080/YxReactServerDemo/message/getAllMessage" parameters:@{@"name":@"yixiang2"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+//        NSLog(@"请求成功 %@",string);
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        NSLog(@"请求失败");
+//    }];
+    
+    [manager POST:@"https://www.taobao.com/" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         NSLog(@"请求成功 %@",string);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
