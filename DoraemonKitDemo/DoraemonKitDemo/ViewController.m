@@ -55,15 +55,6 @@
     UIView *alphaView = [[UIView alloc] initWithFrame:CGRectMake(100, 400, 60, 60)];
     alphaView.backgroundColor = [UIColor doraemon_colorWithHexString:@"#89FFFF00"];
     [self.view addSubview:alphaView];
-    
-    
-    //判断手机中是否安装 美团司机端
-    if ([[UIApplication sharedApplication] canOpenURL:[NSURL  URLWithString:@"meituanqcsr://"]]){
-        NSLog(@"install--");
-        [[UIApplication sharedApplication] openURL:[NSURL  URLWithString:@"meituanqcsr://"]];
-    }else{
-        NSLog(@"no---");
-    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
