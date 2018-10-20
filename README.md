@@ -39,13 +39,13 @@ DoraemonKit contains two subspecs.
 One is the "WithLogger" subspec that contains the log display  function based on ‘CocoaLumberjack’.
 
 ```
-pod 'DoraemonKit/WithLogger', '~> 1.0.0'
+pod 'DoraemonKit/WithLogger', '~> 1.0.1'
 ```
 
 The other one is the "Core" subspec that does not contain the log display function.
 
 ```
-pod 'DoraemonKit/Core', '~> 1.0.0'
+pod 'DoraemonKit/Core', '~> 1.0.1'
 ```
 
 The "Core" subspec is introduced by default.
