@@ -1,7 +1,7 @@
 ## DoraemonKit
 
-<!--<div  align="center">    
- <img src="" width = "150" height = "100" alt="图片名称" align=left />
+<div  align="center">    
+ <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="图片名称" align=left />
 </div>
 
 <br/>
@@ -9,7 +9,8 @@
 <br/>
 <br/>
 <br/>
-<br/>-->
+<br/>
+<br/>
 
 一款适用于iOS App的线下测试工具集合。
 
