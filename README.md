@@ -1,5 +1,3 @@
-## DoraemonKit
-
 <div  align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="图片名称" align=left />
 </div>
