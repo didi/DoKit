@@ -52,10 +52,18 @@
     NSString *json = [self dictToJsonStr:dic];
     
     NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *filePath = [docDir stringByAppendingPathComponent:@"json.txt"];
+    NSString *dirPath = [docDir stringByAppendingPathComponent:@"test"];
+    NSFileManager *fm = [NSFileManager defaultManager];
+    BOOL isDir = NO;
+    BOOL existed = [fm fileExistsAtPath:dirPath isDirectory:&isDir];
+    if (!(isDir && existed)) {
+        [fm createDirectoryAtPath:dirPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    NSString *filePath = [dirPath stringByAppendingPathComponent:@"json.txt"];
+    NSString *filePath2 = [dirPath stringByAppendingPathComponent:@"json2.txt"];
     
     [json writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    
+    [json writeToFile:filePath2 atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
 
 - (void)addImageFile{

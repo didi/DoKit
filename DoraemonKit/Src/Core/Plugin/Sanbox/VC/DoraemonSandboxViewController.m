@@ -102,6 +102,20 @@
     return cell;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return YES;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return @"删除";
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    DoraemonSandboxModel *model = _dataArray[indexPath.row];
+    [self deleteByDoraemonSandboxModel:model];
+}
+
+
 #pragma mark- UITableViewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 48;
@@ -181,6 +195,12 @@
     controller.excludedActivityTypes = excludedActivities;
 
     [self presentViewController:controller animated:YES completion:nil];
+}
+
+- (void)deleteByDoraemonSandboxModel:(DoraemonSandboxModel *)model{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    [fm removeItemAtPath:model.path error:nil];
+    [self loadPath:_currentDirModel.path];
 }
 
 @end
