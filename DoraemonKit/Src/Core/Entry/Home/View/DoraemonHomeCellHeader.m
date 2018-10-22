@@ -24,11 +24,11 @@
         leftMarkView.backgroundColor = [UIColor orangeColor];
         [self addSubview:leftMarkView];
         
-        UIView *seperatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, 39., self.width, 1.)];
+        UIView *seperatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, 39., self.doraemon_width, 1.)];
         seperatorLine.backgroundColor = [UIColor doraemon_colorWithHex:0xF2F3F4];
         [self addSubview:seperatorLine];
         
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.width-10, self.height)];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, self.doraemon_width-10, self.doraemon_height)];
         _titleLabel.font = [UIFont systemFontOfSize:14];
         [self addSubview:_titleLabel];
     }

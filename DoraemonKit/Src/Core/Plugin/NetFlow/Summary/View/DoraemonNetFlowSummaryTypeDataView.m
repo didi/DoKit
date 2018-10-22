@@ -32,7 +32,7 @@
         tipLabel.text = @"数据类型";
         tipLabel.font = [UIFont systemFontOfSize:14];
         [tipLabel sizeToFit];
-        tipLabel.frame = CGRectMake(10, 10, tipLabel.width, tipLabel.height);
+        tipLabel.frame = CGRectMake(10, 10, tipLabel.doraemon_width, tipLabel.doraemon_height);
         [self addSubview:tipLabel];
         
         [self getData];
@@ -47,7 +47,7 @@
                 [items addObject:item];
             }
             
-            PNPieChart *chart = [[PNPieChart alloc] initWithFrame:CGRectMake(self.width/2-100, tipLabel.bottom+15,200, 200) items:items];
+            PNPieChart *chart = [[PNPieChart alloc] initWithFrame:CGRectMake(self.doraemon_width/2-100, tipLabel.doraemon_bottom+15,200, 200) items:items];
             chart.descriptionTextColor = [UIColor whiteColor];
             chart.descriptionTextFont = [UIFont systemFontOfSize:6];
             chart.descriptionTextShadowColor = [UIColor clearColor];

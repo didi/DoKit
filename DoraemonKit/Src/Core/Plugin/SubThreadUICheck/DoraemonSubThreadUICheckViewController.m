@@ -27,27 +27,27 @@
     [super viewDidLoad];
     self.title = @"子线程渲染UI检查";
     
-    _switchView = [[DoraemonSwitchView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 53)];
+    _switchView = [[DoraemonSwitchView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, 53)];
     [_switchView renderUIWithTitle:@"子线程UI渲染检测开关" switchOn:[[DoraemonCacheManager sharedInstance] subThreadUICheckSwitch]];
     [_switchView needTopLine];
     [_switchView needDownLine];
     _switchView.delegate = self;
     [self.view addSubview:_switchView];
     
-    _cellBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _switchView.bottom, self.view.width, 53)];
+    _cellBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _switchView.doraemon_bottom, self.view.doraemon_width, 53)];
     [_cellBtn renderUIWithTitle:@"查看检测记录"];
     _cellBtn.delegate = self;
     [_cellBtn needDownLine];
     [self.view addSubview:_cellBtn];
     
-    _testBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _cellBtn.bottom, self.view.width, 53)];
+    _testBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _cellBtn.doraemon_bottom, self.view.doraemon_width, 53)];
     [_testBtn renderUIWithTitle:@"子线程UI渲染操作"];
     _testBtn.delegate = self;
     [_testBtn needDownLine];
     [self.view addSubview:_testBtn];
     
     _testView = [[UIView alloc] init];
-    _testView.frame = CGRectMake(0, _testBtn.bottom+60, 100, 100);
+    _testView.frame = CGRectMake(0, _testBtn.doraemon_bottom+60, 100, 100);
     _testView.backgroundColor = [UIColor redColor];
     _testView.hidden = NO;
     [self.view addSubview:_testView];

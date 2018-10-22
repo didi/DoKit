@@ -47,17 +47,17 @@
 - (void)renderUIWithTitle:(NSString *)title{
     _titleLabel.text = title;
     [_titleLabel sizeToFit];
-    _titleLabel.frame = CGRectMake(20, self.height/2-_titleLabel.height/2, _titleLabel.width, _titleLabel.height);
+    _titleLabel.frame = CGRectMake(20, self.doraemon_height/2-_titleLabel.doraemon_height/2, _titleLabel.doraemon_width, _titleLabel.doraemon_height);
 }
 
 - (void)needTopLine{
     _topLine.hidden = NO;
-    _topLine.frame = CGRectMake(0, 0, self.width, 0.5);
+    _topLine.frame = CGRectMake(0, 0, self.doraemon_width, 0.5);
 }
 
 - (void)needDownLine{
     _downLine.hidden = NO;
-    _downLine.frame = CGRectMake(0, self.height-0.5, self.width, 0.5);
+    _downLine.frame = CGRectMake(0, self.doraemon_height-0.5, self.doraemon_width, 0.5);
 }
 
 - (void)tap{

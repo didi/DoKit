@@ -65,8 +65,8 @@
 }
 
 - (void)setOriginalImage:(UIImage *)originalImage{
-    CGFloat viewWidth = self.view.width;
-    CGFloat viewHeight = self.view.height;
+    CGFloat viewWidth = self.view.doraemon_width;
+    CGFloat viewHeight = self.view.doraemon_height;
     CGFloat imageWidth = originalImage.size.width;
     CGFloat imageHeight = originalImage.size.height;
     BOOL isPortrait = imageHeight / viewHeight > imageWidth / viewWidth;

@@ -36,35 +36,35 @@
     _highCPU = NO;
     _highMemory = NO;
     
-    UIButton *btn0 = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, self.view.width, 60)];
+    UIButton *btn0 = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, self.view.doraemon_width, 60)];
     btn0.backgroundColor = [UIColor orangeColor];
     [btn0 setTitle:@"低FPS操作打开" forState:UIControlStateNormal];
     [btn0 addTarget:self action:@selector(fpsClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn0];
     _btn0 = btn0;
     
-    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 120, self.view.width, 60)];
+    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 120, self.view.doraemon_width, 60)];
     btn1.backgroundColor = [UIColor orangeColor];
     [btn1 setTitle:@"高CPU操作打开" forState:UIControlStateNormal];
     [btn1 addTarget:self action:@selector(cpuClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn1];
     _btn1 = btn1;
     
-    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, 220, self.view.width, 60)];
+    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, 220, self.view.doraemon_width, 60)];
     btn2.backgroundColor = [UIColor orangeColor];
     [btn2 setTitle:@"高内存操作打开" forState:UIControlStateNormal];
     [btn2 addTarget:self action:@selector(memoryClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn2];
     _btn2 = btn2;
     
-    UIButton *btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, 320, self.view.width, 60)];
+    UIButton *btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, 320, self.view.doraemon_width, 60)];
     btn3.backgroundColor = [UIColor orangeColor];
     [btn3 setTitle:@"高流量操作打开" forState:UIControlStateNormal];
     [btn3 addTarget:self action:@selector(flowClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn3];
     _btn3 = btn3;
     
-    UIButton *btn4 = [[UIButton alloc] initWithFrame:CGRectMake(0, 420, self.view.width, 60)];
+    UIButton *btn4 = [[UIButton alloc] initWithFrame:CGRectMake(0, 420, self.view.doraemon_width, 60)];
     btn4.backgroundColor = [UIColor orangeColor];
     [btn4 setTitle:@"卡顿操作打开" forState:UIControlStateNormal];
     [btn4 addTarget:self action:@selector(anrClick) forControlEvents:UIControlEventTouchUpInside];

@@ -24,7 +24,7 @@
     self.title = @"";
     
     UISwitch *switchView = [[UISwitch alloc] init];
-    switchView.origin = CGPointMake(DoraemonScreenWidth/2-switchView.width/2, DoraemonScreenHeight/2-switchView.height/2);
+    switchView.doraemon_origin = CGPointMake(DoraemonScreenWidth/2-switchView.doraemon_width/2, DoraemonScreenHeight/2-switchView.doraemon_height/2);
     [self.view addSubview:switchView];
     [switchView addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     switchView.on = [self switchViewOn];
@@ -35,7 +35,7 @@
     tipLabel.text = @"点我右侧😘:  ";
     [self.view addSubview:tipLabel];
     [tipLabel sizeToFit];
-    tipLabel.origin = CGPointMake(switchView.left-10-tipLabel.width, DoraemonScreenHeight/2-tipLabel.height/2);
+    tipLabel.doraemon_origin = CGPointMake(switchView.doraemon_left-10-tipLabel.doraemon_width, DoraemonScreenHeight/2-tipLabel.doraemon_height/2);
 }
 
 - (BOOL)switchViewOn{

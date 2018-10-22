@@ -46,8 +46,8 @@
     [self.titleLabel sizeToFit];
     [self.valueLabel sizeToFit];
     
-    self.titleLabel.frame = CGRectMake(10, 0, self.titleLabel.width, 60);
-    self.valueLabel.frame = CGRectMake(DoraemonScreenWidth-10-self.valueLabel.width, 0, self.valueLabel.width, 60);
+    self.titleLabel.frame = CGRectMake(10, 0, self.titleLabel.doraemon_width, 60);
+    self.valueLabel.frame = CGRectMake(DoraemonScreenWidth-10-self.valueLabel.doraemon_width, 0, self.valueLabel.doraemon_width, 60);
 }
 
 

@@ -21,7 +21,7 @@
     if (self) {
         NSArray *dataArray = @[@"Verbose",@"Debug",@"Info",@"Warn",@"Error"];
         _segment = [[UISegmentedControl alloc] initWithItems:dataArray];
-        _segment.frame = CGRectMake(20, self.height/2-15, self.width-40, 30);
+        _segment.frame = CGRectMake(20, self.doraemon_height/2-15, self.doraemon_width-40, 30);
         _segment.tintColor = [UIColor orangeColor];
         [_segment setSelectedSegmentIndex:0];
         [_segment addTarget:self action:@selector(segmentChange:) forControlEvents:UIControlEventValueChanged];

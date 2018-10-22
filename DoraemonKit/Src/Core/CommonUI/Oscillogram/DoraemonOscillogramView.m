@@ -41,11 +41,11 @@ static CGFloat const kStartX = 20.;
         _pointList = [NSMutableArray array];
         _pointLayerList = [NSMutableArray array];
         
-        _bottomLine = [[UIView alloc] initWithFrame:CGRectMake(kStartX, self.height-1, self.width, 1)];
+        _bottomLine = [[UIView alloc] initWithFrame:CGRectMake(kStartX, self.doraemon_height-1, self.doraemon_width, 1)];
         _bottomLine.backgroundColor = [UIColor whiteColor];
         [self addSubview:_bottomLine];
         
-        _lowValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.height-10, kStartX, 10)];
+        _lowValueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.doraemon_height-10, kStartX, 10)];
         _lowValueLabel.text = @"0";
         _lowValueLabel.textColor = [UIColor whiteColor];
         //_lowValueLabel.textAlignment = NSTextAlignmentRight;
@@ -76,8 +76,8 @@ static CGFloat const kStartX = 20.;
 }
 
 - (void)addHeightValue:(CGFloat)showHeight andTipValue:(NSString *)tipValue{
-    CGFloat width = self.width;
-    CGFloat height = self.height;
+    CGFloat width = self.doraemon_width;
+    CGFloat height = self.doraemon_height;
     CGFloat step = width / _numberOfPoints;
     if (_pointList.count == 0) {
         _x = kStartX;
@@ -126,13 +126,13 @@ static CGFloat const kStartX = 20.;
     UIBezierPath *path = [UIBezierPath bezierPath];
     
     DoraemonPoint *point = self.pointList[0];
-    CGPoint p1 = CGPointMake(point.x, self.height - point.y);
+    CGPoint p1 = CGPointMake(point.x, self.doraemon_height - point.y);
     [path moveToPoint:p1];
     [self addPointLayer:p1];
     
     for (int i=1; i<self.pointList.count; i++) {
         point = self.pointList[i];
-        CGPoint p2 = CGPointMake(point.x, self.height - point.y);
+        CGPoint p2 = CGPointMake(point.x, self.doraemon_height - point.y);
         [path addLineToPoint:p2];
         
         [self addPointLayer:p2];
@@ -169,7 +169,7 @@ static CGFloat const kStartX = 20.;
     DoraemonPoint *point = self.pointList[self.pointList.count-1];
     _tipLabel.text = tip;
     [_tipLabel sizeToFit];
-    _tipLabel.frame = CGRectMake(point.x, (self.height - point.y)-2-1-_tipLabel.height, _tipLabel.width, _tipLabel.height);
+    _tipLabel.frame = CGRectMake(point.x, (self.doraemon_height - point.y)-2-1-_tipLabel.doraemon_height, _tipLabel.doraemon_width, _tipLabel.doraemon_height);
 }
 
 - (void)clear{

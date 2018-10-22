@@ -19,13 +19,13 @@
     [super viewDidLoad];
     self.title = @"沙盒测试Demo";
     
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, self.view.width, 60)];
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, self.view.doraemon_width, 60)];
     btn.backgroundColor = [UIColor orangeColor];
     [btn setTitle:@"添加一条json到沙盒中" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(addFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     
-    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 120, self.view.width, 60)];
+    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 120, self.view.doraemon_width, 60)];
     btn1.backgroundColor = [UIColor orangeColor];
     [btn1 setTitle:@"添加一张图片到沙盒中" forState:UIControlStateNormal];
     [btn1 addTarget:self action:@selector(addImageFile) forControlEvents:UIControlEventTouchUpInside];

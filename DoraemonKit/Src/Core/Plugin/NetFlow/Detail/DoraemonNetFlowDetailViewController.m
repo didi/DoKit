@@ -40,15 +40,15 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
     
     NSArray *dataArray = @[@"请求",@"响应"];
     _segment = [[UISegmentedControl alloc] initWithItems:dataArray];
-    _segment.frame = CGRectMake(20, 10, self.view.width-40, 30);
+    _segment.frame = CGRectMake(20, 10, self.view.doraemon_width-40, 30);
     _segment.tintColor = [UIColor orangeColor];
     [_segment setSelectedSegmentIndex:0];
     [_segment addTarget:self action:@selector(segmentChange:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:_segment];
     
-    CGFloat tabBarHeight = self.tabBarController.tabBar.height;
-    CGFloat navBarHeight = self.navigationController.navigationBar.height+[[UIApplication sharedApplication] statusBarFrame].size.height;
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, self.view.width, self.view.height-50-tabBarHeight-navBarHeight) style:UITableViewStyleGrouped];
+    CGFloat tabBarHeight = self.tabBarController.tabBar.doraemon_height;
+    CGFloat navBarHeight = self.navigationController.navigationBar.doraemon_height+[[UIApplication sharedApplication] statusBarFrame].size.height;
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, self.view.doraemon_width, self.view.doraemon_height-50-tabBarHeight-navBarHeight) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -206,7 +206,7 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
     tipLabel.font = [UIFont systemFontOfSize:14];
     tipLabel.text = [NSString stringWithFormat:@"  %@",title];
     [tipLabel sizeToFit];
-    tipLabel.frame = CGRectMake(0, 0, self.view.width, 30);
+    tipLabel.frame = CGRectMake(0, 0, self.view.doraemon_width, 30);
     tipLabel.backgroundColor = [UIColor doraemon_colorWithHex:0xeff0f4];
     
     return tipLabel;

@@ -27,20 +27,20 @@
     [super viewDidLoad];
     self.title = @"卡顿检测";
     
-    _switchView = [[DoraemonSwitchView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 53)];
+    _switchView = [[DoraemonSwitchView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, 53)];
     [_switchView renderUIWithTitle:@"卡顿检测开关" switchOn:[DoraemonANRManager sharedInstance].anrTrackOn];
     [_switchView needTopLine];
     [_switchView needDownLine];
     _switchView.delegate = self;
     [self.view addSubview:_switchView];
     
-    _cellBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _switchView.bottom, self.view.width, 53)];
+    _cellBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _switchView.doraemon_bottom, self.view.doraemon_width, 53)];
     [_cellBtn renderUIWithTitle:@"查看卡顿记录"];
     _cellBtn.delegate = self;
     [_cellBtn needDownLine];
     [self.view addSubview:_cellBtn];
     
-    _testBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _cellBtn.bottom, self.view.width, 53)];
+    _testBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _cellBtn.doraemon_bottom, self.view.doraemon_width, 53)];
     [_testBtn renderUIWithTitle:@"卡顿操作"];
     _testBtn.delegate = self;
     [_testBtn needDownLine];

@@ -43,7 +43,7 @@
 }
 
 - (void)initUI{
-    _operatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 120)];
+    _operatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, 120)];
     [self.view addSubview:_operatorView];
     
     _tipLabel = [[UILabel alloc] init];
@@ -51,18 +51,18 @@
     _tipLabel.text = @"是否打开Mock GPS开关（重启生效）⬇️:";
     _tipLabel.font = [UIFont systemFontOfSize:14];
     [_tipLabel sizeToFit];
-    _tipLabel.frame = CGRectMake(20, 5, _tipLabel.width, _tipLabel.height);
+    _tipLabel.frame = CGRectMake(20, 5, _tipLabel.doraemon_width, _tipLabel.doraemon_height);
     [_operatorView addSubview:_tipLabel];
     
     _mockLabel = [[UILabel alloc] init];
     _mockLabel.textColor = [UIColor blackColor];
     _mockLabel.font = [UIFont boldSystemFontOfSize:18];
-    _mockLabel.frame = CGRectMake(0, _tipLabel.bottom+15, _operatorView.width, 14);
+    _mockLabel.frame = CGRectMake(0, _tipLabel.doraemon_bottom+15, _operatorView.doraemon_width, 14);
     _mockLabel.textAlignment = NSTextAlignmentRight;
     [_operatorView addSubview:_mockLabel];
     
     UISwitch *switchView = [[UISwitch alloc] init];
-    switchView.origin = CGPointMake(20, _tipLabel.bottom+10);
+    switchView.doraemon_origin = CGPointMake(20, _tipLabel.doraemon_bottom+10);
     [_operatorView addSubview:switchView];
     [switchView addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     switchView.on = [[DoraemonCacheManager sharedInstance] mockGPSSwitch];
@@ -70,7 +70,7 @@
     
     
     //支持输入经纬度信息
-    _inputBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, switchView.bottom+20, 160, 30)];
+    _inputBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, switchView.doraemon_bottom+20, 160, 30)];
     _inputBtn.layer.cornerRadius = 2;
     [_inputBtn setTitle:@"点击输入经纬度" forState:UIControlStateNormal];
     _inputBtn.backgroundColor = [UIColor orangeColor];
@@ -83,10 +83,10 @@
     _longitudeTipLabel.text = @"经度:";
     [self.operatorView addSubview:_longitudeTipLabel];
     [_longitudeTipLabel sizeToFit];
-    _longitudeTipLabel.frame = CGRectMake(20, _inputBtn.top, _longitudeTipLabel.width, 30);
+    _longitudeTipLabel.frame = CGRectMake(20, _inputBtn.doraemon_top, _longitudeTipLabel.doraemon_width, 30);
     _longitudeTipLabel.hidden = YES;
     
-    _longitudeField = [[UITextField alloc] initWithFrame:CGRectMake(_longitudeTipLabel.right+2, _inputBtn.top, 100, 30)];
+    _longitudeField = [[UITextField alloc] initWithFrame:CGRectMake(_longitudeTipLabel.doraemon_right+2, _inputBtn.doraemon_top, 100, 30)];
     _longitudeField.layer.borderWidth = 1;
     _longitudeField.layer.borderColor = [UIColor blackColor].CGColor;
     _longitudeField.hidden = YES;
@@ -98,16 +98,16 @@
     _latitudeTipLabel.text = @"纬度:";
     [self.operatorView addSubview:_latitudeTipLabel];
     [_latitudeTipLabel sizeToFit];
-    _latitudeTipLabel.frame = CGRectMake(_longitudeField.right+4, _inputBtn.top, _latitudeTipLabel.width, 30);
+    _latitudeTipLabel.frame = CGRectMake(_longitudeField.doraemon_right+4, _inputBtn.doraemon_top, _latitudeTipLabel.doraemon_width, 30);
     _latitudeTipLabel.hidden = YES;
     
-    _latitudeField = [[UITextField alloc] initWithFrame:CGRectMake(_latitudeTipLabel.right+2, _inputBtn.top, 100, 30)];
+    _latitudeField = [[UITextField alloc] initWithFrame:CGRectMake(_latitudeTipLabel.doraemon_right+2, _inputBtn.doraemon_top, 100, 30)];
     _latitudeField.layer.borderWidth = 1;
     _latitudeField.layer.borderColor = [UIColor blackColor].CGColor;
     _latitudeField.hidden = YES;
     [self.operatorView addSubview:_latitudeField];
     
-    _okBtn = [[UIButton alloc] initWithFrame:CGRectMake(_latitudeField.right+5, _inputBtn.top, 100, 30)];
+    _okBtn = [[UIButton alloc] initWithFrame:CGRectMake(_latitudeField.doraemon_right+5, _inputBtn.doraemon_top, 100, 30)];
     _okBtn.layer.cornerRadius = 2;
     [_okBtn setTitle:@"确定" forState:UIControlStateNormal];
     _okBtn.backgroundColor = [UIColor orangeColor];
@@ -118,7 +118,7 @@
     //获取定位服务授权
     [self requestUserLocationAuthor];
     //初始化地图
-    MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, _operatorView.bottom, self.view.width, self.view.height-_operatorView.bottom-self.navigationController.navigationBar.height)];
+    MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, _operatorView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-_operatorView.doraemon_bottom-self.navigationController.navigationBar.doraemon_height)];
     mapView.mapType = MKMapTypeStandard;
     //mapView.userTrackingMode = MKUserTrackingModeFollow;
     mapView.delegate = self;

@@ -47,20 +47,20 @@
 - (void)renderUIWithTitle:(NSString *)title switchOn:(BOOL)on{
     _titleLabel.text = title;
     [_titleLabel sizeToFit];
-    _titleLabel.frame = CGRectMake(20, self.height/2-_titleLabel.height/2, _titleLabel.width, _titleLabel.height);
+    _titleLabel.frame = CGRectMake(20, self.doraemon_height/2-_titleLabel.doraemon_height/2, _titleLabel.doraemon_width, _titleLabel.doraemon_height);
     
     _switchView.on = on;
-    _switchView.frame = CGRectMake(self.width-20-_switchView.width, self.height/2-_switchView.height/2, _switchView.width, _switchView.height);
+    _switchView.frame = CGRectMake(self.doraemon_width-20-_switchView.doraemon_width, self.doraemon_height/2-_switchView.doraemon_height/2, _switchView.doraemon_width, _switchView.doraemon_height);
 }
 
 - (void)needTopLine{
     _topLine.hidden = NO;
-    _topLine.frame = CGRectMake(0, 0, self.width, 0.5);
+    _topLine.frame = CGRectMake(0, 0, self.doraemon_width, 0.5);
 }
 
 - (void)needDownLine{
     _downLine.hidden = NO;
-    _downLine.frame = CGRectMake(0, self.height-0.5, self.width, 0.5);
+    _downLine.frame = CGRectMake(0, self.doraemon_height-0.5, self.doraemon_width, 0.5);
 }
 
 - (void)switchChange:(UISwitch*)sender{

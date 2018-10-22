@@ -27,25 +27,25 @@
     
     self.logger.delegate = self;
     
-    _maxOrMinBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.right - 20, IPHONE_TOPSENSOR_HEIGHT, 20, 20)];
+    _maxOrMinBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.doraemon_right - 20, IPHONE_TOPSENSOR_HEIGHT, 20, 20)];
     [_maxOrMinBtn setImage:[UIImage doraemon_imageNamed:@"maximize"] forState:UIControlStateNormal];
     [_maxOrMinBtn addTarget:self action:@selector(toggleFullScreen:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_maxOrMinBtn];
     self.fullScreen = NO;
 
 
-    _tipView = [[DoraemonLoggerConsoleTipView alloc] initWithFrame:CGRectMake(0, IPHONE_TOPSENSOR_HEIGHT, self.view.width, 20)];
+    _tipView = [[DoraemonLoggerConsoleTipView alloc] initWithFrame:CGRectMake(0, IPHONE_TOPSENSOR_HEIGHT, self.view.doraemon_width, 20)];
     [self.view addSubview:_tipView];
 
-    _searchView = [[DoraemonLoggerConsoleSearchView alloc] initWithFrame:CGRectMake(0, _tipView.bottom, self.view.width, 40)];
+    _searchView = [[DoraemonLoggerConsoleSearchView alloc] initWithFrame:CGRectMake(0, _tipView.doraemon_bottom, self.view.doraemon_width, 40)];
     _searchView.delegate = self;
     [self.view addSubview:_searchView];
 
-    _switchView = [[DoraemonLoggerConsoleSwitchView alloc] initWithFrame:CGRectMake(0, _searchView.bottom, self.view.width, 40)];
+    _switchView = [[DoraemonLoggerConsoleSwitchView alloc] initWithFrame:CGRectMake(0, _searchView.doraemon_bottom, self.view.doraemon_width, 40)];
     _switchView.delegate = self;
     [self.view addSubview:_switchView];
 
-    _tableView = [[DoraemonLoggerConsoleTableView alloc] initWithFrame:CGRectMake(0, _switchView.bottom, self.view.width, self.view.height-_switchView.bottom)];
+    _tableView = [[DoraemonLoggerConsoleTableView alloc] initWithFrame:CGRectMake(0, _switchView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-_switchView.doraemon_bottom)];
     _tableView.backgroundColor = [UIColor clearColor];
     _tableView.delegate = self;
     _tableView.dataSource = self;

@@ -22,10 +22,10 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self =[super initWithFrame:frame];
     if (self) {
-        _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(self.width/2-15, 10, 30, 30)];
+        _iconView = [[UIImageView alloc] initWithFrame:CGRectMake(self.doraemon_width/2-15, 10, 30, 30)];
         [self.contentView addSubview:_iconView];
         
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, _iconView.bottom+8., self.width, 14.)];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, _iconView.doraemon_bottom+8., self.doraemon_width, 14.)];
         _titleLabel.font = [UIFont systemFontOfSize:14];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_titleLabel];

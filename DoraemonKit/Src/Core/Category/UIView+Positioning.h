@@ -14,62 +14,40 @@
 @interface UIView (Positioning)
 
 /** View's X Position */
-@property (nonatomic, assign) CGFloat   x;
+@property (nonatomic, assign) CGFloat   doraemon_x;
 
 /** View's Y Position */
-@property (nonatomic, assign) CGFloat   y;
+@property (nonatomic, assign) CGFloat   doraemon_y;
 
 /** View's width */
-@property (nonatomic, assign) CGFloat   width;
+@property (nonatomic, assign) CGFloat   doraemon_width;
 
 /** View's height */
-@property (nonatomic, assign) CGFloat   height;
+@property (nonatomic, assign) CGFloat   doraemon_height;
 
 /** View's origin - Sets X and Y Positions */
-@property (nonatomic, assign) CGPoint   origin;
+@property (nonatomic, assign) CGPoint   doraemon_origin;
 
 /** View's size - Sets Width and Height */
-@property (nonatomic, assign) CGSize    size;
+@property (nonatomic, assign) CGSize    doraemon_size;
 
 /** Y value representing the bottom of the view **/
-@property (nonatomic, assign) CGFloat   bottom;
+@property (nonatomic, assign) CGFloat   doraemon_bottom;
 
 /** X Value representing the right side of the view **/
-@property (nonatomic, assign) CGFloat   right;
+@property (nonatomic, assign) CGFloat   doraemon_right;
 
 /** X Value representing the top of the view (alias of x) **/
-@property (nonatomic, assign) CGFloat   left;
+@property (nonatomic, assign) CGFloat   doraemon_left;
 
 /** Y Value representing the top of the view (alias of y) **/
-@property (nonatomic, assign) CGFloat   top;
+@property (nonatomic, assign) CGFloat   doraemon_top;
 
 /** X value of the object's center **/
-@property (nonatomic, assign) CGFloat   centerX;
+@property (nonatomic, assign) CGFloat   doraemon_centerX;
 
 /** Y value of the object's center **/
-@property (nonatomic, assign) CGFloat   centerY;
+@property (nonatomic, assign) CGFloat   doraemon_centerY;
 
-/** Returns the Subview with the heighest X value **/
-@property (nonatomic, strong, readonly) UIView *lastSubviewOnX;
-
-/** Returns the Subview with the heighest Y value **/
-@property (nonatomic, strong, readonly) UIView *lastSubviewOnY;
-
-/** View's bounds X value **/
-@property (nonatomic, assign) CGFloat   boundsX;
-
-/** View's bounds Y value **/
-@property (nonatomic, assign) CGFloat   boundsY;
-
-/** View's bounds width **/
-@property (nonatomic, assign) CGFloat   boundsWidth;
-
-/** View's bounds height **/
-@property (nonatomic, assign) CGFloat   boundsHeight;
-
-/** 
- Centers the view to its parent view (if exists) 
- */
--(void) centerToParent;
 
 @end

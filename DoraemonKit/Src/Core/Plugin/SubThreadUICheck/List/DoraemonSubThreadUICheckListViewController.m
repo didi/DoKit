@@ -26,8 +26,8 @@
     
     self.checkArray = [DoraemonSubThreadUICheckManager sharedInstance].checkArray;
     
-    CGFloat navBarHeight = self.navigationController.navigationBar.height+[[UIApplication sharedApplication] statusBarFrame].size.height;
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height-navBarHeight) style:UITableViewStylePlain];
+    CGFloat navBarHeight = self.navigationController.navigationBar.doraemon_height+[[UIApplication sharedApplication] statusBarFrame].size.height;
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height-navBarHeight) style:UITableViewStylePlain];
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;

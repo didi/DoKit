@@ -76,7 +76,7 @@ static CGFloat const kFontSize = 10;
         self.urlLabel.text = urlString;
         CGSize size = [self.urlLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-50, CGFLOAT_MAX)];
         self.urlLabel.frame = CGRectMake(startX, startY, DoraemonScreenWidth-40, size.height);
-        startY += self.urlLabel.height+2;
+        startY += self.urlLabel.doraemon_height+2;
     }
     
     CGFloat height = 0;
@@ -90,15 +90,15 @@ static CGFloat const kFontSize = 10;
             self.methodLabel.text = [NSString stringWithFormat:@" %@ ",method];
         }
         [self.methodLabel sizeToFit];
-        self.methodLabel.frame = CGRectMake(10, startY, self.methodLabel.width, self.methodLabel.height);
-        startX = self.methodLabel.right+5;
-        height = self.methodLabel.height;
+        self.methodLabel.frame = CGRectMake(10, startY, self.methodLabel.doraemon_width, self.methodLabel.doraemon_height);
+        startX = self.methodLabel.doraemon_right+5;
+        height = self.methodLabel.doraemon_height;
     }
     if (status.length>0) {
         self.statusLabel.text =[NSString stringWithFormat:@"[%@]",status];
         [self.statusLabel sizeToFit];
-        self.statusLabel.frame = CGRectMake(startX, self.urlLabel.bottom+2, self.statusLabel.width, self.statusLabel.height);
-        height = self.statusLabel.height;
+        self.statusLabel.frame = CGRectMake(startX, self.urlLabel.doraemon_bottom+2, self.statusLabel.doraemon_width, self.statusLabel.doraemon_height);
+        height = self.statusLabel.doraemon_height;
     }
     if (method.length>0 || status.length>0) {
         startY += height + 2;
@@ -111,15 +111,15 @@ static CGFloat const kFontSize = 10;
     if (startTime.length>0) {
         self.startTimeLabel.text = startTime;
         [self.startTimeLabel sizeToFit];
-        self.startTimeLabel.frame = CGRectMake(startX, startY, self.startTimeLabel.width, self.startTimeLabel.height);
-        startX = self.startTimeLabel.right + 5;
-        height = self.startTimeLabel.height;
+        self.startTimeLabel.frame = CGRectMake(startX, startY, self.startTimeLabel.doraemon_width, self.startTimeLabel.doraemon_height);
+        startX = self.startTimeLabel.doraemon_right + 5;
+        height = self.startTimeLabel.doraemon_height;
     }
     if (time.length>0) {
         self.timeLabel.text = [NSString stringWithFormat:@"耗时:%@s",time];
         [self.timeLabel sizeToFit];
-        self.timeLabel.frame = CGRectMake(startX, startY, self.timeLabel.width, self.timeLabel.height);
-        height = self.startTimeLabel.height;
+        self.timeLabel.frame = CGRectMake(startX, startY, self.timeLabel.doraemon_width, self.timeLabel.doraemon_height);
+        height = self.startTimeLabel.doraemon_height;
     }
     
     if (startTime.length>0 || time.length>0) {
@@ -140,7 +140,7 @@ static CGFloat const kFontSize = 10;
         
         self.flowLabel.text = netflow;
         [self.flowLabel sizeToFit];
-        self.flowLabel.frame = CGRectMake(startX, startY, self.flowLabel.width, self.flowLabel.height);
+        self.flowLabel.frame = CGRectMake(startX, startY, self.flowLabel.doraemon_width, self.flowLabel.doraemon_height);
     }
 }
 
@@ -164,7 +164,7 @@ static CGFloat const kFontSize = 10;
         tempLabel.numberOfLines = 1;
         tempLabel.text = @"你好";
         [tempLabel sizeToFit];
-        height += tempLabel.height;
+        height += tempLabel.doraemon_height;
         height += 2;
     }
     
@@ -174,7 +174,7 @@ static CGFloat const kFontSize = 10;
         tempLabel.numberOfLines = 1;
         tempLabel.text = @"你好";
         [tempLabel sizeToFit];
-        height += tempLabel.height;
+        height += tempLabel.doraemon_height;
         height += 2;
     }
     
@@ -184,7 +184,7 @@ static CGFloat const kFontSize = 10;
         tempLabel.numberOfLines = 1;
         tempLabel.text = @"你好";
         [tempLabel sizeToFit];
-        height += tempLabel.height;
+        height += tempLabel.doraemon_height;
         height += 2;
     }
     

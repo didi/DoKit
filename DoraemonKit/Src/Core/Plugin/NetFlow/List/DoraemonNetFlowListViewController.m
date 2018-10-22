@@ -32,14 +32,14 @@
     _dataArray = [NSArray arrayWithArray:dataArray];
     _allHttpModelArray = [NSArray arrayWithArray:dataArray];
     
-    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 60)];
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, 60)];
     _searchBar.placeholder = @"支持筛选";
     _searchBar.delegate = self;
     [self.view addSubview:_searchBar];
     
-    CGFloat tabBarHeight = self.tabBarController.tabBar.height;
-    CGFloat navBarHeight = self.navigationController.navigationBar.height+[[UIApplication sharedApplication] statusBarFrame].size.height;
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, _searchBar.bottom, self.view.width, self.view.height-tabBarHeight-navBarHeight-_searchBar.height) style:UITableViewStylePlain];
+    CGFloat tabBarHeight = self.tabBarController.tabBar.doraemon_height;
+    CGFloat navBarHeight = self.navigationController.navigationBar.doraemon_height+[[UIApplication sharedApplication] statusBarFrame].size.height;
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, _searchBar.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-tabBarHeight-navBarHeight-_searchBar.doraemon_height) style:UITableViewStylePlain];
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;

@@ -38,10 +38,10 @@
     titleLabel.text = @"请选择你要监控的项目";
     [titleLabel sizeToFit];
     [self.view addSubview:titleLabel];
-    titleLabel.frame = CGRectMake(self.view.width/2-titleLabel.width/2, 20, titleLabel.width, 20);
+    titleLabel.frame = CGRectMake(self.view.doraemon_width/2-titleLabel.doraemon_width/2, 20, titleLabel.doraemon_width, 20);
     
     _fpsSwitch = [[UISwitch alloc] init];
-    _fpsSwitch.origin = CGPointMake(self.view.width/2-_fpsSwitch.width/2, titleLabel.bottom+20);
+    _fpsSwitch.doraemon_origin = CGPointMake(self.view.doraemon_width/2-_fpsSwitch.doraemon_width/2, titleLabel.doraemon_bottom+20);
     [self.view addSubview:_fpsSwitch];
     [_fpsSwitch addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     _fpsSwitch.on = [DoraemonAllTestManager shareInstance].fpsSwitchOn;
@@ -52,10 +52,10 @@
     fpsLabel.text = @"FPS: ";
     [fpsLabel sizeToFit];
     [self.view addSubview:fpsLabel];
-    fpsLabel.frame = CGRectMake(_fpsSwitch.left-10-fpsLabel.width, _fpsSwitch.top+(_fpsSwitch.height-fpsLabel.height)/2, fpsLabel.width, fpsLabel.height);
+    fpsLabel.frame = CGRectMake(_fpsSwitch.doraemon_left-10-fpsLabel.doraemon_width, _fpsSwitch.doraemon_top+(_fpsSwitch.doraemon_height-fpsLabel.doraemon_height)/2, fpsLabel.doraemon_width, fpsLabel.doraemon_height);
     
     _cpuSwitch = [[UISwitch alloc] init];
-    _cpuSwitch.origin = CGPointMake(self.view.width/2-_cpuSwitch.width/2, _fpsSwitch.bottom+20);
+    _cpuSwitch.doraemon_origin = CGPointMake(self.view.doraemon_width/2-_cpuSwitch.doraemon_width/2, _fpsSwitch.doraemon_bottom+20);
     [self.view addSubview:_cpuSwitch];
     [_cpuSwitch addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     _cpuSwitch.on = [DoraemonAllTestManager shareInstance].cpuSwitchOn;
@@ -66,10 +66,10 @@
     cpuLabel.text = @"CPU: ";
     [cpuLabel sizeToFit];
     [self.view addSubview:cpuLabel];
-    cpuLabel.frame = CGRectMake(_cpuSwitch.left-10-cpuLabel.width, _cpuSwitch.top+(_cpuSwitch.height-cpuLabel.height)/2, cpuLabel.width, cpuLabel.height);
+    cpuLabel.frame = CGRectMake(_cpuSwitch.doraemon_left-10-cpuLabel.doraemon_width, _cpuSwitch.doraemon_top+(_cpuSwitch.doraemon_height-cpuLabel.doraemon_height)/2, cpuLabel.doraemon_width, cpuLabel.doraemon_height);
     
     _memorySwitch = [[UISwitch alloc] init];
-    _memorySwitch.origin = CGPointMake(self.view.width/2-_memorySwitch.width/2, _cpuSwitch.bottom+20);
+    _memorySwitch.doraemon_origin = CGPointMake(self.view.doraemon_width/2-_memorySwitch.doraemon_width/2, _cpuSwitch.doraemon_bottom+20);
     [self.view addSubview:_memorySwitch];
     [_memorySwitch addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     _memorySwitch.on = [DoraemonAllTestManager shareInstance].memorySwitchOn;
@@ -80,10 +80,10 @@
     memoryLabel.text = @"MEMORY: ";
     [memoryLabel sizeToFit];
     [self.view addSubview:memoryLabel];
-    memoryLabel.frame = CGRectMake(_memorySwitch.left-10-memoryLabel.width, _memorySwitch.top+(_memorySwitch.height-memoryLabel.height)/2, memoryLabel.width, memoryLabel.height);
+    memoryLabel.frame = CGRectMake(_memorySwitch.doraemon_left-10-memoryLabel.doraemon_width, _memorySwitch.doraemon_top+(_memorySwitch.doraemon_height-memoryLabel.doraemon_height)/2, memoryLabel.doraemon_width, memoryLabel.doraemon_height);
     
     _flowSwitch = [[UISwitch alloc] init];
-    _flowSwitch.origin = CGPointMake(self.view.width/2-_flowSwitch.width/2, _memorySwitch.bottom+20);
+    _flowSwitch.doraemon_origin = CGPointMake(self.view.doraemon_width/2-_flowSwitch.doraemon_width/2, _memorySwitch.doraemon_bottom+20);
     [self.view addSubview:_flowSwitch];
     [_flowSwitch addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     _flowSwitch.on = [DoraemonAllTestManager shareInstance].flowSwitchOn;
@@ -94,9 +94,9 @@
     flowLabel.text = @"FLOW: ";
     [flowLabel sizeToFit];
     [self.view addSubview:flowLabel];
-    flowLabel.frame = CGRectMake(_flowSwitch.left-10-flowLabel.width, _flowSwitch.top+(_flowSwitch.height-flowLabel.height)/2, flowLabel.width, flowLabel.height);
+    flowLabel.frame = CGRectMake(_flowSwitch.doraemon_left-10-flowLabel.doraemon_width, _flowSwitch.doraemon_top+(_flowSwitch.doraemon_height-flowLabel.doraemon_height)/2, flowLabel.doraemon_width, flowLabel.doraemon_height);
     
-    _okBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.width/2-60, _flowSwitch.bottom+60, 120, 60)];
+    _okBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.view.doraemon_width/2-60, _flowSwitch.doraemon_bottom+60, 120, 60)];
     _okBtn.backgroundColor = [UIColor orangeColor];
     _okBtnStatus = [DoraemonAllTestManager shareInstance].startTestOn;
     if(_okBtnStatus){
@@ -109,7 +109,7 @@
     
     
     
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(20, _okBtn.bottom+60, self.view.width-40, 60)];
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(20, _okBtn.doraemon_bottom+60, self.view.doraemon_width-40, 60)];
     textField.placeholder = @"请输入服务端ip地址";
     textField.layer.cornerRadius = 2.;
     textField.layer.borderWidth = 1.;
@@ -120,7 +120,7 @@
     textField.hidden = YES;
     [self.view addSubview:textField];
     
-    UILabel *ipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, textField.bottom+60, self.view.width, 60)];
+    UILabel *ipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, textField.doraemon_bottom+60, self.view.doraemon_width, 60)];
     ipLabel.text = [DoraemonAllTestManager shareInstance].ip;
     ipLabel.textColor = [UIColor orangeColor];
     ipLabel.font = [UIFont systemFontOfSize:16];

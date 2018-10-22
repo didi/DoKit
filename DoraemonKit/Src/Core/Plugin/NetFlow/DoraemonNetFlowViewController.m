@@ -37,7 +37,7 @@
     self.title = @"流量监控开关";
     
     UISwitch *totalSwitchView = [[UISwitch alloc] init];
-    totalSwitchView.origin = CGPointMake(DoraemonScreenWidth/2-totalSwitchView.width/2, 60);
+    totalSwitchView.doraemon_origin = CGPointMake(DoraemonScreenWidth/2-totalSwitchView.doraemon_width/2, 60);
     [self.view addSubview:totalSwitchView];
     [totalSwitchView addTarget:self action:@selector(totalSwitchAction:) forControlEvents:UIControlEventValueChanged];
     totalSwitchView.on = [self totalSwitchViewOn];
@@ -49,10 +49,10 @@
     totalTipLabel.text = @"流量监控开关:  ";
     [self.view addSubview:totalTipLabel];
     [totalTipLabel sizeToFit];
-    totalTipLabel.origin = CGPointMake(totalSwitchView.left-10-totalTipLabel.width, totalSwitchView.centerY-totalTipLabel.height/2);
+    totalTipLabel.doraemon_origin = CGPointMake(totalSwitchView.doraemon_left-10-totalTipLabel.doraemon_width, totalSwitchView.doraemon_centerY-totalTipLabel.doraemon_height/2);
     
     UISwitch *showOscillogramSwitchView = [[UISwitch alloc] init];
-    showOscillogramSwitchView.origin = CGPointMake(DoraemonScreenWidth/2-showOscillogramSwitchView.width/2, 120);
+    showOscillogramSwitchView.doraemon_origin = CGPointMake(DoraemonScreenWidth/2-showOscillogramSwitchView.doraemon_width/2, 120);
     [self.view addSubview:showOscillogramSwitchView];
     [showOscillogramSwitchView addTarget:self action:@selector(showOscillogramSwitchAction:) forControlEvents:UIControlEventValueChanged];
     showOscillogramSwitchView.on = [self showOscillogramSwitchViewOn];
@@ -64,11 +64,11 @@
     showOscillogramTipLabel.text = @"流量曲线开关:  ";
     [self.view addSubview:showOscillogramTipLabel];
     [showOscillogramTipLabel sizeToFit];
-    showOscillogramTipLabel.origin = CGPointMake(showOscillogramSwitchView.left-10-showOscillogramTipLabel.width, showOscillogramSwitchView.centerY-showOscillogramTipLabel.height/2);
+    showOscillogramTipLabel.doraemon_origin = CGPointMake(showOscillogramSwitchView.doraemon_left-10-showOscillogramTipLabel.doraemon_width, showOscillogramSwitchView.doraemon_centerY-showOscillogramTipLabel.doraemon_height/2);
     
     
     UIButton *showNetFlowDetailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    showNetFlowDetailBtn.frame = CGRectMake(showOscillogramTipLabel.left, _showOscillogramSwitchView.bottom+40, _showOscillogramSwitchView.right-showOscillogramTipLabel.left, 40);
+    showNetFlowDetailBtn.frame = CGRectMake(showOscillogramTipLabel.doraemon_left, _showOscillogramSwitchView.doraemon_bottom+40, _showOscillogramSwitchView.doraemon_right-showOscillogramTipLabel.doraemon_left, 40);
     [showNetFlowDetailBtn setTitle:@"显示流量监控详情" forState:UIControlStateNormal];
     showNetFlowDetailBtn.backgroundColor = [UIColor orangeColor];
     [showNetFlowDetailBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

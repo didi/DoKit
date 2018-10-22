@@ -19,7 +19,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        _textField = [[UITextField alloc] initWithFrame:CGRectMake(20, 0, self.width-40, self.height)];
+        _textField = [[UITextField alloc] initWithFrame:CGRectMake(20, 0, self.doraemon_width-40, self.doraemon_height)];
         _textField.layer.borderWidth = 1.;
         _textField.layer.borderColor = [UIColor orangeColor].CGColor;
         _textField.backgroundColor = [UIColor lightGrayColor];

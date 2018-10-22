@@ -31,7 +31,7 @@
 - (void)renderCellWithData:(NSDictionary *)dic{
     _titleLabel.text = dic[@"title"];
     [_titleLabel sizeToFit];
-    _titleLabel.frame = CGRectMake(20, [[self class] cellHeight]/2-_titleLabel.height/2, _titleLabel.width, _titleLabel.height);
+    _titleLabel.frame = CGRectMake(20, [[self class] cellHeight]/2-_titleLabel.doraemon_height/2, _titleLabel.doraemon_width, _titleLabel.doraemon_height);
 }
 
 + (CGFloat)cellHeight{

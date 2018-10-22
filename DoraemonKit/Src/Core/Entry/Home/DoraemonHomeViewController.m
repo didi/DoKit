@@ -52,7 +52,7 @@
     flowLayout.minimumInteritemSpacing = 0.0f;
     
     CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-    _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0.0f, statusBarHeight, self.view.width, self.view.height - statusBarHeight) collectionViewLayout:flowLayout];
+    _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0.0f, statusBarHeight, self.view.doraemon_width, self.view.doraemon_height - statusBarHeight) collectionViewLayout:flowLayout];
     _collectionView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_collectionView];
     
@@ -78,15 +78,15 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(self.view.width / 4, 80.0f);
+    return CGSizeMake(self.view.doraemon_width / 4, 80.0f);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    return CGSizeMake(self.view.width, 40.0f);
+    return CGSizeMake(self.view.doraemon_width, 40.0f);
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section{
-    return CGSizeMake(self.view.width, 10.0f);
+    return CGSizeMake(self.view.doraemon_width, 10.0f);
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{

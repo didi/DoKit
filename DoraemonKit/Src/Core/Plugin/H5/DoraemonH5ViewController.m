@@ -24,19 +24,19 @@
     [super viewDidLoad];
     self.title = @"H5任意门";
     
-    _tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, self.view.width, 16)];
+    _tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, self.view.doraemon_width, 16)];
     _tipLabel.font = [UIFont systemFontOfSize:16];
     _tipLabel.textColor = [UIColor orangeColor];
     _tipLabel.textAlignment = NSTextAlignmentCenter;
     _tipLabel.text = @"请在以下输入框输入网址，让走点击跳转按钮即可😘";
     [self.view addSubview:_tipLabel];
     
-    _h5UrlTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, _tipLabel.bottom+10, self.view.width, 160)];
+    _h5UrlTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, _tipLabel.doraemon_bottom+10, self.view.doraemon_width, 160)];
     _h5UrlTextView.layer.borderWidth = 1.;
     _h5UrlTextView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     [self.view addSubview:_h5UrlTextView];
     
-    _jumpBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, _h5UrlTextView.bottom+10, self.view.width, 60)];
+    _jumpBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, _h5UrlTextView.doraemon_bottom+10, self.view.doraemon_width, 60)];
     _jumpBtn.backgroundColor = [UIColor orangeColor];
     [_jumpBtn setTitle:@"点击跳转" forState:UIControlStateNormal];
     [_jumpBtn addTarget:self action:@selector(jump) forControlEvents:UIControlEventTouchUpInside];

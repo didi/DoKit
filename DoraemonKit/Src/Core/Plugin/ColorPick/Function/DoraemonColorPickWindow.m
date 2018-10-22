@@ -82,8 +82,8 @@ static CGFloat const kColorPickWindowSize = 80;
     [sender setTranslation:CGPointZero inView:sender.view];
     //3、重新设置控件位置
     UIView *panView = sender.view;
-    CGFloat newX = panView.centerX+offsetPoint.x;
-    CGFloat newY = panView.centerY+offsetPoint.y;
+    CGFloat newX = panView.doraemon_centerX+offsetPoint.x;
+    CGFloat newY = panView.doraemon_centerY+offsetPoint.y;
 //    if (newX < kColorPickWindowSize/2) {
 //        newX = kColorPickWindowSize/2;
 //    }

@@ -26,14 +26,14 @@
     self.view.backgroundColor = [UIColor clearColor];
     [self setEdgesForExtendedLayout:UIRectEdgeNone];
     
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.width, 20)];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, 20)];
     titleLabel.backgroundColor = [UIColor lightGrayColor];
     titleLabel.text = @"  CPU检测";
     titleLabel.font = [UIFont systemFontOfSize:12];
     titleLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:titleLabel];
     
-    _oscillogramView = [[DoraemonOscillogramView alloc] initWithFrame:CGRectMake(0, titleLabel.bottom+10, self.view.width, 200)];
+    _oscillogramView = [[DoraemonOscillogramView alloc] initWithFrame:CGRectMake(0, titleLabel.doraemon_bottom+10, self.view.doraemon_width, 200)];
     _oscillogramView.backgroundColor = [UIColor clearColor];
     [_oscillogramView setLowValue:@"0"];
     [_oscillogramView setHightValue:@"100"];

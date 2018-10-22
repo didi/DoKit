@@ -27,7 +27,7 @@
     [label sizeToFit];
     //label.backgroundColor = [UIColor doraemon_colorWithString:@"#33000000"];
     label.textColor = [UIColor blackColor];
-    label.frame = CGRectMake(superView.width/2-label.width/2, superView.height/2-label.height/2, label.width, label.height);
+    label.frame = CGRectMake(superView.doraemon_width/2-label.doraemon_width/2, superView.doraemon_height/2-label.doraemon_height/2, label.doraemon_width, label.doraemon_height);
     [superView addSubview:label];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [label removeFromSuperview];

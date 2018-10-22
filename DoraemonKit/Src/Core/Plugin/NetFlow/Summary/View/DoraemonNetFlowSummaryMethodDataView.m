@@ -32,13 +32,13 @@
         tipLabel.text = @"HTTP方法";
         tipLabel.font = [UIFont systemFontOfSize:14];
         [tipLabel sizeToFit];
-        tipLabel.frame = CGRectMake(10, 10, tipLabel.width, tipLabel.height);
+        tipLabel.frame = CGRectMake(10, 10, tipLabel.doraemon_width, tipLabel.doraemon_height);
         [self addSubview:tipLabel];
         
         [self getData];
         
         if (_xLabels.count>0) {
-            PNBarChart *chart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, tipLabel.bottom+10, self.width, self.height-tipLabel.bottom-10)];
+            PNBarChart *chart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, tipLabel.doraemon_bottom+10, self.doraemon_width, self.doraemon_height-tipLabel.doraemon_bottom-10)];
             chart.showChartBorder = YES;
             chart.showLabel = YES;
             chart.chartMarginTop = 5.0;

@@ -29,28 +29,28 @@
     [super viewDidLoad];
     self.title = @"网络测试Demo";
     
-    UIButton *btn0 = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, self.view.width, 60)];
+    UIButton *btn0 = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, self.view.doraemon_width, 60)];
     btn0.backgroundColor = [UIColor orangeColor];
     [btn0 setTitle:@"发送一条URLConnection请求" forState:UIControlStateNormal];
     [btn0 addTarget:self action:@selector(netForURLConnection) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn0];
     _btn0 = btn0;
     
-    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 120, self.view.width, 60)];
+    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 120, self.view.doraemon_width, 60)];
     btn1.backgroundColor = [UIColor orangeColor];
     [btn1 setTitle:@"发送一条NSURLSession请求" forState:UIControlStateNormal];
     [btn1 addTarget:self action:@selector(netForNSURLSession) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn1];
     _btn1 = btn1;
     
-    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, 220, self.view.width, 60)];
+    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, 220, self.view.doraemon_width, 60)];
     btn2.backgroundColor = [UIColor orangeColor];
     [btn2 setTitle:@"发送一条AFNetworking请求" forState:UIControlStateNormal];
     [btn2 addTarget:self action:@selector(netForAFNetworking) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn2];
     _btn2 = btn2;
     
-    UIButton *btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, 320, self.view.width, 60)];
+    UIButton *btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, 320, self.view.doraemon_width, 60)];
     btn3.backgroundColor = [UIColor orangeColor];
     [btn3 setTitle:@"发送一条AFNetworking请求2" forState:UIControlStateNormal];
     [btn3 addTarget:self action:@selector(netForAFNetworking2) forControlEvents:UIControlEventTouchUpInside];

@@ -24,13 +24,13 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.width, 16)];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.doraemon_width, 16)];
         _titleLabel.font = [UIFont systemFontOfSize:16];
         _titleLabel.textColor = [UIColor blackColor];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_titleLabel];
         
-        _valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, self.width, 16)];
+        _valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, self.doraemon_width, 16)];
         _valueLabel.font = [UIFont systemFontOfSize:16];
         _valueLabel.textColor = [UIColor orangeColor];
         _valueLabel.textAlignment = NSTextAlignmentCenter;
@@ -101,25 +101,25 @@
     //数据下载
     NSString *downLoad = [DoraemonUtil formatByte:totalDownFlow];
     
-    _timeView = [[DoraemonNetFlowSummaryTotalDataItemView alloc] initWithFrame:CGRectMake(0, 20, self.width, 40)];
+    _timeView = [[DoraemonNetFlowSummaryTotalDataItemView alloc] initWithFrame:CGRectMake(0, 20, self.doraemon_width, 40)];
     [_timeView renderUIWithTitle:@"总计已为您抓包" value:time];
     [self addSubview:_timeView];
     
     CGFloat offsetY = 20+40+40;
-    CGFloat itemWidth = self.width/3;
+    CGFloat itemWidth = self.doraemon_width/3;
     CGFloat offsetX = 0;
     
     _numView = [[DoraemonNetFlowSummaryTotalDataItemView alloc] initWithFrame:CGRectMake(0, offsetY, itemWidth, 40)];
     [_numView renderUIWithTitle:@"抓包数量" value:num];
     [self addSubview:_numView];
     
-    offsetX += _numView.width;
+    offsetX += _numView.doraemon_width;
     
     _upLoadView = [[DoraemonNetFlowSummaryTotalDataItemView alloc] initWithFrame:CGRectMake(offsetX, offsetY, itemWidth, 40)];
     [_upLoadView renderUIWithTitle:@"数据上传" value:upLoad];
     [self addSubview:_upLoadView];
     
-    offsetX += _upLoadView.width;
+    offsetX += _upLoadView.doraemon_width;
     
     _downLoadView = [[DoraemonNetFlowSummaryTotalDataItemView alloc] initWithFrame:CGRectMake(offsetX, offsetY, itemWidth, 40)];
     [_downLoadView renderUIWithTitle:@"数据下载" value:downLoad];
