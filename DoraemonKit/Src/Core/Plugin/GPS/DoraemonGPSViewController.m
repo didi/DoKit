@@ -48,7 +48,7 @@
     
     _tipLabel = [[UILabel alloc] init];
     _tipLabel.textColor = [UIColor blackColor];
-    _tipLabel.text = @"是否打开Mock GPS开关（重启生效）⬇️:";
+    _tipLabel.text = @"是否打开Mock GPS开关⬇️:";
     _tipLabel.font = [UIFont systemFontOfSize:14];
     [_tipLabel sizeToFit];
     _tipLabel.frame = CGRectMake(20, 5, _tipLabel.doraemon_width, _tipLabel.doraemon_height);

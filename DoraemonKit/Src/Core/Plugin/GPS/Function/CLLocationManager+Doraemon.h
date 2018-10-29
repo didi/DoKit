@@ -7,7 +7,6 @@
 
 #import <CoreLocation/CoreLocation.h>
 
-//参考wander
 @interface CLLocationManager (Doraemon)
 
 - (void)doraemon_swizzleLocationDelegate:(id)delegate;
