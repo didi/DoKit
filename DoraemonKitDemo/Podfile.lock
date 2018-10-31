@@ -20,15 +20,18 @@ PODS:
   - AFNetworking/UIKit (2.6.3):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - BSBacktraceLogger (0.0.1)
   - CocoaLumberjack (3.4.2):
     - CocoaLumberjack/Default (= 3.4.2)
     - CocoaLumberjack/Extensions (= 3.4.2)
   - CocoaLumberjack/Default (3.4.2)
   - CocoaLumberjack/Extensions (3.4.2):
     - CocoaLumberjack/Default
-  - DoraemonKit/Core (1.0.0):
+  - DoraemonKit/Core (1.0.3):
+    - BSBacktraceLogger
     - PNChart
-  - DoraemonKit/WithLogger (1.0.0):
+  - DoraemonKit/WithLogger (1.0.3):
+    - BSBacktraceLogger
     - CocoaLumberjack
     - DoraemonKit/Core
     - PNChart
@@ -43,6 +46,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
+    - BSBacktraceLogger
     - CocoaLumberjack
     - PNChart
     - UICountingLabel
@@ -53,8 +57,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
+  BSBacktraceLogger: 06b983ee93a9f87d957960e9c73d660d5966b447
   CocoaLumberjack: db7cc9e464771f12054c22ff6947c5a58d43a0fd
-  DoraemonKit: 47f7e8d26c7572f8e9b6d2c4452560a1d5951b82
+  DoraemonKit: 99074116b43fc507d7306dd3b875ed9b341728de
   PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
 

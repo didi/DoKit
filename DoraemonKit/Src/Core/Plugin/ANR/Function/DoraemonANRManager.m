@@ -7,7 +7,7 @@
 
 #import "DoraemonANRManager.h"
 #import "DoraemonANRTracker.h"
-#import "BSBacktraceLogger.h"
+#import <BSBacktraceLogger/BSBacktraceLogger.h>
 #import "DoraemonUtil.h"
 #import "DoraemonMemoryUtil.h"
 #import "DoraemonAppInfoUtil.h"

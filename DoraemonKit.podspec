@@ -7,7 +7,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DoraemonKit'
-  s.version          = '1.0.2'
+  s.version          = '1.0.3'
   s.summary          = 'iOS各式各样的工具集合'
   s.description      = <<-DESC
                           iOS各式各样的工具集合 Desc
@@ -40,6 +40,7 @@ Pod::Spec.new do |s|
   end
 
   s.dependency 'PNChart'
+  s.dependency 'BSBacktraceLogger'
 
 end
 
