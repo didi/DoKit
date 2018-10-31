@@ -42,13 +42,13 @@
 包含两个subspec，一个是包含“日志显示”的“WithLogger” subspec
 
 ```
-pod 'DoraemonKit/WithLogger', '~> 1.0.2'
+pod 'DoraemonKit/WithLogger'
 ```
 
 一个是不包含“日志显示”的“Core” subspec
 
 ```
-pod 'DoraemonKit/Core', '~> 1.0.2'
+pod 'DoraemonKit/Core'
 ```
 
 默认引入“Core” subspec。
