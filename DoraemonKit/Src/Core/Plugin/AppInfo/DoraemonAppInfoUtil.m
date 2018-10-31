@@ -12,8 +12,8 @@
 #import <Photos/Photos.h>
 #import <AddressBook/AddressBook.h>
 #import <Contacts/Contacts.h>
-@import CoreTelephony;
-@import EventKit;
+#import <CoreTelephony/CTCellularData.h>
+#import <EventKit/EventKit.h>
 
 #define IOS8 ([[[UIDevice currentDevice] systemVersion] doubleValue] >=8.0 ? YES : NO)
 
