@@ -123,6 +123,7 @@ tip：为什么要分区subspec呢？
 
 [英文介绍](https://github.com/didi/DoraemonKit)
 
+[iOS工具集DoraemonKit技术实现（一）](https://www.jianshu.com/p/00763123dbc4)
 
 
 
