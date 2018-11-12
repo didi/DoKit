@@ -14,6 +14,22 @@ A collection of testing tools for iOS App development.
 
 [Chinese Readme](https://github.com/didi/DoraemonKit/blob/master/Doc/ChineseReadme.md)
 
+## Communication
+
+<div  align="center">    
+ <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKitQQ.jpeg" width = "160" height = "200" alt="图片名称" align=left />
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+
 ## Feature List
 
 1. Including an entrance to examine information of device, app and app's permissions.

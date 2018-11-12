@@ -12,6 +12,24 @@
 
 一款功能齐全的iOS开发助手，你值得拥有。
 
+
+## QQ交流群
+
+<div  align="center">    
+ <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKitQQ.jpeg" width = "160" height = "200" alt="图片名称" align=left />
+</div>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+
 ## DoraemonKit具有哪些功能
 
 1. 【App信息查看】快速查看手机信息，App信息，权限信息的渠道，避免去手机设置查找或者查看项目源代码的麻烦。
