@@ -60,19 +60,21 @@
 包含两个subspec，一个是包含“日志显示”的“WithLogger” subspec
 
 ```
-pod 'DoraemonKit/WithLogger'
+pod 'DoraemonKit/WithLogger', :configurations => ['Debug']
 ```
 
 一个是不包含“日志显示”的“Core” subspec
 
 ```
-pod 'DoraemonKit/Core'
+pod 'DoraemonKit/Core', :configurations => ['Debug']
 ```
 
 默认引入“Core” subspec。
 
-tip：为什么要分区subspec呢？
+tip1：为什么要分区subspec呢？
 因为日志显示模块是基于CocoaLumberjack这个三方库，如果你的项目日志不是基于CocoaLumberjack，那你就没有必要引入DoraemonKit中日志显示模块了。
+
+tip2：只在Debug环境中进行集成，不要带到线上。有一些hook操作会污染线上代码。
 
 ### 3.2： 使用DoraemonKit内置工具集的接入方式
 在App启动的时候添加一下代码

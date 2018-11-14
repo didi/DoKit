@@ -10,7 +10,7 @@
 <br/>
 <br/>
 
-A collection of testing tools for iOS App development.
+A full-featured iOS development assistant. You deserve it.
 
 [Chinese Readme](https://github.com/didi/DoraemonKit/blob/master/Doc/ChineseReadme.md)
 
@@ -55,20 +55,22 @@ DoraemonKit contains two subspecs.
 One is the "WithLogger" subspec that contains the log display  function based on ‘CocoaLumberjack’.
 
 ```
-pod 'DoraemonKit/WithLogger'
+pod 'DoraemonKit/WithLogger', :configurations => ['Debug']
 ```
 
 The other one is the "Core" subspec that does not contain the log display function.
 
 ```
-pod 'DoraemonKit/Core'
+pod 'DoraemonKit/Core', :configurations => ['Debug']
 ```
 
 The "Core" subspec is introduced by default.
 
-Tip: Why do you want to partition the subspec?
+Tip 1: Why do you want to partition the subspec?
 
 Because the log display module is based on the third-party library "CocoaLumberjack", if you don't need it, use "Core" subspec.
+
+Tip 2: Use DoraemonKit in debug model.
 
 ### 2： Access method using DoraemonKit's built-in toolset
 Add code when the app starts.
