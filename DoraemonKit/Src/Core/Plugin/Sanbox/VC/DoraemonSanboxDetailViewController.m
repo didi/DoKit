@@ -7,7 +7,7 @@
 
 #import "DoraemonSanboxDetailViewController.h"
 #import "DoraemonToastUtil.h"
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 
 @interface DoraemonSanboxDetailViewController ()
 

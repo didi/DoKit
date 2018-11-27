@@ -6,7 +6,7 @@
 //
 
 #import "DoraemonLoggerConsoleSearchView.h"
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 
 @interface DoraemonLoggerConsoleSearchView()<UITextFieldDelegate>
 

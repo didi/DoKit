@@ -7,7 +7,7 @@
 
 #import "DoraemonLoggerViewController.h"
 #import "DoraemonDefine.h"
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 #import "DoraemonCacheManager.h"
 #import "DoraemonLoggerConsoleWindow.h"
 

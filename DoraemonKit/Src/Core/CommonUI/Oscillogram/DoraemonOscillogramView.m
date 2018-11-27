@@ -6,7 +6,7 @@
 //
 
 #import "DoraemonOscillogramView.h"
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 
 static CGFloat const kStartX = 20.;
 

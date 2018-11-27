@@ -6,7 +6,7 @@
 //
 
 #import "DoraemonANRListViewController.h"
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 #import "DoraemonANRManager.h"
 #import "DoraemonANRListCell.h"
 #import "DoraemonANRDetailViewController.h"

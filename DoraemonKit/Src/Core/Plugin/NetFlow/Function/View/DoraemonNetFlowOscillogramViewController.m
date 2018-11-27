@@ -7,7 +7,7 @@
 
 #import "DoraemonNetFlowOscillogramViewController.h"
 #import "DoraemonOscillogramView.h"
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 #import "DoraemonNetFlowDataSource.h"
 
 @interface DoraemonNetFlowOscillogramViewController ()

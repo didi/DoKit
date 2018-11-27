@@ -6,7 +6,7 @@
 //
 
 #import "DoraemonSubThreadUICheckListViewController.h"
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 #import "DoraemonSubThreadUICheckListCell.h"
 #import "DoraemonSubThreadUICheckManager.h"
 #import "DoraemonSubThreadUICheckDetailViewController.h"

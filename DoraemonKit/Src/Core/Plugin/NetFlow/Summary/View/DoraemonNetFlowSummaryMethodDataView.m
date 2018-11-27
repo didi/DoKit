@@ -6,7 +6,7 @@
 //
 
 #import "DoraemonNetFlowSummaryMethodDataView.h"
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 #import <PNChart/PNChart.h>
 #import "DoraemonNetFlowDataSource.h"
 

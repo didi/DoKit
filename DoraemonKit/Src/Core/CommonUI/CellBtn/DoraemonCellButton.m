@@ -7,7 +7,7 @@
 
 #import "DoraemonCellButton.h"
 #import "UIColor+DoreamonKit.h"
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 
 @interface DoraemonCellButton()
 

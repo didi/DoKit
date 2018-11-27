@@ -6,7 +6,7 @@
 //
 
 #import "DoraemonAppInfoCell.h"
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 #import "DoraemonDefine.h"
 
 @interface DoraemonAppInfoCell()

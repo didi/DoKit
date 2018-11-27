@@ -8,7 +8,7 @@
 #import "DoraemonSubThreadUICheckViewController.h"
 #import "DoraemonSwitchView.h"
 #import "DoraemonCellButton.h"
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 #import "DoraemonCacheManager.h"
 #import "DoraemonSubThreadUICheckListViewController.h"
 

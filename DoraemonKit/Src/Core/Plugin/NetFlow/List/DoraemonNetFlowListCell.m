@@ -6,7 +6,7 @@
 //
 
 #import "DoraemonNetFlowListCell.h"
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 #import "DoraemonDefine.h"
 #import "UIColor+DoreamonKit.h"
 #import "DoraemonUtil.h"

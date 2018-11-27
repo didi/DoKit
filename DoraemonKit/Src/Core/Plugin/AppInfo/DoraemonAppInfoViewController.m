@@ -9,7 +9,7 @@
 #import "DoraemonAppInfoCell.h"
 #import "DoraemonDefine.h"
 #import "DoraemonAppInfoUtil.h"
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 
 @interface DoraemonAppInfoViewController ()<UITableViewDelegate,UITableViewDataSource>
 

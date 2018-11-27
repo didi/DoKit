@@ -1,16 +1,16 @@
 //
-//  UIView+Positioning.m
+//  UIView+DoraemonPositioning.m
+//  AFNetworking
 //
-//  Created by Shai Mishali on 5/22/13.
-//  Copyright (c) 2013 Shai Mishali. All rights reserved.
+//  Created by yixiang on 2018/11/27.
 //
 
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 
 #define SCREEN_SCALE                    ([[UIScreen mainScreen] scale])
 #define PIXEL_INTEGRAL(pointValue)      (round(pointValue * SCREEN_SCALE) / SCREEN_SCALE)
 
-@implementation UIView (Positioning)
+@implementation UIView (DoraemonPositioning)
 @dynamic doraemon_x, doraemon_y, doraemon_width, doraemon_height, doraemon_origin, doraemon_size;
 
 // Setters
@@ -112,5 +112,6 @@
 -(CGFloat)doraemon_centerY {
     return self.center.y;
 }
+
 
 @end

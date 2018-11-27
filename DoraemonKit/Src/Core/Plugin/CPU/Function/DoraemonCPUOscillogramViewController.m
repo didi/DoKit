@@ -7,7 +7,7 @@
 
 #import "DoraemonCPUOscillogramViewController.h"
 #import "DoraemonOscillogramView.h"
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 #import "DoraemonCPUUtil.h"
 
 @interface DoraemonCPUOscillogramViewController ()

@@ -1,17 +1,13 @@
 //
-//  UIView+Positioning.h
+//  UIView+DoraemonPositioning.h
+//  AFNetworking
 //
-//  Created by Shai Mishali on 5/22/13.
-//  Copyright (c) 2013 Shai Mishali. All rights reserved.
+//  Created by yixiang on 2018/11/27.
 //
 
 #import <UIKit/UIKit.h>
 
-/**
- `UIView+Positioning` provides easy shorthand methods to defining the frame properties (width, height, x, y) of any UIView based object in an easy fashion, as well as extra helpful properties and methods.
- */
-
-@interface UIView (Positioning)
+@interface UIView (DoraemonPositioning)
 
 /** View's X Position */
 @property (nonatomic, assign) CGFloat   doraemon_x;
@@ -48,6 +44,5 @@
 
 /** Y value of the object's center **/
 @property (nonatomic, assign) CGFloat   doraemon_centerY;
-
 
 @end

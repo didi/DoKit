@@ -6,7 +6,7 @@
 //
 
 #import "DoraemonColorPickView.h"
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 #import "UIImage+DoraemonKit.h"
 #import "UIColor+DoreamonKit.h"
 
