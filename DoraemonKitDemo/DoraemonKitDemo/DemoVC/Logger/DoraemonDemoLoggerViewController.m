@@ -8,7 +8,7 @@
 
 #import "DoraemonDemoLoggerViewController.h"
 #import <CocoaLumberjack/CocoaLumberjack.h>
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 
 @interface DoraemonDemoLoggerViewController ()
 

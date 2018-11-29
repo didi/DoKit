@@ -8,7 +8,7 @@
 
 #import "DoraemonDemoMockGPSViewController.h"
 #import <MapKit/MapKit.h>
-#import "UIView+Positioning.h"
+#import "UIView+DoraemonPositioning.h"
 #import "DoraemonDemoMockGPSAnnotation.h"
 
 @interface DoraemonDemoMockGPSViewController ()<MKMapViewDelegate,CLLocationManagerDelegate>
