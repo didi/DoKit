@@ -7,7 +7,7 @@
 //
 
 #import "DoraemonDemoUIViewController.h"
-#import <DoraemonKit/UIColor+DoreamonKit.h>
+#import <DoraemonKit/UIColor+DoraemonKit.h>
 
 @interface DoraemonDemoUIViewController ()
 
