@@ -7,11 +7,16 @@
 
 #import "UIImage+DoraemonKit.h"
 
+@class DoraemonManager;
 @implementation UIImage (DoraemonKit)
 
 + (UIImage *)doraemon_imageNamed:(NSString *)name{
     if(name){
-        UIImage *image = [UIImage imageNamed:[@"DoraemonKit.bundle/" stringByAppendingString:name]];
+        NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"DoraemonManager")];
+        NSURL *url = [bundle URLForResource:@"DoraemonKit" withExtension:@"bundle"];
+        NSBundle *imageBundle = [NSBundle bundleWithURL:url];
+        
+        UIImage *image = [UIImage imageWithContentsOfFile:[imageBundle pathForResource:name ofType:@"png"]];
         if (!image) {
             image = [UIImage imageNamed:name];
         }
