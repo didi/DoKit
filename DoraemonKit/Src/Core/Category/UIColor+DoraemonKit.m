@@ -1,11 +1,11 @@
 //
-//  UIColor+DoreamonKit.m
+//  UIColor+DoraemonKit.m
 //  DoraemonKit
 //
 //  Created by yixiang on 2017/12/11.
 //
 
-#import "UIColor+DoreamonKit.h"
+#import "UIColor+DoraemonKit.h"
 
 CGFloat doraemonColorComponentFrom(NSString *string, NSUInteger start, NSUInteger length) {
     NSString *substring = [string substringWithRange:NSMakeRange(start, length)];
@@ -16,7 +16,7 @@ CGFloat doraemonColorComponentFrom(NSString *string, NSUInteger start, NSUIntege
     return hexComponent / 255.0;
 }
 
-@implementation UIColor (DoreamonKit)
+@implementation UIColor (DoraemonKit)
 
 - (CGColorSpaceModel)colorSpaceModel {
     return CGColorSpaceGetModel(CGColorGetColorSpace(self.CGColor));

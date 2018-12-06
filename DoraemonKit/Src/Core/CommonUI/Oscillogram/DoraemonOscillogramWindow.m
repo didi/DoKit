@@ -7,7 +7,7 @@
 
 #import "DoraemonOscillogramWindow.h"
 #import "DoraemonOscillogramViewController.h"
-#import "UIColor+DoreamonKit.h"
+#import "UIColor+DoraemonKit.h"
 #import "DoraemonDefine.h"
 
 @interface DoraemonOscillogramWindow()

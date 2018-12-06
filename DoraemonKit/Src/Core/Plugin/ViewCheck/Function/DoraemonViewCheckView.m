@@ -8,7 +8,7 @@
 #import "DoraemonViewCheckView.h"
 #import "UIImage+DoraemonKit.h"
 #import "DoraemonDefine.h"
-#import "UIColor+DoreamonKit.h"
+#import "UIColor+DoraemonKit.h"
 
 static CGFloat const kViewCheckSize = 40;
 

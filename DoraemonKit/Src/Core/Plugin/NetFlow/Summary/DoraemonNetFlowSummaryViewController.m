@@ -10,7 +10,7 @@
 #import "DoraemonNetFlowSummaryMethodDataView.h"
 #import "DoraemonNetFlowSummaryTypeDataView.h"
 #import "UIView+DoraemonPositioning.h"
-#import "UIColor+DoreamonKit.h"
+#import "UIColor+DoraemonKit.h"
 
 @interface DoraemonNetFlowSummaryViewController ()
 

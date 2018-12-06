@@ -7,7 +7,7 @@
 
 #import "DoraemonHomeWindow.h"
 #import "DoraemonDefine.h"
-#import "UIColor+DoreamonKit.h"
+#import "UIColor+DoraemonKit.h"
 #import "DoraemonHomeViewController.h"
 
 @implementation DoraemonHomeWindow

@@ -43,26 +43,18 @@ DEPENDENCIES:
   - AFNetworking (= 2.6.3)
   - DoraemonKit/WithLogger (from `../`)
 
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - AFNetworking
-    - BSBacktraceLogger
-    - CocoaLumberjack
-    - PNChart
-    - UICountingLabel
-
 EXTERNAL SOURCES:
   DoraemonKit:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   BSBacktraceLogger: 06b983ee93a9f87d957960e9c73d660d5966b447
   CocoaLumberjack: db7cc9e464771f12054c22ff6947c5a58d43a0fd
-  DoraemonKit: 99074116b43fc507d7306dd3b875ed9b341728de
+  DoraemonKit: 088a63c8fe436599ae5d23b4b35cf4b63ac7c6b6
   PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
 
 PODFILE CHECKSUM: ef13b525233facfa2130fd850a5b840cef2d6678
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.3.1
