@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2AEBF05B7416385852BBD4FF /* libPods-DoraemonKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DAE7D2E76C6A6D24263EEF99 /* libPods-DoraemonKitDemo.a */; };
 		DA0C6F331FDEBC2E00F43588 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA0C6F311FDEBC2E00F43588 /* LaunchScreen.storyboard */; };
 		DA0C6F3A1FDEBE3800F43588 /* TestPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C6F391FDEBE3800F43588 /* TestPlugin.m */; };
 		DA5B737420EDF7E100084856 /* A.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5B737320EDF7E100084856 /* A.m */; };
@@ -27,9 +26,11 @@
 		DACE531D20ECB6F40079AA5A /* DoraemonDemoMockGPSAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = DACE531C20ECB6F40079AA5A /* DoraemonDemoMockGPSAnnotation.m */; };
 		DAD46BDA1FE6B7AF00E3E7BC /* StartPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD46BD91FE6B7AF00E3E7BC /* StartPlugin.m */; };
 		DAE7BFAD20205C20008D49D8 /* NSObject+Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE7BFAC20205C20008D49D8 /* NSObject+Runtime.m */; };
+		EF63DA315CE9C3FF91A5B115 /* libPods-DoraemonKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8416D6FFC369740B6116CA2B /* libPods-DoraemonKitDemo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8416D6FFC369740B6116CA2B /* libPods-DoraemonKitDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DoraemonKitDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0C6F321FDEBC2E00F43588 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA0C6F381FDEBE3800F43588 /* TestPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestPlugin.h; sourceTree = "<group>"; };
 		DA0C6F391FDEBE3800F43588 /* TestPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestPlugin.m; sourceTree = "<group>"; };
@@ -68,7 +69,6 @@
 		DAD46BD91FE6B7AF00E3E7BC /* StartPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StartPlugin.m; sourceTree = "<group>"; };
 		DAE7BFAB20205C20008D49D8 /* NSObject+Runtime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Runtime.h"; sourceTree = "<group>"; };
 		DAE7BFAC20205C20008D49D8 /* NSObject+Runtime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Runtime.m"; sourceTree = "<group>"; };
-		DAE7D2E76C6A6D24263EEF99 /* libPods-DoraemonKitDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DoraemonKitDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB18BA61EBA817FD46B5C41B /* Pods-DoraemonKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoraemonKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		DBA563858BAABEC9BC885911 /* Pods-DoraemonKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoraemonKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -78,7 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2AEBF05B7416385852BBD4FF /* libPods-DoraemonKitDemo.a in Frameworks */,
+				EF63DA315CE9C3FF91A5B115 /* libPods-DoraemonKitDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,7 +97,7 @@
 		9B3A6EF2639894DCF5DB2FD4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				DAE7D2E76C6A6D24263EEF99 /* libPods-DoraemonKitDemo.a */,
+				8416D6FFC369740B6116CA2B /* libPods-DoraemonKitDemo.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -255,7 +255,7 @@
 				DAC8A8731FDE2C3B00F03E6F /* Sources */,
 				DAC8A8741FDE2C3B00F03E6F /* Frameworks */,
 				DAC8A8751FDE2C3B00F03E6F /* Resources */,
-				5032B5376C45F401D82FAE33 /* [CP] Copy Pods Resources */,
+				187131D466B63701214420E4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -312,6 +312,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		187131D466B63701214420E4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/DoraemonKit/DoraemonKit.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/DoraemonKit.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		4F099CCEC2895A53433BFD37 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -328,24 +346,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5032B5376C45F401D82FAE33 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/DoraemonKit/DoraemonKit.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/DoraemonKit.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

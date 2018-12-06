@@ -77,10 +77,12 @@
         }else if(model.type == DoraemonNavBarItemTypeImage){//图片按钮
             UIImage *image = [model.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];//设置图片没有默认蓝色效果
             //默认的间距太大
-            //            barItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:model.selector];
+                        //barItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:model.selector];
             
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             [btn setImage:image forState:UIControlStateNormal];
+            btn.imageView.contentMode = UIViewContentModeCenter;
+            btn.contentMode = UIViewContentModeCenter;
             [btn addTarget:self action:model.selector forControlEvents:UIControlEventTouchUpInside];
             btn.frame = CGRectMake(0, 0, 30, 30);
             btn.clipsToBounds = YES;
