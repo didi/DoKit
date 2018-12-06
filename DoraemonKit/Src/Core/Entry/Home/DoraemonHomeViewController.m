@@ -11,7 +11,7 @@
 #import "DoraemonHomeCell.h"
 #import "DoraemonHomeCellHeader.h"
 #import "DoraemonUtil.h"
-#import "UIColor+DoreamonKit.h"
+#import "UIColor+DoraemonKit.h"
 #import "DoraemonManager.h"
 #import "DoraemonPluginProtocol.h"
 #import "DoraemonHomeWindow.h"

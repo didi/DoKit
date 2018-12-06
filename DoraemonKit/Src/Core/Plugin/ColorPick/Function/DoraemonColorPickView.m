@@ -8,7 +8,7 @@
 #import "DoraemonColorPickView.h"
 #import "UIView+DoraemonPositioning.h"
 #import "UIImage+DoraemonKit.h"
-#import "UIColor+DoreamonKit.h"
+#import "UIColor+DoraemonKit.h"
 
 @interface DoraemonColorPickView()
 

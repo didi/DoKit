@@ -7,7 +7,7 @@
 
 #import "DoraemonHomeCellHeader.h"
 #import "UIView+DoraemonPositioning.h"
-#import "UIColor+DoreamonKit.h"
+#import "UIColor+DoraemonKit.h"
 
 @interface DoraemonHomeCellHeader()
 

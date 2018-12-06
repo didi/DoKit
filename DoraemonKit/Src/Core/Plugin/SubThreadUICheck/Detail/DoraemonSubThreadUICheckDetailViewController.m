@@ -6,7 +6,7 @@
 //
 
 #import "DoraemonSubThreadUICheckDetailViewController.h"
-#import "UIColor+DoreamonKit.h"
+#import "UIColor+DoraemonKit.h"
 #import "UIView+DoraemonPositioning.h"
 
 @interface DoraemonSubThreadUICheckDetailViewController ()

@@ -6,7 +6,7 @@
 //
 
 #import "DoraemonLoggerConsoleWindow.h"
-#import "UIColor+DoreamonKit.h"
+#import "UIColor+DoraemonKit.h"
 #import "DoraemonDefine.h"
 #import "DoraemonLoggerConsoleViewController.h"
 
