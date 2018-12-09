@@ -10,9 +10,9 @@
 @interface DoraemonMemoryUtil : NSObject
 
 //当前app内存使用量
-+ (NSUInteger)useMemoryForApp;
++ (NSInteger)useMemoryForApp;
 
 //设备总的内存
-+ (NSUInteger)totalMemoryForDevice;
++ (NSInteger)totalMemoryForDevice;
 
 @end

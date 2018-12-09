@@ -40,11 +40,16 @@
 
 - (BOOL)netFlowSwitch;
 
-- (void)saveNetFlowShowOscillogramSwitch:(BOOL)on;
-
-- (BOOL)netFlowShowOscillogramSwitch;
-
 - (void)saveSubThreadUICheckSwitch:(BOOL)on;
 
 - (BOOL)subThreadUICheckSwitch;
+
+- (void)saveCrashSwitch:(BOOL)on;
+
+- (BOOL)crashSwitch;
+
+- (void)saveNSLogSwitch:(BOOL)on;
+
+- (BOOL)nsLogSwitch;
+
 @end

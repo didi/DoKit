@@ -10,14 +10,15 @@
 #import "DoraemonNetFlowListCell.h"
 #import "DoraemonNetFlowHttpModel.h"
 #import "DoraemonNetFlowDetailViewController.h"
-#import "UIView+DoraemonPositioning.h"
+#import "DoraemonDefine.h"
+#import "DoraemonNSLogSearchView.h"
 
-@interface DoraemonNetFlowListViewController ()<UITableViewDelegate,UITableViewDataSource,UISearchBarDelegate>
+@interface DoraemonNetFlowListViewController ()<UITableViewDelegate,UITableViewDataSource,DoraemonNSLogSearchViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UISearchBar *searchBar;
 @property (nonatomic, copy) NSArray *dataArray;
 @property (nonatomic, copy) NSArray *allHttpModelArray;
+@property (nonatomic, strong) DoraemonNSLogSearchView *searchView;
 
 @end
 
@@ -26,25 +27,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"流量监控列表";
+    self.title = DoraemonLocalizedString(@"流量监控列表");
     
     NSArray *dataArray = [DoraemonNetFlowDataSource shareInstance].httpModelArray;
     _dataArray = [NSArray arrayWithArray:dataArray];
     _allHttpModelArray = [NSArray arrayWithArray:dataArray];
+
+    _searchView = [[DoraemonNSLogSearchView alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32), IPHONE_NAVIGATIONBAR_HEIGHT+kDoraemonSizeFrom750(32), self.view.doraemon_width-2*kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(100))];
+    _searchView.delegate = self;
+    [self.view addSubview:_searchView];
     
-    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, 60)];
-    _searchBar.placeholder = @"支持筛选";
-    _searchBar.delegate = self;
-    [self.view addSubview:_searchBar];
-    
-    CGFloat tabBarHeight = self.tabBarController.tabBar.doraemon_height;
-    CGFloat navBarHeight = self.navigationController.navigationBar.doraemon_height+[[UIApplication sharedApplication] statusBarFrame].size.height;
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, _searchBar.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-tabBarHeight-navBarHeight-_searchBar.doraemon_height) style:UITableViewStylePlain];
+
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, _searchView.doraemon_bottom+kDoraemonSizeFrom750(30), self.view.doraemon_width, self.view.doraemon_height-_searchView.doraemon_bottom-kDoraemonSizeFrom750(30)) style:UITableViewStylePlain];
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
 }
+
+
 
 #pragma mark - UITableView Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -92,10 +93,10 @@
     [self.tabBarController dismissViewControllerAnimated:YES completion:nil];
 }
 
-#pragma mark -- UISearchBarDelegate
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+#pragma mark - DoraemonNSLogSearchViewDelegate
+- (void)searchViewInputChange:(NSString *)text{
     NSArray *allHttpModelArray = _allHttpModelArray;
-    if (searchText.length == 0) {
+    if (text.length == 0) {
         _dataArray = allHttpModelArray;
         [self.tableView reloadData];
         return;
@@ -103,7 +104,7 @@
     NSMutableArray *tempArray = [NSMutableArray array];
     for (DoraemonNetFlowHttpModel *httpModel in allHttpModelArray) {
         NSString *url = httpModel.url;
-        if ([url containsString:searchText]) {
+        if ([url containsString:text]) {
             [tempArray addObject:httpModel];
         }
     }

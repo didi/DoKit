@@ -8,7 +8,7 @@
 #import "DoraemonNetFlowManager.h"
 #import "DoraemonNSURLProtocol.h"
 #import "DoraemonNetFlowDataSource.h"
-#import "NSObject+DoraemonKit.h"
+#import "NSObject+Doraemon.h"
 
 
 @implementation DoraemonNetFlowManager

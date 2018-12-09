@@ -13,12 +13,9 @@
 
 - (void)doraemon_swizzleLocationDelegate:(id)delegate {
     if (delegate) {
-        //1、让所有的CLLocationManager的代理都设置为[DoraemonGPSMocker shareInstance]，让他做中间转发
         [self doraemon_swizzleLocationDelegate:[DoraemonGPSMocker shareInstance]];
-        //2、绑定所有CLLocationManager实例与delegate的关系，用于[DoraemonGPSMocker shareInstance]做目标转发用。
         [[DoraemonGPSMocker shareInstance] addLocationBinder:self delegate:delegate];
         
-        //3、处理[DoraemonGPSMocker shareInstance]没有实现的selector，并且给用户提示。
         Protocol *proto = objc_getProtocol("CLLocationManagerDelegate");
         unsigned int count;
         struct objc_method_description *methods = protocol_copyMethodDescriptionList(proto, NO, YES, &count);

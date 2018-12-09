@@ -6,20 +6,24 @@
 //
 
 #import "DoraemonColorPickWindow.h"
-#import "UIView+DoraemonPositioning.h"
+#import "UIView+Doraemon.h"
 #import "DoraemonDefine.h"
 #import "DoraemonColorPickView.h"
-#import "UIImage+DoraemonKit.h"
+#import "UIImage+Doraemon.h"
 #import "DoraemonDefine.h"
-#import "UIColor+DoraemonKit.h"
+#import "UIColor+Doraemon.h"
 #import "DoraemonDefine.h"
 #import "DoraemonUtil.h"
+#import "DoraemonColorPickInfoWindow.h"
+#import "DoraemonVisualMagnifierWindow.h"
 
-static CGFloat const kColorPickWindowSize = 80;
+static CGFloat const kColorPickWindowSize = 114;
 
 @interface DoraemonColorPickWindow()
 
 @property (nonatomic, strong) DoraemonColorPickView *colorPickView;
+
+@property (nonatomic, strong) DoraemonVisualMagnifierWindow *magnifierWindow;
 
 @end
 
@@ -52,6 +56,10 @@ static CGFloat const kColorPickWindowSize = 80;
         [self addGestureRecognizer:pan];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closePlugin:) name:DoraemonClosePluginNotification object:nil];
+        
+        NSString *hexColor = [self getColorWithCenterPoint:self.center];
+        //    [self.colorPickView setCurrentColor:hexColor];
+        [[DoraemonColorPickInfoWindow shareInstance] setCurrentColor:hexColor];
     }
     return self;
 }
@@ -59,14 +67,21 @@ static CGFloat const kColorPickWindowSize = 80;
 - (void)show{
     self.hidden = NO;
     [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonShowPluginNotification object:nil userInfo:nil];
+    
+    self.magnifierWindow.hidden = NO;
+    self.magnifierWindow.targetPoint = self.center;
 }
 
 - (void)closePlugin:(NSNotification *)notification{
     self.hidden = YES;
+    
+    self.magnifierWindow.hidden = YES;
 }
 
 - (void)hide{
     self.hidden = YES;
+    
+    self.magnifierWindow.hidden = YES;
 }
 
 //不能让该View成为keyWindow，每一次它要成为keyWindow的时候，都要将appDelegate的window指为keyWindow
@@ -100,8 +115,11 @@ static CGFloat const kColorPickWindowSize = 80;
     CGPoint centerPoint = CGPointMake(newX, newY);
     panView.center = centerPoint;
     
+    self.magnifierWindow.targetPoint = centerPoint;
+    
     NSString *hexColor = [self getColorWithCenterPoint:centerPoint];
-    [self.colorPickView setCurrentColor:hexColor];
+//    [self.colorPickView setCurrentColor:hexColor];
+    [[DoraemonColorPickInfoWindow shareInstance] setCurrentColor:hexColor];
 }
 
 - (NSString *)getColorWithCenterPoint:(CGPoint)centerPoint{
@@ -129,5 +147,16 @@ static CGFloat const kColorPickWindowSize = 80;
     //NSLog(@"color == %@",hexColor);
     return hexColor;
 }
+
+- (DoraemonVisualMagnifierWindow *)magnifierWindow {
+    if (!_magnifierWindow) {
+        _magnifierWindow = [[DoraemonVisualMagnifierWindow alloc] init];
+        _magnifierWindow.targetWindow = [[UIApplication sharedApplication].delegate window];
+        _magnifierWindow.adjustPoint = CGPointMake(0, (kColorPickWindowSize - 6) / 2.0); //放大镜位置调整
+        _magnifierWindow.magnifierWidth = kColorPickWindowSize - 6; //设置宽度
+    }
+    return _magnifierWindow;
+}
+
 
 @end

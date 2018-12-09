@@ -8,10 +8,12 @@
 
 #import "DoraemonBaseViewController.h"
 #import "DoraemonNavBarItemModel.h"
-#import "UIImage+DoraemonKit.h"
+#import "UIImage+Doraemon.h"
 #import "DoraemonHomeWindow.h"
+#import "UIView+Doraemon.h"
+#import "DoraemonDefine.h"
 
-@interface DoraemonBaseViewController ()
+@interface DoraemonBaseViewController ()<DoraemonBaseBigTitleViewDelegate>
 
 @end
 
@@ -20,21 +22,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
-        self.edgesForExtendedLayout = UIRectEdgeNone;
+//    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
+//        self.edgesForExtendedLayout = UIRectEdgeNone;
+//    }
+//    [self.navigationController.navigationBar setTranslucent:NO];
+//
+  
+    if ([self needBigTitleView]) {
+        _bigTitleView = [[DoraemonBaseBigTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750(178))];
+        _bigTitleView.delegate = self;
+        [self.view addSubview:_bigTitleView];
+    }else{
+        DoraemonNavBarItemModel *leftModel = [[DoraemonNavBarItemModel alloc] initWithImage:[UIImage doraemon_imageNamed:@"doraemon_back"] selector:@selector(leftNavBackClick:)];
+        
+        [self setLeftNavBarItems:@[leftModel]];
     }
-    [self.navigationController.navigationBar setTranslucent:NO];
-    
-    
-    DoraemonNavBarItemModel *leftModel = [[DoraemonNavBarItemModel alloc] initWithImage:[UIImage doraemon_imageNamed:@"doraemon_back"] selector:@selector(leftNavBackClick:)];
-    
-    [self setLeftNavBarItems:@[leftModel]];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBarHidden = [self needBigTitleView];
     [[DoraemonHomeWindow shareInstance] makeKeyWindow];
 }
 
@@ -43,6 +50,19 @@
     [super viewWillDisappear:animated];
     UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
     [appWindow makeKeyWindow];
+}
+
+//是否需要大标题，默认不需要
+- (BOOL)needBigTitleView{
+    return NO;
+}
+
+- (void)setTitle:(NSString *)title{
+    if (_bigTitleView && !_bigTitleView.hidden) {
+        [_bigTitleView setTitle:title];
+    }else{
+        [super setTitle:title];
+    }
 }
 
 - (void)leftNavBackClick:(id)clickView{
@@ -77,12 +97,10 @@
         }else if(model.type == DoraemonNavBarItemTypeImage){//图片按钮
             UIImage *image = [model.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];//设置图片没有默认蓝色效果
             //默认的间距太大
-                        //barItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:model.selector];
+            //            barItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:model.selector];
             
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             [btn setImage:image forState:UIControlStateNormal];
-            btn.imageView.contentMode = UIViewContentModeCenter;
-            btn.contentMode = UIViewContentModeCenter;
             [btn addTarget:self action:model.selector forControlEvents:UIControlEventTouchUpInside];
             btn.frame = CGRectMake(0, 0, 30, 30);
             btn.clipsToBounds = YES;
@@ -106,6 +124,11 @@
      */
     spacer.width = width;
     return spacer;
+}
+
+#pragma mark - DoraemonBaseBigTitleViewDelegate
+- (void)bigTitleCloseClick{
+    [self leftNavBackClick:nil];
 }
 
 @end

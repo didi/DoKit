@@ -7,19 +7,20 @@
 //
 
 #import "DoraemonHomeViewController.h"
-#import "UIView+DoraemonPositioning.h"
-#import "DoraemonHomeCell.h"
-#import "DoraemonHomeCellHeader.h"
+#import "UIView+Doraemon.h"
 #import "DoraemonUtil.h"
-#import "UIColor+DoraemonKit.h"
+#import "UIColor+Doraemon.h"
 #import "DoraemonManager.h"
 #import "DoraemonPluginProtocol.h"
 #import "DoraemonHomeWindow.h"
+#import "DoraemonDefine.h"
+#import "DoraemonHomeSectionView.h"
+#import "Doraemoni18NUtil.h"
 
-@interface DoraemonHomeViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface DoraemonHomeViewController ()
 
 @property (nonatomic, strong) UICollectionView *collectionView;
-
+@property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic,strong) NSMutableArray *dataArray;
 
 @end
@@ -43,90 +44,44 @@
 }
 
 - (void)initUI{
-    UIView *clearView = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].statusBarFrame];
-    clearView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:clearView];
+    self.view.backgroundColor = [UIColor doraemon_colorWithString:@"#F4F5F6"];
+    _scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
+    [self.view addSubview:_scrollView];
     
-    UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
-    flowLayout.minimumLineSpacing      = 0.0f;
-    flowLayout.minimumInteritemSpacing = 0.0f;
-    
-    CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
-    _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0.0f, statusBarHeight, self.view.doraemon_width, self.view.doraemon_height - statusBarHeight) collectionViewLayout:flowLayout];
-    _collectionView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_collectionView];
-    
-    [_collectionView registerClass:[DoraemonHomeCell class] forCellWithReuseIdentifier:@"doraemonHomeCell"];
-    [_collectionView registerClass:[DoraemonHomeCellHeader class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"doraemonHomeCellHeader"];
-    [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"doraemonHomeCellFooter"];
-    
-    _collectionView.delegate = self;
-    _collectionView.dataSource = self;
-}
-
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    DoraemonHomeCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"doraemonHomeCell" forIndexPath:indexPath];
-    
-    if (!cell){
-        cell = [[DoraemonHomeCell alloc]init];
+    CGFloat offsetY = kDoraemonSizeFrom750(32);
+    for (int i=0; i<_dataArray.count; i++) {
+        NSDictionary *itemData = _dataArray[i];
+        CGFloat sectionHeight = [DoraemonHomeSectionView viewHeightWithData:itemData];
+        DoraemonHomeSectionView *sectionView = [[DoraemonHomeSectionView alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(16), offsetY, self.view.doraemon_width-kDoraemonSizeFrom750(16)*2, sectionHeight)];
+        [sectionView renderUIWithData:itemData];
+        [_scrollView addSubview:sectionView];
+        offsetY += sectionHeight+kDoraemonSizeFrom750(32);
     }
-    NSDictionary *data= _dataArray[indexPath.section];
-    NSArray *pluginArray = [data objectForKey:@"pluginArray"];
-    [cell renderUIWithData:pluginArray[indexPath.row]];
-    return cell;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(self.view.doraemon_width / 4, 80.0f);
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    return CGSizeMake(self.view.doraemon_width, 40.0f);
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section{
-    return CGSizeMake(self.view.doraemon_width, 10.0f);
-}
-
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return _dataArray.count;
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    NSArray *pluginArray = [_dataArray[section] objectForKey:@"pluginArray"];
-    return pluginArray.count;
-}
-
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
-{
-    if ([kind isEqualToString:UICollectionElementKindSectionHeader]){
-        DoraemonHomeCellHeader *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"doraemonHomeCellHeader" forIndexPath:indexPath];
-        
-        NSString *moduleName = [_dataArray[indexPath.section] objectForKey:@"moduleName"];
-        if (moduleName){
-            [headerView setTitle:moduleName];
-        }
-        return headerView;
-    }else if ([kind isEqualToString:UICollectionElementKindSectionFooter]){
-        UICollectionReusableView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"doraemonHomeCellFooter" forIndexPath:indexPath];
-        footerView.backgroundColor = [UIColor doraemon_colorWithHex:0xE0E0E0];
-        return footerView;
-    }
-    return nil;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{   
-    //再跳转到新的设置页面
-    NSDictionary *data= _dataArray[indexPath.section];
-    NSArray *pluginArray = [data objectForKey:@"pluginArray"];
-    NSDictionary *itemInfo = pluginArray[indexPath.row];
-    NSString *pluginName = itemInfo[@"pluginName"];
     
-    if(pluginName){
-        Class pluginClass = NSClassFromString(pluginName);
-        id<DoraemonPluginProtocol> plugin = [[pluginClass alloc] init];
-        [plugin pluginDidLoad];
-    }
+    offsetY = offsetY - kDoraemonSizeFrom750(32) + kDoraemonSizeFrom750(56);
+    UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(30), offsetY, self.view.doraemon_width-2*kDoraemonSizeFrom750(30), kDoraemonSizeFrom750(100))];
+    closeBtn.backgroundColor = [UIColor whiteColor];
+    [closeBtn setTitle:@"关闭DoraemonKit" forState:UIControlStateNormal];
+    [closeBtn setTitleColor:[UIColor doraemon_colorWithString:@"#CC3A4B"] forState:UIControlStateNormal];
+    [closeBtn addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
+    [_scrollView addSubview:closeBtn];
+    
+    offsetY += closeBtn.doraemon_height+kDoraemonSizeFrom750(30);
+    
+    _scrollView.contentSize = CGSizeMake(self.view.doraemon_width, offsetY);
 }
+
+- (void)close{
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:DoraemonLocalizedString(@"提示") message:DoraemonLocalizedString(@"Doraemon关闭之后需要重启App才能重新打开") preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:DoraemonLocalizedString(@"取消") style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:DoraemonLocalizedString(@"确定") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [[DoraemonManager shareInstance] hiddenDoraemon];
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    [[DoraemonUtil topViewControllerForKeyWindow] presentViewController:alertController animated:YES completion:nil];
+    
+    [[DoraemonHomeWindow shareInstance] hide];
+}
+
 @end

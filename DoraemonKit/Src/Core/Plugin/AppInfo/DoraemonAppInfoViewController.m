@@ -9,7 +9,9 @@
 #import "DoraemonAppInfoCell.h"
 #import "DoraemonDefine.h"
 #import "DoraemonAppInfoUtil.h"
-#import "UIView+DoraemonPositioning.h"
+#import "Doraemoni18NUtil.h"
+#import "UIView+Doraemon.h"
+#import "UIColor+Doraemon.h"
 
 @interface DoraemonAppInfoViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -22,7 +24,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"App基本信息";
+    
+    self.title = DoraemonLocalizedString(@"App基本信息");
     
     //获取手机型号
     NSString *iphoneType = [DoraemonAppInfoUtil iphoneType];
@@ -42,7 +45,7 @@
     NSString *locationAuthority = [DoraemonAppInfoUtil locationAuthority];
     
     //获取网络权限
-    NSString *netAuthority = [DoraemonAppInfoUtil netAuthority];//暂时没有办法获取
+    NSString *netAuthority = [DoraemonAppInfoUtil netAuthority];
     
     //获取push权限
     NSString *pushAuthority = [DoraemonAppInfoUtil pushAuthority];
@@ -67,19 +70,19 @@
     
     NSArray *dataArray = @[
                             @{
-                               @"title":@"手机信息",
+                               @"title":DoraemonLocalizedString(@"手机信息"),
                                @"array":@[@{
-                                            @"title":@"手机型号",
+                                            @"title":DoraemonLocalizedString(@"手机型号"),
                                             @"value":iphoneType
                                             },
                                         @{
-                                            @"title":@"系统版本",
+                                            @"title":DoraemonLocalizedString(@"系统版本"),
                                             @"value":phoneVersion
                                             }
                                      ]
                                },
                             @{
-                                @"title":@"App信息",
+                                @"title":DoraemonLocalizedString(@"App信息"),
                                 @"array":@[@{
                                                @"title":@"Bundle ID",
                                                @"value":bundleId
@@ -95,41 +98,41 @@
                                            ]
                                 },
                             @{
-                                @"title":@"权限信息",
+                                @"title":DoraemonLocalizedString(@"权限信息"),
                                 @"array":@[@{
-                                               @"title":@"地理位置权限",
+                                               @"title":DoraemonLocalizedString(@"地理位置权限"),
                                                @"value":locationAuthority
                                                },
                                            @{
-                                               @"title":@"网络权限",
+                                               @"title":DoraemonLocalizedString(@"网络权限"),
                                                @"value":netAuthority
                                                },
                                            @{
-                                               @"title":@"推送权限",
+                                               @"title":DoraemonLocalizedString(@"推送权限"),
                                                @"value":pushAuthority
                                                },
                                            @{
-                                               @"title":@"相机权限",
+                                               @"title":DoraemonLocalizedString(@"相机权限"),
                                                @"value":cameraAuthority
                                                },
                                            @{
-                                               @"title":@"麦克风权限",
+                                               @"title":DoraemonLocalizedString(@"麦克风权限"),
                                                @"value":audioAuthority
                                                },
                                            @{
-                                               @"title":@"相册权限",
+                                               @"title":DoraemonLocalizedString(@"相册权限"),
                                                @"value":photoAuthority
                                                },
                                            @{
-                                               @"title":@"通讯录权限",
+                                               @"title":DoraemonLocalizedString(@"通讯录权限"),
                                                @"value":addressAuthority
                                                },
                                            @{
-                                               @"title":@"日历权限",
+                                               @"title":DoraemonLocalizedString(@"日历权限"),
                                                @"value":calendarAuthority
                                                },
                                            @{
-                                               @"title":@"提醒事项权限",
+                                               @"title":DoraemonLocalizedString(@"提醒事项权限"),
                                                @"value":remindAuthority
                                                }
                                            ]
@@ -137,8 +140,8 @@
                             ];
     _dataArray = dataArray;
     
-    CGFloat navBarHeight = self.navigationController.navigationBar.doraemon_height+[[UIApplication sharedApplication] statusBarFrame].size.height;
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height-navBarHeight) style:UITableViewStyleGrouped];
+
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-self.bigTitleView.doraemon_bottom) style:UITableViewStyleGrouped];
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -146,6 +149,10 @@
     self.tableView.estimatedSectionFooterHeight = 0.;
     self.tableView.estimatedSectionHeaderHeight = 0.;
     [self.view addSubview:self.tableView];
+}
+
+- (BOOL)needBigTitleView{
+    return YES;
 }
 
 #pragma mark - UITableView Delegate
@@ -159,19 +166,22 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60;
+    return [DoraemonAppInfoCell cellHeight];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 30;
+    return kDoraemonSizeFrom750(120);
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, DoraemonScreenWidth-20, 20)];
+    UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750(120))];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32), 0, DoraemonScreenWidth-kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(120))];
     NSDictionary *dic = _dataArray[section];
     titleLabel.text = dic[@"title"];
-    titleLabel.textColor = [UIColor orangeColor];
-    return titleLabel;
+    titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(28)];
+    titleLabel.textColor = [UIColor doraemon_black_3];
+    [sectionView addSubview:titleLabel];
+    return sectionView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {

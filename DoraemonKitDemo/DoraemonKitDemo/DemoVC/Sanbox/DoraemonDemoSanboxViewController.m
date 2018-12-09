@@ -7,7 +7,8 @@
 //
 
 #import "DoraemonDemoSanboxViewController.h"
-#import "UIView+DoraemonPositioning.h"
+#import <DoraemonKit/UIView+Doraemon.h>
+#import "DoraemonDefine.h"
 
 @interface DoraemonDemoSanboxViewController ()
 
@@ -19,13 +20,13 @@
     [super viewDidLoad];
     self.title = @"沙盒测试Demo";
     
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, self.view.doraemon_width, 60)];
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, 60)];
     btn.backgroundColor = [UIColor orangeColor];
     [btn setTitle:@"添加一条json到沙盒中" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(addFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     
-    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 120, self.view.doraemon_width, 60)];
+    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn1.backgroundColor = [UIColor orangeColor];
     [btn1 setTitle:@"添加一张图片到沙盒中" forState:UIControlStateNormal];
     [btn1 addTarget:self action:@selector(addImageFile) forControlEvents:UIControlEventTouchUpInside];
@@ -52,18 +53,10 @@
     NSString *json = [self dictToJsonStr:dic];
     
     NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *dirPath = [docDir stringByAppendingPathComponent:@"test"];
-    NSFileManager *fm = [NSFileManager defaultManager];
-    BOOL isDir = NO;
-    BOOL existed = [fm fileExistsAtPath:dirPath isDirectory:&isDir];
-    if (!(isDir && existed)) {
-        [fm createDirectoryAtPath:dirPath withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-    NSString *filePath = [dirPath stringByAppendingPathComponent:@"json.txt"];
-    NSString *filePath2 = [dirPath stringByAppendingPathComponent:@"json2.txt"];
+    NSString *filePath = [docDir stringByAppendingPathComponent:@"json.txt"];
     
     [json writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    [json writeToFile:filePath2 atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    
 }
 
 - (void)addImageFile{

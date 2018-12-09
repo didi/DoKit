@@ -9,20 +9,25 @@
 #import "DoraemonCacheManager.h"
 #import "DoraemonNetFlowManager.h"
 #import "DoraemonDefine.h"
-#import "UIView+DoraemonPositioning.h"
+#import "UIView+Doraemon.h"
 #import "DoraemonNetFlowListViewController.h"
 #import "DoraemonUtil.h"
 #import "DoraemonNetFlowSummaryViewController.h"
-#import "UIImage+DoraemonKit.h"
-#import "UIColor+DoraemonKit.h"
+#import "UIImage+Doraemon.h"
+#import "UIColor+Doraemon.h"
 #import "DoraemonNetFlowOscillogramWindow.h"
+#import "Doraemoni18NUtil.h"
+#import "DoraemonCellSwitch.h"
+#import "DoraemonCellButton.h"
+#import "DoraemonDefine.h"
+#import "DoraemonNetFlowTestListViewController.h"
+
 
 @interface DoraemonNetFlowViewController ()
-
-@property (nonatomic, strong) UISwitch *totalSwitchView;
-@property (nonatomic, strong) UISwitch *showOscillogramSwitchView;
-
 @property (nonatomic, strong) UITabBarController *tabBar;
+
+@property (nonatomic, strong) DoraemonCellSwitch *switchView;
+@property (nonatomic, strong) DoraemonCellButton *cellBtn;
 
 @end
 
@@ -34,86 +39,56 @@
 }
 
 - (void)initUI{
-    self.title = @"流量监控开关";
+    self.title = DoraemonLocalizedString(@"流量检测");
     
-    UISwitch *totalSwitchView = [[UISwitch alloc] init];
-    totalSwitchView.doraemon_origin = CGPointMake(DoraemonScreenWidth/2-totalSwitchView.doraemon_width/2, 60);
-    [self.view addSubview:totalSwitchView];
-    [totalSwitchView addTarget:self action:@selector(totalSwitchAction:) forControlEvents:UIControlEventValueChanged];
-    totalSwitchView.on = [self totalSwitchViewOn];
-    _totalSwitchView = totalSwitchView;
+    _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
+    [_switchView renderUIWithTitle:DoraemonLocalizedString(@"流量检测开关") switchOn:[[DoraemonCacheManager sharedInstance] netFlowSwitch]];
+    [_switchView needTopLine];
+    [_switchView needDownLine];
+    _switchView.delegate = self;
+    [self.view addSubview:_switchView];
     
-    UILabel *totalTipLabel = [[UILabel alloc] init];
-    totalTipLabel.font = [UIFont systemFontOfSize:16];
-    totalTipLabel.textColor = [UIColor blackColor];
-    totalTipLabel.text = @"流量监控开关:  ";
-    [self.view addSubview:totalTipLabel];
-    [totalTipLabel sizeToFit];
-    totalTipLabel.doraemon_origin = CGPointMake(totalSwitchView.doraemon_left-10-totalTipLabel.doraemon_width, totalSwitchView.doraemon_centerY-totalTipLabel.doraemon_height/2);
+    _cellBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _switchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
+    [_cellBtn renderUIWithTitle:DoraemonLocalizedString(@"查看检测记录")];
+    _cellBtn.delegate = self;
+    [_cellBtn needDownLine];
+    [self.view addSubview:_cellBtn];
     
-    UISwitch *showOscillogramSwitchView = [[UISwitch alloc] init];
-    showOscillogramSwitchView.doraemon_origin = CGPointMake(DoraemonScreenWidth/2-showOscillogramSwitchView.doraemon_width/2, 120);
-    [self.view addSubview:showOscillogramSwitchView];
-    [showOscillogramSwitchView addTarget:self action:@selector(showOscillogramSwitchAction:) forControlEvents:UIControlEventValueChanged];
-    showOscillogramSwitchView.on = [self showOscillogramSwitchViewOn];
-    _showOscillogramSwitchView = showOscillogramSwitchView;
-    
-    UILabel *showOscillogramTipLabel = [[UILabel alloc] init];
-    showOscillogramTipLabel.font = [UIFont systemFontOfSize:16];
-    showOscillogramTipLabel.textColor = [UIColor blackColor];
-    showOscillogramTipLabel.text = @"流量曲线开关:  ";
-    [self.view addSubview:showOscillogramTipLabel];
-    [showOscillogramTipLabel sizeToFit];
-    showOscillogramTipLabel.doraemon_origin = CGPointMake(showOscillogramSwitchView.doraemon_left-10-showOscillogramTipLabel.doraemon_width, showOscillogramSwitchView.doraemon_centerY-showOscillogramTipLabel.doraemon_height/2);
-    
+
     
     UIButton *showNetFlowDetailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    showNetFlowDetailBtn.frame = CGRectMake(showOscillogramTipLabel.doraemon_left, _showOscillogramSwitchView.doraemon_bottom+40, _showOscillogramSwitchView.doraemon_right-showOscillogramTipLabel.doraemon_left, 40);
-    [showNetFlowDetailBtn setTitle:@"显示流量监控详情" forState:UIControlStateNormal];
-    showNetFlowDetailBtn.backgroundColor = [UIColor orangeColor];
+    showNetFlowDetailBtn.frame = CGRectMake(kDoraemonSizeFrom750(32), _cellBtn.doraemon_bottom+kDoraemonSizeFrom750(60), self.view.doraemon_width-2*kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(100));
+    [showNetFlowDetailBtn setTitle:DoraemonLocalizedString(@"显示流量检测详情") forState:UIControlStateNormal];
+    showNetFlowDetailBtn.backgroundColor = [UIColor doraemon_colorWithHexString:@"#337CC4"];
     [showNetFlowDetailBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [showNetFlowDetailBtn addTarget:self action:@selector(showNetFlowDetail) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:showNetFlowDetailBtn];
 }
 
-- (BOOL)totalSwitchViewOn{
-    return [[DoraemonCacheManager sharedInstance] netFlowSwitch];
+- (BOOL)needBigTitleView{
+    return YES;
 }
 
-- (BOOL)showOscillogramSwitchViewOn{
-    return [[DoraemonCacheManager sharedInstance] netFlowShowOscillogramSwitch];
-}
-
-- (void)totalSwitchAction:(id)sender{
-    UISwitch *switchButton = (UISwitch*)sender;
-    BOOL isButtonOn = [switchButton isOn];
-    [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:isButtonOn];
-    if(isButtonOn){
-        [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:YES];
-    }else{
-        [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:NO];
-        if (_showOscillogramSwitchView.on) {
-            _showOscillogramSwitchView.on = NO;
-            [[DoraemonCacheManager sharedInstance] saveNetFlowShowOscillogramSwitch:NO];
+#pragma mark -- DoraemonSwitchViewDelegate
+- (void)changeSwitchOn:(BOOL)on sender:(id)sender{
+    if (sender == _switchView.switchView) {
+        [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:on];
+        if(on){
+            [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:YES];
+            [self showOscillogramView];
+        }else{
+            [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:NO];
+            [self hiddenOscillogramView];
         }
-        [self hiddenOscillogramView];
     }
 }
 
-- (void)showOscillogramSwitchAction:(id)sender{
-    UISwitch *switchButton = (UISwitch*)sender;
-    BOOL isButtonOn = [switchButton isOn];
-    [[DoraemonCacheManager sharedInstance] saveNetFlowShowOscillogramSwitch:isButtonOn];
-    if(isButtonOn){
-        if (!_totalSwitchView.on) {
-            _totalSwitchView.on = YES;
-            [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:YES];
-            [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:YES];
-        }
-        
-        [self showOscillogramView];
-    }else{
-        [self hiddenOscillogramView];
+
+#pragma mark -- DoraemonCellButtonDelegate
+- (void)cellBtnClick:(id)sender{
+    if (sender == _cellBtn) {
+        DoraemonNetFlowTestListViewController *vc = [[DoraemonNetFlowTestListViewController alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
@@ -133,16 +108,16 @@
     
     UIViewController *vc1 = [[DoraemonNetFlowSummaryViewController alloc] init];
     UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:vc1];
-    nav1.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"流量监控概要" image:[[[UIImage doraemon_imageNamed:@"doraemon_netflow_summary_unselect"] doraemon_scaledToSize:CGSizeMake(30,30)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[[UIImage doraemon_imageNamed:@"doraemon_netflow_summary_select"] doraemon_scaledToSize:CGSizeMake(30,30)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] ];
-    [nav1.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor doraemon_colorWithHex:0x666666],NSFontAttributeName:[UIFont systemFontOfSize:10]} forState:UIControlStateNormal];
-    [nav1.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor doraemon_colorWithHex:0xFF8800],NSFontAttributeName:[UIFont systemFontOfSize:10]} forState:UIControlStateSelected];
+    nav1.tabBarItem = [[UITabBarItem alloc] initWithTitle:DoraemonLocalizedString(@"流量检测概要") image:[[[UIImage doraemon_imageNamed:@"doraemon_netflow_summary_unselect"] doraemon_scaledToSize:CGSizeMake(30,30)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[[UIImage doraemon_imageNamed:@"doraemon_netflow_summary_select"] doraemon_scaledToSize:CGSizeMake(30,30)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] ];
+    [nav1.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor doraemon_colorWithHex:0x333333],NSFontAttributeName:[UIFont systemFontOfSize:10]} forState:UIControlStateNormal];
+    [nav1.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor doraemon_colorWithHex:0x337CC4],NSFontAttributeName:[UIFont systemFontOfSize:10]} forState:UIControlStateSelected];
     
     
     UIViewController *vc2 = [[DoraemonNetFlowListViewController alloc] init];
     UINavigationController *nav2 = [[UINavigationController alloc] initWithRootViewController:vc2];
-    nav2.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"流量监控列表" image:[[[UIImage doraemon_imageNamed:@"doraemon_netflow_list_unselect"] doraemon_scaledToSize:CGSizeMake(30,30)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[[UIImage doraemon_imageNamed:@"doraemon_netflow_list_select"] doraemon_scaledToSize:CGSizeMake(30,30)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
-    [nav2.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor doraemon_colorWithHex:0x666666],NSFontAttributeName:[UIFont systemFontOfSize:10]} forState:UIControlStateNormal];
-    [nav2.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor doraemon_colorWithHex:0xFF8800],NSFontAttributeName:[UIFont systemFontOfSize:10]} forState:UIControlStateSelected];
+    nav2.tabBarItem = [[UITabBarItem alloc] initWithTitle:DoraemonLocalizedString(@"流量检测列表") image:[[[UIImage doraemon_imageNamed:@"doraemon_netflow_list_unselect"] doraemon_scaledToSize:CGSizeMake(30,30)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[[UIImage doraemon_imageNamed:@"doraemon_netflow_list_select"] doraemon_scaledToSize:CGSizeMake(30,30)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
+    [nav2.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor doraemon_colorWithHex:0x333333],NSFontAttributeName:[UIFont systemFontOfSize:10]} forState:UIControlStateNormal];
+    [nav2.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor doraemon_colorWithHex:0x337CC4],NSFontAttributeName:[UIFont systemFontOfSize:10]} forState:UIControlStateSelected];
     
     tabBar.viewControllers = @[nav1,nav2];
     

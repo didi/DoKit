@@ -13,7 +13,8 @@
 #import "DoraemonDemoUIViewController.h"
 #import "DoraemonDemoNetViewController.h"
 #import "DoraemonDemoMockGPSViewController.h"
-#import "A.h"
+#import "DoraemonDemoCrashViewController.h"
+#import "DoraemonDemoCommonViewController.h"
 #import <objc/runtime.h>
 
 @interface DoraemonDemoHomeViewController ()<UITableViewDelegate,UITableViewDataSource>
@@ -31,13 +32,10 @@
     tableView.delegate = self;
     tableView.dataSource = self;
     [self.view addSubview:tableView];
-    
-    A *a = [[A alloc] init];
-    [a methodA];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 6;
+    return 8;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -60,6 +58,10 @@
         txt = @"网络测试Demo";
     }else if(row==5){
         txt = @"模拟位置Demo";
+    }else if(row==6){
+        txt = @"crash触发Demo";
+    }else if(row==7){
+        txt = @"通用测试Demo";
     }
     cell.textLabel.text = txt;
     return cell;
@@ -78,8 +80,12 @@
         vc = [[DoraemonDemoUIViewController alloc] init];
     }else if(row == 4){
         vc = [[DoraemonDemoNetViewController alloc] init];
-    }else{
+    }else if(row == 5){
         vc = [[DoraemonDemoMockGPSViewController alloc] init];
+    }else if(row == 6){
+        vc = [[DoraemonDemoCrashViewController alloc] init];
+    }else{
+        vc = [[DoraemonDemoCommonViewController alloc] init];
     }
     [self.navigationController pushViewController:vc animated:YES];
  

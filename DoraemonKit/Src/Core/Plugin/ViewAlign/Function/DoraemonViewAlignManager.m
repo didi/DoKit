@@ -38,16 +38,19 @@
 - (void)show{
     if (!_alignView) {
         _alignView = [[DoraemonViewAlignView alloc] init];
-        _alignView.hidden = YES;
+//        _alignView.hidden = YES;
+        [_alignView hide];
         UIWindow *delegateWindow = [[UIApplication sharedApplication].delegate window];
         [delegateWindow addSubview:_alignView];
     }
-    _alignView.hidden = NO;
+//    _alignView.hidden = NO;
+    [_alignView show];
     [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonShowPluginNotification object:nil userInfo:nil];
 }
 
 - (void)hidden{
-    _alignView.hidden = YES;
+//    _alignView.hidden = YES;
+    [_alignView hide];
 }
 
 - (void)closePlugin:(NSNotification *)notification{

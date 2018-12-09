@@ -11,15 +11,15 @@
 #import "DoraemonUtil.h"
 #import "DoraemonMemoryUtil.h"
 #import "DoraemonAppInfoUtil.h"
+#import "Doraemoni18NUtil.h"
+#import <AFNetworking/AFNetworking.h>
 
 //默认超时间隔
-static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
+static int64_t const kDoraemonBlockMonitorTimeInterval = 2.;
 
 @interface DoraemonANRManager()
 
 @property (nonatomic, strong) DoraemonANRTracker *doraemonANRTracker;
-
-@property (nonatomic, copy) DoraemonANRManagerBlock block;
 
 @end
 
@@ -46,10 +46,6 @@ static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
     return self;
 }
 
-- (void)addAnrBlock:(DoraemonANRManagerBlock)block{
-    self.block = block;
-}
-
 - (void)start {
     __weak typeof(self) weakSelf = self;
     [_doraemonANRTracker startWithThreshold:self.timeOut
@@ -66,7 +62,7 @@ static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
     
     NSString *report = [BSBacktraceLogger bs_backtraceOfMainThread];
     if (!report) {
-        report = @"空的report";
+        report = DoraemonLocalizedString(@"空的report");
     }
     
     if (!_anrArray) {
@@ -77,46 +73,6 @@ static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
                           @"content":report
                           };
     [_anrArray addObject:dic];
-    
-    [self commitToServerWithReport:report];
-    
-    
-    // 方法二：使用 PLCrashReporter 打印方法调用栈
-//    PLCrashReporterConfig *config = [[PLCrashReporterConfig alloc] initWithSignalHandlerType:PLCrashReporterSignalHandlerTypeBSD
-//                                                                       symbolicationStrategy:PLCrashReporterSymbolicationStrategyAll];
-//    PLCrashReporter *crashReporter = [[PLCrashReporter alloc] initWithConfiguration:config];
-//    NSData *data = [crashReporter generateLiveReportWithThread:[NSThread mainThread]];
-//    PLCrashReport *reporter = [[PLCrashReport alloc] initWithData:data error:NULL];
-//    NSString *report = [PLCrashReportTextFormatter stringValueForCrashReport:reporter
-//                                                              withTextFormat:PLCrashReportTextFormatiOS];
-//    NSLog(@"------------\n%@\n------------", report);
-}
-
-- (void)commitToServerWithReport:(NSString *)report{
-    if(!report) return;
-    NSString *anrTime = [DoraemonUtil dateFormatNow];
-    NSString *phoneName = [DoraemonAppInfoUtil iphoneType];
-    NSString *phoneSystem = [[UIDevice currentDevice] systemVersion];
-    NSUInteger totalMemory = [DoraemonMemoryUtil totalMemoryForDevice];
-    NSUInteger phoneMemory = totalMemory;//MB为单位
-    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
-    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
-    if (!appName) {
-        appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
-    }
-    
-    NSDictionary *upLoadData = @{
-                                 @"testTime":anrTime,
-                                 @"phoneName":phoneName,
-                                 @"phoneSystem":phoneSystem,
-                                 @"phoneMemory":@(phoneMemory),
-                                 @"appVersion":appVersion,
-                                 @"appName":appName,
-                                 @"report":report
-                                 };
-    if (self.block) {
-        self.block(upLoadData);
-    }
 }
 
 

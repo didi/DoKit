@@ -6,9 +6,10 @@
 //
 
 #import "DoraemonNetFlowSummaryMethodDataView.h"
-#import "UIView+DoraemonPositioning.h"
+#import "UIView+Doraemon.h"
 #import <PNChart/PNChart.h>
 #import "DoraemonNetFlowDataSource.h"
+#import "Doraemoni18NUtil.h"
 
 @interface DoraemonNetFlowSummaryMethodDataView()
 
@@ -29,7 +30,7 @@
         
         UILabel *tipLabel = [[UILabel alloc] init];
         tipLabel.textColor = [UIColor blackColor];
-        tipLabel.text = @"HTTP方法";
+        tipLabel.text = DoraemonLocalizedString(@"HTTP方法");
         tipLabel.font = [UIFont systemFontOfSize:14];
         [tipLabel sizeToFit];
         tipLabel.frame = CGRectMake(10, 10, tipLabel.doraemon_width, tipLabel.doraemon_height);

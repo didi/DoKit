@@ -19,6 +19,8 @@
 
 - (void)renderUIWithTitle:(NSString *)title;
 
+- (void)renderUIWithRightContent:(NSString *)rightContent;
+
 - (void)needTopLine;
 
 - (void)needDownLine;

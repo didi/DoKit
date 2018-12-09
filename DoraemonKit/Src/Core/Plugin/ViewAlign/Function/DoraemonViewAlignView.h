@@ -9,4 +9,8 @@
 
 @interface DoraemonViewAlignView : UIView
 
+- (void)show;
+
+- (void)hide;
+
 @end

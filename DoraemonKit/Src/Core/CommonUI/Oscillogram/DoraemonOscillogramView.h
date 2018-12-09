@@ -7,6 +7,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class DoraemonPerformanceInfoModel;
+
 @interface DoraemonPoint : NSObject
 
 @property (nonatomic, assign) CGFloat x;
@@ -14,7 +16,7 @@
 
 @end
 
-@interface DoraemonOscillogramView : UIView
+@interface DoraemonOscillogramView : UIScrollView
 
 @property (nonatomic, strong) UIColor *strokeColor;
 @property (nonatomic, assign) NSInteger numberOfPoints;
@@ -26,5 +28,7 @@
 - (void)setHightValue:(NSString *)value;
 
 - (void)clear;
+
+- (void)addRecortArray:(NSArray<DoraemonPerformanceInfoModel *> *)recordArray;
 
 @end

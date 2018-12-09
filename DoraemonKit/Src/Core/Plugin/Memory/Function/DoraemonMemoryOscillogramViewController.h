@@ -10,4 +10,6 @@
 
 @interface DoraemonMemoryOscillogramViewController : DoraemonOscillogramViewController
 
+- (void)addRecortArray:(NSArray *)recordArray;
+
 @end

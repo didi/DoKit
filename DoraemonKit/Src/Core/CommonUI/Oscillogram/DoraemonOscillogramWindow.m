@@ -7,7 +7,7 @@
 
 #import "DoraemonOscillogramWindow.h"
 #import "DoraemonOscillogramViewController.h"
-#import "UIColor+DoraemonKit.h"
+#import "UIColor+Doraemon.h"
 #import "DoraemonDefine.h"
 
 @interface DoraemonOscillogramWindow()
@@ -29,7 +29,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.windowLevel = UIWindowLevelStatusBar + 100.f;
-        self.backgroundColor = [UIColor doraemon_colorWithHex:0x000000 andAlpha:0.3];
+        self.backgroundColor = [UIColor doraemon_colorWithHex:0x000000 andAlpha:0.33];
         
         [self addRootVc];
     }
@@ -46,12 +46,15 @@
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
+    if (point.x>DoraemonScreenWidth-kDoraemonSizeFrom750(60) && point.y<kDoraemonSizeFrom750(60)) {
+        return [super pointInside:point withEvent:event];
+    }
     return NO;
 }
 
 - (void)show{
     self.hidden = NO;
-    self.frame = CGRectMake(0, 0, DoraemonScreenWidth, 240);
+    self.frame = CGRectMake(0, 0, DoraemonScreenWidth, kDoraemonSizeFrom750(480));
     [_vc startRecord];
 }
 

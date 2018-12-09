@@ -11,12 +11,20 @@
 #import "DoraemonStartPluginProtocol.h"
 #import "DoraemonDefine.h"
 #import "DoraemonHomeWindow.h"
-#import "DoraemonANRManager.h"
-#import "DoraemonAllTestManager.h"
+#import "Doraemoni18NUtil.h"
+#import "DoraemonCrashUncaughtExceptionHandler.h"
+#import "DoraemonCrashSignalExceptionHandler.h"
+#import "DoraemonNSLogManager.h"
+#import "DoraemonStateBar.h"
+#import "DoraemonNSLogViewController.h"
+#import "DoraemonNSLogListViewController.h"
 #import "DoraemonUtil.h"
+#import "DoraemonAllTestManager.h"
 
 #if DoraemonWithLogger
-#import "DoraemonLoggerConsoleWindow.h"
+#import "DoraemonCocoaLumberjackLogger.h"
+#import "DoraemonCocoaLumberjackViewController.h"
+#import "DoraemonCocoaLumberjackListViewController.h"
 #endif
 
 typedef void (^DoraemonH5DoorBlock)(NSString *);
@@ -61,44 +69,53 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self initData];
     [self initEntry];
     
-    //保存日志显示状态
-#if DoraemonWithLogger
-    if ([[DoraemonCacheManager sharedInstance] loggerSwitch]) {
-        [[DoraemonLoggerConsoleWindow shareInstance] show];
+    //根据开关判断是否收集Crash日志
+    if ([[DoraemonCacheManager sharedInstance] crashSwitch]) {
+        [DoraemonCrashUncaughtExceptionHandler registerHandler];
+        [DoraemonCrashSignalExceptionHandler registerHandler];
     }
-#endif
 
-    
     //重新启动的时候，把帧率、CPU、内存和流量监控关闭
     [[DoraemonCacheManager sharedInstance] saveFpsSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveCpuSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveMemorySwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:NO];
-    [[DoraemonCacheManager sharedInstance] saveNetFlowShowOscillogramSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveMockGPSSwitch:NO];
+    
+    //开启NSLog监控功能
+    if ([[DoraemonCacheManager sharedInstance] nsLogSwitch]) {
+        [[DoraemonNSLogManager sharedInstance] startNSLogMonitor];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1. * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [[DoraemonStateBar shareInstance] show];
+        });
+    }
+    
+#if DoraemonWithLogger
+    //开启CocoaLumberjack监控
+    if ([[DoraemonCacheManager sharedInstance] loggerSwitch]) {
+        [DoraemonCocoaLumberjackLogger sharedInstance];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1. * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [[DoraemonStateBar shareInstance] show];
+        });
+    }
+#endif
     
     //监听h5Plugin点击回调
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(h5DoorPluginClick:) name:DoraemonH5DoorPluginNotification object:nil];
-    
-    [[DoraemonANRManager sharedInstance] addAnrBlock:^(NSDictionary *upLoadData) {
-        if (self.anrBlock) {
-            self.anrBlock(upLoadData);
-        }
-        //默认实现 保存到沙盒中
-        NSString *testTime = upLoadData[@"testTime"];
-        NSString *data = [DoraemonUtil dictToJsonStr:upLoadData];
-        [DoraemonUtil saveAnrDataInFile:testTime data:data];
-    }];
     
     [[DoraemonAllTestManager shareInstance] addPerformanceBlock:^(NSDictionary *upLoadData) {
         if (self.performanceBlock) {
             self.performanceBlock(upLoadData);
         }
         //默认实现 保存到沙盒中
-        NSString *testTime = upLoadData[@"testTime"];
+        NSString *testTime = [DoraemonUtil dateFormatTimeInterval:[upLoadData[@"testTime"] floatValue]];
+        
         NSString *data = [DoraemonUtil dictToJsonStr:upLoadData];
         [DoraemonUtil savePerformanceDataInFile:testTime data:data];
     }];
+    
+    //监听DoraemonStateBar点击事件
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(quickOpenLogVC:) name:DoraemonQuickOpenLogVCNotification object:nil];
 }
 
 
@@ -107,26 +124,28 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
  */
 - (void)initData{
     
-    [self addPluginWithTitle:@"App信息" icon:@"doraemon_app" desc:@"App的一些基本信息" pluginName:@"DoraemonAppInfoPlugin" atModule:@"常用工具集"];
-    [self addPluginWithTitle:@"沙盒浏览" icon:@"file" desc:@"沙盒浏览" pluginName:@"DoraemonSandboxPlugin" atModule:@"常用工具集"];
-    [self addPluginWithTitle:@"MockGPS" icon:@"doraemon_gps" desc:@"mock GPS" pluginName:@"DoraemonGPSPlugin" atModule:@"常用工具集"];
-    [self addPluginWithTitle:@"H5任意门" icon:@"doraemon_h5" desc:@"H5通用跳转" pluginName:@"DoraemonH5Plugin" atModule:@"常用工具集"];
-    [self addPluginWithTitle:@"子线程UI" icon:@"doraemon_ui" desc:@"非主线程UI渲染检查" pluginName:@"DoraemonSubThreadUICheckPlugin" atModule:@"常用工具集"];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"App信息") icon:@"doraemon_app_info" desc:DoraemonLocalizedString(@"App的一些基本信息") pluginName:@"DoraemonAppInfoPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"沙盒浏览") icon:@"doraemon_file" desc:DoraemonLocalizedString(@"沙盒浏览") pluginName:@"DoraemonSandboxPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
+    [self addPluginWithTitle:@"MockGPS" icon:@"doraemon_mock_gps" desc:@"mock GPS" pluginName:@"DoraemonGPSPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"H5任意门") icon:@"doraemon_h5" desc:DoraemonLocalizedString(@"H5通用跳转") pluginName:@"DoraemonH5Plugin" atModule:DoraemonLocalizedString(@"常用工具集")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"Crash查看") icon:@"doraemon_crash" desc:DoraemonLocalizedString(@"Crash本地查看") pluginName:@"DoraemonCrashPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"子线程UI") icon:@"doraemon_ui" desc:DoraemonLocalizedString(@"非主线程UI渲染检查") pluginName:@"DoraemonSubThreadUICheckPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"清除本地数据") icon:@"doraemon_qingchu" desc:DoraemonLocalizedString(@"清除本地数据") pluginName:@"DoraemonDeleteLocalDataPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"NSLog") icon:@"doraemon_nslog" desc:DoraemonLocalizedString(@"NSLog") pluginName:@"DoraemonNSLogPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
 #if DoraemonWithLogger
-    [self addPluginWithTitle:@"日志显示" icon:@"logger" desc:@"日志显示" pluginName:@"DoraemonLoggerPlugin" atModule:@"常用工具集"];
+    [self addPluginWithTitle:@"Lumberjack" icon:@"doraemon_log" desc:DoraemonLocalizedString(@"日志显示") pluginName:@"DoraemonCocoaLumberjackPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
 #endif
     
-    [self addPluginWithTitle:@"帧率" icon:@"doraemon_fps" desc:@"帧率监控" pluginName:@"DoraemonFPSPlugin" atModule:@"性能监控"];
-    [self addPluginWithTitle:@"CPU" icon:@"doraemon_cpu" desc:@"CPU监控" pluginName:@"DoraemonCPUPlugin" atModule:@"性能监控"];
-    [self addPluginWithTitle:@"内存" icon:@"doraemon_memory" desc:@"内存监控" pluginName:@"DoraemonMemoryPlugin" atModule:@"性能监控"];
-    [self addPluginWithTitle:@"流量" icon:@"doraemon_flow" desc:@"流量监控" pluginName:@"DoraemonNetFlowPlugin" atModule:@"性能监控"];
-    [self addPluginWithTitle:@"自定义" icon:@"doraemon_alltest" desc:@"自定义你要选择测试的性能项" pluginName:@"DoraemonAllTestPlugin" atModule:@"性能监控"];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"帧率") icon:@"doraemon_fps" desc:DoraemonLocalizedString(@"帧率监控") pluginName:@"DoraemonFPSPlugin" atModule:DoraemonLocalizedString(@"性能监控")];
+    [self addPluginWithTitle:@"CPU" icon:@"doraemon_cpu" desc:DoraemonLocalizedString(@"CPU监控") pluginName:@"DoraemonCPUPlugin" atModule:DoraemonLocalizedString(@"性能监控")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"内存") icon:@"doraemon_memory" desc:DoraemonLocalizedString(@"内存监控") pluginName:@"DoraemonMemoryPlugin" atModule:DoraemonLocalizedString(@"性能监控")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"流量") icon:@"doraemon_net" desc:DoraemonLocalizedString(@"流量监控") pluginName:@"DoraemonNetFlowPlugin" atModule:DoraemonLocalizedString(@"性能监控")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"卡顿") icon:@"doraemon_kadun" desc:DoraemonLocalizedString(@"卡顿检测") pluginName:@"DoraemonANRPlugin" atModule:DoraemonLocalizedString(@"性能监控")];
+    [self addPluginWithTitle:@"自定义" icon:@"doraemon_default" desc:DoraemonLocalizedString(@"性能数据保存到本地") pluginName:@"DoraemonAllTestPlugin" atModule:DoraemonLocalizedString(@"性能监控")];
     
-    [self addPluginWithTitle:@"颜色吸管" icon:@"doraemon_straw" desc:@"颜色拾取器" pluginName:@"DoraemonColorPickPlugin" atModule:@"视觉工具"];
-    [self addPluginWithTitle:@"组件检查" icon:@"doraemon_finger" desc:@"View查看器" pluginName:@"DoraemonViewCheckPlugin" atModule:@"视觉工具"];
-    [self addPluginWithTitle:@"对齐标尺" icon:@"doraemon_align" desc:@"查看组件是否对齐" pluginName:@"DoraemonViewAlignPlugin" atModule:@"视觉工具"];
-    
-    [self addPluginWithTitle:@"关闭" icon:@"doraemon_close" desc:@"隐藏Doraemon" pluginName:@"DoraemonClosePlugin" atModule:@"其他"];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"颜色吸管") icon:@"doraemon_straw" desc:DoraemonLocalizedString(@"颜色拾取器") pluginName:@"DoraemonColorPickPlugin" atModule:DoraemonLocalizedString(@"视觉工具")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"组件检查") icon:@"doraemon_view_check" desc:DoraemonLocalizedString(@"View查看器") pluginName:@"DoraemonViewCheckPlugin" atModule:DoraemonLocalizedString(@"视觉工具")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"对齐标尺") icon:@"doraemon_align" desc:DoraemonLocalizedString(@"查看组件是否对齐") pluginName:@"DoraemonViewAlignPlugin" atModule:DoraemonLocalizedString(@"视觉工具")];
 }
 
 /**
@@ -201,6 +220,24 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     NSString *h5Url = userInfo[@"h5Url"];
     if (h5Url.length>0 && self.h5DoorBlock) {
         self.h5DoorBlock(h5Url);
+    }
+}
+
+- (void)quickOpenLogVC:(NSNotification *)noti{
+    NSDictionary *userInfo = noti.userInfo;
+    NSInteger from = [userInfo[@"from"] integerValue];
+    if (from == DoraemonStateBarFromNSLog) {//快速打开NSLog list页面
+        DoraemonNSLogViewController *vc = [[DoraemonNSLogViewController alloc] init];
+        [DoraemonUtil openPlugin:vc];
+        DoraemonNSLogListViewController *vcList = [[DoraemonNSLogListViewController alloc] init];
+        [vc.navigationController pushViewController:vcList animated:NO];
+    }else{//快速打开CocoaLumberjack list页面
+#if DoraemonWithLogger
+        DoraemonCocoaLumberjackViewController *vc = [[DoraemonCocoaLumberjackViewController alloc] init];
+        [DoraemonUtil openPlugin:vc];
+        DoraemonCocoaLumberjackListViewController *vcList = [[DoraemonCocoaLumberjackListViewController alloc] init];
+        [vc.navigationController pushViewController:vcList animated:NO];
+#endif
     }
 }
 

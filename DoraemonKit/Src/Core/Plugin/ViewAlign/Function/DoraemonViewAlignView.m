@@ -6,12 +6,10 @@
 //
 
 #import "DoraemonViewAlignView.h"
-#import "UIImage+DoraemonKit.h"
 #import "DoraemonDefine.h"
-#import "UIColor+DoraemonKit.h"
-#import "UIView+DoraemonPositioning.h"
+#import "DoraemonVisualInfoWindow.h"
 
-static CGFloat const kViewCheckSize = 40;
+static CGFloat const kViewCheckSize = 62;
 
 @interface DoraemonViewAlignView()
 
@@ -22,6 +20,9 @@ static CGFloat const kViewCheckSize = 40;
 @property (nonatomic, strong) UILabel *topLabel;
 @property (nonatomic, strong) UILabel *rightLabel;
 @property (nonatomic, strong) UILabel *bottomLabel;
+@property (nonatomic, strong) DoraemonVisualInfoWindow *infoWindow;
+@property (nonatomic, strong) UILabel *infoLbl;
+@property (nonatomic, strong) UIButton *closeBtn;
 
 @end
 
@@ -37,11 +38,7 @@ static CGFloat const kViewCheckSize = 40;
         
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(DoraemonScreenWidth/2-kViewCheckSize/2, DoraemonScreenHeight/2-kViewCheckSize/2, kViewCheckSize, kViewCheckSize)];
-        imageView.image = [UIImage doraemon_imageNamed:@"doraemon_finger"];
-        imageView.layer.cornerRadius = kViewCheckSize/2;
-        imageView.layer.masksToBounds = YES;
-        imageView.layer.borderColor = [UIColor orangeColor].CGColor;
-        imageView.layer.borderWidth = 1;
+        imageView.image = [UIImage doraemon_imageNamed:@"doraemon_visual"];
         [self addSubview:imageView];
         _imageView = imageView;
         
@@ -91,6 +88,21 @@ static CGFloat const kViewCheckSize = 40;
         [_bottomLabel sizeToFit];
         _bottomLabel.frame = CGRectMake(imageView.doraemon_centerX-_bottomLabel.doraemon_width, imageView.doraemon_centerY+(self.doraemon_height - imageView.doraemon_centerY)/2, _bottomLabel.doraemon_width, _bottomLabel.doraemon_height);
         
+        _infoWindow = [[DoraemonVisualInfoWindow alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(30), DoraemonScreenHeight - kDoraemonSizeFrom750(100) - kDoraemonSizeFrom750(30), DoraemonScreenWidth - 2*kDoraemonSizeFrom750(30), kDoraemonSizeFrom750(100))];
+        
+        CGFloat closeWidth = kDoraemonSizeFrom750(44);
+        CGFloat closeHeight = kDoraemonSizeFrom750(44);
+        _closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(_infoWindow.bounds.size.width - closeWidth - kDoraemonSizeFrom750(32), (_infoWindow.bounds.size.height - closeHeight) / 2.0, closeWidth, closeHeight)];
+        [_closeBtn setBackgroundImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
+        [_closeBtn addTarget:self action:@selector(closeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [_infoWindow addSubview:_closeBtn];
+        
+        _infoLbl = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32), 0, _infoWindow.bounds.size.width - 2*kDoraemonSizeFrom750(32) - _closeBtn.doraemon_width , _infoWindow.bounds.size.height)];
+        _infoLbl.backgroundColor =[UIColor clearColor];
+        _infoLbl.textColor = [UIColor doraemon_black_1];
+        _infoLbl.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(24)];
+        [self configInfoLblText];
+        [_infoWindow addSubview:_infoLbl];
     }
     return self;
 }
@@ -126,6 +138,8 @@ static CGFloat const kViewCheckSize = 40;
     _bottomLabel.text = [NSString stringWithFormat:@"%.1f",self.doraemon_height - _imageView.doraemon_centerY];
     [_bottomLabel sizeToFit];
     _bottomLabel.frame = CGRectMake(_imageView.doraemon_centerX-_bottomLabel.doraemon_width, _imageView.doraemon_centerY+(self.doraemon_height - _imageView.doraemon_centerY)/2, _bottomLabel.doraemon_width, _bottomLabel.doraemon_height);
+    
+    [self configInfoLblText];
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
@@ -135,5 +149,22 @@ static CGFloat const kViewCheckSize = 40;
     return NO;
 }
 
+- (void)configInfoLblText {
+    _infoLbl.text = [NSString stringWithFormat:@"位置：左%@  右%@  上%@  下%@", _leftLabel.text, _rightLabel.text, _topLabel.text, _bottomLabel.text];
+}
+
+- (void)closeBtnClicked:(id)sender {
+    _infoWindow.hidden = YES;
+}
+
+- (void)show {
+    _infoWindow.hidden = NO;
+    self.hidden = NO;
+}
+
+- (void)hide {
+    _infoWindow.hidden = YES;
+    self.hidden = YES;
+}
 
 @end

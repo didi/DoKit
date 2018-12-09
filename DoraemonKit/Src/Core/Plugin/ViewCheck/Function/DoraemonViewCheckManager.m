@@ -42,12 +42,12 @@
         UIWindow *delegateWindow = [[UIApplication sharedApplication].delegate window];
         [delegateWindow addSubview:_viewCheckView];
     }
-    _viewCheckView.hidden = NO;
+    [_viewCheckView show];
     [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonShowPluginNotification object:nil userInfo:nil];
 }
 
 - (void)hidden{
-    _viewCheckView.hidden = YES;
+    [_viewCheckView hide];
 }
 
 - (void)closePlugin:(NSNotification *)notification{

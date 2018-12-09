@@ -22,12 +22,6 @@ typedef NS_ENUM(NSUInteger, DoraemonANRTrackerStatus) {
 @interface DoraemonANRTracker : NSObject
 
 /**
- *  过滤4s以下机型（默认为YES）
- *  NOTE:如您需要在4S以下设备检测卡顿监控，请在start之前将该过滤属性设置为NO
- */
-@property (nonatomic, assign) BOOL filterBelowiPhone4s;
-
-/**
  *  开始监控
  *
  *  @param threshold 卡顿阈值

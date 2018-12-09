@@ -6,10 +6,11 @@
 //
 
 #import "DoraemonNetFlowListCell.h"
-#import "UIView+DoraemonPositioning.h"
+#import "UIView+Doraemon.h"
 #import "DoraemonDefine.h"
-#import "UIColor+DoraemonKit.h"
+#import "UIColor+Doraemon.h"
 #import "DoraemonUtil.h"
+#import "Doraemoni18NUtil.h"
 
 static CGFloat const kFontSize = 10;
 
@@ -116,7 +117,7 @@ static CGFloat const kFontSize = 10;
         height = self.startTimeLabel.doraemon_height;
     }
     if (time.length>0) {
-        self.timeLabel.text = [NSString stringWithFormat:@"耗时:%@s",time];
+        self.timeLabel.text = [NSString stringWithFormat:@"%@:%@s",DoraemonLocalizedString(@"耗时"),time];
         [self.timeLabel sizeToFit];
         self.timeLabel.frame = CGRectMake(startX, startY, self.timeLabel.doraemon_width, self.timeLabel.doraemon_height);
         height = self.startTimeLabel.doraemon_height;
@@ -162,7 +163,7 @@ static CGFloat const kFontSize = 10;
     NSString *status = httpModel.statusCode;
     if (method.length>0 || status.length>0) {
         tempLabel.numberOfLines = 1;
-        tempLabel.text = @"你好";
+        tempLabel.text = DoraemonLocalizedString(@"你好");
         [tempLabel sizeToFit];
         height += tempLabel.doraemon_height;
         height += 2;
@@ -172,7 +173,7 @@ static CGFloat const kFontSize = 10;
     NSString *time = httpModel.totalDuration;
     if (startTime.length>0 || time.length>0) {
         tempLabel.numberOfLines = 1;
-        tempLabel.text = @"你好";
+        tempLabel.text = DoraemonLocalizedString(@"你好");
         [tempLabel sizeToFit];
         height += tempLabel.doraemon_height;
         height += 2;
@@ -182,7 +183,7 @@ static CGFloat const kFontSize = 10;
     NSString *downFlow = httpModel.downFlow;
     if (uploadFlow.length>0 || downFlow.length>0) {
         tempLabel.numberOfLines = 1;
-        tempLabel.text = @"你好";
+        tempLabel.text = DoraemonLocalizedString(@"你好");
         [tempLabel sizeToFit];
         height += tempLabel.doraemon_height;
         height += 2;

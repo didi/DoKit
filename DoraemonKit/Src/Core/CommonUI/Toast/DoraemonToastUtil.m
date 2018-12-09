@@ -6,8 +6,8 @@
 //
 
 #import "DoraemonToastUtil.h"
-#import "UIColor+DoraemonKit.h"
-#import "UIView+DoraemonPositioning.h"
+#import "UIColor+Doraemon.h"
+#import "UIView+Doraemon.h"
 
 
 @implementation DoraemonToastUtil

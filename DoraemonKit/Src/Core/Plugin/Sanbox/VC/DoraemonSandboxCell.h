@@ -12,4 +12,6 @@
 
 - (void)renderUIWithData : (DoraemonSandboxModel *)model;
 
++ (CGFloat)cellHeight;
+
 @end

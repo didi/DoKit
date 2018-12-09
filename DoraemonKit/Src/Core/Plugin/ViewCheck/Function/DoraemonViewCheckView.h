@@ -9,4 +9,8 @@
 
 @interface DoraemonViewCheckView : UIView
 
+- (void)hide;
+
+- (void)show;
+
 @end

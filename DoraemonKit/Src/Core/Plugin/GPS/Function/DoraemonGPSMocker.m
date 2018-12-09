@@ -6,7 +6,7 @@
 //
 
 #import "DoraemonGPSMocker.h"
-#import "NSObject+DoraemonKit.h"
+#import "NSObject+Doraemon.h"
 #import "CLLocationManager+Doraemon.h"
 
 @interface DoraemonGPSMocker()<CLLocationManagerDelegate>

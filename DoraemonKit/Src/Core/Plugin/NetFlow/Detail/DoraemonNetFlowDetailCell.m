@@ -7,7 +7,7 @@
 
 #import "DoraemonNetFlowDetailCell.h"
 #import "DoraemonDefine.h"
-#import "UIColor+DoraemonKit.h"
+#import "UIColor+Doraemon.h"
 
 @interface DoraemonNetFlowDetailCell()
 
@@ -45,8 +45,8 @@
 
 - (void)renderUIWithContent:(NSString *)content isFirst:(BOOL)isFirst isLast:(BOOL)isLast{
     _contentLabel.text = content;
-    CGSize fontSize = [_contentLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-40, MAXFLOAT)];
-    _contentLabel.frame = CGRectMake(20, 10, fontSize.width, fontSize.height);
+    CGSize fontSize = [_contentLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-kDoraemonSizeFrom750(32)*2, MAXFLOAT)];
+    _contentLabel.frame = CGRectMake(kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(28), fontSize.width, fontSize.height);
     
     CGFloat cellHeight = [[self class] cellHeightWithContent:content];
     if(isFirst && isLast){
@@ -72,11 +72,11 @@
 
 + (CGFloat)cellHeightWithContent:(NSString *)content{
     UILabel *tempLabel = [[UILabel alloc] init];
-    tempLabel.font = [UIFont systemFontOfSize:16];
+    tempLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
     tempLabel.numberOfLines = 0;
     tempLabel.text = content;
-    CGSize fontSize = [tempLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-40, MAXFLOAT)];
-    return fontSize.height+20;
+    CGSize fontSize = [tempLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-2*kDoraemonSizeFrom750(32), MAXFLOAT)];
+    return fontSize.height+kDoraemonSizeFrom750(28)*2;
 }
 
 @end

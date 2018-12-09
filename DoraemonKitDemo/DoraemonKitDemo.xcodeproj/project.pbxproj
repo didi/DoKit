@@ -9,23 +9,22 @@
 /* Begin PBXBuildFile section */
 		DA0C6F331FDEBC2E00F43588 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA0C6F311FDEBC2E00F43588 /* LaunchScreen.storyboard */; };
 		DA0C6F3A1FDEBE3800F43588 /* TestPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C6F391FDEBE3800F43588 /* TestPlugin.m */; };
-		DA5B737420EDF7E100084856 /* A.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5B737320EDF7E100084856 /* A.m */; };
-		DA5B737D20EDF92500084856 /* A+B.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5B737C20EDF92500084856 /* A+B.m */; };
-		DA5B738020EDF97000084856 /* A+C.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5B737F20EDF97000084856 /* A+C.m */; };
-		DA838D8F20AA83220032CB3A /* DoraemonDemoHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA838D8E20AA83220032CB3A /* DoraemonDemoHomeViewController.m */; };
-		DA838D9220AA86030032CB3A /* DoraemonDemoLoggerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA838D9120AA86030032CB3A /* DoraemonDemoLoggerViewController.m */; };
-		DA838D9520AA863C0032CB3A /* DoraemonDemoPerformanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA838D9420AA863C0032CB3A /* DoraemonDemoPerformanceViewController.m */; };
-		DA838D9820AA866E0032CB3A /* DoraemonDemoSanboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA838D9720AA866E0032CB3A /* DoraemonDemoSanboxViewController.m */; };
-		DA838D9B20AA86AA0032CB3A /* DoraemonDemoUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA838D9A20AA86AA0032CB3A /* DoraemonDemoUIViewController.m */; };
-		DAC585BB20AEA8CA008423C6 /* DoraemonDemoNetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC585BA20AEA8C9008423C6 /* DoraemonDemoNetViewController.m */; };
 		DAC8A87C1FDE2C3B00F03E6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC8A87B1FDE2C3B00F03E6F /* AppDelegate.m */; };
-		DAC8A87F1FDE2C3B00F03E6F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC8A87E1FDE2C3B00F03E6F /* ViewController.m */; };
 		DAC8A8841FDE2C3B00F03E6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAC8A8831FDE2C3B00F03E6F /* Assets.xcassets */; };
 		DAC8A88A1FDE2C3B00F03E6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC8A8891FDE2C3B00F03E6F /* main.m */; };
-		DACE531A20ECB3190079AA5A /* DoraemonDemoMockGPSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DACE531920ECB3190079AA5A /* DoraemonDemoMockGPSViewController.m */; };
-		DACE531D20ECB6F40079AA5A /* DoraemonDemoMockGPSAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = DACE531C20ECB6F40079AA5A /* DoraemonDemoMockGPSAnnotation.m */; };
 		DAD46BDA1FE6B7AF00E3E7BC /* StartPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD46BD91FE6B7AF00E3E7BC /* StartPlugin.m */; };
 		DAE7BFAD20205C20008D49D8 /* NSObject+Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = DAE7BFAC20205C20008D49D8 /* NSObject+Runtime.m */; };
+		DAFE052521BD4A4D00F97A59 /* DoraemonDemoUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFE050721BD4A4C00F97A59 /* DoraemonDemoUIViewController.m */; };
+		DAFE052621BD4A4D00F97A59 /* DoraemonDemoHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFE050A21BD4A4C00F97A59 /* DoraemonDemoHomeViewController.m */; };
+		DAFE052721BD4A4D00F97A59 /* DoraemonDemoNetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFE050E21BD4A4C00F97A59 /* DoraemonDemoNetViewController.m */; };
+		DAFE052821BD4A4D00F97A59 /* DoraemonDemoLoggerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFE051121BD4A4C00F97A59 /* DoraemonDemoLoggerViewController.m */; };
+		DAFE052921BD4A4D00F97A59 /* DoraemonDemoCrashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFE051521BD4A4C00F97A59 /* DoraemonDemoCrashViewController.m */; };
+		DAFE052A21BD4A4D00F97A59 /* DoraemonDemoCrashMRCView.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFE051621BD4A4C00F97A59 /* DoraemonDemoCrashMRCView.m */; };
+		DAFE052B21BD4A4D00F97A59 /* DoraemonDemoSanboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFE051921BD4A4C00F97A59 /* DoraemonDemoSanboxViewController.m */; };
+		DAFE052C21BD4A4D00F97A59 /* DoraemonDemoCommonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFE051C21BD4A4C00F97A59 /* DoraemonDemoCommonViewController.m */; };
+		DAFE052D21BD4A4D00F97A59 /* DoraemonDemoMockGPSAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFE051E21BD4A4C00F97A59 /* DoraemonDemoMockGPSAnnotation.m */; };
+		DAFE052E21BD4A4D00F97A59 /* DoraemonDemoMockGPSViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFE052121BD4A4C00F97A59 /* DoraemonDemoMockGPSViewController.m */; };
+		DAFE052F21BD4A4D00F97A59 /* DoraemonDemoPerformanceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAFE052321BD4A4C00F97A59 /* DoraemonDemoPerformanceViewController.m */; };
 		EF63DA315CE9C3FF91A5B115 /* libPods-DoraemonKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8416D6FFC369740B6116CA2B /* libPods-DoraemonKitDemo.a */; };
 /* End PBXBuildFile section */
 
@@ -34,41 +33,39 @@
 		DA0C6F321FDEBC2E00F43588 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA0C6F381FDEBE3800F43588 /* TestPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestPlugin.h; sourceTree = "<group>"; };
 		DA0C6F391FDEBE3800F43588 /* TestPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestPlugin.m; sourceTree = "<group>"; };
-		DA5B737220EDF7E100084856 /* A.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = A.h; sourceTree = "<group>"; };
-		DA5B737320EDF7E100084856 /* A.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = A.m; sourceTree = "<group>"; };
-		DA5B737B20EDF92500084856 /* A+B.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "A+B.h"; sourceTree = "<group>"; };
-		DA5B737C20EDF92500084856 /* A+B.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "A+B.m"; sourceTree = "<group>"; };
-		DA5B737E20EDF97000084856 /* A+C.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "A+C.h"; sourceTree = "<group>"; };
-		DA5B737F20EDF97000084856 /* A+C.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "A+C.m"; sourceTree = "<group>"; };
-		DA838D8D20AA83220032CB3A /* DoraemonDemoHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoHomeViewController.h; sourceTree = "<group>"; };
-		DA838D8E20AA83220032CB3A /* DoraemonDemoHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoHomeViewController.m; sourceTree = "<group>"; };
-		DA838D9020AA86030032CB3A /* DoraemonDemoLoggerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoLoggerViewController.h; sourceTree = "<group>"; };
-		DA838D9120AA86030032CB3A /* DoraemonDemoLoggerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoLoggerViewController.m; sourceTree = "<group>"; };
-		DA838D9320AA863C0032CB3A /* DoraemonDemoPerformanceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoPerformanceViewController.h; sourceTree = "<group>"; };
-		DA838D9420AA863C0032CB3A /* DoraemonDemoPerformanceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoPerformanceViewController.m; sourceTree = "<group>"; };
-		DA838D9620AA866E0032CB3A /* DoraemonDemoSanboxViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoSanboxViewController.h; sourceTree = "<group>"; };
-		DA838D9720AA866E0032CB3A /* DoraemonDemoSanboxViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoSanboxViewController.m; sourceTree = "<group>"; };
-		DA838D9920AA86AA0032CB3A /* DoraemonDemoUIViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoUIViewController.h; sourceTree = "<group>"; };
-		DA838D9A20AA86AA0032CB3A /* DoraemonDemoUIViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoUIViewController.m; sourceTree = "<group>"; };
 		DAC0D76F1FE103A50048E322 /* DoraemonKitDemo-PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DoraemonKitDemo-PrefixHeader.pch"; sourceTree = "<group>"; };
-		DAC585B920AEA8C9008423C6 /* DoraemonDemoNetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoNetViewController.h; sourceTree = "<group>"; };
-		DAC585BA20AEA8C9008423C6 /* DoraemonDemoNetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoNetViewController.m; sourceTree = "<group>"; };
 		DAC8A8771FDE2C3B00F03E6F /* DoraemonKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoraemonKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAC8A87A1FDE2C3B00F03E6F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DAC8A87B1FDE2C3B00F03E6F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		DAC8A87D1FDE2C3B00F03E6F /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		DAC8A87E1FDE2C3B00F03E6F /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		DAC8A8831FDE2C3B00F03E6F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DAC8A8881FDE2C3B00F03E6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAC8A8891FDE2C3B00F03E6F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		DACE531820ECB3190079AA5A /* DoraemonDemoMockGPSViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMockGPSViewController.h; sourceTree = "<group>"; };
-		DACE531920ECB3190079AA5A /* DoraemonDemoMockGPSViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMockGPSViewController.m; sourceTree = "<group>"; };
-		DACE531B20ECB6F40079AA5A /* DoraemonDemoMockGPSAnnotation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMockGPSAnnotation.h; sourceTree = "<group>"; };
-		DACE531C20ECB6F40079AA5A /* DoraemonDemoMockGPSAnnotation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMockGPSAnnotation.m; sourceTree = "<group>"; };
 		DAD46BD81FE6B7AF00E3E7BC /* StartPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StartPlugin.h; sourceTree = "<group>"; };
 		DAD46BD91FE6B7AF00E3E7BC /* StartPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StartPlugin.m; sourceTree = "<group>"; };
 		DAE7BFAB20205C20008D49D8 /* NSObject+Runtime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+Runtime.h"; sourceTree = "<group>"; };
 		DAE7BFAC20205C20008D49D8 /* NSObject+Runtime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Runtime.m"; sourceTree = "<group>"; };
+		DAFE050721BD4A4C00F97A59 /* DoraemonDemoUIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoUIViewController.m; sourceTree = "<group>"; };
+		DAFE050821BD4A4C00F97A59 /* DoraemonDemoUIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoUIViewController.h; sourceTree = "<group>"; };
+		DAFE050A21BD4A4C00F97A59 /* DoraemonDemoHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoHomeViewController.m; sourceTree = "<group>"; };
+		DAFE050B21BD4A4C00F97A59 /* DoraemonDemoHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoHomeViewController.h; sourceTree = "<group>"; };
+		DAFE050D21BD4A4C00F97A59 /* DoraemonDemoNetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoNetViewController.h; sourceTree = "<group>"; };
+		DAFE050E21BD4A4C00F97A59 /* DoraemonDemoNetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoNetViewController.m; sourceTree = "<group>"; };
+		DAFE051021BD4A4C00F97A59 /* DoraemonDemoLoggerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoLoggerViewController.h; sourceTree = "<group>"; };
+		DAFE051121BD4A4C00F97A59 /* DoraemonDemoLoggerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoLoggerViewController.m; sourceTree = "<group>"; };
+		DAFE051321BD4A4C00F97A59 /* DoraemonDemoCrashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoCrashViewController.h; sourceTree = "<group>"; };
+		DAFE051421BD4A4C00F97A59 /* DoraemonDemoCrashMRCView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoCrashMRCView.h; sourceTree = "<group>"; };
+		DAFE051521BD4A4C00F97A59 /* DoraemonDemoCrashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoCrashViewController.m; sourceTree = "<group>"; };
+		DAFE051621BD4A4C00F97A59 /* DoraemonDemoCrashMRCView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoCrashMRCView.m; sourceTree = "<group>"; };
+		DAFE051821BD4A4C00F97A59 /* DoraemonDemoSanboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoSanboxViewController.h; sourceTree = "<group>"; };
+		DAFE051921BD4A4C00F97A59 /* DoraemonDemoSanboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoSanboxViewController.m; sourceTree = "<group>"; };
+		DAFE051B21BD4A4C00F97A59 /* DoraemonDemoCommonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoCommonViewController.h; sourceTree = "<group>"; };
+		DAFE051C21BD4A4C00F97A59 /* DoraemonDemoCommonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoCommonViewController.m; sourceTree = "<group>"; };
+		DAFE051E21BD4A4C00F97A59 /* DoraemonDemoMockGPSAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMockGPSAnnotation.m; sourceTree = "<group>"; };
+		DAFE051F21BD4A4C00F97A59 /* DoraemonDemoMockGPSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMockGPSViewController.h; sourceTree = "<group>"; };
+		DAFE052021BD4A4C00F97A59 /* DoraemonDemoMockGPSAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMockGPSAnnotation.h; sourceTree = "<group>"; };
+		DAFE052121BD4A4C00F97A59 /* DoraemonDemoMockGPSViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMockGPSViewController.m; sourceTree = "<group>"; };
+		DAFE052321BD4A4C00F97A59 /* DoraemonDemoPerformanceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoPerformanceViewController.m; sourceTree = "<group>"; };
+		DAFE052421BD4A4C00F97A59 /* DoraemonDemoPerformanceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoPerformanceViewController.h; sourceTree = "<group>"; };
 		DB18BA61EBA817FD46B5C41B /* Pods-DoraemonKitDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoraemonKitDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		DBA563858BAABEC9BC885911 /* Pods-DoraemonKitDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoraemonKitDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,80 +110,6 @@
 			path = Plugin;
 			sourceTree = "<group>";
 		};
-		DA838D8720AA80670032CB3A /* DemoVC */ = {
-			isa = PBXGroup;
-			children = (
-				DACE531720ECB2EA0079AA5A /* MockGPS */,
-				DAC585B820AEA897008423C6 /* Net */,
-				DA838D8B20AA82900032CB3A /* Home */,
-				DA838D8C20AA82900032CB3A /* Logger */,
-				DA838D8820AA82900032CB3A /* Performance */,
-				DA838D8A20AA82900032CB3A /* Sanbox */,
-				DA838D8920AA82900032CB3A /* UI */,
-			);
-			path = DemoVC;
-			sourceTree = "<group>";
-		};
-		DA838D8820AA82900032CB3A /* Performance */ = {
-			isa = PBXGroup;
-			children = (
-				DA838D9320AA863C0032CB3A /* DoraemonDemoPerformanceViewController.h */,
-				DA838D9420AA863C0032CB3A /* DoraemonDemoPerformanceViewController.m */,
-			);
-			path = Performance;
-			sourceTree = "<group>";
-		};
-		DA838D8920AA82900032CB3A /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				DA838D9920AA86AA0032CB3A /* DoraemonDemoUIViewController.h */,
-				DA838D9A20AA86AA0032CB3A /* DoraemonDemoUIViewController.m */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
-		DA838D8A20AA82900032CB3A /* Sanbox */ = {
-			isa = PBXGroup;
-			children = (
-				DA838D9620AA866E0032CB3A /* DoraemonDemoSanboxViewController.h */,
-				DA838D9720AA866E0032CB3A /* DoraemonDemoSanboxViewController.m */,
-			);
-			path = Sanbox;
-			sourceTree = "<group>";
-		};
-		DA838D8B20AA82900032CB3A /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				DA838D8D20AA83220032CB3A /* DoraemonDemoHomeViewController.h */,
-				DA838D8E20AA83220032CB3A /* DoraemonDemoHomeViewController.m */,
-				DA5B737220EDF7E100084856 /* A.h */,
-				DA5B737320EDF7E100084856 /* A.m */,
-				DA5B737B20EDF92500084856 /* A+B.h */,
-				DA5B737C20EDF92500084856 /* A+B.m */,
-				DA5B737E20EDF97000084856 /* A+C.h */,
-				DA5B737F20EDF97000084856 /* A+C.m */,
-			);
-			path = Home;
-			sourceTree = "<group>";
-		};
-		DA838D8C20AA82900032CB3A /* Logger */ = {
-			isa = PBXGroup;
-			children = (
-				DA838D9020AA86030032CB3A /* DoraemonDemoLoggerViewController.h */,
-				DA838D9120AA86030032CB3A /* DoraemonDemoLoggerViewController.m */,
-			);
-			path = Logger;
-			sourceTree = "<group>";
-		};
-		DAC585B820AEA897008423C6 /* Net */ = {
-			isa = PBXGroup;
-			children = (
-				DAC585B920AEA8C9008423C6 /* DoraemonDemoNetViewController.h */,
-				DAC585BA20AEA8C9008423C6 /* DoraemonDemoNetViewController.m */,
-			);
-			path = Net;
-			sourceTree = "<group>";
-		};
 		DAC8A86E1FDE2C3B00F03E6F = {
 			isa = PBXGroup;
 			children = (
@@ -208,31 +131,18 @@
 		DAC8A8791FDE2C3B00F03E6F /* DoraemonKitDemo */ = {
 			isa = PBXGroup;
 			children = (
-				DA838D8720AA80670032CB3A /* DemoVC */,
+				DAFE050521BD4A4C00F97A59 /* DemoVC */,
 				DAE7BFAA20205BCF008D49D8 /* Util */,
 				DA0C6F371FDEBE2500F43588 /* Plugin */,
 				DA0C6F311FDEBC2E00F43588 /* LaunchScreen.storyboard */,
 				DAC8A87A1FDE2C3B00F03E6F /* AppDelegate.h */,
 				DAC8A87B1FDE2C3B00F03E6F /* AppDelegate.m */,
-				DAC8A87D1FDE2C3B00F03E6F /* ViewController.h */,
-				DAC8A87E1FDE2C3B00F03E6F /* ViewController.m */,
 				DAC8A8831FDE2C3B00F03E6F /* Assets.xcassets */,
 				DAC8A8881FDE2C3B00F03E6F /* Info.plist */,
 				DAC8A8891FDE2C3B00F03E6F /* main.m */,
 				DAC0D76F1FE103A50048E322 /* DoraemonKitDemo-PrefixHeader.pch */,
 			);
 			path = DoraemonKitDemo;
-			sourceTree = "<group>";
-		};
-		DACE531720ECB2EA0079AA5A /* MockGPS */ = {
-			isa = PBXGroup;
-			children = (
-				DACE531820ECB3190079AA5A /* DoraemonDemoMockGPSViewController.h */,
-				DACE531920ECB3190079AA5A /* DoraemonDemoMockGPSViewController.m */,
-				DACE531B20ECB6F40079AA5A /* DoraemonDemoMockGPSAnnotation.h */,
-				DACE531C20ECB6F40079AA5A /* DoraemonDemoMockGPSAnnotation.m */,
-			);
-			path = MockGPS;
 			sourceTree = "<group>";
 		};
 		DAE7BFAA20205BCF008D49D8 /* Util */ = {
@@ -242,6 +152,107 @@
 				DAE7BFAC20205C20008D49D8 /* NSObject+Runtime.m */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		DAFE050521BD4A4C00F97A59 /* DemoVC */ = {
+			isa = PBXGroup;
+			children = (
+				DAFE050621BD4A4C00F97A59 /* UI */,
+				DAFE050921BD4A4C00F97A59 /* Home */,
+				DAFE050C21BD4A4C00F97A59 /* Net */,
+				DAFE050F21BD4A4C00F97A59 /* Logger */,
+				DAFE051221BD4A4C00F97A59 /* Crash */,
+				DAFE051721BD4A4C00F97A59 /* Sanbox */,
+				DAFE051A21BD4A4C00F97A59 /* Common */,
+				DAFE051D21BD4A4C00F97A59 /* MockGPS */,
+				DAFE052221BD4A4C00F97A59 /* Performance */,
+			);
+			path = DemoVC;
+			sourceTree = "<group>";
+		};
+		DAFE050621BD4A4C00F97A59 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				DAFE050721BD4A4C00F97A59 /* DoraemonDemoUIViewController.m */,
+				DAFE050821BD4A4C00F97A59 /* DoraemonDemoUIViewController.h */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		DAFE050921BD4A4C00F97A59 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				DAFE050A21BD4A4C00F97A59 /* DoraemonDemoHomeViewController.m */,
+				DAFE050B21BD4A4C00F97A59 /* DoraemonDemoHomeViewController.h */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		DAFE050C21BD4A4C00F97A59 /* Net */ = {
+			isa = PBXGroup;
+			children = (
+				DAFE050D21BD4A4C00F97A59 /* DoraemonDemoNetViewController.h */,
+				DAFE050E21BD4A4C00F97A59 /* DoraemonDemoNetViewController.m */,
+			);
+			path = Net;
+			sourceTree = "<group>";
+		};
+		DAFE050F21BD4A4C00F97A59 /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				DAFE051021BD4A4C00F97A59 /* DoraemonDemoLoggerViewController.h */,
+				DAFE051121BD4A4C00F97A59 /* DoraemonDemoLoggerViewController.m */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
+		DAFE051221BD4A4C00F97A59 /* Crash */ = {
+			isa = PBXGroup;
+			children = (
+				DAFE051321BD4A4C00F97A59 /* DoraemonDemoCrashViewController.h */,
+				DAFE051421BD4A4C00F97A59 /* DoraemonDemoCrashMRCView.h */,
+				DAFE051521BD4A4C00F97A59 /* DoraemonDemoCrashViewController.m */,
+				DAFE051621BD4A4C00F97A59 /* DoraemonDemoCrashMRCView.m */,
+			);
+			path = Crash;
+			sourceTree = "<group>";
+		};
+		DAFE051721BD4A4C00F97A59 /* Sanbox */ = {
+			isa = PBXGroup;
+			children = (
+				DAFE051821BD4A4C00F97A59 /* DoraemonDemoSanboxViewController.h */,
+				DAFE051921BD4A4C00F97A59 /* DoraemonDemoSanboxViewController.m */,
+			);
+			path = Sanbox;
+			sourceTree = "<group>";
+		};
+		DAFE051A21BD4A4C00F97A59 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				DAFE051B21BD4A4C00F97A59 /* DoraemonDemoCommonViewController.h */,
+				DAFE051C21BD4A4C00F97A59 /* DoraemonDemoCommonViewController.m */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		DAFE051D21BD4A4C00F97A59 /* MockGPS */ = {
+			isa = PBXGroup;
+			children = (
+				DAFE051E21BD4A4C00F97A59 /* DoraemonDemoMockGPSAnnotation.m */,
+				DAFE051F21BD4A4C00F97A59 /* DoraemonDemoMockGPSViewController.h */,
+				DAFE052021BD4A4C00F97A59 /* DoraemonDemoMockGPSAnnotation.h */,
+				DAFE052121BD4A4C00F97A59 /* DoraemonDemoMockGPSViewController.m */,
+			);
+			path = MockGPS;
+			sourceTree = "<group>";
+		};
+		DAFE052221BD4A4C00F97A59 /* Performance */ = {
+			isa = PBXGroup;
+			children = (
+				DAFE052321BD4A4C00F97A59 /* DoraemonDemoPerformanceViewController.m */,
+				DAFE052421BD4A4C00F97A59 /* DoraemonDemoPerformanceViewController.h */,
+			);
+			path = Performance;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -355,22 +366,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA5B737420EDF7E100084856 /* A.m in Sources */,
-				DA838D9B20AA86AA0032CB3A /* DoraemonDemoUIViewController.m in Sources */,
-				DAC8A87F1FDE2C3B00F03E6F /* ViewController.m in Sources */,
-				DA5B738020EDF97000084856 /* A+C.m in Sources */,
-				DA838D8F20AA83220032CB3A /* DoraemonDemoHomeViewController.m in Sources */,
 				DAC8A88A1FDE2C3B00F03E6F /* main.m in Sources */,
+				DAFE052B21BD4A4D00F97A59 /* DoraemonDemoSanboxViewController.m in Sources */,
+				DAFE052621BD4A4D00F97A59 /* DoraemonDemoHomeViewController.m in Sources */,
+				DAFE052721BD4A4D00F97A59 /* DoraemonDemoNetViewController.m in Sources */,
 				DAE7BFAD20205C20008D49D8 /* NSObject+Runtime.m in Sources */,
-				DACE531D20ECB6F40079AA5A /* DoraemonDemoMockGPSAnnotation.m in Sources */,
-				DACE531A20ECB3190079AA5A /* DoraemonDemoMockGPSViewController.m in Sources */,
+				DAFE052D21BD4A4D00F97A59 /* DoraemonDemoMockGPSAnnotation.m in Sources */,
+				DAFE052921BD4A4D00F97A59 /* DoraemonDemoCrashViewController.m in Sources */,
 				DA0C6F3A1FDEBE3800F43588 /* TestPlugin.m in Sources */,
-				DAC585BB20AEA8CA008423C6 /* DoraemonDemoNetViewController.m in Sources */,
-				DA838D9820AA866E0032CB3A /* DoraemonDemoSanboxViewController.m in Sources */,
+				DAFE052C21BD4A4D00F97A59 /* DoraemonDemoCommonViewController.m in Sources */,
+				DAFE052A21BD4A4D00F97A59 /* DoraemonDemoCrashMRCView.m in Sources */,
 				DAC8A87C1FDE2C3B00F03E6F /* AppDelegate.m in Sources */,
-				DA838D9220AA86030032CB3A /* DoraemonDemoLoggerViewController.m in Sources */,
-				DA838D9520AA863C0032CB3A /* DoraemonDemoPerformanceViewController.m in Sources */,
-				DA5B737D20EDF92500084856 /* A+B.m in Sources */,
+				DAFE052821BD4A4D00F97A59 /* DoraemonDemoLoggerViewController.m in Sources */,
+				DAFE052E21BD4A4D00F97A59 /* DoraemonDemoMockGPSViewController.m in Sources */,
+				DAFE052F21BD4A4D00F97A59 /* DoraemonDemoPerformanceViewController.m in Sources */,
+				DAFE052521BD4A4D00F97A59 /* DoraemonDemoUIViewController.m in Sources */,
 				DAD46BDA1FE6B7AF00E3E7BC /* StartPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

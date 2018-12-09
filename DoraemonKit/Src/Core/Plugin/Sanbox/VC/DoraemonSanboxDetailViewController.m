@@ -7,7 +7,8 @@
 
 #import "DoraemonSanboxDetailViewController.h"
 #import "DoraemonToastUtil.h"
-#import "UIView+DoraemonPositioning.h"
+#import "UIView+Doraemon.h"
+#import "Doraemoni18NUtil.h"
 
 @interface DoraemonSanboxDetailViewController ()
 
@@ -20,7 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"文件预览";
+    self.title = DoraemonLocalizedString(@"文件预览");
     
     if (self.filePath.length>0){
         NSString *path = self.filePath;
@@ -45,7 +46,7 @@
             [self setContent:str];
         }
     }else{
-        [DoraemonToastUtil showToast:@"文件不存在"];
+        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"文件不存在")];
     }
 }
 

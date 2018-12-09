@@ -6,10 +6,11 @@
 //
 
 #import "DoraemonSubThreadUICheckListViewController.h"
-#import "UIView+DoraemonPositioning.h"
+#import "UIView+Doraemon.h"
 #import "DoraemonSubThreadUICheckListCell.h"
 #import "DoraemonSubThreadUICheckManager.h"
 #import "DoraemonSubThreadUICheckDetailViewController.h"
+#import "Doraemoni18NUtil.h"
 
 @interface DoraemonSubThreadUICheckListViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -22,7 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"检测列表";
+    self.title = DoraemonLocalizedString(@"检测列表");
     
     self.checkArray = [DoraemonSubThreadUICheckManager sharedInstance].checkArray;
     

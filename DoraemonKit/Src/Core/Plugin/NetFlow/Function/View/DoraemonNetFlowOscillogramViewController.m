@@ -7,8 +7,10 @@
 
 #import "DoraemonNetFlowOscillogramViewController.h"
 #import "DoraemonOscillogramView.h"
-#import "UIView+DoraemonPositioning.h"
 #import "DoraemonNetFlowDataSource.h"
+#import "DoraemonDefine.h"
+#import "DoraemonCacheManager.h"
+#import "DoraemonNetFlowOscillogramWindow.h"
 
 @interface DoraemonNetFlowOscillogramViewController ()
 
@@ -25,21 +27,34 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
     [self setEdgesForExtendedLayout:UIRectEdgeNone];
-    
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, 20)];
-    titleLabel.backgroundColor = [UIColor lightGrayColor];
-    titleLabel.text = @"  流量检测";
-    titleLabel.font = [UIFont systemFontOfSize:12];
+
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.text = DoraemonLocalizedString(@"流量检测");
+    titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(20)];
     titleLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:titleLabel];
+    [titleLabel sizeToFit];
+    titleLabel.frame = CGRectMake(kDoraemonSizeFrom750(20), kDoraemonSizeFrom750(10), titleLabel.doraemon_width, titleLabel.doraemon_height);
     
-    _oscillogramView = [[DoraemonOscillogramView alloc] initWithFrame:CGRectMake(0, titleLabel.doraemon_bottom+10, self.view.doraemon_width, 200)];
+    UIButton *closeBtn = [[UIButton alloc] init];
+    [closeBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
+    closeBtn.frame = CGRectMake(self.view.doraemon_width-kDoraemonSizeFrom750(60), 0, kDoraemonSizeFrom750(60), kDoraemonSizeFrom750(60));
+    [closeBtn addTarget:self action:@selector(closeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:closeBtn];
+    
+    _oscillogramView = [[DoraemonOscillogramView alloc] initWithFrame:CGRectMake(0, titleLabel.doraemon_bottom+kDoraemonSizeFrom750(24), self.view.doraemon_width, kDoraemonSizeFrom750(400))];
     _oscillogramView.backgroundColor = [UIColor clearColor];
     [_oscillogramView setLowValue:@"0"];
-    [_oscillogramView setHightValue:[NSString stringWithFormat:@"%zi",10000]];
+    [_oscillogramView setHightValue:[NSString stringWithFormat:@"%zi",[self highestNetFlow]]];
     [self.view addSubview:_oscillogramView];
-    
 }
+
+- (void)closeBtnClick{
+    [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:NO];
+    [[DoraemonNetFlowOscillogramWindow shareInstance] hide];
+}
+
 
 - (void)startRecord{
     if(!_secondTimer){
@@ -59,7 +74,7 @@
 //每一秒钟采样一次流量情况
 - (void)doSecondFunction{
     NSUInteger useNetFlowForApp = 0.;
-    NSUInteger totalNetFlowForDevice = 10000;
+    NSUInteger totalNetFlowForDevice = [self highestNetFlow];
     
     NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
     NSTimeInterval start = now - 1;
@@ -80,8 +95,12 @@
     
     useNetFlowForApp = totalNetFlow;
     
-    // 0~10000Byte   对应 高度0~200
-    [_oscillogramView addHeightValue:useNetFlowForApp*200./totalNetFlowForDevice andTipValue:[NSString stringWithFormat:@"%ziB",useNetFlowForApp]];
+    // 0~highestNetFlow   对应 高度0~200
+    [_oscillogramView addHeightValue:useNetFlowForApp*_oscillogramView.doraemon_height/totalNetFlowForDevice andTipValue:[NSString stringWithFormat:@"%ziB",useNetFlowForApp]];
+}
+
+- (NSUInteger)highestNetFlow {
+    return 1000;//10000Byte
 }
 
 @end

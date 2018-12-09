@@ -17,6 +17,14 @@
 
 @implementation DoraemonUtil
 
+- (instancetype)init{
+    self = [super init];
+    if (self) {
+        _fileSize = 0;
+    }
+    return self;
+}
+
 + (void)openPlugin:(UIViewController *)vc{
     [[DoraemonHomeWindow shareInstance] openPlugin:vc];
 }
@@ -50,6 +58,13 @@
     return dateString;
 }
 
++ (NSString *)dateFormatNSDate:(NSDate *)date{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *dateString = [formatter stringFromDate: date];
+    return dateString;
+}
+
 + (NSString *)dateFormatNow{
     NSDate *date = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
@@ -71,21 +86,9 @@
     return [NSString stringWithFormat:@"%4.2f%@",convertedValue, [tokens objectAtIndex:multiplyFactor]]; ;
 }
 
-+ (void)saveAnrDataInFile:(NSString *)fileName data:(NSString *)data{
-    NSString *cachesDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *anrDir = [cachesDir stringByAppendingPathComponent:@"DoraemonANR"];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isDir = NO;
-    BOOL existed = [fileManager fileExistsAtPath:anrDir isDirectory:&isDir];
-    if(!(isDir && existed)){
-        [fileManager createDirectoryAtPath:anrDir withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-    NSString *path = [anrDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.txt",fileName]];
-    NSString *text = data;
-    BOOL writeSuccess = [text writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    if (writeSuccess) {
-        NSLog(@"写入成功");
-    }
++ (NSString *)formatTimeIntervalToMS:(NSTimeInterval)timeInterval{
+    CGFloat ms = timeInterval * 1000;
+    return [NSString stringWithFormat:@"%.0f",ms];
 }
 
 + (void)savePerformanceDataInFile:(NSString *)fileName data:(NSString *)data{
@@ -123,7 +126,7 @@
 }
 
 +(NSString *)dictToJsonStr:(NSDictionary *)dict{
-
+    
     NSString *jsonString = nil;
     if ([NSJSONSerialization isValidJSONObject:dict])
     {
@@ -136,4 +139,37 @@
     }
     return jsonString;
 }
+
+//获取某一条文件路径的文件大小
+- (void)getFileSizeWithPath:(NSString *)path{
+    NSFileManager * fileManger = [NSFileManager defaultManager];
+    BOOL isDir = NO;
+    BOOL isExist = [fileManger fileExistsAtPath:path isDirectory:&isDir];
+    if (isExist){
+        if(isDir){
+            //文件夹
+            NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
+            NSString * subPath = nil;
+            for(NSString *str in dirArray) {
+                subPath  = [path stringByAppendingPathComponent:str];
+                [self getFileSizeWithPath:subPath];
+            }
+        }else{
+            //文件
+            NSDictionary *dict = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
+            NSInteger size = [dict[@"NSFileSize"] integerValue];
+            _fileSize += size;
+        }
+    }else{
+        //不存在该文件path
+        //NSLog(@"不存在该文件");
+    }
+}
+
+//删除某一路径下的所有文件
++ (void)clearFileWithPath:(NSString *)path{
+    NSFileManager *fm = [NSFileManager defaultManager];
+    [fm removeItemAtPath:path error:nil];
+}
+
 @end

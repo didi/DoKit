@@ -6,10 +6,10 @@
 //
 
 #import "DoraemonANRListViewController.h"
-#import "UIView+DoraemonPositioning.h"
 #import "DoraemonANRManager.h"
 #import "DoraemonANRListCell.h"
 #import "DoraemonANRDetailViewController.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonANRListViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -22,12 +22,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"卡顿列表";
+    self.title = DoraemonLocalizedString(@"卡顿列表");
     
     self.anrArray = [DoraemonANRManager sharedInstance].anrArray;
     
-    CGFloat navBarHeight = self.navigationController.navigationBar.doraemon_height+[[UIApplication sharedApplication] statusBarFrame].size.height;
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height-navBarHeight) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height) style:UITableViewStylePlain];
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;

@@ -7,7 +7,7 @@
 
 #import "DoraemonHomeWindow.h"
 #import "DoraemonDefine.h"
-#import "UIColor+DoraemonKit.h"
+#import "UIColor+Doraemon.h"
 #import "DoraemonHomeViewController.h"
 
 @implementation DoraemonHomeWindow
@@ -33,6 +33,7 @@
 
 - (void)openPlugin:(UIViewController *)vc{
     [self setRootVc:vc];
+     self.hidden = NO;
 }
 
 - (void)show{

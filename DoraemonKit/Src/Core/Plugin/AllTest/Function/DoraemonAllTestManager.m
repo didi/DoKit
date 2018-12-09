@@ -127,7 +127,7 @@
     if(_flowSwitchOn){
         [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:NO];
     }
-
+    
 }
 
 - (void)trigger:(CADisplayLink *)link{
@@ -171,7 +171,7 @@
     }
     
     //4、获取当前memoryValue使用量
-    NSUInteger memoryValue = -1;
+    NSInteger memoryValue = -1;
     if (_memorySwitchOn) {
         memoryValue = [DoraemonMemoryUtil useMemoryForApp];//单位MB
     }
@@ -197,5 +197,8 @@
 - (void)addPerformanceBlock:(DoraemonAllTestManagerBlock)block{
     self.block = block;
 }
+
+
+
 
 @end

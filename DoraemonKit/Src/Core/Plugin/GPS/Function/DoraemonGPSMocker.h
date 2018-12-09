@@ -8,6 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 
+//参考wander
 @interface DoraemonGPSMocker : NSObject
 
 + (DoraemonGPSMocker *)shareInstance;

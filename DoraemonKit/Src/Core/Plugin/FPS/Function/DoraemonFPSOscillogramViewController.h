@@ -10,4 +10,6 @@
 
 @interface DoraemonFPSOscillogramViewController : DoraemonOscillogramViewController
 
+- (void)addRecortArray:(NSArray *)recordArray;
+
 @end

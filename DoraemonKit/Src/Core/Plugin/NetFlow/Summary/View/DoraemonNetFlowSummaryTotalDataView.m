@@ -6,11 +6,10 @@
 //
 
 #import "DoraemonNetFlowSummaryTotalDataView.h"
-#import "UIView+DoraemonPositioning.h"
 #import "DoraemonNetFlowDataSource.h"
 #import "DoraemonNetFlowManager.h"
 #import "DoraemonUtil.h"
-
+#import "DoraemonDefine.h"
 
 @interface DoraemonNetFlowSummaryTotalDataItemView : UIView
 
@@ -24,17 +23,19 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.doraemon_width, 16)];
-        _titleLabel.font = [UIFont systemFontOfSize:16];
-        _titleLabel.textColor = [UIColor blackColor];
+        _valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.doraemon_width, kDoraemonSizeFrom750(44))];
+        _valueLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(44)];
+        _valueLabel.textColor = [UIColor doraemon_black_1];
+        _valueLabel.textAlignment = NSTextAlignmentCenter;
+        [self addSubview:_valueLabel];
+        
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, _valueLabel.doraemon_bottom+kDoraemonSizeFrom750(16), self.doraemon_width, kDoraemonSizeFrom750(24))];
+        _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(20)];
+        _titleLabel.textColor = [UIColor doraemon_black_2];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_titleLabel];
         
-        _valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 20, self.doraemon_width, 16)];
-        _valueLabel.font = [UIFont systemFontOfSize:16];
-        _valueLabel.textColor = [UIColor orangeColor];
-        _valueLabel.textAlignment = NSTextAlignmentCenter;
-        [self addSubview:_valueLabel];
+
     }
     return self;
 }
@@ -79,7 +80,7 @@
         NSTimeInterval cha = [nowDate timeIntervalSinceDate:startInterceptDate];
         time = [NSString stringWithFormat:@"%.2f秒",cha];
     }else{
-        time = @"暂未开启流量监控";
+        time = DoraemonLocalizedString(@"暂未开启流量监控");
     }
     
     //抓包数量
@@ -102,7 +103,7 @@
     NSString *downLoad = [DoraemonUtil formatByte:totalDownFlow];
     
     _timeView = [[DoraemonNetFlowSummaryTotalDataItemView alloc] initWithFrame:CGRectMake(0, 20, self.doraemon_width, 40)];
-    [_timeView renderUIWithTitle:@"总计已为您抓包" value:time];
+    [_timeView renderUIWithTitle:DoraemonLocalizedString(@"总计已为您抓包") value:time];
     [self addSubview:_timeView];
     
     CGFloat offsetY = 20+40+40;
@@ -110,19 +111,19 @@
     CGFloat offsetX = 0;
     
     _numView = [[DoraemonNetFlowSummaryTotalDataItemView alloc] initWithFrame:CGRectMake(0, offsetY, itemWidth, 40)];
-    [_numView renderUIWithTitle:@"抓包数量" value:num];
+    [_numView renderUIWithTitle:DoraemonLocalizedString(@"抓包数量") value:num];
     [self addSubview:_numView];
     
     offsetX += _numView.doraemon_width;
     
     _upLoadView = [[DoraemonNetFlowSummaryTotalDataItemView alloc] initWithFrame:CGRectMake(offsetX, offsetY, itemWidth, 40)];
-    [_upLoadView renderUIWithTitle:@"数据上传" value:upLoad];
+    [_upLoadView renderUIWithTitle:DoraemonLocalizedString(@"数据上传") value:upLoad];
     [self addSubview:_upLoadView];
     
     offsetX += _upLoadView.doraemon_width;
     
     _downLoadView = [[DoraemonNetFlowSummaryTotalDataItemView alloc] initWithFrame:CGRectMake(offsetX, offsetY, itemWidth, 40)];
-    [_downLoadView renderUIWithTitle:@"数据下载" value:downLoad];
+    [_downLoadView renderUIWithTitle:DoraemonLocalizedString(@"数据下载") value:downLoad];
     [self addSubview:_downLoadView];
     
 }

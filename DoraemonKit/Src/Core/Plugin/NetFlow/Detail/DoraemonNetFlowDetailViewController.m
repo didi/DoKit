@@ -6,20 +6,22 @@
 //
 
 #import "DoraemonNetFlowDetailViewController.h"
-#import "UIView+DoraemonPositioning.h"
+#import "UIView+Doraemon.h"
 #import "DoraemonNetFlowDetailCell.h"
-#import "UIColor+DoraemonKit.h"
+#import "UIColor+Doraemon.h"
 #import "DoraemonUrlUtil.h"
 #import "DoraemonUtil.h"
+#import "DoraemonDefine.h"
+#import "DoraemonNetFlowDetailSegment.h"
 
 typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
     NetFlowSelectStateForRequest = 0,
     NetFlowSelectStateForResponse
 };
 
-@interface DoraemonNetFlowDetailViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface DoraemonNetFlowDetailViewController ()<UITableViewDelegate,UITableViewDataSource,DoraemonNetFlowDetailSegmentDelegate>
 
-@property (nonatomic, strong) UISegmentedControl *segment;
+@property (nonatomic, strong) DoraemonNetFlowDetailSegment *segmentView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) NSInteger selectedSegmentIndex;//当前选中的tab
 
@@ -36,19 +38,14 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
     
     [self initData];
     
-    self.title = @"流量监控详情";
+    self.title = DoraemonLocalizedString(@"流量监控详情");
     
-    NSArray *dataArray = @[@"请求",@"响应"];
-    _segment = [[UISegmentedControl alloc] initWithItems:dataArray];
-    _segment.frame = CGRectMake(20, 10, self.view.doraemon_width-40, 30);
-    _segment.tintColor = [UIColor orangeColor];
-    [_segment setSelectedSegmentIndex:0];
-    [_segment addTarget:self action:@selector(segmentChange:) forControlEvents:UIControlEventValueChanged];
-    [self.view addSubview:_segment];
+    _segmentView = [[DoraemonNetFlowDetailSegment alloc] initWithFrame:CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, kDoraemonSizeFrom750(88))];
+    _segmentView.delegate = self;
+    [self.view addSubview:_segmentView];
     
     CGFloat tabBarHeight = self.tabBarController.tabBar.doraemon_height;
-    CGFloat navBarHeight = self.navigationController.navigationBar.doraemon_height+[[UIApplication sharedApplication] statusBarFrame].size.height;
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, self.view.doraemon_width, self.view.doraemon_height-50-tabBarHeight-navBarHeight) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, _segmentView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-tabBarHeight-_segmentView.doraemon_bottom) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -60,7 +57,7 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
 
 - (void)initData{
     
-    NSString *requestDataSize = [NSString stringWithFormat:@"数据大小 : %@B",[DoraemonUtil formatByte:[self.httpModel.uploadFlow floatValue]]];
+    NSString *requestDataSize = [NSString stringWithFormat:DoraemonLocalizedString(@"数据大小 : %@B"),[DoraemonUtil formatByte:[self.httpModel.uploadFlow floatValue]]];
     NSString *method = [NSString stringWithFormat:@"Method : %@",self.httpModel.method];
     NSString *linkUrl = self.httpModel.url;
     NSDictionary<NSString *, NSString *> *allHTTPHeaderFields = self.httpModel.request.allHTTPHeaderFields;
@@ -79,24 +76,24 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
     }
     
     _requestArray = @[@{
-                          @"sectionTitle":@"消息体",
+                          @"sectionTitle":DoraemonLocalizedString(@"消息体"),
                           @"dataArray":@[requestDataSize,method]
                           },
                       @{
-                          @"sectionTitle":@"链接",
+                          @"sectionTitle":DoraemonLocalizedString(@"链接"),
                           @"dataArray":@[linkUrl]
                           },
                       @{
-                          @"sectionTitle":@"请求头",
+                          @"sectionTitle":DoraemonLocalizedString(@"请求头"),
                           @"dataArray":@[allHTTPHeaderString]
                           },
                       @{
-                          @"sectionTitle":@"请求行",
+                          @"sectionTitle":DoraemonLocalizedString(@"请求行"),
                           @"dataArray":@[requestBody]
                           }
                       ];
     
-    NSString *respanseDataSize = [NSString stringWithFormat:@"数据大小 : %@",[DoraemonUtil formatByte:[self.httpModel.downFlow floatValue]]];
+    NSString *respanseDataSize = [NSString stringWithFormat:DoraemonLocalizedString(@"数据大小 : %@"),[DoraemonUtil formatByte:[self.httpModel.downFlow floatValue]]];
     NSString *mineType = [NSString stringWithFormat:@"mineType : %@",self.httpModel.mineType];
     NSDictionary<NSString *, NSString *> *responseHeaderFields = (NSHTTPURLResponse *)self.httpModel.response;;
     NSMutableString *responseHeaderString = [NSMutableString string];
@@ -113,15 +110,15 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
     }
     
     _responseArray = @[@{
-                          @"sectionTitle":@"消息体",
+                          @"sectionTitle":DoraemonLocalizedString(@"消息体"),
                           @"dataArray":@[respanseDataSize,mineType]
                           },
                       @{
-                          @"sectionTitle":@"响应头",
+                          @"sectionTitle":DoraemonLocalizedString(@"响应头"),
                           @"dataArray":@[responseHeaderString]
                           },
                       @{
-                          @"sectionTitle":@"响应行",
+                          @"sectionTitle":DoraemonLocalizedString(@"响应行"),
                           @"dataArray":@[responseBody]
                           }
                       ];
@@ -129,8 +126,8 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
     _selectedSegmentIndex = NetFlowSelectStateForRequest;
 }
 
--(void)segmentChange:(UISegmentedControl *)sender{
-    NSInteger index = sender.selectedSegmentIndex;
+#pragma mark - DoraemonNetFlowDetailSegmentDelegate
+- (void)segmentClick:(NSInteger)index{
     _selectedSegmentIndex = index;
     [_tableView reloadData];
 }
@@ -184,7 +181,7 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 30;
+    return kDoraemonSizeFrom750(100);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -201,15 +198,17 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
         title = itemInfo[@"sectionTitle"];
     }
     
-    UILabel *tipLabel = [[UILabel alloc] init];
-    tipLabel.textColor = [UIColor doraemon_colorWithHex:0x666666];
-    tipLabel.font = [UIFont systemFontOfSize:14];
-    tipLabel.text = [NSString stringWithFormat:@"  %@",title];
-    [tipLabel sizeToFit];
-    tipLabel.frame = CGRectMake(0, 0, self.view.doraemon_width, 30);
-    tipLabel.backgroundColor = [UIColor doraemon_colorWithHex:0xeff0f4];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750(100))];
     
-    return tipLabel;
+    UILabel *tipLabel = [[UILabel alloc] init];
+    tipLabel.textColor = [UIColor doraemon_colorWithHex:0x337CC4];
+    tipLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
+    tipLabel.text = title;
+    tipLabel.frame = CGRectMake(kDoraemonSizeFrom750(32), 0, self.view.doraemon_width-kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(100));
+    [view addSubview:tipLabel];
+    //tipLabel.backgroundColor = [UIColor doraemon_colorWithHex:0xeff0f4];
+    
+    return view;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

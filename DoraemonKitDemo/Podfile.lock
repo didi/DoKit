@@ -27,17 +27,23 @@ PODS:
   - CocoaLumberjack/Default (3.4.2)
   - CocoaLumberjack/Extensions (3.4.2):
     - CocoaLumberjack/Default
-  - DoraemonKit/Core (1.0.3):
+  - DoraemonKit/Core (1.0.4):
     - BSBacktraceLogger
+    - fishhook
     - PNChart
-  - DoraemonKit/WithLogger (1.0.3):
+    - "UITextView+Placeholder"
+  - DoraemonKit/WithLogger (1.0.4):
     - BSBacktraceLogger
     - CocoaLumberjack
     - DoraemonKit/Core
+    - fishhook
     - PNChart
+    - "UITextView+Placeholder"
+  - fishhook (0.2)
   - PNChart (0.8.9):
     - UICountingLabel (~> 1.2.0)
   - UICountingLabel (1.2.0)
+  - "UITextView+Placeholder (1.2.1)"
 
 DEPENDENCIES:
   - AFNetworking (= 2.6.3)
@@ -48,8 +54,10 @@ SPEC REPOS:
     - AFNetworking
     - BSBacktraceLogger
     - CocoaLumberjack
+    - fishhook
     - PNChart
     - UICountingLabel
+    - "UITextView+Placeholder"
 
 EXTERNAL SOURCES:
   DoraemonKit:
@@ -59,9 +67,11 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   BSBacktraceLogger: 06b983ee93a9f87d957960e9c73d660d5966b447
   CocoaLumberjack: db7cc9e464771f12054c22ff6947c5a58d43a0fd
-  DoraemonKit: 99074116b43fc507d7306dd3b875ed9b341728de
+  DoraemonKit: 9c72715cf108e8af04ebbdd2fdf5ebc25c1110b2
+  fishhook: ea19933abfe8f2f52c55fd8b6e2718467d3ebc89
   PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
+  "UITextView+Placeholder": 0c3efd97f37ea64bde7f34cc6e90fe02e87b3909
 
 PODFILE CHECKSUM: ef13b525233facfa2130fd850a5b840cef2d6678
 

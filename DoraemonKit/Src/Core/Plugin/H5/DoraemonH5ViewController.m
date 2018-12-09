@@ -6,14 +6,16 @@
 //
 
 #import "DoraemonH5ViewController.h"
-#import "UIView+DoraemonPositioning.h"
+#import "UIView+Doraemon.h"
 #import "DoraemonToastUtil.h"
 #import "DoraemonDefine.h"
+#import "Doraemoni18NUtil.h"
+#import <UITextView+Placeholder/UITextView+Placeholder.h>
 
 @interface DoraemonH5ViewController ()
 
-@property (nonatomic, strong) UILabel *tipLabel;
 @property (nonatomic, strong) UITextView *h5UrlTextView;
+@property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, strong) UIButton *jumpBtn;
 
 @end
@@ -22,30 +24,32 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"H5任意门";
+    self.title = DoraemonLocalizedString(@"H5任意门");
     
-    _tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, self.view.doraemon_width, 16)];
-    _tipLabel.font = [UIFont systemFontOfSize:16];
-    _tipLabel.textColor = [UIColor orangeColor];
-    _tipLabel.textAlignment = NSTextAlignmentCenter;
-    _tipLabel.text = @"请在以下输入框输入网址，让走点击跳转按钮即可😘";
-    [self.view addSubview:_tipLabel];
-    
-    _h5UrlTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, _tipLabel.doraemon_bottom+10, self.view.doraemon_width, 160)];
-    _h5UrlTextView.layer.borderWidth = 1.;
-    _h5UrlTextView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    _h5UrlTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(358))];
+    _h5UrlTextView.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
+    _h5UrlTextView.placeholder = @"请输入网址";
     [self.view addSubview:_h5UrlTextView];
     
-    _jumpBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, _h5UrlTextView.doraemon_bottom+10, self.view.doraemon_width, 60)];
-    _jumpBtn.backgroundColor = [UIColor orangeColor];
-    [_jumpBtn setTitle:@"点击跳转" forState:UIControlStateNormal];
+    _lineView = [[UIView alloc] initWithFrame:CGRectMake(0, _h5UrlTextView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(1))];
+    _lineView.backgroundColor = [UIColor doraemon_colorWithHex:0x000000 andAlpha:0.1];
+    [self.view addSubview:_lineView];
+    
+    _jumpBtn = [[UIButton alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(30), _lineView.doraemon_bottom+kDoraemonSizeFrom750(32), self.view.doraemon_width-2*kDoraemonSizeFrom750(30), kDoraemonSizeFrom750(100))];
+    _jumpBtn.backgroundColor = [UIColor doraemon_colorWithHexString:@"#337CC4"];
+    [_jumpBtn setTitle:DoraemonLocalizedString(@"点击跳转") forState:UIControlStateNormal];
     [_jumpBtn addTarget:self action:@selector(jump) forControlEvents:UIControlEventTouchUpInside];
+    _jumpBtn.layer.cornerRadius = kDoraemonSizeFrom750(8);
     [self.view addSubview:_jumpBtn];
+}
+
+- (BOOL)needBigTitleView{
+    return YES;
 }
 
 - (void)jump{
     if (_h5UrlTextView.text.length==0) {
-        [DoraemonToastUtil showToast:@"h5链接不能为空"];
+        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"h5链接不能为空")];
         return;
     }
     [self leftNavBackClick:nil];

@@ -26,17 +26,12 @@
 {
     self = [super init];
     if (self) {
-        self.filterBelowiPhone4s = YES;
     }
     return self;
 }
 
 - (void)startWithThreshold:(double)threshold
                    handler:(DoraemonANRTrackerBlock)handler {
-    //过滤4S以下机型
-    if ([self belowiPhone4s] && self.filterBelowiPhone4s) {
-        return;
-    }
     
     self.pingThread = [[DoraemonPingThread alloc] initWithThreshold:threshold
                                                        handler:^(double threshold) {
@@ -58,24 +53,6 @@
         return DoraemonANRTrackerStatusStart;
     }else {
         return DoraemonANRTrackerStatusStop;
-    }
-}
-
-- (BOOL)belowiPhone4s {
-    struct utsname systemInfo;
-    uname(&systemInfo);
-    NSString *deviceString = [NSString stringWithCString:systemInfo.machine
-                                                encoding:NSUTF8StringEncoding];
-    if ([deviceString isEqualToString:@"iPhone1,1"]         //"iPhone 1G"
-        ||[deviceString isEqualToString:@"iPhone1,2"]       //"iPhone 3G"
-        ||[deviceString isEqualToString:@"iPhone2,1"]       //"iPhone 3GS"
-        ||[deviceString isEqualToString:@"iPhone3,1"]       //"iPhone 4"
-        ||[deviceString isEqualToString:@"iPhone4,1"]       //"iPhone 4S"
-        ) {
-        return YES;
-        
-    }else {
-        return NO;
     }
 }
 

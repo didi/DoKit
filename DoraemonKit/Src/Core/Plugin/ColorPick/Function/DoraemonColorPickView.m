@@ -6,9 +6,9 @@
 //
 
 #import "DoraemonColorPickView.h"
-#import "UIView+DoraemonPositioning.h"
-#import "UIImage+DoraemonKit.h"
-#import "UIColor+DoraemonKit.h"
+#import "UIView+Doraemon.h"
+#import "UIImage+Doraemon.h"
+#import "UIColor+Doraemon.h"
 
 @interface DoraemonColorPickView()
 
@@ -23,6 +23,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _circleView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.doraemon_width, self.doraemon_height)];
+        _circleView.layer.masksToBounds = YES;
         _circleView.layer.cornerRadius = self.doraemon_width/2;
         _circleView.layer.borderWidth = 5;
         _circleView.layer.borderColor = [UIColor clearColor].CGColor;
@@ -45,7 +46,7 @@
         [self.layer addSublayer:layer2];
         
         UIView *pointView = [[UIView alloc] init];
-        pointView.doraemon_size = CGSizeMake(3, 3);
+        pointView.doraemon_size = CGSizeMake(6, 6);
         pointView.center = self.center;
         pointView.backgroundColor = [UIColor blackColor];
         pointView.layer.cornerRadius = 1.5;

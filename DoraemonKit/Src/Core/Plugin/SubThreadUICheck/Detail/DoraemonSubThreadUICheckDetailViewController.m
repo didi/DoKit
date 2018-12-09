@@ -6,8 +6,8 @@
 //
 
 #import "DoraemonSubThreadUICheckDetailViewController.h"
-#import "UIColor+DoraemonKit.h"
-#import "UIView+DoraemonPositioning.h"
+#import "Doraemoni18NUtil.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonSubThreadUICheckDetailViewController ()
 
@@ -19,16 +19,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"检测详情";
+    self.title = DoraemonLocalizedString(@"检测详情");
     
     _contentLabel = [[UILabel alloc] init];
-    _contentLabel.textColor = [UIColor doraemon_colorWithHexString:@"#666666"];
-    _contentLabel.font = [UIFont systemFontOfSize:8];
+    _contentLabel.textColor = [UIColor doraemon_black_2];
+    _contentLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(16)];
     _contentLabel.numberOfLines = 0;
     _contentLabel.text = _checkInfo[@"content"];
     
     CGSize fontSize = [_contentLabel sizeThatFits:CGSizeMake(self.view.frame.size.width-40, MAXFLOAT)];
-    _contentLabel.frame = CGRectMake(20, 20, fontSize.width, fontSize.height);
+    _contentLabel.frame = CGRectMake(20, IPHONE_NAVIGATIONBAR_HEIGHT, fontSize.width, fontSize.height);
     [self.view addSubview:_contentLabel];
 }
 

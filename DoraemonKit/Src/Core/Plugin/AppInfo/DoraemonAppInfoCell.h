@@ -11,4 +11,6 @@
 
 - (void)renderUIWithData:(NSDictionary *)data;
 
++ (CGFloat)cellHeight;
+
 @end

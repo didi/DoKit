@@ -9,25 +9,27 @@
 #import "DoraemonEntryView.h"
 #import "DoraemonDefine.h"
 #import "DoraemonUtil.h"
-#import "UIView+DoraemonPositioning.h"
-#import "UIImage+DoraemonKit.h"
+#import "UIView+Doraemon.h"
+#import "UIImage+Doraemon.h"
 #import "DoraemonDefine.h"
 #import "DoraemonHomeWindow.h"
-
-static CGFloat const kEntryViewSize = 40;
 
 @interface DoraemonEntryView()
 
 @property (nonatomic, assign) BOOL isOpen;
 @property (nonatomic, strong) UIButton *entryBtn;
+@property (nonatomic, assign) CGFloat kEntryViewSize;
 
 @end
 
 @implementation DoraemonEntryView
 
 - (instancetype)init{
-    self = [super initWithFrame:CGRectMake(0, DoraemonScreenHeight/3, kEntryViewSize, kEntryViewSize)];
+    _kEntryViewSize = kDoraemonSizeFrom750(116);
+    self = [super initWithFrame:CGRectMake(0, DoraemonScreenHeight/3, _kEntryViewSize, _kEntryViewSize)];
     if (self) {
+        
+        
         self.backgroundColor = [UIColor clearColor];
         self.windowLevel = UIWindowLevelStatusBar + 100.f;
         if (!self.rootViewController) {
@@ -36,7 +38,7 @@ static CGFloat const kEntryViewSize = 40;
         
         UIButton *entryBtn = [[UIButton alloc] initWithFrame:self.bounds];
         entryBtn.backgroundColor = [UIColor clearColor];
-        [entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemonkit"] forState:UIControlStateNormal];
+        [entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_logo"] forState:UIControlStateNormal];
         entryBtn.layer.cornerRadius = 20.;
         [entryBtn addTarget:self action:@selector(entryClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.rootViewController.view addSubview:entryBtn];
@@ -58,7 +60,7 @@ static CGFloat const kEntryViewSize = 40;
 }
 
 - (void)closePluginClick:(UIButton *)btn{
-    [_entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemonkit"] forState:UIControlStateNormal];
+    [_entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_logo"] forState:UIControlStateNormal];
     [_entryBtn removeTarget:self action:@selector(closePluginClick:) forControlEvents:UIControlEventTouchUpInside];
     [_entryBtn addTarget:self action:@selector(entryClick:) forControlEvents:UIControlEventTouchUpInside];
     [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonClosePluginNotification object:nil userInfo:nil];
@@ -90,17 +92,17 @@ static CGFloat const kEntryViewSize = 40;
     UIView *panView = sender.view;
     CGFloat newX = panView.doraemon_centerX+offsetPoint.x;
     CGFloat newY = panView.doraemon_centerY+offsetPoint.y;
-    if (newX < kEntryViewSize/2) {
-        newX = kEntryViewSize/2;
+    if (newX < _kEntryViewSize/2) {
+        newX = _kEntryViewSize/2;
     }
-    if (newX > DoraemonScreenWidth - kEntryViewSize/2) {
-        newX = DoraemonScreenWidth - kEntryViewSize/2;
+    if (newX > DoraemonScreenWidth - _kEntryViewSize/2) {
+        newX = DoraemonScreenWidth - _kEntryViewSize/2;
     }
-    if (newY < kEntryViewSize/2) {
-        newY = kEntryViewSize/2;
+    if (newY < _kEntryViewSize/2) {
+        newY = _kEntryViewSize/2;
     }
-    if (newY > DoraemonScreenHeight - kEntryViewSize/2) {
-        newY = DoraemonScreenHeight - kEntryViewSize/2;
+    if (newY > DoraemonScreenHeight - _kEntryViewSize/2) {
+        newY = DoraemonScreenHeight - _kEntryViewSize/2;
     }
     panView.center = CGPointMake(newX, newY);
 }

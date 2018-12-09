@@ -14,8 +14,9 @@ static NSString * const kDoraemonFpsKey = @"doraemon_fps_key";
 static NSString * const kDoraemonCpuKey = @"doraemon_cpu_key";
 static NSString * const kDoraemonMemoryKey = @"doraemon_memory_key";
 static NSString * const kDoraemonNetFlowKey = @"doraemon_netflow_key";
-static NSString * const kDoraemonNetFlowShowOscillogramKey = @"doraemon_netflow_show_oscillogram_key";
 static NSString * const kDoraemonSubThreadUICheckKey = @"doraemon_sub_thread_ui_check_key";
+static NSString * const kDoraemonCrashKey = @"doraemon_crash_key";
+static NSString * const kDoraemonNSLogKey = @"doraemon_nslog_key";
 
 @implementation DoraemonCacheManager
 
@@ -123,18 +124,6 @@ static NSString * const kDoraemonSubThreadUICheckKey = @"doraemon_sub_thread_ui_
     return [defaults boolForKey:kDoraemonNetFlowKey];
 }
 
-- (void)saveNetFlowShowOscillogramSwitch:(BOOL)on{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:on forKey:kDoraemonNetFlowShowOscillogramKey];
-    [defaults synchronize];
-}
-
-- (BOOL)netFlowShowOscillogramSwitch{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:kDoraemonNetFlowShowOscillogramKey];
-}
-
-
 - (void)saveSubThreadUICheckSwitch:(BOOL)on{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:on forKey:kDoraemonSubThreadUICheckKey];
@@ -145,5 +134,28 @@ static NSString * const kDoraemonSubThreadUICheckKey = @"doraemon_sub_thread_ui_
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     return [defaults boolForKey:kDoraemonSubThreadUICheckKey];
 }
+
+- (void)saveCrashSwitch:(BOOL)on{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:on forKey:kDoraemonCrashKey];
+    [defaults synchronize];
+}
+
+- (BOOL)crashSwitch{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults boolForKey:kDoraemonCrashKey];
+}
+
+- (void)saveNSLogSwitch:(BOOL)on{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:on forKey:kDoraemonNSLogKey];
+    [defaults synchronize];
+}
+
+- (BOOL)nsLogSwitch{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults boolForKey:kDoraemonNSLogKey];
+}
+
 
 @end

@@ -11,22 +11,32 @@
 
 @interface DoraemonUtil : NSObject
 
+@property (nonatomic, assign) NSInteger *fileSize;
+
 + (void)openPlugin:(UIViewController *)vc;
 
 + (UIViewController *)topViewControllerForKeyWindow;
 
 + (NSString *)dateFormatTimeInterval:(NSTimeInterval)timeInterval;
 
++ (NSString *)dateFormatNSDate:(NSDate *)date;
+
 + (NSString *)dateFormatNow;
 
 // byte格式化为 B KB MB 方便流量查看
 + (NSString *)formatByte:(CGFloat)byte;
-
-+ (void)saveAnrDataInFile:(NSString *)fileName data:(NSString *)data;
 
 + (void)savePerformanceDataInFile:(NSString *)fileName data:(NSString *)data;
 
 + (NSString *)dictToJsonStr:(NSDictionary *)dict;
 
 + (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
+
++ (NSString *)formatTimeIntervalToMS:(NSTimeInterval)timeInterval;
+
+//获取某一条文件路径的文件大小
+- (NSString *)getFileSizeWithPath:(NSString *)path;
+
+//删除某一路径下的所有文件
++ (void)clearFileWithPath:(NSString *)path;
 @end

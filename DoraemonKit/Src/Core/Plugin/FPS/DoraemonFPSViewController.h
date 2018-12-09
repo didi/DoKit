@@ -6,8 +6,8 @@
 //
 
 #import <DoraemonKit/DoraemonKit.h>
-#import "DoraemonBaseSwitchViewController.h"
+#import "DoraemonBaseViewController.h"
 
-@interface DoraemonFPSViewController : DoraemonBaseSwitchViewController
+@interface DoraemonFPSViewController : DoraemonBaseViewController
 
 @end

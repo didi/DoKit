@@ -7,9 +7,10 @@
 //
 
 #import "DoraemonDemoNetViewController.h"
-#import "UIView+DoraemonPositioning.h"
+#import "UIView+Doraemon.h"
 #import <AFNetworking/AFNetworking.h>
 #import <DoraemonKit/DoraemonNSURLProtocol.h>
+#import "DoraemonDefine.h"
 
 @interface DoraemonDemoNetViewController ()<NSURLConnectionDataDelegate,NSURLSessionDelegate>
 
@@ -29,28 +30,28 @@
     [super viewDidLoad];
     self.title = @"网络测试Demo";
     
-    UIButton *btn0 = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, self.view.doraemon_width, 60)];
+    UIButton *btn0 = [[UIButton alloc] initWithFrame:CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, 60)];
     btn0.backgroundColor = [UIColor orangeColor];
     [btn0 setTitle:@"发送一条URLConnection请求" forState:UIControlStateNormal];
     [btn0 addTarget:self action:@selector(netForURLConnection) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn0];
     _btn0 = btn0;
     
-    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 120, self.view.doraemon_width, 60)];
+    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn0.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn1.backgroundColor = [UIColor orangeColor];
     [btn1 setTitle:@"发送一条NSURLSession请求" forState:UIControlStateNormal];
     [btn1 addTarget:self action:@selector(netForNSURLSession) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn1];
     _btn1 = btn1;
     
-    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, 220, self.view.doraemon_width, 60)];
+    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn1.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn2.backgroundColor = [UIColor orangeColor];
     [btn2 setTitle:@"发送一条AFNetworking请求" forState:UIControlStateNormal];
     [btn2 addTarget:self action:@selector(netForAFNetworking) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn2];
     _btn2 = btn2;
     
-    UIButton *btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, 320, self.view.doraemon_width, 60)];
+    UIButton *btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn2.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn3.backgroundColor = [UIColor orangeColor];
     [btn3 setTitle:@"发送一条AFNetworking请求2" forState:UIControlStateNormal];
     [btn3 addTarget:self action:@selector(netForAFNetworking2) forControlEvents:UIControlEventTouchUpInside];
@@ -65,7 +66,7 @@
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init]completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
         if ((data != nil) && (connectionError == nil)) {
-//            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            //            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             NSLog(@"response == %@",data);
         }
         
@@ -88,7 +89,7 @@
                                             NSLog(@"error == %@",error);
                                             return ;
                                         }
-//                                        NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+                                        //                                        NSDictionary *result = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
                                         NSLog(@"%@", data);
                                     }];
     
@@ -115,10 +116,10 @@
     
     AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
     
-//    NSMutableArray *protocolsArray = [NSMutableArray arrayWithArray:session.session.configuration.protocolClasses];
-//    [protocolsArray insertObject:[DoraemonNSURLProtocol class] atIndex:0];
-//    session.session.configuration.protocolClasses = [protocolsArray copy];
-//    session.session.configuration.protocolClasses = @[[DoraemonNSURLProtocol class]];
+    //    NSMutableArray *protocolsArray = [NSMutableArray arrayWithArray:session.session.configuration.protocolClasses];
+    //    [protocolsArray insertObject:[DoraemonNSURLProtocol class] atIndex:0];
+    //    session.session.configuration.protocolClasses = [protocolsArray copy];
+    //    session.session.configuration.protocolClasses = @[[DoraemonNSURLProtocol class]];
     
     session.requestSerializer = [AFHTTPRequestSerializer serializer];// 请求
     session.responseSerializer = [AFHTTPResponseSerializer serializer];// 响应
@@ -130,12 +131,12 @@
         NSLog(@"请求失败");
     }];
     
-//    [session POST:@"http://172.23.160.242:8080/YxReactServerDemo/message/getAllMessage" parameters:@{@"name":@"yixiang1"} success:^(NSURLSessionDataTask *task, id responseObject) {
-//        NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-//        NSLog(@"请求成功 %@",string);
-//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-//        NSLog(@"请求失败");
-//    }];
+    //    [session POST:@"http://172.23.160.242:8080/YxReactServerDemo/message/getAllMessage" parameters:@{@"name":@"yixiang1"} success:^(NSURLSessionDataTask *task, id responseObject) {
+    //        NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+    //        NSLog(@"请求成功 %@",string);
+    //    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    //        NSLog(@"请求失败");
+    //    }];
 }
 
 - (void)netForAFNetworking2{
@@ -143,12 +144,12 @@
     manager.requestSerializer = [AFHTTPRequestSerializer serializer];// 请求
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];// 响应
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json",@"text/javascript",@"text/html", nil];
-//    [manager POST:@"http://172.23.160.242:8080/YxReactServerDemo/message/getAllMessage" parameters:@{@"name":@"yixiang2"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-//        NSLog(@"请求成功 %@",string);
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        NSLog(@"请求失败");
-//    }];
+    //    [manager POST:@"http://172.23.160.242:8080/YxReactServerDemo/message/getAllMessage" parameters:@{@"name":@"yixiang2"} success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    //        NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+    //        NSLog(@"请求成功 %@",string);
+    //    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    //        NSLog(@"请求失败");
+    //    }];
     
     [manager POST:@"https://www.taobao.com/" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];

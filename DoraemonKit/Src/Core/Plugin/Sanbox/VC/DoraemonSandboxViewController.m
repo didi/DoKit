@@ -9,6 +9,10 @@
 #import "DoraemonSandboxModel.h"
 #import "DoraemonSandBoxCell.h"
 #import "DoraemonSanboxDetailViewController.h"
+#import "Doraemoni18NUtil.h"
+#import "UIView+Doraemon.h"
+#import "DoraemonNavBarItemModel.h"
+#import "UIImage+Doraemon.h"
 
 @interface DoraemonSandboxViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -27,15 +31,23 @@
     [self initUI];
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self loadPath:_currentDirModel.path];
+}
+
+- (BOOL)needBigTitleView{
+    return YES;
+}
+
 - (void)initData{
     _dataArray = @[];
     _rootPath = NSHomeDirectory();
-    [self loadPath:nil];
 }
 
 - (void)initUI{
-    self.title = @"沙盒浏览器";
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.title = DoraemonLocalizedString(@"沙盒浏览器");
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-self.bigTitleView.doraemon_bottom) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -49,11 +61,23 @@
     DoraemonSandboxModel *model = [[DoraemonSandboxModel alloc] init];
     if (!targetPath || [targetPath isEqualToString:_rootPath]) {
         targetPath = _rootPath;
-        model.name = @"根目录";
+        model.name = DoraemonLocalizedString(@"根目录");
         model.type = DoraemonSandboxFileTypeRoot;
+        self.tableView.frame = CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-self.bigTitleView.doraemon_bottom);
+        self.bigTitleView.hidden = NO;
+        self.navigationController.navigationBarHidden = YES;
+        [self setLeftNavBarItems:nil];
     }else{
-        model.name = @"返回上一级";
+        model.name = DoraemonLocalizedString(@"返回上一级");
         model.type = DoraemonSandboxFileTypeBack;
+        self.tableView.frame = CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height);
+        self.bigTitleView.hidden = YES;
+        self.navigationController.navigationBarHidden = NO;
+        NSString *dirTitle =  [fm displayNameAtPath:targetPath];
+        self.title = dirTitle;
+        DoraemonNavBarItemModel *leftModel = [[DoraemonNavBarItemModel alloc] initWithImage:[UIImage doraemon_imageNamed:@"doraemon_back"] selector:@selector(leftNavBackClick:)];
+        
+        [self setLeftNavBarItems:@[leftModel]];
     }
     model.path = filePath;
     _currentDirModel = model;
@@ -107,7 +131,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return @"删除";
+    return DoraemonLocalizedString(@"删除");
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -118,7 +142,7 @@
 
 #pragma mark- UITableViewDataSource
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 48;
+    return [DoraemonSandBoxCell cellHeight];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -140,17 +164,17 @@
 }
 
 - (void)handleFileWithPath:(NSString *)filePath{
-    UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:@"请选择操作方式" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:DoraemonLocalizedString(@"请选择操作方式") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     __weak typeof(self) weakSelf = self;
-    UIAlertAction *previewAction = [UIAlertAction actionWithTitle:@"本地预览" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *previewAction = [UIAlertAction actionWithTitle:DoraemonLocalizedString(@"本地预览") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         __strong typeof(self) strongSelf = weakSelf;
         [strongSelf previewFile:filePath];
     }];
-    UIAlertAction *shareAction = [UIAlertAction actionWithTitle:@"分享" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *shareAction = [UIAlertAction actionWithTitle:DoraemonLocalizedString(@"分享") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         __strong typeof(self) strongSelf = weakSelf;
         [strongSelf shareFileWithPath:filePath];
     }];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:DoraemonLocalizedString(@"取消") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
     }];
     [alertVc addAction:previewAction];
     [alertVc addAction:shareAction];
@@ -167,20 +191,6 @@
 
 
 - (void)shareFileWithPath:(NSString *)filePath{
-    
-//    NSURL *url=[NSURL fileURLWithPath:filePath];
-//    NSData *data = [[NSData alloc] initWithContentsOfURL:url];
-//    //NSString *content=[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-//    NSString *content=[NSString stringWithContentsOfFile:filePath encoding:NSASCIIStringEncoding error:nil];
-//    //NSLog(@"文件读取成功: %@",content);
-//
-//    NSStringEncoding enc;
-//    NSError *error;
-//    NSString *contents = [NSString stringWithContentsOfFile:filePath usedEncoding:&enc error:&error];
-//
-//    NSMutableDictionary *dict = [[NSMutableDictionary alloc]initWithContentsOfFile:filePath];
-//    //self.provinces = [dict objectForKey:@"address"];
-    
     NSURL *url = [NSURL fileURLWithPath:filePath];
     NSArray *objectsToShare = @[url];
 
@@ -202,5 +212,6 @@
     [fm removeItemAtPath:model.path error:nil];
     [self loadPath:_currentDirModel.path];
 }
+
 
 @end

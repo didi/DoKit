@@ -7,8 +7,6 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^DoraemonANRManagerBlock)(NSDictionary *upLoadData);
-
 @interface DoraemonANRManager : NSObject
 
 + (instancetype)sharedInstance;
@@ -23,7 +21,5 @@ typedef void (^DoraemonANRManagerBlock)(NSDictionary *upLoadData);
 
 - (void)start;
 - (void)stop;
-
-- (void)addAnrBlock:(DoraemonANRManagerBlock)block;
 
 @end
