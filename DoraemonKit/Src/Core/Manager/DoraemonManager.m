@@ -124,24 +124,24 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
  */
 - (void)initData{
     
-    [self addPluginWithTitle:DoraemonLocalizedString(@"App信息") icon:@"doraemon_app_info" desc:DoraemonLocalizedString(@"App的一些基本信息") pluginName:@"DoraemonAppInfoPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
-    [self addPluginWithTitle:DoraemonLocalizedString(@"沙盒浏览") icon:@"doraemon_file" desc:DoraemonLocalizedString(@"沙盒浏览") pluginName:@"DoraemonSandboxPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
-    [self addPluginWithTitle:@"MockGPS" icon:@"doraemon_mock_gps" desc:@"mock GPS" pluginName:@"DoraemonGPSPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
-    [self addPluginWithTitle:DoraemonLocalizedString(@"H5任意门") icon:@"doraemon_h5" desc:DoraemonLocalizedString(@"H5通用跳转") pluginName:@"DoraemonH5Plugin" atModule:DoraemonLocalizedString(@"常用工具集")];
-    [self addPluginWithTitle:DoraemonLocalizedString(@"Crash查看") icon:@"doraemon_crash" desc:DoraemonLocalizedString(@"Crash本地查看") pluginName:@"DoraemonCrashPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
-    [self addPluginWithTitle:DoraemonLocalizedString(@"子线程UI") icon:@"doraemon_ui" desc:DoraemonLocalizedString(@"非主线程UI渲染检查") pluginName:@"DoraemonSubThreadUICheckPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
-    [self addPluginWithTitle:DoraemonLocalizedString(@"清除本地数据") icon:@"doraemon_qingchu" desc:DoraemonLocalizedString(@"清除本地数据") pluginName:@"DoraemonDeleteLocalDataPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
-    [self addPluginWithTitle:DoraemonLocalizedString(@"NSLog") icon:@"doraemon_nslog" desc:DoraemonLocalizedString(@"NSLog") pluginName:@"DoraemonNSLogPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"App信息") icon:@"doraemon_app_info" desc:DoraemonLocalizedString(@"App的一些基本信息") pluginName:@"DoraemonAppInfoPlugin" atModule:DoraemonLocalizedString(@"常用工具")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"沙盒浏览") icon:@"doraemon_file" desc:DoraemonLocalizedString(@"沙盒浏览") pluginName:@"DoraemonSandboxPlugin" atModule:DoraemonLocalizedString(@"常用工具")];
+    [self addPluginWithTitle:@"MockGPS" icon:@"doraemon_mock_gps" desc:@"mock GPS" pluginName:@"DoraemonGPSPlugin" atModule:DoraemonLocalizedString(@"常用工具")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"H5任意门") icon:@"doraemon_h5" desc:DoraemonLocalizedString(@"H5通用跳转") pluginName:@"DoraemonH5Plugin" atModule:DoraemonLocalizedString(@"常用工具")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"Crash查看") icon:@"doraemon_crash" desc:DoraemonLocalizedString(@"Crash本地查看") pluginName:@"DoraemonCrashPlugin" atModule:DoraemonLocalizedString(@"常用工具")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"子线程UI") icon:@"doraemon_ui" desc:DoraemonLocalizedString(@"非主线程UI渲染检查") pluginName:@"DoraemonSubThreadUICheckPlugin" atModule:DoraemonLocalizedString(@"常用工具")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"清除本地数据") icon:@"doraemon_qingchu" desc:DoraemonLocalizedString(@"清除本地数据") pluginName:@"DoraemonDeleteLocalDataPlugin" atModule:DoraemonLocalizedString(@"常用工具")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"NSLog") icon:@"doraemon_nslog" desc:DoraemonLocalizedString(@"NSLog") pluginName:@"DoraemonNSLogPlugin" atModule:DoraemonLocalizedString(@"常用工具")];
 #if DoraemonWithLogger
-    [self addPluginWithTitle:@"Lumberjack" icon:@"doraemon_log" desc:DoraemonLocalizedString(@"日志显示") pluginName:@"DoraemonCocoaLumberjackPlugin" atModule:DoraemonLocalizedString(@"常用工具集")];
+    [self addPluginWithTitle:@"Lumberjack" icon:@"doraemon_log" desc:DoraemonLocalizedString(@"日志显示") pluginName:@"DoraemonCocoaLumberjackPlugin" atModule:DoraemonLocalizedString(@"常用工具")];
 #endif
     
-    [self addPluginWithTitle:DoraemonLocalizedString(@"帧率") icon:@"doraemon_fps" desc:DoraemonLocalizedString(@"帧率监控") pluginName:@"DoraemonFPSPlugin" atModule:DoraemonLocalizedString(@"性能监控")];
-    [self addPluginWithTitle:@"CPU" icon:@"doraemon_cpu" desc:DoraemonLocalizedString(@"CPU监控") pluginName:@"DoraemonCPUPlugin" atModule:DoraemonLocalizedString(@"性能监控")];
-    [self addPluginWithTitle:DoraemonLocalizedString(@"内存") icon:@"doraemon_memory" desc:DoraemonLocalizedString(@"内存监控") pluginName:@"DoraemonMemoryPlugin" atModule:DoraemonLocalizedString(@"性能监控")];
-    [self addPluginWithTitle:DoraemonLocalizedString(@"流量") icon:@"doraemon_net" desc:DoraemonLocalizedString(@"流量监控") pluginName:@"DoraemonNetFlowPlugin" atModule:DoraemonLocalizedString(@"性能监控")];
-    [self addPluginWithTitle:DoraemonLocalizedString(@"卡顿") icon:@"doraemon_kadun" desc:DoraemonLocalizedString(@"卡顿检测") pluginName:@"DoraemonANRPlugin" atModule:DoraemonLocalizedString(@"性能监控")];
-    [self addPluginWithTitle:@"自定义" icon:@"doraemon_default" desc:DoraemonLocalizedString(@"性能数据保存到本地") pluginName:@"DoraemonAllTestPlugin" atModule:DoraemonLocalizedString(@"性能监控")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"帧率") icon:@"doraemon_fps" desc:DoraemonLocalizedString(@"帧率监控") pluginName:@"DoraemonFPSPlugin" atModule:DoraemonLocalizedString(@"性能检测")];
+    [self addPluginWithTitle:@"CPU" icon:@"doraemon_cpu" desc:DoraemonLocalizedString(@"CPU监控") pluginName:@"DoraemonCPUPlugin" atModule:DoraemonLocalizedString(@"性能检测")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"内存") icon:@"doraemon_memory" desc:DoraemonLocalizedString(@"内存监控") pluginName:@"DoraemonMemoryPlugin" atModule:DoraemonLocalizedString(@"性能检测")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"流量") icon:@"doraemon_net" desc:DoraemonLocalizedString(@"流量监控") pluginName:@"DoraemonNetFlowPlugin" atModule:DoraemonLocalizedString(@"性能检测")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"卡顿") icon:@"doraemon_kadun" desc:DoraemonLocalizedString(@"卡顿检测") pluginName:@"DoraemonANRPlugin" atModule:DoraemonLocalizedString(@"性能检测")];
+    [self addPluginWithTitle:@"自定义" icon:@"doraemon_default" desc:DoraemonLocalizedString(@"性能数据保存到本地") pluginName:@"DoraemonAllTestPlugin" atModule:DoraemonLocalizedString(@"性能检测")];
     
     [self addPluginWithTitle:DoraemonLocalizedString(@"颜色吸管") icon:@"doraemon_straw" desc:DoraemonLocalizedString(@"颜色拾取器") pluginName:@"DoraemonColorPickPlugin" atModule:DoraemonLocalizedString(@"视觉工具")];
     [self addPluginWithTitle:DoraemonLocalizedString(@"组件检查") icon:@"doraemon_view_check" desc:DoraemonLocalizedString(@"View查看器") pluginName:@"DoraemonViewCheckPlugin" atModule:DoraemonLocalizedString(@"视觉工具")];
