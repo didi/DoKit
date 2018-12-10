@@ -43,6 +43,7 @@ Pod::Spec.new do |s|
   s.dependency 'BSBacktraceLogger'
   s.dependency 'fishhook'
   s.dependency 'UITextView+Placeholder'
+  s.dependency 'AFNetworking'
 
 end
 
