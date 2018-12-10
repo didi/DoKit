@@ -11,6 +11,7 @@
 #import "DoraemonCacheManager.h"
 #import "DoraemonAllTestManager.h"
 #import "DoraemonCellSwitch.h"
+#import "DoraemonToastUtil.h"
 
 
 @interface DoraemonAllTestViewController ()
@@ -94,6 +95,8 @@
     }else{
         [[DoraemonAllTestManager shareInstance] endRecord];
         [_okBtn setTitle:DoraemonLocalizedString(@"开始测试") forState:UIControlStateNormal];
+        
+        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"数据保存到Library/Caches/DoraemonPerformance中") inView:self.view];
     }
     
 }
