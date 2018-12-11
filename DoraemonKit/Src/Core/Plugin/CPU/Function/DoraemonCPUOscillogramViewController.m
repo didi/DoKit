@@ -8,8 +8,6 @@
 #import "DoraemonCPUOscillogramViewController.h"
 #import "DoraemonOscillogramView.h"
 #import "DoraemonCPUUtil.h"
-#import "DoraemonRecordModel.h"
-#import "DoraemonPersistenceUtil.h"
 #import "DoraemonDefine.h"
 #import "DoraemonCacheManager.h"
 #import "DoraemonCPUOscillogramWindow.h"
@@ -21,7 +19,6 @@
 //每秒运行一次
 @property (nonatomic, strong) NSTimer *secondTimer;
 
-@property (nonatomic, strong) DoraemonRecordModel *record;
 
 @end
 
@@ -63,9 +60,6 @@
     if(!_secondTimer){
         _secondTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(doSecondFunction) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:_secondTimer forMode:NSRunLoopCommonModes];
-        
-        _record = [DoraemonRecordModel instanceWithType:DoraemonRecordTypeCPU];
-        _record.startTime = [[NSDate date] timeIntervalSince1970];
     }
 }
 
@@ -74,10 +68,6 @@
         [_secondTimer invalidate];
         _secondTimer = nil;
         [_oscillogramView clear];
-        
-        _record.endTime = [[NSDate date] timeIntervalSince1970];
-        [DoraemonPersistenceUtil saveRecord:_record];
-        _record = nil;
     }
 }
 
@@ -91,7 +81,6 @@
     }
     // 0~100   对应 高度0~_oscillogramView.doraemon_height
     NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
-    [self.record addRecordValue:cpuUsage heightValue:cpuUsage*200./100. time:time];
     [_oscillogramView addHeightValue:cpuUsage*_oscillogramView.doraemon_height/100. andTipValue:[NSString stringWithFormat:@"%.f",cpuUsage]];
 }
 

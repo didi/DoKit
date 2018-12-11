@@ -10,6 +10,4 @@
 
 @interface DoraemonCPUOscillogramViewController : DoraemonOscillogramViewController
 
-- (void)addRecortArray:(NSArray<DoraemonPerformanceInfoModel *> *)recordArray;
-
 @end

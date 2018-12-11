@@ -6,7 +6,6 @@
 //
 
 #import "DoraemonOscillogramView.h"
-#import "DoraemonPerformanceInfoModel.h"
 #import "DoraemonDefine.h"
 
 @implementation DoraemonPoint
@@ -28,7 +27,6 @@
 
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
 @property (nonatomic, strong) UILabel       *tipLabel;
-@property (nonatomic, strong) CAShapeLayer *indicatorLayer;
 
 @property (nonatomic, strong) NSArray<DoraemonPerformanceInfoModel *> *recordArray;
 
@@ -87,51 +85,6 @@
 
 - (void)setHightValue:(NSString *)value{
     _highValueLabel.text = value;
-}
-
-- (void)addRecortArray:(NSArray<DoraemonPerformanceInfoModel *> *)recordArray {
-    
-    if (_pointList.count > 0) {
-        
-    }
-    NSInteger maxPoint = 10*60;
-    if (recordArray.count > maxPoint) {
-        NSRange range = NSMakeRange(recordArray.count-maxPoint, maxPoint);
-        recordArray = [recordArray subarrayWithRange:range];
-    }
-    
-    _recordArray = recordArray;
-    _pointList = [NSMutableArray array];
-    CGFloat subWidth = self.doraemon_width / _numberOfPoints;
-    
-    self.contentSize = CGSizeMake(self.doraemon_width, self.doraemon_height);
-    if (subWidth * recordArray.count > self.doraemon_width) {
-        self.contentSize = CGSizeMake(subWidth * recordArray.count, self.doraemon_height);
-    } else {
-        self.contentSize = CGSizeMake(self.doraemon_width, self.doraemon_height);
-    }
-    
-    CGFloat width = self.contentSize.width;
-    CGFloat height = self.contentSize.height;
-    CGFloat step = subWidth;
-    
-    for (DoraemonPerformanceInfoModel *item in recordArray) {
-        if (_pointList.count == 0) {
-            _x = _kStartX;
-        }else{
-            if (_x <= width-step) {
-                _x += step;
-            }
-        }
-        
-        _y = fabs(MIN(height, item.heightValue));
-        DoraemonPoint *point = [[DoraemonPoint alloc] init];
-        point.x = _x;
-        point.y = _y;
-        [_pointList addObject:point];
-    }
-    
-    [self drawLine];
 }
 
 - (void)addHeightValue:(CGFloat)showHeight andTipValue:(NSString *)tipValue{
@@ -251,59 +204,6 @@
     }
     _pointList = [NSMutableArray array];
     _tipLabel.hidden = YES;
-}
-
-// show tip message when scroll the view
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
-    UIView *view = [super hitTest:point withEvent:event];
-    
-    if (view == self) {
-        
-        CGFloat trueX = point.x - _kStartX;
-        CGFloat pointGap = self.doraemon_width / _numberOfPoints;
-        
-        NSInteger index = trueX/pointGap;
-        NSInteger surplus = (NSInteger)trueX % (NSInteger)pointGap;
-        
-        if (surplus > pointGap/2) {
-            index += 1;
-        }
-        
-        if (index >= self.pointList.count || self.pointList.count == 0) {
-            return  view;
-        }
-        
-        if (index >= 0 && self.pointList.count && self.pointList.count == self.recordArray.count) {
-            
-            DoraemonPoint *point = [self.pointList objectAtIndex:index];
-            DoraemonPerformanceInfoModel *item = [self.recordArray objectAtIndex:index];
-            
-            NSDate *date = [NSDate dateWithTimeIntervalSince1970:item.time];
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"HH:mm:ss"];
-            NSString *dateString = [formatter stringFromDate:date];
-            
-            [self drawTipViewWithValue:[NSString stringWithFormat:@"%.2lf", item.value] point:point time:dateString];
-        }
-    }
-    return view;
-}
-
-- (CAShapeLayer *)indicatorLayer {
-    if (!_indicatorLayer) {
-        UIBezierPath *path = [UIBezierPath bezierPath];
-        path.lineWidth = 1;
-        [path moveToPoint:CGPointMake(0, 0)];
-        [path addLineToPoint:CGPointMake(0, self.bottomLine.doraemon_bottom)];
-        
-        _indicatorLayer = [CAShapeLayer layer];
-        _indicatorLayer.path = path.CGPath;
-        _indicatorLayer.strokeColor = [UIColor orangeColor].CGColor;
-        _indicatorLayer.fillColor = [UIColor clearColor].CGColor;
-        _indicatorLayer.lineDashPattern = @[@(5), @(5)]; 
-        [self.layer addSublayer:_indicatorLayer];
-    }
-    return _indicatorLayer;
 }
 
 @end

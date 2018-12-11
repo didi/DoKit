@@ -9,8 +9,6 @@
 #import "DoraemonOscillogramView.h"
 #import "UIView+Doraemon.h"
 #import "DoraemonMemoryUtil.h"
-#import "DoraemonRecordModel.h"
-#import "DoraemonPersistenceUtil.h"
 #import "DoraemonDefine.h"
 #import "DoraemonCacheManager.h"
 #import "DoraemonMemoryOscillogramWindow.h"
@@ -21,7 +19,6 @@
 
 //每秒运行一次
 @property (nonatomic, strong) NSTimer *secondTimer;
-@property (nonatomic, strong) DoraemonRecordModel *record;
 
 @end
 
@@ -65,8 +62,6 @@
     if(!_secondTimer){
         _secondTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(doSecondFunction) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:_secondTimer forMode:NSRunLoopCommonModes];
-        _record = [DoraemonRecordModel instanceWithType:DoraemonRecordTypeMemory];
-        _record.startTime = [[NSDate date] timeIntervalSince1970];
     }
 }
 
@@ -75,10 +70,6 @@
         [_secondTimer invalidate];
         _secondTimer = nil;
         [_oscillogramView clear];
-        
-        _record.endTime = [[NSDate date] timeIntervalSince1970];
-        [DoraemonPersistenceUtil saveRecord:_record];
-        _record = nil;
     }
 }
 
@@ -88,7 +79,6 @@
     NSUInteger totalMemoryForDevice = [self deviceMemory];
     
     // 0~totalMemoryForDevice   对应 高度0~_oscillogramView.doraemon_height
-    [self.record addRecordValue:useMemoryForApp heightValue:useMemoryForApp*200./totalMemoryForDevice  time:[[NSDate date] timeIntervalSince1970]];
     [_oscillogramView addHeightValue:useMemoryForApp*_oscillogramView.doraemon_height/totalMemoryForDevice andTipValue:[NSString stringWithFormat:@"%zi",useMemoryForApp]];
 }
 

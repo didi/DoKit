@@ -6,7 +6,7 @@
 //
 
 #import <DoraemonKit/DoraemonKit.h>
-#import "DoraemonBaseSwitchViewController.h"
+#import "DoraemonBaseViewController.h"
 
 @interface DoraemonNetFlowViewController : DoraemonBaseViewController
 

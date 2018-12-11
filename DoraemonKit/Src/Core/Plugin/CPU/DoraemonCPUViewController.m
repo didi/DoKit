@@ -8,7 +8,6 @@
 #import "DoraemonCPUViewController.h"
 #import "DoraemonCacheManager.h"
 #import "DoraemonCPUOscillogramWindow.h"
-#import "DoraemonPersistenceUtil.h"
 #import "Doraemoni18NUtil.h"
 #import "DoraemonCPUOscillogramViewController.h"
 #import "DoraemonCellSwitch.h"
@@ -64,22 +63,6 @@
         DoraemonCPUListViewController *vc = [[DoraemonCPUListViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     }
-}
-
-
-
-- (NSArray *)getLocalRecords {
-    return [DoraemonPersistenceUtil getLocalRecordsWithType:DoraemonRecordTypeCPU];
-}
-
-- (void)didSelectedItemWithMessage:(NSString *)message {
-    DoraemonCPUOscillogramViewController *vc = [[DoraemonCPUOscillogramViewController alloc] init];
-    vc.view.backgroundColor = [UIColor whiteColor];
-    
-    NSArray<DoraemonPerformanceInfoModel *> *recordArray = [DoraemonPersistenceUtil getRecordDetailWithType:DoraemonRecordTypeCPU fileName:message];
-    [vc addRecortArray:recordArray];
-    
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

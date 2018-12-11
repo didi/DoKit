@@ -6,7 +6,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DoraemonPerformanceInfoModel.h"
 
 @interface DoraemonOscillogramViewController : UIViewController
 

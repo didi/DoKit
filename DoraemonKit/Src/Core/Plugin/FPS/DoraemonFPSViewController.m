@@ -8,7 +8,6 @@
 #import "DoraemonFPSViewController.h"
 #import "DoraemonCacheManager.h"
 #import "DoraemonFPSOscillogramWindow.h"
-#import "DoraemonPersistenceUtil.h"
 #import "DoraemonFPSOscillogramViewController.h"
 #import "DoraemonCellSwitch.h"
 #import "DoraemonCellButton.h"
@@ -65,21 +64,6 @@
         DoraemonFPSListViewController *vc = [[DoraemonFPSListViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     }
-}
-
-
-- (NSArray *)getLocalRecords {
-    return [DoraemonPersistenceUtil getLocalRecordsWithType:DoraemonRecordTypeFPS];
-}
-
-- (void)didSelectedItemWithMessage:(NSString *)message {
-    DoraemonFPSOscillogramViewController *vc = [[DoraemonFPSOscillogramViewController alloc] init];
-    vc.view.backgroundColor = [UIColor whiteColor];
-    
-    NSArray *recordArray = [DoraemonPersistenceUtil getRecordDetailWithType:DoraemonRecordTypeFPS fileName:message];
-    [vc addRecortArray:recordArray];
-    
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

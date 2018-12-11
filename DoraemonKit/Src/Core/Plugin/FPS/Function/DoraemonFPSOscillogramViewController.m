@@ -7,8 +7,6 @@
 
 #import "DoraemonFPSOscillogramViewController.h"
 #import "DoraemonOscillogramView.h"
-#import "DoraemonRecordModel.h"
-#import "DoraemonPersistenceUtil.h"
 #import "DoraemonDefine.h"
 #import "DoraemonCacheManager.h"
 #import "DoraemonFPSOscillogramWindow.h"
@@ -20,7 +18,6 @@
 @property (nonatomic, strong) CADisplayLink *link;
 @property (nonatomic, assign) NSUInteger count;
 @property (nonatomic, assign) NSTimeInterval lastTime;
-@property (nonatomic, strong) DoraemonRecordModel *record;
 
 @end
 
@@ -75,7 +72,6 @@
     
     NSInteger intFps = (NSInteger)(fps+0.5);
     // 0~60   对应 高度0~_oscillogramView.doraemon_height
-    [self.record addRecordValue:fps heightValue:intFps time:[[NSDate date] timeIntervalSince1970]];
     [_oscillogramView addHeightValue:fps*_oscillogramView.doraemon_height/60. andTipValue:[NSString stringWithFormat:@"%zi",intFps]];
 }
 
@@ -85,8 +81,6 @@
     }else{
         _link = [CADisplayLink displayLinkWithTarget:self selector:@selector(trigger:)];
         [_link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
-        _record = [DoraemonRecordModel instanceWithType:DoraemonRecordTypeFPS];
-        _record.startTime = [[NSDate date] timeIntervalSince1970];
     }
 }
 
@@ -98,10 +92,6 @@
         [_oscillogramView clear];
         _lastTime = 0;
         _count = 0;
-        
-        _record.endTime = [[NSDate date] timeIntervalSince1970];
-        [DoraemonPersistenceUtil saveRecord:_record];
-        _record = nil;
     }
 }
 

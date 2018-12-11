@@ -8,7 +8,6 @@
 #import "DoraemonMemoryViewController.h"
 #import "DoraemonCacheManager.h"
 #import "DoraemonMemoryOscillogramWindow.h"
-#import "DoraemonPersistenceUtil.h"
 #import "DoraemonMemoryOscillogramViewController.h"
 #import "DoraemonCellSwitch.h"
 #import "DoraemonCellButton.h"
@@ -63,21 +62,6 @@
         DoraemonMemoryListViewController *vc = [[DoraemonMemoryListViewController alloc] init];
         [self.navigationController pushViewController:vc animated:YES];
     }
-}
-
-
-- (NSArray *)getLocalRecords {
-    return [DoraemonPersistenceUtil getLocalRecordsWithType:DoraemonRecordTypeMemory];
-}
-
-- (void)didSelectedItemWithMessage:(NSString *)message {
-    DoraemonMemoryOscillogramViewController *vc = [[DoraemonMemoryOscillogramViewController alloc] init];
-    vc.view.backgroundColor = [UIColor whiteColor];
-    
-    NSArray *recordArray = [DoraemonPersistenceUtil getRecordDetailWithType:DoraemonRecordTypeMemory fileName:message];
-    [vc addRecortArray:recordArray];
-    
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
