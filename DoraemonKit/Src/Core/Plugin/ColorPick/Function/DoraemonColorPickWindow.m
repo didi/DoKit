@@ -152,7 +152,6 @@ static CGFloat const kColorPickWindowSize = 114;
     if (!_magnifierWindow) {
         _magnifierWindow = [[DoraemonVisualMagnifierWindow alloc] init];
         _magnifierWindow.targetWindow = [[UIApplication sharedApplication].delegate window];
-        _magnifierWindow.adjustPoint = CGPointMake(0, (kColorPickWindowSize - 6) / 2.0); //放大镜位置调整
         _magnifierWindow.magnifierWidth = kColorPickWindowSize - 6; //设置宽度
     }
     return _magnifierWindow;

@@ -83,10 +83,11 @@
 - (void)setTargetPoint:(CGPoint)targetPoint {
     _targetPoint = targetPoint;
     if (self.targetWindow) {
-        CGPoint center = CGPointMake(targetPoint.x, self.center.y);
-        if (targetPoint.y > CGRectGetHeight(self.bounds) * 0.5) {
-            center.y = targetPoint.y -  CGRectGetHeight(self.bounds) / 2;
-        }
+//        CGPoint center = CGPointMake(targetPoint.x, self.center.y);
+//        if (targetPoint.y > CGRectGetHeight(self.bounds) * 0.5) {
+//            center.y = targetPoint.y -  CGRectGetHeight(self.bounds) / 2;
+//        }
+        CGPoint center = CGPointMake(targetPoint.x, targetPoint.y);
         self.center = CGPointMake(center.x + self.adjustPoint.x, center.y + self.adjustPoint.y);
         [self.layer setNeedsDisplay];
     }
