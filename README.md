@@ -44,7 +44,7 @@ A full-featured iOS development assistant. You deserve it.
 
 ## Feature Demonstration
 <div  align="center">    
- <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonPanel.jpeg" width = "300" height = "565" alt="图片名称" align=center />
+ <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/DoraemonKit2/DoraemonKit2.png" width = "300" height = "565" alt="图片名称" align=center />
 </div>
 tips: Tools in the top two lines are user-defined. Others are built-in.
 
