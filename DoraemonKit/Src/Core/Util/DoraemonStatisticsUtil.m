@@ -17,7 +17,7 @@
     NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
     NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     NSString *type = @"iOS";
-    NSString *from = @"0";
+    NSString *from = @"1";
     
     NSMutableDictionary *param = [[NSMutableDictionary alloc] init];
     [param setValue:appId forKey:@"appId"];
@@ -26,10 +26,15 @@
     [param setValue:type forKey:@"type"];
     [param setValue:from forKey:@"from"];
     
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager POST:url parameters:param success:^(AFHTTPRequestOperation *operation, id responseObject) {
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
+    session.responseSerializer = [AFJSONResponseSerializer serializer];
+    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain", nil];
+    session.requestSerializer=[AFJSONRequestSerializer serializer];
+    
+    [session POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
     }];
+
     
 }
 
