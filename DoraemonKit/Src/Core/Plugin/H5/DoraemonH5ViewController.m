@@ -10,7 +10,7 @@
 #import "DoraemonToastUtil.h"
 #import "DoraemonDefine.h"
 #import "Doraemoni18NUtil.h"
-#import <UITextView+Placeholder/UITextView+Placeholder.h>
+#import "UITextView+Placeholder.h"
 
 @interface DoraemonH5ViewController ()
 

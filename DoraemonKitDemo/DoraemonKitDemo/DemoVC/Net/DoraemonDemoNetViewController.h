@@ -6,7 +6,7 @@
 //  Copyright © 2018年 yixiang. All rights reserved.
 //
 
-#import <DoraemonKit/DoraemonKit.h>
+#import <DoraemonKit/DoraemonBaseViewController.h>
 
 @interface DoraemonDemoNetViewController : DoraemonBaseViewController
 

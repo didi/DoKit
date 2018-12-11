@@ -26,6 +26,8 @@ NSDictionary *DoraemonLanguageCode_ISO639CodeMap() {
 
 + (NSString *)localizedString:(NSString *)key {
     
+    return key;
+    //暂时不支持国际化
     NSString *language = [[NSLocale preferredLanguages] firstObject];
     if (language.length == 0) {
         return key;
@@ -42,6 +44,9 @@ NSDictionary *DoraemonLanguageCode_ISO639CodeMap() {
     NSString *path = [tmp pathForResource:fileNamePrefix ofType:@"lproj"];
     NSBundle *bundle = [NSBundle bundleWithPath:path];
     NSString *localizedString = [bundle localizedStringForKey:key value:nil table:@"Doraemon"];
+    if (!localizedString) {
+        localizedString = key;
+    }
     return localizedString;
 }
 
