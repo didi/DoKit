@@ -93,13 +93,13 @@
 #pragma mark DoraemonColorPickInfoViewDelegate
 
 - (void)closeBtnClicked:(id)sender onColorPickInfoView:(DoraemonColorPickInfoView *)colorPickInfoView {
-    [self hide];
+    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonClosePluginNotification object:nil userInfo:nil];
 }
 
 #pragma mark - Notification
 
 - (void)closePlugin:(NSNotification *)notification{
-    self.hidden = YES;
+    [self hide];
 }
 
 

@@ -125,7 +125,7 @@ static CGFloat const kViewCheckSize = 62;
 }
 
 - (void)closeBtnClicked:(id)sender {
-    _viewInfoWindow.hidden = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonClosePluginNotification object:nil userInfo:nil];
 }
 
 -(UIView*)topView:(UIView*)view Point:(CGPoint) point{

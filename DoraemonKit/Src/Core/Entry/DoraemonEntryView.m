@@ -46,8 +46,6 @@
         
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
         [self addGestureRecognizer:pan];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showClose:) name:DoraemonShowPluginNotification object:nil];
     }
     return self;
 }
@@ -81,6 +79,8 @@
     }else{
         [[DoraemonHomeWindow shareInstance] hide];
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonClosePluginNotification object:nil userInfo:nil];
 }
 
 - (void)pan:(UIPanGestureRecognizer *)sender{
