@@ -132,6 +132,15 @@ Take our App as an example:
 }
 ```
 
+## Contributors
+[yixiangboy](https://github.com/yixiangboy)
+
+[wenquanlebao](https://github.com/wenquanlebao)
+
+[hiXgb](https://github.com/hiXgb)
+
+[teethandnail](https://github.com/teethandnail)
+
 ## Related documents
 
 [Chinese Readme](https://github.com/didi/DoraemonKit/blob/master/Doc/ChineseReadme.md)

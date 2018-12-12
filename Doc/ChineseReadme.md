@@ -138,6 +138,16 @@ tip2：只在Debug环境中进行集成，不要带到线上。有一些hook操�
 }
 ```
 
+## 成员
+### 发起者 负责人
+[yixiangboy](https://github.com/yixiangboy)
+
+### 贡献者
+[wenquanlebao](https://github.com/wenquanlebao)
+
+[hiXgb](https://github.com/hiXgb)
+
+[teethandnail](https://github.com/teethandnail)
 
 ## DoraemonKit相关文档
 
