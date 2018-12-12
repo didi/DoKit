@@ -12,7 +12,7 @@
 
 A full-featured iOS development assistant. You deserve it.
 
-[Chinese Readme](https://github.com/didi/DoraemonKit/blob/master/Doc/ChineseReadme.md)
+[中文文档](https://github.com/didi/DoraemonKit/blob/master/Doc/ChineseReadme.md)
 
 ## Communication
 
