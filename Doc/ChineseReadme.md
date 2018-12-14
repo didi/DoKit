@@ -151,6 +151,8 @@ tip2：只在Debug环境中进行集成，不要带到线上。有一些hook操�
 
 ## DoraemonKit相关文档
 
+[ReleaseNotes](https://github.com/didi/DoraemonKit/blob/master/Doc/ReleaseNotes.md)
+
 [英文介绍](https://github.com/didi/DoraemonKit)
 
 [iOS研发助手DoraemonKit技术实现（一）](https://www.jianshu.com/p/00763123dbc4)
