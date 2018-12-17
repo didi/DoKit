@@ -11,7 +11,7 @@
 
 @interface DoraemonUtil : NSObject
 
-@property (nonatomic, assign) NSInteger *fileSize;
+@property (nonatomic, assign) NSInteger fileSize;
 
 + (void)openPlugin:(UIViewController *)vc;
 
