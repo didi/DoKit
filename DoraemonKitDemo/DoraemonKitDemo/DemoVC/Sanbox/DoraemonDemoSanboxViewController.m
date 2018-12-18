@@ -31,6 +31,12 @@
     [btn1 setTitle:@"添加一张图片到沙盒中" forState:UIControlStateNormal];
     [btn1 addTarget:self action:@selector(addImageFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn1];
+    
+    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn1.doraemon_bottom+20, self.view.doraemon_width, 60)];
+    btn2.backgroundColor = [UIColor orangeColor];
+    [btn2 setTitle:@"添加一段mp4到沙盒中" forState:UIControlStateNormal];
+    [btn2 addTarget:self action:@selector(addMP4File) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn2];
 }
 
 - (void)addFile{
@@ -64,6 +70,24 @@
     NSString *path_document = NSHomeDirectory();
     NSString *imagePath = [path_document stringByAppendingString:@"/Documents/zhaoliyin.jpg"];
     [UIImagePNGRepresentation(image2) writeToFile:imagePath atomically:YES];
+}
+
+- (void)addMP4File{
+    NSFileManager *fileManage = [NSFileManager defaultManager];
+    
+    NSBundle *bundle = [NSBundle mainBundle];
+    NSString *path = [bundle pathForResource:@"huoying" ofType:@"mp4"];
+    if(![fileManage fileExistsAtPath:path]){
+        NSLog(@"文件不存在");
+        return;
+    }
+    NSString *fromPath = path;
+    NSString *path_document = NSHomeDirectory();
+    NSString *toPath = [path_document stringByAppendingString:@"/Documents/huoying.mp4"];
+    if (![fileManage fileExistsAtPath:toPath]) {
+        BOOL isSuccess = [fileManage copyItemAtPath:fromPath toPath:toPath error:nil];
+        NSLog(@"%@",isSuccess ? @"拷贝成功" : @"拷贝失败");
+    }
 }
 
 - (NSString *)dictToJsonStr:(NSDictionary *)dict{
