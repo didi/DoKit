@@ -169,7 +169,27 @@
 //删除某一路径下的所有文件
 + (void)clearFileWithPath:(NSString *)path{
     NSFileManager *fm = [NSFileManager defaultManager];
-    [fm removeItemAtPath:path error:nil];
+    NSArray *files = [[NSFileManager defaultManager] subpathsAtPath:path];
+    for (NSString *file in files) {
+        NSError *error;
+        NSString *filePath = [path stringByAppendingPathComponent:file];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+            [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
+            if (!error) {
+                NSLog(@"remove file: %@", file);
+            }
+        }
+    }
+}
+
++ (void)clearLocalDatas {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *homePath = NSHomeDirectory();
+        NSArray *folders = @[@"Documents", @"Library", @"tmp"];
+        for (NSString *folder in folders) {
+            [DoraemonUtil clearFileWithPath:[homePath stringByAppendingPathComponent:folder]];
+        }
+    });
 }
 
 @end

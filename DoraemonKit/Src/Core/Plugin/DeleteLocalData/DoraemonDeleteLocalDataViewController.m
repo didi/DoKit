@@ -45,8 +45,8 @@
     UIAlertController * alertController = [UIAlertController alertControllerWithTitle:DoraemonLocalizedString(@"提示") message:DoraemonLocalizedString(@"确定要删除本地数据") preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:DoraemonLocalizedString(@"取消") style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:DoraemonLocalizedString(@"确定") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        NSString *homeDir = NSHomeDirectory();
-        [DoraemonUtil clearFileWithPath:homeDir];
+        [weakSelf.cellBtn renderUIWithRightContent:@"正在清理中"];
+        [DoraemonUtil clearLocalDatas];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [weakSelf.cellBtn renderUIWithRightContent:[self getHomeDirFileSize]];
         });
