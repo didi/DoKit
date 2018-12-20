@@ -65,11 +65,11 @@
     NSInteger fileSize = util.fileSize;
     //将文件夹大小转换为 M/KB/B
     NSString *fileSizeStr = nil;
-    if (fileSize > 1000 * 1000){
-        fileSizeStr = [NSString stringWithFormat:@"%.2fM",fileSize / 1000.00f /1000.00f];
+    if (fileSize > 1024 * 1024){
+        fileSizeStr = [NSString stringWithFormat:@"%.2fM",fileSize / 1024.00f /1024.00f];
         
-    }else if (fileSize > 1000){
-        fileSizeStr = [NSString stringWithFormat:@"%.2fKB",fileSize / 1000.00f ];
+    }else if (fileSize > 1024){
+        fileSizeStr = [NSString stringWithFormat:@"%.2fKB",fileSize / 1024.00f ];
         
     }else{
         fileSizeStr = [NSString stringWithFormat:@"%.2fB",fileSize / 1.00f];
