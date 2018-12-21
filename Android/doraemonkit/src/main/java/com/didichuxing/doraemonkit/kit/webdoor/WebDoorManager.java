@@ -1,0 +1,73 @@
+package com.didichuxing.doraemonkit.kit.webdoor;
+
+import android.content.Context;
+
+import com.didichuxing.doraemonkit.constant.CachesKey;
+import com.didichuxing.doraemonkit.util.CacheUtils;
+
+import java.util.ArrayList;
+
+/**
+ * Created by wanglikun on 2018/10/10.
+ */
+
+public class WebDoorManager {
+    private static final String TAG = "WebDoorManager";
+    private WebDoorCallback mWebDoorCallback;
+    private ArrayList<String> mHistory;
+
+    public boolean isWebDoorEnable() {
+        return mWebDoorCallback != null;
+    }
+
+    public WebDoorCallback getWebDoorCallback() {
+        return mWebDoorCallback;
+    }
+
+    public void setWebDoorCallback(WebDoorCallback webDoorCallback) {
+        mWebDoorCallback = webDoorCallback;
+    }
+
+    public void removeWebDoorCallback() {
+        mWebDoorCallback = null;
+    }
+
+    public void saveHistory(Context context, String text) {
+        if (mHistory == null) {
+            mHistory = (ArrayList<String>) CacheUtils.readObject(context, CachesKey.WEB_DOOR_HISTORY);
+        }
+        if (mHistory == null) {
+            mHistory = new ArrayList<>();
+        }
+        if (mHistory.contains(text)) {
+            return;
+        }
+        if (mHistory.size() == 5) {
+            mHistory.remove(0);
+        }
+        mHistory.add(text);
+        CacheUtils.saveObject(context, CachesKey.WEB_DOOR_HISTORY, mHistory);
+    }
+
+    public ArrayList<String> getHistory(Context context) {
+        if (mHistory == null) {
+            mHistory = (ArrayList<String>) CacheUtils.readObject(context, CachesKey.WEB_DOOR_HISTORY);
+        }
+        if (mHistory == null) {
+            mHistory = new ArrayList<>();
+        }
+        return mHistory;
+    }
+
+    private static class Holder {
+        private static WebDoorManager INSTANCE = new WebDoorManager();
+    }
+
+    public static WebDoorManager getInstance() {
+        return Holder.INSTANCE;
+    }
+
+    public interface WebDoorCallback {
+        void overrideUrlLoading(String url);
+    }
+}
