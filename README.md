@@ -30,6 +30,12 @@ A full-featured iOS development assistant. You deserve it.
 <br/>
 
 
+## How To Use
+[iOS_Guide](https://github.com/didi/DoraemonKit/blob/master/Doc/iOS_en_guide.md)
+
+[Android_Guide](https://github.com/didi/DoraemonKit/blob/master/Doc/android_en_guide.md
+)
+
 ## Feature List
 
 1. Including an entrance to examine information of device, app and app's permissions.
