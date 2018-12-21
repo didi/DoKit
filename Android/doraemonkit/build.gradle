@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply from: 'upload.gradle'
 
 android {
     compileSdkVersion 26
@@ -21,7 +22,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
