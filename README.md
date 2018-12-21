@@ -19,6 +19,7 @@ A full-featured iOS development assistant. You deserve it.
 <div  align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKitQQ.jpeg" width = "160" height = "200" alt="图片名称" align=left />
 </div>
+
 <br/>
 <br/>
 <br/>
@@ -29,12 +30,6 @@ A full-featured iOS development assistant. You deserve it.
 <br/>
 <br/>
 
-
-## How To Use
-[iOS_Guide](https://github.com/didi/DoraemonKit/blob/master/Doc/iOS_en_guide.md)
-
-[Android_Guide](https://github.com/didi/DoraemonKit/blob/master/Doc/android_en_guide.md
-)
 
 ## Feature List
 
@@ -52,6 +47,12 @@ A full-featured iOS development assistant. You deserve it.
 <div  align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/DoraemonKit2/DoraemonKit2.png" width = "300" height = "565" alt="图片名称" align=center />
 </div>
+
+## How To Use
+[iOS_Guide](https://github.com/didi/DoraemonKit/blob/master/Doc/iOS_en_guide.md)
+
+[Android_Guide](https://github.com/didi/DoraemonKit/blob/master/Doc/android_en_guide.md
+)
 
 
 ## Contributors
