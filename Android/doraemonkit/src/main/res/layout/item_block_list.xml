@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              style="@style/DK.CommonItem">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/DK.Text.Dark"
+        android:layout_weight="1"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="5dp"/>
+
+    <TextView
+        android:id="@+id/time"
+        style="@style/DK.TextSmall.Dark"
+        android:paddingLeft="20dp"/>
+</LinearLayout>
