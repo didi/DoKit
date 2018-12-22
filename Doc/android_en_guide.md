@@ -3,7 +3,7 @@
 ### 1： Use Gradle to Get latest version of DoraemonKit
 
 ```
-debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:0.0.1'
+debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.0.0'
 ```
 
 Tip: Use DoraemonKit in debug model.

@@ -3,7 +3,7 @@
 ### 1： Gradle依赖
 
 ```
-debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:0.0.1'
+debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.0.0'
 ```
 
 Tip: 只在Debug环境中进行集成，不要带到线上。有一些hook操作会污染线上代码。
