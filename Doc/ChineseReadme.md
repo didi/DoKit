@@ -82,7 +82,9 @@
 
 ## DoraemonKit相关文档
 
-[ReleaseNotes](https://github.com/didi/DoraemonKit/blob/master/Doc/ReleaseNotes.md)
+[iOS-ReleaseNotes](https://github.com/didi/DoraemonKit/blob/master/Doc/iOS-ReleaseNotes.md)
+
+[Android-ReleaseNotes](https://github.com/didi/DoraemonKit/blob/master/Doc/android-ReleaseNotes.md)
 
 [英文介绍](https://github.com/didi/DoraemonKit)
 
