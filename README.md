@@ -64,6 +64,14 @@ A full-featured iOS development assistant. You deserve it.
 
 [teethandnail](https://github.com/teethandnail)
 
+[wanglikun7342](https://github.com/wanglikun7342)
+
+[Chinnko](https://github.com/Chinnko)
+
+[LinJZong](https://github.com/LinJZong)
+
+[y644938647](https://github.com/y644938647)
+
 ## Related documents
 
 [Chinese Readme](https://github.com/didi/DoraemonKit/blob/master/Doc/ChineseReadme.md)
