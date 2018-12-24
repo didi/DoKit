@@ -1,0 +1,131 @@
+<resources>
+    <string name="dk_app_name">DoraemonKit</string>
+
+    <string name="dk_category_biz">Business</string>
+    <string name="dk_category_tools">Tool Box</string>
+    <string name="dk_category_performance">Performance Monitor</string>
+    <string name="dk_category_ui">UI Tool</string>
+
+    <string name="dk_kit_sysinfo">App Info</string>
+    <string name="dk_kit_file_explorer">Sandbox</string>
+    <string name="dk_kit_frame_info">FPS Monitor</string>
+    <string name="dk_kit_gps_mock">Mock GPS</string>
+    <string name="dk_kit_color_picker">Color Picker</string>
+    <string name="dk_kit_align_ruler">Align Size</string>
+    <string name="dk_kit_log_info">Show Log</string>
+    <string name="dk_kit_web_door">H5 Opener</string>
+    <string name="dk_kit_temporary_close">Hide Doraemon</string>
+    <string name="dk_kit_crash">Crash Viewer</string>
+    <string name="dk_kit_data_clean">Cache Cleanup</string>
+    <string name="dk_kit_view_check">View Ciewer</string>
+    <string name="dk_kit_net_monitor">Traffic Monitor</string>
+    <string name="dk_kit_exit">Exit Doraemonkit</string>
+
+    <string name="dk_sysinfo_device_info">Mobile Info</string>
+    <string name="dk_sysinfo_app_info">App Info</string>
+    <string name="dk_sysinfo_permission_info">Privacy Info</string>
+    <string name="dk_sysinfo_permission_info_unreliable">Privacy Info</string>
+    <string name="dk_sysinfo_brand_and_model">Mobile Model</string>
+    <string name="dk_sysinfo_android_version">System Version</string>
+    <string name="dk_sysinfo_package_name">Package Name</string>
+    <string name="dk_sysinfo_package_version_name">Application Version Name</string>
+    <string name="dk_sysinfo_package_version_code">Application Version Number</string>
+    <string name="dk_sysinfo_package_min_sdk">Minimum System Version Number</string>
+    <string name="dk_sysinfo_package_target_sdk">Target System Version Number</string>
+    <string name="dk_sysinfo_ext_storage_free">Sd Card Remaining Space</string>
+    <string name="dk_sysinfo_rom_free">System Free Space</string>
+    <string name="dk_sysinfo_display_size">Resolution</string>
+    <string name="dk_sysinfo_permission_location">Location Privacy</string>
+    <string name="dk_sysinfo_permission_sdcard">Disk Permissions</string>
+    <string name="dk_sysinfo_permission_camera">Photo Permission</string>
+    <string name="dk_sysinfo_permission_record">Microphone Privacy</string>
+    <string name="dk_sysinfo_permission_read_phone">Device Information Permission</string>
+    <string name="dk_sysinfo_permission_contact">Contacts Privacy</string>
+
+    <string name="dk_frameinfo_fps">FPS</string>
+    <string name="dk_frameinfo_cpu">CPU</string>
+
+    <string name="dk_log_info_edt_hint">Enter the keywords you want to filter</string>
+    <string name="dk_log_info_verbose">Verbose</string>
+    <string name="dk_log_info_debug">Debug</string>
+    <string name="dk_log_info_info">Info</string>
+    <string name="dk_log_info_warn">Warn</string>
+    <string name="dk_log_info_error">Error</string>
+
+    <string name="dk_web_door_hint">Enter the address to jump</string>
+    <string name="dk_web_door_explore">Click To Jump</string>
+
+    <string name="dk_gpsmock_tv_location">Mock Location</string>
+    <string name="dk_gpsmock_hint_latitude">Input latitude</string>
+    <string name="dk_gpsmock_hint_longitude">Input longitude</string>
+
+    // 卡顿检测
+    <string name="dk_kit_block_monitor">ANR Check</string>
+    <string name="dk_kit_block_monitor_list">ANR List</string>
+    <string name="dk_kit_block_monitor_detail">ANR Detail</string>
+    <string name="dk_item_block_switch">ANR Switch</string>
+    <string name="dk_item_block_goto_list">View ANR</string>
+    <string name="dk_item_block_mock">Mock ANR</string>
+
+    <string name="dk_block_class_has_blocked">blocked %s ms</string>
+    <string name="dk_block_notification_message">Click for more details</string>
+
+    <string name="dk_crash_capture_tips">DoraemonKit is recording Crash for you</string>
+    <string name="dk_crash_capture_no_record">No crash record</string>
+    <string name="dk_gpsmock_open">Open Mock Gps</string>
+    <string name="dk_crash_capture_switch">Crash Log Collection Switch</string>
+    <string name="dk_crash_capture_look">View Crash Log</string>
+    <string name="dk_crash_capture_clean_data">Clean Crash Cache</string>
+    <string name="dk_crash_capture_summary_title">Crash Log List</string>
+    <string name="dk_back">Back</string>
+    <string name="dk_frameinfo_ram">RAM</string>
+    <string name="dk_kit_network_monitor">Network Monitor</string>
+    <string name="dk_data_clean_toast">Clean app data</string>
+    <string name="dk_float_permission_toast">DoraemonKit need draw over other app permission</string>
+    <string name="dk_gps_location_change_toast">Location changed: %1$s, %2$s</string>
+    <string name="dk_view_check_info_size">View Size：width%1$d，height%2$d</string>
+    <string name="dk_view_check_info_desc">View Background：%1$s</string>
+    <string name="dk_view_check_info_id">View ID：%1$s</string>
+    <string name="dk_view_check_info_class">View Class：%1$s</string>
+    <string name="dk_network_get_method">GET</string>
+    <string name="dk_network_post_method">POST</string>
+    <string name="dk_network_request">Request</string>
+    <string name="dk_network_response">Response</string>
+    <string name="dk_kit_frame_info_desc">FPS Detection</string>
+    <string name="dk_network_method">Method</string>
+    <string name="dk_kit_network_monitor_detail">Traffic Monitoring Details</string>
+    <string name="dk_kit_network_filter_hint">Support screening</string>
+    <string name="dk_kit_network_time_format">%1$s Consume:%2$s</string>
+    <string name="dk_net_monitor_title_summary">Traffic Monitoring Summary</string>
+    <string name="dk_net_monitor_list">Traffic Monitoring List</string>
+    <string name="dk_net_monitor_detection_switch">Flow Detection Switch</string>
+    <string name="dk_net_monitor_show_summary">Show Traffic Monitoring Details</string>
+    <string name="dk_network_detail_title_body">Message Body</string>
+    <string name="dk_network_detail_title_size">Data Size</string>
+    <string name="dk_network_detail_title_url">Link</string>
+    <string name="dk_network_detail_title_request_time">Request Time</string>
+    <string name="dk_network_detail_title_response_time">Response Time</string>
+    <string name="dk_network_detail_title_request_header">Request Header</string>
+    <string name="dk_network_detail_title_response_header">Response Header</string>
+    <string name="dk_network_detail_title_request_body">Request Line</string>
+    <string name="dk_network_detail_title_response_body">Request Line</string>
+    <string name="dk_network_summary_total_number_time_tips">Total Captured</string>
+    <string name="dk_network_summary_total_number">Captured Packets</string>
+    <string name="dk_network_summary_data_upload">Data Upload</string>
+    <string name="dk_network_summary_data_down">Data Download</string>
+    <string name="dk_network_summary_http_method">HTTP Method</string>
+    <string name="dk_network_summary_data_type">Data Type</string>
+    <string name="dk_network_summary_total_time_default">0S</string>
+    <string name="dk_network_summary_total_time_second">%dS</string>
+    <string name="dk_network_summary_total_time_minute">%1$dM%2$dS</string>
+    <string name="dk_network_summary_total_time_hour">%1$dH&#160;%2$dM</string>
+    <string name="dk_network_summary_total_time_day">%1$dD%2$dH&#160;</string>
+    <string name="dk_cpu_detection_switch">CPU Detection Switch</string>
+    <string name="dk_frameinfo_detection_switch">FPS Detection Switch</string>
+    <string name="dk_cpu_title_cache_log">Test Record</string>
+    <string name="dk_item_cache_log">Inspection Records</string>
+    <string name="dk_ram_detection_switch">Memory Detection Switch</string>
+    <string name="dk_ram_detection_title">Memory Detection</string>
+    <string name="dk_cpu_memory_remind_user">Sorry, your current system version is higher than 8.0. Due to Google\'s privilege tightening, you can only use adb to obtain performance analysis data. Please connect your computer to your computer and enter adb tcpip 5555 to ensure normal function.</string>
+
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dk_font_size_12">12dp</dimen>
+    <dimen name="dk_font_size_14">14dp</dimen>
+    <dimen name="dk_font_size_16">16dp</dimen>
+    <dimen name="dk_font_size_18">18dp</dimen>
+    <dimen name="dk_font_size_22">22dp</dimen>
+    <dimen name="dk_font_size_24">24dp</dimen>
+    <dimen name="dk_font_size_10">10dp</dimen>
+</resources>

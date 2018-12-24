@@ -7,7 +7,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DoraemonKit'
-  s.version          = '1.1.1'
+  s.version          = '1.1.2'
   s.summary          = 'iOS各式各样的工具集合'
   s.description      = <<-DESC
                           iOS各式各样的工具集合 Desc
@@ -23,15 +23,15 @@ Pod::Spec.new do |s|
   s.default_subspec = 'Core'
   
   s.subspec 'Core' do |ss| 
-    ss.source_files = 'DoraemonKit/Src/Core/**/*{.h,.m}'
+    ss.source_files = 'iOS/DoraemonKit/Src/Core/**/*{.h,.m}'
     ###ss.vendored_frameworks = 'DoraemonKit/Lib/CrashReporter.framework'
     ss.resource_bundles = {
-      'DoraemonKit' => 'DoraemonKit/Resource/**/*'
+      'DoraemonKit' => 'iOS/DoraemonKit/Resource/**/*'
     }
   end
 
   s.subspec 'WithLogger' do |ss| 
-    ss.source_files = 'DoraemonKit/Src/Logger/**/*{.h,.m}'
+    ss.source_files = 'iOS/DoraemonKit/Src/Logger/**/*{.h,.m}'
     ss.pod_target_xcconfig = {
       'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithLogger'
     }

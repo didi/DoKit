@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="240dp"
+    android:background="@color/dk_color_aa000000">
+
+    <TextView
+        style="@style/DK.Text.White"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="10dp"
+        android:text="0"
+        android:textSize="@dimen/dk_font_size_10"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="25dp"
+        android:background="@color/dk_color_33999999"/>
+
+    <com.didichuxing.doraemonkit.ui.realtime.widget.CardiogramView
+        android:id="@+id/line_chart_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/DK.Text.White"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:textSize="@dimen/dk_font_size_10"/>
+
+</FrameLayout>
