@@ -42,14 +42,16 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = [self needBigTitleView];
-    [[DoraemonHomeWindow shareInstance] makeKeyWindow];
 }
 
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
-    [appWindow makeKeyWindow];
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    if (appWindow != keyWindow) {
+        [appWindow makeKeyWindow];
+    }
 }
 
 //是否需要大标题，默认不需要
