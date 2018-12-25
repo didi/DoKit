@@ -51,8 +51,6 @@
   <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/DoraemonKit2/DoraemonKit2.png" width = "300" height = "565" alt="图片名称" align=center />
 </div>
 
-上面两行是业务线自定义的工具，接入方可以自定义。除此之外都是内置工具集合。
-
 
 ## DoraemonKit如何使用
 
