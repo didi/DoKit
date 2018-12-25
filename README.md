@@ -10,7 +10,7 @@
 <br/>
 <br/>
 
-A full-featured iOS development assistant. You deserve it.
+A full-featured APP (iOS & Android) development assistant. You deserve it.
 
 [中文文档](https://github.com/didi/DoraemonKit/blob/master/Doc/ChineseReadme.md)
 
