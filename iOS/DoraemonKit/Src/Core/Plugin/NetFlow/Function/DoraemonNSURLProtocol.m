@@ -12,9 +12,9 @@
 
 static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 
-@interface DoraemonNSURLProtocol()<NSURLConnectionDelegate,NSURLConnectionDataDelegate>
+@interface DoraemonNSURLProtocol()<NSURLSessionDelegate,NSURLSessionTaskDelegate>
 
-@property (nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, strong) NSURLSession *urlSession;
 @property (nonatomic, assign) NSTimeInterval startTime;
 @property (nonatomic, strong) NSURLResponse *response;
 @property (nonatomic, strong) NSMutableData *data;
@@ -23,6 +23,11 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 @end
 
 @implementation DoraemonNSURLProtocol
+
++ (BOOL)canInitWithTask:(NSURLSessionTask *)task {
+    NSURLRequest *request = task.currentRequest;
+    return request == nil ? NO : [self canInitWithRequest:request];
+}
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request{
     if ([NSURLProtocol propertyForKey:kDoraemonProtocolKey inRequest:request]) {
@@ -47,16 +52,25 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 }
 
 - (void)startLoading{
-    //NSLog(@"startLoading");
-    self.connection = [[NSURLConnection alloc] initWithRequest:[[self class] canonicalRequestForRequest:self.request] delegate:self];
-    [self.connection start];
     self.data = [NSMutableData data];
     self.startTime = [[NSDate date] timeIntervalSince1970];
+    
+    
+    //NSLog(@"startLoading");
+    if (!self.urlSession) {
+        self.urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+                                                        delegate:self
+                                                   delegateQueue:nil];
+    }
+    
+    NSMutableURLRequest *request = [[DoraemonNSURLProtocol canonicalRequestForRequest:self.request] mutableCopy];
+    
+    NSURLSessionDataTask *task = [self.urlSession dataTaskWithRequest:request];
+    [task resume];
 }
 
 - (void)stopLoading{
     //NSLog(@"stopLoading");
-    [self.connection cancel];
     DoraemonNetFlowHttpModel *httpModel = [DoraemonNetFlowHttpModel dealWithResponseData:self.data response:self.response request:self.request];
     if (!self.response) {
         httpModel.statusCode = self.error.localizedDescription;
@@ -66,44 +80,39 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     
     httpModel.totalDuration = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] - self.startTime];
     [[DoraemonNetFlowDataSource shareInstance] addHttpModel:httpModel];
+    
+    [self.urlSession invalidateAndCancel];
+    self.urlSession = nil;
 }
 
-
-#pragma mark - NSURLConnectionDelegate
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-    [[self client] URLProtocol:self didFailWithError:error];
-    self.error = error;
-}
-
-- (BOOL)connectionShouldUseCredentialStorage:(NSURLConnection *)connection {
-    return YES;
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
-    [[self client] URLProtocol:self didReceiveAuthenticationChallenge:challenge];
-}
-
-- (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
-    [[self client] URLProtocol:self didCancelAuthenticationChallenge:challenge];
-}
-
-#pragma mark - NSURLConnectionDataDelegate
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    [[self client] URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageAllowed];
+#pragma mark - NSURLSessionDelegate
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler {
     self.response = response;
+    [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+    completionHandler(NSURLSessionResponseAllow);
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
-    [[self client] URLProtocol:self didLoadData:data];
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
     [self.data appendData:data];
+    [self.client URLProtocol:self didLoadData:data];
 }
 
-- (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse{
-    return cachedResponse;
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
+    if (error) {
+        self.error = error;
+        [self.client URLProtocol:self didFailWithError:error];
+    }else{
+        [self.client URLProtocolDidFinishLoading:self];
+    }
 }
 
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    [[self client] URLProtocolDidFinishLoading:self];
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
+    //判断服务器返回的证书类型, 是否是服务器信任
+    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+        //强制信任
+        NSURLCredential *card = [[NSURLCredential alloc]initWithTrust:challenge.protectionSpace.serverTrust];
+        completionHandler(NSURLSessionAuthChallengeUseCredential, card);
+    }
 }
 
 @end
