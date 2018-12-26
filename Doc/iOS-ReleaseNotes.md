@@ -1,4 +1,13 @@
 # Release Notes
+## 1.1.3
+1、DorameonKit界面不占用keyWindow
+
+2、http是强制信任，解决某一些情况下https的请求无法拦截的问题
+
+3、点击空白处收起键盘
+
+4、流量监控支持WKWebView
+
 ## 1.1.2
 1、沙盒浏览器支持多媒体资源预览
 
