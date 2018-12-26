@@ -134,4 +134,9 @@
     [self leftNavBackClick:nil];
 }
 
+//点击屏幕空白处收起键盘
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.view endEditing:YES];
+}
+
 @end
