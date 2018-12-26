@@ -40,7 +40,7 @@ public class ColorPickerInfoFloatPage extends BaseFloatPage implements View.OnTo
 
     @Override
     protected View onCreateView(Context context, ViewGroup view) {
-        return LayoutInflater.from(context).inflate(R.layout.float_color_picker_info, null);
+        return LayoutInflater.from(context).inflate(R.layout.dk_float_color_picker_info, null);
     }
 
     @Override

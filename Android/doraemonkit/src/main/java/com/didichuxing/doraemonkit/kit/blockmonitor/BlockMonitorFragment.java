@@ -24,7 +24,7 @@ public class BlockMonitorFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_block_monitor_index;
+        return R.layout.dk_fragment_block_monitor_index;
     }
 
     @Override

@@ -31,7 +31,7 @@ public class FileInfoAdapter extends AbsRecyclerAdapter<AbsViewBinder<FileInfo>,
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup parent, int viewType) {
-        return inflater.inflate(R.layout.item_file_info, parent, false);
+        return inflater.inflate(R.layout.dk_item_file_info, parent, false);
     }
 
     public class FileInfoViewHolder extends AbsViewBinder<FileInfo> {

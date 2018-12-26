@@ -14,7 +14,7 @@
         app:leftText="@string/dk_back"
         app:title="@string/dk_cpu_title_cache_log" />
 
-    <include layout="@layout/item_tips_view" />
+    <include layout="@layout/dk_item_tips_view" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/data_show"

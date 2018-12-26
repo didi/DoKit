@@ -238,7 +238,7 @@ public class DeviceUtils {
      * @return 手机链接wifi的路由器的名字
      */
     public static String getWifiSSID(Context context) {
-        WifiManager mWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager mWifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (mWifi.isWifiEnabled()) {
             WifiInfo wifiInfo = mWifi.getConnectionInfo();
             return wifiInfo.getSSID();
@@ -250,7 +250,7 @@ public class DeviceUtils {
      * @return 手机链接wifi的路由器的mac地址
      */
     public static String getWifiBSSID(Context context) {
-        WifiManager mWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager mWifi = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (mWifi.isWifiEnabled()) {
             WifiInfo wifiInfo = mWifi.getConnectionInfo();
             return wifiInfo.getBSSID();
@@ -289,9 +289,9 @@ public class DeviceUtils {
      * @return 手机mac地址
      */
     public static String getDeviceMac(Context context) {
-        WifiManager mWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        if (mWifi.isWifiEnabled()) {
-            WifiInfo wifiInfo = mWifi.getConnectionInfo();
+        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wifiManager != null && wifiManager.isWifiEnabled()) {
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
             return wifiInfo.getMacAddress();
         }
         return "";
@@ -322,7 +322,7 @@ public class DeviceUtils {
      * @return
      */
     public static boolean isWifiEnabled(Context context) {
-        WifiManager wm = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+        WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         return (wm != null)
                 && (wm.getWifiState() == WifiManager.WIFI_STATE_ENABLED || wm.getWifiState() == WifiManager.WIFI_STATE_ENABLING);
     }

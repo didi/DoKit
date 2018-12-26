@@ -63,7 +63,7 @@ public class LogInfoFloatPage extends BaseFloatPage implements LogInfoManager.On
 
     @Override
     protected View onCreateView(Context context, ViewGroup view) {
-        return LayoutInflater.from(context).inflate(R.layout.float_log_info, null);
+        return LayoutInflater.from(context).inflate(R.layout.dk_float_log_info, null);
     }
 
     @Override

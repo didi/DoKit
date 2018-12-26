@@ -52,7 +52,7 @@ public class ViewCheckInfoFloatPage extends BaseFloatPage implements ViewCheckFl
 
     @Override
     protected View onCreateView(Context context, ViewGroup view) {
-        return LayoutInflater.from(context).inflate(R.layout.float_view_check_info, null);
+        return LayoutInflater.from(context).inflate(R.layout.dk_float_view_check_info, null);
     }
 
     @Override

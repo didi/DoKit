@@ -27,7 +27,7 @@ public class CrashCaptureFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_crash_capture;
+        return R.layout.dk_fragment_crash_capture;
     }
 
     private void initView() {

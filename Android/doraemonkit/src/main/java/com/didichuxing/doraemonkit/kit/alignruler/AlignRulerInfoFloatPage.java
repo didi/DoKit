@@ -35,7 +35,7 @@ public class AlignRulerInfoFloatPage extends BaseFloatPage implements AlignRuler
 
     @Override
     protected View onCreateView(Context context, ViewGroup view) {
-        return LayoutInflater.from(context).inflate(R.layout.float_align_ruler_info, view, false);
+        return LayoutInflater.from(context).inflate(R.layout.dk_float_align_ruler_info, view, false);
     }
 
     @Override

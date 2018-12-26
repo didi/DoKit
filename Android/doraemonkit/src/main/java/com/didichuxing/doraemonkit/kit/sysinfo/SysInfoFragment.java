@@ -36,7 +36,7 @@ public class SysInfoFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_sys_info;
+        return R.layout.dk_fragment_sys_info;
     }
 
     @Override

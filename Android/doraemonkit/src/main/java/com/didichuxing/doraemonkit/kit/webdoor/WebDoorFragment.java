@@ -32,7 +32,7 @@ public class WebDoorFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_web_door;
+        return R.layout.dk_fragment_web_door;
     }
 
     @Override

@@ -36,7 +36,7 @@ public class CrashCaptureAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_crash_capture, parent, false);
+            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dk_item_crash_capture, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {

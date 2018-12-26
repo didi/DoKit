@@ -33,7 +33,7 @@ public class FrameInfoFragment extends BaseFragment implements OnFloatPageChange
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_frame_info;
+        return R.layout.dk_fragment_frame_info;
     }
 
     @Override

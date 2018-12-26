@@ -2,10 +2,8 @@ package com.didichuxing.doraemonkit.kit.colorpick;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.PixelFormat;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,7 +46,7 @@ public class ColorPickerFloatPage extends BaseFloatPage implements View.OnTouchL
 
     @Override
     protected View onCreateView(Context context, ViewGroup view) {
-        return LayoutInflater.from(context).inflate(R.layout.float_color_picker, null);
+        return LayoutInflater.from(context).inflate(R.layout.dk_float_color_picker, null);
     }
 
     @Override

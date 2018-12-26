@@ -40,7 +40,7 @@ public class ViewCheckFloatPage extends BaseFloatPage implements View.OnTouchLis
 
     @Override
     protected View onCreateView(Context context, ViewGroup view) {
-        return LayoutInflater.from(context).inflate(R.layout.float_view_check, null);
+        return LayoutInflater.from(context).inflate(R.layout.dk_float_view_check, null);
     }
 
     @Override

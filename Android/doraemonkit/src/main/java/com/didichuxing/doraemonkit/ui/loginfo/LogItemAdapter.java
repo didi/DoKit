@@ -31,7 +31,7 @@ public class LogItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<LogInfoItem
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup parent, int viewType) {
-        return inflater.inflate(R.layout.item_log, parent, false);
+        return inflater.inflate(R.layout.dk_item_log, parent, false);
     }
 
     public class LogInfoViewHolder extends AbsViewBinder<LogInfoItem> {

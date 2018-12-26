@@ -38,7 +38,7 @@ public class PerformanceFragment extends BaseFragment {
     @Override
 
     protected int onRequestLayout() {
-        return R.layout.fragment_cpu_cache_log;
+        return R.layout.dk_fragment_cpu_cache_log;
     }
 
     @Override

@@ -30,7 +30,7 @@ public class CrashDetailFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_crash_detail_info;
+        return R.layout.dk_fragment_crash_detail_info;
     }
 
     private void initView() {

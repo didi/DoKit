@@ -17,7 +17,7 @@ import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
 public class CrashCaptureMainFragment extends BaseFragment {
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_crash_capture_main;
+        return R.layout.dk_fragment_crash_capture_main;
     }
 
     @Override

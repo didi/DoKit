@@ -29,7 +29,7 @@ public class LineChart extends FrameLayout {
     }
 
     private void initView(Context context) {
-        inflate(context, R.layout.view_line_chart, this);
+        inflate(context, R.layout.dk_view_line_chart, this);
         mTitle = findViewById(R.id.tv_title);
         mLine = findViewById(R.id.line_chart_view);
     }

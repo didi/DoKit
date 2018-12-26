@@ -64,6 +64,6 @@ public class AlignRulerSettingFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_align_ruler_setting;
+        return R.layout.dk_fragment_align_ruler_setting;
     }
 }

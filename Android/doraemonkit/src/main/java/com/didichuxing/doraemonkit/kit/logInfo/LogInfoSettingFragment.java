@@ -59,6 +59,6 @@ public class LogInfoSettingFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_log_info_setting;
+        return R.layout.dk_fragment_log_info_setting;
     }
 }

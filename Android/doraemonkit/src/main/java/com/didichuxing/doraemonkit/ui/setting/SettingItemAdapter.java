@@ -32,7 +32,7 @@ public class SettingItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<Setting
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup parent, int viewType) {
-        return inflater.inflate(R.layout.item_setting, parent, false);
+        return inflater.inflate(R.layout.dk_item_setting, parent, false);
     }
 
     public class SettingItemViewHolder extends AbsViewBinder<SettingItem> {

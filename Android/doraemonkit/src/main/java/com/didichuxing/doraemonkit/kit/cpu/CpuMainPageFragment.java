@@ -29,7 +29,7 @@ public class CpuMainPageFragment extends BaseFragment implements OnFloatPageChan
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_cpu_main_page;
+        return R.layout.dk_fragment_cpu_main_page;
     }
 
     @Override

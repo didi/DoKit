@@ -22,7 +22,7 @@ public class NetWorkMainPagerFragment extends BaseFragment implements View.OnCli
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_net_main_pager;
+        return R.layout.dk_fragment_net_main_pager;
     }
 
     @Override

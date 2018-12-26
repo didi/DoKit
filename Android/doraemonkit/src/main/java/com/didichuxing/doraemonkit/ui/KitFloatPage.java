@@ -27,7 +27,7 @@ public class KitFloatPage extends BaseFloatPage{
 
     @Override
     protected View onCreateView(Context context, ViewGroup view) {
-        return LayoutInflater.from(context).inflate(R.layout.float_kit, null);
+        return LayoutInflater.from(context).inflate(R.layout.dk_float_kit, null);
     }
 
     @Override

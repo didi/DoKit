@@ -46,9 +46,9 @@ public class SysInfoItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<SysInfo
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup parent, int viewType) {
         if (viewType == TYPE_TITLE) {
-            return inflater.inflate(R.layout.item_sys_title, parent, false);
+            return inflater.inflate(R.layout.dk_item_sys_title, parent, false);
         } else {
-            return inflater.inflate(R.layout.item_sys_info, parent, false);
+            return inflater.inflate(R.layout.dk_item_sys_info, parent, false);
         }
     }
 

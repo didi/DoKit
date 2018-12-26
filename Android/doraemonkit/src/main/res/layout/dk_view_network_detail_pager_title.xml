@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="44dp"
     android:clickable="true"
-    tools:showIn="@layout/fragment_network_monitor_detail">
+    tools:showIn="@layout/dk_fragment_network_monitor_detail">
 
     <RelativeLayout
         android:layout_width="0dp"

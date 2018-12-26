@@ -98,7 +98,7 @@ public class FileExplorerFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_file_explorer;
+        return R.layout.dk_fragment_file_explorer;
     }
 
     @Override

@@ -37,9 +37,9 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup parent, int viewType) {
         if (viewType == Category.CLOSE) {
-            return inflater.inflate(R.layout.item_close_kit, parent, false);
+            return inflater.inflate(R.layout.dk_item_close_kit, parent, false);
         } else {
-            return inflater.inflate(R.layout.item_group_kit, parent, false);
+            return inflater.inflate(R.layout.dk_item_group_kit, parent, false);
         }
     }
 

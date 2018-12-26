@@ -106,6 +106,6 @@ public class ColorPickerSettingFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_color_picker_setting;
+        return R.layout.dk_fragment_color_picker_setting;
     }
 }

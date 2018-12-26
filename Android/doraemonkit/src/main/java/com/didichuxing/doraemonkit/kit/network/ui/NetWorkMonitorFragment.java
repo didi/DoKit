@@ -25,7 +25,7 @@ public class NetWorkMonitorFragment extends BaseFragment implements OnFloatPageC
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_net_monitor;
+        return R.layout.dk_fragment_net_monitor;
     }
 
 

@@ -27,7 +27,7 @@ public class ViewCheckFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_view_check;
+        return R.layout.dk_fragment_view_check;
     }
 
     @Override

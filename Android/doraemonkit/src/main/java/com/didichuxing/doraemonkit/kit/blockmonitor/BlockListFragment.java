@@ -35,7 +35,7 @@ public class BlockListFragment extends BaseFragment implements OnBlockInfoUpdate
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_block_list;
+        return R.layout.dk_fragment_block_list;
     }
 
     @Override

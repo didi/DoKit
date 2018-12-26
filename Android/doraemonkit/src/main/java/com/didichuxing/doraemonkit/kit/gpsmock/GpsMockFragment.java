@@ -165,6 +165,6 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_gps_mock;
+        return R.layout.dk_fragment_gps_mock;
     }
 }

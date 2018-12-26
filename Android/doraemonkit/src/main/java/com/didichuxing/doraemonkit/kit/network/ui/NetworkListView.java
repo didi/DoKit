@@ -34,14 +34,14 @@ public class NetworkListView extends LinearLayout implements OnNetworkInfoUpdate
 
     public NetworkListView(Context context) {
         super(context);
-        inflate(context, R.layout.fragment_network_monitor_list, this);
+        inflate(context, R.layout.dk_fragment_network_monitor_list, this);
         initView();
         initData();
     }
 
     public NetworkListView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        inflate(context, R.layout.fragment_network_monitor_list, this);
+        inflate(context, R.layout.dk_fragment_network_monitor_list, this);
         initView();
         initData();
     }

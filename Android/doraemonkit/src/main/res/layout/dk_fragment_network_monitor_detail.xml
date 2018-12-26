@@ -16,7 +16,7 @@
 
     <View style="@style/DK.Divider"/>
 
-    <include layout="@layout/view_network_detail_pager_title"/>
+    <include layout="@layout/dk_view_network_detail_pager_title"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/network_viewpager"

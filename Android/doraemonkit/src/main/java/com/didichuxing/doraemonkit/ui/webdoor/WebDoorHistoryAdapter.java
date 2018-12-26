@@ -28,7 +28,7 @@ public class WebDoorHistoryAdapter extends AbsRecyclerAdapter<AbsViewBinder<Stri
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup parent, int viewType) {
-        return inflater.inflate(R.layout.item_web_door_history, parent, false);
+        return inflater.inflate(R.layout.dk_item_web_door_history, parent, false);
     }
 
     public class WebDoorHistoryViewHolder extends AbsViewBinder<String> {

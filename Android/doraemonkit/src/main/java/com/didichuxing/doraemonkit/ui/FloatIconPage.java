@@ -40,7 +40,7 @@ public class FloatIconPage extends BaseFloatPage implements View.OnTouchListener
 
     @Override
     protected View onCreateView(Context context, ViewGroup view) {
-        return LayoutInflater.from(context).inflate(R.layout.float_launch_icon, view, false);
+        return LayoutInflater.from(context).inflate(R.layout.dk_float_launch_icon, view, false);
     }
 
     @Override

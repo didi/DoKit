@@ -29,7 +29,7 @@ public class AlignRulerMarkerFloatPage extends BaseFloatPage implements View.OnT
 
     @Override
     protected View onCreateView(Context context, ViewGroup view) {
-        return LayoutInflater.from(context).inflate(R.layout.float_align_ruler_marker, null);
+        return LayoutInflater.from(context).inflate(R.layout.dk_float_align_ruler_marker, null);
     }
 
     @Override

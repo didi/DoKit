@@ -35,7 +35,7 @@ public class NetworkDetailView extends LinearLayout {
 
     public NetworkDetailView(Context context) {
         super(context);
-        inflate(context, R.layout.view_network_request, this);
+        inflate(context, R.layout.dk_view_network_request, this);
         url = findViewById(R.id.tv_url);
         method = findViewById(R.id.tv_method);
         size = findViewById(R.id.tv_data_size);
