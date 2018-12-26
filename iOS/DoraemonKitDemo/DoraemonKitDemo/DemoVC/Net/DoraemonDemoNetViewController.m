@@ -11,6 +11,8 @@
 #import <AFNetworking/AFNetworking.h>
 #import <DoraemonKit/DoraemonNSURLProtocol.h>
 #import "DoraemonDefine.h"
+#import "DoraemonUIWebViewViewController.h"
+#import "DoraemonWKWebViewViewController.h"
 
 @interface DoraemonDemoNetViewController ()<NSURLConnectionDataDelegate,NSURLSessionDelegate>
 
@@ -58,6 +60,28 @@
     [self.view addSubview:btn3];
     _btn3 = btn3;
     
+    UIButton *btn4 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn3.doraemon_bottom+20, self.view.doraemon_width, 60)];
+    btn4.backgroundColor = [UIColor orangeColor];
+    [btn4 setTitle:@"打开UIWebView" forState:UIControlStateNormal];
+    [btn4 addTarget:self action:@selector(openUIWebView) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn4];
+    
+    UIButton *btn5 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn4.doraemon_bottom+20, self.view.doraemon_width, 60)];
+    btn5.backgroundColor = [UIColor orangeColor];
+    [btn5 setTitle:@"打开WKWebView" forState:UIControlStateNormal];
+    [btn5 addTarget:self action:@selector(openWKWebView) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn5];
+    
+}
+
+- (void)openUIWebView{
+    UIViewController *vc = [[DoraemonUIWebViewViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)openWKWebView{
+    UIViewController *vc = [[DoraemonWKWebViewViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)netForURLConnection{

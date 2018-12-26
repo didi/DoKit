@@ -9,6 +9,7 @@
 #import "DoraemonNSURLProtocol.h"
 #import "DoraemonNetFlowDataSource.h"
 #import "NSObject+Doraemon.h"
+#import "NSURLProtocol+DoraemonWebKitSupport.h"
 
 
 @implementation DoraemonNetFlowManager
@@ -26,9 +27,13 @@
     _canIntercept = enable;
     if (enable) {
         [NSURLProtocol registerClass:[DoraemonNSURLProtocol class]];
+        [NSURLProtocol doraemon_wk_registerScheme:@"http"];
+        [NSURLProtocol doraemon_wk_registerScheme:@"https"];
         _startInterceptDate = [NSDate date];
     }else{
         [NSURLProtocol unregisterClass:[DoraemonNSURLProtocol class]];
+        [NSURLProtocol doraemon_wk_unregisterScheme:@"http"];
+        [NSURLProtocol doraemon_wk_unregisterScheme:@"https"];
         _startInterceptDate = nil;
         [[DoraemonNetFlowDataSource shareInstance] clear];
     }

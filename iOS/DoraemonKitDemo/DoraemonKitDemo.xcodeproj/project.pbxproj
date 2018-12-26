@@ -11,6 +11,8 @@
 		DA0C6F331FDEBC2E00F43588 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA0C6F311FDEBC2E00F43588 /* LaunchScreen.storyboard */; };
 		DA0C6F3A1FDEBE3800F43588 /* TestPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C6F391FDEBE3800F43588 /* TestPlugin.m */; };
 		DA63F1D321C8CF9500E0D9F5 /* huoying.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = DA63F1D221C8CCAB00E0D9F5 /* huoying.mp4 */; };
+		DABBE3B221D3AA260070518E /* DoraemonUIWebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DABBE3B121D3AA260070518E /* DoraemonUIWebViewViewController.m */; };
+		DABBE3B521D3AA4D0070518E /* DoraemonWKWebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DABBE3B421D3AA4D0070518E /* DoraemonWKWebViewViewController.m */; };
 		DAC8A87C1FDE2C3B00F03E6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC8A87B1FDE2C3B00F03E6F /* AppDelegate.m */; };
 		DAC8A8841FDE2C3B00F03E6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAC8A8831FDE2C3B00F03E6F /* Assets.xcassets */; };
 		DAC8A88A1FDE2C3B00F03E6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC8A8891FDE2C3B00F03E6F /* main.m */; };
@@ -35,6 +37,10 @@
 		DA0C6F381FDEBE3800F43588 /* TestPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestPlugin.h; sourceTree = "<group>"; };
 		DA0C6F391FDEBE3800F43588 /* TestPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestPlugin.m; sourceTree = "<group>"; };
 		DA63F1D221C8CCAB00E0D9F5 /* huoying.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = huoying.mp4; sourceTree = "<group>"; };
+		DABBE3B021D3AA260070518E /* DoraemonUIWebViewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonUIWebViewViewController.h; sourceTree = "<group>"; };
+		DABBE3B121D3AA260070518E /* DoraemonUIWebViewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonUIWebViewViewController.m; sourceTree = "<group>"; };
+		DABBE3B321D3AA4D0070518E /* DoraemonWKWebViewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonWKWebViewViewController.h; sourceTree = "<group>"; };
+		DABBE3B421D3AA4D0070518E /* DoraemonWKWebViewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonWKWebViewViewController.m; sourceTree = "<group>"; };
 		DAC0D76F1FE103A50048E322 /* DoraemonKitDemo-PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DoraemonKitDemo-PrefixHeader.pch"; sourceTree = "<group>"; };
 		DAC8A8771FDE2C3B00F03E6F /* DoraemonKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoraemonKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAC8A87A1FDE2C3B00F03E6F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -120,6 +126,17 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		DABBE3AF21D3A9F40070518E /* WebView */ = {
+			isa = PBXGroup;
+			children = (
+				DABBE3B021D3AA260070518E /* DoraemonUIWebViewViewController.h */,
+				DABBE3B121D3AA260070518E /* DoraemonUIWebViewViewController.m */,
+				DABBE3B321D3AA4D0070518E /* DoraemonWKWebViewViewController.h */,
+				DABBE3B421D3AA4D0070518E /* DoraemonWKWebViewViewController.m */,
+			);
+			path = WebView;
+			sourceTree = "<group>";
+		};
 		DAC8A86E1FDE2C3B00F03E6F = {
 			isa = PBXGroup;
 			children = (
@@ -202,6 +219,7 @@
 		DAFE050C21BD4A4C00F97A59 /* Net */ = {
 			isa = PBXGroup;
 			children = (
+				DABBE3AF21D3A9F40070518E /* WebView */,
 				DAFE050D21BD4A4C00F97A59 /* DoraemonDemoNetViewController.h */,
 				DAFE050E21BD4A4C00F97A59 /* DoraemonDemoNetViewController.m */,
 			);
@@ -383,9 +401,11 @@
 				DAFE052621BD4A4D00F97A59 /* DoraemonDemoHomeViewController.m in Sources */,
 				DAFE052721BD4A4D00F97A59 /* DoraemonDemoNetViewController.m in Sources */,
 				DAE7BFAD20205C20008D49D8 /* NSObject+Runtime.m in Sources */,
+				DABBE3B521D3AA4D0070518E /* DoraemonWKWebViewViewController.m in Sources */,
 				DAFE052D21BD4A4D00F97A59 /* DoraemonDemoMockGPSAnnotation.m in Sources */,
 				DAFE052921BD4A4D00F97A59 /* DoraemonDemoCrashViewController.m in Sources */,
 				DA0C6F3A1FDEBE3800F43588 /* TestPlugin.m in Sources */,
+				DABBE3B221D3AA260070518E /* DoraemonUIWebViewViewController.m in Sources */,
 				DAFE052C21BD4A4D00F97A59 /* DoraemonDemoCommonViewController.m in Sources */,
 				DAFE052A21BD4A4D00F97A59 /* DoraemonDemoCrashMRCView.m in Sources */,
 				DAC8A87C1FDE2C3B00F03E6F /* AppDelegate.m in Sources */,
