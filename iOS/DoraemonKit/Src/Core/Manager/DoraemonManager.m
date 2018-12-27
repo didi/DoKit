@@ -28,7 +28,6 @@
 #import "DoraemonCocoaLumberjackListViewController.h"
 #endif
 
-typedef void (^DoraemonH5DoorBlock)(NSString *);
 typedef void (^DoraemonANRBlock)(NSDictionary *);
 typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 
@@ -37,8 +36,6 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 @property (nonatomic, strong) DoraemonEntryView *entryView;
 
 @property (nonatomic, strong) NSMutableArray *startPlugins;
-
-@property (nonatomic, copy) DoraemonH5DoorBlock h5DoorBlock;
 
 @property (nonatomic, copy) DoraemonANRBlock anrBlock;
 
@@ -100,9 +97,6 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
         });
     }
 #endif
-    
-    //监听h5Plugin点击回调
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(h5DoorPluginClick:) name:DoraemonH5DoorPluginNotification object:nil];
     
     [[DoraemonAllTestManager shareInstance] addPerformanceBlock:^(NSDictionary *upLoadData) {
         if (self.performanceBlock) {
@@ -218,14 +212,6 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 
 - (void)addperformanceBlock:(void(^)(NSDictionary *performanceDic))block{
     self.performanceBlock = block;
-}
-
-- (void)h5DoorPluginClick:(NSNotification *)noti{
-    NSDictionary *userInfo = noti.userInfo;
-    NSString *h5Url = userInfo[@"h5Url"];
-    if (h5Url.length>0 && self.h5DoorBlock) {
-        self.h5DoorBlock(h5Url);
-    }
 }
 
 - (void)quickOpenLogVC:(NSNotification *)noti{

@@ -11,6 +11,8 @@
 #import "DoraemonDefine.h"
 #import "Doraemoni18NUtil.h"
 #import "UITextView+Placeholder.h"
+#import "DoraemonDefaultWebViewController.h"
+#import "DoraemonManager.h"
 
 @interface DoraemonH5ViewController ()
 
@@ -52,8 +54,15 @@
         [DoraemonToastUtil showToast:DoraemonLocalizedString(@"h5链接不能为空")];
         return;
     }
-    [self leftNavBackClick:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonH5DoorPluginNotification object:nil userInfo:@{@"h5Url":_h5UrlTextView.text}];
+    NSString *h5Url = _h5UrlTextView.text;
+    if ([DoraemonManager shareInstance].h5DoorBlock) {
+        [self leftNavBackClick:nil];
+        [DoraemonManager shareInstance].h5DoorBlock(h5Url);
+    }else{
+        DoraemonDefaultWebViewController *vc = [[DoraemonDefaultWebViewController alloc] init];
+        vc.h5Url = h5Url;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 

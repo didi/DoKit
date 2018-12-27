@@ -27,9 +27,9 @@
     }
     [[DoraemonManager shareInstance] addPluginWithTitle:@"测试插件" icon:@"doraemon_default" desc:@"测试插件" pluginName:@"TestPlugin" atModule:@"业务工具"];
     [[DoraemonManager shareInstance] addStartPlugin:@"StartPlugin"];
-    [[DoraemonManager shareInstance] addH5DoorBlock:^(NSString *h5Url) {
-        NSLog(@"使用自带容器打开H5链接: %@",h5Url);
-    }];
+//    [[DoraemonManager shareInstance] addH5DoorBlock:^(NSString *h5Url) {
+//        NSLog(@"使用自带容器打开H5链接: %@",h5Url);
+//    }];
     [[DoraemonManager shareInstance] install];
     
     for (int i=0; i<10; i++) {

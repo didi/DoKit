@@ -31,8 +31,6 @@
 
 #define DoraemonShowPluginNotification @"DoraemonShowPluginNotification"
 #define DoraemonClosePluginNotification @"DoraemonClosePluginNotification"
-
-#define DoraemonH5DoorPluginNotification @"DoraemonH5DoorPluginNotification"
 #define DoraemonQuickOpenLogVCNotification @"DoraemonQuickOpenLogVCNotification"
 
 #endif /* DoraemonDefine_h */

@@ -7,6 +7,8 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^DoraemonH5DoorBlock)(NSString *);
+
 @interface DoraemonManager : NSObject
 
 + (DoraemonManager *)shareInstance;
@@ -14,6 +16,8 @@
 - (void)install;
 
 @property (nonatomic,strong) NSMutableArray *dataArray;
+
+@property (nonatomic, copy) DoraemonH5DoorBlock h5DoorBlock;
 
 - (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName;
 
