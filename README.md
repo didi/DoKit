@@ -1,5 +1,7 @@
 <div  align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="图片名称" align=left />
+ <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
+ <img src="https://img.shields.io/bintray/v/doraemonkit/DoraemonKit/doraemonkit.svg" align=left />
 </div>
 
 <br/>
