@@ -4,12 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.BaseFloatPage;
+import com.didichuxing.doraemonkit.ui.base.TouchProxy;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 import java.util.ArrayList;
@@ -19,11 +19,10 @@ import java.util.List;
  * Created by wanglikun on 2018/9/20.
  */
 
-public class AlignRulerMarkerFloatPage extends BaseFloatPage implements View.OnTouchListener {
+public class AlignRulerMarkerFloatPage extends BaseFloatPage implements TouchProxy.OnTouchEventListener {
     private List<OnAlignRulerMarkerPositionChangeListener> mPositionChangeListeners = new ArrayList<>();
 
-    private float sdX, sdY;
-    private float ldX, ldY;
+    private TouchProxy mTouchProxy = new TouchProxy(this);
 
     private WindowManager mWindowManager;
 
@@ -39,7 +38,12 @@ public class AlignRulerMarkerFloatPage extends BaseFloatPage implements View.OnT
     }
 
     private void initView() {
-        getRootView().setOnTouchListener(this);
+        getRootView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return mTouchProxy.onTouchEvent(v, event);
+            }
+        });
     }
 
     @Override
@@ -52,37 +56,6 @@ public class AlignRulerMarkerFloatPage extends BaseFloatPage implements View.OnT
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        float x = event.getRawX();
-        float y = event.getRawY();
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                sdX = ldX = x;
-                sdY = ldY = y;
-                return false;
-            case MotionEvent.ACTION_MOVE:
-                getLayoutParams().x += (x - ldX + 0.5f);
-                getLayoutParams().y += (y - ldY + 0.5f);
-                ldX = x;
-                ldY = y;
-                mWindowManager.updateViewLayout(getRootView(), getLayoutParams());
-                for (OnAlignRulerMarkerPositionChangeListener listener : mPositionChangeListeners) {
-                    listener.onPositionChanged(getLayoutParams().x + getRootView().getWidth() / 2, getLayoutParams().y + getRootView().getHeight() / 2);
-                }
-                return false;
-            case MotionEvent.ACTION_UP:
-                int mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-                if (Math.abs(x - sdX) <= mTouchSlop && Math.abs(y - sdY) <= mTouchSlop) {
-                    return false;
-                }
-                return true;
-            default:
-                break;
-        }
-        return false;
-    }
-
-    @Override
     protected void onCreate(Context context) {
         super.onCreate(context);
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -92,6 +65,26 @@ public class AlignRulerMarkerFloatPage extends BaseFloatPage implements View.OnT
     protected void onDestroy() {
         super.onDestroy();
         removePositionChangeListeners();
+    }
+
+    @Override
+    public void onMove(int x, int y, int dx, int dy) {
+        getLayoutParams().x += dx;
+        getLayoutParams().y += dy;
+        mWindowManager.updateViewLayout(getRootView(), getLayoutParams());
+        for (OnAlignRulerMarkerPositionChangeListener listener : mPositionChangeListeners) {
+            listener.onPositionChanged(getLayoutParams().x + getRootView().getWidth() / 2, getLayoutParams().y + getRootView().getHeight() / 2);
+        }
+    }
+
+    @Override
+    public void onUp(int x, int y) {
+
+    }
+
+    @Override
+    public void onDown(int x, int y) {
+
     }
 
     public interface OnAlignRulerMarkerPositionChangeListener {

@@ -7,7 +7,6 @@ import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
@@ -15,7 +14,9 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.PageTag;
 import com.didichuxing.doraemonkit.ui.base.BaseFloatPage;
 import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
+import com.didichuxing.doraemonkit.ui.base.TouchProxy;
 import com.didichuxing.doraemonkit.ui.colorpicker.ColorPickerView;
+import com.didichuxing.doraemonkit.util.ImageUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 /**
@@ -30,9 +31,7 @@ public class ColorPickerFloatPage extends BaseFloatPage implements View.OnTouchL
     private ImageCapture mImageCapture;
     private ColorPickerView mPickerView;
     private ColorPickerInfoFloatPage mInfoFloatPage;
-
-    private float sdX, sdY;
-    private float ldX, ldY;
+    private TouchProxy mTouchProxy;
 
     @Override
     protected void onViewCreated(View view) {
@@ -58,23 +57,29 @@ public class ColorPickerFloatPage extends BaseFloatPage implements View.OnTouchL
 
     @Override
     protected void onCreate(Context context) {
+        mTouchProxy = new TouchProxy(new TouchProxy.OnTouchEventListener() {
+            @Override
+            public void onMove(int x, int y, int dx, int dy) {
+                getLayoutParams().x += dx;
+                getLayoutParams().y += dy;
+                mWindowManager.updateViewLayout(getRootView(), getLayoutParams());
+                showInfo();
+            }
+
+            @Override
+            public void onUp(int x, int y) {
+
+            }
+
+            @Override
+            public void onDown(int x, int y) {
+                captureInfo();
+            }
+        });
         mInfoFloatPage = (ColorPickerInfoFloatPage) FloatPageManager.getInstance().getFloatPage(PageTag.PAGE_COLOR_PICKER_INFO);
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         mImageCapture = new ImageCapture();
         mImageCapture.init(context, getBundle());
-    }
-
-    private void checkLayoutParams() {
-        if (getLayoutParams().x < 0) {
-            getLayoutParams().x = 0;
-        } else if (getLayoutParams().x > UIUtils.getWidthPixels(getContext())) {
-            getLayoutParams().x = UIUtils.getWidthPixels(getContext());
-        }
-        if (getLayoutParams().y < 0) {
-            getLayoutParams().y = 0;
-        } else if (getLayoutParams().y > UIUtils.getRealHeightPixels(getContext())) {
-            getLayoutParams().y = UIUtils.getRealHeightPixels(getContext());
-        }
     }
 
     @Override
@@ -82,54 +87,20 @@ public class ColorPickerFloatPage extends BaseFloatPage implements View.OnTouchL
         mImageCapture.destroy();
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        float x = event.getRawX();
-        float y = event.getRawY();
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                captureInfo();
-                showInfo(getLayoutParams().x + getRootView().getWidth() / 2, getLayoutParams().y + getRootView().getHeight() / 2);
-                sdX = ldX = x;
-                sdY = ldY = y;
-                return false;
-            case MotionEvent.ACTION_MOVE:
-                getLayoutParams().x += (x - ldX + 0.5f);
-                getLayoutParams().y += (y - ldY + 0.5f);
-                ldX = x;
-                ldY = y;
-                checkLayoutParams();
-                showInfo(x, y);
-                mWindowManager.updateViewLayout(getRootView(), getLayoutParams());
-                return false;
-            case MotionEvent.ACTION_UP:
-                int mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-                if (Math.abs(x - sdX) <= mTouchSlop && Math.abs(y - sdY) <= mTouchSlop) {
-                    return false;
-                }
-                return true;
-            default:
-                break;
-        }
-        return false;
-    }
-
-    private void showInfo(float x, float y) {
-        if (mImageCapture.getBitmap() == null) {
+    private void showInfo() {
+        int x = getLayoutParams().x;
+        int y = getLayoutParams().y;
+        int pickAreaSize = getResources().getDimensionPixelSize(R.dimen.dk_dp_15);
+        int startX = x + getRootView().getWidth() / 2 - pickAreaSize / 2;
+        int startY = y + getRootView().getHeight() / 2 - pickAreaSize / 2 + UIUtils.getStatusBarHeight(getContext());
+        Bitmap bitmap = mImageCapture.getPartBitmap(startX, startY, pickAreaSize, pickAreaSize);
+        if (bitmap == null) {
             return;
         }
-        float posX = x - getResources().getDimensionPixelSize(R.dimen.dk_dp_6);
-        float posY = y - getResources().getDimensionPixelSize(R.dimen.dk_dp_6);
-        int width = UIUtils.dp2px(getContext(), getResources().getDimensionPixelSize(R.dimen.dk_dp_6));
-        int height = UIUtils.dp2px(getContext(), getResources().getDimensionPixelSize(R.dimen.dk_dp_6));
-        if (width + posX > mImageCapture.getBitmap().getWidth() || height + posY > mImageCapture.getBitmap().getHeight() || posX < 0 || posY < 0) {
-            return;
-        }
-        Bitmap bitmap = Bitmap.createBitmap(mImageCapture.getBitmap(), (int) posX, (int) posY, width, height);
-        mPickerView.setBitmap(bitmap);
         int xCenter = bitmap.getWidth() / 2;
         int yCenter = bitmap.getHeight() / 2;
-        int colorInt = bitmap.getPixel(xCenter, yCenter);
+        int colorInt = ImageUtil.getPixel(bitmap, xCenter, yCenter);
+        mPickerView.setBitmap(bitmap);
         mInfoFloatPage.showInfo(colorInt);
     }
 
@@ -142,5 +113,10 @@ public class ColorPickerFloatPage extends BaseFloatPage implements View.OnTouchL
                 getRootView().setVisibility(View.VISIBLE);
             }
         }, 100);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return mTouchProxy.onTouchEvent(v, event);
     }
 }

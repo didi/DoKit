@@ -33,4 +33,17 @@ public class ImageUtil {
         }
         return inSampleSize;
     }
+
+    public static int getPixel(Bitmap bitmap, int x, int y) {
+        if (bitmap == null) {
+            return -1;
+        }
+        if (x < 0 || x > bitmap.getWidth()) {
+            return -1;
+        }
+        if (y < 0 || y > bitmap.getHeight()) {
+            return -1;
+        }
+        return bitmap.getPixel(x, y);
+    }
 }

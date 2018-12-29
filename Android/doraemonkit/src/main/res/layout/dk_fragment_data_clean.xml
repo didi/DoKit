@@ -8,8 +8,8 @@
 
     <com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar
         android:id="@+id/title_bar"
-        app:title="@string/dk_kit_data_clean"
-        app:icon="@drawable/dk_close_icon_big"
+        app:dkTitle="@string/dk_kit_data_clean"
+        app:dkIcon="@drawable/dk_close_icon_big"
         android:layout_width="match_parent"
         android:layout_height="89dp" />
 

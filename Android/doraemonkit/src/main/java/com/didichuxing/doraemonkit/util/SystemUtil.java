@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class SystemUtil {
     private static final String TAG = "SystemUtil";
 
-    private static final Pattern VERSION_NAME_PATTERN = Pattern.compile("(\\d+\\.\\d+\\.\\d+)\\-*.*");
+    private static final Pattern VERSION_NAME_PATTERN = Pattern.compile("(\\d+\\.\\d+\\.\\d+)-*.*");
     private static String sAppVersion;
     private static int sAppVersionCode = -1;
     private static String sPackageName;

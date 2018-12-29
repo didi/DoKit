@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.doraemon.compiler.plugin'
+apply from: 'doraemonkit.gradle'
 
 android {
     compileSdkVersion 26

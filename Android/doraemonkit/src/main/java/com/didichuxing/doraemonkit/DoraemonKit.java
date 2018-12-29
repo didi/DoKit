@@ -46,19 +46,41 @@ import java.util.List;
 public class DoraemonKit {
     private static final String TAG = "DoraemonKit";
 
-    private static final SparseArray<List<IKit>> mKitMap = new SparseArray<>();
+    private static SparseArray<List<IKit>> sKitMap = new SparseArray<>();
 
     private static boolean sHasRequestPermission;
 
-    public static void setWebDoorCallback(WebDoorManager.WebDoorCallback callback) {
-        WebDoorManager.getInstance().setWebDoorCallback(callback);
-    }
+    private static boolean sHasInit = false;
 
     public static void install(final Application app) {
         install(app, null);
     }
 
+    public static void setWebDoorCallback(WebDoorManager.WebDoorCallback callback) {
+        WebDoorManager.getInstance().setWebDoorCallback(callback);
+        if (WebDoorManager.getInstance().isWebDoorEnable()) {
+            List<IKit> tools = sKitMap.get(Category.TOOLS);
+            if (tools != null) {
+                tools.add(new WebDoor());
+            }
+        }
+    }
+
     public static void install(final Application app, List<IKit> selfKits) {
+        if (sHasInit) {
+            if (selfKits != null) {
+                List<IKit> biz = sKitMap.get(Category.BIZ);
+                if (biz != null) {
+                    biz.clear();
+                    biz.addAll(selfKits);
+                    for (IKit kit : biz) {
+                        kit.onAppInit(app);
+                    }
+                }
+            }
+            return;
+        }
+        sHasInit = true;
         GpsHookManager.getInstance().init();
         app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             int startedActivityCounts;
@@ -109,7 +131,7 @@ public class DoraemonKit {
 
             }
         });
-        mKitMap.clear();
+        sKitMap.clear();
         List<IKit> tool = new ArrayList<>();
         List<IKit> biz = new ArrayList<>();
         List<IKit> ui = new ArrayList<>();
@@ -121,7 +143,9 @@ public class DoraemonKit {
         if (GpsHookManager.getInstance().isMockEnable()) {
             tool.add(new GpsMock());
         }
-        tool.add(new WebDoor());
+        if (WebDoorManager.getInstance().isWebDoorEnable()) {
+            tool.add(new WebDoor());
+        }
         tool.add(new Crash());
         tool.add(new LogInfo());
         tool.add(new DataClean());
@@ -158,11 +182,11 @@ public class DoraemonKit {
             kit.onAppInit(app);
         }
 
-        mKitMap.put(Category.BIZ, biz);
-        mKitMap.put(Category.PERFORMANCE, performance);
-        mKitMap.put(Category.TOOLS, tool);
-        mKitMap.put(Category.UI, ui);
-        mKitMap.put(Category.CLOSE, exit);
+        sKitMap.put(Category.BIZ, biz);
+        sKitMap.put(Category.PERFORMANCE, performance);
+        sKitMap.put(Category.TOOLS, tool);
+        sKitMap.put(Category.UI, ui);
+        sKitMap.put(Category.CLOSE, exit);
 
         FloatPageManager.getInstance().init(app);
 
@@ -187,17 +211,17 @@ public class DoraemonKit {
     }
 
     public static List<IKit> getKitList(int catgory) {
-        if (mKitMap.get(catgory) != null) {
-            return new ArrayList<>(mKitMap.get(catgory));
+        if (sKitMap.get(catgory) != null) {
+            return new ArrayList<>(sKitMap.get(catgory));
         } else {
             return null;
         }
     }
 
     public static List<KitItem> getKitItems(int catgory) {
-        if (mKitMap.get(catgory) != null) {
+        if (sKitMap.get(catgory) != null) {
             List<KitItem> kitItems = new ArrayList<>();
-            for (IKit kit : mKitMap.get(catgory)) {
+            for (IKit kit : sKitMap.get(catgory)) {
                 kitItems.add(new KitItem(kit));
             }
             return kitItems;
@@ -205,4 +229,5 @@ public class DoraemonKit {
             return null;
         }
     }
+
 }

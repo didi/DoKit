@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.config.AlignRulerConfig;
 import com.didichuxing.doraemonkit.constant.PageTag;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
@@ -42,7 +43,7 @@ public class AlignRulerSettingFragment extends BaseFragment {
         mSettingList = findViewById(R.id.setting_list);
         mSettingList.setLayoutManager(new LinearLayoutManager(getContext()));
         mSettingItemAdapter = new SettingItemAdapter(getContext());
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_align_ruler, false));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_align_ruler, AlignRulerConfig.isAlignRulerOpen(getContext())));
         mSettingList.setAdapter(mSettingItemAdapter);
         mSettingItemAdapter.setOnSettingItemSwitchListener(new SettingItemAdapter.OnSettingItemSwitchListener() {
             @Override
@@ -57,6 +58,7 @@ public class AlignRulerSettingFragment extends BaseFragment {
                         FloatPageManager.getInstance().removeAll(AlignRulerMarkerFloatPage.class);
                         FloatPageManager.getInstance().removeAll(AlignRulerInfoFloatPage.class);
                     }
+                    AlignRulerConfig.setAlignRulerOpen(getContext(), on);
                 }
             }
         });

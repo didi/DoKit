@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.config.ViewCheckConfig;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.Category;
@@ -40,6 +41,6 @@ public class ViewChecker implements IKit {
 
     @Override
     public void onAppInit(Context context) {
-
+        ViewCheckConfig.setViewCheckOpen(context, false);
     }
 }

@@ -1,0 +1,87 @@
+package com.didichuxing.doraemonkit.ui.base;
+
+import android.view.MotionEvent;
+import android.view.View;
+
+/**
+ * @author wanglikun
+ */
+public class TouchProxy {
+    private static final int MIN_DISTANCE_MOVE = 4;
+
+    private OnTouchEventListener mEventListener;
+    private int mLastX;
+    private int mLastY;
+    private int mStartX;
+    private int mStartY;
+    private TouchState mState = TouchState.STATE_STOP;
+
+    public TouchProxy(OnTouchEventListener eventListener) {
+        mEventListener = eventListener;
+    }
+
+    public void setEventListener(OnTouchEventListener eventListener) {
+        mEventListener = eventListener;
+    }
+
+    private enum TouchState {
+        STATE_MOVE,
+        STATE_STOP
+    }
+
+    public boolean onTouchEvent(View v, MotionEvent event) {
+        int x = (int) event.getRawX();
+        int y = (int) event.getRawY();
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                mStartX = x;
+                mStartY = y;
+                mLastY = y;
+                mLastX = x;
+                if (mEventListener != null) {
+                    mEventListener.onDown(x, y);
+                }
+            }
+            break;
+            case MotionEvent.ACTION_MOVE: {
+                if (Math.abs(x - mStartX) < MIN_DISTANCE_MOVE
+                        && Math.abs(y - mStartY) < MIN_DISTANCE_MOVE) {
+                    if (mState == TouchState.STATE_STOP) {
+                        break;
+                    }
+                } else if (mState != TouchState.STATE_MOVE){
+                    mState = TouchState.STATE_MOVE;
+                }
+                if (mEventListener != null) {
+                    mEventListener.onMove(mLastX, mLastY, x - mLastX, y - mLastY);
+                }
+                mLastY = y;
+                mLastX = x;
+                mState = TouchState.STATE_MOVE;
+            }
+            break;
+            case MotionEvent.ACTION_UP: {
+                if (mEventListener != null) {
+                    mEventListener.onUp(x, y);
+                }
+                if (mState != TouchState.STATE_MOVE) {
+                    v.performClick();
+                }
+                mState = TouchState.STATE_STOP;
+            }
+            break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+
+    public interface OnTouchEventListener {
+        void onMove(int x, int y, int dx, int dy);
+
+        void onUp(int x, int y);
+
+        void onDown(int x, int y);
+    }
+}

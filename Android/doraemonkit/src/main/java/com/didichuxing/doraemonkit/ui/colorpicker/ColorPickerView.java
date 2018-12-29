@@ -56,7 +56,7 @@ public class ColorPickerView extends View {
     }
 
     private void drawFocus(Canvas canvas) {
-        float focusWidth = getResources().getDimensionPixelSize(R.dimen.dk_dp_6);
+        float focusWidth = getResources().getDimensionPixelSize(R.dimen.dk_dp_5);
         canvas.drawRect(getWidth() / 2 - focusWidth / 2,
                 getWidth() / 2 - focusWidth / 2,
                 getWidth() / 2 + focusWidth / 2,

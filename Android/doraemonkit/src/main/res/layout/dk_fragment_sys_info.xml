@@ -9,9 +9,9 @@
     <com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
-        app:icon="@drawable/dk_close_icon_big"
+        app:dkIcon="@drawable/dk_close_icon_big"
         android:layout_height="@dimen/dk_home_title_height"
-        app:title="@string/dk_kit_sysinfo"/>
+        app:dkTitle="@string/dk_kit_sysinfo"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/info_list"

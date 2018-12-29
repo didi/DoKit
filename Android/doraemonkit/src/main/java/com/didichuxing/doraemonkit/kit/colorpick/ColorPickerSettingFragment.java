@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.config.ColorPickConfig;
 import com.didichuxing.doraemonkit.constant.PageTag;
 import com.didichuxing.doraemonkit.constant.RequestCode;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
@@ -45,7 +46,7 @@ public class ColorPickerSettingFragment extends BaseFragment {
                 finish();
             }
         });
-        mSettingItem = new SettingItem(R.string.dk_kit_color_picker, false);
+        mSettingItem = new SettingItem(R.string.dk_kit_color_picker, ColorPickConfig.isColorPickOpen(getContext()));
         mSettingList = findViewById(R.id.setting_list);
         mSettingList.setLayoutManager(new LinearLayoutManager(getContext()));
         mSettingItemAdapter = new SettingItemAdapter(getContext());
@@ -63,6 +64,7 @@ public class ColorPickerSettingFragment extends BaseFragment {
                         FloatPageManager.getInstance().removeAll(ColorPickerFloatPage.class);
                         FloatPageManager.getInstance().removeAll(ColorPickerInfoFloatPage.class);
                     }
+                    ColorPickConfig.setColorPickOpen(getContext(), on);
                 }
             }
         });
@@ -97,10 +99,12 @@ public class ColorPickerSettingFragment extends BaseFragment {
     private void showColorPicker(Intent data) {
         PageIntent pageIntent = new PageIntent(ColorPickerInfoFloatPage.class);
         pageIntent.tag = PageTag.PAGE_COLOR_PICKER_INFO;
+        pageIntent.mode = PageIntent.MODE_SINGLE_INSTANCE;
         FloatPageManager.getInstance().add(pageIntent);
 
         pageIntent = new PageIntent(ColorPickerFloatPage.class);
         pageIntent.bundle = data.getExtras();
+        pageIntent.mode = PageIntent.MODE_SINGLE_INSTANCE;
         FloatPageManager.getInstance().add(pageIntent);
     }
 

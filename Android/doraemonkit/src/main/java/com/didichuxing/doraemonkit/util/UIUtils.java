@@ -59,13 +59,7 @@ public class UIUtils {
     }
 
     public static int getHeightPixels(Context context) {
-        DisplayMetrics metrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        if (windowManager == null) {
-            return 0;
-        }
-        windowManager.getDefaultDisplay().getMetrics(metrics);
-        return metrics.heightPixels;
+        return getRealHeightPixels(context) - getStatusBarHeight(context);
     }
 
     public static int getRealHeightPixels(Context context) {

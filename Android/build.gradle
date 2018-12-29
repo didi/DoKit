@@ -27,3 +27,4 @@ task clean(type: Delete) {
 }
 
 tasks.getByPath(":doraemonkit:javadocRelease").enabled = false
+tasks.getByPath(":doraemonkit-no-op:javadocRelease").enabled = false

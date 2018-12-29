@@ -1,0 +1,17 @@
+ext {
+    // 很多app都会有自己的打包开关，来区分线上包和测试包，可以通过给applyPlugin赋值来区分测试包和线上包
+    // 线上包不会接入DoraemonKit，测试包会自动接入
+    applyPlugin = true
+}
+if (applyPlugin) {
+    // 引用插件，插件会在编译期把DoraemonKit.install方法插入Application中，前提是用户必须实现自己的Application
+    apply plugin: 'com.doraemon.compiler.plugin'
+    // 这里引用正常库
+    dependencies {
+        implementation project(":doraemonkit")
+    }
+} else {
+    dependencies {
+        implementation project(":doraemonkit-no-op")
+    }
+}

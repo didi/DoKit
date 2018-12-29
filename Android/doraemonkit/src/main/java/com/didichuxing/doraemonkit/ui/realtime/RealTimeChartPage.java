@@ -63,25 +63,6 @@ public class RealTimeChartPage extends BaseFloatPage {
         return false;
     }
 
-    @Override
-    public void onHomeKeyPress() {
-        finish();
-        mLineChart.stopMove();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mLineChart.stopMove();
-    }
-
-    @Override
-    public void onRecentAppKeyPress() {
-        finish();
-        mLineChart.stopMove();
-    }
-
-
     /**
      * 打开实时折线图浮窗
      *
@@ -150,14 +131,14 @@ public class RealTimeChartPage extends BaseFloatPage {
     @Override
     public void onEnterForeground() {
         super.onEnterForeground();
+        mLineChart.startMove();
         getRootView().setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onEnterBackground() {
         super.onEnterBackground();
+        mLineChart.stopMove();
         getRootView().setVisibility(View.GONE);
     }
-
-
 }

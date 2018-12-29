@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.BaseFloatPage;
 import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
+import com.didichuxing.doraemonkit.ui.base.TouchProxy;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
@@ -22,11 +23,10 @@ import java.util.List;
  * Created by wanglikun on 2018/11/20.
  */
 
-public class ViewCheckFloatPage extends BaseFloatPage implements View.OnTouchListener {
+public class ViewCheckFloatPage extends BaseFloatPage implements TouchProxy.OnTouchEventListener {
     private static final String TAG = "ViewCheckFloatPage";
 
-    private float sdX, sdY;
-    private float ldX, ldY;
+    private TouchProxy mTouchProxy = new TouchProxy(this);
 
     protected WindowManager mWindowManager;
 
@@ -55,7 +55,12 @@ public class ViewCheckFloatPage extends BaseFloatPage implements View.OnTouchLis
     @Override
     protected void onViewCreated(View view) {
         super.onViewCreated(view);
-        getRootView().setOnTouchListener(this);
+        getRootView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return mTouchProxy.onTouchEvent(v, event);
+            }
+        });
     }
 
     private View findSelectView(int x, int y) {
@@ -104,44 +109,32 @@ public class ViewCheckFloatPage extends BaseFloatPage implements View.OnTouchLis
         }
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        float x = event.getRawX();
-        float y = event.getRawY();
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                sdX = ldX = x;
-                sdY = ldY = y;
-                return false;
-            case MotionEvent.ACTION_MOVE:
-                getLayoutParams().x += (x - ldX + 0.5f);
-                getLayoutParams().y += (y - ldY + 0.5f);
-                ldX = x;
-                ldY = y;
-                mWindowManager.updateViewLayout(getRootView(), getLayoutParams());
-                return false;
-            case MotionEvent.ACTION_UP:
-                int mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-                if (Math.abs(x - sdX) <= mTouchSlop && Math.abs(y - sdY) <= mTouchSlop) {
-                    return false;
-                }
-                View selectView = findSelectView(getLayoutParams().x + getRootView().getWidth() / 2, getLayoutParams().y + getRootView().getHeight() / 2);
-                for (OnViewSelectListener listener : mViewSelectListeners) {
-                    listener.onViewSelected(selectView);
-                }
-                return true;
-            default:
-                break;
-        }
-        return false;
-    }
-
     public void setViewSelectListener(OnViewSelectListener viewSelectListener) {
         mViewSelectListeners.add(viewSelectListener);
     }
 
     public void removeViewSelectListener(OnViewSelectListener viewSelectListener) {
         mViewSelectListeners.remove(viewSelectListener);
+    }
+
+    @Override
+    public void onMove(int x, int y, int dx, int dy) {
+        getLayoutParams().x += dx;
+        getLayoutParams().y += dy;
+        mWindowManager.updateViewLayout(getRootView(), getLayoutParams());
+    }
+
+    @Override
+    public void onUp(int x, int y) {
+        View selectView = findSelectView(getLayoutParams().x + getRootView().getWidth() / 2, getLayoutParams().y + getRootView().getHeight() / 2);
+        for (OnViewSelectListener listener : mViewSelectListeners) {
+            listener.onViewSelected(selectView);
+        }
+    }
+
+    @Override
+    public void onDown(int x, int y) {
+
     }
 
     public interface OnViewSelectListener {

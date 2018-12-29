@@ -113,18 +113,6 @@ public class DeviceUtils {
         return mi.availMem / 1024 / 1024;
     }
 
-    public static String getDeviceSerial() {
-        String serial = "";
-        try {
-            Class<?> c = Class.forName("android.os.SystemProperties");
-            Method get = c.getMethod("get", String.class);
-            serial = (String) get.invoke(c, "ro.serialno");
-        } catch (Exception ignored) {
-        }
-
-        return serial;
-    }
-
     /**
      * 版本名
      */
@@ -177,63 +165,6 @@ public class DeviceUtils {
         return pi;
     }
 
-
-    /**
-     * @return imei
-     */
-    public static String getIMEI(Context context) {
-        if (!TextUtils.isEmpty(IMEI)) {
-            return IMEI;
-        }
-        try {
-            TelephonyManager tm = (TelephonyManager) context
-                    .getSystemService(Context.TELEPHONY_SERVICE);
-            IMEI = tm.getDeviceId();
-        } catch (SecurityException e) {
-            IMEI = "IMEI_ERROR";
-            Log.e(TAG, "GET IMEI FAILED.", e);
-        }
-        return IMEI;
-    }
-
-    /**
-     * @return imsi
-     */
-    public static String getIMSI(Context context) {
-        if (!TextUtils.isEmpty(IMSI)) {
-            return IMSI;
-        }
-        try {
-            TelephonyManager tm = (TelephonyManager) context
-                    .getSystemService(Context.TELEPHONY_SERVICE);
-            IMSI = tm.getSubscriberId();
-        } catch (SecurityException e) {
-            IMSI = "IMSI_ERROR";
-            Log.e(TAG, "GET IMSI FAILED.", e);
-        }
-        return IMSI;
-    }
-
-    /**
-     * @return 当前sim卡手机号(很有可能是空)
-     */
-    public static String getPhoneNumber(Context context) {
-        if (PHONE_NUMBER != null) {
-            return PHONE_NUMBER;
-        }
-        try {
-            TelephonyManager tm = (TelephonyManager) context
-                    .getSystemService(Context.TELEPHONY_SERVICE);
-            PHONE_NUMBER = tm.getLine1Number();
-        } catch (SecurityException e) {
-            Log.e(TAG, "GET PHONE NUMBER FAILED.", e);
-        }
-        if (PHONE_NUMBER == null) {
-            PHONE_NUMBER = "";
-        }
-        return PHONE_NUMBER;
-    }
-
     /**
      * @return 手机链接wifi的路由器的名字
      */
@@ -254,45 +185,6 @@ public class DeviceUtils {
         if (mWifi.isWifiEnabled()) {
             WifiInfo wifiInfo = mWifi.getConnectionInfo();
             return wifiInfo.getBSSID();
-        }
-        return "";
-    }
-
-    /**
-     * @param context context
-     * @param info    长度为2的数组,基站ID、基站lac
-     */
-    public static void getCellInfo(Context context, String[] info) {
-        if (checkPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION, false)) {
-            TelephonyManager tm = (TelephonyManager) context.getSystemService(
-                    Context.TELEPHONY_SERVICE);
-            CellLocation location = (tm == null) ? null : tm.getCellLocation();
-            if (location != null) {
-                if (location instanceof GsmCellLocation) {
-                    GsmCellLocation gsm = (GsmCellLocation) location;
-                    info[0] = String.valueOf(gsm.getCid());
-                    info[1] = String.valueOf(gsm.getLac());
-                } else if (location instanceof CdmaCellLocation) {
-                    CdmaCellLocation cdma = (CdmaCellLocation) location;
-                    info[0] = String.valueOf(cdma.getBaseStationId());
-                    info[1] = String.valueOf(cdma.getNetworkId());
-                }
-            } else {
-                info[0] = "0";
-                info[1] = "0";
-            }
-        }
-    }
-
-
-    /**
-     * @return 手机mac地址
-     */
-    public static String getDeviceMac(Context context) {
-        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (wifiManager != null && wifiManager.isWifiEnabled()) {
-            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-            return wifiInfo.getMacAddress();
         }
         return "";
     }

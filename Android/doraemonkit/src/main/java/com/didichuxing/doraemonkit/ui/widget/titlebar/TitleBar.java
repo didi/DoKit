@@ -50,14 +50,14 @@ public class TitleBar extends FrameLayout {
     private void init(Context context, AttributeSet attrs) {
         LayoutInflater.from(context).inflate(R.layout.dk_title_bar, this, true);
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.TitleBar);
-        int leftIcon = a.getResourceId(R.styleable.TitleBar_leftIcon, 0);
-        int rightIcon = a.getResourceId(R.styleable.TitleBar_rightIcon, 0);
-        int rightSubIcon = a.getResourceId(R.styleable.TitleBar_rightSubIcon, 0);
-        String title = a.getString(R.styleable.TitleBar_title);
-        int titleColor = a.getColor(R.styleable.TitleBar_titleColor, 0);
-        int titleBackground = a.getColor(R.styleable.TitleBar_titleBackground, getResources().getColor(R.color.dk_color_FFFFFF));
-        String rightText = a.getString(R.styleable.TitleBar_rightText);
-        String leftText = a.getString(R.styleable.TitleBar_leftText);
+        int leftIcon = a.getResourceId(R.styleable.TitleBar_dkLeftIcon, 0);
+        int rightIcon = a.getResourceId(R.styleable.TitleBar_dkRightIcon, 0);
+        int rightSubIcon = a.getResourceId(R.styleable.TitleBar_dkRightSubIcon, 0);
+        String title = a.getString(R.styleable.TitleBar_dkTitle);
+        int titleColor = a.getColor(R.styleable.TitleBar_dkTitleColor, 0);
+        int titleBackground = a.getColor(R.styleable.TitleBar_dkTitleBackground, getResources().getColor(R.color.dk_color_FFFFFF));
+        String rightText = a.getString(R.styleable.TitleBar_dkRightText);
+        String leftText = a.getString(R.styleable.TitleBar_dkLeftText);
         a.recycle();
 
         mLeftIcon = findViewById(R.id.left_icon);

@@ -9,9 +9,9 @@
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        app:leftIcon="@drawable/dk_title_back"
-        app:leftText="@string/dk_back"
-        app:title="@string/dk_net_monitor_title_summary"/>
+        app:dkLeftIcon="@drawable/dk_title_back"
+        app:dkLeftText="@string/dk_back"
+        app:dkTitle="@string/dk_net_monitor_title_summary"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_show"
