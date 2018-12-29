@@ -46,7 +46,7 @@
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
-    if (point.x>DoraemonScreenWidth-kDoraemonSizeFrom750(60) && point.y<kDoraemonSizeFrom750(60)) {
+    if (point.x>DoraemonScreenWidth-kDoraemonSizeFrom750(60) && point.y<kDoraemonSizeFrom750(60)+IPHONE_TOPSENSOR_HEIGHT) {
         return [super pointInside:point withEvent:event];
     }
     return NO;
@@ -54,7 +54,7 @@
 
 - (void)show{
     self.hidden = NO;
-    self.frame = CGRectMake(0, 0, DoraemonScreenWidth, kDoraemonSizeFrom750(480));
+    self.frame = CGRectMake(0, 0, DoraemonScreenWidth, kDoraemonSizeFrom750(480)+IPHONE_TOPSENSOR_HEIGHT);
     [_vc startRecord];
 }
 

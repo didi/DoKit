@@ -11,6 +11,8 @@
 
 + (NSString *)iphoneType;
 
++ (BOOL)isIPhoneXSeries;
+
 + (NSString *)locationAuthority;
 
 + (NSString *)pushAuthority;
