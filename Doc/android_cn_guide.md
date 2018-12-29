@@ -11,7 +11,7 @@ dependencies {
 }
 ```
 
-最新版本参见[这里](android-ReleaseNotes)。
+最新版本参见[这里](android-ReleaseNotes.md)。
 
 
 
