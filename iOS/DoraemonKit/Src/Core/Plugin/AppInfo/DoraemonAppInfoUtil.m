@@ -12,8 +12,7 @@
 #import <Photos/Photos.h>
 #import <AddressBook/AddressBook.h>
 #import <Contacts/Contacts.h>
-@import CoreTelephony;
-@import EventKit;
+#import <EventKit/EventKit.h>
 
 #define IOS8 ([[[UIDevice currentDevice] systemVersion] doubleValue] >=8.0 ? YES : NO)
 
@@ -110,26 +109,6 @@
         }
     }
     return @"YES";
-}
-
-+ (NSString *)netAuthority{
-    CTCellularData *cellularData = [[CTCellularData alloc]init];
-    CTCellularDataRestrictedState state = cellularData.restrictedState;
-    NSString *authority = @"Unknown";
-    switch (state) {
-        case kCTCellularDataRestricted:
-            authority = @"Restricted";
-            break;
-        case kCTCellularDataNotRestricted:
-            authority = @"NotRestricted";
-            break;
-        case kCTCellularDataRestrictedStateUnknown:
-            authority = @"Unknown";
-            break;
-        default:
-            break;
-    }
-    return authority;
 }
 
 + (NSString *)cameraAuthority{

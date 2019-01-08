@@ -17,8 +17,6 @@
 
 + (NSString *)pushAuthority;
 
-+ (NSString *)netAuthority;
-
 + (NSString *)cameraAuthority;
 
 + (NSString *)audioAuthority;

@@ -12,11 +12,14 @@
 #import "Doraemoni18NUtil.h"
 #import "UIView+Doraemon.h"
 #import "UIColor+Doraemon.h"
+#import <CoreTelephony/CTCellularData.h>
 
 @interface DoraemonAppInfoViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) CTCellularData *cellularData;
+@property (nonatomic, copy) NSString *authority;
 
 @end
 
@@ -45,7 +48,21 @@
     NSString *locationAuthority = [DoraemonAppInfoUtil locationAuthority];
     
     //获取网络权限
-    NSString *netAuthority = [DoraemonAppInfoUtil netAuthority];
+    _cellularData = [[CTCellularData alloc]init];
+    __weak typeof(self) weakSelf = self;
+    _cellularData.cellularDataRestrictionDidUpdateNotifier = ^(CTCellularDataRestrictedState state) {
+        if (state == kCTCellularDataRestricted) {
+            weakSelf.authority = @"Restricted";
+        }else if(state == kCTCellularDataNotRestricted){
+            weakSelf.authority = @"NotRestricted";
+        }else{
+            weakSelf.authority = @"Unknown";
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.tableView reloadData];
+        });
+        
+    };
     
     //获取push权限
     NSString *pushAuthority = [DoraemonAppInfoUtil pushAuthority];
@@ -105,7 +122,7 @@
                                                },
                                            @{
                                                @"title":DoraemonLocalizedString(@"网络权限"),
-                                               @"value":netAuthority
+                                               @"value":@"Unknown"
                                                },
                                            @{
                                                @"title":DoraemonLocalizedString(@"推送权限"),
@@ -150,6 +167,13 @@
     self.tableView.estimatedSectionHeaderHeight = 0.;
     [self.view addSubview:self.tableView];
 }
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    _cellularData.cellularDataRestrictionDidUpdateNotifier = nil;
+    _cellularData = nil;
+}
+
 
 - (BOOL)needBigTitleView{
     return YES;
@@ -196,7 +220,13 @@
     }
     NSArray *array = _dataArray[indexPath.section][@"array"];
     NSDictionary *item = array[indexPath.row];
-    [cell renderUIWithData:item];
+    if (indexPath.section == 2 && indexPath.row == 1 && self.authority) {
+        NSMutableDictionary *tempItem = [item mutableCopy];
+        [tempItem setValue:self.authority forKey:@"value"];
+        [cell renderUIWithData:tempItem];
+    }else{
+       [cell renderUIWithData:item];
+    }
     return cell;
 }
 
