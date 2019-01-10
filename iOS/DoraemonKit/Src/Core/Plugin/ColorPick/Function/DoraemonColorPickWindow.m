@@ -152,7 +152,8 @@ static CGFloat const kColorPickWindowSize = 114;
     if (!_magnifierWindow) {
         _magnifierWindow = [[DoraemonVisualMagnifierWindow alloc] init];
         _magnifierWindow.targetWindow = [[UIApplication sharedApplication].delegate window];
-        _magnifierWindow.magnifierWidth = kColorPickWindowSize - 6; //设置宽度
+        _magnifierWindow.magnifierSize = kColorPickWindowSize - 6; //设置宽度
+        _magnifierWindow.magnification = 4.0;
     }
     return _magnifierWindow;
 }
