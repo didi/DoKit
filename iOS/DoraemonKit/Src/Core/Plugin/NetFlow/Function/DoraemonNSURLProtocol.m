@@ -9,10 +9,11 @@
 #import "DoraemonNetFlowHttpModel.h"
 #import "DoraemonNetFlowDataSource.h"
 #import "DoraemonNetFlowManager.h"
+#import "DoraemonURLSessionDemux.h"
 
 static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 
-@interface DoraemonNSURLProtocol()<NSURLSessionDelegate,NSURLSessionTaskDelegate>
+@interface DoraemonNSURLProtocol()<NSURLSessionDataDelegate>
 
 @property (nonatomic, strong) NSURLSession *urlSession;
 @property (nonatomic, assign) NSTimeInterval startTime;
@@ -20,9 +21,24 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 @property (nonatomic, strong) NSMutableData *data;
 @property (nonatomic, strong) NSError *error;
 
+@property (atomic, strong, readwrite) NSThread *clientThread;
+@property (atomic, copy,   readwrite) NSArray *modes;
+@property (atomic, strong, readwrite) NSURLSessionDataTask *task;
+
 @end
 
 @implementation DoraemonNSURLProtocol
+
++ (DoraemonURLSessionDemux *)sharedDemux{
+    static dispatch_once_t      sOnceToken;
+    static DoraemonURLSessionDemux *sDemux;
+    dispatch_once(&sOnceToken, ^{
+        NSURLSessionConfiguration *config;
+        config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        sDemux = [[DoraemonURLSessionDemux alloc] initWithConfiguration:config];
+    });
+    return sDemux;
+}
 
 + (BOOL)canInitWithTask:(NSURLSessionTask *)task {
     NSURLRequest *request = task.currentRequest;
@@ -52,25 +68,39 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 }
 
 - (void)startLoading{
+    NSMutableURLRequest *   recursiveRequest;
+    NSMutableArray *        calculatedModes;
+    NSString *              currentMode;
+    
+    assert(self.clientThread == nil);
+    assert(self.task == nil);
+    assert(self.modes == nil);
+    
+    calculatedModes = [NSMutableArray array];
+    [calculatedModes addObject:NSDefaultRunLoopMode];
+    currentMode = [[NSRunLoop currentRunLoop] currentMode];
+    if ( (currentMode != nil) && ! [currentMode isEqual:NSDefaultRunLoopMode] ) {
+        [calculatedModes addObject:currentMode];
+    }
+    self.modes = calculatedModes;
+    assert([self.modes count] > 0);
+    
+    recursiveRequest = [[self request] mutableCopy];
+    assert(recursiveRequest != nil);
+    
+    self.clientThread = [NSThread currentThread];
     self.data = [NSMutableData data];
     self.startTime = [[NSDate date] timeIntervalSince1970];
+    self.task = [[[self class] sharedDemux] dataTaskWithRequest:recursiveRequest delegate:self modes:self.modes];
+    assert(self.task != nil);
     
-    
-    //NSLog(@"startLoading");
-    if (!self.urlSession) {
-        self.urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
-                                                        delegate:self
-                                                   delegateQueue:nil];
-    }
-    
-    NSMutableURLRequest *request = [[DoraemonNSURLProtocol canonicalRequestForRequest:self.request] mutableCopy];
-    
-    NSURLSessionDataTask *task = [self.urlSession dataTaskWithRequest:request];
-    [task resume];
+    [self.task resume];
 }
 
 - (void)stopLoading{
-    //NSLog(@"stopLoading");
+    assert(self.clientThread != nil);
+    assert([NSThread currentThread] == self.clientThread);
+    
     DoraemonNetFlowHttpModel *httpModel = [DoraemonNetFlowHttpModel dealWithResponseData:self.data response:self.response request:self.request];
     if (!self.response) {
         httpModel.statusCode = self.error.localizedDescription;
@@ -81,23 +111,28 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     httpModel.totalDuration = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] - self.startTime];
     [[DoraemonNetFlowDataSource shareInstance] addHttpModel:httpModel];
     
-    [self.urlSession invalidateAndCancel];
-    self.urlSession = nil;
+    if (self.task != nil) {
+        [self.task cancel];
+        self.task = nil;
+    }
 }
 
 #pragma mark - NSURLSessionDelegate
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler {
+    assert([NSThread currentThread] == self.clientThread);
     self.response = response;
     [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
     completionHandler(NSURLSessionResponseAllow);
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
+    assert([NSThread currentThread] == self.clientThread);
     [self.data appendData:data];
     [self.client URLProtocol:self didLoadData:data];
 }
 
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error {
+    assert([NSThread currentThread] == self.clientThread);
     if (error) {
         self.error = error;
         [self.client URLProtocol:self didFailWithError:error];
@@ -106,7 +141,8 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     }
 }
 
-- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler {
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler {
+    assert([NSThread currentThread] == self.clientThread);
     //判断服务器返回的证书类型, 是否是服务器信任
     if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
         //强制信任
