@@ -145,6 +145,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithTitle:DoraemonLocalizedString(@"颜色吸管") icon:@"doraemon_straw" desc:DoraemonLocalizedString(@"颜色拾取器") pluginName:@"DoraemonColorPickPlugin" atModule:DoraemonLocalizedString(@"视觉工具")];
     [self addPluginWithTitle:DoraemonLocalizedString(@"组件检查") icon:@"doraemon_view_check" desc:DoraemonLocalizedString(@"View查看器") pluginName:@"DoraemonViewCheckPlugin" atModule:DoraemonLocalizedString(@"视觉工具")];
     [self addPluginWithTitle:DoraemonLocalizedString(@"对齐标尺") icon:@"doraemon_align" desc:DoraemonLocalizedString(@"查看组件是否对齐") pluginName:@"DoraemonViewAlignPlugin" atModule:DoraemonLocalizedString(@"视觉工具")];
+    [self addPluginWithTitle:DoraemonLocalizedString(@"元素边框线") icon:@"doraemon_viewmetrics" desc:DoraemonLocalizedString(@"显示元素边框线") pluginName:@"DoraemonViewMetricsPlugin" atModule:DoraemonLocalizedString(@"视觉工具")];
 }
 
 /**
