@@ -141,6 +141,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithTitle:DoraemonLocalizedString(@"流量") icon:@"doraemon_net" desc:DoraemonLocalizedString(@"流量监控") pluginName:@"DoraemonNetFlowPlugin" atModule:DoraemonLocalizedString(@"性能检测")];
     [self addPluginWithTitle:DoraemonLocalizedString(@"卡顿") icon:@"doraemon_kadun" desc:DoraemonLocalizedString(@"卡顿检测") pluginName:@"DoraemonANRPlugin" atModule:DoraemonLocalizedString(@"性能检测")];
     [self addPluginWithTitle:@"自定义" icon:@"doraemon_default" desc:DoraemonLocalizedString(@"性能数据保存到本地") pluginName:@"DoraemonAllTestPlugin" atModule:DoraemonLocalizedString(@"性能检测")];
+    [self addPluginWithTitle:@"Load耗时" icon:@"doraemon_method_use_time" desc:DoraemonLocalizedString(@"Load方法消耗时间") pluginName:@"DoraemonMethodUseTimePlugin" atModule:DoraemonLocalizedString(@"性能检测")];
     
     [self addPluginWithTitle:DoraemonLocalizedString(@"颜色吸管") icon:@"doraemon_straw" desc:DoraemonLocalizedString(@"颜色拾取器") pluginName:@"DoraemonColorPickPlugin" atModule:DoraemonLocalizedString(@"视觉工具")];
     [self addPluginWithTitle:DoraemonLocalizedString(@"组件检查") icon:@"doraemon_view_check" desc:DoraemonLocalizedString(@"View查看器") pluginName:@"DoraemonViewCheckPlugin" atModule:DoraemonLocalizedString(@"视觉工具")];
