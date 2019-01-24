@@ -32,6 +32,13 @@
         return NO;
     }
     
+    // 状态栏不需要显示元素边框
+    NSString *statusBarString = [NSString stringWithFormat:@"_statusBarWindow"];
+    UIWindow *statusBarWindow = [[UIApplication sharedApplication] valueForKey:statusBarString];
+    if (statusBarWindow && [self isDescendantOfView:statusBarWindow]) {
+        return NO;
+    }
+    
     if ([self isInBlackList]) {
         return NO;
     }
