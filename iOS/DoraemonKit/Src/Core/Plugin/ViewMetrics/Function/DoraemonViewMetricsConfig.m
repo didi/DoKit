@@ -45,16 +45,6 @@
             [window hideDoraemonMetricsRecursive];
         }
     }
-    
-    // 每当状态栏发生变化（如: 时间跳动，4G切WIFI，横竖屏切换等），状态栏会走`layoutSubviews`方法，会导致状态栏也出现元素边框；而[UIApplication sharedApplication].windows数组内拿不到UIStatusBarWindow，关闭元素边框无法及时隐藏状态栏的边框线
-    // 也可以在`UIView+DoraemonViewMetrics.h`内的`shouldShowMetricsView`中直接禁掉状态栏的元素边框
-    NSString *statusBarString = [NSString stringWithFormat:@"_statusBarWindow"];
-    UIWindow *statusBarWindow = [[UIApplication sharedApplication] valueForKey:statusBarString];
-    if (statusBarWindow) {
-        if (!enable) {
-            [statusBarWindow hideDoraemonMetricsRecursive];
-        }
-    }
 }
 
 @end
