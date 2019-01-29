@@ -38,7 +38,10 @@
 - (void)renderCellWithData:(NSDictionary *)dic{
     self.titleLabel.text = dic[@"name"];
     [self.titleLabel sizeToFit];
-    self.titleLabel.frame = CGRectMake(kDoraemonSizeFrom750(32), [[self class] cellHeight]/2-self.titleLabel.doraemon_height/2, self.titleLabel.doraemon_width, self.titleLabel.doraemon_height);
+    self.titleLabel.frame = CGRectMake(kDoraemonSizeFrom750(32), [[self class] cellHeight]/2-self.titleLabel.doraemon_height/2, DoraemonScreenWidth - 120, self.titleLabel.doraemon_height);
+    self.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.titleLabel.minimumScaleFactor = 0.1;
+
     
     CGFloat cost = [dic[@"cost"] floatValue];
     NSString *costString = [NSString stringWithFormat:@"%.3fms",cost];
