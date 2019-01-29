@@ -229,7 +229,9 @@ const struct mach_header *get_target_image_header() {
     
     for(uint32_t iImg = 0; iImg < imageCount; iImg++) {
         const char *image_name = _dyld_get_image_name(iImg);
-        const char *target_image_name = ((NSString *)[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"]).UTF8String;
+        NSBundle *mainBundle = [NSBundle mainBundle];
+        NSString *executableFile = [mainBundle objectForInfoDictionaryKey:(NSString*)kCFBundleExecutableKey];
+        const char *target_image_name = (executableFile).UTF8String;
         if (strstr(image_name, target_image_name) != NULL) {
             target_image_header = _dyld_get_image_header(iImg);
             //printf("image_name = %s\n" , image_name);
