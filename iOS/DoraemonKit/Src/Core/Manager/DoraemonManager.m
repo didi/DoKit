@@ -55,6 +55,12 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 }
 
 - (void)install{
+    [self installWithCustomBlock:^{
+        //什么也没发生
+    }];
+}
+
+- (void)installWithCustomBlock:(void(^)())customBlock{
     for (int i=0; i<_startPlugins.count; i++) {
         NSString *pluginName = _startPlugins[i];
         Class pluginClass = NSClassFromString(pluginName);
@@ -63,8 +69,10 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
             [plugin pluginDidLoad];
         }
     }
-    
+
     [self initData];
+    customBlock();
+
     [self initEntry];
     
     //根据开关判断是否收集Crash日志
@@ -190,6 +198,10 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     }
 }
 
+- (void)removePluginWithPluginName:(NSString *)pluginName atModule:(NSString *)moduleName{
+    [self unregisterPlugin:pluginName withModule:moduleName];
+}
+
 - (void)registerPluginArray:(NSMutableArray*)array withModule:(NSString*)moduleName{
     if (!_dataArray){
         _dataArray = [[NSMutableArray alloc]init];
@@ -198,6 +210,27 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [dic setValue:moduleName forKey:@"moduleName"];
     [dic setValue:array forKey:@"pluginArray"];
     [_dataArray addObject:dic];
+}
+
+- (void)unregisterPlugin:(NSString*)pluginName withModule:(NSString*)moduleName{
+    if (!_dataArray){
+        return;
+    }
+    id object;
+    for (object in _dataArray) {
+        NSString *tempModuleName = [((NSMutableDictionary *)object) valueForKey:@"moduleName"];
+        if ([tempModuleName isEqualToString:moduleName]) {
+            NSMutableArray *tempPluginArray = [((NSMutableDictionary *)object) valueForKey:@"pluginArray"];
+            id pluginObject;
+            for (pluginObject in tempPluginArray) {
+                NSString *tempPluginName = [((NSMutableDictionary *)pluginObject) valueForKey:@"pluginName"];
+                if ([tempPluginName isEqualToString:pluginName]) {
+                    [tempPluginArray removeObject:pluginObject];
+                    return;
+                }
+            }
+        }
+    }
 }
 
 - (void)hiddenDoraemon{
