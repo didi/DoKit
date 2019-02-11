@@ -122,12 +122,12 @@
     
     //发送一条异步请求，delegate方式
     // 使用代理方法需要设置代理,但是session的delegate属性是只读的,要想设置代理只能通过这种方式创建session
-    NSURLSession *session1 = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
-                                                           delegate:self
-                                                      delegateQueue:[[NSOperationQueue alloc] init]];
+    //NSURLSession *session1 = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]
+//                                                           delegate:self
+//                                                      delegateQueue:[[NSOperationQueue alloc] init]];
     
     // 创建任务(因为要使用代理方法,就不需要block方式的初始化了)
-    NSURLSessionDataTask *task1 = [session1 dataTaskWithRequest:[NSURLRequest requestWithURL:url]];
+    //NSURLSessionDataTask *task1 = [session1 dataTaskWithRequest:[NSURLRequest requestWithURL:url]];
     
     // 启动任务
     //[task1 resume];
