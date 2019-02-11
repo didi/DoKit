@@ -11,7 +11,7 @@ dependencies {
 }
 ```
 
-Please use [the lastest release](android-ReleaseNotes.md)。
+Please use [the latest release](android-ReleaseNotes.md)。
 
 
 

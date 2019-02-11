@@ -23,7 +23,7 @@ dependencies {
 @Override
 public void onCreate() {
 	...
-    DoraemonKit.install(application）
+    DoraemonKit.install(application)
      
     // H5任意门功能需要，非必须
     DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
