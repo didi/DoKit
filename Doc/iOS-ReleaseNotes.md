@@ -1,4 +1,16 @@
 # Release Notes
+## 1.1.4
+1、新增Load函数耗时检测功能
+
+2、新增元素边框线功能
+
+3、H5任意门添加默认跳转实现
+
+4、适配XR、XS、XS Max
+
+5、其他一些优化和bug fix，详见代码提交记录
+
+
 ## 1.1.3
 1、DorameonKit界面不占用keyWindow
 
