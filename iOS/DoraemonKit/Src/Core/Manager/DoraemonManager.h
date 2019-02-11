@@ -15,11 +15,15 @@ typedef void (^DoraemonH5DoorBlock)(NSString *);
 
 - (void)install;
 
+- (void)installWithCustomBlock:(void(^)())customBlock;
+
 @property (nonatomic,strong) NSMutableArray *dataArray;
 
 @property (nonatomic, copy) DoraemonH5DoorBlock h5DoorBlock;
 
 - (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName;
+
+- (void)removePluginWithPluginName:(NSString *)pluginName atModule:(NSString *)moduleName;
 
 - (void)addStartPlugin:(NSString *)pluginName;
 
