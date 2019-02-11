@@ -36,7 +36,6 @@ Pod::Spec.new do |s|
     ss.pod_target_xcconfig = {
       'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithLogger'
     }
-    ss.dependency 'DoraemonKit/Core'
     ss.dependency 'CocoaLumberjack'
   end
 
