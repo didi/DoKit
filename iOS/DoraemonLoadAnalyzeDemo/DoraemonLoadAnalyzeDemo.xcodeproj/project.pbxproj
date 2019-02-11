@@ -430,7 +430,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2M632FEG3H;
+				DEVELOPMENT_TEAM = RSV7DQ57L7;
 				INFOPLIST_FILE = DoraemonLoadAnalyzeDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -438,7 +438,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.javer.yi.DoraemonLoadAnalyzeDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.javer.yi.DoraemonLoadAnalyzeDemoXXXX;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -449,7 +449,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2M632FEG3H;
+				DEVELOPMENT_TEAM = RSV7DQ57L7;
 				INFOPLIST_FILE = DoraemonLoadAnalyzeDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -457,7 +457,7 @@
 					"@executable_path/Frameworks",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.javer.yi.DoraemonLoadAnalyzeDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.javer.yi.DoraemonLoadAnalyzeDemoXXXX;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
