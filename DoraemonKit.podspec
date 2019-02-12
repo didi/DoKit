@@ -1,4 +1,4 @@
-# Make sure to run `pod lib lint KOPNetworking.podspec' to ensure this is a
+# Make sure to run `pod lib lint DoraemonKit.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
