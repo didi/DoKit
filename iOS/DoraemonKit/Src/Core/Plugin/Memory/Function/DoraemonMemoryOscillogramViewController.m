@@ -31,7 +31,7 @@
     
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.text = DoraemonLocalizedString(@"CPU检测");
+    titleLabel.text = DoraemonLocalizedString(@"内存检测");
     titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(20)];
     titleLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:titleLabel];
