@@ -22,7 +22,8 @@ void myNSLog(NSString *format, ...){
     
     [[DoraemonNSLogManager sharedInstance] addNSLog:str];
     //再调用原来的nslog
-    old_nslog(str);
+    //old_nslog(str);
+    old_nslog(@"%@",str);
 }
 
 
