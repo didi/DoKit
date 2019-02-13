@@ -18,6 +18,31 @@
 
 @implementation DoraemonAppInfoUtil
 
++ (NSString *)iphoneName
+{
+    return [UIDevice currentDevice].name;
+}
+
++ (NSString *)iphoneSystemVersion
+{
+    return [UIDevice currentDevice].systemVersion;
+}
+
++ (NSString *)bundleIdentifier
+{
+    return [[NSBundle mainBundle] bundleIdentifier];
+}
+
++ (NSString *)bundleVersion
+{
+    return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+}
+
++ (NSString *)bundleShortVersionString
+{
+    return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+}
+
 + (NSString *)iphoneType{
     struct utsname systemInfo;
     uname(&systemInfo);

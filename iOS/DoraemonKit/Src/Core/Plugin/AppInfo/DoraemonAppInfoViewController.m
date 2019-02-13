@@ -28,21 +28,54 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self initUI];
+    [self initData];
+}
+
+- (void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    _cellularData.cellularDataRestrictionDidUpdateNotifier = nil;
+    _cellularData = nil;
+}
+
+- (BOOL)needBigTitleView{
+    return YES;
+}
+
+- (void)initUI
+{
     self.title = DoraemonLocalizedString(@"App基本信息");
+
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-self.bigTitleView.doraemon_bottom) style:UITableViewStyleGrouped];
+    self.tableView.backgroundColor = [UIColor whiteColor];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.estimatedRowHeight = 0.;
+    self.tableView.estimatedSectionFooterHeight = 0.;
+    self.tableView.estimatedSectionHeaderHeight = 0.;
+    [self.view addSubview:self.tableView];
+}
+
+#pragma mark - default data
+
+- (void)initData
+{
+    // 获取设备名称
+    NSString *iphoneName = [DoraemonAppInfoUtil iphoneName];
+    // 获取当前系统版本号
+    NSString *iphoneSystemVersion = [DoraemonAppInfoUtil iphoneSystemVersion];
     
     //获取手机型号
     NSString *iphoneType = [DoraemonAppInfoUtil iphoneType];
-    //获取手机系统版本
-    NSString *phoneVersion = [[UIDevice currentDevice] systemVersion];
     
     //获取bundle id
-    NSString *bundleId = [[NSBundle mainBundle] bundleIdentifier];
+    NSString *bundleIdentifier = [DoraemonAppInfoUtil bundleIdentifier];
     
     //获取App版本号
-    NSString *bundleVersionCode = [[[NSBundle mainBundle]infoDictionary] objectForKey:@"CFBundleVersion"];
+    NSString *bundleVersion = [DoraemonAppInfoUtil bundleVersion];
     
     //获取App版本Code
-    NSString *bundleVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString *bundleShortVersionString = [DoraemonAppInfoUtil bundleShortVersionString];
     
     //获取手机是否有地理位置权限
     NSString *locationAuthority = [DoraemonAppInfoUtil locationAuthority];
@@ -86,97 +119,81 @@
     NSString *remindAuthority = [DoraemonAppInfoUtil remindAuthority];
     
     NSArray *dataArray = @[
-                            @{
+                           @{
                                @"title":DoraemonLocalizedString(@"手机信息"),
-                               @"array":@[@{
-                                            @"title":DoraemonLocalizedString(@"手机型号"),
-                                            @"value":iphoneType
-                                            },
-                                        @{
-                                            @"title":DoraemonLocalizedString(@"系统版本"),
-                                            @"value":phoneVersion
-                                            }
-                                     ]
+                               @"array":@[
+                                       @{
+                                           @"title":DoraemonLocalizedString(@"设备名称"),
+                                           @"value":iphoneName
+                                           },
+                                       @{
+                                           @"title":DoraemonLocalizedString(@"手机型号"),
+                                           @"value":iphoneType
+                                           },
+                                       @{
+                                           @"title":DoraemonLocalizedString(@"系统版本"),
+                                           @"value":iphoneSystemVersion
+                                           }
+                                       ]
                                },
-                            @{
-                                @"title":DoraemonLocalizedString(@"App信息"),
-                                @"array":@[@{
-                                               @"title":@"Bundle ID",
-                                               @"value":bundleId
-                                               },
-                                           @{
-                                               @"title":@"version",
-                                               @"value":bundleVersion
-                                               },
-                                           @{
-                                               @"title":@"versionCode",
-                                               @"value":bundleVersionCode
-                                               }
-                                           ]
-                                },
-                            @{
-                                @"title":DoraemonLocalizedString(@"权限信息"),
-                                @"array":@[@{
-                                               @"title":DoraemonLocalizedString(@"地理位置权限"),
-                                               @"value":locationAuthority
-                                               },
-                                           @{
-                                               @"title":DoraemonLocalizedString(@"网络权限"),
-                                               @"value":@"Unknown"
-                                               },
-                                           @{
-                                               @"title":DoraemonLocalizedString(@"推送权限"),
-                                               @"value":pushAuthority
-                                               },
-                                           @{
-                                               @"title":DoraemonLocalizedString(@"相机权限"),
-                                               @"value":cameraAuthority
-                                               },
-                                           @{
-                                               @"title":DoraemonLocalizedString(@"麦克风权限"),
-                                               @"value":audioAuthority
-                                               },
-                                           @{
-                                               @"title":DoraemonLocalizedString(@"相册权限"),
-                                               @"value":photoAuthority
-                                               },
-                                           @{
-                                               @"title":DoraemonLocalizedString(@"通讯录权限"),
-                                               @"value":addressAuthority
-                                               },
-                                           @{
-                                               @"title":DoraemonLocalizedString(@"日历权限"),
-                                               @"value":calendarAuthority
-                                               },
-                                           @{
-                                               @"title":DoraemonLocalizedString(@"提醒事项权限"),
-                                               @"value":remindAuthority
-                                               }
-                                           ]
-                                }
-                            ];
+                           @{
+                               @"title":DoraemonLocalizedString(@"App信息"),
+                               @"array":@[@{
+                                              @"title":@"Bundle ID",
+                                              @"value":bundleIdentifier
+                                              },
+                                          @{
+                                              @"title":@"Version",
+                                              @"value":bundleVersion
+                                              },
+                                          @{
+                                              @"title":@"VersionCode",
+                                              @"value":bundleShortVersionString
+                                              }
+                                          ]
+                               },
+                           @{
+                               @"title":DoraemonLocalizedString(@"权限信息"),
+                               @"array":@[@{
+                                              @"title":DoraemonLocalizedString(@"地理位置权限"),
+                                              @"value":locationAuthority
+                                              },
+                                          @{
+                                              @"title":DoraemonLocalizedString(@"网络权限"),
+                                              @"value":@"Unknown"
+                                              },
+                                          @{
+                                              @"title":DoraemonLocalizedString(@"推送权限"),
+                                              @"value":pushAuthority
+                                              },
+                                          @{
+                                              @"title":DoraemonLocalizedString(@"相机权限"),
+                                              @"value":cameraAuthority
+                                              },
+                                          @{
+                                              @"title":DoraemonLocalizedString(@"麦克风权限"),
+                                              @"value":audioAuthority
+                                              },
+                                          @{
+                                              @"title":DoraemonLocalizedString(@"相册权限"),
+                                              @"value":photoAuthority
+                                              },
+                                          @{
+                                              @"title":DoraemonLocalizedString(@"通讯录权限"),
+                                              @"value":addressAuthority
+                                              },
+                                          @{
+                                              @"title":DoraemonLocalizedString(@"日历权限"),
+                                              @"value":calendarAuthority
+                                              },
+                                          @{
+                                              @"title":DoraemonLocalizedString(@"提醒事项权限"),
+                                              @"value":remindAuthority
+                                              }
+                                          ]
+                               }
+                           ];
     _dataArray = dataArray;
-    
-
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-self.bigTitleView.doraemon_bottom) style:UITableViewStyleGrouped];
-    self.tableView.backgroundColor = [UIColor whiteColor];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.estimatedRowHeight = 0.;
-    self.tableView.estimatedSectionFooterHeight = 0.;
-    self.tableView.estimatedSectionHeaderHeight = 0.;
-    [self.view addSubview:self.tableView];
-}
-
-- (void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-    _cellularData.cellularDataRestrictionDidUpdateNotifier = nil;
-    _cellularData = nil;
-}
-
-
-- (BOOL)needBigTitleView{
-    return YES;
 }
 
 #pragma mark - UITableView Delegate
