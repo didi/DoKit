@@ -1,6 +1,0 @@
-framework module DoraemonLoadAnalyze {
-  umbrella header "DoraemonLoadAnalyze.h"
-
-  export *
-  module * { export * }
-}

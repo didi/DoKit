@@ -6,7 +6,7 @@
 //
 
 #import "DoraemonMethodUseTimeListViewController.h"
-#import <DoraemonLoadAnalyze/DoraemonLoadAnalyze.h>
+#import "DoraemonLoadAnalyze.h"
 #import "DoraemonDefine.h"
 #import "DoraemonMethodUseTimeListCell.h"
 
