@@ -178,6 +178,14 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
         		<a href='https://github.com/y644938647'>y644938647</a>
         	</h4>
         </td>
+        <td id='huakucha'>
+            <a href='https://github.com/huakucha'>
+        		<img src='https://github.com/huakucha.png?v=3&s=330' width="165" height="165">
+        	</a>
+            <h4 align='center'>
+        		<a href='https://github.com/huakucha'>huakucha</a>
+        	</h4>
+        </td>
     </tr>
 </table>
 
