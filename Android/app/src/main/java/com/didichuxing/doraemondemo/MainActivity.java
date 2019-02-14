@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.didichuxing.doraemonkit.DoraemonKit;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_test_urlconnection).setOnClickListener(this);
         findViewById(R.id.btn_test_okhttp).setOnClickListener(this);
         findViewById(R.id.btn_test_crash).setOnClickListener(this);
+        findViewById(R.id.btn_switch_floating_Window).setOnClickListener(this);
     }
 
     @Override
@@ -40,9 +43,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_test_crash:
                 testCrash().length();
                 break;
+            case R.id.btn_switch_floating_Window:
+                switchFloatingWindow();
+                break;
             default:
                 break;
         }
+    }
+
+
+    public void switchFloatingWindow() {
+        DoraemonKit.setFloatingWindow(!DoraemonKit.isFloatingWindowShowing());
     }
 
     public String testCrash() {

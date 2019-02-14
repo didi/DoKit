@@ -52,8 +52,10 @@ public class DoraemonKit {
 
     private static boolean sHasInit = false;
 
-    public static void install(final Application app) {
-        install(app, null);
+    private static boolean sShowFloatingWindow;//显示悬浮窗
+
+    public static void install(final Application app, boolean showFloatingWindow) {
+        install(app, showFloatingWindow, null);
     }
 
     public static void setWebDoorCallback(WebDoorManager.WebDoorCallback callback) {
@@ -66,7 +68,7 @@ public class DoraemonKit {
         }
     }
 
-    public static void install(final Application app, List<IKit> selfKits) {
+    public static void install(final Application app, boolean showFloatingWindow, List<IKit> selfKits) {
         if (sHasInit) {
             if (selfKits != null) {
                 List<IKit> biz = sKitMap.get(Category.BIZ);
@@ -81,6 +83,7 @@ public class DoraemonKit {
             return;
         }
         sHasInit = true;
+        sShowFloatingWindow = showFloatingWindow;
         GpsHookManager.getInstance().init();
         app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             int startedActivityCounts;
@@ -100,6 +103,10 @@ public class DoraemonKit {
 
             @Override
             public void onActivityResumed(Activity activity) {
+                if (!sShowFloatingWindow) {
+                    return;
+                }
+
                 FloatPageManager.getInstance().onActivityResumed(activity);
                 if (PermissionUtil.canDrawOverlays(activity)) {
                     showFloatIcon(activity);
@@ -230,4 +237,19 @@ public class DoraemonKit {
         }
     }
 
+    public static void setFloatingWindow(boolean showFloatingWindow) {
+        if (sShowFloatingWindow == showFloatingWindow) {
+            return;
+        }
+        sShowFloatingWindow = showFloatingWindow;
+        if (sShowFloatingWindow) {
+            FloatPageManager.getInstance().notifyForeground();
+        } else {
+            FloatPageManager.getInstance().notifyBackground();
+        }
+    }
+
+    public static boolean isFloatingWindowShowing() {
+        return sShowFloatingWindow;
+    }
 }
