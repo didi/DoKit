@@ -73,4 +73,33 @@ MockGPS存在一些兼容性问题（绝大部分情况是好的，问题详见[
     [[DoraemonManager shareInstance] install];
 }
 ```
+### 4、swift 接入方式
+pod 同 OC 一样
+
+#### swift 4.0 4.2 5.0 接入方式都一样
+
+```
+import UIKit
+
+#if DEBUG
+    import DoraemonKit
+#endif
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    var window: UIWindow?
+
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
+        
+    #if DEBUG
+        DoraemonManager.shareInstance()?.install()
+    #endif
+        return true
+    }
+    
+}
+```
 
