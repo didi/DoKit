@@ -54,6 +54,11 @@ public class DoraemonKit {
 
     private static boolean sShowFloatingWindow;//显示悬浮窗
 
+
+    public static void install(final Application app) {
+        install(app, true);
+    }
+
     public static void install(final Application app, boolean showFloatingWindow) {
         install(app, showFloatingWindow, null);
     }
@@ -95,7 +100,7 @@ public class DoraemonKit {
 
             @Override
             public void onActivityStarted(Activity activity) {
-                if (startedActivityCounts == 0 && sShowFloatingWindow) {
+                if (startedActivityCounts == 0) {
                     FloatPageManager.getInstance().notifyForeground();
                 }
                 startedActivityCounts++;
@@ -104,10 +109,14 @@ public class DoraemonKit {
             @Override
             public void onActivityResumed(Activity activity) {
                 FloatPageManager.getInstance().onActivityResumed(activity);
-                if (sShowFloatingWindow && PermissionUtil.canDrawOverlays(activity)) {
+                if (PermissionUtil.canDrawOverlays(activity)) {
                     showFloatIcon(activity);
                 } else {
                     requestPermission(activity);
+                }
+
+                if (!sShowFloatingWindow) {
+                    FloatPageManager.getInstance().notifyBackground();
                 }
             }
 
@@ -119,7 +128,8 @@ public class DoraemonKit {
             @Override
             public void onActivityStopped(Activity activity) {
                 startedActivityCounts--;
-                if (startedActivityCounts == 0) {
+
+                if (!sShowFloatingWindow || startedActivityCounts == 0) {
                     FloatPageManager.getInstance().notifyBackground();
                 }
             }
