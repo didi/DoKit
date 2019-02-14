@@ -29,6 +29,8 @@ Pod::Spec.new do |s|
       'DoraemonKit' => 'iOS/DoraemonKit/Resource/**/*'
     }
     ss.vendored_frameworks = 'iOS/DoraemonKit/Framework/*.framework'
+    s.prefix_header_contents =
+    '#import "DoraemonDefine.h"'
   end
 
   s.subspec 'WithLogger' do |ss| 

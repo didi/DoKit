@@ -14,7 +14,7 @@
 #import "UIView+Doraemon.h"
 #import "UIImage+Doraemon.h"
 #import "Doraemoni18NUtil.h"
-
+#import "DoraemonToastUtil.h"
 
 #define DoraemonScreenWidth [UIScreen mainScreen].bounds.size.width
 #define DoraemonScreenHeight [UIScreen mainScreen].bounds.size.height
