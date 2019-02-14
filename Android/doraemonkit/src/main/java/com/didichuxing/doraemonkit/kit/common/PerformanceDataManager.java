@@ -80,7 +80,7 @@ public class PerformanceDataManager {
         }
     };
 
-    private void excuteCpuData() {
+    private void executeCpuData() {
         LogHelper.d(TAG, "current thread name is ==" + Thread.currentThread().getName());
         if (mAboveAndroidO) {
             //8.0之后由于权限问题只能通过adb的方式获取
@@ -112,7 +112,7 @@ public class PerformanceDataManager {
         }
     }
 
-    private void excuteMemoruData() {
+    private void executeMemoryData() {
         if (mAboveAndroidO) {
             //8.0之后由于权限问题只能通过adb的方式获取
             AdbManager.getInstance().performAdbRequest("shell:dumpsys meminfo | grep '" + mPackageName + "'",
@@ -179,10 +179,10 @@ public class PerformanceDataManager {
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
                     if (msg.what == MSG_CPU) {
-                        excuteCpuData();
+                        executeCpuData();
                         mHandler.sendEmptyMessageDelayed(MSG_CPU, NORMAL_FRAME_RATE * 1000);
                     } else if (msg.what == MSG_MEMORY) {
-                        excuteMemoruData();
+                        executeMemoryData();
                         mHandler.sendEmptyMessageDelayed(MSG_MEMORY, NORMAL_FRAME_RATE * 1000);
                     } else if (msg.what == MSG_REMIND) {
                         remindUserToConnectPort();
