@@ -47,19 +47,12 @@
 #pragma mark -- DoraemonSwitchViewDelegate
 - (void)changeSwitchOn:(BOOL)on sender:(id)sender{
     __weak typeof(self) weakSelf = self;
-    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:DoraemonLocalizedString(@"提示") message:DoraemonLocalizedString(@"该功能需要重启App才能生效") preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:DoraemonLocalizedString(@"取消") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-         weakSelf.switchView.switchView.on = !on;
-    }];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:DoraemonLocalizedString(@"确定") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    [DoraemonToastUtil handleRestartActionWithVC:self restartBlock:^{
         [DoraemonMethodUseTimeManager sharedInstance].on = on;
         exit(0);
+    } cancleBlock:^{
+         weakSelf.switchView.switchView.on = !on;
     }];
-    [alertController addAction:cancelAction];
-    [alertController addAction:okAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-    
-    
 }
 
 #pragma mark -- DoraemonCellButtonDelegate
