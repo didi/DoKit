@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/dk_color_FFFFFF"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dk_color_FFFFFF"
+    android:orientation="vertical">
 
     <com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar
         android:id="@+id/title_bar"
@@ -12,10 +12,9 @@
         android:layout_height="@dimen/dk_title_height"
         app:dkLeftIcon="@drawable/dk_title_back"
         app:dkLeftText="@string/dk_back"
-        app:dkTitle="@string/dk_kit_block_monitor_list"/>
+        app:dkTitle="@string/dk_kit_block_monitor_list" />
 
-    <View
-        style="@style/DK.Shadow.Bottom"/>
+    <View style="@style/DK.Shadow.Bottom" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -27,16 +26,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:overScrollMode="never"
-            android:scrollbars="none"/>
+            android:scrollbars="none" />
 
-        <TextView
-            android:id="@+id/tx_block_detail"
-            style="@style/DK.TextSmall.Dark"
+        <ScrollView
+            android:id="@+id/sv_block_detail"
+            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="top|left"
-            android:clickable="true"
-            android:gravity="left"
-            android:visibility="gone"/>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tx_block_detail"
+                style="@style/DK.TextSmall.Dark"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="top|left"
+                android:clickable="true"
+                android:gravity="left" />
+        </ScrollView>
     </FrameLayout>
 </LinearLayout>

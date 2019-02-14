@@ -24,6 +24,7 @@ public class FloatPageManager {
 
     private Activity mResumedActivity;
 
+
     public void notifyBackground() {
         for (BaseFloatPage page : mPages) {
             page.onEnterBackground();
@@ -80,8 +81,7 @@ public class FloatPageManager {
             page.setTag(pageIntent.tag);
             mPages.add(page);
             page.performCreate(mContext);
-            mWindowManager.addView(page.getRootView(),
-                    page.getLayoutParams());
+            mWindowManager.addView(page.getRootView(), page.getLayoutParams());
         } catch (InstantiationException e) {
             LogHelper.e(TAG, e.toString());
         } catch (IllegalAccessException e) {

@@ -42,7 +42,7 @@ public class DoraemonHooker {
         LogHelper.d(TAG, "hook application.onCreate start");
         proceedingJoinPoint.proceed();
         Application app = (Application) proceedingJoinPoint.getTarget();
-        DoraemonKit.install(app);
+        DoraemonKit.install(app, true);
         LogHelper.d(TAG, "hook application.onCreate end");
     }
 }

@@ -49,6 +49,7 @@ public class BlockListFragment extends BaseFragment implements OnBlockInfoUpdate
 
     private void initView() {
         mBlockList = findViewById(R.id.block_list);
+        final View scrollDetail = findViewById(R.id.sv_block_detail);
         mLogDetail = findViewById(R.id.tx_block_detail);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mBlockList.setLayoutManager(layoutManager);
@@ -61,7 +62,7 @@ public class BlockListFragment extends BaseFragment implements OnBlockInfoUpdate
             @Override
             public void onClick(BlockInfo info) {
                 mLogDetail.setText(info.toString());
-                mLogDetail.setVisibility(View.VISIBLE);
+                scrollDetail.setVisibility(View.VISIBLE);
                 mBlockList.setVisibility(View.GONE);
                 mTitleBar.setTitle(R.string.dk_kit_block_monitor_detail);
             }
