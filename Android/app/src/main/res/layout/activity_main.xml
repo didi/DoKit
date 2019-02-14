@@ -24,10 +24,4 @@
         android:layout_height="50dp"
         android:text="Crash Test" />
 
-    <Button
-        android:id="@+id/btn_switch_floating_Window"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Switch Floating Window" />
-
 </LinearLayout>
