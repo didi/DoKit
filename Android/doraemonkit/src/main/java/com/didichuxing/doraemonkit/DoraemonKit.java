@@ -95,7 +95,7 @@ public class DoraemonKit {
 
             @Override
             public void onActivityStarted(Activity activity) {
-                if (startedActivityCounts == 0) {
+                if (startedActivityCounts == 0 && sShowFloatingWindow) {
                     FloatPageManager.getInstance().notifyForeground();
                 }
                 startedActivityCounts++;
@@ -103,12 +103,8 @@ public class DoraemonKit {
 
             @Override
             public void onActivityResumed(Activity activity) {
-                if (!sShowFloatingWindow) {
-                    return;
-                }
-
                 FloatPageManager.getInstance().onActivityResumed(activity);
-                if (PermissionUtil.canDrawOverlays(activity)) {
+                if (sShowFloatingWindow && PermissionUtil.canDrawOverlays(activity)) {
                     showFloatIcon(activity);
                 } else {
                     requestPermission(activity);
