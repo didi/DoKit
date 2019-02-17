@@ -22,9 +22,9 @@ public class NetworkDataSource implements IDataSource {
         }
         latestTotalLength = totalSize;
         if (diff == 0) {
-            return LineChart.LineData.obtain(diff / 10, null);
+            return LineChart.LineData.obtain(diff / 1024, null);
         } else {
-            return LineChart.LineData.obtain(diff / 10, ByteUtil.getPrintSize(diff));
+            return LineChart.LineData.obtain(diff / 1024, ByteUtil.getPrintSize(diff));
         }
     }
 }

@@ -9,6 +9,9 @@
 
 package com.didichuxing.doraemonkit.kit.network.core;
 
+
+import com.didichuxing.doraemonkit.kit.network.stream.GunzippingOutputStream;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -20,23 +23,21 @@ import java.util.zip.InflaterOutputStream;
 public class RequestBodyHelper {
 
     private ByteArrayOutputStream mDeflatedOutput;
-    private CountingOutputStream mDeflatingOutput;
+    private static final String GZIP_ENCODING = "gzip";
+    private static final String DEFLATE_ENCODING = "deflate";
 
     public OutputStream createBodySink(String contentEncoding) throws IOException {
         OutputStream deflatingOutput;
         ByteArrayOutputStream deflatedOutput = new ByteArrayOutputStream();
-        if (DecompressionHelper.GZIP_ENCODING.equals(contentEncoding)) {
+        if (GZIP_ENCODING.equals(contentEncoding)) {
             deflatingOutput = GunzippingOutputStream.create(deflatedOutput);
-        } else if (DecompressionHelper.DEFLATE_ENCODING.equals(contentEncoding)) {
+        } else if (DEFLATE_ENCODING.equals(contentEncoding)) {
             deflatingOutput = new InflaterOutputStream(deflatedOutput);
         } else {
             deflatingOutput = deflatedOutput;
         }
-
-        mDeflatingOutput = new CountingOutputStream(deflatingOutput);
         mDeflatedOutput = deflatedOutput;
-
-        return mDeflatingOutput;
+        return deflatingOutput;
     }
 
     public byte[] getDisplayBody() {

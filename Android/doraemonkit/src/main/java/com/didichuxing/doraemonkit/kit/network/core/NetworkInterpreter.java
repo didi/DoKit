@@ -8,6 +8,7 @@ import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 import com.didichuxing.doraemonkit.kit.network.bean.Request;
 import com.didichuxing.doraemonkit.kit.network.bean.Response;
+import com.didichuxing.doraemonkit.kit.network.stream.InputStreamProxy;
 import com.didichuxing.doraemonkit.kit.network.utils.Utf8Charset;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
@@ -43,9 +44,6 @@ public class NetworkInterpreter {
         LogHelper.i(TAG, "[responseReadFailed] requestId: " + requestId + " error: " + s);
     }
 
-    public void dataReceived(int requestId, int bytesRead, int encodedDataLength) {
-        LogHelper.i(TAG, "[dataReceived] requestId: " + requestId + " bytesRead: " + bytesRead + " encodedDataLength: " + encodedDataLength);
-    }
 
     private static class Holder {
         private static NetworkInterpreter INSTANCE = new NetworkInterpreter();
@@ -60,8 +58,6 @@ public class NetworkInterpreter {
     }
 
     public InputStream interpretResponseStream(
-            NetworkRecord record,
-            int requestId,
             String contentType,
             @Nullable InputStream availableInputStream,
             ResponseHandler responseHandler) {
@@ -77,19 +73,9 @@ public class NetworkInterpreter {
             responseHandler.onEOF(null);
             return availableInputStream;
         }
-        try {
-            return DecompressionHelper.teeInputWithDecompression(
-                    requestId,
-                    availableInputStream,
-                    responseHandler);
-        } catch (IOException e) {
-//            CLog.writeToConsole(
-//                    peerManager,
-//                    Console.MessageLevel.ERROR,
-//                    Console.MessageSource.NETWORK,
-//                    "Error writing response body data for request #" + requestId);
-        }
-        return availableInputStream;
+        return new InputStreamProxy(
+                availableInputStream,
+                responseHandler);
     }
 
 
@@ -122,11 +108,11 @@ public class NetworkInterpreter {
         }
     }
 
-    public void fetchResponseBody(NetworkRecord record,String body){
-        if (TextUtils.isEmpty(body)){
+    public void fetchResponseBody(NetworkRecord record, String body) {
+        if (TextUtils.isEmpty(body)) {
             record.responseLength = 0;
             record.mResponseBody = null;
-        }else {
+        } else {
             record.responseLength = body.getBytes().length;
             record.mResponseBody = body;
         }

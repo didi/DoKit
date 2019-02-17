@@ -5,13 +5,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.BaseFloatPage;
-import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
 import com.didichuxing.doraemonkit.ui.base.TouchProxy;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.UIUtils;
@@ -32,10 +31,32 @@ public class ViewCheckFloatPage extends BaseFloatPage implements TouchProxy.OnTo
 
     private List<OnViewSelectListener> mViewSelectListeners = new ArrayList<>();
 
+    private Activity mResumedActivity;
+
+    private DoraemonKit.ActivityLifecycleListener mLifecycleListener = new DoraemonKit.ActivityLifecycleListener() {
+        @Override
+        public void onActivityResumed(Activity activity) {
+            mResumedActivity = activity;
+            onViewSelected(null);
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+
+        }
+    };
+
     @Override
     protected void onCreate(Context context) {
         super.onCreate(context);
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DoraemonKit.registerListener(mLifecycleListener);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DoraemonKit.unRegisterListener(mLifecycleListener);
     }
 
     @Override
@@ -64,21 +85,19 @@ public class ViewCheckFloatPage extends BaseFloatPage implements TouchProxy.OnTo
     }
 
     private View findSelectView(int x, int y) {
-        Activity resumedActivity = FloatPageManager.getInstance().getResumedActivity();
-        if (resumedActivity == null) {
+        if (mResumedActivity == null) {
             return null;
         }
-        if (resumedActivity.getWindow() == null) {
+        if (mResumedActivity.getWindow() == null) {
             return null;
         }
         LogHelper.d(TAG, "x: " + x + ", y: " + y);
-        y += UIUtils.getStatusBarHeight(getContext());
-        return traverseViews(resumedActivity.getWindow().getDecorView(), x, y);
+        return traverseViews(mResumedActivity.getWindow().getDecorView(), x, y);
     }
 
     private View traverseViews(View view, int x, int y) {
         int[] location = new int[2];
-        view.getLocationOnScreen(location);
+        view.getLocationInWindow(location);
         int left = location[0];
         int top = location[1];
         int right = left + view.getWidth();
@@ -127,14 +146,18 @@ public class ViewCheckFloatPage extends BaseFloatPage implements TouchProxy.OnTo
     @Override
     public void onUp(int x, int y) {
         View selectView = findSelectView(getLayoutParams().x + getRootView().getWidth() / 2, getLayoutParams().y + getRootView().getHeight() / 2);
-        for (OnViewSelectListener listener : mViewSelectListeners) {
-            listener.onViewSelected(selectView);
-        }
+        onViewSelected(selectView);
     }
 
     @Override
     public void onDown(int x, int y) {
 
+    }
+
+    private void  onViewSelected(View view) {
+        for (OnViewSelectListener listener : mViewSelectListeners) {
+            listener.onViewSelected(view);
+        }
     }
 
     public interface OnViewSelectListener {

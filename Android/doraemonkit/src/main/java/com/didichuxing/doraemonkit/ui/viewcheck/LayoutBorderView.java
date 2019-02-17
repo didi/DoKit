@@ -10,25 +10,28 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by wanglikun on 2018/11/23.
  */
 
-public class ViewCheckRectView extends View {
+public class LayoutBorderView extends View {
     private Paint mRectPaint;
-    private Rect mRect;
+    private List<Rect> mRects = new ArrayList<>();
 
-    public ViewCheckRectView(Context context) {
+    public LayoutBorderView(Context context) {
         super(context);
         initView();
     }
 
-    public ViewCheckRectView(Context context, @Nullable AttributeSet attrs) {
+    public LayoutBorderView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         initView();
     }
 
-    public ViewCheckRectView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public LayoutBorderView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView();
     }
@@ -43,17 +46,26 @@ public class ViewCheckRectView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (mRect != null) {
-            canvas.drawRect(mRect, mRectPaint);
+        for (Rect rect : mRects) {
+            canvas.drawRect(rect, mRectPaint);
         }
     }
 
-    public void showViewRect(Rect rect) {
-        if (rect == null) {
-            mRect = null;
-        } else {
-            mRect = new Rect(rect);
+    public void showViewLayoutBorder(Rect rect) {
+        mRects.clear();
+        if (rect != null) {
+            mRects.add(rect);
         }
+
+        invalidate();
+    }
+
+    public void showViewLayoutBorders(List<Rect> rects) {
+        if (rects == null) {
+            return;
+        }
+        mRects.clear();
+        mRects.addAll(rects);
         invalidate();
     }
 }

@@ -20,7 +20,7 @@ import com.didichuxing.doraemonkit.util.ImageUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 /**
- * Created by wanglikun on 2018/9/13.
+ * Cr eated by wanglikun on 2018/9/13.
  */
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -32,6 +32,9 @@ public class ColorPickerFloatPage extends BaseFloatPage implements View.OnTouchL
     private ColorPickerView mPickerView;
     private ColorPickerInfoFloatPage mInfoFloatPage;
     private TouchProxy mTouchProxy;
+    private int width;
+    private int height;
+    private int statuBarHeight;
 
     @Override
     protected void onViewCreated(View view) {
@@ -40,7 +43,17 @@ public class ColorPickerFloatPage extends BaseFloatPage implements View.OnTouchL
 
     private void initView() {
         mPickerView = findViewById(R.id.picker_view);
+        ViewGroup.LayoutParams params = mPickerView.getLayoutParams();
+        //大小必须是2的倍数
+        params.width = ColorPickConstants.PICK_VIEW_SIZE;
+        params.height = ColorPickConstants.PICK_VIEW_SIZE;
+        mPickerView.setLayoutParams(params);
         getRootView().setOnTouchListener(this);
+
+        width = UIUtils.getWidthPixels(getContext());
+        height = UIUtils.getHeightPixels(getContext());
+        statuBarHeight = UIUtils.getStatusBarHeight(getContext());
+        captureInfo(500);
     }
 
     @Override
@@ -50,7 +63,7 @@ public class ColorPickerFloatPage extends BaseFloatPage implements View.OnTouchL
 
     @Override
     protected void onLayoutParamsCreated(WindowManager.LayoutParams params) {
-        params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        params.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.width = WindowManager.LayoutParams.WRAP_CONTENT;
     }
@@ -60,10 +73,27 @@ public class ColorPickerFloatPage extends BaseFloatPage implements View.OnTouchL
         mTouchProxy = new TouchProxy(new TouchProxy.OnTouchEventListener() {
             @Override
             public void onMove(int x, int y, int dx, int dy) {
-                getLayoutParams().x += dx;
-                getLayoutParams().y += dy;
+                WindowManager.LayoutParams params = getLayoutParams();
+                params.x += dx;
+                params.y += dy;
+                checkBound(params);
                 mWindowManager.updateViewLayout(getRootView(), getLayoutParams());
                 showInfo();
+            }
+
+            private void checkBound(WindowManager.LayoutParams layoutParams) {
+                if (layoutParams.x < -mPickerView.getWidth() / 2) {
+                    layoutParams.x = -mPickerView.getWidth() / 2;
+                }
+                if (layoutParams.x > width - mPickerView.getWidth() / 2 - ColorPickConstants.PIX_INTERVAL) {
+                    layoutParams.x = width - mPickerView.getWidth() / 2 - ColorPickConstants.PIX_INTERVAL;
+                }
+                if (layoutParams.y < -mPickerView.getHeight() / 2 - statuBarHeight) {
+                    layoutParams.y = -mPickerView.getHeight() / 2 - statuBarHeight;
+                }
+                if (layoutParams.y > height - mPickerView.getHeight() / 2 - ColorPickConstants.PIX_INTERVAL) {
+                    layoutParams.y = height - mPickerView.getHeight() / 2 - ColorPickConstants.PIX_INTERVAL;
+                }
             }
 
             @Override
@@ -73,7 +103,7 @@ public class ColorPickerFloatPage extends BaseFloatPage implements View.OnTouchL
 
             @Override
             public void onDown(int x, int y) {
-                captureInfo();
+                captureInfo(100);
             }
         });
         mInfoFloatPage = (ColorPickerInfoFloatPage) FloatPageManager.getInstance().getFloatPage(PageTag.PAGE_COLOR_PICKER_INFO);
@@ -90,9 +120,9 @@ public class ColorPickerFloatPage extends BaseFloatPage implements View.OnTouchL
     private void showInfo() {
         int x = getLayoutParams().x;
         int y = getLayoutParams().y;
-        int pickAreaSize = getResources().getDimensionPixelSize(R.dimen.dk_dp_15);
-        int startX = x + getRootView().getWidth() / 2 - pickAreaSize / 2;
-        int startY = y + getRootView().getHeight() / 2 - pickAreaSize / 2 + UIUtils.getStatusBarHeight(getContext());
+        int pickAreaSize = ColorPickConstants.PICK_AREA_SIZE;
+        int startX = x + ColorPickConstants.PICK_VIEW_SIZE / 2 - pickAreaSize / 2;
+        int startY = y + ColorPickConstants.PICK_VIEW_SIZE / 2 - pickAreaSize / 2 + UIUtils.getStatusBarHeight(getContext());
         Bitmap bitmap = mImageCapture.getPartBitmap(startX, startY, pickAreaSize, pickAreaSize);
         if (bitmap == null) {
             return;
@@ -100,19 +130,20 @@ public class ColorPickerFloatPage extends BaseFloatPage implements View.OnTouchL
         int xCenter = bitmap.getWidth() / 2;
         int yCenter = bitmap.getHeight() / 2;
         int colorInt = ImageUtil.getPixel(bitmap, xCenter, yCenter);
-        mPickerView.setBitmap(bitmap);
-        mInfoFloatPage.showInfo(colorInt);
+        mPickerView.setBitmap(bitmap, colorInt, startX, startY);
+        mInfoFloatPage.showInfo(colorInt, startX, startY);
     }
 
-    private void captureInfo() {
+    private void captureInfo(int delay) {
         getRootView().setVisibility(View.GONE);
-        postDelayed(new Runnable() {
+        getRootView().postDelayed(new Runnable() {
             @Override
             public void run() {
                 mImageCapture.capture();
                 getRootView().setVisibility(View.VISIBLE);
+                showInfo();
             }
-        }, 100);
+        }, delay);
     }
 
     @Override

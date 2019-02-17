@@ -127,5 +127,8 @@
     <string name="dk_kit_network_monitor_detail">流量监测详情</string>
     <string name="dk_cpu_memory_remind_user">抱歉，您当前系统版本高于8.0，由于谷歌权限收紧，只能用adb的方式获取性能分析的数据，请手机连接电脑并输入adb tcpip 5555以保证功能正常运行</string>
     <string name="dk_kit_network_time_format">%1$s 耗时:%2$s</string>
+    <string name="dk_kit_layout_border">布局边框</string>
+    <string name="dk_layout_level">布局层级</string>
+    <string name="dk_align_info_text">位置：左%d 右%d 上%d 下%d</string>
 
 </resources>

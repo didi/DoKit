@@ -13,9 +13,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public interface ResponseHandler {
-  void onRead(int numBytes);
-
-  void onReadDecoded(int numBytes);
 
   void onEOF(ByteArrayOutputStream outputStream);
 

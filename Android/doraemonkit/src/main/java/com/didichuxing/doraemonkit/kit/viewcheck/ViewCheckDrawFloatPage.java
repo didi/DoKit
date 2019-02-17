@@ -10,7 +10,7 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.PageTag;
 import com.didichuxing.doraemonkit.ui.base.BaseFloatPage;
 import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
-import com.didichuxing.doraemonkit.ui.viewcheck.ViewCheckRectView;
+import com.didichuxing.doraemonkit.ui.viewcheck.LayoutBorderView;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 /**
@@ -18,7 +18,7 @@ import com.didichuxing.doraemonkit.util.UIUtils;
  */
 
 public class ViewCheckDrawFloatPage extends BaseFloatPage implements ViewCheckFloatPage.OnViewSelectListener {
-    private ViewCheckRectView mRectView;
+    private LayoutBorderView mLayoutBorderView;
 
     @Override
     protected void onCreate(Context context) {
@@ -47,16 +47,16 @@ public class ViewCheckDrawFloatPage extends BaseFloatPage implements ViewCheckFl
     @Override
     protected void onViewCreated(View view) {
         super.onViewCreated(view);
-        mRectView = findViewById(R.id.rect_view);
+        mLayoutBorderView = findViewById(R.id.rect_view);
     }
 
 
     @Override
     public void onViewSelected(View view) {
         if (view == null) {
-            mRectView.showViewRect(null);
+            mLayoutBorderView.showViewLayoutBorder(null);
         } else {
-            mRectView.showViewRect(UIUtils.getViewRect(view));
+            mLayoutBorderView.showViewLayoutBorder(UIUtils.getViewRect(view));
         }
     }
 }

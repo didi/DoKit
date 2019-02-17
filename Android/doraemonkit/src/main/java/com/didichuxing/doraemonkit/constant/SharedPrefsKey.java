@@ -16,4 +16,6 @@ public interface SharedPrefsKey {
     String COLOR_PICK_OPEN = "color_pick_open";
     String ALIGN_RULER_OPEN = "align_ruler_open";
     String VIEW_CHECK_OPEN = "view_check_open";
+    String LAYOUT_BORDER_OPEN = "layout_border_open";
+    String LAYOUT_LEVEL_OPEN = "layout_level_open";
 }

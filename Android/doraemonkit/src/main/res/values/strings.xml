@@ -21,6 +21,7 @@
     <string name="dk_kit_view_check">控件检查</string>
     <string name="dk_kit_net_monitor">流量监控</string>
     <string name="dk_kit_exit">退出Doraemonkit</string>
+    <string name="dk_kit_layout_border">布局边框</string>
 
     <string name="dk_sysinfo_device_info">手机信息</string>
     <string name="dk_sysinfo_app_info">App信息</string>
@@ -134,4 +135,8 @@
     <string name="dk_float_permission_toast">哆啦A梦需要打开悬浮窗权限才能正常使用</string>
     <string name="dk_data_clean_toast">清除系统数据~</string>
     <string name="dk_gps_location_change_toast">地址变为: %1$s, %2$s</string>
+
+    <string name="dk_layout_level">布局层级</string>
+
+    <string name="dk_align_info_text">位置：左%d 右%d 上%d 下%d</string>
 </resources>

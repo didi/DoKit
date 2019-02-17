@@ -29,7 +29,6 @@ public class URLConnectionInspectorRequest
     private final RequestBodyHelper mRequestBodyHelper;
     private final String mUrl;
     private final String mMethod;
-    private final HttpURLConnection mConnection;
 
     public URLConnectionInspectorRequest(
             int requestId,
@@ -39,7 +38,6 @@ public class URLConnectionInspectorRequest
         super(header);
         mRequestId = requestId;
         mRequestBodyHelper = requestBodyHelper;
-        mConnection = configuredRequest;
         mUrl = configuredRequest.getURL().toString();
         mMethod = configuredRequest.getRequestMethod();
     }

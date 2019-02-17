@@ -11,6 +11,7 @@ if (applyPlugin) {
         implementation project(":doraemonkit")
     }
 } else {
+    // 引用no-op的库
     dependencies {
         implementation project(":doraemonkit-no-op")
     }

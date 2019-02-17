@@ -7,49 +7,37 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-package com.didichuxing.doraemonkit.kit.network.core;
+package com.didichuxing.doraemonkit.kit.network.stream;
+
+import com.didichuxing.doraemonkit.kit.network.core.ResponseHandler;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public final class ResponseHandlingInputStream extends FilterInputStream {
+public final class InputStreamProxy extends FilterInputStream {
 
     public static final String TAG = "ResponseHandlingInputStream";
 
     private static final int BUFFER_SIZE = 1024;
 
-    private final int mRequestId;
     private final ByteArrayOutputStream mOutputStream = new ByteArrayOutputStream();
-    private final CountingOutputStream mDecompressedCounter;
     private final ResponseHandler mResponseHandler;
 
     private boolean mClosed;
 
-    private boolean mEofSeen;
-
     private byte[] mSkipBuffer;
-
-    private long mLastDecompressedCount = 0;
 
     /**
      * @param inputStream
-     * @param requestId           the requestId to use when we call the
-     * @param decompressedCounter Optional decompressing counting output stream which
-     *                            can be queried after each write to determine the number of decompressed bytes
-     *                            yielded.  Used to implement {@link ResponseHandler#onReadDecoded(int)}.
      * @param responseHandler     Special interface to intercept read events before they are sent
      *                            to peers via  methods.
      */
-    public ResponseHandlingInputStream(
+    public InputStreamProxy(
             InputStream inputStream,
-            int requestId,
-            CountingOutputStream decompressedCounter,
             ResponseHandler responseHandler) {
         super(inputStream);
-        mRequestId = requestId;
-        mDecompressedCounter = decompressedCounter;
         mResponseHandler = responseHandler;
         mClosed = false;
     }
@@ -58,7 +46,6 @@ public final class ResponseHandlingInputStream extends FilterInputStream {
         if (n == -1) {
             mResponseHandler.onEOF(mOutputStream);
             closeOutputStreamQuietly();
-            mEofSeen = true;
         }
         return n;
     }
@@ -68,7 +55,6 @@ public final class ResponseHandlingInputStream extends FilterInputStream {
         try {
             int result = checkEOF(in.read());
             if (result != -1) {
-                mResponseHandler.onRead(1);
                 writeToOutputStream(result);
             }
             return result;
@@ -87,7 +73,6 @@ public final class ResponseHandlingInputStream extends FilterInputStream {
         try {
             int result = checkEOF(in.read(b, off, len));
             if (result != -1) {
-                mResponseHandler.onRead(result);
                 writeToOutputStream(b, off, result);
             }
             return result;
@@ -138,34 +123,14 @@ public final class ResponseHandlingInputStream extends FilterInputStream {
 
     @Override
     public void close() throws IOException {
-        try {
-            long bytesRead = 0;
-            if (!mEofSeen) {
-                byte[] buffer = new byte[BUFFER_SIZE];
-                int count;
-                while ((count = this.read(buffer)) != -1) {
-                    bytesRead += count;
-                }
-            }
-            if (bytesRead > 0) {
-//        CLog.writeToConsole(
-//            mNetworkPeerManager,
-//            Console.MessageLevel.ERROR,
-//            Console.MessageSource.NETWORK,
-//            "There were " + String.valueOf(bytesRead) + " bytes that were not consumed while "
-//            + "processing request " + mRequestId);
-            }
-        } finally {
-            super.close();
-            closeOutputStreamQuietly();
-        }
+        super.close();
+        closeOutputStreamQuietly();
     }
 
     private synchronized void closeOutputStreamQuietly() {
         if (!mClosed) {
             try {
                 mOutputStream.close();
-                reportDecodedSizeIfApplicable();
             } catch (IOException e) {
             } finally {
                 mClosed = true;
@@ -178,21 +143,11 @@ public final class ResponseHandlingInputStream extends FilterInputStream {
         return ex;
     }
 
-    private void reportDecodedSizeIfApplicable() {
-        if (mDecompressedCounter != null) {
-            long currentCount = mDecompressedCounter.getCount();
-            int delta = (int) (currentCount - mLastDecompressedCount);
-            mResponseHandler.onReadDecoded(delta);
-            mLastDecompressedCount = currentCount;
-        }
-    }
-
     private synchronized void writeToOutputStream(int oneByte) {
         if (mClosed) {
             return;
         }
         mOutputStream.write(oneByte);
-        reportDecodedSizeIfApplicable();
     }
 
     private synchronized void writeToOutputStream(byte[] b, int offset, int count) {
@@ -201,7 +156,6 @@ public final class ResponseHandlingInputStream extends FilterInputStream {
         }
 
         mOutputStream.write(b, offset, count);
-        reportDecodedSizeIfApplicable();
     }
 
 }

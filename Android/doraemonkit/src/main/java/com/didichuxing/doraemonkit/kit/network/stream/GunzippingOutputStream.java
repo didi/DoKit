@@ -7,7 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-package com.didichuxing.doraemonkit.kit.network.core;
+package com.didichuxing.doraemonkit.kit.network.stream;
 
 import com.didichuxing.doraemonkit.kit.network.utils.ExceptionUtil;
 import com.didichuxing.doraemonkit.kit.network.utils.StreamUtil;
@@ -26,7 +26,7 @@ import java.util.concurrent.Future;
 import java.util.zip.GZIPInputStream;
 
 
-class GunzippingOutputStream extends FilterOutputStream {
+public class GunzippingOutputStream extends FilterOutputStream {
   private final Future<Void> mCopyFuture;
 
   private static final ExecutorService sExecutor = Executors.newCachedThreadPool();

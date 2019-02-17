@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.didichuxing.doraemondemo.MainActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="com.didichuxing.doraemondemo.MainActivity">
 
     <Button
         android:id="@+id/btn_test_urlconnection"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="HttpUrlConnection Test" />
+        android:text="HttpUrlConnection Test"/>
 
     <Button
         android:id="@+id/btn_test_okhttp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="OkHttp Test" />
+        android:text="OkHttp Test"/>
 
     <Button
         android:id="@+id/btn_test_crash"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Crash Test" />
+        android:text="Crash Test"/>
 
 </LinearLayout>

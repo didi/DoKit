@@ -53,10 +53,10 @@ public class AlignRulerSettingFragment extends BaseFragment {
                         PageIntent pageIntent = new PageIntent(AlignRulerMarkerFloatPage.class);
                         pageIntent.tag = PageTag.PAGE_ALIGN_RULER_MARKER;
                         FloatPageManager.getInstance().add(pageIntent);
-                        FloatPageManager.getInstance().add(new PageIntent(AlignRulerInfoFloatPage.class));
+                        FloatPageManager.getInstance().add(new PageIntent(AlignRulerLineFloatPage.class));
                     } else {
                         FloatPageManager.getInstance().removeAll(AlignRulerMarkerFloatPage.class);
-                        FloatPageManager.getInstance().removeAll(AlignRulerInfoFloatPage.class);
+                        FloatPageManager.getInstance().removeAll(AlignRulerLineFloatPage.class);
                     }
                     AlignRulerConfig.setAlignRulerOpen(getContext(), on);
                 }

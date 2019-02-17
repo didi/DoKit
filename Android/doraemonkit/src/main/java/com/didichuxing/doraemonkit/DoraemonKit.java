@@ -20,6 +20,7 @@ import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorer;
 import com.didichuxing.doraemonkit.kit.frameInfo.FrameInfo;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsHookManager;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMock;
+import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorder;
 import com.didichuxing.doraemonkit.kit.logInfo.LogInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkKit;
 import com.didichuxing.doraemonkit.kit.ram.Ram;
@@ -47,6 +48,8 @@ public class DoraemonKit {
     private static final String TAG = "DoraemonKit";
 
     private static SparseArray<List<IKit>> sKitMap = new SparseArray<>();
+
+    private static List<ActivityLifecycleListener> sListeners = new ArrayList<>();
 
     private static boolean sHasRequestPermission;
 
@@ -100,17 +103,21 @@ public class DoraemonKit {
 
             @Override
             public void onActivityResumed(Activity activity) {
-                FloatPageManager.getInstance().onActivityResumed(activity);
                 if (PermissionUtil.canDrawOverlays(activity)) {
                     showFloatIcon(activity);
                 } else {
                     requestPermission(activity);
                 }
+                for (ActivityLifecycleListener listener : sListeners) {
+                    listener.onActivityResumed(activity);
+                }
             }
 
             @Override
             public void onActivityPaused(Activity activity) {
-                FloatPageManager.getInstance().onActivityPaused(activity);
+                for (ActivityLifecycleListener listener : sListeners) {
+                    listener.onActivityPaused(activity);
+                }
             }
 
             @Override
@@ -162,6 +169,7 @@ public class DoraemonKit {
 
         ui.add(new AlignRuler());
         ui.add(new ViewChecker());
+        ui.add(new LayoutBorder());
 
         exit.add(new TemporaryClose());
 
@@ -230,4 +238,17 @@ public class DoraemonKit {
         }
     }
 
+    public interface ActivityLifecycleListener {
+        void onActivityResumed(Activity activity);
+
+        void onActivityPaused(Activity activity);
+    }
+
+    public static void registerListener(ActivityLifecycleListener listener) {
+        sListeners.add(listener);
+    }
+
+    public static void unRegisterListener(ActivityLifecycleListener listener) {
+        sListeners.remove(listener);
+    }
 }

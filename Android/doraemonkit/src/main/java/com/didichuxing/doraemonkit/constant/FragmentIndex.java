@@ -20,4 +20,5 @@ public interface FragmentIndex {
     int FRAGMENT_NETWORK_MONITOR = 13;
     int FRAGMENT_CPU = 14;
     int FRAGMENT_RAM = 15;
+    int FRAGMENT_LAYOUT_BORDER = 16;
 }

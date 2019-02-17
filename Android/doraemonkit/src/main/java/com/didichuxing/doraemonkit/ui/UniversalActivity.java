@@ -15,6 +15,7 @@ import com.didichuxing.doraemonkit.kit.dataclean.DataCleanFragment;
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment;
 import com.didichuxing.doraemonkit.kit.frameInfo.FrameInfoFragment;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment;
+import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderSettingFragment;
 import com.didichuxing.doraemonkit.kit.logInfo.LogInfoSettingFragment;
 import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMonitorFragment;
 import com.didichuxing.doraemonkit.kit.ram.RamMainPageFragment;
@@ -98,6 +99,9 @@ public class UniversalActivity extends BaseActivity {
                 break;
             case FragmentIndex.FRAGMENT_RAM:
                 fragmentClass = RamMainPageFragment.class;
+                break;
+            case FragmentIndex.FRAGMENT_LAYOUT_BORDER:
+                fragmentClass = LayoutBorderSettingFragment.class;
                 break;
             default:
                 break;

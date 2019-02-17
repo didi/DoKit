@@ -6,7 +6,6 @@ import android.support.annotation.ColorInt;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -77,9 +76,9 @@ public class ColorPickerInfoFloatPage extends BaseFloatPage implements TouchProx
         });
     }
 
-    public void showInfo(@ColorInt int colorInt) {
+    public void showInfo(@ColorInt int colorInt, int x, int y) {
         mColor.setImageDrawable(new ColorDrawable(colorInt));
-        mColorHex.setText(ColorUtil.parseColorInt(colorInt));
+        mColorHex.setText(String.format(ColorPickConstants.TEXT_FOCUS_INFO, ColorUtil.parseColorInt(colorInt), x + ColorPickConstants.PIX_INTERVAL, y + ColorPickConstants.PIX_INTERVAL));
     }
 
     @Override

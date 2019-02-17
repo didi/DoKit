@@ -13,24 +13,24 @@ import com.didichuxing.doraemonkit.R;
  * Created by wanglikun on 2018/12/4.
  */
 
-public class AlignInfoView extends View {
+public class AlignLineView extends View {
     private Paint mTextPaint;
     private Paint mLinePaint;
 
     private int mPosX = -1;
     private int mPosY = -1;
 
-    public AlignInfoView(Context context) {
+    public AlignLineView(Context context) {
         super(context);
         init();
     }
 
-    public AlignInfoView(Context context, @Nullable AttributeSet attrs) {
+    public AlignLineView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public AlignInfoView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public AlignLineView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }

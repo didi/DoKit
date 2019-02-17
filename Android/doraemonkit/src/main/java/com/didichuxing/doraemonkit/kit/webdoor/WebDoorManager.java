@@ -68,6 +68,6 @@ public class WebDoorManager {
     }
 
     public interface WebDoorCallback {
-        void overrideUrlLoading(String url);
+        void overrideUrlLoading(Context context,String url);
     }
 }
