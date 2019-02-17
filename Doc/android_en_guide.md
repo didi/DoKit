@@ -5,8 +5,8 @@
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.0.5'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.0.5'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.0'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.0'
     ...
 }
 ```
@@ -28,7 +28,7 @@ public void onCreate() {
     // for web container debug, optional
     DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
     @Override
-    public void overrideUrlLoading(String s) {
+    public void overrideUrlLoading(Context context, String s) {
         // use your web container open the link
     }
     ...
