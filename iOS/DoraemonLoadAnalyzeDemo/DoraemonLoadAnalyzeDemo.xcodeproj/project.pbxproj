@@ -6,6 +6,20 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		38EA46FA221A586400EBA62F /* UniversalFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 38EA46FD221A586400EBA62F /* Build configuration list for PBXAggregateTarget "UniversalFramework" */;
+			buildPhases = (
+				38EA46FE221A587200EBA62F /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = UniversalFramework;
+			productName = UniversalFramework;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		DA1E1D9421F73061003E215F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1E1D9321F73061003E215F /* AppDelegate.m */; };
 		DA1E1D9721F73061003E215F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA1E1D9621F73061003E215F /* ViewController.m */; };
@@ -215,6 +229,9 @@
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = yixiang;
 				TargetAttributes = {
+					38EA46FA221A586400EBA62F = {
+						CreatedOnToolsVersion = 10.1;
+					};
 					DA1E1D8E21F73061003E215F = {
 						CreatedOnToolsVersion = 10.1;
 					};
@@ -238,6 +255,7 @@
 			targets = (
 				DA1E1D8E21F73061003E215F /* DoraemonLoadAnalyzeDemo */,
 				DA1E1DAC21F7310C003E215F /* DoraemonLoadAnalyze */,
+				38EA46FA221A586400EBA62F /* UniversalFramework */,
 			);
 		};
 /* End PBXProject section */
@@ -261,6 +279,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		38EA46FE221A587200EBA62F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "######################\n# Options\n######################\n\n#verbose\nset -x\n\nREVEAL_ARCHIVE_IN_FINDER=true\n\nFRAMEWORK_NAME=\"DoraemonLoadAnalyze\"\n\nSIMULATOR_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${FRAMEWORK_NAME}.framework\"\n\nDEVICE_LIBRARY_PATH=\"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${FRAMEWORK_NAME}.framework\"\n\nUNIVERSAL_LIBRARY_DIR=\"${BUILD_DIR}/${CONFIGURATION}-iphoneuniversal\"\n\nFRAMEWORK=\"${UNIVERSAL_LIBRARY_DIR}/${FRAMEWORK_NAME}.framework\"\n\n\n######################\n# Build Frameworks\n######################\n# Build for simulator\nxcrun xcodebuild BITCODE_GENERATION_MODE=bitcode OTHER_CFLAGS=\"-fembed-bitcode\" -target ${FRAMEWORK_NAME} -sdk iphonesimulator -configuration ${CONFIGURATION} ARCHS=\"i386 x86_64\" ONLY_ACTIVE_ARCH=NO clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphonesimulator\n\n# Build for device\nxcrun xcodebuild BITCODE_GENERATION_MODE=bitcode OTHER_CFLAGS=\"-fembed-bitcode\" -target ${FRAMEWORK_NAME} -sdk iphoneos -configuration ${CONFIGURATION} ARCHS=\"armv7 armv7s arm64\" ONLY_ACTIVE_ARCH=NO clean build CONFIGURATION_BUILD_DIR=${BUILD_DIR}/${CONFIGURATION}-iphoneos\n\n######################\n# Create directory for universal\n######################\n\nrm -rf \"${UNIVERSAL_LIBRARY_DIR}\"\n\nmkdir \"${UNIVERSAL_LIBRARY_DIR}\"\n\nmkdir \"${FRAMEWORK}\"\n\n\n######################\n# Copy files Framework\n######################\n\ncp -r \"${DEVICE_LIBRARY_PATH}/.\" \"${FRAMEWORK}\"\n\n\n######################\n# Make an universal binary\n######################\n\nlipo \"${SIMULATOR_LIBRARY_PATH}/${FRAMEWORK_NAME}\" \"${DEVICE_LIBRARY_PATH}/${FRAMEWORK_NAME}\" -create -output \"${FRAMEWORK}/${FRAMEWORK_NAME}\" | echo\n\n# For Swift framework, Swiftmodule needs to be copied in the universal framework\nif [ -d \"${SIMULATOR_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" ]; then\ncp -f ${SIMULATOR_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/* \"${FRAMEWORK}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" | echo\nfi\n\nif [ -d \"${DEVICE_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" ]; then\ncp -f ${DEVICE_LIBRARY_PATH}/Modules/${FRAMEWORK_NAME}.swiftmodule/* \"${FRAMEWORK}/Modules/${FRAMEWORK_NAME}.swiftmodule/\" | echo\nfi\n\n######################\n# On Release, copy the result to release directory\n######################\nOUTPUT_DIR=\"${PROJECT_DIR}/build/${FRAMEWORK_NAME}-${CONFIGURATION}-iphoneuniversal/\"\n\nrm -rf \"$OUTPUT_DIR\"\nmkdir -p \"$OUTPUT_DIR\"\n\ncp -r \"${FRAMEWORK}\" \"$OUTPUT_DIR\"\n\nif [ ${REVEAL_ARCHIVE_IN_FINDER} = true ]; then\nopen \"${OUTPUT_DIR}/\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DA1E1D8B21F73061003E215F /* Sources */ = {
@@ -313,6 +351,22 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		38EA46FB221A586400EBA62F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		38EA46FC221A586400EBA62F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		DA1E1DA321F73064003E215F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -524,6 +578,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		38EA46FD221A586400EBA62F /* Build configuration list for PBXAggregateTarget "UniversalFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				38EA46FB221A586400EBA62F /* Debug */,
+				38EA46FC221A586400EBA62F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DA1E1D8A21F73061003E215F /* Build configuration list for PBXProject "DoraemonLoadAnalyzeDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
