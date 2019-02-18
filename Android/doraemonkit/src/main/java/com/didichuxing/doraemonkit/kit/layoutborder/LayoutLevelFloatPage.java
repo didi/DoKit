@@ -13,8 +13,10 @@ import android.widget.CompoundButton;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.BaseFloatPage;
+import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
 import com.didichuxing.doraemonkit.ui.base.TouchProxy;
 import com.didichuxing.doraemonkit.ui.layoutborder.ScalpelFrameLayout;
 import com.didichuxing.doraemonkit.util.UIUtils;
@@ -26,37 +28,17 @@ public class LayoutLevelFloatPage extends BaseFloatPage implements TouchProxy.On
     private WindowManager mWindowManager;
 
     private CheckBox mSwitchButton;
+    private View mClose;
 
     private TouchProxy mTouchProxy = new TouchProxy(this);
 
     private ScalpelFrameLayout mScalpelFrameLayout;
 
+    private boolean mIsCheck;
     private DoraemonKit.ActivityLifecycleListener mLifecycleListener = new DoraemonKit.ActivityLifecycleListener() {
         @Override
         public void onActivityResumed(Activity activity) {
-            if (activity == null || (activity instanceof UniversalActivity)) {
-                return;
-            }
-            Window window = activity.getWindow();
-            if (window == null) {
-                return;
-            }
-            final ViewGroup root = (ViewGroup) window.getDecorView();
-            if (root == null) {
-                return;
-            }
-            mScalpelFrameLayout = new ScalpelFrameLayout(root.getContext());
-            while (root.getChildCount() != 0) {
-                View child = root.getChildAt(0);
-                if (child instanceof ScalpelFrameLayout) {
-                    mScalpelFrameLayout = (ScalpelFrameLayout) child;
-                    return;
-                }
-                root.removeView(child);
-                mScalpelFrameLayout.addView(child);
-            }
-            mScalpelFrameLayout.setLayerInteractionEnabled(mSwitchButton.isChecked());
-            root.addView(mScalpelFrameLayout);
+            resolveActivity(activity);
         }
 
         @Override
@@ -64,6 +46,32 @@ public class LayoutLevelFloatPage extends BaseFloatPage implements TouchProxy.On
 
         }
     };
+
+    private void resolveActivity(Activity activity) {
+        if (activity == null || (activity instanceof UniversalActivity)) {
+            return;
+        }
+        Window window = activity.getWindow();
+        if (window == null) {
+            return;
+        }
+        final ViewGroup root = (ViewGroup) window.getDecorView();
+        if (root == null) {
+            return;
+        }
+        mScalpelFrameLayout = new ScalpelFrameLayout(root.getContext());
+        while (root.getChildCount() != 0) {
+            View child = root.getChildAt(0);
+            if (child instanceof ScalpelFrameLayout) {
+                mScalpelFrameLayout = (ScalpelFrameLayout) child;
+                return;
+            }
+            root.removeView(child);
+            mScalpelFrameLayout.addView(child);
+        }
+        mScalpelFrameLayout.setLayerInteractionEnabled(mIsCheck);
+        root.addView(mScalpelFrameLayout);
+    }
 
     @Override
     protected View onCreateView(Context context, ViewGroup view) {
@@ -86,6 +94,21 @@ public class LayoutLevelFloatPage extends BaseFloatPage implements TouchProxy.On
                         mScalpelFrameLayout.setLayerInteractionEnabled(false);
                     }
                 }
+                mIsCheck = isChecked;
+            }
+        });
+        mClose = findViewById(R.id.close);
+        mClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mScalpelFrameLayout != null) {
+                    mScalpelFrameLayout.setLayerInteractionEnabled(false);
+                }
+                FloatPageManager.getInstance().removeAll(LayoutLevelFloatPage.class);
+                LayoutBorderConfig.setLayoutLevelOpen(false);
+
+                LayoutBorderConfig.setLayoutBorderOpen(false);
+                LayoutBorderManager.getInstance().stop();
             }
         });
         getRootView().setOnTouchListener(new View.OnTouchListener() {
@@ -109,6 +132,7 @@ public class LayoutLevelFloatPage extends BaseFloatPage implements TouchProxy.On
     protected void onCreate(Context context) {
         super.onCreate(context);
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        resolveActivity(DoraemonKit.getCurrentResumedActivity());
         DoraemonKit.registerListener(mLifecycleListener);
     }
 
@@ -137,5 +161,17 @@ public class LayoutLevelFloatPage extends BaseFloatPage implements TouchProxy.On
     @Override
     public void onDown(int x, int y) {
 
+    }
+
+    @Override
+    public void onEnterForeground() {
+        super.onEnterForeground();
+        getRootView().setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onEnterBackground() {
+        super.onEnterBackground();
+        getRootView().setVisibility(View.GONE);
     }
 }

@@ -10,18 +10,28 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/dk_info_background">
-
+        <TextView
+            style="@style/DK.Text.Darker"
+            android:id="@+id/switch_text"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_alignParentLeft="true"
+            android:text="@string/dk_layout_level" />
         <CheckBox
             style="@style/DK.CheckBox"
             android:id="@+id/switch_btn"
-            android:layout_centerInParent="true" />
-
-        <TextView
-            style="@style/DK.Text.Darker"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@id/switch_btn"
-            android:text="@string/dk_layout_level" />
+            android:layout_toRightOf="@+id/switch_text"/>
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/dk_close_icon" />
 
     </RelativeLayout>
 

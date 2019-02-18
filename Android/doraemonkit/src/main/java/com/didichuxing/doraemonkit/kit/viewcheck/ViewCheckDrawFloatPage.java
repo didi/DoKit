@@ -31,7 +31,9 @@ public class ViewCheckDrawFloatPage extends BaseFloatPage implements ViewCheckFl
     protected void onDestroy() {
         super.onDestroy();
         ViewCheckFloatPage page = (ViewCheckFloatPage) FloatPageManager.getInstance().getFloatPage(PageTag.PAGE_VIEW_CHECK);
-        page.removeViewSelectListener(this);
+        if (page != null) {
+            page.removeViewSelectListener(this);
+        }
     }
 
     @Override
@@ -58,5 +60,17 @@ public class ViewCheckDrawFloatPage extends BaseFloatPage implements ViewCheckFl
         } else {
             mLayoutBorderView.showViewLayoutBorder(UIUtils.getViewRect(view));
         }
+    }
+
+    @Override
+    public void onEnterForeground() {
+        super.onEnterForeground();
+        getRootView().setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onEnterBackground() {
+        super.onEnterBackground();
+        getRootView().setVisibility(View.GONE);
     }
 }

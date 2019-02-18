@@ -90,6 +90,8 @@
     <string name="dk_view_check_info_id">控件ID：%1$s</string>
     <string name="dk_view_check_info_size">控件尺寸：宽%1$d，高%2$d</string>
     <string name="dk_view_check_info_desc">背景颜色：%1$s</string>
+    <string name="dk_view_check_info_activity">当前Activity：%1$s</string>
+    <string name="dk_view_check_info_fragment">可见Fragments：%1$s</string>
 
     <string name="dk_back">返回</string>
 
@@ -138,5 +140,5 @@
 
     <string name="dk_layout_level">布局层级</string>
 
-    <string name="dk_align_info_text">位置：左%d 右%d 上%d 下%d</string>
+    <string name="dk_align_info_text">位置：左%1$d 右%2$d 上%3$d 下%4$d</string>
 </resources>

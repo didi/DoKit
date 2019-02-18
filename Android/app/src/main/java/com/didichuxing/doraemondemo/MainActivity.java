@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.network.common.CommonHeaders;
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorRequest;
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorResponse;
@@ -26,14 +27,17 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private boolean mShow = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         findViewById(R.id.btn_test_urlconnection).setOnClickListener(this);
         findViewById(R.id.btn_test_okhttp).setOnClickListener(this);
+        findViewById(R.id.btn_test_custom).setOnClickListener(this);
         findViewById(R.id.btn_test_crash).setOnClickListener(this);
-
+        findViewById(R.id.btn_show_hide_icon).setOnClickListener(this);
     }
 
     @Override
@@ -45,8 +49,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_test_okhttp:
                 requestByOkHttp();
                 break;
+            case R.id.btn_test_custom:
+                requestByCustom("http://apis.baidu.com/txapi/weixin/wxhot?num=10&page=1&word=%E7%9B%97%E5%A2%93%E7%AC%94%E8%AE%B0");
+                break;
             case R.id.btn_test_crash:
                 testCrash().length();
+                break;
+            case R.id.btn_show_hide_icon:
+                if (DoraemonKit.isShow()) {
+                    DoraemonKit.hide();
+                } else {
+                    DoraemonKit.show();
+                }
                 break;
             default:
                 break;
@@ -150,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * {@link NetworkPrinterHelper#updateResponse(CommonInspectorResponse)}
      * {@link NetworkPrinterHelper#updateResponseBody(int, String)}
      */
-    public void request(String url) {
+    public void requestByCustom(String url) {
         // obtain id for this request
         final int id = NetworkPrinterHelper.obtainRequestId();
 

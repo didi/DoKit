@@ -88,6 +88,8 @@
     <string name="dk_view_check_info_size">控件尺寸：宽%1$d，高%2$d</string>
     <string name="dk_view_check_info_id">控件ID：%1$s</string>
     <string name="dk_view_check_info_class">控件类型：%1$s</string>
+    <string name="dk_view_check_info_activity">当前Activity：%1$s</string>
+    <string name="dk_view_check_info_fragment">可见Fragments：%1$s</string>
     <string name="dk_network_get_method">GET</string>
     <string name="dk_network_post_method">POST</string>
     <string name="dk_network_request">请求</string>
@@ -129,6 +131,6 @@
     <string name="dk_kit_network_time_format">%1$s 耗时:%2$s</string>
     <string name="dk_kit_layout_border">布局边框</string>
     <string name="dk_layout_level">布局层级</string>
-    <string name="dk_align_info_text">位置：左%d 右%d 上%d 下%d</string>
+    <string name="dk_align_info_text">位置：左%1$d 右%2$d 上%3$d 下%4$d</string>
 
 </resources>

@@ -37,6 +37,7 @@ import com.didichuxing.doraemonkit.ui.kit.KitItem;
 import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil;
 import com.didichuxing.doraemonkit.util.PermissionUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +55,10 @@ public class DoraemonKit {
     private static boolean sHasRequestPermission;
 
     private static boolean sHasInit = false;
+
+    private static WeakReference<Activity> sCurrentResumedActivity;
+
+    private static boolean sShowFloatingIcon = true;
 
     public static void install(final Application app) {
         install(app, null);
@@ -104,13 +109,16 @@ public class DoraemonKit {
             @Override
             public void onActivityResumed(Activity activity) {
                 if (PermissionUtil.canDrawOverlays(activity)) {
-                    showFloatIcon(activity);
+                    if (sShowFloatingIcon) {
+                        showFloatIcon(activity);
+                    }
                 } else {
                     requestPermission(activity);
                 }
                 for (ActivityLifecycleListener listener : sListeners) {
                     listener.onActivityResumed(activity);
                 }
+                sCurrentResumedActivity = new WeakReference<>(activity);
             }
 
             @Override
@@ -118,6 +126,7 @@ public class DoraemonKit {
                 for (ActivityLifecycleListener listener : sListeners) {
                     listener.onActivityPaused(activity);
                 }
+                sCurrentResumedActivity = null;
             }
 
             @Override
@@ -250,5 +259,29 @@ public class DoraemonKit {
 
     public static void unRegisterListener(ActivityLifecycleListener listener) {
         sListeners.remove(listener);
+    }
+
+    public static void show() {
+        if (!isShow()) {
+            showFloatIcon(null);
+        }
+        sShowFloatingIcon = true;
+
+    }
+
+    public static void hide() {
+        FloatPageManager.getInstance().removeAll();
+        sShowFloatingIcon = false;
+    }
+
+    public static boolean isShow() {
+        return sShowFloatingIcon;
+    }
+
+    public static Activity getCurrentResumedActivity() {
+        if (sCurrentResumedActivity != null && sCurrentResumedActivity.get() != null) {
+            return sCurrentResumedActivity.get();
+        }
+        return null;
     }
 }

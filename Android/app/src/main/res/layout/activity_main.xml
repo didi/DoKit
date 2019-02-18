@@ -19,9 +19,21 @@
         android:text="OkHttp Test"/>
 
     <Button
+        android:id="@+id/btn_test_custom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="其他网络库 Test"/>
+
+    <Button
+        android:id="@+id/btn_show_hide_icon"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="显示/隐藏入口"/>
+
+    <Button
         android:id="@+id/btn_test_crash"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Crash Test"/>
+        android:text="模拟 Crash"/>
 
 </LinearLayout>

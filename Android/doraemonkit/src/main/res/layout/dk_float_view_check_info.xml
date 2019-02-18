@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@drawable/dk_info_background">
@@ -15,40 +15,58 @@
             style="@style/DK.Text.Darker"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="14dp"
-            android:gravity="left" />
+            android:layout_marginBottom="6dp"
+            android:gravity="left"/>
 
         <TextView
             android:id="@+id/id"
             style="@style/DK.Text.Darker"
-            android:layout_alignLeft="@id/name"
             android:layout_below="@id/name"
-            android:layout_marginTop="6dp"
-            android:gravity="left" />
+            android:layout_alignLeft="@id/name"
+            android:layout_marginBottom="6dp"
+            android:gravity="left"/>
 
         <TextView
             android:id="@+id/position"
             style="@style/DK.Text.Darker"
-            android:layout_alignLeft="@id/id"
             android:layout_below="@id/id"
-            android:layout_marginTop="6dp"
-            android:gravity="left" />
+            android:layout_alignLeft="@id/id"
+            android:layout_marginBottom="6dp"
+            android:gravity="left"/>
 
         <TextView
             android:id="@+id/desc"
             style="@style/DK.Text.Darker"
-            android:layout_alignLeft="@id/position"
             android:layout_below="@id/position"
-            android:layout_marginTop="6dp"
-            android:gravity="left" />
+            android:layout_alignLeft="@id/position"
+            android:layout_marginBottom="6dp"
+            android:gravity="left"/>
+
+        <TextView
+            android:id="@+id/activity"
+            style="@style/DK.Text.Darker"
+            android:layout_below="@id/desc"
+            android:layout_alignLeft="@id/position"
+            android:layout_marginBottom="6dp"
+            android:gravity="left"/>
+
+        <TextView
+            android:id="@+id/fragment"
+            style="@style/DK.Text.Darker"
+            android:layout_below="@id/activity"
+            android:layout_alignLeft="@id/position"
+            android:layout_marginBottom="6dp"
+            android:visibility="gone"
+            android:gravity="left"/>
 
         <ImageView
             android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="16dp"
             android:layout_marginTop="14dp"
-            android:src="@drawable/dk_close_icon" />
+            android:layout_marginRight="16dp"
+            android:src="@drawable/dk_close_icon"/>
 
     </RelativeLayout>
 </FrameLayout>

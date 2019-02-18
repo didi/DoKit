@@ -87,6 +87,8 @@
     <string name="dk_view_check_info_desc">View Background：%1$s</string>
     <string name="dk_view_check_info_id">View ID：%1$s</string>
     <string name="dk_view_check_info_class">View Class：%1$s</string>
+    <string name="dk_view_check_info_activity">Current Activity：%1$s</string>
+    <string name="dk_view_check_info_fragment">Visible Fragments：%1$s</string>
     <string name="dk_network_get_method">GET</string>
     <string name="dk_network_post_method">POST</string>
     <string name="dk_network_request">Request</string>
@@ -129,6 +131,6 @@
     <string name="dk_cpu_memory_remind_user">Sorry, your current system version is higher than 8.0. Due to Google\'s privilege tightening, you can only use adb to obtain performance analysis data. Please connect your computer to your computer and enter adb tcpip 5555 to ensure normal function.</string>
     <string name="dk_kit_layout_border">Layout Border</string>
     <string name="dk_layout_level">Layout Level</string>
-    <string name="dk_align_info_text">Position：Left%d Right%d Top%d Bottom%d</string>
+    <string name="dk_align_info_text">Position：Left%1$d Right%2$d Top%3$d Bottom%4$d</string>
 
 </resources>

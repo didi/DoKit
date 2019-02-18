@@ -37,7 +37,7 @@ public class ViewBorderDrawable extends Drawable {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        if (LayoutBorderConfig.isLayoutBorderOpen(context)) {
+        if (LayoutBorderConfig.isLayoutBorderOpen()) {
             canvas.drawRect(rect, paint);
         }
     }

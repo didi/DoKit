@@ -20,28 +20,7 @@ public class LayoutBorderManager {
     private DoraemonKit.ActivityLifecycleListener mLifecycleListener = new DoraemonKit.ActivityLifecycleListener() {
         @Override
         public void onActivityResumed(Activity activity) {
-            if (activity == null || (activity instanceof UniversalActivity)) {
-                return;
-            }
-            Window window = activity.getWindow();
-            if (window == null) {
-                return;
-            }
-            final ViewGroup root = (ViewGroup) window.getDecorView();
-            if (root == null) {
-                return;
-            }
-            mViewBorderFrameLayout = new ViewBorderFrameLayout(root.getContext());
-            while (root.getChildCount() != 0) {
-                View child = root.getChildAt(0);
-                if (child instanceof ViewBorderFrameLayout) {
-                    mViewBorderFrameLayout = (ViewBorderFrameLayout) child;
-                    return;
-                }
-                root.removeView(child);
-                mViewBorderFrameLayout.addView(child);
-            }
-            root.addView(mViewBorderFrameLayout);
+            resolveActivity(activity);
         }
 
         @Override
@@ -49,6 +28,31 @@ public class LayoutBorderManager {
 
         }
     };
+
+    private void resolveActivity(Activity activity) {
+        if (activity == null || (activity instanceof UniversalActivity)) {
+            return;
+        }
+        Window window = activity.getWindow();
+        if (window == null) {
+            return;
+        }
+        final ViewGroup root = (ViewGroup) window.getDecorView();
+        if (root == null) {
+            return;
+        }
+        mViewBorderFrameLayout = new ViewBorderFrameLayout(root.getContext());
+        while (root.getChildCount() != 0) {
+            View child = root.getChildAt(0);
+            if (child instanceof ViewBorderFrameLayout) {
+                mViewBorderFrameLayout = (ViewBorderFrameLayout) child;
+                return;
+            }
+            root.removeView(child);
+            mViewBorderFrameLayout.addView(child);
+        }
+        root.addView(mViewBorderFrameLayout);
+    }
 
     private static class Holder {
         private static LayoutBorderManager INSTANCE = new LayoutBorderManager();
@@ -63,11 +67,16 @@ public class LayoutBorderManager {
 
     public void start() {
         isRunning = true;
+        resolveActivity(DoraemonKit.getCurrentResumedActivity());
         DoraemonKit.registerListener(mLifecycleListener);
     }
 
     public void stop() {
         isRunning = false;
+        if (mViewBorderFrameLayout != null) {
+            mViewBorderFrameLayout.requestLayout();
+        }
+        mViewBorderFrameLayout = null;
         DoraemonKit.unRegisterListener(mLifecycleListener);
     }
 

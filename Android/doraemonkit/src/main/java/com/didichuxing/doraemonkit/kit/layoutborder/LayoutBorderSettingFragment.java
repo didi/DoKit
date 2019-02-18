@@ -42,8 +42,8 @@ public class LayoutBorderSettingFragment extends BaseFragment {
         mSettingList = findViewById(R.id.setting_list);
         mSettingList.setLayoutManager(new LinearLayoutManager(getContext()));
         mSettingItemAdapter = new SettingItemAdapter(getContext());
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_layout_border, LayoutBorderConfig.isLayoutBorderOpen(getContext())));
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_layout_level, LayoutBorderConfig.isLayoutLevelOpen(getContext())));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_layout_border, LayoutBorderConfig.isLayoutBorderOpen()));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_layout_level, LayoutBorderConfig.isLayoutLevelOpen()));
         mSettingItemAdapter.setOnSettingItemSwitchListener(new SettingItemAdapter.OnSettingItemSwitchListener() {
             @Override
             public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
@@ -53,7 +53,7 @@ public class LayoutBorderSettingFragment extends BaseFragment {
                     } else {
                         LayoutBorderManager.getInstance().stop();
                     }
-                    LayoutBorderConfig.setLayoutBorderOpen(getContext(), on);
+                    LayoutBorderConfig.setLayoutBorderOpen(on);
                 } else if (data.desc == R.string.dk_layout_level) {
                     if (on) {
                         PageIntent intent = new PageIntent(LayoutLevelFloatPage.class);
@@ -62,7 +62,7 @@ public class LayoutBorderSettingFragment extends BaseFragment {
                     } else {
                         FloatPageManager.getInstance().removeAll(LayoutLevelFloatPage.class);
                     }
-                    LayoutBorderConfig.setLayoutLevelOpen(getContext(), on);
+                    LayoutBorderConfig.setLayoutLevelOpen(on);
                 }
             }
         });

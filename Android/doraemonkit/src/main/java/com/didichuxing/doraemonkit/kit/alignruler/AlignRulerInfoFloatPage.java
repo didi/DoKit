@@ -112,4 +112,16 @@ public class AlignRulerInfoFloatPage extends BaseFloatPage implements TouchProxy
         int bottom = mWindowHeight - top;
         mAlignHex.setText(getResources().getString(R.string.dk_align_info_text, left, right, top, bottom));
     }
+
+    @Override
+    public void onEnterForeground() {
+        super.onEnterForeground();
+        getRootView().setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onEnterBackground() {
+        super.onEnterBackground();
+        getRootView().setVisibility(View.GONE);
+    }
 }

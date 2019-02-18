@@ -50,6 +50,7 @@ public class ViewCheckFloatPage extends BaseFloatPage implements TouchProxy.OnTo
     protected void onCreate(Context context) {
         super.onCreate(context);
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        mResumedActivity = DoraemonKit.getCurrentResumedActivity();
         DoraemonKit.registerListener(mLifecycleListener);
     }
 
@@ -112,7 +113,7 @@ public class ViewCheckFloatPage extends BaseFloatPage implements TouchProxy.OnTo
                     }
                 }
             }
-            if (left < x &&  x < right && top < y &&  y < bottom) {
+            if (left < x && x < right && top < y && y < bottom) {
                 return view;
             } else {
                 return null;
@@ -120,7 +121,7 @@ public class ViewCheckFloatPage extends BaseFloatPage implements TouchProxy.OnTo
         } else {
             LogHelper.d(TAG, "class: " + view.getClass() + ", left: " + left
                     + ", right: " + right + ", top: " + top + ", bottom: " + bottom);
-            if (left < x &&  x < right && top < y &&  y < bottom) {
+            if (left < x && x < right && top < y && y < bottom) {
                 return view;
             } else {
                 return null;
@@ -154,7 +155,7 @@ public class ViewCheckFloatPage extends BaseFloatPage implements TouchProxy.OnTo
 
     }
 
-    private void  onViewSelected(View view) {
+    private void onViewSelected(View view) {
         for (OnViewSelectListener listener : mViewSelectListeners) {
             listener.onViewSelected(view);
         }
@@ -162,5 +163,16 @@ public class ViewCheckFloatPage extends BaseFloatPage implements TouchProxy.OnTo
 
     public interface OnViewSelectListener {
         void onViewSelected(View view);
+    }
+    @Override
+    public void onEnterForeground() {
+        super.onEnterForeground();
+        getRootView().setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onEnterBackground() {
+        super.onEnterBackground();
+        getRootView().setVisibility(View.GONE);
     }
 }

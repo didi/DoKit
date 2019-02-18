@@ -1,15 +1,13 @@
 package com.didichuxing.doraemonkit.kit.layoutborder;
 
 import android.content.Context;
-import android.content.Intent;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
-import com.didichuxing.doraemonkit.constant.BundleKey;
-import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.IKit;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
+import com.didichuxing.doraemonkit.ui.base.PageIntent;
 
 /**
  * Created by wanglikun on 2019/1/7
@@ -32,15 +30,17 @@ public class LayoutBorder implements IKit {
 
     @Override
     public void onClick(Context context) {
-        Intent intent = new Intent(context, UniversalActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_LAYOUT_BORDER);
-        context.startActivity(intent);
+        LayoutBorderManager.getInstance().start();
+        LayoutBorderConfig.setLayoutBorderOpen(true);
+        PageIntent intent = new PageIntent(LayoutLevelFloatPage.class);
+        intent.mode = PageIntent.MODE_SINGLE_INSTANCE;
+        FloatPageManager.getInstance().add(intent);
+        LayoutBorderConfig.setLayoutLevelOpen(true);
     }
 
     @Override
     public void onAppInit(Context context) {
-        LayoutBorderConfig.setLayoutBorderOpen(context, false);
-        LayoutBorderConfig.setLayoutLevelOpen(context, false);
+        LayoutBorderConfig.setLayoutBorderOpen(false);
+        LayoutBorderConfig.setLayoutLevelOpen(false);
     }
 }

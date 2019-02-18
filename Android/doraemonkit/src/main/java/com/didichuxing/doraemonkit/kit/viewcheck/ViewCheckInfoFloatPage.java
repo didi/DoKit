@@ -1,17 +1,22 @@
 package com.didichuxing.doraemonkit.kit.viewcheck;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.ViewCheckConfig;
 import com.didichuxing.doraemonkit.constant.PageTag;
@@ -20,6 +25,8 @@ import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
 import com.didichuxing.doraemonkit.ui.base.TouchProxy;
 import com.didichuxing.doraemonkit.util.ColorUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
+
+import java.util.List;
 
 /**
  * Created by wanglikun on 2018/11/23.
@@ -30,6 +37,9 @@ public class ViewCheckInfoFloatPage extends BaseFloatPage implements ViewCheckFl
     private TextView mId;
     private TextView mPosition;
     private TextView mDesc;
+    private TextView mActivityInfo;
+    private TextView mFragmentInfo;
+
     private ImageView mClose;
     private TouchProxy mTouchProxy = new TouchProxy(this);
 
@@ -47,7 +57,9 @@ public class ViewCheckInfoFloatPage extends BaseFloatPage implements ViewCheckFl
     protected void onDestroy() {
         super.onDestroy();
         ViewCheckFloatPage page = (ViewCheckFloatPage) FloatPageManager.getInstance().getFloatPage(PageTag.PAGE_VIEW_CHECK);
-        page.removeViewSelectListener(this);
+        if (page != null) {
+            page.removeViewSelectListener(this);
+        }
     }
 
     @Override
@@ -59,9 +71,11 @@ public class ViewCheckInfoFloatPage extends BaseFloatPage implements ViewCheckFl
     protected void onViewCreated(View view) {
         super.onViewCreated(view);
         mId = findViewById(R.id.id);
-        mName= findViewById(R.id.name);
+        mName = findViewById(R.id.name);
         mPosition = findViewById(R.id.position);
         mDesc = findViewById(R.id.desc);
+        mActivityInfo = findViewById(R.id.activity);
+        mFragmentInfo = findViewById(R.id.fragment);
         mClose = findViewById(R.id.close);
         mClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +124,71 @@ public class ViewCheckInfoFloatPage extends BaseFloatPage implements ViewCheckFl
             }
             String descText = getResources().getString(R.string.dk_view_check_info_desc, backgroundColor);
             mDesc.setText(descText);
+            Activity activity = DoraemonKit.getCurrentResumedActivity();
+            if (activity != null) {
+                String activityText = activity.getClass().getSimpleName();
+                setTextAndVisible(mActivityInfo, getResources().getString(R.string.dk_view_check_info_activity, activityText));
+                String fragmentText = getVisibleFragment((AppCompatActivity) activity);
+                if (!TextUtils.isEmpty(fragmentText)) {
+                    setTextAndVisible(mFragmentInfo, getResources().getString(R.string.dk_view_check_info_fragment, fragmentText));
+                } else {
+                    setTextAndVisible(mFragmentInfo, "");
+                }
+            } else {
+                setTextAndVisible(mActivityInfo, "");
+                setTextAndVisible(mFragmentInfo, "");
+            }
         }
+    }
+
+    private void setTextAndVisible(TextView textView, String text) {
+        if (TextUtils.isEmpty(text)) {
+            textView.setVisibility(View.GONE);
+            textView.setText("");
+        } else {
+            textView.setVisibility(View.VISIBLE);
+            textView.setText(text);
+        }
+    }
+
+    private String getVisibleFragment(AppCompatActivity activity) {
+        if (activity == null) {
+            return null;
+        }
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        StringBuilder builder = new StringBuilder();
+        if (fragments != null && fragments.size() != 0) {
+            for (int i = 0; i < fragments.size(); i++) {
+                Fragment fragment = fragments.get(i);
+                if (fragment != null && fragment.isVisible()) {
+                    builder.append(fragment.getClass().getSimpleName() + "#" + fragment.getId());
+                    if (i < fragments.size() - 1) {
+                        builder.append(";");
+                    }
+                }
+            }
+            return builder.toString();
+        } else {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                android.app.FragmentManager manager = activity.getFragmentManager();
+                List<android.app.Fragment> list = manager.getFragments();
+                if (list != null && list.size() > 0) {
+                    for (int i = 0; i < list.size(); i++) {
+                        android.app.Fragment fragment = list.get(i);
+                        if (fragment != null && fragment.isVisible()) {
+                            builder.append(fragment.getClass().getSimpleName() + "#" + fragment.getId());
+                            if (i < fragments.size() - 1) {
+                                builder.append(";");
+                            }
+                        }
+                    }
+                    return builder.toString();
+                }
+            }
+
+        }
+        return null;
     }
 
     @Override
@@ -128,5 +206,17 @@ public class ViewCheckInfoFloatPage extends BaseFloatPage implements ViewCheckFl
     @Override
     public void onDown(int x, int y) {
 
+    }
+
+    @Override
+    public void onEnterForeground() {
+        super.onEnterForeground();
+        getRootView().setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onEnterBackground() {
+        super.onEnterBackground();
+        getRootView().setVisibility(View.GONE);
     }
 }
