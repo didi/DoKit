@@ -53,7 +53,11 @@
 - (void)show{
     self.hidden = NO;
     self.frame = CGRectMake(0, 0, DoraemonScreenWidth, IPHONE_STATUSBAR_HEIGHT);
-    _contentLabel.frame = CGRectMake(0, 0, DoraemonScreenWidth, IPHONE_STATUSBAR_HEIGHT);
+    if(IS_IPHONE_X_Series){
+        _contentLabel.frame = CGRectMake(0, self.doraemon_height-20, DoraemonScreenWidth, 20);
+    }else{
+        _contentLabel.frame = CGRectMake(0, 0, DoraemonScreenWidth, IPHONE_STATUSBAR_HEIGHT);
+    }
 }
 
 - (void)hide{

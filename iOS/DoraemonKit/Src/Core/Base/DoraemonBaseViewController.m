@@ -12,6 +12,7 @@
 #import "DoraemonHomeWindow.h"
 #import "UIView+Doraemon.h"
 #import "DoraemonDefine.h"
+#import "DoraemonStateBar.h"
 
 @interface DoraemonBaseViewController ()<DoraemonBaseBigTitleViewDelegate>
 
@@ -22,19 +23,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-//    if ([self respondsToSelector:@selector(setEdgesForExtendedLayout:)]) {
-//        self.edgesForExtendedLayout = UIRectEdgeNone;
-//    }
-//    [self.navigationController.navigationBar setTranslucent:NO];
-//
-  
+    
     if ([self needBigTitleView]) {
-        _bigTitleView = [[DoraemonBaseBigTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750(178))];
+        if ([DoraemonStateBar shareInstance].hidden) {
+            _bigTitleView = [[DoraemonBaseBigTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750(178))];
+        }else{
+            _bigTitleView = [[DoraemonBaseBigTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750(178)+IPHONE_STATUSBAR_HEIGHT)];
+        }
         _bigTitleView.delegate = self;
         [self.view addSubview:_bigTitleView];
     }else{
         DoraemonNavBarItemModel *leftModel = [[DoraemonNavBarItemModel alloc] initWithImage:[UIImage doraemon_imageNamed:@"doraemon_back"] selector:@selector(leftNavBackClick:)];
-        
         [self setLeftNavBarItems:@[leftModel]];
     }
 }
