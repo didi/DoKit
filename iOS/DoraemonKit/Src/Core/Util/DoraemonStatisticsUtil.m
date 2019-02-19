@@ -32,14 +32,8 @@
     session.requestSerializer=[AFJSONRequestSerializer serializer];
     
     [session POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
-        
-        NSLog(@"responseObject == %@",responseObject);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        
-        NSLog(@"error == %@",error);
     }];
-
-    
 }
 
 @end
