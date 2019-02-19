@@ -245,4 +245,27 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
     return cell;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return YES;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return DoraemonLocalizedString(@"复制");
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSInteger section = indexPath.section;
+    NSInteger row = indexPath.row;
+    
+    NSString *content;
+    if (_selectedSegmentIndex == NetFlowSelectStateForRequest) {
+        NSDictionary *itemInfo = _requestArray[section];
+        content = itemInfo[@"dataArray"][row];
+    }else{
+        NSDictionary *itemInfo = _responseArray[section];
+        content = itemInfo[@"dataArray"][row];
+    }
+    UIPasteboard *pboard = [UIPasteboard generalPasteboard];
+    pboard.string = content;
+}
 @end
