@@ -11,7 +11,7 @@
 @implementation DoraemonStatisticsUtil
 
 + (void)upLoadUserInfo{
-    NSString *url = @"http://doraemon.xiaojukeji.com/uploadAppData";
+    NSString *url = @"https://doraemon.xiaojukeji.com/uploadAppData";
     
     NSString *appId = [[NSBundle mainBundle] bundleIdentifier];;
     NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
@@ -32,7 +32,11 @@
     session.requestSerializer=[AFJSONRequestSerializer serializer];
     
     [session POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSLog(@"responseObject == %@",responseObject);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        NSLog(@"error == %@",error);
     }];
 
     
