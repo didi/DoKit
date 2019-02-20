@@ -1,4 +1,15 @@
 # Release Notes
+## 1.1.5
+1、更新DoraemonLoadAnalyze.framework支持bitcode
+
+2、修复 iOS11以下版本点击沙盒浏览功能崩溃
+
+3、修复 NSLog 未适配iPhone X以上机型
+
+4、流量详情的每一个cell中的数据支持复制
+
+5、其他一些优化和bug fix，详见代码提交记录
+
 ## 1.1.4
 1、新增Load函数耗时检测功能
 
