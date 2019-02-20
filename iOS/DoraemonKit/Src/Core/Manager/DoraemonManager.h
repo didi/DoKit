@@ -69,7 +69,7 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 @interface DoraemonManager : NSObject
 
-+ (DoraemonManager *)shareInstance;
++ (nonnull DoraemonManager *)shareInstance;
 
 - (void)install;
 

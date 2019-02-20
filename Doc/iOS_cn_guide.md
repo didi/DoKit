@@ -95,7 +95,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
     #if DEBUG
-        DoraemonManager.shareInstance()?.install()
+        DoraemonManager.shareInstance().install()
     #endif
         return true
     }
