@@ -10,7 +10,7 @@
 @implementation DoraemonStatisticsUtil
 
 + (void)upLoadUserInfo{
-    NSString *url = @"https://doraemon.xiaojukeji.com/uploadAppData";
+    NSURL *url = [NSURL URLWithString:@"https://doraemon.xiaojukeji.com/uploadAppData"];
     
     NSString *appId = [[NSBundle mainBundle] bundleIdentifier];;
     NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
@@ -27,7 +27,7 @@
     NSError *error;
     NSData *postData = [NSJSONSerialization dataWithJSONObject:param options:0 error:&error];
     
-    NSMutableURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
