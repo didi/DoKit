@@ -55,7 +55,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 
 @implementation DoraemonManager
 
-+ (DoraemonManager *)shareInstance{
++ (nonnull DoraemonManager *)shareInstance{
     static dispatch_once_t once;
     static DoraemonManager *instance;
     dispatch_once(&once, ^{
