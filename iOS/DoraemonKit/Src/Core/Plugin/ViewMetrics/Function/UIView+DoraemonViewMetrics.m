@@ -13,7 +13,9 @@
 @implementation UIView (DoraemonViewMetrics)
 
 + (void)load{
-    [[self  class] doraemon_swizzleInstanceMethodWithOriginSel:@selector(layoutSubviews) swizzledSel:@selector(doraemon_layoutSubviews)];
+    if ([NSStringFromClass([self class]) isEqualToString:@"UIView"]) {
+        [[self  class] doraemon_swizzleInstanceMethodWithOriginSel:@selector(layoutSubviews) swizzledSel:@selector(doraemon_layoutSubviews)];
+    }
 }
 
 - (void)doraemon_layoutSubviews
