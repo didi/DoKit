@@ -12,7 +12,6 @@
 #import "DoraemonMemoryUtil.h"
 #import "DoraemonAppInfoUtil.h"
 #import "Doraemoni18NUtil.h"
-#import <AFNetworking/AFNetworking.h>
 
 //默认超时间隔
 static int64_t const kDoraemonBlockMonitorTimeInterval = 2.;

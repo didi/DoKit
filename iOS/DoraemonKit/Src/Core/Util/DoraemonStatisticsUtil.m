@@ -6,7 +6,6 @@
 //
 
 #import "DoraemonStatisticsUtil.h"
-#import <AFNetworking/AFNetworking.h>
 
 @implementation DoraemonStatisticsUtil
 
@@ -25,15 +24,18 @@
     [param setValue:appVersion forKey:@"appVersion"];
     [param setValue:type forKey:@"type"];
     [param setValue:from forKey:@"from"];
+    NSError *error;
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:param options:0 error:&error];
     
-    AFHTTPSessionManager *session = [AFHTTPSessionManager manager];
-    session.responseSerializer = [AFJSONResponseSerializer serializer];
-    session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain", nil];
-    session.requestSerializer=[AFJSONRequestSerializer serializer];
+    NSMutableURLRequest *request = [NSURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setHTTPBody:postData];
     
-    [session POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-    }];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:nil];
+    [task resume];
 }
 
 @end
