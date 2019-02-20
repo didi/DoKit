@@ -3,9 +3,9 @@
 ### 1、cocoapods依赖
 
 ```
-    pod 'DoraemonKit/Core', '~> 1.1.4', :configurations => ['Debug']
-    pod 'DoraemonKit/WithLogger', '~> 1.1.4', :configurations => ['Debug']
-    pod 'DoraemonKit/WithGPS', '~> 1.1.4', :configurations => ['Debug']
+    pod 'DoraemonKit/Core', '~> 1.1.5', :configurations => ['Debug']
+    pod 'DoraemonKit/WithLogger', '~> 1.1.5', :configurations => ['Debug']
+    pod 'DoraemonKit/WithGPS', '~> 1.1.5', :configurations => ['Debug']
 ```
 Core subspec作为核心，必须引入。
 
