@@ -20,6 +20,10 @@ MockGPS存在一些兼容性问题（绝大部分情况是好的，问题详见[
 在App启动的时候添加一下代码
 
 ```
+#ifdef DEBUG
+#import <DoraemonKit/DoraemonManager.h>
+#endif
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     #ifdef DEBUG
         [[DoraemonManager shareInstance] install];
