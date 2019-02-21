@@ -12,6 +12,7 @@
         android:textSize="@dimen/dk_font_size_10"
         android:singleLine="true"
         app:layout_constraintBottom_toTopOf="@+id/network_list_method"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed"/>
 
