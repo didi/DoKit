@@ -14,12 +14,10 @@
 
 @implementation NSURLSessionConfiguration (Doraemon)
 
-#ifdef DEBUG
 + (void)load{
     [[self class] doraemon_swizzleClassMethodWithOriginSel:@selector(defaultSessionConfiguration) swizzledSel:@selector(doraemon_defaultSessionConfiguration)];
     [[self class] doraemon_swizzleClassMethodWithOriginSel:@selector(ephemeralSessionConfiguration) swizzledSel:@selector(doraemon_ephemeralSessionConfiguration)];
 }
-#endif
 
 + (NSURLSessionConfiguration *)doraemon_defaultSessionConfiguration{
     NSURLSessionConfiguration *configuration = [self doraemon_defaultSessionConfiguration];
