@@ -38,6 +38,7 @@
                 self.rootViewController = [[UIViewController alloc] init];
             }
         }else{
+            //iOS9.0的系统中，新建的window设置的rootViewController默认没有显示状态栏
             if (!self.rootViewController) {
                 self.rootViewController = [[DoraemonStatusBarViewController alloc] init];
             }
