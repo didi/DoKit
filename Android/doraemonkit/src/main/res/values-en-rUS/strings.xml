@@ -19,7 +19,9 @@
     <string name="dk_kit_data_clean">Cache Cleanup</string>
     <string name="dk_kit_view_check">View Ciewer</string>
     <string name="dk_kit_net_monitor">Traffic Monitor</string>
+    <string name="dk_kit_time_counter">Time Counter</string>
     <string name="dk_kit_exit">Exit Doraemonkit</string>
+    <string name="dk_kit_db_detail">Data Base</string>
 
     <string name="dk_sysinfo_device_info">Mobile Info</string>
     <string name="dk_sysinfo_app_info">App Info</string>
@@ -64,7 +66,7 @@
     <string name="dk_kit_block_monitor_list">ANR List</string>
     <string name="dk_kit_block_monitor_detail">ANR Detail</string>
     <string name="dk_item_block_switch">ANR Switch</string>
-    <string name="dk_item_block_goto_list">View ANR</string>
+    <string name="dk_item_block_goto_list">View ANR History</string>
     <string name="dk_item_block_mock">Mock ANR</string>
 
     <string name="dk_block_class_has_blocked">blocked %s ms</string>
@@ -133,4 +135,7 @@
     <string name="dk_layout_level">Layout Level</string>
     <string name="dk_align_info_text">Position：Left%1$d Right%2$d Top%3$d Bottom%4$d</string>
 
+    <string name="dk_item_time_counter_switch">Activity Time Counter</string>
+    <string name="dk_item_time_goto_list">View History</string>
+    <string name="dk_kit_block_time_counter_list">Time Counter History</string>
 </resources>

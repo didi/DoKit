@@ -28,9 +28,12 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation ('com.android.support:recyclerview-v7:26.1.0'){
+        exclude group: 'com.android.support'
+    }
 
     implementation('com.scottyab:rootbeer-lib:0.0.6') {
+        transitive=true
         exclude group: 'com.android.support'
     }
     implementation 'com.squareup.okhttp3:okhttp:3.6.0'

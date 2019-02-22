@@ -31,9 +31,16 @@
         android:text="显示/隐藏入口"/>
 
     <Button
+        android:id="@+id/btn_time_count"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="页面跳转耗时"/>
+
+    <Button
         android:id="@+id/btn_test_crash"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="模拟 Crash"/>
+
 
 </LinearLayout>

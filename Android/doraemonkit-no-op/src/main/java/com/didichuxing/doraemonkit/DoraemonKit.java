@@ -23,4 +23,15 @@ public class DoraemonKit {
     public static void install(final Application app, List<IKit> selfKits) {
 
     }
+
+    public static void show() {
+
+    }
+
+    public static void hide() {
+    }
+
+    public static boolean isShow() {
+        return false;
+    }
 }

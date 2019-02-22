@@ -128,7 +128,7 @@ public class ViewCheckInfoFloatPage extends BaseFloatPage implements ViewCheckFl
             if (activity != null) {
                 String activityText = activity.getClass().getSimpleName();
                 setTextAndVisible(mActivityInfo, getResources().getString(R.string.dk_view_check_info_activity, activityText));
-                String fragmentText = getVisibleFragment((AppCompatActivity) activity);
+                String fragmentText = getVisibleFragment(activity);
                 if (!TextUtils.isEmpty(fragmentText)) {
                     setTextAndVisible(mFragmentInfo, getResources().getString(R.string.dk_view_check_info_fragment, fragmentText));
                 } else {
@@ -151,44 +151,52 @@ public class ViewCheckInfoFloatPage extends BaseFloatPage implements ViewCheckFl
         }
     }
 
-    private String getVisibleFragment(AppCompatActivity activity) {
+    private String getVisibleFragment(Activity activity) {
         if (activity == null) {
             return null;
         }
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        List<Fragment> fragments = fragmentManager.getFragments();
         StringBuilder builder = new StringBuilder();
-        if (fragments != null && fragments.size() != 0) {
-            for (int i = 0; i < fragments.size(); i++) {
-                Fragment fragment = fragments.get(i);
-                if (fragment != null && fragment.isVisible()) {
-                    builder.append(fragment.getClass().getSimpleName() + "#" + fragment.getId());
-                    if (i < fragments.size() - 1) {
-                        builder.append(";");
-                    }
-                }
-            }
-            return builder.toString();
-        } else {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                android.app.FragmentManager manager = activity.getFragmentManager();
-                List<android.app.Fragment> list = manager.getFragments();
-                if (list != null && list.size() > 0) {
-                    for (int i = 0; i < list.size(); i++) {
-                        android.app.Fragment fragment = list.get(i);
-                        if (fragment != null && fragment.isVisible()) {
-                            builder.append(fragment.getClass().getSimpleName() + "#" + fragment.getId());
-                            if (i < fragments.size() - 1) {
-                                builder.append(";");
-                            }
+        if (activity instanceof AppCompatActivity) {
+            AppCompatActivity compatActivity = (AppCompatActivity) activity;
+            FragmentManager fragmentManager = compatActivity.getSupportFragmentManager();
+            List<Fragment> fragments = fragmentManager.getFragments();
+            if (fragments != null && fragments.size() != 0) {
+                for (int i = 0; i < fragments.size(); i++) {
+                    Fragment fragment = fragments.get(i);
+                    if (fragment != null && fragment.isVisible()) {
+                        builder.append(fragment.getClass().getSimpleName() + "#" + fragment.getId());
+                        if (i < fragments.size() - 1) {
+                            builder.append(";");
                         }
                     }
-                    return builder.toString();
+                }
+                return builder.toString();
+            } else {
+                return getFragmentForActivity(activity);
+            }
+        } else {
+            return getFragmentForActivity(activity);
+        }
+    }
+
+    private String getFragmentForActivity(Activity activity) {
+        StringBuilder builder = new StringBuilder();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            android.app.FragmentManager manager = activity.getFragmentManager();
+            List<android.app.Fragment> list = manager.getFragments();
+            if (list != null && list.size() > 0) {
+                for (int i = 0; i < list.size(); i++) {
+                    android.app.Fragment fragment = list.get(i);
+                    if (fragment != null && fragment.isVisible()) {
+                        builder.append(fragment.getClass().getSimpleName() + "#" + fragment.getId());
+                        if (i < list.size() - 1) {
+                            builder.append(";");
+                        }
+                    }
                 }
             }
-
         }
-        return null;
+        return builder.toString();
     }
 
     @Override
