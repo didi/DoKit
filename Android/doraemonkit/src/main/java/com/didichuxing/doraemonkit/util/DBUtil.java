@@ -40,9 +40,9 @@ public class DBUtil {
     public static String[][] queryAll(SQLiteDatabase database, String table) {
         String[] strings = queryTableColumnName(database, table);
         Cursor cursor = database.rawQuery("select * from " + table, null);
-        int columnCount = cursor.getColumnCount();
-        String[][] words = new String[strings.length][columnCount];
-        for (int y = 0; y < cursor.getColumnCount(); y++) {
+        int rowCount = cursor.getCount();
+        String[][] words = new String[strings.length][rowCount];
+        for (int y = 0; y <rowCount; y++) {
             if (cursor.moveToNext()) {
                 for (int x = 0; x < strings.length; x++) {
                     words[x][y] = cursor.getString(x);
