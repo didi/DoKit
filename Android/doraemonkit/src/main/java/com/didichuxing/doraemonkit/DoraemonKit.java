@@ -26,6 +26,7 @@ import com.didichuxing.doraemonkit.kit.network.NetworkKit;
 import com.didichuxing.doraemonkit.kit.ram.Ram;
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfo;
 import com.didichuxing.doraemonkit.kit.temporaryclose.TemporaryClose;
+import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterKit;
 import com.didichuxing.doraemonkit.kit.viewcheck.ViewChecker;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoor;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
@@ -171,6 +172,7 @@ public class DoraemonKit {
         performance.add(new Ram());
         performance.add(new NetworkKit());
         performance.add(new BlockMonitorKit());
+        performance.add(new TimeCounterKit());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ui.add(new ColorPicker());

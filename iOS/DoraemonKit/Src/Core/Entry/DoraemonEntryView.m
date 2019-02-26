@@ -13,7 +13,7 @@
 #import "UIImage+Doraemon.h"
 #import "DoraemonDefine.h"
 #import "DoraemonHomeWindow.h"
-
+#import "DoraemonStatusBarViewController.h"
 @interface DoraemonEntryView()
 
 @property (nonatomic, assign) BOOL isOpen;
@@ -32,8 +32,16 @@
         
         self.backgroundColor = [UIColor clearColor];
         self.windowLevel = UIWindowLevelStatusBar + 100.f;
-        if (!self.rootViewController) {
-            self.rootViewController = [[UIViewController alloc] init];
+        NSString *version= [UIDevice currentDevice].systemVersion;
+        if(version.doubleValue >=10.0) {
+            if (!self.rootViewController) {
+                self.rootViewController = [[UIViewController alloc] init];
+            }
+        }else{
+            //iOS9.0的系统中，新建的window设置的rootViewController默认没有显示状态栏
+            if (!self.rootViewController) {
+                self.rootViewController = [[DoraemonStatusBarViewController alloc] init];
+            }
         }
         
         UIButton *entryBtn = [[UIButton alloc] initWithFrame:self.bounds];

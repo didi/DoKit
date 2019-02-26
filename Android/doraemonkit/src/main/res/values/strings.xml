@@ -20,6 +20,9 @@
     <string name="dk_kit_data_clean">缓存清理</string>
     <string name="dk_kit_view_check">控件检查</string>
     <string name="dk_kit_net_monitor">流量监控</string>
+    <string name="dk_kit_time_counter">耗时</string>
+    <string name="dk_kit_db_detail">数据库查看</string>
+
     <string name="dk_kit_exit">退出Doraemonkit</string>
     <string name="dk_kit_layout_border">布局边框</string>
 
@@ -141,4 +144,10 @@
     <string name="dk_layout_level">布局层级</string>
 
     <string name="dk_align_info_text">位置：左%1$d 右%2$d 上%3$d 下%4$d</string>
+
+    //启动、跳转耗时
+    <string name="dk_item_time_counter_switch">Activity跳转耗时</string>
+    <string name="dk_item_time_goto_list">查看记录</string>
+    <string name="dk_kit_block_time_counter_list">耗时列表</string>
+
 </resources>

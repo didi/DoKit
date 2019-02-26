@@ -26,7 +26,7 @@ public class DoraemonStatisticsUtil {
     }
 
     public static void uploadUserInfo(Context context) {
-        String url = "http://doraemon.xiaojukeji.com/uploadAppData";
+        String url = "https://doraemon.xiaojukeji.com/uploadAppData";
         String appId = SystemUtil.getPackageName(context);
         String appName = SystemUtil.getAppName(context);
         String appVersion = SystemUtil.getVersionName(context);

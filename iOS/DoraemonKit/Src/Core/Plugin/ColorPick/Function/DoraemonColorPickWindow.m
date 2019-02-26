@@ -15,21 +15,26 @@
 #import "DoraemonDefine.h"
 #import "DoraemonUtil.h"
 #import "DoraemonColorPickInfoWindow.h"
-#import "DoraemonVisualMagnifierWindow.h"
+#import "DoraemonColorPickMagnifyLayer.h"
 
-static CGFloat const kColorPickWindowSize = 114;
+static CGFloat const kColorPickWindowSize = 150;
 
 @interface DoraemonColorPickWindow()
 
-@property (nonatomic, strong) DoraemonColorPickView *colorPickView;
+// 这里先屏蔽掉，先使用layer自带的圆圈
+//@property (nonatomic, strong) DoraemonColorPickView *colorPickView;
 
-@property (nonatomic, strong) DoraemonVisualMagnifierWindow *magnifierWindow;
+@property (nonatomic, strong) DoraemonColorPickMagnifyLayer *magnifyLayer;
+
+@property (nonatomic, strong) UIImage *screenShotImage;
 
 @end
 
 @implementation DoraemonColorPickWindow
 
-+ (DoraemonColorPickWindow *)shareInstance{
+#pragma mark - Lifecycle
+
++ (DoraemonColorPickWindow *)shareInstance {
     static dispatch_once_t once;
     static DoraemonColorPickWindow *instance;
     dispatch_once(&once, ^{
@@ -38,7 +43,7 @@ static CGFloat const kColorPickWindowSize = 114;
     return instance;
 }
 
-- (instancetype)init{
+- (instancetype)init {
     self = [super initWithFrame:CGRectMake(DoraemonScreenWidth/2-kColorPickWindowSize/2, DoraemonScreenHeight/2-kColorPickWindowSize/2, kColorPickWindowSize, kColorPickWindowSize)];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
@@ -47,42 +52,32 @@ static CGFloat const kColorPickWindowSize = 114;
             self.rootViewController = [[UIViewController alloc] init];
         }
         
-        DoraemonColorPickView *colorPickView = [[DoraemonColorPickView alloc] initWithFrame:self.bounds];
-        colorPickView.backgroundColor = [UIColor clearColor];
-        [self.rootViewController.view addSubview:colorPickView];
-        self.colorPickView = colorPickView;
+        //        DoraemonColorPickView *colorPickView = [[DoraemonColorPickView alloc] initWithFrame:self.bounds];
+        //        colorPickView.backgroundColor = [UIColor clearColor];
+        //        [self.rootViewController.view addSubview:colorPickView];
+        //        self.colorPickView = colorPickView;
+        
+        self.magnifyLayer.frame = self.bounds;
+        __weak __typeof(self)weakSelf = self;
+        self.magnifyLayer.pointColorBlock = ^(CGPoint currentPoint) {
+            __strong __typeof(weakSelf) strongSelf = weakSelf;
+            return [strongSelf colorAtPoint:currentPoint];
+        };
+        [self.layer addSublayer:self.magnifyLayer];
         
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
         [self addGestureRecognizer:pan];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closePlugin:) name:DoraemonClosePluginNotification object:nil];
         
-        NSString *hexColor = [self getColorWithCenterPoint:self.center];
+        //        NSString *hexColor = [self getColorWithCenterPoint:self.center];
         //    [self.colorPickView setCurrentColor:hexColor];
-        [[DoraemonColorPickInfoWindow shareInstance] setCurrentColor:hexColor];
+        //        [[DoraemonColorPickInfoWindow shareInstance] setCurrentColor:hexColor];
     }
     return self;
 }
 
-- (void)show{
-    self.hidden = NO;
-    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonShowPluginNotification object:nil userInfo:nil];
-    
-    self.magnifierWindow.hidden = NO;
-    self.magnifierWindow.targetPoint = self.center;
-}
-
-- (void)closePlugin:(NSNotification *)notification{
-    self.hidden = YES;
-    
-    self.magnifierWindow.hidden = YES;
-}
-
-- (void)hide{
-    self.hidden = YES;
-    
-    self.magnifierWindow.hidden = YES;
-}
+#pragma mark - Override
 
 //不能让该View成为keyWindow，每一次它要成为keyWindow的时候，都要将appDelegate的window指为keyWindow
 - (void)becomeKeyWindow{
@@ -90,7 +85,78 @@ static CGFloat const kColorPickWindowSize = 114;
     [appWindow makeKeyWindow];
 }
 
-- (void)pan:(UIPanGestureRecognizer *)sender{
+#pragma mark - Public
+
+- (void)show {
+    self.hidden = NO;
+    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonShowPluginNotification object:nil userInfo:nil];
+}
+
+- (void)hide {
+    self.hidden = YES;
+}
+
+- (NSString *)colorAtPoint:(CGPoint)point {
+    return [self colorAtPoint:point inImage:self.screenShotImage];
+}
+
+#pragma mark - Private
+
+- (void)updateScreeShotImage {
+    UIGraphicsBeginImageContext([UIScreen mainScreen].bounds.size);
+    [[[UIApplication sharedApplication].delegate window].layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    self.screenShotImage = image;
+}
+
+- (NSString *)colorAtPoint:(CGPoint)point inImage:(UIImage *)image {
+    // Cancel if point is outside image coordinates
+    if (!image || !CGRectContainsPoint(CGRectMake(0.0f, 0.0f, image.size.width, image.size.height), point)) {
+        return nil;
+    }
+    
+    // Create a 1x1 pixel byte array and bitmap context to draw the pixel into.
+    // Reference: http://stackoverflow.com/questions/1042830/retrieving-a-pixel-alpha-value-for-a-uiimage
+    NSInteger pointX = trunc(point.x);
+    NSInteger pointY = trunc(point.y);
+    CGImageRef cgImage = image.CGImage;
+    NSUInteger width = image.size.width;
+    NSUInteger height = image.size.height;
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    int bytesPerPixel = 4;
+    int bytesPerRow = bytesPerPixel * 1;
+    NSUInteger bitsPerComponent = 8;
+    unsigned char pixelData[4] = { 0, 0, 0, 0 };
+    CGContextRef context = CGBitmapContextCreate(pixelData,
+                                                 1,
+                                                 1,
+                                                 bitsPerComponent,
+                                                 bytesPerRow,
+                                                 colorSpace,
+                                                 kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGColorSpaceRelease(colorSpace);
+    CGContextSetBlendMode(context, kCGBlendModeCopy);
+    
+    // Draw the pixel we are interested in onto the bitmap context
+    CGContextTranslateCTM(context, -pointX, pointY-(CGFloat)height);
+    CGContextDrawImage(context, CGRectMake(0.0f, 0.0f, (CGFloat)width, (CGFloat)height), cgImage);
+    CGContextRelease(context);
+    
+    NSString *hexColor = [NSString stringWithFormat:@"#%02x%02x%02x",pixelData[0],pixelData[1],pixelData[2]];
+    //NSLog(@"color == %@",hexColor);
+    return hexColor;
+}
+
+#pragma mark - Actions
+
+- (void)pan:(UIPanGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        // 开始拖动的时候更新屏幕快照
+        [self updateScreeShotImage];
+    }
+    
     //1、获得拖动位移
     CGPoint offsetPoint = [sender translationInView:sender.view];
     //2、清空拖动位移
@@ -99,64 +165,44 @@ static CGFloat const kColorPickWindowSize = 114;
     UIView *panView = sender.view;
     CGFloat newX = panView.doraemon_centerX+offsetPoint.x;
     CGFloat newY = panView.doraemon_centerY+offsetPoint.y;
-//    if (newX < kColorPickWindowSize/2) {
-//        newX = kColorPickWindowSize/2;
-//    }
-//    if (newX > DoraemonScreenWidth - kColorPickWindowSize/2) {
-//        newX = DoraemonScreenWidth - kColorPickWindowSize/2;
-//    }
-//    if (newY < kColorPickWindowSize/2) {
-//        newY = kColorPickWindowSize/2;
-//    }
-//    if (newY > DoraemonScreenHeight - kColorPickWindowSize/2) {
-//        newY = DoraemonScreenHeight - kColorPickWindowSize/2;
-//    }
+    
+    [CATransaction begin];
+    [CATransaction setDisableActions:YES];
     
     CGPoint centerPoint = CGPointMake(newX, newY);
     panView.center = centerPoint;
     
-    self.magnifierWindow.targetPoint = centerPoint;
+    self.magnifyLayer.targetPoint = centerPoint;
     
-    NSString *hexColor = [self getColorWithCenterPoint:centerPoint];
-//    [self.colorPickView setCurrentColor:hexColor];
+    // update positions
+    //    self.magnifyLayer.position = centerPoint;
+    
+    // Make magnifyLayer sharp on screen
+    CGRect magnifyFrame     = self.magnifyLayer.frame;
+    magnifyFrame.origin     = CGPointMake(round(magnifyFrame.origin.x), round(magnifyFrame.origin.y));
+    self.magnifyLayer.frame = magnifyFrame;
+    [self.magnifyLayer setNeedsDisplay];
+    
+    [CATransaction commit];
+    
+    NSString *hexColor = [self colorAtPoint:centerPoint];
     [[DoraemonColorPickInfoWindow shareInstance] setCurrentColor:hexColor];
 }
 
-- (NSString *)getColorWithCenterPoint:(CGPoint)centerPoint{
-    //UIViewController *topVc = [DoraemonUtil topViewControllerForKeyWindow];
-    //return [self getColorOfPoint:centerPoint InView:topVc.view];
-    
-    UIView *delegateWindow = [[UIApplication sharedApplication].delegate window];
-    return [self getColorOfPoint:centerPoint InView:delegateWindow];
+#pragma mark - Notification
+
+- (void)closePlugin:(NSNotification *)notification{
+    self.hidden = YES;
 }
 
-- (NSString *)getColorOfPoint:(CGPoint)point InView:(UIView*)view{
-    unsigned char pixel[4] = {0};
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate(pixel,
-                                                 1, 1, 8, 4, colorSpace, (CGBitmapInfo)kCGImageAlphaPremultipliedLast);
-    
-    CGContextTranslateCTM(context, -point.x, -point.y);
-    
-    [view.layer renderInContext:context];
-    
-    CGContextRelease(context);
-    CGColorSpaceRelease(colorSpace);
-    
-    NSString *hexColor = [NSString stringWithFormat:@"#%02x%02x%02x",pixel[0],pixel[1],pixel[2]];
-    //NSLog(@"color == %@",hexColor);
-    return hexColor;
-}
+#pragma mark - Getter
 
-- (DoraemonVisualMagnifierWindow *)magnifierWindow {
-    if (!_magnifierWindow) {
-        _magnifierWindow = [[DoraemonVisualMagnifierWindow alloc] init];
-        _magnifierWindow.targetWindow = [[UIApplication sharedApplication].delegate window];
-        _magnifierWindow.magnifierSize = kColorPickWindowSize - 6; //设置宽度
-        _magnifierWindow.magnification = 4.0;
+- (DoraemonColorPickMagnifyLayer *)magnifyLayer {
+    if (!_magnifyLayer) {
+        _magnifyLayer = [DoraemonColorPickMagnifyLayer layer];
+        _magnifyLayer.contentsScale = [[UIScreen mainScreen] scale];
     }
-    return _magnifierWindow;
+    return _magnifyLayer;
 }
-
 
 @end

@@ -1,14 +1,20 @@
 package com.didichuxing.doraemondemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.common.CommonHeaders;
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorRequest;
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorResponse;
 import com.didichuxing.doraemonkit.kit.network.common.NetworkPrinterHelper;
+import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;
+import com.didichuxing.doraemonkit.ui.realtime.RealTimeChartPage;
+import com.didichuxing.doraemonkit.ui.realtime.datasource.DataSourceFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -27,7 +33,6 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private boolean mShow = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,22 +43,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_test_custom).setOnClickListener(this);
         findViewById(R.id.btn_test_crash).setOnClickListener(this);
         findViewById(R.id.btn_show_hide_icon).setOnClickListener(this);
+        findViewById(R.id.btn_time_count).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_test_urlconnection:
+                if (!NetworkManager.isActive()) {
+                    String title = getString(com.didichuxing.doraemonkit.R.string.dk_kit_network_monitor);
+                    int type = DataSourceFactory.TYPE_NETWORK;
+                    NetworkManager.get().startMonitor();
+                    RealTimeChartPage.openChartPage(title, type, RealTimeChartPage.DEFAULT_REFRESH_INTERVAL, null);
+                    Toast.makeText(this, "click again", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 requestByGet("http://apis.baidu.com/txapi/weixin/wxhot?num=10&page=1&word=%E7%9B%97%E5%A2%93%E7%AC%94%E8%AE%B0");
                 break;
             case R.id.btn_test_okhttp:
+                if (!NetworkManager.isActive()) {
+                    String title = getString(com.didichuxing.doraemonkit.R.string.dk_kit_network_monitor);
+                    int type = DataSourceFactory.TYPE_NETWORK;
+                    NetworkManager.get().startMonitor();
+                    RealTimeChartPage.openChartPage(title, type, RealTimeChartPage.DEFAULT_REFRESH_INTERVAL, null);
+                    Toast.makeText(this, "click again", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 requestByOkHttp();
                 break;
             case R.id.btn_test_custom:
+                if (!NetworkManager.isActive()) {
+                    String title = getString(com.didichuxing.doraemonkit.R.string.dk_kit_network_monitor);
+                    int type = DataSourceFactory.TYPE_NETWORK;
+                    NetworkManager.get().startMonitor();
+                    RealTimeChartPage.openChartPage(title, type, RealTimeChartPage.DEFAULT_REFRESH_INTERVAL, null);
+                    Toast.makeText(this, "click again", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 requestByCustom("http://apis.baidu.com/txapi/weixin/wxhot?num=10&page=1&word=%E7%9B%97%E5%A2%93%E7%AC%94%E8%AE%B0");
                 break;
             case R.id.btn_test_crash:
                 testCrash().length();
+                break;
+            case R.id.btn_time_count:
+                // no-op版本未提供该方法，这里只是方便测试
+                if (!TimeCounterManager.get().isRunning()) {
+                    TimeCounterManager.get().start();
+                    Toast.makeText(this, "click again", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                startActivity(new Intent(this, TestActivity.class));
                 break;
             case R.id.btn_show_hide_icon:
                 if (DoraemonKit.isShow()) {

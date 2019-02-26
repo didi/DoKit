@@ -20,6 +20,7 @@
         </activity>
 
         <activity android:name=".WebViewActivity"/>
+        <activity android:name=".TestActivity"/>
     </application>
 
 </manifest>
