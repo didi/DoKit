@@ -57,7 +57,7 @@
     if(pluginName){
         Class pluginClass = NSClassFromString(pluginName);
         id<DoraemonPluginProtocol> plugin = [[pluginClass alloc] init];
-        [plugin pluginDidLoad];
+        [plugin pluginDidLoad:(NSDictionary *)_itemData];
     }
 
 }
