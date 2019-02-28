@@ -9,6 +9,7 @@
 
 @protocol DoraemonPluginProtocol <NSObject>
 
-- (void)pluginDidLoad:(NSDitionnary *)itemData;
+- (void)pluginDidLoad;
+- (void)pluginDidLoad:(NSDictionary *)itemData;
 
 @end
