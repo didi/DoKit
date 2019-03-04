@@ -1,6 +1,6 @@
 # Release Notes
 ## 1.1.6
-1、去掉对于AFNetworking的依赖，改成NSURLSession，减少对于第三方库的依赖
+1、去掉对于AFNetworking的多余依赖
 
 2、颜色拾取器优化，方便更加准确的选取字体的颜色
 
