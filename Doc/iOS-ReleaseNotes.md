@@ -1,4 +1,19 @@
 # Release Notes
+## 1.1.6
+1、去掉对于AFNetworking的依赖，改成NSURLSession，减少对于第三方库的依赖
+
+2、颜色拾取器优化，方便更加准确的选取字体的颜色
+
+3、大文本显示的时候，UIlabel在模拟器上会显示空白，使用TextView代替
+
+4、pluginDidLoad回调，将itemData返回
+
+5、解决和JGProgressHUD的layoutSubviews 循环调用的问题
+
+6、适配iOS9状态栏不显示的问题
+
+7、DoraemonLoadAnalyze改成可选的pod依赖
+
 ## 1.1.5
 1、更新DoraemonLoadAnalyze.framework支持bitcode
 
