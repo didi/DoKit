@@ -163,7 +163,9 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonNetFlowPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonANRPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAllTestPlugin];
+#if DoraemonWithLoad
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMethodUseTimePlugin];
+#endif
     
     #pragma mark - 视觉工具
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonColorPickPlugin];

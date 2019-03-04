@@ -28,7 +28,6 @@ Pod::Spec.new do |s|
     ss.resource_bundles = {
       'DoraemonKit' => 'iOS/DoraemonKit/Resource/**/*'
     }
-    ss.vendored_frameworks = 'iOS/DoraemonKit/Framework/*.framework'
     s.prefix_header_contents =
     '#import "DoraemonDefine.h"'
   end
@@ -48,6 +47,15 @@ Pod::Spec.new do |s|
       'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithGPS'
     }
     ss.dependency 'DoraemonKit/Core'
+  end
+
+  s.subspec 'WithLoad' do |ss| 
+    ss.source_files = 'iOS/DoraemonKit/Src/MethodUseTime/**/*{.h,.m}'
+    ss.pod_target_xcconfig = {
+      'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithLoad'
+    }
+    ss.dependency 'DoraemonKit/Core'
+    ss.vendored_frameworks = 'iOS/DoraemonKit/Framework/*.framework'
   end
 
   s.dependency 'PNChart'
