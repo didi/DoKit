@@ -5,8 +5,8 @@
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.0'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.0'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.2'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.2'
     ...
 }
 ```
@@ -47,7 +47,7 @@ public void onCreate() {
 buildscript {
     dependencies {
         ...
-        classpath 'com.didichuxing.doraemonkit:compiler:1.0.0'
+        classpath 'com.didichuxing.doraemonkit:compiler:1.0.1'
         ...
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
