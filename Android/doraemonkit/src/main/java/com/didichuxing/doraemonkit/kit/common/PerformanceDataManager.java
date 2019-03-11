@@ -34,7 +34,7 @@ public class PerformanceDataManager {
     private static final String TAG = "PerformanceDataManager";
     private static final float SECOND_IN_NANOS = 1000000000f;
     private static final int NORMAL_FRAME_RATE = 1;
-    private String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/doraemon/";
+    private String filePath;
     private String memoryFileName = "memory.txt";
     private String cpuFileName = "cpu.txt";
     private String fpsFileName = "fps.txt";
@@ -172,6 +172,7 @@ public class PerformanceDataManager {
 
     public void init(Context context) {
         mContext = context;
+        filePath = getFilePath(context);
         mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mAboveAndroidO = true;
@@ -197,6 +198,15 @@ public class PerformanceDataManager {
                     }
                 }
             };
+        }
+    }
+
+    private String getFilePath(Context context) {
+        boolean hasExternalStorage = Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+        if (hasExternalStorage) {
+            return context.getExternalFilesDir(null).getAbsolutePath() + "/doraemon/";
+        } else {
+            return Environment.getExternalStorageDirectory().getAbsolutePath() + "/doraemon/";
         }
     }
 
