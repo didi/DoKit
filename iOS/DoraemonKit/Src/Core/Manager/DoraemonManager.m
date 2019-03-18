@@ -76,7 +76,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
         Class pluginClass = NSClassFromString(pluginName);
         id<DoraemonStartPluginProtocol> plugin = [[pluginClass alloc] init];
         if (plugin) {
-            [plugin pluginDidLoad];
+            [plugin startPluginDidLoad];
         }
     }
 

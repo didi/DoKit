@@ -10,7 +10,7 @@
 
 @implementation StartPlugin
 
-- (void)pluginDidLoad{
+- (void)startPluginDidLoad{
     NSLog(@"start pluginDidLoad");
 }
 
