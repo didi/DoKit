@@ -25,7 +25,8 @@
             SEL sel = methods[i].name;
             if ([delegate respondsToSelector:sel]) {
                 if (![[DoraemonGPSMocker shareInstance] respondsToSelector:sel]) {
-                    NSAssert(NO, @"你在Delegate %@ 中所使用的SEL %@，暂不支持，请联系DoraemonKit开发者",delegate,sel);
+                    NSAssert(NO, @"Delegate : %@ not implementation SEL : %@",delegate,NSStringFromSelector(sel));
+
                 }
             }
         }
