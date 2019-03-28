@@ -34,6 +34,12 @@
         return NO;
     }
     
+    //高德地图也有问题
+    NSString *className = NSStringFromClass([self class]);
+    if ([className hasPrefix:@"MA"]) {
+        return NO;
+    }
+    
     // 状态栏不需要显示元素边框
     NSString *statusBarString = [NSString stringWithFormat:@"_statusBarWindow"];
     UIWindow *statusBarWindow = [[UIApplication sharedApplication] valueForKey:statusBarString];
