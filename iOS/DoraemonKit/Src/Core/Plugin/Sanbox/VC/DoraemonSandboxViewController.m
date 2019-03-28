@@ -70,9 +70,10 @@
     }else{
         model.name = DoraemonLocalizedString(@"返回上一级");
         model.type = DoraemonSandboxFileTypeBack;
-        self.tableView.frame = CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height);
         self.bigTitleView.hidden = YES;
         self.navigationController.navigationBarHidden = NO;
+        self.tableView.frame = CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height);
+        self.edgesForExtendedLayout = UIRectEdgeNone;
         NSString *dirTitle =  [fm displayNameAtPath:targetPath];
         self.title = dirTitle;
         DoraemonNavBarItemModel *leftModel = [[DoraemonNavBarItemModel alloc] initWithImage:[UIImage doraemon_imageNamed:@"doraemon_back"] selector:@selector(leftNavBackClick:)];
