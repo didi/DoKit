@@ -37,6 +37,12 @@
     [btn2 setTitle:@"添加一段mp4到沙盒中" forState:UIControlStateNormal];
     [btn2 addTarget:self action:@selector(addMP4File) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn2];
+    
+    UIButton *btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn2.doraemon_bottom+20, self.view.doraemon_width, 60)];
+    btn3.backgroundColor = [UIColor orangeColor];
+    [btn3 setTitle:@"添加doc、xlsx、pdf到沙盒中" forState:UIControlStateNormal];
+    [btn3 addTarget:self action:@selector(addOtherFile) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn3];
 }
 
 - (void)addFile{
@@ -73,20 +79,31 @@
 }
 
 - (void)addMP4File{
+    [self copyBundleToSanboxWithName:@"huoying" type:@"mp4"];
+}
+
+- (void)addOtherFile{
+    [self copyBundleToSanboxWithName:@"Doraemon" type:@"docx"];
+    [self copyBundleToSanboxWithName:@"Doraemon" type:@"pdf"];
+    [self copyBundleToSanboxWithName:@"Doraemon" type:@"xlsx"];
+}
+
+- (void)copyBundleToSanboxWithName:(NSString *)name type:(NSString *)type{
     NSFileManager *fileManage = [NSFileManager defaultManager];
     
     NSBundle *bundle = [NSBundle mainBundle];
-    NSString *path = [bundle pathForResource:@"huoying" ofType:@"mp4"];
+    NSString *path = [bundle pathForResource:name ofType:type];
     if(![fileManage fileExistsAtPath:path]){
         NSLog(@"文件不存在");
         return;
     }
     NSString *fromPath = path;
     NSString *path_document = NSHomeDirectory();
-    NSString *toPath = [path_document stringByAppendingString:@"/Documents/huoying.mp4"];
+    NSString *appendingString = [NSString stringWithFormat:@"/Documents/%@.%@",name,type];
+    NSString *toPath = [path_document stringByAppendingString:appendingString];
     if (![fileManage fileExistsAtPath:toPath]) {
         BOOL isSuccess = [fileManage copyItemAtPath:fromPath toPath:toPath error:nil];
-        NSLog(@"%@",isSuccess ? @"拷贝成功" : @"拷贝失败");
+        NSLog(@"name=%@ %@",name,isSuccess ? @"拷贝成功" : @"拷贝失败");
     }
 }
 

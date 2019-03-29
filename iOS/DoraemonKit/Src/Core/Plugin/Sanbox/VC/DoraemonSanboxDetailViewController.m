@@ -11,8 +11,9 @@
 #import "DoraemonToastUtil.h"
 #import "UIView+Doraemon.h"
 #import "Doraemoni18NUtil.h"
+#import <QuickLook/QuickLook.h>
 
-@interface DoraemonSanboxDetailViewController ()
+@interface DoraemonSanboxDetailViewController ()<QLPreviewControllerDelegate,QLPreviewControllerDataSource>
 
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UITextView *textView;
@@ -53,10 +54,17 @@
             // 音视频文件
             [self setMediaFile:self.filePath];
             
-        } else {
-            // 其他文件
-            NSString *str = [NSString stringWithFormat:@"Not support %@ file!", [path pathExtension]];
-            [self setContent:str];
+        } else if([path hasSuffix:@".db"]){
+            //数据库文件
+            
+            
+        }else {
+            // 其他文件 尝试使用 QLPreviewController进行打开
+            QLPreviewController *myQlPreViewController = [[QLPreviewController alloc]init];
+            myQlPreViewController.delegate =self;
+            myQlPreViewController.dataSource =self;
+            [myQlPreViewController setCurrentPreviewItemIndex:0];
+            [self presentViewController:myQlPreViewController animated:YES completion:nil];
         }
     }else{
         [DoraemonToastUtil showToast:DoraemonLocalizedString(@"文件不存在")];
@@ -121,6 +129,15 @@
     
     [self addChildViewController:self.playerView];
     [self.view addSubview:self.playerView.view];
+}
+
+- (NSInteger)numberOfPreviewItemsInPreviewController:(QLPreviewController *)controller{
+    return 1;
+}
+
+- (id)previewController:(QLPreviewController *)controller previewItemAtIndex:(NSInteger)index{
+    return [NSURL fileURLWithPath:self.filePath];
+    
 }
 
 @end
