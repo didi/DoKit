@@ -178,7 +178,14 @@ static NSString *const kDoreamonCrashListCellIdentifier = @"kDoreamonCrashListCe
                                     UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo];
     controller.excludedActivityTypes = excludedActivities;
     
-    [self presentViewController:controller animated:YES completion:nil];
+    if([DoraemonAppInfoUtil isIpad]){
+        if ( [controller respondsToSelector:@selector(popoverPresentationController)] ) {
+            controller.popoverPresentationController.sourceView = self.view;
+        }
+        [self presentViewController:controller animated:YES completion:nil];
+    }else{
+        [self presentViewController:controller animated:YES completion:nil];
+    }
 }
 
 #pragma mark - Delegate
