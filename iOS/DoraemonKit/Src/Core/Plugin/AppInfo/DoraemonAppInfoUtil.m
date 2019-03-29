@@ -100,6 +100,14 @@
     return iPhoneXSeries;
 }
 
++ (BOOL)isIpad{
+    NSString *deviceType = [UIDevice currentDevice].model;
+    if ([deviceType isEqualToString:@"iPad"]) {
+        return YES;
+    }
+    return NO;
+}
+
 + (NSString *)locationAuthority{
     NSString *authority = @"";    
     if ([CLLocationManager locationServicesEnabled]) {

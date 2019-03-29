@@ -33,6 +33,8 @@
 
 + (BOOL)isIPhoneXSeries;
 
++ (BOOL)isIpad;
+
 + (NSString *)locationAuthority;
 
 + (NSString *)pushAuthority;
