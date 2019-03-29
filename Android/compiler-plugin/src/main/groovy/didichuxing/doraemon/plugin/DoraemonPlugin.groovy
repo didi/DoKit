@@ -2,6 +2,7 @@ package didichuxing.doraemon.plugin
 
 import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.LibraryPlugin
+import com.android.build.gradle.tasks.MergeResources
 import org.aspectj.bridge.IMessage
 import org.aspectj.bridge.MessageHandler
 import org.aspectj.tools.ajc.Main
@@ -29,7 +30,7 @@ class DoraemonPlugin implements Plugin<Project> {
     }
 
     variants.all { variant ->
-      JavaCompile javaCompile = variant.javaCompile
+      MergeResources javaCompile = variant.mergeResources
       javaCompile.doLast {
         String[] args = [
             "-showWeaveInfo",
