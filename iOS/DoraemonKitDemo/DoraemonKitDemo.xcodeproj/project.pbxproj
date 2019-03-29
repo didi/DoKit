@@ -13,6 +13,7 @@
 		DA4AD81A224E0EC8006F767C /* Doraemon.docx in Resources */ = {isa = PBXBuildFile; fileRef = DA4AD817224E0EC8006F767C /* Doraemon.docx */; };
 		DA4AD81B224E0EC8006F767C /* Doraemon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = DA4AD818224E0EC8006F767C /* Doraemon.pdf */; };
 		DA4AD81C224E0EC8006F767C /* Doraemon.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = DA4AD819224E0EC8006F767C /* Doraemon.xlsx */; };
+		DA4AD81E224E27DA006F767C /* doraemon.html in Resources */ = {isa = PBXBuildFile; fileRef = DA4AD81D224E27DA006F767C /* doraemon.html */; };
 		DA63F1D321C8CF9500E0D9F5 /* huoying.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = DA63F1D221C8CCAB00E0D9F5 /* huoying.mp4 */; };
 		DABBE3B221D3AA260070518E /* DoraemonUIWebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DABBE3B121D3AA260070518E /* DoraemonUIWebViewViewController.m */; };
 		DABBE3B521D3AA4D0070518E /* DoraemonWKWebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DABBE3B421D3AA4D0070518E /* DoraemonWKWebViewViewController.m */; };
@@ -42,6 +43,7 @@
 		DA4AD817224E0EC8006F767C /* Doraemon.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = Doraemon.docx; sourceTree = "<group>"; };
 		DA4AD818224E0EC8006F767C /* Doraemon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Doraemon.pdf; sourceTree = "<group>"; };
 		DA4AD819224E0EC8006F767C /* Doraemon.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; path = Doraemon.xlsx; sourceTree = "<group>"; };
+		DA4AD81D224E27DA006F767C /* doraemon.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = doraemon.html; sourceTree = "<group>"; };
 		DA63F1D221C8CCAB00E0D9F5 /* huoying.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = huoying.mp4; sourceTree = "<group>"; };
 		DABBE3B021D3AA260070518E /* DoraemonUIWebViewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonUIWebViewViewController.h; sourceTree = "<group>"; };
 		DABBE3B121D3AA260070518E /* DoraemonUIWebViewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonUIWebViewViewController.m; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				DA4AD817224E0EC8006F767C /* Doraemon.docx */,
 				DA4AD818224E0EC8006F767C /* Doraemon.pdf */,
 				DA4AD819224E0EC8006F767C /* Doraemon.xlsx */,
+				DA4AD81D224E27DA006F767C /* doraemon.html */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 			files = (
 				DA63F1D321C8CF9500E0D9F5 /* huoying.mp4 in Resources */,
 				DA0C6F331FDEBC2E00F43588 /* LaunchScreen.storyboard in Resources */,
+				DA4AD81E224E27DA006F767C /* doraemon.html in Resources */,
 				DA4AD81A224E0EC8006F767C /* Doraemon.docx in Resources */,
 				DA4AD81B224E0EC8006F767C /* Doraemon.pdf in Resources */,
 				DAC8A8841FDE2C3B00F03E6F /* Assets.xcassets in Resources */,

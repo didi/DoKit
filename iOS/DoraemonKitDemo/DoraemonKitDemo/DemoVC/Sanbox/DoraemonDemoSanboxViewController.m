@@ -43,6 +43,12 @@
     [btn3 setTitle:@"添加doc、xlsx、pdf到沙盒中" forState:UIControlStateNormal];
     [btn3 addTarget:self action:@selector(addOtherFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn3];
+    
+    UIButton *btn4 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn3.doraemon_bottom+20, self.view.doraemon_width, 60)];
+    btn4.backgroundColor = [UIColor orangeColor];
+    [btn4 setTitle:@"添加html到沙盒中" forState:UIControlStateNormal];
+    [btn4 addTarget:self action:@selector(addHtmlFile) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn4];
 }
 
 - (void)addFile{
@@ -86,6 +92,10 @@
     [self copyBundleToSanboxWithName:@"Doraemon" type:@"docx"];
     [self copyBundleToSanboxWithName:@"Doraemon" type:@"pdf"];
     [self copyBundleToSanboxWithName:@"Doraemon" type:@"xlsx"];
+}
+
+- (void)addHtmlFile{
+    [self copyBundleToSanboxWithName:@"doraemon" type:@"html"];
 }
 
 - (void)copyBundleToSanboxWithName:(NSString *)name type:(NSString *)type{

@@ -54,7 +54,7 @@
             // 音视频文件
             [self setMediaFile:self.filePath];
             
-        } else if([path hasSuffix:@".db"]){
+        } else if([path hasSuffix:@".DB"] || [path hasSuffix:@".db"] || [path hasSuffix:@".sqlite"] || [path hasSuffix:@".SQLITE"]){
             //数据库文件
             
             
