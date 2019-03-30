@@ -17,6 +17,8 @@ public class Request implements Serializable {
 
     public String postData;
 
+    public String encode;
+
     @Override
     public String toString() {
         return String.format("[%s %s %s %s]", url, method, headers.toString(), postData);

@@ -20,7 +20,7 @@
     <string name="dk_kit_view_check">View Ciewer</string>
     <string name="dk_kit_net_monitor">Traffic Monitor</string>
     <string name="dk_kit_time_counter">Time Counter</string>
-    <string name="dk_kit_exit">Exit Doraemonkit</string>
+    <string name="dk_kit_exit">Exit</string>
     <string name="dk_kit_db_detail">Data Base</string>
 
     <string name="dk_sysinfo_device_info">Mobile Info</string>
@@ -45,7 +45,7 @@
     <string name="dk_sysinfo_permission_contact">Contacts Privacy</string>
 
     <string name="dk_frameinfo_fps">FPS</string>
-    <string name="dk_frameinfo_cpu">CPU</string>
+    <string name="dk_fragment_parameter">CPU</string>
 
     <string name="dk_log_info_edt_hint">Enter the keywords you want to filter</string>
     <string name="dk_log_info_verbose">Verbose</string>
@@ -138,4 +138,11 @@
     <string name="dk_item_time_counter_switch">Activity Time Counter</string>
     <string name="dk_item_time_goto_list">View History</string>
     <string name="dk_kit_block_time_counter_list">Time Counter History</string>
+    <string name="dk_submit" >submit</string>
+    <string name="dk_cancel" >cancel</string>
+    <string name="dk_db_tips_delete">delete</string>
+    <string name="dk_db_tips_insert">insert</string>
+
+    <string name="dk_success">success</string>
+    <string name="dk_fail">fail</string>
 </resources>

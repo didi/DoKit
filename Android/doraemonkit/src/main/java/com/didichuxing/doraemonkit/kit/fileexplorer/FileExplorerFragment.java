@@ -91,6 +91,9 @@ public class FileExplorerFragment extends BaseFragment {
 
     private List<FileInfo> getFileInfos(File dir) {
         List<FileInfo> fileInfos = new ArrayList<>();
+        if (dir.listFiles() == null) {
+            return fileInfos;
+        }
         for (File file : dir.listFiles()) {
             FileInfo fileInfo = new FileInfo(file);
             fileInfos.add(fileInfo);

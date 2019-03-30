@@ -1,19 +1,11 @@
 package com.didichuxing.doraemonkit.kit.network.aspect;
 
-import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.kit.network.httpurlconnection.HttpUrlConnectionProxy;
-import com.didichuxing.doraemonkit.kit.network.httpurlconnection.HttpsUrlConnectionProxy;
-import com.didichuxing.doraemonkit.util.LogHelper;
-
 import org.aspectj.lang.NoAspectBoundException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
-import java.net.HttpURLConnection;
 import java.net.URLConnection;
-
-import javax.net.ssl.HttpsURLConnection;
 
 @Aspect
 public class HttpUrlAspect {
@@ -43,17 +35,8 @@ public class HttpUrlAspect {
 
     @Around("call(* java.net.URL.openConnection(..))")
     public URLConnection URLOpenConnection(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        if (!NetworkManager.isActive()) {
-            return (URLConnection) proceedingJoinPoint.proceed();
-        }
         URLConnection connection = (URLConnection) proceedingJoinPoint.proceed();
-        if (connection instanceof HttpURLConnection) {
-            return new HttpUrlConnectionProxy((HttpURLConnection) connection);
-        } else if (connection instanceof HttpsURLConnection) {
-            return new HttpsUrlConnectionProxy((HttpsURLConnection) connection);
-        }
-        LogHelper.i(TAG, "hook method openConnection");
-        return connection;
+        return AopUtils.URLOpenConnection(connection);
     }
 
 }

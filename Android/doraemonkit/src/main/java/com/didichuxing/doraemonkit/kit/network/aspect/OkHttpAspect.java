@@ -1,9 +1,5 @@
 package com.didichuxing.doraemonkit.kit.network.aspect;
 
-import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.kit.network.okhttp.DoraemonInterceptor;
-import com.didichuxing.doraemonkit.util.LogHelper;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.NoAspectBoundException;
 import org.aspectj.lang.annotation.Aspect;
@@ -38,9 +34,6 @@ public class OkHttpAspect {
 
     @Before("call(* okhttp3.OkHttpClient.Builder.build(..))")
     public void addInterceptor(JoinPoint joinPoint) {
-        if (NetworkManager.isActive()) {
-            LogHelper.i(TAG, "add DoraemonInterceptor success");
-            ((Builder) joinPoint.getTarget()).addInterceptor(new DoraemonInterceptor());
-        }
+        AopUtils.addInterceptor((Builder) joinPoint.getTarget());
     }
 }

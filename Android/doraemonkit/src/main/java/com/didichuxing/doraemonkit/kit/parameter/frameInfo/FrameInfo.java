@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.cpu;
+package com.didichuxing.doraemonkit.kit.parameter.frameInfo;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,12 @@ import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 
-public class Cpu implements IKit {
+/**
+ * Created by wanglikun on 2018/9/13.
+ */
+
+public class FrameInfo implements IKit {
+
     @Override
     public int getCategory() {
         return Category.PERFORMANCE;
@@ -18,19 +23,19 @@ public class Cpu implements IKit {
 
     @Override
     public int getName() {
-        return R.string.dk_frameinfo_cpu;
+        return R.string.dk_kit_frame_info;
     }
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_cpu;
+        return R.drawable.dk_frame_hist;
     }
 
     @Override
     public void onClick(Context context) {
         Intent intent = new Intent(context, UniversalActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_CPU);
+        intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_FRAME_INFO);
         context.startActivity(intent);
     }
 
@@ -38,4 +43,5 @@ public class Cpu implements IKit {
     public void onAppInit(Context context) {
 
     }
+
 }

@@ -13,17 +13,17 @@ import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRuler;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit;
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPicker;
-import com.didichuxing.doraemonkit.kit.cpu.Cpu;
+import com.didichuxing.doraemonkit.kit.parameter.cpu.Cpu;
 import com.didichuxing.doraemonkit.kit.crash.Crash;
 import com.didichuxing.doraemonkit.kit.dataclean.DataClean;
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorer;
-import com.didichuxing.doraemonkit.kit.frameInfo.FrameInfo;
+import com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfo;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsHookManager;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMock;
 import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorder;
 import com.didichuxing.doraemonkit.kit.logInfo.LogInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkKit;
-import com.didichuxing.doraemonkit.kit.ram.Ram;
+import com.didichuxing.doraemonkit.kit.parameter.ram.Ram;
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfo;
 import com.didichuxing.doraemonkit.kit.temporaryclose.TemporaryClose;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterKit;
@@ -31,6 +31,7 @@ import com.didichuxing.doraemonkit.kit.viewcheck.ViewChecker;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoor;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.didichuxing.doraemonkit.ui.FloatIconPage;
+import com.didichuxing.doraemonkit.ui.KitFloatPage;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
 import com.didichuxing.doraemonkit.ui.base.PageIntent;
@@ -272,8 +273,8 @@ public class DoraemonKit {
     }
 
     public static void hide() {
-        FloatPageManager.getInstance().removeAll();
-        sShowFloatingIcon = false;
+        FloatPageManager.getInstance().removeAll(KitFloatPage.class);
+//        sShowFloatingIcon = false;
     }
 
     public static boolean isShow() {

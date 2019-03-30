@@ -25,8 +25,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginTop="25dp"
         android:layout_marginRight="40dp"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical" >
 
         <EditText
             android:id="@+id/longitude"

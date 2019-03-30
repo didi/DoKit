@@ -57,7 +57,6 @@ public class YSequence<T> implements IComponent<TableData<T>> {
         int showLeft = showRect.left - clipWidth;
         boolean isFixTop = config.isFixedXSequence();
         int showTop = isFixTop ? (showRect.top + topHeight) : showRect.top;
-        int num = 0;
         float tempTop = top;
         boolean isFixedTitle = config.isFixedTitle();
         boolean isFixedCount = config.isFixedCountRow();
@@ -79,11 +78,10 @@ public class YSequence<T> implements IComponent<TableData<T>> {
                 showRect.left, showRect.bottom);
         if (config.isShowColumnTitle()) {
             for (int i = 0; i < info.getMaxLevel(); i++) {
-                num++;
                 float bottom = tempTop + info.getTitleHeight();
                 if (DrawUtils.isVerticalMixRect(showRect, (int) top, (int) bottom)) {
                     tempRect.set(rect.left, (int) tempTop, rect.right, (int) bottom);
-                    draw(canvas, tempRect, num, config);
+                    drawRect(canvas, tempRect, config);
                 }
                 tempTop = bottom;
                 top += info.getTitleHeight();
@@ -94,6 +92,7 @@ public class YSequence<T> implements IComponent<TableData<T>> {
             canvas.save();
             canvas.clipRect(showLeft, tempTop, showRect.left, tempBottom);
         }
+        int num = 0;
         for (int i = 0; i < totalSize; i++) {
             num++;
             float bottom = top + info.getLineHeightArray()[i] * config.getZoom();
@@ -139,6 +138,11 @@ public class YSequence<T> implements IComponent<TableData<T>> {
     }
 
     private void draw(Canvas canvas, Rect rect, int position, TableConfig config) {
+        drawRect(canvas, rect, config);
+        format.draw(canvas, position - 1, rect, config);
+    }
+
+    private void drawRect(Canvas canvas, Rect rect, TableConfig config) {
         Paint paint = config.getPaint();
         int textColor = TableConfig.INVALID_COLOR;
 
@@ -150,7 +154,6 @@ public class YSequence<T> implements IComponent<TableData<T>> {
         if (textColor != TableConfig.INVALID_COLOR) {
             paint.setColor(textColor);
         }
-        format.draw(canvas, position - 1, rect, config);
     }
 
     public int getWidth() {

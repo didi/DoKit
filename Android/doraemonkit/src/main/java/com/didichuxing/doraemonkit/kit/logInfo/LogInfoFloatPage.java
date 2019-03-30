@@ -94,10 +94,11 @@ public class LogInfoFloatPage extends BaseFloatPage implements LogInfoManager.On
             @Override
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(mLogFilter.getText())) {
-                    CharSequence filter = mLogFilter.getText();
+                    String filter = mLogFilter.getText().toString();
                     List<LogInfoItem> infoItems = new ArrayList<>();
                     for (LogInfoItem item : mLogInfoItems) {
-                        if (item.orginalLog.contains(filter)) {
+                        // 忽略大小写检查
+                        if (item.orginalLog.toLowerCase().contains(filter.toLowerCase())) {
                             infoItems.add(item);
                         }
                     }

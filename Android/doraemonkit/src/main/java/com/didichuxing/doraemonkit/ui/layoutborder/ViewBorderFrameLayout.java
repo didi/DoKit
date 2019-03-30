@@ -6,6 +6,8 @@ import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.SurfaceView;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -56,6 +58,10 @@ public class ViewBorderFrameLayout extends FrameLayout {
     }
 
     private void replaceDrawable(View view) {
+        if (view instanceof TextureView) {
+            // 过滤TextureView
+            return;
+        }
         LayerDrawable newDrawable;
         if (view.getBackground() != null) {
             Drawable oldDrawable = view.getBackground();
