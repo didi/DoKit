@@ -9,6 +9,7 @@
 #import "DoraemonDemoSanboxViewController.h"
 #import <DoraemonKit/UIView+Doraemon.h>
 #import "DoraemonDefine.h"
+#import <sqlite3.h>
 
 @interface DoraemonDemoSanboxViewController ()
 
@@ -49,6 +50,12 @@
     [btn4 setTitle:@"添加html到沙盒中" forState:UIControlStateNormal];
     [btn4 addTarget:self action:@selector(addHtmlFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn4];
+    
+    UIButton *btn5 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn4.doraemon_bottom+20, self.view.doraemon_width, 60)];
+    btn5.backgroundColor = [UIColor orangeColor];
+    [btn5 setTitle:@"添加DB到沙盒中" forState:UIControlStateNormal];
+    [btn5 addTarget:self action:@selector(addDBFile) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn5];
 }
 
 - (void)addFile{
@@ -96,6 +103,48 @@
 
 - (void)addHtmlFile{
     [self copyBundleToSanboxWithName:@"doraemon" type:@"html"];
+}
+
+- (void)addDBFile{
+    NSString *path_document = NSHomeDirectory();
+    NSString *appendingString = [NSString stringWithFormat:@"/Documents/doraemon.db"];
+    NSString *toPath = [path_document stringByAppendingString:appendingString];
+    const char *filename = [toPath UTF8String];
+    sqlite3 *db = nil;
+    int result = sqlite3_open(filename, &db);
+    if(result == SQLITE_OK){
+        NSLog(@"打开数据库成功");
+    }else{
+        NSLog(@"打开数据库失败");
+    }
+    
+    //2.创建表
+    const char  *sql = "CREATE TABLE IF NOT EXISTS t_students (id integer PRIMARY KEY AUTOINCREMENT,name text NOT NULL,age integer NOT NULL);";
+    char *errmsg = NULL;
+    result = sqlite3_exec(db, sql, NULL, NULL, &errmsg);
+    if (result == SQLITE_OK) {
+        NSLog(@"创表成功");
+    }else{
+        NSLog(@"创表失败----%s",errmsg);
+    }
+    
+    //插入数据
+    for (int i=0; i<20; i++) {
+        //1.拼接SQL语句
+        NSString *name=[NSString stringWithFormat:@"文晓--%d",arc4random_uniform(100)];
+        int age=arc4random_uniform(20)+10;
+        NSString *sql=[NSString stringWithFormat:@"INSERT INTO t_students (name,age) VALUES ('%@',%d);",name,age];
+        
+        //2.执行SQL语句
+        char *errmsg=NULL;
+        sqlite3_exec(db, sql.UTF8String, NULL, NULL, &errmsg);
+        if (errmsg) {//如果有错误信息
+            NSLog(@"插入数据失败--%s",errmsg);
+        }else
+        {
+            NSLog(@"插入数据成功");
+        }
+    }
 }
 
 - (void)copyBundleToSanboxWithName:(NSString *)name type:(NSString *)type{
