@@ -10,7 +10,7 @@
 
 @interface DoraemonDBManager()
 
-
+@property (nonatomic, strong) NSMutableArray *dataArray;
 
 @end
 
@@ -56,6 +56,61 @@
     return tableNameArray;
 }
 
+//获取每一张表中的所有数据
+- (NSArray *)dataAtTable{
+    sqlite3 *db = [self openDB];
+    if (db == nil) {
+        return nil;
+    }
+    //查询sqlite_master表
+    NSString *sql = [NSString stringWithFormat:@"select * from %@",self.tableName];
+    //执行sql
+    char *errmsg = nil;
+    sqlite3_exec(db, [sql UTF8String], selectCallback, nil, &errmsg);
+    
+    //处理数据
+    NSMutableArray *arrayM = [NSMutableArray arrayWithArray:self.dataArray];
+    [self.dataArray removeAllObjects];
+    
+    return arrayM;
+}
+
+//查询回调
+int selectCallback(void *firstValue,int columnCount, char **columnValues, char **columnNames)
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    for (int i = 0; i < columnCount; i++) {
+        //获取当前的列表（字段名）
+        char *columnName = columnNames[i];
+        NSString *nameStr = nil;
+        if (columnName == NULL) {
+            nameStr = nil;
+        }else{
+            nameStr = [NSString stringWithUTF8String:columnName];
+        }
+        
+        //获取当前字段的值
+        char *columnValue = columnValues[i];
+        NSString *valueStr = nil;
+        if (columnValue == NULL) {
+            valueStr = nil;
+        }else{
+            valueStr = [NSString stringWithUTF8String:columnValue];
+        }
+        
+        [dict setValue:valueStr forKey:nameStr];
+    }
+    [[[DoraemonDBManager shareManager] dataArray] addObject:dict];
+    return 0;
+}
+
+#pragma mark - 懒加载
+- (NSMutableArray *)dataArray{
+    if (_dataArray == nil) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
 
 
 @end

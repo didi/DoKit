@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *tableName;
 
 - (NSArray *)tablesAtDB;
+- (NSArray *)dataAtTable;
 
 @end
 
