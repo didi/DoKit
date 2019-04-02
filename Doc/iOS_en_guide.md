@@ -2,10 +2,10 @@
 ### 1： Use Cocoapods to Get latest version of DoraemonKit
 
 ```
-    pod 'DoraemonKit/Core', '~> 1.1.6', :configurations => ['Debug']
-    pod 'DoraemonKit/WithLogger', '~> 1.1.6', :configurations => ['Debug']
-    pod 'DoraemonKit/WithGPS', '~> 1.1.6', :configurations => ['Debug']
-    pod 'DoraemonKit/WithLoad', '~> 1.1.6', :configurations => ['Debug']
+    pod 'DoraemonKit/Core', '~> 1.1.7', :configurations => ['Debug']
+    pod 'DoraemonKit/WithLogger', '~> 1.1.7', :configurations => ['Debug']
+    pod 'DoraemonKit/WithGPS', '~> 1.1.7', :configurations => ['Debug']
+    pod 'DoraemonKit/WithLoad', '~> 1.1.7', :configurations => ['Debug']
 ```
 
 ### 2： Access method using DoraemonKit's built-in toolset

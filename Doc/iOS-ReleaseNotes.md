@@ -1,4 +1,18 @@
 # Release Notes
+## 1.1.7
+1、支持数据库文件本地预览功能
+
+2、支持word、pdf、html文件本地预览功能
+
+3、解决ipad上crash问题
+
+4、解决低版本手机适配问题
+
+5、mockGPS更加通用
+
+6、其他的一些issues解决和PR合并，详见代码提交记录
+
+
 ## 1.1.6
 1、去掉对于AFNetworking的多余依赖
 
