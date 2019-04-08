@@ -30,8 +30,6 @@ public class AopUtils {
     }
 
     public static void addInterceptor(OkHttpClient.Builder builder){
-        if (NetworkManager.isActive()) {
-            builder.addInterceptor(new DoraemonInterceptor());
-        }
+        builder.addInterceptor(new DoraemonInterceptor());
     }
 }
