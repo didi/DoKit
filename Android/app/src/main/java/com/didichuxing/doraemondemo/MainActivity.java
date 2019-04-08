@@ -34,6 +34,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
+    private OkHttpClient okHttpClient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_test_crash).setOnClickListener(this);
         findViewById(R.id.btn_show_hide_icon).setOnClickListener(this);
         findViewById(R.id.btn_time_count).setOnClickListener(this);
+        okHttpClient = new OkHttpClient().newBuilder().build();
     }
 
     @Override
@@ -178,10 +180,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void requestByOkHttp() {
-        OkHttpClient client = new OkHttpClient().newBuilder().build();
         Request request = new Request.Builder().get().url("http://www.roundsapp.com/post")
                 .addHeader("testHead", "hahahah").build();
-        Call call = client.newCall(request);
+        Call call = okHttpClient.newCall(request);
         //异步调用并设置回调函数
         call.enqueue(new Callback() {
             @Override
