@@ -34,7 +34,7 @@
     [self.view addSubview:_switchView];
     
     _cellBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _switchView.doraemon_bottom, self.view.doraemon_width, 53)];
-    [_cellBtn renderUIWithTitle:DoraemonLocalizedString(@"查看卡顿记录")];
+    [_cellBtn renderUIWithTitle:DoraemonLocalizedString(@"查看检测记录")];
     _cellBtn.delegate = self;
     [_cellBtn needDownLine];
     [self.view addSubview:_cellBtn];
