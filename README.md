@@ -196,3 +196,13 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 <img alt="Apache-2.0 license" src="https://lucene.apache.org/images/mantle-power.png" width="128">
 
 DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [协议文件](LICENSE)。
+
+## 使用提醒
+为了统计本开源软件的外部使用情况，我们会上传用户app的相关信息，包括appName、bundleId、appVersion。appVersion会在下个版本中去掉。
+这些信息我们收集绝不用于任何恶意用途。
+
+iOS上传代码详见DoraemonStatisticsUtil类中的实现
+
+Andoid上传代码详见DoraemonStatisticsUtil类中的实现
+
+敬请各位用户知晓。
