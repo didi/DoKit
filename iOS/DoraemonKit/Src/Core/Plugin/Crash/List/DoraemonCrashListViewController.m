@@ -12,6 +12,7 @@
 #import "DoraemonSanboxDetailViewController.h"
 #import "DoraemonSandboxModel.h"
 #import "DoraemonCrashTool.h"
+#import "DoraemonDefine.h"
 
 static NSString *const kDoreamonCrashListCellIdentifier = @"kDoreamonCrashListCellIdentifier";
 
@@ -46,7 +47,7 @@ static NSString *const kDoreamonCrashListCellIdentifier = @"kDoreamonCrashListCe
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    self.tableView.frame = CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height);
+    self.tableView.frame = CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, self.view.doraemon_height-IPHONE_NAVIGATIONBAR_HEIGHT);
 }
 
 #pragma mark - Private
