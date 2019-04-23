@@ -21,13 +21,13 @@ public class NetWorkSummaryView extends LinearLayout {
 
     public NetWorkSummaryView(Context context) {
         super(context);
-        inflate(context, R.layout.fragment_network_summary_page, this);
+        inflate(context, R.layout.dk_fragment_network_summary_page, this);
         initView();
     }
 
     public NetWorkSummaryView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        inflate(context, R.layout.fragment_network_summary_page, this);
+        inflate(context, R.layout.dk_fragment_network_summary_page, this);
         initView();
     }
 

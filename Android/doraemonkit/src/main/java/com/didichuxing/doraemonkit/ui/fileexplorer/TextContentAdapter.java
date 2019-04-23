@@ -27,7 +27,7 @@ public class TextContentAdapter extends AbsRecyclerAdapter<AbsViewBinder<String>
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup parent, int viewType) {
-        return inflater.inflate(R.layout.item_text_content, parent, false);
+        return inflater.inflate(R.layout.dk_item_text_content, parent, false);
     }
 
     private class TextContentViewHolder extends AbsViewBinder<String> {

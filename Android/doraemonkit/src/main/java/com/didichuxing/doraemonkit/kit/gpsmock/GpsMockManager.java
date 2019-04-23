@@ -31,42 +31,12 @@ public class GpsMockManager {
 
     private List<String> mMockProviders = new CopyOnWriteArrayList<>();
 
-    private List<LocationListener> mLocationListeners = new ArrayList<>();
-
     private Location mLocation;
 
     private boolean isMock;
 
     private double mLatitude = -1;
     private double mLongitude = -1;
-
-    private LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            String provider = location.getProvider();
-            String content = "lat(" + location.getLatitude() + ") lng(" + location.getLongitude() + ")";
-            LogHelper.d(TAG, provider + " : " + content);
-            mLocation = location;
-            for (LocationListener locationListener : mLocationListeners) {
-                locationListener.onLocationChanged(location);
-            }
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    };
 
     public boolean isMock() {
         return isMock;
@@ -93,9 +63,6 @@ public class GpsMockManager {
         }
         mMockProviders.add(LocationManager.GPS_PROVIDER);
         mMockProviders.add(LocationManager.NETWORK_PROVIDER);
-
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 5, mLocationListener);
-        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 5, mLocationListener);
     }
 
     public void startMock() {
@@ -174,18 +141,8 @@ public class GpsMockManager {
     public void destroy() {
         stopMock();
         isMock = false;
-        mLocationManager.removeUpdates(mLocationListener);
         mMockProviders.clear();
-        mLocationListeners.clear();
         mLocation = null;
-    }
-
-    public void addLocationListener(LocationListener listener) {
-        mLocationListeners.add(listener);
-    }
-
-    public void removeLocationListener(LocationListener listener) {
-        mLocationListeners.remove(listener);
     }
 
     public Location getLocation() {

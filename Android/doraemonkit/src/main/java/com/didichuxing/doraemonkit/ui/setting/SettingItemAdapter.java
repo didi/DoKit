@@ -32,7 +32,7 @@ public class SettingItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<Setting
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup parent, int viewType) {
-        return inflater.inflate(R.layout.item_setting, parent, false);
+        return inflater.inflate(R.layout.dk_item_setting, parent, false);
     }
 
     public class SettingItemViewHolder extends AbsViewBinder<SettingItem> {
@@ -56,6 +56,7 @@ public class SettingItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<Setting
             mDesc.setText(settingItem.desc);
             if (settingItem.canCheck) {
                 mMenuSwitch.setVisibility(View.VISIBLE);
+                mMenuSwitch.setChecked(settingItem.isChecked);
                 mMenuSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -63,7 +64,6 @@ public class SettingItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<Setting
                         mOnSettingItemSwitchListener.onSettingItemSwitch(mMenuSwitch, settingItem, isChecked);
                     }
                 });
-                mMenuSwitch.setChecked(settingItem.isChecked);
             }
             if (settingItem.icon != 0) {
                 mIcon.setVisibility(View.VISIBLE);

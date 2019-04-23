@@ -20,13 +20,19 @@ import java.util.Map;
 public class GpsHookManager {
     private static final String TAG = "GpsHookManager";
 
-    private Location mLocation;
+    private double mLatitude = -1;
+    private double mLongitude = -1;
 
     private boolean isMockEnable;
+
     private boolean isMocking;
 
-    public Location getLocation() {
-        return mLocation;
+    public void startMock() {
+        isMocking = true;
+    }
+
+    public void stopMock() {
+        isMocking = false;
     }
 
     private static class Holder {
@@ -38,12 +44,11 @@ public class GpsHookManager {
     }
 
     private GpsHookManager() {
-        mLocation = new Location(LocationManager.GPS_PROVIDER);
     }
 
     public void mockLocation(double latitude, double longitude) {
-        mLocation.setLatitude(latitude);
-        mLocation.setLongitude(longitude);
+        mLatitude = latitude;
+        mLongitude= longitude;
     }
 
     @SuppressLint("PrivateApi")
@@ -72,17 +77,16 @@ public class GpsHookManager {
         }
     }
 
-
-    public void startMock() {
-        this.isMocking = true;
-    }
-
-    public void stopMock() {
-        this.isMocking = false;
-    }
-
     public boolean isMocking() {
-        return isMocking;
+        return isMocking && mLongitude != -1 && mLatitude != -1;
+    }
+
+    public double getLatitude() {
+        return mLatitude;
+    }
+
+    public double getLongitude() {
+        return mLongitude;
     }
 
     public boolean isMockEnable() {

@@ -57,7 +57,12 @@
     if(pluginName){
         Class pluginClass = NSClassFromString(pluginName);
         id<DoraemonPluginProtocol> plugin = [[pluginClass alloc] init];
-        [plugin pluginDidLoad];
+        if ([plugin respondsToSelector:@selector(pluginDidLoad)]) {
+            [plugin pluginDidLoad];
+        }
+        if ([plugin respondsToSelector:@selector(pluginDidLoad:)]) {
+            [plugin pluginDidLoad:(NSDictionary *)_itemData];
+        }
     }
 
 }

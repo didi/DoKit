@@ -9,6 +9,9 @@
 #import "UIColor+Doraemon.h"
 #import "UIView+Doraemon.h"
 
+#import "Doraemoni18NUtil.h"
+#import "DoraemonCellSwitch.h"
+
 
 @implementation DoraemonToastUtil
 
@@ -33,6 +36,22 @@
         [label removeFromSuperview];
     });
     
+}
+
++ (void)handleRestartActionWithVC:(UIViewController *)vc
+                     restartBlock:(DoraemonHandleRestartActionBlock)restartBlock
+                      cancleBlock:(DoraemonHandleRestartCancleActionBlock)cancleBlock
+{
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:DoraemonLocalizedString(@"提示") message:DoraemonLocalizedString(@"该功能需要重启App才能生效") preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:DoraemonLocalizedString(@"取消") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        cancleBlock ? cancleBlock():nil;
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:DoraemonLocalizedString(@"确定") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        restartBlock ? restartBlock():nil;
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    [vc presentViewController:alertController animated:YES completion:nil];
 }
 
 @end

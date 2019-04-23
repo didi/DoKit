@@ -4,11 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.config.ColorPickConfig;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.IKit;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.TranslucentActivity;
 
 /**
  * Created by wanglikun on 2018/9/13.
@@ -34,7 +35,7 @@ public class ColorPicker implements IKit {
 
     @Override
     public void onClick(Context context) {
-        Intent intent = new Intent(context, UniversalActivity.class);
+        Intent intent = new Intent(context, TranslucentActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_COLOR_PICKER_SETTING);
         context.startActivity(intent);
@@ -42,6 +43,6 @@ public class ColorPicker implements IKit {
 
     @Override
     public void onAppInit(Context context) {
-
+        ColorPickConfig.setColorPickOpen(context, false);
     }
 }

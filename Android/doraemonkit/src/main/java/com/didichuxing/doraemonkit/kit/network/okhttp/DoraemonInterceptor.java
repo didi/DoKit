@@ -70,8 +70,6 @@ public class DoraemonInterceptor implements Interceptor {
         }
 
         responseStream = mNetworkInterpreter.interpretResponseStream(
-                record,
-                requestId,
                 contentType != null ? contentType.toString() : null,
                 responseStream,
                 new DefaultResponseHandler(mNetworkInterpreter, requestId, record));

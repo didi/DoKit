@@ -38,7 +38,7 @@ public class PerformanceFragment extends BaseFragment {
     @Override
 
     protected int onRequestLayout() {
-        return R.layout.fragment_cpu_cache_log;
+        return R.layout.dk_fragment_cpu_cache_log;
     }
 
     @Override
@@ -89,7 +89,7 @@ public class PerformanceFragment extends BaseFragment {
                 new LoadDataTask().execute(PerformanceDataManager.getInstance().getFpsFilePath());
             } else {
                 builder.setMaxValue(100).setMinValue(0);
-                model.setText(R.string.dk_frameinfo_cpu);
+                model.setText(R.string.dk_fragment_parameter);
                 new LoadDataTask().execute(PerformanceDataManager.getInstance().getCpuFilePath());
             }
         }

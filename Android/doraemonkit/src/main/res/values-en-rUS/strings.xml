@@ -19,7 +19,9 @@
     <string name="dk_kit_data_clean">Cache Cleanup</string>
     <string name="dk_kit_view_check">View Ciewer</string>
     <string name="dk_kit_net_monitor">Traffic Monitor</string>
-    <string name="dk_kit_exit">Exit Doraemonkit</string>
+    <string name="dk_kit_time_counter">Time Counter</string>
+    <string name="dk_kit_exit">Exit</string>
+    <string name="dk_kit_db_detail">Data Base</string>
 
     <string name="dk_sysinfo_device_info">Mobile Info</string>
     <string name="dk_sysinfo_app_info">App Info</string>
@@ -43,7 +45,7 @@
     <string name="dk_sysinfo_permission_contact">Contacts Privacy</string>
 
     <string name="dk_frameinfo_fps">FPS</string>
-    <string name="dk_frameinfo_cpu">CPU</string>
+    <string name="dk_fragment_parameter">CPU</string>
 
     <string name="dk_log_info_edt_hint">Enter the keywords you want to filter</string>
     <string name="dk_log_info_verbose">Verbose</string>
@@ -64,7 +66,7 @@
     <string name="dk_kit_block_monitor_list">ANR List</string>
     <string name="dk_kit_block_monitor_detail">ANR Detail</string>
     <string name="dk_item_block_switch">ANR Switch</string>
-    <string name="dk_item_block_goto_list">View ANR</string>
+    <string name="dk_item_block_goto_list">View ANR History</string>
     <string name="dk_item_block_mock">Mock ANR</string>
 
     <string name="dk_block_class_has_blocked">blocked %s ms</string>
@@ -87,6 +89,8 @@
     <string name="dk_view_check_info_desc">View Background：%1$s</string>
     <string name="dk_view_check_info_id">View ID：%1$s</string>
     <string name="dk_view_check_info_class">View Class：%1$s</string>
+    <string name="dk_view_check_info_activity">Current Activity：%1$s</string>
+    <string name="dk_view_check_info_fragment">Visible Fragments：%1$s</string>
     <string name="dk_network_get_method">GET</string>
     <string name="dk_network_post_method">POST</string>
     <string name="dk_network_request">Request</string>
@@ -127,5 +131,18 @@
     <string name="dk_ram_detection_switch">Memory Detection Switch</string>
     <string name="dk_ram_detection_title">Memory Detection</string>
     <string name="dk_cpu_memory_remind_user">Sorry, your current system version is higher than 8.0. Due to Google\'s privilege tightening, you can only use adb to obtain performance analysis data. Please connect your computer to your computer and enter adb tcpip 5555 to ensure normal function.</string>
+    <string name="dk_kit_layout_border">Layout Border</string>
+    <string name="dk_layout_level">Layout Level</string>
+    <string name="dk_align_info_text">Position：Left%1$d Right%2$d Top%3$d Bottom%4$d</string>
 
+    <string name="dk_item_time_counter_switch">Activity Time Counter</string>
+    <string name="dk_item_time_goto_list">View History</string>
+    <string name="dk_kit_block_time_counter_list">Time Counter History</string>
+    <string name="dk_submit" >submit</string>
+    <string name="dk_cancel" >cancel</string>
+    <string name="dk_db_tips_delete">delete</string>
+    <string name="dk_db_tips_insert">insert</string>
+
+    <string name="dk_success">success</string>
+    <string name="dk_fail">fail</string>
 </resources>

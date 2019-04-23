@@ -17,6 +17,7 @@ static NSString * const kDoraemonNetFlowKey = @"doraemon_netflow_key";
 static NSString * const kDoraemonSubThreadUICheckKey = @"doraemon_sub_thread_ui_check_key";
 static NSString * const kDoraemonCrashKey = @"doraemon_crash_key";
 static NSString * const kDoraemonNSLogKey = @"doraemon_nslog_key";
+static NSString * const kDoraemonMethodUseTimeKey = @"doraemon_method_use_time_key";
 
 @implementation DoraemonCacheManager
 
@@ -157,5 +158,15 @@ static NSString * const kDoraemonNSLogKey = @"doraemon_nslog_key";
     return [defaults boolForKey:kDoraemonNSLogKey];
 }
 
+- (void)saveMethodUseTimeSwitch:(BOOL)on{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:on forKey:kDoraemonMethodUseTimeKey];
+    [defaults synchronize];
+}
+
+- (BOOL)methodUseTimeSwitch{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults boolForKey:kDoraemonMethodUseTimeKey];
+}
 
 @end

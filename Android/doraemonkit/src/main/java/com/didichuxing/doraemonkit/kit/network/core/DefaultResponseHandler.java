@@ -20,8 +20,6 @@ public class DefaultResponseHandler implements ResponseHandler {
     private final int mRequestId;
     private NetworkRecord mRecord;
 
-    private int mBytesRead = 0;
-    private int mDecodedBytesRead = -1;
 
     public DefaultResponseHandler(NetworkInterpreter networkInterpreter, int requestId, NetworkRecord record) {
         mNetworkInterpreter = networkInterpreter;
@@ -30,34 +28,12 @@ public class DefaultResponseHandler implements ResponseHandler {
     }
 
     @Override
-    public void onRead(int numBytes) {
-        mBytesRead += numBytes;
-    }
-
-    @Override
-    public void onReadDecoded(int numBytes) {
-        if (mDecodedBytesRead == -1) {
-            mDecodedBytesRead = 0;
-        }
-        mDecodedBytesRead += numBytes;
-    }
-
-    @Override
     public void onEOF(ByteArrayOutputStream outputStream) {
-        reportDataReceived();
         mNetworkInterpreter.responseReadFinished(mRequestId,mRecord,outputStream);
     }
 
     @Override
     public void onError(IOException e) {
-        reportDataReceived();
         mNetworkInterpreter.responseReadFailed(mRequestId, e.toString());
-    }
-
-    private void reportDataReceived() {
-        mNetworkInterpreter.dataReceived(
-                mRequestId,
-                mBytesRead,
-                mDecodedBytesRead >= 0 ? mDecodedBytesRead : mBytesRead);
     }
 }

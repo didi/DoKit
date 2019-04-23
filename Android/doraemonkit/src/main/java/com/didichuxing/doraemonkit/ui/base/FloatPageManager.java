@@ -22,8 +22,6 @@ public class FloatPageManager {
     private Context mContext;
     private List<BaseFloatPage> mPages = new ArrayList<>();
 
-    private Activity mResumedActivity;
-
     public void notifyBackground() {
         for (BaseFloatPage page : mPages) {
             page.onEnterBackground();
@@ -34,20 +32,6 @@ public class FloatPageManager {
         for (BaseFloatPage page : mPages) {
             page.onEnterForeground();
         }
-    }
-
-    public void onActivityResumed(Activity activity) {
-        mResumedActivity = activity;
-    }
-
-    public void onActivityPaused(Activity activity) {
-        if (mResumedActivity == activity) {
-            mResumedActivity = null;
-        }
-    }
-
-    public Activity getResumedActivity() {
-        return mResumedActivity;
     }
 
     private static class Holder {

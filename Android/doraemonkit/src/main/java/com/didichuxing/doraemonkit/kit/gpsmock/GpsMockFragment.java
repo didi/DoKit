@@ -34,10 +34,17 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
     private HomeTitleBar mTitleBar;
     private RecyclerView mSettingList;
     private SettingItemAdapter mSettingItemAdapter;
-    private View mMockLocationArea;
     private EditText mLongitude;
     private EditText mLatitude;
     private TextView mMockLocationBtn;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (GpsMockConfig.isGPSMockOpen(getContext())) {
+            GpsHookManager.getInstance().startMock();
+        }
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -48,7 +55,6 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
     }
 
     private void initMockLocationArea() {
-        mMockLocationArea = findViewById(R.id.mock_location_area);
         mLongitude = findViewById(R.id.longitude);
         mLatitude = findViewById(R.id.latitude);
         mLatitude.addTextChangedListener(new TextWatcher() {
@@ -152,19 +158,17 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
     @Override
     public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
         if (data.desc == R.string.dk_gpsmock_open) {
+            GpsMockConfig.setGPSMockOpen(getContext(), on);
             if (on) {
                 GpsHookManager.getInstance().startMock();
-                mMockLocationArea.setVisibility(View.VISIBLE);
             } else {
                 GpsHookManager.getInstance().stopMock();
-                mMockLocationArea.setVisibility(View.GONE);
             }
-            GpsMockConfig.setGPSMockOpen(getContext(), on);
         }
     }
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_gps_mock;
+        return R.layout.dk_fragment_gps_mock;
     }
 }

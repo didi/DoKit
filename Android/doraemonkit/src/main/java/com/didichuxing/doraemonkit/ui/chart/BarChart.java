@@ -41,7 +41,7 @@ public class BarChart extends LinearLayout {
     }
 
     private void initView() {
-        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.item_bar_chart, this, true);
+        View inflate = LayoutInflater.from(getContext()).inflate(R.layout.dk_item_bar_chart, this, true);
         markFirst = inflate.findViewById(R.id.mark_first);
         markSecond = inflate.findViewById(R.id.mark_second);
         markThird = inflate.findViewById(R.id.mark_third);

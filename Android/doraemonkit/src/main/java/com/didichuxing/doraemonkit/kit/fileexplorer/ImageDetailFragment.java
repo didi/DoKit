@@ -46,7 +46,7 @@ public class ImageDetailFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_image_detail;
+        return R.layout.dk_fragment_image_detail;
     }
 
     @Override

@@ -32,7 +32,7 @@ public class WebDoorFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_web_door;
+        return R.layout.dk_fragment_web_door;
     }
 
     @Override
@@ -97,7 +97,7 @@ public class WebDoorFragment extends BaseFragment {
             return;
         }
         WebDoorManager.getInstance().saveHistory(getContext(), url);
-        WebDoorManager.getInstance().getWebDoorCallback().overrideUrlLoading(url);
+        WebDoorManager.getInstance().getWebDoorCallback().overrideUrlLoading(getContext(), url);
         mWebDoorHistoryAdapter.setData(WebDoorManager.getInstance().getHistory(getContext()));
     }
 

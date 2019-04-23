@@ -30,6 +30,7 @@ public class FileUtil {
 
     public static final String TXT = "txt";
     public static final String JPG = "jpg";
+    public static final String DB = "db";
 
     private FileUtil() {
     }
@@ -51,7 +52,7 @@ public class FileUtil {
     }
 
     public static void systemShare(Context context, File file) {
-        if (file == null || !file.exists()){
+        if (file == null || !file.exists()) {
             return;
         }
         String suffix = getSuffix(file);
@@ -166,5 +167,13 @@ public class FileUtil {
         }
         String suffix = getSuffix(file);
         return "jpg".equals(suffix) || "jpeg".equals(suffix) || "png".equals(suffix) || "bmp".equals(suffix);
+    }
+
+    public static boolean isDB(File file) {
+        if (file == null) {
+            return false;
+        }
+        String suffix = getSuffix(file);
+        return "db".equals(suffix);
     }
 }

@@ -43,9 +43,10 @@ public class ImageCapture {
         }
         int width = UIUtils.getWidthPixels(context);
         int height = UIUtils.getRealHeightPixels(context);
+        int dpi = UIUtils.getDensityDpi(context);
         mImageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, 2);
         mMediaProjection.createVirtualDisplay("ScreenCapture",
-                width, height, UIUtils.getDensityDpi(context),
+                width, height, dpi,
                 DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
                 mImageReader.getSurface(), null, null);
     }
@@ -65,15 +66,32 @@ public class ImageCapture {
         ByteBuffer buffer = planes[0].getBuffer();
         int pixelStride = planes[0].getPixelStride();
         int rowStride = planes[0].getRowStride();
-        int rowPadding = rowStride - pixelStride * width;
-        mBitmap = Bitmap.createBitmap(width + rowPadding / pixelStride, height, Bitmap.Config.ARGB_8888);
-        mBitmap.copyPixelsFromBuffer(buffer);
+        int rowPaddingStride = rowStride - pixelStride * width;
+        int rowPadding = rowPaddingStride / pixelStride;
+        Bitmap recordBitmap = Bitmap.createBitmap(width + rowPadding , height, Bitmap.Config.ARGB_8888);
+        recordBitmap.copyPixelsFromBuffer(buffer);
+        mBitmap = Bitmap.createBitmap(recordBitmap, 0, 0, width, height);
         image.close();
         isCapturing = false;
     }
 
-    public Bitmap getBitmap() {
-        return mBitmap;
+    public Bitmap getPartBitmap(int x, int y, int width, int height) {
+        if (mBitmap == null) {
+            return null;
+        }
+        if (x < 0) {
+            x = 0;
+        }
+        if (x + width > mBitmap.getWidth()) {
+            x = mBitmap.getWidth() - width;
+        }
+        if (y < 0) {
+            y = 0;
+        }
+        if (y + height > mBitmap.getHeight()) {
+            y = mBitmap.getHeight() - height;
+        }
+        return Bitmap.createBitmap(mBitmap, x, y, width, height);
     }
 
     public void destroy() {

@@ -20,7 +20,9 @@
     <string name="dk_kit_data_clean">缓存清理</string>
     <string name="dk_kit_view_check">控件检查</string>
     <string name="dk_kit_net_monitor">流量监控</string>
-    <string name="dk_kit_exit">退出Doraemonkit</string>
+    <string name="dk_kit_time_counter">耗时</string>
+    <string name="dk_kit_exit">退出</string>
+    <string name="dk_kit_db_detail">数据库查看</string>
 
     <string name="dk_sysinfo_device_info">手机信息</string>
     <string name="dk_sysinfo_app_info">App信息</string>
@@ -44,7 +46,7 @@
     <string name="dk_sysinfo_permission_contact">通讯录权限</string>
 
     <string name="dk_frameinfo_fps">帧率</string>
-    <string name="dk_frameinfo_cpu">CPU</string>
+    <string name="dk_fragment_parameter">CPU</string>
 
     <string name="dk_log_info_edt_hint">输入想要过滤的关键字</string>
     <string name="dk_log_info_verbose">Verbose</string>
@@ -88,6 +90,8 @@
     <string name="dk_view_check_info_size">控件尺寸：宽%1$d，高%2$d</string>
     <string name="dk_view_check_info_id">控件ID：%1$s</string>
     <string name="dk_view_check_info_class">控件类型：%1$s</string>
+    <string name="dk_view_check_info_activity">当前Activity：%1$s</string>
+    <string name="dk_view_check_info_fragment">可见Fragments：%1$s</string>
     <string name="dk_network_get_method">GET</string>
     <string name="dk_network_post_method">POST</string>
     <string name="dk_network_request">请求</string>
@@ -127,5 +131,17 @@
     <string name="dk_kit_network_monitor_detail">流量监测详情</string>
     <string name="dk_cpu_memory_remind_user">抱歉，您当前系统版本高于8.0，由于谷歌权限收紧，只能用adb的方式获取性能分析的数据，请手机连接电脑并输入adb tcpip 5555以保证功能正常运行</string>
     <string name="dk_kit_network_time_format">%1$s 耗时:%2$s</string>
+    <string name="dk_kit_layout_border">布局边框</string>
+    <string name="dk_layout_level">布局层级</string>
+    <string name="dk_align_info_text">位置：左%1$d 右%2$d 上%3$d 下%4$d</string>
 
+    <string name="dk_item_time_counter_switch">Activity跳转耗时</string>
+    <string name="dk_item_time_goto_list">查看记录</string>
+    <string name="dk_kit_block_time_counter_list">耗时列表</string>
+    <string name="dk_db_tips_delete">删除</string>
+    <string name="dk_db_tips_insert">添加</string>
+    <string name="dk_submit">提交</string>
+    <string name="dk_cancel">取消</string>
+    <string name="dk_success">成功</string>
+    <string name="dk_fail">失败</string>
 </resources>

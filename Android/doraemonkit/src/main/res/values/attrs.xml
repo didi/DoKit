@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="title" format="string" />
+    <attr name="dkTitle" format="string" />
 
     <declare-styleable name="LabelTextView">
-        <attr name="label"/>
-        <attr name="text"/>
-        <attr name="maxLines"/>
+        <attr name="dkLabel" format="string"/>
+        <attr name="dkText" format="string"/>
+        <attr name="dkMaxLines" format="integer"/>
     </declare-styleable>
 
     <declare-styleable name="TitleBar">
-        <attr name="title"/>
-        <attr name="titleColor" format="color"/>
-        <attr name="leftIcon" format="reference"/>
-        <attr name="leftText" format="string"/>
-        <attr name="rightIcon" format="reference"/>
-        <attr name="rightSubIcon" format="reference"/>
-        <attr name="titleBackground" format="color"/>
-        <attr name="rightText" format="string"/>
+        <attr name="dkTitle"/>
+        <attr name="dkTitleColor" format="color"/>
+        <attr name="dkLeftIcon" format="reference"/>
+        <attr name="dkLeftText" format="string"/>
+        <attr name="dkRightIcon" format="reference"/>
+        <attr name="dkRightSubIcon" format="reference"/>
+        <attr name="dkTitleBackground" format="color"/>
+        <attr name="dkRightText" format="string"/>
     </declare-styleable>
 
     <declare-styleable name="HomeTitleBar">
-        <attr name="title"/>
-        <attr name="icon" format="reference"/>
+        <attr name="dkTitle"/>
+        <attr name="dkIcon" format="reference"/>
     </declare-styleable>
 </resources>

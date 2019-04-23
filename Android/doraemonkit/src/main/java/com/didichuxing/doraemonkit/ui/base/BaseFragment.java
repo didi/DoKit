@@ -6,6 +6,7 @@ import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -101,6 +102,10 @@ public class BaseFragment extends Fragment {
 
     public void showToast(CharSequence msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public void showToast(@StringRes int res) {
+        Toast.makeText(getContext(), res, Toast.LENGTH_SHORT).show();
     }
 
     public void showContent(Class<? extends BaseFragment> fragmentClass, Bundle bundle) {

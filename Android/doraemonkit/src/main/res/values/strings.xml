@@ -20,7 +20,11 @@
     <string name="dk_kit_data_clean">缓存清理</string>
     <string name="dk_kit_view_check">控件检查</string>
     <string name="dk_kit_net_monitor">流量监控</string>
-    <string name="dk_kit_exit">退出Doraemonkit</string>
+    <string name="dk_kit_time_counter">耗时</string>
+    <string name="dk_kit_db_detail">数据库查看</string>
+
+    <string name="dk_kit_exit">退出</string>
+    <string name="dk_kit_layout_border">布局边框</string>
 
     <string name="dk_sysinfo_device_info">手机信息</string>
     <string name="dk_sysinfo_app_info">App信息</string>
@@ -44,7 +48,7 @@
     <string name="dk_sysinfo_permission_contact">通讯录权限</string>
 
     <string name="dk_frameinfo_fps">帧率</string>
-    <string name="dk_frameinfo_cpu">CPU</string>
+    <string name="dk_fragment_parameter">CPU</string>
     <string name="dk_frameinfo_ram">内存</string>
 
     <string name="dk_log_info_edt_hint">输入想要过滤的关键字</string>
@@ -89,6 +93,8 @@
     <string name="dk_view_check_info_id">控件ID：%1$s</string>
     <string name="dk_view_check_info_size">控件尺寸：宽%1$d，高%2$d</string>
     <string name="dk_view_check_info_desc">背景颜色：%1$s</string>
+    <string name="dk_view_check_info_activity">当前Activity：%1$s</string>
+    <string name="dk_view_check_info_fragment">可见Fragments：%1$s</string>
 
     <string name="dk_back">返回</string>
 
@@ -134,4 +140,22 @@
     <string name="dk_float_permission_toast">哆啦A梦需要打开悬浮窗权限才能正常使用</string>
     <string name="dk_data_clean_toast">清除系统数据~</string>
     <string name="dk_gps_location_change_toast">地址变为: %1$s, %2$s</string>
+
+    <string name="dk_layout_level">布局层级</string>
+
+    <string name="dk_align_info_text">位置：左%1$d 右%2$d 上%3$d 下%4$d</string>
+
+    <string name="dk_error_tips_permissions_less">请进行授权才可以使用改功能</string>
+    //启动、跳转耗时
+    <string name="dk_item_time_counter_switch">Activity跳转耗时</string>
+    <string name="dk_item_time_goto_list">查看记录</string>
+    <string name="dk_kit_block_time_counter_list">耗时列表</string>
+
+    <string name="dk_submit">提交</string>
+    <string name="dk_cancel">取消</string>
+    <string name="dk_db_tips_delete">删除</string>
+    <string name="dk_db_tips_insert">添加</string>
+    <string name="dk_success">成功</string>
+    <string name="dk_fail">失败</string>
+
 </resources>

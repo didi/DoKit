@@ -15,4 +15,8 @@
     NSLog(@"TestPlugin pluginDidLoad");
 }
 
+- (void)pluginDidLoad:(NSDictionary *)itemData{
+    NSLog(@"TestPlugin pluginDidLoad:itemData = %@",itemData);
+}
+
 @end

@@ -30,7 +30,7 @@ public class BlockListAdapter extends AbsRecyclerAdapter<AbsViewBinder<BlockInfo
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup parent, int viewType) {
-        return inflater.inflate(R.layout.item_block_list, parent, false);
+        return inflater.inflate(R.layout.dk_item_block_list, parent, false);
     }
 
     private class ItemViewHolder extends AbsViewBinder<BlockInfo> {

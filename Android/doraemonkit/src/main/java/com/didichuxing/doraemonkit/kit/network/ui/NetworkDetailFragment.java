@@ -31,7 +31,7 @@ public class NetworkDetailFragment extends BaseFragment implements View.OnClickL
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_network_monitor_detail;
+        return R.layout.dk_fragment_network_monitor_detail;
     }
 
     @Override

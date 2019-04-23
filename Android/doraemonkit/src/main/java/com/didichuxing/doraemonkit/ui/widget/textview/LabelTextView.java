@@ -40,9 +40,9 @@ public class LabelTextView extends LinearLayout {
         LayoutInflater.from(context).inflate(R.layout.dk_label_text_view, this);
 
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.LabelTextView);
-        String label = a.getString(R.styleable.LabelTextView_label);
-        String text = a.getString(R.styleable.LabelTextView_text);
-        int maxLines = a.getInt(R.styleable.LabelTextView_maxLines, 0);
+        String label = a.getString(R.styleable.LabelTextView_dkLabel);
+        String text = a.getString(R.styleable.LabelTextView_dkText);
+        int maxLines = a.getInt(R.styleable.LabelTextView_dkMaxLines, 0);
         a.recycle();
 
         mLabel = findViewById(R.id.label);

@@ -29,7 +29,7 @@ public class DataCleanFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_data_clean;
+        return R.layout.dk_fragment_data_clean;
     }
 
     @Override

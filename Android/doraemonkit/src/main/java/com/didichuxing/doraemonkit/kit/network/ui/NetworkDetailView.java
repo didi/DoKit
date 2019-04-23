@@ -1,11 +1,15 @@
 package com.didichuxing.doraemonkit.kit.network.ui;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
@@ -16,11 +20,13 @@ import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+
 /**
  * @desc: 显示request和response的view
  */
 public class NetworkDetailView extends LinearLayout {
-    private SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MMdd-HH:mm:ss:SSS");
+    private SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS");
 
     private TextView url;
     private TextView method;
@@ -33,9 +39,13 @@ public class NetworkDetailView extends LinearLayout {
     private TextView diverHeader;
     private TextView diverBody;
 
-    public NetworkDetailView(Context context) {
+    private ClipboardManager mClipboard;
+
+    public NetworkDetailView(final Context context) {
         super(context);
-        inflate(context, R.layout.view_network_request, this);
+        inflate(context, R.layout.dk_view_network_request, this);
+        mClipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
+
         url = findViewById(R.id.tv_url);
         method = findViewById(R.id.tv_method);
         size = findViewById(R.id.tv_data_size);
@@ -45,7 +55,15 @@ public class NetworkDetailView extends LinearLayout {
         diverTime = findViewById(R.id.diver_time);
         diverHeader = findViewById(R.id.diver_header);
         diverBody = findViewById(R.id.diver_body);
-
+        body.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ClipData clipData = ClipData.newPlainText("Label", body.getText());
+                mClipboard.setPrimaryClip(clipData);
+                Toast.makeText(getContext(), "copy success", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
     }
 
     public NetworkDetailView(Context context, @Nullable AttributeSet attrs) {

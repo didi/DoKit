@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.config.ViewCheckConfig;
 import com.didichuxing.doraemonkit.constant.PageTag;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
@@ -27,7 +28,7 @@ public class ViewCheckFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_view_check;
+        return R.layout.dk_fragment_view_check;
     }
 
     @Override
@@ -63,10 +64,11 @@ public class ViewCheckFragment extends BaseFragment {
                         FloatPageManager.getInstance().removeAll(ViewCheckInfoFloatPage.class);
                         FloatPageManager.getInstance().removeAll(ViewCheckFloatPage.class);
                     }
+                    ViewCheckConfig.setViewCheckOpen(getContext(), on);
                 }
             }
         });
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_view_check, false));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_view_check, ViewCheckConfig.isViewCheckOpen(getContext())));
         mSettingList.setAdapter(mSettingItemAdapter);
     }
 }

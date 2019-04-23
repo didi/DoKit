@@ -41,7 +41,7 @@ public class NetworkListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Network
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup parent, int viewType) {
-        return inflater.inflate(R.layout.item_network_list, parent, false);
+        return inflater.inflate(R.layout.dk_item_network_list, parent, false);
     }
 
     @Override

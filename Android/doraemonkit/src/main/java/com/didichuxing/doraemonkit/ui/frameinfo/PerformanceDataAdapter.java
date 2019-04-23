@@ -25,7 +25,7 @@ public class PerformanceDataAdapter extends AbsRecyclerAdapter<AbsViewBinder<Per
 
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup parent, int viewType) {
-        return inflater.inflate(R.layout.item_performance_detail, parent, false);
+        return inflater.inflate(R.layout.dk_item_performance_detail, parent, false);
     }
 
     public class PerformanceItemViewHolder extends AbsViewBinder<PerformanceData> {

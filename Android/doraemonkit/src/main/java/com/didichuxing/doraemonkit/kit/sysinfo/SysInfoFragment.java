@@ -18,6 +18,7 @@ import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.util.DeviceUtils;
+import com.didichuxing.doraemonkit.util.ExecutorUtil;
 import com.didichuxing.doraemonkit.util.PermissionUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
@@ -36,7 +37,7 @@ public class SysInfoFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_sys_info;
+        return R.layout.dk_fragment_sys_info;
     }
 
     @Override
@@ -111,7 +112,7 @@ public class SysInfoFragment extends BaseFragment {
      * 不可靠的检测权限方式
      */
     private void addPermissionDataUnreliable() {
-        new Thread("check-permission") {
+        ExecutorUtil.execute(new Runnable() {
             @Override
             public void run() {
                 final List<SysInfoItem> list = new ArrayList<>();
@@ -132,7 +133,7 @@ public class SysInfoFragment extends BaseFragment {
                     }
                 });
             }
-        }.start();
+        });
     }
 
     @TargetApi(Build.VERSION_CODES.M)

@@ -86,7 +86,11 @@ public class PermissionUtil {
         if (!(context instanceof Activity)) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
-        context.startActivity(intent);
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        } else {
+            LogHelper.e(TAG, "No activity to handle intent");
+        }
     }
 
     public static void startDevelopmentSetting(Activity activity) {
@@ -207,6 +211,7 @@ public class PermissionUtil {
      *
      * @return
      */
+    @SuppressLint("MissingPermission")
     public static boolean checkLocationUnreliable(Context context) {
         try {
             LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);

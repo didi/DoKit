@@ -6,15 +6,16 @@ import android.support.annotation.ColorInt;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.config.ColorPickConfig;
 import com.didichuxing.doraemonkit.ui.base.BaseFloatPage;
 import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
+import com.didichuxing.doraemonkit.ui.base.TouchProxy;
 import com.didichuxing.doraemonkit.util.ColorUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
@@ -22,15 +23,12 @@ import com.didichuxing.doraemonkit.util.UIUtils;
  * Created by wanglikun on 2018/12/3.
  */
 
-public class ColorPickerInfoFloatPage extends BaseFloatPage implements View.OnTouchListener {
-
-    private float sdX, sdY;
-    private float ldX, ldY;
-
+public class ColorPickerInfoFloatPage extends BaseFloatPage implements TouchProxy.OnTouchEventListener {
     private WindowManager mWindowManager;
     private ImageView mColor;
     private TextView mColorHex;
     private ImageView mClose;
+    private TouchProxy mTouchProxy = new TouchProxy(this);
 
     @Override
     protected void onCreate(Context context) {
@@ -40,7 +38,7 @@ public class ColorPickerInfoFloatPage extends BaseFloatPage implements View.OnTo
 
     @Override
     protected View onCreateView(Context context, ViewGroup view) {
-        return LayoutInflater.from(context).inflate(R.layout.float_color_picker_info, null);
+        return LayoutInflater.from(context).inflate(R.layout.dk_float_color_picker_info, null);
     }
 
     @Override
@@ -59,49 +57,44 @@ public class ColorPickerInfoFloatPage extends BaseFloatPage implements View.OnTo
     }
 
     private void initView() {
-        getRootView().setOnTouchListener(this);
+        getRootView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return mTouchProxy.onTouchEvent(v, event);
+            }
+        });
         mColor = findViewById(R.id.color);
         mColorHex = findViewById(R.id.color_hex);
         mClose = findViewById(R.id.close);
         mClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ColorPickConfig.setColorPickOpen(getContext(), false);
                 FloatPageManager.getInstance().removeAll(ColorPickerFloatPage.class);
                 FloatPageManager.getInstance().removeAll(ColorPickerInfoFloatPage.class);
             }
         });
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        float x = event.getRawX();
-        float y = event.getRawY();
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                sdX = ldX = x;
-                sdY = ldY = y;
-                return false;
-            case MotionEvent.ACTION_MOVE:
-                getLayoutParams().x += (x - ldX + 0.5f);
-                getLayoutParams().y += (y - ldY + 0.5f);
-                ldX = x;
-                ldY = y;
-                mWindowManager.updateViewLayout(getRootView(), getLayoutParams());
-                return false;
-            case MotionEvent.ACTION_UP:
-                int mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-                if (Math.abs(x - sdX) <= mTouchSlop && Math.abs(y - sdY) <= mTouchSlop) {
-                    return false;
-                }
-                return true;
-            default:
-                break;
-        }
-        return false;
+    public void showInfo(@ColorInt int colorInt, int x, int y) {
+        mColor.setImageDrawable(new ColorDrawable(colorInt));
+        mColorHex.setText(String.format(ColorPickConstants.TEXT_FOCUS_INFO, ColorUtil.parseColorInt(colorInt), x + ColorPickConstants.PIX_INTERVAL, y + ColorPickConstants.PIX_INTERVAL));
     }
 
-    public void showInfo(@ColorInt int colorInt) {
-        mColor.setImageDrawable(new ColorDrawable(colorInt));
-        mColorHex.setText(ColorUtil.parseColorInt(colorInt));
+    @Override
+    public void onMove(int x, int y, int dx, int dy) {
+        getLayoutParams().x += dx;
+        getLayoutParams().y += dy;
+        mWindowManager.updateViewLayout(getRootView(), getLayoutParams());
+    }
+
+    @Override
+    public void onUp(int x, int y) {
+
+    }
+
+    @Override
+    public void onDown(int x, int y) {
+
     }
 }

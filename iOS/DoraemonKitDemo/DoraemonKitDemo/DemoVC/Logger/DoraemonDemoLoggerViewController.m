@@ -43,6 +43,9 @@
     NSString *str = @"jack";
     NSInteger age = 29;
     NSLog(@"NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦。。。str == %@  age == %zi",str,age);
+    
+    NSString *specialString = @"callnative://saveTian/%22saveTianDataCallback43%22";
+    NSLog(@"%@",specialString);
 }
 
 @end

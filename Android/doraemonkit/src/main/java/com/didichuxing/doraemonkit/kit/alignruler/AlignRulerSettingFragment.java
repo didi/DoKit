@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.config.AlignRulerConfig;
 import com.didichuxing.doraemonkit.constant.PageTag;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
@@ -42,7 +43,7 @@ public class AlignRulerSettingFragment extends BaseFragment {
         mSettingList = findViewById(R.id.setting_list);
         mSettingList.setLayoutManager(new LinearLayoutManager(getContext()));
         mSettingItemAdapter = new SettingItemAdapter(getContext());
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_align_ruler, false));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_align_ruler, AlignRulerConfig.isAlignRulerOpen(getContext())));
         mSettingList.setAdapter(mSettingItemAdapter);
         mSettingItemAdapter.setOnSettingItemSwitchListener(new SettingItemAdapter.OnSettingItemSwitchListener() {
             @Override
@@ -52,11 +53,12 @@ public class AlignRulerSettingFragment extends BaseFragment {
                         PageIntent pageIntent = new PageIntent(AlignRulerMarkerFloatPage.class);
                         pageIntent.tag = PageTag.PAGE_ALIGN_RULER_MARKER;
                         FloatPageManager.getInstance().add(pageIntent);
-                        FloatPageManager.getInstance().add(new PageIntent(AlignRulerInfoFloatPage.class));
+                        FloatPageManager.getInstance().add(new PageIntent(AlignRulerLineFloatPage.class));
                     } else {
                         FloatPageManager.getInstance().removeAll(AlignRulerMarkerFloatPage.class);
-                        FloatPageManager.getInstance().removeAll(AlignRulerInfoFloatPage.class);
+                        FloatPageManager.getInstance().removeAll(AlignRulerLineFloatPage.class);
                     }
+                    AlignRulerConfig.setAlignRulerOpen(getContext(), on);
                 }
             }
         });
@@ -64,6 +66,6 @@ public class AlignRulerSettingFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_align_ruler_setting;
+        return R.layout.dk_fragment_align_ruler_setting;
     }
 }

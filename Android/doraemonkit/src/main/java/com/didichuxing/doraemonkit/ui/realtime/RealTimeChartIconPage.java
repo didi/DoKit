@@ -56,21 +56,6 @@ public class RealTimeChartIconPage extends BaseFloatPage implements View.OnClick
         mListener = listener;
     }
 
-    @Override
-    protected boolean onBackPressed() {
-        return false;
-    }
-
-    @Override
-    public void onHomeKeyPress() {
-        finish();
-    }
-
-    @Override
-    public void onRecentAppKeyPress() {
-        finish();
-    }
-
     protected static void openChartIconPage(int type, OnFloatPageChangeListener listener) {
         FloatPageManager.getInstance().remove(RealTimeChartIconPage.TAG);
         PageIntent pageIntent = new PageIntent(RealTimeChartIconPage.class);

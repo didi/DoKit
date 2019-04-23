@@ -12,12 +12,36 @@
 #import <Photos/Photos.h>
 #import <AddressBook/AddressBook.h>
 #import <Contacts/Contacts.h>
-@import CoreTelephony;
-@import EventKit;
+#import <EventKit/EventKit.h>
 
 #define IOS8 ([[[UIDevice currentDevice] systemVersion] doubleValue] >=8.0 ? YES : NO)
 
 @implementation DoraemonAppInfoUtil
+
++ (NSString *)iphoneName
+{
+    return [UIDevice currentDevice].name;
+}
+
++ (NSString *)iphoneSystemVersion
+{
+    return [UIDevice currentDevice].systemVersion;
+}
+
++ (NSString *)bundleIdentifier
+{
+    return [[NSBundle mainBundle] bundleIdentifier];
+}
+
++ (NSString *)bundleVersion
+{
+    return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+}
+
++ (NSString *)bundleShortVersionString
+{
+    return [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+}
 
 + (NSString *)iphoneType{
     struct utsname systemInfo;
@@ -52,8 +76,36 @@
     if ([platform isEqualToString:@"iPhone10,5"]) return @"iPhone 8 Plus";
     if ([platform isEqualToString:@"iPhone10,3"]) return @"iPhone X";
     if ([platform isEqualToString:@"iPhone10,6"]) return @"iPhone X";
+    if ([platform isEqualToString:@"iPhone11,8"]) return @"iPhone XR";
+    if ([platform isEqualToString:@"iPhone11,2"]) return @"iPhone XS";
+    if ([platform isEqualToString:@"iPhone11,4"]) return @"iPhone XS MAX";
+    if ([platform isEqualToString:@"iPhone11,6"]) return @"iPhone XS MAX";
     
     return platform;
+}
+
++ (BOOL)isIPhoneXSeries{
+    BOOL iPhoneXSeries = NO;
+    if (UIDevice.currentDevice.userInterfaceIdiom != UIUserInterfaceIdiomPhone) {
+        return iPhoneXSeries;
+    }
+    
+    if (@available(iOS 11.0, *)) {
+        UIWindow *mainWindow = [[[UIApplication sharedApplication] delegate] window];
+        if (mainWindow.safeAreaInsets.bottom > 0.0) {
+            iPhoneXSeries = YES;
+        }
+    }
+    
+    return iPhoneXSeries;
+}
+
++ (BOOL)isIpad{
+    NSString *deviceType = [UIDevice currentDevice].model;
+    if ([deviceType isEqualToString:@"iPad"]) {
+        return YES;
+    }
+    return NO;
 }
 
 + (NSString *)locationAuthority{
@@ -90,26 +142,6 @@
         }
     }
     return @"YES";
-}
-
-+ (NSString *)netAuthority{
-    CTCellularData *cellularData = [[CTCellularData alloc]init];
-    CTCellularDataRestrictedState state = cellularData.restrictedState;
-    NSString *authority = @"Unknown";
-    switch (state) {
-        case kCTCellularDataRestricted:
-            authority = @"Restricted";
-            break;
-        case kCTCellularDataNotRestricted:
-            authority = @"NotRestricted";
-            break;
-        case kCTCellularDataRestrictedStateUnknown:
-            authority = @"Unknown";
-            break;
-        default:
-            break;
-    }
-    return authority;
 }
 
 + (NSString *)cameraAuthority{

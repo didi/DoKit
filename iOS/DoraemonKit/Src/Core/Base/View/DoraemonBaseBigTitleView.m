@@ -10,6 +10,7 @@
 #import "UIView+Doraemon.h"
 #import "UIColor+Doraemon.h"
 #import "UIImage+Doraemon.h"
+#import "DoraemonStateBar.h"
 
 @interface DoraemonBaseBigTitleView()
 
@@ -24,12 +25,20 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32), self.doraemon_height/2-kDoraemonSizeFrom750(67)/2, self.doraemon_width-kDoraemonSizeFrom750(32)-self.doraemon_height, kDoraemonSizeFrom750(67))];
+        CGFloat offsetY = 0;
+        if (![DoraemonStateBar shareInstance].hidden) {
+            offsetY = IPHONE_STATUSBAR_HEIGHT;
+        }
+        CGFloat titleLabelOffsetY = offsetY + ((self.doraemon_height-offsetY)/2-kDoraemonSizeFrom750(67)/2);
+        CGFloat closeBtnH = self.doraemon_height-offsetY;
+        
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32), titleLabelOffsetY, self.doraemon_width-kDoraemonSizeFrom750(32)-closeBtnH, kDoraemonSizeFrom750(67))];
         _titleLabel.textColor = [UIColor doraemon_colorWithString:@"#324456"];
         _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(48)];
         [self addSubview:_titleLabel];
         
-        _closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.doraemon_width-self.doraemon_height, 0, self.doraemon_height, self.doraemon_height)];
+        
+        _closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.doraemon_width-closeBtnH, offsetY, closeBtnH, closeBtnH)];
         _closeBtn.imageView.contentMode = UIViewContentModeCenter;
         [_closeBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
         [_closeBtn addTarget:self action:@selector(closeClick) forControlEvents:UIControlEventTouchUpInside];

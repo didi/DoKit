@@ -52,4 +52,8 @@
 
 - (BOOL)nsLogSwitch;
 
+- (void)saveMethodUseTimeSwitch:(BOOL)on;
+
+- (BOOL)methodUseTimeSwitch;
+
 @end

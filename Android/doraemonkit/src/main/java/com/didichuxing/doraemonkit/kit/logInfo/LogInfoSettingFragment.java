@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.config.LogInfoConfig;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
 import com.didichuxing.doraemonkit.ui.base.PageIntent;
@@ -41,16 +42,20 @@ public class LogInfoSettingFragment extends BaseFragment {
         mSettingList = findViewById(R.id.setting_list);
         mSettingList.setLayoutManager(new LinearLayoutManager(getContext()));
         mSettingItemAdapter = new SettingItemAdapter(getContext());
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_log_info, false));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_log_info, LogInfoConfig.isLogInfoOpen(getContext())));
         mSettingItemAdapter.setOnSettingItemSwitchListener(new SettingItemAdapter.OnSettingItemSwitchListener() {
             @Override
             public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
                 if (data.desc == R.string.dk_kit_log_info) {
                     if (on) {
-                        FloatPageManager.getInstance().add(new PageIntent(LogInfoFloatPage.class));
+                        PageIntent intent = new PageIntent(LogInfoFloatPage.class);
+                        intent.mode = PageIntent.MODE_SINGLE_INSTANCE;
+                        FloatPageManager.getInstance().add(intent);
                     } else {
+
                         FloatPageManager.getInstance().removeAll(LogInfoFloatPage.class);
                     }
+                    LogInfoConfig.setLogInfoOpen(getContext(), on);
                 }
             }
         });
@@ -59,6 +64,6 @@ public class LogInfoSettingFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_log_info_setting;
+        return R.layout.dk_fragment_log_info_setting;
     }
 }

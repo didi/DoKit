@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
@@ -35,7 +36,7 @@ public class BlockListFragment extends BaseFragment implements OnBlockInfoUpdate
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_block_list;
+        return R.layout.dk_fragment_block_list;
     }
 
     @Override
@@ -50,6 +51,8 @@ public class BlockListFragment extends BaseFragment implements OnBlockInfoUpdate
     private void initView() {
         mBlockList = findViewById(R.id.block_list);
         mLogDetail = findViewById(R.id.tx_block_detail);
+        mLogDetail.setMovementMethod(ScrollingMovementMethod.getInstance());
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mBlockList.setLayoutManager(layoutManager);
         mBlockListAdapter = new BlockListAdapter(getContext());
@@ -60,10 +63,10 @@ public class BlockListFragment extends BaseFragment implements OnBlockInfoUpdate
         mBlockListAdapter.setOnItemClickListener(new BlockListAdapter.OnItemClickListener() {
             @Override
             public void onClick(BlockInfo info) {
-                mLogDetail.setText(info.toString());
+                mLogDetail.setText(info.toString() + info.toString() + info.toString());
                 mLogDetail.setVisibility(View.VISIBLE);
                 mBlockList.setVisibility(View.GONE);
-                mTitleBar.setTitle(R.string.dk_kit_block_monitor_detail);
+                mTitleBar.setTitle(getResources().getString(R.string.dk_kit_block_monitor_detail), false);
             }
         });
         mTitleBar = findViewById(R.id.title_bar);

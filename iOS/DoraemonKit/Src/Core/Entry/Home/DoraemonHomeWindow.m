@@ -62,6 +62,7 @@
         self.rootViewController = nav;
     }else{
         self.rootViewController = nil;
+        _nav = nil;
     }
 
 }

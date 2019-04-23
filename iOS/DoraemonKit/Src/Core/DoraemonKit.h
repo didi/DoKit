@@ -8,7 +8,7 @@
 #ifndef DoraemonKit_h
 #define DoraemonKit_h
 
-#import <DoraemonKit/DoraemonManager.h>
-#import <DoraemonKit/DoraemonBaseViewController.h>
+#import "DoraemonManager.h"
+#import "DoraemonBaseViewController.h"
 
 #endif /* DoraemonKit_h */

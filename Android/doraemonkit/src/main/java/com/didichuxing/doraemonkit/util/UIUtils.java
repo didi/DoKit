@@ -1,12 +1,15 @@
 package com.didichuxing.doraemonkit.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.support.annotation.AnyRes;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 
 import java.lang.reflect.Method;
@@ -59,13 +62,7 @@ public class UIUtils {
     }
 
     public static int getHeightPixels(Context context) {
-        DisplayMetrics metrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        if (windowManager == null) {
-            return 0;
-        }
-        windowManager.getDefaultDisplay().getMetrics(metrics);
-        return metrics.heightPixels;
+        return getRealHeightPixels(context) - getStatusBarHeight(context);
     }
 
     public static int getRealHeightPixels(Context context) {
@@ -97,11 +94,53 @@ public class UIUtils {
         int[] locations = new int[2];
         view.getLocationOnScreen(locations);
         rect.left = locations[0];
-        rect.top = locations[1] - UIUtils.getStatusBarHeight(view.getContext());
+        rect.top = locations[1];
+        if (!checkStatusBarVisible(view.getContext())) {
+            rect.top-=UIUtils.getStatusBarHeight(view.getContext());
+        }
         rect.right = rect.left + view.getWidth();
         rect.bottom = rect.top + view.getHeight();
         return rect;
     }
+
+    public static boolean checkStatusBarVisible(Context context){
+        return checkFullScreenByTheme(context)|| checkFullScreenByCode(context)|| checkFullScreenByCode2(context);
+    }
+
+    public static boolean checkFullScreenByTheme(Context context){
+        Resources.Theme theme=context.getTheme();
+        if (theme!=null){
+            TypedValue typedValue=new TypedValue();
+            boolean result= theme.resolveAttribute(android.R.attr.windowFullscreen,typedValue,false);
+            if (result){
+                typedValue.coerceToString();
+                if (typedValue.type== TypedValue.TYPE_INT_BOOLEAN){
+                    return typedValue.data!=0;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean checkFullScreenByCode(Context context){
+        if (context instanceof Activity) {
+            Window window = ((Activity) context).getWindow();
+            if (window != null) {
+                View decorView = window.getDecorView();
+                if (decorView != null) {
+                    return  (decorView.getSystemUiVisibility() & View.SYSTEM_UI_FLAG_FULLSCREEN) == View.SYSTEM_UI_FLAG_FULLSCREEN;
+                }
+            }
+        }
+        return false;
+    }
+    public static boolean checkFullScreenByCode2(Context context){
+        if (context instanceof Activity){
+            return (((Activity)context).getWindow().getAttributes().flags&WindowManager.LayoutParams.FLAG_FULLSCREEN)==WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        }
+        return false;
+    }
+
 
     public static String getIdText(View view) {
         final int id = view.getId();

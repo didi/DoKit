@@ -11,6 +11,8 @@
 #import "DoraemonDefine.h"
 #import "Doraemoni18NUtil.h"
 #import "UITextView+Placeholder.h"
+#import "DoraemonDefaultWebViewController.h"
+#import "DoraemonManager.h"
 
 @interface DoraemonH5ViewController ()
 
@@ -30,7 +32,10 @@
     _h5UrlTextView.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
     _h5UrlTextView.placeholder = @"请输入网址";
     [self.view addSubview:_h5UrlTextView];
-    
+    _h5UrlTextView.keyboardType = UIKeyboardTypeURL;
+    _h5UrlTextView.autocorrectionType = UITextAutocorrectionTypeNo;
+    _h5UrlTextView.keyboardAppearance = UIKeyboardAppearanceDark;
+    _h5UrlTextView.autocapitalizationType = UITextAutocapitalizationTypeNone;
     _lineView = [[UIView alloc] initWithFrame:CGRectMake(0, _h5UrlTextView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(1))];
     _lineView.backgroundColor = [UIColor doraemon_colorWithHex:0x000000 andAlpha:0.1];
     [self.view addSubview:_lineView];
@@ -52,8 +57,15 @@
         [DoraemonToastUtil showToast:DoraemonLocalizedString(@"h5链接不能为空")];
         return;
     }
-    [self leftNavBackClick:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonH5DoorPluginNotification object:nil userInfo:@{@"h5Url":_h5UrlTextView.text}];
+    NSString *h5Url = _h5UrlTextView.text;
+    if ([DoraemonManager shareInstance].h5DoorBlock) {
+        [self leftNavBackClick:nil];
+        [DoraemonManager shareInstance].h5DoorBlock(h5Url);
+    }else{
+        DoraemonDefaultWebViewController *vc = [[DoraemonDefaultWebViewController alloc] init];
+        vc.h5Url = h5Url;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 }
 
 

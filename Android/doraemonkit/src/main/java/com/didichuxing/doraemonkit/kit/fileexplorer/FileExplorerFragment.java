@@ -55,6 +55,8 @@ public class FileExplorerFragment extends BaseFragment {
                     bundle.putSerializable(BundleKey.FILE_KEY, fileInfo.file);
                     if (FileUtil.isImage(fileInfo.file)) {
                         showContent(ImageDetailFragment.class, bundle);
+                    } else if (FileUtil.isDB(fileInfo.file)) {
+                        showContent(DBDetailFragment.class, bundle);
                     } else {
                         showContent(TextDetailFragment.class, bundle);
                     }
@@ -89,6 +91,9 @@ public class FileExplorerFragment extends BaseFragment {
 
     private List<FileInfo> getFileInfos(File dir) {
         List<FileInfo> fileInfos = new ArrayList<>();
+        if (dir.listFiles() == null) {
+            return fileInfos;
+        }
         for (File file : dir.listFiles()) {
             FileInfo fileInfo = new FileInfo(file);
             fileInfos.add(fileInfo);
@@ -98,7 +103,7 @@ public class FileExplorerFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_file_explorer;
+        return R.layout.dk_fragment_file_explorer;
     }
 
     @Override
@@ -106,7 +111,8 @@ public class FileExplorerFragment extends BaseFragment {
         if (mCurDir == null) {
             getActivity().finish();
             return true;
-        } if (isRootFile(getContext(), mCurDir)) {
+        }
+        if (isRootFile(getContext(), mCurDir)) {
             mTitleBar.setTitle(R.string.dk_kit_file_explorer);
             setAdapterData(initRootFileInfos(getContext()));
             mCurDir = null;

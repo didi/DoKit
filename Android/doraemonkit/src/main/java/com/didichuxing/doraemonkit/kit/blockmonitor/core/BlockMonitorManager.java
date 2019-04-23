@@ -11,6 +11,7 @@ import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment;
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
+import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.NotificationUtils;
@@ -53,6 +54,8 @@ public class BlockMonitorManager {
             LogHelper.e(TAG, "start fail, context is null");
             return;
         }
+        // 卡顿检测和跳转耗时统计都使用了Printer的方式，无法同时工作
+        TimeCounterManager.get().stop();
         mContext = context.getApplicationContext();
         if (mMonitorCore == null) {
             mMonitorCore = new MonitorCore();

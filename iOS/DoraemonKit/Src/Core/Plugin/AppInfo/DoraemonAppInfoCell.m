@@ -42,7 +42,21 @@
     NSString *value = data[@"value"];
     
     self.titleLabel.text = title;
-    self.valueLabel.text = value;
+    
+    NSString *cnValue = nil;
+    if([value isEqualToString:@"NotDetermined"]){
+        cnValue = @"用户没有选择";
+    }else if([value isEqualToString:@"Restricted"]){
+        cnValue = @"家长控制";
+    }else if([value isEqualToString:@"Denied"]){
+        cnValue = @"用户没有授权";
+    }else if([value isEqualToString:@"Authorized"]){
+        cnValue = @"用户已经授权";
+    }else{
+        cnValue = value;
+    }
+    
+    self.valueLabel.text = cnValue;
     
     [self.titleLabel sizeToFit];
     [self.valueLabel sizeToFit];

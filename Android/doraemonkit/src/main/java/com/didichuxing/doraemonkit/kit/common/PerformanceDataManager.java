@@ -15,8 +15,6 @@ import android.view.Choreographer;
 import android.widget.Toast;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.adb.AdbManager;
-import com.didichuxing.doraemonkit.adb.Callback;
 import com.didichuxing.doraemonkit.util.FileManager;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
@@ -36,7 +34,7 @@ public class PerformanceDataManager {
     private static final String TAG = "PerformanceDataManager";
     private static final float SECOND_IN_NANOS = 1000000000f;
     private static final int NORMAL_FRAME_RATE = 1;
-    private String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/doraemon/";
+    private String filePath;
     private String memoryFileName = "memory.txt";
     private String cpuFileName = "cpu.txt";
     private String fpsFileName = "fps.txt";
@@ -80,31 +78,12 @@ public class PerformanceDataManager {
         }
     };
 
-    private void excuteCpuData() {
+    private void executeCpuData() {
         LogHelper.d(TAG, "current thread name is ==" + Thread.currentThread().getName());
         if (mAboveAndroidO) {
-            //8.0之后由于权限问题只能通过adb的方式获取
-            AdbManager.getInstance().performAdbRequest("shell:dumpsys cpuinfo | grep '" + mPackageName + "'",
-                    new Callback() {
-                        @Override
-                        public void onSuccess(String adbResponse) {
-                            LogHelper.d(TAG, "response is " + adbResponse);
-                            try {
-                                mLastCpuRate = parseCPUData(adbResponse);
-                                writeCpuDataIntoFile();
-                            } catch (IOException e) {
-                                LogHelper.d(TAG, "parse data fail " + e.getMessage());
-                                mHandler.sendEmptyMessage(MSG_REMIND);
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(String failString) {
-                            mHandler.sendEmptyMessage(MSG_REMIND);
-                            LogHelper.d(TAG, "failString is " + failString);
-                        }
-                    });
+            mLastCpuRate = getCpuDataForO();
+            LogHelper.d(TAG, "cpu info is =" + mLastCpuRate);
+            writeCpuDataIntoFile();
         } else {
             mLastCpuRate = getCPUData();
             LogHelper.d(TAG, "cpu info is =" + mLastCpuRate);
@@ -112,35 +91,65 @@ public class PerformanceDataManager {
         }
     }
 
-    private void excuteMemoruData() {
-        if (mAboveAndroidO) {
-            //8.0之后由于权限问题只能通过adb的方式获取
-            AdbManager.getInstance().performAdbRequest("shell:dumpsys meminfo | grep '" + mPackageName + "'",
-                    new Callback() {
-                        @Override
-                        public void onSuccess(String adbResponse) {
-                            LogHelper.d(TAG, "response is " + adbResponse);
-                            try {
-                                mLastMemoryInfo = parseMemoryData(adbResponse);
-                                writeMemoryDataIntoFile();
-                            } catch (IOException e) {
-                                mHandler.sendEmptyMessage(MSG_REMIND);
-                                LogHelper.d(TAG, "parse data fail " + e.getMessage());
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFail(String failString) {
-                            mHandler.sendEmptyMessage(MSG_REMIND);
-                            LogHelper.d(TAG, "failString is " + failString);
-                        }
-                    });
-        } else {
-            mLastMemoryInfo = getMemoryData();
-            LogHelper.d(TAG, "memory info is =" + mLastMemoryInfo);
-            writeMemoryDataIntoFile();
+    private float getCpuDataForO() {
+        java.lang.Process process = null;
+        try {
+            process = Runtime.getRuntime().exec("top -n 1");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            int cpuIndex = -1;
+            while ((line = reader.readLine()) != null) {
+                line = line.trim();
+                if (TextUtils.isEmpty(line)) {
+                    continue;
+                }
+                int tempIndex = getCPUIndex(line);
+                if (tempIndex != -1) {
+                    cpuIndex = tempIndex;
+                    continue;
+                }
+                if (line.startsWith(String.valueOf(Process.myPid()))) {
+                    if (cpuIndex == -1) {
+                        continue;
+                    }
+                    String[] param = line.split("\\s+");
+                    if (param.length <= cpuIndex) {
+                        continue;
+                    }
+                    String cpu = param[cpuIndex];
+                    if (cpu.endsWith("%")) {
+                        cpu = cpu.substring(0, cpu.lastIndexOf("%"));
+                    }
+                    float rate = Float.parseFloat(cpu) / Runtime.getRuntime().availableProcessors();
+                    return rate;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (process != null) {
+                process.destroy();
+            }
         }
+        return 0;
+    }
+
+    private int getCPUIndex(String line) {
+        if (line.contains("CPU")) {
+            String[] titles = line.split("\\s+");
+            for (int i = 0; i < titles.length; i++) {
+                if (titles[i].contains("CPU")) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    private void executeMemoryData() {
+        mLastMemoryInfo = getMemoryData();
+        LogHelper.d(TAG, "memory info is =" + mLastMemoryInfo);
+        writeMemoryDataIntoFile();
     }
 
     private void remindUserToConnectPort() {
@@ -163,11 +172,11 @@ public class PerformanceDataManager {
 
     public void init(Context context) {
         mContext = context;
+        filePath = getFilePath(context);
         mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mAboveAndroidO = true;
             mPackageName = context.getPackageName();
-            AdbManager.getInstance().init(context);
         }
         if (mHandlerThread == null) {
             mHandlerThread = new HandlerThread("handler-thread");
@@ -179,16 +188,25 @@ public class PerformanceDataManager {
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
                     if (msg.what == MSG_CPU) {
-                        excuteCpuData();
+                        executeCpuData();
                         mHandler.sendEmptyMessageDelayed(MSG_CPU, NORMAL_FRAME_RATE * 1000);
                     } else if (msg.what == MSG_MEMORY) {
-                        excuteMemoruData();
+                        executeMemoryData();
                         mHandler.sendEmptyMessageDelayed(MSG_MEMORY, NORMAL_FRAME_RATE * 1000);
                     } else if (msg.what == MSG_REMIND) {
                         remindUserToConnectPort();
                     }
                 }
             };
+        }
+    }
+
+    private String getFilePath(Context context) {
+        boolean hasExternalStorage = Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+        if (hasExternalStorage) {
+            return context.getExternalFilesDir(null).getAbsolutePath() + "/doraemon/";
+        } else {
+            return Environment.getExternalStorageDirectory().getAbsolutePath() + "/doraemon/";
         }
     }
 
@@ -286,7 +304,7 @@ public class PerformanceDataManager {
             mLastCpuTime = cpuTime;
             mLastAppCpuTime = appTime;
         } catch (Exception e) {
-            e.printStackTrace();
+            LogHelper.e(TAG,"getCPUData fail: "+e.toString());
         }
         return value;
     }
@@ -305,7 +323,7 @@ public class PerformanceDataManager {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogHelper.e(TAG,"getMemoryData fail: "+e.toString());
         }
         return mem;
     }

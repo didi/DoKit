@@ -19,6 +19,6 @@ public class ColorUtil {
     public static boolean isColdColor(@ColorInt int color) {
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
-        return hsv[2] < 0.5f;
+        return hsv[2] <= 0.8f;
     }
 }

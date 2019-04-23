@@ -1,41 +1,74 @@
-## How To Use
+## Document
 
-### 1： Use Gradle to Get latest version of DoraemonKit
-
-```
-debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.0.0'
-```
-
-Tip: Use DoraemonKit in debug model.
-
-### 2： Access method using DoraemonKit's built-in toolset
-
-Add code when the app starts.
+#### 1. Dependency
 
 ```
-@Override
-public void onCreate() {
-    DoraemonKit.install(application）
-
-    // If you need H5 debug
-    DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
-    @Override
-    public void overrideUrlLoading(String s) {
-        // Open this link with your H5 container
-    }
+dependencies {
+	...
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.3'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.3'
     ...
 }
 ```
 
-  Through the above steps you can use all of the built-in tools of DorameonKit. If you want to add some of your customized tools, see chapter 3.
+Please use [the latest release](android-ReleaseNotes.md)。
 
-### 3: Add a custom test module to the Doraemon panel (non-essential)
 
-For example, we want to add an environment switch module to the Doraemon panel.
 
-Step 1: create a new class, implement the interface IKit, this interface describes a test module on the panel.
+#### 2. Install
 
-Taking our app as an example, after clicking the button, it will enter the environment switching page.
+Install `DoraemonKit` in `Application::onCreate()`.
+
+```
+@Override
+public void onCreate() {
+	...
+    DoraemonKit.install(application）
+     
+    // for web container debug, optional
+    DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
+    @Override
+    public void overrideUrlLoading(Context context, String s) {
+        // use your web container open the link
+    }
+    ...
+} 
+```
+
+
+
+#### 3. Network Monitor（Optional）
+
+Add a dependency in `build.gradle` in root of host project as following.
+
+```
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    dependencies {
+        ...
+        classpath 'com.didichuxing.doraemonkit:compiler:1.0.0'
+        ...
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+```
+
+Apply plugin in application module of `build.gradle`
+
+```
+...
+apply plugin: 'com.doraemon.compiler.plugin'
+```
+
+
+
+#### 4. Custom Component（Optional）
+
+Define a class implement the interface IKit，the interface describe a component in DoraemonKit panel.
+
+An environment switch component can be defined as following.
 
 ```
 public class EnvSwitchKit implements IKit {
@@ -43,42 +76,35 @@ public class EnvSwitchKit implements IKit {
     public int getCategory() {
         return Category.BIZ;
     }
-
+ 
     @Override
     public int getName() {
         return R.string.bh_env_switch;
     }
-
+ 
     @Override
     public int getIcon() {
         return R.drawable.bh_roadbit;
     }
-
+ 
     @Override
     public void onClick(Context context) {
         DebugService service = ServiceManager.getInstance().getService(context, DebugService.class);
         PageManager.getInstance().startFragment(service.getContainer(), EnvSwitchFragment.class);
     }
-
+ 
     @Override
-    public void onInit(Context context) {
-
+    public void onAppInit(Context context) {
+    
     }
 }
 ```
 
-Step 2: Add the "Environment Switch" module in the step where Doraemon is installed.
+Register the environment switch component when DoraemonKit installed.
 
 ```
 @Override
 public void onCreate() {
-    kits.add(new EnvSwitchKit());
-    DoraemonKit.install(application, kits);
-    }
-    ...
-@Override
-public void onCreate() {
-    List<IKit> kits = new ArrayList<>();
     kits.add(new EnvSwitchKit());
     DoraemonKit.install(application, kits);
     ...

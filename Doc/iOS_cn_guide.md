@@ -1,46 +1,43 @@
 ## DoraemonKit如何使用
 
-### 3.1： cocoapods依赖
-包含两个subspec，一个是包含“日志显示”的“WithLogger” subspec
+### 1、cocoapods依赖
 
 ```
-pod 'DoraemonKit/WithLogger', :configurations => ['Debug']
+    pod 'DoraemonKit/Core', '~> 1.1.7', :configurations => ['Debug']
+    pod 'DoraemonKit/WithLogger', '~> 1.1.7', :configurations => ['Debug']
+    pod 'DoraemonKit/WithGPS', '~> 1.1.7', :configurations => ['Debug']
+    pod 'DoraemonKit/WithLoad', '~> 1.1.7', :configurations => ['Debug']
 ```
+Core subspec作为核心，必须引入。
 
-一个是不包含“日志显示”的“Core” subspec
+如果你的日志是基于CocoaLumberjack，那你也可以引入WithLogger subspec。
 
-```
-pod 'DoraemonKit/Core', :configurations => ['Debug']
-```
+MockGPS存在一些兼容性问题（绝大部分情况是好的，问题详见[https://github.com/didi/DoraemonKit/issues/35](https://github.com/didi/DoraemonKit/issues/35)）, 如果你的app接入MockGPS存在问题的话，可以不用引入WithGPS subspec。
 
-默认引入“Core” subspec。
 
-tip1：为什么要分区subspec呢？
-因为日志显示模块是基于CocoaLumberjack这个三方库，如果你的项目日志不是基于CocoaLumberjack，那你就没有必要引入DoraemonKit中日志显示模块了。
+**tip**：只在Debug环境中进行集成，不要带到线上。有一些hook操作会污染线上代码。
 
-tip2：只在Debug环境中进行集成，不要带到线上。有一些hook操作会污染线上代码。
-
-### 3.2： 使用DoraemonKit内置工具集的接入方式
+### 2、使用DoraemonKit内置工具集的接入方式
 在App启动的时候添加一下代码
 
 ```
+#ifdef DEBUG
+#import <DoraemonKit/DoraemonManager.h>
+#endif
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     #ifdef DEBUG
-        [[DoraemonManager shareInstance] addH5DoorBlock:^(NSString *h5Url) {
-              //使用自己的H5容器打开这个链接
-        }];
-
         [[DoraemonManager shareInstance] install];
     #endif
 }
 ```
 
- 通过以上步骤你就可以使用DorameonKit所有的内置工具集合。如果你想把自己与业务相关的一些工具代码加入到DoraemonKit中做统一管理的话，你可以按照3.3的步骤来做。
+ 通过以上步骤你就可以使用DorameonKit所有的内置工具集合。如果你想把自己与业务相关的一些工具代码加入到DoraemonKit中做统一管理的话，你可以按照3的步骤来做。
 
-### 3.3: 添加自定义测试模块到Doraemon面板中（非必要）
+### 3、添加自定义测试模块到Doraemon面板中（非必要）
 比如我们要在Doraemon面板中添加一个环境切换的功能。
 
-第一步：新建一个类，实现KDDoraemonPluginProtocol协议中的pluginDidLoad方法，该方法就是以后点击Doraemon工具面板中“环境切换”按钮触发的事件。
+第一步：新建一个类，实现DoraemonPluginProtocol协议中的pluginDidLoad方法，该方法就是以后点击Doraemon工具面板中“环境切换”按钮触发的事件。
 
 比如以代驾司机端为例，点击按钮之后会进入环境切换页面。
 
@@ -59,7 +56,7 @@ tip2：只在Debug环境中进行集成，不要带到线上。有一些hook操�
 调用DoraemonManager的以下方法：
 
 ```
-[[DoraemonManager shareInstance] addPluginWithTitle:@"环境切换" icon:@"qiehuang" desc:@"用于app内部环境切换功能" pluginName:@"KDDoraemonEnvPlugin" atModule:@"业务专区"];
+[[DoraemonManager shareInstance] addPluginWithTitle:@"环境切换" icon:@"doraemon_default" desc:@"用于app内部环境切换功能" pluginName:@"KDDoraemonEnvPlugin" atModule:@"业务专区"];
 ```
 
 依次代表 集成到DoraemonKit面板中的标题，图标，描述，插件名称，和所属于的模块。
@@ -74,11 +71,40 @@ tip2：只在Debug环境中进行集成，不要带到线上。有一些hook操�
 }
 //配置Doraemon工具集
 - (void)configDoraemonKit{
-    [[DoraemonManager shareInstance] addPluginWithTitle:@"环境切换" icon:@"qiehuang" desc:@"用于app内部环境切换功能" pluginName:@"KDDoraemonEnvPlugin" atModule:@"业务专区"];
+    [[DoraemonManager shareInstance] addPluginWithTitle:@"环境切换" icon:@"doraemon_default" desc:@"用于app内部环境切换功能" pluginName:@"KDDoraemonEnvPlugin" atModule:@"业务专区"];
     [[DoraemonManager shareInstance] addH5DoorBlock:^(NSString *h5Url) {
         [APP_INTERACOTR.rootNav openURL:@"KDSJ://KDWebViewController" withQuery:@{@"urlString":h5Url}];
     }];
     [[DoraemonManager shareInstance] install];
+}
+```
+### 4、swift 接入方式
+pod 同 OC 一样
+
+#### swift 4.0 4.2 5.0 接入方式都一样
+
+```
+import UIKit
+
+#if DEBUG
+    import DoraemonKit
+#endif
+
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    var window: UIWindow?
+
+
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
+        
+    #if DEBUG
+        DoraemonManager.shareInstance().install()
+    #endif
+        return true
+    }
+    
 }
 ```
 

@@ -11,7 +11,7 @@
 
 @interface DoraemonNetFlowDetailCell()
 
-@property (nonatomic, strong) UILabel *contentLabel;
+@property (nonatomic, strong) UITextView *contentLabel;
 @property (nonatomic, strong) UIView *upLine;
 @property (nonatomic, strong) UIView *downLine;
 
@@ -24,10 +24,13 @@
     if(self){
         self.selectionStyle =  UITableViewCellSelectionStyleNone;
         
-        _contentLabel = [[UILabel alloc] init];
+        //大文本显示的时候，UIlabel在模拟器上会显示空白，使用TextView代替。
+        //网上相似问题： https://blog.csdn.net/minghuyong2016/article/details/82882314
+        _contentLabel = [[UITextView alloc] init];
         _contentLabel.textColor = [UIColor blackColor];
         _contentLabel.font = [UIFont systemFontOfSize:16];
-        _contentLabel.numberOfLines = 0;
+        _contentLabel.editable = NO;
+        //_contentLabel.numberOfLines = 0;
         [self.contentView addSubview:_contentLabel];
         
         _upLine = [[UIView alloc] init];

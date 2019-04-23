@@ -73,7 +73,7 @@ public class TextDetailFragment extends BaseFragment {
 
     @Override
     protected int onRequestLayout() {
-        return R.layout.fragment_text_detail;
+        return R.layout.dk_fragment_text_detail;
     }
 
     private static class FileReadTask extends AsyncTask<File, String, Void> {
