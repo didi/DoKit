@@ -10,6 +10,7 @@
 @interface DoraemonHomeSectionView : UIView
 
 - (void)renderUIWithData:(NSDictionary *)data;
+- (void)updateUILayoutWithData:(NSDictionary *)data;
 
 + (CGFloat)viewHeightWithData:(NSDictionary *)data;
 
