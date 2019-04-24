@@ -24,7 +24,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        self.windowLevel = UIWindowLevelStatusBar + 50.f;
+        self.windowLevel = UIWindowLevelStatusBar + 1.f;
         self.backgroundColor = [UIColor clearColor];
         self.hidden = YES;
     }

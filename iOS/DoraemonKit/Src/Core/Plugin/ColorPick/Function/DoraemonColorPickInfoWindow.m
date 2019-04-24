@@ -87,9 +87,7 @@
     CGPoint centerPoint = CGPointMake(newX, newY);
     panView.center = centerPoint;
 }
-
-#pragma mark - Delegate
-
+ 
 #pragma mark DoraemonColorPickInfoViewDelegate
 
 - (void)closeBtnClicked:(id)sender onColorPickInfoView:(DoraemonColorPickInfoView *)colorPickInfoView {
