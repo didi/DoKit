@@ -10,6 +10,8 @@ import android.support.annotation.StringRes;
 public class SettingItem {
     public @StringRes final int desc;
 
+    public String rightDesc;
+
     public @DrawableRes int icon;
 
     public boolean isChecked;

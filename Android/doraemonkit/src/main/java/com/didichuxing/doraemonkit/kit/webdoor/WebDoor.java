@@ -32,12 +32,10 @@ public class WebDoor implements IKit {
 
     @Override
     public void onClick(Context context) {
-        if (WebDoorManager.getInstance().isWebDoorEnable()) {
-            Intent intent = new Intent(context, UniversalActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_WEB_DOOR);
-            context.startActivity(intent);
-        }
+        Intent intent = new Intent(context, UniversalActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_WEB_DOOR);
+        context.startActivity(intent);
     }
 
     @Override

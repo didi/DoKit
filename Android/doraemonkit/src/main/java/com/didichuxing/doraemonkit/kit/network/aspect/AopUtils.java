@@ -16,7 +16,7 @@ import okhttp3.OkHttpClient;
  * @desc:
  */
 public class AopUtils {
-    public static URLConnection URLOpenConnection(URLConnection connection){
+    public static URLConnection URLOpenConnection(URLConnection connection) {
         if (!NetworkManager.isActive()) {
             return connection;
         }
@@ -24,12 +24,12 @@ public class AopUtils {
             return new HttpUrlConnectionProxy((HttpURLConnection) connection);
         } else if (connection instanceof HttpsURLConnection) {
             return new HttpsUrlConnectionProxy((HttpsURLConnection) connection);
-        }else {
+        } else {
             return connection;
         }
     }
 
-    public static void addInterceptor(OkHttpClient.Builder builder){
+    public static void addInterceptor(OkHttpClient.Builder builder) {
         builder.addInterceptor(new DoraemonInterceptor());
     }
 }

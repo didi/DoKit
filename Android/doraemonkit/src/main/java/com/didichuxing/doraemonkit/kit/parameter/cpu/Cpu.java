@@ -18,7 +18,7 @@ public class Cpu implements IKit {
 
     @Override
     public int getName() {
-        return R.string.dk_fragment_parameter;
+        return R.string.dk_frameinfo_cpu;
     }
 
     @Override

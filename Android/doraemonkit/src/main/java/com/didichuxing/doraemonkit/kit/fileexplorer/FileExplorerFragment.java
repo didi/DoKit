@@ -11,6 +11,7 @@ import android.view.View;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
+import com.didichuxing.doraemonkit.ui.fileexplorer.FileExplorerChooseDialog;
 import com.didichuxing.doraemonkit.ui.fileexplorer.FileInfo;
 import com.didichuxing.doraemonkit.ui.fileexplorer.FileInfoAdapter;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
@@ -57,6 +58,8 @@ public class FileExplorerFragment extends BaseFragment {
                         showContent(ImageDetailFragment.class, bundle);
                     } else if (FileUtil.isDB(fileInfo.file)) {
                         showContent(DBDetailFragment.class, bundle);
+                    } else if (FileUtil.isVideo(fileInfo.file)) {
+                        showContent(VideoPlayFragment.class, bundle);
                     } else {
                         showContent(TextDetailFragment.class, bundle);
                     }
@@ -70,12 +73,9 @@ public class FileExplorerFragment extends BaseFragment {
         mFileInfoAdapter.setOnViewLongClickListener(new FileInfoAdapter.OnViewLongClickListener() {
             @Override
             public boolean onViewLongClick(View v, FileInfo fileInfo) {
-                if (fileInfo.file.isFile()) {
-                    FileUtil.systemShare(getContext(), fileInfo.file);
-                    return true;
-                } else {
-                    return false;
-                }
+                FileExplorerChooseDialog dialog = new FileExplorerChooseDialog(fileInfo.file, null);
+                showDialog(dialog);
+                return true;
             }
         });
         setAdapterData(initRootFileInfos(getContext()));

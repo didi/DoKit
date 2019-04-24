@@ -93,9 +93,6 @@ public class WebDoorFragment extends BaseFragment {
     }
 
     private void doSearch(String url) {
-        if (!WebDoorManager.getInstance().isWebDoorEnable()) {
-            return;
-        }
         WebDoorManager.getInstance().saveHistory(getContext(), url);
         WebDoorManager.getInstance().getWebDoorCallback().overrideUrlLoading(getContext(), url);
         mWebDoorHistoryAdapter.setData(WebDoorManager.getInstance().getHistory(getContext()));
