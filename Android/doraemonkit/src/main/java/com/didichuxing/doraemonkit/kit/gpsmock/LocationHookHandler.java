@@ -3,7 +3,6 @@ package com.didichuxing.doraemonkit.kit.gpsmock;
 import android.annotation.SuppressLint;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 
@@ -46,11 +45,11 @@ public class LocationHookHandler implements InvocationHandler {
                         LocationListener newLocationListener = new LocationListener() {
                             @Override
                             public void onLocationChanged(Location location) {
-                                if (!GpsHookManager.getInstance().isMocking()) {
+                                if (!GpsMockManager.getInstance().isMocking()) {
                                     originalLocationListener.onLocationChanged(location);
                                 } else {
-                                    location.setLongitude(GpsHookManager.getInstance().getLongitude());
-                                    location.setLatitude(GpsHookManager.getInstance().getLatitude());
+                                    location.setLongitude(GpsMockManager.getInstance().getLongitude());
+                                    location.setLatitude(GpsMockManager.getInstance().getLatitude());
                                     originalLocationListener.onLocationChanged(location);
                                 }
                             }
@@ -76,20 +75,20 @@ public class LocationHookHandler implements InvocationHandler {
                 }
                 break;
             case "getLastLocation":
-                if (!GpsHookManager.getInstance().isMocking()) {
+                if (!GpsMockManager.getInstance().isMocking()) {
                     break;
                 }
                 Location lastLocation = (Location) method.invoke(this.mOriginService, args);
-                lastLocation.setLongitude(GpsHookManager.getInstance().getLongitude());
-                lastLocation.setLatitude(GpsHookManager.getInstance().getLatitude());
+                lastLocation.setLongitude(GpsMockManager.getInstance().getLongitude());
+                lastLocation.setLatitude(GpsMockManager.getInstance().getLatitude());
                 return lastLocation;
             case "getLastKnownLocation":
-                if (!GpsHookManager.getInstance().isMocking()) {
+                if (!GpsMockManager.getInstance().isMocking()) {
                     break;
                 }
                 Location lastKnownLocation = (Location) method.invoke(this.mOriginService, args);
-                lastKnownLocation.setLongitude(GpsHookManager.getInstance().getLongitude());
-                lastKnownLocation.setLatitude(GpsHookManager.getInstance().getLatitude());
+                lastKnownLocation.setLongitude(GpsMockManager.getInstance().getLongitude());
+                lastKnownLocation.setLatitude(GpsMockManager.getInstance().getLatitude());
                 return lastKnownLocation;
             default:
                 break;

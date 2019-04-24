@@ -1,8 +1,12 @@
 package com.didichuxing.doraemonkit.kit.webdoor;
 
 import android.content.Context;
+import android.content.Intent;
 
+import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.CachesKey;
+import com.didichuxing.doraemonkit.constant.FragmentIndex;
+import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.util.CacheUtils;
 
 import java.util.ArrayList;
@@ -13,12 +17,8 @@ import java.util.ArrayList;
 
 public class WebDoorManager {
     private static final String TAG = "WebDoorManager";
-    private WebDoorCallback mWebDoorCallback;
+    private WebDoorCallback mWebDoorCallback = new DefaultWebDoorCallback();
     private ArrayList<String> mHistory;
-
-    public boolean isWebDoorEnable() {
-        return mWebDoorCallback != null;
-    }
 
     public WebDoorCallback getWebDoorCallback() {
         return mWebDoorCallback;
@@ -69,5 +69,17 @@ public class WebDoorManager {
 
     public interface WebDoorCallback {
         void overrideUrlLoading(Context context,String url);
+    }
+
+    private class DefaultWebDoorCallback implements WebDoorCallback {
+
+        @Override
+        public void overrideUrlLoading(Context context, String url) {
+            Intent intent = new Intent(context, UniversalActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_WEB_DOOR_DEFAULT);
+            intent.putExtra(BundleKey.KEY_URL, url);
+            context.startActivity(intent);
+        }
     }
 }

@@ -3,7 +3,6 @@ package com.didichuxing.doraemonkit.kit.sysinfo;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.pm.PackageInfo;
-import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
@@ -98,14 +96,6 @@ public class SysInfoFragment extends BaseFragment {
         sysInfoItems.add(new SysInfoItem("ROOT", String.valueOf(DeviceUtils.isRoot(getContext()))));
         sysInfoItems.add(new SysInfoItem("DENSITY", String.valueOf(UIUtils.getDensity(getContext()))));
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_display_size), UIUtils.getWidthPixels(getContext()) + "x" + UIUtils.getRealHeightPixels(getContext())));
-        Location location = GpsMockManager.getInstance().getLocation();
-        if (location != null) {
-            String name = "POSITION(" + location.getProvider() + ")";
-            if (GpsMockManager.getInstance().isMock()) {
-                name = "MOCK " + name;
-            }
-            sysInfoItems.add(new SysInfoItem(name, String.format("Lat:%.5f\nLng:%.5f", location.getLatitude(), location.getLongitude())));
-        }
     }
 
     /**

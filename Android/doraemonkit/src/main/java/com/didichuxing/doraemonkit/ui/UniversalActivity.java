@@ -21,6 +21,7 @@ import com.didichuxing.doraemonkit.kit.parameter.ram.RamMainPageFragment;
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoFragment;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterFragment;
 import com.didichuxing.doraemonkit.kit.viewcheck.ViewCheckFragment;
+import com.didichuxing.doraemonkit.kit.webdoor.WebDoorDefaultFragment;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorFragment;
 import com.didichuxing.doraemonkit.ui.base.BaseActivity;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
@@ -93,6 +94,9 @@ public class UniversalActivity extends BaseActivity {
                 break;
             case FragmentIndex.FRAGMENT_TIME_COUNTER:
                 fragmentClass = TimeCounterFragment.class;
+                break;
+            case FragmentIndex.FRAGMENT_WEB_DOOR_DEFAULT:
+                fragmentClass = WebDoorDefaultFragment.class;
                 break;
             default:
                 break;

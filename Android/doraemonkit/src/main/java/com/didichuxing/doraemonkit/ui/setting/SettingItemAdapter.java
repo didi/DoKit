@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.ui.setting;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class SettingItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<Setting
         private TextView mDesc;
         private CheckBox mMenuSwitch;
         private ImageView mIcon;
+        private TextView mRightDesc;
 
         public SettingItemViewHolder(View view) {
             super(view);
@@ -49,6 +51,7 @@ public class SettingItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<Setting
             mMenuSwitch = getView(R.id.menu_switch);
             mDesc = getView(R.id.desc);
             mIcon = getView(R.id.right_icon);
+            mRightDesc = getView(R.id.right_desc);
         }
 
         @Override
@@ -68,6 +71,10 @@ public class SettingItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<Setting
             if (settingItem.icon != 0) {
                 mIcon.setVisibility(View.VISIBLE);
                 mIcon.setImageResource(settingItem.icon);
+            }
+            if (!TextUtils.isEmpty(settingItem.rightDesc)) {
+                mRightDesc.setVisibility(View.VISIBLE);
+                mRightDesc.setText(settingItem.rightDesc);
             }
         }
 

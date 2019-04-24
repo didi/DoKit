@@ -29,7 +29,7 @@ public class CpuMainPageFragment extends AbsParameterFragment {
 
     @Override
     protected int getTitle() {
-        return R.string.dk_fragment_parameter;
+        return R.string.dk_frameinfo_cpu;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class CpuMainPageFragment extends AbsParameterFragment {
 
     private void startMonitor() {
         PerformanceDataManager.getInstance().startMonitorCPUInfo();
-        openChartPage(R.string.dk_fragment_parameter, DataSourceFactory.TYPE_CPU);
+        openChartPage(R.string.dk_frameinfo_cpu, DataSourceFactory.TYPE_CPU);
     }
 
     private void stopMonitor() {

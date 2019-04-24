@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.gpsmock;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +21,9 @@ import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.ui.widget.webview.MyWebView;
+import com.didichuxing.doraemonkit.ui.widget.webview.MyWebViewClient;
+import com.didichuxing.doraemonkit.util.WebUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +32,7 @@ import java.util.List;
  * Created by wanglikun on 2018/9/20.
  */
 
-public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.OnSettingItemSwitchListener {
+public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.OnSettingItemSwitchListener, MyWebViewClient.InvokeListener {
     private static final String TAG = "GpsMockFragment";
 
     private HomeTitleBar mTitleBar;
@@ -37,13 +41,11 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
     private EditText mLongitude;
     private EditText mLatitude;
     private TextView mMockLocationBtn;
+    private MyWebView mWebView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (GpsMockConfig.isGPSMockOpen(getContext())) {
-            GpsHookManager.getInstance().startMock();
-        }
     }
 
     @Override
@@ -52,6 +54,19 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
         intiSettingList();
         initTitleBar();
         initMockLocationArea();
+        initWebView();
+    }
+
+    private void initWebView() {
+        mWebView = findViewById(R.id.web_view);
+        WebUtil.webViewLoadLocalHtml(mWebView, "html/map.html");
+        mWebView.addInvokeListener(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mWebView.removeInvokeListener(this);
     }
 
     private void initMockLocationArea() {
@@ -104,7 +119,7 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
                 if (!checkInput()) {
                     return;
                 }
-                GpsHookManager.getInstance().mockLocation(Double.valueOf(mLatitude.getText().toString()),
+                GpsMockManager.getInstance().mockLocation(Double.valueOf(mLatitude.getText().toString()),
                         Double.valueOf(mLongitude.getText().toString()));
                 Toast.makeText(getContext(), getString(R.string.dk_gps_location_change_toast, mLatitude.getText(), mLongitude.getText()), Toast.LENGTH_SHORT).show();
             }
@@ -160,9 +175,9 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
         if (data.desc == R.string.dk_gpsmock_open) {
             GpsMockConfig.setGPSMockOpen(getContext(), on);
             if (on) {
-                GpsHookManager.getInstance().startMock();
+                GpsMockManager.getInstance().startMock();
             } else {
-                GpsHookManager.getInstance().stopMock();
+                GpsMockManager.getInstance().stopMock();
             }
         }
     }
@@ -170,5 +185,24 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
     @Override
     protected int onRequestLayout() {
         return R.layout.dk_fragment_gps_mock;
+    }
+
+    @Override
+    public void onNativeInvoke(String url) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        Uri uri = Uri.parse(url);
+        String lastPath = uri.getLastPathSegment();
+        if (!"sendLocation".equals(lastPath)) {
+            return;
+        }
+        String lat = uri.getQueryParameter("lat");
+        String lnt = uri.getQueryParameter("lng");
+        if (TextUtils.isEmpty(lat) && TextUtils.isEmpty(lnt)) {
+            return;
+        }
+        mLatitude.setText(lat);
+        mLongitude.setText(lnt);
     }
 }

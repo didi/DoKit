@@ -25,7 +25,6 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".ui.TranslucentActivity"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged"
             android:theme="@style/DK.Theme.Translucent" />
 
