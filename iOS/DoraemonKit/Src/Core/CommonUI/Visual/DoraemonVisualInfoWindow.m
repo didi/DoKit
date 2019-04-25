@@ -26,18 +26,18 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         CGSize viewSize = self.view.window.bounds.size;
         
-        CGFloat closeWidth = kDoraemonSizeFrom750(44);
-        CGFloat closeHeight = kDoraemonSizeFrom750(44);
-        _closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(viewSize.width - closeWidth - kDoraemonSizeFrom750(16), kDoraemonSizeFrom750(16), closeWidth, closeHeight)];
+        CGFloat closeWidth = kDoraemonSizeFrom750_Landscape(44);
+        CGFloat closeHeight = kDoraemonSizeFrom750_Landscape(44);
+        _closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(viewSize.width - closeWidth - kDoraemonSizeFrom750_Landscape(16), kDoraemonSizeFrom750_Landscape(16), closeWidth, closeHeight)];
         
         [_closeBtn setBackgroundImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
         [_closeBtn addTarget:self action:@selector(closeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_closeBtn];
         
-        _infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32), 0, viewSize.width - kDoraemonSizeFrom750(32 + 16) - closeWidth , viewSize.height)];
+        _infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(32), 0, viewSize.width - kDoraemonSizeFrom750_Landscape(32 + 16) - closeWidth , viewSize.height)];
         _infoLabel.backgroundColor =[UIColor clearColor];
         _infoLabel.textColor = [UIColor doraemon_black_1];
-        _infoLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(24)];
+        _infoLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
         _infoLabel.numberOfLines = 0;
         [self.view addSubview:_infoLabel];
         
@@ -53,11 +53,7 @@
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (size.height < size.width) {
-            self.view.window.frame = CGRectMake(49, 20, size.height, size.width);
-        } else {
-            self.view.window.frame = CGRectMake(kDoraemonSizeFrom750(30), DoraemonScreenHeight - _infoLabel.frame.size.height - kDoraemonSizeFrom750(30), size.height, size.width);
-        }
+        self.view.window.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - _infoLabel.frame.size.height - kDoraemonSizeFrom750_Landscape(30), size.height, size.width);
     });
 }
 
@@ -92,7 +88,7 @@
 
 - (void)commonInit {
     self.backgroundColor = [UIColor whiteColor];
-    self.layer.cornerRadius = kDoraemonSizeFrom750(8);
+    self.layer.cornerRadius = kDoraemonSizeFrom750_Landscape(8);
     self.layer.borderWidth = 1.;
     self.layer.borderColor = [UIColor doraemon_colorWithHex:0x999999 andAlpha:0.2].CGColor;
     self.windowLevel = UIWindowLevelAlert;

@@ -86,7 +86,14 @@ static CGFloat const kViewCheckSize = 62;
         [_bottomLabel sizeToFit];
         _bottomLabel.frame = CGRectMake(imageView.doraemon_centerX-_bottomLabel.doraemon_width, imageView.doraemon_centerY+(self.doraemon_height - imageView.doraemon_centerY)/2, _bottomLabel.doraemon_width, _bottomLabel.doraemon_height);
         
-        _infoWindow = [[DoraemonVisualInfoWindow alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(30), DoraemonScreenHeight - kDoraemonSizeFrom750(100) - kDoraemonSizeFrom750(30), DoraemonScreenWidth - 2*kDoraemonSizeFrom750(30), kDoraemonSizeFrom750(100))];
+        CGRect infoWindowFrame = CGRectZero;
+        if (kInterfaceOrientationPortrait) {
+            infoWindowFrame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - kDoraemonSizeFrom750_Landscape(100) - kDoraemonSizeFrom750_Landscape(30), DoraemonScreenWidth - 2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(100));
+        } else {
+            infoWindowFrame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - kDoraemonSizeFrom750_Landscape(100) - kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - 2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(100));
+        } 
+        _infoWindow = [[DoraemonVisualInfoWindow alloc] initWithFrame:infoWindowFrame];
+        
         
          [self configInfoLblText];
     }

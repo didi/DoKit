@@ -44,8 +44,16 @@ static CGFloat const kViewCheckSize = 62;
         _viewBound.layer.borderColor = [UIColor doraemon_colorWithHex:0xCC3A4B].CGColor;
         _viewBound.layer.zPosition = FLT_MAX;
         
-        _infoWindow = [[DoraemonVisualInfoWindow alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(30), DoraemonScreenHeight - kDoraemonSizeFrom750(180) - kDoraemonSizeFrom750(30), DoraemonScreenWidth - 2*kDoraemonSizeFrom750(30), kDoraemonSizeFrom750(180))];
+        CGRect infoWindowFrame = CGRectZero;
+        if (kInterfaceOrientationPortrait) {
+            infoWindowFrame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - kDoraemonSizeFrom750_Landscape(180) - kDoraemonSizeFrom750_Landscape(30), DoraemonScreenWidth - 2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(180));
+        } else {
+            infoWindowFrame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - kDoraemonSizeFrom750_Landscape(180) - kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - 2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(180));
+        }
+        _infoWindow = [[DoraemonVisualInfoWindow alloc] initWithFrame:infoWindowFrame];
+        
     }
+     
     return self;
 }
 
