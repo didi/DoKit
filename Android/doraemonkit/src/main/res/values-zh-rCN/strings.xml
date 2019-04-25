@@ -47,6 +47,7 @@
 
     <string name="dk_frameinfo_fps">帧率</string>
     <string name="dk_frameinfo_cpu">CPU</string>
+    <string name="dk_frameinfo_custom">自定义</string>
 
     <string name="dk_log_info_edt_hint">输入想要过滤的关键字</string>
     <string name="dk_log_info_verbose">Verbose</string>
@@ -147,4 +148,7 @@
     <string name="dk_app_data_clean">确认要删除本地数据</string>
     <string name="dk_hint">提示</string>
     <string name="dk_share">分享</string>
+
+    <string name="dk_platform_monitor_data_button">开始测试</string>
+    <string name="dk_platform_monitor_data_button_stop">结束测试</string>
 </resources>

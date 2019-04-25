@@ -46,6 +46,7 @@
 
     <string name="dk_frameinfo_fps">FPS</string>
     <string name="dk_frameinfo_cpu">CPU</string>
+    <string name="dk_frameinfo_custom">CUSTOM</string>
 
     <string name="dk_log_info_edt_hint">Enter the keywords you want to filter</string>
     <string name="dk_log_info_verbose">Verbose</string>
@@ -148,4 +149,8 @@
     <string name="dk_app_data_clean">Confirm that you want to delete local data</string>
     <string name="dk_hint">Hint</string>
     <string name="dk_share">share</string>
+
+    <string name="dk_platform_monitor_data_button">start test</string>
+    <string name="dk_platform_monitor_data_button_stop">stop test</string>
+
 </resources>

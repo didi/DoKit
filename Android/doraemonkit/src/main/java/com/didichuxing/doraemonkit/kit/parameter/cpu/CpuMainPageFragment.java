@@ -35,7 +35,7 @@ public class CpuMainPageFragment extends AbsParameterFragment {
     @Override
     protected Collection<SettingItem> getSettingItems(List<SettingItem> list) {
 
-        list.add(new SettingItem(R.string.dk_cpu_detection_switch, PerformanceInfoConfig.isCPUOpen(getContext())));
+        list.add(new SettingItem(R.string.dk_cpu_detection_switch, false));
         list.add(new SettingItem(R.string.dk_item_cache_log, R.drawable.dk_more_icon));
         return list;
     }
@@ -50,7 +50,7 @@ public class CpuMainPageFragment extends AbsParameterFragment {
                 } else {
                     stopMonitor();
                 }
-                PerformanceInfoConfig.setCPUOpen(getContext(), on);
+//                PerformanceInfoConfig.setCPUOpen(getContext(), on);
             }
         };
     }

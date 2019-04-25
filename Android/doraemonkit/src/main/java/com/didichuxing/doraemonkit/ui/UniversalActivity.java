@@ -10,6 +10,8 @@ import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerSettingFragment;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment;
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerSettingFragment;
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureMainFragment;
+import com.didichuxing.doraemonkit.kit.custom.MonitorDataUploadFragment;
+import com.didichuxing.doraemonkit.kit.custom.UploadMonitorInfoBean;
 import com.didichuxing.doraemonkit.kit.dataclean.DataCleanFragment;
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment;
@@ -97,6 +99,9 @@ public class UniversalActivity extends BaseActivity {
                 break;
             case FragmentIndex.FRAGMENT_WEB_DOOR_DEFAULT:
                 fragmentClass = WebDoorDefaultFragment.class;
+                break;
+            case FragmentIndex.FRAGMENT_CUSTOM:
+                fragmentClass = MonitorDataUploadFragment.class;
                 break;
             default:
                 break;

@@ -34,7 +34,7 @@ public class RamMainPageFragment extends AbsParameterFragment {
 
     @Override
     protected Collection<SettingItem> getSettingItems(List<SettingItem> list) {
-        list.add(new SettingItem(R.string.dk_ram_detection_switch, PerformanceInfoConfig.isMemoryOpen(getContext())));
+        list.add(new SettingItem(R.string.dk_ram_detection_switch, false));
         list.add(new SettingItem(R.string.dk_item_cache_log, R.drawable.dk_more_icon));
         return list;
     }
@@ -49,7 +49,7 @@ public class RamMainPageFragment extends AbsParameterFragment {
                 } else {
                     stopMonitor();
                 }
-                PerformanceInfoConfig.setMemoryOpen(getContext(), on);
+//                PerformanceInfoConfig.setMemoryOpen(getContext(), on);
             }
 
         };
