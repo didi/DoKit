@@ -20,7 +20,10 @@ public class DoraemonKit {
     public static void install(final Application app) {
     }
 
-    public static void install(final Application app, List<IKit> selfKits) {
+    public static void install(final Application app, boolean report) {
+    }
+
+    public static void install(final Application app, List<IKit> selfKits, boolean report) {
 
     }
 
