@@ -65,14 +65,18 @@ public class DoraemonKit {
     private static boolean sShowFloatingIcon = true;
 
     public static void install(final Application app) {
-        install(app, null);
+        install(app, null, true);
+    }
+
+    public static void install(final Application app, boolean report) {
+        install(app, null, report);
     }
 
     public static void setWebDoorCallback(WebDoorManager.WebDoorCallback callback) {
         WebDoorManager.getInstance().setWebDoorCallback(callback);
     }
 
-    public static void install(final Application app, List<IKit> selfKits) {
+    public static void install(final Application app, List<IKit> selfKits, boolean report) {
         if (sHasInit) {
             if (selfKits != null) {
                 List<IKit> biz = sKitMap.get(Category.BIZ);
@@ -205,7 +209,9 @@ public class DoraemonKit {
 
         FloatPageManager.getInstance().init(app);
 
-        DoraemonStatisticsUtil.uploadUserInfo(app);
+        if (report) {
+            DoraemonStatisticsUtil.uploadUserInfo(app);
+        }
     }
 
     private static void requestPermission(Context context) {
