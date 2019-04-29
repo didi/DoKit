@@ -22,6 +22,10 @@
     <string name="dk_kit_time_counter">Time Counter</string>
     <string name="dk_kit_exit">Exit</string>
     <string name="dk_kit_db_detail">Data Base</string>
+    <string name="dk_kit_top_activity">Top Activity</string>
+    <string name="dk_kit_pkg_name">Package Name：</string>
+    <string name="dk_kit_class_name">Class Name：</string>
+    <string name="dk_kit_path_name">Class Path：</string>
 
     <string name="dk_sysinfo_device_info">Mobile Info</string>
     <string name="dk_sysinfo_app_info">App Info</string>

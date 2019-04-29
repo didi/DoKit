@@ -11,7 +11,6 @@ import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment;
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerSettingFragment;
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureMainFragment;
 import com.didichuxing.doraemonkit.kit.custom.MonitorDataUploadFragment;
-import com.didichuxing.doraemonkit.kit.custom.UploadMonitorInfoBean;
 import com.didichuxing.doraemonkit.kit.dataclean.DataCleanFragment;
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment;
@@ -22,6 +21,7 @@ import com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfoFragment;
 import com.didichuxing.doraemonkit.kit.parameter.ram.RamMainPageFragment;
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoFragment;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterFragment;
+import com.didichuxing.doraemonkit.kit.topactivity.TopActivityFragment;
 import com.didichuxing.doraemonkit.kit.viewcheck.ViewCheckFragment;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorDefaultFragment;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorFragment;
@@ -102,6 +102,9 @@ public class UniversalActivity extends BaseActivity {
                 break;
             case FragmentIndex.FRAGMENT_CUSTOM:
                 fragmentClass = MonitorDataUploadFragment.class;
+                break;
+            case FragmentIndex.FRAGMENT_TOP_ACTIVITY:
+                fragmentClass = TopActivityFragment.class;
                 break;
             default:
                 break;

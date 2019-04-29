@@ -29,6 +29,7 @@ import com.didichuxing.doraemonkit.kit.parameter.ram.Ram;
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfo;
 import com.didichuxing.doraemonkit.kit.temporaryclose.TemporaryClose;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterKit;
+import com.didichuxing.doraemonkit.kit.topactivity.TopActivity;
 import com.didichuxing.doraemonkit.kit.viewcheck.ViewChecker;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoor;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
@@ -161,6 +162,7 @@ public class DoraemonKit {
         tool.add(new Crash());
         tool.add(new LogInfo());
         tool.add(new DataClean());
+        tool.add(new TopActivity());
 
         performance.add(new FrameInfo());
         performance.add(new Cpu());

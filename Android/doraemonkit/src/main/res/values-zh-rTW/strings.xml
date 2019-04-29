@@ -23,6 +23,10 @@
     <string name="dk_kit_time_counter">耗時</string>
     <string name="dk_kit_exit">退出 Doraemonkit</string>
     <string name="dk_kit_db_detail">資料庫查看</string>
+    <string name="dk_kit_top_activity">當前Activity</string>
+    <string name="dk_kit_pkg_name">包名：</string>
+    <string name="dk_kit_class_name">類名：</string>
+    <string name="dk_kit_path_name">路徑：</string>
 
     <string name="dk_sysinfo_device_info">手機資訊</string>
     <string name="dk_sysinfo_app_info">App 資訊</string>
