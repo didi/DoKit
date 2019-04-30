@@ -19,4 +19,5 @@ public interface SharedPrefsKey {
     String VIEW_CHECK_OPEN = "view_check_open";
     String LAYOUT_BORDER_OPEN = "layout_border_open";
     String LAYOUT_LEVEL_OPEN = "layout_level_open";
+    String TOP_ACTIVITY_OPEN = "top_activity_open";
 }
