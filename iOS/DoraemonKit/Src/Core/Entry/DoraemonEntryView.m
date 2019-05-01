@@ -31,7 +31,7 @@
         
         
         self.backgroundColor = [UIColor clearColor];
-        self.windowLevel = UIWindowLevelStatusBar + 1.f;
+        self.windowLevel = UIWindowLevelStatusBar + 100.f;
         NSString *version= [UIDevice currentDevice].systemVersion;
         if(version.doubleValue >=10.0) {
             if (!self.rootViewController) {

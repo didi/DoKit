@@ -13,6 +13,7 @@ import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRuler;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit;
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPicker;
+import com.didichuxing.doraemonkit.kit.custom.Custom;
 import com.didichuxing.doraemonkit.kit.gpsmock.ServiceHookManager;
 import com.didichuxing.doraemonkit.kit.parameter.cpu.Cpu;
 import com.didichuxing.doraemonkit.kit.crash.Crash;
@@ -28,6 +29,7 @@ import com.didichuxing.doraemonkit.kit.parameter.ram.Ram;
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfo;
 import com.didichuxing.doraemonkit.kit.temporaryclose.TemporaryClose;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterKit;
+import com.didichuxing.doraemonkit.kit.topactivity.TopActivity;
 import com.didichuxing.doraemonkit.kit.viewcheck.ViewChecker;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoor;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
@@ -160,6 +162,7 @@ public class DoraemonKit {
         tool.add(new Crash());
         tool.add(new LogInfo());
         tool.add(new DataClean());
+        tool.add(new TopActivity());
 
         performance.add(new FrameInfo());
         performance.add(new Cpu());
@@ -167,6 +170,7 @@ public class DoraemonKit {
         performance.add(new NetworkKit());
         performance.add(new BlockMonitorKit());
         performance.add(new TimeCounterKit());
+        performance.add(new Custom());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ui.add(new ColorPicker());
