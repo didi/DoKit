@@ -71,8 +71,8 @@ public class FileInfoAdapter extends AbsRecyclerAdapter<AbsViewBinder<FileInfo>,
                     mIcon.setImageResource(R.drawable.dk_file_db);
                 }else {
                     mIcon.setImageResource(R.drawable.dk_file_icon);
-
                 }
+                mMoreBtn.setVisibility(View.GONE);
             }
         }
 

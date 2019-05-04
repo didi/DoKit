@@ -1,10 +1,12 @@
 package com.didichuxing.doraemonkit.util;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -87,5 +89,19 @@ public class SystemUtil {
             sAppName = (String) packageManager.getApplicationLabel(applicationInfo);
             return sAppName;
         }
+    }
+
+    public static String obtainProcessName(Context context) {
+        final int pid = android.os.Process.myPid();
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> listTaskInfo = am.getRunningAppProcesses();
+        if (listTaskInfo != null && !listTaskInfo.isEmpty()) {
+            for (ActivityManager.RunningAppProcessInfo info : listTaskInfo) {
+                if (info != null && info.pid == pid) {
+                    return info.processName;
+                }
+            }
+        }
+        return null;
     }
 }

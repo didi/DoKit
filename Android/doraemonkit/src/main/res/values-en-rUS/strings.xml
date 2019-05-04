@@ -156,5 +156,6 @@
 
     <string name="dk_platform_monitor_data_button">start test</string>
     <string name="dk_platform_monitor_data_button_stop">stop test</string>
+    <string name="dk_log_text_loading">Loading...</string>
 
 </resources>

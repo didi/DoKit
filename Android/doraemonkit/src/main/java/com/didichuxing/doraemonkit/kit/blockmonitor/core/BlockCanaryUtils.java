@@ -1,12 +1,10 @@
 package com.didichuxing.doraemonkit.kit.blockmonitor.core;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.text.TextUtils;
 
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
-
-import java.util.List;
+import com.didichuxing.doraemonkit.util.SystemUtil;
 
 public final class BlockCanaryUtils {
 
@@ -42,7 +40,7 @@ public final class BlockCanaryUtils {
     private static String concernStackString(Context context, String line) {
         if (!sProcessNameFirstGetFlag) {
             sProcessNameFirstGetFlag = true;
-            sProcessName = obtainProcessName(context);
+            sProcessName = SystemUtil.obtainProcessName(context);
         }
         if (line.startsWith(sProcessName) || line.startsWith(CURRENT_PACKAGE)) {
             return classSimpleName(line);
@@ -57,19 +55,5 @@ public final class BlockCanaryUtils {
             return stackLine.substring(index1 + 1, index2);
         }
         return stackLine;
-    }
-
-    private static String obtainProcessName(Context context) {
-        final int pid = android.os.Process.myPid();
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> listTaskInfo = am.getRunningAppProcesses();
-        if (listTaskInfo != null && !listTaskInfo.isEmpty()) {
-            for (ActivityManager.RunningAppProcessInfo info : listTaskInfo) {
-                if (info != null && info.pid == pid) {
-                    return info.processName;
-                }
-            }
-        }
-        return null;
     }
 }

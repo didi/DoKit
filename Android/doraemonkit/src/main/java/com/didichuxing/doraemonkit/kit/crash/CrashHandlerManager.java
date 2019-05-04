@@ -28,7 +28,10 @@ import java.util.Map;
 public class CrashHandlerManager implements Thread.UncaughtExceptionHandler {
 
     private static final String TAG = CrashHandlerManager.class.getSimpleName();
-    private static CrashHandlerManager INSTANCE = new CrashHandlerManager();
+
+    private static class Holder {
+        private static CrashHandlerManager INSTANCE = new CrashHandlerManager();
+    }
 
     private String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/doraemon/Crash/";
 
@@ -47,10 +50,7 @@ public class CrashHandlerManager implements Thread.UncaughtExceptionHandler {
     private Boolean isOpen = false;
 
     public static CrashHandlerManager getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new CrashHandlerManager();
-        }
-        return INSTANCE;
+        return CrashHandlerManager.Holder.INSTANCE;
     }
 
     private CrashHandlerManager() {

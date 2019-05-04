@@ -15,6 +15,8 @@ import com.didichuxing.doraemonkit.kit.network.common.NetworkPrinterHelper;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;
 import com.didichuxing.doraemonkit.ui.realtime.RealTimeChartPage;
 import com.didichuxing.doraemonkit.ui.realtime.datasource.DataSourceFactory;
+import com.didichuxing.doraemonkit.util.threadpool.ThreadPoolProxy;
+import com.didichuxing.doraemonkit.util.threadpool.ThreadPoolProxyFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_test_crash).setOnClickListener(this);
         findViewById(R.id.btn_show_hide_icon).setOnClickListener(this);
         findViewById(R.id.btn_time_count).setOnClickListener(this);
+        findViewById(R.id.btn_create_database).setOnClickListener(this);
         okHttpClient = new OkHttpClient().newBuilder().build();
     }
 
@@ -103,6 +106,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     DoraemonKit.show();
                 }
                 break;
+            case R.id.btn_create_database:
+                MyDatabaseHelper dbHelper = new MyDatabaseHelper(this, "BookStore.db", null, 1);
+                dbHelper.getWritableDatabase();
+                dbHelper.close();
+                break;
             default:
                 break;
         }
@@ -113,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void requestByGet(final String path) {
-        new Thread() {
+        ThreadPoolProxyFactory.getThreadPoolProxy().execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -138,9 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     e.printStackTrace();
                 }
             }
-        }.start();
-
-
+        });
     }
 
     public void requestByPost(final String path) {

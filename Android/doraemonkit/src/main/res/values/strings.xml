@@ -168,5 +168,6 @@
 
     <string name="dk_platform_monitor_data_button">开始测试</string>
     <string name="dk_platform_monitor_data_button_stop">结束测试</string>
+    <string name="dk_log_text_loading">日志加载中...</string>
 
 </resources>
