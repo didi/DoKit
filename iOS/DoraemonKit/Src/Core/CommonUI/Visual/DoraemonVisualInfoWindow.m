@@ -92,7 +92,6 @@
     self.layer.borderWidth = 1.;
     self.layer.borderColor = [UIColor doraemon_colorWithHex:0x999999 andAlpha:0.2].CGColor;
     self.windowLevel = UIWindowLevelAlert;
-    [[DoraemonVisualInfoViewController alloc] init];
     self.rootViewController = [[DoraemonVisualInfoViewController alloc] init];
     
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];

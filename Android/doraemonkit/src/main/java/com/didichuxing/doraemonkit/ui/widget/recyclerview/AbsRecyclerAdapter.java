@@ -21,7 +21,7 @@ import java.util.List;
  */
 public abstract class AbsRecyclerAdapter<T extends AbsViewBinder, V> extends RecyclerView.Adapter<T> {
     private static final String TAG = "AbsRecyclerAdapter";
-    private List<V> mList;
+    protected List<V> mList;
     private LayoutInflater mInflater;
 
     public AbsRecyclerAdapter(Context context) {

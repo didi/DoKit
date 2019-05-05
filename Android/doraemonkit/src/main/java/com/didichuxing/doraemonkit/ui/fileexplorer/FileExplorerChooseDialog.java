@@ -10,7 +10,6 @@ import com.didichuxing.doraemonkit.ui.dialog.DialogListener;
 import com.didichuxing.doraemonkit.ui.dialog.DialogProvider;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
-import com.didichuxing.doraemonkit.util.FileUtil;
 
 import java.io.File;
 
@@ -48,11 +47,27 @@ public class FileExplorerChooseDialog extends DialogProvider<File> {
             @Override
             public void onSettingItemClick(View view, SettingItem data) {
                 if (data.desc == R.string.dk_delete) {
-                    FileUtil.deleteDirectory(file);
+                    if (onButtonClickListener != null) {
+                        onButtonClickListener.onDeleteClick(FileExplorerChooseDialog.this);
+                    }
                 } else if (data.desc == R.string.dk_share) {
-                    FileUtil.systemShare(getContext(), file);
+                    if (onButtonClickListener != null) {
+                        onButtonClickListener.onShareClick(FileExplorerChooseDialog.this);
+                    }
                 }
             }
         });
+    }
+
+    private OnButtonClickListener onButtonClickListener;
+
+    public void setOnButtonClickListener(OnButtonClickListener onButtonClickListener) {
+        this.onButtonClickListener = onButtonClickListener;
+    }
+
+    public interface OnButtonClickListener {
+        void onDeleteClick(FileExplorerChooseDialog dialog);
+
+        void onShareClick(FileExplorerChooseDialog dialog);
     }
 }

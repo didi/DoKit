@@ -57,9 +57,11 @@ public class FileExplorerFragment extends BaseFragment {
                     if (FileUtil.isImage(fileInfo.file)) {
                         showContent(ImageDetailFragment.class, bundle);
                     } else if (FileUtil.isDB(fileInfo.file)) {
-                        showContent(DBDetailFragment.class, bundle);
+                        showContent(DatabaseDetailFragment.class, bundle);
                     } else if (FileUtil.isVideo(fileInfo.file)) {
                         showContent(VideoPlayFragment.class, bundle);
+                    } else if (FileUtil.isSp(fileInfo.file)) {
+                        showContent(SpFragment.class, bundle);
                     } else {
                         showContent(TextDetailFragment.class, bundle);
                     }
@@ -72,8 +74,29 @@ public class FileExplorerFragment extends BaseFragment {
         });
         mFileInfoAdapter.setOnViewLongClickListener(new FileInfoAdapter.OnViewLongClickListener() {
             @Override
-            public boolean onViewLongClick(View v, FileInfo fileInfo) {
+            public boolean onViewLongClick(View v, final FileInfo fileInfo) {
+
                 FileExplorerChooseDialog dialog = new FileExplorerChooseDialog(fileInfo.file, null);
+                dialog.setOnButtonClickListener(new FileExplorerChooseDialog.OnButtonClickListener() {
+                    @Override
+                    public void onDeleteClick(FileExplorerChooseDialog dialog) {
+                        FileUtil.deleteDirectory(fileInfo.file);
+                        dialog.dismiss();
+
+                        if (mCurDir != null) {
+                            mTitleBar.setTitle(mCurDir.getName());
+                            setAdapterData(getFileInfos(mCurDir));
+                        }
+
+                    }
+
+                    @Override
+                    public void onShareClick(FileExplorerChooseDialog dialog) {
+                        FileUtil.systemShare(getContext(), fileInfo.file);
+                        dialog.dismiss();
+
+                    }
+                });
                 showDialog(dialog);
                 return true;
             }

@@ -32,19 +32,20 @@
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.text = DoraemonLocalizedString(@"帧率检测");
-    titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(20)];
+    titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(20)];
     titleLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:titleLabel];
     [titleLabel sizeToFit];
-    titleLabel.frame = CGRectMake(kDoraemonSizeFrom750(20), IPHONE_TOPSENSOR_HEIGHT + kDoraemonSizeFrom750(10), titleLabel.doraemon_width, titleLabel.doraemon_height);
+    titleLabel.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(20), IPHONE_TOPSENSOR_HEIGHT + kDoraemonSizeFrom750_Landscape(10), titleLabel.doraemon_width, titleLabel.doraemon_height);
     
     UIButton *closeBtn = [[UIButton alloc] init];
     [closeBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close_white"] forState:UIControlStateNormal];
-    closeBtn.frame = CGRectMake(self.view.doraemon_width-kDoraemonSizeFrom750(60), IPHONE_TOPSENSOR_HEIGHT, kDoraemonSizeFrom750(60), kDoraemonSizeFrom750(60));
+    
+    closeBtn.frame = CGRectMake((kInterfaceOrientationPortrait ? DoraemonScreenWidth : DoraemonScreenHeight)-kDoraemonSizeFrom750_Landscape(60), IPHONE_TOPSENSOR_HEIGHT, kDoraemonSizeFrom750_Landscape(60), kDoraemonSizeFrom750_Landscape(60));
     [closeBtn addTarget:self action:@selector(closeBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:closeBtn];
     
-    _oscillogramView = [[DoraemonOscillogramView alloc] initWithFrame:CGRectMake(0, titleLabel.doraemon_bottom+kDoraemonSizeFrom750(24), self.view.doraemon_width, kDoraemonSizeFrom750(400))];
+    _oscillogramView = [[DoraemonOscillogramView alloc] initWithFrame:CGRectMake(0, titleLabel.doraemon_bottom+kDoraemonSizeFrom750_Landscape(24), (kInterfaceOrientationPortrait ? DoraemonScreenWidth : DoraemonScreenHeight), kDoraemonSizeFrom750_Landscape(400))];
     _oscillogramView.backgroundColor = [UIColor clearColor];
     [_oscillogramView setLowValue:@"0"];
     [_oscillogramView setHightValue:@"60"];

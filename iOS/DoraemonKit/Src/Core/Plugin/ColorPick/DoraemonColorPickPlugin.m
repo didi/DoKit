@@ -12,7 +12,7 @@
 
 @implementation DoraemonColorPickPlugin
 
-- (void)pluginDidLoad{
+- (void)pluginDidLoad {
     [[DoraemonColorPickWindow shareInstance] show];
     [[DoraemonColorPickInfoWindow shareInstance] show];
     [[DoraemonHomeWindow shareInstance] hide];

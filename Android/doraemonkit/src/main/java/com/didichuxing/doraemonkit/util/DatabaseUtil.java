@@ -2,14 +2,16 @@ package com.didichuxing.doraemonkit.util;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class DBUtil {
+public class DatabaseUtil {
+    private DatabaseUtil() {
+    }
 
-    public static List<String> queryDBtableName(SQLiteDatabase database) {
+    public static List<String> queryTableName(SQLiteDatabase database) {
         ArrayList<String> tableName = new ArrayList<>();
 
         if (database == null) {
@@ -19,27 +21,23 @@ public class DBUtil {
         while (cursor.moveToNext()) {
             tableName.add(cursor.getString(0));
         }
-
+        cursor.close();
         return tableName;
     }
 
     public static String[] queryTableColumnName(SQLiteDatabase database, String tableName) {
-        ArrayList<String> columnNames = new ArrayList<>();
-
         if (tableName == null || database == null) {
             return new String[0];
         }
-        Cursor cursor = database.rawQuery("PRAGMA table_info([" + tableName + "])", null);
-        // 对应 cid，name，type，notnull，dfl_value,pk
-        while (cursor.moveToNext()) {
-            columnNames.add(cursor.getString(1));
-        }
-        return columnNames.toArray(new String[columnNames.size()]);
+        Cursor cursor = database.query(tableName, null, null, null, null, null, null);
+        ArrayList<String> columnNames = new ArrayList<>(Arrays.asList(cursor.getColumnNames()));
+        cursor.close();
+        return columnNames.toArray(new String[0]);
     }
 
-    public static String[][] queryAll(SQLiteDatabase database, String table) {
-        String[] strings = queryTableColumnName(database, table);
-        Cursor cursor = database.rawQuery("select * from " + table, null);
+    public static String[][] queryAll(SQLiteDatabase database, String tableName) {
+        String[] strings = queryTableColumnName(database, tableName);
+        Cursor cursor = database.query(tableName, null, null, null, null, null, null);
         int rowCount = cursor.getCount();
         String[][] words = new String[strings.length][rowCount];
         for (int y = 0; y <rowCount; y++) {
@@ -49,7 +47,7 @@ public class DBUtil {
                 }
             }
         }
+        cursor.close();
         return words;
     }
-
 }

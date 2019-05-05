@@ -19,6 +19,8 @@
     <color name="dk_color_55A8FD">#55A8FD</color>
     <color name="dk_color_BBBBBB">#BBBBBB</color>
     <color name="dk_color_0070BB">#0070BB</color>
+    <color name="dk_color_000a7a">#000a7a</color>
+    <color name="dk_color_0099dd">#0099dd</color>
     <color name="dk_color_48BB31">#48BB31</color>
     <color name="dk_color_BBBB23">#BBBB23</color>
     <color name="dk_color_FF0006">#FF0006</color>
@@ -41,4 +43,18 @@
     <color name="dk_color_ff00C9F4">#ff00C9F4</color>
     <color name="dk_color_60000000">#60000000</color>
     <color name="dk_color_90FFFFFF">#90FFFFFF</color>
+
+    <color name="background_wtf">#FF999900</color>
+    <color name="background_error">#FFCC0000</color>
+    <color name="background_verbose">#FF666666</color>
+    <color name="background_debug">#FFFFFF00</color>
+    <color name="background_info">#FF00CC00</color>
+    <color name="background_warn">#FF0066CC</color>
+
+    <color name="foreground_wtf">#FFFFFFFF</color>
+    <color name="foreground_error">#FFFFFFFF</color>
+    <color name="foreground_verbose">#FFCCCCCC</color>
+    <color name="foreground_debug">#FF333333</color>
+    <color name="foreground_info">#FF333333</color>
+    <color name="foreground_warn">#FFCCCCCC</color>
 </resources>

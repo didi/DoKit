@@ -34,4 +34,7 @@ public class DoraemonKit {
     public static boolean isShow() {
         return false;
     }
+
+    public static void disableUpload() {
+    }
 }

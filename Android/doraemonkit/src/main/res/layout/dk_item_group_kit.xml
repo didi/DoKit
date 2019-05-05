@@ -13,7 +13,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:gravity="center"
-        android:maxLines="1" />
+        android:singleLine="true" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="16dp"
