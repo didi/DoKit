@@ -62,6 +62,7 @@
 
     <string name="dk_web_door_hint">输入地址，点击按钮跳转</string>
     <string name="dk_web_door_explore">点击跳转</string>
+    <string name="dk_web_door_clear_history">清空搜索歷史</string>
 
     <string name="dk_gpsmock_open">开启模拟定位</string>
     <string name="dk_gpsmock_tv_location">模拟</string>

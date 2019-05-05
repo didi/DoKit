@@ -60,6 +60,8 @@
 
     <string name="dk_web_door_hint">輸入地址，點擊按鈕切換</string>
     <string name="dk_web_door_explore">點擊切換</string>
+    <string name="dk_web_door_clear_history">清空搜索歷史</string>
+
 
     <string name="dk_gpsmock_open">開啟模擬定位</string>
     <string name="dk_gpsmock_tv_location">模擬地址</string>
