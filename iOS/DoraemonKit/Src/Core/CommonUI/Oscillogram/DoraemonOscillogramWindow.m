@@ -30,6 +30,7 @@
     if (self) {
         self.windowLevel = UIWindowLevelStatusBar + 1.f;
         self.backgroundColor = [UIColor doraemon_colorWithHex:0x000000 andAlpha:0.33];
+        self.layer.masksToBounds = YES;
         
         [self addRootVc];
     }
@@ -54,7 +55,11 @@
 
 - (void)show{
     self.hidden = NO;
-    self.frame = CGRectMake(0, 0, DoraemonScreenWidth, kDoraemonSizeFrom750(480)+IPHONE_TOPSENSOR_HEIGHT);
+    if (kInterfaceOrientationPortrait) {
+        self.frame = CGRectMake(0, 0, DoraemonScreenWidth, kDoraemonSizeFrom750(480)+IPHONE_TOPSENSOR_HEIGHT);
+    } else {
+        self.frame = CGRectMake(0, 0, DoraemonScreenHeight, kDoraemonSizeFrom750_Landscape(480)+IPHONE_TOPSENSOR_HEIGHT);
+    }
     [_vc startRecord];
 }
 
