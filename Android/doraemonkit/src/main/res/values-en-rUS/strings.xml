@@ -61,6 +61,7 @@
 
     <string name="dk_web_door_hint">Enter the address to jump</string>
     <string name="dk_web_door_explore">Click To Jump</string>
+    <string name="dk_web_door_clear_history">Clear History</string>
 
     <string name="dk_gpsmock_tv_location">Mock</string>
     <string name="dk_gpsmock_hint_latitude">Input latitude</string>
@@ -156,5 +157,6 @@
 
     <string name="dk_platform_monitor_data_button">start test</string>
     <string name="dk_platform_monitor_data_button_stop">stop test</string>
+    <string name="dk_log_text_loading">Loading...</string>
 
 </resources>

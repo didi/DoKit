@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <SurfaceView
+            android:id="@+id/scanner_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+        <com.didichuxing.doraemonkit.zxing.view.ViewfinderView
+            android:id="@+id/viewfinder_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dkCornerColor="@color/dk_color_337CC4"
+            app:dkFrameColor="@color/dk_color_90FFFFFF"
+            app:dkLabelText=""
+            app:dkLabelTextColor="@color/dk_color_333333"
+            app:dkLaserColor="@color/dk_color_337CC4"
+            app:dkMaskColor="@color/dk_color_60000000"
+            app:dkResultColor="@color/dk_color_000000"
+            app:dkResultPointColor="@color/dk_color_60000000" />
+
+    </FrameLayout>
+
+</LinearLayout>

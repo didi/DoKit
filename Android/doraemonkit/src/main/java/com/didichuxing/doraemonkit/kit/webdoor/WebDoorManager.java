@@ -59,6 +59,11 @@ public class WebDoorManager {
         return mHistory;
     }
 
+    public void clearHistory(Context context) {
+        mHistory.clear();
+        CacheUtils.saveObject(context, CachesKey.WEB_DOOR_HISTORY, mHistory);
+    }
+
     private static class Holder {
         private static WebDoorManager INSTANCE = new WebDoorManager();
     }
@@ -68,7 +73,7 @@ public class WebDoorManager {
     }
 
     public interface WebDoorCallback {
-        void overrideUrlLoading(Context context,String url);
+        void overrideUrlLoading(Context context, String url);
     }
 
     private class DefaultWebDoorCallback implements WebDoorCallback {

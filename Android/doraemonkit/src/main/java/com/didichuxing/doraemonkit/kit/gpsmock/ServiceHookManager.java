@@ -49,6 +49,9 @@ public class ServiceHookManager {
             Method getService = serviceManager.getDeclaredMethod(METHOD_GET_SERVICE, String.class);
             for (BaseServiceHooker hooker : mHookers) {
                 IBinder binder = (IBinder) getService.invoke(null, hooker.getServiceName());
+                if (binder == null) {
+                    return;
+                }
                 ClassLoader classLoader = binder.getClass().getClassLoader();
                 Class[] interfaces = {IBinder.class};
                 BinderHookHandler handler = new BinderHookHandler(binder, hooker);
