@@ -47,8 +47,15 @@
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
-    if (point.x>DoraemonScreenWidth-kDoraemonSizeFrom750(60) && point.y<kDoraemonSizeFrom750(60)+IPHONE_TOPSENSOR_HEIGHT) {
-        return [super pointInside:point withEvent:event];
+    // 检测视图右上角的按钮，传递事件才能关闭，这里是横屏适配
+    if (kInterfaceOrientationPortrait) {
+        if (point.x > DoraemonScreenWidth-kDoraemonSizeFrom750_Landscape(60) && point.y <  kDoraemonSizeFrom750_Landscape(60)+IPHONE_TOPSENSOR_HEIGHT) {
+            return [super pointInside:point withEvent:event];
+        }
+    } else {
+        if (point.x > DoraemonScreenHeight-kDoraemonSizeFrom750_Landscape(60) && point.y <  kDoraemonSizeFrom750_Landscape(60)+IPHONE_TOPSENSOR_HEIGHT) {
+            return [super pointInside:point withEvent:event];
+        }
     }
     return NO;
 }

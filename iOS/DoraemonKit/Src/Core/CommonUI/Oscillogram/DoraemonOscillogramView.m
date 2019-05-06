@@ -192,7 +192,7 @@
     //self.indicatorLayer.frame = CGRectMake(point.x, 0, 1, self.bottomLine.doraemon_bottom);
 }
 
-- (void)clear{
+- (void)clear {
     if (_pointLayerList.count>0) {
         for (CALayer *layer in _pointLayerList) {
             [layer removeFromSuperlayer];
@@ -205,5 +205,8 @@
     _pointList = [NSMutableArray array];
     _tipLabel.hidden = YES;
 }
+
+
+
 
 @end
