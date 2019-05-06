@@ -265,9 +265,18 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     }
 }
 
-- (void)hiddenDoraemon{
-    _entryView.hidden = YES;
+- (void)showDoraemon{
+    if (_entryView.hidden) {
+        _entryView.hidden = NO;
+    }
 }
+
+- (void)hiddenDoraemon{
+    if (!_entryView.hidden) {
+        _entryView.hidden = YES;
+     }
+}
+
 
 - (void)addH5DoorBlock:(void(^)(NSString *h5Url))block{
     self.h5DoorBlock = block;
