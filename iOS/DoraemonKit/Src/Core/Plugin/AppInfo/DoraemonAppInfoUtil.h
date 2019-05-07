@@ -53,4 +53,7 @@
 
 + (NSString *)bluetoothAuthority;
 
++ (CGFloat)naviationHeight;
+
++ (UIEdgeInsets)safeAreaInsets;
 @end
