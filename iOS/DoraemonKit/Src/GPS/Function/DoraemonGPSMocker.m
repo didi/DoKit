@@ -11,7 +11,7 @@
 
 @interface DoraemonGPSMocker()<CLLocationManagerDelegate>
 
-@property (nonatomic, strong) NSMutableDictionary *locationMonitor;
+@property (nonatomic, strong) NSMapTable *locationMonitor;
 @property (nonatomic,strong) CLLocation *oldLocation;
 @property (nonatomic, strong) CLLocation *pointLocation;
 @property (nonatomic,strong) NSTimer *simTimer;
@@ -36,7 +36,7 @@
 - (instancetype)init{
     self = [super init];
     if(self){
-        _locationMonitor = [NSMutableDictionary new];
+        _locationMonitor = [NSMapTable strongToWeakObjectsMapTable];
         _isMocking = NO;
     }
     return self;
@@ -72,11 +72,10 @@
 }
 
 - (void)dispatchLocationsToAll:(NSArray*)locations{
-    for (NSString *key in _locationMonitor.allKeys) {
+    for (NSString *key in _locationMonitor.keyEnumerator) {
         if ([key hasSuffix:@"_binder"]) {
             NSString *binderKey = key;
             CLLocationManager *binderManager = [_locationMonitor objectForKey:binderKey];
-            
             [self dispatchLocationUpdate:binderManager locations:locations];
         }
     }
