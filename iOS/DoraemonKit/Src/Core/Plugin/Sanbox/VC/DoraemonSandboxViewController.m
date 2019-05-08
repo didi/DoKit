@@ -71,8 +71,7 @@
         model.type = DoraemonSandboxFileTypeBack;
         self.bigTitleView.hidden = YES;
         self.navigationController.navigationBarHidden = NO;
-        self.tableView.frame = CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height-IPHONE_NAVIGATIONBAR_HEIGHT);
-        self.edgesForExtendedLayout = UIRectEdgeNone;
+        self.tableView.frame = CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, self.view.doraemon_height-IPHONE_NAVIGATIONBAR_HEIGHT);
         NSString *dirTitle =  [fm displayNameAtPath:targetPath];
         self.title = dirTitle;
         DoraemonNavBarItemModel *leftModel = [[DoraemonNavBarItemModel alloc] initWithImage:[UIImage doraemon_imageNamed:@"doraemon_back"] selector:@selector(leftNavBackClick:)];
