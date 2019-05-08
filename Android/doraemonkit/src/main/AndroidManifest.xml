@@ -17,17 +17,26 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
+    <!-- Zxing-->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <application>
         <activity
             android:name=".ui.UniversalActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
         <activity
             android:name=".ui.TranslucentActivity"
+            android:theme="@style/DK.Theme.Translucent"
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <activity
+            android:name=".zxing.activity.CaptureActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|stateUnchanged"
-            android:theme="@style/DK.Theme.Translucent" />
+            android:windowSoftInputMode="stateHidden|stateUnchanged" />
 
         <provider
             android:name=".DebugFileProvider"
@@ -40,14 +49,14 @@
         </provider>
 
         <!--<service-->
-            <!--android:name=".kit.viewcheck.DebugAccessibilityService"-->
-            <!--android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.accessibilityservice.AccessibilityService" />-->
-            <!--</intent-filter>-->
-            <!--<meta-data-->
-                <!--android:name="android.accessibilityservice"-->
-                <!--android:resource="@xml/debug_accessibility_service_config" />-->
+        <!--android:name=".kit.viewcheck.DebugAccessibilityService"-->
+        <!--android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.accessibilityservice.AccessibilityService" />-->
+        <!--</intent-filter>-->
+        <!--<meta-data-->
+        <!--android:name="android.accessibilityservice"-->
+        <!--android:resource="@xml/debug_accessibility_service_config" />-->
         <!--</service>-->
     </application>
 </manifest>

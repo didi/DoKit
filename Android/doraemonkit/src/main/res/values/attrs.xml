@@ -3,24 +3,36 @@
     <attr name="dkTitle" format="string" />
 
     <declare-styleable name="LabelTextView">
-        <attr name="dkLabel" format="string"/>
-        <attr name="dkText" format="string"/>
-        <attr name="dkMaxLines" format="integer"/>
+        <attr name="dkLabel" format="string" />
+        <attr name="dkText" format="string" />
+        <attr name="dkMaxLines" format="integer" />
     </declare-styleable>
 
     <declare-styleable name="TitleBar">
-        <attr name="dkTitle"/>
-        <attr name="dkTitleColor" format="color"/>
-        <attr name="dkLeftIcon" format="reference"/>
-        <attr name="dkLeftText" format="string"/>
-        <attr name="dkRightIcon" format="reference"/>
-        <attr name="dkRightSubIcon" format="reference"/>
-        <attr name="dkTitleBackground" format="color"/>
-        <attr name="dkRightText" format="string"/>
+        <attr name="dkTitle" />
+        <attr name="dkTitleColor" format="color" />
+        <attr name="dkLeftIcon" format="reference" />
+        <attr name="dkLeftText" format="string" />
+        <attr name="dkRightIcon" format="reference" />
+        <attr name="dkRightSubIcon" format="reference" />
+        <attr name="dkTitleBackground" format="color" />
+        <attr name="dkRightText" format="string" />
     </declare-styleable>
 
     <declare-styleable name="HomeTitleBar">
-        <attr name="dkTitle"/>
-        <attr name="dkIcon" format="reference"/>
+        <attr name="dkTitle" />
+        <attr name="dkIcon" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ViewfinderView">
+        <attr name="dkCornerColor" format="color" />
+        <attr name="dkLaserColor" format="color" />
+        <attr name="dkFrameColor" format="color" />
+        <attr name="dkMaskColor" format="color" />
+        <attr name="dkResultPointColor" format="color" />
+        <attr name="dkResultColor" format="color" />
+        <attr name="dkLabelTextColor" format="color" />
+        <attr name="dkLabelText" format="string" />
+        <attr name="dkLabelTextSize" format="float" />
     </declare-styleable>
 </resources>

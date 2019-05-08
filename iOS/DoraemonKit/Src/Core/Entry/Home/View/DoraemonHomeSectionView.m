@@ -51,13 +51,24 @@
     _titleLabel.text = name;
 }
 
+- (void)updateUILayout {
+    _imageView.frame = CGRectMake(self.doraemon_width/2-kDoraemonSizeFrom750(68)/2, 0, kDoraemonSizeFrom750(68), kDoraemonSizeFrom750(68));
+    _titleLabel.frame = CGRectMake(0, _imageView.doraemon_bottom+kDoraemonSizeFrom750(12), self.doraemon_width, kDoraemonSizeFrom750(33));
+    _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(24)];
+}
+
 - (void)itemClick{
     NSString *pluginName = _itemData[@"pluginName"];
     
     if(pluginName){
         Class pluginClass = NSClassFromString(pluginName);
         id<DoraemonPluginProtocol> plugin = [[pluginClass alloc] init];
-        [plugin pluginDidLoad];
+        if ([plugin respondsToSelector:@selector(pluginDidLoad)]) {
+            [plugin pluginDidLoad];
+        }
+        if ([plugin respondsToSelector:@selector(pluginDidLoad:)]) {
+            [plugin pluginDidLoad:(NSDictionary *)_itemData];
+        }
     }
 
 }
@@ -86,7 +97,7 @@
     return self;
 }
 
-- (void)renderUIWithData:(NSDictionary *)data{
+- (void)renderUIWithData:(NSDictionary *)data {
     NSString *moduleName = data[@"moduleName"];
     _titleLabel.text = moduleName;
     [_titleLabel sizeToFit];
@@ -107,9 +118,37 @@
         }
         
         DoraemonHomeSectionItemView *itemView = [[DoraemonHomeSectionItemView alloc] initWithFrame:CGRectMake(offsetX, offsetY, itemWidth, itemHeight)];
+        itemView.tag = sectionViewTagStartSubscript + i;
         [itemView renderUIWithData:itemData];
         [self addSubview:itemView];
         
+        offsetX += itemWidth;
+    }
+}
+ 
+int sectionViewTagStartSubscript = 100;
+- (void)updateUILayoutWithData:(NSDictionary *)data {
+    _titleLabel.font = [UIFont boldSystemFontOfSize:kDoraemonSizeFrom750(32)];
+    [_titleLabel sizeToFit];
+    _titleLabel.frame = CGRectMake(kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(32), _titleLabel.doraemon_width, _titleLabel.doraemon_height);
+    self.layer.cornerRadius = kDoraemonSizeFrom750(8);
+    
+    NSArray *pluginArray = data[@"pluginArray"];
+    
+    CGFloat offsetX = 0;
+    CGFloat offsetY = kDoraemonSizeFrom750(32+45+32);
+    CGFloat itemWidth = DoraemonScreenWidth/4;
+    CGFloat itemHeight = kDoraemonSizeFrom750(68+12+33);
+    CGFloat itemSpace = kDoraemonSizeFrom750(32);
+    
+    for (int i = 0; i < pluginArray.count;i++) {
+        if (i%4 == 0 && i !=0 ) {
+            offsetY += itemHeight + itemSpace;
+            offsetX = 0;
+        }
+        DoraemonHomeSectionItemView *itemView = [self viewWithTag:sectionViewTagStartSubscript + i];
+        itemView.frame = CGRectMake(offsetX, offsetY, itemWidth, itemHeight);
+        [itemView updateUILayout];
         offsetX += itemWidth;
     }
 }

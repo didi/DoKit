@@ -33,6 +33,8 @@
 
 + (BOOL)isIPhoneXSeries;
 
++ (BOOL)isIpad;
+
 + (NSString *)locationAuthority;
 
 + (NSString *)pushAuthority;
@@ -50,5 +52,4 @@
 + (NSString *)remindAuthority;
 
 + (NSString *)bluetoothAuthority;
-
 @end

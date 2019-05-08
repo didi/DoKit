@@ -19,15 +19,15 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         DoraemonKit.install(this);
-        DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
-            @Override
-            public void overrideUrlLoading(Context context, String url) {
-                Intent intent = new Intent(App.this, WebViewActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(WebViewActivity.KEY_URL, url);
-                startActivity(intent);
-            }
-        });
+//        DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
+//            @Override
+//            public void overrideUrlLoading(Context context, String url) {
+//                Intent intent = new Intent(App.this, WebViewActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.putExtra(WebViewActivity.KEY_URL, url);
+//                startActivity(intent);
+//            }
+//        });
         StrictMode.enableDefaults();
     }
 }

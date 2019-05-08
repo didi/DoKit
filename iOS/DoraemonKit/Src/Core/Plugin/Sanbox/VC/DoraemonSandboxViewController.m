@@ -9,10 +9,9 @@
 #import "DoraemonSandboxModel.h"
 #import "DoraemonSandBoxCell.h"
 #import "DoraemonSanboxDetailViewController.h"
-#import "Doraemoni18NUtil.h"
-#import "UIView+Doraemon.h"
 #import "DoraemonNavBarItemModel.h"
-#import "UIImage+Doraemon.h"
+#import "DoraemonAppInfoUtil.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonSandboxViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -70,9 +69,9 @@
     }else{
         model.name = DoraemonLocalizedString(@"返回上一级");
         model.type = DoraemonSandboxFileTypeBack;
-        self.tableView.frame = CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height);
         self.bigTitleView.hidden = YES;
         self.navigationController.navigationBarHidden = NO;
+        self.tableView.frame = CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, self.view.doraemon_height-IPHONE_NAVIGATIONBAR_HEIGHT);
         NSString *dirTitle =  [fm displayNameAtPath:targetPath];
         self.title = dirTitle;
         DoraemonNavBarItemModel *leftModel = [[DoraemonNavBarItemModel alloc] initWithImage:[UIImage doraemon_imageNamed:@"doraemon_back"] selector:@selector(leftNavBackClick:)];
@@ -164,7 +163,14 @@
 }
 
 - (void)handleFileWithPath:(NSString *)filePath{
-    UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:DoraemonLocalizedString(@"请选择操作方式") message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertControllerStyle style;
+    if ([DoraemonAppInfoUtil isIpad]) {
+        style = UIAlertControllerStyleAlert;
+    }else{
+        style = UIAlertControllerStyleActionSheet;
+    }
+    
+    UIAlertController *alertVc = [UIAlertController alertControllerWithTitle:DoraemonLocalizedString(@"请选择操作方式") message:nil preferredStyle:style];
     __weak typeof(self) weakSelf = self;
     UIAlertAction *previewAction = [UIAlertAction actionWithTitle:DoraemonLocalizedString(@"本地预览") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         __strong typeof(self) strongSelf = weakSelf;
@@ -204,7 +210,14 @@
                                     UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo];
     controller.excludedActivityTypes = excludedActivities;
 
-    [self presentViewController:controller animated:YES completion:nil];
+    if([DoraemonAppInfoUtil isIpad]){
+        if ( [controller respondsToSelector:@selector(popoverPresentationController)] ) {
+            controller.popoverPresentationController.sourceView = self.view;
+        }
+        [self presentViewController:controller animated:YES completion:nil];
+    }else{
+        [self presentViewController:controller animated:YES completion:nil];
+    }
 }
 
 - (void)deleteByDoraemonSandboxModel:(DoraemonSandboxModel *)model{

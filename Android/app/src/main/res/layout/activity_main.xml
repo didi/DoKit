@@ -42,5 +42,11 @@
         android:layout_height="50dp"
         android:text="模拟 Crash"/>
 
+    <Button
+        android:id="@+id/btn_create_database"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="创建数据库"/>
+
 
 </LinearLayout>

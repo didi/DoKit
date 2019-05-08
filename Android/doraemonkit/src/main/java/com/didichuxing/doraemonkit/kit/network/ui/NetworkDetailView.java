@@ -26,7 +26,7 @@ import static android.content.Context.CLIPBOARD_SERVICE;
  * @desc: 显示request和response的view
  */
 public class NetworkDetailView extends LinearLayout {
-    private SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MMdd-HH:mm:ss:SSS");
+    private SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS");
 
     private TextView url;
     private TextView method;

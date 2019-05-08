@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,8 +19,8 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.BaseFloatPage;
 import com.didichuxing.doraemonkit.ui.loginfo.LogItemAdapter;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,18 +30,19 @@ import java.util.List;
 public class LogInfoFloatPage extends BaseFloatPage implements LogInfoManager.OnLogCatchListener {
     private static final String TAG = "LogInfoFloatPage";
 
-    private static final int MAX_LOG_LINE_NUM = 50;
+    private static final int MAX_LOG_LINE_NUM = 10000;
 
     private RecyclerView mLogList;
     private LogItemAdapter mLogItemAdapter;
     private EditText mLogFilter;
     private RadioGroup mRadioGroup;
     private TitleBar mTitleBar;
-    private List<LogInfoItem> mLogInfoItems = new ArrayList<>();
 
     private WindowManager mWindowManager;
     private TextView mLogHint;
     private View mLogPage;
+
+    private boolean mIsLoaded;
 
     @Override
     protected void onCreate(Context context) {
@@ -57,8 +57,6 @@ public class LogInfoFloatPage extends BaseFloatPage implements LogInfoManager.On
         super.onDestroy();
         LogInfoManager.getInstance().stop();
         LogInfoManager.getInstance().removeListener();
-        mLogInfoItems.clear();
-        mLogInfoItems = null;
     }
 
     @Override
@@ -93,20 +91,7 @@ public class LogInfoFloatPage extends BaseFloatPage implements LogInfoManager.On
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (!TextUtils.isEmpty(mLogFilter.getText())) {
-                    CharSequence filter = mLogFilter.getText();
-                    List<LogInfoItem> infoItems = new ArrayList<>();
-                    for (LogInfoItem item : mLogInfoItems) {
-                        if (item.orginalLog.contains(filter)) {
-                            infoItems.add(item);
-                        }
-                    }
-                    mLogItemAdapter.clear();
-                    mLogItemAdapter.setData(infoItems);
-                } else {
-                    mLogItemAdapter.clear();
-                    mLogItemAdapter.setData(mLogInfoItems);
-                }
+                mLogItemAdapter.getFilter().filter(s);
             }
         });
         mTitleBar = findViewById(R.id.title_bar);
@@ -132,47 +117,36 @@ public class LogInfoFloatPage extends BaseFloatPage implements LogInfoManager.On
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.verbose) {
-                    mLogItemAdapter.clear();
-                    mLogItemAdapter.setData(mLogInfoItems);
+                    mLogItemAdapter.setLogLevelLimit(Log.VERBOSE);
                 } else if (checkedId == R.id.debug) {
-                    List<LogInfoItem> infoItems = new ArrayList<>();
-                    for (LogInfoItem item : mLogInfoItems) {
-                        if (item.level >= Log.DEBUG) {
-                            infoItems.add(item);
-                        }
-                    }
-                    mLogItemAdapter.clear();
-                    mLogItemAdapter.setData(infoItems);
+                    mLogItemAdapter.setLogLevelLimit(Log.DEBUG);
                 } else if (checkedId == R.id.info) {
-                    List<LogInfoItem> infoItems = new ArrayList<>();
-                    for (LogInfoItem item : mLogInfoItems) {
-                        if (item.level >= Log.INFO) {
-                            infoItems.add(item);
-                        }
-                    }
-                    mLogItemAdapter.clear();
-                    mLogItemAdapter.setData(infoItems);
+                    mLogItemAdapter.setLogLevelLimit(Log.INFO);
                 } else if (checkedId == R.id.warn) {
-                    List<LogInfoItem> infoItems = new ArrayList<>();
-                    for (LogInfoItem item : mLogInfoItems) {
-                        if (item.level >= Log.WARN) {
-                            infoItems.add(item);
-                        }
-                    }
-                    mLogItemAdapter.clear();
-                    mLogItemAdapter.setData(infoItems);
+                    mLogItemAdapter.setLogLevelLimit(Log.WARN);
                 } else if (checkedId == R.id.error) {
-                    List<LogInfoItem> infoItems = new ArrayList<>();
-                    for (LogInfoItem item : mLogInfoItems) {
-                        if (item.level >= Log.ERROR) {
-                            infoItems.add(item);
-                        }
-                    }
-                    mLogItemAdapter.clear();
-                    mLogItemAdapter.setData(infoItems);
+                    mLogItemAdapter.setLogLevelLimit(Log.ERROR);
                 }
+                mLogItemAdapter.getFilter().filter(mLogFilter.getText());
             }
         });
+        mLogList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+
+                final LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                // if the bottom of the list isn't visible anymore, then stop autoscrolling
+                mAutoscrollToBottom = (layoutManager.findLastCompletelyVisibleItemPosition() == recyclerView.getAdapter().getItemCount() - 1);
+            }
+        });
+
         mRadioGroup.check(R.id.verbose);
     }
 
@@ -181,28 +155,45 @@ public class LogInfoFloatPage extends BaseFloatPage implements LogInfoManager.On
         params.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
     }
 
+    private int counter = 0;
+    private static final int UPDATE_CHECK_INTERVAL = 200;
+    private boolean mAutoscrollToBottom = true;
+
     @Override
-    public void onLogCatch(LogInfoItem infoItem) {
+    public void onLogCatch(List<LogLine> logLines) {
         if (mLogList == null || mLogItemAdapter == null) {
             return;
         }
-        mLogInfoItems.add(infoItem);
-        if (mLogInfoItems.size() == MAX_LOG_LINE_NUM) {
-            mLogInfoItems.remove(0);
+        if (!mIsLoaded) {
+            mIsLoaded = true;
+            findViewById(R.id.ll_loading).setVisibility(View.GONE);
+            mLogList.setVisibility(View.VISIBLE);
         }
-        if (infoItem.level >= getSelectLogLevel()) {
-            if (!TextUtils.isEmpty(mLogFilter.getText())) {
-                CharSequence filter = mLogFilter.getText();
-                if (infoItem.orginalLog.contains(filter)) {
-                    mLogItemAdapter.append(infoItem);
-                }
-            } else {
-                mLogItemAdapter.append(infoItem);
+        if (logLines.size() == 1) {
+            mLogItemAdapter.addWithFilter(logLines.get(0), mLogFilter.getText(), true);
+        } else {
+            for (LogLine line : logLines) {
+                mLogItemAdapter.addWithFilter(line, mLogFilter.getText(), false);
             }
-            if (mLogItemAdapter.getItemCount() == MAX_LOG_LINE_NUM) {
-                mLogItemAdapter.remove(0);
-            }
+            mLogItemAdapter.notifyDataSetChanged();
         }
+        if (logLines.size() > 0) {
+            LogLine line = logLines.get(logLines.size() - 1);
+            mLogHint.setText(line.getTag() + ":" + line.getLogOutput());
+        }
+        if (++counter % UPDATE_CHECK_INTERVAL == 0
+                && mLogItemAdapter.getTrueValues().size() > MAX_LOG_LINE_NUM) {
+            int numItemsToRemove = mLogItemAdapter.getTrueValues().size() - MAX_LOG_LINE_NUM;
+            mLogItemAdapter.removeFirst(numItemsToRemove);
+            LogHelper.d(TAG, "truncating %d lines from log list to avoid out of memory errors:" + numItemsToRemove);
+        }
+        if (mAutoscrollToBottom) {
+            scrollToBottom();
+        }
+    }
+
+    private void scrollToBottom() {
+        mLogList.scrollToPosition(mLogItemAdapter.getItemCount() - 1);
     }
 
     private int getSelectLogLevel() {

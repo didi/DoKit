@@ -4,13 +4,16 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
+import com.didichuxing.doraemonkit.kit.logInfo.reader.LogcatReader;
+import com.didichuxing.doraemonkit.kit.logInfo.reader.LogcatReaderLoader;
 import com.didichuxing.doraemonkit.util.ExecutorUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by wanglikun on 2018/10/10.
@@ -50,7 +53,7 @@ public class LogInfoManager {
     }
 
     public interface OnLogCatchListener {
-        void onLogCatch(LogInfoItem infoItem);
+        void onLogCatch(List<LogLine> logLine);
     }
 
     public void registerListener(OnLogCatchListener listener) {
@@ -71,7 +74,7 @@ public class LogInfoManager {
             switch (msg.what) {
                 case MESSAGE_PUBLISH_LOG: {
                     if (LogInfoManager.getInstance().mListener != null) {
-                        LogInfoManager.getInstance().mListener.onLogCatch(new LogInfoItem((String) msg.obj));
+                        LogInfoManager.getInstance().mListener.onLogCatch((List<LogLine>) msg.obj);
                     }
                 }
                 break;
@@ -81,34 +84,56 @@ public class LogInfoManager {
         }
     }
 
+
     private static class LogCatchRunnable implements Runnable {
         private boolean isRunning = true;
         private Handler internalHandler;
+        private LogcatReader mReader;
+        private int mPid;
 
         private LogCatchRunnable() {
             internalHandler = new InternalHandler(Looper.getMainLooper());
+            mPid = android.os.Process.myPid();
         }
 
         @Override
         public void run() {
             try {
-                Runtime.getRuntime().exec("logcat -c");
-                Process process = Runtime.getRuntime().exec("logcat -v time");
-                InputStream is = process.getInputStream();
-                InputStreamReader reader = new InputStreamReader(is);
-                BufferedReader br = new BufferedReader(reader);
+                LogcatReaderLoader loader = LogcatReaderLoader.create(true);
+                mReader = loader.loadReader();
 
-                String log;
-                while ((log = br.readLine()) != null && isRunning) {
-                    Message message = Message.obtain();
-                    message.what = MESSAGE_PUBLISH_LOG;
-                    message.obj = log;
-                    internalHandler.sendMessage(message);
+                String line;
+                int maxLines = 10000;
+                LinkedList<LogLine> initialLines = new LinkedList<>();
+                while ((line = mReader.readLine()) != null && isRunning) {
+                    LogLine logLine = LogLine.newLogLine(line, false);
+                    if (!mReader.readyToRecord()) {
+                        if (logLine.getProcessId() == mPid) {
+                            initialLines.add(logLine);
+                        }
+                        if (initialLines.size() > maxLines) {
+                            initialLines.removeFirst();
+                        }
+                    } else if (!initialLines.isEmpty()) {
+                        if (logLine.getProcessId() == mPid) {
+                            initialLines.add(logLine);
+                        }
+                        Message message = Message.obtain();
+                        message.what = MESSAGE_PUBLISH_LOG;
+                        message.obj = new ArrayList<>(initialLines);
+                        internalHandler.sendMessage(message);
+                        initialLines.clear();
+                    } else {
+                        // just proceed as normal
+                        if (logLine.getProcessId() == mPid) {
+                            Message message = Message.obtain();
+                            message.what = MESSAGE_PUBLISH_LOG;
+                            message.obj = Collections.singletonList(logLine);
+                            internalHandler.sendMessage(message);
+                        }
+                    }
                 }
-
-                br.close();
-                reader.close();
-                is.close();
+                mReader.killQuietly();
             } catch (IOException e) {
                 LogHelper.e(TAG, e.toString());
             }

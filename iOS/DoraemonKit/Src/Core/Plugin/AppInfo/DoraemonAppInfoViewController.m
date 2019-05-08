@@ -247,6 +247,15 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(indexPath.section == 2){
+        NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        if([[UIApplication sharedApplication] canOpenURL:url]) {
+            NSURL*url =[NSURL URLWithString:UIApplicationOpenSettingsURLString];
+            [[UIApplication sharedApplication] openURL:url];
+        }
+    }
+}
 
 
 @end

@@ -3,9 +3,10 @@
 ### 1、cocoapods依赖
 
 ```
-    pod 'DoraemonKit/Core', '~> 1.1.5', :configurations => ['Debug']
-    pod 'DoraemonKit/WithLogger', '~> 1.1.5', :configurations => ['Debug']
-    pod 'DoraemonKit/WithGPS', '~> 1.1.5', :configurations => ['Debug']
+    pod 'DoraemonKit/Core', '~> 1.1.7', :configurations => ['Debug']
+    pod 'DoraemonKit/WithLogger', '~> 1.1.7', :configurations => ['Debug']
+    pod 'DoraemonKit/WithGPS', '~> 1.1.7', :configurations => ['Debug']
+    pod 'DoraemonKit/WithLoad', '~> 1.1.7', :configurations => ['Debug']
 ```
 Core subspec作为核心，必须引入。
 
@@ -36,7 +37,7 @@ MockGPS存在一些兼容性问题（绝大部分情况是好的，问题详见[
 ### 3、添加自定义测试模块到Doraemon面板中（非必要）
 比如我们要在Doraemon面板中添加一个环境切换的功能。
 
-第一步：新建一个类，实现KDDoraemonPluginProtocol协议中的pluginDidLoad方法，该方法就是以后点击Doraemon工具面板中“环境切换”按钮触发的事件。
+第一步：新建一个类，实现DoraemonPluginProtocol协议中的pluginDidLoad方法，该方法就是以后点击Doraemon工具面板中“环境切换”按钮触发的事件。
 
 比如以代驾司机端为例，点击按钮之后会进入环境切换页面。
 

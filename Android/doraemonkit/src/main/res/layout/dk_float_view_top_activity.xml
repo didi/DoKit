@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/dk_info_background">
+
+        <LinearLayout
+            android:id="@+id/ll_class_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/ll_pkg_name"
+            app:layout_constraintEnd_toStartOf="@+id/close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                style="@style/DK.Text.Darker"
+                android:text="@string/dk_kit_class_name" />
+
+            <TextView
+                android:id="@+id/class_name"
+                style="@style/DK.Text.Darker"
+                android:gravity="left" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_pkg_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/ll_path_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_class_name">
+
+            <TextView
+                style="@style/DK.Text.Darker"
+                android:text="@string/dk_kit_pkg_name" />
+
+            <TextView
+                android:id="@+id/pkg_name"
+                style="@style/DK.Text.Darker"
+                android:gravity="left" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_path_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ll_pkg_name">
+
+            <TextView
+                style="@style/DK.Text.Darker"
+                android:text="@string/dk_kit_path_name" />
+
+            <TextView
+                android:id="@+id/path_name"
+                style="@style/DK.Text.Darker"
+                android:gravity="left" />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="12dp"
+            android:src="@drawable/dk_close_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>

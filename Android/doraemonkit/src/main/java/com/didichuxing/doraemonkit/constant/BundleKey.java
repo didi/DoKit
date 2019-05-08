@@ -9,4 +9,6 @@ public interface BundleKey {
     String FRAGMENT_INDEX = "fragment_index";
     String ACCESSIBILITY_DATA = "accessibility_data";
     String PERFORMANCE_TYPE = "PERFORMANCE_TYPE";
+
+    String KEY_URL = "key_url";
 }

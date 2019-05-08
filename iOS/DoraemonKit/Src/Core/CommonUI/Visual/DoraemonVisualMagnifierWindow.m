@@ -25,7 +25,7 @@
         self.layer.delegate = self;
         self.layer.borderWidth = 1;
         self.layer.borderColor = [[UIColor clearColor] CGColor];
-        self.windowLevel = UIWindowLevelStatusBar + 1;
+        self.windowLevel = UIWindowLevelStatusBar + 1.f;
         self.layer.contentsScale = [[UIScreen mainScreen] scale];
     }
     return self;

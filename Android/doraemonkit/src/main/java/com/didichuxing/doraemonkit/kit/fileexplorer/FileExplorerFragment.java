@@ -11,6 +11,7 @@ import android.view.View;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
+import com.didichuxing.doraemonkit.ui.fileexplorer.FileExplorerChooseDialog;
 import com.didichuxing.doraemonkit.ui.fileexplorer.FileInfo;
 import com.didichuxing.doraemonkit.ui.fileexplorer.FileInfoAdapter;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
@@ -56,7 +57,11 @@ public class FileExplorerFragment extends BaseFragment {
                     if (FileUtil.isImage(fileInfo.file)) {
                         showContent(ImageDetailFragment.class, bundle);
                     } else if (FileUtil.isDB(fileInfo.file)) {
-                        showContent(DBDetailFragment.class, bundle);
+                        showContent(DatabaseDetailFragment.class, bundle);
+                    } else if (FileUtil.isVideo(fileInfo.file)) {
+                        showContent(VideoPlayFragment.class, bundle);
+                    } else if (FileUtil.isSp(fileInfo.file)) {
+                        showContent(SpFragment.class, bundle);
                     } else {
                         showContent(TextDetailFragment.class, bundle);
                     }
@@ -69,13 +74,31 @@ public class FileExplorerFragment extends BaseFragment {
         });
         mFileInfoAdapter.setOnViewLongClickListener(new FileInfoAdapter.OnViewLongClickListener() {
             @Override
-            public boolean onViewLongClick(View v, FileInfo fileInfo) {
-                if (fileInfo.file.isFile()) {
-                    FileUtil.systemShare(getContext(), fileInfo.file);
-                    return true;
-                } else {
-                    return false;
-                }
+            public boolean onViewLongClick(View v, final FileInfo fileInfo) {
+
+                FileExplorerChooseDialog dialog = new FileExplorerChooseDialog(fileInfo.file, null);
+                dialog.setOnButtonClickListener(new FileExplorerChooseDialog.OnButtonClickListener() {
+                    @Override
+                    public void onDeleteClick(FileExplorerChooseDialog dialog) {
+                        FileUtil.deleteDirectory(fileInfo.file);
+                        dialog.dismiss();
+
+                        if (mCurDir != null) {
+                            mTitleBar.setTitle(mCurDir.getName());
+                            setAdapterData(getFileInfos(mCurDir));
+                        }
+
+                    }
+
+                    @Override
+                    public void onShareClick(FileExplorerChooseDialog dialog) {
+                        FileUtil.systemShare(getContext(), fileInfo.file);
+                        dialog.dismiss();
+
+                    }
+                });
+                showDialog(dialog);
+                return true;
             }
         });
         setAdapterData(initRootFileInfos(getContext()));
@@ -91,6 +114,9 @@ public class FileExplorerFragment extends BaseFragment {
 
     private List<FileInfo> getFileInfos(File dir) {
         List<FileInfo> fileInfos = new ArrayList<>();
+        if (dir.listFiles() == null) {
+            return fileInfos;
+        }
         for (File file : dir.listFiles()) {
             FileInfo fileInfo = new FileInfo(file);
             fileInfos.add(fileInfo);

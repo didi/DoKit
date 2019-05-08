@@ -12,6 +12,6 @@ post_install do |installer|
 end
 
 target :'DoraemonKitDemo' do
-    pod 'DoraemonKit', :subspecs => ['Core','WithLogger','WithGPS'],  :path => '../../'
+    pod 'DoraemonKit', :subspecs => ['Core','WithLogger','WithGPS','WithLoad'],  :path => '../../'
     pod 'AFNetworking','2.6.3'
 end

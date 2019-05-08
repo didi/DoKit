@@ -10,22 +10,37 @@
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="89dp"
-        app:dkTitle="@string/dk_kit_web_door"
-        app:dkIcon="@drawable/dk_close_icon_big"/>
+        app:dkIcon="@drawable/dk_close_icon_big"
+        app:dkTitle="@string/dk_kit_web_door" />
 
     <View style="@style/DK.Divider" />
 
-    <EditText
-        android:id="@+id/web_address_input"
-        style="@style/DK.Input"
-        android:layout_height="200dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:padding="5dp"
-        android:gravity="top"
-        android:hint="@string/dk_web_door_hint"
-        android:inputType="textUri" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <EditText
+            android:id="@+id/web_address_input"
+            style="@style/DK.Input"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="15dp"
+            android:gravity="top"
+            android:hint="@string/dk_web_door_hint"
+            android:inputType="textUri"
+            android:padding="5dp" />
+
+        <ImageView
+            android:id="@+id/qr_code"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="@dimen/dk_dp_16"
+            android:layout_marginBottom="@dimen/dk_dp_16"
+            android:src="@drawable/dk_web_door_history_qrcode" />
+    </RelativeLayout>
 
     <View style="@style/DK.Divider" />
 
@@ -33,17 +48,36 @@
         android:id="@+id/url_explore"
         style="@style/DK.ConfirmButton.Positive"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:layout_marginTop="16dp"
+        android:layout_marginRight="15dp"
         android:enabled="false"
         android:text="@string/dk_web_door_explore" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/history_list"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/history_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="15dp" />
+
+            <TextView
+                android:id="@+id/clear"
+                style="@style/DK.Text.Gray"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:text="@string/dk_web_door_clear_history" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

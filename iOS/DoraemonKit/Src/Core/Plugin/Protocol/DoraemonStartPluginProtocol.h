@@ -9,6 +9,7 @@
 
 @protocol DoraemonStartPluginProtocol <NSObject>
 
-- (void)pluginDidLoad;
+@optional
+- (void)startPluginDidLoad;
 
 @end
