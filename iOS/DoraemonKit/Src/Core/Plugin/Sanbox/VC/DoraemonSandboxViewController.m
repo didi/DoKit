@@ -49,6 +49,7 @@
 - (void)initUI{
     self.title = DoraemonLocalizedString(@"沙盒浏览器");
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-self.bigTitleView.doraemon_bottom) style:UITableViewStylePlain];
+    self.tableView.tableFooterView = [UIView new];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -73,7 +74,11 @@
         model.type = DoraemonSandboxFileTypeBack;
         self.bigTitleView.hidden = YES;
         self.navigationController.navigationBarHidden = NO;
-        self.tableView.frame = CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height);
+        CGFloat height = self.view.doraemon_height;
+        if (height == CGRectGetHeight([UIScreen mainScreen].bounds)) {
+            height = self.view.doraemon_height - [DoraemonAppInfoUtil naviationHeight] - [DoraemonAppInfoUtil safeAreaInsets].bottom;
+        }
+        self.tableView.frame = CGRectMake(0, 0, self.view.doraemon_width, height);
         self.edgesForExtendedLayout = UIRectEdgeNone;
         NSString *dirTitle =  [fm displayNameAtPath:targetPath];
         self.title = dirTitle;
