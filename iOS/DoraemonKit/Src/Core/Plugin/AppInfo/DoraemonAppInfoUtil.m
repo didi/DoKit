@@ -348,19 +348,5 @@
     return @"";
 }
 
-+ (CGFloat)naviationHeight
-{
-    return CGRectGetHeight([UIApplication sharedApplication].statusBarFrame) + 44;
-}
-+ (UIEdgeInsets)safeAreaInsets
-{
-    UIEdgeInsets insets = UIEdgeInsetsZero;
-    if (@available(iOS 11.0, *))
-    {
-        insets = [UIApplication sharedApplication].keyWindow.safeAreaInsets;
-    }
-    return insets;
-}
-
 
 @end

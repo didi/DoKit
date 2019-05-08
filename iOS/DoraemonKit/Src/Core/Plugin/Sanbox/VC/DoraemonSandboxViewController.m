@@ -9,11 +9,9 @@
 #import "DoraemonSandboxModel.h"
 #import "DoraemonSandBoxCell.h"
 #import "DoraemonSanboxDetailViewController.h"
-#import "Doraemoni18NUtil.h"
-#import "UIView+Doraemon.h"
 #import "DoraemonNavBarItemModel.h"
-#import "UIImage+Doraemon.h"
 #import "DoraemonAppInfoUtil.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonSandboxViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -49,7 +47,6 @@
 - (void)initUI{
     self.title = DoraemonLocalizedString(@"沙盒浏览器");
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-self.bigTitleView.doraemon_bottom) style:UITableViewStylePlain];
-    self.tableView.tableFooterView = [UIView new];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
@@ -74,11 +71,7 @@
         model.type = DoraemonSandboxFileTypeBack;
         self.bigTitleView.hidden = YES;
         self.navigationController.navigationBarHidden = NO;
-        CGFloat height = self.view.doraemon_height;
-        if (height == CGRectGetHeight([UIScreen mainScreen].bounds)) {
-            height = self.view.doraemon_height - [DoraemonAppInfoUtil naviationHeight] - [DoraemonAppInfoUtil safeAreaInsets].bottom;
-        }
-        self.tableView.frame = CGRectMake(0, 0, self.view.doraemon_width, height);
+        self.tableView.frame = CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height-IPHONE_NAVIGATIONBAR_HEIGHT);
         self.edgesForExtendedLayout = UIRectEdgeNone;
         NSString *dirTitle =  [fm displayNameAtPath:targetPath];
         self.title = dirTitle;
