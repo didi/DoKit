@@ -45,6 +45,10 @@ public class BlockMonitorManager {
         return BlockMonitorManager.Holder.INSTANCE;
     }
 
+    private BlockMonitorManager() {
+
+    }
+
     public void start(Context context) {
         if (mIsRunning) {
             LogHelper.i(TAG, "start when manager is running");

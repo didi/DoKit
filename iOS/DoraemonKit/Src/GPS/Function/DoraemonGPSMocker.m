@@ -11,7 +11,7 @@
 
 @interface DoraemonGPSMocker()<CLLocationManagerDelegate>
 
-@property (nonatomic, strong) NSMutableDictionary *locationMonitor;
+@property (nonatomic, strong) NSMapTable *locationMonitor;
 @property (nonatomic,strong) CLLocation *oldLocation;
 @property (nonatomic, strong) CLLocation *pointLocation;
 @property (nonatomic,strong) NSTimer *simTimer;
@@ -36,7 +36,7 @@
 - (instancetype)init{
     self = [super init];
     if(self){
-        _locationMonitor = [NSMutableDictionary new];
+        _locationMonitor = [NSMapTable strongToWeakObjectsMapTable];
         _isMocking = NO;
     }
     return self;
@@ -72,11 +72,10 @@
 }
 
 - (void)dispatchLocationsToAll:(NSArray*)locations{
-    for (NSString *key in _locationMonitor.allKeys) {
+    for (NSString *key in _locationMonitor.keyEnumerator) {
         if ([key hasSuffix:@"_binder"]) {
             NSString *binderKey = key;
             CLLocationManager *binderManager = [_locationMonitor objectForKey:binderKey];
-            
             [self dispatchLocationUpdate:binderManager locations:locations];
         }
     }
@@ -100,6 +99,28 @@
 }
 
 #pragma mark - CLLocationManagerDelegate
+-(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
+    [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(locationManager:didUpdateToLocation:fromLocation:)]) {
+            [delegate locationManager:manager didUpdateToLocation:newLocation fromLocation:oldLocation];
+        }
+    }];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    if (!self.isMocking) {
+        [self dispatchLocationUpdate:manager locations:locations];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
+    [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(locationManager:didUpdateHeading:)]) {
+            [delegate locationManager:manager didUpdateHeading:newHeading];
+        }
+    }];
+}
+
 -(BOOL)locationManagerShouldDisplayHeadingCalibration:(CLLocationManager *)manager{
     __block BOOL ret = NO;
     [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
@@ -111,18 +132,47 @@
     return ret;
 }
 
--(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
+- (void)locationManager:(CLLocationManager *)manager
+      didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region {
     [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(locationManager:didUpdateToLocation:fromLocation:)]) {
-            [delegate locationManager:manager didUpdateToLocation:newLocation fromLocation:oldLocation];
+        if ([delegate respondsToSelector:@selector(locationManager:didDetermineState:forRegion:)]) {
+            [delegate locationManager:manager didDetermineState:state forRegion:region];
         }
     }];
 }
 
--(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
+- (void)locationManager:(CLLocationManager *)manager
+        didRangeBeacons:(NSArray<CLBeacon *> *)beacons inRegion:(CLBeaconRegion *)region{
     [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(locationManager:didChangeAuthorizationStatus:)]) {
-            [delegate locationManager:manager didChangeAuthorizationStatus:status];
+        if ([delegate respondsToSelector:@selector(locationManager:didRangeBeacons:inRegion:)]) {
+            [delegate locationManager:manager didRangeBeacons:beacons inRegion:region];
+        }
+    }];
+}
+
+- (void)locationManager:(CLLocationManager *)manager rangingBeaconsDidFailForRegion:(CLBeaconRegion *)region
+              withError:(NSError *)error{
+    [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(locationManager:rangingBeaconsDidFailForRegion:withError:)]) {
+            [delegate locationManager:manager rangingBeaconsDidFailForRegion:region withError:error];
+        }
+    }];
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+         didEnterRegion:(CLRegion *)region{
+    [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(locationManager:didEnterRegion:)]) {
+            [delegate locationManager:manager didEnterRegion:region];
+        }
+    }];
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+          didExitRegion:(CLRegion *)region{
+    [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(locationManager:didExitRegion:)]) {
+            [delegate locationManager:manager didExitRegion:region];
         }
     }];
 }
@@ -135,27 +185,28 @@
     }];
 }
 
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    if (!self.isMocking) {
-        [self dispatchLocationUpdate:manager locations:locations];
-    }
-}
-
--(void)dispatchLocationUpdate:(CLLocationManager *)manager locations:(NSArray*)locations{
-    NSString *key = [NSString stringWithFormat:@"%p_delegate",manager];
-    id<CLLocationManagerDelegate> delegate = [_locationMonitor objectForKey:key];
-    if ([delegate respondsToSelector:@selector(locationManager:didUpdateLocations:)]) {
-        [delegate locationManager:manager didUpdateLocations:locations];
-    }else if ([delegate respondsToSelector:@selector(locationManager:didUpdateToLocation:fromLocation:)]){
-        [delegate locationManager:manager didUpdateToLocation:locations.firstObject fromLocation:self.oldLocation];
-        self.oldLocation = locations.firstObject;
-    }
-}
-
-- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading {
+- (void)locationManager:(CLLocationManager *)manager
+monitoringDidFailForRegion:(nullable CLRegion *)region
+              withError:(NSError *)error{
     [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(locationManager:didUpdateHeading:)]) {
-            [delegate locationManager:manager didUpdateHeading:newHeading];
+        if ([delegate respondsToSelector:@selector(locationManager:monitoringDidFailForRegion:withError:)]) {
+            [delegate locationManager:manager monitoringDidFailForRegion:region withError:error];
+        }
+    }];
+}
+
+-(void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
+    [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(locationManager:didChangeAuthorizationStatus:)]) {
+            [delegate locationManager:manager didChangeAuthorizationStatus:status];
+        }
+    }];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region{
+    [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(locationManager:didStartMonitoringForRegion:)]) {
+            [delegate locationManager:manager didStartMonitoringForRegion:region];
         }
     }];
 }
@@ -176,11 +227,32 @@
     }];
 }
 
+- (void)locationManager:(CLLocationManager *)manager didFinishDeferredUpdatesWithError:(nullable NSError *)error{
+    [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(locationManager:didFinishDeferredUpdatesWithError:)]) {
+            [delegate locationManager:manager didFinishDeferredUpdatesWithError:error];
+        }
+    }];
+}
+
 - (void)locationManager:(CLLocationManager *)manager didVisit:(CLVisit *)visit {
     [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(locationManager:didVisit:)]) {
             [delegate locationManager:manager didVisit:visit];
         }
     }];
+}
+
+
+
+-(void)dispatchLocationUpdate:(CLLocationManager *)manager locations:(NSArray*)locations{
+    NSString *key = [NSString stringWithFormat:@"%p_delegate",manager];
+    id<CLLocationManagerDelegate> delegate = [_locationMonitor objectForKey:key];
+    if ([delegate respondsToSelector:@selector(locationManager:didUpdateLocations:)]) {
+        [delegate locationManager:manager didUpdateLocations:locations];
+    }else if ([delegate respondsToSelector:@selector(locationManager:didUpdateToLocation:fromLocation:)]){
+        [delegate locationManager:manager didUpdateToLocation:locations.firstObject fromLocation:self.oldLocation];
+        self.oldLocation = locations.firstObject;
+    }
 }
 @end

@@ -20,7 +20,12 @@
 #define DoraemonScreenHeight [UIScreen mainScreen].bounds.size.height
 
 //根据750*1334分辨率计算size
-#define kDoraemonSizeFrom750(x)                ((x)*DoraemonScreenWidth/750)
+#define kDoraemonSizeFrom750(x) ((x)*DoraemonScreenWidth/750)
+// 如果横屏显示
+#define kDoraemonSizeFrom750_Landscape(x) (kInterfaceOrientationPortrait ? kDoraemonSizeFrom750(x) : ((x)*DoraemonScreenHeight/750))
+
+#define kInterfaceOrientationPortrait UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)
+
 
 #define IS_IPHONE_X_Series [DoraemonAppInfoUtil isIPhoneXSeries]
 #define IPHONE_NAVIGATIONBAR_HEIGHT  (IS_IPHONE_X_Series ? 88 : 64)

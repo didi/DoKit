@@ -35,7 +35,7 @@
 + (NSString *)formatTimeIntervalToMS:(NSTimeInterval)timeInterval;
 
 //获取某一条文件路径的文件大小
-- (NSString *)getFileSizeWithPath:(NSString *)path;
+- (void)getFileSizeWithPath:(NSString *)path;
 
 //删除某一路径下的所有文件
 + (void)clearFileWithPath:(NSString *)path;

@@ -76,7 +76,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
         Class pluginClass = NSClassFromString(pluginName);
         id<DoraemonStartPluginProtocol> plugin = [[pluginClass alloc] init];
         if (plugin) {
-            [plugin pluginDidLoad];
+            [plugin startPluginDidLoad];
         }
     }
 
@@ -163,7 +163,9 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonNetFlowPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonANRPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAllTestPlugin];
+#if DoraemonWithLoad
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMethodUseTimePlugin];
+#endif
     
     #pragma mark - 视觉工具
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonColorPickPlugin];
@@ -263,9 +265,18 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     }
 }
 
-- (void)hiddenDoraemon{
-    _entryView.hidden = YES;
+- (void)showDoraemon{
+    if (_entryView.hidden) {
+        _entryView.hidden = NO;
+    }
 }
+
+- (void)hiddenDoraemon{
+    if (!_entryView.hidden) {
+        _entryView.hidden = YES;
+     }
+}
+
 
 - (void)addH5DoorBlock:(void(^)(NSString *h5Url))block{
     self.h5DoorBlock = block;

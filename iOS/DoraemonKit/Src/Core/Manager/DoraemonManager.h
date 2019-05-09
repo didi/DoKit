@@ -93,6 +93,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 - (void)addperformanceBlock:(void(^)(NSDictionary *performanceDic))block;
 
+- (void)showDoraemon;
+
 - (void)hiddenDoraemon;
 
 - (void)hiddenHomeWindow;

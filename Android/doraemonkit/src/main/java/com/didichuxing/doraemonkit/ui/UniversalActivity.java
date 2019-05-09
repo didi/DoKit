@@ -9,18 +9,21 @@ import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerSettingFragment;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment;
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerSettingFragment;
-import com.didichuxing.doraemonkit.kit.cpu.CpuMainPageFragment;
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureMainFragment;
+import com.didichuxing.doraemonkit.kit.custom.MonitorDataUploadFragment;
 import com.didichuxing.doraemonkit.kit.dataclean.DataCleanFragment;
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment;
-import com.didichuxing.doraemonkit.kit.frameInfo.FrameInfoFragment;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment;
 import com.didichuxing.doraemonkit.kit.logInfo.LogInfoSettingFragment;
 import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMonitorFragment;
-import com.didichuxing.doraemonkit.kit.ram.RamMainPageFragment;
+import com.didichuxing.doraemonkit.kit.parameter.cpu.CpuMainPageFragment;
+import com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfoFragment;
+import com.didichuxing.doraemonkit.kit.parameter.ram.RamMainPageFragment;
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoFragment;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterFragment;
+import com.didichuxing.doraemonkit.kit.topactivity.TopActivityFragment;
 import com.didichuxing.doraemonkit.kit.viewcheck.ViewCheckFragment;
+import com.didichuxing.doraemonkit.kit.webdoor.WebDoorDefaultFragment;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorFragment;
 import com.didichuxing.doraemonkit.ui.base.BaseActivity;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
@@ -93,6 +96,15 @@ public class UniversalActivity extends BaseActivity {
                 break;
             case FragmentIndex.FRAGMENT_TIME_COUNTER:
                 fragmentClass = TimeCounterFragment.class;
+                break;
+            case FragmentIndex.FRAGMENT_WEB_DOOR_DEFAULT:
+                fragmentClass = WebDoorDefaultFragment.class;
+                break;
+            case FragmentIndex.FRAGMENT_CUSTOM:
+                fragmentClass = MonitorDataUploadFragment.class;
+                break;
+            case FragmentIndex.FRAGMENT_TOP_ACTIVITY:
+                fragmentClass = TopActivityFragment.class;
                 break;
             default:
                 break;

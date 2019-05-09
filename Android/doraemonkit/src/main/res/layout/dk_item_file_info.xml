@@ -26,7 +26,7 @@
             android:layout_weight="1"
             android:ellipsize="end"
             android:gravity="left"
-            android:maxLines="1" />
+            android:singleLine="true" />
 
         <ImageView
             android:id="@+id/more"

@@ -56,6 +56,11 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
         ![request.URL.scheme isEqualToString:@"https"]) {
         return NO;
     }
+    //文件类型不作处理
+    NSString *contentType = [request valueForHTTPHeaderField:@"Content-Type"];
+    if (contentType && [contentType containsString:@"multipart/form-data"]) {
+        return NO;
+    }
     //NSLog(@"DoraemonNSURLProtocol == %@",request.URL.absoluteString);
     return YES;
 }

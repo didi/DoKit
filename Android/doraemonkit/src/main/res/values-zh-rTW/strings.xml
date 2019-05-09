@@ -1,0 +1,147 @@
+<resources>
+    <string name="dk_app_name">DoraemonKit</string>
+
+    <string name="dk_category_biz">業務專區</string>
+    <string name="dk_category_tools">常用工具</string>
+    <string name="dk_category_performance">效能監控</string>
+    <string name="dk_category_ui">視覺工具</string>
+
+    <string name="dk_kit_sysinfo">App 基本資訊</string>
+    <string name="dk_kit_file_explorer">Sandbox</string>
+    <string name="dk_kit_frame_info">幀率</string>
+    <string name="dk_kit_frame_info_desc">幀率檢測</string>
+    <string name="dk_kit_gps_mock">位置模擬</string>
+    <string name="dk_kit_color_picker">取色器</string>
+    <string name="dk_kit_align_ruler">對齊標尺</string>
+    <string name="dk_kit_log_info">Log 查看</string>
+    <string name="dk_kit_web_door">H5 任意門</string>
+    <string name="dk_kit_temporary_close">隱藏</string>
+    <string name="dk_kit_crash">Crash 查看</string>
+    <string name="dk_kit_data_clean">清除 Cache</string>
+    <string name="dk_kit_view_check">View 元件檢查</string>
+    <string name="dk_kit_net_monitor">流量監控</string>
+    <string name="dk_kit_time_counter">耗時</string>
+    <string name="dk_kit_exit">退出 Doraemonkit</string>
+    <string name="dk_kit_db_detail">資料庫查看</string>
+    <string name="dk_kit_top_activity">當前Activity</string>
+    <string name="dk_kit_pkg_name">包名：</string>
+    <string name="dk_kit_class_name">類名：</string>
+    <string name="dk_kit_path_name">路徑：</string>
+
+    <string name="dk_sysinfo_device_info">手機資訊</string>
+    <string name="dk_sysinfo_app_info">App 資訊</string>
+    <string name="dk_sysinfo_permission_info">權限資訊</string>
+    <string name="dk_sysinfo_permission_info_unreliable">權限資訊 (App 未做 6.0 權限管理，以下資訊僅供參考)</string>
+    <string name="dk_sysinfo_brand_and_model">手機型號</string>
+    <string name="dk_sysinfo_android_version">系統版本</string>
+    <string name="dk_sysinfo_package_name">Package Name</string>
+    <string name="dk_sysinfo_package_version_name">Application Version Name</string>
+    <string name="dk_sysinfo_package_version_code">Application Version Code</string>
+    <string name="dk_sysinfo_package_min_sdk">Minimum SDK</string>
+    <string name="dk_sysinfo_package_target_sdk">Target SDK</string>
+    <string name="dk_sysinfo_ext_storage_free">SD 卡剩餘空間</string>
+    <string name="dk_sysinfo_rom_free">系統剩餘空間</string>
+    <string name="dk_sysinfo_permission_location">位置權限</string>
+    <string name="dk_sysinfo_permission_sdcard">儲存空間權限</string>
+    <string name="dk_sysinfo_permission_camera">相機權限</string>
+    <string name="dk_sysinfo_permission_record">麥克風權限</string>
+    <string name="dk_sysinfo_permission_read_phone">設備資訊權限</string>
+    <string name="dk_sysinfo_permission_contact">通訊錄權限</string>
+
+    <string name="dk_frameinfo_fps">幀率</string>
+    <string name="dk_frameinfo_cpu">CPU</string>
+
+    <string name="dk_log_info_edt_hint">輸入想要過濾的關鍵字</string>
+    <string name="dk_log_info_verbose">Verbose</string>
+    <string name="dk_log_info_debug">Debug</string>
+    <string name="dk_log_info_info">Info</string>
+    <string name="dk_log_info_warn">Warn</string>
+    <string name="dk_log_info_error">Error</string>
+
+    <string name="dk_web_door_hint">輸入地址，點擊按鈕切換</string>
+    <string name="dk_web_door_explore">點擊切換</string>
+    <string name="dk_web_door_clear_history">清空搜索歷史</string>
+
+
+    <string name="dk_gpsmock_open">開啟模擬定位</string>
+    <string name="dk_gpsmock_tv_location">模擬地址</string>
+    <string name="dk_gpsmock_hint_latitude">輸入緯度 (Lat)</string>
+    <string name="dk_gpsmock_hint_longitude">輸入經度 (Lng)</string>
+
+    // 卡頓檢測
+    <string name="dk_kit_block_monitor">ANR 檢測</string>
+    <string name="dk_kit_block_monitor_list">ANR 列表</string>
+    <string name="dk_kit_block_monitor_detail">ANR 詳情</string>
+    <string name="dk_item_block_switch">ANR 檢測開關</string>
+    <string name="dk_item_block_goto_list">查看 ANR 紀錄</string>
+    <string name="dk_item_block_mock">模擬 ANR</string>
+
+    <string name="dk_block_class_has_blocked">blocked %s ms</string>
+    <string name="dk_block_notification_message">Click for more details</string>
+
+    <string name="dk_crash_capture_tips">DoraemonKit 正在為您記錄 Crash</string>
+    <string name="dk_crash_capture_no_record">暫無 crash 紀錄</string>
+    <string name="dk_crash_capture_clean_data">一鍵清理 Crash Log</string>
+    <string name="dk_crash_capture_look">查看 Crash Log</string>
+    <string name="dk_crash_capture_switch">Crash Log 收集開關</string>
+    <string name="dk_crash_capture_summary_title">Crash Log 列表</string>
+    <string name="dk_back">返回</string>
+    <string name="dk_frameinfo_ram">RAM</string>
+    <string name="dk_kit_network_monitor">流量監控</string>
+    <string name="dk_data_clean_toast">清除系統資料</string>
+    <string name="dk_float_permission_toast">哆啦A夢需要打開懸浮視窗權限才能正常使用</string>
+    <string name="dk_gps_location_change_toast">地址變為: %1$s, %2$s</string>
+    <string name="dk_view_check_info_desc">背景顏色：%1$s</string>
+    <string name="dk_view_check_info_size">View 尺寸：寬%1$d，高%2$d</string>
+    <string name="dk_view_check_info_id">View ID：%1$s</string>
+    <string name="dk_view_check_info_class">View 類別：%1$s</string>
+    <string name="dk_view_check_info_activity">當前 Activity：%1$s</string>
+    <string name="dk_view_check_info_fragment">可見 Fragments：%1$s</string>
+    <string name="dk_network_get_method">GET</string>
+    <string name="dk_network_post_method">POST</string>
+    <string name="dk_network_request">Request</string>
+    <string name="dk_network_response">Response</string>
+    <string name="dk_network_method">Method</string>
+    <string name="dk_frameinfo_detection_switch">幀率檢測開關</string>
+    <string name="dk_cpu_detection_switch">CPU 檢測開關</string>
+    <string name="dk_cpu_title_cache_log">檢測紀錄</string>
+    <string name="dk_item_cache_log">查看檢測記錄</string>
+    <string name="dk_ram_detection_switch">記憶體檢測開關</string>
+    <string name="dk_ram_detection_title">記憶體檢測</string>
+    <string name="dk_network_summary_total_time_hour">%1$d小時%2$d分</string>
+    <string name="dk_network_summary_total_time_day">%1$d天%2$d小時</string>
+    <string name="dk_network_summary_total_time_minute">%1$d分%2$d秒</string>
+    <string name="dk_network_summary_total_time_second">%d秒</string>
+    <string name="dk_network_summary_total_time_default">0秒</string>
+    <string name="dk_network_summary_data_type">Data Type</string>
+    <string name="dk_network_summary_http_method">HTTP Method</string>
+    <string name="dk_network_summary_data_upload">資料上傳</string>
+    <string name="dk_network_summary_data_down">資料下載</string>
+    <string name="dk_network_summary_total_number">攔截封包數量</string>
+    <string name="dk_network_detail_title_response_body">Response Body</string>
+    <string name="dk_network_detail_title_request_body">Request Body</string>
+    <string name="dk_net_monitor_title_summary">流量監控摘要</string>
+    <string name="dk_net_monitor_list">流量監控列表</string>
+    <string name="dk_net_monitor_detection_switch">流量檢測開關</string>
+    <string name="dk_net_monitor_show_summary">顯示流量監控詳情</string>
+    <string name="dk_network_detail_title_size">Data Size</string>
+    <string name="dk_network_detail_title_request_time">Request Time</string>
+    <string name="dk_network_detail_title_response_time">Response Time</string>
+    <string name="dk_network_detail_title_response_header">Response Header</string>
+    <string name="dk_network_detail_title_request_header">Request Header</string>
+    <string name="dk_kit_network_filter_hint">支援篩選</string>
+    <string name="dk_kit_network_monitor_detail">流量監測詳情</string>
+    <string name="dk_cpu_memory_remind_user">抱歉，您當前系統版本高於 8.0，由於 Google 權限問題，只能透過 ADB 獲取效能分析的資訊，請用手機連接電腦並輸入 adb tcpip 5555 以確保功能正常執行</string>
+    <string name="dk_kit_network_time_format">%1$s 耗時:%2$s</string>
+    <string name="dk_kit_layout_border">版面配置邊界</string>
+    <string name="dk_layout_level">版面階層</string>
+    <string name="dk_align_info_text">位置：左%1$d 右%2$d 上%3$d 下%4$d</string>
+
+    <string name="dk_item_time_counter_switch">Activity 換頁耗時</string>
+    <string name="dk_item_time_goto_list">查看紀錄</string>
+    <string name="dk_kit_block_time_counter_list">耗時列表</string>
+    <string name="dk_sysinfo_display_size">解析度</string>
+    <string name="dk_network_detail_title_body">Message Body</string>
+    <string name="dk_network_detail_title_url">鏈接</string>
+    <string name="dk_network_summary_total_number_time_tips">總封包數</string>
+</resources>

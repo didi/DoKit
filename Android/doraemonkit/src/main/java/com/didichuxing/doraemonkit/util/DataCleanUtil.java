@@ -4,6 +4,7 @@ import java.io.File;
 
 import android.content.Context;
 import android.os.Environment;
+import android.text.format.Formatter;
 
 /**
  * Created by wanglikun on 2018/11/17.
@@ -16,29 +17,28 @@ public class DataCleanUtil {
      * @param context
      */
     public static void cleanInternalCache(Context context) {
-        deleteFilesByDirectory(context.getCacheDir());
+        FileUtil.deleteDirectory(context.getCacheDir());
     }
 
     /**
      * @param context
      */
     public static void cleanDatabases(Context context) {
-        deleteFilesByDirectory(new File(context.getFilesDir().getParent() + "/databases"));
-
+        FileUtil.deleteDirectory(new File(context.getFilesDir().getParent() + "/databases"));
     }
 
     /**
      * @param context
      */
     public static void cleanSharedPreference(Context context) {
-        deleteFilesByDirectory(new File(context.getFilesDir().getParent() + "/shared_prefs"));
+        FileUtil.deleteDirectory(new File(context.getFilesDir().getParent() + "/shared_prefs"));
     }
 
     /**
      * @param context
      */
     public static void cleanFiles(Context context) {
-        deleteFilesByDirectory(context.getFilesDir());
+        FileUtil.deleteDirectory(context.getFilesDir());
     }
 
     /**
@@ -47,7 +47,7 @@ public class DataCleanUtil {
     public static void cleanExternalCache(Context context) {
         if (Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED)) {
-            deleteFilesByDirectory(context.getExternalCacheDir());
+            FileUtil.deleteDirectory(context.getExternalCacheDir());
         }
     }
 
@@ -55,7 +55,7 @@ public class DataCleanUtil {
      * @param filePath
      */
     public static void cleanCustomCache(String filePath) {
-        deleteFilesByDirectory(new File(filePath));
+        FileUtil.deleteDirectory(new File(filePath));
     }
 
     /**
@@ -78,14 +78,20 @@ public class DataCleanUtil {
         }
     }
 
-    /**
-     * @param directory
-     */
-    private static void deleteFilesByDirectory(File directory) {
-        if (directory != null && directory.exists() && directory.isDirectory()) {
-            for (File item : directory.listFiles()) {
-                item.delete();
-            }
-        }
+    public static long getApplicationDataSize(Context context) {
+        long size = 0;
+        // internal cache
+        size += FileUtil.getDirectorySize(context.getCacheDir());
+        // databases
+        size += FileUtil.getDirectorySize(new File(context.getFilesDir().getParent() + "/databases"));
+        // shared preference
+        size += FileUtil.getDirectorySize(new File(context.getFilesDir().getParent() + "/shared_prefs"));
+        // files
+        size += FileUtil.getDirectorySize(context.getFilesDir());
+        return size;
+    }
+
+    public static String getApplicationDataSizeStr(Context context) {
+        return Formatter.formatFileSize(context, getApplicationDataSize(context));
     }
 }

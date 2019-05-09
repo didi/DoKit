@@ -20,6 +20,8 @@ public interface FragmentIndex {
     int FRAGMENT_NETWORK_MONITOR = 13;
     int FRAGMENT_CPU = 14;
     int FRAGMENT_RAM = 15;
-    int FRAGMENT_LAYOUT_BORDER = 16;
     int FRAGMENT_TIME_COUNTER= 17;
+    int FRAGMENT_WEB_DOOR_DEFAULT = 18;
+    int FRAGMENT_CUSTOM = 19;
+    int FRAGMENT_TOP_ACTIVITY = 20;
 }

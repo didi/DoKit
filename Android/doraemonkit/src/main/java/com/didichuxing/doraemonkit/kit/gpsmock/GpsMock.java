@@ -41,7 +41,9 @@ public class GpsMock implements IKit {
 
     @Override
     public void onAppInit(Context context) {
-        GpsMockConfig.setGPSMockOpen(context, false);
+        if (GpsMockConfig.isGPSMockOpen(context)) {
+            GpsMockManager.getInstance().startMock();
+        }
     }
 
 }

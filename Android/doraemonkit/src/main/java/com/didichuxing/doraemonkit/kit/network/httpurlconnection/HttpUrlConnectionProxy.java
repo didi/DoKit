@@ -1,16 +1,13 @@
 package com.didichuxing.doraemonkit.kit.network.httpurlconnection;
 
 import android.util.Log;
-import android.util.Pair;
 
-import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
-import com.didichuxing.doraemonkit.kit.network.core.DefaultResponseHandler;
 import com.didichuxing.doraemonkit.kit.network.core.NetworkInterpreter;
-import com.didichuxing.doraemonkit.kit.network.core.RequestBodyHelper;
-import com.didichuxing.doraemonkit.kit.network.stream.OutputStreamProxy;
-import com.didichuxing.doraemonkit.kit.network.utils.StreamUtil;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.DKInterceptor;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.HttpChainFacade;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.HttpRequest;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.HttpResponse;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -24,21 +21,29 @@ import java.util.Map;
 /**
  * @desc: UrlConnection代理类，用以解析请求
  */
-public class HttpUrlConnectionProxy extends HttpURLConnection implements IStreamCompleteListener {
+public class HttpUrlConnectionProxy extends HttpURLConnection {
     private final String TAG = "HttpUrlConnectionProxy";
     private final boolean DEBUG = true;
     private final HttpURLConnection mSourceConnection;
-    private final NetworkInterpreter mInterpreter;
-    private final int mRequestId;
-    private RequestBodyHelper mRequestBodyHelper;
-    private URLConnectionInspectorRequest mInspectorRequest;
-    private NetworkRecord mRecord;
+    private List<DKInterceptor> mInterceptors = new ArrayList<>();
+
+    private final HttpRequest mHttpRequest;
+    private final HttpResponse mHttpResponse;
+
+    private final HttpChainFacade mHttpChainFacade;
 
     public HttpUrlConnectionProxy(HttpURLConnection con) {
         super(con.getURL());
         mSourceConnection = con;
-        mInterpreter = NetworkInterpreter.get();
-        mRequestId = mInterpreter.nextRequestId();
+
+        mInterceptors.add(new HttpMonitorInterceptor());
+
+        NetworkInterpreter mInterpreter = NetworkInterpreter.get();
+        int requestId = mInterpreter.nextRequestId();
+        mHttpRequest = new HttpRequest(requestId, con);
+        mHttpResponse = new HttpResponse(requestId, con);
+
+        mHttpChainFacade = new HttpChainFacade(mInterceptors);
     }
 
     @Override
@@ -63,9 +68,6 @@ public class HttpUrlConnectionProxy extends HttpURLConnection implements IStream
 
     @Override
     public void connect() throws IOException {
-        if (DEBUG) {
-            Log.d(TAG, "connect. ");
-        }
         preConnect();
         try {
             mSourceConnection.connect();
@@ -76,36 +78,13 @@ public class HttpUrlConnectionProxy extends HttpURLConnection implements IStream
 
     /**
      */
-    public void preConnect() {
-        if (mRecord != null) {
-            return;
-        }
-        mRequestBodyHelper = new RequestBodyHelper();
-        ArrayList<Pair<String, String>> header;
-        // connect参数不知道什么会被置为true，以防崩溃，这里直接try-catch住
-        try {
-            header = StreamUtil.convertHeaders(getRequestProperties());
-        } catch (Exception e) {
-            Log.e(TAG, "get head exception", e);
-            header = new ArrayList<>();
-        }
-        mInspectorRequest = new URLConnectionInspectorRequest(
-                mRequestId,
-                header,
-                mSourceConnection,
-                mRequestBodyHelper);
-        mRecord = mInterpreter.createRecord(mRequestId, mInspectorRequest);
+    public void preConnect() throws IOException {
+        mHttpChainFacade.process(mHttpRequest);
     }
 
     public void postConnect(int statusCode) throws IOException {
-        if (mRecord == null) {
-            return;
-        }
-        URLConnectionInspectorResponse response = new URLConnectionInspectorResponse(
-                mRequestId,
-                mSourceConnection,
-                statusCode);
-        mInterpreter.fetchResponseInfo(mRecord, response);
+        mHttpResponse.setStatusCode(statusCode);
+        mHttpChainFacade.process(mHttpResponse);
     }
 
     @Override
@@ -260,15 +239,9 @@ public class HttpUrlConnectionProxy extends HttpURLConnection implements IStream
 
     @Override
     public InputStream getInputStream() throws IOException {
-        if (mRecord != null) {
-            InputStream responseStream = mInterpreter.interpretResponseStream(
-                    getHeaderField("Content-Type"),
-                    mSourceConnection.getInputStream(),
-                    new DefaultResponseHandler(mInterpreter, mRequestId, mRecord));
-            return responseStream;
-        } else {
-            return mSourceConnection.getInputStream();
-        }
+        mHttpResponse.setInputStream(mSourceConnection.getInputStream());
+        mHttpChainFacade.processStream(mHttpResponse);
+        return mHttpResponse.getInputStream();
     }
 
     @Override
@@ -278,14 +251,9 @@ public class HttpUrlConnectionProxy extends HttpURLConnection implements IStream
 
     @Override
     public OutputStream getOutputStream() throws IOException {
-        OutputStreamProxy outputStream;
-        try {
-            outputStream = new OutputStreamProxy(mSourceConnection.getOutputStream());
-            outputStream.setStreamCompleteListener(this);
-        } catch (IOException e) {
-            throw e;
-        }
-        return outputStream;
+        mHttpRequest.setOutputStream(mSourceConnection.getOutputStream());
+        mHttpChainFacade.processStream(mHttpRequest);
+        return mHttpRequest.getOutputStream();
     }
 
     @Override
@@ -364,15 +332,6 @@ public class HttpUrlConnectionProxy extends HttpURLConnection implements IStream
             return "this connection object is null";
         } else {
             return mSourceConnection.toString();
-        }
-    }
-
-    @Override
-    public void onOutputStreamComplete(ByteArrayOutputStream outputStream) {
-        if (mInspectorRequest != null && mRecord != null) {
-            SimpleRequestEntity entity = new ByteArrayRequestEntity(outputStream.toByteArray());
-            mInspectorRequest.setRequestEntity(entity);
-            mInterpreter.fetRequestBody(mRecord, mInspectorRequest);
         }
     }
 }

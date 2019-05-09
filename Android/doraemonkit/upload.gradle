@@ -3,7 +3,7 @@ apply plugin: 'com.novoda.bintray-release'
 publish {
     def groupProjectID = 'com.didichuxing.doraemonkit'
     def artifactProjectID = 'doraemonkit'
-    def publishVersionID = '1.1.2'
+    def publishVersionID = '1.1.6'
 
     userOrg = 'doraemonkit'
     repoName = 'DoraemonKit'

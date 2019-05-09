@@ -9,6 +9,19 @@
 #import "DoraemonColorPickInfoView.h"
 #import "DoraemonDefine.h"
 
+@interface DoraemonColorPickInfoController: UIViewController
+
+@end
+
+@implementation DoraemonColorPickInfoController
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.view.window.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - (size.height < size.width ? size.height : size.width) - kDoraemonSizeFrom750_Landscape(30), size.height, size.width);
+    });
+}
+@end
+
 @interface DoraemonColorPickInfoWindow () <DoraemonColorPickInfoViewDelegate>
 
 @property (nonatomic, strong) DoraemonColorPickInfoView *pickInfoView;
@@ -29,12 +42,18 @@
 }
 
 - (instancetype)init {
-    self = [super initWithFrame:CGRectMake(kDoraemonSizeFrom750(30), DoraemonScreenHeight - kDoraemonSizeFrom750(100) - kDoraemonSizeFrom750(30) - IPHONE_SAFEBOTTOMAREA_HEIGHT, DoraemonScreenWidth - 2*kDoraemonSizeFrom750(30), kDoraemonSizeFrom750(100))];
+    
+    if (kInterfaceOrientationPortrait) {
+        self = [super initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - kDoraemonSizeFrom750_Landscape(100) - kDoraemonSizeFrom750_Landscape(30) - IPHONE_SAFEBOTTOMAREA_HEIGHT, DoraemonScreenWidth - 2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(100))];
+    } else {
+        self = [super initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - kDoraemonSizeFrom750_Landscape(100) - kDoraemonSizeFrom750_Landscape(30) - IPHONE_SAFEBOTTOMAREA_HEIGHT, DoraemonScreenHeight - 2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(100))];
+    }
+    
     if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.windowLevel = UIWindowLevelAlert;
         if (!self.rootViewController) {
-            self.rootViewController = [[UIViewController alloc] init];
+            self.rootViewController = [[DoraemonColorPickInfoController alloc] init];
         }
         
         DoraemonColorPickInfoView *pickInfoView = [[DoraemonColorPickInfoView alloc] initWithFrame:self.bounds];
@@ -87,9 +106,7 @@
     CGPoint centerPoint = CGPointMake(newX, newY);
     panView.center = centerPoint;
 }
-
-#pragma mark - Delegate
-
+ 
 #pragma mark DoraemonColorPickInfoViewDelegate
 
 - (void)closeBtnClicked:(id)sender onColorPickInfoView:(DoraemonColorPickInfoView *)colorPickInfoView {

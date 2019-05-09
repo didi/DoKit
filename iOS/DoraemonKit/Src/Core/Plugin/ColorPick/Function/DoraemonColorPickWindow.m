@@ -47,7 +47,7 @@ static CGFloat const kColorPickWindowSize = 150;
     self = [super initWithFrame:CGRectMake(DoraemonScreenWidth/2-kColorPickWindowSize/2, DoraemonScreenHeight/2-kColorPickWindowSize/2, kColorPickWindowSize, kColorPickWindowSize)];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        self.windowLevel = UIWindowLevelStatusBar + 11.f;
+        self.windowLevel = UIWindowLevelStatusBar + 1.f;
         if (!self.rootViewController) {
             self.rootViewController = [[UIViewController alloc] init];
         }

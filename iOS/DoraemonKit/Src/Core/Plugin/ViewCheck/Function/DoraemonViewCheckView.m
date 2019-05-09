@@ -15,9 +15,7 @@ static CGFloat const kViewCheckSize = 62;
 @interface DoraemonViewCheckView()
 
 @property (nonatomic, strong) UIView *viewBound;//当前需要探测的view的边框
-@property (nonatomic, strong) DoraemonVisualInfoWindow *viewInfoWindow;//顶部被探测到的view的信息显示的UIwindow
-@property (nonatomic, strong) UILabel *viewInfoLabel;//顶部被探测到的view的信息显示
-@property (nonatomic, strong) UIButton *closeBtn;
+@property (nonatomic, strong) DoraemonVisualInfoWindow *infoWindow;//顶部被探测到的view的信息显示的UIwindow
 
 @property (nonatomic, assign) CGFloat left;
 @property (nonatomic, assign) CGFloat top;
@@ -46,32 +44,20 @@ static CGFloat const kViewCheckSize = 62;
         _viewBound.layer.borderColor = [UIColor doraemon_colorWithHex:0xCC3A4B].CGColor;
         _viewBound.layer.zPosition = FLT_MAX;
         
-        _viewInfoWindow = [[DoraemonVisualInfoWindow alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(30), DoraemonScreenHeight - kDoraemonSizeFrom750(180) - kDoraemonSizeFrom750(30), DoraemonScreenWidth - 2*kDoraemonSizeFrom750(30), kDoraemonSizeFrom750(180))];
-       [_viewInfoWindow makeKeyAndVisible];
-        _viewInfoWindow.hidden = YES;
-       
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.window makeKeyAndVisible];//将keyWindow还是交给原来那个
-        });
+        CGRect infoWindowFrame = CGRectZero;
+        if (kInterfaceOrientationPortrait) {
+            infoWindowFrame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - kDoraemonSizeFrom750_Landscape(180) - kDoraemonSizeFrom750_Landscape(30), DoraemonScreenWidth - 2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(180));
+        } else {
+            infoWindowFrame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - kDoraemonSizeFrom750_Landscape(180) - kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - 2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(180));
+        }
+        _infoWindow = [[DoraemonVisualInfoWindow alloc] initWithFrame:infoWindowFrame];
         
-        CGFloat closeWidth = kDoraemonSizeFrom750(44);
-        CGFloat closeHeight = kDoraemonSizeFrom750(44);
-        _closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(_viewInfoWindow.bounds.size.width - closeWidth - kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(18), closeWidth, closeHeight)];
-        [_closeBtn setBackgroundImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
-        [_closeBtn addTarget:self action:@selector(closeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [_viewInfoWindow addSubview:_closeBtn];
-        
-        _viewInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(30), _viewInfoWindow.bounds.size.width - 2*kDoraemonSizeFrom750(32) - _closeBtn.doraemon_width , _viewInfoWindow.bounds.size.height - 2*kDoraemonSizeFrom750(30))];
-        _viewInfoLabel.numberOfLines = 0;
-        _viewInfoLabel.backgroundColor =[UIColor clearColor];
-        _viewInfoLabel.textColor = [UIColor doraemon_black_1];
-        _viewInfoLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(24)];
-        [_viewInfoWindow addSubview:_viewInfoLabel];
     }
+     
     return self;
 }
 
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:self];
     _left = point.x;
@@ -82,8 +68,8 @@ static CGFloat const kViewCheckSize = 62;
     _viewBound.frame = frame;
     [self.window addSubview:_viewBound];
     
-//    _viewInfoWindow.hidden = NO;
-    _viewInfoLabel.attributedText = [self viewInfo:view];
+    // _infoWindow.hidden = NO;
+    _infoWindow.infoAttributedText = [self viewInfo:view];
     
 }
 
@@ -96,36 +82,32 @@ static CGFloat const kViewCheckSize = 62;
     UIView *view = [self topView:self.window Point:topPoint];
     CGRect frame = [self.window convertRect:view.bounds fromView:view];
     _viewBound.frame = frame;
-//    _viewInfoWindow.hidden = NO;
-    _viewInfoLabel.attributedText = [self viewInfo:view];
+    // _infoWindow.hidden = NO;
+    _infoWindow.infoAttributedText = [self viewInfo:view];
 }
 
 -(void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [_viewBound removeFromSuperview];
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [UIView animateWithDuration:0.5 animations:^{
-//            _viewInfoWindow.alpha = 0;
-//        } completion:^(BOOL finished) {
-//            _viewInfoWindow.hidden = YES;
-//            _viewInfoWindow.alpha = 1;
-//        }];
-//    });
+    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //        [UIView animateWithDuration:0.5 animations:^{
+    //            _viewInfoWindow.alpha = 0;
+    //        } completion:^(BOOL finished) {
+    //            _viewInfoWindow.hidden = YES;
+    //            _viewInfoWindow.alpha = 1;
+    //        }];
+    //    });
 }
 
 -(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [_viewBound removeFromSuperview];
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [UIView animateWithDuration:0.5 animations:^{
-//            _viewInfoWindow.alpha = 0;
-//        } completion:^(BOOL finished) {
-//            _viewInfoWindow.hidden = YES;
-//            _viewInfoWindow.alpha = 1;
-//        }];
-//    });
-}
-
-- (void)closeBtnClicked:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonClosePluginNotification object:nil userInfo:nil];
+    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //        [UIView animateWithDuration:0.5 animations:^{
+    //            _viewInfoWindow.alpha = 0;
+    //        } completion:^(BOOL finished) {
+    //            _viewInfoWindow.hidden = YES;
+    //            _viewInfoWindow.alpha = 1;
+    //        }];
+    //    });
 }
 
 -(UIView*)topView:(UIView*)view Point:(CGPoint) point{
@@ -155,13 +137,13 @@ static CGFloat const kViewCheckSize = 62;
 }
 
 - (void)show {
-    _viewInfoWindow.hidden = NO;
+    _infoWindow.hidden = NO;
     self.hidden = NO;
 }
 
 - (void)hide {
     [_viewBound removeFromSuperview];
-    _viewInfoWindow.hidden = YES;
+    _infoWindow.hidden = YES;
     self.hidden = YES;
 }
 
@@ -186,13 +168,15 @@ static CGFloat const kViewCheckSize = 62;
         NSString *string = [NSString stringWithFormat:showString];
         // 行间距
         NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
-        style.lineSpacing = kDoraemonSizeFrom750(12);
+        style.lineSpacing = kDoraemonSizeFrom750_Landscape(12);
+        
+
         style.lineBreakMode = NSLineBreakByTruncatingTail;
         
         NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:string];
         [attrString addAttributes:@{
                                     NSParagraphStyleAttributeName : style,
-                                    NSFontAttributeName : [UIFont systemFontOfSize:kDoraemonSizeFrom750(24)],
+                                    NSFontAttributeName : [UIFont systemFontOfSize: kDoraemonSizeFrom750_Landscape(24)],
                                     NSForegroundColorAttributeName : [UIColor doraemon_black_1]
                                     }
                             range:NSMakeRange(0, string.length)];
@@ -228,7 +212,7 @@ static CGFloat const kViewCheckSize = 62;
     if (alpha < 255) {//存在透明度
         hex = [NSString stringWithFormat:@"%@ alpha:%.2f",hex,(CGColorGetComponents(color.CGColor))[3]];
     }
-
+    
     
     return hex;
 }
