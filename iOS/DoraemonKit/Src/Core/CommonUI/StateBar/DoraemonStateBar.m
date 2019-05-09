@@ -29,7 +29,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        self.windowLevel = UIWindowLevelStatusBar + 100.f;
+        self.windowLevel = UIWindowLevelStatusBar + 1.f;
         self.backgroundColor = [UIColor doraemon_colorWithString:@"#427dbe"];
         
         _contentLabel = [[UILabel alloc] initWithFrame:CGRectZero];

@@ -38,9 +38,10 @@ dependencies {
     }
     implementation 'com.squareup.okhttp3:okhttp:3.6.0'
     compileOnly 'com.squareup.okio:okio:1.11.0'
-    compileOnly 'com.didichuxing.doraemonkit:compiler:1.0.1'
+    compileOnly 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.4'
     testImplementation 'junit:junit:4.12'
-
+    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'com.google.zxing:core:3.3.0'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

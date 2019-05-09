@@ -18,13 +18,13 @@ import com.didichuxing.doraemonkit.ui.widget.tableview.format.FastTextDrawFormat
 import com.didichuxing.doraemonkit.ui.widget.tableview.style.FontStyle;
 import com.didichuxing.doraemonkit.ui.widget.tableview.component.SmartTable;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
-import com.didichuxing.doraemonkit.util.DBUtil;
+import com.didichuxing.doraemonkit.util.DatabaseUtil;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DBDetailFragment extends BaseFragment {
+public class DatabaseDetailFragment extends BaseFragment {
 
     private SmartTable table;
     private ListView tableListView;
@@ -44,7 +44,7 @@ public class DBDetailFragment extends BaseFragment {
             File mFile = (File) data.getSerializable(BundleKey.FILE_KEY);
             String path = mFile.getPath();
             sqLiteDatabase = SQLiteDatabase.openOrCreateDatabase(path, null);
-            tableNames = DBUtil.queryDBtableName(sqLiteDatabase);
+            tableNames = DatabaseUtil.queryTableName(sqLiteDatabase);
         }
         table = findViewById(R.id.table);
         FontStyle fontStyle = new FontStyle(getContext(), 15, ContextCompat.getColor(getContext(), R.color.dk_color_000000));
@@ -74,8 +74,8 @@ public class DBDetailFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectTableName = finalStrings.get(position);
 
-                String[][] data = DBUtil.queryAll(finalSqLiteDatabase, finalStrings.get(position));
-                String[] titleName = DBUtil.queryTableColumnName(finalSqLiteDatabase, selectTableName);
+                String[][] data = DatabaseUtil.queryAll(finalSqLiteDatabase, finalStrings.get(position));
+                String[] titleName = DatabaseUtil.queryTableColumnName(finalSqLiteDatabase, selectTableName);
                 if (table.getTableData() != null) {
                     table.getTableData().clear();
                 }

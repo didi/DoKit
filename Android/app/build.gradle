@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.didichuxing.doraemondemo"
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

@@ -126,13 +126,11 @@
     AVPlayer *player = [AVPlayer playerWithPlayerItem:playerItem];
     
     self.playerView.player = player;
-    self.playerView.view.translatesAutoresizingMaskIntoConstraints = YES;
     self.playerView.showsPlaybackControls = YES;
-    self.playerView.view.bounds = self.view.bounds;
     [self.playerView.player play];
-    
     [self addChildViewController:self.playerView];
     [self.view addSubview:self.playerView.view];
+    self.playerView.view.frame = self.view.bounds;
 }
 
 //浏览数据库中所有数据表

@@ -29,7 +29,7 @@ public class FrameInfoFragment extends AbsParameterFragment {
 
     @Override
     protected Collection<SettingItem> getSettingItems(List<SettingItem> list) {
-        list.add(new SettingItem(R.string.dk_frameinfo_detection_switch, PerformanceInfoConfig.isFPSOpen(getContext())));
+        list.add(new SettingItem(R.string.dk_frameinfo_detection_switch, false));
         list.add(new SettingItem(R.string.dk_item_cache_log, R.drawable.dk_more_icon));
         return list;
     }
@@ -44,7 +44,7 @@ public class FrameInfoFragment extends AbsParameterFragment {
                 } else {
                     stopMonitor();
                 }
-                PerformanceInfoConfig.setFPSOpen(getContext(), on);
+//                PerformanceInfoConfig.setFPSOpen(getContext(), on);
             }
         };
     }

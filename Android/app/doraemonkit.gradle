@@ -5,7 +5,7 @@ ext {
 }
 if (applyPlugin) {
     // 引用插件，插件会在编译期把DoraemonKit.install方法插入Application中，前提是用户必须实现自己的Application
-    apply plugin: 'com.doraemon.compiler.plugin'
+    apply plugin: 'android-aspectjx'
     // 这里引用正常库
     dependencies {
         implementation project(":doraemonkit")

@@ -13,25 +13,27 @@ import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRuler;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit;
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPicker;
-import com.didichuxing.doraemonkit.kit.parameter.cpu.Cpu;
 import com.didichuxing.doraemonkit.kit.crash.Crash;
+import com.didichuxing.doraemonkit.kit.custom.Custom;
 import com.didichuxing.doraemonkit.kit.dataclean.DataClean;
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorer;
-import com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfo;
-import com.didichuxing.doraemonkit.kit.gpsmock.GpsHookManager;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMock;
+import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
+import com.didichuxing.doraemonkit.kit.gpsmock.ServiceHookManager;
 import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorder;
 import com.didichuxing.doraemonkit.kit.logInfo.LogInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkKit;
+import com.didichuxing.doraemonkit.kit.parameter.cpu.Cpu;
+import com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfo;
 import com.didichuxing.doraemonkit.kit.parameter.ram.Ram;
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfo;
 import com.didichuxing.doraemonkit.kit.temporaryclose.TemporaryClose;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterKit;
+import com.didichuxing.doraemonkit.kit.topactivity.TopActivity;
 import com.didichuxing.doraemonkit.kit.viewcheck.ViewChecker;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoor;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.didichuxing.doraemonkit.ui.FloatIconPage;
-import com.didichuxing.doraemonkit.ui.KitFloatPage;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
 import com.didichuxing.doraemonkit.ui.base.PageIntent;
@@ -62,18 +64,14 @@ public class DoraemonKit {
 
     private static boolean sShowFloatingIcon = true;
 
+    private static boolean sEnableUpload = true;
+
     public static void install(final Application app) {
         install(app, null);
     }
 
     public static void setWebDoorCallback(WebDoorManager.WebDoorCallback callback) {
         WebDoorManager.getInstance().setWebDoorCallback(callback);
-        if (WebDoorManager.getInstance().isWebDoorEnable()) {
-            List<IKit> tools = sKitMap.get(Category.TOOLS);
-            if (tools != null) {
-                tools.add(new WebDoor());
-            }
-        }
     }
 
     public static void install(final Application app, List<IKit> selfKits) {
@@ -91,7 +89,7 @@ public class DoraemonKit {
             return;
         }
         sHasInit = true;
-        GpsHookManager.getInstance().init();
+        ServiceHookManager.getInstance().install();
         app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             int startedActivityCounts;
 
@@ -158,12 +156,10 @@ public class DoraemonKit {
 
         tool.add(new SysInfo());
         tool.add(new FileExplorer());
-        if (GpsHookManager.getInstance().isMockEnable()) {
+        if (GpsMockManager.getInstance().isMockEnable()) {
             tool.add(new GpsMock());
         }
-        if (WebDoorManager.getInstance().isWebDoorEnable()) {
-            tool.add(new WebDoor());
-        }
+        tool.add(new WebDoor());
         tool.add(new Crash());
         tool.add(new LogInfo());
         tool.add(new DataClean());
@@ -174,6 +170,7 @@ public class DoraemonKit {
         performance.add(new NetworkKit());
         performance.add(new BlockMonitorKit());
         performance.add(new TimeCounterKit());
+        performance.add(new Custom());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             ui.add(new ColorPicker());
@@ -209,8 +206,9 @@ public class DoraemonKit {
         sKitMap.put(Category.CLOSE, exit);
 
         FloatPageManager.getInstance().init(app);
-
-        DoraemonStatisticsUtil.uploadUserInfo(app);
+        if (sEnableUpload) {
+            DoraemonStatisticsUtil.uploadUserInfo(app);
+        }
     }
 
     private static void requestPermission(Context context) {
@@ -269,12 +267,18 @@ public class DoraemonKit {
             showFloatIcon(null);
         }
         sShowFloatingIcon = true;
-
     }
 
     public static void hide() {
-        FloatPageManager.getInstance().removeAll(KitFloatPage.class);
-//        sShowFloatingIcon = false;
+        FloatPageManager.getInstance().removeAll();
+        sShowFloatingIcon = false;
+    }
+
+    /**
+     * 禁用app信息上传开关，该上传信息只为做DoKit接入量的统计，如果用户需要保护app隐私，可调用该方法进行禁用
+     */
+    public static void disableUpload() {
+        sEnableUpload = false;
     }
 
     public static boolean isShow() {

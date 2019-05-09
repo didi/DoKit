@@ -1,7 +1,7 @@
 <div align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
- <img src="https://img.shields.io/badge/Android-1.1.3-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/Android-1.1.6-blue.svg" align=left />
  <img src="https://img.shields.io/badge/iOS-1.1.7-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
@@ -196,3 +196,13 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 <img alt="Apache-2.0 license" src="https://lucene.apache.org/images/mantle-power.png" width="128">
 
 DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [协议文件](LICENSE)。
+
+## 使用提醒
+为了统计本开源软件的外部使用情况，我们会上传用户app的相关信息，包括appName、bundleId、appVersion。appVersion会在下个版本中去掉。
+这些信息我们收集绝不用于任何恶意用途。
+
+iOS上传代码详见DoraemonStatisticsUtil类中的实现
+
+Andoid上传代码详见DoraemonStatisticsUtil类中的实现
+
+敬请各位用户知晓。

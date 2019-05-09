@@ -20,9 +20,7 @@ static CGFloat const kViewCheckSize = 62;
 @property (nonatomic, strong) UILabel *topLabel;
 @property (nonatomic, strong) UILabel *rightLabel;
 @property (nonatomic, strong) UILabel *bottomLabel;
-@property (nonatomic, strong) DoraemonVisualInfoWindow *infoWindow;
-@property (nonatomic, strong) UILabel *infoLbl;
-@property (nonatomic, strong) UIButton *closeBtn;
+@property (nonatomic, strong) DoraemonVisualInfoWindow *infoWindow; 
 
 @end
 
@@ -88,21 +86,16 @@ static CGFloat const kViewCheckSize = 62;
         [_bottomLabel sizeToFit];
         _bottomLabel.frame = CGRectMake(imageView.doraemon_centerX-_bottomLabel.doraemon_width, imageView.doraemon_centerY+(self.doraemon_height - imageView.doraemon_centerY)/2, _bottomLabel.doraemon_width, _bottomLabel.doraemon_height);
         
-        _infoWindow = [[DoraemonVisualInfoWindow alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(30), DoraemonScreenHeight - kDoraemonSizeFrom750(100) - kDoraemonSizeFrom750(30), DoraemonScreenWidth - 2*kDoraemonSizeFrom750(30), kDoraemonSizeFrom750(100))];
+        CGRect infoWindowFrame = CGRectZero;
+        if (kInterfaceOrientationPortrait) {
+            infoWindowFrame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - kDoraemonSizeFrom750_Landscape(100) - kDoraemonSizeFrom750_Landscape(30), DoraemonScreenWidth - 2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(100));
+        } else {
+            infoWindowFrame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - kDoraemonSizeFrom750_Landscape(100) - kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - 2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(100));
+        } 
+        _infoWindow = [[DoraemonVisualInfoWindow alloc] initWithFrame:infoWindowFrame];
         
-        CGFloat closeWidth = kDoraemonSizeFrom750(44);
-        CGFloat closeHeight = kDoraemonSizeFrom750(44);
-        _closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(_infoWindow.bounds.size.width - closeWidth - kDoraemonSizeFrom750(32), (_infoWindow.bounds.size.height - closeHeight) / 2.0, closeWidth, closeHeight)];
-        [_closeBtn setBackgroundImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
-        [_closeBtn addTarget:self action:@selector(closeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [_infoWindow addSubview:_closeBtn];
         
-        _infoLbl = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32), 0, _infoWindow.bounds.size.width - 2*kDoraemonSizeFrom750(32) - _closeBtn.doraemon_width , _infoWindow.bounds.size.height)];
-        _infoLbl.backgroundColor =[UIColor clearColor];
-        _infoLbl.textColor = [UIColor doraemon_black_1];
-        _infoLbl.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(24)];
-        [self configInfoLblText];
-        [_infoWindow addSubview:_infoLbl];
+         [self configInfoLblText];
     }
     return self;
 }
@@ -150,13 +143,9 @@ static CGFloat const kViewCheckSize = 62;
 }
 
 - (void)configInfoLblText {
-    _infoLbl.text = [NSString stringWithFormat:@"位置：左%@  右%@  上%@  下%@", _leftLabel.text, _rightLabel.text, _topLabel.text, _bottomLabel.text];
+    _infoWindow.infoText = [NSString stringWithFormat:@"位置：左%@  右%@  上%@  下%@", _leftLabel.text, _rightLabel.text, _topLabel.text, _bottomLabel.text];
 }
-
-- (void)closeBtnClicked:(id)sender {
-    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonClosePluginNotification object:nil userInfo:nil];
-
-}
+ 
 
 - (void)show {
     _infoWindow.hidden = NO;

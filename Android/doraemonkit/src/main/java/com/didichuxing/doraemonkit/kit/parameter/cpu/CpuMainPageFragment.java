@@ -29,13 +29,13 @@ public class CpuMainPageFragment extends AbsParameterFragment {
 
     @Override
     protected int getTitle() {
-        return R.string.dk_fragment_parameter;
+        return R.string.dk_frameinfo_cpu;
     }
 
     @Override
     protected Collection<SettingItem> getSettingItems(List<SettingItem> list) {
 
-        list.add(new SettingItem(R.string.dk_cpu_detection_switch, PerformanceInfoConfig.isCPUOpen(getContext())));
+        list.add(new SettingItem(R.string.dk_cpu_detection_switch, false));
         list.add(new SettingItem(R.string.dk_item_cache_log, R.drawable.dk_more_icon));
         return list;
     }
@@ -50,7 +50,7 @@ public class CpuMainPageFragment extends AbsParameterFragment {
                 } else {
                     stopMonitor();
                 }
-                PerformanceInfoConfig.setCPUOpen(getContext(), on);
+//                PerformanceInfoConfig.setCPUOpen(getContext(), on);
             }
         };
     }
@@ -72,7 +72,7 @@ public class CpuMainPageFragment extends AbsParameterFragment {
 
     private void startMonitor() {
         PerformanceDataManager.getInstance().startMonitorCPUInfo();
-        openChartPage(R.string.dk_fragment_parameter, DataSourceFactory.TYPE_CPU);
+        openChartPage(R.string.dk_frameinfo_cpu, DataSourceFactory.TYPE_CPU);
     }
 
     private void stopMonitor() {

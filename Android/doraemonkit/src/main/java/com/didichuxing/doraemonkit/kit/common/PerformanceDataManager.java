@@ -15,8 +15,14 @@ import android.view.Choreographer;
 import android.widget.Toast;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.config.PerformanceInfoConfig;
+import com.didichuxing.doraemonkit.kit.custom.PerformanceInfo;
+import com.didichuxing.doraemonkit.kit.custom.UploadMonitorInfoBean;
 import com.didichuxing.doraemonkit.util.FileManager;
+import com.didichuxing.doraemonkit.util.JsonUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.util.threadpool.ThreadPoolProxyFactory;
+import com.google.gson.JsonObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -24,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -38,6 +45,7 @@ public class PerformanceDataManager {
     private String memoryFileName = "memory.txt";
     private String cpuFileName = "cpu.txt";
     private String fpsFileName = "fps.txt";
+    private String customFileName = "custom.txt"; //自定义测试页面保存的文件名称
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private long mLastFrameTimeNanos;
@@ -56,10 +64,11 @@ public class PerformanceDataManager {
     private Long mLastCpuTime;
     private Long mLastAppCpuTime;
     private boolean mAboveAndroidO; // 是否是8.0及其以上
-    private boolean mHasRemindUser;
     private static final int MSG_CPU = 1;
     private static final int MSG_MEMORY = 2;
-    private static final int MSG_REMIND = 3;
+    private static final int MSG_SAVE_LOCAL = 3;
+    private UploadMonitorInfoBean mUploadMonitorBean;
+    private boolean mUploading;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private Choreographer.FrameCallback mFrameCallback = new Choreographer.FrameCallback() {
@@ -152,13 +161,6 @@ public class PerformanceDataManager {
         writeMemoryDataIntoFile();
     }
 
-    private void remindUserToConnectPort() {
-        if (!mHasRemindUser) {
-            mHasRemindUser = true;
-            Toast.makeText(mContext, R.string.dk_cpu_memory_remind_user, Toast.LENGTH_LONG).show();
-        }
-    }
-
     private static class Holder {
         private static PerformanceDataManager INSTANCE = new PerformanceDataManager();
     }
@@ -193,8 +195,9 @@ public class PerformanceDataManager {
                     } else if (msg.what == MSG_MEMORY) {
                         executeMemoryData();
                         mHandler.sendEmptyMessageDelayed(MSG_MEMORY, NORMAL_FRAME_RATE * 1000);
-                    } else if (msg.what == MSG_REMIND) {
-                        remindUserToConnectPort();
+                    } else if (msg.what == MSG_SAVE_LOCAL){
+                        saveToLocal();
+                        mHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_FRAME_RATE * 1000);
                     }
                 }
             };
@@ -224,6 +227,40 @@ public class PerformanceDataManager {
         mHandler.sendEmptyMessageDelayed(MSG_CPU, NORMAL_FRAME_RATE * 1000);
     }
 
+    public void startUploadMonitorData() {
+        mUploading = true;
+        if (mUploadMonitorBean != null) {
+            mUploadMonitorBean = null;
+        }
+        if (PerformanceInfoConfig.isFPSOpen(mContext)) {
+            startMonitorFrameInfo();
+        }
+        if (PerformanceInfoConfig.isCPUOpen(mContext)) {
+            startMonitorCPUInfo();
+        }
+        if (PerformanceInfoConfig.isMemoryOpen(mContext)) {
+            startMonitorMemoryInfo();
+        }
+        if (PerformanceInfoConfig.isTrafficOpen(mContext)) {
+            // TODO: 2019/3/22 开始流量监控
+        }
+        mHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_FRAME_RATE * 1000);
+    }
+
+    public void stopUploadMonitorData(){
+        mUploading = false;
+        mHandler.removeMessages(MSG_SAVE_LOCAL);
+        uploadDataToLocalFile();
+        stopMonitorFrameInfo();
+        stopMonitorCPUInfo();
+        stopMonitorMemoryInfo();
+        // TODO: 2019/3/22 结束流量监控
+    }
+
+    public boolean isUploading(){
+        return mUploading;
+    }
+
     public void stopMonitorCPUInfo() {
         mHandler.removeMessages(MSG_CPU);
     }
@@ -237,6 +274,31 @@ public class PerformanceDataManager {
         }
         mHandlerThread = null;
         mHandler = null;
+    }
+
+    private void saveToLocal() {
+        if (mUploadMonitorBean == null) {
+            mUploadMonitorBean = new UploadMonitorInfoBean();
+            mUploadMonitorBean.appName = mContext.getPackageName();
+            if(mUploadMonitorBean.performanceArray == null){
+                mUploadMonitorBean.performanceArray = new ArrayList<>();
+            }
+        }
+        PerformanceInfo info = new PerformanceInfo();
+        info.cpu = mLastCpuRate;
+        info.fps = mLastFrameRate;
+        info.memory = mLastMemoryInfo;
+        info.timestamp = System.currentTimeMillis();
+        mUploadMonitorBean.performanceArray.add(info);
+    }
+
+    private void uploadDataToLocalFile() {
+        ThreadPoolProxyFactory.getThreadPoolProxy().execute(new Runnable() {
+            @Override
+            public void run() {
+                FileManager.writeTxtToFile(JsonUtil.jsonFromObject(mUploadMonitorBean), filePath, customFileName);
+            }
+        });
     }
 
     public void startMonitorMemoryInfo() {

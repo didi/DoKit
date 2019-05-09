@@ -89,7 +89,7 @@ public class PerformanceFragment extends BaseFragment {
                 new LoadDataTask().execute(PerformanceDataManager.getInstance().getFpsFilePath());
             } else {
                 builder.setMaxValue(100).setMinValue(0);
-                model.setText(R.string.dk_fragment_parameter);
+                model.setText(R.string.dk_frameinfo_cpu);
                 new LoadDataTask().execute(PerformanceDataManager.getInstance().getCpuFilePath());
             }
         }
