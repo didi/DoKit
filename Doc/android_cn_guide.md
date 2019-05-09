@@ -62,8 +62,14 @@ buildscript {
 apply plugin: 'android-aspectjx'
 ```
 
+注：
+使用插件有两个目的：1是实现网络请求的自动监控，不需要手动写其他代码。2是可以实现三方jar包内的请求的hook。
+但使用插件会稍微影响到编译速度。如果不需要这个功能，可以通过手动添加DoraemonInterceptor的方式进行OkHttp的监控,如下：
 
-
+```
+OkHttpClient client = new OkHttpClient().newBuilder()
+                .addInterceptor(new DoraemonInterceptor()).build();
+```
 #### 4. 自定义功能组件（可选）
 
 自定义组件需要实现IKit接口，该接口对应哆啦A梦功能面板中的组件。
