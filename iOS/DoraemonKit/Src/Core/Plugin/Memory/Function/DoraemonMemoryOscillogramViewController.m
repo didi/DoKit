@@ -86,8 +86,5 @@
     return 1000;
 }
 
-- (void)addRecortArray:(NSArray *)recordArray {
-    [_oscillogramView addRecortArray:recordArray];
-}
 
 @end

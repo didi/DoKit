@@ -84,8 +84,4 @@
     [_oscillogramView addHeightValue:cpuUsage*_oscillogramView.doraemon_height/100. andTipValue:[NSString stringWithFormat:@"%.f",cpuUsage]];
 }
 
-- (void)addRecortArray:(NSArray<DoraemonPerformanceInfoModel *> *)recordArray {
-    [_oscillogramView addRecortArray:recordArray];
-}
-
 @end

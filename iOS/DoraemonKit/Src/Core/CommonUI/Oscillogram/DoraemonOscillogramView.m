@@ -28,8 +28,6 @@
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
 @property (nonatomic, strong) UILabel       *tipLabel;
 
-@property (nonatomic, strong) NSArray<DoraemonPerformanceInfoModel *> *recordArray;
-
 @end
 
 @implementation DoraemonOscillogramView
