@@ -173,6 +173,10 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonViewAlignPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonViewMetricsPlugin];
+    
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonViewRunTrackPlugin];
+
+    
 }
 
 /**
@@ -460,7 +464,15 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kIcon:@"doraemon_viewmetrics"},
                                    @{kPluginName:@"DoraemonViewMetricsPlugin"},
                                    @{kAtModule:@"视觉工具"}
-                                   ]
+                                   ],
+                           @(DoraemonManagerPluginType_DoraemonViewRunTrackPlugin) : @[
+                                   @{kTitle:@"查看图层"},
+                                   @{kDesc:@"查看组件图层"},
+                                   @{kIcon:@"doraemon_view_runtrack"},
+                                   @{kPluginName:@"DoreamonRunTraceHelpPlugin"},
+                                   @{kAtModule:@"视觉工具"}
+                                   ],
+                           
                            }[@(pluginType)];
     
     DoraemonManagerPluginTypeModel *model = [DoraemonManagerPluginTypeModel new];

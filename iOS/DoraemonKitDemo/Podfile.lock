@@ -28,31 +28,31 @@ PODS:
     - BSBacktraceLogger
     - fishhook
     - PNChart
-    - "UITextView+Placeholder"
+    - UITextView+Placeholder
   - DoraemonKit/WithGPS (1.1.7):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
     - PNChart
-    - "UITextView+Placeholder"
+    - UITextView+Placeholder
   - DoraemonKit/WithLoad (1.1.7):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
     - PNChart
-    - "UITextView+Placeholder"
+    - UITextView+Placeholder
   - DoraemonKit/WithLogger (1.1.7):
     - BSBacktraceLogger
     - CocoaLumberjack
     - DoraemonKit/Core
     - fishhook
     - PNChart
-    - "UITextView+Placeholder"
+    - UITextView+Placeholder
   - fishhook (0.2)
   - PNChart (0.8.9):
     - UICountingLabel (~> 1.2.0)
   - UICountingLabel (1.2.0)
-  - "UITextView+Placeholder (1.2.1)"
+  - UITextView+Placeholder (1.2.1)
 
 DEPENDENCIES:
   - AFNetworking (= 2.6.3)
@@ -60,16 +60,6 @@ DEPENDENCIES:
   - DoraemonKit/WithGPS (from `../../`)
   - DoraemonKit/WithLoad (from `../../`)
   - DoraemonKit/WithLogger (from `../../`)
-
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - AFNetworking
-    - BSBacktraceLogger
-    - CocoaLumberjack
-    - fishhook
-    - PNChart
-    - UICountingLabel
-    - "UITextView+Placeholder"
 
 EXTERNAL SOURCES:
   DoraemonKit:
@@ -79,12 +69,12 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   BSBacktraceLogger: 06b983ee93a9f87d957960e9c73d660d5966b447
   CocoaLumberjack: 118bf4a820efc641f79fa487b75ed928dccfae23
-  DoraemonKit: bf72b036ad3fe273db1a12432f6e4ba06a50be87
+  DoraemonKit: ea71cdf4c1812913ca52b0e11b314fc7f0e6f3e6
   fishhook: ea19933abfe8f2f52c55fd8b6e2718467d3ebc89
   PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
-  "UITextView+Placeholder": 0c3efd97f37ea64bde7f34cc6e90fe02e87b3909
+  UITextView+Placeholder: 0c3efd97f37ea64bde7f34cc6e90fe02e87b3909
 
 PODFILE CHECKSUM: f601867a5c4b742a86a6ca031650062a81a5022b
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.2.1
