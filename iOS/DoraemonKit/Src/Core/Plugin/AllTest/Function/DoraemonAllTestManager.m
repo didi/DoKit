@@ -12,16 +12,15 @@
 #import "DoraemonMemoryUtil.h"
 #import "DoraemonNetFlowManager.h"
 #import "DoraemonNetFlowDataSource.h"
+#import "DoraemonFPSUtil.h"
 
 @interface DoraemonAllTestManager()
 
 //每秒运行一次
 @property (nonatomic, strong) NSTimer *secondTimer;
 
-@property (nonatomic, strong) CADisplayLink *link;
-@property (nonatomic, assign) NSUInteger count;
-@property (nonatomic, assign) NSTimeInterval lastTime;
 @property (nonatomic, assign) NSInteger fpsValue;
+@property (nonatomic, strong) DoraemonFPSUtil *fpsUtil;
 
 @property (nonatomic, strong) NSMutableArray *commonDataArray;
 
@@ -46,12 +45,14 @@
         _secondTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(doSecondFunction) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:_secondTimer forMode:NSRunLoopCommonModes];
         if(_fpsSwitchOn){
-            if (_link) {
-                _link.paused = NO;
-            }else{
-                _link = [CADisplayLink displayLinkWithTarget:self selector:@selector(trigger:)];
-                [_link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+            if (!_fpsUtil) {
+                _fpsUtil = [[DoraemonFPSUtil alloc] init];
+                __weak typeof(self) weakSelf = self;
+                [_fpsUtil addFPSBlock:^(NSInteger fps) {
+                    weakSelf.fpsValue = fps;
+                }];
             }
+            [_fpsUtil start];
         }
     }
     if(_flowSwitchOn){
@@ -114,12 +115,8 @@
         [_secondTimer invalidate];
         _secondTimer = nil;
     }
-    if (_link) {
-        _link.paused = YES;
-        [_link invalidate];
-        _link = nil;
-        _lastTime = 0;
-        _count = 0;
+    if (_fpsUtil) {
+        [_fpsUtil end];
     }
     [self upLoadData];
     
@@ -128,23 +125,6 @@
         [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:NO];
     }
     
-}
-
-- (void)trigger:(CADisplayLink *)link{
-    if (_lastTime == 0) {
-        _lastTime = link.timestamp;
-        return;
-    }
-    
-    _count++;
-    NSTimeInterval delta = link.timestamp - _lastTime;
-    if (delta < 1) return;
-    _lastTime = link.timestamp;
-    CGFloat fps = _count / delta;
-    _count = 0;
-    
-    NSInteger intFps = (NSInteger)(fps+0.5);
-    _fpsValue = intFps;
 }
 
 - (void)doSecondFunction{
