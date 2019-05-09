@@ -64,7 +64,7 @@
 }
 
 - (void)setContent:(NSString *)text {
-    _textView = [[UITextView alloc] initWithFrame:self.view.bounds];
+    _textView = [[UITextView alloc] init];
     _textView.font = [UIFont systemFontOfSize:12.0f];
     _textView.textColor = [UIColor blackColor];
     _textView.textAlignment = NSTextAlignmentLeft;
@@ -76,6 +76,15 @@
     _textView.layer.borderWidth = 2.0f;
     _textView.text = text;
     [self.view addSubview:_textView];
+    
+    _textView.translatesAutoresizingMaskIntoConstraints = NO;
+    NSArray<NSLayoutConstraint *> *textViewConstraints = @[
+        [_textView.topAnchor constraintEqualToAnchor: self.view.topAnchor],
+        [_textView.bottomAnchor constraintEqualToAnchor: self.view.bottomAnchor],
+        [_textView.leadingAnchor constraintEqualToAnchor: self.view.leadingAnchor],
+        [_textView.trailingAnchor constraintEqualToAnchor: self.view.trailingAnchor]
+    ];
+    [NSLayoutConstraint activateConstraints: textViewConstraints];
 }
 
 - (void)setOriginalImage:(UIImage *)originalImage {
