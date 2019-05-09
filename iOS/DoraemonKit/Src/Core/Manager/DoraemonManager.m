@@ -131,7 +131,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(quickOpenLogVC:) name:DoraemonQuickOpenLogVCNotification object:nil];
     
     //统计开源项目使用量 不用于任何恶意行为
-    [DoraemonStatisticsUtil upLoadUserInfo];
+    [[DoraemonStatisticsUtil shareInstance] upLoadUserInfo];
 
 }
 
@@ -286,7 +286,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     self.anrBlock = block;
 }
 
-- (void)addperformanceBlock:(void(^)(NSDictionary *performanceDic))block{
+- (void)addPerformanceBlock:(void(^)(NSDictionary *performanceDic))block{
     self.performanceBlock = block;
 }
 
