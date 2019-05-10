@@ -4,6 +4,7 @@ import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.HttpUrlConnectionProxy;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.HttpsUrlConnectionProxy;
 import com.didichuxing.doraemonkit.kit.network.okhttp.DoraemonInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.DoraemonWeakNetworkInterceptor;
 
 import java.net.HttpURLConnection;
 import java.net.URLConnection;
@@ -30,6 +31,7 @@ public class AopUtils {
     }
 
     public static void addInterceptor(OkHttpClient.Builder builder) {
-        builder.addInterceptor(new DoraemonInterceptor());
+        builder.addNetworkInterceptor(new DoraemonWeakNetworkInterceptor())
+                .addInterceptor(new DoraemonInterceptor());
     }
 }
