@@ -1,52 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context="com.didichuxing.doraemondemo.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.didichuxing.doraemondemo.MainActivity">
 
     <Button
         android:id="@+id/btn_test_urlconnection"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="HttpUrlConnection Test"/>
+        android:text="HttpUrlConnection Test" />
 
     <Button
         android:id="@+id/btn_test_okhttp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="OkHttp Test"/>
+        android:text="OkHttp Test" />
 
     <Button
         android:id="@+id/btn_test_custom"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="其他网络库 Test"/>
+        android:text="其他网络库 Test" />
 
     <Button
         android:id="@+id/btn_show_hide_icon"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="显示/隐藏入口"/>
+        android:text="显示/隐藏入口" />
 
     <Button
         android:id="@+id/btn_time_count"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="页面跳转耗时"/>
+        android:text="页面跳转耗时" />
 
     <Button
         android:id="@+id/btn_test_crash"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="模拟 Crash"/>
+        android:text="模拟 Crash" />
 
     <Button
         android:id="@+id/btn_create_database"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="创建数据库"/>
+        android:text="创建数据库" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_upload_test"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:text="上传测试" />
+        <Button
+            android:layout_weight="1"
+            android:id="@+id/btn_download_test"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="下载测试" />
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -25,6 +25,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    compileOnly 'com.squareup.okio:okio:1.11.0'
-    compileOnly 'com.squareup.okhttp3:okhttp:3.6.0'
+    compileOnly 'com.squareup.okio:okio:1.15.0'
+    compileOnly 'com.squareup.okhttp3:okhttp:3.12.1'
 }

@@ -17,6 +17,7 @@
     <string name="dk_kit_temporary_close">Hide Doraemon</string>
     <string name="dk_kit_crash">Crash Viewer</string>
     <string name="dk_kit_data_clean">Cache Cleanup</string>
+    <string name="dk_kit_weak_network">Simulated Weak Network</string>
     <string name="dk_kit_view_check">View Ciewer</string>
     <string name="dk_kit_net_monitor">Traffic Monitor</string>
     <string name="dk_kit_time_counter">Time Counter</string>
@@ -85,6 +86,15 @@
     <string name="dk_crash_capture_look">View Crash Log</string>
     <string name="dk_crash_capture_clean_data">Clean Crash Cache</string>
     <string name="dk_crash_capture_summary_title">Crash Log List</string>
+
+    <string name="dk_weak_network_switch">Simulate Weak Network Switch</string>
+    <string name="dk_weak_network_off">Off Network</string>
+    <string name="dk_weak_network_timeout">Time Out</string>
+    <string name="dk_weak_network_speed_limit">Speed Limit</string>
+    <string name="dk_weak_network_request_limit">Request Speed Limit:</string>
+    <string name="dk_weak_network_response_limit">Response Speed Limit：</string>
+    <string name="dk_weak_network_limit_message">request speed limit will limit speed when uploading, response speed limit will limit speed when downloading, 0 does not limit speed</string>
+
     <string name="dk_back">Back</string>
     <string name="dk_frameinfo_ram">RAM</string>
     <string name="dk_kit_network_monitor">Network Monitor</string>
@@ -143,8 +153,8 @@
     <string name="dk_item_time_counter_switch">Activity Time Counter</string>
     <string name="dk_item_time_goto_list">View History</string>
     <string name="dk_kit_block_time_counter_list">Time Counter History</string>
-    <string name="dk_submit" >submit</string>
-    <string name="dk_cancel" >cancel</string>
+    <string name="dk_submit">submit</string>
+    <string name="dk_cancel">cancel</string>
     <string name="dk_delete">delete</string>
     <string name="dk_db_tips_insert">insert</string>
 
