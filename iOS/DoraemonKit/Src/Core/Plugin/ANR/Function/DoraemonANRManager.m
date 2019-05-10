@@ -47,13 +47,13 @@ static int64_t const kDoraemonBlockMonitorTimeInterval = 2.;
 
 - (void)start {
     __weak typeof(self) weakSelf = self;
-    [_doraemonANRTracker startWithThreshold:self.timeOut
-                               handler:^(double threshold) {
-                                   [weakSelf dump];
-                               }];
+    [_doraemonANRTracker startWithThreshold:self.timeOut handler:^(double threshold, double duration) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf dumpWithDuration:duration];
+    }];
 }
 
-- (void)dump {
+- (void)dumpWithDuration:(double)duration {
     //方法一：使用 BSBacktraceLogger 打印方法调用栈
     //BSLOG  // 打印当前线程的调用栈
     //BSLOG_ALL  // 打印所有线程的调用栈
@@ -69,7 +69,8 @@ static int64_t const kDoraemonBlockMonitorTimeInterval = 2.;
     }
     NSDictionary *dic = @{
                           @"title":[DoraemonUtil dateFormatNow],
-                          @"content":report
+                          @"content":report,
+                          @"duration": [NSString stringWithFormat:@"%.2f",duration],
                           };
     [_anrArray addObject:dic];
 }

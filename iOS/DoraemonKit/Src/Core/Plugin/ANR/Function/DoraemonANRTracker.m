@@ -34,9 +34,9 @@
                    handler:(DoraemonANRTrackerBlock)handler {
     
     self.pingThread = [[DoraemonPingThread alloc] initWithThreshold:threshold
-                                                       handler:^(double threshold) {
-                                                           handler(threshold);
-                                                       }];
+                                                            handler:^(double threshold, double duration) {
+                                                                handler(threshold, duration);
+                                                            }];
     
     [self.pingThread start];
 }

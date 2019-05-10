@@ -34,7 +34,14 @@
  *  主线程是否阻塞
  */
 @property (nonatomic, assign,getter=isMainThreadBlock) BOOL mainThreadBlock;
-
+/**
+ *  判断是否需要上报
+ */
+@property (nonatomic, assign) BOOL report;
+/**
+ *  每一次ping开始的时间,上报延迟时间统计
+ */
+@property (nonatomic, assign) double startTimeValue;
 @end
 
 @implementation DoraemonPingThread
@@ -60,23 +67,41 @@
 }
 
 - (void)main {
+    //判断是否需要上报
+    __weak typeof(self) weakSelf = self;
+    void (^ verifyReport)(void) = ^() {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (strongSelf.report) {
+            if (strongSelf.handler) {
+                double responseTimeValue = floor([[NSDate date] timeIntervalSince1970] * 1000);
+                double duration = (responseTimeValue - strongSelf.startTimeValue) / 1000.0;
+                strongSelf.handler(strongSelf.threshold, duration);
+            }
+            strongSelf.report = NO;
+        }
+    };
     
     while (!self.cancelled) {
         if (_isApplicationInActive) {
             self.mainThreadBlock = YES;
-            
+            _report = NO;
+            _startTimeValue = floor([[NSDate date] timeIntervalSince1970] * 1000);
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.mainThreadBlock = NO;
+                verifyReport();
                 dispatch_semaphore_signal(self.semaphore);
             });
-            
             [NSThread sleepForTimeInterval:self.threshold];
-            
             if (self.isMainThreadBlock) {
-                self.handler(self.threshold);
+                _report = YES;
             }
-            
-            dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
+            dispatch_semaphore_wait(self.semaphore, dispatch_time(DISPATCH_TIME_NOW, 5.0 * NSEC_PER_SEC));
+            {
+                //卡顿超时情况;
+                if (_report) {
+                    verifyReport();
+                }
+            }
         } else {
             [NSThread sleepForTimeInterval:self.threshold];
         }
