@@ -21,14 +21,26 @@
 
 + (NSURLSessionConfiguration *)doraemon_defaultSessionConfiguration{
     NSURLSessionConfiguration *configuration = [self doraemon_defaultSessionConfiguration];
-    [DoraemonNetFlowManager setEnabled:YES forSessionConfiguration:configuration];
+    [configuration addDoraemonNSURLProtocol];
     return configuration;
 }
 
 + (NSURLSessionConfiguration *)doraemon_ephemeralSessionConfiguration{
     NSURLSessionConfiguration *configuration = [self doraemon_ephemeralSessionConfiguration];
-    [DoraemonNetFlowManager setEnabled:YES forSessionConfiguration:configuration];
+    [configuration addDoraemonNSURLProtocol];
     return configuration;
+}
+
+- (void)addDoraemonNSURLProtocol {
+    if ([self respondsToSelector:@selector(protocolClasses)]
+        && [self respondsToSelector:@selector(setProtocolClasses:)]) {
+        NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray: self.protocolClasses];
+        Class protoCls = DoraemonNSURLProtocol.class;
+        if (![urlProtocolClasses containsObject:protoCls]) {
+            [urlProtocolClasses insertObject:protoCls atIndex:0];
+        }
+        self.protocolClasses = urlProtocolClasses;
+    }
 }
 
 @end

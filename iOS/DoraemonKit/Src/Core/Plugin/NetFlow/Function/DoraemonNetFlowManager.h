@@ -16,6 +16,4 @@
 
 - (void)canInterceptNetFlow:(BOOL)enable;
 
-+ (void)setEnabled:(BOOL)enabled forSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig;
-
 @end

@@ -34,22 +34,4 @@
     }
 }
 
-+ (void)setEnabled:(BOOL)enabled forSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig{
-    if (   [sessionConfig respondsToSelector:@selector(protocolClasses)]
-        && [sessionConfig respondsToSelector:@selector(setProtocolClasses:)])
-    {
-        NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray:sessionConfig.protocolClasses];
-        Class protoCls = DoraemonNSURLProtocol.class;
-        if (enabled && ![urlProtocolClasses containsObject:protoCls])
-        {
-            [urlProtocolClasses insertObject:protoCls atIndex:0];
-        }
-        else if (!enabled && [urlProtocolClasses containsObject:protoCls])
-        {
-            [urlProtocolClasses removeObject:protoCls];
-        }
-        sessionConfig.protocolClasses = urlProtocolClasses;
-    }
-}
-
 @end
