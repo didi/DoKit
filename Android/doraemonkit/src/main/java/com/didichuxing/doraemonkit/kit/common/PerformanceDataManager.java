@@ -7,12 +7,13 @@ import android.os.Debug;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.Choreographer;
-import android.widget.Toast;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.PerformanceInfoConfig;
@@ -22,7 +23,6 @@ import com.didichuxing.doraemonkit.util.FileManager;
 import com.didichuxing.doraemonkit.util.JsonUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.threadpool.ThreadPoolProxyFactory;
-import com.google.gson.JsonObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -40,6 +40,7 @@ import java.util.Date;
 public class PerformanceDataManager {
     private static final String TAG = "PerformanceDataManager";
     private static final float SECOND_IN_NANOS = 1000000000f;
+    private static final int MAX_FRAME_RATE = 60;
     private static final int NORMAL_FRAME_RATE = 1;
     private String filePath;
     private String memoryFileName = "memory.txt";
@@ -48,12 +49,10 @@ public class PerformanceDataManager {
     private String customFileName = "custom.txt"; //自定义测试页面保存的文件名称
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    private long mLastFrameTimeNanos;
-    private int mLastFrameRate;
+    private int mLastFrameRate = MAX_FRAME_RATE;
     private int mLastSkippedFrames;
     private float mLastCpuRate;
     private float mLastMemoryInfo;
-    private String mPackageName;
     private Handler mHandler;
     private HandlerThread mHandlerThread;
     private float mMaxMemory;
@@ -69,23 +68,8 @@ public class PerformanceDataManager {
     private static final int MSG_SAVE_LOCAL = 3;
     private UploadMonitorInfoBean mUploadMonitorBean;
     private boolean mUploading;
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private Choreographer.FrameCallback mFrameCallback = new Choreographer.FrameCallback() {
-        @Override
-        public void doFrame(long frameTimeNanos) {
-            if (mLastFrameTimeNanos != 0L) {
-                long temp = frameTimeNanos - mLastFrameTimeNanos;
-                if (temp != 0) {
-                    mLastFrameRate = Math.round(SECOND_IN_NANOS / (frameTimeNanos - mLastFrameTimeNanos));
-                    mLastSkippedFrames = 60 - mLastFrameRate;
-                }
-            }
-            mLastFrameTimeNanos = frameTimeNanos;
-            Choreographer.getInstance().postFrameCallback(this);
-            writeFpsDataIntoFile();
-        }
-    };
+    private Handler mMainHandler = new Handler(Looper.getMainLooper());
+    private FrameRateRunnable mRateRunnable = new FrameRateRunnable();
 
     private void executeCpuData() {
         LogHelper.d(TAG, "current thread name is ==" + Thread.currentThread().getName());
@@ -178,7 +162,6 @@ public class PerformanceDataManager {
         mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mAboveAndroidO = true;
-            mPackageName = context.getPackageName();
         }
         if (mHandlerThread == null) {
             mHandlerThread = new HandlerThread("handler-thread");
@@ -215,12 +198,14 @@ public class PerformanceDataManager {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void startMonitorFrameInfo() {
-        Choreographer.getInstance().postFrameCallback(mFrameCallback);
+        mMainHandler.postDelayed(mRateRunnable, DateUtils.SECOND_IN_MILLIS);
+        Choreographer.getInstance().postFrameCallback(mRateRunnable);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void stopMonitorFrameInfo() {
-        Choreographer.getInstance().removeFrameCallback(mFrameCallback);
+        Choreographer.getInstance().removeFrameCallback(mRateRunnable);
+        mMainHandler.removeCallbacks(mRateRunnable);
     }
 
     public void startMonitorCPUInfo() {
@@ -466,5 +451,27 @@ public class PerformanceDataManager {
 
     public float getMaxMemory() {
         return mMaxMemory;
+    }
+
+    private class FrameRateRunnable implements Runnable, Choreographer.FrameCallback {
+        private int totalFramesPerSecond;
+
+        @Override
+        public void run() {
+            mLastFrameRate = totalFramesPerSecond;
+            if (mLastFrameRate > MAX_FRAME_RATE) {
+                mLastFrameRate = MAX_FRAME_RATE;
+            }
+            mLastSkippedFrames = MAX_FRAME_RATE - mLastFrameRate;
+            totalFramesPerSecond = 0;
+            mMainHandler.postDelayed(this, DateUtils.SECOND_IN_MILLIS);
+        }
+
+        @Override
+        public void doFrame(long frameTimeNanos) {
+            totalFramesPerSecond++;
+            Choreographer.getInstance().postFrameCallback(this);
+            writeFpsDataIntoFile();
+        }
     }
 }

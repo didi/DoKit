@@ -17,14 +17,15 @@
             app:dkLeftIcon="@drawable/dk_title_back"
             app:dkLeftText="@string/dk_back"
             app:dkTitle="@string/dk_crash_capture_summary_title" />
-
+        <View
+            style="@style/DK.Shadow.Bottom"/>
 
         <TextView
             android:id="@+id/tv_crash_detail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/dk_color_000000"
-            android:textSize="10sp" />
+            android:textSize="@dimen/dk_font_size_14" />
     </LinearLayout>
 
 

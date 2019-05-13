@@ -36,6 +36,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="top|left"
             android:clickable="true"
+            android:textSize="@dimen/dk_font_size_14"
             android:gravity="left"
             android:visibility="gone"/>
     </FrameLayout>

@@ -12,8 +12,6 @@ public class OkHttpAspect {
 
     @After("execution(okhttp3.OkHttpClient.Builder.new(..))")
     public void addInterceptor(JoinPoint joinPoint) {
-        if (joinPoint.getArgs() != null && joinPoint.getArgs().length > 0 && joinPoint.getArgs()[0] instanceof OkHttpClient) {
-            AopUtils.addInterceptor((OkHttpClient.Builder) joinPoint.getTarget());
-        }
+        AopUtils.addInterceptor((OkHttpClient.Builder) joinPoint.getTarget());
     }
 }

@@ -63,7 +63,7 @@ public class BlockListFragment extends BaseFragment implements OnBlockInfoUpdate
         mBlockListAdapter.setOnItemClickListener(new BlockListAdapter.OnItemClickListener() {
             @Override
             public void onClick(BlockInfo info) {
-                mLogDetail.setText(info.toString() + info.toString() + info.toString());
+                mLogDetail.setText(info.toString());
                 mLogDetail.setVisibility(View.VISIBLE);
                 mBlockList.setVisibility(View.GONE);
                 mTitleBar.setTitle(getResources().getString(R.string.dk_kit_block_monitor_detail), false);
