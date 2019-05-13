@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"视觉测试Demo";
+    self.title = DoraemonLocalizedString(@"视觉测试Demo");
     
     UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(100, 200, 60, 60)];
     redView.backgroundColor = [UIColor redColor];
@@ -30,7 +30,7 @@
 //    [self.view addSubview:alphaView];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 400, 200, 60)];
-    titleLabel.text = @"我是来测试的";
+    titleLabel.text = DoraemonLocalizedString(@"我是来测试的");
     titleLabel.backgroundColor = [UIColor doraemon_colorWithString:@"#00FF00"];
     titleLabel.textColor = [UIColor doraemon_colorWithString:@"#FF0000"];
     [self.view addSubview:titleLabel];

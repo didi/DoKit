@@ -45,13 +45,13 @@
     
     NSString *cnValue = nil;
     if([value isEqualToString:@"NotDetermined"]){
-        cnValue = @"用户没有选择";
+        cnValue = DoraemonLocalizedString(@"用户没有选择");
     }else if([value isEqualToString:@"Restricted"]){
-        cnValue = @"家长控制";
+        cnValue = DoraemonLocalizedString(@"家长控制");
     }else if([value isEqualToString:@"Denied"]){
-        cnValue = @"用户没有授权";
+        cnValue = DoraemonLocalizedString(@"用户没有授权");
     }else if([value isEqualToString:@"Authorized"]){
-        cnValue = @"用户已经授权";
+        cnValue = DoraemonLocalizedString(@"用户已经授权");
     }else{
         cnValue = value;
     }

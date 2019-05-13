@@ -143,7 +143,7 @@ static CGFloat const kViewCheckSize = 62;
 }
 
 - (void)configInfoLblText {
-    _infoWindow.infoText = [NSString stringWithFormat:@"位置：左%@  右%@  上%@  下%@", _leftLabel.text, _rightLabel.text, _topLabel.text, _bottomLabel.text];
+    _infoWindow.infoText = [NSString stringWithFormat:DoraemonLocalizedString(@"位置：左%@  右%@  上%@  下%@"), _leftLabel.text, _rightLabel.text, _topLabel.text, _bottomLabel.text];
 }
  
 

@@ -34,7 +34,7 @@ typedef struct Test
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"crash查看";
+    self.title = DoraemonLocalizedString(@"crash查看");
     
     [self.view addSubview:self.uncaughtExceptionBtn];
     [self.view addSubview:self.signalExceptionBtn];

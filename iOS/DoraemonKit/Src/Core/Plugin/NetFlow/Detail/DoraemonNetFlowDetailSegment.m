@@ -25,7 +25,7 @@
         _leftLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.doraemon_width/2, self.doraemon_height)];
         _leftLabel.textColor = [UIColor doraemon_colorWithHexString:@"337CC4"];
         _leftLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
-        _leftLabel.text = @"请求";
+        _leftLabel.text = DoraemonLocalizedString(@"请求");
         _leftLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_leftLabel];
         
@@ -36,7 +36,7 @@
         _rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.doraemon_width/2, 0, self.doraemon_width/2, self.doraemon_height)];
         _rightLabel.textColor = [UIColor doraemon_colorWithHexString:@"333333"];
         _rightLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
-        _rightLabel.text = @"响应";
+        _rightLabel.text = DoraemonLocalizedString(@"响应");
         _rightLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_rightLabel];
         

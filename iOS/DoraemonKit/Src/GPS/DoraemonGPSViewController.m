@@ -137,7 +137,7 @@
         CLLocation *loc = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
         [[DoraemonGPSMocker shareInstance] mockPoint:loc];
     }else{
-        [DoraemonToastUtil showToast:@"格式不正确"];
+        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"格式不正确")];
         return;
     }
     

@@ -29,7 +29,7 @@
         [self addSubview:_searchIcon];
         
         _textField = [[UITextField alloc] initWithFrame:CGRectMake(_searchIcon.doraemon_right+kDoraemonSizeFrom750(20), self.doraemon_height/2-kDoraemonSizeFrom750(50)/2, self.doraemon_width-_searchIcon.doraemon_right-kDoraemonSizeFrom750(20), kDoraemonSizeFrom750(50))];
-        _textField.placeholder = @"请输入您要搜索的关键字";
+        _textField.placeholder = DoraemonLocalizedString(@"请输入您要搜索的关键字");
         [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         [self addSubview:_textField];
     }
