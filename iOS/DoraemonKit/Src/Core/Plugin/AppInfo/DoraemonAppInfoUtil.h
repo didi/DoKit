@@ -52,5 +52,4 @@
 + (NSString *)remindAuthority;
 
 + (NSString *)bluetoothAuthority;
-
 @end

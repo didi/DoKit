@@ -23,6 +23,7 @@ import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoFragment;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterFragment;
 import com.didichuxing.doraemonkit.kit.topactivity.TopActivityFragment;
 import com.didichuxing.doraemonkit.kit.viewcheck.ViewCheckFragment;
+import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkFragment;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorDefaultFragment;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorFragment;
 import com.didichuxing.doraemonkit.ui.base.BaseActivity;
@@ -75,6 +76,9 @@ public class UniversalActivity extends BaseActivity {
                 break;
             case FragmentIndex.FRAGMENT_DATA_CLEAN:
                 fragmentClass = DataCleanFragment.class;
+                break;
+            case FragmentIndex.FRAGMENT_WEAK_NETWORK:
+                fragmentClass = WeakNetworkFragment.class;
                 break;
             case FragmentIndex.FRAGMENT_BLOCK_MONITOR:
                 fragmentClass = BlockMonitorFragment.class;

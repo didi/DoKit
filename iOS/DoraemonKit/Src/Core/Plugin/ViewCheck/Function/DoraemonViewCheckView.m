@@ -150,7 +150,7 @@ static CGFloat const kViewCheckSize = 62;
 -(NSMutableAttributedString *)viewInfo:(UIView *)view{
     if (view) {
         NSMutableString *showString = [[NSMutableString alloc] init];
-        NSString *tempString = [NSString stringWithFormat:DoraemonLocalizedString(@"控件名称：%@"),NSStringFromClass([view class])];
+        NSString *tempString = [NSString stringWithFormat:@"%@:%@",DoraemonLocalizedString(@"控件名称"),NSStringFromClass([view class])];
         [showString appendString:tempString];
         
         tempString = [NSString stringWithFormat:DoraemonLocalizedString(@"\n控件位置：左%0.1lf  上%0.1lf  宽%0.1lf  高%0.1lf"),view.frame.origin.x,view.frame.origin.y,view.frame.size.width,view.frame.size.height];

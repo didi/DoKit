@@ -18,6 +18,7 @@
     <string name="dk_kit_temporary_close">隱藏</string>
     <string name="dk_kit_crash">Crash 查看</string>
     <string name="dk_kit_data_clean">清除 Cache</string>
+    <string name="dk_kit_weak_network">模擬弱網</string>
     <string name="dk_kit_view_check">View 元件檢查</string>
     <string name="dk_kit_net_monitor">流量監控</string>
     <string name="dk_kit_time_counter">耗時</string>
@@ -85,6 +86,15 @@
     <string name="dk_crash_capture_look">查看 Crash Log</string>
     <string name="dk_crash_capture_switch">Crash Log 收集開關</string>
     <string name="dk_crash_capture_summary_title">Crash Log 列表</string>
+
+    <string name="dk_weak_network_switch">模擬弱網開關</string>
+    <string name="dk_weak_network_off">斷網</string>
+    <string name="dk_weak_network_timeout">超時</string>
+    <string name="dk_weak_network_speed_limit">限速</string>
+    <string name="dk_weak_network_request_limit">請求限速：</string>
+    <string name="dk_weak_network_response_limit">響應限速：</string>
+    <string name="dk_weak_network_limit_message">請求限速會在上傳時限速，響應限速會在下載時限速，0則不限速</string>
+
     <string name="dk_back">返回</string>
     <string name="dk_frameinfo_ram">RAM</string>
     <string name="dk_kit_network_monitor">流量監控</string>

@@ -15,7 +15,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Doraemon内置浏览器";
+    self.title = DoraemonLocalizedString(@"Doraemon内置浏览器");
     UIWebView * view = [[UIWebView alloc] initWithFrame:self.view.frame];
     [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.h5Url]]];
     [self.view addSubview:view];

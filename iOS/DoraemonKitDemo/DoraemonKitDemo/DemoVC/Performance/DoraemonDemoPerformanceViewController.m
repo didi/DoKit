@@ -32,42 +32,42 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"性能测试Demo";
+    self.title = DoraemonLocalizedString(@"性能测试Demo");
     
     _highCPU = NO;
     _highMemory = NO;
     
     UIButton *btn0 = [[UIButton alloc] initWithFrame:CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, 60)];
     btn0.backgroundColor = [UIColor orangeColor];
-    [btn0 setTitle:@"低FPS操作打开" forState:UIControlStateNormal];
+    [btn0 setTitle:DoraemonLocalizedString(@"低FPS操作打开") forState:UIControlStateNormal];
     [btn0 addTarget:self action:@selector(fpsClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn0];
     _btn0 = btn0;
     
     UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn0.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn1.backgroundColor = [UIColor orangeColor];
-    [btn1 setTitle:@"高CPU操作打开" forState:UIControlStateNormal];
+    [btn1 setTitle:DoraemonLocalizedString(@"高CPU操作打开") forState:UIControlStateNormal];
     [btn1 addTarget:self action:@selector(cpuClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn1];
     _btn1 = btn1;
     
     UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn1.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn2.backgroundColor = [UIColor orangeColor];
-    [btn2 setTitle:@"高内存操作打开" forState:UIControlStateNormal];
+    [btn2 setTitle:DoraemonLocalizedString(@"高内存操作打开") forState:UIControlStateNormal];
     [btn2 addTarget:self action:@selector(memoryClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn2];
     _btn2 = btn2;
     
     UIButton *btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn2.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn3.backgroundColor = [UIColor orangeColor];
-    [btn3 setTitle:@"高流量操作打开" forState:UIControlStateNormal];
+    [btn3 setTitle:DoraemonLocalizedString(@"高流量操作打开") forState:UIControlStateNormal];
     [btn3 addTarget:self action:@selector(flowClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn3];
     _btn3 = btn3;
     
     UIButton *btn4 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn3.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn4.backgroundColor = [UIColor orangeColor];
-    [btn4 setTitle:@"卡顿操作打开" forState:UIControlStateNormal];
+    [btn4 setTitle:DoraemonLocalizedString(@"卡顿操作打开") forState:UIControlStateNormal];
     [btn4 addTarget:self action:@selector(anrClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn4];
     _btn4 = btn4;
@@ -92,12 +92,12 @@
         _cpuThread.name = @"HighCPUThread";
         [_cpuThread start];
         
-        [_btn1 setTitle:@"高CPU操作关闭" forState:UIControlStateNormal];
+        [_btn1 setTitle:DoraemonLocalizedString(@"高CPU操作关闭") forState:UIControlStateNormal];
     }else{
         [_cpuThread cancel];
         _cpuThread = nil;
         
-        [_btn1 setTitle:@"高CPU操作打开" forState:UIControlStateNormal];
+        [_btn1 setTitle:DoraemonLocalizedString(@"高CPU操作打开") forState:UIControlStateNormal];
     }
 }
 
@@ -108,12 +108,12 @@
         _memoryThread.name = @"HighMemoryThread";
         [_memoryThread start];
         
-        [_btn2 setTitle:@"高内存操作关闭" forState:UIControlStateNormal];
+        [_btn2 setTitle:DoraemonLocalizedString(@"高内存操作关闭") forState:UIControlStateNormal];
     }else{
         [_memoryThread cancel];
         _memoryThread = nil;
         
-        [_btn2 setTitle:@"高内存操作打开" forState:UIControlStateNormal];
+        [_btn2 setTitle:DoraemonLocalizedString(@"高内存操作打开") forState:UIControlStateNormal];
     }
 }
 

@@ -18,11 +18,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"通用测试";
+    self.title = DoraemonLocalizedString(@"通用测试");
     
     UIButton *btn0 = [[UIButton alloc] initWithFrame:CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, 60)];
     btn0.backgroundColor = [UIColor orangeColor];
-    [btn0 setTitle:@"子线程UI操作" forState:UIControlStateNormal];
+    [btn0 setTitle:DoraemonLocalizedString(@"子线程UI操作") forState:UIControlStateNormal];
     [btn0 addTarget:self action:@selector(addSubViewAtOtherThread) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn0];
     

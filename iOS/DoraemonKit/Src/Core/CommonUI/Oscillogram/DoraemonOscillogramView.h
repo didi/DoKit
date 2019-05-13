@@ -29,6 +29,4 @@
 
 - (void)clear;
 
-- (void)addRecortArray:(NSArray<DoraemonPerformanceInfoModel *> *)recordArray;
-
 @end

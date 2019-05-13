@@ -25,7 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"NSLog日志记录";
+    self.title = DoraemonLocalizedString(@"NSLog日志记录");
     
     //按照时间倒序排列
     self.dataArray = [[[DoraemonNSLogManager sharedInstance].dataArray reverseObjectEnumerator] allObjects];

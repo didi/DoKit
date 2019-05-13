@@ -30,45 +30,45 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"网络测试Demo";
+    self.title = DoraemonLocalizedString(@"网络测试Demo");
     
     UIButton *btn0 = [[UIButton alloc] initWithFrame:CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, 60)];
     btn0.backgroundColor = [UIColor orangeColor];
-    [btn0 setTitle:@"发送一条URLConnection请求" forState:UIControlStateNormal];
+    [btn0 setTitle:DoraemonLocalizedString(@"发送一条URLConnection请求") forState:UIControlStateNormal];
     [btn0 addTarget:self action:@selector(netForURLConnection) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn0];
     _btn0 = btn0;
     
     UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn0.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn1.backgroundColor = [UIColor orangeColor];
-    [btn1 setTitle:@"发送一条NSURLSession请求" forState:UIControlStateNormal];
+    [btn1 setTitle:DoraemonLocalizedString(@"发送一条NSURLSession请求") forState:UIControlStateNormal];
     [btn1 addTarget:self action:@selector(netForNSURLSession) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn1];
     _btn1 = btn1;
     
     UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn1.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn2.backgroundColor = [UIColor orangeColor];
-    [btn2 setTitle:@"发送一条AFNetworking请求" forState:UIControlStateNormal];
+    [btn2 setTitle:DoraemonLocalizedString(@"发送一条AFNetworking请求") forState:UIControlStateNormal];
     [btn2 addTarget:self action:@selector(netForAFNetworking) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn2];
     _btn2 = btn2;
     
     UIButton *btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn2.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn3.backgroundColor = [UIColor orangeColor];
-    [btn3 setTitle:@"发送一条AFNetworking请求2" forState:UIControlStateNormal];
+    [btn3 setTitle:DoraemonLocalizedString(@"发送一条AFNetworking请求2") forState:UIControlStateNormal];
     [btn3 addTarget:self action:@selector(netForAFNetworking2) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn3];
     _btn3 = btn3;
     
     UIButton *btn4 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn3.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn4.backgroundColor = [UIColor orangeColor];
-    [btn4 setTitle:@"打开UIWebView" forState:UIControlStateNormal];
+    [btn4 setTitle:DoraemonLocalizedString(@"打开UIWebView") forState:UIControlStateNormal];
     [btn4 addTarget:self action:@selector(openUIWebView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn4];
     
     UIButton *btn5 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn4.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn5.backgroundColor = [UIColor orangeColor];
-    [btn5 setTitle:@"打开WKWebView" forState:UIControlStateNormal];
+    [btn5 setTitle:DoraemonLocalizedString(@"打开WKWebView") forState:UIControlStateNormal];
     [btn5 addTarget:self action:@selector(openWKWebView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn5];
     
