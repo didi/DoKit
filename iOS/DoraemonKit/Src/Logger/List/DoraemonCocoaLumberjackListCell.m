@@ -41,7 +41,7 @@
     if (model && model.expand){
         NSString *log = model.message;
         NSString *time = [DoraemonUtil dateFormatNSDate:model.timestamp];
-        content = [NSString stringWithFormat:@"%@\n触发时间: %@\n文件名称: %@\n所在行: %zi\n线程id: %@ \n线程名称: %@",log,time,model.fileName,model.line,model.threadId,model.threadName];
+        content = [NSString stringWithFormat:DoraemonLocalizedString(@"%@\n触发时间: %@\n文件名称: %@\n所在行: %zi\n线程id: %@ \n线程名称: %@"),log,time,model.fileName,model.line,model.threadId,model.threadName];
         _logLabel.numberOfLines = 0;
         _logLabel.text = content;
         CGSize size = [_logLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-kDoraemonSizeFrom750(32)*2-kDoraemonSizeFrom750(25)-kDoraemonSizeFrom750(12)*2, MAXFLOAT)];
@@ -64,7 +64,7 @@
     if (model && model.expand) {
         NSString *log = model.message;
         NSString *time = [DoraemonUtil dateFormatNSDate:model.timestamp];
-        NSString *content = [NSString stringWithFormat:@"%@\n触发时间: %@\n文件名称: %@\n所在行: %zi\n线程id: %@\n线程名称: %@ ",log,time,model.fileName,model.line,model.threadId,model.threadName];
+        NSString *content = [NSString stringWithFormat:DoraemonLocalizedString(@"%@\n触发时间: %@\n文件名称: %@\n所在行: %zi\n线程id: %@\n线程名称: %@ "),log,time,model.fileName,model.line,model.threadId,model.threadName];
         
         UILabel *logLabel = [[UILabel alloc] init];
         logLabel.textColor = [UIColor doraemon_black_1];

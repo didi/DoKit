@@ -10,14 +10,13 @@
 #import "DoraemonDefine.h"
 #import "DoraemonCacheManager.h"
 #import "DoraemonFPSOscillogramWindow.h"
+#import "DoraemonFPSUtil.h"
 
 
 @interface DoraemonFPSOscillogramViewController ()
 
 @property (nonatomic, strong) DoraemonOscillogramView *oscillogramView;
-@property (nonatomic, strong) CADisplayLink *link;
-@property (nonatomic, assign) NSUInteger count;
-@property (nonatomic, assign) NSTimeInterval lastTime;
+@property (nonatomic, strong) DoraemonFPSUtil *fpsUtil;
 
 @end
 
@@ -25,6 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     
     self.view.backgroundColor = [UIColor clearColor];
     [self setEdgesForExtendedLayout:UIRectEdgeNone];
@@ -58,46 +58,23 @@
     [[DoraemonFPSOscillogramWindow shareInstance] hide];
 }
 
-- (void)trigger:(CADisplayLink *)link{
-    if (_lastTime == 0) {
-        _lastTime = link.timestamp;
-        return;
-    }
-    
-    _count++;
-    NSTimeInterval delta = link.timestamp - _lastTime;
-    if (delta < 1) return;
-    _lastTime = link.timestamp;
-    CGFloat fps = _count / delta;
-    _count = 0;
-    
-    NSInteger intFps = (NSInteger)(fps+0.5);
-    // 0~60   对应 高度0~_oscillogramView.doraemon_height
-    [_oscillogramView addHeightValue:fps*_oscillogramView.doraemon_height/60. andTipValue:[NSString stringWithFormat:@"%zi",intFps]];
-}
-
 - (void)startRecord{
-    if (_link) {
-        _link.paused = NO;
-    }else{
-        _link = [CADisplayLink displayLinkWithTarget:self selector:@selector(trigger:)];
-        [_link addToRunLoop:[NSRunLoop mainRunLoop] forMode:NSRunLoopCommonModes];
+    if (!_fpsUtil) {
+        _fpsUtil = [[DoraemonFPSUtil alloc] init];
+        __weak typeof(self) weakSelf = self;
+        [_fpsUtil addFPSBlock:^(NSInteger fps) {
+            // 0~60   对应 高度0~_oscillogramView.doraemon_height
+            [weakSelf.oscillogramView addHeightValue:fps*_oscillogramView.doraemon_height/60. andTipValue:[NSString stringWithFormat:@"%zi",fps]];
+        }];
     }
+    [_fpsUtil start];
 }
 
 - (void)endRecord{
-    if (_link) {
-        _link.paused = YES;
-        [_link invalidate];
-        _link = nil;
-        [_oscillogramView clear];
-        _lastTime = 0;
-        _count = 0;
+    if (_fpsUtil) {
+        [_fpsUtil end];
     }
-}
-
-- (void)addRecortArray:(NSArray *)recordArray {
-    [_oscillogramView addRecortArray:recordArray];
+    [_oscillogramView clear];
 }
 
 @end

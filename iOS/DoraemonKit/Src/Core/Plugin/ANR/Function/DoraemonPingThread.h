@@ -9,7 +9,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^DoraemonANRTrackerBlock)(double threshold);
+typedef void (^DoraemonANRTrackerBlock)(NSDictionary *info);
 
 /**
  *  用于Ping主线程的线程类

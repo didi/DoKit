@@ -31,10 +31,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"自定义测试";
+    self.title = DoraemonLocalizedString(@"自定义测试");
     
     _fpsSwitchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
-    [_fpsSwitchView renderUIWithTitle:@"帧率" switchOn:[DoraemonAllTestManager shareInstance].fpsSwitchOn];
+    [_fpsSwitchView renderUIWithTitle:DoraemonLocalizedString(@"帧率") switchOn:[DoraemonAllTestManager shareInstance].fpsSwitchOn];
     [_fpsSwitchView.switchView addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:_fpsSwitchView];
     
@@ -44,12 +44,12 @@
     [self.view addSubview:_cpuSwitchView];
     
     _memorySwitchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.cpuSwitchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
-    [_memorySwitchView renderUIWithTitle:@"内存" switchOn:[DoraemonAllTestManager shareInstance].memorySwitchOn];
+    [_memorySwitchView renderUIWithTitle:DoraemonLocalizedString(@"内存") switchOn:[DoraemonAllTestManager shareInstance].memorySwitchOn];
     [_memorySwitchView.switchView addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:_memorySwitchView];
     
     _flowSwitchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.memorySwitchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
-    [_flowSwitchView renderUIWithTitle:@"流量" switchOn:[DoraemonAllTestManager shareInstance].flowSwitchOn];
+    [_flowSwitchView renderUIWithTitle:DoraemonLocalizedString(@"流量") switchOn:[DoraemonAllTestManager shareInstance].flowSwitchOn];
     [_flowSwitchView.switchView addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:_flowSwitchView];
     

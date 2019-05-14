@@ -42,7 +42,7 @@
         NSString *log = model.content;
         NSTimeInterval timeInterval = model.timeInterval;
         NSString *time = [DoraemonUtil dateFormatTimeInterval:timeInterval];
-        content = [NSString stringWithFormat:@"%@\n触发时间: %@",log,time];
+        content = [NSString stringWithFormat:DoraemonLocalizedString(@"%@\n触发时间: %@"),log,time];
         _logLabel.numberOfLines = 0;
         _logLabel.text = content;
         CGSize size = [_logLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-kDoraemonSizeFrom750(32)*2-kDoraemonSizeFrom750(25)-kDoraemonSizeFrom750(12)*2, MAXFLOAT)];
@@ -66,7 +66,7 @@
         NSString *log = model.content;
         NSTimeInterval timeInterval = model.timeInterval;
         NSString *time = [DoraemonUtil dateFormatTimeInterval:timeInterval];
-        NSString *content = [NSString stringWithFormat:@"%@\n触发时间: %@",log,time];
+        NSString *content = [NSString stringWithFormat:DoraemonLocalizedString(@"%@\n触发时间: %@"),log,time];
         
         UILabel *logLabel = [[UILabel alloc] init];
         logLabel.textColor = [UIColor doraemon_black_1];

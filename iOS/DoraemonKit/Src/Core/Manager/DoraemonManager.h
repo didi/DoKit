@@ -82,7 +82,7 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 - (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName;
 
 - (void)removePluginWithPluginType:(DoraemonManagerPluginType)pluginType;
-// 推荐使用 removePluginWithPluginType 方法
+
 - (void)removePluginWithPluginName:(NSString *)pluginName atModule:(NSString *)moduleName;
 
 - (void)addStartPlugin:(NSString *)pluginName;
@@ -91,7 +91,7 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 - (void)addANRBlock:(void(^)(NSDictionary *anrDic))block;
 
-- (void)addperformanceBlock:(void(^)(NSDictionary *performanceDic))block;
+- (void)addPerformanceBlock:(void(^)(NSDictionary *performanceDic))block;
 
 - (void)showDoraemon;
 

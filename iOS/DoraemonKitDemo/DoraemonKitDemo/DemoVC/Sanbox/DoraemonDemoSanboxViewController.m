@@ -19,41 +19,41 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"沙盒测试Demo";
+    self.title = DoraemonLocalizedString(@"沙盒测试Demo");
     
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, 60)];
     btn.backgroundColor = [UIColor orangeColor];
-    [btn setTitle:@"添加一条json到沙盒中" forState:UIControlStateNormal];
+    [btn setTitle:DoraemonLocalizedString(@"添加一条json到沙盒中") forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(addFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     
     UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn1.backgroundColor = [UIColor orangeColor];
-    [btn1 setTitle:@"添加一张图片到沙盒中" forState:UIControlStateNormal];
+    [btn1 setTitle:DoraemonLocalizedString(@"添加一张图片到沙盒中") forState:UIControlStateNormal];
     [btn1 addTarget:self action:@selector(addImageFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn1];
     
     UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn1.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn2.backgroundColor = [UIColor orangeColor];
-    [btn2 setTitle:@"添加一段mp4到沙盒中" forState:UIControlStateNormal];
+    [btn2 setTitle:DoraemonLocalizedString(@"添加一段mp4到沙盒中") forState:UIControlStateNormal];
     [btn2 addTarget:self action:@selector(addMP4File) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn2];
     
     UIButton *btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn2.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn3.backgroundColor = [UIColor orangeColor];
-    [btn3 setTitle:@"添加doc、xlsx、pdf到沙盒中" forState:UIControlStateNormal];
+    [btn3 setTitle:DoraemonLocalizedString(@"添加doc、xlsx、pdf到沙盒中") forState:UIControlStateNormal];
     [btn3 addTarget:self action:@selector(addOtherFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn3];
     
     UIButton *btn4 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn3.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn4.backgroundColor = [UIColor orangeColor];
-    [btn4 setTitle:@"添加html到沙盒中" forState:UIControlStateNormal];
+    [btn4 setTitle:DoraemonLocalizedString(@"添加html到沙盒中") forState:UIControlStateNormal];
     [btn4 addTarget:self action:@selector(addHtmlFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn4];
     
     UIButton *btn5 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn4.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn5.backgroundColor = [UIColor orangeColor];
-    [btn5 setTitle:@"添加DB到沙盒中" forState:UIControlStateNormal];
+    [btn5 setTitle:DoraemonLocalizedString(@"添加DB到沙盒中") forState:UIControlStateNormal];
     [btn5 addTarget:self action:@selector(addDBFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn5];
 }

@@ -28,7 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"CocoaLumberjack日志记录";
+    self.title = DoraemonLocalizedString(@"CocoaLumberjack日志记录");
     
     self.origArray = [NSArray arrayWithArray:[DoraemonCocoaLumberjackLogger sharedInstance].messages];
     self.dataArray = [NSArray arrayWithArray:self.origArray];

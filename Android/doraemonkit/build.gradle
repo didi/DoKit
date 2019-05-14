@@ -12,7 +12,6 @@ android {
         lintOptions {
             abortOnError false
         }
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
 
@@ -36,14 +35,12 @@ dependencies {
         transitive=true
         exclude group: 'com.android.support'
     }
-    implementation 'com.squareup.okhttp3:okhttp:3.6.0'
-    compileOnly 'com.squareup.okio:okio:1.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
+    compileOnly 'com.squareup.okio:okio:1.15.0'
     compileOnly 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.4'
     testImplementation 'junit:junit:4.12'
-    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.google.zxing:core:3.3.0'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 
 

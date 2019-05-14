@@ -16,6 +16,7 @@
 #import "DoraemonDemoCrashViewController.h"
 #import "DoraemonDemoCommonViewController.h"
 #import <objc/runtime.h>
+#import "Doraemoni18NUtil.h"
 
 @interface DoraemonDemoHomeViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -25,7 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"DoraemonKit";
+    self.title = DoraemonLocalizedString(@"DoraemonKit");
     self.navigationItem.leftBarButtonItems = nil;
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
@@ -47,21 +48,21 @@
     NSString *txt = nil;
     NSInteger row = indexPath.row;
     if (row==0) {
-        txt = @"沙盒测试Demo";
+        txt = DoraemonLocalizedString(@"沙盒测试Demo");
     }else if(row==1){
-        txt = @"日记测试Demo";
+        txt = DoraemonLocalizedString(@"日记测试Demo");
     }else if(row==2){
-        txt = @"性能测试Demo";
+        txt = DoraemonLocalizedString(@"性能测试Demo");
     }else if(row==3){
-        txt = @"视觉测试Demo";
+        txt = DoraemonLocalizedString(@"视觉测试Demo");
     }else if(row==4){
-        txt = @"网络测试Demo";
+        txt = DoraemonLocalizedString(@"网络测试Demo");
     }else if(row==5){
-        txt = @"模拟位置Demo";
+        txt = DoraemonLocalizedString(@"模拟位置Demo");
     }else if(row==6){
-        txt = @"crash触发Demo";
+        txt = DoraemonLocalizedString(@"crash触发Demo");
     }else if(row==7){
-        txt = @"通用测试Demo";
+        txt = DoraemonLocalizedString(@"通用测试Demo");
     }
     cell.textLabel.text = txt;
     return cell;

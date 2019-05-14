@@ -9,19 +9,31 @@
 
 @implementation DoraemonStatisticsUtil
 
-+ (void)upLoadUserInfo{
++ (nonnull DoraemonStatisticsUtil *)shareInstance{
+    static dispatch_once_t once;
+    static DoraemonStatisticsUtil *instance;
+    dispatch_once(&once, ^{
+        instance = [[DoraemonStatisticsUtil alloc] init];
+    });
+    return instance;
+}
+
+- (void)upLoadUserInfo{
+    if (!_enableUpLoad) {
+        return;
+    }
     NSURL *url = [NSURL URLWithString:@"https://doraemon.xiaojukeji.com/uploadAppData"];
     
     NSString *appId = [[NSBundle mainBundle] bundleIdentifier];;
     NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
-    NSString *appVersion = @"";
+    NSString *doKitVersion = @"1.1.8";
     NSString *type = @"iOS";
     NSString *from = @"1";
     
     NSMutableDictionary *param = [[NSMutableDictionary alloc] init];
     [param setValue:appId forKey:@"appId"];
     [param setValue:appName forKey:@"appName"];
-    [param setValue:appVersion forKey:@"appVersion"];
+    [param setValue:doKitVersion forKey:@"version"];
     [param setValue:type forKey:@"type"];
     [param setValue:from forKey:@"from"];
     NSError *error;

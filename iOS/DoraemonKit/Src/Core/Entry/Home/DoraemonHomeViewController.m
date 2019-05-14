@@ -63,7 +63,7 @@
     UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(30), offsetY, self.view.doraemon_width-2*kDoraemonSizeFrom750(30), kDoraemonSizeFrom750(100))];
     closeBtn.tag = scrollViewTagStartSubscript + _dataArray.count;
     closeBtn.backgroundColor = [UIColor whiteColor];
-    [closeBtn setTitle:@"关闭DoraemonKit" forState:UIControlStateNormal];
+    [closeBtn setTitle:DoraemonLocalizedString(@"关闭DoraemonKit") forState:UIControlStateNormal];
     [closeBtn setTitleColor:[UIColor doraemon_colorWithString:@"#CC3A4B"] forState:UIControlStateNormal];
     [closeBtn addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:closeBtn];

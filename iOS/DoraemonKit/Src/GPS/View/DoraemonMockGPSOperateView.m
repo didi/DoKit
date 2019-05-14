@@ -25,7 +25,7 @@
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
         _titleLabel.textColor = [UIColor doraemon_black_1];
-        _titleLabel.text = @"打开Mock GPS";
+        _titleLabel.text = DoraemonLocalizedString(@"打开Mock GPS");
         [self addSubview:_titleLabel];
         [_titleLabel sizeToFit];
         _titleLabel.frame = CGRectMake(kDoraemonSizeFrom750(32), self.doraemon_height/2-_titleLabel.doraemon_height/2, _titleLabel.doraemon_width, _titleLabel.doraemon_height);

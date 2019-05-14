@@ -59,6 +59,7 @@ public class CrashDetailFragment extends BaseFragment {
                     String line;
                     while ((line = bufferedReader.readLine()) != null) {
                         stringBuilder.append(line);
+                        stringBuilder.append("\n");
                     }
                     inputStreamReader.close();
 

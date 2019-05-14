@@ -38,7 +38,7 @@ public class DoraemonStatisticsUtil {
         try {
             jsonObject.put("appId", appId);
             jsonObject.put("appName", appName);
-            jsonObject.put("version", "1.1.6");
+            jsonObject.put("version", "1.1.7");
             jsonObject.put("type", type);
             jsonObject.put("from", from);
         } catch (JSONException e) {

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tv_crash_item"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:drawableRight="@drawable/dk_more_icon"
-    android:textColor="@color/dk_color_333333" />
+          android:id="@+id/tv_crash_item"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:drawableRight="@drawable/dk_more_icon"
+          android:padding="@dimen/dk_dp_15"
+          android:textColor="@color/dk_color_333333"
+          android:textSize="@dimen/dk_font_size_14"/>

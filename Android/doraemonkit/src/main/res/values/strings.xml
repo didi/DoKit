@@ -18,6 +18,7 @@
     <string name="dk_kit_temporary_close">隐藏</string>
     <string name="dk_kit_crash">Crash查看</string>
     <string name="dk_kit_data_clean">缓存清理</string>
+    <string name="dk_kit_weak_network">模拟弱网</string>
     <string name="dk_kit_view_check">控件检查</string>
     <string name="dk_kit_net_monitor">流量监控</string>
     <string name="dk_kit_time_counter">耗时</string>
@@ -89,6 +90,15 @@
     <string name="dk_crash_capture_clean_data">一键清理Crash日志</string>
     <string name="dk_crash_capture_summary_title">Crash日志列表</string>
 
+    <string name="dk_weak_network_switch">模拟弱网开关</string>
+    <string name="dk_weak_network_off">断网</string>
+    <string name="dk_weak_network_timeout">超时</string>
+    <string name="dk_weak_network_speed_limit">限速</string>
+    <string name="dk_weak_network_request_limit">请求限速：</string>
+    <string name="dk_weak_network_response_limit">响应限速：</string>
+    <string name="dk_weak_network_limit_message">请求限速会在上传时限速，响应限速会在下载时限速，0则不限速</string>
+    <string name="dk_weak_network_speed_unit" translatable="false">K/s</string>
+
     //流量监控
     <string name="dk_kit_network_monitor">流量监控</string>
     <string name="dk_kit_network_monitor_detail">流量监测详情</string>
@@ -150,7 +160,7 @@
 
     <string name="dk_align_info_text">位置：左%1$d 右%2$d 上%3$d 下%4$d</string>
 
-    <string name="dk_error_tips_permissions_less">请进行授权才可以使用改功能</string>
+    <string name="dk_error_tips_permissions_less">请进行授权才可以使用该功能</string>
     //启动、跳转耗时
     <string name="dk_item_time_counter_switch">Activity跳转耗时</string>
     <string name="dk_item_time_goto_list">查看记录</string>

@@ -27,7 +27,7 @@
         self.layer.cornerRadius = kDoraemonSizeFrom750(8);
         
         _textField = [[UITextField alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(40), self.doraemon_width-2*kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(45))];
-        _textField.placeholder = @"请输入经纬度";
+        _textField.placeholder = DoraemonLocalizedString(@"请输入经纬度");
         [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         [self addSubview:_textField];
         
@@ -44,7 +44,7 @@
         _exampleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32),_lineView.doraemon_bottom+kDoraemonSizeFrom750(15), self.doraemon_width-kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(33))];
         _exampleLabel.textColor = [UIColor doraemon_black_3];
         _exampleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(24)];
-        _exampleLabel.text = @"(示例: 120.15 30.28)";
+        _exampleLabel.text = DoraemonLocalizedString(@"(示例: 120.15 30.28)");
         [self addSubview:_exampleLabel];
     }
     return self;

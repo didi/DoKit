@@ -8,7 +8,7 @@
 
 #import "DoraemonWKWebViewViewController.h"
 #import <WebKit/WebKit.h>
-
+#import "Doraemoni18NUtil.h"
 
 @interface DoraemonWKWebViewViewController ()
 
@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = @"WKWebView";
+    self.title = DoraemonLocalizedString(@"WKWebView");
     WKWebView *webView = [[WKWebView alloc]initWithFrame:self.view.frame];
     [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.baidu.com"]]];
     [self.view addSubview:webView];
