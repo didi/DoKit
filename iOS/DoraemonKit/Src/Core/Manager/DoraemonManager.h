@@ -80,6 +80,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 @property (nonatomic, copy) DoraemonH5DoorBlock h5DoorBlock;
 
 - (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName;
+- (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName handle:(void(^)())handleBlock;
+
 
 - (void)removePluginWithPluginType:(DoraemonManagerPluginType)pluginType;
 

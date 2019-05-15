@@ -69,6 +69,10 @@
         if ([plugin respondsToSelector:@selector(pluginDidLoad:)]) {
             [plugin pluginDidLoad:(NSDictionary *)_itemData];
         }
+        void (^handleBlock)(void) = _itemData[@"handleBlock"];
+        if (handleBlock) {
+            handleBlock();
+        }
     }
 
 }
