@@ -27,6 +27,11 @@
         //DDLogInfo(@"点击添加埋点11111");
     }
     [[DoraemonManager shareInstance] addPluginWithTitle:DoraemonLocalizedString(@"测试插件") icon:@"doraemon_default" desc:DoraemonLocalizedString(@"测试插件") pluginName:@"TestPlugin" atModule:DoraemonLocalizedString(@"业务工具")];
+
+    [[DoraemonManager shareInstance] addPluginWithTitle:@"block方式加入插件" icon:@"doraemon_default" desc:@"测试插件" pluginName:@"TestPlugin" atModule:DoraemonLocalizedString(@"业务工具") handle:^{
+        NSLog(@"handle block plugin");
+    }];
+
     [[DoraemonManager shareInstance] addStartPlugin:@"StartPlugin"];
     [[DoraemonManager shareInstance] install];
     
