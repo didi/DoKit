@@ -12,11 +12,12 @@
 #import "Doraemoni18NUtil.h"
 
 //默认超时间隔
-static int64_t const kDoraemonBlockMonitorTimeInterval = 2.;
+static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
 
 @interface DoraemonANRManager()
 
 @property (nonatomic, strong) DoraemonANRTracker *doraemonANRTracker;
+@property (nonatomic, copy) DoraemonANRManagerBlock block;
 
 @end
 
@@ -55,10 +56,17 @@ static int64_t const kDoraemonBlockMonitorTimeInterval = 2.;
     if (![info isKindOfClass:[NSDictionary class]]) {
         return;
     }
+    if (self.block) {
+        self.block(info);
+    }
     if (!_anrArray) {
         _anrArray = [NSMutableArray array];
     }
     [_anrArray addObject:info];
+}
+
+- (void)addANRBlock:(DoraemonANRManagerBlock)block{
+    self.block = block;
 }
 
 

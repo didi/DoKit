@@ -21,6 +21,7 @@
 #import "DoraemonUtil.h"
 #import "DoraemonAllTestManager.h"
 #import "DoraemonStatisticsUtil.h"
+#import "DoraemonANRManager.h"
 
 #if DoraemonWithLogger
 #import "DoraemonCocoaLumberjackLogger.h"
@@ -125,6 +126,12 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
         
         NSString *data = [DoraemonUtil dictToJsonStr:upLoadData];
         [DoraemonUtil savePerformanceDataInFile:testTime data:data];
+    }];
+    
+    [[DoraemonANRManager sharedInstance] addANRBlock:^(NSDictionary *anrInfo) {
+        if (self.anrBlock) {
+            self.anrBlock(anrInfo);
+        }
     }];
     
     //监听DoraemonStateBar点击事件
