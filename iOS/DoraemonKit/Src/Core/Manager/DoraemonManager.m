@@ -203,13 +203,13 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithTitle:DoraemonLocalizedString(model.title) icon:model.icon desc:DoraemonLocalizedString(model.desc) pluginName:model.pluginName atModule:DoraemonLocalizedString(model.atModule)];
 }
 
-- (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)pluginName atModule:(NSString *)moduleName{
+- (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName{
     
     NSMutableDictionary *pluginDic = [self foundGroupWithModule:moduleName];
     pluginDic[@"name"] = title;
     pluginDic[@"icon"] = iconName;
     pluginDic[@"desc"] = desc;
-    pluginDic[@"pluginName"] = pluginName;
+    pluginDic[@"pluginName"] = entryName;
 }
 
 - (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName handle:(void (^)())handleBlock
