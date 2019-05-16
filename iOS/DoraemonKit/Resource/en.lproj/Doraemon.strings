@@ -189,6 +189,8 @@
     "消息体"                                   =   "Message Body";
     "检测记录"                                     = "Monitor results";
     "帧率检测"                                     = "FPS monitor";
+    "大图检测"                                     = "Large image detection";
+    "大图检测开关"                                  = "Larage image detection switch";
     
     //DoraemonKitDemo
     "测试工具集"                                      = "Test tools";

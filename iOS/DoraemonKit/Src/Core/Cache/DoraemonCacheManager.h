@@ -40,6 +40,10 @@
 
 - (BOOL)netFlowSwitch;
 
+- (void)saveLargeImageDetectionSwitch:(BOOL)on;
+
+- (BOOL)largeImageDetection;
+
 - (void)saveSubThreadUICheckSwitch:(BOOL)on;
 
 - (BOOL)subThreadUICheckSwitch;
