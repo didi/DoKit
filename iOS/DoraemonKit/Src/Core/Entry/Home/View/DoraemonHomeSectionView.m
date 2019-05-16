@@ -69,9 +69,9 @@
         if ([plugin respondsToSelector:@selector(pluginDidLoad:)]) {
             [plugin pluginDidLoad:(NSDictionary *)_itemData];
         }
-        void (^handleBlock)(void) = _itemData[@"handleBlock"];
+        void (^handleBlock)(NSDictionary *itemData) = _itemData[@"handleBlock"];
         if (handleBlock) {
-            handleBlock();
+            handleBlock(_itemData);
         }
     }
 
