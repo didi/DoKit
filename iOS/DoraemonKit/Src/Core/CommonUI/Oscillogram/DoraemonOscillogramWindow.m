@@ -47,15 +47,9 @@
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
-    // 检测视图右上角的按钮，传递事件才能关闭，这里是横屏适配
-    if (kInterfaceOrientationPortrait) {
-        if (point.x > DoraemonScreenWidth-kDoraemonSizeFrom750_Landscape(60) && point.y <  kDoraemonSizeFrom750_Landscape(60)+IPHONE_TOPSENSOR_HEIGHT) {
-            return [super pointInside:point withEvent:event];
-        }
-    } else {
-        if (point.x > DoraemonScreenHeight-kDoraemonSizeFrom750_Landscape(60) && point.y <  kDoraemonSizeFrom750_Landscape(60)+IPHONE_TOPSENSOR_HEIGHT) {
-            return [super pointInside:point withEvent:event];
-        }
+    // 默认曲线图不拦截触摸事件，只有在关闭按钮z之类才响应
+    if (CGRectContainsPoint(self.vc.closeBtn.frame, point)) {
+        return [super pointInside:point withEvent:event];
     }
     return NO;
 }
