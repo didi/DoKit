@@ -10,14 +10,11 @@
 #import "DoraemonMemoryOscillogramWindow.h"
 #import "DoraemonMemoryOscillogramViewController.h"
 #import "DoraemonCellSwitch.h"
-#import "DoraemonCellButton.h"
 #import "DoraemonDefine.h"
-#import "DoraemonMemoryListViewController.h"
 
 @interface DoraemonMemoryViewController ()
 
 @property (nonatomic, strong) DoraemonCellSwitch *switchView;
-@property (nonatomic, strong) DoraemonCellButton *cellBtn;
 
 @end
 
@@ -33,12 +30,6 @@
     [_switchView needDownLine];
     _switchView.delegate = self;
     [self.view addSubview:_switchView];
-    
-    _cellBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _switchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
-    [_cellBtn renderUIWithTitle:DoraemonLocalizedString(@"查看检测记录")];
-    _cellBtn.delegate = self;
-    [_cellBtn needDownLine];
-    [self.view addSubview:_cellBtn];
 }
 
 - (BOOL)needBigTitleView{
@@ -52,15 +43,6 @@
         [[DoraemonMemoryOscillogramWindow shareInstance] show];
     }else{
         [[DoraemonMemoryOscillogramWindow shareInstance] hide];
-    }
-}
-
-
-#pragma mark -- DoraemonCellButtonDelegate
-- (void)cellBtnClick:(id)sender{
-    if (sender == _cellBtn) {
-        DoraemonMemoryListViewController *vc = [[DoraemonMemoryListViewController alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 
