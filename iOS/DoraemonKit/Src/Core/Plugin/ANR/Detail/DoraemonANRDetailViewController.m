@@ -10,6 +10,7 @@
 
 @interface DoraemonANRDetailViewController ()
 
+@property (nonatomic, strong) UILabel *anrTimeLabel;
 @property (nonatomic, strong) UILabel *contentLabel;
 
 @end
@@ -30,6 +31,13 @@
     _contentLabel.frame = CGRectMake(20, IPHONE_NAVIGATIONBAR_HEIGHT, fontSize.width, fontSize.height);
     [self.view addSubview:_contentLabel];
     
+    _anrTimeLabel = [[UILabel alloc] init];
+    _anrTimeLabel.textColor = [UIColor doraemon_black_1];
+    _anrTimeLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(16)];
+    _anrTimeLabel.text = [NSString stringWithFormat:@"卡顿耗时 : %@s",_anrInfo[@"duration"]];
+    _anrTimeLabel.sizeToFit;
+    _anrTimeLabel.frame = CGRectMake(20, _contentLabel.doraemon_bottom+20, _anrTimeLabel.doraemon_width, _anrTimeLabel.doraemon_height);
+    [self.view addSubview:_anrTimeLabel];
 }
 
 

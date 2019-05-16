@@ -189,8 +189,8 @@
 }
 
 - (void)anrClick{
-    NSLog(@"3秒钟的卡顿");
-    [NSThread sleepForTimeInterval:3.0];
+    NSLog(@"5秒钟的卡顿");
+    [NSThread sleepForTimeInterval:5.0];
     
 //    for(int i=0 ; i< 50000; i++){
 //        UIView *v = [[UIView alloc] init];

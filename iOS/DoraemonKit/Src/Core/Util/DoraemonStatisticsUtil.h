@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (nonnull DoraemonStatisticsUtil *)shareInstance;
 
-@property (nonatomic, assign) BOOL enableUpLoad;
+@property (nonatomic, assign) BOOL noUpLoad;
 
 //统计用户信息，便于了解该开源产品的使用量 (请大家放心，我们不用于任何恶意行为)
 - (void)upLoadUserInfo;

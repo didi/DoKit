@@ -21,6 +21,7 @@
 #import "DoraemonUtil.h"
 #import "DoraemonAllTestManager.h"
 #import "DoraemonStatisticsUtil.h"
+#import "DoraemonANRManager.h"
 
 #if DoraemonWithLogger
 #import "DoraemonCocoaLumberjackLogger.h"
@@ -127,6 +128,12 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
         [DoraemonUtil savePerformanceDataInFile:testTime data:data];
     }];
     
+    [[DoraemonANRManager sharedInstance] addANRBlock:^(NSDictionary *anrInfo) {
+        if (self.anrBlock) {
+            self.anrBlock(anrInfo);
+        }
+    }];
+    
     //监听DoraemonStateBar点击事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(quickOpenLogVC:) name:DoraemonQuickOpenLogVCNotification object:nil];
     
@@ -193,37 +200,52 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 - (void)addPluginWithPluginType:(DoraemonManagerPluginType)pluginType
 {
     DoraemonManagerPluginTypeModel *model = [self getDefaultPluginDataWithPluginType:pluginType];
-    
     [self addPluginWithTitle:DoraemonLocalizedString(model.title) icon:model.icon desc:DoraemonLocalizedString(model.desc) pluginName:model.pluginName atModule:DoraemonLocalizedString(model.atModule)];
 }
 
-- (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)pluginName atModule:(NSString *)moduleName{
+- (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName{
     
-    NSMutableDictionary *pluginDic = [[NSMutableDictionary alloc] init];
-    [pluginDic setValue:title forKey:@"name"];
-    [pluginDic setValue:iconName forKey:@"icon"];
-    [pluginDic setValue:desc forKey:@"desc"];
-    [pluginDic setValue:pluginName forKey:@"pluginName"];
-    
-    BOOL hasModule = NO;
-    for (int i=0; i<_dataArray.count; i++) {
-        NSDictionary *moduleDic = _dataArray[i];
-        NSString *tempModuleName = moduleDic[@"moduleName"];
-        if ([tempModuleName isEqualToString:moduleName]) {
+    NSMutableDictionary *pluginDic = [self foundGroupWithModule:moduleName];
+    pluginDic[@"name"] = title;
+    pluginDic[@"icon"] = iconName;
+    pluginDic[@"desc"] = desc;
+    pluginDic[@"pluginName"] = entryName;
+}
+
+- (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName handle:(void (^)(NSDictionary *))handleBlock
+{
+    NSMutableDictionary *pluginDic = [self foundGroupWithModule:moduleName];
+    pluginDic[@"name"] = title;
+    pluginDic[@"icon"] = iconName;
+    pluginDic[@"desc"] = desc;
+    pluginDic[@"pluginName"] = entryName;
+    pluginDic[@"handleBlock"] = [handleBlock copy];
+
+}
+- (NSMutableDictionary *)foundGroupWithModule:(NSString *)module
+{
+    NSMutableDictionary *pluginDic = [NSMutableDictionary dictionary];
+    pluginDic[@"moduleName"] = module;
+    __block BOOL hasModule = NO;
+    [self.dataArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSDictionary *moduleDic = obj;
+        NSString *moduleName = moduleDic[@"moduleName"];
+        if ([moduleName isEqualToString:module]) {
             hasModule = YES;
             NSMutableArray *pluginArray = moduleDic[@"pluginArray"];
             if (pluginArray) {
                 [pluginArray addObject:pluginDic];
             }
             [moduleDic setValue:pluginArray forKey:@"pluginArray"];
+            *stop = YES;
         }
-    }
+    }];
     if (!hasModule) {
         NSMutableArray *pluginArray = [[NSMutableArray alloc] initWithObjects:pluginDic, nil];
-        [self registerPluginArray:pluginArray withModule:moduleName];
+        [self registerPluginArray:pluginArray withModule:module];
     }
+    return pluginDic;
 }
-
 - (void)removePluginWithPluginType:(DoraemonManagerPluginType)pluginType
 {
     DoraemonManagerPluginTypeModel *model = [self getDefaultPluginDataWithPluginType:pluginType];
