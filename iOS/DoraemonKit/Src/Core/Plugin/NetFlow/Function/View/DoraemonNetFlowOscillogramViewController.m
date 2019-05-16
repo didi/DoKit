@@ -14,61 +14,29 @@
 
 @interface DoraemonNetFlowOscillogramViewController ()
 
-@property (nonatomic, strong) DoraemonOscillogramView *oscillogramView;
-
-//每秒运行一次
-@property (nonatomic, strong) NSTimer *secondTimer;
-
 @end
 
 @implementation DoraemonNetFlowOscillogramViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor clearColor];
-    [self setEdgesForExtendedLayout:UIRectEdgeNone];
+}
 
-    UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.text = DoraemonLocalizedString(@"流量检测");
-    titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(20)];
-    titleLabel.textColor = [UIColor whiteColor];
-    [self.view addSubview:titleLabel];
-    [titleLabel sizeToFit];
-    titleLabel.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(20), IPHONE_TOPSENSOR_HEIGHT + kDoraemonSizeFrom750_Landscape(10), titleLabel.doraemon_width, titleLabel.doraemon_height);
-    
-    UIButton *closeBtn = [[UIButton alloc] init];
-    [closeBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close_white"] forState:UIControlStateNormal];
-    closeBtn.frame = CGRectMake((kInterfaceOrientationPortrait ? DoraemonScreenWidth : DoraemonScreenHeight)-kDoraemonSizeFrom750_Landscape(60), IPHONE_TOPSENSOR_HEIGHT, kDoraemonSizeFrom750_Landscape(60), kDoraemonSizeFrom750_Landscape(60));
-    [closeBtn addTarget:self action:@selector(closeBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:closeBtn];
-    
-    _oscillogramView = [[DoraemonOscillogramView alloc] initWithFrame:CGRectMake(0, titleLabel.doraemon_bottom+kDoraemonSizeFrom750_Landscape(24), (kInterfaceOrientationPortrait ? DoraemonScreenWidth : DoraemonScreenHeight), kDoraemonSizeFrom750_Landscape(400))];
-    _oscillogramView.backgroundColor = [UIColor clearColor];
-    [_oscillogramView setLowValue:@"0"];
-    [_oscillogramView setHightValue:[NSString stringWithFormat:@"%zi",[self highestNetFlow]]];
-    [self.view addSubview:_oscillogramView];
+- (NSString *)title{
+    return DoraemonLocalizedString(@"流量检测");
+}
+
+- (NSString *)lowValue{
+    return @"0";
+}
+
+- (NSString *)highValue{
+    return [NSString stringWithFormat:@"%zi",[self highestNetFlow]];
 }
 
 - (void)closeBtnClick{
     [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:NO];
     [[DoraemonNetFlowOscillogramWindow shareInstance] hide];
-}
-
-
-- (void)startRecord{
-    if(!_secondTimer){
-        _secondTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(doSecondFunction) userInfo:nil repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:_secondTimer forMode:NSRunLoopCommonModes];
-    }
-}
-
-- (void)endRecord{
-    if(_secondTimer){
-        [_secondTimer invalidate];
-        _secondTimer = nil;
-        [_oscillogramView clear];
-    }
 }
 
 //每一秒钟采样一次流量情况
@@ -96,7 +64,7 @@
     useNetFlowForApp = totalNetFlow;
     
     // 0~highestNetFlow   对应 高度0~200
-    [_oscillogramView addHeightValue:useNetFlowForApp*_oscillogramView.doraemon_height/totalNetFlowForDevice andTipValue:[NSString stringWithFormat:@"%ziB",useNetFlowForApp]];
+    [self.oscillogramView addHeightValue:useNetFlowForApp*self.oscillogramView.doraemon_height/totalNetFlowForDevice andTipValue:[NSString stringWithFormat:@"%ziB",useNetFlowForApp]];
 }
 
 - (NSUInteger)highestNetFlow {

@@ -6,10 +6,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DoraemonOscillogramView.h"
 
 @interface DoraemonOscillogramViewController : UIViewController
 
+@property (nonatomic, strong) DoraemonOscillogramView *oscillogramView;
+
+- (NSString *)title;
+- (NSString *)lowValue;
+- (NSString *)highValue;
+- (void)closeBtnClick;
 - (void)startRecord;
 - (void)endRecord;
+- (void)doSecondFunction;
 
 @end
