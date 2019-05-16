@@ -212,7 +212,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     pluginDic[@"pluginName"] = entryName;
 }
 
-- (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName handle:(void (^)())handleBlock
+- (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName handle:(void (^)(NSDictionary *))handleBlock
 {
     NSMutableDictionary *pluginDic = [self foundGroupWithModule:moduleName];
     pluginDic[@"name"] = title;

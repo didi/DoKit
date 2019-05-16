@@ -28,7 +28,7 @@
     }
     [[DoraemonManager shareInstance] addPluginWithTitle:DoraemonLocalizedString(@"测试插件") icon:@"doraemon_default" desc:DoraemonLocalizedString(@"测试插件") pluginName:@"TestPlugin" atModule:DoraemonLocalizedString(@"业务工具")];
 
-    [[DoraemonManager shareInstance] addPluginWithTitle:@"block方式加入插件" icon:@"doraemon_default" desc:@"测试插件" pluginName:@"TestPlugin" atModule:DoraemonLocalizedString(@"业务工具") handle:^{
+    [[DoraemonManager shareInstance] addPluginWithTitle:@"block方式加入插件" icon:@"doraemon_default" desc:@"测试插件" pluginName:@"TestPlugin" atModule:DoraemonLocalizedString(@"业务工具") handle:^(NSDictionary *itemData) {
         NSLog(@"handle block plugin");
     }];
 
