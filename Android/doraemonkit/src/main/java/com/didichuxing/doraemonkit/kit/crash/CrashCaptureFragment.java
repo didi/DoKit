@@ -15,6 +15,10 @@ import com.didichuxing.doraemonkit.ui.crash.CrashCaptureAdapter;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class CrashCaptureFragment extends BaseFragment {
 
@@ -46,8 +50,15 @@ public class CrashCaptureFragment extends BaseFragment {
         File file = new File(CrashHandlerManager.getInstance().getFilePath());
         if (file.exists()) {
             ListView crash = findViewById(R.id.lv_crash);
-            final File[] listFiles = file.listFiles();
-            if (listFiles != null && listFiles.length != 0) {
+            final List<File> listFiles = Arrays.asList(file.listFiles());
+            if (listFiles != null && listFiles.size() != 0) {
+                Collections.sort(listFiles, new Comparator<File>() {
+                    @Override
+                    public int compare(File lhs, File rhs) {
+                        return Long.valueOf(rhs.lastModified())
+                                .compareTo(lhs.lastModified());
+                    }
+                });
                 crash.setAdapter(new CrashCaptureAdapter(listFiles));
             } else {
                 Toast.makeText(getContext(), R.string.dk_crash_capture_no_record, Toast.LENGTH_SHORT).show();
@@ -56,7 +67,7 @@ public class CrashCaptureFragment extends BaseFragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Bundle bundle = new Bundle();
-                    File listFile = listFiles[position];
+                    File listFile = listFiles.get(position);
                     bundle.putSerializable(BundleKey.FILE_KEY, listFile);
                     showContent(CrashDetailFragment.class, bundle);
                 }

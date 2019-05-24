@@ -103,7 +103,7 @@
 #pragma mark - DoraemonMockGPSInputViewDelegate
 - (void)inputViewOkClick:(NSString *)gps{
     if (![[DoraemonCacheManager sharedInstance] mockGPSSwitch]) {
-        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"mock开关没有打开")];
+        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"mock开关没有打开") inView:self.view];
         return;
     }
     NSArray *array = [gps componentsSeparatedByString:@" "];
@@ -111,18 +111,18 @@
         NSString *longitudeValue = array[0];
         NSString *latitudeValue = array[1];
         if (longitudeValue.length==0 || latitudeValue.length==0) {
-            [DoraemonToastUtil showToast:DoraemonLocalizedString(@"经纬度不能为空")];
+            [DoraemonToastUtil showToast:DoraemonLocalizedString(@"经纬度不能为空") inView:self.view];
             return;
         }
         
         CGFloat longitude = [longitudeValue floatValue];
         CGFloat latitude = [latitudeValue floatValue];
         if (longitude < -180 || longitude > 180) {
-            [DoraemonToastUtil showToast:DoraemonLocalizedString(@"经度不合法")];
+            [DoraemonToastUtil showToast:DoraemonLocalizedString(@"经度不合法") inView:self.view];
             return;
         }
         if (latitude < -90 || latitude > 90){
-            [DoraemonToastUtil showToast:DoraemonLocalizedString(@"纬度不合法")];
+            [DoraemonToastUtil showToast:DoraemonLocalizedString(@"纬度不合法") inView:self.view];
             return;
         }
         
@@ -137,7 +137,7 @@
         CLLocation *loc = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
         [[DoraemonGPSMocker shareInstance] mockPoint:loc];
     }else{
-        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"格式不正确")];
+        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"格式不正确") inView:self.view];
         return;
     }
     

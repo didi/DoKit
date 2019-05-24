@@ -13,7 +13,6 @@
         app:dkIcon="@drawable/dk_close_icon_big"
         app:dkTitle="@string/dk_kit_web_door" />
 
-    <View style="@style/DK.Divider" />
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -19,7 +19,7 @@
 }
 
 - (void)upLoadUserInfo{
-    if (!_enableUpLoad) {
+    if (_noUpLoad) {
         return;
     }
     NSURL *url = [NSURL URLWithString:@"https://doraemon.xiaojukeji.com/uploadAppData"];

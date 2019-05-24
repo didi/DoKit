@@ -15,10 +15,6 @@
 
 @implementation DoraemonToastUtil
 
-+ (void)showToast:(NSString *)text{
-    [DoraemonToastUtil showToast:text inView:[UIApplication sharedApplication].keyWindow];
-}
-
 + (void)showToast:(NSString *)text inView:(UIView *)superView {
     if (!superView) {
         return;

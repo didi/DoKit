@@ -160,7 +160,7 @@
 
     <string name="dk_align_info_text">位置：左%1$d 右%2$d 上%3$d 下%4$d</string>
 
-    <string name="dk_error_tips_permissions_less">请进行授权才可以使用改功能</string>
+    <string name="dk_error_tips_permissions_less">请进行授权才可以使用该功能</string>
     //启动、跳转耗时
     <string name="dk_item_time_counter_switch">Activity跳转耗时</string>
     <string name="dk_item_time_goto_list">查看记录</string>

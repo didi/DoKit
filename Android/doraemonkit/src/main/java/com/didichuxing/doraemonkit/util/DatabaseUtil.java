@@ -43,7 +43,11 @@ public class DatabaseUtil {
         for (int y = 0; y <rowCount; y++) {
             if (cursor.moveToNext()) {
                 for (int x = 0; x < strings.length; x++) {
-                    words[x][y] = cursor.getString(x);
+                    if (cursor.getType(x) == Cursor.FIELD_TYPE_BLOB) {
+                        words[x][y] = new String(cursor.getBlob(x));
+                    } else {
+                        words[x][y] = cursor.getString(x);
+                    }
                 }
             }
         }

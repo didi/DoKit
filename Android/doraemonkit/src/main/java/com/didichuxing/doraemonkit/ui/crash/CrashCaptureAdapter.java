@@ -9,22 +9,23 @@ import android.widget.TextView;
 import com.didichuxing.doraemonkit.R;
 
 import java.io.File;
+import java.util.List;
 
 public class CrashCaptureAdapter extends BaseAdapter {
-    private File[] files;
+    private List<File> files;
 
-    public CrashCaptureAdapter(File[] files) {
+    public CrashCaptureAdapter(List<File> files) {
         this.files = files;
     }
 
     @Override
     public int getCount() {
-        return files.length;
+        return files.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return files[position];
+        return files.get(position);
     }
 
     @Override
@@ -42,7 +43,7 @@ public class CrashCaptureAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.setData(files[position].getName());
+        viewHolder.setData(files.get(position).getName());
         return convertView;
     }
 

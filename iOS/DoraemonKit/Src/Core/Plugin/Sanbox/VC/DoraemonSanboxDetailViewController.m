@@ -44,7 +44,7 @@
             [self presentViewController:previewController animated:YES completion:nil];
         }
     }else{
-        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"文件不存在")];
+        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"文件不存在") inView:self.view];
     }
 }
 

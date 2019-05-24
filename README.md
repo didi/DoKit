@@ -1,8 +1,8 @@
 <div align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
- <img src="https://img.shields.io/badge/Android-1.1.6-blue.svg" align=left />
- <img src="https://img.shields.io/badge/iOS-1.1.7-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/Android-1.1.7-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/iOS-1.1.8-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
 
@@ -15,7 +15,7 @@
 <br/>
 <br/>
 
-**DoraemonKit** /'dɔ:ra:'emɔn/，简称`DoKit`，中文名 `哆啦A梦`，意味着能够像哆啦A梦一样提供给他的主人各种各样的工具。
+**DoraemonKit** /'dɔ:ra:'emɔn/，简称`DoKit`，中文名 `哆啦A梦`，意味着能够像哆啦A梦一样提供给他的主人各种各样的工具。Just Do Kit
 
 > [English Introduction](README_EN.md)
 

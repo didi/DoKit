@@ -7,18 +7,17 @@
 
 #import "DoraemonANRManager.h"
 #import "DoraemonANRTracker.h"
-#import <BSBacktraceLogger/BSBacktraceLogger.h>
-#import "DoraemonUtil.h"
 #import "DoraemonMemoryUtil.h"
 #import "DoraemonAppInfoUtil.h"
 #import "Doraemoni18NUtil.h"
 
 //默认超时间隔
-static int64_t const kDoraemonBlockMonitorTimeInterval = 2.;
+static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
 
 @interface DoraemonANRManager()
 
 @property (nonatomic, strong) DoraemonANRTracker *doraemonANRTracker;
+@property (nonatomic, copy) DoraemonANRManagerBlock block;
 
 @end
 
@@ -47,31 +46,27 @@ static int64_t const kDoraemonBlockMonitorTimeInterval = 2.;
 
 - (void)start {
     __weak typeof(self) weakSelf = self;
-    [_doraemonANRTracker startWithThreshold:self.timeOut
-                               handler:^(double threshold) {
-                                   [weakSelf dump];
-                               }];
+    [_doraemonANRTracker startWithThreshold:self.timeOut handler:^(NSDictionary *info) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf dumpWithInfo:info];
+    }];
 }
 
-- (void)dump {
-    //方法一：使用 BSBacktraceLogger 打印方法调用栈
-    //BSLOG  // 打印当前线程的调用栈
-    //BSLOG_ALL  // 打印所有线程的调用栈
-    //BSLOG_MAIN  // 打印主线程调用栈
-    
-    NSString *report = [BSBacktraceLogger bs_backtraceOfMainThread];
-    if (!report) {
-        report = DoraemonLocalizedString(@"空的report");
+- (void)dumpWithInfo:(NSDictionary *)info {
+    if (![info isKindOfClass:[NSDictionary class]]) {
+        return;
     }
-    
+    if (self.block) {
+        self.block(info);
+    }
     if (!_anrArray) {
         _anrArray = [NSMutableArray array];
     }
-    NSDictionary *dic = @{
-                          @"title":[DoraemonUtil dateFormatNow],
-                          @"content":report
-                          };
-    [_anrArray addObject:dic];
+    [_anrArray addObject:info];
+}
+
+- (void)addANRBlock:(DoraemonANRManagerBlock)block{
+    self.block = block;
 }
 
 

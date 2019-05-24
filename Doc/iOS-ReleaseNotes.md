@@ -1,4 +1,20 @@
 # Release Notes
+### 1.1.8
+1、支持国际化，中英文
+
+2、适配横屏 @ [Hugin](https://github.com/HuginChen)
+
+3、修复强持有 CLLocationManagerDelegate 不释放的问题 @[li6185377](https://github.com/li6185377)
+
+4、iOS沙盒浏览器优化 @[csc-EricWu](https://github.com/csc-EricWu/)
+
+5、支持主动控制隐藏显示DoKit入口
+
+6、app信息页面 权限cell可以直接跳转到权限设置页面进行设置
+
+7、其他一些优化和代码整理，详见代码提交记录
+
+
 ## 1.1.7
 1、支持数据库文件本地预览功能
 
