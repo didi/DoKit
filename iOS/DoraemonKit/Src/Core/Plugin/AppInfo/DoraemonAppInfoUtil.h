@@ -52,4 +52,7 @@
 + (NSString *)remindAuthority;
 
 + (NSString *)bluetoothAuthority;
+
+/// 设备是否模拟器
++ (BOOL)isSimulator;
 @end
