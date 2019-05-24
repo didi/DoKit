@@ -54,7 +54,7 @@
 
 - (void)jump{
     if (_h5UrlTextView.text.length==0) {
-        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"h5链接不能为空")];
+        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"h5链接不能为空") inView:self.view];
         return;
     }
     NSString *h5Url = _h5UrlTextView.text;

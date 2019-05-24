@@ -13,8 +13,6 @@ typedef void (^DoraemonHandleRestartCancleActionBlock)(void);
 
 @interface DoraemonToastUtil : NSObject
 
-+ (void)showToast:(NSString *)text;
-
 + (void)showToast:(NSString *)text inView:(UIView *)superView;
 
 + (void)handleRestartActionWithVC:(UIViewController *)vc
