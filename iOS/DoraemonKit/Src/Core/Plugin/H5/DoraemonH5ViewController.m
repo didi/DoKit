@@ -189,19 +189,19 @@
     if (!URL || URL.length <= 0) { return URL; }
     
     if (![URL hasPrefix:@"http://"] && ![URL hasPrefix:@"https://"]) {
-        return [NSString stringWithFormat:@"htttps://%@",URL];
+        return [NSString stringWithFormat:@"https://%@",URL];
     }
     
     if ([URL hasPrefix:@":"]) {
-        return [NSString stringWithFormat:@"htttps%@",URL];
+        return [NSString stringWithFormat:@"https%@",URL];
     }
     
     if ([URL hasPrefix:@"//"]) {
-        return [NSString stringWithFormat:@"htttps:%@",URL];
+        return [NSString stringWithFormat:@"https:%@",URL];
     }
     
     if ([URL hasPrefix:@"/"]) {
-        return [NSString stringWithFormat:@"htttps:/%@",URL];
+        return [NSString stringWithFormat:@"https:/%@",URL];
     }
     
     return URL;
