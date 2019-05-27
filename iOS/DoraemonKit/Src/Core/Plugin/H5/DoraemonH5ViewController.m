@@ -22,7 +22,7 @@
 @property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, strong) UIButton *jumpBtn;
 /// 扫码跳转
-@property (nonatomic, strong) UIButton *sweepJumpBtn;
+@property (nonatomic, strong) UIButton *scanJumpBtn;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataSource;
 @end
@@ -42,14 +42,14 @@
     return _tableView;
 }
 
-- (UIButton *)sweepJumpBtn {
-    if (!_sweepJumpBtn) {
-        _sweepJumpBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        [_sweepJumpBtn setBackgroundImage:[UIImage doraemon_imageNamed:@"sweep"] forState:(UIControlStateNormal)];
-        [_sweepJumpBtn addTarget:self action:@selector(clickSweep) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:_sweepJumpBtn];
+- (UIButton *)scanJumpBtn {
+    if (!_scanJumpBtn) {
+        _scanJumpBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
+        [_scanJumpBtn setBackgroundImage:[UIImage doraemon_imageNamed:@"doraemon_scan"] forState:(UIControlStateNormal)];
+        [_scanJumpBtn addTarget:self action:@selector(clickScan) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_scanJumpBtn];
     }
-    return _sweepJumpBtn;
+    return _scanJumpBtn;
 }
 
 - (void)viewDidLoad {
@@ -76,14 +76,14 @@
     _jumpBtn.layer.cornerRadius = kDoraemonSizeFrom750(8);
     [self.view addSubview:_jumpBtn];
     
-    self.sweepJumpBtn.frame = CGRectMake(self.view.doraemon_width - kDoraemonSizeFrom750(38.6 + 33.2), _lineView.doraemon_top - kDoraemonSizeFrom750(38.6 + 33.2), kDoraemonSizeFrom750(38.6), kDoraemonSizeFrom750(38.6));
+    self.scanJumpBtn.frame = CGRectMake(self.view.doraemon_width - kDoraemonSizeFrom750(38.6 + 33.2), _lineView.doraemon_top - kDoraemonSizeFrom750(38.6 + 33.2), kDoraemonSizeFrom750(38.6), kDoraemonSizeFrom750(38.6));
     
     self.tableView.frame = CGRectMake(0, _lineView.doraemon_bottom + kDoraemonSizeFrom750(32), self.view.doraemon_width, _jumpBtn.doraemon_top - _lineView.doraemon_bottom - kDoraemonSizeFrom750(32));
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.dataSource = [[DoraemonCacheManager sharedInstance] H5historicalRecord];
+    self.dataSource = [[DoraemonCacheManager sharedInstance] h5historicalRecord];
     [self.tableView reloadData];
 }
 
@@ -91,7 +91,7 @@
     return YES;
 }
 
-- (void)clickSweep {
+- (void)clickScan {
     
     if ([DoraemonAppInfoUtil isSimulator]) {
         [DoraemonToastUtil showToast:DoraemonLocalizedString(@"模拟器不支持扫码功能") inView:self.view];
@@ -99,9 +99,10 @@
     }
     
     DoraemonQRCodeViewController *vc = [[DoraemonQRCodeViewController alloc] init];
+    __weak typeof(self) weakSelf = self;
     vc.QRCodeBlock = ^(NSString * _Nonnull QRCodeResult) {
-        _h5UrlTextView.text = QRCodeResult;
-        [self jump];
+        weakSelf.h5UrlTextView.text = QRCodeResult;
+        [weakSelf jump];
     };
     [self presentViewController:[[UINavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
 }
@@ -145,7 +146,7 @@
     }
     cell.textLabel.textColor = [UIColor doraemon_colorWithHex:0x333333 andAlpha:1];
     cell.textLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(30)];
-    cell.imageView.image = [UIImage doraemon_imageNamed:@"放大镜"];
+    cell.imageView.image = [UIImage doraemon_imageNamed:@"doraemon_search"];
     return cell;
 }
 
@@ -180,7 +181,7 @@
 /// 清除记录
 - (void)clearRecord {
     [[DoraemonCacheManager sharedInstance] clearAllH5historicalRecord];
-    self.dataSource = [[DoraemonCacheManager sharedInstance] H5historicalRecord];
+    self.dataSource = [[DoraemonCacheManager sharedInstance] h5historicalRecord];
     [self.tableView reloadData];
 }
 
@@ -205,5 +206,9 @@
     }
     
     return URL;
+}
+
+- (void)dealloc{
+    NSLog(@"deallocXX");
 }
 @end

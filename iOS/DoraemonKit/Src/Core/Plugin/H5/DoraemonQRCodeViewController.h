@@ -7,10 +7,8 @@
 
 #import <Foundation/Foundation.h>
 #import "DoraemonBaseViewController.h"
-NS_ASSUME_NONNULL_BEGIN
 
 @interface DoraemonQRCodeViewController : DoraemonBaseViewController
 @property (nonatomic, copy) void(^QRCodeBlock)(NSString *QRCodeResult);
 @end
 
-NS_ASSUME_NONNULL_END

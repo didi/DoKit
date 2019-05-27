@@ -169,7 +169,7 @@ static NSString * const kDoraemonH5historicalRecord = @"doraemon_historical_reco
     return [defaults boolForKey:kDoraemonMethodUseTimeKey];
 }
 
-- (NSArray<NSString *> *)H5historicalRecord {
+- (NSArray<NSString *> *)h5historicalRecord {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     return [defaults objectForKey:kDoraemonH5historicalRecord];
 }
@@ -178,7 +178,7 @@ static NSString * const kDoraemonH5historicalRecord = @"doraemon_historical_reco
     /// 过滤异常数据
     if (!text || text.length <= 0) { return; }
     
-    NSArray *records = [self H5historicalRecord];
+    NSArray *records = [self h5historicalRecord];
     /// 去重
     if ([records containsObject:text]) { return; }
     
@@ -204,7 +204,7 @@ static NSString * const kDoraemonH5historicalRecord = @"doraemon_historical_reco
 - (void)clearH5historicalRecordWithText:(NSString *)text {
     /// 过滤异常数据
     if (!text || text.length <= 0) { return; }
-    NSArray *records = [self H5historicalRecord];
+    NSArray *records = [self h5historicalRecord];
     /// 不包含
     if (![records containsObject:text]) { return; }
     NSMutableArray *muarr = [NSMutableArray array];

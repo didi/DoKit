@@ -20,13 +20,10 @@
     WEAKSELF(weakSelf)
     self.qrcode = [DoraemonQRCodeTool shared];
     [self.qrcode QRCodeDeviceInitWithVC:self WithQRCodeWidth:0 ScanResults:^(NSString *result) {
-        NSLog(@"========%@",result);
-//        [weakSelf backViewController];
         [weakSelf.qrcode stopScanning];
-//        [weakSelf handleDataWithResult:result];
         [weakSelf dismissViewControllerAnimated:YES completion:^{
-            if (self.QRCodeBlock) {
-                self.QRCodeBlock(result);
+            if (weakSelf.QRCodeBlock) {
+                weakSelf.QRCodeBlock(result);
             }
         }];
         

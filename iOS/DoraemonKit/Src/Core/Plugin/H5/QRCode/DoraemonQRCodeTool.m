@@ -14,7 +14,7 @@
 /** 显示采集图像的对象 */
 @property (nonatomic,strong) AVCaptureVideoPreviewLayer *codeCaptureVideoPreviewLayer;
 
-@property (nonatomic, strong) UIImageView *sweepLineView;/**< 扫描条 */
+@property (nonatomic, strong) UIImageView *scanLineView;/**< 扫描条 */
 
 @property (nonatomic, assign) CGFloat QRCodeWidth;
 
@@ -24,7 +24,6 @@
 @implementation DoraemonQRCodeTool
 #pragma mark  单例宏
 
-//FSingletonM(FQuickCreateQRCode)
 + (instancetype)shared {
     static id object = nil;
     static dispatch_once_t onceToken;
@@ -36,14 +35,14 @@
 
 
 #pragma mark  扫描线
-- (UIImageView *)sweepLineView
+- (UIImageView *)scanLineView
 {
-    if (!_sweepLineView) {
-        _sweepLineView = [[UIImageView alloc] init];
-        _sweepLineView.image = [UIImage imageNamed:@"m_scan_line"];
-        _sweepLineView.backgroundColor = [UIColor clearColor];
+    if (!_scanLineView) {
+        _scanLineView = [[UIImageView alloc] init];
+        _scanLineView.image = [UIImage doraemon_imageNamed:@"doraemon_scan_line"];
+        _scanLineView.backgroundColor = [UIColor clearColor];
     }
-    return _sweepLineView;
+    return _scanLineView;
 }
 
 #pragma mark  二维码采集对象
@@ -197,7 +196,6 @@
     // 可以保留纵横比，但填满可用的屏幕区域
     self.codeCaptureVideoPreviewLayer.videoGravity=AVLayerVideoGravityResizeAspectFill;
     self.codeCaptureVideoPreviewLayer.bounds = viewRect;
-    //    self.codeCaptureVideoPreviewLayer.bounds = CGRectMake(0, (CGRectGetHeight(VC.view.frame) - CGRectGetWidth(VC.view.frame))/2.0, CGRectGetWidth(VC.view.frame), CGRectGetWidth(VC.view.frame));
     self.codeCaptureVideoPreviewLayer.position = CGPointMake(VC.view.center.x, VC.view.center.y - 64);
     [VC.view.layer insertSublayer:self.codeCaptureVideoPreviewLayer atIndex:0];
     
@@ -209,7 +207,6 @@
     [VC.view addSubview:_maskView];
     
     UIBezierPath *rectPath = [UIBezierPath bezierPathWithRect:[UIScreen mainScreen].bounds];
-    //    [rectPath appendPath:[[UIBezierPath bezierPathWithRect:CM((SCREEN_WIDTH - 250) / 2, 66, 250, 250)] bezierPathByReversingPath]];
     [rectPath appendPath:[[UIBezierPath bezierPathWithRoundedRect:CGRectMake(([UIScreen mainScreen].bounds.size.width - QRCodeWidth) / 2, ([UIScreen mainScreen].bounds.size.height - QRCodeWidth - 72)/2, QRCodeWidth, QRCodeWidth) cornerRadius:1] bezierPathByReversingPath]];
     
     CAShapeLayer *shapeLayer = [CAShapeLayer layer];
@@ -229,12 +226,12 @@
     
     [VC.view addSubview:scanAreaImageView];
     
-    self.sweepLineView.frame = CGRectMake(1, 20, QRCodeWidth-2, 2);
-    if (!self.sweepLineView.image) {
-        self.sweepLineView.backgroundColor = [UIColor orangeColor];
+    self.scanLineView.frame = CGRectMake(1, 20, QRCodeWidth-2, 2);
+    if (!self.scanLineView.image) {
+        self.scanLineView.backgroundColor = [UIColor orangeColor];
     }
     
-    [scanAreaImageView addSubview:self.sweepLineView];
+    [scanAreaImageView addSubview:self.scanLineView];
     
     return nil;
 }
@@ -258,16 +255,16 @@
 #pragma 去除扫码动画
 - (void)removeAnimation{
     
-    [self.sweepLineView.layer removeAnimationForKey:@"LineAnimation"];
-    self.sweepLineView.hidden = YES;
+    [self.scanLineView.layer removeAnimationForKey:@"LineAnimation"];
+    self.scanLineView.hidden = YES;
 }
 
 #pragma 添加扫码动画
 - (void)addAnimation{
     
-    self.sweepLineView.hidden = NO;
+    self.scanLineView.hidden = NO;
     CABasicAnimation *animation = [DoraemonQRCodeTool moveYTime:self.QRCodeWidth/250 * 2.5 fromY:[NSNumber numberWithFloat:-10] toY:[NSNumber numberWithFloat:self.QRCodeWidth-30] rep:OPEN_MAX];
-    [self.sweepLineView.layer addAnimation:animation forKey:@"LineAnimation"];
+    [self.scanLineView.layer addAnimation:animation forKey:@"LineAnimation"];
 }
 
 #pragma 监听扫码状态-修改扫描动画
