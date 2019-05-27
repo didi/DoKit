@@ -1,4 +1,22 @@
 # Release Notes
+### 1.1.9
+1、H5任意门支持扫码和历史浏览记录功能 [feng562925462](https://github.com/feng562925462)
+
+2、支持使用block的方式接入自定义测试模块 [csc-EricWu](https://github.com/csc-EricWu/)
+
+3、卡顿监控支持查看卡顿时长 [k373379320](https://github.com/k373379320)
+
+4、沙盒浏览，除了数据库文件之外，其他文件修改成 QLPreviewController 打开 [HuginChen](https://github.com/HuginChen)
+
+4、支持framework直接接入，方便非pod管理的项目
+
+5、性能曲线图代码重构,支持同时查看fps、内存、cpu和流量的信息。
+
+6、解决toast在某一些情况无法显示的问题,改善用户体验
+
+7、其他一些优化和代码整理，详见代码提交记录
+
+
 ### 1.1.8
 1、支持国际化，中英文
 
