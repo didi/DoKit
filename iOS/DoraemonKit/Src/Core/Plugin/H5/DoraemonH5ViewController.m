@@ -208,7 +208,4 @@
     return URL;
 }
 
-- (void)dealloc{
-    NSLog(@"deallocXX");
-}
 @end
