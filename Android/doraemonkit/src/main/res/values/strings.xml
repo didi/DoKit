@@ -56,6 +56,9 @@
     <string name="dk_frameinfo_cpu">CPU</string>
     <string name="dk_frameinfo_ram">内存</string>
     <string name="dk_frameinfo_custom">自定义</string>
+    <string name="dk_frameinfo_upstream">上行流量</string>
+    <string name="dk_frameinfo_downstream">下行流量</string>
+    <string name="dk_frameinfo_avg_value">平均值</string>
 
     <string name="dk_log_info_edt_hint">输入想要过滤的关键字</string>
     <string name="dk_log_info_verbose">Verbose</string>
@@ -179,6 +182,8 @@
 
     <string name="dk_platform_monitor_data_button">开始测试</string>
     <string name="dk_platform_monitor_data_button_stop">结束测试</string>
+    <string name="dk_platform_monitor_view_stat_data">查看统计数据</string>
+    <string name="dk_platform_monitor_page_data">页面数据</string>
     <string name="dk_log_text_loading">日志加载中...</string>
 
 </resources>

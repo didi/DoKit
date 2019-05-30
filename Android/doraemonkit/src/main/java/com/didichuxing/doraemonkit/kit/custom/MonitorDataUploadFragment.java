@@ -11,8 +11,13 @@ import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.PerformanceInfoConfig;
+import com.didichuxing.doraemonkit.constant.PageTag;
+import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerInfoFloatPage;
 import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
+import com.didichuxing.doraemonkit.ui.KitFloatPage;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
+import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
+import com.didichuxing.doraemonkit.ui.base.PageIntent;
 import com.didichuxing.doraemonkit.ui.realtime.OnFloatPageChangeListener;
 import com.didichuxing.doraemonkit.ui.realtime.RealTimeChartIconPage;
 import com.didichuxing.doraemonkit.ui.realtime.RealTimeChartPage;
@@ -56,6 +61,7 @@ public class MonitorDataUploadFragment extends BaseFragment implements OnFloatPa
         mSettingItemAdapter.append(new SettingItem(R.string.dk_frameinfo_cpu, PerformanceInfoConfig.isCPUOpen(getContext())));
         mSettingItemAdapter.append(new SettingItem(R.string.dk_frameinfo_ram, PerformanceInfoConfig.isMemoryOpen(getContext())));
         mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_net_monitor, PerformanceInfoConfig.isTrafficOpen(getContext())));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_platform_monitor_view_stat_data, R.drawable.dk_more_icon));
 
         mSettingItemAdapter.setOnSettingItemSwitchListener(new SettingItemAdapter.OnSettingItemSwitchListener() {
             @Override
@@ -72,6 +78,14 @@ public class MonitorDataUploadFragment extends BaseFragment implements OnFloatPa
                 setCommitButtonState();
             }
         });
+        mSettingItemAdapter.setOnSettingItemClickListener(new SettingItemAdapter.OnSettingItemClickListener() {
+            @Override
+            public void onSettingItemClick(View view, SettingItem data) {
+                if (data.desc == R.string.dk_platform_monitor_view_stat_data) {
+                    showContent(PageDataFragment.class);
+                }
+            }
+        });
         mSettingList.setAdapter(mSettingItemAdapter);
       mCommitButton.setOnClickListener(new View.OnClickListener() {
           @Override
@@ -79,9 +93,13 @@ public class MonitorDataUploadFragment extends BaseFragment implements OnFloatPa
               if (mCommitButton.getText().equals(getString(R.string.dk_platform_monitor_data_button_stop))) {
                   mCommitButton.setText(R.string.dk_platform_monitor_data_button);
                   PerformanceDataManager.getInstance().stopUploadMonitorData();
+                  FloatPageManager.getInstance().removeAll(RealTimePerformDataFloatPage.class);
               } else {
                   mCommitButton.setText(R.string.dk_platform_monitor_data_button_stop);
                   PerformanceDataManager.getInstance().startUploadMonitorData();
+                  PageIntent pageIntent = new PageIntent(RealTimePerformDataFloatPage.class);
+                  pageIntent.mode = PageIntent.MODE_SINGLE_INSTANCE;
+                  FloatPageManager.getInstance().add(pageIntent);
               }
           }
       });
