@@ -18,7 +18,7 @@ static NSString * const kDoraemonSubThreadUICheckKey = @"doraemon_sub_thread_ui_
 static NSString * const kDoraemonCrashKey = @"doraemon_crash_key";
 static NSString * const kDoraemonNSLogKey = @"doraemon_nslog_key";
 static NSString * const kDoraemonMethodUseTimeKey = @"doraemon_method_use_time_key";
-
+static NSString * const kDoraemonH5historicalRecord = @"doraemon_historical_record";
 @implementation DoraemonCacheManager
 
 + (DoraemonCacheManager *)sharedInstance{
@@ -168,5 +168,58 @@ static NSString * const kDoraemonMethodUseTimeKey = @"doraemon_method_use_time_k
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     return [defaults boolForKey:kDoraemonMethodUseTimeKey];
 }
+
+- (NSArray<NSString *> *)h5historicalRecord {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults objectForKey:kDoraemonH5historicalRecord];
+}
+
+- (void)saveH5historicalRecordWithText:(NSString *)text {
+    /// 过滤异常数据
+    if (!text || text.length <= 0) { return; }
+    
+    NSArray *records = [self h5historicalRecord];
+    /// 去重
+    if ([records containsObject:text]) { return; }
+    
+    NSMutableArray *muarr = [NSMutableArray array];
+    if (records && records.count > 0) { [muarr addObjectsFromArray:records]; }
+    
+    [muarr addObject:text];
+    
+    /// 限制数量
+    if (muarr.count > 10) { [muarr removeObjectAtIndex:0]; }
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:muarr.copy forKey:kDoraemonH5historicalRecord];
+    [defaults synchronize];
+}
+
+- (void)clearAllH5historicalRecord {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:kDoraemonH5historicalRecord];
+    [defaults synchronize];
+}
+
+- (void)clearH5historicalRecordWithText:(NSString *)text {
+    /// 过滤异常数据
+    if (!text || text.length <= 0) { return; }
+    NSArray *records = [self h5historicalRecord];
+    /// 不包含
+    if (![records containsObject:text]) { return; }
+    NSMutableArray *muarr = [NSMutableArray array];
+    if (records && records.count > 0) { [muarr addObjectsFromArray:records]; }
+    [muarr removeObject:text];
+    
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (muarr.count > 0) {
+        [defaults setObject:muarr.copy forKey:kDoraemonH5historicalRecord];
+    } else {
+        [defaults removeObjectForKey:kDoraemonH5historicalRecord];
+    }
+    [defaults synchronize];
+}
+
 
 @end

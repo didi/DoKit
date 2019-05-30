@@ -349,4 +349,16 @@
 }
 
 
+
+#pragma mark 设备是否模拟器
++ (NSString *)deviceIdentifier {
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    return [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+}
+
++ (BOOL)isSimulator {
+    NSString *identifier = [self deviceIdentifier];
+    return [identifier isEqualToString:@"i386"] || [identifier isEqualToString:@"x86_64"];
+}
 @end
