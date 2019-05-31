@@ -30,22 +30,41 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = DoraemonLocalizedString(@"文件预览");
+    
     if (self.filePath.length > 0) {
         NSString *path = self.filePath;
-        if([path hasSuffix:@".DB"] || [path hasSuffix:@".db"] || [path hasSuffix:@".sqlite"] || [path hasSuffix:@".SQLITE"]){
-            //数据库文件
+        if ([path hasSuffix:@".strings"] || [path hasSuffix:@".plist"]) {
+            // 文本文件
+            [self setContent:[[NSDictionary dictionaryWithContentsOfFile:path] description]];
+        } else if([path hasSuffix:@".DB"] || [path hasSuffix:@".db"] || [path hasSuffix:@".sqlite"] || [path hasSuffix:@".SQLITE"]){
+            // 数据库文件
             self.title = DoraemonLocalizedString(@"数据库预览");
             [self browseDBTable];
         } else {
-            // 其他文件 尝试使用 QLPreviewController进行打开
+            // 其他文件 尝试使用 QLPreviewController 进行打开
             QLPreviewController *previewController = [[QLPreviewController alloc]init];
             previewController.delegate = self;
             previewController.dataSource = self;
             [self presentViewController:previewController animated:YES completion:nil];
         }
-    }else{
+    } else {
         [DoraemonToastUtil showToast:DoraemonLocalizedString(@"文件不存在") inView:self.view];
     }
+}
+
+- (void)setContent:(NSString *)text {
+    _textView = [[UITextView alloc] initWithFrame:self.view.bounds];
+    _textView.font = [UIFont systemFontOfSize:12.0f];
+    _textView.textColor = [UIColor blackColor];
+    _textView.textAlignment = NSTextAlignmentLeft;
+    _textView.editable = NO;
+    _textView.dataDetectorTypes = UIDataDetectorTypeLink;
+    _textView.scrollEnabled = YES;
+    _textView.backgroundColor = [UIColor whiteColor];
+    _textView.layer.borderColor = [UIColor grayColor].CGColor;
+    _textView.layer.borderWidth = 2.0f;
+    _textView.text = text;
+    [self.view addSubview:_textView];
 }
 
 //浏览数据库中所有数据表
