@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dk_color_FFFFFF"
+    android:padding="10dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/page_name_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="#333"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:layout_marginBottom="16dp"
+        android:text="" />
+
+    <include
+        android:id="@+id/up_network_item"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/dk_fragment_monitor_pagedata_item_item"
+         />
+
+    <include
+        android:id="@+id/down_network_item"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/dk_fragment_monitor_pagedata_item_item" />
+
+    <include
+        android:id="@+id/memory_item"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/dk_fragment_monitor_pagedata_item_item" />
+
+    <include
+        android:id="@+id/cpu_item"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/dk_fragment_monitor_pagedata_item_item" />
+
+    <include
+        android:id="@+id/fps_item"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/dk_fragment_monitor_pagedata_item_item" />
+</LinearLayout>

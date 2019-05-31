@@ -19,6 +19,7 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.PerformanceInfoConfig;
 import com.didichuxing.doraemonkit.kit.custom.PerformanceInfo;
 import com.didichuxing.doraemonkit.kit.custom.UploadMonitorInfoBean;
+import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.util.FileManager;
 import com.didichuxing.doraemonkit.util.JsonUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
@@ -227,7 +228,7 @@ public class PerformanceDataManager {
             startMonitorMemoryInfo();
         }
         if (PerformanceInfoConfig.isTrafficOpen(mContext)) {
-            // TODO: 2019/3/22 开始流量监控
+            NetworkManager.get().startMonitor();
         }
         mHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_FRAME_RATE * 1000);
     }
@@ -239,7 +240,7 @@ public class PerformanceDataManager {
         stopMonitorFrameInfo();
         stopMonitorCPUInfo();
         stopMonitorMemoryInfo();
-        // TODO: 2019/3/22 结束流量监控
+        NetworkManager.get().stopMonitor();
     }
 
     public boolean isUploading(){
@@ -433,6 +434,9 @@ public class PerformanceDataManager {
         return filePath + fpsFileName;
     }
 
+    public String getCustomFilePath() {
+        return filePath + customFileName;
+    }
     public long getLastFrameRate() {
         return mLastFrameRate;
     }
