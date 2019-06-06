@@ -10,6 +10,15 @@
 typedef void (^DoraemonH5DoorBlock)(NSString *);
 
 typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
+    #pragma mark - weex专项工具
+    // 日志
+    DoraemonManagerPluginType_DoraemonWeexLogPlugin,
+    // 缓存
+    DoraemonManagerPluginType_DoraemonWeexStoragePlugin,
+    // 信息
+    DoraemonManagerPluginType_DoraemonWeexInfoPlugin,
+    // DevTool
+    DoraemonManagerPluginType_DoraemonWeexDevToolPlugin,
     #pragma mark - 常用工具
     // App信息
     DoraemonManagerPluginType_DoraemonAppInfoPlugin,

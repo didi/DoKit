@@ -21,9 +21,9 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - BSBacktraceLogger (0.0.1)
-  - CocoaLumberjack (3.5.2):
-    - CocoaLumberjack/Core (= 3.5.2)
-  - CocoaLumberjack/Core (3.5.2)
+  - CocoaLumberjack (3.5.3):
+    - CocoaLumberjack/Core (= 3.5.3)
+  - CocoaLumberjack/Core (3.5.3)
   - DoraemonKit/Core (1.1.9):
     - BSBacktraceLogger
     - fishhook
@@ -48,11 +48,24 @@ PODS:
     - fishhook
     - PNChart
     - "UITextView+Placeholder"
+  - DoraemonKit/WithWeex (1.1.9):
+    - BSBacktraceLogger
+    - DoraemonKit/Core
+    - fishhook
+    - PNChart
+    - "UITextView+Placeholder"
+    - WeexSDK
+    - WXDevtool
   - fishhook (0.2)
   - PNChart (0.8.9):
     - UICountingLabel (~> 1.2.0)
+  - SocketRocket (0.5.1)
   - UICountingLabel (1.2.0)
   - "UITextView+Placeholder (1.2.1)"
+  - WeexSDK (0.24.0)
+  - WXDevtool (0.20.0):
+    - SocketRocket
+    - WeexSDK
 
 DEPENDENCIES:
   - AFNetworking (= 2.6.3)
@@ -60,6 +73,7 @@ DEPENDENCIES:
   - DoraemonKit/WithGPS (from `../../`)
   - DoraemonKit/WithLoad (from `../../`)
   - DoraemonKit/WithLogger (from `../../`)
+  - DoraemonKit/WithWeex (from `../../`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -68,8 +82,11 @@ SPEC REPOS:
     - CocoaLumberjack
     - fishhook
     - PNChart
+    - SocketRocket
     - UICountingLabel
     - "UITextView+Placeholder"
+    - WeexSDK
+    - WXDevtool
 
 EXTERNAL SOURCES:
   DoraemonKit:
@@ -78,13 +95,16 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   BSBacktraceLogger: 06b983ee93a9f87d957960e9c73d660d5966b447
-  CocoaLumberjack: 118bf4a820efc641f79fa487b75ed928dccfae23
-  DoraemonKit: efea4a8afe0a6f2aadffcf5e66010bff692c6f05
+  CocoaLumberjack: 2f44e60eb91c176d471fdba43b9e3eae6a721947
+  DoraemonKit: e376b30bdb520ff5a64170dcb1e1c951be790f9f
   fishhook: ea19933abfe8f2f52c55fd8b6e2718467d3ebc89
   PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
+  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
   "UITextView+Placeholder": 0c3efd97f37ea64bde7f34cc6e90fe02e87b3909
+  WeexSDK: 5bd35be9c035c67c84d1ba15712360bb0d0ba6b5
+  WXDevtool: 833dd3e835df1f5f278fc8865c865d48196bfdab
 
-PODFILE CHECKSUM: f601867a5c4b742a86a6ca031650062a81a5022b
+PODFILE CHECKSUM: 6f26761ef45416630449819ccb25e75749f99601
 
 COCOAPODS: 1.6.2
