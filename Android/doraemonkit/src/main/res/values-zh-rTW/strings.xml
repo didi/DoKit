@@ -154,4 +154,19 @@
     <string name="dk_network_detail_title_body">Message Body</string>
     <string name="dk_network_detail_title_url">鏈接</string>
     <string name="dk_network_summary_total_number_time_tips">總封包數</string>
+    <string name="dk_cancel">取消</string>
+    <string name="dk_confirm">確認</string>
+    <string name="dk_crash_need_permission">請授權讀寫權限，避免crash文件丟失</string>
+    <string name="dk_db_tips_insert">添加</string>
+    <string name="dk_delete">刪除</string>
+    <string name="dk_error_tips_permissions_less">請進行授權才可以使用該功能</string>
+    <string name="dk_fail">失敗</string>
+    <string name="dk_frameinfo_custom">自定義</string>
+    <string name="dk_hint">提示</string>
+    <string name="dk_share">分享</string>
+    <string name="dk_platform_monitor_data_button">開始測試</string>
+    <string name="dk_platform_monitor_data_button_stop">結束測試</string>
+    <string name="dk_success">成功</string>
+    <string name="dk_submit">提交</string>
+    <string name="dk_log_text_loading">日誌加載中...</string>
 </resources>

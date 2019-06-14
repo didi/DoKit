@@ -172,4 +172,7 @@
     <string name="dk_platform_monitor_view_stat_data">查看统计数据</string>
     <string name="dk_platform_monitor_page_data">页面数据</string>
     <string name="dk_log_text_loading">日志加载中...</string>
+    <string name="dk_crash_need_permission">请授权读写权限，避免crash文件丢失</string>
+    <string name="dk_data_clean_toast">清除系统资料</string>
+    <string name="dk_error_tips_permissions_less">请进行授权才可以使用该功能</string>
 </resources>

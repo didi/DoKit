@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit.kit.fileexplorer;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,77 +14,73 @@ import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.SpInputType;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
+import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import static com.didichuxing.doraemonkit.util.FileUtil.XML;
 
 public class SpFragment extends BaseFragment {
-    private ArrayList<SpBean> spBeans;
     private SharedPreferences.Editor edit;
-    private String spNameFileName;
+    private String spTableName;
 
-
-    private View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int id = v.getId();
-            if (id == R.id.btn_submit) {
-                boolean commit = edit.commit();
-                if (commit) {
-                    finish();
-                    showToast(R.string.dk_success);
-                } else {
-                    showToast(R.string.dk_fail);
-                }
-            } else if (id == R.id.btn_cancel) {
-                finish();
-            }
-
-        }
-    };
 
     @Override
     protected int onRequestLayout() {
         return R.layout.dk_fragment_sp_show;
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bundle data = getArguments();
-        if (data != null) {
-            File mFile = (File) data.getSerializable(BundleKey.FILE_KEY);
-            spNameFileName = mFile.getName().replace(XML, "");
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(spNameFileName, Context.MODE_PRIVATE);
-            edit = sharedPreferences.edit();
+    private List<SpBean> getSpBeans() {
+        ArrayList<SpBean> spBeans = new ArrayList<>();
 
-            Map<String, ?> all = sharedPreferences.getAll();
-            spBeans = new ArrayList<>(all.size());
-            SpBean spBean;
-            for (Map.Entry<String, ?> entry : all.entrySet()) {
-                Object value = entry.getValue();
-                spBean = new SpBean();
-                spBean.key = entry.getKey();
-                spBean.value = value;
-                spBeans.add(spBean);
-            }
+        File mFile = (File) getArguments().getSerializable(BundleKey.FILE_KEY);
+        if (mFile == null) {
+            return spBeans;
         }
+        spTableName = mFile.getName().replace(XML, "");
+        SharedPreferences sp = SharedPrefsUtil.getSharedPrefs(getActivity(), spTableName);
+        edit = sp.edit();
+        Map<String, ?> all = sp.getAll();
+        if (all.isEmpty()) {
+            return spBeans;
+        }
+        for (Map.Entry<String, ?> entry : all.entrySet()) {
+            spBeans.add(new SpBean(entry.getKey(), entry.getValue()));
+        }
+        return spBeans;
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (spBeans != null && spBeans.size() > 0) {
+        List<SpBean> spBeans = getSpBeans();
+        if (spBeans.isEmpty()) {
+            finish();
+            return;
+        }
+        RecyclerView recyclerView = findViewById(R.id.rv_sp);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        SpAdapter spAdapter = new SpAdapter(getActivity());
+        spAdapter.setOnSpDataChangerListener(new SpAdapter.OnSpDataChangerListener() {
+            @Override
+            public void onDataChanged(SpBean bean) {
+                spUpData(bean);
+            }
+        });
+        spAdapter.append(spBeans);
+        recyclerView.setAdapter(spAdapter);
+        if (spTableName != null) {
             TitleBar mTitleBar = findViewById(R.id.title_bar);
-            mTitleBar.setTitle(spNameFileName);
+            mTitleBar.setTitle(spTableName);
             mTitleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
                 @Override
                 public void onLeftClick() {
-                    onBackPressed();
+                    finish();
                 }
 
                 @Override
@@ -93,47 +88,31 @@ public class SpFragment extends BaseFragment {
 
                 }
             });
-            RecyclerView recyclerView = findViewById(R.id.rv_sp);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-            recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-            SpAdapter spAdapter = new SpAdapter(getActivity());
-            spAdapter.append(spBeans);
-            spAdapter.setOnSpDataChangerListener(new SpAdapter.OnSpDataChangerListener() {
-                @Override
-                public void onDataChanged(String key, Object o) {
-                    spUpData(key, o);
-                }
-            });
-            recyclerView.setAdapter(spAdapter);
-
-            findViewById(R.id.btn_submit).setOnClickListener(mOnClickListener);
-            findViewById(R.id.btn_cancel).setOnClickListener(mOnClickListener);
-        } else {
-            finish();
         }
+
     }
 
-    public void spUpData(String key, Object o) {
-        String simpleName = o.getClass().getSimpleName();
-        if (simpleName.equals(SpInputType.STRING)) {
-            edit.putString(key, o.toString());
-        }
-        if (simpleName.equals(SpInputType.BOOLEAN)) {
-            edit.putBoolean(key, (Boolean) o);
-        }
-        if (simpleName.equals(SpInputType.HASHSET)) {
-            edit.putStringSet(key, (HashSet) o);
-        }
-        if (simpleName.equals(SpInputType.INTEGER)) {
-            edit.putInt(key, (Integer) o);
-        }
-        if (simpleName.equals(SpInputType.FLOAT)) {
-            edit.putFloat(key, (Float) o);
-        }
-        if (simpleName.equals(SpInputType.LONG)) {
-            edit.putLong(key, (Long) o);
-        }
-    }
 
+    public void spUpData(SpBean bean) {
+        String key = bean.key;
+        switch (bean.value.getClass().getSimpleName()) {
+            case SpInputType.STRING:
+                SharedPrefsUtil.putString(getActivity(), key, bean.value.toString());
+                break;
+            case SpInputType.BOOLEAN:
+                SharedPrefsUtil.putBoolean(getActivity(), spTableName, key, (Boolean) bean.value);
+                break;
+            case SpInputType.INTEGER:
+                SharedPrefsUtil.putInt(getActivity(), spTableName, key, (Integer) bean.value);
+                break;
+            case SpInputType.FLOAT:
+                SharedPrefsUtil.putFloat(getActivity(), spTableName, key, (Float) bean.value);
+                break;
+            case SpInputType.LONG:
+                SharedPrefsUtil.putLong(getActivity(), spTableName, key, (Long) bean.value);
+                break;
+        }
+
+    }
 
 }

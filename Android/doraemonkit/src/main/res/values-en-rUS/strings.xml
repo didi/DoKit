@@ -173,5 +173,8 @@
     <string name="dk_platform_monitor_view_stat_data">view statistics</string>
     <string name="dk_platform_monitor_page_data">page data</string>
     <string name="dk_log_text_loading">Loading...</string>
+    <string name="dk_crash_need_permission">Please authorize permissions</string>
+    <string name="dk_data_clean_toast">Clear system data</string>
+    <string name="dk_error_tips_permissions_less">Please authorize permissions</string>
 
 </resources>

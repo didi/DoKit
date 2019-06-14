@@ -37,7 +37,7 @@ public class CacheUtils {
         return readObject(file);
     }
 
-    private static boolean saveObject(Serializable ser, File file) {
+    public static boolean saveObject(Serializable ser, File file) {
         FileOutputStream fos = null;
         ObjectOutputStream oos = null;
         try {
@@ -67,7 +67,7 @@ public class CacheUtils {
         }
     }
 
-    private static Serializable readObject(File file) {
+    public static Serializable readObject(File file) {
         if (file == null || !file.exists() || file.isDirectory()) {
             return null;
         }

@@ -2,36 +2,35 @@ package com.didichuxing.doraemonkit.kit.fileexplorer;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
-import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.SpInputType;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.didichuxing.doraemonkit.ui.widget.bottomview.BottomUpWindow;
+import com.didichuxing.doraemonkit.ui.widget.bottomview.EditSpInputView;
 
 public class SpInputView extends FrameLayout {
 
-    private Spinner spinner;
-    private EditText sp_input;
-    private static final List<Boolean> selected = new ArrayList<Boolean>() {{
-        add(true);
-        add(false);
-    }};
+    private OnDataChangeListener onDataChangeListener;
+
+    private static final int FLOAT = InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL;
+    private static final int INTEGER = InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED;
+    private static final int STRING = InputType.TYPE_CLASS_TEXT;
+
+    private TextView spValue;
+    private Switch switchBtn;
+    private SpBean bean;
+
 
     public SpInputView(Context context) {
-        super(context);
-        init();
+        super(context, null);
     }
 
     public SpInputView(Context context, @Nullable AttributeSet attrs) {
@@ -48,43 +47,36 @@ public class SpInputView extends FrameLayout {
 
     private void init() {
         View inflate = LayoutInflater.from(getContext()).inflate(R.layout.kd_item_sp_input, this, true);
-        spinner = inflate.findViewById(R.id.spinner);
-        spinner.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, selected));
-        sp_input = inflate.findViewById(R.id.sp_input);
+        switchBtn = inflate.findViewById(R.id.switch_btn);
+        spValue = inflate.findViewById(R.id.tv_sp_value);
 
     }
 
-    private String currentStatue = "";
-
-    public <T> void setInput(final T t, final OnDataChangeListener onDataChangeListener) {
-        currentStatue = t.getClass().getSimpleName();
-        switch (currentStatue) {
+    public void setInput(final SpBean bean, final OnDataChangeListener onDataChangeListener) {
+        this.bean = bean;
+        this.onDataChangeListener = onDataChangeListener;
+        switch (bean.value.getClass().getSimpleName()) {
             case SpInputType.BOOLEAN:
-                spinner.setSelection(selected.indexOf(t));
-                spinner.setVisibility(VISIBLE);
-                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                switchBtn.setChecked((Boolean) bean.value);
+                switchBtn.setVisibility(VISIBLE);
+                switchBtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        onDataChangeListener.onDataChanged(parent.getSelectedItem());
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        bean.value = isChecked;
+                        onDataChangeListener.onDataChanged();
                     }
                 });
-                sp_input.setVisibility(GONE);
+                spValue.setVisibility(GONE);
                 break;
             case SpInputType.INTEGER:
             case SpInputType.LONG:
+                initEdt(bean, INTEGER);
+                break;
             case SpInputType.FLOAT:
-                sp_input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                initEdt(t, onDataChangeListener);
+                initEdt(bean, FLOAT);
                 break;
             case SpInputType.STRING:
-                sp_input.setInputType(InputType.TYPE_CLASS_TEXT);
-                initEdt(t, onDataChangeListener);
-
+                initEdt(bean, STRING);
                 break;
             default:
                 break;
@@ -94,32 +86,44 @@ public class SpInputView extends FrameLayout {
         }
     }
 
-    private <T> void initEdt(T t, final OnDataChangeListener onDataChangeListener) {
-        sp_input.setText(t.toString());
-        sp_input.setVisibility(VISIBLE);
-        spinner.setVisibility(GONE);
-        sp_input.addTextChangedListener(new TextWatcher() {
+    private void initEdt(final SpBean spBean, final int inputType) {
+        spValue.setVisibility(VISIBLE);
+        switchBtn.setVisibility(GONE);
+        spValue.setText(spBean.value.toString());
+        spValue.setOnClickListener(new OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onClick(View v) {
+                showInputView(v, spBean, inputType);
+            }
+        });
+    }
 
+    public void refresh() {
+        if (bean != null) {
+            spValue.setText(bean.value.toString());
+        }
+    }
+
+    private void showInputView(View view, final SpBean spBean, int inputType) {
+        new BottomUpWindow(getContext()).setContent(new EditSpInputView(getContext(), spBean, inputType))
+                .show(view).setOnSubmitListener(new BottomUpWindow.OnSubmitListener() {
+            @Override
+            public void submit(Object object) {
+                spBean.value = object;
+                if (onDataChangeListener != null) {
+                    onDataChangeListener.onDataChanged();
+                }
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-                onDataChangeListener.onDataChanged(s.toString());
+            public void cancel() {
 
             }
         });
     }
 
-    public interface OnDataChangeListener<T> {
-        void onDataChanged(T t);
+    public interface OnDataChangeListener {
+        void onDataChanged();
     }
 
 }
