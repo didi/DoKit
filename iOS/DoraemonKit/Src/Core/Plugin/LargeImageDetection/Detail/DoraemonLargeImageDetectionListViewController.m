@@ -7,14 +7,23 @@
 
 #import "DoraemonLargeImageDetectionListViewController.h"
 #import "DoraemonLargeImageDetectionManager.h"
+#import "DoraemonImageDetectionCell.h"
 
 @interface DoraemonLargeImageDetectionListViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UITextField *textField;
 @property (nonatomic, strong) UIButton *filterButton;
+@property (nonatomic, strong) NSArray <DoraemonResponseImageModel *> *images;
 @end
 
 @implementation DoraemonLargeImageDetectionListViewController
+
+- (instancetype)initWithImages:(NSArray <DoraemonResponseImageModel *> *) images {
+    if (self = [super init]) {
+        self.images = images;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -23,27 +32,21 @@
 
 - (void)initUI {
     
-    UILabel *label1 = [[UILabel alloc] initWithFrame: CGRectMake(10, 12, 250, 30)];
-    label1.text = @"筛选条件：图片尺寸 >";
-    [self.view addSubview: label1];
-    
-    self.filterButton = [UIButton buttonWithType: UIButtonTypeCustom];
-    self.filterButton.backgroundColor = [UIColor redColor];
-    self.filterButton.frame = CGRectMake(DoraemonScreenWidth - 80, 12, 50, 30);
-    [self.view addSubview:self.filterButton];
-    
-    self.textField = [[UITextField alloc] initWithFrame: CGRectMake(CGRectGetMaxX(label1.frame), 12, 100, 30)];
-    self.textField.backgroundColor = [UIColor orangeColor];
-    [self.view addSubview:self.textField];
-    
     CGRect tableViewFrame = CGRectMake(0, CGRectGetMaxY(self.textField.frame), DoraemonScreenWidth, DoraemonScreenHeight);
-    self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style: UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame: tableViewFrame];
+    self.tableView.translatesAutoresizingMaskIntoConstraints = false;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-   
-    
+    self.tableView.allowsSelection = false;
+    [self.tableView registerClass: [DoraemonImageDetectionCell class] forCellReuseIdentifier: NSStringFromClass([DoraemonImageDetectionCell class])];
+    self.tableView.tableFooterView = [[UIView alloc] init];
     [self.view addSubview:self.tableView];
+    [self.tableView reloadData];
+    
+}
 
+- (void)setting {
+    
 }
     
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -51,9 +54,13 @@
 }
     
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [[UITableViewCell alloc] init];
-    cell.backgroundColor = [UIColor redColor];
+    DoraemonImageDetectionCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([DoraemonImageDetectionCell class]) forIndexPath:indexPath];
+    [cell setupWithModel: self.images[indexPath.item]];
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [DoraemonImageDetectionCell cellHeight];
 }
 
 @end

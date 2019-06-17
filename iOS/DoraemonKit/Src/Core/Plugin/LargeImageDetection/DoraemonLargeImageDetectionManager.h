@@ -11,14 +11,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DoraemonLargeImageDetectionManager : NSObject
-@property (nonatomic, assign) BOOL isListening;
-@property (nonatomic, strong) NSMutableArray<DoraemonResponseImageModel *> *images;
+@property (nonatomic, strong) NSMutableArray *images;
+@property (nonatomic, assign) BOOL detecting;
 
 + (instancetype) shareInstance;
-
-//- (void)addModel: (DoraemonResponseImageModel *)model;
-- (void)handle: (NSURLResponse *)response;;
-
+- (void)updateInterceptStatus;
 @end
 
 NS_ASSUME_NONNULL_END

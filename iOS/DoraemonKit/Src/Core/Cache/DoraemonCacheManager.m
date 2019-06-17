@@ -132,7 +132,7 @@ static NSString * const kDoraemonLargeImageDetectionKey = @"doraemon_large_image
     [defaults synchronize];
 }
 
-- (BOOL)largeImageDetection{
+- (BOOL)largeImageDetectionSwitch{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     return [defaults boolForKey: kDoraemonLargeImageDetectionKey];
 }

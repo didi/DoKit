@@ -8,16 +8,18 @@
 #import "DoraemonLargeImageDetectionManager.h"
 #import "DoraemonCacheManager.h"
 #import "DoraemonResponseImageModel.h"
+#import "DoraemonNetworkInterceptor.h"
+#import "DoraemonUrlUtil.h"
 
 static DoraemonLargeImageDetectionManager *instance = nil;
 
-@implementation DoraemonLargeImageDetectionManager
-    
--(NSMutableArray<DoraemonResponseImageModel *> *)images {
-    if (_images == nil) {
-        _images = [NSMutableArray array];
-    }
-    return _images;
+@interface DoraemonLargeImageDetectionManager() <DoraemonNetworkInterceptorDelegate>
+@property (nonatomic, assign) int64_t minimumDetectionSize;
+@end
+
+@implementation DoraemonLargeImageDetectionManager {
+    dispatch_semaphore_t semaphore;
+    BOOL _isDetecting;
 }
 
 + (instancetype)shareInstance {
@@ -27,18 +29,51 @@ static DoraemonLargeImageDetectionManager *instance = nil;
     });
     return instance;
 }
-    // todo:
-- (void)setIsListening:(BOOL)isListening {
-    _isListening = isListening;
-    [[DoraemonCacheManager sharedInstance] saveLargeImageDetectionSwitch: isListening];
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _images = [NSMutableArray array];
+        semaphore = dispatch_semaphore_create(1);
+        _isDetecting = NO;
+        _minimumDetectionSize = 50 * 1024;
+    }
+    return self;
 }
-    
-- (void)handle:(NSURLResponse *)response {
+
+- (void)setDetecting:(BOOL)detecting {
+    _isDetecting = detecting;
+    [self updateInterceptStatus];
+}
+
+- (BOOL)detecting {
+    return _isDetecting;
+}
+
+- (void)updateInterceptStatus {
+    if (_isDetecting) {
+        [[DoraemonNetworkInterceptor shareInstance] addDelegate: self];
+    } else {
+        [[DoraemonNetworkInterceptor shareInstance] removeDelegate: self];
+    }
+}
+
+- (void)doraemonNetworkInterceptorDidReceiveData:(NSData *)data response:(NSURLResponse *)response request:(NSURLRequest *)request error:(NSError *)error startTime:(NSTimeInterval)startTime {
     if (![response.MIMEType hasPrefix:@"image/"]) {
         return;
     }
-    DoraemonResponseImageModel *model = [[DoraemonResponseImageModel alloc] initWithResponse: response];
+    if ([DoraemonUrlUtil getResponseLength:response data:data] < self.minimumDetectionSize) {
+        return;
+    }
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+    DoraemonResponseImageModel *model = [[DoraemonResponseImageModel alloc] initWithResponse: response data: data];
     [self.images addObject: model];
+    dispatch_semaphore_signal(semaphore);
+}
+
+#pragma mark -- DoraemonNetworkInterceptorDelegate
+- (BOOL)shouldIntercept {
+    return _isDetecting;
 }
     
 @end

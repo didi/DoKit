@@ -42,7 +42,7 @@
 
 - (void)saveLargeImageDetectionSwitch:(BOOL)on;
 
-- (BOOL)largeImageDetection;
+- (BOOL)largeImageDetectionSwitch;
 
 - (void)saveSubThreadUICheckSwitch:(BOOL)on;
 

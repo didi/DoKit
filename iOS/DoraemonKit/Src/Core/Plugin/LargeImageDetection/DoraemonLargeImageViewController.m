@@ -12,12 +12,13 @@
 #import "DoraemonNetworkInterceptor.h"
 #import "DoraemonLargeImageDetectionManager.h"
 #import "DoraemonLargeImageDetectionListViewController.h"
+#import "DoraemonCellInput.h"
 
 @interface DoraemonLargeImageViewController() <DoraemonSwitchViewDelegate, DoraemonCellButtonDelegate>
 
 @property (nonatomic, strong) DoraemonCellSwitch *switchView;
 @property (nonatomic, strong) DoraemonCellButton *cellBtn;
-
+@property (nonatomic, strong) UITextField *minimumSizeTextField;
 @end
 
 @implementation DoraemonLargeImageViewController
@@ -30,11 +31,12 @@
 - (void)initUI {
     self.title = DoraemonLocalizedString(@"大图检测");
     
-    _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
-    [_switchView renderUIWithTitle:DoraemonLocalizedString(@"大图检测开关") switchOn:[[DoraemonCacheManager sharedInstance] largeImageDetection]];
+    _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.minimumSizeTextField.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
+    [_switchView renderUIWithTitle:DoraemonLocalizedString(@"大图检测开关") switchOn:[[DoraemonCacheManager sharedInstance] largeImageDetectionSwitch]];
     [_switchView needTopLine];
     [_switchView needDownLine];
     _switchView.delegate = self;
+    _switchView.switchView.on = [[DoraemonLargeImageDetectionManager shareInstance] detecting];
     [self.view addSubview:_switchView];
     
     _cellBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _switchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
@@ -45,16 +47,11 @@
 }
 
 - (void)changeSwitchOn:(BOOL)on sender:(id)sender {
-    if (on) {
-        [[DoraemonNetworkInterceptor shareInstance] addListeners: [DoraemonLargeImageDetectionManager shareInstance]];
-    } else {
-        [[DoraemonNetworkInterceptor shareInstance] removeListeners: [DoraemonLargeImageDetectionManager shareInstance]];
-    }
-    [DoraemonLargeImageDetectionManager shareInstance].isListening = on;
+    [DoraemonLargeImageDetectionManager shareInstance].detecting = on;
 }
 
 - (void)cellBtnClick:(id)sender {
-    DoraemonLargeImageDetectionListViewController *vc = [[DoraemonLargeImageDetectionListViewController alloc] init];
+    DoraemonLargeImageDetectionListViewController *vc = [[DoraemonLargeImageDetectionListViewController alloc] initWithImages: [DoraemonLargeImageDetectionManager shareInstance].images];
     [self.navigationController pushViewController:vc animated:YES];
 }
 @end

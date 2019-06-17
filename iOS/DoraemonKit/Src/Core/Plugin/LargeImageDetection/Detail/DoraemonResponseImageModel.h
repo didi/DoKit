@@ -10,7 +10,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DoraemonResponseImageModel : NSObject
-- (instancetype)initWithResponse: (NSURLResponse *)response;
+@property (nonatomic, strong) NSURL *url;
+@property (nonatomic, strong) NSData *data;
+@property (nonatomic, assign) NSString *size;
+
+- (instancetype)initWithResponse: (NSURLResponse *)response data:(NSData *) data;
 @end
 
 NS_ASSUME_NONNULL_END

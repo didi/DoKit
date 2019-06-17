@@ -22,6 +22,7 @@
 #import "DoraemonAllTestManager.h"
 #import "DoraemonStatisticsUtil.h"
 #import "DoraemonANRManager.h"
+#import "DoraemonLargeImageDetectionManager.h"
 
 #if DoraemonWithLogger
 #import "DoraemonCocoaLumberjackLogger.h"
@@ -91,6 +92,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
         [DoraemonCrashUncaughtExceptionHandler registerHandler];
         [DoraemonCrashSignalExceptionHandler registerHandler];
     }
+    [[DoraemonLargeImageDetectionManager shareInstance] setDetecting: [[DoraemonCacheManager sharedInstance] largeImageDetectionSwitch]];
 
     //重新启动的时候，把帧率、CPU、内存和流量监控关闭
     [[DoraemonCacheManager sharedInstance] saveFpsSwitch:NO];
