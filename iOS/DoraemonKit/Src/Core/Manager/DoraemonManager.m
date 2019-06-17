@@ -30,6 +30,11 @@
 #import "DoraemonCocoaLumberjackListViewController.h"
 #endif
 
+#if DoraemonWithWeex
+#import "DoraemonWeexLogDataSource.h"
+#import "DoraemonWeexInfoDataManager.h"
+#endif
+
 #define kTitle        @"title"
 #define kDesc         @"desc"
 #define kIcon         @"icon"
@@ -141,6 +146,12 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     
     //统计开源项目使用量 不用于任何恶意行为
     [[DoraemonStatisticsUtil shareInstance] upLoadUserInfo];
+    
+    //Weex工具的初始化
+#if DoraemonWithWeex
+    [DoraemonWeexLogDataSource shareInstance];
+    [DoraemonWeexInfoDataManager shareInstance];
+#endif
 
 }
 
@@ -149,6 +160,13 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
  初始化内置工具数据
  */
 - (void)initData{
+    #pragma mark - Weex专项工具
+#if DoraemonWithWeex
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexLogPlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexStoragePlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexInfoPlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexDevToolPlugin];
+#endif
     #pragma mark - 常用工具
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAppInfoPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonSandboxPlugin];
@@ -341,7 +359,34 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 - (DoraemonManagerPluginTypeModel *)getDefaultPluginDataWithPluginType:(DoraemonManagerPluginType)pluginType
 {
     NSArray *dataArray = @{
-                           // 常用工具
+                           @(DoraemonManagerPluginType_DoraemonWeexLogPlugin) : @[
+                                   @{kTitle:@"日志"},
+                                   @{kDesc:@"Weex日志显示"},
+                                   @{kIcon:@"doraemon_log"},
+                                   @{kPluginName:@"DoraemonWeexLogPlugin"},
+                                   @{kAtModule:@"Weex专区"}
+                                   ],
+                           @(DoraemonManagerPluginType_DoraemonWeexStoragePlugin) : @[
+                                   @{kTitle:@"缓存"},
+                                   @{kDesc:@"weex storage 查看"},
+                                   @{kIcon:@"doraemon_file"},
+                                   @{kPluginName:@"DoraemonWeexStoragePlugin"},
+                                   @{kAtModule:@"Weex专区"}
+                                   ],
+                           @(DoraemonManagerPluginType_DoraemonWeexInfoPlugin) : @[
+                                   @{kTitle:@"信息"},
+                                   @{kDesc:@"weex 信息查看"},
+                                   @{kIcon:@"doraemon_app_info"},
+                                   @{kPluginName:@"DoraemonWeexInfoPlugin"},
+                                   @{kAtModule:@"Weex专区"}
+                                   ],
+                           @(DoraemonManagerPluginType_DoraemonWeexDevToolPlugin) : @[
+                                   @{kTitle:@"DevTool"},
+                                   @{kDesc:@"weex devtool"},
+                                   @{kIcon:@"doraemon_default"},
+                                   @{kPluginName:@"DoraemonWeexDevTooloPlugin"},
+                                   @{kAtModule:@"Weex专区"}
+                                   ],
                            @(DoraemonManagerPluginType_DoraemonAppInfoPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"App信息")},
                                    @{kDesc:DoraemonLocalizedString(@"App的一些基本信息")},

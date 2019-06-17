@@ -3,7 +3,6 @@ package com.didichuxing.doraemonkit.kit.timecounter;
 import android.os.Looper;
 
 import com.didichuxing.doraemonkit.constant.PageTag;
-import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockMonitorManager;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.ActivityCounter;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.AppCounter;
@@ -22,8 +21,6 @@ public class TimeCounterManager {
         private static TimeCounterManager INSTANCE = new TimeCounterManager();
     }
 
-    private PrinterParser mParser = new PrinterParser();
-
     public static TimeCounterManager get() {
         return TimeCounterManager.Holder.INSTANCE;
     }
@@ -39,12 +36,8 @@ public class TimeCounterManager {
         mAppCounter.end();
     }
 
-    public long getAppInitTime() {
-        return mAppCounter.getTime();
-    }
-
-    public void onActivityStart() {
-        mActivityCounter.start();
+    public void onActivityPause() {
+        mActivityCounter.pause();
     }
 
     public void onActivityPaused() {
@@ -55,7 +48,7 @@ public class TimeCounterManager {
         mActivityCounter.launch();
     }
 
-    public void onActivityCreated() {
+    public void onActivityLaunched() {
         mActivityCounter.launchEnd();
     }
 
@@ -68,9 +61,6 @@ public class TimeCounterManager {
             return;
         }
         mIsRunning = true;
-        // 卡顿检测和跳转耗时统计都使用了Printer的方式，无法同时工作
-        BlockMonitorManager.getInstance().stop();
-        Looper.getMainLooper().setMessageLogging(mParser);
         PageIntent pageIntent = new PageIntent(TimeCounterFloatPage.class);
         pageIntent.tag = PageTag.PAGE_TIME_COUNTER;
         pageIntent.mode = PageIntent.MODE_SINGLE_INSTANCE;
@@ -93,7 +83,8 @@ public class TimeCounterManager {
     public List<CounterInfo> getHistory() {
         return mActivityCounter.getHistory();
     }
-    public CounterInfo getAppSetupInfo(){
-      return   mAppCounter.getAppSetupInfo();
+
+    public CounterInfo getAppSetupInfo() {
+        return mAppCounter.getAppSetupInfo();
     }
 }

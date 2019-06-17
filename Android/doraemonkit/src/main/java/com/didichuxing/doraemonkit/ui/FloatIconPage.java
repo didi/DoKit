@@ -37,7 +37,11 @@ public class FloatIconPage extends BaseFloatPage implements TouchProxy.OnTouchEv
         getRootView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return mTouchProxy.onTouchEvent(v, event);
+                if (getRootView() != null) {
+                    return mTouchProxy.onTouchEvent(v, event);
+                } else {
+                    return false;
+                }
             }
         });
     }

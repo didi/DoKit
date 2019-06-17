@@ -50,14 +50,13 @@ public class SpAdapter extends AbsRecyclerAdapter<AbsViewBinder<SpBean>, SpBean>
             if (spBean.value.getClass().getSimpleName() != SpInputType.HASHSET) {
                 key.setText(spBean.key);
                 type.setText(spBean.value.getClass().getSimpleName());
-                inputView.setInput(spBean.value, new SpInputView.OnDataChangeListener() {
+                inputView.setInput(spBean, new SpInputView.OnDataChangeListener() {
                     @Override
-                    public void onDataChanged(Object o) {
-                        spBean.value = o;
+                    public void onDataChanged() {
+                        inputView.refresh();
                         if (onSpDataChangerListener != null) {
-                            onSpDataChangerListener.onDataChanged(spBean.key, spBean.value);
+                            onSpDataChangerListener.onDataChanged(spBean);
                         }
-
                     }
                 });
             }
@@ -70,8 +69,8 @@ public class SpAdapter extends AbsRecyclerAdapter<AbsViewBinder<SpBean>, SpBean>
         this.onSpDataChangerListener = onSpDataChangerListener;
     }
 
-    public interface OnSpDataChangerListener<T> {
-        void onDataChanged(String key, T t);
+    public interface OnSpDataChangerListener {
+        void onDataChanged(SpBean spBean);
     }
 
 }
