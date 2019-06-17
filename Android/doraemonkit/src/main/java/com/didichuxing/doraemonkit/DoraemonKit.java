@@ -13,7 +13,7 @@ import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRuler;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit;
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPicker;
-import com.didichuxing.doraemonkit.kit.crash.Crash;
+import com.didichuxing.doraemonkit.kit.crash.CrashCapture;
 import com.didichuxing.doraemonkit.kit.custom.Custom;
 import com.didichuxing.doraemonkit.kit.dataclean.DataClean;
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorer;
@@ -29,6 +29,7 @@ import com.didichuxing.doraemonkit.kit.parameter.ram.Ram;
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfo;
 import com.didichuxing.doraemonkit.kit.temporaryclose.TemporaryClose;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterKit;
+import com.didichuxing.doraemonkit.kit.timecounter.instrumentation.HandlerHooker;
 import com.didichuxing.doraemonkit.kit.viewcheck.ViewChecker;
 import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetwork;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoor;
@@ -89,6 +90,7 @@ public class DoraemonKit {
             return;
         }
         sHasInit = true;
+        HandlerHooker.doHook(app);
         ServiceHookManager.getInstance().install();
         app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             int startedActivityCounts;
@@ -160,7 +162,7 @@ public class DoraemonKit {
             tool.add(new GpsMock());
         }
         tool.add(new WebDoor());
-        tool.add(new Crash());
+        tool.add(new CrashCapture());
         tool.add(new LogInfo());
         tool.add(new DataClean());
         tool.add(new WeakNetwork());

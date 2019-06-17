@@ -5,8 +5,8 @@
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.7'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.7'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.8'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.8'
     ...
 }
 ```
@@ -55,11 +55,17 @@ buildscript {
 }
 ```
 
-在app的build.gradle中添加plugin。
+在app的build.gradle中添加plugin和引用。新版本中已经将插件用到的注解类提取到单独的aar中，用以解决
+和其他AspectJ插件冲突问题。如果项目中引用了其他AspectJ插件，请勿引用本插件，改为手动注册。
 
 ```
 ...
 apply plugin: 'android-aspectjx'
+dependencies {
+	...
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:1.0.0'
+    ...
+}
 ```
 
 注：

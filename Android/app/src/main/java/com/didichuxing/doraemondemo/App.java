@@ -1,12 +1,9 @@
 package com.didichuxing.doraemondemo;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.Intent;
 import android.os.StrictMode;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 
 /**
  * Created by zhangweida on 2018/6/22.

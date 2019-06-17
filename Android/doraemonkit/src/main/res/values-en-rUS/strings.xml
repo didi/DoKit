@@ -52,6 +52,9 @@
     <string name="dk_frameinfo_fps">FPS</string>
     <string name="dk_frameinfo_cpu">CPU</string>
     <string name="dk_frameinfo_custom">CUSTOM</string>
+    <string name="dk_frameinfo_upstream">Upstream traffic</string>
+    <string name="dk_frameinfo_downstream">Downstream traffic</string>
+    <string name="dk_frameinfo_avg_value">Average value</string>
 
     <string name="dk_log_info_edt_hint">Enter the keywords you want to filter</string>
     <string name="dk_log_info_verbose">Verbose</string>
@@ -167,6 +170,11 @@
 
     <string name="dk_platform_monitor_data_button">start test</string>
     <string name="dk_platform_monitor_data_button_stop">stop test</string>
+    <string name="dk_platform_monitor_view_stat_data">view statistics</string>
+    <string name="dk_platform_monitor_page_data">page data</string>
     <string name="dk_log_text_loading">Loading...</string>
+    <string name="dk_crash_need_permission">Please authorize permissions</string>
+    <string name="dk_data_clean_toast">Clear system data</string>
+    <string name="dk_error_tips_permissions_less">Please authorize permissions</string>
 
 </resources>

@@ -40,10 +40,14 @@ public class DatabaseUtil {
         Cursor cursor = database.query(tableName, null, null, null, null, null, null);
         int rowCount = cursor.getCount();
         String[][] words = new String[strings.length][rowCount];
-        for (int y = 0; y <rowCount; y++) {
+        for (int y = 0; y < rowCount; y++) {
             if (cursor.moveToNext()) {
                 for (int x = 0; x < strings.length; x++) {
-                    words[x][y] = cursor.getString(x);
+                    if (cursor.getType(x) == Cursor.FIELD_TYPE_BLOB) {
+                        words[x][y] = new String(cursor.getBlob(x));
+                    } else {
+                        words[x][y] = cursor.getString(x);
+                    }
                 }
             }
         }

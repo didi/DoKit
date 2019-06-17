@@ -10,7 +10,7 @@ public interface SharedPrefsKey {
     String FRAME_INFO_MEMORY_OPEN = "frame_info_memory_open";
     String FRAME_INFO_TRAFFIC_OPEN = "frame_info_traffic_open";
     String GPS_MOCK_OPEN = "gps_mock_open";
-    String CRASH_OPEN = "crash_open";
+    String CRASH_CAPTURE_OPEN = "crash_capture_open";
     String FLOAT_ICON_POS_X = "float_icon_pos_x";
     String FLOAT_ICON_POS_Y = "float_icon_pos_y";
     String LOG_INFO_OPEN = "log_info_open";

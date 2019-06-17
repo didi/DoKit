@@ -3,10 +3,10 @@
 ### 1、cocoapods依赖
 
 ```
-    pod 'DoraemonKit/Core', '~> 1.1.8', :configurations => ['Debug']
-    pod 'DoraemonKit/WithLogger', '~> 1.1.8', :configurations => ['Debug']
-    pod 'DoraemonKit/WithGPS', '~> 1.1.8', :configurations => ['Debug']
-    pod 'DoraemonKit/WithLoad', '~> 1.1.8', :configurations => ['Debug']
+    pod 'DoraemonKit/Core', '~> 1.1.9', :configurations => ['Debug']
+    pod 'DoraemonKit/WithLogger', '~> 1.1.9', :configurations => ['Debug']
+    pod 'DoraemonKit/WithGPS', '~> 1.1.9', :configurations => ['Debug']
+    pod 'DoraemonKit/WithLoad', '~> 1.1.9', :configurations => ['Debug']
 ```
 Core subspec作为核心，必须引入。
 
@@ -78,6 +78,17 @@ MockGPS存在一些兼容性问题（绝大部分情况是好的，问题详见[
     [[DoraemonManager shareInstance] install];
 }
 ```
+
+**tips**:目前也支持使用block方式接入自定义测试模块，使用方式如下：
+
+```
+
+    [[DoraemonManager shareInstance] addPluginWithTitle:@"标题" icon:@"doraemon_default" desc:@"测试插件" pluginName:@"TestPlugin(可以为空)" atModule:DoraemonLocalizedString(@"业务工具") handle:^(NSDictionary *itemData) {
+        NSLog(@"handle block plugin");
+    }];
+    
+```
+
 ### 4、swift 接入方式
 pod 同 OC 一样
 

@@ -118,15 +118,15 @@
     NSLog(@"%zi",DDLogFlagVerbose);
     DDLogFlag flag = DDLogFlagVerbose;
     if (index==0) {
-        flag = DDLogFlagVerbose;
+        flag = DDLogFlagVerbose;//16
     }else if(index==1){
-        flag = DDLogFlagDebug;
+        flag = DDLogFlagDebug;//8
     }else if(index==2){
-        flag = DDLogFlagInfo;
+        flag = DDLogFlagInfo;//4
     }else if(index==3){
-        flag = DDLogFlagWarning;
+        flag = DDLogFlagWarning;//2
     }else if(index==4){
-        flag = DDLogFlagError;
+        flag = DDLogFlagError;//1
     }
     
     NSArray *dataArray = self.origArray;
@@ -136,8 +136,8 @@
         if (modelFlag <= flag) {
             [resultArray addObject:model];
         }
-        self.dataArray = [[NSArray alloc] initWithArray:resultArray];
     }
+    self.dataArray = [[NSArray alloc] initWithArray:resultArray];
     [self.tableView reloadData];
     
 }

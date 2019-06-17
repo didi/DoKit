@@ -60,4 +60,9 @@
 
 - (BOOL)methodUseTimeSwitch;
 
+/// 历史记录
+- (NSArray<NSString *> *)h5historicalRecord;
+- (void)saveH5historicalRecordWithText:(NSString *)text;
+- (void)clearAllH5historicalRecord;
+- (void)clearH5historicalRecordWithText:(NSString *)text;
 @end

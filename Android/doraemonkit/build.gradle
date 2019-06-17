@@ -37,10 +37,11 @@ dependencies {
     }
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     compileOnly 'com.squareup.okio:okio:1.15.0'
-    compileOnly 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.4'
     testImplementation 'junit:junit:4.12'
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.google.zxing:core:3.3.0'
+    // Android P禁用hide api，这个库可以支持hide api的反射访问
+    implementation 'me.weishu:free_reflection:2.0.0'
 }
 
 
