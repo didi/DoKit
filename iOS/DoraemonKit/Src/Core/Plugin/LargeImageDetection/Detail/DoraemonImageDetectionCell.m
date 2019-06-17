@@ -2,14 +2,14 @@
 //  DoraemonImageDetectionCell.m
 //  DoraemonKit
 //
-//  Created by licd on 2019/5/17.
+//  Created by 0xd-cc on 2019/5/17.
 //
 
 #import "DoraemonImageDetectionCell.h"
 #import "DoraemonResponseImageModel.h"
 
 @interface DoraemonImageDetectionCell()
-@property (nonatomic, strong) UIImageView *imageView1;
+@property (nonatomic, strong) UIImageView *previewImageView;
 @property (nonatomic, strong) UILabel *urlLabel;
 @property (nonatomic, strong) UILabel *sizeLabel;
 @property (nonatomic, strong) UIButton *button;
@@ -30,7 +30,7 @@
 
 - (void)setupWithModel:(DoraemonResponseImageModel *)model {
     self.urlLabel.text = [model.url absoluteString];
-    self.imageView1.image = [UIImage imageWithData: model.data];
+    self.previewImageView.image = [UIImage imageWithData: model.data];
     self.sizeLabel.text = [NSString stringWithFormat: @"size: %@", model.size];
 }
 
@@ -38,12 +38,12 @@
     CGFloat buttonWidth = 44;
     CGFloat space = 8;
     
-    self.imageView1 = [[UIImageView alloc] initWithFrame: CGRectMake(space, space, 100, 100)];
-    self.imageView1.backgroundColor = [UIColor colorWithRed: 0 green: 0 blue:0 alpha: 0.3];
-    self.imageView1.contentMode = UIViewContentModeScaleAspectFit;
-    [self addSubview: self.imageView1];
+    self.previewImageView = [[UIImageView alloc] initWithFrame: CGRectMake(space, space, 100, 100)];
+    self.previewImageView.backgroundColor = [UIColor colorWithRed: 0 green: 0 blue:0 alpha: 0.3];
+    self.previewImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self addSubview: self.previewImageView];
     
-    UIView *imageInfoView = [[UIView alloc] initWithFrame: CGRectMake(self.imageView1.doraemon_width + (space * 2), self.imageView1.doraemon_y, DoraemonScreenWidth - self.imageView1.doraemon_right - (space * 2), self.imageView1.doraemon_height)];
+    UIView *imageInfoView = [[UIView alloc] initWithFrame: CGRectMake(self.previewImageView.doraemon_width + (space * 2), self.previewImageView.doraemon_y, DoraemonScreenWidth - self.previewImageView.doraemon_right - (space * 2), self.previewImageView.doraemon_height)];
     [self addSubview: imageInfoView];
     
     self.sizeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, imageInfoView.doraemon_width, 15)];

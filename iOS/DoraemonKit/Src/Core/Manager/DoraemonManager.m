@@ -504,8 +504,8 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                            
                            @(DoraemonManagerPluginType_DoraemonLargeImageFilter) : @[
                                    @{kTitle:DoraemonLocalizedString(@"大图检测")},
-                                   @{kDesc:DoraemonLocalizedString(@"Load方法消耗时间")},
-                                   @{kIcon:@"doraemon_method_use_time"},
+                                   @{kDesc:DoraemonLocalizedString(@"大图检测")},
+                                   @{kIcon:@"doraemon_net"},
                                    @{kPluginName:@"DoraemonLargeImagePlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")}
                                    ],
