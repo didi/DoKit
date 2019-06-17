@@ -2,7 +2,7 @@
 //  DoraemonImageDetectionCell.m
 //  DoraemonKit
 //
-//  Created by licd on 2019/5/17.
+//  Created by 0xd-cc on 2019/5/17.
 //
 
 #import "DoraemonImageDetectionCell.h"

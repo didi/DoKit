@@ -2,7 +2,7 @@
 //  DoraemonResponseImageModel.h
 //  DoraemonKit
 //
-//  Created by licd on 2019/5/16.
+//  Created by 0xd-cc on 2019/5/16.
 //
 
 #import <Foundation/Foundation.h>

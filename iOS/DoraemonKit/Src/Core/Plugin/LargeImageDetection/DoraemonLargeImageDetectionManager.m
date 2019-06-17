@@ -2,7 +2,7 @@
 //  DoraemonLargeImageDetectionManager.m
 //  DoraemonKit
 //
-//  Created by licd on 2019/5/15.
+//  Created by 0xd-cc on 2019/5/15.
 //
 
 #import "DoraemonLargeImageDetectionManager.h"
