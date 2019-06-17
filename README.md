@@ -2,7 +2,7 @@
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
  <img src="https://img.shields.io/badge/Android-1.1.8-blue.svg" align=left />
- <img src="https://img.shields.io/badge/iOS-1.1.9-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/iOS-1.2.0-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
 
@@ -66,6 +66,13 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 2. **【组件检查】** 可以抓取任意一个UI控件，查看它们的详细信息，包括控件名称、控件位置、背景色、字体颜色、字体大小；
 3. **【对齐标尺】** 参考 Android 系统自带测试工具，能够实时捕获屏幕坐标，并且可以查看组件是否对齐；
 4. **【元素边框线】** 绘制出每一个 UI 组件的边框，对于组件布局有一定的参考意义。 
+
+### 四、Weex专项工具（iOS）
+
+1. **【console日志查看】** 方便在端上查看每一个Weex文件中的console日志，提供分级和搜索功能；
+2. **【storage缓存查看】** 将Weex中的storage模块的本地缓存数据可视化展示；
+3. **【容器信息】** 查看每一个打开的Weex页面的基本信息和性能数据；
+4. **【DevTool】** 快速开启Weex DevTool的扫码入口。
 
 ## 接入文档
 
