@@ -24,31 +24,31 @@ PODS:
   - CocoaLumberjack (3.5.3):
     - CocoaLumberjack/Core (= 3.5.3)
   - CocoaLumberjack/Core (3.5.3)
-  - DoraemonKit/Core (1.1.9):
+  - DoraemonKit/Core (1.2.0):
     - BSBacktraceLogger
     - fishhook
     - PNChart
     - "UITextView+Placeholder"
-  - DoraemonKit/WithGPS (1.1.9):
-    - BSBacktraceLogger
-    - DoraemonKit/Core
-    - fishhook
-    - PNChart
-    - "UITextView+Placeholder"
-  - DoraemonKit/WithLoad (1.1.9):
+  - DoraemonKit/WithGPS (1.2.0):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
     - PNChart
     - "UITextView+Placeholder"
-  - DoraemonKit/WithLogger (1.1.9):
+  - DoraemonKit/WithLoad (1.2.0):
+    - BSBacktraceLogger
+    - DoraemonKit/Core
+    - fishhook
+    - PNChart
+    - "UITextView+Placeholder"
+  - DoraemonKit/WithLogger (1.2.0):
     - BSBacktraceLogger
     - CocoaLumberjack
     - DoraemonKit/Core
     - fishhook
     - PNChart
     - "UITextView+Placeholder"
-  - DoraemonKit/WithWeex (1.1.9):
+  - DoraemonKit/WithWeex (1.2.0):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
@@ -96,7 +96,7 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   BSBacktraceLogger: 06b983ee93a9f87d957960e9c73d660d5966b447
   CocoaLumberjack: 2f44e60eb91c176d471fdba43b9e3eae6a721947
-  DoraemonKit: e376b30bdb520ff5a64170dcb1e1c951be790f9f
+  DoraemonKit: 800be28118fb88d57eadbded1222746d7c55cb8a
   fishhook: ea19933abfe8f2f52c55fd8b6e2718467d3ebc89
   PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531

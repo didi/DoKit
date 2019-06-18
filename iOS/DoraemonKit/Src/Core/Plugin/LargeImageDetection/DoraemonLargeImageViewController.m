@@ -18,7 +18,6 @@
 
 @property (nonatomic, strong) DoraemonCellSwitch *switchView;
 @property (nonatomic, strong) DoraemonCellButton *cellBtn;
-@property (nonatomic, strong) UITextField *minimumSizeTextField;
 @end
 
 @implementation DoraemonLargeImageViewController
@@ -31,7 +30,7 @@
 - (void)initUI {
     self.title = DoraemonLocalizedString(@"大图检测");
     
-    _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.minimumSizeTextField.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
+    _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
     [_switchView renderUIWithTitle:DoraemonLocalizedString(@"大图检测开关") switchOn:[[DoraemonCacheManager sharedInstance] largeImageDetectionSwitch]];
     [_switchView needTopLine];
     [_switchView needDownLine];
@@ -44,6 +43,10 @@
     _cellBtn.delegate = self;
     [_cellBtn needDownLine];
     [self.view addSubview:_cellBtn];
+}
+
+- (BOOL)needBigTitleView{
+    return YES;
 }
 
 - (void)changeSwitchOn:(BOOL)on sender:(id)sender {
