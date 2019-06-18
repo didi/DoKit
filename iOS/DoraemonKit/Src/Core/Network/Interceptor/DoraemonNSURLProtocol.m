@@ -10,6 +10,7 @@
 #import "DoraemonNetFlowDataSource.h"
 #import "DoraemonNetFlowManager.h"
 #import "DoraemonURLSessionDemux.h"
+#import "DoraemonNetworkInterceptor.h"
 
 static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 
@@ -49,7 +50,7 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     if ([NSURLProtocol propertyForKey:kDoraemonProtocolKey inRequest:request]) {
         return NO;
     }
-    if (![DoraemonNetFlowManager shareInstance].canIntercept) {
+    if (![DoraemonNetworkInterceptor shareInstance].shouldIntercept) {
         return NO;
     }
     if (![request.URL.scheme isEqualToString:@"http"] &&
@@ -61,7 +62,6 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     if (contentType && [contentType containsString:@"multipart/form-data"]) {
         return NO;
     }
-    //NSLog(@"DoraemonNSURLProtocol == %@",request.URL.absoluteString);
     return YES;
 }
 
@@ -105,16 +105,11 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 - (void)stopLoading{
     assert(self.clientThread != nil);
     assert([NSThread currentThread] == self.clientThread);
-    
-    DoraemonNetFlowHttpModel *httpModel = [DoraemonNetFlowHttpModel dealWithResponseData:self.data response:self.response request:self.request];
-    if (!self.response) {
-        httpModel.statusCode = self.error.localizedDescription;
-    }
-    httpModel.startTime = self.startTime;
-    httpModel.endTime = [[NSDate date] timeIntervalSince1970];
-    
-    httpModel.totalDuration = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] - self.startTime];
-    [[DoraemonNetFlowDataSource shareInstance] addHttpModel:httpModel];
+    [[DoraemonNetworkInterceptor shareInstance] handleResultWithData: self.data
+                                                            response: self.response
+                                                             request:self.request
+                                                               error:self.error
+                                                           startTime:self.startTime];
     
     if (self.task != nil) {
         [self.task cancel];
