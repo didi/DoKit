@@ -17,6 +17,8 @@
 		DA63F1D321C8CF9500E0D9F5 /* huoying.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = DA63F1D221C8CCAB00E0D9F5 /* huoying.mp4 */; };
 		DABBE3B221D3AA260070518E /* DoraemonUIWebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DABBE3B121D3AA260070518E /* DoraemonUIWebViewViewController.m */; };
 		DABBE3B521D3AA4D0070518E /* DoraemonWKWebViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DABBE3B421D3AA4D0070518E /* DoraemonWKWebViewViewController.m */; };
+		DAC3FA7622B8DD7400871E5C /* DoraemonDemoImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC3FA7522B8DD7400871E5C /* DoraemonDemoImageViewController.m */; };
+		DAC3FA7922B8E0EE00871E5C /* DoraemonDemoImageShowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC3FA7822B8E0EE00871E5C /* DoraemonDemoImageShowViewController.m */; };
 		DAC8A87C1FDE2C3B00F03E6F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC8A87B1FDE2C3B00F03E6F /* AppDelegate.m */; };
 		DAC8A8841FDE2C3B00F03E6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DAC8A8831FDE2C3B00F03E6F /* Assets.xcassets */; };
 		DAC8A88A1FDE2C3B00F03E6F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DAC8A8891FDE2C3B00F03E6F /* main.m */; };
@@ -50,6 +52,10 @@
 		DABBE3B321D3AA4D0070518E /* DoraemonWKWebViewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonWKWebViewViewController.h; sourceTree = "<group>"; };
 		DABBE3B421D3AA4D0070518E /* DoraemonWKWebViewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonWKWebViewViewController.m; sourceTree = "<group>"; };
 		DAC0D76F1FE103A50048E322 /* DoraemonKitDemo-PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DoraemonKitDemo-PrefixHeader.pch"; sourceTree = "<group>"; };
+		DAC3FA7422B8DD7400871E5C /* DoraemonDemoImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoImageViewController.h; sourceTree = "<group>"; };
+		DAC3FA7522B8DD7400871E5C /* DoraemonDemoImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoImageViewController.m; sourceTree = "<group>"; };
+		DAC3FA7722B8E0EE00871E5C /* DoraemonDemoImageShowViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoImageShowViewController.h; sourceTree = "<group>"; };
+		DAC3FA7822B8E0EE00871E5C /* DoraemonDemoImageShowViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoImageShowViewController.m; sourceTree = "<group>"; };
 		DAC8A8771FDE2C3B00F03E6F /* DoraemonKitDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoraemonKitDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAC8A87A1FDE2C3B00F03E6F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DAC8A87B1FDE2C3B00F03E6F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -149,6 +155,17 @@
 			path = WebView;
 			sourceTree = "<group>";
 		};
+		DAC3FA7322B8DD5C00871E5C /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				DAC3FA7422B8DD7400871E5C /* DoraemonDemoImageViewController.h */,
+				DAC3FA7522B8DD7400871E5C /* DoraemonDemoImageViewController.m */,
+				DAC3FA7722B8E0EE00871E5C /* DoraemonDemoImageShowViewController.h */,
+				DAC3FA7822B8E0EE00871E5C /* DoraemonDemoImageShowViewController.m */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
 		DAC8A86E1FDE2C3B00F03E6F = {
 			isa = PBXGroup;
 			children = (
@@ -231,6 +248,7 @@
 		DAFE050C21BD4A4C00F97A59 /* Net */ = {
 			isa = PBXGroup;
 			children = (
+				DAC3FA7322B8DD5C00871E5C /* Image */,
 				DABBE3AF21D3A9F40070518E /* WebView */,
 				DAFE050D21BD4A4C00F97A59 /* DoraemonDemoNetViewController.h */,
 				DAFE050E21BD4A4C00F97A59 /* DoraemonDemoNetViewController.m */,
@@ -453,6 +471,8 @@
 				DABBE3B221D3AA260070518E /* DoraemonUIWebViewViewController.m in Sources */,
 				DAFE052C21BD4A4D00F97A59 /* DoraemonDemoCommonViewController.m in Sources */,
 				DAFE052A21BD4A4D00F97A59 /* DoraemonDemoCrashMRCView.m in Sources */,
+				DAC3FA7622B8DD7400871E5C /* DoraemonDemoImageViewController.m in Sources */,
+				DAC3FA7922B8E0EE00871E5C /* DoraemonDemoImageShowViewController.m in Sources */,
 				DAC8A87C1FDE2C3B00F03E6F /* AppDelegate.m in Sources */,
 				DAFE052821BD4A4D00F97A59 /* DoraemonDemoLoggerViewController.m in Sources */,
 				DAFE052E21BD4A4D00F97A59 /* DoraemonDemoMockGPSViewController.m in Sources */,

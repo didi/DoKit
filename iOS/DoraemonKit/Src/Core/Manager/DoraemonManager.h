@@ -112,4 +112,6 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 - (void)hiddenHomeWindow;
 
+@property (nonatomic, assign) int64_t bigImageDetectionSize; // 外部设置大图检测的监控数值  比如监控所有图片大于50K的图片 那么这个值就设置为 50 * 1024；
+
 @end

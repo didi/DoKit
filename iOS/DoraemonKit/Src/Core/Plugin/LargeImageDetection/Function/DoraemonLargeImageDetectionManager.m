@@ -14,7 +14,6 @@
 static DoraemonLargeImageDetectionManager *instance = nil;
 
 @interface DoraemonLargeImageDetectionManager() <DoraemonNetworkInterceptorDelegate>
-@property (nonatomic, assign) int64_t minimumDetectionSize;
 @end
 
 @implementation DoraemonLargeImageDetectionManager {

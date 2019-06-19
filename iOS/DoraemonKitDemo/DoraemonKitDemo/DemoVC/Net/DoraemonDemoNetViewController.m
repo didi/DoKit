@@ -13,6 +13,7 @@
 #import "DoraemonDefine.h"
 #import "DoraemonUIWebViewViewController.h"
 #import "DoraemonWKWebViewViewController.h"
+#import "DoraemonDemoImageViewController.h"
 
 @interface DoraemonDemoNetViewController ()<NSURLConnectionDataDelegate,NSURLSessionDelegate>
 
@@ -72,6 +73,12 @@
     [btn5 addTarget:self action:@selector(openWKWebView) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn5];
     
+    UIButton *btn6 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn5.doraemon_bottom+20, self.view.doraemon_width, 60)];
+    btn6.backgroundColor = [UIColor orangeColor];
+    [btn6 setTitle:DoraemonLocalizedString(@"图片测试") forState:UIControlStateNormal];
+    [btn6 addTarget:self action:@selector(imageTest) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn6];
+    
 }
 
 - (void)openUIWebView{
@@ -81,6 +88,11 @@
 
 - (void)openWKWebView{
     UIViewController *vc = [[DoraemonWKWebViewViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)imageTest{
+    DoraemonDemoImageViewController *vc = [[DoraemonDemoImageViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

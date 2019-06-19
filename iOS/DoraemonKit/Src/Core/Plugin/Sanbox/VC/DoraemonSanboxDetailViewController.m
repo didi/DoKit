@@ -17,9 +17,7 @@
 
 @interface DoraemonSanboxDetailViewController ()<QLPreviewControllerDelegate,QLPreviewControllerDataSource,UITableViewDelegate,UITableViewDataSource>
 
-@property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UITextView *textView;
-@property (nonatomic, strong) AVPlayerViewController *playerView;
 @property (nonatomic, copy) NSArray *tableNameArray;
 @property (nonatomic, strong) UITableView *dbTableNameTableView;
 

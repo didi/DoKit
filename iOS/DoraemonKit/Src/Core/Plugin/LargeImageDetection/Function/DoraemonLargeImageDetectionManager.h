@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DoraemonLargeImageDetectionManager : NSObject
 @property (nonatomic, strong) NSMutableArray *images;
 @property (nonatomic, assign) BOOL detecting;
+@property (nonatomic, assign) int64_t minimumDetectionSize;
 
 + (instancetype) shareInstance;
 - (void)updateInterceptStatus;

@@ -14,4 +14,5 @@ end
 target :'DoraemonKitDemo' do
     pod 'DoraemonKit', :subspecs => ['Core','WithLogger','WithGPS','WithLoad','WithWeex'],  :path => '../../'
     pod 'AFNetworking','2.6.3'
+    pod 'SDWebImage'
 end

@@ -97,7 +97,6 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
         [DoraemonCrashUncaughtExceptionHandler registerHandler];
         [DoraemonCrashSignalExceptionHandler registerHandler];
     }
-    [[DoraemonLargeImageDetectionManager shareInstance] setDetecting: [[DoraemonCacheManager sharedInstance] largeImageDetectionSwitch]];
 
     //重新启动的时候，把帧率、CPU、内存和流量监控关闭
     [[DoraemonCacheManager sharedInstance] saveFpsSwitch:NO];
@@ -143,6 +142,11 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     
     //监听DoraemonStateBar点击事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(quickOpenLogVC:) name:DoraemonQuickOpenLogVCNotification object:nil];
+    
+    //外部设置大图检测的数值
+    if (_bigImageDetectionSize > 0){
+        [DoraemonLargeImageDetectionManager shareInstance].minimumDetectionSize = _bigImageDetectionSize;
+    }
     
     //统计开源项目使用量 不用于任何恶意行为
     [[DoraemonStatisticsUtil shareInstance] upLoadUserInfo];
