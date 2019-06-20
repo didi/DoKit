@@ -6,111 +6,71 @@
 //
 
 #import "UIView+DoraemonViewMetrics.h"
-#import "DoraemonMetricsView.h"
 #import "DoraemonViewMetricsConfig.h"
 #import "NSObject+Doraemon.h"
+#import <objc/runtime.h>
+
+
+@interface UIView ()
+
+@property (nonatomic ,strong) CALayer *metricsBorderLayer;
+
+@end
+
 
 @implementation UIView (DoraemonViewMetrics)
 
-+ (void)load{
-    if ([NSStringFromClass([self class]) isEqualToString:@"UIView"]) {
-        [[self  class] doraemon_swizzleInstanceMethodWithOriginSel:@selector(layoutSubviews) swizzledSel:@selector(doraemon_layoutSubviews)];
-    }
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [[self class] doraemon_swizzleInstanceMethodWithOriginSel:@selector(layoutSubviews) swizzledSel:@selector(doraemon_layoutSubviews)];
+    });
 }
 
 - (void)doraemon_layoutSubviews
 {
     [self doraemon_layoutSubviews];
-    [self showDoraemonMetrics];
+    [self doraemonMetricsRecursiveEnable:DoraemonViewMetricsConfig.defaultConfig.enable];
 }
 
-- (BOOL)shouldShowMetricsView
+- (void)doraemonMetricsRecursiveEnable:(BOOL)enable
 {
-    if (![DoraemonViewMetricsConfig defaultConfig].enable) {
-        return NO;
-    }
-    
-    if ([self isKindOfClass:[DoraemonMetricsView class]]) {
-        return NO;
-    }
-    
-    //高德地图也有问题
-    NSString *className = NSStringFromClass([self class]);
-    if ([className hasPrefix:@"MA"]) {
-        return NO;
-    }
-    
-    // 状态栏不需要显示元素边框
-    NSString *statusBarString = [NSString stringWithFormat:@"_statusBarWindow"];
-    UIWindow *statusBarWindow = [[UIApplication sharedApplication] valueForKey:statusBarString];
+    // 状态栏不显示元素边框
+    UIWindow *statusBarWindow = [[UIApplication sharedApplication] valueForKey:@"_statusBarWindow"];
     if (statusBarWindow && [self isDescendantOfView:statusBarWindow]) {
-        return NO;
-    }
-    
-    if ([self isInBlackList]) {
-        return NO;
-    }
-    return YES;
-}
-
-- (void)showDoraemonMetricsRecursive
-{
-    for (UIView *subView in self.subviews) {
-        [subView showDoraemonMetricsRecursive];
-    }
-    [self showDoraemonMetrics];
-}
-
-- (void)showDoraemonMetrics
-{
-    if (![self shouldShowMetricsView]) {
-        [self hideDoraemonMetricsRecursive];
         return;
     }
-    
-    DoraemonMetricsView *metricsView = [self getDoraemonMetricsView];
-    if (!metricsView) {
-        metricsView = [[DoraemonMetricsView alloc] initWithFrame:self.bounds];
-        metricsView.tag = [NSStringFromClass([DoraemonMetricsView class]) hash]+(NSInteger)self;
-        metricsView.userInteractionEnabled = NO;
-        [self addSubview:metricsView];
-    }
-    
-    metricsView.layer.borderColor = [DoraemonViewMetricsConfig defaultConfig].borderColor.CGColor;
-    metricsView.layer.borderWidth  = [DoraemonViewMetricsConfig defaultConfig].borderWidth;
-    metricsView.hidden = ![DoraemonViewMetricsConfig defaultConfig].enable;
-}
 
-- (void)hideDoraemonMetricsRecursive
-{
     for (UIView *subView in self.subviews) {
-        [subView hideDoraemonMetricsRecursive];
+        [subView doraemonMetricsRecursiveEnable:enable];
     }
-    [self hideDoraemonMetrics];
-}
-
-- (void)hideDoraemonMetrics
-{
-    DoraemonMetricsView *metricsView = [self getDoraemonMetricsView];
-    if (metricsView) {
-        metricsView.hidden = YES;
-    }
-}
-
-- (DoraemonMetricsView *)getDoraemonMetricsView
-{
-    NSInteger tag = [NSStringFromClass([DoraemonMetricsView class]) hash]+(NSInteger)self;
-    return (DoraemonMetricsView*)[self viewWithTag:tag];
-}
-
-- (BOOL)isInBlackList
-{
-    for (NSString *clsStr in [DoraemonViewMetricsConfig defaultConfig].blackList) {
-        if ([self isKindOfClass:NSClassFromString(clsStr)]) {
-            return YES;
+    
+    if (enable) {
+        if (!self.metricsBorderLayer) {
+            UIColor *borderColor = DoraemonViewMetricsConfig.defaultConfig.borderColor ? DoraemonViewMetricsConfig.defaultConfig.borderColor : UIColor.doraemon_randomColor;
+            self.metricsBorderLayer = ({
+                CALayer *layer = CALayer.new;
+                layer.borderWidth = DoraemonViewMetricsConfig.defaultConfig.borderWidth;
+                layer.borderColor = borderColor.CGColor;
+                layer;
+            });
+            [self.layer addSublayer:self.metricsBorderLayer];
         }
+        
+        self.metricsBorderLayer.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
+        self.metricsBorderLayer.hidden = NO;
+    } else if (self.metricsBorderLayer) {
+        self.metricsBorderLayer.hidden = YES;
     }
-    return NO;
 }
 
+- (void)setMetricsBorderLayer:(CALayer *)metricsBorderLayer
+{
+    objc_setAssociatedObject(self, @selector(metricsBorderLayer), metricsBorderLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (CALayer *)metricsBorderLayer
+{
+    return objc_getAssociatedObject(self, _cmd);
+}
 @end

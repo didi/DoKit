@@ -9,11 +9,9 @@
 
 @interface DoraemonViewMetricsConfig : NSObject
 
-@property (nonatomic, strong) UIColor *borderColor;     //default red
+@property (nonatomic, strong) UIColor *borderColor;     //default randomColor
 @property (nonatomic, assign) CGFloat borderWidth;      //default 1
 @property (nonatomic, assign) BOOL enable;              //default NO
-@property (nonatomic, assign) BOOL ignoreSystemView;    //default YES
-@property (nonatomic, strong) NSArray <NSString *> *blackList;
 
 + (instancetype)defaultConfig;
 
