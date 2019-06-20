@@ -59,9 +59,9 @@ PODS:
   - fishhook (0.2)
   - PNChart (0.8.9):
     - UICountingLabel (~> 1.2.0)
-  - SDWebImage (5.0.6):
-    - SDWebImage/Core (= 5.0.6)
-  - SDWebImage/Core (5.0.6)
+  - SDWebImage (3.7.6):
+    - SDWebImage/Core (= 3.7.6)
+  - SDWebImage/Core (3.7.6)
   - SocketRocket (0.5.1)
   - UICountingLabel (1.2.0)
   - "UITextView+Placeholder (1.2.1)"
@@ -77,7 +77,7 @@ DEPENDENCIES:
   - DoraemonKit/WithLoad (from `../../`)
   - DoraemonKit/WithLogger (from `../../`)
   - DoraemonKit/WithWeex (from `../../`)
-  - SDWebImage
+  - SDWebImage (= 3.7.6)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -104,13 +104,13 @@ SPEC CHECKSUMS:
   DoraemonKit: 800be28118fb88d57eadbded1222746d7c55cb8a
   fishhook: ea19933abfe8f2f52c55fd8b6e2718467d3ebc89
   PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
-  SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
+  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
   "UITextView+Placeholder": 0c3efd97f37ea64bde7f34cc6e90fe02e87b3909
   WeexSDK: 5bd35be9c035c67c84d1ba15712360bb0d0ba6b5
   WXDevtool: 833dd3e835df1f5f278fc8865c865d48196bfdab
 
-PODFILE CHECKSUM: 23f7937440f2143e626b191777e4b7a5f6064ed9
+PODFILE CHECKSUM: e9faca58dae8c6c0cc8affa40011ac98b192bf6a
 
 COCOAPODS: 1.6.2
