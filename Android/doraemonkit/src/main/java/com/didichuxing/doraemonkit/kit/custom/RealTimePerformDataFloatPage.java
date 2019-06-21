@@ -15,14 +15,10 @@ import android.widget.TextView;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.PerformanceInfoConfig;
 import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
-import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;
 import com.didichuxing.doraemonkit.ui.base.BaseFloatPage;
 import com.didichuxing.doraemonkit.ui.base.TouchProxy;
 import com.didichuxing.doraemonkit.util.UIUtils;
-
-import java.util.List;
 
 /**
  *
@@ -119,15 +115,25 @@ public class RealTimePerformDataFloatPage extends BaseFloatPage implements Touch
             mDownNetworkTxt.setVisibility(View.VISIBLE);
             mUpNetworkTxt.setVisibility(View.VISIBLE);
 
-            List<NetworkRecord> records = NetworkManager.get().getRecords();
-            long requestLength = null != records && 0 < records.size() ? records.get(records.size() - 1).requestLength : 0;
-            long responseLength = null != records && 0 < records.size() ? records.get(records.size() - 1).responseLength : 0;
-            mDownNetworkTxt.setText(String.format("%s:  %sB", getString(R.string.dk_frameinfo_downstream), requestLength));
-            mUpNetworkTxt.setText(String.format("%s:  %sB", getString(R.string.dk_frameinfo_upstream), responseLength));
+            mDownNetworkTxt.setText(String.format("%s%s", getString(R.string.dk_frameinfo_downstream), getFlowTxt(manager.getLastDownBytes())));
+            mUpNetworkTxt.setText(String.format("%s%s", getString(R.string.dk_frameinfo_upstream), getFlowTxt(manager.getLastUpBytes())));
         }else{
             mDownNetworkTxt.setVisibility(View.INVISIBLE);
             mUpNetworkTxt.setVisibility(View.INVISIBLE);
         }
+    }
+
+    public static String getFlowTxt(long flowBytes) {
+        String upFlowTxt = flowBytes+"B";
+        if(1073741824 < flowBytes) {
+            upFlowTxt = flowBytes/1073741824 +"GB";
+        }else if(1048576 < flowBytes) {
+            upFlowTxt = flowBytes/1048576 +"MB";
+        }else if(1024 < flowBytes) {
+            upFlowTxt = flowBytes/1024 +"KB";
+        }
+
+        return upFlowTxt;
     }
 
     @Override

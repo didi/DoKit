@@ -11,20 +11,22 @@ import android.view.View;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.fileexplorer.FileInfo;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
 import com.didichuxing.doraemonkit.util.JsonUtil;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 public class PageDataFragment extends BaseFragment {
     private RecyclerView mRvList;
@@ -99,53 +101,75 @@ public class PageDataFragment extends BaseFragment {
             return dataItems;
         }
 
+        Map<String,List<UploadMonitorItem>> listMap = new TreeMap<>();
         for (UploadMonitorInfoBean infoBean : infoBeans) {
             if(null == infoBean || null == infoBean.performanceArray || 0 >= infoBean.performanceArray.size()){
                 continue;
             }
 
-            PageDataItem item = new PageDataItem();
+            List<UploadMonitorItem> performanceInfos = infoBean.performanceArray;
+            for (UploadMonitorItem item : performanceInfos) {
+                List<UploadMonitorItem> itemList = listMap.get(item.page);
+                if(null == itemList){
+                    itemList = new ArrayList<>();
+                    listMap.put(item.page, itemList);
+                }
 
-            List<PerformanceInfo> performanceInfos = infoBean.performanceArray;
-            item.pageName = infoBean.appName;
-
-            item.upNetWork  =new PageDataItemChild<>(R.string.dk_frameinfo_upstream);
-            item.downNetWork = new PageDataItemChild<>(R.string.dk_frameinfo_downstream);
-            item.memory = new PageDataItemChild<>(R.string.dk_frameinfo_ram);
-            item.cpu = new PageDataItemChild<>(R.string.dk_frameinfo_cpu);
-            item.fps = new PageDataItemChild<>(R.string.dk_frameinfo_fps);
-
-            for (PerformanceInfo info : performanceInfos) {
-                setValue(item.memory,info.memory);
-                setValue(item.cpu,info.cpu);
-                setValue(item.fps,info.fps);
+                itemList.add(item);
             }
+        }
 
-            item.memory.avg /= performanceInfos.size();
-            item.cpu.avg /= performanceInfos.size();
-            item.fps.avg /= performanceInfos.size();
-
-            dataItems.add(item);
+        for (String pageName : listMap.keySet()) {
+            dataItems.addAll(getPageItemData(pageName, listMap.get(pageName)));
         }
 
         return dataItems;
     }
-    private void setValue(PageDataItemChild<Float> child, float newValue) {
-        child.min = Math.min(null == child.min ? 0:child.min, newValue);
-        child.max = Math.max(null == child.max ? 0:child.max, newValue);
-        child.avg = (null == child.avg ? 0:child.avg)+newValue;
+
+    private List<PageDataItem> getPageItemData(String appName, List<UploadMonitorItem> performanceInfos) {
+        List<PageDataItem> dataItems = new ArrayList<>();
+
+        PageDataItem item = new PageDataItem();
+        item.pageName = appName;
+
+        item.upNetWork  =new PageDataItemChild(R.string.dk_frameinfo_upstream);
+        item.downNetWork = new PageDataItemChild(R.string.dk_frameinfo_downstream);
+        item.memory = new PageDataItemChild(R.string.dk_frameinfo_ram);
+        item.cpu = new PageDataItemChild(R.string.dk_frameinfo_cpu);
+        item.fps = new PageDataItemChild(R.string.dk_frameinfo_fps);
+
+        for (UploadMonitorItem monitorItem : performanceInfos) {
+            setValue(item.upNetWork,monitorItem.upFlow);
+            setValue(item.downNetWork,monitorItem.downFlow);
+            setValue(item.memory,monitorItem.memory);
+            setValue(item.cpu,monitorItem.cpu);
+            setValue(item.fps,monitorItem.fps);
+        }
+
+        int size = performanceInfos.size();
+        if(0 < size){
+            item.upNetWork.avg /= size;
+            item.downNetWork.avg /= size;
+            item.memory.avg /= size;
+            item.cpu.avg /= size;
+            item.fps.avg /= size;
+        }else{
+            item.upNetWork.avg = 0;
+            item.downNetWork.avg = 0;
+            item.memory.avg = 0;
+            item.cpu.avg = 0;
+            item.fps.avg = 0;
+        }
+
+        dataItems.add(item);
+
+        return dataItems;
     }
 
-    private void setValue(PageDataItemChild<Integer> child, int newValue) {
-        child.min = Math.min(null == child.min ? 0:child.min, newValue);
-        child.max = Math.max(null == child.max ? 0:child.max, newValue);
-        child.avg = (null == child.avg ? 0:child.avg)+newValue;
-    }
-
-    private void setValue(PageDataItemChild<Double> child, double newValue) {
-        child.min = Math.min(null == child.min ? 0:child.min, newValue);
-        child.max = Math.max(null == child.max ? 0:child.max, newValue);
-        child.avg = (null == child.avg ? 0:child.avg)+newValue;
+    private void setValue(PageDataItemChild child, double newValue) {
+        child.min = 0 == child.min || 0 == newValue ? child.min+newValue : Math.min(child.min, newValue);
+        child.max = 0 == child.max || 0 == newValue ? child.max+newValue : Math.max(child.max, newValue);
+        child.avg += newValue;
     }
 
     private String getFileString(File file) {
