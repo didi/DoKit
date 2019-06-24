@@ -46,8 +46,8 @@
         while (sqlite3_step(stmt) == SQLITE_ROW) {
             const unsigned char *type_c = sqlite3_column_text(stmt, 0);
             const unsigned char *tbl_name_c = sqlite3_column_text(stmt, 1);
-            NSString *type = [NSString stringWithUTF8String:type_c];
-            NSString *tbl_name = [NSString stringWithUTF8String:tbl_name_c];
+            NSString *type = [NSString stringWithUTF8String:(const char *)type_c];
+            NSString *tbl_name = [NSString stringWithUTF8String:(const char *)tbl_name_c];
             if (type && [type isEqualToString:@"table"]) {
                 [tableNameArray addObject:tbl_name];
             }

@@ -15,7 +15,8 @@
 @implementation UIImageView (DoraemonSDImage)
 
 + (void)load{
-    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
     
     Method originAddObserverMethod = class_getInstanceMethod(self, @selector(sd_setImageWithURL:placeholderImage:options:context:progress:completed:));
     if (originAddObserverMethod) {
@@ -27,6 +28,7 @@
         [self doraemon_swizzleInstanceMethodWithOriginSel:@selector(sd_setImageWithURL:placeholderImage:options:progress:completed:) swizzledSel:@selector(doraemon_sd_setImageWithURL:placeholderImage:options:progress:completed:)];
     }
     //估计以后还会兼容其他版本啊。哭。
+    #pragma clang diagnostic pop
 }
 
 - (void)doraemon_sd_setImageWithURL:(nullable NSURL *)url

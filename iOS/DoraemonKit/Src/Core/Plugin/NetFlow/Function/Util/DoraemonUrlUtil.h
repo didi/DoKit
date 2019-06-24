@@ -19,6 +19,6 @@
 
 + (int64_t)getResponseLength:(NSHTTPURLResponse *)response data:(NSData *)responseData;
 
-+ (NSString *)getHttpBodyFromRequest:(NSURLRequest *)request;
++ (NSData *)getHttpBodyFromRequest:(NSURLRequest *)request;
 
 @end

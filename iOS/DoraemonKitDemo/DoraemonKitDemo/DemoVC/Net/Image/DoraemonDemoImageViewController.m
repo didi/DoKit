@@ -64,7 +64,7 @@
 }
 
 - (void)sdWebImage{
-    NSURL *imageUrl = [NSURL URLWithString:self.picUrl];
+//NSURL *imageUrl = [NSURL URLWithString:self.picUrl];
 //    [[SDWebImageManager sharedManager] loadImageWithURL:imageUrl options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize, NSURL * _Nullable targetURL) {
 //        //
 //    } completed:^(UIImage * _Nullable image, NSData * _Nullable data, NSError * _Nullable error, SDImageCacheType cacheType, BOOL finished, NSURL * _Nullable imageURL) {

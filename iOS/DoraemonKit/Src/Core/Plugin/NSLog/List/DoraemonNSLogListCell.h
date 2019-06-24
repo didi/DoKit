@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)renderCellWithData:(DoraemonNSLogModel *)model;
 
-+ (CGFloat)cellHeightWith:(DoraemonNSLogModel *)model;
++ (CGFloat)cellHeightWith:(nullable DoraemonNSLogModel *)model;
 
 @end
 

@@ -14,7 +14,7 @@
     self = [[DoraemonResponseImageModel alloc] init];
     self.url = response.URL;
     self.data = data;
-    int64_t byte = [DoraemonUrlUtil getResponseLength:response data:data];
+    int64_t byte = [DoraemonUrlUtil getResponseLength:(NSHTTPURLResponse *)response data:data];
     self.size = [NSByteCountFormatter stringFromByteCount: byte countStyle: NSByteCountFormatterCountStyleBinary];
     return self;
 }

@@ -10,7 +10,7 @@
 #import "DoraemonDefine.h"
 #import "DoraemonMethodUseTimeListCell.h"
 
-@interface DoraemonMethodUseTimeListViewController ()
+@interface DoraemonMethodUseTimeListViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, copy) NSMutableArray *loadModelArray;
 @property (nonatomic, strong) UITableView *tableView;

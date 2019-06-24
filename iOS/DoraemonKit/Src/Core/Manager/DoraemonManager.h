@@ -84,7 +84,7 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 - (void)install;
 
-- (void)installWithCustomBlock:(void(^)())customBlock;
+- (void)installWithCustomBlock:(void(^)(void))customBlock;
 
 @property (nonatomic,strong) NSMutableArray *dataArray;
 

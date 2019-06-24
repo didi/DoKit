@@ -67,7 +67,7 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
         [allHTTPHeaderString appendFormat:@"%@ : %@\r\n",key,value];
     }
     if (allHTTPHeaderString.length == 0) {
-        allHTTPHeaderString = @"NULL";
+        allHTTPHeaderString = [NSMutableString stringWithFormat:@"NULL"];
     }
     
     NSString *requestBody = self.httpModel.requestBody;
@@ -95,14 +95,13 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
     
     NSString *respanseDataSize = [NSString stringWithFormat:DoraemonLocalizedString(@"数据大小 : %@"),[DoraemonUtil formatByte:[self.httpModel.downFlow floatValue]]];
     NSString *mineType = [NSString stringWithFormat:@"mineType : %@",self.httpModel.mineType];
-    NSDictionary<NSString *, NSString *> *responseHeaderFields = (NSHTTPURLResponse *)self.httpModel.response;;
     NSMutableString *responseHeaderString = [NSMutableString string];
     for (NSString *key in allHTTPHeaderFields) {
         NSString *value = allHTTPHeaderFields[key];
         [responseHeaderString appendFormat:@"%@ : %@\r\n",key,value];
     }
     if (responseHeaderString.length == 0) {
-        responseHeaderString = @"NULL";
+        responseHeaderString = [NSMutableString stringWithFormat:@"NULL"];
     }
     NSString *responseBody = self.httpModel.responseBody;
     if (!responseBody || requestBody.length == 0) {

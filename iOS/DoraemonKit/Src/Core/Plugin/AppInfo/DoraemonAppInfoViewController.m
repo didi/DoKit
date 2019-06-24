@@ -23,7 +23,9 @@
 
 @end
 
-@implementation DoraemonAppInfoViewController
+@implementation DoraemonAppInfoViewController{
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -34,8 +36,10 @@
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
-    _cellularData.cellularDataRestrictionDidUpdateNotifier = nil;
-    _cellularData = nil;
+    if (@available(iOS 9.0, *)){
+        _cellularData.cellularDataRestrictionDidUpdateNotifier = nil;
+        _cellularData = nil;
+    }
 }
 
 - (BOOL)needBigTitleView{
@@ -81,21 +85,23 @@
     NSString *locationAuthority = [DoraemonAppInfoUtil locationAuthority];
     
     //获取网络权限
-    _cellularData = [[CTCellularData alloc]init];
-    __weak typeof(self) weakSelf = self;
-    _cellularData.cellularDataRestrictionDidUpdateNotifier = ^(CTCellularDataRestrictedState state) {
-        if (state == kCTCellularDataRestricted) {
-            weakSelf.authority = @"Restricted";
-        }else if(state == kCTCellularDataNotRestricted){
-            weakSelf.authority = @"NotRestricted";
-        }else{
-            weakSelf.authority = @"Unknown";
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.tableView reloadData];
-        });
-        
-    };
+    if (@available(iOS 9.0, *)) {
+        _cellularData = [[CTCellularData alloc]init];
+        __weak typeof(self) weakSelf = self;
+        _cellularData.cellularDataRestrictionDidUpdateNotifier = ^(CTCellularDataRestrictedState state) {
+            if (state == kCTCellularDataRestricted) {
+                weakSelf.authority = @"Restricted";
+            }else if(state == kCTCellularDataNotRestricted){
+                weakSelf.authority = @"NotRestricted";
+            }else{
+                weakSelf.authority = @"Unknown";
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.tableView reloadData];
+            });
+            
+        };
+    }
     
     //获取push权限
     NSString *pushAuthority = [DoraemonAppInfoUtil pushAuthority];

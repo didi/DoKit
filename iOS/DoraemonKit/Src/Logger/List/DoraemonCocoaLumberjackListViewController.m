@@ -60,7 +60,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    DoraemonCocoaLumberjackListCell* model = [self.dataArray objectAtIndex:indexPath.row];
+    DoraemonDDLogMessage* model = [self.dataArray objectAtIndex:indexPath.row];
     return [DoraemonCocoaLumberjackListCell cellHeightWith:model];
 }
 
@@ -132,7 +132,7 @@
     NSArray *dataArray = self.origArray;
     NSMutableArray *resultArray = [[NSMutableArray alloc] init];
     for(DoraemonDDLogMessage *model in dataArray){
-        DDLogFlag *modelFlag = model.flag;
+        DDLogFlag modelFlag = model.flag;
         if (modelFlag <= flag) {
             [resultArray addObject:model];
         }

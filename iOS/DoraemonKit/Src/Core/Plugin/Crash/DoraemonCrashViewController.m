@@ -70,7 +70,7 @@
         [[DoraemonCacheManager sharedInstance] saveCrashSwitch:on];
         exit(0);
     } cancleBlock:^{
-         weakSelf.switchView.switchView.on = !on;
+        weakSelf.switchView.switchView.on = !on;
     }];
 }
 

@@ -49,7 +49,6 @@
         cpuUsage = cpuUsage * 100;
     }
     // 0~100   对应 高度0~_oscillogramView.doraemon_height
-    NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
     [self.oscillogramView addHeightValue:cpuUsage*self.oscillogramView.doraemon_height/100. andTipValue:[NSString stringWithFormat:@"%.f",cpuUsage]];
 }
 

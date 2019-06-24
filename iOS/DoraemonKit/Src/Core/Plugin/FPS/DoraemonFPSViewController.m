@@ -12,7 +12,7 @@
 #import "DoraemonCellSwitch.h"
 #import "DoraemonDefine.h"
 
-@interface DoraemonFPSViewController ()
+@interface DoraemonFPSViewController ()<DoraemonSwitchViewDelegate>
 
 @property (nonatomic, strong) DoraemonCellSwitch *switchView;
 

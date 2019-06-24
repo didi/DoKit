@@ -61,7 +61,7 @@ static DoraemonLargeImageDetectionManager *instance = nil;
     if (![response.MIMEType hasPrefix:@"image/"]) {
         return;
     }
-    if ([DoraemonUrlUtil getResponseLength:response data:data] < self.minimumDetectionSize) {
+    if ([DoraemonUrlUtil getResponseLength:(NSHTTPURLResponse *)response data:data] < self.minimumDetectionSize) {
         return;
     }
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);

@@ -77,7 +77,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     }];
 }
 
-- (void)installWithCustomBlock:(void(^)())customBlock{
+- (void)installWithCustomBlock:(void(^)(void))customBlock{
     for (int i=0; i<_startPlugins.count; i++) {
         NSString *pluginName = _startPlugins[i];
         Class pluginClass = NSClassFromString(pluginName);

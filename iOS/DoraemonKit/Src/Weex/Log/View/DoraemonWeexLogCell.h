@@ -9,12 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "DoraemonWeexLogModel.h"
 
-
+NS_ASSUME_NONNULL_BEGIN
 @interface DoraemonWeexLogCell : UITableViewCell
 
 - (void)renderCellWithData:(DoraemonWeexLogModel *)model;
 
-+ (CGFloat)cellHeightWith:(DoraemonWeexLogModel *)model;
++ (CGFloat)cellHeightWith:(nullable DoraemonWeexLogModel *)model;
 
 @end
+NS_ASSUME_NONNULL_END
 

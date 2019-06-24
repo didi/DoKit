@@ -13,7 +13,7 @@
 #import "DoraemonMethodUseTimeManager.h"
 #import "DoraemonMethodUseTimeListViewController.h"
 
-@interface DoraemonMethodUseTimeViewController ()
+@interface DoraemonMethodUseTimeViewController ()<DoraemonSwitchViewDelegate,DoraemonCellButtonDelegate>
 
 @property (nonatomic, strong) DoraemonCellSwitch *switchView;
 @property (nonatomic, strong) DoraemonCellButton *cellBtn;
@@ -51,7 +51,7 @@
         [DoraemonMethodUseTimeManager sharedInstance].on = on;
         exit(0);
     } cancleBlock:^{
-         weakSelf.switchView.switchView.on = !on;
+        weakSelf.switchView.switchView.on = !on;
     }];
 }
 

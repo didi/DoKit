@@ -35,7 +35,6 @@
 }
 
 - (void) initUI {
-    CGFloat buttonWidth = 44;
     CGFloat space = 8;
     
     self.previewImageView = [[UIImageView alloc] initWithFrame: CGRectMake(space, space, 100, 100)];

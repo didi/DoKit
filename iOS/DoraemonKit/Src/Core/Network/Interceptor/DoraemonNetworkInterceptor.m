@@ -86,7 +86,7 @@ static DoraemonNetworkInterceptor *instance = nil;
 }
 
 - (void)updateInterceptStatusForSessionConfiguration: (NSURLSessionConfiguration *)sessionConfiguration {
-    BOOL shouldIntercept = [self shouldIntercept];
+    //BOOL shouldIntercept = [self shouldIntercept];
     if ([sessionConfiguration respondsToSelector:@selector(protocolClasses)]
         && [sessionConfiguration respondsToSelector:@selector(setProtocolClasses:)]) {
         NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray: sessionConfiguration.protocolClasses];

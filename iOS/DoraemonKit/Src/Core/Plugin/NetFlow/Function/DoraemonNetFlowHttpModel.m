@@ -32,7 +32,7 @@
     httpModel.responseData = responseData;
     httpModel.responseBody = [DoraemonUrlUtil convertJsonFromData:responseData];
     httpModel.totalDuration = [NSString stringWithFormat:@"%fs",[[NSDate date] timeIntervalSince1970] - request.startTime.doubleValue];
-    httpModel.downFlow = [NSString stringWithFormat:@"%zi",[DoraemonUrlUtil getResponseLength:response data:responseData]];
+    httpModel.downFlow = [NSString stringWithFormat:@"%lli",[DoraemonUrlUtil getResponseLength:(NSHTTPURLResponse *)response data:responseData]];
     
     return httpModel;
     

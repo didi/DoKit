@@ -11,7 +11,7 @@
 #import "DoraemonCellButton.h"
 #import "DoraemonDefine.h"
 
-@interface DoraemonDeleteLocalDataViewController ()
+@interface DoraemonDeleteLocalDataViewController ()<DoraemonCellButtonDelegate>
 
 @property (nonatomic, strong) DoraemonCellButton *cellBtn;
 

@@ -19,7 +19,6 @@
         Protocol *proto = objc_getProtocol("CLLocationManagerDelegate");
         unsigned int count;
         struct objc_method_description *methods = protocol_copyMethodDescriptionList(proto, NO, YES, &count);
-        NSMutableArray *array = [NSMutableArray array];
         for(unsigned i = 0; i < count; i++)
         {
             SEL sel = methods[i].name;

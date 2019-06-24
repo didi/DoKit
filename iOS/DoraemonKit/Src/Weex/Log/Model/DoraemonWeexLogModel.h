@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <WeexSDK/WeexSDK.h>
 
-
+NS_ASSUME_NONNULL_BEGIN
 @interface DoraemonWeexLogModel : NSObject
 
 @property (nonatomic, copy) NSString *content;
@@ -18,4 +18,5 @@
 @property (nonatomic, assign) WXLogFlag flag;
 
 @end
+NS_ASSUME_NONNULL_END
 
