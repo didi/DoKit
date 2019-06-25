@@ -48,27 +48,14 @@ PODS:
     - fishhook
     - PNChart
     - "UITextView+Placeholder"
-  - DoraemonKit/WithWeex (1.2.0):
-    - BSBacktraceLogger
-    - DoraemonKit/Core
-    - fishhook
-    - PNChart
-    - "UITextView+Placeholder"
-    - WeexSDK
-    - WXDevtool
   - fishhook (0.2)
   - PNChart (0.8.9):
     - UICountingLabel (~> 1.2.0)
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
-  - SocketRocket (0.5.1)
   - UICountingLabel (1.2.0)
   - "UITextView+Placeholder (1.2.1)"
-  - WeexSDK (0.24.0)
-  - WXDevtool (0.20.0):
-    - SocketRocket
-    - WeexSDK
 
 DEPENDENCIES:
   - AFNetworking (= 2.6.3)
@@ -76,7 +63,6 @@ DEPENDENCIES:
   - DoraemonKit/WithGPS (from `../../`)
   - DoraemonKit/WithLoad (from `../../`)
   - DoraemonKit/WithLogger (from `../../`)
-  - DoraemonKit/WithWeex (from `../../`)
   - SDWebImage (= 3.7.6)
 
 SPEC REPOS:
@@ -87,11 +73,8 @@ SPEC REPOS:
     - fishhook
     - PNChart
     - SDWebImage
-    - SocketRocket
     - UICountingLabel
     - "UITextView+Placeholder"
-    - WeexSDK
-    - WXDevtool
 
 EXTERNAL SOURCES:
   DoraemonKit:
@@ -105,12 +88,9 @@ SPEC CHECKSUMS:
   fishhook: ea19933abfe8f2f52c55fd8b6e2718467d3ebc89
   PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
-  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
   "UITextView+Placeholder": 0c3efd97f37ea64bde7f34cc6e90fe02e87b3909
-  WeexSDK: 5bd35be9c035c67c84d1ba15712360bb0d0ba6b5
-  WXDevtool: 833dd3e835df1f5f278fc8865c865d48196bfdab
 
-PODFILE CHECKSUM: b19417e5832068e0d7ce2a165e19836badb382e7
+PODFILE CHECKSUM: efe285ddb366c9db5f920339ec98b52df3222c22
 
 COCOAPODS: 1.6.2
