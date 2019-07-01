@@ -319,6 +319,10 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     }
 }
 
+- (BOOL)isShowDoraemon{
+    return !_entryView.hidden;
+}
+
 - (void)showDoraemon{
     if (_entryView.hidden) {
         _entryView.hidden = NO;
