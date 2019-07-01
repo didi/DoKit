@@ -111,92 +111,29 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 ## 项目成员
 
 ### 发起者 / 负责人
+[yixiangboy](https://github.com/yixiangboy)
 
-<table id='team'>
-    <tr>
-        <td id='yixiangboy'>
-            <a href='https://github.com/yixiangboy'>
-        		<img src='https://github.com/yixiangboy.png?v=3&s=330' width="165" height="165">
-        	</a>
-            <h4 align='center'>
-        		<a href='https://github.com/yixiangboy'>yixiangboy</a>
-        	</h4>
-        </td>
-    </tr>
-</table>
+### 内部核心成员
+[LinJZong](https://github.com/LinJZong) 、
+[wanglikun7342](https://github.com/wanglikun7342) 、
+[wenquanlebao](https://github.com/wenquanlebao) 、
+[hiXgb](https://github.com/hiXgb) 、 
+[Chinnko](https://github.com/Chinnko) 、 
+[y644938647](https://github.com/y644938647) 、 
+[goolong](https://github.com/goolong)
 
-### 贡献者
+### 外部贡献者
+[huakucha](https://github.com/huakucha) 、
+[HuginChen](https://github.com/HuginChen) 、
+[feng562925462](https://github.com/feng562925462) 、
+[azhon](https://github.com/azhon) 、
+[rex26](https://github.com/rex26) 、
+[csc-EricWu](https://github.com/csc-EricWu) 、
+[dengyuhan](https://github.com/dengyuhan) 、
+[0xd-cc](https://github.com/0xd-cc) 、
+[k373379320](https://github.com/k373379320) 、
+[fabcz](https://github.com/fabcz)
 
-<table id='team'>
-    <tr>
-        <td id='wenquanlebao'>
-            <a href='https://github.com/wenquanlebao'>
-        		<img src='https://github.com/wenquanlebao.png?v=3&s=330' width="165" height="165">
-        	</a>
-            <h4 align='center'>
-        		<a href='https://github.com/wenquanlebao'>wenquanlebao</a>
-        	</h4>
-        </td>
-        <td id='hiXgb'>
-            <a href='https://github.com/hiXgb'>
-        		<img src='https://github.com/hiXgb.png?v=3&s=330' width="165" height="165">
-        	</a>
-            <h4 align='center'>
-        		<a href='https://github.com/hiXgb'>hiXgb</a>
-        	</h4>
-        </td>
-        <td id='teethandnail'>
-            <a href='https://github.com/teethandnail'>
-        		<img src='https://github.com/teethandnail.png?v=3&s=330' width="165" height="165">
-        	</a>
-            <h4 align='center'>
-        		<a href='https://github.com/teethandnail'>teethandnail</a>
-        	</h4>
-        </td>
-        <td id='wanglikun7342'>
-            <a href='https://github.com/wanglikun7342'>
-        		<img src='https://github.com/wanglikun7342.png?v=3&s=330' width="165" height="165">
-        	</a>
-            <h4 align='center'>
-        		<a href='https://github.com/wanglikun7342'>wanglikun7342</a>
-        	</h4>
-        </td>
-        <td id='Chinnko'>
-            <a href='https://github.com/Chinnko'>
-        		<img src='https://github.com/Chinnko.png?v=3&s=330' width="165" height="165">
-        	</a>
-            <h4 align='center'>
-        		<a href='https://github.com/Chinnko'>Chinnko</a>
-        	</h4>
-        </td>
-    </tr>
-    <tr>
-        <td id='LinJZong'>
-            <a href='https://github.com/LinJZong'>
-        		<img src='https://github.com/LinJZong.png?v=3&s=330' width="165" height="165">
-        	</a>
-            <h4 align='center'>
-        		<a href='https://github.com/LinJZong'>LinJZong</a>
-        	</h4>
-        </td>
-        <td id='y644938647'>
-            <a href='https://github.com/y644938647'>
-        		<img src='https://github.com/y644938647.png?v=3&s=330' width="165" height="165">
-        	</a>
-            <h4 align='center'>
-        		<a href='https://github.com/y644938647'>y644938647</a>
-        	</h4>
-        </td>
-        <td id='huakucha'>
-            <a href='https://github.com/huakucha'>
-        		<img src='https://github.com/huakucha.png?v=3&s=330' width="165" height="165">
-        	</a>
-            <h4 align='center'>
-        		<a href='https://github.com/huakucha'>huakucha</a>
-        	</h4>
-        </td>
-    </tr>
-</table>
 
 ## 协议
 
