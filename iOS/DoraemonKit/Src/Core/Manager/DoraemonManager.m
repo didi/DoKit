@@ -58,6 +58,8 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 
 @property (nonatomic, copy) DoraemonPerformanceBlock performanceBlock;
 
+@property (nonatomic, assign) BOOL hasInstall;
+
 @end
 
 @implementation DoraemonManager
@@ -78,6 +80,11 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 }
 
 - (void)installWithCustomBlock:(void(^)(void))customBlock{
+    //保证install只执行一次
+    if (_hasInstall) {
+        return;
+    }
+    _hasInstall = YES;
     for (int i=0; i<_startPlugins.count; i++) {
         NSString *pluginName = _startPlugins[i];
         Class pluginClass = NSClassFromString(pluginName);
