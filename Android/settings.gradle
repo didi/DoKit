@@ -1,1 +1,1 @@
-include ':app', ':doraemonkit', ':doraemonkit-no-op', ':doraemonkit-aop'
+include ':app', ':doraemonkit', ':doraemonkit-no-op', ':doraemonkit-aop', ':doraemonkit_weex'
