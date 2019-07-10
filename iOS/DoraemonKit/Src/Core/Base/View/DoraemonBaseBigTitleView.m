@@ -29,12 +29,12 @@
         if (![DoraemonStateBar shareInstance].hidden) {
             offsetY = IPHONE_STATUSBAR_HEIGHT;
         }
-        CGFloat titleLabelOffsetY = offsetY + ((self.doraemon_height-offsetY)/2-kDoraemonSizeFrom750(67)/2);
+        CGFloat titleLabelOffsetY = offsetY + ((self.doraemon_height-offsetY)/2-kDoraemonSizeFrom750_Landscape(67)/2);
         CGFloat closeBtnH = self.doraemon_height-offsetY;
         
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32), titleLabelOffsetY, self.doraemon_width-kDoraemonSizeFrom750(32)-closeBtnH, kDoraemonSizeFrom750(67))];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(32), titleLabelOffsetY, self.doraemon_width-kDoraemonSizeFrom750_Landscape(32)-closeBtnH, kDoraemonSizeFrom750_Landscape(67))];
         _titleLabel.textColor = [UIColor doraemon_colorWithString:@"#324456"];
-        _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(48)];
+        _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(48)];
         [self addSubview:_titleLabel];
         
         
@@ -44,7 +44,7 @@
         [_closeBtn addTarget:self action:@selector(closeClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_closeBtn];
         
-        _downLine = [[UIView alloc] initWithFrame:CGRectMake(0, self.doraemon_height-kDoraemonSizeFrom750(1), self.doraemon_width, kDoraemonSizeFrom750(1))];
+        _downLine = [[UIView alloc] initWithFrame:CGRectMake(0, self.doraemon_height-kDoraemonSizeFrom750_Landscape(1), self.doraemon_width, kDoraemonSizeFrom750_Landscape(1))];
         _downLine.backgroundColor = [UIColor doraemon_colorWithHex:0x000000 andAlpha:0.1];
         [self addSubview:_downLine];
     }

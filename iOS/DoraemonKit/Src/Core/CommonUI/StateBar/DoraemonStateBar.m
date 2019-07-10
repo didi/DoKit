@@ -33,7 +33,7 @@
         self.backgroundColor = [UIColor doraemon_colorWithString:@"#427dbe"];
         
         _contentLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _contentLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(20)];
+        _contentLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(20)];
         _contentLabel.textColor = [UIColor whiteColor];
         _contentLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_contentLabel];

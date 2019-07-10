@@ -25,7 +25,7 @@
     if (self) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.textColor = [UIColor doraemon_black_1];
-        _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
+        _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];
         [self addSubview:_titleLabel];
         
         _topLine = [[UIView alloc] init];
@@ -39,13 +39,13 @@
         [self addSubview:_downLine];
         
         _arrowImageView = [[UIImageView alloc] initWithImage:[UIImage doraemon_imageNamed:@"doraemon_more"]];
-        _arrowImageView.frame = CGRectMake(self.doraemon_width-kDoraemonSizeFrom750(32)-_arrowImageView.doraemon_width, self.doraemon_height/2-_arrowImageView.doraemon_height/2, _arrowImageView.doraemon_width, _arrowImageView.doraemon_height);
+        _arrowImageView.frame = CGRectMake(self.doraemon_width-kDoraemonSizeFrom750_Landscape(32)-_arrowImageView.doraemon_width, self.doraemon_height/2-_arrowImageView.doraemon_height/2, _arrowImageView.doraemon_width, _arrowImageView.doraemon_height);
         [self addSubview:_arrowImageView];
         
         _rightLabel = [[UILabel alloc] init];
         _rightLabel.hidden = YES;
         _rightLabel.textColor = [UIColor doraemon_black_2];
-        _rightLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
+        _rightLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];
         [self addSubview:_rightLabel];
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
@@ -65,7 +65,7 @@
     _rightLabel.hidden = NO;
     _rightLabel.text = rightContent;
     [_rightLabel sizeToFit];
-    _rightLabel.frame = CGRectMake(_arrowImageView.doraemon_left-kDoraemonSizeFrom750(24)-_rightLabel.doraemon_width, self.doraemon_height/2-_rightLabel.doraemon_height/2, _rightLabel.doraemon_width, _rightLabel.doraemon_height);
+    _rightLabel.frame = CGRectMake(_arrowImageView.doraemon_left-kDoraemonSizeFrom750_Landscape(24)-_rightLabel.doraemon_width, self.doraemon_height/2-_rightLabel.doraemon_height/2, _rightLabel.doraemon_width, _rightLabel.doraemon_height);
 }
 
 - (void)needTopLine{

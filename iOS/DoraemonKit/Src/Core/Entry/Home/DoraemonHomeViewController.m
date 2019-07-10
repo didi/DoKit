@@ -48,19 +48,19 @@
     _scrollView = [[UIScrollView alloc] initWithFrame:self.view.frame];
     [self.view addSubview:_scrollView];
     
-    CGFloat offsetY = kDoraemonSizeFrom750(32);
+    CGFloat offsetY = kDoraemonSizeFrom750_Landscape(32);
     for (int i=0; i<_dataArray.count; i++) {
         NSDictionary *itemData = _dataArray[i];
         CGFloat sectionHeight = [DoraemonHomeSectionView viewHeightWithData:itemData];
-        DoraemonHomeSectionView *sectionView = [[DoraemonHomeSectionView alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(16), offsetY, self.view.doraemon_width-kDoraemonSizeFrom750(16)*2, sectionHeight)];
+        DoraemonHomeSectionView *sectionView = [[DoraemonHomeSectionView alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(16), offsetY, self.view.doraemon_width-kDoraemonSizeFrom750_Landscape(16)*2, sectionHeight)];
         sectionView.tag = scrollViewTagStartSubscript + i;
         [sectionView renderUIWithData:itemData];
         [_scrollView addSubview:sectionView];
-        offsetY += sectionHeight+kDoraemonSizeFrom750(32);
+        offsetY += sectionHeight+kDoraemonSizeFrom750_Landscape(32);
     }
     
-    offsetY = offsetY - kDoraemonSizeFrom750(32) + kDoraemonSizeFrom750(56);
-    UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(30), offsetY, self.view.doraemon_width-2*kDoraemonSizeFrom750(30), kDoraemonSizeFrom750(100))];
+    offsetY = offsetY - kDoraemonSizeFrom750_Landscape(32) + kDoraemonSizeFrom750_Landscape(56);
+    UIButton *closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(30), offsetY, self.view.doraemon_width-2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(100))];
     closeBtn.tag = scrollViewTagStartSubscript + _dataArray.count;
     closeBtn.backgroundColor = [UIColor whiteColor];
     [closeBtn setTitle:DoraemonLocalizedString(@"关闭DoraemonKit") forState:UIControlStateNormal];
@@ -68,7 +68,7 @@
     [closeBtn addTarget:self action:@selector(close) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:closeBtn];
     
-    offsetY += closeBtn.doraemon_height+kDoraemonSizeFrom750(30);
+    offsetY += closeBtn.doraemon_height+kDoraemonSizeFrom750_Landscape(30);
     
     _scrollView.contentSize = CGSizeMake(self.view.doraemon_width, offsetY);
 }
@@ -93,18 +93,18 @@ int scrollViewTagStartSubscript = 10;
     // 屏幕旋转时更新 scrollView 及其子视图 frame
     if (_scrollView) {
         _scrollView.frame = [UIScreen mainScreen].bounds;
-        CGFloat offsetY = kDoraemonSizeFrom750(32);
+        CGFloat offsetY = kDoraemonSizeFrom750_Landscape(32);
         for (int i = 0; i < _dataArray.count; i++) {
             NSDictionary *itemData = _dataArray[i];
             CGFloat sectionHeight = [DoraemonHomeSectionView viewHeightWithData:itemData];
             DoraemonHomeSectionView *sectionView = [_scrollView viewWithTag:scrollViewTagStartSubscript + i];
-            sectionView.frame = CGRectMake(kDoraemonSizeFrom750(16), offsetY, DoraemonScreenWidth - kDoraemonSizeFrom750(16) * 2, sectionHeight);
+            sectionView.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(16), offsetY, DoraemonScreenWidth - kDoraemonSizeFrom750_Landscape(16) * 2, sectionHeight);
             [sectionView updateUILayoutWithData:itemData];
-            offsetY += sectionHeight + kDoraemonSizeFrom750(32);
+            offsetY += sectionHeight + kDoraemonSizeFrom750_Landscape(32);
         }
         
-        [_scrollView viewWithTag:scrollViewTagStartSubscript + _dataArray.count].frame = CGRectMake(kDoraemonSizeFrom750(30), offsetY, DoraemonScreenWidth - 2 * kDoraemonSizeFrom750(30), kDoraemonSizeFrom750(100));
-        offsetY += kDoraemonSizeFrom750(100) + kDoraemonSizeFrom750(30);
+        [_scrollView viewWithTag:scrollViewTagStartSubscript + _dataArray.count].frame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), offsetY, DoraemonScreenWidth - 2 * kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(100));
+        offsetY += kDoraemonSizeFrom750_Landscape(100) + kDoraemonSizeFrom750_Landscape(30);
         _scrollView.contentSize = CGSizeMake(DoraemonScreenWidth, offsetY);
     }
     

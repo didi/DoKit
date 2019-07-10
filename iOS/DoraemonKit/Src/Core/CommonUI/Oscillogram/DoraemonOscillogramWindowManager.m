@@ -54,17 +54,17 @@
     }
     if (!_fpsWindow.hidden) {
         _fpsWindow.frame = CGRectMake(0, offsetY, width, height);
-        offsetY += _fpsWindow.doraemon_height+kDoraemonSizeFrom750(4);
+        offsetY += _fpsWindow.doraemon_height+kDoraemonSizeFrom750_Landscape(4);
     }
     
     if (!_cpuWindow.hidden) {
         _cpuWindow.frame = CGRectMake(0, offsetY, width, height);
-        offsetY += _cpuWindow.doraemon_height+kDoraemonSizeFrom750(4);
+        offsetY += _cpuWindow.doraemon_height+kDoraemonSizeFrom750_Landscape(4);
     }
     
     if (!_memoryWindow.hidden) {
         _memoryWindow.frame = CGRectMake(0, offsetY, width, height);
-        offsetY += _memoryWindow.doraemon_height+kDoraemonSizeFrom750(4);
+        offsetY += _memoryWindow.doraemon_height+kDoraemonSizeFrom750_Landscape(4);
     }
     
     if (!_netflowWindow.hidden) {

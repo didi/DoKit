@@ -21,12 +21,12 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32), 0, kDoraemonSizeFrom750(150), self.doraemon_height)];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(32), 0, kDoraemonSizeFrom750_Landscape(150), self.doraemon_height)];
         _titleLabel.textColor = [UIColor doraemon_black_1];
-        _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
+        _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];
         [self addSubview:_titleLabel];
         
-        _textField = [[UITextField alloc] initWithFrame:CGRectMake(_titleLabel.doraemon_right+kDoraemonSizeFrom750(30), self.doraemon_height/2-kDoraemonSizeFrom750(48)/2, self.doraemon_width-_titleLabel.doraemon_right-kDoraemonSizeFrom750(30), kDoraemonSizeFrom750(48))];
+        _textField = [[UITextField alloc] initWithFrame:CGRectMake(_titleLabel.doraemon_right+kDoraemonSizeFrom750_Landscape(30), self.doraemon_height/2-kDoraemonSizeFrom750_Landscape(48)/2, self.doraemon_width-_titleLabel.doraemon_right-kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(48))];
         [self addSubview:_textField];
         
         _topLine = [[UIView alloc] init];

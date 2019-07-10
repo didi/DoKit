@@ -38,7 +38,7 @@
 - (void)initUI{
     self.title = DoraemonLocalizedString(@"流量检测");
     
-    _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
+    _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [_switchView renderUIWithTitle:DoraemonLocalizedString(@"流量检测开关") switchOn:[[DoraemonCacheManager sharedInstance] netFlowSwitch]];
     [_switchView needTopLine];
     [_switchView needDownLine];
@@ -46,7 +46,7 @@
     [self.view addSubview:_switchView];
 
     UIButton *showNetFlowDetailBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    showNetFlowDetailBtn.frame = CGRectMake(kDoraemonSizeFrom750(32), _switchView.doraemon_bottom+kDoraemonSizeFrom750(60), self.view.doraemon_width-2*kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(100));
+    showNetFlowDetailBtn.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(32), _switchView.doraemon_bottom+kDoraemonSizeFrom750_Landscape(60), self.view.doraemon_width-2*kDoraemonSizeFrom750_Landscape(32), kDoraemonSizeFrom750_Landscape(100));
     [showNetFlowDetailBtn setTitle:DoraemonLocalizedString(@"显示流量检测详情") forState:UIControlStateNormal];
     showNetFlowDetailBtn.backgroundColor = [UIColor doraemon_colorWithHexString:@"#337CC4"];
     [showNetFlowDetailBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

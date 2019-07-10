@@ -21,7 +21,7 @@
     if (self) {
         NSArray *dataArray = @[@"Verbose",@"Debug",@"Info",@"Warn",@"Error"];
         _segment = [[UISegmentedControl alloc] initWithItems:dataArray];
-        _segment.frame = CGRectMake(kDoraemonSizeFrom750(32), self.doraemon_height/2-kDoraemonSizeFrom750(68)/2, self.doraemon_width-kDoraemonSizeFrom750(32)*2, kDoraemonSizeFrom750(68));
+        _segment.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(32), self.doraemon_height/2-kDoraemonSizeFrom750_Landscape(68)/2, self.doraemon_width-kDoraemonSizeFrom750_Landscape(32)*2, kDoraemonSizeFrom750_Landscape(68));
         _segment.tintColor = [UIColor doraemon_colorWithString:@"#337CC4"];
         [_segment setSelectedSegmentIndex:0];
         [_segment addTarget:self action:@selector(segmentChange:) forControlEvents:UIControlEventValueChanged];

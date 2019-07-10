@@ -23,7 +23,7 @@
     
     _contentLabel = [[UILabel alloc] init];
     _contentLabel.textColor = [UIColor doraemon_black_2];
-    _contentLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(16)];
+    _contentLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(16)];
     _contentLabel.numberOfLines = 0;
     _contentLabel.text = _anrInfo[@"content"];
     
@@ -33,7 +33,7 @@
     
     _anrTimeLabel = [[UILabel alloc] init];
     _anrTimeLabel.textColor = [UIColor doraemon_black_1];
-    _anrTimeLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(16)];
+    _anrTimeLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(16)];
     _anrTimeLabel.text = [NSString stringWithFormat:@"卡顿耗时 : %@s",_anrInfo[@"duration"]];
     [_anrTimeLabel sizeToFit];
     _anrTimeLabel.frame = CGRectMake(20, _contentLabel.doraemon_bottom+20, _anrTimeLabel.doraemon_width, _anrTimeLabel.doraemon_height);

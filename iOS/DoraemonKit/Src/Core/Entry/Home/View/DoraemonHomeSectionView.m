@@ -25,12 +25,12 @@
 - (instancetype)initWithFrame: (CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.doraemon_width/2-kDoraemonSizeFrom750(68)/2, 0, kDoraemonSizeFrom750(68), kDoraemonSizeFrom750(68))];
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.doraemon_width/2-kDoraemonSizeFrom750_Landscape(68)/2, 0, kDoraemonSizeFrom750_Landscape(68), kDoraemonSizeFrom750_Landscape(68))];
         [self addSubview:_imageView];
         
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, _imageView.doraemon_bottom+kDoraemonSizeFrom750(12), self.doraemon_width, kDoraemonSizeFrom750(33))];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, _imageView.doraemon_bottom+kDoraemonSizeFrom750_Landscape(12), self.doraemon_width, kDoraemonSizeFrom750_Landscape(33))];
         _titleLabel.textColor = [UIColor doraemon_colorWithString:@"#666666"];
-        _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(24)];
+        _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
         
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_titleLabel];
@@ -52,9 +52,9 @@
 }
 
 - (void)updateUILayout {
-    _imageView.frame = CGRectMake(self.doraemon_width/2-kDoraemonSizeFrom750(68)/2, 0, kDoraemonSizeFrom750(68), kDoraemonSizeFrom750(68));
-    _titleLabel.frame = CGRectMake(0, _imageView.doraemon_bottom+kDoraemonSizeFrom750(12), self.doraemon_width, kDoraemonSizeFrom750(33));
-    _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(24)];
+    _imageView.frame = CGRectMake(self.doraemon_width/2-kDoraemonSizeFrom750_Landscape(68)/2, 0, kDoraemonSizeFrom750_Landscape(68), kDoraemonSizeFrom750_Landscape(68));
+    _titleLabel.frame = CGRectMake(0, _imageView.doraemon_bottom+kDoraemonSizeFrom750_Landscape(12), self.doraemon_width, kDoraemonSizeFrom750_Landscape(33));
+    _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
 }
 
 - (void)itemClick{
@@ -92,11 +92,11 @@
     if (self) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.textColor = [UIColor doraemon_colorWithString:@"#324456"];
-        _titleLabel.font = [UIFont boldSystemFontOfSize:kDoraemonSizeFrom750(32)];
+        _titleLabel.font = [UIFont boldSystemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];
         [self addSubview:_titleLabel];
         
         self.backgroundColor = [UIColor whiteColor];
-        self.layer.cornerRadius = kDoraemonSizeFrom750(8);
+        self.layer.cornerRadius = kDoraemonSizeFrom750_Landscape(8);
     }
     return self;
 }
@@ -105,14 +105,14 @@
     NSString *moduleName = data[@"moduleName"];
     _titleLabel.text = moduleName;
     [_titleLabel sizeToFit];
-    _titleLabel.frame = CGRectMake(kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(32), _titleLabel.doraemon_width, _titleLabel.doraemon_height);
+    _titleLabel.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(32), kDoraemonSizeFrom750_Landscape(32), _titleLabel.doraemon_width, _titleLabel.doraemon_height);
     NSArray *pluginArray = data[@"pluginArray"];
     
     CGFloat offsetX = 0;
-    CGFloat offsetY = kDoraemonSizeFrom750(32+45+32);
+    CGFloat offsetY = kDoraemonSizeFrom750_Landscape(32+45+32);
     CGFloat itemWidth = self.doraemon_width/4;
-    CGFloat itemHeight = kDoraemonSizeFrom750(68+12+33);
-    CGFloat itemSpace = kDoraemonSizeFrom750(32);
+    CGFloat itemHeight = kDoraemonSizeFrom750_Landscape(68+12+33);
+    CGFloat itemSpace = kDoraemonSizeFrom750_Landscape(32);
     for (int i=0; i<pluginArray.count;i++) {
         NSDictionary *itemData = pluginArray[i];
         
@@ -132,18 +132,18 @@
  
 int sectionViewTagStartSubscript = 100;
 - (void)updateUILayoutWithData:(NSDictionary *)data {
-    _titleLabel.font = [UIFont boldSystemFontOfSize:kDoraemonSizeFrom750(32)];
+    _titleLabel.font = [UIFont boldSystemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];
     [_titleLabel sizeToFit];
-    _titleLabel.frame = CGRectMake(kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(32), _titleLabel.doraemon_width, _titleLabel.doraemon_height);
-    self.layer.cornerRadius = kDoraemonSizeFrom750(8);
+    _titleLabel.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(32), kDoraemonSizeFrom750_Landscape(32), _titleLabel.doraemon_width, _titleLabel.doraemon_height);
+    self.layer.cornerRadius = kDoraemonSizeFrom750_Landscape(8);
     
     NSArray *pluginArray = data[@"pluginArray"];
     
     CGFloat offsetX = 0;
-    CGFloat offsetY = kDoraemonSizeFrom750(32+45+32);
+    CGFloat offsetY = kDoraemonSizeFrom750_Landscape(32+45+32);
     CGFloat itemWidth = DoraemonScreenWidth/4;
-    CGFloat itemHeight = kDoraemonSizeFrom750(68+12+33);
-    CGFloat itemSpace = kDoraemonSizeFrom750(32);
+    CGFloat itemHeight = kDoraemonSizeFrom750_Landscape(68+12+33);
+    CGFloat itemSpace = kDoraemonSizeFrom750_Landscape(32);
     
     for (int i = 0; i < pluginArray.count;i++) {
         if (i%4 == 0 && i !=0 ) {
@@ -158,7 +158,7 @@ int sectionViewTagStartSubscript = 100;
 }
 
 + (CGFloat)viewHeightWithData:(NSDictionary *)data{
-    CGFloat titleHeight = kDoraemonSizeFrom750(32+45+32);
+    CGFloat titleHeight = kDoraemonSizeFrom750_Landscape(32+45+32);
     NSArray *pluginArray = data[@"pluginArray"];
     NSInteger count = pluginArray.count;
     NSInteger row = 0;
@@ -167,8 +167,8 @@ int sectionViewTagStartSubscript = 100;
     }else{
         row = count/4 + 1;
     }
-    CGFloat itemHeight = kDoraemonSizeFrom750(68+12+33);
-    CGFloat itemSpace = kDoraemonSizeFrom750(32);
+    CGFloat itemHeight = kDoraemonSizeFrom750_Landscape(68+12+33);
+    CGFloat itemSpace = kDoraemonSizeFrom750_Landscape(32);
     CGFloat totalHeight = titleHeight + row*(itemHeight+itemSpace);
     
     return totalHeight;
