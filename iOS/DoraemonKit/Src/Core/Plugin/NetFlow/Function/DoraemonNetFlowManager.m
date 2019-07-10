@@ -9,7 +9,11 @@
 #import "DoraemonNSURLProtocol.h"
 #import "DoraemonNetFlowDataSource.h"
 #import "NSObject+Doraemon.h"
+#import "DoraemonNetworkInterceptor.h"
 
+@interface DoraemonNetFlowManager() <DoraemonNetworkInterceptorDelegate>
+
+@end
 
 @implementation DoraemonNetFlowManager
 
@@ -25,31 +29,31 @@
 - (void)canInterceptNetFlow:(BOOL)enable{
     _canIntercept = enable;
     if (enable) {
-        [NSURLProtocol registerClass:[DoraemonNSURLProtocol class]];
+        [DoraemonNetworkInterceptor.shareInstance addDelegate:self];
         _startInterceptDate = [NSDate date];
     }else{
-        [NSURLProtocol unregisterClass:[DoraemonNSURLProtocol class]];
+        [DoraemonNetworkInterceptor.shareInstance removeDelegate:self];
         _startInterceptDate = nil;
         [[DoraemonNetFlowDataSource shareInstance] clear];
     }
 }
 
-+ (void)setEnabled:(BOOL)enabled forSessionConfiguration:(NSURLSessionConfiguration *)sessionConfig{
-    if (   [sessionConfig respondsToSelector:@selector(protocolClasses)]
-        && [sessionConfig respondsToSelector:@selector(setProtocolClasses:)])
-    {
-        NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray:sessionConfig.protocolClasses];
-        Class protoCls = DoraemonNSURLProtocol.class;
-        if (enabled && ![urlProtocolClasses containsObject:protoCls])
-        {
-            [urlProtocolClasses insertObject:protoCls atIndex:0];
-        }
-        else if (!enabled && [urlProtocolClasses containsObject:protoCls])
-        {
-            [urlProtocolClasses removeObject:protoCls];
-        }
-        sessionConfig.protocolClasses = urlProtocolClasses;
+
+#pragma mark -- DoraemonNetworkInterceptorDelegate
+- (void)doraemonNetworkInterceptorDidReceiveData:(NSData *)data response:(NSURLResponse *)response request:(NSURLRequest *)request error:(NSError *)error startTime:(NSTimeInterval)startTime {
+    DoraemonNetFlowHttpModel *httpModel = [DoraemonNetFlowHttpModel dealWithResponseData:data response:response request:request];
+    if (!response) {
+        httpModel.statusCode = error.localizedDescription;
     }
+    httpModel.startTime = startTime;
+    httpModel.endTime = [[NSDate date] timeIntervalSince1970];
+    
+    httpModel.totalDuration = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] - startTime];
+    [[DoraemonNetFlowDataSource shareInstance] addHttpModel:httpModel];
+}
+
+- (BOOL)shouldIntercept {
+    return _canIntercept;
 }
 
 @end

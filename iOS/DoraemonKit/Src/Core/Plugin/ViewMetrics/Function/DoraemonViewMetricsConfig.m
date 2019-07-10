@@ -25,11 +25,8 @@
 {
     self = [super init];
     if (self) {
-        self.borderColor = [UIColor redColor];
         self.borderWidth = 1;
         self.enable = NO;
-        self.ignoreSystemView = YES;
-        self.blackList = @[NSStringFromClass([UIVisualEffectView class])];
     }
     return self;
 }
@@ -39,11 +36,7 @@
     _enable = enable;
     
     for (UIWindow *window in [UIApplication sharedApplication].windows) {
-        if (enable) {
-            [window showDoraemonMetricsRecursive];
-        } else {
-            [window hideDoraemonMetricsRecursive];
-        }
+        [window doraemonMetricsRecursiveEnable:enable];
     }
 }
 

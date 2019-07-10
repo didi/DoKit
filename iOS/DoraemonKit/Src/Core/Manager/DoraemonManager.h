@@ -10,6 +10,15 @@
 typedef void (^DoraemonH5DoorBlock)(NSString *);
 
 typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
+    #pragma mark - weex专项工具
+    // 日志
+    DoraemonManagerPluginType_DoraemonWeexLogPlugin,
+    // 缓存
+    DoraemonManagerPluginType_DoraemonWeexStoragePlugin,
+    // 信息
+    DoraemonManagerPluginType_DoraemonWeexInfoPlugin,
+    // DevTool
+    DoraemonManagerPluginType_DoraemonWeexDevToolPlugin,
     #pragma mark - 常用工具
     // App信息
     DoraemonManagerPluginType_DoraemonAppInfoPlugin,
@@ -45,6 +54,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     DoraemonManagerPluginType_DoraemonAllTestPlugin,
     // Load耗时
     DoraemonManagerPluginType_DoraemonMethodUseTimePlugin,
+    // 大图检测
+    DoraemonManagerPluginType_DoraemonLargeImageFilter,
     
     #pragma mark - 视觉工具
     // 颜色吸管
@@ -73,7 +84,7 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 - (void)install;
 
-- (void)installWithCustomBlock:(void(^)())customBlock;
+- (void)installWithCustomBlock:(void(^)(void))customBlock;
 
 @property (nonatomic,strong) NSMutableArray *dataArray;
 
@@ -95,10 +106,14 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 - (void)addPerformanceBlock:(void(^)(NSDictionary *performanceDic))block;
 
+- (BOOL)isShowDoraemon;
+
 - (void)showDoraemon;
 
 - (void)hiddenDoraemon;
 
 - (void)hiddenHomeWindow;
+
+@property (nonatomic, assign) int64_t bigImageDetectionSize; // 外部设置大图检测的监控数值  比如监控所有图片大于50K的图片 那么这个值就设置为 50 * 1024；
 
 @end

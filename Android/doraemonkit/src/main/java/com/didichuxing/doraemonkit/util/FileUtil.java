@@ -194,6 +194,16 @@ public class FileUtil {
         }
         return false;
     }
+
+    public static boolean isTxt(File file) {
+        if (file == null) {
+            return false;
+        }
+        String suffix = getSuffix(file);
+
+        return TXT.equals(suffix);
+    }
+
     /**
      * @param file
      */

@@ -40,7 +40,7 @@
         android:layout_centerVertical="true"
         android:layout_alignWithParentIfMissing="true"
         android:layout_toLeftOf="@id/right_icon"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="15dp"
         android:text="@string/dk_app_name"
         android:visibility="gone"/>
 

@@ -57,7 +57,6 @@
 }
 
 - (void)showClose:(NSNotification *)notification{
-    NSDictionary *userInfo = notification.userInfo;
     [_entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
     [_entryBtn removeTarget:self action:@selector(showClose:) forControlEvents:UIControlEventTouchUpInside];
     [_entryBtn addTarget:self action:@selector(closePluginClick:) forControlEvents:UIControlEventTouchUpInside];

@@ -33,6 +33,7 @@
     }];
 
     [[DoraemonManager shareInstance] addStartPlugin:@"StartPlugin"];
+    [DoraemonManager shareInstance].bigImageDetectionSize = 10 * 1024;//大图检测只检测100K以上的
     [[DoraemonManager shareInstance] install];
     
     [[DoraemonManager shareInstance] addANRBlock:^(NSDictionary *anrDic) {

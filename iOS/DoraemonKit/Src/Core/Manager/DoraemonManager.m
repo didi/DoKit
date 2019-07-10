@@ -22,11 +22,17 @@
 #import "DoraemonAllTestManager.h"
 #import "DoraemonStatisticsUtil.h"
 #import "DoraemonANRManager.h"
+#import "DoraemonLargeImageDetectionManager.h"
 
 #if DoraemonWithLogger
 #import "DoraemonCocoaLumberjackLogger.h"
 #import "DoraemonCocoaLumberjackViewController.h"
 #import "DoraemonCocoaLumberjackListViewController.h"
+#endif
+
+#if DoraemonWithWeex
+#import "DoraemonWeexLogDataSource.h"
+#import "DoraemonWeexInfoDataManager.h"
 #endif
 
 #define kTitle        @"title"
@@ -52,6 +58,8 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 
 @property (nonatomic, copy) DoraemonPerformanceBlock performanceBlock;
 
+@property (nonatomic, assign) BOOL hasInstall;
+
 @end
 
 @implementation DoraemonManager
@@ -71,7 +79,12 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     }];
 }
 
-- (void)installWithCustomBlock:(void(^)())customBlock{
+- (void)installWithCustomBlock:(void(^)(void))customBlock{
+    //保证install只执行一次
+    if (_hasInstall) {
+        return;
+    }
+    _hasInstall = YES;
     for (int i=0; i<_startPlugins.count; i++) {
         NSString *pluginName = _startPlugins[i];
         Class pluginClass = NSClassFromString(pluginName);
@@ -137,8 +150,19 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     //监听DoraemonStateBar点击事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(quickOpenLogVC:) name:DoraemonQuickOpenLogVCNotification object:nil];
     
+    //外部设置大图检测的数值
+    if (_bigImageDetectionSize > 0){
+        [DoraemonLargeImageDetectionManager shareInstance].minimumDetectionSize = _bigImageDetectionSize;
+    }
+    
     //统计开源项目使用量 不用于任何恶意行为
     [[DoraemonStatisticsUtil shareInstance] upLoadUserInfo];
+    
+    //Weex工具的初始化
+#if DoraemonWithWeex
+    [DoraemonWeexLogDataSource shareInstance];
+    [DoraemonWeexInfoDataManager shareInstance];
+#endif
 
 }
 
@@ -147,6 +171,13 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
  初始化内置工具数据
  */
 - (void)initData{
+    #pragma mark - Weex专项工具
+#if DoraemonWithWeex
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexLogPlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexStoragePlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexInfoPlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexDevToolPlugin];
+#endif
     #pragma mark - 常用工具
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAppInfoPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonSandboxPlugin];
@@ -169,6 +200,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMemoryPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonNetFlowPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonANRPlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonLargeImageFilter];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAllTestPlugin];
 #if DoraemonWithLoad
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMethodUseTimePlugin];
@@ -287,6 +319,10 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     }
 }
 
+- (BOOL)isShowDoraemon{
+    return !_entryView.hidden;
+}
+
 - (void)showDoraemon{
     if (_entryView.hidden) {
         _entryView.hidden = NO;
@@ -338,7 +374,34 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 - (DoraemonManagerPluginTypeModel *)getDefaultPluginDataWithPluginType:(DoraemonManagerPluginType)pluginType
 {
     NSArray *dataArray = @{
-                           // 常用工具
+                           @(DoraemonManagerPluginType_DoraemonWeexLogPlugin) : @[
+                                   @{kTitle:@"日志"},
+                                   @{kDesc:@"Weex日志显示"},
+                                   @{kIcon:@"doraemon_log"},
+                                   @{kPluginName:@"DoraemonWeexLogPlugin"},
+                                   @{kAtModule:@"Weex专区"}
+                                   ],
+                           @(DoraemonManagerPluginType_DoraemonWeexStoragePlugin) : @[
+                                   @{kTitle:@"缓存"},
+                                   @{kDesc:@"weex storage 查看"},
+                                   @{kIcon:@"doraemon_file"},
+                                   @{kPluginName:@"DoraemonWeexStoragePlugin"},
+                                   @{kAtModule:@"Weex专区"}
+                                   ],
+                           @(DoraemonManagerPluginType_DoraemonWeexInfoPlugin) : @[
+                                   @{kTitle:@"信息"},
+                                   @{kDesc:@"weex 信息查看"},
+                                   @{kIcon:@"doraemon_app_info"},
+                                   @{kPluginName:@"DoraemonWeexInfoPlugin"},
+                                   @{kAtModule:@"Weex专区"}
+                                   ],
+                           @(DoraemonManagerPluginType_DoraemonWeexDevToolPlugin) : @[
+                                   @{kTitle:@"DevTool"},
+                                   @{kDesc:@"weex devtool"},
+                                   @{kIcon:@"doraemon_default"},
+                                   @{kPluginName:@"DoraemonWeexDevTooloPlugin"},
+                                   @{kAtModule:@"Weex专区"}
+                                   ],
                            @(DoraemonManagerPluginType_DoraemonAppInfoPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"App信息")},
                                    @{kDesc:DoraemonLocalizedString(@"App的一些基本信息")},
@@ -454,6 +517,13 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")}
                                    ],
                            
+                           @(DoraemonManagerPluginType_DoraemonLargeImageFilter) : @[
+                                   @{kTitle:DoraemonLocalizedString(@"大图检测")},
+                                   @{kDesc:DoraemonLocalizedString(@"大图检测")},
+                                   @{kIcon:@"doraemon_net"},
+                                   @{kPluginName:@"DoraemonLargeImagePlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"性能检测")}
+                                   ],
                            // 视觉工具
                            @(DoraemonManagerPluginType_DoraemonColorPickPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"颜色吸管")},

@@ -12,7 +12,7 @@
 #import "DoraemonCellSwitch.h"
 #import "DoraemonDefine.h"
 
-@interface DoraemonMemoryViewController ()
+@interface DoraemonMemoryViewController ()<DoraemonSwitchViewDelegate>
 
 @property (nonatomic, strong) DoraemonCellSwitch *switchView;
 

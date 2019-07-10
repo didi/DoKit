@@ -10,6 +10,8 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
 
+import java.text.DecimalFormat;
+
 public class PageDataItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<PageDataItem>, PageDataItem> {
     private Context mContext;
     public PageDataItemAdapter(Context context) {
@@ -63,7 +65,7 @@ public class PageDataItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<PageDa
         }
     }
 
-    private void setValue(View iteView, PageDataItemChild<? extends Number> data) {
+    private void setValue(View iteView, PageDataItemChild data) {
         int visibility = data.getVisibility(data);
         iteView.setVisibility(visibility);
         if(View.GONE == visibility){
@@ -72,23 +74,28 @@ public class PageDataItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<PageDa
         String rule = getFormatRule(data.nameResId);
 
         ((TextView)iteView.findViewById(R.id.data_name_txt)).setText(data.nameResId);
-        ((TextView)iteView.findViewById(R.id.high_data_txt)).setText(String.format(rule, data.max));
-        ((TextView)iteView.findViewById(R.id.low_data_txt)).setText(String.format(rule, data.min));
-        ((TextView)iteView.findViewById(R.id.avg_data_txt)).setText(String.format("%s - "+rule, mContext.getString(R.string.dk_frameinfo_avg_value), data.avg));
+        ((TextView)iteView.findViewById(R.id.high_data_txt)).setText(String.format(rule, getFormatText(data.nameResId, data.max)));
+        ((TextView)iteView.findViewById(R.id.low_data_txt)).setText(String.format(rule, getFormatText(data.nameResId, data.min)));
+        ((TextView)iteView.findViewById(R.id.avg_data_txt)).setText(String.format("%s - "+rule, mContext.getString(R.string.dk_frameinfo_avg_value),getFormatText(data.nameResId, data.avg)));
     }
 
+    private String getFormatText(int nameResId, double value){
+        if (nameResId == R.string.dk_frameinfo_downstream || nameResId == R.string.dk_frameinfo_upstream) {
+            return RealTimePerformDataFloatPage.getFlowTxt((long) value);
+        }
+        DecimalFormat df=new DecimalFormat(".#");
+        return df.format(value);
+    }
     private String getFormatRule(int nameResId){
         String formatRule = "";
         if (nameResId == R.string.dk_frameinfo_ram) {
-            formatRule = "%.1fM";
+            formatRule = "%sM";
         } else if (nameResId == R.string.dk_frameinfo_cpu) {
-            formatRule = "%.1f%%";
+            formatRule = "%s%%";
         } else if (nameResId == R.string.dk_frameinfo_fps) {
             formatRule = "%s";
-        } else if (nameResId == R.string.dk_frameinfo_downstream) {
-            formatRule = "%.1fB";
-        } else if (nameResId == R.string.dk_frameinfo_upstream) {
-            formatRule = "%.1fB";
+        } else if (nameResId == R.string.dk_frameinfo_downstream || nameResId == R.string.dk_frameinfo_upstream) {
+            formatRule = "%s";
         }
 
         return formatRule;

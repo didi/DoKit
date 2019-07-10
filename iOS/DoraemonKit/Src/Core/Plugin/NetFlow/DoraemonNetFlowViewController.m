@@ -21,7 +21,7 @@
 #import "DoraemonDefine.h"
 
 
-@interface DoraemonNetFlowViewController ()
+@interface DoraemonNetFlowViewController ()<DoraemonSwitchViewDelegate>
 @property (nonatomic, strong) UITabBarController *tabBar;
 
 @property (nonatomic, strong) DoraemonCellSwitch *switchView;

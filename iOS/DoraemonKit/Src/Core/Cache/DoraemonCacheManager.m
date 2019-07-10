@@ -18,7 +18,9 @@ static NSString * const kDoraemonSubThreadUICheckKey = @"doraemon_sub_thread_ui_
 static NSString * const kDoraemonCrashKey = @"doraemon_crash_key";
 static NSString * const kDoraemonNSLogKey = @"doraemon_nslog_key";
 static NSString * const kDoraemonMethodUseTimeKey = @"doraemon_method_use_time_key";
+static NSString * const kDoraemonLargeImageDetectionKey = @"doraemon_large_image_detection_key";
 static NSString * const kDoraemonH5historicalRecord = @"doraemon_historical_record";
+
 @implementation DoraemonCacheManager
 
 + (DoraemonCacheManager *)sharedInstance{
@@ -123,6 +125,17 @@ static NSString * const kDoraemonH5historicalRecord = @"doraemon_historical_reco
 - (BOOL)netFlowSwitch{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     return [defaults boolForKey:kDoraemonNetFlowKey];
+}
+
+- (void)saveLargeImageDetectionSwitch:(BOOL)on{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:on forKey:kDoraemonLargeImageDetectionKey];
+    [defaults synchronize];
+}
+
+- (BOOL)largeImageDetectionSwitch{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults boolForKey: kDoraemonLargeImageDetectionKey];
 }
 
 - (void)saveSubThreadUICheckSwitch:(BOOL)on{

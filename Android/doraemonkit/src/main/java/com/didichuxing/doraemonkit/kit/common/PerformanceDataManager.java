@@ -15,10 +15,10 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.Choreographer;
 
-import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.PerformanceInfoConfig;
-import com.didichuxing.doraemonkit.kit.custom.PerformanceInfo;
 import com.didichuxing.doraemonkit.kit.custom.UploadMonitorInfoBean;
+import com.didichuxing.doraemonkit.kit.custom.UploadMonitorItem;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.util.FileManager;
 import com.didichuxing.doraemonkit.util.JsonUtil;
@@ -54,6 +54,10 @@ public class PerformanceDataManager {
     private int mLastSkippedFrames;
     private float mLastCpuRate;
     private float mLastMemoryInfo;
+    private long mUpBytes;
+    private long mDownBytes;
+    private long mLastUpBytes;
+    private long mLastDownBytes;
     private Handler mHandler;
     private HandlerThread mHandlerThread;
     private float mMaxMemory;
@@ -67,6 +71,7 @@ public class PerformanceDataManager {
     private static final int MSG_CPU = 1;
     private static final int MSG_MEMORY = 2;
     private static final int MSG_SAVE_LOCAL = 3;
+    private static final int MSG_NET_FLOW = 4;
     private UploadMonitorInfoBean mUploadMonitorBean;
     private boolean mUploading;
     private Handler mMainHandler = new Handler(Looper.getMainLooper());
@@ -179,6 +184,10 @@ public class PerformanceDataManager {
                     } else if (msg.what == MSG_MEMORY) {
                         executeMemoryData();
                         mHandler.sendEmptyMessageDelayed(MSG_MEMORY, NORMAL_FRAME_RATE * 1000);
+                    } else if (msg.what == MSG_NET_FLOW){
+                        mLastUpBytes = NetworkManager.get().getTotalRequestSize() - mUpBytes;
+                        mLastDownBytes = NetworkManager.get().getTotalResponseSize() - mDownBytes;
+                        mHandler.sendEmptyMessageDelayed(MSG_NET_FLOW, NORMAL_FRAME_RATE * 1000);
                     } else if (msg.what == MSG_SAVE_LOCAL){
                         saveToLocal();
                         mHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_FRAME_RATE * 1000);
@@ -213,6 +222,14 @@ public class PerformanceDataManager {
         mHandler.sendEmptyMessageDelayed(MSG_CPU, NORMAL_FRAME_RATE * 1000);
     }
 
+    public void startMonitorNetFlowInfo() {
+        mHandler.sendEmptyMessageDelayed(MSG_NET_FLOW, NORMAL_FRAME_RATE * 1000);
+    }
+
+    public void stopMonitorNetFlowInfo() {
+        mHandler.removeMessages(MSG_NET_FLOW);
+    }
+
     public void startUploadMonitorData() {
         mUploading = true;
         if (mUploadMonitorBean != null) {
@@ -229,6 +246,7 @@ public class PerformanceDataManager {
         }
         if (PerformanceInfoConfig.isTrafficOpen(mContext)) {
             NetworkManager.get().startMonitor();
+            startMonitorNetFlowInfo();
         }
         mHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_FRAME_RATE * 1000);
     }
@@ -240,6 +258,7 @@ public class PerformanceDataManager {
         stopMonitorFrameInfo();
         stopMonitorCPUInfo();
         stopMonitorMemoryInfo();
+        stopMonitorNetFlowInfo();
         NetworkManager.get().stopMonitor();
     }
 
@@ -270,11 +289,25 @@ public class PerformanceDataManager {
                 mUploadMonitorBean.performanceArray = new ArrayList<>();
             }
         }
-        PerformanceInfo info = new PerformanceInfo();
+        NetworkManager networkManager = NetworkManager.get();
+        long upSize = networkManager.getTotalRequestSize();
+        long downSize = networkManager.getTotalResponseSize();
+
+        UploadMonitorItem info = new UploadMonitorItem();
         info.cpu = mLastCpuRate;
         info.fps = mLastFrameRate;
         info.memory = mLastMemoryInfo;
+        info.upFlow = mLastUpBytes;
+        info.downFlow = mLastDownBytes;
+        mUpBytes = upSize;
+        mDownBytes = downSize;
         info.timestamp = System.currentTimeMillis();
+
+        String pageName = "unkown";
+        if (DoraemonKit.getCurrentResumedActivity() != null) {
+            pageName = DoraemonKit.getCurrentResumedActivity().getLocalClassName();
+        }
+        info.page = pageName;
         mUploadMonitorBean.performanceArray.add(info);
     }
 
@@ -477,5 +510,13 @@ public class PerformanceDataManager {
             Choreographer.getInstance().postFrameCallback(this);
             writeFpsDataIntoFile();
         }
+    }
+
+    public long getLastUpBytes() {
+        return mLastUpBytes;
+    }
+
+    public long getLastDownBytes() {
+        return mLastDownBytes;
     }
 }

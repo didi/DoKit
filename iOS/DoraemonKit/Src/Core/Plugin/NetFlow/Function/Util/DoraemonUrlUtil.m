@@ -36,7 +36,7 @@
     }
     
     NSUInteger headersLength = [self getHeadersLength:headerFields];
-    NSData *httpBody = [self getHttpBodyFromRequest:request];
+    NSData *httpBody = [[self class] getHttpBodyFromRequest:request];
     NSUInteger bodyLength = [httpBody length];
     return headersLength + bodyLength;
 }

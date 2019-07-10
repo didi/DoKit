@@ -3,16 +3,21 @@
 ### 1、cocoapods依赖
 
 ```
-    pod 'DoraemonKit/Core', '~> 1.1.9', :configurations => ['Debug']
-    pod 'DoraemonKit/WithLogger', '~> 1.1.9', :configurations => ['Debug']
-    pod 'DoraemonKit/WithGPS', '~> 1.1.9', :configurations => ['Debug']
-    pod 'DoraemonKit/WithLoad', '~> 1.1.9', :configurations => ['Debug']
+    pod 'DoraemonKit/Core', '~> 1.2.0', :configurations => ['Debug'] //必选
+    pod 'DoraemonKit/WithLogger', '~> 1.2.0', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithGPS', '~> 1.2.0', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithLoad', '~> 1.2.0', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithWeex', '~> 1.2.0', :configurations => ['Debug'] //可选
 ```
 Core subspec作为核心，必须引入。
 
 如果你的日志是基于CocoaLumberjack，那你也可以引入WithLogger subspec。
 
 MockGPS存在一些兼容性问题（绝大部分情况是好的，问题详见[https://github.com/didi/DoraemonKit/issues/35](https://github.com/didi/DoraemonKit/issues/35)）, 如果你的app接入MockGPS存在问题的话，可以不用引入WithGPS subspec。
+
+如果你要集成Load耗时检测的话，那就请接入WithLoad这个subspec。
+
+如果你要集成Weex的相关专项工具的话，那就请接入WithWeex这个subspec。
 
 
 **tip**：只在Debug环境中进行集成，不要带到线上。有一些hook操作会污染线上代码。

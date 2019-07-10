@@ -9,8 +9,7 @@
 
 @interface UIView (DoraemonViewMetrics)
 
-- (void)showDoraemonMetricsRecursive;
-- (void)hideDoraemonMetricsRecursive;
+- (void)doraemonMetricsRecursiveEnable:(BOOL)enable;
 
 @end
 

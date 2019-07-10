@@ -12,7 +12,7 @@
 #import "DoraemonCacheManager.h"
 #import "DoraemonCocoaLumberjackListViewController.h"
 
-@interface DoraemonCocoaLumberjackViewController ()
+@interface DoraemonCocoaLumberjackViewController ()<DoraemonSwitchViewDelegate,DoraemonCellButtonDelegate>
 
 @property (nonatomic, strong) DoraemonCellSwitch *switchView;
 @property (nonatomic, strong) DoraemonCellButton *cellBtn;
@@ -51,7 +51,7 @@
         [[DoraemonCacheManager sharedInstance] saveLoggerSwitch:on];
         exit(0);
     } cancleBlock:^{
-         weakSelf.switchView.switchView.on = !on;
+        weakSelf.switchView.switchView.on = !on;
     }];
 }
 

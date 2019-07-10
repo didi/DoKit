@@ -165,7 +165,7 @@ static CGFloat const kViewCheckSize = 62;
             [showString appendString:tempString];
         }
         
-        NSString *string = [NSString stringWithFormat:showString];
+        NSString *string = [NSString stringWithFormat:@"%@",showString];
         // 行间距
         NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
         style.lineSpacing = kDoraemonSizeFrom750_Landscape(12);

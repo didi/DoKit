@@ -26,7 +26,6 @@
                 weakSelf.QRCodeBlock(result);
             }
         }];
-        
     }];
 }
 

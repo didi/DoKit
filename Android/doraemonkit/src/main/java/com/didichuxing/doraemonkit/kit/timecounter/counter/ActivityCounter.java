@@ -34,7 +34,7 @@ public class ActivityCounter {
     private String mCurrentActivity;
     private List<CounterInfo> mCounterInfos = new ArrayList<>();
 
-    public void start() {
+    public void pause() {
         mStartTime = System.currentTimeMillis();
         mPauseCostTime = 0;
         mRenderCostTime = 0;
@@ -77,13 +77,18 @@ public class ActivityCounter {
 
     public void render() {
         mRenderStartTime = System.currentTimeMillis();
-        Activity activity = DoraemonKit.getCurrentResumedActivity();
+        final Activity activity = DoraemonKit.getCurrentResumedActivity();
         if (activity != null && activity.getWindow() != null) {
             mCurrentActivity = activity.getClass().getSimpleName();
             activity.getWindow().getDecorView().post(new Runnable() {
                 @Override
                 public void run() {
-                    renderEnd();
+                    activity.getWindow().getDecorView().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            renderEnd();
+                        }
+                    });
                 }
             });
         } else {

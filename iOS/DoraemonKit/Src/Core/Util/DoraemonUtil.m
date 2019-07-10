@@ -151,7 +151,7 @@
             NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
             NSString * subPath = nil;
             for(NSString *str in dirArray) {
-                subPath  = [path stringByAppendingPathComponent:str];
+                subPath = [path stringByAppendingPathComponent:str];
                 [self getFileSizeWithPath:subPath];
             }
         }else{
@@ -169,7 +169,7 @@
 //删除某一路径下的所有文件
 + (void)clearFileWithPath:(NSString *)path{
     NSFileManager *fm = [NSFileManager defaultManager];
-    NSArray *files = [[NSFileManager defaultManager] subpathsAtPath:path];
+    NSArray *files = [fm subpathsAtPath:path];
     for (NSString *file in files) {
         NSError *error;
         NSString *filePath = [path stringByAppendingPathComponent:file];
