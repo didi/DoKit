@@ -41,19 +41,19 @@
 - (void)commonInit {
     self.title = DoraemonLocalizedString(@"Crash查看");
     
-    self.switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
+    self.switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [self.switchView renderUIWithTitle:DoraemonLocalizedString(@"Crash日志收集开关") switchOn:[[DoraemonCacheManager sharedInstance] crashSwitch]];
     [self.switchView needDownLine];
     self.switchView.delegate = self;
     [self.view addSubview:self.switchView];
     
-    self.checkBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, self.switchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
+    self.checkBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, self.switchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [self.checkBtn renderUIWithTitle:DoraemonLocalizedString(@"查看Crash日志")];
     self.checkBtn.delegate = self;
     [self.checkBtn needDownLine];
     [self.view addSubview:self.checkBtn];
     
-    self.clearBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, self.checkBtn.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
+    self.clearBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, self.checkBtn.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [self.clearBtn renderUIWithTitle:DoraemonLocalizedString(@"一键清理Crash日志")];
     self.clearBtn.delegate = self;
     [self.clearBtn needDownLine];

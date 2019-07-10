@@ -32,12 +32,12 @@
         [self.contentView addSubview:self.fileTypeIcon];
         
         self.fileTitleLabel = [[UILabel alloc] init];
-        self.fileTitleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
+        self.fileTitleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];
         self.fileSizeLabel.textColor = [UIColor doraemon_black_1];
         [self.contentView addSubview:self.fileTitleLabel];
         
         self.fileSizeLabel = [[UILabel alloc] init];
-        self.fileSizeLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
+        self.fileSizeLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];
         self.fileSizeLabel.textColor = [UIColor doraemon_black_2];
         [self.contentView addSubview:self.fileSizeLabel];
     }
@@ -53,12 +53,12 @@
     }
     self.fileTypeIcon.image = [UIImage doraemon_imageNamed:iconName];
     [self.fileTypeIcon sizeToFit];
-    self.fileTypeIcon.frame = CGRectMake(kDoraemonSizeFrom750(32), [[self class] cellHeight]/2-self.fileTypeIcon.doraemon_height/2, self.fileTypeIcon.doraemon_width, self.fileTypeIcon.doraemon_height);
+    self.fileTypeIcon.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(32), [[self class] cellHeight]/2-self.fileTypeIcon.doraemon_height/2, self.fileTypeIcon.doraemon_width, self.fileTypeIcon.doraemon_height);
     
     self.fileTitleLabel.text = model.name;
     self.fileTitleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
     [self.fileTitleLabel sizeToFit];
-    self.fileTitleLabel.frame = CGRectMake(self.fileTypeIcon.doraemon_right+kDoraemonSizeFrom750(32), [[self class] cellHeight]/2-self.fileTitleLabel.doraemon_height/2, DoraemonScreenWidth-150, self.fileTitleLabel.doraemon_height);
+    self.fileTitleLabel.frame = CGRectMake(self.fileTypeIcon.doraemon_right+kDoraemonSizeFrom750_Landscape(32), [[self class] cellHeight]/2-self.fileTitleLabel.doraemon_height/2, DoraemonScreenWidth-150, self.fileTitleLabel.doraemon_height);
 
     DoraemonUtil *util = [[DoraemonUtil alloc] init];
     [util getFileSizeWithPath:model.path];

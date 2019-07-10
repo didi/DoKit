@@ -40,7 +40,7 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
     
     self.title = DoraemonLocalizedString(@"流量监控详情");
     
-    _segmentView = [[DoraemonNetFlowDetailSegment alloc] initWithFrame:CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, kDoraemonSizeFrom750(88))];
+    _segmentView = [[DoraemonNetFlowDetailSegment alloc] initWithFrame:CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(88))];
     _segmentView.delegate = self;
     [self.view addSubview:_segmentView];
     
@@ -180,7 +180,7 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return kDoraemonSizeFrom750(100);
+    return kDoraemonSizeFrom750_Landscape(100);
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -197,13 +197,13 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
         title = itemInfo[@"sectionTitle"];
     }
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750(100))];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(100))];
     
     UILabel *tipLabel = [[UILabel alloc] init];
     tipLabel.textColor = [UIColor doraemon_colorWithHex:0x337CC4];
-    tipLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
+    tipLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];
     tipLabel.text = title;
-    tipLabel.frame = CGRectMake(kDoraemonSizeFrom750(32), 0, self.view.doraemon_width-kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(100));
+    tipLabel.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(32), 0, self.view.doraemon_width-kDoraemonSizeFrom750_Landscape(32), kDoraemonSizeFrom750_Landscape(100));
     [view addSubview:tipLabel];
     //tipLabel.backgroundColor = [UIColor doraemon_colorWithHex:0xeff0f4];
     

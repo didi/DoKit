@@ -23,14 +23,14 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        _valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.doraemon_width, kDoraemonSizeFrom750(44))];
-        _valueLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(44)];
+        _valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.doraemon_width, kDoraemonSizeFrom750_Landscape(44))];
+        _valueLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(44)];
         _valueLabel.textColor = [UIColor doraemon_black_1];
         _valueLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_valueLabel];
         
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, _valueLabel.doraemon_bottom+kDoraemonSizeFrom750(16), self.doraemon_width, kDoraemonSizeFrom750(24))];
-        _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(20)];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, _valueLabel.doraemon_bottom+kDoraemonSizeFrom750_Landscape(16), self.doraemon_width, kDoraemonSizeFrom750_Landscape(24))];
+        _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(20)];
         _titleLabel.textColor = [UIColor doraemon_black_2];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_titleLabel];

@@ -24,26 +24,26 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
-        self.layer.cornerRadius = kDoraemonSizeFrom750(8);
+        self.layer.cornerRadius = kDoraemonSizeFrom750_Landscape(8);
         
-        _textField = [[UITextField alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(40), self.doraemon_width-2*kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(45))];
+        _textField = [[UITextField alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(32), kDoraemonSizeFrom750_Landscape(40), self.doraemon_width-2*kDoraemonSizeFrom750_Landscape(32), kDoraemonSizeFrom750_Landscape(45))];
         _textField.placeholder = DoraemonLocalizedString(@"请输入经纬度");
         [_textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         [self addSubview:_textField];
         
-        _searchBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.doraemon_width-kDoraemonSizeFrom750(120), 0, kDoraemonSizeFrom750(120), kDoraemonSizeFrom750(120))];
+        _searchBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.doraemon_width-kDoraemonSizeFrom750_Landscape(120), 0, kDoraemonSizeFrom750_Landscape(120), kDoraemonSizeFrom750_Landscape(120))];
         _searchBtn.imageView.contentMode = UIViewContentModeCenter;
         [_searchBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_search"] forState:UIControlStateNormal];
         [_searchBtn addTarget:self action:@selector(searchBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_searchBtn];
         
-        _lineView = [[UIView alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32), _textField.doraemon_bottom+kDoraemonSizeFrom750(19), self.doraemon_width-2*kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(1))];
+        _lineView = [[UIView alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(32), _textField.doraemon_bottom+kDoraemonSizeFrom750_Landscape(19), self.doraemon_width-2*kDoraemonSizeFrom750_Landscape(32), kDoraemonSizeFrom750_Landscape(1))];
         _lineView.backgroundColor = [UIColor doraemon_colorWithHexString:@"#EEEEEE"];
         [self addSubview:_lineView];
         
-        _exampleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32),_lineView.doraemon_bottom+kDoraemonSizeFrom750(15), self.doraemon_width-kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(33))];
+        _exampleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(32),_lineView.doraemon_bottom+kDoraemonSizeFrom750_Landscape(15), self.doraemon_width-kDoraemonSizeFrom750_Landscape(32), kDoraemonSizeFrom750_Landscape(33))];
         _exampleLabel.textColor = [UIColor doraemon_black_3];
-        _exampleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(24)];
+        _exampleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
         _exampleLabel.text = DoraemonLocalizedString(@"(示例: 120.15 30.28)");
         [self addSubview:_exampleLabel];
     }

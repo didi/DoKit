@@ -26,9 +26,9 @@
     
     if ([self needBigTitleView]) {
         if ([DoraemonStateBar shareInstance].hidden) {
-            _bigTitleView = [[DoraemonBaseBigTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750(178))];
+            _bigTitleView = [[DoraemonBaseBigTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(178))];
         }else{
-            _bigTitleView = [[DoraemonBaseBigTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750(178)+IPHONE_STATUSBAR_HEIGHT)];
+            _bigTitleView = [[DoraemonBaseBigTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(178)+IPHONE_STATUSBAR_HEIGHT)];
         }
         _bigTitleView.delegate = self;
         [self.view addSubview:_bigTitleView];

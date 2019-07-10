@@ -26,12 +26,12 @@
         
         self.titleLabel = [[UILabel alloc] init];
         self.titleLabel.textColor = [UIColor doraemon_black_1];
-        self.titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
+        self.titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];
         [self.contentView addSubview:self.titleLabel];
         
         self.valueLabel = [[UILabel alloc] init];
         self.valueLabel.textColor = [UIColor doraemon_black_2];
-        self.valueLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
+        self.valueLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];
         [self.contentView addSubview:self.valueLabel];
     }
     return self;
@@ -61,12 +61,12 @@
     [self.titleLabel sizeToFit];
     [self.valueLabel sizeToFit];
     
-    self.titleLabel.frame = CGRectMake(kDoraemonSizeFrom750(32), 0, self.titleLabel.doraemon_width, [[self class] cellHeight]);
-    self.valueLabel.frame = CGRectMake(DoraemonScreenWidth-kDoraemonSizeFrom750(32)-self.valueLabel.doraemon_width, 0, self.valueLabel.doraemon_width, [[self class] cellHeight]);
+    self.titleLabel.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(32), 0, self.titleLabel.doraemon_width, [[self class] cellHeight]);
+    self.valueLabel.frame = CGRectMake(DoraemonScreenWidth-kDoraemonSizeFrom750_Landscape(32)-self.valueLabel.doraemon_width, 0, self.valueLabel.doraemon_width, [[self class] cellHeight]);
 }
 
 + (CGFloat)cellHeight{
-    return kDoraemonSizeFrom750(104);
+    return kDoraemonSizeFrom750_Landscape(104);
 }
 
 

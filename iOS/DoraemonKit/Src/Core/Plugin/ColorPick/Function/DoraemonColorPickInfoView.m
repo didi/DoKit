@@ -48,7 +48,7 @@
     CGFloat colorHeight = kDoraemonSizeFrom750_Landscape(28);
     self.colorView.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(32), (self.doraemon_height - colorHeight) / 2.0, colorWidth, colorHeight);
     
-    CGFloat colorValueWidth = kDoraemonSizeFrom750(150);
+    CGFloat colorValueWidth = kDoraemonSizeFrom750_Landscape(150);
     self.colorValueLbl.frame = CGRectMake(self.colorView.doraemon_right + kDoraemonSizeFrom750_Landscape(20), 0, colorValueWidth, self.doraemon_height);
     
     CGFloat closeWidth = kDoraemonSizeFrom750_Landscape(44);

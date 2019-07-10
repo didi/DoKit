@@ -25,7 +25,7 @@
     [super viewDidLoad];
     self.title = DoraemonLocalizedString(@"CPU检测");
     
-    _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
+    _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [_switchView renderUIWithTitle:DoraemonLocalizedString(@"CPU检测开关") switchOn:[[DoraemonCacheManager sharedInstance] cpuSwitch]];
     [_switchView needTopLine];
     [_switchView needDownLine];
