@@ -11,6 +11,7 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 /**
  * @author denghaha
@@ -53,12 +54,8 @@ public class WeakNetworkManager {
         if (timeOutMillis > 0) {
             mTimeOutMillis = timeOutMillis;
         }
-        if (requestSpeed > 0) {
-            mRequestSpeed = requestSpeed;
-        }
-        if (responseSpeed > 0) {
-            mResponseSpeed = responseSpeed;
-        }
+        mRequestSpeed = requestSpeed;
+        mResponseSpeed = responseSpeed;
     }
 
     public void setType(int type) {
@@ -106,9 +103,14 @@ public class WeakNetworkManager {
         Request request = chain.request();
         final RequestBody body = request.body();
         if (body != null) {
-            request = request.newBuilder().method(request.method(), new SpeedLimitRequestBody(mRequestSpeed, body)).build();
+            //大于0使用限速的body 否则使用原始body
+            final RequestBody requestBody = mRequestSpeed > 0 ? new SpeedLimitRequestBody(mRequestSpeed, body) : body;
+            request = request.newBuilder().method(request.method(), requestBody).build();
         }
         final Response response = chain.proceed(request);
-        return response.newBuilder().body(new SpeedLimitResponseBody(mResponseSpeed, response.body())).build();
+        //大于0使用限速的body 否则使用原始body
+        final ResponseBody responseBody = response.body();
+        final ResponseBody newResponseBody = mResponseSpeed > 0 ? new SpeedLimitResponseBody(mResponseSpeed, responseBody) : responseBody;
+        return response.newBuilder().body(newResponseBody).build();
     }
 }
