@@ -71,7 +71,6 @@ Pod::Spec.new do |s|
   s.dependency 'PNChart'
   s.dependency 'BSBacktraceLogger'
   s.dependency 'fishhook'
-  s.dependency 'UITextView+Placeholder'
 
 end
 

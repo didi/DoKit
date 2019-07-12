@@ -10,7 +10,6 @@
 #import "DoraemonToastUtil.h"
 #import "DoraemonDefine.h"
 #import "Doraemoni18NUtil.h"
-#import "UITextView+Placeholder.h"
 #import "DoraemonDefaultWebViewController.h"
 #import "DoraemonManager.h"
 #import "DoraemonQRCodeViewController.h"
@@ -58,7 +57,7 @@
     
     _h5UrlTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom + kDoraemonSizeFrom750_Landscape(32), self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(358))];
     _h5UrlTextView.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];
-    _h5UrlTextView.placeholder = DoraemonLocalizedString(@"请输入网址");
+    //_h5UrlTextView.placeholder = DoraemonLocalizedString(@"请输入网址");
     [self.view addSubview:_h5UrlTextView];
     _h5UrlTextView.keyboardType = UIKeyboardTypeURL;
     _h5UrlTextView.autocorrectionType = UITextAutocorrectionTypeNo;
