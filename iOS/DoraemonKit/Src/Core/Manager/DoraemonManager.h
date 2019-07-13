@@ -38,6 +38,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     DoraemonManagerPluginType_DoraemonNSLogPlugin,
     // 日志显示
     DoraemonManagerPluginType_DoraemonCocoaLumberjackPlugin,
+    // 数据库工具
+    DoraemonManagerPluginType_DoraemonDatabasePlugin,
     
     #pragma mark - 性能检测
     // 帧率监控

@@ -163,7 +163,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [DoraemonWeexLogDataSource shareInstance];
     [DoraemonWeexInfoDataManager shareInstance];
 #endif
-
+    
 }
 
 
@@ -192,6 +192,10 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonNSLogPlugin];
 #if DoraemonWithLogger
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonCocoaLumberjackPlugin];
+#endif
+    
+#if DoraemonWithDatabase
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonDatabasePlugin];
 #endif
     
     #pragma mark - 性能检测
@@ -463,6 +467,14 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kDesc:DoraemonLocalizedString(@"日志显示")},
                                    @{kIcon:@"doraemon_log"},
                                    @{kPluginName:@"DoraemonCocoaLumberjackPlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"常用工具")}
+                                   ],
+                           
+                           @(DoraemonManagerPluginType_DoraemonDatabasePlugin) : @[
+                                   @{kTitle:@"YYDatabase"},
+                                   @{kDesc:DoraemonLocalizedString(@"数据库")},
+                                   @{kIcon:@"doraemon_database"},
+                                   @{kPluginName:@"DoraemonDatabasePlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"常用工具")}
                                    ],
                            

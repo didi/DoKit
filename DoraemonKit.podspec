@@ -67,6 +67,14 @@ Pod::Spec.new do |s|
     ss.dependency 'WeexSDK'
     ss.dependency 'WXDevtool'
   end
+  
+  s.subspec 'WithDatabase' do |ss|
+      ss.source_files = 'iOS/DoraemonKit/Src/Database/*{.h,.m}'
+      ss.pod_target_xcconfig = {
+          'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithDatabase'
+      }
+      ss.dependency 'YYDebugDatabase'
+  end
 
   s.dependency 'PNChart'
   s.dependency 'BSBacktraceLogger'
