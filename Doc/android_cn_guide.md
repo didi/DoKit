@@ -13,6 +13,23 @@ dependencies {
 
 最新版本参见[这里](android-ReleaseNotes.md)。
 
+DoraemonKit目前已支持Weex工具，包括
+
+* Console日志查看
+* Storage缓存查看
+* 容器信息
+* DevTool
+
+如果有需要支持Weex的需求可以直接添加下面依赖
+
+```
+dependencies {
+	...
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:0.0.1'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:0.0.1'
+    ...
+}
+```
 
 
 #### 2. 初始化
@@ -35,6 +52,23 @@ public void onCreate() {
 } 
 ```
 
+如果已接入了Weex工具（暂不支持自定义功能组件），使用下面方式初始化
+
+```
+@Override
+public void onCreate() {
+	...
+    DKWeexInstance.install(application)
+     
+    // H5任意门功能需要，非必须
+    DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
+    @Override
+    public void overrideUrlLoading(Context context, String s) {
+        // 使用自己的H5容器打开这个链接
+    }
+    ...
+} 
+```
 
 
 #### 3. 流量监控功能（可选）
