@@ -235,4 +235,10 @@
     "UIWebView"                                        = "UIWebView";
     "显示入口"                                   = "Show Doraemon";
     "隐藏入口"                                   = "Hidden Doraemon";
+    "数据库"                                   = "Database";
+    "开启服务"                                   = "start server";
+    "关闭服务"                                   = "stop server";
+    "温馨提示"                                   = "tips";
+    "你可以通过下面地址访问"                         = "access server address";
+    "服务已关闭"                                   = "server is off";
 }
