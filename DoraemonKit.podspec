@@ -69,7 +69,7 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'WithDatabase' do |ss|
-      ss.source_files = 'iOS/DoraemonKit/Src/Database/*{.h,.m}'
+      ss.source_files = 'iOS/DoraemonKit/Src/Database/**/*{.h,.m}'
       ss.pod_target_xcconfig = {
           'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithDatabase'
       }
