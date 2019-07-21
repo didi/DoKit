@@ -73,6 +73,7 @@ Pod::Spec.new do |s|
       ss.pod_target_xcconfig = {
           'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithDatabase'
       }
+      ss.dependency 'DoraemonKit/Core'
       ss.dependency 'YYDebugDatabase'
   end
 
