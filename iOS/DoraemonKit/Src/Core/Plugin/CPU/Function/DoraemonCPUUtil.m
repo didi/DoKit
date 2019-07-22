@@ -48,6 +48,10 @@
     kr = vm_deallocate(mach_task_self(), (vm_offset_t)thread_list, thread_count * sizeof(thread_t));
     assert(kr == KERN_SUCCESS);
     
+    if (tot_cpu < 0) {
+        tot_cpu = 0.;
+    }
+    
     return tot_cpu;
 }
 
