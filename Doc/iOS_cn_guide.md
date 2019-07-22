@@ -3,11 +3,12 @@
 ### 1、cocoapods依赖
 
 ```
-    pod 'DoraemonKit/Core', '~> 1.2.0', :configurations => ['Debug'] //必选
-    pod 'DoraemonKit/WithLogger', '~> 1.2.0', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithGPS', '~> 1.2.0', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithLoad', '~> 1.2.0', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithWeex', '~> 1.2.0', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/Core', '~> 1.2.1', :configurations => ['Debug'] //必选
+    pod 'DoraemonKit/WithLogger', '~> 1.2.1', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithGPS', '~> 1.2.1', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithLoad', '~> 1.2.1', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithWeex', '~> 1.2.1', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithDatabase', '~> 1.2.1', :configurations => ['Debug'] //可选
 ```
 Core subspec作为核心，必须引入。
 
@@ -18,6 +19,8 @@ MockGPS存在一些兼容性问题（绝大部分情况是好的，问题详见[
 如果你要集成Load耗时检测的话，那就请接入WithLoad这个subspec。
 
 如果你要集成Weex的相关专项工具的话，那就请接入WithWeex这个subspec。
+
+如果你要使用YYDebugDatabase在网页端调式数据库的话，那就请接入WithDatabase这个subspec。
 
 
 **tip**：只在Debug环境中进行集成，不要带到线上。有一些hook操作会污染线上代码。

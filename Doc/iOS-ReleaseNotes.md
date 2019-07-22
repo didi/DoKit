@@ -1,5 +1,18 @@
 # Release Notes
 
+### 1.2.1
+1、大图检测功能[](https://github.com/0xd-cc)
+
+2、修复元素边框线crash的问题
+
+3、添加应用内数据库调试功能 [y500](https://github.com/y500)
+
+4、横屏适配bug fix
+
+5、支持下CocoaPods1.7 的generate_multiple_pod_projects新特性
+
+6、多次执行install方法保护，避免出现多次初始化UI界面出错
+
 ### 1.2.0
 1. 加入Weex专项工具，包括：
 2. **【console日志查看】** 方便在端上查看每一个Weex文件中的console日志，提供分级和搜索功能
