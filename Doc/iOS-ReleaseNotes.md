@@ -1,7 +1,7 @@
 # Release Notes
 
 ### 1.2.1
-1、大图检测功能[](https://github.com/0xd-cc)
+1、大图检测功能[0xd-cc](https://github.com/0xd-cc)
 
 2、修复元素边框线crash的问题
 
