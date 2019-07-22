@@ -35,6 +35,11 @@
 #import "DoraemonWeexInfoDataManager.h"
 #endif
 
+#if DoraemonWithGPS
+#import "DoraemonGPSMocker.h"
+#endif
+
+
 #define kTitle        @"title"
 #define kDesc         @"desc"
 #define kIcon         @"icon"
@@ -110,7 +115,17 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [[DoraemonCacheManager sharedInstance] saveCpuSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveMemorySwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:NO];
-    [[DoraemonCacheManager sharedInstance] saveMockGPSSwitch:NO];
+    
+    
+    //开启mockGPS功能
+    if ([[DoraemonCacheManager sharedInstance] mockGPSSwitch]) {
+        CLLocationCoordinate2D coordinate = [[DoraemonCacheManager sharedInstance] mockCoordinate];
+        if (coordinate.longitude>0 && coordinate.latitude>0) {
+            CLLocation *loc = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+            [[DoraemonGPSMocker shareInstance] mockPoint:loc];
+        }
+    }
+
     
     //开启NSLog监控功能
     if ([[DoraemonCacheManager sharedInstance] nsLogSwitch]) {
