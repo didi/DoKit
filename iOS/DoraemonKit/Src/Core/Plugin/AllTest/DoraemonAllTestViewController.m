@@ -87,18 +87,22 @@
 }
 
 - (void)okBtnClick{
-    _okBtnStatus = !_okBtnStatus;
-    [DoraemonAllTestManager shareInstance].startTestOn = _okBtnStatus;
-    if (_okBtnStatus) {
-        [[DoraemonAllTestManager shareInstance] startRecord];
-        [_okBtn setTitle:DoraemonLocalizedString(@"结束测试") forState:UIControlStateNormal];
-    }else{
-        [[DoraemonAllTestManager shareInstance] endRecord];
-        [_okBtn setTitle:DoraemonLocalizedString(@"开始测试") forState:UIControlStateNormal];
+    __weak typeof(self) weakSelf = self;
+    [DoraemonToastUtil handleRestartActionWithVC:self text:@"是否确认" restartBlock:^{
+        weakSelf.okBtnStatus = !weakSelf.okBtnStatus;
+        [DoraemonAllTestManager shareInstance].startTestOn = weakSelf.okBtnStatus;
+        if (weakSelf.okBtnStatus) {
+            [[DoraemonAllTestManager shareInstance] startRecord];
+            [weakSelf.okBtn setTitle:DoraemonLocalizedString(@"结束测试") forState:UIControlStateNormal];
+        }else{
+            [[DoraemonAllTestManager shareInstance] endRecord];
+            [weakSelf.okBtn setTitle:DoraemonLocalizedString(@"开始测试") forState:UIControlStateNormal];
+            
+            [DoraemonToastUtil showToast:DoraemonLocalizedString(@"数据保存到Library/Caches/DoraemonPerformance中") inView:self.view];
+        }
+    } cancleBlock:^{
         
-        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"数据保存到Library/Caches/DoraemonPerformance中") inView:self.view];
-    }
-    
+    }];
 }
 
 

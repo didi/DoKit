@@ -38,7 +38,14 @@
                      restartBlock:(DoraemonHandleRestartActionBlock)restartBlock
                       cancleBlock:(DoraemonHandleRestartCancleActionBlock)cancleBlock
 {
-    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:DoraemonLocalizedString(@"提示") message:DoraemonLocalizedString(@"该功能需要重启App才能生效") preferredStyle:UIAlertControllerStyleAlert];
+    [self handleRestartActionWithVC:vc text:DoraemonLocalizedString(@"该功能需要重启App才能生效") restartBlock:restartBlock cancleBlock:cancleBlock];
+}
+
++ (void)handleRestartActionWithVC:(UIViewController *)vc
+                             text:(NSString *)text
+                     restartBlock:(DoraemonHandleRestartActionBlock)restartBlock
+                      cancleBlock:(DoraemonHandleRestartCancleActionBlock)cancleBlock{
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:DoraemonLocalizedString(@"提示") message:text preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:DoraemonLocalizedString(@"取消") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         cancleBlock ? cancleBlock():nil;
     }];

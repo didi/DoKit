@@ -18,4 +18,11 @@ typedef void (^DoraemonHandleRestartCancleActionBlock)(void);
 + (void)handleRestartActionWithVC:(UIViewController *)vc
                      restartBlock:(DoraemonHandleRestartActionBlock)restartBlock
                       cancleBlock:(DoraemonHandleRestartCancleActionBlock)cancleBlock;
+
+
++ (void)handleRestartActionWithVC:(UIViewController *)vc
+                             text:(NSString *)text
+                     restartBlock:(DoraemonHandleRestartActionBlock)restartBlock
+                      cancleBlock:(DoraemonHandleRestartCancleActionBlock)cancleBlock;
+
 @end
