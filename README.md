@@ -136,6 +136,8 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 [fabcz](https://github.com/fabcz) 、
 [y500](https://github.com/y500)
 
+如何成为外部贡献者？ 提交有意义的PR，并被采纳。
+
 
 ## 协议
 
