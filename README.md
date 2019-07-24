@@ -133,7 +133,8 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 [dengyuhan](https://github.com/dengyuhan) 、
 [0xd-cc](https://github.com/0xd-cc) 、
 [k373379320](https://github.com/k373379320) 、
-[fabcz](https://github.com/fabcz)
+[fabcz](https://github.com/fabcz) 、
+[y500](https://github.com/y500)
 
 
 ## 协议
