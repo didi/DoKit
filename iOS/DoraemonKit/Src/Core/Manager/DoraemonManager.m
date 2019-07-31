@@ -116,7 +116,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [[DoraemonCacheManager sharedInstance] saveMemorySwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:NO];
     
-    
+#if DoraemonWithGPS
     //开启mockGPS功能
     if ([[DoraemonCacheManager sharedInstance] mockGPSSwitch]) {
         CLLocationCoordinate2D coordinate = [[DoraemonCacheManager sharedInstance] mockCoordinate];
@@ -125,7 +125,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
             [[DoraemonGPSMocker shareInstance] mockPoint:loc];
         }
     }
-
+#endif
     
     //开启NSLog监控功能
     if ([[DoraemonCacheManager sharedInstance] nsLogSwitch]) {
