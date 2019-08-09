@@ -7,7 +7,7 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-package com.didichuxing.doraemonkit.kit.network.httpurlconnection;
+package com.didichuxing.doraemonkit.kit.network.httpurlconnection.inspector;
 
 import android.support.annotation.Nullable;
 import android.util.Pair;
@@ -15,7 +15,6 @@ import android.util.Pair;
 import com.didichuxing.doraemonkit.kit.network.core.NetworkInterpreter;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 
@@ -29,11 +28,12 @@ public class URLConnectionInspectorRequest
     public URLConnectionInspectorRequest(
             int requestId,
             ArrayList<Pair<String, String>> header,
-            HttpURLConnection configuredRequest) {
+            String url,
+            String method) {
         super(header);
         mRequestId = requestId;
-        mUrl = configuredRequest.getURL().toString();
-        mMethod = configuredRequest.getRequestMethod();
+        mUrl = url;
+        mMethod = method;
     }
 
 
@@ -55,6 +55,6 @@ public class URLConnectionInspectorRequest
     @Nullable
     @Override
     public byte[] body() throws IOException {
-            return null;
+        return null;
     }
 }

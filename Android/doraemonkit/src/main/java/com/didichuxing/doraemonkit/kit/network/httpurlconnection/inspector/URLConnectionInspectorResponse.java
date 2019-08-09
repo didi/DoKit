@@ -7,13 +7,13 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-package com.didichuxing.doraemonkit.kit.network.httpurlconnection;
+package com.didichuxing.doraemonkit.kit.network.httpurlconnection.inspector;
+
+import android.util.Pair;
 
 import com.didichuxing.doraemonkit.kit.network.core.NetworkInterpreter;
-import com.didichuxing.doraemonkit.kit.network.utils.StreamUtil;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
+import java.util.ArrayList;
 
 public class URLConnectionInspectorResponse
         extends URLConnectionInspectorHeaders
@@ -22,10 +22,10 @@ public class URLConnectionInspectorResponse
     private final String mUrl;
     private final int mStatusCode;
 
-    public URLConnectionInspectorResponse(int requestId, HttpURLConnection conn, int statusCode) throws IOException {
-        super(StreamUtil.convertHeaders(conn.getHeaderFields()));
+    public URLConnectionInspectorResponse(int requestId, ArrayList<Pair<String, String>> header, String url, int statusCode) {
+        super(header);
         mRequestId = requestId;
-        mUrl = conn.getURL().toString();
+        mUrl = url;
         mStatusCode = statusCode;
     }
 
@@ -43,5 +43,4 @@ public class URLConnectionInspectorResponse
     public int statusCode() {
         return mStatusCode;
     }
-
 }

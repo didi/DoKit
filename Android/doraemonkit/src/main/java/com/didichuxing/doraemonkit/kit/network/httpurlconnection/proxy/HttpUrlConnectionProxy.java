@@ -1,8 +1,8 @@
-package com.didichuxing.doraemonkit.kit.network.httpurlconnection;
+package com.didichuxing.doraemonkit.kit.network.httpurlconnection.proxy;
 
 import android.util.Log;
 
-import com.didichuxing.doraemonkit.kit.network.core.NetworkInterpreter;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.HttpMonitorInterceptor;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.DKInterceptor;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.HttpChainFacade;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.HttpRequest;
@@ -11,23 +11,20 @@ import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.Htt
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.security.cert.Certificate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLPeerUnverifiedException;
-
 /**
  * @desc: UrlConnection代理类，用以解析请求
  */
-public class HttpsUrlConnectionProxy extends HttpsURLConnection {
+public class HttpUrlConnectionProxy extends HttpURLConnection {
     private final String TAG = "HttpUrlConnectionProxy";
     private final boolean DEBUG = true;
-    private final HttpsURLConnection mSourceConnection;
+    private final HttpURLConnection mSourceConnection;
     private List<DKInterceptor> mInterceptors = new ArrayList<>();
 
     private final HttpRequest mHttpRequest;
@@ -35,33 +32,17 @@ public class HttpsUrlConnectionProxy extends HttpsURLConnection {
 
     private final HttpChainFacade mHttpChainFacade;
 
-    public HttpsUrlConnectionProxy(HttpsURLConnection con) {
+    public HttpUrlConnectionProxy(HttpURLConnection con) {
         super(con.getURL());
         mSourceConnection = con;
 
         mInterceptors.add(new HttpMonitorInterceptor());
+//        mInterceptors.add(new LargePictureInterceptor());
 
-        NetworkInterpreter mInterpreter = NetworkInterpreter.get();
-        int requestId = mInterpreter.nextRequestId();
-        mHttpRequest = new HttpRequest(requestId, con);
-        mHttpResponse = new HttpResponse(requestId, con);
+        mHttpRequest = new HttpRequest(con);
+        mHttpResponse = new HttpResponse(con);
 
         mHttpChainFacade = new HttpChainFacade(mInterceptors);
-    }
-
-    @Override
-    public String getCipherSuite() {
-        return mSourceConnection.getCipherSuite();
-    }
-
-    @Override
-    public Certificate[] getLocalCertificates() {
-        return mSourceConnection.getLocalCertificates();
-    }
-
-    @Override
-    public Certificate[] getServerCertificates() throws SSLPeerUnverifiedException {
-        return mSourceConnection.getServerCertificates();
     }
 
     @Override
@@ -104,7 +85,6 @@ public class HttpsUrlConnectionProxy extends HttpsURLConnection {
         mHttpResponse.setStatusCode(statusCode);
         mHttpChainFacade.process(mHttpResponse);
     }
-
 
     @Override
     public boolean getAllowUserInteraction() {
@@ -248,7 +228,7 @@ public class HttpsUrlConnectionProxy extends HttpsURLConnection {
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public Map<String, List<String>> getHeaderFields() {
-        return mSourceConnection.getHeaderFields();
+        return mSourceConnection.getRequestProperties();
     }
 
     @Override
@@ -353,5 +333,4 @@ public class HttpsUrlConnectionProxy extends HttpsURLConnection {
             return mSourceConnection.toString();
         }
     }
-
 }
