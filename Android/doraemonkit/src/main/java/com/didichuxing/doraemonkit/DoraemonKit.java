@@ -294,4 +294,8 @@ public class DoraemonKit {
         }
         return null;
     }
+
+    public static void enableRequestPermissionSelf() {
+        sHasRequestPermission = true;
+    }
 }

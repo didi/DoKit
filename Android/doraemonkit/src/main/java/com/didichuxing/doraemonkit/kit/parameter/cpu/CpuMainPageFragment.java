@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.config.PerformanceInfoConfig;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.kit.parameter.AbsParameterFragment;
 import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;

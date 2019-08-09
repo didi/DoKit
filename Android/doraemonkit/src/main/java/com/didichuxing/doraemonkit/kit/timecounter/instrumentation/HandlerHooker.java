@@ -27,9 +27,7 @@ public class HandlerHooker {
             hookInstrumentation();
             isHookSucceed = true;
         } catch (Exception e) {
-            if (DEBUG) {
-                LogHelper.e(TAG, e.toString());
-            }
+            e.printStackTrace();
         }
     }
 

@@ -49,6 +49,7 @@ public class RealTimePerformDataFloatPage extends BaseFloatPage implements Touch
                 mHandler.sendEmptyMessageDelayed(UPDATE_DATA_WHAT, 1000);
             }
         };
+        PerformanceDataManager.getInstance().init(context);
     }
 
     @Override

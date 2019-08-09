@@ -87,7 +87,11 @@ public class ViewBorderFrameLayout extends FrameLayout {
                     new ViewBorderDrawable(view)
             });
         }
-        view.setBackground(newDrawable);
+        try {
+            view.setBackground(newDrawable);
+        } catch (UnsupportedOperationException e) {
+            e.printStackTrace();
+        }
     }
 
     private void clearChild(View view) {

@@ -18,6 +18,8 @@ import com.didichuxing.doraemonkit.ui.KitFloatPage;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
 import com.didichuxing.doraemonkit.ui.base.PageIntent;
+import com.didichuxing.doraemonkit.ui.dialog.DialogInfo;
+import com.didichuxing.doraemonkit.ui.dialog.SimpleDialogListener;
 import com.didichuxing.doraemonkit.ui.realtime.OnFloatPageChangeListener;
 import com.didichuxing.doraemonkit.ui.realtime.RealTimeChartIconPage;
 import com.didichuxing.doraemonkit.ui.realtime.RealTimeChartPage;
@@ -91,15 +93,43 @@ public class MonitorDataUploadFragment extends BaseFragment implements OnFloatPa
           @Override
           public void onClick(View v) {
               if (mCommitButton.getText().equals(getString(R.string.dk_platform_monitor_data_button_stop))) {
-                  mCommitButton.setText(R.string.dk_platform_monitor_data_button);
-                  PerformanceDataManager.getInstance().stopUploadMonitorData();
-                  FloatPageManager.getInstance().removeAll(RealTimePerformDataFloatPage.class);
+                  DialogInfo dialogInfo = new DialogInfo();
+                  dialogInfo.title = getString(R.string.dk_platform_monitor_data_button_stop);
+                  dialogInfo.listener = new SimpleDialogListener() {
+                      @Override
+                      public boolean onPositive() {
+                          mCommitButton.setText(R.string.dk_platform_monitor_data_button);
+                          PerformanceDataManager.getInstance().stopUploadMonitorData();
+                          FloatPageManager.getInstance().removeAll(RealTimePerformDataFloatPage.class);
+                          return true;
+                      }
+
+                      @Override
+                      public boolean onNegative() {
+                          return true;
+                      }
+                  };
+                  showDialog(dialogInfo);
               } else {
-                  mCommitButton.setText(R.string.dk_platform_monitor_data_button_stop);
-                  PerformanceDataManager.getInstance().startUploadMonitorData();
-                  PageIntent pageIntent = new PageIntent(RealTimePerformDataFloatPage.class);
-                  pageIntent.mode = PageIntent.MODE_SINGLE_INSTANCE;
-                  FloatPageManager.getInstance().add(pageIntent);
+                  DialogInfo dialogInfo = new DialogInfo();
+                  dialogInfo.title = getString(R.string.dk_platform_monitor_data_button);
+                  dialogInfo.listener = new SimpleDialogListener() {
+                      @Override
+                      public boolean onPositive() {
+                          mCommitButton.setText(R.string.dk_platform_monitor_data_button_stop);
+                          PerformanceDataManager.getInstance().startUploadMonitorData();
+                          PageIntent pageIntent = new PageIntent(RealTimePerformDataFloatPage.class);
+                          pageIntent.mode = PageIntent.MODE_SINGLE_INSTANCE;
+                          FloatPageManager.getInstance().add(pageIntent);
+                          return true;
+                      }
+
+                      @Override
+                      public boolean onNegative() {
+                          return true;
+                      }
+                  };
+                  showDialog(dialogInfo);
               }
           }
       });

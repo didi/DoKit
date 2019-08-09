@@ -1,8 +1,8 @@
 package parking.didi.com.aop;
 
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.kit.network.httpurlconnection.HttpUrlConnectionProxy;
-import com.didichuxing.doraemonkit.kit.network.httpurlconnection.HttpsUrlConnectionProxy;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.proxy.HttpUrlConnectionProxy;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.proxy.HttpsUrlConnectionProxy;
 import com.didichuxing.doraemonkit.kit.network.okhttp.DoraemonInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.DoraemonWeakNetworkInterceptor;
 
