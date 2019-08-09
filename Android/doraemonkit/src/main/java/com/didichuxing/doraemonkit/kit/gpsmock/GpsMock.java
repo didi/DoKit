@@ -7,6 +7,7 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.GpsMockConfig;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
+import com.didichuxing.doraemonkit.core.model.LatLng;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
@@ -43,6 +44,11 @@ public class GpsMock implements IKit {
     public void onAppInit(Context context) {
         if (GpsMockConfig.isGPSMockOpen(context)) {
             GpsMockManager.getInstance().startMock();
+            LatLng latLng = GpsMockConfig.getMockLocation(context);
+            if (latLng == null) {
+                return;
+            }
+            GpsMockManager.getInstance().mockLocation(latLng.latitude, latLng.longitude);
         }
     }
 

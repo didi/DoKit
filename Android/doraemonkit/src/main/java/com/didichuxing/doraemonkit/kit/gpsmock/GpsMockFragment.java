@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.GpsMockConfig;
+import com.didichuxing.doraemonkit.core.model.LatLng;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
@@ -119,8 +120,10 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
                 if (!checkInput()) {
                     return;
                 }
-                GpsMockManager.getInstance().mockLocation(Double.valueOf(mLatitude.getText().toString()),
-                        Double.valueOf(mLongitude.getText().toString()));
+                double latitude = Double.valueOf(mLatitude.getText().toString());
+                double longitude = Double.valueOf(mLongitude.getText().toString());
+                GpsMockManager.getInstance().mockLocation(latitude, longitude);
+                GpsMockConfig.saveMockLocation(getContext(), new LatLng(latitude, longitude));
                 Toast.makeText(getContext(), getString(R.string.dk_gps_location_change_toast, mLatitude.getText(), mLongitude.getText()), Toast.LENGTH_SHORT).show();
             }
         });
