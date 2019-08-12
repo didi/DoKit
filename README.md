@@ -154,3 +154,6 @@ iOS上传代码详见DoraemonStatisticsUtil类中的实现
 Andoid上传代码详见DoraemonStatisticsUtil类中的实现
 
 敬请各位用户知晓。
+
+## 友情链接
+我们部门的另外一款开源工具，一个终端侧AI集成运行时环境 [AoE](https://github.com/didi/AoE)
