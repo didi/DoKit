@@ -37,13 +37,16 @@ public class SpeedLimitRequestBody extends RequestBody {
 
     @Override
     public void writeTo(BufferedSink sink) throws IOException {
+        //该requestBody的 writeTo方法第一次被调用时，包装成ByteCountBufferedSink 控制读取速度
         if (mBufferedSink == null) {
             //mBufferedSink = Okio.buffer(sink(sink));
             //默认8K 精确到1K
             mBufferedSink = new ByteCountBufferedSink(sink(sink), 1024L);
+            mRequestBody.writeTo(mBufferedSink);
+        } else {
+            //该requestBody的 writeTo方法非第一次调用时 正常读取
+            mRequestBody.writeTo(sink);
         }
-        mRequestBody.writeTo(mBufferedSink);
-        mBufferedSink.close();
     }
 
     private Sink sink(final BufferedSink sink) {
