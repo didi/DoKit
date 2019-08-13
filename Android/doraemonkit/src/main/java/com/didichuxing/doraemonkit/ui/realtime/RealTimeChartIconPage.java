@@ -41,7 +41,7 @@ public class RealTimeChartIconPage extends BaseFloatPage implements View.OnClick
     @Override
     protected void onCreate(Context context) {
         super.onCreate(context);
-        PerformanceDataManager.getInstance().init(getContext());
+        PerformanceDataManager.getInstance().init(context);
     }
 
     @Override
