@@ -5,7 +5,7 @@
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.0'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.1'
     releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.0'
     ...
 }
