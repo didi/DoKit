@@ -41,9 +41,14 @@ public class MonitorDataUploadFragment extends BaseFragment implements OnFloatPa
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        PerformanceDataManager.getInstance().init(getContext().getApplicationContext());
         initView();
         initCommitButton();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        PerformanceDataManager.getInstance().init(getContext());
     }
 
     private void initView() {

@@ -2,14 +2,12 @@ package com.didichuxing.doraemonkit.util;
 
 import android.util.Log;
 
-import com.didichuxing.doraemonkit.BuildConfig;
-
 /**
  * Created by wanglikun on 2018/9/10.
  */
 
 public class LogHelper {
-    private static final boolean DEBUG = BuildConfig.DEBUG;
+    private static boolean DEBUG = false;
     private static final String TAG = "Doraemon";
 
     public static void d(String subTag, String msg) {
@@ -28,5 +26,9 @@ public class LogHelper {
         if (DEBUG) {
             Log.e(TAG, "[" + subTag + "]: " + msg);
         }
+    }
+
+    public static void setDebug(boolean debug) {
+        DEBUG = debug;
     }
 }

@@ -76,7 +76,7 @@ public class PageDataItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<PageDa
         ((TextView)iteView.findViewById(R.id.data_name_txt)).setText(data.nameResId);
         ((TextView)iteView.findViewById(R.id.high_data_txt)).setText(String.format(rule, getFormatText(data.nameResId, data.max)));
         ((TextView)iteView.findViewById(R.id.low_data_txt)).setText(String.format(rule, getFormatText(data.nameResId, data.min)));
-        ((TextView)iteView.findViewById(R.id.avg_data_txt)).setText(String.format("%s - "+rule, mContext.getString(R.string.dk_frameinfo_avg_value),getFormatText(data.nameResId, data.avg)));
+        ((TextView)iteView.findViewById(R.id.avg_data_txt)).setText(String.format("%s : "+rule, mContext.getString(R.string.dk_frameinfo_avg_value),getFormatText(data.nameResId, data.avg)));
     }
 
     private String getFormatText(int nameResId, double value){

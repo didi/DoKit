@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.gpsmock;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.IBinder;
 
 import java.lang.reflect.Field;
@@ -43,7 +44,7 @@ public class ServiceHookManager {
 
     @SuppressLint("PrivateApi")
     @SuppressWarnings("unchecked")
-    public void install() {
+    public void install(Context context) {
         try {
             Class serviceManager = Class.forName(CLASS_SERVICE_MANAGER);
             Method getService = serviceManager.getDeclaredMethod(METHOD_GET_SERVICE, String.class);
@@ -57,6 +58,7 @@ public class ServiceHookManager {
                 BinderHookHandler handler = new BinderHookHandler(binder, hooker);
                 hooker.setBinder(binder);
                 IBinder proxy = (IBinder) Proxy.newProxyInstance(classLoader, interfaces, handler);
+                hooker.replaceBinder(context, proxy);
                 Field sCache = serviceManager.getDeclaredField(FIELD_S_CACHE);
                 sCache.setAccessible(true);
                 Map<String, IBinder> cache = (Map<String, IBinder>) sCache.get(null);

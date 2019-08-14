@@ -24,7 +24,12 @@ public class RamMainPageFragment extends AbsParameterFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        PerformanceDataManager.getInstance().init(getContext().getApplicationContext());
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        PerformanceDataManager.getInstance().init(getContext());
     }
 
     @Override

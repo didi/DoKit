@@ -91,7 +91,7 @@ public class DoraemonKit {
         }
         sHasInit = true;
         HandlerHooker.doHook(app);
-        ServiceHookManager.getInstance().install();
+        ServiceHookManager.getInstance().install(app);
         app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             int startedActivityCounts;
 

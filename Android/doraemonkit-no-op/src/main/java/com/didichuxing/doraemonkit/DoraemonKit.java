@@ -40,4 +40,8 @@ public class DoraemonKit {
 
     public static void enableRequestPermissionSelf() {
     }
+
+    public static void setDebug(boolean debug) {
+
+    }
 }
