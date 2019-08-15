@@ -99,14 +99,6 @@
 }
 
 #pragma mark - CLLocationManagerDelegate
--(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation{
-    [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
-        if ([delegate respondsToSelector:@selector(locationManager:didUpdateToLocation:fromLocation:)]) {
-            [delegate locationManager:manager didUpdateToLocation:newLocation fromLocation:oldLocation];
-        }
-    }];
-}
-
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     if (!self.isMocking) {
         [self dispatchLocationUpdate:manager locations:locations];
@@ -250,9 +242,6 @@ monitoringDidFailForRegion:(nullable CLRegion *)region
     id<CLLocationManagerDelegate> delegate = [_locationMonitor objectForKey:key];
     if ([delegate respondsToSelector:@selector(locationManager:didUpdateLocations:)]) {
         [delegate locationManager:manager didUpdateLocations:locations];
-    }else if ([delegate respondsToSelector:@selector(locationManager:didUpdateToLocation:fromLocation:)]){
-        [delegate locationManager:manager didUpdateToLocation:locations.firstObject fromLocation:self.oldLocation];
-        self.oldLocation = locations.firstObject;
     }
 }
 @end

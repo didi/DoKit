@@ -122,8 +122,6 @@
             authority = @"Always";
         }else if(state == kCLAuthorizationStatusAuthorizedWhenInUse){
             authority = @"WhenInUse";
-        }else if(state == kCLAuthorizationStatusAuthorized){
-            authority = @"Authorized";
         }
     }else{
         authority = @"NoEnabled";

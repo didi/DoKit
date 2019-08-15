@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DoraemonWeexLogModel.h"
 
+NS_ASSUME_NONNULL_BEGIN
 @interface DoraemonWeexLogDataSource : NSObject
 
 + (nonnull DoraemonWeexLogDataSource *)shareInstance;
@@ -18,4 +19,5 @@
 - (void)addLog:(DoraemonWeexLogModel *)model;
 
 @end
+NS_ASSUME_NONNULL_END
 
