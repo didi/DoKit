@@ -83,8 +83,10 @@
     UIGraphicsBeginImageContextWithOptions(image.size, NO, [UIScreen mainScreen].scale);
     [image drawInRect:CGRectMake(0, 0, image.size.width, image.size.height)];
     CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
-    [[UIColor redColor] set];
-    [text drawInRect:CGRectIntegral(rect) withFont:font];
+    [text drawInRect:CGRectIntegral(rect) withAttributes:@{
+                                                           NSFontAttributeName : font,
+                                                           NSForegroundColorAttributeName : [UIColor redColor]
+                                                           }];
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     

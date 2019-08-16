@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>是否允许访问您的麦克风</string>
-	<key>NSCameraUsageDescription</key>
-	<string>是否允许访问您的摄像头，用于扫描二维码</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -35,6 +31,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>是否允许访问您的摄像头，用于扫描二维码</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>DoraemonKit申请定位</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -43,6 +41,8 @@
 	<string>DoraemonKit申请定位</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>DoraemonKit申请定位</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>是否允许访问您的麦克风</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
