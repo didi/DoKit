@@ -12,7 +12,7 @@
 #import "DoraemonCellSwitch.h"
 #import "DoraemonDefine.h"
 
-@interface DoraemonFPSViewController ()<DoraemonSwitchViewDelegate>
+@interface DoraemonFPSViewController ()<DoraemonSwitchViewDelegate, DoraemonOscillogramWindowDelegate>
 
 @property (nonatomic, strong) DoraemonCellSwitch *switchView;
 
@@ -30,6 +30,7 @@
     [_switchView needDownLine];
     _switchView.delegate = self;
     [self.view addSubview:_switchView];
+    [[DoraemonFPSOscillogramWindow shareInstance] addDelegate:self];
 }
 
 
@@ -46,6 +47,11 @@
     }else{
         [[DoraemonFPSOscillogramWindow shareInstance] hide];
     }
+}
+
+#pragma mark -- DoraemonOscillogramWindowDelegate
+- (void)doraemonOscillogramWindowClosed {
+    [_switchView renderUIWithTitle:DoraemonLocalizedString(@"帧率检测开关") switchOn:[[DoraemonCacheManager sharedInstance] fpsSwitch]];
 }
 
 @end

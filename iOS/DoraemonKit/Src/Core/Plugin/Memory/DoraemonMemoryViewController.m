@@ -12,7 +12,7 @@
 #import "DoraemonCellSwitch.h"
 #import "DoraemonDefine.h"
 
-@interface DoraemonMemoryViewController ()<DoraemonSwitchViewDelegate>
+@interface DoraemonMemoryViewController ()<DoraemonSwitchViewDelegate, DoraemonOscillogramWindowDelegate>
 
 @property (nonatomic, strong) DoraemonCellSwitch *switchView;
 
@@ -30,6 +30,7 @@
     [_switchView needDownLine];
     _switchView.delegate = self;
     [self.view addSubview:_switchView];
+    [[DoraemonMemoryOscillogramWindow shareInstance] addDelegate:self];
 }
 
 - (BOOL)needBigTitleView{
@@ -44,6 +45,11 @@
     }else{
         [[DoraemonMemoryOscillogramWindow shareInstance] hide];
     }
+}
+
+#pragma mark -- DoraemonOscillogramWindowDelegate
+- (void)doraemonOscillogramWindowClosed {
+    [_switchView renderUIWithTitle:DoraemonLocalizedString(@"内存检测开关") switchOn:[[DoraemonCacheManager sharedInstance] memorySwitch]];
 }
 
 @end

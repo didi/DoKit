@@ -21,7 +21,7 @@
 #import "DoraemonDefine.h"
 
 
-@interface DoraemonNetFlowViewController ()<DoraemonSwitchViewDelegate>
+@interface DoraemonNetFlowViewController ()<DoraemonSwitchViewDelegate, DoraemonOscillogramWindowDelegate>
 @property (nonatomic, strong) UITabBarController *tabBar;
 
 @property (nonatomic, strong) DoraemonCellSwitch *switchView;
@@ -33,6 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initUI];
+    [[DoraemonNetFlowOscillogramWindow shareInstance] addDelegate:self];
 }
 
 - (void)initUI{
@@ -102,6 +103,11 @@
     tabBar.viewControllers = @[nav1,nav2];
     
     [self presentViewController:tabBar animated:YES completion:nil];
+}
+
+#pragma mark -- DoraemonOscillogramWindowDelegate
+- (void)doraemonOscillogramWindowClosed {
+    [_switchView renderUIWithTitle:DoraemonLocalizedString(@"流量检测开关") switchOn:[[DoraemonCacheManager sharedInstance] netFlowSwitch]];
 }
 
 @end
