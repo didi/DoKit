@@ -130,7 +130,7 @@
 }
 
 + (NSString *)pushAuthority{
-    if ([[UIApplication sharedApplication] currentUserNotificationSettings].types  == UIRemoteNotificationTypeNone) {
+    if ([[UIApplication sharedApplication] currentUserNotificationSettings].types  == UIUserNotificationTypeNone) {
         return @"NO";
     }
     return @"YES";
