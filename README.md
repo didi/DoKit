@@ -136,6 +136,7 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 [k373379320](https://github.com/k373379320) 、
 [fabcz](https://github.com/fabcz) 、
 [y500](https://github.com/y500)
+[Knight-ZXW](https://github.com/Knight-ZXW)
 
 如何成为外部贡献者？ 提交有意义的PR，并被采纳。
 
