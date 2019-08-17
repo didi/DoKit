@@ -37,6 +37,9 @@
     return self;
 }
 
+- (void)dealloc {
+    [kDelegateWindow removeObserver:self forKeyPath:@"rootViewController"];
+}
 
 - (void)show{
     if (!_viewCheckView) {
