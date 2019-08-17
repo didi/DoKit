@@ -150,10 +150,10 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
             self.performanceBlock(upLoadData);
         }
         //默认实现 保存到沙盒中
-        NSString *testTime = [DoraemonUtil dateFormatTimeInterval:[upLoadData[@"testTime"] floatValue]];
+        NSString *testTimeString = upLoadData[@"testTime"];
         
         NSString *data = [DoraemonUtil dictToJsonStr:upLoadData];
-        [DoraemonUtil savePerformanceDataInFile:testTime data:data];
+        [DoraemonUtil savePerformanceDataInFile:testTimeString data:data];
     }];
     
     [[DoraemonANRManager sharedInstance] addANRBlock:^(NSDictionary *anrInfo) {

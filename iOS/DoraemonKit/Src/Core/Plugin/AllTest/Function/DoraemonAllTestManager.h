@@ -13,7 +13,7 @@ typedef void (^DoraemonAllTestManagerBlock)(NSDictionary *upLoadData);
 
 + (DoraemonAllTestManager *)shareInstance;
 
-@property (nonatomic, assign) NSTimeInterval startTimeInterval;
+@property (nonatomic, strong) NSDate *startTime;
 
 @property (nonatomic, assign) BOOL fpsSwitchOn;
 @property (nonatomic, assign) BOOL cpuSwitchOn;
