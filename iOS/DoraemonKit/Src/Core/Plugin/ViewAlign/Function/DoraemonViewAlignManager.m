@@ -9,6 +9,8 @@
 #import "DoraemonDefine.h"
 #import "DoraemonViewAlignView.h"
 
+#define kDelegateWindow [[UIApplication sharedApplication].delegate window]
+
 @interface DoraemonViewAlignManager()
 
 @property (nonatomic, strong) DoraemonViewAlignView *alignView;
@@ -30,6 +32,7 @@
     self = [super init];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closePlugin:) name:DoraemonClosePluginNotification object:nil];
+        [kDelegateWindow addObserver:self forKeyPath:@"rootViewController" options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
 }
@@ -40,8 +43,7 @@
         _alignView = [[DoraemonViewAlignView alloc] init];
 //        _alignView.hidden = YES;
         [_alignView hide];
-        UIWindow *delegateWindow = [[UIApplication sharedApplication].delegate window];
-        [delegateWindow addSubview:_alignView];
+        [kDelegateWindow addSubview:_alignView];
     }
 //    _alignView.hidden = NO;
     [_alignView show];
@@ -55,6 +57,10 @@
 
 - (void)closePlugin:(NSNotification *)notification{
     [self hidden];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    [kDelegateWindow bringSubviewToFront:self.alignView];
 }
 
 @end
