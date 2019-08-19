@@ -9,6 +9,8 @@
 #import "DoraemonViewCheckView.h"
 #import "DoraemonDefine.h"
 
+#define kDelegateWindow [[UIApplication sharedApplication].delegate window]
+
 @interface DoraemonViewCheckManager()
 
 @property (nonatomic, strong) DoraemonViewCheckView *viewCheckView;
@@ -30,17 +32,20 @@
     self = [super init];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closePlugin:) name:DoraemonClosePluginNotification object:nil];
+        [kDelegateWindow addObserver:self forKeyPath:@"rootViewController" options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
 }
 
+- (void)dealloc {
+    [kDelegateWindow removeObserver:self forKeyPath:@"rootViewController"];
+}
 
 - (void)show{
     if (!_viewCheckView) {
         _viewCheckView = [[DoraemonViewCheckView alloc] init];
         _viewCheckView.hidden = YES;
-        UIWindow *delegateWindow = [[UIApplication sharedApplication].delegate window];
-        [delegateWindow addSubview:_viewCheckView];
+        [kDelegateWindow addSubview:_viewCheckView];
     }
     [_viewCheckView show];
     [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonShowPluginNotification object:nil userInfo:nil];
@@ -52,6 +57,10 @@
 
 - (void)closePlugin:(NSNotification *)notification{
     [self hidden];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    [kDelegateWindow bringSubviewToFront:self.viewCheckView];
 }
 
 @end
