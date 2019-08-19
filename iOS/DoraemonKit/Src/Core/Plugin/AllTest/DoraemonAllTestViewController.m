@@ -95,6 +95,15 @@
             [[DoraemonAllTestManager shareInstance] startRecord];
             [weakSelf.okBtn setTitle:DoraemonLocalizedString(@"结束测试") forState:UIControlStateNormal];
         }else{
+            [DoraemonAllTestManager shareInstance].fpsSwitchOn = NO;
+            [DoraemonAllTestManager shareInstance].cpuSwitchOn = NO;
+            [DoraemonAllTestManager shareInstance].memorySwitchOn = NO;
+            [DoraemonAllTestManager shareInstance].flowSwitchOn = NO;
+            
+            _fpsSwitchView.switchView.on = NO;
+            _cpuSwitchView.switchView.on = NO;
+            _memorySwitchView.switchView.on = NO;
+            _flowSwitchView.switchView.on = NO;
             [[DoraemonAllTestManager shareInstance] endRecord];
             [weakSelf.okBtn setTitle:DoraemonLocalizedString(@"开始测试") forState:UIControlStateNormal];
             
