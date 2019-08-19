@@ -66,7 +66,8 @@
     NSString *phoneSystem = [[UIDevice currentDevice] systemVersion];
     NSUInteger totalMemory = [DoraemonMemoryUtil totalMemoryForDevice];
     NSUInteger phoneMemory = totalMemory;//MB为单位
-    NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+    
     NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
     if (!appName) {
         appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
