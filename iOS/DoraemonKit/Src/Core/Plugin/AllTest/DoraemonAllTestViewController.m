@@ -100,10 +100,10 @@
             [DoraemonAllTestManager shareInstance].memorySwitchOn = NO;
             [DoraemonAllTestManager shareInstance].flowSwitchOn = NO;
             
-            _fpsSwitchView.switchView.on = NO;
-            _cpuSwitchView.switchView.on = NO;
-            _memorySwitchView.switchView.on = NO;
-            _flowSwitchView.switchView.on = NO;
+            weakSelf.fpsSwitchView.switchView.on = NO;
+            weakSelf.cpuSwitchView.switchView.on = NO;
+            weakSelf.memorySwitchView.switchView.on = NO;
+            weakSelf.flowSwitchView.switchView.on = NO;
             [[DoraemonAllTestManager shareInstance] endRecord];
             [weakSelf.okBtn setTitle:DoraemonLocalizedString(@"开始测试") forState:UIControlStateNormal];
             
