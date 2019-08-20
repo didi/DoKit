@@ -46,6 +46,13 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    // 禁用 UITextView 滑动，解决其与 UITableView 的滑动冲突；
+    // 放这里调用是因为在其他地方调用会出现文本未显示的问题(模拟器环境下)
+    _contentLabel.scrollEnabled = false;
+}
+
 - (void)renderUIWithContent:(NSString *)content isFirst:(BOOL)isFirst isLast:(BOOL)isLast{
     _contentLabel.text = content;
     CGSize fontSize = [_contentLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-kDoraemonSizeFrom750_Landscape(32)*2, MAXFLOAT)];
