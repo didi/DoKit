@@ -16,6 +16,9 @@
 
 package com.didichuxing.doraemonkit.zxing.view;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -31,13 +34,9 @@ import android.graphics.Shader;
 import android.graphics.SweepGradient;
 import android.util.AttributeSet;
 import android.view.View;
-
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.zxing.camera.CameraManager;
 import com.google.zxing.ResultPoint;
-
-import java.util.Collection;
-import java.util.HashSet;
 
 
 /**
@@ -85,15 +84,20 @@ public final class ViewfinderView extends View {
 
         //初始化自定义属性信息
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ViewfinderView);
-        laserColor = array.getColor(R.styleable.ViewfinderView_dkLaserColor, 0x00FF00);
-        cornerColor = array.getColor(R.styleable.ViewfinderView_dkCornerColor, 0x00FF00);
-        frameColor = array.getColor(R.styleable.ViewfinderView_dkFrameColor, 0xFFFFFF);
-        resultPointColor = array.getColor(R.styleable.ViewfinderView_dkResultPointColor, 0xC0FFFF00);
-        maskColor = array.getColor(R.styleable.ViewfinderView_dkMaskColor, 0x60000000);
-        resultColor = array.getColor(R.styleable.ViewfinderView_dkResultColor, 0xB0000000);
-        labelTextColor = array.getColor(R.styleable.ViewfinderView_dkLabelTextColor, 0x90FFFFFF);
-        labelText = array.getString(R.styleable.ViewfinderView_dkLabelText);
-        labelTextSize = array.getFloat(R.styleable.ViewfinderView_dkLabelTextSize, 36f);
+
+        try {
+            laserColor = array.getColor(R.styleable.ViewfinderView_dkLaserColor, 0x00FF00);
+            cornerColor = array.getColor(R.styleable.ViewfinderView_dkCornerColor, 0x00FF00);
+            frameColor = array.getColor(R.styleable.ViewfinderView_dkFrameColor, 0xFFFFFF);
+            resultPointColor = array.getColor(R.styleable.ViewfinderView_dkResultPointColor, 0xC0FFFF00);
+            maskColor = array.getColor(R.styleable.ViewfinderView_dkMaskColor, 0x60000000);
+            resultColor = array.getColor(R.styleable.ViewfinderView_dkResultColor, 0xB0000000);
+            labelTextColor = array.getColor(R.styleable.ViewfinderView_dkLabelTextColor, 0x90FFFFFF);
+            labelText = array.getString(R.styleable.ViewfinderView_dkLabelText);
+            labelTextSize = array.getFloat(R.styleable.ViewfinderView_dkLabelTextSize, 36f);
+        } finally {
+            array.recycle();
+        }
 
         // Initialize these once for performance rather than calling them every time in onDraw().
         paint = new Paint();
