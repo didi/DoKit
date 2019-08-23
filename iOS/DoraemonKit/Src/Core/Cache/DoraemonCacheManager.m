@@ -20,6 +20,7 @@ static NSString * const kDoraemonNSLogKey = @"doraemon_nslog_key";
 static NSString * const kDoraemonMethodUseTimeKey = @"doraemon_method_use_time_key";
 static NSString * const kDoraemonLargeImageDetectionKey = @"doraemon_large_image_detection_key";
 static NSString * const kDoraemonH5historicalRecord = @"doraemon_historical_record";
+static NSString * const kDoraemonStartTimeKey = @"doraemon_start_time_key";
 
 @implementation DoraemonCacheManager
 
@@ -180,6 +181,17 @@ static NSString * const kDoraemonH5historicalRecord = @"doraemon_historical_reco
 - (BOOL)methodUseTimeSwitch{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     return [defaults boolForKey:kDoraemonMethodUseTimeKey];
+}
+
+- (void)saveStartTimeSwitch:(BOOL)on {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:on forKey:kDoraemonStartTimeKey];
+    [defaults synchronize];
+}
+
+- (BOOL)startTimeSwitch{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    return [defaults boolForKey:kDoraemonStartTimeKey];
 }
 
 - (NSArray<NSString *> *)h5historicalRecord {

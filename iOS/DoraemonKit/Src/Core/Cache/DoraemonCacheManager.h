@@ -60,6 +60,10 @@
 
 - (BOOL)methodUseTimeSwitch;
 
+- (void)saveStartTimeSwitch:(BOOL)on;
+
+- (BOOL)startTimeSwitch;
+
 /// 历史记录
 - (NSArray<NSString *> *)h5historicalRecord;
 - (void)saveH5historicalRecordWithText:(NSString *)text;

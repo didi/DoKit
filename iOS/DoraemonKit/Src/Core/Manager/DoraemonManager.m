@@ -224,6 +224,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 #if DoraemonWithLoad
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMethodUseTimePlugin];
 #endif
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonStartTimePlugin];
     
     #pragma mark - 视觉工具
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonColorPickPlugin];
@@ -549,6 +550,13 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kDesc:DoraemonLocalizedString(@"大图检测")},
                                    @{kIcon:@"doraemon_net"},
                                    @{kPluginName:@"DoraemonLargeImagePlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"性能检测")}
+                                   ],
+                           @(DoraemonManagerPluginType_DoraemonStartTimePlugin) : @[
+                                   @{kTitle:DoraemonLocalizedString(@"启动耗时")},
+                                   @{kDesc:DoraemonLocalizedString(@"启动耗时统计")},
+                                   @{kIcon:@"doraemon_method_use_time"},
+                                   @{kPluginName:@"DoraemonStartTimePlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")}
                                    ],
                            // 视觉工具
