@@ -26,7 +26,7 @@ public class StackSampler {
     private HandlerThread mStackThread;
     private Handler mStackHandler;
 
-    private LinkedHashMap<Long, String> sStackMap = new LinkedHashMap<>();
+    private final LinkedHashMap<Long, String> sStackMap = new LinkedHashMap<>();
     private String mFilterCache;
 
     public void init() {
