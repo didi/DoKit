@@ -1,4 +1,16 @@
 # Release Notes
+### 1.2.2
+1、App启动耗时统计
+
+2、Xcode控制台打印字典、数组等集合中的中文显示为unicode的问题
+
+3、组件检查或者对齐标尺组件打开后切换rootviewcontroller后失去响应
+
+4、重启APP mock的定位数据仍然生效
+
+5、消除SDK的warning
+
+6、其他的一些优化，详见代码提交记录
 
 ### 1.2.1
 1、大图检测功能[0xd-cc](https://github.com/0xd-cc)

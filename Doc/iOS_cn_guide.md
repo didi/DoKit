@@ -3,12 +3,12 @@
 ### 1、cocoapods依赖
 
 ```
-    pod 'DoraemonKit/Core', '~> 1.2.1', :configurations => ['Debug'] //必选
-    pod 'DoraemonKit/WithLogger', '~> 1.2.1', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithGPS', '~> 1.2.1', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithLoad', '~> 1.2.1', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithWeex', '~> 1.2.1', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithDatabase', '~> 1.2.1', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/Core', '~> 1.2.2', :configurations => ['Debug'] //必选
+    pod 'DoraemonKit/WithLogger', '~> 1.2.2', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithGPS', '~> 1.2.2', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithLoad', '~> 1.2.2', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithWeex', '~> 1.2.2', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithDatabase', '~> 1.2.2', :configurations => ['Debug'] //可选
 ```
 Core subspec作为核心，必须引入。
 

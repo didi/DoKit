@@ -2,7 +2,7 @@
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
  <img src="https://img.shields.io/badge/Android-1.2.1-blue.svg" align=left />
- <img src="https://img.shields.io/badge/iOS-1.2.1-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/iOS-1.2.2-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
 
@@ -61,6 +61,7 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 6. **【自定义】** 可以选择你要监控的选项，包括 FPS、CPU、内存、流量。监控完毕之后，把数据保存到本地，也可以导出来做更加细致的分析；
 7. **【Load 耗时】** Load 函数耗时是 iOS 启动性能优化中重要的一项，该功能可以打印出所有 Load 函数的耗时，给开发者以参考。
 8. **【大图检测】** 通过流量监测，找出所有的大小超标的图片，避免下载大图造成的流量浪费和渲染大图带来的CPU消耗。
+9. **【启动耗时】** 无侵入的统计出App启动过程的总共耗时
 
 ### 三、视觉工具
 
