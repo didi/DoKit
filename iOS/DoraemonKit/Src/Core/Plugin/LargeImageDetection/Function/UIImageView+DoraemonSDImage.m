@@ -45,8 +45,10 @@
             if (!data && data.length <= 0) {
                 data = UIImagePNGRepresentation(image);
             }
-            NSString *drawText = [NSString stringWithFormat:@"url : %@ \n size : %fKB",[url absoluteString],data.length/1024.];
-            weafSelf.image = [self drawText:drawText inImage:weafSelf.image];
+            if (data.length > [DoraemonLargeImageDetectionManager shareInstance].minimumDetectionSize) {
+                NSString *drawText = [NSString stringWithFormat:@"url : %@ \n size : %fKB",[url absoluteString],data.length/1024.];
+                weafSelf.image = [self drawText:drawText inImage:weafSelf.image];
+            }
             if (completedBlock) {
                 completedBlock(weafSelf.image, error, cacheType,imageURL);
             }
@@ -66,8 +68,10 @@
             if (!data && data.length <= 0) {
                 data = UIImagePNGRepresentation(image);
             }
-            NSString *drawText = [NSString stringWithFormat:@"url : %@ \n size : %fKB",[url absoluteString],data.length/1024.];
-            weafSelf.image = [self drawText:drawText inImage:weafSelf.image];
+            if (data.length > [DoraemonLargeImageDetectionManager shareInstance].minimumDetectionSize) {
+                NSString *drawText = [NSString stringWithFormat:@"url : %@ \n size : %fKB",[url absoluteString],data.length/1024.];
+                weafSelf.image = [self drawText:drawText inImage:weafSelf.image];
+            }
             if (completedBlock) {
                 completedBlock(weafSelf.image, error, cacheType,imageURL);
             }
