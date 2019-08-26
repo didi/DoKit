@@ -6,17 +6,17 @@
 //  Copyright © 2017年 yixiang. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "DoKitAppDelegate.h"
 #import <DoraemonKit/DoraemonKit.h>
 #import "DoraemonDemoHomeViewController.h"
 #import "Doraemoni18NUtil.h"
 //#import <CocoaLumberjack/CocoaLumberjack.h>
 
-@interface AppDelegate ()
+@interface DoKitAppDelegate ()
 
 @end
 
-@implementation AppDelegate
+@implementation DoKitAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
@@ -33,7 +33,8 @@
     }];
 
     [[DoraemonManager shareInstance] addStartPlugin:@"StartPlugin"];
-    [DoraemonManager shareInstance].bigImageDetectionSize = 10 * 1024;//大图检测只检测100K以上的
+    [DoraemonManager shareInstance].bigImageDetectionSize = 10 * 1024;//大图检测只检测10K以上的
+    [DoraemonManager shareInstance].startClass = @"DoKitAppDelegate";
     [[DoraemonManager shareInstance] install];
     
     [[DoraemonManager shareInstance] addANRBlock:^(NSDictionary *anrDic) {

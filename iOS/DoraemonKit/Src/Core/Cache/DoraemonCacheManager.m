@@ -21,6 +21,13 @@ static NSString * const kDoraemonMethodUseTimeKey = @"doraemon_method_use_time_k
 static NSString * const kDoraemonLargeImageDetectionKey = @"doraemon_large_image_detection_key";
 static NSString * const kDoraemonH5historicalRecord = @"doraemon_historical_record";
 static NSString * const kDoraemonStartTimeKey = @"doraemon_start_time_key";
+static NSString * const kDoraemonStartClassKey = @"doraemon_start_class_key";
+
+@interface DoraemonCacheManager()
+
+@property (nonatomic, strong) NSUserDefaults *defaults;
+
+@end
 
 @implementation DoraemonCacheManager
 
@@ -33,27 +40,31 @@ static NSString * const kDoraemonStartTimeKey = @"doraemon_start_time_key";
     return instance;
 }
 
+- (instancetype)init {
+    self  = [super init];
+    if (self) {
+        _defaults = [NSUserDefaults standardUserDefaults];
+    }
+    return self;
+}
+
 - (void)saveLoggerSwitch:(BOOL)on{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:on forKey:kDoraemonLoggerSwitchKey];
-    [defaults synchronize];
+    [_defaults setBool:on forKey:kDoraemonLoggerSwitchKey];
+    [_defaults synchronize];
 }
 
 - (BOOL)loggerSwitch{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:kDoraemonLoggerSwitchKey];
+    return [_defaults boolForKey:kDoraemonLoggerSwitchKey];
 
 }
 
 - (void)saveMockGPSSwitch:(BOOL)on{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:on forKey:kDoraemonMockGPSSwitchKey];
-    [defaults synchronize];
+    [_defaults setBool:on forKey:kDoraemonMockGPSSwitchKey];
+    [_defaults synchronize];
 }
 
 - (BOOL)mockGPSSwitch{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:kDoraemonMockGPSSwitchKey];
+    return [_defaults boolForKey:kDoraemonMockGPSSwitchKey];
 }
 
 - (void)saveMockCoordinate:(CLLocationCoordinate2D)coordinate{
@@ -61,14 +72,12 @@ static NSString * const kDoraemonStartTimeKey = @"doraemon_start_time_key";
                           @"longitude":@(coordinate.longitude),
                           @"latitude":@(coordinate.latitude)
                           };
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:dic forKey:kDoraemonMockCoordinateKey];
-    [defaults synchronize];
+    [_defaults setObject:dic forKey:kDoraemonMockCoordinateKey];
+    [_defaults synchronize];
 }
 
 - (CLLocationCoordinate2D)mockCoordinate{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSDictionary *dic = [defaults valueForKey:kDoraemonMockCoordinateKey];
+    NSDictionary *dic = [_defaults valueForKey:kDoraemonMockCoordinateKey];
     CLLocationCoordinate2D coordinate ;
     if (dic[@"longitude"]) {
         coordinate.longitude = [dic[@"longitude"] doubleValue];
@@ -85,118 +94,97 @@ static NSString * const kDoraemonStartTimeKey = @"doraemon_start_time_key";
 }
 
 - (void)saveFpsSwitch:(BOOL)on{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:on forKey:kDoraemonFpsKey];
-    [defaults synchronize];
+    [_defaults setBool:on forKey:kDoraemonFpsKey];
+    [_defaults synchronize];
 }
 
 - (BOOL)fpsSwitch{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:kDoraemonFpsKey];
+    return [_defaults boolForKey:kDoraemonFpsKey];
 }
 
 - (void)saveCpuSwitch:(BOOL)on{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:on forKey:kDoraemonCpuKey];
-    [defaults synchronize];
+    [_defaults setBool:on forKey:kDoraemonCpuKey];
+    [_defaults synchronize];
 }
 
 - (BOOL)cpuSwitch{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:kDoraemonCpuKey];
+    return [_defaults boolForKey:kDoraemonCpuKey];
 }
 
 - (void)saveMemorySwitch:(BOOL)on{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:on forKey:kDoraemonMemoryKey];
-    [defaults synchronize];
+    [_defaults setBool:on forKey:kDoraemonMemoryKey];
+    [_defaults synchronize];
 }
 
 - (BOOL)memorySwitch{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:kDoraemonMemoryKey];
+    return [_defaults boolForKey:kDoraemonMemoryKey];
 }
 
 - (void)saveNetFlowSwitch:(BOOL)on{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:on forKey:kDoraemonNetFlowKey];
-    [defaults synchronize];
+    [_defaults setBool:on forKey:kDoraemonNetFlowKey];
+    [_defaults synchronize];
 }
 
 - (BOOL)netFlowSwitch{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:kDoraemonNetFlowKey];
+    return [_defaults boolForKey:kDoraemonNetFlowKey];
 }
 
 - (void)saveLargeImageDetectionSwitch:(BOOL)on{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:on forKey:kDoraemonLargeImageDetectionKey];
-    [defaults synchronize];
+    [_defaults setBool:on forKey:kDoraemonLargeImageDetectionKey];
+    [_defaults synchronize];
 }
 
 - (BOOL)largeImageDetectionSwitch{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey: kDoraemonLargeImageDetectionKey];
+    return [_defaults boolForKey: kDoraemonLargeImageDetectionKey];
 }
 
 - (void)saveSubThreadUICheckSwitch:(BOOL)on{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:on forKey:kDoraemonSubThreadUICheckKey];
-    [defaults synchronize];
+    [_defaults setBool:on forKey:kDoraemonSubThreadUICheckKey];
+    [_defaults synchronize];
 }
 
 - (BOOL)subThreadUICheckSwitch{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:kDoraemonSubThreadUICheckKey];
+    return [_defaults boolForKey:kDoraemonSubThreadUICheckKey];
 }
 
 - (void)saveCrashSwitch:(BOOL)on{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:on forKey:kDoraemonCrashKey];
-    [defaults synchronize];
+    [_defaults setBool:on forKey:kDoraemonCrashKey];
+    [_defaults synchronize];
 }
 
 - (BOOL)crashSwitch{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:kDoraemonCrashKey];
+    return [_defaults boolForKey:kDoraemonCrashKey];
 }
 
 - (void)saveNSLogSwitch:(BOOL)on{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:on forKey:kDoraemonNSLogKey];
-    [defaults synchronize];
+    [_defaults setBool:on forKey:kDoraemonNSLogKey];
+    [_defaults synchronize];
 }
 
 - (BOOL)nsLogSwitch{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:kDoraemonNSLogKey];
+    return [_defaults boolForKey:kDoraemonNSLogKey];
 }
 
 - (void)saveMethodUseTimeSwitch:(BOOL)on{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:on forKey:kDoraemonMethodUseTimeKey];
-    [defaults synchronize];
+    [_defaults setBool:on forKey:kDoraemonMethodUseTimeKey];
+    [_defaults synchronize];
 }
 
 - (BOOL)methodUseTimeSwitch{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:kDoraemonMethodUseTimeKey];
+    return [_defaults boolForKey:kDoraemonMethodUseTimeKey];
 }
 
 - (void)saveStartTimeSwitch:(BOOL)on {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setBool:on forKey:kDoraemonStartTimeKey];
-    [defaults synchronize];
+    [_defaults setBool:on forKey:kDoraemonStartTimeKey];
+    [_defaults synchronize];
 }
 
 - (BOOL)startTimeSwitch{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults boolForKey:kDoraemonStartTimeKey];
+    return [_defaults boolForKey:kDoraemonStartTimeKey];
 }
 
 - (NSArray<NSString *> *)h5historicalRecord {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    return [defaults objectForKey:kDoraemonH5historicalRecord];
+    return [_defaults objectForKey:kDoraemonH5historicalRecord];
 }
 
 - (void)saveH5historicalRecordWithText:(NSString *)text {
@@ -215,15 +203,13 @@ static NSString * const kDoraemonStartTimeKey = @"doraemon_start_time_key";
     /// 限制数量
     if (muarr.count > 10) { [muarr removeObjectAtIndex:0]; }
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:muarr.copy forKey:kDoraemonH5historicalRecord];
-    [defaults synchronize];
+    [_defaults setObject:muarr.copy forKey:kDoraemonH5historicalRecord];
+    [_defaults synchronize];
 }
 
 - (void)clearAllH5historicalRecord {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:kDoraemonH5historicalRecord];
-    [defaults synchronize];
+    [_defaults removeObjectForKey:kDoraemonH5historicalRecord];
+    [_defaults synchronize];
 }
 
 - (void)clearH5historicalRecordWithText:(NSString *)text {
@@ -237,13 +223,22 @@ static NSString * const kDoraemonStartTimeKey = @"doraemon_start_time_key";
     [muarr removeObject:text];
     
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if (muarr.count > 0) {
-        [defaults setObject:muarr.copy forKey:kDoraemonH5historicalRecord];
+        [_defaults setObject:muarr.copy forKey:kDoraemonH5historicalRecord];
     } else {
-        [defaults removeObjectForKey:kDoraemonH5historicalRecord];
+        [_defaults removeObjectForKey:kDoraemonH5historicalRecord];
     }
-    [defaults synchronize];
+    [_defaults synchronize];
+}
+
+- (void)saveStartClass : (NSString *)startClass {
+    [_defaults setObject:startClass forKey:kDoraemonStartClassKey];
+    [_defaults synchronize];
+}
+
+- (NSString *)startClass {
+    NSString *startClass = [_defaults objectForKey:kDoraemonStartClassKey];
+    return startClass;
 }
 
 

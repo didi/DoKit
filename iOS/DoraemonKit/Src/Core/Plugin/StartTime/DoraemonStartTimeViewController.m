@@ -11,6 +11,7 @@
 #import "DoraemonDefine.h"
 #import "DoraemonCacheManager.h"
 #import "NSObject+Doraemon.h"
+#import "DoraemonManager.h"
 #import <objc/runtime.h>
 
 static NSTimeInterval startTime;
@@ -28,10 +29,14 @@ static NSTimeInterval endTime;
 + (void)load{
     startTime = [[NSDate date] timeIntervalSince1970];
     if ([[DoraemonCacheManager sharedInstance] startTimeSwitch]) {
-        Class class = NSClassFromString(@"AppDelegate");
+        NSString *startClass = [DoraemonManager shareInstance].startClass;
+        if (!startClass) {
+            startClass = @"AppDelegate";
+        }
+        Class class = NSClassFromString(startClass);
         Method originMethod = class_getInstanceMethod(class, @selector(application:didFinishLaunchingWithOptions:));
         Method swizzledMethod = class_getInstanceMethod([self class], @selector(doraemon_application:didFinishLaunchingWithOptions:));
-        BOOL didAddMethod = class_addMethod(class, method_getName(swizzledMethod), method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
+        class_addMethod(class, method_getName(swizzledMethod), method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
         Method swizzledMethod2 = class_getInstanceMethod(class, @selector(doraemon_application:didFinishLaunchingWithOptions:));
         method_exchangeImplementations(originMethod, swizzledMethod2);
     }

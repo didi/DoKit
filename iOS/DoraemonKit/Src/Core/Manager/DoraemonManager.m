@@ -600,4 +600,12 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     return model;
 }
 
+- (void)setStartClass:(NSString *)startClass {
+    [[DoraemonCacheManager sharedInstance] saveStartClass:startClass];
+}
+
+- (NSString *)startClass{
+    return [[DoraemonCacheManager sharedInstance] startClass];
+}
+
 @end
