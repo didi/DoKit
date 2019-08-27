@@ -141,7 +141,13 @@
     
     [desc appendFormat:@"%@)", tab];
     
-    return [desc stringByReplacingOccurrencesOfString:@",\n" withString:@"\n" options:NSBackwardsSearch range:[desc rangeOfString:@",\n" options:NSBackwardsSearch]];
+    NSRange range = [desc rangeOfString:@",\n" options:NSBackwardsSearch];
+    
+    if (range.location == NSNotFound) {
+        return desc;
+    } else {
+        return [desc stringByReplacingOccurrencesOfString:@",\n" withString:@"\n" options:NSBackwardsSearch range:range];
+    }
 }
 
 @end
@@ -207,7 +213,13 @@
     
     [desc appendFormat:@"%@)}", tab];
     
-    return [desc stringByReplacingOccurrencesOfString:@",\n" withString:@"\n" options:NSBackwardsSearch range:[desc rangeOfString:@",\n" options:NSBackwardsSearch]];
+    NSRange range = [desc rangeOfString:@",\n" options:NSBackwardsSearch];
+    
+    if (range.location == NSNotFound) {
+        return desc;
+    } else {
+        return [desc stringByReplacingOccurrencesOfString:@",\n" withString:@"\n" options:NSBackwardsSearch range:range];
+    }
 }
 
 @end
