@@ -88,7 +88,7 @@
 
 - (void)okBtnClick{
     __weak typeof(self) weakSelf = self;
-    [DoraemonToastUtil handleRestartActionWithVC:self text:@"是否确认" restartBlock:^{
+    [DoraemonAlertUtil handleAlertActionWithVC:self text:@"是否确认" okBlock:^{
         weakSelf.okBtnStatus = !weakSelf.okBtnStatus;
         [DoraemonAllTestManager shareInstance].startTestOn = weakSelf.okBtnStatus;
         if (weakSelf.okBtnStatus) {
