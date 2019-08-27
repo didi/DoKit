@@ -485,7 +485,6 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kPluginName:@"DoraemonCocoaLumberjackPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"常用工具")}
                                    ],
-                           
                            @(DoraemonManagerPluginType_DoraemonDatabasePlugin) : @[
                                    @{kTitle:@"YYDatabase"},
                                    @{kDesc:DoraemonLocalizedString(@"数据库")},
@@ -493,7 +492,6 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kPluginName:@"DoraemonDatabasePlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"常用工具")}
                                    ],
-                           
                            // 性能检测
                            @(DoraemonManagerPluginType_DoraemonFPSPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"帧率")},
@@ -555,7 +553,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                            @(DoraemonManagerPluginType_DoraemonStartTimePlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"启动耗时")},
                                    @{kDesc:DoraemonLocalizedString(@"启动耗时统计")},
-                                   @{kIcon:@"doraemon_method_use_time"},
+                                   @{kIcon:@"doraemon_app_start_time"},
                                    @{kPluginName:@"DoraemonStartTimePlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")}
                                    ],
