@@ -90,7 +90,7 @@ public class DevToolActivity extends AppCompatActivity {
     }
 
     private void handleNoResult() {
-        Toast.makeText(getApplicationContext(), "没有扫描到任何内容>_<", Toast.LENGTH_SHORT);
+        Toast.makeText(getApplicationContext(), "没有扫描到任何内容>_<", Toast.LENGTH_SHORT).show();
         finish();
     }
 
