@@ -26,7 +26,7 @@
     
     NSString *appId = [[NSBundle mainBundle] bundleIdentifier];;
     NSString *appName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"];
-    NSString *doKitVersion = @"1.2.2";
+    NSString *doKitVersion = @"1.2.3";
     NSString *type = @"iOS";
     NSString *from = @"1";
     
