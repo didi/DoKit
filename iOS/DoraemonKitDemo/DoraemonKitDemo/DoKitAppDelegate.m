@@ -60,6 +60,9 @@
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:homeVc];
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];
+    
+    NSArray *array = @[];
+    NSLog(@"%@",[array description]);
 
     return YES;
 }

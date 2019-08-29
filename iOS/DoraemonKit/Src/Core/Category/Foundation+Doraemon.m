@@ -12,7 +12,7 @@
 #define kUnicodeReadable 1
 #if kUnicodeReadable
 
-@implementation NSDictionary (UnicodeReadable)
+@implementation NSDictionary (DoraemonUnicodeReadable)
 
 - (NSString *)descriptionWithLocale:(id)locale indent:(NSUInteger)level {
     NSMutableString *desc = [NSMutableString string];
@@ -81,7 +81,7 @@
 @end
 
 
-@implementation NSArray (UnicodeReadable)
+@implementation NSArray (DoraemonUnicodeReadable)
 
 - (NSString *)descriptionWithLocale:(id)locale indent:(NSUInteger)level {
     NSMutableString *desc = [NSMutableString string];
@@ -153,7 +153,7 @@
 @end
 
 
-@implementation NSSet (UnicodeReadable)
+@implementation NSSet (DoraemonUnicodeReadable)
 
 - (NSString *)descriptionWithLocale:(id)locale indent:(NSUInteger)level {
     NSMutableString *desc = [NSMutableString string];
