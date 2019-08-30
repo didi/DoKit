@@ -26,7 +26,18 @@
 
 - (instancetype)init{
     _kEntryViewSize = 58;
-    self = [super initWithFrame:CGRectMake(0, DoraemonScreenHeight/3, _kEntryViewSize, _kEntryViewSize)];
+    CGFloat x = self.startingPosition.x;
+    CGFloat y = self.startingPosition.y;
+    CGPoint defaultPosition = DoraemonStartingPosition;
+    if (x < 0 || x > (DoraemonScreenWidth - _kEntryViewSize)) {
+        x = defaultPosition.x;
+    }
+    
+    if (y < 0 || y > (DoraemonScreenHeight - _kEntryViewSize)) {
+        y = defaultPosition.y;
+    }
+    
+    self = [super initWithFrame:CGRectMake(x, y, _kEntryViewSize, _kEntryViewSize)];
     if (self) { 
         self.backgroundColor = [UIColor clearColor];
         self.windowLevel = UIWindowLevelStatusBar + 100.f;

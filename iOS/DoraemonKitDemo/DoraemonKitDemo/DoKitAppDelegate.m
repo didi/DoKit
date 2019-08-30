@@ -36,6 +36,7 @@
     [DoraemonManager shareInstance].bigImageDetectionSize = 10 * 1024;//大图检测只检测10K以上的
     [DoraemonManager shareInstance].startClass = @"DoKitAppDelegate";
     [[DoraemonManager shareInstance] install];
+    //[[DoraemonManager shareInstance] installWithStartingPosition:CGPointMake(66, 66)];
     
     [[DoraemonManager shareInstance] addANRBlock:^(NSDictionary *anrDic) {
         NSLog(@"anrDic == %@",anrDic);
