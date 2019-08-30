@@ -84,9 +84,6 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 - (void)install{
     //启用默认位置
     CGPoint defaultPosition = DoraemonStartingPosition;
-//    startingPosition = CGPointMake(0, DoraemonScreenHeight/3);
-//    startingPosition = CGPointMake(0, 0 - 1);
-//    startingPosition = CGPointMake(100, 100);
     [self installWithStartingPosition:defaultPosition];
 }
 
