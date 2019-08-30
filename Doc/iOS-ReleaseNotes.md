@@ -1,4 +1,8 @@
 # Release Notes
+
+### 1.2.3
+1、为了解决调用空的NSArray和NSSet的description，会crash的问题。
+
 ### 1.2.2
 1、App启动耗时统计
 
