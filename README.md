@@ -142,7 +142,12 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [fabcz](https://github.com/fabcz) 、
 [y500](https://github.com/y500) 、
 [Knight-ZXW](https://github.com/Knight-ZXW) 、
-[boai](https://github.com/boai)
+[boai](https://github.com/boai) 、
+[klone1127](https://github.com/klone1127) 、
+[DeveloperLY](https://github.com/DeveloperLY) 、
+[sagdragon](https://github.com/sagdragon) 、
+[ccworld1000](https://github.com/ccworld1000)
+
 
 如何成为外部贡献者？ 提交有意义的PR，并被采纳。
 
