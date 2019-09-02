@@ -10,4 +10,7 @@
 
 @interface DoraemonEntryView : UIWindow
 
+// 定制位置
+@property (nonatomic) CGPoint startingPosition;
+
 @end

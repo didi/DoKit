@@ -65,6 +65,9 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 
 @property (nonatomic, assign) BOOL hasInstall;
 
+// 定制位置
+@property (nonatomic) CGPoint startingPosition;
+
 @end
 
 @implementation DoraemonManager
@@ -79,6 +82,13 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 }
 
 - (void)install{
+    //启用默认位置
+    CGPoint defaultPosition = DoraemonStartingPosition;
+    [self installWithStartingPosition:defaultPosition];
+}
+
+- (void)installWithStartingPosition:(CGPoint) position{
+    _startingPosition = position;
     [self installWithCustomBlock:^{
         //什么也没发生
     }];
@@ -102,7 +112,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self initData];
     customBlock();
 
-    [self initEntry];
+    [self initEntry:self.startingPosition];
     
     //根据开关判断是否收集Crash日志
     if ([[DoraemonCacheManager sharedInstance] crashSwitch]) {
@@ -237,8 +247,11 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 /**
  初始化工具入口
  */
-- (void)initEntry{
-    _entryView = [[DoraemonEntryView alloc] init];
+- (void)initEntry:(CGPoint) startingPosition{
+    _entryView = [DoraemonEntryView alloc];
+    _entryView.startingPosition = startingPosition;
+    _entryView = [_entryView init];
+    
     [_entryView makeKeyAndVisible];
 }
 

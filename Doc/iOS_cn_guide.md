@@ -28,14 +28,17 @@ MockGPS存在一些兼容性问题（绝大部分情况是好的，问题详见[
 ### 2、使用DoraemonKit内置工具集的接入方式
 在App启动的时候添加一下代码
 
-```
+```objective-c
 #ifdef DEBUG
 #import <DoraemonKit/DoraemonManager.h>
 #endif
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     #ifdef DEBUG
+    	//默认
         [[DoraemonManager shareInstance] install];
+    	// 或者使用传入位置,解决遮挡关键区域,减少频繁移动
+        //[[DoraemonManager shareInstance] installWithStartingPosition:CGPointMake(66, 66)];
     #endif
 }
 ```
@@ -57,7 +60,7 @@ MockGPS存在一些兼容性问题（绝大部分情况是好的，问题详见[
 }
  @end
 ```
- 
+
 
 第二步：在Doraemon初始化的地方添加第一步中添加的“环境切换”插件
 

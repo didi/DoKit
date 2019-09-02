@@ -90,6 +90,9 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 - (void)install;
 
+// 定制起始位置 | 适用正好挡住关键位置
+- (void)installWithStartingPosition:(CGPoint) position;
+
 - (void)installWithCustomBlock:(void(^)(void))customBlock;
 
 @property (nonatomic,strong) NSMutableArray *dataArray;
