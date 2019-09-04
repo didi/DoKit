@@ -24,33 +24,33 @@ PODS:
   - CocoaLumberjack (3.5.3):
     - CocoaLumberjack/Core (= 3.5.3)
   - CocoaLumberjack/Core (3.5.3)
-  - DoraemonKit/Core (1.2.2):
+  - DoraemonKit/Core (1.2.3):
     - BSBacktraceLogger
     - fishhook
     - PNChart
-  - DoraemonKit/WithDatabase (1.2.2):
+  - DoraemonKit/WithDatabase (1.2.3):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
     - PNChart
     - YYDebugDatabase
-  - DoraemonKit/WithGPS (1.2.2):
+  - DoraemonKit/WithGPS (1.2.3):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
     - PNChart
-  - DoraemonKit/WithLoad (1.2.2):
+  - DoraemonKit/WithLoad (1.2.3):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
     - PNChart
-  - DoraemonKit/WithLogger (1.2.2):
+  - DoraemonKit/WithLogger (1.2.3):
     - BSBacktraceLogger
     - CocoaLumberjack
     - DoraemonKit/Core
     - fishhook
     - PNChart
-  - DoraemonKit/WithWeex (1.2.2):
+  - DoraemonKit/WithWeex (1.2.3):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
@@ -113,7 +113,7 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   BSBacktraceLogger: 06b983ee93a9f87d957960e9c73d660d5966b447
   CocoaLumberjack: 2f44e60eb91c176d471fdba43b9e3eae6a721947
-  DoraemonKit: ea50d30db95bd7ce978e964b2bb90c588a19a2a3
+  DoraemonKit: c1e675735a94db6ca7ad6ffac256d6baddc00afb
   fishhook: ea19933abfe8f2f52c55fd8b6e2718467d3ebc89
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: ead88cd14596dd4eae4f5830b8877c87c8728990

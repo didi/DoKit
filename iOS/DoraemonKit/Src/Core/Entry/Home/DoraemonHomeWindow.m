@@ -8,7 +8,7 @@
 #import "DoraemonHomeWindow.h"
 #import "DoraemonDefine.h"
 #import "UIColor+Doraemon.h"
-#import "DoraemonHomeViewController.h"
+#import "DoraemonHomeEntry.h"
 
 @implementation DoraemonHomeWindow
 
@@ -37,7 +37,7 @@
 }
 
 - (void)show{
-    DoraemonHomeViewController *vc = [[DoraemonHomeViewController alloc] init];
+    DoraemonHomeEntry *vc = [[DoraemonHomeEntry alloc] init];
     [self setRootVc:vc];
     
     self.hidden = NO;
