@@ -26,7 +26,6 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
 @interface DoraemonHomeEntry () <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic,strong) NSMutableArray *dataArray;
 
 @end
@@ -175,8 +174,6 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-
-//    self.collectionView.frame = self.view.frame;
 
     UIEdgeInsets safeAreaInsets = [self.class safeAreaInset:self.view];
     CGFloat height = self.view.doraemon_height - safeAreaInsets.left - safeAreaInsets.right;
