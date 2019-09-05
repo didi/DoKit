@@ -14,15 +14,27 @@
 #import "DoraemonDefine.h"
 #import "DoraemonHomeWindow.h"
 #import "DoraemonStatusBarViewController.h"
+
 @interface DoraemonEntryView()
 
-@property (nonatomic, assign) BOOL isOpen;
 @property (nonatomic, strong) UIButton *entryBtn;
 @property (nonatomic, assign) CGFloat kEntryViewSize;
 
 @end
 
 @implementation DoraemonEntryView
+
+- (UIButton *)entryBtn {
+    if (!_entryBtn) {
+        _entryBtn = [[UIButton alloc] initWithFrame:self.bounds];
+        _entryBtn.backgroundColor = [UIColor clearColor];
+        [_entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_logo"] forState:UIControlStateNormal];
+        _entryBtn.layer.cornerRadius = 20.;
+        [_entryBtn addTarget:self action:@selector(entryClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+
+    return _entryBtn;
+}
 
 - (instancetype)init{
     _kEntryViewSize = 58;
@@ -54,13 +66,7 @@
             }
         }
         
-        UIButton *entryBtn = [[UIButton alloc] initWithFrame:self.bounds];
-        entryBtn.backgroundColor = [UIColor clearColor];
-        [entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_logo"] forState:UIControlStateNormal];
-        entryBtn.layer.cornerRadius = 20.;
-        [entryBtn addTarget:self action:@selector(entryClick:) forControlEvents:UIControlEventTouchUpInside];
-        [self.rootViewController.view addSubview:entryBtn];
-        _entryBtn = entryBtn; 
+        [self.rootViewController.view addSubview:self.entryBtn];
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
         [self addGestureRecognizer:pan];
     }

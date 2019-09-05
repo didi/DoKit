@@ -84,6 +84,10 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 - (void)install{
     //启用默认位置
     CGPoint defaultPosition = DoraemonStartingPosition;
+    CGSize size = [UIScreen mainScreen].bounds.size;
+    if (size.width > size.height) {
+        defaultPosition = DoraemonFullScreenStartingPosition;
+    }
     [self installWithStartingPosition:defaultPosition];
 }
 
