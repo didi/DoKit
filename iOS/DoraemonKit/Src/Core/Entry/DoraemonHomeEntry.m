@@ -17,6 +17,7 @@
 #import "DoraemonHomeHeadCell.h"
 #import "DoraemonHomeFootCell.h"
 #import "DoraemonHomeCloseCell.h"
+#import "UIViewController+Doraemon.h"
 
 static NSString *DoraemonHomeCellID = @"DoraemonHomeCellID";
 static NSString *DoraemonHomeHeadCellID = @"DoraemonHomeHeadCellID";
@@ -37,6 +38,7 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
         UICollectionViewFlowLayout *fl = [[UICollectionViewFlowLayout alloc] init];
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:fl];
         _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         [_collectionView registerClass:[DoraemonHomeCell class] forCellWithReuseIdentifier:DoraemonHomeCellID];
@@ -69,9 +71,7 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplaySupplementaryView:(UICollectionReusableView *)view forElementKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath {
-    
     view.layer.zPosition = 0.0;
-    
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -156,7 +156,6 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
     
     self.view.backgroundColor = [UIColor whiteColor];
     _dataArray = [DoraemonManager shareInstance].dataArray;
-    
     [self.view addSubview:self.collectionView];
 }
 
@@ -165,22 +164,33 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
     self.navigationController.navigationBarHidden = YES;
 }
 
-+ (UIEdgeInsets)safeAreaInset:(UIView *)view {
-    if (@available(iOS 11.0, *)) {
-        return view.safeAreaInsets;
+- (void)layoutCollectionView {
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    switch (orientation) {
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+        {
+            CGSize size = self.view.doraemon_size;
+            if (size.width > size.height) {
+                UIEdgeInsets safeAreaInsets = [self safeAreaInset];
+                CGRect frame = self.view.frame;
+                CGFloat width = self.view.doraemon_width - safeAreaInsets.left - safeAreaInsets.right;
+                frame.origin.x = safeAreaInsets.left;
+                frame.size.width = width;
+                self.collectionView.frame = frame;
+            }
+        }
+            break;
+        default:
+            self.collectionView.frame = self.view.frame;
+            break;
     }
-    return UIEdgeInsetsZero;
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
 
-    UIEdgeInsets safeAreaInsets = [self.class safeAreaInset:self.view];
-    CGFloat height = self.view.doraemon_height - safeAreaInsets.left - safeAreaInsets.right;
-//    self.collectionView.frame = CGRectMake(safeAreaInsets.left, safeAreaInsets.top, self.view.doraemon_width, self.view.doraemon_height);
-
-//    self.collectionView.frame = CGRectMake(safeAreaInsets.left, safeAreaInsets.top, self.view.doraemon_width, height);
-    self.collectionView.frame = self.view.frame;
+    [self layoutCollectionView];
 }
 
 @end

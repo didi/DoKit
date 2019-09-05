@@ -11,16 +11,18 @@
 ### 2： Access method using DoraemonKit's built-in toolset
 Add code when the app starts.
 
-```
+```objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     #ifdef DEBUG
         [[DoraemonManager shareInstance] install];
+        // or custom position
+    	// [DoraemonManager shareInstance] installWithStartingPosition:CGPointMake(66, 66)];
     #endif
 }
 ```
 
   Through the above steps you can use all of the built-in tools of DorameonKit. If you want to add some of your customized tools, see chapter 3.
-  
+
 ### 3: Add a custom test module to the Doraemon panel (non-essential)
 For example, we want to add an environment switch module to the Doraemon panel.
 
@@ -36,7 +38,7 @@ Taking our app as an example, after clicking the button, it will enter the envir
 }
  @end
 ```
- 
+
 Step 2: Add the "Environment Switching" plugin added in the first step where Doraemon is initialized.
 
 

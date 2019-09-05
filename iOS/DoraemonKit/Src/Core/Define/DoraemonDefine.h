@@ -21,7 +21,10 @@
 #define DoraemonScreenHeight [UIScreen mainScreen].bounds.size.height
 
 //Doraemon默认位置
-#define DoraemonStartingPosition CGPointMake(0, DoraemonScreenHeight/3.0)
+#define DoraemonStartingPosition            CGPointMake(0, DoraemonScreenHeight/3.0)
+
+//Doraemon全屏默认位置
+#define DoraemonFullScreenStartingPosition  CGPointZero
 
 //根据750*1334分辨率计算size
 #define kDoraemonSizeFrom750(x) ((x)*DoraemonScreenWidth/750)
