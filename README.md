@@ -93,6 +93,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 - [iOS 研发助手 DoraemonKit 技术实现之 Crash 查看](https://www.jianshu.com/p/5b17d78b9c7b)
 - [开源组件 DoraemonKit 之 Android 版本技术实现（一）](https://juejin.im/post/5c4dcfe8518825261e1f2978)
 - [开源组件 DoraemonKit 之 Android 版本技术实现（二）](https://juejin.im/post/5c73db105188256ec63f13bb)
+- [DoKit支持Activity启动耗时统计方案](https://juejin.im/post/5d70bc3051882571ed61e407)
 
 ## 更新日志
 
