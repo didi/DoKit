@@ -25,8 +25,8 @@ DoraemonKit目前已支持Weex工具，包括
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:1.0.0'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:1.0.0'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:1.0.1'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:1.0.1'
     ...
 }
 ```
