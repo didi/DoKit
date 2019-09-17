@@ -40,7 +40,7 @@ xcuserdata/
 
 # CocoaPods
 Pods/
-
+Podfile.lock
 
 ### Objective-C Patch ###
 *.xcscmblueprint
