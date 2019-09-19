@@ -54,20 +54,20 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
     if (indexPath.section < _dataArray.count) {
         return CGSizeMake(80, 64);
     } else {
-        return CGSizeMake(DoraemonScreenHeight, 60);
+        return CGSizeMake(DoraemonScreenWidth, 60);
     }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (section < _dataArray.count) {
-        return CGSizeMake(DoraemonScreenHeight, 44);
+        return CGSizeMake(DoraemonScreenWidth, 44);
     } else {
-        return CGSizeMake(DoraemonScreenHeight, 0);
+        return CGSizeMake(DoraemonScreenWidth, 0);
     }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-    return CGSizeMake(DoraemonScreenHeight, 20);
+    return CGSizeMake(DoraemonScreenWidth, 20);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplaySupplementaryView:(UICollectionReusableView *)view forElementKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath {
