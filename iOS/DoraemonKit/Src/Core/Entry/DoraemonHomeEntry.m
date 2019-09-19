@@ -68,9 +68,9 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
     if (section < _dataArray.count) {
-        return CGSizeMake(DoraemonScreenHeight, 20);
+        return CGSizeMake(DoraemonScreenWidth, 20);
     } else {
-        return CGSizeMake(DoraemonScreenHeight, 40);
+        return CGSizeMake(DoraemonScreenWidth, 40);
     }
 }
 
@@ -127,7 +127,7 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
         
         if(indexPath.section >= _dataArray.count){
             NSString *str = DoraemonLocalizedString(@"当前版本");
-            NSString *last = [NSString stringWithFormat:@"%@：%@",str,DokitVersion];
+            NSString *last = [NSString stringWithFormat:@"%@：V%@",str,DoKitVersion];
             foot.title.text = last;
             foot.title.textColor = [UIColor doraemon_colorWithString:@"#999999"];
             foot.title.textAlignment = NSTextAlignmentCenter;
