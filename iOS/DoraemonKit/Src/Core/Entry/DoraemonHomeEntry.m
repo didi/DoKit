@@ -67,7 +67,11 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-    return CGSizeMake(DoraemonScreenWidth, 20);
+    if (section < _dataArray.count) {
+        return CGSizeMake(DoraemonScreenHeight, 20);
+    } else {
+        return CGSizeMake(DoraemonScreenHeight, 40);
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplaySupplementaryView:(UICollectionReusableView *)view forElementKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath {
@@ -120,6 +124,15 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
     } else if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
         DoraemonHomeFootCell *foot = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:DoraemonHomeFootCellID forIndexPath:indexPath];
         foot.backgroundColor = [UIColor doraemon_colorWithString:@"#F4F5F6"];
+        
+        if(indexPath.section >= _dataArray.count){
+            NSString *str = DoraemonLocalizedString(@"当前版本");
+            NSString *last = [NSString stringWithFormat:@"%@：%@",str,DokitVersion];
+            foot.title.text = last;
+            foot.title.textColor = [UIColor doraemon_colorWithString:@"#999999"];
+            foot.title.textAlignment = NSTextAlignmentCenter;
+            foot.title.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(24)];
+        }
         view = foot;
     }
     
