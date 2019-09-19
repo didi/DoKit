@@ -41,7 +41,6 @@ xcuserdata/
 # CocoaPods
 Pods/
 
-
 ### Objective-C Patch ###
 *.xcscmblueprint
 *.xcworkspacedata
