@@ -18,7 +18,6 @@
 #import "DoraemonHomeFootCell.h"
 #import "DoraemonHomeCloseCell.h"
 #import "UIViewController+Doraemon.h"
-#import "DoraemonDefine.h"
 
 static NSString *DoraemonHomeCellID = @"DoraemonHomeCellID";
 static NSString *DoraemonHomeHeadCellID = @"DoraemonHomeHeadCellID";
@@ -127,12 +126,12 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
         foot.backgroundColor = [UIColor doraemon_colorWithString:@"#F4F5F6"];
         
         if(indexPath.section >= _dataArray.count){
-            NSString *str = DoraemonLocalizedString(@"当前版本号");
+            NSString *str = DoraemonLocalizedString(@"当前版本");
             NSString *last = [NSString stringWithFormat:@"%@：%@",str,DokitVersion];
             foot.title.text = last;
             foot.title.textColor = [UIColor doraemon_colorWithString:@"#999999"];
             foot.title.textAlignment = NSTextAlignmentCenter;
-            foot.title.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
+            foot.title.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(24)];
         }
         view = foot;
     }
