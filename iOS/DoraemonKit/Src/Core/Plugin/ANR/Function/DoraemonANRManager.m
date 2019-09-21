@@ -11,6 +11,7 @@
 #import "DoraemonMemoryUtil.h"
 #import "DoraemonAppInfoUtil.h"
 #import "Doraemoni18NUtil.h"
+#import "DoraemonANRTool.h"
 
 //默认超时间隔
 static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
@@ -45,6 +46,9 @@ static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
             [self start];
         } else {
             [self stop];
+            // 如果是关闭的话，删除上一次的卡顿记录
+            NSFileManager *fm = [NSFileManager defaultManager];
+            [fm removeItemAtPath:[DoraemonANRTool anrDirectory] error:nil];
         }
     }
     
@@ -66,10 +70,7 @@ static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
     if (self.block) {
         self.block(info);
     }
-    if (!_anrArray) {
-        _anrArray = [NSMutableArray array];
-    }
-    [_anrArray addObject:info];
+    [DoraemonANRTool saveANRInfo:info];
 }
 
 - (void)addANRBlock:(DoraemonANRManagerBlock)block{
