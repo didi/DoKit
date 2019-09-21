@@ -192,6 +192,8 @@
     "帧率检测"                                     = "FPS monitor";
     "大图检测"                                     = "Large image detection";
     "大图检测开关"                                  = "Larage image detection switch";
+    "启动耗时"                               = "Start time";
+    "启动耗时统计"                            = "Start time statistics";
     
     //DoraemonKitDemo
     "测试工具集"                                      = "Test tools";
