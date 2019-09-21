@@ -6,6 +6,7 @@
 //
 
 #import "DoraemonANRManager.h"
+#import "DoraemonCacheManager.h"
 #import "DoraemonANRTracker.h"
 #import "DoraemonMemoryUtil.h"
 #import "DoraemonAppInfoUtil.h"
@@ -39,6 +40,12 @@ static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
     if (self) {
         _doraemonANRTracker = [[DoraemonANRTracker alloc] init];
         _timeOut = kDoraemonBlockMonitorTimeInterval;
+        _anrTrackOn = [DoraemonCacheManager sharedInstance].anrTrackSwitch;
+        if (_anrTrackOn) {
+            [self start];
+        } else {
+            [self stop];
+        }
     }
     
     return self;
@@ -77,4 +84,10 @@ static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
 - (void)stop {
     [self.doraemonANRTracker stop];
 }
+
+- (void)setAnrTrackOn:(BOOL)anrTrackOn {
+    _anrTrackOn = anrTrackOn;
+    [[DoraemonCacheManager sharedInstance] saveANRTrackSwitch:anrTrackOn];
+}
+
 @end
