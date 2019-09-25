@@ -1,0 +1,7 @@
+<view class="container">
+    <cover-image
+        bindtap="jumpToDebug"
+        class="dokit-entrance"
+        src="//pt-starimg.didistatic.com/static/starimg/img/W8OeOO6Pue1561556055823.png"
+    ></cover-image>
+</view>

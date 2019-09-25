@@ -1,0 +1,1 @@
+.log-list{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;padding:40rpx}.log-item{margin:10rpx}
