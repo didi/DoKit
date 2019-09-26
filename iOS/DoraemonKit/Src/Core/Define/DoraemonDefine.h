@@ -42,6 +42,8 @@
 #define IPHONE_SAFEBOTTOMAREA_HEIGHT (IS_IPHONE_X_Series ? 34 : 0)
 #define IPHONE_TOPSENSOR_HEIGHT      (IS_IPHONE_X_Series ? 32 : 0)
 
+#define STRING_NOT_NULL(str) ((str==nil)?@"":str)
+
 
 #define DoraemonShowPluginNotification @"DoraemonShowPluginNotification"
 #define DoraemonClosePluginNotification @"DoraemonClosePluginNotification"
