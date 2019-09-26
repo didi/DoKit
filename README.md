@@ -3,6 +3,7 @@
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
  <img src="https://img.shields.io/badge/Android-1.2.1-blue.svg" align=left />
  <img src="https://img.shields.io/badge/iOS-1.2.3-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
 
@@ -79,12 +80,17 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 
 tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https://github.com/didi/chameleon) 也可以集成该工具集合
 
+### 五、微信小程序专项工具
+
+详见 [Doraemon mini program debugger](https://github.com/didi/DoraemonKit/tree/master/miniapp)
+
 
 
 ## 接入文档
 
 - [iOS 接入文档](Doc/iOS_cn_guide.md)
 - [Android 接入文档](Doc/android_cn_guide.md)
+- [微信小程序 接入文档](https://github.com/didi/DoraemonKit/blob/master/miniapp/README.md)
 
 ## 相关文档
 
@@ -99,6 +105,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 - [iOS-ReleaseNotes](Doc/iOS-ReleaseNotes.md)
 - [Android-ReleaseNotes](Doc/android-ReleaseNotes.md)
+- [微信小程序-ReleaseNotes]()
 
 ## QQ 交流群
 
@@ -128,7 +135,8 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [hiXgb](https://github.com/hiXgb) 、 
 [Chinnko](https://github.com/Chinnko) 、 
 [y644938647](https://github.com/y644938647) 、 
-[goolong](https://github.com/goolong)
+[goolong](https://github.com/goolong) 、
+[miracle9312](https://github.com/miracle9312)
 
 ### 外部贡献者
 [huakucha](https://github.com/huakucha) 、
