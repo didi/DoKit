@@ -144,7 +144,9 @@
     "你好"                                      =   "Hello";
     "NSLog"                                            = "NSLog";
     "%@\n触发时间: %@"                             = "%@\nTrigger time: %@";
+    "确认删除所有卡顿记录吗？"             = "Confirm to delete all ANR tracks?";
     "查看卡顿记录"                          =   "View ANR";
+    "一键清理卡顿记录"                          = "Delete ANR track";
     "Doraemon关闭之后需要重启App才能重新打开"   =   "Reboot to open Doraemon";
     "确认删除所有崩溃日志吗？"             = "Confirm to delete all crash logs?";
     "Crash查看"                                 =   "View Crash";
@@ -192,6 +194,8 @@
     "帧率检测"                                     = "FPS monitor";
     "大图检测"                                     = "Large image detection";
     "大图检测开关"                                  = "Larage image detection switch";
+    "启动耗时"                               = "Start time";
+    "启动耗时统计"                            = "Start time statistics";
     
     //DoraemonKitDemo
     "测试工具集"                                      = "Test tools";

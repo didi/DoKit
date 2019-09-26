@@ -64,6 +64,10 @@
 
 - (BOOL)startTimeSwitch;
 
+- (void)saveANRTrackSwitch:(BOOL)on;
+
+- (BOOL)anrTrackSwitch;
+
 /// 历史记录
 - (NSArray<NSString *> *)h5historicalRecord;
 - (void)saveH5historicalRecordWithText:(NSString *)text;

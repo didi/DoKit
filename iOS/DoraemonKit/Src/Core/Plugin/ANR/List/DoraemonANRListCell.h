@@ -7,9 +7,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class DoraemonSandboxModel;
+
 @interface DoraemonANRListCell : UITableViewCell
 
-- (void)renderCellWithData:(NSDictionary *)dic;
+- (void)renderCellWithData:(DoraemonSandboxModel *)model;
 
 + (CGFloat)cellHeight;
 

@@ -50,7 +50,7 @@ static NSTimeInterval endTime;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"启动时间统计";
+    self.title = DoraemonLocalizedString(@"启动耗时统计");
     
     _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
     [_switchView renderUIWithTitle:DoraemonLocalizedString(@"开关") switchOn:[[DoraemonCacheManager sharedInstance] startTimeSwitch]];

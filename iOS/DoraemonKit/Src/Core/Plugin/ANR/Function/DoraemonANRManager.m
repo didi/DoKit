@@ -6,10 +6,12 @@
 //
 
 #import "DoraemonANRManager.h"
+#import "DoraemonCacheManager.h"
 #import "DoraemonANRTracker.h"
 #import "DoraemonMemoryUtil.h"
 #import "DoraemonAppInfoUtil.h"
 #import "Doraemoni18NUtil.h"
+#import "DoraemonANRTool.h"
 
 //默认超时间隔
 static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
@@ -39,6 +41,15 @@ static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
     if (self) {
         _doraemonANRTracker = [[DoraemonANRTracker alloc] init];
         _timeOut = kDoraemonBlockMonitorTimeInterval;
+        _anrTrackOn = [DoraemonCacheManager sharedInstance].anrTrackSwitch;
+        if (_anrTrackOn) {
+            [self start];
+        } else {
+            [self stop];
+            // 如果是关闭的话，删除上一次的卡顿记录
+            NSFileManager *fm = [NSFileManager defaultManager];
+            [fm removeItemAtPath:[DoraemonANRTool anrDirectory] error:nil];
+        }
     }
     
     return self;
@@ -59,10 +70,7 @@ static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
     if (self.block) {
         self.block(info);
     }
-    if (!_anrArray) {
-        _anrArray = [NSMutableArray array];
-    }
-    [_anrArray addObject:info];
+    [DoraemonANRTool saveANRInfo:info];
 }
 
 - (void)addANRBlock:(DoraemonANRManagerBlock)block{
@@ -77,4 +85,10 @@ static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
 - (void)stop {
     [self.doraemonANRTracker stop];
 }
+
+- (void)setAnrTrackOn:(BOOL)anrTrackOn {
+    _anrTrackOn = anrTrackOn;
+    [[DoraemonCacheManager sharedInstance] saveANRTrackSwitch:anrTrackOn];
+}
+
 @end
