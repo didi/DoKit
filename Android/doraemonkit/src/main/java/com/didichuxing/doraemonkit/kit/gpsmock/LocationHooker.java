@@ -73,6 +73,10 @@ public class LocationHooker extends BaseServiceHooker {
                 return method.invoke(originService, args);
             }
             Location lastKnownLocation = (Location) method.invoke(originService, args);
+            if (lastKnownLocation == null) {
+                LogHelper.d(TAG, "onInvoke:lastKnownLocation == null ");
+                lastKnownLocation = new Location("gps");
+            }
             lastKnownLocation.setLongitude(GpsMockManager.getInstance().getLongitude());
             lastKnownLocation.setLatitude(GpsMockManager.getInstance().getLatitude());
             lastKnownLocation.setTime(System.currentTimeMillis());
@@ -92,6 +96,10 @@ public class LocationHooker extends BaseServiceHooker {
                 return method.invoke(originService, args);
             }
             Location lastLocation = (Location) method.invoke(originService, args);
+            if (lastLocation == null) {
+                LogHelper.d(TAG, "onInvoke:lastLocation == null ");
+                lastLocation = new Location("gps");
+            }
             lastLocation.setLongitude(GpsMockManager.getInstance().getLongitude());
             lastLocation.setLatitude(GpsMockManager.getInstance().getLatitude());
             lastLocation.setTime(System.currentTimeMillis());
