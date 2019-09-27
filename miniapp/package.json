@@ -1,6 +1,6 @@
 {
   "name": "@didi/miniapp-debug-component",
-  "version": "1.0.2",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
   "miniprogram": "dist",

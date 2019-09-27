@@ -53,7 +53,7 @@ Doraemon小程序端调试工具，内置很多常用的工具，避免重复实
 
 ## 如何使用
 
-2. 通过 [GitLab](https://git.xiaojukeji.com/shaoxuezheng/miniapp-debug) 下载 `DoKit 的代码，然后 将dist/` 目录拷贝到自己的项目中。按照如下的方式使用组件：
+1. 通过 `npm` 安装，同时依赖开发者工具的 `npm` 构建。具体详情可查阅 [官方 npm 文档](https://developers.weixin.qq.com/miniprogram/dev/devtools/npm.html)。
 
 ### 在需要引用工具的页面 page.json 中引入组件
 
