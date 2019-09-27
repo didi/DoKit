@@ -29,25 +29,28 @@
     [[DoraemonHomeWindow shareInstance] openPlugin:vc];
 }
 
++ (UIViewController *)rootViewControllerForKeyWindow{
+    return [[[UIApplication sharedApplication].delegate window] rootViewController];
+}
+
 + (UIViewController *)topViewControllerForKeyWindow {
     UIViewController *resultVC;
     resultVC = [self _topViewController:[[[UIApplication sharedApplication].delegate window] rootViewController]];
-//    while (resultVC.presentedViewController) {
-//        resultVC = [self _topViewController:resultVC.presentedViewController];
-//    }
+    while (resultVC.presentedViewController) {
+        resultVC = [self _topViewController:resultVC.presentedViewController];
+    }
     return resultVC;
 }
 
 + (UIViewController *)_topViewController:(UIViewController *)vc {
-    return vc;
-//    if ([vc isKindOfClass:[UINavigationController class]]) {
-//        return [self _topViewController:[(UINavigationController *)vc topViewController]];
-//    } else if ([vc isKindOfClass:[UITabBarController class]]) {
-//        return [self _topViewController:[(UITabBarController *)vc selectedViewController]];
-//    } else {
-//        return vc;
-//    }
-//    return nil;
+    if ([vc isKindOfClass:[UINavigationController class]]) {
+        return [self _topViewController:[(UINavigationController *)vc topViewController]];
+    } else if ([vc isKindOfClass:[UITabBarController class]]) {
+        return [self _topViewController:[(UITabBarController *)vc selectedViewController]];
+    } else {
+        return vc;
+    }
+    return nil;
 }
 
 + (NSString *)dateFormatTimeInterval:(NSTimeInterval)timeInterval{

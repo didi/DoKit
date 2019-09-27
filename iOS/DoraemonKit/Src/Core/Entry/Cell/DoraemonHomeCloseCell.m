@@ -26,7 +26,7 @@
     }];
     [alertController addAction:cancelAction];
     [alertController addAction:okAction];
-    [[DoraemonUtil topViewControllerForKeyWindow] presentViewController:alertController animated:YES completion:nil];
+    [[DoraemonUtil rootViewControllerForKeyWindow] presentViewController:alertController animated:YES completion:nil];
 
     [[DoraemonHomeWindow shareInstance] hide];
 }
