@@ -1,14 +1,14 @@
 //
 //  Chart.m
-//  ccccc1111111
+//  DoraemonKit
 //
 //  Created by 0xd on 2019/9/11.
 //  Copyright © 2019 000. All rights reserved.
 //
 
-#import "Chart.h"
+#import "DoraemonChart.h"
 
-@implementation Chart
+@implementation DoraemonChart
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -24,12 +24,7 @@
     return self;
 }
 
-- (void)setItems:(NSArray<ChartDataItem *> *)items {
-    _items = [items copy];
-    [self itemsChanged];
-}
-
-- (void)itemsChanged {}
+- (void)display {}
 
 
 @end

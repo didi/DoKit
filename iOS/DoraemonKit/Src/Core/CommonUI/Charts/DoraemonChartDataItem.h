@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ChartDataItem : NSObject
+@interface DoraemonChartDataItem : NSObject
 @property (nonatomic, assign) double value;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) UIColor *color;
@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithValue:(double)value
                          name:(NSString *)name
-                    color:(UIColor *)color;
+                        color:(UIColor *)color;
 @end
 
 NS_ASSUME_NONNULL_END

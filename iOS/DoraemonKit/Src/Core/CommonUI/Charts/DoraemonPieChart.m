@@ -1,29 +1,29 @@
 //
 //  PieChart.m
-//  ccccc1111111
+//  DoraemonKit
 //
 //  Created by 0xd on 2019/9/25.
 //  Copyright © 2019 000. All rights reserved.
 //
 
-#import "PieChart.h"
+#import "DoraemonPieChart.h"
 
-@implementation PieChart
+@implementation DoraemonPieChart
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.itemDescriptionFont =  [UIFont systemFontOfSize:9];
-        self.itemDescriptionTextColor = [UIColor blackColor];
+        self.itemDescriptionFont =  [UIFont systemFontOfSize:11];
+        self.itemDescriptionTextColor = [UIColor whiteColor];
         self.innerCircleRadiusRatio = 0.3;
         self.contentInset = UIEdgeInsetsMake(10, 10, 10, 10);
     }
     return self;
 }
 
-- (void)itemsChanged {
-    [super itemsChanged];
+- (void)display {
+    [super display];
     [self setNeedsDisplay];
 }
 
@@ -36,12 +36,12 @@
     CGFloat innerCircleRadius = outerCircleRadius * self.innerCircleRadiusRatio;
     
     double sum = 0;
-    for (ChartDataItem *item in self.items) {
+    for (DoraemonChartDataItem *item in self.items) {
         sum += item.value;
     }
     CGPoint chartCenter = CGPointMake(self.center.x, CGRectGetHeight(self.bounds) - outerCircleRadius - self.contentInset.bottom);
     __block CGFloat lastestEndAngle = -M_PI_2;
-    [self.items enumerateObjectsUsingBlock:^(ChartDataItem * _Nonnull item, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.items enumerateObjectsUsingBlock:^(DoraemonChartDataItem * _Nonnull item, NSUInteger idx, BOOL * _Nonnull stop) {
         CGFloat currentAngle = item.value / sum * M_PI * 2;
         CGFloat startAngle = lastestEndAngle;
 
@@ -49,9 +49,12 @@
         
         CAShapeLayer *shapeLayer = [self shapeLayerRadius:outerCircleRadius
                                         innerCircleRadius:innerCircleRadius
-                                                   center:chartCenter fillColor:item.color
-                                               startAngle:startAngle endAngle:endAngle
-                                                    value:item.value];
+                                                   center:chartCenter
+                                                fillColor:item.color
+                                               startAngle:startAngle
+                                                 endAngle:endAngle
+                                                    name:item.name
+                                                  precent:item.value / sum * 100];
         [self.layer addSublayer:shapeLayer];
         lastestEndAngle = endAngle;
     }];
@@ -64,7 +67,8 @@
                          fillColor:(UIColor *)fillColor
                         startAngle:(CGFloat)startAngle
                           endAngle:(CGFloat)endAngle
-                             value:(double)value {
+                             name:(NSString *)name
+                           precent:(CGFloat)precent {
 
     UIBezierPath *path = [UIBezierPath bezierPath];
     [path moveToPoint:center];
@@ -79,7 +83,9 @@
     textLayer.fontSize = self.itemDescriptionFont.pointSize;
     textLayer.foregroundColor = (__bridge CGColorRef _Nullable)self.itemDescriptionTextColor;
     textLayer.alignmentMode = kCAAlignmentCenter;
-    textLayer.string = [self.vauleFormatter stringFromNumber:[NSNumber numberWithDouble:value]];
+    NSString *precentText = [[self.vauleFormatter stringFromNumber:[NSNumber numberWithDouble:precent]] stringByAppendingString:@"%"];
+    textLayer.string = [precentText stringByAppendingFormat:@"\n%@",name];
+    textLayer.contentsScale = [UIScreen mainScreen].scale;
     // 计算文字中心点
     CGFloat textCenterAngle = startAngle + (endAngle - startAngle) / 2;
     CGSize textLayerSize = textLayer.preferredFrameSize;

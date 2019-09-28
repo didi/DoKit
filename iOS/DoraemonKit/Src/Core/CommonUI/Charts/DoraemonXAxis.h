@@ -6,12 +6,11 @@
 //  Copyright © 2019 000. All rights reserved.
 //
 
-#import "Axis.h"
+#import "DoraemonChartAxis.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface XAxis : Axis
-@property (nonatomic, assign) CGFloat height;
+@interface DoraemonXAxis : DoraemonChartAxis
 @end
 
 NS_ASSUME_NONNULL_END

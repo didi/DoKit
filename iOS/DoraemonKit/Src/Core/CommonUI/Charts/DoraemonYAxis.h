@@ -6,15 +6,14 @@
 //  Copyright © 2019 000. All rights reserved.
 //
 
-#import "Axis.h"
+#import "DoraemonChartAxis.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface YAxis : Axis
+@interface DoraemonYAxis : DoraemonChartAxis
 @property (nonatomic, assign) CGFloat marginTop;
 @property (nonatomic, assign) CGFloat labelWidth;
 @property (nonatomic, assign) NSInteger labelCount;
-@property (nonatomic, assign) double minY;
 @property (nonatomic, assign) double maxY;
 @property (nonatomic, copy) NSArray<NSString *> *labels;
 @property (nonatomic, copy) NSArray<NSNumber *> *values;

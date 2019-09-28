@@ -9,10 +9,10 @@
 #import "UIView+Doraemon.h"
 #import "DoraemonNetFlowDataSource.h"
 #import "Doraemoni18NUtil.h"
-#import "BarChart.h"
+#import "DoraemonBarChart.h"
 
 @interface DoraemonNetFlowSummaryMethodDataView()
-@property (nonatomic, strong) NSArray *chartItems;
+@property (nonatomic, strong) NSArray<DoraemonChartDataItem *> *chartItems;
 
 @end
 
@@ -36,15 +36,17 @@
         [self getData];
         
         if (self.chartItems.count > 0) {
-            BarChart *chart = [[BarChart alloc] initWithFrame:CGRectMake(0, tipLabel.doraemon_bottom+10, self.doraemon_width, self.doraemon_height-tipLabel.doraemon_bottom-10)];
+            DoraemonBarChart *chart = [[DoraemonBarChart alloc] initWithFrame:CGRectMake(0, tipLabel.doraemon_bottom+10, self.doraemon_width, self.doraemon_height-tipLabel.doraemon_bottom-10)];
             chart.items = _chartItems;
-            chart.yAxis.labelCount = 3;
-            chart.contentInset = UIEdgeInsetsMake(30, 50, 40, 20);
-            chart.vauleFormatter = [[NSNumberFormatter alloc] init];
+            chart.yAxis.labelCount = 5;
+            chart.contentInset = UIEdgeInsetsMake(0, 50, 40, 20);
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            formatter.maximumFractionDigits = 2;
+            chart.vauleFormatter = formatter;
             
             [self addSubview:chart];
+            [chart display];
         }
-
     }
     return self;
 }
@@ -75,9 +77,9 @@
         [methodDataArray addObject:dic];
     }
 
-    NSMutableArray<ChartDataItem *> *items = [NSMutableArray array];
+    NSMutableArray<DoraemonChartDataItem *> *items = [NSMutableArray array];
     for (NSDictionary *methodData in methodDataArray) {
-        ChartDataItem *item = [[ChartDataItem alloc] initWithValue:[methodData[@"num"] doubleValue] name:methodData[@"method"] color: [UIColor doraemon_randomColor]];
+        DoraemonChartDataItem *item = [[DoraemonChartDataItem alloc] initWithValue:[methodData[@"num"] doubleValue] name:methodData[@"method"] color: [UIColor doraemon_randomColor]];
         [items addObject:item];
     }
     

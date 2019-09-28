@@ -6,10 +6,10 @@
 //  Copyright © 2019 000. All rights reserved.
 //
 
-#import "Axis.h"
+#import "DoraemonChartAxis.h"
 #import <CoreGraphics/CoreGraphics.h>
 
-@implementation Axis
+@implementation DoraemonChartAxis
 
 - (instancetype)init
 {

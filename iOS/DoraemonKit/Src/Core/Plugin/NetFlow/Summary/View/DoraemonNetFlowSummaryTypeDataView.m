@@ -7,12 +7,12 @@
 
 #import "DoraemonNetFlowSummaryTypeDataView.h"
 #import "UIView+Doraemon.h"
-#import "PieChart.h"
+#import "DoraemonPieChart.h"
 #import "DoraemonNetFlowDataSource.h"
 #import "Doraemoni18NUtil.h"
 
 @interface DoraemonNetFlowSummaryTypeDataView()
-@property (nonatomic, strong) NSArray *chartItems;
+@property (nonatomic, strong) NSArray<DoraemonChartDataItem *> *chartItems;
 
 @end
 
@@ -23,7 +23,6 @@
     if (self) {
         self.layer.cornerRadius = 5.f;
         self.backgroundColor = [UIColor whiteColor];
-        
         
         UILabel *tipLabel = [[UILabel alloc] init];
         tipLabel.textColor = [UIColor blackColor];
@@ -36,9 +35,10 @@
         [self getData];
         
         if (self.chartItems.count > 0) {
-            PieChart *chart = [[PieChart alloc] initWithFrame:CGRectMake(0, tipLabel.doraemon_bottom+10, self.doraemon_width, self.doraemon_height-tipLabel.doraemon_bottom-10)];
+            DoraemonPieChart *chart = [[DoraemonPieChart alloc] initWithFrame:CGRectMake(0, tipLabel.doraemon_bottom+10, self.doraemon_width, self.doraemon_height-tipLabel.doraemon_bottom-10)];
             chart.items = self.chartItems;
             [self addSubview:chart];
+            [chart display];
         }
     }
     return self;
@@ -70,9 +70,9 @@
         [mineTypeDataArray addObject:dic];
     }
 
-    NSMutableArray<ChartDataItem *> *items = [NSMutableArray array];
+    NSMutableArray<DoraemonChartDataItem *> *items = [NSMutableArray array];
     for (NSDictionary *mineTypeData in mineTypeDataArray) {
-        ChartDataItem *item = [[ChartDataItem alloc] initWithValue:[mineTypeData[@"num"] doubleValue] name:[mineTypeData[@"mineType"] stringValue] color:[UIColor doraemon_randomColor]];
+        DoraemonChartDataItem *item = [[DoraemonChartDataItem alloc] initWithValue:[mineTypeData[@"num"] doubleValue] name:[mineTypeData[@"mineType"] stringValue] color:[UIColor doraemon_randomColor]];
         [items addObject:item];
     }
     self.chartItems = [NSArray arrayWithArray:items];

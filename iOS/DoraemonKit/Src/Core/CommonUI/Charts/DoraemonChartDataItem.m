@@ -6,12 +6,12 @@
 //  Copyright © 2019 000. All rights reserved.
 //
 
-#import "ChartDataItem.h"
+#import "DoraemonChartDataItem.h"
 
-@implementation ChartDataItem
+@implementation DoraemonChartDataItem
 
 - (instancetype)initWithValue:(double)value
-                  name:(NSString *)name
+                         name:(NSString *)name
                         color:(UIColor *)color {
     if (self = [super init]) {
         self.value = value;

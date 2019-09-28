@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Axis : NSObject
+@interface DoraemonChartAxis : NSObject
 @property (nonatomic, strong) UIFont *labelFont;
 @property (nonatomic, strong) UIColor *labelTextColor;
 @property (nonatomic, strong) UIColor *axisLineColor;

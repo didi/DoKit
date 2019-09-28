@@ -1,23 +1,23 @@
 //
 //  Chart.h
-//  ccccc1111111
+//  DoraemonKit
 //
 //  Created by 0xd on 2019/9/11.
 //  Copyright © 2019 000. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "ChartDataItem.h"
+#import "DoraemonChartDataItem.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface Chart : UIView
+@interface DoraemonChart : UIView
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) NSNumberFormatter *vauleFormatter;
-@property (nonatomic, copy) NSArray<ChartDataItem *> *items;
+@property (nonatomic, copy) NSArray<DoraemonChartDataItem *> *items;
 @property (nonatomic, assign) UIEdgeInsets contentInset;
 
-- (void)itemsChanged;
+- (void)display;
 @end
 
 NS_ASSUME_NONNULL_END

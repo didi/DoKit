@@ -1,39 +1,37 @@
 //
 //  BarChart.m
-//  ccccc1111111
+//  DoraemonKit
 //
 //  Created by 0xd on 2019/9/11.
 //  Copyright © 2019 000. All rights reserved.
 //
 
-#import "BarChart.h"
+#import "DoraemonBarChart.h"
 
-@implementation BarChart
+@implementation DoraemonBarChart
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.xAxis = [[XAxis alloc] init];
-        self.yAxis = [[YAxis alloc] init];
+        self.xAxis = [[DoraemonXAxis alloc] init];
+        self.yAxis = [[DoraemonYAxis alloc] init];
         self.yAxis.labelCount = 5;
         self.vauleFormatter = self.vauleFormatter;
-        self.barsSpacingRatio = 0.5;
+        self.barsSpacingRatio = 1;
     }
     return self;
 }
 
-- (void)itemsChanged {
-    [super itemsChanged];
+- (void)display {
+    [super display];
     NSMutableArray<NSNumber *> *yAxisValues = [NSMutableArray arrayWithCapacity:self.items.count];
-    for (ChartDataItem *entry in self.items) {
+    for (DoraemonChartDataItem *entry in self.items) {
         [yAxisValues addObject: [NSNumber numberWithDouble:entry.value]];
     }
     self.yAxis.values = [yAxisValues copy];
-    
     [self.yAxis update];
     [self setNeedsDisplay];
-
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -77,7 +75,7 @@
     NSArray<NSString *> *labels = [self.yAxis.labels.reverseObjectEnumerator allObjects];
     // Render Grid Lines
     for (int i = 1; i < labels.count; i++) {
-        CGFloat dashes[] = {1,1};
+        CGFloat dashes[] = {2,2};
         CGFloat y = self.contentInset.top + self.yAxis.marginTop + spacing * (i - 1);
         CGContextMoveToPoint(context, self.contentInset.left, y);
         CGContextAddLineToPoint(context, self.bounds.size.width - self.contentInset.right, y);
@@ -105,13 +103,13 @@
     if (!self.items || self.items.count == 0) {
         return;
     }
-    CGFloat barWidth = (self.bounds.size.width - self.contentInset.left - self.contentInset.right) / (self.items.count * (1 + self.barsSpacingRatio));
+    CGFloat barWidth = (self.bounds.size.width - self.contentInset.left - self.contentInset.right) / (self.items.count * (1 + self.barsSpacingRatio) + self.barsSpacingRatio);
     
     for (int i = 0; i < self.items.count; i++) {
-        ChartDataItem *item = self.items[i];
+        DoraemonChartDataItem *item = self.items[i];
         CGFloat yAxisHeight = self.bounds.size.height - self.contentInset.top - self.contentInset.bottom - self.yAxis.marginTop;
         CGFloat height = item.value / self.yAxis.maxY * yAxisHeight;
-        CGFloat x = barWidth * i + self.contentInset.left + (barWidth / 2) * (i + 1);
+        CGFloat x = barWidth * i + self.contentInset.left + (barWidth * self.barsSpacingRatio) * (i + 1);
         CGFloat y = self.bounds.size.height - height - self.contentInset.bottom;
         CAShapeLayer *shapeLayer = [[CAShapeLayer alloc] init];
         shapeLayer.frame = CGRectMake(x, y, barWidth, height);

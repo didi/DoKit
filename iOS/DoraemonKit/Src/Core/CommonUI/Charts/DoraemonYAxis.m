@@ -6,13 +6,13 @@
 //  Copyright © 2019 000. All rights reserved.
 //
 
-#import "YAxis.h"
+#import "DoraemonYAxis.h"
 
-@interface YAxis()
+@interface DoraemonYAxis()
 
 @end
 
-@implementation YAxis
+@implementation DoraemonYAxis
 
 - (instancetype)init
 {
@@ -20,13 +20,11 @@
     if (self) {
         _labelCount = 5;
         _maxY = 1;
-        _minY = 0;
-        _marginTop = 20;
+        _marginTop = 10;
         _labels = [NSArray array];
     }
     return self;
 }
-
 
 - (void)update {
     if (self.values.count == 0) {
@@ -36,9 +34,14 @@
     for (NSNumber *value in self.values) {
         maxValueY = MAX([value doubleValue], maxValueY);
     }
-    double range = maxValueY;
+    // 防止出现y轴最大值小于label个数
+    double range = MAX(maxValueY, self.labelCount - 1);
     double rawInterval = range / (self.labelCount - 1);
-    double interval =  roundedToNextSignficant(rawInterval);
+    double interval = roundedToNextSignficant(rawInterval);
+    while (interval * (self.labelCount  - 1) < range) {
+        rawInterval = rawInterval * 1.1;
+        interval = roundedToNextSignficant(rawInterval);
+    }
     self.maxY = interval * (self.labelCount  - 1);
 
     NSMutableArray *labels = [NSMutableArray arrayWithCapacity:self.labelCount];
