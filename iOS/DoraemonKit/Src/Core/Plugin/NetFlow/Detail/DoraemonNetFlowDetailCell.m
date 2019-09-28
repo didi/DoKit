@@ -26,11 +26,9 @@
         
         //大文本显示的时候，UIlabel在模拟器上会显示空白，使用TextView代替。
         //网上相似问题： https://blog.csdn.net/minghuyong2016/article/details/82882314
-        _contentLabel = [[UITextView alloc] init];
+        _contentLabel = [DoraemonNetFlowDetailCell genTextView:16.0];
         _contentLabel.textColor = [UIColor blackColor];
-        _contentLabel.font = [UIFont systemFontOfSize:16];
         _contentLabel.editable = NO;
-        //_contentLabel.numberOfLines = 0;
         [self.contentView addSubview:_contentLabel];
         
         _upLine = [[UIView alloc] init];
@@ -44,6 +42,13 @@
         _downLine.hidden = YES;
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    // 禁用 UITextView 滑动，解决其与 UITableView 的滑动冲突；
+    // 放这里调用是因为在其他地方调用会出现文本未显示的问题(模拟器环境下)
+    _contentLabel.scrollEnabled = false;
 }
 
 - (void)renderUIWithContent:(NSString *)content isFirst:(BOOL)isFirst isLast:(BOOL)isLast{
@@ -74,12 +79,17 @@
 }
 
 + (CGFloat)cellHeightWithContent:(NSString *)content{
-    UILabel *tempLabel = [[UILabel alloc] init];
-    tempLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];
-    tempLabel.numberOfLines = 0;
+    UITextView *tempLabel = [DoraemonNetFlowDetailCell genTextView:16.0];
     tempLabel.text = content;
     CGSize fontSize = [tempLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-2*kDoraemonSizeFrom750_Landscape(32), MAXFLOAT)];
     return fontSize.height+kDoraemonSizeFrom750_Landscape(28)*2;
+}
+
+/// 生成 UITextView
++ (UITextView *)genTextView:(CGFloat)fontSize {
+    UITextView *tempTextView = [[UITextView alloc] init];
+    tempTextView.font = [UIFont systemFontOfSize:fontSize];
+    return tempTextView;
 }
 
 @end

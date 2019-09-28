@@ -47,7 +47,7 @@
 #pragma mark -- DoraemonSwitchViewDelegate
 - (void)changeSwitchOn:(BOOL)on sender:(id)sender{
     __weak typeof(self) weakSelf = self;
-    [DoraemonToastUtil handleRestartActionWithVC:self restartBlock:^{
+    [DoraemonAlertUtil handleAlertActionWithVC:self okBlock:^{
         [DoraemonMethodUseTimeManager sharedInstance].on = on;
         exit(0);
     } cancleBlock:^{

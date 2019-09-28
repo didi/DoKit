@@ -26,6 +26,8 @@
 @property (nonatomic, strong) NSURLRequest *request;
 @property (nonatomic, strong) NSURLResponse *response;
 
+@property (nonatomic, copy) NSString *topVc;//流量触发时候的顶层vc
+
 + (DoraemonNetFlowHttpModel *)dealWithResponseData:(NSData *)responseData response:(NSURLResponse*)response request:(NSURLRequest *)request;
 
 @end

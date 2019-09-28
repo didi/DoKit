@@ -60,6 +60,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     DoraemonManagerPluginType_DoraemonMethodUseTimePlugin,
     // 大图检测
     DoraemonManagerPluginType_DoraemonLargeImageFilter,
+    // 启动耗时
+    DoraemonManagerPluginType_DoraemonStartTimePlugin,
     
     #pragma mark - 视觉工具
     // 颜色吸管
@@ -87,6 +89,9 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 + (nonnull DoraemonManager *)shareInstance;
 
 - (void)install;
+
+// 定制起始位置 | 适用正好挡住关键位置
+- (void)installWithStartingPosition:(CGPoint) position;
 
 - (void)installWithCustomBlock:(void(^)(void))customBlock;
 
@@ -119,6 +124,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 - (void)hiddenHomeWindow;
 
 @property (nonatomic, assign) int64_t bigImageDetectionSize; // 外部设置大图检测的监控数值  比如监控所有图片大于50K的图片 那么这个值就设置为 50 * 1024；
+
+@property (nonatomic, copy) NSString *startClass; //如果你的启动代理不是默认的AppDelegate,需要传入才能获取正确的启动时间
 
 @end
 NS_ASSUME_NONNULL_END

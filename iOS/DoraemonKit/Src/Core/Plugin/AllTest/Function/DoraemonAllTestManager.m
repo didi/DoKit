@@ -13,6 +13,7 @@
 #import "DoraemonNetFlowManager.h"
 #import "DoraemonNetFlowDataSource.h"
 #import "DoraemonFPSUtil.h"
+#import "DoraemonUtil.h"
 
 @interface DoraemonAllTestManager()
 
@@ -88,15 +89,16 @@
     for (DoraemonNetFlowHttpModel *httpModel in httpModelArray) {
         NSString *url = httpModel.url;
         NSString *time = [self.dateFormatter stringFromDate: [NSDate dateWithTimeIntervalSince1970: httpModel.startTime]];
-        
         NSString *upFlow = httpModel.uploadFlow;
         NSString *downFlow = httpModel.downFlow;
+        NSString *topVc = httpModel.topVc;
         
         NSDictionary *flowItem = @{
                                    @"url":url,
                                    @"time":time,
                                    @"upFlow":upFlow,
-                                   @"downFlow":downFlow
+                                   @"downFlow":downFlow,
+                                   @"page":STRING_NOT_NULL(topVc)
                                    };
         [flowData addObject:flowItem];
     }
@@ -168,12 +170,17 @@
     //5、获取当前电流
     //CGFloat current = -1;
     
-    //6、组装commonData数据
+    //6、获取顶层VC
+    UIViewController *vc = [DoraemonUtil topViewControllerForKeyWindow];
+    NSString *vcName = NSStringFromClass([vc class]);
+    
+    //7、组装commonData数据
     NSDictionary *commonItemData = @{
                                      @"time":timeString,
                                      @"fps":@(fpsValue),
                                      @"CPU":@(cpuValue),
-                                     @"memory":@(memoryValue)
+                                     @"memory":@(memoryValue),
+                                     @"page":STRING_NOT_NULL(vcName)
                                      };
     
     if (!_commonDataArray) {

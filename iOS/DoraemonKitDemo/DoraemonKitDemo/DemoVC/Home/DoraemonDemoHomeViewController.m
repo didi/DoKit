@@ -17,22 +17,34 @@
 #import "DoraemonDemoCommonViewController.h"
 #import <objc/runtime.h>
 #import "Doraemoni18NUtil.h"
+#import "UIView+Doraemon.h"
+#import "UIViewController+Doraemon.h"
 
 @interface DoraemonDemoHomeViewController ()<UITableViewDelegate,UITableViewDataSource>
+
+@property (strong, nonatomic) UITableView *tableView;
 
 @end
 
 @implementation DoraemonDemoHomeViewController
 
+
+- (UITableView *)tableView {
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+    }
+    
+    return _tableView;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = DoraemonLocalizedString(@"DoraemonKit");
     self.navigationItem.leftBarButtonItems = nil;
-    
-    UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    [self.view addSubview:tableView];
+    [self.view addSubview:self.tableView];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -94,6 +106,35 @@
 //    NSArray *dataArray = @[@"1",@"2"];
 //    NSString *num = dataArray[2];
 //    NSLog(@"num == %@",num);
+}
+
+- (void)layouttableView {
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    switch (orientation) {
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+        {
+            CGSize size = self.view.doraemon_size;
+            if (size.width > size.height) {
+                UIEdgeInsets safeAreaInsets = [self safeAreaInset];
+                CGRect frame = self.view.frame;
+                CGFloat width = self.view.doraemon_width - safeAreaInsets.left - safeAreaInsets.right;
+                frame.origin.x = safeAreaInsets.left;
+                frame.size.width = width;
+                self.tableView.frame = frame;
+            }
+        }
+            break;
+        default:
+            self.tableView.frame = self.view.frame;
+            break;
+    }
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+
+    [self layouttableView];
 }
 
 @end

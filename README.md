@@ -2,7 +2,8 @@
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
  <img src="https://img.shields.io/badge/Android-1.2.1-blue.svg" align=left />
- <img src="https://img.shields.io/badge/iOS-1.2.1-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/iOS-1.2.3-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
 
@@ -61,6 +62,7 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 6. **【自定义】** 可以选择你要监控的选项，包括 FPS、CPU、内存、流量。监控完毕之后，把数据保存到本地，也可以导出来做更加细致的分析；
 7. **【Load 耗时】** Load 函数耗时是 iOS 启动性能优化中重要的一项，该功能可以打印出所有 Load 函数的耗时，给开发者以参考。
 8. **【大图检测】** 通过流量监测，找出所有的大小超标的图片，避免下载大图造成的流量浪费和渲染大图带来的CPU消耗。
+9. **【启动耗时】** 无侵入的统计出App启动过程的总共耗时
 
 ### 三、视觉工具
 
@@ -69,30 +71,41 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 3. **【对齐标尺】** 参考 Android 系统自带测试工具，能够实时捕获屏幕坐标，并且可以查看组件是否对齐；
 4. **【元素边框线】** 绘制出每一个 UI 组件的边框，对于组件布局有一定的参考意义。 
 
-### 四、Weex专项工具
+### 四、Weex专项工具（CML专项工具）
 
 1. **【console日志查看】** 方便在端上查看每一个Weex文件中的console日志，提供分级和搜索功能；
 2. **【storage缓存查看】** 将Weex中的storage模块的本地缓存数据可视化展示；
 3. **【容器信息】** 查看每一个打开的Weex页面的基本信息和性能数据；
 4. **【DevTool】** 快速开启Weex DevTool的扫码入口。
 
+tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https://github.com/didi/chameleon) 也可以集成该工具集合
+
+### 五、微信小程序专项工具
+
+详见 [Doraemon mini program debugger](https://github.com/didi/DoraemonKit/tree/master/miniapp)
+
+
+
 ## 接入文档
 
 - [iOS 接入文档](Doc/iOS_cn_guide.md)
 - [Android 接入文档](Doc/android_cn_guide.md)
+- [微信小程序 接入文档](https://github.com/didi/DoraemonKit/blob/master/miniapp/README.md)
 
 ## 相关文档
 
 - [iOS 研发助手 DoraemonKit 技术实现（一）](https://www.jianshu.com/p/00763123dbc4)
 - [iOS 研发助手 DoraemonKit 技术实现（二）](https://www.jianshu.com/p/4091870ca3f0)
-- [iOS 研发助手 DoraemonKit 技术实现之 Crash 查看](https://www.jianshu.com/p/5b17d78b9c7b)
+- [DoKit支持iOS本地crash查看功能](https://juejin.im/post/5d76184ce51d4561d106cc65)
 - [开源组件 DoraemonKit 之 Android 版本技术实现（一）](https://juejin.im/post/5c4dcfe8518825261e1f2978)
 - [开源组件 DoraemonKit 之 Android 版本技术实现（二）](https://juejin.im/post/5c73db105188256ec63f13bb)
+- [DoKit支持Activity启动耗时统计方案](https://juejin.im/post/5d70bc3051882571ed61e407)
 
 ## 更新日志
 
 - [iOS-ReleaseNotes](Doc/iOS-ReleaseNotes.md)
 - [Android-ReleaseNotes](Doc/android-ReleaseNotes.md)
+- [微信小程序-ReleaseNotes]()
 
 ## QQ 交流群
 
@@ -122,7 +135,8 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 [hiXgb](https://github.com/hiXgb) 、 
 [Chinnko](https://github.com/Chinnko) 、 
 [y644938647](https://github.com/y644938647) 、 
-[goolong](https://github.com/goolong)
+[goolong](https://github.com/goolong) 、
+[miracle9312](https://github.com/miracle9312)
 
 ### 外部贡献者
 [huakucha](https://github.com/huakucha) 、
@@ -136,7 +150,13 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 [k373379320](https://github.com/k373379320) 、
 [fabcz](https://github.com/fabcz) 、
 [y500](https://github.com/y500) 、
-[Knight-ZXW](https://github.com/Knight-ZXW)
+[Knight-ZXW](https://github.com/Knight-ZXW) 、
+[boai](https://github.com/boai) 、
+[klone1127](https://github.com/klone1127) 、
+[DeveloperLY](https://github.com/DeveloperLY) 、
+[sagdragon](https://github.com/sagdragon) 、
+[ccworld1000](https://github.com/ccworld1000)
+
 
 如何成为外部贡献者？ 提交有意义的PR，并被采纳。
 

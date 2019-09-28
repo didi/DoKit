@@ -1,0 +1,31 @@
+{
+  "name": "@didi/miniapp-debug-component",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "miniprogram": "dist",
+  "devDependencies": {
+    "@babel/core": "^7.5.0",
+    "@babel/preset-env": "^7.5.0",
+    "@babel/register": "^7.4.4",
+    "cross-env": "1.0.8",
+    "del": "^5.0.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^3.10.0",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-less": "^3.3.2",
+    "gulp-postcss": "^7.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^3.0.2",
+    "gulp-util": "^3.0.8",
+    "postcss-font-base64": "^1.0.5",
+    "through2": "^2.0.3"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=development gulp",
+    "build": "cross-env NODE_ENV=production gulp build"
+  },
+  "author": "",
+  "license": "ISC"
+}

@@ -24,33 +24,33 @@ PODS:
   - CocoaLumberjack (3.5.3):
     - CocoaLumberjack/Core (= 3.5.3)
   - CocoaLumberjack/Core (3.5.3)
-  - DoraemonKit/Core (1.2.1):
+  - DoraemonKit/Core (1.2.4):
     - BSBacktraceLogger
     - fishhook
     - PNChart
-  - DoraemonKit/WithDatabase (1.2.1):
+  - DoraemonKit/WithDatabase (1.2.4):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
     - PNChart
     - YYDebugDatabase
-  - DoraemonKit/WithGPS (1.2.1):
+  - DoraemonKit/WithGPS (1.2.4):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
     - PNChart
-  - DoraemonKit/WithLoad (1.2.1):
+  - DoraemonKit/WithLoad (1.2.4):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
     - PNChart
-  - DoraemonKit/WithLogger (1.2.1):
+  - DoraemonKit/WithLogger (1.2.4):
     - BSBacktraceLogger
     - CocoaLumberjack
     - DoraemonKit/Core
     - fishhook
     - PNChart
-  - DoraemonKit/WithWeex (1.2.1):
+  - DoraemonKit/WithWeex (1.2.4):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
@@ -71,11 +71,11 @@ PODS:
   - SDWebImage/Core (5.0.6)
   - SocketRocket (0.5.1)
   - UICountingLabel (1.2.0)
-  - WeexSDK (0.24.0)
+  - WeexSDK (0.26.0)
   - WXDevtool (0.24.0):
     - SocketRocket
     - WeexSDK
-  - YYDebugDatabase (2.0.2):
+  - YYDebugDatabase (2.0.4):
     - FMDB
     - GCDWebServer
 
@@ -113,7 +113,7 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   BSBacktraceLogger: 06b983ee93a9f87d957960e9c73d660d5966b447
   CocoaLumberjack: 2f44e60eb91c176d471fdba43b9e3eae6a721947
-  DoraemonKit: 2d0d3bf18a5181f750d5bfead5030403ba3fbb2e
+  DoraemonKit: eada3d47f8cee867c4050c01883d7a26c88c0989
   fishhook: ea19933abfe8f2f52c55fd8b6e2718467d3ebc89
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: ead88cd14596dd4eae4f5830b8877c87c8728990
@@ -121,10 +121,10 @@ SPEC CHECKSUMS:
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
-  WeexSDK: 5bd35be9c035c67c84d1ba15712360bb0d0ba6b5
+  WeexSDK: 55b67d1c411eb28ec1e356f763a335d0ddcc5324
   WXDevtool: 95b70c73c06fc3299d65bd53ba4b3e0b0087f3cb
-  YYDebugDatabase: d62273b182f3e174db51b4d97cae3ef954f09e22
+  YYDebugDatabase: f67e8bc0913ac3dfff19cded6e115d1854690a3f
 
-PODFILE CHECKSUM: 02911fe2f033ec6359a9489c5d5334d182308ead
+PODFILE CHECKSUM: bc58804d60cd842c8c84386ac172adf534685cd6
 
-COCOAPODS: 1.7.4
+COCOAPODS: 1.7.5

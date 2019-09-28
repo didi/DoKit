@@ -60,9 +60,21 @@
 
 - (BOOL)methodUseTimeSwitch;
 
+- (void)saveStartTimeSwitch:(BOOL)on;
+
+- (BOOL)startTimeSwitch;
+
+- (void)saveANRTrackSwitch:(BOOL)on;
+
+- (BOOL)anrTrackSwitch;
+
 /// 历史记录
 - (NSArray<NSString *> *)h5historicalRecord;
 - (void)saveH5historicalRecordWithText:(NSString *)text;
 - (void)clearAllH5historicalRecord;
 - (void)clearH5historicalRecordWithText:(NSString *)text;
+
+/// 保存启动类
+- (void)saveStartClass : (NSString *)startClass;
+- (NSString *)startClass;
 @end

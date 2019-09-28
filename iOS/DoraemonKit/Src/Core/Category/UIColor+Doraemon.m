@@ -131,6 +131,10 @@ CGFloat doraemonColorComponentFrom(NSString *string, NSUInteger start, NSUIntege
     return [UIColor doraemon_colorWithString:@"#337CC4"];
 }
 
++ (UIColor *)doraemon_bg{//#F4F5F6
+    return [UIColor doraemon_colorWithString:@"#F4F5F6"];
+}
+
 + (UIColor *)doraemon_line{//[UIColor doraemon_colorWithHex:0x000000 andAlpha:0.1];
     return [UIColor doraemon_colorWithHex:0x000000 andAlpha:0.1];
 }

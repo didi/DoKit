@@ -3,12 +3,12 @@
 ### 1、cocoapods依赖
 
 ```
-    pod 'DoraemonKit/Core', '~> 1.2.1', :configurations => ['Debug'] //必选
-    pod 'DoraemonKit/WithLogger', '~> 1.2.1', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithGPS', '~> 1.2.1', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithLoad', '~> 1.2.1', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithWeex', '~> 1.2.1', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithDatabase', '~> 1.2.1', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/Core', '~> 1.2.3', :configurations => ['Debug'] //必选
+    pod 'DoraemonKit/WithLogger', '~> 1.2.3', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithGPS', '~> 1.2.3', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithLoad', '~> 1.2.3', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithWeex', '~> 1.2.3', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithDatabase', '~> 1.2.3', :configurations => ['Debug'] //可选
 ```
 Core subspec作为核心，必须引入。
 
@@ -28,14 +28,17 @@ MockGPS存在一些兼容性问题（绝大部分情况是好的，问题详见[
 ### 2、使用DoraemonKit内置工具集的接入方式
 在App启动的时候添加一下代码
 
-```
+```objective-c
 #ifdef DEBUG
 #import <DoraemonKit/DoraemonManager.h>
 #endif
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     #ifdef DEBUG
+    	//默认
         [[DoraemonManager shareInstance] install];
+    	// 或者使用传入位置,解决遮挡关键区域,减少频繁移动
+        //[[DoraemonManager shareInstance] installWithStartingPosition:CGPointMake(66, 66)];
     #endif
 }
 ```
@@ -57,7 +60,7 @@ MockGPS存在一些兼容性问题（绝大部分情况是好的，问题详见[
 }
  @end
 ```
- 
+
 
 第二步：在Doraemon初始化的地方添加第一步中添加的“环境切换”插件
 
