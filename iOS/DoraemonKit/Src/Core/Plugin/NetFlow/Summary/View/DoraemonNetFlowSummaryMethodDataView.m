@@ -7,7 +7,6 @@
 
 #import "DoraemonNetFlowSummaryMethodDataView.h"
 #import "UIView+Doraemon.h"
-#import <PNChart/PNChart.h>
 #import "DoraemonNetFlowDataSource.h"
 #import "Doraemoni18NUtil.h"
 #import "BarChart.h"
@@ -62,8 +61,6 @@
     }
     
     NSMutableArray *methodDataArray = [NSMutableArray array];
-    NSArray *colors = @[PNGreen, PNYellow, PNRed];
-    NSInteger colorIndex = 0;
     for (NSString *methodA in methodArray) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setValue:methodA forKey:@"method"];
@@ -75,8 +72,6 @@
             }
         }
         [dic setValue:@(num) forKey:@"num"];
-        [dic setValue:colors[colorIndex%(colors.count)] forKey:@"color"];
-        colorIndex++;
         [methodDataArray addObject:dic];
     }
 

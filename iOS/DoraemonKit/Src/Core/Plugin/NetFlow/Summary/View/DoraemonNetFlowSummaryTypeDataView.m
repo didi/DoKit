@@ -36,11 +36,10 @@
         [self getData];
         
         if (self.chartItems.count > 0) {
-            PieChart *chart = [[PieChart alloc] initWithFrame:CGRectMake(self.doraemon_width/2-100, tipLabel.doraemon_bottom+15,200, 200)];
+            PieChart *chart = [[PieChart alloc] initWithFrame:CGRectMake(0, tipLabel.doraemon_bottom+10, self.doraemon_width, self.doraemon_height-tipLabel.doraemon_bottom-10)];
             chart.items = self.chartItems;
             [self addSubview:chart];
         }
-
     }
     return self;
 }
