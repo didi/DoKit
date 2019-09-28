@@ -10,12 +10,10 @@
 #import <PNChart/PNChart.h>
 #import "DoraemonNetFlowDataSource.h"
 #import "Doraemoni18NUtil.h"
+#import "BarChart.h"
 
 @interface DoraemonNetFlowSummaryMethodDataView()
-
-@property (nonatomic, strong) NSArray *xLabels;
-@property (nonatomic, strong) NSArray *yValues;
-@property (nonatomic, strong) NSArray *strokeColors;
+@property (nonatomic, strong) NSArray *chartItems;
 
 @end
 
@@ -38,20 +36,12 @@
         
         [self getData];
         
-        if (_xLabels.count>0) {
-            PNBarChart *chart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, tipLabel.doraemon_bottom+10, self.doraemon_width, self.doraemon_height-tipLabel.doraemon_bottom-10)];
-            chart.showChartBorder = YES;
-            chart.showLabel = YES;
-            chart.chartMarginTop = 5.0;
-            chart.labelMarginTop = -5.0;
-            chart.isGradientShow = NO;
-            chart.xLabels = _xLabels;
-            chart.yValues = _yValues;
-            [chart setStrokeColors : _strokeColors];
-            chart.yLabelFormatter = ^ (CGFloat yLabelValue) {
-                return [NSString stringWithFormat:@"%f",yLabelValue];
-            };
-            [chart strokeChart];
+        if (self.chartItems.count > 0) {
+            BarChart *chart = [[BarChart alloc] initWithFrame:CGRectMake(0, tipLabel.doraemon_bottom+10, self.doraemon_width, self.doraemon_height-tipLabel.doraemon_bottom-10)];
+            chart.items = _chartItems;
+            chart.yAxis.labelCount = 3;
+            chart.contentInset = UIEdgeInsetsMake(30, 50, 40, 20);
+            chart.vauleFormatter = [[NSNumberFormatter alloc] init];
             
             [self addSubview:chart];
         }
@@ -62,7 +52,7 @@
 
 - (void)getData{
     NSArray *dataArray = [DoraemonNetFlowDataSource shareInstance].httpModelArray;
-    NSMutableArray *methodArray = [NSMutableArray array];
+    NSMutableArray<NSString *> *methodArray = [NSMutableArray array];
     for (DoraemonNetFlowHttpModel* httpModel in dataArray) {
         NSString *method = httpModel.method;
         if (!method || [methodArray containsObject:method]) {
@@ -89,19 +79,14 @@
         colorIndex++;
         [methodDataArray addObject:dic];
     }
-    
-    NSMutableArray *xLabels = [NSMutableArray array];
-    NSMutableArray *yValues = [NSMutableArray array];
-    NSMutableArray *strokeColors = [NSMutableArray array];
+
+    NSMutableArray<ChartDataItem *> *items = [NSMutableArray array];
     for (NSDictionary *methodData in methodDataArray) {
-        [xLabels addObject:methodData[@"method"]];
-        [yValues addObject:methodData[@"num"]];
-        [strokeColors addObject:methodData[@"color"]];
+        ChartDataItem *item = [[ChartDataItem alloc] initWithValue:[methodData[@"num"] doubleValue] name:methodData[@"method"] color: [UIColor doraemon_randomColor]];
+        [items addObject:item];
     }
     
-    _xLabels = [NSArray arrayWithArray:xLabels];
-    _yValues = [NSArray arrayWithArray:yValues];
-    _strokeColors = [NSArray arrayWithArray:strokeColors];
+    self.chartItems = [NSArray arrayWithArray:items];;
 }
 
 
