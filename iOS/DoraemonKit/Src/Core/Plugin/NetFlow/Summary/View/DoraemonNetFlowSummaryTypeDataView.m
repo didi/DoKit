@@ -72,7 +72,7 @@
 
     NSMutableArray<DoraemonChartDataItem *> *items = [NSMutableArray array];
     for (NSDictionary *mineTypeData in mineTypeDataArray) {
-        DoraemonChartDataItem *item = [[DoraemonChartDataItem alloc] initWithValue:[mineTypeData[@"num"] doubleValue] name:[mineTypeData[@"mineType"] stringValue] color:[UIColor doraemon_randomColor]];
+        DoraemonChartDataItem *item = [[DoraemonChartDataItem alloc] initWithValue:[mineTypeData[@"num"] doubleValue] name:mineTypeData[@"mineType"] color:[UIColor doraemon_randomColor]];
         [items addObject:item];
     }
     self.chartItems = [NSArray arrayWithArray:items];
