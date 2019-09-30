@@ -77,7 +77,6 @@ Pod::Spec.new do |s|
       ss.dependency 'YYDebugDatabase'
   end
 
-  s.dependency 'PNChart'
   s.dependency 'BSBacktraceLogger'
   s.dependency 'fishhook'
 

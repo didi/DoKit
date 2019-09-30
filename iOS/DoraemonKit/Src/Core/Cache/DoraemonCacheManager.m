@@ -22,6 +22,7 @@ static NSString * const kDoraemonLargeImageDetectionKey = @"doraemon_large_image
 static NSString * const kDoraemonH5historicalRecord = @"doraemon_historical_record";
 static NSString * const kDoraemonStartTimeKey = @"doraemon_start_time_key";
 static NSString * const kDoraemonStartClassKey = @"doraemon_start_class_key";
+static NSString * const kDoraemonANRTrackKey = @"doraemon_anr_track_key";
 
 @interface DoraemonCacheManager()
 
@@ -181,6 +182,15 @@ static NSString * const kDoraemonStartClassKey = @"doraemon_start_class_key";
 
 - (BOOL)startTimeSwitch{
     return [_defaults boolForKey:kDoraemonStartTimeKey];
+}
+
+- (void)saveANRTrackSwitch:(BOOL)on {
+    [_defaults setBool:on forKey:kDoraemonANRTrackKey];
+    [_defaults synchronize];
+}
+
+- (BOOL)anrTrackSwitch {
+    return [_defaults boolForKey:kDoraemonANRTrackKey];
 }
 
 - (NSArray<NSString *> *)h5historicalRecord {

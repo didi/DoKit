@@ -17,6 +17,8 @@
 #import "DoraemonToastUtil.h"
 #import "DoraemonAlertUtil.h"
 
+#define DoKitVersion @"1.2.3"
+
 #define DoraemonScreenWidth [UIScreen mainScreen].bounds.size.width
 #define DoraemonScreenHeight [UIScreen mainScreen].bounds.size.height
 
@@ -39,6 +41,8 @@
 #define IPHONE_STATUSBAR_HEIGHT      (IS_IPHONE_X_Series ? 44 : 20)
 #define IPHONE_SAFEBOTTOMAREA_HEIGHT (IS_IPHONE_X_Series ? 34 : 0)
 #define IPHONE_TOPSENSOR_HEIGHT      (IS_IPHONE_X_Series ? 32 : 0)
+
+#define STRING_NOT_NULL(str) ((str==nil)?@"":str)
 
 
 #define DoraemonShowPluginNotification @"DoraemonShowPluginNotification"

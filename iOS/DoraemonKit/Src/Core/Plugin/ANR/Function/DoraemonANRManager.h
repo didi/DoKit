@@ -13,8 +13,7 @@ typedef void (^DoraemonANRManagerBlock)(NSDictionary *anrInfo);
 
 + (instancetype)sharedInstance;
 
-@property (nonatomic, assign) BOOL anrTrackOn;
-@property (nonatomic, strong) NSMutableArray *anrArray;
+@property (nonatomic, assign) BOOL anrTrackOn; 
 
 /*
  卡顿时长阈值，单位为秒，

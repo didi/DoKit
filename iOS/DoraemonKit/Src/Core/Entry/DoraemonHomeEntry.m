@@ -52,22 +52,26 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section < _dataArray.count) {
-        return CGSizeMake(80, 64);
+        return CGSizeMake(kDoraemonSizeFrom750_Landscape(160), kDoraemonSizeFrom750_Landscape(128));
     } else {
-        return CGSizeMake(DoraemonScreenHeight, 60);
+        return CGSizeMake(DoraemonScreenWidth, kDoraemonSizeFrom750_Landscape(100));
     }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
     if (section < _dataArray.count) {
-        return CGSizeMake(DoraemonScreenHeight, 44);
+        return CGSizeMake(DoraemonScreenWidth, kDoraemonSizeFrom750_Landscape(88));
     } else {
-        return CGSizeMake(DoraemonScreenHeight, 0);
+        return CGSizeMake(DoraemonScreenWidth, 0);
     }
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-    return CGSizeMake(DoraemonScreenHeight, 20);
+    if (section < _dataArray.count) {
+        return CGSizeMake(DoraemonScreenWidth, kDoraemonSizeFrom750_Landscape(24));
+    } else {
+        return CGSizeMake(DoraemonScreenWidth, kDoraemonSizeFrom750_Landscape(80));
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplaySupplementaryView:(UICollectionReusableView *)view forElementKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath {
@@ -120,10 +124,29 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
     } else if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
         DoraemonHomeFootCell *foot = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:DoraemonHomeFootCellID forIndexPath:indexPath];
         foot.backgroundColor = [UIColor doraemon_colorWithString:@"#F4F5F6"];
+
+        if (indexPath.section >= _dataArray.count) {
+            NSString *str = DoraemonLocalizedString(@"当前版本");
+            NSString *last = [NSString stringWithFormat:@"%@：V%@", str, DoKitVersion];
+            foot.title.text = last;
+            foot.title.textColor = [UIColor doraemon_colorWithString:@"#999999"];
+            foot.title.textAlignment = NSTextAlignmentCenter;
+
+            foot.title.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
+                                            // kDoraemonSizeFrom750
+        } else {
+            foot.title.text = nil;
+        }
         view = foot;
     }
     
     return view;
+}
+
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
+    if(section<_dataArray.count)
+        return UIEdgeInsetsMake(0, kDoraemonSizeFrom750_Landscape(24), kDoraemonSizeFrom750_Landscape(24), kDoraemonSizeFrom750_Landscape(24));//分别为上、左、下、右
+    return UIEdgeInsetsMake(0, 0, 0, 0);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
