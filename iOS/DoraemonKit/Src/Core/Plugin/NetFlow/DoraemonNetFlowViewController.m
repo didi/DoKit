@@ -102,6 +102,7 @@
     
     tabBar.viewControllers = @[nav1,nav2];
     
+    tabBar.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:tabBar animated:YES completion:nil];
 }
 
