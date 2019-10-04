@@ -14,6 +14,18 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        if (@available(iOS 13.0, *)) {
+            self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                    return [UIColor secondarySystemBackgroundColor];
+                } else {
+                    return [UIColor whiteColor];
+                }
+            }];
+        } else {
+            self.backgroundColor = [UIColor whiteColor];
+        }
+        
         self.itemDescriptionFont =  [UIFont systemFontOfSize:11];
         self.itemDescriptionTextColor = [UIColor whiteColor];
         self.innerCircleRadiusRatio = 0.3;

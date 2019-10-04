@@ -59,6 +59,21 @@
     return YES;
 }
 
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    
+    // trait发生了改变
+    if (@available(iOS 13.0, *)) {
+        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, -0.5, CGRectGetWidth(self.tabBar.tabBar.frame), 0.5)];
+                view.backgroundColor = [UIColor doraemon_black_3];
+                [self.tabBar.tabBar insertSubview:view atIndex:0];
+            }
+        }
+    }
+}
+
 #pragma mark -- DoraemonSwitchViewDelegate
 - (void)changeSwitchOn:(BOOL)on sender:(id)sender{
     if (sender == _switchView.switchView) {
@@ -84,12 +99,21 @@
 
 - (void)showNetFlowDetail{
     UITabBarController *tabBar = [[UITabBarController alloc] init];
-    tabBar.tabBar.backgroundColor = [UIColor whiteColor];
+    if (@available(iOS 13.0, *)) {
+        tabBar.tabBar.backgroundColor = [UIColor systemBackgroundColor];
+        if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, -0.5, CGRectGetWidth(tabBar.tabBar.frame), 0.5)];
+            view.backgroundColor = [UIColor doraemon_black_3];
+            [tabBar.tabBar insertSubview:view atIndex:0];
+        }
+    } else {
+        tabBar.tabBar.backgroundColor = [UIColor whiteColor];
+    }
     _tabBar = tabBar;
     
     UIViewController *vc1 = [[DoraemonNetFlowSummaryViewController alloc] init];
     UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:vc1];
-    nav1.tabBarItem = [[UITabBarItem alloc] initWithTitle:DoraemonLocalizedString(@"流量检测概要") image:[[[UIImage doraemon_imageNamed:@"doraemon_netflow_summary_unselect"] doraemon_scaledToSize:CGSizeMake(30,30)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[[UIImage doraemon_imageNamed:@"doraemon_netflow_summary_select"] doraemon_scaledToSize:CGSizeMake(30,30)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] ];
+    nav1.tabBarItem = [[UITabBarItem alloc] initWithTitle:DoraemonLocalizedString(@"流量检测概要") image:[[[UIImage doraemon_imageNamed:@"doraemon_netflow_summary_unselect"] doraemon_scaledToSize:CGSizeMake(30,30)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] selectedImage:[[[UIImage doraemon_imageNamed:@"doraemon_netflow_summary_select"] doraemon_scaledToSize:CGSizeMake(30,30)] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     [nav1.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor doraemon_colorWithHex:0x333333],NSFontAttributeName:[UIFont systemFontOfSize:10]} forState:UIControlStateNormal];
     [nav1.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor doraemon_colorWithHex:0x337CC4],NSFontAttributeName:[UIFont systemFontOfSize:10]} forState:UIControlStateSelected];
     

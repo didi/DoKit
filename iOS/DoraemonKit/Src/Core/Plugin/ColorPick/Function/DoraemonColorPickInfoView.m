@@ -29,7 +29,17 @@
 }
 
 - (void)commonInit {
-    self.backgroundColor = [UIColor whiteColor];
+    if (@available(iOS 13.0, *)) {
+        self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+                return [UIColor whiteColor];
+            } else {
+                return [UIColor secondarySystemBackgroundColor];
+            }
+        }];
+    } else {
+        self.backgroundColor = [UIColor whiteColor];
+    }
     self.layer.cornerRadius = kDoraemonSizeFrom750_Landscape(8);
     self.layer.borderWidth = 1.;
     self.layer.borderColor = [UIColor doraemon_colorWithHex:0x999999 andAlpha:0.2].CGColor;
@@ -37,6 +47,21 @@
     [self addSubview:self.colorView];
     [self addSubview:self.colorValueLbl];
     [self addSubview:self.closeBtn];
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    
+    // trait发生了改变
+    if (@available(iOS 13.0, *)) {
+        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                [self.closeBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close_dark"] forState:UIControlStateNormal];
+            } else {
+                [self.closeBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
+            }
+        }
+    }
 }
 
 #pragma mark - Layout
@@ -110,7 +135,13 @@
 - (UIButton *)closeBtn {
     if (!_closeBtn) {
         _closeBtn = [[UIButton alloc] init];
-        [_closeBtn setBackgroundImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
+        UIImage *closeImage = [UIImage doraemon_imageNamed:@"doraemon_close"];
+        if (@available(iOS 13.0, *)) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                closeImage = [UIImage doraemon_imageNamed:@"doraemon_close_dark"];
+            }
+        }
+        [_closeBtn setBackgroundImage:closeImage forState:UIControlStateNormal];
         [_closeBtn addTarget:self action:@selector(closeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _closeBtn;

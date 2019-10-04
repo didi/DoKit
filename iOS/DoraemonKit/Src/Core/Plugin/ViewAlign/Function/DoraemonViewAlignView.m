@@ -45,18 +45,18 @@ static CGFloat const kViewCheckSize = 62;
         [imageView addGestureRecognizer:pan];
         
         _horizontalLine = [[UIView alloc] initWithFrame:CGRectMake(0, imageView.doraemon_centerY-0.25, self.doraemon_width, 0.5)];
-        _horizontalLine.backgroundColor = [UIColor doraemon_colorWithHexString:@"#666666"];
+        _horizontalLine.backgroundColor = [UIColor doraemon_black_2];
         [self addSubview:_horizontalLine];
         
         _verticalLine = [[UIView alloc] initWithFrame:CGRectMake(imageView.doraemon_centerX-0.25, 0, 0.5, self.doraemon_height)];
-        _verticalLine.backgroundColor = [UIColor doraemon_colorWithHexString:@"#666666"];
+        _verticalLine.backgroundColor = [UIColor doraemon_black_2];
         [self addSubview:_verticalLine];
         
         [self bringSubviewToFront:_imageView];
         
         _leftLabel = [[UILabel alloc] init];
         _leftLabel.font = [UIFont systemFontOfSize:12];
-        _leftLabel.textColor = [UIColor doraemon_colorWithHexString:@"#666666"];
+        _leftLabel.textColor = [UIColor doraemon_black_2];
         _leftLabel.text = [NSString stringWithFormat:@"%.1f",imageView.doraemon_centerX];
         [self addSubview:_leftLabel];
         [_leftLabel sizeToFit];
@@ -64,7 +64,7 @@ static CGFloat const kViewCheckSize = 62;
         
         _topLabel = [[UILabel alloc] init];
         _topLabel.font = [UIFont systemFontOfSize:12];
-        _topLabel.textColor = [UIColor doraemon_colorWithHexString:@"#666666"];
+        _topLabel.textColor = [UIColor doraemon_black_2];
         _topLabel.text = [NSString stringWithFormat:@"%.1f",imageView.doraemon_centerY];
         [self addSubview:_topLabel];
         [_topLabel sizeToFit];
@@ -72,7 +72,7 @@ static CGFloat const kViewCheckSize = 62;
         
         _rightLabel = [[UILabel alloc] init];
         _rightLabel.font = [UIFont systemFontOfSize:12];
-        _rightLabel.textColor = [UIColor doraemon_colorWithHexString:@"#666666"];
+        _rightLabel.textColor = [UIColor doraemon_black_2];
         _rightLabel.text = [NSString stringWithFormat:@"%.1f",self.doraemon_width-imageView.doraemon_centerX];
         [self addSubview:_rightLabel];
         [_rightLabel sizeToFit];
@@ -80,7 +80,7 @@ static CGFloat const kViewCheckSize = 62;
         
         _bottomLabel = [[UILabel alloc] init];
         _bottomLabel.font = [UIFont systemFontOfSize:12];
-        _bottomLabel.textColor = [UIColor doraemon_colorWithHexString:@"#666666"];
+        _bottomLabel.textColor = [UIColor doraemon_black_2];
         _bottomLabel.text = [NSString stringWithFormat:@"%.1f",self.doraemon_height - imageView.doraemon_centerY];
         [self addSubview:_bottomLabel];
         [_bottomLabel sizeToFit];
