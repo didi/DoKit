@@ -6,6 +6,7 @@
 //
 
 #import "DoraemonDefaultWebViewController.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonDefaultWebViewController ()
 

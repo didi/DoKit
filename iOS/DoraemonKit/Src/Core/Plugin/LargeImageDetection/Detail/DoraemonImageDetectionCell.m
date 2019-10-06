@@ -7,6 +7,7 @@
 
 #import "DoraemonImageDetectionCell.h"
 #import "DoraemonResponseImageModel.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonImageDetectionCell()
 @property (nonatomic, strong) UIImageView *previewImageView;

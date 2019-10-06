@@ -6,6 +6,7 @@
 //
 
 #import "DoraemonHomeCell.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonHomeCell()
 

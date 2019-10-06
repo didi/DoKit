@@ -6,6 +6,7 @@
 //  Copyright © 2017年 yixiang. All rights reserved.
 //
 
+#ifdef __OBJC__
 #ifndef DoraemonKitDemo_PrefixHeader_pch
 #define DoraemonKitDemo_PrefixHeader_pch
 
@@ -15,3 +16,4 @@
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
 
 #endif /* DoraemonKitDemo_PrefixHeader_pch */
+#endif
