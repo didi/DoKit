@@ -1,1 +1,24 @@
-"use strict";var formatTime=function(t){var o=t.getFullYear(),e=t.getMonth()+1,r=t.getDate(),n=t.getHours(),i=t.getMinutes(),m=t.getSeconds();return[o,e,r].map(formatNumber).join("/")+" "+[n,i,m].map(formatNumber).join(":")},formatNumber=function(t){return(t=t.toString())[1]?t:"0"+t},goToLink=function(t){wx.navigateTo({url:t})};module.exports={formatTime:formatTime,goToLink:goToLink};
+const formatTime = date => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+
+  return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+}
+
+const formatNumber = n => {
+  n = n.toString()
+  return n[1] ? n : '0' + n
+}
+const goToLink = url => {
+  wx.navigateTo({
+    url
+  })
+}
+module.exports = {
+  formatTime: formatTime,
+  goToLink
+}
