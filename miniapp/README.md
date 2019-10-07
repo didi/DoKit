@@ -26,17 +26,17 @@ Doraemon小程序端调试工具，内置很多常用的工具，避免重复实
 用于快速查看手机系统信息，小程序基本信息，用户信息，授权信息等基础信息，避免反复打开手机设置或者调用小程序原生api进行查看。
 
 - 位置模拟<br>
-<img width="200" src="./docs/assets/position.jpg">
-<img width="200" src="./docs/assets/map.png">
+<img width="200" style="display:inline-block" src="./docs/assets/position.jpg">
+<img width="200" style="display:inline-block" src="./docs/assets/map.png">
 <br>
 用于小程序端位置模拟，包括位置授权，位置查看，位置模拟，恢复位置设置等几大功能，可以通过简单的点击操作实现任意位置模拟和位置还原，
 该功能的实现原理是通过对wx.getLocation进行方法重写，进而进行位置模拟，位置模拟后，在小程序内所有调用位置查询的方法内都将返回你设定的位置，还原后将恢复原生方法。
 
 - 缓存管理<br>
-<img width="200" src="./docs/assets/storage.jpg">
-<img width="200" src="./docs/assets/storage-add.png">
-<img width="200" src="./docs/assets/storage-revise.png">
-<img width="200" src="./docs/assets/storage-revise-detail.png">
+<img width="200" style="display:inline-block" src="./docs/assets/storage.jpg">
+<img width="200" style="display:inline-block" src="./docs/assets/storage-add.png">
+<img width="200" style="display:inline-block" src="./docs/assets/storage-revise.png">
+<img width="200" style="display:inline-block" src="./docs/assets/storage-revise-detail.png">
 <br>
 一个强大的缓存管理面板，集成了对缓存的所有操作功能，包括设置缓存，清除缓存，更新缓存值等，可以在小程序非常便利的进行缓存的管理
 
