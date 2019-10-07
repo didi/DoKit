@@ -23,10 +23,14 @@ static NSString * const kDoraemonH5historicalRecord = @"doraemon_historical_reco
 static NSString * const kDoraemonStartTimeKey = @"doraemon_start_time_key";
 static NSString * const kDoraemonStartClassKey = @"doraemon_start_class_key";
 static NSString * const kDoraemonANRTrackKey = @"doraemon_anr_track_key";
+static NSString * const kDoraemonMemoryLeakKey = @"doraemon_memory_leak_key";
+static NSString * const kDoraemonMemoryLeakAlertKey = @"doraemon_memory_leak_alert_key";
 
 @interface DoraemonCacheManager()
 
 @property (nonatomic, strong) NSUserDefaults *defaults;
+@property (nonatomic, assign) BOOL memoryLeakOn;
+@property (nonatomic, assign) BOOL firstReadMemoryLeakOn;
 
 @end
 
@@ -249,6 +253,30 @@ static NSString * const kDoraemonANRTrackKey = @"doraemon_anr_track_key";
 - (NSString *)startClass {
     NSString *startClass = [_defaults objectForKey:kDoraemonStartClassKey];
     return startClass;
+}
+
+// 内存泄漏开关
+- (void)saveMemoryLeak:(BOOL)on{
+    [_defaults setBool:on forKey:kDoraemonMemoryLeakKey];
+    [_defaults synchronize];
+}
+- (BOOL)memoryLeak{
+    if (_firstReadMemoryLeakOn) {
+        return _memoryLeakOn;
+    }
+    _firstReadMemoryLeakOn = YES;
+    _memoryLeakOn = [_defaults boolForKey:kDoraemonMemoryLeakKey];
+     
+    return _memoryLeakOn;
+}
+
+// 内存泄漏弹框开关
+- (void)saveMemoryLeakAlert:(BOOL)on{
+    [_defaults setBool:on forKey:kDoraemonMemoryLeakAlertKey];
+    [_defaults synchronize];
+}
+- (BOOL)memoryLeakAlert{
+    return [_defaults boolForKey:kDoraemonMemoryLeakAlertKey];
 }
 
 

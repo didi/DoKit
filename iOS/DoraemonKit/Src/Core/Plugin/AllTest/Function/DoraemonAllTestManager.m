@@ -14,6 +14,7 @@
 #import "DoraemonNetFlowDataSource.h"
 #import "DoraemonFPSUtil.h"
 #import "DoraemonUtil.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonAllTestManager()
 

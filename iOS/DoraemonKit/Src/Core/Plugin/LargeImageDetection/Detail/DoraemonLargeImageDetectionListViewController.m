@@ -8,6 +8,7 @@
 #import "DoraemonLargeImageDetectionListViewController.h"
 #import "DoraemonLargeImageDetectionManager.h"
 #import "DoraemonImageDetectionCell.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonLargeImageDetectionListViewController ()<UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UITableView *tableView;

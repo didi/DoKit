@@ -9,6 +9,7 @@
 #import "DoraemonViewMetricsConfig.h"
 #import "NSObject+Doraemon.h"
 #import <objc/runtime.h>
+#import "DoraemonDefine.h"
 
 
 @interface UIView ()

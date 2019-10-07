@@ -13,6 +13,7 @@
 #import "DoraemonANRListViewController.h"
 #import "Doraemoni18NUtil.h"
 #import "DoraemonANRTool.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonANRViewController () <DoraemonSwitchViewDelegate, DoraemonCellButtonDelegate>
 
