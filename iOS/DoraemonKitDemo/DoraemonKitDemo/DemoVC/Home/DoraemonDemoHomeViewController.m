@@ -19,6 +19,7 @@
 #import "Doraemoni18NUtil.h"
 #import "UIView+Doraemon.h"
 #import "UIViewController+Doraemon.h"
+#import "DoraemonDemoMemoryLeakViewController.h"
 
 @interface DoraemonDemoHomeViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -48,7 +49,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 8;
+    return 9;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -75,6 +76,8 @@
         txt = DoraemonLocalizedString(@"crash触发Demo");
     }else if(row==7){
         txt = DoraemonLocalizedString(@"通用测试Demo");
+    }else if(row==8){
+        txt = @"内存泄漏测试";
     }
     cell.textLabel.text = txt;
     return cell;
@@ -97,8 +100,10 @@
         vc = [[DoraemonDemoMockGPSViewController alloc] init];
     }else if(row == 6){
         vc = [[DoraemonDemoCrashViewController alloc] init];
-    }else{
+    }else if(row == 7){
         vc = [[DoraemonDemoCommonViewController alloc] init];
+    }else{
+        vc = [[DoraemonDemoMemoryLeakViewController alloc] init];
     }
     [self.navigationController pushViewController:vc animated:YES];
  

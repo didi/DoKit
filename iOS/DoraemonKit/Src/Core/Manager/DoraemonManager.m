@@ -239,6 +239,9 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMethodUseTimePlugin];
 #endif
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonStartTimePlugin];
+#if DoraemonWithMLeaksFinder
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMemoryLeakPlugin];
+#endif
     
     #pragma mark - 视觉工具
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonColorPickPlugin];
@@ -572,6 +575,13 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kDesc:DoraemonLocalizedString(@"启动耗时统计")},
                                    @{kIcon:@"doraemon_app_start_time"},
                                    @{kPluginName:@"DoraemonStartTimePlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"性能检测")}
+                                   ],
+                           @(DoraemonManagerPluginType_DoraemonMemoryLeakPlugin) : @[
+                                   @{kTitle:DoraemonLocalizedString(@"内存泄漏")},
+                                   @{kDesc:DoraemonLocalizedString(@"内存泄漏统计")},
+                                   @{kIcon:@"doraemon_app_start_time"},
+                                   @{kPluginName:@"DoraemonMLeaksFinderPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")}
                                    ],
                            // 视觉工具
