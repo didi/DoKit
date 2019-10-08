@@ -38,11 +38,11 @@ Doraemon小程序端调试工具，内置很多常用的工具，避免重复实
 <img width="200" style="display:inline-block" src="./docs/assets/storage-revise.png">
 <img width="200" style="display:inline-block" src="./docs/assets/storage-revise-detail.png">
 <br>
-一个强大的缓存管理面板，集成了对缓存的所有操作功能，包括设置缓存，清除缓存，更新缓存值等，可以在小程序非常便利的进行缓存的管理
+一个强大的缓存管理面板，集成了对缓存的所有操作功能，包括设置缓存，清除缓存，更新缓存值等，可以在小程序非常便利的进行缓存管理
 
 - H5任意门<br>
 <img width="200" src="./docs/assets/h5door.jpg"><br>
-可以通过扫码和粘贴链接的方式在小程序中打开h5页面，操作非常便利
+可以通过扫码和粘贴链接的方式在小程序中打开h5页面，操作简单方便
 
 - 更新版本<br>
 当你的小程序进行代码更新时，为了获取最新的线上包需要重启小程序，该功能可以在你的小程序上
