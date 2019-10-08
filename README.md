@@ -105,7 +105,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 - [iOS-ReleaseNotes](Doc/iOS-ReleaseNotes.md)
 - [Android-ReleaseNotes](Doc/android-ReleaseNotes.md)
-- [微信小程序-ReleaseNotes]()
+- [微信小程序-ReleaseNotes](Doc/miniapp-ReleaseNotes.md)
 
 ## QQ 交流群
 
