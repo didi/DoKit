@@ -51,10 +51,6 @@ Doraemon小程序端调试工具，内置很多常用的工具，避免重复实
 
 # 快速上手
 
-## 使用之前
-
-在开始使用之前，你需要先阅读 [微信小程序自定义组件](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/) 的相关文档。
-
 ## 如何使用
 
 1. 通过 `npm` 安装 `npm install -s -d dokit-miniapp`
