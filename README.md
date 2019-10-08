@@ -136,7 +136,8 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [Chinnko](https://github.com/Chinnko) 、 
 [y644938647](https://github.com/y644938647) 、 
 [goolong](https://github.com/goolong) 、
-[miracle9312](https://github.com/miracle9312)
+[miracle9312](https://github.com/miracle9312) 、
+[lwhsgz123](https://github.com/lwhsgz123)
 
 ### 外部贡献者
 [huakucha](https://github.com/huakucha) 、
