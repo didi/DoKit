@@ -57,7 +57,8 @@ Doraemon小程序端调试工具，内置很多常用的工具，避免重复实
 
 ## 如何使用
 
-1. 通过 `npm` 安装，然后从node_modules中将`dist/`目录拷贝到自己的项目中，然后按如下方式进行使用
+1. 通过 `npm` 安装 `npm install -s -d dokit-miniapp`
+2. 然后从node_modules中将`dist/`目录拷贝到自己的项目中，然后按如下方式进行使用
 
 ### 在需要引用工具的页面 page.json 中引入组件
 
