@@ -196,6 +196,10 @@
     "大图检测开关"                                  = "Larage image detection switch";
     "启动耗时"                               = "Start time";
     "启动耗时统计"                            = "Start time statistics";
+    "日志"                                         = "Log";
+    "缓存"                                         = "Cache";
+    "信息"                                         = "Info";
+    "内存泄漏"                                      = "Memory leak";
     
     //DoraemonKitDemo
     "测试工具集"                                      = "Test tools";
