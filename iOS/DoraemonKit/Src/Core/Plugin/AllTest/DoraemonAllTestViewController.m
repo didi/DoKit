@@ -12,15 +12,22 @@
 #import "DoraemonAllTestManager.h"
 #import "DoraemonCellSwitch.h"
 #import "DoraemonToastUtil.h"
+#import "DoraemonCellButton.h"
+#import "DoraemonHomeFootCell.h"
+#import "DoraemonAllTestStatisticsViewController.h"
 
 
-@interface DoraemonAllTestViewController ()
+@interface DoraemonAllTestViewController ()<DoraemonCellButtonDelegate>
 
 
 @property (nonatomic, strong) DoraemonCellSwitch *fpsSwitchView;//fps
 @property (nonatomic, strong) DoraemonCellSwitch *cpuSwitchView;//cpu
 @property (nonatomic, strong) DoraemonCellSwitch *memorySwitchView;//memory
 @property (nonatomic, strong) DoraemonCellSwitch *flowSwitchView;//flow
+
+@property (nonatomic, strong) UIView *sepeatorLine;//statistics
+@property (nonatomic, strong) DoraemonCellButton *statisticsButton;//statistics
+
 
 @property (nonatomic, strong) UIButton *okBtn;
 @property (nonatomic, assign) BOOL okBtnStatus;//YES 打开  NO 关闭
@@ -36,22 +43,37 @@
     _fpsSwitchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [_fpsSwitchView renderUIWithTitle:DoraemonLocalizedString(@"帧率") switchOn:[DoraemonAllTestManager shareInstance].fpsSwitchOn];
     [_fpsSwitchView.switchView addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
+    [_fpsSwitchView needDownLine];
     [self.view addSubview:_fpsSwitchView];
     
     _cpuSwitchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.fpsSwitchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [_cpuSwitchView renderUIWithTitle:@"CPU" switchOn:[DoraemonAllTestManager shareInstance].cpuSwitchOn];
     [_cpuSwitchView.switchView addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
+    [_cpuSwitchView needDownLine];
     [self.view addSubview:_cpuSwitchView];
     
     _memorySwitchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.cpuSwitchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [_memorySwitchView renderUIWithTitle:DoraemonLocalizedString(@"内存") switchOn:[DoraemonAllTestManager shareInstance].memorySwitchOn];
     [_memorySwitchView.switchView addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
+    [_memorySwitchView needDownLine];
     [self.view addSubview:_memorySwitchView];
     
     _flowSwitchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.memorySwitchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [_flowSwitchView renderUIWithTitle:DoraemonLocalizedString(@"流量") switchOn:[DoraemonAllTestManager shareInstance].flowSwitchOn];
     [_flowSwitchView.switchView addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:_flowSwitchView];
+    
+    _sepeatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, _flowSwitchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(24))];
+    _sepeatorLine.backgroundColor = [UIColor doraemon_bg];
+    [self.view addSubview:_sepeatorLine];
+    
+    
+    _statisticsButton = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _sepeatorLine.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
+    [_statisticsButton renderUIWithTitle:DoraemonLocalizedString(@"查看统计数据")];
+    [_statisticsButton needDownLine];
+    _statisticsButton.delegate = self;
+    [self.view addSubview:_statisticsButton];
+    
     
     
     _okBtn = [[UIButton alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(30), self.view.doraemon_bottom-kDoraemonSizeFrom750_Landscape(30)-kDoraemonSizeFrom750_Landscape(100), self.view.doraemon_width-2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(100))];
@@ -114,6 +136,14 @@
     }];
 }
 
+#pragma mrak - DoraemonCellButtonDelegate
+- (void)cellBtnClick:(id)sender{
+    [self _toViewStatistics];
+}
 
+- (void)_toViewStatistics{
+    DoraemonAllTestStatisticsViewController *vc = [[DoraemonAllTestStatisticsViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 @end

@@ -15,6 +15,7 @@
 #import "DoraemonFPSUtil.h"
 #import "DoraemonUtil.h"
 #import "DoraemonDefine.h"
+#import "DoraemonAllTestStatisticsManager.h"
 
 @interface DoraemonAllTestManager()
 
@@ -115,7 +116,10 @@
                                  @"flow_data":flowData
                                  };
     
-    // 7、数据处理
+    // 7、发送给DoraemonStatisticsManager
+    [DoraemonAllTestStatisticsManager shareInstance].resultDic = upLoadData;
+    
+    // 8、回调给外部block
     if (self.block) {
         self.block(upLoadData);
     }
