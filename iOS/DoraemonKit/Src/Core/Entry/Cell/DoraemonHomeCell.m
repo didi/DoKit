@@ -33,6 +33,9 @@
         _name.textAlignment = NSTextAlignmentCenter;
         _name.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
         _name.adjustsFontSizeToFitWidth = YES;
+        if (@available(iOS 13.0, *)) {
+            _name.textColor = [UIColor labelColor];
+        }
     }
     
     return _name;
@@ -41,7 +44,11 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        if (@available(iOS 13.0, *)) {
+            self.backgroundColor = [UIColor systemBackgroundColor];
+        } else {
+            self.backgroundColor = [UIColor whiteColor];
+        } 
         [self addSubview:self.icon];
         [self addSubview:self.name];
     }

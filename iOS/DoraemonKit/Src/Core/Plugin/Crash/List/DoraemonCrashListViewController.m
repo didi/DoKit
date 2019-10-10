@@ -256,7 +256,7 @@ static NSString *const kDoreamonCrashListCellIdentifier = @"kDoreamonCrashListCe
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         [_tableView registerClass:[DoreamonCrashListCell class] forCellReuseIdentifier:kDoreamonCrashListCellIdentifier];
-        _tableView.backgroundColor = [UIColor whiteColor];
+//        _tableView.backgroundColor = [UIColor whiteColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
     }

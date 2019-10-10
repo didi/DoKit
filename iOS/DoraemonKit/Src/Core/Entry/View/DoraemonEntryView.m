@@ -28,12 +28,33 @@
     if (!_entryBtn) {
         _entryBtn = [[UIButton alloc] initWithFrame:self.bounds];
         _entryBtn.backgroundColor = [UIColor clearColor];
-        [_entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_logo"] forState:UIControlStateNormal];
+        UIImage *image = [UIImage doraemon_imageNamed:@"doraemon_logo"];
+        if (@available(iOS 13.0, *)) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                image = [UIImage doraemon_imageNamed:@"doraemon_logo_dark"];
+            }
+        }
+        [_entryBtn setImage:image forState:UIControlStateNormal];
         _entryBtn.layer.cornerRadius = 20.;
         [_entryBtn addTarget:self action:@selector(entryClick:) forControlEvents:UIControlEventTouchUpInside];
     }
 
     return _entryBtn;
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    
+    // trait发生了改变
+    if (@available(iOS 13.0, *)) {
+        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                [self.entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_logo_dark"] forState:UIControlStateNormal];
+            } else {
+                [self.entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_logo"] forState:UIControlStateNormal];
+            }
+        }
+    }
 }
 
 - (instancetype)init{

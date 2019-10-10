@@ -55,6 +55,12 @@
     [super viewDidLoad];
     self.title = DoraemonLocalizedString(@"H5任意门");
     
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor systemBackgroundColor];
+    } else {
+        self.view.backgroundColor = [UIColor whiteColor];
+    }
+    
     _h5UrlTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom + kDoraemonSizeFrom750_Landscape(32), self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(358))];
     _h5UrlTextView.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];
     //_h5UrlTextView.placeholder = DoraemonLocalizedString(@"请输入网址");
@@ -65,7 +71,7 @@
     _h5UrlTextView.autocapitalizationType = UITextAutocapitalizationTypeNone;
 //    _h5UrlTextView.backgroundColor = [UIColor purpleColor];
     _lineView = [[UIView alloc] initWithFrame:CGRectMake(0, _h5UrlTextView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(1))];
-    _lineView.backgroundColor = [UIColor doraemon_colorWithHex:0x000000 andAlpha:0.1];
+    _lineView.backgroundColor = [UIColor doraemon_line];
     [self.view addSubview:_lineView];
     
     _jumpBtn = [[UIButton alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(30), self.view.doraemon_height-kDoraemonSizeFrom750_Landscape(30 + 100), self.view.doraemon_width-2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(100))];
@@ -103,7 +109,9 @@
         weakSelf.h5UrlTextView.text = QRCodeResult;
         [weakSelf jump];
     };
-    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    nav.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)jump{

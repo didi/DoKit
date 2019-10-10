@@ -23,8 +23,11 @@
     if (self) {
         _displayLabel = [[UITextView alloc] init];
         //_displayLabel.numberOfLines = 0;
-        _displayLabel.textAlignment = NSTextAlignmentCenter;
-        _displayLabel.backgroundColor = [UIColor doraemon_colorWithString:@"#AAAAAA"];
+        _displayLabel.textAlignment = NSTextAlignmentCenter; 
+        _displayLabel.backgroundColor = [UIColor doraemon_black_2];
+        if (@available(iOS 13.0, *)) {
+            _displayLabel.textColor = [UIColor labelColor];
+        }
         [self addSubview:_displayLabel];
     }
     return self;

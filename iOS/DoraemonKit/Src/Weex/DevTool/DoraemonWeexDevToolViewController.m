@@ -20,8 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Weex DevTool";
-    self.bigTitleView.backgroundColor = [UIColor whiteColor];
+    self.title = @"Weex DevTool"; 
     
     self.qrcode = [DoraemonQRCodeTool shared];
     __weak typeof(self) weakSelf = self;

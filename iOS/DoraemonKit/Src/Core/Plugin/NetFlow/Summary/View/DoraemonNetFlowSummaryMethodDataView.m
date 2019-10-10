@@ -23,11 +23,25 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.layer.cornerRadius = 5.f;
-        self.backgroundColor = [UIColor whiteColor];
+        if (@available(iOS 13.0, *)) {
+            self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                    return [UIColor secondarySystemBackgroundColor];
+                } else {
+                    return [UIColor whiteColor];
+                }
+            }];
+        } else {
+           self.backgroundColor = [UIColor whiteColor];
+        }
         
         
         UILabel *tipLabel = [[UILabel alloc] init];
-        tipLabel.textColor = [UIColor blackColor];
+        if (@available(iOS 13.0, *)) {
+            tipLabel.textColor = [UIColor labelColor];
+        } else {
+            tipLabel.textColor = [UIColor blackColor];
+        }
         tipLabel.text = DoraemonLocalizedString(@"HTTP方法");
         tipLabel.font = [UIFont systemFontOfSize:14];
         [tipLabel sizeToFit];

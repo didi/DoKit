@@ -22,15 +22,25 @@
     for (UIView *sub in self.subviews) {
         [sub removeFromSuperview];
     }
-    for (int i = 0; i < self.dataArray.count; i++) {
+    for (NSInteger i = 0; i < self.dataArray.count; i++) {
         NSString *content = self.dataArray[i];
         UILabel *label = [[UILabel alloc] init];
         UIColor *color = [UIColor doraemon_colorWithString:@"#dcdcdc"];
-        if (self.type == DoraemonDBRowViewTypeForOne) {
-            color = [UIColor doraemon_colorWithString:@"#e6e6e6"];
-        }
-        if (self.type == DoraemonDBRowViewTypeForTwo) {
-            color = [UIColor doraemon_colorWithString:@"#ebebeb"];
+        if (@available(iOS 13.0, *)) {
+            color = [UIColor doraemon_black_2];
+            if (self.type == DoraemonDBRowViewTypeForOne) {
+                color = [UIColor secondarySystemBackgroundColor];
+            }
+            if (self.type == DoraemonDBRowViewTypeForTwo) {
+                color = [UIColor tertiarySystemBackgroundColor];
+            }
+        } else {
+            if (self.type == DoraemonDBRowViewTypeForOne) {
+                color = [UIColor doraemon_colorWithString:@"#e6e6e6"];
+            }
+            if (self.type == DoraemonDBRowViewTypeForTwo) {
+                color = [UIColor doraemon_colorWithString:@"#ebebeb"];
+            }
         }
         label.backgroundColor = color;
         label.text = content;

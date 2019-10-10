@@ -31,14 +31,14 @@
     self.dataAtTable = dataAtTable;
     
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    scrollView.backgroundColor = [UIColor whiteColor];
+//    scrollView.backgroundColor = [UIColor whiteColor];
     scrollView.bounces  = NO;
     [self.view addSubview:scrollView];
     self.scrollView = scrollView;
     
     UITableView *tableView = [[UITableView alloc] init];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tableView.backgroundColor = [UIColor whiteColor];
+//    tableView.backgroundColor = [UIColor whiteColor];
     tableView.delegate = self;
     tableView.dataSource = self;
     [self.scrollView addSubview:tableView];
