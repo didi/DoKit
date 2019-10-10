@@ -235,6 +235,15 @@ monitoringDidFailForRegion:(nullable CLRegion *)region
     }];
 }
 
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation {
+    NSString *key = [NSString stringWithFormat:@"%p_delegate",manager];
+    id<CLLocationManagerDelegate> delegate = [_locationMonitor objectForKey:key];
+    if ([delegate respondsToSelector:@selector(locationManager:didUpdateToLocation:fromLocation:)]) {
+        [delegate locationManager:manager didUpdateToLocation:newLocation fromLocation:oldLocation];
+    }
+}
 
 
 -(void)dispatchLocationUpdate:(CLLocationManager *)manager locations:(NSArray*)locations{
