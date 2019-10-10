@@ -179,4 +179,7 @@ Andoid上传代码详见DoraemonStatisticsUtil类中的实现
 敬请各位用户知晓。
 
 ## 友情链接
-我们部门的另外一款开源工具，一个终端侧AI集成运行时环境 [AoE](https://github.com/didi/AoE)
+1. 我们部门的另外一款开源工具，一个终端侧AI集成运行时环境 [AoE](https://github.com/didi/AoE)
+2. 我们部门的技术公众号（普惠出行产品技术公众号），欢迎关注
+
+![https://javer.oss-cn-shanghai.aliyuncs.com/2019/github/phgzh.jpg](https://javer.oss-cn-shanghai.aliyuncs.com/2019/github/phgzh.jpg)
