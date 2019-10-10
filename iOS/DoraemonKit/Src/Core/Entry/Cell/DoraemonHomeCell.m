@@ -6,6 +6,7 @@
 //
 
 #import "DoraemonHomeCell.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonHomeCell()
 
@@ -30,7 +31,7 @@
         CGFloat height = 16;
         _name = [[UILabel alloc] initWithFrame:CGRectMake(0, self.doraemon_height - height - 4, self.doraemon_width, height)];
         _name.textAlignment = NSTextAlignmentCenter;
-        _name.font = [UIFont systemFontOfSize:12];
+        _name.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
         _name.adjustsFontSizeToFitWidth = YES;
         if (@available(iOS 13.0, *)) {
             _name.textColor = [UIColor labelColor];

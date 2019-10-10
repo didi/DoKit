@@ -9,6 +9,8 @@
 #import "DoraemonDefine.h"
 #import "DoraemonVisualInfoWindow.h"
 
+#define ALIGN_COLOR @"#FF0000"
+
 static CGFloat const kViewCheckSize = 62;
 
 @interface DoraemonViewAlignView()
@@ -23,6 +25,8 @@ static CGFloat const kViewCheckSize = 62;
 @property (nonatomic, strong) DoraemonVisualInfoWindow *infoWindow; 
 
 @end
+
+
 
 @implementation DoraemonViewAlignView
 

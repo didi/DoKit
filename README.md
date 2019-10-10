@@ -93,19 +93,19 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 - [微信小程序 接入文档](https://github.com/didi/DoraemonKit/blob/master/miniapp/README.md)
 
 ## 相关文档
-
 - [iOS 研发助手 DoraemonKit 技术实现（一）](https://www.jianshu.com/p/00763123dbc4)
 - [iOS 研发助手 DoraemonKit 技术实现（二）](https://www.jianshu.com/p/4091870ca3f0)
 - [DoKit支持iOS本地crash查看功能](https://juejin.im/post/5d76184ce51d4561d106cc65)
 - [开源组件 DoraemonKit 之 Android 版本技术实现（一）](https://juejin.im/post/5c4dcfe8518825261e1f2978)
 - [开源组件 DoraemonKit 之 Android 版本技术实现（二）](https://juejin.im/post/5c73db105188256ec63f13bb)
 - [DoKit支持Activity启动耗时统计方案](https://juejin.im/post/5d70bc3051882571ed61e407)
+- [DoKit 微信小程序SDK对外发布](https://juejin.im/post/5d9bf252518825095c3c5e32)
 
 ## 更新日志
 
 - [iOS-ReleaseNotes](Doc/iOS-ReleaseNotes.md)
 - [Android-ReleaseNotes](Doc/android-ReleaseNotes.md)
-- [微信小程序-ReleaseNotes]()
+- [微信小程序-ReleaseNotes](Doc/miniapp-ReleaseNotes.md)
 
 ## QQ 交流群
 
@@ -136,7 +136,8 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [Chinnko](https://github.com/Chinnko) 、 
 [y644938647](https://github.com/y644938647) 、 
 [goolong](https://github.com/goolong) 、
-[miracle9312](https://github.com/miracle9312)
+[miracle9312](https://github.com/miracle9312) 、
+[lwhsgz123](https://github.com/lwhsgz123)
 
 ### 外部贡献者
 [huakucha](https://github.com/huakucha) 、
@@ -178,4 +179,7 @@ Andoid上传代码详见DoraemonStatisticsUtil类中的实现
 敬请各位用户知晓。
 
 ## 友情链接
-我们部门的另外一款开源工具，一个终端侧AI集成运行时环境 [AoE](https://github.com/didi/AoE)
+1. 我们部门的另外一款开源工具，一个终端侧AI集成运行时环境 [AoE](https://github.com/didi/AoE)
+2. 我们部门的技术公众号（普惠出行产品技术公众号），欢迎关注
+
+![https://javer.oss-cn-shanghai.aliyuncs.com/2019/github/phgzh.jpg](https://javer.oss-cn-shanghai.aliyuncs.com/2019/github/phgzh.jpg)

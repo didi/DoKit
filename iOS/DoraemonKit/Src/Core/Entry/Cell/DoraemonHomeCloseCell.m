@@ -9,6 +9,7 @@
 #import "DoraemonManager.h"
 #import "DoraemonUtil.h"
 #import "DoraemonHomeWindow.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonHomeCloseCell ()
 

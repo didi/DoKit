@@ -97,7 +97,14 @@
     "请输入测试人员名称"                      = "Please enter tester name";
     "推送权限"                                =   "Push Privacy";
     "关闭DoraemonKit"                                = "Close DoraemonKit";
-    "当前版本"                                  = "Current Version";
+    "当前版本"                                 = "Current Version";
+    "自定义检测"                                = "Custom Monitor";
+    "查看统计数据"                              = "View Statistics";
+    "上行流量"                                 = "Upstream";
+    "下行流量"                                 = "Downstream";
+    "平均值"                                   ="Average";
+    
+
     "该功能需要重启App才能生效"        =   "Reboot to work";
     "内存检测开关"                               = "Memory monitor switch";
     "查看Crash日志"                                = "View Crash log";

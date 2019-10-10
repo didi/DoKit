@@ -10,6 +10,7 @@
 #import "DoraemonPieChart.h"
 #import "DoraemonNetFlowDataSource.h"
 #import "Doraemoni18NUtil.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonNetFlowSummaryTypeDataView()
 @property (nonatomic, strong) NSArray<DoraemonChartDataItem *> *chartItems;

@@ -235,10 +235,14 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonANRPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonLargeImageFilter];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAllTestPlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonStartTimePlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonUIProfilePlugin];
 #if DoraemonWithLoad
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMethodUseTimePlugin];
 #endif
-    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonStartTimePlugin];
+#if DoraemonWithMLeaksFinder
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMemoryLeakPlugin];
+#endif
     
     #pragma mark - 视觉工具
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonColorPickPlugin];
@@ -574,6 +578,20 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kPluginName:@"DoraemonStartTimePlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")}
                                    ],
+                           @(DoraemonManagerPluginType_DoraemonMemoryLeakPlugin) : @[
+                                   @{kTitle:DoraemonLocalizedString(@"内存泄漏")},
+                                   @{kDesc:DoraemonLocalizedString(@"内存泄漏统计")},
+                                   @{kIcon:@"doraemon_app_start_time"},
+                                   @{kPluginName:@"DoraemonMLeaksFinderPlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"性能检测")}
+                                   ],
+                           @(DoraemonManagerPluginType_DoraemonUIProfilePlugin) : @[
+                                   @{kTitle:DoraemonLocalizedString(@"UI层级检查")},
+                                   @{kDesc:DoraemonLocalizedString(@"显示UI层级检查")},
+                                   @{kIcon:@"doraemon_viewmetrics"},
+                                   @{kPluginName:@"DoraemonUIProfilePlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"性能检测")}
+                           ],
                            // 视觉工具
                            @(DoraemonManagerPluginType_DoraemonColorPickPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"颜色吸管")},

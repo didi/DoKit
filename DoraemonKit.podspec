@@ -23,13 +23,11 @@ Pod::Spec.new do |s|
   s.default_subspec = 'Core'
   
   s.subspec 'Core' do |ss| 
-    ss.source_files = 'iOS/DoraemonKit/Src/Core/**/*{.h,.m}'
+    ss.source_files = 'iOS/DoraemonKit/Src/Core/**/*{.h,.m,.c,.mm}'
     ###ss.vendored_frameworks = 'DoraemonKit/Lib/CrashReporter.framework'
     ss.resource_bundles = {
       'DoraemonKit' => 'iOS/DoraemonKit/Resource/**/*'
     }
-    s.prefix_header_contents =
-    '#import "DoraemonDefine.h"'
   end
 
   s.subspec 'WithLogger' do |ss| 
@@ -75,6 +73,15 @@ Pod::Spec.new do |s|
       }
       ss.dependency 'DoraemonKit/Core'
       ss.dependency 'YYDebugDatabase'
+  end
+
+  s.subspec 'WithMLeaksFinder' do |ss|
+    ss.source_files = 'iOS/DoraemonKit/Src/MLeaksFinder/**/*{.h,.m}'
+    ss.pod_target_xcconfig = {
+      'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithMLeaksFinder'
+    }
+    ss.dependency 'DoraemonKit/Core'
+    ss.dependency 'FBRetainCycleDetector'
   end
 
   s.dependency 'BSBacktraceLogger'

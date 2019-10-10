@@ -12,6 +12,7 @@
 #import "Doraemoni18NUtil.h"
 #import "DoraemonMethodUseTimeManager.h"
 #import "DoraemonMethodUseTimeListViewController.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonMethodUseTimeViewController ()<DoraemonSwitchViewDelegate,DoraemonCellButtonDelegate>
 
