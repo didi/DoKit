@@ -1,4 +1,5 @@
 const app = getApp()
+app.globalData.getLocation = wx.getLocation
 Page({
     data: {
         currentLatitude:0,
