@@ -28,6 +28,7 @@
         UILabel *label = [[UILabel alloc] init];
         UIColor *color = [UIColor doraemon_colorWithString:@"#dcdcdc"];
         if (@available(iOS 13.0, *)) {
+            color = [UIColor doraemon_black_2];
             if (self.type == DoraemonWeexStorageRowViewTypeForOne) {
                 color = [UIColor secondarySystemBackgroundColor];
             }
