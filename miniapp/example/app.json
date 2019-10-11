@@ -8,6 +8,7 @@
     "dist/logs/logs",
     "dist/positionSimulation/positionSimulation",
     "dist/storage/storage",
+    "dist/httpInjector/httpInjector",
     "dist/index/index"
   ],
   "window": {
