@@ -10,5 +10,6 @@
   <view class="usermotto">
     <text class="user-motto">{{motto}}</text>
   </view>
+  <button class="operate-btn" bindtap="sendRequest">发个请求</button>
   <dokit></dokit>
 </view>
