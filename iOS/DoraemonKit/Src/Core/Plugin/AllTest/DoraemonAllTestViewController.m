@@ -14,20 +14,21 @@
 #import "DoraemonToastUtil.h"
 #import "DoraemonCellButton.h"
 #import "DoraemonHomeFootCell.h"
+#import "DoraemonAllTestWindow.h"
 #import "DoraemonAllTestStatisticsViewController.h"
 
 
-@interface DoraemonAllTestViewController ()<DoraemonCellButtonDelegate>
+@interface DoraemonAllTestViewController ()<DoraemonSwitchViewDelegate,DoraemonCellButtonDelegate,DoraemonAllTestWindowDelegate>
 
 
 @property (nonatomic, strong) DoraemonCellSwitch *fpsSwitchView;//fps
 @property (nonatomic, strong) DoraemonCellSwitch *cpuSwitchView;//cpu
 @property (nonatomic, strong) DoraemonCellSwitch *memorySwitchView;//memory
 @property (nonatomic, strong) DoraemonCellSwitch *flowSwitchView;//flow
+@property (nonatomic, strong) DoraemonCellSwitch *realTimeSwitchView;//all
 
 @property (nonatomic, strong) UIView *sepeatorLine;//statistics
 @property (nonatomic, strong) DoraemonCellButton *statisticsButton;//statistics
-
 
 @property (nonatomic, strong) UIButton *okBtn;
 @property (nonatomic, assign) BOOL okBtnStatus;//YES 打开  NO 关闭
@@ -38,7 +39,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = DoraemonLocalizedString(@"自定义测试");
+    self.title = DoraemonLocalizedString(@"自定义检测");
     
     _fpsSwitchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [_fpsSwitchView renderUIWithTitle:DoraemonLocalizedString(@"帧率") switchOn:[DoraemonAllTestManager shareInstance].fpsSwitchOn];
@@ -63,12 +64,19 @@
     [_flowSwitchView.switchView addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:_flowSwitchView];
     
-    _sepeatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, _flowSwitchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(24))];
+    _sepeatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, self.flowSwitchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(24))];
     _sepeatorLine.backgroundColor = [UIColor doraemon_bg];
     [self.view addSubview:_sepeatorLine];
     
+    _realTimeSwitchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.sepeatorLine.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
+    [_realTimeSwitchView renderUIWithTitle:DoraemonLocalizedString(@"实时数据") switchOn:[DoraemonAllTestManager shareInstance].realTimeSwitchOn];
+    _realTimeSwitchView.delegate = self;
+    [[DoraemonAllTestWindow shareInstance] addDelegate:self];
+    [_realTimeSwitchView.switchView addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
+    [_realTimeSwitchView needDownLine];
+    [self.view addSubview:_realTimeSwitchView];
     
-    _statisticsButton = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _sepeatorLine.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
+    _statisticsButton = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, self.realTimeSwitchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [_statisticsButton renderUIWithTitle:DoraemonLocalizedString(@"查看统计数据")];
     [_statisticsButton needDownLine];
     _statisticsButton.delegate = self;
@@ -103,8 +111,10 @@
         [DoraemonAllTestManager shareInstance].cpuSwitchOn = isButtonOn;
     }else if(sender == _memorySwitchView.switchView){
         [DoraemonAllTestManager shareInstance].memorySwitchOn = isButtonOn;
-    }else {
+    }else if(sender == _flowSwitchView.switchView){
         [DoraemonAllTestManager shareInstance].flowSwitchOn = isButtonOn;
+    }else{
+        [DoraemonAllTestManager shareInstance].realTimeSwitchOn = isButtonOn;
     }
 }
 
@@ -115,12 +125,21 @@
         [DoraemonAllTestManager shareInstance].startTestOn = weakSelf.okBtnStatus;
         if (weakSelf.okBtnStatus) {
             [[DoraemonAllTestManager shareInstance] startRecord];
+            self.fpsSwitchView.switchView.enabled = NO;
+            self.cpuSwitchView.switchView.enabled = NO;
+            self.memorySwitchView.switchView.enabled = NO;
+            self.flowSwitchView.switchView.enabled = NO;
             [weakSelf.okBtn setTitle:DoraemonLocalizedString(@"结束测试") forState:UIControlStateNormal];
         }else{
             [DoraemonAllTestManager shareInstance].fpsSwitchOn = NO;
             [DoraemonAllTestManager shareInstance].cpuSwitchOn = NO;
             [DoraemonAllTestManager shareInstance].memorySwitchOn = NO;
             [DoraemonAllTestManager shareInstance].flowSwitchOn = NO;
+            
+            self.fpsSwitchView.switchView.enabled = YES;
+            self.cpuSwitchView.switchView.enabled = YES;
+            self.memorySwitchView.switchView.enabled = YES;
+            self.flowSwitchView.switchView.enabled = YES;
             
             weakSelf.fpsSwitchView.switchView.on = NO;
             weakSelf.cpuSwitchView.switchView.on = NO;
@@ -129,6 +148,7 @@
             [[DoraemonAllTestManager shareInstance] endRecord];
             [weakSelf.okBtn setTitle:DoraemonLocalizedString(@"开始测试") forState:UIControlStateNormal];
             
+            [DoraemonAllTestWindow shareInstance].hidden = YES;
             [DoraemonToastUtil showToast:DoraemonLocalizedString(@"数据保存到Library/Caches/DoraemonPerformance中") inView:self.view];
         }
     } cancleBlock:^{
@@ -144,6 +164,22 @@
 - (void)_toViewStatistics{
     DoraemonAllTestStatisticsViewController *vc = [[DoraemonAllTestStatisticsViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+#pragma mark -- DoraemonAllTestWindowDelegate
+- (void)doraemonAllTestWindowClosed {
+    [_realTimeSwitchView renderUIWithTitle:DoraemonLocalizedString(@"实时数据") switchOn:[[DoraemonCacheManager sharedInstance] cpuSwitch]];
+}
+
+#pragma mark -- DoraemonSwitchViewDelegate
+- (void)changeSwitchOn:(BOOL)on sender:(id)sender{
+    [[DoraemonCacheManager sharedInstance] saveAllTestSwitch:on];
+    if(on){
+        if(_okBtnStatus)
+            [DoraemonAllTestWindow shareInstance].hidden = NO;
+    }else{
+        [DoraemonAllTestWindow shareInstance].hidden = YES;
+    }
 }
 
 @end

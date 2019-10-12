@@ -24,7 +24,7 @@ static NSString *DoraemonStatisticsFootCellID = @"DoraemonStatisticsFootCellID";
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic,strong) NSMutableArray *dataArray;
 
-@property (nonatomic, strong, readwrite) DoraemonAllTestStatisticsManager *statisticsManager;
+@property (nonatomic, strong) DoraemonAllTestStatisticsManager *statisticsManager;
 
 @end
 

@@ -103,6 +103,7 @@
     "上行流量"                                 = "Upstream";
     "下行流量"                                 = "Downstream";
     "平均值"                                   ="Average";
+    "实时数据"                                 ="Realtime Data";
     
 
     "该功能需要重启App才能生效"        =   "Reboot to work";

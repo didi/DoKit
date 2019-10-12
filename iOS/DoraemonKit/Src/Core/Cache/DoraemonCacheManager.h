@@ -40,6 +40,10 @@
 
 - (BOOL)netFlowSwitch;
 
+- (void)saveAllTestSwitch:(BOOL)on;
+
+- (BOOL)allTestSwitch;
+
 - (void)saveLargeImageDetectionSwitch:(BOOL)on;
 
 - (BOOL)largeImageDetectionSwitch;

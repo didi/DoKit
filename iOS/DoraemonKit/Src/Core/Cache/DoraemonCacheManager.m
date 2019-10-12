@@ -25,6 +25,7 @@ static NSString * const kDoraemonStartClassKey = @"doraemon_start_class_key";
 static NSString * const kDoraemonANRTrackKey = @"doraemon_anr_track_key";
 static NSString * const kDoraemonMemoryLeakKey = @"doraemon_memory_leak_key";
 static NSString * const kDoraemonMemoryLeakAlertKey = @"doraemon_memory_leak_alert_key";
+static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 
 @interface DoraemonCacheManager()
 
@@ -132,6 +133,15 @@ static NSString * const kDoraemonMemoryLeakAlertKey = @"doraemon_memory_leak_ale
 
 - (BOOL)netFlowSwitch{
     return [_defaults boolForKey:kDoraemonNetFlowKey];
+}
+
+- (void)saveAllTestSwitch:(BOOL)on{
+    [_defaults setBool:on forKey:kDoraemonAllTestKey];
+    [_defaults synchronize];
+}
+
+- (BOOL)allTestSwitch{
+    return [_defaults boolForKey:kDoraemonAllTestKey];
 }
 
 - (void)saveLargeImageDetectionSwitch:(BOOL)on{

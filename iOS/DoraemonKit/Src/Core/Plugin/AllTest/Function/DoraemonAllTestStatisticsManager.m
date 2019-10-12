@@ -26,7 +26,6 @@
 }
 
 -(NSMutableArray *)getLastResultArray{
-    //NSLog(@"dsad====== === %@",_resultDic);
     if(!_resultDic)
         return nil;
     
@@ -52,13 +51,14 @@
                 NSDictionary *infoItem = common_data[i];
                 if([pageName isEqual:infoItem[@"page"]]){
                     count++;
-                    [valueArray addObject:infoItem[value]];
+                    if([infoItem[value] floatValue] >= 0)
+                        [valueArray addObject:infoItem[value]];
                 }else{
                      break;
                 }
             }
             addDiction[@"title"] = value;
-            if([[valueArray valueForKeyPath:@"@max.floatValue"] floatValue] >= 0){
+            if(valueArray.count>0 && [[valueArray valueForKeyPath:@"@max.floatValue"] floatValue] >= 0){
                 addDiction[@"max"] = [NSNumber numberWithFloat:round([[valueArray valueForKeyPath:@"@max.floatValue"] floatValue]*10)/10];
                 addDiction[@"min"] = [NSNumber numberWithFloat:round([[valueArray valueForKeyPath:@"@min.floatValue"] floatValue]*10)/10];
                 addDiction[@"average"] = [NSNumber numberWithFloat:round([[valueArray valueForKeyPath:@"@avg.floatValue"] floatValue]*10)/10];
