@@ -91,6 +91,7 @@
     _okBtnStatus = [DoraemonAllTestManager shareInstance].startTestOn;
     if(_okBtnStatus){
         [_okBtn setTitle:DoraemonLocalizedString(@"结束测试") forState:UIControlStateNormal];
+        [self setSwitchEnable:NO];
     }else{
         [_okBtn setTitle:DoraemonLocalizedString(@"开始测试") forState:UIControlStateNormal];
     }
@@ -114,6 +115,8 @@
     }else if(sender == _flowSwitchView.switchView){
         [DoraemonAllTestManager shareInstance].flowSwitchOn = isButtonOn;
     }else{
+        [[DoraemonAllTestWindow shareInstance] hideFlowValue];
+        [[DoraemonAllTestWindow shareInstance] updateCommonValue:@"" cpu:@"" fps:@""];
         [DoraemonAllTestManager shareInstance].realTimeSwitchOn = isButtonOn;
     }
 }
@@ -125,10 +128,8 @@
         [DoraemonAllTestManager shareInstance].startTestOn = weakSelf.okBtnStatus;
         if (weakSelf.okBtnStatus) {
             [[DoraemonAllTestManager shareInstance] startRecord];
-            self.fpsSwitchView.switchView.enabled = NO;
-            self.cpuSwitchView.switchView.enabled = NO;
-            self.memorySwitchView.switchView.enabled = NO;
-            self.flowSwitchView.switchView.enabled = NO;
+            [self setSwitchEnable:NO];
+            
             [weakSelf.okBtn setTitle:DoraemonLocalizedString(@"结束测试") forState:UIControlStateNormal];
         }else{
             [DoraemonAllTestManager shareInstance].fpsSwitchOn = NO;
@@ -136,10 +137,7 @@
             [DoraemonAllTestManager shareInstance].memorySwitchOn = NO;
             [DoraemonAllTestManager shareInstance].flowSwitchOn = NO;
             
-            self.fpsSwitchView.switchView.enabled = YES;
-            self.cpuSwitchView.switchView.enabled = YES;
-            self.memorySwitchView.switchView.enabled = YES;
-            self.flowSwitchView.switchView.enabled = YES;
+            [self setSwitchEnable:YES];
             
             weakSelf.fpsSwitchView.switchView.on = NO;
             weakSelf.cpuSwitchView.switchView.on = NO;
@@ -156,6 +154,13 @@
     }];
 }
 
+- (void)setSwitchEnable:(BOOL)status{
+    self.fpsSwitchView.switchView.enabled = status;
+    self.cpuSwitchView.switchView.enabled = status;
+    self.memorySwitchView.switchView.enabled = status;
+    self.flowSwitchView.switchView.enabled = status;
+}
+
 #pragma mrak - DoraemonCellButtonDelegate
 - (void)cellBtnClick:(id)sender{
     [self _toViewStatistics];
@@ -168,7 +173,8 @@
 
 #pragma mark -- DoraemonAllTestWindowDelegate
 - (void)doraemonAllTestWindowClosed {
-    [_realTimeSwitchView renderUIWithTitle:DoraemonLocalizedString(@"实时数据") switchOn:[[DoraemonCacheManager sharedInstance] cpuSwitch]];
+    [[DoraemonCacheManager sharedInstance] saveAllTestSwitch:NO];
+    [_realTimeSwitchView renderUIWithTitle:DoraemonLocalizedString(@"实时数据") switchOn:[[DoraemonCacheManager sharedInstance] allTestSwitch]];
 }
 
 #pragma mark -- DoraemonSwitchViewDelegate
