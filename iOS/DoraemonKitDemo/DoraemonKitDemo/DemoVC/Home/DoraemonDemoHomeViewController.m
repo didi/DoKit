@@ -77,7 +77,7 @@
     }else if(row==7){
         txt = DoraemonLocalizedString(@"通用测试Demo");
     }else if(row==8){
-        txt = @"内存泄漏测试";
+        txt = DoraemonLocalizedString(@"内存泄漏测试");
     }
     cell.textLabel.text = txt;
     return cell;

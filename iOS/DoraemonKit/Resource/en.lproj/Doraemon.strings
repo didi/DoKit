@@ -200,7 +200,7 @@
     "消息体"                                   =   "Message Body";
     "检测记录"                                     = "Monitor results";
     "帧率检测"                                     = "FPS monitor";
-    "大图检测"                                     = "Large image detection";
+    "大图检测"                                     = "Large Image";
     "大图检测开关"                                  = "Larage image detection switch";
     "启动耗时"                               = "Start time";
     "启动耗时统计"                            = "Start time statistics";
@@ -254,4 +254,14 @@
     "温馨提示"                                   = "tips";
     "你可以通过下面地址访问"                         = "access server address";
     "服务已关闭"                                   = "server is off";
+    "UI层级检查"                                  = "UI Hierarchy";
+    "UI层级检查开关"                              = "UI Hierarchy switch";
+    "函数耗时"                                   = "Time Profiler";
+    "内存泄漏"                                   = "Memory Leak";
+    "内存泄漏检测开关"                            = "Memory Leak Switch";
+    "泄漏检测弹框提醒"                            = "Memory Leak Alert Warning";
+    "内存泄漏测试"                            = "Memory Leak Test";
+    "日志"                                       = "Log";
+    "缓存"                                       = "Cache";
+    "信息"                                       = "Info";
 }

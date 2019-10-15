@@ -417,21 +417,21 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 {
     NSArray *dataArray = @{
                            @(DoraemonManagerPluginType_DoraemonWeexLogPlugin) : @[
-                                   @{kTitle:@"日志"},
+                                   @{kTitle:DoraemonLocalizedString(@"日志")},
                                    @{kDesc:@"Weex日志显示"},
                                    @{kIcon:@"doraemon_log"},
                                    @{kPluginName:@"DoraemonWeexLogPlugin"},
                                    @{kAtModule:@"Weex专区"}
                                    ],
                            @(DoraemonManagerPluginType_DoraemonWeexStoragePlugin) : @[
-                                   @{kTitle:@"缓存"},
+                                   @{kTitle:DoraemonLocalizedString(@"缓存")},
                                    @{kDesc:@"weex storage 查看"},
                                    @{kIcon:@"doraemon_file"},
                                    @{kPluginName:@"DoraemonWeexStoragePlugin"},
                                    @{kAtModule:@"Weex专区"}
                                    ],
                            @(DoraemonManagerPluginType_DoraemonWeexInfoPlugin) : @[
-                                   @{kTitle:@"信息"},
+                                   @{kTitle:DoraemonLocalizedString(@"信息")},
                                    @{kDesc:@"weex 信息查看"},
                                    @{kIcon:@"doraemon_app_info"},
                                    @{kPluginName:@"DoraemonWeexInfoPlugin"},
