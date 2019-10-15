@@ -29,10 +29,7 @@
             self.backgroundColor = [UIColor systemBackgroundColor];
         }
         
-        CGFloat offsetY = 0;
-        if (![DoraemonStateBar shareInstance].hidden) {
-            offsetY = IPHONE_STATUSBAR_HEIGHT;
-        }
+        CGFloat offsetY = IPHONE_STATUSBAR_HEIGHT;
         CGFloat titleLabelOffsetY = offsetY + ((self.doraemon_height-offsetY)/2-kDoraemonSizeFrom750_Landscape(67)/2);
         CGFloat closeBtnH = self.doraemon_height-offsetY;
         
