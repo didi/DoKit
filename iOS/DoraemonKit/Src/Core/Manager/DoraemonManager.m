@@ -237,6 +237,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAllTestPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonStartTimePlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonUIProfilePlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonTimeProfilePlugin];
 #if DoraemonWithLoad
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMethodUseTimePlugin];
 #endif
@@ -581,15 +582,22 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                            @(DoraemonManagerPluginType_DoraemonMemoryLeakPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"内存泄漏")},
                                    @{kDesc:DoraemonLocalizedString(@"内存泄漏统计")},
-                                   @{kIcon:@"doraemon_app_start_time"},
+                                   @{kIcon:@"doraemon_memory_leak"},
                                    @{kPluginName:@"DoraemonMLeaksFinderPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")}
                                    ],
                            @(DoraemonManagerPluginType_DoraemonUIProfilePlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"UI层级检查")},
                                    @{kDesc:DoraemonLocalizedString(@"显示UI层级检查")},
-                                   @{kIcon:@"doraemon_viewmetrics"},
+                                   @{kIcon:@"doraemon_view_level"},
                                    @{kPluginName:@"DoraemonUIProfilePlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"性能检测")}
+                           ],
+                           @(DoraemonManagerPluginType_DoraemonTimeProfilePlugin) : @[
+                                   @{kTitle:DoraemonLocalizedString(@"函数耗时")},
+                                   @{kDesc:DoraemonLocalizedString(@"函数耗时统计")},
+                                   @{kIcon:@"doraemon_time_profiler"},
+                                   @{kPluginName:@"DoraemonTimeProfilerPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")}
                            ],
                            // 视觉工具
