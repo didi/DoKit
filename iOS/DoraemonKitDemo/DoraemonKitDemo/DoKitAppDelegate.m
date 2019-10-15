@@ -69,7 +69,6 @@
     NSLog(@"%@",[array description]);
     
     //[DoraemonTimeProfiler stopRecord];
-    //[DoraemonTimeProfiler printRecords];
 
     return YES;
 }

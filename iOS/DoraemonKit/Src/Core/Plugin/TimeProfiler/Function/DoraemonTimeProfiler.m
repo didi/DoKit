@@ -49,6 +49,7 @@ static NSTimeInterval stopTime;
 + (void)stopRecord {
     doraemon_hook_end();
     stopTime = [NSDate new].timeIntervalSince1970;
+    [self printRecords];
 }
 
 + (void)clearRecords {
