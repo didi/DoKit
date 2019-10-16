@@ -126,12 +126,11 @@
     }
     
     NSString *h5Url = _h5UrlTextView.text;
+    [[DoraemonCacheManager sharedInstance] saveH5historicalRecordWithText:h5Url];
     if ([DoraemonManager shareInstance].h5DoorBlock) {
         [self leftNavBackClick:nil];
         [DoraemonManager shareInstance].h5DoorBlock(h5Url);
     }else{
-        [[DoraemonCacheManager sharedInstance] saveH5historicalRecordWithText:h5Url];
-        
         DoraemonDefaultWebViewController *vc = [[DoraemonDefaultWebViewController alloc] init];
         vc.h5Url = [self urlCorrectionWithURL:h5Url];
         [self.navigationController pushViewController:vc animated:YES];
