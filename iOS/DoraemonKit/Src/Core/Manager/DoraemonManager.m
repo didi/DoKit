@@ -144,18 +144,22 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     //开启NSLog监控功能
     if ([[DoraemonCacheManager sharedInstance] nsLogSwitch]) {
         [[DoraemonNSLogManager sharedInstance] startNSLogMonitor];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1. * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [[DoraemonStateBar shareInstance] show];
-        });
+        if (@available(iOS 13.0, *)){
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1. * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [[DoraemonStateBar shareInstance] show];
+            });
+        }
     }
     
 #if DoraemonWithLogger
     //开启CocoaLumberjack监控
     if ([[DoraemonCacheManager sharedInstance] loggerSwitch]) {
         [DoraemonCocoaLumberjackLogger sharedInstance];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1. * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [[DoraemonStateBar shareInstance] show];
-        });
+        if (@available(iOS 13.0, *)) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1. * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [[DoraemonStateBar shareInstance] show];
+            });
+        }
     }
 #endif
     

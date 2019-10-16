@@ -10,7 +10,6 @@
 #import "UIView+Doraemon.h"
 #import "UIColor+Doraemon.h"
 #import "UIImage+Doraemon.h"
-#import "DoraemonStateBar.h"
 
 @interface DoraemonBaseBigTitleView()
 
