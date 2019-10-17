@@ -64,7 +64,7 @@
     if (isrunning) {
         tips = [NSString stringWithFormat:@"%@：\n\n%@：\n\n%@", DoraemonLocalizedString(@"温馨提示"), DoraemonLocalizedString(@"你可以通过下面地址访问"), [DebugDatabaseManager shared].serverURL];
     }else {
-        tips = [NSString stringWithFormat:@"%@：\n\n%@！", DoraemonLocalizedString(@"温馨提示"), DoraemonLocalizedString(@"服务已关闭")];
+        tips = [NSString stringWithFormat:@"%@：\n\n%@！\n%@!\n", DoraemonLocalizedString(@"温馨提示"), DoraemonLocalizedString(@"服务已关闭"), DoraemonLocalizedString(@"请保证当前手机和PC处在同一个局域网内")];
     }
     _tipLabel.text = tips;
 }

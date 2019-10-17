@@ -253,6 +253,7 @@
     "关闭服务"                                   = "stop server";
     "温馨提示"                                   = "tips";
     "你可以通过下面地址访问"                         = "access server address";
+    "请保证当前手机和PC处在同一个局域网内"             = "ensure phone and pc in the same wifi";
     "服务已关闭"                                   = "server is off";
     "UI层级检查"                                  = "UI Hierarchy";
     "UI层级检查开关"                              = "UI Hierarchy switch";
