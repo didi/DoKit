@@ -23,7 +23,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"YYDebugDatabase";
+    self.title = @"DBView";
     
     _startButton = [UIButton buttonWithType:UIButtonTypeCustom];
     _startButton.frame = CGRectMake(15, self.bigTitleView.doraemon_bottom + 50, self.view.doraemon_width - 40, 50);

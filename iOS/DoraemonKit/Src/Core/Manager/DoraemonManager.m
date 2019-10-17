@@ -512,7 +512,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kAtModule:DoraemonLocalizedString(@"常用工具")}
                                    ],
                            @(DoraemonManagerPluginType_DoraemonDatabasePlugin) : @[
-                                   @{kTitle:@"YYDatabase"},
+                                   @{kTitle:@"DBView"},
                                    @{kDesc:DoraemonLocalizedString(@"数据库")},
                                    @{kIcon:@"doraemon_database"},
                                    @{kPluginName:@"DoraemonDatabasePlugin"},
