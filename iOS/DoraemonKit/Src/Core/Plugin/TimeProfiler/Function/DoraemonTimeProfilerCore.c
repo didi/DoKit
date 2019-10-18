@@ -21,9 +21,9 @@ static int _max_call_depth = 10;
 static pthread_key_t _thread_key;
 __unused static id (*orig_objc_msgSend)(id, SEL, ...);
 
-static doraemon_call_record *doraemon_records;
-static int doraemon_record_num;
-static int doraemon_record_alloc;
+static dtp_call_record *dtp_records;
+static int dtp_record_num;
+static int dtp_record_alloc;
 
 typedef struct {
     id self; //通过 object_getClass 能够得到 Class 再通过 NSStringFromClass 能够得到类名
@@ -40,11 +40,11 @@ typedef struct {
     bool is_main_thread;
 } thread_call_stack;
 
-static inline thread_call_stack * get_thread_call_stack() {
+static inline thread_call_stack *get_thread_call_stack() {
     thread_call_stack *cs = (thread_call_stack *)pthread_getspecific(_thread_key);//pthread_getpecific和pthread_setspecific实现同一个线程中不同函数间共享数据的一种很好的方式
     if (cs == NULL) {
         cs = (thread_call_stack *)malloc(sizeof(thread_call_stack));
-        cs->stack = (thread_call_record *)calloc(128, sizeof(thread_call_stack));
+        cs->stack = (thread_call_record *)calloc(128, sizeof(thread_call_record));
         cs->allocated_length = 64;
         cs->index = -1;
         cs->is_main_thread = pthread_main_np();
@@ -96,16 +96,16 @@ static inline uintptr_t pop_call_record() {
         }
         uint64_t cost = time - pRecord->time;
         if (cost > _min_time_cost && cs->index < _max_call_depth) {
-            if (!doraemon_records) {
-                doraemon_record_alloc = 1024;
-                doraemon_records = malloc(sizeof(doraemon_call_record) * doraemon_record_alloc);
+            if (!dtp_records) {
+                dtp_record_alloc = 1024;
+                dtp_records = malloc(sizeof(dtp_call_record) * dtp_record_alloc);
             }
-            doraemon_record_num++;
-            if (doraemon_record_num >= doraemon_record_alloc) {
-                doraemon_record_alloc += 1024;
-                doraemon_records = realloc(doraemon_records, sizeof(doraemon_call_record) * doraemon_record_alloc);
+            dtp_record_num++;
+            if (dtp_record_num >= dtp_record_alloc) {
+                dtp_record_alloc += 1024;
+                dtp_records = realloc(dtp_records, sizeof(dtp_call_record) * dtp_record_alloc);
             }
-            doraemon_call_record *log = &doraemon_records[doraemon_record_num - 1];
+            dtp_call_record *log = &dtp_records[dtp_record_num - 1];
             log->cls = pRecord->cls;
             log->depth = curIndex;
             log->sel = pRecord->cmd;
@@ -130,7 +130,9 @@ uintptr_t after_objc_msgSend() {
 // 将参数value(地址)传递给x12寄存器
 // blr开始执行
 #define call(b, value) \
+    __asm volatile ("stp x8, x9, [sp, #-16]!\n"); \
     __asm volatile ("mov x12, %0\n" :: "r"(value)); \
+    __asm volatile ("ldp x8, x9, [sp], #16\n"); \
     __asm volatile (#b " x12\n");
 
 //保存寄存器参数信息
@@ -153,12 +155,12 @@ uintptr_t after_objc_msgSend() {
         "ldp x6, x7, [sp], #16\n" \
         "ldp x8, x9, [sp], #16\n");
 
-//#define link(b, value) \
-//    __asm volatile ("stp x8, lr, [sp, #-16]!\n"); \
-//    __asm volatile ("sub sp, sp, #16\n"); \
-//    call(b, value); \
-//    __asm volatile ("add sp, sp, #16\n"); \
-//    __asm volatile ("ldp x8, lr, [sp], #16\n");
+#define link(b, value) \
+    __asm volatile ("stp x8, lr, [sp, #-16]!\n"); \
+    __asm volatile ("sub sp, sp, #16\n"); \
+    call(b, value); \
+    __asm volatile ("add sp, sp, #16\n"); \
+    __asm volatile ("ldp x8, lr, [sp], #16\n");
 
 //程序执行完成,返回将继续执行lr中的函数
 #define ret() __asm volatile ("ret\n");
@@ -181,7 +183,7 @@ static void hook_objc_msgSend() {
     
     //将objc_msgSend执行的下一个函数地址传递给before_objc_msgSend的第二个参数x0 self, x1 _cmd, x2: lr address
     __asm volatile ("mov x2, lr\n");
-    //__asm volatile ("mov x3, x4\n");
+    __asm volatile ("mov x3, x4\n");
     
     // 执行before_objc_msgSend   blr 除了从指定寄存器读取新的 PC 值外效果和 bl 一...
     call(blr, &before_objc_msgSend)
@@ -208,7 +210,7 @@ static void hook_objc_msgSend() {
 }
 
 
-void doraemon_hook_begin() {
+void dtp_hook_begin() {
     _call_record_enabled = true;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -217,45 +219,45 @@ void doraemon_hook_begin() {
     });
 }
 
-void doraemon_hook_end() {
+void dtp_hook_end() {
     _call_record_enabled = false;
 }
 
-void doraemon_set_min_time(uint64_t us) {
+void dtp_set_min_time(uint64_t us) {
     _min_time_cost = us;
 }
 
-void doraemon_set_max_depth(int depth) {
+void dtp_set_max_depth(int depth) {
     _max_call_depth = depth;
 }
 
-doraemon_call_record *doraemon_get_call_records(int *num) {
+dtp_call_record *dtp_get_call_records(int *num) {
     if (num) {
-        *num = doraemon_record_num;
+        *num = dtp_record_num;
     }
-    return doraemon_records;
+    return dtp_records;
 }
 
-void doraemon_clear_call_records() {
-    if (doraemon_records) {
-        free(doraemon_records);
-        doraemon_records = NULL;
+void dtp_clear_call_records() {
+    if (dtp_records) {
+        free(dtp_records);
+        dtp_records = NULL;
     }
-    doraemon_record_num = 0;
+    dtp_record_num = 0;
 }
 
 #else
 
-void doraemon_hook_begin() {}
+void dtp_hook_begin() {}
 
-void doraemon_hook_end() {}
+void dtp_hook_end() {}
 
-void doraemon_set_min_time(uint64_t us) {}
+void dtp_set_min_time(uint64_t us) {}
 
-void doraemon_set_max_depth(int depth) {}
+void dtp_set_max_depth(int depth) {}
 
-doraemon_call_record *doraemon_get_call_records(int *num) {return NULL;}
+dtp_call_record *dtp_get_call_records(int *num) {return NULL;}
 
-void doraemon_clear_call_records() {}
+void dtp_clear_call_records() {}
 
 #endif

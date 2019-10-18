@@ -16,15 +16,15 @@ typedef struct {
     SEL sel;
     uint64_t time; // us （1/1000 ms）
     int depth;
-} doraemon_call_record;
+} dtp_call_record;
 
-extern void doraemon_hook_begin();
-extern void doraemon_hook_end();
+extern void dtp_hook_begin();
+extern void dtp_hook_end();
 
-extern void doraemon_set_min_time(uint64_t us); //default 1000
-extern void doraemon_set_max_depth(int depth); //deafult 10
+extern void dtp_set_min_time(uint64_t us); //default 1000
+extern void dtp_set_max_depth(int depth); //deafult 10
 
-extern doraemon_call_record *doraemon_get_call_records(int *num);
-extern void doraemon_clear_call_records();
+extern dtp_call_record *dtp_get_call_records(int *num);
+extern void dtp_clear_call_records();
 
 #endif /* DoraemonTimeProfilerCore_h */

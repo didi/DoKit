@@ -43,17 +43,18 @@ static NSTimeInterval stopTime;
 
 + (void)startRecord {
     startTime = [NSDate new].timeIntervalSince1970;
-    doraemon_hook_begin();
+    dtp_hook_begin();
 }
 
 + (void)stopRecord {
-    doraemon_hook_end();
+    dtp_hook_end();
     stopTime = [NSDate new].timeIntervalSince1970;
     [self printRecords];
+    [self clearRecords];
 }
 
 + (void)clearRecords {
-    doraemon_clear_call_records();
+    dtp_clear_call_records();
 }
 
 + (void)shareRecords {
@@ -64,7 +65,7 @@ static NSTimeInterval stopTime;
 /// 打印调用记录
 + (void)printRecords {
     NSString *result = [self getRecordsResult];
-    NSLog(@"%@",result);
+    NSLog(@"dtp == \n%@",result);
 }
 
 + (NSString *)getRecordsResult {
@@ -96,9 +97,9 @@ static NSTimeInterval stopTime;
 + (NSArray<DoraemonTimeProfilerRecord *>*)getRecords {
     NSMutableArray<DoraemonTimeProfilerRecord *> *arr = [NSMutableArray new];
     int record_num = 0;
-    doraemon_call_record *records = doraemon_get_call_records(&record_num);
+    dtp_call_record *records = dtp_get_call_records(&record_num);
     for (int i = 0; i < record_num; i++) {
-        doraemon_call_record *rec = &records[i];
+        dtp_call_record *rec = &records[i];
         
         DoraemonTimeProfilerRecord *r = [DoraemonTimeProfilerRecord new];
         r.className = NSStringFromClass(rec->cls);
@@ -131,12 +132,12 @@ static NSTimeInterval stopTime;
 }
 
 + (void)setMinCallCost:(double)ms {
-    doraemon_set_min_time(ms * 1000);
+    dtp_set_min_time(ms * 1000);
 }
 
 + (void)setMaxCallDepth:(int)depth {
     if (depth < 0) depth = 0;
-    doraemon_set_max_depth(depth);
+    dtp_set_max_depth(depth);
 }
 
 + (void)share:(NSString *)str {
