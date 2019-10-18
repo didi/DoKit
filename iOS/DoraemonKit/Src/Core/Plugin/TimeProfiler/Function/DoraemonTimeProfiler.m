@@ -65,7 +65,7 @@ static NSTimeInterval stopTime;
 /// 打印调用记录
 + (void)printRecords {
     NSString *result = [self getRecordsResult];
-    NSLog(@"dtp == \n%@",result);
+    NSLog(@"%@",result);
 }
 
 + (NSString *)getRecordsResult {
