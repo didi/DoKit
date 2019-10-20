@@ -15,10 +15,6 @@
 
 + (void)openPlugin:(UIViewController *)vc;
 
-+ (UIViewController *)rootViewControllerForKeyWindow;
-
-+ (UIViewController *)topViewControllerForKeyWindow;
-
 + (NSString *)dateFormatTimeInterval:(NSTimeInterval)timeInterval;
 
 + (NSString *)dateFormatNSDate:(NSDate *)date;

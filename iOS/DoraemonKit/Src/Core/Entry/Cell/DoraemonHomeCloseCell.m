@@ -7,9 +7,9 @@
 
 #import "DoraemonHomeCloseCell.h"
 #import "DoraemonManager.h"
-#import "DoraemonUtil.h"
 #import "DoraemonHomeWindow.h"
 #import "DoraemonDefine.h"
+#import "UIViewController+Doraemon.h"
 
 @interface DoraemonHomeCloseCell ()
 
@@ -27,7 +27,7 @@
     }];
     [alertController addAction:cancelAction];
     [alertController addAction:okAction];
-    [[DoraemonUtil rootViewControllerForKeyWindow] presentViewController:alertController animated:YES completion:nil];
+    [[UIViewController rootViewControllerForKeyWindow] presentViewController:alertController animated:YES completion:nil];
 
     [[DoraemonHomeWindow shareInstance] hide];
 }

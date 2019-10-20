@@ -7,7 +7,6 @@
 
 #import "DoraemonHomeEntry.h"
 #import "UIView+Doraemon.h"
-#import "DoraemonUtil.h"
 #import "UIColor+Doraemon.h"
 #import "DoraemonManager.h"
 #import "DoraemonPluginProtocol.h"
@@ -211,33 +210,10 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
     self.navigationController.navigationBarHidden = YES;
 }
 
-- (void)layoutCollectionView {
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    switch (orientation) {
-        case UIInterfaceOrientationLandscapeLeft:
-        case UIInterfaceOrientationLandscapeRight:
-        {
-            CGSize size = self.view.doraemon_size;
-            if (size.width > size.height) {
-                UIEdgeInsets safeAreaInsets = [self safeAreaInset];
-                CGRect frame = self.view.frame;
-                CGFloat width = self.view.doraemon_width - safeAreaInsets.left - safeAreaInsets.right;
-                frame.origin.x = safeAreaInsets.left;
-                frame.size.width = width;
-                self.collectionView.frame = frame;
-            }
-        }
-            break;
-        default:
-            self.collectionView.frame = self.view.frame;
-            break;
-    }
-}
-
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
 
-    [self layoutCollectionView];
+    self.collectionView.frame = [self fullscreen];
 }
 
 @end

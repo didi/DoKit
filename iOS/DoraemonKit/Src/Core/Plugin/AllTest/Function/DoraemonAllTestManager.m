@@ -13,10 +13,10 @@
 #import "DoraemonNetFlowManager.h"
 #import "DoraemonNetFlowDataSource.h"
 #import "DoraemonFPSUtil.h"
-#import "DoraemonUtil.h"
 #import "DoraemonDefine.h"
 #import "DoraemonAllTestWindow.h"
 #import "DoraemonAllTestStatisticsManager.h"
+#import "UIViewController+Doraemon.h"
 
 @interface DoraemonAllTestManager()
 
@@ -179,7 +179,7 @@
     //CGFloat current = -1;
     
     //6、获取顶层VC
-    UIViewController *vc = [DoraemonUtil topViewControllerForKeyWindow];
+    UIViewController *vc = [UIViewController topViewControllerForKeyWindow];
     NSString *vcName = NSStringFromClass([vc class]);
     
     //7、组装commonData数据
