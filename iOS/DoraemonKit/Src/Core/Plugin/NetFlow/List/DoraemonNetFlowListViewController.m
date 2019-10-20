@@ -29,6 +29,18 @@
     
     self.title = DoraemonLocalizedString(@"流量监控列表");
     
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                return [UIColor systemBackgroundColor];
+            } else {
+                return [UIColor whiteColor];
+            }
+        }];
+    } else {
+        self.view.backgroundColor = [UIColor whiteColor];
+    }
+    
     NSArray *dataArray = [DoraemonNetFlowDataSource shareInstance].httpModelArray;
     _dataArray = [NSArray arrayWithArray:dataArray];
     _allHttpModelArray = [NSArray arrayWithArray:dataArray];
@@ -39,7 +51,7 @@
     
 
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, _searchView.doraemon_bottom+kDoraemonSizeFrom750_Landscape(30), self.view.doraemon_width, self.view.doraemon_height-_searchView.doraemon_bottom-kDoraemonSizeFrom750_Landscape(30)) style:UITableViewStylePlain];
-    self.tableView.backgroundColor = [UIColor whiteColor];
+//    self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];

@@ -9,6 +9,7 @@
 #import "DoraemonManager.h"
 #import "DoraemonUtil.h"
 #import "DoraemonHomeWindow.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonHomeCloseCell ()
 
@@ -34,7 +35,20 @@
 - (UIButton *)closeButton {
     if (!_closeButton) {
         _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        _closeButton.backgroundColor = [UIColor whiteColor];
+        if (@available(iOS 13.0, *)) {
+            UIColor *dyColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+                    return [UIColor whiteColor];
+                } else {
+                    return [UIColor doraemon_colorWithString:@"#C1C3BF"];
+                }
+            }];
+            _closeButton.backgroundColor = dyColor;
+        } else {
+            _closeButton.backgroundColor = [UIColor whiteColor];
+        }
+        _closeButton.layer.cornerRadius = 5.0;
+        _closeButton.layer.masksToBounds = YES;
         [_closeButton setTitle:DoraemonLocalizedString(@"关闭DoraemonKit") forState:UIControlStateNormal];
         [_closeButton setTitleColor:[UIColor doraemon_colorWithString:@"#CC3A4B"] forState:UIControlStateNormal];
         [_closeButton addTarget:self action:@selector(closeButtonHandle) forControlEvents:UIControlEventTouchUpInside];

@@ -6,6 +6,8 @@
 //
 
 #import "DoraemonQRCodeTool.h"
+#import "DoraemonDefine.h"
+
 @interface DoraemonQRCodeTool () <AVCaptureMetadataOutputObjectsDelegate,CAAnimationDelegate>
 
 /** 二维码信息对象 */

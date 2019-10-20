@@ -1,1 +1,69 @@
-"use strict";function _toConsumableArray(t){return _arrayWithoutHoles(t)||_iterableToArray(t)||_nonIterableSpread()}function _nonIterableSpread(){throw new TypeError("Invalid attempt to spread non-iterable instance")}function _iterableToArray(t){if(Symbol.iterator in Object(t)||"[object Arguments]"===Object.prototype.toString.call(t))return Array.from(t)}function _arrayWithoutHoles(t){if(Array.isArray(t)){for(var r=0,e=new Array(t.length);r<t.length;r++)e[r]=t[r];return e}}Component({data:{qrCodeUrl:"",historyUrlList:[],isShowWebView:!1},onLoad:function(){this.getHistoryUrlList()},getHistoryUrlList:function(){var t=[],r=wx.getStorageSync("h5door-url");t=r?t.concat(r.split(",")):[],this.setData({historyUrlList:t})},setQrCode:function(t){this.setData({qrCodeUrl:t.target.dataset.qrCode})},qrCodeArouse:function(){var r=this,t={scanType:["qrCode"],success:function(t){r.setData({qrCodeUrl:t.result}),r.goWebview()}};wx.scanCode(t)},textareaChange:function(t){this.setData({qrCodeUrl:t.detail.value})},clearAll:function(){wx.clearStorageSync(),this.onLoad()},addUrlToStorage:function(){var t=this.data.historyUrlList;if(t.push(this.data.qrCodeUrl),this.setData({historyUrlList:t}),0<this.data.historyUrlList.length){var r=new Set(this.data.historyUrlList);this.setData({historyUrlList:_toConsumableArray(r)}),wx.setStorageSync("h5door-url",this.data.historyUrlList.join(","))}},goWebview:function(t){this.data.qrCodeUrl?(this.addUrlToStorage(),this.setData({isShowWebView:!0})):wx.showToast({title:"请输入跳转链接"})}});
+Page({
+    data: {
+        qrCodeUrl:'',
+        historyUrlList:[],
+        isShowWebView:false
+    },
+    onLoad () {
+        this.getHistoryUrlList()
+    },
+    getHistoryUrlList(){
+        let urlArr = []
+        let result = wx.getStorageSync('h5door-url')
+        if(result){
+            urlArr = urlArr.concat(result.split(","))
+        }else{
+            urlArr = []
+        }
+        this.setData({
+            historyUrlList:urlArr
+        })
+    },
+    setQrCode(event){
+        this.setData({
+            qrCodeUrl:event.target.dataset.qrCode
+        })
+    },
+    qrCodeArouse(){
+        let qrCodeObj = {
+            scanType:['qrCode'],
+            success:res=>{
+                this.setData({qrCodeUrl:res.result})
+                this.goWebview()
+            }
+        }
+        wx.scanCode(qrCodeObj)
+    },
+    textareaChange(event){
+        this.setData({
+            qrCodeUrl:event.detail.value
+        })
+    },
+    clearAll(){
+        wx.clearStorageSync()
+        this.onLoad()
+    },
+    addUrlToStorage(){
+        let urlArr = this.data.historyUrlList
+        urlArr.push(this.data.qrCodeUrl)
+        this.setData({
+            historyUrlList:urlArr
+        })
+        if(this.data.historyUrlList.length>0){
+            let newArr = new Set(this.data.historyUrlList)
+            this.setData({
+                historyUrlList:[...newArr]
+            })
+            wx.setStorageSync('h5door-url', this.data.historyUrlList.join(","))
+        }
+    },
+    goWebview(event){
+        if(!this.data.qrCodeUrl){
+            wx.showToast({title:'请输入跳转链接'})
+            return
+        }
+        this.addUrlToStorage()
+        this.setData({isShowWebView:true})
+
+    }
+});

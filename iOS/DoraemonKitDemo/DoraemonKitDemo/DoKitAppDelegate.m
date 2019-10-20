@@ -10,6 +10,7 @@
 #import <DoraemonKit/DoraemonKit.h>
 #import "DoraemonDemoHomeViewController.h"
 #import "Doraemoni18NUtil.h"
+#import "DoraemonTimeProfiler.h"
 //#import <CocoaLumberjack/CocoaLumberjack.h>
 
 @interface DoKitAppDelegate ()
@@ -19,6 +20,8 @@
 @implementation DoKitAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [DoraemonTimeProfiler startRecord];
     
     //[[self class] handleCCrashReportWrap];
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
@@ -64,6 +67,8 @@
     
     NSArray *array = @[];
     NSLog(@"%@",[array description]);
+    
+    [DoraemonTimeProfiler stopRecord];
 
     return YES;
 }

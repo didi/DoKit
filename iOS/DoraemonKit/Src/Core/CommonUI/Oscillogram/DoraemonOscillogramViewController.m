@@ -7,6 +7,7 @@
 
 #import "DoraemonOscillogramViewController.h"
 #import "DoraemonOscillogramWindowManager.h"
+#import "DoraemonDefine.h"
 
 
 @interface DoraemonOscillogramViewController ()

@@ -9,19 +9,5 @@
   },
   "usingComponents": {
     "dokit": "../../dist/index/index"
-  },
-  "subpackages": [
-    {
-      "root": "dist",
-      "pages": [
-        "appInformation",
-        "debug",
-        "h5door",
-        "logs",
-        "positionSimulation",
-        "storage",
-        "index"
-      ]
-    }
-  ]
+  }
 }

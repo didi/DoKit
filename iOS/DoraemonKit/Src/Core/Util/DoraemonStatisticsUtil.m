@@ -6,6 +6,7 @@
 //
 
 #import "DoraemonStatisticsUtil.h"
+#import "DoraemonDefine.h"
 
 @implementation DoraemonStatisticsUtil
 

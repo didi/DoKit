@@ -13,6 +13,7 @@
 #import "DoraemonLargeImageDetectionManager.h"
 #import "DoraemonLargeImageDetectionListViewController.h"
 #import "DoraemonCellInput.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonLargeImageViewController() <DoraemonSwitchViewDelegate, DoraemonCellButtonDelegate>
 

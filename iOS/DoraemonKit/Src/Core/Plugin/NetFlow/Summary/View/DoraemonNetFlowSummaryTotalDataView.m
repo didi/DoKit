@@ -68,10 +68,18 @@
 
 - (void)initUI{
     self.layer.cornerRadius = 5.f;
-    self.backgroundColor = [UIColor whiteColor];
-    
-    
-    
+    if (@available(iOS 13.0, *)) {
+        self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                return [UIColor secondarySystemBackgroundColor];
+            } else {
+                return [UIColor whiteColor];
+            }
+        }];
+    } else {
+       self.backgroundColor = [UIColor whiteColor];
+    }
+     
     //抓包时间
     NSString *time;
     NSDate *startInterceptDate = [DoraemonNetFlowManager shareInstance].startInterceptDate;

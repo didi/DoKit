@@ -14,6 +14,18 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        if (@available(iOS 13.0, *)) {
+            self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                    return [UIColor secondarySystemBackgroundColor];
+                } else {
+                    return [UIColor whiteColor];
+                }
+            }];
+        } else {
+            self.backgroundColor = [UIColor whiteColor];
+        }
+        
         self.xAxis = [[DoraemonXAxis alloc] init];
         self.yAxis = [[DoraemonYAxis alloc] init];
         self.yAxis.labelCount = 5;
@@ -74,7 +86,7 @@
 
     NSArray<NSString *> *labels = [self.yAxis.labels.reverseObjectEnumerator allObjects];
     // Render Grid Lines
-    for (int i = 1; i < labels.count; i++) {
+    for (NSUInteger i = 1; i < labels.count; i++) {
         CGFloat dashes[] = {2,2};
         CGFloat y = self.contentInset.top + self.yAxis.marginTop + spacing * (i - 1);
         CGContextMoveToPoint(context, self.contentInset.left, y);
@@ -84,10 +96,14 @@
     }
     
     // draw x axis value labels
-    for (int i = 0; i < labels.count; i++) {
+    for (NSUInteger i = 0; i < labels.count; i++) {
         CGFloat y = self.contentInset.top + self.yAxis.marginTop + spacing * i;
         NSString *text = labels[i];
-        NSDictionary *attributes = @{NSFontAttributeName: self.yAxis.axisLabelFont};
+        UIColor *attColor = [UIColor blackColor];
+        if (@available(iOS 13.0, *)) {
+            attColor = [UIColor labelColor];
+        }
+        NSDictionary *attributes = @{NSFontAttributeName: self.yAxis.axisLabelFont, NSForegroundColorAttributeName: attColor};
         CGSize size = [text sizeWithAttributes:attributes];
         
         CGFloat labelX = MAX(self.contentInset.left - size.width, 0);
@@ -105,7 +121,7 @@
     }
     CGFloat barWidth = (self.bounds.size.width - self.contentInset.left - self.contentInset.right) / (self.items.count * (1 + self.barsSpacingRatio) + self.barsSpacingRatio);
     
-    for (int i = 0; i < self.items.count; i++) {
+    for (NSUInteger i = 0; i < self.items.count; i++) {
         DoraemonChartDataItem *item = self.items[i];
         CGFloat yAxisHeight = self.bounds.size.height - self.contentInset.top - self.contentInset.bottom - self.yAxis.marginTop;
         CGFloat height = item.value / self.yAxis.maxY * yAxisHeight;
@@ -117,7 +133,11 @@
         [self.layer addSublayer:shapeLayer];
         
         NSString *value = [self.vauleFormatter stringFromNumber: [NSNumber numberWithDouble:item.value]];
-        NSDictionary *attributes = @{NSFontAttributeName: self.yAxis.axisLabelFont};
+        UIColor *attColor = [UIColor blackColor];
+        if (@available(iOS 13.0, *)) {
+            attColor = [UIColor labelColor];
+        }
+        NSDictionary *attributes = @{NSFontAttributeName: self.yAxis.axisLabelFont, NSForegroundColorAttributeName: attColor};
         CGSize valueLabelSize = [value sizeWithAttributes:attributes];
         CGFloat valueLabelOffSetX = (barWidth - valueLabelSize.width) / 2;
         CGRect valueRect = CGRectMake(x + valueLabelOffSetX, y - valueLabelSize.height - 5, valueLabelSize.width, valueLabelSize.height);

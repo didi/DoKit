@@ -15,6 +15,8 @@
 #import "DoraemonStateBar.h"
 
 @interface DoraemonBaseViewController ()<DoraemonBaseBigTitleViewDelegate>
+ 
+@property (nonatomic, strong) DoraemonNavBarItemModel *leftModel;
 
 @end
 
@@ -22,8 +24,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor systemBackgroundColor];
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor labelColor]}];
+        if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+            [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:[UIColor doraemon_black_3] size:CGSizeMake(self.view.frame.size.width, 0.5)]];
+        }
+    } else {
+        self.view.backgroundColor = [UIColor whiteColor];
+    }
+     
     if ([self needBigTitleView]) {
         if ([DoraemonStateBar shareInstance].hidden) {
             _bigTitleView = [[DoraemonBaseBigTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(178))];
@@ -32,9 +42,15 @@
         }
         _bigTitleView.delegate = self;
         [self.view addSubview:_bigTitleView];
-    }else{
-        DoraemonNavBarItemModel *leftModel = [[DoraemonNavBarItemModel alloc] initWithImage:[UIImage doraemon_imageNamed:@"doraemon_back"] selector:@selector(leftNavBackClick:)];
-        [self setLeftNavBarItems:@[leftModel]];
+    } else {
+        UIImage *image = [UIImage doraemon_imageNamed:@"doraemon_back"];
+        if (@available(iOS 13.0, *)) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                image = [UIImage doraemon_imageNamed:@"doraemon_back_dark"];
+            }
+        }
+        self.leftModel = [[DoraemonNavBarItemModel alloc] initWithImage:image selector:@selector(leftNavBackClick:)];
+        [self setLeftNavBarItems:@[self.leftModel]];
     }
 }
 
@@ -51,6 +67,22 @@
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     if (appWindow != keyWindow) {
         [appWindow makeKeyWindow];
+    }
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    
+    // trait发生了改变
+    if (@available(iOS 13.0, *)) {
+        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                self.leftModel.image = [UIImage doraemon_imageNamed:@"doraemon_back_dark"];
+                [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:[UIColor doraemon_black_3] size:CGSizeMake(self.view.frame.size.width, 0.5)]];
+            } else {
+                self.leftModel.image = [UIImage doraemon_imageNamed:@"doraemon_back"];
+            }
+        }
     }
 }
 
@@ -89,7 +121,7 @@
     UIBarButtonItem *spacer = [self getSpacerByWidth:-10];
     [barItems addObject:spacer];
     
-    for (int i=0; i<items.count; i++) {
+    for (NSInteger i=0; i<items.count; i++) {
         
         DoraemonNavBarItemModel *model = items[i];
         UIBarButtonItem *barItem;
@@ -99,7 +131,7 @@
         }else if(model.type == DoraemonNavBarItemTypeImage){//图片按钮
             UIImage *image = [model.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];//设置图片没有默认蓝色效果
             //默认的间距太大
-            //            barItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:model.selector];
+//            barItem = [[UIBarButtonItem alloc] initWithImage:image style:UIBarButtonItemStylePlain target:self action:model.selector];
             
             UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
             [btn setImage:image forState:UIControlStateNormal];

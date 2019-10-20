@@ -19,6 +19,7 @@ typedef void (^DoraemonAllTestManagerBlock)(NSDictionary *upLoadData);
 @property (nonatomic, assign) BOOL cpuSwitchOn;
 @property (nonatomic, assign) BOOL memorySwitchOn;
 @property (nonatomic, assign) BOOL flowSwitchOn;
+@property (nonatomic, assign) BOOL realTimeSwitchOn;
 
 @property (nonatomic, assign) BOOL startTestOn;
 

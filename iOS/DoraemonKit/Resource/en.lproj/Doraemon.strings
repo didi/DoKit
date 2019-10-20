@@ -97,7 +97,15 @@
     "请输入测试人员名称"                      = "Please enter tester name";
     "推送权限"                                =   "Push Privacy";
     "关闭DoraemonKit"                                = "Close DoraemonKit";
-    "当前版本"                                  = "Current Version";
+    "当前版本"                                 = "Current Version";
+    "自定义检测"                                = "Custom Monitor";
+    "查看统计数据"                              = "View Statistics";
+    "上行流量"                                 = "Upstream";
+    "下行流量"                                 = "Downstream";
+    "平均值"                                   ="Average";
+    "实时数据"                                 ="Realtime Data";
+    
+
     "该功能需要重启App才能生效"        =   "Reboot to work";
     "内存检测开关"                               = "Memory monitor switch";
     "查看Crash日志"                                = "View Crash log";
@@ -192,7 +200,7 @@
     "消息体"                                   =   "Message Body";
     "检测记录"                                     = "Monitor results";
     "帧率检测"                                     = "FPS monitor";
-    "大图检测"                                     = "Large image detection";
+    "大图检测"                                     = "Large Image";
     "大图检测开关"                                  = "Larage image detection switch";
     "启动耗时"                               = "Start time";
     "启动耗时统计"                            = "Start time statistics";
@@ -245,5 +253,16 @@
     "关闭服务"                                   = "stop server";
     "温馨提示"                                   = "tips";
     "你可以通过下面地址访问"                         = "access server address";
+    "请保证当前手机和PC处在同一个局域网内"             = "ensure phone and pc in the same wifi";
     "服务已关闭"                                   = "server is off";
+    "UI层级检查"                                  = "UI Hierarchy";
+    "UI层级检查开关"                              = "UI Hierarchy switch";
+    "函数耗时"                                   = "Time Profiler";
+    "内存泄漏"                                   = "Memory Leak";
+    "内存泄漏检测开关"                            = "Memory Leak Switch";
+    "泄漏检测弹框提醒"                            = "Memory Leak Alert Warning";
+    "内存泄漏测试"                            = "Memory Leak Test";
+    "日志"                                       = "Log";
+    "缓存"                                       = "Cache";
+    "信息"                                       = "Info";
 }

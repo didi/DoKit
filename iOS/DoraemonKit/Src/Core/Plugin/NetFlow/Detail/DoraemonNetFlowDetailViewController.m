@@ -34,7 +34,17 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor doraemon_colorWithHex:0xeff0f4];
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                return [UIColor systemBackgroundColor];
+            } else {
+                return [UIColor doraemon_colorWithHex:0xeff0f4];
+            }
+        }];
+    } else {
+        self.view.backgroundColor = [UIColor doraemon_colorWithHex:0xeff0f4];
+    }
     
     [self initData];
     
@@ -206,6 +216,16 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
     tipLabel.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(32), 0, self.view.doraemon_width-kDoraemonSizeFrom750_Landscape(32), kDoraemonSizeFrom750_Landscape(100));
     [view addSubview:tipLabel];
     //tipLabel.backgroundColor = [UIColor doraemon_colorWithHex:0xeff0f4];
+    
+    if (@available(iOS 13.0, *)) {
+        view.backgroundColor =  [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                return [UIColor systemBackgroundColor];
+            } else {
+                return [UIColor whiteColor];
+            }
+        }];
+    }
     
     return view;
 }

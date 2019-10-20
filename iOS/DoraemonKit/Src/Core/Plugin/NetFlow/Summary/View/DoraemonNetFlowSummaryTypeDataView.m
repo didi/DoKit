@@ -10,6 +10,7 @@
 #import "DoraemonPieChart.h"
 #import "DoraemonNetFlowDataSource.h"
 #import "Doraemoni18NUtil.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonNetFlowSummaryTypeDataView()
 @property (nonatomic, strong) NSArray<DoraemonChartDataItem *> *chartItems;
@@ -22,10 +23,24 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.layer.cornerRadius = 5.f;
-        self.backgroundColor = [UIColor whiteColor];
+        if (@available(iOS 13.0, *)) {
+            self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                    return [UIColor secondarySystemBackgroundColor];
+                } else {
+                    return [UIColor whiteColor];
+                }
+            }];
+        } else {
+           self.backgroundColor = [UIColor whiteColor];
+        }
         
         UILabel *tipLabel = [[UILabel alloc] init];
-        tipLabel.textColor = [UIColor blackColor];
+        if (@available(iOS 13.0, *)) {
+            tipLabel.textColor = [UIColor labelColor];
+        } else {
+            tipLabel.textColor = [UIColor blackColor];
+        }
         tipLabel.text = DoraemonLocalizedString(@"数据类型");
         tipLabel.font = [UIFont systemFontOfSize:14];
         [tipLabel sizeToFit];
@@ -72,7 +87,7 @@
 
     NSMutableArray<DoraemonChartDataItem *> *items = [NSMutableArray array];
     for (NSDictionary *mineTypeData in mineTypeDataArray) {
-        DoraemonChartDataItem *item = [[DoraemonChartDataItem alloc] initWithValue:[mineTypeData[@"num"] doubleValue] name:[mineTypeData[@"mineType"] stringValue] color:[UIColor doraemon_randomColor]];
+        DoraemonChartDataItem *item = [[DoraemonChartDataItem alloc] initWithValue:[mineTypeData[@"num"] doubleValue] name:mineTypeData[@"mineType"] color:[UIColor doraemon_randomColor]];
         [items addObject:item];
     }
     self.chartItems = [NSArray arrayWithArray:items];

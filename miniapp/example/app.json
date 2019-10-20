@@ -1,7 +1,15 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "dist/appInformation/appInformation",
+    "dist/debug/debug",
+    "dist/h5door/h5door",
+    "dist/logs/logs",
+    "dist/positionSimulation/positionSimulation",
+    "dist/storage/storage",
+    "dist/httpInjector/httpInjector",
+    "dist/index/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

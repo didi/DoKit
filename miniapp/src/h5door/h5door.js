@@ -1,4 +1,4 @@
-Component({
+Page({
     data: {
         qrCodeUrl:'',
         historyUrlList:[],

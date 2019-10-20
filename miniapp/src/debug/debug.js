@@ -38,6 +38,11 @@ Page({
                         "path": "../h5door/h5door"
                     },
                     {
+                        "title": "请求注射",
+                        "image": "../assets/img/injector.png",
+                        "path": "../httpInjector/httpInjector"
+                    },
+                    {
                         "title": "更新版本",
                         "image": "../assets/img/update-version-icon.png",
                         "type": "function",

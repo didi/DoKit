@@ -20,6 +20,8 @@
 @property (nonatomic, copy) NSArray *dataArray;
 @property (nonatomic, copy) NSString *rootPath;
 
+@property (nonatomic, strong) DoraemonNavBarItemModel *leftModel;
+
 @end
 
 @implementation DoraemonSandboxViewController
@@ -33,6 +35,21 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self loadPath:_currentDirModel.path];
+}
+
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    
+    // trait发生了改变
+    if (@available(iOS 13.0, *)) {
+        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                self.leftModel.image = [UIImage doraemon_imageNamed:@"doraemon_back_dark"];
+            } else {
+                self.leftModel.image = [UIImage doraemon_imageNamed:@"doraemon_back"];
+            }
+        }
+    }
 }
 
 - (BOOL)needBigTitleView{
@@ -74,9 +91,15 @@
         self.tableView.frame = CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, self.view.doraemon_height-IPHONE_NAVIGATIONBAR_HEIGHT);
         NSString *dirTitle =  [fm displayNameAtPath:targetPath];
         self.title = dirTitle;
-        DoraemonNavBarItemModel *leftModel = [[DoraemonNavBarItemModel alloc] initWithImage:[UIImage doraemon_imageNamed:@"doraemon_back"] selector:@selector(leftNavBackClick:)];
+        UIImage *image = [UIImage doraemon_imageNamed:@"doraemon_back"];
+        if (@available(iOS 13.0, *)) { 
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                image = [UIImage doraemon_imageNamed:@"doraemon_back_dark"];
+            }
+        }
+        self.leftModel = [[DoraemonNavBarItemModel alloc] initWithImage:image selector:@selector(leftNavBackClick:)];
         
-        [self setLeftNavBarItems:@[leftModel]];
+        [self setLeftNavBarItems:@[self.leftModel]];
     }
     model.path = filePath;
     _currentDirModel = model;

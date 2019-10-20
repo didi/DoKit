@@ -40,6 +40,10 @@
 
 - (BOOL)netFlowSwitch;
 
+- (void)saveAllTestSwitch:(BOOL)on;
+
+- (BOOL)allTestSwitch;
+
 - (void)saveLargeImageDetectionSwitch:(BOOL)on;
 
 - (BOOL)largeImageDetectionSwitch;
@@ -77,4 +81,12 @@
 /// 保存启动类
 - (void)saveStartClass : (NSString *)startClass;
 - (NSString *)startClass;
+
+// 内存泄漏开关
+- (void)saveMemoryLeak:(BOOL)on;
+- (BOOL)memoryLeak;
+
+// 内存泄漏弹框开关
+- (void)saveMemoryLeakAlert:(BOOL)on;
+- (BOOL)memoryLeakAlert;
 @end

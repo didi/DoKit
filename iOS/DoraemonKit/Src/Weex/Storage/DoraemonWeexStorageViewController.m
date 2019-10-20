@@ -33,7 +33,7 @@
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-self.bigTitleView.doraemon_bottom)];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tableView.backgroundColor = [UIColor whiteColor];
+//    tableView.backgroundColor = [UIColor whiteColor];
     tableView.delegate = self;
     tableView.dataSource = self;
     [self.view addSubview:tableView];

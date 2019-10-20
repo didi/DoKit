@@ -62,6 +62,12 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     DoraemonManagerPluginType_DoraemonLargeImageFilter,
     // 启动耗时
     DoraemonManagerPluginType_DoraemonStartTimePlugin,
+    // 内存泄漏
+    DoraemonManagerPluginType_DoraemonMemoryLeakPlugin,
+    // UI层级检查
+    DoraemonManagerPluginType_DoraemonUIProfilePlugin,
+    // 函数耗时
+    DoraemonManagerPluginType_DoraemonTimeProfilePlugin,
     
     #pragma mark - 视觉工具
     // 颜色吸管
