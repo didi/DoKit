@@ -13,8 +13,6 @@
 
 @property (nonatomic, assign) NSInteger fileSize;
 
-+ (void)openPlugin:(UIViewController *)vc;
-
 + (NSString *)dateFormatTimeInterval:(NSTimeInterval)timeInterval;
 
 + (NSString *)dateFormatNSDate:(NSDate *)date;

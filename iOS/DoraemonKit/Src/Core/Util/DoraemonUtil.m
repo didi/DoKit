@@ -7,13 +7,6 @@
 //
 
 #import "DoraemonUtil.h"
-#import "DoraemonHomeWindow.h"
-
-@interface DoraemonUtil()
-
-@property (nonatomic, strong) UINavigationController *nav;
-
-@end
 
 @implementation DoraemonUtil
 
@@ -25,9 +18,7 @@
     return self;
 }
 
-+ (void)openPlugin:(UIViewController *)vc{
-    [[DoraemonHomeWindow shareInstance] openPlugin:vc];
-}
+
 
 + (NSString *)dateFormatTimeInterval:(NSTimeInterval)timeInterval{
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeInterval];

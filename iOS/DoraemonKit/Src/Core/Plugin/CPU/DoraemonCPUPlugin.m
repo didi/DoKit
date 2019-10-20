@@ -7,13 +7,13 @@
 
 #import "DoraemonCPUPlugin.h"
 #import "DoraemonCPUViewController.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 
 @implementation DoraemonCPUPlugin
 
 - (void)pluginDidLoad{
     DoraemonCPUViewController *vc = [[DoraemonCPUViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

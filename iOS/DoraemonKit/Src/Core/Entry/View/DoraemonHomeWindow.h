@@ -13,10 +13,10 @@
 
 + (DoraemonHomeWindow *)shareInstance;
 
-- (void)openPlugin:(UIViewController *)vc;
+// open plugin vc
++ (void)openPlugin:(UIViewController *)vc;
 
 - (void)show;
-
 - (void)hide;
 
 @end

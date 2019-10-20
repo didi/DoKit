@@ -7,13 +7,13 @@
 
 #import "DoraemonAllTestPlugin.h"
 #import "DoraemonAllTestViewController.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 
 @implementation DoraemonAllTestPlugin
 
 - (void)pluginDidLoad{
     DoraemonAllTestViewController *vc = [[DoraemonAllTestViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

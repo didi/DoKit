@@ -7,13 +7,13 @@
 
 #import "DoraemonMemoryPlugin.h"
 #import "DoraemonMemoryViewController.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 
 @implementation DoraemonMemoryPlugin
 
 - (void)pluginDidLoad{
     DoraemonMemoryViewController *vc = [[DoraemonMemoryViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

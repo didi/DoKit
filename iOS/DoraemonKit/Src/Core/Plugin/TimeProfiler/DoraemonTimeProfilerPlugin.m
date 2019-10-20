@@ -6,14 +6,14 @@
 //
 
 #import "DoraemonTimeProfilerPlugin.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 #import "DoraemonTimeProfilerViewController.h"
 
 @implementation DoraemonTimeProfilerPlugin
 
 - (void)pluginDidLoad{
     DoraemonTimeProfilerViewController *vc = [[DoraemonTimeProfilerViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

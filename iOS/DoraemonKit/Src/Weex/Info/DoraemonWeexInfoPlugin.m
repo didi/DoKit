@@ -8,13 +8,13 @@
 
 #import "DoraemonWeexInfoPlugin.h"
 #import "DoraemonWeexInfoViewController.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 
 @implementation DoraemonWeexInfoPlugin
 
 - (void)pluginDidLoad{
     DoraemonWeexInfoViewController *vc = [[DoraemonWeexInfoViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end
