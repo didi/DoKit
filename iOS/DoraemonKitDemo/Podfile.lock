@@ -87,9 +87,24 @@ DEPENDENCIES:
   - DoraemonKit/WithWeex (from `../../`)
   - SDWebImage (= 5.0.6)
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - AFNetworking
+    - BSBacktraceLogger
+    - CocoaLumberjack
+    - FBRetainCycleDetector
+    - fishhook
+    - FMDB
+    - GCDWebServer
+    - SDWebImage
+    - SocketRocket
+    - WeexSDK
+    - WXDevtool
+    - YYDebugDatabase
+
 EXTERNAL SOURCES:
   DoraemonKit:
-    :path: ../../
+    :path: "../../"
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
@@ -108,4 +123,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: cf353b7895d371e7af77fa40ac9f83e17632ae33
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.8.4
