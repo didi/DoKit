@@ -7,7 +7,7 @@
 
 #import "DoraemonPingThread.h"
 #import <UIKit/UIKit.h>
-#import <BSBacktraceLogger/BSBacktraceLogger.h>
+#import "BSBacktraceLogger.h"
 #import "DoraemonUtil.h"
 
 @interface DoraemonPingThread()

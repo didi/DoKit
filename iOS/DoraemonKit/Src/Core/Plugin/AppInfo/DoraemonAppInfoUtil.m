@@ -13,6 +13,7 @@
 #import <AddressBook/AddressBook.h>
 #import <Contacts/Contacts.h>
 #import <EventKit/EventKit.h>
+#import <UIKit/UIKit.h>
 
 #define IOS8 ([[[UIDevice currentDevice] systemVersion] doubleValue] >=8.0 ? YES : NO)
 

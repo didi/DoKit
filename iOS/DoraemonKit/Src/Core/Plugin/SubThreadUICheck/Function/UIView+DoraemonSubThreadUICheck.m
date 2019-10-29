@@ -8,7 +8,7 @@
 #import "UIView+Doraemon.h"
 #import "NSObject+Doraemon.h"
 #import "DoraemonCacheManager.h"
-#import <BSBacktraceLogger/BSBacktraceLogger.h>
+#import "BSBacktraceLogger.h"
 #import "DoraemonSubThreadUICheckManager.h"
 #import "DoraemonUtil.h"
 

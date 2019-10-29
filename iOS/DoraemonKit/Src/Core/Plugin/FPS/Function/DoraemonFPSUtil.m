@@ -6,6 +6,7 @@
 //
 
 #import "DoraemonFPSUtil.h"
+#import <UIKit/UIKit.h>
 
 @interface DoraemonFPSUtil()
 

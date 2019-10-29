@@ -7,6 +7,7 @@
 
 #import "DoraemonCPUUtil.h"
 #import <mach/mach.h>
+#import <UIKit/UIKit.h>
 //#import <sys/sysctl.h>
 
 @implementation DoraemonCPUUtil
