@@ -1,5 +1,16 @@
 # Release Notes
 
+### 1.2.4
+1、新增函数耗时功能
+
+2、新增UI层级检查功能
+
+3、新增内存泄漏功能
+
+4、支持iOS13暗黑模式
+
+5、支持Carthage接入方式
+
 ### 1.2.3
 1、为了解决调用空的NSArray和NSSet的description，会crash的问题。
 

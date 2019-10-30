@@ -2,7 +2,7 @@
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
  <img src="https://img.shields.io/badge/Android-1.2.1-blue.svg" align=left />
- <img src="https://img.shields.io/badge/iOS-1.2.3-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/iOS-1.2.4-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
@@ -34,7 +34,7 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 ## 效果演示
 
 <div align="center">    
-  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/2019/DoraemonKitHome.jpg" width = "300" height = "565" alt="DoKit 首页效果演示" align=center />
+  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/2019/github/dokit2.png" width = "300" height = "780" alt="DoKit 首页效果演示" align=center />
 </div>
 
 ## 功能模块
@@ -46,11 +46,12 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 3. **【MockGPS】** App 能定位到全国各地，支持地图地位和手动输入经纬度；
 4. **【H5任意门】** 开发测试同学可以快速输入 H5 页面地址，查看该页面效果；
 5. **【Crash查看】** 方便本地打印出出现 Crash 的堆栈；
-6. **【子线程UI】** 快速定位哪一些 UI 操作在非主线程中进行渲染，避免不必要的问题；
+6. **【子线程UI】** 快速定位哪一些 UI 操作在非主线程中进行渲染，避免不必要的问题；（iOS独有）
 7. **【清除本地数据】** 一键删除沙盒中所有数据；
 8. **【NSLog】** 把所有 NSLog 信息打印到UI界面，避免没有开发证书无法调式的尴尬；
-9. **【Lumberjack】** 每一条 CocoaLumberjack 的日志信息，都在在 App 的界面中显示出来，再也不需要导出日志这么麻烦。
-10. **【YYDebugDatabase】** 通过网页方便快捷的操作应用内数据库，让数据库的调试变得非常优雅。
+9. **【Lumberjack】** 每一条 CocoaLumberjack 的日志信息，都在在 App 的界面中显示出来，再也不需要导出日志这么麻烦;（iOS独有）
+10. **【DBView】** 通过网页方便快捷的操作应用内数据库，让数据库的调试变得非常优雅;
+11. **【模拟弱网】** 限制网速，模拟弱网环境下App的运行情况。（android独有）
 
 ### 二、性能检测
 
@@ -59,10 +60,13 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 3. **【内存】** App 内存使用量信息提供波形图查看功能，让内存监控的趋势更加鲜明；
 4. **【流量】** 拦截 App 内部流量信息，提供波形图展示、流量概要展示、流量列表展示、流量筛选、流量详情，对流量信息统一拦截，成为我们 App 中自带的 “Charles”；
 5. **【卡顿】** 锁定 App 出现卡顿的时刻，打印出对应的代码调用堆栈；
-6. **【自定义】** 可以选择你要监控的选项，包括 FPS、CPU、内存、流量。监控完毕之后，把数据保存到本地，也可以导出来做更加细致的分析；
-7. **【Load 耗时】** Load 函数耗时是 iOS 启动性能优化中重要的一项，该功能可以打印出所有 Load 函数的耗时，给开发者以参考。
-8. **【大图检测】** 通过流量监测，找出所有的大小超标的图片，避免下载大图造成的流量浪费和渲染大图带来的CPU消耗。
-9. **【启动耗时】** 无侵入的统计出App启动过程的总共耗时
+6. **【大图检测】** 通过流量监测，找出所有的大小超标的图片，避免下载大图造成的流量浪费和渲染大图带来的CPU消耗。
+7. **【自定义】** 可以选择你要监控的选项，包括 FPS、CPU、内存、流量。监控完毕之后，把数据保存到本地，按照页面进行维度进行分析；
+8. **【启动耗时】** 无侵入的统计出App启动过程的总共耗时；
+9. **【UI层级检查】** 检查出每一个页面中层级最深的元素；
+10. **【函数耗时】** 从函数级别分析app性能瓶颈；
+11. **【Load】** 找出所有的Load方法，并给出耗时分析；（iOS独有）
+12. **【内存泄漏】** 找出App中所有的内存泄漏的问题。
 
 ### 三、视觉工具
 
@@ -80,7 +84,11 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 
 tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https://github.com/didi/chameleon) 也可以集成该工具集合
 
-### 五、微信小程序专项工具
+### 五、支持自定义的业务新工具解决到面板中
+
+统一维护和管理所有的测试模块，详见接入手册
+
+### 六、微信小程序专项工具
 
 详见 [Doraemon mini program debugger](https://github.com/didi/DoraemonKit/tree/master/miniapp)
 
