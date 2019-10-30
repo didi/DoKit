@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DoraemonManager.h"
 
 //! Project version number for DoraemonKit.
 FOUNDATION_EXPORT double DoraemonKitVersionNumber;
