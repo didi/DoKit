@@ -9,6 +9,9 @@ import android.support.annotation.Nullable;
  */
 
 public class SharedPrefsUtil {
+    /**
+     *退出时保存sp状态 需要用commit
+     */
     private static final String SHARED_PREFS_DORAEMON = "shared_prefs_doraemon";
 
     private static SharedPreferences getSharedPrefs(Context context) {
@@ -29,7 +32,11 @@ public class SharedPrefsUtil {
     }
 
     public static void putString(Context context, String table, String key, String value) {
-        getSharedPrefs(context, table).edit().putString(key, value).apply();
+        if (key.equals(SHARED_PREFS_DORAEMON)) {
+            getSharedPrefs(context, table).edit().putString(key, value).commit();
+        } else {
+            getSharedPrefs(context, table).edit().putString(key, value).apply();
+        }
     }
 
     public static void putBoolean(Context context, String key, boolean value) {
@@ -67,7 +74,13 @@ public class SharedPrefsUtil {
         getSharedPrefs(context, SHARED_PREFS_DORAEMON).edit().putFloat(key, value).apply();
     }
 
+    public static float getFloat(Context context, String key, Float value) {
+        return getSharedPrefs(context).getFloat(key, value);
+    }
+
     public static void putLong(Context context, String table, String key, Long value) {
         getSharedPrefs(context, table).edit().putLong(key, value).apply();
     }
+
+
 }

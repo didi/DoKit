@@ -17,7 +17,7 @@ import com.didichuxing.doraemonkit.ui.UniversalActivity;
 public class TimeCounterKit implements IKit {
     @Override
     public int getCategory() {
-        return Category.TOOLS;
+        return Category.PERFORMANCE;
     }
 
     @Override

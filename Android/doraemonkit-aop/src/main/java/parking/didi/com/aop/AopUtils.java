@@ -5,6 +5,7 @@ import com.didichuxing.doraemonkit.kit.network.httpurlconnection.proxy.HttpUrlCo
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.proxy.HttpsUrlConnectionProxy;
 import com.didichuxing.doraemonkit.kit.network.okhttp.DoraemonInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.DoraemonWeakNetworkInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.LargePictureInterceptor;
 
 import java.net.HttpURLConnection;
 import java.net.URLConnection;
@@ -22,10 +23,10 @@ public class AopUtils {
         if (!NetworkManager.isActive()) {
             return connection;
         }
-        if (connection instanceof HttpURLConnection) {
-            return new HttpUrlConnectionProxy((HttpURLConnection) connection);
-        } else if (connection instanceof HttpsURLConnection) {
+        if (connection instanceof HttpsURLConnection) {
             return new HttpsUrlConnectionProxy((HttpsURLConnection) connection);
+        } else if (connection instanceof HttpURLConnection) {
+            return new HttpUrlConnectionProxy((HttpURLConnection) connection);
         } else {
             return connection;
         }
@@ -39,6 +40,8 @@ public class AopUtils {
             }
         }
         builder.addNetworkInterceptor(new DoraemonWeakNetworkInterceptor())
+                //添加大图检测拦截器
+                .addInterceptor(new LargePictureInterceptor())
                 .addInterceptor(new DoraemonInterceptor());
     }
 }

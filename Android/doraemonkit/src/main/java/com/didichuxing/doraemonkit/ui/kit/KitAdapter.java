@@ -8,13 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.ui.KitFloatPage;
-import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
 
 /**
  * Created by wanglikun on 2018/9/14.
+ * 每隔分类的adapter
  */
 
 public class KitAdapter extends AbsRecyclerAdapter<AbsViewBinder<KitItem>, KitItem> {
@@ -56,7 +56,10 @@ public class KitAdapter extends AbsRecyclerAdapter<AbsViewBinder<KitItem>, KitIt
         @Override
         protected void onViewClick(View view, final KitItem data) {
             super.onViewClick(view, data);
-            FloatPageManager.getInstance().removeAll(KitFloatPage.class);
+            //常规模式下点击常用工具不隐藏工具面板
+            //if (data.kit.getCategory() != Category.TOOLS && DoraemonKit.IS_NORMAL_FLOAT_MODE) {
+            DokitViewManager.getInstance().detachToolPanel();
+            //}
             data.kit.onClick(getContext());
         }
     }

@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.kit.network.httpurlconnection.proxy;
 import android.util.Log;
 
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.HttpMonitorInterceptor;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.LargePictureInterceptor;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.DKInterceptor;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.HttpChainFacade;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.HttpRequest;
@@ -37,7 +38,8 @@ public class HttpUrlConnectionProxy extends HttpURLConnection {
         mSourceConnection = con;
 
         mInterceptors.add(new HttpMonitorInterceptor());
-//        mInterceptors.add(new LargePictureInterceptor());
+        //大图检测拦截器
+        mInterceptors.add(new LargePictureInterceptor());
 
         mHttpRequest = new HttpRequest(con);
         mHttpResponse = new HttpResponse(con);

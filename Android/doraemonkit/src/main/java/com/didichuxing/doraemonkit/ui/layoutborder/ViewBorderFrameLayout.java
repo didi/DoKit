@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
+import com.didichuxing.doraemonkit.ui.base.DokitViewInterface;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManagerInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,8 @@ public class ViewBorderFrameLayout extends FrameLayout {
     }
 
     private void traverseChild(View view) {
-        if (view instanceof ViewGroup) {
+        //过滤掉dokitView
+        if (view instanceof ViewGroup && !(view instanceof DokitViewInterface)) {
             replaceDrawable(view);
             int childCount = ((ViewGroup) view).getChildCount();
             if (childCount != 0) {

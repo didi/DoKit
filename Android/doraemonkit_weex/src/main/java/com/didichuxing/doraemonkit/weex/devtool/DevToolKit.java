@@ -15,7 +15,7 @@ public class DevToolKit implements IKit {
 
     @Override
     public int getCategory() {
-        return Category.BIZ;
+        return Category.WEEX;
     }
 
     @Override

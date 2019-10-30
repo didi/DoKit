@@ -2,13 +2,13 @@ apply plugin: 'com.android.library'
 apply from: './upload.gradle'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
 
         lintOptions {
             abortOnError false
@@ -16,10 +16,18 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
 }
@@ -27,12 +35,15 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation "com.android.support:design:26.1.0"
+    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["design"]
+    implementation rootProject.ext.dependencies["utilcode"]
+    if (rootProject.ext.config["uploadArchives"]) {
+        implementation "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+    } else {
+        implementation project(':doraemonkit')
+    }
 
-    debugImplementation project(':doraemonkit')
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.8'
-
-    implementation 'com.taobao.android:weex_inspector:0.18.10'
-    implementation "com.taobao.android:weex_sdk:0.24.0"
+    compileOnly rootProject.ext.dependencies["weex_inspector"]
+    compileOnly rootProject.ext.dependencies["weex_sdk"]
 }

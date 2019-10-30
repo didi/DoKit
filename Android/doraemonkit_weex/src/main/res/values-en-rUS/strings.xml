@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">weexkit</string>
+<!--    <string name="app_name">weexkit</string>-->
     
     <string name="dk_console_log_name">Log</string>
     <string name="dk_console_log_title">Weex Logging</string>

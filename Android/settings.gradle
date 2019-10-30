@@ -1,1 +1,7 @@
-include ':app', ':doraemonkit', ':doraemonkit-no-op', ':doraemonkit-aop', ':doraemonkit_weex', ':doraemonkit_weex_no_op'
+include ':app'
+include ':doraemonkit'
+include ':doraemonkit-no-op'
+include ':doraemonkit-aop'
+include ':doraemonkit_weex'
+include ':doraemonkit_weex_no_op'
+include ':doraemonkit-leakcanary'

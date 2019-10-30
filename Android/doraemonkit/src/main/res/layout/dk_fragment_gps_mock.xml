@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-                android:background="@color/dk_color_FFFFFF"
-                android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/dk_color_FFFFFF">
 
     <com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar
         android:id="@+id/title_bar"
@@ -14,71 +14,69 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/setting_list"
-        android:layout_below="@id/title_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_bar" />
 
     <com.didichuxing.doraemonkit.ui.widget.webview.MyWebView
-        android:layout_below="@id/setting_list"
         android:id="@+id/web_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/setting_list" />
 
     <RelativeLayout
-        android:padding="5dp"
-        android:background="@color/dk_color_7FFFFFFF"
-        android:layout_below="@id/setting_list"
         android:id="@+id/mock_location_area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/setting_list"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="25dp"
-        android:layout_marginRight="40dp" >
+        android:layout_marginRight="40dp"
+        android:background="@color/dk_color_7FFFFFFF"
+        android:padding="5dp">
 
         <TextView
-            android:layout_alignParentRight="true"
             android:id="@+id/mock_location"
-            android:layout_width="50dp"
-            android:layout_marginRight="15dp"
             style="@style/DK.ConfirmButton.Positive"
+            android:layout_width="50dp"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
             android:enabled="false"
             android:text="@string/dk_gpsmock_tv_location" />
 
         <EditText
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/mock_location"
             android:id="@+id/longitude"
             style="@style/DK.Input"
-            android:hint="@string/dk_gpsmock_hint_longitude"
-            android:inputType="numberSigned|numberDecimal"
-            android:maxLength="6" />
-
-        <View
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@id/mock_location"
-            android:layout_below="@id/longitude"
+            android:hint="@string/dk_gpsmock_hint_longitude"
+            android:inputType="numberSigned|numberDecimal" />
+
+        <View
             android:layout_width="match_parent"
             android:layout_height="2px"
+            android:layout_below="@id/longitude"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/mock_location"
             android:background="@color/dk_color_E5E5E5" />
 
         <EditText
-            android:layout_marginRight="15dp"
-            android:layout_toLeftOf="@id/mock_location"
-            android:layout_below="@id/longitude"
             android:id="@+id/latitude"
             style="@style/DK.Input"
+            android:layout_below="@id/longitude"
             android:layout_marginTop="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/mock_location"
             android:hint="@string/dk_gpsmock_hint_latitude"
-            android:inputType="numberSigned|numberDecimal"
-            android:maxLength="6" />
+            android:inputType="numberSigned|numberDecimal" />
 
         <View
-            android:layout_marginRight="15dp"
-            android:layout_below="@id/latitude"
-            android:layout_toLeftOf="@id/mock_location"
             android:layout_width="match_parent"
             android:layout_height="2px"
+            android:layout_below="@id/latitude"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/mock_location"
             android:background="@color/dk_color_E5E5E5" />
 
     </RelativeLayout>

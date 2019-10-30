@@ -56,10 +56,17 @@ public class PermissionUtil {
     private PermissionUtil() {
     }
 
+    /**
+     * 判断是否具有悬浮窗权限
+     * @param context
+     * @return
+     */
     public static boolean canDrawOverlays(Context context) {
+        //android 6.0及以上的判断条件
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return Settings.canDrawOverlays(context);
         }
+        //android 4.4~6.0的判断条件
         return checkOp(context, OP_SYSTEM_ALERT_WINDOW);
     }
 
@@ -81,6 +88,10 @@ public class PermissionUtil {
         return true;
     }
 
+    /**
+     * 请求悬浮窗权限
+     * @param context
+     */
     public static void requestDrawOverlays(Context context) {
         Intent intent = new Intent("android.settings.action.MANAGE_OVERLAY_PERMISSION", Uri.parse("package:" + context.getPackageName()));
         if (!(context instanceof Activity)) {

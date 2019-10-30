@@ -23,7 +23,7 @@ public abstract class BaseServiceHooker implements InvocationHandler {
     public abstract Map<String, MethodHandler> getMethodHandlers();
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+    public Object invoke(Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException, NoSuchMethodException {
         if (getMethodHandlers().containsKey(method.getName())) {
             return getMethodHandlers().get(method.getName()).onInvoke(this.mOriginService, proxy, method, args);
         } else {
@@ -45,6 +45,6 @@ public abstract class BaseServiceHooker implements InvocationHandler {
     public abstract void replaceBinder(Context context, IBinder proxy) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException;
 
     public interface MethodHandler {
-        Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException;
+        Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException, NoSuchMethodException;
     }
 }

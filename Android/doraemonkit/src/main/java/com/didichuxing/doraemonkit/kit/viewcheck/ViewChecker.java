@@ -4,11 +4,10 @@ import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.ViewCheckConfig;
-import com.didichuxing.doraemonkit.constant.PageTag;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.IKit;
-import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
-import com.didichuxing.doraemonkit.ui.base.PageIntent;
+import com.didichuxing.doraemonkit.ui.base.DokitIntent;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 
 /**
  * Created by wanglikun on 2018/11/20.
@@ -32,18 +31,20 @@ public class ViewChecker implements IKit {
 
     @Override
     public void onClick(Context context) {
-        PageIntent intent = new PageIntent(ViewCheckFloatPage.class);
-        intent.tag = PageTag.PAGE_VIEW_CHECK;
-        intent.mode = PageIntent.MODE_SINGLE_INSTANCE;
-        FloatPageManager.getInstance().add(intent);
+        DokitViewManager.getInstance().detachToolPanel();
 
-        intent = new PageIntent(ViewCheckInfoFloatPage.class);
-        intent.mode = PageIntent.MODE_SINGLE_INSTANCE;
-        FloatPageManager.getInstance().add(intent);
+        DokitIntent intent = new DokitIntent(ViewCheckDokitView.class);
+        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        DokitViewManager.getInstance().attach(intent);
 
-        intent = new PageIntent(ViewCheckDrawFloatPage.class);
-        intent.mode = PageIntent.MODE_SINGLE_INSTANCE;
-        FloatPageManager.getInstance().add(intent);
+        intent = new DokitIntent(ViewCheckDrawDokitView.class);
+        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        DokitViewManager.getInstance().attach(intent);
+
+        intent = new DokitIntent(ViewCheckInfoDokitView.class);
+        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        DokitViewManager.getInstance().attach(intent);
+
 
         ViewCheckConfig.setViewCheckOpen(context, true);
     }

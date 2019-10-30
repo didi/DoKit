@@ -29,6 +29,7 @@ public class DKWeexInstance {
         private static final DKWeexInstance sInstance = new DKWeexInstance();
     }
 
+    @Deprecated
     public void init(Application app) {
         List<IKit> bizKits = new ArrayList<>();
         bizKits.add(new WeexLogKit());

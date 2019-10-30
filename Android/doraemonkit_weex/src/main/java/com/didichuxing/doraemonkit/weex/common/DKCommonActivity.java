@@ -19,7 +19,6 @@ public class DKCommonActivity extends BaseActivity {
     public static void startWith(Context context, Class<? extends BaseFragment> clazz) {
         Intent intent = new Intent(context, DKCommonActivity.class);
         intent.putExtra(CLASSNAME, clazz);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 

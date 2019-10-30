@@ -18,7 +18,7 @@ public class DKWeexInstance {
     private static class SingleHolder {
         private static final DKWeexInstance sInstance = new DKWeexInstance();
     }
-
+    @Deprecated
     public void init(Application app) {
 
     }

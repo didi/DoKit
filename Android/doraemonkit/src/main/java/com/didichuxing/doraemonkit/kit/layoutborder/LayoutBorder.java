@@ -6,8 +6,8 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.IKit;
-import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
-import com.didichuxing.doraemonkit.ui.base.PageIntent;
+import com.didichuxing.doraemonkit.ui.base.DokitIntent;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 
 /**
  * Created by wanglikun on 2019/1/7
@@ -30,11 +30,17 @@ public class LayoutBorder implements IKit {
 
     @Override
     public void onClick(Context context) {
+
+        //隐藏当前工具popview
+        DokitViewManager.getInstance().detachToolPanel();
+
+        DokitIntent intent = new DokitIntent(LayoutLevelDokitView.class);
+        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        DokitViewManager.getInstance().attach(intent);
+
         LayoutBorderManager.getInstance().start();
+
         LayoutBorderConfig.setLayoutBorderOpen(true);
-        PageIntent intent = new PageIntent(LayoutLevelFloatPage.class);
-        intent.mode = PageIntent.MODE_SINGLE_INSTANCE;
-        FloatPageManager.getInstance().add(intent);
         LayoutBorderConfig.setLayoutLevelOpen(true);
     }
 

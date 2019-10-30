@@ -18,6 +18,17 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             "page integer, " +
             "name text)";
 
+    public static final String INSERT_BOOK = "insert into Book (" +
+            "author," +
+            "price," +
+            "page," +
+            "name" + ")" +
+            "values (" +
+            "'jint'," +
+            "100," +
+            "1000," +
+            "'从入门到放弃')";
+
     public MyDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         mContext = context;
@@ -26,6 +37,7 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_BOOK);
+        db.execSQL(INSERT_BOOK);
         Toast.makeText(mContext, "创建成功", Toast.LENGTH_SHORT).show();
     }
 

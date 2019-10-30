@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.ui.realtime.datasource;
 
-import com.didichuxing.doraemonkit.ui.realtime.widget.LineChart;
+import com.didichuxing.doraemonkit.ui.realtime.widget.LineData;
 
 /**
  * @desc: 折线图绘制的数据源接口
@@ -11,5 +11,5 @@ public interface IDataSource {
      *
      * @return
      */
-    LineChart.LineData createData();
+    LineData createData();
 }

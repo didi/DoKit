@@ -12,9 +12,12 @@ import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerSettingFragment;
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureMainFragment;
 import com.didichuxing.doraemonkit.kit.custom.MonitorDataUploadFragment;
 import com.didichuxing.doraemonkit.kit.dataclean.DataCleanFragment;
+import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment;
+import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment;
 import com.didichuxing.doraemonkit.kit.logInfo.LogInfoSettingFragment;
+import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostFragment;
 import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMonitorFragment;
 import com.didichuxing.doraemonkit.kit.parameter.cpu.CpuMainPageFragment;
 import com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfoFragment;
@@ -22,7 +25,6 @@ import com.didichuxing.doraemonkit.kit.parameter.ram.RamMainPageFragment;
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoFragment;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterFragment;
 import com.didichuxing.doraemonkit.kit.topactivity.TopActivityFragment;
-import com.didichuxing.doraemonkit.kit.viewcheck.ViewCheckFragment;
 import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkFragment;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorDefaultFragment;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorFragment;
@@ -31,6 +33,7 @@ import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 
 /**
  * Created by wanglikun on 2018/10/26.
+ * app基础信息Activity
  */
 
 public class UniversalActivity extends BaseActivity {
@@ -62,6 +65,11 @@ public class UniversalActivity extends BaseActivity {
             case FragmentIndex.FRAGMENT_COLOR_PICKER_SETTING:
                 fragmentClass = ColorPickerSettingFragment.class;
                 break;
+            //远程数据库调试
+            case FragmentIndex.FRAGMENT_DB_DEBUG:
+                fragmentClass = DbDebugFragment.class;
+                break;
+            //性能监控===帧率
             case FragmentIndex.FRAGMENT_FRAME_INFO:
                 fragmentClass = FrameInfoFragment.class;
                 break;
@@ -80,32 +88,43 @@ public class UniversalActivity extends BaseActivity {
             case FragmentIndex.FRAGMENT_WEAK_NETWORK:
                 fragmentClass = WeakNetworkFragment.class;
                 break;
+            //性能监控===卡顿检测
             case FragmentIndex.FRAGMENT_BLOCK_MONITOR:
                 fragmentClass = BlockMonitorFragment.class;
                 break;
             case FragmentIndex.FRAGMENT_CRASH:
                 fragmentClass = CrashCaptureMainFragment.class;
                 break;
-            case FragmentIndex.FRAGMENT_VIEW_CHECK:
-                fragmentClass = ViewCheckFragment.class;
-                break;
+            //性能监控===流量监控
             case FragmentIndex.FRAGMENT_NETWORK_MONITOR:
                 fragmentClass = NetWorkMonitorFragment.class;
                 break;
+            //性能监控===CPU
             case FragmentIndex.FRAGMENT_CPU:
                 fragmentClass = CpuMainPageFragment.class;
                 break;
+            //性能监控===RAM
             case FragmentIndex.FRAGMENT_RAM:
                 fragmentClass = RamMainPageFragment.class;
                 break;
+            //性能监控===Activity跳转耗时
             case FragmentIndex.FRAGMENT_TIME_COUNTER:
                 fragmentClass = TimeCounterFragment.class;
                 break;
             case FragmentIndex.FRAGMENT_WEB_DOOR_DEFAULT:
                 fragmentClass = WebDoorDefaultFragment.class;
                 break;
+            //性能监控===自定义
             case FragmentIndex.FRAGMENT_CUSTOM:
                 fragmentClass = MonitorDataUploadFragment.class;
+                break;
+            //性能监控===大图检测
+            case FragmentIndex.FRAGMENT_LARGE_PICTURE:
+                fragmentClass = LargePictureFragment.class;
+                break;
+            //性能监控===函数耗时
+            case FragmentIndex.FRAGMENT_METHOD_COST:
+                fragmentClass = MethodCostFragment.class;
                 break;
             case FragmentIndex.FRAGMENT_TOP_ACTIVITY:
                 fragmentClass = TopActivityFragment.class;
@@ -119,5 +138,10 @@ public class UniversalActivity extends BaseActivity {
             return;
         }
         showContent(fragmentClass, bundle);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

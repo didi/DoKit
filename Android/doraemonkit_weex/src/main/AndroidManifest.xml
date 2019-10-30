@@ -6,8 +6,7 @@
 
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <application
-        android:label="@string/app_name">
+    <application>
         <activity android:name=".devtool.DevToolActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 

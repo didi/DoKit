@@ -1,34 +1,27 @@
 package com.didichuxing.doraemonkit.util;
 
-import android.util.Log;
+import com.blankj.utilcode.util.LogUtils;
 
 /**
  * Created by wanglikun on 2018/9/10.
  */
 
 public class LogHelper {
-    private static boolean DEBUG = false;
     private static final String TAG = "Doraemon";
 
     public static void d(String subTag, String msg) {
-        if (DEBUG) {
-            Log.d(TAG, "[" + subTag + "]: " + msg);
-        }
+        LogUtils.v("[" + subTag + "]: " + msg);
     }
 
     public static void i(String subTag, String msg) {
-        if (DEBUG) {
-            Log.i(TAG, "[" + subTag + "]: " + msg);
-        }
+        LogUtils.v("[" + subTag + "]: " + msg);
     }
 
     public static void e(String subTag, String msg) {
-        if (DEBUG) {
-            Log.e(TAG, "[" + subTag + "]: " + msg);
-        }
+        LogUtils.v("[" + subTag + "]: " + msg);
     }
 
     public static void setDebug(boolean debug) {
-        DEBUG = debug;
+        //DEBUG = debug;
     }
 }

@@ -10,8 +10,8 @@ import android.view.View;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LogInfoConfig;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
-import com.didichuxing.doraemonkit.ui.base.PageIntent;
+import com.didichuxing.doraemonkit.ui.base.DokitIntent;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
@@ -48,12 +48,11 @@ public class LogInfoSettingFragment extends BaseFragment {
             public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
                 if (data.desc == R.string.dk_kit_log_info) {
                     if (on) {
-                        PageIntent intent = new PageIntent(LogInfoFloatPage.class);
-                        intent.mode = PageIntent.MODE_SINGLE_INSTANCE;
-                        FloatPageManager.getInstance().add(intent);
+                        DokitIntent intent = new DokitIntent(LogInfoDokitView.class);
+                        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+                        DokitViewManager.getInstance().attach(intent);
                     } else {
-
-                        FloatPageManager.getInstance().removeAll(LogInfoFloatPage.class);
+                        DokitViewManager.getInstance().detach(LogInfoDokitView.class);
                     }
                     LogInfoConfig.setLogInfoOpen(getContext(), on);
                 }

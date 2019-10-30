@@ -5,8 +5,8 @@
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.1'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.0'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.5'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.5'
     ...
 }
 ```
@@ -25,8 +25,18 @@ DoraemonKit目前已支持Weex工具，包括
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:1.0.1'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:1.0.1'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:1.2.5'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:1.2.5'
+    ...
+}
+```
+
+如果有需要集成leakcanary的需求可以直接添加下面依赖
+
+```
+dependencies {
+	...
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:1.2.5'
     ...
 }
 ```
@@ -52,24 +62,6 @@ public void onCreate() {
 } 
 ```
 
-如果已接入了Weex工具（暂不支持自定义功能组件），使用下面方式初始化
-
-```
-@Override
-public void onCreate() {
-	...
-    DKWeexInstance.install(application)
-     
-    // H5任意门功能需要，非必须
-    DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
-    @Override
-    public void overrideUrlLoading(Context context, String s) {
-        // 使用自己的H5容器打开这个链接
-    }
-    ...
-} 
-```
-
 
 #### 3. 流量监控功能（可选）
 
@@ -81,7 +73,7 @@ public void onCreate() {
 buildscript {
     dependencies {
         ...
-        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.4'
+        classpath 'com.github.franticn:gradle_plugin_android_aspectjx:2.0.6'
         ...
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -97,7 +89,7 @@ buildscript {
 apply plugin: 'android-aspectjx'
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:1.0.0'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:1.2.5'
     ...
 }
 ```

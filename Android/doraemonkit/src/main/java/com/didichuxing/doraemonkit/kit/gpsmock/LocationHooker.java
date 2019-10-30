@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.text.TextUtils;
 
 import com.didichuxing.doraemonkit.util.LogHelper;
 
@@ -40,8 +41,8 @@ public class LocationHooker extends BaseServiceHooker {
     @Override
     public Map<String, MethodHandler> getMethodHandlers() {
         Map<String, MethodHandler> methodHandlers = new HashMap<>();
-        methodHandlers.put("removeUpdates", new RemoveUpdatesMethodHandler());
-        methodHandlers.put("requestLocationUpdates", new RequestLocationUpdatesMethodHandler());
+//        methodHandlers.put("removeUpdates", new RemoveUpdatesMethodHandler());
+//        methodHandlers.put("requestLocationUpdates", new RequestLocationUpdatesMethodHandler());
         methodHandlers.put("getLastLocation", new GetLastLocationMethodHandler());
         methodHandlers.put("getLastKnownLocation", new GetLastKnownLocationMethodHandler());
         return methodHandlers;
@@ -67,12 +68,16 @@ public class LocationHooker extends BaseServiceHooker {
     public class GetLastKnownLocationMethodHandler implements MethodHandler {
 
         @Override
-        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
             LogHelper.d(TAG, "GetLastKnownLocationMethodHandler");
             if (!GpsMockManager.getInstance().isMocking()) {
                 return method.invoke(originService, args);
             }
             Location lastKnownLocation = (Location) method.invoke(originService, args);
+            if (lastKnownLocation == null) {
+                String provider = (String) args[0].getClass().getDeclaredMethod("getProvider").invoke(args[0]);
+                lastKnownLocation = buildValidLocation(provider);
+            }
             lastKnownLocation.setLongitude(GpsMockManager.getInstance().getLongitude());
             lastKnownLocation.setLatitude(GpsMockManager.getInstance().getLatitude());
             lastKnownLocation.setTime(System.currentTimeMillis());
@@ -92,6 +97,9 @@ public class LocationHooker extends BaseServiceHooker {
                 return method.invoke(originService, args);
             }
             Location lastLocation = (Location) method.invoke(originService, args);
+            if (lastLocation == null) {
+                lastLocation = buildValidLocation(null);
+            }
             lastLocation.setLongitude(GpsMockManager.getInstance().getLongitude());
             lastLocation.setLatitude(GpsMockManager.getInstance().getLatitude());
             lastLocation.setTime(System.currentTimeMillis());
@@ -117,6 +125,9 @@ public class LocationHooker extends BaseServiceHooker {
                                 listener.onLocationChanged(location);
                             }
                         } else {
+                            if (location == null) {
+                                location = buildValidLocation(null);
+                            }
                             location.setLongitude(GpsMockManager.getInstance().getLongitude());
                             location.setLatitude(GpsMockManager.getInstance().getLatitude());
                             location.setTime(System.currentTimeMillis());
@@ -167,8 +178,34 @@ public class LocationHooker extends BaseServiceHooker {
         @Override
         public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
             Field mListenerField = args[0].getClass().getDeclaredField("mListener");
+            mListenerField.setAccessible(true);
             mListeners.remove(mListenerField.get(args[0]));
+            mListenerField.setAccessible(false);
             return null;
         }
+    }
+
+    private Location buildValidLocation(String provider) {
+        if (TextUtils.isEmpty(provider)) {
+            provider = "gps";
+        }
+        Location validLocation = new Location(provider);
+        validLocation.setAccuracy(5.36f);
+        validLocation.setBearing(315.0f);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            validLocation.setBearingAccuracyDegrees(52.285362f);
+        }
+        validLocation.setSpeed(0.79f);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            validLocation.setSpeedAccuracyMetersPerSecond(0.9462558f);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            validLocation.setVerticalAccuracyMeters(8.0f);
+        }
+        validLocation.setTime(System.currentTimeMillis());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            validLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
+        }
+        return validLocation;
     }
 }

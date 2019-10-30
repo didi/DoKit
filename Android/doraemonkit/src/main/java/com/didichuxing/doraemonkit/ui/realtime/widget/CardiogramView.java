@@ -38,11 +38,11 @@ public class CardiogramView extends View implements Runnable {
      */
     private int mTotalFrameCount = DEFAULT_FRAME_COUNT;
     /**
-     * current frame count while moving an item ,when it get to mTotalFrameCount,call mList.remove(0)
+     * current frame count while moving an item ,when it get to mTotalFrameCount,call mList.detach(0)
      */
     private int mCurrentFrameCount = 0;
     private LineRender mRender;
-    private List<LineChart.LineData> mList = Collections.synchronizedList(new ArrayList<LineChart.LineData>());
+    private List<LineData> mList = Collections.synchronizedList(new ArrayList<LineData>());
     private IDataSource mDataSource;
 
     private Handler mHandler = new Handler();

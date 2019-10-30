@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">weexkit</string>
+<!--    <string name="app_name">weexkit</string>-->
     
     <string name="dk_console_log_name">日志</string>
     <string name="dk_console_log_title">Weex日志记录</string>

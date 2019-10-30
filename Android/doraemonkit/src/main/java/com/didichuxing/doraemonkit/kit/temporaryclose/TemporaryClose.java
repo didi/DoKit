@@ -2,17 +2,20 @@ package com.didichuxing.doraemonkit.kit.temporaryclose;
 
 import android.content.Context;
 
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.IKit;
-import com.didichuxing.doraemonkit.ui.KitFloatPage;
-import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 
 /**
  * Created by wanglikun on 2018/10/26.
  */
 
 public class TemporaryClose implements IKit {
+
+
     @Override
     public int getCategory() {
         return Category.CLOSE;
@@ -30,7 +33,9 @@ public class TemporaryClose implements IKit {
 
     @Override
     public void onClick(Context context) {
-        FloatPageManager.getInstance().removeAll(KitFloatPage.class);
+        DokitViewManager.getInstance().detachToolPanel();
+        DoraemonKit.hide();
+
     }
 
     @Override

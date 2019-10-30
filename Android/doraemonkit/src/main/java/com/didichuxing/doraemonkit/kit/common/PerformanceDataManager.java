@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Debug;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -16,7 +15,7 @@ import android.text.format.DateUtils;
 import android.view.Choreographer;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.config.PerformanceInfoConfig;
+import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.custom.UploadMonitorInfoBean;
 import com.didichuxing.doraemonkit.kit.custom.UploadMonitorItem;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
@@ -163,7 +162,7 @@ public class PerformanceDataManager {
 
     public void init(Context context) {
         mContext = context.getApplicationContext();
-        mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        mActivityManager = (ActivityManager) DoraemonKit.APPLICATION.getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mAboveAndroidO = true;
         }
@@ -201,6 +200,7 @@ public class PerformanceDataManager {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void startMonitorFrameInfo() {
+        //开启定时任务
         mMainHandler.postDelayed(mRateRunnable, DateUtils.SECOND_IN_MILLIS);
         Choreographer.getInstance().postFrameCallback(mRateRunnable);
     }
@@ -228,16 +228,16 @@ public class PerformanceDataManager {
         if (mUploadMonitorBean != null) {
             mUploadMonitorBean = null;
         }
-        if (PerformanceInfoConfig.isFPSOpen(mContext)) {
+        if (PerformanceSpInfoConfig.isFPSOpen(mContext)) {
             startMonitorFrameInfo();
         }
-        if (PerformanceInfoConfig.isCPUOpen(mContext)) {
+        if (PerformanceSpInfoConfig.isCPUOpen(mContext)) {
             startMonitorCPUInfo();
         }
-        if (PerformanceInfoConfig.isMemoryOpen(mContext)) {
+        if (PerformanceSpInfoConfig.isMemoryOpen(mContext)) {
             startMonitorMemoryInfo();
         }
-        if (PerformanceInfoConfig.isTrafficOpen(mContext)) {
+        if (PerformanceSpInfoConfig.isTrafficOpen(mContext)) {
             NetworkManager.get().startMonitor();
             startMonitorNetFlowInfo();
         }

@@ -16,13 +16,25 @@ public interface FragmentIndex {
     int FRAGMENT_WEB_DOOR = 9;
     int FRAGMENT_DATA_CLEAN = 10;
     int FRAGMENT_CRASH = 11;
-    int FRAGMENT_VIEW_CHECK = 12;
     int FRAGMENT_NETWORK_MONITOR = 13;
     int FRAGMENT_CPU = 14;
     int FRAGMENT_RAM = 15;
-    int FRAGMENT_TIME_COUNTER= 17;
+    int FRAGMENT_TIME_COUNTER = 17;
     int FRAGMENT_WEB_DOOR_DEFAULT = 18;
     int FRAGMENT_CUSTOM = 19;
     int FRAGMENT_TOP_ACTIVITY = 20;
     int FRAGMENT_WEAK_NETWORK = 21;
+    /**
+     * 大图检测
+     */
+    int FRAGMENT_LARGE_PICTURE = 22;
+    /**
+     * 函数耗时
+     */
+    int FRAGMENT_METHOD_COST = 23;
+
+    /**
+     * 数据库远程调试
+     */
+    int FRAGMENT_DB_DEBUG = 24;
 }

@@ -2,6 +2,8 @@ package com.didichuxing.doraemonkit.util;
 
 import android.content.Context;
 
+import com.didichuxing.doraemonkit.BuildConfig;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,6 +32,7 @@ public class DoraemonStatisticsUtil {
         String appId = SystemUtil.getPackageName(context);
         String appName = SystemUtil.getAppName(context);
         String type = "Android";
+        //0 代表内部版本  1代表外部版本
         String from = "1";
 
         MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
@@ -38,7 +41,7 @@ public class DoraemonStatisticsUtil {
         try {
             jsonObject.put("appId", appId);
             jsonObject.put("appName", appName);
-            jsonObject.put("version", "1.1.8");
+            jsonObject.put("version", "" + BuildConfig.VERSION_NAME);
             jsonObject.put("type", type);
             jsonObject.put("from", from);
         } catch (JSONException e) {
