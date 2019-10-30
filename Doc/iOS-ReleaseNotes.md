@@ -11,6 +11,8 @@
 
 5、支持Carthage接入方式
 
+6、其他的一些优化，详见代码提交记录
+
 ### 1.2.3
 1、为了解决调用空的NSArray和NSSet的description，会crash的问题。
 

@@ -1,6 +1,8 @@
 ## DoraemonKit如何使用
 
-### 1、cocoapods依赖
+### 一、集成方式
+
+#### 1.1: cocoapods依赖
 
 ```
     pod 'DoraemonKit/Core', '~> 1.2.4', :configurations => ['Debug'] //必选
@@ -25,10 +27,13 @@ Core subspec作为核心，必须引入。
 
 如果你要使用[MLeaksFinder](https://github.com/Tencent/MLeaksFinder)查找内存泄漏的问题的话，那就请接入WithDatabase subspec。
 
+#### 1.2: Carthage依赖
+
 
 **tip**：只在Debug环境中进行集成，不要带到线上。有一些hook操作会污染线上代码。
 
-### 2、使用DoraemonKit内置工具集的接入方式
+
+### 二、使用DoraemonKit内置工具集的接入方式
 在App启动的时候添加一下代码
 
 ```objective-c
@@ -48,7 +53,7 @@ Core subspec作为核心，必须引入。
 
  通过以上步骤你就可以使用DorameonKit所有的内置工具集合。如果你想把自己与业务相关的一些工具代码加入到DoraemonKit中做统一管理的话，你可以按照3的步骤来做。
 
-### 3、添加自定义测试模块到Doraemon面板中（非必要）
+### 三、添加自定义测试模块到Doraemon面板中（非必要）
 比如我们要在Doraemon面板中添加一个环境切换的功能。
 
 第一步：新建一个类，实现DoraemonPluginProtocol协议中的pluginDidLoad方法，该方法就是以后点击Doraemon工具面板中“环境切换”按钮触发的事件。
@@ -103,7 +108,7 @@ Core subspec作为核心，必须引入。
     
 ```
 
-### 4、swift 接入方式
+### 四、swift 接入方式
 pod 同 OC 一样
 
 #### swift 4.0 4.2 5.0 接入方式都一样
