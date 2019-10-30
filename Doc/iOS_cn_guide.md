@@ -32,7 +32,7 @@ Core subspec作为核心，必须引入。
 ```
     git "https://github.com/didi/DoraemonKit.git"  "1.2.5"
     或者
-    github "didi/DoraemonKit"  "1.2.5"
+    github "didi/DoraemonKit"
 ```
 **tip**：只在Debug环境中进行集成，不要带到线上。有一些hook操作会污染线上代码。
 
