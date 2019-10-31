@@ -43,9 +43,6 @@ dependencies {
     implementation 'com.android.support.test:runner:1.0.2'
     //leakCanary
     implementation rootProject.ext.dependencies["haha"]
-    if (rootProject.ext.config["uploadArchives"]) {
-        implementation "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-    } else {
-        implementation project(':doraemonkit')
-    }
+    compileOnly project(':doraemonkit')
+
 }

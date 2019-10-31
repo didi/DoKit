@@ -1,5 +1,5 @@
 
-## 1.2.5
+## 1.2.7
 
 1. 新增leakcanary
 2. 新增DBView

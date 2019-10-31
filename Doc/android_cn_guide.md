@@ -5,11 +5,14 @@
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.5'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.5'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.7'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.7'
+    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     ...
 }
 ```
+注意:因为doraemonkit依赖okhttp的方式为compileOnly,所以如果你的本地没有引入okhttp,请手动添加依赖
+
 
 最新版本参见[这里](android-ReleaseNotes.md)。
 
@@ -25,8 +28,8 @@ DoraemonKit目前已支持Weex工具，包括
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:1.2.5'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:1.2.5'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:1.2.7'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:1.2.7'
     ...
 }
 ```
@@ -36,10 +39,11 @@ dependencies {
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:1.2.5'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:1.2.7'
     ...
 }
 ```
+leakcanary已经在doraemonkit中动态集成,不需要自己再进行手动集成,只需要添加上面的依赖即可.
 
 
 #### 2. 初始化
@@ -89,7 +93,7 @@ buildscript {
 apply plugin: 'android-aspectjx'
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:1.2.5'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:1.2.7'
     ...
 }
 ```

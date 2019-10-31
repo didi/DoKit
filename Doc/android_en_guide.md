@@ -5,8 +5,8 @@
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.5'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.5'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.7'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.7'
     ...
 }
 ```
@@ -62,7 +62,7 @@ Apply plugin in application module of `build.gradle`
 apply plugin: 'android-aspectjx'
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:1.2.5'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:1.2.7'
     ...
 }
 ```

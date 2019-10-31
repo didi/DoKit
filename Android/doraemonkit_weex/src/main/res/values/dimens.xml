@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dk_dp_15">15dp</dimen>
+    <dimen name="dk_dp_5">5dp</dimen>
+    <dimen name="dk_dp_40">40dp</dimen>
+    <dimen name="dk_dp_20">20dp</dimen>
+    <dimen name="dk_dp_16">16dp</dimen>
+    <dimen name="dk_title_height">46.5dp</dimen>
+    <dimen name="dk_home_title_height">89dp</dimen>
+</resources>

@@ -11,12 +11,12 @@ ext {
                applicationId             : "com.didichuxing.doraemondemo",
                minSdkVersion             : 16,
                targetSdkVersion          : 27,
-               versionCode               : 125,
+               versionCode               : 127,
                //滴滴内网dokit版本号
                innerArchivesVersionName  : "0.1.23",
                //jcenter dokit版本号
-               jcenterArchivesVersionName: "1.2.5",
-               versionName               : "1.2.5",
+               jcenterArchivesVersionName: "1.2.7",
+               versionName               : "1.2.7",
                "glide"                   : "4.8.0",
     ]
     dependencies = [// ###### android library  start ######

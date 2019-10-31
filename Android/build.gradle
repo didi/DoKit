@@ -3,13 +3,14 @@
 buildscript {
     apply from: "config.gradle"
     repositories {
+        google()
+        jcenter()
         //阿里云的镜像库
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
         //北京maven库
         maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public/' }
         maven { url 'https://www.jitpack.io' }
-        google()
-        jcenter()
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.1'
@@ -22,13 +23,14 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
+        jcenter()
         //阿里云的镜像库
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
         //北京maven库
         maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public/' }
         maven { url 'https://www.jitpack.io' }
-        google()
-        jcenter()
+
     }
 }
 
