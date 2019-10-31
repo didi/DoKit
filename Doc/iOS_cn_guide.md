@@ -25,7 +25,7 @@ Core subspec作为核心，必须引入。
 
 如果你要使用[YYDebugDatabase](https://github.com/y500/iOSDebugDatabase)在网页端调式数据库的话，那就请接入WithDatabase subspec。
 
-如果你要使用[MLeaksFinder](https://github.com/Tencent/MLeaksFinder)查找内存泄漏的问题的话，那就请接入WithDatabase subspec。
+如果你要使用[MLeaksFinder](https://github.com/Tencent/MLeaksFinder)查找内存泄漏的问题的话，那就请接入MLeaksFinder subspec。
 
 #### 1.2: Carthage依赖
 
