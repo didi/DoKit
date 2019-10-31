@@ -10,12 +10,12 @@ if (rootProject.ext.config["applyPlugin"]) {
 //        releaseImplementation project(":doraemonkit-no-op")
 //        releaseImplementation project(":doraemonkit_weex_no_op")
 
-        debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.7'
-        debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:1.2.7'
-        debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:1.2.7'
-        debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:1.2.7'
-        releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:1.2.7'
-        releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.7'
+        debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.8'
+        debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:1.2.8'
+        debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:1.2.8'
+        debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:1.2.8'
+        releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:1.2.8'
+        releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.8'
     }
 } else {
     // 引用no-op的库

@@ -1,5 +1,4 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name">DoraemonKit</string>
     <string name="dk_app_name">DoraemonKit</string>
 
     <string name="dk_category_biz">業務專區</string>

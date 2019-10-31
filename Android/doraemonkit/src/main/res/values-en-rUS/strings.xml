@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">DoraemonKit</string>
     <string name="dk_app_name">DoraemonKit</string>
 
     <string name="dk_category_biz">Business</string>

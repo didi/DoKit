@@ -4,19 +4,19 @@ ext {
             // 线上包不会接入DoraemonKit，测试包会自动接入
             applyPlugin   : true,
             //上传到远程仓库时需要打开
-            uploadArchives: false,
+            uploadArchives: true,
     ]
     android = [compileSdkVersion         : 28,
                suppotrSdkVersion         : "27.1.1",
                applicationId             : "com.didichuxing.doraemondemo",
                minSdkVersion             : 16,
                targetSdkVersion          : 27,
-               versionCode               : 127,
+               versionCode               : 128,
                //滴滴内网dokit版本号
                innerArchivesVersionName  : "0.1.23",
                //jcenter dokit版本号
-               jcenterArchivesVersionName: "1.2.7",
-               versionName               : "1.2.7",
+               jcenterArchivesVersionName: "1.2.8",
+               versionName               : "1.2.8",
                "glide"                   : "4.8.0",
     ]
     dependencies = [// ###### android library  start ######
