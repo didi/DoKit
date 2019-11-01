@@ -10,10 +10,10 @@
 
 @implementation DoraemonBarChart
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         if (@available(iOS 13.0, *)) {
             self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
                 if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
@@ -23,9 +23,11 @@
                 }
             }];
         } else {
+#endif
             self.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         }
-        
+#endif
         self.xAxis = [[DoraemonXAxis alloc] init];
         self.yAxis = [[DoraemonYAxis alloc] init];
         self.yAxis.labelCount = 5;
@@ -100,9 +102,11 @@
         CGFloat y = self.contentInset.top + self.yAxis.marginTop + spacing * i;
         NSString *text = labels[i];
         UIColor *attColor = [UIColor blackColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         if (@available(iOS 13.0, *)) {
             attColor = [UIColor labelColor];
         }
+#endif
         NSDictionary *attributes = @{NSFontAttributeName: self.yAxis.axisLabelFont, NSForegroundColorAttributeName: attColor};
         CGSize size = [text sizeWithAttributes:attributes];
         
@@ -134,9 +138,11 @@
         
         NSString *value = [self.vauleFormatter stringFromNumber: [NSNumber numberWithDouble:item.value]];
         UIColor *attColor = [UIColor blackColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         if (@available(iOS 13.0, *)) {
             attColor = [UIColor labelColor];
         }
+#endif
         NSDictionary *attributes = @{NSFontAttributeName: self.yAxis.axisLabelFont, NSForegroundColorAttributeName: attColor};
         CGSize valueLabelSize = [value sizeWithAttributes:attributes];
         CGFloat valueLabelOffSetX = (barWidth - valueLabelSize.width) / 2;

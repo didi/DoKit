@@ -33,9 +33,11 @@
         _name.textAlignment = NSTextAlignmentCenter;
         _name.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
         _name.adjustsFontSizeToFitWidth = YES;
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         if (@available(iOS 13.0, *)) {
             _name.textColor = [UIColor labelColor];
         }
+#endif
     }
     
     return _name;
@@ -44,11 +46,15 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         if (@available(iOS 13.0, *)) {
             self.backgroundColor = [UIColor systemBackgroundColor];
         } else {
+#endif
             self.backgroundColor = [UIColor whiteColor];
-        } 
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        }
+#endif
         [self addSubview:self.icon];
         [self addSubview:self.name];
     }

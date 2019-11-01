@@ -118,6 +118,7 @@ static NSInteger const kPixelSkip = 1; // 采集像素颜色时像素的间隔
     CGRect selectedRect = CGRectMake(xyOffset, xyOffset, gridWidth, gridWidth);
     CGContextAddRect(ctx, selectedRect);
     
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     if (@available(iOS 13.0, *)) {
         UIColor *dyColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
             if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
@@ -129,8 +130,11 @@ static NSInteger const kPixelSkip = 1; // 采集像素颜色时像素的间隔
         }];
         CGContextSetStrokeColorWithColor(ctx, dyColor.CGColor);
     } else {
+#endif
         CGContextSetStrokeColorWithColor(ctx, [UIColor blackColor].CGColor);
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     }
+#endif
     CGContextSetLineWidth(ctx, 1.0);
     CGContextStrokePath(ctx);
     

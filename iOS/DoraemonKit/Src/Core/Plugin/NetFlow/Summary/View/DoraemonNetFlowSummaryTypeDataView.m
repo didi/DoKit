@@ -23,6 +23,10 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.layer.cornerRadius = 5.f;
+        
+        UILabel *tipLabel = [[UILabel alloc] init];
+        
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         if (@available(iOS 13.0, *)) {
             self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
                 if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
@@ -31,16 +35,15 @@
                     return [UIColor whiteColor];
                 }
             }];
-        } else {
-           self.backgroundColor = [UIColor whiteColor];
-        }
-        
-        UILabel *tipLabel = [[UILabel alloc] init];
-        if (@available(iOS 13.0, *)) {
             tipLabel.textColor = [UIColor labelColor];
         } else {
+#endif
+            self.backgroundColor = [UIColor whiteColor];
             tipLabel.textColor = [UIColor blackColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         }
+#endif
+        
         tipLabel.text = DoraemonLocalizedString(@"数据类型");
         tipLabel.font = [UIFont systemFontOfSize:14];
         [tipLabel sizeToFit];
