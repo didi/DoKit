@@ -13,7 +13,7 @@
 #import "DoraemonDefine.h"
 #import "DoraemonSandboxCell.h"
 
-@interface DoraemonSandboxViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface DoraemonSandboxViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) DoraemonSandboxModel *currentDirModel;
@@ -32,15 +32,15 @@
     [self initUI];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self loadPath:_currentDirModel.path];
 }
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
-    
     // trait发生了改变
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     if (@available(iOS 13.0, *)) {
         if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
             if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
@@ -50,18 +50,19 @@
             }
         }
     }
+#endif
 }
 
-- (BOOL)needBigTitleView{
+- (BOOL)needBigTitleView {
     return YES;
 }
 
-- (void)initData{
+- (void)initData {
     _dataArray = @[];
     _rootPath = NSHomeDirectory();
 }
 
-- (void)initUI{
+- (void)initUI {
     self.title = DoraemonLocalizedString(@"沙盒浏览器");
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-self.bigTitleView.doraemon_bottom) style:UITableViewStylePlain];
     self.tableView.delegate = self;
@@ -70,7 +71,7 @@
 }
 
 
-- (void)loadPath : (NSString *)filePath{
+- (void)loadPath:(NSString *)filePath {
     NSFileManager *fm = [NSFileManager defaultManager];
     NSString *targetPath = filePath;
     //该目录信息
@@ -92,11 +93,13 @@
         NSString *dirTitle =  [fm displayNameAtPath:targetPath];
         self.title = dirTitle;
         UIImage *image = [UIImage doraemon_imageNamed:@"doraemon_back"];
-        if (@available(iOS 13.0, *)) { 
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        if (@available(iOS 13.0, *)) {
             if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
                 image = [UIImage doraemon_imageNamed:@"doraemon_back_dark"];
             }
         }
+#endif
         self.leftModel = [[DoraemonNavBarItemModel alloc] initWithImage:image selector:@selector(leftNavBackClick:)];
         
         [self setLeftNavBarItems:@[self.leftModel]];
@@ -133,11 +136,11 @@
 
 
 #pragma mark- UITableViewDelegate
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _dataArray.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *cellId = @"cellId";
     DoraemonSandBoxCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
     if (!cell) {
@@ -156,40 +159,40 @@
     return DoraemonLocalizedString(@"删除");
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     DoraemonSandboxModel *model = _dataArray[indexPath.row];
     [self deleteByDoraemonSandboxModel:model];
 }
 
 
 #pragma mark- UITableViewDataSource
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return [DoraemonSandBoxCell cellHeight];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     DoraemonSandboxModel *model = _dataArray[indexPath.row];
     if (model.type == DoraemonSandboxFileTypeFile) {
         [self handleFileWithPath:model.path];
-    }else if(model.type == DoraemonSandboxFileTypeDirectory){
+    } else if (model.type == DoraemonSandboxFileTypeDirectory) {
         [self loadPath:model.path];
     }
 }
 
 
-- (void)leftNavBackClick:(id)clickView{
+- (void)leftNavBackClick:(id)clickView {
     if (_currentDirModel.type == DoraemonSandboxFileTypeRoot) {
         [super leftNavBackClick:clickView];
-    }else{
+    } else {
         [self loadPath:[_currentDirModel.path stringByDeletingLastPathComponent]];
     }
 }
 
-- (void)handleFileWithPath:(NSString *)filePath{
+- (void)handleFileWithPath:(NSString *)filePath {
     UIAlertControllerStyle style;
     if ([DoraemonAppInfoUtil isIpad]) {
         style = UIAlertControllerStyleAlert;
-    }else{
+    } else {
         style = UIAlertControllerStyleActionSheet;
     }
     
@@ -212,14 +215,14 @@
     [self presentViewController:alertVc animated:YES completion:nil];
 }
 
-- (void)previewFile:(NSString *)filePath{
+- (void)previewFile:(NSString *)filePath {
     DoraemonSanboxDetailViewController *detalVc = [[DoraemonSanboxDetailViewController alloc] init];
     detalVc.filePath = filePath;
     [self.navigationController pushViewController:detalVc animated:YES];
 }
 
 
-- (void)shareFileWithPath:(NSString *)filePath{
+- (void)shareFileWithPath:(NSString *)filePath {
     NSURL *url = [NSURL fileURLWithPath:filePath];
     NSArray *objectsToShare = @[url];
 
@@ -243,7 +246,7 @@
     }
 }
 
-- (void)deleteByDoraemonSandboxModel:(DoraemonSandboxModel *)model{
+- (void)deleteByDoraemonSandboxModel:(DoraemonSandboxModel *)model {
     NSFileManager *fm = [NSFileManager defaultManager];
     [fm removeItemAtPath:model.path error:nil];
     [self loadPath:_currentDirModel.path];

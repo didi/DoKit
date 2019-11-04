@@ -68,6 +68,8 @@
 
 - (void)initUI{
     self.layer.cornerRadius = 5.f;
+
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     if (@available(iOS 13.0, *)) {
         self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
             if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
@@ -77,8 +79,11 @@
             }
         }];
     } else {
+#endif
        self.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     }
+#endif
      
     //抓包时间
     NSString *time;

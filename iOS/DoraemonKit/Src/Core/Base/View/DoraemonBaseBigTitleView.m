@@ -21,13 +21,9 @@
 
 @implementation DoraemonBaseBigTitleView
 
-- (instancetype)initWithFrame:(CGRect)frame{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        if (@available(iOS 13.0, *)) {
-            self.backgroundColor = [UIColor systemBackgroundColor];
-        }
-        
         CGFloat offsetY = IPHONE_STATUSBAR_HEIGHT;
         CGFloat titleLabelOffsetY = offsetY + ((self.doraemon_height-offsetY)/2-kDoraemonSizeFrom750_Landscape(67)/2);
         CGFloat closeBtnH = self.doraemon_height-offsetY;
@@ -35,7 +31,10 @@
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(32), titleLabelOffsetY, self.doraemon_width-kDoraemonSizeFrom750_Landscape(32)-closeBtnH, kDoraemonSizeFrom750_Landscape(67))];
         
         UIImage *closeImage = [UIImage doraemon_imageNamed:@"doraemon_close"];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         if (@available(iOS 13.0, *)) {
+            self.backgroundColor = [UIColor systemBackgroundColor];
+            
             _titleLabel.textColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
                 if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
                     return [UIColor whiteColor];
@@ -47,8 +46,11 @@
                 closeImage = [UIImage doraemon_imageNamed:@"doraemon_close_dark"];
             }
         } else {
+#endif
             _titleLabel.textColor = [UIColor doraemon_colorWithString:@"#324456"];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         }
+#endif
         
         _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(48)];
         [self addSubview:_titleLabel];
@@ -69,8 +71,8 @@
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
-    
     // trait发生了改变
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     if (@available(iOS 13.0, *)) {
         if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
             if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
@@ -80,14 +82,15 @@
             }
         }
     }
+#endif
 }
 
-- (void)setTitle:(NSString *)title{
+- (void)setTitle:(NSString *)title {
     _title = title;
     _titleLabel.text = _title;
 }
 
-- (void)closeClick{
+- (void)closeClick {
     if (self.delegate && [self.delegate respondsToSelector:@selector(bigTitleCloseClick)]) {
         [self.delegate bigTitleCloseClick];
     }

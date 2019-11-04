@@ -22,19 +22,22 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        if (@available(iOS 13.0, *)) {
-            self.backgroundColor = [UIColor systemBackgroundColor];
-        }
         self.selectionStyle =  UITableViewCellSelectionStyleNone;
         
         //大文本显示的时候，UIlabel在模拟器上会显示空白，使用TextView代替。
         //网上相似问题： https://blog.csdn.net/minghuyong2016/article/details/82882314
         _contentLabel = [DoraemonNetFlowDetailCell genTextView:16.0];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         if (@available(iOS 13.0, *)) {
+            self.backgroundColor = [UIColor systemBackgroundColor];
+            
             _contentLabel.textColor = [UIColor labelColor];
         } else {
+#endif
             _contentLabel.textColor = [UIColor blackColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         }
+#endif
         _contentLabel.editable = NO;
         [self.contentView addSubview:_contentLabel];
         

@@ -29,6 +29,7 @@
 }
 
 - (void)commonInit {
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     if (@available(iOS 13.0, *)) {
         self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
             if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
@@ -38,8 +39,11 @@
             }
         }];
     } else {
+#endif
         self.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     }
+#endif
     self.layer.cornerRadius = kDoraemonSizeFrom750_Landscape(8);
     self.layer.borderWidth = 1.;
     self.layer.borderColor = [UIColor doraemon_colorWithHex:0x999999 andAlpha:0.2].CGColor;
@@ -51,8 +55,8 @@
 
 - (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
     [super traitCollectionDidChange:previousTraitCollection];
-    
     // trait发生了改变
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     if (@available(iOS 13.0, *)) {
         if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
             if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
@@ -62,6 +66,7 @@
             }
         }
     }
+#endif
 }
 
 #pragma mark - Layout
@@ -136,11 +141,13 @@
     if (!_closeBtn) {
         _closeBtn = [[UIButton alloc] init];
         UIImage *closeImage = [UIImage doraemon_imageNamed:@"doraemon_close"];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         if (@available(iOS 13.0, *)) {
             if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
                 closeImage = [UIImage doraemon_imageNamed:@"doraemon_close_dark"];
             }
         }
+#endif
         [_closeBtn setBackgroundImage:closeImage forState:UIControlStateNormal];
         [_closeBtn addTarget:self action:@selector(closeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     }

@@ -55,11 +55,15 @@
     [super viewDidLoad];
     self.title = DoraemonLocalizedString(@"H5任意门");
     
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     if (@available(iOS 13.0, *)) {
         self.view.backgroundColor = [UIColor systemBackgroundColor];
     } else {
+#endif
         self.view.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     }
+#endif
     
     _h5UrlTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom + kDoraemonSizeFrom750_Landscape(32), self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(358))];
     _h5UrlTextView.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];

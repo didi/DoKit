@@ -16,14 +16,18 @@
 
 @implementation DoraemonMockGPSOperateView
 
-- (instancetype)initWithFrame:(CGRect)frame{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         if (@available(iOS 13.0, *)) {
             self.backgroundColor = [UIColor systemBackgroundColor];
         } else {
+#endif
             self.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         }
+#endif
         self.layer.cornerRadius = kDoraemonSizeFrom750_Landscape(8);
         
         _titleLabel = [[UILabel alloc] init];

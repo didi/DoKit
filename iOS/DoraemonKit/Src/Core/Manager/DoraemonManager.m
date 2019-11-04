@@ -144,7 +144,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     //开启NSLog监控功能
     if ([[DoraemonCacheManager sharedInstance] nsLogSwitch]) {
         [[DoraemonNSLogManager sharedInstance] startNSLogMonitor];
-        if (@available(iOS 13.0, *)){
+        if (@available(iOS 13.0, *)) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1. * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [[DoraemonStateBar shareInstance] show];
             });

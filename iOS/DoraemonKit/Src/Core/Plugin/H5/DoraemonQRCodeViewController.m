@@ -35,11 +35,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     if (@available(iOS 13.0, *)) {
         self.view.backgroundColor = [UIColor systemBackgroundColor];
     } else {
+#endif
        self.view.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     }
+#endif
     self.title = @"二维码扫描";
 
     [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
