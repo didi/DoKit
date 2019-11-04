@@ -241,6 +241,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAllTestPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonStartTimePlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonUIProfilePlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonHierarchyPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonTimeProfilePlugin];
 #if DoraemonWithLoad
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMethodUseTimePlugin];
@@ -595,6 +596,13 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kDesc:DoraemonLocalizedString(@"显示UI层级检查")},
                                    @{kIcon:@"doraemon_view_level"},
                                    @{kPluginName:@"DoraemonUIProfilePlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"性能检测")}
+                           ],
+                           @(DoraemonManagerPluginType_DoraemonHierarchyPlugin) : @[
+                                   @{kTitle:DoraemonLocalizedString(@"UI结构")},
+                                   @{kDesc:DoraemonLocalizedString(@"显示UI结构")},
+                                   @{kIcon:@"doraemon_view_level"},
+                                   @{kPluginName:@"DoraemonHierarchyPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")}
                            ],
                            @(DoraemonManagerPluginType_DoraemonTimeProfilePlugin) : @[
