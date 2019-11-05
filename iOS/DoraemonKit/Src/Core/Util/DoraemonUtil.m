@@ -7,6 +7,8 @@
 //
 
 #import "DoraemonUtil.h"
+#import "UIViewController+Doraemon.h"
+#import "DoraemonHomeWindow.h"
 
 @implementation DoraemonUtil
 
@@ -160,6 +162,19 @@
             [DoraemonUtil clearFileWithPath:[homePath stringByAppendingPathComponent:folder]];
         }
     });
+}
+
++ (void)openPlugin:(UIViewController *)vc {
+    [DoraemonHomeWindow openPlugin:vc];
+}
+
+
++ (UIViewController *)rootViewControllerForKeyWindow {
+    return [UIViewController rootViewControllerForKeyWindow];
+}
+
++ (UIViewController *)topViewControllerForKeyWindow {
+    return [UIViewController topViewControllerForKeyWindow];
 }
 
 @end
