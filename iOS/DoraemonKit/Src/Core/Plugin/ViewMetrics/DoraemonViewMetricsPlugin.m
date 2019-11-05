@@ -7,13 +7,13 @@
 
 #import "DoraemonViewMetricsPlugin.h"
 #import "DoraemonMetricsViewController.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 
 @implementation DoraemonViewMetricsPlugin
 
 - (void)pluginDidLoad{
     DoraemonMetricsViewController *vc = [[DoraemonMetricsViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

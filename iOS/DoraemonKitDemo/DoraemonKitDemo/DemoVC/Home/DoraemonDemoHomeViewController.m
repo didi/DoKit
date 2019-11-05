@@ -113,33 +113,10 @@
 //    NSLog(@"num == %@",num);
 }
 
-- (void)layouttableView {
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    switch (orientation) {
-        case UIInterfaceOrientationLandscapeLeft:
-        case UIInterfaceOrientationLandscapeRight:
-        {
-            CGSize size = self.view.doraemon_size;
-            if (size.width > size.height) {
-                UIEdgeInsets safeAreaInsets = [self safeAreaInset];
-                CGRect frame = self.view.frame;
-                CGFloat width = self.view.doraemon_width - safeAreaInsets.left - safeAreaInsets.right;
-                frame.origin.x = safeAreaInsets.left;
-                frame.size.width = width;
-                self.tableView.frame = frame;
-            }
-        }
-            break;
-        default:
-            self.tableView.frame = self.view.frame;
-            break;
-    }
-}
-
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
 
-    [self layouttableView];
+    self.tableView.frame = [self fullscreen];
 }
 
 @end

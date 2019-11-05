@@ -13,7 +13,6 @@
 #import "DoraemonDefine.h"
 #import "UIColor+Doraemon.h"
 #import "DoraemonDefine.h"
-#import "DoraemonUtil.h"
 #import "DoraemonColorPickInfoWindow.h"
 #import "DoraemonColorPickMagnifyLayer.h"
 

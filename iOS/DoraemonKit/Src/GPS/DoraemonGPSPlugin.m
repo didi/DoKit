@@ -7,13 +7,13 @@
 
 #import "DoraemonGPSPlugin.h"
 #import "DoraemonGPSViewController.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 
 @implementation DoraemonGPSPlugin
 
 - (void)pluginDidLoad{
     DoraemonGPSViewController *vc = [[DoraemonGPSViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

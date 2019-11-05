@@ -8,7 +8,6 @@
 
 #import "DoraemonEntryView.h"
 #import "DoraemonDefine.h"
-#import "DoraemonUtil.h"
 #import "UIView+Doraemon.h"
 #import "UIImage+Doraemon.h"
 #import "DoraemonDefine.h"

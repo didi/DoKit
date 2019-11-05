@@ -7,13 +7,6 @@
 //
 
 #import "DoraemonUtil.h"
-#import "DoraemonHomeWindow.h"
-
-@interface DoraemonUtil()
-
-@property (nonatomic, strong) UINavigationController *nav;
-
-@end
 
 @implementation DoraemonUtil
 
@@ -25,33 +18,7 @@
     return self;
 }
 
-+ (void)openPlugin:(UIViewController *)vc{
-    [[DoraemonHomeWindow shareInstance] openPlugin:vc];
-}
 
-+ (UIViewController *)rootViewControllerForKeyWindow{
-    return [[[UIApplication sharedApplication].delegate window] rootViewController];
-}
-
-+ (UIViewController *)topViewControllerForKeyWindow {
-    UIViewController *resultVC;
-    resultVC = [self _topViewController:[[[UIApplication sharedApplication].delegate window] rootViewController]];
-    while (resultVC.presentedViewController) {
-        resultVC = [self _topViewController:resultVC.presentedViewController];
-    }
-    return resultVC;
-}
-
-+ (UIViewController *)_topViewController:(UIViewController *)vc {
-    if ([vc isKindOfClass:[UINavigationController class]]) {
-        return [self _topViewController:[(UINavigationController *)vc topViewController]];
-    } else if ([vc isKindOfClass:[UITabBarController class]]) {
-        return [self _topViewController:[(UITabBarController *)vc selectedViewController]];
-    } else {
-        return vc;
-    }
-    return nil;
-}
 
 + (NSString *)dateFormatTimeInterval:(NSTimeInterval)timeInterval{
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeInterval];

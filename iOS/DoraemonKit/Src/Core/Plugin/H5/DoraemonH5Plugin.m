@@ -7,13 +7,13 @@
 
 #import "DoraemonH5Plugin.h"
 #import "DoraemonH5ViewController.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 
 @implementation DoraemonH5Plugin
 
 - (void)pluginDidLoad{
     DoraemonH5ViewController *vc = [[DoraemonH5ViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end
