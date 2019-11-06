@@ -32,7 +32,6 @@ import com.didichuxing.doraemonkit.ui.realtime.datasource.DataSourceFactory;
 import com.didichuxing.doraemonkit.util.threadpool.ThreadPoolProxyFactory;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
-//import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -58,7 +57,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-//import com.squareup.picasso.Picasso;
+
 
 public class MainDebugActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "MainActivity";

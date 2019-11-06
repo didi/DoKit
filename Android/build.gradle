@@ -13,7 +13,7 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
+        classpath 'com.android.tools.build:gradle:3.5.2'
         classpath 'com.novoda:bintray-release:0.9.1'
         classpath 'com.github.franticn:gradle_plugin_android_aspectjx:2.0.6'
         // NOTE: Do not place your application dependencies here; they belong

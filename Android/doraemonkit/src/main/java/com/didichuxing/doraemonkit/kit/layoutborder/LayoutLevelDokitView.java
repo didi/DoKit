@@ -11,9 +11,9 @@ import android.view.Window;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
@@ -22,13 +22,14 @@ import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.layoutborder.ScalpelFrameLayout;
-import com.didichuxing.doraemonkit.ui.layoutborder.ViewBorderFrameLayout;
+import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 /**
  * Created by jintai on 2019/09/26.
  */
 public class LayoutLevelDokitView extends AbsDokitView {
+    private static final String TAG = "LayoutLevelDokitView";
     private CheckBox mSwitchButton;
     private View mClose;
 
@@ -73,8 +74,16 @@ public class LayoutLevelDokitView extends AbsDokitView {
         }
 
         if (appContentView == null) {
+            ToastUtils.showShort("当前根布局功能不支持");
             return;
         }
+
+        if(appContentView.toString().contains("SwipeBackLayout")){
+            LogHelper.i(TAG,"普通模式下布局层级功能暂不支持以SwipeBackLayout为根布局,请改用系统模式");
+            ToastUtils.showShort("普通模式下布局层级功能暂不支持以SwipeBackLayout为根布局");
+            return;
+        }
+
         //将所有控件放入到ScalpelFrameLayout中
         mScalpelFrameLayout = new ScalpelFrameLayout(appContentView.getContext());
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);

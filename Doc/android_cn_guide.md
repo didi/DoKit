@@ -5,8 +5,8 @@
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.8'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.8'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.0.0'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.0.0'
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     ...
 }
@@ -28,8 +28,8 @@ DoraemonKit目前已支持Weex工具，包括
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:1.2.8'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:1.2.8'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:2.0.0'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:2.0.0'
     ...
 }
 ```
@@ -39,7 +39,7 @@ dependencies {
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:1.2.8'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:2.0.0'
     ...
 }
 ```
@@ -93,7 +93,7 @@ buildscript {
 apply plugin: 'android-aspectjx'
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:1.2.8'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:2.0.0'
     ...
 }
 ```
