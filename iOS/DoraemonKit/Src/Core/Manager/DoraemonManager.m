@@ -256,6 +256,9 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonViewAlignPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonViewMetricsPlugin];
+    
+    #pragma mark - 平台工具
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMockPlugin];
 }
 
 /**
@@ -633,6 +636,14 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kIcon:@"doraemon_viewmetrics"},
                                    @{kPluginName:@"DoraemonViewMetricsPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"视觉工具")}
+                                   ],
+                           // 平台工具
+                           @(DoraemonManagerPluginType_DoraemonMockPlugin) : @[
+                                @{kTitle:DoraemonLocalizedString(@"数据Mock")},
+                                   @{kDesc:DoraemonLocalizedString(@"Mock数据修改")},
+                                   @{kIcon:@"doraemon_viewmetrics"},
+                                   @{kPluginName:@"DoraemonMockPlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"平台工具")}
                                    ]
                            }[@(pluginType)];
     

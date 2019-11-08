@@ -105,6 +105,12 @@
     "平均值"                                   ="Average";
     "实时数据"                                 ="Realtime Data";
     
+    
+    "上传模版"                                 = "Upload template";
+    "接口分组"                                 = "Interface Grouping";
+    "开关状态"                                 = "Opening State";
+    "Mock数据"                                = "Mock Data";
+    
 
     "该功能需要重启App才能生效"        =   "Reboot to work";
     "内存检测开关"                               = "Memory monitor switch";

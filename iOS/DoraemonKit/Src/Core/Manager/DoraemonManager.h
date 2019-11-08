@@ -78,7 +78,11 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     // 对齐标尺
     DoraemonManagerPluginType_DoraemonViewAlignPlugin,
     // 元素边框线
-    DoraemonManagerPluginType_DoraemonViewMetricsPlugin
+    DoraemonManagerPluginType_DoraemonViewMetricsPlugin,
+    
+    #pragma mark - 平台工具
+    // Mock 数据
+    DoraemonManagerPluginType_DoraemonMockPlugin
 };
 
 @interface DoraemonManagerPluginTypeModel : NSObject
