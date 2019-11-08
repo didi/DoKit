@@ -68,6 +68,7 @@ public class CrashCaptureMainFragment extends BaseFragment {
                     showContent(FileExplorerFragment.class, bundle);
                 } else if (data.desc == R.string.dk_crash_capture_clean_data) {
                     CrashCaptureManager.getInstance().clearCacheHistory();
+                    data.rightDesc = Formatter.formatFileSize(getContext(), FileUtil.getDirectorySize(CrashCaptureManager.getInstance().getCrashCacheDir()));
                     showToast(R.string.dk_crash_capture_clean_data);
                 }
             }
