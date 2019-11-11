@@ -641,7 +641,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                            @(DoraemonManagerPluginType_DoraemonMockPlugin) : @[
                                 @{kTitle:DoraemonLocalizedString(@"数据Mock")},
                                    @{kDesc:DoraemonLocalizedString(@"Mock数据修改")},
-                                   @{kIcon:@"doraemon_viewmetrics"},
+                                   @{kIcon:@"doraemon_mock"},
                                    @{kPluginName:@"DoraemonMockPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"平台工具")}
                                    ]
