@@ -10,6 +10,7 @@
 @protocol DoraemonMockFilterBgroundDelegate<NSObject>
 
 - (void)bgroundClick;
+- (void)selectedClick;
 
 @end
 

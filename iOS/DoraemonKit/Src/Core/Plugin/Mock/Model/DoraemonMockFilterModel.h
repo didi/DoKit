@@ -1,5 +1,5 @@
 //
-//  DoraemonMockModelFilter.h
+//  DoraemonMockFilterModel.h
 //  AFNetworking
 //
 //  Created by didi on 2019/11/7.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DoraemonMockModelFilter : NSObject
+@interface DoraemonMockFilterModel : NSObject
 
 - (NSArray *)getItemArray:(NSInteger)select;
 

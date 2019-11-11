@@ -32,7 +32,7 @@
         
         _detailSwitch = [[DoraemonMockDetailSwitch alloc] initWithFrame:CGRectMake(0, 0, DoraemonScreenWidth, kDoraemonSizeFrom750_Landscape(104))];
         [_detailSwitch needDownLine];
-        [_detailSwitch needRightArrow];
+        [_detailSwitch needArrow];
         _detailSwitch.delegate = self;
         [self.contentView addSubview:_detailSwitch];
 

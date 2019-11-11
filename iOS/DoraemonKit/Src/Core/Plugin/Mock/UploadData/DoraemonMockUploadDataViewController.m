@@ -1,23 +1,23 @@
 //
-//  DoraemonMockRightTabBarViewController.m
+//  DoraemonMockUploadDataViewController.m
 //  AFNetworking
 //
 //  Created by didi on 2019/11/7.
 //
 
-#import "DoraemonMockRightTabBarViewController.h"
+#import "DoraemonMockUploadDataViewController.h"
 
 #import "DoraemonMockDetailListView.h"
 #import "DoraemonDefine.h"
 
-@interface DoraemonMockRightTabBarViewController ()
+@interface DoraemonMockUploadDataViewController ()
 
 @property (nonatomic, strong) DoraemonMockDetailListView *detailView;
 
 
 @end
 
-@implementation DoraemonMockRightTabBarViewController
+@implementation DoraemonMockUploadDataViewController
 
 - (void)viewDidLoad{
     [super viewDidLoad];

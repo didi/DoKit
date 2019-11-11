@@ -13,7 +13,7 @@
 
 @end
 
-@interface DoraemonMockFilterHalfButton : UIView
+@interface DoraemonMockFilterButton : UIView
 
 @property (nonatomic, weak) id<DoraemonMockFilterButtonDelegate> delegate;
 

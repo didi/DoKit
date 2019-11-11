@@ -1,23 +1,23 @@
 //
-//  DoraemonMockLeftTabBarViewController.m
+//  DoraemonMockDataViewController.m
 //  AFNetworking
 //
 //  Created by didi on 2019/11/5.
 //
 
-#import "DoraemonMockLeftTabBarViewController.h"
+#import "DoraemonMockDataViewController.h"
 #import "DoraemonMockDetailListView.h"
 #import "DoraemonDefine.h"
 
 
-@interface DoraemonMockLeftTabBarViewController()
+@interface DoraemonMockDataViewController()
 
 @property (nonatomic, strong) DoraemonMockDetailListView *detailView;
 @property (nonatomic, assign) CGFloat padding_left;
 
 @end
 
-@implementation DoraemonMockLeftTabBarViewController
+@implementation DoraemonMockDataViewController
 
 - (void)viewDidLoad{
     [super viewDidLoad];

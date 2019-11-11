@@ -1,29 +1,29 @@
 //
-//  DoraemonMockTabBarViewController.m
+//  DoraemonMockBaseViewController.m
 //  AFNetworking
 //
 //  Created by didi on 2019/11/7.
 //
 
-#import "DoraemonMockTabBarViewController.h"
+#import "DoraemonMockBaseViewController.h"
 #import "DoraemonMockSearchView.h"
-#import "DoraemonMockFilterHalfButton.h"
+#import "DoraemonMockFilterButton.h"
 #import "DoraemonMockFilterListView.h"
-#import "DoraemonMockModelFilter.h"
+#import "DoraemonMockFilterModel.h"
 #import "DoraemonDefine.h"
 
-@interface DoraemonMockTabBarViewController ()<DoraemonMockSearchViewDelegate,DoraemonMockFilterButtonDelegate,DoraemonMockFilterBgroundDelegate>
+@interface DoraemonMockBaseViewController ()<DoraemonMockSearchViewDelegate,DoraemonMockFilterButtonDelegate,DoraemonMockFilterBgroundDelegate>
 
 @property (nonatomic, strong) DoraemonMockSearchView *searchView;
-@property (nonatomic, strong) DoraemonMockFilterHalfButton *leftButton;
-@property (nonatomic, strong) DoraemonMockFilterHalfButton *rightButton;
+@property (nonatomic, strong) DoraemonMockFilterButton *leftButton;
+@property (nonatomic, strong) DoraemonMockFilterButton *rightButton;
 @property (nonatomic, strong) DoraemonMockFilterListView *listView;
-@property (nonatomic, strong) DoraemonMockModelFilter *filterArray;
+@property (nonatomic, strong) DoraemonMockFilterModel *filterArray;
 @property (nonatomic, assign) CGFloat padding_left;
 
 @end
 
-@implementation DoraemonMockTabBarViewController
+@implementation DoraemonMockBaseViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -33,13 +33,13 @@
     _searchView.delegate = self;
     [self.view addSubview:_searchView];
     
-    _leftButton = [[DoraemonMockFilterHalfButton alloc] initWithFrame:CGRectMake(0, _searchView.doraemon_bottom, self.view.doraemon_width/2, kDoraemonSizeFrom750_Landscape(126))];
+    _leftButton = [[DoraemonMockFilterButton alloc] initWithFrame:CGRectMake(0, _searchView.doraemon_bottom, self.view.doraemon_width/2, kDoraemonSizeFrom750_Landscape(126))];
     [_leftButton renderUIWithTitle:DoraemonLocalizedString(@"接口分组")];
     _leftButton.delegate = self;
     _leftButton.tag = 0;
     [self.view addSubview:_leftButton];
 
-    _rightButton = [[DoraemonMockFilterHalfButton alloc] initWithFrame:CGRectMake(_leftButton.doraemon_right, _searchView.doraemon_bottom, self.view.doraemon_width/2, kDoraemonSizeFrom750_Landscape(126))];
+    _rightButton = [[DoraemonMockFilterButton alloc] initWithFrame:CGRectMake(_leftButton.doraemon_right, _searchView.doraemon_bottom, self.view.doraemon_width/2, kDoraemonSizeFrom750_Landscape(126))];
     [_rightButton renderUIWithTitle:DoraemonLocalizedString(@"开关状态")];
     _rightButton.delegate = self;
     _rightButton.tag = 1;
@@ -53,7 +53,7 @@
     _sepeatorLine.backgroundColor = [UIColor doraemon_bg];
     [self.view addSubview:_sepeatorLine];
     
-    _filterArray = [[DoraemonMockModelFilter alloc] init];
+    _filterArray = [[DoraemonMockFilterModel alloc] init];
     
 }
 
@@ -61,13 +61,23 @@
     return YES;
 }
 
-- (void)showList:(DoraemonMockFilterHalfButton *)halfButton{
+- (void)showList:(DoraemonMockFilterButton *)halfButton{
     _listView.tag = halfButton.tag;
     _listView.selectedIndex = halfButton.selectedItemIndex;
     [self.view addSubview:_listView];
     [_listView showList: [_filterArray getItemArray:halfButton.tag]];
 }
 
+- (void)closeList{
+    if(_rightButton.down){
+        _rightButton.selectedItemIndex = _listView.selectedIndex;
+        [_rightButton setDropdown:NO];
+    }else{
+        _leftButton.selectedItemIndex = _listView.selectedIndex;
+        [_leftButton setDropdown:NO];
+    }
+    [_listView closeList];
+}
 
 #pragma mark - DoraemonMockSearchViewDelegate
 - (void)searchViewInputChange:(NSString *)text{
@@ -77,14 +87,12 @@
 
 #pragma mark --DoraemonMockFilterBgroundDelegate
 - (void)bgroundClick{
-    if(_rightButton.down){
-        _rightButton.selectedItemIndex = _listView.selectedIndex;
-        [_rightButton setDropdown:NO];
-    }else{
-        _leftButton.selectedItemIndex = _listView.selectedIndex;
-        [_leftButton setDropdown:NO];
-    }
-    [_listView closeList];
+    [self closeList];
+}
+
+#pragma mark --DoraemonMockFilterBgroundDelegate
+- (void)selectedClick{
+    [self closeList];
 }
 
 #pragma mark - DoraemonMockHalfButton

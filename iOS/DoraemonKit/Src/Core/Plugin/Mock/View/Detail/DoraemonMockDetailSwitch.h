@@ -9,7 +9,7 @@
 
 @interface DoraemonMockDetailSwitch : DoraemonCellSwitch
 
-- (void)needRightArrow;
+- (void)needArrow;
 
 - (void)setArrowDown:(BOOL)isDown;
 

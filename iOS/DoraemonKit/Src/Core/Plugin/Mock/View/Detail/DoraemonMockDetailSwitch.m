@@ -16,11 +16,11 @@
 
 @implementation DoraemonMockDetailSwitch
 
-- (void)needRightArrow{
+- (void)needArrow{
     _size = kDoraemonSizeFrom750_Landscape(24);
     _arrow = [[UIImageView alloc] init];
     _arrow.image = [UIImage doraemon_imageNamed:(@"doraemon_mock_detail_up")];
-    _arrow.frame = CGRectMake(self.doraemon_width - _size*3, self.doraemon_height/2-_size/2, _size, _size);
+    _arrow.frame = CGRectMake(self.doraemon_width - _size*3, self.doraemon_height/2-_arrow.image.size.height/2, _arrow.image.size.width, _arrow.image.size.height);
     self.backgroundColor = [UIColor whiteColor];
     [self addSubview:_arrow];
 }
@@ -35,6 +35,8 @@
         imgName = @"doraemon_mock_detail_down";
     }
     _arrow.image = [UIImage doraemon_imageNamed:imgName];
+    _arrow.doraemon_width = _arrow.image.size.width;
+    _arrow.doraemon_height =  _arrow.image.size.height;
 }
 
 @end

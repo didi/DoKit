@@ -106,6 +106,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     _selectedIndex = indexPath.section;
     [_tableView reloadData];
+    if (_delegate && [_delegate respondsToSelector:@selector(selectedClick)]) {
+        [_delegate selectedClick];
+    }
 }
 
 
