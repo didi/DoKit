@@ -6,15 +6,24 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DoraemonMockDetailModel.h"
+#import "DoraemonMockAPI.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol DoraemonMockDetailCellDelegate<NSObject>
+
+- (void)cellExpandClick;
+- (void)sceneBtnClick;
+
+@end
+
 @interface DoraemonMockDetailCell : UITableViewCell
 
-- (void)renderCellWithData:(DoraemonMockDetailModel *)model index:(NSInteger)index;
+@property (nonatomic, weak) id<DoraemonMockDetailCellDelegate> delegate;
 
-+ (CGFloat)cellHeightWith:(DoraemonMockDetailModel *)model;
+- (void)renderCellWithData:(DoraemonMockAPI *)model;
+
++ (CGFloat)cellHeightWith:(DoraemonMockAPI *)model;
 
 @end
 

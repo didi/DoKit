@@ -6,13 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DoraemonMockDetailModel.h"
+#import "DoraemonMockAPI.h"
 
 @interface DoraemonMockManager : NSObject
 
 + (instancetype)sharedInstance;
 
-@property (nonatomic, strong) NSMutableArray<DoraemonMockDetailModel *> *dataArray;
+@property (nonatomic, strong) NSMutableArray<DoraemonMockAPI *> *dataArray;
+
+- (void)queryMockData;
 
 @end
 

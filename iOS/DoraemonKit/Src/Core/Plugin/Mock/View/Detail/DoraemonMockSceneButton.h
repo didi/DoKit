@@ -6,27 +6,26 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DoraemonMockDetailModel.h"
 
-@protocol DoraemonMockDetailButtonDelegate<NSObject>
+@protocol DoraemonMockSceneButtonDelegate<NSObject>
 
-- (void)detailBtnClick:(id)sender;
+- (void)sceneBtnClick:(NSInteger)tag;
 
 @end
 
-@interface DoraemonMockDetailButton : UIView
+@interface DoraemonMockSceneButton : UIView
 
-@property (nonatomic, weak) id<DoraemonMockDetailButtonDelegate> delegate;
+@property (nonatomic, weak) id<DoraemonMockSceneButtonDelegate> delegate;
 
 @property (nonatomic, assign) BOOL isSelected;
-
-- (void) needImage;
 
 - (void) renderTitle:(NSString *)title  isSelected:(BOOL)select;
 
 - (void) didSelected;
 
 - (void) cancelSelected;
+
++ (CGFloat)viewWidth:(NSString *)sceneName;
 
 @end
 

@@ -5,10 +5,10 @@
 //  Created by didi on 2019/11/4.
 //
 
-#import "DoraemonMockDetailButton.h"
+#import "DoraemonMockSceneButton.h"
 #import "DoraemonDefine.h"
 
-@interface DoraemonMockDetailButton()
+@interface DoraemonMockSceneButton()
 
 @property (nonatomic, assign) CGFloat imgSize;
 @property (nonatomic, strong) UIImageView *img;
@@ -17,7 +17,7 @@
 
 @end
 
-@implementation DoraemonMockDetailButton
+@implementation DoraemonMockSceneButton
 
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
@@ -29,21 +29,21 @@
         _title.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(28)];
         [self addSubview:_title];
         
+        self.userInteractionEnabled = YES;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
         [self addGestureRecognizer:tap];
     }
     return self;
 }
 
-- (void) needImage{
+- (void) renderTitle:(NSString *)title isSelected:(BOOL)select{
     _img.image = [UIImage doraemon_imageNamed:@"doraemon_mock_cancle"];
     _img.frame = CGRectMake(0, 0, _imgSize, _imgSize);
-}
-
-- (void) renderTitle:(NSString *)title isSelected:(BOOL)select{
+    
     _title.text = title;
     _isSelected = select;
-    _title.frame = CGRectMake(_img.doraemon_bottom + kDoraemonSizeFrom750_Landscape(8), 0, self.doraemon_width - _imgSize , self.doraemon_height);
+    [_title sizeToFit];
+    _title.frame = CGRectMake(_img.doraemon_right + kDoraemonSizeFrom750_Landscape(8), 0,  _title.doraemon_width, _title.doraemon_height);
     if(select){
         [self didSelected];
     }else{
@@ -69,9 +69,17 @@
     }else{
         [self didSelected];
     }
-    if (_delegate && [_delegate respondsToSelector:@selector(detailBtnClick:)]) {
-        [_delegate detailBtnClick:self];
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(sceneBtnClick:)]) {
+        [_delegate sceneBtnClick:self.tag];
     }
+}
+
++ (CGFloat)viewWidth:(NSString *)sceneName{
+    CGSize fontSize = [sceneName sizeWithAttributes:@{
+        @"NSFontAttributeName" : [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(28)]
+    }];
+    return kDoraemonSizeFrom750_Landscape(32) + kDoraemonSizeFrom750_Landscape(8) + fontSize.width;
 }
 
 @end

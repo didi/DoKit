@@ -7,9 +7,10 @@
 #import "DoraemonMockDetailListView.h"
 #import "DoraemonDefine.h"
 #import "DoraemonMockDetailCell.h"
-#import "DoraemonMockDetailModel.h"
+#import "DoraemonMockManager.h"
+#import "DoraemonMockAPI.h"
 
-@interface DoraemonMockDetailListView()<UITableViewDelegate,UITableViewDataSource>
+@interface DoraemonMockDetailListView()<UITableViewDelegate,UITableViewDataSource,DoraemonMockDetailCellDelegate>
 
 @property (nonatomic, copy) NSArray *dataArray;
 @property (nonatomic, strong) UITableView *tableView;
@@ -27,12 +28,7 @@
         self.tableView.dataSource = self;
         [self addSubview:_tableView];
         
-        DoraemonMockDetailModel *model = [[DoraemonMockDetailModel alloc] init];
-        DoraemonMockDetailModel *model2 = [[DoraemonMockDetailModel alloc] init];
-        DoraemonMockDetailModel *model3 = [[DoraemonMockDetailModel alloc] init];
-        _dataArray = @[
-            model,model2,model3
-        ];
+        _dataArray = [DoraemonMockManager sharedInstance].dataArray;
     }
     return self;
 }
@@ -47,7 +43,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    DoraemonMockDetailModel* model = [self.dataArray objectAtIndex:indexPath.row];
+    DoraemonMockAPI* model = [self.dataArray objectAtIndex:indexPath.row];
     return [DoraemonMockDetailCell cellHeightWith:model];
 }
 
@@ -64,17 +60,18 @@
     DoraemonMockDetailCell *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
     if (!cell) {
         cell = [[DoraemonMockDetailCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifer];
+        cell.delegate = self;
     }
-    DoraemonMockDetailModel* model = [self.dataArray objectAtIndex:indexPath.row];
-    [cell renderCellWithData:model index:indexPath.row];
+    DoraemonMockAPI* model = [self.dataArray objectAtIndex:indexPath.row];
+    [cell renderCellWithData:model];
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    DoraemonMockDetailModel* model = [self.dataArray objectAtIndex:indexPath.row];
-    model.expand = !model.expand;
+- (void)cellExpandClick{
     [self.tableView reloadData];
 }
 
+- (void)sceneBtnClick{
+    [self.tableView reloadData];
+}
 @end

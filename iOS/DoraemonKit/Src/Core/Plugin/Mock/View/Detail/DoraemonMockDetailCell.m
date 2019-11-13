@@ -9,17 +9,14 @@
 #import "DoraemonDefine.h"
 #import "DoraemonUtil.h"
 #import "DoraemonMockDetailSwitch.h"
-#import "DoraemonMockDetailButton.h"
+#import "DoraemonMockSceneButton.h"
 
-@interface DoraemonMockDetailCell()<DoraemonSwitchViewDelegate,DoraemonMockDetailButtonDelegate>
+@interface DoraemonMockDetailCell()<DoraemonSwitchViewDelegate,DoraemonMockDetailCellDelegate,DoraemonMockSceneButtonDelegate>
 
-@property (nonatomic, strong) UILabel *infoLabel;
 @property (nonatomic, strong) DoraemonMockDetailSwitch *detailSwitch;
-@property (nonatomic, strong) NSMutableDictionary *attributes;
-@property (nonatomic, strong) NSMutableParagraphStyle *style;
-@property (nonatomic, assign) CGFloat padding;
-@property (nonatomic, strong) DoraemonMockDetailButton *leftButton;
-@property (nonatomic, strong) DoraemonMockDetailButton *rightButton;
+@property (nonatomic, strong) UILabel *infoLabel;
+@property (nonatomic, strong) UIView *sceneView;
+@property (nonatomic, strong) DoraemonMockAPI *model;
 
 @end
 
@@ -35,123 +32,136 @@
         [_detailSwitch needArrow];
         _detailSwitch.delegate = self;
         [self.contentView addSubview:_detailSwitch];
+        _detailSwitch.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(expandClick)];
+        [_detailSwitch addGestureRecognizer:tap];
 
         _infoLabel = [[UILabel alloc] init];
         _infoLabel.textColor = [UIColor doraemon_black_1];
         _infoLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
+        _infoLabel.numberOfLines = 0;
         [self.contentView addSubview:_infoLabel];
         
-        _style = [NSMutableParagraphStyle new];
-        _style.lineBreakMode = NSLineBreakByTruncatingTail;
-        _style.lineSpacing = kDoraemonSizeFrom750_Landscape(12);
-        
-        _attributes = [NSMutableDictionary dictionary];
-        [_attributes setObject:_style forKey:NSParagraphStyleAttributeName];
-        _padding = kDoraemonSizeFrom750_Landscape(32);
-        
-        _leftButton = [[DoraemonMockDetailButton alloc] init];
-        _leftButton.delegate = self;
-        [self addSubview:_leftButton];
-        _rightButton = [[DoraemonMockDetailButton alloc] init];
-        _rightButton.delegate = self;
-        [self addSubview:_rightButton];
+        _sceneView = [[UIView alloc] init];
+        [self.contentView addSubview:_sceneView];
     }
     return self;
 }
 
-
-
-- (void)renderCellWithData:(DoraemonMockDetailModel *)model index:(NSInteger)index{
-    
-    //model demo 假数据
-    NSInteger line = 3;
-    NSString *log = @"xsaxs1212121";
-    NSTimeInterval timeInterval = model.timeInterval;
-    NSString *time = [DoraemonUtil dateFormatTimeInterval:timeInterval];
-    NSString *content = [NSString stringWithFormat:DoraemonLocalizedString(@"熟撒%@\n下刷或许是%@\n触发时间: %@潇洒些"),time,log,time];
-    
-    //按钮
-    NSString *title = @"圣诞节卡潇洒下";
-    NSString *title_right = @"诞节潇洒";
-    NSString *switchTitle = @"接口1";
-    //model demo 假数据
-    
+- (void)renderCellWithData:(DoraemonMockAPI *)model{
+    _model = model;
     self.backgroundColor = [UIColor doraemon_bg];
-    [_detailSwitch renderUIWithTitle:switchTitle switchOn:YES];
+    [_detailSwitch renderUIWithTitle:model.name switchOn:YES];
     [_detailSwitch setSwitchFrame];
     [_detailSwitch setArrowDown:model.expand];
-    _detailSwitch.tag = index;//方便函数manager处理
-    
-    _rightButton.hidden = !model.expand;
-    _leftButton.hidden = !model.expand;
     
     if(!model||!model.expand){
-        _infoLabel.frame = CGRectMake(0, _detailSwitch.doraemon_bottom, self.doraemon_width,0);
+        _infoLabel.hidden = YES;
+        _sceneView.hidden = YES;
         return ;
+    }else{
+        _infoLabel.hidden = NO;
+        _sceneView.hidden = NO;
+        _infoLabel.text = model.info;
+        CGSize size = [_infoLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-kDoraemonSizeFrom750_Landscape(32)*2, CGFLOAT_MAX)];
+        _infoLabel.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(32), _detailSwitch.doraemon_bottom+kDoraemonSizeFrom750_Landscape(24), size.width, size.height);
     }
     
-    _infoLabel.numberOfLines = line + 2;
-    _infoLabel.text = content;
-    _infoLabel.attributedText = [[NSAttributedString alloc] initWithString:_infoLabel.text attributes:_attributes];
-    _infoLabel.frame = CGRectMake(_padding, _detailSwitch.doraemon_bottom, self.doraemon_width-_padding*2, _padding* _infoLabel.numberOfLines);
-    
-    
-    CGFloat titleWith = title.length * kDoraemonSizeFrom750_Landscape(40);
-    if(title.length>4){
-        titleWith = kDoraemonSizeFrom750_Landscape(160);
+    if (_sceneView.subviews.count>0) {
+        [_sceneView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     }
-        
-    _leftButton.frame = CGRectMake(_padding, _infoLabel.doraemon_bottom + _padding/2 ,titleWith , kDoraemonSizeFrom750_Landscape(32));
-    
-    
-    [_leftButton needImage];
-    [_leftButton renderTitle:title isSelected:YES];
-    
-    if(title_right.length>4){
-        titleWith = kDoraemonSizeFrom750_Landscape(160);
+    NSArray *sceneList = model.sceneList;
+    if (sceneList.count > 0) {
+        _sceneView.frame = CGRectMake(0, _infoLabel.doraemon_bottom, DoraemonScreenWidth, [[self class] sceneViewHeight:model]);
+        CGFloat h = kDoraemonSizeFrom750_Landscape(32);
+        CGFloat offsetY = kDoraemonSizeFrom750_Landscape(32);
+        CGFloat offsetX = kDoraemonSizeFrom750_Landscape(32);
+        NSInteger i = 0;
+        for (DoraemonMockScene *scene in sceneList) {
+            DoraemonMockSceneButton *btn = [[DoraemonMockSceneButton alloc] init];
+            btn.tag = i; i++;
+            btn.delegate = self;
+            [btn renderTitle:scene.name isSelected:scene.selected];
+            
+            CGFloat w = [DoraemonMockSceneButton viewWidth:scene.name];
+            if (offsetX>DoraemonScreenWidth-kDoraemonSizeFrom750_Landscape(32)) {
+                offsetX = kDoraemonSizeFrom750_Landscape(32);
+                offsetY += kDoraemonSizeFrom750_Landscape(32)*2;
+            }
+            btn.frame = CGRectMake(offsetX, offsetY, w, h);
+            offsetX += w+kDoraemonSizeFrom750_Landscape(32);
+            [_sceneView addSubview:btn];
+        }
     }
-        
-    _rightButton.frame = CGRectMake(_leftButton.doraemon_bottom + _padding, _infoLabel.doraemon_bottom + _padding/2 ,titleWith , kDoraemonSizeFrom750_Landscape(32));
-    
-    [_rightButton needImage];
-    [_rightButton renderTitle:title_right isSelected:NO];
-    
-    _leftButton.tag = index;
-    _rightButton.tag = index;
-
 }
 
 
-+ (CGFloat)cellHeightWith:(DoraemonMockDetailModel *)model{
++ (CGFloat)cellHeightWith:(DoraemonMockAPI *)model{
     CGFloat cellHeight = kDoraemonSizeFrom750_Landscape(104);
     if (model && model.expand) {
-        CGFloat numberOfLines = 3+2;
-        cellHeight +=  kDoraemonSizeFrom750_Landscape(32)*numberOfLines;
-        cellHeight += kDoraemonSizeFrom750_Landscape(104);
+        cellHeight += kDoraemonSizeFrom750_Landscape(24);
+        NSString *info = model.info;
+        UILabel *tempLabel = [[UILabel alloc] init];
+        tempLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
+        tempLabel.text = info;
+        tempLabel.numberOfLines = 0;
+        CGSize size = [tempLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-kDoraemonSizeFrom750_Landscape(32)*2, CGFLOAT_MAX)];
+        cellHeight += size.height;
+        cellHeight += kDoraemonSizeFrom750_Landscape(24);
+        
+        cellHeight += [self sceneViewHeight:model];
     }
     return cellHeight;
 }
 
-
-
-#pragma mark --DoraemonMockDetailButtonDelegate
-
-- (void)detailBtnClick:(id)sender{
-    if(sender==_leftButton){
-        
++ (CGFloat)sceneViewHeight:(DoraemonMockAPI *)model{
+    NSArray *sceneList = model.sceneList;
+    
+    CGFloat w = kDoraemonSizeFrom750_Landscape(32);
+    CGFloat h = 0;
+    if (sceneList.count>0) {
+        h = kDoraemonSizeFrom750_Landscape(32);
+        h += kDoraemonSizeFrom750_Landscape(32);
     }
-    else{
-        //_rightButton
-        
+    for (DoraemonMockScene *scene in sceneList) {
+        w += [DoraemonMockSceneButton viewWidth:scene.name];
+        if (w > DoraemonScreenWidth-kDoraemonSizeFrom750_Landscape(32)*2) {
+            w = kDoraemonSizeFrom750_Landscape(32);
+            h += kDoraemonSizeFrom750_Landscape(32)*2;
+        }
+        w += kDoraemonSizeFrom750_Landscape(32);
+    }
+    
+    return h;
+}
+
+#pragma mark - DoraemonMockDetailCellDelegate
+- (void)expandClick{
+    _model.expand = !_model.expand;
+    if (_delegate && [_delegate respondsToSelector:@selector(cellExpandClick)]) {
+        [_delegate cellExpandClick];
     }
 }
 
+#pragma mark - DoraemonMockSceneButtonDelegate
+- (void)sceneBtnClick:(NSInteger)tag{
+    NSArray<DoraemonMockScene *> *sceneList = _model.sceneList;
+    for (int i=0; i<sceneList.count; i++) {
+        DoraemonMockScene *scene = sceneList[i];
+        if (i == tag) {
+            scene.selected = YES;
+        }else {
+            scene.selected = NO;
+        }
+    }
+    if (_delegate && [_delegate respondsToSelector:@selector(sceneBtnClick)]) {
+        [_delegate sceneBtnClick];
+    }
+}
 
 #pragma mark -- DoraemonSwitchViewDelegate
-
 - (void)changeSwitchOn:(BOOL)on sender:(id)sender{
     //设置manager的array的index== tag的置为相应的on
-    
 }
 
 @end

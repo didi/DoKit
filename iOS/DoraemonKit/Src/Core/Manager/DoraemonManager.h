@@ -99,6 +99,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 + (nonnull DoraemonManager *)shareInstance;
 
+@property (nonatomic, copy) NSString *pId; //产品id 平台端的工具必须填写
+
 - (void)install;
 
 // 定制起始位置 | 适用正好挡住关键位置
