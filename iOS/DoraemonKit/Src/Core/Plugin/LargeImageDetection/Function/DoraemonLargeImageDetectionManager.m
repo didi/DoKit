@@ -57,6 +57,7 @@ static DoraemonLargeImageDetectionManager *instance = nil;
     }
 }
 
+#pragma mark -- DoraemonNetworkInterceptorDelegate
 - (void)doraemonNetworkInterceptorDidReceiveData:(NSData *)data response:(NSURLResponse *)response request:(NSURLRequest *)request error:(NSError *)error startTime:(NSTimeInterval)startTime {
     if (![response.MIMEType hasPrefix:@"image/"]) {
         return;
@@ -70,7 +71,7 @@ static DoraemonLargeImageDetectionManager *instance = nil;
     dispatch_semaphore_signal(semaphore);
 }
 
-#pragma mark -- DoraemonNetworkInterceptorDelegate
+
 - (BOOL)shouldIntercept {
     return _isDetecting;
 }

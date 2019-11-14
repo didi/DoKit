@@ -7,8 +7,15 @@
 
 #import "DoraemonMockManager.h"
 #import "DoraemonNetworkUtil.h"
+#import "DoraemonNetworkInterceptor.h"
 
-@implementation DoraemonMockManager
+@interface DoraemonMockManager()<DoraemonNetworkInterceptorDelegate>
+
+@end
+
+@implementation DoraemonMockManager {
+    BOOL _isDetecting;
+}
 
 + (instancetype)sharedInstance {
     static id instance = nil;
@@ -18,6 +25,22 @@
         instance = [[self alloc] init];
     });
     return instance;
+}
+
+- (void)setMock:(BOOL)mock{
+    if (_isDetecting == mock) {
+        return;
+    }
+    _isDetecting = mock;
+    [self updateInterceptStatus];
+}
+
+- (void)updateInterceptStatus {
+    if (_isDetecting) {
+        [[DoraemonNetworkInterceptor shareInstance] addDelegate: self];
+    } else {
+        [[DoraemonNetworkInterceptor shareInstance] removeDelegate: self];
+    }
 }
 
 - (void)queryMockData{
@@ -75,9 +98,84 @@
             [dataArray addObject:api];
         }
         weakSelf.dataArray = dataArray;
+        [self handleData];
     } error:^(NSError * _Nonnull error) {
         NSLog(@"error == %@",error);
     }];
 }
+
+// 处理数据：合并网络数据和本地数据
+- (void)handleData {
+    for (DoraemonMockAPI *api in self.dataArray) {
+        if (api.selected) {
+            self.mock = YES;
+            return;
+        }
+    }
+}
+
+- (BOOL)needMock:(NSURLRequest *)request{
+    DoraemonMockAPI *api = [self getMockApi:request];
+    BOOL mock = NO;
+    if (api) {
+        mock = YES;
+    }
+    return mock;
+}
+
+- (NSString *)getSceneId:(NSURLRequest *)request{
+    DoraemonMockAPI *api = [self getMockApi:request];
+    NSArray<DoraemonMockScene *> *sceneList = api.sceneList;
+    NSString *sceneId;
+    for (DoraemonMockScene *scene in sceneList) {
+        if (scene.selected) {
+            sceneId = scene.sceneId;
+            break;
+        }
+    }
+    
+    return sceneId;
+}
+
+- (DoraemonMockAPI *)getMockApi:(NSURLRequest *)request{
+    NSString *path = request.URL.path;
+    NSString *query = request.URL.query;
+    DoraemonMockAPI *selectedApi;
+    for (DoraemonMockAPI *api in _dataArray) {
+        if ([api.path isEqualToString:path]) {
+            if (api.query && api.query.allKeys.count>0) {
+                NSDictionary *q = api.query;
+                BOOL match = YES;
+                for (NSString *key in q.allKeys) {
+                    NSString *value = q[@"key"];
+                    NSString *item = [NSString stringWithFormat:@"%@=%@",key,value];
+                    if (![query containsString:item]) {
+                        match = NO;
+                        break;
+                    }
+                }
+                if (match) {
+                    selectedApi = api;
+                    break;
+                }
+            }else{
+                selectedApi = api;
+                break;
+            }
+        }
+    }
+    return selectedApi;
+}
+
+#pragma mark -- DoraemonNetworkInterceptorDelegate
+- (void)doraemonNetworkInterceptorDidReceiveData:(NSData *)data response:(NSURLResponse *)response request:(NSURLRequest *)request error:(NSError *)error startTime:(NSTimeInterval)startTime {
+    NSLog(@"yixiang 收到回调");
+}
+
+
+- (BOOL)shouldIntercept {
+    return _isDetecting;
+}
+
 
 @end

@@ -67,14 +67,15 @@
 + (void)getWithUrlString:(NSString *)url params:(NSDictionary *)params success:(DoraemonNetworkSucceedCallback)successAction
                    error:(DoraemonNetworkFailureCallback)errorAction{
     NSMutableString *mutableUrl = [[NSMutableString alloc] initWithString:url];
-    if ([params allKeys]) {
+    if ([params allKeys].count>0) {
         [mutableUrl appendString:@"?"];
         for (id key in params) {
             NSString *value = [[params objectForKey:key] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
             [mutableUrl appendString:[NSString stringWithFormat:@"%@=%@&", key, value]];
         }
+        mutableUrl = [[mutableUrl substringToIndex:mutableUrl.length - 1] mutableCopy];
     }
-    NSString *urlEnCode = [[mutableUrl substringToIndex:mutableUrl.length - 1] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSString *urlEnCode = [mutableUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlEnCode]];
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];

@@ -10,6 +10,7 @@
 #import "DoraemonUtil.h"
 #import "DoraemonMockDetailSwitch.h"
 #import "DoraemonMockSceneButton.h"
+#import "DoraemonMockManager.h"
 
 @interface DoraemonMockDetailCell()<DoraemonSwitchViewDelegate,DoraemonMockDetailCellDelegate,DoraemonMockSceneButtonDelegate>
 
@@ -51,7 +52,7 @@
 - (void)renderCellWithData:(DoraemonMockAPI *)model{
     _model = model;
     self.backgroundColor = [UIColor doraemon_bg];
-    [_detailSwitch renderUIWithTitle:model.name switchOn:YES];
+    [_detailSwitch renderUIWithTitle:model.name switchOn:model.selected];
     [_detailSwitch setSwitchFrame];
     [_detailSwitch setArrowDown:model.expand];
     
@@ -162,6 +163,33 @@
 #pragma mark -- DoraemonSwitchViewDelegate
 - (void)changeSwitchOn:(BOOL)on sender:(id)sender{
     //设置manager的array的index== tag的置为相应的on
+    _model.selected = !_model.selected;
+    
+    BOOL needMockOn = NO;
+    for (DoraemonMockAPI *api in [DoraemonMockManager sharedInstance].dataArray) {
+        if (api.selected) {
+            needMockOn = YES;
+        }
+    }
+    
+    [DoraemonMockManager sharedInstance].mock = needMockOn;
+    
+    //默认选中第一个
+    NSArray<DoraemonMockScene *> *sceneList = _model.sceneList;
+    BOOL select = NO;
+    for (DoraemonMockScene *s in sceneList) {
+        if (s.selected) {
+            select = s.selected;
+        }
+    }
+    if (!select && sceneList.count>0) {
+        DoraemonMockScene *s = sceneList[0];
+        s.selected = YES;
+    }
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(cellSwitchClick)]) {
+        [_delegate cellSwitchClick];
+    }
 }
 
 @end

@@ -74,4 +74,8 @@
 - (void)sceneBtnClick{
     [self.tableView reloadData];
 }
+
+- (void)cellSwitchClick{
+    [self.tableView reloadData];
+}
 @end

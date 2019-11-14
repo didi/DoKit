@@ -14,6 +14,7 @@
 #import "DoraemonUIWebViewViewController.h"
 #import "DoraemonWKWebViewViewController.h"
 #import "DoraemonDemoImageViewController.h"
+#import <DoraemonKit/DoraemonNetworkUtil.h>
 
 @interface DoraemonDemoNetViewController ()<NSURLConnectionDataDelegate,NSURLSessionDelegate>
 
@@ -78,6 +79,12 @@
     [btn6 setTitle:DoraemonLocalizedString(@"图片测试") forState:UIControlStateNormal];
     [btn6 addTarget:self action:@selector(imageTest) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn6];
+    
+    UIButton *btn7 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn6.doraemon_bottom+20, self.view.doraemon_width, 60)];
+    btn7.backgroundColor = [UIColor orangeColor];
+    [btn7 setTitle:DoraemonLocalizedString(@"Mock测试") forState:UIControlStateNormal];
+    [btn7 addTarget:self action:@selector(mockTest) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn7];
     
 }
 
@@ -241,6 +248,14 @@
     // 请求完成,成功或者失败的处理
     NSString *json = [[NSString alloc]initWithData:self.fileData encoding:NSUTF8StringEncoding];
     NSLog(@"%@",json);
+}
+
+- (void)mockTest {
+    [DoraemonNetworkUtil getWithUrlString:@"http://127.0.0.1:8080/p/getApiA?name=yixiang&age=15" params:nil success:^(NSDictionary * _Nonnull result) {
+        NSLog(@"result == %@",result);
+    } error:^(NSError * _Nonnull error) {
+        NSLog(@"error == %@",error);
+    }];
 }
 
 @end

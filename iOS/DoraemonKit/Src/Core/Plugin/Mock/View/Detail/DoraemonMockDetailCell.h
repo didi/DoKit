@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)cellExpandClick;
 - (void)sceneBtnClick;
+- (void)cellSwitchClick;
 
 @end
 
