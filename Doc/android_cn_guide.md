@@ -5,8 +5,8 @@
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.0.0'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.0.0'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.0.1'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.0.1'
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     ...
 }
@@ -15,7 +15,7 @@ dependencies {
 1)因为doraemonkit依赖okhttp的方式为compileOnly,所以如果你的本地没有引入okhttp,请手动添加依赖
 2)假如你无法通过jcenter下载到依赖库并报了以下的错误
 ```
-ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:2.0.0 
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:2.0.1 
 ```
 建议你可以尝试挂载VPN或添加阿里云的镜像库重试
 ```
@@ -38,8 +38,8 @@ DoraemonKit目前已支持Weex工具，包括
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:2.0.0'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:2.0.0'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:2.0.1'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:2.0.1'
     ...
 }
 ```
@@ -49,7 +49,7 @@ dependencies {
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:2.0.0'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:2.0.1'
     ...
 }
 ```
@@ -103,7 +103,7 @@ buildscript {
 apply plugin: 'android-aspectjx'
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:2.0.0'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:2.0.1'
     ...
 }
 ```
