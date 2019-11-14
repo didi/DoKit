@@ -163,8 +163,9 @@
 #pragma mark -- DoraemonSwitchViewDelegate
 - (void)changeSwitchOn:(BOOL)on sender:(id)sender{
     //设置manager的array的index== tag的置为相应的on
-    _model.selected = !_model.selected;
+    _model.selected = on;
     
+    // 1、是否开启mock功能 : mock列表中只要有一个选中就需要打开mock功能
     BOOL needMockOn = NO;
     for (DoraemonMockAPI *api in [DoraemonMockManager sharedInstance].dataArray) {
         if (api.selected) {
@@ -174,17 +175,21 @@
     
     [DoraemonMockManager sharedInstance].mock = needMockOn;
     
-    //默认选中第一个
-    NSArray<DoraemonMockScene *> *sceneList = _model.sceneList;
-    BOOL select = NO;
-    for (DoraemonMockScene *s in sceneList) {
-        if (s.selected) {
-            select = s.selected;
+    
+    
+    if (on) {
+        // 2、如果场景没有选中 默认选中第一个
+        NSArray<DoraemonMockScene *> *sceneList = _model.sceneList;
+        BOOL select = NO;
+        for (DoraemonMockScene *s in sceneList) {
+            if (s.selected) {
+                select = s.selected;
+            }
         }
-    }
-    if (!select && sceneList.count>0) {
-        DoraemonMockScene *s = sceneList[0];
-        s.selected = YES;
+        if (!select && sceneList.count>0) {
+            DoraemonMockScene *s = sceneList[0];
+            s.selected = YES;
+        }
     }
     
     if (_delegate && [_delegate respondsToSelector:@selector(cellSwitchClick)]) {

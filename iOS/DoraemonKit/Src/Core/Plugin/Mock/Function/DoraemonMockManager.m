@@ -8,6 +8,7 @@
 #import "DoraemonMockManager.h"
 #import "DoraemonNetworkUtil.h"
 #import "DoraemonNetworkInterceptor.h"
+#import "DoraemonCacheManager.h"
 
 @interface DoraemonMockManager()<DoraemonNetworkInterceptorDelegate>
 
@@ -166,7 +167,6 @@
     }
     return selectedApi;
 }
-
 #pragma mark -- DoraemonNetworkInterceptorDelegate
 - (void)doraemonNetworkInterceptorDidReceiveData:(NSData *)data response:(NSURLResponse *)response request:(NSURLRequest *)request error:(NSError *)error startTime:(NSTimeInterval)startTime {
     NSLog(@"yixiang 收到回调");

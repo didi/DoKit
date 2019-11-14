@@ -26,6 +26,7 @@ static NSString * const kDoraemonANRTrackKey = @"doraemon_anr_track_key";
 static NSString * const kDoraemonMemoryLeakKey = @"doraemon_memory_leak_key";
 static NSString * const kDoraemonMemoryLeakAlertKey = @"doraemon_memory_leak_alert_key";
 static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
+static NSString * const kDoraemonMockCacheKey = @"doraemon_mock_cache_key";
 
 @interface DoraemonCacheManager()
 
@@ -287,6 +288,15 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 }
 - (BOOL)memoryLeakAlert{
     return [_defaults boolForKey:kDoraemonMemoryLeakAlertKey];
+}
+
+// mockapi本地缓存情况
+- (void)saveMockCache:(NSArray *)mocks{
+    [_defaults setObject:mocks forKey:kDoraemonMockCacheKey];
+    [_defaults synchronize];
+}
+- (NSArray *)mockCahce{
+    return [_defaults objectForKey:kDoraemonMockCacheKey];
 }
 
 
