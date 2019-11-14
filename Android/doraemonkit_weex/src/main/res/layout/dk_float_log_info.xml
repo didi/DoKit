@@ -69,6 +69,23 @@
                 android:text="@string/dk_log_info_error"/>
 
         </RadioGroup>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/top"
+                style="@style/DK.RadioButton.Left"
+                android:text="回到顶部" />
+
+            <Button
+                android:id="@+id/bottom"
+                style="@style/DK.RadioButton"
+                android:text="滚至底部" />
+        </LinearLayout>
 
 
         <android.support.v7.widget.RecyclerView
