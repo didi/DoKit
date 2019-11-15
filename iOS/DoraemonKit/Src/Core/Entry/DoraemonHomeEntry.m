@@ -120,11 +120,11 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
     UICollectionReusableView *view = nil;
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
         DoraemonHomeHeadCell *head = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DoraemonHomeHeadCellID  forIndexPath:indexPath];
-        head.title.text = @"";
+        [head renderUIWithTitle:nil];
         NSInteger section = indexPath.section;
         if (section < _dataArray.count) {
             NSDictionary *dict = _dataArray[section];
-            head.title.text = dict[@"moduleName"];
+            [head renderUIWithTitle:dict[@"moduleName"]];
         }
         
         view = head;

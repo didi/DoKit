@@ -20,6 +20,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    self.title = DoraemonLocalizedString(@"上传模板");
     
     _detailView = [[DoraemonMockUploadListView alloc] initWithFrame:CGRectMake(0, self.sepeatorLine.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height - self.sepeatorLine.doraemon_bottom)];
     [self.view addSubview:_detailView];

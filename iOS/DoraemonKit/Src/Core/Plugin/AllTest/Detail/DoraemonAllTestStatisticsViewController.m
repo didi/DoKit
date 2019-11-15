@@ -106,11 +106,11 @@ static NSString *DoraemonStatisticsFootCellID = @"DoraemonStatisticsFootCellID";
     
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
         DoraemonHomeHeadCell *head = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DoraemonStatisticsHeadCellID  forIndexPath:indexPath];
-        head.title.text = @"";
+        [head renderUIWithTitle:nil];
         NSInteger section = indexPath.section;
         if (section < _dataArray.count) {
             NSDictionary *dict = _dataArray[section];
-            head.title.text = dict[@"page"];
+            [head renderUIWithTitle:dict[@"page"]];
         }
         view = head;
         

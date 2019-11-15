@@ -82,7 +82,6 @@
 
 #pragma mark -- DoraemonSwitchViewDelegate
 - (void)changeSwitchOn:(BOOL)on sender:(id)sender{
-    
 }
 
 @end

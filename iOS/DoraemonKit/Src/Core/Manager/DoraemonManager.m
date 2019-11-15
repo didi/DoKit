@@ -209,13 +209,9 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
  初始化内置工具数据
  */
 - (void)initData{
-    #pragma mark - Weex专项工具
-#if DoraemonWithWeex
-    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexLogPlugin];
-    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexStoragePlugin];
-    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexInfoPlugin];
-    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexDevToolPlugin];
-#endif
+    #pragma mark - 平台工具
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMockPlugin];
+    
     #pragma mark - 常用工具
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAppInfoPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonSandboxPlugin];
@@ -261,8 +257,13 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonViewAlignPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonViewMetricsPlugin];
     
-    #pragma mark - 平台工具
-    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMockPlugin];
+    #pragma mark - Weex专项工具
+    #if DoraemonWithWeex
+        [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexLogPlugin];
+        [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexStoragePlugin];
+        [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexInfoPlugin];
+        [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeexDevToolPlugin];
+    #endif
 }
 
 /**
