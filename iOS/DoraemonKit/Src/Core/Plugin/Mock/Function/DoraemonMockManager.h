@@ -6,7 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DoraemonMockAPI.h"
+#import "DoraemonMockAPIModel.h"
+#import "DoraemonMockUpLoadModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @interface DoraemonMockManager : NSObject
@@ -14,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedInstance;
 
 @property (nonatomic, assign) BOOL mock;
-@property (nonatomic, strong) NSMutableArray<DoraemonMockAPI *> *dataArray;
+@property (nonatomic, strong) NSMutableArray<DoraemonMockAPIModel *> *mockArray;
+@property (nonatomic, strong) NSMutableArray<DoraemonMockUpLoadModel *> *upLoadArray;
 
 - (void)queryMockData;
 

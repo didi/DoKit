@@ -55,37 +55,17 @@
     __weak typeof(self) weakSelf = self;
     [DoraemonNetworkUtil getWithUrlString:@"http://xyrd.intra.xiaojukeji.com/api/app/interface" params:params success:^(NSDictionary * _Nonnull result) {
         NSArray *apis = result[@"data"][@"datalist"];
-        NSMutableArray<DoraemonMockAPI *> *dataArray = [[NSMutableArray alloc] init];
+        NSMutableArray<DoraemonMockAPIModel *> *mockArray = [[NSMutableArray alloc] init];
+        NSMutableArray<DoraemonMockUpLoadModel *> *uploadArray = [[NSMutableArray alloc] init];
         for (NSDictionary *item in apis) {
-            DoraemonMockAPI *api = [[DoraemonMockAPI alloc] init];
-            api.apiId = item[@"_id"];
-            api.name = item[@"name"];
-            api.path = item[@"path"];
-            api.query = item[@"query"];
-            api.category = item[@"categoryName"];
-            api.owner = item[@"owner"][@"name"];
-            api.editor = item[@"curStatus"][@"operator"][@"name"];
-            
-            NSMutableString *info = [[NSMutableString alloc] init];
-            if (api.path) {
-                [info appendFormat:@"path: %@\n",api.path];
-            }
-            if (api.query && api.query.allKeys.count>0) {
-                [info appendFormat:@"query: %@\n",api.query];
-            }
-            if (api.category) {
-                [info appendFormat:@"分组: %@\n",api.category];
-            }
-            if (api.owner) {
-                [info appendFormat:@"创建人: %@\n",api.owner];
-            }
-            if (api.editor) {
-                [info appendFormat:@"修改人: %@\n",api.editor];
-            }
-            
-            [info replaceCharactersInRange:NSMakeRange([info length] - 1, 1) withString:@""];
-            api.info = info;
-            
+            DoraemonMockAPIModel *mock = [[DoraemonMockAPIModel alloc] init];
+            mock.apiId = item[@"_id"];
+            mock.name = item[@"name"];
+            mock.path = item[@"path"];
+            mock.query = item[@"query"];
+            mock.category = item[@"categoryName"];
+            mock.owner = item[@"owner"][@"name"];
+            mock.editor = item[@"curStatus"][@"operator"][@"name"];
             NSArray *sceneList = item[@"sceneList"];
             NSMutableArray *sList = [[NSMutableArray alloc] init];
             for (NSDictionary *scene in sceneList) {
@@ -94,11 +74,23 @@
                 s.name = scene[@"name"];
                 [sList addObject:s];
             }
-            api.sceneList = sList;
+            mock.sceneList = sList;
             
-            [dataArray addObject:api];
+            [mockArray addObject:mock];
+            
+            
+            DoraemonMockUpLoadModel *upload = [[DoraemonMockUpLoadModel alloc] init];
+            upload.apiId = item[@"_id"];
+            upload.name = item[@"name"];
+            upload.path = item[@"path"];
+            upload.query = item[@"query"];
+            upload.category = item[@"categoryName"];
+            upload.owner = item[@"owner"][@"name"];
+            upload.editor = item[@"curStatus"][@"operator"][@"name"];
+            [uploadArray addObject:upload];
         }
-        weakSelf.dataArray = dataArray;
+        weakSelf.mockArray = mockArray;
+        weakSelf.upLoadArray = uploadArray;
         [self handleData];
     } error:^(NSError * _Nonnull error) {
         NSLog(@"error == %@",error);
@@ -107,7 +99,7 @@
 
 // 处理数据：合并网络数据和本地数据
 - (void)handleData {
-    for (DoraemonMockAPI *api in self.dataArray) {
+    for (DoraemonMockAPIModel *api in self.mockArray) {
         if (api.selected) {
             self.mock = YES;
             return;
@@ -116,7 +108,7 @@
 }
 
 - (BOOL)needMock:(NSURLRequest *)request{
-    DoraemonMockAPI *api = [self getMockApi:request];
+    DoraemonMockAPIModel *api = [self getMockApi:request];
     BOOL mock = NO;
     if (api) {
         mock = YES;
@@ -125,7 +117,7 @@
 }
 
 - (NSString *)getSceneId:(NSURLRequest *)request{
-    DoraemonMockAPI *api = [self getMockApi:request];
+    DoraemonMockAPIModel *api = [self getMockApi:request];
     NSArray<DoraemonMockScene *> *sceneList = api.sceneList;
     NSString *sceneId;
     for (DoraemonMockScene *scene in sceneList) {
@@ -138,11 +130,11 @@
     return sceneId;
 }
 
-- (DoraemonMockAPI *)getMockApi:(NSURLRequest *)request{
+- (DoraemonMockAPIModel *)getMockApi:(NSURLRequest *)request{
     NSString *path = request.URL.path;
     NSString *query = request.URL.query;
-    DoraemonMockAPI *selectedApi;
-    for (DoraemonMockAPI *api in _dataArray) {
+    DoraemonMockAPIModel *selectedApi;
+    for (DoraemonMockAPIModel *api in _mockArray) {
         if ([api.path isEqualToString:path]) {
             if (api.query && api.query.allKeys.count>0) {
                 NSDictionary *q = api.query;

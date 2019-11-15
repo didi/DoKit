@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DoraemonMockUploadDataViewController : DoraemonMockBaseViewController
+@interface DoraemonMockUploadViewController : DoraemonMockBaseViewController
 
 @end
 

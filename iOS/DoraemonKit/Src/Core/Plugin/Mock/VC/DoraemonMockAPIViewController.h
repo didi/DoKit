@@ -6,7 +6,7 @@
 //
 #import "DoraemonMockBaseViewController.h"
 
-@interface DoraemonMockDataViewController : DoraemonMockBaseViewController
+@interface DoraemonMockAPIViewController : DoraemonMockBaseViewController
 
 @end
 
