@@ -6,6 +6,7 @@
 //
 
 #import "DoraemonMockUploadCell.h"
+#import "DoraemonMockManager.h"
 
 @interface DoraemonMockUploadCell()
 
@@ -76,6 +77,16 @@
 #pragma mark -- DoraemonSwitchViewDelegate
 - (void)changeSwitchOn:(BOOL)on sender:(id)sender{
     self.model.selected = on;
+    
+    // 1、是否开启网络拦截功能 : mock列表中只要有一个选中就需要打开mock功能
+    BOOL needMockOn = NO;
+    for (DoraemonMockAPIModel *api in [DoraemonMockManager sharedInstance].upLoadArray) {
+        if (api.selected) {
+            needMockOn = YES;
+        }
+    }
+    [DoraemonMockManager sharedInstance].mock = needMockOn;
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(cellSwitchClick)]) {
         [self.delegate cellSwitchClick];
     }

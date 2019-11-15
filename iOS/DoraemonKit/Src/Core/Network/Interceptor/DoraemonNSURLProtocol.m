@@ -64,11 +64,6 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
         return NO;
     }
     
-    //判断接口是否需要mock
-    if (![[DoraemonMockManager sharedInstance] needMock:request]) {
-        return NO;
-    }
-    
     return YES;
 }
 

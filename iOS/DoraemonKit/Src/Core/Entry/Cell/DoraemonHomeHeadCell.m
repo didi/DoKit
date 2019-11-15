@@ -52,6 +52,10 @@
 
 - (void)renderUIWithTitle:(NSString *)title{
     _title.text = title;
+    if (_subTitleLabel) {
+        [_subTitleLabel removeFromSuperview];
+        _subTitleLabel = nil;
+    }
     if (title && [title isEqualToString:DoraemonLocalizedString(@"平台工具")]) {
         [self renderUIWithSubTitle:@"(www.dokit.cn)"];
     }

@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)getSceneId:(NSURLRequest *)request;
 
+- (BOOL)needSave:(NSURLRequest *)request;
+
 @end
 NS_ASSUME_NONNULL_END
 

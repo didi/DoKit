@@ -9,6 +9,7 @@
 #import "DoraemonNetworkUtil.h"
 #import "DoraemonNetworkInterceptor.h"
 #import "DoraemonCacheManager.h"
+#import "DoraemonUrlUtil.h"
 
 @interface DoraemonMockManager()<DoraemonNetworkInterceptorDelegate>
 
@@ -108,16 +109,17 @@
 }
 
 - (BOOL)needMock:(NSURLRequest *)request{
-    DoraemonMockAPIModel *api = [self getMockApi:request];
+    DoraemonMockBaseModel *api = [self getSelectedData:request dataArray:_mockArray];
     BOOL mock = NO;
     if (api) {
         mock = YES;
     }
+    NSLog(@"yixiang mock = %zi",mock);
     return mock;
 }
 
 - (NSString *)getSceneId:(NSURLRequest *)request{
-    DoraemonMockAPIModel *api = [self getMockApi:request];
+    DoraemonMockAPIModel *api = (DoraemonMockAPIModel *)[self getSelectedData:request dataArray:_mockArray];
     NSArray<DoraemonMockScene *> *sceneList = api.sceneList;
     NSString *sceneId;
     for (DoraemonMockScene *scene in sceneList) {
@@ -130,12 +132,12 @@
     return sceneId;
 }
 
-- (DoraemonMockAPIModel *)getMockApi:(NSURLRequest *)request{
+- (DoraemonMockBaseModel *)getSelectedData:(NSURLRequest *)request dataArray:(NSArray *)dataArray{
     NSString *path = request.URL.path;
     NSString *query = request.URL.query;
-    DoraemonMockAPIModel *selectedApi;
-    for (DoraemonMockAPIModel *api in _mockArray) {
-        if ([api.path isEqualToString:path]) {
+    DoraemonMockBaseModel *selectedApi;
+    for (DoraemonMockBaseModel *api in dataArray) {
+        if ([api.path isEqualToString:path] && api.selected) {
             if (api.query && api.query.allKeys.count>0) {
                 NSDictionary *q = api.query;
                 BOOL match = YES;
@@ -159,9 +161,24 @@
     }
     return selectedApi;
 }
+
+- (BOOL)needSave:(NSURLRequest *)request{
+    DoraemonMockBaseModel *api = [self getSelectedData:request dataArray:_upLoadArray];
+    BOOL save = NO;
+    if (api) {
+        save = YES;
+    }
+    NSLog(@"yixiang save = %zi",save);
+    return save;
+}
+
 #pragma mark -- DoraemonNetworkInterceptorDelegate
 - (void)doraemonNetworkInterceptorDidReceiveData:(NSData *)data response:(NSURLResponse *)response request:(NSURLRequest *)request error:(NSError *)error startTime:(NSTimeInterval)startTime {
-    NSLog(@"yixiang 收到回调");
+    if ([self needSave:request]) {
+        NSString *result = [DoraemonUrlUtil convertJsonFromData:data];
+        DoraemonMockUpLoadModel *upload = (DoraemonMockUpLoadModel *)[self getSelectedData:request dataArray:_upLoadArray];
+        upload.result = result;
+    }
 }
 
 
