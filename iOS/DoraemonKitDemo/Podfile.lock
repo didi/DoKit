@@ -66,7 +66,7 @@ DEPENDENCIES:
   - SDWebImage (= 5.0.6)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - AFNetworking
     - BSBacktraceLogger
     - CocoaLumberjack
@@ -93,4 +93,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: d747f8dae925396a2f5b00631d88a58656e30600
 
-COCOAPODS: 1.6.2
+COCOAPODS: 1.8.4
