@@ -35,6 +35,7 @@
         NSLog(@"handle block plugin");
     }];
 
+    [DoraemonManager shareInstance].pId = @"5c8e04056144a626ff2542e344";
     [[DoraemonManager shareInstance] addStartPlugin:@"StartPlugin"];
     [DoraemonManager shareInstance].bigImageDetectionSize = 10 * 1024;//大图检测只检测10K以上的
     [DoraemonManager shareInstance].startClass = @"DoKitAppDelegate";

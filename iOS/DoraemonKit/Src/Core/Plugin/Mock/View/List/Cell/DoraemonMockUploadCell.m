@@ -8,6 +8,7 @@
 #import "DoraemonMockUploadCell.h"
 #import "DoraemonMockManager.h"
 #import "DoraemonNetworkUtil.h"
+#import "DoraemonManager.h"
 
 @interface DoraemonMockUploadCell()
 
@@ -79,23 +80,29 @@
     DoraemonMockUpLoadModel *upload = (DoraemonMockUpLoadModel *)self.model;
     NSString *apiId = upload.apiId;
     NSString *result = upload.result;
-    NSString *projectId = @"5c8e04056144a626ff2542e344";
+    NSString *projectId = [DoraemonManager shareInstance].pId;
     
-    if (!result) {
-        return;
+    if (projectId && projectId.length > 0) {
+        if (!result) {
+            return;
+        }
+        
+        NSDictionary *params = @{
+            @"projectId":projectId,
+            @"id":apiId,
+            @"tempData":result
+        };
+        
+        [DoraemonNetworkUtil patchWithUrlString:@"http://xyrd.intra.xiaojukeji.com/api/app/interface" params:params success:^(NSDictionary * _Nonnull result) {
+            NSLog(@"result == %@",result);
+        } error:^(NSError * _Nonnull error) {
+            NSLog(@"error == %@",error);
+        }];
+    }else{
+        NSLog(@"上传模板接口必须要传pid");
     }
     
-    NSDictionary *params = @{
-        @"projectId":projectId,
-        @"id":apiId,
-        @"tempData":result
-    };
-    
-    [DoraemonNetworkUtil patchWithUrlString:@"http://xyrd.intra.xiaojukeji.com/api/app/interface" params:params success:^(NSDictionary * _Nonnull result) {
-        NSLog(@"RESULT == %@",result);
-    } error:^(NSError * _Nonnull error) {
-        NSLog(@"error == %@",error);
-    }];  
+ 
 }
 
 - (NSString *)convertToJsonData:(NSDictionary *)dict
