@@ -9,6 +9,7 @@
 #import "DoraemonMockManager.h"
 #import "DoraemonNetworkUtil.h"
 #import "DoraemonManager.h"
+#import "DoraemonToastUtil.h"
 
 @interface DoraemonMockUploadCell()
 
@@ -95,14 +96,27 @@
         
         [DoraemonNetworkUtil patchWithUrlString:@"http://xyrd.intra.xiaojukeji.com/api/app/interface" params:params success:^(NSDictionary * _Nonnull result) {
             NSLog(@"result == %@",result);
+            [self showToast:@"上传成功"];
         } error:^(NSError * _Nonnull error) {
             NSLog(@"error == %@",error);
+            [self showToast:@"上传失败"];
         }];
     }else{
         NSLog(@"上传模板接口必须要传pid");
     }
     
  
+}
+
+- (void)showToast:(NSString *)toast{
+    if ([NSThread isMainThread]) {
+        [DoraemonToastUtil showToast:toast inView:self];
+    }else{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [DoraemonToastUtil showToast:toast inView:self];
+        });
+    }
+    
 }
 
 - (NSString *)convertToJsonData:(NSDictionary *)dict
