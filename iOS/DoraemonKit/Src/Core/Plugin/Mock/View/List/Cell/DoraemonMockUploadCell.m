@@ -7,6 +7,7 @@
 
 #import "DoraemonMockUploadCell.h"
 #import "DoraemonMockManager.h"
+#import "DoraemonNetworkUtil.h"
 
 @interface DoraemonMockUploadCell()
 
@@ -75,7 +76,53 @@
 }
 
 - (void)upload{
+    DoraemonMockUpLoadModel *upload = (DoraemonMockUpLoadModel *)self.model;
+    NSString *apiId = upload.apiId;
+    NSString *result = upload.result;
+    NSString *projectId = @"5c8e04056144a626ff2542e344";
     
+    if (!result) {
+        return;
+    }
+    
+    NSDictionary *params = @{
+        @"projectId":projectId,
+        @"id":apiId,
+        @"tempData":result
+    };
+    
+    [DoraemonNetworkUtil patchWithUrlString:@"http://xyrd.intra.xiaojukeji.com/api/app/interface" params:params success:^(NSDictionary * _Nonnull result) {
+        NSLog(@"RESULT == %@",result);
+    } error:^(NSError * _Nonnull error) {
+        NSLog(@"error == %@",error);
+    }];  
+}
+
+- (NSString *)convertToJsonData:(NSDictionary *)dict
+{
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
+    NSString *jsonString;
+
+    if (!jsonData) {
+        NSLog(@"%@",error);
+    } else {
+        jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+
+    NSMutableString *mutStr = [NSMutableString stringWithString:jsonString];
+
+    NSRange range = {0,jsonString.length};
+
+    //去掉字符串中的空格
+    [mutStr replaceOccurrencesOfString:@" " withString:@"" options:NSLiteralSearch range:range];
+
+    NSRange range2 = {0,mutStr.length};
+
+    //去掉字符串中的换行符
+    [mutStr replaceOccurrencesOfString:@"\n" withString:@"" options:NSLiteralSearch range:range2];
+
+    return mutStr;
 }
 
 #pragma mark -- DoraemonSwitchViewDelegate

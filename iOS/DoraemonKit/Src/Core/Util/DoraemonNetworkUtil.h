@@ -15,13 +15,6 @@ typedef void (^DoraemonNetworkFailureCallback)(NSError *error);
 #define DoraemonNetworkUtilUrl
 
 @interface DoraemonNetworkUtil : NSObject
-
-+ (void)requestURL:(NSString *)url param:(NSDictionary *)param success:(DoraemonNetworkSucceedCallback)successAction
-             error:(DoraemonNetworkFailureCallback)errorAction;
-
-+ (void)requestPath:(NSString *)path param:(NSDictionary *)param success:(DoraemonNetworkSucceedCallback)successAction
-              error:(DoraemonNetworkFailureCallback)errorAction;
-
 // get 请求
 + (void)getWithUrlString:(NSString *)url params:(NSDictionary *)params success:(DoraemonNetworkSucceedCallback)successAction
 error:(DoraemonNetworkFailureCallback)errorAction;
@@ -29,6 +22,10 @@ error:(DoraemonNetworkFailureCallback)errorAction;
 // post 请求
 + (void)postWithUrlString:(NSString *)url params:(NSDictionary *)params success:(DoraemonNetworkSucceedCallback)successAction
 error:(DoraemonNetworkFailureCallback)errorAction;
+
+// patch请求
++ (void)patchWithUrlString:(NSString *)url params:(NSDictionary *)params success:(DoraemonNetworkSucceedCallback)successAction error:(DoraemonNetworkFailureCallback)errorAction;
+
 
 @end
 

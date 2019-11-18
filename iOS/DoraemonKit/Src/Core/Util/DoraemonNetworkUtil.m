@@ -7,8 +7,6 @@
 
 #import "DoraemonNetworkUtil.h"
 
-#define Doraemon_Server_IP @"https://doraemon.xiaojukeji.com"
-
 @interface DoraemonNetworkUtil()<NSURLSessionDelegate>
 
 @end
@@ -24,7 +22,7 @@
     return instance;
 }
 
-+ (void)requestURL:(NSString *)url param:(NSDictionary *)param success:(DoraemonNetworkSucceedCallback)successAction
++ (void)requestURL:(NSString *)url method:(NSString *)method param:(NSDictionary *)param success:(DoraemonNetworkSucceedCallback)successAction
              error:(DoraemonNetworkFailureCallback)errorAction{
     NSError *error;
     if (!param) {
@@ -33,7 +31,7 @@
     NSData *postData = [NSJSONSerialization dataWithJSONObject:param options:0 error:&error];
     if (!error) {
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-        request.HTTPMethod = @"POST";
+        request.HTTPMethod = method;
         [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
         [request setHTTPBody:postData];
@@ -54,13 +52,6 @@
         }];
         [task resume];
     }
-}
-
-+ (void)requestPath:(NSString *)path param:(NSDictionary *)param success:(DoraemonNetworkSucceedCallback)successAction
-              error:(DoraemonNetworkFailureCallback)errorAction{
-    NSMutableString *str = [NSMutableString stringWithString:Doraemon_Server_IP];
-    [str appendString:path];
-    [DoraemonNetworkUtil requestURL:str param:param success:successAction error:errorAction];
 }
 
 // get 请求
@@ -94,42 +85,15 @@
 // post 请求
 + (void)postWithUrlString:(NSString *)url params:(NSDictionary *)params success:(DoraemonNetworkSucceedCallback)successAction
                     error:(DoraemonNetworkFailureCallback)errorAction{
-    NSURL *nsurl = [NSURL URLWithString:url];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:nsurl];
-    //设置请求方式
-    request.HTTPMethod = @"POST";
-    NSString *postStr = [self parseParams:params];
-    //设置请求体
-    request.HTTPBody = [postStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:[self shareInstance] delegateQueue:queue];
-    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        if (error) {
-            errorAction(error);
-        } else {
-            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            successAction(dic);
-        }
-    }];
-    [dataTask resume];
+    [DoraemonNetworkUtil requestURL:url method:@"POST" param:params success:successAction error:errorAction];
 }
 
-//把NSDictionary解析成post格式的NSString字符串
-+ (NSString *)parseParams:(NSDictionary *)params{
-    NSString *keyValueFormat;
-    NSMutableString *result = [NSMutableString new];
-    NSMutableArray *array = [NSMutableArray new];
-    //实例化一个key枚举器用来存放dictionary的key
-    NSEnumerator *keyEnum = [params keyEnumerator];
-    id key;
-    while (key = [keyEnum nextObject]) {
-        keyValueFormat = [NSString stringWithFormat:@"%@=%@&", key, [params valueForKey:key]];
-        [result appendString:keyValueFormat];
-        [array addObject:keyValueFormat];
-    }
-    return result;
+// patch请求
++ (void)patchWithUrlString:(NSString *)url params:(NSDictionary *)params success:(DoraemonNetworkSucceedCallback)successAction error:(DoraemonNetworkFailureCallback)errorAction{
+    [DoraemonNetworkUtil requestURL:url method:@"PATCH" param:params success:successAction error:errorAction];
 }
+
+
 
 #pragma mark - NSURLSessionDelegate 代理方法
 
