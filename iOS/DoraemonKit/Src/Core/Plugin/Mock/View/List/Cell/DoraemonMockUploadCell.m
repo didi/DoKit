@@ -48,11 +48,12 @@
         _containerView.hidden = NO;
     }
     
-    _containerView.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(32), self.infoLabel.doraemon_bottom, DoraemonScreenWidth-kDoraemonSizeFrom750_Landscape(32)*2, kDoraemonSizeFrom750_Landscape(32));
     [_previewBtn sizeToFit];
     _previewBtn.frame = CGRectMake(0, 0, _previewBtn.doraemon_width, _previewBtn.doraemon_height);
     [_uploadBtn sizeToFit];
     _uploadBtn.frame = CGRectMake(_previewBtn.doraemon_right+kDoraemonSizeFrom750_Landscape(48), 0, _uploadBtn.doraemon_width, _uploadBtn.doraemon_height);
+    
+    _containerView.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(32), self.infoLabel.doraemon_bottom, DoraemonScreenWidth-kDoraemonSizeFrom750_Landscape(32)*2, _previewBtn.doraemon_height);
 }
 
 + (CGFloat)cellHeightWith:(DoraemonMockBaseModel *)model{
@@ -67,7 +68,10 @@
 }
 
 - (void)preview{
-    
+    DoraemonMockUpLoadModel *upload = (DoraemonMockUpLoadModel *)self.model;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(previewClick:)]) {
+        [self.delegate previewClick:upload.result];
+    }
 }
 
 - (void)upload{

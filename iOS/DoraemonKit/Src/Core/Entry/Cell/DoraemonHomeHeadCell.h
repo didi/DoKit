@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DoraemonHomeHeadCell : UICollectionReusableView
 
-- (void)renderUIWithTitle:(NSString *)title;
+- (void)renderUIWithTitle:(nullable NSString *)title;
 - (void)renderUIWithSubTitle:(NSString *)subTitle;
 
 @end

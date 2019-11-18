@@ -26,7 +26,7 @@
     if (self.editor) {
         [info appendFormat:@"修改人: %@\n",self.editor];
     }
-    if (self.existMock) {
+    if (self.result && self.result.length>0) {
         [info appendString:@"本地是否存在mock数据: 存在"];
     }else{
         [info appendString:@"本地是否存在mock数据:  不存在"];

@@ -39,4 +39,10 @@
     return cell;
 }
 
+#pragma mark - DoraemonMockBaseCellDelegate
+- (void)previewClick:(NSString *)result{
+    if (_delegate && [_delegate respondsToSelector:@selector(previewClick:)]) {
+        [_delegate previewClick:result];
+    }
+}
 @end
