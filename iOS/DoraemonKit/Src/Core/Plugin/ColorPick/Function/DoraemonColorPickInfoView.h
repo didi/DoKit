@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
 @class DoraemonColorPickInfoView;
 
 @protocol DoraemonColorPickInfoViewDelegate <NSObject>
@@ -16,9 +17,6 @@
 - (void)closeBtnClicked:(id)sender onColorPickInfoView:(DoraemonColorPickInfoView *)colorPickInfoView;
 
 @end
-
-
-NS_ASSUME_NONNULL_BEGIN
 
 @interface DoraemonColorPickInfoView : UIView
 

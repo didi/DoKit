@@ -13,10 +13,6 @@
 
 @property (nonatomic, assign) NSInteger fileSize;
 
-+ (void)openPlugin:(UIViewController *)vc;
-
-+ (UIViewController *)topViewControllerForKeyWindow;
-
 + (NSString *)dateFormatTimeInterval:(NSTimeInterval)timeInterval;
 
 + (NSString *)dateFormatNSDate:(NSDate *)date;
@@ -41,4 +37,10 @@
 + (void)clearFileWithPath:(NSString *)path;
 
 + (void)clearLocalDatas;
+
++ (void)openPlugin:(UIViewController *)vc __attribute__((deprecated("此方法已弃用,请使用[DoraemonHomeWindow openPlugin:vc];")));
+
++ (UIViewController *)rootViewControllerForKeyWindow __attribute__((deprecated("此方法已弃用,请使用[UIViewController rootViewControllerForKeyWindow]")));
+
++ (UIViewController *)topViewControllerForKeyWindow __attribute__((deprecated("此方法已弃用,请使用[UIViewController topViewControllerForKeyWindow]")));
 @end

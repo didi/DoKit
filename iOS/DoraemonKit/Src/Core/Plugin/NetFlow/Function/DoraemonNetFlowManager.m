@@ -10,6 +10,7 @@
 #import "DoraemonNetFlowDataSource.h"
 #import "NSObject+Doraemon.h"
 #import "DoraemonNetworkInterceptor.h"
+#import "UIViewController+Doraemon.h"
 
 @interface DoraemonNetFlowManager() <DoraemonNetworkInterceptorDelegate>
 
@@ -49,6 +50,8 @@
     httpModel.endTime = [[NSDate date] timeIntervalSince1970];
     
     httpModel.totalDuration = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] - startTime];
+    httpModel.topVc = NSStringFromClass([[UIViewController topViewControllerForKeyWindow] class]);
+    
     [[DoraemonNetFlowDataSource shareInstance] addHttpModel:httpModel];
 }
 

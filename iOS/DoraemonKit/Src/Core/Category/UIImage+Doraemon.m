@@ -14,6 +14,7 @@
     if(name){
         NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"DoraemonManager")];
         NSURL *url = [bundle URLForResource:@"DoraemonKit" withExtension:@"bundle"];
+        if(!url) return nil;
         NSBundle *imageBundle = [NSBundle bundleWithURL:url];
         
         NSString *imageName = nil;
@@ -88,6 +89,22 @@
     UIGraphicsEndImageContext();
     
     return newImage;
+}
+
++ (UIImage *)imageWithColor:(UIColor *)color {
+    return [self imageWithColor:color size:CGSizeMake(1, 1)];
+}
+
++ (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size {
+    if (!color || size.width <= 0 || size.height <= 0) return nil;
+    CGRect rect = CGRectMake(0.0f, 0.0f, size.width, size.height);
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    CGContextFillRect(context, rect);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
 }
 
 @end

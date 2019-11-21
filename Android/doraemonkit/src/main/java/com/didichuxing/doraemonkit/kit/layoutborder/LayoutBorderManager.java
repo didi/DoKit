@@ -1,13 +1,17 @@
 package com.didichuxing.doraemonkit.kit.layoutborder;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.layoutborder.ViewBorderFrameLayout;
+import com.didichuxing.doraemonkit.util.UIUtils;
 
 /**
  * Created by wanglikun on 2019/1/9
@@ -17,15 +21,28 @@ public class LayoutBorderManager {
 
     private ViewBorderFrameLayout mViewBorderFrameLayout;
 
-    private DoraemonKit.ActivityLifecycleListener mLifecycleListener = new DoraemonKit.ActivityLifecycleListener() {
+    private DoraemonKit.LifecycleListener mLifecycleListener = new DoraemonKit.LifecycleListener() {
         @Override
         public void onActivityResumed(Activity activity) {
+            //UIUtils.getDokitAppContentView(activity).setId(R.id.dokit_app_contentview_id);
             resolveActivity(activity);
         }
 
         @Override
         public void onActivityPaused(Activity activity) {
 
+        }
+
+        @Override
+        public void onFragmentAttached(Fragment f) {
+
+        }
+
+        @Override
+        public void onFragmentDetached(Fragment f) {
+            if (mViewBorderFrameLayout != null) {
+                mViewBorderFrameLayout = null;
+            }
         }
     };
 

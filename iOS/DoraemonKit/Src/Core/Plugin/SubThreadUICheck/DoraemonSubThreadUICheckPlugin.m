@@ -7,13 +7,13 @@
 
 #import "DoraemonSubThreadUICheckPlugin.h"
 #import "DoraemonSubThreadUICheckViewController.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 
 @implementation DoraemonSubThreadUICheckPlugin
 
 - (void)pluginDidLoad{
     DoraemonSubThreadUICheckViewController *vc = [[DoraemonSubThreadUICheckViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

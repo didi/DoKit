@@ -14,6 +14,7 @@ import java.text.DecimalFormat;
 
 public class PageDataItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<PageDataItem>, PageDataItem> {
     private Context mContext;
+
     public PageDataItemAdapter(Context context) {
         super(context);
         mContext = context;
@@ -68,25 +69,26 @@ public class PageDataItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<PageDa
     private void setValue(View iteView, PageDataItemChild data) {
         int visibility = data.getVisibility(data);
         iteView.setVisibility(visibility);
-        if(View.GONE == visibility){
+        if (View.GONE == visibility) {
             return;
         }
         String rule = getFormatRule(data.nameResId);
 
-        ((TextView)iteView.findViewById(R.id.data_name_txt)).setText(data.nameResId);
-        ((TextView)iteView.findViewById(R.id.high_data_txt)).setText(String.format(rule, getFormatText(data.nameResId, data.max)));
-        ((TextView)iteView.findViewById(R.id.low_data_txt)).setText(String.format(rule, getFormatText(data.nameResId, data.min)));
-        ((TextView)iteView.findViewById(R.id.avg_data_txt)).setText(String.format("%s - "+rule, mContext.getString(R.string.dk_frameinfo_avg_value),getFormatText(data.nameResId, data.avg)));
+        ((TextView) iteView.findViewById(R.id.data_name_txt)).setText(data.nameResId);
+        ((TextView) iteView.findViewById(R.id.high_data_txt)).setText(String.format(rule, getFormatText(data.nameResId, data.max)));
+        ((TextView) iteView.findViewById(R.id.low_data_txt)).setText(String.format(rule, getFormatText(data.nameResId, data.min)));
+        ((TextView) iteView.findViewById(R.id.avg_data_txt)).setText(String.format("%s : " + rule, mContext.getString(R.string.dk_frameinfo_avg_value), getFormatText(data.nameResId, data.avg)));
     }
 
-    private String getFormatText(int nameResId, double value){
+    private String getFormatText(int nameResId, double value) {
         if (nameResId == R.string.dk_frameinfo_downstream || nameResId == R.string.dk_frameinfo_upstream) {
-            return RealTimePerformDataFloatPage.getFlowTxt((long) value);
+            return RealTimePerformDataDokitView.getFlowTxt((long) value);
         }
-        DecimalFormat df=new DecimalFormat(".#");
+        DecimalFormat df = new DecimalFormat(".#");
         return df.format(value);
     }
-    private String getFormatRule(int nameResId){
+
+    private String getFormatRule(int nameResId) {
         String formatRule = "";
         if (nameResId == R.string.dk_frameinfo_ram) {
             formatRule = "%sM";

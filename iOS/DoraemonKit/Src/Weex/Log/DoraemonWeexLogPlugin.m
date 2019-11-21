@@ -8,13 +8,13 @@
 
 #import "DoraemonWeexLogPlugin.h"
 #import "DoraemonWeexLogViewController.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 
 @implementation DoraemonWeexLogPlugin
 
 - (void)pluginDidLoad{
     DoraemonWeexLogViewController *vc = [[DoraemonWeexLogViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

@@ -1,5 +1,51 @@
 # Release Notes
 
+### 2.0.0
+1、支持旧版本Xcdoe编译SDK无法通过的问题
+2、解决2.0前置版本1.2.4的相关问题
+
+### 1.2.4
+1、新增函数耗时功能
+
+2、新增UI层级检查功能
+
+3、新增内存泄漏功能
+
+4、支持iOS13暗黑模式
+
+5、支持Carthage接入方式
+
+6、其他的一些优化，详见代码提交记录
+
+### 1.2.3
+1、为了解决调用空的NSArray和NSSet的description，会crash的问题。
+
+### 1.2.2
+1、App启动耗时统计
+
+2、Xcode控制台打印字典、数组等集合中的中文显示为unicode的问题
+
+3、组件检查或者对齐标尺组件打开后切换rootviewcontroller后失去响应
+
+4、重启APP mock的定位数据仍然生效
+
+5、消除SDK的warning
+
+6、其他的一些优化，详见代码提交记录
+
+### 1.2.1
+1、大图检测功能[0xd-cc](https://github.com/0xd-cc)
+
+2、修复元素边框线crash的问题
+
+3、添加应用内数据库调试功能 [y500](https://github.com/y500)
+
+4、横屏适配bug fix
+
+5、支持下CocoaPods1.7 的generate_multiple_pod_projects新特性
+
+6、多次执行install方法保护，避免出现多次初始化UI界面出错
+
 ### 1.2.0
 1. 加入Weex专项工具，包括：
 2. **【console日志查看】** 方便在端上查看每一个Weex文件中的console日志，提供分级和搜索功能

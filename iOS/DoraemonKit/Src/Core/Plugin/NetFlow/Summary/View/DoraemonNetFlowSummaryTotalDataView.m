@@ -23,14 +23,14 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        _valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.doraemon_width, kDoraemonSizeFrom750(44))];
-        _valueLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(44)];
+        _valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.doraemon_width, kDoraemonSizeFrom750_Landscape(44))];
+        _valueLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(44)];
         _valueLabel.textColor = [UIColor doraemon_black_1];
         _valueLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_valueLabel];
         
-        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, _valueLabel.doraemon_bottom+kDoraemonSizeFrom750(16), self.doraemon_width, kDoraemonSizeFrom750(24))];
-        _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(20)];
+        _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, _valueLabel.doraemon_bottom+kDoraemonSizeFrom750_Landscape(16), self.doraemon_width, kDoraemonSizeFrom750_Landscape(24))];
+        _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(20)];
         _titleLabel.textColor = [UIColor doraemon_black_2];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_titleLabel];
@@ -68,10 +68,23 @@
 
 - (void)initUI{
     self.layer.cornerRadius = 5.f;
-    self.backgroundColor = [UIColor whiteColor];
-    
-    
-    
+
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                return [UIColor secondarySystemBackgroundColor];
+            } else {
+                return [UIColor whiteColor];
+            }
+        }];
+    } else {
+#endif
+       self.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    }
+#endif
+     
     //抓包时间
     NSString *time;
     NSDate *startInterceptDate = [DoraemonNetFlowManager shareInstance].startInterceptDate;

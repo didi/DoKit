@@ -12,9 +12,8 @@ post_install do |installer|
 end
 
 target :'DoraemonKitDemo' do
-  #pod 'DoraemonKit', :subspecs => ['Core','WithLogger','WithGPS','WithLoad','WithWeex'],  :path => '../../'
-    pod 'DoraemonKit', :subspecs => ['Core','WithLogger','WithGPS','WithLoad'],  :path => '../../'
-    pod 'AFNetworking','2.6.3'
-    #pod 'SDWebImage','3.7.6'
-    pod 'SDWebImage', '5.0.6'
+  pod 'DoraemonKit', :subspecs => ['Core','WithLogger','WithGPS','WithLoad','WithWeex', 'WithDatabase', 'WithMLeaksFinder'],  :path => '../../'
+  #pod 'DoraemonKit', :subspecs => ['Core','WithLogger','WithGPS','WithLoad']
+  pod 'AFNetworking','2.6.3'
+  pod 'SDWebImage', '5.0.6'
 end

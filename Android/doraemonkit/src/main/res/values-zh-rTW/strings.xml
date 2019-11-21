@@ -1,12 +1,15 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="dk_app_name">DoraemonKit</string>
 
     <string name="dk_category_biz">業務專區</string>
     <string name="dk_category_tools">常用工具</string>
     <string name="dk_category_performance">效能監控</string>
+    <string name="dk_category_large_image">大圖檢測</string>
     <string name="dk_category_ui">視覺工具</string>
+    <string name="dk_category_weex">WEEX</string>
 
     <string name="dk_kit_sysinfo">App 基本資訊</string>
+    <string name="dk_kit_demo">demo</string>
     <string name="dk_kit_file_explorer">Sandbox</string>
     <string name="dk_kit_frame_info">幀率</string>
     <string name="dk_kit_frame_info_desc">幀率檢測</string>
@@ -18,17 +21,50 @@
     <string name="dk_kit_temporary_close">隱藏</string>
     <string name="dk_kit_crash">Crash 查看</string>
     <string name="dk_kit_data_clean">清除 Cache</string>
+    <string name="dk_kit_db_debug">DBView</string>
     <string name="dk_kit_weak_network">模擬弱網</string>
     <string name="dk_kit_view_check">View 元件檢查</string>
     <string name="dk_kit_net_monitor">流量監控</string>
+    <string name="dk_kit_ui_monitor">UI顯示實時數據</string>
     <string name="dk_kit_time_counter">耗時</string>
+    <string name="dk_kit_method_cost">函數耗時</string>
+    <string name="dk_kit_method_cost_desc">
+        <![CDATA[
+        函数耗时不提供UI操作界面,在你需要分析的代码之前插入<br/>
+        <font color="red"> MethodCost.startMethodTracing("doramemon") </font><br/>
+        或者<br/>
+       <font color="red"> MethodCost.startMethodTracingSampling("doramemon")</font><br/>
+        结束的地方加上<br/>
+       <font color="red"> MethodCost.stopMethodTracingAndPrintLog("doramemon")</font><br/>
+       <font color="red"> 注意:start和stop的文件名必须配对才能打印出函数耗时。</font><br/>
+        编译完成以后即可在控制台中通过MethodCost TAG过滤出函数耗时<br/>
+       <font color="red"> 分析完成以后你可以手动删除相关代码也可以保留便于下次调试因为release环境下相关代码都是空实现,并不会影响线上性能。</font><br/>
+        <font color="red">详细的操作可参考demo中的实现</font>
+        ]]>
+    </string>
+    <string name="dk_kit_db_debug_desc">
+        <![CDATA[
+            溫馨提示:<br/>
+            <font color="red">請確保當前手機和PC處於同一局域網內</font> <br/>
+            想要對當前app的數據庫進行修改可以再pc上通過以下地址進行操作:
+        ]]>
+        </string>
     <string name="dk_kit_exit">退出 Doraemonkit</string>
+    <string name="dk_kit_version">當前版本：V%s</string>
     <string name="dk_kit_db_detail">資料庫查看</string>
     <string name="dk_kit_top_activity">當前Activity</string>
     <string name="dk_kit_pkg_name">包名：</string>
     <string name="dk_kit_class_name">類名：</string>
     <string name="dk_kit_path_name">路徑：</string>
-
+    <string name="dk_kit_mode_title">懸浮窗模式</string>
+    <string name="dk_kit_mode_desc">懸浮窗模式:
+        \n
+        1）系統代表系統懸浮窗（需要系統權權限）
+        \n
+        2）常規代表內置浮標（不需要系統權限
+    </string>
+    <string name="dk_kit_mode_rb_system">系統</string>
+    <string name="dk_kit_mode_rb_normal">常規</string>
     <string name="dk_sysinfo_device_info">手機資訊</string>
     <string name="dk_sysinfo_app_info">App 資訊</string>
     <string name="dk_sysinfo_permission_info">權限資訊</string>
@@ -51,6 +87,13 @@
 
     <string name="dk_frameinfo_fps">幀率</string>
     <string name="dk_frameinfo_cpu">CPU</string>
+    <string name="dk_frameinfo_custom">自定義</string>
+    <string name="dk_frameinfo_downstream">下行流量</string>
+    <string name="dk_frameinfo_upstream">上流量</string>
+    <string name="dk_frameinfo_avg_value">平均值</string>
+    <string name="dk_frameinfo_big_img">大圖</string>
+    <string name="dk_frameinfo_leakcanary">leakCanary</string>
+    <string name="dk_tools_dbdebug">DBView</string>
 
     <string name="dk_log_info_edt_hint">輸入想要過濾的關鍵字</string>
     <string name="dk_log_info_verbose">Verbose</string>
@@ -69,7 +112,7 @@
     <string name="dk_gpsmock_hint_latitude">輸入緯度 (Lat)</string>
     <string name="dk_gpsmock_hint_longitude">輸入經度 (Lng)</string>
 
-    // 卡頓檢測
+    <!--卡頓檢測-->
     <string name="dk_kit_block_monitor">ANR 檢測</string>
     <string name="dk_kit_block_monitor_list">ANR 列表</string>
     <string name="dk_kit_block_monitor_detail">ANR 詳情</string>
@@ -86,6 +129,21 @@
     <string name="dk_crash_capture_look">查看 Crash Log</string>
     <string name="dk_crash_capture_switch">Crash Log 收集開關</string>
     <string name="dk_crash_capture_summary_title">Crash Log 列表</string>
+
+    <!--大图检测开关-->
+    <string name="dk_large_picture_switch">大圖檢測開關</string>
+    <string name="dk_large_picture_look">大圖檢測記錄</string>
+    <string name="dk_large_picture_list">大圖列表</string>
+    <string name="dk_large_picture_threshold">大圖內存檢測閾值</string>
+    <string name="dk_large_picture_file_threshold">大圖文件檢測閾值</string>
+
+    <string name="dk_large_picture_threshold_desc">
+        <![CDATA[
+        描述:關於圖片文件大小和文件被加載到內存以後的區別.<br/>
+        <font color="red">參考：https://juejin.im/post/5bc406b9f265da0aa664ea1e</font><br/>
+        <font color="red">注意：大圖文件檢測功能依賴于流量監控功能，請確保流量監控開關是否被打開</font>
+        ]]>
+    </string>
 
     <string name="dk_weak_network_switch">模擬弱網開關</string>
     <string name="dk_weak_network_off">斷網</string>
@@ -161,7 +219,7 @@
     <string name="dk_delete">刪除</string>
     <string name="dk_error_tips_permissions_less">請進行授權才可以使用該功能</string>
     <string name="dk_fail">失敗</string>
-    <string name="dk_frameinfo_custom">自定義</string>
+
     <string name="dk_hint">提示</string>
     <string name="dk_share">分享</string>
     <string name="dk_platform_monitor_data_button">開始測試</string>
@@ -169,4 +227,15 @@
     <string name="dk_success">成功</string>
     <string name="dk_submit">提交</string>
     <string name="dk_log_text_loading">日誌加載中...</string>
+    <string name="dk_platform_monitor_page_data">頁面數據</string>
+    <string name="dk_app_data_clean">確認要刪除本地數據</string>
+
+    <string name="dk_kit_ui_performance">UI渲染性能</string>
+    <string name="dk_view_render_analysis">View渲染统计</string>
+    <string name="dk_max_level">最大層級: </string>
+    <string name="dk_view_id">控件id: </string>
+    <string name="dk_total_draw_time">總繪製耗時: </string>
+    <string name="dk_max_draw_time">最大繪製耗時: </string>
+    <string name="dk_platform_monitor_view_stat_data">查看統計數據</string>
+
 </resources>

@@ -7,15 +7,13 @@
 
 #import "DoraemonNetFlowSummaryMethodDataView.h"
 #import "UIView+Doraemon.h"
-#import <PNChart/PNChart.h>
 #import "DoraemonNetFlowDataSource.h"
 #import "Doraemoni18NUtil.h"
+#import "DoraemonBarChart.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonNetFlowSummaryMethodDataView()
-
-@property (nonatomic, strong) NSArray *xLabels;
-@property (nonatomic, strong) NSArray *yValues;
-@property (nonatomic, strong) NSArray *strokeColors;
+@property (nonatomic, strong) NSArray<DoraemonChartDataItem *> *chartItems;
 
 @end
 
@@ -25,11 +23,27 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.layer.cornerRadius = 5.f;
-        self.backgroundColor = [UIColor whiteColor];
-        
-        
+
         UILabel *tipLabel = [[UILabel alloc] init];
-        tipLabel.textColor = [UIColor blackColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        if (@available(iOS 13.0, *)) {
+            self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                    return [UIColor secondarySystemBackgroundColor];
+                } else {
+                    return [UIColor whiteColor];
+                }
+            }];
+            
+            tipLabel.textColor = [UIColor labelColor];
+        } else {
+#endif
+            self.backgroundColor = [UIColor whiteColor];
+            
+            tipLabel.textColor = [UIColor blackColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        }
+#endif
         tipLabel.text = DoraemonLocalizedString(@"HTTP方法");
         tipLabel.font = [UIFont systemFontOfSize:14];
         [tipLabel sizeToFit];
@@ -38,31 +52,25 @@
         
         [self getData];
         
-        if (_xLabels.count>0) {
-            PNBarChart *chart = [[PNBarChart alloc] initWithFrame:CGRectMake(0, tipLabel.doraemon_bottom+10, self.doraemon_width, self.doraemon_height-tipLabel.doraemon_bottom-10)];
-            chart.showChartBorder = YES;
-            chart.showLabel = YES;
-            chart.chartMarginTop = 5.0;
-            chart.labelMarginTop = -5.0;
-            chart.isGradientShow = NO;
-            chart.xLabels = _xLabels;
-            chart.yValues = _yValues;
-            [chart setStrokeColors : _strokeColors];
-            chart.yLabelFormatter = ^ (CGFloat yLabelValue) {
-                return [NSString stringWithFormat:@"%f",yLabelValue];
-            };
-            [chart strokeChart];
+        if (self.chartItems.count > 0) {
+            DoraemonBarChart *chart = [[DoraemonBarChart alloc] initWithFrame:CGRectMake(0, tipLabel.doraemon_bottom+10, self.doraemon_width, self.doraemon_height-tipLabel.doraemon_bottom-10)];
+            chart.items = _chartItems;
+            chart.yAxis.labelCount = 5;
+            chart.contentInset = UIEdgeInsetsMake(0, 50, 40, 20);
+            NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+            formatter.maximumFractionDigits = 2;
+            chart.vauleFormatter = formatter;
             
             [self addSubview:chart];
+            [chart display];
         }
-
     }
     return self;
 }
 
 - (void)getData{
     NSArray *dataArray = [DoraemonNetFlowDataSource shareInstance].httpModelArray;
-    NSMutableArray *methodArray = [NSMutableArray array];
+    NSMutableArray<NSString *> *methodArray = [NSMutableArray array];
     for (DoraemonNetFlowHttpModel* httpModel in dataArray) {
         NSString *method = httpModel.method;
         if (!method || [methodArray containsObject:method]) {
@@ -72,8 +80,6 @@
     }
     
     NSMutableArray *methodDataArray = [NSMutableArray array];
-    NSArray *colors = @[PNGreen, PNYellow, PNRed];
-    NSInteger colorIndex = 0;
     for (NSString *methodA in methodArray) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setValue:methodA forKey:@"method"];
@@ -85,23 +91,16 @@
             }
         }
         [dic setValue:@(num) forKey:@"num"];
-        [dic setValue:colors[colorIndex%(colors.count)] forKey:@"color"];
-        colorIndex++;
         [methodDataArray addObject:dic];
     }
-    
-    NSMutableArray *xLabels = [NSMutableArray array];
-    NSMutableArray *yValues = [NSMutableArray array];
-    NSMutableArray *strokeColors = [NSMutableArray array];
+
+    NSMutableArray<DoraemonChartDataItem *> *items = [NSMutableArray array];
     for (NSDictionary *methodData in methodDataArray) {
-        [xLabels addObject:methodData[@"method"]];
-        [yValues addObject:methodData[@"num"]];
-        [strokeColors addObject:methodData[@"color"]];
+        DoraemonChartDataItem *item = [[DoraemonChartDataItem alloc] initWithValue:[methodData[@"num"] doubleValue] name:methodData[@"method"] color: [UIColor doraemon_randomColor]];
+        [items addObject:item];
     }
     
-    _xLabels = [NSArray arrayWithArray:xLabels];
-    _yValues = [NSArray arrayWithArray:yValues];
-    _strokeColors = [NSArray arrayWithArray:strokeColors];
+    self.chartItems = [NSArray arrayWithArray:items];;
 }
 
 

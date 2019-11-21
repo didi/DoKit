@@ -57,9 +57,7 @@ public class CrashCaptureManager implements Thread.UncaughtExceptionHandler {
 
     @Override
     public void uncaughtException(final Thread t, final Throwable e) {
-        LogHelper.d(TAG, t.toString());
-        LogHelper.d(TAG, Log.getStackTraceString(e));
-        CacheUtils.saveObject(e, getCrashCacheFile());
+        CacheUtils.saveObject(Log.getStackTraceString(e), getCrashCacheFile());
         post(new Runnable() {
             @Override
             public void run() {
@@ -99,21 +97,5 @@ public class CrashCaptureManager implements Thread.UncaughtExceptionHandler {
 
     public void clearCacheHistory() {
         FileUtil.deleteDirectory(getCrashCacheDir());
-    }
-
-    public List<CrashInfo> getCrashCaches() {
-        File[] caches = getCrashCacheDir().listFiles();
-        List<CrashInfo> result = new ArrayList<>();
-        if (caches == null) {
-            return result;
-        }
-        for (File cache : caches) {
-            Serializable serializable = CacheUtils.readObject(cache);
-            if (serializable instanceof Throwable) {
-                CrashInfo info = new CrashInfo((Throwable) serializable, cache.lastModified());
-                result.add(info);
-            }
-        }
-        return result;
     }
 }

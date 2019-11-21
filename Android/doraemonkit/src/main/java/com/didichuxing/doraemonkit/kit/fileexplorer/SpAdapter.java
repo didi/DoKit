@@ -47,7 +47,7 @@ public class SpAdapter extends AbsRecyclerAdapter<AbsViewBinder<SpBean>, SpBean>
 
         @Override
         public void bind(final SpBean spBean) {
-            if (spBean.value.getClass().getSimpleName() != SpInputType.HASHSET) {
+            if (!spBean.value.getClass().getSimpleName().equals(SpInputType.HASHSET)) {
                 key.setText(spBean.key);
                 type.setText(spBean.value.getClass().getSimpleName());
                 inputView.setInput(spBean, new SpInputView.OnDataChangeListener() {

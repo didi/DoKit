@@ -2,13 +2,14 @@ apply plugin: 'com.android.application'
 apply from: 'doraemonkit.gradle'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     defaultConfig {
-        applicationId "com.didichuxing.doraemondemo"
-        minSdkVersion 16
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        applicationId rootProject.ext.android["applicationId"]
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+        multiDexEnabled true
     }
     signingConfigs {
         release {
@@ -19,6 +20,12 @@ android {
         }
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled true
             shrinkResources true
@@ -26,15 +33,45 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    //指定资源和代码目录
+    sourceSets {
+        debug {
+            manifest.srcFile 'src/debug/java/AndroidManifest.xml'
+        }
+
+        release {
+            manifest.srcFile 'src/release/java/AndroidManifest.xml'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:27.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation project(':doraemonkit')
-//    implementation 'com.didichuxing.doraemonkit:doraemonkit:1.0.0'
-    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
-    implementation 'com.squareup.okio:okio:1.15.0'
-
+    testImplementation rootProject.ext.dependencies["junit"]
+    implementation rootProject.ext.dependencies["multidex"]
+    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["design"]
+    //implementation rootProject.ext.dependencies["constraintLayout"]
+    implementation rootProject.ext.dependencies["okhttp"]
+    implementation rootProject.ext.dependencies["okio"]
+    implementation rootProject.ext.dependencies["glide"]
+    implementation rootProject.ext.dependencies["glide_okhttp3"]
+    annotationProcessor rootProject.ext.dependencies["glide_compiler"]
+    implementation rootProject.ext.dependencies["picasso"]
+    implementation rootProject.ext.dependencies["fresco"]
+    implementation rootProject.ext.dependencies["fresco-processors"]
+    //weex相关
+    implementation rootProject.ext.dependencies["weex_inspector"]
+    implementation rootProject.ext.dependencies["weex_sdk"]
 }

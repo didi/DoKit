@@ -23,7 +23,7 @@
     if (self) {
         _titleLabel = [[UILabel alloc] init];
         _titleLabel.textColor = [UIColor doraemon_black_1];
-        _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
+        _titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];
         [self addSubview:_titleLabel];
         
         _switchView = [[UISwitch alloc] init];

@@ -10,6 +10,8 @@ import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.CrashCaptureConfig;
+import com.didichuxing.doraemonkit.constant.BundleKey;
+import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
@@ -38,7 +40,7 @@ public class CrashCaptureMainFragment extends BaseFragment {
         });
         RecyclerView settingList = findViewById(R.id.setting_list);
         settingList.setLayoutManager(new LinearLayoutManager(getContext()));
-        SettingItemAdapter mSettingItemAdapter = new SettingItemAdapter(getContext());
+        final SettingItemAdapter mSettingItemAdapter = new SettingItemAdapter(getContext());
         mSettingItemAdapter.append(new SettingItem(R.string.dk_crash_capture_switch, CrashCaptureConfig.isCrashCaptureOpen(getContext())));
         mSettingItemAdapter.append(new SettingItem(R.string.dk_crash_capture_look, R.drawable.dk_more_icon));
         SettingItem item = new SettingItem(R.string.dk_crash_capture_clean_data);
@@ -61,9 +63,13 @@ public class CrashCaptureMainFragment extends BaseFragment {
             @Override
             public void onSettingItemClick(View view, SettingItem data) {
                 if (data.desc == R.string.dk_crash_capture_look) {
-                    showContent(CrashCaptureDetailFragment.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(BundleKey.DIR_KEY, CrashCaptureManager.getInstance().getCrashCacheDir());
+                    showContent(FileExplorerFragment.class, bundle);
                 } else if (data.desc == R.string.dk_crash_capture_clean_data) {
                     CrashCaptureManager.getInstance().clearCacheHistory();
+                    data.rightDesc = Formatter.formatFileSize(getContext(), FileUtil.getDirectorySize(CrashCaptureManager.getInstance().getCrashCacheDir()));
+                    mSettingItemAdapter.notifyDataSetChanged();
                     showToast(R.string.dk_crash_capture_clean_data);
                 }
             }

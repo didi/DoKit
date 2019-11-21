@@ -7,15 +7,13 @@
 
 #import "DoraemonNetFlowSummaryTypeDataView.h"
 #import "UIView+Doraemon.h"
-#import <PNChart/PNChart.h>
+#import "DoraemonPieChart.h"
 #import "DoraemonNetFlowDataSource.h"
 #import "Doraemoni18NUtil.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonNetFlowSummaryTypeDataView()
-
-@property (nonatomic, strong) NSArray *xLabels;
-@property (nonatomic, strong) NSArray *yValues;
-@property (nonatomic, strong) NSArray *strokeColors;
+@property (nonatomic, strong) NSArray<DoraemonChartDataItem *> *chartItems;
 
 @end
 
@@ -25,11 +23,27 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.layer.cornerRadius = 5.f;
-        self.backgroundColor = [UIColor whiteColor];
-        
         
         UILabel *tipLabel = [[UILabel alloc] init];
-        tipLabel.textColor = [UIColor blackColor];
+        
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        if (@available(iOS 13.0, *)) {
+            self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                    return [UIColor secondarySystemBackgroundColor];
+                } else {
+                    return [UIColor whiteColor];
+                }
+            }];
+            tipLabel.textColor = [UIColor labelColor];
+        } else {
+#endif
+            self.backgroundColor = [UIColor whiteColor];
+            tipLabel.textColor = [UIColor blackColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        }
+#endif
+        
         tipLabel.text = DoraemonLocalizedString(@"数据类型");
         tipLabel.font = [UIFont systemFontOfSize:14];
         [tipLabel sizeToFit];
@@ -38,26 +52,12 @@
         
         [self getData];
         
-        if (_xLabels.count>0) {
-            NSMutableArray *items = [NSMutableArray array];
-            for (int i=0; i<_xLabels.count; i++) {
-                NSString *des = _xLabels[i];
-                NSUInteger value = [_yValues[i] integerValue];
-                UIColor *color = _strokeColors[i];
-                PNPieChartDataItem *item = [PNPieChartDataItem dataItemWithValue:value color:color description:des];
-                [items addObject:item];
-            }
-            
-            PNPieChart *chart = [[PNPieChart alloc] initWithFrame:CGRectMake(self.doraemon_width/2-100, tipLabel.doraemon_bottom+15,200, 200) items:items];
-            chart.descriptionTextColor = [UIColor whiteColor];
-            chart.descriptionTextFont = [UIFont systemFontOfSize:6];
-            chart.descriptionTextShadowColor = [UIColor clearColor];
-            chart.shouldHighlightSectorOnTouch = NO;
-            [chart strokeChart];
-            
+        if (self.chartItems.count > 0) {
+            DoraemonPieChart *chart = [[DoraemonPieChart alloc] initWithFrame:CGRectMake(0, tipLabel.doraemon_bottom+10, self.doraemon_width, self.doraemon_height-tipLabel.doraemon_bottom-10)];
+            chart.items = self.chartItems;
             [self addSubview:chart];
+            [chart display];
         }
-
     }
     return self;
 }
@@ -74,8 +74,6 @@
     }
     
     NSMutableArray *mineTypeDataArray = [NSMutableArray array];
-    NSArray *colors = @[PNGreen, PNYellow, PNRed,PNYellow];
-    NSInteger colorIndex = 0;
     for (NSString *mineTypeA in mineTypeArray) {
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setValue:mineTypeA forKey:@"mineType"];
@@ -87,23 +85,15 @@
             }
         }
         [dic setValue:@(num) forKey:@"num"];
-        [dic setValue:colors[colorIndex%(colors.count)] forKey:@"color"];
-        colorIndex++;
         [mineTypeDataArray addObject:dic];
     }
-    
-    NSMutableArray *xLabels = [NSMutableArray array];
-    NSMutableArray *yValues = [NSMutableArray array];
-    NSMutableArray *strokeColors = [NSMutableArray array];
+
+    NSMutableArray<DoraemonChartDataItem *> *items = [NSMutableArray array];
     for (NSDictionary *mineTypeData in mineTypeDataArray) {
-        [xLabels addObject:mineTypeData[@"mineType"]];
-        [yValues addObject:mineTypeData[@"num"]];
-        [strokeColors addObject:mineTypeData[@"color"]];
+        DoraemonChartDataItem *item = [[DoraemonChartDataItem alloc] initWithValue:[mineTypeData[@"num"] doubleValue] name:mineTypeData[@"mineType"] color:[UIColor doraemon_randomColor]];
+        [items addObject:item];
     }
-    
-    _xLabels = [NSArray arrayWithArray:xLabels];
-    _yValues = [NSArray arrayWithArray:yValues];
-    _strokeColors = [NSArray arrayWithArray:strokeColors];
+    self.chartItems = [NSArray arrayWithArray:items];
 }
 
 

@@ -16,8 +16,6 @@ import com.didichuxing.doraemonkit.ui.UniversalActivity;
  */
 public class BlockMonitorKit implements IKit {
 
-
-
     @Override
     public int getCategory() {
         return Category.PERFORMANCE;

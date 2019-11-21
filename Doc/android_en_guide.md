@@ -5,8 +5,8 @@
 ```
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.8'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.8'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.0.1'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.0.1'
     ...
 }
 ```
@@ -47,7 +47,7 @@ Add a dependency in `build.gradle` in root of host project as following.
 buildscript {
     dependencies {
         ...
-        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.4'
+        classpath 'com.github.franticn:gradle_plugin_android_aspectjx:2.0.6'
         ...
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -62,7 +62,7 @@ Apply plugin in application module of `build.gradle`
 apply plugin: 'android-aspectjx'
 dependencies {
 	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:1.0.0'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:2.0.1'
     ...
 }
 ```

@@ -23,7 +23,7 @@
     
     self.title = DoraemonLocalizedString(@"元素边框线");
     
-    _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
+    _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [_switchView renderUIWithTitle:DoraemonLocalizedString(@"元素边框线开关") switchOn:[DoraemonViewMetricsConfig defaultConfig].enable];
     [_switchView needTopLine];
     [_switchView needDownLine];

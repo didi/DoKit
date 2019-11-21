@@ -25,14 +25,14 @@
     [super viewDidLoad];
     self.title = @"NSLog";
     
-    _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
+    _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [_switchView renderUIWithTitle:DoraemonLocalizedString(@"开关") switchOn:[[DoraemonCacheManager sharedInstance] nsLogSwitch]];
     [_switchView needTopLine];
     [_switchView needDownLine];
     _switchView.delegate = self;
     [self.view addSubview:_switchView];
     
-    _cellBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _switchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
+    _cellBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _switchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [_cellBtn renderUIWithTitle:DoraemonLocalizedString(@"查看记录")];
     _cellBtn.delegate = self;
     [_cellBtn needDownLine];
@@ -47,7 +47,7 @@
 #pragma mark -- DoraemonSwitchViewDelegate
 - (void)changeSwitchOn:(BOOL)on sender:(id)sender{
     __weak typeof(self) weakSelf = self;
-    [DoraemonToastUtil handleRestartActionWithVC:self restartBlock:^{
+    [DoraemonAlertUtil handleAlertActionWithVC:self okBlock:^{
         [[DoraemonCacheManager sharedInstance] saveNSLogSwitch:on];
         exit(0);
     } cancleBlock:^{

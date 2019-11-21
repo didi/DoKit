@@ -31,7 +31,7 @@ public class ViewBorderDrawable extends Drawable {
 
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.RED);
-        paint.setStrokeWidth(2);
+        paint.setStrokeWidth(4);
         paint.setPathEffect(new DashPathEffect(new float[]{4, 4}, 0));
     }
 

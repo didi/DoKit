@@ -23,4 +23,9 @@
     <item name="quit" type="id" />
     <item name="restart_preview" type="id" />
     <item name="return_scan_result" type="id" />
+    <item name="float_icon_id" type="id" />
+    <item name="dokit_contentview_id" type="id" />
+
+    <item name="dokit_app_contentview_id" type="id" />
+    <item name="dokit_view_border_id" type="id" />
 </resources>

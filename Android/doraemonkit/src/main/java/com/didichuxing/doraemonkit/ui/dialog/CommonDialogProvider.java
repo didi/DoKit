@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.ui.dialog;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -34,7 +35,12 @@ public class CommonDialogProvider extends DialogProvider<DialogInfo> {
     @Override
     protected void bindData(DialogInfo data) {
         mTitle.setText(data.title);
-        mDesc.setText(data.desc);
+        if (TextUtils.isEmpty(data.desc)) {
+            mDesc.setVisibility(View.GONE);
+        } else {
+            mDesc.setVisibility(View.VISIBLE);
+            mDesc.setText(data.desc);
+        }
     }
 
     @Override

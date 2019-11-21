@@ -20,7 +20,34 @@
     [self initUI];
 }
 
+- (void)traitCollectionDidChange:(UITraitCollection *)previousTraitCollection {
+    [super traitCollectionDidChange:previousTraitCollection];
+    // trait发生了改变
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                [self.closeBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close_dark"] forState:UIControlStateNormal];
+            } else {
+                [self.closeBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
+            }
+        }
+    }
+#endif
+}
+
 - (void)initUI {
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+                return [UIColor whiteColor];
+            } else {
+                return [UIColor secondarySystemBackgroundColor];
+            }
+        }];
+    }
+#endif
     
     // 视图加载完成之前拿不到当前window，所以这里等待 UI 线程执行完成 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -30,12 +57,21 @@
         CGFloat closeHeight = kDoraemonSizeFrom750_Landscape(44);
         self.closeBtn = [[UIButton alloc] initWithFrame:CGRectMake(viewSize.width - closeWidth - kDoraemonSizeFrom750_Landscape(16), kDoraemonSizeFrom750_Landscape(16), closeWidth, closeHeight)];
         
-        [self.closeBtn setBackgroundImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
+        UIImage *closeImage = [UIImage doraemon_imageNamed:@"doraemon_close"];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        if (@available(iOS 13.0, *)) {
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                closeImage = [UIImage doraemon_imageNamed:@"doraemon_close_dark"];
+            }
+        }
+#endif
+        
+        [self.closeBtn setBackgroundImage:closeImage forState:UIControlStateNormal];
         [self.closeBtn addTarget:self action:@selector(closeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:self.closeBtn];
         
         self.infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(32), 0, viewSize.width - kDoraemonSizeFrom750_Landscape(32 + 16) - closeWidth , viewSize.height)];
-        self.infoLabel.backgroundColor =[UIColor clearColor];
+        self.infoLabel.backgroundColor = [UIColor clearColor];
         self.infoLabel.textColor = [UIColor doraemon_black_1];
         self.infoLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
         self.infoLabel.numberOfLines = 0;

@@ -45,8 +45,10 @@
             if (!data && data.length <= 0) {
                 data = UIImagePNGRepresentation(image);
             }
-            NSString *drawText = [NSString stringWithFormat:@"url : %@ \n size : %fKB",[url absoluteString],data.length/1024.];
-            weafSelf.image = [self drawText:drawText inImage:weafSelf.image];
+            if (data.length > [DoraemonLargeImageDetectionManager shareInstance].minimumDetectionSize) {
+                NSString *drawText = [NSString stringWithFormat:@"url : %@ \n size : %fKB",[url absoluteString],data.length/1024.];
+                weafSelf.image = [self drawText:drawText inImage:weafSelf.image];
+            }
             if (completedBlock) {
                 completedBlock(weafSelf.image, error, cacheType,imageURL);
             }
@@ -66,8 +68,10 @@
             if (!data && data.length <= 0) {
                 data = UIImagePNGRepresentation(image);
             }
-            NSString *drawText = [NSString stringWithFormat:@"url : %@ \n size : %fKB",[url absoluteString],data.length/1024.];
-            weafSelf.image = [self drawText:drawText inImage:weafSelf.image];
+            if (data.length > [DoraemonLargeImageDetectionManager shareInstance].minimumDetectionSize) {
+                NSString *drawText = [NSString stringWithFormat:@"url : %@ \n size : %fKB",[url absoluteString],data.length/1024.];
+                weafSelf.image = [self drawText:drawText inImage:weafSelf.image];
+            }
             if (completedBlock) {
                 completedBlock(weafSelf.image, error, cacheType,imageURL);
             }
@@ -83,8 +87,10 @@
     UIGraphicsBeginImageContextWithOptions(image.size, NO, [UIScreen mainScreen].scale);
     [image drawInRect:CGRectMake(0, 0, image.size.width, image.size.height)];
     CGRect rect = CGRectMake(0, 0, image.size.width, image.size.height);
-    [[UIColor redColor] set];
-    [text drawInRect:CGRectIntegral(rect) withFont:font];
+    [text drawInRect:CGRectIntegral(rect) withAttributes:@{
+                                                           NSFontAttributeName : font,
+                                                           NSForegroundColorAttributeName : [UIColor redColor]
+                                                           }];
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     

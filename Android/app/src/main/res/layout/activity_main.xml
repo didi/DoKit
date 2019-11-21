@@ -1,69 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.didichuxing.doraemondemo.MainActivity">
-
-    <Button
-        android:id="@+id/btn_test_urlconnection"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="HttpUrlConnection Test" />
-
-    <Button
-        android:id="@+id/btn_test_okhttp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="OkHttp Test" />
-
-    <Button
-        android:id="@+id/btn_test_custom"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="其他网络库 Test" />
-
-    <Button
-        android:id="@+id/btn_show_hide_icon"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="显示/隐藏入口" />
-
-    <Button
-        android:id="@+id/btn_time_count"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="页面跳转耗时" />
-
-    <Button
-        android:id="@+id/btn_test_crash"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="模拟 Crash" />
-
-    <Button
-        android:id="@+id/btn_create_database"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="创建数据库" />
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/btn_upload_test"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.didichuxing.doraemondemo.MainReleaseActivity">
+
+        <TextView
+            android:id="@+id/tv_env"
             android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="50dp"
-            android:text="上传测试" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="当前编译环境"
+            android:textSize="18sp" />
+
         <Button
-            android:layout_weight="1"
-            android:id="@+id/btn_download_test"
+            android:id="@+id/btn_trace"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="下载测试" />
+            android:text="函数调用耗时" />
+
+        <Button
+            android:id="@+id/btn_jump"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="跳转" />
+
+        <Button
+            android:id="@+id/btn_load_img"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="加载网络图片" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#999999"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Picasso"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Glide"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Fresco"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_picasso"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_weight="1" />
+
+                <ImageView
+                    android:id="@+id/iv_glide"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_weight="1" />
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/iv_fresco"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_test_urlconnection"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="HttpUrlConnection Test" />
+
+        <Button
+            android:id="@+id/btn_test_okhttp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="OkHttp Test" />
+
+        <!--        <Button-->
+        <!--            android:id="@+id/btn_test_gps"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="50dp"-->
+        <!--            android:text="gps Test(必须先打开位置模拟)" />-->
+
+        <Button
+            android:id="@+id/btn_test_custom"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="其他网络库 Test" />
+
+        <Button
+            android:id="@+id/btn_show_hide_icon"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="显示/隐藏入口" />
+
+        <Button
+            android:id="@+id/btn_time_count"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="页面跳转耗时" />
+
+        <Button
+            android:id="@+id/btn_test_crash"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="模拟 Crash" />
+
+        <Button
+            android:id="@+id/btn_create_database"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="创建数据库" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_upload_test"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="上传测试" />
+
+            <Button
+                android:id="@+id/btn_download_test"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:text="下载测试" />
+
+        </LinearLayout>
+
+
     </LinearLayout>
+</ScrollView>
 
-
-</LinearLayout>

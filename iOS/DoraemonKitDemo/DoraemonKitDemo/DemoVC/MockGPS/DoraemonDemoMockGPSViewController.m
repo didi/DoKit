@@ -49,7 +49,8 @@
 
 /** 获取到新的位置信息时调用*/
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
-    NSLog(@"定位到了");
+    NSLog(@"定位到了 %@",locations);
+    
 }
 /** 不能获取位置信息时调用*/
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{

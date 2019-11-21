@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-
+NS_ASSUME_NONNULL_BEGIN
 @interface DoraemonWeexInfoDataManager : NSObject
 
 + (nonnull DoraemonWeexInfoDataManager *)shareInstance;
@@ -29,4 +29,5 @@
 @property (nonatomic, copy) NSString *wxInteraction;
 
 @end
+NS_ASSUME_NONNULL_END
 

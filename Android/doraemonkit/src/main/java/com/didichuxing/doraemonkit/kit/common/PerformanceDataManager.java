@@ -4,7 +4,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Debug;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -16,7 +15,7 @@ import android.text.format.DateUtils;
 import android.view.Choreographer;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.config.PerformanceInfoConfig;
+import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.custom.UploadMonitorInfoBean;
 import com.didichuxing.doraemonkit.kit.custom.UploadMonitorItem;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
@@ -27,6 +26,7 @@ import com.didichuxing.doraemonkit.util.threadpool.ThreadPoolProxyFactory;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
@@ -40,10 +40,8 @@ import java.util.Date;
 
 public class PerformanceDataManager {
     private static final String TAG = "PerformanceDataManager";
-    private static final float SECOND_IN_NANOS = 1000000000f;
     private static final int MAX_FRAME_RATE = 60;
     private static final int NORMAL_FRAME_RATE = 1;
-    private String filePath;
     private String memoryFileName = "memory.txt";
     private String cpuFileName = "cpu.txt";
     private String fpsFileName = "fps.txt";
@@ -163,9 +161,8 @@ public class PerformanceDataManager {
     }
 
     public void init(Context context) {
-        mContext = context;
-        filePath = getFilePath(context);
-        mActivityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        mContext = context.getApplicationContext();
+        mActivityManager = (ActivityManager) DoraemonKit.APPLICATION.getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mAboveAndroidO = true;
         }
@@ -198,16 +195,12 @@ public class PerformanceDataManager {
     }
 
     private String getFilePath(Context context) {
-        boolean hasExternalStorage = Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
-        if (hasExternalStorage) {
-            return context.getExternalFilesDir(null).getAbsolutePath() + "/doraemon/";
-        } else {
-            return Environment.getExternalStorageDirectory().getAbsolutePath() + "/doraemon/";
-        }
+        return context.getCacheDir() + File.separator + "doraemon/";
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void startMonitorFrameInfo() {
+        //开启定时任务
         mMainHandler.postDelayed(mRateRunnable, DateUtils.SECOND_IN_MILLIS);
         Choreographer.getInstance().postFrameCallback(mRateRunnable);
     }
@@ -235,16 +228,16 @@ public class PerformanceDataManager {
         if (mUploadMonitorBean != null) {
             mUploadMonitorBean = null;
         }
-        if (PerformanceInfoConfig.isFPSOpen(mContext)) {
+        if (PerformanceSpInfoConfig.isFPSOpen(mContext)) {
             startMonitorFrameInfo();
         }
-        if (PerformanceInfoConfig.isCPUOpen(mContext)) {
+        if (PerformanceSpInfoConfig.isCPUOpen(mContext)) {
             startMonitorCPUInfo();
         }
-        if (PerformanceInfoConfig.isMemoryOpen(mContext)) {
+        if (PerformanceSpInfoConfig.isMemoryOpen(mContext)) {
             startMonitorMemoryInfo();
         }
-        if (PerformanceInfoConfig.isTrafficOpen(mContext)) {
+        if (PerformanceSpInfoConfig.isTrafficOpen(mContext)) {
             NetworkManager.get().startMonitor();
             startMonitorNetFlowInfo();
         }
@@ -315,7 +308,7 @@ public class PerformanceDataManager {
         ThreadPoolProxyFactory.getThreadPoolProxy().execute(new Runnable() {
             @Override
             public void run() {
-                FileManager.writeTxtToFile(JsonUtil.jsonFromObject(mUploadMonitorBean), filePath, customFileName);
+                FileManager.writeTxtToFile(JsonUtil.jsonFromObject(mUploadMonitorBean), getFilePath(mContext), customFileName);
             }
         });
     }
@@ -336,7 +329,7 @@ public class PerformanceDataManager {
         stringBuilder.append(mLastCpuRate);
         stringBuilder.append(" ");
         stringBuilder.append(simpleDateFormat.format(new Date(System.currentTimeMillis())));
-        FileManager.writeTxtToFile(stringBuilder.toString(), filePath, cpuFileName);
+        FileManager.writeTxtToFile(stringBuilder.toString(), getFilePath(mContext), cpuFileName);
     }
 
     private void writeMemoryDataIntoFile() {
@@ -344,7 +337,7 @@ public class PerformanceDataManager {
         stringBuilder.append(mLastMemoryInfo);
         stringBuilder.append(" ");
         stringBuilder.append(simpleDateFormat.format(new Date(System.currentTimeMillis())));
-        FileManager.writeTxtToFile(stringBuilder.toString(), filePath, memoryFileName);
+        FileManager.writeTxtToFile(stringBuilder.toString(), getFilePath(mContext), memoryFileName);
     }
 
     private void writeFpsDataIntoFile() {
@@ -352,7 +345,7 @@ public class PerformanceDataManager {
         stringBuilder.append(mLastFrameRate);
         stringBuilder.append(" ");
         stringBuilder.append(simpleDateFormat.format(new Date(System.currentTimeMillis())));
-        FileManager.writeTxtToFile(stringBuilder.toString(), filePath, fpsFileName);
+        FileManager.writeTxtToFile(stringBuilder.toString(), getFilePath(mContext), fpsFileName);
     }
 
     private float getCPUData() {
@@ -456,19 +449,19 @@ public class PerformanceDataManager {
     }
 
     public String getCpuFilePath() {
-        return filePath + cpuFileName;
+        return getFilePath(mContext) + cpuFileName;
     }
 
     public String getMemoryFilePath() {
-        return filePath + memoryFileName;
+        return getFilePath(mContext) + memoryFileName;
     }
 
     public String getFpsFilePath() {
-        return filePath + fpsFileName;
+        return getFilePath(mContext) + fpsFileName;
     }
 
     public String getCustomFilePath() {
-        return filePath + customFileName;
+        return getFilePath(mContext) + customFileName;
     }
     public long getLastFrameRate() {
         return mLastFrameRate;

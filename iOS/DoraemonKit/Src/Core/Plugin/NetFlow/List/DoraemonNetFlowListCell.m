@@ -35,7 +35,7 @@ static CGFloat const kFontSize = 10;
         
         self.urlLabel = [[UILabel alloc] init];
         self.urlLabel.font = [UIFont systemFontOfSize:kFontSize];
-        self.urlLabel.textColor = [UIColor blackColor];
+        
         self.urlLabel.numberOfLines = 0;
         [self.contentView addSubview:self.urlLabel];
         
@@ -49,23 +49,40 @@ static CGFloat const kFontSize = 10;
         
         self.statusLabel = [[UILabel alloc] init];
         self.statusLabel.font = [UIFont systemFontOfSize:kFontSize];
-        self.statusLabel.textColor = [UIColor blackColor];
+        
         [self.contentView addSubview:self.statusLabel];
         
         self.startTimeLabel = [[UILabel alloc] init];
         self.startTimeLabel.font = [UIFont systemFontOfSize:kFontSize];
-        self.startTimeLabel.textColor = [UIColor blackColor];
+        
         [self.contentView addSubview:self.startTimeLabel];
         
         self.timeLabel = [[UILabel alloc] init];
         self.timeLabel.font = [UIFont systemFontOfSize:kFontSize];
-        self.timeLabel.textColor = [UIColor blackColor];
+        
         [self.contentView addSubview:self.timeLabel];
         
         self.flowLabel = [[UILabel alloc] init];
         self.flowLabel.font = [UIFont systemFontOfSize:kFontSize];
-        self.flowLabel.textColor = [UIColor blackColor];
         [self.contentView addSubview:self.flowLabel];
+        
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        if (@available(iOS 13.0, *)) {
+            self.urlLabel.textColor = [UIColor labelColor];
+            self.statusLabel.textColor = [UIColor labelColor];
+            self.startTimeLabel.textColor = [UIColor labelColor];
+            self.timeLabel.textColor = [UIColor labelColor];
+            self.flowLabel.textColor = [UIColor labelColor];
+        } else {
+#endif
+            self.urlLabel.textColor = [UIColor blackColor];
+            self.statusLabel.textColor = [UIColor blackColor];
+            self.startTimeLabel.textColor = [UIColor blackColor];
+            self.timeLabel.textColor = [UIColor blackColor];
+            self.flowLabel.textColor = [UIColor blackColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        }
+#endif
     }
     return self;
 }

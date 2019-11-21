@@ -15,9 +15,18 @@
 #import "UIImage+Doraemon.h"
 #import "Doraemoni18NUtil.h"
 #import "DoraemonToastUtil.h"
+#import "DoraemonAlertUtil.h"
+
+#define DoKitVersion @"2.0.0"
 
 #define DoraemonScreenWidth [UIScreen mainScreen].bounds.size.width
 #define DoraemonScreenHeight [UIScreen mainScreen].bounds.size.height
+
+//Doraemon默认位置
+#define DoraemonStartingPosition            CGPointMake(0, DoraemonScreenHeight/3.0)
+
+//Doraemon全屏默认位置
+#define DoraemonFullScreenStartingPosition  CGPointZero
 
 //根据750*1334分辨率计算size
 #define kDoraemonSizeFrom750(x) ((x)*DoraemonScreenWidth/750)
@@ -32,6 +41,8 @@
 #define IPHONE_STATUSBAR_HEIGHT      (IS_IPHONE_X_Series ? 44 : 20)
 #define IPHONE_SAFEBOTTOMAREA_HEIGHT (IS_IPHONE_X_Series ? 34 : 0)
 #define IPHONE_TOPSENSOR_HEIGHT      (IS_IPHONE_X_Series ? 32 : 0)
+
+#define STRING_NOT_NULL(str) ((str==nil)?@"":str)
 
 
 #define DoraemonShowPluginNotification @"DoraemonShowPluginNotification"

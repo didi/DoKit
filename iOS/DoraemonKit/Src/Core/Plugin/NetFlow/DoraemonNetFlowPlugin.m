@@ -6,14 +6,14 @@
 //
 
 #import "DoraemonNetFlowPlugin.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 #import "DoraemonNetFlowViewController.h"
 
 @implementation DoraemonNetFlowPlugin
 
 - (void)pluginDidLoad{
     DoraemonNetFlowViewController *vc = [[DoraemonNetFlowViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

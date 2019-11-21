@@ -10,8 +10,8 @@ import android.view.View;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.TopActivityConfig;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
-import com.didichuxing.doraemonkit.ui.base.PageIntent;
+import com.didichuxing.doraemonkit.ui.base.DokitIntent;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
@@ -55,11 +55,11 @@ public class TopActivityFragment extends BaseFragment {
             public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
                 if (data.desc == R.string.dk_kit_top_activity) {
                     if (on) {
-                        PageIntent intent = new PageIntent(TopActivityFloatPage.class);
-                        FloatPageManager.getInstance().add(intent);
+                        DokitIntent intent = new DokitIntent(TopActivityDokitView.class);
+                        DokitViewManager.getInstance().attach(intent);
                         getActivity().finish();
                     } else {
-                        FloatPageManager.getInstance().removeAll(TopActivityFloatPage.class);
+                        DokitViewManager.getInstance().detach(TopActivityDokitView.class);
                     }
                     TopActivityConfig.setTopActivityOpen(getContext(), on);
                 }

@@ -2,11 +2,11 @@ package com.didichuxing.doraemonkit.kit.timecounter.counter;
 
 import android.app.Activity;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.constant.PageTag;
-import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterFloatPage;
+import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterDokitView;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
-import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class ActivityCounter {
 
     public void paused() {
         mPauseCostTime = System.currentTimeMillis() - mStartTime;
-        LogHelper.d(TAG, "pause cost：" + mPauseCostTime);
+        //LogHelper.d(TAG, "pause cost：" + mPauseCostTime);
     }
 
     public void launch() {
@@ -71,7 +71,7 @@ public class ActivityCounter {
 
     public void launchEnd() {
         mLaunchCostTime = System.currentTimeMillis() - mLaunchStartTime;
-        LogHelper.d(TAG, "create cost：" + mLaunchCostTime);
+        //LogHelper.d(TAG, "create cost：" + mLaunchCostTime);
         render();
     }
 
@@ -105,15 +105,15 @@ public class ActivityCounter {
 
     public void renderEnd() {
         mRenderCostTime = System.currentTimeMillis() - mRenderStartTime;
-        LogHelper.d(TAG, "render cost：" + mRenderCostTime);
+        //LogHelper.d(TAG, "render cost：" + mRenderCostTime);
         mTotalCostTime = System.currentTimeMillis() - mStartTime;
-        LogHelper.d(TAG, "total cost：" + mTotalCostTime);
+        //LogHelper.d(TAG, "total cost：" + mTotalCostTime);
         mOtherCostTime = mTotalCostTime - mRenderCostTime - mPauseCostTime - mLaunchCostTime;
         print();
     }
 
     public void print() {
-        TimeCounterFloatPage page = (TimeCounterFloatPage) FloatPageManager.getInstance().getFloatPage(PageTag.PAGE_TIME_COUNTER);
+
 
         CounterInfo counterInfo = new CounterInfo();
         counterInfo.time = System.currentTimeMillis();
@@ -125,9 +125,12 @@ public class ActivityCounter {
         counterInfo.totalCost = mTotalCostTime;
         counterInfo.otherCost = mOtherCostTime;
         mCounterInfos.add(counterInfo);
-        if (page != null) {
-            page.showInfo(counterInfo);
+        TimeCounterDokitView popView = (TimeCounterDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), TimeCounterDokitView.class.getSimpleName());
+        if (popView != null) {
+            popView.showInfo(counterInfo);
         }
+
+
     }
 
     public List<CounterInfo> getHistory() {

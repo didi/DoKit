@@ -17,26 +17,39 @@
 #import "DoraemonDemoCommonViewController.h"
 #import <objc/runtime.h>
 #import "Doraemoni18NUtil.h"
+#import "UIView+Doraemon.h"
+#import "UIViewController+Doraemon.h"
+#import "DoraemonDemoMemoryLeakViewController.h"
 
 @interface DoraemonDemoHomeViewController ()<UITableViewDelegate,UITableViewDataSource>
+
+@property (strong, nonatomic) UITableView *tableView;
 
 @end
 
 @implementation DoraemonDemoHomeViewController
 
+
+- (UITableView *)tableView {
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+    }
+    
+    return _tableView;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = DoraemonLocalizedString(@"DoraemonKit");
     self.navigationItem.leftBarButtonItems = nil;
-    
-    UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    [self.view addSubview:tableView];
+    [self.view addSubview:self.tableView];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 8;
+    return 9;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -63,6 +76,8 @@
         txt = DoraemonLocalizedString(@"crash触发Demo");
     }else if(row==7){
         txt = DoraemonLocalizedString(@"通用测试Demo");
+    }else if(row==8){
+        txt = DoraemonLocalizedString(@"内存泄漏测试");
     }
     cell.textLabel.text = txt;
     return cell;
@@ -85,8 +100,10 @@
         vc = [[DoraemonDemoMockGPSViewController alloc] init];
     }else if(row == 6){
         vc = [[DoraemonDemoCrashViewController alloc] init];
-    }else{
+    }else if(row == 7){
         vc = [[DoraemonDemoCommonViewController alloc] init];
+    }else{
+        vc = [[DoraemonDemoMemoryLeakViewController alloc] init];
     }
     [self.navigationController pushViewController:vc animated:YES];
  
@@ -94,6 +111,12 @@
 //    NSArray *dataArray = @[@"1",@"2"];
 //    NSString *num = dataArray[2];
 //    NSLog(@"num == %@",num);
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+
+    self.tableView.frame = [self fullscreen];
 }
 
 @end

@@ -62,6 +62,17 @@
     _textView.layer.borderColor = [UIColor grayColor].CGColor;
     _textView.layer.borderWidth = 2.0f;
     _textView.text = text;
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        _textView.textColor = [UIColor labelColor];
+        _textView.backgroundColor = [UIColor systemBackgroundColor];
+    } else {
+#endif
+        _textView.textColor = [UIColor blackColor];
+        _textView.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    }
+#endif
     [self.view addSubview:_textView];
 }
 
@@ -70,7 +81,7 @@
     [DoraemonDBManager shareManager].dbPath = self.filePath;
     self.tableNameArray = [[DoraemonDBManager shareManager] tablesAtDB];
     self.dbTableNameTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height) style:UITableViewStylePlain];
-    self.dbTableNameTableView.backgroundColor = [UIColor whiteColor];
+//    self.dbTableNameTableView.backgroundColor = [UIColor whiteColor];
     self.dbTableNameTableView.delegate = self;
     self.dbTableNameTableView.dataSource = self;
     [self.view addSubview:self.dbTableNameTableView];

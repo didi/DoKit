@@ -1,29 +1,24 @@
 package com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor;
 
+import android.util.Log;
+
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @date: 2019/3/12
  * @desc: 响应体
  */
 public class HttpResponse {
-    private final int mId;
+    private final String TAG = "HttpResponse";
     private final HttpURLConnection mURLConnection;
     private int mStatusCode;
     private InputStream mInputStream;
 
-    public HttpResponse(int id, HttpURLConnection urlConnection) {
+    public HttpResponse(HttpURLConnection urlConnection) {
         mURLConnection = urlConnection;
-        mId = id;
-    }
-
-    public HttpURLConnection getURLConnection() {
-        return mURLConnection;
-    }
-
-    public int getId() {
-        return mId;
     }
 
     public int getStatusCode() {
@@ -40,5 +35,30 @@ public class HttpResponse {
 
     public void setInputStream(InputStream inputStream) {
         mInputStream = inputStream;
+    }
+
+    public String getUrl() {
+        return mURLConnection.getURL().toString();
+    }
+
+    public Map<String, List<String>> getHeaders() {
+        try {
+            return mURLConnection.getHeaderFields();
+        } catch (Exception e) {
+            Log.d(TAG, "get head exception", e);
+            return null;
+        }
+    }
+
+    public String getHeaderField(String key) {
+        Map<String, List<String>> map = getHeaders();
+        if (map == null) {
+            return null;
+        }
+        List<String> fields = map.get(key);
+        if (fields == null || fields.size() == 0) {
+            return null;
+        }
+        return fields.get(fields.size() - 1);
     }
 }

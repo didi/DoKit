@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.weaknetwork;
 
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
@@ -42,8 +43,24 @@ public class ByteCountBufferedSink implements BufferedSink {
     }
 
     @Override
+    public BufferedSink write(byte[] source, int offset, int byteCount) throws IOException {
+        if (!isOpen()) throw new IllegalStateException("closed");
+        //计算出要写入的次数
+        long count = (long) Math.ceil((double) source.length / mByteCount);
+        for (int i = 0; i < count; i++) {
+            //让每次写入的字节数精确到mByteCount 分多次写入
+            long newOffset = i * mByteCount;
+            long writeByteCount = Math.min(mByteCount, source.length - newOffset);
+            buffer().write(source, (int) newOffset, (int) writeByteCount);
+            emitCompleteSegments();
+        }
+        return this;
+    }
+
+    @Override
     public BufferedSink emitCompleteSegments() throws IOException {
-        mOriginalSink.write(buffer(), mByteCount);
+        final Buffer buffer = buffer();
+        mOriginalSink.write(buffer, buffer.size());
         return this;
     }
 
@@ -60,11 +77,6 @@ public class ByteCountBufferedSink implements BufferedSink {
     @Override
     public BufferedSink write(byte[] source) throws IOException {
         return mDelegate.write(source);
-    }
-
-    @Override
-    public BufferedSink write(byte[] source, int offset, int byteCount) throws IOException {
-        return mDelegate.write(source, offset, byteCount);
     }
 
     @Override
@@ -181,4 +193,6 @@ public class ByteCountBufferedSink implements BufferedSink {
     public void close() throws IOException {
         mDelegate.close();
     }
+
+
 }

@@ -16,7 +16,16 @@ import com.didichuxing.doraemonkit.ui.realtime.datasource.IDataSource;
  */
 public class LineChart extends FrameLayout {
     private TextView mTitle;
+    private int performanceType;
     private CardiogramView mLine;
+
+    public int getPerformanceType() {
+        return performanceType;
+    }
+
+    public void setPerformanceType(int performanceType) {
+        this.performanceType = performanceType;
+    }
 
     public LineChart(@NonNull Context context) {
         super(context);
@@ -54,35 +63,4 @@ public class LineChart extends FrameLayout {
         mLine.setDataSource(dataSource);
     }
 
-    public static class LineData {
-        public float value;
-        public String label;
-        private static Pools.SimplePool<LineData> mPool = new Pools.SimplePool<>(50);
-
-
-        /**
-         * @param value 影响折线幅度的值，必须大于minValue小于maxValue
-         * @param label item从右边进入时显示的值，为null的时候不显示
-         */
-        public LineData(float value, String label) {
-            this.value = value;
-            this.label = label;
-        }
-
-        public static LineData obtain(float value, String label) {
-            LineData lineData = mPool.acquire();
-            if (lineData == null) {
-                return new LineData(value, label);
-            }
-            lineData.value = value;
-            lineData.label = label;
-            return lineData;
-        }
-
-        public void release() {
-            mPool.release(this);
-        }
-
-
-    }
 }

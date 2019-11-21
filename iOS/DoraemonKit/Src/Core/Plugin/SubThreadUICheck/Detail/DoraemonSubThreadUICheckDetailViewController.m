@@ -23,7 +23,7 @@
     
     _contentLabel = [[UILabel alloc] init];
     _contentLabel.textColor = [UIColor doraemon_black_2];
-    _contentLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(16)];
+    _contentLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(16)];
     _contentLabel.numberOfLines = 0;
     _contentLabel.text = _checkInfo[@"content"];
     

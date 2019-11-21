@@ -111,6 +111,8 @@ public class SpFragment extends BaseFragment {
             case SpInputType.LONG:
                 SharedPrefsUtil.putLong(getActivity(), spTableName, key, (Long) bean.value);
                 break;
+            default:
+                break;
         }
 
     }

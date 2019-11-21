@@ -1,71 +1,87 @@
 package com.didichuxing.doraemonkit.ui.viewcheck;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.core.model.ViewInfo;
+import com.didichuxing.doraemonkit.util.LogHelper;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.support.constraint.Constraints.TAG;
 
 /**
  * Created by wanglikun on 2018/11/23.
  */
 
 public class LayoutBorderView extends View {
+    private static final  String TAG1 = "LayoutBorderView";
     private Paint mRectPaint;
-    private List<Rect> mRects = new ArrayList<>();
+    private List<ViewInfo> mViewInfos = new ArrayList<>();
 
     public LayoutBorderView(Context context) {
-        super(context);
-        initView();
+        this(context, null);
     }
 
     public LayoutBorderView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-        initView();
+        this(context, attrs, 0);
     }
 
     public LayoutBorderView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initView();
+        initView(context, attrs, defStyleAttr);
+
     }
 
-    private void initView() {
+    private void initView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.LayoutBorderView);
+        boolean fill = a.getBoolean(R.styleable.LayoutBorderView_dkFill, false);
         mRectPaint = new Paint();
-        mRectPaint.setStyle(Paint.Style.STROKE);
-        mRectPaint.setColor(Color.RED);
-        mRectPaint.setStrokeWidth(2);
-        mRectPaint.setPathEffect(new DashPathEffect(new float[]{4, 4}, 0));
+        if (fill) {
+            mRectPaint.setStyle(Paint.Style.FILL);
+            mRectPaint.setColor(Color.RED);
+        } else {
+            mRectPaint.setStyle(Paint.Style.STROKE);
+            mRectPaint.setStrokeWidth(4);
+            mRectPaint.setPathEffect(new DashPathEffect(new float[]{4, 4}, 0));
+            mRectPaint.setColor(Color.RED);
+        }
+        a.recycle();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        for (Rect rect : mRects) {
-            canvas.drawRect(rect, mRectPaint);
+        for (ViewInfo viewInfo : mViewInfos) {
+            if (mRectPaint.getStyle() == Paint.Style.FILL) {
+                mRectPaint.setAlpha(viewInfo.getDrawTimeLevel() * 255);
+            }
+            canvas.drawRect(viewInfo.viewRect, mRectPaint);
         }
     }
 
-    public void showViewLayoutBorder(Rect rect) {
-        mRects.clear();
-        if (rect != null) {
-            mRects.add(rect);
+    public void showViewLayoutBorder(ViewInfo info) {
+        mViewInfos.clear();
+        if (info != null) {
+            mViewInfos.add(info);
         }
-
         invalidate();
     }
 
-    public void showViewLayoutBorders(List<Rect> rects) {
-        if (rects == null) {
+    public void showViewLayoutBorder(List<ViewInfo> viewInfos) {
+        if (viewInfos == null) {
             return;
         }
-        mRects.clear();
-        mRects.addAll(rects);
+        mViewInfos.clear();
+        mViewInfos.addAll(viewInfos);
         invalidate();
     }
 }

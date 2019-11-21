@@ -12,7 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.blankj.utilcode.util.Utils;
+import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
+import com.didichuxing.doraemonkit.ui.base.DokitViewInterface;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManagerInterface;
+import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.util.UIUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +27,22 @@ import java.util.List;
  * Created by wanglikun on 2019/1/12
  */
 public class ViewBorderFrameLayout extends FrameLayout {
+    private static final String TAG = "ViewBorderFrameLayout";
+
     public ViewBorderFrameLayout(@NonNull Context context) {
         super(context);
+        setId(R.id.dokit_view_border_id);
+        //LogHelper.i(TAG, "childId=====>" + UIUtils.getIdText(this));
     }
 
     public ViewBorderFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        setId(R.id.dokit_view_border_id);
     }
 
     public ViewBorderFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setId(R.id.dokit_view_border_id);
     }
 
     @Override
@@ -44,7 +56,8 @@ public class ViewBorderFrameLayout extends FrameLayout {
     }
 
     private void traverseChild(View view) {
-        if (view instanceof ViewGroup) {
+        //过滤掉dokitView
+        if (view instanceof ViewGroup && !(view instanceof DokitViewInterface)) {
             replaceDrawable(view);
             int childCount = ((ViewGroup) view).getChildCount();
             if (childCount != 0) {
@@ -87,7 +100,11 @@ public class ViewBorderFrameLayout extends FrameLayout {
                     new ViewBorderDrawable(view)
             });
         }
-        view.setBackground(newDrawable);
+        try {
+            view.setBackground(newDrawable);
+        } catch (UnsupportedOperationException e) {
+            e.printStackTrace();
+        }
     }
 
     private void clearChild(View view) {

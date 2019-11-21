@@ -23,7 +23,7 @@
     [super viewDidLoad];
     self.title = DoraemonLocalizedString(@"清除本地数据");
     
-    _cellBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
+    _cellBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [_cellBtn renderUIWithTitle:DoraemonLocalizedString(@"清除本地数据")];
     [_cellBtn renderUIWithRightContent:[self getHomeDirFileSize]];
     _cellBtn.delegate = self;
@@ -63,16 +63,8 @@
     DoraemonUtil *util = [[DoraemonUtil alloc] init];
     [util getFileSizeWithPath:homeDir];
     NSInteger fileSize = util.fileSize;
-    //将文件夹大小转换为 M/KB/B
-    NSString *fileSizeStr = nil;
-    if (fileSize > 1024 * 1024){
-        fileSizeStr = [NSString stringWithFormat:@"%.2fM",fileSize / 1024.00f /1024.00f];
-    }else if (fileSize > 1024){
-        fileSizeStr = [NSString stringWithFormat:@"%.2fKB",fileSize / 1024.00f ];
-    }else{
-        fileSizeStr = [NSString stringWithFormat:@"%.2fB",fileSize / 1.00f];
-    }
-    return fileSizeStr;
+    NSString *fileSizeString = [NSByteCountFormatter stringFromByteCount:fileSize countStyle: NSByteCountFormatterCountStyleFile];
+    return fileSizeString;
 }
 
 

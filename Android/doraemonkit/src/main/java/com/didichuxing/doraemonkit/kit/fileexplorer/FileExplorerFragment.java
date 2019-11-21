@@ -19,6 +19,7 @@ import com.didichuxing.doraemonkit.util.FileUtil;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -132,7 +133,7 @@ public class FileExplorerFragment extends BaseFragment {
     @Override
     protected boolean onBackPressed() {
         if (mCurDir == null) {
-            getActivity().finish();
+            finish();
             return true;
         }
         if (isRootFile(getContext(), mCurDir)) {
@@ -158,6 +159,28 @@ public class FileExplorerFragment extends BaseFragment {
     }
 
     private List<FileInfo> initRootFileInfos(Context context) {
+        List<File> rootFiles = getRootFiles();
+        if (rootFiles != null) {
+            List<FileInfo> fileInfos = new ArrayList<>();
+            for (File file : rootFiles) {
+                fileInfos.add(new FileInfo(file));
+            }
+            return fileInfos;
+        }
+        return initDefaultRootFileInfos(context);
+    }
+
+    private List<File> getRootFiles() {
+        if (getArguments() != null) {
+            File dir = (File) getArguments().getSerializable(BundleKey.DIR_KEY);
+            if (dir != null && dir.exists()) {
+                return Arrays.asList(dir.listFiles());
+            }
+        }
+        return null;
+    }
+
+    private List<FileInfo> initDefaultRootFileInfos(Context context) {
         List<FileInfo> fileInfos = new ArrayList<>();
         fileInfos.add(new FileInfo(context.getFilesDir().getParentFile()));
         fileInfos.add(new FileInfo(context.getExternalCacheDir()));
@@ -168,6 +191,12 @@ public class FileExplorerFragment extends BaseFragment {
     private boolean isRootFile(Context context, File file) {
         if (file == null) {
             return false;
+        }
+        List<File> rootFiles = getRootFiles();
+        if (rootFiles != null) {
+            for (File rootFile : rootFiles) {
+                return file.equals(rootFile);
+            }
         }
         return file.equals(context.getExternalCacheDir())
                 || file.equals(context.getExternalFilesDir(null))

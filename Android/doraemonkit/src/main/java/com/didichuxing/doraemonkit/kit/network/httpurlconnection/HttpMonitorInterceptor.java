@@ -1,13 +1,14 @@
 package com.didichuxing.doraemonkit.kit.network.httpurlconnection;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.util.Pair;
 
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 import com.didichuxing.doraemonkit.kit.network.core.DefaultResponseHandler;
 import com.didichuxing.doraemonkit.kit.network.core.NetworkInterpreter;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.inspector.URLConnectionInspectorRequest;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.inspector.URLConnectionInspectorResponse;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.DKInterceptor;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.HttpRequest;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.HttpRequestChain;
@@ -21,55 +22,51 @@ import com.didichuxing.doraemonkit.kit.network.utils.StreamUtil;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 /**
  * @desc: 监听HttpUrlConnection数据的拦截器
  */
 public class HttpMonitorInterceptor implements DKInterceptor<HttpRequest, HttpResponse> {
-    private static final String TAG = "HeaderParseInterceptor";
     private final NetworkInterpreter mInterpreter;
+    private final int mId;
 
     public HttpMonitorInterceptor() {
         mInterpreter = NetworkInterpreter.get();
+        mId = NetworkInterpreter.get().nextRequestId();
     }
 
     @Override
     public void intercept(@NonNull HttpRequestChain chain, @NonNull HttpRequest request) throws IOException {
-        int requestId = request.getId();
+        int requestId = mId;
         if (NetworkManager.get().getRecord(requestId) != null) {
             chain.process(request);
             return;
         }
-        HttpURLConnection connection = request.getURLConnection();
-        ArrayList<Pair<String, String>> header;
-        // connect参数不知道什么会被置为true，以防崩溃，这里直接try-catch住
-        try {
-            header = StreamUtil.convertHeaders(connection.getRequestProperties());
-        } catch (Exception e) {
-            Log.e(TAG, "get head exception", e);
-            header = new ArrayList<>();
-        }
+        ArrayList<Pair<String, String>> header = StreamUtil.convertHeaders(request.getHeaders());
         URLConnectionInspectorRequest inspectorRequest = new URLConnectionInspectorRequest(
                 requestId,
                 header,
-                connection);
+                request.getUrl(),
+                request.getMethod());
         mInterpreter.createRecord(requestId, inspectorRequest);
         chain.process(request);
     }
 
     @Override
     public void intercept(@NonNull HttpResponseChain chain, @NonNull HttpResponse response) throws IOException {
-        int id = response.getId();
+        int id = mId;
         NetworkRecord record = NetworkManager.get().getRecord(id);
         if (record == null) {
             chain.process(response);
             return;
         }
+        ArrayList<Pair<String, String>> header = StreamUtil.convertHeaders(response.getHeaders());
+
         URLConnectionInspectorResponse urlConnectionInspectorResponse = new URLConnectionInspectorResponse(
-                response.getId(),
-                response.getURLConnection(),
+                mId,
+                header,
+                response.getUrl(),
                 response.getStatusCode());
         mInterpreter.fetchResponseInfo(record, urlConnectionInspectorResponse);
         chain.process(response);
@@ -77,21 +74,27 @@ public class HttpMonitorInterceptor implements DKInterceptor<HttpRequest, HttpRe
 
     @Override
     public void intercept(@NonNull HttpRequestStreamChain chain, @NonNull HttpRequest request) throws IOException {
-        OutputStreamProxy outputStream = new HttpOutputStreamProxy(request.getOutputStream(), request.getId(), mInterpreter);
+        int id = mId;
+        NetworkRecord record = NetworkManager.get().getRecord(id);
+        if (record == null) {
+            chain.process(request);
+            return;
+        }
+        OutputStreamProxy outputStream = new HttpOutputStreamProxy(request.getOutputStream(), mId, mInterpreter);
         request.setOutputStream(outputStream);
         chain.process(request);
     }
 
     @Override
     public void intercept(@NonNull HttpResponseStreamChain chain, @NonNull HttpResponse response) throws IOException {
-        int id = response.getId();
+        int id = mId;
         NetworkRecord record = NetworkManager.get().getRecord(id);
         if (record == null) {
             chain.process(response);
+            return;
         }
-        HttpURLConnection connection = response.getURLConnection();
         InputStream responseStream = mInterpreter.interpretResponseStream(
-                connection.getHeaderField("Content-Type"),
+                response.getHeaderField("Content-Type"),
                 response.getInputStream(),
                 new DefaultResponseHandler(mInterpreter, id, record));
         response.setInputStream(responseStream);

@@ -13,9 +13,26 @@
 
 @interface DoraemonOscillogramWindow()
 
+@property (nonatomic, strong) NSHashTable *delegates;
+
 @end
 
 @implementation DoraemonOscillogramWindow
+
+- (NSHashTable *)delegates {
+    if (_delegates == nil) {
+        self.delegates = [NSHashTable weakObjectsHashTable];
+    }
+    return _delegates;
+}
+
+- (void)addDelegate:(id<DoraemonOscillogramWindowDelegate>) delegate {
+    [self.delegates addObject:delegate];
+}
+
+- (void)removeDelegate:(id<DoraemonOscillogramWindowDelegate>)delegate {
+    [self.delegates removeObject:delegate];
+}
 
 + (DoraemonOscillogramWindow *)shareInstance{
     static dispatch_once_t once;
@@ -65,6 +82,10 @@
     [_vc endRecord];
     self.hidden = YES;
     [self resetLayout];
+    
+    for (id<DoraemonOscillogramWindowDelegate> delegate in self.delegates) {
+        [delegate doraemonOscillogramWindowClosed];
+    }
 }
 
 - (void)resetLayout{

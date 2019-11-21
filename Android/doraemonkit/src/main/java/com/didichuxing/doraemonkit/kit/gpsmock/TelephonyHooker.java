@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.gpsmock;
 
 import android.content.Context;
+import android.os.IBinder;
 import android.telephony.CellInfo;
 
 import java.lang.reflect.InvocationTargetException;
@@ -27,7 +28,14 @@ public class TelephonyHooker extends BaseServiceHooker {
     public Map<String, MethodHandler> getMethodHandlers() {
         Map<String, MethodHandler> methodHandlers = new HashMap<>();
         methodHandlers.put("getAllCellInfo", new GetAllCellInfoMethodHandler());
+        methodHandlers.put("getCellLocation", new GetCellLocationMethodHandler());
+        methodHandlers.put("listen", new ListenMethodHandler());
         return methodHandlers;
+    }
+
+    @Override
+    public void replaceBinder(Context context, IBinder proxy) {
+
     }
 
     public class GetAllCellInfoMethodHandler implements MethodHandler {
@@ -38,6 +46,27 @@ public class TelephonyHooker extends BaseServiceHooker {
                 return method.invoke(originService, args);
             }
             return new ArrayList<CellInfo>();
+        }
+    }
+
+    public class GetCellLocationMethodHandler implements MethodHandler {
+
+        @Override
+        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+            if (!GpsMockManager.getInstance().isMocking()) {
+                return method.invoke(originService, args);
+            }
+            return null;
+        }
+    }
+
+    private class ListenMethodHandler implements MethodHandler {
+        @Override
+        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+            if (!GpsMockManager.getInstance().isMocking()) {
+                return method.invoke(originService, args);
+            }
+            return null;
         }
     }
 }

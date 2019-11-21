@@ -6,8 +6,8 @@ package com.didichuxing.doraemonkit.ui.realtime.datasource;
 public class DataSourceFactory {
     public static final int TYPE_NETWORK = 1;
     public static final int TYPE_CPU = 2;
-    public static final int TYPE_MEMORY = 3;
-    public static final int TYPE_FRAME = 4;
+    public static final int TYPE_RAM = 3;
+    public static final int TYPE_FPS = 4;
 
     public static IDataSource createDataSource(int type) {
         switch (type) {
@@ -15,10 +15,10 @@ public class DataSourceFactory {
                 return new NetworkDataSource();
             case TYPE_CPU:
                 return new CpuDataSource();
-            case TYPE_MEMORY:
-                return new MemoryDataSource();
-            case TYPE_FRAME:
-                return new FrameDataSource();
+            case TYPE_RAM:
+                return new RamDataSource();
+            case TYPE_FPS:
+                return new FpsDataSource();
             default:
                 return null;
         }

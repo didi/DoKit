@@ -3,10 +3,8 @@ package com.didichuxing.doraemonkit.kit.logInfo.util;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-
+import android.util.SparseIntArray;
 import com.didichuxing.doraemonkit.R;
-
-import java.util.HashMap;
 
 /**
  * @author: linjizong
@@ -14,10 +12,10 @@ import java.util.HashMap;
  * @desc:
  */
 public class TagColorUtil {
-    private static final HashMap<Integer, Integer> TEXT_COLOR = new HashMap<>(6);
-    private static final HashMap<Integer, Integer> TEXT_COLOR_EXPAND = new HashMap<>(6);
-    private static final HashMap<Integer, Integer> LEVEL_COLOR = new HashMap<>(6);
-    private static final HashMap<Integer, Integer> LEVEL_BG_COLOR = new HashMap<>(6);
+    private static final SparseIntArray TEXT_COLOR = new SparseIntArray(6);
+    private static final SparseIntArray TEXT_COLOR_EXPAND = new SparseIntArray(6);
+    private static final SparseIntArray LEVEL_COLOR = new SparseIntArray(6);
+    private static final SparseIntArray LEVEL_BG_COLOR = new SparseIntArray(6);
 
     static {
         TEXT_COLOR.put(Log.DEBUG, R.color.dk_color_000000);
@@ -50,7 +48,7 @@ public class TagColorUtil {
     }
 
     public static int getTextColor(Context context, int level, boolean expand) {
-        HashMap<Integer, Integer> map = expand ? TEXT_COLOR_EXPAND : TEXT_COLOR;
+        SparseIntArray map = expand ? TEXT_COLOR_EXPAND : TEXT_COLOR;
         Integer result = map.get(level);
         if (result == null) {
             result = map.get(Log.VERBOSE);

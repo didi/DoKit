@@ -21,16 +21,24 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if(self){
+    if (self) {
         self.selectionStyle =  UITableViewCellSelectionStyleNone;
         
         //大文本显示的时候，UIlabel在模拟器上会显示空白，使用TextView代替。
         //网上相似问题： https://blog.csdn.net/minghuyong2016/article/details/82882314
-        _contentLabel = [[UITextView alloc] init];
-        _contentLabel.textColor = [UIColor blackColor];
-        _contentLabel.font = [UIFont systemFontOfSize:16];
+        _contentLabel = [DoraemonNetFlowDetailCell genTextView:16.0];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        if (@available(iOS 13.0, *)) {
+            self.backgroundColor = [UIColor systemBackgroundColor];
+            
+            _contentLabel.textColor = [UIColor labelColor];
+        } else {
+#endif
+            _contentLabel.textColor = [UIColor blackColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        }
+#endif
         _contentLabel.editable = NO;
-        //_contentLabel.numberOfLines = 0;
         [self.contentView addSubview:_contentLabel];
         
         _upLine = [[UIView alloc] init];
@@ -46,10 +54,17 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    // 禁用 UITextView 滑动，解决其与 UITableView 的滑动冲突；
+    // 放这里调用是因为在其他地方调用会出现文本未显示的问题(模拟器环境下)
+    _contentLabel.scrollEnabled = false;
+}
+
 - (void)renderUIWithContent:(NSString *)content isFirst:(BOOL)isFirst isLast:(BOOL)isLast{
     _contentLabel.text = content;
-    CGSize fontSize = [_contentLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-kDoraemonSizeFrom750(32)*2, MAXFLOAT)];
-    _contentLabel.frame = CGRectMake(kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(28), fontSize.width, fontSize.height);
+    CGSize fontSize = [_contentLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-kDoraemonSizeFrom750_Landscape(32)*2, MAXFLOAT)];
+    _contentLabel.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(32), kDoraemonSizeFrom750_Landscape(28), fontSize.width, fontSize.height);
     
     CGFloat cellHeight = [[self class] cellHeightWithContent:content];
     if(isFirst && isLast){
@@ -74,12 +89,17 @@
 }
 
 + (CGFloat)cellHeightWithContent:(NSString *)content{
-    UILabel *tempLabel = [[UILabel alloc] init];
-    tempLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
-    tempLabel.numberOfLines = 0;
+    UITextView *tempLabel = [DoraemonNetFlowDetailCell genTextView:16.0];
     tempLabel.text = content;
-    CGSize fontSize = [tempLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-2*kDoraemonSizeFrom750(32), MAXFLOAT)];
-    return fontSize.height+kDoraemonSizeFrom750(28)*2;
+    CGSize fontSize = [tempLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-2*kDoraemonSizeFrom750_Landscape(32), MAXFLOAT)];
+    return fontSize.height+kDoraemonSizeFrom750_Landscape(28)*2;
+}
+
+/// 生成 UITextView
++ (UITextView *)genTextView:(CGFloat)fontSize {
+    UITextView *tempTextView = [[UITextView alloc] init];
+    tempTextView.font = [UIFont systemFontOfSize:fontSize];
+    return tempTextView;
 }
 
 @end

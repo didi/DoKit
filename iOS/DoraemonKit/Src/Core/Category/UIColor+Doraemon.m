@@ -115,23 +115,82 @@ CGFloat doraemonColorComponentFrom(NSString *string, NSUInteger start, NSUIntege
     return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
 }
 
-+ (UIColor *)doraemon_black_1{//#333333
++ (UIColor *)doraemon_black_1 { // #333333
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+                return [UIColor doraemon_colorWithString:@"#333333"];
+            } else {
+                return [UIColor doraemon_colorWithString:@"#DDDDDD"];
+            }
+        }];
+    }
+#endif
     return [UIColor doraemon_colorWithString:@"#333333"];
 }
 
-+ (UIColor *)doraemon_black_2{//#666666
++ (UIColor *)doraemon_black_2 {  // #666666
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+                return [UIColor doraemon_colorWithString:@"#666666"];
+            } else {
+                return [UIColor doraemon_colorWithString:@"#AAAAAA"];
+            }
+        }];
+    }
+#endif
     return [UIColor doraemon_colorWithString:@"#666666"];
 }
 
-+ (UIColor *)doraemon_black_3{//#999999
++ (UIColor *)doraemon_black_3 {  // #999999
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+                return [UIColor doraemon_colorWithString:@"#999999"];
+            } else {
+                return [UIColor doraemon_colorWithString:@"#666666"];
+            }
+        }];
+    }
+#endif
     return [UIColor doraemon_colorWithString:@"#999999"];
 }
 
-+ (UIColor *)doraemon_blue{//#337CC4
++ (UIColor *)doraemon_blue { // #337CC4
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+                return [UIColor doraemon_colorWithString:@"#337CC4"];
+            } else {
+                return [UIColor systemBlueColor];
+            }
+        }];
+    }
+#endif
     return [UIColor doraemon_colorWithString:@"#337CC4"];
 }
 
-+ (UIColor *)doraemon_line{//[UIColor doraemon_colorWithHex:0x000000 andAlpha:0.1];
++ (UIColor *)doraemon_bg{ // #F4F5F6
+    return [UIColor doraemon_colorWithString:@"#F4F5F6"];
+}
+
++ (UIColor *)doraemon_line {
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+                return [UIColor doraemon_colorWithHex:0x000000 andAlpha:0.1];
+            } else {
+                return [UIColor doraemon_colorWithHex:0x68686B andAlpha:0.6];
+            }
+        }];
+    }
+#endif
     return [UIColor doraemon_colorWithHex:0x000000 andAlpha:0.1];
 }
 
@@ -141,4 +200,5 @@ CGFloat doraemonColorComponentFrom(NSString *string, NSUInteger start, NSUIntege
     CGFloat blue = ( arc4random() % 255 / 255.0 );
     return [UIColor colorWithRed:red green:green blue:blue alpha:1.0];
 }
+
 @end

@@ -4,9 +4,12 @@
     <string name="dk_category_biz">Business</string>
     <string name="dk_category_tools">Tool Box</string>
     <string name="dk_category_performance">Performance Monitor</string>
+    <string name="dk_category_large_image">Large image detection</string>
     <string name="dk_category_ui">UI Tool</string>
+    <string name="dk_category_weex">WEEX</string>
 
     <string name="dk_kit_sysinfo">App Info</string>
+    <string name="dk_kit_demo">demo</string>
     <string name="dk_kit_file_explorer">Sandbox</string>
     <string name="dk_kit_frame_info">FPS Monitor</string>
     <string name="dk_kit_gps_mock">Mock GPS</string>
@@ -17,16 +20,50 @@
     <string name="dk_kit_temporary_close">Hide Doraemon</string>
     <string name="dk_kit_crash">Crash Viewer</string>
     <string name="dk_kit_data_clean">Cache Cleanup</string>
+    <string name="dk_kit_db_debug">DBView</string>
     <string name="dk_kit_weak_network">Simulated Weak Network</string>
     <string name="dk_kit_view_check">View Ciewer</string>
     <string name="dk_kit_net_monitor">Traffic Monitor</string>
+    <string name="dk_kit_ui_monitor">Show Current Infos On UI</string>
     <string name="dk_kit_time_counter">Time Counter</string>
-    <string name="dk_kit_exit">Exit</string>
+    <string name="dk_kit_method_cost">method cost</string>
+    <string name="dk_kit_method_cost_desc">
+        <![CDATA[
+            The function does not provide a ui interface, it is inserted before the code you need to analyze.<br/>
+            <font color="red"> MethodCost.startMethodTracing(\"doramemon\") </font> <br/>
+            or<br/>
+            <font color="red"> MethodCost.startMethodTracingSampling(\"doramemon\")</font> <br/>
+            End of insertion<br/>
+            <font color="red"> MethodCost.stopMethodTracingAndPrintLog(\"doramemon\")</font><br/>
+            <font color="red"> Note: The file names of start and stop must be paired to print out the relevant function time.</font><br/>
+            After the compilation is completed, you can filter out the related function time-consuming logs in the console by the methodcost TAG.<br/>
+            <font color="red"> After the analysis is complete, you can manually delete the relevant code or keep it for the next debugging. Because the relevant code in the release environment is empty, it will not affect the online performance.</font><br/>
+            <font color="red">For detailed operations, please refer to the implementation in the demo.</font>
+        ]]>
+    </string>
+    <string name="dk_kit_db_debug_desc">
+        <![CDATA[
+            Tips:<br/>
+            <font color="red"> Please make sure the current phone and PC are in the same Wifi. </font> <br/>
+            If you want to modify the current app\'s database, you can operate it on the pc with the following address:
+        ]]>
+        </string>
+    <string name="dk_kit_exit">Exit Doraemonkit</string>
+    <string name="dk_kit_version">current version:V%s</string>
     <string name="dk_kit_db_detail">Data Base</string>
     <string name="dk_kit_top_activity">Top Activity</string>
     <string name="dk_kit_pkg_name">Package Name：</string>
     <string name="dk_kit_class_name">Class Name：</string>
     <string name="dk_kit_path_name">Class Path：</string>
+    <string name="dk_kit_mode_title">float mode</string>
+    <string name="dk_kit_mode_desc">float mode:
+        \n
+        1）system is system float(need dialog permission)
+        \n
+        2）normal is normal float(don\'t need dialog permission)
+    </string>
+    <string name="dk_kit_mode_rb_system">system</string>
+    <string name="dk_kit_mode_rb_normal">normal</string>
 
     <string name="dk_sysinfo_device_info">Mobile Info</string>
     <string name="dk_sysinfo_app_info">App Info</string>
@@ -55,6 +92,9 @@
     <string name="dk_frameinfo_upstream">Upstream traffic</string>
     <string name="dk_frameinfo_downstream">Downstream traffic</string>
     <string name="dk_frameinfo_avg_value">Average value</string>
+    <string name="dk_frameinfo_big_img">Big Image</string>
+    <string name="dk_frameinfo_leakcanary">leakCanary</string>
+    <string name="dk_tools_dbdebug">DBView</string>
 
     <string name="dk_log_info_edt_hint">Enter the keywords you want to filter</string>
     <string name="dk_log_info_verbose">Verbose</string>
@@ -71,7 +111,7 @@
     <string name="dk_gpsmock_hint_latitude">Input latitude</string>
     <string name="dk_gpsmock_hint_longitude">Input longitude</string>
 
-    // 卡顿检测
+    <!--卡顿检测-->
     <string name="dk_kit_block_monitor">ANR Check</string>
     <string name="dk_kit_block_monitor_list">ANR List</string>
     <string name="dk_kit_block_monitor_detail">ANR Detail</string>
@@ -85,10 +125,26 @@
     <string name="dk_crash_capture_tips">DoraemonKit is recording Crash for you</string>
     <string name="dk_crash_capture_no_record">No crash record</string>
     <string name="dk_gpsmock_open">Open Mock Gps</string>
+
     <string name="dk_crash_capture_switch">Crash Log Collection Switch</string>
     <string name="dk_crash_capture_look">View Crash Log</string>
     <string name="dk_crash_capture_clean_data">Clean Crash Cache</string>
     <string name="dk_crash_capture_summary_title">Crash Log List</string>
+
+    <!--大图检测开关-->
+    <string name="dk_large_picture_switch">Large image detection switch</string>
+    <string name="dk_large_picture_look">view monitor records</string>
+    <string name="dk_large_picture_list">Large image list</string>
+    <string name="dk_large_picture_threshold">Large image Memory threshold</string>
+    <string name="dk_large_picture_file_threshold">Large image file threshold</string>
+    <string name="dk_large_picture_threshold_desc">
+        <![CDATA[
+        Desc: the difference between the size of the picture file and the fact that the file is loaded into memory.<br/>
+        <font color="red">link: https://juejin.im/post/5bc406b9f265da0aa664ea1e</font><br/>
+        <font color="red">Note: the large chart file detection function depends on the traffic monitoring function, please make sure that the traffic monitoring switch is turned on.</font>
+        ]]>
+        </string>
+
 
     <string name="dk_weak_network_switch">Simulate Weak Network Switch</string>
     <string name="dk_weak_network_off">Off Network</string>
@@ -176,5 +232,11 @@
     <string name="dk_crash_need_permission">Please authorize permissions</string>
     <string name="dk_data_clean_toast">Clear system data</string>
     <string name="dk_error_tips_permissions_less">Please authorize permissions</string>
+    <string name="dk_kit_ui_performance">UI Performance</string>
+    <string name="dk_view_render_analysis">Render Analysis</string>
+    <string name="dk_max_level">max level: </string>
+    <string name="dk_view_id">view id: </string>
+    <string name="dk_total_draw_time">total draw time: </string>
+    <string name="dk_max_draw_time">max draw time: </string>
 
 </resources>

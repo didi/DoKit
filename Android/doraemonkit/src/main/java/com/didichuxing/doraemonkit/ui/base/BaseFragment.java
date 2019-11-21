@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.didichuxing.doraemonkit.ui.FloatIconPage;
+import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
 import com.didichuxing.doraemonkit.ui.dialog.DialogProvider;
 import com.didichuxing.doraemonkit.ui.dialog.CommonDialogProvider;
 import com.didichuxing.doraemonkit.ui.dialog.DialogInfo;
@@ -25,6 +25,7 @@ import com.didichuxing.doraemonkit.ui.dialog.UniversalDialogFragment;
  */
 
 public class BaseFragment extends Fragment {
+    public String TAG = this.getClass().getSimpleName();
     private View mRootView;
     private int mContainer;
 
@@ -72,9 +73,11 @@ public class BaseFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        FloatPageManager.getInstance().removeAll(FloatIconPage.class);
-
+        DokitViewManager.getInstance().detach(FloatIconDokitView.class);
     }
+
+
+
 
     private void tryGetContainerId() {
         if (mRootView != null) {
@@ -133,9 +136,9 @@ public class BaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        PageIntent intent = new PageIntent(FloatIconPage.class);
-        intent.mode = PageIntent.MODE_SINGLE_INSTANCE;
-        FloatPageManager.getInstance().add(intent);
+        DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
+        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        DokitViewManager.getInstance().attach(intent);
     }
 
     public DialogProvider showDialog(DialogInfo dialogInfo) {

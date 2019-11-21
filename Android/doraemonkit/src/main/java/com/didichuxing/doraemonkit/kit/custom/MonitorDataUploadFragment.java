@@ -5,27 +5,25 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.config.PerformanceInfoConfig;
-import com.didichuxing.doraemonkit.constant.PageTag;
-import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerInfoFloatPage;
+import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
-import com.didichuxing.doraemonkit.ui.KitFloatPage;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
-import com.didichuxing.doraemonkit.ui.base.PageIntent;
-import com.didichuxing.doraemonkit.ui.realtime.OnFloatPageChangeListener;
-import com.didichuxing.doraemonkit.ui.realtime.RealTimeChartIconPage;
-import com.didichuxing.doraemonkit.ui.realtime.RealTimeChartPage;
+import com.didichuxing.doraemonkit.ui.base.DokitIntent;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.ui.dialog.DialogInfo;
+import com.didichuxing.doraemonkit.ui.dialog.SimpleDialogListener;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
 
-public class MonitorDataUploadFragment extends BaseFragment implements OnFloatPageChangeListener {
+/**
+ * 多功能性能检测整合页面
+ */
+public class MonitorDataUploadFragment extends BaseFragment  {
     private static final String TAG = "MonitorDataUploadFragment";
     private SettingItemAdapter mSettingItemAdapter;
     private RecyclerView mSettingList;
@@ -39,9 +37,14 @@ public class MonitorDataUploadFragment extends BaseFragment implements OnFloatPa
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        PerformanceDataManager.getInstance().init(getContext().getApplicationContext());
         initView();
         initCommitButton();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        PerformanceDataManager.getInstance().init(getContext());
     }
 
     private void initView() {
@@ -57,23 +60,26 @@ public class MonitorDataUploadFragment extends BaseFragment implements OnFloatPa
         mSettingList = findViewById(R.id.setting_list);
         mSettingList.setLayoutManager(new LinearLayoutManager(getContext()));
         mSettingItemAdapter = new SettingItemAdapter(getContext());
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_frameinfo_fps, PerformanceInfoConfig.isFPSOpen(getContext())));
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_frameinfo_cpu, PerformanceInfoConfig.isCPUOpen(getContext())));
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_frameinfo_ram, PerformanceInfoConfig.isMemoryOpen(getContext())));
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_net_monitor, PerformanceInfoConfig.isTrafficOpen(getContext())));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_frameinfo_fps, PerformanceSpInfoConfig.isFPSOpen(getContext())));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_frameinfo_cpu, PerformanceSpInfoConfig.isCPUOpen(getContext())));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_frameinfo_ram, PerformanceSpInfoConfig.isMemoryOpen(getContext())));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_net_monitor, PerformanceSpInfoConfig.isTrafficOpen(getContext())));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_ui_monitor, PerformanceSpInfoConfig.isFrameUiOpen(getContext())));
         mSettingItemAdapter.append(new SettingItem(R.string.dk_platform_monitor_view_stat_data, R.drawable.dk_more_icon));
 
         mSettingItemAdapter.setOnSettingItemSwitchListener(new SettingItemAdapter.OnSettingItemSwitchListener() {
             @Override
             public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
                 if (data.desc == R.string.dk_frameinfo_fps) {
-                    PerformanceInfoConfig.setFPSOpen(getContext(), on);
+                    PerformanceSpInfoConfig.setFPSOpen(getContext(), on);
                 } else if (data.desc == R.string.dk_frameinfo_cpu) {
-                    PerformanceInfoConfig.setCPUOpen(getContext(), on);
+                    PerformanceSpInfoConfig.setCPUOpen(getContext(), on);
                 } else if (data.desc == R.string.dk_frameinfo_ram) {
-                    PerformanceInfoConfig.setMemoryOpen(getContext(), on);
+                    PerformanceSpInfoConfig.setMemoryOpen(getContext(), on);
                 } else if (data.desc == R.string.dk_kit_net_monitor) {
-                    PerformanceInfoConfig.setTrafficOpen(getContext(), on);
+                    PerformanceSpInfoConfig.setTrafficOpen(getContext(), on);
+                } else if (data.desc == R.string.dk_kit_ui_monitor) {
+                    PerformanceSpInfoConfig.setFrameUiOpen(getContext(), on);
                 }
                 setCommitButtonState();
             }
@@ -87,36 +93,71 @@ public class MonitorDataUploadFragment extends BaseFragment implements OnFloatPa
             }
         });
         mSettingList.setAdapter(mSettingItemAdapter);
-      mCommitButton.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              if (mCommitButton.getText().equals(getString(R.string.dk_platform_monitor_data_button_stop))) {
-                  mCommitButton.setText(R.string.dk_platform_monitor_data_button);
-                  PerformanceDataManager.getInstance().stopUploadMonitorData();
-                  FloatPageManager.getInstance().removeAll(RealTimePerformDataFloatPage.class);
-              } else {
-                  mCommitButton.setText(R.string.dk_platform_monitor_data_button_stop);
-                  PerformanceDataManager.getInstance().startUploadMonitorData();
-                  PageIntent pageIntent = new PageIntent(RealTimePerformDataFloatPage.class);
-                  pageIntent.mode = PageIntent.MODE_SINGLE_INSTANCE;
-                  FloatPageManager.getInstance().add(pageIntent);
-              }
-          }
-      });
+        mCommitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mCommitButton.getText().equals(getString(R.string.dk_platform_monitor_data_button_stop))) {
+                    DialogInfo dialogInfo = new DialogInfo();
+                    dialogInfo.title = getString(R.string.dk_platform_monitor_data_button_stop);
+                    dialogInfo.listener = new SimpleDialogListener() {
+                        @Override
+                        public boolean onPositive() {
+                            mCommitButton.setText(R.string.dk_platform_monitor_data_button);
+                            PerformanceDataManager.getInstance().stopUploadMonitorData();
+                            if (PerformanceSpInfoConfig.isFrameUiOpen(getContext())) {
+                                DokitViewManager.getInstance().detach(RealTimePerformDataDokitView.class.getSimpleName());
+                            }
+
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onNegative() {
+                            return true;
+                        }
+                    };
+                    showDialog(dialogInfo);
+                } else {
+                    DialogInfo dialogInfo = new DialogInfo();
+                    dialogInfo.title = getString(R.string.dk_platform_monitor_data_button);
+                    dialogInfo.listener = new SimpleDialogListener() {
+                        @Override
+                        public boolean onPositive() {
+                            mCommitButton.setText(R.string.dk_platform_monitor_data_button_stop);
+                            PerformanceDataManager.getInstance().startUploadMonitorData();
+                            if (PerformanceSpInfoConfig.isFrameUiOpen(getContext())) {
+                                DokitIntent popViewIntent = new DokitIntent(RealTimePerformDataDokitView.class);
+                                popViewIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+                                DokitViewManager.getInstance().attach(popViewIntent);
+                            }
+
+
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onNegative() {
+                            return true;
+                        }
+                    };
+                    showDialog(dialogInfo);
+                }
+            }
+        });
     }
 
     private boolean checkCommitButtonEnable() {
-        if (PerformanceInfoConfig.isCPUOpen(getContext()) ||
-                PerformanceInfoConfig.isFPSOpen(getContext()) ||
-                PerformanceInfoConfig.isMemoryOpen(getContext()) ||
-                PerformanceInfoConfig.isTrafficOpen(getContext())) {
+        if (PerformanceSpInfoConfig.isCPUOpen(getContext()) ||
+                PerformanceSpInfoConfig.isFPSOpen(getContext()) ||
+                PerformanceSpInfoConfig.isMemoryOpen(getContext()) ||
+                PerformanceSpInfoConfig.isTrafficOpen(getContext())) {
             return true;
         } else {
             return false;
         }
     }
 
-    private void setCommitButtonState(){
+    private void setCommitButtonState() {
         if (checkCommitButtonEnable()) {
             mCommitButton.setEnabled(true);
         } else {
@@ -133,32 +174,6 @@ public class MonitorDataUploadFragment extends BaseFragment implements OnFloatPa
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        RealTimeChartPage.removeCloseListener();
-    }
 
-    @Override
-    public void onFloatPageClose(String tag) {
-        if (!TextUtils.equals(RealTimeChartIconPage.TAG, tag)) {
-            return;
-        }
-        if (mSettingList == null || mSettingList.isComputingLayout()) {
-            return;
-        }
-        if (mSettingItemAdapter == null) {
-            return;
-        }
-        if (!mSettingItemAdapter.getData().get(0).isChecked) {
-            return;
-        }
-        mSettingItemAdapter.getData().get(0).isChecked = false;
-        mSettingItemAdapter.notifyItemChanged(0);
-    }
 
-    @Override
-    public void onFloatPageOpen(String tag) {
-
-    }
 }

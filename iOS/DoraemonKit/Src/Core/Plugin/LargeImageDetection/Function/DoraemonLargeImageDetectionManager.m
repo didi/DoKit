@@ -35,7 +35,7 @@ static DoraemonLargeImageDetectionManager *instance = nil;
         _images = [NSMutableArray array];
         semaphore = dispatch_semaphore_create(1);
         _isDetecting = NO;
-        _minimumDetectionSize = 50 * 1024;
+        _minimumDetectionSize = 500 * 1024;
     }
     return self;
 }

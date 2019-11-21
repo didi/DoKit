@@ -19,13 +19,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 public class PageDataFragment extends BaseFragment {
@@ -35,6 +31,12 @@ public class PageDataFragment extends BaseFragment {
     @Override
     protected int onRequestLayout() {
         return R.layout.dk_fragment_monitor_pagedata;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        PerformanceDataManager.getInstance().init(getContext());
     }
 
     @Override

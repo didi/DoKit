@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.config.PerformanceInfoConfig;
+import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.kit.parameter.AbsParameterFragment;
 import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
@@ -24,7 +24,12 @@ public class RamMainPageFragment extends AbsParameterFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        PerformanceDataManager.getInstance().init(getContext().getApplicationContext());
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        PerformanceDataManager.getInstance().init(getContext());
     }
 
     @Override
@@ -33,9 +38,14 @@ public class RamMainPageFragment extends AbsParameterFragment {
     }
 
     @Override
+    protected int getPerformanceType() {
+        return DataSourceFactory.TYPE_RAM;
+    }
+
+    @Override
     protected Collection<SettingItem> getSettingItems(List<SettingItem> list) {
-        list.add(new SettingItem(R.string.dk_ram_detection_switch, false));
-        list.add(new SettingItem(R.string.dk_item_cache_log, R.drawable.dk_more_icon));
+        list.add(new SettingItem(R.string.dk_ram_detection_switch, PerformanceMemoryInfoConfig.RAM_STATUS));
+        //list.add(new SettingItem(R.string.dk_item_cache_log, R.drawable.dk_more_icon));
         return list;
     }
 
@@ -49,7 +59,7 @@ public class RamMainPageFragment extends AbsParameterFragment {
                 } else {
                     stopMonitor();
                 }
-//                PerformanceInfoConfig.setMemoryOpen(getContext(), on);
+                PerformanceMemoryInfoConfig.RAM_STATUS = on;
             }
 
         };
@@ -72,7 +82,7 @@ public class RamMainPageFragment extends AbsParameterFragment {
 
     protected void startMonitor() {
         PerformanceDataManager.getInstance().startMonitorMemoryInfo();
-        openChartPage(R.string.dk_ram_detection_title, DataSourceFactory.TYPE_MEMORY);
+        openChartPage(R.string.dk_ram_detection_title, DataSourceFactory.TYPE_RAM);
     }
 
     protected void stopMonitor() {

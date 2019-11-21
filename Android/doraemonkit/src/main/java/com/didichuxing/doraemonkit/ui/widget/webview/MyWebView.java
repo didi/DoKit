@@ -45,7 +45,7 @@ public class MyWebView extends WebView {
         if (!(context instanceof Activity)) {
             throw new RuntimeException("only support Activity context");
         } else {
-            this.mContainerActivity = (Activity)context;
+            this.mContainerActivity = (Activity) context;
             WebSettings webSettings = this.getSettings();
             webSettings.setPluginState(WebSettings.PluginState.ON);
             webSettings.setJavaScriptEnabled(true);
@@ -62,7 +62,7 @@ public class MyWebView extends WebView {
                 webSettings.setRenderPriority(WebSettings.RenderPriority.HIGH);
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && BuildConfig.DEBUG) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 setWebContentsDebuggingEnabled(true);
             }
 
@@ -132,7 +132,7 @@ public class MyWebView extends WebView {
     @Override
     public void loadUrl(String url) {
         if (!TextUtils.isEmpty(url)) {
-            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+            if (!url.startsWith("http://") && !url.startsWith("https://") && !url.startsWith("javascript:")) {
                 url = "http://" + url;
             }
         }

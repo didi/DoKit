@@ -10,7 +10,6 @@
 #import "DoraemonToastUtil.h"
 #import "DoraemonDefine.h"
 #import "Doraemoni18NUtil.h"
-#import "UITextView+Placeholder.h"
 #import "DoraemonDefaultWebViewController.h"
 #import "DoraemonManager.h"
 #import "DoraemonQRCodeViewController.h"
@@ -56,29 +55,39 @@
     [super viewDidLoad];
     self.title = DoraemonLocalizedString(@"H5任意门");
     
-    _h5UrlTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom + kDoraemonSizeFrom750(32), self.view.doraemon_width, kDoraemonSizeFrom750(358))];
-    _h5UrlTextView.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(32)];
-    _h5UrlTextView.placeholder = DoraemonLocalizedString(@"请输入网址");
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor systemBackgroundColor];
+    } else {
+#endif
+        self.view.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    }
+#endif
+    
+    _h5UrlTextView = [[UITextView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom + kDoraemonSizeFrom750_Landscape(32), self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(358))];
+    _h5UrlTextView.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(32)];
+    //_h5UrlTextView.placeholder = DoraemonLocalizedString(@"请输入网址");
     [self.view addSubview:_h5UrlTextView];
     _h5UrlTextView.keyboardType = UIKeyboardTypeURL;
     _h5UrlTextView.autocorrectionType = UITextAutocorrectionTypeNo;
     _h5UrlTextView.keyboardAppearance = UIKeyboardAppearanceDark;
     _h5UrlTextView.autocapitalizationType = UITextAutocapitalizationTypeNone;
 //    _h5UrlTextView.backgroundColor = [UIColor purpleColor];
-    _lineView = [[UIView alloc] initWithFrame:CGRectMake(0, _h5UrlTextView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(1))];
-    _lineView.backgroundColor = [UIColor doraemon_colorWithHex:0x000000 andAlpha:0.1];
+    _lineView = [[UIView alloc] initWithFrame:CGRectMake(0, _h5UrlTextView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(1))];
+    _lineView.backgroundColor = [UIColor doraemon_line];
     [self.view addSubview:_lineView];
     
-    _jumpBtn = [[UIButton alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(30), self.view.doraemon_height-kDoraemonSizeFrom750(30 + 100), self.view.doraemon_width-2*kDoraemonSizeFrom750(30), kDoraemonSizeFrom750(100))];
+    _jumpBtn = [[UIButton alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(30), self.view.doraemon_height-kDoraemonSizeFrom750_Landscape(30 + 100), self.view.doraemon_width-2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(100))];
     _jumpBtn.backgroundColor = [UIColor doraemon_colorWithHexString:@"#337CC4"];
     [_jumpBtn setTitle:DoraemonLocalizedString(@"点击跳转") forState:UIControlStateNormal];
     [_jumpBtn addTarget:self action:@selector(jump) forControlEvents:UIControlEventTouchUpInside];
-    _jumpBtn.layer.cornerRadius = kDoraemonSizeFrom750(8);
+    _jumpBtn.layer.cornerRadius = kDoraemonSizeFrom750_Landscape(8);
     [self.view addSubview:_jumpBtn];
     
-    self.scanJumpBtn.frame = CGRectMake(self.view.doraemon_width - kDoraemonSizeFrom750(38.6 + 33.2), _lineView.doraemon_top - kDoraemonSizeFrom750(38.6 + 33.2), kDoraemonSizeFrom750(38.6), kDoraemonSizeFrom750(38.6));
+    self.scanJumpBtn.frame = CGRectMake(self.view.doraemon_width - kDoraemonSizeFrom750_Landscape(38.6 + 33.2), _lineView.doraemon_top - kDoraemonSizeFrom750_Landscape(38.6 + 33.2), kDoraemonSizeFrom750_Landscape(38.6), kDoraemonSizeFrom750_Landscape(38.6));
     
-    self.tableView.frame = CGRectMake(0, _lineView.doraemon_bottom + kDoraemonSizeFrom750(32), self.view.doraemon_width, _jumpBtn.doraemon_top - _lineView.doraemon_bottom - kDoraemonSizeFrom750(32));
+    self.tableView.frame = CGRectMake(0, _lineView.doraemon_bottom + kDoraemonSizeFrom750_Landscape(32), self.view.doraemon_width, _jumpBtn.doraemon_top - _lineView.doraemon_bottom - kDoraemonSizeFrom750_Landscape(32));
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -104,7 +113,9 @@
         weakSelf.h5UrlTextView.text = QRCodeResult;
         [weakSelf jump];
     };
-    [self presentViewController:[[UINavigationController alloc] initWithRootViewController:vc] animated:YES completion:nil];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    nav.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)jump{
@@ -119,12 +130,11 @@
     }
     
     NSString *h5Url = _h5UrlTextView.text;
+    [[DoraemonCacheManager sharedInstance] saveH5historicalRecordWithText:h5Url];
     if ([DoraemonManager shareInstance].h5DoorBlock) {
         [self leftNavBackClick:nil];
         [DoraemonManager shareInstance].h5DoorBlock(h5Url);
     }else{
-        [[DoraemonCacheManager sharedInstance] saveH5historicalRecordWithText:h5Url];
-        
         DoraemonDefaultWebViewController *vc = [[DoraemonDefaultWebViewController alloc] init];
         vc.h5Url = [self urlCorrectionWithURL:h5Url];
         [self.navigationController pushViewController:vc animated:YES];
@@ -145,7 +155,7 @@
         cell.textLabel.text = @"默认值";
     }
     cell.textLabel.textColor = [UIColor doraemon_colorWithHex:0x333333 andAlpha:1];
-    cell.textLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(30)];
+    cell.textLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(30)];
     cell.imageView.image = [UIImage doraemon_imageNamed:@"doraemon_search"];
     return cell;
 }
@@ -158,20 +168,20 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return kDoraemonSizeFrom750(40 + 33);
+    return kDoraemonSizeFrom750_Landscape(40 + 33);
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     UIView *footerView = [[UIView alloc] init];
-    footerView.frame = CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750(40 + 33));
+    footerView.frame = CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(40 + 33));
 //    footerView.backgroundColor = [UIColor redColor];
     
     UIButton *clearButton = [UIButton buttonWithType:(UIButtonTypeCustom)];
-    clearButton.frame = CGRectMake((self.view.doraemon_width - kDoraemonSizeFrom750(300))/2, kDoraemonSizeFrom750(40), kDoraemonSizeFrom750(300), kDoraemonSizeFrom750(33));
+    clearButton.frame = CGRectMake((self.view.doraemon_width - kDoraemonSizeFrom750_Landscape(300))/2, kDoraemonSizeFrom750_Landscape(40), kDoraemonSizeFrom750_Landscape(300), kDoraemonSizeFrom750_Landscape(33));
 //    clearButton.backgroundColor = [UIColor orangeColor];
     [clearButton setTitle:DoraemonLocalizedString(@"清除搜索历史") forState:(UIControlStateNormal)];
     [clearButton setTitleColor:[UIColor doraemon_colorWithHex:0x999999 andAlpha:1] forState:UIControlStateNormal];
-    clearButton.titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(24)];
+    clearButton.titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
     [clearButton addTarget:self action:@selector(clearRecord) forControlEvents:(UIControlEventTouchUpInside)];
     [footerView addSubview:clearButton];
     

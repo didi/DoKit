@@ -1,47 +1,69 @@
 apply plugin: 'com.android.library'
 apply from: 'upload.gradle'
 
+
 android {
-    compileSdkVersion 26
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
         lintOptions {
             abortOnError false
         }
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation ('com.android.support:recyclerview-v7:26.1.0'){
+    //noinspection GradleCompatible
+    testImplementation rootProject.ext.dependencies["junit"]
+    implementation rootProject.ext.dependencies["constraintLayout"]
+    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation(rootProject.ext.dependencies["recyclerview-v7"]) {
         exclude group: 'com.android.support'
     }
+    implementation(rootProject.ext.dependencies["rootbeer-lib"]) {
+        transitive = true
+        exclude group: 'com.android.support'
+    }
+    implementation rootProject.ext.dependencies["gson"]
+    implementation rootProject.ext.dependencies["zxing"]
+    //implementation rootProject.ext.dependencies["free_reflection"]
+    //函数耗时
+    implementation rootProject.ext.dependencies["guava"]
+    implementation rootProject.ext.dependencies["utilcode"]
+    //远程调试db
+    implementation rootProject.ext.dependencies["debug-db"]
+    implementation rootProject.ext.dependencies["debug-db-encrypt"]
 
-    implementation('com.scottyab:rootbeer-lib:0.0.6') {
-        transitive=true
-        exclude group: 'com.android.support'
-    }
-    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
-    compileOnly 'com.squareup.okio:okio:1.15.0'
-    testImplementation 'junit:junit:4.12'
-    implementation 'com.google.code.gson:gson:2.8.2'
-    implementation 'com.google.zxing:core:3.3.0'
-    // Android P禁用hide api，这个库可以支持hide api的反射访问
-    implementation 'me.weishu:free_reflection:2.0.0'
+    //三大图片框架
+    compileOnly rootProject.ext.dependencies["glide"]
+    compileOnly rootProject.ext.dependencies["picasso"]
+    compileOnly rootProject.ext.dependencies["fresco"]
+    compileOnly rootProject.ext.dependencies["okhttp"]
+    compileOnly rootProject.ext.dependencies["okio"]
+
 }
 
 

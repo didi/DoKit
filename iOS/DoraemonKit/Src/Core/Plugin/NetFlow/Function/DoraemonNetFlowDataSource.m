@@ -6,6 +6,7 @@
 //
 
 #import "DoraemonNetFlowDataSource.h"
+#import "DoraemonAllTestWindow.h"
 
 @implementation DoraemonNetFlowDataSource{
     dispatch_semaphore_t semaphore;
@@ -32,6 +33,8 @@
 - (void)addHttpModel:(DoraemonNetFlowHttpModel *)httpModel{
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     [_httpModelArray insertObject:httpModel atIndex:0];
+    [DoraemonAllTestWindow shareInstance].flowChanged = true;
+    [[DoraemonAllTestWindow shareInstance] updateFlowValue:httpModel.uploadFlow downFlow:httpModel.downFlow];
     dispatch_semaphore_signal(semaphore);
 }
 

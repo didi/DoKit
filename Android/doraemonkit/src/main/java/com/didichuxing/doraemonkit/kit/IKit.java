@@ -6,9 +6,10 @@ import android.support.annotation.StringRes;
 
 /**
  * Created by zhangweida on 2018/6/22.
+ * 工具入口
  */
-
 public interface IKit {
+
     int getCategory();
 
     @StringRes
@@ -20,4 +21,7 @@ public interface IKit {
     void onClick(Context context);
 
     void onAppInit(Context context);
+
+
+
 }

@@ -42,12 +42,12 @@
 }
 
 - (void)initUI{
-    _operateView = [[DoraemonMockGPSOperateView alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(6), self.bigTitleView.doraemon_bottom+kDoraemonSizeFrom750(24), self.view.doraemon_width-2*kDoraemonSizeFrom750(6), kDoraemonSizeFrom750(124))];
+    _operateView = [[DoraemonMockGPSOperateView alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(6), self.bigTitleView.doraemon_bottom+kDoraemonSizeFrom750_Landscape(24), self.view.doraemon_width-2*kDoraemonSizeFrom750_Landscape(6), kDoraemonSizeFrom750_Landscape(124))];
     _operateView.switchView.on = [[DoraemonCacheManager sharedInstance] mockGPSSwitch];
     [self.view addSubview:_operateView];
     [_operateView.switchView addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     
-    _inputView = [[DoraemonMockGPSInputView alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(6), _operateView.doraemon_bottom+kDoraemonSizeFrom750(17), self.view.doraemon_width-2*kDoraemonSizeFrom750(6), kDoraemonSizeFrom750(170))];
+    _inputView = [[DoraemonMockGPSInputView alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(6), _operateView.doraemon_bottom+kDoraemonSizeFrom750_Landscape(17), self.view.doraemon_width-2*kDoraemonSizeFrom750_Landscape(6), kDoraemonSizeFrom750_Landscape(170))];
     _inputView.delegate = self;
     [self.view addSubview:_inputView];
     
@@ -62,7 +62,7 @@
     
     [self.view sendSubviewToBack:self.mapView];
     
-    _mapCenterView = [[DoraemonMockGPSCenterView alloc] initWithFrame:CGRectMake(_mapView.doraemon_width/2-kDoraemonSizeFrom750(250)/2, _mapView.doraemon_height/2-kDoraemonSizeFrom750(250)/2, kDoraemonSizeFrom750(250), kDoraemonSizeFrom750(250))];
+    _mapCenterView = [[DoraemonMockGPSCenterView alloc] initWithFrame:CGRectMake(_mapView.doraemon_width/2-kDoraemonSizeFrom750_Landscape(250)/2, _mapView.doraemon_height/2-kDoraemonSizeFrom750_Landscape(250)/2, kDoraemonSizeFrom750_Landscape(250), kDoraemonSizeFrom750_Landscape(250))];
     [_mapView addSubview:_mapCenterView];
 
     if (_operateView.switchView.on) {

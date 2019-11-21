@@ -6,6 +6,7 @@
     <com.didichuxing.doraemonkit.ui.colorpicker.ColorPickerView
         android:id="@+id/picker_view"
         android:layout_width="128dp"
-        android:layout_height="128dp" />
+        android:layout_height="128dp"
+        android:layout_gravity="center" />
 
 </FrameLayout>

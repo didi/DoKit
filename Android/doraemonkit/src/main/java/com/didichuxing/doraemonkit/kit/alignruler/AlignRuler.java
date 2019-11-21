@@ -4,11 +4,10 @@ import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.AlignRulerConfig;
-import com.didichuxing.doraemonkit.constant.PageTag;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.IKit;
-import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
-import com.didichuxing.doraemonkit.ui.base.PageIntent;
+import com.didichuxing.doraemonkit.ui.base.DokitIntent;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 
 /**
  * Created by wanglikun on 2018/9/19.
@@ -32,18 +31,20 @@ public class AlignRuler implements IKit {
 
     @Override
     public void onClick(Context context) {
-        PageIntent pageIntent = new PageIntent(AlignRulerMarkerFloatPage.class);
-        pageIntent.tag = PageTag.PAGE_ALIGN_RULER_MARKER;
-        pageIntent.mode=PageIntent.MODE_SINGLE_INSTANCE;
-        FloatPageManager.getInstance().add(pageIntent);
+        DokitViewManager.getInstance().detachToolPanel();
 
-        pageIntent=new PageIntent(AlignRulerLineFloatPage.class);
-        pageIntent.mode=PageIntent.MODE_SINGLE_INSTANCE;
-        FloatPageManager.getInstance().add(pageIntent);
+        DokitIntent pageIntent = new DokitIntent(AlignRulerMarkerDokitView.class);
+        pageIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        DokitViewManager.getInstance().attach(pageIntent);
 
-        pageIntent=new PageIntent(AlignRulerInfoFloatPage.class);
-        pageIntent.mode=PageIntent.MODE_SINGLE_INSTANCE;
-        FloatPageManager.getInstance().add(pageIntent);
+        pageIntent = new DokitIntent(AlignRulerLineDokitView.class);
+        pageIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        DokitViewManager.getInstance().attach(pageIntent);
+
+        pageIntent = new DokitIntent(AlignRulerInfoDokitView.class);
+        pageIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        DokitViewManager.getInstance().attach(pageIntent);
+
 
         AlignRulerConfig.setAlignRulerOpen(context, true);
     }

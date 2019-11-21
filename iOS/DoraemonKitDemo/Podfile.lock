@@ -24,45 +24,67 @@ PODS:
   - CocoaLumberjack (3.5.3):
     - CocoaLumberjack/Core (= 3.5.3)
   - CocoaLumberjack/Core (3.5.3)
-  - DoraemonKit/Core (1.2.0):
+  - DoraemonKit/Core (1.2.4):
     - BSBacktraceLogger
     - fishhook
-    - PNChart
-    - "UITextView+Placeholder"
-  - DoraemonKit/WithGPS (1.2.0):
+  - DoraemonKit/WithDatabase (1.2.4):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
-    - PNChart
-    - "UITextView+Placeholder"
-  - DoraemonKit/WithLoad (1.2.0):
+    - YYDebugDatabase
+  - DoraemonKit/WithGPS (1.2.4):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
-    - PNChart
-    - "UITextView+Placeholder"
-  - DoraemonKit/WithLogger (1.2.0):
+  - DoraemonKit/WithLoad (1.2.4):
+    - BSBacktraceLogger
+    - DoraemonKit/Core
+    - fishhook
+  - DoraemonKit/WithLogger (1.2.4):
     - BSBacktraceLogger
     - CocoaLumberjack
     - DoraemonKit/Core
     - fishhook
-    - PNChart
-    - "UITextView+Placeholder"
+  - DoraemonKit/WithMLeaksFinder (1.2.4):
+    - BSBacktraceLogger
+    - DoraemonKit/Core
+    - FBRetainCycleDetector
+    - fishhook
+  - DoraemonKit/WithWeex (1.2.4):
+    - BSBacktraceLogger
+    - DoraemonKit/Core
+    - fishhook
+    - WeexSDK
+    - WXDevtool
+  - FBRetainCycleDetector (0.1.4)
   - fishhook (0.2)
-  - PNChart (0.8.9):
-    - UICountingLabel (~> 1.2.0)
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
+  - GCDWebServer (3.5.2):
+    - GCDWebServer/Core (= 3.5.2)
+  - GCDWebServer/Core (3.5.2)
   - SDWebImage (5.0.6):
     - SDWebImage/Core (= 5.0.6)
   - SDWebImage/Core (5.0.6)
-  - UICountingLabel (1.2.0)
-  - "UITextView+Placeholder (1.2.1)"
+  - SocketRocket (0.5.1)
+  - WeexSDK (0.26.0)
+  - WXDevtool (0.24.0):
+    - SocketRocket
+    - WeexSDK
+  - YYDebugDatabase (2.0.4):
+    - FMDB
+    - GCDWebServer
 
 DEPENDENCIES:
   - AFNetworking (= 2.6.3)
   - DoraemonKit/Core (from `../../`)
+  - DoraemonKit/WithDatabase (from `../../`)
   - DoraemonKit/WithGPS (from `../../`)
   - DoraemonKit/WithLoad (from `../../`)
   - DoraemonKit/WithLogger (from `../../`)
+  - DoraemonKit/WithMLeaksFinder (from `../../`)
+  - DoraemonKit/WithWeex (from `../../`)
   - SDWebImage (= 5.0.6)
 
 SPEC REPOS:
@@ -70,11 +92,15 @@ SPEC REPOS:
     - AFNetworking
     - BSBacktraceLogger
     - CocoaLumberjack
+    - FBRetainCycleDetector
     - fishhook
-    - PNChart
+    - FMDB
+    - GCDWebServer
     - SDWebImage
-    - UICountingLabel
-    - "UITextView+Placeholder"
+    - SocketRocket
+    - WeexSDK
+    - WXDevtool
+    - YYDebugDatabase
 
 EXTERNAL SOURCES:
   DoraemonKit:
@@ -84,13 +110,17 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   BSBacktraceLogger: 06b983ee93a9f87d957960e9c73d660d5966b447
   CocoaLumberjack: 2f44e60eb91c176d471fdba43b9e3eae6a721947
-  DoraemonKit: 800be28118fb88d57eadbded1222746d7c55cb8a
+  DoraemonKit: 5328b8b57cd900f6a24f7f66051346dd4409437d
+  FBRetainCycleDetector: 46f8179bbb1c587deee3ea838a1a3ee02acf5015
   fishhook: ea19933abfe8f2f52c55fd8b6e2718467d3ebc89
-  PNChart: 84774d225c2126ded6c93d4dbe6ae98c3a73c2d2
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  GCDWebServer: ead88cd14596dd4eae4f5830b8877c87c8728990
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
-  UICountingLabel: 1db4e7d023e1762171eb226d6dff47a7a84f27aa
-  "UITextView+Placeholder": 0c3efd97f37ea64bde7f34cc6e90fe02e87b3909
+  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+  WeexSDK: 55b67d1c411eb28ec1e356f763a335d0ddcc5324
+  WXDevtool: 95b70c73c06fc3299d65bd53ba4b3e0b0087f3cb
+  YYDebugDatabase: f67e8bc0913ac3dfff19cded6e115d1854690a3f
 
-PODFILE CHECKSUM: d747f8dae925396a2f5b00631d88a58656e30600
+PODFILE CHECKSUM: cf353b7895d371e7af77fa40ac9f83e17632ae33
 
 COCOAPODS: 1.8.4

@@ -62,7 +62,7 @@ static NSInteger const kPixelSkip = 1; // 采集像素颜色时像素的间隔
     CGPoint currentPoint = self.targetPoint;
     currentPoint.x -= kGridNum*kPixelSkip/2;
     currentPoint.y -= kGridNum*kPixelSkip/2;
-    int i,j;
+    NSInteger i,j;
     
     // 放大镜中画出网格，并使用当前点和周围点的颜色进行填充
     for (j=0; j<kGridNum; j++) {
@@ -118,7 +118,23 @@ static NSInteger const kPixelSkip = 1; // 采集像素颜色时像素的间隔
     CGRect selectedRect = CGRectMake(xyOffset, xyOffset, gridWidth, gridWidth);
     CGContextAddRect(ctx, selectedRect);
     
-    CGContextSetStrokeColorWithColor(ctx, [UIColor blackColor].CGColor);
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        UIColor *dyColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull trainCollection) {
+            if ([trainCollection userInterfaceStyle] == UIUserInterfaceStyleLight) {
+                return [UIColor blackColor];
+            }
+            else {
+                return [UIColor whiteColor];
+            }
+        }];
+        CGContextSetStrokeColorWithColor(ctx, dyColor.CGColor);
+    } else {
+#endif
+        CGContextSetStrokeColorWithColor(ctx, [UIColor blackColor].CGColor);
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    }
+#endif
     CGContextSetLineWidth(ctx, 1.0);
     CGContextStrokePath(ctx);
     

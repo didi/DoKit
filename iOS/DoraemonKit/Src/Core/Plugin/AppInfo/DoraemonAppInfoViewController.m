@@ -51,7 +51,15 @@
     self.title = DoraemonLocalizedString(@"App基本信息");
 
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-self.bigTitleView.doraemon_bottom) style:UITableViewStyleGrouped];
-    self.tableView.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        self.tableView.backgroundColor = [UIColor systemBackgroundColor];
+    } else {
+#endif
+        self.tableView.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    }
+#endif
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.estimatedRowHeight = 0.;
@@ -217,15 +225,15 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return kDoraemonSizeFrom750(120);
+    return kDoraemonSizeFrom750_Landscape(120);
 }
 
 - (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750(120))];
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(32), 0, DoraemonScreenWidth-kDoraemonSizeFrom750(32), kDoraemonSizeFrom750(120))];
+    UIView *sectionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(120))];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(32), 0, DoraemonScreenWidth-kDoraemonSizeFrom750_Landscape(32), kDoraemonSizeFrom750_Landscape(120))];
     NSDictionary *dic = _dataArray[section];
     titleLabel.text = dic[@"title"];
-    titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(28)];
+    titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(28)];
     titleLabel.textColor = [UIColor doraemon_black_3];
     [sectionView addSubview:titleLabel];
     return sectionView;

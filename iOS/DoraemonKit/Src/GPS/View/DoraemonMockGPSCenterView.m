@@ -22,8 +22,8 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        _circleView = [[UIView alloc] initWithFrame:CGRectMake(self.doraemon_width/2-kDoraemonSizeFrom750(100)/2, self.doraemon_height/2-kDoraemonSizeFrom750(100)/2, kDoraemonSizeFrom750(100), kDoraemonSizeFrom750(100))];
-        _circleView.layer.cornerRadius = kDoraemonSizeFrom750(50);
+        _circleView = [[UIView alloc] initWithFrame:CGRectMake(self.doraemon_width/2-kDoraemonSizeFrom750_Landscape(100)/2, self.doraemon_height/2-kDoraemonSizeFrom750_Landscape(100)/2, kDoraemonSizeFrom750_Landscape(100), kDoraemonSizeFrom750_Landscape(100))];
+        _circleView.layer.cornerRadius = kDoraemonSizeFrom750_Landscape(50);
         _circleView.backgroundColor = [UIColor doraemon_colorWithHex:0xFFA511 andAlpha:0.37];
         [self addSubview:_circleView];
         
@@ -33,13 +33,13 @@
         
         _gpsLabel = [[UILabel alloc] init];
         _gpsLabel.textColor = [UIColor doraemon_black_1];
-        _gpsLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750(24)];
+        _gpsLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
         _gpsLabel.backgroundColor = [UIColor whiteColor];
         _gpsLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_gpsLabel];
         
         _arrowImageView = [[UIImageView alloc] initWithImage:[UIImage doraemon_imageNamed:@"doraemon_arrow_down"]];
-        _arrowImageView.frame = CGRectMake(self.doraemon_width/2-_arrowImageView.doraemon_width/2, _locationIconView.doraemon_top-kDoraemonSizeFrom750(20)-_arrowImageView.doraemon_height, _arrowImageView.doraemon_width, _arrowImageView.doraemon_height);
+        _arrowImageView.frame = CGRectMake(self.doraemon_width/2-_arrowImageView.doraemon_width/2, _locationIconView.doraemon_top-kDoraemonSizeFrom750_Landscape(20)-_arrowImageView.doraemon_height, _arrowImageView.doraemon_width, _arrowImageView.doraemon_height);
         [self addSubview:_arrowImageView];
         
     }
@@ -49,9 +49,9 @@
 - (void)renderUIWithGPS:(NSString *)gps{
     _gpsLabel.text = gps;
     [_gpsLabel sizeToFit];
-    CGFloat w = _gpsLabel.doraemon_width + kDoraemonSizeFrom750(30)*2;
-    CGFloat h = _gpsLabel.doraemon_height + kDoraemonSizeFrom750(12)*2;
-    _gpsLabel.frame = CGRectMake(self.doraemon_width/2-w/2, _arrowImageView.doraemon_top-h+kDoraemonSizeFrom750(10), w, h);
+    CGFloat w = _gpsLabel.doraemon_width + kDoraemonSizeFrom750_Landscape(30)*2;
+    CGFloat h = _gpsLabel.doraemon_height + kDoraemonSizeFrom750_Landscape(12)*2;
+    _gpsLabel.frame = CGRectMake(self.doraemon_width/2-w/2, _arrowImageView.doraemon_top-h+kDoraemonSizeFrom750_Landscape(10), w, h);
     _gpsLabel.layer.cornerRadius = h/2;
     _gpsLabel.clipsToBounds = YES;
 }
