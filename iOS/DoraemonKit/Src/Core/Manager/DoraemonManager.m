@@ -224,6 +224,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonDeleteLocalDataPlugin];
     
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonNSLogPlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonNSUserDefaultsPlugin];
 #if DoraemonWithLogger
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonCocoaLumberjackPlugin];
 #endif
@@ -519,6 +520,14 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kPluginName:@"DoraemonDatabasePlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"常用工具")}
                                    ],
+                           @(DoraemonManagerPluginType_DoraemonNSUserDefaultsPlugin) : @[
+                                   @{kTitle:@"NSUserDefaults"},
+                                   @{kDesc:@"NSUserDefaults"},
+                                   @{kIcon:@"doraemon_database"},
+                                   @{kPluginName:@"DoraemonNSUserDefaultsPlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"常用工具")}
+                           ],
+                           
                            // 性能检测
                            @(DoraemonManagerPluginType_DoraemonFPSPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"帧率")},
