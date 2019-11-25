@@ -6,7 +6,7 @@
 dependencies {
 	...
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.0.1'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.0.1'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.0.2'
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     ...
 }
