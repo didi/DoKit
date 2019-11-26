@@ -161,8 +161,9 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
         mBottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                mLogList.smoothScrollToPosition(mLogItemAdapter.getItemCount() - 1);
+                if (mLogItemAdapter.getItemCount()>0){
+                    mLogList.smoothScrollToPosition(mLogItemAdapter.getItemCount() - 1);
+                }
             }
         });
     }
