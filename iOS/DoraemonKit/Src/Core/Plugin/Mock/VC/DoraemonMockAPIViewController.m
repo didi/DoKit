@@ -22,6 +22,8 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     
+    self.searchView.textField.text = [DoraemonMockManager sharedInstance].mockSearchText;
+    
     _detailView = [[DoraemonMockApiListView alloc] initWithFrame:CGRectMake(0, self.sepeatorLine.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height - self.sepeatorLine.doraemon_bottom)];
     [self.view addSubview:_detailView];
     
@@ -61,6 +63,12 @@
     
     [_detailView reloadUI];
 
+}
+
+#pragma mark - DoraemonMockSearchViewDelegate
+- (void)searchViewInputChange:(NSString *)text{
+    [DoraemonMockManager sharedInstance].mockSearchText = text;
+    [self.detailView reloadUI];
 }
 
 

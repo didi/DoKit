@@ -23,6 +23,8 @@
     [super viewDidLoad];
     self.title = DoraemonLocalizedString(@"上传模板");
     
+    self.searchView.textField.text = [DoraemonMockManager sharedInstance].uploadSearchText;
+    
     _detailView = [[DoraemonMockUploadListView alloc] initWithFrame:CGRectMake(0, self.sepeatorLine.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height - self.sepeatorLine.doraemon_bottom)];
     _detailView.delegate = self;
     [self.view addSubview:_detailView];
@@ -70,6 +72,12 @@
     [super filterSelectedClick];
     
     [_detailView reloadUI];
+}
+
+#pragma mark - DoraemonMockSearchViewDelegate
+- (void)searchViewInputChange:(NSString *)text{
+    [DoraemonMockManager sharedInstance].uploadSearchText = text;
+    [self.detailView reloadUI];
 }
 
 @end

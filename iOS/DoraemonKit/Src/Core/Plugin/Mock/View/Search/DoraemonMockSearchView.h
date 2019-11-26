@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DoraemonMockSearchView : UIView
 
+@property (nonatomic, strong) UITextField *textField;
 @property (nonatomic, weak) id<DoraemonMockSearchViewDelegate> delegate;
 
 @end

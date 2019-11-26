@@ -11,7 +11,6 @@
 @interface DoraemonMockSearchView()
 
 @property (nonatomic, strong) UIImageView *searchIcon;
-@property (nonatomic, strong) UITextField *textField;
 
 @end
 

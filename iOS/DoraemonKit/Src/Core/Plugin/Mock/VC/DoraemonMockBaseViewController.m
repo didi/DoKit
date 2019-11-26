@@ -6,13 +6,10 @@
 //
 
 #import "DoraemonMockBaseViewController.h"
-#import "DoraemonMockSearchView.h"
 #import "DoraemonDefine.h"
 #import "DoraemonMockManager.h"
 
 @interface DoraemonMockBaseViewController ()<DoraemonMockSearchViewDelegate,DoraemonMockFilterButtonDelegate,DoraemonMockFilterBgroundDelegate>
-
-@property (nonatomic, strong) DoraemonMockSearchView *searchView;
 @property (nonatomic, assign) CGFloat padding_left;
 
 @end
@@ -82,7 +79,6 @@
 
 #pragma mark - DoraemonMockSearchViewDelegate
 - (void)searchViewInputChange:(NSString *)text{
-   
     
 }
 

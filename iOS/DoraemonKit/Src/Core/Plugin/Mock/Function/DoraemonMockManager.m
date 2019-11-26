@@ -223,8 +223,19 @@
             }
         }
     }
+    
+    NSMutableArray<DoraemonMockAPIModel *> *filter_3_Array = [[NSMutableArray alloc] init];
+    if(!_mockSearchText || _mockSearchText.length==0){
+        filter_3_Array = filter_2_Array;
+    }else {
+        for (DoraemonMockAPIModel *mockModel in filter_2_Array) {
+            if([mockModel.name containsString:_mockSearchText]){
+                [filter_3_Array addObject:mockModel];
+            }
+        }
+    }
 
-    return  filter_2_Array;
+    return  filter_3_Array;
 }
 
 - (NSMutableArray<DoraemonMockUpLoadModel *> *)filterUpLoadArray{
@@ -251,8 +262,19 @@
             }
         }
     }
+    
+    NSMutableArray<DoraemonMockUpLoadModel *> *filter_3_Array = [[NSMutableArray alloc] init];
+    if(!_uploadSearchText || _uploadSearchText.length==0){
+        filter_3_Array = filter_2_Array;
+    }else {
+        for (DoraemonMockUpLoadModel *uploadModel in filter_2_Array) {
+            if([uploadModel.name containsString:_uploadSearchText]){
+                [filter_3_Array addObject:uploadModel];
+            }
+        }
+    }
 
-    return  filter_2_Array;
+    return  filter_3_Array;
 
 }
 
