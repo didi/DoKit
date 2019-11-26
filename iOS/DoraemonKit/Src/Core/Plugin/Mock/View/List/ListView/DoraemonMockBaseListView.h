@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSArray<DoraemonMockBaseModel *> *dataArray;
 @property (nonatomic, strong) UITableView *tableView;
 
+- (void)reloadUI;
+
 @end
 
 NS_ASSUME_NONNULL_END

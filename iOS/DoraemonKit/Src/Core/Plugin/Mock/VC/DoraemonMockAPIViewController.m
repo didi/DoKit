@@ -39,7 +39,7 @@
 }
 
 #pragma mark --DoraemonMockFilterBgroundDelegate
-- (void)selectedClick{
+- (void)filterSelectedClick{
     if(self.rightButton.down){
         NSString *rightTitle = [DoraemonMockManager sharedInstance].states[self.listView.selectedIndex];
         [DoraemonMockManager sharedInstance].mockState = rightTitle;
@@ -56,7 +56,10 @@
         [self.leftButton renderUIWithTitle:leftTitle];
     }
     
-    [super selectedClick];
+    [super filterSelectedClick];
+    
+    
+    [_detailView reloadUI];
 
 }
 

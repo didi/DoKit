@@ -199,6 +199,63 @@
     return save;
 }
 
+- (NSMutableArray<DoraemonMockAPIModel *> *)filterMockArray{
+    NSMutableArray<DoraemonMockAPIModel *> *filter_1_Array = [[NSMutableArray alloc] init];
+    if ([_mockGroup isEqualToString:@"所有"]) {
+        filter_1_Array = _mockArray;
+    }else{
+        for (DoraemonMockAPIModel *mockModel in _mockArray) {
+            if ([_mockGroup isEqualToString:mockModel.category]) {
+                [filter_1_Array addObject:mockModel];
+            }
+        }
+    }
+
+    NSMutableArray<DoraemonMockAPIModel *> *filter_2_Array = [[NSMutableArray alloc] init];
+    if ([_mockState isEqualToString:@"所有"]) {
+        filter_2_Array = filter_1_Array;
+    }else{
+        for (DoraemonMockAPIModel *mockModel in filter_1_Array) {
+            if([_mockState isEqualToString:@"打开"] && mockModel.selected){
+                [filter_2_Array addObject:mockModel];
+            }else if([_mockState isEqualToString:@"关闭"] && !mockModel.selected){
+                [filter_2_Array addObject:mockModel];
+            }
+        }
+    }
+
+    return  filter_2_Array;
+}
+
+- (NSMutableArray<DoraemonMockUpLoadModel *> *)filterUpLoadArray{
+    NSMutableArray<DoraemonMockUpLoadModel *> *filter_1_Array = [[NSMutableArray alloc] init];
+    if ([_uploadGroup isEqualToString:@"所有"]) {
+        filter_1_Array = _upLoadArray;
+    }else{
+        for (DoraemonMockUpLoadModel *uploadModel in _upLoadArray) {
+            if ([_uploadGroup isEqualToString:uploadModel.category]) {
+                [filter_1_Array addObject:uploadModel];
+            }
+        }
+    }
+
+    NSMutableArray<DoraemonMockUpLoadModel *> *filter_2_Array = [[NSMutableArray alloc] init];
+    if ([_uploadState isEqualToString:@"所有"]) {
+        filter_2_Array = filter_1_Array;
+    }else{
+        for (DoraemonMockUpLoadModel *uploadModel in filter_1_Array) {
+            if([_uploadState isEqualToString:@"打开"] && uploadModel.selected){
+                [filter_2_Array addObject:uploadModel];
+            }else if([_uploadState isEqualToString:@"关闭"] && !uploadModel.selected){
+                [filter_2_Array addObject:uploadModel];
+            }
+        }
+    }
+
+    return  filter_2_Array;
+
+}
+
 #pragma mark -- DoraemonNetworkInterceptorDelegate
 - (void)doraemonNetworkInterceptorDidReceiveData:(NSData *)data response:(NSURLResponse *)response request:(NSURLRequest *)request error:(NSError *)error startTime:(NSTimeInterval)startTime {
     if ([self needSave:request]) {

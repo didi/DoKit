@@ -16,7 +16,7 @@
 @property (nonatomic, strong) DoraemonMockFilterButton *leftButton;
 @property (nonatomic, strong) DoraemonMockFilterButton *rightButton;
 
-- (void)selectedClick;
+- (void)filterSelectedClick;
 
 @end
 

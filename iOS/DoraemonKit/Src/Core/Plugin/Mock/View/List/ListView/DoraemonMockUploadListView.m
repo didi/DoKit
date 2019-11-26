@@ -16,9 +16,14 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.dataArray = [DoraemonMockManager sharedInstance].upLoadArray;
+        self.dataArray = [[DoraemonMockManager sharedInstance] filterUpLoadArray];
     }
     return self;
+}
+
+- (void)reloadUI{
+    self.dataArray = [[DoraemonMockManager sharedInstance] filterUpLoadArray];
+    [super reloadUI];
 }
 
 

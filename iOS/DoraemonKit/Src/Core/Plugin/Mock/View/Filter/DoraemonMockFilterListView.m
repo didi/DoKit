@@ -71,8 +71,8 @@
 }
 
 - (void)tap{
-    if (_delegate && [_delegate respondsToSelector:@selector(bgroundClick)]) {
-        [_delegate bgroundClick];
+    if (_delegate && [_delegate respondsToSelector:@selector(filterBgroundClick)]) {
+        [_delegate filterBgroundClick];
     }
 }
 
@@ -106,8 +106,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     _selectedIndex = indexPath.section;
     [_tableView reloadData];
-    if (_delegate && [_delegate respondsToSelector:@selector(selectedClick)]) {
-        [_delegate selectedClick];
+    if (_delegate && [_delegate respondsToSelector:@selector(filterSelectedClick)]) {
+        [_delegate filterSelectedClick];
     }
 }
 

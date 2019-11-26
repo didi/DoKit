@@ -16,9 +16,14 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.dataArray = [DoraemonMockManager sharedInstance].mockArray;
+        self.dataArray = [[DoraemonMockManager sharedInstance] filterMockArray];
     }
     return self;
+}
+
+- (void)reloadUI{
+    self.dataArray = [[DoraemonMockManager sharedInstance] filterMockArray];
+    [super reloadUI];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

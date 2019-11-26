@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol DoraemonMockBaseCellDelegate<NSObject>
 
+@optional
 - (void)cellExpandClick;
 - (void)sceneBtnClick;
 - (void)cellSwitchClick;

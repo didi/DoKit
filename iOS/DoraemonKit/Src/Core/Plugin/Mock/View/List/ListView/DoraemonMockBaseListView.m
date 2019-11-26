@@ -25,6 +25,10 @@
     return self;
 }
 
+- (void)reloadUI{
+    [self.tableView reloadData];
+}
+
 #pragma mark - UITableView Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;

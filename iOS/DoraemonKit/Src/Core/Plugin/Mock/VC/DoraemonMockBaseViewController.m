@@ -87,12 +87,12 @@
 }
 
 #pragma mark --DoraemonMockFilterBgroundDelegate
-- (void)bgroundClick{
+- (void)filterBgroundClick{
     [self closeList];
 }
 
 #pragma mark --DoraemonMockFilterBgroundDelegate
-- (void)selectedClick{
+- (void)filterSelectedClick{
     [self closeList];
 }
 
