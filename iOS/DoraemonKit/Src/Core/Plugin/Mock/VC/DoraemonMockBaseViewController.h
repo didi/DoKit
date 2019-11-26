@@ -6,10 +6,17 @@
 //
 
 #import "DoraemonBaseViewController.h"
+#import "DoraemonMockFilterListView.h"
+#import "DoraemonMockFilterButton.h"
 
 @interface DoraemonMockBaseViewController : DoraemonBaseViewController
 
 @property (nonatomic, strong) UIView *sepeatorLine;
+@property (nonatomic, strong) DoraemonMockFilterListView *listView;
+@property (nonatomic, strong) DoraemonMockFilterButton *leftButton;
+@property (nonatomic, strong) DoraemonMockFilterButton *rightButton;
+
+- (void)selectedClick;
 
 @end
 

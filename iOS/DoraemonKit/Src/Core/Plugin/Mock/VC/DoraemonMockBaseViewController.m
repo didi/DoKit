@@ -7,18 +7,12 @@
 
 #import "DoraemonMockBaseViewController.h"
 #import "DoraemonMockSearchView.h"
-#import "DoraemonMockFilterButton.h"
-#import "DoraemonMockFilterListView.h"
-#import "DoraemonMockFilterModel.h"
 #import "DoraemonDefine.h"
+#import "DoraemonMockManager.h"
 
 @interface DoraemonMockBaseViewController ()<DoraemonMockSearchViewDelegate,DoraemonMockFilterButtonDelegate,DoraemonMockFilterBgroundDelegate>
 
 @property (nonatomic, strong) DoraemonMockSearchView *searchView;
-@property (nonatomic, strong) DoraemonMockFilterButton *leftButton;
-@property (nonatomic, strong) DoraemonMockFilterButton *rightButton;
-@property (nonatomic, strong) DoraemonMockFilterListView *listView;
-@property (nonatomic, strong) DoraemonMockFilterModel *filterArray;
 @property (nonatomic, assign) CGFloat padding_left;
 
 @end
@@ -52,20 +46,27 @@
     _sepeatorLine = [[UIView alloc] initWithFrame:CGRectMake(0, _leftButton.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(12))];
     _sepeatorLine.backgroundColor = [UIColor doraemon_bg];
     [self.view addSubview:_sepeatorLine];
-    
-    _filterArray = [[DoraemonMockFilterModel alloc] init];
-    
 }
 
 - (BOOL)needBigTitleView{
     return YES;
 }
 
-- (void)showList:(DoraemonMockFilterButton *)halfButton{
-    _listView.tag = halfButton.tag;
-    _listView.selectedIndex = halfButton.selectedItemIndex;
+- (void)showList:(DoraemonMockFilterButton *)filterBtn{
+    _listView.tag = filterBtn.tag;
+    _listView.selectedIndex = filterBtn.selectedItemIndex;
     [self.view addSubview:_listView];
-    [_listView showList: [_filterArray getItemArray:halfButton.tag]];
+    [_listView showList: [self getItemArray:filterBtn.tag]];
+}
+
+- (NSArray *)getItemArray:(NSInteger)tag{
+    NSArray *dataArray;
+    if (tag == 0) {
+        dataArray = [DoraemonMockManager sharedInstance].groups;
+    }else{
+        dataArray = [DoraemonMockManager sharedInstance].states;
+    }
+    return dataArray;
 }
 
 - (void)closeList{
@@ -96,7 +97,7 @@
 }
 
 #pragma mark - DoraemonMockHalfButton
-- (void)halfBtnClick:(id)sender{
+- (void)filterBtnClick:(id)sender{
     if(_rightButton.down&&_leftButton.down){
         if(sender==_rightButton){
             _leftButton.selectedItemIndex = _listView.selectedIndex;

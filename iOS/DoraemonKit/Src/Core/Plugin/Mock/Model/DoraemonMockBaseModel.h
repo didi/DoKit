@@ -24,7 +24,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL expand;//该数据是否展开
 @property (nonatomic, copy) NSString *info;//info面板数据，由path、query、category、owner、editor组成
 @property (nonatomic, assign) BOOL selected;//是否选中
-
 @end
 
 NS_ASSUME_NONNULL_END

@@ -30,6 +30,14 @@
     return instance;
 }
 
+- (instancetype)init{
+    self = [super init];
+    if (self) {
+        _states = @[@"所有",@"打开",@"关闭"];
+    }
+    return self;
+}
+
 - (void)setMock:(BOOL)mock{
     if (_isDetecting == mock) {
         return;
@@ -61,6 +69,8 @@
             NSArray *apis = result[@"data"][@"datalist"];
             NSMutableArray<DoraemonMockAPIModel *> *mockArray = [[NSMutableArray alloc] init];
             NSMutableArray<DoraemonMockUpLoadModel *> *uploadArray = [[NSMutableArray alloc] init];
+            NSMutableArray *groups = [[NSMutableArray alloc] init];
+            [groups addObject:@"所有"];
             for (NSDictionary *item in apis) {
                 DoraemonMockAPIModel *mock = [[DoraemonMockAPIModel alloc] init];
                 mock.apiId = item[@"_id"];
@@ -92,9 +102,15 @@
                 upload.owner = item[@"owner"][@"name"];
                 upload.editor = item[@"curStatus"][@"operator"][@"name"];
                 [uploadArray addObject:upload];
+                
+                NSString *category = item[@"categoryName"];
+                if (groups && ![groups containsObject:category]) {
+                    [groups addObject:category];
+                }
             }
             weakSelf.mockArray = mockArray;
             weakSelf.upLoadArray = uploadArray;
+            weakSelf.groups = groups;
             [self handleData];
         } error:^(NSError * _Nonnull error) {
             NSLog(@"error == %@",error);
@@ -107,6 +123,10 @@
 
 // 处理数据：合并网络数据和本地数据
 - (void)handleData {
+    _mockGroup = @"所有";
+    _mockState = @"所有";
+    _uploadGroup = @"所有";
+    _uploadState = @"所有";
     for (DoraemonMockAPIModel *api in self.mockArray) {
         if (api.selected) {
             self.mock = YES;

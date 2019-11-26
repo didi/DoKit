@@ -34,7 +34,7 @@
         [self addSubview:_tableView];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _selectedIndex = -1;
+        _selectedIndex = 0;
         _cellHeight = kDoraemonSizeFrom750_Landscape(104);
         _DoraemonMockFilterTableCellID = @"DoraemonMockFilterTableCell";
     }
@@ -54,7 +54,7 @@
     _itemTitleArray = itemArray;
     [_tableView reloadData];
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.5f];
+    [UIView setAnimationDuration:0.25f];
     self.tableView.frame = CGRectMake(0, 0, self.doraemon_width, itemArray.count * _cellHeight);
     self.bgroundView.alpha = 0.5f;
     [UIView commitAnimations];
@@ -63,7 +63,7 @@
 
 - (void)closeList{
     [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.3f];
+    [UIView setAnimationDuration:0.25f];
     self.bgroundView.alpha = 0;
     self.tableView.frame = CGRectMake(0, 0, self.doraemon_width, 0);
     [UIView commitAnimations];

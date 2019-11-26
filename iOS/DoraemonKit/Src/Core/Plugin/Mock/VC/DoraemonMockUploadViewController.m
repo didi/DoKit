@@ -26,6 +26,18 @@
     _detailView = [[DoraemonMockUploadListView alloc] initWithFrame:CGRectMake(0, self.sepeatorLine.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height - self.sepeatorLine.doraemon_bottom)];
     _detailView.delegate = self;
     [self.view addSubview:_detailView];
+    
+    NSString *leftTitle = [DoraemonMockManager sharedInstance].uploadGroup;
+    if ([leftTitle isEqualToString:@"所有"]) {
+        leftTitle = @"接口分组";
+    }
+    [self.leftButton renderUIWithTitle:leftTitle];
+    
+    NSString *rightTitle = [DoraemonMockManager sharedInstance].uploadState;
+    if ([rightTitle isEqualToString:@"所有"]) {
+        rightTitle = @"开关状态";
+    }
+    [self.rightButton renderUIWithTitle:rightTitle];
 }
 
 #pragma mark - DoraemonMockUploadListViewDelegate
@@ -35,6 +47,28 @@
         vc.result = result;
         [self.navigationController pushViewController:vc animated:YES];
     }
+}
+
+#pragma mark --DoraemonMockFilterBgroundDelegate
+- (void)selectedClick{
+    if(self.rightButton.down){
+        NSString *rightTitle = [DoraemonMockManager sharedInstance].states[self.listView.selectedIndex];
+        [DoraemonMockManager sharedInstance].uploadState = rightTitle;
+        if ([rightTitle isEqualToString:@"所有"]) {
+            rightTitle = @"开关状态";
+        }
+        [self.rightButton renderUIWithTitle:rightTitle];
+    }else{
+        NSString *leftTitle = [DoraemonMockManager sharedInstance].groups[self.listView.selectedIndex];
+        [DoraemonMockManager sharedInstance].uploadGroup = leftTitle;
+        if ([leftTitle isEqualToString:@"所有"]) {
+            leftTitle = @"接口分组";
+        }
+        [self.leftButton renderUIWithTitle:leftTitle];
+    }
+    
+    [super selectedClick];
+
 }
 
 @end

@@ -18,6 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableArray<DoraemonMockAPIModel *> *mockArray;
 @property (nonatomic, strong) NSMutableArray<DoraemonMockUpLoadModel *> *upLoadArray;
 
+@property (nonatomic, copy) NSArray *groups;//分组数据
+@property (nonatomic, copy) NSArray *states;//状态数据
+@property (nonatomic, copy) NSString *mockGroup;//mock数据选中的分组
+@property (nonatomic, copy) NSString *mockState;//mock数据选中的状态
+@property (nonatomic, copy) NSString *uploadGroup;//上传信息选中的分组
+@property (nonatomic, copy) NSString *uploadState;//上传信息选中的状态
+
+
 - (void)queryMockData;
 
 - (BOOL)needMock:(NSURLRequest *)request;

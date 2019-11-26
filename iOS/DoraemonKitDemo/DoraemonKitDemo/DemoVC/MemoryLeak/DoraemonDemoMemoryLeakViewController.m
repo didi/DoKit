@@ -27,10 +27,10 @@
     [_model addBlock:^{
         [self printXX];
     }];
-    [_model install];
+    //[_model install];
 
-    _testview = [[DoraemonDemoMemoryLeakView alloc] initWithFrame:CGRectMake(100, 200, 100, 100)];
-    [self.view addSubview:_testview];
+    //_testview = [[DoraemonDemoMemoryLeakView alloc] initWithFrame:CGRectMake(100, 200, 100, 100)];
+    //[self.view addSubview:_testview];
     
 
     

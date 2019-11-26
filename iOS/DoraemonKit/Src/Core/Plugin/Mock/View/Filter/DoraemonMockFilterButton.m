@@ -31,7 +31,7 @@
         UITapGestureRecognizer *todo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
         [self addGestureRecognizer:todo];
         
-        _selectedItemIndex = -1;
+        _selectedItemIndex = 0;
     }
     return self;
 }
@@ -59,10 +59,10 @@
 }
 
 - (void)tap{
-    if (_delegate && [_delegate respondsToSelector:@selector(halfBtnClick:)]) {
+    if (_delegate && [_delegate respondsToSelector:@selector(filterBtnClick:)]) {
         _down = !_down;
         [self setDropdown:self.down];
-        [_delegate halfBtnClick:self];
+        [_delegate filterBtnClick:self];
     }
 }
 

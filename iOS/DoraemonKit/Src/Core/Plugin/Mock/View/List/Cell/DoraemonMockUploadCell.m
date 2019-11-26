@@ -104,8 +104,6 @@
     }else{
         NSLog(@"上传模板接口必须要传pid");
     }
-    
- 
 }
 
 - (void)showToast:(NSString *)toast{

@@ -9,7 +9,7 @@
 
 @protocol DoraemonMockFilterButtonDelegate<NSObject>
 
-- (void)halfBtnClick:(id)sender;
+- (void)filterBtnClick:(id)sender;
 
 @end
 
