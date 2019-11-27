@@ -7,6 +7,7 @@
 
 #import "DoraemonMockUploadListView.h"
 #import "DoraemonMockUploadCell.h"
+#import "DoraemonMockUtil.h"
 
 @interface DoraemonMockUploadListView()
 
@@ -49,5 +50,10 @@
     if (_delegate && [_delegate respondsToSelector:@selector(previewClick:)]) {
         [_delegate previewClick:result];
     }
+}
+
+- (void)cellSwitchClick{
+    [[DoraemonMockUtil sharedInstance] saveUploadArrayCache];
+    [self.tableView reloadData];
 }
 @end

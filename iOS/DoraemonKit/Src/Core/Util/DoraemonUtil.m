@@ -97,6 +97,23 @@
     return dic;
 }
 
++ (NSArray *)arrayWithJsonString:(NSString *)jsonString {
+    if (jsonString == nil) {
+        return nil;
+    }
+    
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    NSArray *array = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
+    if(err) {
+        NSLog(@"json解析失败：%@",err);
+        return nil;
+    }
+    return array;
+}
+
 +(NSString *)dictToJsonStr:(NSDictionary *)dict{
     
     NSString *jsonString = nil;
@@ -104,6 +121,21 @@
     {
         NSError *error;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
+        jsonString =[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        if (error) {
+            NSLog(@"Error:%@" , error);
+        }
+    }
+    return jsonString;
+}
+
++(NSString *)arrayToJsonStr:(NSArray *)array{
+    
+    NSString *jsonString = nil;
+    if ([NSJSONSerialization isValidJSONObject:array])
+    {
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:&error];
         jsonString =[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         if (error) {
             NSLog(@"Error:%@" , error);

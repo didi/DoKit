@@ -7,6 +7,7 @@
 
 #import "DoraemonMockApiListView.h"
 #import "DoraemonMockApiCell.h"
+#import "DoraemonMockUtil.h"
 
 @interface DoraemonMockApiListView()
 
@@ -48,10 +49,12 @@
 }
 
 - (void)sceneBtnClick{
+    [[DoraemonMockUtil sharedInstance] saveMockArrayCache];
     [self.tableView reloadData];
 }
 
 - (void)cellSwitchClick{
+    [[DoraemonMockUtil sharedInstance] saveMockArrayCache];
     [self.tableView reloadData];
 }
 

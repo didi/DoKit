@@ -11,6 +11,7 @@
 #import "DoraemonCacheManager.h"
 #import "DoraemonUrlUtil.h"
 #import "DoraemonManager.h"
+#import "DoraemonMockUtil.h"
 
 @interface DoraemonMockManager()<DoraemonNetworkInterceptorDelegate>
 
@@ -127,10 +128,19 @@
     _mockState = @"所有";
     _uploadGroup = @"所有";
     _uploadState = @"所有";
+    
+    [[DoraemonMockUtil sharedInstance] readMockArrayCache];
+    [[DoraemonMockUtil sharedInstance] readUploadArrayCache];
     for (DoraemonMockAPIModel *api in self.mockArray) {
         if (api.selected) {
             self.mock = YES;
-            return;
+            break;
+        }
+    }
+    for (DoraemonMockUpLoadModel *upload in self.upLoadArray) {
+        if (upload.selected) {
+            self.mock = YES;
+            break;
         }
     }
 }

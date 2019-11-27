@@ -10,6 +10,17 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DoraemonMockUtil : NSObject
+
++ (instancetype)sharedInstance;
+
+- (void)saveMockArrayCache;
+
+- (void)saveUploadArrayCache;
+
+- (void)readMockArrayCache;
+
+- (void)readUploadArrayCache;
+
 @end
 
 NS_ASSUME_NONNULL_END
