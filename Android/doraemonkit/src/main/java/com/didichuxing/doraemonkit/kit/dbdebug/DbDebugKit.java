@@ -2,7 +2,13 @@ package com.didichuxing.doraemonkit.kit.dbdebug;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.widget.TextView;
 
+import com.amitshekhar.DebugDB;
+import com.amitshekhar.debug.encrypt.sqlite.DebugDBEncryptFactory;
+import com.amitshekhar.debug.sqlite.DebugDBFactory;
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
@@ -10,6 +16,9 @@ import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.ui.TranslucentActivity;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.util.netstate.NetType;
+import com.didichuxing.doraemonkit.util.netstate.NetWork;
+import com.didichuxing.doraemonkit.util.netstate.NetworkManager;
 
 /**
  * ================================================
@@ -47,6 +56,23 @@ public class DbDebugKit implements IKit {
 
     @Override
     public void onAppInit(Context context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            NetworkManager.init(context);
+            NetworkManager.get().register(this);
+        }
+        DebugDB.initialize(DoraemonKit.APPLICATION, new DebugDBFactory());
+        DebugDB.initialize(DoraemonKit.APPLICATION, new DebugDBEncryptFactory());
+    }
 
+    @NetWork(NetType.WIFI)
+    public void listenWifi(NetType type) {
+        if (type == NetType.NONE) {
+            DebugDB.shutDown();
+        } else {
+            if (!DebugDB.isServerRunning()) {
+                DebugDB.initialize(DoraemonKit.APPLICATION, new DebugDBFactory());
+                DebugDB.initialize(DoraemonKit.APPLICATION, new DebugDBEncryptFactory());
+            }
+        }
     }
 }
