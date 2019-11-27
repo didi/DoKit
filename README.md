@@ -158,7 +158,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [azhon](https://github.com/azhon) 、
 [rex26](https://github.com/rex26) 、
 [csc-EricWu](https://github.com/csc-EricWu) 、
-[dengyuhan](https://github.com/dengyuhan) 、
+[xiandanin](https://github.com/xiandanin) 、
 [0xd-cc](https://github.com/0xd-cc) 、
 [k373379320](https://github.com/k373379320) 、
 [fabcz](https://github.com/fabcz) 、
