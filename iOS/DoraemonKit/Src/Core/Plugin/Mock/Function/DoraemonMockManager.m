@@ -179,7 +179,7 @@
                 NSDictionary *q = api.query;
                 BOOL match = YES;
                 for (NSString *key in q.allKeys) {
-                    NSString *value = q[@"key"];
+                    NSString *value = q[key];
                     NSString *item = [NSString stringWithFormat:@"%@=%@",key,value];
                     if (![query containsString:item]) {
                         match = NO;

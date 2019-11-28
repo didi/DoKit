@@ -80,7 +80,7 @@
             if([apiId isEqualToString:apiDic[@"apiId"]]){
                 api.selected = YES;
                 for (DoraemonMockScene *scene in api.sceneList) {
-                    if (scene.sceneId == apiDic[@"sceneId"]) {
+                    if ([scene.sceneId isEqualToString: apiDic[@"sceneId"]]) {
                         scene.selected = YES;
                         break;
                     }
