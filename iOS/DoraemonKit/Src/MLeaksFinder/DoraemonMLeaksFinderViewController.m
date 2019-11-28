@@ -25,7 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"内存泄漏";
+    self.title = DoraemonLocalizedString(@"内存泄漏");
     
     _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, 53)];
     [_switchView renderUIWithTitle:DoraemonLocalizedString(@"内存泄漏检测开关") switchOn:[[DoraemonCacheManager sharedInstance] memoryLeak]];
