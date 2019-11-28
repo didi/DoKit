@@ -20,7 +20,7 @@
     [super viewDidLoad];
     self.title = DoraemonLocalizedString(@"数据Mock");
     _padding_left = kDoraemonSizeFrom750_Landscape(32);
-    _searchView = [[DoraemonMockSearchView alloc] initWithFrame:CGRectMake(_padding_left, IPHONE_NAVIGATIONBAR_HEIGHT+ _padding_left, self.view.doraemon_width-2* _padding_left, kDoraemonSizeFrom750_Landscape(100))];
+    _searchView = [[DoraemonMockSearchView alloc] initWithFrame:CGRectMake(_padding_left, self.bigTitleView.doraemon_bottom + _padding_left, self.view.doraemon_width-2* _padding_left, kDoraemonSizeFrom750_Landscape(100))];
     _searchView.delegate = self;
     [self.view addSubview:_searchView];
     
