@@ -257,6 +257,7 @@
     "服务已关闭"                                   = "server is off";
     "UI层级检查"                                  = "UI Hierarchy";
     "UI层级检查开关"                              = "UI Hierarchy switch";
+    "UI结构"                                 = "Hierarchy";
     "函数耗时"                                   = "Time Profiler";
     "内存泄漏"                                   = "Memory Leak";
     "内存泄漏检测开关"                            = "Memory Leak Switch";
