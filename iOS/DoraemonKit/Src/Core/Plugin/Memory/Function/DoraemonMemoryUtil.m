@@ -17,7 +17,7 @@
     if(kernelReturn == KERN_SUCCESS)
     {
         int64_t memoryUsageInByte = (int64_t) vmInfo.phys_footprint;
-        return memoryUsageInByte/1024/1024;
+        return (NSInteger)(memoryUsageInByte/1024/1024);
     }
     else
     {
@@ -27,7 +27,7 @@
 
 //设备总的内存
 + (NSInteger)totalMemoryForDevice{
-    return [NSProcessInfo processInfo].physicalMemory/1024/1024;
+    return (NSInteger)([NSProcessInfo processInfo].physicalMemory/1024/1024);
 }
 
 @end

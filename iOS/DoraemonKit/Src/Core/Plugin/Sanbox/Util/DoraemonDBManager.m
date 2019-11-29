@@ -98,7 +98,9 @@ int selectCallback(void *firstValue,int columnCount, char **columnValues, char *
             valueStr = [NSString stringWithUTF8String:columnValue];
         }
         
-        [dict setValue:valueStr forKey:nameStr];
+        if (nameStr.length>0) {
+            [dict setValue:valueStr forKey:nameStr];
+        }
     }
     [[[DoraemonDBManager shareManager] dataArray] addObject:dict];
     return 0;

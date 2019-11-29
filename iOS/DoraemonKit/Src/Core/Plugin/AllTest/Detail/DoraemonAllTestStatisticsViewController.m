@@ -120,6 +120,8 @@ static NSString *DoraemonStatisticsFootCellID = @"DoraemonStatisticsFootCellID";
         foot.backgroundColor = [UIColor doraemon_colorWithString:@"#F4F5F6"];
         foot.title.text = nil;
         view = foot;
+    } else{
+        view = [[UICollectionReusableView alloc] init];
     }
     return view;
 }
