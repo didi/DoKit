@@ -86,6 +86,12 @@
     [btn7 addTarget:self action:@selector(mockTest) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn7];
     
+    UIButton *btn8 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn7.doraemon_bottom+20, self.view.doraemon_width, 60)];
+    btn8.backgroundColor = [UIColor orangeColor];
+    [btn8 setTitle:DoraemonLocalizedString(@"Mock测试2") forState:UIControlStateNormal];
+    [btn8 addTarget:self action:@selector(mockTest2) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn8];
+    
 }
 
 - (void)openUIWebView{
@@ -251,7 +257,15 @@
 }
 
 - (void)mockTest {
-    [DoraemonNetworkUtil getWithUrlString:@"http://127.0.0.1:8080/p/getApiA?name=yixiang&age=15" params:nil success:^(NSDictionary * _Nonnull result) {
+    [DoraemonNetworkUtil getWithUrlString:@"http://172.23.162.150:8080/gateway?api=dj.home" params:nil success:^(NSDictionary * _Nonnull result) {
+        NSLog(@"result == %@",result);
+    } error:^(NSError * _Nonnull error) {
+        NSLog(@"error == %@",error);
+    }];
+}
+
+- (void)mockTest2 {
+    [DoraemonNetworkUtil getWithUrlString:@"http://172.23.162.150:8080/gateway?api=dj.map" params:nil success:^(NSDictionary * _Nonnull result) {
         NSLog(@"result == %@",result);
     } error:^(NSError * _Nonnull error) {
         NSLog(@"error == %@",error);

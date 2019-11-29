@@ -151,14 +151,14 @@
     if (api) {
         mock = YES;
     }
-    NSLog(@"yixiang mock = %zi",mock);
+    NSLog(@"yixiang mock = %d",mock);
     return mock;
 }
 
 - (NSString *)getSceneId:(NSURLRequest *)request{
     DoraemonMockAPIModel *api = (DoraemonMockAPIModel *)[self getSelectedData:request dataArray:_mockArray];
     NSArray<DoraemonMockScene *> *sceneList = api.sceneList;
-    NSString *sceneId;
+    NSString *sceneId = @"";
     for (DoraemonMockScene *scene in sceneList) {
         if (scene.selected) {
             sceneId = scene.sceneId;
@@ -205,7 +205,7 @@
     if (api) {
         save = YES;
     }
-    NSLog(@"yixiang save = %zi",save);
+    NSLog(@"yixiang save = %d",save);
     return save;
 }
 

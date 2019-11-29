@@ -36,7 +36,7 @@
 - (NSArray *)tablesAtDB{
     sqlite3 *db = [self openDB];
     if (db == nil) {
-        return nil;
+        return @[];
     }
     NSMutableArray *tableNameArray = [NSMutableArray array];
     //查询sqlite_master表
@@ -60,7 +60,7 @@
 - (NSArray *)dataAtTable{
     sqlite3 *db = [self openDB];
     if (db == nil) {
-        return nil;
+        return @[];
     }
     //查询sqlite_master表
     NSString *sql = [NSString stringWithFormat:@"select * from %@",self.tableName];

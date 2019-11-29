@@ -59,7 +59,7 @@
     }
     
     NSNumber *wxBundleSize = [data objectForKey:@"wxBundleSize"];
-    if (wxBundleSize) {
+    if (wxBundleSize != nil) {
         _wxBundleSize = [NSString stringWithFormat:@"%@",wxBundleSize];
         NSLog(@"doraemon wxBundleSize = %@",_wxBundleSize);
     }

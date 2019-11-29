@@ -14,7 +14,7 @@
     if(name){
         NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"DoraemonManager")];
         NSURL *url = [bundle URLForResource:@"DoraemonKit" withExtension:@"bundle"];
-        if(!url) return nil;
+        if(!url) return [UIImage new];
         NSBundle *imageBundle = [NSBundle bundleWithURL:url];
         
         NSString *imageName = nil;

@@ -117,7 +117,7 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    UICollectionReusableView *view = nil;
+    UICollectionReusableView *view;
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
         DoraemonHomeHeadCell *head = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DoraemonHomeHeadCellID  forIndexPath:indexPath];
         [head renderUIWithTitle:nil];
@@ -163,6 +163,8 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
         }
         foot.backgroundColor = dyColor;
         view = foot;
+    }else{
+        view = [[UICollectionReusableView alloc] init];
     }
     
     return view;

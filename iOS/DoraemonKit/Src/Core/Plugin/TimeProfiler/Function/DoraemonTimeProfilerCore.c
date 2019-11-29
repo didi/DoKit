@@ -215,7 +215,7 @@ static void hook_objc_msgSend() {
 }
 
 
-void dtp_hook_begin() {
+void dtp_hook_begin(void) {
     _call_record_enabled = true;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -224,7 +224,7 @@ void dtp_hook_begin() {
     });
 }
 
-void dtp_hook_end() {
+void dtp_hook_end(void) {
     _call_record_enabled = false;
 }
 
@@ -243,7 +243,7 @@ dtp_call_record *dtp_get_call_records(int *num) {
     return dtp_records;
 }
 
-void dtp_clear_call_records() {
+void dtp_clear_call_records(void) {
     if (dtp_records) {
         free(dtp_records);
         dtp_records = NULL;
@@ -253,9 +253,9 @@ void dtp_clear_call_records() {
 
 #else
 
-void dtp_hook_begin() {}
+void dtp_hook_begin(void) {}
 
-void dtp_hook_end() {}
+void dtp_hook_end(void) {}
 
 void dtp_set_min_time(uint64_t us) {}
 
@@ -263,6 +263,6 @@ void dtp_set_max_depth(int depth) {}
 
 dtp_call_record *dtp_get_call_records(int *num) {return NULL;}
 
-void dtp_clear_call_records() {}
+void dtp_clear_call_records(void) {}
 
 #endif

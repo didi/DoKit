@@ -53,7 +53,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return nil;
+    return [[UITableViewCell alloc] init];
 }
 
 

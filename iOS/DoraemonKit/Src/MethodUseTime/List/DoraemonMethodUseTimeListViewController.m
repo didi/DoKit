@@ -12,7 +12,7 @@
 
 @interface DoraemonMethodUseTimeListViewController ()<UITableViewDelegate,UITableViewDataSource>
 
-@property (nonatomic, copy) NSMutableArray *loadModelArray;
+@property (nonatomic, strong) NSMutableArray *loadModelArray;
 @property (nonatomic, strong) UITableView *tableView;
 
 @end

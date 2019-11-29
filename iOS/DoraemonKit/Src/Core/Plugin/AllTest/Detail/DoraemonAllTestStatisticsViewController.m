@@ -102,7 +102,7 @@ static NSString *DoraemonStatisticsFootCellID = @"DoraemonStatisticsFootCellID";
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    UICollectionReusableView *view = nil;
+    UICollectionReusableView *view;
     
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
         DoraemonHomeHeadCell *head = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:DoraemonStatisticsHeadCellID  forIndexPath:indexPath];

@@ -18,13 +18,13 @@ typedef struct {
     int depth;
 } dtp_call_record;
 
-extern void dtp_hook_begin();
-extern void dtp_hook_end();
+extern void dtp_hook_begin(void);
+extern void dtp_hook_end(void);
 
 extern void dtp_set_min_time(uint64_t us); //default 1000
 extern void dtp_set_max_depth(int depth); //deafult 10
 
 extern dtp_call_record *dtp_get_call_records(int *num);
-extern void dtp_clear_call_records();
+extern void dtp_clear_call_records(void);
 
 #endif /* DoraemonTimeProfilerCore_h */

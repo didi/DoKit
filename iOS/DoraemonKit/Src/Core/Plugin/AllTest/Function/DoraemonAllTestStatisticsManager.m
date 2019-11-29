@@ -26,7 +26,7 @@
 
 -(NSMutableArray *)getLastResultArray{
     if(!_resultDic)
-        return nil;
+        return [@[] mutableCopy];
     
     NSMutableArray *infoArray = [[NSMutableArray alloc] init];
     NSArray *common_data = _resultDic[@"common_data"];
@@ -35,7 +35,7 @@
     NSArray *flowKeyArray = [[NSArray alloc] initWithObjects:@"upFlow", @"downFlow", nil];
 
     if(common_data.count<=0 && flow_data.count<=0)
-        return nil;
+        return [@[] mutableCopy];
     int index = 0;
     
     while (index < common_data.count) {
@@ -64,51 +64,55 @@
                 [addArray addObject:addDiction];
             }
         }
-        count /=commonKeyArray.count;
-        long timeMin = [self getTimeStrWithString:common_data[index][@"time"]];
-        long timeMax = timeMin + 1;
-        if(count>1){
-            timeMax = 1 + [self getTimeStrWithString:common_data[index + count -1][@"time"]];
-        }
-        
-        for (NSString *value in flowKeyArray) {
-            NSMutableArray *valueArray = [NSMutableArray array];
-            NSMutableDictionary *addDiction = [NSMutableDictionary dictionary];
-            for (NSDictionary *infoItem in flow_data) {
-                if(infoItem[value]){
-                    long time = [self getTimeStrWithString:infoItem[@"time"]];
-                    if(time > timeMin && time < timeMax){
-                        [valueArray addObject:infoItem[value]];
+        if (commonKeyArray.count != 0) {
+            count /= commonKeyArray.count;
+            
+            long timeMin = [self getTimeStrWithString:common_data[index][@"time"]];
+            long timeMax = timeMin + 1;
+            if(count>1){
+                timeMax = 1 + [self getTimeStrWithString:common_data[index + count -1][@"time"]];
+            }
+            
+            for (NSString *value in flowKeyArray) {
+                NSMutableArray *valueArray = [NSMutableArray array];
+                NSMutableDictionary *addDiction = [NSMutableDictionary dictionary];
+                for (NSDictionary *infoItem in flow_data) {
+                    if(infoItem[value]){
+                        long time = [self getTimeStrWithString:infoItem[@"time"]];
+                        if(time > timeMin && time < timeMax){
+                            [valueArray addObject:infoItem[value]];
+                        }
                     }
                 }
+                addDiction[@"title"] = value;
+                if(valueArray.count > 0){
+                    float max = [[valueArray valueForKeyPath:@"@max.floatValue"] floatValue];
+                    float min = [[valueArray valueForKeyPath:@"@min.floatValue"] floatValue];
+                    float average = [[valueArray valueForKeyPath:@"@avg.floatValue"] floatValue];
+                    addDiction[@"max"] = [NSNumber numberWithFloat:round(max)*10/10];
+                    addDiction[@"min"] = [NSNumber numberWithFloat:round(min)*10/10];
+                    addDiction[@"average"] = [NSNumber numberWithFloat:round(average)*10/10];
+                    if(max > 1000)
+                        addDiction[@"max"] = [NSString stringWithFormat:@"%.1fK",max/=1000];
+                    if(min > 1000)
+                        addDiction[@"min"] = [NSString stringWithFormat:@"%.1fK",min/=1000];
+                    if(average > 1000)
+                        addDiction[@"average"] = [NSString stringWithFormat:@"%.1fK",average/=1000];
+                    if(max > 1000)
+                        addDiction[@"max"] = [NSString stringWithFormat:@"%.1fM",max/1000];
+                    if(min > 1000)
+                        addDiction[@"min"] = [NSString stringWithFormat:@"%.1fM",min/1000];
+                    if(average > 1000)
+                        addDiction[@"average"] = [NSString stringWithFormat:@"%.1fM",average/1000];
+                    [addArray addObject:addDiction];
+                }
             }
-            addDiction[@"title"] = value;
-            if(valueArray.count > 0){
-                float max = [[valueArray valueForKeyPath:@"@max.floatValue"] floatValue];
-                float min = [[valueArray valueForKeyPath:@"@min.floatValue"] floatValue];
-                float average = [[valueArray valueForKeyPath:@"@avg.floatValue"] floatValue];
-                addDiction[@"max"] = [NSNumber numberWithFloat:round(max)*10/10];
-                addDiction[@"min"] = [NSNumber numberWithFloat:round(min)*10/10];
-                addDiction[@"average"] = [NSNumber numberWithFloat:round(average)*10/10];
-                if(max > 1000)
-                    addDiction[@"max"] = [NSString stringWithFormat:@"%.1fK",max/=1000];
-                if(min > 1000)
-                    addDiction[@"min"] = [NSString stringWithFormat:@"%.1fK",min/=1000];
-                if(average > 1000)
-                    addDiction[@"average"] = [NSString stringWithFormat:@"%.1fK",average/=1000];
-                if(max > 1000)
-                    addDiction[@"max"] = [NSString stringWithFormat:@"%.1fM",max/1000];
-                if(min > 1000)
-                    addDiction[@"min"] = [NSString stringWithFormat:@"%.1fM",min/1000];
-                if(average > 1000)
-                    addDiction[@"average"] = [NSString stringWithFormat:@"%.1fM",average/1000];
-                [addArray addObject:addDiction];
-            }
+            index += count;
+            [infoArray addObject:[NSMutableDictionary dictionary]];
+            infoArray[infoArray.count-1][@"common_data"] = addArray;
+            infoArray[infoArray.count-1][@"page"] = [NSString stringWithFormat:@"%@(%d)",pageName,count];
         }
-        index += count;
-        [infoArray addObject:[NSMutableDictionary dictionary]];
-        infoArray[infoArray.count-1][@"common_data"] = addArray;
-        infoArray[infoArray.count-1][@"page"] = [NSString stringWithFormat:@"%@(%d)",pageName,count];
+
     }
     NSMutableArray *new_info_array = [NSMutableArray array];
     for (NSDictionary *item in infoArray) {
