@@ -7,7 +7,6 @@
 
 #import "DoraemonNSUserDefaultsViewController.h"
 #import "DoraemonDefine.h"
-#import "DoraemonNSUserDefaultsCell.h"
 #import "DoraemonNSUserDefaultsModel.h"
 #import "DoraemonNSUserDefaultsEditViewController.h"
 
@@ -21,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:nil action:nil];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(clearUserDefaults)];
     self.navigationItem.rightBarButtonItems = @[item];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, self.view.doraemon_height-IPHONE_NAVIGATIONBAR_HEIGHT) style:UITableViewStylePlain];
@@ -29,7 +28,14 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self reload];
+}
+
+- (void)reload {
     NSDictionary<NSString *, id> *dic = [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
     self.modelList = [NSMutableArray array];
     [dic enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
@@ -41,19 +47,15 @@
     [self.tableView reloadData];
 }
 
-- (NSDictionary<NSString *, id> *)dictionaryRepresentation {
-    return [[NSUserDefaults standardUserDefaults] dictionaryRepresentation];
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.modelList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *identifer = @"DoraemonNSUserDefaultsViewControllerCell";
-    DoraemonNSUserDefaultsCell *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifer];
     if (!cell) {
-        cell = [[DoraemonNSUserDefaultsCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifer];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifer];
     }
     DoraemonNSUserDefaultsModel *model = self.modelList[indexPath.row];
     cell.textLabel.text = model.key;
@@ -66,6 +68,16 @@
     DoraemonNSUserDefaultsModel *model = self.modelList[indexPath.row];
     DoraemonNSUserDefaultsEditViewController *vc = [[DoraemonNSUserDefaultsEditViewController alloc] initWithModel:model];
     [self.navigationController pushViewController:vc animated:true];
+}
+
+- (void)clearUserDefaults {
+    [DoraemonAlertUtil handleAlertActionWithVC:self text:@"clear all data?" okBlock:^{
+        NSString *bundleIdentifier = NSBundle.mainBundle.bundleIdentifier;
+        [[NSUserDefaults standardUserDefaults] removePersistentDomainForName:bundleIdentifier];
+        [self reload];
+    } cancleBlock:^{
+    
+    }];
 }
 
 @end

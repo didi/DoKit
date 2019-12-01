@@ -30,6 +30,15 @@
     [self.view addSubview:self.textView];
     self.title = self.model.key;
     self.textView.text = [self.model.value description];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(submit)];
+    self.navigationItem.rightBarButtonItems = @[item];
+    self.title = @"Edit";
+}
+
+- (void)submit {
+    [[NSUserDefaults standardUserDefaults] setObject:self.textView.text forKey:_model.key];
+    [self.navigationController popViewControllerAnimated:true];
 }
 
 @end
