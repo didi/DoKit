@@ -36,6 +36,7 @@ public class LeakCanaryKit implements IKit {
     @Override
     public void onClick(Context context) {
         Intent intent = new Intent(context, DisplayLeakActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 

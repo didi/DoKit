@@ -40,7 +40,7 @@ public class CrashCaptureMainFragment extends BaseFragment {
         });
         RecyclerView settingList = findViewById(R.id.setting_list);
         settingList.setLayoutManager(new LinearLayoutManager(getContext()));
-        SettingItemAdapter mSettingItemAdapter = new SettingItemAdapter(getContext());
+        final SettingItemAdapter mSettingItemAdapter = new SettingItemAdapter(getContext());
         mSettingItemAdapter.append(new SettingItem(R.string.dk_crash_capture_switch, CrashCaptureConfig.isCrashCaptureOpen(getContext())));
         mSettingItemAdapter.append(new SettingItem(R.string.dk_crash_capture_look, R.drawable.dk_more_icon));
         SettingItem item = new SettingItem(R.string.dk_crash_capture_clean_data);
@@ -68,6 +68,8 @@ public class CrashCaptureMainFragment extends BaseFragment {
                     showContent(FileExplorerFragment.class, bundle);
                 } else if (data.desc == R.string.dk_crash_capture_clean_data) {
                     CrashCaptureManager.getInstance().clearCacheHistory();
+                    data.rightDesc = Formatter.formatFileSize(getContext(), FileUtil.getDirectorySize(CrashCaptureManager.getInstance().getCrashCacheDir()));
+                    mSettingItemAdapter.notifyDataSetChanged();
                     showToast(R.string.dk_crash_capture_clean_data);
                 }
             }

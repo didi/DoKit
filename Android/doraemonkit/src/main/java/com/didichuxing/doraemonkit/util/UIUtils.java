@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.support.annotation.AnyRes;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
@@ -13,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.layoutborder.ViewBorderFrameLayout;
@@ -148,7 +150,11 @@ public class UIUtils {
         return false;
     }
 
-
+    /**
+     * 要特别注意 返回的字段包含空格  做判断时一定要trim()
+     * @param view
+     * @return
+     */
     public static String getIdText(View view) {
         final int id = view.getId();
         StringBuilder out = new StringBuilder();
@@ -177,12 +183,17 @@ public class UIUtils {
                     out.append("/");
                     out.append(entryname);
                 } catch (Resources.NotFoundException e) {
+                    e.printStackTrace();
                 }
             }
         }
-        return out.toString();
+        return TextUtils.isEmpty(out.toString()) ? "" : out.toString();
     }
 
+    /**
+     * ViewBorderFrameLayout 的str id
+     */
+    private final static String STR_VIEW_BORDER_Id = "app:id/dokit_view_border_id";
 
     /**
      * 获得app的contentView
@@ -199,9 +210,10 @@ public class UIUtils {
 
         for (int index = 0; index < decorView.getChildCount(); index++) {
             View child = decorView.getChildAt(index);
+            LogHelper.i(TAG, "childId=====>" + getIdText(child));
             //解决与布局边框工具冲突的问题
-            if (child instanceof LinearLayout || child instanceof ViewBorderFrameLayout) {
-                if (child instanceof ViewBorderFrameLayout) {
+            if ((child instanceof LinearLayout && TextUtils.isEmpty(getIdText(child).trim())) || child instanceof FrameLayout) {
+                if (getIdText(child).trim().equals(STR_VIEW_BORDER_Id)) {
                     mAppContentView = ((ViewBorderFrameLayout) child).getChildAt(0);
                 } else {
                     mAppContentView = child;

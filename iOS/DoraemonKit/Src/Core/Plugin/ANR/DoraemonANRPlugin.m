@@ -7,13 +7,13 @@
 
 #import "DoraemonANRPlugin.h"
 #import "DoraemonANRViewController.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 
 @implementation DoraemonANRPlugin
 
 - (void)pluginDidLoad{
     DoraemonANRViewController *vc = [[DoraemonANRViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

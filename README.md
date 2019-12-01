@@ -1,8 +1,8 @@
 <div align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
- <img src="https://img.shields.io/badge/Android-1.2.8-blue.svg" align=left />
- <img src="https://img.shields.io/badge/iOS-1.2.4-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/Android-2.0.1-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/iOS-2.0.0-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
@@ -19,6 +19,9 @@
 **DoraemonKit** /'dɔ:ra:'emɔn/，简称`DoKit`，中文名 `哆啦A梦`，意味着能够像哆啦A梦一样提供给他的主人各种各样的工具。Just Do Kit
 
 > [English Introduction](README_EN.md)
+ 
+## 请参与投票
+2019最受欢迎中国开源软件评选投票 https://www.oschina.net/project/top_cn_2019 请投DoraemonKit一票（DoraemonKit在开发工具类别中）
 
 ## 开发背景
 
@@ -48,7 +51,7 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 5. **【Crash查看】** 方便本地打印出出现 Crash 的堆栈；
 6. **【子线程UI】** 快速定位哪一些 UI 操作在非主线程中进行渲染，避免不必要的问题；（iOS独有）
 7. **【清除本地数据】** 一键删除沙盒中所有数据；
-8. **【NSLog】** 把所有 NSLog 信息打印到UI界面，避免没有开发证书无法调式的尴尬；
+8. **【NSLog】** 把所有 NSLog 信息打印到UI界面，避免没有开发证书无法调试的尴尬；
 9. **【Lumberjack】** 每一条 CocoaLumberjack 的日志信息，都在在 App 的界面中显示出来，再也不需要导出日志这么麻烦;（iOS独有）
 10. **【DBView】** 通过网页方便快捷的操作应用内数据库，让数据库的调试变得非常优雅;
 11. **【模拟弱网】** 限制网速，模拟弱网环境下App的运行情况。（android独有）
@@ -155,7 +158,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [azhon](https://github.com/azhon) 、
 [rex26](https://github.com/rex26) 、
 [csc-EricWu](https://github.com/csc-EricWu) 、
-[dengyuhan](https://github.com/dengyuhan) 、
+[xiandanin](https://github.com/xiandanin) 、
 [0xd-cc](https://github.com/0xd-cc) 、
 [k373379320](https://github.com/k373379320) 、
 [fabcz](https://github.com/fabcz) 、

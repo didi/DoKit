@@ -40,7 +40,9 @@ public class UniversalDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setCancelable(mProvider.isCancellable());
+        if (mProvider != null) {
+            setCancelable(mProvider.isCancellable());
+        }
 
         Window window = getDialog().getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();

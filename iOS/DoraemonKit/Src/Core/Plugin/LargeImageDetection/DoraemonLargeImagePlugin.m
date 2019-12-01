@@ -7,12 +7,12 @@
 
 #import "DoraemonLargeImagePlugin.h"
 #import "DoraemonLargeImageViewController.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 
 @implementation DoraemonLargeImagePlugin
 - (void)pluginDidLoad {
     DoraemonLargeImageViewController *vc = [[DoraemonLargeImageViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

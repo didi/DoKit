@@ -6,14 +6,14 @@
 //
 
 #import "DoraemonNSLogPlugin.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 #import "DoraemonNSLogViewController.h"
 
 @implementation DoraemonNSLogPlugin
 
 - (void)pluginDidLoad{
     DoraemonNSLogViewController *vc = [[DoraemonNSLogViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

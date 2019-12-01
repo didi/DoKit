@@ -201,7 +201,9 @@ public class DoraemonKit {
                     return;
                 }
                 //设置app的直接子view的Id
-                UIUtils.getDokitAppContentView(activity).setId(R.id.dokit_app_contentview_id);
+                if (UIUtils.getDokitAppContentView(activity) != null) {
+                    UIUtils.getDokitAppContentView(activity).setId(R.id.dokit_app_contentview_id);
+                }
 
 
                 if (IS_NORMAL_FLOAT_MODE) {

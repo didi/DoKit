@@ -38,7 +38,6 @@ public class LargePictureKit implements IKit {
 
     @Override
     public void onClick(Context context) {
-        //ToastUtils.showShort("大图检测");
         Intent intent = new Intent(context, UniversalActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_LARGE_PICTURE);

@@ -5,13 +5,13 @@
 #### 1.1: cocoapods依赖
 
 ```
-    pod 'DoraemonKit/Core', '~> 1.2.4', :configurations => ['Debug'] //必选
-    pod 'DoraemonKit/WithLogger', '~> 1.2.4', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithGPS', '~> 1.2.4', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithLoad', '~> 1.2.4', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithWeex', '~> 1.2.4', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithDatabase', '~> 1.2.4', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithMLeaksFinder', '1.2.4', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/Core', '~> 2.0.0', :configurations => ['Debug'] //必选
+    pod 'DoraemonKit/WithLogger', '~> 2.0.0', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithGPS', '~> 2.0.0', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithLoad', '~> 2.0.0', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithWeex', '~> 2.0.0', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithDatabase', '~> 2.0.0', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithMLeaksFinder', '2.0.0', :configurations => ['Debug'] //可选
 ```
 Core subspec作为核心，必须引入。
 

@@ -7,14 +7,14 @@
 //
 
 #import "DoraemonWeexDevTooloPlugin.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 #import "DoraemonWeexDevToolViewController.h"
 
 @implementation DoraemonWeexDevTooloPlugin
 
 - (void)pluginDidLoad{
     DoraemonWeexDevToolViewController *vc = [[DoraemonWeexDevToolViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

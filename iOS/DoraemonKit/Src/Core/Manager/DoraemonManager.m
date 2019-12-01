@@ -10,6 +10,7 @@
 #import "DoraemonCacheManager.h"
 #import "DoraemonStartPluginProtocol.h"
 #import "DoraemonDefine.h"
+#import "DoraemonUtil.h"
 #import "DoraemonHomeWindow.h"
 #import "Doraemoni18NUtil.h"
 #import "DoraemonCrashUncaughtExceptionHandler.h"
@@ -18,7 +19,7 @@
 #import "DoraemonStateBar.h"
 #import "DoraemonNSLogViewController.h"
 #import "DoraemonNSLogListViewController.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 #import "DoraemonAllTestManager.h"
 #import "DoraemonStatisticsUtil.h"
 #import "DoraemonANRManager.h"
@@ -400,13 +401,13 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     NSInteger from = [userInfo[@"from"] integerValue];
     if (from == DoraemonStateBarFromNSLog) {//快速打开NSLog list页面
         DoraemonNSLogViewController *vc = [[DoraemonNSLogViewController alloc] init];
-        [DoraemonUtil openPlugin:vc];
+        [DoraemonHomeWindow openPlugin:vc];
         DoraemonNSLogListViewController *vcList = [[DoraemonNSLogListViewController alloc] init];
         [vc.navigationController pushViewController:vcList animated:NO];
     }else{//快速打开CocoaLumberjack list页面
 #if DoraemonWithLogger
         DoraemonCocoaLumberjackViewController *vc = [[DoraemonCocoaLumberjackViewController alloc] init];
-        [DoraemonUtil openPlugin:vc];
+        [DoraemonHomeWindow openPlugin:vc];
         DoraemonCocoaLumberjackListViewController *vcList = [[DoraemonCocoaLumberjackListViewController alloc] init];
         [vc.navigationController pushViewController:vcList animated:NO];
 #endif

@@ -7,13 +7,13 @@
 
 #import "DoraemonCrashPlugin.h"
 #import "DoraemonCrashViewController.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 
 @implementation DoraemonCrashPlugin
 
 - (void)pluginDidLoad{
     DoraemonCrashViewController *vc = [[DoraemonCrashViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end
