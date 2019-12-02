@@ -16,7 +16,7 @@ CGFloat doraemonColorComponentFrom(NSString *string, NSUInteger start, NSUIntege
     return hexComponent / 255.0;
 }
 
-@implementation UIColor (DoreamonKit)
+@implementation UIColor (DoraemonKit)
 
 - (CGColorSpaceModel)colorSpaceModel {
     return CGColorSpaceGetModel(CGColorGetColorSpace(self.CGColor));
