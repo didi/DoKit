@@ -168,7 +168,8 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [klone1127](https://github.com/klone1127) 、
 [DeveloperLY](https://github.com/DeveloperLY) 、
 [sagdragon](https://github.com/sagdragon) 、
-[ccworld1000](https://github.com/ccworld1000)
+[ccworld1000](https://github.com/ccworld1000) 、
+[HDB-Li](https://github.com/HDB-Li)
 
 
 如何成为外部贡献者？ 提交有意义的PR，并被采纳。
