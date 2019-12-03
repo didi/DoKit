@@ -19,7 +19,7 @@ import java.util.Map;
  * @version v1.0
  * @see 1040441325@qq.com
  */
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
 public class NetworkManager {
     public static final String TAG = "NetworkManager";
     private static volatile NetworkManager instance;
@@ -76,10 +76,15 @@ public class NetworkManager {
 
     private NetworkManager(Context context) {
         this.context = context;
-        // 广播
-        // this.receiver = new NetStateReceiver();
-        // NetworkCallback
-        this.receiver = new NetWorkCallbackImpl();
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // NetworkCallback
+            this.receiver = new NetWorkCallbackImpl();
+        } else {
+            // 广播,低版本使用广播监听网络变化
+            this.receiver = new NetStateReceiver();
+        }
         receiver.register(observer, context);
 
 

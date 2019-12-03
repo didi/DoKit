@@ -56,10 +56,8 @@ public class DbDebugKit implements IKit {
 
     @Override
     public void onAppInit(Context context) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            NetworkManager.init(context);
-            NetworkManager.get().register(this);
-        }
+        NetworkManager.init(context);
+        NetworkManager.get().register(this);
         DebugDB.initialize(DoraemonKit.APPLICATION, new DebugDBFactory());
         DebugDB.initialize(DoraemonKit.APPLICATION, new DebugDBEncryptFactory());
     }
