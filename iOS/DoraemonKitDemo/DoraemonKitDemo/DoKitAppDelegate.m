@@ -21,7 +21,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    [DoraemonTimeProfiler startRecord];
+    //[DoraemonTimeProfiler startRecord];
     
     //[[self class] handleCCrashReportWrap];
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
@@ -69,7 +69,7 @@
     NSArray *array = @[];
     NSLog(@"%@",[array description]);
     
-    [DoraemonTimeProfiler stopRecord];
+    //[DoraemonTimeProfiler stopRecord];
 
     return YES;
 }
