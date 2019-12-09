@@ -24,6 +24,8 @@
 #import "DoraemonStatisticsUtil.h"
 #import "DoraemonANRManager.h"
 #import "DoraemonLargeImageDetectionManager.h"
+#import "DoraemonNetFlowOscillogramWindow.h"
+#import "DoraemonNetFlowManager.h"
 
 #if DoraemonWithLogger
 #import "DoraemonCocoaLumberjackLogger.h"
@@ -124,12 +126,17 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
         [DoraemonCrashUncaughtExceptionHandler registerHandler];
         [DoraemonCrashSignalExceptionHandler registerHandler];
     }
+    //根据开关判断是否开启流量监控
+    if ([[DoraemonCacheManager sharedInstance] netFlowSwitch]) {
+        [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:YES];
+        [[DoraemonNetFlowOscillogramWindow shareInstance] show];
+    }
 
     //重新启动的时候，把帧率、CPU、内存和流量监控关闭
     [[DoraemonCacheManager sharedInstance] saveFpsSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveCpuSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveMemorySwitch:NO];
-    [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:NO];
+    
     
 #if DoraemonWithGPS
     //开启mockGPS功能
