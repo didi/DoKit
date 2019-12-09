@@ -1,22 +1,22 @@
 //
-//  DoreamonCrashListCell.m
+//  DoraemonCrashListCell.m
 //  DoraemonKit
 //
 //  Created by wenquan on 2018/11/22.
 //
 
-#import "DoreamonCrashListCell.h"
+#import "DoraemonCrashListCell.h"
 #import "DoraemonSandboxModel.h"
 #import "DoraemonDefine.h"
 
-@interface DoreamonCrashListCell ()
+@interface DoraemonCrashListCell ()
 
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIImageView *arrowImageView;
 
 @end
 
-@implementation DoreamonCrashListCell
+@implementation DoraemonCrashListCell
 
 #pragma mark - Lifecycle
 

@@ -35,18 +35,14 @@ public class DbDebugFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            NetworkManager.get().register(this);
-        }
+        NetworkManager.get().register(this);
         initView();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            NetworkManager.get().unRegister(this);
-        }
+        NetworkManager.get().unRegister(this);
     }
 
     private void initView() {

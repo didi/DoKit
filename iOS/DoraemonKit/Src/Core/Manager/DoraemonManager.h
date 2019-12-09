@@ -67,6 +67,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     DoraemonManagerPluginType_DoraemonMemoryLeakPlugin,
     // UI层级检查
     DoraemonManagerPluginType_DoraemonUIProfilePlugin,
+    // UI结构调整
+    DoraemonManagerPluginType_DoraemonHierarchyPlugin,
     // 函数耗时
     DoraemonManagerPluginType_DoraemonTimeProfilePlugin,
     
