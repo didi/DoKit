@@ -11,7 +11,8 @@
 @implementation UIImage (Doraemon)
 
 + (UIImage *)doraemon_imageNamed:(NSString *)name{
-    if(name){
+    if(name &&
+       ![name isEqualToString:@""]){
         NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"DoraemonManager")];
         NSURL *url = [bundle URLForResource:@"DoraemonKit" withExtension:@"bundle"];
         if(!url) return [UIImage new];

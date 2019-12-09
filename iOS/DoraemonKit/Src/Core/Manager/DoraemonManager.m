@@ -25,6 +25,8 @@
 #import "DoraemonANRManager.h"
 #import "DoraemonLargeImageDetectionManager.h"
 #import "DoraemonMockManager.h"
+#import "DoraemonNetFlowOscillogramWindow.h"
+#import "DoraemonNetFlowManager.h"
 
 #if DoraemonWithLogger
 #import "DoraemonCocoaLumberjackLogger.h"
@@ -125,12 +127,17 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
         [DoraemonCrashUncaughtExceptionHandler registerHandler];
         [DoraemonCrashSignalExceptionHandler registerHandler];
     }
+    //根据开关判断是否开启流量监控
+    if ([[DoraemonCacheManager sharedInstance] netFlowSwitch]) {
+        [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:YES];
+        [[DoraemonNetFlowOscillogramWindow shareInstance] show];
+    }
 
     //重新启动的时候，把帧率、CPU、内存和流量监控关闭
     [[DoraemonCacheManager sharedInstance] saveFpsSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveCpuSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveMemorySwitch:NO];
-    [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:NO];
+    
     
 #if DoraemonWithGPS
     //开启mockGPS功能
@@ -224,6 +231,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonDeleteLocalDataPlugin];
     
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonNSLogPlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonNSUserDefaultsPlugin];
 #if DoraemonWithLogger
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonCocoaLumberjackPlugin];
 #endif
@@ -528,6 +536,14 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kPluginName:@"DoraemonDatabasePlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"常用工具")}
                                    ],
+                           @(DoraemonManagerPluginType_DoraemonNSUserDefaultsPlugin) : @[
+                                   @{kTitle:@"NSUserDefaults"},
+                                   @{kDesc:@"NSUserDefaults"},
+                                   @{kIcon:@"doraemon_database"},
+                                   @{kPluginName:@"DoraemonNSUserDefaultsPlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"常用工具")}
+                           ],
+                           
                            // 性能检测
                            @(DoraemonManagerPluginType_DoraemonFPSPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"帧率")},
