@@ -44,6 +44,9 @@
         model.value = obj;
         [self.modelList addObject:model];
     }];
+    [self.modelList sortUsingComparator:^NSComparisonResult(DoraemonNSUserDefaultsModel * _Nonnull obj1, DoraemonNSUserDefaultsModel *  _Nonnull obj2) {
+        return [obj1.key.lowercaseString compare:obj2.key.lowercaseString];
+    }];
     [self.tableView reloadData];
 }
 
@@ -62,6 +65,18 @@
     cell.detailTextLabel.text = [model.value description];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleDelete;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        DoraemonNSUserDefaultsModel *model = _modelList[indexPath.row];
+        [[NSUserDefaults standardUserDefaults] setValue:nil forKey:model.key];
+        [self reload];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
