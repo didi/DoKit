@@ -8,6 +8,7 @@ import android.support.multidex.MultiDex;
 
 import com.didichuxing.doraemondemo.dokit.KitDemo;
 import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
 import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -28,6 +29,7 @@ public class App extends Application {
         List<IKit> kits = new ArrayList<>();
         kits.add(new KitDemo());
         DoraemonKit.install(this, kits);
+        DoraemonKit.open(this, SharedPrefsKey.LOG_INFO_OPEN);
         Fresco.initialize(this);
 
         DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {

@@ -2,17 +2,19 @@ package com.didichuxing.doraemonkit.ui.base;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.blankj.utilcode.util.BarUtils;
-import com.blankj.utilcode.util.ConvertUtils;
-import com.blankj.utilcode.util.ScreenUtils;
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.kit.Category;
+import com.didichuxing.doraemonkit.kit.IKit;
+import com.didichuxing.doraemonkit.kit.logInfo.LogInfo;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
@@ -20,6 +22,7 @@ import com.didichuxing.doraemonkit.ui.realtime.PerformanceDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -99,6 +102,22 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             DokitIntent dokitIntent = new DokitIntent(FloatIconDokitView.class);
             dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
             attach(dokitIntent);
+            /**
+             * todo: 我大概的思路
+             * IKit添加一个接口,用于此处回调,将窗体加入页面
+             * DoraemonKit添加一个open函数用于将SharedPre 中功能开关值,置为TRUE.
+             * 由于修改IKit涉及的类太多,我先没动,用LogInfo类写了个初步的样例
+             * 给你们看看这个思路可不可行.
+             */
+
+            List<IKit> kits = DoraemonKit.getKitList(Category.TOOLS);
+            if (kits==null)return;
+            for(IKit kit : kits){
+                if (kit instanceof LogInfo){
+                    ((LogInfo) kit).onActivityInit(activity);
+                    Log.i(TAG, "onActivityResumed: "+activity.getString(kit.getName()));
+                }
+            }
             return;
         }
 

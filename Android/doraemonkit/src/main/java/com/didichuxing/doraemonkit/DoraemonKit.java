@@ -131,6 +131,25 @@ public class DoraemonKit {
         WebDoorManager.getInstance().setWebDoorCallback(callback);
     }
 
+    /**
+     * 开启自动初始化
+     * @param context 上下文
+     * @param keys 支持自动初始化的 SharedPrefsKey.
+     */
+    public static void open(Context context, @SharedPrefsKey.AutoInit String... keys) {
+        for(String key : keys){
+            SharedPrefsUtil.putBoolean(context,key, true);
+        }
+    }
+
+    /**
+     *  对应的每次打开自动关闭功能
+     */
+    public static void close(Context context, @SharedPrefsKey.AutoInit String... keys) {
+        for(String key : keys){
+            SharedPrefsUtil.putBoolean(context,key, false);
+        }
+    }
     public static void install(final Application app, List<IKit> selfKits) {
         //添加常用工具
         if (sHasInit) {
@@ -515,7 +534,7 @@ public class DoraemonKit {
     }
 
 
-    public static List<IKit> getKitList(int catgory) {
+    public static List<IKit> getKitList(@Category.Menu int catgory) {
         if (sKitMap.get(catgory) != null) {
             return new ArrayList<>(sKitMap.get(catgory));
         } else {
