@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -80,11 +81,11 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements ViewCheckDok
             @Override
             public void run() {
                 ViewCheckDokitView popView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
-                if(popView != null){
+                if (popView != null) {
                     popView.setViewSelectListener(ViewCheckInfoDokitView.this);
                 }
             }
-        },200);
+        }, 200);
 
     }
 
@@ -96,6 +97,15 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements ViewCheckDok
         params.y = UIUtils.getHeightPixels(getContext()) - UIUtils.dp2px(getContext(), 185);
         params.width = getScreenShortSideLength();
         params.height = DokitViewLayoutParams.WRAP_CONTENT;
+    }
+
+    @Override
+    public void updateViewLayout(String tag, boolean isActivityResume) {
+        super.updateViewLayout(tag, isActivityResume);
+        // 由于父类在此方法限制了高度无法自适应，所以重新设成wrap_content以自适应
+        final FrameLayout.LayoutParams params = getNormalLayoutParams();
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        getRootView().setLayoutParams(params);
     }
 
     @Override
@@ -111,14 +121,13 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements ViewCheckDok
             mId.setText(idText);
             String positionText = getResources().getString(R.string.dk_view_check_info_size, view.getWidth(), view.getHeight());
             mPosition.setText(positionText);
-            Drawable drawable = view.getBackground();
-            String backgroundColor = "";
-            if (drawable instanceof ColorDrawable) {
-                int colorInt = ((ColorDrawable) drawable).getColor();
-                backgroundColor = ColorUtil.parseColorInt(colorInt);
+            String descText = getViewExtraInfo(view);
+            if (TextUtils.isEmpty(descText)) {
+                mDesc.setVisibility(View.GONE);
+            } else {
+                mDesc.setText(descText);
+                mDesc.setVisibility(View.VISIBLE);
             }
-            String descText = getResources().getString(R.string.dk_view_check_info_desc, backgroundColor);
-            mDesc.setText(descText);
             Activity activity = ActivityUtils.getTopActivity();
             if (activity != null) {
                 String activityText = activity.getClass().getSimpleName();
@@ -134,6 +143,39 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements ViewCheckDok
                 setTextAndVisible(mFragmentInfo, "");
             }
         }
+    }
+
+    private String getViewExtraInfo(View v) {
+        StringBuilder info = new StringBuilder();
+        // 背景色
+        Drawable drawable = v.getBackground();
+        if (drawable != null) {
+            if (drawable instanceof ColorDrawable) {
+                int colorInt = ((ColorDrawable) drawable).getColor();
+                String backgroundColor = ColorUtil.parseColorInt(colorInt);
+                info.append(getResources().getString(R.string.dk_view_check_info_desc, backgroundColor));
+                info.append("\n");
+            }
+        }
+        // padding
+        if (v.getPaddingLeft() != 0 && v.getPaddingTop() != 0 && v.getPaddingRight() != 0 && v.getPaddingBottom() != 0) {
+            info.append(getResources().getString(R.string.dk_view_check_info_padding, v.getPaddingLeft(), v.getPaddingTop(), v.getPaddingRight(), v.getPaddingBottom()));
+            info.append("\n");
+        }
+        // margin
+        final ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+        if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
+            final ViewGroup.MarginLayoutParams mp = ((ViewGroup.MarginLayoutParams) layoutParams);
+            if (mp.leftMargin != 0 && mp.topMargin != 0 && mp.rightMargin != 0 && mp.bottomMargin != 0) {
+                info.append(getResources().getString(R.string.dk_view_check_info_margin, mp.leftMargin, mp.topMargin, mp.rightMargin, mp.bottomMargin));
+                info.append("\n");
+            }
+        }
+        // 删除最后一个换行
+        if (!TextUtils.isEmpty(info)) {
+            info.deleteCharAt(info.length() - 1);
+        }
+        return info.toString();
     }
 
     private void setTextAndVisible(TextView textView, String text) {

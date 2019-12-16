@@ -160,6 +160,8 @@
     <string name="dk_float_permission_toast">哆啦A夢需要打開懸浮視窗權限才能正常使用</string>
     <string name="dk_gps_location_change_toast">地址變為: %1$s, %2$s</string>
     <string name="dk_view_check_info_desc">背景顏色：%1$s</string>
+    <string name="dk_view_check_info_padding">內邊距：%1$d, %2$d, %3$d, %4$d</string>
+    <string name="dk_view_check_info_margin">外邊距：%1$d, %2$d, %3$d, %4$d</string>
     <string name="dk_view_check_info_size">View 尺寸：寬%1$d，高%2$d</string>
     <string name="dk_view_check_info_id">View ID：%1$s</string>
     <string name="dk_view_check_info_class">View 類別：%1$s</string>

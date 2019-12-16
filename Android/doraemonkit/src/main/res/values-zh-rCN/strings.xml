@@ -161,6 +161,8 @@
     <string name="dk_float_permission_toast">哆啦A梦需要打开悬浮窗权限才能正常使用</string>
     <string name="dk_gps_location_change_toast">地址变为: %1$s, %2$s</string>
     <string name="dk_view_check_info_desc">背景颜色：%1$s</string>
+    <string name="dk_view_check_info_padding">内边距：%1$d, %2$d, %3$d, %4$d</string>
+    <string name="dk_view_check_info_margin">外边距：%1$d, %2$d, %3$d, %4$d</string>
     <string name="dk_view_check_info_size">控件尺寸：宽%1$d，高%2$d</string>
     <string name="dk_view_check_info_id">控件ID：%1$s</string>
     <string name="dk_view_check_info_class">控件类型：%1$s</string>
