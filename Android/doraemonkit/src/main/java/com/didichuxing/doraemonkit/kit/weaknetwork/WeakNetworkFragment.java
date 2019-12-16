@@ -22,8 +22,7 @@ import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
 /**
  * 模拟弱网
  *
- * @author denghaha
- * created 2019/5/7 19:10
+ * Created by xiandanin on 2019/5/7 19:10
  */
 public class WeakNetworkFragment extends BaseFragment implements TextWatcher {
     private SettingItemAdapter mSettingItemAdapter;

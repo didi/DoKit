@@ -13,8 +13,7 @@ import com.didichuxing.doraemonkit.ui.UniversalActivity;
 /**
  * 模拟弱网
  *
- * @author denghaha
- * created 2019/5/7 19:05
+ * Created by xiandanin on 2019/5/7 19:05
  */
 public class WeakNetwork implements IKit {
     @Override
