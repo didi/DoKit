@@ -6,9 +6,12 @@
     <string name="dk_category_performance">效能監控</string>
     <string name="dk_category_large_image">大圖檢測</string>
     <string name="dk_category_ui">視覺工具</string>
+    <string name="dk_category_platform">平台工具</string>
+    <string name="dk_kit_network_mock">數據Mock</string>
     <string name="dk_category_weex">WEEX</string>
 
     <string name="dk_kit_sysinfo">App 基本資訊</string>
+    <string name="dk_kit_list">工具列表</string>
     <string name="dk_kit_demo">demo</string>
     <string name="dk_kit_file_explorer">Sandbox</string>
     <string name="dk_kit_frame_info">幀率</string>
@@ -28,6 +31,7 @@
     <string name="dk_kit_ui_monitor">UI顯示實時數據</string>
     <string name="dk_kit_time_counter">耗時</string>
     <string name="dk_kit_method_cost">函數耗時</string>
+    <string name="dk_kit_mock_template_preview">數據預覽</string>
     <string name="dk_kit_method_cost_desc">
         <![CDATA[
         函数耗时不提供UI操作界面,在你需要分析的代码之前插入<br/>
@@ -238,4 +242,8 @@
     <string name="dk_max_draw_time">最大繪製耗時: </string>
     <string name="dk_platform_monitor_view_stat_data">查看統計數據</string>
 
+    <string name="dk_mock_search">搜索</string>
+    <!--jsonviewer-->
+    <string name="dk_jsonViewer_icon_plus">expand</string>
+    <string name="dk_jsonViewer_icon_minus">collapse</string>
 </resources>

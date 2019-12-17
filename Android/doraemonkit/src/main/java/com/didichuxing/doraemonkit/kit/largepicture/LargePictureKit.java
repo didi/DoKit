@@ -1,15 +1,11 @@
 package com.didichuxing.doraemonkit.kit.largepicture;
 
 import android.content.Context;
-import android.content.Intent;
 
-import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
+import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.kit.IKit;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
 
 /**
  * ================================================
@@ -20,7 +16,7 @@ import com.didichuxing.doraemonkit.ui.UniversalActivity;
  * 修订历史：
  * ================================================
  */
-public class LargePictureKit implements IKit {
+public class LargePictureKit extends AbstractKit {
     @Override
     public int getCategory() {
         return Category.PERFORMANCE;
@@ -38,10 +34,7 @@ public class LargePictureKit implements IKit {
 
     @Override
     public void onClick(Context context) {
-        Intent intent = new Intent(context, UniversalActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_LARGE_PICTURE);
-        context.startActivity(intent);
+        startUniversalActivity(context,FragmentIndex.FRAGMENT_LARGE_PICTURE);
     }
 
     @Override

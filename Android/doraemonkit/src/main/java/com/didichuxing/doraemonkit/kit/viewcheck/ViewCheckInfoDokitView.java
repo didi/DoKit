@@ -47,9 +47,9 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements ViewCheckDok
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ViewCheckDokitView popView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
-        if (popView != null) {
-            popView.removeViewSelectListener(this);
+        ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
+        if (dokitView != null) {
+            dokitView.removeViewSelectListener(this);
         }
     }
 
@@ -79,9 +79,9 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements ViewCheckDok
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                ViewCheckDokitView popView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
-                if(popView != null){
-                    popView.setViewSelectListener(ViewCheckInfoDokitView.this);
+                ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
+                if(dokitView != null){
+                    dokitView.setViewSelectListener(ViewCheckInfoDokitView.this);
                 }
             }
         },200);

@@ -5,7 +5,7 @@ import com.didichuxing.doraemonkit.kit.network.core.NetworkInterpreter;
 import okhttp3.Request;
 import okhttp3.Response;
 
-class OkHttpInspectorResponse implements NetworkInterpreter.InspectorResponse {
+public class OkHttpInspectorResponse implements NetworkInterpreter.InspectorResponse {
     private final int mRequestId;
     private final Request mRequest;
     private final Response mResponse;

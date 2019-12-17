@@ -3,8 +3,8 @@ package com.didichuxing.doraemonkit.kit.leakcanary;
 import android.content.Context;
 import android.content.Intent;
 
+import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.kit.IKit;
 import com.squareup.leakcanary.R;
 import com.squareup.leakcanary.internal.DisplayLeakActivity;
 
@@ -17,7 +17,7 @@ import com.squareup.leakcanary.internal.DisplayLeakActivity;
  * 修订历史：
  * ================================================
  */
-public class LeakCanaryKit implements IKit {
+public class LeakCanaryKit extends AbstractKit {
     @Override
     public int getCategory() {
         return Category.PERFORMANCE;

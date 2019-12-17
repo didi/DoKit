@@ -7,7 +7,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 
 /**
  * Created by jintai on 2019/9/16.
- * popView intent
+ * dokitView intent
  */
 
 public class DokitIntent {

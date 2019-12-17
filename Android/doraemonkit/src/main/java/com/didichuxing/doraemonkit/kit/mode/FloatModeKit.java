@@ -3,8 +3,8 @@ package com.didichuxing.doraemonkit.kit.mode;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.kit.IKit;
 
 /**
  * ================================================
@@ -15,7 +15,7 @@ import com.didichuxing.doraemonkit.kit.IKit;
  * 修订历史：
  * ================================================
  */
-public class FloatModeKit implements IKit {
+public class FloatModeKit extends AbstractKit {
     @Override
     public int getCategory() {
         return Category.FLOAT_MODE;

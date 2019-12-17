@@ -30,11 +30,11 @@ import java.util.Map;
 class NormalDokitViewManager implements DokitViewManagerInterface {
     private static final String TAG = "NormalDokitViewManager";
     /**
-     * 每个Activity中baseFloatPopView的集合
+     * 每个Activity中dokitView的集合
      */
     private Map<Activity, Map<String, AbsDokitView>> mActivityDokitViews;
     /**
-     * 全局的同步mActivityFloatPopViews 应该在页面上显示的popView集合
+     * 全局的同步mActivityFloatDokitViews 应该在页面上显示的dokitView集合
      */
     private Map<String, GlobalSingleDokitViewInfo> mGlobalSingleDokitViews;
 
@@ -74,14 +74,14 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
     NormalDokitViewManager(Context context) {
         mContext = context.getApplicationContext();
-        //创建key为Activity的baseFloatPopView
+        //创建key为Activity的dokitView
         mActivityDokitViews = new HashMap<>();
         mGlobalSingleDokitViews = new HashMap<>();
     }
 
 
     /**
-     * 添加activity关联的所有popView activity resume的时候回调
+     * 添加activity关联的所有dokitView activity resume的时候回调
      *
      * @param activity
      */
@@ -109,9 +109,9 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                 LogHelper.e(TAG, "resumeAndAttachDokitViews 方法执行异常");
                 return;
             }
-            //将所有的popView添加到新建的Activity中去
+            //将所有的dokitView添加到新建的Activity中去
             for (GlobalSingleDokitViewInfo dokitViewInfo : mGlobalSingleDokitViews.values()) {
-                LogHelper.i(TAG, " 新建activity==>" + activity.getClass().getSimpleName() + "  popView==>" + dokitViewInfo.getTag());
+                LogHelper.i(TAG, " 新建activity==>" + activity.getClass().getSimpleName() + "  dokitView==>" + dokitViewInfo.getTag());
                 if (activity instanceof UniversalActivity && dokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
                     return;
                 }
@@ -124,17 +124,19 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         }
 
         //activity resume
-        //更新所有popView的位置
+        //更新所有dokitView的位置
         Map<String, AbsDokitView> existDokitViews = mActivityDokitViews.get(activity);
         for (GlobalSingleDokitViewInfo traverseDokitViewInfo : mGlobalSingleDokitViews.values()) {
             if (activity instanceof UniversalActivity && traverseDokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
                 return;
             }
             LogHelper.i(TAG, " activity  resume==>" + activity.getClass().getSimpleName() + "  dokitView==>" + traverseDokitViewInfo.getTag());
-            //判断resume Activity 中时候存在指定的popview
+            //判断resume Activity 中时候存在指定的dokitview
             AbsDokitView existDokitView = existDokitViews.get(traverseDokitViewInfo.getTag());
+            //当前页面已存在dokitview
             if (existDokitView != null && existDokitView.getRootView() != null) {
                 existDokitView.getRootView().setVisibility(View.VISIBLE);
+                //更新位置
                 existDokitView.updateViewLayout(existDokitView.getTag(), true);
                 existDokitView.onResume();
             } else {
@@ -168,7 +170,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
             //通过newInstance方式创建floatPage
             final AbsDokitView dokitView = dokitIntent.targetClass.newInstance();
-            //判断当前Activity是否存在popView map
+            //判断当前Activity是否存在dokitView map
             Map<String, AbsDokitView> dokitViews;
             if (mActivityDokitViews.get(dokitIntent.activity) == null) {
                 dokitViews = new HashMap<>();
@@ -176,48 +178,49 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             } else {
                 dokitViews = mActivityDokitViews.get(dokitIntent.activity);
             }
-            //判断该popview是否已经显示在页面上 同一个类型的popview 在页面上只显示一个
+            //判断该dokitview是否已经显示在页面上 同一个类型的dokitview 在页面上只显示一个
             if (dokitIntent.mode == DokitIntent.MODE_SINGLE_INSTANCE) {
                 if (dokitViews.get(dokitIntent.getTag()) != null) {
                     LogHelper.i(TAG, dokitIntent.getTag() + "===>" + dokitViews.get(dokitIntent.getTag()).toString() + "  has attached");
-                    //拿到指定的popView并更新位置
+                    //拿到指定的dokitView并更新位置
                     dokitViews.get(dokitIntent.getTag()).updateViewLayout(dokitIntent.getTag(), true);
                     return;
                 }
             }
 
-            //在当前Activity中保存floatPopView
+            //在当前Activity中保存dokitView
             dokitViews.put(dokitView.getTag(), dokitView);
             dokitView.setBundle(dokitIntent.bundle);
             dokitView.setTag(dokitIntent.getTag());
             dokitView.setActivity(dokitIntent.activity);
             dokitView.performCreate(mContext);
-            //在全局popviews中保存该类型的
+            //在全局dokitviews中保存该类型的
             mGlobalSingleDokitViews.put(dokitView.getTag(), createGlobalSingleDokitViewInfo(dokitView));
             //得到activity window中的根布局
             final FrameLayout mDecorView = (FrameLayout) dokitIntent.activity.getWindow().getDecorView();
 
 
-            //往DecorView的子RootView中添加floatPopView
-            getDokitRootContentView(dokitIntent.activity, mDecorView)
-                    .addView(dokitView.getRootView(),
-                            dokitView.getNormalLayoutParams());
-            //延迟100毫秒调用
-            dokitView.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    dokitView.onResume();
-                    //操作DecorRootView
-                    dokitView.dealDecorRootView(getDokitRootContentView(dokitIntent.activity, mDecorView));
-                }
-            }, 100);
+            //往DecorView的子RootView中添加dokitView
+            if (dokitView.getNormalLayoutParams() != null && dokitView.getRootView() != null) {
+                getDokitRootContentView(dokitIntent.activity, mDecorView)
+                        .addView(dokitView.getRootView(),
+                                dokitView.getNormalLayoutParams());
+                //延迟100毫秒调用
+                dokitView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dokitView.onResume();
+                        //操作DecorRootView
+                        dokitView.dealDecorRootView(getDokitRootContentView(dokitIntent.activity, mDecorView));
+                    }
+                }, 100);
 
 
-            LogHelper.i(TAG, "dokitView attach===>" + dokitIntent.activity.getClass().getSimpleName() + " ===>" + dokitView.toString());
-        } catch (InstantiationException e) {
-            LogHelper.e(TAG, e.toString());
-        } catch (IllegalAccessException e) {
-            LogHelper.e(TAG, e.toString());
+                LogHelper.i(TAG, "dokitView attach===>" + dokitIntent.activity.getClass().getSimpleName() + " ===>" + dokitView.toString());
+            }
+
+        } catch (Exception e) {
+            LogHelper.e(TAG, e.getMessage());
         }
     }
 
@@ -278,25 +281,25 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
 
     /**
-     * 隐藏工具列表popView
+     * 隐藏工具列表dokitView
      */
     public void detachKitDokitView() {
         detach(ToolPanelDokitView.class.getSimpleName());
     }
 
     /**
-     * 移除每个activity指定的popView
+     * 移除每个activity指定的dokitView
      */
     @Override
-    public void detach(AbsDokitView popView) {
+    public void detach(AbsDokitView dokitView) {
         if (mActivityDokitViews == null) {
             return;
         }
 
-        //调用当前Activity的指定PopView的Destroy方法
-        //popView.performDestroy();
+        //调用当前Activity的指定dokitView的Destroy方法
+        //dokitView.performDestroy();
 
-        detach(popView.getTag());
+        detach(dokitView.getTag());
 
     }
 
@@ -311,10 +314,10 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         if (mActivityDokitViews == null) {
             return;
         }
-        //移除每个activity中指定的popView
+        //移除每个activity中指定的dokitView
         for (Activity activityKey : mActivityDokitViews.keySet()) {
             Map<String, AbsDokitView> dokitViews = mActivityDokitViews.get(activityKey);
-            //定位到指定popView
+            //定位到指定dokitView
             AbsDokitView dokitView = dokitViews.get(tag);
             if (dokitView == null) {
                 continue;
@@ -327,17 +330,17 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             //移除指定UI
             //请求重新绘制
             activityKey.getWindow().getDecorView().requestLayout();
-            //执行popView的销毁
+            //执行dokitView的销毁
             dokitView.performDestroy();
             //移除map中的数据
             dokitViews.remove(tag);
 
         }
-        //同步移除全局指定类型的popview
+        //同步移除全局指定类型的dokitView
         if (mGlobalSingleDokitViews.containsKey(tag)) {
             mGlobalSingleDokitViews.remove(tag);
         }
-        LogHelper.i(TAG, "popView detach====>" + tag);
+        LogHelper.i(TAG, "dokitView detach====>" + tag);
 
     }
 
@@ -348,7 +351,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
 
     /**
-     * 移除所有activity的所有popView
+     * 移除所有activity的所有dokitView
      */
     @Override
     public void detachAll() {
@@ -356,7 +359,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             return;
         }
 
-        //移除每个activity中所有的popView
+        //移除每个activity中所有的dokitView
         for (Activity activityKey : mActivityDokitViews.keySet()) {
             Map<String, AbsDokitView> dokitViews = mActivityDokitViews.get(activityKey);
             //移除指定UI
@@ -365,7 +368,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             dokitViews.clear();
         }
         mGlobalSingleDokitViews.clear();
-        LogHelper.i(TAG, "popView detachAll====>");
+        LogHelper.i(TAG, "dokitView detachAll====>");
     }
 
     /**
@@ -388,7 +391,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
 
     /**
-     * 获取当前页面指定的popView
+     * 获取当前页面指定的dokitView
      *
      * @param activity
      * @param tag
@@ -410,7 +413,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
 
     /**
-     * 获取当前页面所有的popView
+     * 获取当前页面所有的dokitView
      *
      * @param activity
      * @return

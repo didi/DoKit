@@ -11,43 +11,57 @@ import android.support.v4.app.FragmentManager;
 import android.util.SparseArray;
 import android.widget.Toast;
 
+import com.amitshekhar.DebugDB;
+import com.amitshekhar.debug.encrypt.sqlite.DebugDBEncryptFactory;
+import com.amitshekhar.debug.sqlite.DebugDBFactory;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
+import com.didichuxing.doraemonkit.aop.OkHttpHook;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.IKit;
-import com.didichuxing.doraemonkit.kit.alignruler.AlignRuler;
+import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerKit;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit;
-import com.didichuxing.doraemonkit.kit.colorpick.ColorPicker;
-import com.didichuxing.doraemonkit.kit.crash.CrashCapture;
-import com.didichuxing.doraemonkit.kit.custom.Custom;
-import com.didichuxing.doraemonkit.kit.dataclean.DataClean;
+import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerKit;
+import com.didichuxing.doraemonkit.kit.crash.CrashCaptureKit;
+import com.didichuxing.doraemonkit.kit.custom.CustomKit;
+import com.didichuxing.doraemonkit.kit.dataclean.DataCleanKit;
+import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugKit;
-import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorer;
-import com.didichuxing.doraemonkit.kit.gpsmock.GpsMock;
+import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerKit;
+import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockKit;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.kit.gpsmock.ServiceHookManager;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureKit;
-import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorder;
-import com.didichuxing.doraemonkit.kit.logInfo.LogInfo;
+import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit;
+import com.didichuxing.doraemonkit.kit.logInfo.LogInfoKit;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostKit;
 import com.didichuxing.doraemonkit.kit.mode.FloatModeKit;
+import com.didichuxing.doraemonkit.kit.network.MockKit;
 import com.didichuxing.doraemonkit.kit.network.NetworkKit;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.kit.parameter.cpu.Cpu;
-import com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfo;
-import com.didichuxing.doraemonkit.kit.parameter.ram.Ram;
-import com.didichuxing.doraemonkit.kit.sysinfo.SysInfo;
-import com.didichuxing.doraemonkit.kit.temporaryclose.TemporaryClose;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonWeakNetworkInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.LargePictureInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor;
+import com.didichuxing.doraemonkit.kit.network.rpc.RpcMockInterceptor;
+import com.didichuxing.doraemonkit.kit.network.rpc.RpcMonitorInterceptor;
+import com.didichuxing.doraemonkit.kit.parameter.cpu.CpuKit;
+import com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfoKit;
+import com.didichuxing.doraemonkit.kit.parameter.ram.RamKit;
+import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoKit;
+import com.didichuxing.doraemonkit.kit.temporaryclose.TemporaryCloseKit;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterKit;
 import com.didichuxing.doraemonkit.kit.timecounter.instrumentation.HandlerHooker;
-import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformance;
-import com.didichuxing.doraemonkit.kit.version.DokitVersion;
-import com.didichuxing.doraemonkit.kit.viewcheck.ViewChecker;
-import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetwork;
-import com.didichuxing.doraemonkit.kit.webdoor.WebDoor;
+import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceKit;
+import com.didichuxing.doraemonkit.kit.version.DokitVersionKit;
+import com.didichuxing.doraemonkit.kit.viewcheck.ViewCheckerKit;
+import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkKit;
+import com.didichuxing.doraemonkit.kit.webdoor.WebDoorKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
@@ -55,11 +69,13 @@ import com.didichuxing.doraemonkit.ui.base.DokitIntent;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.kit.KitItem;
 import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
+import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.PermissionUtil;
 import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
+import com.didichuxing.foundation.net.rpc.http.PlatformHttpHook;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -95,26 +111,39 @@ public class DoraemonKit {
     public static boolean IS_NORMAL_FLOAT_MODE = true;
 
     public static Application APPLICATION;
+    public static String PRODUCT_ID = "";
 
+    private static DbDebugFragment mDbDebugFragment;
+
+    /**
+     * 用来判断是否接入了dokit插件
+     */
+    private static boolean IS_HOOK = false;
     /**
      * fragment 生命周期回调
      */
     private static FragmentManager.FragmentLifecycleCallbacks sFragmentLifecycleCallbacks = new FragmentManager.FragmentLifecycleCallbacks() {
         @Override
-        public void onFragmentAttached(FragmentManager fm, Fragment f, Context context) {
-            super.onFragmentAttached(fm, f, context);
-            LogHelper.d(TAG, "onFragmentAttached: " + f);
+        public void onFragmentAttached(FragmentManager fm, Fragment fragment, Context context) {
+            super.onFragmentAttached(fm, fragment, context);
+            LogHelper.d(TAG, "onFragmentAttached: " + fragment);
+            if (fragment instanceof DbDebugFragment) {
+                mDbDebugFragment = (DbDebugFragment) fragment;
+            }
             for (LifecycleListener listener : sListeners) {
-                listener.onFragmentAttached(f);
+                listener.onFragmentAttached(fragment);
             }
         }
 
         @Override
-        public void onFragmentDetached(FragmentManager fm, Fragment f) {
-            super.onFragmentDetached(fm, f);
-            LogHelper.d(TAG, "onFragmentDetached: " + f);
+        public void onFragmentDetached(FragmentManager fm, Fragment fragment) {
+            super.onFragmentDetached(fm, fragment);
+            LogHelper.d(TAG, "onFragmentDetached: " + fragment);
+            if (fragment instanceof DbDebugFragment) {
+                mDbDebugFragment = null;
+            }
             for (LifecycleListener listener : sListeners) {
-                listener.onFragmentDetached(f);
+                listener.onFragmentDetached(fragment);
             }
         }
     };
@@ -123,15 +152,22 @@ public class DoraemonKit {
         LogHelper.setDebug(debug);
     }
 
-    public static void install(final Application app) {
+
+    public static void install(Application app) {
         install(app, null);
     }
 
-    public static void setWebDoorCallback(WebDoorManager.WebDoorCallback callback) {
-        WebDoorManager.getInstance().setWebDoorCallback(callback);
+    public static void install(Application app, List<IKit> selfKits) {
+        install(app, selfKits, "");
     }
 
-    public static void install(final Application app, List<IKit> selfKits) {
+    /**
+     * @param app
+     * @param selfKits  自定义kits
+     * @param productId Dokit平台端申请的productId
+     */
+    public static void install(final Application app, List<IKit> selfKits, String productId) {
+        PRODUCT_ID = productId;
         //添加常用工具
         if (sHasInit) {
             //已经初始化添加自定义kits
@@ -151,8 +187,8 @@ public class DoraemonKit {
         sHasInit = true;
         //赋值
         APPLICATION = app;
-        String StrfloatMode = SharedPrefsUtil.getString(app, SharedPrefsKey.FLOAT_START_MODE, "normal");
-        if (StrfloatMode.equals("normal")) {
+        String strfloatMode = SharedPrefsUtil.getString(app, SharedPrefsKey.FLOAT_START_MODE, "normal");
+        if (strfloatMode.equals("normal")) {
             IS_NORMAL_FLOAT_MODE = true;
         } else {
             IS_NORMAL_FLOAT_MODE = false;
@@ -162,6 +198,9 @@ public class DoraemonKit {
         HandlerHooker.doHook(app);
         //hook WIFI GPS Telephony系统服务
         ServiceHookManager.getInstance().install(app);
+        //全局aop hook
+        aopHook();
+        LogHelper.i(TAG, "IS_HOOK====>" + IS_HOOK);
         //注册全局的activity生命周期回调
         app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             int startedActivityCounts;
@@ -200,6 +239,11 @@ public class DoraemonKit {
                 if (ignoreCurrentActivityDokitView(activity)) {
                     return;
                 }
+                //用户主动调用hide 以后 不再显示浮标 除非手动打开
+                if (!IS_SHOW_KIT) {
+                    return;
+                }
+
                 //设置app的直接子view的Id
                 if (UIUtils.getDokitAppContentView(activity) != null) {
                     UIUtils.getDokitAppContentView(activity).setId(R.id.dokit_app_contentview_id);
@@ -207,7 +251,7 @@ public class DoraemonKit {
 
 
                 if (IS_NORMAL_FLOAT_MODE) {
-                    //显示内置popView icon
+                    //显示内置dokitView icon
                     resumeAndAttachDokitViews(activity);
                 } else {
                     //悬浮窗权限 vivo 华为可以不需要动态权限 小米需要
@@ -273,6 +317,19 @@ public class DoraemonKit {
             }
         });
         sKitMap.clear();
+        boolean hasAopMoudle = false;
+        try {
+            Class.forName("parking.didi.com.aop.DoraemonHooker").newInstance();
+            hasAopMoudle = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //两个条件只要满足一个就可以
+        if (hasAopMoudle || IS_HOOK) {
+            hasAopMoudle = true;
+
+        }
+
         //业务专区
         List<IKit> biz = new ArrayList<>();
         //weex专区
@@ -284,6 +341,8 @@ public class DoraemonKit {
         List<IKit> performance = new ArrayList<>();
         //视觉工具
         List<IKit> ui = new ArrayList<>();
+        //平台工具
+        List<IKit> platform = new ArrayList<>();
         //悬浮窗模式
         List<IKit> floatMode = new ArrayList<>();
         //退出
@@ -291,28 +350,35 @@ public class DoraemonKit {
         //版本号
         List<IKit> version = new ArrayList<>();
         //添加工具kit
-        tool.add(new SysInfo());
-        tool.add(new FileExplorer());
+        tool.add(new SysInfoKit());
+        tool.add(new FileExplorerKit());
         if (GpsMockManager.getInstance().isMockEnable()) {
-            tool.add(new GpsMock());
+            tool.add(new GpsMockKit());
         }
-        tool.add(new WebDoor());
-        tool.add(new CrashCapture());
-        tool.add(new LogInfo());
-        tool.add(new DataClean());
-        tool.add(new WeakNetwork());
+        tool.add(new WebDoorKit());
+        tool.add(new CrashCaptureKit());
+        tool.add(new LogInfoKit());
+        tool.add(new DataCleanKit());
+        if (hasAopMoudle) {
+            tool.add(new WeakNetworkKit());
+        }
         tool.add(new DbDebugKit());
 
         //添加性能监控kit
-        performance.add(new FrameInfo());
-        performance.add(new Cpu());
-        performance.add(new Ram());
-        performance.add(new NetworkKit());
+        performance.add(new FrameInfoKit());
+        performance.add(new CpuKit());
+        performance.add(new RamKit());
+        if (hasAopMoudle) {
+            performance.add(new NetworkKit());
+        }
         performance.add(new BlockMonitorKit());
         performance.add(new TimeCounterKit());
         performance.add(new MethodCostKit());
-        performance.add(new UIPerformance());
-        performance.add(new LargePictureKit());
+        performance.add(new UIPerformanceKit());
+        if (hasAopMoudle) {
+            performance.add(new LargePictureKit());
+        }
+
         try {
             //动态添加leakcanary
             IKit leakCanaryKit = (IKit) Class.forName("com.didichuxing.doraemonkit.kit.leakcanary.LeakCanaryKit").newInstance();
@@ -325,22 +391,27 @@ public class DoraemonKit {
             e.printStackTrace();
         }
 
-        performance.add(new Custom());
+        performance.add(new CustomKit());
 
         //添加视觉ui kit
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ui.add(new ColorPicker());
+            ui.add(new ColorPickerKit());
         }
 
-        ui.add(new AlignRuler());
-        ui.add(new ViewChecker());
-        ui.add(new LayoutBorder());
+        ui.add(new AlignRulerKit());
+        ui.add(new ViewCheckerKit());
+        ui.add(new LayoutBorderKit());
+        if (hasAopMoudle) {
+            //新增数据mock工具
+            platform.add(new MockKit());
+        }
+
         //增加浮标模式
         floatMode.add(new FloatModeKit());
         //添加退出项
-        exit.add(new TemporaryClose());
+        exit.add(new TemporaryCloseKit());
         //添加版本号项
-        version.add(new DokitVersion());
+        version.add(new DokitVersionKit());
         //添加自定义
         if (selfKits != null && !selfKits.isEmpty()) {
             biz.addAll(selfKits);
@@ -380,6 +451,7 @@ public class DoraemonKit {
         }
 
         sKitMap.put(Category.PERFORMANCE, performance);
+        sKitMap.put(Category.PLATFORM, platform);
         sKitMap.put(Category.TOOLS, tool);
         sKitMap.put(Category.UI, ui);
         sKitMap.put(Category.FLOAT_MODE, floatMode);
@@ -394,9 +466,74 @@ public class DoraemonKit {
         installLeakCanary(app);
         initAndroidUtil(app);
         checkLargeImgIsOpen();
+        registerNetworkStatusChangedListener();
     }
 
-    //确认大图检测功能时候被打开
+    /**
+     * 全局注入
+     */
+    private static void aopHook() {
+
+        //OkHttp hook
+        OkHttpHook.installInterceptor(new MockInterceptor());
+        OkHttpHook.installInterceptor(new LargePictureInterceptor());
+        OkHttpHook.installInterceptor(new DoraemonWeakNetworkInterceptor());
+        OkHttpHook.installInterceptor(new DoraemonInterceptor());
+        try {
+            //如果没有引入didi内部网络库则会抛出异常 所以这里使用反射的方式创建对象
+            Object rpcMockInterceptor = Class.forName("com.didichuxing.doraemonkit.kit.network.rpc.RpcMockInterceptor").newInstance();
+            Object rpcMonitorInterceptor = Class.forName("com.didichuxing.doraemonkit.kit.network.rpc.RpcMonitorInterceptor").newInstance();
+            //platformHttp hook
+            PlatformHttpHook.installInterceptor(rpcMockInterceptor);
+            PlatformHttpHook.installInterceptor(rpcMonitorInterceptor);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            LogHelper.e(TAG, "===外部app不需要引入didi内部网络库====");
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            LogHelper.e(TAG, "===外部app不需要引入didi内部网络库====");
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            LogHelper.e(TAG, "===外部app不需要引入didi内部网络库====");
+        }
+    }
+
+    public static void setWebDoorCallback(WebDoorManager.WebDoorCallback callback) {
+        WebDoorManager.getInstance().setWebDoorCallback(callback);
+    }
+
+    /**
+     * 注册全局的网络状态监听
+     */
+    private static void registerNetworkStatusChangedListener() {
+        NetworkUtils.registerNetworkStatusChangedListener(new NetworkUtils.OnNetworkStatusChangedListener() {
+            @Override
+            public void onDisconnected() {
+                ToastUtils.showShort("当前网络已断开");
+                DebugDB.shutDown();
+                if (mDbDebugFragment != null) {
+                    mDbDebugFragment.networkChanged(NetworkUtils.NetworkType.NETWORK_NO);
+                }
+
+            }
+
+            @Override
+            public void onConnected(NetworkUtils.NetworkType networkType) {
+                //重启DebugDB
+                ToastUtils.showShort("当前网络类型:" + networkType.name());
+                DebugDB.shutDown();
+                DebugDB.initialize(APPLICATION, new DebugDBFactory());
+                DebugDB.initialize(APPLICATION, new DebugDBEncryptFactory());
+                if (mDbDebugFragment != null) {
+                    mDbDebugFragment.networkChanged(networkType);
+                }
+            }
+        });
+    }
+
+    /**
+     * 确认大图检测功能时候被打开
+     */
     private static void checkLargeImgIsOpen() {
         if (PerformanceSpInfoConfig.isLargeImgOpen()) {
             NetworkManager.get().startMonitor();
@@ -482,7 +619,7 @@ public class DoraemonKit {
     }
 
     /**
-     * 显示所有应该显示的popView
+     * 显示所有应该显示的dokitView
      *
      * @param activity
      */
@@ -574,12 +711,29 @@ public class DoraemonKit {
             showSystemMainIcon();
         }
         mSystemDokitViewIcon = true;
+        IS_SHOW_KIT = true;
     }
+
+
+    /**
+     * 直接显示工具面板页面
+     */
+    public static void showToolPanel() {
+        DokitIntent dokitViewIntent = new DokitIntent(ToolPanelDokitView.class);
+        dokitViewIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        DokitViewManager.getInstance().attach(dokitViewIntent);
+    }
+
+    /**
+     * 用户是否手动调用关闭kit
+     */
+    private static boolean IS_SHOW_KIT = true;
 
     public static void hide() {
         DokitViewManager.getInstance().detach(FloatIconDokitView.class.getSimpleName());
 
         mSystemDokitViewIcon = false;
+        IS_SHOW_KIT = false;
     }
 
     /**

@@ -18,6 +18,7 @@
     <color name="dk_color_FAD337">#FAD337</color>
     <color name="dk_color_55A8FD">#55A8FD</color>
     <color name="dk_color_BBBBBB">#BBBBBB</color>
+    <color name="dk_color_BEBEBE">#BEBEBE</color>
     <color name="dk_color_0070BB">#0070BB</color>
     <color name="dk_color_000a7a">#000a7a</color>
     <color name="dk_color_0099dd">#0099dd</color>
@@ -57,4 +58,11 @@
     <color name="foreground_debug">#FF333333</color>
     <color name="foreground_info">#FF333333</color>
     <color name="foreground_warn">#FFCCCCCC</color>
+    <!--dropdownmenu-->
+    <color name="dk_drop_down_selected">#337CC4</color>
+    <color name="dk_drop_down_unselected">#333333</color>
+
+    <color name="dk_mask_color">#88000000</color>
+    <color name="dk_check_bg">#f2f2f2</color>
+    <color name="dk_un_press_color">#337CC4</color>
 </resources>

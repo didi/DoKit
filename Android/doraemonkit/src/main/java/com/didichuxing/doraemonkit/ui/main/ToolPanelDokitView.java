@@ -5,7 +5,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
@@ -15,11 +14,13 @@ import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.ui.kit.GroupKitAdapter;
 import com.didichuxing.doraemonkit.ui.kit.KitItem;
+import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author jintai
  * Created by jintai on 2019/09/26.
  * 工具面板弹窗
  */
@@ -34,7 +35,7 @@ public class ToolPanelDokitView extends AbsDokitView {
 
     @Override
     public View onCreateView(Context context, FrameLayout view) {
-        return LayoutInflater.from(context).inflate(R.layout.dk_float_kit, view, false);
+        return LayoutInflater.from(context).inflate(R.layout.dk_tool_panel, view, false);
     }
 
     @Override
@@ -43,6 +44,13 @@ public class ToolPanelDokitView extends AbsDokitView {
     }
 
     private void initView() {
+        HomeTitleBar titleBar = findViewById(R.id.title_bar);
+        titleBar.setListener(new HomeTitleBar.OnTitleBarClickListener() {
+            @Override
+            public void onRightClick() {
+                detach();
+            }
+        });
         mGroupKitContainer = findViewById(R.id.group_kit_container);
         mGroupKitContainer.setLayoutManager(new LinearLayoutManager(getContext()));
         mGroupKitAdapter = new GroupKitAdapter(getContext());
@@ -52,12 +60,21 @@ public class ToolPanelDokitView extends AbsDokitView {
         if (bizs != null && !bizs.isEmpty()) {
             kitLists.add(bizs);
         }
+        //平台工具
+        if (DoraemonKit.getKitItems(Category.PLATFORM) != null && !DoraemonKit.getKitItems(Category.PLATFORM).isEmpty()) {
+            kitLists.add(DoraemonKit.getKitItems(Category.PLATFORM));
+        }
+        //常用工具
         kitLists.add(DoraemonKit.getKitItems(Category.TOOLS));
+        //weex
         if (DoraemonKit.getKitItems(Category.WEEX) != null && !DoraemonKit.getKitItems(Category.WEEX).isEmpty()) {
             kitLists.add(DoraemonKit.getKitItems(Category.WEEX));
         }
+        //性能监控
         kitLists.add(DoraemonKit.getKitItems(Category.PERFORMANCE));
+        //视觉工具
         kitLists.add(DoraemonKit.getKitItems(Category.UI));
+
         kitLists.add(DoraemonKit.getKitItems(Category.FLOAT_MODE));
         kitLists.add(DoraemonKit.getKitItems(Category.CLOSE));
         kitLists.add(DoraemonKit.getKitItems(Category.VERSION));
@@ -65,18 +82,6 @@ public class ToolPanelDokitView extends AbsDokitView {
         mGroupKitContainer.setAdapter(mGroupKitAdapter);
     }
 
-//    @Override
-//    public void onNormalLayoutParamsCreated(FrameLayout.LayoutParams params) {
-//        params.leftMargin = 0;
-//        params.topMargin = 0;
-//        params.width = FrameLayout.LayoutParams.MATCH_PARENT;
-//        params.height = FrameLayout.LayoutParams.MATCH_PARENT;
-//    }
-//
-//    @Override
-//    public void onSystemLayoutParamsCreated(WindowManager.LayoutParams params) {
-//        super.onSystemLayoutParamsCreated(params);
-//    }
 
     @Override
     public void initDokitViewLayoutParams(DokitViewLayoutParams params) {

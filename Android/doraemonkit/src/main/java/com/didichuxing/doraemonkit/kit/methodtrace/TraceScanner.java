@@ -4,6 +4,7 @@ import com.android.tools.perflib.vmtrace.MethodInfo;
 import com.android.tools.perflib.vmtrace.TraceAction;
 import com.android.tools.perflib.vmtrace.VmTraceHandler;
 import com.android.tools.perflib.vmtrace.VmTraceParser;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,6 +20,7 @@ import java.util.Stack;
  * 文件扫描
  */
 class TraceScanner {
+    private static final String TAG = "TraceScanner";
     private File file;
     private String packageName = "";
     private AnalysisListener listener;
@@ -58,7 +60,7 @@ class TraceScanner {
             listener.startAnalysis();
         }
         if (!file.exists()) {
-            System.out.println("File does not exist");
+            LogHelper.e(TAG, "File does not exist");
         } else {
             VmTraceParser parser = new VmTraceParser(file, new VmTraceHandler() {
                 @Override
@@ -87,7 +89,10 @@ class TraceScanner {
                 public void addMethodAction(int threadId, long methodId, TraceAction methodAction, int threadTime, int globalTime) {
                     OrderBean orderBean = new OrderBean();
                     orderBean.setOrder(count[0]++);
-                    String functionName = methodInfoMap.get(methodId).toString();
+                    String functionName = "";
+                    if (methodInfoMap.get(methodId) != null) {
+                        functionName = methodInfoMap.get(methodId).toString();
+                    }
 
                     if ((methodAction == TraceAction.METHOD_ENTER || methodAction == TraceAction.METHOD_EXIT)
                             && (functionName.contains(packageName) || functionName.contains(oName))) {

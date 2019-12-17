@@ -7,7 +7,7 @@ import okhttp3.ResponseBody;
 import okio.BufferedSource;
 import okio.Okio;
 
-class ForwardingResponseBody extends ResponseBody {
+public class ForwardingResponseBody extends ResponseBody {
     private final ResponseBody mBody;
     private final BufferedSource mInterceptedSource;
 

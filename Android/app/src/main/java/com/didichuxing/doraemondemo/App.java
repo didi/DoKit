@@ -3,10 +3,9 @@ package com.didichuxing.doraemondemo;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
-import com.didichuxing.doraemondemo.dokit.KitDemo;
+import com.didichuxing.doraemondemo.dokit.DemoKit;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
@@ -22,14 +21,14 @@ import java.util.List;
 public class App extends Application {
     private static final String TAG = "App";
 
+
     @Override
     public void onCreate() {
         super.onCreate();
         List<IKit> kits = new ArrayList<>();
-        kits.add(new KitDemo());
-        DoraemonKit.install(this, kits);
+        kits.add(new DemoKit());
+        DoraemonKit.install(this, kits, "0f2e4fc5540392a7083d61c921198c78");
         Fresco.initialize(this);
-
         DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
             @Override
             public void overrideUrlLoading(Context context, String url) {
@@ -40,7 +39,24 @@ public class App extends Application {
             }
         });
         //严格检查模式
-        StrictMode.enableDefaults();
+        //StrictMode.enableDefaults();
+//        try {
+//            test1();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        StackTraceElement[] stack = new Throwable().getStackTrace();
+//        for (StackTraceElement stackTraceElement : stack) {
+//            Log.d(TAG, "----> " + stackTraceElement.toString());
+//
+//        }
+
+
+    }
+
+
+    private void test1() {
+        throw new NullPointerException("空指针异常");
     }
 
     @Override

@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply from: 'upload.gradle'
-
+//apply plugin: 'AsmPlugin'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -40,6 +40,7 @@ dependencies {
     testImplementation rootProject.ext.dependencies["junit"]
     implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["cardview-v7"]
     implementation(rootProject.ext.dependencies["recyclerview-v7"]) {
         exclude group: 'com.android.support'
     }
@@ -56,13 +57,26 @@ dependencies {
     //远程调试db
     implementation rootProject.ext.dependencies["debug-db"]
     implementation rootProject.ext.dependencies["debug-db-encrypt"]
+    //rv
+    implementation rootProject.ext.dependencies["brvah"]
+    implementation rootProject.ext.dependencies["easy_refresh_layout"]
+    //implementation rootProject.ext.dependencies["okgo"]
+    implementation rootProject.ext.dependencies["okhttp"]
+    //implementation rootProject.ext.dependencies["okio"]
+    implementation rootProject.ext.dependencies["room_runtime"]
+    annotationProcessor rootProject.ext.dependencies["room_compile"]
 
     //三大图片框架
     compileOnly rootProject.ext.dependencies["glide"]
     compileOnly rootProject.ext.dependencies["picasso"]
     compileOnly rootProject.ext.dependencies["fresco"]
-    compileOnly rootProject.ext.dependencies["okhttp"]
-    compileOnly rootProject.ext.dependencies["okio"]
+    //platform http
+    compileOnly rootProject.ext.dependencies["didi_http"]
+    compileOnly rootProject.ext.dependencies["didi_rpc"]
+    //高德地图定位
+    compileOnly rootProject.ext.dependencies["amap_location"]
+
+
 
 }
 

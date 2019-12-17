@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".App"
         android:allowBackup="false"
@@ -17,8 +18,13 @@
         <activity android:name=".WebViewActivity" />
         <activity android:name=".TestActivity" />
         <activity android:name=".SecondActivity" />
-    </application>
+        <!--        高德定位服务-->
+        <service android:name="com.amap.api.location.APSService" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="11f9728ee0c2a141663fc4b784c42a33"></meta-data>
 
+    </application>
 
 
 </manifest>

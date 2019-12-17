@@ -6,6 +6,8 @@ import android.app.Application;
 import com.bumptech.glide.manager.LifecycleListener;
 import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
+import com.didichuxing.doraemonkit.ui.base.DokitIntent;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class DoraemonKit {
 
     }
 
+
     public static void install(final Application app) {
     }
 
@@ -34,11 +37,22 @@ public class DoraemonKit {
 
     }
 
-    public static void show(Activity activity) {
+    public static void install(final Application app, List<IKit> selfKits, String productId) {
+
+    }
+
+    public static void show() {
 
     }
 
     public static void hide() {
+    }
+
+    /**
+     * 直接显示工具面板页面
+     */
+    public static void showToolPanel() {
+
     }
 
     public static boolean isShow() {

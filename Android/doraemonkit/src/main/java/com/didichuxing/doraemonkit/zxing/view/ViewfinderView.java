@@ -159,7 +159,7 @@ public final class ViewfinderView extends View {
                 }
             }
 
-            // Request another update at the animation interval, but only repaint the laser line,
+            // Request another updateInterceptApi at the animation interval, but only repaint the laser line,
             // not the entire viewfinder mask.
             //指定重绘区域，该方法会在子线程中执行
             postInvalidateDelayed(ANIMATION_DELAY, frame.left, frame.top, frame.right, frame.bottom);

@@ -1,9 +1,13 @@
 package com.didichuxing.doraemondemo;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +18,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
+import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.didichuxing.doraemondemo.util.FrescoUtil;
@@ -21,27 +31,23 @@ import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.largepicture.glide.LargeBitmapGlideTransformation;
 import com.didichuxing.doraemonkit.kit.largepicture.picasso.LargeBitmapPicassoTransformation;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCost;
-import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.common.CommonHeaders;
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorRequest;
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorResponse;
 import com.didichuxing.doraemonkit.kit.network.common.NetworkPrinterHelper;
-import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;
-import com.didichuxing.doraemonkit.ui.realtime.PerformanceDokitViewManager;
-import com.didichuxing.doraemonkit.ui.realtime.datasource.DataSourceFactory;
-import com.didichuxing.doraemonkit.util.threadpool.ThreadPoolProxyFactory;
+import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
+import com.didichuxing.doraemonkit.okgo.model.Response;
+
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -54,15 +60,19 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
-
+import pub.devrel.easypermissions.EasyPermissions;
+import pub.devrel.easypermissions.PermissionRequest;
 
 
 public class MainDebugActivity extends AppCompatActivity implements View.OnClickListener {
-    public static final String TAG = "MainActivity";
+    public static final String TAG = "MainDebugActivity";
+
 
     private OkHttpClient okHttpClient;
+    private LocationManager mLocationManager;
+    AMapLocationClient mLocationClient;
+    AMapLocationClientOption mMapOption;
 
 
     @Override
@@ -71,20 +81,31 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
 
         setContentView(R.layout.activity_main);
         TextView tvEnv = findViewById(R.id.tv_env);
-        tvEnv.setText("当前编译环境:Debug");
+        tvEnv.setText("当前编译环境:Release");
         findViewById(R.id.btn_trace).setOnClickListener(this);
         findViewById(R.id.btn_jump).setOnClickListener(this);
+        findViewById(R.id.btn_location).setOnClickListener(this);
+        findViewById(R.id.btn_location_amap).setOnClickListener(this);
         findViewById(R.id.btn_load_img).setOnClickListener(this);
-        findViewById(R.id.btn_test_urlconnection).setOnClickListener(this);
-        findViewById(R.id.btn_test_okhttp).setOnClickListener(this);
-        findViewById(R.id.btn_test_custom).setOnClickListener(this);
+        findViewById(R.id.btn_okhttp_mock).setOnClickListener(this);
+        findViewById(R.id.btn_connection_mock).setOnClickListener(this);
+        findViewById(R.id.btn_rpc_mock).setOnClickListener(this);
         findViewById(R.id.btn_test_crash).setOnClickListener(this);
         findViewById(R.id.btn_show_hide_icon).setOnClickListener(this);
-        findViewById(R.id.btn_time_count).setOnClickListener(this);
         findViewById(R.id.btn_create_database).setOnClickListener(this);
         findViewById(R.id.btn_upload_test).setOnClickListener(this);
         findViewById(R.id.btn_download_test).setOnClickListener(this);
         okHttpClient = new OkHttpClient().newBuilder().build();
+        //获取定位服务
+        mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //高德定位服务
+        mLocationClient = new AMapLocationClient(getApplicationContext());
+        mMapOption = new AMapLocationClientOption();
+
+
+        EasyPermissions.requestPermissions(new PermissionRequest
+                .Builder(this, 200, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
+                .build());
     }
 
     private void test1() {
@@ -123,6 +144,65 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    private LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            if (location != null) {
+                String string = "lat====>" + location.getLatitude() + "  lng====>" + location.getLongitude();
+                Log.i(TAG, "系统定位====>" + string);
+
+            }
+        }
+
+        @Override
+        public void onProviderDisabled(String arg0) {
+        }
+
+        @Override
+        public void onProviderEnabled(String arg0) {
+        }
+
+        @Override
+        public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
+        }
+    };
+
+    /**
+     * 启动普通定位
+     */
+    @SuppressLint("MissingPermission")
+    public void startNormaLocation() {
+
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, mLocationListener);
+
+    }
+
+    /**
+     * 启动高德定位服务
+     */
+    AMapLocationListener mapLocationListener = new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            int errorCode = aMapLocation.getErrorCode();
+            String errorInfo = aMapLocation.getErrorInfo();
+            Log.i(TAG, "高德定位===lat==>" + aMapLocation.getLatitude() + "   lng==>" + aMapLocation.getLongitude() + "  errorCode===>" + errorCode + "   errorInfo===>" + errorInfo);
+        }
+    };
+
+    /**
+     * 启动高德地图定位
+     */
+    public void startAmapLocation() {
+
+        mLocationClient.setLocationListener(mapLocationListener);
+        mMapOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        mMapOption.setOnceLocation(true);
+        mLocationClient.setLocationOption(mMapOption);
+        mLocationClient.stopLocation();
+        mLocationClient.startLocation();
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -137,6 +217,16 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                 startActivity(new Intent(this, SecondActivity.class));
 
                 break;
+            case R.id.btn_location:
+
+                startNormaLocation();
+
+                break;
+
+            case R.id.btn_location_amap:
+                startAmapLocation();
+                break;
+
 
             case R.id.btn_load_img:
                 //Glide 加载
@@ -157,56 +247,36 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
 
                 break;
 
-            case R.id.btn_test_urlconnection:
-                if (!NetworkManager.isActive()) {
-                    String title = getString(com.didichuxing.doraemonkit.R.string.dk_kit_network_monitor);
-                    int type = DataSourceFactory.TYPE_NETWORK;
-                    NetworkManager.get().startMonitor();
-                    PerformanceDokitViewManager.open(type, title, null);
 
-                    Toast.makeText(this, "click again", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                requestByGet("http://apis.baidu.com/txapi/weixin/wxhot?num=10&page=1&word=%E7%9B%97%E5%A2%93%E7%AC%94%E8%AE%B0");
+            case R.id.btn_okhttp_mock:
+                OkGo.<String>get("http://gank.io/gateway?api=dj.map")
+                        //OkGo.<String>get("https://www.v2ex.com/api/topics/hot.json")
+                        .execute(new StringCallback() {
+
+
+                            @Override
+                            public void onSuccess(Response<String> response) {
+                                Log.i(TAG, "okhttp====response===>" + response.body());
+                            }
+                        });
                 break;
-            case R.id.btn_test_okhttp:
-                if (!NetworkManager.isActive()) {
-                    String title = getString(com.didichuxing.doraemonkit.R.string.dk_kit_network_monitor);
-                    int type = DataSourceFactory.TYPE_NETWORK;
-                    NetworkManager.get().startMonitor();
-                    PerformanceDokitViewManager.open(type, title, null);
-                    Toast.makeText(this, "click again", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                requestByOkHttp();
+
+            case R.id.btn_connection_mock:
+                //requestByGet("https://www.v2ex.com/api/topics/hot.json");
+                //requestByGet("https://gank.io/api/today?a=哈哈&b=bb");
+                requestByGet("http://gank.io/gateway?api=dj.map");
                 break;
+            case R.id.btn_rpc_mock:
+                break;
+
             case R.id.btn_test_custom:
-                if (!NetworkManager.isActive()) {
-                    String title = getString(com.didichuxing.doraemonkit.R.string.dk_kit_network_monitor);
-                    // no-op版本未提供该方法，这里只是方便测试
-                    int type = DataSourceFactory.TYPE_NETWORK;
-                    NetworkManager.get().startMonitor();
-                    PerformanceDokitViewManager.open(type, title, null);
 
-                    Toast.makeText(this, "click again", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 requestByCustom("http://apis.baidu.com/txapi/weixin/wxhot?num=10&page=1&word=%E7%9B%97%E5%A2%93%E7%AC%94%E8%AE%B0");
                 break;
-
-
             case R.id.btn_test_crash:
                 testCrash().length();
                 break;
-            case R.id.btn_time_count:
-                // no-op版本未提供该方法，这里只是方便测试
-                if (!TimeCounterManager.get().isRunning()) {
-                    TimeCounterManager.get().start();
-                    Toast.makeText(this, "click again", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                startActivity(new Intent(this, TestActivity.class));
-                break;
+
             case R.id.btn_show_hide_icon:
                 if (DoraemonKit.isShow()) {
                     DoraemonKit.hide();
@@ -234,88 +304,37 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
         return null;
     }
 
+
+
     public void requestByGet(final String path) {
-        ThreadPoolProxyFactory.getThreadPoolProxy().execute(new Runnable() {
+        ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<String>() {
             @Override
-            public void run() {
+            public String doInBackground() throws Throwable {
                 try {
                     URL url = new URL(path.trim());
                     //打开连接
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                    urlConnection.setRequestProperty("token", "10051:abc");
-                    urlConnection.setRequestProperty("Content-type", "application/json");
-                    int log = urlConnection.getResponseCode();
-                    if (200 == log) {
-                        //得到输入流
-                        InputStream is = urlConnection.getInputStream();
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        byte[] buffer = new byte[1024];
-                        int len = 0;
-                        while (-1 != (len = is.read(buffer))) {
-                            baos.write(buffer, 0, len);
-                            baos.flush();
-                        }
-                    }
+                    //urlConnection.setRequestProperty("token", "10051:abc");
+                    //urlConnection.setRequestProperty("Content-type", "application/json");
+                    //int log = urlConnection.getResponseCode();
+                    //得到输入流
+                    InputStream is = urlConnection.getInputStream();
+                    return ConvertUtils.inputStream2String(is, "utf-8");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                return "error";
             }
+
+            @Override
+            public void onSuccess(String result) {
+                Log.i(TAG, "httpUrlConnection====response===>===>" + result);
+            }
+
         });
+
     }
 
-    public void requestByPost(final String path) {
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(path.trim());
-                    //打开连接
-                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                    urlConnection.setRequestMethod("POST");
-                    urlConnection.setRequestProperty("token", "10051:abc");
-                    urlConnection.setRequestProperty("Content-type", "application/json");
-                    urlConnection.setDoInput(true);
-                    urlConnection.setDoOutput(true);
-                    urlConnection.connect();
-                    PrintWriter printWriter = new PrintWriter(urlConnection.getOutputStream());
-                    printWriter.write("name=孙群&age=27");
-                    printWriter.flush();
-                    int log = urlConnection.getResponseCode();
-                    if (200 == log) {
-                        //得到输入流
-                        InputStream is = urlConnection.getInputStream();
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        byte[] buffer = new byte[1024];
-                        int len = 0;
-                        while (-1 != (len = is.read(buffer))) {
-                            baos.write(buffer, 0, len);
-                            baos.flush();
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
-
-    public void requestByOkHttp() {
-        Request request = new Request.Builder().get().url("http://www.roundsapp.com/post")
-                .addHeader("testHead", "hahahah").build();
-        Call call = okHttpClient.newCall(request);
-        //异步调用并设置回调函数
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                onHttpFailure(e);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final String responseStr = response.body().string();
-            }
-        });
-    }
 
     /**
      * 手动添加网络抓包数据。目前只支持OKHttp3和HttpUrlConnection的自动注册，其他不基于OkHttp3和HttpUrlConnection的网络库如果
@@ -332,7 +351,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .addInterceptor(new Interceptor() {
                     @Override
-                    public Response intercept(Chain chain) throws IOException {
+                    public okhttp3.Response intercept(Chain chain) throws IOException {
                         Request request = chain.request();
                         Headers headers = request.headers();
                         CommonHeaders.Builder builder = new CommonHeaders.Builder();
@@ -343,16 +362,16 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                         if (request.body() != null) {
                             body = request.body().toString();
                         }
-                        // create request bean and update
+                        // create request bean and updateInterceptApi
                         CommonInspectorRequest rq = new CommonInspectorRequest(id, request.url().toString(), request.method(), body, builder.build());
                         NetworkPrinterHelper.updateRequest(rq);
-                        Response response = chain.proceed(request);
+                        okhttp3.Response response = chain.proceed(request);
                         headers = response.headers();
                         builder = new CommonHeaders.Builder();
                         for (int i = 0; i < headers.size(); i++) {
                             builder.add(headers.name(i), headers.value(i));
                         }
-                        // create response bean and update
+                        // create response bean and updateInterceptApi
                         CommonInspectorResponse rp = new CommonInspectorResponse(id, rq.url(), response.code(), builder.build());
                         NetworkPrinterHelper.updateResponse(rp);
                         return response;
@@ -367,9 +386,9 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, okhttp3.Response response) throws IOException {
                 final String responseStr = response.body().string();
-                // update response body
+                // updateInterceptApi response body
                 NetworkPrinterHelper.updateResponseBody(id, responseStr);
             }
         });
@@ -418,7 +437,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, okhttp3.Response response) throws IOException {
                 if (!response.isSuccessful()) {
                     onFailure(call, new IOException(response.message()));
                     return;
@@ -477,35 +496,12 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
     }
 
 
-    public Bitmap getImageBitmap(String url) {
-        URL imgUrl = null;
-        Bitmap bitmap = null;
-        try {
-            imgUrl = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection) imgUrl
-                    .openConnection();
-            conn.setDoInput(true);
-            conn.connect();
-            //必须调用conn.getResponseCode() 否则不会进行流量检测
-            if (conn.getResponseCode() == 200) {
-                InputStream is = conn.getInputStream();
-                bitmap = BitmapFactory.decodeStream(is);
-                is.close();
-            }
-
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bitmap;
-    }
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         okHttpClient.dispatcher().cancelAll();
+
+        mLocationManager.removeUpdates(mLocationListener);
 
     }
 

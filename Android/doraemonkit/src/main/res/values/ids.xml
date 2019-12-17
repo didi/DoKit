@@ -28,4 +28,6 @@
 
     <item name="dokit_app_contentview_id" type="id" />
     <item name="dokit_view_border_id" type="id" />
+
+    <item name="dokit_title_bar" type="id" />
 </resources>

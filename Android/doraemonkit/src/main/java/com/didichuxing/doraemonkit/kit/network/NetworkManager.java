@@ -4,6 +4,7 @@ package com.didichuxing.doraemonkit.kit.network;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.didichuxing.doraemonkit.BuildConfig;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 
 import java.util.ArrayList;
@@ -15,6 +16,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @desc: 提供网络抓包功能开启、关闭、数据统计功能的manager
  */
 public class NetworkManager {
+    public static final String MOCK_SCHEME_HTTP = "http://";
+    public static final String MOCK_SCHEME_HTTPS = "https://";
+    private static final String MOCK_HOST_DEBUG = "xyrd.intra.xiaojukeji.com";
+    private static final String MOCK_HOST_RELEASE = "xyrd.intra.xiaojukeji.com";
+    private static final String MOCK_DEBUG_DOMAIN = MOCK_SCHEME_HTTP + MOCK_HOST_DEBUG;
+    private static final String MOCK_RELEASE_DOMAIN = MOCK_SCHEME_HTTPS + MOCK_HOST_RELEASE;
+    public static final String MOCK_DOMAIN = BuildConfig.DEBUG ? MOCK_DEBUG_DOMAIN : MOCK_RELEASE_DOMAIN;
+    public static final String MOCK_HOST = BuildConfig.DEBUG ? MOCK_HOST_DEBUG : MOCK_HOST_RELEASE;
+
     private static final int MAX_SIZE = 100;
 
     private long mStartTime;
@@ -30,7 +40,7 @@ public class NetworkManager {
     public NetworkRecord getRecord(int requestId) {
         for (NetworkRecord record :
                 mRecords) {
-            if (record.mRequestId==requestId){
+            if (record.mRequestId == requestId) {
                 return record;
             }
         }
@@ -51,6 +61,7 @@ public class NetworkManager {
      * 的数据量不会很大，直接foreach
      */
     private List<NetworkRecord> mRecords = Collections.synchronizedList(new ArrayList<NetworkRecord>());
+
     public static NetworkManager get() {
         return NetworkManager.Holder.INSTANCE;
     }

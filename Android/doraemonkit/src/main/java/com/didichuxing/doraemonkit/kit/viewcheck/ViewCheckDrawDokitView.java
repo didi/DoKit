@@ -56,9 +56,9 @@ public class ViewCheckDrawDokitView extends AbsDokitView implements ViewCheckDok
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                ViewCheckDokitView popView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), ViewCheckDokitView.class.getSimpleName());
-                if (popView != null) {
-                    popView.setViewSelectListener(ViewCheckDrawDokitView.this);
+                ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), ViewCheckDokitView.class.getSimpleName());
+                if (dokitView != null) {
+                    dokitView.setViewSelectListener(ViewCheckDrawDokitView.this);
                 }
             }
         }, 200);

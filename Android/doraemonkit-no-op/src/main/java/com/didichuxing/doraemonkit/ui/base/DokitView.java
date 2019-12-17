@@ -73,12 +73,12 @@ interface DokitView {
     void initDokitViewLayoutParams(DokitViewLayoutParams params);
 
     /**
-     * app进入后台时调用 内置popview 不需要实现
+     * app进入后台时调用 内置dokitView 不需要实现
      */
     void onEnterBackground();
 
     /**
-     * app回到前台时调用 内置popview 不需要实现
+     * app回到前台时调用 内置dokitView 不需要实现
      */
     void onEnterForeground();
 

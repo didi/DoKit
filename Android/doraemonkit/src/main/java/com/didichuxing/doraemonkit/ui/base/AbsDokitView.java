@@ -61,7 +61,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
 
     private AbsDokitView.InnerReceiver mInnerReceiver = new AbsDokitView.InnerReceiver();
     /**
-     * 当前FloatPopViewName 用来当做map的key 和popViewIntent的tag一致
+     * 当前dokitViewName 用来当做map的key 和dokitViewIntent的tag一致
      */
     private String mTag = TAG;
 
@@ -78,6 +78,9 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
     private View mChildView;
 
     private DokitViewLayoutParams mDokitViewLayoutParams;
+    /**
+     * 上一次DoKitview的位置信息
+     */
     private LastDokitViewPosInfo mLastDokitViewPosInfo;
 
     private int mDokitViewWidth = 0;
@@ -132,7 +135,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
             mRootView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    LogHelper.i(TAG, "====onTouch=====");
+                    //LogHelper.i(TAG, "====onTouch=====");
                     if (getRootView() != null) {
                         return mTouchProxy.onTouchEvent(v, event);
                     } else {
@@ -521,7 +524,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
     }
 
     /**
-     * 将当前popview于activity解绑
+     * 将当前dokitView于activity解绑
      */
     public void detach() {
         DokitViewManager.getInstance().detach(this);
@@ -593,12 +596,12 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
         }
 
         if (ScreenUtils.isPortrait()) {
-            if (normalFrameLayoutParams.topMargin >= getScreenLongSideLength() - mDokitViewHeight - BarUtils.getStatusBarHeight()) {
-                normalFrameLayoutParams.topMargin = getScreenLongSideLength() - mDokitViewHeight - BarUtils.getStatusBarHeight();
+            if (normalFrameLayoutParams.topMargin >= getScreenLongSideLength() - mDokitViewHeight) {
+                normalFrameLayoutParams.topMargin = getScreenLongSideLength() - mDokitViewHeight;
             }
         } else {
-            if (normalFrameLayoutParams.topMargin >= getScreenShortSideLength() - mDokitViewHeight - BarUtils.getStatusBarHeight()) {
-                normalFrameLayoutParams.topMargin = getScreenShortSideLength() - mDokitViewHeight - BarUtils.getStatusBarHeight();
+            if (normalFrameLayoutParams.topMargin >= getScreenShortSideLength() - mDokitViewHeight) {
+                normalFrameLayoutParams.topMargin = getScreenShortSideLength() - mDokitViewHeight;
             }
         }
 
@@ -689,7 +692,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
 
 
     /**
-     * 获取屏幕短边的长度
+     * 获取屏幕短边的长度 不包含statusBar
      *
      * @return
      */
@@ -702,12 +705,14 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
     }
 
     /**
-     * 获取屏幕长边的长度
+     * 获取屏幕长边的长度 不包含statusBar
      *
      * @return
      */
     public int getScreenLongSideLength() {
         if (ScreenUtils.isPortrait()) {
+            //ScreenUtils.getScreenHeight(); 包含statusBar
+            //ScreenUtils.getAppScreenHeight(); 不包含statusBar
             return ScreenUtils.getAppScreenHeight();
         } else {
             return ScreenUtils.getAppScreenWidth();

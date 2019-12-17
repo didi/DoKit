@@ -21,12 +21,14 @@ android {
     }
     buildTypes {
         debug {
+            debuggable true
             minifyEnabled false
             shrinkResources false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
+            debuggable true
             minifyEnabled true
             shrinkResources true
             signingConfig signingConfigs.release
@@ -62,9 +64,7 @@ dependencies {
     implementation rootProject.ext.dependencies["multidex"]
     implementation rootProject.ext.dependencies["appcompat-v7"]
     implementation rootProject.ext.dependencies["design"]
-    //implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["okhttp"]
-    implementation rootProject.ext.dependencies["okio"]
     implementation rootProject.ext.dependencies["glide"]
     implementation rootProject.ext.dependencies["glide_okhttp3"]
     annotationProcessor rootProject.ext.dependencies["glide_compiler"]
@@ -74,4 +74,10 @@ dependencies {
     //weex相关
     implementation rootProject.ext.dependencies["weex_inspector"]
     implementation rootProject.ext.dependencies["weex_sdk"]
+    implementation rootProject.ext.dependencies["utilcode"]
+    implementation rootProject.ext.dependencies["easypermissions"]
+    releaseImplementation rootProject.ext.dependencies["okgo"]
+    //高德地图定位
+    implementation rootProject.ext.dependencies["amap_location"]
+
 }

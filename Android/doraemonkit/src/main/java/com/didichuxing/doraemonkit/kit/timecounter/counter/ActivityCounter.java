@@ -125,9 +125,9 @@ public class ActivityCounter {
         counterInfo.totalCost = mTotalCostTime;
         counterInfo.otherCost = mOtherCostTime;
         mCounterInfos.add(counterInfo);
-        TimeCounterDokitView popView = (TimeCounterDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), TimeCounterDokitView.class.getSimpleName());
-        if (popView != null) {
-            popView.showInfo(counterInfo);
+        TimeCounterDokitView dokitView = (TimeCounterDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), TimeCounterDokitView.class.getSimpleName());
+        if (dokitView != null) {
+            dokitView.showInfo(counterInfo);
         }
 
 
