@@ -70,9 +70,7 @@ dependencies {
     compileOnly rootProject.ext.dependencies["glide"]
     compileOnly rootProject.ext.dependencies["picasso"]
     compileOnly rootProject.ext.dependencies["fresco"]
-    //platform http
-    compileOnly rootProject.ext.dependencies["didi_http"]
-    compileOnly rootProject.ext.dependencies["didi_rpc"]
+
     //高德地图定位
     compileOnly rootProject.ext.dependencies["amap_location"]
 

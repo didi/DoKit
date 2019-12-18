@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.config;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.DoraemonKitReal;
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
 import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
@@ -74,7 +75,7 @@ public class PerformanceSpInfoConfig {
      * @return
      */
     public static boolean isLargeImgOpen() {
-        return SharedPrefsUtil.getBoolean(DoraemonKit.APPLICATION, SharedPrefsKey.LARGE_IMG_OPEN, false);
+        return SharedPrefsUtil.getBoolean(DoraemonKitReal.APPLICATION, SharedPrefsKey.LARGE_IMG_OPEN, false);
     }
 
     /**
@@ -83,7 +84,7 @@ public class PerformanceSpInfoConfig {
      * @param open
      */
     public static void setLargeImgOpen(boolean open) {
-        SharedPrefsUtil.putBoolean(DoraemonKit.APPLICATION, SharedPrefsKey.LARGE_IMG_OPEN, open);
+        SharedPrefsUtil.putBoolean(DoraemonKitReal.APPLICATION, SharedPrefsKey.LARGE_IMG_OPEN, open);
     }
 
 

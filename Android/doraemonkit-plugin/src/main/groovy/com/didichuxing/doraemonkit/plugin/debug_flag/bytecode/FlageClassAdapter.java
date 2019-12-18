@@ -41,7 +41,7 @@ public final class FlageClassAdapter extends ClassVisitor {
         //从传进来的ClassWriter中读取MethodVisitor
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
         //判断指定并且类中的方法类型
-        if (className.equals("com/didichuxing/doraemonkit/DoraemonKit") && name.equals("install") && desc != null) {
+        if (className.equals("com/didichuxing/doraemonkit/DoraemonKitReal") && name.equals("install") && desc != null) {
             //(Landroid/app/Application;Ljava/util/List;Ljava/lang/String;)V 包含3个参数的install方法
             String[] descs = desc.split(";");
             if (descs.length == 4) {

@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.DoraemonKitReal;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.ColorPickConfig;
 import com.didichuxing.doraemonkit.constant.RequestCode;
@@ -47,7 +48,7 @@ public class ColorPickerSettingFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RequestCode.CAPTURE_SCREEN && resultCode == Activity.RESULT_OK) {
-            if (!DoraemonKit.IS_NORMAL_FLOAT_MODE) {
+            if (!DoraemonKitReal.IS_NORMAL_FLOAT_MODE) {
                 finish();
             }
             showColorPicker(data);

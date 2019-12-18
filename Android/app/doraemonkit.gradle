@@ -3,7 +3,10 @@ if (rootProject.ext.config["applyPlugin"]) {
     apply plugin: 'com.didi.dokit'
     // 这里引用正常库
     dependencies {
+        //外部平台依赖
         debugImplementation project(":doraemonkit")
+        //内部平台依赖 外部不要引入 
+        //debugImplementation project(":doraemonkit-rpc")
         debugImplementation project(":doraemonkit-leakcanary")
         debugImplementation project(":doraemonkit-weex")
         releaseImplementation project(":doraemonkit-no-op")

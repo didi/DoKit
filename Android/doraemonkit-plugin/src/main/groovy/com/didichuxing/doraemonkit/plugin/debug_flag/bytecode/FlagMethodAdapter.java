@@ -19,7 +19,7 @@ public final class FlagMethodAdapter extends LocalVariablesSorter implements Opc
     public void visitCode() {
         //在installInterceptor 方法之前插入IS_HOOK = true 的代码
         mv.visitInsn(ICONST_1);
-        mv.visitFieldInsn(PUTSTATIC, "com/didichuxing/doraemonkit/DoraemonKit", "IS_HOOK", "Z");
+        mv.visitFieldInsn(PUTSTATIC, "com/didichuxing/doraemonkit/DoraemonKitReal", "IS_HOOK", "Z");
         super.visitCode();
     }
 

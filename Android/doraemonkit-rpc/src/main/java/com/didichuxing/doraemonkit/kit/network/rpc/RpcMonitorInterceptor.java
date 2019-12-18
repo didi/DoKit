@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.kit.network.rpc;
 
 
-import android.support.annotation.NonNull;
 
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.common.CommonHeaders;
@@ -125,7 +124,7 @@ public class RpcMonitorInterceptor implements RpcInterceptor<HttpRpcRequest, Htt
         return null;
     }
 
-    public static byte[] readFromStream(InputStream is, @NonNull byte[] buffer) throws IOException {
+    public static byte[] readFromStream(InputStream is, byte[] buffer) throws IOException {
         if (is == null) {
             return null;
         } else {

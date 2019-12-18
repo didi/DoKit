@@ -25,6 +25,7 @@ import android.widget.FrameLayout;
 import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.DoraemonKitReal;
 import com.didichuxing.doraemonkit.config.FloatIconConfig;
 import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
@@ -726,7 +727,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
      * @return
      */
     public boolean isNormalMode() {
-        return DoraemonKit.IS_NORMAL_FLOAT_MODE;
+        return DoraemonKitReal.IS_NORMAL_FLOAT_MODE;
     }
 
     /**

@@ -1,5 +1,10 @@
 package com.didichuxing.doraemonkit.aop;
 
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonWeakNetworkInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.LargePictureInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,11 +21,16 @@ import okhttp3.Interceptor;
  */
 public class OkHttpHook {
     public static List<Interceptor> globalInterceptors = new ArrayList<>();
+    private static boolean IS_INSTALL = false;
 
-
-    public static void installInterceptor(Interceptor interceptor) {
-        if (interceptor != null) {
-            globalInterceptors.add(interceptor);
+    public static void installInterceptor() {
+        if (IS_INSTALL) {
+            return;
         }
+        globalInterceptors.add(new MockInterceptor());
+        globalInterceptors.add(new LargePictureInterceptor());
+        globalInterceptors.add(new DoraemonWeakNetworkInterceptor());
+        globalInterceptors.add(new DoraemonInterceptor());
+        IS_INSTALL = true;
     }
 }

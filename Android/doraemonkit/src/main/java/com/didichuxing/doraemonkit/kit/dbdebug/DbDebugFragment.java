@@ -14,6 +14,7 @@ import com.amitshekhar.debug.encrypt.sqlite.DebugDBEncryptFactory;
 import com.amitshekhar.debug.sqlite.DebugDBFactory;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.DoraemonKitReal;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.dialog.DialogInfo;
@@ -49,8 +50,8 @@ public class DbDebugFragment extends BaseFragment {
 
     private void initView() {
         if (!DebugDB.isServerRunning()) {
-            DebugDB.initialize(DoraemonKit.APPLICATION, new DebugDBFactory());
-            DebugDB.initialize(DoraemonKit.APPLICATION, new DebugDBEncryptFactory());
+            DebugDB.initialize(DoraemonKitReal.APPLICATION, new DebugDBFactory());
+            DebugDB.initialize(DoraemonKitReal.APPLICATION, new DebugDBEncryptFactory());
         }
         HomeTitleBar titleBar = findViewById(R.id.title_bar);
         titleBar.setListener(new HomeTitleBar.OnTitleBarClickListener() {
