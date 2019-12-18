@@ -17,9 +17,9 @@ Please use [the latest release](android-ReleaseNotes.md)。
 
 #### 2. Install
 
-Install `DoraemonKit` in `Application::onCreate()`.
+Install `DoraemonKit` in `Application#onCreate()`.
 
-```
+```Java
 @Override
 public void onCreate() {
 	...
@@ -41,7 +41,7 @@ public void onCreate() {
 
 Add a dependency in `build.gradle` in root of host project as following.
 
-```
+```groovy
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
@@ -57,13 +57,13 @@ buildscript {
 
 Apply plugin in application module of `build.gradle`
 
-```
-...
+```groovy
 apply plugin: 'android-aspectjx'
+
 dependencies {
-	...
+	…
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:2.0.1'
-    ...
+    …
 }
 ```
 
@@ -75,7 +75,7 @@ Define a class implement the interface IKit，the interface describe a component
 
 An environment switch component can be defined as following.
 
-```
+```Java
 public class EnvSwitchKit implements IKit {
     @Override
     public int getCategory() {
@@ -107,11 +107,11 @@ public class EnvSwitchKit implements IKit {
 
 Register the environment switch component when DoraemonKit installed.
 
-```
+```Java
 @Override
 public void onCreate() {
     kits.add(new EnvSwitchKit());
     DoraemonKit.install(application, kits);
-    ...
+    …
 }
 ```
