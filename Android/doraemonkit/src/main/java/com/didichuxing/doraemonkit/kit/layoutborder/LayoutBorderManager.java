@@ -7,10 +7,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.layoutborder.ViewBorderFrameLayout;
+import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 /**
@@ -21,7 +23,7 @@ public class LayoutBorderManager {
 
     private ViewBorderFrameLayout mViewBorderFrameLayout;
 
-    private DoraemonKit.LifecycleListener mLifecycleListener = new DoraemonKit.LifecycleListener() {
+    private LifecycleListenerUtil.LifecycleListener mLifecycleListener = new LifecycleListenerUtil.LifecycleListener() {
         @Override
         public void onActivityResumed(Activity activity) {
             //UIUtils.getDokitAppContentView(activity).setId(R.id.dokit_app_contentview_id);
@@ -84,8 +86,8 @@ public class LayoutBorderManager {
 
     public void start() {
         isRunning = true;
-        resolveActivity(DoraemonKit.getCurrentResumedActivity());
-        DoraemonKit.registerListener(mLifecycleListener);
+        resolveActivity(ActivityUtils.getTopActivity());
+        LifecycleListenerUtil.registerListener(mLifecycleListener);
     }
 
     public void stop() {
@@ -94,7 +96,7 @@ public class LayoutBorderManager {
             mViewBorderFrameLayout.requestLayout();
         }
         mViewBorderFrameLayout = null;
-        DoraemonKit.unRegisterListener(mLifecycleListener);
+        LifecycleListenerUtil.unRegisterListener(mLifecycleListener);
     }
 
     public boolean isRunning() {

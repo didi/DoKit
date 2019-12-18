@@ -48,9 +48,9 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements ViewCheckDok
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ViewCheckDokitView popView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
-        if (popView != null) {
-            popView.removeViewSelectListener(this);
+        ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
+        if (dokitView != null) {
+            dokitView.removeViewSelectListener(this);
         }
     }
 
@@ -80,9 +80,9 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements ViewCheckDok
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                ViewCheckDokitView popView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
-                if (popView != null) {
-                    popView.setViewSelectListener(ViewCheckInfoDokitView.this);
+                ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
+                if (dokitView != null) {
+                    dokitView.setViewSelectListener(ViewCheckInfoDokitView.this);
                 }
             }
         }, 200);
@@ -170,6 +170,16 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements ViewCheckDok
                 info.append(getResources().getString(R.string.dk_view_check_info_margin, mp.leftMargin, mp.topMargin, mp.rightMargin, mp.bottomMargin));
                 info.append("\n");
             }
+        }
+        // TextView信息
+        if (v instanceof TextView) {
+            TextView tv = ((TextView) v);
+            String textColor = ColorUtil.parseColorInt(tv.getCurrentTextColor());
+            info.append(getResources().getString(R.string.dk_view_check_info_text_color, textColor));
+            info.append("\n");
+            info.append(getResources().getString(R.string.dk_view_check_info_text_size, (int) tv.getTextSize()));
+            info.append("\n");
+
         }
         // 删除最后一个换行
         if (!TextUtils.isEmpty(info)) {

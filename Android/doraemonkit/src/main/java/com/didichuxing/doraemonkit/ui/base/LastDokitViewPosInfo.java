@@ -39,11 +39,11 @@ public class LastDokitViewPosInfo {
     }
 
     public void setLeftMargin(int leftMargin) {
-        this.leftMarginPercent = (float) leftMargin / (float) ScreenUtils.getScreenWidth();
+        this.leftMarginPercent = (float) leftMargin / (float) ScreenUtils.getAppScreenWidth();
     }
 
     public void setTopMargin(int topMargin) {
-        this.topMarginPercent = (float) topMargin / (float) ScreenUtils.getScreenHeight();
+        this.topMarginPercent = (float) topMargin / (float) ScreenUtils.getAppScreenHeight();
     }
 
     public boolean isPortrait() {

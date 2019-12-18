@@ -39,7 +39,7 @@ public abstract class AbsDokitView implements DokitView,TouchProxy.OnTouchEventL
     private Handler mHandler;
 
     /**
-     * 当前FloatPopViewName 用来当做map的key 和popViewIntent的tag一致
+     * 当前dokitViewName 用来当做map的key 和dokitViewIntent的tag一致
      */
 
     private Bundle mBundle;
@@ -236,7 +236,7 @@ public abstract class AbsDokitView implements DokitView,TouchProxy.OnTouchEventL
     }
 
     /**
-     * 将当前popview于activity解绑
+     * 将当前dokitview于activity解绑
      */
     public void detach() {
 

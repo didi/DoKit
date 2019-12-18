@@ -1,11 +1,15 @@
 package com.didichuxing.doraemonkit.ui.base;
 
 import android.app.Activity;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.graphics.Point;
 import android.view.WindowManager;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.DoraemonKitReal;
+import com.didichuxing.doraemonkit.kit.network.room_db.DokitDatabase;
+import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
@@ -29,6 +33,10 @@ public class DokitViewManager implements DokitViewManagerInterface {
 
     private DokitViewManagerInterface mDokitViewManager;
     private Context mContext;
+    /**
+     * 数据库操作类
+     */
+    private DokitDatabase mDB;
 
     /**
      * 静态内部类单例
@@ -44,13 +52,31 @@ public class DokitViewManager implements DokitViewManagerInterface {
 
     public void init(Context context) {
         mContext = context;
-        if (DoraemonKit.IS_NORMAL_FLOAT_MODE) {
+        if (DoraemonKitReal.IS_NORMAL_FLOAT_MODE) {
             mDokitViewManager = new NormalDokitViewManager(context);
         } else {
             mDokitViewManager = new SystemDokitViewManager(context);
         }
         mDokitViewPos = new HashMap<>();
         mLastDokitViewPosInfoMaps = new HashMap<>();
+        mDB = Room.databaseBuilder(context,
+                DokitDatabase.class,
+                "dokit-database")
+                //下面注释表示允许主线程进行数据库操作，但是不推荐这样做。
+                //他可能造成主线程lock以及anr
+                //所以我们的操作都是在新线程完成的
+                .allowMainThreadQueries()
+                .build();
+        //获取所有的intercept apis
+        DokitDbManager.getInstance().getAllInterceptApis();
+
+        //获取所有的template apis
+        DokitDbManager.getInstance().getAllTemplateApis();
+
+    }
+
+    public DokitDatabase getDb() {
+        return mDB;
     }
 
     /**
@@ -71,7 +97,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
 
     /**
      * 只有普通浮标才会调用
-     * 保存每种类型popView的位置
+     * 保存每种类型dokitView的位置
      */
     public void saveDokitViewPos(String tag, int marginLeft, int marginTop) {
         if (mDokitViewPos == null) {
@@ -93,7 +119,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
 
     /**
      * 只有普通的浮标才需要调用
-     * 获得指定popView的位置信息
+     * 获得指定dokitView的位置信息
      *
      * @param tag
      * @return
@@ -111,7 +137,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
 
     /**
      * 只有普通的浮标才需要调用
-     * 添加activity关联的所有popView activity resume的时候回调
+     * 添加activity关联的所有dokitView activity resume的时候回调
      *
      * @param activity
      */
@@ -131,7 +157,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
     }
 
     /**
-     * 隐藏工具列表popView
+     * 隐藏工具列表dokitView
      */
     public void detachToolPanel() {
         detach(ToolPanelDokitView.class.getSimpleName());
@@ -155,7 +181,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
     }
 
     /**
-     * 移除所有activity的所有popView
+     * 移除所有activity的所有dokitView
      */
     @Override
     public void detachAll() {
@@ -210,7 +236,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
      * @param listener
      */
     void addDokitViewAttachedListener(DokitViewAttachedListener listener) {
-        if (!DoraemonKit.IS_NORMAL_FLOAT_MODE && mDokitViewManager instanceof SystemDokitViewManager) {
+        if (!DoraemonKitReal.IS_NORMAL_FLOAT_MODE && mDokitViewManager instanceof SystemDokitViewManager) {
             ((SystemDokitViewManager) mDokitViewManager).addListener(listener);
         }
     }
@@ -221,7 +247,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
      * @param listener
      */
     void removeDokitViewAttachedListener(DokitViewAttachedListener listener) {
-        if (!DoraemonKit.IS_NORMAL_FLOAT_MODE && mDokitViewManager instanceof SystemDokitViewManager) {
+        if (!DoraemonKitReal.IS_NORMAL_FLOAT_MODE && mDokitViewManager instanceof SystemDokitViewManager) {
             ((SystemDokitViewManager) mDokitViewManager).removeListener(listener);
         }
     }

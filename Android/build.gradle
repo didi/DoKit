@@ -1,19 +1,19 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     apply from: "config.gradle"
     repositories {
         google()
         jcenter()
-        //阿里云的镜像库
-        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
         maven { url 'https://www.jitpack.io' }
-
+        maven {
+            //本地插件地址
+            url uri('./plugins')
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.2'
+        classpath 'com.android.tools.build:gradle:3.5.3'
         classpath 'com.novoda:bintray-release:0.9.1'
-        classpath 'com.github.franticn:gradle_plugin_android_aspectjx:2.0.6'
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:0.1.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -23,8 +23,8 @@ allprojects {
     repositories {
         google()
         jcenter()
-        //阿里云的镜像库
-        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+        //北京maven库
+        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public/' }
         maven { url 'https://www.jitpack.io' }
 
     }
@@ -34,5 +34,5 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-tasks.getByPath(":doraemonkit:javadocRelease").enabled = false
-tasks.getByPath(":doraemonkit-no-op:javadocRelease").enabled = false
+//tasks.getByPath(":doraemonkit:javadocRelease").enabled = false
+//tasks.getByPath(":doraemonkit-no-op:javadocRelease").enabled = false

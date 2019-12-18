@@ -59,7 +59,6 @@ public class CardiogramView extends View implements Runnable {
 
     private void init(Context context) {
         mRender = new LineRender(context);
-        mRender = new LineRender(context);
         mRender.setMaxValue(100);
         mRender.setMinValue(0);
         mRender.setPointSize(5);

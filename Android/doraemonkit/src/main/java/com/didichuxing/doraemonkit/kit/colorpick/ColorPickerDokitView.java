@@ -28,7 +28,7 @@ public class ColorPickerDokitView extends AbsDokitView {
 
     private ImageCapture mImageCapture;
     private ColorPickerView mPickerView;
-    private ColorPickerInfoDokitView mInfoFloatPopView;
+    private ColorPickerInfoDokitView mInfoDokitView;
     private int width;
     private int height;
     private int statuBarHeight;
@@ -68,7 +68,7 @@ public class ColorPickerDokitView extends AbsDokitView {
 
     @Override
     public void onCreate(Context context) {
-        mInfoFloatPopView = (ColorPickerInfoDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), ColorPickerInfoDokitView.class.getSimpleName());
+        mInfoDokitView = (ColorPickerInfoDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), ColorPickerInfoDokitView.class.getSimpleName());
         mImageCapture = new ImageCapture();
         mImageCapture.init(context, getBundle());
     }
@@ -100,7 +100,7 @@ public class ColorPickerDokitView extends AbsDokitView {
         int yCenter = bitmap.getHeight() / 2;
         int colorInt = ImageUtil.getPixel(bitmap, xCenter, yCenter);
         mPickerView.setBitmap(bitmap, colorInt, startX, startY);
-        mInfoFloatPopView.showInfo(colorInt, startX, startY);
+        mInfoDokitView.showInfo(colorInt, startX, startY);
     }
 
     private void captureInfo(int delay) {

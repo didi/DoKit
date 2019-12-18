@@ -6,9 +6,12 @@
     <string name="dk_category_performance">性能监控</string>
     <string name="dk_category_large_image">大图检测</string>
     <string name="dk_category_ui">视觉工具</string>
+    <string name="dk_category_platform">平台工具</string>
+    <string name="dk_kit_network_mock">数据Mock</string>
     <string name="dk_category_weex">WEEX</string>
 
     <string name="dk_kit_sysinfo">App基本信息</string>
+    <string name="dk_kit_list">工具列表</string>
     <string name="dk_kit_demo">demo</string>
     <string name="dk_kit_file_explorer">沙盒游览</string>
     <string name="dk_kit_frame_info">帧率</string>
@@ -28,6 +31,7 @@
     <string name="dk_kit_ui_monitor">UI显示实时数据</string>
     <string name="dk_kit_time_counter">耗时</string>
     <string name="dk_kit_method_cost">函数耗时</string>
+    <string name="dk_kit_mock_template_preview">数据预览</string>
     <string name="dk_kit_method_cost_desc">
         <![CDATA[
             函数耗时不提供UI操作界面,在你需要分析的代码之前插入<br/>
@@ -163,6 +167,8 @@
     <string name="dk_view_check_info_desc">背景颜色：%1$s</string>
     <string name="dk_view_check_info_padding">内边距：%1$d, %2$d, %3$d, %4$d</string>
     <string name="dk_view_check_info_margin">外边距：%1$d, %2$d, %3$d, %4$d</string>
+    <string name="dk_view_check_info_text_color">文字颜色：%1$s</string>
+    <string name="dk_view_check_info_text_size">文字大小：%1$d</string>
     <string name="dk_view_check_info_size">控件尺寸：宽%1$d，高%2$d</string>
     <string name="dk_view_check_info_id">控件ID：%1$s</string>
     <string name="dk_view_check_info_class">控件类型：%1$s</string>
@@ -241,4 +247,8 @@
     <string name="dk_view_id">控件id: </string>
     <string name="dk_total_draw_time">总绘制耗时: </string>
     <string name="dk_max_draw_time">最大绘制耗时: </string>
+    <string name="dk_mock_search">搜索</string>
+    <!--jsonviewer-->
+    <string name="dk_jsonViewer_icon_plus">expand</string>
+    <string name="dk_jsonViewer_icon_minus">collapse</string>
 </resources>

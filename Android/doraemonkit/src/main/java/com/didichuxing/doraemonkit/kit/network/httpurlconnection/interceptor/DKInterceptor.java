@@ -2,6 +2,11 @@ package com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor;
 
 import android.support.annotation.NonNull;
 
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.chain.HttpRequestChain;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.chain.HttpRequestStreamChain;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.chain.HttpResponseChain;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.chain.HttpResponseStreamChain;
+
 import java.io.IOException;
 
 /**
