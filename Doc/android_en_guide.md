@@ -4,15 +4,14 @@
 
 ```
 dependencies {
-	...
+    …
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.0.1'
     releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.0.2'
-    ...
+    …
 }
 ```
 
-Please use [the latest release](android-ReleaseNotes.md)。
-
+Please use [the latest release](android-ReleaseNotes.md).
 
 
 #### 2. Install
@@ -22,7 +21,7 @@ Install `DoraemonKit` in `Application#onCreate()`.
 ```Java
 @Override
 public void onCreate() {
-	...
+    …
     DoraemonKit.install(application）
      
     // for web container debug, optional
@@ -31,10 +30,9 @@ public void onCreate() {
     public void overrideUrlLoading(Context context, String s) {
         // use your web container open the link
     }
-    ...
+    …
 } 
 ```
-
 
 
 #### 3. Network Monitor（Optional）
@@ -46,9 +44,9 @@ Add a dependency in `build.gradle` in root of host project as following.
 
 buildscript {
     dependencies {
-        ...
+        …
         classpath 'com.github.franticn:gradle_plugin_android_aspectjx:2.0.6'
-        ...
+        …
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -61,12 +59,11 @@ Apply plugin in application module of `build.gradle`
 apply plugin: 'android-aspectjx'
 
 dependencies {
-	…
+    …
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:2.0.1'
     …
 }
 ```
-
 
 
 #### 4. Custom Component（Optional）
@@ -105,7 +102,7 @@ public class EnvSwitchKit implements IKit {
 }
 ```
 
-Register the environment switch component when DoraemonKit installed.
+Register the environment switch component when `DoraemonKit` installed.
 
 ```Java
 @Override

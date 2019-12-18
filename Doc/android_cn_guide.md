@@ -4,11 +4,11 @@
 
 ```groovy
 dependencies {
-	...
+    …
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.0.1'
     releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.0.2'
     implementation 'com.squareup.okhttp3:okhttp:3.12.1'
-    ...
+    …
 }
 ```
 注意:  
@@ -17,7 +17,7 @@ dependencies {
     ```
     ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:2.0.1 
     ```
-    建议你可以尝试挂载VPN或添加阿里云的镜像库重试
+    建议你可以尝试挂载VPN或添加阿里云的镜像库重试  
     ```
     //阿里云镜像库
     maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
@@ -37,10 +37,10 @@ DoraemonKit目前已支持Weex工具，包括
 
 ```groovy
 dependencies {
-	...
+    …
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:2.0.1'
     releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:2.0.1'
-    ...
+    …
 }
 ```
 
@@ -48,9 +48,9 @@ dependencies {
 
 ```groovy
 dependencies {
-	...
+    …
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:2.0.1'
-    ...
+    …
 }
 ```
 `LeakCanary` 已经在 doraemonkit 中动态集成，不需要自己再进行手动集成，只需要添加上面的依赖即可。
@@ -63,7 +63,7 @@ dependencies {
 ```Java
 @Override
 public void onCreate() {
-	...
+    …
     DoraemonKit.install(application)
      
     // H5任意门功能需要，非必须
@@ -72,7 +72,7 @@ public void onCreate() {
     public void overrideUrlLoading(Context context, String s) {
         // 使用自己的H5容器打开这个链接
     }
-    ...
+    …
 } 
 ```
 
@@ -86,9 +86,9 @@ public void onCreate() {
 
 buildscript {
     dependencies {
-        ...
+        …
         classpath 'com.github.franticn:gradle_plugin_android_aspectjx:2.0.6'
-        ...
+        …
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -103,7 +103,7 @@ buildscript {
 apply plugin: 'android-aspectjx'
 
 dependencies {
-	…
+    …
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:2.0.1'
     …
 }
@@ -167,7 +167,7 @@ public class EnvSwitchKit implements IKit {
 public void onCreate() {
     kits.add(new EnvSwitchKit());
     DoraemonKit.install(application, kits);
-    ...
+    …
 }
 ```
 
