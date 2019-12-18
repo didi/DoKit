@@ -44,6 +44,17 @@
             android:layout_height="50dp"
             android:text="获取位置信息(高德)" />
 
+        <Button
+            android:id="@+id/btn_location_tencent"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="获取位置信息(腾讯)" />
+
+        <Button
+            android:id="@+id/btn_location_baidu"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="获取位置信息(百度)" />
 
         <Button
             android:id="@+id/btn_load_img"

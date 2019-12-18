@@ -1,6 +1,6 @@
-package com.didichuxing.doraemonkit.plugin.amap.bytecode;
+package com.didichuxing.doraemonkit.plugin;
 
-import com.didichuxing.doraemonkit.plugin.amap.AmapExtension;
+import com.didichuxing.doraemonkit.plugin.bytecode.DokitClassAdapter;
 import com.quinn.hunter.transform.asm.BaseWeaver;
 
 import org.objectweb.asm.ClassVisitor;
@@ -15,20 +15,20 @@ import org.objectweb.asm.ClassWriter;
  * 修订历史：
  * ================================================
  */
-public class AmapWeaver extends BaseWeaver {
-    private AmapExtension flagExtension;
+public class DokitWeaver extends BaseWeaver {
+    private DokitExtension dokitExtension;
 
     @Override
     public void setExtension(Object extension) {
         if (extension == null) {
             return;
         }
-        this.flagExtension = (AmapExtension) extension;
+        this.dokitExtension = (DokitExtension) extension;
     }
 
     @Override
     protected ClassVisitor wrapClassWriter(ClassWriter classWriter) {
         //返回指定的ClassVisitor
-        return new AmapClassAdapter(classWriter);
+        return new DokitClassAdapter(classWriter);
     }
 }

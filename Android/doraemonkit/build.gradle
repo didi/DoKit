@@ -35,7 +35,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
     testImplementation rootProject.ext.dependencies["junit"]
     implementation rootProject.ext.dependencies["constraintLayout"]
@@ -73,7 +73,10 @@ dependencies {
 
     //高德地图定位
     compileOnly rootProject.ext.dependencies["amap_location"]
-
+    //腾讯地图定位
+    compileOnly rootProject.ext.dependencies["tencent_location"]
+    //百度地图定位
+    compileOnly files('libs/BaiduLBS_Android.jar')
 
 
 }

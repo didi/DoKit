@@ -23,8 +23,13 @@ public class AMapLocationListenerProxy implements AMapLocationListener {
     @Override
     public void onLocationChanged(AMapLocation mapLocation) {
         if (GpsMockManager.getInstance().isMocking()) {
-            mapLocation.setLatitude(GpsMockManager.getInstance().getLatitude());
-            mapLocation.setLongitude(GpsMockManager.getInstance().getLongitude());
+            try {
+                mapLocation.setLatitude(GpsMockManager.getInstance().getLatitude());
+                mapLocation.setLongitude(GpsMockManager.getInstance().getLongitude());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
         if (aMapLocationListener != null) {
             aMapLocationListener.onLocationChanged(mapLocation);

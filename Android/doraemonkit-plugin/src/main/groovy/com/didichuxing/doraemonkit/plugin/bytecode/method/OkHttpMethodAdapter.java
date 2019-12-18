@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.plugin.okhttp.bytecode;
+package com.didichuxing.doraemonkit.plugin.bytecode.method;
 
 import com.android.build.gradle.internal.LoggerWrapper;
 
@@ -12,13 +12,11 @@ import org.objectweb.asm.commons.LocalVariablesSorter;
  */
 public final class OkHttpMethodAdapter extends LocalVariablesSorter implements Opcodes {
 
-    private static final LoggerWrapper logger = LoggerWrapper.getLogger(OkHttpMethodAdapter.class);
+    //private static final LoggerWrapper logger = LoggerWrapper.getLogger(OkHttpMethodAdapter.class);
 
-    private boolean weaveEventListener;
 
-    OkHttpMethodAdapter(int access, String desc, MethodVisitor mv, boolean weaveEventListener) {
+    public  OkHttpMethodAdapter(int access, String desc, MethodVisitor mv) {
         super(Opcodes.ASM7, access, desc, mv);
-        this.weaveEventListener = weaveEventListener;
     }
 
     @Override

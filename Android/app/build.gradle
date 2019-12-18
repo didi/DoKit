@@ -44,11 +44,14 @@ android {
     sourceSets {
         debug {
             manifest.srcFile 'src/debug/java/AndroidManifest.xml'
+            jniLibs.srcDir 'libs'
         }
 
         release {
             manifest.srcFile 'src/release/java/AndroidManifest.xml'
+            jniLibs.srcDir 'libs'
         }
+
     }
 
     lintOptions {
@@ -79,5 +82,9 @@ dependencies {
     releaseImplementation rootProject.ext.dependencies["okgo"]
     //高德地图定位
     implementation rootProject.ext.dependencies["amap_location"]
+    //腾讯地图定位
+    implementation rootProject.ext.dependencies["tencent_location"]
+    //百度地图定位
+    implementation files('libs/BaiduLBS_Android.jar')
 
 }

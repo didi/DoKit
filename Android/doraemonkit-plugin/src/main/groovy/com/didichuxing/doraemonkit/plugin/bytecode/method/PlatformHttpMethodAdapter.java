@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.plugin.platformhttp.bytecode;
+package com.didichuxing.doraemonkit.plugin.bytecode.method;
 
 import com.android.build.gradle.internal.LoggerWrapper;
 
@@ -13,11 +13,8 @@ import org.objectweb.asm.commons.LocalVariablesSorter;
 public final class PlatformHttpMethodAdapter extends LocalVariablesSorter implements Opcodes {
 
 
-    private boolean weaveEventListener;
-
-    PlatformHttpMethodAdapter(int access, String desc, MethodVisitor mv, boolean weaveEventListener) {
+    public PlatformHttpMethodAdapter(int access, String desc, MethodVisitor mv) {
         super(Opcodes.ASM7, access, desc, mv);
-        this.weaveEventListener = weaveEventListener;
     }
 
     @Override

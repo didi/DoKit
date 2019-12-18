@@ -16,8 +16,6 @@ dependencies {
     //noinspection GradleDependency
     implementation 'org.ow2.asm:asm-commons:7.2'
     implementation 'com.quinn.hunter:hunter-transform:0.9.3'
-    //高德定位
-    compileOnly rootProject.ext.dependencies["amap_location"]
 }
 
 repositories {

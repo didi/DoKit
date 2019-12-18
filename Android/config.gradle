@@ -75,8 +75,9 @@ ext {
                     "didi_http"               : 'com.didichuxing.foundation:http:2.1.0.74',
                     "didi_rpc"                : 'com.didichuxing.foundation:rpc:2.1.0.74',
                     "okgo"                    : "com.lzy.net:okgo:3.0.4",
-                    //高德定位
+                    //高德地图定位
                     "amap_location"           : 'com.amap.api:location:latest.integration',
+                    //腾讯地图定位
                     "tencent_location"        : 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.4',
                     "easypermissions"         : "pub.devrel:easypermissions:2.0.1"
 

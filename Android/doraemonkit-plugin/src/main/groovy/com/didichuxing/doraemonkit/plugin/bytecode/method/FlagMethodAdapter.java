@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.plugin.debug_flag.bytecode;
+package com.didichuxing.doraemonkit.plugin.bytecode.method;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -11,7 +11,7 @@ import org.objectweb.asm.commons.LocalVariablesSorter;
 public final class FlagMethodAdapter extends LocalVariablesSorter implements Opcodes {
 
 
-    FlagMethodAdapter(int access, String desc, MethodVisitor mv) {
+    public  FlagMethodAdapter(int access, String desc, MethodVisitor mv) {
         super(Opcodes.ASM7, access, desc, mv);
     }
 
