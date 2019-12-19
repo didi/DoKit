@@ -16,7 +16,6 @@ import android.view.Choreographer;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.DoraemonKitReal;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.custom.UploadMonitorInfoBean;
 import com.didichuxing.doraemonkit.kit.custom.UploadMonitorItem;
@@ -164,7 +163,7 @@ public class PerformanceDataManager {
 
     public void init(Context context) {
         mContext = context.getApplicationContext();
-        mActivityManager = (ActivityManager) DoraemonKitReal.APPLICATION.getSystemService(Context.ACTIVITY_SERVICE);
+        mActivityManager = (ActivityManager) DoraemonKit.APPLICATION.getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mAboveAndroidO = true;
         }

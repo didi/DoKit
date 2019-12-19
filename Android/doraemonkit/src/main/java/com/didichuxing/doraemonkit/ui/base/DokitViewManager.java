@@ -6,8 +6,7 @@ import android.content.Context;
 import android.graphics.Point;
 import android.view.WindowManager;
 
-import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.DoraemonKitReal;
+import com.didichuxing.doraemonkit.config.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDatabase;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
@@ -52,7 +51,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
 
     public void init(Context context) {
         mContext = context;
-        if (DoraemonKitReal.IS_NORMAL_FLOAT_MODE) {
+        if (DokitConstant.IS_NORMAL_FLOAT_MODE) {
             mDokitViewManager = new NormalDokitViewManager(context);
         } else {
             mDokitViewManager = new SystemDokitViewManager(context);
@@ -236,7 +235,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
      * @param listener
      */
     void addDokitViewAttachedListener(DokitViewAttachedListener listener) {
-        if (!DoraemonKitReal.IS_NORMAL_FLOAT_MODE && mDokitViewManager instanceof SystemDokitViewManager) {
+        if (!DokitConstant.IS_NORMAL_FLOAT_MODE && mDokitViewManager instanceof SystemDokitViewManager) {
             ((SystemDokitViewManager) mDokitViewManager).addListener(listener);
         }
     }
@@ -247,7 +246,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
      * @param listener
      */
     void removeDokitViewAttachedListener(DokitViewAttachedListener listener) {
-        if (!DoraemonKitReal.IS_NORMAL_FLOAT_MODE && mDokitViewManager instanceof SystemDokitViewManager) {
+        if (!DokitConstant.IS_NORMAL_FLOAT_MODE && mDokitViewManager instanceof SystemDokitViewManager) {
             ((SystemDokitViewManager) mDokitViewManager).removeListener(listener);
         }
     }

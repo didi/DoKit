@@ -5,8 +5,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
-import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.DoraemonKitReal;
+import com.didichuxing.doraemonkit.config.DokitConstant;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.ArrayList;
@@ -106,7 +105,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
                     dokitView.getSystemLayoutParams());
             dokitView.onResume();
 
-            if (!DoraemonKitReal.IS_NORMAL_FLOAT_MODE) {
+            if (!DokitConstant.IS_NORMAL_FLOAT_MODE) {
                 for (DokitViewManager.DokitViewAttachedListener listener : mListeners) {
                     listener.onDokitViewAdd(dokitView);
                 }

@@ -3,12 +3,15 @@ package com.didichuxing.doraemondemo;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
 import com.didichuxing.doraemondemo.dokit.DemoKit;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.IKit;
+import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
+import com.didichuxing.doraemonkit.util.LogHelper;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
@@ -39,25 +42,10 @@ public class App extends Application {
             }
         });
         //严格检查模式
-        //StrictMode.enableDefaults();
-//        try {
-//            test1();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        StackTraceElement[] stack = new Throwable().getStackTrace();
-//        for (StackTraceElement stackTraceElement : stack) {
-//            Log.d(TAG, "----> " + stackTraceElement.toString());
-//
-//        }
-
+        StrictMode.enableDefaults();
 
     }
 
-
-    private void test1() {
-        throw new NullPointerException("空指针异常");
-    }
 
     @Override
     protected void attachBaseContext(Context base) {

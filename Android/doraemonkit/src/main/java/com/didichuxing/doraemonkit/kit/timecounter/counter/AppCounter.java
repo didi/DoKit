@@ -16,7 +16,7 @@ public class AppCounter {
 
     public void end() {
         mCounterInfo.title = "App Setup Cost";
-        mCounterInfo.totalCost = System.currentTimeMillis() - mStartTime;;
+        mCounterInfo.totalCost = System.currentTimeMillis() - mStartTime;
         mCounterInfo.type = CounterInfo.TYPE_APP;
         mCounterInfo.time = System.currentTimeMillis();
     }

@@ -21,9 +21,8 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.DoraemonKitReal;
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.config.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.MockApiResponseBean;
 import com.didichuxing.doraemonkit.kit.network.bean.MockInterceptTitleBean;
@@ -47,7 +46,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class NetWorkMockFragment extends BaseFragment {
-    private String projectId = DoraemonKitReal.PRODUCT_ID;
+    private String projectId = DokitConstant.PRODUCT_ID;
     private int pageSize = 100;
     private String mFormatApiUrl = NetworkManager.MOCK_DOMAIN + "/api/app/interface?projectId=%s&isfull=1&curPage=%s&pageSize=%s";
     private EditText mEditText;

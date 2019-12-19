@@ -1,6 +1,8 @@
 package com.didichuxing.doraemonkit.plugin.bytecode;
 
+import com.didichuxing.doraemonkit.plugin.StringUtils;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.AmapLocationMethodAdapter;
+import com.didichuxing.doraemonkit.plugin.bytecode.method.ApplicationOnCreateMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.BaiduLocationMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.FlagMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.GlobalMethodAdapter;
@@ -18,9 +20,14 @@ import org.objectweb.asm.Opcodes;
  * 类访问器
  */
 public final class DokitClassAdapter extends ClassVisitor {
-
+    /**
+     * 当前类型
+     */
     private String className;
-
+    /**
+     * 当前类的父类 假如存在的话
+     */
+    private String superName;
 
     /**
      * @param cv 传进来的是 ClassWriter
@@ -32,7 +39,9 @@ public final class DokitClassAdapter extends ClassVisitor {
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         super.visit(version, access, name, signature, superName, interfaces);
-        className = name;
+
+        this.className = name;
+        this.superName = superName;
     }
 
     @Override
@@ -97,6 +106,11 @@ public final class DokitClassAdapter extends ClassVisitor {
             log(className, access, name, desc, signature);
             return mv == null ? null : new PlatformHttpMethodAdapter(access, desc, mv);
         }
+        //app启动hook点 onCreate()函数
+        if (!StringUtils.isEmpty(superName) && superName.equals("android/app/Application") && name.equals("onCreate") && desc.equals("()V")) {
+            return mv == null ? null : new ApplicationOnCreateMethodAdapter(access, name, desc, mv);
+        }
+
         //过滤所有类中当前方法中所有的字节码
         return mv == null ? null : new GlobalMethodAdapter(access, desc, mv);
 

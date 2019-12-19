@@ -13,6 +13,7 @@ import java.util.List;
  */
 
 public class DoraemonKit {
+    public static Application APPLICATION;
     private static final String TAG = "DoraemonKit";
 
     public static void install(Application app) {
@@ -29,6 +30,7 @@ public class DoraemonKit {
      * @param productId Dokit平台端申请的productId
      */
     public static void install(final Application app, List<IKit> selfKits, String productId) {
+        APPLICATION = app;
         DoraemonKitReal.install(app, selfKits, productId);
         //平台端 http 拦截器注入
         PlatformHttpHook.installInterceptor();

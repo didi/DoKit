@@ -6,10 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-
-import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.DoraemonKitReal;
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.config.DokitConstant;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
@@ -57,28 +55,28 @@ public class ToolPanelDokitView extends AbsDokitView {
         mGroupKitAdapter = new GroupKitAdapter(getContext());
         List<List<KitItem>> kitLists = new ArrayList<>();
         //获取指定类型的工具
-        List<KitItem> bizs = DoraemonKitReal.getKitItems(Category.BIZ);
+        List<KitItem> bizs = DokitConstant.getKitItems(Category.BIZ);
         if (bizs != null && !bizs.isEmpty()) {
             kitLists.add(bizs);
         }
         //平台工具
-        if (DoraemonKitReal.getKitItems(Category.PLATFORM) != null && !DoraemonKitReal.getKitItems(Category.PLATFORM).isEmpty()) {
-            kitLists.add(DoraemonKitReal.getKitItems(Category.PLATFORM));
+        if (DokitConstant.getKitItems(Category.PLATFORM) != null && !DokitConstant.getKitItems(Category.PLATFORM).isEmpty()) {
+            kitLists.add(DokitConstant.getKitItems(Category.PLATFORM));
         }
         //常用工具
-        kitLists.add(DoraemonKitReal.getKitItems(Category.TOOLS));
+        kitLists.add(DokitConstant.getKitItems(Category.TOOLS));
         //weex
-        if (DoraemonKitReal.getKitItems(Category.WEEX) != null && !DoraemonKitReal.getKitItems(Category.WEEX).isEmpty()) {
-            kitLists.add(DoraemonKitReal.getKitItems(Category.WEEX));
+        if (DokitConstant.getKitItems(Category.WEEX) != null && !DokitConstant.getKitItems(Category.WEEX).isEmpty()) {
+            kitLists.add(DokitConstant.getKitItems(Category.WEEX));
         }
         //性能监控
-        kitLists.add(DoraemonKitReal.getKitItems(Category.PERFORMANCE));
+        kitLists.add(DokitConstant.getKitItems(Category.PERFORMANCE));
         //视觉工具
-        kitLists.add(DoraemonKitReal.getKitItems(Category.UI));
+        kitLists.add(DokitConstant.getKitItems(Category.UI));
 
-        kitLists.add(DoraemonKitReal.getKitItems(Category.FLOAT_MODE));
-        kitLists.add(DoraemonKitReal.getKitItems(Category.CLOSE));
-        kitLists.add(DoraemonKitReal.getKitItems(Category.VERSION));
+        kitLists.add(DokitConstant.getKitItems(Category.FLOAT_MODE));
+        kitLists.add(DokitConstant.getKitItems(Category.CLOSE));
+        kitLists.add(DokitConstant.getKitItems(Category.VERSION));
         mGroupKitAdapter.setData(kitLists);
         mGroupKitContainer.setAdapter(mGroupKitAdapter);
     }

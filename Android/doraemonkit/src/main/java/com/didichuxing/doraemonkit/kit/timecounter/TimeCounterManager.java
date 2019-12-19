@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.timecounter;
 
+import android.app.Application;
 import android.os.Looper;
 
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
@@ -27,11 +28,21 @@ public class TimeCounterManager {
     private AppCounter mAppCounter = new AppCounter();
     private ActivityCounter mActivityCounter = new ActivityCounter();
 
-    public void onAppCreateStart() {
+    /**
+     * App 启动
+     *
+     * @param application
+     */
+    public void onAppCreateStart(Application application) {
         mAppCounter.start();
     }
 
-    public void onAppCreateEnd() {
+    /**
+     * App 启动结束
+     *
+     * @param application
+     */
+    public void onAppCreateEnd(Application application) {
         mAppCounter.end();
     }
 

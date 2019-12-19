@@ -6,10 +6,7 @@ import android.graphics.Color;
 import com.blankj.utilcode.constant.MemoryConstants;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ImageUtils;
-import com.didichuxing.doraemonkit.BuildConfig;
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.DoraemonKitReal;
-import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 
 import java.text.DecimalFormat;
@@ -24,8 +21,8 @@ import java.util.Map;
 public class LargePictureManager {
     public static float MEMORY_DEFAULT_THRESHOLD = 1.0f;
     public static float FILE_DEFAULT_THRESHOLD = 150.0f;
-    private float fileThreshold = PerformanceSpInfoConfig.getLargeImgFileThreshold(DoraemonKitReal.APPLICATION, FILE_DEFAULT_THRESHOLD);
-    private float memoryThreshold = PerformanceSpInfoConfig.getLargeImgMemoryThreshold(DoraemonKitReal.APPLICATION, MEMORY_DEFAULT_THRESHOLD);
+    private float fileThreshold = PerformanceSpInfoConfig.getLargeImgFileThreshold(DoraemonKit.APPLICATION, FILE_DEFAULT_THRESHOLD);
+    private float memoryThreshold = PerformanceSpInfoConfig.getLargeImgMemoryThreshold(DoraemonKit.APPLICATION, MEMORY_DEFAULT_THRESHOLD);
     private static final String TAG = "LargePictureManager";
     private DecimalFormat mDecimalFormat = new DecimalFormat("#.00");
 
