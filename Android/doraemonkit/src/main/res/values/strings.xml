@@ -159,6 +159,10 @@
     <string name="dk_view_check_info_id">控件ID：%1$s</string>
     <string name="dk_view_check_info_size">控件尺寸：宽%1$d，高%2$d</string>
     <string name="dk_view_check_info_desc">背景颜色：%1$s</string>
+    <string name="dk_view_check_info_padding">内边距：%1$d, %2$d, %3$d, %4$d</string>
+    <string name="dk_view_check_info_margin">外边距：%1$d, %2$d, %3$d, %4$d</string>
+    <string name="dk_view_check_info_text_color">文字颜色：%1$s</string>
+    <string name="dk_view_check_info_text_size">文字大小：%1$d</string>
     <string name="dk_view_check_info_activity">当前Activity：%1$s</string>
     <string name="dk_view_check_info_fragment">可见Fragments：%1$s</string>
 

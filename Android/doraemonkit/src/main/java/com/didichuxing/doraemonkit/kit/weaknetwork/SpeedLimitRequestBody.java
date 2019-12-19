@@ -12,8 +12,7 @@ import okio.ForwardingSink;
 import okio.Sink;
 
 /**
- * @author denghaha
- * created 2019-05-09 18:35
+ * Created by xiandanin on 2019-05-09 18:35
  */
 public class SpeedLimitRequestBody extends RequestBody {
     private long mSpeedByte;//b/s

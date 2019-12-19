@@ -13,8 +13,7 @@ import okio.Okio;
 import okio.Source;
 
 /**
- * @author denghaha
- * created 2019-05-09 18:35
+ * Created by xiandanin on 2019-05-09 18:35
  */
 public class SpeedLimitResponseBody extends ResponseBody {
     //b/s

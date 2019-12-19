@@ -11,9 +11,8 @@ import okhttp3.Response;
 
 /**
  * 用于模拟弱网的拦截器
- *
- * @author denghaha
- * created 2019-05-09 16:29
+ * <p>
+ * Created by xiandanin on 2019-05-09 16:29
  */
 public class DoraemonWeakNetworkInterceptor implements Interceptor {
 
