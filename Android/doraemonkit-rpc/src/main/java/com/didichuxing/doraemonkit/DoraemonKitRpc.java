@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit;
 
 import android.app.Application;
 
+import com.didichuxing.doraemonkit.config.DokitConstant;
 import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.didichuxing.foundation.net.rpc.http.PlatformHttpHook;
@@ -12,9 +13,9 @@ import java.util.List;
  * Created by jintai on 2018/6/22.
  */
 
-public class DoraemonKit {
+public class DoraemonKitRpc {
     public static Application APPLICATION;
-    private static final String TAG = "DoraemonKit";
+    private static final String TAG = "DoraemonKitRpc";
 
     public static void install(Application app) {
         install(app, null);
@@ -31,6 +32,7 @@ public class DoraemonKit {
      */
     public static void install(final Application app, List<IKit> selfKits, String productId) {
         APPLICATION = app;
+        DoraemonKit.APPLICATION = app;
         DoraemonKitReal.install(app, selfKits, productId);
         //平台端 http 拦截器注入
         PlatformHttpHook.installInterceptor();
@@ -72,5 +74,12 @@ public class DoraemonKit {
 
     public static void setDebug(boolean debug) {
         DoraemonKitReal.setDebug(debug);
+    }
+
+    /**
+     * 是否显示主入口icon
+     */
+    public static void setAwaysShowMianIcon(boolean awaysShow) {
+        DokitConstant.AWAYS_SHOW_MAIN_ICON = awaysShow;
     }
 }

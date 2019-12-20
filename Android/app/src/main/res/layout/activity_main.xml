@@ -25,6 +25,11 @@
             android:layout_height="50dp"
             android:text="跳转" />
 
+        <Button
+            android:id="@+id/btn_show_tool_panel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="显示工具面板" />
 
         <Button
             android:id="@+id/btn_trace"
@@ -141,12 +146,12 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="HttpURLConnection Mock" />
-
-        <Button
-            android:id="@+id/btn_rpc_mock"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="Didi Rpc Mock" />
+        <!--    滴滴内部网络框架mock-->
+        <!--        <Button-->
+        <!--            android:id="@+id/btn_rpc_mock"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="50dp"-->
+        <!--            android:text="Didi Rpc Mock" />-->
 
         <Button
             android:id="@+id/btn_test_custom"

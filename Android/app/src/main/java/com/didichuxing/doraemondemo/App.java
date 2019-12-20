@@ -9,9 +9,7 @@ import android.support.multidex.MultiDex;
 import com.didichuxing.doraemondemo.dokit.DemoKit;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.IKit;
-import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
-import com.didichuxing.doraemonkit.util.LogHelper;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
 import java.util.ArrayList;
@@ -31,6 +29,8 @@ public class App extends Application {
         List<IKit> kits = new ArrayList<>();
         kits.add(new DemoKit());
         DoraemonKit.install(this, kits, "0f2e4fc5540392a7083d61c921198c78");
+        //是否显示入口icon
+        //DoraemonKit.setAwaysShowMianIcon(false);
         Fresco.initialize(this);
         DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
             @Override

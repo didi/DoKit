@@ -16,10 +16,7 @@ if (isRemote) {
         website = '{github_url}'
     }
 } else {
-
-
     apply plugin: 'maven'
-
     group = 'com.didichuxing.doraemonkit'
     version = rootProject.ext.android["pluginVersionName"]
 

@@ -82,7 +82,6 @@ import java.util.Map;
  * Created by jintai on 2019/12/18.
  * DoraemonKit 真正执行的类  不建议外部app调用
  */
-
 class DoraemonKitReal {
     private static final String TAG = "DoraemonKitReal";
 
@@ -93,7 +92,7 @@ class DoraemonKitReal {
     /**
      * 用来判断系统悬浮窗的入口浮标是否显示
      */
-    private static boolean mSystemDokitViewIcon = true;
+    private static boolean mSystemDokitViewIcon = false;
     /**
      * 是否允许上传统计信息
      */
@@ -102,7 +101,7 @@ class DoraemonKitReal {
     private static DbDebugFragment mDbDebugFragment;
 
     /**
-     * 用来判断是否接入了dokit插件
+     * 用来判断是否接入了dokit插件 如果安装了插件会动态修改这个值为true
      */
     private static boolean IS_HOOK = false;
     /**
@@ -226,10 +225,6 @@ class DoraemonKitReal {
                 if (ignoreCurrentActivityDokitView(activity)) {
                     return;
                 }
-                //用户主动调用hide 以后 不再显示浮标 除非手动打开
-                if (!IS_SHOW_KIT) {
-                    return;
-                }
 
                 //设置app的直接子view的Id
                 if (UIUtils.getDokitAppContentView(activity) != null) {
@@ -244,7 +239,7 @@ class DoraemonKitReal {
                     //悬浮窗权限 vivo 华为可以不需要动态权限 小米需要
                     if (PermissionUtil.canDrawOverlays(activity)) {
                         //系统悬浮窗需要判断浮标是否已经显示
-                        if (mSystemDokitViewIcon) {
+                        if (!mSystemDokitViewIcon) {
                             showSystemMainIcon();
                         }
                         systemDokitViewOnResume(activity);
@@ -304,16 +299,9 @@ class DoraemonKitReal {
             }
         });
         DokitConstant.KIT_MAPS.clear();
-        boolean hasAopMoudle = false;
-        try {
-            Class.forName("parking.didi.com.aop.DoraemonHooker").newInstance();
-            hasAopMoudle = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         //两个条件只要满足一个就可以
-        if (hasAopMoudle || IS_HOOK) {
-            hasAopMoudle = true;
+        if (IS_HOOK) {
 
         }
 
@@ -346,7 +334,7 @@ class DoraemonKitReal {
         tool.add(new CrashCaptureKit());
         tool.add(new LogInfoKit());
         tool.add(new DataCleanKit());
-        if (hasAopMoudle) {
+        if (IS_HOOK) {
             tool.add(new WeakNetworkKit());
         }
         tool.add(new DbDebugKit());
@@ -355,14 +343,14 @@ class DoraemonKitReal {
         performance.add(new FrameInfoKit());
         performance.add(new CpuKit());
         performance.add(new RamKit());
-        if (hasAopMoudle) {
+        if (IS_HOOK) {
             performance.add(new NetworkKit());
         }
         performance.add(new BlockMonitorKit());
         performance.add(new TimeCounterKit());
         performance.add(new MethodCostKit());
         performance.add(new UIPerformanceKit());
-        if (hasAopMoudle) {
+        if (IS_HOOK) {
             performance.add(new LargePictureKit());
         }
 
@@ -388,9 +376,9 @@ class DoraemonKitReal {
         ui.add(new AlignRulerKit());
         ui.add(new ViewCheckerKit());
         ui.add(new LayoutBorderKit());
-        if (hasAopMoudle) {
-            //新增数据mock工具
-            platform.add(new MockKit());
+        if (IS_HOOK) {
+            //新增数据mock工具 由于Dokit管理平台还没完善 所以暂时关闭入口
+            //platform.add(new MockKit());
         }
 
         //增加浮标模式
@@ -580,6 +568,10 @@ class DoraemonKitReal {
             return;
         }
 
+        if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
+            return;
+        }
+
         DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
         DokitViewManager.getInstance().attach(intent);
@@ -620,11 +612,12 @@ class DoraemonKitReal {
 
 
     static void show() {
+        DokitConstant.AWAYS_SHOW_MAIN_ICON = true;
         if (!isShow()) {
             showSystemMainIcon();
         }
         mSystemDokitViewIcon = true;
-        IS_SHOW_KIT = true;
+
     }
 
 
@@ -637,16 +630,12 @@ class DoraemonKitReal {
         DokitViewManager.getInstance().attach(dokitViewIntent);
     }
 
-    /**
-     * 用户是否手动调用关闭kit
-     */
-    private static boolean IS_SHOW_KIT = true;
 
     static void hide() {
+        mSystemDokitViewIcon = false;
+        DokitConstant.AWAYS_SHOW_MAIN_ICON = false;
         DokitViewManager.getInstance().detach(FloatIconDokitView.class.getSimpleName());
 
-        mSystemDokitViewIcon = false;
-        IS_SHOW_KIT = false;
     }
 
     /**

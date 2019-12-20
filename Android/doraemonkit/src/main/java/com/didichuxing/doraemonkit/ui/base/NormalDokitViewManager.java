@@ -13,6 +13,7 @@ import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.config.DokitConstant;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
@@ -96,6 +97,9 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             if (activity instanceof UniversalActivity) {
                 return;
             }
+            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
+                return;
+            }
             DokitIntent dokitIntent = new DokitIntent(FloatIconDokitView.class);
             dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
             attach(dokitIntent);
@@ -115,6 +119,10 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                 if (activity instanceof UniversalActivity && dokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
                     return;
                 }
+                //是否过滤掉 入口icon
+                if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && dokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
+                    continue;
+                }
                 DokitIntent dokitIntent = new DokitIntent(dokitViewInfo.getAbsDokitViewClass());
                 dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
                 dokitIntent.bundle = dokitViewInfo.getBundle();
@@ -129,6 +137,10 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         for (GlobalSingleDokitViewInfo traverseDokitViewInfo : mGlobalSingleDokitViews.values()) {
             if (activity instanceof UniversalActivity && traverseDokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
                 return;
+            }
+            //是否过滤掉 入口icon
+            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && traverseDokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
+                continue;
             }
             LogHelper.i(TAG, " activity  resume==>" + activity.getClass().getSimpleName() + "  dokitView==>" + traverseDokitViewInfo.getTag());
             //判断resume Activity 中时候存在指定的dokitview

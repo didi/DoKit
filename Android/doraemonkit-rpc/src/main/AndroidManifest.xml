@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.didichuxing.doraemonkit">
+    package="com.didichuxing.doraemonkit.rpc">
 
 
     <application>

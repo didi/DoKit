@@ -91,9 +91,10 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
 
         setContentView(R.layout.activity_main);
         TextView tvEnv = findViewById(R.id.tv_env);
-        tvEnv.setText("当前编译环境:Release");
+        tvEnv.setText("当前编译环境:Debug");
         findViewById(R.id.btn_trace).setOnClickListener(this);
         findViewById(R.id.btn_jump).setOnClickListener(this);
+        findViewById(R.id.btn_show_tool_panel).setOnClickListener(this);
         findViewById(R.id.btn_location).setOnClickListener(this);
         findViewById(R.id.btn_location_amap).setOnClickListener(this);
         findViewById(R.id.btn_location_tencent).setOnClickListener(this);
@@ -101,7 +102,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
         findViewById(R.id.btn_load_img).setOnClickListener(this);
         findViewById(R.id.btn_okhttp_mock).setOnClickListener(this);
         findViewById(R.id.btn_connection_mock).setOnClickListener(this);
-        findViewById(R.id.btn_rpc_mock).setOnClickListener(this);
+//        findViewById(R.id.btn_rpc_mock).setOnClickListener(this);
         findViewById(R.id.btn_test_crash).setOnClickListener(this);
         findViewById(R.id.btn_show_hide_icon).setOnClickListener(this);
         findViewById(R.id.btn_create_database).setOnClickListener(this);
@@ -129,14 +130,14 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
         //获取获取当前单次定位
         mBaiduLocationClient.registerLocationListener(mbdLocationListener);
         EasyPermissions.requestPermissions(new PermissionRequest
-                .Builder(this, 200, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
-                .build());
+                .Builder(this, 200,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ).build());
     }
 
-//    void registerLocationListener(BDAbstractLocationListener var1) {
-//        var1 = BaiduLocationListenerProxyUtil.proxy(var1);
-//        var1.toString();
-//    }
 
     private void test1() {
         try {
@@ -280,6 +281,11 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                 MethodCost.stopMethodTracingAndPrintLog("doramemon");
                 break;
 
+            case R.id.btn_show_tool_panel:
+                //直接调起工具面板
+                DoraemonKit.showToolPanel();
+                break;
+
             case R.id.btn_jump:
 
                 startActivity(new Intent(this, SecondActivity.class));
@@ -341,8 +347,8 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                 //requestByGet("https://gank.io/api/today?a=哈哈&b=bb");
                 requestByGet("http://gank.io/gateway?api=dj.map");
                 break;
-            case R.id.btn_rpc_mock:
-                break;
+//            case R.id.btn_rpc_mock:
+//                break;
 
             case R.id.btn_test_custom:
 

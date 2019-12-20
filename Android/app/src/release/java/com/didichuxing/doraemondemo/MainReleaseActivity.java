@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
@@ -22,6 +23,10 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.bumptech.glide.Glide;
@@ -35,17 +40,16 @@ import com.didichuxing.doraemonkit.kit.network.common.CommonHeaders;
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorRequest;
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorResponse;
 import com.didichuxing.doraemonkit.kit.network.common.NetworkPrinterHelper;
-import com.didichuxing.foundation.net.rpc.http.HttpRpc;
-import com.didichuxing.foundation.net.rpc.http.HttpRpcClient;
-import com.didichuxing.foundation.net.rpc.http.HttpRpcClientFactory;
-import com.didichuxing.foundation.net.rpc.http.HttpRpcRequest;
-import com.didichuxing.foundation.net.rpc.http.HttpRpcResponse;
-import com.didichuxing.foundation.rpc.RpcServiceFactory;
+
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.squareup.picasso.Picasso;
+import com.tencent.map.geolocation.TencentLocation;
+import com.tencent.map.geolocation.TencentLocationListener;
+import com.tencent.map.geolocation.TencentLocationManager;
+import com.tencent.map.geolocation.TencentLocationRequest;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -73,11 +77,14 @@ import pub.devrel.easypermissions.PermissionRequest;
 public class MainReleaseActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "MainReleaseActivity";
 
+
     private OkHttpClient okHttpClient;
     private LocationManager mLocationManager;
     AMapLocationClient mLocationClient;
+    LocationClient mBaiduLocationClient;
     AMapLocationClientOption mMapOption;
-
+    TencentLocationRequest mTencentLocationRequest;
+    TencentLocationManager mTencentLocationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,12 +95,15 @@ public class MainReleaseActivity extends AppCompatActivity implements View.OnCli
         tvEnv.setText("当前编译环境:Release");
         findViewById(R.id.btn_trace).setOnClickListener(this);
         findViewById(R.id.btn_jump).setOnClickListener(this);
+        findViewById(R.id.btn_show_tool_panel).setOnClickListener(this);
         findViewById(R.id.btn_location).setOnClickListener(this);
         findViewById(R.id.btn_location_amap).setOnClickListener(this);
+        findViewById(R.id.btn_location_tencent).setOnClickListener(this);
+        findViewById(R.id.btn_location_baidu).setOnClickListener(this);
         findViewById(R.id.btn_load_img).setOnClickListener(this);
         findViewById(R.id.btn_okhttp_mock).setOnClickListener(this);
         findViewById(R.id.btn_connection_mock).setOnClickListener(this);
-        findViewById(R.id.btn_rpc_mock).setOnClickListener(this);
+//        findViewById(R.id.btn_rpc_mock).setOnClickListener(this);
         findViewById(R.id.btn_test_crash).setOnClickListener(this);
         findViewById(R.id.btn_show_hide_icon).setOnClickListener(this);
         findViewById(R.id.btn_create_database).setOnClickListener(this);
@@ -105,12 +115,30 @@ public class MainReleaseActivity extends AppCompatActivity implements View.OnCli
         //高德定位服务
         mLocationClient = new AMapLocationClient(getApplicationContext());
         mMapOption = new AMapLocationClientOption();
-
-
+        //腾讯地图
+        mTencentLocationRequest = TencentLocationRequest.create();
+        mTencentLocationManager = TencentLocationManager.getInstance(getApplicationContext());
+        //百度地图
+        mBaiduLocationClient = new LocationClient(this);
+        //通过LocationClientOption设置LocationClient相关参数
+        LocationClientOption option = new LocationClientOption();
+        // 打开gps
+        option.setOpenGps(true);
+        // 设置坐标类型
+        option.setCoorType("bd09ll");
+        option.setScanSpan(5000);
+        mBaiduLocationClient.setLocOption(option);
+        //获取获取当前单次定位
+        mBaiduLocationClient.registerLocationListener(mbdLocationListener);
         EasyPermissions.requestPermissions(new PermissionRequest
-                .Builder(this, 200, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
-                .build());
+                .Builder(this, 200,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ).build());
     }
+
 
     private void test1() {
         try {
@@ -197,13 +225,51 @@ public class MainReleaseActivity extends AppCompatActivity implements View.OnCli
      * 启动高德地图定位
      */
     public void startAmapLocation() {
-
         mLocationClient.setLocationListener(mapLocationListener);
         mMapOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         mMapOption.setOnceLocation(true);
         mLocationClient.setLocationOption(mMapOption);
         mLocationClient.stopLocation();
         mLocationClient.startLocation();
+    }
+
+
+    TencentLocationListener mTencentLocationListener = new TencentLocationListener() {
+        @Override
+        public void onLocationChanged(TencentLocation tencentLocation, int error, String errorInfo) {
+            Log.i(TAG, "腾讯定位===onLocationChanged===lat==>" + tencentLocation.getLatitude() + "   lng==>" + tencentLocation.getLongitude() + "  error===>" + error + "  errorInfo===>" + errorInfo);
+        }
+
+        @Override
+        public void onStatusUpdate(String name, int status, String desc) {
+            Log.i(TAG, "腾讯定位===onStatusUpdate==>" + "  name===>" + name + " status===" + status + "  desc===" + desc);
+        }
+    };
+
+    /**
+     * 启动腾讯地图定位
+     */
+    public void startTencentLocation() {
+        //mTencentLocationManager.requestLocationUpdates(mTencentLocationRequest, mTencentLocationListener);
+        //获取获取当前单次定位
+        mTencentLocationManager.requestSingleFreshLocation(mTencentLocationRequest, mTencentLocationListener, Looper.myLooper());
+    }
+
+
+    BDAbstractLocationListener mbdLocationListener = new BDAbstractLocationListener() {
+        @Override
+        public void onReceiveLocation(BDLocation bdLocation) {
+            Log.i(TAG, "百度定位===onReceiveLocation===lat==>" + bdLocation.getLatitude() + "   lng==>" + bdLocation.getLongitude());
+        }
+    };
+
+
+    /**
+     * 启动百度地图定位
+     */
+    public void startBaiDuLocation() {
+        mBaiduLocationClient.stop();
+        mBaiduLocationClient.start();
     }
 
 
@@ -221,6 +287,11 @@ public class MainReleaseActivity extends AppCompatActivity implements View.OnCli
                 startActivity(new Intent(this, SecondActivity.class));
 
                 break;
+
+            case R.id.btn_show_tool_panel:
+                //直接调起工具面板
+                DoraemonKit.showToolPanel();
+                break;
             case R.id.btn_location:
 
                 startNormaLocation();
@@ -231,6 +302,13 @@ public class MainReleaseActivity extends AppCompatActivity implements View.OnCli
                 startAmapLocation();
                 break;
 
+            case R.id.btn_location_tencent:
+                startTencentLocation();
+                break;
+
+            case R.id.btn_location_baidu:
+                startBaiDuLocation();
+                break;
 
             case R.id.btn_load_img:
                 //Glide 加载
@@ -270,10 +348,8 @@ public class MainReleaseActivity extends AppCompatActivity implements View.OnCli
                 //requestByGet("https://gank.io/api/today?a=哈哈&b=bb");
                 requestByGet("http://gank.io/gateway?api=dj.map");
                 break;
-            case R.id.btn_rpc_mock:
-                //didiRpcMock("https://www.v2ex.com/api/topics/hot.json");
-                didiRpcMock("http://gank.io/gateway?api=dj.map");
-                break;
+//            case R.id.btn_rpc_mock:
+//                break;
 
             case R.id.btn_test_custom:
 
@@ -310,37 +386,6 @@ public class MainReleaseActivity extends AppCompatActivity implements View.OnCli
         return null;
     }
 
-    /**
-     * 滴滴内部网络框架 mock
-     *
-     * @param url
-     */
-    public void didiRpcMock(String url) {
-        RpcServiceFactory factory = new RpcServiceFactory(MainReleaseActivity.this);
-        HttpRpcClient client = factory.getRpcClient(HttpRpcClientFactory.PROTOCOL_HTTPS);
-        client = client.newBuilder()
-                //.addInterceptor(new RpcMockInterceptor())
-                //.addInterceptor(new RpcMonitorInterceptor())
-                .build();
-        HttpRpcRequest request = new HttpRpcRequest.Builder().get(url).build();
-        client.newRpc(request).enqueue(new HttpRpc.Callback() {
-            @Override
-            public void onSuccess(HttpRpcResponse httpRpcResponse) {
-                try {
-                    String content = ConvertUtils.inputStream2String(httpRpcResponse.getEntity().getContent(), "utf-8");
-                    Log.i(TAG, "didirpc====response====>" + content);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(HttpRpcRequest httpRpcRequest, IOException e) {
-                Log.e(TAG, "rpc result====>" + e.getMessage());
-            }
-        });
-
-    }
 
     public void requestByGet(final String path) {
         ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<String>() {
@@ -370,8 +415,6 @@ public class MainReleaseActivity extends AppCompatActivity implements View.OnCli
         });
 
     }
-
-
 
 
     /**
@@ -540,7 +583,8 @@ public class MainReleaseActivity extends AppCompatActivity implements View.OnCli
         okHttpClient.dispatcher().cancelAll();
 
         mLocationManager.removeUpdates(mLocationListener);
-
+        mTencentLocationManager.removeUpdates(mTencentLocationListener);
+        mBaiduLocationClient.stop();
     }
 
     @Override

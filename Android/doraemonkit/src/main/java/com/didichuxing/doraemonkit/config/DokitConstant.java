@@ -23,6 +23,10 @@ public class DokitConstant {
      */
     public static boolean IS_NORMAL_FLOAT_MODE = true;
 
+    /**
+     * 是否显示icon主入口
+     */
+    public static boolean AWAYS_SHOW_MAIN_ICON = true;
 
     public static String PRODUCT_ID = "";
 

@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply from: 'upload.gradle'
-//apply plugin: 'AsmPlugin'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]

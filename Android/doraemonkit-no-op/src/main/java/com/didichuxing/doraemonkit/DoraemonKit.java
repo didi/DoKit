@@ -62,4 +62,11 @@ public class DoraemonKit {
     public static void setDebug(boolean debug) {
 
     }
+
+    /**
+     * 是否显示主入口icon
+     */
+    public static void setAwaysShowMianIcon(boolean awaysShow) {
+
+    }
 }

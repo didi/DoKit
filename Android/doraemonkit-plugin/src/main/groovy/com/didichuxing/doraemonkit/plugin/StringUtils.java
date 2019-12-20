@@ -13,8 +13,8 @@ public class StringUtils {
     /**
      * 判断是否是空字符串
      *
-     * @param str
-     * @return
+     * @param str 字符串
+     * @return 是否为空
      */
     public static boolean isEmpty(String str) {
         if (str == null || str.equals("")) {
