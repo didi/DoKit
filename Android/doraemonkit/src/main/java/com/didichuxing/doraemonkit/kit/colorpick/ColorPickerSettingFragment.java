@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.ColorPickConfig;
-import com.didichuxing.doraemonkit.config.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.constant.RequestCode;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;

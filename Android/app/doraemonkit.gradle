@@ -4,7 +4,7 @@ if (rootProject.ext.config["applyPlugin"]) {
     // 这里引用正常库
     dependencies {
         //外部平台依赖
-        debugImplementation project(":doraemonkit")
+//        debugImplementation project(":doraemonkit")
 //        debugImplementation project(":doraemonkit-leakcanary")
 //        debugImplementation project(":doraemonkit-weex")
 //        releaseImplementation project(":doraemonkit-no-op")

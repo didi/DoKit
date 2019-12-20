@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit;
 
 import android.app.Application;
 
-import com.didichuxing.doraemonkit.config.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 

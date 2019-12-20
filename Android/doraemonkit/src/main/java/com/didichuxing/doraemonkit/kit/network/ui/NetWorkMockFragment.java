@@ -22,7 +22,7 @@ import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.config.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.MockApiResponseBean;
 import com.didichuxing.doraemonkit.kit.network.bean.MockInterceptTitleBean;

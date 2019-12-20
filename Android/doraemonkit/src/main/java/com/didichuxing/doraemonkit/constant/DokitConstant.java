@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.config;
+package com.didichuxing.doraemonkit.constant;
 
 import android.util.SparseArray;
 
@@ -27,6 +27,11 @@ public class DokitConstant {
      * 是否显示icon主入口
      */
     public static boolean AWAYS_SHOW_MAIN_ICON = true;
+
+    /**
+     * icon主入口是否处于显示状态
+     */
+    public static boolean MAIN_ICON_HAS_SHOW = false;
 
     public static String PRODUCT_ID = "";
 

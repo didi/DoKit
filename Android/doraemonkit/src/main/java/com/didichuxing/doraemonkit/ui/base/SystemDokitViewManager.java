@@ -5,7 +5,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
-import com.didichuxing.doraemonkit.config.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.ArrayList;

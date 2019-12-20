@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.SparseArray;
 import android.widget.Toast;
 
 import com.amitshekhar.DebugDB;
@@ -20,7 +19,7 @@ import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.didichuxing.doraemonkit.aop.OkHttpHook;
-import com.didichuxing.doraemonkit.config.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
 import com.didichuxing.doraemonkit.kit.Category;
@@ -42,7 +41,6 @@ import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit;
 import com.didichuxing.doraemonkit.kit.logInfo.LogInfoKit;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostKit;
 import com.didichuxing.doraemonkit.kit.mode.FloatModeKit;
-import com.didichuxing.doraemonkit.kit.network.MockKit;
 import com.didichuxing.doraemonkit.kit.network.NetworkKit;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.parameter.cpu.CpuKit;
@@ -62,7 +60,6 @@ import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
-import com.didichuxing.doraemonkit.ui.kit.KitItem;
 import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil;
@@ -89,10 +86,7 @@ class DoraemonKitReal {
     private static boolean sHasRequestPermission;
 
     private static boolean sHasInit = false;
-    /**
-     * 用来判断系统悬浮窗的入口浮标是否显示
-     */
-    private static boolean mSystemDokitViewIcon = false;
+
     /**
      * 是否允许上传统计信息
      */
@@ -239,7 +233,7 @@ class DoraemonKitReal {
                     //悬浮窗权限 vivo 华为可以不需要动态权限 小米需要
                     if (PermissionUtil.canDrawOverlays(activity)) {
                         //系统悬浮窗需要判断浮标是否已经显示
-                        if (!mSystemDokitViewIcon) {
+                        if (!DokitConstant.MAIN_ICON_HAS_SHOW) {
                             showSystemMainIcon();
                         }
                         systemDokitViewOnResume(activity);
@@ -575,6 +569,7 @@ class DoraemonKitReal {
         DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
         DokitViewManager.getInstance().attach(intent);
+        DokitConstant.MAIN_ICON_HAS_SHOW = true;
     }
 
     /**
@@ -616,7 +611,6 @@ class DoraemonKitReal {
         if (!isShow()) {
             showSystemMainIcon();
         }
-        mSystemDokitViewIcon = true;
 
     }
 
@@ -632,7 +626,7 @@ class DoraemonKitReal {
 
 
     static void hide() {
-        mSystemDokitViewIcon = false;
+        DokitConstant.MAIN_ICON_HAS_SHOW = false;
         DokitConstant.AWAYS_SHOW_MAIN_ICON = false;
         DokitViewManager.getInstance().detach(FloatIconDokitView.class.getSimpleName());
 
@@ -646,7 +640,7 @@ class DoraemonKitReal {
     }
 
     static boolean isShow() {
-        return mSystemDokitViewIcon;
+        return DokitConstant.MAIN_ICON_HAS_SHOW;
     }
 
 

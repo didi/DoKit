@@ -6,7 +6,7 @@ import android.content.Context;
 import android.graphics.Point;
 import android.view.WindowManager;
 
-import com.didichuxing.doraemonkit.config.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDatabase;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;

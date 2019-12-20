@@ -23,7 +23,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.blankj.utilcode.util.ScreenUtils;
-import com.didichuxing.doraemonkit.config.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.config.FloatIconConfig;
 import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
