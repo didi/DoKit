@@ -5,23 +5,23 @@
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.0.1'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.0.2'
-    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.2.1'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.2.1'
     …
 }
 ```
 注意:  
-1. 因为 doraemonkit 依赖 okhttp 的方式为 `compileOnly`, 所以如果你的本地没有引入 okhttp, 请手动添加依赖  
-2. 假如你无法通过 jcenter 下载到依赖库并报了以下的错误  
-    ```
-    ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:2.0.1 
-    ```
-    建议你可以尝试挂载VPN或添加阿里云的镜像库重试  
-    ```
-    //阿里云镜像库
-    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
-    ```
+ 假如你无法通过 jcenter 下载到依赖库并报了以下的错误 
+
+```
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:2.2.1 
+```
+
+建议你可以尝试挂载VPN或通过命令行重试(以Mac系统为例 项目根目录下)
+
+```
+./gradlew clean assembleDebug
+```
 
 
 最新版本参见[这里](android-ReleaseNotes.md)。
@@ -38,8 +38,8 @@ DoraemonKit目前已支持Weex工具，包括
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:2.0.1'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:2.0.1'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:2.2.1'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:2.2.1'
     …
 }
 ```
@@ -49,7 +49,7 @@ dependencies {
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:2.0.1'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:2.2.1'
     …
 }
 ```
@@ -77,7 +77,11 @@ public void onCreate() {
 ```
 
 
-#### 3. 流量监控功能（可选）
+#### 3. 流量监控以及其他AOP功能（可选）
+AOP包括以下几个功能:
+1)百度、腾讯、高德地图的经纬度模拟
+2)UrlConnection、Okhttp 抓包以及后续的接口hook功能
+3)App 启动耗时统计
 
 在项目的 `build.gradle` 中添加 classpath。
 
@@ -87,7 +91,7 @@ public void onCreate() {
 buildscript {
     dependencies {
         …
-        classpath 'com.github.franticn:gradle_plugin_android_aspectjx:2.0.6'
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:1.0.0'
         …
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -95,19 +99,18 @@ buildscript {
 }
 ```
 
-在 app 的 `build.gradle` 中添加 plugin 和引用。新版本中已经将插件用到的注解类提取到单独的 aar 中，用以解决
-和其他AspectJ插件冲突问题。  
-如果项目中引用了其他AspectJ插件，请勿引用本插件，改为手动注册。
+在 app 的 `build.gradle` 中添加 plugin。
 
 ```groovy
-apply plugin: 'android-aspectjx'
+apply plugin: 'com.didi.dokit'
 
-dependencies {
-    …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:2.0.1'
-    …
-}
 ```
+
+**注意:
+升级方案：
+dokit的aop方案已经全面升级为ASM方式,性能和兼容性更好。原先的aspectj方案已经废弃不用。大家在升级过程中需要去掉aspectj的插件引入（包括classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'和doraemonkit-aop）。
+Android Studio支持:
+插件只在Android Studio 3.0及以上的IDE中进行测试，如果有IDE报错的建议升级为3.0及以上。**
 
 注：
 使用插件有两个目的：  
@@ -170,8 +173,24 @@ public void onCreate() {
     …
 }
 ```
+**注意:
+社区中有人反馈希望可以app 启动时不显示浮标icon的api，现在可以通过以下api来操作:**
 
+```Java
+@Override
+public void onCreate() {
+    kits.add(new EnvSwitchKit());
+    DoraemonKit.install(application, kits);
+    //false:不显示入口icon 默认为true
+    DoraemonKit.setAwaysShowMianIcon(false);
+    …
+}
+```
+**直接调起工具面板**
 
+```Java
+DoraemonKit.showToolPanel();
+```
 
 #### 5. FAQ
 

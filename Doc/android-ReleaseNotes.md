@@ -1,5 +1,11 @@
 DoraemonKit-Android releases
 ===
+## 2.2.1
+
+1. 升级 AOP 方案，原先采用Aspectj，现已升级为ASM方案，提升编译性能和兼容性
+2. 新增高德、腾讯、百度的经纬度模拟功能
+3. 合并pr以及大量issue解决
+
 
 ## 2.0.1
 

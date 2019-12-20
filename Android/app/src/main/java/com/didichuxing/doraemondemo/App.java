@@ -28,7 +28,7 @@ public class App extends Application {
         super.onCreate();
         List<IKit> kits = new ArrayList<>();
         kits.add(new DemoKit());
-        DoraemonKit.install(this, kits, "0f2e4fc5540392a7083d61c921198c78");
+        DoraemonKit.install(this, kits);
         //是否显示入口icon
         //DoraemonKit.setAwaysShowMianIcon(false);
         Fresco.initialize(this);
