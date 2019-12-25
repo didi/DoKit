@@ -45,6 +45,18 @@ public class PerformanceDokitViewManager {
     }
 
     /**
+     * 性能检测设置页面关闭时调用
+     *
+     * @param listener
+     */
+    public static void onPerformanceSettingFragmentDestory(PerformanceFragmentCloseListener listener) {
+        PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
+        if (performanceDokitView != null) {
+            performanceDokitView.removePerformanceFragmentCloseListener(listener);
+        }
+    }
+
+    /**
      * @param performanceType 参考 DataSourceFactory
      */
     public static void close(int performanceType, String title) {

@@ -36,17 +36,24 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Created by wanglikun on 2018/9/13.
+ * 性能检测管理类 包括 cpu、ram、fps等
  */
 
 public class PerformanceDataManager {
     private static final String TAG = "PerformanceDataManager";
     private static final int MAX_FRAME_RATE = 60;
     private static final int NORMAL_FRAME_RATE = 1;
+    /**
+     * Android Q上内存的采样时间
+     */
+    private static final int ANDROID_Q_FRAME_RATE = 1;
     private String memoryFileName = "memory.txt";
     private String cpuFileName = "cpu.txt";
     private String fpsFileName = "fps.txt";
-    private String customFileName = "custom.txt"; //自定义测试页面保存的文件名称
+    /**
+     * 自定义测试页面保存的文件名称
+     */
+    private String customFileName = "custom.txt";
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     private int mLastFrameRate = MAX_FRAME_RATE;
@@ -88,6 +95,16 @@ public class PerformanceDataManager {
             writeCpuDataIntoFile();
         }
     }
+
+    /**
+     * 获取内存数值
+     */
+    private void executeMemoryData() {
+        mLastMemoryInfo = getMemoryData();
+        LogHelper.d(TAG, "memory info is =" + mLastMemoryInfo);
+        writeMemoryDataIntoFile();
+    }
+
 
     private float getCpuDataForO() {
         java.lang.Process process = null;
@@ -144,11 +161,6 @@ public class PerformanceDataManager {
         return -1;
     }
 
-    private void executeMemoryData() {
-        mLastMemoryInfo = getMemoryData();
-        LogHelper.d(TAG, "memory info is =" + mLastMemoryInfo);
-        writeMemoryDataIntoFile();
-    }
 
     private static class Holder {
         private static PerformanceDataManager INSTANCE = new PerformanceDataManager();
@@ -172,6 +184,7 @@ public class PerformanceDataManager {
             mHandlerThread.start();
         }
         if (mHandler == null) {
+            //loop handler
             mHandler = new Handler(mHandlerThread.getLooper()) {
                 @Override
                 public void handleMessage(Message msg) {
@@ -181,12 +194,12 @@ public class PerformanceDataManager {
                         mHandler.sendEmptyMessageDelayed(MSG_CPU, NORMAL_FRAME_RATE * 1000);
                     } else if (msg.what == MSG_MEMORY) {
                         executeMemoryData();
-                        mHandler.sendEmptyMessageDelayed(MSG_MEMORY, NORMAL_FRAME_RATE * 1000);
-                    } else if (msg.what == MSG_NET_FLOW){
+                        mHandler.sendEmptyMessageDelayed(MSG_MEMORY, ANDROID_Q_FRAME_RATE * 1000);
+                    } else if (msg.what == MSG_NET_FLOW) {
                         mLastUpBytes = NetworkManager.get().getTotalRequestSize() - mUpBytes;
                         mLastDownBytes = NetworkManager.get().getTotalResponseSize() - mDownBytes;
                         mHandler.sendEmptyMessageDelayed(MSG_NET_FLOW, NORMAL_FRAME_RATE * 1000);
-                    } else if (msg.what == MSG_SAVE_LOCAL){
+                    } else if (msg.what == MSG_SAVE_LOCAL) {
                         saveToLocal();
                         mHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_FRAME_RATE * 1000);
                     }
@@ -245,7 +258,7 @@ public class PerformanceDataManager {
         mHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_FRAME_RATE * 1000);
     }
 
-    public void stopUploadMonitorData(){
+    public void stopUploadMonitorData() {
         mUploading = false;
         mHandler.removeMessages(MSG_SAVE_LOCAL);
         uploadDataToLocalFile();
@@ -256,7 +269,7 @@ public class PerformanceDataManager {
         NetworkManager.get().stopMonitor();
     }
 
-    public boolean isUploading(){
+    public boolean isUploading() {
         return mUploading;
     }
 
@@ -279,7 +292,7 @@ public class PerformanceDataManager {
         if (mUploadMonitorBean == null) {
             mUploadMonitorBean = new UploadMonitorInfoBean();
             mUploadMonitorBean.appName = mContext.getPackageName();
-            if(mUploadMonitorBean.performanceArray == null){
+            if (mUploadMonitorBean.performanceArray == null) {
                 mUploadMonitorBean.performanceArray = new ArrayList<>();
             }
         }
@@ -379,7 +392,7 @@ public class PerformanceDataManager {
             mLastCpuTime = cpuTime;
             mLastAppCpuTime = appTime;
         } catch (Exception e) {
-            LogHelper.e(TAG,"getCPUData fail: "+e.toString());
+            LogHelper.e(TAG, "getCPUData fail: " + e.toString());
         }
         return value;
     }
@@ -387,18 +400,29 @@ public class PerformanceDataManager {
     private float getMemoryData() {
         float mem = 0.0F;
         try {
-            // 统计进程的内存信息 totalPss
-            final Debug.MemoryInfo[] memInfo = mActivityManager.getProcessMemoryInfo(new int[]{Process.myPid()});
-            if (memInfo.length > 0) {
-                // TotalPss = dalvikPss + nativePss + otherPss, in KB
-                final int totalPss = memInfo[0].getTotalPss();
-                if (totalPss >= 0) {
-                    // Mem in MB
-                    mem = totalPss / 1024.0F;
+            Debug.MemoryInfo memInfo = null;
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                // 统计进程的内存信息 totalPss
+                memInfo = new Debug.MemoryInfo();
+                Debug.getMemoryInfo(memInfo);
+            } else {
+                //As of Android Q, for regular apps this method will only return information about the memory info for the processes running as the caller's uid;
+                // no other process memory info is available and will be zero. Also of Android Q the sample rate allowed by this API is significantly limited, if called faster the limit you will receive the same data as the previous call.
+
+                Debug.MemoryInfo[] memInfos = mActivityManager.getProcessMemoryInfo(new int[]{Process.myPid()});
+                if (memInfos != null && memInfos.length > 0) {
+                    memInfo = memInfos[0];
                 }
             }
-        } catch (Exception e) {
-            LogHelper.e(TAG,"getMemoryData fail: "+e.toString());
+
+            int totalPss = memInfo.getTotalPss();
+            if (totalPss >= 0) {
+                // Mem in MB
+                mem = totalPss / 1024.0F;
+            }
+        } catch (
+                Exception e) {
+            LogHelper.e(TAG, "getMemoryData fail: " + e.toString());
         }
         return mem;
     }
@@ -464,6 +488,7 @@ public class PerformanceDataManager {
     public String getCustomFilePath() {
         return getFilePath(mContext) + customFileName;
     }
+
     public long getLastFrameRate() {
         return mLastFrameRate;
     }
@@ -484,6 +509,9 @@ public class PerformanceDataManager {
         return mMaxMemory;
     }
 
+    /**
+     * 读取fps的线程
+     */
     private class FrameRateRunnable implements Runnable, Choreographer.FrameCallback {
         private int totalFramesPerSecond;
 
@@ -504,6 +532,7 @@ public class PerformanceDataManager {
             Choreographer.getInstance().postFrameCallback(this);
             writeFpsDataIntoFile();
         }
+
     }
 
     public long getLastUpBytes() {

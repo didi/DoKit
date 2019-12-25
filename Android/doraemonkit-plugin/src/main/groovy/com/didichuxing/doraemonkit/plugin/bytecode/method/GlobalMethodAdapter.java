@@ -31,22 +31,7 @@ public final class GlobalMethodAdapter extends LocalVariablesSorter implements O
             log(opcode, owner, name, desc, isInterface);
             mv.visitMethodInsn(INVOKEVIRTUAL, "java/net/URL", "openConnection", "()Ljava/net/URLConnection;", false);
             super.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/urlconnection/HttpUrlConnectionProxyUtil", "proxy", "(Ljava/net/URLConnection;)Ljava/net/URLConnection;", false);
-        }
-        //全局替换百度地图的回调
-//        else if (opcode == Opcodes.INVOKEVIRTUAL && owner.equals("com/baidu/location/LocationClient")
-//                && name.equals("registerLocationListener") && desc.equals("(Lcom/baidu/location/BDAbstractLocationListener;)V")) {
-//            log(opcode, owner, name, desc, isInterface);
-////            mv.visitVarInsn(ALOAD, 0);
-////            mv.visitFieldInsn(GETFIELD, "com/didichuxing/doraemondemo/MainDebugActivity", "mBaiduLocationClient", "Lcom/baidu/location/LocationClient;");
-////            mv.visitTypeInsn(NEW, "com/didichuxing/doraemonkit/aop/BaiduLocationListenerProxy");
-////            mv.visitInsn(DUP);
-////            mv.visitVarInsn(ALOAD, 0);
-////            mv.visitFieldInsn(GETFIELD, "com/didichuxing/doraemondemo/MainDebugActivity", "mbdLocationListener", "Lcom/baidu/location/BDAbstractLocationListener;");
-//            mv.visitMethodInsn(INVOKESPECIAL, "com/didichuxing/doraemonkit/aop/BaiduLocationListenerProxy", "<init>", "(Lcom/baidu/location/BDAbstractLocationListener;)V", false);
-//            super.visitMethodInsn(INVOKEVIRTUAL, "com/baidu/location/LocationClient", "registerLocationListener", "(Lcom/baidu/location/BDAbstractLocationListener;)V", false);
-//        }
-
-        else {
+        } else {
             super.visitMethodInsn(opcode, owner, name, desc, isInterface);
         }
     }

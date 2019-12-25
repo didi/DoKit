@@ -30,61 +30,63 @@ import java.util.concurrent.TimeUnit;
  */
 public final class AndroidWatchExecutor implements WatchExecutor {
 
-  static final String LEAK_CANARY_THREAD_NAME = "LeakCanary-Heap-Dump";
-  private final Handler mainHandler;
-  private final Handler backgroundHandler;
-  private final long initialDelayMillis;
-  private final long maxBackoffFactor;
+    static final String LEAK_CANARY_THREAD_NAME = "LeakCanary-Heap-Dump";
+    private final Handler mainHandler;
+    private final Handler backgroundHandler;
+    private final long initialDelayMillis;
+    private final long maxBackoffFactor;
 
-  public AndroidWatchExecutor(long initialDelayMillis) {
-    mainHandler = new Handler(Looper.getMainLooper());
-    HandlerThread handlerThread = new HandlerThread(LEAK_CANARY_THREAD_NAME);
-    handlerThread.start();
-    backgroundHandler = new Handler(handlerThread.getLooper());
-    this.initialDelayMillis = initialDelayMillis;
-    maxBackoffFactor = Long.MAX_VALUE / initialDelayMillis;
-  }
-
-  @Override
-  public void execute(@NonNull Retryable retryable) {
-    if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
-      waitForIdle(retryable, 0);
-    } else {
-      postWaitForIdle(retryable, 0);
+    public AndroidWatchExecutor(long initialDelayMillis) {
+        mainHandler = new Handler(Looper.getMainLooper());
+        HandlerThread handlerThread = new HandlerThread(LEAK_CANARY_THREAD_NAME);
+        handlerThread.start();
+        backgroundHandler = new Handler(handlerThread.getLooper());
+        this.initialDelayMillis = initialDelayMillis;
+        maxBackoffFactor = Long.MAX_VALUE / initialDelayMillis;
     }
-  }
 
-  private void postWaitForIdle(final Retryable retryable, final int failedAttempts) {
-    mainHandler.post(new Runnable() {
-      @Override
-      public void run() {
-        waitForIdle(retryable, failedAttempts);
-      }
-    });
-  }
-
-  private void waitForIdle(final Retryable retryable, final int failedAttempts) {
-    // This needs to be called from the main thread.
-    Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
-      @Override
-      public boolean queueIdle() {
-        postToBackgroundWithDelay(retryable, failedAttempts);
-        return false;
-      }
-    });
-  }
-
-  private void postToBackgroundWithDelay(final Retryable retryable, final int failedAttempts) {
-    long exponentialBackoffFactor = (long) Math.min(Math.pow(2, failedAttempts), maxBackoffFactor);
-    long delayMillis = initialDelayMillis * exponentialBackoffFactor;
-    backgroundHandler.postDelayed(new Runnable() {
-      @Override
-      public void run() {
-        Retryable.Result result = retryable.run();
-        if (result == Retryable.Result.RETRY) {
-          postWaitForIdle(retryable, failedAttempts + 1);
+    @Override
+    public void execute(@NonNull Retryable retryable) {
+        //主线程
+        if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+            waitForIdle(retryable, 0);
+        } else {
+            //异步线程
+            postWaitForIdle(retryable, 0);
         }
-      }
-    }, delayMillis);
-  }
+    }
+
+    private void postWaitForIdle(final Retryable retryable, final int failedAttempts) {
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                waitForIdle(retryable, failedAttempts);
+            }
+        });
+    }
+
+    private void waitForIdle(final Retryable retryable, final int failedAttempts) {
+        // This needs to be called from the main thread.
+        Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
+            @Override
+            public boolean queueIdle() {
+                postToBackgroundWithDelay(retryable, failedAttempts);
+                return false;
+            }
+        });
+    }
+
+    private void postToBackgroundWithDelay(final Retryable retryable, final int failedAttempts) {
+        long exponentialBackoffFactor = (long) Math.min(Math.pow(2, failedAttempts), maxBackoffFactor);
+        long delayMillis = initialDelayMillis * exponentialBackoffFactor;
+        backgroundHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Retryable.Result result = retryable.run();
+                if (result == Retryable.Result.RETRY) {
+                    postWaitForIdle(retryable, failedAttempts + 1);
+                }
+            }
+        }, delayMillis);
+    }
 }

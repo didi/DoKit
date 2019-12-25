@@ -33,7 +33,7 @@ public final class AndroidRefWatcherBuilder extends RefWatcherBuilder<AndroidRef
   public @NonNull
   AndroidRefWatcherBuilder listenerServiceClass(
       @NonNull Class<? extends AbstractAnalysisResultService> listenerServiceClass) {
-    enableDisplayLeakActivity = DisplayLeakService.class.isAssignableFrom(listenerServiceClass);
+    enableDisplayLeakActivity = UploadLeakService.class.isAssignableFrom(listenerServiceClass);
     return heapDumpListener(new ServiceHeapDumpListener(context, listenerServiceClass));
   }
 
@@ -132,7 +132,7 @@ public final class AndroidRefWatcherBuilder extends RefWatcherBuilder<AndroidRef
 
   @Override
   protected @NonNull HeapDump.Listener defaultHeapDumpListener() {
-    return new ServiceHeapDumpListener(context, DisplayLeakService.class);
+    return new ServiceHeapDumpListener(context, UploadLeakService.class);
   }
 
   @Override

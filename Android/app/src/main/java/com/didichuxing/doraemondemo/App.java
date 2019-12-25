@@ -31,6 +31,7 @@ public class App extends Application {
         DoraemonKit.install(this, kits);
         //是否显示入口icon
         //DoraemonKit.setAwaysShowMianIcon(false);
+        DoraemonKit.disableUpload();
         Fresco.initialize(this);
         DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
             @Override

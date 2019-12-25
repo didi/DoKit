@@ -75,7 +75,7 @@ public class DoraemonKit {
     /**
      * 是否显示主入口icon
      */
-    public static void setAwaysShowMianIcon(boolean awaysShow) {
+    public static void setAwaysShowMainIcon(boolean awaysShow) {
         DokitConstant.AWAYS_SHOW_MAIN_ICON = awaysShow;
     }
 }

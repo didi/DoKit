@@ -1,7 +1,5 @@
 package com.didichuxing.doraemonkit.plugin.bytecode.method;
 
-import com.android.build.gradle.internal.LoggerWrapper;
-
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.LocalVariablesSorter;

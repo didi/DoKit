@@ -36,9 +36,24 @@ public class PerformanceDokitView extends AbsDokitView implements PerformanceClo
     ImageView mIvClose0, mIvClose1, mIvClose2, mIvClose3;
     private PerformanceFragmentCloseListener mPerformanceFragmentCloseListener;
 
-
+    /**
+     * 添加性能检测页面的浮标关闭监听
+     *
+     * @param listener
+     */
     public void addPerformanceFragmentCloseListener(PerformanceFragmentCloseListener listener) {
         this.mPerformanceFragmentCloseListener = listener;
+    }
+
+    /**
+     * 移除性能检测页面的浮标关闭监听
+     *
+     * @param listener
+     */
+    public void removePerformanceFragmentCloseListener(PerformanceFragmentCloseListener listener) {
+        if (mPerformanceFragmentCloseListener != null && mPerformanceFragmentCloseListener == listener) {
+            mPerformanceFragmentCloseListener = null;
+        }
     }
 
 

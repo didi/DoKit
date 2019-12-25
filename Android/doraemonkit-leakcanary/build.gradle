@@ -15,7 +15,7 @@ android {
         versionName rootProject.ext.android["versionName"]
 
         buildConfigField "String", "LEAKCANARY_LIBRARY_VERSION", "\"1.6.3\""
-        buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
+        buildConfigField "String", "GIT_SHA", "\"sdksdhajkssjd\""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
