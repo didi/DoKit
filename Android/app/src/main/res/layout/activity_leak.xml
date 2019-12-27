@@ -9,9 +9,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="second activity"
         android:layout_centerInParent="true"
         android:gravity="center"
-        />
+        android:text="当前activity关闭时会有内存泄漏" />
 
 </RelativeLayout>

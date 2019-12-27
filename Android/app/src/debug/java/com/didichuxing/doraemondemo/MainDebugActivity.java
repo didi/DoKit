@@ -94,6 +94,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
         tvEnv.setText("当前编译环境:Debug");
         findViewById(R.id.btn_trace).setOnClickListener(this);
         findViewById(R.id.btn_jump).setOnClickListener(this);
+        findViewById(R.id.btn_jump_leak).setOnClickListener(this);
         findViewById(R.id.btn_show_tool_panel).setOnClickListener(this);
         findViewById(R.id.btn_location).setOnClickListener(this);
         findViewById(R.id.btn_location_amap).setOnClickListener(this);
@@ -289,6 +290,11 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
             case R.id.btn_jump:
 
                 startActivity(new Intent(this, SecondActivity.class));
+
+                break;
+            case R.id.btn_jump_leak:
+
+                startActivity(new Intent(this, LeakActivity.class));
 
                 break;
             case R.id.btn_location:

@@ -39,8 +39,8 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".WebViewActivity" />
-        <activity android:name=".TestActivity" />
         <activity android:name=".SecondActivity" />
+        <activity android:name=".LeakActivity" />
 
         <!--        高德定位服务-->
         <service android:name="com.amap.api.location.APSService" />
