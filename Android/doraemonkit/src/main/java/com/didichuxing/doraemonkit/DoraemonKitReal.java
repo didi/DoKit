@@ -70,6 +70,8 @@ import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.PermissionUtil;
 import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
+import com.sjtu.yifei.AbridgeCallBack;
+import com.sjtu.yifei.IBridge;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -439,6 +441,22 @@ class DoraemonKitReal {
         initAndroidUtil(app);
         checkLargeImgIsOpen();
         registerNetworkStatusChangedListener();
+        initAidlBridge(app);
+    }
+
+
+    /**
+     * 初始化跨进程框架
+     * 接受leakcanary 进程泄漏传递过来的数据
+     */
+    private static void initAidlBridge(Application application) {
+        IBridge.init(application, application.getPackageName(), IBridge.AbridgeType.AIDL);
+        IBridge.registerAIDLCallBack(new AbridgeCallBack() {
+            @Override
+            public void receiveMessage(String message) {
+                LogHelper.i(TAG, "====aidl=====>" + message);
+            }
+        });
     }
 
 

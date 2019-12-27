@@ -133,9 +133,6 @@ public class UniversalActivity extends BaseActivity {
             case FragmentIndex.FRAGMENT_NETWORK_MOCK:
                 fragmentClass = NetWorkMockFragment.class;
                 break;
-//            case FragmentIndex.FRAGMENT_TOP_ACTIVITY:
-//                fragmentClass = TopActivityFragment.class;
-//                break;
             case FragmentIndex.FRAGMENT_MOCK_TEMPLATE_PREVIEW:
                 fragmentClass = MockTemplatePreviewFragment.class;
                 break;

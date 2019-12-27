@@ -86,13 +86,14 @@ public final class HeapAnalyzerService extends ForegroundService
         HeapAnalyzer heapAnalyzer =
                 new HeapAnalyzer(heapDump.excludedRefs, this, heapDump.reachabilityInspectorClasses);
 
-        Instance instance = heapAnalyzer.preCheckForLeak(heapDump.heapDumpFile, heapDump.referenceKey);
-        String leakClassName = instance.getClassObj().getClassName();
-        LogHelper.i(TAG, "====leakClassName====>" + leakClassName);
-        //过滤掉dokit内部的内存泄漏
-        if (isIgnoreDokit && !TextUtils.isEmpty(leakClassName) && leakClassName.contains("com.didichuxing.doraemonkit")) {
-            return;
-        }
+//        Instance instance = heapAnalyzer.preCheckForLeak(heapDump.heapDumpFile, heapDump.referenceKey);
+//        String leakClassName = instance.getClassObj().getClassName();
+//        LogHelper.i(TAG, "====leakClassName====>" + leakClassName);
+//        //过滤掉dokit内部的内存泄漏
+//        if (isIgnoreDokit && !TextUtils.isEmpty(leakClassName) && leakClassName.contains("com.didichuxing.doraemonkit")) {
+//            return;
+//        }
+
         /**
          * 检查对象是否没有被回收
          */

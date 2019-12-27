@@ -1,5 +1,6 @@
 package com.didichuxing.doraemondemo;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class App extends Application {
     private static final String TAG = "App";
-
+    public static Activity leakActivity;
 
     @Override
     public void onCreate() {
