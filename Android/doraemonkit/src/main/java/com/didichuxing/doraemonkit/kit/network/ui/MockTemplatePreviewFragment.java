@@ -40,7 +40,7 @@ public class MockTemplatePreviewFragment extends BaseFragment {
     }
 
     private void initView() {
-        if (getActivity() == null) {
+        if (getActivity() == null || DokitDbManager.getInstance().getGlobalTemplateApiBean() == null) {
             return;
         }
         HomeTitleBar homeTitleBar = findViewById(R.id.title_bar);

@@ -8,6 +8,7 @@
     <string name="dk_category_ui">UI Tool</string>
     <string name="dk_category_platform">Platform Tool</string>
     <string name="dk_kit_network_mock">Network Mock</string>
+    <string name="dk_kit_health">Health</string>
     <string name="dk_category_weex">WEEX</string>
 
     <string name="dk_kit_sysinfo">App Info</string>

@@ -1,10 +1,15 @@
 apply plugin: 'com.android.library'
 apply from: 'upload.gradle'
 
-
+/**
+ * 必须配置git path 否则会报Error:(29, 0) CreateProcess error=2, The system cannot find the file specified 错误
+ * 假如你不想配置git path 可以将下文的GIT_SHA值写死成具体的字符串
+ * @return
+ */
 def gitSha() {
     return 'git rev-parse --short HEAD'.execute().text.trim()
 }
+
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
@@ -15,7 +20,7 @@ android {
         versionName rootProject.ext.android["versionName"]
 
         buildConfigField "String", "LEAKCANARY_LIBRARY_VERSION", "\"1.6.3\""
-        buildConfigField "String", "GIT_SHA", "\"sdksdhajkssjd\""
+        buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }

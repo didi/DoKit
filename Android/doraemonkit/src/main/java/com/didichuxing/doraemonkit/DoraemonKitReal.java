@@ -36,11 +36,13 @@ import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerKit;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockKit;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.kit.gpsmock.ServiceHookManager;
+import com.didichuxing.doraemonkit.kit.health.HealthKit;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureKit;
 import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit;
 import com.didichuxing.doraemonkit.kit.logInfo.LogInfoKit;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostKit;
 import com.didichuxing.doraemonkit.kit.mode.FloatModeKit;
+import com.didichuxing.doraemonkit.kit.network.MockKit;
 import com.didichuxing.doraemonkit.kit.network.NetworkKit;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.parameter.cpu.CpuKit;
@@ -372,7 +374,8 @@ class DoraemonKitReal {
         ui.add(new LayoutBorderKit());
         if (IS_HOOK) {
             //新增数据mock工具 由于Dokit管理平台还没完善 所以暂时关闭入口
-            //platform.add(new MockKit());
+            platform.add(new MockKit());
+            platform.add(new HealthKit());
         }
 
         //增加浮标模式

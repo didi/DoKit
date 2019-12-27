@@ -47,4 +47,10 @@ public interface FragmentIndex {
      * 数据模板预览
      */
     int FRAGMENT_MOCK_TEMPLATE_PREVIEW = 26;
+
+
+    /**
+     * 健康体检
+     */
+    int FRAGMENT_HEALTH = 27;
 }

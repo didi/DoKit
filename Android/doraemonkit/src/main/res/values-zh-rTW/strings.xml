@@ -8,6 +8,7 @@
     <string name="dk_category_ui">視覺工具</string>
     <string name="dk_category_platform">平台工具</string>
     <string name="dk_kit_network_mock">數據Mock</string>
+    <string name="dk_kit_health">健康體檢</string>
     <string name="dk_category_weex">WEEX</string>
 
     <string name="dk_kit_sysinfo">App 基本資訊</string>
