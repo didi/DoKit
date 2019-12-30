@@ -84,6 +84,18 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
 
     private int mDokitViewWidth = 0;
     private int mDokitViewHeight = 0;
+    /**
+     * 页面启动模式
+     */
+    private int mode;
+
+    public int getMode() {
+        return mode;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
 
     /**
      * 执行floatPage create

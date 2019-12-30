@@ -12,12 +12,14 @@ import com.blankj.utilcode.util.BarUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.health.CountDownDokitView;
 import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.ui.realtime.PerformanceDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -88,12 +90,16 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         if (mActivityDokitViews == null) {
             return;
         }
+
         //app启动
         if (mGlobalSingleDokitViews.size() == 0) {
             LogHelper.i(TAG, "app 启动==>" + activity.getClass().getSimpleName());
             if (activity instanceof UniversalActivity) {
                 return;
             }
+            //倒计时DokitView
+            attachCountDownDokitView();
+
             if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
                 DokitConstant.MAIN_ICON_HAS_SHOW = false;
                 return;
@@ -112,6 +118,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                 LogHelper.e(TAG, "resumeAndAttachDokitViews 方法执行异常");
                 return;
             }
+
             //将所有的dokitView添加到新建的Activity中去
             for (GlobalSingleDokitViewInfo dokitViewInfo : mGlobalSingleDokitViews.values()) {
                 LogHelper.i(TAG, " 新建activity==>" + activity.getClass().getSimpleName() + "  dokitView==>" + dokitViewInfo.getTag());
@@ -132,12 +139,22 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                 dokitIntent.bundle = dokitViewInfo.getBundle();
                 attach(dokitIntent);
             }
+            //倒计时DokitView
+            attachCountDownDokitView();
             return;
         }
 
         //activity resume
-        //更新所有dokitView的位置
+
         Map<String, AbsDokitView> existDokitViews = mActivityDokitViews.get(activity);
+        //先清除楚页面上启动模式为DokitIntent.MODE_ONCE 的dokitView
+        for (AbsDokitView existDokitView : existDokitViews.values()) {
+            if (existDokitView.getMode() == DokitIntent.MODE_ONCE) {
+                detach(existDokitView.getClass());
+            }
+        }
+
+        //更新所有全局DokitView的位置
         for (GlobalSingleDokitViewInfo traverseDokitViewInfo : mGlobalSingleDokitViews.values()) {
             if (activity instanceof UniversalActivity && traverseDokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
                 return;
@@ -155,6 +172,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             LogHelper.i(TAG, " activity  resume==>" + activity.getClass().getSimpleName() + "  dokitView==>" + traverseDokitViewInfo.getTag());
             //判断resume Activity 中时候存在指定的dokitview
             AbsDokitView existDokitView = existDokitViews.get(traverseDokitViewInfo.getTag());
+
             //当前页面已存在dokitview
             if (existDokitView != null && existDokitView.getRootView() != null) {
                 existDokitView.getRootView().setVisibility(View.VISIBLE);
@@ -164,12 +182,21 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             } else {
                 //添加相应的
                 DokitIntent dokitIntent = new DokitIntent(traverseDokitViewInfo.getAbsDokitViewClass());
-                dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+                dokitIntent.mode = traverseDokitViewInfo.getMode();
                 dokitIntent.bundle = traverseDokitViewInfo.getBundle();
                 attach(dokitIntent);
             }
         }
 
+    }
+
+    /**
+     * 添加倒计时DokitView
+     */
+    private void attachCountDownDokitView() {
+        DokitIntent dokitIntent = new DokitIntent(CountDownDokitView.class);
+        dokitIntent.mode = DokitIntent.MODE_ONCE;
+        attach(dokitIntent);
     }
 
 
@@ -212,12 +239,16 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
             //在当前Activity中保存dokitView
             dokitViews.put(dokitView.getTag(), dokitView);
+            //设置dokitview的属性
+            dokitView.setMode(dokitIntent.mode);
             dokitView.setBundle(dokitIntent.bundle);
             dokitView.setTag(dokitIntent.getTag());
             dokitView.setActivity(dokitIntent.activity);
             dokitView.performCreate(mContext);
             //在全局dokitviews中保存该类型的
-            mGlobalSingleDokitViews.put(dokitView.getTag(), createGlobalSingleDokitViewInfo(dokitView));
+            if (dokitIntent.mode == DokitIntent.MODE_SINGLE_INSTANCE) {
+                mGlobalSingleDokitViews.put(dokitView.getTag(), createGlobalSingleDokitViewInfo(dokitView));
+            }
             //得到activity window中的根布局
             final FrameLayout mDecorView = (FrameLayout) dokitIntent.activity.getWindow().getDecorView();
 

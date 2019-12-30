@@ -240,6 +240,7 @@ class DoraemonKitReal {
                         if (!DokitConstant.MAIN_ICON_HAS_SHOW) {
                             showSystemMainIcon();
                         }
+                        //生命周期回调
                         systemDokitViewOnResume(activity);
                     } else {
                         //请求悬浮窗权限
@@ -603,6 +604,11 @@ class DoraemonKitReal {
         DokitViewManager.getInstance().resumeAndAttachDokitViews(activity);
     }
 
+    /**
+     * 生命周期回调
+     *
+     * @param activity
+     */
     private static void systemDokitViewOnResume(Activity activity) {
         Map<String, AbsDokitView> dokitViewMap = DokitViewManager.getInstance().getDokitViews(activity);
         for (AbsDokitView absDokitView : dokitViewMap.values()) {

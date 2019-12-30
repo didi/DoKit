@@ -13,7 +13,15 @@ import com.blankj.utilcode.util.ActivityUtils;
 public class DokitIntent {
     public static final int MODE_NORMAL = 0;
 
+    /**
+     * 全局的悬浮窗
+     */
     public static final int MODE_SINGLE_INSTANCE = 1;
+
+    /**
+     * 只在页面创建时显示 页面resume时不恢复
+     */
+    public static final int MODE_ONCE = 2;
 
     public Class<? extends AbsDokitView> targetClass;
 

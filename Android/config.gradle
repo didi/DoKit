@@ -78,7 +78,7 @@ ext {
                     //腾讯地图定位
                     "tencent_location"        : 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.4',
                     "easypermissions"         : "pub.devrel:easypermissions:2.0.1",
-                    //跨境陈通信框架
+                    //跨进程通信框架
                     "abridge"                 : "com.sjtu.yifei:abridge:1.0.1"
 
     ]
