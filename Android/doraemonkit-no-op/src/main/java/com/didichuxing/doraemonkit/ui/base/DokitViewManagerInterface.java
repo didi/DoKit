@@ -46,7 +46,7 @@ public interface DokitViewManagerInterface {
     void detach(Class<? extends Object> dokitViewClass);
 
     /**
-     * 移除所有activity的所有popView
+     * 移除所有activity的所有dokitView
      */
     void detachAll();
 
@@ -90,7 +90,7 @@ public interface DokitViewManagerInterface {
 
     /**
      * 只有普通的浮标才需要调用
-     * 添加activity关联的所有popView activity resume的时候回调
+     * 添加activity关联的所有dokitView activity resume的时候回调
      *
      * @param activity
      */

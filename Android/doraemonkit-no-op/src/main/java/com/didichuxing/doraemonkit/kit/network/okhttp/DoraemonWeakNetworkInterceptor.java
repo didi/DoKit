@@ -7,8 +7,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * @author denghaha
- * created 2019-05-10 11:56
+ * Created by xiandanin on 2019-05-10 11:56
  */
 public class DoraemonWeakNetworkInterceptor implements Interceptor {
 

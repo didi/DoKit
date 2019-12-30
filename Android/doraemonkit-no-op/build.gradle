@@ -34,7 +34,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //implementation rootProject.ext.dependencies["appcompat-v7"]
-    compileOnly rootProject.ext.dependencies["okio"]
+    //compileOnly rootProject.ext.dependencies["okio"]
     compileOnly rootProject.ext.dependencies["okhttp"]
     //三大图片框架
     compileOnly rootProject.ext.dependencies["glide"]

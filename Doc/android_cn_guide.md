@@ -1,26 +1,26 @@
 ## 接入方式
 
-#### 1. Gradle依赖
+#### 1. Gradle 依赖
 
-```
+```groovy
 dependencies {
-	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.0.1'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.0.1'
-    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
-    ...
+    …
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.2.1'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.2.1'
+    …
 }
 ```
-注意:
-1)因为doraemonkit依赖okhttp的方式为compileOnly,所以如果你的本地没有引入okhttp,请手动添加依赖
-2)假如你无法通过jcenter下载到依赖库并报了以下的错误
+注意:  
+ 假如你无法通过 jcenter 下载到依赖库并报了以下的错误 
+
 ```
-ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:2.0.1 
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:2.2.1 
 ```
-建议你可以尝试挂载VPN或添加阿里云的镜像库重试
+
+建议你可以尝试挂载VPN或通过命令行重试(以Mac系统为例 项目根目录下)
+
 ```
-    //阿里云镜像库
-    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+./gradlew clean assembleDebug
 ```
 
 
@@ -28,42 +28,42 @@ ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:2.0.1
 
 DoraemonKit目前已支持Weex工具，包括
 
-* Console日志查看
-* Storage缓存查看
+* Console 日志查看
+* Storage 缓存查看
 * 容器信息
 * DevTool
 
 如果有需要支持Weex的需求可以直接添加下面依赖
 
-```
+```groovy
 dependencies {
-	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:2.0.1'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:2.0.1'
-    ...
+    …
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:2.2.1'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:2.2.1'
+    …
 }
 ```
 
-如果有需要集成leakcanary的需求可以直接添加下面依赖
+如果有需要集成 `LeakCanary` 的需求可以直接添加下面依赖
 
-```
+```groovy
 dependencies {
-	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:2.0.1'
-    ...
+    …
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:2.2.1'
+    …
 }
 ```
-leakcanary已经在doraemonkit中动态集成,不需要自己再进行手动集成,只需要添加上面的依赖即可.
+`LeakCanary` 已经在 doraemonkit 中动态集成，不需要自己再进行手动集成，只需要添加上面的依赖即可。
 
 
 #### 2. 初始化
 
-在App启动的时候进行初始化。
+在 App 启动的时候进行初始化。
 
-```
+```Java
 @Override
 public void onCreate() {
-	...
+    …
     DoraemonKit.install(application)
      
     // H5任意门功能需要，非必须
@@ -72,60 +72,68 @@ public void onCreate() {
     public void overrideUrlLoading(Context context, String s) {
         // 使用自己的H5容器打开这个链接
     }
-    ...
+    …
 } 
 ```
 
 
-#### 3. 流量监控功能（可选）
+#### 3. 流量监控以及其他AOP功能（可选）
+AOP包括以下几个功能:
+1)百度、腾讯、高德地图的经纬度模拟
+2)UrlConnection、Okhttp 抓包以及后续的接口hook功能
+3)App 启动耗时统计
 
-在项目的build.gradle中添加classpath。
+在项目的 `build.gradle` 中添加 classpath。
 
-```
+```groovy
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
     dependencies {
-        ...
-        classpath 'com.github.franticn:gradle_plugin_android_aspectjx:2.0.6'
-        ...
+        …
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:1.0.0'
+        …
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
 ```
 
-在app的build.gradle中添加plugin和引用。新版本中已经将插件用到的注解类提取到单独的aar中，用以解决
-和其他AspectJ插件冲突问题。如果项目中引用了其他AspectJ插件，请勿引用本插件，改为手动注册。
+在 app 的 `build.gradle` 中添加 plugin。
+
+```groovy
+apply plugin: 'com.didi.dokit'
 
 ```
-...
-apply plugin: 'android-aspectjx'
-dependencies {
-	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:2.0.1'
-    ...
-}
-```
+
+**注意:
+升级方案：
+dokit的aop方案已经全面升级为ASM方式,性能和兼容性更好。原先的aspectj方案已经废弃不用。大家在升级过程中需要去掉aspectj的插件引入（包括classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.8'和doraemonkit-aop）。
+Android Studio支持:
+插件只在Android Studio 3.0及以上的IDE中进行测试，如果有IDE报错的建议升级为3.0及以上。**
 
 注：
-使用插件有两个目的：1是实现网络请求的自动监控和模拟弱网功能，不需要手动写其他代码。2是可以实现三方jar包内的请求的hook。
-但使用插件会稍微影响到编译速度。如果不需要这个功能，可以通过手动添加DoraemonInterceptor的方式进行OkHttp的监控,如下：
+使用插件有两个目的：  
+1. 是实现网络请求的自动监控和模拟弱网功能，不需要手动写其他代码。  
+2. 是可以实现三方 jar 包内的请求的 hook。但使用插件会稍微影响到编译速度。  
+   如果不需要这个功能，可以通过手动添加DoraemonInterceptor的方式进行OkHttp的监控,如下：
 
-```
-OkHttpClient client = new OkHttpClient().newBuilder()
-                //用于模拟弱网的拦截器
-                .addNetworkInterceptor(new DoraemonWeakNetworkInterceptor())
-                //网络请求监控的拦截器
-                .addInterceptor(new DoraemonInterceptor()).build();
-```
+    ```Java
+    OkHttpClient client = new OkHttpClient().newBuilder()
+            //用于模拟弱网的拦截器
+            .addNetworkInterceptor(new DoraemonWeakNetworkInterceptor())
+            //网络请求监控的拦截器
+            .addInterceptor(new DoraemonInterceptor()).build();
+    ```
+
+
 #### 4. 自定义功能组件（可选）
 
-自定义组件需要实现IKit接口，该接口对应哆啦A梦功能面板中的组件。
+自定义组件需要实现 IKit 接口，该接口对应哆啦A梦功能面板中的组件。
 
 以黑马乘客端为例，实现环境切换组件如下。
 
-```
+```Java
 public class EnvSwitchKit implements IKit {
     @Override
     public int getCategory() {
@@ -157,16 +165,32 @@ public class EnvSwitchKit implements IKit {
 
 在初始化的时候注册自定义组件。
 
-```
+```Java
 @Override
 public void onCreate() {
     kits.add(new EnvSwitchKit());
     DoraemonKit.install(application, kits);
-    ...
+    …
 }
 ```
+**注意:
+社区中有人反馈希望可以app 启动时不显示浮标icon的api，现在可以通过以下api来操作:**
 
+```Java
+@Override
+public void onCreate() {
+    kits.add(new EnvSwitchKit());
+    DoraemonKit.install(application, kits);
+    //false:不显示入口icon 默认为true
+    DoraemonKit.setAwaysShowMianIcon(false);
+    …
+}
+```
+**直接调起工具面板**
 
+```Java
+DoraemonKit.showToolPanel();
+```
 
 #### 5. FAQ
 

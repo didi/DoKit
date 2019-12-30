@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.Choreographer;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.custom.UploadMonitorInfoBean;
@@ -297,8 +298,8 @@ public class PerformanceDataManager {
         info.timestamp = System.currentTimeMillis();
 
         String pageName = "unkown";
-        if (DoraemonKit.getCurrentResumedActivity() != null) {
-            pageName = DoraemonKit.getCurrentResumedActivity().getLocalClassName();
+        if (ActivityUtils.getTopActivity() != null) {
+            pageName = ActivityUtils.getTopActivity().getLocalClassName();
         }
         info.page = pageName;
         mUploadMonitorBean.performanceArray.add(info);

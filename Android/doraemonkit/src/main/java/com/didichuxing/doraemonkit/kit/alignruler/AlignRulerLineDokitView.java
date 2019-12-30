@@ -76,12 +76,12 @@ public class AlignRulerLineDokitView extends AbsDokitView implements AlignRulerM
             }
 
             if (ScreenUtils.isPortrait()) {
-                if (y >= getScreenLongSideLength() - BarUtils.getStatusBarHeight() - iconSize) {
-                    y = getScreenLongSideLength() - BarUtils.getStatusBarHeight() - iconSize;
+                if (y >= getScreenLongSideLength() - iconSize) {
+                    y = getScreenLongSideLength() - iconSize;
                 }
             } else {
-                if (y >= getScreenShortSideLength() - BarUtils.getStatusBarHeight() - iconSize) {
-                    y = getScreenShortSideLength() - BarUtils.getStatusBarHeight() - iconSize;
+                if (y >= getScreenShortSideLength() - iconSize) {
+                    y = getScreenShortSideLength() - iconSize;
                 }
             }
 

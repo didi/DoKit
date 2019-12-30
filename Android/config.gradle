@@ -2,62 +2,82 @@ ext {
     config = [
             // 很多app都会有自己的打包开关，来区分线上包和测试包，可以通过给applyPlugin赋值来区分测试包和线上包
             // 线上包不会接入DoraemonKit，测试包会自动接入
-            applyPlugin   : true,
+            applyPlugin          : true,
             //上传到远程仓库时需要打开
-            uploadArchives: true,
+            uploadArchives       : false,
+            //是否发布插件到远程仓库
+            publishPluginToRemote: false
     ]
     android = [compileSdkVersion         : 28,
                suppotrSdkVersion         : "27.1.1",
                applicationId             : "com.didichuxing.doraemondemo",
                minSdkVersion             : 16,
                targetSdkVersion          : 27,
-               versionCode               : 201,
-               //滴滴内网dokit版本号
-               innerArchivesVersionName  : "0.1.23",
+               versionCode               : 221,
+               //dokit 插件版本号
+               pluginVersionName         : "1.0.0",
                //jcenter dokit版本号
-               jcenterArchivesVersionName: "2.0.1",
-               versionName               : "2.0.1",
-               "glide"                   : "4.8.0",
+               jcenterArchivesVersionName: "2.2.1",
+               versionName               : "2.2.1",
+               glide                     : "4.8.0",
     ]
     dependencies = [// ###### android library  start ######
-                    "multidex"                      : "com.android.support:multidex:1.0.3",
-                    "annotations"                   : "com.android.support:support-annotations:${android["suppotrSdkVersion"]}",
-                    "support-v4"                    : "com.android.support:support-v4:${android["suppotrSdkVersion"]}",
-                    "appcompat-v7"                  : "com.android.support:appcompat-v7:${android["suppotrSdkVersion"]}",
-                    "support-v13"                   : "com.android.support:support-v13:${android["suppotrSdkVersion"]}",
-                    "cardview-v7"                   : "com.android.support:cardview-v7:${android["suppotrSdkVersion"]}",
-                    "recyclerview-v7"               : "com.android.support:recyclerview-v7:${android["suppotrSdkVersion"]}",
-                    "design"                        : "com.android.support:design:${android["suppotrSdkVersion"]}",
-                    "gridlayout-v7"                 : "com.android.support:gridlayout-v7:${android["suppotrSdkVersion"]}",
+                    "multidex"                : "com.android.support:multidex:1.0.3",
+                    "annotations"             : "com.android.support:support-annotations:${android["suppotrSdkVersion"]}",
+                    "support-v4"              : "com.android.support:support-v4:${android["suppotrSdkVersion"]}",
+                    "appcompat-v7"            : "com.android.support:appcompat-v7:${android["suppotrSdkVersion"]}",
+                    "support-v13"             : "com.android.support:support-v13:${android["suppotrSdkVersion"]}",
+                    "cardview-v7"             : "com.android.support:cardview-v7:${android["suppotrSdkVersion"]}",
+                    "recyclerview-v7"         : "com.android.support:recyclerview-v7:${android["suppotrSdkVersion"]}",
+                    "design"                  : "com.android.support:design:${android["suppotrSdkVersion"]}",
+                    "gridlayout-v7"           : "com.android.support:gridlayout-v7:${android["suppotrSdkVersion"]}",
                     //constraintLayout
-                    "constraintLayout"              : "com.android.support.constraint:constraint-layout:1.1.3",
+                    "constraintLayout"        : "com.android.support.constraint:constraint-layout:1.1.3",
                     //test
-                    "junit"                         : "junit:junit:4.12",
+                    "junit"                   : "junit:junit:4.12",
                     //第三方
-                    "guava"                         : "com.google.guava:guava:27.1-android",
+                    "guava"                   : "com.google.guava:guava:27.1-android",
                     //表格
                     //"SmartTable"                    : 'com.github.huangyanbin:SmartTable:2.2.0',
-                    "okhttp"                        : "com.squareup.okhttp3:okhttp:3.12.1",
-                    "okio"                          : "com.squareup.okio:okio:1.15.0",
-                    "utilcode"                      : 'com.blankj:utilcode:1.25.9',
-                    "glide"                         : 'com.github.bumptech.glide:glide:4.9.0',
-                    "glide_okhttp3"                 : "com.github.bumptech.glide:okhttp3-integration:4.9.0",
-                    "glide_compiler"                : "com.github.bumptech.glide:compiler:4.9.0",
-                    "picasso"                       : 'com.squareup.picasso:picasso:2.71828',
-                    "fresco"                        : 'com.facebook.fresco:fresco:1.13.0',
-                    "fresco-processors"             : "jp.wasabeef:fresco-processors:2.1.0",
-                    "rootbeer-lib"                  : 'com.scottyab:rootbeer-lib:0.0.7',
-                    "gson"                          : 'com.google.code.gson:gson:2.8.2',
-                    "zxing"                         : 'com.google.zxing:core:3.3.0',
-                    "free_reflection"               : 'me.weishu:free_reflection:2.1.0',
-                    "leakcanary-android"            : 'com.squareup.leakcanary:leakcanary-android:1.6.3',
-                    "leakcanary-android-no-op"      : 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3',
-                    "haha"                          : 'com.squareup.haha:haha:2.0.4',
-                    "gradle-android-plugin-aspectjx": 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.6',
-                    "debug-db"                      : "com.amitshekhar.android:debug-db:1.0.6",
-                    "debug-db-encrypt"              : "com.amitshekhar.android:debug-db-encrypt:1.0.6",
-                    "doraemonkit"                   : "com.didichuxing.doraemonkit:doraemonkit:${android["jcenterArchivesVersionName"]}",
-                    "weex_inspector"                : "com.taobao.android:weex_inspector:0.24.2.11",
-                    "weex_sdk"                      : "com.taobao.android:weex_sdk:0.26.0",
+                    //暂时不支持3.14.0以上的okhttp版本
+                    "okhttp"                  : "com.squareup.okhttp3:okhttp:3.12.1",
+                    //将urlconnection代理到okhttp
+                    //"okhttp_urlconnection"    : "com.squareup.okhttp3:okhttp-urlconnection:3.12.1",
+                    //"okio"                    : "com.squareup.okio:okio:1.15.0",
+                    "utilcode"                : 'com.blankj:utilcode:1.25.9',
+                    "glide"                   : 'com.github.bumptech.glide:glide:4.9.0',
+                    "glide_okhttp3"           : "com.github.bumptech.glide:okhttp3-integration:4.9.0",
+                    "glide_compiler"          : "com.github.bumptech.glide:compiler:4.9.0",
+                    "picasso"                 : 'com.squareup.picasso:picasso:2.71828',
+                    "fresco"                  : 'com.facebook.fresco:fresco:1.13.0',
+                    "fresco-processors"       : "jp.wasabeef:fresco-processors:2.1.0",
+                    "rootbeer-lib"            : 'com.scottyab:rootbeer-lib:0.0.7',
+                    "gson"                    : 'com.google.code.gson:gson:2.8.2',
+                    "zxing"                   : 'com.google.zxing:core:3.3.0',
+                    "free_reflection"         : 'me.weishu:free_reflection:2.1.0',
+                    "leakcanary-android"      : 'com.squareup.leakcanary:leakcanary-android:1.6.3',
+                    "leakcanary-android-no-op": 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3',
+                    "haha"                    : 'com.squareup.haha:haha:2.0.4',
+                    "debug-db"                : "com.amitshekhar.android:debug-db:1.0.6",
+                    "debug-db-encrypt"        : "com.amitshekhar.android:debug-db-encrypt:1.0.6",
+                    "doraemonkit"             : "com.didichuxing.doraemonkit:doraemonkit:${android["jcenterArchivesVersionName"]}",
+                    "weex_inspector"          : "com.taobao.android:weex_inspector:0.24.2.11",
+                    "weex_sdk"                : "com.taobao.android:weex_sdk:0.26.0",
+                    "brvah"                   : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50',
+                    "easy_refresh_layout"     : 'com.github.anzaizai:EasyRefreshLayout:1.3.1',
+                    "jsonviewer"              : "com.yuyh.json:jsonviewer:1.0.6",
+                    "room_runtime"            : 'android.arch.persistence.room:runtime:1.1.1',
+                    "room_compile"            : 'android.arch.persistence.room:compiler:1.1.1',
+                    "um_analytics"            : 'com.umeng.umsdk:analytics:8.0.0',
+                    "um_common"               : 'com.umeng.umsdk:common:2.0.0',
+                    "didi_http"               : 'com.didichuxing.foundation:http:2.1.0.74',
+                    "didi_rpc"                : 'com.didichuxing.foundation:rpc:2.1.0.74',
+                    "okgo"                    : "com.lzy.net:okgo:3.0.4",
+                    //高德地图定位
+                    "amap_location"           : 'com.amap.api:location:latest.integration',
+                    //腾讯地图定位
+                    "tencent_location"        : 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.4',
+                    "easypermissions"         : "pub.devrel:easypermissions:2.0.1"
+
     ]
 }

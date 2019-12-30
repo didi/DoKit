@@ -7,6 +7,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface UIImage (Doraemon)
 
 + (UIImage *)doraemon_imageNamed:(NSString *)name;
@@ -30,3 +32,5 @@ Create and return a 1x1 point size image with the given color.
 + (nullable UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
 
 @end
+
+NS_ASSUME_NONNULL_END

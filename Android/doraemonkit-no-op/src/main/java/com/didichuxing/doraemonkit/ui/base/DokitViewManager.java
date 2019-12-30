@@ -49,7 +49,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
 
     /**
      * 只有普通浮标才会调用
-     * 保存每种类型popView的位置
+     * 保存每种类型dokitView的位置
      */
     public void saveDokitViewPos(String tag, int marginLeft, int marginTop) {
 
@@ -58,7 +58,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
 
     /**
      * 只有普通的浮标才需要调用
-     * 添加activity关联的所有popView activity resume的时候回调
+     * 添加activity关联的所有dokitView activity resume的时候回调
      *
      * @param activity
      */
@@ -78,7 +78,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
     }
 
     /**
-     * 隐藏工具列表popView
+     * 隐藏工具列表dokitView
      */
     public void detachToolPanel() {
 
@@ -101,7 +101,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
     }
 
     /**
-     * 移除所有activity的所有popView
+     * 移除所有activity的所有dokitView
      */
     @Override
     public void detachAll() {

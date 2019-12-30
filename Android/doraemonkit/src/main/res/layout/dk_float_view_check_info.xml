@@ -40,6 +40,7 @@
             android:layout_below="@id/position"
             android:layout_alignLeft="@id/position"
             android:layout_marginBottom="6dp"
+            android:lineSpacingExtra="7dp"
             android:gravity="left"/>
 
         <TextView

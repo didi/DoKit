@@ -97,7 +97,7 @@ public class NetworkInterpreter {
         record.mRequest = requestJSON;
         record.startTime = System.currentTimeMillis();
         record.requestLength = readBodyLength(request);
-        Log.e(TAG, requestJSON.toString());
+        //Log.e(TAG, requestJSON.toString());
     }
 
     public void fetRequestBody(NetworkRecord record, byte[] request) {
@@ -105,7 +105,7 @@ public class NetworkInterpreter {
             record.mRequest.postData = readBodyAsString(request);
             record.requestLength = readBodyLength(request);
             NetworkManager.get().updateRecord(record, false);
-            Log.e(TAG, record.mRequest.postData);
+            //Log.e(TAG, record.mRequest.postData);
         }
     }
 
@@ -133,7 +133,7 @@ public class NetworkInterpreter {
         record.mResponse = responseJSON;
         record.endTime = System.currentTimeMillis();
         NetworkManager.get().updateRecord(record, false);
-        Log.e(TAG, responseJSON.toString());
+        //Log.e(TAG, responseJSON.toString());
     }
 
     private ResourceTypeHelper getResourceTypeHelper() {

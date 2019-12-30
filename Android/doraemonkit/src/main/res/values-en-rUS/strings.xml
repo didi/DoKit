@@ -6,9 +6,12 @@
     <string name="dk_category_performance">Performance Monitor</string>
     <string name="dk_category_large_image">Large image detection</string>
     <string name="dk_category_ui">UI Tool</string>
+    <string name="dk_category_platform">Platform Tool</string>
+    <string name="dk_kit_network_mock">Network Mock</string>
     <string name="dk_category_weex">WEEX</string>
 
     <string name="dk_kit_sysinfo">App Info</string>
+    <string name="dk_kit_list">Tools</string>
     <string name="dk_kit_demo">demo</string>
     <string name="dk_kit_file_explorer">Sandbox</string>
     <string name="dk_kit_frame_info">FPS Monitor</string>
@@ -27,6 +30,7 @@
     <string name="dk_kit_ui_monitor">Show Current Infos On UI</string>
     <string name="dk_kit_time_counter">Time Counter</string>
     <string name="dk_kit_method_cost">method cost</string>
+    <string name="dk_kit_mock_template_preview">Data Preview</string>
     <string name="dk_kit_method_cost_desc">
         <![CDATA[
             The function does not provide a ui interface, it is inserted before the code you need to analyze.<br/>
@@ -161,6 +165,10 @@
     <string name="dk_gps_location_change_toast">Location changed: %1$s, %2$s</string>
     <string name="dk_view_check_info_size">View Size：width%1$d，height%2$d</string>
     <string name="dk_view_check_info_desc">View Background：%1$s</string>
+    <string name="dk_view_check_info_padding">View Padding：%1$d, %2$d, %3$d, %4$d</string>
+    <string name="dk_view_check_info_margin">View Margin：%1$d, %2$d, %3$d, %4$d</string>
+    <string name="dk_view_check_info_text_color">Text Color：%1$s</string>
+    <string name="dk_view_check_info_text_size">Text Size：%1$d</string>
     <string name="dk_view_check_info_id">View ID：%1$s</string>
     <string name="dk_view_check_info_class">View Class：%1$s</string>
     <string name="dk_view_check_info_activity">Current Activity：%1$s</string>
@@ -239,4 +247,9 @@
     <string name="dk_total_draw_time">total draw time: </string>
     <string name="dk_max_draw_time">max draw time: </string>
 
+    <string name="dk_mock_search">search</string>
+
+    <!--jsonviewer-->
+    <string name="dk_jsonViewer_icon_plus">expand</string>
+    <string name="dk_jsonViewer_icon_minus">collapse</string>
 </resources>

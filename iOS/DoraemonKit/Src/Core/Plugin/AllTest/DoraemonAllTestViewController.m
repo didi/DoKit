@@ -174,7 +174,7 @@
 #pragma mark -- DoraemonAllTestWindowDelegate
 - (void)doraemonAllTestWindowClosed {
     [[DoraemonCacheManager sharedInstance] saveAllTestSwitch:NO];
-    [_realTimeSwitchView renderUIWithTitle:DoraemonLocalizedString(@"实时数据") switchOn:[[DoraemonCacheManager sharedInstance] allTestSwitch]];
+    _realTimeSwitchView.switchView.on = NO;
 }
 
 #pragma mark -- DoraemonSwitchViewDelegate

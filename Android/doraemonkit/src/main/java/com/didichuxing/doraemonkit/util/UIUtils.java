@@ -210,7 +210,7 @@ public class UIUtils {
 
         for (int index = 0; index < decorView.getChildCount(); index++) {
             View child = decorView.getChildAt(index);
-            LogHelper.i(TAG, "childId=====>" + getIdText(child));
+            //LogHelper.i(TAG, "childId=====>" + getIdText(child));
             //解决与布局边框工具冲突的问题
             if ((child instanceof LinearLayout && TextUtils.isEmpty(getIdText(child).trim())) || child instanceof FrameLayout) {
                 if (getIdText(child).trim().equals(STR_VIEW_BORDER_Id)) {

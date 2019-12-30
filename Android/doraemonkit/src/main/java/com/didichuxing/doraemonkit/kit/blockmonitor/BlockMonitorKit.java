@@ -1,20 +1,17 @@
 package com.didichuxing.doraemonkit.kit.blockmonitor;
 
 import android.content.Context;
-import android.content.Intent;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
+import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.kit.IKit;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
 
 
 /**
  * @desc: 卡顿检测kit
  */
-public class BlockMonitorKit implements IKit {
+public class BlockMonitorKit extends AbstractKit {
 
     @Override
     public int getCategory() {
@@ -34,10 +31,7 @@ public class BlockMonitorKit implements IKit {
 
     @Override
     public void onClick(Context context) {
-        Intent intent = new Intent(context, UniversalActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_BLOCK_MONITOR);
-        context.startActivity(intent);
+        startUniversalActivity(context,FragmentIndex.FRAGMENT_BLOCK_MONITOR);
     }
 
     @Override

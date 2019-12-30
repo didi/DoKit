@@ -38,8 +38,20 @@ public class MethodCost {
      * @param bufferSize    The maximum amount of trace data we gather. If not
      *                      given, it defaults to 16MB.
      */
-    public static void startMethodTracing(String traceFileName, int bufferSize) {
-        Debug.startMethodTracing(traceFileName, bufferSize, 0);
+    public static void startMethodTracing(final String traceFileName, final int bufferSize) {
+        ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<Object>() {
+            @Override
+            public Object doInBackground() throws Throwable {
+                Debug.startMethodTracing(traceFileName, bufferSize, 0);
+                return null;
+            }
+
+            @Override
+            public void onSuccess(Object result) {
+
+            }
+        });
+
 
     }
 

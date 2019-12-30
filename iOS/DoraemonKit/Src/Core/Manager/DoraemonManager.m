@@ -24,6 +24,8 @@
 #import "DoraemonStatisticsUtil.h"
 #import "DoraemonANRManager.h"
 #import "DoraemonLargeImageDetectionManager.h"
+#import "DoraemonNetFlowOscillogramWindow.h"
+#import "DoraemonNetFlowManager.h"
 
 #if DoraemonWithLogger
 #import "DoraemonCocoaLumberjackLogger.h"
@@ -124,12 +126,17 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
         [DoraemonCrashUncaughtExceptionHandler registerHandler];
         [DoraemonCrashSignalExceptionHandler registerHandler];
     }
+    //根据开关判断是否开启流量监控
+    if ([[DoraemonCacheManager sharedInstance] netFlowSwitch]) {
+        [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:YES];
+        [[DoraemonNetFlowOscillogramWindow shareInstance] show];
+    }
 
     //重新启动的时候，把帧率、CPU、内存和流量监控关闭
     [[DoraemonCacheManager sharedInstance] saveFpsSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveCpuSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveMemorySwitch:NO];
-    [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:NO];
+    
     
 #if DoraemonWithGPS
     //开启mockGPS功能
@@ -224,6 +231,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonDeleteLocalDataPlugin];
     
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonNSLogPlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonNSUserDefaultsPlugin];
 #if DoraemonWithLogger
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonCocoaLumberjackPlugin];
 #endif
@@ -242,6 +250,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAllTestPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonStartTimePlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonUIProfilePlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonHierarchyPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonTimeProfilePlugin];
 #if DoraemonWithLoad
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMethodUseTimePlugin];
@@ -519,6 +528,14 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kPluginName:@"DoraemonDatabasePlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"常用工具")}
                                    ],
+                           @(DoraemonManagerPluginType_DoraemonNSUserDefaultsPlugin) : @[
+                                   @{kTitle:@"NSUserDefaults"},
+                                   @{kDesc:@"NSUserDefaults"},
+                                   @{kIcon:@"doraemon_database"},
+                                   @{kPluginName:@"DoraemonNSUserDefaultsPlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"常用工具")}
+                           ],
+                           
                            // 性能检测
                            @(DoraemonManagerPluginType_DoraemonFPSPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"帧率")},
@@ -596,6 +613,13 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kDesc:DoraemonLocalizedString(@"显示UI层级检查")},
                                    @{kIcon:@"doraemon_view_level"},
                                    @{kPluginName:@"DoraemonUIProfilePlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"性能检测")}
+                           ],
+                           @(DoraemonManagerPluginType_DoraemonHierarchyPlugin) : @[
+                                   @{kTitle:DoraemonLocalizedString(@"UI结构")},
+                                   @{kDesc:DoraemonLocalizedString(@"显示UI结构")},
+                                   @{kIcon:@"doraemon_view_level"},
+                                   @{kPluginName:@"DoraemonHierarchyPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")}
                            ],
                            @(DoraemonManagerPluginType_DoraemonTimeProfilePlugin) : @[

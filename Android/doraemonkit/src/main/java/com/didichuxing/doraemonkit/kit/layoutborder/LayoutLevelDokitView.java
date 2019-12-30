@@ -22,6 +22,7 @@ import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.layoutborder.ScalpelFrameLayout;
+import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
@@ -36,7 +37,7 @@ public class LayoutLevelDokitView extends AbsDokitView {
     private ScalpelFrameLayout mScalpelFrameLayout;
 
     private boolean mIsCheck;
-    private DoraemonKit.LifecycleListener mLifecycleListener = new DoraemonKit.LifecycleListener() {
+    private LifecycleListenerUtil.LifecycleListener mLifecycleListener = new LifecycleListenerUtil.LifecycleListener() {
         @Override
         public void onActivityResumed(Activity activity) {
             resolveActivity(activity);
@@ -157,7 +158,7 @@ public class LayoutLevelDokitView extends AbsDokitView {
     @Override
     public void onCreate(Context context) {
         resolveActivity(ActivityUtils.getTopActivity());
-        DoraemonKit.registerListener(mLifecycleListener);
+        LifecycleListenerUtil.registerListener(mLifecycleListener);
     }
 
     @Override
@@ -167,7 +168,7 @@ public class LayoutLevelDokitView extends AbsDokitView {
             mScalpelFrameLayout.setLayerInteractionEnabled(false);
             mScalpelFrameLayout = null;
         }
-        DoraemonKit.unRegisterListener(mLifecycleListener);
+        LifecycleListenerUtil.unRegisterListener(mLifecycleListener);
     }
 
 }

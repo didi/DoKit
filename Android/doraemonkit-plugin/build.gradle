@@ -1,0 +1,26 @@
+apply plugin: 'groovy'
+apply from: 'upload.gradle'
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    //版本不能太高 否则会跟项目的as版本冲突
+    implementation 'com.android.tools.build:gradle:3.0.0'
+    implementation 'com.android.tools.build:gradle-api:3.0.0'
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'commons-codec:commons-codec:1.11'
+    //noinspection GradleDependency
+    implementation 'org.ow2.asm:asm:7.2'
+    //noinspection GradleDependency
+    implementation 'org.ow2.asm:asm-util:7.2'
+    //noinspection GradleDependency
+    implementation 'org.ow2.asm:asm-commons:7.2'
+    implementation 'com.quinn.hunter:hunter-transform:0.9.3'
+}
+
+repositories {
+    google()
+    jcenter()
+    mavenCentral()
+}
+
