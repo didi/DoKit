@@ -19,8 +19,20 @@ NS_ASSUME_NONNULL_BEGIN
                                               startTime: (NSTimeInterval)startTime;
 @end
 
+@protocol DoraemonNetworkWeakDelegate <NSObject>
+
+- (BOOL)shouldWeak;
+
+- (NSData *)doraemonNSURLProtocolWeak:(NSData *)data count:(NSInteger)times;
+
+- (BOOL)endWeak:(NSData *)data;
+
+@end
+
 @interface DoraemonNetworkInterceptor : NSObject
 @property (nonatomic, assign) BOOL shouldIntercept;
+
+@property (nonatomic, weak) id<DoraemonNetworkWeakDelegate> weakDelegate;
 
 + (instancetype)shareInstance;
 

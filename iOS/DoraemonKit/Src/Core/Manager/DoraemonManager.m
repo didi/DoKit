@@ -240,6 +240,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonANRPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonLargeImageFilter];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAllTestPlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeakNetworkPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonStartTimePlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonUIProfilePlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonTimeProfilePlugin];
@@ -605,6 +606,13 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kPluginName:@"DoraemonTimeProfilerPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")}
                            ],
+                           @(DoraemonManagerPluginType_DoraemonWeakNetworkPlugin) : @[
+                                     @{kTitle:DoraemonLocalizedString(@"模拟弱网")},
+                                     @{kDesc:DoraemonLocalizedString(@"模拟弱网测试")},
+                                     @{kIcon:@"doraemon_time_profiler"},
+                                     @{kPluginName:@"DoraemonWeakNetworkPlugin"},
+                                     @{kAtModule:DoraemonLocalizedString(@"性能检测")}
+                             ],
                            // 视觉工具
                            @(DoraemonManagerPluginType_DoraemonColorPickPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"颜色吸管")},

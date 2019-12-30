@@ -69,6 +69,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     DoraemonManagerPluginType_DoraemonUIProfilePlugin,
     // 函数耗时
     DoraemonManagerPluginType_DoraemonTimeProfilePlugin,
+    // 模拟弱网
+    DoraemonManagerPluginType_DoraemonWeakNetworkPlugin,
     
     #pragma mark - 视觉工具
     // 颜色吸管

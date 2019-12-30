@@ -117,6 +117,23 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     }
 }
 
+- (void)handleWeak:(NSData *)data{
+    NSUInteger count = 0;
+    NSData *limitData = nil;
+    while (true) {
+        limitData = [[DoraemonNetworkInterceptor shareInstance].weakDelegate doraemonNSURLProtocolWeak:data count:count];
+        if(limitData.length > 0){
+            [self.data appendData:limitData];
+            [self.client URLProtocol:self didLoadData:limitData];
+        }
+        if([[DoraemonNetworkInterceptor shareInstance].weakDelegate endWeak:limitData]){
+            return ;
+        }
+        count++;
+    }
+}
+
+
 #pragma mark - NSURLSessionDelegate
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition))completionHandler {
     assert([NSThread currentThread] == self.clientThread);
@@ -127,6 +144,9 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
     assert([NSThread currentThread] == self.clientThread);
+    if ([DoraemonNetworkInterceptor shareInstance].weakDelegate && [[DoraemonNetworkInterceptor shareInstance].weakDelegate shouldWeak]) {
+        [self handleWeak:data];
+    }
     [self.data appendData:data];
     [self.client URLProtocol:self didLoadData:data];
 }
