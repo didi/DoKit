@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
@@ -41,6 +42,9 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
 
     private TextView mLogHint;
     private View mLogPage;
+
+    private Button mTop;
+    private Button mBottom;
 
     private boolean mIsLoaded;
 
@@ -145,6 +149,23 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
         });
 
         mRadioGroup.check(R.id.verbose);
+
+        mTop = findViewById(R.id.top);
+        mBottom = findViewById(R.id.bottom);
+        mTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mLogList.smoothScrollToPosition(0);
+            }
+        });
+        mBottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mLogItemAdapter.getItemCount()>0){
+                    mLogList.smoothScrollToPosition(mLogItemAdapter.getItemCount() - 1);
+                }
+            }
+        });
     }
 
 

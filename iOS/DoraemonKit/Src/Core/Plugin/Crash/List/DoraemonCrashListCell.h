@@ -1,5 +1,5 @@
 //
-//  DoreamonCrashListCell.h
+//  DoraemonCrashListCell.h
 //  DoraemonKit
 //
 //  Created by wenquan on 2018/11/22.
@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DoreamonCrashListCell : UITableViewCell
+@interface DoraemonCrashListCell : UITableViewCell
 
 - (void)renderUIWithData:(DoraemonSandboxModel *)model;
 

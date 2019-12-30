@@ -11,10 +11,11 @@
 @implementation UIImage (Doraemon)
 
 + (UIImage *)doraemon_imageNamed:(NSString *)name{
-    if(name){
+    if(name &&
+       ![name isEqualToString:@""]){
         NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"DoraemonManager")];
         NSURL *url = [bundle URLForResource:@"DoraemonKit" withExtension:@"bundle"];
-        if(!url) return nil;
+        if(!url) return [UIImage new];
         NSBundle *imageBundle = [NSBundle bundleWithURL:url];
         
         NSString *imageName = nil;
@@ -96,7 +97,7 @@
 }
 
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size {
-    if (!color || size.width <= 0 || size.height <= 0) return nil;
+    if (!color || size.width <= 0 || size.height <= 0) return [[UIImage alloc] init];
     CGRect rect = CGRectMake(0.0f, 0.0f, size.width, size.height);
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();

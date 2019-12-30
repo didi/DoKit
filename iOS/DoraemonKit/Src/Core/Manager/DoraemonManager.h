@@ -43,6 +43,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     DoraemonManagerPluginType_DoraemonCocoaLumberjackPlugin,
     // 数据库工具
     DoraemonManagerPluginType_DoraemonDatabasePlugin,
+    // NSUserDefaults工具
+    DoraemonManagerPluginType_DoraemonNSUserDefaultsPlugin,
     
     #pragma mark - 性能检测
     // 帧率监控
@@ -67,6 +69,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     DoraemonManagerPluginType_DoraemonMemoryLeakPlugin,
     // UI层级检查
     DoraemonManagerPluginType_DoraemonUIProfilePlugin,
+    // UI结构调整
+    DoraemonManagerPluginType_DoraemonHierarchyPlugin,
     // 函数耗时
     DoraemonManagerPluginType_DoraemonTimeProfilePlugin,
     // 模拟弱网
@@ -80,7 +84,11 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     // 对齐标尺
     DoraemonManagerPluginType_DoraemonViewAlignPlugin,
     // 元素边框线
-    DoraemonManagerPluginType_DoraemonViewMetricsPlugin
+    DoraemonManagerPluginType_DoraemonViewMetricsPlugin,
+    
+    #pragma mark - 平台工具
+    // Mock 数据
+    DoraemonManagerPluginType_DoraemonMockPlugin
 };
 
 @interface DoraemonManagerPluginTypeModel : NSObject
@@ -96,6 +104,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 @interface DoraemonManager : NSObject
 
 + (nonnull DoraemonManager *)shareInstance;
+
+@property (nonatomic, copy) NSString *pId; //产品id 平台端的工具必须填写
 
 - (void)install;
 

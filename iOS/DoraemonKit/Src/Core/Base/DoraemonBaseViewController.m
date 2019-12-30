@@ -146,6 +146,8 @@
             btn.frame = CGRectMake(0, 0, 30, 30);
             btn.clipsToBounds = YES;
             barItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+        }else{
+            barItem = [[UIBarButtonItem alloc] init];
         }
         [barItems addObject:barItem];
     }

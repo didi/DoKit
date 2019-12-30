@@ -82,6 +82,9 @@
     }else if(row ==7) {
         title = @"可交互时间";
         content = [self timeFromStart:[DoraemonWeexInfoDataManager shareInstance].wxFirstInteractionView end:[DoraemonWeexInfoDataManager shareInstance].wxInteraction];
+    }else{
+        title = @"默认";
+        content = @"默认";
     }
     [cell renderCellWithTitle:title content:content];
     return cell;

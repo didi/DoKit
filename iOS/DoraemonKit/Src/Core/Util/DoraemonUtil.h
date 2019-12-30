@@ -26,7 +26,11 @@
 
 + (NSString *)dictToJsonStr:(NSDictionary *)dict;
 
++ (NSString *)arrayToJsonStr:(NSArray *)array;
+
 + (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
+
++ (NSArray *)arrayWithJsonString:(NSString *)jsonString;
 
 + (NSString *)formatTimeIntervalToMS:(NSTimeInterval)timeInterval;
 

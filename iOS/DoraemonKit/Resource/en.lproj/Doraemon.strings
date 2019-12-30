@@ -105,6 +105,12 @@
     "平均值"                                   ="Average";
     "实时数据"                                 ="Realtime Data";
     
+    
+    "上传模版"                                 = "Upload template";
+    "接口分组"                                 = "Interface Grouping";
+    "开关状态"                                 = "Opening State";
+    "Mock数据"                                = "Mock Data";
+    
 
     "该功能需要重启App才能生效"        =   "Reboot to work";
     "内存检测开关"                               = "Memory monitor switch";
@@ -257,6 +263,7 @@
     "服务已关闭"                                   = "server is off";
     "UI层级检查"                                  = "UI Hierarchy";
     "UI层级检查开关"                              = "UI Hierarchy switch";
+    "UI结构"                                 = "Hierarchy";
     "函数耗时"                                   = "Time Profiler";
     "内存泄漏"                                   = "Memory Leak";
     "内存泄漏检测开关"                            = "Memory Leak Switch";

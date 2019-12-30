@@ -18,7 +18,7 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSArray *dataArray;
-@property (nonatomic, strong) CTCellularData *cellularData;
+@property (nonatomic, strong) CTCellularData *cellularData API_AVAILABLE(ios(9.0));
 @property (nonatomic, copy) NSString *authority;
 
 @end

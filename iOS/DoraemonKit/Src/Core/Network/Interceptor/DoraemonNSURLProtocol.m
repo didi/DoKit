@@ -11,6 +11,7 @@
 #import "DoraemonNetFlowManager.h"
 #import "DoraemonURLSessionDemux.h"
 #import "DoraemonNetworkInterceptor.h"
+#import "DoraemonMockManager.h"
 
 static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 
@@ -62,6 +63,7 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     if (contentType && [contentType containsString:@"multipart/form-data"]) {
         return NO;
     }
+    
     return YES;
 }
 
@@ -69,6 +71,12 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     //NSLog(@"canonicalRequestForRequest");
     NSMutableURLRequest *mutableReqeust = [request mutableCopy];
     [NSURLProtocol setProperty:@YES forKey:kDoraemonProtocolKey inRequest:mutableReqeust];
+    if ([[DoraemonMockManager sharedInstance] needMock:request]) {
+        NSString *sceneId = [[DoraemonMockManager sharedInstance] getSceneId:request];
+        NSString *urlString = [NSString stringWithFormat:@"http://xyrd.intra.xiaojukeji.com/api/app/scene/%@",sceneId];
+        NSLog(@"MOCK URL == %@",urlString);
+        mutableReqeust = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    }
     return [mutableReqeust copy];
 }
 

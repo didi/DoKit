@@ -21,7 +21,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    [DoraemonTimeProfiler startRecord];
+    //[DoraemonTimeProfiler startRecord];
     
     //[[self class] handleCCrashReportWrap];
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
@@ -35,6 +35,7 @@
         NSLog(@"handle block plugin");
     }];
 
+    [DoraemonManager shareInstance].pId = @"0f2e4fc5540392a7083d61c921198c78";
     [[DoraemonManager shareInstance] addStartPlugin:@"StartPlugin"];
     [DoraemonManager shareInstance].bigImageDetectionSize = 10 * 1024;//大图检测只检测10K以上的
     [DoraemonManager shareInstance].startClass = @"DoKitAppDelegate";
@@ -68,7 +69,7 @@
     NSArray *array = @[];
     NSLog(@"%@",[array description]);
     
-    [DoraemonTimeProfiler stopRecord];
+    //[DoraemonTimeProfiler stopRecord];
 
     return YES;
 }

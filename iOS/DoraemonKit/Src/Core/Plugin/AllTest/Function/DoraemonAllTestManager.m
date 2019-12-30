@@ -214,13 +214,13 @@
     
     _windowDic = [NSMutableDictionary dictionary];
     if(_memorySwitchOn){
-      _windowDic[@"memory"] = [NSString stringWithFormat:@"%@ : %ldM",DoraemonLocalizedString(@"内存"),memoryValue];
+      _windowDic[@"memory"] = [NSString stringWithFormat:@"%@ : %ziM",DoraemonLocalizedString(@"内存"),memoryValue];
     }
     if(_cpuSwitchOn){
         _windowDic[@"CPU"] = [NSString stringWithFormat:@"%@ : %.1f%@",@"CPU",cpuValue,@"%"];
     }
     if(_fpsSwitchOn){
-        _windowDic[@"fps"] = [NSString stringWithFormat:@"%@ : %ld",@"FPS",fpsValue];
+        _windowDic[@"fps"] = [NSString stringWithFormat:@"%@ : %zi",@"FPS",fpsValue];
     }
     if(_flowSwitchOn){
         if(![DoraemonAllTestWindow shareInstance].flowChanged)

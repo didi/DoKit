@@ -1,10 +1,9 @@
 package com.didichuxing.doraemonkit.kit.dbdebug;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
@@ -15,16 +14,10 @@ import com.amitshekhar.debug.sqlite.DebugDBFactory;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.dialog.DialogInfo;
-import com.didichuxing.doraemonkit.ui.dialog.SimpleDialogListener;
-import com.didichuxing.doraemonkit.ui.setting.SettingItem;
-import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
-import com.didichuxing.doraemonkit.util.DataCleanUtil;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.didichuxing.doraemonkit.util.netstate.NetType;
+import com.didichuxing.doraemonkit.util.netstate.NetWork;
+import com.didichuxing.doraemonkit.util.netstate.NetworkManager;
 
 /**
  * @author jintai
@@ -42,7 +35,14 @@ public class DbDebugFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        NetworkManager.get().register(this);
         initView();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        NetworkManager.get().unRegister(this);
     }
 
     private void initView() {
@@ -64,6 +64,19 @@ public class DbDebugFragment extends BaseFragment {
             tvIp.setText("" + DebugDB.getAddressLog().replace("Open ", "").replace("in your browser", ""));
         } else {
             tvIp.setText("servse is not start");
+        }
+    }
+
+    @NetWork(NetType.WIFI)
+    public void listenWifi(NetType type) {
+        if (type == NetType.NONE) {
+            if (DebugDB.isServerRunning()) {
+                DebugDB.shutDown();
+            }
+            TextView tvIp = findViewById(R.id.tv_ip);
+            tvIp.setText("servse is not start");
+        } else {
+            initView();
         }
     }
 }
