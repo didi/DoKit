@@ -24,33 +24,33 @@ PODS:
   - CocoaLumberjack (3.5.3):
     - CocoaLumberjack/Core (= 3.5.3)
   - CocoaLumberjack/Core (3.5.3)
-  - DoraemonKit/Core (1.2.4):
+  - DoraemonKit/Core (2.0.0):
     - BSBacktraceLogger
     - fishhook
-  - DoraemonKit/WithDatabase (1.2.4):
+  - DoraemonKit/WithDatabase (2.0.0):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
     - YYDebugDatabase
-  - DoraemonKit/WithGPS (1.2.4):
+  - DoraemonKit/WithGPS (2.0.0):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
-  - DoraemonKit/WithLoad (1.2.4):
+  - DoraemonKit/WithLoad (2.0.0):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
-  - DoraemonKit/WithLogger (1.2.4):
+  - DoraemonKit/WithLogger (2.0.0):
     - BSBacktraceLogger
     - CocoaLumberjack
     - DoraemonKit/Core
     - fishhook
-  - DoraemonKit/WithMLeaksFinder (1.2.4):
+  - DoraemonKit/WithMLeaksFinder (2.0.0):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - FBRetainCycleDetector
     - fishhook
-  - DoraemonKit/WithWeex (1.2.4):
+  - DoraemonKit/WithWeex (2.0.0):
     - BSBacktraceLogger
     - DoraemonKit/Core
     - fishhook
@@ -110,7 +110,7 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   BSBacktraceLogger: 06b983ee93a9f87d957960e9c73d660d5966b447
   CocoaLumberjack: 2f44e60eb91c176d471fdba43b9e3eae6a721947
-  DoraemonKit: 5328b8b57cd900f6a24f7f66051346dd4409437d
+  DoraemonKit: 9e923599e28d0b61f1c6de4aef2c2d669b30abb7
   FBRetainCycleDetector: 46f8179bbb1c587deee3ea838a1a3ee02acf5015
   fishhook: ea19933abfe8f2f52c55fd8b6e2718467d3ebc89
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
