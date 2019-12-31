@@ -20,16 +20,46 @@
             android:textSize="18sp" />
 
         <Button
+            android:id="@+id/btn_jump"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="跳转" />
+
+        <Button
+            android:id="@+id/btn_show_tool_panel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="显示工具面板" />
+
+        <Button
             android:id="@+id/btn_trace"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:text="函数调用耗时" />
 
         <Button
-            android:id="@+id/btn_jump"
+            android:id="@+id/btn_location"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="跳转" />
+            android:text="获取位置信息(系统)" />
+
+        <Button
+            android:id="@+id/btn_location_amap"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="获取位置信息(高德)" />
+
+        <Button
+            android:id="@+id/btn_location_tencent"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="获取位置信息(腾讯)" />
+
+        <Button
+            android:id="@+id/btn_location_baidu"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="获取位置信息(百度)" />
 
         <Button
             android:id="@+id/btn_load_img"
@@ -106,28 +136,28 @@
 
 
         <Button
-            android:id="@+id/btn_test_urlconnection"
+            android:id="@+id/btn_okhttp_mock"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="HttpUrlConnection Test" />
+            android:text="OkHttp Mock" />
 
         <Button
-            android:id="@+id/btn_test_okhttp"
+            android:id="@+id/btn_connection_mock"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="OkHttp Test" />
-
+            android:text="HttpURLConnection Mock" />
+        <!--    滴滴内部网络框架mock-->
         <!--        <Button-->
-        <!--            android:id="@+id/btn_test_gps"-->
+        <!--            android:id="@+id/btn_rpc_mock"-->
         <!--            android:layout_width="match_parent"-->
         <!--            android:layout_height="50dp"-->
-        <!--            android:text="gps Test(必须先打开位置模拟)" />-->
+        <!--            android:text="Didi Rpc Mock" />-->
 
         <Button
             android:id="@+id/btn_test_custom"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="其他网络库 Test" />
+            android:text="其他网络库(自定义抓包)" />
 
         <Button
             android:id="@+id/btn_show_hide_icon"
@@ -135,11 +165,6 @@
             android:layout_height="50dp"
             android:text="显示/隐藏入口" />
 
-        <Button
-            android:id="@+id/btn_time_count"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="页面跳转耗时" />
 
         <Button
             android:id="@+id/btn_test_crash"

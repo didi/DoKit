@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/multi_line_radio_group_default_table_row"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />

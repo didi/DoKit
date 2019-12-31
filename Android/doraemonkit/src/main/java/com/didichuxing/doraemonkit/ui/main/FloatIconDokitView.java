@@ -33,9 +33,9 @@ public class FloatIconDokitView extends AbsDokitView {
         getRootView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DokitIntent popViewIntent = new DokitIntent(ToolPanelDokitView.class);
-                popViewIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-                DokitViewManager.getInstance().attach(popViewIntent);
+                DokitIntent dokitViewIntent = new DokitIntent(ToolPanelDokitView.class);
+                dokitViewIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+                DokitViewManager.getInstance().attach(dokitViewIntent);
             }
         });
 

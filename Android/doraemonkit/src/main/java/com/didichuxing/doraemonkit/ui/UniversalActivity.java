@@ -18,13 +18,14 @@ import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment;
 import com.didichuxing.doraemonkit.kit.logInfo.LogInfoSettingFragment;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostFragment;
+import com.didichuxing.doraemonkit.kit.network.ui.MockTemplatePreviewFragment;
+import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMockFragment;
 import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMonitorFragment;
 import com.didichuxing.doraemonkit.kit.parameter.cpu.CpuMainPageFragment;
 import com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfoFragment;
 import com.didichuxing.doraemonkit.kit.parameter.ram.RamMainPageFragment;
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoFragment;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterFragment;
-import com.didichuxing.doraemonkit.kit.topactivity.TopActivityFragment;
 import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkFragment;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorDefaultFragment;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorFragment;
@@ -126,8 +127,15 @@ public class UniversalActivity extends BaseActivity {
             case FragmentIndex.FRAGMENT_METHOD_COST:
                 fragmentClass = MethodCostFragment.class;
                 break;
-            case FragmentIndex.FRAGMENT_TOP_ACTIVITY:
-                fragmentClass = TopActivityFragment.class;
+            //性能监控===数据mock
+            case FragmentIndex.FRAGMENT_NETWORK_MOCK:
+                fragmentClass = NetWorkMockFragment.class;
+                break;
+//            case FragmentIndex.FRAGMENT_TOP_ACTIVITY:
+//                fragmentClass = TopActivityFragment.class;
+//                break;
+            case FragmentIndex.FRAGMENT_MOCK_TEMPLATE_PREVIEW:
+                fragmentClass = MockTemplatePreviewFragment.class;
                 break;
             default:
                 break;

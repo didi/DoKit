@@ -43,7 +43,7 @@ public class ActivityCounter {
         mLaunchStartTime = 0;
         mTotalCostTime = 0;
         mPreviousActivity = null;
-        Activity activity = DoraemonKit.getCurrentResumedActivity();
+        Activity activity = ActivityUtils.getTopActivity();
         if (activity != null) {
             mPreviousActivity = activity.getClass().getSimpleName();
         }
@@ -77,7 +77,7 @@ public class ActivityCounter {
 
     public void render() {
         mRenderStartTime = System.currentTimeMillis();
-        final Activity activity = DoraemonKit.getCurrentResumedActivity();
+        final Activity activity = ActivityUtils.getTopActivity();
         if (activity != null && activity.getWindow() != null) {
             mCurrentActivity = activity.getClass().getSimpleName();
             activity.getWindow().getDecorView().post(new Runnable() {
@@ -125,9 +125,9 @@ public class ActivityCounter {
         counterInfo.totalCost = mTotalCostTime;
         counterInfo.otherCost = mOtherCostTime;
         mCounterInfos.add(counterInfo);
-        TimeCounterDokitView popView = (TimeCounterDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), TimeCounterDokitView.class.getSimpleName());
-        if (popView != null) {
-            popView.showInfo(counterInfo);
+        TimeCounterDokitView dokitView = (TimeCounterDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), TimeCounterDokitView.class.getSimpleName());
+        if (dokitView != null) {
+            dokitView.showInfo(counterInfo);
         }
 
 

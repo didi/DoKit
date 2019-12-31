@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.custom;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
@@ -20,10 +22,12 @@ import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
 
+import java.io.File;
+
 /**
  * 多功能性能检测整合页面
  */
-public class MonitorDataUploadFragment extends BaseFragment  {
+public class MonitorDataUploadFragment extends BaseFragment {
     private static final String TAG = "MonitorDataUploadFragment";
     private SettingItemAdapter mSettingItemAdapter;
     private RecyclerView mSettingList;
@@ -102,6 +106,9 @@ public class MonitorDataUploadFragment extends BaseFragment  {
                     dialogInfo.listener = new SimpleDialogListener() {
                         @Override
                         public boolean onPositive() {
+                            if (getActivity() != null) {
+                                ToastUtils.showLong("数据保存目录:" + getFilePath(getActivity()));
+                            }
                             mCommitButton.setText(R.string.dk_platform_monitor_data_button);
                             PerformanceDataManager.getInstance().stopUploadMonitorData();
                             if (PerformanceSpInfoConfig.isFrameUiOpen(getContext())) {
@@ -126,9 +133,9 @@ public class MonitorDataUploadFragment extends BaseFragment  {
                             mCommitButton.setText(R.string.dk_platform_monitor_data_button_stop);
                             PerformanceDataManager.getInstance().startUploadMonitorData();
                             if (PerformanceSpInfoConfig.isFrameUiOpen(getContext())) {
-                                DokitIntent popViewIntent = new DokitIntent(RealTimePerformDataDokitView.class);
-                                popViewIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-                                DokitViewManager.getInstance().attach(popViewIntent);
+                                DokitIntent dokitIntent = new DokitIntent(RealTimePerformDataDokitView.class);
+                                dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+                                DokitViewManager.getInstance().attach(dokitIntent);
                             }
 
 
@@ -144,6 +151,16 @@ public class MonitorDataUploadFragment extends BaseFragment  {
                 }
             }
         });
+    }
+
+    /**
+     * 获取数据保存目录
+     *
+     * @param context
+     * @return
+     */
+    private String getFilePath(Context context) {
+        return context.getCacheDir() + File.separator + "doraemon/";
     }
 
     private boolean checkCommitButtonEnable() {
@@ -173,7 +190,6 @@ public class MonitorDataUploadFragment extends BaseFragment  {
             mCommitButton.setText(R.string.dk_platform_monitor_data_button);
         }
     }
-
 
 
 }

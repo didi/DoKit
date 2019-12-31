@@ -31,8 +31,8 @@ public final class InputStreamProxy extends FilterInputStream {
 
     /**
      * @param inputStream
-     * @param responseHandler     Special interface to intercept read events before they are sent
-     *                            to peers via  methods.
+     * @param responseHandler Special interface to intercept read events before they are sent
+     *                        to peers via  methods.
      */
     public InputStreamProxy(
             InputStream inputStream,
@@ -44,7 +44,9 @@ public final class InputStreamProxy extends FilterInputStream {
 
     private synchronized int checkEOF(int n) {
         if (n == -1) {
-            mResponseHandler.onEOF(mOutputStream);
+            if (mResponseHandler != null) {
+                mResponseHandler.onEOF(mOutputStream);
+            }
             closeOutputStreamQuietly();
         }
         return n;
@@ -139,7 +141,9 @@ public final class InputStreamProxy extends FilterInputStream {
     }
 
     private IOException handleIOException(IOException ex) {
-        mResponseHandler.onError(ex);
+        if (mResponseHandler != null) {
+            mResponseHandler.onError(ex);
+        }
         return ex;
     }
 

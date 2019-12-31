@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
@@ -38,13 +39,14 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
     private LogItemAdapter mLogItemAdapter;
     private EditText mLogFilter;
     private RadioGroup mRadioGroup;
-    private TitleBar mTitleBar;
+    private FrameLayout mTitleBar;
 
     private TextView mLogHint;
-    private View mLogPage;
+    private RelativeLayout mLogPage;
 
     private Button mTop;
     private Button mBottom;
+
 
     private boolean mIsLoaded;
 
@@ -95,18 +97,21 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
                 mLogItemAdapter.getFilter().filter(s);
             }
         });
-        mTitleBar = findViewById(R.id.title_bar);
-        mTitleBar.setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
-            @Override
-            public void onLeftClick() {
-                minimize();
-            }
+        mTitleBar = findViewById(R.id.dokit_title_bar);
+        if (mTitleBar instanceof TitleBar) {
+            ((TitleBar) mTitleBar).setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
+                @Override
+                public void onLeftClick() {
+                    minimize();
+                }
 
-            @Override
-            public void onRightClick() {
+                @Override
+                public void onRightClick() {
 
-            }
-        });
+                }
+            });
+        }
+
         mLogHint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,21 +154,24 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
         });
 
         mRadioGroup.check(R.id.verbose);
-
-        mTop = findViewById(R.id.top);
-        mBottom = findViewById(R.id.bottom);
+        mTop = findViewById(R.id.btn_top);
+        mBottom = findViewById(R.id.btn_bottom);
         mTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mLogItemAdapter == null || mLogItemAdapter.getItemCount() == 0) {
+                    return;
+                }
                 mLogList.smoothScrollToPosition(0);
             }
         });
         mBottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mLogItemAdapter.getItemCount()>0){
-                    mLogList.smoothScrollToPosition(mLogItemAdapter.getItemCount() - 1);
+                if (mLogItemAdapter == null || mLogItemAdapter.getItemCount() == 0) {
+                    return;
                 }
+                mLogList.smoothScrollToPosition(mLogItemAdapter.getItemCount() - 1);
             }
         });
     }

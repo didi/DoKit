@@ -17,14 +17,19 @@
 package com.android.tools.perflib.vmtrace;
 
 import android.support.annotation.NonNull;
+
 import com.android.ddmlib.ByteBufferUtil;
 import com.google.common.base.Charsets;
 import com.google.common.io.Closeables;
 import com.google.common.primitives.UnsignedInts;
+
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+/**
+ * 参考：https://github.com/Harlber/Method_Trace_Tool/tree/2ee23ba7a3a6823c087b3d56b540c2401c158c56
+ */
 public class VmTraceParser {
     private static final int TRACE_MAGIC = 0x574f4c53; // 'SLOW'
 
@@ -64,6 +69,9 @@ public class VmTraceParser {
         parseData(buffer);
     }
 
+    /**
+     * 判断是否是trace文件类型
+     */
     private static boolean isStreamingTrace(File file) throws IOException {
         BufferedReader in =
                 new BufferedReader(
@@ -88,7 +96,9 @@ public class VmTraceParser {
     private static final int PARSE_SUMMARY = 3;
     private static final int PARSE_OPTIONS = 4;
 
-    /** Parses the trace file header and returns the offset in the file where the header ends. */
+    /**
+     * Parses the trace file header and returns the offset in the file where the header ends.
+     */
     long parseHeader(File f) throws IOException {
         long offset = 0;
         BufferedReader in = null;
@@ -139,13 +149,17 @@ public class VmTraceParser {
                     case PARSE_OPTIONS:
                         parseOption(line);
                         break;
+                    default:
+                        break;
                 }
             }
         } finally {
             if (in != null) {
                 try {
-                    Closeables.close(in, true /* swallowIOException */);
+                    /* swallowIOException */
+                    Closeables.close(in, true);
                 } catch (IOException e) {
+                    e.printStackTrace();
                     // cannot happen
                 }
             }
@@ -154,7 +168,9 @@ public class VmTraceParser {
         return offset;
     }
 
-    /** Parses trace option formatted as a key value pair. */
+    /**
+     * Parses trace option formatted as a key value pair.
+     */
     private void parseOption(String line) {
         String[] tokens = line.split("=");
         if (tokens.length == 2) {
@@ -175,7 +191,9 @@ public class VmTraceParser {
         }
     }
 
-    /** Parses thread information comprising an integer id and the thread name */
+    /**
+     * Parses thread information comprising an integer id and the thread name
+     */
     private void parseThread(String line) {
         int index = line.indexOf('\t');
         if (index < 0) {
@@ -235,7 +253,7 @@ public class VmTraceParser {
     /**
      * Parses the data section of the trace. The data section comprises of a header followed
      * by a list of records.
-     *
+     * <p>
      * All values are stored in little-endian order.
      */
     private void parseData(ByteBuffer buffer) {
@@ -245,22 +263,22 @@ public class VmTraceParser {
 
     /**
      * Parses the list of records corresponding to each trace event (method entry, exit, ...)
-     *  Record format v1:
-     *  u1  thread ID
-     *  u4  method ID | method action
-     *  u4  time delta since start, in usec
-     *
+     * Record format v1:
+     * u1  thread ID
+     * u4  method ID | method action
+     * u4  time delta since start, in usec
+     * <p>
      * Record format v2:
-     *  u2  thread ID
-     *  u4  method ID | method action
-     *  u4  time delta since start, in usec
-     *
+     * u2  thread ID
+     * u4  method ID | method action
+     * u4  time delta since start, in usec
+     * <p>
      * Record format v3:
-     *  u2  thread ID
-     *  u4  method ID | method action
-     *  u4  time delta since start, in usec
-     *  u4  wall time since start, in usec (when clock == "dual" only)
-     *
+     * u2  thread ID
+     * u4  method ID | method action
+     * u4  time delta since start, in usec
+     * u4  wall time since start, in usec (when clock == "dual" only)
+     * <p>
      * 32 bits of microseconds is 70 minutes.
      */
     private void parseMethodTraceData(ByteBuffer buffer, int recordSize) {
@@ -322,14 +340,14 @@ public class VmTraceParser {
     }
 
     /**
-     *  Parses the data header with the following format:
-     *  u4  magic ('SLOW')
-     *  u2  version
-     *  u2  offset to data
-     *  u8  start date/time in usec
-     *  u2  record size in bytes (version >= 2 only)
-     *  ... padding to 32 bytes
-
+     * Parses the data header with the following format:
+     * u4  magic ('SLOW')
+     * u2  version
+     * u2  offset to data
+     * u8  start date/time in usec
+     * u2  record size in bytes (version >= 2 only)
+     * ... padding to 32 bytes
+     *
      * @param buffer byte buffer pointing to the header
      * @return record size for each data entry following the header
      */

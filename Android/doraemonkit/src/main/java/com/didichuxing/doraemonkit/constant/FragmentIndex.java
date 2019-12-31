@@ -22,7 +22,7 @@ public interface FragmentIndex {
     int FRAGMENT_TIME_COUNTER = 17;
     int FRAGMENT_WEB_DOOR_DEFAULT = 18;
     int FRAGMENT_CUSTOM = 19;
-    int FRAGMENT_TOP_ACTIVITY = 20;
+    //int FRAGMENT_TOP_ACTIVITY = 20;
     int FRAGMENT_WEAK_NETWORK = 21;
     /**
      * 大图检测
@@ -37,4 +37,14 @@ public interface FragmentIndex {
      * 数据库远程调试
      */
     int FRAGMENT_DB_DEBUG = 24;
+
+    /**
+     * 数据Mock
+     */
+    int FRAGMENT_NETWORK_MOCK = 25;
+
+    /**
+     * 数据模板预览
+     */
+    int FRAGMENT_MOCK_TEMPLATE_PREVIEW = 26;
 }

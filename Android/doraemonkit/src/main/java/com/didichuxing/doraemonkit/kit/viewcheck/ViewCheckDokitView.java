@@ -10,11 +10,13 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.ui.layoutborder.ViewBorderFrameLayout;
+import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
@@ -36,7 +38,7 @@ public class ViewCheckDokitView extends AbsDokitView {
     /**
      * 监听每个悬浮窗的activity生命周期
      */
-    private DoraemonKit.LifecycleListener mLifecycleListener = new DoraemonKit.LifecycleListener() {
+    private LifecycleListenerUtil.LifecycleListener mLifecycleListener = new LifecycleListenerUtil.LifecycleListener() {
         @Override
         public void onActivityResumed(Activity activity) {
             mResumedActivity = activity;
@@ -68,14 +70,14 @@ public class ViewCheckDokitView extends AbsDokitView {
 
     @Override
     public void onCreate(Context context) {
-        mResumedActivity = DoraemonKit.getCurrentResumedActivity();
-        DoraemonKit.registerListener(mLifecycleListener);
+        mResumedActivity = ActivityUtils.getTopActivity();
+        LifecycleListenerUtil.registerListener(mLifecycleListener);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        DoraemonKit.unRegisterListener(mLifecycleListener);
+        LifecycleListenerUtil.unRegisterListener(mLifecycleListener);
     }
 
     @Override

@@ -2,12 +2,14 @@ package com.didichuxing.doraemonkit.kit.network.httpurlconnection.proxy;
 
 import android.util.Log;
 
-import com.didichuxing.doraemonkit.kit.network.httpurlconnection.HttpMonitorInterceptor;
-import com.didichuxing.doraemonkit.kit.network.httpurlconnection.LargePictureInterceptor;
+import com.didichuxing.doraemonkit.kit.network.NetworkManager;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.HttpChainFacade;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.HttpRequest;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.HttpResponse;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.DKInterceptor;
-import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.HttpChainFacade;
-import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.HttpRequest;
-import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.HttpResponse;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.HttpMonitorInterceptor;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.LargePictureInterceptor;
+import com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor.MockInterceptor;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,19 +35,27 @@ public class HttpUrlConnectionProxy extends HttpURLConnection {
 
     private final HttpChainFacade mHttpChainFacade;
 
-    public HttpUrlConnectionProxy(HttpURLConnection con) {
+    public HttpUrlConnectionProxy(HttpURLConnection con, boolean isMock) {
         super(con.getURL());
         mSourceConnection = con;
+        //mock
+        if (isMock) {
+            mInterceptors.add(new MockInterceptor());
+        }
+        if (NetworkManager.isActive()) {
+            mInterceptors.add(new HttpMonitorInterceptor());
+            //https的大图检测拦截器
+            mInterceptors.add(new LargePictureInterceptor());
+        }
 
-        mInterceptors.add(new HttpMonitorInterceptor());
-        //大图检测拦截器
-        mInterceptors.add(new LargePictureInterceptor());
 
         mHttpRequest = new HttpRequest(con);
         mHttpResponse = new HttpResponse(con);
 
         mHttpChainFacade = new HttpChainFacade(mInterceptors);
+
     }
+
 
     @Override
     public void addRequestProperty(String field, String newValue) {
@@ -78,6 +88,7 @@ public class HttpUrlConnectionProxy extends HttpURLConnection {
     }
 
     /**
+     *
      */
     public void preConnect() throws IOException {
         mHttpChainFacade.process(mHttpRequest);

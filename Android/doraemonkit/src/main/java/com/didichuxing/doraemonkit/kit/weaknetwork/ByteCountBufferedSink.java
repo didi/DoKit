@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.weaknetwork;
 
 
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
@@ -17,8 +18,7 @@ import okio.Timeout;
 /**
  * 可以设置每次写入大小的BufferedSink
  *
- * @author denghaha
- * created 2019-05-10 16:07
+ * Created by xiandanin on 2019-05-10 16:07
  */
 public class ByteCountBufferedSink implements BufferedSink {
     private final long mByteCount;

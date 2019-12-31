@@ -6,9 +6,7 @@ import android.graphics.Color;
 import com.blankj.utilcode.constant.MemoryConstants;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ImageUtils;
-import com.didichuxing.doraemonkit.BuildConfig;
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 
 import java.text.DecimalFormat;

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.BarUtils;
+import com.blankj.utilcode.util.ColorUtils;
 import com.didichuxing.doraemonkit.BuildConfig;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
@@ -189,6 +190,7 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
 
     public class GroupKitViewHolder extends AbsViewBinder<List<KitItem>> {
         private TextView name;
+        private TextView subName;
         private RecyclerView kitContainer;
         private KitAdapter kitAdapter;
 
@@ -199,6 +201,7 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
         @Override
         protected void getViews() {
             name = getView(R.id.name);
+            subName = getView(R.id.tv_sub_name);
             kitContainer = getView(R.id.group_kit_container);
         }
 
@@ -207,6 +210,7 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
             if (kitItems == null || kitItems.size() == 0) {
                 return;
             }
+            subName.setVisibility(View.GONE);
             switch (kitItems.get(0).kit.getCategory()) {
                 case Category.BIZ:
                     name.setText(R.string.dk_category_biz);
@@ -226,7 +230,12 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
                 case Category.UI:
                     name.setText(R.string.dk_category_ui);
                     break;
-
+                case Category.PLATFORM:
+                    name.setText(R.string.dk_category_platform);
+                    subName.setVisibility(View.VISIBLE);
+                    subName.setText("(www.dokit.cn)");
+                    subName.setTextColor(ColorUtils.getColor(R.color.dk_color_FF0006));
+                    break;
                 default:
                     break;
             }

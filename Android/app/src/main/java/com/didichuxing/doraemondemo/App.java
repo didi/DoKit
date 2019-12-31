@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
-import com.didichuxing.doraemondemo.dokit.KitDemo;
+import com.didichuxing.doraemondemo.dokit.DemoKit;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
@@ -22,14 +22,16 @@ import java.util.List;
 public class App extends Application {
     private static final String TAG = "App";
 
+
     @Override
     public void onCreate() {
         super.onCreate();
         List<IKit> kits = new ArrayList<>();
-        kits.add(new KitDemo());
+        kits.add(new DemoKit());
         DoraemonKit.install(this, kits);
+        //是否显示入口icon
+        //DoraemonKit.setAwaysShowMianIcon(false);
         Fresco.initialize(this);
-
         DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
             @Override
             public void overrideUrlLoading(Context context, String url) {
@@ -41,7 +43,9 @@ public class App extends Application {
         });
         //严格检查模式
         StrictMode.enableDefaults();
+
     }
+
 
     @Override
     protected void attachBaseContext(Context base) {

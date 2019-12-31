@@ -1,7 +1,7 @@
 <div align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
- <img src="https://img.shields.io/badge/Android-2.0.1-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/Android-2.2.1-blue.svg" align=left />
  <img src="https://img.shields.io/badge/iOS-2.0.0-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
@@ -19,9 +19,7 @@
 **DoraemonKit** /'dɔ:ra:'emɔn/，简称`DoKit`，中文名 `哆啦A梦`，意味着能够像哆啦A梦一样提供给他的主人各种各样的工具。Just Do Kit
 
 > [English Introduction](README_EN.md)
- 
-## 请参与投票
-2019最受欢迎中国开源软件评选投票 https://www.oschina.net/project/top_cn_2019 请投DoraemonKit一票（DoraemonKit在开发工具类别中）
+
 
 ## 开发背景
 
