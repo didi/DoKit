@@ -10,7 +10,7 @@ import com.didichuxing.doraemonkit.config.FloatIconConfig;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 
 /**
  * 悬浮按钮
@@ -35,7 +35,7 @@ public class FloatIconDokitView extends AbsDokitView {
             public void onClick(View v) {
                 DokitIntent dokitViewIntent = new DokitIntent(ToolPanelDokitView.class);
                 dokitViewIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-                DokitViewManagerProxy.getInstance().attach(dokitViewIntent);
+                DokitViewManager.getInstance().attach(dokitViewIntent);
             }
         });
 
@@ -61,10 +61,10 @@ public class FloatIconDokitView extends AbsDokitView {
         if (dokitView == this) {
             return;
         }
-        DokitViewManagerProxy.getInstance().detach(this);
+        DokitViewManager.getInstance().detach(this);
         DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManagerProxy.getInstance().attach(intent);
+        DokitViewManager.getInstance().attach(intent);
     }
 
     @Override

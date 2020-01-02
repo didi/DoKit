@@ -17,7 +17,7 @@ import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 /**
@@ -94,7 +94,7 @@ public class RealTimePerformDataDokitView extends AbsDokitView {
         mIvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DokitViewManagerProxy.getInstance().detach(RealTimePerformDataDokitView.class.getSimpleName());
+                DokitViewManager.getInstance().detach(RealTimePerformDataDokitView.class.getSimpleName());
             }
         });
 

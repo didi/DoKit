@@ -14,7 +14,7 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.AlignRulerConfig;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 /**
@@ -60,7 +60,7 @@ public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerM
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                mMarker = (AlignRulerMarkerDokitView) DokitViewManagerProxy.getInstance().getDokitView(ActivityUtils.getTopActivity(), AlignRulerMarkerDokitView.class.getSimpleName());
+                mMarker = (AlignRulerMarkerDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), AlignRulerMarkerDokitView.class.getSimpleName());
                 if (mMarker != null) {
                     mMarker.addPositionChangeListener(AlignRulerInfoDokitView.this);
                 }
@@ -83,9 +83,9 @@ public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerM
             @Override
             public void onClick(View v) {
                 AlignRulerConfig.setAlignRulerOpen(getContext(), false);
-                DokitViewManagerProxy.getInstance().detach(AlignRulerMarkerDokitView.class.getSimpleName());
-                DokitViewManagerProxy.getInstance().detach(AlignRulerLineDokitView.class.getSimpleName());
-                DokitViewManagerProxy.getInstance().detach(AlignRulerInfoDokitView.class.getSimpleName());
+                DokitViewManager.getInstance().detach(AlignRulerMarkerDokitView.class.getSimpleName());
+                DokitViewManager.getInstance().detach(AlignRulerLineDokitView.class.getSimpleName());
+                DokitViewManager.getInstance().detach(AlignRulerInfoDokitView.class.getSimpleName());
             }
         });
     }

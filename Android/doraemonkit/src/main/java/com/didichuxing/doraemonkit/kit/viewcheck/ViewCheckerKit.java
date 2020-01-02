@@ -7,7 +7,7 @@ import com.didichuxing.doraemonkit.config.ViewCheckConfig;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 
 /**
  * Created by wanglikun on 2018/11/20.
@@ -31,19 +31,19 @@ public class ViewCheckerKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        DokitViewManagerProxy.getInstance().detachToolPanel();
+        DokitViewManager.getInstance().detachToolPanel();
 
         DokitIntent intent = new DokitIntent(ViewCheckDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManagerProxy.getInstance().attach(intent);
+        DokitViewManager.getInstance().attach(intent);
 
         intent = new DokitIntent(ViewCheckDrawDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManagerProxy.getInstance().attach(intent);
+        DokitViewManager.getInstance().attach(intent);
 
         intent = new DokitIntent(ViewCheckInfoDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManagerProxy.getInstance().attach(intent);
+        DokitViewManager.getInstance().attach(intent);
 
 
         ViewCheckConfig.setViewCheckOpen(context, true);

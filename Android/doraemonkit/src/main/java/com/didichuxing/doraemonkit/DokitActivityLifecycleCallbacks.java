@@ -14,7 +14,7 @@ import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.PermissionUtil;
@@ -62,7 +62,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
             return;
         }
         if (startedActivityCounts == 0) {
-            DokitViewManagerProxy.getInstance().notifyForeground();
+            DokitViewManager.getInstance().notifyForeground();
 
         }
         startedActivityCounts++;
@@ -109,7 +109,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
         startedActivityCounts--;
         //通知app退出到后台
         if (startedActivityCounts == 0) {
-            DokitViewManagerProxy.getInstance().notifyBackground();
+            DokitViewManager.getInstance().notifyBackground();
 
         }
     }
@@ -131,7 +131,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
         if (activity instanceof FragmentActivity) {
             ((FragmentActivity) activity).getSupportFragmentManager().unregisterFragmentLifecycleCallbacks(sFragmentLifecycleCallbacks);
         }
-        DokitViewManagerProxy.getInstance().onActivityDestroy(activity);
+        DokitViewManager.getInstance().onActivityDestroy(activity);
     }
 
     /**
@@ -158,14 +158,14 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
     private void resumeAndAttachDokitViews(Activity activity) {
         if (DokitConstant.IS_NORMAL_FLOAT_MODE) {
             //显示内置dokitView icon
-            DokitViewManagerProxy.getInstance().resumeAndAttachDokitViews(activity);
+            DokitViewManager.getInstance().resumeAndAttachDokitViews(activity);
         }
         //系统模式
         else {
             //悬浮窗权限 vivo 华为可以不需要动态权限 小米需要
             if (PermissionUtil.canDrawOverlays(activity)) {
 
-                DokitViewManagerProxy.getInstance().resumeAndAttachDokitViews(activity);
+                DokitViewManager.getInstance().resumeAndAttachDokitViews(activity);
             } else {
                 //请求悬浮窗权限
                 requestPermission(activity);
@@ -189,7 +189,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
 
         DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManagerProxy.getInstance().attach(intent);
+        DokitViewManager.getInstance().attach(intent);
         DokitConstant.MAIN_ICON_HAS_SHOW = true;
     }
 
@@ -200,7 +200,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
      * @param activity
      */
     private void systemDokitViewOnResume(Activity activity) {
-        Map<String, AbsDokitView> dokitViewMap = DokitViewManagerProxy.getInstance().getDokitViews(activity);
+        Map<String, AbsDokitView> dokitViewMap = DokitViewManager.getInstance().getDokitViews(activity);
         for (AbsDokitView absDokitView : dokitViewMap.values()) {
             absDokitView.onResume();
         }

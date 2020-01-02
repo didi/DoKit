@@ -7,7 +7,7 @@ import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.ActivityCounter;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.AppCounter;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 
 import java.util.List;
 
@@ -71,10 +71,10 @@ public class TimeCounterManager {
             return;
         }
         mIsRunning = true;
-        DokitViewManagerProxy.getInstance().detachToolPanel();
+        DokitViewManager.getInstance().detachToolPanel();
         DokitIntent pageIntent = new DokitIntent(TimeCounterDokitView.class);
         pageIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManagerProxy.getInstance().attach(pageIntent);
+        DokitViewManager.getInstance().attach(pageIntent);
 
 
     }
@@ -89,7 +89,7 @@ public class TimeCounterManager {
         }
         Looper.getMainLooper().setMessageLogging(null);
         mIsRunning = false;
-        DokitViewManagerProxy.getInstance().detach(TimeCounterDokitView.class.getSimpleName());
+        DokitViewManager.getInstance().detach(TimeCounterDokitView.class.getSimpleName());
 
     }
 

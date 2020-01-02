@@ -39,7 +39,7 @@ import java.lang.ref.WeakReference;
  * 修订历史：
  * ================================================
  */
-public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEventListener, DokitViewManagerProxy.DokitViewAttachedListener {
+public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEventListener, DokitViewManager.DokitViewAttachedListener {
     private String TAG = this.getClass().getSimpleName();
 
     /**
@@ -47,7 +47,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
      */
     public TouchProxy mTouchProxy = new TouchProxy(this);
 
-    protected WindowManager mWindowManager = DokitViewManagerProxy.getInstance().getWindowManager();
+    protected WindowManager mWindowManager = DokitViewManager.getInstance().getWindowManager();
     /**
      * 创建FrameLayout#LayoutParams 内置悬浮窗调用
      */
@@ -107,18 +107,18 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
         TAG = this.getClass().getSimpleName();
         LogHelper.i(TAG, "performCreate===>" + TAG);
         try {
-            if (DokitViewManagerProxy.getInstance().getLastDokitViewPosInfo(mTag) == null) {
+            if (DokitViewManager.getInstance().getLastDokitViewPosInfo(mTag) == null) {
                 mLastDokitViewPosInfo = new LastDokitViewPosInfo();
-                DokitViewManagerProxy.getInstance().saveLastDokitViewPosInfo(mTag, mLastDokitViewPosInfo);
+                DokitViewManager.getInstance().saveLastDokitViewPosInfo(mTag, mLastDokitViewPosInfo);
             } else {
-                mLastDokitViewPosInfo = DokitViewManagerProxy.getInstance().getLastDokitViewPosInfo(mTag);
+                mLastDokitViewPosInfo = DokitViewManager.getInstance().getLastDokitViewPosInfo(mTag);
             }
             //创建主线程handler
             mHandler = new Handler(Looper.myLooper());
             //调用onCreate方法
             onCreate(context);
             if (!isNormalMode()) {
-                DokitViewManagerProxy.getInstance().addDokitViewAttachedListener(this);
+                DokitViewManager.getInstance().addDokitViewAttachedListener(this);
             }
             if (isNormalMode()) {
                 mRootView = new DokitFrameLayout(context);
@@ -227,7 +227,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
      * 用于普通模式下的横竖屏切换
      */
     private void portraitOrLandscape(FrameLayout.LayoutParams params) {
-        Point point = DokitViewManagerProxy.getInstance().getDokitViewPos(mTag);
+        Point point = DokitViewManager.getInstance().getDokitViewPos(mTag);
         if (point != null) {
             //横竖屏切换兼容
             if (ScreenUtils.isPortrait()) {
@@ -286,7 +286,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
         params.gravity = mDokitViewLayoutParams.gravity;
         params.width = mDokitViewLayoutParams.width;
         params.height = mDokitViewLayoutParams.height;
-        Point point = DokitViewManagerProxy.getInstance().getDokitViewPos(mTag);
+        Point point = DokitViewManager.getInstance().getDokitViewPos(mTag);
         if (point != null) {
             params.x = point.x;
             params.y = point.y;
@@ -300,9 +300,9 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
     @Override
     public void onDestroy() {
         if (!isNormalMode()) {
-            DokitViewManagerProxy.getInstance().removeDokitViewAttachedListener(this);
+            DokitViewManager.getInstance().removeDokitViewAttachedListener(this);
         }
-        DokitViewManagerProxy.getInstance().removeLastDokitViewPosInfo(mTag);
+        DokitViewManager.getInstance().removeLastDokitViewPosInfo(mTag);
         mAttachActivity = null;
     }
 
@@ -392,9 +392,9 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
         } else {
             //保存在内存中
             if (isNormalMode()) {
-                DokitViewManagerProxy.getInstance().saveDokitViewPos(mTag, mFrameLayoutParams.leftMargin, mFrameLayoutParams.topMargin);
+                DokitViewManager.getInstance().saveDokitViewPos(mTag, mFrameLayoutParams.leftMargin, mFrameLayoutParams.topMargin);
             } else {
-                DokitViewManagerProxy.getInstance().saveDokitViewPos(mTag, mWindowLayoutParams.x, mWindowLayoutParams.y);
+                DokitViewManager.getInstance().saveDokitViewPos(mTag, mWindowLayoutParams.x, mWindowLayoutParams.y);
             }
         }
 
@@ -538,7 +538,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
      * 将当前dokitView于activity解绑
      */
     public void detach() {
-        DokitViewManagerProxy.getInstance().detach(this);
+        DokitViewManager.getInstance().detach(this);
     }
 
     /**
@@ -567,7 +567,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
                 mFrameLayoutParams.leftMargin = FloatIconConfig.getLastPosX(getContext());
                 mFrameLayoutParams.topMargin = FloatIconConfig.getLastPosY(getContext());
             } else {
-                Point point = DokitViewManagerProxy.getInstance().getDokitViewPos(tag);
+                Point point = DokitViewManager.getInstance().getDokitViewPos(tag);
                 if (point != null) {
                     mFrameLayoutParams.leftMargin = point.x;
                     mFrameLayoutParams.topMargin = point.y;

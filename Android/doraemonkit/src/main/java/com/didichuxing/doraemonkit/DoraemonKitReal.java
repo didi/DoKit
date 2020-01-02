@@ -52,7 +52,7 @@ import com.didichuxing.doraemonkit.kit.webdoor.WebDoorKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil;
@@ -276,7 +276,7 @@ class DoraemonKitReal {
         DokitConstant.KIT_MAPS.put(Category.CLOSE, exit);
         DokitConstant.KIT_MAPS.put(Category.VERSION, version);
         //初始化悬浮窗管理类
-        DokitViewManagerProxy.getInstance().init(app);
+        DokitViewManager.getInstance().init(app);
         //上传app基本信息便于统计
         if (sEnableUpload) {
             DoraemonStatisticsUtil.uploadUserInfo(app);
@@ -424,7 +424,7 @@ class DoraemonKitReal {
 
         DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManagerProxy.getInstance().attach(intent);
+        DokitViewManager.getInstance().attach(intent);
         DokitConstant.MAIN_ICON_HAS_SHOW = true;
     }
 
@@ -444,14 +444,14 @@ class DoraemonKitReal {
     static void showToolPanel() {
         DokitIntent dokitViewIntent = new DokitIntent(ToolPanelDokitView.class);
         dokitViewIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManagerProxy.getInstance().attach(dokitViewIntent);
+        DokitViewManager.getInstance().attach(dokitViewIntent);
     }
 
 
     static void hide() {
         DokitConstant.MAIN_ICON_HAS_SHOW = false;
         DokitConstant.AWAYS_SHOW_MAIN_ICON = false;
-        DokitViewManagerProxy.getInstance().detach(FloatIconDokitView.class.getSimpleName());
+        DokitViewManager.getInstance().detach(FloatIconDokitView.class.getSimpleName());
 
     }
 

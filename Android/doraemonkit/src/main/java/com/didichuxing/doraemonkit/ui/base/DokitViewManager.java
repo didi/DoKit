@@ -20,7 +20,7 @@ import java.util.Map;
  * 浮标管理类
  */
 
-public class DokitViewManagerProxy implements DokitViewManagerInterface {
+public class DokitViewManager implements DokitViewManagerInterface {
     public static final String TAG = "DokitViewManagerProxy";
     /**
      * 每个类型在页面中的位置 只保存marginLeft 和marginTop
@@ -41,11 +41,11 @@ public class DokitViewManagerProxy implements DokitViewManagerInterface {
      * 静态内部类单例
      */
     private static class Holder {
-        private static DokitViewManagerProxy INSTANCE = new DokitViewManagerProxy();
+        private static DokitViewManager INSTANCE = new DokitViewManager();
     }
 
-    public static DokitViewManagerProxy getInstance() {
-        return DokitViewManagerProxy.Holder.INSTANCE;
+    public static DokitViewManager getInstance() {
+        return DokitViewManager.Holder.INSTANCE;
     }
 
 

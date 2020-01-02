@@ -11,7 +11,7 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.model.ViewInfo;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.widget.textview.LabelTextView;
 
 import java.util.List;
@@ -39,8 +39,8 @@ public class UIPerformanceInfoDokitView extends AbsDokitView implements UIPerfor
         mClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DokitViewManagerProxy.getInstance().detach(UIPerformanceDisplayDokitView.class.getSimpleName());
-                DokitViewManagerProxy.getInstance().detach(UIPerformanceInfoDokitView.class.getSimpleName());
+                DokitViewManager.getInstance().detach(UIPerformanceDisplayDokitView.class.getSimpleName());
+                DokitViewManager.getInstance().detach(UIPerformanceInfoDokitView.class.getSimpleName());
                 UIPerformanceManager.getInstance().stop();
             }
         });

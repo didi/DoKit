@@ -6,7 +6,7 @@ import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 
 /**
  * Created by wanglikun on 2018/10/26.
@@ -32,7 +32,7 @@ public class TemporaryCloseKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        DokitViewManagerProxy.getInstance().detachToolPanel();
+        DokitViewManager.getInstance().detachToolPanel();
         DoraemonKit.hide();
 
     }

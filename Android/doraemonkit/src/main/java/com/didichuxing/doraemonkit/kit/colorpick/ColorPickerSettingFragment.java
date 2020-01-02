@@ -15,7 +15,7 @@ import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.constant.RequestCode;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 
 /**
  * Created by wanglikun on 2018/9/15.
@@ -63,16 +63,16 @@ public class ColorPickerSettingFragment extends BaseFragment {
      * @param data
      */
     private void showColorPicker(Intent data) {
-        DokitViewManagerProxy.getInstance().detachToolPanel();
+        DokitViewManager.getInstance().detachToolPanel();
 
         DokitIntent pageIntent = new DokitIntent(ColorPickerInfoDokitView.class);
         pageIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManagerProxy.getInstance().attach(pageIntent);
+        DokitViewManager.getInstance().attach(pageIntent);
 
         pageIntent = new DokitIntent(ColorPickerDokitView.class);
         pageIntent.bundle = data.getExtras();
         pageIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManagerProxy.getInstance().attach(pageIntent);
+        DokitViewManager.getInstance().attach(pageIntent);
 
 
     }

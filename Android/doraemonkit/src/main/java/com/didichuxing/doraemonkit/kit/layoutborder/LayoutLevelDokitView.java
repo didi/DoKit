@@ -19,7 +19,7 @@ import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.layoutborder.ScalpelFrameLayout;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
@@ -137,7 +137,7 @@ public class LayoutLevelDokitView extends AbsDokitView {
                 LayoutBorderConfig.setLayoutBorderOpen(false);
                 LayoutBorderManager.getInstance().stop();
 
-                DokitViewManagerProxy.getInstance().detach(LayoutLevelDokitView.this);
+                DokitViewManager.getInstance().detach(LayoutLevelDokitView.this);
             }
         });
 

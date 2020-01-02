@@ -15,7 +15,7 @@ import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.dialog.DialogInfo;
 import com.didichuxing.doraemonkit.ui.dialog.SimpleDialogListener;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
@@ -112,7 +112,7 @@ public class MonitorDataUploadFragment extends BaseFragment {
                             mCommitButton.setText(R.string.dk_platform_monitor_data_button);
                             PerformanceDataManager.getInstance().stopUploadMonitorData();
                             if (PerformanceSpInfoConfig.isFrameUiOpen(getContext())) {
-                                DokitViewManagerProxy.getInstance().detach(RealTimePerformDataDokitView.class.getSimpleName());
+                                DokitViewManager.getInstance().detach(RealTimePerformDataDokitView.class.getSimpleName());
                             }
 
                             return true;
@@ -135,7 +135,7 @@ public class MonitorDataUploadFragment extends BaseFragment {
                             if (PerformanceSpInfoConfig.isFrameUiOpen(getContext())) {
                                 DokitIntent dokitIntent = new DokitIntent(RealTimePerformDataDokitView.class);
                                 dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-                                DokitViewManagerProxy.getInstance().attach(dokitIntent);
+                                DokitViewManager.getInstance().attach(dokitIntent);
                             }
 
 

@@ -12,7 +12,7 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 
 /**
  * ================================================
@@ -51,7 +51,7 @@ public class CountDownDokitView extends AbsDokitView {
 
             @Override
             public void onFinish() {
-                DokitViewManagerProxy.getInstance().detach(CountDownDokitView.this);
+                DokitViewManager.getInstance().detach(CountDownDokitView.this);
             }
         };
         //启动倒计时

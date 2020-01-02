@@ -32,11 +32,11 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
      * https://blog.csdn.net/awenyini/article/details/78265284
      * https://yuqirong.me/2017/09/28/Window%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90(%E4%B8%80)%EF%BC%9A%E4%B8%8EDecorView%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/
      */
-    private WindowManager mWindowManager = DokitViewManagerProxy.getInstance().getWindowManager();
+    private WindowManager mWindowManager = DokitViewManager.getInstance().getWindowManager();
     private Context mContext;
     private List<AbsDokitView> mDokitViews = new ArrayList<>();
 
-    private List<DokitViewManagerProxy.DokitViewAttachedListener> mListeners = new ArrayList<>();
+    private List<DokitViewManager.DokitViewAttachedListener> mListeners = new ArrayList<>();
 
     /**
      * 获取页面上所有的dokitViews
@@ -131,7 +131,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
         //添加main icon
         DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManagerProxy.getInstance().attach(intent);
+        DokitViewManager.getInstance().attach(intent);
         DokitConstant.MAIN_ICON_HAS_SHOW = true;
     }
 
@@ -194,7 +194,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
             dokitView.onResume();
 
             if (!DokitConstant.IS_NORMAL_FLOAT_MODE) {
-                for (DokitViewManagerProxy.DokitViewAttachedListener listener : mListeners) {
+                for (DokitViewManager.DokitViewAttachedListener listener : mListeners) {
                     listener.onDokitViewAdd(dokitView);
                 }
             }
@@ -270,11 +270,11 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
      *
      * @param listener
      */
-    void addListener(DokitViewManagerProxy.DokitViewAttachedListener listener) {
+    void addListener(DokitViewManager.DokitViewAttachedListener listener) {
         mListeners.add(listener);
     }
 
-    void removeListener(DokitViewManagerProxy.DokitViewAttachedListener listener) {
+    void removeListener(DokitViewManager.DokitViewAttachedListener listener) {
         mListeners.remove(listener);
     }
 

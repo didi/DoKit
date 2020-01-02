@@ -11,7 +11,7 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LogInfoConfig;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
@@ -50,9 +50,9 @@ public class LogInfoSettingFragment extends BaseFragment {
                     if (on) {
                         DokitIntent intent = new DokitIntent(LogInfoDokitView.class);
                         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-                        DokitViewManagerProxy.getInstance().attach(intent);
+                        DokitViewManager.getInstance().attach(intent);
                     } else {
-                        DokitViewManagerProxy.getInstance().detach(LogInfoDokitView.class);
+                        DokitViewManager.getInstance().detach(LogInfoDokitView.class);
                     }
                     LogInfoConfig.setLogInfoOpen(getContext(), on);
                 }
