@@ -6,7 +6,7 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
 
 /**
  * Created by wanglikun on 2019-06-27
@@ -32,14 +32,14 @@ public class UIPerformanceKit extends AbstractKit {
     public void onClick(Context context) {
         UIPerformanceManager.getInstance().start(context);
 
-        DokitViewManager.getInstance().detachToolPanel();
+        DokitViewManagerProxy.getInstance().detachToolPanel();
         DokitIntent intent = new DokitIntent(UIPerformanceDisplayDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(intent);
+        DokitViewManagerProxy.getInstance().attach(intent);
 
         DokitIntent intentInfo = new DokitIntent(UIPerformanceInfoDokitView.class);
         intentInfo.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(intentInfo);
+        DokitViewManagerProxy.getInstance().attach(intentInfo);
         //直接显示层级
         UIPerformanceManager.getInstance().initRefresh();
     }

@@ -11,7 +11,7 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.AlignRulerConfig;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
@@ -50,11 +50,11 @@ public class AlignRulerSettingFragment extends BaseFragment {
                 if (data.desc == R.string.dk_kit_align_ruler) {
                     if (on) {
                         DokitIntent pageIntent = new DokitIntent(AlignRulerMarkerDokitView.class);
-                        DokitViewManager.getInstance().attach(pageIntent);
-                        DokitViewManager.getInstance().attach(new DokitIntent(AlignRulerLineDokitView.class));
+                        DokitViewManagerProxy.getInstance().attach(pageIntent);
+                        DokitViewManagerProxy.getInstance().attach(new DokitIntent(AlignRulerLineDokitView.class));
                     } else {
-                        DokitViewManager.getInstance().detach(AlignRulerMarkerDokitView.class);
-                        DokitViewManager.getInstance().detach(AlignRulerLineDokitView.class);
+                        DokitViewManagerProxy.getInstance().detach(AlignRulerMarkerDokitView.class);
+                        DokitViewManagerProxy.getInstance().detach(AlignRulerLineDokitView.class);
                     }
                     AlignRulerConfig.setAlignRulerOpen(getContext(), on);
                 }

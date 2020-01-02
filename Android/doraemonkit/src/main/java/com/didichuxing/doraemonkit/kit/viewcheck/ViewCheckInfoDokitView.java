@@ -20,7 +20,7 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.ViewCheckConfig;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
 import com.didichuxing.doraemonkit.util.ColorUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
@@ -48,7 +48,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements ViewCheckDok
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
+        ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManagerProxy.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
         if (dokitView != null) {
             dokitView.removeViewSelectListener(this);
         }
@@ -72,15 +72,15 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements ViewCheckDok
             @Override
             public void onClick(View v) {
                 ViewCheckConfig.setViewCheckOpen(getContext(), false);
-                DokitViewManager.getInstance().detach(ViewCheckDrawDokitView.class.getSimpleName());
-                DokitViewManager.getInstance().detach(ViewCheckInfoDokitView.class.getSimpleName());
-                DokitViewManager.getInstance().detach(ViewCheckDokitView.class.getSimpleName());
+                DokitViewManagerProxy.getInstance().detach(ViewCheckDrawDokitView.class.getSimpleName());
+                DokitViewManagerProxy.getInstance().detach(ViewCheckInfoDokitView.class.getSimpleName());
+                DokitViewManagerProxy.getInstance().detach(ViewCheckDokitView.class.getSimpleName());
             }
         });
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
+                ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManagerProxy.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
                 if (dokitView != null) {
                     dokitView.setViewSelectListener(ViewCheckInfoDokitView.this);
                 }

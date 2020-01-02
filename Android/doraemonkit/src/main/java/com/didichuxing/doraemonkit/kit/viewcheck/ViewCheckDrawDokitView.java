@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit.kit.viewcheck;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +7,10 @@ import android.widget.FrameLayout;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.core.model.ViewInfo;
+import com.didichuxing.doraemonkit.model.ViewInfo;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
 import com.didichuxing.doraemonkit.ui.viewcheck.LayoutBorderView;
 
 /**
@@ -29,7 +28,7 @@ public class ViewCheckDrawDokitView extends AbsDokitView implements ViewCheckDok
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ViewCheckDokitView page = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), ViewCheckDokitView.class.getSimpleName());
+        ViewCheckDokitView page = (ViewCheckDokitView) DokitViewManagerProxy.getInstance().getDokitView(ActivityUtils.getTopActivity(), ViewCheckDokitView.class.getSimpleName());
         if (page != null) {
             page.removeViewSelectListener(this);
         }
@@ -56,7 +55,7 @@ public class ViewCheckDrawDokitView extends AbsDokitView implements ViewCheckDok
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), ViewCheckDokitView.class.getSimpleName());
+                ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManagerProxy.getInstance().getDokitView(ActivityUtils.getTopActivity(), ViewCheckDokitView.class.getSimpleName());
                 if (dokitView != null) {
                     dokitView.setViewSelectListener(ViewCheckDrawDokitView.this);
                 }

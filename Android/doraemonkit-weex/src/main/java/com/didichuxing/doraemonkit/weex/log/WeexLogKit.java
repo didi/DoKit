@@ -5,7 +5,7 @@ import android.content.Context;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
 import com.didichuxing.doraemonkit.weex.R;
 
 /**
@@ -33,7 +33,7 @@ public class WeexLogKit extends AbstractKit {
     public void onClick(Context context) {
         DokitIntent intent = new DokitIntent(WeexLogInfoDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(intent);
+        DokitViewManagerProxy.getInstance().attach(intent);
     }
 
     @Override

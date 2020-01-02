@@ -3,10 +3,14 @@ package com.didichuxing.doraemonkit.constant;
 import android.util.SparseArray;
 
 import com.didichuxing.doraemonkit.kit.IKit;
+import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
+import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.ui.kit.KitItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ================================================
@@ -35,7 +39,17 @@ public class DokitConstant {
 
     public static String PRODUCT_ID = "";
 
+    /**
+     * 全局DBDebugFragment
+     */
+    public static DbDebugFragment DB_DEBUG_FRAGMENT = null;
+
+    /**
+     * 全局的dokit Kit信息
+     */
     public static SparseArray<List<IKit>> KIT_MAPS = new SparseArray<>();
+
+    public static Map<String, ActivityLifecycleInfo> ACTIVITY_LIFECYCLE_INFOS = new HashMap<>();
 
     public static List<IKit> getKitList(int catgory) {
         if (KIT_MAPS.get(catgory) != null) {

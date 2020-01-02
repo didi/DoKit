@@ -14,13 +14,12 @@ import android.widget.FrameLayout;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
 import com.didichuxing.doraemonkit.ui.layoutborder.ScalpelFrameLayout;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
@@ -138,7 +137,7 @@ public class LayoutLevelDokitView extends AbsDokitView {
                 LayoutBorderConfig.setLayoutBorderOpen(false);
                 LayoutBorderManager.getInstance().stop();
 
-                DokitViewManager.getInstance().detach(LayoutLevelDokitView.this);
+                DokitViewManagerProxy.getInstance().detach(LayoutLevelDokitView.this);
             }
         });
 

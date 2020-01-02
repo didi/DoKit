@@ -5,7 +5,7 @@ import android.content.Context;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
 import com.didichuxing.doraemonkit.ui.realtime.datasource.DataSourceFactory;
 
 import java.util.TreeMap;
@@ -31,11 +31,11 @@ public class PerformanceDokitViewManager {
     }
 
     public static void open(int performanceType, String title, int interval, PerformanceFragmentCloseListener listener) {
-        PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
+        PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManagerProxy.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
         if (performanceDokitView == null) {
             DokitIntent dokitIntent = new DokitIntent(PerformanceDokitView.class);
-            DokitViewManager.getInstance().attach(dokitIntent);
-            performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
+            DokitViewManagerProxy.getInstance().attach(dokitIntent);
+            performanceDokitView = (PerformanceDokitView) DokitViewManagerProxy.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
             performanceDokitView.addItem(performanceType, title, interval);
         } else {
             performanceDokitView.addItem(performanceType, title, interval);
@@ -50,7 +50,7 @@ public class PerformanceDokitViewManager {
      * @param listener
      */
     public static void onPerformanceSettingFragmentDestory(PerformanceFragmentCloseListener listener) {
-        PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
+        PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManagerProxy.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
         if (performanceDokitView != null) {
             performanceDokitView.removePerformanceFragmentCloseListener(listener);
         }
@@ -60,7 +60,7 @@ public class PerformanceDokitViewManager {
      * @param performanceType 参考 DataSourceFactory
      */
     public static void close(int performanceType, String title) {
-        PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
+        PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManagerProxy.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
         if (performanceDokitView != null) {
             performanceDokitView.removeItem(performanceType);
         }

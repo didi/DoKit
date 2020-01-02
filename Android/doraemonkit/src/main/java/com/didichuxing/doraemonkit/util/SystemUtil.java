@@ -1,10 +1,16 @@
 package com.didichuxing.doraemonkit.util;
 
+import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
+
+import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -103,5 +109,37 @@ public class SystemUtil {
             }
         }
         return null;
+    }
+
+
+    /**
+     * 是否是系统main activity
+     *
+     * @return boolean
+     */
+    public static boolean isMainLaunchActivity(Activity activity) {
+        PackageManager packageManager = activity.getApplication().getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(activity.getPackageName());
+        if (intent == null) {
+            return false;
+        }
+        ComponentName launchComponentName = intent.getComponent();
+        ComponentName componentName = activity.getComponentName();
+        if (launchComponentName != null && componentName.toString().equals(launchComponentName.toString())) {
+            return true;
+        }
+        return false;
+    }
+
+
+    /**
+     * 是否是系统启动第一次调用mainActivity 页面回退不算
+     *
+     * @return boolean
+     */
+    public static boolean isOnlyFirstLaunchActivity(Activity activity) {
+        boolean isMainActivity = isMainLaunchActivity(activity);
+        ActivityLifecycleInfo activityLifecycleInfo = DokitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
+        return activityLifecycleInfo != null && isMainActivity && !activityLifecycleInfo.isInvokeStopMethod();
     }
 }

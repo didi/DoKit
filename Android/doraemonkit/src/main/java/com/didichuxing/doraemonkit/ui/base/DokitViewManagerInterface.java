@@ -96,7 +96,24 @@ public interface DokitViewManagerInterface {
      */
     void resumeAndAttachDokitViews(Activity activity);
 
+    /**
+     * main activity 创建时回调
+     *
+     * @param activity
+     */
+    void onMainActivityCreate(Activity activity);
 
+    /**
+     * 除main activity 以外 其他activty 创建时回调
+     *
+     * @param activity
+     */
+    void onActivityCreate(Activity activity);
 
-
+    /**
+     * 页面回退的时候调用
+     *
+     * @param activity
+     */
+    void onActivityResume(Activity activity);
 }

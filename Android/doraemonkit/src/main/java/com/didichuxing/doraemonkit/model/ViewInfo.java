@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.core.model;
+package com.didichuxing.doraemonkit.model;
 
 import android.graphics.Rect;
 import android.view.View;

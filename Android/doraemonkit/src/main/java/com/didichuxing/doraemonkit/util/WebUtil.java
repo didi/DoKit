@@ -4,7 +4,7 @@ import android.content.Context;
 import android.webkit.WebView;
 
 import com.didichuxing.doraemonkit.config.GpsMockConfig;
-import com.didichuxing.doraemonkit.core.model.LatLng;
+import com.didichuxing.doraemonkit.model.LatLng;
 
 import java.io.BufferedReader;
 import java.io.IOException;

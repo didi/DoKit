@@ -5,7 +5,7 @@ import android.content.Context;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.GpsMockConfig;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
-import com.didichuxing.doraemonkit.core.model.LatLng;
+import com.didichuxing.doraemonkit.model.LatLng;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 

@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.core.model;
+package com.didichuxing.doraemonkit.model;
 
 import java.io.Serializable;
 

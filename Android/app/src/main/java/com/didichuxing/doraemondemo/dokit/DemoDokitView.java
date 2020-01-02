@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.didichuxing.doraemondemo.R;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
 
 /**
  * ================================================
@@ -38,7 +38,7 @@ public class DemoDokitView extends AbsDokitView {
         tvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DokitViewManager.getInstance().detach(DemoDokitView.this);
+                DokitViewManagerProxy.getInstance().detach(DemoDokitView.this);
             }
         });
     }

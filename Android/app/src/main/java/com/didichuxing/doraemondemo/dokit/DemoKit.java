@@ -6,7 +6,7 @@ import com.didichuxing.doraemondemo.R;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
 
 /**
  * ================================================
@@ -37,7 +37,7 @@ public class DemoKit extends AbstractKit {
     public void onClick(Context context) {
         DokitIntent dokitIntent = new DokitIntent(DemoDokitView.class);
         dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(dokitIntent);
+        DokitViewManagerProxy.getInstance().attach(dokitIntent);
     }
 
     @Override

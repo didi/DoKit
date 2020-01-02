@@ -11,15 +11,16 @@ import android.widget.FrameLayout;
 import com.blankj.utilcode.util.BarUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.health.CountDownDokitView;
 import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.ui.realtime.PerformanceDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.util.SystemUtil;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -92,60 +93,94 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         }
 
         //app启动
-        if (mGlobalSingleDokitViews.size() == 0) {
-            LogHelper.i(TAG, "app 启动==>" + activity.getClass().getSimpleName());
-            if (activity instanceof UniversalActivity) {
-                return;
-            }
-            //倒计时DokitView
-            attachCountDownDokitView();
-
-            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
-                DokitConstant.MAIN_ICON_HAS_SHOW = false;
-                return;
-            }
-            DokitIntent dokitIntent = new DokitIntent(FloatIconDokitView.class);
-            dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-            attach(dokitIntent);
-            DokitConstant.MAIN_ICON_HAS_SHOW = true;
+        if (SystemUtil.isOnlyFirstLaunchActivity(activity)) {
+            onMainActivityCreate(activity);
             return;
         }
 
 
+        ActivityLifecycleInfo activityLifecycleInfo = DokitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
+        if (activityLifecycleInfo == null) {
+            return;
+        }
         //新建Activity
-        if (mActivityDokitViews.get(activity) == null) {
-            if (mGlobalSingleDokitViews == null) {
-                LogHelper.e(TAG, "resumeAndAttachDokitViews 方法执行异常");
-                return;
-            }
-
-            //将所有的dokitView添加到新建的Activity中去
-            for (GlobalSingleDokitViewInfo dokitViewInfo : mGlobalSingleDokitViews.values()) {
-                LogHelper.i(TAG, " 新建activity==>" + activity.getClass().getSimpleName() + "  dokitView==>" + dokitViewInfo.getTag());
-                if (activity instanceof UniversalActivity && dokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
-                    return;
-                }
-                //是否过滤掉 入口icon
-                if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && dokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
-                    DokitConstant.MAIN_ICON_HAS_SHOW = false;
-                    continue;
-                }
-                if (dokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
-                    DokitConstant.MAIN_ICON_HAS_SHOW = true;
-                }
-
-                DokitIntent dokitIntent = new DokitIntent(dokitViewInfo.getAbsDokitViewClass());
-                dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-                dokitIntent.bundle = dokitViewInfo.getBundle();
-                attach(dokitIntent);
-            }
-            //倒计时DokitView
-            attachCountDownDokitView();
+        if (activityLifecycleInfo.getActivityLifeCycleCount() == ActivityLifecycleInfo.ACTIVITY_LIFECYCLE_CREATE2RESUME) {
+            onActivityCreate(activity);
             return;
         }
 
         //activity resume
+        if (activityLifecycleInfo.getActivityLifeCycleCount() > ActivityLifecycleInfo.ACTIVITY_LIFECYCLE_CREATE2RESUME) {
+            onActivityResume(activity);
+        }
 
+    }
+
+    /**
+     * 应用启动
+     */
+    @Override
+    public void onMainActivityCreate(Activity activity) {
+        LogHelper.i(TAG, "app 启动==>" + activity.getClass().getSimpleName());
+        if (activity instanceof UniversalActivity) {
+            return;
+        }
+        //倒计时DokitView
+        attachCountDownDokitView();
+
+        if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
+            DokitConstant.MAIN_ICON_HAS_SHOW = false;
+            return;
+        }
+        DokitIntent dokitIntent = new DokitIntent(FloatIconDokitView.class);
+        dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        attach(dokitIntent);
+        DokitConstant.MAIN_ICON_HAS_SHOW = true;
+    }
+
+    /**
+     * 新建activity
+     *
+     * @param activity
+     */
+    @Override
+    public void onActivityCreate(Activity activity) {
+        if (mGlobalSingleDokitViews == null) {
+            LogHelper.e(TAG, "resumeAndAttachDokitViews 方法执行异常");
+            return;
+        }
+
+        //将所有的dokitView添加到新建的Activity中去
+        for (GlobalSingleDokitViewInfo dokitViewInfo : mGlobalSingleDokitViews.values()) {
+            LogHelper.i(TAG, " 新建activity==>" + activity.getClass().getSimpleName() + "  dokitView==>" + dokitViewInfo.getTag());
+            if (activity instanceof UniversalActivity && dokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
+                return;
+            }
+            //是否过滤掉 入口icon
+            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && dokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
+                DokitConstant.MAIN_ICON_HAS_SHOW = false;
+                continue;
+            }
+            if (dokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
+                DokitConstant.MAIN_ICON_HAS_SHOW = true;
+            }
+
+            DokitIntent dokitIntent = new DokitIntent(dokitViewInfo.getAbsDokitViewClass());
+            dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+            dokitIntent.bundle = dokitViewInfo.getBundle();
+            attach(dokitIntent);
+        }
+        //倒计时DokitView
+        attachCountDownDokitView();
+    }
+
+    /**
+     * activity onResume
+     *
+     * @param activity
+     */
+    @Override
+    public void onActivityResume(Activity activity) {
         Map<String, AbsDokitView> existDokitViews = mActivityDokitViews.get(activity);
         //先清除楚页面上启动模式为DokitIntent.MODE_ONCE 的dokitView
         for (AbsDokitView existDokitView : existDokitViews.values()) {
@@ -187,7 +222,6 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                 attach(dokitIntent);
             }
         }
-
     }
 
     /**

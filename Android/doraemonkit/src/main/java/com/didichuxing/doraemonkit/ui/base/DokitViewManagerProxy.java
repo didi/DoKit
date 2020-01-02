@@ -20,8 +20,8 @@ import java.util.Map;
  * 浮标管理类
  */
 
-public class DokitViewManager implements DokitViewManagerInterface {
-    public static final String TAG = "DokitViewManager";
+public class DokitViewManagerProxy implements DokitViewManagerInterface {
+    public static final String TAG = "DokitViewManagerProxy";
     /**
      * 每个类型在页面中的位置 只保存marginLeft 和marginTop
      */
@@ -41,11 +41,11 @@ public class DokitViewManager implements DokitViewManagerInterface {
      * 静态内部类单例
      */
     private static class Holder {
-        private static DokitViewManager INSTANCE = new DokitViewManager();
+        private static DokitViewManagerProxy INSTANCE = new DokitViewManagerProxy();
     }
 
-    public static DokitViewManager getInstance() {
-        return DokitViewManager.Holder.INSTANCE;
+    public static DokitViewManagerProxy getInstance() {
+        return DokitViewManagerProxy.Holder.INSTANCE;
     }
 
 
@@ -143,6 +143,21 @@ public class DokitViewManager implements DokitViewManagerInterface {
     @Override
     public void resumeAndAttachDokitViews(Activity activity) {
         mDokitViewManager.resumeAndAttachDokitViews(activity);
+    }
+
+    @Override
+    public void onMainActivityCreate(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityCreate(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResume(Activity activity) {
+
     }
 
     /**

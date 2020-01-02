@@ -73,7 +73,7 @@ public class BaseFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        DokitViewManager.getInstance().detach(FloatIconDokitView.class);
+        DokitViewManagerProxy.getInstance().detach(FloatIconDokitView.class);
     }
 
 
@@ -138,7 +138,7 @@ public class BaseFragment extends Fragment {
         super.onDestroyView();
         DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(intent);
+        DokitViewManagerProxy.getInstance().attach(intent);
     }
 
     public DialogProvider showDialog(DialogInfo dialogInfo) {

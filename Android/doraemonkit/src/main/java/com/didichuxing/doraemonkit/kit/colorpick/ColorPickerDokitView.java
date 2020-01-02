@@ -14,7 +14,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
 import com.didichuxing.doraemonkit.ui.colorpicker.ColorPickerView;
 import com.didichuxing.doraemonkit.util.ImageUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
@@ -68,7 +68,7 @@ public class ColorPickerDokitView extends AbsDokitView {
 
     @Override
     public void onCreate(Context context) {
-        mInfoDokitView = (ColorPickerInfoDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), ColorPickerInfoDokitView.class.getSimpleName());
+        mInfoDokitView = (ColorPickerInfoDokitView) DokitViewManagerProxy.getInstance().getDokitView(ActivityUtils.getTopActivity(), ColorPickerInfoDokitView.class.getSimpleName());
         mImageCapture = new ImageCapture();
         mImageCapture.init(context, getBundle());
     }

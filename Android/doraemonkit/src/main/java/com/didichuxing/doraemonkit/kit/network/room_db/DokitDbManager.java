@@ -3,14 +3,11 @@ package com.didichuxing.doraemonkit.kit.network.room_db;
 import android.text.TextUtils;
 
 import com.blankj.utilcode.util.ThreadUtils;
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.didichuxing.doraemonkit.BuildConfig;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -29,7 +26,7 @@ import java.util.Map;
 public class DokitDbManager<T extends AbsMockApiBean> {
 
 
-    private final DokitDatabase mDb = DokitViewManager.getInstance().getDb();
+    private final DokitDatabase mDb = DokitViewManagerProxy.getInstance().getDb();
     private Map<String, List<T>> mGlobalInterceptApiMaps = new HashMap<>();
 
     private Map<String, List<T>> mGlobalTemplateApiMaps = new HashMap<>();

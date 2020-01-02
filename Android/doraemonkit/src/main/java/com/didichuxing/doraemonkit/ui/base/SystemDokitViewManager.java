@@ -5,8 +5,14 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
+import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.health.CountDownDokitView;
+import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.util.SystemUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,16 +32,16 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
      * https://blog.csdn.net/awenyini/article/details/78265284
      * https://yuqirong.me/2017/09/28/Window%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90(%E4%B8%80)%EF%BC%9A%E4%B8%8EDecorView%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/
      */
-    private WindowManager mWindowManager = DokitViewManager.getInstance().getWindowManager();
+    private WindowManager mWindowManager = DokitViewManagerProxy.getInstance().getWindowManager();
     private Context mContext;
     private List<AbsDokitView> mDokitViews = new ArrayList<>();
 
-    private List<DokitViewManager.DokitViewAttachedListener> mListeners = new ArrayList<>();
+    private List<DokitViewManagerProxy.DokitViewAttachedListener> mListeners = new ArrayList<>();
 
     /**
      * 获取页面上所有的dokitViews
      *
-     * @return
+     * @return map
      */
     @Override
     public Map<String, AbsDokitView> getDokitViews(Activity activity) {
@@ -73,6 +79,88 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
     }
 
     /**
+     * @param activity
+     */
+    @Override
+    public void resumeAndAttachDokitViews(Activity activity) {
+        if (ActivityUtils.getTopActivity() instanceof UniversalActivity) {
+            return;
+        }
+        //app启动
+        if (SystemUtil.isOnlyFirstLaunchActivity(activity)) {
+            onMainActivityCreate(activity);
+        }
+
+        ActivityLifecycleInfo activityLifecycleInfo = DokitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
+        //新建Activity
+        if (activityLifecycleInfo != null && activityLifecycleInfo.getActivityLifeCycleCount() == ActivityLifecycleInfo.ACTIVITY_LIFECYCLE_CREATE2RESUME) {
+            onActivityCreate(activity);
+        }
+
+        //activity resume
+        if (activityLifecycleInfo != null && activityLifecycleInfo.getActivityLifeCycleCount() > ActivityLifecycleInfo.ACTIVITY_LIFECYCLE_CREATE2RESUME) {
+            onActivityResume(activity);
+        }
+
+        //生命周期回调
+        Map<String, AbsDokitView> dokitViewMap = getDokitViews(activity);
+        for (AbsDokitView absDokitView : dokitViewMap.values()) {
+            absDokitView.onResume();
+        }
+    }
+
+    /**
+     * 添加倒计时DokitView
+     */
+    private void attachCountDownDokitView() {
+        DokitIntent dokitIntent = new DokitIntent(CountDownDokitView.class);
+        dokitIntent.mode = DokitIntent.MODE_ONCE;
+        attach(dokitIntent);
+    }
+
+
+    @Override
+    public void onMainActivityCreate(Activity activity) {
+        //倒计时DokitView
+        attachCountDownDokitView();
+
+        if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
+            return;
+        }
+
+        //添加main icon
+        DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
+        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        DokitViewManagerProxy.getInstance().attach(intent);
+        DokitConstant.MAIN_ICON_HAS_SHOW = true;
+    }
+
+
+    @Override
+    public void onActivityCreate(Activity activity) {
+        //如果倒计时浮标没显示则重新添加
+        AbsDokitView countDownDokitView = getDokitView(activity, CountDownDokitView.class.getSimpleName());
+        if (countDownDokitView == null) {
+            attachCountDownDokitView();
+        } else {
+            //重置倒计时
+            ((CountDownDokitView) countDownDokitView).resetTime();
+        }
+    }
+
+
+    @Override
+    public void onActivityResume(Activity activity) {
+        //移除倒计时浮标
+        AbsDokitView countDownDokitView = getDokitView(activity, CountDownDokitView.class.getSimpleName());
+        if (countDownDokitView != null) {
+            //移除倒计时控件
+            detach(countDownDokitView);
+        }
+    }
+
+
+    /**
      * 添加悬浮窗
      *
      * @param pageIntent
@@ -106,7 +194,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
             dokitView.onResume();
 
             if (!DokitConstant.IS_NORMAL_FLOAT_MODE) {
-                for (DokitViewManager.DokitViewAttachedListener listener : mListeners) {
+                for (DokitViewManagerProxy.DokitViewAttachedListener listener : mListeners) {
                     listener.onDokitViewAdd(dokitView);
                 }
             }
@@ -176,28 +264,17 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
 
     }
 
-    /**
-     * 不需要实现
-     *
-     * @param activity
-     */
-    @Override
-    public void resumeAndAttachDokitViews(Activity activity) {
-
-    }
-
-
 
     /**
      * 在每一个float page创建时 添加监听器
      *
      * @param listener
      */
-    void addListener(DokitViewManager.DokitViewAttachedListener listener) {
+    void addListener(DokitViewManagerProxy.DokitViewAttachedListener listener) {
         mListeners.add(listener);
     }
 
-    void removeListener(DokitViewManager.DokitViewAttachedListener listener) {
+    void removeListener(DokitViewManagerProxy.DokitViewAttachedListener listener) {
         mListeners.remove(listener);
     }
 

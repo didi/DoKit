@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.GpsMockConfig;
-import com.didichuxing.doraemonkit.core.model.LatLng;
+import com.didichuxing.doraemonkit.model.LatLng;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;

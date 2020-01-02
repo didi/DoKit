@@ -3,11 +3,9 @@ package com.didichuxing.doraemonkit.kit.timecounter.counter;
 import android.app.Activity;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterDokitView;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
-import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManagerProxy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,7 +123,7 @@ public class ActivityCounter {
         counterInfo.totalCost = mTotalCostTime;
         counterInfo.otherCost = mOtherCostTime;
         mCounterInfos.add(counterInfo);
-        TimeCounterDokitView dokitView = (TimeCounterDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), TimeCounterDokitView.class.getSimpleName());
+        TimeCounterDokitView dokitView = (TimeCounterDokitView) DokitViewManagerProxy.getInstance().getDokitView(ActivityUtils.getTopActivity(), TimeCounterDokitView.class.getSimpleName());
         if (dokitView != null) {
             dokitView.showInfo(counterInfo);
         }
