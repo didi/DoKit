@@ -14,7 +14,6 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
-import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.view.CircleProgress;
 
 /**
@@ -58,7 +57,7 @@ public class CountDownDokitView extends AbsDokitView {
                     @Override
                     public void onTick(long millisUntilFinished) {
                         String value = String.valueOf((int) (millisUntilFinished / COUNT_DOWN_INTERVAL));
-                        LogHelper.i(TAG, "value===>" + value);
+                        //LogHelper.i(TAG, "value===>" + value);
                         mProgressBar.setValue(Integer.parseInt(value) * 10);
                         mNum.setText("" + value);
                     }

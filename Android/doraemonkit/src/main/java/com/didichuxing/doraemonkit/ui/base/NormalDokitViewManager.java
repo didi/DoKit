@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.ui.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.didichuxing.doraemonkit.ui.realtime.PerformanceDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.SystemUtil;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -126,7 +128,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             return;
         }
         //倒计时DokitView
-        attachCountDownDokitView();
+        attachCountDownDokitView(activity);
 
         if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
             DokitConstant.MAIN_ICON_HAS_SHOW = false;
@@ -171,7 +173,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             attach(dokitIntent);
         }
         //倒计时DokitView
-        attachCountDownDokitView();
+        attachCountDownDokitView(activity);
     }
 
     /**
@@ -235,7 +237,10 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
     /**
      * 添加倒计时DokitView
      */
-    private void attachCountDownDokitView() {
+    private void attachCountDownDokitView(Activity activity) {
+        if (activity instanceof UniversalActivity) {
+            return;
+        }
         DokitIntent dokitIntent = new DokitIntent(CountDownDokitView.class);
         dokitIntent.mode = DokitIntent.MODE_ONCE;
         attach(dokitIntent);
@@ -513,16 +518,17 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
      * @param activity
      * @return
      */
+    @NonNull
     @Override
     public Map<String, AbsDokitView> getDokitViews(Activity activity) {
         if (activity == null) {
-            return null;
+            return Collections.emptyMap();
         }
         if (mActivityDokitViews == null) {
-            return null;
+            return Collections.emptyMap();
         }
 
-        return mActivityDokitViews.get(activity);
+        return mActivityDokitViews.get(activity) == null ? Collections.<String, AbsDokitView>emptyMap() : mActivityDokitViews.get(activity);
     }
 
 

@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.model;
+package com.didichuxing.doraemonkit.kit.health.model;
 
 import java.util.List;
 
@@ -58,6 +58,15 @@ public class AppHealthInfo {
         private String appName;
         private String appVersion;
         private String dokitVersion;
+        private String pId;
+
+        public String getpId() {
+            return pId;
+        }
+
+        public void setpId(String pId) {
+            this.pId = pId;
+        }
 
         public String getCaseName() {
             return caseName;
@@ -79,7 +88,7 @@ public class AppHealthInfo {
             return platform;
         }
 
-        public void setPlatfom(String platform) {
+        public void setPlatform(String platform) {
             this.platform = platform;
         }
 

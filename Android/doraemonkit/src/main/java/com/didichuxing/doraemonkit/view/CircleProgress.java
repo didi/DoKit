@@ -13,7 +13,6 @@ import android.graphics.SweepGradient;
 import android.graphics.Typeface;
 import android.text.TextPaint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.didichuxing.doraemonkit.BuildConfig;
@@ -229,7 +228,7 @@ public class CircleProgress extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        Log.d(TAG, "onSizeChanged: w = " + w + "; h = " + h + "; oldw = " + oldw + "; oldh = " + oldh);
+        // Log.d(TAG, "onSizeChanged: w = " + w + "; h = " + h + "; oldw = " + oldw + "; oldh = " + oldh);
         //求圆弧和背景圆弧的最大宽度
         float maxArcWidth = Math.max(mArcWidth, mBgArcWidth);
         //求最小值作为实际值
@@ -252,10 +251,10 @@ public class CircleProgress extends View {
         mHintOffset = mCenterPoint.y - mRadius * mTextOffsetPercentInRadius + getBaselineOffsetFromY(mHintPaint);
         mUnitOffset = mCenterPoint.y + mRadius * mTextOffsetPercentInRadius + getBaselineOffsetFromY(mUnitPaint);
         updateArcPaint();
-        Log.d(TAG, "onSizeChanged: 控件大小 = " + "(" + w + ", " + h + ")"
-                + "圆心坐标 = " + mCenterPoint.toString()
-                + ";圆半径 = " + mRadius
-                + ";圆的外接矩形 = " + mRectF.toString());
+//        Log.d(TAG, "onSizeChanged: 控件大小 = " + "(" + w + ", " + h + ")"
+//                + "圆心坐标 = " + mCenterPoint.toString()
+//                + ";圆半径 = " + mRadius
+//                + ";圆的外接矩形 = " + mRectF.toString());
     }
 
     private float getBaselineOffsetFromY(Paint paint) {
@@ -361,9 +360,9 @@ public class CircleProgress extends View {
                 mPercent = (float) animation.getAnimatedValue();
                 mValue = mPercent * mMaxValue;
                 if (BuildConfig.DEBUG) {
-                    Log.d(TAG, "onAnimationUpdate: percent = " + mPercent
-                            + ";currentAngle = " + (mSweepAngle * mPercent)
-                            + ";value = " + mValue);
+//                    Log.d(TAG, "onAnimationUpdate: percent = " + mPercent
+//                            + ";currentAngle = " + (mSweepAngle * mPercent)
+//                            + ";value = " + mValue);
                 }
                 invalidate();
             }

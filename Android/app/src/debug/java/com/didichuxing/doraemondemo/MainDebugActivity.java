@@ -33,6 +33,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.didichuxing.doraemondemo.util.FrescoUtil;
 import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.largepicture.glide.LargeBitmapGlideTransformation;
 import com.didichuxing.doraemonkit.kit.largepicture.picasso.LargeBitmapPicassoTransformation;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCost;
@@ -277,9 +278,10 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_trace:
-                MethodCost.startMethodTracing("doramemon");
-                test1();
-                MethodCost.stopMethodTracingAndPrintLog("doramemon");
+                AppHealthInfoUtil.getInstance().post();
+//                MethodCost.startMethodTracing("doramemon");
+//                test1();
+//                MethodCost.stopMethodTracingAndPrintLog("doramemon");
                 break;
 
             case R.id.btn_show_tool_panel:
