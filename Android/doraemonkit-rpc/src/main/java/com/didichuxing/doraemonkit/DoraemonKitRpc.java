@@ -33,7 +33,11 @@ public class DoraemonKitRpc {
     public static void install(final Application app, List<IKit> selfKits, String productId) {
         APPLICATION = app;
         DoraemonKit.APPLICATION = app;
-        DoraemonKitReal.install(app, selfKits, productId);
+        try {
+            DoraemonKitReal.install(app, selfKits, productId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //平台端 http 拦截器注入
         PlatformHttpHook.installInterceptor();
     }

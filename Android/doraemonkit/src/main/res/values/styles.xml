@@ -37,9 +37,11 @@
     <style name="DK.Text.White" parent="DK.Text">
         <item name="android:textColor">@color/dk_color_FFFFFF</item>
     </style>
+
     <style name="DK.Text.Gray" parent="DK.Text">
         <item name="android:textColor">@color/dk_color_666666</item>
     </style>
+
     <style name="DK.Text.Blue" parent="DK.Text">
         <item name="android:textColor">@color/dk_color_55A8FD</item>
     </style>
@@ -181,6 +183,7 @@
         <item name="android:gravity">center_vertical|left</item>
         <item name="android:background">@color/dk_color_FFFFFF</item>
     </style>
+
     <style name="DK.Theme.Translucent" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -192,6 +195,7 @@
         <item name="android:windowAnimationStyle">@android:style/Animation
         </item>
     </style>
+
     <style name="DK.Dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -201,4 +205,6 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackgroundFallback">@android:color/transparent</item>
     </style>
+
+
 </resources>

@@ -116,4 +116,11 @@ public interface DokitViewManagerInterface {
      * @param activity
      */
     void onActivityResume(Activity activity);
+
+    /**
+     * 页面onPause时调用
+     *
+     * @param activity
+     */
+    void onActivityPause(Activity activity);
 }

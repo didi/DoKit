@@ -83,7 +83,6 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
         //添加DokitView
         resumeAndAttachDokitViews(activity);
 
-
         for (LifecycleListenerUtil.LifecycleListener listener : LifecycleListenerUtil.LIFECYCLE_LISTENERS) {
             listener.onActivityResumed(activity);
         }
@@ -97,6 +96,8 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
         for (LifecycleListenerUtil.LifecycleListener listener : LifecycleListenerUtil.LIFECYCLE_LISTENERS) {
             listener.onActivityPaused(activity);
         }
+
+        DokitViewManager.getInstance().onActivityPause(activity);
     }
 
 
@@ -164,7 +165,6 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
         else {
             //悬浮窗权限 vivo 华为可以不需要动态权限 小米需要
             if (PermissionUtil.canDrawOverlays(activity)) {
-
                 DokitViewManager.getInstance().resumeAndAttachDokitViews(activity);
             } else {
                 //请求悬浮窗权限

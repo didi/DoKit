@@ -224,6 +224,14 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         }
     }
 
+    @Override
+    public void onActivityPause(Activity activity) {
+        Map<String, AbsDokitView> dokitViews = getDokitViews(activity);
+        for (AbsDokitView absDokitView : dokitViews.values()) {
+            absDokitView.onPause();
+        }
+    }
+
     /**
      * 添加倒计时DokitView
      */

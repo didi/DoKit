@@ -160,6 +160,11 @@ public class DokitViewManager implements DokitViewManagerInterface {
 
     }
 
+    @Override
+    public void onActivityPause(Activity activity) {
+        mDokitViewManager.onActivityPause(activity);
+    }
+
     /**
      * 在当前Activity中添加指定悬浮窗
      *

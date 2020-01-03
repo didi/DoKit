@@ -485,6 +485,10 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
         }
     }
 
+    @Override
+    public void onPause() {
+
+    }
 
     /**
      * 系统悬浮窗需要调用

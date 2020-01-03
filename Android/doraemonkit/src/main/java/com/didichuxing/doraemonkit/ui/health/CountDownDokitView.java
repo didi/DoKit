@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.ui.health;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.view.CircleProgress;
 
 /**
  * ================================================
@@ -24,8 +27,10 @@ import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
  * ================================================
  */
 public class CountDownDokitView extends AbsDokitView {
-    TextView mNum;
-    CountDownTimer mCountDownTimer;
+    private static final String TAG = "CountDownDokitView";
+    private TextView mNum;
+    private CircleProgress mProgressBar;
+    private CountDownTimer mCountDownTimer;
     private static int COUNT_DOWN_TOTAL = 10 * 1000;
     private static int COUNT_DOWN_INTERVAL = 1000;
 
@@ -42,29 +47,48 @@ public class CountDownDokitView extends AbsDokitView {
     @Override
     public void onViewCreated(FrameLayout rootView) {
         mNum = findViewById(R.id.tv_number);
-        mCountDownTimer = new CountDownTimer(COUNT_DOWN_TOTAL, COUNT_DOWN_INTERVAL) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                String value = String.valueOf((int) (millisUntilFinished / COUNT_DOWN_INTERVAL));
-                mNum.setText(value);
-            }
+        mProgressBar = findViewById(R.id.circle_progress_bar);
+        mProgressBar.setGradientColors(new int[]{Color.parseColor("#3CBCA3"), Color.parseColor("#3CBCA3"), Color.parseColor("#3CBCA3")});
+        mProgressBar.setValue(100);
 
+        postDelayed(new Runnable() {
             @Override
-            public void onFinish() {
-                DokitViewManager.getInstance().detach(CountDownDokitView.this);
+            public void run() {
+                mCountDownTimer = new CountDownTimer(COUNT_DOWN_TOTAL, COUNT_DOWN_INTERVAL) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        String value = String.valueOf((int) (millisUntilFinished / COUNT_DOWN_INTERVAL));
+                        LogHelper.i(TAG, "value===>" + value);
+                        mProgressBar.setValue(Integer.parseInt(value) * 10);
+                        mNum.setText("" + value);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        mProgressBar.setValue(0);
+                        mNum.setText("" + 0);
+                        DokitViewManager.getInstance().detach(CountDownDokitView.this);
+                    }
+                };
+                //启动倒计时
+                mCountDownTimer.start();
             }
-        };
-        //启动倒计时
-        mCountDownTimer.start();
+        }, 1000);
+
     }
 
     /**
      * 重置倒计时
      */
     public void resetTime() {
-        if (mCountDownTimer != null) {
-            mCountDownTimer.start();
-        }
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mCountDownTimer != null) {
+                    mCountDownTimer.start();
+                }
+            }
+        }, 500);
     }
 
     @Override
@@ -72,19 +96,22 @@ public class CountDownDokitView extends AbsDokitView {
         params.height = DokitViewLayoutParams.WRAP_CONTENT;
         params.width = DokitViewLayoutParams.WRAP_CONTENT;
         params.gravity = Gravity.TOP | Gravity.LEFT;
-        params.x = ConvertUtils.dp2px(300);
+        params.x = ConvertUtils.dp2px(280);
         params.y = ConvertUtils.dp2px(25);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (isNormalMode()) {
-            if (mCountDownTimer != null) {
-                mCountDownTimer.cancel();
-                mCountDownTimer = null;
-            }
+        if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
+            mCountDownTimer = null;
         }
+
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
 }

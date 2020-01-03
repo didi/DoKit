@@ -49,6 +49,11 @@ interface DokitView {
     void onResume();
 
     /**
+     * 当前activity onPause时调用
+     */
+    void onPause();
+
+    /**
      * 确定浮标的初始位置
      * LayoutParams创建完以后调用
      * 调用时建议放在实现下方
