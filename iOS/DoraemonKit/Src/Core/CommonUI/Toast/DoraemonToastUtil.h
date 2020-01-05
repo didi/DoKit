@@ -11,5 +11,6 @@
 @interface DoraemonToastUtil : NSObject
 
 + (void)showToast:(NSString *)text inView:(UIView *)superView;
++ (void)showToastBlack:(NSString *)text inView:(UIView *)superView;
 
 @end
