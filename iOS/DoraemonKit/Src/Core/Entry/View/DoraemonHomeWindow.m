@@ -50,6 +50,9 @@
 }
 
 - (void)hide{
+    if (self.rootViewController.presentedViewController) {
+        [self.rootViewController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+    }
     [self setRootVc:nil];
     
     self.hidden = YES;
