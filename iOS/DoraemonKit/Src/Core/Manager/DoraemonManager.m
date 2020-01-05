@@ -218,6 +218,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 - (void)initData{
     #pragma mark - 平台工具
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMockPlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonHealthPlugin];
     
     #pragma mark - 常用工具
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAppInfoPlugin];
@@ -681,7 +682,14 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kIcon:@"doraemon_mock"},
                                    @{kPluginName:@"DoraemonMockPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"平台工具")}
-                                   ]
+                                   ],
+                           @(DoraemonManagerPluginType_DoraemonHealthPlugin) : @[
+                               @{kTitle:DoraemonLocalizedString(@"健康体检")},
+                                  @{kDesc:DoraemonLocalizedString(@"健康体检中心")},
+                                  @{kIcon:@"doraemon_health"},
+                                  @{kPluginName:@"DoraemonHealthPlugin"},
+                                  @{kAtModule:DoraemonLocalizedString(@"平台工具")}
+                                  ]
                            }[@(pluginType)];
     
     DoraemonManagerPluginTypeModel *model = [DoraemonManagerPluginTypeModel new];

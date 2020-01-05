@@ -111,6 +111,13 @@
     "开关状态"                                 = "Opening State";
     "Mock数据"                                = "Mock Data";
     
+    "健康体检"                                 = "Health Checkup";
+    "向下滑动查看功能使用说明"                    = "swipe down to see how to use the feature";
+    "回到顶部"                                 = "back to the top";
+    "正在检测中..."                            = "Detecting ...";
+    "提交成功\n恭喜已完成检测！"                  = "Submitted successfully \n Congratulations!";
+    "第%d步"                                  = "Step %d";
+    
 
     "该功能需要重启App才能生效"        =   "Reboot to work";
     "内存检测开关"                               = "Memory monitor switch";

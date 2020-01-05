@@ -88,7 +88,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     
     #pragma mark - 平台工具
     // Mock 数据
-    DoraemonManagerPluginType_DoraemonMockPlugin
+    DoraemonManagerPluginType_DoraemonMockPlugin,
+    DoraemonManagerPluginType_DoraemonHealthPlugin
 };
 
 @interface DoraemonManagerPluginTypeModel : NSObject
