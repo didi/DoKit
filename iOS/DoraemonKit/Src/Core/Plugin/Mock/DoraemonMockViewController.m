@@ -13,8 +13,6 @@
 
 @interface DoraemonMockViewController()
 
-@property (nonatomic, strong) UITabBarController *tabBar;
-
 @end
 
 @implementation DoraemonMockViewController
@@ -33,7 +31,6 @@
     } else {
         tabBar.tabBar.backgroundColor = [UIColor whiteColor];
     }
-    _tabBar = tabBar;
     
     
     
@@ -54,7 +51,7 @@
     
     tabBar.modalPresentationStyle = UIModalPresentationFullScreen;
     
-    [self presentViewController:tabBar animated:NO completion:nil];
+    [self.navigationController presentViewController:tabBar animated:NO completion:nil];
     
 }
 
