@@ -74,6 +74,7 @@ void myNSLog(NSString *format, ...){
     [_dataArray addObject:model];
     
     if (@available(iOS 13.0, *)) {
+    }else{
         dispatch_async(dispatch_get_main_queue(), ^{
             [[DoraemonStateBar shareInstance] renderUIWithContent:[NSString stringWithFormat:@"[NSLog] : %@",log] from:DoraemonStateBarFromNSLog];
         });
