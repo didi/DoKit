@@ -113,6 +113,9 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
      * 添加倒计时DokitView
      */
     private void attachCountDownDokitView(Activity activity) {
+        if (!DokitConstant.APP_HEALTH_RUNNING) {
+            return;
+        }
         if (activity instanceof UniversalActivity) {
             return;
         }

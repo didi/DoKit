@@ -6,11 +6,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
+import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceUtil;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
+import com.didichuxing.doraemonkit.model.ViewInfo;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
@@ -20,6 +25,7 @@ import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.PermissionUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -71,6 +77,8 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
     @Override
     public void onActivityResumed(Activity activity) {
         recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_RESUME);
+        //记录页面层级
+        recordActivityUiLevel(activity);
         //如果是leakCanary页面不进行添加
         if (ignoreCurrentActivityDokitView(activity)) {
             return;
@@ -236,6 +244,46 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
      * Activity destroy
      */
     private static int LIFE_CYCLE_STATUS_DESTROY = 103;
+
+    /**
+     * 记录当前activity的UILevel
+     *
+     * @param activity
+     */
+    private void recordActivityUiLevel(Activity activity) {
+        if (!DokitConstant.APP_HEALTH_RUNNING) {
+            return;
+        }
+
+        List<ViewInfo> viewInfos = UIPerformanceUtil.getViewInfos(activity);
+        int maxLevel = 0;
+        float maxTime = 0f;
+        float totalTime = 0f;
+        ViewInfo maxLevelViewInfo = null;
+        ViewInfo maxTimeViewInfo = null;
+        for (ViewInfo viewInfo : viewInfos) {
+            if (viewInfo.layerNum > maxLevel) {
+                maxLevel = viewInfo.layerNum;
+                maxLevelViewInfo = viewInfo;
+            }
+            if (viewInfo.drawTime > maxTime) {
+                maxTime = viewInfo.drawTime;
+                maxTimeViewInfo = viewInfo;
+            }
+            totalTime += viewInfo.drawTime;
+        }
+
+        String detail = "最大层级:" + maxLevel + "\n"
+                + "控件id:" + (maxLevelViewInfo == null ? "no matched" : maxLevelViewInfo.id) + "\n"
+                + "总绘制耗时:" + totalTime + "ms" + "\n"
+                + "绘制耗时最长控件:" + maxTime + "ms" + "\n"
+                + "绘制耗时最长控件id:" + (maxTimeViewInfo == null ? "no matched" : maxTimeViewInfo.id) + "\n";
+        AppHealthInfo.DataBean.UiLevelBean uiLevelBean = new AppHealthInfo.DataBean.UiLevelBean();
+        uiLevelBean.setPage(activity.getClass().getCanonicalName());
+        uiLevelBean.setLevel("" + maxLevel);
+        uiLevelBean.setDetail(detail);
+        AppHealthInfoUtil.getInstance().addUiLevelInfo(uiLevelBean);
+    }
 
     /**
      * 记录当前Activity的生命周期状态

@@ -4,15 +4,19 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.BuildConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockMonitorManager;
+import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.okgo.OkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -56,7 +60,7 @@ public class AppHealthInfoUtil {
         baseInfoBean.setDokitVersion(BuildConfig.VERSION_NAME);
         baseInfoBean.setPlatform("Android");
         baseInfoBean.setPhoneMode(DeviceUtils.getModel());
-        baseInfoBean.setTime(TimeUtils.getNowString());
+        baseInfoBean.setTime("" + TimeUtils.getNowMills());
         baseInfoBean.setSystemVersion(DeviceUtils.getSDKVersionName());
         baseInfoBean.setpId("" + DokitConstant.PRODUCT_ID);
         mAppHealthInfo.setBaseInfo(baseInfoBean);
@@ -87,6 +91,7 @@ public class AppHealthInfoUtil {
             cpus = new ArrayList<>();
             getData().setCpu(cpus);
         }
+        sortValue(cpuBean.getValues());
         cpus.add(cpuBean);
     }
 
@@ -102,6 +107,7 @@ public class AppHealthInfoUtil {
             memories = new ArrayList<>();
             getData().setMemory(memories);
         }
+        sortValue(memoryBean.getValues());
         memories.add(memoryBean);
     }
 
@@ -116,6 +122,7 @@ public class AppHealthInfoUtil {
             fpsBeans = new ArrayList<>();
             getData().setFps(fpsBeans);
         }
+        sortValue(fpsBean.getValues());
         fpsBeans.add(fpsBean);
     }
 
@@ -231,16 +238,26 @@ public class AppHealthInfoUtil {
     /**
      * 上传健康体检数据到服务器
      */
-    public void post() {
+    public void post(final UploadAppHealthCallback uploadAppHealthCallBack) {
         if (mAppHealthInfo == null) {
             return;
         }
-        OkGo.<String>post("http://172.23.161.146:80/healthCheck/addCheckData")
+        OkGo.<String>post("http://172.23.164.35:80/healthCheck/addCheckData")
                 .upJson(GsonUtils.toJson(mAppHealthInfo))
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LogHelper.i(TAG, "===success===>" + response.body());
+                        if (uploadAppHealthCallBack != null) {
+                            uploadAppHealthCallBack.onSuccess(response);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        if (uploadAppHealthCallBack != null) {
+                            uploadAppHealthCallBack.onError(response);
+                        }
                     }
                 });
 
@@ -269,5 +286,88 @@ public class AppHealthInfoUtil {
         return mAppHealthInfo.getData();
     }
 
+    /**
+     * 时候处于app 健康体检状态
+     *
+     * @return
+     */
+    public boolean isAppHealthRunning() {
+        boolean isRunning = DokitConstant.APP_HEALTH_RUNNING;
+        if (isRunning) {
+            ToastUtils.showShort("App当前处于健康体检状态,无法进行此操作");
+        }
+        return isRunning;
+    }
+
+    /**
+     * 开启健康体检监控
+     */
+    public void start() {
+        PerformanceDataManager.getInstance().init();
+        //帧率
+        PerformanceDataManager.getInstance().startMonitorFrameInfo();
+        //cpu
+        PerformanceDataManager.getInstance().startMonitorCPUInfo();
+        //内存
+        PerformanceDataManager.getInstance().startMonitorMemoryInfo();
+        //网络
+        PerformanceDataManager.getInstance().startMonitorNetFlowInfo();
+        //卡顿
+        BlockMonitorManager.getInstance().start();
+    }
+
+    /**
+     * 结束健康体检监控
+     */
+    public void stop() {
+        //帧率
+        PerformanceDataManager.getInstance().stopMonitorFrameInfo();
+        //cpu
+        PerformanceDataManager.getInstance().stopMonitorCPUInfo();
+        //内存
+        PerformanceDataManager.getInstance().stopMonitorMemoryInfo();
+        //网络
+        PerformanceDataManager.getInstance().stopMonitorNetFlowInfo();
+        //卡顿
+        BlockMonitorManager.getInstance().stop();
+
+    }
+
+    /**
+     * list 去掉最大值和最小值 并重新 排序
+     */
+    private void sortValue(List<AppHealthInfo.DataBean.PerformanceBean.ValuesBean> valuesBeans) {
+        Collections.sort(valuesBeans, new Comparator<AppHealthInfo.DataBean.PerformanceBean.ValuesBean>() {
+            @Override
+            public int compare(AppHealthInfo.DataBean.PerformanceBean.ValuesBean pre, AppHealthInfo.DataBean.PerformanceBean.ValuesBean next) {
+                float preValue = Float.parseFloat(pre.getValue());
+                float nextValue = Float.parseFloat(next.getValue());
+                if (preValue == nextValue) {
+                    return 0;
+                } else if (preValue < nextValue) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+
+            }
+        });
+        valuesBeans.remove(0);
+        valuesBeans.remove(valuesBeans.size() - 1);
+        Collections.sort(valuesBeans, new Comparator<AppHealthInfo.DataBean.PerformanceBean.ValuesBean>() {
+            @Override
+            public int compare(AppHealthInfo.DataBean.PerformanceBean.ValuesBean pre, AppHealthInfo.DataBean.PerformanceBean.ValuesBean next) {
+                long preValue = Long.parseLong(pre.getTime());
+                long nextValue = Long.parseLong(next.getTime());
+                if (preValue == nextValue) {
+                    return 0;
+                } else if (preValue < nextValue) {
+                    return -1;
+                } else {
+                    return 1;
+                }
+            }
+        });
+    }
 
 }

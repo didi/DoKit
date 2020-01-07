@@ -45,7 +45,7 @@ public class RealTimePerformDataDokitView extends AbsDokitView {
                 mHandler.sendEmptyMessageDelayed(UPDATE_DATA_WHAT, 1000);
             }
         };
-        PerformanceDataManager.getInstance().init(context);
+        PerformanceDataManager.getInstance().init();
     }
 
     @Override

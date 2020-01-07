@@ -9,6 +9,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
 import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockMonitorManager;
@@ -16,6 +17,7 @@ import com.didichuxing.doraemonkit.kit.blockmonitor.core.OnBlockInfoUpdateListen
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -63,6 +65,7 @@ public class BlockListFragment extends BaseFragment implements OnBlockInfoUpdate
         mBlockListAdapter.setOnItemClickListener(new BlockListAdapter.OnItemClickListener() {
             @Override
             public void onClick(BlockInfo info) {
+                LogHelper.i(TAG, info.toString());
                 mLogDetail.setText(info.toString());
                 mLogDetail.setVisibility(View.VISIBLE);
                 mBlockList.setVisibility(View.GONE);

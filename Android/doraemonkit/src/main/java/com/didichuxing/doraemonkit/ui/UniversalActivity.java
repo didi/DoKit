@@ -72,10 +72,7 @@ public class UniversalActivity extends BaseActivity {
             case FragmentIndex.FRAGMENT_DB_DEBUG:
                 fragmentClass = DbDebugFragment.class;
                 break;
-            //性能监控===帧率
-            case FragmentIndex.FRAGMENT_FRAME_INFO:
-                fragmentClass = FrameInfoFragment.class;
-                break;
+
             case FragmentIndex.FRAGMENT_GPS_MOCK:
                 fragmentClass = GpsMockFragment.class;
                 break;
@@ -90,6 +87,10 @@ public class UniversalActivity extends BaseActivity {
                 break;
             case FragmentIndex.FRAGMENT_WEAK_NETWORK:
                 fragmentClass = WeakNetworkFragment.class;
+                break;
+            //性能监控===帧率
+            case FragmentIndex.FRAGMENT_FRAME_INFO:
+                fragmentClass = FrameInfoFragment.class;
                 break;
             //性能监控===卡顿检测
             case FragmentIndex.FRAGMENT_BLOCK_MONITOR:

@@ -98,7 +98,7 @@ public class MockInterceptor implements Interceptor {
             networkValuesBean.setUp("" + upSize);
             networkValuesBean.setDown("" + downSize);
             networkValuesBean.setMethod(request.method());
-            networkValuesBean.setTime(TimeUtils.getNowString());
+            networkValuesBean.setTime("" + TimeUtils.getNowMills());
             networkValuesBean.setUrl(request.url().toString());
             if (networkBean == null) {
                 networkBean = new AppHealthInfo.DataBean.NetworkBean();

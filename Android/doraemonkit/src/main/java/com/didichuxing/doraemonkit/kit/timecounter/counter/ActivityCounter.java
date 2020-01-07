@@ -3,6 +3,10 @@ package com.didichuxing.doraemonkit.kit.timecounter.counter;
 import android.app.Activity;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.TimeUtils;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterDokitView;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
@@ -101,7 +105,7 @@ public class ActivityCounter {
         mStartTime = 0;
     }
 
-    public void renderEnd() {
+    private void renderEnd() {
         mRenderCostTime = System.currentTimeMillis() - mRenderStartTime;
         //LogHelper.d(TAG, "render cost：" + mRenderCostTime);
         mTotalCostTime = System.currentTimeMillis() - mStartTime;
@@ -110,9 +114,7 @@ public class ActivityCounter {
         print();
     }
 
-    public void print() {
-
-
+    private void print() {
         CounterInfo counterInfo = new CounterInfo();
         counterInfo.time = System.currentTimeMillis();
         counterInfo.type = CounterInfo.TYPE_ACTIVITY;
@@ -122,7 +124,17 @@ public class ActivityCounter {
         counterInfo.renderCost = mRenderCostTime;
         counterInfo.totalCost = mTotalCostTime;
         counterInfo.otherCost = mOtherCostTime;
+        //将Activity 打开耗时 添加到AppHealth 中
+        if (DokitConstant.APP_HEALTH_RUNNING) {
+            AppHealthInfo.DataBean.PageLoadBean pageLoadBean = new AppHealthInfo.DataBean.PageLoadBean();
+            pageLoadBean.setPage(ActivityUtils.getTopActivity().getClass().getCanonicalName());
+            pageLoadBean.setTime("" + TimeUtils.getNowMills());
+            pageLoadBean.setCostTime("" + counterInfo.totalCost);
+            pageLoadBean.setTrace(counterInfo.title);
+            AppHealthInfoUtil.getInstance().addPageLoadInfo(pageLoadBean);
+        }
         mCounterInfos.add(counterInfo);
+
         TimeCounterDokitView dokitView = (TimeCounterDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), TimeCounterDokitView.class.getSimpleName());
         if (dokitView != null) {
             dokitView.showInfo(counterInfo);

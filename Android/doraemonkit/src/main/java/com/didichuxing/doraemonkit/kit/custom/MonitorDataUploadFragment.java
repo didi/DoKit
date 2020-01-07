@@ -48,7 +48,7 @@ public class MonitorDataUploadFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PerformanceDataManager.getInstance().init(getContext());
+        PerformanceDataManager.getInstance().init();
     }
 
     private void initView() {

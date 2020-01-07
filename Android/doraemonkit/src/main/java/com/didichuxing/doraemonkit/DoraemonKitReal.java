@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit;
 
 import android.app.Application;
 import android.os.Build;
+import android.text.TextUtils;
 
 import com.amitshekhar.DebugDB;
 import com.amitshekhar.debug.encrypt.sqlite.DebugDBEncryptFactory;
@@ -220,7 +221,7 @@ class DoraemonKitReal {
         ui.add(new AlignRulerKit());
         ui.add(new ViewCheckerKit());
         ui.add(new LayoutBorderKit());
-        if (IS_HOOK) {
+        if (IS_HOOK && !TextUtils.isEmpty(DokitConstant.PRODUCT_ID)) {
             //新增数据mock工具 由于Dokit管理平台还没完善 所以暂时关闭入口
             platform.add(new MockKit());
             platform.add(new HealthKit());
@@ -288,6 +289,24 @@ class DoraemonKitReal {
         checkLargeImgIsOpen();
         registerNetworkStatusChangedListener();
         initAidlBridge(app);
+        startAppHealth();
+    }
+
+    /**
+     * 开启健康体检
+     */
+    private static void startAppHealth() {
+        if (!DokitConstant.APP_HEALTH_RUNNING) {
+            return;
+        }
+
+        if (TextUtils.isEmpty(DokitConstant.PRODUCT_ID)) {
+            ToastUtils.showShort("要使用健康体检功能必须先去平台端注册");
+            return;
+        }
+
+        AppHealthInfoUtil.getInstance().start();
+
     }
 
 

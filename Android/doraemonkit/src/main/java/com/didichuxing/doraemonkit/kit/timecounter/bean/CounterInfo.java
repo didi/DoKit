@@ -20,4 +20,19 @@ public class CounterInfo {
     public long otherCost;
 
     public boolean show;
+
+    @Override
+    public String toString() {
+        return "CounterInfo{" +
+                "time=" + time +
+                ", type=" + type +
+                ", title='" + title + '\'' +
+                ", totalCost=" + totalCost +
+                ", pauseCost=" + pauseCost +
+                ", launchCost=" + launchCost +
+                ", renderCost=" + renderCost +
+                ", otherCost=" + otherCost +
+                ", show=" + show +
+                '}';
+    }
 }

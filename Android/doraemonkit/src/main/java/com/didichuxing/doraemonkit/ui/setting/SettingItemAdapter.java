@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
 
@@ -63,6 +64,11 @@ public class SettingItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<Setting
                 mMenuSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (AppHealthInfoUtil.getInstance().isAppHealthRunning()) {
+                            mMenuSwitch.setChecked(true);
+                            return;
+                        }
+
                         settingItem.isChecked = isChecked;
                         mOnSettingItemSwitchListener.onSettingItemSwitch(mMenuSwitch, settingItem, isChecked);
                     }

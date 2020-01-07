@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.constant;
 
+import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
@@ -24,11 +25,12 @@ import java.util.Map;
  * ================================================
  */
 public class DokitConstant {
+    public static String PRODUCT_ID = "";
 
     /**
      * 是否处于健康体检中
      */
-    public static boolean APP_HEALTH_RUNNING = GlobalConfig.getAppHealth(DoraemonKit.APPLICATION);
+    public static boolean APP_HEALTH_RUNNING = GlobalConfig.getAppHealth(DoraemonKit.APPLICATION) && !TextUtils.isEmpty(PRODUCT_ID);
 
     /**
      * 是否是普通的浮标模式
@@ -45,7 +47,6 @@ public class DokitConstant {
      */
     public static boolean MAIN_ICON_HAS_SHOW = false;
 
-    public static String PRODUCT_ID = "";
 
     /**
      * 全局DBDebugFragment

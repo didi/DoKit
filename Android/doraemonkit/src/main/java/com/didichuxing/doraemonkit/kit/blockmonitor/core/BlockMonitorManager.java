@@ -9,6 +9,7 @@ import android.text.TextUtils;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
@@ -58,18 +59,18 @@ public class BlockMonitorManager {
 
     }
 
-    public void start(Context context) {
+    public void start() {
         if (mIsRunning) {
             LogHelper.i(TAG, "start when manager is running");
             return;
         }
-        if (context == null) {
+        if (DoraemonKit.APPLICATION == null) {
             LogHelper.e(TAG, "start fail, context is null");
             return;
         }
         // 卡顿检测和跳转耗时统计都使用了Printer的方式，无法同时工作
         TimeCounterManager.get().stop();
-        mContext = context.getApplicationContext();
+        mContext = DoraemonKit.APPLICATION.getApplicationContext();
         if (mMonitorCore == null) {
             mMonitorCore = new MonitorCore();
         }
@@ -110,7 +111,7 @@ public class BlockMonitorManager {
             String activityName = ActivityUtils.getTopActivity().getClass().getCanonicalName();
             AppHealthInfo.DataBean.BlockBean blockBean = new AppHealthInfo.DataBean.BlockBean();
             blockBean.setPage(activityName);
-            blockBean.setBlockTime(TimeUtils.getNowString());
+            blockBean.setBlockTime("" + TimeUtils.getNowMills());
             blockBean.setDetail(blockInfo.toString());
             AppHealthInfoUtil.getInstance().addBlockInfo(blockBean);
         } catch (Exception e) {
