@@ -68,9 +68,11 @@ public class AppHealthInfoUtil {
      * @param costTime
      * @param costDetail
      */
-    public void setAppStartInfo(String costTime, String costDetail) {
+    public void setAppStartInfo(String costTime, String costDetail, List<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean> loadFunc) {
         AppHealthInfo.DataBean.AppStartBean appStartBean = new AppHealthInfo.DataBean.AppStartBean();
-
+        appStartBean.setCostTime(costTime);
+        appStartBean.setCostDetail(costDetail);
+        appStartBean.setLoadFunc(loadFunc);
         getData().setAppStart(appStartBean);
     }
 
@@ -79,8 +81,8 @@ public class AppHealthInfoUtil {
      *
      * @param cpuBean
      */
-    public void addCPUInfo(AppHealthInfo.DataBean.CpuBean cpuBean) {
-        List<AppHealthInfo.DataBean.CpuBean> cpus = getData().getCpu();
+    public void addCPUInfo(AppHealthInfo.DataBean.PerformanceBean cpuBean) {
+        List<AppHealthInfo.DataBean.PerformanceBean> cpus = getData().getCpu();
         if (cpus == null) {
             cpus = new ArrayList<>();
             getData().setCpu(cpus);
@@ -94,8 +96,8 @@ public class AppHealthInfoUtil {
      *
      * @param memoryBean
      */
-    public void addMemoryInfo(AppHealthInfo.DataBean.MemoryBean memoryBean) {
-        List<AppHealthInfo.DataBean.MemoryBean> memories = getData().getMemory();
+    public void addMemoryInfo(AppHealthInfo.DataBean.PerformanceBean memoryBean) {
+        List<AppHealthInfo.DataBean.PerformanceBean> memories = getData().getMemory();
         if (memories == null) {
             memories = new ArrayList<>();
             getData().setMemory(memories);
@@ -108,8 +110,8 @@ public class AppHealthInfoUtil {
      *
      * @param fpsBean
      */
-    public void addFPSInfo(AppHealthInfo.DataBean.FpsBean fpsBean) {
-        List<AppHealthInfo.DataBean.FpsBean> fpsBeans = getData().getFps();
+    public void addFPSInfo(AppHealthInfo.DataBean.PerformanceBean fpsBean) {
+        List<AppHealthInfo.DataBean.PerformanceBean> fpsBeans = getData().getFps();
         if (fpsBeans == null) {
             fpsBeans = new ArrayList<>();
             getData().setFps(fpsBeans);
@@ -133,6 +135,28 @@ public class AppHealthInfoUtil {
     }
 
     /**
+     * 获取指定的NetworkBean
+     *
+     * @param activityName
+     */
+    public AppHealthInfo.DataBean.NetworkBean getNetWorkInfo(String activityName) {
+        List<AppHealthInfo.DataBean.NetworkBean> networks = getData().getNetwork();
+        if (networks == null || networks.size() == 0) {
+            return null;
+        }
+        AppHealthInfo.DataBean.NetworkBean networkBean = null;
+
+        for (AppHealthInfo.DataBean.NetworkBean traverseNetworkBean : networks) {
+            if (traverseNetworkBean.getPage().equals(activityName)) {
+                networkBean = traverseNetworkBean;
+                break;
+            }
+        }
+
+        return networkBean;
+    }
+
+    /**
      * 添加卡顿信息
      *
      * @param blockBean
@@ -145,6 +169,7 @@ public class AppHealthInfoUtil {
         }
         blocks.add(blockBean);
     }
+
 
     /**
      * 添加页面层级信息
@@ -210,9 +235,6 @@ public class AppHealthInfoUtil {
         if (mAppHealthInfo == null) {
             return;
         }
-        // TODO: 2020-01-03 测试 先初始化一下data
-        getData();
-        setBaseInfo("测试用例","金台");
         OkGo.<String>post("http://172.23.161.146:80/healthCheck/addCheckData")
                 .upJson(GsonUtils.toJson(mAppHealthInfo))
                 .execute(new StringCallback() {
@@ -232,8 +254,9 @@ public class AppHealthInfoUtil {
     private AppHealthInfo.DataBean getData() {
         if (mAppHealthInfo.getData() == null) {
             AppHealthInfo.DataBean dataBean = new AppHealthInfo.DataBean();
-            dataBean.setCpu(new ArrayList<AppHealthInfo.DataBean.CpuBean>());
-            dataBean.setMemory(new ArrayList<AppHealthInfo.DataBean.MemoryBean>());
+            dataBean.setCpu(new ArrayList<AppHealthInfo.DataBean.PerformanceBean>());
+            dataBean.setMemory(new ArrayList<AppHealthInfo.DataBean.PerformanceBean>());
+            dataBean.setFps(new ArrayList<AppHealthInfo.DataBean.PerformanceBean>());
             dataBean.setNetwork(new ArrayList<AppHealthInfo.DataBean.NetworkBean>());
             dataBean.setBlock(new ArrayList<AppHealthInfo.DataBean.BlockBean>());
             dataBean.setUiLevel(new ArrayList<AppHealthInfo.DataBean.UiLevelBean>());

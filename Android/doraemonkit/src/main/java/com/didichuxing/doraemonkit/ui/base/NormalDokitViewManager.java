@@ -123,7 +123,6 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void onMainActivityCreate(Activity activity) {
-        LogHelper.i(TAG, "app 启动==>" + activity.getClass().getSimpleName());
         if (activity instanceof UniversalActivity) {
             return;
         }

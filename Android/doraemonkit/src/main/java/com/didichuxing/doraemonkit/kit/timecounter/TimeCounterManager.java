@@ -3,12 +3,19 @@ package com.didichuxing.doraemonkit.kit.timecounter;
 import android.app.Application;
 import android.os.Looper;
 
+import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
+import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostCallback;
+import com.didichuxing.doraemonkit.kit.methodtrace.MethodCost;
+import com.didichuxing.doraemonkit.kit.methodtrace.OrderBean;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.ActivityCounter;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.AppCounter;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,6 +42,8 @@ public class TimeCounterManager {
      */
     public void onAppCreateStart(Application application) {
         mAppCounter.start();
+        MethodCost.APPLICATION = application;
+        MethodCost.startMethodTracing("appStart");
     }
 
     /**
@@ -44,6 +53,23 @@ public class TimeCounterManager {
      */
     public void onAppCreateEnd(Application application) {
         mAppCounter.end();
+        MethodCost.stopMethodTracingAndPrintLog("appStart", new MethodCostCallback() {
+            @Override
+            public void onCall(ArrayList<OrderBean> orderBeans) {
+                if (DokitConstant.APP_HEALTH_RUNNING) {
+                    CounterInfo counterInfo = getAppSetupInfo();
+                    List<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean> loads = new ArrayList<>();
+                    for (OrderBean orderBean : orderBeans) {
+                        AppHealthInfo.DataBean.AppStartBean.LoadFuncBean loadFuncBean = new AppHealthInfo.DataBean.AppStartBean.LoadFuncBean();
+                        loadFuncBean.setClassName(orderBean.getFunctionName());
+                        loadFuncBean.setCostTime(orderBean.getCostTime());
+                        loads.add(loadFuncBean);
+                    }
+                    AppHealthInfoUtil.getInstance().setAppStartInfo("" + counterInfo.totalCost, orderBeans.toString(), loads);
+                }
+            }
+        });
+
     }
 
     public void onActivityPause() {

@@ -28,7 +28,9 @@ import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerKit;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockKit;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.kit.gpsmock.ServiceHookManager;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.HealthKit;
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureKit;
 import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit;
 import com.didichuxing.doraemonkit.kit.logInfo.LogInfoKit;
@@ -299,6 +301,12 @@ class DoraemonKitReal {
             @Override
             public void receiveMessage(String message) {
                 LogHelper.i(TAG, "====aidl=====>" + message);
+                if (DokitConstant.APP_HEALTH_RUNNING) {
+                    AppHealthInfo.DataBean.LeakBean leakBean = new AppHealthInfo.DataBean.LeakBean();
+                    leakBean.setPage(ActivityUtils.getTopActivity().getClass().getCanonicalName());
+                    leakBean.setDetail(message);
+                    AppHealthInfoUtil.getInstance().addLeakInfo(leakBean);
+                }
             }
         });
     }

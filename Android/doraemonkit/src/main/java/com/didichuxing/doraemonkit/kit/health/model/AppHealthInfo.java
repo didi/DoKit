@@ -157,9 +157,9 @@ public class AppHealthInfo {
          */
 
         private AppStartBean appStart;
-        private List<CpuBean> cpu;
-        private List<MemoryBean> memory;
-        private List<FpsBean> fps;
+        private List<PerformanceBean> cpu;
+        private List<PerformanceBean> memory;
+        private List<PerformanceBean> fps;
         private List<NetworkBean> network;
         private List<BlockBean> block;
         private List<SubThreadUIBean> subThreadUI;
@@ -176,27 +176,27 @@ public class AppHealthInfo {
             this.appStart = appStart;
         }
 
-        public List<CpuBean> getCpu() {
+        public List<PerformanceBean> getCpu() {
             return cpu;
         }
 
-        public void setCpu(List<CpuBean> cpu) {
+        public void setCpu(List<PerformanceBean> cpu) {
             this.cpu = cpu;
         }
 
-        public List<MemoryBean> getMemory() {
+        public List<PerformanceBean> getMemory() {
             return memory;
         }
 
-        public void setMemory(List<MemoryBean> memory) {
+        public void setMemory(List<PerformanceBean> memory) {
             this.memory = memory;
         }
 
-        public List<FpsBean> getFps() {
+        public List<PerformanceBean> getFps() {
             return fps;
         }
 
-        public void setFps(List<FpsBean> fps) {
+        public void setFps(List<PerformanceBean> fps) {
             this.fps = fps;
         }
 
@@ -317,8 +317,10 @@ public class AppHealthInfo {
                 }
             }
         }
-
-        public static class CpuBean {
+        /**
+         * cpu、内存、fps 共享的Bean
+         */
+        public static class PerformanceBean {
             /**
              * page : HomeViewController
              * values : [{"time":"时间戳","value":"0.5"},{"time":"时间戳","value":"0.8"}]
@@ -343,6 +345,9 @@ public class AppHealthInfo {
                 this.values = values;
             }
 
+            /**
+             * cpu、内存、fps 共享的ValueBean
+             */
             public static class ValuesBean {
                 /**
                  * time : 时间戳
@@ -352,57 +357,10 @@ public class AppHealthInfo {
                 private String time;
                 private String value;
 
-                public String getTime() {
-                    return time;
-                }
-
-                public void setTime(String time) {
+                public ValuesBean(String time, String value) {
                     this.time = time;
-                }
-
-                public String getValue() {
-                    return value;
-                }
-
-                public void setValue(String value) {
                     this.value = value;
                 }
-            }
-        }
-
-        public static class MemoryBean {
-            /**
-             * page : HomeViewController
-             * values : [{"time":"时间戳","value":"80"},{"time":"时间戳","value":"81"}]
-             */
-
-            private String page;
-            private List<ValuesBeanX> values;
-
-            public String getPage() {
-                return page;
-            }
-
-            public void setPage(String page) {
-                this.page = page;
-            }
-
-            public List<ValuesBeanX> getValues() {
-                return values;
-            }
-
-            public void setValues(List<ValuesBeanX> values) {
-                this.values = values;
-            }
-
-            public static class ValuesBeanX {
-                /**
-                 * time : 时间戳
-                 * value : 80
-                 */
-
-                private String time;
-                private String value;
 
                 public String getTime() {
                     return time;
@@ -422,57 +380,6 @@ public class AppHealthInfo {
             }
         }
 
-        public static class FpsBean {
-            /**
-             * page : HomeViewController
-             * values : [{"time":"时间戳","value":"60"},{"time":"时间戳","value":"59"}]
-             */
-
-            private String page;
-            private List<ValuesBeanXX> values;
-
-            public String getPage() {
-                return page;
-            }
-
-            public void setPage(String page) {
-                this.page = page;
-            }
-
-            public List<ValuesBeanXX> getValues() {
-                return values;
-            }
-
-            public void setValues(List<ValuesBeanXX> values) {
-                this.values = values;
-            }
-
-            public static class ValuesBeanXX {
-                /**
-                 * time : 时间戳
-                 * value : 60
-                 */
-
-                private String time;
-                private String value;
-
-                public String getTime() {
-                    return time;
-                }
-
-                public void setTime(String time) {
-                    this.time = time;
-                }
-
-                public String getValue() {
-                    return value;
-                }
-
-                public void setValue(String value) {
-                    this.value = value;
-                }
-            }
-        }
 
         public static class NetworkBean {
             /**
@@ -481,7 +388,7 @@ public class AppHealthInfo {
              */
 
             private String page;
-            private List<ValuesBeanXXX> values;
+            private List<NetworkValuesBean> values;
 
             public String getPage() {
                 return page;
@@ -491,15 +398,15 @@ public class AppHealthInfo {
                 this.page = page;
             }
 
-            public List<ValuesBeanXXX> getValues() {
+            public List<NetworkValuesBean> getValues() {
                 return values;
             }
 
-            public void setValues(List<ValuesBeanXXX> values) {
+            public void setValues(List<NetworkValuesBean> values) {
                 this.values = values;
             }
 
-            public static class ValuesBeanXXX {
+            public static class NetworkValuesBean {
                 /**
                  * time : 时间戳
                  * url : http://www.baidu.com

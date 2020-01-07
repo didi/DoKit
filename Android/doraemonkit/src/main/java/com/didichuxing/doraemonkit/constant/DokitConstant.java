@@ -2,6 +2,8 @@ package com.didichuxing.doraemonkit.constant;
 
 import android.util.SparseArray;
 
+import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.config.GlobalConfig;
 import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
@@ -22,6 +24,12 @@ import java.util.Map;
  * ================================================
  */
 public class DokitConstant {
+
+    /**
+     * 是否处于健康体检中
+     */
+    public static boolean APP_HEALTH_RUNNING = GlobalConfig.getAppHealth(DoraemonKit.APPLICATION);
+
     /**
      * 是否是普通的浮标模式
      */

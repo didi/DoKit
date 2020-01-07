@@ -11,7 +11,6 @@ import com.blankj.utilcode.util.ActivityUtils;
  */
 
 public class DokitIntent {
-    public static final int MODE_NORMAL = 0;
 
     /**
      * 全局的悬浮窗
@@ -37,7 +36,7 @@ public class DokitIntent {
 
     public Activity activity;
 
-    public int mode = MODE_NORMAL;
+    public int mode = MODE_SINGLE_INSTANCE;
 
 
     public DokitIntent(Class<? extends AbsDokitView> targetClass) {

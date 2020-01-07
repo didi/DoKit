@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 /**
  * Created by hasee on 2017/4/20.
  */
- class OrderBean implements Comparable<OrderBean> {
+public class OrderBean implements Comparable<OrderBean> {
     private String time;
     private String functionName;
     private boolean isXit;
@@ -149,5 +149,18 @@ import java.util.regex.Pattern;
         return (int) (order - o.order);
     }
 
-
+    @Override
+    public String toString() {
+        return "OrderBean{" +
+                "time='" + time + '\'' +
+                ", functionName='" + functionName + '\'' +
+                ", isXit=" + isXit +
+                ", content='" + content + '\'' +
+                ", costTime='" + costTime + '\'' +
+                ", entTime='" + entTime + '\'' +
+                ", threadId='" + threadId + '\'' +
+                ", threadName='" + threadName + '\'' +
+                ", order=" + order +
+                '}';
+    }
 }

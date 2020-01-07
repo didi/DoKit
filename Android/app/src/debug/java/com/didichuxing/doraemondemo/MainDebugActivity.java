@@ -278,10 +278,9 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_trace:
-                AppHealthInfoUtil.getInstance().post();
-//                MethodCost.startMethodTracing("doramemon");
-//                test1();
-//                MethodCost.stopMethodTracingAndPrintLog("doramemon");
+                MethodCost.startMethodTracing("doramemon");
+                test1();
+                MethodCost.stopMethodTracingAndPrintLog("doramemon");
                 break;
 
             case R.id.btn_show_tool_panel:

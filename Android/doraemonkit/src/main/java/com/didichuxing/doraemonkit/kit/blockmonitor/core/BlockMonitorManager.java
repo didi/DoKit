@@ -4,13 +4,19 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment;
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.util.LogHelper;
@@ -19,6 +25,9 @@ import com.didichuxing.doraemonkit.util.NotificationUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import okhttp3.Request;
+import okhttp3.Response;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 
@@ -91,10 +100,39 @@ public class BlockMonitorManager {
         mOnBlockInfoUpdateListener = onBlockInfoUpdateListener;
     }
 
-    public void notifyBlockEvent(BlockInfo blockInfo) {
+    /**
+     * 动态添加卡顿信息到appHealth
+     *
+     * @param blockInfo
+     */
+    private void addBlockInfoInAppHealth(@NonNull BlockInfo blockInfo) {
+        try {
+            String activityName = ActivityUtils.getTopActivity().getClass().getCanonicalName();
+            AppHealthInfo.DataBean.BlockBean blockBean = new AppHealthInfo.DataBean.BlockBean();
+            blockBean.setPage(activityName);
+            blockBean.setBlockTime(TimeUtils.getNowString());
+            blockBean.setDetail(blockInfo.toString());
+            AppHealthInfoUtil.getInstance().addBlockInfo(blockBean);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    /**
+     * 通知卡顿
+     *
+     * @param blockInfo
+     */
+    void notifyBlockEvent(BlockInfo blockInfo) {
         blockInfo.concernStackString = BlockCanaryUtils.concernStackString(mContext, blockInfo);
         blockInfo.time = System.currentTimeMillis();
         if (!TextUtils.isEmpty(blockInfo.concernStackString)) {
+            //卡顿
+            if (DokitConstant.APP_HEALTH_RUNNING) {
+                addBlockInfoInAppHealth(blockInfo);
+            }
             showNotification(blockInfo);
             if (mBlockInfoList.size() > MAX_SIZE) {
                 mBlockInfoList.remove(0);

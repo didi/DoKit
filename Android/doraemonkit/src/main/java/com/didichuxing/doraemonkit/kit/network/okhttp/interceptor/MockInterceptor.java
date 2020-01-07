@@ -1,8 +1,14 @@
 package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor;
 
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.TimeUtils;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.core.ResourceTypeHelper;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
@@ -12,6 +18,8 @@ import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -39,12 +47,18 @@ public class MockInterceptor implements Interceptor {
         if (host.equalsIgnoreCase(NetworkManager.MOCK_HOST)) {
             return oldResponse;
         }
+
         //path  /test/upload/img
         String path = URLDecoder.decode(url.encodedPath(), "utf-8");
         String queries = url.query();
         String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_INTERCEPT);
         String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_TEMPLATE);
         try {
+            //网络的健康体检功能 统计流量大小
+            if (DokitConstant.APP_HEALTH_RUNNING) {
+                addNetWokInfoInAppHealth(oldRequest, oldResponse);
+            }
+
             //是否命中拦截规则
             if (!TextUtils.isEmpty(interceptMatchedId)) {
                 return matchedInterceptRule(url, path, interceptMatchedId, templateMatchedId, oldRequest, oldResponse, chain);
@@ -58,6 +72,55 @@ public class MockInterceptor implements Interceptor {
             return oldResponse;
         }
         return oldResponse;
+    }
+
+    /**
+     * 动态添加网络拦截
+     *
+     * @param request
+     * @param response
+     */
+    private void addNetWokInfoInAppHealth(@NonNull Request request, @NonNull Response response) {
+        try {
+            String activityName = ActivityUtils.getTopActivity().getClass().getCanonicalName();
+            AppHealthInfo.DataBean.NetworkBean networkBean = AppHealthInfoUtil.getInstance().getNetWorkInfo(activityName);
+            AppHealthInfo.DataBean.NetworkBean.NetworkValuesBean networkValuesBean = new AppHealthInfo.DataBean.NetworkBean.NetworkValuesBean();
+            networkValuesBean.setCode("" + response.code());
+            String upSize = "";
+            String downSize = "";
+            if (request.body() != null) {
+                upSize = "" + request.body().contentLength();
+            }
+            if (response.body() != null) {
+                downSize = "" + response.body().contentLength();
+            }
+
+            networkValuesBean.setUp("" + upSize);
+            networkValuesBean.setDown("" + downSize);
+            networkValuesBean.setMethod(request.method());
+            networkValuesBean.setTime(TimeUtils.getNowString());
+            networkValuesBean.setUrl(request.url().toString());
+            if (networkBean == null) {
+                networkBean = new AppHealthInfo.DataBean.NetworkBean();
+                networkBean.setPage(activityName);
+                List<AppHealthInfo.DataBean.NetworkBean.NetworkValuesBean> networkValuesBeans = new ArrayList<>();
+                networkValuesBeans.add(networkValuesBean);
+                networkBean.setValues(networkValuesBeans);
+                AppHealthInfoUtil.getInstance().addNetWorkInfo(networkBean);
+            } else {
+                List<AppHealthInfo.DataBean.NetworkBean.NetworkValuesBean> networkValuesBeans = networkBean.getValues();
+                if (networkValuesBeans == null) {
+                    networkValuesBeans = new ArrayList<>();
+                    networkValuesBeans.add(networkValuesBean);
+                    networkBean.setValues(networkValuesBeans);
+                } else {
+                    networkValuesBeans.add(networkValuesBean);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 

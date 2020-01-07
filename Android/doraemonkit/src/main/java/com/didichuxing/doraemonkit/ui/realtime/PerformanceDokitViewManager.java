@@ -34,6 +34,7 @@ public class PerformanceDokitViewManager {
         PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
         if (performanceDokitView == null) {
             DokitIntent dokitIntent = new DokitIntent(PerformanceDokitView.class);
+            dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
             DokitViewManager.getInstance().attach(dokitIntent);
             performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
             performanceDokitView.addItem(performanceType, title, interval);

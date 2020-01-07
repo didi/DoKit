@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.methodtrace;
 
+import android.app.Application;
 import android.os.Build;
 import android.os.Debug;
 import android.util.Log;
@@ -22,6 +23,8 @@ import java.util.ArrayList;
  * startMethodTracing(startMethodTracingSampling) 和stopMethodTracingAndPrintLog 需要配对使用
  * 其中startMethodTracing是不采样的 所以在操作会产生大量的数据 导致缓存区会一下就满了 所以该方法建议该方法针对在一个方法中调用 类似demo
  * startMethodTracingSampling采用的采样的模式 可以再整个activity的生命周期中使用
+ * <p>
+ * 生成的trace文件位于getExternalFilesDir() 下 **.trace
  * 修订历史：
  * ================================================
  */
@@ -55,6 +58,9 @@ public class MethodCost {
 
     }
 
+    public static Application APPLICATION;
+
+
     /**
      * @param traceFileName Path to the trace log file to create. If {@code null},
      *                      this will default to "dmtrace.trace". If the file already
@@ -62,7 +68,7 @@ public class MethodCost {
      *                      in ".trace", it will be appended for you.
      */
     public static void startMethodTracing(String traceFileName) {
-        startMethodTracing(traceFileName, 16 * 1024 * 1024);
+        startMethodTracing(traceFileName, 32 * 1024 * 1024);
     }
 
 
@@ -100,9 +106,9 @@ public class MethodCost {
      * @param traceFileName .trace 的文件名 不需要后缀
      * @param needIndent    是否需要缩进
      */
-    public static void stopMethodTracingAndPrintLog(String traceFileName, boolean needIndent) {
+    public static void stopMethodTracingAndPrintLog(String traceFileName, boolean needIndent, MethodCostCallback appStartCallback) {
         Debug.stopMethodTracing();
-        printLog(traceFileName, needIndent);
+        printLog(traceFileName, needIndent, appStartCallback);
     }
 
 
@@ -112,14 +118,30 @@ public class MethodCost {
      * @param traceFileName .trace 的文件名 不需要后缀
      */
     public static void stopMethodTracingAndPrintLog(String traceFileName) {
-        stopMethodTracingAndPrintLog(traceFileName, true);
+        stopMethodTracingAndPrintLog(traceFileName, true, null);
+    }
+
+
+    /**
+     * 结束方法耗时并打印日志
+     *
+     * @param traceFileName .trace 的文件名 不需要后缀
+     */
+    public static void stopMethodTracingAndPrintLog(String traceFileName, MethodCostCallback appStartCallback) {
+        stopMethodTracingAndPrintLog(traceFileName, true, appStartCallback);
     }
 
     /**
      * @param traceFileName
      */
-    private static void printLog(String traceFileName, final boolean needIndent) {
-        final String filePath = ROOT_PATH + traceFileName + ".trace";
+    private static void printLog(String traceFileName, final boolean needIndent, final MethodCostCallback appStartCallback) {
+        final String filePath;
+        if (APPLICATION != null) {
+            filePath = APPLICATION.getExternalFilesDir(null) + File.separator + traceFileName + ".trace";
+        } else {
+            filePath = ROOT_PATH + traceFileName + ".trace";
+        }
+
         ThreadUtils.executeByCached(new ThreadUtils.Task<ArrayList<OrderBean>>() {
             @Override
             public ArrayList<OrderBean> doInBackground() throws Throwable {
@@ -140,6 +162,12 @@ public class MethodCost {
                     LogHelper.e(TAG, "no match method");
                     return;
                 }
+
+                if (appStartCallback != null) {
+                    appStartCallback.onCall(orderBeans);
+                }
+
+
                 Log.i(TAG, "-------" + orderBeans.get(0).getFunctionName() + " Call Chain-----------------");
 
                 for (int index = 0; index < orderBeans.size(); index++) {
