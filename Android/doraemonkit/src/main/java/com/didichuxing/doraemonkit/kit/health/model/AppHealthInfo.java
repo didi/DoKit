@@ -1,5 +1,7 @@
 package com.didichuxing.doraemonkit.kit.health.model;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 /**
@@ -317,6 +319,7 @@ public class AppHealthInfo {
                 }
             }
         }
+
         /**
          * cpu、内存、fps 共享的Bean
          */
@@ -325,9 +328,18 @@ public class AppHealthInfo {
              * page : HomeViewController
              * values : [{"time":"时间戳","value":"0.5"},{"time":"时间戳","value":"0.8"}]
              */
-
+            @Expose
+            private String pageKey;
             private String page;
             private List<ValuesBean> values;
+
+            public String getPageKey() {
+                return pageKey;
+            }
+
+            public void setPageKey(String pageKey) {
+                this.pageKey = pageKey;
+            }
 
             public String getPage() {
                 return page;

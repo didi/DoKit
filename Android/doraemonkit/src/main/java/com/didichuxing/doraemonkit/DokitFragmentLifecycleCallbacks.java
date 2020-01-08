@@ -9,6 +9,8 @@ import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
+import java.lang.ref.WeakReference;
+
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -27,7 +29,7 @@ public class DokitFragmentLifecycleCallbacks extends FragmentManager.FragmentLif
         super.onFragmentAttached(fm, fragment, context);
         LogHelper.d(TAG, "onFragmentAttached: " + fragment);
         if (fragment instanceof DbDebugFragment) {
-            DokitConstant.DB_DEBUG_FRAGMENT = (DbDebugFragment) fragment;
+            DokitConstant.DB_DEBUG_FRAGMENT = new WeakReference<>((DbDebugFragment) fragment);
         }
         for (LifecycleListenerUtil.LifecycleListener listener : LifecycleListenerUtil.LIFECYCLE_LISTENERS) {
             listener.onFragmentAttached(fragment);
@@ -39,6 +41,7 @@ public class DokitFragmentLifecycleCallbacks extends FragmentManager.FragmentLif
         super.onFragmentDetached(fm, fragment);
         LogHelper.d(TAG, "onFragmentDetached: " + fragment);
         if (fragment instanceof DbDebugFragment) {
+            DokitConstant.DB_DEBUG_FRAGMENT.clear();
             DokitConstant.DB_DEBUG_FRAGMENT = null;
         }
         for (LifecycleListenerUtil.LifecycleListener listener : LifecycleListenerUtil.LIFECYCLE_LISTENERS) {

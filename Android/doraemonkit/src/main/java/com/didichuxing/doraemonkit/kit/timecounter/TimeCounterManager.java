@@ -53,20 +53,26 @@ public class TimeCounterManager {
      */
     public void onAppCreateEnd(Application application) {
         mAppCounter.end();
+
         MethodCost.stopMethodTracingAndPrintLog("appStart", new MethodCostCallback() {
             @Override
             public void onCall(ArrayList<OrderBean> orderBeans) {
-                if (DokitConstant.APP_HEALTH_RUNNING) {
-                    CounterInfo counterInfo = getAppSetupInfo();
-                    List<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean> loads = new ArrayList<>();
-                    for (OrderBean orderBean : orderBeans) {
-                        AppHealthInfo.DataBean.AppStartBean.LoadFuncBean loadFuncBean = new AppHealthInfo.DataBean.AppStartBean.LoadFuncBean();
-                        loadFuncBean.setClassName(orderBean.getFunctionName());
-                        loadFuncBean.setCostTime(orderBean.getCostTime());
-                        loads.add(loadFuncBean);
+                try {
+                    if (DokitConstant.APP_HEALTH_RUNNING) {
+                        CounterInfo counterInfo = getAppSetupInfo();
+                        List<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean> loads = new ArrayList<>();
+                        for (OrderBean orderBean : orderBeans) {
+                            AppHealthInfo.DataBean.AppStartBean.LoadFuncBean loadFuncBean = new AppHealthInfo.DataBean.AppStartBean.LoadFuncBean();
+                            loadFuncBean.setClassName(orderBean.getFunctionName());
+                            loadFuncBean.setCostTime(orderBean.getCostTime());
+                            loads.add(loadFuncBean);
+                        }
+                        AppHealthInfoUtil.getInstance().setAppStartInfo("" + counterInfo.totalCost, orderBeans.toString(), loads);
                     }
-                    AppHealthInfoUtil.getInstance().setAppStartInfo("" + counterInfo.totalCost, orderBeans.toString(), loads);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
             }
         });
 

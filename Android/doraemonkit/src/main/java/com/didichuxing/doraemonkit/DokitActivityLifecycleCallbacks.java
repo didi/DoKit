@@ -78,7 +78,9 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
     public void onActivityResumed(Activity activity) {
         recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_RESUME);
         //记录页面层级
-        recordActivityUiLevel(activity);
+        if (!activity.getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.ui.UniversalActivity")) {
+            recordActivityUiLevel(activity);
+        }
         //如果是leakCanary页面不进行添加
         if (ignoreCurrentActivityDokitView(activity)) {
             return;
@@ -183,36 +185,6 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
 
     }
 
-    /**
-     * 显示系统悬浮窗icon
-     */
-    private void showSystemMainIcon() {
-        if (ActivityUtils.getTopActivity() instanceof UniversalActivity) {
-            return;
-        }
-
-        if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
-            return;
-        }
-
-        DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
-        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(intent);
-        DokitConstant.MAIN_ICON_HAS_SHOW = true;
-    }
-
-
-    /**
-     * 生命周期回调
-     *
-     * @param activity
-     */
-    private void systemDokitViewOnResume(Activity activity) {
-        Map<String, AbsDokitView> dokitViewMap = DokitViewManager.getInstance().getDokitViews(activity);
-        for (AbsDokitView absDokitView : dokitViewMap.values()) {
-            absDokitView.onResume();
-        }
-    }
 
     /**
      * 请求悬浮窗权限
@@ -251,38 +223,43 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
      * @param activity
      */
     private void recordActivityUiLevel(Activity activity) {
-        if (!DokitConstant.APP_HEALTH_RUNNING) {
-            return;
+        try {
+            if (!DokitConstant.APP_HEALTH_RUNNING) {
+                return;
+            }
+
+            List<ViewInfo> viewInfos = UIPerformanceUtil.getViewInfos(activity);
+            int maxLevel = 0;
+            float maxTime = 0f;
+            float totalTime = 0f;
+            ViewInfo maxLevelViewInfo = null;
+            ViewInfo maxTimeViewInfo = null;
+            for (ViewInfo viewInfo : viewInfos) {
+                if (viewInfo.layerNum > maxLevel) {
+                    maxLevel = viewInfo.layerNum;
+                    maxLevelViewInfo = viewInfo;
+                }
+                if (viewInfo.drawTime > maxTime) {
+                    maxTime = viewInfo.drawTime;
+                    maxTimeViewInfo = viewInfo;
+                }
+                totalTime += viewInfo.drawTime;
+            }
+
+            String detail = "最大层级:" + maxLevel + "\n"
+                    + "控件id:" + (maxLevelViewInfo == null ? "no matched" : maxLevelViewInfo.id) + "\n"
+                    + "总绘制耗时:" + totalTime + "ms" + "\n"
+                    + "绘制耗时最长控件:" + maxTime + "ms" + "\n"
+                    + "绘制耗时最长控件id:" + (maxTimeViewInfo == null ? "no matched" : maxTimeViewInfo.id) + "\n";
+            AppHealthInfo.DataBean.UiLevelBean uiLevelBean = new AppHealthInfo.DataBean.UiLevelBean();
+            uiLevelBean.setPage(activity.getClass().getCanonicalName());
+            uiLevelBean.setLevel("" + maxLevel);
+            uiLevelBean.setDetail(detail);
+            AppHealthInfoUtil.getInstance().addUiLevelInfo(uiLevelBean);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        List<ViewInfo> viewInfos = UIPerformanceUtil.getViewInfos(activity);
-        int maxLevel = 0;
-        float maxTime = 0f;
-        float totalTime = 0f;
-        ViewInfo maxLevelViewInfo = null;
-        ViewInfo maxTimeViewInfo = null;
-        for (ViewInfo viewInfo : viewInfos) {
-            if (viewInfo.layerNum > maxLevel) {
-                maxLevel = viewInfo.layerNum;
-                maxLevelViewInfo = viewInfo;
-            }
-            if (viewInfo.drawTime > maxTime) {
-                maxTime = viewInfo.drawTime;
-                maxTimeViewInfo = viewInfo;
-            }
-            totalTime += viewInfo.drawTime;
-        }
-
-        String detail = "最大层级:" + maxLevel + "\n"
-                + "控件id:" + (maxLevelViewInfo == null ? "no matched" : maxLevelViewInfo.id) + "\n"
-                + "总绘制耗时:" + totalTime + "ms" + "\n"
-                + "绘制耗时最长控件:" + maxTime + "ms" + "\n"
-                + "绘制耗时最长控件id:" + (maxTimeViewInfo == null ? "no matched" : maxTimeViewInfo.id) + "\n";
-        AppHealthInfo.DataBean.UiLevelBean uiLevelBean = new AppHealthInfo.DataBean.UiLevelBean();
-        uiLevelBean.setPage(activity.getClass().getCanonicalName());
-        uiLevelBean.setLevel("" + maxLevel);
-        uiLevelBean.setDetail(detail);
-        AppHealthInfoUtil.getInstance().addUiLevelInfo(uiLevelBean);
     }
 
     /**

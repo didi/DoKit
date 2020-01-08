@@ -28,10 +28,9 @@ import com.didichuxing.doraemonkit.view.CircleProgress;
 public class CountDownDokitView extends AbsDokitView {
     private static final String TAG = "CountDownDokitView";
     private TextView mNum;
-    private CircleProgress mProgressBar;
     private CountDownTimer mCountDownTimer;
-    private static int COUNT_DOWN_TOTAL = 10 * 1000;
-    private static int COUNT_DOWN_INTERVAL = 1000;
+    private static int COUNT_DOWN_TOTAL = 10 * 1700;
+    private static int COUNT_DOWN_INTERVAL = 1700;
 
     @Override
     public void onCreate(Context context) {
@@ -46,9 +45,6 @@ public class CountDownDokitView extends AbsDokitView {
     @Override
     public void onViewCreated(FrameLayout rootView) {
         mNum = findViewById(R.id.tv_number);
-        mProgressBar = findViewById(R.id.circle_progress_bar);
-        mProgressBar.setGradientColors(new int[]{Color.parseColor("#3CBCA3"), Color.parseColor("#3CBCA3"), Color.parseColor("#3CBCA3")});
-        mProgressBar.setValue(100);
 
         postDelayed(new Runnable() {
             @Override
@@ -58,13 +54,11 @@ public class CountDownDokitView extends AbsDokitView {
                     public void onTick(long millisUntilFinished) {
                         String value = String.valueOf((int) (millisUntilFinished / COUNT_DOWN_INTERVAL));
                         //LogHelper.i(TAG, "value===>" + value);
-                        mProgressBar.setValue(Integer.parseInt(value) * 10);
                         mNum.setText("" + value);
                     }
 
                     @Override
                     public void onFinish() {
-                        mProgressBar.setValue(0);
                         mNum.setText("" + 0);
                         DokitViewManager.getInstance().detach(CountDownDokitView.this);
                     }

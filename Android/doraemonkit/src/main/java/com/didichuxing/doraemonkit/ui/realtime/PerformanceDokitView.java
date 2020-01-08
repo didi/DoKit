@@ -100,7 +100,7 @@ public class PerformanceDokitView extends AbsDokitView implements PerformanceClo
 
     }
 
-    public void removeItem(int performanceType) {
+     void removeItem(int performanceType) {
         if (mPerformanceWrap == null) {
             return;
         }
@@ -269,7 +269,7 @@ public class PerformanceDokitView extends AbsDokitView implements PerformanceClo
             mPerformanceFragmentCloseListener.onClose(performanceType);
         }
 
-        PerformanceDokitViewManager.close(performanceType, PerformanceDokitViewManager.getTitileByPerformanceType(getContext(), performanceType));
+        PerformanceDokitViewManager.close(performanceType, PerformanceDokitViewManager.getTitleByPerformanceType(getContext(), performanceType));
     }
 
 

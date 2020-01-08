@@ -50,7 +50,7 @@ public class PerformanceDokitViewManager {
      *
      * @param listener
      */
-    public static void onPerformanceSettingFragmentDestory(PerformanceFragmentCloseListener listener) {
+    public static void onPerformanceSettingFragmentDestroy(PerformanceFragmentCloseListener listener) {
         PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
         if (performanceDokitView != null) {
             performanceDokitView.removePerformanceFragmentCloseListener(listener);
@@ -70,7 +70,7 @@ public class PerformanceDokitViewManager {
     }
 
 
-    public static String getTitileByPerformanceType(Context context, int performanceType) {
+    public static String getTitleByPerformanceType(Context context, int performanceType) {
         String title = "";
         switch (performanceType) {
             case DataSourceFactory.TYPE_FPS:

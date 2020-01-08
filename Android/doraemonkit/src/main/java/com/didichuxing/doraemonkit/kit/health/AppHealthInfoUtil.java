@@ -51,7 +51,7 @@ public class AppHealthInfoUtil {
      * @param caseName   用例名称
      * @param testPerson 测试人员名字
      */
-    public void setBaseInfo(String caseName, String testPerson) {
+    void setBaseInfo(String caseName, String testPerson) {
         AppHealthInfo.BaseInfoBean baseInfoBean = new AppHealthInfo.BaseInfoBean();
         baseInfoBean.setTestPerson(testPerson);
         baseInfoBean.setCaseName(caseName);
@@ -91,7 +91,7 @@ public class AppHealthInfoUtil {
             cpus = new ArrayList<>();
             getData().setCpu(cpus);
         }
-        sortValue(cpuBean.getValues());
+        cpuBean.setValues(sortValue(cpuBean.getValues()));
         cpus.add(cpuBean);
     }
 
@@ -107,7 +107,7 @@ public class AppHealthInfoUtil {
             memories = new ArrayList<>();
             getData().setMemory(memories);
         }
-        sortValue(memoryBean.getValues());
+        memoryBean.setValues(sortValue(memoryBean.getValues()));
         memories.add(memoryBean);
     }
 
@@ -122,7 +122,8 @@ public class AppHealthInfoUtil {
             fpsBeans = new ArrayList<>();
             getData().setFps(fpsBeans);
         }
-        sortValue(fpsBean.getValues());
+
+        fpsBean.setValues(sortValue(fpsBean.getValues()));
         fpsBeans.add(fpsBean);
     }
 
@@ -242,7 +243,7 @@ public class AppHealthInfoUtil {
         if (mAppHealthInfo == null) {
             return;
         }
-        OkGo.<String>post("http://172.23.164.35:80/healthCheck/addCheckData")
+        OkGo.<String>post("http://172.23.164.122:80/healthCheck/addCheckData")
                 .upJson(GsonUtils.toJson(mAppHealthInfo))
                 .execute(new StringCallback() {
                     @Override
@@ -336,8 +337,9 @@ public class AppHealthInfoUtil {
     /**
      * list 去掉最大值和最小值 并重新 排序
      */
-    private void sortValue(List<AppHealthInfo.DataBean.PerformanceBean.ValuesBean> valuesBeans) {
-        Collections.sort(valuesBeans, new Comparator<AppHealthInfo.DataBean.PerformanceBean.ValuesBean>() {
+    private List<AppHealthInfo.DataBean.PerformanceBean.ValuesBean> sortValue(List<AppHealthInfo.DataBean.PerformanceBean.ValuesBean> valuesBeans) {
+        List<AppHealthInfo.DataBean.PerformanceBean.ValuesBean> newValuesBeans = new ArrayList<>(valuesBeans);
+        Collections.sort(newValuesBeans, new Comparator<AppHealthInfo.DataBean.PerformanceBean.ValuesBean>() {
             @Override
             public int compare(AppHealthInfo.DataBean.PerformanceBean.ValuesBean pre, AppHealthInfo.DataBean.PerformanceBean.ValuesBean next) {
                 float preValue = Float.parseFloat(pre.getValue());
@@ -352,9 +354,9 @@ public class AppHealthInfoUtil {
 
             }
         });
-        valuesBeans.remove(0);
-        valuesBeans.remove(valuesBeans.size() - 1);
-        Collections.sort(valuesBeans, new Comparator<AppHealthInfo.DataBean.PerformanceBean.ValuesBean>() {
+        newValuesBeans.remove(0);
+        newValuesBeans.remove(newValuesBeans.size() - 1);
+        Collections.sort(newValuesBeans, new Comparator<AppHealthInfo.DataBean.PerformanceBean.ValuesBean>() {
             @Override
             public int compare(AppHealthInfo.DataBean.PerformanceBean.ValuesBean pre, AppHealthInfo.DataBean.PerformanceBean.ValuesBean next) {
                 long preValue = Long.parseLong(pre.getTime());
@@ -368,6 +370,8 @@ public class AppHealthInfoUtil {
                 }
             }
         });
+        return newValuesBeans;
+
     }
 
 }

@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
 
-    <com.didichuxing.doraemonkit.view.CircleProgress
+    <ProgressBar
         android:id="@+id/circle_progress_bar"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_gravity="center_horizontal"
-        app:animTime="500"
-        app:antiAlias="true"
-        app:arcColors="#3CBCA3"
-        app:arcWidth="5dp"
-        app:bgArcColor="#00ffffff"
-        app:bgArcWidth="5dp"
-        app:maxValue="100"
-        app:valueColor="#00ffffff" />
+        android:indeterminateDrawable="@drawable/dk_progressbar_style" />
 
     <TextView
         android:id="@+id/tv_number"

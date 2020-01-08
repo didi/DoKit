@@ -11,10 +11,10 @@ import android.os.Message;
 import android.os.Process;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.Choreographer;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
@@ -25,10 +25,7 @@ import com.didichuxing.doraemonkit.kit.custom.UploadMonitorItem;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.util.FileManager;
-import com.didichuxing.doraemonkit.util.JsonUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
-import com.didichuxing.doraemonkit.util.threadpool.ThreadPoolProxyFactory;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -38,7 +35,6 @@ import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -98,14 +94,11 @@ public class PerformanceDataManager {
     private FrameRateRunnable mRateRunnable = new FrameRateRunnable();
 
     private void executeCpuData() {
-        LogHelper.d(TAG, "current thread name is ==" + Thread.currentThread().getName());
         if (mAboveAndroidO) {
             mLastCpuRate = getCpuDataForO();
-            LogHelper.d(TAG, "cpu info is =" + mLastCpuRate);
             writeCpuDataIntoFile();
         } else {
             mLastCpuRate = getCPUData();
-            LogHelper.d(TAG, "cpu info is =" + mLastCpuRate);
             writeCpuDataIntoFile();
         }
     }
@@ -115,7 +108,6 @@ public class PerformanceDataManager {
      */
     private void executeMemoryData() {
         mLastMemoryRate = getMemoryData();
-        LogHelper.d(TAG, "memory info is =" + mLastMemoryRate);
         writeMemoryDataIntoFile();
     }
 
@@ -209,10 +201,14 @@ public class PerformanceDataManager {
                 public void handleMessage(Message msg) {
                     super.handleMessage(msg);
                     if (msg.what == MSG_CPU) {
-                        executeCpuData();
+                        if (AppUtils.isAppForeground()) {
+                            executeCpuData();
+                        }
                         mNormalHandler.sendEmptyMessageDelayed(MSG_CPU, (long) (NORMAL_FRAME_RATE * 1000));
                     } else if (msg.what == MSG_MEMORY) {
-                        executeMemoryData();
+                        if (AppUtils.isAppForeground()) {
+                            executeMemoryData();
+                        }
                         mNormalHandler.sendEmptyMessageDelayed(MSG_MEMORY, (long) (NORMAL_FRAME_RATE * 1000));
                     } else if (msg.what == MSG_NET_FLOW) {
                         mLastUpBytes = NetworkManager.get().getTotalRequestSize() - mUpBytes;
@@ -235,7 +231,7 @@ public class PerformanceDataManager {
     public void startMonitorFrameInfo() {
         PerformanceMemoryInfoConfig.FPS_STATUS = true;
         //开启定时任务
-        mMainHandler.postDelayed(mRateRunnable, DateUtils.SECOND_IN_MILLIS);
+        mMainHandler.postDelayed(mRateRunnable, (long) (NORMAL_FRAME_RATE * 1000));
         Choreographer.getInstance().postFrameCallback(mRateRunnable);
     }
 
@@ -285,7 +281,7 @@ public class PerformanceDataManager {
     public void stopUploadMonitorData() {
         mUploading = false;
         mNormalHandler.removeMessages(MSG_SAVE_LOCAL);
-        uploadDataToLocalFile();
+        // uploadDataToLocalFile();
         stopMonitorFrameInfo();
         stopMonitorCPUInfo();
         stopMonitorMemoryInfo();
@@ -343,14 +339,14 @@ public class PerformanceDataManager {
         mUploadMonitorBean.performanceArray.add(info);
     }
 
-    private void uploadDataToLocalFile() {
-        ThreadPoolProxyFactory.getThreadPoolProxy().execute(new Runnable() {
-            @Override
-            public void run() {
-                FileManager.writeTxtToFile(JsonUtil.jsonFromObject(mUploadMonitorBean), getFilePath(mContext), customFileName);
-            }
-        });
-    }
+//    private void uploadDataToLocalFile() {
+//        ThreadPoolProxyFactory.getThreadPoolProxy().execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                FileManager.writeTxtToFile(JsonUtil.jsonFromObject(mUploadMonitorBean), getFilePath(mContext), customFileName);
+//            }
+//        });
+//    }
 
     public void startMonitorMemoryInfo() {
         PerformanceMemoryInfoConfig.RAM_STATUS = true;
@@ -366,38 +362,24 @@ public class PerformanceDataManager {
     }
 
     private void writeCpuDataIntoFile() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(mLastCpuRate);
-        stringBuilder.append(" ");
-        stringBuilder.append(simpleDateFormat.format(new Date(System.currentTimeMillis())));
+
         //保存cpu数据到app健康体检
         if (DokitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastCpuRate, PERFORMANCE_TYPE_CPU);
         }
-        FileManager.writeTxtToFile(stringBuilder.toString(), getFilePath(mContext), cpuFileName);
     }
 
     private void writeMemoryDataIntoFile() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(mLastMemoryRate);
-        stringBuilder.append(" ");
-        stringBuilder.append(simpleDateFormat.format(new Date(System.currentTimeMillis())));
         //保存cpu数据到app健康体检
         if (DokitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastMemoryRate, PERFORMANCE_TYPE_MEMORY);
         }
-        FileManager.writeTxtToFile(stringBuilder.toString(), getFilePath(mContext), memoryFileName);
     }
 
     private void writeFpsDataIntoFile() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(mLastFrameRate);
-        stringBuilder.append(" ");
-        stringBuilder.append(simpleDateFormat.format(new Date(System.currentTimeMillis())));
         if (DokitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastFrameRate, PERFORMANCE_TYPE_FPS);
         }
-        FileManager.writeTxtToFile(stringBuilder.toString(), getFilePath(mContext), fpsFileName);
     }
 
     /**
@@ -463,8 +445,7 @@ public class PerformanceDataManager {
                 // Mem in MB
                 mem = totalPss / 1024.0F;
             }
-        } catch (
-                Exception e) {
+        } catch (Exception e) {
             LogHelper.e(TAG, "getMemoryData fail: " + e.toString());
         }
         return mem;
@@ -481,7 +462,7 @@ public class PerformanceDataManager {
                 String[] lineItems = line.split("\\s+");
                 if (lineItems != null && lineItems.length > 1) {
                     String result = lineItems[0];
-                    LogHelper.d(TAG, "result is ==" + result);
+                    //LogHelper.d(TAG, "result is ==" + result);
                     bufferedReader.close();
                     if (!TextUtils.isEmpty(result) && result.contains("K:")) {
                         result = result.replace("K:", "");
@@ -507,7 +488,7 @@ public class PerformanceDataManager {
             } else {
                 String[] lineItems = line.split("\\s+");
                 if (lineItems != null && lineItems.length > 1) {
-                    LogHelper.d(TAG, "result is ==" + lineItems[0]);
+                    //LogHelper.d(TAG, "result is ==" + lineItems[0]);
                     bufferedReader.close();
                     return Float.parseFloat(lineItems[0].replace("%", ""));
                 }
@@ -566,14 +547,16 @@ public class PerformanceDataManager {
             }
             mLastSkippedFrames = MAX_FRAME_RATE - mLastFrameRate;
             totalFramesPerSecond = 0;
-            mMainHandler.postDelayed(this, DateUtils.SECOND_IN_MILLIS);
+            mMainHandler.postDelayed(this, (long) (NORMAL_FRAME_RATE * 1000));
         }
 
         @Override
         public void doFrame(long frameTimeNanos) {
             totalFramesPerSecond++;
             Choreographer.getInstance().postFrameCallback(this);
-            writeFpsDataIntoFile();
+            if (AppUtils.isAppForeground()) {
+                writeFpsDataIntoFile();
+            }
         }
 
     }
@@ -604,10 +587,13 @@ public class PerformanceDataManager {
     private static final int PERFORMANCE_TYPE_FPS = 3;
 
     /**
-     * 保存cpu数据到健康体检中
+     * 保存cpu数据到健康体检中 统计有问题
      */
     private void addPerformanceDataInAppHealth(float value, int performanceType) {
         try {
+            if (ActivityUtils.getTopActivity().getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.ui.UniversalActivity")) {
+                return;
+            }
             AppHealthInfo.DataBean.PerformanceBean performanceBean = null;
             if (performanceType == PERFORMANCE_TYPE_CPU) {
                 performanceBean = cpuBean;
@@ -622,25 +608,27 @@ public class PerformanceDataManager {
                 List<AppHealthInfo.DataBean.PerformanceBean.ValuesBean> valuesBeans = new ArrayList<>();
                 valuesBeans.add(new AppHealthInfo.DataBean.PerformanceBean.ValuesBean("" + TimeUtils.getNowMills(), "" + value));
                 performanceBean.setPage(ActivityUtils.getTopActivity().getClass().getCanonicalName());
+                performanceBean.setPageKey(ActivityUtils.getTopActivity().toString());
                 performanceBean.setValues(valuesBeans);
                 //重新赋值
                 if (performanceType == PERFORMANCE_TYPE_CPU) {
                     cpuBean = performanceBean;
                 } else if (performanceType == PERFORMANCE_TYPE_MEMORY) {
                     memoryBean = performanceBean;
-                } else if (performanceType == PERFORMANCE_TYPE_FPS) {
+                } else {
                     fpsBean = performanceBean;
                 }
             } else {
                 //判断是否还处于统一页面
-                String nextPage = performanceBean.getPage();
+                String prePage = performanceBean.getPageKey();
                 //如果不是同一个页面则丢弃当前页面的数据
-                if (!nextPage.equals(ActivityUtils.getTopActivity().getClass().getCanonicalName())) {
+                if (!prePage.equals(ActivityUtils.getTopActivity().toString())) {
+                    LogHelper.d(TAG, "prePage===>" + prePage + "   currentPage===>" + ActivityUtils.getTopActivity().toString());
                     if (performanceType == PERFORMANCE_TYPE_CPU) {
                         cpuBean = null;
                     } else if (performanceType == PERFORMANCE_TYPE_MEMORY) {
                         memoryBean = null;
-                    } else if (performanceType == PERFORMANCE_TYPE_FPS) {
+                    } else {
                         fpsBean = null;
                     }
                     return;
@@ -663,6 +651,7 @@ public class PerformanceDataManager {
                 AppHealthInfo.DataBean.PerformanceBean realPerformBean = new AppHealthInfo.DataBean.PerformanceBean();
                 realPerformBean.setValues(performanceBean.getValues());
                 realPerformBean.setPage(performanceBean.getPage());
+                realPerformBean.setPageKey(performanceBean.getPageKey());
                 if (performanceType == PERFORMANCE_TYPE_CPU) {
                     AppHealthInfoUtil.getInstance().addCPUInfo(realPerformBean);
                 } else if (performanceType == PERFORMANCE_TYPE_MEMORY) {

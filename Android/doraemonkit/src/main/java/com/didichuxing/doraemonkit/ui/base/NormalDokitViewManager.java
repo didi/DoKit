@@ -183,31 +183,34 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
     @Override
     public void onActivityResume(Activity activity) {
         Map<String, AbsDokitView> existDokitViews = mActivityDokitViews.get(activity);
-        //先清除楚页面上启动模式为DokitIntent.MODE_ONCE 的dokitView
-        for (AbsDokitView existDokitView : existDokitViews.values()) {
-            if (existDokitView.getMode() == DokitIntent.MODE_ONCE) {
-                detach(existDokitView.getClass());
+        //先清除页面上启动模式为DokitIntent.MODE_ONCE 的dokitView
+        if (existDokitViews != null) {
+            for (AbsDokitView existDokitView : existDokitViews.values()) {
+                if (existDokitView.getMode() == DokitIntent.MODE_ONCE) {
+                    detach(existDokitView.getClass());
+                }
             }
         }
 
+
         //更新所有全局DokitView的位置
-        for (GlobalSingleDokitViewInfo traverseDokitViewInfo : mGlobalSingleDokitViews.values()) {
-            if (activity instanceof UniversalActivity && traverseDokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
+        for (GlobalSingleDokitViewInfo globalSingleDokitViewInfo : mGlobalSingleDokitViews.values()) {
+            if (activity instanceof UniversalActivity && globalSingleDokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
                 return;
             }
             //是否过滤掉 入口icon
-            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && traverseDokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
+            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && globalSingleDokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
                 DokitConstant.MAIN_ICON_HAS_SHOW = false;
                 continue;
             }
 
-            if (traverseDokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
+            if (globalSingleDokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
                 DokitConstant.MAIN_ICON_HAS_SHOW = true;
             }
 
-            LogHelper.i(TAG, " activity  resume==>" + activity.getClass().getSimpleName() + "  dokitView==>" + traverseDokitViewInfo.getTag());
+            LogHelper.i(TAG, " activity  resume==>" + activity.getClass().getSimpleName() + "  dokitView==>" + globalSingleDokitViewInfo.getTag());
             //判断resume Activity 中时候存在指定的dokitview
-            AbsDokitView existDokitView = existDokitViews.get(traverseDokitViewInfo.getTag());
+            AbsDokitView existDokitView = existDokitViews.get(globalSingleDokitViewInfo.getTag());
 
             //当前页面已存在dokitview
             if (existDokitView != null && existDokitView.getRootView() != null) {
@@ -217,12 +220,13 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                 existDokitView.onResume();
             } else {
                 //添加相应的
-                DokitIntent dokitIntent = new DokitIntent(traverseDokitViewInfo.getAbsDokitViewClass());
-                dokitIntent.mode = traverseDokitViewInfo.getMode();
-                dokitIntent.bundle = traverseDokitViewInfo.getBundle();
+                DokitIntent dokitIntent = new DokitIntent(globalSingleDokitViewInfo.getAbsDokitViewClass());
+                dokitIntent.mode = globalSingleDokitViewInfo.getMode();
+                dokitIntent.bundle = globalSingleDokitViewInfo.getBundle();
                 attach(dokitIntent);
             }
         }
+        attachCountDownDokitView(activity);
     }
 
     @Override

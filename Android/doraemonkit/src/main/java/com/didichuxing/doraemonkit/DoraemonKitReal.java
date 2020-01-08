@@ -22,7 +22,6 @@ import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerKit;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit;
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerKit;
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureKit;
-import com.didichuxing.doraemonkit.kit.custom.CustomKit;
 import com.didichuxing.doraemonkit.kit.dataclean.DataCleanKit;
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugKit;
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerKit;
@@ -211,7 +210,7 @@ class DoraemonKitReal {
             e.printStackTrace();
         }
 
-        performance.add(new CustomKit());
+        //performance.add(new CustomKit());
 
         //添加视觉ui kit
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -296,6 +295,7 @@ class DoraemonKitReal {
      * 开启健康体检
      */
     private static void startAppHealth() {
+        LogHelper.i(TAG, "APP_HEALTH_RUNNING===>" + DokitConstant.APP_HEALTH_RUNNING);
         if (!DokitConstant.APP_HEALTH_RUNNING) {
             return;
         }
@@ -315,17 +315,25 @@ class DoraemonKitReal {
      * 接受leakcanary 进程泄漏传递过来的数据
      */
     private static void initAidlBridge(Application application) {
+        if (!DokitConstant.APP_HEALTH_RUNNING) {
+            return;
+        }
         IBridge.init(application, application.getPackageName(), IBridge.AbridgeType.AIDL);
         IBridge.registerAIDLCallBack(new AbridgeCallBack() {
             @Override
             public void receiveMessage(String message) {
-                LogHelper.i(TAG, "====aidl=====>" + message);
-                if (DokitConstant.APP_HEALTH_RUNNING) {
-                    AppHealthInfo.DataBean.LeakBean leakBean = new AppHealthInfo.DataBean.LeakBean();
-                    leakBean.setPage(ActivityUtils.getTopActivity().getClass().getCanonicalName());
-                    leakBean.setDetail(message);
-                    AppHealthInfoUtil.getInstance().addLeakInfo(leakBean);
+                try {
+                    LogHelper.i(TAG, "====aidl=====>" + message);
+                    if (DokitConstant.APP_HEALTH_RUNNING) {
+                        AppHealthInfo.DataBean.LeakBean leakBean = new AppHealthInfo.DataBean.LeakBean();
+                        leakBean.setPage(ActivityUtils.getTopActivity().getClass().getCanonicalName());
+                        leakBean.setDetail(message);
+                        AppHealthInfoUtil.getInstance().addLeakInfo(leakBean);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
             }
         });
     }
@@ -345,8 +353,8 @@ class DoraemonKitReal {
                 ToastUtils.showShort("当前网络已断开");
                 try {
                     DebugDB.shutDown();
-                    if (DokitConstant.DB_DEBUG_FRAGMENT != null) {
-                        DokitConstant.DB_DEBUG_FRAGMENT.networkChanged(NetworkUtils.NetworkType.NETWORK_NO);
+                    if (DokitConstant.DB_DEBUG_FRAGMENT != null && DokitConstant.DB_DEBUG_FRAGMENT.get() != null) {
+                        DokitConstant.DB_DEBUG_FRAGMENT.get().networkChanged(NetworkUtils.NetworkType.NETWORK_NO);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -361,8 +369,8 @@ class DoraemonKitReal {
                     DebugDB.shutDown();
                     DebugDB.initialize(APPLICATION, new DebugDBFactory());
                     DebugDB.initialize(APPLICATION, new DebugDBEncryptFactory());
-                    if (DokitConstant.DB_DEBUG_FRAGMENT != null) {
-                        DokitConstant.DB_DEBUG_FRAGMENT.networkChanged(networkType);
+                    if (DokitConstant.DB_DEBUG_FRAGMENT != null && DokitConstant.DB_DEBUG_FRAGMENT.get() != null) {
+                        DokitConstant.DB_DEBUG_FRAGMENT.get().networkChanged(networkType);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

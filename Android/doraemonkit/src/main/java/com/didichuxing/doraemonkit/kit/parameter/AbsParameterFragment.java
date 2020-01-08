@@ -165,6 +165,6 @@ public abstract class AbsParameterFragment extends BaseFragment implements Perfo
     public void onDestroy() {
         super.onDestroy();
         //移除监听
-        PerformanceDokitViewManager.onPerformanceSettingFragmentDestory(this);
+        PerformanceDokitViewManager.onPerformanceSettingFragmentDestroy(this);
     }
 }

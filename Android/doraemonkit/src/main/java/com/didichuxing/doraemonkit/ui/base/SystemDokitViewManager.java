@@ -159,9 +159,11 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
     public void onActivityResume(Activity activity) {
         //移除倒计时浮标
         AbsDokitView countDownDokitView = getDokitView(activity, CountDownDokitView.class.getSimpleName());
-        if (countDownDokitView != null) {
-            //移除倒计时控件
-            detach(countDownDokitView);
+        if (countDownDokitView == null) {
+            attachCountDownDokitView(activity);
+        } else {
+            //重置倒计时
+            ((CountDownDokitView) countDownDokitView).resetTime();
         }
     }
 

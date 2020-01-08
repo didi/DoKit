@@ -10,6 +10,7 @@ import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.ui.kit.KitItem;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +31,7 @@ public class DokitConstant {
     /**
      * 是否处于健康体检中
      */
-    public static boolean APP_HEALTH_RUNNING = GlobalConfig.getAppHealth(DoraemonKit.APPLICATION) && !TextUtils.isEmpty(PRODUCT_ID);
+    public static boolean APP_HEALTH_RUNNING = GlobalConfig.getAppHealth(DoraemonKit.APPLICATION);
 
     /**
      * 是否是普通的浮标模式
@@ -51,7 +52,7 @@ public class DokitConstant {
     /**
      * 全局DBDebugFragment
      */
-    public static DbDebugFragment DB_DEBUG_FRAGMENT = null;
+    public static WeakReference<DbDebugFragment> DB_DEBUG_FRAGMENT;
 
     /**
      * 全局的dokit Kit信息

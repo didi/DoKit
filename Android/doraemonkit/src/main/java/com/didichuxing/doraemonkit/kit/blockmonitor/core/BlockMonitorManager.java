@@ -3,11 +3,13 @@ package com.didichuxing.doraemonkit.kit.blockmonitor.core;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Debug;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
@@ -130,8 +132,8 @@ public class BlockMonitorManager {
         blockInfo.concernStackString = BlockCanaryUtils.concernStackString(mContext, blockInfo);
         blockInfo.time = System.currentTimeMillis();
         if (!TextUtils.isEmpty(blockInfo.concernStackString)) {
-            //卡顿
-            if (DokitConstant.APP_HEALTH_RUNNING) {
+            //卡顿 debug模式下会造成卡顿
+            if (DokitConstant.APP_HEALTH_RUNNING && !Debug.isDebuggerConnected()) {
                 addBlockInfoInAppHealth(blockInfo);
             }
             showNotification(blockInfo);
