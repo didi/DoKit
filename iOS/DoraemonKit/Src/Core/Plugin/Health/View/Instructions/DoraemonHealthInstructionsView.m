@@ -25,7 +25,12 @@
     self = [super initWithFrame:frame];
     if(self){
         CGFloat bg_y = kDoraemonSizeFrom750_Landscape(89);
-        _itemTitleArray = [DoraemonHealthManager sharedInstance].cellTitle;
+        _itemTitleArray = @[
+            @"点击开始体检按钮开始本次的性能数据手机。",
+            @"在每一个页面至少停留10秒钟，如果低于10秒钟的话，我们将会丢弃该页面的收集数据。",
+            @"测试完毕之后，重新进入该页面，点击结束测试按钮，填写本次的测试用例名称和测试人的名字，即可上传。",
+            @"打开dokit.cn平台，进入app健康体检列表，查看本次的数据报告。"
+        ];
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, bg_y, self.doraemon_width, self.doraemon_height)];
         
         _tableView.delegate = self;

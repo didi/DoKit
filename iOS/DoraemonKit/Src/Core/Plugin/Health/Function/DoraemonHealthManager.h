@@ -15,7 +15,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL start;
 
-@property (nonatomic, copy) NSArray *cellTitle;//说明数据
+- (void)startHealthCheck;
+
+- (void)stopHealthCheck;
+
+- (void)enterPage:(Class)vcClass;
+
+- (void)leavePage:(Class)vcClass;
+
+
 
 @end
 

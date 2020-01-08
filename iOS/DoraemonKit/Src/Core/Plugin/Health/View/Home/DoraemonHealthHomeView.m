@@ -12,6 +12,7 @@
 #import "DoraemonHealthStartingTitle.h"
 #import "DoraemonToastUtil.h"
 #import "DoraemonDefine.h"
+#import "DoraemonHealthManager.h"
 
 @interface DoraemonHealthHomeView ()<DoraemonHealthButtonDelegate>
 
@@ -63,6 +64,9 @@
     
     if(!_btnView.start){//提示框确认之后合入
         [DoraemonToastUtil showToastBlack:DoraemonLocalizedString(@"提交成功\n恭喜已完成检测！") inView:self];
+        [[DoraemonHealthManager sharedInstance] stopHealthCheck];
+    }else{
+        [[DoraemonHealthManager sharedInstance] startHealthCheck];
     }
 }
 
