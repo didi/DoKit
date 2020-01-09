@@ -30,7 +30,8 @@
 }
 
 - (void)tap{
-    [self statusForBtn:!_start];
+    _start = !_start;
+    [self statusForBtn:_start];
 
     if (_delegate && [_delegate respondsToSelector:@selector(healthBtnClick:)]) {
         [_delegate healthBtnClick:self];
@@ -39,7 +40,6 @@
 
 - (void)statusForBtn:(BOOL)start{
     NSString *imgName = @"doraemon_health_start";
-    _start = start;
     [DoraemonHealthManager sharedInstance].start = _start;
     if(start){
         imgName = @"doraemon_health_end";

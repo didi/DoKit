@@ -12,6 +12,7 @@
 #import "DoraemonHealthStartingTitle.h"
 #import "DoraemonToastUtil.h"
 #import "DoraemonDefine.h"
+#import "DoraemonHealthManager.h"
 
 @interface DoraemonHealthHomeView ()<DoraemonHealthButtonDelegate>
 
@@ -61,7 +62,10 @@
     [self _selfHandle];
     
     if(!_btnView.start){//提示框确认之后合入
-        NSLog(@"结束体检");
+
+        [[DoraemonHealthManager sharedInstance] stopHealthCheck];
+    }else{
+        [[DoraemonHealthManager sharedInstance] startHealthCheck];
     }
 }
 
