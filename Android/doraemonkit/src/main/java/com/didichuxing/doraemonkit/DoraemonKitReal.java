@@ -8,8 +8,10 @@ import com.amitshekhar.DebugDB;
 import com.amitshekhar.debug.encrypt.sqlite.DebugDBEncryptFactory;
 import com.amitshekhar.debug.sqlite.DebugDBFactory;
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.didichuxing.doraemonkit.aop.OkHttpHook;
@@ -55,6 +57,7 @@ import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.ui.fileexplorer.FileInfo;
 import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil;
@@ -63,6 +66,7 @@ import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
 import com.sjtu.yifei.AbridgeCallBack;
 import com.sjtu.yifei.IBridge;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -292,10 +296,73 @@ class DoraemonKitReal {
     }
 
     /**
+     * 单个文件的阈值为10M
+     */
+    // private static long FILE_LENGTH_THRESHOLD = 10 * 1024 * 1024;
+    private static long FILE_LENGTH_THRESHOLD = 1 * 1024;
+
+    private static void traverseFile(File rootFileDir) {
+        if (rootFileDir == null) {
+            return;
+        }
+        File[] files = rootFileDir.listFiles();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                //若是目录，则递归打印该目录下的文件
+                //LogHelper.i(TAG, "文件夹==>" + file.getAbsolutePath());
+                traverseFile(file);
+            }
+            if (file.isFile()) {
+                //若是文件，直接打印 byte
+                long fileLength = FileUtils.getFileLength(file);
+                if (fileLength > FILE_LENGTH_THRESHOLD) {
+                    AppHealthInfo.DataBean.BigFileBean fileBean = new AppHealthInfo.DataBean.BigFileBean();
+                    fileBean.setFileName(FileUtils.getFileName(file));
+                    fileBean.setFilePath(file.getAbsolutePath());
+                    fileBean.setFileSize("" + fileLength);
+                    AppHealthInfoUtil.getInstance().addBigFilrInfo(fileBean);
+                }
+                //LogHelper.i(TAG, "文件==>" + file.getAbsolutePath() + "   fileName===>" + FileUtils.getFileName(file) + " fileLength===>" + fileLength);
+            }
+        }
+
+    }
+
+    /**
+     * 开启大文件检测
+     * https://blog.csdn.net/csdn_aiyang/article/details/80665185 内部存储和外部存储的概念
+     */
+    private static void startBigFileInspect() {
+        ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<Object>() {
+            @Override
+            public Object doInBackground() throws Throwable {
+                File externalCacheDir = APPLICATION.getExternalCacheDir();
+                if (externalCacheDir != null) {
+                    File externalRootDir = externalCacheDir.getParentFile();
+
+                    traverseFile(externalRootDir);
+                }
+                File innerCacheDir = APPLICATION.getCacheDir();
+                if (innerCacheDir != null) {
+                    File innerRootDir = innerCacheDir.getParentFile();
+                    traverseFile(innerRootDir);
+                }
+                return null;
+            }
+
+            @Override
+            public void onSuccess(Object result) {
+
+            }
+        });
+
+
+    }
+
+    /**
      * 开启健康体检
      */
     private static void startAppHealth() {
-        LogHelper.i(TAG, "APP_HEALTH_RUNNING===>" + DokitConstant.APP_HEALTH_RUNNING);
         if (!DokitConstant.APP_HEALTH_RUNNING) {
             return;
         }
@@ -306,7 +373,8 @@ class DoraemonKitReal {
         }
 
         AppHealthInfoUtil.getInstance().start();
-
+        //开启大文件检测
+        startBigFileInspect();
     }
 
 

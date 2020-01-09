@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -44,6 +46,7 @@ import com.didichuxing.doraemonkit.kit.network.common.NetworkPrinterHelper;
 import com.didichuxing.doraemonkit.okgo.OkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
+import com.didichuxing.doraemonkit.util.LogHelper;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 import com.tencent.map.geolocation.TencentLocation;
@@ -274,9 +277,13 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
     }
 
 
+
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
             case R.id.btn_trace:
                 MethodCost.startMethodTracing("doramemon");
                 test1();

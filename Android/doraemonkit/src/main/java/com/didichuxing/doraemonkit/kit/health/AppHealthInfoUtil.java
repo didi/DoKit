@@ -243,7 +243,7 @@ public class AppHealthInfoUtil {
         if (mAppHealthInfo == null) {
             return;
         }
-        OkGo.<String>post("http://172.23.164.122:80/healthCheck/addCheckData")
+        OkGo.<String>post("http://172.23.163.178:80/healthCheck/addCheckData")
                 .upJson(GsonUtils.toJson(mAppHealthInfo))
                 .execute(new StringCallback() {
                     @Override
@@ -344,9 +344,7 @@ public class AppHealthInfoUtil {
             public int compare(AppHealthInfo.DataBean.PerformanceBean.ValuesBean pre, AppHealthInfo.DataBean.PerformanceBean.ValuesBean next) {
                 float preValue = Float.parseFloat(pre.getValue());
                 float nextValue = Float.parseFloat(next.getValue());
-                if (preValue == nextValue) {
-                    return 0;
-                } else if (preValue < nextValue) {
+                if (preValue < nextValue) {
                     return -1;
                 } else {
                     return 1;
@@ -361,9 +359,7 @@ public class AppHealthInfoUtil {
             public int compare(AppHealthInfo.DataBean.PerformanceBean.ValuesBean pre, AppHealthInfo.DataBean.PerformanceBean.ValuesBean next) {
                 long preValue = Long.parseLong(pre.getTime());
                 long nextValue = Long.parseLong(next.getTime());
-                if (preValue == nextValue) {
-                    return 0;
-                } else if (preValue < nextValue) {
+                if (preValue < nextValue) {
                     return -1;
                 } else {
                     return 1;
@@ -372,6 +368,15 @@ public class AppHealthInfoUtil {
         });
         return newValuesBeans;
 
+    }
+
+    /**
+     * 内存释放
+     */
+    public void release() {
+        if (mAppHealthInfo != null) {
+            mAppHealthInfo = null;
+        }
     }
 
 }

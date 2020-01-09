@@ -73,6 +73,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                             mController.setImageResource(R.drawable.dk_health_start);
                             //关闭健康体检监控
                             AppHealthInfoUtil.getInstance().stop();
+                            AppHealthInfoUtil.getInstance().release();
                         }
 
                         @Override
