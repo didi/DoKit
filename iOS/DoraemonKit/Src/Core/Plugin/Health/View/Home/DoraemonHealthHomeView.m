@@ -36,8 +36,6 @@
         [_btnView statusForBtn:[DoraemonHealthManager sharedInstance].start];
         _btnView.delegate = self;
         
-        
-        
         [self addSubview:_bgView];
         [self addSubview:_startingTitle];
         [self addSubview:_btnView];
@@ -59,10 +57,11 @@
 
 #pragma mark - DoraemonHealthButtonDelegate
 - (void)healthBtnClick:(nonnull id)sender {
+    
     [self _selfHandle];
     
     if(!_btnView.start){//提示框确认之后合入
-        [DoraemonToastUtil showToastBlack:DoraemonLocalizedString(@"提交成功\n恭喜已完成检测！") inView:self];
+        NSLog(@"结束体检");
     }
 }
 

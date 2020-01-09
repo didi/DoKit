@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedInstance;
 
 @property (nonatomic, assign) BOOL start;
-
+@property (nonatomic, assign) BOOL alert;
 @property (nonatomic, copy) NSArray *cellTitle;//说明数据
 
 @end

@@ -9,7 +9,9 @@
 #import "DoraemonHealthHomeView.h"
 #import "DoraemonHealthFooterView.h"
 #import "DoraemonHealthManager.h"
+#import "DoraemonHealthAlertView.h"
 #import "DoraemonHealthInstructionsView.h"
+#import "DoraemonHealthCountdownWindow.h"
 #import "DoraemonDefine.h"
 
 @interface DoraemonHealthViewController()<UIScrollViewDelegate,DoraemonHealthFooterButtonDelegate>
@@ -46,10 +48,17 @@
     _footerView.delegate = self;
     [_footerView renderUIWithTitleImg:YES];
     
+    
     __weak typeof(self) weakSelf = self;
     [_homeView addBlock:^{
-        weakSelf.footerView.hidden = [DoraemonHealthManager sharedInstance].start;
-        weakSelf.scrollView.scrollEnabled = ![DoraemonHealthManager sharedInstance].start;
+        if([DoraemonHealthManager sharedInstance].start){
+            [weakSelf showFooter:YES];
+            [[DoraemonHealthCountdownWindow shareInstance] start:10];
+        }else{
+            [weakSelf showEndAlert:YES];
+            [[DoraemonHealthCountdownWindow shareInstance] hide];
+        }
+        
     }];
     
     [_scrollView addSubview:_homeView];
@@ -57,10 +66,43 @@
     [self.view addSubview:_scrollView];
     [self.view addSubview:_footerView];
     
+    [self showFooter:[DoraemonHealthManager sharedInstance].start];
+    [self showEndAlert:[DoraemonHealthManager sharedInstance].alert];
+    
 }
 
 - (BOOL)needBigTitleView{
     return YES;
+}
+
+- (void)showFooter:(BOOL)show{
+    _footerView.hidden = show;
+    _scrollView.scrollEnabled = !show;
+}
+
+- (void)showEndAlert:(BOOL)show{
+    if(show){
+        __weak typeof(self) weakSelf = self;
+        [DoraemonHealthManager sharedInstance].alert = YES;
+        DoraemonHealthAlertView *alertView = [[DoraemonHealthAlertView alloc] init];
+        [alertView renderUI:@"撒端茶倒水" placeholder:@[@"第一个",@"第二个"] inputTip:@[@"提示1",@"提示2",@"提示3"] ok:DoraemonLocalizedString(@"提交") cancle:DoraemonLocalizedString(@"取消") okBlock:^{
+            [weakSelf hiddenEndAlert];
+            
+            [weakSelf endToast];
+            
+        } cancleBlock:^{
+            [weakSelf hiddenEndAlert];
+        }];
+        [self.view addSubview:alertView];
+    }
+}
+
+- (void)hiddenEndAlert{
+    [DoraemonHealthManager sharedInstance].alert = NO;
+}
+
+- (void)endToast{
+    [DoraemonToastUtil showToastBlack:DoraemonLocalizedString(@"提交成功\n恭喜已完成检测！") inView:self.view];
 }
 
 

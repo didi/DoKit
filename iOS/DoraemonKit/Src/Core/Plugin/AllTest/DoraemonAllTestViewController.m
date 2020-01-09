@@ -123,7 +123,7 @@
 
 - (void)okBtnClick{
     __weak typeof(self) weakSelf = self;
-    [DoraemonAlertUtil handleAlertActionWithVC:self text:@"是否确认" okBlock:^{
+    [DoraemonAlertUtil handleAlertActionWithVC:self text:DoraemonLocalizedString(@"是否确认") okBlock:^{
         weakSelf.okBtnStatus = !weakSelf.okBtnStatus;
         [DoraemonAllTestManager shareInstance].startTestOn = weakSelf.okBtnStatus;
         if (weakSelf.okBtnStatus) {
