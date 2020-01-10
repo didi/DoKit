@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.network.okhttp;
+package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor;
 
 import java.io.IOException;
 
@@ -7,7 +7,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * Created by xiandanin on 2019-05-10 11:56
+ * 用于模拟弱网的拦截器
+ * <p>
+ * Created by xiandanin on 2019-05-09 16:29
  */
 public class DoraemonWeakNetworkInterceptor implements Interceptor {
 
@@ -16,6 +18,4 @@ public class DoraemonWeakNetworkInterceptor implements Interceptor {
         Request request = chain.request();
         return chain.proceed(request);
     }
-
-
 }
