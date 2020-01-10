@@ -74,6 +74,11 @@ public class TimeCounterManager {
                 }
 
             }
+
+            @Override
+            public void onError(String message) {
+
+            }
         });
 
     }

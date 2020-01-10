@@ -12,10 +12,13 @@ import java.util.List;
  */
 
 public class DoraemonKit {
+
     public static void install(Application app) {
+
     }
 
     public static void install(Application app, List<IKit> selfKits) {
+
     }
 
     /**
@@ -24,6 +27,7 @@ public class DoraemonKit {
      * @param productId Dokit平台端申请的productId
      */
     public static void install(final Application app, List<IKit> selfKits, String productId) {
+
     }
 
 
@@ -32,7 +36,6 @@ public class DoraemonKit {
 
 
     public static void show() {
-
     }
 
 

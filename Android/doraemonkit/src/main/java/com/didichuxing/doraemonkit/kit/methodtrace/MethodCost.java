@@ -160,6 +160,9 @@ public class MethodCost {
             public void onSuccess(ArrayList<OrderBean> orderBeans) {
                 if (orderBeans == null || orderBeans.size() == 0) {
                     LogHelper.e(TAG, "no match method");
+                    if (appStartCallback != null) {
+                        appStartCallback.onError("no match method");
+                    }
                     return;
                 }
 

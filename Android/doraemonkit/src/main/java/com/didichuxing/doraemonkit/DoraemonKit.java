@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit;
 
-import android.app.Activity;
 import android.app.Application;
 
 import com.didichuxing.doraemonkit.constant.DokitConstant;

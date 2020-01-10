@@ -1,5 +1,7 @@
 package com.didichuxing.doraemonkit.kit.methodtrace;
 
+import android.app.Application;
+
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -9,6 +11,8 @@ package com.didichuxing.doraemonkit.kit.methodtrace;
  * startMethodTracing(startMethodTracingSampling) 和stopMethodTracingAndPrintLog 需要配对使用
  * 其中startMethodTracing是不采样的 所以在操作会产生大量的数据 导致缓存区会一下就满了 所以该方法建议该方法针对在一个方法中调用 类似demo
  * startMethodTracingSampling采用的采样的模式 可以再整个activity的生命周期中使用
+ * <p>
+ * 生成的trace文件位于getExternalFilesDir() 下 **.trace
  * 修订历史：
  * ================================================
  */
@@ -22,9 +26,13 @@ public class MethodCost {
      * @param bufferSize    The maximum amount of trace data we gather. If not
      *                      given, it defaults to 16MB.
      */
-    public static void startMethodTracing(String traceFileName, int bufferSize) {
+    public static void startMethodTracing(final String traceFileName, final int bufferSize) {
+
 
     }
+
+    public static Application APPLICATION;
+
 
     /**
      * @param traceFileName Path to the trace log file to create. If {@code null},
@@ -67,7 +75,7 @@ public class MethodCost {
      * @param traceFileName .trace 的文件名 不需要后缀
      * @param needIndent    是否需要缩进
      */
-    public static void stopMethodTracingAndPrintLog(String traceFileName, boolean needIndent) {
+    public static void stopMethodTracingAndPrintLog(String traceFileName, boolean needIndent, MethodCostCallback appStartCallback) {
 
     }
 
@@ -78,7 +86,17 @@ public class MethodCost {
      * @param traceFileName .trace 的文件名 不需要后缀
      */
     public static void stopMethodTracingAndPrintLog(String traceFileName) {
+        stopMethodTracingAndPrintLog(traceFileName, true, null);
+    }
 
+
+    /**
+     * 结束方法耗时并打印日志
+     *
+     * @param traceFileName .trace 的文件名 不需要后缀
+     */
+    public static void stopMethodTracingAndPrintLog(String traceFileName, MethodCostCallback appStartCallback) {
+        stopMethodTracingAndPrintLog(traceFileName, true, appStartCallback);
     }
 
 
