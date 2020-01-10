@@ -3,11 +3,13 @@ package com.didichuxing.doraemonkit.ui.realtime.datasource;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil;
 import com.didichuxing.doraemonkit.ui.realtime.widget.LineData;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 /**
  * @desc: 抓包数据源
  */
 public class NetworkDataSource implements IDataSource {
+    private static final String TAG = "NetworkDataSource";
     private long latestTotalLength = -1;
 
     @Override

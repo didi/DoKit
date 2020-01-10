@@ -277,9 +277,6 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
     }
 
 
-
-
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -344,8 +341,8 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
 
 
             case R.id.btn_okhttp_mock:
-                OkGo.<String>get("http://gank.io/gateway?api=dj.map")
-                        //OkGo.<String>get("https://www.v2ex.com/api/topics/hot.json")
+                //OkGo.<String>get("http://gank.io/gateway?api=dj.map")
+                OkGo.<String>get("https://www.v2ex.com/api/topics/hot.json")
                         .execute(new StringCallback() {
 
 

@@ -28,7 +28,7 @@ import com.didichuxing.doraemonkit.ui.realtime.widget.LineChart;
  * ================================================
  */
 public class PerformanceDokitView extends AbsDokitView implements PerformanceCloseListener {
-    public static final int DEFAULT_REFRESH_INTERVAL = 1000;
+    static final int DEFAULT_REFRESH_INTERVAL = 1000;
     PerformanceCloseDokitView mPerformanceCloseDokitView;
     LinearLayout mPerformanceWrap;
     FrameLayout mFlWrap0, mFlWrap1, mFlWrap2, mFlWrap3;
@@ -41,7 +41,7 @@ public class PerformanceDokitView extends AbsDokitView implements PerformanceClo
      *
      * @param listener
      */
-    public void addPerformanceFragmentCloseListener(PerformanceFragmentCloseListener listener) {
+    void addPerformanceFragmentCloseListener(PerformanceFragmentCloseListener listener) {
         this.mPerformanceFragmentCloseListener = listener;
     }
 
@@ -50,7 +50,7 @@ public class PerformanceDokitView extends AbsDokitView implements PerformanceClo
      *
      * @param listener
      */
-    public void removePerformanceFragmentCloseListener(PerformanceFragmentCloseListener listener) {
+    void removePerformanceFragmentCloseListener(PerformanceFragmentCloseListener listener) {
         if (mPerformanceFragmentCloseListener != null && mPerformanceFragmentCloseListener == listener) {
             mPerformanceFragmentCloseListener = null;
         }
@@ -67,7 +67,14 @@ public class PerformanceDokitView extends AbsDokitView implements PerformanceClo
         return LayoutInflater.from(context).inflate(R.layout.dk_performance_wrap, rootView, false);
     }
 
-    public void addItem(int performanceType, String title, int interval) {
+    /**
+     * 动态添加性能项目
+     *
+     * @param performanceType
+     * @param title
+     * @param interval
+     */
+    void addItem(int performanceType, String title, int interval) {
         if (mPerformanceWrap == null) {
             return;
         }
@@ -100,7 +107,7 @@ public class PerformanceDokitView extends AbsDokitView implements PerformanceClo
 
     }
 
-     void removeItem(int performanceType) {
+    void removeItem(int performanceType) {
         if (mPerformanceWrap == null) {
             return;
         }

@@ -208,7 +208,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                 DokitConstant.MAIN_ICON_HAS_SHOW = true;
             }
 
-            LogHelper.i(TAG, " activity  resume==>" + activity.getClass().getSimpleName() + "  dokitView==>" + globalSingleDokitViewInfo.getTag());
+            //LogHelper.i(TAG, " activity  resume==>" + activity.getClass().getSimpleName() + "  dokitView==>" + globalSingleDokitViewInfo.getTag());
             //判断resume Activity 中时候存在指定的dokitview
             AbsDokitView existDokitView = existDokitViews.get(globalSingleDokitViewInfo.getTag());
 
@@ -321,8 +321,6 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                     }
                 }, 100);
 
-
-                LogHelper.i(TAG, "dokitView attach===>" + dokitIntent.activity.getClass().getSimpleName() + " ===>" + dokitView.toString());
             }
 
         } catch (Exception e) {

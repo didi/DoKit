@@ -103,9 +103,8 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
      * @param context 上下文环境
      */
     @SuppressLint("ClickableViewAccessibility")
-    public void performCreate(Context context) {
+    void performCreate(Context context) {
         TAG = this.getClass().getSimpleName();
-        LogHelper.i(TAG, "performCreate===>" + TAG);
         try {
             if (DokitViewManager.getInstance().getLastDokitViewPosInfo(mTag) == null) {
                 mLastDokitViewPosInfo = new LastDokitViewPosInfo();
@@ -219,7 +218,6 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
         params.width = mDokitViewLayoutParams.width;
         params.height = mDokitViewLayoutParams.height;
         params.gravity = mDokitViewLayoutParams.gravity;
-        LogHelper.i(TAG, "activity===>" + mAttachActivity.get().getClass().getSimpleName() + " mTag==>" + mTag + "  params.width" + params.width + "  params.height===>" + params.height);
         portraitOrLandscape(params);
     }
 
@@ -605,7 +603,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
         if (!restrictBorderline() || !isNormalMode()) {
             return;
         }
-        LogHelper.i(TAG, "topMargin==>" + normalFrameLayoutParams.topMargin + "  leftMargin====>" + normalFrameLayoutParams.leftMargin);
+        //LogHelper.i(TAG, "topMargin==>" + normalFrameLayoutParams.topMargin + "  leftMargin====>" + normalFrameLayoutParams.leftMargin);
         if (normalFrameLayoutParams.topMargin <= 0) {
             normalFrameLayoutParams.topMargin = 0;
         }

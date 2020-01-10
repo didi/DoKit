@@ -52,7 +52,7 @@ public class LocationHooker extends BaseServiceHooker {
 
     @Override
     public void replaceBinder(Context context, IBinder proxy) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
-        LogHelper.d(TAG, "replaceBinder");
+        //LogHelper.d(TAG, "replaceBinder");
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if (locationManager == null) {
             return;
