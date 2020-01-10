@@ -85,8 +85,10 @@
         __weak typeof(self) weakSelf = self;
         [DoraemonHealthManager sharedInstance].alert = YES;
         DoraemonHealthAlertView *alertView = [[DoraemonHealthAlertView alloc] init];
-        [alertView renderUI:@"撒端茶倒水" placeholder:@[@"第一个",@"第二个"] inputTip:@[@"提示1",@"提示2",@"提示3"] ok:DoraemonLocalizedString(@"提交") cancle:DoraemonLocalizedString(@"取消") okBlock:^{
+        [alertView renderUI:DoraemonLocalizedString(@"结束前请完善下列信息") placeholder:@[] inputTip:@[DoraemonLocalizedString(@"测试用例名称"),DoraemonLocalizedString(@"测试人名称")] ok:DoraemonLocalizedString(@"提交") cancle:DoraemonLocalizedString(@"取消") okBlock:^{
             [weakSelf hiddenEndAlert];
+            
+            NSLog(@"===== %@",[alertView getInputText]);
             
             [weakSelf endToast];
             

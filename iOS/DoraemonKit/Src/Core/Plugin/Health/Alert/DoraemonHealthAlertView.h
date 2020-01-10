@@ -17,6 +17,8 @@ typedef void (^DoraemonHealthAlertCancleActionBlock)(void);
 - (void)renderUI:(NSString *)title placeholder:(NSArray*)placeholders inputTip:(NSArray*)inputTips ok:(NSString *)okText cancle:(NSString *)cancleText okBlock:(DoraemonHealthAlertOKActionBlock)okBlock
 cancleBlock:(DoraemonHealthAlertCancleActionBlock)cancleBlock;
 
+- (NSArray *)getInputText;
+
 @end
 
 NS_ASSUME_NONNULL_END

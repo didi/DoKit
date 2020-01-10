@@ -98,13 +98,25 @@
     }
     _height += kDoraemonSizeFrom750_Landscape(38);
     _okBtn.frame = CGRectMake(_okBtn.doraemon_x, _height, _okBtn.doraemon_width, _okBtn.doraemon_height);
-    [_okBtn setTitle:okText forState:UIControlStateNormal];
+    if(okText.length>0){
+        [_okBtn setTitle:okText forState:UIControlStateNormal];
+    }
     _cancleBtn.frame = CGRectMake(_cancleBtn.doraemon_x, _height, _cancleBtn.doraemon_width, _cancleBtn.doraemon_height);
-    [_cancleBtn setTitle:cancleText forState:UIControlStateNormal];
+    if(cancleText.length>0){
+        [_cancleBtn setTitle:cancleText forState:UIControlStateNormal];
+    }
     _height += _okBtn.doraemon_height;
     _alertView.frame = CGRectMake(_padding, _alertView.doraemon_y, _width, _height);
     self.okBlock = okBlock;
     self.cancleBlock = cancleBlock;
+}
+
+- (NSArray *)getInputText{
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    for (DoraemonHealthEndInputView *inputView in _inputViewArray) {
+        [array addObject:inputView.textField.text];
+    }
+    return array;
 }
 
 - (void)cancleBtnAction:(id)sender{

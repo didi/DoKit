@@ -118,6 +118,11 @@
     "提交成功\n恭喜已完成检测！"                  = "Submitted successfully \n Congratulations!";
     "第%d步"                                  = "Step %d";
     "是否确认"                                 = "Whether to confirm";
+    "提交"                                    = "Submit";
+    "结束前请完善下列信息"                        = "Please complete the following";
+    "测试用例名称"                              = "Test case name";
+    "测试人名称"                               = "Test person name";
+
     
 
     "该功能需要重启App才能生效"        =   "Reboot to work";
