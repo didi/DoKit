@@ -13,6 +13,8 @@
 #import "NSObject+Doraemon.h"
 #import "DoraemonManager.h"
 #import <objc/runtime.h>
+#import "DoraemonHealthManager.h"
+#import "DoraemonTimeProfiler.h"
 
 static NSTimeInterval startTime;
 static NSTimeInterval endTime;
@@ -43,8 +45,12 @@ static NSTimeInterval endTime;
 }
 
 - (BOOL)doraemon_application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+    //[DoraemonTimeProfiler startRecord];
     BOOL ret = [self doraemon_application:application didFinishLaunchingWithOptions:launchOptions];
+    //[DoraemonTimeProfiler stopRecord];
     endTime = [[NSDate date] timeIntervalSince1970];
+    
+    [DoraemonHealthManager sharedInstance].startTime = endTime-startTime;
     return ret;
 }
 

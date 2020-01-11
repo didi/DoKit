@@ -8,6 +8,7 @@
 #import "DoraemonMemoryLeakData.h"
 #import "NSObject+MemoryLeak.h"
 #import <FBRetainCycleDetector/FBRetainCycleDetector.h>
+#import "DoraemonHealthManager.h"
 
 @interface DoraemonMemoryLeakData()
 
@@ -39,14 +40,18 @@
     NSNumber *classPtr = @((uintptr_t)object);
     NSArray *viewStack = [object viewStack];
     
-    NSString *retainCycle = [self getRetainCycleByObject:object];
+    //NSString *retainCycle = [self getRetainCycleByObject:object];
     
-    [_dataArray addObject:@{
+    NSString *retainCycle = @"retainCycle";
+    
+    NSDictionary *info = @{
         @"className":className,
         @"classPtr":classPtr,
         @"viewStack":viewStack,
         @"retainCycle":retainCycle
-    }];
+    };
+    [_dataArray addObject:info];
+    [[DoraemonHealthManager sharedInstance] addLeak:info];
 }
 
 - (void)removeObjectPtr:(NSNumber *)objectPtr{

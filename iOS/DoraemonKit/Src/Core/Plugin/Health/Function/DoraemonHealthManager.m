@@ -14,12 +14,19 @@
 #import "DoraemonAppInfoUtil.h"
 #import "DoraemonDefine.h"
 #import "DoraemonManager.h"
+#import "DoraemonCacheManager.h"
+#import "DoraemonMethodUseTimeManager.h"
+#import "DoraemonANRManager.h"
+#import "UIViewController+Doraemon.h"
+#import "DoraemonUIProfileManager.h"
+#import <UIKit/UIKit.h>
 
 
 @interface DoraemonHealthManager()
 //每秒运行一次
 @property (nonatomic, strong) NSTimer *secondTimer;
 @property (nonatomic, strong) DoraemonFPSUtil *fpsUtil;
+@property (nonatomic, assign) BOOL firstEnter;
 
 @property (nonatomic, strong) NSMutableArray *cpuPageArray;
 @property (nonatomic, strong) NSMutableArray *cpuArray;
@@ -27,10 +34,20 @@
 @property (nonatomic, strong) NSMutableArray *memoryArray;
 @property (nonatomic, strong) NSMutableArray *fpsPageArray;
 @property (nonatomic, strong) NSMutableArray *fpsArray;
+@property (nonatomic, strong) NSMutableArray *networkPageArray;
+@property (nonatomic, strong) NSMutableArray *networkArray;
+@property (nonatomic, strong) NSMutableArray *blockArray;
+@property (nonatomic, strong) NSMutableArray *subThreadUIArray;
+@property (nonatomic, strong) NSMutableArray *uiLevelArray;
+@property (nonatomic, strong) NSMutableArray *leakArray;
+@property (nonatomic, strong) NSMutableDictionary *pageEnterMap;
+@property (nonatomic, strong) NSMutableArray *pageLoadArray;
 
 @end
 
-@implementation DoraemonHealthManager
+@implementation DoraemonHealthManager{
+    dispatch_semaphore_t semaphore;
+}
 
 + (instancetype)sharedInstance {
     static id instance = nil;
@@ -45,13 +62,22 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
-        _start = NO;
+        _start = [[DoraemonCacheManager sharedInstance] healthStart];
         _cpuPageArray = [[NSMutableArray alloc] init];
         _cpuArray = [[NSMutableArray alloc] init];
         _memoryPageArray = [[NSMutableArray alloc] init];
         _memoryArray = [[NSMutableArray alloc] init];
         _fpsPageArray = [[NSMutableArray alloc] init];
         _fpsArray = [[NSMutableArray alloc] init];
+        _networkPageArray = [[NSMutableArray alloc] init];
+        _networkArray = [[NSMutableArray alloc] init];
+        _blockArray = [[NSMutableArray alloc] init];
+        _subThreadUIArray = [[NSMutableArray alloc] init];
+        _uiLevelArray = [[NSMutableArray alloc] init];
+        _leakArray = [[NSMutableArray alloc] init];
+        _pageEnterMap = [[NSMutableDictionary alloc] init];
+        _pageLoadArray = [[NSMutableArray alloc] init];
+        semaphore = dispatch_semaphore_create(1);
     }
     return self;
 }
@@ -59,24 +85,37 @@
 
 
 - (void)startHealthCheck{
-    if (_start) {
-        if(!_secondTimer){
-            _secondTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(doSecondFunction) userInfo:nil repeats:YES];
-            [[NSRunLoop currentRunLoop] addTimer:_secondTimer forMode:NSRunLoopCommonModes];
-            if (!_fpsUtil) {
-                _fpsUtil = [[DoraemonFPSUtil alloc] init];
-                __weak typeof(self) weakSelf = self;
-                [_fpsUtil addFPSBlock:^(NSInteger fps) {
-                    [weakSelf handleFPS:fps];
-                    
-                }];
-            }
-            [_fpsUtil start];
+    _start = YES;
+    [[DoraemonCacheManager sharedInstance] saveHealthStart:YES];
+    if(!_secondTimer){
+        _secondTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(doSecondFunction) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_secondTimer forMode:NSRunLoopCommonModes];
+        if (!_fpsUtil) {
+            _fpsUtil = [[DoraemonFPSUtil alloc] init];
+            __weak typeof(self) weakSelf = self;
+            [_fpsUtil addFPSBlock:^(NSInteger fps) {
+                [weakSelf handleFPS:fps];
+                
+            }];
         }
+        [_fpsUtil start];
     }
+    
+    [[DoraemonCacheManager sharedInstance] saveStartTimeSwitch:YES];
+    [DoraemonMethodUseTimeManager sharedInstance].on = YES;
+    [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:YES];
+    [[DoraemonCacheManager sharedInstance] saveSubThreadUICheckSwitch:YES];
+    [[DoraemonANRManager sharedInstance] start];
+    [DoraemonUIProfileManager sharedInstance].enable = YES;
+    [[DoraemonCacheManager sharedInstance] saveMemoryLeak:YES];
 }
 
 - (void)stopHealthCheck{
+    _start = NO;
+    [[DoraemonCacheManager sharedInstance] saveHealthStart:NO];
+    [[DoraemonCacheManager sharedInstance] saveSubThreadUICheckSwitch:NO];
+    [DoraemonUIProfileManager sharedInstance].enable = NO;
+    [[DoraemonCacheManager sharedInstance] saveMemoryLeak:NO];
     if(_secondTimer){
         [_secondTimer invalidate];
         _secondTimer = nil;
@@ -85,11 +124,15 @@
         [_fpsUtil end];
     }
     [self upLoadData];
+    
+    //[[DoraemonCacheManager sharedInstance] saveStartTimeSwitch:NO];
+    [[DoraemonCacheManager sharedInstance] saveHealthStart:NO];
+    [[DoraemonANRManager sharedInstance] stop];
 }
 
 - (void)doSecondFunction{
     //1、获取当前时间
-    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970]*1000;
+    NSString *currentTimeInterval = [self currentTimeInterval];
     
     //2、获取当前cpu占用率
     CGFloat cpuValue = -1;
@@ -101,24 +144,21 @@
     }
     
     [_cpuPageArray addObject:@{
-        @"time":[NSString stringWithFormat:@"%.0f",timeInterval],
+        @"time":currentTimeInterval,
         @"value":[NSString stringWithFormat:@"%f",cpuValue]
     }];
     
     //3、获取当前memoryValue使用量
     NSInteger memoryValue = [DoraemonMemoryUtil useMemoryForApp];//单位MB
     [_memoryPageArray addObject:@{
-        @"time":[NSString stringWithFormat:@"%.0f",timeInterval],
+        @"time":currentTimeInterval,
         @"value":[NSString stringWithFormat:@"%zi",memoryValue]
     }];
 }
 
 - (void)handleFPS:(NSInteger)fps{
-    //处理fps信息
-    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970]*1000;
-    
     [_fpsPageArray addObject:@{
-        @"time":[NSString stringWithFormat:@"%0.f",timeInterval],
+        @"time":[self currentTimeInterval],
         @"value":[NSString stringWithFormat:@"%zi",fps]
     }];
 }
@@ -133,6 +173,15 @@
     if (!appName) {
         appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
     }
+    
+    
+    //启动流程
+    NSArray *loadArray = [[DoraemonMethodUseTimeManager sharedInstance] fixLoadModelArrayForHealth];
+    NSDictionary *appStart = @{
+        @"costTime" : @(self.startTime),
+        @"costDetail" : self.costDetail ? self.costDetail : @"",
+        @"loadFunc" : loadArray ? loadArray : @[]
+    };
     
     NSDictionary *dic = @{
         @"baseInfo":@{
@@ -150,7 +199,14 @@
         @"data":@{
                 @"cpu":[_cpuArray copy],
                 @"memory":[_memoryArray copy],
-                @"fps":[_fpsArray copy]
+                @"fps":[_fpsArray copy],
+                @"appStart":appStart,
+                @"network": [_networkArray copy],
+                @"block":[_blockArray copy],
+                @"subThreadUI":[_subThreadUIArray copy],
+                @"uiLevel":[_uiLevelArray copy],
+                @"leak":[_leakArray copy],
+                @"pageLoad":[_pageLoadArray copy]
         }
     };
     
@@ -167,21 +223,55 @@
     [_cpuPageArray removeAllObjects];
     [_memoryPageArray removeAllObjects];
     [_fpsPageArray removeAllObjects];
+    [_networkPageArray removeAllObjects];
     [_cpuArray removeAllObjects];
     [_memoryArray removeAllObjects];
     [_fpsArray removeAllObjects];
+    [_networkArray removeAllObjects];
+    [_blockArray removeAllObjects];
+    [_subThreadUIArray removeAllObjects];
+    [_uiLevelArray removeAllObjects];
+    [_leakArray removeAllObjects];
+    [_pageLoadArray removeAllObjects];
+}
+
+- (void)startEnterPage:(Class)vcClass{
+    if ([self blackList:vcClass]) {
+        return;
+    }
+    NSString *pageName = NSStringFromClass(vcClass);
+    CGFloat beginTime = CACurrentMediaTime();
+    [_pageEnterMap setValue:@(beginTime) forKey:pageName];
+    NSLog(@"yixiang 开始进入页面 == %@ 时间 == %f",pageName,beginTime);
+    
 }
 
 - (void)enterPage:(Class)vcClass{
+    if ([self blackList:vcClass]) {
+        return;
+    }
     NSString *pageName = NSStringFromClass(vcClass);
-    NSLog(@"进入页面 == %@",pageName);
+    NSLog(@"yixiang 已经进入页面 == %@",pageName);
+    if (_pageEnterMap[pageName]) {
+        CGFloat beginTime = [_pageEnterMap[pageName] floatValue];
+        CGFloat endTime = CACurrentMediaTime();
+        CGFloat costTime = endTime - beginTime;
+        NSLog(@"yixiang 耗时 == %f",endTime);
+        NSLog(@"yixiang 耗时 == %f",costTime);
+        [_pageLoadArray addObject:@{
+            @"page":NSStringFromClass(vcClass),
+            @"time":@(costTime)//s
+        }];
+    }
+    [_pageEnterMap removeObjectForKey:pageName];
     [_cpuPageArray removeAllObjects];
     [_memoryPageArray removeAllObjects];
     [_fpsPageArray removeAllObjects];
+    [_networkPageArray removeAllObjects];
 }
 
 - (void)leavePage:(Class)vcClass{
-    if ([vcClass isSubclassOfClass:[UINavigationController class]] || [vcClass isSubclassOfClass:[UITabBarController class]]) {
+    if ([self blackList:vcClass]) {
         return;
     }
     NSString *pageName = NSStringFromClass(vcClass);
@@ -198,5 +288,88 @@
         @"page":pageName,
         @"values":[_fpsPageArray copy]
     }];
+    [_networkArray addObject:@{
+        @"page":pageName,
+        @"values":[_networkPageArray copy]
+    }];
+}
+
+- (BOOL)blackList:(Class)vcClass{
+    if ([vcClass isSubclassOfClass:[UINavigationController class]] || [vcClass isSubclassOfClass:[UITabBarController class]]) {
+        return YES;
+    }
+    NSString *vcName = NSStringFromClass(vcClass);
+    NSArray *blackList = @[
+        @"UIViewController",
+        @"UIInputWindowController"
+    ];
+    if ([blackList containsObject:vcName]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (void)addHttpModel:(DoraemonNetFlowHttpModel *)httpModel{
+    if (_start) {
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        [_networkPageArray addObject:@{
+            @"time": [self currentTimeInterval],
+            @"url": STRING_NOT_NULL(httpModel.url) ,
+            @"up": STRING_NOT_NULL(httpModel.uploadFlow),
+            @"down": STRING_NOT_NULL(httpModel.downFlow),
+            @"code": STRING_NOT_NULL(httpModel.statusCode),
+            @"method": STRING_NOT_NULL(httpModel.method)
+        }];
+        dispatch_semaphore_signal(semaphore);
+    }
+}
+
+- (void)addANRInfo:(NSDictionary *)anrInfo{
+    if (_start) {
+        [_blockArray addObject:@{
+            @"page":[self currentTopVC],
+            @"blockTime":anrInfo[@"duration"],
+            @"detail":anrInfo[@"content"]
+        }];
+    }
+}
+
+- (void)addSubThreadUI:(NSDictionary *)info{
+    if (_start) {
+        [_subThreadUIArray addObject:@{
+            @"page":[self currentTopVC],
+            @"detail":info[@"content"]
+        }];
+    }
+}
+
+- (void)addUILevel:(NSDictionary *)info{
+    if (_start) {
+        [_uiLevelArray addObject:@{
+            @"page":[self currentTopVC],
+            @"level":info[@"level"],
+            @"detail":info[@"detail"]
+        }];
+    }
+}
+
+- (void)addLeak:(NSDictionary *)info{
+    if (_start) {
+        [_leakArray addObject:@{
+            @"page":info[@"className"],
+            @"detail":info[@"viewStack"]
+        }];
+    }
+}
+
+- (NSString *)currentTimeInterval{
+    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970]*1000;
+    return [NSString stringWithFormat:@"%0.f",timeInterval];
+}
+
+- (NSString *)currentTopVC{
+    UIViewController *vc = [UIViewController topViewControllerForKeyWindow];
+    NSString *vcName = NSStringFromClass([vc class]);
+    return vcName;
 }
 @end

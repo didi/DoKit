@@ -130,7 +130,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     //根据开关判断是否开启流量监控
     if ([[DoraemonCacheManager sharedInstance] netFlowSwitch]) {
         [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:YES];
-        [[DoraemonNetFlowOscillogramWindow shareInstance] show];
+        //[[DoraemonNetFlowOscillogramWindow shareInstance] show];
     }
 
     //重新启动的时候，把帧率、CPU、内存和流量监控关闭

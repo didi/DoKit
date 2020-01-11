@@ -12,6 +12,7 @@
 #import "DoraemonAppInfoUtil.h"
 #import "Doraemoni18NUtil.h"
 #import "DoraemonANRTool.h"
+#import "DoraemonHealthManager.h"
 
 //默认超时间隔
 static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
@@ -67,6 +68,7 @@ static int64_t const kDoraemonBlockMonitorTimeInterval = 1.;
     if (![info isKindOfClass:[NSDictionary class]]) {
         return;
     }
+    [[DoraemonHealthManager sharedInstance] addANRInfo:info];
     if (self.block) {
         self.block(info);
     }

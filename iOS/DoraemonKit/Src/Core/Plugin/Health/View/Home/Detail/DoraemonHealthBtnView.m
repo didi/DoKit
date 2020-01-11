@@ -40,7 +40,6 @@
 
 - (void)statusForBtn:(BOOL)start{
     NSString *imgName = @"doraemon_health_start";
-    [DoraemonHealthManager sharedInstance].start = _start;
     if(start){
         imgName = @"doraemon_health_end";
     }

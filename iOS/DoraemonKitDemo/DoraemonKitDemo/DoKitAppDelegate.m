@@ -12,6 +12,7 @@
 #import "Doraemoni18NUtil.h"
 #import "DoraemonTimeProfiler.h"
 //#import <CocoaLumberjack/CocoaLumberjack.h>
+#import "DoraemonUtil.h"
 
 @interface DoKitAppDelegate ()
 
@@ -70,6 +71,11 @@
     NSLog(@"%@",[array description]);
     
     //[DoraemonTimeProfiler stopRecord];
+    
+    NSString *homeDir = NSHomeDirectory();
+    
+    DoraemonUtil *util = [[DoraemonUtil alloc] init];
+    [util getBigSizeFileFormPath:homeDir];
 
     return YES;
 }

@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DoraemonNetFlowHttpModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,15 +16,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL start;
 @property (nonatomic, assign) BOOL alert;
-@property (nonatomic, copy) NSArray *cellTitle;//说明数据
 
 - (void)startHealthCheck;
 
 - (void)stopHealthCheck;
 
+- (void)startEnterPage:(Class)vcClass;
+
 - (void)enterPage:(Class)vcClass;
 
 - (void)leavePage:(Class)vcClass;
+
+- (void)addHttpModel:(DoraemonNetFlowHttpModel *)httpModel;
+
+- (void)addANRInfo:(NSDictionary *)anrInfo;
+
+- (void)addSubThreadUI:(NSDictionary *)info;
+
+- (void)addUILevel:(NSDictionary *)info;
+
+- (void)addLeak:(NSDictionary *)info;
+
+//检测结果
+@property (nonatomic, assign) CGFloat startTime;//本次启动时间
+@property (nonatomic, copy) NSString *costDetail;//启动流程耗时详情
 
 @end
 

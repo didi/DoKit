@@ -27,6 +27,7 @@ static NSString * const kDoraemonMemoryLeakKey = @"doraemon_memory_leak_key";
 static NSString * const kDoraemonMemoryLeakAlertKey = @"doraemon_memory_leak_alert_key";
 static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 static NSString * const kDoraemonMockCacheKey = @"doraemon_mock_cache_key";
+static NSString * const kDoraemonHealthStartKey = @"doraemon_health_start_key";
 
 @interface DoraemonCacheManager()
 
@@ -299,5 +300,13 @@ static NSString * const kDoraemonMockCacheKey = @"doraemon_mock_cache_key";
     return [_defaults objectForKey:kDoraemonMockCacheKey];
 }
 
+// 健康体检开关
+- (void)saveHealthStart:(BOOL)on{
+    [_defaults setBool:on forKey:kDoraemonHealthStartKey];
+    [_defaults synchronize];
+}
+- (BOOL)healthStart{
+    return [_defaults boolForKey:kDoraemonHealthStartKey];
+}
 
 @end

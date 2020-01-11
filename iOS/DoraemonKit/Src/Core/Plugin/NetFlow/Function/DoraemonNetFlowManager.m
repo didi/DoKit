@@ -11,6 +11,7 @@
 #import "NSObject+Doraemon.h"
 #import "DoraemonNetworkInterceptor.h"
 #import "UIViewController+Doraemon.h"
+#import "DoraemonHealthManager.h"
 
 @interface DoraemonNetFlowManager() <DoraemonNetworkInterceptorDelegate>
 
@@ -53,6 +54,7 @@
     httpModel.topVc = NSStringFromClass([[UIViewController topViewControllerForKeyWindow] class]);
     
     [[DoraemonNetFlowDataSource shareInstance] addHttpModel:httpModel];
+    [[DoraemonHealthManager sharedInstance] addHttpModel:httpModel];
 }
 
 - (BOOL)shouldIntercept {

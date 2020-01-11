@@ -29,6 +29,8 @@ static void doraemon_vc_profiler_viewDidLoad(UIViewController *kvo_self, SEL _se
     IMP origin_imp = method_getImplementation(class_getInstanceMethod(origin_cls, _sel));
     assert(origin_imp != NULL);
 
+    [[DoraemonHealthManager sharedInstance] startEnterPage:origin_cls];
+    
     void (*func)(UIViewController *, SEL) = (void (*)(UIViewController *, SEL))origin_imp;
 
     //VCLog(@"VC: %p -viewDidLoad \t\tbegin  at CF time:\t%lf", kvo_self, CFAbsoluteTimeGetCurrent());

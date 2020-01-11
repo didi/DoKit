@@ -11,6 +11,7 @@
 #import <BSBacktraceLogger/BSBacktraceLogger.h>
 #import "DoraemonSubThreadUICheckManager.h"
 #import "DoraemonUtil.h"
+#import "DoraemonHealthManager.h"
 
 @implementation UIView (DoraemonSubThreadUICheck)
 
@@ -46,6 +47,7 @@
                                   @"content":report
                                   };
             [[DoraemonSubThreadUICheckManager sharedInstance].checkArray addObject:dic];
+            [[DoraemonHealthManager sharedInstance] addSubThreadUI:dic];
         }
     }
 }

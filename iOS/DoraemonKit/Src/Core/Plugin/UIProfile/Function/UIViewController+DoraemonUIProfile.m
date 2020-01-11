@@ -11,6 +11,7 @@
 #import "DoraemonDefine.h"
 #import <objc/runtime.h>
 #import "DoraemonUIProfileWindow.h"
+#import "DoraemonHealthManager.h"
 
 @interface UIViewController ()
 
@@ -67,10 +68,19 @@
     }
     NSArray *result = [[tmp reverseObjectEnumerator] allObjects];
     NSString *detail = [result componentsJoinedByString:@"\r\n"];
-    [[DoraemonUIProfileWindow sharedInstance] showWithDepthText:text detailInfo:detail];
     
-    self.doraemon_depthView.layer.borderWidth = 1;
-    self.doraemon_depthView.layer.borderColor = [UIColor redColor].CGColor;
+    if ([DoraemonHealthManager sharedInstance].start) {
+        [[DoraemonHealthManager sharedInstance] addUILevel:@{
+            @"level":self.doraemon_depth,
+            @"detail":detail
+        }];
+    }else{
+        [[DoraemonUIProfileWindow sharedInstance] showWithDepthText:text detailInfo:detail];
+        
+        self.doraemon_depthView.layer.borderWidth = 1;
+        self.doraemon_depthView.layer.borderColor = [UIColor redColor].CGColor;
+    }
+
 }
 
 - (void)travelView:(UIView *)view depth:(int)depth

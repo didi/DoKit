@@ -170,6 +170,34 @@
     }
 }
 
+//获取所有>1M的文件
+- (NSArray *)getBigSizeFileFormPath:(NSString *)path{
+     NSFileManager * fileManger = [NSFileManager defaultManager];
+     BOOL isDir = NO;
+     BOOL isExist = [fileManger fileExistsAtPath:path isDirectory:&isDir];
+     if (isExist){
+         if(isDir){
+             //文件夹
+             NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
+             NSString * subPath = nil;
+             for(NSString *str in dirArray) {
+                 subPath = [path stringByAppendingPathComponent:str];
+                 [self getBigSizeFileFormPath:subPath];
+             }
+         }else{
+             //文件
+             NSDictionary *dict = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
+             NSInteger size = [dict[@"NSFileSize"] integerValue];
+             NSLog(@"filePath == %@  size == %zi",path,size);
+         }
+     }else{
+         //不存在该文件path
+         //NSLog(@"不存在该文件");
+     }
+     
+     return nil;
+ }
+
 //删除某一路径下的所有文件
 + (void)clearFileWithPath:(NSString *)path{
     NSFileManager *fm = [NSFileManager defaultManager];

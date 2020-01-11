@@ -23,14 +23,14 @@
     [super viewDidLoad];
     self.title = @"测试内存泄漏";
     
-//    _model = [[DoraemonDemoMemoryLeakModel alloc] init];
+    //_model = [[DoraemonDemoMemoryLeakModel alloc] init];
 //    [_model addBlock:^{
 //        [self printXX];
 //    }];
     //[_model install];
 
-    //_testview = [[DoraemonDemoMemoryLeakView alloc] initWithFrame:CGRectMake(100, 200, 100, 100)];
-    //[self.view addSubview:_testview];
+    _testview = [[DoraemonDemoMemoryLeakView alloc] initWithFrame:CGRectMake(100, 200, 100, 100)];
+    [self.view addSubview:_testview];
     
     __weak id weakSelf = self;
     //NSLog(@"self == %@",self);
