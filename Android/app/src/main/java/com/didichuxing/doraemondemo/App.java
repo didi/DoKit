@@ -31,7 +31,7 @@ public class App extends Application {
         kits.add(new DemoKit());
         DoraemonKit.install(this, kits,"testProductId");
         //是否显示入口icon
-        //DoraemonKit.setAwaysShowMianIcon(false);
+        //DoraemonKit.setAwaysShowMainIcon(false);
         DoraemonKit.disableUpload();
         Fresco.initialize(this);
         DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
@@ -44,7 +44,7 @@ public class App extends Application {
             }
         });
         //严格检查模式
-        //StrictMode.enableDefaults();
+        StrictMode.enableDefaults();
 
     }
 

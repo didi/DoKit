@@ -18,5 +18,4 @@ public class DoraemonInterceptor implements Interceptor {
         return chain.proceed(request);
     }
 
-
 }

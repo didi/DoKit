@@ -27,7 +27,7 @@ public class DokitFragmentLifecycleCallbacks extends FragmentManager.FragmentLif
     @Override
     public void onFragmentAttached(FragmentManager fm, Fragment fragment, Context context) {
         super.onFragmentAttached(fm, fragment, context);
-        LogHelper.d(TAG, "onFragmentAttached: " + fragment);
+        //LogHelper.d(TAG, "onFragmentAttached: " + fragment);
         if (fragment instanceof DbDebugFragment) {
             DokitConstant.DB_DEBUG_FRAGMENT = new WeakReference<>((DbDebugFragment) fragment);
         }
@@ -39,7 +39,7 @@ public class DokitFragmentLifecycleCallbacks extends FragmentManager.FragmentLif
     @Override
     public void onFragmentDetached(FragmentManager fm, Fragment fragment) {
         super.onFragmentDetached(fm, fragment);
-        LogHelper.d(TAG, "onFragmentDetached: " + fragment);
+        //LogHelper.d(TAG, "onFragmentDetached: " + fragment);
         if (fragment instanceof DbDebugFragment) {
             DokitConstant.DB_DEBUG_FRAGMENT.clear();
             DokitConstant.DB_DEBUG_FRAGMENT = null;

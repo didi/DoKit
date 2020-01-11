@@ -21,7 +21,7 @@ import java.util.Map;
  */
 
 public class DokitViewManager implements DokitViewManagerInterface {
-    public static final String TAG = "DokitViewManagerProxy";
+    private static final String TAG = "DokitViewManagerProxy";
     /**
      * 每个类型在页面中的位置 只保存marginLeft 和marginTop
      */
@@ -98,7 +98,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
      * 只有普通浮标才会调用
      * 保存每种类型dokitView的位置
      */
-    public void saveDokitViewPos(String tag, int marginLeft, int marginTop) {
+    void saveDokitViewPos(String tag, int marginLeft, int marginTop) {
         if (mDokitViewPos == null) {
             return;
         }
@@ -108,12 +108,14 @@ public class DokitViewManager implements DokitViewManagerInterface {
             mDokitViewPos.put(tag, point);
         } else {
             Point point = mDokitViewPos.get(tag);
-            point.set(marginLeft, marginTop);
+            if (point != null) {
+                point.set(marginLeft, marginTop);
+            }
         }
 
-        for (String key : mDokitViewPos.keySet()) {
-            LogHelper.i(TAG, "saveDokitViewPos  key==> " + key + "  point===>" + mDokitViewPos.get(key));
-        }
+//        for (String key : mDokitViewPos.keySet()) {
+//            LogHelper.i(TAG, "saveDokitViewPos  key==> " + key + "  point===>" + mDokitViewPos.get(key));
+//        }
     }
 
     /**
@@ -128,9 +130,9 @@ public class DokitViewManager implements DokitViewManagerInterface {
             return null;
         }
 
-        for (String key : mDokitViewPos.keySet()) {
-            LogHelper.i(TAG, "getDokitViewPos  key==> " + key + "  point===>" + mDokitViewPos.get(key));
-        }
+//        for (String key : mDokitViewPos.keySet()) {
+//            LogHelper.i(TAG, "getDokitViewPos  key==> " + key + "  point===>" + mDokitViewPos.get(key));
+//        }
         return mDokitViewPos.get(tag);
     }
 

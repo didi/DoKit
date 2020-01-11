@@ -107,7 +107,7 @@ public class ViewCheckDokitView extends AbsDokitView {
             return null;
         }
         if (isNormalMode()) {
-            LogHelper.d(TAG, "x: " + x + ", y: " + y);
+            //LogHelper.d(TAG, "x: " + x + ", y: " + y);
             return traverseViews(UIUtils.getDokitAppContentView(mResumedActivity), x, y);
         } else {
             return traverseViews(mResumedActivity.getWindow().getDecorView(), x, y);
@@ -142,8 +142,8 @@ public class ViewCheckDokitView extends AbsDokitView {
             }
         } else {
             if (view != null) {
-                LogHelper.i(TAG, "class: " + view.getClass() + ", left: " + left
-                        + ", right: " + right + ", top: " + top + ", bottom: " + bottom);
+//                LogHelper.i(TAG, "class: " + view.getClass() + ", left: " + left
+//                        + ", right: " + right + ", top: " + top + ", bottom: " + bottom);
             }
 
             if (left < x && x < right && top < y && y < bottom) {

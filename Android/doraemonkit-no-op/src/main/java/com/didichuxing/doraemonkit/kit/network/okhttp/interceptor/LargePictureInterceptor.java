@@ -19,7 +19,4 @@ public class LargePictureInterceptor implements Interceptor {
         return chain.proceed(request);
     }
 
-
-
-
 }
