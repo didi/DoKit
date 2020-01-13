@@ -105,9 +105,11 @@ static DoraemonNetworkInterceptor *instance = nil;
                      request: (NSURLRequest *)request
                        error: (NSError *)error
                    startTime: (NSTimeInterval)startTime {
-    for (id<DoraemonNetworkInterceptorDelegate> delegate in self.delegates) {
-        [delegate doraemonNetworkInterceptorDidReceiveData:data response:response request:request error:error startTime:startTime];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        for (id<DoraemonNetworkInterceptorDelegate> delegate in self.delegates) {
+            [delegate doraemonNetworkInterceptorDidReceiveData:data response:response request:request error:error startTime:startTime];
+        }
+    });
 }
 
 @end
