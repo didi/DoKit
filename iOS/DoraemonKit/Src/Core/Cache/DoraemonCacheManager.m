@@ -56,7 +56,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 
 - (void)saveLoggerSwitch:(BOOL)on{
     [_defaults setBool:on forKey:kDoraemonLoggerSwitchKey];
-    [_defaults synchronize];
 }
 
 - (BOOL)loggerSwitch{
@@ -66,7 +65,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 
 - (void)saveMockGPSSwitch:(BOOL)on{
     [_defaults setBool:on forKey:kDoraemonMockGPSSwitchKey];
-    [_defaults synchronize];
 }
 
 - (BOOL)mockGPSSwitch{
@@ -79,7 +77,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
                           @"latitude":@(coordinate.latitude)
                           };
     [_defaults setObject:dic forKey:kDoraemonMockCoordinateKey];
-    [_defaults synchronize];
 }
 
 - (CLLocationCoordinate2D)mockCoordinate{
@@ -101,7 +98,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 
 - (void)saveFpsSwitch:(BOOL)on{
     [_defaults setBool:on forKey:kDoraemonFpsKey];
-    [_defaults synchronize];
 }
 
 - (BOOL)fpsSwitch{
@@ -110,7 +106,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 
 - (void)saveCpuSwitch:(BOOL)on{
     [_defaults setBool:on forKey:kDoraemonCpuKey];
-    [_defaults synchronize];
 }
 
 - (BOOL)cpuSwitch{
@@ -119,7 +114,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 
 - (void)saveMemorySwitch:(BOOL)on{
     [_defaults setBool:on forKey:kDoraemonMemoryKey];
-    [_defaults synchronize];
 }
 
 - (BOOL)memorySwitch{
@@ -128,7 +122,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 
 - (void)saveNetFlowSwitch:(BOOL)on{
     [_defaults setBool:on forKey:kDoraemonNetFlowKey];
-    [_defaults synchronize];
 }
 
 - (BOOL)netFlowSwitch{
@@ -137,7 +130,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 
 - (void)saveAllTestSwitch:(BOOL)on{
     [_defaults setBool:on forKey:kDoraemonAllTestKey];
-    [_defaults synchronize];
 }
 
 - (BOOL)allTestSwitch{
@@ -146,7 +138,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 
 - (void)saveLargeImageDetectionSwitch:(BOOL)on{
     [_defaults setBool:on forKey:kDoraemonLargeImageDetectionKey];
-    [_defaults synchronize];
 }
 
 - (BOOL)largeImageDetectionSwitch{
@@ -155,7 +146,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 
 - (void)saveSubThreadUICheckSwitch:(BOOL)on{
     [_defaults setBool:on forKey:kDoraemonSubThreadUICheckKey];
-    [_defaults synchronize];
 }
 
 - (BOOL)subThreadUICheckSwitch{
@@ -164,7 +154,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 
 - (void)saveCrashSwitch:(BOOL)on{
     [_defaults setBool:on forKey:kDoraemonCrashKey];
-    [_defaults synchronize];
 }
 
 - (BOOL)crashSwitch{
@@ -173,7 +162,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 
 - (void)saveNSLogSwitch:(BOOL)on{
     [_defaults setBool:on forKey:kDoraemonNSLogKey];
-    [_defaults synchronize];
 }
 
 - (BOOL)nsLogSwitch{
@@ -182,7 +170,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 
 - (void)saveMethodUseTimeSwitch:(BOOL)on{
     [_defaults setBool:on forKey:kDoraemonMethodUseTimeKey];
-    [_defaults synchronize];
 }
 
 - (BOOL)methodUseTimeSwitch{
@@ -191,7 +178,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 
 - (void)saveStartTimeSwitch:(BOOL)on {
     [_defaults setBool:on forKey:kDoraemonStartTimeKey];
-    [_defaults synchronize];
 }
 
 - (BOOL)startTimeSwitch{
@@ -200,7 +186,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 
 - (void)saveANRTrackSwitch:(BOOL)on {
     [_defaults setBool:on forKey:kDoraemonANRTrackKey];
-    [_defaults synchronize];
 }
 
 - (BOOL)anrTrackSwitch {
@@ -228,12 +213,10 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
     if (muarr.count > 10) { [muarr removeObjectAtIndex:0]; }
     
     [_defaults setObject:muarr.copy forKey:kDoraemonH5historicalRecord];
-    [_defaults synchronize];
 }
 
 - (void)clearAllH5historicalRecord {
     [_defaults removeObjectForKey:kDoraemonH5historicalRecord];
-    [_defaults synchronize];
 }
 
 - (void)clearH5historicalRecordWithText:(NSString *)text {
@@ -252,12 +235,10 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
     } else {
         [_defaults removeObjectForKey:kDoraemonH5historicalRecord];
     }
-    [_defaults synchronize];
 }
 
 - (void)saveStartClass : (NSString *)startClass {
     [_defaults setObject:startClass forKey:kDoraemonStartClassKey];
-    [_defaults synchronize];
 }
 
 - (NSString *)startClass {
@@ -268,7 +249,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 // 内存泄漏开关
 - (void)saveMemoryLeak:(BOOL)on{
     [_defaults setBool:on forKey:kDoraemonMemoryLeakKey];
-    [_defaults synchronize];
 }
 - (BOOL)memoryLeak{
     if (_firstReadMemoryLeakOn) {
@@ -283,7 +263,6 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 // 内存泄漏弹框开关
 - (void)saveMemoryLeakAlert:(BOOL)on{
     [_defaults setBool:on forKey:kDoraemonMemoryLeakAlertKey];
-    [_defaults synchronize];
 }
 - (BOOL)memoryLeakAlert{
     return [_defaults boolForKey:kDoraemonMemoryLeakAlertKey];
