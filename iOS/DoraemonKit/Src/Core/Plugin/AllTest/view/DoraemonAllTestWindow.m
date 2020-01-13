@@ -217,7 +217,6 @@
         return;
     if([upFlow floatValue]>1000){
         upFlow = [NSString stringWithFormat:@"%.1fK",[upFlow floatValue]/1000];
-        NSLog(@"the end === %@",upFlow);
     }
     
     if([downFlow floatValue]>1000){
@@ -225,13 +224,17 @@
     }
     [DoraemonAllTestWindow shareInstance].flowChanged = false;
 
+    if(_upFlowValue.hidden){
+        _upFlowValue.hidden = NO;
+        _downFlowValue.hidden = NO;
+    }
     _upFlowValue.text = [NSString stringWithFormat:@"%@ : %@B",DoraemonLocalizedString(@"上行流量"),upFlow];
     _downFlowValue.text = [NSString stringWithFormat:@"%@ : %@B",DoraemonLocalizedString(@"下行流量"),downFlow];
 }
 
 -(void)hideFlowValue{
-    _upFlowValue.text = nil;
-    _downFlowValue.text = nil;
+    _upFlowValue.hidden = YES;
+    _downFlowValue.hidden = YES;
 }
 
 @end

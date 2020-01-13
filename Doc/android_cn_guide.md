@@ -5,8 +5,8 @@
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.2.1'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.2.1'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.2.2'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.2.2'
     …
 }
 ```
@@ -14,7 +14,7 @@ dependencies {
  假如你无法通过 jcenter 下载到依赖库并报了以下的错误 
 
 ```
-ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:2.2.1 
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:2.2.2 
 ```
 
 建议你可以尝试挂载VPN或通过命令行重试(以Mac系统为例 项目根目录下)
@@ -38,8 +38,8 @@ DoraemonKit目前已支持Weex工具，包括
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:2.2.1'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:2.2.1'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:2.2.2'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:2.2.2'
     …
 }
 ```
@@ -49,7 +49,7 @@ dependencies {
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:2.2.1'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:2.2.2'
     …
 }
 ```
@@ -182,7 +182,7 @@ public void onCreate() {
     kits.add(new EnvSwitchKit());
     DoraemonKit.install(application, kits);
     //false:不显示入口icon 默认为true
-    DoraemonKit.setAwaysShowMianIcon(false);
+    DoraemonKit.setAwaysShowMainIcon(false);
     …
 }
 ```
