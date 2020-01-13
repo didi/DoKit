@@ -31,7 +31,11 @@ public class DoraemonKit {
      */
     public static void install(final Application app, List<IKit> selfKits, String productId) {
         APPLICATION = app;
-        DoraemonKitReal.install(app, selfKits, productId);
+        try {
+            DoraemonKitReal.install(app, selfKits, productId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -75,7 +79,7 @@ public class DoraemonKit {
     /**
      * 是否显示主入口icon
      */
-    public static void setAwaysShowMianIcon(boolean awaysShow) {
+    public static void setAwaysShowMainIcon(boolean awaysShow) {
         DokitConstant.AWAYS_SHOW_MAIN_ICON = awaysShow;
     }
 }

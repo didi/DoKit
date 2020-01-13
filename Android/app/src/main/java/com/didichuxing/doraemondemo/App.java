@@ -30,7 +30,7 @@ public class App extends Application {
         kits.add(new DemoKit());
         DoraemonKit.install(this, kits);
         //是否显示入口icon
-        //DoraemonKit.setAwaysShowMianIcon(false);
+//        DoraemonKit.setAwaysShowMainIcon(false);
         Fresco.initialize(this);
         DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
             @Override
