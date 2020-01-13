@@ -7,7 +7,7 @@ import com.blankj.utilcode.util.LogUtils;
  */
 
 public class LogHelper {
-    private static final String TAG = "Doraemon";
+    private static final String TAG = "DoraemonKit";
     private static boolean IS_DEBUG = true;
 
     public static void d(String subTag, String msg) {
