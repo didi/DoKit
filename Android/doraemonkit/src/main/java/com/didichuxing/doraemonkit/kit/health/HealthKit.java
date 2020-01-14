@@ -26,7 +26,7 @@ public class HealthKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_net_mock;
+        return R.drawable.dk_health;
     }
 
 

@@ -239,13 +239,28 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
     }
 
     @Override
+    public void detach(Activity activity, String tag) {
+
+    }
+
+    @Override
     public void detach(AbsDokitView dokitView) {
         detach(dokitView.getClass().getSimpleName());
     }
 
     @Override
+    public void detach(Activity activity, AbsDokitView dokitView) {
+
+    }
+
+    @Override
     public void detach(Class<? extends AbsDokitView> dokitViewClass) {
         detach(dokitViewClass.getSimpleName());
+    }
+
+    @Override
+    public void detach(Activity activity, Class<? extends AbsDokitView> dokitViewClass) {
+
     }
 
 

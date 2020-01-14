@@ -407,6 +407,11 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
     }
 
+    @Override
+    public void detach(Activity activity, AbsDokitView dokitView) {
+        detach(activity, dokitView.getTag());
+    }
+
 
     /**
      * 根据tag 移除ui和列表中的数据
@@ -449,8 +454,45 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
     }
 
     @Override
+    public void detach(Activity activity, String tag) {
+        if (activity == null) {
+            return;
+        }
+        Map<String, AbsDokitView> dokitViews = mActivityDokitViews.get(activity);
+        if (dokitViews == null) {
+            return;
+        }
+        //定位到指定dokitView
+        AbsDokitView dokitView = dokitViews.get(tag);
+        if (dokitView == null) {
+            return;
+        }
+        if (dokitView.getRootView() != null) {
+            dokitView.getRootView().setVisibility(View.GONE);
+            getDokitRootContentView(dokitView.getActivity(), (FrameLayout) activity.getWindow().getDecorView()).removeView(dokitView.getRootView());
+        }
+
+        //移除指定UI
+        //请求重新绘制
+        activity.getWindow().getDecorView().requestLayout();
+        //执行dokitView的销毁
+        dokitView.performDestroy();
+        //移除map中的数据
+        dokitViews.remove(tag);
+
+        if (mGlobalSingleDokitViews.containsKey(tag)) {
+            mGlobalSingleDokitViews.remove(tag);
+        }
+    }
+
+    @Override
     public void detach(Class<? extends AbsDokitView> dokitViewClass) {
         detach(dokitViewClass.getSimpleName());
+    }
+
+    @Override
+    public void detach(Activity activity, Class<? extends AbsDokitView> dokitViewClass) {
+        detach(activity, dokitViewClass.getSimpleName());
     }
 
 

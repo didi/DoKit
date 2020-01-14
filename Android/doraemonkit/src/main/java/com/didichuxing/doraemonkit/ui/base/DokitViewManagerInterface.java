@@ -32,6 +32,13 @@ public interface DokitViewManagerInterface {
     void detach(AbsDokitView dokitView);
 
     /**
+     * 移除每个activity指定的dokitView
+     * @param activity
+     * @param dokitView
+     */
+    void detach(Activity activity,AbsDokitView dokitView);
+
+    /**
      * 移除每个activity指定的dokitView tag
      *
      * @param tag 一般为dokitView的className
@@ -39,11 +46,25 @@ public interface DokitViewManagerInterface {
     void detach(String tag);
 
     /**
+     * 移除每个activity指定的dokitView
+     * @param activity
+     * @param tag
+     */
+    void detach(Activity activity,String tag);
+    /**
      * 移除指定的dokitView
      *
      * @param dokitViewClass
      */
     void detach(Class<? extends AbsDokitView> dokitViewClass);
+
+    /**
+     * 移除指定activity的dokitview
+     *
+     * @param activity
+     * @param dokitViewClass
+     */
+    void detach(Activity activity, Class<? extends AbsDokitView> dokitViewClass);
 
     /**
      * 移除所有activity的所有dokitView

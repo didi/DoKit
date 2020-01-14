@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.ui.health;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.CountDownTimer;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
@@ -31,10 +33,11 @@ public class CountDownDokitView extends AbsDokitView {
     private CountDownTimer mCountDownTimer;
     private static int COUNT_DOWN_TOTAL = 10 * 1700;
     private static int COUNT_DOWN_INTERVAL = 1700;
+    private Activity activity;
 
     @Override
     public void onCreate(Context context) {
-
+        activity = ActivityUtils.getTopActivity();
     }
 
     @Override
@@ -60,7 +63,12 @@ public class CountDownDokitView extends AbsDokitView {
                     @Override
                     public void onFinish() {
                         mNum.setText("" + 0);
-                        DokitViewManager.getInstance().detach(CountDownDokitView.this);
+                        if (isNormalMode()) {
+                            DokitViewManager.getInstance().detach(activity, CountDownDokitView.this);
+                        } else {
+                            DokitViewManager.getInstance().detach(CountDownDokitView.this);
+
+                        }
                     }
                 };
                 //启动倒计时
@@ -99,6 +107,10 @@ public class CountDownDokitView extends AbsDokitView {
         if (mCountDownTimer != null) {
             mCountDownTimer.cancel();
             mCountDownTimer = null;
+        }
+
+        if (activity != null) {
+            activity = null;
         }
 
     }

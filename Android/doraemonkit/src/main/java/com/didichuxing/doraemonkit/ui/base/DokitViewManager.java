@@ -192,6 +192,11 @@ public class DokitViewManager implements DokitViewManagerInterface {
         mDokitViewManager.detach(tag);
     }
 
+    @Override
+    public void detach(Activity activity, String tag) {
+        mDokitViewManager.detach(activity, tag);
+    }
+
 
     /**
      * 移除每个activity指定的dokitView
@@ -201,17 +206,28 @@ public class DokitViewManager implements DokitViewManagerInterface {
         mDokitViewManager.detach(dokitView);
     }
 
+    @Override
+    public void detach(Activity activity, AbsDokitView dokitView) {
+        mDokitViewManager.detach(activity, dokitView);
+    }
+
+
+    @Override
+    public void detach(Class<? extends AbsDokitView> dokitViewClass) {
+        mDokitViewManager.detach(dokitViewClass);
+    }
+
+    @Override
+    public void detach(Activity activity, Class<? extends AbsDokitView> dokitViewClass) {
+        mDokitViewManager.detach(activity, dokitViewClass);
+    }
+
     /**
      * 移除所有activity的所有dokitView
      */
     @Override
     public void detachAll() {
         mDokitViewManager.detachAll();
-    }
-
-    @Override
-    public void detach(Class<? extends AbsDokitView> dokitViewClass) {
-        mDokitViewManager.detach(dokitViewClass);
     }
 
 
