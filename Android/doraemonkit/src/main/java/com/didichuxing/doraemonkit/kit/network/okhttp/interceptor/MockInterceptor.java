@@ -82,18 +82,27 @@ public class MockInterceptor implements Interceptor {
      */
     private void addNetWokInfoInAppHealth(@NonNull Request request, @NonNull Response response) {
         try {
+            long upSize = -1;
+            long downSize = -1;
+            if (request.body() != null) {
+                upSize = request.body().contentLength();
+            }
+            if (response.body() != null) {
+                downSize = response.body().contentLength();
+            }
+
+
+            if (upSize < 0 && downSize < 0) {
+                return;
+            }
+
+            upSize = upSize > 0 ? upSize : 0;
+            downSize = downSize > 0 ? downSize : 0;
+
             String activityName = ActivityUtils.getTopActivity().getClass().getCanonicalName();
             AppHealthInfo.DataBean.NetworkBean networkBean = AppHealthInfoUtil.getInstance().getNetWorkInfo(activityName);
             AppHealthInfo.DataBean.NetworkBean.NetworkValuesBean networkValuesBean = new AppHealthInfo.DataBean.NetworkBean.NetworkValuesBean();
             networkValuesBean.setCode("" + response.code());
-            String upSize = "";
-            String downSize = "";
-            if (request.body() != null) {
-                upSize = "" + request.body().contentLength();
-            }
-            if (response.body() != null) {
-                downSize = "" + response.body().contentLength();
-            }
 
             networkValuesBean.setUp("" + upSize);
             networkValuesBean.setDown("" + downSize);
