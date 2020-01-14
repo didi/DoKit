@@ -6,7 +6,6 @@
 //
 
 #import "DoraemonHealthHomeView.h"
-#import "DoraemonHealthBtnView.h"
 #import "DoraemonHealthBgView.h"
 #import "DoraemonHealthManager.h"
 #import "DoraemonHealthStartingTitle.h"
@@ -17,7 +16,6 @@
 @interface DoraemonHealthHomeView ()<DoraemonHealthButtonDelegate>
 
 @property (nonatomic, strong) DoraemonHealthBgView *bgView;
-@property (nonatomic, strong) DoraemonHealthBtnView *btnView;
 @property (nonatomic, strong) DoraemonHealthStartingTitle *startingTitle;
 @property (nonatomic, copy) DoraemonHealthHomeBlock block;
 
@@ -49,8 +47,6 @@
 }
 
 - (void)_selfHandle{
-    [_startingTitle showUITitle:_btnView.start];
-
     if(self.block){
         self.block();
     }
@@ -58,15 +54,7 @@
 
 #pragma mark - DoraemonHealthButtonDelegate
 - (void)healthBtnClick:(nonnull id)sender {
-    
     [self _selfHandle];
-    
-    if(!_btnView.start){//提示框确认之后合入
-
-        [[DoraemonHealthManager sharedInstance] stopHealthCheck];
-    }else{
-        [[DoraemonHealthManager sharedInstance] startHealthCheck];
-    }
 }
 
 @end

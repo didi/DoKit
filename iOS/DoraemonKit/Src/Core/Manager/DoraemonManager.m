@@ -27,6 +27,7 @@
 #import "DoraemonMockManager.h"
 #import "DoraemonNetFlowOscillogramWindow.h"
 #import "DoraemonNetFlowManager.h"
+#import "DoraemonHealthManager.h"
 
 #if DoraemonWithLogger
 #import "DoraemonCocoaLumberjackLogger.h"
@@ -210,6 +211,11 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [DoraemonWeexLogDataSource shareInstance];
     [DoraemonWeexInfoDataManager shareInstance];
 #endif
+    
+    //开启健康体检
+    if ([[DoraemonCacheManager sharedInstance] healthStart]) {
+        [[DoraemonHealthManager sharedInstance] startHealthCheck];
+    }
     
 }
 

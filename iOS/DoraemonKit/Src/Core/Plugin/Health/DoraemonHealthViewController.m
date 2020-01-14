@@ -28,12 +28,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = DoraemonLocalizedString(@"健康体检");
-    CGFloat bg_y = kDoraemonSizeFrom750_Landscape(178);
-    _homeView = [[DoraemonHealthHomeView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height - bg_y)];
+    CGFloat offset_y = self.bigTitleView.doraemon_bottom;
+    _homeView = [[DoraemonHealthHomeView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height - offset_y)];
     
-    _instructionsView = [[DoraemonHealthInstructionsView alloc] initWithFrame:CGRectMake(0, _homeView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height - bg_y)];
+    _instructionsView = [[DoraemonHealthInstructionsView alloc] initWithFrame:CGRectMake(0, _homeView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height - offset_y)];
     
-    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, bg_y, self.view.doraemon_width, self.view.doraemon_height - bg_y)];
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, offset_y, self.view.doraemon_width, self.view.doraemon_height - offset_y)];
     _scrollView.backgroundColor = [UIColor whiteColor];
     _scrollView.delegate = self;
     _scrollView.contentSize = CGSizeMake(_homeView.doraemon_width, _homeView.doraemon_height*2);//设置大小
@@ -51,14 +51,12 @@
     
     __weak typeof(self) weakSelf = self;
     [_homeView addBlock:^{
-        if([DoraemonHealthManager sharedInstance].start){
-            [weakSelf showFooter:YES];
-            [[DoraemonHealthCountdownWindow shareInstance] start:10];
-        }else{
+        BOOL currentStatus = [DoraemonHealthManager sharedInstance].start;
+        if (currentStatus) {
             [weakSelf showEndAlert:YES];
-            [[DoraemonHealthCountdownWindow shareInstance] hide];
+        }else{
+            [[DoraemonHealthManager sharedInstance] rebootAppForHealthCheck];
         }
-        
     }];
     
     [_scrollView addSubview:_homeView];
@@ -66,8 +64,7 @@
     [self.view addSubview:_scrollView];
     [self.view addSubview:_footerView];
     
-    [self showFooter:[DoraemonHealthManager sharedInstance].start];
-    [self showEndAlert:[DoraemonHealthManager sharedInstance].alert];
+    [self showFooter:![DoraemonHealthManager sharedInstance].start];
     
 }
 
@@ -76,31 +73,30 @@
 }
 
 - (void)showFooter:(BOOL)show{
-    _footerView.hidden = show;
-    _scrollView.scrollEnabled = !show;
+    _footerView.hidden = !show;
+    _scrollView.scrollEnabled = show;
 }
 
 - (void)showEndAlert:(BOOL)show{
     if(show){
         __weak typeof(self) weakSelf = self;
-        [DoraemonHealthManager sharedInstance].alert = YES;
         DoraemonHealthAlertView *alertView = [[DoraemonHealthAlertView alloc] init];
         [alertView renderUI:DoraemonLocalizedString(@"结束前请完善下列信息") placeholder:@[] inputTip:@[DoraemonLocalizedString(@"测试用例名称"),DoraemonLocalizedString(@"测试人名称")] ok:DoraemonLocalizedString(@"提交") cancle:DoraemonLocalizedString(@"取消") okBlock:^{
-            [weakSelf hiddenEndAlert];
             
             NSLog(@"===== %@",[alertView getInputText]);
-            
-            [weakSelf endToast];
-            
+            NSArray *result = [alertView getInputText];
+            if (result.count == 2) {
+                [DoraemonHealthManager sharedInstance].caseName = result[0];
+                [DoraemonHealthManager sharedInstance].testPerson = result[1];
+                [weakSelf showFooter:YES];
+                [weakSelf.homeView.btnView statusForBtn:NO];
+                [[DoraemonHealthManager sharedInstance] stopHealthCheck];
+                [weakSelf endToast];
+            }
         } cancleBlock:^{
-            [weakSelf hiddenEndAlert];
         }];
         [self.view addSubview:alertView];
     }
-}
-
-- (void)hiddenEndAlert{
-    [DoraemonHealthManager sharedInstance].alert = NO;
 }
 
 - (void)endToast{

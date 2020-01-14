@@ -45,9 +45,9 @@ static NSTimeInterval endTime;
 }
 
 - (BOOL)doraemon_application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-    //[DoraemonTimeProfiler startRecord];
+    [DoraemonTimeProfiler startRecord];
     BOOL ret = [self doraemon_application:application didFinishLaunchingWithOptions:launchOptions];
-    //[DoraemonTimeProfiler stopRecord];
+    [DoraemonTimeProfiler stopRecord];
     endTime = [[NSDate date] timeIntervalSince1970];
     
     [DoraemonHealthManager sharedInstance].startTime = endTime-startTime;

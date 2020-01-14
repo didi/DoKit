@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DoraemonHealthBtnView : UIView
 
 @property (nonatomic, weak) id<DoraemonHealthButtonDelegate> delegate;
-@property (nonatomic, assign) BOOL start;
 
 - (void)statusForBtn:(BOOL)start;
 

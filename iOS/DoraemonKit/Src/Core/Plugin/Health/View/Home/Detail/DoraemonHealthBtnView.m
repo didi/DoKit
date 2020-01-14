@@ -30,9 +30,6 @@
 }
 
 - (void)tap{
-    _start = !_start;
-    [self statusForBtn:_start];
-
     if (_delegate && [_delegate respondsToSelector:@selector(healthBtnClick:)]) {
         [_delegate healthBtnClick:self];
     }

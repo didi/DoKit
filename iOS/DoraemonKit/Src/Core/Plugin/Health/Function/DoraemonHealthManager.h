@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedInstance;
 
 @property (nonatomic, assign) BOOL start;
-@property (nonatomic, assign) BOOL alert;
+
+- (void)rebootAppForHealthCheck;
 
 - (void)startHealthCheck;
 
@@ -40,6 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 //检测结果
 @property (nonatomic, assign) CGFloat startTime;//本次启动时间
 @property (nonatomic, copy) NSString *costDetail;//启动流程耗时详情
+@property (nonatomic, copy) NSString *caseName;//用例名称
+@property (nonatomic, copy) NSString *testPerson;//测试人名称
 
 @end
 

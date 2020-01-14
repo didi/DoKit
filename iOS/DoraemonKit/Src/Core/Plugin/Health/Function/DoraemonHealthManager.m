@@ -82,40 +82,47 @@
     return self;
 }
 
-
-
-- (void)startHealthCheck{
-    _start = YES;
+- (void)rebootAppForHealthCheck{
     [[DoraemonCacheManager sharedInstance] saveHealthStart:YES];
-    if(!_secondTimer){
-        _secondTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(doSecondFunction) userInfo:nil repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:_secondTimer forMode:NSRunLoopCommonModes];
-        if (!_fpsUtil) {
-            _fpsUtil = [[DoraemonFPSUtil alloc] init];
-            __weak typeof(self) weakSelf = self;
-            [_fpsUtil addFPSBlock:^(NSInteger fps) {
-                [weakSelf handleFPS:fps];
-                
-            }];
-        }
-        [_fpsUtil start];
-    }
-    
     [[DoraemonCacheManager sharedInstance] saveStartTimeSwitch:YES];
     [DoraemonMethodUseTimeManager sharedInstance].on = YES;
     [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:YES];
     [[DoraemonCacheManager sharedInstance] saveSubThreadUICheckSwitch:YES];
-    [[DoraemonANRManager sharedInstance] start];
-    [DoraemonUIProfileManager sharedInstance].enable = YES;
     [[DoraemonCacheManager sharedInstance] saveMemoryLeak:YES];
+    exit(0);
+}
+
+- (void)startHealthCheck{
+    _start = YES;
+    if (_start) {
+        if(!_secondTimer){
+            _secondTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(doSecondFunction) userInfo:nil repeats:YES];
+            [[NSRunLoop currentRunLoop] addTimer:_secondTimer forMode:NSRunLoopCommonModes];
+            if (!_fpsUtil) {
+                _fpsUtil = [[DoraemonFPSUtil alloc] init];
+                __weak typeof(self) weakSelf = self;
+                [_fpsUtil addFPSBlock:^(NSInteger fps) {
+                    [weakSelf handleFPS:fps];
+                    
+                }];
+            }
+            [_fpsUtil start];
+        }
+        [[DoraemonANRManager sharedInstance] start];
+        [DoraemonUIProfileManager sharedInstance].enable = YES;
+    }
 }
 
 - (void)stopHealthCheck{
     _start = NO;
     [[DoraemonCacheManager sharedInstance] saveHealthStart:NO];
+    [[DoraemonCacheManager sharedInstance] saveStartTimeSwitch:NO];
+    [DoraemonMethodUseTimeManager sharedInstance].on = NO;
+    [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveSubThreadUICheckSwitch:NO];
-    [DoraemonUIProfileManager sharedInstance].enable = NO;
     [[DoraemonCacheManager sharedInstance] saveMemoryLeak:NO];
+    [DoraemonUIProfileManager sharedInstance].enable = NO;
+    [[DoraemonANRManager sharedInstance] stop];
     if(_secondTimer){
         [_secondTimer invalidate];
         _secondTimer = nil;
@@ -124,10 +131,6 @@
         [_fpsUtil end];
     }
     [self upLoadData];
-    
-    //[[DoraemonCacheManager sharedInstance] saveStartTimeSwitch:NO];
-    [[DoraemonCacheManager sharedInstance] saveHealthStart:NO];
-    [[DoraemonANRManager sharedInstance] stop];
 }
 
 - (void)doSecondFunction{
@@ -179,14 +182,14 @@
     NSArray *loadArray = [[DoraemonMethodUseTimeManager sharedInstance] fixLoadModelArrayForHealth];
     NSDictionary *appStart = @{
         @"costTime" : @(self.startTime),
-        @"costDetail" : self.costDetail ? self.costDetail : @"",
+        @"costDetail" : STRING_NOT_NULL(self.costDetail),
         @"loadFunc" : loadArray ? loadArray : @[]
     };
     
     NSDictionary *dic = @{
         @"baseInfo":@{
-                @"caseName":@"测试caseName",
-                @"testPerson":@"易小翔",
+                @"caseName":STRING_NOT_NULL(self.caseName),
+                @"testPerson":STRING_NOT_NULL(self.testPerson),
                 @"platform":@"iOS",
                 @"time":testTime,
                 @"phoneMode":phoneName,
@@ -194,7 +197,7 @@
                 @"appName":appName,
                 @"appVersion":appVersion,
                 @"dokitVersion":DoKitVersion,
-                @"pId":[DoraemonManager shareInstance].pId ? [DoraemonManager shareInstance].pId : @""
+                @"pId":STRING_NOT_NULL([DoraemonManager shareInstance].pId)
         },
         @"data":@{
                 @"cpu":[_cpuArray copy],
@@ -213,7 +216,7 @@
     NSLog(@"上传信息 == %@",dic);
     
 
-    [DoraemonNetworkUtil postWithUrlString:@"http://172.23.164.35:80/healthCheck/addCheckData" params:dic success:^(NSDictionary * _Nonnull result) {
+    [DoraemonNetworkUtil postWithUrlString:@"http://172.23.163.190:80/healthCheck/addCheckData" params:dic success:^(NSDictionary * _Nonnull result) {
        
     } error:^(NSError * _Nonnull error) {
         
@@ -301,7 +304,8 @@
     NSString *vcName = NSStringFromClass(vcClass);
     NSArray *blackList = @[
         @"UIViewController",
-        @"UIInputWindowController"
+        @"UIInputWindowController",
+        @"UICompatibilityInputViewController"
     ];
     if ([blackList containsObject:vcName]) {
         return YES;
@@ -346,7 +350,7 @@
 - (void)addUILevel:(NSDictionary *)info{
     if (_start) {
         [_uiLevelArray addObject:@{
-            @"page":[self currentTopVC],
+            @"page":STRING_NOT_NULL([self currentTopVC]),
             @"level":info[@"level"],
             @"detail":info[@"detail"]
         }];

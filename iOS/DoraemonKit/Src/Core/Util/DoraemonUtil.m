@@ -196,7 +196,7 @@
      }
      
      return nil;
- }
+}
 
 //删除某一路径下的所有文件
 + (void)clearFileWithPath:(NSString *)path{

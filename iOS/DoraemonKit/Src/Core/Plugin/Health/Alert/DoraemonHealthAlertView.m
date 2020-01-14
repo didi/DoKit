@@ -137,9 +137,11 @@
             break;
         }
     }
+    _okBtn.enabled = enabled;
     if(enabled){
-        _okBtn.enabled = YES;
         [_okBtn setTitleColor:[UIColor doraemon_black_1] forState:UIControlStateNormal];
+    }else{
+        [_okBtn setTitleColor:[UIColor doraemon_black_3] forState:UIControlStateNormal];
     }
 }
 @end
