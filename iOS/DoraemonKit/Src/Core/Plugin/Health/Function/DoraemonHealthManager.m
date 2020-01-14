@@ -279,22 +279,33 @@
     }
     NSString *pageName = NSStringFromClass(vcClass);
     NSLog(@"离开页面 == %@",pageName);
-    [_cpuArray addObject:@{
-        @"page":pageName,
-        @"values":[_cpuPageArray copy]
-    }];
-    [_memoryArray addObject:@{
-        @"page":pageName,
-        @"values":[_memoryPageArray copy]
-    }];
-    [_fpsArray addObject:@{
-        @"page":pageName,
-        @"values":[_fpsPageArray copy]
-    }];
-    [_networkArray addObject:@{
-        @"page":pageName,
-        @"values":[_networkPageArray copy]
-    }];
+    if (_cpuPageArray.count>0) {
+        [_cpuArray addObject:@{
+            @"page":pageName,
+            @"values":[_cpuPageArray copy]
+        }];
+    }
+    
+    if(_memoryPageArray.count>0) {
+        [_memoryArray addObject:@{
+            @"page":pageName,
+            @"values":[_memoryPageArray copy]
+        }];
+    }
+
+    if (_fpsPageArray.count>0) {
+        [_fpsArray addObject:@{
+            @"page":pageName,
+            @"values":[_fpsPageArray copy]
+        }];
+    }
+
+    if (_networkPageArray.count>0) {
+        [_networkArray addObject:@{
+            @"page":pageName,
+            @"values":[_networkPageArray copy]
+        }];
+    }
 }
 
 - (BOOL)blackList:(Class)vcClass{
