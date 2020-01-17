@@ -56,16 +56,20 @@ public class PerformanceDataManager {
      */
     private String customFileName = "custom.txt";
 
-    private int mLastFrameRate = MAX_FRAME_RATE;
+
     private int mLastSkippedFrames;
     /**
      * cpu 百分比
      */
     private float mLastCpuRate;
     /**
-     * 内存百分比
+     * 当前使用内存
      */
     private float mLastMemoryRate;
+    /**
+     * 当前的帧率
+     */
+    private int mLastFrameRate = MAX_FRAME_RATE;
     private long mUpBytes;
     private long mDownBytes;
     private long mLastUpBytes;
