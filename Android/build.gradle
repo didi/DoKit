@@ -4,6 +4,8 @@ buildscript {
     repositories {
         google()
         jcenter()
+        //阿里云的镜像库
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
         maven { url 'https://www.jitpack.io' }
 //        maven {
 //            //本地插件地址
@@ -23,6 +25,8 @@ allprojects {
     repositories {
         google()
         jcenter()
+        //北京maven库
+        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public/' }
         maven { url 'https://www.jitpack.io' }
 
     }
@@ -32,5 +36,5 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-tasks.getByPath(":doraemonkit:javadocRelease").enabled = false
-tasks.getByPath(":doraemonkit-no-op:javadocRelease").enabled = false
+//tasks.getByPath(":doraemonkit:javadocRelease").enabled = false
+//tasks.getByPath(":doraemonkit-no-op:javadocRelease").enabled = false
