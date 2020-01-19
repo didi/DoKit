@@ -258,12 +258,12 @@
     if (_pageEnterMap[pageName]) {
         CGFloat beginTime = [_pageEnterMap[pageName] floatValue];
         CGFloat endTime = CACurrentMediaTime();
-        CGFloat costTime = endTime - beginTime;
+        NSInteger costTime = (NSInteger)((endTime - beginTime)*1000+0.5);//四舍五入 ms
         NSLog(@"yixiang 耗时 == %f",endTime);
-        NSLog(@"yixiang 耗时 == %f",costTime);
+        NSLog(@"yixiang 耗时 == %zi",costTime);
         [_pageLoadArray addObject:@{
             @"page":NSStringFromClass(vcClass),
-            @"time":@(costTime)//s
+            @"time":@(costTime)//ms
         }];
     }
     [_pageEnterMap removeObjectForKey:pageName];
