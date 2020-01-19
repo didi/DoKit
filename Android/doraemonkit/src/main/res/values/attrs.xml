@@ -64,40 +64,10 @@
     </declare-styleable>
 
     <!--多行RadioGroup-->
-
-
     <declare-styleable name="dk_multi_line_radio_group">
         <attr name="max_in_row" format="integer" />
         <attr name="radio_buttons" format="reference" />
         <attr name="default_button" format="string" />
     </declare-styleable>
 
-    <!-- 圆形进度条 -->
-    <declare-styleable name="dk_circle_progressbar">
-        <attr name="antiAlias" />
-        <attr name="startAngle" />
-        <attr name="sweepAngle" />
-        <attr name="animTime" />
-        <attr name="maxValue" />
-        <attr name="value" />
-        <attr name="precision" />
-        <attr name="valueSize" />
-        <attr name="valueColor" />
-        <attr name="textOffsetPercentInRadius" />
-        <!-- 绘制内容相应的提示语 -->
-        <attr name="hint" />
-        <attr name="hintSize" />
-        <attr name="hintColor" />
-        <!-- 绘制内容的单位 -->
-        <attr name="unit" />
-        <attr name="unitSize" />
-        <attr name="unitColor" />
-        <!-- 圆弧宽度 -->
-        <attr name="arcWidth" />
-        <attr name="arcColors" />
-        <!-- 背景圆弧颜色 -->
-        <attr name="bgArcColor" />
-        <!-- 背景圆弧宽度 -->
-        <attr name="bgArcWidth" format="dimension" />
-    </declare-styleable>
 </resources>
