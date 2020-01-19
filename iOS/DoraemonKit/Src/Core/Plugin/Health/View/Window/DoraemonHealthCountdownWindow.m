@@ -31,6 +31,11 @@
     return instance;
 }
 
+- (void)becomeKeyWindow{
+    UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
+    [appWindow makeKeyWindow];
+}
+
 - (instancetype)init{
     _showViewSize = kDoraemonSizeFrom750_Landscape(100);
     CGFloat x = DoraemonScreenWidth - _showViewSize;
@@ -93,8 +98,10 @@
 
 
 - (void)secondBtnAction{
-    _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(handleTimer) userInfo:nil repeats:YES];
-    [_timer fire];
+    if (!_timer) {
+        _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(handleTimer) userInfo:nil repeats:YES];
+        [_timer fire];
+    }
 }
 //定时操作，更新UI
 - (void)handleTimer {
@@ -115,6 +122,7 @@
 - (void)hide{
     self.hidden = YES;
     [_timer invalidate];
+    _timer = nil;
 }
 
 - (NSInteger)getCountdown{

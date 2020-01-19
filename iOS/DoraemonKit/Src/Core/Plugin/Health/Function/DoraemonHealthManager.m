@@ -21,6 +21,7 @@
 #import "DoraemonUIProfileManager.h"
 #import <UIKit/UIKit.h>
 #import "DoraemonUtil.h"
+#import "DoraemonHealthCountdownWindow.h"
 
 
 @interface DoraemonHealthManager()
@@ -99,7 +100,7 @@
     _start = YES;
     if (_start) {
         if(!_secondTimer){
-            _secondTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(doSecondFunction) userInfo:nil repeats:YES];
+            _secondTimer = [NSTimer timerWithTimeInterval:0.5f target:self selector:@selector(doSecondFunction) userInfo:nil repeats:YES];
             [[NSRunLoop currentRunLoop] addTimer:_secondTimer forMode:NSRunLoopCommonModes];
             if (!_fpsUtil) {
                 _fpsUtil = [[DoraemonFPSUtil alloc] init];
@@ -118,6 +119,7 @@
 
 - (void)stopHealthCheck{
     _start = NO;
+    [[DoraemonHealthCountdownWindow shareInstance] hide];
     [[DoraemonCacheManager sharedInstance] saveHealthStart:NO];
     [[DoraemonCacheManager sharedInstance] saveStartTimeSwitch:NO];
     [DoraemonMethodUseTimeManager sharedInstance].on = NO;
@@ -261,9 +263,13 @@
 }
 
 - (void)enterPage:(Class)vcClass{
+    if (!_start) {
+        return;
+    }
     if ([self blackList:vcClass]) {
         return;
     }
+    [[DoraemonHealthCountdownWindow shareInstance] start:10];
     NSString *pageName = NSStringFromClass(vcClass);
     NSLog(@"yixiang 已经进入页面 == %@",pageName);
     if (_pageEnterMap[pageName]) {
@@ -285,7 +291,13 @@
 }
 
 - (void)leavePage:(Class)vcClass{
+    if (!_start) {
+        return;
+    }
     if ([self blackList:vcClass]) {
+        return;
+    }
+    if ([[DoraemonHealthCountdownWindow shareInstance] getCountdown] > 0) {
         return;
     }
     NSString *pageName = NSStringFromClass(vcClass);
@@ -317,6 +329,8 @@
             @"values":[_networkPageArray copy]
         }];
     }
+    
+    [[DoraemonHealthCountdownWindow shareInstance] hide];
 }
 
 - (BOOL)blackList:(Class)vcClass{
