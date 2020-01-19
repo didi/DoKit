@@ -12,6 +12,7 @@
 @interface DoraemonUtil : NSObject
 
 @property (nonatomic, assign) NSInteger fileSize;
+@property (nonatomic, strong) NSMutableArray *bigFileArray;
 
 + (NSString *)dateFormatTimeInterval:(NSTimeInterval)timeInterval;
 

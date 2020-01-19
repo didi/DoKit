@@ -16,11 +16,10 @@
     self = [super init];
     if (self) {
         _fileSize = 0;
+        _bigFileArray = [[NSMutableArray alloc] init];
     }
     return self;
 }
-
-
 
 + (NSString *)dateFormatTimeInterval:(NSTimeInterval)timeInterval{
     NSDate *date = [NSDate dateWithTimeIntervalSince1970:timeInterval];
@@ -188,7 +187,9 @@
              //文件
              NSDictionary *dict = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
              NSInteger size = [dict[@"NSFileSize"] integerValue];
-             NSLog(@"filePath == %@  size == %zi",path,size);
+             if (size > 1024 * 1014) { //大于!M的内容被称为大文件
+                 [_bigFileArray addObject:path];
+             }
          }
      }else{
          //不存在该文件path

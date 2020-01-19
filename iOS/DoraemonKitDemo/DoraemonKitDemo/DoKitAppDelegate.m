@@ -72,10 +72,7 @@
     
     //[DoraemonTimeProfiler stopRecord];
     
-    NSString *homeDir = NSHomeDirectory();
     
-    DoraemonUtil *util = [[DoraemonUtil alloc] init];
-    [util getBigSizeFileFormPath:homeDir];
 
     return YES;
 }

@@ -20,6 +20,7 @@
 #import "UIViewController+Doraemon.h"
 #import "DoraemonUIProfileManager.h"
 #import <UIKit/UIKit.h>
+#import "DoraemonUtil.h"
 
 
 @interface DoraemonHealthManager()
@@ -42,6 +43,7 @@
 @property (nonatomic, strong) NSMutableArray *leakArray;
 @property (nonatomic, strong) NSMutableDictionary *pageEnterMap;
 @property (nonatomic, strong) NSMutableArray *pageLoadArray;
+@property (nonatomic, strong) NSMutableArray *bigFileArray;
 
 @end
 
@@ -77,6 +79,7 @@
         _leakArray = [[NSMutableArray alloc] init];
         _pageEnterMap = [[NSMutableDictionary alloc] init];
         _pageLoadArray = [[NSMutableArray alloc] init];
+        _bigFileArray = [[NSMutableArray alloc] init];
         semaphore = dispatch_semaphore_create(1);
     }
     return self;
@@ -186,6 +189,12 @@
         @"loadFunc" : loadArray ? loadArray : @[]
     };
     
+    //大文件扫描
+    NSString *homeDir = NSHomeDirectory();
+    DoraemonUtil *util = [[DoraemonUtil alloc] init];
+    [util getBigSizeFileFormPath:homeDir];
+    NSArray *bigFileInfoArray = [self formatInfoByPathArray:util.bigFileArray];
+    
     NSDictionary *dic = @{
         @"baseInfo":@{
                 @"caseName":STRING_NOT_NULL(self.caseName),
@@ -209,14 +218,15 @@
                 @"subThreadUI":[_subThreadUIArray copy],
                 @"uiLevel":[_uiLevelArray copy],
                 @"leak":[_leakArray copy],
-                @"pageLoad":[_pageLoadArray copy]
+                @"pageLoad":[_pageLoadArray copy],
+                @"bigFile":[bigFileInfoArray copy]
         }
     };
     
     NSLog(@"上传信息 == %@",dic);
     
 
-    [DoraemonNetworkUtil postWithUrlString:@"http://172.23.163.190:80/healthCheck/addCheckData" params:dic success:^(NSDictionary * _Nonnull result) {
+    [DoraemonNetworkUtil postWithUrlString:@"http://dokit-test.intra.xiaojukeji.com/healthCheck/addCheckData" params:dic success:^(NSDictionary * _Nonnull result) {
        
     } error:^(NSError * _Nonnull error) {
         
@@ -236,6 +246,7 @@
     [_uiLevelArray removeAllObjects];
     [_leakArray removeAllObjects];
     [_pageLoadArray removeAllObjects];
+    [_bigFileArray removeAllObjects];
 }
 
 - (void)startEnterPage:(Class)vcClass{
@@ -386,5 +397,31 @@
     UIViewController *vc = [UIViewController topViewControllerForKeyWindow];
     NSString *vcName = NSStringFromClass([vc class]);
     return vcName;
+}
+
+- (NSArray *)formatInfoByPathArray:(NSArray *)pathArray{
+    NSMutableArray *fileInfoArray = [[NSMutableArray alloc] init];
+    for (NSString *path in pathArray) {
+        NSDictionary *dict = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
+        NSInteger fileSize = [dict[@"NSFileSize"] integerValue];
+        NSString *fileSizeString = [NSByteCountFormatter stringFromByteCount:fileSize countStyle: NSByteCountFormatterCountStyleFile];
+        NSString *fileName = [path lastPathComponent];
+        NSString *filePtahFromHomeDir = [self getPathFromHomeDir:path];
+        [fileInfoArray addObject:@{
+            @"fileName":fileName,
+            @"fileSize":fileSizeString,
+            @"filePath":filePtahFromHomeDir
+        }];
+    }
+    return fileInfoArray;
+}
+
+- (NSString *)getPathFromHomeDir:(NSString *)path{
+    NSString *homeDir = NSHomeDirectory();
+    NSString *relativePath = @"";
+    if ([path hasPrefix:homeDir]) {
+        relativePath = [path substringFromIndex:homeDir.length];
+    }
+    return relativePath;
 }
 @end
