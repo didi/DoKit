@@ -6,7 +6,7 @@ uploadArchives {
       pom.project {
         groupId project.GROUP_ID
         artifactId project.ARTIFACT_ID
-        version project.VERSION
+        version rootProject.ext.android["didiArchivesVersionName"]
       }
 
       pom.withXml {

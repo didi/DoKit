@@ -106,8 +106,9 @@ public final class DokitClassAdapter extends ClassVisitor {
             log(className, access, name, desc, signature);
             return mv == null ? null : new PlatformHttpMethodAdapter(access, desc, mv);
         }
-        //app启动hook点 onCreate()函数
-        if (!StringUtils.isEmpty(superName) && superName.equals("android/app/Application") && name.equals("onCreate") && desc.equals("()V")) {
+        //app启动hook点 onCreate()函数 兼容MultiDex
+        if (!StringUtils.isEmpty(superName) && (superName.equals("android/app/Application")|| superName.equals("android/support/multidex/MultiDexApplication")) && name.equals("onCreate") && desc.equals("()V")) {
+            log(className, access, name, desc, signature);
             return mv == null ? null : new ApplicationOnCreateMethodAdapter(access, name, desc, mv);
         }
 

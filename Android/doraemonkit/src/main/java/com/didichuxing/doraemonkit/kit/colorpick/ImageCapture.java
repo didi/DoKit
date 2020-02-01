@@ -19,9 +19,10 @@ import com.didichuxing.doraemonkit.util.UIUtils;
 import java.nio.ByteBuffer;
 
 /**
- * Created by wanglikun on 2018/12/3.
+ *
+ * @author wanglikun
+ * @date 2018/12/3
  */
-
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ImageCapture {
     private MediaProjectionManager mMediaProjectionManager;
@@ -30,9 +31,6 @@ public class ImageCapture {
     private boolean isCapturing;
     private Bitmap mBitmap;
 
-    public ImageCapture() {
-
-    }
 
     public void init(Context context, Bundle bundle) {
         mMediaProjectionManager = (MediaProjectionManager) context.getSystemService(Context.MEDIA_PROJECTION_SERVICE);
@@ -51,7 +49,7 @@ public class ImageCapture {
                 mImageReader.getSurface(), null, null);
     }
 
-    public void capture() {
+    void capture() {
         if (isCapturing) {
             return;
         }
@@ -68,14 +66,14 @@ public class ImageCapture {
         int rowStride = planes[0].getRowStride();
         int rowPaddingStride = rowStride - pixelStride * width;
         int rowPadding = rowPaddingStride / pixelStride;
-        Bitmap recordBitmap = Bitmap.createBitmap(width + rowPadding , height, Bitmap.Config.ARGB_8888);
+        Bitmap recordBitmap = Bitmap.createBitmap(width + rowPadding, height, Bitmap.Config.ARGB_8888);
         recordBitmap.copyPixelsFromBuffer(buffer);
         mBitmap = Bitmap.createBitmap(recordBitmap, 0, 0, width, height);
         image.close();
         isCapturing = false;
     }
 
-    public Bitmap getPartBitmap(int x, int y, int width, int height) {
+    Bitmap getPartBitmap(int x, int y, int width, int height) {
         if (mBitmap == null) {
             return null;
         }
@@ -94,12 +92,17 @@ public class ImageCapture {
         return Bitmap.createBitmap(mBitmap, x, y, width, height);
     }
 
-    public void destroy() {
-        mImageReader.close();
-        mMediaProjection.stop();
+    void destroy() {
+        if (mImageReader != null) {
+            mImageReader.close();
+            mImageReader = null;
+        }
+        if (mMediaProjection != null) {
+            mMediaProjection.stop();
+            mMediaProjection = null;
+        }
         mMediaProjectionManager = null;
-        mMediaProjection = null;
-        mImageReader = null;
+
         if (mBitmap != null) {
             mBitmap.recycle();
             mBitmap = null;

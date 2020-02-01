@@ -227,6 +227,7 @@
     <string name="dk_db_tips_insert">添加</string>
     <string name="dk_submit">提交</string>
     <string name="dk_cancel">取消</string>
+    <string name="dk_discard">丢弃</string>
     <string name="dk_success">成功</string>
     <string name="dk_fail">失败</string>
     <string name="dk_confirm">确认</string>

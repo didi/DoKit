@@ -15,6 +15,7 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.didichuxing.doraemonkit.aop.OkHttpHook;
+import com.didichuxing.doraemonkit.config.GlobalConfig;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
@@ -115,6 +116,7 @@ class DoraemonKitReal {
      */
     static void install(final Application app, List<IKit> selfKits, String productId) {
         DokitConstant.PRODUCT_ID = productId;
+        DokitConstant.APP_HEALTH_RUNNING = GlobalConfig.getAppHealth(DoraemonKit.APPLICATION);
         //添加常用工具
         if (sHasInit) {
             //已经初始化添加自定义kits
@@ -296,10 +298,11 @@ class DoraemonKitReal {
     }
 
     /**
-     * 单个文件的阈值为10M
+     * 单个文件的阈值为1M
      */
-    // private static long FILE_LENGTH_THRESHOLD = 10 * 1024 * 1024;
-    private static long FILE_LENGTH_THRESHOLD = 1 * 1024;
+    // private static long FILE_LENGTH_THRESHOLD = 1 * 1024 * 1024;
+    // 测试时为1k
+    private static long FILE_LENGTH_THRESHOLD = 1024;
 
     private static void traverseFile(File rootFileDir) {
         if (rootFileDir == null) {
@@ -314,7 +317,7 @@ class DoraemonKitReal {
             }
             if (file.isFile()) {
                 //若是文件，直接打印 byte
-                long fileLength = FileUtils.getFileLength(file);
+                long fileLength = FileUtils.getLength(file);
                 if (fileLength > FILE_LENGTH_THRESHOLD) {
                     AppHealthInfo.DataBean.BigFileBean fileBean = new AppHealthInfo.DataBean.BigFileBean();
                     fileBean.setFileName(FileUtils.getFileName(file));

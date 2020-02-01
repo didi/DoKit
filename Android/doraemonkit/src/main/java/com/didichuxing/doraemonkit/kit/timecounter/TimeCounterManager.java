@@ -58,17 +58,19 @@ public class TimeCounterManager {
             @Override
             public void onCall(ArrayList<OrderBean> orderBeans) {
                 try {
-                    if (DokitConstant.APP_HEALTH_RUNNING) {
-                        CounterInfo counterInfo = getAppSetupInfo();
-                        List<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean> loads = new ArrayList<>();
-                        for (OrderBean orderBean : orderBeans) {
-                            AppHealthInfo.DataBean.AppStartBean.LoadFuncBean loadFuncBean = new AppHealthInfo.DataBean.AppStartBean.LoadFuncBean();
-                            loadFuncBean.setClassName(orderBean.getFunctionName());
-                            loadFuncBean.setCostTime(orderBean.getCostTime());
-                            loads.add(loadFuncBean);
+                    CounterInfo counterInfo = getAppSetupInfo();
+                    List<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean> loads = new ArrayList<>();
+                    for (OrderBean orderBean : orderBeans) {
+                        long costTime = Long.parseLong(orderBean.getCostTime());
+                        if (costTime < 1000) {
+                            continue;
                         }
-                        AppHealthInfoUtil.getInstance().setAppStartInfo("" + counterInfo.totalCost, orderBeans.toString(), loads);
+                        AppHealthInfo.DataBean.AppStartBean.LoadFuncBean loadFuncBean = new AppHealthInfo.DataBean.AppStartBean.LoadFuncBean();
+                        loadFuncBean.setClassName(orderBean.getFunctionName());
+                        loadFuncBean.setCostTime(orderBean.getCostTime());
+                        loads.add(loadFuncBean);
                     }
+                    AppHealthInfoUtil.getInstance().setAppStartInfo("" + counterInfo.totalCost, orderBeans.toString(), loads);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -88,6 +88,17 @@
             <View style="@style/DK.Divider.Vertical" />
 
             <TextView
+                android:id="@+id/close"
+                style="@style/DK.Text"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/dk_dialog_button_background"
+                android:text="@string/dk_discard" />
+
+            <View style="@style/DK.Divider.Vertical" />
+
+            <TextView
                 android:id="@+id/positive"
                 style="@style/DK.Text.Blue"
                 android:layout_height="match_parent"

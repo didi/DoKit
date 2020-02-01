@@ -44,7 +44,7 @@ public class App extends Application {
             }
         });
         //严格检查模式
-        StrictMode.enableDefaults();
+        //StrictMode.enableDefaults();
 
     }
 

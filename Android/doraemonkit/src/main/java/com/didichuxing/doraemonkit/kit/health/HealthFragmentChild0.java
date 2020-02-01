@@ -62,7 +62,7 @@ public class HealthFragmentChild0 extends BaseFragment {
             public boolean onPositive() {
                 if (mUserInfoDialogProvider != null) {
                     //上传健康体检数据
-                    mUserInfoDialogProvider.uploadAppHealthInfo(new UploadAppHealthCallback() {
+                    boolean isCheck = mUserInfoDialogProvider.uploadAppHealthInfo(new UploadAppHealthCallback() {
                         @Override
                         public void onSuccess(Response<String> response) {
                             ToastUtils.showShort("上传数据成功!");
@@ -78,11 +78,17 @@ public class HealthFragmentChild0 extends BaseFragment {
 
                         @Override
                         public void onError(Response<String> response) {
+                            LogHelper.e(TAG, "error response===>" + response.body());
                             ToastUtils.showShort("上传数据失败,请重新上传");
                         }
                     });
+
+                    return isCheck;
                 }
+
                 return true;
+
+
             }
 
             @Override
@@ -92,7 +98,15 @@ public class HealthFragmentChild0 extends BaseFragment {
 
             @Override
             public void onCancel() {
-
+                ToastUtils.showShort("本次测试用例已丢弃!");
+                //重置状态
+                GlobalConfig.setAppHealth(DoraemonKit.APPLICATION, false);
+                DokitConstant.APP_HEALTH_RUNNING = false;
+                mTitle.setVisibility(View.INVISIBLE);
+                mController.setImageResource(R.drawable.dk_health_start);
+                //关闭健康体检监控
+                AppHealthInfoUtil.getInstance().stop();
+                AppHealthInfoUtil.getInstance().release();
             }
         });
         mController.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +121,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                     if (mController != null) {
                         ToastUtils.showShort("App即将重启并开始进入体检模式");
                         GlobalConfig.setAppHealth(DoraemonKit.APPLICATION, true);
+                        DokitConstant.APP_HEALTH_RUNNING = true;
                         //重启app
                         mController.postDelayed(new Runnable() {
                             @Override

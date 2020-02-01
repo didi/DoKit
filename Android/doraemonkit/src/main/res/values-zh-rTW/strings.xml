@@ -222,6 +222,7 @@
     <string name="dk_network_detail_title_url">鏈接</string>
     <string name="dk_network_summary_total_number_time_tips">總封包數</string>
     <string name="dk_cancel">取消</string>
+    <string name="dk_discard">丟棄</string>
     <string name="dk_confirm">確認</string>
     <string name="dk_post">提交</string>
     <string name="dk_crash_need_permission">請授權讀寫權限，避免crash文件丟失</string>

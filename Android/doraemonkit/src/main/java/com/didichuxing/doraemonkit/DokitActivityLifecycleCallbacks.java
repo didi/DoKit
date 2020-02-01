@@ -247,10 +247,10 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
             }
 
             String detail = "最大层级:" + maxLevel + "\n"
-                    + "控件id:" + (maxLevelViewInfo == null ? "no matched" : maxLevelViewInfo.id) + "\n"
+                    + "控件id:" + (maxLevelViewInfo == null ? "no id" : maxLevelViewInfo.id) + "\n"
                     + "总绘制耗时:" + totalTime + "ms" + "\n"
                     + "绘制耗时最长控件:" + maxTime + "ms" + "\n"
-                    + "绘制耗时最长控件id:" + (maxTimeViewInfo == null ? "no matched" : maxTimeViewInfo.id) + "\n";
+                    + "绘制耗时最长控件id:" + (maxTimeViewInfo == null ? "no id" : maxTimeViewInfo.id) + "\n";
             AppHealthInfo.DataBean.UiLevelBean uiLevelBean = new AppHealthInfo.DataBean.UiLevelBean();
             uiLevelBean.setPage(activity.getClass().getCanonicalName());
             uiLevelBean.setLevel("" + maxLevel);

@@ -243,7 +243,7 @@ public class AppHealthInfoUtil {
         if (mAppHealthInfo == null) {
             return;
         }
-        OkGo.<String>post("http://172.23.163.178:80/healthCheck/addCheckData")
+        OkGo.<String>post("http://dokit-test.intra.xiaojukeji.com/healthCheck/addCheckData")
                 .upJson(GsonUtils.toJson(mAppHealthInfo))
                 .execute(new StringCallback() {
                     @Override

@@ -223,6 +223,7 @@
     <string name="dk_kit_block_time_counter_list">Time Counter History</string>
     <string name="dk_submit">submit</string>
     <string name="dk_cancel">cancel</string>
+    <string name="dk_discard">discard</string>
     <string name="dk_delete">delete</string>
     <string name="dk_db_tips_insert">insert</string>
 

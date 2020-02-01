@@ -122,7 +122,7 @@ public abstract class DialogProvider<T> {
         }
     }
 
-    public void onCancel() {
+    void onCancel() {
         if (mDialogListener != null) {
             mDialogListener.onCancel();
         }
