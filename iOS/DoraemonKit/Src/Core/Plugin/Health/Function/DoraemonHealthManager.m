@@ -22,6 +22,7 @@
 #import <UIKit/UIKit.h>
 #import "DoraemonUtil.h"
 #import "DoraemonHealthCountdownWindow.h"
+#import "DoraemonBaseViewController.h"
 
 
 @interface DoraemonHealthManager()
@@ -93,7 +94,10 @@
     [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:YES];
     [[DoraemonCacheManager sharedInstance] saveSubThreadUICheckSwitch:YES];
     [[DoraemonCacheManager sharedInstance] saveMemoryLeak:YES];
-    exit(0);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        exit(0);
+    });
+    
 }
 
 - (void)startHealthCheck{
@@ -300,11 +304,21 @@
     if ([self blackList:vcClass]) {
         return;
     }
+    NSString *pageName = NSStringFromClass(vcClass);
+    NSLog(@"离开页面 == %@",pageName);
+    
+    if (_networkPageArray.count>0) {
+        [_networkArray addObject:@{
+            @"page":pageName,
+            @"values":[_networkPageArray copy]
+        }];
+    }
+    
+    //cpu 内存 fps必须保证每一个页面运行10秒
     if ([[DoraemonHealthCountdownWindow shareInstance] getCountdown] > 0) {
         return;
     }
-    NSString *pageName = NSStringFromClass(vcClass);
-    NSLog(@"离开页面 == %@",pageName);
+
     if (_cpuPageArray.count>0) {
         [_cpuArray addObject:@{
             @"page":pageName,
@@ -325,18 +339,14 @@
             @"values":[_fpsPageArray copy]
         }];
     }
-
-    if (_networkPageArray.count>0) {
-        [_networkArray addObject:@{
-            @"page":pageName,
-            @"values":[_networkPageArray copy]
-        }];
-    }
     
     [[DoraemonHealthCountdownWindow shareInstance] hide];
 }
 
 - (BOOL)blackList:(Class)vcClass{
+//    if ([vcClass isSubclassOfClass:[DoraemonBaseViewController class]]) {
+//        return YES;
+//    }
     if ([vcClass isSubclassOfClass:[UINavigationController class]] || [vcClass isSubclassOfClass:[UITabBarController class]]) {
         return YES;
     }
@@ -344,7 +354,12 @@
     NSArray *blackList = @[
         @"UIViewController",
         @"UIInputWindowController",
-        @"UICompatibilityInputViewController"
+        @"UICompatibilityInputViewController",
+        @"UIEditingOverlayViewController",
+        @"UISystemInputAssistantViewController",
+        @"UIPredictionViewController",
+        @"_UIRemoteInputViewController",
+        @"UIEditingOverlayViewController"
     ];
     if ([blackList containsObject:vcName]) {
         return YES;
@@ -354,6 +369,7 @@
 
 - (void)addHttpModel:(DoraemonNetFlowHttpModel *)httpModel{
     if (_start) {
+        NSLog(@"网络来了");
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
         [_networkPageArray addObject:@{
             @"time": [self currentTimeInterval],
