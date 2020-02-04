@@ -60,7 +60,7 @@ public class AppHealthInfoUtil {
         baseInfoBean.setDokitVersion(BuildConfig.VERSION_NAME);
         baseInfoBean.setPlatform("Android");
         baseInfoBean.setPhoneMode(DeviceUtils.getModel());
-        baseInfoBean.setTime("" + TimeUtils.getNowMills());
+        baseInfoBean.setTime(TimeUtils.getNowString());
         baseInfoBean.setSystemVersion(DeviceUtils.getSDKVersionName());
         baseInfoBean.setpId("" + DokitConstant.PRODUCT_ID);
         mAppHealthInfo.setBaseInfo(baseInfoBean);
@@ -91,7 +91,8 @@ public class AppHealthInfoUtil {
             cpus = new ArrayList<>();
             getData().setCpu(cpus);
         }
-        cpuBean.setValues(sortValue(cpuBean.getValues()));
+        //不过滤最大最小值
+        //cpuBean.setValues(sortValue(cpuBean.getValues()));
         cpus.add(cpuBean);
     }
 
@@ -107,7 +108,8 @@ public class AppHealthInfoUtil {
             memories = new ArrayList<>();
             getData().setMemory(memories);
         }
-        memoryBean.setValues(sortValue(memoryBean.getValues()));
+        //不过滤最大最小值
+        //memoryBean.setValues(sortValue(memoryBean.getValues()));
         memories.add(memoryBean);
     }
 
@@ -122,8 +124,8 @@ public class AppHealthInfoUtil {
             fpsBeans = new ArrayList<>();
             getData().setFps(fpsBeans);
         }
-
-        fpsBean.setValues(sortValue(fpsBean.getValues()));
+        //不过滤最大最小值
+        //fpsBean.setValues(sortValue(fpsBean.getValues()));
         fpsBeans.add(fpsBean);
     }
 

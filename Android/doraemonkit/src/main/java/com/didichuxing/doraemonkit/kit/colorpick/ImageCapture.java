@@ -19,7 +19,6 @@ import com.didichuxing.doraemonkit.util.UIUtils;
 import java.nio.ByteBuffer;
 
 /**
- *
  * @author wanglikun
  * @date 2018/12/3
  */
@@ -37,16 +36,24 @@ public class ImageCapture {
         if (mMediaProjectionManager != null) {
             Intent intent = new Intent();
             intent.putExtras(bundle);
-            mMediaProjection = mMediaProjectionManager.getMediaProjection(Activity.RESULT_OK, intent);
+            try {
+                //Android Q 存在兼容性问题
+                mMediaProjection = mMediaProjectionManager.getMediaProjection(Activity.RESULT_OK, intent);
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            }
         }
-        int width = UIUtils.getWidthPixels(context);
-        int height = UIUtils.getRealHeightPixels(context);
-        int dpi = UIUtils.getDensityDpi(context);
-        mImageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, 2);
-        mMediaProjection.createVirtualDisplay("ScreenCapture",
-                width, height, dpi,
-                DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-                mImageReader.getSurface(), null, null);
+        if (mMediaProjection != null) {
+            int width = UIUtils.getWidthPixels(context);
+            int height = UIUtils.getRealHeightPixels(context);
+            int dpi = UIUtils.getDensityDpi(context);
+            mImageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, 2);
+            mMediaProjection.createVirtualDisplay("ScreenCapture",
+                    width, height, dpi,
+                    DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                    mImageReader.getSurface(), null, null);
+        }
+
     }
 
     void capture() {

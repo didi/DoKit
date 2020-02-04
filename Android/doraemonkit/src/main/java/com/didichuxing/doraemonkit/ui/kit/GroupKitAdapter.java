@@ -113,7 +113,7 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
         @Override
         public void bind(List<KitItem> kitItems) {
             String version = mContext.getString(R.string.dk_kit_version);
-            name.setText(String.format(version, BuildConfig.VERSION_NAME));
+            name.setText(String.format(version, BuildConfig.DOKIT_VERSION));
         }
 
     }

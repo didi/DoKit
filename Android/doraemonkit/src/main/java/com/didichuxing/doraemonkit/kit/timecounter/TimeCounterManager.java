@@ -2,10 +2,13 @@ package com.didichuxing.doraemonkit.kit.timecounter;
 
 import android.app.Application;
 import android.os.Looper;
+import android.util.Log;
 
+import com.blankj.utilcode.util.GsonUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
+import com.didichuxing.doraemonkit.kit.methodtrace.AppHealthMethodCostBean;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostCallback;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCost;
 import com.didichuxing.doraemonkit.kit.methodtrace.OrderBean;
@@ -16,6 +19,7 @@ import com.didichuxing.doraemonkit.ui.base.DokitIntent;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -41,6 +45,7 @@ public class TimeCounterManager {
      * @param application
      */
     public void onAppCreateStart(Application application) {
+//        Log.i("APP_STAR","=====onAppCreateStart======");
         mAppCounter.start();
         MethodCost.APPLICATION = application;
         MethodCost.startMethodTracing("appStart");
@@ -52,25 +57,42 @@ public class TimeCounterManager {
      * @param application
      */
     public void onAppCreateEnd(Application application) {
+//        Log.i("APP_STAR","=====onAppCreateEnd======");
         mAppCounter.end();
-
         MethodCost.stopMethodTracingAndPrintLog("appStart", new MethodCostCallback() {
             @Override
             public void onCall(ArrayList<OrderBean> orderBeans) {
                 try {
                     CounterInfo counterInfo = getAppSetupInfo();
-                    List<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean> loads = new ArrayList<>();
+//                    List<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean> loads = new ArrayList<>();
+                    List<AppHealthMethodCostBean> appHealthMethodCostBeans = new ArrayList<>();
                     for (OrderBean orderBean : orderBeans) {
                         long costTime = Long.parseLong(orderBean.getCostTime());
                         if (costTime < 1000) {
                             continue;
                         }
-                        AppHealthInfo.DataBean.AppStartBean.LoadFuncBean loadFuncBean = new AppHealthInfo.DataBean.AppStartBean.LoadFuncBean();
-                        loadFuncBean.setClassName(orderBean.getFunctionName());
-                        loadFuncBean.setCostTime(orderBean.getCostTime());
-                        loads.add(loadFuncBean);
+                        //详细信息调用函数
+                        AppHealthMethodCostBean appHealthMethodCostBean = new AppHealthMethodCostBean();
+                        appHealthMethodCostBean.setCostTime(orderBean.getCostTime());
+                        appHealthMethodCostBean.setFunctionName(orderBean.getFunctionName());
+                        appHealthMethodCostBean.setThreadId(orderBean.getThreadId());
+                        appHealthMethodCostBean.setThreadName(orderBean.getThreadName());
+                        appHealthMethodCostBeans.add(appHealthMethodCostBean);
+//                        AppHealthInfo.DataBean.AppStartBean.LoadFuncBean loadFuncBean = new AppHealthInfo.DataBean.AppStartBean.LoadFuncBean();
+//                        loadFuncBean.setClassName(orderBean.getFunctionName());
+//                        loadFuncBean.setCostTime(orderBean.getCostTime());
+//                        loads.add(loadFuncBean);
                     }
-                    AppHealthInfoUtil.getInstance().setAppStartInfo("" + counterInfo.totalCost, orderBeans.toString(), loads);
+
+                    if (appHealthMethodCostBeans.isEmpty()) {
+                        AppHealthMethodCostBean appHealthMethodCostBean = new AppHealthMethodCostBean();
+                        appHealthMethodCostBean.setCostTime("-1");
+                        appHealthMethodCostBean.setFunctionName("has no method costTime greater than 1000");
+                        appHealthMethodCostBean.setThreadId("-1");
+                        appHealthMethodCostBean.setThreadName("-1");
+                        appHealthMethodCostBeans.add(appHealthMethodCostBean);
+                    }
+                    AppHealthInfoUtil.getInstance().setAppStartInfo("" + counterInfo.totalCost, GsonUtils.toJson(appHealthMethodCostBeans), new ArrayList<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean>());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

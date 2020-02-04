@@ -8,6 +8,7 @@ import com.amitshekhar.DebugDB;
 import com.amitshekhar.debug.encrypt.sqlite.DebugDBEncryptFactory;
 import com.amitshekhar.debug.sqlite.DebugDBFactory;
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
@@ -301,7 +302,7 @@ class DoraemonKitReal {
      * 单个文件的阈值为1M
      */
     // private static long FILE_LENGTH_THRESHOLD = 1 * 1024 * 1024;
-    // 测试时为1k
+    //todo 测试时为1k 对外时需要修改回来
     private static long FILE_LENGTH_THRESHOLD = 1024;
 
     private static void traverseFile(File rootFileDir) {
@@ -317,7 +318,7 @@ class DoraemonKitReal {
             }
             if (file.isFile()) {
                 //若是文件，直接打印 byte
-                long fileLength = FileUtils.getLength(file);
+                long fileLength = FileUtils.getFileLength(file);
                 if (fileLength > FILE_LENGTH_THRESHOLD) {
                     AppHealthInfo.DataBean.BigFileBean fileBean = new AppHealthInfo.DataBean.BigFileBean();
                     fileBean.setFileName(FileUtils.getFileName(file));

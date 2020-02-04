@@ -1,10 +1,12 @@
 package com.didichuxing.doraemonkit.kit.health;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -112,26 +114,44 @@ public class HealthFragmentChild0 extends BaseFragment {
         mController.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (getActivity() == null) {
+                    return;
+                }
                 //当前处于健康体检状态
                 if (DokitConstant.APP_HEALTH_RUNNING) {
                     if (mUserInfoDialogProvider != null) {
                         showDialog(mUserInfoDialogProvider);
                     }
                 } else {
-                    if (mController != null) {
-                        ToastUtils.showShort("App即将重启并开始进入体检模式");
-                        GlobalConfig.setAppHealth(DoraemonKit.APPLICATION, true);
-                        DokitConstant.APP_HEALTH_RUNNING = true;
-                        //重启app
-                        mController.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                AppUtils.relaunchApp();
-                                android.os.Process.killProcess(android.os.Process.myPid());
-                                System.exit(1);
-                            }
-                        }, 2000);
-                    }
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("健康体检")
+                            .setMessage("确认是否开始执行健康体检?")
+                            .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    if (mController != null) {
+                                        ToastUtils.showShort("App即将重启并开始进入体检模式");
+                                        GlobalConfig.setAppHealth(DoraemonKit.APPLICATION, true);
+                                        DokitConstant.APP_HEALTH_RUNNING = true;
+                                        //重启app
+                                        mController.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                AppUtils.relaunchApp();
+                                                android.os.Process.killProcess(android.os.Process.myPid());
+                                                System.exit(1);
+                                            }
+                                        }, 2000);
+                                    }
+                                }
+                            })
+                            .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
 
                 }
             }

@@ -617,7 +617,6 @@ public class AppHealthInfo {
 
             private String page;
             private String time;
-            private String costTime;
             private String trace;
 
             public String getPage() {
@@ -636,13 +635,6 @@ public class AppHealthInfo {
                 this.time = time;
             }
 
-            public String getCostTime() {
-                return costTime;
-            }
-
-            public void setCostTime(String costTime) {
-                this.costTime = costTime;
-            }
 
             public String getTrace() {
                 return trace;
