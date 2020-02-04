@@ -72,7 +72,7 @@
         NSString *costTime = dic[@"cost"];
         [fixArrayForHealth addObject:@{
             @"className" : className,
-            @"costTime" : costTime
+            @"costTime" : costTime//单位ms
         }];
     }
     return [NSArray arrayWithArray:fixArrayForHealth];

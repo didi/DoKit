@@ -50,7 +50,7 @@ static NSTimeInterval endTime;
     [DoraemonTimeProfiler stopRecord];
     endTime = [[NSDate date] timeIntervalSince1970];
     
-    [DoraemonHealthManager sharedInstance].startTime = endTime-startTime;
+    [DoraemonHealthManager sharedInstance].startTime = (endTime-startTime)*1000;
     return ret;
 }
 

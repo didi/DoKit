@@ -75,11 +75,11 @@
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (strongSelf.reportInfo.length > 0) {
             if (strongSelf.handler) {
-                double responseTimeValue = floor([[NSDate date] timeIntervalSince1970] * 1000);
-                double duration = (responseTimeValue - strongSelf.startTimeValue) / 1000.0;
+                double responseTimeValue = [[NSDate date] timeIntervalSince1970];
+                double duration = (responseTimeValue - strongSelf.startTimeValue)*1000;
                 strongSelf.handler(@{
                                      @"title": [DoraemonUtil dateFormatNow].length > 0 ? [DoraemonUtil dateFormatNow] : @"",
-                                     @"duration": [NSString stringWithFormat:@"%.2f",duration],
+                                     @"duration": [NSString stringWithFormat:@"%.0f",duration],//单位ms
                                      @"content": strongSelf.reportInfo
                                      });
             }
@@ -91,7 +91,7 @@
         if (_isApplicationInActive) {
             self.mainThreadBlock = YES;
             self.reportInfo = @"";
-            self.startTimeValue = floor([[NSDate date] timeIntervalSince1970] * 1000);
+            self.startTimeValue = [[NSDate date] timeIntervalSince1970];
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.mainThreadBlock = NO;
                 verifyReport();

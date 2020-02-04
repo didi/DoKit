@@ -20,8 +20,8 @@
 @property (nonatomic, assign) NSTimeInterval startTime;
 @property (nonatomic, assign) NSTimeInterval endTime;
 @property (nonatomic, copy) NSString *totalDuration;
-@property (nonatomic, copy) NSString *uploadFlow;//上行流量
-@property (nonatomic, copy) NSString *downFlow;//下行流量
+@property (nonatomic, copy) NSString *uploadFlow;//上行流量 单位字节B
+@property (nonatomic, copy) NSString *downFlow;//下行流量 单位字节B
 
 @property (nonatomic, strong) NSURLRequest *request;
 @property (nonatomic, strong) NSURLResponse *response;

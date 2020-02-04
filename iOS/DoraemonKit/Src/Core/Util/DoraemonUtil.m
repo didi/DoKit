@@ -187,7 +187,7 @@
              //文件
              NSDictionary *dict = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
              NSInteger size = [dict[@"NSFileSize"] integerValue];
-             if (size > 1024 * 1014) { //大于!M的内容被称为大文件
+             if (size > 1024 * 1014) { //大于1M的内容被称为大文件
                  [_bigFileArray addObject:path];
              }
          }

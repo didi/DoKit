@@ -153,14 +153,14 @@
     
     [_cpuPageArray addObject:@{
         @"time":currentTimeInterval,
-        @"value":[NSString stringWithFormat:@"%f",cpuValue]
+        @"value":[NSString stringWithFormat:@"%f",cpuValue]//单位百分比
     }];
     
     //3、获取当前memoryValue使用量
     NSInteger memoryValue = [DoraemonMemoryUtil useMemoryForApp];//单位MB
     [_memoryPageArray addObject:@{
         @"time":currentTimeInterval,
-        @"value":[NSString stringWithFormat:@"%zi",memoryValue]
+        @"value":[NSString stringWithFormat:@"%zi",memoryValue]//单位MB
     }];
 }
 
@@ -227,6 +227,9 @@
     
     NSLog(@"上传信息 == %@",dic);
     
+    if (![DoraemonManager shareInstance].pId) {
+        NSLog(@"dokik pId 为空");
+    }
 
     [DoraemonNetworkUtil postWithUrlString:@"http://dokit-test.intra.xiaojukeji.com/healthCheck/addCheckData" params:dic success:^(NSDictionary * _Nonnull result) {
        
@@ -418,7 +421,8 @@
     for (NSString *path in pathArray) {
         NSDictionary *dict = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
         NSInteger fileSize = [dict[@"NSFileSize"] integerValue];
-        NSString *fileSizeString = [NSByteCountFormatter stringFromByteCount:fileSize countStyle: NSByteCountFormatterCountStyleFile];
+        //NSString *fileSizeString = [NSByteCountFormatter stringFromByteCount:fileSize countStyle: NSByteCountFormatterCountStyleFile];
+        NSString *fileSizeString = [NSString stringWithFormat:@"%zi",fileSize];
         NSString *fileName = [path lastPathComponent];
         NSString *filePtahFromHomeDir = [self getPathFromHomeDir:path];
         [fileInfoArray addObject:@{
