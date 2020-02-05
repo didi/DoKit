@@ -230,7 +230,7 @@
         }
     };
     
-    //NSLog(@"上传信息 == %@",dic);
+    NSLog(@"上传信息 == %@",dic);
     
     if (![DoraemonManager shareInstance].pId) {
         NSLog(@"dokik pId 为空");

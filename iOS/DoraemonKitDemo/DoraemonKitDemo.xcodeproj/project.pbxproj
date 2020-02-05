@@ -265,8 +265,8 @@
 		DAFE050621BD4A4C00F97A59 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				DAFE050721BD4A4C00F97A59 /* DoraemonDemoUIViewController.m */,
 				DAFE050821BD4A4C00F97A59 /* DoraemonDemoUIViewController.h */,
+				DAFE050721BD4A4C00F97A59 /* DoraemonDemoUIViewController.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";

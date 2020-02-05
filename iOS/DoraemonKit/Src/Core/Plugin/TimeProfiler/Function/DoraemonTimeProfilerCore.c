@@ -217,15 +217,18 @@ static void hook_objc_msgSend() {
 
 void dtp_hook_begin(void) {
     _call_record_enabled = true;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        pthread_key_create(&_thread_key, &release_thread_call_stack);
-        rebind_symbols((struct rebinding[1]){"objc_msgSend", (void *)hook_objc_msgSend, (void **)&orig_objc_msgSend},1);
-    });
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        pthread_key_create(&_thread_key, &release_thread_call_stack);
+//        rebind_symbols((struct rebinding[1]){"objc_msgSend", (void *)hook_objc_msgSend, (void **)&orig_objc_msgSend},1);
+//    });
+    pthread_key_create(&_thread_key, &release_thread_call_stack);
+    rebind_symbols((struct rebinding[1]){"objc_msgSend", (void *)hook_objc_msgSend, (void **)&orig_objc_msgSend},1);
 }
 
 void dtp_hook_end(void) {
     _call_record_enabled = false;
+    rebind_symbols((struct rebinding[1]){"objc_msgSend", (void *)orig_objc_msgSend, NULL},1);
 }
 
 void dtp_set_min_time(uint64_t us) {
