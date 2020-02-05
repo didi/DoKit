@@ -7,6 +7,7 @@
 
 #import "UIViewController+Doraemon.h"
 #import "UIView+Doraemon.h"
+#import "DoraemonHomeWindow.h"
 
 @implementation UIViewController (Doraemon)
 
@@ -71,6 +72,10 @@
         return vc;
     }
     return nil;
+}
+
++ (UIViewController *)rootViewControllerForDoraemonHomeWindow{
+    return [DoraemonHomeWindow shareInstance].rootViewController;
 }
 
 @end

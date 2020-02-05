@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 // key window top vc
 + (UIViewController *)topViewControllerForKeyWindow;
 
++ (UIViewController *)rootViewControllerForDoraemonHomeWindow;
+
 @end
 
 NS_ASSUME_NONNULL_END

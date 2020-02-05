@@ -8,7 +8,6 @@
 #import "DoraemonHealthHomeView.h"
 #import "DoraemonHealthBgView.h"
 #import "DoraemonHealthManager.h"
-#import "DoraemonHealthStartingTitle.h"
 #import "DoraemonToastUtil.h"
 #import "DoraemonDefine.h"
 #import "DoraemonHealthManager.h"
@@ -16,7 +15,6 @@
 @interface DoraemonHealthHomeView ()<DoraemonHealthButtonDelegate>
 
 @property (nonatomic, strong) DoraemonHealthBgView *bgView;
-@property (nonatomic, strong) DoraemonHealthStartingTitle *startingTitle;
 @property (nonatomic, copy) DoraemonHealthHomeBlock block;
 
 @end
@@ -28,8 +26,11 @@
     if (self) {
         _bgView = [[DoraemonHealthBgView alloc] initWithFrame:CGRectMake(0, 0, self.doraemon_width, self.doraemon_height)];
         _startingTitle = [[DoraemonHealthStartingTitle alloc] initWithFrame:[_bgView getStartingTitleCGRect]];
-        [_startingTitle renderUIWithTitle:DoraemonLocalizedString(@"正在检测中...")];
-        [_startingTitle showUITitle:[DoraemonHealthManager sharedInstance].start];//manager
+        if ([DoraemonHealthManager sharedInstance].start) {
+            [_startingTitle renderUIWithTitle:DoraemonLocalizedString(@"正在检测中...")];
+        }else{
+            [_startingTitle renderUIWithTitle:DoraemonLocalizedString(@"点击开始检测")];
+        }
         
         _btnView = [[DoraemonHealthBtnView alloc] initWithFrame:[_bgView getButtonCGRect]];
         [_btnView statusForBtn:[DoraemonHealthManager sharedInstance].start];

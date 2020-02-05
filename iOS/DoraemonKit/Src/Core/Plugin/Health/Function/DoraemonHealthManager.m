@@ -23,6 +23,7 @@
 #import "DoraemonUtil.h"
 #import "DoraemonHealthCountdownWindow.h"
 #import "DoraemonBaseViewController.h"
+#import "DoraemonToastUtil.h"
 
 
 @interface DoraemonHealthManager()
@@ -229,16 +230,16 @@
         }
     };
     
-    NSLog(@"上传信息 == %@",dic);
+    //NSLog(@"上传信息 == %@",dic);
     
     if (![DoraemonManager shareInstance].pId) {
         NSLog(@"dokik pId 为空");
     }
 
     [DoraemonNetworkUtil postWithUrlString:@"http://dokit-test.intra.xiaojukeji.com/healthCheck/addCheckData" params:dic success:^(NSDictionary * _Nonnull result) {
-       
+        [DoraemonToastUtil showToastBlack:@"数据上传成功" inView:[UIViewController rootViewControllerForDoraemonHomeWindow].view];
     } error:^(NSError * _Nonnull error) {
-        
+        [DoraemonToastUtil showToastBlack:@"数据上传失败" inView:[UIViewController rootViewControllerForDoraemonHomeWindow].view];
     }];
 
     

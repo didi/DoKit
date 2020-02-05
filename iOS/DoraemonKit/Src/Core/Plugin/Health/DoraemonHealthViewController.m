@@ -93,17 +93,13 @@
                 [DoraemonHealthManager sharedInstance].testPerson = result[1];
                 [weakSelf showFooter:YES];
                 [weakSelf.homeView.btnView statusForBtn:NO];
+                [weakSelf.homeView.startingTitle renderUIWithTitle:@"点击开始检测"];
                 [[DoraemonHealthManager sharedInstance] stopHealthCheck];
-                [weakSelf endToast];
             }
         } cancleBlock:^{
         }];
         [self.view addSubview:alertView];
     }
-}
-
-- (void)endToast{
-    [DoraemonToastUtil showToastBlack:DoraemonLocalizedString(@"提交成功\n恭喜已完成检测！") inView:self.view];
 }
 
 
