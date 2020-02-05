@@ -7,7 +7,9 @@
 
 #import "DoraemonMemoryLeakData.h"
 #import "NSObject+MemoryLeak.h"
+#if _INTERNAL_MLF_RC_ENABLED
 #import <FBRetainCycleDetector/FBRetainCycleDetector.h>
+#endif
 #import "DoraemonHealthManager.h"
 
 @interface DoraemonMemoryLeakData()
@@ -74,7 +76,7 @@
 
 - (NSString *)getRetainCycleByObject:(id)object{
     NSString *result;
-    
+#if _INTERNAL_MLF_RC_ENABLED
     FBRetainCycleDetector *detector = [FBRetainCycleDetector new];
     [detector addCandidate:object];
     NSSet *retainCycles = [detector findRetainCyclesWithMaxCycleLength:20];
@@ -100,6 +102,7 @@
     if (!hasFound) {
         result = @"Fail to find a retain cycle";
     }
+#endif
     return result;
 }
 

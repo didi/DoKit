@@ -48,7 +48,6 @@ PODS:
   - DoraemonKit/WithMLeaksFinder (2.0.0):
     - BSBacktraceLogger
     - DoraemonKit/Core
-    - FBRetainCycleDetector
     - fishhook
   - DoraemonKit/WithWeex (2.0.0):
     - BSBacktraceLogger
@@ -56,7 +55,6 @@ PODS:
     - fishhook
     - WeexSDK
     - WXDevtool
-  - FBRetainCycleDetector (0.1.4)
   - fishhook (0.2)
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
@@ -92,7 +90,6 @@ SPEC REPOS:
     - AFNetworking
     - BSBacktraceLogger
     - CocoaLumberjack
-    - FBRetainCycleDetector
     - fishhook
     - FMDB
     - GCDWebServer
@@ -110,8 +107,7 @@ SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   BSBacktraceLogger: 06b983ee93a9f87d957960e9c73d660d5966b447
   CocoaLumberjack: 2f44e60eb91c176d471fdba43b9e3eae6a721947
-  DoraemonKit: 9e923599e28d0b61f1c6de4aef2c2d669b30abb7
-  FBRetainCycleDetector: 46f8179bbb1c587deee3ea838a1a3ee02acf5015
+  DoraemonKit: a636f4aca0689106b1719bd0a44249074ef942ba
   fishhook: ea19933abfe8f2f52c55fd8b6e2718467d3ebc89
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: ead88cd14596dd4eae4f5830b8877c87c8728990
