@@ -25,19 +25,23 @@
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [[self class] doraemon_swizzleInstanceMethodWithOriginSel:@selector(viewWillAppear:) swizzledSel:@selector(doraemon_viewWillAppear:)];
+        [[self class] doraemon_swizzleInstanceMethodWithOriginSel:@selector(viewDidAppear:) swizzledSel:@selector(doraemon_viewDidAppear:)];
         [[self class] doraemon_swizzleInstanceMethodWithOriginSel:@selector(viewWillDisappear:) swizzledSel:@selector(doraemon_viewWillDisappear:)];
     });
 }
 
-- (void)doraemon_viewWillAppear:(BOOL)animated
-{
-    [self doraemon_viewWillAppear:animated];
-    [self profileViewDepth];
+- (void)doraemon_viewDidAppear:(BOOL)animated{
+    [self doraemon_viewDidAppear:animated];
+    if (![DoraemonHealthManager sharedInstance].start) {
+        [self profileViewDepth];
+    }
 }
 
 - (void)doraemon_viewWillDisappear:(BOOL)animated
 {
+    if ([DoraemonHealthManager sharedInstance].start) {
+        [self profileViewDepth];
+    }
     [self doraemon_viewWillDisappear:animated];
     [self resetProfileData];
 }
@@ -47,6 +51,9 @@
     if (![DoraemonUIProfileManager sharedInstance].enable) {
         [[DoraemonUIProfileWindow sharedInstance] hide];
         return;
+    }
+    if ([[DoraemonHealthManager sharedInstance] blackList:[self class]]){
+        return ;
     }
     [self travelView:self.view depth:0];
     [self showUIProfile];
@@ -60,12 +67,17 @@
     if (self.doraemon_depthView) {
         [tmp addObject:NSStringFromClass([self.doraemon_depthView class])];
     }
-    
+
     UIView *tmpSuperView = self.doraemon_depthView.superview;
-    while (tmpSuperView) {
+    
+    while (tmpSuperView != self.view) {
         [tmp addObject:NSStringFromClass([tmpSuperView class])];
         tmpSuperView = tmpSuperView.superview;
     }
+    
+    [tmp addObject:NSStringFromClass([self.view class])];
+
+
     NSArray *result = [[tmp reverseObjectEnumerator] allObjects];
     NSString *detail = [result componentsJoinedByString:@"\r\n"];
     

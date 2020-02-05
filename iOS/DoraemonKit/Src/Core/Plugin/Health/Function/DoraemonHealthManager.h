@@ -44,6 +44,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *caseName;//用例名称
 @property (nonatomic, copy) NSString *testPerson;//测试人名称
 
+
+- (BOOL)blackList:(Class)vcClass;
+
 @end
 
 NS_ASSUME_NONNULL_END
