@@ -360,7 +360,9 @@
         @"UISystemInputAssistantViewController",
         @"UIPredictionViewController",
         @"_UIRemoteInputViewController",
-        @"UIEditingOverlayViewController"
+        @"UIEditingOverlayViewController",
+        @"AssistiveTouchController",
+        @"UICandidateViewController"
     ];
     if ([blackList containsObject:vcName]) {
         return YES;
