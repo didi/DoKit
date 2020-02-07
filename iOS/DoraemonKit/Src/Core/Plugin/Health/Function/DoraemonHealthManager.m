@@ -47,6 +47,7 @@
 @property (nonatomic, strong) NSMutableDictionary *pageEnterMap;
 @property (nonatomic, strong) NSMutableArray *pageLoadArray;
 @property (nonatomic, strong) NSMutableArray *bigFileArray;
+@property (nonatomic, copy) NSString *h5UrlString;
 
 @end
 
@@ -266,6 +267,7 @@
     [_leakArray removeAllObjects];
     [_pageLoadArray removeAllObjects];
     [_bigFileArray removeAllObjects];
+    _h5UrlString = nil;
 }
 
 - (void)startEnterPage:(Class)vcClass{
@@ -315,6 +317,11 @@
         return;
     }
     NSString *pageName = NSStringFromClass(vcClass);
+    if (_h5UrlString.length>0) {
+        pageName = [NSString stringWithFormat:@"%@(%@)",pageName,_h5UrlString];
+        _h5UrlString = nil;
+    }
+    
     NSLog(@"离开页面 == %@",pageName);
     
     if (_networkPageArray.count>0) {
@@ -430,6 +437,15 @@
             @"page":info[@"className"],
             @"detail":info[@"viewStack"]
         }];
+    }
+}
+
+- (void)openH5Page:(NSString *)h5Url{
+    if (_start) {
+        __weak typeof(self) weakSelf = self;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1. * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            weakSelf.h5UrlString = h5Url;
+        });
     }
 }
 
