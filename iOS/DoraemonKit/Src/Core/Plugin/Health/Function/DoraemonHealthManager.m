@@ -144,6 +144,11 @@
 }
 
 - (void)doSecondFunction{
+    //最多采样40个点
+    if(_cpuPageArray.count > 40){
+        return;
+    }
+    
     //1、获取当前时间
     NSString *currentTimeInterval = [self currentTimeInterval];
     
@@ -170,6 +175,10 @@
 }
 
 - (void)handleFPS:(NSInteger)fps{
+    //最多采样40个点
+    if (_fpsPageArray.count > 40) {
+        return;
+    }
     [_fpsPageArray addObject:@{
         @"time":[self currentTimeInterval],
         @"value":[NSString stringWithFormat:@"%zi",fps]
@@ -230,7 +239,7 @@
         }
     };
     
-    //NSLog(@"上传信息 == %@",dic);
+    NSLog(@"上传信息 == %@",dic);
     
     if (![DoraemonManager shareInstance].pId) {
         NSLog(@"dokik pId 为空");
