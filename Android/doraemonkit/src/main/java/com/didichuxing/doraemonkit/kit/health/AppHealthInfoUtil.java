@@ -6,9 +6,12 @@ import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.BuildConfig;
+import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.config.CrashCaptureConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockMonitorManager;
 import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
+import com.didichuxing.doraemonkit.kit.crash.CrashCaptureManager;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.okgo.OkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
@@ -317,6 +320,9 @@ public class AppHealthInfoUtil {
         PerformanceDataManager.getInstance().startMonitorNetFlowInfo();
         //卡顿
         BlockMonitorManager.getInstance().start();
+        //crash 开关
+        CrashCaptureConfig.setCrashCaptureOpen(DoraemonKit.APPLICATION, true);
+        CrashCaptureManager.getInstance().start();
     }
 
     /**
@@ -333,6 +339,9 @@ public class AppHealthInfoUtil {
         PerformanceDataManager.getInstance().stopMonitorNetFlowInfo();
         //卡顿
         BlockMonitorManager.getInstance().stop();
+        //crash 开关
+        CrashCaptureConfig.setCrashCaptureOpen(DoraemonKit.APPLICATION, false);
+        CrashCaptureManager.getInstance().stop();
 
     }
 

@@ -4,9 +4,9 @@ ext {
             // 线上包不会接入DoraemonKit，测试包会自动接入
             applyPlugin          : true,
             //上传到远程仓库时需要打开
-            uploadArchives       : true,
+            uploadArchives       : false,
             //是否发布插件到远程仓库
-            publishPluginToRemote: true
+            publishPluginToRemote: false
     ]
     android = [compileSdkVersion         : 28,
                suppotrSdkVersion         : "27.1.1",
@@ -20,7 +20,7 @@ ext {
                //jcenter dokit版本号
                jcenterArchivesVersionName: "2.2.4",
                //didi内部仓库版本号
-               didiArchivesVersionName   : "1000.0.17",
+               didiArchivesVersionName   : "1000.0.20",
                //打包上传时 dokit的版本名字
                versionName               : "2.2.4",
                glide                     : "4.8.0",

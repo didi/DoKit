@@ -21,8 +21,10 @@ import com.didichuxing.doraemonkit.ui.realtime.PerformanceDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.SystemUtil;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -185,11 +187,23 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         Map<String, AbsDokitView> existDokitViews = mActivityDokitViews.get(activity);
         //先清除页面上启动模式为DokitIntent.MODE_ONCE 的dokitView
         if (existDokitViews != null) {
+            //千万注意不要使用for循环去移除对象 下面注释的这段代码存在bug
+//            for (AbsDokitView existDokitView : existDokitViews.values()) {
+//                if (existDokitView.getMode() == DokitIntent.MODE_ONCE) {
+//                    detach(existDokitView.getClass());
+//                }
+//            }
+            List<String> modeOnceDokitViews = new ArrayList<>();
             for (AbsDokitView existDokitView : existDokitViews.values()) {
                 if (existDokitView.getMode() == DokitIntent.MODE_ONCE) {
-                    detach(existDokitView.getClass());
+                    modeOnceDokitViews.add(existDokitView.getClass().getSimpleName());
                 }
             }
+
+            for (String tag : modeOnceDokitViews) {
+                detach(tag);
+            }
+
         }
 
 
