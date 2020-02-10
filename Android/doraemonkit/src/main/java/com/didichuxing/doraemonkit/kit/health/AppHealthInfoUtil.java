@@ -57,7 +57,7 @@ public class AppHealthInfoUtil {
         baseInfoBean.setCaseName(caseName);
         baseInfoBean.setAppName(AppUtils.getAppName());
         baseInfoBean.setAppVersion(AppUtils.getAppVersionName());
-        baseInfoBean.setDokitVersion(BuildConfig.VERSION_NAME);
+        baseInfoBean.setDokitVersion(BuildConfig.DOKIT_VERSION);
         baseInfoBean.setPlatform("Android");
         baseInfoBean.setPhoneMode(DeviceUtils.getModel());
         baseInfoBean.setTime(TimeUtils.getNowString());
@@ -72,7 +72,7 @@ public class AppHealthInfoUtil {
      * @param costTime
      * @param costDetail
      */
-    public void setAppStartInfo(String costTime, String costDetail, List<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean> loadFunc) {
+    public void setAppStartInfo(long costTime, String costDetail, List<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean> loadFunc) {
         AppHealthInfo.DataBean.AppStartBean appStartBean = new AppHealthInfo.DataBean.AppStartBean();
         appStartBean.setCostTime(costTime);
         appStartBean.setCostDetail(costDetail);

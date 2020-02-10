@@ -18,6 +18,7 @@ import java.util.Stack;
 
 /**
  * 文件扫描
+ * wiki:https://github.com/zjw-swun/AppMethodOrder
  */
 class TraceScanner {
     private static final String TAG = "TraceScanner";
@@ -111,7 +112,7 @@ class TraceScanner {
                                 OrderBean peek = stackMap.get(orderBean.getThreadId()).peek();
                                 if (peek.getFunctionName().equals(orderBean.getFunctionName())) {
                                     OrderBean pop = stackMap.get(orderBean.getThreadId()).pop();
-                                    String costTime = "" + Math.abs(Long.parseLong(orderBean.getTime()) - Long.parseLong(pop.getTime()));
+                                    long costTime = Math.abs(Long.parseLong(orderBean.getTime()) - Long.parseLong(pop.getTime()));
                                     pop.setCostTime(costTime);
                                 }
                             }

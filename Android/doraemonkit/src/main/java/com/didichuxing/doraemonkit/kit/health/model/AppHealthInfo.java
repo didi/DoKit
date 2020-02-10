@@ -265,15 +265,15 @@ public class AppHealthInfo {
              * loadFunc : [{"className":"ClassA","costTime":"15"},{"className":"ClassB","costTime":"30"}]
              */
 
-            private String costTime;
+            private long costTime;
             private String costDetail;
             private List<LoadFuncBean> loadFunc;
 
-            public String getCostTime() {
+            public long getCostTime() {
                 return costTime;
             }
 
-            public void setCostTime(String costTime) {
+            public void setCostTime(long costTime) {
                 this.costTime = costTime;
             }
 
@@ -493,7 +493,7 @@ public class AppHealthInfo {
              */
 
             private String page;
-            private String blockTime;
+            private long blockTime;
             private String detail;
 
             public String getPage() {
@@ -504,11 +504,11 @@ public class AppHealthInfo {
                 this.page = page;
             }
 
-            public String getBlockTime() {
+            public long getBlockTime() {
                 return blockTime;
             }
 
-            public void setBlockTime(String blockTime) {
+            public void setBlockTime(long blockTime) {
                 this.blockTime = blockTime;
             }
 

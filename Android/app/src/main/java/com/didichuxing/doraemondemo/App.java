@@ -29,7 +29,7 @@ public class App extends Application {
         super.onCreate();
         List<IKit> kits = new ArrayList<>();
         kits.add(new DemoKit());
-        DoraemonKit.install(this, kits,"a49842eeebeb1989b3f9565eb12c276b");
+        DoraemonKit.install(this, kits, "a49842eeebeb1989b3f9565eb12c276b");
         //是否显示入口icon
         //DoraemonKit.setAwaysShowMainIcon(false);
         DoraemonKit.disableUpload();

@@ -152,6 +152,8 @@ class DoraemonKitReal {
         //OkHttp 拦截器 注入
         OkHttpHook.installInterceptor();
         LogHelper.i(TAG, "IS_HOOK====>" + IS_HOOK);
+        //赋值全局变量
+        DokitConstant.IS_HOOK = IS_HOOK;
         //注册全局的activity生命周期回调
         app.registerActivityLifecycleCallbacks(new DokitActivityLifecycleCallbacks());
         DokitConstant.KIT_MAPS.clear();
@@ -185,25 +187,19 @@ class DoraemonKitReal {
         tool.add(new CrashCaptureKit());
         tool.add(new LogInfoKit());
         tool.add(new DataCleanKit());
-        if (IS_HOOK) {
-            tool.add(new WeakNetworkKit());
-        }
+        tool.add(new WeakNetworkKit());
         tool.add(new DbDebugKit());
 
         //添加性能监控kit
         performance.add(new FrameInfoKit());
         performance.add(new CpuKit());
         performance.add(new RamKit());
-        if (IS_HOOK) {
-            performance.add(new NetworkKit());
-        }
+        performance.add(new NetworkKit());
         performance.add(new BlockMonitorKit());
         performance.add(new TimeCounterKit());
         performance.add(new MethodCostKit());
         performance.add(new UIPerformanceKit());
-        if (IS_HOOK) {
-            performance.add(new LargePictureKit());
-        }
+        performance.add(new LargePictureKit());
 
         try {
             //动态添加leakcanary
@@ -227,11 +223,9 @@ class DoraemonKitReal {
         ui.add(new AlignRulerKit());
         ui.add(new ViewCheckerKit());
         ui.add(new LayoutBorderKit());
-        if (IS_HOOK && !TextUtils.isEmpty(DokitConstant.PRODUCT_ID)) {
-            //新增数据mock工具 由于Dokit管理平台还没完善 所以暂时关闭入口
-            platform.add(new MockKit());
-            platform.add(new HealthKit());
-        }
+        //新增数据mock工具 由于Dokit管理平台还没完善 所以暂时关闭入口
+        platform.add(new MockKit());
+        platform.add(new HealthKit());
 
         //增加浮标模式
         floatMode.add(new FloatModeKit());
@@ -301,9 +295,9 @@ class DoraemonKitReal {
     /**
      * 单个文件的阈值为1M
      */
-    // private static long FILE_LENGTH_THRESHOLD = 1 * 1024 * 1024;
+    private static long FILE_LENGTH_THRESHOLD = 1 * 1024 * 1024;
     //todo 测试时为1k 对外时需要修改回来
-    private static long FILE_LENGTH_THRESHOLD = 1024;
+    //private static long FILE_LENGTH_THRESHOLD = 1024;
 
     private static void traverseFile(File rootFileDir) {
         if (rootFileDir == null) {

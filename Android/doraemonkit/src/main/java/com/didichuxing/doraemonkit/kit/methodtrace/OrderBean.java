@@ -11,7 +11,10 @@ public class OrderBean implements Comparable<OrderBean> {
     private String functionName;
     private boolean isXit;
     private String content;
-    private String costTime = "0";
+    /**
+     * 单位为微秒 us
+     */
+    private long costTime = 0;
     private String entTime;
     private String threadId;
     private String threadName;
@@ -58,11 +61,11 @@ public class OrderBean implements Comparable<OrderBean> {
         this.content = content;
     }
 
-    public String getCostTime() {
+    public long getCostTime() {
         return costTime;
     }
 
-    public void setCostTime(String costTime) {
+    public void setCostTime(long costTime) {
         this.costTime = costTime;
     }
 
@@ -144,7 +147,6 @@ public class OrderBean implements Comparable<OrderBean> {
 
     @Override
     public int compareTo(OrderBean o) {
-        // TODO Auto-generated method stub
         //return 0;
         return (int) (order - o.order);
     }

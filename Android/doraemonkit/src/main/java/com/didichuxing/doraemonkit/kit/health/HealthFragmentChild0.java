@@ -125,7 +125,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                 } else {
                     new AlertDialog.Builder(getActivity())
                             .setTitle("健康体检")
-                            .setMessage("确认是否开始执行健康体检?")
+                            .setMessage("是否确认开始执行健康体检?")
                             .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

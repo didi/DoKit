@@ -4,7 +4,7 @@ package com.didichuxing.doraemonkit.kit.methodtrace;
 /**
  * Created by hasee on 2017/4/20.
  */
-public class AppHealthMethodCostBean  {
+public class AppHealthMethodCostBean {
     private String functionName;
     private String costTime = "0";
     private String threadId;
