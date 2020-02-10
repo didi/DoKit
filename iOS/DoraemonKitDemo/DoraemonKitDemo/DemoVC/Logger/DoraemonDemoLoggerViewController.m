@@ -7,9 +7,12 @@
 //
 
 #import "DoraemonDemoLoggerViewController.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
 #import <DoraemonKit/UIView+Doraemon.h>
 #import "DoraemonDefine.h"
+
+#if __has_include(<CocoaLumberjack/CocoaLumberjack.h>)
+#import <CocoaLumberjack/CocoaLumberjack.h>
+#endif
 
 @interface DoraemonDemoLoggerViewController ()
 
@@ -35,8 +38,10 @@
 }
 
 - (void)addLogger{
+    #if __has_include(<CocoaLumberjack/CocoaLumberjack.h>)
     DDLogInfo(@"DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。");
     DDLogError(@"DDLogError。。。DDLogError。。。DDLogError。。。DDLogError。。。DDLogError。。。DDLogError。。。DDLogError。。。DDLogError。。。DDLogError。。。DDLogError。。。");
+    #endif
 }
 
 - (void)addLogger2{

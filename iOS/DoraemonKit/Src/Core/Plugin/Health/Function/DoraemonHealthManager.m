@@ -15,7 +15,6 @@
 #import "DoraemonDefine.h"
 #import "DoraemonManager.h"
 #import "DoraemonCacheManager.h"
-#import "DoraemonMethodUseTimeManager.h"
 #import "DoraemonANRManager.h"
 #import "UIViewController+Doraemon.h"
 #import "DoraemonUIProfileManager.h"
@@ -24,6 +23,11 @@
 #import "DoraemonHealthCountdownWindow.h"
 #import "DoraemonBaseViewController.h"
 #import "DoraemonToastUtil.h"
+
+#if __has_include("DoraemonMethodUseTimeManager.h")
+#import "DoraemonMethodUseTimeManager.h"
+#endif
+
 
 
 @interface DoraemonHealthManager()
@@ -92,7 +96,9 @@
 - (void)rebootAppForHealthCheck{
     [[DoraemonCacheManager sharedInstance] saveHealthStart:YES];
     [[DoraemonCacheManager sharedInstance] saveStartTimeSwitch:YES];
+    #if __has_include("DoraemonMethodUseTimeManager.h")
     [DoraemonMethodUseTimeManager sharedInstance].on = YES;
+    #endif
     [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:YES];
     [[DoraemonCacheManager sharedInstance] saveSubThreadUICheckSwitch:YES];
     [[DoraemonCacheManager sharedInstance] saveMemoryLeak:YES];
@@ -128,7 +134,9 @@
     [[DoraemonHealthCountdownWindow shareInstance] hide];
     [[DoraemonCacheManager sharedInstance] saveHealthStart:NO];
     [[DoraemonCacheManager sharedInstance] saveStartTimeSwitch:NO];
+    #if __has_include("DoraemonMethodUseTimeManager.h")
     [DoraemonMethodUseTimeManager sharedInstance].on = NO;
+    #endif
     [[DoraemonCacheManager sharedInstance] saveNetFlowSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveSubThreadUICheckSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveMemoryLeak:NO];
@@ -199,7 +207,11 @@
     
     
     //启动流程
-    NSArray *loadArray = [[DoraemonMethodUseTimeManager sharedInstance] fixLoadModelArrayForHealth];
+    NSArray *loadArray = nil;
+    #if __has_include("DoraemonMethodUseTimeManager.h")
+    loadArray = [[DoraemonMethodUseTimeManager sharedInstance] fixLoadModelArrayForHealth];
+    #endif
+    
     NSDictionary *appStart = @{
         @"costTime" : @(self.startTime),
         @"costDetail" : STRING_NOT_NULL(self.costDetail),
