@@ -259,7 +259,16 @@
     }
 
     [DoraemonNetworkUtil postWithUrlString:@"http://dokit-test.intra.xiaojukeji.com/healthCheck/addCheckData" params:dic success:^(NSDictionary * _Nonnull result) {
-        [DoraemonToastUtil showToastBlack:@"数据上传成功" inView:[UIViewController rootViewControllerForDoraemonHomeWindow].view];
+        NSInteger code = [result[@"code"] integerValue];
+        if (code == 200) {
+            [DoraemonToastUtil showToastBlack:@"数据上传成功" inView:[UIViewController rootViewControllerForDoraemonHomeWindow].view];
+        }else{
+            NSString *msg = result[@"msg"];
+            if (msg) {
+                [DoraemonToastUtil showToastBlack:msg inView:[UIViewController rootViewControllerForDoraemonHomeWindow].view];
+            }
+        }
+
     } error:^(NSError * _Nonnull error) {
         [DoraemonToastUtil showToastBlack:@"数据上传失败" inView:[UIViewController rootViewControllerForDoraemonHomeWindow].view];
     }];
