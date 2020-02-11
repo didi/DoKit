@@ -258,7 +258,7 @@
         NSLog(@"dokik pId 为空");
     }
 
-    [DoraemonNetworkUtil postWithUrlString:@"http://dokit-test.intra.xiaojukeji.com/healthCheck/addCheckData" params:dic success:^(NSDictionary * _Nonnull result) {
+    [DoraemonNetworkUtil postWithUrlString:@"https://www.dokit.cn/healthCheck/addCheckData" params:dic success:^(NSDictionary * _Nonnull result) {
         NSInteger code = [result[@"code"] integerValue];
         if (code == 200) {
             [DoraemonToastUtil showToastBlack:@"数据上传成功" inView:[UIViewController rootViewControllerForDoraemonHomeWindow].view];
