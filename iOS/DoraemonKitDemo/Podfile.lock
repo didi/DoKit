@@ -24,6 +24,14 @@ PODS:
   - DoraemonKit/Core (2.0.0):
     - BSBacktraceLogger
     - fishhook
+  - DoraemonKit/WithGPS (2.0.0):
+    - BSBacktraceLogger
+    - DoraemonKit/Core
+    - fishhook
+  - DoraemonKit/WithLoad (2.0.0):
+    - BSBacktraceLogger
+    - DoraemonKit/Core
+    - fishhook
   - fishhook (0.2)
   - SDWebImage (5.0.6):
     - SDWebImage/Core (= 5.0.6)
@@ -32,6 +40,8 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (= 2.6.3)
   - DoraemonKit/Core (from `../../`)
+  - DoraemonKit/WithGPS (from `../../`)
+  - DoraemonKit/WithLoad (from `../../`)
   - SDWebImage (= 5.0.6)
 
 SPEC REPOS:
@@ -52,6 +62,6 @@ SPEC CHECKSUMS:
   fishhook: ea19933abfe8f2f52c55fd8b6e2718467d3ebc89
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
 
-PODFILE CHECKSUM: c17592f87e43ec25563217f6055d5be8f43e35cd
+PODFILE CHECKSUM: dd92a1601e47488d62ae26eca51d4c3b56d5880f
 
 COCOAPODS: 1.8.4

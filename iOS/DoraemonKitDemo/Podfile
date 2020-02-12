@@ -13,8 +13,8 @@ end
 
 target :'DoraemonKitDemo' do
   #pod 'DoraemonKit', :subspecs => ['Core','WithLogger','WithGPS','WithLoad','WithWeex', 'WithDatabase', 'WithMLeaksFinder'],  :path => '../../'
-  pod 'DoraemonKit', :subspecs => ['Core'],  :path => '../../'
-  #pod 'DoraemonKit', :subspecs => ['Core','WithLogger','WithGPS','WithLoad']
+  #pod 'DoraemonKit', :subspecs => ['Core'],  :path => '../../'
+  pod 'DoraemonKit', :subspecs => ['Core','WithGPS','WithLoad'], :path => '../../'
   pod 'AFNetworking','2.6.3'
   pod 'SDWebImage', '5.0.6'
 end
