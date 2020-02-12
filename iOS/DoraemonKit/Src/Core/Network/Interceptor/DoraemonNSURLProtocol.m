@@ -64,6 +64,10 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
         return NO;
     }
     
+    if ([self ignoreRequest:request]) {
+        return NO;
+    }
+    
     return YES;
 }
 
@@ -177,6 +181,15 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
         NSURLCredential *card = [[NSURLCredential alloc]initWithTrust:challenge.protectionSpace.serverTrust];
         completionHandler(NSURLSessionAuthChallengeUseCredential, card);
     }
+}
+
+// 去掉一些我们不关心的链接
++ (BOOL)ignoreRequest:(NSURLRequest *)request{
+    NSString *pathExtension = [request.URL.absoluteString pathExtension];
+    if (pathExtension.length > 0) {
+        return YES;
+    }
+    return NO;
 }
 
 @end
