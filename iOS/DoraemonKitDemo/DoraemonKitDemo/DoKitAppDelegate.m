@@ -36,7 +36,9 @@
         NSLog(@"handle block plugin");
     }];
 
-    [DoraemonManager shareInstance].pId = @"a49842eeebeb1989b3f9565eb12c276b";
+    //测试 a49842eeebeb1989b3f9565eb12c276b
+    //线上 749a0600b5e48dd77cf8ee680be7b1b7
+    [DoraemonManager shareInstance].pId = @"749a0600b5e48dd77cf8ee680be7b1b7";
     [[DoraemonManager shareInstance] addStartPlugin:@"StartPlugin"];
     [DoraemonManager shareInstance].bigImageDetectionSize = 10 * 1024;//大图检测只检测10K以上的
     [DoraemonManager shareInstance].startClass = @"DoKitAppDelegate";
