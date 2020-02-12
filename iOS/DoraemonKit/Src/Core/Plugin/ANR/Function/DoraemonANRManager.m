@@ -15,7 +15,7 @@
 #import "DoraemonHealthManager.h"
 
 //默认超时间隔
-static CGFloat const kDoraemonBlockMonitorTimeInterval = 0.5f;
+static CGFloat const kDoraemonBlockMonitorTimeInterval = 0.2f;
 
 @interface DoraemonANRManager()
 
