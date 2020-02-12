@@ -18,7 +18,7 @@ typedef void (^DoraemonANRManagerBlock)(NSDictionary *anrInfo);
 /*
  卡顿时长阈值，单位为秒，
  */
-@property (nonatomic, assign) int64_t timeOut;
+@property (nonatomic, assign) CGFloat timeOut;
 
 - (void)addANRBlock:(DoraemonANRManagerBlock)block;
 
