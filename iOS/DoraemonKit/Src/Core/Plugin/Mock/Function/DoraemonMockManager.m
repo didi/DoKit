@@ -174,7 +174,7 @@
     NSString *query = request.URL.query;
     DoraemonMockBaseModel *selectedApi;
     for (DoraemonMockBaseModel *api in dataArray) {
-        if ([api.path isEqualToString:path] && api.selected) {
+        if (([path hasSuffix:api.path]) && api.selected) {
             if (api.query && api.query.allKeys.count>0) {
                 NSDictionary *q = api.query;
                 BOOL match = YES;
@@ -205,7 +205,7 @@
     if (api) {
         save = YES;
     }
-    NSLog(@"yixiang save = %d",save);
+    NSLog(@"yixiang save = %d api = %@ query = %@",save,api.path,api.query);
     return save;
 }
 
