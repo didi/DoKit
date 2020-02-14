@@ -66,7 +66,7 @@
         };
         
         __weak typeof(self) weakSelf = self;
-        [DoraemonNetworkUtil getWithUrlString:@"http://xyrd.intra.xiaojukeji.com/api/app/interface" params:params success:^(NSDictionary * _Nonnull result) {
+        [DoraemonNetworkUtil getWithUrlString:@"https://mock.dokit.cn/api/app/interface" params:params success:^(NSDictionary * _Nonnull result) {
             NSArray *apis = result[@"data"][@"datalist"];
             NSMutableArray<DoraemonMockAPIModel *> *mockArray = [[NSMutableArray alloc] init];
             NSMutableArray<DoraemonMockUpLoadModel *> *uploadArray = [[NSMutableArray alloc] init];

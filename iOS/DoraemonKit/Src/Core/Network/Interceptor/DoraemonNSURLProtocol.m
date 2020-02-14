@@ -77,7 +77,7 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     [NSURLProtocol setProperty:@YES forKey:kDoraemonProtocolKey inRequest:mutableReqeust];
     if ([[DoraemonMockManager sharedInstance] needMock:request]) {
         NSString *sceneId = [[DoraemonMockManager sharedInstance] getSceneId:request];
-        NSString *urlString = [NSString stringWithFormat:@"http://xyrd.intra.xiaojukeji.com/api/app/scene/%@",sceneId];
+        NSString *urlString = [NSString stringWithFormat:@"https://mock.dokit.cn/api/app/scene/%@",sceneId];
         NSLog(@"MOCK URL == %@",urlString);
         mutableReqeust = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     }

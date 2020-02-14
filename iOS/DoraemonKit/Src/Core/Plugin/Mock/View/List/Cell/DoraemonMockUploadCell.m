@@ -94,8 +94,8 @@
             @"tempData":result
         };
         
-        [DoraemonNetworkUtil patchWithUrlString:@"http://xyrd.intra.xiaojukeji.com/api/app/interface" params:params success:^(NSDictionary * _Nonnull result) {
-            NSLog(@"result == %@",result);
+        [DoraemonNetworkUtil patchWithUrlString:@"https://mock.dokit.cn/api/app/interface" params:params success:^(NSDictionary * _Nonnull result) {
+            //NSLog(@"result == %@",result);
             [self showToast:@"上传成功"];
         } error:^(NSError * _Nonnull error) {
             NSLog(@"error == %@",error);
@@ -108,10 +108,10 @@
 
 - (void)showToast:(NSString *)toast{
     if ([NSThread isMainThread]) {
-        [DoraemonToastUtil showToast:toast inView:self];
+        [DoraemonToastUtil showToastBlack:toast inView:self];
     }else{
         dispatch_async(dispatch_get_main_queue(), ^{
-            [DoraemonToastUtil showToast:toast inView:self];
+            [DoraemonToastUtil showToastBlack:toast inView:self];
         });
     }
     
