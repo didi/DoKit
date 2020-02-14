@@ -10,6 +10,7 @@ import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.methodtrace.AppHealthMethodCostBean;
+import com.didichuxing.doraemonkit.kit.methodtrace.AppHealthMethodCostBeanWrap;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostCallback;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCost;
 import com.didichuxing.doraemonkit.kit.methodtrace.OrderBean;
@@ -65,7 +66,7 @@ public class TimeCounterManager {
         mAppCounter.end();
         MethodCost.stopMethodTracingAndPrintLog("appStart", new MethodCostCallback() {
             @Override
-            public void onCall(ArrayList<OrderBean> orderBeans) {
+            public void onCall(String filePath, ArrayList<OrderBean> orderBeans) {
                 try {
                     CounterInfo counterInfo = getAppSetupInfo();
                     List<AppHealthMethodCostBean> appHealthMethodCostBeans = new ArrayList<>();
@@ -93,7 +94,12 @@ public class TimeCounterManager {
                         appHealthMethodCostBean.setThreadName("-1");
                         appHealthMethodCostBeans.add(appHealthMethodCostBean);
                     }
-                    AppHealthInfoUtil.getInstance().setAppStartInfo(counterInfo.totalCost, GsonUtils.toJson(appHealthMethodCostBeans), new ArrayList<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean>());
+
+                    AppHealthMethodCostBeanWrap appHealthMethodCostBeanWrap = new AppHealthMethodCostBeanWrap();
+                    appHealthMethodCostBeanWrap.setTrace(filePath);
+                    appHealthMethodCostBeanWrap.setData(appHealthMethodCostBeans);
+
+                    AppHealthInfoUtil.getInstance().setAppStartInfo(counterInfo.totalCost, GsonUtils.toJson(appHealthMethodCostBeanWrap), new ArrayList<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean>());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -101,8 +107,19 @@ public class TimeCounterManager {
             }
 
             @Override
-            public void onError(String message) {
-
+            public void onError(String message, String filePath) {
+                CounterInfo counterInfo = getAppSetupInfo();
+                List<AppHealthMethodCostBean> appHealthMethodCostBeans = new ArrayList<>();
+                AppHealthMethodCostBean appHealthMethodCostBean = new AppHealthMethodCostBean();
+                appHealthMethodCostBean.setCostTime("-1");
+                appHealthMethodCostBean.setFunctionName("error===>" + message + " filePath===>" + filePath);
+                appHealthMethodCostBean.setThreadId("-1");
+                appHealthMethodCostBean.setThreadName("-1");
+                appHealthMethodCostBeans.add(appHealthMethodCostBean);
+                AppHealthMethodCostBeanWrap appHealthMethodCostBeanWrap = new AppHealthMethodCostBeanWrap();
+                appHealthMethodCostBeanWrap.setTrace(filePath);
+                appHealthMethodCostBeanWrap.setData(appHealthMethodCostBeans);
+                AppHealthInfoUtil.getInstance().setAppStartInfo(counterInfo.totalCost, GsonUtils.toJson(appHealthMethodCostBeanWrap), new ArrayList<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean>());
             }
         });
 

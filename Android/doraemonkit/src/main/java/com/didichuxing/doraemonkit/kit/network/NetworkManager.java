@@ -18,8 +18,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class NetworkManager {
     public static final String MOCK_SCHEME_HTTP = "http://";
     public static final String MOCK_SCHEME_HTTPS = "https://";
-    private static final String MOCK_HOST_DEBUG = "xyrd.intra.xiaojukeji.com";
-    private static final String MOCK_HOST_RELEASE = "xyrd.intra.xiaojukeji.com";
+//    private static final String MOCK_HOST_DEBUG = "xyrd.intra.xiaojukeji.com";
+    private static final String MOCK_HOST_DEBUG = "mock.dokit.cn";
+    private static final String MOCK_HOST_RELEASE = "mock.dokit.cn";
     private static final String MOCK_DEBUG_DOMAIN = MOCK_SCHEME_HTTP + MOCK_HOST_DEBUG;
     private static final String MOCK_RELEASE_DOMAIN = MOCK_SCHEME_HTTPS + MOCK_HOST_RELEASE;
     public static final String MOCK_DOMAIN = BuildConfig.DEBUG ? MOCK_DEBUG_DOMAIN : MOCK_RELEASE_DOMAIN;

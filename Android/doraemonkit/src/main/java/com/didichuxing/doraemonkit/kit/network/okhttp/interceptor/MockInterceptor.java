@@ -167,6 +167,7 @@ public class MockInterceptor implements Interceptor {
         }
 
         Request newRequest = oldRequest.newBuilder()
+                .method("GET", null)
                 .url(newUrl).build();
         Response newResponse = chain.proceed(newRequest);
         if (newResponse.code() == 200) {
@@ -197,7 +198,7 @@ public class MockInterceptor implements Interceptor {
         MockTemplateApiBean templateApiBean = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, templateMatchedId);
         if (templateApiBean.isOpen()) {
             //保存老的response 数据到数据库
-            saveRespnse2DB(oldResponse, templateApiBean);
+            saveResponse2DB(oldResponse, templateApiBean);
         }
     }
 
@@ -216,12 +217,12 @@ public class MockInterceptor implements Interceptor {
      * @param mockApi
      * @throws Exception
      */
-    private void saveRespnse2DB(Response response, MockTemplateApiBean mockApi) throws Exception {
+    private void saveResponse2DB(Response response, MockTemplateApiBean mockApi) throws Exception {
         if (response.code() != 200) {
             return;
         }
 
-        if (response.body() == null || response.body().contentLength() <= 0) {
+        if (response.body() == null) {
             return;
         }
 
@@ -261,7 +262,7 @@ public class MockInterceptor implements Interceptor {
         if (response.body() == null) {
             return false;
         }
-        return response.body().contentLength() > 0;
+        return true;
     }
 
 

@@ -33,7 +33,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,9 +44,13 @@ public class PerformanceDataManager {
     private static final String TAG = "PerformanceDataManager";
     private static final int MAX_FRAME_RATE = 60;
     /**
-     * 信息采集时间
+     * 信息采集时间 内存和cpu
      */
-    private static final float NORMAL_FRAME_RATE = 0.5f;
+    private static final int NORMAL_SAMPLING_TIME = 500;
+    /**
+     * fps 采集时间
+     */
+    private static final int FPS_SAMPLING_TIME = 1000;
     private String memoryFileName = "memory.txt";
     private String cpuFileName = "cpu.txt";
     private String fpsFileName = "fps.txt";
@@ -57,7 +60,7 @@ public class PerformanceDataManager {
     private String customFileName = "custom.txt";
 
 
-    private int mLastSkippedFrames;
+    //private int mLastSkippedFrames;
     /**
      * cpu 百分比
      */
@@ -89,7 +92,6 @@ public class PerformanceDataManager {
     private boolean mAboveAndroidO; // 是否是8.0及其以上
     private static final int MSG_CPU = 1;
     private static final int MSG_MEMORY = 2;
-    private static final int MSG_FPS = 5;
     private static final int MSG_SAVE_LOCAL = 3;
     private static final int MSG_NET_FLOW = 4;
     private UploadMonitorInfoBean mUploadMonitorBean;
@@ -208,24 +210,19 @@ public class PerformanceDataManager {
                         if (AppUtils.isAppForeground()) {
                             executeCpuData();
                         }
-                        mNormalHandler.sendEmptyMessageDelayed(MSG_CPU, (long) (NORMAL_FRAME_RATE * 1000));
+                        mNormalHandler.sendEmptyMessageDelayed(MSG_CPU, NORMAL_SAMPLING_TIME);
                     } else if (msg.what == MSG_MEMORY) {
                         if (AppUtils.isAppForeground()) {
                             executeMemoryData();
                         }
-                        mNormalHandler.sendEmptyMessageDelayed(MSG_MEMORY, (long) (NORMAL_FRAME_RATE * 1000));
-                    } else if (msg.what == MSG_FPS) {
-                        if (AppUtils.isAppForeground()) {
-                            writeFpsDataIntoFile();
-                        }
-                        mNormalHandler.sendEmptyMessageDelayed(MSG_FPS, (long) (NORMAL_FRAME_RATE * 1000));
+                        mNormalHandler.sendEmptyMessageDelayed(MSG_MEMORY, NORMAL_SAMPLING_TIME);
                     } else if (msg.what == MSG_NET_FLOW) {
                         mLastUpBytes = NetworkManager.get().getTotalRequestSize() - mUpBytes;
                         mLastDownBytes = NetworkManager.get().getTotalResponseSize() - mDownBytes;
-                        mNormalHandler.sendEmptyMessageDelayed(MSG_NET_FLOW, (long) (NORMAL_FRAME_RATE * 1000));
+                        mNormalHandler.sendEmptyMessageDelayed(MSG_NET_FLOW, NORMAL_SAMPLING_TIME);
                     } else if (msg.what == MSG_SAVE_LOCAL) {
                         saveToLocal();
-                        mNormalHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, (long) (NORMAL_FRAME_RATE * 1000));
+                        mNormalHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_SAMPLING_TIME);
                     }
                 }
             };
@@ -240,9 +237,8 @@ public class PerformanceDataManager {
     public void startMonitorFrameInfo() {
         PerformanceMemoryInfoConfig.FPS_STATUS = true;
         //开启定时任务
-        mMainHandler.postDelayed(mRateRunnable, (long) (NORMAL_FRAME_RATE * 1000));
+        mMainHandler.postDelayed(mRateRunnable, FPS_SAMPLING_TIME);
         Choreographer.getInstance().postFrameCallback(mRateRunnable);
-        mNormalHandler.sendEmptyMessageDelayed(MSG_FPS, (long) (NORMAL_FRAME_RATE * 1000));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -250,17 +246,16 @@ public class PerformanceDataManager {
         PerformanceMemoryInfoConfig.FPS_STATUS = false;
         Choreographer.getInstance().removeFrameCallback(mRateRunnable);
         mMainHandler.removeCallbacks(mRateRunnable);
-        mNormalHandler.removeMessages(MSG_FPS);
     }
 
     public void startMonitorCPUInfo() {
         PerformanceMemoryInfoConfig.CPU_STATUS = true;
-        mNormalHandler.sendEmptyMessageDelayed(MSG_CPU, (long) (NORMAL_FRAME_RATE * 1000));
+        mNormalHandler.sendEmptyMessageDelayed(MSG_CPU, NORMAL_SAMPLING_TIME);
     }
 
     public void startMonitorNetFlowInfo() {
         PerformanceMemoryInfoConfig.NETWORK_STATUS = true;
-        mNormalHandler.sendEmptyMessageDelayed(MSG_NET_FLOW, (long) (NORMAL_FRAME_RATE * 1000));
+        mNormalHandler.sendEmptyMessageDelayed(MSG_NET_FLOW, NORMAL_SAMPLING_TIME);
     }
 
     public void stopMonitorNetFlowInfo() {
@@ -286,7 +281,7 @@ public class PerformanceDataManager {
             NetworkManager.get().startMonitor();
             startMonitorNetFlowInfo();
         }
-        mNormalHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, (long) (NORMAL_FRAME_RATE * 1000));
+        mNormalHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_SAMPLING_TIME);
     }
 
     public void stopUploadMonitorData() {
@@ -364,7 +359,7 @@ public class PerformanceDataManager {
         if (mMaxMemory == 0) {
             mMaxMemory = mActivityManager.getMemoryClass();
         }
-        mNormalHandler.sendEmptyMessageDelayed(MSG_MEMORY, (long) (NORMAL_FRAME_RATE * 1000));
+        mNormalHandler.sendEmptyMessageDelayed(MSG_MEMORY, NORMAL_SAMPLING_TIME);
     }
 
     public void stopMonitorMemoryInfo() {
@@ -381,6 +376,7 @@ public class PerformanceDataManager {
     }
 
     private void writeMemoryDataIntoFile() {
+
         //保存cpu数据到app健康体检
         if (DokitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastMemoryRate, PERFORMANCE_TYPE_MEMORY);
@@ -389,7 +385,7 @@ public class PerformanceDataManager {
 
     private void writeFpsDataIntoFile() {
         if (DokitConstant.APP_HEALTH_RUNNING) {
-            addPerformanceDataInAppHealth(mLastFrameRate, PERFORMANCE_TYPE_FPS);
+            addPerformanceDataInAppHealth(mLastFrameRate > 60 ? 60 : mLastFrameRate, PERFORMANCE_TYPE_FPS);
         }
     }
 
@@ -534,9 +530,9 @@ public class PerformanceDataManager {
         return mLastMemoryRate;
     }
 
-    public int getLastSkippedFrames() {
-        return mLastSkippedFrames;
-    }
+//    public int getLastSkippedFrames() {
+//        return mLastSkippedFrames;
+//    }
 
     public float getMaxMemory() {
         return mMaxMemory;
@@ -554,10 +550,13 @@ public class PerformanceDataManager {
             if (mLastFrameRate > MAX_FRAME_RATE) {
                 mLastFrameRate = MAX_FRAME_RATE;
             }
-            mLastSkippedFrames = MAX_FRAME_RATE - mLastFrameRate;
+            //保存fps数据
+            if (AppUtils.isAppForeground()) {
+                writeFpsDataIntoFile();
+            }
             totalFramesPerSecond = 0;
             //1s中统计一次
-            mMainHandler.postDelayed(this, 1000);
+            mMainHandler.postDelayed(this, FPS_SAMPLING_TIME);
         }
 
         //
@@ -565,7 +564,6 @@ public class PerformanceDataManager {
         public void doFrame(long frameTimeNanos) {
             totalFramesPerSecond++;
             Choreographer.getInstance().postFrameCallback(this);
-
         }
 
     }
@@ -578,90 +576,79 @@ public class PerformanceDataManager {
         return mLastDownBytes;
     }
 
-    private AppHealthInfo.DataBean.PerformanceBean cpuBean;
-    private AppHealthInfo.DataBean.PerformanceBean memoryBean;
-    private AppHealthInfo.DataBean.PerformanceBean fpsBean;
+//    private AppHealthInfo.DataBean.PerformanceBean cpuBean;
+//    private AppHealthInfo.DataBean.PerformanceBean memoryBean;
+//    private AppHealthInfo.DataBean.PerformanceBean fpsBean;
 
     /**
      * cpu
      */
-    private static final int PERFORMANCE_TYPE_CPU = 1;
+    public static final int PERFORMANCE_TYPE_CPU = 1;
     /**
      * memory
      */
-    private static final int PERFORMANCE_TYPE_MEMORY = 2;
+    public static final int PERFORMANCE_TYPE_MEMORY = 2;
     /**
      * fps
      */
-    private static final int PERFORMANCE_TYPE_FPS = 3;
+    public static final int PERFORMANCE_TYPE_FPS = 3;
 
     /**
      * 保存cpu数据到健康体检中 统计有问题
      */
-    private void addPerformanceDataInAppHealth(float performanceValue, int performanceType) {
+    private synchronized void addPerformanceDataInAppHealth(float performanceValue, int performanceType) {
         try {
-
-            AppHealthInfo.DataBean.PerformanceBean performanceBean = null;
-            if (performanceType == PERFORMANCE_TYPE_CPU) {
-                performanceBean = cpuBean;
-            } else if (performanceType == PERFORMANCE_TYPE_MEMORY) {
-                performanceBean = memoryBean;
-            } else if (performanceType == PERFORMANCE_TYPE_FPS) {
-                performanceBean = fpsBean;
-            }
-
-            if (performanceBean == null) {
-                performanceBean = new AppHealthInfo.DataBean.PerformanceBean();
+            AppHealthInfo.DataBean.PerformanceBean lastPerformanceInfo = AppHealthInfoUtil.getInstance().getLastPerformanceInfo(performanceType);
+            //第一次启动
+            if (lastPerformanceInfo == null) {
+                AppHealthInfo.DataBean.PerformanceBean performanceBean = new AppHealthInfo.DataBean.PerformanceBean();
                 List<AppHealthInfo.DataBean.PerformanceBean.ValuesBean> valuesBeans = new ArrayList<>();
                 valuesBeans.add(new AppHealthInfo.DataBean.PerformanceBean.ValuesBean("" + TimeUtils.getNowMills(), "" + performanceValue));
                 performanceBean.setPage(ActivityUtils.getTopActivity().getClass().getCanonicalName());
                 performanceBean.setPageKey(ActivityUtils.getTopActivity().toString());
                 performanceBean.setValues(valuesBeans);
-                //重新赋值
                 if (performanceType == PERFORMANCE_TYPE_CPU) {
-                    cpuBean = performanceBean;
+                    AppHealthInfoUtil.getInstance().addCPUInfo(performanceBean);
                 } else if (performanceType == PERFORMANCE_TYPE_MEMORY) {
-                    memoryBean = performanceBean;
+                    AppHealthInfoUtil.getInstance().addMemoryInfo(performanceBean);
                 } else {
-                    fpsBean = performanceBean;
+                    AppHealthInfoUtil.getInstance().addFPSInfo(performanceBean);
                 }
-            } else {
-                String prePage = performanceBean.getPageKey();
-                //判断是否是同一个页面
-                if (prePage.equals(ActivityUtils.getTopActivity().toString())) {
-                    //添加数据
-                    List<AppHealthInfo.DataBean.PerformanceBean.ValuesBean> valuesBeans = performanceBean.getValues();
-                    if (valuesBeans.size() < 40) {
+            } else {//不是第一次启动
+                String lastPageKey = lastPerformanceInfo.getPageKey();
+                //同一个页面
+                if (lastPageKey.equals(ActivityUtils.getTopActivity().toString())) {
+                    List<AppHealthInfo.DataBean.PerformanceBean.ValuesBean> valuesBeans = lastPerformanceInfo.getValues();
+                    int valueSize = valuesBeans.size();
+                    //判断是否需要上传数据
+                    //采集的点数必须在10~40之间 其中cpu 、 内存必须在20~40 因为fps 1s中采集一次
+                    if (valueSize < 40) {
                         valuesBeans.add(new AppHealthInfo.DataBean.PerformanceBean.ValuesBean("" + TimeUtils.getNowMills(), "" + performanceValue));
                     }
-                } else {
-                    //不是同一个页面
-                    List<AppHealthInfo.DataBean.PerformanceBean.ValuesBean> valuesBeans = performanceBean.getValues();
-                    int valueSize = valuesBeans.size();
-                    LogHelper.d(TAG, "prePage===>" + prePage + "  currentPage===>" + ActivityUtils.getTopActivity().toString() + "  performanceType====>" + performanceType + "  valueSize===>" + valueSize);
-
-                    //判断是否需要上传数据
-                    //采集的点数必须在20~40之间
-                    if (valueSize >= 20 && valueSize <= 40) {
-                        AppHealthInfo.DataBean.PerformanceBean realPerformBean = new AppHealthInfo.DataBean.PerformanceBean();
-                        realPerformBean.setValues(performanceBean.getValues());
-                        realPerformBean.setPage(performanceBean.getPage());
-                        realPerformBean.setPageKey(performanceBean.getPageKey());
-                        if (performanceType == PERFORMANCE_TYPE_CPU) {
-                            AppHealthInfoUtil.getInstance().addCPUInfo(realPerformBean);
-                        } else if (performanceType == PERFORMANCE_TYPE_MEMORY) {
-                            AppHealthInfoUtil.getInstance().addMemoryInfo(realPerformBean);
-                        } else {
-                            AppHealthInfoUtil.getInstance().addFPSInfo(realPerformBean);
-                        }
+                } else {//页面已发生变化
+                    List<AppHealthInfo.DataBean.PerformanceBean.ValuesBean> lastValuesBeans = lastPerformanceInfo.getValues();
+                    int valueSize = lastValuesBeans.size();
+                    //先丢弃上一个页面的数据
+                    if (performanceType == PERFORMANCE_TYPE_CPU && valueSize < 20) {
+                        AppHealthInfoUtil.getInstance().removeLastPerformanceInfo(performanceType);
+                    } else if (performanceType == PERFORMANCE_TYPE_MEMORY && valueSize < 20) {
+                        AppHealthInfoUtil.getInstance().removeLastPerformanceInfo(performanceType);
+                    } else if (performanceType == PERFORMANCE_TYPE_FPS && valueSize < 10) {
+                        AppHealthInfoUtil.getInstance().removeLastPerformanceInfo(performanceType);
                     }
-                    //页面跳转以后 对象置空
+
+                    AppHealthInfo.DataBean.PerformanceBean performanceBean = new AppHealthInfo.DataBean.PerformanceBean();
+                    List<AppHealthInfo.DataBean.PerformanceBean.ValuesBean> newValuesBeans = new ArrayList<>();
+                    newValuesBeans.add(new AppHealthInfo.DataBean.PerformanceBean.ValuesBean("" + TimeUtils.getNowMills(), "" + performanceValue));
+                    performanceBean.setPage(ActivityUtils.getTopActivity().getClass().getCanonicalName());
+                    performanceBean.setPageKey(ActivityUtils.getTopActivity().toString());
+                    performanceBean.setValues(newValuesBeans);
                     if (performanceType == PERFORMANCE_TYPE_CPU) {
-                        cpuBean = null;
+                        AppHealthInfoUtil.getInstance().addCPUInfo(performanceBean);
                     } else if (performanceType == PERFORMANCE_TYPE_MEMORY) {
-                        memoryBean = null;
+                        AppHealthInfoUtil.getInstance().addMemoryInfo(performanceBean);
                     } else {
-                        fpsBean = null;
+                        AppHealthInfoUtil.getInstance().addFPSInfo(performanceBean);
                     }
                 }
             }

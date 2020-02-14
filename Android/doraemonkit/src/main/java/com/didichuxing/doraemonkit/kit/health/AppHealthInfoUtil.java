@@ -132,6 +132,45 @@ public class AppHealthInfoUtil {
         fpsBeans.add(fpsBean);
     }
 
+    /**
+     * 获取当前最后一个PerformanceInfo信息
+     *
+     * @return PerformanceBean
+     */
+    public AppHealthInfo.DataBean.PerformanceBean getLastPerformanceInfo(int performanceType) {
+        List<AppHealthInfo.DataBean.PerformanceBean> performanceBeans = null;
+        if (performanceType == PerformanceDataManager.PERFORMANCE_TYPE_CPU) {
+            performanceBeans = getData().getCpu();
+        } else if (performanceType == PerformanceDataManager.PERFORMANCE_TYPE_MEMORY) {
+            performanceBeans = getData().getMemory();
+        } else if (performanceType == PerformanceDataManager.PERFORMANCE_TYPE_FPS) {
+            performanceBeans = getData().getFps();
+        }
+        if (performanceBeans == null || performanceBeans.size() == 0) {
+            return null;
+        }
+        return performanceBeans.get(performanceBeans.size() - 1);
+    }
+
+    /**
+     * 移除满足条件的最后一个PerformanceInfo信息
+     *
+     * @return PerformanceBean
+     */
+    public void removeLastPerformanceInfo(int performanceType) {
+        List<AppHealthInfo.DataBean.PerformanceBean> performanceBeans = null;
+        if (performanceType == PerformanceDataManager.PERFORMANCE_TYPE_CPU) {
+            performanceBeans = getData().getCpu();
+        } else if (performanceType == PerformanceDataManager.PERFORMANCE_TYPE_MEMORY) {
+            performanceBeans = getData().getMemory();
+        } else if (performanceType == PerformanceDataManager.PERFORMANCE_TYPE_FPS) {
+            performanceBeans = getData().getFps();
+        }
+        if (performanceBeans != null && performanceBeans.size() > 0) {
+            performanceBeans.remove(performanceBeans.size() - 1);
+        }
+    }
+
 
     /**
      * 添加网络信息
@@ -248,7 +287,9 @@ public class AppHealthInfoUtil {
         if (mAppHealthInfo == null) {
             return;
         }
-        OkGo.<String>post("http://dokit-test.intra.xiaojukeji.com/healthCheck/addCheckData")
+        //线上地址：https://www.dokit.cn/healthCheck/addCheckData
+        //测试环境地址:http://dokit-test.intra.xiaojukeji.com/healthCheck/addCheckData
+        OkGo.<String>post("https://www.dokit.cn/healthCheck/addCheckData")
                 .upJson(GsonUtils.toJson(mAppHealthInfo))
                 .execute(new StringCallback() {
                     @Override

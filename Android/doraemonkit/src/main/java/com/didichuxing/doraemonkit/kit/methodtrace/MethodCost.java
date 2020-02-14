@@ -30,7 +30,15 @@ import java.util.ArrayList;
  */
 public class MethodCost {
     private static final String TAG = "MethodCost";
-    private static final String ROOT_PATH = PathUtils.getExternalAppFilesPath() + File.separator;
+    /**
+     * storage/sdcard/Android/data/com.didichuxing.doraemondemo/files/  高版本的.trace文件路径
+     */
+    private static final String ROOT_APP_PATH = PathUtils.getExternalAppFilesPath() + File.separator;
+    /**
+     * storage/sdcard/ 低版本的.trace文件路径
+     */
+    private static final String ROOT_STORAGE_PATH = PathUtils.getExternalStoragePath() + File.separator;
+
     private static final String packageName = AppUtils.getAppPackageName();
 
     /**
@@ -131,23 +139,35 @@ public class MethodCost {
         stopMethodTracingAndPrintLog(traceFileName, true, appStartCallback);
     }
 
+    static String filePath;
+
     /**
      * @param traceFileName
      */
     private static void printLog(String traceFileName, final boolean needIndent, final MethodCostCallback appStartCallback) {
-        final String filePath;
         if (APPLICATION != null) {
             filePath = APPLICATION.getExternalFilesDir(null) + File.separator + traceFileName + ".trace";
         } else {
-            filePath = ROOT_PATH + traceFileName + ".trace";
+            filePath = ROOT_APP_PATH + traceFileName + ".trace";
+        }
+        //假如不存在改文件 则用低版本的路径再次尝试
+        if (!FileUtils.isFileExists(filePath)) {
+            filePath = ROOT_STORAGE_PATH + traceFileName + ".trace";
+        }
+
+
+        if (!FileUtils.isFileExists(filePath)) {
+            appStartCallback.onError("no matched file", filePath);
+            return;
         }
 
         ThreadUtils.executeByCached(new ThreadUtils.Task<ArrayList<OrderBean>>() {
             @Override
             public ArrayList<OrderBean> doInBackground() throws Throwable {
                 File file = new File(filePath);
-                if (!file.exists()) {
+                if (!FileUtils.isFileExists(filePath)) {
                     LogHelper.i(TAG, "file not exists");
+                    appStartCallback.onError("no matched file", filePath);
                     return null;
                 }
                 //LogHelper.i(TAG, "file size===>" + FileUtils.getFileSize(file));
@@ -161,13 +181,13 @@ public class MethodCost {
                 if (orderBeans == null || orderBeans.size() == 0) {
                     LogHelper.e(TAG, "no match method");
                     if (appStartCallback != null) {
-                        appStartCallback.onError("no match method");
+                        appStartCallback.onError("no match method", filePath);
                     }
                     return;
                 }
 
                 if (appStartCallback != null) {
-                    appStartCallback.onCall(orderBeans);
+                    appStartCallback.onCall(filePath, orderBeans);
                 }
 
 

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Point;
 import android.view.WindowManager;
 
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDatabase;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
@@ -58,14 +59,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
         }
         mDokitViewPos = new HashMap<>();
         mLastDokitViewPosInfoMaps = new HashMap<>();
-        mDB = Room.databaseBuilder(context,
-                DokitDatabase.class,
-                "dokit-database")
-                //下面注释表示允许主线程进行数据库操作，但是不推荐这样做。
-                //他可能造成主线程lock以及anr
-                //所以我们的操作都是在新线程完成的
-                .allowMainThreadQueries()
-                .build();
+        getDb();
         //获取所有的intercept apis
         DokitDbManager.getInstance().getAllInterceptApis();
 
@@ -75,6 +69,19 @@ public class DokitViewManager implements DokitViewManagerInterface {
     }
 
     public DokitDatabase getDb() {
+        if (mDB != null) {
+            return mDB;
+        }
+
+        mDB = Room.databaseBuilder(DoraemonKit.APPLICATION,
+                DokitDatabase.class,
+                "dokit-database")
+                //下面注释表示允许主线程进行数据库操作，但是不推荐这样做。
+                //他可能造成主线程lock以及anr
+                //所以我们的操作都是在新线程完成的
+                .allowMainThreadQueries()
+                .build();
+
         return mDB;
     }
 

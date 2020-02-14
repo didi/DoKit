@@ -83,7 +83,11 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void resumeAndAttachDokitViews(Activity activity) {
-        if (ActivityUtils.getTopActivity() instanceof UniversalActivity) {
+        if (activity instanceof UniversalActivity) {
+            AbsDokitView countDownDokitView = getDokitView(activity, CountDownDokitView.class.getSimpleName());
+            if (countDownDokitView != null) {
+                DokitViewManager.getInstance().detach(CountDownDokitView.class.getSimpleName());
+            }
             return;
         }
         //app启动
@@ -147,10 +151,17 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
         //如果倒计时浮标没显示则重新添加
         AbsDokitView countDownDokitView = getDokitView(activity, CountDownDokitView.class.getSimpleName());
         if (countDownDokitView == null) {
+            if (activity instanceof UniversalActivity) {
+                return;
+            }
             attachCountDownDokitView(activity);
         } else {
-            //重置倒计时
-            ((CountDownDokitView) countDownDokitView).resetTime();
+            if (activity instanceof UniversalActivity) {
+                DokitViewManager.getInstance().detach(CountDownDokitView.class.getSimpleName());
+            } else {
+                //重置倒计时
+                ((CountDownDokitView) countDownDokitView).resetTime();
+            }
         }
     }
 

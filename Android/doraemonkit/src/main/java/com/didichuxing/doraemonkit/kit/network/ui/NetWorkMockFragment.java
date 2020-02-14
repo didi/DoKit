@@ -349,7 +349,7 @@ public class NetWorkMockFragment extends BaseFragment {
             }, mRvIntercept);
             mInterceptApiAdapter.disableLoadMoreIfNotFullPage();
         }
-        if (mockTitleBeans == null || mockTitleBeans.isEmpty()) {
+        if (mockTitleBeans.isEmpty()) {
             mInterceptApiAdapter.setEmptyView(R.layout.dk_rv_empty_layout, mRvIntercept);
             return;
         }
@@ -586,7 +586,8 @@ public class NetWorkMockFragment extends BaseFragment {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        LogHelper.e(TAG,"error====>" + response.body());
+                        LogHelper.e(TAG, "error====>" + response.body());
+                        ToastUtils.showShort(response.body());
                         if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
                             mInterceptRefreshLayout.refreshComplete();
                         } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
@@ -823,15 +824,20 @@ public class NetWorkMockFragment extends BaseFragment {
      */
     private void resetMenuStatus() {
         if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
-            mGroupMenuAdapter.setCheckItem(mInterceptFilterBean.getGroupIndex());
-            mSwitchMenuAdapter.setCheckItem(mInterceptFilterBean.getSwitchIndex());
-            mDropDownMenu.resetTabText(new String[]{mGroupMenuAdapter.getList().get(mInterceptFilterBean.getGroupIndex()), mSwitchMenuAdapter.getList().get(mInterceptFilterBean.getSwitchIndex())});
-            mEditText.setText("" + mInterceptFilterBean.getFilterText());
+            if (mInterceptFilterBean != null) {
+                mGroupMenuAdapter.setCheckItem(mInterceptFilterBean.getGroupIndex());
+                mSwitchMenuAdapter.setCheckItem(mInterceptFilterBean.getSwitchIndex());
+                mDropDownMenu.resetTabText(new String[]{mGroupMenuAdapter.getList().get(mInterceptFilterBean.getGroupIndex()), mSwitchMenuAdapter.getList().get(mInterceptFilterBean.getSwitchIndex())});
+                mEditText.setText("" + mInterceptFilterBean.getFilterText());
+            }
+
         } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
-            mGroupMenuAdapter.setCheckItem(mTemplateFilterBean.getGroupIndex());
-            mSwitchMenuAdapter.setCheckItem(mTemplateFilterBean.getSwitchIndex());
-            mDropDownMenu.resetTabText(new String[]{mGroupMenuAdapter.getList().get(mTemplateFilterBean.getGroupIndex()), mSwitchMenuAdapter.getList().get(mTemplateFilterBean.getSwitchIndex())});
-            mEditText.setText("" + mTemplateFilterBean.getFilterText());
+            if (mTemplateFilterBean != null) {
+                mGroupMenuAdapter.setCheckItem(mTemplateFilterBean.getGroupIndex());
+                mSwitchMenuAdapter.setCheckItem(mTemplateFilterBean.getSwitchIndex());
+                mDropDownMenu.resetTabText(new String[]{mGroupMenuAdapter.getList().get(mTemplateFilterBean.getGroupIndex()), mSwitchMenuAdapter.getList().get(mTemplateFilterBean.getSwitchIndex())});
+                mEditText.setText("" + mTemplateFilterBean.getFilterText());
+            }
         }
 
         mDropDownMenu.closeMenu();
