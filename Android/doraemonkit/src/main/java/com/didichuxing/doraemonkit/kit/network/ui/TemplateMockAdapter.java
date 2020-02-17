@@ -158,6 +158,7 @@ public class TemplateMockAdapter<T extends MultiItemEntity> extends BaseMultiIte
                                 .execute(new StringCallback() {
                                     @Override
                                     public void onSuccess(Response<String> response) {
+                                        LogHelper.i(TAG, "上传模板===>" + response.body());
                                         ToastUtils.showShort("上传模板成功");
                                     }
 

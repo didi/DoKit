@@ -54,6 +54,7 @@ public class MockTemplatePreviewFragment extends BaseFragment {
         TextView tvPath = findViewById(R.id.tv_path);
         tvName.setText(String.format("mock接口名称:%s", DokitDbManager.getInstance().getGlobalTemplateApiBean().getMockApiName()));
         tvPath.setText(String.format("mock接口路径:%s", DokitDbManager.getInstance().getGlobalTemplateApiBean().getPath()));
+        JsonRecyclerView jsonViewQuery = findViewById(R.id.json_query);
         JsonRecyclerView jsonRecycleView = findViewById(R.id.jsonviewer);
 
         TextView tvUpload = findViewById(R.id.tv_upload);
@@ -72,6 +73,7 @@ public class MockTemplatePreviewFragment extends BaseFragment {
                         .execute(new StringCallback() {
                             @Override
                             public void onSuccess(Response<String> response) {
+                                LogHelper.i(TAG, "上传模板===>" + response.body());
                                 ToastUtils.showShort("上传模板成功");
                             }
 
@@ -90,6 +92,15 @@ public class MockTemplatePreviewFragment extends BaseFragment {
             return;
         }
         try {
+
+            JSONObject jsonQuery = new JSONObject(DokitDbManager.getInstance().getGlobalTemplateApiBean().getQuery());
+            if (jsonQuery.length() == 0) {
+                jsonViewQuery.setVisibility(View.GONE);
+            } else {
+                jsonViewQuery.setVisibility(View.VISIBLE);
+                jsonViewQuery.bindJson(jsonQuery);
+            }
+
             new JSONObject(DokitDbManager.getInstance().getGlobalTemplateApiBean().getStrResponse());
             jsonRecycleView.setTextSize(16);
             jsonRecycleView.bindJson(DokitDbManager.getInstance().getGlobalTemplateApiBean().getStrResponse());

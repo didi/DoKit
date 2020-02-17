@@ -51,8 +51,8 @@ public class MockInterceptor implements Interceptor {
         //path  /test/upload/img
         String path = URLDecoder.decode(url.encodedPath(), "utf-8");
         String queries = url.query();
-        String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_INTERCEPT);
-        String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_TEMPLATE);
+        String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_INTERCEPT, DokitDbManager.FROM_SDK_OTHER);
+        String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_OTHER);
         try {
             //网络的健康体检功能 统计流量大小
             if (DokitConstant.APP_HEALTH_RUNNING) {
@@ -144,8 +144,11 @@ public class MockInterceptor implements Interceptor {
         //判断是否需要重定向数据接口
         //http https
         String scheme = url.scheme();
-        MockInterceptApiBean interceptApiBean = (MockInterceptApiBean) DokitDbManager.getInstance().getInterceptApiByIdInMap(path, interceptMatchedId);
-
+        MockInterceptApiBean interceptApiBean = (MockInterceptApiBean) DokitDbManager.getInstance().getInterceptApiByIdInMap(path, interceptMatchedId,DokitDbManager.FROM_SDK_OTHER);
+        if (interceptApiBean == null) {
+            matchedTemplateRule(oldResponse, path, templateMatchedId);
+            return oldResponse;
+        }
         String selectedSceneId = interceptApiBean.getSelectedSceneId();
         //开关是否被打开
         if (!interceptApiBean.isOpen()) {
@@ -165,6 +168,8 @@ public class MockInterceptor implements Interceptor {
         } else {
             newUrl = sb.append(NetworkManager.MOCK_SCHEME_HTTPS).append(NetworkManager.MOCK_HOST).append("/api/app/scene/").append(selectedSceneId).toString();
         }
+
+        LogHelper.i("MOCK_INTERCEPT", "path===>" + path + "  newUrl=====>" + newUrl);
 
         Request newRequest = oldRequest.newBuilder()
                 .method("GET", null)
@@ -195,7 +200,11 @@ public class MockInterceptor implements Interceptor {
         if (TextUtils.isEmpty(templateMatchedId)) {
             return;
         }
-        MockTemplateApiBean templateApiBean = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, templateMatchedId);
+        MockTemplateApiBean templateApiBean = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, templateMatchedId,DokitDbManager.FROM_SDK_OTHER);
+        if (templateApiBean == null) {
+            return;
+        }
+        LogHelper.i("MOCK_TEMPLATE", "path=====>" + path + "isOpen===>" + templateApiBean.isOpen());
         if (templateApiBean.isOpen()) {
             //保存老的response 数据到数据库
             saveResponse2DB(oldResponse, templateApiBean);

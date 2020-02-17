@@ -136,26 +136,6 @@ public class DokitDbManager<T extends AbsMockApiBean> {
 
 
     /**
-     * 内存中获取指定的 template api
-     */
-    public T getTemplateApiByIdInMap(String path, String id) {
-        if (mGlobalTemplateApiMaps.get(path) == null) {
-            return null;
-        }
-
-        T selectedMockApi = null;
-        for (T mockApi : mGlobalTemplateApiMaps.get(path)) {
-            if (mockApi.getId().equals(id)) {
-                selectedMockApi = mockApi;
-                break;
-            }
-        }
-
-        return selectedMockApi;
-    }
-
-
-    /**
      * 数据库中获取指定的mock intercept api
      */
     public T getInterceptApiByIdInDb(String id) {
@@ -165,13 +145,54 @@ public class DokitDbManager<T extends AbsMockApiBean> {
     /**
      * 内存中中获取指定的mock intercept api
      */
-    public T getInterceptApiByIdInMap(String path, String id) {
-        if (mGlobalInterceptApiMaps.get(path) == null) {
+    public T getInterceptApiByIdInMap(String path, String id, int fromSDK) {
+
+        if (mGlobalInterceptApiMaps == null) {
+            return null;
+        }
+        //先进行全匹配
+        List<T> mGlobalInterceptApis = mGlobalInterceptApiMaps.get(path);
+        if (mGlobalInterceptApis == null) {
+            path = dealPath(path, fromSDK);
+            mGlobalInterceptApis = mGlobalInterceptApiMaps.get(path);
+        }
+
+        //再进行滴滴内部匹配
+        if (mGlobalInterceptApis == null) {
             return null;
         }
 
         T selectedMockApi = null;
-        for (T mockApi : mGlobalInterceptApiMaps.get(path)) {
+        for (T mockApi : mGlobalInterceptApis) {
+            if (mockApi.getId().equals(id)) {
+                selectedMockApi = mockApi;
+                break;
+            }
+        }
+
+        return selectedMockApi;
+    }
+
+    /**
+     * 内存中获取指定的 template api
+     */
+    public T getTemplateApiByIdInMap(String path, String id, int fromSDK) {
+        if (mGlobalTemplateApiMaps == null) {
+            return null;
+        }
+        List<T> mGlobalTemplateApis = mGlobalTemplateApiMaps.get(path);
+        //先进行全匹配
+        if (mGlobalTemplateApis == null) {
+            path = dealPath(path, fromSDK);
+            mGlobalTemplateApis = mGlobalTemplateApiMaps.get(path);
+        }
+        //再进行滴滴内部匹配
+        if (mGlobalTemplateApis == null) {
+            return null;
+        }
+
+        T selectedMockApi = null;
+        for (T mockApi : mGlobalTemplateApis) {
             if (mockApi.getId().equals(id)) {
                 selectedMockApi = mockApi;
                 break;
@@ -312,6 +333,15 @@ public class DokitDbManager<T extends AbsMockApiBean> {
     public static final int MOCK_API_TEMPLATE = 2;
 
     /**
+     * 来自滴滴内部SDK
+     */
+    public static int FROM_SDK_DIDI = 100;
+    /**
+     * 来自外部SDK
+     */
+    public static int FROM_SDK_OTHER = 101;
+
+    /**
      * 返回命中的id
      *
      * @param path
@@ -319,12 +349,35 @@ public class DokitDbManager<T extends AbsMockApiBean> {
      * @param operateType
      * @return
      */
-    public String isMockMatched(String path, String strLocalQuery, int operateType) {
-        T mockApi = mockMatched(path, strLocalQuery, operateType);
+    public String isMockMatched(String path, String strLocalQuery, int operateType, int fromSDK) {
+        T mockApi = mockMatched(path, strLocalQuery, operateType, fromSDK);
         if (mockApi == null) {
             return "";
         }
         return mockApi.getId();
+    }
+
+    /**
+     * 兼容滴滴内部外网映射环境  该环境的 path上会多一级/kop_xxx/路径
+     *
+     * @param oldPath
+     * @param fromSDK
+     * @return
+     */
+    private String dealPath(String oldPath, int fromSDK) {
+        if (fromSDK == FROM_SDK_OTHER) {
+            return oldPath;
+        }
+        String newPath = oldPath;
+        //包含多级路径
+        if (oldPath.contains("/kop") && oldPath.split("\\/").length > 1) {
+            String[] childPaths = oldPath.split("\\/");
+            String endPath = childPaths[childPaths.length - 1];
+            if (!endPath.contains("kop")) {
+                newPath = "/" + endPath;
+            }
+        }
+        return newPath;
     }
 
 
@@ -333,15 +386,27 @@ public class DokitDbManager<T extends AbsMockApiBean> {
      *
      * @param path
      * @param strLocalQuery
-     * @param operateType 1:代表拦截 2：代表模板
+     * @param operateType   1:代表拦截 2：代表模板
      * @return
      */
-    private T mockMatched(String path, String strLocalQuery, int operateType) {
-        List<T> mockApis;
-        if (operateType == 1) {
+    private T mockMatched(String path, String strLocalQuery, int operateType, int fromSDK) {
+        List<T> mockApis = null;
+        if (operateType == DokitDbManager.MOCK_API_INTERCEPT) {
+            //先进行一次全匹配
             mockApis = mGlobalInterceptApiMaps.get(path);
-        } else {
+            //滴滴内部sdk匹配
+            if (mockApis == null) {
+                path = dealPath(path, fromSDK);
+                mockApis = mGlobalInterceptApiMaps.get(path);
+            }
+        } else if (operateType == DokitDbManager.MOCK_API_TEMPLATE) {
+            //先进行一次全匹配
             mockApis = mGlobalTemplateApiMaps.get(path);
+            //滴滴内部sdk匹配
+            if (mockApis == null) {
+                path = dealPath(path, fromSDK);
+                mockApis = mGlobalTemplateApiMaps.get(path);
+            }
         }
         if (mockApis == null) {
             return null;

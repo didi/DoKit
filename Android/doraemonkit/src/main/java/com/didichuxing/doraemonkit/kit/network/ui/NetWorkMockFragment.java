@@ -769,7 +769,7 @@ public class NetWorkMockFragment extends BaseFragment {
      * @return
      */
     private boolean hasInterceptApiInDb(String path, String id) {
-        MockInterceptApiBean mockInterceptApi = (MockInterceptApiBean) DokitDbManager.getInstance().getInterceptApiByIdInMap(path, id);
+        MockInterceptApiBean mockInterceptApi = (MockInterceptApiBean) DokitDbManager.getInstance().getInterceptApiByIdInMap(path, id,DokitDbManager.FROM_SDK_OTHER);
         return mockInterceptApi != null;
     }
 
@@ -781,7 +781,7 @@ public class NetWorkMockFragment extends BaseFragment {
      * @return
      */
     private boolean hasTemplateApiInDb(String path, String id) {
-        MockTemplateApiBean mockTemplateApi = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, id);
+        MockTemplateApiBean mockTemplateApi = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, id,DokitDbManager.FROM_SDK_OTHER);
         return mockTemplateApi != null;
     }
 
