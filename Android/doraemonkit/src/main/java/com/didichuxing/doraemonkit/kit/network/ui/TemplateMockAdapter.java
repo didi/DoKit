@@ -166,7 +166,7 @@ public class TemplateMockAdapter<T extends MultiItemEntity> extends BaseMultiIte
                                     public void onError(Response<String> response) {
                                         super.onError(response);
                                         ToastUtils.showShort("上传模板失败");
-                                        LogHelper.e(TAG, "error===>" + response.body());
+                                        LogHelper.e(TAG, "上传模板失败===>" + response.body());
                                     }
                                 });
 

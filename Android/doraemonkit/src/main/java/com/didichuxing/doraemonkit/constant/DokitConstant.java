@@ -1,12 +1,12 @@
 package com.didichuxing.doraemonkit.constant;
 
-import android.text.TextUtils;
 import android.util.SparseArray;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.GlobalConfig;
 import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
+import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.ui.kit.KitItem;
 
@@ -91,4 +91,48 @@ public class DokitConstant {
             return null;
         }
     }
+
+    /**
+     * 判断接入的是否是滴滴内部的rpc sdk
+     *
+     * @return
+     */
+    public static boolean isRpcSDK() {
+        boolean isRpcSdk;
+        try {
+            Class.forName("com.didichuxing.doraemonkit.DoraemonKitRpc");
+            isRpcSdk = true;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            isRpcSdk = false;
+        }
+
+        return isRpcSdk;
+    }
+
+
+    /**
+     * 兼容滴滴内部外网映射环境  该环境的 path上会多一级/kop_xxx/路径
+     *
+     * @param oldPath
+     * @param fromSDK
+     * @return
+     */
+    public static String dealDidiPlatformPath(String oldPath, int fromSDK) {
+        if (fromSDK == DokitDbManager.FROM_SDK_OTHER) {
+            return oldPath;
+        }
+        String newPath = oldPath;
+        //包含多级路径
+        if (oldPath.contains("/kop") && oldPath.split("\\/").length > 1) {
+            //比如/kop_stable/a/b/gateway 分解以后为 "" "kop_stable" "a" "b" "gateway"
+            String[] childPaths = oldPath.split("\\/");
+            String firstPath = childPaths[1];
+            if (firstPath.contains("kop")) {
+                newPath = oldPath.replace("/" + firstPath, "");
+            }
+        }
+        return newPath;
+    }
+
 }

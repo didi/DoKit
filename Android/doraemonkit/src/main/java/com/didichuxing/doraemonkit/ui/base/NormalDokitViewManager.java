@@ -155,7 +155,6 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
         //将所有的dokitView添加到新建的Activity中去
         for (GlobalSingleDokitViewInfo dokitViewInfo : mGlobalSingleDokitViews.values()) {
-            //LogHelper.i(TAG, " 新建activity==>" + activity.getClass().getSimpleName() + "  dokitView==>" + dokitViewInfo.getTag());
             if (activity instanceof UniversalActivity && dokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
                 return;
             }
@@ -297,7 +296,6 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             //判断该dokitview是否已经显示在页面上 同一个类型的dokitview 在页面上只显示一个
             if (dokitIntent.mode == DokitIntent.MODE_SINGLE_INSTANCE) {
                 if (dokitViews.get(dokitIntent.getTag()) != null) {
-                    //LogHelper.i(TAG, dokitIntent.getTag() + "===>" + dokitViews.get(dokitIntent.getTag()).toString() + "  has attached");
                     //拿到指定的dokitView并更新位置
                     dokitViews.get(dokitIntent.getTag()).updateViewLayout(dokitIntent.getTag(), true);
                     return;
@@ -338,7 +336,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             }
 
         } catch (Exception e) {
-            LogHelper.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -463,7 +461,6 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         if (mGlobalSingleDokitViews.containsKey(tag)) {
             mGlobalSingleDokitViews.remove(tag);
         }
-        //LogHelper.i(TAG, "dokitView detach====>" + tag);
 
     }
 

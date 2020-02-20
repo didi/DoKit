@@ -9,17 +9,11 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.text.TextUtils;
-import android.util.Log;
-
-import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,7 +46,6 @@ public class LocationHooker extends BaseServiceHooker {
 
     @Override
     public void replaceBinder(Context context, IBinder proxy) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
-        //LogHelper.d(TAG, "replaceBinder");
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if (locationManager == null) {
             return;
@@ -71,7 +64,6 @@ public class LocationHooker extends BaseServiceHooker {
 
         @Override
         public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-            LogHelper.d(TAG, "GetLastKnownLocationMethodHandler");
             if (!GpsMockManager.getInstance().isMocking()) {
                 return method.invoke(originService, args);
             }
@@ -94,7 +86,6 @@ public class LocationHooker extends BaseServiceHooker {
 
         @Override
         public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
-            LogHelper.d(TAG, "GetLastLocationMethodHandler");
             if (!GpsMockManager.getInstance().isMocking()) {
                 return method.invoke(originService, args);
             }
@@ -176,7 +167,6 @@ public class LocationHooker extends BaseServiceHooker {
          */
         @Override
         public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws IllegalAccessException, InvocationTargetException, NoSuchFieldException {
-            LogHelper.d(TAG, "RequestLocationUpdatesMethodHandler");
             if (!GpsMockManager.getInstance().isMocking()) {
                 return method.invoke(originService, args);
             }

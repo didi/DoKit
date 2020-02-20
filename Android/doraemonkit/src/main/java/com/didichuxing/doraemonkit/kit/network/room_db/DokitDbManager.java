@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.kit.network.room_db;
 import android.text.TextUtils;
 
 import com.blankj.utilcode.util.ThreadUtils;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
@@ -153,7 +154,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         //先进行全匹配
         List<T> mGlobalInterceptApis = mGlobalInterceptApiMaps.get(path);
         if (mGlobalInterceptApis == null) {
-            path = dealPath(path, fromSDK);
+            path = DokitConstant.dealDidiPlatformPath(path, fromSDK);
             mGlobalInterceptApis = mGlobalInterceptApiMaps.get(path);
         }
 
@@ -183,7 +184,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         List<T> mGlobalTemplateApis = mGlobalTemplateApiMaps.get(path);
         //先进行全匹配
         if (mGlobalTemplateApis == null) {
-            path = dealPath(path, fromSDK);
+            path = DokitConstant.dealDidiPlatformPath(path, fromSDK);
             mGlobalTemplateApis = mGlobalTemplateApiMaps.get(path);
         }
         //再进行滴滴内部匹配
@@ -357,28 +358,6 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         return mockApi.getId();
     }
 
-    /**
-     * 兼容滴滴内部外网映射环境  该环境的 path上会多一级/kop_xxx/路径
-     *
-     * @param oldPath
-     * @param fromSDK
-     * @return
-     */
-    private String dealPath(String oldPath, int fromSDK) {
-        if (fromSDK == FROM_SDK_OTHER) {
-            return oldPath;
-        }
-        String newPath = oldPath;
-        //包含多级路径
-        if (oldPath.contains("/kop") && oldPath.split("\\/").length > 1) {
-            String[] childPaths = oldPath.split("\\/");
-            String endPath = childPaths[childPaths.length - 1];
-            if (!endPath.contains("kop")) {
-                newPath = "/" + endPath;
-            }
-        }
-        return newPath;
-    }
 
 
     /**
@@ -396,7 +375,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
             mockApis = mGlobalInterceptApiMaps.get(path);
             //滴滴内部sdk匹配
             if (mockApis == null) {
-                path = dealPath(path, fromSDK);
+                path = DokitConstant.dealDidiPlatformPath(path, fromSDK);
                 mockApis = mGlobalInterceptApiMaps.get(path);
             }
         } else if (operateType == DokitDbManager.MOCK_API_TEMPLATE) {
@@ -404,7 +383,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
             mockApis = mGlobalTemplateApiMaps.get(path);
             //滴滴内部sdk匹配
             if (mockApis == null) {
-                path = dealPath(path, fromSDK);
+                path = DokitConstant.dealDidiPlatformPath(path, fromSDK);
                 mockApis = mGlobalTemplateApiMaps.get(path);
             }
         }

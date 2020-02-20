@@ -45,6 +45,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 数据mock 详情页
+ */
 public class NetWorkMockFragment extends BaseFragment {
     private String projectId = DokitConstant.PRODUCT_ID;
     private int pageSize = 100;
@@ -586,7 +589,7 @@ public class NetWorkMockFragment extends BaseFragment {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        LogHelper.e(TAG, "error====>" + response.body());
+                        //LogHelper.e(TAG, "error====>" + response.body());
                         ToastUtils.showShort(response.body());
                         if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
                             mInterceptRefreshLayout.refreshComplete();

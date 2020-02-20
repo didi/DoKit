@@ -20,6 +20,7 @@ import com.didichuxing.doraemonkit.config.GlobalConfig;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
+import com.didichuxing.doraemonkit.datapick.DataPickManager;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerKit;
@@ -290,6 +291,8 @@ class DoraemonKitReal {
         registerNetworkStatusChangedListener();
         initAidlBridge(app);
         startAppHealth();
+        //上传埋点
+        DataPickManager.getInstance().postData();
     }
 
     /**

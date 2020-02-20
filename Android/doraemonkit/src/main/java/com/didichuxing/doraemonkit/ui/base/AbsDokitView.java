@@ -145,7 +145,6 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
             mRootView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    //LogHelper.i(TAG, "====onTouch=====");
                     if (getRootView() != null) {
                         return mTouchProxy.onTouchEvent(v, event);
                     } else {
@@ -190,14 +189,12 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
                 onSystemLayoutParamsCreated(mWindowLayoutParams);
             }
         } catch (Exception e) {
-            LogHelper.e(TAG, "=e==>" + e.getMessage());
             e.printStackTrace();
         }
 
     }
 
     void performDestroy() {
-        LogHelper.i(TAG, mTag + " performDestroy()");
         if (!isNormalMode()) {
             getContext().unregisterReceiver(mInnerReceiver);
         }

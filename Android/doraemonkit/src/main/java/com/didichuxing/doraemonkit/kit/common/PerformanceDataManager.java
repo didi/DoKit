@@ -424,7 +424,7 @@ public class PerformanceDataManager {
             mLastCpuTime = cpuTime;
             mLastAppCpuTime = appTime;
         } catch (Exception e) {
-            LogHelper.e(TAG, "getCPUData fail: " + e.toString());
+            e.printStackTrace();
         }
         return value;
     }
@@ -453,7 +453,7 @@ public class PerformanceDataManager {
                 mem = totalPss / 1024.0F;
             }
         } catch (Exception e) {
-            LogHelper.e(TAG, "getMemoryData fail: " + e.toString());
+            e.printStackTrace();
         }
         return mem;
     }

@@ -4,7 +4,6 @@ import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonInterc
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonWeakNetworkInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.LargePictureInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.net.URL;
 import java.net.URLConnection;
@@ -29,7 +28,6 @@ public class HttpUrlConnectionProxyUtil {
     public static URLConnection proxy(URLConnection urlConnection) {
         try {
             String host = HttpUrl.parse(urlConnection.getURL().toString()).host();
-            //LogHelper.i(TAG, "host===>" + host);
             if (isIgnore(host)) {
                 return urlConnection;
             }

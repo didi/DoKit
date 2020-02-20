@@ -54,7 +54,7 @@ public class LogcatHelper {
                 result = line;
             }
         } catch (IOException e) {
-            LogHelper.e(TAG, "unexpected exception :"+e);
+            e.printStackTrace();
         } finally {
             if (dumpLogcatProcess != null) {
                 RuntimeHelper.destroy(dumpLogcatProcess);

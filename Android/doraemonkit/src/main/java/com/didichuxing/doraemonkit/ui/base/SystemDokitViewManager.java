@@ -226,7 +226,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
                 }
             }
         } catch (Exception e) {
-            LogHelper.e(TAG, e.toString());
+            e.printStackTrace();
         }
     }
 

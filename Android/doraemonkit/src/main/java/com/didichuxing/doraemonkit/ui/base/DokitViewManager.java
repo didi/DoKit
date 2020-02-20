@@ -11,7 +11,6 @@ import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDatabase;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.HashMap;
 import java.util.Map;

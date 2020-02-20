@@ -1,23 +1,28 @@
 package com.didichuxing.doraemonkit.ui.kit;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.datapick.DataPickManager;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 /**
  * Created by wanglikun on 2018/9/14.
- * 每隔分类的adapter
+ * 每个分类的adapter
  */
 
 public class KitAdapter extends AbsRecyclerAdapter<AbsViewBinder<KitItem>, KitItem> {
+    private static final String TAG = "KitAdapter";
 
     public KitAdapter(Context context) {
         super(context);
@@ -61,6 +66,13 @@ public class KitAdapter extends AbsRecyclerAdapter<AbsViewBinder<KitItem>, KitIt
             DokitViewManager.getInstance().detachToolPanel();
             //}
             data.kit.onClick(getContext());
+            try {
+                //添加埋点
+                DataPickManager.getInstance().addData("click", data.kit.getCategory(), getContext().getString(data.kit.getName()));
+            } catch (Exception e) {
+                LogHelper.i(TAG, "error===>" + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 }

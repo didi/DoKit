@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.datapick.DataPickManager;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceUtil;
@@ -121,7 +122,8 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
         //通知app退出到后台
         if (startedActivityCounts == 0) {
             DokitViewManager.getInstance().notifyBackground();
-
+            //app 切换到后台 上传埋点数据
+            DataPickManager.getInstance().postData();
         }
     }
 

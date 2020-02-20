@@ -9,7 +9,10 @@ import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 
 /**
- * Created by wanglikun on 2018/10/26.
+ *
+ * @author wanglikun
+ * @date 2018/10/26
+ * @desc 退出 dokit
  */
 
 public class TemporaryCloseKit extends AbstractKit {
@@ -34,7 +37,6 @@ public class TemporaryCloseKit extends AbstractKit {
     public void onClick(Context context) {
         DokitViewManager.getInstance().detachToolPanel();
         DoraemonKit.hide();
-
     }
 
     @Override

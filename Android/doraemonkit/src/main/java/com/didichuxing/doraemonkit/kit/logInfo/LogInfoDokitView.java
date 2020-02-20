@@ -214,7 +214,7 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
                 && mLogItemAdapter.getTrueValues().size() > MAX_LOG_LINE_NUM) {
             int numItemsToRemove = mLogItemAdapter.getTrueValues().size() - MAX_LOG_LINE_NUM;
             mLogItemAdapter.removeFirst(numItemsToRemove);
-            LogHelper.d(TAG, "truncating %d lines from log list to avoid out of memory errors:" + numItemsToRemove);
+            //LogHelper.d(TAG, "truncating %d lines from log list to avoid out of memory errors:" + numItemsToRemove);
         }
         if (mAutoscrollToBottom) {
             scrollToBottom();
