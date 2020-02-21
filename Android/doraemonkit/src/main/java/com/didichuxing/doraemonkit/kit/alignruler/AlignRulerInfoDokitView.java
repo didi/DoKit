@@ -30,8 +30,8 @@ public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerM
 
     @Override
     public void onCreate(Context context) {
-        mWindowWidth = UIUtils.getWidthPixels(context);
-        mWindowHeight = UIUtils.getHeightPixels(context);
+        mWindowWidth = UIUtils.getWidthPixels();
+        mWindowHeight = UIUtils.getHeightPixels();
     }
 
     @Override
@@ -52,7 +52,7 @@ public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerM
         params.width = getScreenShortSideLength();
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.x = 0;
-        params.y = UIUtils.getHeightPixels(getContext()) - UIUtils.dp2px(getContext(), 95);
+        params.y = UIUtils.getHeightPixels() - UIUtils.dp2px(getContext(), 95);
     }
 
     @Override

@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.layoutborder.ViewBorderFrameLayout;
 
@@ -49,9 +50,9 @@ public class UIUtils {
         return metrics.density;
     }
 
-    public static int getDensityDpi(Context context) {
+    public static int getDensityDpi() {
         DisplayMetrics metrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) DoraemonKit.APPLICATION.getSystemService(Context.WINDOW_SERVICE);
         if (windowManager == null) {
             return 0;
         }
@@ -59,9 +60,9 @@ public class UIUtils {
         return metrics.densityDpi;
     }
 
-    public static int getWidthPixels(Context context) {
+    public static int getWidthPixels() {
         DisplayMetrics metrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) DoraemonKit.APPLICATION.getSystemService(Context.WINDOW_SERVICE);
         if (windowManager == null) {
             return 0;
         }
@@ -69,12 +70,12 @@ public class UIUtils {
         return metrics.widthPixels;
     }
 
-    public static int getHeightPixels(Context context) {
-        return getRealHeightPixels(context) - getStatusBarHeight(context);
+    public static int getHeightPixels() {
+        return getRealHeightPixels() - getStatusBarHeight();
     }
 
-    public static int getRealHeightPixels(Context context) {
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+    public static int getRealHeightPixels() {
+        WindowManager windowManager = (WindowManager) DoraemonKit.APPLICATION.getSystemService(Context.WINDOW_SERVICE);
         int height = 0;
         Display display = windowManager.getDefaultDisplay();
         DisplayMetrics dm = new DisplayMetrics();
@@ -90,8 +91,8 @@ public class UIUtils {
         return height;
     }
 
-    public static int getStatusBarHeight(Context context) {
-        Resources resources = context.getResources();
+    public static int getStatusBarHeight() {
+        Resources resources = DoraemonKit.APPLICATION.getResources();
         int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
         int height = resources.getDimensionPixelSize(resourceId);
         return height;
@@ -104,7 +105,7 @@ public class UIUtils {
         rect.left = locations[0];
         rect.top = locations[1];
         if (!checkStatusBarVisible(view.getContext())) {
-            rect.top -= UIUtils.getStatusBarHeight(view.getContext());
+            rect.top -= UIUtils.getStatusBarHeight();
         }
         rect.right = rect.left + view.getWidth();
         rect.bottom = rect.top + view.getHeight();
@@ -152,6 +153,7 @@ public class UIUtils {
 
     /**
      * 要特别注意 返回的字段包含空格  做判断时一定要trim()
+     *
      * @param view
      * @return
      */

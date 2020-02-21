@@ -25,8 +25,7 @@ import android.widget.FrameLayout;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.config.FloatIconConfig;
-import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
-import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
 
 import java.lang.ref.WeakReference;
 
@@ -375,7 +374,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
         }
 
 
-        if (mTag.equals(FloatIconDokitView.class.getSimpleName())) {
+        if (mTag.equals(MainIconDokitView.class.getSimpleName())) {
             if (isNormalMode()) {
                 FloatIconConfig.saveLastPosX(getContext(), mFrameLayoutParams.leftMargin);
                 FloatIconConfig.saveLastPosY(getContext(), mFrameLayoutParams.topMargin);
@@ -562,7 +561,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
             return;
         }
         if (isActivityResume) {
-            if (tag.equals(FloatIconDokitView.class.getSimpleName())) {
+            if (tag.equals(MainIconDokitView.class.getSimpleName())) {
                 mFrameLayoutParams.leftMargin = FloatIconConfig.getLastPosX(getContext());
                 mFrameLayoutParams.topMargin = FloatIconConfig.getLastPosY(getContext());
             } else {
@@ -578,9 +577,9 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
             mLastDokitViewPosInfo.setLeftMargin(mFrameLayoutParams.leftMargin);
             mLastDokitViewPosInfo.setTopMargin(mFrameLayoutParams.topMargin);
         }
-        if (tag.equals(FloatIconDokitView.class.getSimpleName())) {
-            mFrameLayoutParams.width = FloatIconDokitView.FLOAT_SIZE;
-            mFrameLayoutParams.height = FloatIconDokitView.FLOAT_SIZE;
+        if (tag.equals(MainIconDokitView.class.getSimpleName())) {
+            mFrameLayoutParams.width = MainIconDokitView.FLOAT_SIZE;
+            mFrameLayoutParams.height = MainIconDokitView.FLOAT_SIZE;
         } else {
             mFrameLayoutParams.width = mDokitViewWidth;
             mFrameLayoutParams.height = mDokitViewHeight;

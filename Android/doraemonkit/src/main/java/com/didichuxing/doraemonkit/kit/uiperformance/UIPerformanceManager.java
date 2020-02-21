@@ -38,7 +38,7 @@ public class UIPerformanceManager implements LifecycleListenerUtil.LifecycleList
     }
 
     public void start(Context context) {
-        Bitmap canvasBitmap = Bitmap.createBitmap(UIUtils.getWidthPixels(context), UIUtils.getHeightPixels(context), Bitmap.Config.ARGB_8888);
+        Bitmap canvasBitmap = Bitmap.createBitmap(UIUtils.getWidthPixels(), UIUtils.getHeightPixels(), Bitmap.Config.ARGB_8888);
         mPerformanceCanvas = new Canvas(canvasBitmap);
         LifecycleListenerUtil.registerListener(this);
     }

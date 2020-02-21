@@ -2,13 +2,10 @@ package com.didichuxing.doraemonkit.datapick;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.view.View;
 
-import com.blankj.utilcode.util.ColorUtils;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.GsonUtils;
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
@@ -55,7 +52,7 @@ public class DataPickManager {
      * @param name
      */
     public void addData(@NonNull String eventType, int kitGroup, @NonNull String name) {
-        String strGroup = "default";
+        String strGroup = "main";
         switch (kitGroup) {
             case Category.BIZ:
                 strGroup = DoraemonKit.APPLICATION.getString(R.string.dk_category_biz);
@@ -80,7 +77,7 @@ public class DataPickManager {
 
                 break;
             default:
-                strGroup = "default";
+                strGroup = "main";
                 break;
         }
 

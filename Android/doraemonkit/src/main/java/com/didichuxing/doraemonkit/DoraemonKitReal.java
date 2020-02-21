@@ -8,7 +8,6 @@ import com.amitshekhar.DebugDB;
 import com.amitshekhar.debug.encrypt.sqlite.DebugDBEncryptFactory;
 import com.amitshekhar.debug.sqlite.DebugDBFactory;
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
@@ -60,8 +59,7 @@ import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
-import com.didichuxing.doraemonkit.ui.fileexplorer.FileInfo;
-import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
+import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
@@ -526,7 +524,7 @@ class DoraemonKitReal {
             return;
         }
 
-        DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
+        DokitIntent intent = new DokitIntent(MainIconDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
         DokitViewManager.getInstance().attach(intent);
         DokitConstant.MAIN_ICON_HAS_SHOW = true;
@@ -555,7 +553,7 @@ class DoraemonKitReal {
     static void hide() {
         DokitConstant.MAIN_ICON_HAS_SHOW = false;
         DokitConstant.AWAYS_SHOW_MAIN_ICON = false;
-        DokitViewManager.getInstance().detach(FloatIconDokitView.class.getSimpleName());
+        DokitViewManager.getInstance().detach(MainIconDokitView.class.getSimpleName());
 
     }
 

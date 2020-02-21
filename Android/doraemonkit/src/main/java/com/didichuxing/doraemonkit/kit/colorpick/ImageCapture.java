@@ -3,6 +3,8 @@ package com.didichuxing.doraemonkit.kit.colorpick;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.hardware.display.DisplayManager;
@@ -10,10 +12,14 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
+import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 
+import com.blankj.utilcode.util.AppUtils;
+import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 import java.nio.ByteBuffer;
@@ -24,6 +30,7 @@ import java.nio.ByteBuffer;
  */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ImageCapture {
+    private static final String TAG = "ImageCapture";
     private MediaProjectionManager mMediaProjectionManager;
     private MediaProjection mMediaProjection;
     private ImageReader mImageReader;
@@ -31,33 +38,53 @@ public class ImageCapture {
     private Bitmap mBitmap;
 
 
-    public void init(Context context, Bundle bundle) {
-        mMediaProjectionManager = (MediaProjectionManager) context.getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-        if (mMediaProjectionManager != null) {
-            Intent intent = new Intent();
-            intent.putExtras(bundle);
-            try {
-                //Android Q 存在兼容性问题
-                mMediaProjection = mMediaProjectionManager.getMediaProjection(Activity.RESULT_OK, intent);
-            } catch (SecurityException e) {
-                e.printStackTrace();
+    public void init(Context context, Bundle bundle, ColorPickerDokitView colorPickerDokitView) throws Exception {
+        PackageManager packageManager = DoraemonKit.APPLICATION.getPackageManager();
+        ApplicationInfo applicationInfo = packageManager.getApplicationInfo(AppUtils.getAppPackageName(), 0);
+        //适配Android Q
+        if (applicationInfo.targetSdkVersion >= 29) {
+            if (ColorPickManager.getInstance().getMediaProjection() != null) {
+                colorPickerDokitView.onScreenServiceReady();
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    Intent intent = new Intent(context, ScreenRecorderService.class);
+                    intent.putExtra("data", bundle.getParcelable("data"));
+                    context.startForegroundService(intent);
+                }
+            }
+        } else {
+            mMediaProjectionManager = (MediaProjectionManager) context.getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+            if (mMediaProjectionManager != null) {
+                mMediaProjection = mMediaProjectionManager.getMediaProjection(Activity.RESULT_OK, (Intent) bundle.getParcelable("data"));
+                initImageRead(context, mMediaProjection);
             }
         }
-        if (mMediaProjection != null) {
-            int width = UIUtils.getWidthPixels(context);
-            int height = UIUtils.getRealHeightPixels(context);
-            int dpi = UIUtils.getDensityDpi(context);
-            mImageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, 2);
-            mMediaProjection.createVirtualDisplay("ScreenCapture",
-                    width, height, dpi,
-                    DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-                    mImageReader.getSurface(), null, null);
-        }
+    }
 
+    /**
+     * @param context
+     */
+    void initImageRead(Context context, MediaProjection mediaProjection) {
+        if (mediaProjection == null) {
+            LogHelper.e(TAG, "mediaProjection == null");
+            return;
+        }
+        int width = UIUtils.getWidthPixels();
+        int height = UIUtils.getRealHeightPixels();
+        int dpi = UIUtils.getDensityDpi();
+        mImageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, 2);
+
+        mediaProjection.createVirtualDisplay("ScreenCapture",
+                width, height, dpi,
+                DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                mImageReader.getSurface(), null, null);
     }
 
     void capture() {
         if (isCapturing) {
+            return;
+        }
+        if (mImageReader == null) {
             return;
         }
         isCapturing = true;

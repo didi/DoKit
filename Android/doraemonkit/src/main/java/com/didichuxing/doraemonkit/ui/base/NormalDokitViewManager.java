@@ -15,7 +15,7 @@ import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.health.CountDownDokitView;
-import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
+import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.ui.realtime.PerformanceDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
@@ -135,7 +135,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             DokitConstant.MAIN_ICON_HAS_SHOW = false;
             return;
         }
-        DokitIntent dokitIntent = new DokitIntent(FloatIconDokitView.class);
+        DokitIntent dokitIntent = new DokitIntent(MainIconDokitView.class);
         dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
         attach(dokitIntent);
         DokitConstant.MAIN_ICON_HAS_SHOW = true;
@@ -159,11 +159,11 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                 return;
             }
             //是否过滤掉 入口icon
-            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && dokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
+            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && dokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
                 DokitConstant.MAIN_ICON_HAS_SHOW = false;
                 continue;
             }
-            if (dokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
+            if (dokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
                 DokitConstant.MAIN_ICON_HAS_SHOW = true;
             }
 
@@ -212,12 +212,12 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                 return;
             }
             //是否过滤掉 入口icon
-            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && globalSingleDokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
+            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && globalSingleDokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
                 DokitConstant.MAIN_ICON_HAS_SHOW = false;
                 continue;
             }
 
-            if (globalSingleDokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
+            if (globalSingleDokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
                 DokitConstant.MAIN_ICON_HAS_SHOW = true;
             }
 

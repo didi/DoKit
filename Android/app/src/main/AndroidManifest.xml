@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.didichuxing.doraemondemo">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -58,6 +59,13 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
+
+        <!-- Dokit Android Q截屏前台服务-->
+        <service
+            android:name="com.didichuxing.doraemonkit.kit.colorpick.ScreenRecorderService"
+            android:enabled="true"
+            android:foregroundServiceType="mediaProjection"
+            tools:targetApi="q" />
     </application>
 
 

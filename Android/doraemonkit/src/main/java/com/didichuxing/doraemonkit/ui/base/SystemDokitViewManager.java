@@ -5,13 +5,11 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
-import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.health.CountDownDokitView;
-import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
-import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.util.SystemUtil;
 
 import java.util.ArrayList;
@@ -139,7 +137,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
         }
 
         //添加main icon
-        DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
+        DokitIntent intent = new DokitIntent(MainIconDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
         DokitViewManager.getInstance().attach(intent);
         DokitConstant.MAIN_ICON_HAS_SHOW = true;

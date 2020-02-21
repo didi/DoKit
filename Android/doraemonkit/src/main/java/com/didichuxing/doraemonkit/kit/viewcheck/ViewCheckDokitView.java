@@ -59,8 +59,8 @@ public class ViewCheckDokitView extends AbsDokitView implements LifecycleListene
 
     @Override
     public void initDokitViewLayoutParams(DokitViewLayoutParams params) {
-        params.x = UIUtils.getWidthPixels(getContext()) / 2;
-        params.y = UIUtils.getHeightPixels(getContext()) / 2;
+        params.x = UIUtils.getWidthPixels() / 2;
+        params.y = UIUtils.getHeightPixels() / 2;
         params.height = DokitViewLayoutParams.WRAP_CONTENT;
         params.width = DokitViewLayoutParams.WRAP_CONTENT;
     }

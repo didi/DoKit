@@ -63,6 +63,9 @@
         <!--android:resource="@xml/debug_accessibility_service_config" />-->
         <!--</service>-->
 
+        <!--        截图服务 适配Android Q-->
+
+
     </application>
 
 </manifest>

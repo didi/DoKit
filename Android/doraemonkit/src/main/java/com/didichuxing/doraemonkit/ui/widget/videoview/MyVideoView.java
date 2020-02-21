@@ -85,8 +85,8 @@ public class MyVideoView extends RelativeLayout {
     }
 
     private void init() {
-        screenWidth = UIUtils.getWidthPixels(mContext);
-        screenHeight = UIUtils.getRealHeightPixels(mContext);
+        screenWidth = UIUtils.getWidthPixels();
+        screenHeight = UIUtils.getRealHeightPixels();
         mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
     }
 

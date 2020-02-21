@@ -9,11 +9,11 @@ ext {
             publishPluginToRemote: false,
             localRepoURL         : "/Users/didi/project/dokit_repo"
     ]
-    android = [compileSdkVersion         : 28,
+    android = [compileSdkVersion         : 29,
                suppotrSdkVersion         : "27.1.1",
                applicationId             : "com.didichuxing.doraemondemo",
                minSdkVersion             : 16,
-               targetSdkVersion          : 27,
+               targetSdkVersion          : 28,
                //app版本号
                versionCode               : 224,
                //dokit 插件版本号

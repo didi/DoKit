@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.FloatIconConfig;
+import com.didichuxing.doraemonkit.datapick.DataPickManager;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
@@ -17,7 +18,7 @@ import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
  * Created by jintai on 2019/09/26.
  */
 
-public class FloatIconDokitView extends AbsDokitView {
+public class MainIconDokitView extends AbsDokitView {
     public static int FLOAT_SIZE = 174;
 
     @Override
@@ -33,6 +34,8 @@ public class FloatIconDokitView extends AbsDokitView {
         getRootView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //统计入口
+                DataPickManager.getInstance().addData("click",1,"mainIcon");
                 DokitIntent dokitViewIntent = new DokitIntent(ToolPanelDokitView.class);
                 dokitViewIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
                 DokitViewManager.getInstance().attach(dokitViewIntent);
@@ -44,7 +47,7 @@ public class FloatIconDokitView extends AbsDokitView {
 
     @Override
     public View onCreateView(Context context, FrameLayout view) {
-        return LayoutInflater.from(context).inflate(R.layout.dk_float_launch_icon, view, false);
+        return LayoutInflater.from(context).inflate(R.layout.dk_main_launch_icon, view, false);
     }
 
 
@@ -62,7 +65,7 @@ public class FloatIconDokitView extends AbsDokitView {
             return;
         }
         DokitViewManager.getInstance().detach(this);
-        DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
+        DokitIntent intent = new DokitIntent(MainIconDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
         DokitViewManager.getInstance().attach(intent);
     }
