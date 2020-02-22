@@ -1,12 +1,8 @@
 package com.didichuxing.doraemonkit.kit.colorpick;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +11,8 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
-import com.didichuxing.doraemonkit.ui.base.DokitIntent;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.colorpicker.ColorPickerView;
@@ -31,7 +25,6 @@ import com.didichuxing.doraemonkit.util.UIUtils;
  */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ColorPickerDokitView extends AbsDokitView {
-    private static final String TAG = "ColorPickerFloatPage";
 
     private ImageCapture mImageCapture;
     private ColorPickerView mPickerView;
@@ -56,7 +49,7 @@ public class ColorPickerDokitView extends AbsDokitView {
      * 当服务准备好
      */
     void onScreenServiceReady() {
-        mImageCapture.initImageRead(getActivity(), ColorPickManager.getInstance().getMediaProjection());
+        mImageCapture.initImageRead(ColorPickManager.getInstance().getMediaProjection());
     }
 
 
@@ -123,17 +116,23 @@ public class ColorPickerDokitView extends AbsDokitView {
         mInfoDokitView.showInfo(colorInt, startX, startY);
     }
 
+    /**
+     * 捕捉截图信息
+     */
     private void captureInfo(int delay) {
-        getRootView().setVisibility(View.GONE);
+        //先隐藏拾色器控件 否则会把拾色器也截图进去
+        mPickerView.setVisibility(View.INVISIBLE);
         getRootView().postDelayed(new Runnable() {
             @Override
             public void run() {
                 mImageCapture.capture();
-                getRootView().setVisibility(View.VISIBLE);
+                //截图完成以后恢复
+                mPickerView.setVisibility(View.VISIBLE);
                 showInfo();
             }
         }, delay);
     }
+
 
     @Override
     public void onDown(int x, int y) {

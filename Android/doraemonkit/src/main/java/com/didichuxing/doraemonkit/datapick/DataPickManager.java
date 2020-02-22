@@ -136,7 +136,7 @@ public class DataPickManager {
      */
     private void realPost(final int from, String content) {
         LogHelper.i(TAG, "====realPost======");
-        OkGo.<String>post("")
+        OkGo.<String>post("https://m.baidu.com/")
                 .params("productId", DokitConstant.PRODUCT_ID)
                 .params("content", content)
                 .execute(new StringCallback() {

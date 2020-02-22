@@ -75,8 +75,8 @@ public class RealTimePerformDataDokitView extends AbsDokitView {
     public void initDokitViewLayoutParams(DokitViewLayoutParams params) {
         params.width = DokitViewLayoutParams.WRAP_CONTENT;
         params.height = DokitViewLayoutParams.WRAP_CONTENT;
-        params.x = UIUtils.dp2px(getContext(), 30);
-        params.y = UIUtils.dp2px(getContext(), 30);
+        params.x = UIUtils.dp2px(30);
+        params.y = UIUtils.dp2px(30);
     }
 
     @Override

@@ -13,7 +13,7 @@ ext {
                suppotrSdkVersion         : "27.1.1",
                applicationId             : "com.didichuxing.doraemondemo",
                minSdkVersion             : 16,
-               targetSdkVersion          : 28,
+               targetSdkVersion          : 29,
                //app版本号
                versionCode               : 224,
                //dokit 插件版本号

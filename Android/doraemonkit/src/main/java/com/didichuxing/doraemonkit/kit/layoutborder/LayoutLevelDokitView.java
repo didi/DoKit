@@ -148,7 +148,7 @@ public class LayoutLevelDokitView extends AbsDokitView {
     public void initDokitViewLayoutParams(DokitViewLayoutParams params) {
         params.gravity = Gravity.CENTER_HORIZONTAL;
         params.x = 0;
-        params.y = UIUtils.getHeightPixels() - UIUtils.dp2px(getContext(), 125);
+        params.y = UIUtils.getHeightPixels() - UIUtils.dp2px(125);
         //解决页面跳转是view的宽度会发生变化
         params.width = getScreenShortSideLength();
         params.height = DokitViewLayoutParams.WRAP_CONTENT;

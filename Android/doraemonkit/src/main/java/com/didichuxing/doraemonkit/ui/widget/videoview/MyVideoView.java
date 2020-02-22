@@ -235,7 +235,7 @@ public class MyVideoView extends RelativeLayout {
             isVerticalScreen = true;
             ivVolume.setVisibility(View.GONE);
             seekbarVolume.setVisibility(View.GONE);
-            setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, UIUtils.dp2px(mContext, 290));
+            setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, UIUtils.dp2px(290));
             mActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
         } else {

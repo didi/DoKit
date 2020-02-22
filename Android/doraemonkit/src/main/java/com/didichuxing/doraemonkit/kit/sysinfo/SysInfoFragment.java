@@ -94,7 +94,7 @@ public class SysInfoFragment extends BaseFragment {
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_ext_storage_free), DeviceUtils.getSDCardSpace(getContext())));
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_rom_free), DeviceUtils.getRomSpace(getContext())));
         sysInfoItems.add(new SysInfoItem("ROOT", String.valueOf(DeviceUtils.isRoot(getContext()))));
-        sysInfoItems.add(new SysInfoItem("DENSITY", String.valueOf(UIUtils.getDensity(getContext()))));
+        sysInfoItems.add(new SysInfoItem("DENSITY", String.valueOf(UIUtils.getDensity())));
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_display_size), UIUtils.getWidthPixels() + "x" + UIUtils.getRealHeightPixels()));
     }
 

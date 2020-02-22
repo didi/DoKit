@@ -26,6 +26,7 @@ import com.blankj.utilcode.util.ScreenUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.config.FloatIconConfig;
 import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.lang.ref.WeakReference;
 
@@ -188,6 +189,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
                 onSystemLayoutParamsCreated(mWindowLayoutParams);
             }
         } catch (Exception e) {
+            LogHelper.e(TAG, "e===>" + e.getMessage());
             e.printStackTrace();
         }
 
@@ -452,8 +454,14 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
 
     }
 
+
+    /**
+     * 不能在改方法中进行dokitview的添加和删除 因为处于遍历过程在
+     * 只有系统模式下才会调用
+     * @param dokitView
+     */
     @Override
-    public void onDokitViewAdd(AbsDokitView page) {
+    public void onDokitViewAdd(AbsDokitView dokitView) {
 
     }
 

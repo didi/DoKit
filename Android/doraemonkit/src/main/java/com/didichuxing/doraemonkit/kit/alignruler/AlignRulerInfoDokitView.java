@@ -46,13 +46,12 @@ public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerM
     }
 
 
-
     @Override
     public void initDokitViewLayoutParams(DokitViewLayoutParams params) {
         params.width = getScreenShortSideLength();
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.x = 0;
-        params.y = UIUtils.getHeightPixels() - UIUtils.dp2px(getContext(), 95);
+        params.y = UIUtils.getHeightPixels() - UIUtils.dp2px(95);
     }
 
     @Override

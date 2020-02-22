@@ -30,19 +30,19 @@ import java.security.PublicKey;
 public class UIUtils {
     private static final String TAG = "UIUtils";
 
-    public static int dp2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
+    public static int dp2px(float dpValue) {
+        final float scale = DoraemonKit.APPLICATION.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
-    public static float px2dp(Context context, int px) {
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+    public static float px2dp(int px) {
+        DisplayMetrics displayMetrics = DoraemonKit.APPLICATION.getResources().getDisplayMetrics();
         return Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    public static float getDensity(Context context) {
+    public static float getDensity() {
         DisplayMetrics metrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) DoraemonKit.APPLICATION.getSystemService(Context.WINDOW_SERVICE);
         if (windowManager == null) {
             return 0;
         }

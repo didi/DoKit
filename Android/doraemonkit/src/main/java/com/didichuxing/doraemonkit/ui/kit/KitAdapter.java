@@ -1,14 +1,11 @@
 package com.didichuxing.doraemonkit.ui.kit;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.blankj.utilcode.util.LogUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;

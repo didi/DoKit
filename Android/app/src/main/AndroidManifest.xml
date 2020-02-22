@@ -60,7 +60,7 @@
             android:enabled="true"
             android:process=":remote" />
 
-        <!-- Dokit Android Q截屏前台服务-->
+        <!-- Dokit targetApi为 29 Android Q时截屏的前台服务-->
         <service
             android:name="com.didichuxing.doraemonkit.kit.colorpick.ScreenRecorderService"
             android:enabled="true"

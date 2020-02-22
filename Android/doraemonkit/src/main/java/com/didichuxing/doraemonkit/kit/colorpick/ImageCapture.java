@@ -16,6 +16,7 @@ import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.view.View;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
@@ -36,9 +37,11 @@ public class ImageCapture {
     private ImageReader mImageReader;
     private boolean isCapturing;
     private Bitmap mBitmap;
+    private ColorPickerDokitView mColorPickerDokitView;
 
 
     public void init(Context context, Bundle bundle, ColorPickerDokitView colorPickerDokitView) throws Exception {
+        this.mColorPickerDokitView = colorPickerDokitView;
         PackageManager packageManager = DoraemonKit.APPLICATION.getPackageManager();
         ApplicationInfo applicationInfo = packageManager.getApplicationInfo(AppUtils.getAppPackageName(), 0);
         //适配Android Q
@@ -46,25 +49,29 @@ public class ImageCapture {
             if (ColorPickManager.getInstance().getMediaProjection() != null) {
                 colorPickerDokitView.onScreenServiceReady();
             } else {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    Intent intent = new Intent(context, ScreenRecorderService.class);
-                    intent.putExtra("data", bundle.getParcelable("data"));
-                    context.startForegroundService(intent);
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        Intent intent = new Intent(context, ScreenRecorderService.class);
+                        intent.putExtra("data", bundle.getParcelable("data"));
+                        context.startForegroundService(intent);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         } else {
             mMediaProjectionManager = (MediaProjectionManager) context.getSystemService(Context.MEDIA_PROJECTION_SERVICE);
             if (mMediaProjectionManager != null) {
                 mMediaProjection = mMediaProjectionManager.getMediaProjection(Activity.RESULT_OK, (Intent) bundle.getParcelable("data"));
-                initImageRead(context, mMediaProjection);
+                initImageRead(mMediaProjection);
             }
         }
     }
 
     /**
-     * @param context
+     *
      */
-    void initImageRead(Context context, MediaProjection mediaProjection) {
+    void initImageRead(MediaProjection mediaProjection) {
         if (mediaProjection == null) {
             LogHelper.e(TAG, "mediaProjection == null");
             return;
@@ -73,7 +80,9 @@ public class ImageCapture {
         int height = UIUtils.getRealHeightPixels();
         int dpi = UIUtils.getDensityDpi();
         mImageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, 2);
-
+        /**
+         * 获取getSurface
+         */
         mediaProjection.createVirtualDisplay("ScreenCapture",
                 width, height, dpi,
                 DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,

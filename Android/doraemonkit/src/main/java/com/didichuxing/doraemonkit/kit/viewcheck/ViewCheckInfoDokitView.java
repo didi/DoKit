@@ -93,7 +93,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
     public void initDokitViewLayoutParams(DokitViewLayoutParams params) {
         params.flags = DokitViewLayoutParams.FLAG_NOT_FOCUSABLE;
         params.x = 0;
-        params.y = UIUtils.getHeightPixels() - UIUtils.dp2px(getContext(), 185);
+        params.y = UIUtils.getHeightPixels() - UIUtils.dp2px(185);
         params.width = getScreenShortSideLength();
         params.height = DokitViewLayoutParams.WRAP_CONTENT;
     }
