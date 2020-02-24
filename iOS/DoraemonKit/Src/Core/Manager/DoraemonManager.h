@@ -99,6 +99,7 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 @property(nonatomic, copy) NSString *icon;
 @property(nonatomic, copy) NSString *pluginName;
 @property(nonatomic, copy) NSString *atModule;
+@property(nonatomic, copy) NSString *buriedPoint;
 
 @end
 

@@ -159,7 +159,7 @@
     }
     
     //1、获取当前时间
-    NSString *currentTimeInterval = [self currentTimeInterval];
+    NSString *currentTimeInterval = [DoraemonUtil currentTimeInterval];
     
     //2、获取当前cpu占用率
     CGFloat cpuValue = -1;
@@ -189,7 +189,7 @@
         return;
     }
     [_fpsPageArray addObject:@{
-        @"time":[self currentTimeInterval],
+        @"time":[DoraemonUtil currentTimeInterval],
         @"value":[NSString stringWithFormat:@"%zi",fps]
     }];
 }
@@ -199,11 +199,7 @@
     NSString *phoneName = [DoraemonAppInfoUtil iphoneType];
     NSString *phoneSystem = [[UIDevice currentDevice] systemVersion];
     NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
-    
-    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
-    if (!appName) {
-        appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
-    }
+    NSString *appName = [DoraemonAppInfoUtil appName];
     
     
     //启动流程
@@ -412,7 +408,7 @@
         NSLog(@"网络来了");
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
         [_networkPageArray addObject:@{
-            @"time": [self currentTimeInterval],
+            @"time": [DoraemonUtil currentTimeInterval],
             @"url": STRING_NOT_NULL(httpModel.url) ,
             @"up": STRING_NOT_NULL(httpModel.uploadFlow),
             @"down": STRING_NOT_NULL(httpModel.downFlow),
@@ -470,10 +466,7 @@
     }
 }
 
-- (NSString *)currentTimeInterval{
-    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970]*1000;
-    return [NSString stringWithFormat:@"%0.f",timeInterval];
-}
+
 
 - (NSString *)currentTopVC{
     UIViewController *vc = [UIViewController topViewControllerForKeyWindow];

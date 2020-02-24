@@ -83,10 +83,7 @@
     NSUInteger phoneMemory = totalMemory;//MB为单位
     NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
     
-    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
-    if (!appName) {
-        appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
-    }
+    NSString *appName = [DoraemonAppInfoUtil appName];
     
     //流量信息
     NSMutableArray<DoraemonNetFlowHttpModel *> *httpModelArray = [DoraemonNetFlowDataSource shareInstance].httpModelArray;

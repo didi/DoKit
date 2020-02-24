@@ -19,6 +19,15 @@
 
 @implementation DoraemonAppInfoUtil
 
++ (NSString *)appName
+{
+    NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
+    if (!appName) {
+        appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"];
+    }
+    return appName;
+}
+
 + (NSString *)iphoneName
 {
     return [UIDevice currentDevice].name;

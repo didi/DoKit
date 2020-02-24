@@ -62,6 +62,11 @@
     return [NSString stringWithFormat:@"%.0f",ms];
 }
 
++ (NSString *)currentTimeInterval{
+    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970]*1000;
+    return [NSString stringWithFormat:@"%0.f",timeInterval];
+}
+
 + (void)savePerformanceDataInFile:(NSString *)fileName data:(NSString *)data{
     NSString *cachesDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
     NSString *anrDir = [cachesDir stringByAppendingPathComponent:@"DoraemonPerformance"];

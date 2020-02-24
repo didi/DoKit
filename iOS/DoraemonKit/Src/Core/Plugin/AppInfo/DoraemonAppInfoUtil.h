@@ -9,6 +9,8 @@
 
 @interface DoraemonAppInfoUtil : NSObject
 
++ (NSString *)appName;
+
 /**
  DeviceInfo：获取当前设备的 用户自定义的别名，例如：库克的 iPhone 9
  

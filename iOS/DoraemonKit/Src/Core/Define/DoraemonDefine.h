@@ -17,7 +17,7 @@
 #import "DoraemonToastUtil.h"
 #import "DoraemonAlertUtil.h"
 
-#define DoKitVersion @"2.0.0"
+#define DoKitVersion @"3.0.0"
 
 #define DoraemonScreenWidth [UIScreen mainScreen].bounds.size.width
 #define DoraemonScreenHeight [UIScreen mainScreen].bounds.size.height

@@ -35,6 +35,8 @@
 
 + (NSString *)formatTimeIntervalToMS:(NSTimeInterval)timeInterval;
 
++ (NSString *)currentTimeInterval;
+
 //获取某一条文件路径的文件大小
 - (void)getFileSizeWithPath:(NSString *)path;
 
