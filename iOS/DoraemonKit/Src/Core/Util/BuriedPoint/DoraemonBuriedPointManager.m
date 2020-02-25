@@ -30,11 +30,17 @@
     static DoraemonBuriedPointManager *instance;
     dispatch_once(&once, ^{
         instance = [[DoraemonBuriedPointManager alloc] init];
-        instance.count = 10;//暂定的10
-        instance.timeOut = 60;//时隔60s
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterBackgroundNotification) name:UIApplicationDidEnterBackgroundNotification object:nil];
     });
     return instance;
+}
+
+- (instancetype)init{
+    if (self = [super init]) {
+        self.count = 10;//暂定的10
+        self.timeOut = 60;//时隔60s
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterBackgroundNotification:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    }
+    return self;
 }
 
 - (NSMutableArray *)pointArray{
@@ -64,13 +70,7 @@
     if (name.length<1) {
         return;
     }
-    NSLog(@"yixiang name == %@",name);
-    [self insertPointArray:@"click" name:name];
-}
-
-- (void)insertPointArray:(NSString *)eventType name:(NSString *)name{
     NSDictionary *dic = @{
-        @"eventType":STRING_NOT_NULL(eventType),
         @"eventName":STRING_NOT_NULL(name),
         @"time":[DoraemonUtil currentTimeInterval]
     };
@@ -86,7 +86,7 @@
         [self.basicInfoDic setValue:self.pointArray forKey:@"events"];
         NSMutableDictionary *params = [self.basicInfoDic copy];
 
-        [DoraemonNetworkUtil postWithUrlString:@"https://www.dokit.cn...." params:params success:^(NSDictionary * _Nonnull result) {
+        [DoraemonNetworkUtil postWithUrlString:@"http://dokit-test.intra.xiaojukeji.com/pointData/addPointData" params:params success:^(NSDictionary * _Nonnull result) {
             NSInteger code = [result[@"code"] integerValue];
             if (code == 200) {
                 [self removePointArray];
