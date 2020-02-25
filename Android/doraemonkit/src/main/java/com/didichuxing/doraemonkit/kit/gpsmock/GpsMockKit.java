@@ -32,7 +32,6 @@ public class GpsMockKit extends AbstractKit {
     @Override
     public void onClick(Context context) {
         startUniversalActivity(context,FragmentIndex.FRAGMENT_GPS_MOCK);
-
     }
 
     @Override
@@ -47,4 +46,14 @@ public class GpsMockKit extends AbstractKit {
         }
     }
 
+    @Override
+    public boolean isInnerKit() {
+        return true;
+    }
+
+
+    @Override
+    public String innerKitId() {
+        return "dokit_sdk_comm_ck_gps";
+    }
 }

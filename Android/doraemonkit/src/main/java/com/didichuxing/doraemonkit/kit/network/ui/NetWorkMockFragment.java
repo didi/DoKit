@@ -589,8 +589,8 @@ public class NetWorkMockFragment extends BaseFragment {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        //LogHelper.e(TAG, "error====>" + response.body());
-                        ToastUtils.showShort(response.body());
+                        LogHelper.e(TAG, "error====>" + response.getException().getMessage());
+                        ToastUtils.showShort(response.getException().getMessage());
                         if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
                             mInterceptRefreshLayout.refreshComplete();
                         } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
@@ -772,7 +772,7 @@ public class NetWorkMockFragment extends BaseFragment {
      * @return
      */
     private boolean hasInterceptApiInDb(String path, String id) {
-        MockInterceptApiBean mockInterceptApi = (MockInterceptApiBean) DokitDbManager.getInstance().getInterceptApiByIdInMap(path, id,DokitDbManager.FROM_SDK_OTHER);
+        MockInterceptApiBean mockInterceptApi = (MockInterceptApiBean) DokitDbManager.getInstance().getInterceptApiByIdInMap(path, id, DokitDbManager.FROM_SDK_OTHER);
         return mockInterceptApi != null;
     }
 
@@ -784,7 +784,7 @@ public class NetWorkMockFragment extends BaseFragment {
      * @return
      */
     private boolean hasTemplateApiInDb(String path, String id) {
-        MockTemplateApiBean mockTemplateApi = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, id,DokitDbManager.FROM_SDK_OTHER);
+        MockTemplateApiBean mockTemplateApi = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, id, DokitDbManager.FROM_SDK_OTHER);
         return mockTemplateApi != null;
     }
 

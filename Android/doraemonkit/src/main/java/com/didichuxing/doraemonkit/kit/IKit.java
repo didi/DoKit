@@ -6,9 +6,9 @@ import android.support.annotation.StringRes;
 
 /**
  * Created by zhangweida on 2018/6/22.
- * 工具入口
+ * 工具入口 请继承AbstractKit
  */
-public interface IKit {
+interface IKit {
     /**
      * 返回分类
      *

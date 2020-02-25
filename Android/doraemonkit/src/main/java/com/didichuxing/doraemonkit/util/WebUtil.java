@@ -31,7 +31,7 @@ public class WebUtil {
                 //String url = String.format("javascript:init(%s,%s)", 39.901933, 116.396613);
                 view.loadUrl(url);
             }
-        }, 500);
+        }, 1000);
 
     }
 

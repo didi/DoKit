@@ -4,6 +4,9 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.didichuxing.doraemonkit.BuildConfig;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
+
+import java.util.List;
 
 /**
  * ================================================
@@ -19,58 +22,70 @@ public class DataPickBean {
      * 基础信息
      */
     private String platform;
+    private String pId;
+    /**
+     * 埋点上传时间
+     */
     private long time;
     private String phoneMode;
+    /**
+     * 系统版本
+     */
     private String systemVersion;
     private String appName;
-    private String appVersion;
+    /**
+     * 包名
+     */
+    private String appId;
     private String dokitVersion;
+    private List<EventBean> events;
 
-    /**
-     * 埋点信息
-     */
-    //eventType click pv uv
-    private String eventType;
-    /**
-     * 数据名称
-     */
-    private String name;
-    /**
-     * 工具分组
-     */
-    private String kitGroup;
-
-    public DataPickBean(String eventType, String kitGroup, String name) {
+    DataPickBean() {
         //初始化基础数据
+        this.pId = DokitConstant.PRODUCT_ID;
         this.appName = AppUtils.getAppName();
-        this.appVersion = AppUtils.getAppVersionName();
+        this.appId = AppUtils.getAppPackageName();
         this.dokitVersion = BuildConfig.DOKIT_VERSION;
         this.platform = "Android";
         this.phoneMode = DeviceUtils.getModel();
         this.time = TimeUtils.getNowMills();
         this.systemVersion = DeviceUtils.getSDKVersionName();
-        this.eventType = eventType;
-        this.kitGroup = kitGroup;
-        this.name = name;
     }
 
-    public long getTime() {
-        return time;
+    void setEvents(List<EventBean> events) {
+        this.events = events;
     }
 
-    @Override
-    public String toString() {
-        return "DataPickBean{" +
-                "platform='" + platform + '\'' +
-                ", time='" + time + '\'' +
-                ", phoneMode='" + phoneMode + '\'' +
-                ", systemVersion='" + systemVersion + '\'' +
-                ", appName='" + appName + '\'' +
-                ", appVersion='" + appVersion + '\'' +
-                ", dokitVersion='" + dokitVersion + '\'' +
-                ", eventType='" + eventType + '\'' +
-                ", name='" + name + '\'' +
-                ", kitGroup='" + kitGroup + '\'' +
-                '}';
+    public static class EventBean {
+
+        /**
+         * 数据名称
+         */
+        private String eventName;
+        /**
+         * 埋点记录时间
+         */
+        private long time;
+
+        EventBean( String eventName) {
+            this.eventName = eventName;
+            this.time = TimeUtils.getNowMills();
+        }
+
+
+        long getTime() {
+            return time;
+        }
+
+
+        @Override
+        public String toString() {
+            return "EventBean{" +
+                    ", eventName='" + eventName + '\'' +
+                    ", time=" + time +
+                    '}';
+        }
     }
+
+
 }

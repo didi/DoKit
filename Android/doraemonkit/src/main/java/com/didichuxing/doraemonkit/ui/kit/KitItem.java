@@ -1,15 +1,15 @@
 package com.didichuxing.doraemonkit.ui.kit;
 
-import com.didichuxing.doraemonkit.kit.IKit;
+import com.didichuxing.doraemonkit.kit.AbstractKit;
 
 /**
  * Created by wanglikun on 2018/9/14.
  */
 
 public class KitItem {
-    public IKit kit;
+    public AbstractKit kit;
 
-    public KitItem(IKit kit) {
+    public KitItem(AbstractKit kit) {
         this.kit = kit;
     }
 }

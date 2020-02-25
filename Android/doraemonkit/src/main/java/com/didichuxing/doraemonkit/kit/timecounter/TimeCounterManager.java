@@ -2,29 +2,22 @@ package com.didichuxing.doraemonkit.kit.timecounter;
 
 import android.app.Application;
 import android.os.Looper;
-import android.util.Log;
 
-import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.methodtrace.AppHealthMethodCostBean;
 import com.didichuxing.doraemonkit.kit.methodtrace.AppHealthMethodCostBeanWrap;
-import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostCallback;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCost;
+import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostCallback;
 import com.didichuxing.doraemonkit.kit.methodtrace.OrderBean;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.ActivityCounter;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.AppCounter;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
-import com.didichuxing.doraemonkit.util.FormatUtil;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**

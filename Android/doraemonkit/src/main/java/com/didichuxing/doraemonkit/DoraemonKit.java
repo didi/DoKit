@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit;
 import android.app.Application;
 
 import com.didichuxing.doraemonkit.constant.DokitConstant;
-import com.didichuxing.doraemonkit.kit.IKit;
+import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class DoraemonKit {
         install(app, null);
     }
 
-    public static void install(Application app, List<IKit> selfKits) {
+    public static void install(Application app, List<AbstractKit> selfKits) {
         install(app, selfKits, "");
     }
 
@@ -29,7 +29,7 @@ public class DoraemonKit {
      * @param selfKits  自定义kits
      * @param productId Dokit平台端申请的productId
      */
-    public static void install(final Application app, List<IKit> selfKits, String productId) {
+    public static void install(final Application app, List<AbstractKit> selfKits, String productId) {
         APPLICATION = app;
         try {
             DoraemonKitReal.install(app, selfKits, productId);

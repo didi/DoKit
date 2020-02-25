@@ -5,12 +5,17 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
 import android.util.Log;
@@ -56,6 +61,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -84,6 +90,22 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
     AMapLocationClientOption mMapOption;
     TencentLocationRequest mTencentLocationRequest;
     TencentLocationManager mTencentLocationManager;
+    private int UPDATE_UI = 100;
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 100:
+                    ((ImageView) MainDebugActivity.this.findViewById(R.id.iv_picasso)).setImageBitmap((Bitmap) msg.obj);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -330,7 +352,12 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                 Picasso.get().load(imgUrl)
                         .transform(new LargeBitmapPicassoTransformation(imgUrl))
                         .into((ImageView) findViewById(R.id.iv_picasso));
-
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        requestImage(imgUrl);
+//                    }
+//                }).start();
                 FrescoUtil.loadImage((SimpleDraweeView) findViewById(R.id.iv_fresco), imgUrl);
 
                 break;
@@ -432,7 +459,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
      * {@link NetworkPrinterHelper#updateResponseBody(int, String)}
      */
     public void requestByCustom(String url) {
-        // obtain id for this request
+// obtain id for this request
         final int id = NetworkPrinterHelper.obtainRequestId();
 
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -492,7 +519,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
         Request request = null;
         if (upload) {
             try {
-                //模拟一个1M的文件用来上传
+//模拟一个1M的文件用来上传
                 final long length = 1L * 1024 * 1024;
                 final File temp = new File(getFilesDir(), "test.tmp");
                 if (!temp.exists() || temp.length() != length) {
@@ -598,4 +625,32 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
         super.onStop();
 
     }
+
+    private void requestImage(String urlStr) {
+        try {
+            //
+            URL url = new URL(urlStr);
+            // http    https
+            // ftp
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            //http get post
+            urlConnection.setRequestMethod("GET");
+
+
+            urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(5000);
+
+            int responseCode = urlConnection.getResponseCode();
+            if (responseCode == 200) {
+                Bitmap bitmap = BitmapFactory.decodeStream(urlConnection.getInputStream());
+                //更新 ui
+                mHandler.sendMessage(mHandler.obtainMessage(UPDATE_UI, bitmap));
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

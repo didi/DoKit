@@ -96,13 +96,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:textIsSelectable="true"
                 android:minHeight="50dp"
                 android:paddingLeft="16dp"
                 android:paddingTop="10dp"
                 android:paddingRight="16dp"
                 android:paddingBottom="10dp"
                 android:textColor="#333333"
+                android:textIsSelectable="true"
                 android:textSize="@dimen/dk_font_size_16" />
 
             <View style="@style/DK.Divider" />
@@ -153,27 +153,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:textIsSelectable="true"
                 android:minHeight="50dp"
                 android:paddingLeft="16dp"
                 android:paddingTop="10dp"
                 android:paddingRight="16dp"
                 android:paddingBottom="10dp"
                 android:textColor="#333333"
+                android:textIsSelectable="true"
                 android:textSize="@dimen/dk_font_size_16" />
 
             <View style="@style/DK.Divider" />
 
-            <TextView
-                android:id="@+id/diver_body"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="#f5f6f7"
-                android:gravity="center_vertical"
-                android:paddingLeft="16dp"
-                android:text="@string/dk_network_detail_title_request_body"
-                android:textColor="#337cc4"
-                android:textSize="@dimen/dk_font_size_16" />
+                android:background="#f5f6f7">
+
+                <TextView
+                    android:id="@+id/diver_body"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="16dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/dk_network_detail_title_request_body"
+                    android:textColor="#337cc4"
+                    android:textSize="@dimen/dk_font_size_16" />
+
+                <TextView
+                    android:id="@+id/diver_format"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center_vertical"
+                    android:text="格式化"
+                    android:textColor="#337cc4"
+                    android:textSize="@dimen/dk_font_size_16" />
+            </RelativeLayout>
+
 
             <View style="@style/DK.Divider" />
 
@@ -182,14 +200,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:textIsSelectable="true"
                 android:minHeight="50dp"
                 android:paddingLeft="16dp"
                 android:paddingTop="14dp"
                 android:paddingRight="16dp"
                 android:paddingBottom="14dp"
                 android:textColor="#333333"
+                android:textIsSelectable="true"
                 android:textSize="@dimen/dk_font_size_16" />
+
+            <com.didichuxing.doraemonkit.view.jsonviewer.JsonRecyclerView
+                android:id="@+id/json_body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="14dp"
+
+                />
         </LinearLayout>
 
     </ScrollView>

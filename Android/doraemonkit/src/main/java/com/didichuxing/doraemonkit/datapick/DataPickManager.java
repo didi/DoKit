@@ -7,11 +7,6 @@ import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.PathUtils;
-import com.blankj.utilcode.util.ToastUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
-import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.okgo.OkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
@@ -35,7 +30,9 @@ public class DataPickManager {
     /**
      * 埋点集合
      */
-    private List<DataPickBean> dataPicks = new ArrayList<>();
+    private List<DataPickBean.EventBean> events = new ArrayList<>();
+
+    private DataPickBean dataPickBean = new DataPickBean();
 
     private static class Holder {
         private static DataPickManager INSTANCE = new DataPickManager();
@@ -48,60 +45,30 @@ public class DataPickManager {
     /**
      * 添加埋点数据
      *
-     * @param eventType
-     * @param name
+     * @param eventName
      */
-    public void addData(@NonNull String eventType, int kitGroup, @NonNull String name) {
-        String strGroup = "main";
-        switch (kitGroup) {
-            case Category.BIZ:
-                strGroup = DoraemonKit.APPLICATION.getString(R.string.dk_category_biz);
-                break;
+    public void addData(@NonNull String eventName) {
 
-            case Category.WEEX:
-                strGroup = DoraemonKit.APPLICATION.getString(R.string.dk_category_weex);
-                break;
-            case Category.PERFORMANCE:
-                strGroup = DoraemonKit.APPLICATION.getString(R.string.dk_category_performance);
-                break;
-
-            case Category.TOOLS:
-                strGroup = DoraemonKit.APPLICATION.getString(R.string.dk_category_tools);
-                break;
-
-            case Category.UI:
-                strGroup = DoraemonKit.APPLICATION.getString(R.string.dk_category_ui);
-                break;
-            case Category.PLATFORM:
-                strGroup = DoraemonKit.APPLICATION.getString(R.string.dk_category_platform);
-
-                break;
-            default:
-                strGroup = "main";
-                break;
-        }
-
-
-        DataPickBean dataPickBean = new DataPickBean(eventType, strGroup, name);
-        if (dataPicks != null) {
-            dataPicks.add(dataPickBean);
+        DataPickBean.EventBean eventBean = new DataPickBean.EventBean(eventName);
+        if (events != null) {
+            events.add(eventBean);
             //链表数据大于10s 上传数据
-            if (dataPicks.size() >= 10) {
+            if (events.size() >= 10) {
                 postData();
                 return;
             }
             //两个埋点之间的时间大于等于60s上传数据
-            if (dataPicks.size() >= 2) {
-                long lastTime = dataPicks.get(dataPicks.size() - 1).getTime();
-                long lastSecondTime = dataPicks.get(dataPicks.size() - 2).getTime();
+            if (events.size() >= 2) {
+                long lastTime = events.get(events.size() - 1).getTime();
+                long lastSecondTime = events.get(events.size() - 2).getTime();
                 if (lastTime - lastSecondTime >= 60 * 1000) {
                     postData();
                 }
             }
 
         } else {
-            dataPicks = new ArrayList<>();
-            dataPicks.add(dataPickBean);
+            events = new ArrayList<>();
+            events.add(eventBean);
         }
     }
 
@@ -121,11 +88,11 @@ public class DataPickManager {
             return;
         }
         //判断对象是否为null
-        if (dataPicks == null || dataPicks.size() == 0) {
+        if (events == null || events.size() == 0) {
             return;
         }
-
-        strJson = GsonUtils.toJson(dataPicks);
+        dataPickBean.setEvents(events);
+        strJson = GsonUtils.toJson(dataPickBean);
         realPost(jsonFromMemory, strJson);
 
         //ToastUtils.showShort("上传埋点成功");
@@ -136,24 +103,25 @@ public class DataPickManager {
      */
     private void realPost(final int from, String content) {
         LogHelper.i(TAG, "====realPost======");
-        OkGo.<String>post("https://m.baidu.com/")
-                .params("productId", DokitConstant.PRODUCT_ID)
-                .params("content", content)
+        OkGo.<String>post("http://dokit-test.intra.xiaojukeji.com/pointData/addPointData")
+                .upJson(content)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+                        LogHelper.e(TAG, "success===>" + response.body());
                         if (from == jsonFromFile) {
                             FileUtils.delete(filePath);
                         }
                         if (from == jsonFromMemory) {
-                            dataPicks.clear();
+                            events.clear();
                         }
                     }
 
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        ToastUtils.showShort("上传埋点失败");
+                        LogHelper.e(TAG, "error===>" + response.getException().getMessage());
+                        //ToastUtils.showShort("上传埋点失败");
                     }
                 });
 
@@ -165,10 +133,11 @@ public class DataPickManager {
      * 异常情况下保存到本地保存到本地
      */
     public void saveData2Local() {
-        if (dataPicks == null || dataPicks.size() == 0) {
+        if (events == null || events.size() == 0) {
             return;
         }
+        dataPickBean.setEvents(events);
         //保存数据到本地
-        FileIOUtils.writeFileFromString(filePath, GsonUtils.toJson(dataPicks));
+        FileIOUtils.writeFileFromString(filePath, GsonUtils.toJson(dataPickBean));
     }
 }

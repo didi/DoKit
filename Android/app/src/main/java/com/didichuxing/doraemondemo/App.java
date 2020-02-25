@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.os.StrictMode;
 import android.support.multidex.MultiDex;
 
 import com.didichuxing.doraemondemo.dokit.DemoKit;
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.kit.IKit;
+import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
@@ -27,11 +26,11 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        List<IKit> kits = new ArrayList<>();
+        List<AbstractKit> kits = new ArrayList<>();
         kits.add(new DemoKit());
         //测试环境:a49842eeebeb1989b3f9565eb12c276b
         //线上环境:749a0600b5e48dd77cf8ee680be7b1b7
-        DoraemonKit.install(this, kits, "749a0600b5e48dd77cf8ee680be7b1b7");
+        DoraemonKit.install(this, kits, "a49842eeebeb1989b3f9565eb12c276b");
         //是否显示入口icon
         //DoraemonKit.setAwaysShowMainIcon(false);
         DoraemonKit.disableUpload();

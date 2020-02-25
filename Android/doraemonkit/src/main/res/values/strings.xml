@@ -16,7 +16,7 @@
     <string name="dk_kit_list">工具列表</string>
     <string name="dk_kit_demo">demo</string>
     <string name="dk_kit_file_explorer">沙盒游览</string>
-    <string name="dk_kit_frame_info">流畅度(帧率等)</string>
+    <string name="dk_kit_frame_info">帧率</string>
     <string name="dk_kit_frame_info_desc">帧率检测</string>
     <string name="dk_kit_gps_mock">位置模拟</string>
     <string name="dk_kit_color_picker">取色器</string>

@@ -16,6 +16,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.ScreenUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.layoutborder.ViewBorderFrameLayout;
@@ -31,33 +34,19 @@ public class UIUtils {
     private static final String TAG = "UIUtils";
 
     public static int dp2px(float dpValue) {
-        final float scale = DoraemonKit.APPLICATION.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+        return ConvertUtils.dp2px(dpValue);
     }
 
-    public static float px2dp(int px) {
-        DisplayMetrics displayMetrics = DoraemonKit.APPLICATION.getResources().getDisplayMetrics();
-        return Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    public static int px2dp(int px) {
+        return ConvertUtils.px2dp(px);
     }
 
     public static float getDensity() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) DoraemonKit.APPLICATION.getSystemService(Context.WINDOW_SERVICE);
-        if (windowManager == null) {
-            return 0;
-        }
-        windowManager.getDefaultDisplay().getMetrics(metrics);
-        return metrics.density;
+        return ScreenUtils.getScreenDensity();
     }
 
     public static int getDensityDpi() {
-        DisplayMetrics metrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) DoraemonKit.APPLICATION.getSystemService(Context.WINDOW_SERVICE);
-        if (windowManager == null) {
-            return 0;
-        }
-        windowManager.getDefaultDisplay().getMetrics(metrics);
-        return metrics.densityDpi;
+        return ScreenUtils.getScreenDensityDpi();
     }
 
     public static int getWidthPixels() {
@@ -212,7 +201,6 @@ public class UIUtils {
 
         for (int index = 0; index < decorView.getChildCount(); index++) {
             View child = decorView.getChildAt(index);
-            //LogHelper.i(TAG, "childId=====>" + getIdText(child));
             //解决与布局边框工具冲突的问题
             if ((child instanceof LinearLayout && TextUtils.isEmpty(getIdText(child).trim())) || child instanceof FrameLayout) {
                 if (getIdText(child).trim().equals(STR_VIEW_BORDER_Id)) {

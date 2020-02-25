@@ -20,12 +20,9 @@ import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
-import com.didichuxing.doraemonkit.kit.custom.UploadMonitorInfoBean;
-import com.didichuxing.doraemonkit.kit.custom.UploadMonitorItem;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -54,11 +51,6 @@ public class PerformanceDataManager {
     private String memoryFileName = "memory.txt";
     private String cpuFileName = "cpu.txt";
     private String fpsFileName = "fps.txt";
-    /**
-     * 自定义测试页面保存的文件名称
-     */
-    private String customFileName = "custom.txt";
-
 
     //private int mLastSkippedFrames;
     /**
@@ -89,13 +81,11 @@ public class PerformanceDataManager {
     private RandomAccessFile mAppStatFile;
     private Long mLastCpuTime;
     private Long mLastAppCpuTime;
-    private boolean mAboveAndroidO; // 是否是8.0及其以上
+    // 是否是8.0及其以上
+    private boolean mAboveAndroidO;
     private static final int MSG_CPU = 1;
     private static final int MSG_MEMORY = 2;
-    private static final int MSG_SAVE_LOCAL = 3;
     private static final int MSG_NET_FLOW = 4;
-    private UploadMonitorInfoBean mUploadMonitorBean;
-    private boolean mUploading;
     private Handler mMainHandler = new Handler(Looper.getMainLooper());
     private FrameRateRunnable mRateRunnable = new FrameRateRunnable();
 
@@ -220,10 +210,11 @@ public class PerformanceDataManager {
                         mLastUpBytes = NetworkManager.get().getTotalRequestSize() - mUpBytes;
                         mLastDownBytes = NetworkManager.get().getTotalResponseSize() - mDownBytes;
                         mNormalHandler.sendEmptyMessageDelayed(MSG_NET_FLOW, NORMAL_SAMPLING_TIME);
-                    } else if (msg.what == MSG_SAVE_LOCAL) {
-                        saveToLocal();
-                        mNormalHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_SAMPLING_TIME);
                     }
+//                    else if (msg.what == MSG_SAVE_LOCAL) {
+//                        saveToLocal();
+//                        mNormalHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_SAMPLING_TIME);
+//                    }
                 }
             };
         }
@@ -263,46 +254,6 @@ public class PerformanceDataManager {
         mNormalHandler.removeMessages(MSG_NET_FLOW);
     }
 
-    public void startUploadMonitorData() {
-        mUploading = true;
-        if (mUploadMonitorBean != null) {
-            mUploadMonitorBean = null;
-        }
-        if (PerformanceSpInfoConfig.isFPSOpen(mContext)) {
-            startMonitorFrameInfo();
-        }
-        if (PerformanceSpInfoConfig.isCPUOpen(mContext)) {
-            startMonitorCPUInfo();
-        }
-        if (PerformanceSpInfoConfig.isMemoryOpen(mContext)) {
-            startMonitorMemoryInfo();
-        }
-        if (PerformanceSpInfoConfig.isTrafficOpen(mContext)) {
-            NetworkManager.get().startMonitor();
-            startMonitorNetFlowInfo();
-        }
-        mNormalHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_SAMPLING_TIME);
-    }
-
-    public void stopUploadMonitorData() {
-        mUploading = false;
-        mNormalHandler.removeMessages(MSG_SAVE_LOCAL);
-        // uploadDataToLocalFile();
-        stopMonitorFrameInfo();
-        stopMonitorCPUInfo();
-        stopMonitorMemoryInfo();
-        stopMonitorNetFlowInfo();
-        NetworkManager.get().stopMonitor();
-    }
-
-    public boolean isUploading() {
-        return mUploading;
-    }
-
-    public void stopMonitorCPUInfo() {
-        PerformanceMemoryInfoConfig.CPU_STATUS = false;
-        mNormalHandler.removeMessages(MSG_CPU);
-    }
 
     public void destroy() {
         stopMonitorMemoryInfo();
@@ -315,44 +266,16 @@ public class PerformanceDataManager {
         mNormalHandler = null;
     }
 
-    private void saveToLocal() {
-        if (mUploadMonitorBean == null) {
-            mUploadMonitorBean = new UploadMonitorInfoBean();
-            mUploadMonitorBean.appName = mContext.getPackageName();
-            if (mUploadMonitorBean.performanceArray == null) {
-                mUploadMonitorBean.performanceArray = new ArrayList<>();
-            }
-        }
-        NetworkManager networkManager = NetworkManager.get();
-        long upSize = networkManager.getTotalRequestSize();
-        long downSize = networkManager.getTotalResponseSize();
 
-        UploadMonitorItem info = new UploadMonitorItem();
-        info.cpu = mLastCpuRate;
-        info.fps = mLastFrameRate;
-        info.memory = mLastMemoryRate;
-        info.upFlow = mLastUpBytes;
-        info.downFlow = mLastDownBytes;
-        mUpBytes = upSize;
-        mDownBytes = downSize;
-        info.timestamp = System.currentTimeMillis();
 
-        String pageName = "unkown";
-        if (ActivityUtils.getTopActivity() != null) {
-            pageName = ActivityUtils.getTopActivity().getLocalClassName();
-        }
-        info.page = pageName;
-        mUploadMonitorBean.performanceArray.add(info);
+    public void stopMonitorCPUInfo() {
+        PerformanceMemoryInfoConfig.CPU_STATUS = false;
+        mNormalHandler.removeMessages(MSG_CPU);
     }
 
-//    private void uploadDataToLocalFile() {
-//        ThreadPoolProxyFactory.getThreadPoolProxy().execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                FileManager.writeTxtToFile(JsonUtil.jsonFromObject(mUploadMonitorBean), getFilePath(mContext), customFileName);
-//            }
-//        });
-//    }
+
+
+
 
     public void startMonitorMemoryInfo() {
         PerformanceMemoryInfoConfig.RAM_STATUS = true;
@@ -433,7 +356,8 @@ public class PerformanceDataManager {
         float mem = 0.0F;
         try {
             Debug.MemoryInfo memInfo = null;
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            //28 为Android P
+            if (Build.VERSION.SDK_INT > 28) {
                 // 统计进程的内存信息 totalPss
                 memInfo = new Debug.MemoryInfo();
                 Debug.getMemoryInfo(memInfo);
@@ -514,9 +438,6 @@ public class PerformanceDataManager {
         return getFilePath(mContext) + fpsFileName;
     }
 
-    public String getCustomFilePath() {
-        return getFilePath(mContext) + customFileName;
-    }
 
     public long getLastFrameRate() {
         return mLastFrameRate;

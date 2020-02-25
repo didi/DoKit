@@ -11,6 +11,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.ReflectUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
@@ -20,8 +21,8 @@ import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;
+import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerKit;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit;
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerKit;
@@ -64,6 +65,7 @@ import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
+import com.google.common.reflect.Reflection;
 import com.sjtu.yifei.AbridgeCallBack;
 import com.sjtu.yifei.IBridge;
 
@@ -72,6 +74,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+
+import dalvik.system.PathClassLoader;
 
 /**
  * Created by jintai on 2019/12/18.
@@ -105,7 +109,7 @@ class DoraemonKitReal {
         install(app, null);
     }
 
-    static void install(Application app, List<IKit> selfKits) {
+    static void install(Application app, List<AbstractKit> selfKits) {
         install(app, selfKits, "");
     }
 
@@ -114,18 +118,18 @@ class DoraemonKitReal {
      * @param selfKits  自定义kits
      * @param productId Dokit平台端申请的productId
      */
-    static void install(final Application app, List<IKit> selfKits, String productId) {
+    static void install(final Application app, List<AbstractKit> selfKits, String productId) {
         DokitConstant.PRODUCT_ID = productId;
         DokitConstant.APP_HEALTH_RUNNING = GlobalConfig.getAppHealth(DoraemonKit.APPLICATION);
         //添加常用工具
         if (sHasInit) {
             //已经初始化添加自定义kits
             if (selfKits != null) {
-                List<IKit> biz = DokitConstant.KIT_MAPS.get(Category.BIZ);
+                List<AbstractKit> biz = DokitConstant.KIT_MAPS.get(Category.BIZ);
                 if (biz != null) {
                     biz.clear();
                     biz.addAll(selfKits);
-                    for (IKit kit : biz) {
+                    for (AbstractKit kit : biz) {
                         kit.onAppInit(app);
                     }
                 }
@@ -158,24 +162,24 @@ class DoraemonKitReal {
         DokitConstant.KIT_MAPS.clear();
 
         //业务专区
-        List<IKit> biz = new ArrayList<>();
+        List<AbstractKit> biz = new ArrayList<>();
         //weex专区
-        List<IKit> weex = new ArrayList<>();
+        List<AbstractKit> weex = new ArrayList<>();
 
         //常用工具
-        List<IKit> tool = new ArrayList<>();
+        List<AbstractKit> tool = new ArrayList<>();
         //性能监控
-        List<IKit> performance = new ArrayList<>();
+        List<AbstractKit> performance = new ArrayList<>();
         //视觉工具
-        List<IKit> ui = new ArrayList<>();
+        List<AbstractKit> ui = new ArrayList<>();
         //平台工具
-        List<IKit> platform = new ArrayList<>();
+        List<AbstractKit> platform = new ArrayList<>();
         //悬浮窗模式
-        List<IKit> floatMode = new ArrayList<>();
+        List<AbstractKit> floatMode = new ArrayList<>();
         //退出
-        List<IKit> exit = new ArrayList<>();
+        List<AbstractKit> exit = new ArrayList<>();
         //版本号
-        List<IKit> version = new ArrayList<>();
+        List<AbstractKit> version = new ArrayList<>();
         //添加工具kit
         tool.add(new SysInfoKit());
         tool.add(new FileExplorerKit());
@@ -202,7 +206,7 @@ class DoraemonKitReal {
 
         try {
             //动态添加leakcanary
-            IKit leakCanaryKit = (IKit) Class.forName("com.didichuxing.doraemonkit.kit.leakcanary.LeakCanaryKit").newInstance();
+            AbstractKit leakCanaryKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.kit.leakcanary.LeakCanaryKit").newInstance();
             performance.add(leakCanaryKit);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -237,29 +241,29 @@ class DoraemonKitReal {
             biz.addAll(selfKits);
         }
         //调用kit 初始化
-        for (IKit kit : biz) {
+        for (AbstractKit kit : biz) {
             kit.onAppInit(app);
         }
-        for (IKit kit : performance) {
+        for (AbstractKit kit : performance) {
             kit.onAppInit(app);
         }
-        for (IKit kit : tool) {
+        for (AbstractKit kit : tool) {
             kit.onAppInit(app);
         }
-        for (IKit kit : ui) {
+        for (AbstractKit kit : ui) {
             kit.onAppInit(app);
         }
         //注入到sKitMap中
         DokitConstant.KIT_MAPS.put(Category.BIZ, biz);
         //动态添加weex专区
         try {
-            IKit weexLogKit = (IKit) Class.forName("com.didichuxing.doraemonkit.weex.log.WeexLogKit").newInstance();
+            AbstractKit weexLogKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.weex.log.WeexLogKit").newInstance();
             weex.add(weexLogKit);
-            IKit storageKit = (IKit) Class.forName("com.didichuxing.doraemonkit.weex.storage.StorageKit").newInstance();
+            AbstractKit storageKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.weex.storage.StorageKit").newInstance();
             weex.add(storageKit);
-            IKit weexInfoKit = (IKit) Class.forName("com.didichuxing.doraemonkit.weex.info.WeexInfoKit").newInstance();
+            AbstractKit weexInfoKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.weex.info.WeexInfoKit").newInstance();
             weex.add(weexInfoKit);
-            IKit devToolKit = (IKit) Class.forName("com.didichuxing.doraemonkit.weex.devtool.DevToolKit").newInstance();
+            AbstractKit devToolKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.weex.devtool.DevToolKit").newInstance();
             weex.add(devToolKit);
             DokitConstant.KIT_MAPS.put(Category.WEEX, weex);
         } catch (ClassNotFoundException e) {

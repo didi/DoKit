@@ -38,7 +38,6 @@ import static android.os.Build.VERSION_CODES.N;
 import static android.os.Build.VERSION_CODES.N_MR1;
 import static android.os.Build.VERSION_CODES.O;
 import static android.os.Build.VERSION_CODES.O_MR1;
-import static android.os.Build.VERSION_CODES.P;
 
 /**
  * This class is a work in progress. You can help by reporting leak traces that seem to be caused
@@ -617,7 +616,8 @@ public enum AndroidExcludedRefs {
     }
   },
 
-  VIEWLOCATIONHOLDER_ROOT(SDK_INT == P) {
+  //28 为安卓P
+  VIEWLOCATIONHOLDER_ROOT(SDK_INT == 28) {
     @Override
     void add(ExcludedRefs.Builder excluded) {
       //  In Android P, ViewLocationHolder has an mRoot field that is not cleared in its clear()

@@ -46,4 +46,14 @@ public class ColorPickerKit extends AbstractKit {
     public void onAppInit(Context context) {
         ColorPickConfig.setColorPickOpen(context, false);
     }
+
+    @Override
+    public boolean isInnerKit() {
+        return true;
+    }
+
+    @Override
+    public String innerKitId() {
+        return "dokit_sdk_ui_ck_color_pick";
+    }
 }

@@ -40,4 +40,13 @@ public class LogInfoKit extends AbstractKit {
         LogInfoConfig.setLogInfoOpen(context, false);
     }
 
+    @Override
+    public boolean isInnerKit() {
+        return true;
+    }
+
+    @Override
+    public String innerKitId() {
+        return "dokit_sdk_comm_ck_log";
+    }
 }

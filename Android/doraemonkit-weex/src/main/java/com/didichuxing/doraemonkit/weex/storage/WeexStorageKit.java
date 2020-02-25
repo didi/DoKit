@@ -11,7 +11,7 @@ import com.didichuxing.doraemonkit.weex.common.DKCommonActivity;
  * @author haojianglong
  * @date 2019-06-11
  */
-public class StorageKit extends AbstractKit {
+public class WeexStorageKit extends AbstractKit {
 
     @Override
     public int getCategory() {
@@ -37,5 +37,16 @@ public class StorageKit extends AbstractKit {
     public void onAppInit(Context context) {
 
     }
+
+    @Override
+    public boolean isInnerKit() {
+        return true;
+    }
+
+    @Override
+    public String innerKitId() {
+        return "dokit_sdk_weex_ck_storage";
+    }
+
 
 }

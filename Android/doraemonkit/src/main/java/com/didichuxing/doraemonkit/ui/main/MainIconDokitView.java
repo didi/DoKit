@@ -35,7 +35,7 @@ public class MainIconDokitView extends AbsDokitView {
             @Override
             public void onClick(View v) {
                 //统计入口
-                DataPickManager.getInstance().addData("click", 1, "mainIcon");
+                DataPickManager.getInstance().addData("dokit_sdk_home_ck_entry");
                 DokitIntent dokitViewIntent = new DokitIntent(ToolPanelDokitView.class);
                 dokitViewIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
                 DokitViewManager.getInstance().attach(dokitViewIntent);

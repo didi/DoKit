@@ -11,7 +11,7 @@ import com.didichuxing.doraemonkit.weex.R;
  * @author haojianglong
  * @date 2019-06-11
  */
-public class DevToolKit extends AbstractKit {
+public class WeexDevToolKit extends AbstractKit {
 
     @Override
     public int getCategory() {
@@ -40,4 +40,13 @@ public class DevToolKit extends AbstractKit {
 
     }
 
+    @Override
+    public boolean isInnerKit() {
+        return true;
+    }
+
+    @Override
+    public String innerKitId() {
+        return "dokit_sdk_weex_ck_devtool";
+    }
 }

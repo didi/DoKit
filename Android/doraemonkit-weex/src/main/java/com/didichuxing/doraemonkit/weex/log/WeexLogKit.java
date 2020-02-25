@@ -41,4 +41,13 @@ public class WeexLogKit extends AbstractKit {
 
     }
 
+    @Override
+    public boolean isInnerKit() {
+        return true;
+    }
+
+    @Override
+    public String innerKitId() {
+        return "dokit_sdk_weex_ck_log";
+    }
 }

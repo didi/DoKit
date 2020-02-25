@@ -4,7 +4,7 @@ import android.util.SparseArray;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.GlobalConfig;
-import com.didichuxing.doraemonkit.kit.IKit;
+import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
@@ -62,11 +62,11 @@ public class DokitConstant {
     /**
      * 全局的dokit Kit信息
      */
-    public static SparseArray<List<IKit>> KIT_MAPS = new SparseArray<>();
+    public static SparseArray<List<AbstractKit>> KIT_MAPS = new SparseArray<>();
 
     public static Map<String, ActivityLifecycleInfo> ACTIVITY_LIFECYCLE_INFOS = new HashMap<>();
 
-    public static List<IKit> getKitList(int catgory) {
+    public static List<AbstractKit> getKitList(int catgory) {
         if (KIT_MAPS.get(catgory) != null) {
             return new ArrayList<>(KIT_MAPS.get(catgory));
         } else {
@@ -83,7 +83,7 @@ public class DokitConstant {
     public static List<KitItem> getKitItems(int catgory) {
         if (KIT_MAPS.get(catgory) != null) {
             List<KitItem> kitItems = new ArrayList<>();
-            for (IKit kit : KIT_MAPS.get(catgory)) {
+            for (AbstractKit kit : KIT_MAPS.get(catgory)) {
                 kitItems.add(new KitItem(kit));
             }
             return kitItems;

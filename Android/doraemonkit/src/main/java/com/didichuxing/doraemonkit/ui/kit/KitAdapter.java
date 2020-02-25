@@ -1,11 +1,13 @@
 package com.didichuxing.doraemonkit.ui.kit;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
@@ -65,7 +67,11 @@ public class KitAdapter extends AbsRecyclerAdapter<AbsViewBinder<KitItem>, KitIt
             data.kit.onClick(getContext());
             try {
                 //添加埋点
-                DataPickManager.getInstance().addData("click", data.kit.getCategory(), getContext().getString(data.kit.getName()));
+                if (data.kit.isInnerKit() && !TextUtils.isEmpty(data.kit.innerKitId())) {
+                    DataPickManager.getInstance().addData(data.kit.innerKitId());
+                } else {
+                    DataPickManager.getInstance().addData("dokit_sdk_business_ck");
+                }
             } catch (Exception e) {
                 LogHelper.i(TAG, "error===>" + e.getMessage());
                 e.printStackTrace();

@@ -29,7 +29,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--用于申请调用A-GPS模块-->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-
+<!-- https://blog.csdn.net/CHS007chs/article/details/85849625
+   tools:replace="android:allowBackup,android:label"-->
     <application
         android:name=".App"
         android:allowBackup="false"
@@ -37,7 +38,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/dk_app_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".WebViewActivity" />
         <activity android:name=".SecondActivity" />
