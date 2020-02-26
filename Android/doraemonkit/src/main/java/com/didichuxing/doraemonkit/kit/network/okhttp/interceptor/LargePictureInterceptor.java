@@ -24,6 +24,7 @@ public class LargePictureInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
+        LogHelper.i(TAG, "=====LargePictureInterceptor====");
         Request request = chain.request();
         Response response = chain.proceed(request);
         String contentType = response.header("Content-Type");

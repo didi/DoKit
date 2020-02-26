@@ -341,24 +341,28 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
             case R.id.btn_load_img:
                 //Glide 加载
                 String imgUrl = "http://b-ssl.duitang.com/uploads/item/201808/27/20180827043223_twunu.jpg";
-                Glide.with(MainDebugActivity.this)
-                        .asBitmap()
-                        .load(imgUrl)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .transform(new LargeBitmapGlideTransformation(imgUrl))
-                        .into((ImageView) findViewById(R.id.iv_glide));
+//                Glide.with(MainDebugActivity.this)
+//                        .asBitmap()
+//                        .load(imgUrl)
+//                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                        .skipMemoryCache(true)
+//                        .transform(new LargeBitmapGlideTransformation(imgUrl))
+//                        .into((ImageView) findViewById(R.id.iv_glide));
+//
+//                Picasso.get().load(imgUrl)
+//                        .transform(new LargeBitmapPicassoTransformation(imgUrl))
+//                        .into((ImageView) findViewById(R.id.iv_picasso));
+//
+//                FrescoUtil.loadImage((SimpleDraweeView) findViewById(R.id.iv_fresco), imgUrl);
 
-                Picasso.get().load(imgUrl)
-                        .transform(new LargeBitmapPicassoTransformation(imgUrl))
-                        .into((ImageView) findViewById(R.id.iv_picasso));
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        requestImage(imgUrl);
-//                    }
-//                }).start();
-                FrescoUtil.loadImage((SimpleDraweeView) findViewById(R.id.iv_fresco), imgUrl);
+
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        requestImage(imgUrl);
+                    }
+                }).start();
+
 
                 break;
 

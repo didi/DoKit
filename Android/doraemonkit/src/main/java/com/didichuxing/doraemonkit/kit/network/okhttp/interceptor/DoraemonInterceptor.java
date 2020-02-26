@@ -9,6 +9,7 @@ import com.didichuxing.doraemonkit.kit.network.core.RequestBodyHelper;
 import com.didichuxing.doraemonkit.kit.network.okhttp.ForwardingResponseBody;
 import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorRequest;
 import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorResponse;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,6 +30,7 @@ public class DoraemonInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
+        LogHelper.i(TAG,"=====DoraemonInterceptor====");
         if (!NetworkManager.isActive()) {
             Request request = chain.request();
             return chain.proceed(request);

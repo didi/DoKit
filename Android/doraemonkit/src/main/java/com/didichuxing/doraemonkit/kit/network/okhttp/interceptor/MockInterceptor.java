@@ -10,6 +10,7 @@ import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
+import com.didichuxing.doraemonkit.kit.network.core.ResourceType;
 import com.didichuxing.doraemonkit.kit.network.core.ResourceTypeHelper;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
@@ -38,11 +39,22 @@ public class MockInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
+        LogHelper.i(TAG, "=====MockInterceptor====");
         Request oldRequest = chain.request();
         Response oldResponse = chain.proceed(oldRequest);
 
         HttpUrl url = oldRequest.url();
         String host = url.host();
+        String contentType = oldResponse.header("Content-Type");
+        //如果是图片则不进行拦截
+        ResourceType resourceType =
+                contentType != null ?
+                        getResourceTypeHelper().determineResourceType(contentType) :
+                        null;
+        if (resourceType == ResourceType.IMAGE) {
+            return oldResponse;
+        }
+
         //如果是mock平台的接口则不进行拦截
         if (host.equalsIgnoreCase(NetworkManager.MOCK_HOST)) {
             return oldResponse;
@@ -144,7 +156,7 @@ public class MockInterceptor implements Interceptor {
         //判断是否需要重定向数据接口
         //http https
         String scheme = url.scheme();
-        MockInterceptApiBean interceptApiBean = (MockInterceptApiBean) DokitDbManager.getInstance().getInterceptApiByIdInMap(path, interceptMatchedId,DokitDbManager.FROM_SDK_OTHER);
+        MockInterceptApiBean interceptApiBean = (MockInterceptApiBean) DokitDbManager.getInstance().getInterceptApiByIdInMap(path, interceptMatchedId, DokitDbManager.FROM_SDK_OTHER);
         if (interceptApiBean == null) {
             matchedTemplateRule(oldResponse, path, templateMatchedId);
             return oldResponse;
@@ -200,7 +212,7 @@ public class MockInterceptor implements Interceptor {
         if (TextUtils.isEmpty(templateMatchedId)) {
             return;
         }
-        MockTemplateApiBean templateApiBean = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, templateMatchedId,DokitDbManager.FROM_SDK_OTHER);
+        MockTemplateApiBean templateApiBean = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, templateMatchedId, DokitDbManager.FROM_SDK_OTHER);
         if (templateApiBean == null) {
             return;
         }
