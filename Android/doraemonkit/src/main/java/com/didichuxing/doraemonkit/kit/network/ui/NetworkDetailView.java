@@ -19,6 +19,7 @@ import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.json.JSONObject;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
@@ -97,7 +98,7 @@ public class NetworkDetailView extends LinearLayout {
             header.setText(response.headers);
             time.setText(mDateFormat.format(new Date(record.endTime)));
             size.setText(ByteUtil.getPrintSize(record.responseLength));
-            body.setText(TextUtils.isEmpty(record.mResponseBody) ? "NULL" : record.mResponseBody);
+            body.setText(TextUtils.isEmpty(record.responseBody()) ? "NULL" : record.responseBody());
         }
     }
 }
