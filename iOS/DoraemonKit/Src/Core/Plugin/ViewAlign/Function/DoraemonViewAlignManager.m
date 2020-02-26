@@ -50,7 +50,6 @@
     }
 //    _alignView.hidden = NO;
     [_alignView show];
-    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonShowPluginNotification object:nil userInfo:nil];
 }
 
 - (void)hidden{

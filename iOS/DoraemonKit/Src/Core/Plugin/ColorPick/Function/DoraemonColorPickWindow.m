@@ -88,7 +88,6 @@ static CGFloat const kColorPickWindowSize = 150;
 
 - (void)show {
     self.hidden = NO;
-    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonShowPluginNotification object:nil userInfo:nil];
 }
 
 - (void)hide {

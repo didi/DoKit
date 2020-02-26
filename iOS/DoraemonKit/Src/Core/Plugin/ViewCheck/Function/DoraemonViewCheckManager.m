@@ -48,7 +48,6 @@
         [kDelegateWindow addSubview:_viewCheckView];
     }
     [_viewCheckView show];
-    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonShowPluginNotification object:nil userInfo:nil];
 }
 
 - (void)hidden{

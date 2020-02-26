@@ -45,7 +45,6 @@
 #define STRING_NOT_NULL(str) ((str==nil)?@"":str)
 
 
-#define DoraemonShowPluginNotification @"DoraemonShowPluginNotification"
 #define DoraemonClosePluginNotification @"DoraemonClosePluginNotification"
 #define DoraemonQuickOpenLogVCNotification @"DoraemonQuickOpenLogVCNotification"
 

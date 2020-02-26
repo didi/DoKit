@@ -30,13 +30,10 @@
 }
 
 - (void)show {
-    [self makeKeyAndVisible];
-//    self.hidden = NO;
-    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonShowPluginNotification object:nil userInfo:nil];
+    self.hidden = NO;
 }
 
 - (void)hide {
-    [self resignKeyWindow];
     self.hidden = YES;
 }
 
