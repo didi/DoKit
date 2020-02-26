@@ -9,8 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface DoraemonEntryView : UIWindow
-
 // 定制位置
-@property (nonatomic) CGPoint startingPosition;
-
+- (instancetype)initWithStartPoint:(CGPoint)startingPosition;
+- (void)show;
 @end

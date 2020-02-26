@@ -290,11 +290,8 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
  初始化工具入口
  */
 - (void)initEntry:(CGPoint) startingPosition{
-    _entryView = [DoraemonEntryView alloc];
-    _entryView.startingPosition = startingPosition;
-    _entryView = [_entryView init];
-    
-    [_entryView makeKeyAndVisible];
+    _entryView = [[DoraemonEntryView alloc] initWithStartPoint:startingPosition];
+    [_entryView show];
 }
 
 - (void)addStartPlugin:(NSString *)pluginName{

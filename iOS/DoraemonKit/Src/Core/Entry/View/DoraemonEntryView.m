@@ -19,6 +19,7 @@
 
 @property (nonatomic, strong) UIButton *entryBtn;
 @property (nonatomic, assign) CGFloat kEntryViewSize;
+@property (nonatomic) CGPoint startingPosition;
 
 @end
 
@@ -60,7 +61,8 @@
 #endif
 }
 
-- (instancetype)init{
+- (instancetype)initWithStartPoint:(CGPoint)startingPosition{
+    self.startingPosition = startingPosition;
     _kEntryViewSize = 58;
     CGFloat x = self.startingPosition.x;
     CGFloat y = self.startingPosition.y;
@@ -74,7 +76,7 @@
     }
     
     self = [super initWithFrame:CGRectMake(x, y, _kEntryViewSize, _kEntryViewSize)];
-    if (self) { 
+    if (self) {
         self.backgroundColor = [UIColor clearColor];
         self.windowLevel = UIWindowLevelStatusBar + 100.f;
         self.layer.masksToBounds = YES;
@@ -97,6 +99,10 @@
     return self;
 }
 
+- (void)show{
+    self.hidden = NO;
+}
+
 - (void)showClose:(NSNotification *)notification{
     [_entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
     [_entryBtn removeTarget:self action:@selector(showClose:) forControlEvents:UIControlEventTouchUpInside];
@@ -108,12 +114,6 @@
     [_entryBtn removeTarget:self action:@selector(closePluginClick:) forControlEvents:UIControlEventTouchUpInside];
     [_entryBtn addTarget:self action:@selector(entryClick:) forControlEvents:UIControlEventTouchUpInside];
     [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonClosePluginNotification object:nil userInfo:nil];
-}
-
-//不能让该View成为keyWindow，每一次它要成为keyWindow的时候，都要将appDelegate的window指为keyWindow
-- (void)becomeKeyWindow{
-    UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
-    [appWindow makeKeyWindow];
 }
 
 /**
