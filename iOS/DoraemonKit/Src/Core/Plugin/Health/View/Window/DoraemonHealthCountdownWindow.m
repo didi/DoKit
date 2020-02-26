@@ -31,11 +31,6 @@
     return instance;
 }
 
-- (void)becomeKeyWindow{
-    UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
-    [appWindow makeKeyWindow];
-}
-
 - (instancetype)init{
     _showViewSize = kDoraemonSizeFrom750_Landscape(100);
     CGFloat x = DoraemonScreenWidth - _showViewSize;

@@ -45,11 +45,6 @@
     return self;
 }
 
-- (void)becomeKeyWindow{
-    UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
-    [appWindow makeKeyWindow];
-}
-
 - (void)show{
     self.hidden = NO;
     self.frame = CGRectMake(0, 0, DoraemonScreenWidth, IPHONE_STATUSBAR_HEIGHT + 15);

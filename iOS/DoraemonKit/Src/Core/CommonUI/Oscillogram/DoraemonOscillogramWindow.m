@@ -59,11 +59,6 @@
    //需要子类重写
 }
 
-- (void)becomeKeyWindow{
-    UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
-    [appWindow makeKeyWindow];
-}
-
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
     // 默认曲线图不拦截触摸事件，只有在关闭按钮z之类才响应
     if (CGRectContainsPoint(self.vc.closeBtn.frame, point)) {

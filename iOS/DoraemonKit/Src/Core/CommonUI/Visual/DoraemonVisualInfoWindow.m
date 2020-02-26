@@ -134,13 +134,6 @@
     [self addGestureRecognizer:pan];
 }
 
-#pragma mark - Override
-
-- (void)becomeKeyWindow {
-    UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
-    [appWindow makeKeyWindow];
-}
-
 #pragma mark - Actions
 
 - (void)pan:(UIPanGestureRecognizer *)sender{

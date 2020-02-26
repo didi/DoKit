@@ -69,14 +69,6 @@
     return self;
 }
 
-#pragma mark - Override
-
-//不能让该View成为keyWindow，每一次它要成为keyWindow的时候，都要将appDelegate的window指为keyWindow
-- (void)becomeKeyWindow {
-    UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
-    [appWindow makeKeyWindow];
-}
-
 #pragma mark - Public
 
 - (void)show{
