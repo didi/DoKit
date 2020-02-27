@@ -154,7 +154,7 @@
         DoraemonSandboxModel *model = [self.anrArray objectAtIndex:indexPath.row];
         if (model.type == DoraemonSandboxFileTypeFile) {
             DoraemonANRDetailViewController *vc = [[DoraemonANRDetailViewController alloc] init];
-            vc.anrInfo = [NSDictionary dictionaryWithContentsOfFile:model.path];
+            vc.filePath = model.path;
             [self.navigationController pushViewController:vc animated:YES];
         } else if (model.type == DoraemonSandboxFileTypeDirectory) {
             [self loadPath:model.path];

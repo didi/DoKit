@@ -9,6 +9,7 @@
 #import "DoraemonUtil.h"
 #import "UIViewController+Doraemon.h"
 #import "DoraemonHomeWindow.h"
+#import "DoraemonAppInfoUtil.h"
 
 @implementation DoraemonUtil
 
@@ -241,6 +242,31 @@
 
 + (UIViewController *)topViewControllerForKeyWindow {
     return [UIViewController topViewControllerForKeyWindow];
+}
+
+//分享文件
++ (void)shareFileWithPath:(NSString *)filePath formVC:(UIViewController *)vc{
+    NSURL *url = [NSURL fileURLWithPath:filePath];
+    NSArray *objectsToShare = @[url];
+
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
+    NSArray *excludedActivities = @[UIActivityTypePostToTwitter, UIActivityTypePostToFacebook,
+                                    UIActivityTypePostToWeibo,
+                                    UIActivityTypeMessage, UIActivityTypeMail,
+                                    UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
+                                    UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll,
+                                    UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr,
+                                    UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo];
+    controller.excludedActivityTypes = excludedActivities;
+
+    if([DoraemonAppInfoUtil isIpad]){
+        if ( [controller respondsToSelector:@selector(popoverPresentationController)] ) {
+            controller.popoverPresentationController.sourceView = vc.view;
+        }
+        [vc presentViewController:controller animated:YES completion:nil];
+    }else{
+        [vc presentViewController:controller animated:YES completion:nil];
+    }
 }
 
 @end

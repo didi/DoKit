@@ -12,6 +12,7 @@
 #import "DoraemonAppInfoUtil.h"
 #import "DoraemonDefine.h"
 #import "DoraemonSandboxCell.h"
+#import "DoraemonUtil.h"
 
 @interface DoraemonSandboxViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -223,27 +224,7 @@
 
 
 - (void)shareFileWithPath:(NSString *)filePath {
-    NSURL *url = [NSURL fileURLWithPath:filePath];
-    NSArray *objectsToShare = @[url];
-
-    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
-    NSArray *excludedActivities = @[UIActivityTypePostToTwitter, UIActivityTypePostToFacebook,
-                                    UIActivityTypePostToWeibo,
-                                    UIActivityTypeMessage, UIActivityTypeMail,
-                                    UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
-                                    UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll,
-                                    UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr,
-                                    UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo];
-    controller.excludedActivityTypes = excludedActivities;
-
-    if([DoraemonAppInfoUtil isIpad]){
-        if ( [controller respondsToSelector:@selector(popoverPresentationController)] ) {
-            controller.popoverPresentationController.sourceView = self.view;
-        }
-        [self presentViewController:controller animated:YES completion:nil];
-    }else{
-        [self presentViewController:controller animated:YES completion:nil];
-    }
+    [DoraemonUtil shareFileWithPath:filePath formVC:self];
 }
 
 - (void)deleteByDoraemonSandboxModel:(DoraemonSandboxModel *)model {

@@ -17,5 +17,7 @@
 
 - (void)setLeftNavBarItems:(NSArray *)items;
 - (void)leftNavBackClick:(id)clickView;
+- (void)setRightNavTitle:(NSString *)title;
+- (void)rightNavTitleClick:(id)clickView;
 
 @end

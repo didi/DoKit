@@ -9,6 +9,6 @@
 
 @interface DoraemonANRDetailViewController : DoraemonBaseViewController
 
-@property (nonatomic, strong) NSDictionary *anrInfo;
+@property (nonatomic, strong) NSString *filePath;
 
 @end

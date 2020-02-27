@@ -122,6 +122,15 @@
     }
 }
 
+- (void)setRightNavTitle:(NSString *)title{
+    DoraemonNavBarItemModel *item = [[DoraemonNavBarItemModel alloc] initWithText:title color:[UIColor doraemon_blue] selector:@selector(rightNavTitleClick:)];
+    NSArray *barItems = [self navigationItems:@[item]];
+    if (barItems) {
+        self.navigationItem.rightBarButtonItems = barItems;
+    }
+}
+
+
 - (NSArray *)navigationItems:(NSArray *)items{
     NSMutableArray *barItems = [NSMutableArray array];
     //距离左右的间距
@@ -172,6 +181,10 @@
 #pragma mark - DoraemonBaseBigTitleViewDelegate
 - (void)bigTitleCloseClick{
     [self leftNavBackClick:nil];
+}
+
+- (void)rightNavTitleClick:(id)clickView{
+    
 }
 
 //点击屏幕空白处收起键盘
