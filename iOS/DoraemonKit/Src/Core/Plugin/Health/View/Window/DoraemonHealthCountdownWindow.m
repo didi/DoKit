@@ -103,7 +103,7 @@
     if (self.count < 0) {
         [self hide];
     } else {
-        self.numberLabel.text = [NSString stringWithFormat:@"%ld",self.count];
+        self.numberLabel.text = [NSString stringWithFormat:@"%zi",self.count];
     }
     self.count--;
 }
