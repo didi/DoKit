@@ -9,8 +9,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.PhoneUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
@@ -93,9 +97,21 @@ public class SysInfoFragment extends BaseFragment {
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_android_version), Build.VERSION.RELEASE + " (" + Build.VERSION.SDK_INT + ")"));
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_ext_storage_free), DeviceUtils.getSDCardSpace(getContext())));
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_rom_free), DeviceUtils.getRomSpace(getContext())));
+        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_display_size), UIUtils.getWidthPixels() + "x" + UIUtils.getRealHeightPixels()));
+        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_display_inch), "" + UIUtils.getScreenInch(getActivity())));
         sysInfoItems.add(new SysInfoItem("ROOT", String.valueOf(DeviceUtils.isRoot(getContext()))));
         sysInfoItems.add(new SysInfoItem("DENSITY", String.valueOf(UIUtils.getDensity())));
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_display_size), UIUtils.getWidthPixels() + "x" + UIUtils.getRealHeightPixels()));
+        sysInfoItems.add(new SysInfoItem("IP", TextUtils.isEmpty(NetworkUtils.getIPAddress(true)) ? "null" : NetworkUtils.getIPAddress(true)));
+        sysInfoItems.add(new SysInfoItem("Mac", TextUtils.isEmpty(com.blankj.utilcode.util.DeviceUtils.getMacAddress()) ? "null" : com.blankj.utilcode.util.DeviceUtils.getMacAddress()));
+        try {
+            sysInfoItems.add(new SysInfoItem("IMEI", TextUtils.isEmpty(PhoneUtils.getIMEI()) ? "null" : PhoneUtils.getIMEI()));
+        } catch (Exception e) {
+        }
+        sysInfoItems.add(new SysInfoItem("Sign MD5", AppUtils.getAppSignatureMD5()));
+        sysInfoItems.add(new SysInfoItem("Sign SHA1", AppUtils.getAppSignatureSHA1()));
+        sysInfoItems.add(new SysInfoItem("Sign SHA256", AppUtils.getAppSignatureSHA256()));
+
+
     }
 
     /**
@@ -107,12 +123,12 @@ public class SysInfoFragment extends BaseFragment {
             public void run() {
                 final List<SysInfoItem> list = new ArrayList<>();
                 list.add(new TitleItem(getString(R.string.dk_sysinfo_permission_info_unreliable)));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_location), PermissionUtil.checkLocationUnreliable(getContext()) ? "YES" : "NO"));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_sdcard), PermissionUtil.checkStorageUnreliable() ? "YES" : "NO"));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_camera), PermissionUtil.checkCameraUnreliable() ? "YES" : "NO"));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_record), PermissionUtil.checkRecordUnreliable() ? "YES" : "NO"));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_read_phone), PermissionUtil.checkReadPhoneUnreliable(getContext()) ? "YES" : "NO"));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_contact), PermissionUtil.checkReadContactUnreliable(getContext()) ? "YES" : "NO"));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_location), PermissionUtil.checkLocationUnreliable(getContext()) ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_sdcard), PermissionUtil.checkStorageUnreliable() ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_camera), PermissionUtil.checkCameraUnreliable() ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_record), PermissionUtil.checkRecordUnreliable() ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_read_phone), PermissionUtil.checkReadPhoneUnreliable(getContext()) ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_contact), PermissionUtil.checkReadContactUnreliable(getContext()) ? "YES" : "NO", true));
                 getView().post(new Runnable() {
                     @Override
                     public void run() {
@@ -133,28 +149,28 @@ public class SysInfoFragment extends BaseFragment {
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION
         };
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_location), checkPermission(p1)));
+        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_location), checkPermission(p1), true));
         String[] p2 = {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         };
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_sdcard), checkPermission(p2)));
+        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_sdcard), checkPermission(p2), true));
         String[] p3 = {
                 Manifest.permission.CAMERA
         };
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_camera), checkPermission(p3)));
+        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_camera), checkPermission(p3), true));
         String[] p4 = {
                 Manifest.permission.RECORD_AUDIO
         };
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_record), checkPermission(p4)));
+        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_record), checkPermission(p4), true));
         String[] p5 = {
                 Manifest.permission.READ_PHONE_STATE
         };
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_read_phone), checkPermission(p5)));
+        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_read_phone), checkPermission(p5), true));
         String[] p6 = {
                 Manifest.permission.READ_CONTACTS
         };
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_contact), checkPermission(p6)));
+        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_contact), checkPermission(p6), true));
     }
 
     private String checkPermission(String... perms) {

@@ -12,6 +12,10 @@
     <string name="dk_category_weex">WEEX</string>
 
     <string name="dk_kit_sysinfo">App Info</string>
+    <string name="dk_kit_develop">developPage</string>
+    <string name="dk_kit_service_running">running service</string>
+    <string name="dk_kit_local_lang">Language</string>
+
     <string name="dk_kit_list">Tools</string>
     <string name="dk_kit_demo">demo</string>
     <string name="dk_kit_file_explorer">Sandbox</string>
@@ -84,6 +88,7 @@
     <string name="dk_sysinfo_ext_storage_free">Sd Card Remaining Space</string>
     <string name="dk_sysinfo_rom_free">System Free Space</string>
     <string name="dk_sysinfo_display_size">Resolution</string>
+    <string name="dk_sysinfo_display_inch">Screen Inch</string>
     <string name="dk_sysinfo_permission_location">Location Privacy</string>
     <string name="dk_sysinfo_permission_sdcard">Disk Permissions</string>
     <string name="dk_sysinfo_permission_camera">Photo Permission</string>

@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
 import com.didichuxing.doraemonkit.kit.network.core.ResourceType;
 import com.didichuxing.doraemonkit.kit.network.core.ResourceTypeHelper;
+import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.IOException;
@@ -20,31 +21,19 @@ import okhttp3.Response;
 public class LargePictureInterceptor implements Interceptor {
     public static final String TAG = "LargePictureInterceptor";
 
-    private ResourceTypeHelper mResourceTypeHelper;
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        LogHelper.i(TAG, "=====LargePictureInterceptor====");
         Request request = chain.request();
         Response response = chain.proceed(request);
         String contentType = response.header("Content-Type");
-        ResourceType resourceType =
-                contentType != null ?
-                        getResourceTypeHelper().determineResourceType(contentType) :
-                        null;
-        if (resourceType == ResourceType.IMAGE) {
+
+        if (InterceptorUtil.isImg(contentType)) {
             processResponse(response);
         }
-        //LogHelper.i(TAG, "=====contentType=====" + contentType);
         return response;
     }
 
-    private ResourceTypeHelper getResourceTypeHelper() {
-        if (mResourceTypeHelper == null) {
-            mResourceTypeHelper = new ResourceTypeHelper();
-        }
-        return mResourceTypeHelper;
-    }
 
     private void processResponse(Response response) {
         String field = response.header("Content-Length");

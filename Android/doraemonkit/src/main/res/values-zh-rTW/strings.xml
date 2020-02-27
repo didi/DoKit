@@ -12,6 +12,9 @@
     <string name="dk_category_weex">WEEX</string>
 
     <string name="dk_kit_sysinfo">App 基本資訊</string>
+    <string name="dk_kit_develop">開發者選項</string>
+    <string name="dk_kit_service_running">運行中服務</string>
+    <string name="dk_kit_local_lang">語言設置</string>
     <string name="dk_kit_list">工具列表</string>
     <string name="dk_kit_demo">demo</string>
     <string name="dk_kit_file_explorer">Sandbox</string>
@@ -218,6 +221,7 @@
     <string name="dk_item_time_goto_list">查看紀錄</string>
     <string name="dk_kit_block_time_counter_list">耗時列表</string>
     <string name="dk_sysinfo_display_size">解析度</string>
+    <string name="dk_sysinfo_display_inch">屏幕尺寸</string>
     <string name="dk_network_detail_title_body">Message Body</string>
     <string name="dk_network_detail_title_url">鏈接</string>
     <string name="dk_network_summary_total_number_time_tips">總封包數</string>

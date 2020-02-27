@@ -22,7 +22,6 @@ public class DoraemonWeakNetworkInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        LogHelper.i(TAG, "=====DoraemonWeakNetworkInterceptor====");
         if (!WeakNetworkManager.get().isActive()) {
             Request request = chain.request();
             return chain.proceed(request);

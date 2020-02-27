@@ -4,8 +4,9 @@ import android.os.Bundle;
 import android.os.Debug;
 import android.support.v7.app.AppCompatActivity;
 
-public class SecondActivity extends AppCompatActivity {
+import com.didichuxing.doraemonkit.util.LogHelper;
 
+public class SecondActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

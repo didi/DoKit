@@ -52,7 +52,8 @@ public class BlockListFragment extends BaseFragment implements OnBlockInfoUpdate
     private void initView() {
         mBlockList = findViewById(R.id.block_list);
         mLogDetail = findViewById(R.id.tx_block_detail);
-        mLogDetail.setMovementMethod(ScrollingMovementMethod.getInstance());
+        //和长按复制功能冲突
+        //mLogDetail.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mBlockList.setLayoutManager(layoutManager);

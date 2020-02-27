@@ -80,10 +80,9 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
             return;
         }
 
+
         //设置app的直接子view的Id
-        if (UIUtils.getDokitAppContentView(activity) != null) {
-            UIUtils.getDokitAppContentView(activity).setId(R.id.dokit_app_contentview_id);
-        }
+        UIUtils.getDokitAppContentView(activity);
         //添加DokitView
         resumeAndAttachDokitViews(activity);
 

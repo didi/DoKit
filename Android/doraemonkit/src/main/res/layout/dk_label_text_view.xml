@@ -8,7 +8,7 @@
         android:layout_gravity="center_vertical"
         android:gravity="left"
         android:textColor="@color/dk_color_333333"
-        android:textSize="@dimen/dk_font_size_16"/>
+        android:textSize="@dimen/dk_font_size_16" />
 
     <TextView
         android:id="@+id/text"
@@ -18,5 +18,6 @@
         android:layout_marginLeft="10dp"
         android:gravity="right"
         android:textColor="@color/dk_color_666666"
-        android:textSize="@dimen/dk_font_size_16"/>
+        android:textIsSelectable="true"
+        android:textSize="@dimen/dk_font_size_16" />
 </merge>

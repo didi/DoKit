@@ -2,8 +2,11 @@ package com.didichuxing.doraemondemo;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -38,6 +41,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.didichuxing.doraemondemo.util.FrescoUtil;
 import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.constant.BundleKey;
+import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.largepicture.glide.LargeBitmapGlideTransformation;
 import com.didichuxing.doraemonkit.kit.largepicture.picasso.LargeBitmapPicassoTransformation;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCost;
@@ -48,6 +53,7 @@ import com.didichuxing.doraemonkit.kit.network.common.NetworkPrinterHelper;
 import com.didichuxing.doraemonkit.okgo.OkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
+import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.squareup.picasso.Picasso;
 import com.tencent.map.geolocation.TencentLocation;
@@ -315,6 +321,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                 startActivity(new Intent(this, SecondActivity.class));
 
                 break;
+
             case R.id.btn_jump_leak:
 
                 startActivity(new Intent(this, LeakActivity.class));
@@ -341,27 +348,27 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
             case R.id.btn_load_img:
                 //Glide 加载
                 String imgUrl = "http://b-ssl.duitang.com/uploads/item/201808/27/20180827043223_twunu.jpg";
-//                Glide.with(MainDebugActivity.this)
-//                        .asBitmap()
-//                        .load(imgUrl)
-//                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-//                        .skipMemoryCache(true)
-//                        .transform(new LargeBitmapGlideTransformation(imgUrl))
-//                        .into((ImageView) findViewById(R.id.iv_glide));
-//
-//                Picasso.get().load(imgUrl)
-//                        .transform(new LargeBitmapPicassoTransformation(imgUrl))
-//                        .into((ImageView) findViewById(R.id.iv_picasso));
-//
-//                FrescoUtil.loadImage((SimpleDraweeView) findViewById(R.id.iv_fresco), imgUrl);
+                Glide.with(MainDebugActivity.this)
+                        .asBitmap()
+                        .load(imgUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .transform(new LargeBitmapGlideTransformation(imgUrl))
+                        .into((ImageView) findViewById(R.id.iv_glide));
+
+                Picasso.get().load(imgUrl)
+                        .transform(new LargeBitmapPicassoTransformation(imgUrl))
+                        .into((ImageView) findViewById(R.id.iv_picasso));
+
+                FrescoUtil.loadImage((SimpleDraweeView) findViewById(R.id.iv_fresco), imgUrl);
 
 
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        requestImage(imgUrl);
-                    }
-                }).start();
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        requestImage(imgUrl);
+//                    }
+//                }).start();
 
 
                 break;

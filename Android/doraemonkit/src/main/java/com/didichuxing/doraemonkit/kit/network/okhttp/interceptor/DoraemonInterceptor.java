@@ -6,7 +6,10 @@ import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 import com.didichuxing.doraemonkit.kit.network.core.DefaultResponseHandler;
 import com.didichuxing.doraemonkit.kit.network.core.NetworkInterpreter;
 import com.didichuxing.doraemonkit.kit.network.core.RequestBodyHelper;
+import com.didichuxing.doraemonkit.kit.network.core.ResourceType;
+import com.didichuxing.doraemonkit.kit.network.core.ResourceTypeHelper;
 import com.didichuxing.doraemonkit.kit.network.okhttp.ForwardingResponseBody;
+import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
 import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorRequest;
 import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorResponse;
 import com.didichuxing.doraemonkit.util.LogHelper;
@@ -30,20 +33,26 @@ public class DoraemonInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        LogHelper.i(TAG,"=====DoraemonInterceptor====");
         if (!NetworkManager.isActive()) {
             Request request = chain.request();
             return chain.proceed(request);
         }
-        int requestId = mNetworkInterpreter.nextRequestId();
 
         Request request = chain.request();
+        Response response = chain.proceed(request);
+
+        String strContentType = response.header("Content-Type");
+        //如果是图片则不进行拦截
+        if (InterceptorUtil.isImg(strContentType)) {
+            return response;
+        }
+
+        int requestId = mNetworkInterpreter.nextRequestId();
 
         RequestBodyHelper requestBodyHelper = new RequestBodyHelper();
         OkHttpInspectorRequest inspectorRequest =
                 new OkHttpInspectorRequest(requestId, request, requestBodyHelper);
         NetworkRecord record = mNetworkInterpreter.createRecord(requestId, inspectorRequest);
-        Response response;
         try {
             response = chain.proceed(request);
         } catch (IOException e) {

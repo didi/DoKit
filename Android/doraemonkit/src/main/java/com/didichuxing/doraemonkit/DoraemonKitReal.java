@@ -11,7 +11,6 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
-import com.blankj.utilcode.util.ReflectUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
@@ -47,6 +46,8 @@ import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.parameter.cpu.CpuKit;
 import com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfoKit;
 import com.didichuxing.doraemonkit.kit.parameter.ram.RamKit;
+import com.didichuxing.doraemonkit.kit.sysinfo.DevelopmentPageKit;
+import com.didichuxing.doraemonkit.kit.sysinfo.LocalLangKit;
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoKit;
 import com.didichuxing.doraemonkit.kit.temporaryclose.TemporaryCloseKit;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterKit;
@@ -65,7 +66,6 @@ import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
-import com.google.common.reflect.Reflection;
 import com.sjtu.yifei.AbridgeCallBack;
 import com.sjtu.yifei.IBridge;
 
@@ -74,8 +74,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-
-import dalvik.system.PathClassLoader;
 
 /**
  * Created by jintai on 2019/12/18.
@@ -182,6 +180,8 @@ class DoraemonKitReal {
         List<AbstractKit> version = new ArrayList<>();
         //添加工具kit
         tool.add(new SysInfoKit());
+        tool.add(new DevelopmentPageKit());
+        tool.add(new LocalLangKit());
         tool.add(new FileExplorerKit());
         if (GpsMockManager.getInstance().isMockEnable()) {
             tool.add(new GpsMockKit());

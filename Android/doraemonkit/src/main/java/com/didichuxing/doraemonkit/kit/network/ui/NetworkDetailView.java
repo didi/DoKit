@@ -164,6 +164,9 @@ public class NetworkDetailView extends LinearLayout {
                 jsonView.bindJson(strBody);
             } catch (JSONException e) {
                 e.printStackTrace();
+                body.setVisibility(View.VISIBLE);
+                jsonView.setVisibility(View.GONE);
+                diverFormat.setText("format");
                 body.setText(strBody);
             }
 

@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.provider.Settings;
 import android.text.TextUtils;
 
+import com.blankj.utilcode.util.PhoneUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 
@@ -34,7 +36,6 @@ public class SystemUtil {
             return sAppVersion;
         } else {
             String appVersion = "";
-
             try {
                 String pkgName = context.getApplicationInfo().packageName;
                 appVersion = context.getPackageManager().getPackageInfo(pkgName, 0).versionName;
@@ -142,4 +143,109 @@ public class SystemUtil {
         ActivityLifecycleInfo activityLifecycleInfo = DokitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
         return activityLifecycleInfo != null && isMainActivity && !activityLifecycleInfo.isInvokeStopMethod();
     }
+
+
+    /**
+     * 打开开发者模式界面 https://blog.csdn.net/ouzhuangzhuang/article/details/84029295
+     */
+    public static void startDevelopmentActivity(Context context) {
+        try {
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            try {
+                ComponentName componentName = new ComponentName("com.android.settings", "com.android.settings.DevelopmentSettings");
+                Intent intent = new Intent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setComponent(componentName);
+                intent.setAction("android.intent.action.View");
+                context.startActivity(intent);
+            } catch (Exception e1) {
+                try {
+                    //部分小米手机采用这种方式跳转
+                    Intent intent = new Intent("com.android.settings.APPLICATION_DEVELOPMENT_SETTINGS");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
+
+            }
+        }
+    }
+
+
+    /**
+     * 打开系统语言设置页面
+     *
+     * @param context
+     */
+    public static void startLocalActivity(Context context) {
+        try {
+            Intent intent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 打开正在运行的服务界面 https://www.jianshu.com/p/dd491235d113
+     */
+    public static void startServiceRunningActivity(Context context) {
+        try {
+            ComponentName componentName;
+            if (getBrand().equalsIgnoreCase(PHONE_VIVO)) {
+                componentName = new ComponentName("com.android.settings", "com.vivo.settings.VivoSubSettingsForImmersiveBar");
+            } else {
+                componentName = new ComponentName("com.android.settings", "com.android.settings.CleanSubSettings");
+            }
+            Intent intent = new Intent();
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setComponent(componentName);
+            intent.setAction("android.intent.action.View");
+            context.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static String getBrand() {
+        return android.os.Build.BRAND;
+    }
+
+    /**
+     * 手机品牌
+     */
+    // 小米
+    public static final String PHONE_XIAOMI = "xiaomi";
+    // 华为
+    public static final String PHONE_HUAWEI = "HUAWEI";
+    // 华为
+    public static final String PHONE_HONOR = "HONOR";
+    // 魅族
+    public static final String PHONE_MEIZU = "Meizu";
+    // 索尼
+    public static final String PHONE_SONY = "sony";
+    // 三星
+    public static final String PHONE_SAMSUNG = "samsung";
+    // LG
+    public static final String PHONE_LG = "lg";
+    // HTC
+    public static final String PHONE_HTC = "htc";
+    // NOVA
+    public static final String PHONE_NOVA = "nova";
+    // OPPO
+    public static final String PHONE_OPPO = "oppo";
+    // vivo
+    public static final String PHONE_VIVO = "vivo";
+    // 乐视
+    public static final String PHONE_LeMobile = "LeMobile";
+    // 联想
+    public static final String PHONE_LENOVO = "lenovo";
+
+
 }

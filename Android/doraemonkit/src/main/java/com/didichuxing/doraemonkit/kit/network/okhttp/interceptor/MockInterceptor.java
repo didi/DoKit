@@ -12,6 +12,7 @@ import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.core.ResourceType;
 import com.didichuxing.doraemonkit.kit.network.core.ResourceTypeHelper;
+import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
@@ -35,11 +36,9 @@ import okhttp3.ResponseBody;
 public class MockInterceptor implements Interceptor {
     public static final String TAG = "MockInterceptor";
 
-    private ResourceTypeHelper mResourceTypeHelper;
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        LogHelper.i(TAG, "=====MockInterceptor====");
         Request oldRequest = chain.request();
         Response oldResponse = chain.proceed(oldRequest);
 
@@ -47,11 +46,7 @@ public class MockInterceptor implements Interceptor {
         String host = url.host();
         String contentType = oldResponse.header("Content-Type");
         //如果是图片则不进行拦截
-        ResourceType resourceType =
-                contentType != null ?
-                        getResourceTypeHelper().determineResourceType(contentType) :
-                        null;
-        if (resourceType == ResourceType.IMAGE) {
+        if (InterceptorUtil.isImg(contentType)) {
             return oldResponse;
         }
 
@@ -223,13 +218,6 @@ public class MockInterceptor implements Interceptor {
         }
     }
 
-
-    private ResourceTypeHelper getResourceTypeHelper() {
-        if (mResourceTypeHelper == null) {
-            mResourceTypeHelper = new ResourceTypeHelper();
-        }
-        return mResourceTypeHelper;
-    }
 
     /**
      * 保存匹配中的数据到本地数据库
