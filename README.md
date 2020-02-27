@@ -190,7 +190,7 @@ Andoid上传代码详见DoraemonStatisticsUtil类中的实现
 敬请各位用户知晓。
 
 ## 友情链接
-1. 我们部门的另外一款开源工具，一个终端侧AI集成运行时环境 [AoE](https://github.com/didi/AoE)
+1. [AoE](https://github.com/didi/AoE)，一个终端侧AI集成运行时环境 
 2. [Chameleon]( https://github.com/didi/chameleon)/kəˈmiːlɪən/，简写CML，中文意思变色龙，意味着就像变色龙一样能适应不同环境的跨端整体解决方案，达到真正意义上"一套代码，多端运行"的终极目标
 3. 我们部门的技术公众号（普惠出行产品技术公众号），欢迎关注
 
