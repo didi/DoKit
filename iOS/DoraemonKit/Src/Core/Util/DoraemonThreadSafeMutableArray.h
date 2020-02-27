@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithCapacity:(NSUInteger)numItems;
 - (instancetype)initWithArray:(NSArray *)array;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder;
-- (instancetype)initWithObjects:(const id [])objects count:(NSUInteger)cnt;
 
 - (NSUInteger)count;
 - (id)objectAtIndex:(NSUInteger)index;

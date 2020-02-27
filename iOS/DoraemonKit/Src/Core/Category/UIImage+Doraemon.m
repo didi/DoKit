@@ -10,7 +10,7 @@
 @class DoraemonManager;
 @implementation UIImage (Doraemon)
 
-+ (UIImage *)doraemon_imageNamed:(NSString *)name{
++ (nullable UIImage *)doraemon_imageNamed:(NSString *)name{
     if(name &&
        ![name isEqualToString:@""]){
         NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"DoraemonManager")];
@@ -41,7 +41,7 @@
 }
 
 //压缩图片尺寸 等比缩放 通过计算得到缩放系数
-- (UIImage*)doraemon_scaledToSize:(CGSize)newSize{
+- (nullable UIImage*)doraemon_scaledToSize:(CGSize)newSize{
     UIImage *sourceImage = self;
     UIImage *newImage = nil;
     CGSize imageSize = sourceImage.size;
