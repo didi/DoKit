@@ -19,14 +19,18 @@ public final class DoKitPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
         AppExtension appExtension = (AppExtension) project.getProperties().get("android");
+
         List<String> taskNames = project.getGradle().getStartParameter().getTaskNames();
+
         //如果task包含release 则不进行字节码替换
         for (String taskName : taskNames) {
             if (taskName.contains("Release")) {
                 return;
             }
         }
+
         appExtension.registerTransform(new DokitTransform(project), Collections.EMPTY_LIST);
+
     }
 
 }

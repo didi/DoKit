@@ -14,7 +14,7 @@
     <string name="dk_kit_sysinfo">App 基本資訊</string>
     <string name="dk_kit_develop">開發者選項</string>
     <string name="dk_kit_service_running">運行中服務</string>
-    <string name="dk_kit_local_lang">語言設置</string>
+    <string name="dk_kit_local_lang">本地語言</string>
     <string name="dk_kit_list">工具列表</string>
     <string name="dk_kit_demo">demo</string>
     <string name="dk_kit_file_explorer">Sandbox</string>

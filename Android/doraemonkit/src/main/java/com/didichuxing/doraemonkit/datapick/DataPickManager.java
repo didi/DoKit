@@ -102,7 +102,8 @@ public class DataPickManager {
      * 真正需要上传的方法
      */
     private void realPost(final int from, String content) {
-        LogHelper.i(TAG, "====realPost======");
+        LogHelper.i(TAG,"content===>" + content);
+        LogHelper.i(TAG, "====realPost======from==>" + from);
         OkGo.<String>post("http://dokit-test.intra.xiaojukeji.com/pointData/addPointData")
                 .upJson(content)
                 .execute(new StringCallback() {

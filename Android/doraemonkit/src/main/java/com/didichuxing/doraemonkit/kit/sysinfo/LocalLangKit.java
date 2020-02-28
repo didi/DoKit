@@ -46,6 +46,6 @@ public class LocalLangKit extends AbstractKit {
 
     @Override
     public String innerKitId() {
-        return "dokit_sdk_comm_ck_develop";
+        return "dokit_sdk_comm_ck_local_lang";
     }
 }

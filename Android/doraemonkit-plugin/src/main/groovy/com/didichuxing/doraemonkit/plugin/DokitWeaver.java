@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.plugin;
 
+import com.android.build.gradle.AppExtension;
 import com.didichuxing.doraemonkit.plugin.bytecode.DokitClassAdapter;
 import com.quinn.hunter.transform.asm.BaseWeaver;
 
@@ -18,6 +19,12 @@ import org.objectweb.asm.ClassWriter;
 public class DokitWeaver extends BaseWeaver {
     private DokitExtension dokitExtension;
 
+    private AppExtension appExtension;
+
+    public DokitWeaver(AppExtension appExtension) {
+        this.appExtension = appExtension;
+    }
+
     @Override
     public void setExtension(Object extension) {
         if (extension == null) {
@@ -29,6 +36,6 @@ public class DokitWeaver extends BaseWeaver {
     @Override
     protected ClassVisitor wrapClassWriter(ClassWriter classWriter) {
         //返回指定的ClassVisitor
-        return new DokitClassAdapter(classWriter);
+        return new DokitClassAdapter(classWriter, appExtension);
     }
 }

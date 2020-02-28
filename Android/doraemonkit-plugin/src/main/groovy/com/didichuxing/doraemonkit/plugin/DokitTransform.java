@@ -4,6 +4,7 @@ import com.android.build.api.transform.Context;
 import com.android.build.api.transform.TransformException;
 import com.android.build.api.transform.TransformInput;
 import com.android.build.api.transform.TransformOutputProvider;
+import com.android.build.gradle.AppExtension;
 import com.quinn.hunter.transform.HunterTransform;
 import com.quinn.hunter.transform.RunVariant;
 
@@ -26,20 +27,23 @@ public class DokitTransform extends HunterTransform {
     private Project project;
     private DokitExtension dokitExtension;
     private String extensionName = "dokitExt";
+    private AppExtension appExtension;
 
     DokitTransform(Project project) {
         super(project);
         this.project = project;
+        this.appExtension = (AppExtension) project.getProperties().get("android");
         //创建指定扩展
         project.getExtensions().create(extensionName, DokitExtension.class);
         //创建自动的代码
-        this.bytecodeWeaver = new DokitWeaver();
+        this.bytecodeWeaver = new DokitWeaver(appExtension);
     }
 
     @Override
     public void transform(Context context, Collection<TransformInput> inputs, Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider, boolean isIncremental) throws IOException, TransformException, InterruptedException {
         dokitExtension = (DokitExtension) project.getExtensions().getByName(extensionName);
         this.bytecodeWeaver.setExtension(dokitExtension);
+
         super.transform(context, inputs, referencedInputs, outputProvider, isIncremental);
     }
 

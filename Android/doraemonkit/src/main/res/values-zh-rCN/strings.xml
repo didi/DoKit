@@ -14,7 +14,7 @@
     <string name="dk_kit_sysinfo">App基本信息</string>
     <string name="dk_kit_develop">开发者选项</string>
     <string name="dk_kit_service_running">运行中服务</string>
-    <string name="dk_kit_local_lang">语言设置</string>
+    <string name="dk_kit_local_lang">本地语言</string>
     <string name="dk_kit_list">工具列表</string>
     <string name="dk_kit_demo">demo</string>
     <string name="dk_kit_file_explorer">沙盒游览</string>

@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.plugin.bytecode;
 
+import com.android.build.gradle.AppExtension;
 import com.didichuxing.doraemonkit.plugin.StringUtils;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.AmapLocationMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.ApplicationOnCreateMethodAdapter;
@@ -28,12 +29,15 @@ public final class DokitClassAdapter extends ClassVisitor {
      * 当前类的父类 假如存在的话
      */
     private String superName;
+    private AppExtension appExtension;
+    String applicationId;
 
     /**
      * @param cv 传进来的是 ClassWriter
      */
-    public DokitClassAdapter(final ClassVisitor cv) {
+    public DokitClassAdapter(final ClassVisitor cv, AppExtension appExtension) {
         super(Opcodes.ASM7, cv);
+        this.appExtension = appExtension;
     }
 
     @Override
@@ -48,6 +52,10 @@ public final class DokitClassAdapter extends ClassVisitor {
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         //从传进来的ClassWriter中读取MethodVisitor
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
+        if (StringUtils.isEmpty(applicationId)) {
+            applicationId = appExtension.getDefaultConfig().getApplicationId();
+        }
+
         //开发者变量字节码替换
         if (className.equals("com/didichuxing/doraemonkit/DoraemonKitReal") && name.equals("install") && desc != null) {
             if (getParamsSize(desc) == 3) {
@@ -107,7 +115,7 @@ public final class DokitClassAdapter extends ClassVisitor {
             return mv == null ? null : new PlatformHttpMethodAdapter(access, desc, mv);
         }
         //app启动hook点 onCreate()函数 兼容MultiDex
-        if (!StringUtils.isEmpty(superName) && (superName.equals("android/app/Application")|| superName.equals("android/support/multidex/MultiDexApplication")) && name.equals("onCreate") && desc.equals("()V")) {
+        if (!StringUtils.isEmpty(superName) && (superName.equals("android/app/Application") || superName.equals("android/support/multidex/MultiDexApplication")) && name.equals("onCreate") && desc.equals("()V")) {
             log(className, access, name, desc, signature);
             return mv == null ? null : new ApplicationOnCreateMethodAdapter(access, name, desc, mv);
         }
