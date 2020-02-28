@@ -50,6 +50,8 @@
 //分享文件
 + (void)shareFileWithPath:(NSString *)filePath formVC:(UIViewController *)vc;
 
++ (void)openAppSetting;
+
 + (void)openPlugin:(UIViewController *)vc __attribute__((deprecated("此方法已弃用,请使用[DoraemonHomeWindow openPlugin:vc];")));
 
 + (UIViewController *)rootViewControllerForKeyWindow __attribute__((deprecated("此方法已弃用,请使用[UIViewController rootViewControllerForKeyWindow]")));

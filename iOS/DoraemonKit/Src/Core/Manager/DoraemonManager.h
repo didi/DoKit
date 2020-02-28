@@ -23,6 +23,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     // DevTool
     DoraemonManagerPluginType_DoraemonWeexDevToolPlugin,
     #pragma mark - 常用工具
+    // App设置
+    DoraemonManagerPluginType_DoraemonAppSettingPlugin,
     // App信息
     DoraemonManagerPluginType_DoraemonAppInfoPlugin,
     // 沙盒浏览

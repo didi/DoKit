@@ -230,6 +230,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonHealthPlugin];
     
     #pragma mark - 常用工具
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAppSettingPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAppInfoPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonSandboxPlugin];
 #if DoraemonWithGPS
@@ -484,6 +485,14 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kAtModule:@"Weex专区"},
                                    @{kBuriedPoint:@"dokit_sdk_weex_ck_devtool"}
                                    ],
+                           @(DoraemonManagerPluginType_DoraemonAppSettingPlugin) : @[
+                                   @{kTitle:DoraemonLocalizedString(@"应用设置")},
+                                   @{kDesc:DoraemonLocalizedString(@"应用设置")},
+                                   @{kIcon:@"doraemon_setting"},
+                                   @{kPluginName:@"DoraemonAppSettingPlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"常用工具")},
+                                   @{kBuriedPoint:@"dokit_sdk_comm_ck_setting"}
+                                    ],
                            @(DoraemonManagerPluginType_DoraemonAppInfoPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"App信息")},
                                    @{kDesc:DoraemonLocalizedString(@"App的一些基本信息")},

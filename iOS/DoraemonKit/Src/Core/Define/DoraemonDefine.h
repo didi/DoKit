@@ -16,6 +16,7 @@
 #import "Doraemoni18NUtil.h"
 #import "DoraemonToastUtil.h"
 #import "DoraemonAlertUtil.h"
+#import "DoraemonUtil.h"
 
 #define DoKitVersion @"3.0.0"
 
