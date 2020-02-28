@@ -57,4 +57,7 @@
 
 /// 设备是否模拟器
 + (BOOL)isSimulator;
+
+//获取设备当前网络IP地址
++ (NSString *)getIPAddress:(BOOL)preferIPv4;
 @end

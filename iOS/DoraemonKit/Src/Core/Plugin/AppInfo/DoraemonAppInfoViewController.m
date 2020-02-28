@@ -74,11 +74,24 @@
 {
     // 获取设备名称
     NSString *iphoneName = [DoraemonAppInfoUtil iphoneName];
+    
     // 获取当前系统版本号
     NSString *iphoneSystemVersion = [DoraemonAppInfoUtil iphoneSystemVersion];
     
     //获取手机型号
     NSString *iphoneType = [DoraemonAppInfoUtil iphoneType];
+    
+    //获取手机屏幕大小
+    NSString *iphoneSize = [NSString stringWithFormat:@"%.0f * %.0f",DoraemonScreenWidth,DoraemonScreenHeight];
+    
+    //获取手机ipv4地址
+    NSString *ipv4String = [DoraemonAppInfoUtil getIPAddress:YES];
+    
+    //获取手机ipv6地址
+    NSString *ipv6String = [DoraemonAppInfoUtil getIPAddress:NO];
+    
+    //获取手机mac地址
+    
     
     //获取bundle id
     NSString *bundleIdentifier = [DoraemonAppInfoUtil bundleIdentifier];
@@ -147,7 +160,19 @@
                                        @{
                                            @"title":DoraemonLocalizedString(@"系统版本"),
                                            @"value":iphoneSystemVersion
-                                           }
+                                           },
+                                       @{
+                                           @"title":DoraemonLocalizedString(@"手机屏幕"),
+                                           @"value":iphoneSize
+                                            },
+                                       @{
+                                           @"title":@"ipV4",
+                                           @"value":STRING_NOT_NULL(ipv4String)
+                                            },
+                                       @{
+                                           @"title":@"ipV6",
+                                           @"value":STRING_NOT_NULL(ipv6String)
+                                            }
                                        ]
                                },
                            @{
@@ -269,6 +294,21 @@
             [[UIApplication sharedApplication] openURL:url];
         }
     }
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return YES;
+}
+
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath{
+    __weak typeof(self) weakSelf = self;
+    UITableViewRowAction *action0 = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"复制" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+        NSString *value = weakSelf.dataArray[indexPath.section][@"array"][indexPath.row][@"value"];
+        UIPasteboard *pboard = [UIPasteboard generalPasteboard];
+        pboard.string = value;
+    }];
+    
+    return @[action0];
 }
 
 
