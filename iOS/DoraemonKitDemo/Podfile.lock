@@ -24,14 +24,39 @@ PODS:
   - DoraemonKit/Core (2.0.0):
     - BSBacktraceLogger
     - fishhook
+  - DoraemonKit/WithDatabase (2.0.0):
+    - BSBacktraceLogger
+    - DoraemonKit/Core
+    - fishhook
+    - YYDebugDatabase
+  - DoraemonKit/WithGPS (2.0.0):
+    - BSBacktraceLogger
+    - DoraemonKit/Core
+    - fishhook
+  - DoraemonKit/WithMLeaksFinder (2.0.0):
+    - BSBacktraceLogger
+    - DoraemonKit/Core
+    - fishhook
   - fishhook (0.2)
+  - FMDB (2.7.5):
+    - FMDB/standard (= 2.7.5)
+  - FMDB/standard (2.7.5)
+  - GCDWebServer (3.5.3):
+    - GCDWebServer/Core (= 3.5.3)
+  - GCDWebServer/Core (3.5.3)
   - SDWebImage (5.0.6):
     - SDWebImage/Core (= 5.0.6)
   - SDWebImage/Core (5.0.6)
+  - YYDebugDatabase (2.0.7):
+    - FMDB
+    - GCDWebServer
 
 DEPENDENCIES:
   - AFNetworking (= 2.6.3)
   - DoraemonKit/Core (from `../../`)
+  - DoraemonKit/WithDatabase (from `../../`)
+  - DoraemonKit/WithGPS (from `../../`)
+  - DoraemonKit/WithMLeaksFinder (from `../../`)
   - SDWebImage (= 5.0.6)
 
 SPEC REPOS:
@@ -39,7 +64,10 @@ SPEC REPOS:
     - AFNetworking
     - BSBacktraceLogger
     - fishhook
+    - FMDB
+    - GCDWebServer
     - SDWebImage
+    - YYDebugDatabase
 
 EXTERNAL SOURCES:
   DoraemonKit:
@@ -50,8 +78,11 @@ SPEC CHECKSUMS:
   BSBacktraceLogger: 06b983ee93a9f87d957960e9c73d660d5966b447
   DoraemonKit: a636f4aca0689106b1719bd0a44249074ef942ba
   fishhook: ea19933abfe8f2f52c55fd8b6e2718467d3ebc89
+  FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  GCDWebServer: c0ab22c73e1b84f358d1e2f74bf6afd1c60829f2
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
+  YYDebugDatabase: c8be8bd85222cc2ced76e93ca06618bab87224d7
 
-PODFILE CHECKSUM: 0534191dbd1e801ac067a463bacc971f448edd5b
+PODFILE CHECKSUM: 2861ade3cc5ca8d20a84134b149bbc906f199612
 
 COCOAPODS: 1.8.4
