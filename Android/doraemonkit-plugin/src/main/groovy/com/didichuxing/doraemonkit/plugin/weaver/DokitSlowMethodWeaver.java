@@ -1,7 +1,9 @@
-package com.didichuxing.doraemonkit.plugin;
+package com.didichuxing.doraemonkit.plugin.weaver;
 
 import com.android.build.gradle.AppExtension;
-import com.didichuxing.doraemonkit.plugin.bytecode.DokitClassAdapter;
+import com.didichuxing.doraemonkit.plugin.DokitExtension;
+import com.didichuxing.doraemonkit.plugin.bytecode.DokitCommClassAdapter;
+import com.didichuxing.doraemonkit.plugin.bytecode.DokitSlowMethodClassAdapter;
 import com.quinn.hunter.transform.asm.BaseWeaver;
 
 import org.objectweb.asm.ClassVisitor;
@@ -16,12 +18,12 @@ import org.objectweb.asm.ClassWriter;
  * 修订历史：
  * ================================================
  */
-public class DokitWeaver extends BaseWeaver {
+public class DokitSlowMethodWeaver extends BaseWeaver {
     private DokitExtension dokitExtension;
 
     private AppExtension appExtension;
 
-    public DokitWeaver(AppExtension appExtension) {
+    public DokitSlowMethodWeaver(AppExtension appExtension) {
         this.appExtension = appExtension;
     }
 
@@ -36,6 +38,6 @@ public class DokitWeaver extends BaseWeaver {
     @Override
     protected ClassVisitor wrapClassWriter(ClassWriter classWriter) {
         //返回指定的ClassVisitor
-        return new DokitClassAdapter(classWriter, appExtension);
+        return new DokitSlowMethodClassAdapter(classWriter, appExtension, dokitExtension);
     }
 }

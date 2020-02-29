@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.plugin.bytecode.method;
+package com.didichuxing.doraemonkit.plugin.bytecode.method.comm;
 
 import com.android.build.gradle.internal.LoggerWrapper;
 

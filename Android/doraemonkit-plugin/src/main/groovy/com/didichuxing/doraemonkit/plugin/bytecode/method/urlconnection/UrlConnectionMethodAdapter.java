@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.plugin.bytecode.method;
+package com.didichuxing.doraemonkit.plugin.bytecode.method.urlconnection;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -8,10 +8,10 @@ import org.objectweb.asm.commons.LocalVariablesSorter;
  * Only weave com/didichuxing/doraemonkit/aop/OkHttpHook  installInterceptor method
  * Created by jint on 13/12/2019.
  */
-public final class GlobalMethodAdapter extends LocalVariablesSorter implements Opcodes {
+public final class UrlConnectionMethodAdapter extends LocalVariablesSorter implements Opcodes {
 
 
-    public GlobalMethodAdapter(int access, String desc, MethodVisitor mv) {
+    public UrlConnectionMethodAdapter(int access, String desc, MethodVisitor mv) {
         super(Opcodes.ASM7, access, desc, mv);
     }
 
