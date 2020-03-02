@@ -138,18 +138,20 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [yixiangboy](https://github.com/yixiangboy)
 
 ### 内部核心成员
+[jtsky](https://github.com/jtsky) 、
+[ydlsl](https://github.com/ydlsl)
+
+
+### 贡献者榜单
 [LinJZong](https://github.com/LinJZong) 、
 [wanglikun7342](https://github.com/wanglikun7342) 、
-[jtsky](https://github.com/jtsky) 、
 [wenquanlebao](https://github.com/wenquanlebao) 、
 [hiXgb](https://github.com/hiXgb) 、 
 [Chinnko](https://github.com/Chinnko) 、 
 [y644938647](https://github.com/y644938647) 、 
 [goolong](https://github.com/goolong) 、
 [miracle9312](https://github.com/miracle9312) 、
-[lwhsgz123](https://github.com/lwhsgz123)
-
-### 外部贡献者
+[lwhsgz123](https://github.com/lwhsgz123)、
 [huakucha](https://github.com/huakucha) 、
 [HuginChen](https://github.com/HuginChen) 、
 [feng562925462](https://github.com/feng562925462) 、
