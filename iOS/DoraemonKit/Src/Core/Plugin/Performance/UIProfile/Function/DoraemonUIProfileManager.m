@@ -8,6 +8,7 @@
 #import "DoraemonUIProfileManager.h"
 #import "UIViewController+DoraemonUIProfile.h"
 #import "DoraemonUIProfileWindow.h"
+#import "UIViewController+Doraemon.h"
 
 @interface DoraemonUIProfileManager ()
 
@@ -30,9 +31,9 @@
 {
     _enable = enable;
     if (enable) {
-        [[UIApplication sharedApplication].keyWindow.rootViewController profileViewDepth];
+        [[UIViewController topViewControllerForKeyWindow] profileViewDepth];
     } else {
-        [[UIApplication sharedApplication].keyWindow.rootViewController resetProfileData];
+        [[UIViewController topViewControllerForKeyWindow] resetProfileData];
         [[DoraemonUIProfileWindow sharedInstance] hide];
     }
 }

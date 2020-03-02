@@ -125,7 +125,6 @@
     }else{
         [[DoraemonHomeWindow shareInstance] hide];
     }
-    DoKitLog(@"btn == %@",btn);
 }
 
 - (void)pan:(UIPanGestureRecognizer *)sender{

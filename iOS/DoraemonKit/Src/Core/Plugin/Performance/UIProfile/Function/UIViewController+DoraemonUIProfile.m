@@ -49,7 +49,6 @@
 - (void)profileViewDepth
 {
     if (![DoraemonUIProfileManager sharedInstance].enable) {
-        [[DoraemonUIProfileWindow sharedInstance] hide];
         return;
     }
     if ([[DoraemonHealthManager sharedInstance] blackList:[self class]]){
