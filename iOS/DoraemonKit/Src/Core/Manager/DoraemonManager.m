@@ -20,7 +20,6 @@
 #import "DoraemonNSLogViewController.h"
 #import "DoraemonNSLogListViewController.h"
 #import "DoraemonHomeWindow.h"
-#import "DoraemonAllTestManager.h"
 #import "DoraemonStatisticsUtil.h"
 #import "DoraemonANRManager.h"
 #import "DoraemonLargeImageDetectionManager.h"
@@ -175,17 +174,6 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
         }
     }
 #endif
-    
-    [[DoraemonAllTestManager shareInstance] addPerformanceBlock:^(NSDictionary *upLoadData) {
-        if (self.performanceBlock) {
-            self.performanceBlock(upLoadData);
-        }
-        //默认实现 保存到沙盒中
-        NSString *testTimeString = upLoadData[@"testTime"];
-        
-        NSString *data = [DoraemonUtil dictToJsonStr:upLoadData];
-        [DoraemonUtil savePerformanceDataInFile:testTimeString data:data];
-    }];
     
     [[DoraemonANRManager sharedInstance] addANRBlock:^(NSDictionary *anrInfo) {
         if (self.anrBlock) {
@@ -621,14 +609,6 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kPluginName:@"DoraemonANRPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")},
                                    @{kBuriedPoint:@"dokit_sdk_performance_ck_block"}
-                                   ],
-                           @(DoraemonManagerPluginType_DoraemonAllTestPlugin) : @[
-                                   @{kTitle:DoraemonLocalizedString(@"自定义")},
-                                   @{kDesc:DoraemonLocalizedString(@"性能数据保存到本地")},
-                                   @{kIcon:@"doraemon_default"},
-                                   @{kPluginName:@"DoraemonAllTestPlugin"},
-                                   @{kAtModule:DoraemonLocalizedString(@"性能检测")},
-                                   @{kBuriedPoint:@""}
                                    ],
                            @(DoraemonManagerPluginType_DoraemonMethodUseTimePlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"Load耗时")},

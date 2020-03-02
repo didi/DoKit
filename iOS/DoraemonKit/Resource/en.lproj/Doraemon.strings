@@ -10,7 +10,6 @@
     //DoraemonKit
     "常用工具"                                      = "Common tools";
     "业务工具"                                      = "Test tools";
-    "自定义"                                        = "Custom";
     "性能检测"                                      = "Performance";
     "视觉工具"                                      = "UI tools";
     "平台工具"                                      = "Platform tool";
@@ -98,7 +97,6 @@
     "推送权限"                                =   "Push Privacy";
     "关闭DoraemonKit"                                = "Close DoraemonKit";
     "当前版本"                                 = "Current Version";
-    "自定义检测"                                = "Custom Monitor";
     "查看统计数据"                              = "View Statistics";
     "上行流量"                                 = "Upstream";
     "下行流量"                                 = "Downstream";

@@ -59,8 +59,6 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     DoraemonManagerPluginType_DoraemonNetFlowPlugin,
     // 卡顿检测
     DoraemonManagerPluginType_DoraemonANRPlugin,
-    // 自定义 性能数据保存到本地
-    DoraemonManagerPluginType_DoraemonAllTestPlugin,
     // Load耗时
     DoraemonManagerPluginType_DoraemonMethodUseTimePlugin,
     // 大图检测
