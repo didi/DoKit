@@ -139,7 +139,8 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 ### 内部核心成员
 [jtsky](https://github.com/jtsky) 、
-[ydlsl](https://github.com/ydlsl)
+[ydlsl](https://github.com/ydlsl) 、
+[jayconscious](https://github.com/jayconscious)
 
 
 ### 贡献者榜单
