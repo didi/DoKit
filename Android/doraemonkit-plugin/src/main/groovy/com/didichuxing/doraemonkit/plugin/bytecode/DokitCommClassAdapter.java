@@ -7,7 +7,6 @@ import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.AmapLocationMetho
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.ApplicationOnCreateMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.BaiduLocationMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.FlagMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.urlconnection.UrlConnectionMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.OkHttpMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.PlatformHttpMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.TencentLocationMethodAdapter;
@@ -17,8 +16,6 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-
-import java.util.List;
 
 /**
  * Created by jint on 13/12/2019.
@@ -59,7 +56,7 @@ public final class DokitCommClassAdapter extends ClassVisitor {
      * @param access     the method's access flags (see {@link Opcodes}). This parameter also indicates if
      *                   the method is synthetic and/or deprecated.
      * @param methodName the method's name.
-     * @param desc the method's descriptor (see {@link Type}).
+     * @param desc       the method's descriptor (see {@link Type}).
      * @param signature  the method's signature. May be {@literal null} if the method parameters,
      *                   return type and exceptions do not use generic types.
      * @param exceptions the internal names of the method's exception classes (see {@link

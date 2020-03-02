@@ -41,17 +41,28 @@ public final class SlowMethodAdapter extends AdviceAdapter {
     @Override
     protected void onMethodEnter() {
         super.onMethodEnter();
-        mv.visitLdcInsn(this.className + "&" + this.getName());
-        mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeMethodCostStart", "(Ljava/lang/String;)V", false);
+        try {
+            mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;", false);
+            mv.visitLdcInsn(this.className + "&" + this.getName());
+            mv.visitMethodInsn(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeMethodCostStart", "(Ljava/lang/String;)V", false);
+        } catch (Exception e) {
+            System.out.println("e===>" + e.getMessage());
+        }
+
     }
 
     @Override
     protected void onMethodExit(int opcode) {
         super.onMethodExit(opcode);
-        mv.visitIntInsn(SIPUSH, thresholdTime);
-        mv.visitLdcInsn(this.className + "&" + this.getName());
-        mv.visitVarInsn(ALOAD, 0);
-        mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeMethodCostEnd", "(ILjava/lang/String;Ljava/lang/Object;)V", false);
+        try {
+            mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;", false);
+            mv.visitIntInsn(SIPUSH, thresholdTime);
+            mv.visitLdcInsn(this.className + "&" + this.getName());
+            //mv.visitVarInsn(ALOAD, 0);
+            mv.visitMethodInsn(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeMethodCostEnd", "(ILjava/lang/String;)V", false);
+        } catch (Exception e) {
+            System.out.println("e===>" + e.getMessage());
+        }
 
     }
 }

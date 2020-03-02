@@ -62,7 +62,7 @@ public final class DokitUrlConnectionClassAdapter extends ClassVisitor {
         MethodVisitor mv = cv.visitMethod(access, methodName, desc, signature, exceptions);
 
         //过滤所有类中当前方法中所有的字节码
-        return new UrlConnectionMethodAdapter(access, desc, mv);
+        return mv == null ? null : new UrlConnectionMethodAdapter(access, desc, mv);
 
     }
 

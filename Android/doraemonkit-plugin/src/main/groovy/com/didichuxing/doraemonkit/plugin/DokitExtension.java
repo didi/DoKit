@@ -14,9 +14,9 @@ public class DokitExtension {
     public boolean duplcatedClassSafeMode = false;
     public boolean slowMethodSwitch = true;
     /**
-     * 单位为500us
+     * 单位为us 默认100us
      */
-    public int thresholdTime = 500;
+    public int thresholdTime = 100;
     public List<String> packageNames = new ArrayList<>();
 
 

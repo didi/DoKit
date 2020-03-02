@@ -30,7 +30,7 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
     private String className;
 
 
-    boolean matchedMethod = false;
+    private boolean matchedMethod = false;
     private AppExtension appExtension;
     private DokitExtension dokitExtension;
     /**
@@ -47,39 +47,56 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
         this.dokitExtension = dokitExtension;
     }
 
+    /**
+     * Visits the header of the class.
+     *
+     * @param version    the class version. The minor version is stored in the 16 most significant bits,
+     *                   and the major version in the 16 least significant bits.
+     * @param access     the class's access flags (see {@link Opcodes}). This parameter also indicates if
+     *                   the class is deprecated.
+     * @param className  the internal name of the class (see {@link Type#getInternalName()}).
+     * @param signature  the signature of this class. May be {@literal null} if the class is not a
+     *                   generic one, and does not extend or implement generic classes or interfaces.
+     * @param superName  the internal of name of the super class (see {@link Type#getInternalName()}).
+     *                   For interfaces, the super class is {@link Object}. May be {@literal null}, but only for the
+     *                   {@link Object} class.
+     * @param interfaces the internal names of the class's interfaces (see {@link
+     *                   Type#getInternalName()}). May be {@literal null}.
+     */
     @Override
     public void visit(int version, int access, String className, String signature, String superName, String[] interfaces) {
         super.visit(version, access, className, signature, superName, interfaces);
+        //过滤掉接口
+        boolean isInterface = (access & Opcodes.ACC_INTERFACE) != 0;
+        if (isInterface) {
+//            System.out.println("isInterface===>" + "  access==>" + access + "  className==>" + className + "  signature===>" + signature + "  superName===>" + superName);
+            return;
+        }
         this.className = className;
-        //需要将applicationId中的 .替换为/ 因为字节码中会把.转化为/
-        String applicationId = appExtension.getDefaultConfig().getApplicationId().replaceAll("\\.", "/");
-        boolean showMethodSwitch = true;
-        List<String> packageNames;
-        if (dokitExtension != null) {
-            showMethodSwitch = dokitExtension.slowMethodSwitch;
-            packageNames = dokitExtension.packageNames;
-            thresholdTime = dokitExtension.thresholdTime;
-        } else {
-            packageNames = new ArrayList<>();
-            packageNames.add(applicationId);
-        }
+        try {
+            //需要将applicationId中的 .替换为/ 因为字节码中会把.转化为/
+            String applicationId = appExtension.getDefaultConfig().getApplicationId().replaceAll("\\.", "/");
+            boolean showMethodSwitch = true;
+            List<String> packageNames = new ArrayList<>();
+            if (dokitExtension != null) {
+                showMethodSwitch = dokitExtension.slowMethodSwitch;
+                packageNames = dokitExtension.packageNames;
+                thresholdTime = dokitExtension.thresholdTime;
+            } else {
+                packageNames.add(applicationId);
+            }
 
-        if (packageNames == null) {
-            packageNames = new ArrayList<>();
-            packageNames.add(applicationId);
-        } else if (packageNames.isEmpty()) {
-            packageNames.add(applicationId);
-        }
-
-
-        if (showMethodSwitch) {
-            for (String packageName : packageNames) {
-                packageName = packageName.replaceAll("\\.", "/");
-                if (className.contains(packageName)) {
-                    matchedMethod = true;
-                    break;
+            if (showMethodSwitch) {
+                for (String packageName : packageNames) {
+                    packageName = packageName.replaceAll("\\.", "/");
+                    if (className.contains(packageName)) {
+                        matchedMethod = true;
+                        break;
+                    }
                 }
             }
+        } catch (Exception e) {
+            System.out.println("e====>" + e.getMessage());
         }
 
 
@@ -106,11 +123,17 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
     public MethodVisitor visitMethod(int access, String methodName, String desc, String signature, String[] exceptions) {
         //从传进来的ClassWriter中读取MethodVisitor
         MethodVisitor mv = cv.visitMethod(access, methodName, desc, signature, exceptions);
-        if (matchedMethod) {
-            return new SlowMethodAdapter(mv, className, thresholdTime, access, methodName, desc);
-        } else {
-            return mv;
+        try {
+
+            if (matchedMethod) {
+                return mv == null ? null : new SlowMethodAdapter(mv, className, thresholdTime, access, methodName, desc);
+            }
+
+        } catch (Exception e) {
+            System.out.println("DokitSlowMethodClassAdapter===>" + e.getMessage());
         }
+
+        return mv;
     }
 
 }

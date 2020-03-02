@@ -33,11 +33,15 @@ public class DokitSlowMethodTransform extends HunterTransform {
 
     public DokitSlowMethodTransform(Project project) {
         super(project);
-        this.appExtension = (AppExtension) project.getProperties().get("android");
-        //创建自动的代码
-        this.bytecodeWeaver = new DokitSlowMethodWeaver(appExtension);
-        this.dokitExtension = (DokitExtension) project.getExtensions().getByName(extensionName);
-        this.bytecodeWeaver.setExtension(dokitExtension);
+        try {
+            this.appExtension = (AppExtension) project.getProperties().get("android");
+            //创建自动的代码
+            this.bytecodeWeaver = new DokitSlowMethodWeaver(appExtension);
+            this.dokitExtension = (DokitExtension) project.getExtensions().getByName(extensionName);
+            this.bytecodeWeaver.setExtension(dokitExtension);
+        } catch (Exception e) {
+            System.out.println("DokitSlowMethodTransform==>" + e.getMessage());
+        }
     }
 
     @Override
@@ -47,11 +51,19 @@ public class DokitSlowMethodTransform extends HunterTransform {
 
     @Override
     protected RunVariant getRunVariant() {
-        return dokitExtension.runVariant;
+        if (dokitExtension != null) {
+            return dokitExtension.runVariant;
+        }
+        return super.getRunVariant();
     }
 
     @Override
     protected boolean inDuplcatedClassSafeMode() {
-        return dokitExtension.duplcatedClassSafeMode;
+        if (dokitExtension != null) {
+
+            return dokitExtension.duplcatedClassSafeMode;
+        }
+
+        return false;
     }
 }

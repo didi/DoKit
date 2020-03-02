@@ -1,8 +1,10 @@
 package com.didichuxing.doraemonkit.aop;
 
+import android.app.Activity;
+import android.app.Application;
+import android.app.Service;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-
-import com.blankj.utilcode.util.NetworkUtils;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -19,16 +21,30 @@ public class MethodCostUtil {
     private static ConcurrentHashMap<String, Long> METHOD_COSTS = new ConcurrentHashMap<>();
     private static final String TAG = "MethodCostUtil";
 
-    public static synchronized void recodeMethodCostStart(String methodName) {
+
+    /**
+     * 静态内部类单例
+     */
+    private static class Holder {
+        private static MethodCostUtil INSTANCE = new MethodCostUtil();
+    }
+
+    public static MethodCostUtil getInstance() {
+        return MethodCostUtil.Holder.INSTANCE;
+    }
+
+    public synchronized void recodeMethodCostStart(String methodName) {
+        if (METHOD_COSTS == null) {
+            return;
+        }
         METHOD_COSTS.put(methodName, System.currentTimeMillis());
     }
 
     /**
-     * @param thresholdTime 预设的值
+     * @param thresholdTime 预设的值 单位为us 1000us = 1ms
      * @param methodName
-     * @param classObj
      */
-    public static void recodeMethodCostEnd(int thresholdTime, String methodName, Object classObj) {
+    public void recodeMethodCostEnd(int thresholdTime, String methodName) {
         if (METHOD_COSTS == null) {
             return;
         }
@@ -37,12 +53,21 @@ public class MethodCostUtil {
                 long startTime = METHOD_COSTS.get(methodName);
                 int costTime = (int) (System.currentTimeMillis() - startTime);
                 METHOD_COSTS.remove(methodName);
-                //如果该方法的执行时间大于10ms 则记录
+                //如果该方法的执行时间大于1ms 则记录
                 if (costTime >= thresholdTime) {
                     String threadName = Thread.currentThread().getName();
-                    Log.i(TAG, "methodName===>" + methodName + "   classObj==>" + classObj + "  threadName==>" + threadName + "  thresholdTime===>" + thresholdTime + "   costTime===>" + costTime);
+                    Log.i(TAG, "methodName===>" + methodName + "  threadName==>" + threadName + "  thresholdTime===>" + thresholdTime + "   costTime===>" + costTime);
+                    StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+                    if (stackTraceElements.length > 3) {
+                        for (int i = 3; i < stackTraceElements.length; i++) {
+                            Log.i(TAG, "\tat " + stackTraceElements[i].toString());
+                        }
+                    }
                 }
             }
         }
+
     }
+
+
 }

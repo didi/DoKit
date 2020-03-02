@@ -58,13 +58,13 @@ android {
         abortOnError false
     }
 
-
 }
+
 //dokit 扩展
 dokitExt {
     slowMethodSwitch = true
     //单位为us 1000us =1ms
-    thresholdTime = 1100
+    thresholdTime = 50
     packageNames = ["com.didichuxing.doraemondemo"]
 }
 

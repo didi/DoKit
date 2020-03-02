@@ -7,23 +7,23 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="260dp"
+        android:layout_height="435dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp">
 
         <ImageView
-            android:layout_width="368dp"
-            android:layout_height="536dp"
+            android:layout_width="260dp"
+            android:layout_height="match_parent"
             android:src="@drawable/dk_health_bg" />
 
         <ImageView
             android:id="@+id/iv_btn"
-            android:layout_width="124dp"
-            android:layout_height="124dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="96dp"
+            android:layout_marginBottom="80dp"
+            android:layout_marginLeft="3dp"
             android:src="@drawable/dk_health_start" />
 
         <TextView
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="95dp"
+            android:layout_marginTop="80dp"
             android:text="正在体检中..."
             android:textColor="#27BCB7"
             android:textSize="18sp" />
@@ -42,21 +42,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginBottom="10dp"
             android:text="向上滑动查看功能使用说明"
             android:textColor="#27BCB7"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/dk_health_next_page" />
     </LinearLayout>

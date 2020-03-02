@@ -2,7 +2,6 @@ package com.didichuxing.doraemonkit.plugin.weaver;
 
 import com.android.build.gradle.AppExtension;
 import com.didichuxing.doraemonkit.plugin.DokitExtension;
-import com.didichuxing.doraemonkit.plugin.bytecode.DokitCommClassAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.DokitSlowMethodClassAdapter;
 import com.quinn.hunter.transform.asm.BaseWeaver;
 
