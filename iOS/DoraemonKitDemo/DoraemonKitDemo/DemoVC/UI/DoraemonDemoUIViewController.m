@@ -53,21 +53,52 @@
 }
 
 
-- (void)deleteBtnAction:(UIButton *)deleteBtn
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
+     //设置为第一响应者
+}
+
+- (void)deleteBtnAction:(UIButton *)deleteBtn{
+    [self.view.window becomeFirstResponder];
     [self becomeFirstResponder];// 用于UIMenuController显示，缺一不可
     UIMenuController *menu = [UIMenuController sharedMenuController];
     UIMenuItem *item1 = [[UIMenuItem alloc] initWithTitle:@"撤销" action:@selector(revokeAction)];
     UIMenuItem *item2 = [[UIMenuItem alloc] initWithTitle:@"确认" action:@selector(sureAction)];
     menu.menuItems = @[item1, item2];
     menu.arrowDirection = UIMenuControllerArrowUp;
-    [menu setTargetRect:deleteBtn.frame inView:deleteBtn.superview];//  [menu setTargetRect:所点击的按钮Frame inView:按钮的父视图];
-    [menu setMenuVisible:YES animated:YES];
+    if (@available(iOS 13.0, *)) {
+        [menu showMenuFromView:self.view rect:deleteBtn.frame];
+    } else {
+        // Fallback on earlier versions
+    }
+    
+    if (![menu isMenuVisible]) {
+            UIWindow *window = [[UIApplication sharedApplication].delegate window];
+       
+        
+        if(true){
+                [window becomeKeyWindow];
+                [window makeKeyAndVisible];
+            if (@available(iOS 13.0, *)) {
+                [menu showMenuFromView:self.view rect:deleteBtn.frame];
+            } else {
+                // Fallback on earlier versions
+            }
+            }
+        
+        }
 }
 
 - (BOOL)canBecomeFirstResponder{
+    UIWindow *window = [[UIApplication sharedApplication].delegate window];
+    if(window.keyWindow == NO){
+            [window becomeKeyWindow];
+            [window makeKeyAndVisible];
+        }
     return YES;
  }
+
+
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
@@ -82,11 +113,26 @@
 
 - (void)revokeAction{
     NSLog(@"选择了撤销");
+    UIWindow *window = [[UIApplication sharedApplication].delegate window];
+    //[window.rootViewController presentViewController:[[PresentViewController alloc] init] animated:YES completion:nil];
 }
 
 - (void)sureAction{
     NSLog(@"选择了删除");
+    
+    
+    //NSArray *array = [string componentsSeparatedByString:@";"]; //从字符A中分隔成2个元素的数组
+//    int index = 0;
+//    srandom((unsigned)time(0));
+//    while (index < array.count) {
+//        usleep(40000);
+//        NSLog(@"%@",array[index]);
+//        index ++;
+//    }
+//
+    
 }
+
 
 
 
