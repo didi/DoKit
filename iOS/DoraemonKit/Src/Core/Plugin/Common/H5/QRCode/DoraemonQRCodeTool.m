@@ -131,7 +131,6 @@
     
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:codeCaptureDevice error:&error];
     if (error) {
-        NSLog(@"创建输入流error：%@",error);
         return  [NSString stringWithFormat:@"%@",error];
     }
     
@@ -324,7 +323,6 @@
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection {
     
     if (metadataObjects.count > 0) {
-        //NSLog(@"%@",[[metadataObjects objectAtIndex:0] stringValue]);
         
         self.ScanResultsBlock([[metadataObjects objectAtIndex:0] stringValue]);
     }
@@ -372,8 +370,6 @@
     } else {
         
         //[self addAlertViewControllerWithMessage:@"未正常解析二维码图片, 请确保iphone5/5c以上的设备"];
-        
-        NSLog(@"未正常解析二维码图片, 请确保iphone5/5c以上的设备");
     }
     return content;
 }
@@ -597,7 +593,6 @@ void ProviderReleaseData (void *info, const void *data, size_t size){
      CIStarShineGenerator,
      CIStripesGenerator,
      CISunbeamsGenerator*/
-    NSLog(@"%@",[CIFilter filterNamesInCategory:kCICategoryGenerator]);
     
     // 实例化二维码滤镜
     CIFilter *QRFilter = [CIFilter filterWithName:@"CIQRCodeGenerator"];

@@ -8,6 +8,7 @@
 #import "DoraemonMockUtil.h"
 #import "DoraemonUtil.h"
 #import "DoraemonMockManager.h"
+#import "DoraemonDefine.h"
 
 #define DoraemonMockFileName @"mock"
 #define DoraemonUploadFileName @"upload"
@@ -117,7 +118,7 @@
     NSString *text = [DoraemonUtil arrayToJsonStr:dataArray];
     BOOL writeSuccess = [text writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
     if (writeSuccess) {
-        NSLog(@"写入成功");
+        DoKitLog(@"写入成功");
     }
 }
 

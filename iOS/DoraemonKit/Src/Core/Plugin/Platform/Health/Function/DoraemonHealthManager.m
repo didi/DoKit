@@ -248,10 +248,10 @@
         }
     };
     
-    NSLog(@"上传信息 == %@",dic);
+    DoKitLog(@"上传信息 == %@",dic);
     
     if (![DoraemonManager shareInstance].pId) {
-        NSLog(@"dokik pId 为空");
+        DoKitLog(@"dokik pId 为空");
     }
 
     [DoraemonNetworkUtil postWithUrlString:@"https://www.dokit.cn/healthCheck/addCheckData" params:dic success:^(NSDictionary * _Nonnull result) {
@@ -294,7 +294,7 @@
     NSString *pageName = NSStringFromClass(vcClass);
     CGFloat beginTime = CACurrentMediaTime();
     [_pageEnterMap setValue:@(beginTime) forKey:pageName];
-    NSLog(@"yixiang 开始进入页面 == %@ 时间 == %f",pageName,beginTime);
+    DoKitLog(@"yixiang 开始进入页面 == %@ 时间 == %f",pageName,beginTime);
     
 }
 
@@ -307,13 +307,11 @@
     }
     [[DoraemonHealthCountdownWindow shareInstance] start:10];
     NSString *pageName = NSStringFromClass(vcClass);
-    NSLog(@"yixiang 已经进入页面 == %@",pageName);
+    DoKitLog(@"yixiang 已经进入页面 == %@",pageName);
     if (_pageEnterMap[pageName]) {
         CGFloat beginTime = [_pageEnterMap[pageName] floatValue];
         CGFloat endTime = CACurrentMediaTime();
         NSInteger costTime = (NSInteger)((endTime - beginTime)*1000+0.5);//四舍五入 ms
-        NSLog(@"yixiang 耗时 == %f",endTime);
-        NSLog(@"yixiang 耗时 == %zi",costTime);
         [_pageLoadArray addObject:@{
             @"page":NSStringFromClass(vcClass),
             @"time":@(costTime)//ms
@@ -339,7 +337,7 @@
         _h5UrlString = nil;
     }
     
-    NSLog(@"离开页面 == %@",pageName);
+    DoKitLog(@"离开页面 == %@",pageName);
     
     if (_networkPageArray.count>0) {
         [_networkArray addObject:@{
@@ -405,7 +403,6 @@
 
 - (void)addHttpModel:(DoraemonNetFlowHttpModel *)httpModel{
     if (_start) {
-        NSLog(@"网络来了");
         dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
         [_networkPageArray addObject:@{
             @"time": [DoraemonUtil currentTimeInterval],

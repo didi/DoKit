@@ -10,6 +10,7 @@
 #import "UIViewController+Doraemon.h"
 #import "DoraemonHomeWindow.h"
 #import "DoraemonAppInfoUtil.h"
+#import "DoraemonDefine.h"
 
 @implementation DoraemonUtil
 
@@ -81,7 +82,7 @@
     NSString *text = data;
     BOOL writeSuccess = [text writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
     if (writeSuccess) {
-        NSLog(@"写入成功");
+        DoKitLog(@"写入成功");
     }
 }
 
@@ -96,7 +97,7 @@
                                                         options:NSJSONReadingMutableContainers
                                                           error:&err];
     if(err) {
-        NSLog(@"json解析失败：%@",err);
+        DoKitLog(@"json解析失败：%@",err);
         return nil;
     }
     return dic;
@@ -113,7 +114,7 @@
                                                         options:NSJSONReadingMutableContainers
                                                           error:&err];
     if(err) {
-        NSLog(@"json解析失败：%@",err);
+        DoKitLog(@"json解析失败：%@",err);
         return nil;
     }
     return array;
@@ -128,7 +129,7 @@
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
         jsonString =[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         if (error) {
-            NSLog(@"Error:%@" , error);
+            DoKitLog(@"Error:%@" , error);
         }
     }
     return jsonString;
@@ -143,7 +144,7 @@
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:&error];
         jsonString =[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         if (error) {
-            NSLog(@"Error:%@" , error);
+            DoKitLog(@"Error:%@" , error);
         }
     }
     return jsonString;
@@ -171,7 +172,7 @@
         }
     }else{
         //不存在该文件path
-        //NSLog(@"不存在该文件");
+        DoKitLog(@"不存在该文件");
     }
 }
 
@@ -199,7 +200,7 @@
          }
      }else{
          //不存在该文件path
-         //NSLog(@"不存在该文件");
+         DoKitLog(@"不存在该文件");
      }
      
      return nil;

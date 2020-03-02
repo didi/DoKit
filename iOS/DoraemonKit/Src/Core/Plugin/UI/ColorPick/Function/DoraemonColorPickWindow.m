@@ -140,7 +140,6 @@ static CGFloat const kColorPickWindowSize = 150;
     CGContextRelease(context);
     
     NSString *hexColor = [NSString stringWithFormat:@"#%02x%02x%02x",pixelData[0],pixelData[1],pixelData[2]];
-    //NSLog(@"color == %@",hexColor);
     return hexColor;
 }
 

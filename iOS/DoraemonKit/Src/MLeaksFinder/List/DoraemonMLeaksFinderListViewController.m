@@ -25,7 +25,6 @@
     self.title = @"检测结果";
     
     _dataArray = [ NSArray arrayWithArray:[[DoraemonMemoryLeakData shareInstance] getResult]];
-    NSLog(@"_dataArray == %@",_dataArray);
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, self.view.doraemon_height) style:UITableViewStylePlain];
 //    self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.delegate = self;

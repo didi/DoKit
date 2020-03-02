@@ -9,12 +9,6 @@
 
 @implementation DoraemonVisualMagnifierWindow
 
-#pragma mark - Lifecycle
-
-- (void)dealloc {
-    NSLog(@"DoraemonVisualMagnifierWindow dealloc");
-}
-
 -(instancetype)init{
     self = [super init];
     if (self) {

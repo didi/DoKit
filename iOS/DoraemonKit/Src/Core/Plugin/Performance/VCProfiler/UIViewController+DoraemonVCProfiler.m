@@ -10,7 +10,7 @@
 #import <objc/runtime.h>
 #import "DoraemonHealthManager.h"
 
-#define Doraemon_VC_Profiler_LOG_ENABLE 0
+//#define Doraemon_VC_Profiler_LOG_ENABLE 
 
 #ifdef Doraemon_VC_Profiler_LOG_ENABLE
 #define VCLog(...) NSLog(__VA_ARGS__)

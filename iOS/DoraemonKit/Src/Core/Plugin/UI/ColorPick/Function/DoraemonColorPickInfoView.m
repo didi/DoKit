@@ -111,8 +111,7 @@
     CGPoint prePoint = [touch previousLocationInView:self];
     CGFloat offsetX = currentPoint.x - prePoint.x;
     CGFloat offsetY = currentPoint.y - prePoint.y;
-    
-//    NSLog(@"PickInfoView----当前位置:%@---之前的位置:%@",NSStringFromCGPoint(currentPoint),NSStringFromCGPoint(prePoint));
+
     self.transform = CGAffineTransformTranslate(self.transform, offsetX, offsetY);
 }
 

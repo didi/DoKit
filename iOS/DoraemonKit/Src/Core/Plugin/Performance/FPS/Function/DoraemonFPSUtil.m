@@ -73,8 +73,4 @@
     self.block = block;
 }
 
-- (void)dealloc{
-    NSLog(@"fps dealloc");
-}
-
 @end

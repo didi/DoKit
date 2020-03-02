@@ -20,6 +20,14 @@
 
 #define DoKitVersion @"3.0.0"
 
+//#define DoKit_OpenLog
+
+#ifdef DoKit_OpenLog
+#define DoKitLog(...) NSLog(@"%s\n %@ \n\n",__func__,[NSString stringWithFormat:__VA_ARGS__]);
+#else
+#define DoKitLog(...)
+#endif
+
 #define DoraemonScreenWidth [UIScreen mainScreen].bounds.size.width
 #define DoraemonScreenHeight [UIScreen mainScreen].bounds.size.height
 

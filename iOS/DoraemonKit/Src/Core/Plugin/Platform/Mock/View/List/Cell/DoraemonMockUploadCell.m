@@ -95,14 +95,13 @@
         };
         
         [DoraemonNetworkUtil patchWithUrlString:@"https://mock.dokit.cn/api/app/interface" params:params success:^(NSDictionary * _Nonnull result) {
-            //NSLog(@"result == %@",result);
             [self showToast:@"上传成功"];
         } error:^(NSError * _Nonnull error) {
-            NSLog(@"error == %@",error);
+            DoKitLog(@"error == %@",error);
             [self showToast:@"上传失败"];
         }];
     }else{
-        NSLog(@"上传模板接口必须要传pid");
+        DoKitLog(@"上传模板接口必须要传pid");
     }
 }
 
@@ -124,7 +123,7 @@
     NSString *jsonString;
 
     if (!jsonData) {
-        NSLog(@"%@",error);
+        DoKitLog(@"%@",error);
     } else {
         jsonString = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
     }

@@ -101,7 +101,6 @@
 #pragma mark -- DoraemonDBRowViewTypeDelegate
 - (void)rowView:(DoraemonDBRowView *)rowView didLabelTaped:(UILabel *)label{
     NSString *content = label.text;
-    NSLog(@"%@",content);
     [self showText:content];
 }
 

@@ -10,6 +10,7 @@
 #include <objc/message.h>
 #include <sys/sysctl.h>
 #import "DoraemonHealthManager.h"
+#import "DoraemonDefine.h"
 
 static NSTimeInterval startTime;
 static NSTimeInterval stopTime;
@@ -67,7 +68,7 @@ static NSTimeInterval stopTime;
 + (void)printRecords {
     NSString *result = [self getRecordsResult];
     [DoraemonHealthManager sharedInstance].costDetail = result;
-    NSLog(@"%@",result);
+    DoKitLog(@"%@",result);
 }
 
 + (NSString *)getRecordsResult {
@@ -143,7 +144,6 @@ static NSTimeInterval stopTime;
 }
 
 + (void)share:(NSString *)str {
-    //NSLog(@"%@",str);
 }
 
 @end

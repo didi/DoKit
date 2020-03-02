@@ -50,13 +50,10 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             if (granted) {
-                NSLog(@"用户允许");
                 [self createCode];
 
                 [self.qrcode startScanning];
             }else{
-                //用户拒绝
-                NSLog(@"用户拒绝");
             }
         });
     }];

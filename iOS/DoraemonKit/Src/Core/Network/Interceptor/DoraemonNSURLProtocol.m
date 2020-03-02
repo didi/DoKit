@@ -12,6 +12,7 @@
 #import "DoraemonURLSessionDemux.h"
 #import "DoraemonNetworkInterceptor.h"
 #import "DoraemonMockManager.h"
+#import "DoraemonDefine.h"
 
 static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 
@@ -72,13 +73,12 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 }
 
 + (NSURLRequest *)canonicalRequestForRequest:(NSURLRequest *)request{
-    //NSLog(@"canonicalRequestForRequest");
     NSMutableURLRequest *mutableReqeust = [request mutableCopy];
     [NSURLProtocol setProperty:@YES forKey:kDoraemonProtocolKey inRequest:mutableReqeust];
     if ([[DoraemonMockManager sharedInstance] needMock:request]) {
         NSString *sceneId = [[DoraemonMockManager sharedInstance] getSceneId:request];
         NSString *urlString = [NSString stringWithFormat:@"https://mock.dokit.cn/api/app/scene/%@",sceneId];
-        NSLog(@"MOCK URL == %@",urlString);
+        DoKitLog(@"MOCK URL == %@",urlString);
         mutableReqeust = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     }
     return [mutableReqeust copy];

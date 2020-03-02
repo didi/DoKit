@@ -12,6 +12,7 @@
 #import "DoraemonUrlUtil.h"
 #import "DoraemonManager.h"
 #import "DoraemonMockUtil.h"
+#import "DoraemonDefine.h"
 
 @interface DoraemonMockManager()<DoraemonNetworkInterceptorDelegate>
 
@@ -114,10 +115,10 @@
             weakSelf.groups = groups;
             [self handleData];
         } error:^(NSError * _Nonnull error) {
-            NSLog(@"error == %@",error);
+            DoKitLog(@"error == %@",error);
         }];
     }else{
-        NSLog(@"请求接口列表必须保证pId不为空");
+        DoKitLog(@"请求接口列表必须保证pId不为空");
     }
     
 }
@@ -151,7 +152,7 @@
     if (api) {
         mock = YES;
     }
-    NSLog(@"yixiang mock = %d",mock);
+    DoKitLog(@"yixiang mock = %d",mock);
     return mock;
 }
 
@@ -205,7 +206,7 @@
     if (api) {
         save = YES;
     }
-    NSLog(@"yixiang save = %d api = %@ query = %@",save,api.path,api.query);
+    DoKitLog(@"yixiang save = %d api = %@ query = %@",save,api.path,api.query);
     return save;
 }
 

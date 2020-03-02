@@ -83,10 +83,6 @@
     thumbnailRect.size.height = scaledHeight;
     [sourceImage drawInRect:thumbnailRect];
     newImage = UIGraphicsGetImageFromCurrentImageContext();
-    
-    if(newImage == nil)
-        NSLog(@"could not scale image");
-    //pop the context to get back to the default
     UIGraphicsEndImageContext();
     
     return newImage;

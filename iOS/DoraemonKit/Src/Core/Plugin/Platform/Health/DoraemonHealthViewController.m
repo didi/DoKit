@@ -86,7 +86,6 @@
         DoraemonHealthAlertView *alertView = [[DoraemonHealthAlertView alloc] init];
         [alertView renderUI:DoraemonLocalizedString(@"结束前请完善下列信息") placeholder:@[] inputTip:@[DoraemonLocalizedString(@"测试用例名称"),DoraemonLocalizedString(@"测试人名称")] ok:DoraemonLocalizedString(@"提交") cancle:DoraemonLocalizedString(@"取消") okBlock:^{
             
-            //NSLog(@"===== %@",[alertView getInputText]);
             NSArray *result = [alertView getInputText];
             if (result.count == 2) {
                 [DoraemonHealthManager sharedInstance].caseName = result[0];
