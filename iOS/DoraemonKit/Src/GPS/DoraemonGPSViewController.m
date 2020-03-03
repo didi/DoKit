@@ -67,7 +67,7 @@
 
     if (_operateView.switchView.on) {
         CLLocationCoordinate2D coordinate = [[DoraemonCacheManager sharedInstance] mockCoordinate];
-        if (coordinate.longitude>0&&coordinate.latitude>0) {
+        if (coordinate.longitude != 0 && coordinate.latitude != 0) {
             [_mapCenterView hiddenGPSInfo:NO];
             [_mapCenterView renderUIWithGPS:[NSString stringWithFormat:@"%f , %f",coordinate.longitude,coordinate.latitude]];
             [self.mapView setCenterCoordinate:coordinate animated:NO];
