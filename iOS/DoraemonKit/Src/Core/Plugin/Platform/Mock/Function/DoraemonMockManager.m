@@ -56,7 +56,7 @@
     }
 }
 
-- (void)queryMockData{
+- (void)queryMockData:(void(^)(int flag))block{
     NSString *pId = [DoraemonManager shareInstance].pId;
     if (pId && pId.length>0) {
         NSDictionary *params = @{
@@ -114,11 +114,14 @@
             weakSelf.upLoadArray = uploadArray;
             weakSelf.groups = groups;
             [self handleData];
+            block(1);
         } error:^(NSError * _Nonnull error) {
             DoKitLog(@"error == %@",error);
+            block(2);
         }];
     }else{
         DoKitLog(@"请求接口列表必须保证pId不为空");
+        block(3);
     }
     
 }

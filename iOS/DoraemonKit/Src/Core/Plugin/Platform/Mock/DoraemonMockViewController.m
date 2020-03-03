@@ -10,6 +10,8 @@
 
 #import "DoraemonMockUploadViewController.h"
 #import "DoraemonMockAPIViewController.h"
+#import "DoraemonMockManager.h"
+#import "DoraemonHomeWindow.h"
 
 @interface DoraemonMockViewController()
 
@@ -20,23 +22,44 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UITabBarController *tabBar = [[UITabBarController alloc] init];
-#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
-    if (@available(iOS 13.0, *)) {
-        tabBar.tabBar.backgroundColor = [UIColor systemBackgroundColor];
-        if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, -0.5, CGRectGetWidth(tabBar.tabBar.frame), 0.5)];
-            view.backgroundColor = [UIColor doraemon_black_3];
-            [tabBar.tabBar insertSubview:view atIndex:0];
+    //拉取最新的mock数据
+    [[DoraemonMockManager sharedInstance] queryMockData:^(int flag) {
+        NSString *toast = nil;
+        if (flag == 1) {
+            //toast = @"数据更新成功";
+            toast = nil;
+        }else if(flag == 2){
+            toast = @"数据更新失败";
+        }else if(flag == 3){
+            toast = @"pId为空 更新失败";
         }
-    } else {
-#endif
-        tabBar.tabBar.backgroundColor = [UIColor whiteColor];
-#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
-    }
-#endif
+        DoKitLog(@"mock get data, flag == %i",flag);
+        [self renderUI];
+        if (toast.length > 0) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [DoraemonToastUtil showToastBlack:toast inView:[DoraemonHomeWindow shareInstance]];
+            });
+        }
+    }];
     
-    
+}
+
+- (void)renderUI{
+        UITabBarController *tabBar = [[UITabBarController alloc] init];
+    #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        if (@available(iOS 13.0, *)) {
+            tabBar.tabBar.backgroundColor = [UIColor systemBackgroundColor];
+            if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+                UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, -0.5, CGRectGetWidth(tabBar.tabBar.frame), 0.5)];
+                view.backgroundColor = [UIColor doraemon_black_3];
+                [tabBar.tabBar insertSubview:view atIndex:0];
+            }
+        } else {
+    #endif
+            tabBar.tabBar.backgroundColor = [UIColor whiteColor];
+    #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        }
+    #endif
     
     UIViewController *vc1 = [[DoraemonMockAPIViewController alloc] init];
     UINavigationController *nav1 = [[UINavigationController alloc] initWithRootViewController:vc1];
@@ -56,7 +79,6 @@
     tabBar.modalPresentationStyle = UIModalPresentationFullScreen;
     
     [self.navigationController presentViewController:tabBar animated:NO completion:nil];
-    
 }
 
 @end

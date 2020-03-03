@@ -193,7 +193,9 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [[DoraemonStatisticsUtil shareInstance] upLoadUserInfo];
     
     //拉取最新的mock数据
-    [[DoraemonMockManager sharedInstance] queryMockData];
+    [[DoraemonMockManager sharedInstance] queryMockData:^(int flag) {
+        DoKitLog(@"mock get data, flag == %i",flag);
+    }];
     
     //Weex工具的初始化
 #if DoraemonWithWeex

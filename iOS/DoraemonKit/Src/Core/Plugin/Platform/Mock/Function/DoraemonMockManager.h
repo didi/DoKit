@@ -27,8 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *uploadState;//上传信息选中的状态
 @property (nonatomic, copy) NSString *uploadSearchText;//上传信息的搜索关键字
 
-
-- (void)queryMockData;
+- (void)queryMockData:(void(^)(int flag))block;
 
 - (BOOL)needMock:(NSURLRequest *)request;
 

@@ -20,7 +20,7 @@
 
 #define DoKitVersion @"3.0.0"
 
-//#define DoKit_OpenLog
+#define DoKit_OpenLog
 
 #ifdef DoKit_OpenLog
 #define DoKitLog(...) NSLog(@"%s\n %@ \n\n",__func__,[NSString stringWithFormat:__VA_ARGS__]);
