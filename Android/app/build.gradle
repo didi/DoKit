@@ -64,7 +64,7 @@ android {
 dokitExt {
     slowMethodSwitch = true
     //单位为us 1000us =1ms
-    thresholdTime = 50
+    thresholdTime = 200
     packageNames = ["com.didichuxing.doraemondemo"]
 }
 
