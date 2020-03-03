@@ -94,12 +94,7 @@ static CGFloat const kColorPickWindowSize = 150;
 
 - (void)updateScreeShotImage {
     UIGraphicsBeginImageContext([UIScreen mainScreen].bounds.size);
-    // 在部分复杂界面使用此功能调用这个方法的时候，CPU使用率会暴增至90%以上
-    // https://stackoverflow.com/questions/19066717/how-to-render-view-into-image-faster
-//    [[[UIApplication sharedApplication].delegate window].layer renderInContext:UIGraphicsGetCurrentContext()];
-    
-    // 建议使用这个方法
-    [[[UIApplication sharedApplication].delegate window] drawViewHierarchyInRect:[UIScreen mainScreen].bounds afterScreenUpdates:YES];
+    [[[UIApplication sharedApplication].delegate window].layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     
