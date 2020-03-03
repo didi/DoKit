@@ -144,10 +144,8 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     //开启mockGPS功能
     if ([[DoraemonCacheManager sharedInstance] mockGPSSwitch]) {
         CLLocationCoordinate2D coordinate = [[DoraemonCacheManager sharedInstance] mockCoordinate];
-        if (coordinate.longitude>0 && coordinate.latitude>0) {
-            CLLocation *loc = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
-            [[DoraemonGPSMocker shareInstance] mockPoint:loc];
-        }
+        CLLocation *loc = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+        [[DoraemonGPSMocker shareInstance] mockPoint:loc];
     }
 #endif
     

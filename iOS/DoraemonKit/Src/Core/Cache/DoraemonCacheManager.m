@@ -90,12 +90,12 @@ static NSString * const kDoraemonHealthStartKey = @"doraemon_health_start_key";
     if (dic[@"longitude"]) {
         coordinate.longitude = [dic[@"longitude"] doubleValue];
     }else{
-        coordinate.longitude = -1.;
+        coordinate.longitude = 0.;
     }
     if (dic[@"latitude"]) {
         coordinate.latitude = [dic[@"latitude"] doubleValue];
     }else{
-        coordinate.latitude = -1.;
+        coordinate.latitude = 0.;
     }
     
     return coordinate;
