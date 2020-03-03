@@ -11,6 +11,8 @@ post_install do |installer|
     end
 end
 
+#install! 'cocoapods', generate_multiple_pod_projects: true
+
 target :'DoraemonKitDemo' do
   #pod 'DoraemonKit', :subspecs => ['Core','WithLogger','WithGPS','WithLoad','WithWeex', 'WithDatabase', 'WithMLeaksFinder'],  :path => '../../'
   #pod 'DoraemonKit', :subspecs => ['Core'],  :path => '../../'
