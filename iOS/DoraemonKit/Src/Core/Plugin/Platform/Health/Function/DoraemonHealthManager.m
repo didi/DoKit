@@ -289,6 +289,9 @@
 }
 
 - (void)startEnterPage:(Class)vcClass{
+    if (!_start) {
+        return;
+    }
     if ([self blackList:vcClass]) {
         return;
     }
@@ -377,9 +380,9 @@
 }
 
 - (BOOL)blackList:(Class)vcClass{
-//    if ([vcClass isSubclassOfClass:[DoraemonBaseViewController class]]) {
-//        return YES;
-//    }
+    if ([vcClass isSubclassOfClass:[DoraemonBaseViewController class]]) {
+        return YES;
+    }
     if ([vcClass isSubclassOfClass:[UINavigationController class]] || [vcClass isSubclassOfClass:[UITabBarController class]]) {
         return YES;
     }
