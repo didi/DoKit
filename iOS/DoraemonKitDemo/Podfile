@@ -19,4 +19,6 @@ target :'DoraemonKitDemo' do
   pod 'DoraemonKit', :subspecs => ['Core','WithGPS','WithGPS', 'WithMLeaksFinder', 'WithDatabase'], :path => '../../'
   pod 'AFNetworking','2.6.3'
   pod 'SDWebImage', '5.0.6'
+  pod 'FBRetainCycleDetector', :git => 'git@github.com:facebook/FBRetainCycleDetector.git', :configurations => ['Debug']
+  #pod 'FBRetainCycleDetector'
 end

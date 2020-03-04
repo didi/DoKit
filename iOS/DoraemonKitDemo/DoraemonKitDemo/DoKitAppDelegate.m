@@ -14,6 +14,12 @@
 //#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "DoraemonUtil.h"
 
+#if __has_include(<FBRetainCycleDetector/FBRetainCycleDetector.h>)
+#define XXX 1
+#else
+#define XXX 2
+#endif
+
 @interface DoKitAppDelegate ()
 
 @end
@@ -74,9 +80,19 @@
     
     //[DoraemonTimeProfiler stopRecord];
     
-    
+    [self test];
 
+    
     return YES;
+}
+
+- (void)test{
+    [self test2];
+}
+
+- (void)test2{
+    
+    NSLog(@"a == %zi",XXX);
 }
 
 void uncaughtExceptionHandler(NSException*exception){
