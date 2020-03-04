@@ -41,6 +41,12 @@
     input.backgroundColor  = [UIColor lightGrayColor];
     [self.view addSubview:input];
     
+    UITextField *input2 = [[UITextField alloc] initWithFrame:CGRectMake(100, 500, 200, 50)];
+    input2.textAlignment = NSTextAlignmentCenter;
+    //input2.keyboardType = UIKeyboardTypeNumberPad;
+    input2.backgroundColor  = [UIColor lightGrayColor];
+    [self.view addSubview:input2];
+    
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(200, 200, 200, 50)];
     button.backgroundColor = [UIColor lightGrayColor];
     button.layer.cornerRadius = 8;
@@ -66,27 +72,22 @@
     UIMenuItem *item2 = [[UIMenuItem alloc] initWithTitle:@"确认" action:@selector(sureAction)];
     menu.menuItems = @[item1, item2];
     menu.arrowDirection = UIMenuControllerArrowUp;
-    if (@available(iOS 13.0, *)) {
-        [menu showMenuFromView:self.view rect:deleteBtn.frame];
-    } else {
-        // Fallback on earlier versions
-    }
+    [menu setMenuVisible:YES animated:YES];
     
-    if (![menu isMenuVisible]) {
-            UIWindow *window = [[UIApplication sharedApplication].delegate window];
+    if(![menu isMenuVisible]) {
+//            UIWindow *window = [[UIApplication sharedApplication].delegate window];
        
-        
-        if(true){
-                [window becomeKeyWindow];
-                [window makeKeyAndVisible];
+//        if([window isKeyWindow]){
+//                [window becomeKeyWindow];
+//                [window makeKeyAndVisible];
+            [menu setTargetRect:deleteBtn.bounds inView:deleteBtn];
             if (@available(iOS 13.0, *)) {
                 [menu showMenuFromView:self.view rect:deleteBtn.frame];
             } else {
-                // Fallback on earlier versions
+                [menu setMenuVisible:YES animated:YES];
             }
-            }
-        
-        }
+        //}
+    }
 }
 
 - (BOOL)canBecomeFirstResponder{
@@ -113,7 +114,7 @@
 
 - (void)revokeAction{
     NSLog(@"选择了撤销");
-    UIWindow *window = [[UIApplication sharedApplication].delegate window];
+    //UIWindow *window = [[UIApplication sharedApplication].delegate window];
     //[window.rootViewController presentViewController:[[PresentViewController alloc] init] animated:YES completion:nil];
 }
 

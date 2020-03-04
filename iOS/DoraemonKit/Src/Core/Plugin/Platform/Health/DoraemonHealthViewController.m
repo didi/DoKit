@@ -11,7 +11,6 @@
 #import "DoraemonHealthManager.h"
 #import "DoraemonHealthAlertView.h"
 #import "DoraemonHealthInstructionsView.h"
-#import "DoraemonHealthCountdownWindow.h"
 #import "DoraemonDefine.h"
 
 @interface DoraemonHealthViewController()<UIScrollViewDelegate,DoraemonHealthFooterButtonDelegate>
