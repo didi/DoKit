@@ -397,7 +397,9 @@
         @"_UIRemoteInputViewController",
         @"UIEditingOverlayViewController",
         @"AssistiveTouchController",
-        @"UICandidateViewController"
+        @"UICandidateViewController",
+        @"UISystemKeyboardDockController",
+        @"UIApplicationRotationFollowingControllerNoTouches"
     ];
     if ([blackList containsObject:vcName]) {
         return YES;
