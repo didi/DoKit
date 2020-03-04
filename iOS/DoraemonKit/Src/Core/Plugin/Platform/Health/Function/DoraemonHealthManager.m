@@ -195,80 +195,81 @@
 }
 
 - (void)upLoadData{
-    NSString *testTime = [DoraemonUtil dateFormatNow];
-    NSString *phoneName = [DoraemonAppInfoUtil iphoneType];
-    NSString *phoneSystem = [[UIDevice currentDevice] systemVersion];
-    NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
-    NSString *appName = [DoraemonAppInfoUtil appName];
-    
-    
-    //启动流程
-    NSArray *loadArray = nil;
-    #if __has_include("DoraemonMethodUseTimeManager.h")
-    loadArray = [[DoraemonMethodUseTimeManager sharedInstance] fixLoadModelArrayForHealth];
-    #endif
-    
-    NSDictionary *appStart = @{
-        @"costTime" : @(self.startTime),
-        @"costDetail" : STRING_NOT_NULL(self.costDetail),
-        @"loadFunc" : loadArray ? loadArray : @[]
-    };
-    
-    //大文件扫描
-    NSString *homeDir = NSHomeDirectory();
-    DoraemonUtil *util = [[DoraemonUtil alloc] init];
-    [util getBigSizeFileFormPath:homeDir];
-    NSArray *bigFileInfoArray = [self formatInfoByPathArray:util.bigFileArray];
-    
-    NSDictionary *dic = @{
-        @"baseInfo":@{
-                @"caseName":STRING_NOT_NULL(self.caseName),
-                @"testPerson":STRING_NOT_NULL(self.testPerson),
-                @"platform":@"iOS",
-                @"time":testTime,
-                @"phoneMode":phoneName,
-                @"systemVersion":phoneSystem,
-                @"appName":appName,
-                @"appVersion":appVersion,
-                @"dokitVersion":DoKitVersion,
-                @"pId":STRING_NOT_NULL([DoraemonManager shareInstance].pId)
-        },
-        @"data":@{
-                @"cpu":[_cpuArray copy],
-                @"memory":[_memoryArray copy],
-                @"fps":[_fpsArray copy],
-                @"appStart":appStart,
-                @"network": [_networkArray copy],
-                @"block":[_blockArray copy],
-                @"subThreadUI":[_subThreadUIArray copy],
-                @"uiLevel":[_uiLevelArray copy],
-                @"leak":[_leakArray copy],
-                @"pageLoad":[_pageLoadArray copy],
-                @"bigFile":[bigFileInfoArray copy]
-        }
-    };
-    
-    DoKitLog(@"上传信息 == %@",dic);
-    
-    if (![DoraemonManager shareInstance].pId) {
-        DoKitLog(@"dokik pId 为空");
-    }
-
-    [DoraemonNetworkUtil postWithUrlString:@"https://www.dokit.cn/healthCheck/addCheckData" params:dic success:^(NSDictionary * _Nonnull result) {
-        NSInteger code = [result[@"code"] integerValue];
-        if (code == 200) {
-            [DoraemonToastUtil showToastBlack:@"数据上传成功" inView:[UIViewController rootViewControllerForDoraemonHomeWindow].view];
-        }else{
-            NSString *msg = result[@"msg"];
-            if (msg) {
-                [DoraemonToastUtil showToastBlack:msg inView:[UIViewController rootViewControllerForDoraemonHomeWindow].view];
+    if (self.caseName.length>0 && self.testPerson.length>0) {
+        NSString *testTime = [DoraemonUtil dateFormatNow];
+        NSString *phoneName = [DoraemonAppInfoUtil iphoneType];
+        NSString *phoneSystem = [[UIDevice currentDevice] systemVersion];
+        NSString *appVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"];
+        NSString *appName = [DoraemonAppInfoUtil appName];
+        
+        
+        //启动流程
+        NSArray *loadArray = nil;
+        #if __has_include("DoraemonMethodUseTimeManager.h")
+        loadArray = [[DoraemonMethodUseTimeManager sharedInstance] fixLoadModelArrayForHealth];
+        #endif
+        
+        NSDictionary *appStart = @{
+            @"costTime" : @(self.startTime),
+            @"costDetail" : STRING_NOT_NULL(self.costDetail),
+            @"loadFunc" : loadArray ? loadArray : @[]
+        };
+        
+        //大文件扫描
+        NSString *homeDir = NSHomeDirectory();
+        DoraemonUtil *util = [[DoraemonUtil alloc] init];
+        [util getBigSizeFileFormPath:homeDir];
+        NSArray *bigFileInfoArray = [self formatInfoByPathArray:util.bigFileArray];
+        
+        NSDictionary *dic = @{
+            @"baseInfo":@{
+                    @"caseName":STRING_NOT_NULL(self.caseName),
+                    @"testPerson":STRING_NOT_NULL(self.testPerson),
+                    @"platform":@"iOS",
+                    @"time":testTime,
+                    @"phoneMode":phoneName,
+                    @"systemVersion":phoneSystem,
+                    @"appName":appName,
+                    @"appVersion":appVersion,
+                    @"dokitVersion":DoKitVersion,
+                    @"pId":STRING_NOT_NULL([DoraemonManager shareInstance].pId)
+            },
+            @"data":@{
+                    @"cpu":[_cpuArray copy],
+                    @"memory":[_memoryArray copy],
+                    @"fps":[_fpsArray copy],
+                    @"appStart":appStart,
+                    @"network": [_networkArray copy],
+                    @"block":[_blockArray copy],
+                    @"subThreadUI":[_subThreadUIArray copy],
+                    @"uiLevel":[_uiLevelArray copy],
+                    @"leak":[_leakArray copy],
+                    @"pageLoad":[_pageLoadArray copy],
+                    @"bigFile":[bigFileInfoArray copy]
             }
+        };
+        
+        DoKitLog(@"上传信息 == %@",dic);
+        
+        if (![DoraemonManager shareInstance].pId) {
+            DoKitLog(@"dokik pId 为空");
         }
 
-    } error:^(NSError * _Nonnull error) {
-        [DoraemonToastUtil showToastBlack:@"数据上传失败" inView:[UIViewController rootViewControllerForDoraemonHomeWindow].view];
-    }];
+        [DoraemonNetworkUtil postWithUrlString:@"https://www.dokit.cn/healthCheck/addCheckData" params:dic success:^(NSDictionary * _Nonnull result) {
+            NSInteger code = [result[@"code"] integerValue];
+            if (code == 200) {
+                [DoraemonToastUtil showToastBlack:@"数据上传成功" inView:[UIViewController rootViewControllerForDoraemonHomeWindow].view];
+            }else{
+                NSString *msg = result[@"msg"];
+                if (msg) {
+                    [DoraemonToastUtil showToastBlack:msg inView:[UIViewController rootViewControllerForDoraemonHomeWindow].view];
+                }
+            }
 
+        } error:^(NSError * _Nonnull error) {
+            [DoraemonToastUtil showToastBlack:@"数据上传失败" inView:[UIViewController rootViewControllerForDoraemonHomeWindow].view];
+        }];
+    }
     
     [_cpuPageArray removeAllObjects];
     [_memoryPageArray removeAllObjects];

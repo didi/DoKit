@@ -84,7 +84,7 @@
     if(show){
         __weak typeof(self) weakSelf = self;
         DoraemonHealthAlertView *alertView = [[DoraemonHealthAlertView alloc] init];
-        [alertView renderUI:DoraemonLocalizedString(@"结束前请完善下列信息") placeholder:@[] inputTip:@[DoraemonLocalizedString(@"测试用例名称"),DoraemonLocalizedString(@"测试人名称")] ok:DoraemonLocalizedString(@"提交") cancle:DoraemonLocalizedString(@"取消") okBlock:^{
+        [alertView renderUI:DoraemonLocalizedString(@"结束前请完善下列信息") placeholder:@[] inputTip:@[DoraemonLocalizedString(@"测试用例名称"),DoraemonLocalizedString(@"测试人名称")] ok:DoraemonLocalizedString(@"提交") quit:DoraemonLocalizedString(@"丢弃") cancle:DoraemonLocalizedString(@"取消") okBlock:^{
             
             NSArray *result = [alertView getInputText];
             if (result.count == 2) {
@@ -95,6 +95,13 @@
                 [weakSelf.homeView.startingTitle renderUIWithTitle:@"点击开始检测"];
                 [[DoraemonHealthManager sharedInstance] stopHealthCheck];
             }
+        } quitBlock:^{
+            [DoraemonHealthManager sharedInstance].caseName = @"";
+            [DoraemonHealthManager sharedInstance].testPerson = @"";
+            [weakSelf showFooter:YES];
+            [weakSelf.homeView.btnView statusForBtn:NO];
+            [weakSelf.homeView.startingTitle renderUIWithTitle:@"点击开始检测"];
+            [[DoraemonHealthManager sharedInstance] stopHealthCheck];
         } cancleBlock:^{
         }];
         [self.view addSubview:alertView];
