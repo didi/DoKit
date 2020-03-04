@@ -453,9 +453,12 @@
 
 - (void)addLeak:(NSDictionary *)info{
     if (_start) {
+        NSString *viewStack = info[@"viewStack"];
+        NSString *retainCycle = info[@"retainCycle"];
+        NSString *detail = [NSString stringWithFormat:@"viewStack : \n%@ \n\n retainCycle : \n%@\n\n",STRING_NOT_NULL(viewStack),STRING_NOT_NULL(retainCycle)];
         [_leakArray addObject:@{
             @"page":info[@"className"],
-            @"detail":info[@"viewStack"]
+            @"detail":detail
         }];
     }
 }
