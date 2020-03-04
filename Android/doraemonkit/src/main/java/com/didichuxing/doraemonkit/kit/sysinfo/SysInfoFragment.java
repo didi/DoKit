@@ -45,8 +45,13 @@ public class SysInfoFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView();
-        initData();
+        try {
+            initView();
+            initData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void initView() {
@@ -67,7 +72,7 @@ public class SysInfoFragment extends BaseFragment {
         mInfoList.addItemDecoration(decoration);
     }
 
-    private void initData() {
+    private void initData() throws Exception {
         List<SysInfoItem> sysInfoItems = new ArrayList<>();
         addAppData(sysInfoItems);
         addDeviceData(sysInfoItems);
@@ -91,27 +96,70 @@ public class SysInfoFragment extends BaseFragment {
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_package_target_sdk), String.valueOf(getContext().getApplicationInfo().targetSdkVersion)));
     }
 
-    private void addDeviceData(List<SysInfoItem> sysInfoItems) {
+    private void addDeviceData(List<SysInfoItem> sysInfoItems) throws Exception {
         sysInfoItems.add(new TitleItem(getString(R.string.dk_sysinfo_device_info)));
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_brand_and_model), Build.MANUFACTURER + " " + Build.MODEL));
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_android_version), Build.VERSION.RELEASE + " (" + Build.VERSION.SDK_INT + ")"));
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_ext_storage_free), DeviceUtils.getSDCardSpace(getContext())));
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_rom_free), DeviceUtils.getRomSpace(getContext())));
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_display_size), UIUtils.getWidthPixels() + "x" + UIUtils.getRealHeightPixels()));
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_display_inch), "" + UIUtils.getScreenInch(getActivity())));
-        sysInfoItems.add(new SysInfoItem("ROOT", String.valueOf(DeviceUtils.isRoot(getContext()))));
-        sysInfoItems.add(new SysInfoItem("DENSITY", String.valueOf(UIUtils.getDensity())));
-        sysInfoItems.add(new SysInfoItem("IP", TextUtils.isEmpty(NetworkUtils.getIPAddress(true)) ? "null" : NetworkUtils.getIPAddress(true)));
-        sysInfoItems.add(new SysInfoItem("Mac", TextUtils.isEmpty(com.blankj.utilcode.util.DeviceUtils.getMacAddress()) ? "null" : com.blankj.utilcode.util.DeviceUtils.getMacAddress()));
+        try {
+            sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_ext_storage_free), DeviceUtils.getSDCardSpace(getContext())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_rom_free), DeviceUtils.getRomSpace(getContext())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_display_size), UIUtils.getWidthPixels() + "x" + UIUtils.getRealHeightPixels()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_display_inch), "" + UIUtils.getScreenInch(getActivity())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("ROOT", String.valueOf(com.blankj.utilcode.util.DeviceUtils.isDeviceRooted())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("DENSITY", String.valueOf(UIUtils.getDensity())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("IP", TextUtils.isEmpty(NetworkUtils.getIPAddress(true)) ? "null" : NetworkUtils.getIPAddress(true)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("Mac", TextUtils.isEmpty(com.blankj.utilcode.util.DeviceUtils.getMacAddress()) ? "null" : com.blankj.utilcode.util.DeviceUtils.getMacAddress()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             sysInfoItems.add(new SysInfoItem("IMEI", TextUtils.isEmpty(PhoneUtils.getIMEI()) ? "null" : PhoneUtils.getIMEI()));
         } catch (Exception e) {
+            e.printStackTrace();
         }
-        sysInfoItems.add(new SysInfoItem("Sign MD5", AppUtils.getAppSignatureMD5()));
-        sysInfoItems.add(new SysInfoItem("Sign SHA1", AppUtils.getAppSignatureSHA1()));
-        sysInfoItems.add(new SysInfoItem("Sign SHA256", AppUtils.getAppSignatureSHA256()));
-
-
+        try {
+            sysInfoItems.add(new SysInfoItem("Sign MD5", AppUtils.getAppSignatureMD5()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("Sign SHA1", AppUtils.getAppSignatureSHA1()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("Sign SHA256", AppUtils.getAppSignatureSHA256()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -174,7 +222,12 @@ public class SysInfoFragment extends BaseFragment {
     }
 
     private String checkPermission(String... perms) {
-        return PermissionUtil.hasPermissions(getContext(), perms) ? "YES" : "NO";
+        try {
+            return PermissionUtil.hasPermissions(getContext(), perms) ? "YES" : "NO";
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return "NO";
     }
 
 }

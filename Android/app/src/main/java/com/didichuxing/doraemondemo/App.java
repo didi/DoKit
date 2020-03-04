@@ -30,10 +30,11 @@ public class App extends Application {
         kits.add(new DemoKit());
         //测试环境:a49842eeebeb1989b3f9565eb12c276b
         //线上环境:749a0600b5e48dd77cf8ee680be7b1b7
-        DoraemonKit.install(this, kits, "a49842eeebeb1989b3f9565eb12c276b");
+        DoraemonKit.disableUpload();
         //是否显示入口icon
         //DoraemonKit.setAwaysShowMainIcon(false);
-        DoraemonKit.disableUpload();
+        DoraemonKit.install(this, kits, "749a0600b5e48dd77cf8ee680be7b1b7");
+
         Fresco.initialize(this);
         DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
             @Override

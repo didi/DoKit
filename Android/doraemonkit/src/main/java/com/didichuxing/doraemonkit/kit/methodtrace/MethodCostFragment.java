@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.ui.widget.webview.MyWebView;
@@ -41,7 +42,7 @@ public class MethodCostFragment extends BaseFragment {
             }
         });
         mWebView = findViewById(R.id.webview);
-        mWebView.loadUrl("http://xingyun.xiaojukeji.com/docs/dokit/#/TimeProfiler");
+        mWebView.loadUrl(NetworkManager.APP_DOCUMENT_URL);
 
     }
 

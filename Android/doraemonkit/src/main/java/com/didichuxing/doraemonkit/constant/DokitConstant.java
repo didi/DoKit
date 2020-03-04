@@ -103,7 +103,6 @@ public class DokitConstant {
             Class.forName("com.didichuxing.doraemonkit.DoraemonKitRpc");
             isRpcSdk = true;
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
             isRpcSdk = false;
         }
 

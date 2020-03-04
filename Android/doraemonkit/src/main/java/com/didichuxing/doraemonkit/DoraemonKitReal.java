@@ -266,12 +266,8 @@ class DoraemonKitReal {
             AbstractKit devToolKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.weex.devtool.DevToolKit").newInstance();
             weex.add(devToolKit);
             DokitConstant.KIT_MAPS.put(Category.WEEX, weex);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+
         }
 
         DokitConstant.KIT_MAPS.put(Category.PERFORMANCE, performance);
@@ -285,7 +281,11 @@ class DoraemonKitReal {
         DokitViewManager.getInstance().init(app);
         //上传app基本信息便于统计
         if (sEnableUpload) {
-            DoraemonStatisticsUtil.uploadUserInfo(app);
+            try {
+                DoraemonStatisticsUtil.uploadUserInfo(app);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         installLeakCanary(app);
         initAndroidUtil(app);
@@ -472,14 +472,7 @@ class DoraemonKitReal {
             Method install = leakCanaryManager.getMethod("install", Application.class);
             //调用静态的install方法
             install.invoke(null, app);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
         }
 
     }
