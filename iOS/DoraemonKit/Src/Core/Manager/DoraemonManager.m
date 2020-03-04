@@ -96,6 +96,11 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self installWithStartingPosition:defaultPosition];
 }
 
+- (void)installWithPid:(NSString *)pId{
+    self.pId = pId;
+    [self install];
+}
+
 - (void)installWithStartingPosition:(CGPoint) position{
     _startingPosition = position;
     [self installWithCustomBlock:^{

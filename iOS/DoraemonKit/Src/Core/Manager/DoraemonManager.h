@@ -110,6 +110,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 @property (nonatomic, copy) NSString *pId; //产品id 平台端的工具必须填写
 
 - (void)install;
+//带有平台端功能的s初始化方式
+- (void)installWithPid:(NSString *)pId;
 
 // 定制起始位置 | 适用正好挡住关键位置
 - (void)installWithStartingPosition:(CGPoint) position;
