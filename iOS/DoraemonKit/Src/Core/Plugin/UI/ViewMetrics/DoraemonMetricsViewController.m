@@ -37,6 +37,7 @@
 
 #pragma mark -- DoraemonSwitchViewDelegate
 - (void)changeSwitchOn:(BOOL)on sender:(id)sender{
+    [DoraemonViewMetricsConfig defaultConfig].opened = YES;
     [DoraemonViewMetricsConfig defaultConfig].enable = on;
 }
 

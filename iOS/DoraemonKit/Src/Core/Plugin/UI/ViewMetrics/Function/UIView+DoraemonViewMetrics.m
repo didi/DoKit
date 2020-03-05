@@ -31,7 +31,9 @@
 - (void)doraemon_layoutSubviews
 {
     [self doraemon_layoutSubviews];
-    [self doraemonMetricsRecursiveEnable:DoraemonViewMetricsConfig.defaultConfig.enable];
+    if (DoraemonViewMetricsConfig.defaultConfig.opened) {
+        [self doraemonMetricsRecursiveEnable:DoraemonViewMetricsConfig.defaultConfig.enable];
+    }
 }
 
 - (void)doraemonMetricsRecursiveEnable:(BOOL)enable
