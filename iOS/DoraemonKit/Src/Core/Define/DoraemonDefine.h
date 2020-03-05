@@ -28,6 +28,8 @@
 #define DoKitLog(...)
 #endif
 
+#define WEAKSELF(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+
 #define DoraemonScreenWidth [UIScreen mainScreen].bounds.size.width
 #define DoraemonScreenHeight [UIScreen mainScreen].bounds.size.height
 

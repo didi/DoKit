@@ -6,28 +6,17 @@
 //
 
 #import "DoraemonQRCodeViewController.h"
-#import "DoraemonQRCodeTool.h"
 #import "DoraemonDefaultWebViewController.h"
+#import "DoraemonDefine.h"
+#import "DoraemonQRScanView.h"
 
-#define WEAKSELF(weakSelf)  __weak __typeof(&*self)weakSelf = self;
 
-@interface DoraemonQRCodeViewController ()
-@property (nonatomic,strong) DoraemonQRCodeTool *qrcode;
+@interface DoraemonQRCodeViewController ()<DoraemonQRScanDelegate>
+
+@property (nonatomic, strong) DoraemonQRScanView *scanView;
+
 @end
 @implementation DoraemonQRCodeViewController
-
-- (void)createCode {
-    WEAKSELF(weakSelf)
-    self.qrcode = [DoraemonQRCodeTool shared];
-    [self.qrcode QRCodeDeviceInitWithVC:self WithQRCodeWidth:0 ScanResults:^(NSString *result) {
-        [weakSelf.qrcode stopScanning];
-        [weakSelf dismissViewControllerAnimated:YES completion:^{
-            if (weakSelf.QRCodeBlock) {
-                weakSelf.QRCodeBlock(result);
-            }
-        }];
-    }];
-}
 
 - (void)leftNavBackClick:(id)clickView {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -45,18 +34,50 @@
     }
 #endif
     self.title = @"二维码扫描";
+    
+}
 
-    [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (granted) {
-                [self createCode];
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    DoraemonQRScanView *scaner = [[DoraemonQRScanView alloc] initWithFrame:self.view.bounds];
+    scaner.delegate = self;
+    scaner.showScanLine = YES;
+    scaner.showBorderLine = YES;
+    scaner.showCornerLine = YES;
+    scaner.scanRect = CGRectMake(scaner.doraemon_width/2-kDoraemonSizeFrom750(480)/2, kDoraemonSizeFrom750(195), kDoraemonSizeFrom750(480), kDoraemonSizeFrom750(480));
+    [self.view addSubview:scaner];
+    self.scanView = scaner;
+    [scaner startScanning];
+}
 
-                [self.qrcode startScanning];
-            }else{
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self removeScanView];
+}
+
+- (void)removeScanView{
+    if (self.scanView) {
+        [self.scanView stopScanning];
+        [self.scanView removeFromSuperview];
+        self.scanView = nil;
+    }
+}
+
+
+#pragma mark -- DoraemonQRScanDelegate
+- (void)scanView:(DoraemonQRScanView *)scanView pickUpMessage:(NSString *)message{
+    if(message.length>0){
+        [self dismissViewControllerAnimated:YES completion:^{
+            if (self.QRCodeBlock) {
+                self.QRCodeBlock(message);
             }
-        });
-    }];
+        }];
+    }
+}
+
+- (void)scanView:(DoraemonQRScanView *)scanView aroundBrightness:(NSString *)brightnessValue{
+    
 }
 
 @end

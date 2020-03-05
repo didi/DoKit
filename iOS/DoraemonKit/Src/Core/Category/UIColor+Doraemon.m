@@ -179,6 +179,10 @@ CGFloat doraemonColorComponentFrom(NSString *string, NSUInteger start, NSUIntege
     return [UIColor doraemon_colorWithString:@"#F4F5F6"];
 }
 
++ (UIColor *)doraemon_orange{ //#FF8903
+    return [UIColor doraemon_colorWithString:@"#FF8903"];
+}
+
 + (UIColor *)doraemon_line {
 #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     if (@available(iOS 13.0, *)) {
