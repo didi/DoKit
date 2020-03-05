@@ -193,7 +193,8 @@ Andoid上传代码详见DoraemonStatisticsUtil类中的实现
 
 ## 友情链接
 1. [AoE](https://github.com/didi/AoE)，一个终端侧AI集成运行时环境 
-2. [Chameleon]( https://github.com/didi/chameleon)/kəˈmiːlɪən/，简写CML，中文意思变色龙，意味着就像变色龙一样能适应不同环境的跨端整体解决方案，达到真正意义上"一套代码，多端运行"的终极目标
-3. 我们部门的技术公众号（普惠出行产品技术公众号），欢迎关注
+2. [Chameleon]( https://github.com/didi/chameleon)，简写CML，中文意思变色龙，意味着就像变色龙一样能适应不同环境的跨端整体解决方案，达到真正意义上"一套代码，多端运行"的终极目标
+3. [Mand Mobile](https://github.com/didi/mand-mobile) 一款优秀的面向金融场景的 移动端UI组件库
+4. 我们部门的技术公众号（普惠出行产品技术公众号），欢迎关注
 
 ![https://javer.oss-cn-shanghai.aliyuncs.com/2019/github/phgzh.jpg](https://javer.oss-cn-shanghai.aliyuncs.com/2019/github/phgzh.jpg)
