@@ -666,7 +666,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                            @(DoraemonManagerPluginType_DoraemonWeakNetworkPlugin) : @[
                                      @{kTitle:DoraemonLocalizedString(@"模拟弱网")},
                                      @{kDesc:DoraemonLocalizedString(@"模拟弱网测试")},
-                                     @{kIcon:@"doraemon_time_profiler"},
+                                     @{kIcon:@"doraemon_weaknet"},
                                      @{kPluginName:@"DoraemonWeakNetworkPlugin"},
                                      @{kAtModule:DoraemonLocalizedString(@"性能检测")},
                                      @{kBuriedPoint:@"dokit_sdk_comm_ck_weaknetwork"}
