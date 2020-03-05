@@ -59,13 +59,13 @@ DEPENDENCIES:
   - DoraemonKit/WithGPS (from `../../`)
   - DoraemonKit/WithMLeaksFinder (from `../../`)
   - "FBRetainCycleDetector (from `git@github.com:facebook/FBRetainCycleDetector.git`)"
+  - "fishhook (from `git@github.com:facebook/fishhook.git`)"
   - SDWebImage (= 5.0.6)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AFNetworking
     - BSBacktraceLogger
-    - fishhook
     - FMDB
     - GCDWebServer
     - SDWebImage
@@ -76,11 +76,16 @@ EXTERNAL SOURCES:
     :path: "../../"
   FBRetainCycleDetector:
     :git: "git@github.com:facebook/FBRetainCycleDetector.git"
+  fishhook:
+    :git: "git@github.com:facebook/fishhook.git"
 
 CHECKOUT OPTIONS:
   FBRetainCycleDetector:
     :commit: 19fd284845b8454dbb75a648baa47d99b7708b74
     :git: "git@github.com:facebook/FBRetainCycleDetector.git"
+  fishhook:
+    :commit: 66315a9c251edfe92f669ae2deeac0d75374c948
+    :git: "git@github.com:facebook/fishhook.git"
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
@@ -93,6 +98,6 @@ SPEC CHECKSUMS:
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
   YYDebugDatabase: c8be8bd85222cc2ced76e93ca06618bab87224d7
 
-PODFILE CHECKSUM: e3a8ed916535f347ac18202d838b851eea330ef8
+PODFILE CHECKSUM: 332fa75531721e86ff40fce343c54f259711b558
 
 COCOAPODS: 1.8.4

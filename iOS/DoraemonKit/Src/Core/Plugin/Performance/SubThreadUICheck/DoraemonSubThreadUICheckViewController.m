@@ -47,13 +47,7 @@
 
 #pragma mark -- DoraemonSwitchViewDelegate
 - (void)changeSwitchOn:(BOOL)on sender:(id)sender{
-    __weak typeof(self) weakSelf = self;
-    [DoraemonAlertUtil handleAlertActionWithVC:self okBlock:^{
-        [[DoraemonCacheManager sharedInstance] saveSubThreadUICheckSwitch:on];
-        exit(0);
-    } cancleBlock:^{
-        weakSelf.switchView.switchView.on = !on;
-    }];
+    [[DoraemonCacheManager sharedInstance] saveSubThreadUICheckSwitch:on];
 }
 
 #pragma mark -- DoraemonCellButtonDelegate
