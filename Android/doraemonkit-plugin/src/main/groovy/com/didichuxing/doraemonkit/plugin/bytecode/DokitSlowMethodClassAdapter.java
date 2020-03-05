@@ -69,11 +69,14 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
         //过滤掉接口
         boolean isInterface = (access & Opcodes.ACC_INTERFACE) != 0;
         if (isInterface) {
-//            System.out.println("isInterface===>" + "  access==>" + access + "  className==>" + className + "  signature===>" + signature + "  superName===>" + superName);
             return;
         }
         this.className = className;
         try {
+            //插件开关被关闭
+            if (!dokitExtension.dokitPluginSwitch) {
+                return;
+            }
             //需要将applicationId中的 .替换为/ 因为字节码中会把.转化为/
             String applicationId = appExtension.getDefaultConfig().getApplicationId().replaceAll("\\.", "/");
             boolean showMethodSwitch = true;
@@ -95,6 +98,7 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
                     }
                 }
             }
+
         } catch (Exception e) {
             System.out.println("e====>" + e.getMessage());
         }
@@ -104,6 +108,8 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
 
 
     /**
+     * access值得计算方式为Opcodes.ACC_PUBLIC & Opcodes.ACC_STATIC
+     * <p>
      * Visits a method of the class. This method <i>must</i> return a new {@link MethodVisitor}
      * instance (or {@literal null}) each time it is called, i.e., it should not return a previously
      * returned visitor.
@@ -119,13 +125,13 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
      * @return an object to visit the byte code of the method, or {@literal null} if this class
      * visitor is not interested in visiting the code of this method.
      */
+
     @Override
     public MethodVisitor visitMethod(int access, String methodName, String desc, String signature, String[] exceptions) {
         //从传进来的ClassWriter中读取MethodVisitor
         MethodVisitor mv = cv.visitMethod(access, methodName, desc, signature, exceptions);
         try {
-
-            if (matchedMethod) {
+            if (matchedMethod && !("<init>").equals(methodName)) {
                 return mv == null ? null : new SlowMethodAdapter(mv, className, thresholdTime, access, methodName, desc);
             }
 
@@ -135,5 +141,6 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
 
         return mv;
     }
+
 
 }

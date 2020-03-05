@@ -9,10 +9,10 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.ThreadUtils;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * ================================================
@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * ================================================
  */
 public class MethodCost {
-    private static final String TAG = "MethodCost";
+    private static final String TAG = "MethodTrace";
     /**
      * storage/sdcard/Android/data/com.didichuxing.doraemondemo/files/  高版本的.trace文件路径
      */
@@ -93,7 +93,7 @@ public class MethodCost {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Debug.startMethodTracingSampling(traceFileName, bufferSize, intervalUs);
         } else {
-            LogHelper.e(TAG, "current api need OS Api level 21");
+            Log.e(TAG, "current api need OS Api level 21");
         }
     }
 
@@ -144,29 +144,26 @@ public class MethodCost {
     /**
      * @param traceFileName
      */
-    private static void printLog(String traceFileName, final boolean needIndent, final MethodCostCallback appStartCallback) {
-        if (APPLICATION != null) {
-            filePath = APPLICATION.getExternalFilesDir(null) + File.separator + traceFileName + ".trace";
-        } else {
-            filePath = ROOT_APP_PATH + traceFileName + ".trace";
-        }
-        //假如不存在改文件 则用低版本的路径再次尝试
-        if (!FileUtils.isFileExists(filePath)) {
-            filePath = ROOT_STORAGE_PATH + traceFileName + ".trace";
-        }
+    private static void printLog(final String traceFileName, final boolean needIndent, final MethodCostCallback appStartCallback) {
 
-
-        if (!FileUtils.isFileExists(filePath)) {
-            appStartCallback.onError("no matched file", filePath);
-            return;
-        }
-
-        ThreadUtils.executeByCached(new ThreadUtils.Task<ArrayList<OrderBean>>() {
+        ThreadUtils.executeByCachedWithDelay(new ThreadUtils.Task<ArrayList<OrderBean>>() {
             @Override
             public ArrayList<OrderBean> doInBackground() throws Throwable {
+                if (APPLICATION != null) {
+                    filePath = APPLICATION.getExternalFilesDir(null) + File.separator + traceFileName + ".trace";
+                } else {
+                    filePath = ROOT_APP_PATH + traceFileName + ".trace";
+                }
+                //假如不存在改文件 则用低版本的路径再次尝试
+                if (!FileUtils.isFileExists(filePath)) {
+                    filePath = ROOT_STORAGE_PATH + traceFileName + ".trace";
+                }
+                if (!FileUtils.isFileExists(filePath) || FileUtils.getFileLength(filePath) == 0) {
+                    filePath = PathUtils.getInternalAppFilesPath() + File.separator + "appStart.trace";
+                }
                 File file = new File(filePath);
                 if (!FileUtils.isFileExists(filePath)) {
-                    LogHelper.i(TAG, "file not exists");
+                    Log.i(TAG, "filePath==>" + filePath + "  not found");
                     appStartCallback.onError("no matched file", filePath);
                     return null;
                 }
@@ -179,11 +176,16 @@ public class MethodCost {
             @Override
             public void onSuccess(ArrayList<OrderBean> orderBeans) {
                 if (orderBeans == null || orderBeans.size() == 0) {
-                    LogHelper.e(TAG, "no match method");
+                    Log.i(TAG, "filePath==>" + filePath + "  not found");
                     if (appStartCallback != null) {
                         appStartCallback.onError("no match method", filePath);
                     }
                     return;
+                } else {
+                    if (traceFileName.equals("appStart")) {
+                        String destFilePath = PathUtils.getInternalAppFilesPath() + File.separator + "appStart.trace";
+                        FileUtils.copyFile(filePath, destFilePath);
+                    }
                 }
 
                 if (appStartCallback != null) {
@@ -202,22 +204,22 @@ public class MethodCost {
                     }
                 }
 
-                FileUtils.delete(filePath);
+                //FileUtils.delete(filePath);
 
             }
 
             @Override
             public void onCancel() {
-                FileUtils.delete(filePath);
+                //FileUtils.delete(filePath);
                 Log.i(TAG, "--------onCancel---------");
             }
 
             @Override
             public void onFail(Throwable t) {
-                FileUtils.delete(filePath);
+                //FileUtils.delete(filePath);
                 Log.e(TAG, "throwable: " + t.getMessage());
             }
-        });
+        }, 2, TimeUnit.SECONDS);
     }
 
     private static String strMultiply(String singleStr, int count) {

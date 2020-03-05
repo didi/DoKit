@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.multidex.MultiDex;
 
-import com.didichuxing.doraemondemo.dokit.DemoKit;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
@@ -26,14 +25,12 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        List<AbstractKit> kits = new ArrayList<>();
-        kits.add(new DemoKit());
         //测试环境:a49842eeebeb1989b3f9565eb12c276b
         //线上环境:749a0600b5e48dd77cf8ee680be7b1b7
         DoraemonKit.disableUpload();
         //是否显示入口icon
         //DoraemonKit.setAwaysShowMainIcon(false);
-        DoraemonKit.install(this, kits, "749a0600b5e48dd77cf8ee680be7b1b7");
+        DoraemonKit.install(this, null, "749a0600b5e48dd77cf8ee680be7b1b7");
 
         Fresco.initialize(this);
         DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {

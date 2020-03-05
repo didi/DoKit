@@ -30,13 +30,14 @@ public final class DokitCommClassAdapter extends ClassVisitor {
      * 当前类的父类 假如存在的话
      */
     private String superName;
+    private DokitExtension dokitExtension;
 
     /**
      * @param cv 传进来的是 ClassWriter
      */
     public DokitCommClassAdapter(final ClassVisitor cv, AppExtension appExtension, DokitExtension dokitExtension) {
         super(Opcodes.ASM7, cv);
-
+        this.dokitExtension = dokitExtension;
     }
 
     @Override
@@ -45,6 +46,7 @@ public final class DokitCommClassAdapter extends ClassVisitor {
 
         this.className = name;
         this.superName = superName;
+
     }
 
 
@@ -68,7 +70,10 @@ public final class DokitCommClassAdapter extends ClassVisitor {
     public MethodVisitor visitMethod(int access, String methodName, String desc, String signature, String[] exceptions) {
         //从传进来的ClassWriter中读取MethodVisitor
         MethodVisitor mv = cv.visitMethod(access, methodName, desc, signature, exceptions);
-
+        //开关被关闭 不插入代码
+        if (!dokitExtension.dokitPluginSwitch) {
+            return mv;
+        }
         //开发者变量字节码替换
         if (className.equals("com/didichuxing/doraemonkit/DoraemonKitReal") && methodName.equals("install") && desc != null) {
             if (getParamsSize(desc) == 3) {

@@ -23,6 +23,9 @@ public final class DoKitPlugin implements Plugin<Project> {
     public void apply(Project project) {
         AppExtension appExtension = (AppExtension) project.getProperties().get("android");
 
+        //创建指定扩展
+        project.getExtensions().create("dokitExt", DokitExtension.class);
+
         List<String> taskNames = project.getGradle().getStartParameter().getTaskNames();
 
         //如果task包含release 则不进行字节码替换
@@ -32,8 +35,7 @@ public final class DoKitPlugin implements Plugin<Project> {
             }
         }
 
-        //创建指定扩展
-        project.getExtensions().create("dokitExt", DokitExtension.class);
+
         //普通的插装
         appExtension.registerTransform(new DokitCommTransform(project), Collections.EMPTY_LIST);
         //urlConnection代理到OkHttp

@@ -67,6 +67,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                     boolean isCheck = mUserInfoDialogProvider.uploadAppHealthInfo(new UploadAppHealthCallback() {
                         @Override
                         public void onSuccess(Response<String> response) {
+                            LogHelper.i(TAG, "上传成功===>" + response.body());
                             ToastUtils.showShort("上传数据成功!");
                             //重置状态
                             GlobalConfig.setAppHealth(DoraemonKit.APPLICATION, false);

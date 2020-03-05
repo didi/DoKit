@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.kit.timecounter;
 
 import android.app.Application;
 import android.os.Looper;
+import android.util.Log;
 
 import com.blankj.utilcode.util.GsonUtils;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
@@ -24,7 +25,7 @@ import java.util.List;
  * @desc: App启动、Activity跳转的耗时统计类
  */
 public class TimeCounterManager {
-    //private static final String TAG = "TimeCounterManager";
+    private static final String TAG = "TimeCounterManager";
     private boolean mIsRunning;
 
 
@@ -47,6 +48,7 @@ public class TimeCounterManager {
     public void onAppCreateStart(Application application) {
         mAppCounter.start();
         MethodCost.APPLICATION = application;
+        Log.i(TAG, "=========onAppCreateStart=========");
         MethodCost.startMethodTracing("appStart");
     }
 
@@ -57,6 +59,7 @@ public class TimeCounterManager {
      */
     public void onAppCreateEnd(Application application) {
         mAppCounter.end();
+        Log.i(TAG, "=========onAppCreateEnd=========");
         MethodCost.stopMethodTracingAndPrintLog("appStart", new MethodCostCallback() {
             @Override
             public void onCall(String filePath, ArrayList<OrderBean> orderBeans) {

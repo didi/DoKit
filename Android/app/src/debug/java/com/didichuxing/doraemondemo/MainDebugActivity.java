@@ -38,6 +38,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.didichuxing.doraemondemo.util.FrescoUtil;
 import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.aop.MethodCostUtil;
 import com.didichuxing.doraemonkit.kit.largepicture.glide.LargeBitmapGlideTransformation;
 import com.didichuxing.doraemonkit.kit.largepicture.picasso.LargeBitmapPicassoTransformation;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCost;
@@ -158,14 +159,6 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         ).build());
-        getValue();
-    }
-
-
-    private String getValue() {
-        String a = "ss";
-        String b = a + "cc";
-        return b;
     }
 
 
@@ -665,4 +658,8 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 }

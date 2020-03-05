@@ -32,11 +32,16 @@ public class DokitCommTransform extends HunterTransform {
 
     public DokitCommTransform(Project project) {
         super(project);
-        this.appExtension = (AppExtension) project.getProperties().get("android");
-        //创建自动的代码
-        this.dokitExtension = (DokitExtension) project.getExtensions().getByName(extensionName);
-        this.bytecodeWeaver = new DokitCommWeaver(appExtension);
-        this.bytecodeWeaver.setExtension(dokitExtension);
+        try {
+            this.appExtension = (AppExtension) project.getProperties().get("android");
+            //创建自动的代码
+            this.dokitExtension = (DokitExtension) project.getExtensions().getByName(extensionName);
+            this.bytecodeWeaver = new DokitCommWeaver(appExtension);
+            this.bytecodeWeaver.setExtension(dokitExtension);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

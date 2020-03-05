@@ -17,6 +17,7 @@ import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.okgo.OkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
