@@ -37,7 +37,7 @@ import com.didichuxing.doraemonkit.kit.health.HealthKit;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureKit;
 import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit;
-import com.didichuxing.doraemonkit.kit.logInfo.LogInfoKit;
+import com.didichuxing.doraemonkit.kit.loginfo.LogInfoKit;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostKit;
 import com.didichuxing.doraemonkit.kit.mode.FloatModeKit;
 import com.didichuxing.doraemonkit.kit.network.MockKit;
@@ -70,7 +70,6 @@ import com.sjtu.yifei.AbridgeCallBack;
 import com.sjtu.yifei.IBridge;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -259,15 +258,15 @@ class DoraemonKitReal {
         try {
             AbstractKit weexLogKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.weex.log.WeexLogKit").newInstance();
             weex.add(weexLogKit);
-            AbstractKit storageKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.weex.storage.StorageKit").newInstance();
+            AbstractKit storageKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.weex.storage.WeexStorageKit").newInstance();
             weex.add(storageKit);
             AbstractKit weexInfoKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.weex.info.WeexInfoKit").newInstance();
             weex.add(weexInfoKit);
-            AbstractKit devToolKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.weex.devtool.DevToolKit").newInstance();
+            AbstractKit devToolKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.weex.devtool.WeexDevToolKit").newInstance();
             weex.add(devToolKit);
             DokitConstant.KIT_MAPS.put(Category.WEEX, weex);
         } catch (Exception e) {
-
+            //LogHelper.e(TAG, "e====>" + e.getMessage());
         }
 
         DokitConstant.KIT_MAPS.put(Category.PERFORMANCE, performance);

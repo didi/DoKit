@@ -1,8 +1,8 @@
-package com.didichuxing.doraemonkit.kit.logInfo.util;
+package com.didichuxing.doraemonkit.kit.loginfo.util;
 
 import android.text.TextUtils;
 
-import com.didichuxing.doraemonkit.kit.logInfo.LogLine;
+import com.didichuxing.doraemonkit.kit.loginfo.LogLine;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -43,7 +43,7 @@ public class NetworkManager {
     /**
      * ########业务埋点的网络接口#########
      */
-    public static final String APP_DATA_PICK_URL = "http://dokit-test.intra.xiaojukeji.com/pointData/addPointData";
+    public static final String APP_DATA_PICK_URL = "https://www.dokit.cn/pointData/addPointData";
     /**
      * 慢函数操作文档
      */

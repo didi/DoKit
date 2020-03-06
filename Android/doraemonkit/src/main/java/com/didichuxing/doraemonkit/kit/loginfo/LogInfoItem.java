@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.logInfo;
+package com.didichuxing.doraemonkit.kit.loginfo;
 
 import android.util.Log;
 

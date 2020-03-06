@@ -1,9 +1,9 @@
-package com.didichuxing.doraemonkit.kit.logInfo.reader;
+package com.didichuxing.doraemonkit.kit.loginfo.reader;
 
 import android.text.TextUtils;
 
-import com.didichuxing.doraemonkit.kit.logInfo.helper.LogcatHelper;
-import com.didichuxing.doraemonkit.kit.logInfo.helper.RuntimeHelper;
+import com.didichuxing.doraemonkit.kit.loginfo.helper.LogcatHelper;
+import com.didichuxing.doraemonkit.kit.loginfo.helper.RuntimeHelper;
 
 import java.io.BufferedReader;
 import java.io.IOException;

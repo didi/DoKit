@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.logInfo.reader;
+package com.didichuxing.doraemonkit.kit.loginfo.reader;
 
 
 public abstract class AbsLogcatReader implements LogcatReader {

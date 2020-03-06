@@ -1,6 +1,6 @@
-package com.didichuxing.doraemonkit.kit.logInfo.helper;
+package com.didichuxing.doraemonkit.kit.loginfo.helper;
 
-import com.didichuxing.doraemonkit.kit.logInfo.util.ArrayUtil;
+import com.didichuxing.doraemonkit.kit.loginfo.util.ArrayUtil;
 
 import java.io.IOException;
 import java.util.List;

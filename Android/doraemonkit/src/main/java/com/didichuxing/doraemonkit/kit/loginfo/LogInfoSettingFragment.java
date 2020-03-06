@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.logInfo;
+package com.didichuxing.doraemonkit.kit.loginfo;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -51,8 +51,14 @@ public class LogInfoSettingFragment extends BaseFragment {
                         DokitIntent intent = new DokitIntent(LogInfoDokitView.class);
                         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
                         DokitViewManager.getInstance().attach(intent);
+                        //开启日志服务
+                        LogInfoManager.getInstance().start();
                     } else {
                         DokitViewManager.getInstance().detach(LogInfoDokitView.class);
+                        //关闭日志服务
+                        LogInfoManager.getInstance().stop();
+                        //清空回调
+                        LogInfoManager.getInstance().removeListener();
                     }
                     LogInfoConfig.setLogInfoOpen(getContext(), on);
                 }

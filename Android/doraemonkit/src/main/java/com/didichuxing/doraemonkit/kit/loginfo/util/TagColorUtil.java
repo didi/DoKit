@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.logInfo.util;
+package com.didichuxing.doraemonkit.kit.loginfo.util;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;

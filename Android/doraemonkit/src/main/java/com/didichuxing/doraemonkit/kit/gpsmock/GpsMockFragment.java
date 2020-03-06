@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -124,6 +125,10 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
                 double longitude = Double.valueOf(mLongitude.getText().toString());
                 GpsMockManager.getInstance().mockLocation(latitude, longitude);
                 GpsMockConfig.saveMockLocation(getContext(), new LatLng(latitude, longitude));
+                //刷新地图
+                String url = String.format("javascript:updateLocation(%s,%s)", latitude, longitude);
+                mWebView.loadUrl(url);
+                //WebUtil.webViewLoadLocalHtml(mWebView, "html/map.html");
                 Toast.makeText(getContext(), getString(R.string.dk_gps_location_change_toast, mLatitude.getText(), mLongitude.getText()), Toast.LENGTH_SHORT).show();
             }
         });

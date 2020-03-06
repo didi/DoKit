@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.logInfo.reader;
+package com.didichuxing.doraemonkit.kit.loginfo.reader;
 
 import java.io.IOException;
 import java.util.List;

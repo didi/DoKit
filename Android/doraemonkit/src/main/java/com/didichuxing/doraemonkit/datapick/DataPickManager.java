@@ -110,7 +110,7 @@ public class DataPickManager {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        LogHelper.e(TAG, "success===>" + response.body());
+                        //LogHelper.e(TAG, "success===>" + response.body());
                         if (from == jsonFromFile) {
                             FileUtils.delete(filePath);
                         }

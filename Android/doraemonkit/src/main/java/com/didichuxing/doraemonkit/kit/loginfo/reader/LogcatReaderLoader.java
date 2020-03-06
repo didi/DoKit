@@ -1,10 +1,10 @@
-package com.didichuxing.doraemonkit.kit.logInfo.reader;
+package com.didichuxing.doraemonkit.kit.loginfo.reader;
 
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.didichuxing.doraemonkit.kit.logInfo.helper.LogcatHelper;
+import com.didichuxing.doraemonkit.kit.loginfo.helper.LogcatHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;

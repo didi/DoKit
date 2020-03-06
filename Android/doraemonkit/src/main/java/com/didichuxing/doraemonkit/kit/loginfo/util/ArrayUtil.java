@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.logInfo.util;
+package com.didichuxing.doraemonkit.kit.loginfo.util;
 
 import java.lang.reflect.Array;
 import java.util.List;

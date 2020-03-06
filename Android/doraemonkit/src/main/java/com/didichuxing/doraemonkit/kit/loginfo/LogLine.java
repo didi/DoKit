@@ -1,9 +1,9 @@
-package com.didichuxing.doraemonkit.kit.logInfo;
+package com.didichuxing.doraemonkit.kit.loginfo;
 
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.didichuxing.doraemonkit.kit.logInfo.reader.ScrubberUtils;
+import com.didichuxing.doraemonkit.kit.loginfo.reader.ScrubberUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

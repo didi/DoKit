@@ -141,6 +141,17 @@
         <item name="android:background">@drawable/dk_radio_button_background_left</item>
     </style>
 
+
+    <style name="DK.RadioButton.middle">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/dk_font_size_14</item>
+        <item name="android:textColor">@color/dk_radio_button_text_color</item>
+        <item name="android:layout_height">34dp</item>
+        <item name="android:layout_width">70dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/dk_radio_button_background_middle</item>
+    </style>
+
     <style name="DK.RadioButton.Right">
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/dk_font_size_14</item>

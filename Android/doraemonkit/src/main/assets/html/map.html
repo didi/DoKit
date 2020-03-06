@@ -43,6 +43,8 @@
             center: center,
             zoom: 13
         });
+        //赋值给window对象
+        window['map'] = map;
 
         //移动地图中心位置
         map.panBy(120, 180);
@@ -51,6 +53,9 @@
             position: center,
             map: map
         });
+
+        window['marker'] = marker;
+
         //设置Marker的动画属性为从落下
         marker.setAnimation(qq.maps.MarkerAnimation.DOWN);
         marker.setDraggable(true);
@@ -63,6 +68,23 @@
         });
 
         window.location = "doraemon://invokeNative/sendLocation?lat=" + center.getLat().toFixed(6) + "&lng=" + center.getLng().toFixed(6);
+    }
+
+    var updateLocation = function(lat,lng){
+        var center = new qq.maps.LatLng(lat, lng);
+        if(window['map']){
+            var map = window['map'];
+            map.setCenter(center);
+            //移动地图中心位置
+            map.panBy(120, 180);
+       }
+
+       if(window['marker']){
+           var marker = window['marker'];
+           marker.setPosition(center);
+           //设置Marker的动画属性为从落下
+           marker.setAnimation(qq.maps.MarkerAnimation.DOWN);
+       }
     }
 
     </script>

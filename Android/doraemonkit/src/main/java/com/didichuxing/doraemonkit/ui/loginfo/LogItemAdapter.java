@@ -13,9 +13,9 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.kit.logInfo.LogLine;
-import com.didichuxing.doraemonkit.kit.logInfo.util.SearchCriteria;
-import com.didichuxing.doraemonkit.kit.logInfo.util.TagColorUtil;
+import com.didichuxing.doraemonkit.kit.loginfo.LogLine;
+import com.didichuxing.doraemonkit.kit.loginfo.util.SearchCriteria;
+import com.didichuxing.doraemonkit.kit.loginfo.util.TagColorUtil;
 import com.didichuxing.doraemonkit.ui.toast.AppToast;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
@@ -38,10 +38,22 @@ public class LogItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<LogLine>, L
         mClipboard = (ClipboardManager) context.getSystemService(CLIPBOARD_SERVICE);
     }
 
+
     private ArrayList<LogLine> mOriginalValues = new ArrayList<>();
     private ArrayFilter mFilter = new ArrayFilter();
     private int logLevelLimit = Log.VERBOSE;
     private ClipboardManager mClipboard;
+
+    /**
+     * 清空log
+     */
+    public void clearLog() {
+        if (mOriginalValues != null && mOriginalValues.size() > 0) {
+            mOriginalValues.clear();
+        }
+        clear();
+        notifyDataSetChanged();
+    }
 
     @Override
     protected AbsViewBinder<LogLine> createViewHolder(View view, int viewType) {
@@ -169,22 +181,29 @@ public class LogItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<LogLine>, L
         }
     }
 
-    public void addWithFilter(LogLine object, CharSequence text, boolean notify) {
+    /**
+     * 添加日志到adapter中
+     *
+     * @param logObj
+     * @param text
+     * @param notify
+     */
+    public void addWithFilter(LogLine logObj, CharSequence text, boolean notify) {
 
         if (mOriginalValues != null) {
 
-            List<LogLine> inputList = Collections.singletonList(object);
+            List<LogLine> inputList = Collections.singletonList(logObj);
 
             List<LogLine> filteredObjects = mFilter.performFilteringOnList(inputList, text);
 
-            mOriginalValues.add(object);
+            mOriginalValues.add(logObj);
 
             mList.addAll(filteredObjects);
             if (notify) {
                 notifyItemRangeInserted(mList.size() - filteredObjects.size(), filteredObjects.size());
             }
         } else {
-            mList.add(object);
+            mList.add(logObj);
             if (notify) {
                 notifyItemInserted(mList.size());
             }
@@ -213,7 +232,7 @@ public class LogItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<LogLine>, L
             ArrayList<LogLine> allValues = new ArrayList<>();
 
             ArrayList<LogLine> logLines = new ArrayList<>(inputList);
-            ;
+
 
             for (LogLine logLine : logLines) {
                 if (logLine != null && logLine.getLogLevel() >= logLevelLimit) {

@@ -12,6 +12,7 @@
         app:dkIcon="@drawable/dk_close_icon_big"
         app:dkTitle="@string/dk_kit_gps_mock" />
 
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/setting_list"
         android:layout_width="match_parent"
@@ -32,7 +33,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginTop="25dp"
         android:layout_marginRight="40dp"
-        android:background="@color/dk_color_7FFFFFFF"
+        android:background="@color/dk_color_EFFFFFFF"
         android:padding="5dp">
 
         <TextView

@@ -1,11 +1,11 @@
-package com.didichuxing.doraemonkit.kit.logInfo;
+package com.didichuxing.doraemonkit.kit.loginfo;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 
-import com.didichuxing.doraemonkit.kit.logInfo.reader.LogcatReader;
-import com.didichuxing.doraemonkit.kit.logInfo.reader.LogcatReaderLoader;
+import com.didichuxing.doraemonkit.kit.loginfo.reader.LogcatReader;
+import com.didichuxing.doraemonkit.kit.loginfo.reader.LogcatReaderLoader;
 import com.didichuxing.doraemonkit.util.ExecutorUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
@@ -25,7 +25,7 @@ public class LogInfoManager {
 
     private OnLogCatchListener mListener;
 
-    private LogCatchRunnable mTask;
+    private LogCatchRunnable mLogCatchTask;
 
     private static class Holder {
         private static LogInfoManager INSTANCE = new LogInfoManager();
@@ -39,20 +39,25 @@ public class LogInfoManager {
     }
 
     public void start() {
-        if (mTask != null) {
-            mTask.stop();
+        if (mLogCatchTask != null) {
+            mLogCatchTask.stop();
         }
-        mTask = new LogCatchRunnable();
-        ExecutorUtil.execute(mTask);
+        mLogCatchTask = new LogCatchRunnable();
+        ExecutorUtil.execute(mLogCatchTask);
     }
 
     public void stop() {
-        if (mTask != null) {
-            mTask.stop();
+        if (mLogCatchTask != null) {
+            mLogCatchTask.stop();
         }
     }
 
     public interface OnLogCatchListener {
+        /**
+         * 新增日志回调
+         *
+         * @param logLine
+         */
         void onLogCatch(List<LogLine> logLine);
     }
 
@@ -64,6 +69,9 @@ public class LogInfoManager {
         mListener = null;
     }
 
+    /**
+     * 接收log 的内部Handler
+     */
     private static class InternalHandler extends Handler {
         public InternalHandler(Looper looper) {
             super(looper);
@@ -72,12 +80,13 @@ public class LogInfoManager {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case MESSAGE_PUBLISH_LOG: {
+                case MESSAGE_PUBLISH_LOG:
+
                     if (LogInfoManager.getInstance().mListener != null) {
                         LogInfoManager.getInstance().mListener.onLogCatch((List<LogLine>) msg.obj);
                     }
-                }
-                break;
+
+                    break;
                 default:
                     break;
             }
@@ -85,6 +94,9 @@ public class LogInfoManager {
     }
 
 
+    /**
+     * 获取日志的内部线程
+     */
     private static class LogCatchRunnable implements Runnable {
         private boolean isRunning = true;
         private Handler internalHandler;

@@ -16,7 +16,7 @@ import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment;
 import com.didichuxing.doraemonkit.kit.health.HealthFragment;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment;
-import com.didichuxing.doraemonkit.kit.logInfo.LogInfoSettingFragment;
+import com.didichuxing.doraemonkit.kit.loginfo.LogInfoSettingFragment;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostFragment;
 import com.didichuxing.doraemonkit.kit.network.ui.MockTemplatePreviewFragment;
 import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMockFragment;
