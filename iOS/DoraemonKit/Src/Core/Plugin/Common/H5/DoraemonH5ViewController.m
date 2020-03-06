@@ -103,7 +103,7 @@
 - (void)clickScan {
     
     if ([DoraemonAppInfoUtil isSimulator]) {
-        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"模拟器不支持扫码功能") inView:self.view];
+        [DoraemonToastUtil showToastBlack:DoraemonLocalizedString(@"模拟器不支持扫码功能") inView:self.view];
         return;
     }
     
@@ -120,12 +120,12 @@
 
 - (void)jump{
     if (_h5UrlTextView.text.length==0) {
-        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"h5链接不能为空") inView:self.view];
+        [DoraemonToastUtil showToastBlack:DoraemonLocalizedString(@"h5链接不能为空") inView:self.view];
         return;
     }
     
     if (![NSURL URLWithString:_h5UrlTextView.text]) {
-        [DoraemonToastUtil showToast:DoraemonLocalizedString(@"h5链接有误") inView:self.view];
+        [DoraemonToastUtil showToastBlack:DoraemonLocalizedString(@"h5链接有误") inView:self.view];
         return;
     }
     

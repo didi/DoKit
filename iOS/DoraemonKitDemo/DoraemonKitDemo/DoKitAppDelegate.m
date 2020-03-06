@@ -14,6 +14,12 @@
 //#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "DoraemonUtil.h"
 
+#if __has_include(<FBRetainCycleDetector/FBRetainCycleDetector.h>)
+#define XXX 1
+#else
+#define XXX 2
+#endif
+
 @interface DoKitAppDelegate ()
 
 @end
@@ -38,11 +44,11 @@
 
     //测试 a49842eeebeb1989b3f9565eb12c276b
     //线上 749a0600b5e48dd77cf8ee680be7b1b7
-    [DoraemonManager shareInstance].pId = @"749a0600b5e48dd77cf8ee680be7b1b7";
+    //[DoraemonManager shareInstance].pId = @"749a0600b5e48dd77cf8ee680be7b1b7";
     [[DoraemonManager shareInstance] addStartPlugin:@"StartPlugin"];
     [DoraemonManager shareInstance].bigImageDetectionSize = 10 * 1024;//大图检测只检测10K以上的
     [DoraemonManager shareInstance].startClass = @"DoKitAppDelegate";
-    [[DoraemonManager shareInstance] install];
+    [[DoraemonManager shareInstance] installWithPid:@"749a0600b5e48dd77cf8ee680be7b1b7"];
     //[[DoraemonManager shareInstance] installWithStartingPosition:CGPointMake(66, 66)];
     
     [[DoraemonManager shareInstance] addANRBlock:^(NSDictionary *anrDic) {
@@ -74,9 +80,19 @@
     
     //[DoraemonTimeProfiler stopRecord];
     
-    
+    [self test];
 
+    
     return YES;
+}
+
+- (void)test{
+    [self test2];
+}
+
+- (void)test2{
+    
+    NSLog(@"a == %zi",XXX);
 }
 
 void uncaughtExceptionHandler(NSException*exception){

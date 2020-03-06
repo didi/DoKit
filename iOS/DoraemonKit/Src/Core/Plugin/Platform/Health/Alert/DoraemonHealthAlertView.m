@@ -20,9 +20,10 @@
 @property (nonatomic, strong) NSMutableArray *inputViewArray;
 @property (nonatomic, strong) UIButton *okBtn;
 @property (nonatomic, strong) UIButton *cancleBtn;
+@property (nonatomic, strong) UIButton *quitBtn;
 @property (nonatomic, copy) DoraemonHealthAlertOKActionBlock okBlock;
 @property (nonatomic, copy) DoraemonHealthAlertCancleActionBlock cancleBlock;
-
+@property (nonatomic, copy) DoraemonHealthAlertQuitActionBlock quitBlock;
 
 @end
 
@@ -47,7 +48,7 @@
         
         _inputViewArray = [[NSMutableArray alloc] init];
 
-        _okBtn = [[UIButton alloc] initWithFrame:CGRectMake(_width/2, 0, _width/2, kDoraemonSizeFrom750_Landscape(90))];
+        _okBtn = [[UIButton alloc] initWithFrame:CGRectMake(_width/3*2, 0, _width/3, kDoraemonSizeFrom750_Landscape(90))];
         _okBtn.titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(30)];
         [_okBtn.layer setBorderColor:[UIColor doraemon_black_3].CGColor];
         [_okBtn.layer setBorderWidth:kDoraemonSizeFrom750_Landscape(0.5)];
@@ -57,7 +58,16 @@
         _okBtn.enabled = NO;
         [_okBtn addTarget:self action:@selector(okBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         
-        _cancleBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, _width/2, _okBtn.doraemon_height)];
+        _quitBtn = [[UIButton alloc] initWithFrame:CGRectMake(_width/3, 0, _width/3, kDoraemonSizeFrom750_Landscape(90))];
+        _quitBtn.titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(30)];
+        [_quitBtn.layer setBorderColor:[UIColor doraemon_black_3].CGColor];
+        [_quitBtn.layer setBorderWidth:kDoraemonSizeFrom750_Landscape(0.5)];
+        [_quitBtn.layer setMasksToBounds:YES];
+        [_quitBtn setTitleColor:[UIColor doraemon_black_3] forState:UIControlStateNormal];
+        [_quitBtn setTitle:DoraemonLocalizedString(@"丢弃") forState:UIControlStateNormal];
+        [_quitBtn addTarget:self action:@selector(quitBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        
+        _cancleBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, _width/3, _okBtn.doraemon_height)];
         _cancleBtn.titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(30)];
         [_cancleBtn.layer setBorderColor:[UIColor doraemon_black_3].CGColor];
         [_cancleBtn.layer setBorderWidth:kDoraemonSizeFrom750_Landscape(0.5)];
@@ -70,15 +80,15 @@
         
         [_alertView addSubview:_title];
         [_alertView addSubview:_okBtn];
+        [_alertView addSubview:_quitBtn];
         [_alertView addSubview:_cancleBtn];
         
     }
     return self;
 }
 
-- (void)renderUI:(NSString *)title placeholder:(NSArray*)placeholders inputTip:(NSArray*)inputTips ok:(NSString *)okText
-          cancle:(NSString *)cancleText okBlock:(DoraemonHealthAlertOKActionBlock)okBlock
-            cancleBlock:(DoraemonHealthAlertCancleActionBlock)cancleBlock{
+- (void)renderUI:(NSString *)title placeholder:(NSArray*)placeholders inputTip:(NSArray*)inputTips ok:(NSString *)okText quit:(NSString *)quitText cancle:(NSString *)cancleText  okBlock:(DoraemonHealthAlertOKActionBlock)okBlock quitBlock:(DoraemonHealthAlertQuitActionBlock) quitBlock
+cancleBlock:(DoraemonHealthAlertCancleActionBlock)cancleBlock{
     int index = 0;
     _title.text = title;
     NSString *placeholder = nil;
@@ -101,6 +111,10 @@
     if(okText.length>0){
         [_okBtn setTitle:okText forState:UIControlStateNormal];
     }
+    _quitBtn.frame = CGRectMake(_quitBtn.doraemon_x, _height, _quitBtn.doraemon_width, _quitBtn.doraemon_height);
+    if (quitText.length>0) {
+        [_quitBtn setTitle:quitText forState:UIControlStateNormal];
+    }
     _cancleBtn.frame = CGRectMake(_cancleBtn.doraemon_x, _height, _cancleBtn.doraemon_width, _cancleBtn.doraemon_height);
     if(cancleText.length>0){
         [_cancleBtn setTitle:cancleText forState:UIControlStateNormal];
@@ -109,6 +123,7 @@
     _alertView.frame = CGRectMake(_padding, _alertView.doraemon_y, _width, _height);
     self.okBlock = okBlock;
     self.cancleBlock = cancleBlock;
+    self.quitBlock = quitBlock;
 }
 
 - (NSArray *)getInputText{
@@ -126,6 +141,11 @@
 
 - (void)okBtnAction:(id)sender{
     self.okBlock ? self.okBlock() : nil;
+    self.hidden = YES;
+}
+
+- (void)quitBtnAction:(id)sender{
+    self.quitBlock ? self.quitBlock() : nil;
     self.hidden = YES;
 }
 

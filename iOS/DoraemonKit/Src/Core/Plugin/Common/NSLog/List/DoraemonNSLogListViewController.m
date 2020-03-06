@@ -26,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = DoraemonLocalizedString(@"NSLog日志记录");
+    [self setRightNavTitle:@"清除"];
     
     //按照时间倒序排列
     self.dataArray = [[[DoraemonNSLogManager sharedInstance].dataArray reverseObjectEnumerator] allObjects];
@@ -41,6 +42,12 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
+}
+
+- (void)rightNavTitleClick:(id)clickView {
+    [[DoraemonNSLogManager sharedInstance].dataArray removeAllObjects];
+    self.dataArray = [[NSArray alloc] init];
+    [self.tableView reloadData];
 }
 
 #pragma mark - UITableView Delegate

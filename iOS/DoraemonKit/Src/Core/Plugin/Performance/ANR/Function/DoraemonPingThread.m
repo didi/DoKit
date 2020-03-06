@@ -112,7 +112,7 @@
     }
 }
 
-#pragma mark - Notification
+#pragma mark - Notific ation
 - (void)applicationDidBecomeActive {
     _isApplicationInActive = YES;
 }

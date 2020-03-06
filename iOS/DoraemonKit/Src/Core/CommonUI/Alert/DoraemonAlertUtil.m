@@ -33,4 +33,15 @@
     [vc presentViewController:alertController animated:YES completion:nil];
 }
 
++ (void)handleAlertActionWithVC:(UIViewController *)vc
+                           text:(NSString *)text
+                        okBlock:(DoraemonAlertOKActionBlock)okBlock{
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:DoraemonLocalizedString(@"提示") message:text preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:DoraemonLocalizedString(@"确定") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        okBlock ? okBlock():nil;
+    }];
+    [alertController addAction:okAction];
+    [vc presentViewController:alertController animated:YES completion:nil];
+}
+
 @end

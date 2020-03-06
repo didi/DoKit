@@ -86,7 +86,7 @@
         [self.basicInfoDic setValue:self.pointArray forKey:@"events"];
         NSMutableDictionary *params = [self.basicInfoDic copy];
 
-        [DoraemonNetworkUtil postWithUrlString:@"http://dokit-test.intra.xiaojukeji.com/pointData/addPointData" params:params success:^(NSDictionary * _Nonnull result) {
+        [DoraemonNetworkUtil postWithUrlString:@"http://www.dokit.cn/pointData/addPointData" params:params success:^(NSDictionary * _Nonnull result) {
             NSInteger code = [result[@"code"] integerValue];
             if (code == 200) {
                 [self removePointArray];

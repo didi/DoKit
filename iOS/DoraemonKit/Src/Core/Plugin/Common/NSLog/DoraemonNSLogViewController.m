@@ -11,6 +11,7 @@
 #import "DoraemonCacheManager.h"
 #import "DoraemonNSLogListViewController.h"
 #import "DoraemonDefine.h"
+#import "DoraemonNSLogManager.h"
 
 @interface DoraemonNSLogViewController ()<DoraemonSwitchViewDelegate,DoraemonCellButtonDelegate>
 
@@ -46,13 +47,12 @@
 
 #pragma mark -- DoraemonSwitchViewDelegate
 - (void)changeSwitchOn:(BOOL)on sender:(id)sender{
-    __weak typeof(self) weakSelf = self;
-    [DoraemonAlertUtil handleAlertActionWithVC:self okBlock:^{
-        [[DoraemonCacheManager sharedInstance] saveNSLogSwitch:on];
-        exit(0);
-    } cancleBlock:^{
-        weakSelf.switchView.switchView.on = !on;
-    }];
+    [[DoraemonCacheManager sharedInstance] saveNSLogSwitch:on];
+    if (on) {
+        [[DoraemonNSLogManager sharedInstance] startNSLogMonitor];
+    }else{
+        [[DoraemonNSLogManager sharedInstance] stopNSLogMonitor];
+    }
 }
 
 #pragma mark -- DoraemonCellButtonDelegate

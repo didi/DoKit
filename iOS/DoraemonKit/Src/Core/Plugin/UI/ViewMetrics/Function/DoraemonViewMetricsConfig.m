@@ -26,7 +26,7 @@
     self = [super init];
     if (self) {
         self.borderWidth = 1;
-        self.enable = NO;
+        //self.enable = NO;
     }
     return self;
 }

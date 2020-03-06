@@ -39,8 +39,8 @@
 }
 
 - (void)uiCheck{
-    if([[DoraemonCacheManager sharedInstance] subThreadUICheckSwitch]){
-        if(![NSThread isMainThread]){
+    if(![NSThread isMainThread]){
+        if ([[DoraemonCacheManager sharedInstance] subThreadUICheckSwitch]) {
             NSString *report = [BSBacktraceLogger bs_backtraceOfCurrentThread];
             NSDictionary *dic = @{
                                   @"title":[DoraemonUtil dateFormatNow],

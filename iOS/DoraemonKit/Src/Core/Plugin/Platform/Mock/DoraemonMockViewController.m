@@ -22,6 +22,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, DoraemonScreenHeight/2-100/2, DoraemonScreenWidth, 100)];
+    titleLabel.text = @"正在请求数据，请稍等";
+    titleLabel.font = [UIFont systemFontOfSize:16];
+    titleLabel.textColor = [UIColor doraemon_blue];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:titleLabel];
+    
     //拉取最新的mock数据
     [[DoraemonMockManager sharedInstance] queryMockData:^(int flag) {
         NSString *toast = nil;
