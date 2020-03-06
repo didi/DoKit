@@ -17,5 +17,7 @@
 
 - (void)startNSLogMonitor;
 
+- (void)stopNSLogMonitor;
+
 - (void)addNSLog:(NSString *)log;
 @end
