@@ -46,7 +46,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 数据mock 详情页
+ * 数据mock 相关设置 详情页
  */
 public class NetWorkMockFragment extends BaseFragment {
     private String projectId = DokitConstant.PRODUCT_ID;

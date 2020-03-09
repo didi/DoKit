@@ -117,8 +117,9 @@
 
     <string name="dk_gpsmock_open">開啟模擬定位</string>
     <string name="dk_gpsmock_tv_location">模擬地址</string>
-    <string name="dk_gpsmock_hint_latitude">輸入緯度 (Lat)</string>
-    <string name="dk_gpsmock_hint_longitude">輸入經度 (Lng)</string>
+
+
+    <string name="dk_gpsmock_hint_longlat">請輸入經緯度</string>
 
     <!--卡頓檢測-->
     <string name="dk_kit_block_monitor">ANR 檢測</string>
@@ -166,7 +167,7 @@
     <string name="dk_kit_network_monitor">流量監控</string>
     <string name="dk_data_clean_toast">清除系統資料</string>
     <string name="dk_float_permission_toast">哆啦A夢需要打開懸浮視窗權限才能正常使用</string>
-    <string name="dk_gps_location_change_toast">地址變為: %1$s, %2$s</string>
+    <string name="dk_gps_location_change_toast">地址變為: %1$s , %2$s</string>
     <string name="dk_view_check_info_desc">背景顏色：%1$s</string>
     <string name="dk_view_check_info_padding">內邊距：%1$d, %2$d, %3$d, %4$d</string>
     <string name="dk_view_check_info_margin">外邊距：%1$d, %2$d, %3$d, %4$d</string>
