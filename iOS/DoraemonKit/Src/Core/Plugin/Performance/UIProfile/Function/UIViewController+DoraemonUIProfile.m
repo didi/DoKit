@@ -69,7 +69,7 @@
 
     UIView *tmpSuperView = self.doraemon_depthView.superview;
     
-    while (tmpSuperView != self.view) {
+    while (tmpSuperView && tmpSuperView != self.view) {
         [tmp addObject:NSStringFromClass([tmpSuperView class])];
         tmpSuperView = tmpSuperView.superview;
     }

@@ -284,4 +284,14 @@
     }
 }
 
++ (UIWindow *)getKeyWindow{
+    UIWindow *keyWindow = nil;
+    if ([[UIApplication sharedApplication].delegate respondsToSelector:@selector(window)]) {
+        keyWindow = [[UIApplication sharedApplication].delegate window];
+    }else{
+        keyWindow = [UIApplication sharedApplication].windows.firstObject;
+    }
+    return keyWindow;
+}
+
 @end

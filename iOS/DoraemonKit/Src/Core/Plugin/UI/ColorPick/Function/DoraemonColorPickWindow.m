@@ -45,6 +45,16 @@ static CGFloat const kColorPickWindowSize = 150;
 - (instancetype)init {
     self = [super initWithFrame:CGRectMake(DoraemonScreenWidth/2-kColorPickWindowSize/2, DoraemonScreenHeight/2-kColorPickWindowSize/2, kColorPickWindowSize, kColorPickWindowSize)];
     if (self) {
+        #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+            if (@available(iOS 13.0, *)) {
+                for (UIWindowScene* windowScene in [UIApplication sharedApplication].connectedScenes){
+                    if (windowScene.activationState == UISceneActivationStateForegroundActive){
+                        self.windowScene = windowScene;
+                        break;
+                    }
+                }
+            }
+        #endif
         self.backgroundColor = [UIColor clearColor];
         self.windowLevel = UIWindowLevelStatusBar + 1.f;
         if (!self.rootViewController) {
@@ -94,7 +104,7 @@ static CGFloat const kColorPickWindowSize = 150;
 
 - (void)updateScreeShotImage {
     UIGraphicsBeginImageContext([UIScreen mainScreen].bounds.size);
-    [[[UIApplication sharedApplication].delegate window].layer renderInContext:UIGraphicsGetCurrentContext()];
+    [[DoraemonUtil getKeyWindow].layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     

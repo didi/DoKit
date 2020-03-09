@@ -69,10 +69,12 @@
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     //输入框聚焦的时候，会把当前window设置为keyWindow，我们在当页面消失的时候，判断一下，把keyWindow交还给[[UIApplication sharedApplication].delegate window]
-    UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    if (appWindow != keyWindow) {
-        [appWindow makeKeyWindow];
+    if ([[UIApplication sharedApplication].delegate respondsToSelector:@selector(window)]) {
+        UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        if (appWindow != keyWindow) {
+            [appWindow makeKeyWindow];
+        }
     }
 }
 

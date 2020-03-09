@@ -17,6 +17,7 @@
 #include <ifaddrs.h>
 #include <arpa/inet.h>
 #include <net/if.h>
+#import "DoraemonUtil.h"
 
 #define IOS_CELLULAR    @"pdp_ip0"
 #define IOS_WIFI        @"en0"
@@ -113,7 +114,7 @@
     }
     
     if (@available(iOS 11.0, *)) {
-        UIWindow *mainWindow = [[[UIApplication sharedApplication] delegate] window];
+        UIWindow *mainWindow = [DoraemonUtil getKeyWindow];
         if (mainWindow.safeAreaInsets.bottom > 0.0) {
             iPhoneXSeries = YES;
         }

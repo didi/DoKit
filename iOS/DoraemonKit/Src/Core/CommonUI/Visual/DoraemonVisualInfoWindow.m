@@ -123,6 +123,16 @@
 }
 
 - (void)commonInit {
+    #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        if (@available(iOS 13.0, *)) {
+            for (UIWindowScene* windowScene in [UIApplication sharedApplication].connectedScenes){
+                if (windowScene.activationState == UISceneActivationStateForegroundActive){
+                    self.windowScene = windowScene;
+                    break;
+                }
+            }
+        }
+    #endif
     self.backgroundColor = [UIColor whiteColor];
     self.layer.cornerRadius = kDoraemonSizeFrom750_Landscape(8);
     self.layer.borderWidth = 1.;

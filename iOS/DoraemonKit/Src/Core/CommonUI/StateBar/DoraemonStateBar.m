@@ -31,7 +31,16 @@
     if (self) {
         self.windowLevel = UIWindowLevelStatusBar + 1.f;
         self.backgroundColor = [UIColor doraemon_colorWithString:@"#427dbe"];
-        
+        #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+            if (@available(iOS 13.0, *)) {
+                for (UIWindowScene* windowScene in [UIApplication sharedApplication].connectedScenes){
+                    if (windowScene.activationState == UISceneActivationStateForegroundActive){
+                        self.windowScene = windowScene;
+                        break;
+                    }
+                }
+            }
+        #endif
         _contentLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _contentLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(20)];
         _contentLabel.textColor = [UIColor whiteColor];

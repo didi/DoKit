@@ -9,7 +9,6 @@
 #import "DoraemonDefine.h"
 #import "DoraemonViewAlignView.h"
 
-#define kDelegateWindow [[UIApplication sharedApplication].delegate window]
 
 @interface DoraemonViewAlignManager()
 
@@ -32,13 +31,13 @@
     self = [super init];
     if (self) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closePlugin:) name:DoraemonClosePluginNotification object:nil];
-        [kDelegateWindow addObserver:self forKeyPath:@"rootViewController" options:NSKeyValueObservingOptionNew context:nil];
+        [[DoraemonUtil getKeyWindow] addObserver:self forKeyPath:@"rootViewController" options:NSKeyValueObservingOptionNew context:nil];
     }
     return self;
 }
 
 - (void)dealloc {
-     [kDelegateWindow removeObserver:self forKeyPath:@"rootViewController"];
+     [[DoraemonUtil getKeyWindow] removeObserver:self forKeyPath:@"rootViewController"];
 }
 
 - (void)show{
@@ -46,7 +45,7 @@
         _alignView = [[DoraemonViewAlignView alloc] init];
 //        _alignView.hidden = YES;
         [_alignView hide];
-        [kDelegateWindow addSubview:_alignView];
+        [[DoraemonUtil getKeyWindow] addSubview:_alignView];
     }
 //    _alignView.hidden = NO;
     [_alignView show];
@@ -62,7 +61,7 @@
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
-    [kDelegateWindow bringSubviewToFront:self.alignView];
+    [[DoraemonUtil getKeyWindow] bringSubviewToFront:self.alignView];
 }
 
 @end

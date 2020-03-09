@@ -77,6 +77,14 @@
     
     self = [super initWithFrame:CGRectMake(x, y, _kEntryViewSize, _kEntryViewSize)];
     if (self) {
+        #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+            if (@available(iOS 13.0, *)) {
+                UIScene *scene = [[UIApplication sharedApplication].connectedScenes anyObject];
+                if (scene) {
+                    self.windowScene = (UIWindowScene *)scene;
+                }
+            }
+        #endif
         self.backgroundColor = [UIColor clearColor];
         self.windowLevel = UIWindowLevelStatusBar + 100.f;
         self.layer.masksToBounds = YES;

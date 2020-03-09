@@ -38,7 +38,16 @@
     
     self = [super initWithFrame:CGRectMake(x, y, _showViewSize, _showViewSize)];
     if (self) {
-    
+    #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        if (@available(iOS 13.0, *)) {
+            for (UIWindowScene* windowScene in [UIApplication sharedApplication].connectedScenes){
+                if (windowScene.activationState == UISceneActivationStateForegroundActive){
+                    self.windowScene = windowScene;
+                    break;
+                }
+            }
+        }
+    #endif
         _numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _showViewSize, _showViewSize)];
         _numberLabel.textColor = [UIColor doraemon_colorWithString:@"#3CBCA3"];
         _numberLabel.font = [UIFont systemFontOfSize:_showViewSize*2/5];
