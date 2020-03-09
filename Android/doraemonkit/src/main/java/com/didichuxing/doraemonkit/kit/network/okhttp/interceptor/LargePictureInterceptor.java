@@ -4,10 +4,7 @@ package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor;
 import android.text.TextUtils;
 
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
-import com.didichuxing.doraemonkit.kit.network.core.ResourceType;
-import com.didichuxing.doraemonkit.kit.network.core.ResourceTypeHelper;
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.IOException;
 
@@ -37,7 +34,6 @@ public class LargePictureInterceptor implements Interceptor {
 
     private void processResponse(Response response) {
         String field = response.header("Content-Length");
-        LogHelper.i(TAG, "img url===>" + response.request().url().toString() + " fieldSize===>" + field);
         if (!TextUtils.isEmpty(field)) {
             LargePictureManager.getInstance().process(response.request().url().toString(), Integer.parseInt(field));
         }

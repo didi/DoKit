@@ -174,12 +174,12 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
     @Override
     public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
         if (data.desc == R.string.dk_gpsmock_open) {
-            GpsMockConfig.setGPSMockOpen(getContext(), on);
             if (on) {
                 GpsMockManager.getInstance().startMock();
             } else {
                 GpsMockManager.getInstance().stopMock();
             }
+            GpsMockConfig.setGPSMockOpen(getContext(), on);
         }
     }
 
@@ -223,4 +223,6 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
         isInit = false;
 
     }
+
+
 }

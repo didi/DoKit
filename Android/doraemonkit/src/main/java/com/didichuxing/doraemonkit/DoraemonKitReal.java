@@ -16,6 +16,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.didichuxing.doraemonkit.aop.OkHttpHook;
 import com.didichuxing.doraemonkit.config.GlobalConfig;
+import com.didichuxing.doraemonkit.config.GpsMockConfig;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
@@ -58,6 +59,7 @@ import com.didichuxing.doraemonkit.kit.viewcheck.ViewCheckerKit;
 import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
+import com.didichuxing.doraemonkit.model.LatLng;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
@@ -292,8 +294,20 @@ class DoraemonKitReal {
         registerNetworkStatusChangedListener();
         initAidlBridge(app);
         startAppHealth();
+        checkGPSMock();
         //上传埋点
         DataPickManager.getInstance().postData();
+    }
+
+    private static void checkGPSMock() {
+        if (GpsMockConfig.isGPSMockOpen(APPLICATION)) {
+            GpsMockManager.getInstance().startMock();
+        }
+        LatLng latLng = GpsMockConfig.getMockLocation(APPLICATION);
+        if (latLng == null) {
+            return;
+        }
+        GpsMockManager.getInstance().mockLocation(latLng.latitude, latLng.longitude);
     }
 
     /**
