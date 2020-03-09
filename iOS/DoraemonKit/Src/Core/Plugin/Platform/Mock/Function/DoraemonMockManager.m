@@ -63,7 +63,7 @@
             @"projectId":pId,
             @"isfull":@"1",
             @"curPage":@"1",
-            @"pageSize":@"20"
+            @"pageSize":@"40"
         };
         
         __weak typeof(self) weakSelf = self;
@@ -298,6 +298,7 @@
         NSString *result = [DoraemonUrlUtil convertJsonFromData:data];
         DoraemonMockUpLoadModel *upload = (DoraemonMockUpLoadModel *)[self getSelectedData:request dataArray:_upLoadArray];
         upload.result = result;
+        [[DoraemonMockUtil sharedInstance] saveUploadArrayCache];
     }
 }
 

@@ -64,7 +64,9 @@
         if (upload.selected) {
             NSMutableDictionary *uploadDic = [[NSMutableDictionary alloc] init];
             [uploadDic setValue:upload.apiId forKey:@"apiId"];
-        
+            if(upload.result.length>0){
+                [uploadDic setValue:upload.result forKey:@"result"];
+            }
             [dataArray addObject:uploadDic];
         }
     }
@@ -99,6 +101,9 @@
         for (NSDictionary *uploadDic in dataArray) {
             if ([upload.apiId isEqualToString:uploadDic[@"apiId"]]) {
                 upload.selected = YES;
+                if (uploadDic[@"result"]){
+                    upload.result = uploadDic[@"result"];
+                }
                 break;
             }
         }
