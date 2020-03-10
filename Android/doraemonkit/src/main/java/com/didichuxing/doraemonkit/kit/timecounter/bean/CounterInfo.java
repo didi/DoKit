@@ -13,6 +13,9 @@ public class CounterInfo {
     public long time;
     public int type;
     public String title;
+    /**
+     * 单位为ms
+     */
     public long totalCost;
     public long pauseCost;
     public long launchCost;
@@ -20,4 +23,19 @@ public class CounterInfo {
     public long otherCost;
 
     public boolean show;
+
+    @Override
+    public String toString() {
+        return "CounterInfo{" +
+                "time=" + time +
+                ", type=" + type +
+                ", title='" + title + '\'' +
+                ", totalCost=" + totalCost +
+                ", pauseCost=" + pauseCost +
+                ", launchCost=" + launchCost +
+                ", renderCost=" + renderCost +
+                ", otherCost=" + otherCost +
+                ", show=" + show +
+                '}';
+    }
 }

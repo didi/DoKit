@@ -85,8 +85,8 @@ public class MyVideoView extends RelativeLayout {
     }
 
     private void init() {
-        screenWidth = UIUtils.getWidthPixels(mContext);
-        screenHeight = UIUtils.getRealHeightPixels(mContext);
+        screenWidth = UIUtils.getWidthPixels();
+        screenHeight = UIUtils.getRealHeightPixels();
         mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
     }
 
@@ -235,7 +235,7 @@ public class MyVideoView extends RelativeLayout {
             isVerticalScreen = true;
             ivVolume.setVisibility(View.GONE);
             seekbarVolume.setVisibility(View.GONE);
-            setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, UIUtils.dp2px(mContext, 290));
+            setVideoViewScale(ViewGroup.LayoutParams.MATCH_PARENT, UIUtils.dp2px(290));
             mActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
         } else {

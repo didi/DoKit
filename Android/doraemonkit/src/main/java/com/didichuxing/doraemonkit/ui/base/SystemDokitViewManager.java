@@ -6,7 +6,11 @@ import android.text.TextUtils;
 import android.view.WindowManager;
 
 import com.didichuxing.doraemonkit.constant.DokitConstant;
-import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
+import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.ui.health.CountDownDokitView;
+import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
+import com.didichuxing.doraemonkit.util.SystemUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +39,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
     /**
      * 获取页面上所有的dokitViews
      *
-     * @return
+     * @return map
      */
     @Override
     public Map<String, AbsDokitView> getDokitViews(Activity activity) {
@@ -71,6 +75,115 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
         this.mContext = context.getApplicationContext();
         //获取WindowService
     }
+
+    /**
+     * @param activity
+     */
+    @Override
+    public void resumeAndAttachDokitViews(Activity activity) {
+        if (activity instanceof UniversalActivity) {
+            AbsDokitView countDownDokitView = getDokitView(activity, CountDownDokitView.class.getSimpleName());
+            if (countDownDokitView != null) {
+                DokitViewManager.getInstance().detach(CountDownDokitView.class.getSimpleName());
+            }
+            return;
+        }
+        //app启动
+        if (SystemUtil.isOnlyFirstLaunchActivity(activity)) {
+            onMainActivityCreate(activity);
+        }
+
+        ActivityLifecycleInfo activityLifecycleInfo = DokitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
+        //新建Activity
+        if (activityLifecycleInfo != null && activityLifecycleInfo.getActivityLifeCycleCount() == ActivityLifecycleInfo.ACTIVITY_LIFECYCLE_CREATE2RESUME) {
+            onActivityCreate(activity);
+        }
+
+        //activity resume
+        if (activityLifecycleInfo != null && activityLifecycleInfo.getActivityLifeCycleCount() > ActivityLifecycleInfo.ACTIVITY_LIFECYCLE_CREATE2RESUME) {
+            onActivityResume(activity);
+        }
+
+        //生命周期回调
+        Map<String, AbsDokitView> dokitViewMap = getDokitViews(activity);
+        for (AbsDokitView absDokitView : dokitViewMap.values()) {
+            absDokitView.onResume();
+        }
+    }
+
+    /**
+     * 添加倒计时DokitView
+     */
+    private void attachCountDownDokitView(Activity activity) {
+        if (!DokitConstant.APP_HEALTH_RUNNING) {
+            return;
+        }
+        if (activity instanceof UniversalActivity) {
+            return;
+        }
+        DokitIntent dokitIntent = new DokitIntent(CountDownDokitView.class);
+        dokitIntent.mode = DokitIntent.MODE_ONCE;
+        attach(dokitIntent);
+    }
+
+
+    @Override
+    public void onMainActivityCreate(Activity activity) {
+        //倒计时DokitView
+        attachCountDownDokitView(activity);
+
+        if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
+            return;
+        }
+
+        //添加main icon
+        DokitIntent intent = new DokitIntent(MainIconDokitView.class);
+        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        DokitViewManager.getInstance().attach(intent);
+        DokitConstant.MAIN_ICON_HAS_SHOW = true;
+    }
+
+
+    @Override
+    public void onActivityCreate(Activity activity) {
+        //如果倒计时浮标没显示则重新添加
+        AbsDokitView countDownDokitView = getDokitView(activity, CountDownDokitView.class.getSimpleName());
+        if (countDownDokitView == null) {
+            if (activity instanceof UniversalActivity) {
+                return;
+            }
+            attachCountDownDokitView(activity);
+        } else {
+            if (activity instanceof UniversalActivity) {
+                DokitViewManager.getInstance().detach(CountDownDokitView.class.getSimpleName());
+            } else {
+                //重置倒计时
+                ((CountDownDokitView) countDownDokitView).resetTime();
+            }
+        }
+    }
+
+
+    @Override
+    public void onActivityResume(Activity activity) {
+        //移除倒计时浮标
+        AbsDokitView countDownDokitView = getDokitView(activity, CountDownDokitView.class.getSimpleName());
+        if (countDownDokitView == null) {
+            attachCountDownDokitView(activity);
+        } else {
+            //重置倒计时
+            ((CountDownDokitView) countDownDokitView).resetTime();
+        }
+    }
+
+    @Override
+    public void onActivityPause(Activity activity) {
+        Map<String, AbsDokitView> dokitViews = getDokitViews(activity);
+        for (AbsDokitView absDokitView : dokitViews.values()) {
+            absDokitView.onPause();
+        }
+    }
+
 
     /**
      * 添加悬浮窗
@@ -111,7 +224,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
                 }
             }
         } catch (Exception e) {
-            LogHelper.e(TAG, e.toString());
+            e.printStackTrace();
         }
     }
 
@@ -135,13 +248,28 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
     }
 
     @Override
+    public void detach(Activity activity, String tag) {
+
+    }
+
+    @Override
     public void detach(AbsDokitView dokitView) {
         detach(dokitView.getClass().getSimpleName());
     }
 
     @Override
+    public void detach(Activity activity, AbsDokitView dokitView) {
+
+    }
+
+    @Override
     public void detach(Class<? extends AbsDokitView> dokitViewClass) {
         detach(dokitViewClass.getSimpleName());
+    }
+
+    @Override
+    public void detach(Activity activity, Class<? extends AbsDokitView> dokitViewClass) {
+
     }
 
 
@@ -175,17 +303,6 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
     public void onActivityDestroy(Activity activity) {
 
     }
-
-    /**
-     * 不需要实现
-     *
-     * @param activity
-     */
-    @Override
-    public void resumeAndAttachDokitViews(Activity activity) {
-
-    }
-
 
 
     /**

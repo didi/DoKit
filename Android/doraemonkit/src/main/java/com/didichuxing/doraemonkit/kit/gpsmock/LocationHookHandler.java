@@ -29,6 +29,7 @@ public class LocationHookHandler implements InvocationHandler {
             Method asInterface = iLocationManager$Stub.getDeclaredMethod("asInterface", IBinder.class);
             this.mOriginService = asInterface.invoke(null, binder);
         } catch (Exception e) {
+            e.printStackTrace();
             LogHelper.e(TAG, e.toString());
         }
     }

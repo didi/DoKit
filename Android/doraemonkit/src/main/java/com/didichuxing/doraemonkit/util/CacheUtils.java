@@ -26,7 +26,7 @@ public class CacheUtils {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                LogHelper.e(TAG, e.toString());
+                e.printStackTrace();
             }
         }
         return saveObject(ser, file);
@@ -47,21 +47,21 @@ public class CacheUtils {
             oos.flush();
             return true;
         } catch (IOException e) {
-            LogHelper.e(TAG, e.toString());
+            e.printStackTrace();
             return false;
         } finally {
             if (oos != null) {
                 try {
                     oos.close();
                 } catch (IOException e) {
-                    LogHelper.e(TAG, e.toString());
+                    e.printStackTrace();
                 }
             }
             if (fos != null) {
                 try {
                     fos.close();
                 } catch (IOException e) {
-                    LogHelper.e(TAG, e.toString());
+                    e.printStackTrace();
                 }
             }
         }
@@ -81,10 +81,10 @@ public class CacheUtils {
             if (e instanceof InvalidClassException) {
                 file.delete();
             }
-            LogHelper.e(TAG, e.toString());
+            e.printStackTrace();
             return null;
         } catch (ClassNotFoundException e) {
-            LogHelper.e(TAG, e.toString());
+            e.printStackTrace();
             return null;
         } finally {
             if (fis != null) {

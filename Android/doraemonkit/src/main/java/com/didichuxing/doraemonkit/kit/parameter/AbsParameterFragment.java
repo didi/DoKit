@@ -59,9 +59,8 @@ public abstract class AbsParameterFragment extends BaseFragment implements Perfo
 
     protected void openChartPage(@StringRes int title, int type) {
         PerformanceDokitViewManager.open(type, getString(title), this);
-        //RealTimeChartDokitView.openChartPage(getString(title), type, RealTimeChartDokitView.DEFAULT_REFRESH_INTERVAL, this);
-
     }
+
 
     protected void closeChartPage() {
         PerformanceDokitViewManager.close(getPerformanceType(), getString(getTitle()));
@@ -160,5 +159,12 @@ public abstract class AbsParameterFragment extends BaseFragment implements Perfo
     public void onDestroyView() {
         super.onDestroyView();
         mSettingItemAdapter = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //移除监听
+        PerformanceDokitViewManager.onPerformanceSettingFragmentDestroy(this);
     }
 }

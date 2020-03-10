@@ -68,7 +68,7 @@ public class PolyLineAdapter extends RecyclerView.Adapter<PolyLineAdapter.ViewHo
         private boolean showLatestLabel;
 
         public Builder(Context context, int itemNumber) {
-            this.itemWidth = UIUtils.getWidthPixels(context) / itemNumber;
+            this.itemWidth = UIUtils.getWidthPixels() / itemNumber;
         }
 
         public Builder setMaxValue(int maxValue) {

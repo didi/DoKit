@@ -19,7 +19,6 @@ import java.security.MessageDigest;
  * ================================================
  */
 public class LargeBitmapGlideTransformation extends BitmapTransformation {
-    private static final String TAG = "LargeBitmapTransformation";
     private static final String ID = "com.bumptech.glide.transformations.LargeBitmapTransformation";
     private static final byte[] ID_BYTES = ID.getBytes(CHARSET);
     private String mImageUrl;

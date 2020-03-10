@@ -6,12 +6,15 @@ import java.util.regex.Pattern;
 /**
  * Created by hasee on 2017/4/20.
  */
- class OrderBean implements Comparable<OrderBean> {
+public class OrderBean implements Comparable<OrderBean> {
     private String time;
     private String functionName;
     private boolean isXit;
     private String content;
-    private String costTime = "0";
+    /**
+     * 单位为微秒 us
+     */
+    private long costTime = 0;
     private String entTime;
     private String threadId;
     private String threadName;
@@ -58,11 +61,11 @@ import java.util.regex.Pattern;
         this.content = content;
     }
 
-    public String getCostTime() {
+    public long getCostTime() {
         return costTime;
     }
 
-    public void setCostTime(String costTime) {
+    public void setCostTime(long costTime) {
         this.costTime = costTime;
     }
 
@@ -144,10 +147,22 @@ import java.util.regex.Pattern;
 
     @Override
     public int compareTo(OrderBean o) {
-        // TODO Auto-generated method stub
         //return 0;
         return (int) (order - o.order);
     }
 
-
+    @Override
+    public String toString() {
+        return "OrderBean{" +
+                "time='" + time + '\'' +
+                ", functionName='" + functionName + '\'' +
+                ", isXit=" + isXit +
+                ", content='" + content + '\'' +
+                ", costTime='" + costTime + '\'' +
+                ", entTime='" + entTime + '\'' +
+                ", threadId='" + threadId + '\'' +
+                ", threadName='" + threadName + '\'' +
+                ", order=" + order +
+                '}';
+    }
 }

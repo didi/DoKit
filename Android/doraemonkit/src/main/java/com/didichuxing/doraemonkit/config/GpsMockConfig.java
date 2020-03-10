@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.didichuxing.doraemonkit.constant.CachesKey;
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
-import com.didichuxing.doraemonkit.core.model.LatLng;
+import com.didichuxing.doraemonkit.model.LatLng;
 import com.didichuxing.doraemonkit.util.CacheUtils;
 import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
 

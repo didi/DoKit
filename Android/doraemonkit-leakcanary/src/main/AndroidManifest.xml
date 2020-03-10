@@ -28,7 +28,7 @@
             android:enabled="false"
             android:process=":leakcanary" />
         <service
-            android:name=".DisplayLeakService"
+            android:name=".UploadLeakService"
             android:enabled="false"
             android:process=":leakcanary" />
 

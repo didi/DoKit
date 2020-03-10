@@ -54,7 +54,7 @@ dependencies {
     compileOnly rootProject.ext.dependencies["didi_rpc"]
     //此处需要使用api的形式 向上暴露内部api
     if (rootProject.ext.config["uploadArchives"]) {
-        api "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        api "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["didiArchivesVersionName"]}"
     } else {
         api project(':doraemonkit')
     }

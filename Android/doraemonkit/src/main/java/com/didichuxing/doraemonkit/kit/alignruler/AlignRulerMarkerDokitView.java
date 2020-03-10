@@ -38,8 +38,8 @@ public class AlignRulerMarkerDokitView extends AbsDokitView {
     public void initDokitViewLayoutParams(DokitViewLayoutParams params) {
         params.height = DokitViewLayoutParams.WRAP_CONTENT;
         params.width = DokitViewLayoutParams.WRAP_CONTENT;
-        params.x = UIUtils.getWidthPixels(getContext()) / 2;
-        params.y = UIUtils.getHeightPixels(getContext()) / 2;
+        params.x = UIUtils.getWidthPixels() / 2;
+        params.y = UIUtils.getHeightPixels() / 2;
     }
 
     @Override

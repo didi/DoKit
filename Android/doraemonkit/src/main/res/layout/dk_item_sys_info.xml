@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/DK.CommonItem">
+              style="@style/DK.CommonItemAppInfo">
 
     <com.didichuxing.doraemonkit.ui.widget.textview.LabelTextView
         android:id="@+id/label_text"

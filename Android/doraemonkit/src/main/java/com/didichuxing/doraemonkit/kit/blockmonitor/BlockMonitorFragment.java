@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockMonitorManager;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
@@ -55,7 +56,7 @@ public class BlockMonitorFragment extends BaseFragment {
             public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
                 if (data.desc == R.string.dk_item_block_switch) {
                     if (on) {
-                        BlockMonitorManager.getInstance().start(getContext());
+                        BlockMonitorManager.getInstance().start();
                     } else {
                         BlockMonitorManager.getInstance().stop();
                     }
@@ -94,7 +95,7 @@ public class BlockMonitorFragment extends BaseFragment {
                 }
             }, 1000);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 

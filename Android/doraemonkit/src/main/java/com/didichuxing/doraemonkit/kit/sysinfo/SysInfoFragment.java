@@ -9,8 +9,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.PhoneUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
@@ -41,8 +45,13 @@ public class SysInfoFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView();
-        initData();
+        try {
+            initView();
+            initData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void initView() {
@@ -63,7 +72,7 @@ public class SysInfoFragment extends BaseFragment {
         mInfoList.addItemDecoration(decoration);
     }
 
-    private void initData() {
+    private void initData() throws Exception {
         List<SysInfoItem> sysInfoItems = new ArrayList<>();
         addAppData(sysInfoItems);
         addDeviceData(sysInfoItems);
@@ -87,15 +96,70 @@ public class SysInfoFragment extends BaseFragment {
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_package_target_sdk), String.valueOf(getContext().getApplicationInfo().targetSdkVersion)));
     }
 
-    private void addDeviceData(List<SysInfoItem> sysInfoItems) {
+    private void addDeviceData(List<SysInfoItem> sysInfoItems) throws Exception {
         sysInfoItems.add(new TitleItem(getString(R.string.dk_sysinfo_device_info)));
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_brand_and_model), Build.MANUFACTURER + " " + Build.MODEL));
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_android_version), Build.VERSION.RELEASE + " (" + Build.VERSION.SDK_INT + ")"));
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_ext_storage_free), DeviceUtils.getSDCardSpace(getContext())));
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_rom_free), DeviceUtils.getRomSpace(getContext())));
-        sysInfoItems.add(new SysInfoItem("ROOT", String.valueOf(DeviceUtils.isRoot(getContext()))));
-        sysInfoItems.add(new SysInfoItem("DENSITY", String.valueOf(UIUtils.getDensity(getContext()))));
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_display_size), UIUtils.getWidthPixels(getContext()) + "x" + UIUtils.getRealHeightPixels(getContext())));
+        try {
+            sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_ext_storage_free), DeviceUtils.getSDCardSpace(getContext())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_rom_free), DeviceUtils.getRomSpace(getContext())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_display_size), UIUtils.getWidthPixels() + "x" + UIUtils.getRealHeightPixels()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_display_inch), "" + UIUtils.getScreenInch(getActivity())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("ROOT", String.valueOf(com.blankj.utilcode.util.DeviceUtils.isDeviceRooted())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("DENSITY", String.valueOf(UIUtils.getDensity())));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("IP", TextUtils.isEmpty(NetworkUtils.getIPAddress(true)) ? "null" : NetworkUtils.getIPAddress(true)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("Mac", TextUtils.isEmpty(com.blankj.utilcode.util.DeviceUtils.getMacAddress()) ? "null" : com.blankj.utilcode.util.DeviceUtils.getMacAddress()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("IMEI", TextUtils.isEmpty(PhoneUtils.getIMEI()) ? "null" : PhoneUtils.getIMEI()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("Sign MD5", AppUtils.getAppSignatureMD5()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("Sign SHA1", AppUtils.getAppSignatureSHA1()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("Sign SHA256", AppUtils.getAppSignatureSHA256()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -107,12 +171,12 @@ public class SysInfoFragment extends BaseFragment {
             public void run() {
                 final List<SysInfoItem> list = new ArrayList<>();
                 list.add(new TitleItem(getString(R.string.dk_sysinfo_permission_info_unreliable)));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_location), PermissionUtil.checkLocationUnreliable(getContext()) ? "YES" : "NO"));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_sdcard), PermissionUtil.checkStorageUnreliable() ? "YES" : "NO"));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_camera), PermissionUtil.checkCameraUnreliable() ? "YES" : "NO"));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_record), PermissionUtil.checkRecordUnreliable() ? "YES" : "NO"));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_read_phone), PermissionUtil.checkReadPhoneUnreliable(getContext()) ? "YES" : "NO"));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_contact), PermissionUtil.checkReadContactUnreliable(getContext()) ? "YES" : "NO"));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_location), PermissionUtil.checkLocationUnreliable(getContext()) ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_sdcard), PermissionUtil.checkStorageUnreliable() ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_camera), PermissionUtil.checkCameraUnreliable() ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_record), PermissionUtil.checkRecordUnreliable() ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_read_phone), PermissionUtil.checkReadPhoneUnreliable(getContext()) ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_contact), PermissionUtil.checkReadContactUnreliable(getContext()) ? "YES" : "NO", true));
                 getView().post(new Runnable() {
                     @Override
                     public void run() {
@@ -133,32 +197,37 @@ public class SysInfoFragment extends BaseFragment {
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION
         };
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_location), checkPermission(p1)));
+        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_location), checkPermission(p1), true));
         String[] p2 = {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         };
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_sdcard), checkPermission(p2)));
+        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_sdcard), checkPermission(p2), true));
         String[] p3 = {
                 Manifest.permission.CAMERA
         };
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_camera), checkPermission(p3)));
+        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_camera), checkPermission(p3), true));
         String[] p4 = {
                 Manifest.permission.RECORD_AUDIO
         };
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_record), checkPermission(p4)));
+        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_record), checkPermission(p4), true));
         String[] p5 = {
                 Manifest.permission.READ_PHONE_STATE
         };
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_read_phone), checkPermission(p5)));
+        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_read_phone), checkPermission(p5), true));
         String[] p6 = {
                 Manifest.permission.READ_CONTACTS
         };
-        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_contact), checkPermission(p6)));
+        sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_contact), checkPermission(p6), true));
     }
 
     private String checkPermission(String... perms) {
-        return PermissionUtil.hasPermissions(getContext(), perms) ? "YES" : "NO";
+        try {
+            return PermissionUtil.hasPermissions(getContext(), perms) ? "YES" : "NO";
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        return "NO";
     }
 
 }

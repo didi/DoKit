@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.weex.devtool;
 
+import android.support.annotation.IdRes;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -21,7 +22,7 @@ public class DevToolScanActivity extends CaptureActivity {
     }
 
     @Override
-    public void setContentView(int layoutResID) {
+    public void setContentView(@IdRes int layoutResID) {
         super.setContentView(layoutResID);
         initTitleBar();
     }

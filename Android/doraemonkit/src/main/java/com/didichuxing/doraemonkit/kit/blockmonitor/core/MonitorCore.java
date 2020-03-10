@@ -12,6 +12,9 @@ import java.util.ArrayList;
  */
 class MonitorCore implements Printer {
     private static final String TAG = "MonitorCore";
+    /**
+     * 卡顿阈值
+     */
     private static final int BLOCK_THRESHOLD_MILLIS = 200;
 
     private long mStartTime = 0;

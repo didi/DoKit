@@ -54,7 +54,7 @@ public class LineRender {
 
     public LineRender(Context context) {
         mContext = context;
-        mPaddingBottom = UIUtils.dp2px(context, 2);
+        mPaddingBottom = UIUtils.dp2px(2);
     }
 
 

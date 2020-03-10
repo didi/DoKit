@@ -53,4 +53,14 @@ public class AlignRulerKit extends AbstractKit {
     public void onAppInit(Context context) {
         AlignRulerConfig.setAlignRulerOpen(context, false);
     }
+
+    @Override
+    public boolean isInnerKit() {
+        return true;
+    }
+
+    @Override
+    public String innerKitId() {
+        return "dokit_sdk_ui_ck_aligin_scaleplate";
+    }
 }

@@ -30,7 +30,7 @@ public class CpuMainPageFragment extends AbsParameterFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PerformanceDataManager.getInstance().init(getContext());
+        PerformanceDataManager.getInstance().init();
     }
 
     @Override
@@ -46,7 +46,6 @@ public class CpuMainPageFragment extends AbsParameterFragment {
     @Override
     protected Collection<SettingItem> getSettingItems(List<SettingItem> list) {
         list.add(new SettingItem(R.string.dk_cpu_detection_switch, PerformanceMemoryInfoConfig.CPU_STATUS));
-        //list.add(new SettingItem(R.string.dk_item_cache_log, R.drawable.dk_more_icon));
         return list;
     }
 
@@ -55,7 +54,6 @@ public class CpuMainPageFragment extends AbsParameterFragment {
         return new SettingItemAdapter.OnSettingItemSwitchListener() {
             @Override
             public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
-                // TODO: 2019-10-11 测试 需要恢复
                 if (on) {
                     startMonitor();
                 } else {

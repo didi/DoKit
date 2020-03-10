@@ -48,4 +48,14 @@ public class UIPerformanceKit extends AbstractKit {
     public void onAppInit(Context context) {
 
     }
+
+    @Override
+    public boolean isInnerKit() {
+        return true;
+    }
+
+    @Override
+    public String innerKitId() {
+        return "dokit_sdk_performance_ck_hierarchy";
+    }
 }

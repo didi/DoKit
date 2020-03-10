@@ -24,35 +24,31 @@ import java.util.Locale;
  */
 public class BlockInfo {
 
-
     public static final String SEPARATOR = "\r\n";
-    public static final String KV = " = ";
-    public static final SimpleDateFormat TIME_FORMATTER =
+    private static final String KV = " = ";
+    private static final SimpleDateFormat TIME_FORMATTER =
             new SimpleDateFormat("MM-dd HH:mm:ss.SSS", Locale.CHINESE);
 
     public static final String NEW_INSTANCE_METHOD = "newInstance: ";
-    public static final String KEY_TIME_COST = "time";
-    public static final String KEY_THREAD_TIME_COST = "thread-time";
-    public static final String KEY_TIME_COST_START = "time-start";
-    public static final String KEY_TIME_COST_END = "time-end";
-    public static final String KEY_STACK = "stack";
+    private static final String KEY_TIME_COST = "time";
+    private static final String KEY_THREAD_TIME_COST = "thread-time";
+    private static final String KEY_TIME_COST_START = "time-start";
+    private static final String KEY_TIME_COST_END = "time-end";
+    private static final String KEY_STACK = "stack";
 
 
     // Per Block Info fields
     public long timeCost;
-    public long threadTimeCost;
+    private long threadTimeCost;
     public long time;
 
     public String timeStart;
-    public String timeEnd;
+    private String timeEnd;
     public ArrayList<String> threadStackEntries = new ArrayList<>();
 
     private StringBuilder timeSb = new StringBuilder();
     private StringBuilder stackSb = new StringBuilder();
     public String concernStackString;
-
-    public BlockInfo() {
-    }
 
     public static BlockInfo newInstance() {
         BlockInfo blockInfo = new BlockInfo();

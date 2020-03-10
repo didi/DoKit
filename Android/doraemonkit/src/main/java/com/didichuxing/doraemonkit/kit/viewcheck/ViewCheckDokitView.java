@@ -17,7 +17,6 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
-import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 import java.util.ArrayList;
@@ -60,8 +59,8 @@ public class ViewCheckDokitView extends AbsDokitView implements LifecycleListene
 
     @Override
     public void initDokitViewLayoutParams(DokitViewLayoutParams params) {
-        params.x = UIUtils.getWidthPixels(getContext()) / 2;
-        params.y = UIUtils.getHeightPixels(getContext()) / 2;
+        params.x = UIUtils.getWidthPixels() / 2;
+        params.y = UIUtils.getHeightPixels() / 2;
         params.height = DokitViewLayoutParams.WRAP_CONTENT;
         params.width = DokitViewLayoutParams.WRAP_CONTENT;
     }
@@ -198,7 +197,7 @@ public class ViewCheckDokitView extends AbsDokitView implements LifecycleListene
             final List<View> viewList = new ArrayList<>(20);
             if (mResumedActivity != null && mResumedActivity.getWindow() != null) {
                 if (isNormalMode()) {
-                    LogHelper.d(TAG, "x: " + mX + ", y: " + mY);
+                    //LogHelper.d(TAG, "x: " + mX + ", y: " + mY);
                     traverseViews(viewList, UIUtils.getDokitAppContentView(mResumedActivity), mX, mY);
                 } else {
                     traverseViews(viewList, mResumedActivity.getWindow().getDecorView(), mX, mY);
@@ -225,6 +224,6 @@ public class ViewCheckDokitView extends AbsDokitView implements LifecycleListene
             }
             return mCheckViewList.get(mIndex);
         }
-    };
+    }
 
 }

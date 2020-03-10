@@ -59,7 +59,7 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 1. **【帧率】** App 帧率信息提供波形图查看功能，让帧率监控的趋势更加明显；
 2. **【CPU】** App CPU 使用率信息提供波形图查看功能，让 CPU 监控的趋势更加形象；
 3. **【内存】** App 内存使用量信息提供波形图查看功能，让内存监控的趋势更加鲜明；
-4. **【流量】** 拦截 App 内部流量信息，提供波形图展示、流量概要展示、流量列表展示、流量筛选、流量详情，对流量信息统一拦截，成为我们 App 中自带的 “Charles”；
+4. **【流量】** 拦截 App 内部流量信息，提供波形图展示、流量概要展示、流量列表展示、流量筛选、流量详情，对流量信息统一拦截，成为我们 App 中自带的 "Charles"；
 5. **【卡顿】** 锁定 App 出现卡顿的时刻，打印出对应的代码调用堆栈；
 6. **【大图检测】** 通过流量监测，找出所有的大小超标的图片，避免下载大图造成的流量浪费和渲染大图带来的CPU消耗。
 7. **【启动耗时】** 无侵入的统计出App启动过程的总共耗时；
@@ -187,7 +187,20 @@ DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [
 
 iOS上传代码详见DoraemonStatisticsUtil类中的实现
 
-Andoid上传代码详见DoraemonStatisticsUtil类中的实现
+**以下为Android端所有涉及到网络请求的部分**
+
+1、统计有多少人集成了dokit
+DoraemonStatisticsUtil#uploadUserInfo
+
+2、统计每个内置kit的使用情况
+DataPickManager#realPost 
+
+3、上传健康体检的相关数据
+AppHealthInfoUtil#post
+
+4、数据mock的相关网络请求
+NetWorkMockFragment 里涉及到接口mock的相关网络请求
+
 
 敬请各位用户知晓。
 

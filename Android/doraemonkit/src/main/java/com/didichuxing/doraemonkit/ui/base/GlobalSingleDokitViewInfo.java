@@ -13,10 +13,10 @@ import android.os.Bundle;
  * ================================================
  */
 class GlobalSingleDokitViewInfo {
-    Class<? extends AbsDokitView> mAbsDokitViewClass;
-    String mTag;
-    int mMode;
-    Bundle mBundle;
+    private Class<? extends AbsDokitView> mAbsDokitViewClass;
+    private String mTag;
+    private int mMode;
+    private Bundle mBundle;
 
     GlobalSingleDokitViewInfo(Class<? extends AbsDokitView> absDokitViewClass, String tag, int mode, Bundle bundle) {
         this.mAbsDokitViewClass = absDokitViewClass;

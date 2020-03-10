@@ -3,15 +3,12 @@ package com.didichuxing.doraemonkit.weex.log;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
-import com.didichuxing.doraemonkit.kit.logInfo.LogInfoDokitView;
-import com.didichuxing.doraemonkit.kit.logInfo.LogLine;
+import com.didichuxing.doraemonkit.kit.loginfo.LogInfoDokitView;
+import com.didichuxing.doraemonkit.kit.loginfo.LogInfoManager;
+import com.didichuxing.doraemonkit.kit.loginfo.LogLine;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
 import com.didichuxing.doraemonkit.weex.R;
 
 import java.util.ArrayList;
@@ -41,6 +38,10 @@ public class WeexLogInfoDokitView extends LogInfoDokitView {
             ((HomeTitleBar) mHomeTitleBar).setListener(new HomeTitleBar.OnTitleBarClickListener() {
                 @Override
                 public void onRightClick() {
+                    //关闭日志服务
+                    LogInfoManager.getInstance().stop();
+                    //清空回调
+                    LogInfoManager.getInstance().removeListener();
                     detach();
                 }
             });

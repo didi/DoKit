@@ -8,6 +8,7 @@ import android.view.View;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
 import com.didichuxing.doraemonkit.constant.BundleKey;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.parameter.AbsParameterFragment;
 import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
 import com.didichuxing.doraemonkit.kit.common.PerformanceFragment;
@@ -29,7 +30,7 @@ public class RamMainPageFragment extends AbsParameterFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PerformanceDataManager.getInstance().init(getContext());
+        PerformanceDataManager.getInstance().init();
     }
 
     @Override
@@ -45,7 +46,6 @@ public class RamMainPageFragment extends AbsParameterFragment {
     @Override
     protected Collection<SettingItem> getSettingItems(List<SettingItem> list) {
         list.add(new SettingItem(R.string.dk_ram_detection_switch, PerformanceMemoryInfoConfig.RAM_STATUS));
-        //list.add(new SettingItem(R.string.dk_item_cache_log, R.drawable.dk_more_icon));
         return list;
     }
 

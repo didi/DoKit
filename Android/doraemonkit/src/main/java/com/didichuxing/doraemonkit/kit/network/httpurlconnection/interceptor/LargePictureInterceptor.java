@@ -12,7 +12,6 @@ import com.didichuxing.doraemonkit.kit.network.httpurlconnection.chain.HttpReque
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.chain.HttpRequestStreamChain;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.chain.HttpResponseChain;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.chain.HttpResponseStreamChain;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.IOException;
 
@@ -63,7 +62,6 @@ public class LargePictureInterceptor implements DKInterceptor<HttpRequest, HttpR
 
     private void processResponse(HttpResponse response) {
         String field = response.getHeaderField("Content-Length");
-        LogHelper.i(TAG,"img url===>" + response.getUrl() + " fieldSize===>" + field);
         if (!TextUtils.isEmpty(field)) {
             LargePictureManager.getInstance().process(response.getUrl(), Integer.parseInt(field));
         }

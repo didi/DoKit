@@ -9,7 +9,7 @@ import android.widget.FrameLayout;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.core.model.ViewInfo;
+import com.didichuxing.doraemonkit.model.ViewInfo;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;

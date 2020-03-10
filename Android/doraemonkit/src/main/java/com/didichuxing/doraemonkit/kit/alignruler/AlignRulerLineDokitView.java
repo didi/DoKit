@@ -7,7 +7,6 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.BarUtils;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.didichuxing.doraemonkit.R;
@@ -15,7 +14,6 @@ import com.didichuxing.doraemonkit.ui.alignruler.AlignLineView;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 /**
  * Created by jintai on 2019/09/26.
