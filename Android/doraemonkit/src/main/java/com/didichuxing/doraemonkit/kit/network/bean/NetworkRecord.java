@@ -2,9 +2,7 @@ package com.didichuxing.doraemonkit.kit.network.bean;
 
 import android.text.TextUtils;
 
-import com.google.gson.Gson;
 import java.io.Serializable;
-import org.json.JSONObject;
 
 /**
  * @desc: 一条网络请求记录
@@ -17,7 +15,6 @@ public class NetworkRecord implements Serializable {
     public Request mRequest;
     public Response mResponse;
     public String mResponseBody;
-    public String prettyResponse;
 
     public long requestLength;
     public long responseLength;
@@ -40,18 +37,5 @@ public class NetworkRecord implements Serializable {
 
     public boolean isPostRecord() {
         return mRequest != null && mRequest.method != null && TextUtils.equals(METHOD_POST, mRequest.method.toLowerCase());
-    }
-
-    public String responseBody() {
-        if (TextUtils.isEmpty(prettyResponse)){
-            try {
-                JSONObject json = new JSONObject(mResponseBody);
-                prettyResponse = json.toString(2);
-            }catch (Exception e){
-                prettyResponse = mResponseBody;
-            }
-        }
-        return prettyResponse;
-
     }
 }

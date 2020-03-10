@@ -26,8 +26,12 @@ public final class DokitUrlConnectionClassAdapter extends ClassVisitor {
 
     private DokitExtension dokitExtension;
 
+
     /**
-     * @param cv 传进来的是 ClassWriter
+     *
+     * @param cv cv 传进来的是 ClassWriter
+     * @param appExtension appExtension
+     * @param dokitExtension dokitExtension
      */
     public DokitUrlConnectionClassAdapter(final ClassVisitor cv, AppExtension appExtension, DokitExtension dokitExtension) {
         super(Opcodes.ASM7, cv);

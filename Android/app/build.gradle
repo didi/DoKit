@@ -61,13 +61,13 @@ android {
 }
 
 //dokit 扩展
-dokitExt {
-    dokitPluginSwitch = true
-    slowMethodSwitch = true
-    //单位为us 1000us =1ms
-    thresholdTime = 200
-    packageNames = ["com.didichuxing.doraemondemo"]
-}
+//dokitExt {
+//    dokitPluginSwitch = true
+//    slowMethodSwitch = true
+//    //单位为us 1000us =1ms
+//    thresholdTime = 200
+//    packageNames = ["com.didichuxing.doraemondemo"]
+//}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

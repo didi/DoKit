@@ -41,6 +41,7 @@ public final class SlowMethodAdapter extends AdviceAdapter {
         super(Opcodes.ASM7, methodVisitor, access, methodName, descriptor);
         this.className = className;
         this.thresholdTime = thresholdTime;
+        //access值得计算方式为 Opcodes.ACC_PUBLIC & Opcodes.ACC_STATIC
         this.isStaticMethod = (access & Opcodes.ACC_STATIC) != 0;
     }
 

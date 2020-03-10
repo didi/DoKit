@@ -22,12 +22,12 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "DOKIT_VERSION", "\"" + rootProject.ext.android["didiArchivesVersionName"] + "\"")
+            buildConfigField("String", "DOKIT_VERSION", "\"" + rootProject.ext.android["jcenterArchivesVersionName"] + "\"")
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "DOKIT_VERSION", "\"" + rootProject.ext.android["didiArchivesVersionName"] + "\"")
+            buildConfigField("String", "DOKIT_VERSION", "\"" + rootProject.ext.android["jcenterArchivesVersionName"] + "\"")
         }
     }
 //    compileOptions {

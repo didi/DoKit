@@ -39,7 +39,7 @@ dependencies {
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["utilcode"]
     if (rootProject.ext.config["uploadArchives"]) {
-        implementation "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["didiArchivesVersionName"]}"
+        implementation "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
     } else {
         implementation project(':doraemonkit')
     }

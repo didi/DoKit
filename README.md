@@ -1,7 +1,7 @@
 <div align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
- <img src="https://img.shields.io/badge/Android-2.2.2-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/Android-3.0_beta1-blue.svg" align=left />
  <img src="https://img.shields.io/badge/iOS-2.0.0-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
@@ -39,6 +39,11 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 </div>
 
 ## 功能模块
+
+### 一、平台工具(www.dokit.cn)
+1. **【数据Mock】** App接口Mock解决方案，提供一套基于App网络拦截的接口Mock方案，无需修改代码即可完成对于接口数据的Mock。
+2. **【健康体检】** 一键式操作，整合DoKit多项工具，数据可视化，快速准确定位问题，让你对app的性能了如指掌。
+
 
 ### 一、常用工具
 
@@ -93,6 +98,8 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 详见 [Doraemon mini program debugger](https://github.com/didi/DoraemonKit/tree/master/miniapp)
 
 
+## 帮助文档
+- [DoKit SDK&平台 文档](http://xingyun.xiaojukeji.com/docs/dokit/#/intro)
 
 ## 接入文档
 

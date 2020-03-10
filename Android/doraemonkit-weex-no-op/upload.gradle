@@ -1,67 +1,15 @@
-def isRemote = rootProject.ext.config["publishPluginToRemote"]
-apply plugin: 'maven'
-if (isRemote) {
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                pom.project {
-                    groupId project.GROUP_ID
-                    artifactId project.ARTIFACT_ID
-                    version rootProject.ext.android["didiArchivesVersionName"]
-                }
+apply plugin: 'com.novoda.bintray-release'
+// 配置发布
+publish {
+    def groupProjectID = 'com.didichuxing.doraemonkit'
+    def artifactProjectID = 'doraemonkit-weex-no-op'
+    def publishVersionID = "${rootProject.ext.android["jcenterArchivesVersionName"]}"
 
-                pom.withXml {
-                    def node = it.asElement()
-                    def nodeList = node.getElementsByTagName('dependency')
-                    nodeList.each { dependency ->
-                        dependency?.each { config ->
-                            if (config?.textContent == 'the-one-sdk') {
-                                config.parentNode.parentNode.removeChild(config.parentNode)
-                            }
-                            if (config?.textContent == 'onecar') {
-                                config.parentNode.parentNode.removeChild(config.parentNode)
-                            }
-                        }
-                    }
-                }
-
-
-                repository(url: project.RELEASE_REPOSITORY_URL) {
-                    authentication(userName: project.USERNAME, password: project.PASSWORD)
-                }
-                snapshotRepository(url: project.SNAPSHOT_REPOSITORY_URL) {
-                    authentication(userName: project.USERNAME, password: project.PASSWORD)
-                }
-            }
-        }
-    }
-} else {
-    def localRepoURL = uri(rootProject.ext.config["localRepoURL"])
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                pom.project {
-                    groupId project.GROUP_ID
-                    artifactId project.ARTIFACT_ID
-                    version rootProject.ext.android["didiArchivesVersionName"]
-                }
-                pom.withXml {
-                    def node = it.asElement()
-                    def nodeList = node.getElementsByTagName('dependency')
-                    nodeList.each { dependency ->
-                        dependency?.each { config ->
-                            if (config?.textContent == 'the-one-sdk') {
-                                config.parentNode.parentNode.removeChild(config.parentNode)
-                            }
-                            if (config?.textContent == 'onecar') {
-                                config.parentNode.parentNode.removeChild(config.parentNode)
-                            }
-                        }
-                    }
-                }
-
-                repository(url: localRepoURL)
-            }
-        }
-    }
+    userOrg = 'doraemonkit'
+    repoName = 'DoraemonKit'
+    groupId = groupProjectID
+    artifactId = artifactProjectID
+    publishVersion = publishVersionID
+    desc = '{library description}'
+    website = '{github_url}'
 }

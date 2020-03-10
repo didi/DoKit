@@ -4,17 +4,17 @@ if (rootProject.ext.config["applyPlugin"]) {
     // 这里引用正常库
     dependencies {
         //外部平台依赖
-        debugImplementation project(":doraemonkit")
-        debugImplementation project(":doraemonkit-leakcanary")
-        debugImplementation project(":doraemonkit-weex")
-        releaseImplementation project(":doraemonkit-no-op")
-        releaseImplementation project(":doraemonkit-weex-no-op")
+//        debugImplementation project(":doraemonkit")
+//        debugImplementation project(":doraemonkit-leakcanary")
+//        debugImplementation project(":doraemonkit-weex")
+//        releaseImplementation project(":doraemonkit-no-op")
+//        releaseImplementation project(":doraemonkit-weex-no-op")
         //新版线上包
-//        debugImplementation "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["didiArchivesVersionName"]}"
-//        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-leakcanary:${rootProject.ext.android["didiArchivesVersionName"]}"
-//        releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-no-op:${rootProject.ext.android["didiArchivesVersionName"]}"
-//        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-weex:${rootProject.ext.android["didiArchivesVersionName"]}"
-//        releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-weex-no-op:${rootProject.ext.android["didiArchivesVersionName"]}"
+        debugImplementation "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-leakcanary:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-no-op:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-weex:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-weex-no-op:${rootProject.ext.android["jcenterArchivesVersionName"]}"
 
     }
 } else {
