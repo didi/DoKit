@@ -8,7 +8,6 @@ import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
 import com.didichuxing.doraemonkit.kit.network.stream.InputStreamProxy;
-import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.foundation.net.MimeType;
 import com.didichuxing.foundation.net.http.HttpEntity;
 import com.didichuxing.foundation.net.http.HttpMethod;
@@ -104,7 +103,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
             newUrl = sb.append(NetworkManager.MOCK_SCHEME_HTTPS).append(NetworkManager.MOCK_HOST).append("/api/app/scene/").append(selectedSceneId).toString();
         }
 
-        LogHelper.i("MOCK_INTERCEPT", "name===>" + interceptApiBean.getMockApiName() + "  newUrl=====>" + newUrl);
+        //LogHelper.i("MOCK_INTERCEPT", "name===>" + interceptApiBean.getMockApiName() + "  newUrl=====>" + newUrl);
 
         HttpRpcRequest mockRequest = oldRequest.newBuilder()
                 .setMethod(HttpMethod.GET, null)
@@ -137,7 +136,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         if (templateApiBean == null) {
             return response;
         }
-        LogHelper.i("MOCK_TEMPLATE", "name=====>" + templateApiBean.getMockApiName() + "   isOpen===>" + templateApiBean.isOpen());
+        //LogHelper.i("MOCK_TEMPLATE", "name=====>" + templateApiBean.getMockApiName() + "   isOpen===>" + templateApiBean.isOpen());
         if (templateApiBean.isOpen()) {
             //保存老的response 数据到数据库
             response = saveResponse2DB(response, templateApiBean);
@@ -160,7 +159,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
             return response;
         }
         String host = HttpUrl.parse(response.getRequest().getUrl()).host();
-        LogHelper.i(TAG, "host====>" + host);
+        //LogHelper.i(TAG, "host====>" + host);
         //这里不能直接使用response.body().string()的方式输出日志
         //因为response.body().string()之后，response中的流会被关闭，程序会报错，我们需要创建出一
         //个新的response给应用层处理
