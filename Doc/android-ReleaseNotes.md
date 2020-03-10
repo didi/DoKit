@@ -1,8 +1,9 @@
 DoraemonKit-Android releases
 ===
 ## 3.0_beta1
-1、新增2个平台端功能 接口mock和健康体检
-2、优化内部架构，提升性能和代码稳定性
+1.新增2个平台端功能 接口mock和健康体检
+
+2.优化内部架构，提升性能和代码稳定性
 
 
 ## 2.2.2
@@ -13,7 +14,9 @@ DoraemonKit-Android releases
 ## 2.2.1
 
 1. 升级 AOP 方案，原先采用Aspectj，现已升级为ASM方案，提升编译性能和兼容性
+   
 2. 新增高德、腾讯、百度的经纬度模拟功能
+   
 3. 合并pr以及大量issue解决
 
 
