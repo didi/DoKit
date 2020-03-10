@@ -48,16 +48,18 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 ### 二、常用工具
 
 1. **【App 信息查看】** 快速查看手机信息，App 信息，权限信息的渠道，避免去手机设置查找或者查看项目源代码的麻烦；
-2. **【沙盒浏览】** App 内部文件浏览的功能，支持删除和预览, 并且能通过 AirDrop 或者其他分享方式上传到 PC 中，进行更加细致的操作；
-3. **【MockGPS】** App 能定位到全国各地，支持地图地位和手动输入经纬度；
-4. **【H5任意门】** 开发测试同学可以快速输入 H5 页面地址，查看该页面效果；
-5. **【Crash查看】** 方便本地打印出出现 Crash 的堆栈；
-6. **【子线程UI】** 快速定位哪一些 UI 操作在非主线程中进行渲染，避免不必要的问题；（iOS独有）
-7. **【清除本地数据】** 一键删除沙盒中所有数据；
-8. **【NSLog】** 把所有 NSLog 信息打印到UI界面，避免没有开发证书无法调试的尴尬；
-9. **【Lumberjack】** 每一条 CocoaLumberjack 的日志信息，都在在 App 的界面中显示出来，再也不需要导出日志这么麻烦;（iOS独有）
-10. **【DBView】** 通过网页方便快捷的操作应用内数据库，让数据库的调试变得非常优雅;
-11. **【模拟弱网】** 限制网速，模拟弱网环境下App的运行情况。（android独有）
+2. **【开发者选项 Android特有】** 一键跳转开发者选项，避免安卓由于平台差异导致的入口不一致
+3. **【本地语言】** 一键跳转本地语言，避免安卓由于平台差异导致的入口不一致
+4. **【沙盒浏览】** App 内部文件浏览的功能，支持删除和预览, 并且能通过 AirDrop 或者其他分享方式上传到 PC 中，进行更加细致的操作；
+5. **【MockGPS】** App 能定位到全国各地，支持地图地位和手动输入经纬度；
+6. **【H5任意门】** 开发测试同学可以快速输入 H5 页面地址，查看该页面效果；
+7. **【Crash查看】** 方便本地打印出出现 Crash 的堆栈；
+8. **【子线程UI】** 快速定位哪一些 UI 操作在非主线程中进行渲染，避免不必要的问题；（iOS独有）
+9. **【清除本地数据】** 一键删除沙盒中所有数据；
+10. **【NSLog】** 把所有 NSLog 信息打印到UI界面，避免没有开发证书无法调试的尴尬；
+11. **【Lumberjack】** 每一条 CocoaLumberjack 的日志信息，都在在 App 的界面中显示出来，再也不需要导出日志这么麻烦;（iOS独有）
+12. **【DBView】** 通过网页方便快捷的操作应用内数据库，让数据库的调试变得非常优雅;
+13. **【模拟弱网】** 限制网速，模拟弱网环境下App的运行情况。（android独有）
 
 ### 三、性能检测
 
@@ -98,7 +100,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 详见 [Doraemon mini program debugger](https://github.com/didi/DoraemonKit/tree/master/miniapp)
 
 ## 使用手册
-访问 [https://www.dokit.cn/](https://www.dokit.cn/)，点击“使用中心”。
+访问 [https://www.dokit.cn/](https://www.dokit.cn/)，点击"使用中心"。
 
 ## 相关文档
 - [iOS 研发助手 DoraemonKit 技术实现（一）](https://www.jianshu.com/p/00763123dbc4)
@@ -188,27 +190,27 @@ DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [
 
 1. 统计有多少用户集成了dokit
 
-	Android : DoraemonStatisticsUtil#uploadUserInfo
+    Android : DoraemonStatisticsUtil#uploadUserInfo
 
-	iOS : DoraemonStatisticsUtil#upLoadUserInfo
+    iOS : DoraemonStatisticsUtil#upLoadUserInfo
 
 2. 统计每个内置kit的使用情况
 
-	Android : DataPickManager#realPost 
+    Android : DataPickManager#realPost 
 
-	iOS : DoraemonBuriedPointManager#uploadData
+    iOS : DoraemonBuriedPointManager#uploadData
 
 3. 上传健康体检的相关数据
 
-	Android : AppHealthInfoUtil#post
+    Android : AppHealthInfoUtil#post
 
-	iOS : DoraemonHealthManager#upLoadData
+    iOS : DoraemonHealthManager#upLoadData
 
 4. 数据mock的相关网络请求
 
-	Android : NetWorkMockFragment 里涉及到接口mock的相关网络请求
-	
-	iOS : DoraemonMockManager#queryMockData&uploadSaveData
+    Android : NetWorkMockFragment 里涉及到接口mock的相关网络请求
+    
+    iOS : DoraemonMockManager#queryMockData&uploadSaveData
 
 
 敬请各位用户知晓。
