@@ -6,11 +6,12 @@
 //
 
 #import "DoraemonMockBaseListView.h"
+#import "DoraemonMockUpLoadModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 @protocol DoraemonMockUploadListViewDelegate <NSObject>
 
-- (void)previewClick:(NSString *)result;
+- (void)previewClick:(DoraemonMockUpLoadModel *)uploadModel;
 
 @end
 

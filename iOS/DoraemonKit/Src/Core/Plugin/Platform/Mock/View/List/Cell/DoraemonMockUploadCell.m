@@ -73,47 +73,13 @@
 - (void)preview{
     DoraemonMockUpLoadModel *upload = (DoraemonMockUpLoadModel *)self.model;
     if (self.delegate && [self.delegate respondsToSelector:@selector(previewClick:)]) {
-        [self.delegate previewClick:upload.result];
+        [self.delegate previewClick:upload];
     }
 }
 
 - (void)upload{
     DoraemonMockUpLoadModel *upload = (DoraemonMockUpLoadModel *)self.model;
-    NSString *apiId = upload.apiId;
-    NSString *result = upload.result;
-    NSString *projectId = [DoraemonManager shareInstance].pId;
-    
-    if (projectId && projectId.length > 0) {
-        if (!result) {
-            return;
-        }
-        
-        NSDictionary *params = @{
-            @"projectId":projectId,
-            @"id":apiId,
-            @"tempData":result
-        };
-        
-        [DoraemonNetworkUtil patchWithUrlString:@"https://mock.dokit.cn/api/app/interface" params:params success:^(NSDictionary * _Nonnull result) {
-            [self showToast:@"上传成功"];
-        } error:^(NSError * _Nonnull error) {
-            DoKitLog(@"error == %@",error);
-            [self showToast:@"上传失败"];
-        }];
-    }else{
-        DoKitLog(@"上传模板接口必须要传pid");
-    }
-}
-
-- (void)showToast:(NSString *)toast{
-    if ([NSThread isMainThread]) {
-        [DoraemonToastUtil showToastBlack:toast inView:self];
-    }else{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [DoraemonToastUtil showToastBlack:toast inView:self];
-        });
-    }
-    
+    [[DoraemonMockManager sharedInstance] uploadSaveData:upload atView:self];
 }
 
 - (NSString *)convertToJsonData:(NSDictionary *)dict

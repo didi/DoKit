@@ -43,11 +43,14 @@
 }
 
 #pragma mark - DoraemonMockUploadListViewDelegate
-- (void)previewClick:(NSString *)result{
+- (void)previewClick:(DoraemonMockUpLoadModel *)uploadModel{
+    NSString *result = uploadModel.result;
     if (result && result.length>0) {
         DoraemonMockDataPreviewViewController *vc = [[DoraemonMockDataPreviewViewController alloc] init];
-        vc.result = result;
+        vc.upLoadModel = uploadModel;
         [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        [DoraemonToastUtil showToastBlack:@"数据预览为空" inView:self.view];
     }
 }
 

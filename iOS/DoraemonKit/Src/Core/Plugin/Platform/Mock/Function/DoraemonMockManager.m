@@ -292,6 +292,44 @@
 
 }
 
+- (void)uploadSaveData:(DoraemonMockUpLoadModel *)upload atView:(UIView *)view{
+    NSString *apiId = upload.apiId;
+    NSString *result = upload.result;
+    NSString *projectId = [DoraemonManager shareInstance].pId;
+    
+    if (projectId && projectId.length > 0) {
+        if (!result) {
+            return;
+        }
+        
+        NSDictionary *params = @{
+            @"projectId":projectId,
+            @"id":apiId,
+            @"tempData":result
+        };
+        
+        [DoraemonNetworkUtil patchWithUrlString:@"https://mock.dokit.cn/api/app/interface" params:params success:^(NSDictionary * _Nonnull result) {
+            [self showToast:@"上传成功" atView:view];
+        } error:^(NSError * _Nonnull error) {
+            DoKitLog(@"error == %@",error);
+            [self showToast:@"上传失败" atView:view];
+        }];
+    }else{
+        DoKitLog(@"上传模板接口必须要传pid");
+    }
+}
+
+- (void)showToast:(NSString *)toast atView:view{
+    if ([NSThread isMainThread]) {
+        [DoraemonToastUtil showToastBlack:toast inView:view];
+    }else{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [DoraemonToastUtil showToastBlack:toast inView:view];
+        });
+    }
+    
+}
+
 #pragma mark -- DoraemonNetworkInterceptorDelegate
 - (void)doraemonNetworkInterceptorDidReceiveData:(NSData *)data response:(NSURLResponse *)response request:(NSURLRequest *)request error:(NSError *)error startTime:(NSTimeInterval)startTime {
     if ([self needSave:request]) {

@@ -39,6 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSMutableArray<DoraemonMockUpLoadModel *> *)filterUpLoadArray;
 
+- (void)uploadSaveData:(DoraemonMockUpLoadModel *)upload atView:(UIView *)view;
+
 
 @end
 NS_ASSUME_NONNULL_END

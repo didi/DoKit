@@ -9,6 +9,7 @@
 #import "DoraemonMockBaseModel.h"
 #import "DoraemonDefine.h"
 #import "DoraemonMockDetailSwitch.h"
+#import "DoraemonMockUpLoadModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)cellExpandClick;
 - (void)sceneBtnClick;
 - (void)cellSwitchClick;
-- (void)previewClick:(NSString *)result;
+- (void)previewClick:(DoraemonMockUpLoadModel *)uploadModel;
 
 @end
 

@@ -6,12 +6,13 @@
 //
 
 #import "DoraemonBaseViewController.h"
+#import "DoraemonMockUpLoadModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DoraemonMockDataPreviewViewController : DoraemonBaseViewController
 
-@property (nonatomic, copy) NSString *result;
+@property (nonatomic, strong) DoraemonMockUpLoadModel *upLoadModel;
 
 @end
 

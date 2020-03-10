@@ -46,9 +46,9 @@
 }
 
 #pragma mark - DoraemonMockBaseCellDelegate
-- (void)previewClick:(NSString *)result{
+- (void)previewClick:(DoraemonMockUpLoadModel *)uploadModel{
     if (_delegate && [_delegate respondsToSelector:@selector(previewClick:)]) {
-        [_delegate previewClick:result];
+        [_delegate previewClick:uploadModel];
     }
 }
 
