@@ -5,12 +5,17 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
 import android.util.Log;
@@ -33,6 +38,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.didichuxing.doraemondemo.util.FrescoUtil;
 import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.aop.MethodCostUtil;
 import com.didichuxing.doraemonkit.kit.largepicture.glide.LargeBitmapGlideTransformation;
 import com.didichuxing.doraemonkit.kit.largepicture.picasso.LargeBitmapPicassoTransformation;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCost;
@@ -56,6 +62,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
@@ -84,16 +91,32 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
     AMapLocationClientOption mMapOption;
     TencentLocationRequest mTencentLocationRequest;
     TencentLocationManager mTencentLocationManager;
+    private int UPDATE_UI = 100;
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 100:
+                    ((ImageView) MainDebugActivity.this.findViewById(R.id.iv_picasso)).setImageBitmap((Bitmap) msg.obj);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
         TextView tvEnv = findViewById(R.id.tv_env);
         tvEnv.setText("当前编译环境:Debug");
         findViewById(R.id.btn_trace).setOnClickListener(this);
         findViewById(R.id.btn_jump).setOnClickListener(this);
+        findViewById(R.id.btn_jump_leak).setOnClickListener(this);
         findViewById(R.id.btn_show_tool_panel).setOnClickListener(this);
         findViewById(R.id.btn_location).setOnClickListener(this);
         findViewById(R.id.btn_location_amap).setOnClickListener(this);
@@ -141,7 +164,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
 
     private void test1() {
         try {
-            Thread.sleep(200);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -275,6 +298,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
             case R.id.btn_trace:
                 MethodCost.startMethodTracing("doramemon");
                 test1();
@@ -289,6 +313,12 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
             case R.id.btn_jump:
 
                 startActivity(new Intent(this, SecondActivity.class));
+
+                break;
+
+            case R.id.btn_jump_leak:
+
+                startActivity(new Intent(this, LeakActivity.class));
 
                 break;
             case R.id.btn_location:
@@ -326,12 +356,21 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
 
                 FrescoUtil.loadImage((SimpleDraweeView) findViewById(R.id.iv_fresco), imgUrl);
 
+
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        requestImage(imgUrl);
+//                    }
+//                }).start();
+
+
                 break;
 
 
             case R.id.btn_okhttp_mock:
-                OkGo.<String>get("http://gank.io/gateway?api=dj.map")
-                        //OkGo.<String>get("https://www.v2ex.com/api/topics/hot.json")
+                //OkGo.<String>get("http://gank.io/gateway?api=dj.map")
+                OkGo.<String>get("https://www.v2ex.com/api/topics/hot.json")
                         .execute(new StringCallback() {
 
 
@@ -425,7 +464,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
      * {@link NetworkPrinterHelper#updateResponseBody(int, String)}
      */
     public void requestByCustom(String url) {
-        // obtain id for this request
+// obtain id for this request
         final int id = NetworkPrinterHelper.obtainRequestId();
 
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -485,7 +524,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
         Request request = null;
         if (upload) {
             try {
-                //模拟一个1M的文件用来上传
+//模拟一个1M的文件用来上传
                 final long length = 1L * 1024 * 1024;
                 final File temp = new File(getFilesDir(), "test.tmp");
                 if (!temp.exists() || temp.length() != length) {
@@ -590,5 +629,37 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
     protected void onStop() {
         super.onStop();
 
+    }
+
+    private void requestImage(String urlStr) {
+        try {
+            //
+            URL url = new URL(urlStr);
+            // http    https
+            // ftp
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            //http get post
+            urlConnection.setRequestMethod("GET");
+
+
+            urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(5000);
+
+            int responseCode = urlConnection.getResponseCode();
+            if (responseCode == 200) {
+                Bitmap bitmap = BitmapFactory.decodeStream(urlConnection.getInputStream());
+                //更新 ui
+                mHandler.sendMessage(mHandler.obtainMessage(UPDATE_UI, bitmap));
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

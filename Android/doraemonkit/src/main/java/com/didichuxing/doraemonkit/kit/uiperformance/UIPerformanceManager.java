@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.didichuxing.doraemonkit.core.model.ViewInfo;
+import com.didichuxing.doraemonkit.model.ViewInfo;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.UIUtils;
@@ -38,7 +38,7 @@ public class UIPerformanceManager implements LifecycleListenerUtil.LifecycleList
     }
 
     public void start(Context context) {
-        Bitmap canvasBitmap = Bitmap.createBitmap(UIUtils.getWidthPixels(context), UIUtils.getHeightPixels(context), Bitmap.Config.ARGB_8888);
+        Bitmap canvasBitmap = Bitmap.createBitmap(UIUtils.getWidthPixels(), UIUtils.getHeightPixels(), Bitmap.Config.ARGB_8888);
         mPerformanceCanvas = new Canvas(canvasBitmap);
         LifecycleListenerUtil.registerListener(this);
     }
@@ -85,7 +85,7 @@ public class UIPerformanceManager implements LifecycleListenerUtil.LifecycleList
             view.draw(mPerformanceCanvas);
             long endTime = System.nanoTime();
             float time = (endTime - startTime) / 10_000 / 100f;
-            LogHelper.d(TAG, "drawTime: " + time + " ms");
+            //LogHelper.d(TAG, "drawTime: " + time + " ms");
             ViewInfo viewInfo = new ViewInfo(view);
             viewInfo.drawTime = time;
             viewInfo.layerNum = layerNum;

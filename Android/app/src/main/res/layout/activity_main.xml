@@ -25,6 +25,13 @@
             android:layout_height="50dp"
             android:text="跳转" />
 
+
+        <Button
+            android:id="@+id/btn_jump_leak"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="模拟内存泄漏跳转" />
+
         <Button
             android:id="@+id/btn_show_tool_panel"
             android:layout_width="match_parent"

@@ -1,7 +1,7 @@
 <div align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
- <img src="https://img.shields.io/badge/Android-2.2.2-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/Android-3.0_beta1-blue.svg" align=left />
  <img src="https://img.shields.io/badge/iOS-2.0.0-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
@@ -40,6 +40,11 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 
 ## 功能模块
 
+### 一、平台工具(www.dokit.cn)
+1. **【数据Mock】** App接口Mock解决方案，提供一套基于App网络拦截的接口Mock方案，无需修改代码即可完成对于接口数据的Mock。
+2. **【健康体检】** 一键式操作，整合DoKit多项工具，数据可视化，快速准确定位问题，让你对app的性能了如指掌。
+
+
 ### 一、常用工具
 
 1. **【App 信息查看】** 快速查看手机信息，App 信息，权限信息的渠道，避免去手机设置查找或者查看项目源代码的麻烦；
@@ -59,7 +64,7 @@ DoraemonKit 是一个功能集合面板，能够让每一个 App 快速接入一
 1. **【帧率】** App 帧率信息提供波形图查看功能，让帧率监控的趋势更加明显；
 2. **【CPU】** App CPU 使用率信息提供波形图查看功能，让 CPU 监控的趋势更加形象；
 3. **【内存】** App 内存使用量信息提供波形图查看功能，让内存监控的趋势更加鲜明；
-4. **【流量】** 拦截 App 内部流量信息，提供波形图展示、流量概要展示、流量列表展示、流量筛选、流量详情，对流量信息统一拦截，成为我们 App 中自带的 “Charles”；
+4. **【流量】** 拦截 App 内部流量信息，提供波形图展示、流量概要展示、流量列表展示、流量筛选、流量详情，对流量信息统一拦截，成为我们 App 中自带的 "Charles"；
 5. **【卡顿】** 锁定 App 出现卡顿的时刻，打印出对应的代码调用堆栈；
 6. **【大图检测】** 通过流量监测，找出所有的大小超标的图片，避免下载大图造成的流量浪费和渲染大图带来的CPU消耗。
 7. **【启动耗时】** 无侵入的统计出App启动过程的总共耗时；
@@ -93,6 +98,8 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 详见 [Doraemon mini program debugger](https://github.com/didi/DoraemonKit/tree/master/miniapp)
 
 
+## 帮助文档
+- [DoKit SDK&平台 文档](http://xingyun.xiaojukeji.com/docs/dokit/#/intro)
 
 ## 接入文档
 
@@ -187,7 +194,20 @@ DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [
 
 iOS上传代码详见DoraemonStatisticsUtil类中的实现
 
-Andoid上传代码详见DoraemonStatisticsUtil类中的实现
+**以下为Android端所有涉及到网络请求的部分**
+
+1、统计有多少人集成了dokit
+DoraemonStatisticsUtil#uploadUserInfo
+
+2、统计每个内置kit的使用情况
+DataPickManager#realPost 
+
+3、上传健康体检的相关数据
+AppHealthInfoUtil#post
+
+4、数据mock的相关网络请求
+NetWorkMockFragment 里涉及到接口mock的相关网络请求
+
 
 敬请各位用户知晓。
 

@@ -10,13 +10,13 @@ import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerSettingFragment;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment;
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerSettingFragment;
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureMainFragment;
-import com.didichuxing.doraemonkit.kit.custom.MonitorDataUploadFragment;
 import com.didichuxing.doraemonkit.kit.dataclean.DataCleanFragment;
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment;
+import com.didichuxing.doraemonkit.kit.health.HealthFragment;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment;
-import com.didichuxing.doraemonkit.kit.logInfo.LogInfoSettingFragment;
+import com.didichuxing.doraemonkit.kit.loginfo.LogInfoSettingFragment;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostFragment;
 import com.didichuxing.doraemonkit.kit.network.ui.MockTemplatePreviewFragment;
 import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMockFragment;
@@ -64,16 +64,14 @@ public class UniversalActivity extends BaseActivity {
                 fragmentClass = LogInfoSettingFragment.class;
                 break;
             case FragmentIndex.FRAGMENT_COLOR_PICKER_SETTING:
+
                 fragmentClass = ColorPickerSettingFragment.class;
                 break;
             //远程数据库调试
             case FragmentIndex.FRAGMENT_DB_DEBUG:
                 fragmentClass = DbDebugFragment.class;
                 break;
-            //性能监控===帧率
-            case FragmentIndex.FRAGMENT_FRAME_INFO:
-                fragmentClass = FrameInfoFragment.class;
-                break;
+
             case FragmentIndex.FRAGMENT_GPS_MOCK:
                 fragmentClass = GpsMockFragment.class;
                 break;
@@ -88,6 +86,10 @@ public class UniversalActivity extends BaseActivity {
                 break;
             case FragmentIndex.FRAGMENT_WEAK_NETWORK:
                 fragmentClass = WeakNetworkFragment.class;
+                break;
+            //性能监控===帧率
+            case FragmentIndex.FRAGMENT_FRAME_INFO:
+                fragmentClass = FrameInfoFragment.class;
                 break;
             //性能监控===卡顿检测
             case FragmentIndex.FRAGMENT_BLOCK_MONITOR:
@@ -115,10 +117,6 @@ public class UniversalActivity extends BaseActivity {
             case FragmentIndex.FRAGMENT_WEB_DOOR_DEFAULT:
                 fragmentClass = WebDoorDefaultFragment.class;
                 break;
-            //性能监控===自定义
-            case FragmentIndex.FRAGMENT_CUSTOM:
-                fragmentClass = MonitorDataUploadFragment.class;
-                break;
             //性能监控===大图检测
             case FragmentIndex.FRAGMENT_LARGE_PICTURE:
                 fragmentClass = LargePictureFragment.class;
@@ -131,11 +129,12 @@ public class UniversalActivity extends BaseActivity {
             case FragmentIndex.FRAGMENT_NETWORK_MOCK:
                 fragmentClass = NetWorkMockFragment.class;
                 break;
-//            case FragmentIndex.FRAGMENT_TOP_ACTIVITY:
-//                fragmentClass = TopActivityFragment.class;
-//                break;
             case FragmentIndex.FRAGMENT_MOCK_TEMPLATE_PREVIEW:
                 fragmentClass = MockTemplatePreviewFragment.class;
+                break;
+
+            case FragmentIndex.FRAGMENT_HEALTH:
+                fragmentClass = HealthFragment.class;
                 break;
             default:
                 break;

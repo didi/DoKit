@@ -107,7 +107,6 @@ public class VmTraceData {
 
     public static TimeUnit getDefaultTimeUnits() {
         // The traces from the VM currently use microseconds.
-        // TODO: figure out if this can be obtained/inferred from the trace itself
         return TimeUnit.MICROSECONDS;
     }
 

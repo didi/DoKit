@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.ui.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -11,13 +12,19 @@ import android.widget.FrameLayout;
 import com.blankj.utilcode.util.BarUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
-import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
+import com.didichuxing.doraemonkit.ui.health.CountDownDokitView;
+import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.ui.realtime.PerformanceDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.util.SystemUtil;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -88,73 +95,136 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         if (mActivityDokitViews == null) {
             return;
         }
+
         //app启动
-        if (mGlobalSingleDokitViews.size() == 0) {
-            LogHelper.i(TAG, "app 启动==>" + activity.getClass().getSimpleName());
-            if (activity instanceof UniversalActivity) {
-                return;
-            }
-            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
-                DokitConstant.MAIN_ICON_HAS_SHOW = false;
-                return;
-            }
-            DokitIntent dokitIntent = new DokitIntent(FloatIconDokitView.class);
-            dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-            attach(dokitIntent);
-            DokitConstant.MAIN_ICON_HAS_SHOW = true;
+        if (SystemUtil.isOnlyFirstLaunchActivity(activity)) {
+            onMainActivityCreate(activity);
             return;
         }
 
 
+        ActivityLifecycleInfo activityLifecycleInfo = DokitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
+        if (activityLifecycleInfo == null) {
+            return;
+        }
         //新建Activity
-        if (mActivityDokitViews.get(activity) == null) {
-            if (mGlobalSingleDokitViews == null) {
-                LogHelper.e(TAG, "resumeAndAttachDokitViews 方法执行异常");
-                return;
-            }
-            //将所有的dokitView添加到新建的Activity中去
-            for (GlobalSingleDokitViewInfo dokitViewInfo : mGlobalSingleDokitViews.values()) {
-                LogHelper.i(TAG, " 新建activity==>" + activity.getClass().getSimpleName() + "  dokitView==>" + dokitViewInfo.getTag());
-                if (activity instanceof UniversalActivity && dokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
-                    return;
-                }
-                //是否过滤掉 入口icon
-                if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && dokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
-                    DokitConstant.MAIN_ICON_HAS_SHOW = false;
-                    continue;
-                }
-                if (dokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
-                    DokitConstant.MAIN_ICON_HAS_SHOW = true;
-                }
-
-                DokitIntent dokitIntent = new DokitIntent(dokitViewInfo.getAbsDokitViewClass());
-                dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-                dokitIntent.bundle = dokitViewInfo.getBundle();
-                attach(dokitIntent);
-            }
+        if (activityLifecycleInfo.getActivityLifeCycleCount() == ActivityLifecycleInfo.ACTIVITY_LIFECYCLE_CREATE2RESUME) {
+            onActivityCreate(activity);
             return;
         }
 
         //activity resume
-        //更新所有dokitView的位置
-        Map<String, AbsDokitView> existDokitViews = mActivityDokitViews.get(activity);
-        for (GlobalSingleDokitViewInfo traverseDokitViewInfo : mGlobalSingleDokitViews.values()) {
-            if (activity instanceof UniversalActivity && traverseDokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
+        if (activityLifecycleInfo.getActivityLifeCycleCount() > ActivityLifecycleInfo.ACTIVITY_LIFECYCLE_CREATE2RESUME) {
+            onActivityResume(activity);
+        }
+
+    }
+
+    /**
+     * 应用启动
+     */
+    @Override
+    public void onMainActivityCreate(Activity activity) {
+        if (activity instanceof UniversalActivity) {
+            return;
+        }
+        //倒计时DokitView
+        attachCountDownDokitView(activity);
+
+        if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
+            DokitConstant.MAIN_ICON_HAS_SHOW = false;
+            return;
+        }
+        DokitIntent dokitIntent = new DokitIntent(MainIconDokitView.class);
+        dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        attach(dokitIntent);
+        DokitConstant.MAIN_ICON_HAS_SHOW = true;
+    }
+
+    /**
+     * 新建activity
+     *
+     * @param activity
+     */
+    @Override
+    public void onActivityCreate(Activity activity) {
+        if (mGlobalSingleDokitViews == null) {
+            LogHelper.e(TAG, "resumeAndAttachDokitViews 方法执行异常");
+            return;
+        }
+
+        //将所有的dokitView添加到新建的Activity中去
+        for (GlobalSingleDokitViewInfo dokitViewInfo : mGlobalSingleDokitViews.values()) {
+            if (activity instanceof UniversalActivity && dokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
                 return;
             }
             //是否过滤掉 入口icon
-            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && traverseDokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
+            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && dokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
+                DokitConstant.MAIN_ICON_HAS_SHOW = false;
+                continue;
+            }
+            if (dokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
+                DokitConstant.MAIN_ICON_HAS_SHOW = true;
+            }
+
+            DokitIntent dokitIntent = new DokitIntent(dokitViewInfo.getAbsDokitViewClass());
+            dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+            dokitIntent.bundle = dokitViewInfo.getBundle();
+            attach(dokitIntent);
+        }
+        //倒计时DokitView
+        attachCountDownDokitView(activity);
+    }
+
+    /**
+     * activity onResume
+     *
+     * @param activity
+     */
+    @Override
+    public void onActivityResume(Activity activity) {
+        Map<String, AbsDokitView> existDokitViews = mActivityDokitViews.get(activity);
+        //先清除页面上启动模式为DokitIntent.MODE_ONCE 的dokitView
+        if (existDokitViews != null) {
+            //千万注意不要使用for循环去移除对象 下面注释的这段代码存在bug
+//            for (AbsDokitView existDokitView : existDokitViews.values()) {
+//                if (existDokitView.getMode() == DokitIntent.MODE_ONCE) {
+//                    detach(existDokitView.getClass());
+//                }
+//            }
+            List<String> modeOnceDokitViews = new ArrayList<>();
+            for (AbsDokitView existDokitView : existDokitViews.values()) {
+                if (existDokitView.getMode() == DokitIntent.MODE_ONCE) {
+                    modeOnceDokitViews.add(existDokitView.getClass().getSimpleName());
+                }
+            }
+
+            for (String tag : modeOnceDokitViews) {
+                detach(tag);
+            }
+
+        }
+
+
+        //更新所有全局DokitView的位置
+        for (GlobalSingleDokitViewInfo globalSingleDokitViewInfo : mGlobalSingleDokitViews.values()) {
+            if (activity instanceof UniversalActivity && globalSingleDokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
+                return;
+            }
+            //是否过滤掉 入口icon
+            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && globalSingleDokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
                 DokitConstant.MAIN_ICON_HAS_SHOW = false;
                 continue;
             }
 
-            if (traverseDokitViewInfo.getAbsDokitViewClass() == FloatIconDokitView.class) {
+            if (globalSingleDokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
                 DokitConstant.MAIN_ICON_HAS_SHOW = true;
             }
 
-            LogHelper.i(TAG, " activity  resume==>" + activity.getClass().getSimpleName() + "  dokitView==>" + traverseDokitViewInfo.getTag());
+            //LogHelper.i(TAG, " activity  resume==>" + activity.getClass().getSimpleName() + "  dokitView==>" + globalSingleDokitViewInfo.getTag());
             //判断resume Activity 中时候存在指定的dokitview
-            AbsDokitView existDokitView = existDokitViews.get(traverseDokitViewInfo.getTag());
+            AbsDokitView existDokitView = existDokitViews.get(globalSingleDokitViewInfo.getTag());
+
             //当前页面已存在dokitview
             if (existDokitView != null && existDokitView.getRootView() != null) {
                 existDokitView.getRootView().setVisibility(View.VISIBLE);
@@ -163,13 +233,36 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                 existDokitView.onResume();
             } else {
                 //添加相应的
-                DokitIntent dokitIntent = new DokitIntent(traverseDokitViewInfo.getAbsDokitViewClass());
-                dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-                dokitIntent.bundle = traverseDokitViewInfo.getBundle();
+                DokitIntent dokitIntent = new DokitIntent(globalSingleDokitViewInfo.getAbsDokitViewClass());
+                dokitIntent.mode = globalSingleDokitViewInfo.getMode();
+                dokitIntent.bundle = globalSingleDokitViewInfo.getBundle();
                 attach(dokitIntent);
             }
         }
+        attachCountDownDokitView(activity);
+    }
 
+    @Override
+    public void onActivityPause(Activity activity) {
+        Map<String, AbsDokitView> dokitViews = getDokitViews(activity);
+        for (AbsDokitView absDokitView : dokitViews.values()) {
+            absDokitView.onPause();
+        }
+    }
+
+    /**
+     * 添加倒计时DokitView
+     */
+    private void attachCountDownDokitView(Activity activity) {
+        if (!DokitConstant.APP_HEALTH_RUNNING) {
+            return;
+        }
+        if (activity instanceof UniversalActivity) {
+            return;
+        }
+        DokitIntent dokitIntent = new DokitIntent(CountDownDokitView.class);
+        dokitIntent.mode = DokitIntent.MODE_ONCE;
+        attach(dokitIntent);
     }
 
 
@@ -203,7 +296,6 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             //判断该dokitview是否已经显示在页面上 同一个类型的dokitview 在页面上只显示一个
             if (dokitIntent.mode == DokitIntent.MODE_SINGLE_INSTANCE) {
                 if (dokitViews.get(dokitIntent.getTag()) != null) {
-                    LogHelper.i(TAG, dokitIntent.getTag() + "===>" + dokitViews.get(dokitIntent.getTag()).toString() + "  has attached");
                     //拿到指定的dokitView并更新位置
                     dokitViews.get(dokitIntent.getTag()).updateViewLayout(dokitIntent.getTag(), true);
                     return;
@@ -212,12 +304,16 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
             //在当前Activity中保存dokitView
             dokitViews.put(dokitView.getTag(), dokitView);
+            //设置dokitview的属性
+            dokitView.setMode(dokitIntent.mode);
             dokitView.setBundle(dokitIntent.bundle);
             dokitView.setTag(dokitIntent.getTag());
             dokitView.setActivity(dokitIntent.activity);
             dokitView.performCreate(mContext);
             //在全局dokitviews中保存该类型的
-            mGlobalSingleDokitViews.put(dokitView.getTag(), createGlobalSingleDokitViewInfo(dokitView));
+            if (dokitIntent.mode == DokitIntent.MODE_SINGLE_INSTANCE) {
+                mGlobalSingleDokitViews.put(dokitView.getTag(), createGlobalSingleDokitViewInfo(dokitView));
+            }
             //得到activity window中的根布局
             final FrameLayout mDecorView = (FrameLayout) dokitIntent.activity.getWindow().getDecorView();
 
@@ -237,12 +333,10 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                     }
                 }, 100);
 
-
-                LogHelper.i(TAG, "dokitView attach===>" + dokitIntent.activity.getClass().getSimpleName() + " ===>" + dokitView.toString());
             }
 
         } catch (Exception e) {
-            LogHelper.e(TAG, e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -325,6 +419,11 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
     }
 
+    @Override
+    public void detach(Activity activity, AbsDokitView dokitView) {
+        detach(activity, dokitView.getTag());
+    }
+
 
     /**
      * 根据tag 移除ui和列表中的数据
@@ -362,13 +461,49 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         if (mGlobalSingleDokitViews.containsKey(tag)) {
             mGlobalSingleDokitViews.remove(tag);
         }
-        LogHelper.i(TAG, "dokitView detach====>" + tag);
 
+    }
+
+    @Override
+    public void detach(Activity activity, String tag) {
+        if (activity == null) {
+            return;
+        }
+        Map<String, AbsDokitView> dokitViews = mActivityDokitViews.get(activity);
+        if (dokitViews == null) {
+            return;
+        }
+        //定位到指定dokitView
+        AbsDokitView dokitView = dokitViews.get(tag);
+        if (dokitView == null) {
+            return;
+        }
+        if (dokitView.getRootView() != null) {
+            dokitView.getRootView().setVisibility(View.GONE);
+            getDokitRootContentView(dokitView.getActivity(), (FrameLayout) activity.getWindow().getDecorView()).removeView(dokitView.getRootView());
+        }
+
+        //移除指定UI
+        //请求重新绘制
+        activity.getWindow().getDecorView().requestLayout();
+        //执行dokitView的销毁
+        dokitView.performDestroy();
+        //移除map中的数据
+        dokitViews.remove(tag);
+
+        if (mGlobalSingleDokitViews.containsKey(tag)) {
+            mGlobalSingleDokitViews.remove(tag);
+        }
     }
 
     @Override
     public void detach(Class<? extends AbsDokitView> dokitViewClass) {
         detach(dokitViewClass.getSimpleName());
+    }
+
+    @Override
+    public void detach(Activity activity, Class<? extends AbsDokitView> dokitViewClass) {
+        detach(activity, dokitViewClass.getSimpleName());
     }
 
 
@@ -390,7 +525,6 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             dokitViews.clear();
         }
         mGlobalSingleDokitViews.clear();
-        LogHelper.i(TAG, "dokitView detachAll====>");
     }
 
     /**
@@ -440,16 +574,17 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
      * @param activity
      * @return
      */
+    @NonNull
     @Override
     public Map<String, AbsDokitView> getDokitViews(Activity activity) {
         if (activity == null) {
-            return null;
+            return Collections.emptyMap();
         }
         if (mActivityDokitViews == null) {
-            return null;
+            return Collections.emptyMap();
         }
 
-        return mActivityDokitViews.get(activity);
+        return mActivityDokitViews.get(activity) == null ? Collections.<String, AbsDokitView>emptyMap() : mActivityDokitViews.get(activity);
     }
 
 

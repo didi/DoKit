@@ -10,6 +10,7 @@ import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
 import com.didichuxing.doraemonkit.kit.common.PerformanceFragment;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.parameter.AbsParameterFragment;
 import com.didichuxing.doraemonkit.ui.realtime.datasource.DataSourceFactory;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
@@ -32,7 +33,7 @@ public class FrameInfoFragment extends AbsParameterFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PerformanceDataManager.getInstance().init(getContext());
+        PerformanceDataManager.getInstance().init();
     }
 
     @Override

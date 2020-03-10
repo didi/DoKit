@@ -46,6 +46,11 @@ interface DokitView {
     void onResume();
 
     /**
+     * 当前activity onPause时调用
+     */
+    void onPause();
+
+    /**
      * 确定浮标的初始位置
      * LayoutParams创建完以后调用
      * 调用时建议放在实现下方
@@ -78,7 +83,7 @@ interface DokitView {
     void onEnterBackground();
 
     /**
-     * app回到前台时调用 内置dokitView 不需要实现
+     * app回到前台时调用 内置dokitview 不需要实现
      */
     void onEnterForeground();
 
@@ -102,7 +107,8 @@ interface DokitView {
     boolean onBackPressed();
 
     /**
-     * 悬浮窗主动销毁时调用
+     * 悬浮窗主动销毁时调用 不能在当前生命周期回调函数中调用 detach自己 否则会出现死循环
      */
     void onDestroy();
+
 }

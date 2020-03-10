@@ -3,14 +3,13 @@ package com.didichuxing.doraemonkit.kit.network.room_db;
 import android.text.TextUtils;
 
 import com.blankj.utilcode.util.ThreadUtils;
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.didichuxing.doraemonkit.BuildConfig;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,11 +26,15 @@ import java.util.Map;
  * ================================================
  */
 public class DokitDbManager<T extends AbsMockApiBean> {
+    private static final String TAG = "DokitDbManager";
 
-
-    private final DokitDatabase mDb = DokitViewManager.getInstance().getDb();
+    /**
+     * key 为path 可能存在path是一样的 所以value为List
+     */
     private Map<String, List<T>> mGlobalInterceptApiMaps = new HashMap<>();
-
+    /**
+     * key 为path 可能存在path是一样的 所以value为List
+     */
     private Map<String, List<T>> mGlobalTemplateApiMaps = new HashMap<>();
 
 
@@ -73,12 +76,23 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<List<T>>() {
             @Override
             public List<T> doInBackground() throws Throwable {
-                return (List<T>) mDb.mockApiDao().getAllInterceptApi();
+                DokitDatabase db = DokitViewManager.getInstance().getDb();
+                if (db != null && db.mockApiDao() != null) {
+                    return (List<T>) db.mockApiDao().getAllInterceptApi();
+                } else {
+                    throw new NullPointerException("mDb == null || mDb.mockApiDao()");
+                }
             }
 
             @Override
             public void onSuccess(List<T> result) {
                 list2mapByIntercept(result);
+            }
+
+            @Override
+            public void onFail(Throwable t) {
+                super.onFail(t);
+                LogHelper.e(TAG, "error====>" + t.getMessage());
             }
         });
     }
@@ -91,12 +105,24 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<List<T>>() {
             @Override
             public List<T> doInBackground() throws Throwable {
-                return (List<T>) mDb.mockApiDao().getAllTemplateApi();
+                DokitDatabase db = DokitViewManager.getInstance().getDb();
+                if (db != null && db.mockApiDao() != null) {
+                    return (List<T>) db.mockApiDao().getAllTemplateApi();
+                } else {
+                    throw new NullPointerException("mDb == null || mDb.mockApiDao()");
+                }
+
             }
 
             @Override
             public void onSuccess(List<T> result) {
                 list2mapByTemplate(result);
+            }
+
+            @Override
+            public void onFail(Throwable t) {
+                super.onFail(t);
+                LogHelper.e(TAG, "error====>" + t.getMessage());
             }
         });
     }
@@ -106,20 +132,39 @@ public class DokitDbManager<T extends AbsMockApiBean> {
      * 数据库中获取指定的 template api
      */
     public T getTemplateApiByIdInDb(String id) {
-        return (T) mDb.mockApiDao().findTemplateApiById(id);
+        return (T) DokitViewManager.getInstance().getDb().mockApiDao().findTemplateApiById(id);
     }
 
 
     /**
-     * 内存中获取指定的 template api
+     * 数据库中获取指定的mock intercept api
      */
-    public T getTemplateApiByIdInMap(String path, String id) {
-        if (mGlobalTemplateApiMaps.get(path) == null) {
+    public T getInterceptApiByIdInDb(String id) {
+        return (T) DokitViewManager.getInstance().getDb().mockApiDao().findInterceptApiById(id);
+    }
+
+    /**
+     * 内存中中获取指定的mock intercept api
+     */
+    public T getInterceptApiByIdInMap(String path, String id, int fromSDK) {
+
+        if (mGlobalInterceptApiMaps == null) {
+            return null;
+        }
+        //先进行全匹配
+        List<T> mGlobalInterceptApis = mGlobalInterceptApiMaps.get(path);
+        if (mGlobalInterceptApis == null) {
+            path = DokitConstant.dealDidiPlatformPath(path, fromSDK);
+            mGlobalInterceptApis = mGlobalInterceptApiMaps.get(path);
+        }
+
+        //再进行滴滴内部匹配
+        if (mGlobalInterceptApis == null) {
             return null;
         }
 
         T selectedMockApi = null;
-        for (T mockApi : mGlobalTemplateApiMaps.get(path)) {
+        for (T mockApi : mGlobalInterceptApis) {
             if (mockApi.getId().equals(id)) {
                 selectedMockApi = mockApi;
                 break;
@@ -129,24 +174,26 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         return selectedMockApi;
     }
 
-
     /**
-     * 数据库中获取指定的mock intercept api
+     * 内存中获取指定的 template api
      */
-    public T getInterceptApiByIdInDb(String id) {
-        return (T) mDb.mockApiDao().findInterceptApiById(id);
-    }
-
-    /**
-     * 内存中中获取指定的mock intercept api
-     */
-    public T getInterceptApiByIdInMap(String path, String id) {
-        if (mGlobalInterceptApiMaps.get(path) == null) {
+    public T getTemplateApiByIdInMap(String path, String id, int fromSDK) {
+        if (mGlobalTemplateApiMaps == null) {
+            return null;
+        }
+        List<T> mGlobalTemplateApis = mGlobalTemplateApiMaps.get(path);
+        //先进行全匹配
+        if (mGlobalTemplateApis == null) {
+            path = DokitConstant.dealDidiPlatformPath(path, fromSDK);
+            mGlobalTemplateApis = mGlobalTemplateApiMaps.get(path);
+        }
+        //再进行滴滴内部匹配
+        if (mGlobalTemplateApis == null) {
             return null;
         }
 
         T selectedMockApi = null;
-        for (T mockApi : mGlobalInterceptApiMaps.get(path)) {
+        for (T mockApi : mGlobalTemplateApis) {
             if (mockApi.getId().equals(id)) {
                 selectedMockApi = mockApi;
                 break;
@@ -165,7 +212,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<Object>() {
             @Override
             public Object doInBackground() throws Throwable {
-                mDb.mockApiDao().insertAllInterceptApi(mockApis);
+                DokitViewManager.getInstance().getDb().mockApiDao().insertAllInterceptApi(mockApis);
                 //更新本地数据
                 getAllInterceptApis();
                 return null;
@@ -188,7 +235,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<Void>() {
             @Override
             public Void doInBackground() throws Throwable {
-                mDb.mockApiDao().insertAllTemplateApi(mockApis);
+                DokitViewManager.getInstance().getDb().mockApiDao().insertAllTemplateApi(mockApis);
                 return null;
             }
 
@@ -211,7 +258,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<Void>() {
             @Override
             public Void doInBackground() throws Throwable {
-                mDb.mockApiDao().updateInterceptApi(mockApi);
+                DokitViewManager.getInstance().getDb().mockApiDao().updateInterceptApi(mockApi);
 
                 return null;
             }
@@ -236,7 +283,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         ThreadUtils.executeByIo(new ThreadUtils.SimpleTask<Object>() {
             @Override
             public Object doInBackground() throws Throwable {
-                mDb.mockApiDao().updateTemplateApi(mockApi);
+                DokitViewManager.getInstance().getDb().mockApiDao().updateTemplateApi(mockApi);
                 //更新本地数据
                 getAllTemplateApis();
                 return null;
@@ -287,6 +334,15 @@ public class DokitDbManager<T extends AbsMockApiBean> {
     public static final int MOCK_API_TEMPLATE = 2;
 
     /**
+     * 来自滴滴内部SDK
+     */
+    public static int FROM_SDK_DIDI = 100;
+    /**
+     * 来自外部SDK
+     */
+    public static int FROM_SDK_OTHER = 101;
+
+    /**
      * 返回命中的id
      *
      * @param path
@@ -294,8 +350,8 @@ public class DokitDbManager<T extends AbsMockApiBean> {
      * @param operateType
      * @return
      */
-    public String isMockMatched(String path, String strLocalQuery, int operateType) {
-        T mockApi = mockMatched(path, strLocalQuery, operateType);
+    public String isMockMatched(String path, String strLocalQuery, int operateType, int fromSDK) {
+        T mockApi = mockMatched(path, strLocalQuery, operateType, fromSDK);
         if (mockApi == null) {
             return "";
         }
@@ -303,21 +359,33 @@ public class DokitDbManager<T extends AbsMockApiBean> {
     }
 
 
+
     /**
      * 通过path和query查询指定的对象
      *
      * @param path
      * @param strLocalQuery
-     * @param strLocalQuery 1:代表拦截 2：代表模板
+     * @param operateType   1:代表拦截 2：代表模板
      * @return
      */
-    private T mockMatched(String path, String strLocalQuery, int operateType) {
-        List<T> mockApis;
-        if (operateType == 1) {
+    private T mockMatched(String path, String strLocalQuery, int operateType, int fromSDK) {
+        List<T> mockApis = null;
+        if (operateType == DokitDbManager.MOCK_API_INTERCEPT) {
+            //先进行一次全匹配
             mockApis = mGlobalInterceptApiMaps.get(path);
-        } else {
+            //滴滴内部sdk匹配
+            if (mockApis == null) {
+                path = DokitConstant.dealDidiPlatformPath(path, fromSDK);
+                mockApis = mGlobalInterceptApiMaps.get(path);
+            }
+        } else if (operateType == DokitDbManager.MOCK_API_TEMPLATE) {
+            //先进行一次全匹配
             mockApis = mGlobalTemplateApiMaps.get(path);
-
+            //滴滴内部sdk匹配
+            if (mockApis == null) {
+                path = DokitConstant.dealDidiPlatformPath(path, fromSDK);
+                mockApis = mGlobalTemplateApiMaps.get(path);
+            }
         }
         if (mockApis == null) {
             return null;

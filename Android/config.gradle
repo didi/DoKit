@@ -3,22 +3,27 @@ ext {
             // 很多app都会有自己的打包开关，来区分线上包和测试包，可以通过给applyPlugin赋值来区分测试包和线上包
             // 线上包不会接入DoraemonKit，测试包会自动接入
             applyPlugin          : true,
-            //上传到远程仓库时需要打开
+            //上传到仓库时需要打开
             uploadArchives       : false,
             //是否发布插件到远程仓库
-            publishPluginToRemote: false
+            publishPluginToRemote: false,
+            localRepoURL         : "/Users/didi/project/dokit_repo"
     ]
-    android = [compileSdkVersion         : 28,
+    android = [compileSdkVersion         : 29,
                suppotrSdkVersion         : "27.1.1",
                applicationId             : "com.didichuxing.doraemondemo",
                minSdkVersion             : 16,
-               targetSdkVersion          : 27,
-               versionCode               : 222,
+               targetSdkVersion          : 29,
+               //app版本号
+               versionCode               : 224,
                //dokit 插件版本号
-               pluginVersionName         : "1.0.0",
+               pluginVersionName         : "3.0_beta1",
                //jcenter dokit版本号
-               jcenterArchivesVersionName: "2.2.2",
-               versionName               : "2.2.2",
+               jcenterArchivesVersionName: "3.0_beta1",
+               //didi内部仓库版本号
+               didiArchivesVersionName   : "1000.0.21",
+               //打包上传时 dokit的版本名字
+               versionName               : "2.2.4",
                glide                     : "4.8.0",
     ]
     dependencies = [// ###### android library  start ######
@@ -60,7 +65,6 @@ ext {
                     "haha"                    : 'com.squareup.haha:haha:2.0.4',
                     "debug-db"                : "com.amitshekhar.android:debug-db:1.0.6",
                     "debug-db-encrypt"        : "com.amitshekhar.android:debug-db-encrypt:1.0.6",
-                    "doraemonkit"             : "com.didichuxing.doraemonkit:doraemonkit:${android["jcenterArchivesVersionName"]}",
                     "weex_inspector"          : "com.taobao.android:weex_inspector:0.24.2.11",
                     "weex_sdk"                : "com.taobao.android:weex_sdk:0.26.0",
                     "brvah"                   : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50',
@@ -76,8 +80,10 @@ ext {
                     //高德地图定位
                     "amap_location"           : 'com.amap.api:location:latest.integration',
                     //腾讯地图定位
-                    "tencent_location"        : 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.4',
-                    "easypermissions"         : "pub.devrel:easypermissions:2.0.1"
+                    "tencent_location"        : 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.5',
+                    "easypermissions"         : "pub.devrel:easypermissions:2.0.1",
+                    //跨进程通信框架
+                    "abridge"                 : "com.sjtu.yifei:abridge:1.0.1"
 
     ]
 }

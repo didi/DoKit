@@ -6,11 +6,11 @@ import android.content.Context;
 import android.graphics.Point;
 import android.view.WindowManager;
 
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDatabase;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ import java.util.Map;
  */
 
 public class DokitViewManager implements DokitViewManagerInterface {
-    public static final String TAG = "DokitViewManager";
+    private static final String TAG = "DokitViewManagerProxy";
     /**
      * 每个类型在页面中的位置 只保存marginLeft 和marginTop
      */
@@ -58,14 +58,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
         }
         mDokitViewPos = new HashMap<>();
         mLastDokitViewPosInfoMaps = new HashMap<>();
-        mDB = Room.databaseBuilder(context,
-                DokitDatabase.class,
-                "dokit-database")
-                //下面注释表示允许主线程进行数据库操作，但是不推荐这样做。
-                //他可能造成主线程lock以及anr
-                //所以我们的操作都是在新线程完成的
-                .allowMainThreadQueries()
-                .build();
+        getDb();
         //获取所有的intercept apis
         DokitDbManager.getInstance().getAllInterceptApis();
 
@@ -75,6 +68,19 @@ public class DokitViewManager implements DokitViewManagerInterface {
     }
 
     public DokitDatabase getDb() {
+        if (mDB != null) {
+            return mDB;
+        }
+
+        mDB = Room.databaseBuilder(DoraemonKit.APPLICATION,
+                DokitDatabase.class,
+                "dokit-database")
+                //下面注释表示允许主线程进行数据库操作，但是不推荐这样做。
+                //他可能造成主线程lock以及anr
+                //所以我们的操作都是在新线程完成的
+                .allowMainThreadQueries()
+                .build();
+
         return mDB;
     }
 
@@ -98,7 +104,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
      * 只有普通浮标才会调用
      * 保存每种类型dokitView的位置
      */
-    public void saveDokitViewPos(String tag, int marginLeft, int marginTop) {
+    void saveDokitViewPos(String tag, int marginLeft, int marginTop) {
         if (mDokitViewPos == null) {
             return;
         }
@@ -108,12 +114,14 @@ public class DokitViewManager implements DokitViewManagerInterface {
             mDokitViewPos.put(tag, point);
         } else {
             Point point = mDokitViewPos.get(tag);
-            point.set(marginLeft, marginTop);
+            if (point != null) {
+                point.set(marginLeft, marginTop);
+            }
         }
 
-        for (String key : mDokitViewPos.keySet()) {
-            LogHelper.i(TAG, "saveDokitViewPos  key==> " + key + "  point===>" + mDokitViewPos.get(key));
-        }
+//        for (String key : mDokitViewPos.keySet()) {
+//            LogHelper.i(TAG, "saveDokitViewPos  key==> " + key + "  point===>" + mDokitViewPos.get(key));
+//        }
     }
 
     /**
@@ -128,9 +136,9 @@ public class DokitViewManager implements DokitViewManagerInterface {
             return null;
         }
 
-        for (String key : mDokitViewPos.keySet()) {
-            LogHelper.i(TAG, "getDokitViewPos  key==> " + key + "  point===>" + mDokitViewPos.get(key));
-        }
+//        for (String key : mDokitViewPos.keySet()) {
+//            LogHelper.i(TAG, "getDokitViewPos  key==> " + key + "  point===>" + mDokitViewPos.get(key));
+//        }
         return mDokitViewPos.get(tag);
     }
 
@@ -143,6 +151,26 @@ public class DokitViewManager implements DokitViewManagerInterface {
     @Override
     public void resumeAndAttachDokitViews(Activity activity) {
         mDokitViewManager.resumeAndAttachDokitViews(activity);
+    }
+
+    @Override
+    public void onMainActivityCreate(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityCreate(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResume(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityPause(Activity activity) {
+        mDokitViewManager.onActivityPause(activity);
     }
 
     /**
@@ -170,6 +198,11 @@ public class DokitViewManager implements DokitViewManagerInterface {
         mDokitViewManager.detach(tag);
     }
 
+    @Override
+    public void detach(Activity activity, String tag) {
+        mDokitViewManager.detach(activity, tag);
+    }
+
 
     /**
      * 移除每个activity指定的dokitView
@@ -179,17 +212,28 @@ public class DokitViewManager implements DokitViewManagerInterface {
         mDokitViewManager.detach(dokitView);
     }
 
+    @Override
+    public void detach(Activity activity, AbsDokitView dokitView) {
+        mDokitViewManager.detach(activity, dokitView);
+    }
+
+
+    @Override
+    public void detach(Class<? extends AbsDokitView> dokitViewClass) {
+        mDokitViewManager.detach(dokitViewClass);
+    }
+
+    @Override
+    public void detach(Activity activity, Class<? extends AbsDokitView> dokitViewClass) {
+        mDokitViewManager.detach(activity, dokitViewClass);
+    }
+
     /**
      * 移除所有activity的所有dokitView
      */
     @Override
     public void detachAll() {
         mDokitViewManager.detachAll();
-    }
-
-    @Override
-    public void detach(Class<? extends AbsDokitView> dokitViewClass) {
-        mDokitViewManager.detach(dokitViewClass);
     }
 
 

@@ -82,8 +82,8 @@ public class JsonViewerAdapter extends BaseJsonViewerAdapter<JsonViewerAdapter.J
             } else if (mJSONObject.names() == null) {
                 return;
             }
-
-            String key = mJSONObject.names().optString(position - 1); // 遍历key
+            // 遍历key
+            String key = mJSONObject.names().optString(position - 1);
             Object value = mJSONObject.opt(key);
             if (position < getItemCount() - 2) {
                 handleJsonObject(key, value, itemView, true, 1);

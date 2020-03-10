@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 /**
  * Created by yuyuhang on 2017/11/30.
+ * https://github.com/smuyyh/JsonViewer
  */
 public class JsonRecyclerView extends RecyclerView {
 

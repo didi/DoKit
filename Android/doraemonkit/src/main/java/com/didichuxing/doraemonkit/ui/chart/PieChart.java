@@ -204,7 +204,7 @@ public class PieChart extends View {
      * @param space
      */
     public void setSliceSpace(float space) {
-        mSliceSpace = UIUtils.dp2px(getContext(), space);
+        mSliceSpace = UIUtils.dp2px(space);
     }
 
     /**
@@ -213,7 +213,7 @@ public class PieChart extends View {
      * @param ringWidth
      */
     public void setRingWidth(float ringWidth) {
-        mRingWidth = UIUtils.dp2px(getContext(), ringWidth);
+        mRingWidth = UIUtils.dp2px(ringWidth);
     }
 
     /**

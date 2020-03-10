@@ -14,9 +14,9 @@ import android.widget.FrameLayout;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
+import com.didichuxing.doraemonkit.datapick.DataPickManager;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
@@ -79,8 +79,8 @@ public class LayoutLevelDokitView extends AbsDokitView {
             return;
         }
 
-        if(appContentView.toString().contains("SwipeBackLayout")){
-            LogHelper.i(TAG,"普通模式下布局层级功能暂不支持以SwipeBackLayout为根布局,请改用系统模式");
+        if (appContentView.toString().contains("SwipeBackLayout")) {
+            LogHelper.i(TAG, "普通模式下布局层级功能暂不支持以SwipeBackLayout为根布局,请改用系统模式");
             ToastUtils.showShort("普通模式下布局层级功能暂不支持以SwipeBackLayout为根布局");
             return;
         }
@@ -117,6 +117,8 @@ public class LayoutLevelDokitView extends AbsDokitView {
                     if (mScalpelFrameLayout != null) {
                         mScalpelFrameLayout.setLayerInteractionEnabled(true);
                     }
+                    //发送埋点
+                    DataPickManager.getInstance().addData("dokit_sdk_ui_ck_widget_3d");
                 } else {
                     if (mScalpelFrameLayout != null) {
                         mScalpelFrameLayout.setLayerInteractionEnabled(false);
@@ -149,7 +151,7 @@ public class LayoutLevelDokitView extends AbsDokitView {
     public void initDokitViewLayoutParams(DokitViewLayoutParams params) {
         params.gravity = Gravity.CENTER_HORIZONTAL;
         params.x = 0;
-        params.y = UIUtils.getHeightPixels(getContext()) - UIUtils.dp2px(getContext(), 125);
+        params.y = UIUtils.getHeightPixels() - UIUtils.dp2px(125);
         //解决页面跳转是view的宽度会发生变化
         params.width = getScreenShortSideLength();
         params.height = DokitViewLayoutParams.WRAP_CONTENT;

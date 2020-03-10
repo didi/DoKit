@@ -8,9 +8,13 @@
     <string name="dk_category_ui">視覺工具</string>
     <string name="dk_category_platform">平台工具</string>
     <string name="dk_kit_network_mock">數據Mock</string>
+    <string name="dk_kit_health">健康體檢</string>
     <string name="dk_category_weex">WEEX</string>
 
     <string name="dk_kit_sysinfo">App 基本資訊</string>
+    <string name="dk_kit_develop">開發者選項</string>
+    <string name="dk_kit_service_running">運行中服務</string>
+    <string name="dk_kit_local_lang">本地語言</string>
     <string name="dk_kit_list">工具列表</string>
     <string name="dk_kit_demo">demo</string>
     <string name="dk_kit_file_explorer">Sandbox</string>
@@ -113,8 +117,9 @@
 
     <string name="dk_gpsmock_open">開啟模擬定位</string>
     <string name="dk_gpsmock_tv_location">模擬地址</string>
-    <string name="dk_gpsmock_hint_latitude">輸入緯度 (Lat)</string>
-    <string name="dk_gpsmock_hint_longitude">輸入經度 (Lng)</string>
+
+
+    <string name="dk_gpsmock_hint_longlat">請輸入經緯度</string>
 
     <!--卡頓檢測-->
     <string name="dk_kit_block_monitor">ANR 檢測</string>
@@ -162,7 +167,7 @@
     <string name="dk_kit_network_monitor">流量監控</string>
     <string name="dk_data_clean_toast">清除系統資料</string>
     <string name="dk_float_permission_toast">哆啦A夢需要打開懸浮視窗權限才能正常使用</string>
-    <string name="dk_gps_location_change_toast">地址變為: %1$s, %2$s</string>
+    <string name="dk_gps_location_change_toast">地址變為: %1$s , %2$s</string>
     <string name="dk_view_check_info_desc">背景顏色：%1$s</string>
     <string name="dk_view_check_info_padding">內邊距：%1$d, %2$d, %3$d, %4$d</string>
     <string name="dk_view_check_info_margin">外邊距：%1$d, %2$d, %3$d, %4$d</string>
@@ -217,11 +222,14 @@
     <string name="dk_item_time_goto_list">查看紀錄</string>
     <string name="dk_kit_block_time_counter_list">耗時列表</string>
     <string name="dk_sysinfo_display_size">解析度</string>
+    <string name="dk_sysinfo_display_inch">屏幕尺寸</string>
     <string name="dk_network_detail_title_body">Message Body</string>
     <string name="dk_network_detail_title_url">鏈接</string>
     <string name="dk_network_summary_total_number_time_tips">總封包數</string>
     <string name="dk_cancel">取消</string>
+    <string name="dk_discard">丟棄</string>
     <string name="dk_confirm">確認</string>
+    <string name="dk_post">提交</string>
     <string name="dk_crash_need_permission">請授權讀寫權限，避免crash文件丟失</string>
     <string name="dk_db_tips_insert">添加</string>
     <string name="dk_delete">刪除</string>

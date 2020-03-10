@@ -29,4 +29,23 @@ public abstract class AbstractKit implements IKit {
         intent.putExtra(BundleKey.FRAGMENT_INDEX, fragmentIndex);
         context.startActivity(intent);
     }
+
+    /**
+     * 是否是内置kit 外部kit不需要实现
+     *
+     * @return
+     */
+    public boolean isInnerKit() {
+        return false;
+    }
+
+    /**
+     * 返回kitId
+     *
+     * @return
+     */
+    public String innerKitId() {
+        return "";
+    }
 }
+

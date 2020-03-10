@@ -34,7 +34,7 @@ public class TouchProxy {
     }
 
     public boolean onTouchEvent(View v, MotionEvent event) {
-        int distance = UIUtils.dp2px(v.getContext(), 1) * MIN_DISTANCE_MOVE;
+        int distance = UIUtils.dp2px(1) * MIN_DISTANCE_MOVE;
         int x = (int) event.getRawX();
         int y = (int) event.getRawY();
         switch (event.getAction()) {

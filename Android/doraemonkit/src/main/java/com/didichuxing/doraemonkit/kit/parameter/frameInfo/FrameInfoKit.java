@@ -38,4 +38,15 @@ public class FrameInfoKit extends AbstractKit {
 
     }
 
+    @Override
+    public boolean isInnerKit() {
+        return true;
+    }
+
+    @Override
+    public String innerKitId() {
+        return "dokit_sdk_performance_ck_fps";
+    }
+
+
 }

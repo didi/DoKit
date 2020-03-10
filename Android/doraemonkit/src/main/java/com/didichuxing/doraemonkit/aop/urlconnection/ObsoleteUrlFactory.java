@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.aop.urlconnection;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

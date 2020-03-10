@@ -52,6 +52,10 @@ public abstract class ForegroundService extends IntentService {
     startForeground(notificationId, notification);
   }
 
+  /**
+   * service 启动时调用
+   * @param intent
+   */
   @Override
   protected void onHandleIntent(@Nullable Intent intent) {
     onHandleIntentInForeground(intent);

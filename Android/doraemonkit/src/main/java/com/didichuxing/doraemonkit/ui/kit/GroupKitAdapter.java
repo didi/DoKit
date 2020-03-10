@@ -69,6 +69,9 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
     }
 
 
+    /**
+     * 关闭按钮的holder
+     */
     public class CloseKitViewHolder extends AbsViewBinder<List<KitItem>> {
         public CloseKitViewHolder(View view) {
             super(view);
@@ -88,6 +91,9 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
         protected void onViewClick(View view, List<KitItem> data) {
             super.onViewClick(view, data);
             for (KitItem item : data) {
+                /**
+                 * 关闭按钮点击
+                 */
                 item.kit.onClick(getContext());
             }
         }
@@ -113,7 +119,7 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
         @Override
         public void bind(List<KitItem> kitItems) {
             String version = mContext.getString(R.string.dk_kit_version);
-            name.setText(String.format(version, BuildConfig.VERSION_NAME));
+            name.setText(String.format(version, BuildConfig.DOKIT_VERSION));
         }
 
     }

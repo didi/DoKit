@@ -156,8 +156,6 @@ public class CallStackReconstructor {
         // top level call.
         exitMethod(mTopLevelCallId, 0, 0, mTopLevelCalls);
 
-        // TODO: use global / thread times to infer context switches
-
         // Build calls from their respective builders
         // Now that we've added the top level call, there should be only 1 top level call
         assert mTopLevelCalls.size() == 1;

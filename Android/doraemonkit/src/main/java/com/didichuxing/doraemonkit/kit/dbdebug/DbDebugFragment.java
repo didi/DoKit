@@ -33,10 +33,14 @@ public class DbDebugFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView();
+        try {
+            initView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void initView() {
+    private void initView() throws Exception {
         if (!DebugDB.isServerRunning()) {
             DebugDB.initialize(DoraemonKit.APPLICATION, new DebugDBFactory());
             DebugDB.initialize(DoraemonKit.APPLICATION, new DebugDBEncryptFactory());

@@ -35,9 +35,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             fragmentTransaction.addToBackStack("");
             fragmentTransaction.commit();
         } catch (InstantiationException e) {
-            LogHelper.e(TAG, e.toString());
+            e.printStackTrace();
         } catch (IllegalAccessException e) {
-            LogHelper.e(TAG, e.toString());
+            e.printStackTrace();
         }
     }
 

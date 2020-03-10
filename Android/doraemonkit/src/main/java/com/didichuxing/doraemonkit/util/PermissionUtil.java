@@ -104,29 +104,7 @@ public class PermissionUtil {
         }
     }
 
-    public static void startDevelopmentSetting(Activity activity) {
-        try {
-            Intent intent = new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
-            activity.startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                ComponentName componentName = new ComponentName("com.android.settings", "com.android.settings.DevelopmentSettings");
-                Intent intent = new Intent();
-                intent.setComponent(componentName);
-                intent.setAction(Intent.ACTION_VIEW);
-                activity.startActivity(intent);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-                try {
-                    Intent intent = new Intent("com.android.settings.APPLICATION_DEVELOPMENT_SETTINGS");
-                    activity.startActivity(intent);
-                } catch (Exception e2) {
-                    e2.printStackTrace();
-                }
-            }
-        }
-    }
+
 
     public static boolean isMockLocationEnabled(Context context) {
         boolean isMockLocation = false;

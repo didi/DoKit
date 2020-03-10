@@ -67,6 +67,26 @@ public class DokitViewManager implements DokitViewManagerInterface {
 
     }
 
+    @Override
+    public void onMainActivityCreate(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityCreate(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResume(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityPause(Activity activity) {
+
+    }
+
     /**
      * 在当前Activity中添加指定悬浮窗
      *
@@ -74,6 +94,11 @@ public class DokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void attach(DokitIntent dokitIntent) {
+
+    }
+
+    @Override
+    public void detach(AbsDokitView dokitView) {
 
     }
 
@@ -92,13 +117,11 @@ public class DokitViewManager implements DokitViewManagerInterface {
 
     }
 
-
-    /**
-     * 移除每个activity指定的dokitView
-     */
     @Override
-    public void detach(Object dokitView) {
+    public void detach(Class<? extends AbsDokitView> dokitViewClass) {
+
     }
+
 
     /**
      * 移除所有activity的所有dokitView
@@ -108,7 +131,13 @@ public class DokitViewManager implements DokitViewManagerInterface {
     }
 
     @Override
-    public void detach(Class<? extends Object> dokitViewClass) {
+    public AbsDokitView getDokitView(Activity activity, String tag) {
+        return null;
+    }
+
+    @Override
+    public Map<String, AbsDokitView> getDokitViews(Activity activity) {
+        return null;
     }
 
 
@@ -119,26 +148,6 @@ public class DokitViewManager implements DokitViewManagerInterface {
     public void onActivityDestroy(Activity activity) {
     }
 
-    /**
-     * 获取页面上指定的dokitView
-     *
-     * @param activity 如果是系统浮标 activity可以为null
-     * @param tag
-     * @return
-     */
-    @Override
-    public Object getDokitView(Activity activity, String tag) {
-        return null;
-    }
-
-    /**
-     * @param activity
-     * @return
-     */
-    @Override
-    public Map<String, Object> getDokitViews(Activity activity) {
-        return null;
-    }
 
     /**
      * 系统悬浮窗需要调用

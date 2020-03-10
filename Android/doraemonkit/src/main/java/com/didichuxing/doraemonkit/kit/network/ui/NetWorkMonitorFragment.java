@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.parameter.AbsParameterFragment;
 import com.didichuxing.doraemonkit.ui.realtime.datasource.DataSourceFactory;

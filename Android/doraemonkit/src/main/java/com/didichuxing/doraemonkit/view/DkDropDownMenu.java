@@ -32,7 +32,7 @@ import java.util.List;
  */
 
 public class DkDropDownMenu extends LinearLayout {
-    public static final String TAG = "DkDropDownMenu";
+    private static final String TAG = "DkDropDownMenu";
     //记录tabTexts的顺序
     List<View> dropTabViews = new ArrayList<>();
     //顶部菜单布局
@@ -323,7 +323,7 @@ public class DkDropDownMenu extends LinearLayout {
      * @param target
      */
     private void switchMenu(View target) {
-        LogHelper.i(TAG, "current===>" + current_tab_position);
+        //LogHelper.i(TAG, "current===>" + current_tab_position);
         for (int i = 0; i < tabMenuView.getChildCount(); i = i + 2) {
             if (target == tabMenuView.getChildAt(i)) {
                 if (current_tab_position == i) {

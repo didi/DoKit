@@ -3,11 +3,11 @@ package com.didichuxing.doraemonkit.weex;
 import android.app.Application;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.kit.IKit;
-import com.didichuxing.doraemonkit.weex.log.WeexLogKit;
-import com.didichuxing.doraemonkit.weex.devtool.DevToolKit;
+import com.didichuxing.doraemonkit.kit.AbstractKit;
+import com.didichuxing.doraemonkit.weex.devtool.WeexDevToolKit;
 import com.didichuxing.doraemonkit.weex.info.WeexInfoKit;
-import com.didichuxing.doraemonkit.weex.storage.StorageKit;
+import com.didichuxing.doraemonkit.weex.log.WeexLogKit;
+import com.didichuxing.doraemonkit.weex.storage.WeexStorageKit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +31,11 @@ public class DKWeexInstance {
 
     @Deprecated
     public void init(Application app) {
-        List<IKit> bizKits = new ArrayList<>();
+        List<AbstractKit> bizKits = new ArrayList<>();
         bizKits.add(new WeexLogKit());
-        bizKits.add(new StorageKit());
+        bizKits.add(new WeexStorageKit());
         bizKits.add(new WeexInfoKit());
-        bizKits.add(new DevToolKit());
+        bizKits.add(new WeexDevToolKit());
         DoraemonKit.install(app, bizKits);
     }
 

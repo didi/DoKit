@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
+import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.ui.dialog.DialogProvider;
 import com.didichuxing.doraemonkit.ui.dialog.CommonDialogProvider;
 import com.didichuxing.doraemonkit.ui.dialog.DialogInfo;
@@ -73,7 +73,7 @@ public class BaseFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        DokitViewManager.getInstance().detach(FloatIconDokitView.class);
+        DokitViewManager.getInstance().detach(MainIconDokitView.class);
     }
 
 
@@ -136,7 +136,7 @@ public class BaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
+        DokitIntent intent = new DokitIntent(MainIconDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
         DokitViewManager.getInstance().attach(intent);
     }
