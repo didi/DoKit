@@ -2,7 +2,7 @@
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
  <img src="https://img.shields.io/badge/Android-3.0_beta1-blue.svg" align=left />
- <img src="https://img.shields.io/badge/iOS-2.0.0-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/iOS-3.0_beta1-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
@@ -97,15 +97,8 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 详见 [Doraemon mini program debugger](https://github.com/didi/DoraemonKit/tree/master/miniapp)
 
-
-## 帮助文档
-- [DoKit SDK&平台 文档](http://xingyun.xiaojukeji.com/docs/dokit/#/intro)
-
-## 接入文档
-
-- [iOS 接入文档](Doc/iOS_cn_guide.md)
-- [Android 接入文档](Doc/android_cn_guide.md)
-- [微信小程序 接入文档](https://github.com/didi/DoraemonKit/blob/master/miniapp/README.md)
+## 使用手册
+访问 [https://www.dokit.cn/](https://www.dokit.cn/)，点击“使用中心”。
 
 ## 相关文档
 - [iOS 研发助手 DoraemonKit 技术实现（一）](https://www.jianshu.com/p/00763123dbc4)
@@ -189,24 +182,33 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [协议文件](LICENSE)。
 
 ## 使用提醒
-为了统计本开源软件的外部使用情况，我们会上传用户app的相关信息，包括appName、bundleId。
-这些信息我们收集绝不用于任何恶意用途。
+因为SDK目前会配合[dokit.cn](http://www.dokit.cn/)平台, 会产生一些网络数据，这些信息我们收集绝不用于任何恶意用途。
 
-iOS上传代码详见DoraemonStatisticsUtil类中的实现
+**以下为所有涉及到网络请求的部分**
 
-**以下为Android端所有涉及到网络请求的部分**
+1. 统计有多少用户集成了dokit
 
-1、统计有多少人集成了dokit
-DoraemonStatisticsUtil#uploadUserInfo
+	Android : DoraemonStatisticsUtil#uploadUserInfo
 
-2、统计每个内置kit的使用情况
-DataPickManager#realPost 
+	iOS : DoraemonStatisticsUtil#upLoadUserInfo
 
-3、上传健康体检的相关数据
-AppHealthInfoUtil#post
+2. 统计每个内置kit的使用情况
 
-4、数据mock的相关网络请求
-NetWorkMockFragment 里涉及到接口mock的相关网络请求
+	Android : DataPickManager#realPost 
+
+	iOS : DoraemonBuriedPointManager#uploadData
+
+3. 上传健康体检的相关数据
+
+	Android : AppHealthInfoUtil#post
+
+	iOS : DoraemonHealthManager#upLoadData
+
+4. 数据mock的相关网络请求
+
+	Android : NetWorkMockFragment 里涉及到接口mock的相关网络请求
+	
+	iOS : DoraemonMockManager#queryMockData&uploadSaveData
 
 
 敬请各位用户知晓。
