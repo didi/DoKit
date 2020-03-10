@@ -6,13 +6,18 @@ import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.BuildConfig;
+import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.config.CrashCaptureConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockMonitorManager;
 import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
+import com.didichuxing.doraemonkit.kit.crash.CrashCaptureManager;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
+import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.okgo.OkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,10 +62,10 @@ public class AppHealthInfoUtil {
         baseInfoBean.setCaseName(caseName);
         baseInfoBean.setAppName(AppUtils.getAppName());
         baseInfoBean.setAppVersion(AppUtils.getAppVersionName());
-        baseInfoBean.setDokitVersion(BuildConfig.VERSION_NAME);
+        baseInfoBean.setDokitVersion(BuildConfig.DOKIT_VERSION);
         baseInfoBean.setPlatform("Android");
         baseInfoBean.setPhoneMode(DeviceUtils.getModel());
-        baseInfoBean.setTime("" + TimeUtils.getNowMills());
+        baseInfoBean.setTime(TimeUtils.getNowString());
         baseInfoBean.setSystemVersion(DeviceUtils.getSDKVersionName());
         baseInfoBean.setpId("" + DokitConstant.PRODUCT_ID);
         mAppHealthInfo.setBaseInfo(baseInfoBean);
@@ -72,7 +77,7 @@ public class AppHealthInfoUtil {
      * @param costTime
      * @param costDetail
      */
-    public void setAppStartInfo(String costTime, String costDetail, List<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean> loadFunc) {
+    public void setAppStartInfo(long costTime, String costDetail, List<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean> loadFunc) {
         AppHealthInfo.DataBean.AppStartBean appStartBean = new AppHealthInfo.DataBean.AppStartBean();
         appStartBean.setCostTime(costTime);
         appStartBean.setCostDetail(costDetail);
@@ -91,7 +96,8 @@ public class AppHealthInfoUtil {
             cpus = new ArrayList<>();
             getData().setCpu(cpus);
         }
-        cpuBean.setValues(sortValue(cpuBean.getValues()));
+        //不过滤最大最小值
+        //cpuBean.setValues(sortValue(cpuBean.getValues()));
         cpus.add(cpuBean);
     }
 
@@ -107,7 +113,8 @@ public class AppHealthInfoUtil {
             memories = new ArrayList<>();
             getData().setMemory(memories);
         }
-        memoryBean.setValues(sortValue(memoryBean.getValues()));
+        //不过滤最大最小值
+        //memoryBean.setValues(sortValue(memoryBean.getValues()));
         memories.add(memoryBean);
     }
 
@@ -122,9 +129,48 @@ public class AppHealthInfoUtil {
             fpsBeans = new ArrayList<>();
             getData().setFps(fpsBeans);
         }
-
-        fpsBean.setValues(sortValue(fpsBean.getValues()));
+        //不过滤最大最小值
+        //fpsBean.setValues(sortValue(fpsBean.getValues()));
         fpsBeans.add(fpsBean);
+    }
+
+    /**
+     * 获取当前最后一个PerformanceInfo信息
+     *
+     * @return PerformanceBean
+     */
+    public AppHealthInfo.DataBean.PerformanceBean getLastPerformanceInfo(int performanceType) {
+        List<AppHealthInfo.DataBean.PerformanceBean> performanceBeans = null;
+        if (performanceType == PerformanceDataManager.PERFORMANCE_TYPE_CPU) {
+            performanceBeans = getData().getCpu();
+        } else if (performanceType == PerformanceDataManager.PERFORMANCE_TYPE_MEMORY) {
+            performanceBeans = getData().getMemory();
+        } else if (performanceType == PerformanceDataManager.PERFORMANCE_TYPE_FPS) {
+            performanceBeans = getData().getFps();
+        }
+        if (performanceBeans == null || performanceBeans.size() == 0) {
+            return null;
+        }
+        return performanceBeans.get(performanceBeans.size() - 1);
+    }
+
+    /**
+     * 移除满足条件的最后一个PerformanceInfo信息
+     *
+     * @return PerformanceBean
+     */
+    public void removeLastPerformanceInfo(int performanceType) {
+        List<AppHealthInfo.DataBean.PerformanceBean> performanceBeans = null;
+        if (performanceType == PerformanceDataManager.PERFORMANCE_TYPE_CPU) {
+            performanceBeans = getData().getCpu();
+        } else if (performanceType == PerformanceDataManager.PERFORMANCE_TYPE_MEMORY) {
+            performanceBeans = getData().getMemory();
+        } else if (performanceType == PerformanceDataManager.PERFORMANCE_TYPE_FPS) {
+            performanceBeans = getData().getFps();
+        }
+        if (performanceBeans != null && performanceBeans.size() > 0) {
+            performanceBeans.remove(performanceBeans.size() - 1);
+        }
     }
 
 
@@ -243,7 +289,9 @@ public class AppHealthInfoUtil {
         if (mAppHealthInfo == null) {
             return;
         }
-        OkGo.<String>post("http://172.23.163.178:80/healthCheck/addCheckData")
+        //线上地址：https://www.dokit.cn/healthCheck/addCheckData
+        //测试环境地址:http://dokit-test.intra.xiaojukeji.com/healthCheck/addCheckData
+        OkGo.<String>post(NetworkManager.APP_HEALTH_URL)
                 .upJson(GsonUtils.toJson(mAppHealthInfo))
                 .execute(new StringCallback() {
                     @Override
@@ -315,6 +363,9 @@ public class AppHealthInfoUtil {
         PerformanceDataManager.getInstance().startMonitorNetFlowInfo();
         //卡顿
         BlockMonitorManager.getInstance().start();
+        //crash 开关
+        CrashCaptureConfig.setCrashCaptureOpen(DoraemonKit.APPLICATION, true);
+        CrashCaptureManager.getInstance().start();
     }
 
     /**
@@ -331,6 +382,9 @@ public class AppHealthInfoUtil {
         PerformanceDataManager.getInstance().stopMonitorNetFlowInfo();
         //卡顿
         BlockMonitorManager.getInstance().stop();
+        //crash 开关
+        CrashCaptureConfig.setCrashCaptureOpen(DoraemonKit.APPLICATION, false);
+        CrashCaptureManager.getInstance().stop();
 
     }
 

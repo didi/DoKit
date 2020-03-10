@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.didichuxing.doraemondemo">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.didichuxing.doraemondemo"
+    xmlns:dist="http://schemas.android.com/apk/distribution">
+
+    <dist:module dist:instant="true" />
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -28,7 +32,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--用于申请调用A-GPS模块-->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-
+<!-- https://blog.csdn.net/CHS007chs/article/details/85849625
+   tools:replace="android:allowBackup,android:label"-->
     <application
         android:name=".App"
         android:allowBackup="false"
@@ -36,7 +41,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/dk_app_icon"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".WebViewActivity" />
         <activity android:name=".SecondActivity" />
@@ -58,6 +64,13 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
+
+        <!-- Dokit targetApi为 29 Android Q时截屏的前台服务-->
+        <service
+            android:name="com.didichuxing.doraemonkit.kit.colorpick.ScreenRecorderService"
+            android:enabled="true"
+            android:foregroundServiceType="mediaProjection"
+            tools:targetApi="q" />
     </application>
 
 

@@ -13,6 +13,9 @@ public class CounterInfo {
     public long time;
     public int type;
     public String title;
+    /**
+     * 单位为ms
+     */
     public long totalCost;
     public long pauseCost;
     public long launchCost;

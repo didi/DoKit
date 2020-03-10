@@ -4,7 +4,6 @@ import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonInterc
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonWeakNetworkInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.LargePictureInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.net.URL;
 import java.net.URLConnection;
@@ -18,7 +17,7 @@ import okhttp3.OkHttpClient;
  * 作    者：jint（金台）
  * 版    本：1.0
  * 创建日期：2019-12-16-14:54
- * 描    述：
+ * 描    述：ams 动态插入代码
  * 修订历史：
  * ================================================
  */
@@ -29,7 +28,6 @@ public class HttpUrlConnectionProxyUtil {
     public static URLConnection proxy(URLConnection urlConnection) {
         try {
             String host = HttpUrl.parse(urlConnection.getURL().toString()).host();
-            //LogHelper.i(TAG, "host===>" + host);
             if (isIgnore(host)) {
                 return urlConnection;
             }

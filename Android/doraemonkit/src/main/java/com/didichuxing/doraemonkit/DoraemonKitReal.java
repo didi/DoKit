@@ -15,11 +15,14 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.didichuxing.doraemonkit.aop.OkHttpHook;
+import com.didichuxing.doraemonkit.config.GlobalConfig;
+import com.didichuxing.doraemonkit.config.GpsMockConfig;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
+import com.didichuxing.doraemonkit.datapick.DataPickManager;
+import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.kit.IKit;
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerKit;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit;
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerKit;
@@ -35,7 +38,7 @@ import com.didichuxing.doraemonkit.kit.health.HealthKit;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureKit;
 import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit;
-import com.didichuxing.doraemonkit.kit.logInfo.LogInfoKit;
+import com.didichuxing.doraemonkit.kit.loginfo.LogInfoKit;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostKit;
 import com.didichuxing.doraemonkit.kit.mode.FloatModeKit;
 import com.didichuxing.doraemonkit.kit.network.MockKit;
@@ -44,6 +47,8 @@ import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.parameter.cpu.CpuKit;
 import com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfoKit;
 import com.didichuxing.doraemonkit.kit.parameter.ram.RamKit;
+import com.didichuxing.doraemonkit.kit.sysinfo.DevelopmentPageKit;
+import com.didichuxing.doraemonkit.kit.sysinfo.LocalLangKit;
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoKit;
 import com.didichuxing.doraemonkit.kit.temporaryclose.TemporaryCloseKit;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterKit;
@@ -54,11 +59,11 @@ import com.didichuxing.doraemonkit.kit.viewcheck.ViewCheckerKit;
 import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
+import com.didichuxing.doraemonkit.model.LatLng;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
-import com.didichuxing.doraemonkit.ui.fileexplorer.FileInfo;
-import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
+import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
@@ -67,7 +72,6 @@ import com.sjtu.yifei.AbridgeCallBack;
 import com.sjtu.yifei.IBridge;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +108,7 @@ class DoraemonKitReal {
         install(app, null);
     }
 
-    static void install(Application app, List<IKit> selfKits) {
+    static void install(Application app, List<AbstractKit> selfKits) {
         install(app, selfKits, "");
     }
 
@@ -113,17 +117,18 @@ class DoraemonKitReal {
      * @param selfKits  自定义kits
      * @param productId Dokit平台端申请的productId
      */
-    static void install(final Application app, List<IKit> selfKits, String productId) {
+    static void install(final Application app, List<AbstractKit> selfKits, String productId) {
         DokitConstant.PRODUCT_ID = productId;
+        DokitConstant.APP_HEALTH_RUNNING = GlobalConfig.getAppHealth(DoraemonKit.APPLICATION);
         //添加常用工具
         if (sHasInit) {
             //已经初始化添加自定义kits
             if (selfKits != null) {
-                List<IKit> biz = DokitConstant.KIT_MAPS.get(Category.BIZ);
+                List<AbstractKit> biz = DokitConstant.KIT_MAPS.get(Category.BIZ);
                 if (biz != null) {
                     biz.clear();
                     biz.addAll(selfKits);
-                    for (IKit kit : biz) {
+                    for (AbstractKit kit : biz) {
                         kit.onAppInit(app);
                     }
                 }
@@ -149,31 +154,35 @@ class DoraemonKitReal {
         //OkHttp 拦截器 注入
         OkHttpHook.installInterceptor();
         LogHelper.i(TAG, "IS_HOOK====>" + IS_HOOK);
+        //赋值全局变量
+        DokitConstant.IS_HOOK = IS_HOOK;
         //注册全局的activity生命周期回调
         app.registerActivityLifecycleCallbacks(new DokitActivityLifecycleCallbacks());
         DokitConstant.KIT_MAPS.clear();
 
         //业务专区
-        List<IKit> biz = new ArrayList<>();
+        List<AbstractKit> biz = new ArrayList<>();
         //weex专区
-        List<IKit> weex = new ArrayList<>();
+        List<AbstractKit> weex = new ArrayList<>();
 
         //常用工具
-        List<IKit> tool = new ArrayList<>();
+        List<AbstractKit> tool = new ArrayList<>();
         //性能监控
-        List<IKit> performance = new ArrayList<>();
+        List<AbstractKit> performance = new ArrayList<>();
         //视觉工具
-        List<IKit> ui = new ArrayList<>();
+        List<AbstractKit> ui = new ArrayList<>();
         //平台工具
-        List<IKit> platform = new ArrayList<>();
+        List<AbstractKit> platform = new ArrayList<>();
         //悬浮窗模式
-        List<IKit> floatMode = new ArrayList<>();
+        List<AbstractKit> floatMode = new ArrayList<>();
         //退出
-        List<IKit> exit = new ArrayList<>();
+        List<AbstractKit> exit = new ArrayList<>();
         //版本号
-        List<IKit> version = new ArrayList<>();
+        List<AbstractKit> version = new ArrayList<>();
         //添加工具kit
         tool.add(new SysInfoKit());
+        tool.add(new DevelopmentPageKit());
+        tool.add(new LocalLangKit());
         tool.add(new FileExplorerKit());
         if (GpsMockManager.getInstance().isMockEnable()) {
             tool.add(new GpsMockKit());
@@ -182,29 +191,23 @@ class DoraemonKitReal {
         tool.add(new CrashCaptureKit());
         tool.add(new LogInfoKit());
         tool.add(new DataCleanKit());
-        if (IS_HOOK) {
-            tool.add(new WeakNetworkKit());
-        }
+        tool.add(new WeakNetworkKit());
         tool.add(new DbDebugKit());
 
         //添加性能监控kit
         performance.add(new FrameInfoKit());
         performance.add(new CpuKit());
         performance.add(new RamKit());
-        if (IS_HOOK) {
-            performance.add(new NetworkKit());
-        }
+        performance.add(new NetworkKit());
         performance.add(new BlockMonitorKit());
         performance.add(new TimeCounterKit());
         performance.add(new MethodCostKit());
         performance.add(new UIPerformanceKit());
-        if (IS_HOOK) {
-            performance.add(new LargePictureKit());
-        }
+        performance.add(new LargePictureKit());
 
         try {
             //动态添加leakcanary
-            IKit leakCanaryKit = (IKit) Class.forName("com.didichuxing.doraemonkit.kit.leakcanary.LeakCanaryKit").newInstance();
+            AbstractKit leakCanaryKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.kit.leakcanary.LeakCanaryKit").newInstance();
             performance.add(leakCanaryKit);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -224,11 +227,9 @@ class DoraemonKitReal {
         ui.add(new AlignRulerKit());
         ui.add(new ViewCheckerKit());
         ui.add(new LayoutBorderKit());
-        if (IS_HOOK && !TextUtils.isEmpty(DokitConstant.PRODUCT_ID)) {
-            //新增数据mock工具 由于Dokit管理平台还没完善 所以暂时关闭入口
-            platform.add(new MockKit());
-            platform.add(new HealthKit());
-        }
+        //新增数据mock工具 由于Dokit管理平台还没完善 所以暂时关闭入口
+        platform.add(new MockKit());
+        platform.add(new HealthKit());
 
         //增加浮标模式
         floatMode.add(new FloatModeKit());
@@ -241,37 +242,33 @@ class DoraemonKitReal {
             biz.addAll(selfKits);
         }
         //调用kit 初始化
-        for (IKit kit : biz) {
+        for (AbstractKit kit : biz) {
             kit.onAppInit(app);
         }
-        for (IKit kit : performance) {
+        for (AbstractKit kit : performance) {
             kit.onAppInit(app);
         }
-        for (IKit kit : tool) {
+        for (AbstractKit kit : tool) {
             kit.onAppInit(app);
         }
-        for (IKit kit : ui) {
+        for (AbstractKit kit : ui) {
             kit.onAppInit(app);
         }
         //注入到sKitMap中
         DokitConstant.KIT_MAPS.put(Category.BIZ, biz);
         //动态添加weex专区
         try {
-            IKit weexLogKit = (IKit) Class.forName("com.didichuxing.doraemonkit.weex.log.WeexLogKit").newInstance();
+            AbstractKit weexLogKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.weex.log.WeexLogKit").newInstance();
             weex.add(weexLogKit);
-            IKit storageKit = (IKit) Class.forName("com.didichuxing.doraemonkit.weex.storage.StorageKit").newInstance();
+            AbstractKit storageKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.weex.storage.WeexStorageKit").newInstance();
             weex.add(storageKit);
-            IKit weexInfoKit = (IKit) Class.forName("com.didichuxing.doraemonkit.weex.info.WeexInfoKit").newInstance();
+            AbstractKit weexInfoKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.weex.info.WeexInfoKit").newInstance();
             weex.add(weexInfoKit);
-            IKit devToolKit = (IKit) Class.forName("com.didichuxing.doraemonkit.weex.devtool.DevToolKit").newInstance();
+            AbstractKit devToolKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.weex.devtool.WeexDevToolKit").newInstance();
             weex.add(devToolKit);
             DokitConstant.KIT_MAPS.put(Category.WEEX, weex);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            //LogHelper.e(TAG, "e====>" + e.getMessage());
         }
 
         DokitConstant.KIT_MAPS.put(Category.PERFORMANCE, performance);
@@ -285,7 +282,11 @@ class DoraemonKitReal {
         DokitViewManager.getInstance().init(app);
         //上传app基本信息便于统计
         if (sEnableUpload) {
-            DoraemonStatisticsUtil.uploadUserInfo(app);
+            try {
+                DoraemonStatisticsUtil.uploadUserInfo(app);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         installLeakCanary(app);
         initAndroidUtil(app);
@@ -293,13 +294,28 @@ class DoraemonKitReal {
         registerNetworkStatusChangedListener();
         initAidlBridge(app);
         startAppHealth();
+        checkGPSMock();
+        //上传埋点
+        DataPickManager.getInstance().postData();
+    }
+
+    private static void checkGPSMock() {
+        if (GpsMockConfig.isGPSMockOpen(APPLICATION)) {
+            GpsMockManager.getInstance().startMock();
+        }
+        LatLng latLng = GpsMockConfig.getMockLocation(APPLICATION);
+        if (latLng == null) {
+            return;
+        }
+        GpsMockManager.getInstance().mockLocation(latLng.latitude, latLng.longitude);
     }
 
     /**
-     * 单个文件的阈值为10M
+     * 单个文件的阈值为1M
      */
-    // private static long FILE_LENGTH_THRESHOLD = 10 * 1024 * 1024;
-    private static long FILE_LENGTH_THRESHOLD = 1 * 1024;
+    private static long FILE_LENGTH_THRESHOLD = 1 * 1024 * 1024;
+    //todo 测试时为1k 对外时需要修改回来
+    //private static long FILE_LENGTH_THRESHOLD = 1024;
 
     private static void traverseFile(File rootFileDir) {
         if (rootFileDir == null) {
@@ -469,14 +485,7 @@ class DoraemonKitReal {
             Method install = leakCanaryManager.getMethod("install", Application.class);
             //调用静态的install方法
             install.invoke(null, app);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
         }
 
     }
@@ -525,7 +534,7 @@ class DoraemonKitReal {
             return;
         }
 
-        DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
+        DokitIntent intent = new DokitIntent(MainIconDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
         DokitViewManager.getInstance().attach(intent);
         DokitConstant.MAIN_ICON_HAS_SHOW = true;
@@ -554,7 +563,7 @@ class DoraemonKitReal {
     static void hide() {
         DokitConstant.MAIN_ICON_HAS_SHOW = false;
         DokitConstant.AWAYS_SHOW_MAIN_ICON = false;
-        DokitViewManager.getInstance().detach(FloatIconDokitView.class.getSimpleName());
+        DokitViewManager.getInstance().detach(MainIconDokitView.class.getSimpleName());
 
     }
 

@@ -8,8 +8,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.ui.widget.webview.MyWebView;
 
 /**
  * @author jintai
@@ -17,6 +19,7 @@ import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
  */
 
 public class MethodCostFragment extends BaseFragment {
+    MyWebView mWebView;
 
     @Override
     protected int onRequestLayout() {
@@ -38,8 +41,8 @@ public class MethodCostFragment extends BaseFragment {
                 getActivity().finish();
             }
         });
-        TextView tv = findViewById(R.id.tv_desc);
-        tv.setText(Html.fromHtml(getResources().getString(R.string.dk_kit_method_cost_desc)));
+        mWebView = findViewById(R.id.webview);
+        mWebView.loadUrl(NetworkManager.APP_DOCUMENT_URL);
 
     }
 

@@ -53,4 +53,14 @@ public class ViewCheckerKit extends AbstractKit {
     public void onAppInit(Context context) {
         ViewCheckConfig.setViewCheckOpen(context, false);
     }
+
+    @Override
+    public boolean isInnerKit() {
+        return true;
+    }
+
+    @Override
+    public String innerKitId() {
+        return "dokit_sdk_ui_ck_widget";
+    }
 }

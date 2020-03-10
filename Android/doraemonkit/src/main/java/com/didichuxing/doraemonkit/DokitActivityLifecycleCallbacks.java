@@ -6,27 +6,21 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.datapick.DataPickManager;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceUtil;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.model.ViewInfo;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
-import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
-import com.didichuxing.doraemonkit.ui.base.DokitIntent;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
-import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.PermissionUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * ================================================
@@ -86,10 +80,9 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
             return;
         }
 
+
         //设置app的直接子view的Id
-        if (UIUtils.getDokitAppContentView(activity) != null) {
-            UIUtils.getDokitAppContentView(activity).setId(R.id.dokit_app_contentview_id);
-        }
+        UIUtils.getDokitAppContentView(activity);
         //添加DokitView
         resumeAndAttachDokitViews(activity);
 
@@ -121,7 +114,8 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
         //通知app退出到后台
         if (startedActivityCounts == 0) {
             DokitViewManager.getInstance().notifyBackground();
-
+            //app 切换到后台 上传埋点数据
+            DataPickManager.getInstance().postData();
         }
     }
 
@@ -247,10 +241,10 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
             }
 
             String detail = "最大层级:" + maxLevel + "\n"
-                    + "控件id:" + (maxLevelViewInfo == null ? "no matched" : maxLevelViewInfo.id) + "\n"
+                    + "控件id:" + (maxLevelViewInfo == null ? "no id" : maxLevelViewInfo.id) + "\n"
                     + "总绘制耗时:" + totalTime + "ms" + "\n"
                     + "绘制耗时最长控件:" + maxTime + "ms" + "\n"
-                    + "绘制耗时最长控件id:" + (maxTimeViewInfo == null ? "no matched" : maxTimeViewInfo.id) + "\n";
+                    + "绘制耗时最长控件id:" + (maxTimeViewInfo == null ? "no id" : maxTimeViewInfo.id) + "\n";
             AppHealthInfo.DataBean.UiLevelBean uiLevelBean = new AppHealthInfo.DataBean.UiLevelBean();
             uiLevelBean.setPage(activity.getClass().getCanonicalName());
             uiLevelBean.setLevel("" + maxLevel);

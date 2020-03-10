@@ -94,8 +94,13 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btn_top"
+                    android:id="@+id/btn_clean"
                     style="@style/DK.RadioButton.Left"
+                    android:text="清空日志" />
+
+                <Button
+                    android:id="@+id/btn_top"
+                    style="@style/DK.RadioButton.middle"
                     android:text="回到顶部" />
 
                 <Button

@@ -64,10 +64,13 @@
     </declare-styleable>
 
     <!--多行RadioGroup-->
+
+
     <declare-styleable name="dk_multi_line_radio_group">
         <attr name="max_in_row" format="integer" />
         <attr name="radio_buttons" format="reference" />
         <attr name="default_button" format="string" />
     </declare-styleable>
+
 
 </resources>

@@ -117,21 +117,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginBottom="10dp"
             android:text="回到顶部"
             android:textColor="#27BCB7"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
             android:rotation="180"
             android:src="@drawable/dk_health_next_page" />

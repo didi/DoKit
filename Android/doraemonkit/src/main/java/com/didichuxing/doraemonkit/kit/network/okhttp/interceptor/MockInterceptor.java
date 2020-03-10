@@ -10,7 +10,9 @@ import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
+import com.didichuxing.doraemonkit.kit.network.core.ResourceType;
 import com.didichuxing.doraemonkit.kit.network.core.ResourceTypeHelper;
+import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
@@ -34,7 +36,6 @@ import okhttp3.ResponseBody;
 public class MockInterceptor implements Interceptor {
     public static final String TAG = "MockInterceptor";
 
-    private ResourceTypeHelper mResourceTypeHelper;
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -43,6 +44,12 @@ public class MockInterceptor implements Interceptor {
 
         HttpUrl url = oldRequest.url();
         String host = url.host();
+        String contentType = oldResponse.header("Content-Type");
+        //如果是图片则不进行拦截
+        if (InterceptorUtil.isImg(contentType)) {
+            return oldResponse;
+        }
+
         //如果是mock平台的接口则不进行拦截
         if (host.equalsIgnoreCase(NetworkManager.MOCK_HOST)) {
             return oldResponse;
@@ -51,8 +58,8 @@ public class MockInterceptor implements Interceptor {
         //path  /test/upload/img
         String path = URLDecoder.decode(url.encodedPath(), "utf-8");
         String queries = url.query();
-        String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_INTERCEPT);
-        String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_TEMPLATE);
+        String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_INTERCEPT, DokitDbManager.FROM_SDK_OTHER);
+        String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_OTHER);
         try {
             //网络的健康体检功能 统计流量大小
             if (DokitConstant.APP_HEALTH_RUNNING) {
@@ -144,8 +151,11 @@ public class MockInterceptor implements Interceptor {
         //判断是否需要重定向数据接口
         //http https
         String scheme = url.scheme();
-        MockInterceptApiBean interceptApiBean = (MockInterceptApiBean) DokitDbManager.getInstance().getInterceptApiByIdInMap(path, interceptMatchedId);
-
+        MockInterceptApiBean interceptApiBean = (MockInterceptApiBean) DokitDbManager.getInstance().getInterceptApiByIdInMap(path, interceptMatchedId, DokitDbManager.FROM_SDK_OTHER);
+        if (interceptApiBean == null) {
+            matchedTemplateRule(oldResponse, path, templateMatchedId);
+            return oldResponse;
+        }
         String selectedSceneId = interceptApiBean.getSelectedSceneId();
         //开关是否被打开
         if (!interceptApiBean.isOpen()) {
@@ -166,7 +176,10 @@ public class MockInterceptor implements Interceptor {
             newUrl = sb.append(NetworkManager.MOCK_SCHEME_HTTPS).append(NetworkManager.MOCK_HOST).append("/api/app/scene/").append(selectedSceneId).toString();
         }
 
+        LogHelper.i("MOCK_INTERCEPT", "path===>" + path + "  newUrl=====>" + newUrl);
+
         Request newRequest = oldRequest.newBuilder()
+                .method("GET", null)
                 .url(newUrl).build();
         Response newResponse = chain.proceed(newRequest);
         if (newResponse.code() == 200) {
@@ -194,20 +207,17 @@ public class MockInterceptor implements Interceptor {
         if (TextUtils.isEmpty(templateMatchedId)) {
             return;
         }
-        MockTemplateApiBean templateApiBean = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, templateMatchedId);
+        MockTemplateApiBean templateApiBean = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, templateMatchedId, DokitDbManager.FROM_SDK_OTHER);
+        if (templateApiBean == null) {
+            return;
+        }
+        LogHelper.i("MOCK_TEMPLATE", "path=====>" + path + "isOpen===>" + templateApiBean.isOpen());
         if (templateApiBean.isOpen()) {
             //保存老的response 数据到数据库
-            saveRespnse2DB(oldResponse, templateApiBean);
+            saveResponse2DB(oldResponse, templateApiBean);
         }
     }
 
-
-    private ResourceTypeHelper getResourceTypeHelper() {
-        if (mResourceTypeHelper == null) {
-            mResourceTypeHelper = new ResourceTypeHelper();
-        }
-        return mResourceTypeHelper;
-    }
 
     /**
      * 保存匹配中的数据到本地数据库
@@ -216,18 +226,18 @@ public class MockInterceptor implements Interceptor {
      * @param mockApi
      * @throws Exception
      */
-    private void saveRespnse2DB(Response response, MockTemplateApiBean mockApi) throws Exception {
+    private void saveResponse2DB(Response response, MockTemplateApiBean mockApi) throws Exception {
         if (response.code() != 200) {
             return;
         }
 
-        if (response.body() == null || response.body().contentLength() <= 0) {
+        if (response.body() == null) {
             return;
         }
 
 
         String host = response.request().url().host();
-        LogHelper.i(TAG, "host====>" + host);
+        //LogHelper.i(TAG, "host====>" + host);
         //这里不能直接使用response.body().string()的方式输出日志
         //因为response.body().string()之后，response中的流会被关闭，程序会报错，我们需要创建出一
         //个新的response给应用层处理
@@ -261,7 +271,7 @@ public class MockInterceptor implements Interceptor {
         if (response.body() == null) {
             return false;
         }
-        return response.body().contentLength() > 0;
+        return true;
     }
 
 

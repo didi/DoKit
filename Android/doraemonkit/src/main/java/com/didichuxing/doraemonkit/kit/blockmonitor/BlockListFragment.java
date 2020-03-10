@@ -9,7 +9,6 @@ import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
 import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockMonitorManager;
@@ -53,7 +52,8 @@ public class BlockListFragment extends BaseFragment implements OnBlockInfoUpdate
     private void initView() {
         mBlockList = findViewById(R.id.block_list);
         mLogDetail = findViewById(R.id.tx_block_detail);
-        mLogDetail.setMovementMethod(ScrollingMovementMethod.getInstance());
+        //和长按复制功能冲突
+        //mLogDetail.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mBlockList.setLayoutManager(layoutManager);

@@ -62,7 +62,7 @@ public class CustomVideoView extends VideoView implements View.OnTouchListener{
                 float detlaX = event.getX() - lastX;
                 float detlaY = event.getY() - lastY;
                 if (Math.abs(detlaX) < thresold && Math.abs(detlaY) > thresold) {
-                    if (event.getX() < UIUtils.getWidthPixels(getContext()) / 2) {
+                    if (event.getX() < UIUtils.getWidthPixels() / 2) {
                         mStateListener.changeBrightness(detlaY);
                     } else {
                         mStateListener.changeVolumn(detlaY);

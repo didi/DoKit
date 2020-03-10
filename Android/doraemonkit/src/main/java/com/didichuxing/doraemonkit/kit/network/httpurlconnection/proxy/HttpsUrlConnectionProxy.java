@@ -79,7 +79,6 @@ public class HttpsUrlConnectionProxy extends HttpsURLConnection {
 
     @Override
     public void disconnect() {
-        // TODO Auto-generated method stub
         if (DEBUG) {
             Log.d(TAG, "disconnect. ");
         }

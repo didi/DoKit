@@ -113,7 +113,7 @@ public class BlockMonitorManager {
             String activityName = ActivityUtils.getTopActivity().getClass().getCanonicalName();
             AppHealthInfo.DataBean.BlockBean blockBean = new AppHealthInfo.DataBean.BlockBean();
             blockBean.setPage(activityName);
-            blockBean.setBlockTime("" + TimeUtils.getNowMills());
+            blockBean.setBlockTime(blockInfo.timeCost);
             blockBean.setDetail(blockInfo.toString());
             AppHealthInfoUtil.getInstance().addBlockInfo(blockBean);
         } catch (Exception e) {

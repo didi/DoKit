@@ -38,4 +38,14 @@ public class SysInfoKit extends AbstractKit {
 
     }
 
+
+    @Override
+    public boolean isInnerKit() {
+        return true;
+    }
+
+    @Override
+    public String innerKitId() {
+        return "dokit_sdk_comm_ck_appinfo";
+    }
 }

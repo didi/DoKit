@@ -9,6 +9,7 @@ android {
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
+
         lintOptions {
             abortOnError false
         }
@@ -21,10 +22,12 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "DOKIT_VERSION", "\"" + rootProject.ext.android["didiArchivesVersionName"] + "\"")
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "DOKIT_VERSION", "\"" + rootProject.ext.android["didiArchivesVersionName"] + "\"")
         }
     }
 //    compileOptions {

@@ -4,21 +4,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerSettingFragment;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment;
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerSettingFragment;
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureMainFragment;
-import com.didichuxing.doraemonkit.kit.custom.MonitorDataUploadFragment;
 import com.didichuxing.doraemonkit.kit.dataclean.DataCleanFragment;
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment;
 import com.didichuxing.doraemonkit.kit.health.HealthFragment;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment;
-import com.didichuxing.doraemonkit.kit.logInfo.LogInfoSettingFragment;
+import com.didichuxing.doraemonkit.kit.loginfo.LogInfoSettingFragment;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostFragment;
 import com.didichuxing.doraemonkit.kit.network.ui.MockTemplatePreviewFragment;
 import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMockFragment;
@@ -66,6 +64,7 @@ public class UniversalActivity extends BaseActivity {
                 fragmentClass = LogInfoSettingFragment.class;
                 break;
             case FragmentIndex.FRAGMENT_COLOR_PICKER_SETTING:
+
                 fragmentClass = ColorPickerSettingFragment.class;
                 break;
             //远程数据库调试
@@ -117,10 +116,6 @@ public class UniversalActivity extends BaseActivity {
                 break;
             case FragmentIndex.FRAGMENT_WEB_DOOR_DEFAULT:
                 fragmentClass = WebDoorDefaultFragment.class;
-                break;
-            //性能监控===自定义
-            case FragmentIndex.FRAGMENT_CUSTOM:
-                fragmentClass = MonitorDataUploadFragment.class;
                 break;
             //性能监控===大图检测
             case FragmentIndex.FRAGMENT_LARGE_PICTURE:

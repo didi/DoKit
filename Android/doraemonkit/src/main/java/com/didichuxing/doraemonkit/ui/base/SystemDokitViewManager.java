@@ -5,13 +5,11 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
-import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.health.CountDownDokitView;
-import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
-import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.util.SystemUtil;
 
 import java.util.ArrayList;
@@ -83,7 +81,11 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void resumeAndAttachDokitViews(Activity activity) {
-        if (ActivityUtils.getTopActivity() instanceof UniversalActivity) {
+        if (activity instanceof UniversalActivity) {
+            AbsDokitView countDownDokitView = getDokitView(activity, CountDownDokitView.class.getSimpleName());
+            if (countDownDokitView != null) {
+                DokitViewManager.getInstance().detach(CountDownDokitView.class.getSimpleName());
+            }
             return;
         }
         //app启动
@@ -135,7 +137,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
         }
 
         //添加main icon
-        DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
+        DokitIntent intent = new DokitIntent(MainIconDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
         DokitViewManager.getInstance().attach(intent);
         DokitConstant.MAIN_ICON_HAS_SHOW = true;
@@ -147,10 +149,17 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
         //如果倒计时浮标没显示则重新添加
         AbsDokitView countDownDokitView = getDokitView(activity, CountDownDokitView.class.getSimpleName());
         if (countDownDokitView == null) {
+            if (activity instanceof UniversalActivity) {
+                return;
+            }
             attachCountDownDokitView(activity);
         } else {
-            //重置倒计时
-            ((CountDownDokitView) countDownDokitView).resetTime();
+            if (activity instanceof UniversalActivity) {
+                DokitViewManager.getInstance().detach(CountDownDokitView.class.getSimpleName());
+            } else {
+                //重置倒计时
+                ((CountDownDokitView) countDownDokitView).resetTime();
+            }
         }
     }
 
@@ -215,7 +224,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
                 }
             }
         } catch (Exception e) {
-            LogHelper.e(TAG, e.toString());
+            e.printStackTrace();
         }
     }
 

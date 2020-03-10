@@ -45,6 +45,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * 数据mock 相关设置 详情页
+ */
 public class NetWorkMockFragment extends BaseFragment {
     private String projectId = DokitConstant.PRODUCT_ID;
     private int pageSize = 100;
@@ -349,7 +352,7 @@ public class NetWorkMockFragment extends BaseFragment {
             }, mRvIntercept);
             mInterceptApiAdapter.disableLoadMoreIfNotFullPage();
         }
-        if (mockTitleBeans == null || mockTitleBeans.isEmpty()) {
+        if (mockTitleBeans.isEmpty()) {
             mInterceptApiAdapter.setEmptyView(R.layout.dk_rv_empty_layout, mRvIntercept);
             return;
         }
@@ -586,7 +589,8 @@ public class NetWorkMockFragment extends BaseFragment {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        LogHelper.e(TAG,"error====>" + response.body());
+                        LogHelper.e(TAG, "error====>" + response.getException().getMessage());
+                        ToastUtils.showShort(response.getException().getMessage());
                         if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
                             mInterceptRefreshLayout.refreshComplete();
                         } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
@@ -768,7 +772,7 @@ public class NetWorkMockFragment extends BaseFragment {
      * @return
      */
     private boolean hasInterceptApiInDb(String path, String id) {
-        MockInterceptApiBean mockInterceptApi = (MockInterceptApiBean) DokitDbManager.getInstance().getInterceptApiByIdInMap(path, id);
+        MockInterceptApiBean mockInterceptApi = (MockInterceptApiBean) DokitDbManager.getInstance().getInterceptApiByIdInMap(path, id, DokitDbManager.FROM_SDK_OTHER);
         return mockInterceptApi != null;
     }
 
@@ -780,7 +784,7 @@ public class NetWorkMockFragment extends BaseFragment {
      * @return
      */
     private boolean hasTemplateApiInDb(String path, String id) {
-        MockTemplateApiBean mockTemplateApi = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, id);
+        MockTemplateApiBean mockTemplateApi = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, id, DokitDbManager.FROM_SDK_OTHER);
         return mockTemplateApi != null;
     }
 
@@ -823,15 +827,20 @@ public class NetWorkMockFragment extends BaseFragment {
      */
     private void resetMenuStatus() {
         if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
-            mGroupMenuAdapter.setCheckItem(mInterceptFilterBean.getGroupIndex());
-            mSwitchMenuAdapter.setCheckItem(mInterceptFilterBean.getSwitchIndex());
-            mDropDownMenu.resetTabText(new String[]{mGroupMenuAdapter.getList().get(mInterceptFilterBean.getGroupIndex()), mSwitchMenuAdapter.getList().get(mInterceptFilterBean.getSwitchIndex())});
-            mEditText.setText("" + mInterceptFilterBean.getFilterText());
+            if (mInterceptFilterBean != null) {
+                mGroupMenuAdapter.setCheckItem(mInterceptFilterBean.getGroupIndex());
+                mSwitchMenuAdapter.setCheckItem(mInterceptFilterBean.getSwitchIndex());
+                mDropDownMenu.resetTabText(new String[]{mGroupMenuAdapter.getList().get(mInterceptFilterBean.getGroupIndex()), mSwitchMenuAdapter.getList().get(mInterceptFilterBean.getSwitchIndex())});
+                mEditText.setText("" + mInterceptFilterBean.getFilterText());
+            }
+
         } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
-            mGroupMenuAdapter.setCheckItem(mTemplateFilterBean.getGroupIndex());
-            mSwitchMenuAdapter.setCheckItem(mTemplateFilterBean.getSwitchIndex());
-            mDropDownMenu.resetTabText(new String[]{mGroupMenuAdapter.getList().get(mTemplateFilterBean.getGroupIndex()), mSwitchMenuAdapter.getList().get(mTemplateFilterBean.getSwitchIndex())});
-            mEditText.setText("" + mTemplateFilterBean.getFilterText());
+            if (mTemplateFilterBean != null) {
+                mGroupMenuAdapter.setCheckItem(mTemplateFilterBean.getGroupIndex());
+                mSwitchMenuAdapter.setCheckItem(mTemplateFilterBean.getSwitchIndex());
+                mDropDownMenu.resetTabText(new String[]{mGroupMenuAdapter.getList().get(mTemplateFilterBean.getGroupIndex()), mSwitchMenuAdapter.getList().get(mTemplateFilterBean.getSwitchIndex())});
+                mEditText.setText("" + mTemplateFilterBean.getFilterText());
+            }
         }
 
         mDropDownMenu.closeMenu();

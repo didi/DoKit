@@ -273,7 +273,6 @@ public final class HeapAnalyzer {
 
             retainedSize = leakingInstance.getTotalRetainedSize();
 
-            // TODO: check O sources and see what happened to android.graphics.Bitmap.mBuffer
             if (SDK_INT <= N_MR1) {
                 listener.onProgressUpdate(AnalyzerProgressListener.Step.COMPUTING_BITMAP_SIZE);
                 retainedSize += computeIgnoredBitmapRetainedSize(snapshot, leakingInstance);

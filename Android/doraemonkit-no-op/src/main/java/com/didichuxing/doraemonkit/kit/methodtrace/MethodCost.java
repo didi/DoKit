@@ -1,7 +1,5 @@
 package com.didichuxing.doraemonkit.kit.methodtrace;
 
-import android.app.Application;
-
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -18,6 +16,7 @@ import android.app.Application;
  */
 public class MethodCost {
 
+
     /**
      * @param traceFileName Path to the trace log file to create. If {@code null},
      *                      this will default to "dmtrace.trace". If the file already
@@ -31,7 +30,6 @@ public class MethodCost {
 
     }
 
-    public static Application APPLICATION;
 
 
     /**
@@ -41,7 +39,6 @@ public class MethodCost {
      *                      in ".trace", it will be appended for you.
      */
     public static void startMethodTracing(String traceFileName) {
-
     }
 
 
@@ -65,7 +62,6 @@ public class MethodCost {
      *                      in ".trace", it will be appended for you.
      */
     public static void startMethodTracingSampling(String traceFileName) {
-
     }
 
 
@@ -86,7 +82,6 @@ public class MethodCost {
      * @param traceFileName .trace 的文件名 不需要后缀
      */
     public static void stopMethodTracingAndPrintLog(String traceFileName) {
-        stopMethodTracingAndPrintLog(traceFileName, true, null);
     }
 
 
@@ -96,8 +91,7 @@ public class MethodCost {
      * @param traceFileName .trace 的文件名 不需要后缀
      */
     public static void stopMethodTracingAndPrintLog(String traceFileName, MethodCostCallback appStartCallback) {
-        stopMethodTracingAndPrintLog(traceFileName, true, appStartCallback);
-    }
 
+    }
 
 }

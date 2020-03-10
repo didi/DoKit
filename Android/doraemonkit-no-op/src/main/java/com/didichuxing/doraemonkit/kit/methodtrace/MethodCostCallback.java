@@ -16,10 +16,10 @@ public interface MethodCostCallback {
     /**
      * @param orderBeans
      */
-    void onCall(ArrayList<OrderBean> orderBeans);
+    void onCall(String filePath, ArrayList<OrderBean> orderBeans);
 
     /**
      * @param message
      */
-    void onError(String message);
+    void onError(String message, String filePath);
 }

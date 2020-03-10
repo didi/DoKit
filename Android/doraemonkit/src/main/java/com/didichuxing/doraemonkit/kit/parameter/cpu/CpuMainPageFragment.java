@@ -10,7 +10,6 @@ import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
 import com.didichuxing.doraemonkit.kit.common.PerformanceFragment;
-import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.parameter.AbsParameterFragment;
 import com.didichuxing.doraemonkit.ui.realtime.datasource.DataSourceFactory;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;

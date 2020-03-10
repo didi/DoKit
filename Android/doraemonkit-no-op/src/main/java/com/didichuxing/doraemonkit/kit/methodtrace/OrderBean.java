@@ -144,7 +144,6 @@ public class OrderBean implements Comparable<OrderBean> {
 
     @Override
     public int compareTo(OrderBean o) {
-        // TODO Auto-generated method stub
         //return 0;
         return (int) (order - o.order);
     }

@@ -130,8 +130,7 @@ public class ActivityCounter {
                 if (!ActivityUtils.getTopActivity().getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.ui.UniversalActivity")) {
                     AppHealthInfo.DataBean.PageLoadBean pageLoadBean = new AppHealthInfo.DataBean.PageLoadBean();
                     pageLoadBean.setPage(ActivityUtils.getTopActivity().getClass().getCanonicalName());
-                    pageLoadBean.setTime("" + TimeUtils.getNowMills());
-                    pageLoadBean.setCostTime("" + counterInfo.totalCost);
+                    pageLoadBean.setTime("" + counterInfo.totalCost);
                     pageLoadBean.setTrace(counterInfo.title);
                     AppHealthInfoUtil.getInstance().addPageLoadInfo(pageLoadBean);
                 }

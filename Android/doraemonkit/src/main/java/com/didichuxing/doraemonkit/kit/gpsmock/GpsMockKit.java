@@ -32,19 +32,21 @@ public class GpsMockKit extends AbstractKit {
     @Override
     public void onClick(Context context) {
         startUniversalActivity(context,FragmentIndex.FRAGMENT_GPS_MOCK);
-
     }
 
     @Override
     public void onAppInit(Context context) {
-        if (GpsMockConfig.isGPSMockOpen(context)) {
-            GpsMockManager.getInstance().startMock();
-            LatLng latLng = GpsMockConfig.getMockLocation(context);
-            if (latLng == null) {
-                return;
-            }
-            GpsMockManager.getInstance().mockLocation(latLng.latitude, latLng.longitude);
-        }
+
     }
 
+    @Override
+    public boolean isInnerKit() {
+        return true;
+    }
+
+
+    @Override
+    public String innerKitId() {
+        return "dokit_sdk_comm_ck_gps";
+    }
 }

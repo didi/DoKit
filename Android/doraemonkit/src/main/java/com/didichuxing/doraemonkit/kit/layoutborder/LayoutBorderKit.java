@@ -49,4 +49,15 @@ public class LayoutBorderKit extends AbstractKit {
         LayoutBorderConfig.setLayoutBorderOpen(false);
         LayoutBorderConfig.setLayoutLevelOpen(false);
     }
+
+    @Override
+    public boolean isInnerKit() {
+        return true;
+    }
+
+
+    @Override
+    public String innerKitId() {
+        return "dokit_sdk_ui_ck_border";
+    }
 }

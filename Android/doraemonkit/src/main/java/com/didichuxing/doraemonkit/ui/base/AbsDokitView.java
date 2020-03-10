@@ -25,7 +25,7 @@ import android.widget.FrameLayout;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.config.FloatIconConfig;
-import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
+import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.lang.ref.WeakReference;
@@ -145,7 +145,6 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
             mRootView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    //LogHelper.i(TAG, "====onTouch=====");
                     if (getRootView() != null) {
                         return mTouchProxy.onTouchEvent(v, event);
                     } else {
@@ -190,14 +189,13 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
                 onSystemLayoutParamsCreated(mWindowLayoutParams);
             }
         } catch (Exception e) {
-            LogHelper.e(TAG, "=e==>" + e.getMessage());
+            LogHelper.e(TAG, "e===>" + e.getMessage());
             e.printStackTrace();
         }
 
     }
 
     void performDestroy() {
-        LogHelper.i(TAG, mTag + " performDestroy()");
         if (!isNormalMode()) {
             getContext().unregisterReceiver(mInnerReceiver);
         }
@@ -378,7 +376,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
         }
 
 
-        if (mTag.equals(FloatIconDokitView.class.getSimpleName())) {
+        if (mTag.equals(MainIconDokitView.class.getSimpleName())) {
             if (isNormalMode()) {
                 FloatIconConfig.saveLastPosX(getContext(), mFrameLayoutParams.leftMargin);
                 FloatIconConfig.saveLastPosY(getContext(), mFrameLayoutParams.topMargin);
@@ -456,8 +454,14 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
 
     }
 
+
+    /**
+     * 不能在改方法中进行dokitview的添加和删除 因为处于遍历过程在
+     * 只有系统模式下才会调用
+     * @param dokitView
+     */
     @Override
-    public void onDokitViewAdd(AbsDokitView page) {
+    public void onDokitViewAdd(AbsDokitView dokitView) {
 
     }
 
@@ -565,7 +569,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
             return;
         }
         if (isActivityResume) {
-            if (tag.equals(FloatIconDokitView.class.getSimpleName())) {
+            if (tag.equals(MainIconDokitView.class.getSimpleName())) {
                 mFrameLayoutParams.leftMargin = FloatIconConfig.getLastPosX(getContext());
                 mFrameLayoutParams.topMargin = FloatIconConfig.getLastPosY(getContext());
             } else {
@@ -581,9 +585,9 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
             mLastDokitViewPosInfo.setLeftMargin(mFrameLayoutParams.leftMargin);
             mLastDokitViewPosInfo.setTopMargin(mFrameLayoutParams.topMargin);
         }
-        if (tag.equals(FloatIconDokitView.class.getSimpleName())) {
-            mFrameLayoutParams.width = FloatIconDokitView.FLOAT_SIZE;
-            mFrameLayoutParams.height = FloatIconDokitView.FLOAT_SIZE;
+        if (tag.equals(MainIconDokitView.class.getSimpleName())) {
+            mFrameLayoutParams.width = MainIconDokitView.FLOAT_SIZE;
+            mFrameLayoutParams.height = MainIconDokitView.FLOAT_SIZE;
         } else {
             mFrameLayoutParams.width = mDokitViewWidth;
             mFrameLayoutParams.height = mDokitViewHeight;
