@@ -48,7 +48,7 @@ PODS:
   - SDWebImage (5.0.6):
     - SDWebImage/Core (= 5.0.6)
   - SDWebImage/Core (5.0.6)
-  - YYDebugDatabase (2.0.7):
+  - YYDebugDatabase (2.0.8):
     - FMDB
     - GCDWebServer
 
@@ -61,6 +61,7 @@ DEPENDENCIES:
   - "FBRetainCycleDetector (from `git@github.com:facebook/FBRetainCycleDetector.git`)"
   - "fishhook (from `git@github.com:facebook/fishhook.git`)"
   - SDWebImage (= 5.0.6)
+  - YYDebugDatabase (from `https://github.com/y500/YYDebugDatabase.git`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -69,7 +70,6 @@ SPEC REPOS:
     - FMDB
     - GCDWebServer
     - SDWebImage
-    - YYDebugDatabase
 
 EXTERNAL SOURCES:
   DoraemonKit:
@@ -78,6 +78,8 @@ EXTERNAL SOURCES:
     :git: "git@github.com:facebook/FBRetainCycleDetector.git"
   fishhook:
     :git: "git@github.com:facebook/fishhook.git"
+  YYDebugDatabase:
+    :git: https://github.com/y500/YYDebugDatabase.git
 
 CHECKOUT OPTIONS:
   FBRetainCycleDetector:
@@ -86,6 +88,9 @@ CHECKOUT OPTIONS:
   fishhook:
     :commit: 66315a9c251edfe92f669ae2deeac0d75374c948
     :git: "git@github.com:facebook/fishhook.git"
+  YYDebugDatabase:
+    :commit: b68105eb0784aede05036616c0b94d26b8d97ad0
+    :git: https://github.com/y500/YYDebugDatabase.git
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
@@ -96,8 +101,8 @@ SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: c0ab22c73e1b84f358d1e2f74bf6afd1c60829f2
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
-  YYDebugDatabase: c8be8bd85222cc2ced76e93ca06618bab87224d7
+  YYDebugDatabase: 037486297a7dd40bc50e2c6df5de7b4ad24c9c17
 
-PODFILE CHECKSUM: 332fa75531721e86ff40fce343c54f259711b558
+PODFILE CHECKSUM: 78094ea54543589435b7dc25a759d14fc764d152
 
 COCOAPODS: 1.8.4
