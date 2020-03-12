@@ -38,8 +38,12 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
      */
     private int thresholdTime = 500;
 
+
     /**
-     * @param cv 传进来的是 ClassWriter
+     *
+     * @param cv cv 传进来的是 ClassWriter
+     * @param appExtension appExtension
+     * @param dokitExtension dokitExtension
      */
     public DokitSlowMethodClassAdapter(final ClassVisitor cv, AppExtension appExtension, DokitExtension dokitExtension) {
         super(Opcodes.ASM7, cv);
@@ -108,7 +112,6 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
 
 
     /**
-     * access值得计算方式为Opcodes.ACC_PUBLIC & Opcodes.ACC_STATIC
      * <p>
      * Visits a method of the class. This method <i>must</i> return a new {@link MethodVisitor}
      * instance (or {@literal null}) each time it is called, i.e., it should not return a previously

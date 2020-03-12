@@ -33,7 +33,10 @@ public final class DokitCommClassAdapter extends ClassVisitor {
     private DokitExtension dokitExtension;
 
     /**
-     * @param cv 传进来的是 ClassWriter
+     *
+     * @param cv cv
+     * @param appExtension appExtension
+     * @param dokitExtension dokitExtension
      */
     public DokitCommClassAdapter(final ClassVisitor cv, AppExtension appExtension, DokitExtension dokitExtension) {
         super(Opcodes.ASM7, cv);

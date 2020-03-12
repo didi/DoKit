@@ -16,10 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="89dp"
             android:layout_alignParentTop="true"
-            app:dkIcon="@drawable/dk_close_icon"
-            app:dkTitle="@string/dk_console_log_title"
             android:background="@color/foreground_wtf"
-            />
+            app:dkIcon="@drawable/dk_close_icon"
+            app:dkTitle="@string/dk_console_log_title" />
 
         <View
             android:id="@+id/view_divider"
@@ -97,6 +96,11 @@
                     android:id="@+id/btn_clean"
                     style="@style/DK.RadioButton.Left"
                     android:text="清空日志" />
+
+                <Button
+                    android:id="@+id/btn_export"
+                    style="@style/DK.RadioButton.middle"
+                    android:text="导出" />
 
                 <Button
                     android:id="@+id/btn_top"

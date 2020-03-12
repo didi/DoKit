@@ -27,10 +27,15 @@ public class PlatformHttpHook {
         if (IS_INSTALL) {
             return;
         }
-        OkHttpRpc.OkHttpRpcInterceptor rpcMockInterceptor = new OkHttpRpc.OkHttpRpcInterceptor((new RpcMockInterceptor()));
-        OkHttpRpc.OkHttpRpcInterceptor rpcMonitorInterceptor = new OkHttpRpc.OkHttpRpcInterceptor((new RpcMonitorInterceptor()));
-        globalInterceptors.add(rpcMockInterceptor);
-        globalInterceptors.add(rpcMonitorInterceptor);
-        IS_INSTALL = true;
+        try {
+            //可能存在用户没有引入滴滴内部网络库的情况
+            OkHttpRpc.OkHttpRpcInterceptor rpcMockInterceptor = new OkHttpRpc.OkHttpRpcInterceptor((new RpcMockInterceptor()));
+            OkHttpRpc.OkHttpRpcInterceptor rpcMonitorInterceptor = new OkHttpRpc.OkHttpRpcInterceptor((new RpcMonitorInterceptor()));
+            globalInterceptors.add(rpcMockInterceptor);
+            globalInterceptors.add(rpcMonitorInterceptor);
+            IS_INSTALL = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

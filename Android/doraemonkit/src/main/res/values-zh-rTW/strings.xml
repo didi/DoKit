@@ -238,6 +238,7 @@
 
     <string name="dk_hint">提示</string>
     <string name="dk_share">分享</string>
+    <string name="dk_save">保存</string>
     <string name="dk_platform_monitor_data_button">開始測試</string>
     <string name="dk_platform_monitor_data_button_stop">結束測試</string>
     <string name="dk_success">成功</string>

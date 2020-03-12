@@ -12,11 +12,11 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.loginfo.LogLine;
 import com.didichuxing.doraemonkit.kit.loginfo.util.SearchCriteria;
 import com.didichuxing.doraemonkit.kit.loginfo.util.TagColorUtil;
-import com.didichuxing.doraemonkit.ui.toast.AppToast;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
 
@@ -140,7 +140,7 @@ public class LogItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<LogLine>, L
                 public boolean onLongClick(View v) {
                     ClipData clipData = ClipData.newPlainText("Label", data.getOriginalLine());
                     mClipboard.setPrimaryClip(clipData);
-                    new AppToast(getContext()).show("copy success");
+                    ToastUtils.showShort("copy success");
                     return true;
                 }
             });
@@ -160,8 +160,6 @@ public class LogItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<LogLine>, L
 
             mTag.setText(item.getTag());
 
-            String text = item.getLogOutput();
-            mLogText.setText(text);
             if (item.isExpanded() && item.getProcessId() != -1) {
                 mLogText.setSingleLine(false);
                 mTime.setVisibility(View.VISIBLE);

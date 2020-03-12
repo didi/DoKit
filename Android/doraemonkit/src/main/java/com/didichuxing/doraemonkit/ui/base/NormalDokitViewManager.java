@@ -183,6 +183,9 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void onActivityResume(Activity activity) {
+        if (mActivityDokitViews == null) {
+            return;
+        }
         Map<String, AbsDokitView> existDokitViews = mActivityDokitViews.get(activity);
         //先清除页面上启动模式为DokitIntent.MODE_ONCE 的dokitView
         if (existDokitViews != null) {
@@ -312,7 +315,9 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             dokitView.performCreate(mContext);
             //在全局dokitviews中保存该类型的
             if (dokitIntent.mode == DokitIntent.MODE_SINGLE_INSTANCE) {
-                mGlobalSingleDokitViews.put(dokitView.getTag(), createGlobalSingleDokitViewInfo(dokitView));
+                if (mGlobalSingleDokitViews != null) {
+                    mGlobalSingleDokitViews.put(dokitView.getTag(), createGlobalSingleDokitViewInfo(dokitView));
+                }
             }
             //得到activity window中的根布局
             final FrameLayout mDecorView = (FrameLayout) dokitIntent.activity.getWindow().getDecorView();
@@ -458,7 +463,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
         }
         //同步移除全局指定类型的dokitView
-        if (mGlobalSingleDokitViews.containsKey(tag)) {
+        if (mGlobalSingleDokitViews != null && mGlobalSingleDokitViews.containsKey(tag)) {
             mGlobalSingleDokitViews.remove(tag);
         }
 
@@ -491,7 +496,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         //移除map中的数据
         dokitViews.remove(tag);
 
-        if (mGlobalSingleDokitViews.containsKey(tag)) {
+        if (mGlobalSingleDokitViews != null && mGlobalSingleDokitViews.containsKey(tag)) {
             mGlobalSingleDokitViews.remove(tag);
         }
     }
@@ -524,7 +529,10 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             //移除map中的数据
             dokitViews.clear();
         }
-        mGlobalSingleDokitViews.clear();
+        if (mGlobalSingleDokitViews != null) {
+
+            mGlobalSingleDokitViews.clear();
+        }
     }
 
     /**

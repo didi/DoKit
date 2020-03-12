@@ -21,7 +21,7 @@ public final class UrlConnectionMethodAdapter extends LocalVariablesSorter imple
      * @param owner       调用对象
      * @param name        函数名
      * @param desc        函数签名
-     * @param isInterface
+     * @param isInterface 是否是接口
      */
     @Override
     public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean isInterface) {
