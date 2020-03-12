@@ -26,9 +26,16 @@
     if (self) {
         _consoleQueue = dispatch_queue_create("console_queue", NULL);
         _messages = NSMutableArray.array;
-        [DDLog addLogger:self];
     }
     return self;
+}
+
+- (void)startMonitor{
+    [DDLog addLogger:self];
+}
+
+- (void)stopMonitor{
+    [DDLog removeLogger:self];
 }
 
 - (void)logMessage:(DDLogMessage *)logMessage{

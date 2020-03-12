@@ -161,7 +161,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 #if DoraemonWithLogger
     //开启CocoaLumberjack监控
     if ([[DoraemonCacheManager sharedInstance] loggerSwitch]) {
-        [DoraemonCocoaLumberjackLogger sharedInstance];
+        [[DoraemonCocoaLumberjackLogger sharedInstance] startMonitor];
     }
 #endif
     

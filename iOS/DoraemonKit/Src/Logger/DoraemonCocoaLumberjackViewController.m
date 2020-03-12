@@ -11,6 +11,7 @@
 #import "DoraemonDefine.h"
 #import "DoraemonCacheManager.h"
 #import "DoraemonCocoaLumberjackListViewController.h"
+#import "DoraemonCocoaLumberjackLogger.h"
 
 @interface DoraemonCocoaLumberjackViewController ()<DoraemonSwitchViewDelegate,DoraemonCellButtonDelegate>
 
@@ -46,13 +47,12 @@
 
 #pragma mark -- DoraemonSwitchViewDelegate
 - (void)changeSwitchOn:(BOOL)on sender:(id)sender{
-    __weak typeof(self) weakSelf = self;
-    [DoraemonAlertUtil handleAlertActionWithVC:self okBlock:^{
-        [[DoraemonCacheManager sharedInstance] saveLoggerSwitch:on];
-        exit(0);
-    } cancleBlock:^{
-        weakSelf.switchView.switchView.on = !on;
-    }];
+    [[DoraemonCacheManager sharedInstance] saveLoggerSwitch:on];
+    if (on) {
+        [[DoraemonCocoaLumberjackLogger sharedInstance] startMonitor];
+    }else{
+        [[DoraemonCocoaLumberjackLogger sharedInstance] stopMonitor];
+    }
 }
 
 #pragma mark -- DoraemonCellButtonDelegate
