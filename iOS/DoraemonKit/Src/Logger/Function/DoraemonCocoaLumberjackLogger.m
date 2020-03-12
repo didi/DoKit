@@ -8,7 +8,6 @@
 #import "DoraemonCocoaLumberjackLogger.h"
 #import <CocoaLumberjack/CocoaLumberjack.h>
 #import "DoraemonDDLogMessage.h"
-#import "DoraemonStatebar.h"
 
 @implementation DoraemonCocoaLumberjackLogger
 
@@ -46,13 +45,6 @@
     __weak typeof(self) weakSelf = self;
     dispatch_async(_consoleQueue, ^{
         [weakSelf.messages insertObject:message atIndex:0];
-        
-        if (@available(iOS 13.0, *)) {
-        }else{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [[DoraemonStateBar shareInstance] renderUIWithContent:[NSString stringWithFormat:@"[Lumberjack] : %@",logMessage.message] from:DoraemonStateBarFromCocoaLumberjack];
-            });
-        }
     });
 }
 
