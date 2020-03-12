@@ -69,7 +69,7 @@ Define a class implement the interface IKit，the interface describe a component
 An environment switch component can be defined as following.
 
 ```Java
-public class EnvSwitchKit implements AbstractKit {
+public class EnvSwitchKit extends AbstractKit {
     @Override
     public int getCategory() {
         return Category.BIZ;

@@ -134,7 +134,7 @@ Android Studio支持:
 以黑马乘客端为例，实现环境切换组件如下。
 
 ```Java
-public class EnvSwitchKit implements AbstractKit {
+public class EnvSwitchKit extends AbstractKit {
     @Override
     public int getCategory() {
         return Category.BIZ;
