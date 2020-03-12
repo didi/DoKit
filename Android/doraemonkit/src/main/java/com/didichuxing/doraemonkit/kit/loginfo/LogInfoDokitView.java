@@ -1,6 +1,10 @@
 package com.didichuxing.doraemonkit.kit.loginfo;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -13,17 +17,34 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.CollectionUtils;
+import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.PathUtils;
+import com.blankj.utilcode.util.ThreadUtils;
+import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
+import com.didichuxing.doraemonkit.ui.dialog.DialogProvider;
+import com.didichuxing.doraemonkit.ui.dialog.UniversalDialogFragment;
+import com.didichuxing.doraemonkit.ui.fileexplorer.FileExplorerChooseDialog;
 import com.didichuxing.doraemonkit.ui.loginfo.LogItemAdapter;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
+import com.didichuxing.doraemonkit.util.FileUtil;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -147,13 +168,14 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
         Button mBtnTop = findViewById(R.id.btn_top);
         Button mBtnBottom = findViewById(R.id.btn_bottom);
         Button mBtnClean = findViewById(R.id.btn_clean);
+        Button mBtnExport = findViewById(R.id.btn_export);
         mBtnTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mLogItemAdapter == null || mLogItemAdapter.getItemCount() == 0) {
                     return;
                 }
-                mLogRv.smoothScrollToPosition(0);
+                mLogRv.scrollToPosition(0);
             }
         });
         mBtnBottom.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +184,36 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
                 if (mLogItemAdapter == null || mLogItemAdapter.getItemCount() == 0) {
                     return;
                 }
-                mLogRv.smoothScrollToPosition(mLogItemAdapter.getItemCount() - 1);
+                mLogRv.scrollToPosition(mLogItemAdapter.getItemCount() - 1);
+            }
+        });
+
+        mBtnExport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mLogItemAdapter == null || mLogItemAdapter.getItemCount() == 0) {
+                    ToastUtils.showShort("暂无日志信息可以导出");
+                    return;
+                }
+
+                LogExportDialog logExportDialog = new LogExportDialog(new Object(), null);
+                logExportDialog.setOnButtonClickListener(new LogExportDialog.OnButtonClickListener() {
+                    @Override
+                    public void onSaveClick(LogExportDialog dialog) {
+                        export2File(100);
+                        dialog.dismiss();
+
+                    }
+
+                    @Override
+                    public void onShareClick(LogExportDialog dialog) {
+                        export2File(101);
+                        dialog.dismiss();
+
+                    }
+                });
+                showDialog(logExportDialog);
+
             }
         });
 
@@ -176,6 +227,73 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
                 mLogItemAdapter.clearLog();
             }
         });
+    }
+
+
+    private void showDialog(DialogProvider provider) {
+        if (getActivity() == null || !(getActivity() instanceof FragmentActivity)) {
+            return;
+        }
+        UniversalDialogFragment dialog = new UniversalDialogFragment();
+        provider.setHost(dialog);
+        dialog.setProvider(provider);
+        provider.show(((FragmentActivity) getActivity()).getSupportFragmentManager());
+    }
+
+    /**
+     * 将日志信息保存到文件
+     *
+     * @param operateType 100 保存到本地  101 保存到本地并分享
+     */
+    private void export2File(final int operateType) {
+        ToastUtils.showShort("日志保存中,请稍后...");
+        final String logPath = PathUtils.getInternalAppFilesPath() + File.separator + AppUtils.getAppName() + "_" + TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss")) + ".log";
+        final File logFile = new File(logPath);
+
+        ThreadUtils.executeByCpu(new ThreadUtils.Task<Boolean>() {
+            @Override
+            public Boolean doInBackground() throws Throwable {
+                try {
+                    List<LogLine> logLines = new ArrayList<>(mLogItemAdapter.getTrueValues());
+                    for (LogLine logLine : logLines) {
+                        String strLog = logLine.getProcessId() + "   " + "   " + logLine.getTimestamp() + "   " + logLine.getTag() + "   " + logLine.getLogLevelText() + "   " + logLine.getLogOutput() + "\n";
+                        FileIOUtils.writeFileFromString(logFile, strLog, true);
+                    }
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+
+            @Override
+            public void onSuccess(Boolean result) {
+                if (result) {
+                    ToastUtils.showShort("文件保存在:" + logPath);
+                    //分享
+                    if (operateType == 101) {
+                        FileUtil.systemShare(DoraemonKit.APPLICATION, logFile);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                if (logFile.exists()) {
+                    FileUtils.delete(logFile);
+                }
+                ToastUtils.showShort("日志保存失败");
+            }
+
+            @Override
+            public void onFail(Throwable t) {
+                if (logFile.exists()) {
+                    FileUtils.delete(logFile);
+                }
+                ToastUtils.showShort("日志保存失败");
+            }
+        });
+
     }
 
 

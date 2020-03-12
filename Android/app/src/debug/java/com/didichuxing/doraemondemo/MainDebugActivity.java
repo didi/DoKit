@@ -38,7 +38,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.didichuxing.doraemondemo.util.FrescoUtil;
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.aop.MethodCostUtil;
 import com.didichuxing.doraemonkit.kit.largepicture.glide.LargeBitmapGlideTransformation;
 import com.didichuxing.doraemonkit.kit.largepicture.picasso.LargeBitmapPicassoTransformation;
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCost;
@@ -311,9 +310,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.btn_jump:
-
                 startActivity(new Intent(this, SecondActivity.class));
-
                 break;
 
             case R.id.btn_jump_leak:
