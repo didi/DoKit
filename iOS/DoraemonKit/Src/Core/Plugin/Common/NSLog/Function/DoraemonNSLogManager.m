@@ -11,7 +11,6 @@
 #else
 #include "fishhook.h"
 #endif
-#import "DoraemonStateBar.h"
 
 //函数指针，用来保存原始的函数的地址
 static void(*old_nslog)(NSString *format, ...);
@@ -61,12 +60,13 @@ void myNSLog(NSString *format, ...){
     }
     [_dataArray addObject:model];
     
-    if (@available(iOS 13.0, *)) {
-    }else{
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[DoraemonStateBar shareInstance] renderUIWithContent:[NSString stringWithFormat:@"[NSLog] : %@",log] from:DoraemonStateBarFromNSLog];
-        });
-    }
+//    return;
+//    if (@available(iOS 13.0, *)) {
+//    }else{
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [[DoraemonStateBar shareInstance] renderUIWithContent:[NSString stringWithFormat:@"[NSLog] : %@",log] from:DoraemonStateBarFromNSLog];
+//        });
+//    }
 
 }
 

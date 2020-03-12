@@ -12,6 +12,7 @@
 #import "DoraemonNSLogModel.h"
 #import "DoraemonNSLogSearchView.h"
 #import "DoraemonDefine.h"
+#import "DoraemonNavBarItemModel.h"
 
 @interface DoraemonNSLogListViewController ()<UITableViewDelegate,UITableViewDataSource,DoraemonNSLogSearchViewDelegate>
 
@@ -26,7 +27,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = DoraemonLocalizedString(@"NSLog日志记录");
-    [self setRightNavTitle:@"清除"];
+    
+    DoraemonNavBarItemModel *model1 = [[DoraemonNavBarItemModel alloc] initWithText:@"清除" color:[UIColor doraemon_blue] selector:@selector(clear)];
+    DoraemonNavBarItemModel *model2 = [[DoraemonNavBarItemModel alloc] initWithText:@"导出" color:[UIColor doraemon_blue] selector:@selector(export)];
+    [self setRightNavBarItems:@[model1,model2]];
     
     //按照时间倒序排列
     self.dataArray = [[[DoraemonNSLogManager sharedInstance].dataArray reverseObjectEnumerator] allObjects];
@@ -44,10 +48,39 @@
     [self.view addSubview:self.tableView];
 }
 
-- (void)rightNavTitleClick:(id)clickView {
+- (void)clear {
     [[DoraemonNSLogManager sharedInstance].dataArray removeAllObjects];
     self.dataArray = [[NSArray alloc] init];
     [self.tableView reloadData];
+}
+
+- (void)export {
+    NSArray<DoraemonNSLogModel *> *dataArray = [[DoraemonNSLogManager sharedInstance].dataArray  copy];
+    NSMutableString *log = [[NSMutableString alloc] init];
+    for (DoraemonNSLogModel *model in dataArray) {
+        NSString *time = [NSString stringWithFormat:@"[%@]",[DoraemonUtil dateFormatTimeInterval:model.timeInterval]];
+        [log appendString:time];
+        [log appendString:@" "];
+        [log appendString:model.content];
+        [log appendString:@"\n"];
+    }
+    
+    NSString *cachesDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
+    NSString *anrDir = [cachesDir stringByAppendingPathComponent:@"DoraemonNSLog"];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isDir = NO;
+    BOOL existed = [fileManager fileExistsAtPath:anrDir isDirectory:&isDir];
+    if(!(isDir && existed)){
+        [fileManager createDirectoryAtPath:anrDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    NSString *path = [anrDir stringByAppendingPathComponent:@"log.txt"];
+    NSString *text = log;
+    BOOL writeSuccess = [text writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    if (writeSuccess) {
+        [DoraemonUtil shareFileWithPath:path formVC:self];
+    }
+    
+    
 }
 
 #pragma mark - UITableView Delegate
@@ -88,6 +121,23 @@
     DoraemonNSLogModel* model = [self.dataArray objectAtIndex:indexPath.row];
     model.expand = !model.expand;
     [self.tableView reloadData];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return YES;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return DoraemonLocalizedString(@"复制");
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    DoraemonNSLogModel* model = [self.dataArray objectAtIndex:indexPath.row];
+    NSString *content = model.content;
+    if (content.length>0) {
+        UIPasteboard *pboard = [UIPasteboard generalPasteboard];
+        pboard.string = content;
+    }
 }
 
 #pragma mark - DoraemonNSLogSearchViewDelegate

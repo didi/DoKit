@@ -16,7 +16,6 @@
 #import "DoraemonCrashUncaughtExceptionHandler.h"
 #import "DoraemonCrashSignalExceptionHandler.h"
 #import "DoraemonNSLogManager.h"
-#import "DoraemonStateBar.h"
 #import "DoraemonNSLogViewController.h"
 #import "DoraemonNSLogListViewController.h"
 #import "DoraemonHomeWindow.h"
@@ -157,12 +156,6 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     //开启NSLog监控功能
     if ([[DoraemonCacheManager sharedInstance] nsLogSwitch]) {
         [[DoraemonNSLogManager sharedInstance] startNSLogMonitor];
-        if (@available(iOS 13.0, *)) {
-        }else{
-           dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1. * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-               [[DoraemonStateBar shareInstance] show];
-           });
-        }
     }
     
 #if DoraemonWithLogger
@@ -183,9 +176,6 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
             self.anrBlock(anrInfo);
         }
     }];
-    
-    //监听DoraemonStateBar点击事件
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(quickOpenLogVC:) name:DoraemonQuickOpenLogVCNotification object:nil];
     
     //外部设置大图检测的数值
     if (_bigImageDetectionSize > 0){
@@ -416,24 +406,6 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 
 - (void)addPerformanceBlock:(void(^)(NSDictionary *performanceDic))block{
     self.performanceBlock = block;
-}
-
-- (void)quickOpenLogVC:(NSNotification *)noti{
-    NSDictionary *userInfo = noti.userInfo;
-    NSInteger from = [userInfo[@"from"] integerValue];
-    if (from == DoraemonStateBarFromNSLog) {//快速打开NSLog list页面
-        DoraemonNSLogViewController *vc = [[DoraemonNSLogViewController alloc] init];
-        [DoraemonHomeWindow openPlugin:vc];
-        DoraemonNSLogListViewController *vcList = [[DoraemonNSLogListViewController alloc] init];
-        [vc.navigationController pushViewController:vcList animated:NO];
-    }else{//快速打开CocoaLumberjack list页面
-#if DoraemonWithLogger
-        DoraemonCocoaLumberjackViewController *vc = [[DoraemonCocoaLumberjackViewController alloc] init];
-        [DoraemonHomeWindow openPlugin:vc];
-        DoraemonCocoaLumberjackListViewController *vcList = [[DoraemonCocoaLumberjackListViewController alloc] init];
-        [vc.navigationController pushViewController:vcList animated:NO];
-#endif
-    }
 }
 
 - (void)hiddenHomeWindow{

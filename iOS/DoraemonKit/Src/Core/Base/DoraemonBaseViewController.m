@@ -12,7 +12,6 @@
 #import "DoraemonHomeWindow.h"
 #import "UIView+Doraemon.h"
 #import "DoraemonDefine.h"
-#import "DoraemonStateBar.h"
 
 @interface DoraemonBaseViewController ()<DoraemonBaseBigTitleViewDelegate>
  
@@ -39,11 +38,7 @@
 #endif
      
     if ([self needBigTitleView]) {
-        if ([DoraemonStateBar shareInstance].hidden) {
-            _bigTitleView = [[DoraemonBaseBigTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(178))];
-        }else{
-            _bigTitleView = [[DoraemonBaseBigTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(178)+IPHONE_STATUSBAR_HEIGHT)];
-        }
+        _bigTitleView = [[DoraemonBaseBigTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(178))];
         _bigTitleView.delegate = self;
         [self.view addSubview:_bigTitleView];
     } else {
@@ -121,6 +116,13 @@
     NSArray *barItems = [self navigationItems:items];
     if (barItems) {
         self.navigationItem.leftBarButtonItems = barItems;
+    }
+}
+
+- (void)setRightNavBarItems:(NSArray *)items{
+    NSArray *barItems = [self navigationItems:items];
+    if (barItems) {
+        self.navigationItem.rightBarButtonItems = barItems;
     }
 }
 
