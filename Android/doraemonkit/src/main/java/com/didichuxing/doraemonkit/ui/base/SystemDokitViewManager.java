@@ -43,6 +43,9 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public Map<String, AbsDokitView> getDokitViews(Activity activity) {
+        if (mDokitViews == null) {
+            return new HashMap<>();
+        }
         Map<String, AbsDokitView> dokitViewMaps = new HashMap<>();
         for (AbsDokitView dokitView : mDokitViews) {
             dokitViewMaps.put(dokitView.getTag(), dokitView);
@@ -56,6 +59,9 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void notifyBackground() {
+        if (mDokitViews == null) {
+            return;
+        }
         for (AbsDokitView dokitView : mDokitViews) {
             dokitView.onEnterBackground();
         }
@@ -66,6 +72,9 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void notifyForeground() {
+        if (mDokitViews == null) {
+            return;
+        }
         for (AbsDokitView page : mDokitViews) {
             page.onEnterForeground();
         }
@@ -193,6 +202,9 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
     @Override
     public void attach(DokitIntent pageIntent) {
         try {
+            if (mDokitViews == null) {
+                return;
+            }
             if (pageIntent.targetClass == null) {
                 return;
             }
@@ -230,7 +242,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
 
     @Override
     public void detach(String tag) {
-        if (TextUtils.isEmpty(tag) || mWindowManager == null) {
+        if (TextUtils.isEmpty(tag) || mWindowManager == null || mDokitViews == null) {
             return;
         }
 
@@ -275,6 +287,9 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
 
     @Override
     public void detachAll() {
+        if (mDokitViews == null) {
+            return;
+        }
         for (Iterator<AbsDokitView> it = mDokitViews.iterator(); it.hasNext(); ) {
             AbsDokitView dokitView = it.next();
             mWindowManager.removeView(dokitView.getRootView());
@@ -285,6 +300,9 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
 
     @Override
     public AbsDokitView getDokitView(Activity activity, String tag) {
+        if (mDokitViews == null) {
+            return null;
+        }
         if (TextUtils.isEmpty(tag)) {
             return null;
         }
