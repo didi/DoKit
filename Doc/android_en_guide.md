@@ -5,8 +5,8 @@
 ```
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.0_beta2'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.0_beta2'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.0_beta3'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.0_beta3'
     …
 }
 ```
@@ -45,7 +45,7 @@ Add a dependency in `build.gradle` in root of host project as following.
 buildscript {
     dependencies {
         …
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.0_beta2'
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.0_beta3'
         …
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

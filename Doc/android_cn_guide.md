@@ -5,8 +5,8 @@
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.0_beta2'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.0_beta2'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.0_beta3'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.0_beta3'
     …
 }
 ```
@@ -14,7 +14,7 @@ dependencies {
  假如你无法通过 jcenter 下载到依赖库并报了以下的错误 
 
 ```
-ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.0_beta2
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.0_beta3
 ```
 
 建议你可以尝试挂载VPN或通过命令行重试(以Mac系统为例 项目根目录下)
@@ -38,8 +38,8 @@ DoraemonKit目前已支持Weex工具，包括
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.0_beta2'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:3.0_beta2'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.0_beta3'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:3.0_beta3'
     …
 }
 ```
@@ -49,7 +49,7 @@ dependencies {
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.0_beta2'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.0_beta3'
     …
 }
 ```
@@ -91,7 +91,7 @@ AOP包括以下几个功能:
 buildscript {
     dependencies {
         …
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.0_beta2'
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.0_beta3'
         …
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
