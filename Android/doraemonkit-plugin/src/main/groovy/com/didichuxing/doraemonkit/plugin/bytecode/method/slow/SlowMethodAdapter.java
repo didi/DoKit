@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.plugin.bytecode.method.slow_method;
+package com.didichuxing.doraemonkit.plugin.bytecode.method.slow;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;

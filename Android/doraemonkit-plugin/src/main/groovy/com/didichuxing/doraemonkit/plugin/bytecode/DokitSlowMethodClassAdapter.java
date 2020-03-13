@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.plugin.bytecode;
 import com.android.build.gradle.AppExtension;
 import com.didichuxing.doraemonkit.plugin.DokitExtension;
 import com.didichuxing.doraemonkit.plugin.StringUtils;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.slow_method.SlowMethodAdapter;
+import com.didichuxing.doraemonkit.plugin.bytecode.method.slow.SlowMethodAdapter;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
