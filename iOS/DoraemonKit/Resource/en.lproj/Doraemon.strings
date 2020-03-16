@@ -222,6 +222,28 @@
     "启动耗时"                               = "Start time";
     "启动耗时统计"                            = "Start time statistics";
     
+    //yd checked
+    "block方式加入插件"                       = "Add plugins from block";
+    "接口分组"                               = "Interface group";
+    "开关状态"                               = "Switch state";
+    "打开"                                  = "open";
+    "关闭"                                  = "close";
+    "应用设置"                               = "Application Settings";
+    "手机屏幕"                               = "Mobile phone screen";
+    "清除搜索历史"                            = "Clear search history";
+    "模拟器不支持扫码功能"                      = "The simulator does not support scanning";
+    "导出"                                  = "export";
+    "清除"                                  = "remove";
+    "模拟弱网"                               = "Weak Network";
+    "模拟弱网测试"                            = "Weak Network Test";
+    "弱网模式"                               = "Weak network mode";
+    "断网"                                  = "Broken net";
+    "超时"                                  = "timeout";
+    "限速"                                  = "speed limit";
+    "超时时间"                               = "timeout";
+    "请求限速"                               = "Request limit";
+    "响应限速"                               = "Response limit";
+    
     //DoraemonKitDemo
     "测试工具集"                                      = "Test tools";
     "视觉测试Demo"                                 = "UI test Demo";
