@@ -150,6 +150,7 @@ static void doraemon_vc_profiler_viewDidDisappear(UIViewController *kvo_self, SE
 - (instancetype)doraemon_initWithCoder:(NSCoder *)coder{
     [self createAndHookKVOClass]; 
     //VCLog(@"vc(initWithCoder) == %@",[self class]);
+    [self doraemon_initWithCoder:coder];
     return self;
 }
 
