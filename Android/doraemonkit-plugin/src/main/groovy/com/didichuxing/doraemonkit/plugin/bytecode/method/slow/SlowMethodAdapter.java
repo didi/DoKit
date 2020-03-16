@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.plugin.bytecode.method.slow_method;
+package com.didichuxing.doraemonkit.plugin.bytecode.method.slow;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -53,7 +53,7 @@ public final class SlowMethodAdapter extends AdviceAdapter {
             mv.visitLdcInsn(this.className + "&" + this.getName());
             mv.visitMethodInsn(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeMethodCostStart", "(Ljava/lang/String;)V", false);
         } catch (Exception e) {
-            System.out.println("e===>" + e.getMessage());
+            e.printStackTrace();
         }
 
     }
@@ -77,7 +77,7 @@ public final class SlowMethodAdapter extends AdviceAdapter {
                 mv.visitMethodInsn(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeObjectMethodCostEnd", "(ILjava/lang/String;Ljava/lang/Object;)V", false);
             }
         } catch (Exception e) {
-            System.out.println("e===>" + e.getMessage());
+            e.printStackTrace();
         }
     }
 

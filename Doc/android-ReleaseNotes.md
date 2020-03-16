@@ -1,5 +1,15 @@
 DoraemonKit-Android releases
 ===
+
+## 3.0_beta3
+1.优化dokit插件
+
+
+## 3.0_beta2
+1.新增日志一键导出功能
+
+2.bug fix
+
 ## 3.0_beta1
 1.新增2个平台端功能 接口mock和健康体检
 

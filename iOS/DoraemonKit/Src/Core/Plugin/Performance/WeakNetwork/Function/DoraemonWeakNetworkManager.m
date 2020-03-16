@@ -8,6 +8,7 @@
 #import "DoraemonWeakNetworkManager.h"
 #import "DoraemonNetworkInterceptor.h"
 #import "DoraemonWeakNetworkHandle.h"
+#import <UIKit/UIKit.h>
 
 @interface DoraemonWeakNetworkManager()<DoraemonNetworkInterceptorDelegate,DoraemonNetworkWeakDelegate>
 

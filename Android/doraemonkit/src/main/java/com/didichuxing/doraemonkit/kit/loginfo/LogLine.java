@@ -51,7 +51,8 @@ public class LogLine {
                 && originalLine.length() >= TIMESTAMP_LENGTH) {
             String timestamp = originalLine.substring(0, TIMESTAMP_LENGTH - 1);
             logLine.setTimestamp(timestamp);
-            startIdx = TIMESTAMP_LENGTH; // cut off timestamp
+            // cut off timestamp
+            startIdx = TIMESTAMP_LENGTH;
         }
 
         Matcher matcher = logPattern.matcher(originalLine);

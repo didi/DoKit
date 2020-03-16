@@ -2,7 +2,8 @@ package com.didichuxing.doraemonkit.plugin.bytecode;
 
 import com.android.build.gradle.AppExtension;
 import com.didichuxing.doraemonkit.plugin.DokitExtension;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.slow_method.SlowMethodAdapter;
+import com.didichuxing.doraemonkit.plugin.StringUtils;
+import com.didichuxing.doraemonkit.plugin.bytecode.method.slow.SlowMethodAdapter;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -40,9 +41,8 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
 
 
     /**
-     *
-     * @param cv cv 传进来的是 ClassWriter
-     * @param appExtension appExtension
+     * @param cv             cv 传进来的是 ClassWriter
+     * @param appExtension   appExtension
      * @param dokitExtension dokitExtension
      */
     public DokitSlowMethodClassAdapter(final ClassVisitor cv, AppExtension appExtension, DokitExtension dokitExtension) {
@@ -89,11 +89,22 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
                 showMethodSwitch = dokitExtension.slowMethodSwitch;
                 packageNames = dokitExtension.packageNames;
                 thresholdTime = dokitExtension.thresholdTime;
+                if (packageNames.isEmpty() && !StringUtils.isEmpty(applicationId)) {
+                    packageNames.add(applicationId);
+                }
             } else {
-                packageNames.add(applicationId);
+                if (!StringUtils.isEmpty(applicationId)) {
+                    packageNames.add(applicationId);
+                }
             }
 
+
             if (showMethodSwitch) {
+                //是否命中忽略的包名
+                if (ignorePackageNames(className)) {
+                    matchedMethod = false;
+                    return;
+                }
                 for (String packageName : packageNames) {
                     packageName = packageName.replaceAll("\\.", "/");
                     if (className.contains(packageName)) {
@@ -104,10 +115,28 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
             }
 
         } catch (Exception e) {
-            System.out.println("e====>" + e.getMessage());
+            e.printStackTrace();
         }
 
+    }
 
+    private String[] packageNames = new String[]{
+            "com/didichuxing/doraemonkit/aop",
+            "com/didichuxing/doraemonkit/kit/methodtrace",
+            "com/didichuxing/doraemonkit/kit/network",
+            "com/didichuxing/doraemonkit/kit/timecounter",
+            "com/didichuxing/doraemonkit/okgo"
+    };
+
+    private boolean ignorePackageNames(String className) {
+        boolean isMatched = false;
+        for (String packageName : packageNames) {
+            if (className.contains(packageName)) {
+                isMatched = true;
+                break;
+            }
+        }
+        return isMatched;
     }
 
 
@@ -139,7 +168,7 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
             }
 
         } catch (Exception e) {
-            System.out.println("DokitSlowMethodClassAdapter===>" + e.getMessage());
+            e.printStackTrace();
         }
 
         return mv;

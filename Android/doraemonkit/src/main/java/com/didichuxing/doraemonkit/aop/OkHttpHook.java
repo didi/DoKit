@@ -45,10 +45,16 @@ public class OkHttpHook {
         if (IS_INSTALL) {
             return;
         }
-        globalInterceptors.add(new MockInterceptor());
-        globalInterceptors.add(new LargePictureInterceptor());
-        globalInterceptors.add(new DoraemonInterceptor());
-        globalNetworkInterceptors.add(new DoraemonWeakNetworkInterceptor());
-        IS_INSTALL = true;
+        try {
+            //可能存在用户没有引入okhttp的情况
+            globalInterceptors.add(new MockInterceptor());
+            globalInterceptors.add(new LargePictureInterceptor());
+            globalInterceptors.add(new DoraemonInterceptor());
+            globalNetworkInterceptors.add(new DoraemonWeakNetworkInterceptor());
+            IS_INSTALL = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

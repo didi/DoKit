@@ -8,10 +8,15 @@
 #import "UIView+Doraemon.h"
 #import "NSObject+Doraemon.h"
 #import "DoraemonCacheManager.h"
-#import <BSBacktraceLogger/BSBacktraceLogger.h>
 #import "DoraemonSubThreadUICheckManager.h"
 #import "DoraemonUtil.h"
 #import "DoraemonHealthManager.h"
+
+#if __has_include(<BSBacktraceLogger/BSBacktraceLogger.h>)
+#include <BSBacktraceLogger/BSBacktraceLogger.h>
+#else
+#include "BSBacktraceLogger.h"
+#endif
 
 @implementation UIView (DoraemonSubThreadUICheck)
 

@@ -10,7 +10,6 @@
     //DoraemonKit
     "常用工具"                                      = "Common tools";
     "业务工具"                                      = "Test tools";
-    "自定义"                                        = "Custom";
     "性能检测"                                      = "Performance";
     "视觉工具"                                      = "UI tools";
     "平台工具"                                      = "Platform tool";
@@ -98,12 +97,30 @@
     "推送权限"                                =   "Push Privacy";
     "关闭DoraemonKit"                                = "Close DoraemonKit";
     "当前版本"                                 = "Current Version";
-    "自定义检测"                                = "Custom Monitor";
     "查看统计数据"                              = "View Statistics";
     "上行流量"                                 = "Upstream";
     "下行流量"                                 = "Downstream";
     "平均值"                                   ="Average";
     "实时数据"                                 ="Realtime Data";
+    
+    
+    "上传模版"                                 = "Upload template";
+    "接口分组"                                 = "Interface Grouping";
+    "开关状态"                                 = "Opening State";
+    "Mock数据"                                = "Mock Data";
+    
+    "健康体检"                                 = "Health Checkup";
+    "向下滑动查看功能使用说明"                    = "swipe down to see how to use the feature";
+    "回到顶部"                                 = "back to the top";
+    "正在检测中..."                            = "Detecting ...";
+    "提交成功\n恭喜已完成检测！"                  = "Submitted successfully \n Congratulations!";
+    "第%d步"                                  = "Step %d";
+    "是否确认"                                 = "Whether to confirm";
+    "提交"                                    = "Submit";
+    "结束前请完善下列信息"                        = "Please complete the following";
+    "测试用例名称"                              = "Test case name";
+    "测试人名称"                               = "Test person name";
+
     
 
     "该功能需要重启App才能生效"        =   "Reboot to work";
@@ -257,6 +274,7 @@
     "服务已关闭"                                   = "server is off";
     "UI层级检查"                                  = "UI Hierarchy";
     "UI层级检查开关"                              = "UI Hierarchy switch";
+    "UI结构"                                 = "Hierarchy";
     "函数耗时"                                   = "Time Profiler";
     "内存泄漏"                                   = "Memory Leak";
     "内存泄漏检测开关"                            = "Memory Leak Switch";

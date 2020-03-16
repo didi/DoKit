@@ -40,7 +40,7 @@ public class DokitSlowMethodTransform extends HunterTransform {
             this.dokitExtension = (DokitExtension) project.getExtensions().getByName(extensionName);
             this.bytecodeWeaver.setExtension(dokitExtension);
         } catch (Exception e) {
-            System.out.println("DokitSlowMethodTransform==>" + e.getMessage());
+            e.printStackTrace();
         }
     }
 
