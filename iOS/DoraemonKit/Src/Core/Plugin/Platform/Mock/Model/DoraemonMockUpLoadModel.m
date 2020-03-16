@@ -6,6 +6,7 @@
 //
 
 #import "DoraemonMockUpLoadModel.h"
+#import "DoraemonDefine.h"
 
 @implementation DoraemonMockUpLoadModel
 
@@ -18,18 +19,18 @@
         [info appendFormat:@"query: %@\n",self.query];
     }
     if (self.category) {
-        [info appendFormat:@"分组: %@\n",self.category];
+        [self appendFormat:info text:@"分组: %@\n" append:self.category];
     }
     if (self.owner) {
-        [info appendFormat:@"创建人: %@\n",self.owner];
+        [self appendFormat:info text:@"创建人: %@\n" append:self.owner];
     }
     if (self.editor) {
-        [info appendFormat:@"修改人: %@\n",self.editor];
+        [self appendFormat:info text:@"修改人: %@\n" append:self.editor];
     }
     if (self.result && self.result.length>0) {
-        [info appendString:@"本地是否存在mock数据: 存在"];
+        [self appendFormat:info text:@"本地是否存在mock数据: %@" append:DoraemonLocalizedString(@"存在")];
     }else{
-        [info appendString:@"本地是否存在mock数据:  不存在"];
+        [self appendFormat:info text:@"本地是否存在mock数据: %@" append:DoraemonLocalizedString(@"不存在")];
     }
     
     return info;

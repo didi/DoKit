@@ -315,7 +315,7 @@
             [self showToast:@"上传失败" atView:view];
         }];
     }else{
-        DoKitLog(@"上传模板接口必须要传pid");
+        DoKitLog(@"上传模版接口必须要传pid");
     }
 }
 

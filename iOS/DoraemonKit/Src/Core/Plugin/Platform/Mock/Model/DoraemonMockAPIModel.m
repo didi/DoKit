@@ -12,19 +12,19 @@
 - (NSString *)info{
     NSMutableString *info = [[NSMutableString alloc] init];
     if (self.path) {
-        [info appendFormat:@"path: %@\n",self.path];
+        [self appendFormat:info text:@"path: %@\n" append:self.path];
     }
     if (self.query && self.query.allKeys.count>0) {
         [info appendFormat:@"query: %@\n",self.query];
     }
     if (self.category) {
-        [info appendFormat:@"分组: %@\n",self.category];
+        [self appendFormat:info text:@"分组: %@\n" append:self.category];
     }
     if (self.owner) {
-        [info appendFormat:@"创建人: %@\n",self.owner];
+        [self appendFormat:info text:@"创建人: %@\n" append:self.owner];
     }
     if (self.editor) {
-        [info appendFormat:@"修改人: %@\n",self.editor];
+        [self appendFormat:info text:@"修改人: %@\n" append:self.editor];
     }
     
     [info replaceCharactersInRange:NSMakeRange([info length] - 1, 1) withString:@""];

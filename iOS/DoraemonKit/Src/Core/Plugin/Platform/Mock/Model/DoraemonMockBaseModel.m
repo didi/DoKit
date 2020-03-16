@@ -6,11 +6,12 @@
 //
 
 #import "DoraemonMockBaseModel.h"
+#import "DoraemonDefine.h"
 
 @implementation DoraemonMockBaseModel
 
-- (NSString *)getInfo{
-    return nil;
+-  (void)appendFormat:(NSMutableString *)info text:(NSString *)text append:(NSString *)appendInfo{
+    [info appendFormat:DoraemonLocalizedString(text),appendInfo];
 }
 
 @end

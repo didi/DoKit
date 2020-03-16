@@ -28,13 +28,13 @@
         [self.contentView addSubview:_containerView];
         
         _previewBtn = [[UIButton alloc] init];
-        [_previewBtn setTitle:@"数据预览" forState:UIControlStateNormal];
+        [_previewBtn setTitle:DoraemonLocalizedString(@"数据预览") forState:UIControlStateNormal];
         [_previewBtn setTitleColor:[UIColor doraemon_blue] forState:UIControlStateNormal];
         [_previewBtn addTarget:self action:@selector(preview) forControlEvents:UIControlEventTouchUpInside];
         [_containerView addSubview:_previewBtn];
         
         _uploadBtn = [[UIButton alloc] init];
-        [_uploadBtn setTitle:@"上传" forState:UIControlStateNormal];
+        [_uploadBtn setTitle:DoraemonLocalizedString(@"上传") forState:UIControlStateNormal];
         [_uploadBtn setTitleColor:[UIColor doraemon_blue] forState:UIControlStateNormal];
         [_uploadBtn addTarget:self action:@selector(upload) forControlEvents:UIControlEventTouchUpInside];
         [_containerView addSubview:_uploadBtn];

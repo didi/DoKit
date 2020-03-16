@@ -39,7 +39,7 @@
 
 - (void)renderUIWithTitle:(NSString *)title{
 
-    _titleLabel.text = title;
+    _titleLabel.text = DoraemonLocalizedString(title);
     [_titleLabel sizeToFit];
     _titleLabel.frame = CGRectMake(self.doraemon_width/2-_titleLabel.doraemon_width/3*2, self.doraemon_height/2-_titleLabel.doraemon_height/2, _titleLabel.doraemon_width, _titleLabel.doraemon_height);
     _arrow.image = [UIImage doraemon_imageNamed:@"doraemon_mock_filter_down"];

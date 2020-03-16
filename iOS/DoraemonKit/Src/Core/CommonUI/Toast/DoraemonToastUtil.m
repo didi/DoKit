@@ -51,7 +51,7 @@
     paragraphStyle.alignment = NSTextAlignmentCenter;
     NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
     [attributes setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
-    label.attributedText = [[NSAttributedString alloc] initWithString:text attributes:attributes];
+    label.attributedText = [[NSAttributedString alloc] initWithString:DoraemonLocalizedString(text) attributes:attributes];
     label.numberOfLines = 0;
     [label sizeToFit];
 #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
