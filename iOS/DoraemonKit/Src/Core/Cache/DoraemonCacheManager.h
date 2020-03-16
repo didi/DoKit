@@ -72,6 +72,10 @@
 
 - (BOOL)anrTrackSwitch;
 
+- (void)saveShouldAutorotate:(BOOL)on;
+
+- (BOOL)shouldAutorotate;
+
 /// 历史记录
 - (NSArray<NSString *> *)h5historicalRecord;
 - (void)saveH5historicalRecordWithText:(NSString *)text;
