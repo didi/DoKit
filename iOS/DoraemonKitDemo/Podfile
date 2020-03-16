@@ -14,9 +14,10 @@ end
 #install! 'cocoapods', generate_multiple_pod_projects: true
 
 target :'DoraemonKitDemo' do
+  pod 'WeexSDK', :git => 'git@github.com:apache/incubator-weex.git', :tag => '0.26.0'
   #pod 'DoraemonKit', :subspecs => ['Core','WithLogger','WithGPS','WithLoad','WithWeex', 'WithDatabase', 'WithMLeaksFinder'],  :path => '../../'
   #pod 'DoraemonKit', :subspecs => ['Core'],  :path => '../../'
-  pod 'DoraemonKit', :subspecs => ['Core','WithGPS','WithGPS', 'WithMLeaksFinder', 'WithDatabase'], :path => '../../'
+  pod 'DoraemonKit', :subspecs => ['Core','WithLogger','WithGPS','WithMLeaksFinder','WithDatabase','WithWeex'], :path => '../../'
   pod 'AFNetworking','2.6.3'
   pod 'SDWebImage', '5.0.6'
   pod 'FBRetainCycleDetector', :git => 'git@github.com:facebook/FBRetainCycleDetector.git', :configurations => ['Debug']

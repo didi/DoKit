@@ -21,6 +21,9 @@ PODS:
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - BSBacktraceLogger (0.0.1)
+  - CocoaLumberjack (3.6.1):
+    - CocoaLumberjack/Core (= 3.6.1)
+  - CocoaLumberjack/Core (3.6.1)
   - DoraemonKit/Core (2.0.0):
     - BSBacktraceLogger
     - fishhook
@@ -31,6 +34,11 @@ PODS:
     - YYDebugDatabase
   - DoraemonKit/WithGPS (2.0.0):
     - BSBacktraceLogger
+    - DoraemonKit/Core
+    - fishhook
+  - DoraemonKit/WithLogger (2.0.0):
+    - BSBacktraceLogger
+    - CocoaLumberjack
     - DoraemonKit/Core
     - fishhook
   - DoraemonKit/WithMLeaksFinder (2.0.0):
@@ -57,6 +65,7 @@ DEPENDENCIES:
   - DoraemonKit/Core (from `../../`)
   - DoraemonKit/WithDatabase (from `../../`)
   - DoraemonKit/WithGPS (from `../../`)
+  - DoraemonKit/WithLogger (from `../../`)
   - DoraemonKit/WithMLeaksFinder (from `../../`)
   - "FBRetainCycleDetector (from `git@github.com:facebook/FBRetainCycleDetector.git`)"
   - "fishhook (from `git@github.com:facebook/fishhook.git`)"
@@ -67,6 +76,7 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AFNetworking
     - BSBacktraceLogger
+    - CocoaLumberjack
     - FMDB
     - GCDWebServer
     - SDWebImage
@@ -95,6 +105,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   BSBacktraceLogger: 06b983ee93a9f87d957960e9c73d660d5966b447
+  CocoaLumberjack: b17ae15142558d08bbacf69775fa10c4abbebcc9
   DoraemonKit: a636f4aca0689106b1719bd0a44249074ef942ba
   FBRetainCycleDetector: 46daef95c2dfa9be34b53087edf6a8f34e4c749c
   fishhook: ea19933abfe8f2f52c55fd8b6e2718467d3ebc89
@@ -103,6 +114,6 @@ SPEC CHECKSUMS:
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
   YYDebugDatabase: 037486297a7dd40bc50e2c6df5de7b4ad24c9c17
 
-PODFILE CHECKSUM: 78094ea54543589435b7dc25a759d14fc764d152
+PODFILE CHECKSUM: 00c8016f2053a1a6ccbeae22fb7b872272942fa2
 
 COCOAPODS: 1.8.4
