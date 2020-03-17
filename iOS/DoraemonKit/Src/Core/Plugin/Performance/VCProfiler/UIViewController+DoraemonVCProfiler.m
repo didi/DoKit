@@ -9,6 +9,7 @@
 #import "NSObject+Doraemon.h"
 #import <objc/runtime.h>
 #import "DoraemonHealthManager.h"
+#import "DoraemonCacheManager.h"
 
 //#define Doraemon_VC_Profiler_LOG_ENABLE 
 
@@ -30,6 +31,7 @@ static void doraemon_vc_profiler_viewDidLoad(UIViewController *kvo_self, SEL _se
     assert(origin_imp != NULL);
 
     [[DoraemonHealthManager sharedInstance] startEnterPage:origin_cls];
+    [[DoraemonCacheManager sharedInstance] saveShouldAutorotate:kvo_self.shouldAutorotate];
     
     void (*func)(UIViewController *, SEL) = (void (*)(UIViewController *, SEL))origin_imp;
 
@@ -67,6 +69,7 @@ static void doraemon_vc_profiler_viewDidAppear(UIViewController *kvo_self, SEL _
     func(kvo_self, _sel, animated);
     //VCLog(@"VC: %p -viewDidAppear \tfinish at CF time:\t%lf", kvo_self, CFAbsoluteTimeGetCurrent());
     [[DoraemonHealthManager sharedInstance] enterPage:origin_cls];
+    [[DoraemonCacheManager sharedInstance] saveShouldAutorotate:kvo_self.shouldAutorotate];
 }
 
 static void doraemon_vc_profiler_viewWillDisAppear(UIViewController *kvo_self, SEL _sel, BOOL animated) {
@@ -138,6 +141,10 @@ static void doraemon_vc_profiler_viewDidDisappear(UIViewController *kvo_self, SE
 + (void)load {
     [self doraemon_swizzleInstanceMethodWithOriginSel:@selector(initWithNibName:bundle:) swizzledSel:@selector(doraemon_initWithNibName:bundle:)];
     [self doraemon_swizzleInstanceMethodWithOriginSel:@selector(initWithCoder:) swizzledSel:@selector(doraemon_initWithCoder:)];
+    [self doraemon_swizzleInstanceMethodWithOriginSel:@selector(shouldAutorotate) swizzledSel:@selector(doraemon_shouldAutorotate)];
+}
+- (BOOL)doraemon_shouldAutorotate{
+    return [[DoraemonCacheManager sharedInstance] shouldAutorotate];
 }
 
 - (instancetype)doraemon_initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
@@ -150,6 +157,7 @@ static void doraemon_vc_profiler_viewDidDisappear(UIViewController *kvo_self, SE
 - (instancetype)doraemon_initWithCoder:(NSCoder *)coder{
     [self createAndHookKVOClass]; 
     //VCLog(@"vc(initWithCoder) == %@",[self class]);
+    [self doraemon_initWithCoder:coder];
     return self;
 }
 

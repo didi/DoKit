@@ -28,7 +28,7 @@
     
     UIButton *upLoadBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, _textView.doraemon_bottom, self.view.doraemon_width, upLoadBtnHeight)];
     upLoadBtn.backgroundColor = [UIColor doraemon_blue];
-    [upLoadBtn setTitle:@"上传模板" forState:UIControlStateNormal];
+    [upLoadBtn setTitle:DoraemonLocalizedString(@"上传模版") forState:UIControlStateNormal];
     [upLoadBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [upLoadBtn addTarget:self action:@selector(upload) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:upLoadBtn];

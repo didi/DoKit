@@ -24,19 +24,6 @@ PODS:
   - DoraemonKit/Core (2.0.0):
     - BSBacktraceLogger
     - fishhook
-  - DoraemonKit/WithDatabase (2.0.0):
-    - BSBacktraceLogger
-    - DoraemonKit/Core
-    - fishhook
-    - YYDebugDatabase
-  - DoraemonKit/WithGPS (2.0.0):
-    - BSBacktraceLogger
-    - DoraemonKit/Core
-    - fishhook
-  - DoraemonKit/WithMLeaksFinder (2.0.0):
-    - BSBacktraceLogger
-    - DoraemonKit/Core
-    - fishhook
   - FBRetainCycleDetector (0.1.4)
   - fishhook (0.2)
   - FMDB (2.7.5):
@@ -55,9 +42,6 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (= 2.6.3)
   - DoraemonKit/Core (from `../../`)
-  - DoraemonKit/WithDatabase (from `../../`)
-  - DoraemonKit/WithGPS (from `../../`)
-  - DoraemonKit/WithMLeaksFinder (from `../../`)
   - "FBRetainCycleDetector (from `git@github.com:facebook/FBRetainCycleDetector.git`)"
   - "fishhook (from `git@github.com:facebook/fishhook.git`)"
   - SDWebImage (= 5.0.6)
@@ -103,6 +87,6 @@ SPEC CHECKSUMS:
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
   YYDebugDatabase: 037486297a7dd40bc50e2c6df5de7b4ad24c9c17
 
-PODFILE CHECKSUM: 78094ea54543589435b7dc25a759d14fc764d152
+PODFILE CHECKSUM: 1114504be13e60f045bafd25c8090308589e3ffd
 
 COCOAPODS: 1.8.4

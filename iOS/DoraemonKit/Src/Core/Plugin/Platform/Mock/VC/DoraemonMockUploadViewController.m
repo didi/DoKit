@@ -21,7 +21,7 @@
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    self.title = DoraemonLocalizedString(@"上传模板");
+    self.title = DoraemonLocalizedString(@"上传模版");
     
     self.searchView.textField.text = [DoraemonMockManager sharedInstance].uploadSearchText;
     

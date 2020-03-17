@@ -4,7 +4,7 @@
 //
 //  Created by yixiang on 2018/6/14.
 //
-
+#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 
 typedef void (^DoraemonANRManagerBlock)(NSDictionary *anrInfo);
