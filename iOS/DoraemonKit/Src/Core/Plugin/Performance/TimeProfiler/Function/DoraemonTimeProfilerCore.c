@@ -13,12 +13,7 @@
 #include <sys/time.h>
 #include <objc/runtime.h>
 #include <dispatch/dispatch.h>
-
-#if __has_include(<fishhook/fishhook.h>)
-#include <fishhook/fishhook.h>
-#else
-#include "fishhook.h"
-#endif
+#include "doraemon_fishhook.h"
 
 static bool _call_record_enabled = true;
 static uint64_t _min_time_cost = 1000; //us
@@ -223,12 +218,12 @@ void dtp_hook_begin(void) {
 //        rebind_symbols((struct rebinding[1]){"objc_msgSend", (void *)hook_objc_msgSend, (void **)&orig_objc_msgSend},1);
 //    });
     pthread_key_create(&_thread_key, &release_thread_call_stack);
-    rebind_symbols((struct rebinding[1]){"objc_msgSend", (void *)hook_objc_msgSend, (void **)&orig_objc_msgSend},1);
+    doraemon_rebind_symbols((struct doraemon_rebinding[1]){"objc_msgSend", (void *)hook_objc_msgSend, (void **)&orig_objc_msgSend},1);
 }
 
 void dtp_hook_end(void) {
     _call_record_enabled = false;
-    rebind_symbols((struct rebinding[1]){"objc_msgSend", (void *)orig_objc_msgSend, NULL},1);
+    doraemon_rebind_symbols((struct doraemon_rebinding[1]){"objc_msgSend", (void *)orig_objc_msgSend, NULL},1);
 }
 
 void dtp_set_min_time(uint64_t us) {

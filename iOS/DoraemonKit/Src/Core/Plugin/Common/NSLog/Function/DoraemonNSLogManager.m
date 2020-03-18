@@ -6,11 +6,7 @@
 //
 
 #import "DoraemonNSLogManager.h"
-#if __has_include(<fishhook/fishhook.h>)
-#include <fishhook/fishhook.h>
-#else
-#include "fishhook.h"
-#endif
+#import "doraemon_fishhook.h"
 
 //函数指针，用来保存原始的函数的地址
 static void(*old_nslog)(NSString *format, ...);
@@ -43,11 +39,11 @@ void myNSLog(NSString *format, ...){
 }
 
 - (void)startNSLogMonitor{
-    rebind_symbols((struct rebinding[1]){"NSLog", (void *)myNSLog, (void **)&old_nslog},1);
+    doraemon_rebind_symbols((struct doraemon_rebinding[1]){"NSLog", (void *)myNSLog, (void **)&old_nslog},1);
 }
 
 - (void)stopNSLogMonitor{
-    rebind_symbols((struct rebinding[1]){"NSLog", (void *)old_nslog, NULL},1);
+    doraemon_rebind_symbols((struct doraemon_rebinding[1]){"NSLog", (void *)old_nslog, NULL},1);
 }
 
 - (void)addNSLog:(NSString *)log{
