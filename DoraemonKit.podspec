@@ -83,8 +83,7 @@ Pod::Spec.new do |s|
     ss.dependency 'DoraemonKit/Core'
     #ss.dependency 'FBRetainCycleDetector'
   end
-
-  s.dependency 'BSBacktraceLogger'
+  
   s.dependency 'fishhook'
 
 end

@@ -8,12 +8,7 @@
 #import "DoraemonPingThread.h"
 #import <UIKit/UIKit.h>
 #import "DoraemonUtil.h"
-
-#if __has_include(<BSBacktraceLogger/BSBacktraceLogger.h>)
-#include <BSBacktraceLogger/BSBacktraceLogger.h>
-#else
-#include "BSBacktraceLogger.h"
-#endif
+#import "DoraemonBacktraceLogger.h"
 
 @interface DoraemonPingThread()
 
@@ -104,7 +99,7 @@
             });
             [NSThread sleepForTimeInterval:self.threshold];
             if (self.isMainThreadBlock) {
-                self.reportInfo = [BSBacktraceLogger bs_backtraceOfMainThread];
+                self.reportInfo = [DoraemonBacktraceLogger doraemon_backtraceOfMainThread];
             }
             dispatch_semaphore_wait(self.semaphore, dispatch_time(DISPATCH_TIME_NOW, 5.0 * NSEC_PER_SEC));
             {

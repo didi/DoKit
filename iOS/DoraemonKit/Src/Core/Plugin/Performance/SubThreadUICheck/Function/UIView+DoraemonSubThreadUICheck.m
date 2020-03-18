@@ -11,12 +11,7 @@
 #import "DoraemonSubThreadUICheckManager.h"
 #import "DoraemonUtil.h"
 #import "DoraemonHealthManager.h"
-
-#if __has_include(<BSBacktraceLogger/BSBacktraceLogger.h>)
-#include <BSBacktraceLogger/BSBacktraceLogger.h>
-#else
-#include "BSBacktraceLogger.h"
-#endif
+#import "DoraemonBacktraceLogger.h"
 
 @implementation UIView (DoraemonSubThreadUICheck)
 
@@ -46,7 +41,7 @@
 - (void)uiCheck{
     if(![NSThread isMainThread]){
         if ([[DoraemonCacheManager sharedInstance] subThreadUICheckSwitch]) {
-            NSString *report = [BSBacktraceLogger bs_backtraceOfCurrentThread];
+            NSString *report = [DoraemonBacktraceLogger doraemon_backtraceOfCurrentThread];
             NSDictionary *dic = @{
                                   @"title":[DoraemonUtil dateFormatNow],
                                   @"content":report
