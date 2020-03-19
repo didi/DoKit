@@ -20,7 +20,7 @@ import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
  * 作    者：jint（金台）
  * 版    本：1.0
  * 创建日期：2020/3/18-15:10
- * 描    述：
+ * 描    述：弱网提示悬浮窗
  * 修订历史：
  * ================================================
  */
@@ -66,8 +66,8 @@ public class NetWokDokitView extends AbsDokitView {
         params.width = DokitViewLayoutParams.WRAP_CONTENT;
         params.height = DokitViewLayoutParams.WRAP_CONTENT;
         params.gravity = Gravity.TOP | Gravity.LEFT;
-        params.x = 200;
-        params.y = 200;
+        params.x = 100;
+        params.y = 100;
     }
 
     @Override
