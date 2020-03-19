@@ -61,13 +61,13 @@ android {
 }
 
 //dokit 扩展
-dokitExt {
-    dokitPluginSwitch = true
-    slowMethodSwitch = true
-    //单位为us 1000us =1ms
-    thresholdTime = 200
-    packageNames = ["com.didichuxing.doraemondemo","com.didichuxing.doraemonkit"]
-}
+//dokitExt {
+//    dokitPluginSwitch = true
+//    slowMethodSwitch = true
+//    //单位为us 1000us =1ms
+//    thresholdTime = 200
+//    packageNames = ["com.didichuxing.doraemondemo","com.didichuxing.doraemonkit"]
+//}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -94,5 +94,6 @@ dependencies {
     implementation rootProject.ext.dependencies["tencent_location"]
     //百度地图定位
     implementation files('libs/BaiduLBS_Android.jar')
+//    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.12'
 
 }

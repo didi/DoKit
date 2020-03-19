@@ -370,10 +370,14 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                 OkGo.<String>get("https://www.v2ex.com/api/topics/hot.json")
                         .execute(new StringCallback() {
 
-
                             @Override
                             public void onSuccess(Response<String> response) {
-                                Log.i(TAG, "okhttp====response===>" + response.body());
+                                Log.i(TAG, "okhttp====onSuccess===>" + response.body());
+                            }
+
+                            @Override
+                            public void onError(Response<String> response) {
+                                Log.i(TAG, "okhttp====onError===>" + response.message());
                             }
                         });
                 break;

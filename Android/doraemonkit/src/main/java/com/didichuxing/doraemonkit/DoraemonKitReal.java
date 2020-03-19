@@ -209,15 +209,10 @@ class DoraemonKitReal {
             //动态添加leakcanary
             AbstractKit leakCanaryKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.kit.leakcanary.LeakCanaryKit").newInstance();
             performance.add(leakCanaryKit);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            //e.printStackTrace();
         }
 
-        //performance.add(new CustomKit());
 
         //添加视觉ui kit
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

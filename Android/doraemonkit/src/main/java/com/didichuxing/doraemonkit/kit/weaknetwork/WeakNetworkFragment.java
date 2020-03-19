@@ -14,14 +14,18 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
+import com.didichuxing.doraemonkit.ui.base.DokitIntent;
+import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+import com.google.common.base.Optional;
 
 /**
  * 模拟弱网
- *
+ * <p>
  * Created by xiandanin on 2019/5/7 19:10
  */
 public class WeakNetworkFragment extends BaseFragment implements TextWatcher {
@@ -31,6 +35,7 @@ public class WeakNetworkFragment extends BaseFragment implements TextWatcher {
     private View mTimeoutOptionView;
     private View mSpeedLimitView;
     private EditText mTimeoutValueView, mRequestSpeedView, mResponseSpeedView;
+    private AbsDokitView mNetWorkDokitView;
 
     @Override
     protected int onRequestLayout() {
@@ -69,6 +74,7 @@ public class WeakNetworkFragment extends BaseFragment implements TextWatcher {
         optionGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
+
                 if (R.id.timeout == checkedId) {
                     //超时
                     showTimeoutOptionView();
@@ -79,6 +85,15 @@ public class WeakNetworkFragment extends BaseFragment implements TextWatcher {
                     //断网
                     showOffNetworkOptionView();
                 }
+
+                if (mNetWorkDokitView == null) {
+                    mNetWorkDokitView = DokitViewManager.getInstance().getDokitView(getActivity(), NetWokDokitView.class.getSimpleName());
+                }
+                if (mNetWorkDokitView != null) {
+                    //重新调用刷新
+                    mNetWorkDokitView.onResume();
+                }
+
             }
         });
         mTimeoutOptionView = findViewById(R.id.layout_timeout_option);
@@ -123,6 +138,13 @@ public class WeakNetworkFragment extends BaseFragment implements TextWatcher {
     private void setWeakNetworkEnabled(boolean enabled) {
         WeakNetworkManager.get().setActive(enabled);
         updateUIState();
+        if (enabled) {
+            DokitIntent dokitIntent = new DokitIntent(NetWokDokitView.class);
+            dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+            DokitViewManager.getInstance().attach(dokitIntent);
+        } else {
+            DokitViewManager.getInstance().detach(NetWokDokitView.class);
+        }
     }
 
     private void showTimeoutOptionView() {

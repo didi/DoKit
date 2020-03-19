@@ -88,12 +88,12 @@ public class HttpLoggingInterceptor implements Interceptor {
 
         //执行请求，计算请求时间
         long startNs = System.nanoTime();
-        Response response;
+        Response response = null;
         try {
             response = chain.proceed(request);
         } catch (Exception e) {
             log("<-- HTTP FAILED: " + e);
-            throw e;
+            //throw e;
         }
         long tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs);
 
@@ -149,13 +149,13 @@ public class HttpLoggingInterceptor implements Interceptor {
     }
 
     private Response logForResponse(Response response, long tookMs) {
-        Response.Builder builder = response.newBuilder();
-        Response clone = builder.build();
-        ResponseBody responseBody = clone.body();
-        boolean logBody = (printLevel == Level.BODY);
-        boolean logHeaders = (printLevel == Level.BODY || printLevel == Level.HEADERS);
-
         try {
+            Response.Builder builder = response.newBuilder();
+            Response clone = builder.build();
+            ResponseBody responseBody = clone.body();
+            boolean logBody = (printLevel == Level.BODY);
+            boolean logHeaders = (printLevel == Level.BODY || printLevel == Level.HEADERS);
+
             log("<-- " + clone.code() + ' ' + clone.message() + ' ' + clone.request().url() + " (" + tookMs + "ms）");
             if (logHeaders) {
                 Headers headers = clone.headers();
@@ -179,7 +179,8 @@ public class HttpLoggingInterceptor implements Interceptor {
                 }
             }
         } catch (Exception e) {
-            OkLogger.printStackTrace(e);
+            //OkLogger.printStackTrace(e);
+            //log("<-- END HTTP");
         } finally {
             log("<-- END HTTP");
         }

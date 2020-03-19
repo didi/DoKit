@@ -60,8 +60,8 @@ public class DataPickManager {
             }
             //两个埋点之间的时间大于等于60s上传数据
             if (events.size() >= 2) {
-                long lastTime = events.get(events.size() - 1).getTime();
-                long lastSecondTime = events.get(events.size() - 2).getTime();
+                long lastTime = Long.parseLong(events.get(events.size() - 1).getTime());
+                long lastSecondTime = Long.parseLong(events.get(events.size() - 2).getTime());
                 if (lastTime - lastSecondTime >= 60 * 1000) {
                     postData();
                 }

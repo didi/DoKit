@@ -27,17 +27,17 @@ public class DoraemonWeakNetworkInterceptor implements Interceptor {
             return chain.proceed(request);
         }
         final int type = WeakNetworkManager.get().getType();
+        final HttpUrl url = chain.request().url();
         switch (type) {
             case WeakNetworkManager.TYPE_TIMEOUT:
                 //超时
-                final HttpUrl url = chain.request().url();
-                throw WeakNetworkManager.get().simulateTimeOut(url.host(), url.port());
+                return WeakNetworkManager.get().simulateTimeOut(chain);
             case WeakNetworkManager.TYPE_SPEED_LIMIT:
                 //限速
                 return WeakNetworkManager.get().simulateSpeedLimit(chain);
             default:
                 //断网
-                throw WeakNetworkManager.get().simulateOffNetwork(chain.request().url().host());
+                return WeakNetworkManager.get().simulateOffNetwork(chain);
         }
     }
 }

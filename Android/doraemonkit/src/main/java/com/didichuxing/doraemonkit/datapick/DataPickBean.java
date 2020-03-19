@@ -26,7 +26,7 @@ public class DataPickBean {
     /**
      * 埋点上传时间
      */
-    private long time;
+    private String time;
     private String phoneMode;
     /**
      * 系统版本
@@ -48,7 +48,7 @@ public class DataPickBean {
         this.dokitVersion = BuildConfig.DOKIT_VERSION;
         this.platform = "Android";
         this.phoneMode = DeviceUtils.getModel();
-        this.time = TimeUtils.getNowMills();
+        this.time = "" + TimeUtils.getNowMills();
         this.systemVersion = DeviceUtils.getSDKVersionName();
     }
 
@@ -65,15 +65,15 @@ public class DataPickBean {
         /**
          * 埋点记录时间
          */
-        private long time;
+        private String time;
 
-        EventBean( String eventName) {
+        EventBean(String eventName) {
             this.eventName = eventName;
-            this.time = TimeUtils.getNowMills();
+            this.time = "" + TimeUtils.getNowMills();
         }
 
 
-        long getTime() {
+        String getTime() {
             return time;
         }
 

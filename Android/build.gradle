@@ -27,6 +27,9 @@ allprojects {
         google()
         jcenter()
         maven {
+            url "http://maven.aliyun.com/nexus/content/repositories/releases"
+        }
+        maven {
             //本地插件地址
             url uri(rootProject.ext.config["localRepoURL"])
         }

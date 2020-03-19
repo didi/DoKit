@@ -48,7 +48,7 @@ public class TimeCounterManager {
     public void onAppCreateStart(Application application) {
         mAppCounter.start();
         MethodCost.APPLICATION = application;
-        Log.i(TAG, "=========onAppCreateStart=========");
+        //Log.i(TAG, "=========onAppCreateStart=========");
         MethodCost.startMethodTracing("appStart");
     }
 
@@ -59,7 +59,7 @@ public class TimeCounterManager {
      */
     public void onAppCreateEnd(Application application) {
         mAppCounter.end();
-        Log.i(TAG, "=========onAppCreateEnd=========");
+        //Log.i(TAG, "=========onAppCreateEnd=========");
         MethodCost.stopMethodTracingAndPrintLog("appStart", new MethodCostCallback() {
             @Override
             public void onCall(String filePath, ArrayList<OrderBean> orderBeans) {
