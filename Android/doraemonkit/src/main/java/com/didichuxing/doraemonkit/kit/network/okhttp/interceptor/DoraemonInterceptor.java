@@ -1,6 +1,8 @@
 package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor;
 
 
+import android.text.TextUtils;
+
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
@@ -107,6 +109,9 @@ public class DoraemonInterceptor implements Interceptor {
         }
 
         for (WhiteHostBean whiteHostBean : whiteHostBeans) {
+            if (TextUtils.isEmpty(whiteHostBean.getHost())) {
+                continue;
+            }
             String realHost = request.url().host();
             //正则判断
             if (whiteHostBean.getHost().equalsIgnoreCase(realHost)) {

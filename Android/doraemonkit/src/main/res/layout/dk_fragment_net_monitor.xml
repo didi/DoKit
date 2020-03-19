@@ -42,7 +42,7 @@
         android:layout_marginLeft="6dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="6dp"
-        android:text="白名单(默认全部拦截,如填写则只会拦截白名单中的网络请求,比如:m.baidu.com)"
+        android:text="白名单(默认全部拦截,如有添加白名单则只会拦截白名单中的网络请求,同时白名单规则在关闭当前页面时生效。白名单host示例:m.baidu.com)"
         android:textSize="16sp" />
 
     <android.support.v7.widget.RecyclerView
