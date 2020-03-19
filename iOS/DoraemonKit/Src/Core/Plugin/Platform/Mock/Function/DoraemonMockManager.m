@@ -178,7 +178,9 @@
     NSString *query = request.URL.query;
     DoraemonMockBaseModel *selectedApi;
     for (DoraemonMockBaseModel *api in dataArray) {
+        //匹配path
         if (([path hasSuffix:api.path]) && api.selected) {
+            //匹配query
             if (api.query && api.query.allKeys.count>0) {
                 NSDictionary *q = api.query;
                 BOOL match = YES;
@@ -198,6 +200,9 @@
                 selectedApi = api;
                 break;
             }
+            
+            //匹配body
+            //todo
         }
     }
     return selectedApi;
