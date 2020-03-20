@@ -53,7 +53,7 @@
     [attributes setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
     label.attributedText = [[NSAttributedString alloc] initWithString:DoraemonLocalizedString(text) attributes:attributes];
     label.numberOfLines = 0;
-    [label sizeToFit];
+    CGSize size = [label sizeThatFits:CGSizeMake(superView.doraemon_width-50, CGFLOAT_MAX)];
 #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     if (@available(iOS 13.0, *)) {
         label.backgroundColor = [UIColor labelColor];
@@ -64,7 +64,7 @@
     }
 #endif
     CGFloat padding = kDoraemonSizeFrom750_Landscape(37);
-    label.frame = CGRectMake(superView.doraemon_width/2-label.doraemon_width/2 - padding, superView.doraemon_height/2-label.doraemon_height/2 - padding, label.doraemon_width + padding*2, label.doraemon_height + padding*2);
+    label.frame = CGRectMake(superView.doraemon_width/2-size.width/2 - padding, superView.doraemon_height/2-size.height/2 - padding, size.width + padding*2, size.height + padding*2);
     label.layer.cornerRadius = kDoraemonSizeFrom750_Landscape(8);
     [label.layer setMasksToBounds:YES];
     label.textColor = [UIColor whiteColor];

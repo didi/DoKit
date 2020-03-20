@@ -13,6 +13,7 @@
 #import "DoraemonManager.h"
 #import "DoraemonMockUtil.h"
 #import "DoraemonDefine.h"
+#import "UIViewController+Doraemon.h"
 
 @interface DoraemonMockManager()<DoraemonNetworkInterceptorDelegate>
 
@@ -342,6 +343,9 @@
         DoraemonMockUpLoadModel *upload = (DoraemonMockUpLoadModel *)[self getSelectedData:request dataArray:_upLoadArray];
         upload.result = result;
         [[DoraemonMockUtil sharedInstance] saveUploadArrayCache];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [DoraemonToastUtil showToastBlack:[NSString stringWithFormat:@"save url = %@",request.URL.absoluteURL] inView:[UIViewController rootViewControllerForKeyWindow].view];
+        });
     }
 }
 

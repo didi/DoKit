@@ -13,6 +13,7 @@
 #import "DoraemonNetworkInterceptor.h"
 #import "DoraemonMockManager.h"
 #import "DoraemonDefine.h"
+#import "UIViewController+Doraemon.h"
 
 static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 
@@ -80,6 +81,9 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
         NSString *urlString = [NSString stringWithFormat:@"https://mock.dokit.cn/api/app/scene/%@",sceneId];
         DoKitLog(@"MOCK URL == %@",urlString);
         mutableReqeust = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [DoraemonToastUtil showToastBlack:[NSString stringWithFormat:@"mock url = %@",request.URL.absoluteURL] inView:[UIViewController rootViewControllerForKeyWindow].view];
+        });
     }
     return [mutableReqeust copy];
 }
