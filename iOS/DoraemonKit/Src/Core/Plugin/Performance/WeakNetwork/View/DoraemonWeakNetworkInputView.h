@@ -9,11 +9,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^DoraemonNetWeakInputBlock)(void);
+
 @interface DoraemonWeakNetworkInputView : UIView
 
 - (void)renderUIWithTitle:(NSString *)title end:(NSString *)epilog;
-- (void)changeInput:(long)speed;
+- (void)renderUIWithSpeed:(long)speed define:(NSInteger)value;
 - (long)getInputValue;
+
+- (void)addBlock:(DoraemonNetWeakInputBlock)block;
 
 @end
 

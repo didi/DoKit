@@ -29,6 +29,7 @@
     CGFloat viewHeight = self.view.doraemon_height;
     CGFloat imageWidth = originalImage.size.width;
     CGFloat imageHeight = originalImage.size.height;
+    imageHeight = imageHeight ? : 1;
     BOOL isPortrait = imageHeight / viewHeight > imageWidth / viewWidth;
     CGFloat scaledImageWidth, scaledImageHeight;
     CGFloat x,y;

@@ -10,6 +10,8 @@
 #import "DoraemonCellSwitch.h"
 #import "DoraemonWeakNetworkDetailView.h"
 #import "DoraemonDefine.h"
+#import "DoraemonToastUtil.h"
+#import "DoraemonCacheManager.h"
 
 @interface DoraemonWeakNetworkViewController()
 
@@ -41,12 +43,15 @@
 
 - (void)switchAction:(id)sender{
     UISwitch *switchButton = (UISwitch*)sender;
+    if([[DoraemonCacheManager sharedInstance] healthStart]){
+        switchButton.on = NO;
+        [DoraemonToastUtil showToastBlack:DoraemonLocalizedString(@"App当前处于健康体检状态，无法进行此操作") inView:self.view];
+        return ;
+    }
     [DoraemonWeakNetworkManager shareInstance].shouldWeak = [switchButton isOn];
     
     [[DoraemonWeakNetworkManager shareInstance] canInterceptNetFlow:[switchButton isOn]];
     _detail.hidden = ![switchButton isOn];
 }
-
-
 
 @end
