@@ -29,6 +29,7 @@
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@id/fl_add_wrap"
         android:background="@null"
+        android:digits="0123456789abcdefghijklmnopqrstuvwxyz."
         android:hint="请输入白名单host"
         android:padding="10dp"
         android:textSize="16sp" />

@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,6 +67,8 @@ import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
@@ -91,6 +94,8 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
     TencentLocationRequest mTencentLocationRequest;
     TencentLocationManager mTencentLocationManager;
     private int UPDATE_UI = 100;
+    @BindView(R.id.btn_jump)
+    Button mBtnJump;
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
@@ -111,10 +116,11 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         TextView tvEnv = findViewById(R.id.tv_env);
         tvEnv.setText("当前编译环境:Debug");
+        mBtnJump.setOnClickListener(this);
         findViewById(R.id.btn_trace).setOnClickListener(this);
-        findViewById(R.id.btn_jump).setOnClickListener(this);
         findViewById(R.id.btn_jump_leak).setOnClickListener(this);
         findViewById(R.id.btn_show_tool_panel).setOnClickListener(this);
         findViewById(R.id.btn_location).setOnClickListener(this);

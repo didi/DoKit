@@ -27,6 +27,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @author jint
+ */
 public class NetWorkMonitorFragment extends AbsParameterFragment {
     RecyclerView mHostRv;
     WhiteHostAdapter mHostAdapter;

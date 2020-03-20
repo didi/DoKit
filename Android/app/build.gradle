@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply from: 'doraemonkit.gradle'
+apply plugin: 'com.jakewharton.butterknife'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -94,6 +95,8 @@ dependencies {
     implementation rootProject.ext.dependencies["tencent_location"]
     //百度地图定位
     implementation files('libs/BaiduLBS_Android.jar')
+    implementation 'com.jakewharton:butterknife:9.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'
 //    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.12'
 
 }

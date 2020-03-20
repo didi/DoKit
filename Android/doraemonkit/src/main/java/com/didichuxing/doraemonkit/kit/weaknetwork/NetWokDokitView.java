@@ -56,6 +56,7 @@ public class NetWokDokitView extends AbsDokitView {
         mIvClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                WeakNetworkManager.get().setActive(false);
                 DokitViewManager.getInstance().detach(NetWokDokitView.class);
             }
         });

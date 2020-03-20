@@ -29,7 +29,7 @@ import java.util.List;
 public class WhiteHostAdapter extends BaseQuickAdapter<WhiteHostBean, BaseViewHolder> {
 
 
-    public WhiteHostAdapter(int layoutResId, @Nullable List<WhiteHostBean> data) {
+    WhiteHostAdapter(int layoutResId, @Nullable List<WhiteHostBean> data) {
         super(layoutResId, data);
     }
 
