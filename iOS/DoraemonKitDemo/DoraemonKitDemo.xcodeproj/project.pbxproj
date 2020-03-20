@@ -10,6 +10,8 @@
 		0A5399852349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A5399842349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.m */; };
 		0A5399882349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A5399872349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.m */; };
 		0A53998B2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A53998A2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m */; };
+		0A6C9CEA2423214600BAEF5E /* DoraemonDemoURLProtocol1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6C9CE92423214600BAEF5E /* DoraemonDemoURLProtocol1.m */; };
+		0A6C9CED2423219400BAEF5E /* DoraemonDemoURLProtocol2.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6C9CEC2423219400BAEF5E /* DoraemonDemoURLProtocol2.m */; };
 		0AA262E1240F8AC400BF144F /* DoraemonDemoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA262E0240F8AC400BF144F /* DoraemonDemoBaseViewController.m */; };
 		0AFBC55223BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFBC55023BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m */; };
 		B65C2263AF96F94C50A222DF /* libPods-DoraemonKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E964A2D92411C9DC5482EF /* libPods-DoraemonKitDemo.a */; };
@@ -49,6 +51,10 @@
 		0A5399872349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMemoryLeakModel.m; sourceTree = "<group>"; };
 		0A5399892349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMemoryLeakView.h; sourceTree = "<group>"; };
 		0A53998A2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMemoryLeakView.m; sourceTree = "<group>"; };
+		0A6C9CE82423214600BAEF5E /* DoraemonDemoURLProtocol1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoURLProtocol1.h; sourceTree = "<group>"; };
+		0A6C9CE92423214600BAEF5E /* DoraemonDemoURLProtocol1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoURLProtocol1.m; sourceTree = "<group>"; };
+		0A6C9CEB2423219400BAEF5E /* DoraemonDemoURLProtocol2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoURLProtocol2.h; sourceTree = "<group>"; };
+		0A6C9CEC2423219400BAEF5E /* DoraemonDemoURLProtocol2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoURLProtocol2.m; sourceTree = "<group>"; };
 		0AA262DF240F8AC400BF144F /* DoraemonDemoBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoBaseViewController.h; sourceTree = "<group>"; };
 		0AA262E0240F8AC400BF144F /* DoraemonDemoBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoBaseViewController.m; sourceTree = "<group>"; };
 		0AFBC55023BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoNetTableViewCell.m; sourceTree = "<group>"; };
@@ -130,6 +136,17 @@
 				0A53998A2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m */,
 			);
 			path = MemoryLeak;
+			sourceTree = "<group>";
+		};
+		0A6C9CE72423212000BAEF5E /*  NSURLProtocol */ = {
+			isa = PBXGroup;
+			children = (
+				0A6C9CE82423214600BAEF5E /* DoraemonDemoURLProtocol1.h */,
+				0A6C9CE92423214600BAEF5E /* DoraemonDemoURLProtocol1.m */,
+				0A6C9CEB2423219400BAEF5E /* DoraemonDemoURLProtocol2.h */,
+				0A6C9CEC2423219400BAEF5E /* DoraemonDemoURLProtocol2.m */,
+			);
+			path = " NSURLProtocol";
 			sourceTree = "<group>";
 		};
 		0AA262DE240F8A7700BF144F /* Base */ = {
@@ -296,6 +313,7 @@
 		DAFE050C21BD4A4C00F97A59 /* Net */ = {
 			isa = PBXGroup;
 			children = (
+				0A6C9CE72423212000BAEF5E /*  NSURLProtocol */,
 				0AFBC54F23BAE6F80099A8BD /* Cell */,
 				DAC3FA7322B8DD5C00871E5C /* Image */,
 				DABBE3AF21D3A9F40070518E /* WebView */,
@@ -482,6 +500,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAC8A88A1FDE2C3B00F03E6F /* main.m in Sources */,
+				0A6C9CEA2423214600BAEF5E /* DoraemonDemoURLProtocol1.m in Sources */,
 				DAFE052B21BD4A4D00F97A59 /* DoraemonDemoSanboxViewController.m in Sources */,
 				DAFE052621BD4A4D00F97A59 /* DoraemonDemoHomeViewController.m in Sources */,
 				DAFE052721BD4A4D00F97A59 /* DoraemonDemoNetViewController.m in Sources */,
@@ -503,6 +522,7 @@
 				DAFE052821BD4A4D00F97A59 /* DoraemonDemoLoggerViewController.m in Sources */,
 				DAFE052E21BD4A4D00F97A59 /* DoraemonDemoMockGPSViewController.m in Sources */,
 				DAFE052F21BD4A4D00F97A59 /* DoraemonDemoPerformanceViewController.m in Sources */,
+				0A6C9CED2423219400BAEF5E /* DoraemonDemoURLProtocol2.m in Sources */,
 				0A53998B2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m in Sources */,
 				DAFE052521BD4A4D00F97A59 /* DoraemonDemoUIViewController.m in Sources */,
 				DAD46BDA1FE6B7AF00E3E7BC /* StartPlugin.m in Sources */,

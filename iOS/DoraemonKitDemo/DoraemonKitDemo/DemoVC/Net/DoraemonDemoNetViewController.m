@@ -16,6 +16,8 @@
 #import "DoraemonDemoImageViewController.h"
 #import <DoraemonKit/DoraemonNetworkUtil.h>
 #import "DoraemonDemoNetTableViewCell.h"
+#import "DoraemonDemoURLProtocol1.h"
+#import "DoraemonDemoURLProtocol2.h"
 
 @interface DoraemonDemoNetViewController ()<NSURLConnectionDataDelegate,NSURLSessionDelegate,UITableViewDataSource,UITableViewDelegate>
 
@@ -39,6 +41,8 @@
     _DoraemonDemoNetViewCellID = @"DoraemonDemoNetViewCell";
     [self.view addSubview:self.tableView];
     
+    //[NSURLProtocol registerClass:[DoraemonDemoURLProtocol1 class]];
+    //[NSURLProtocol registerClass:[DoraemonDemoURLProtocol2 class]];
 }
 
 - (void)initCellTitleArray{
@@ -161,7 +165,7 @@
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init]completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
         if ((data != nil) && (connectionError == nil)) {
             //            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            NSLog(@"response == %@",data);
+            NSLog(@"response == %@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         }
         
     }];
