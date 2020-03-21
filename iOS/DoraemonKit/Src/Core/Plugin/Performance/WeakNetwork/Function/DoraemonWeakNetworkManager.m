@@ -9,11 +9,16 @@
 #import "DoraemonNetworkInterceptor.h"
 #import "DoraemonWeakNetworkHandle.h"
 #import "DoraemonDefine.h"
+#import "DoraemonWeakNetworkWindow.h"
+#import "DoraemonNetFlowManager.h"
 
 @interface DoraemonWeakNetworkManager()<DoraemonNetworkInterceptorDelegate,DoraemonNetworkWeakDelegate>
 
 @property (nonatomic, assign) CGFloat sleepTime;
 @property (nonatomic, strong) DoraemonWeakNetworkHandle *weakHandle;
+@property (nonatomic, strong) NSDate *startTime;
+@property (nonatomic, strong) NSTimer *secondTimer;
+
 
 @end
 
@@ -25,9 +30,36 @@
     dispatch_once(&once, ^{
         instance = [[DoraemonWeakNetworkManager alloc] init];
         instance.shouldWeak = NO;
-        instance.sleepTime = 1.0;
+        instance.sleepTime = 500000;
     });
     return instance;
+}
+
+- (void)startRecord{
+    [DoraemonWeakNetworkManager shareInstance].startTime = [NSDate date];
+    [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:YES];
+    if(!_secondTimer){
+        _secondTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(doSecondFunction) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_secondTimer forMode:NSRunLoopCommonModes];
+    }
+}
+
+- (void)doSecondFunction{
+    NSString *str = nil;
+    if(![DoraemonWeakNetworkWindow shareInstance].upFlowChanged){
+        [[DoraemonWeakNetworkWindow shareInstance] updateFlowValue:@"0" downFlow:str fromWeak:YES];
+    }
+    if(![DoraemonWeakNetworkWindow shareInstance].downFlowChanged){
+        [[DoraemonWeakNetworkWindow shareInstance] updateFlowValue:str downFlow:@"0" fromWeak:YES];
+    }
+}
+
+- (void)endRecord{
+    if(_secondTimer){
+        [_secondTimer invalidate];
+        _secondTimer = nil;
+        [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:NO];
+    }
 }
 
 - (void)canInterceptNetFlow:(BOOL)enable{
@@ -47,13 +79,37 @@
 }
 
 - (BOOL)limitSpeed:(NSData *)data isDown:(BOOL)is{
+    BOOL result = NO;
     CGFloat speed = is ? _downFlowSpeed : _upFlowSpeed ;
     if(0 == data.length || data.length < (kbChange(speed) ? : kbChange(2000))){
-        return true;
+        [self showWeakNetworkWindow:is speed:speed];
+        result = YES;
     }
     else{
-        sleep(_sleepTime);
-        return false;
+        [self showWeakNetworkWindow:is speed:speed];
+        usleep(_sleepTime);
+        [self showWeakNetworkWindow:is speed:speed];
+        usleep(_sleepTime);
+    }
+    [self flowChange:is change:NO];
+    return result;
+}
+
+- (void)flowChange:(BOOL)isDownFlow change:(BOOL)change{
+    if(isDownFlow){
+        [DoraemonWeakNetworkWindow shareInstance].downFlowChanged = change;
+    }else{
+        [DoraemonWeakNetworkWindow shareInstance].upFlowChanged = change;
+    }
+}
+
+- (void)showWeakNetworkWindow:(BOOL) is speed:(CGFloat)speed{
+    NSString *str = nil;
+    [self flowChange:is change:YES];
+    if(is){
+        [[DoraemonWeakNetworkWindow shareInstance] updateFlowValue:str downFlow:[NSString stringWithFormat: @"%f", (kbChange(speed) ? : kbChange(2000))] fromWeak:YES];
+    }else{
+        [[DoraemonWeakNetworkWindow shareInstance] updateFlowValue:[NSString stringWithFormat: @"%f", (kbChange(speed) ? : kbChange(2000))] downFlow:str fromWeak:YES];
     }
 }
 
@@ -77,7 +133,8 @@
         if([self limitSpeed:limitedData isDown:is]){
             return ;
         }
-        //DoKitLog(@"count == %ld",count);
+        DoKitLog(@"count == %ld",count);
+        [self flowChange:is change:YES];
         count++;
     }
 }

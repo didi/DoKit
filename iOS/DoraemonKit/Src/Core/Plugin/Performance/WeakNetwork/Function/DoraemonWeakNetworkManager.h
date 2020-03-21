@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 + (DoraemonWeakNetworkManager *)shareInstance;
 
 - (void)canInterceptNetFlow:(BOOL)enable;
+- (void)startRecord;
+- (void)endRecord;
 
 @end
 
