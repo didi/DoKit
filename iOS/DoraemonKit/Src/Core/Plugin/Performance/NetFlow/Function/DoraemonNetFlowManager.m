@@ -31,7 +31,7 @@
 - (void)canInterceptNetFlow:(BOOL)enable{
     _canIntercept = enable;
     if (enable) {
-        [DoraemonNetworkInterceptor.shareInstance addDelegate:self];
+        [[DoraemonNetworkInterceptor shareInstance] addDelegate:self];
         _startInterceptDate = [NSDate date];
     }else{
         [DoraemonNetworkInterceptor.shareInstance removeDelegate:self];

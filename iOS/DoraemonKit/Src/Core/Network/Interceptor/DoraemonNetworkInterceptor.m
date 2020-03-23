@@ -12,6 +12,7 @@
 #import "DoraemonNetFlowDataSource.h"
 #import "DoraemonNetFlowHttpModel.h"
 #import "DoraemonResponseImageModel.h"
+#import "DoraemonDefine.h"
 
 static DoraemonNetworkInterceptor *instance = nil;
 
@@ -62,6 +63,9 @@ static DoraemonNetworkInterceptor *instance = nil;
     for (id<DoraemonNetworkInterceptorDelegate> delegate in self.delegates) {
         if (delegate.shouldIntercept) {
             shouldIntercept = YES;
+            if (shouldIntercept) {
+                DoKitLog(@"yixiang shouldIntercept from %@",[delegate class]);
+            }
         }
     }
     return shouldIntercept;
