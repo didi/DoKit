@@ -90,9 +90,7 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
 }
 
 - (void)handleFromSelect{
-    if(DoraemonWeakNetwork_Break == [[DoraemonNetworkInterceptor shareInstance].weakDelegate weakNetSelecte]){
-        DoKitLog(@"yd Break Net");
-    }else if(DoraemonWeakNetwork_Delay == [[DoraemonNetworkInterceptor shareInstance].weakDelegate weakNetSelecte]){
+    if(DoraemonWeakNetwork_Delay == [[DoraemonNetworkInterceptor shareInstance].weakDelegate weakNetSelecte]){
         DoKitLog(@"yd Delay Net");//此处有dispatch_get_main_queue，无法使用switch
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)([[DoraemonNetworkInterceptor shareInstance].weakDelegate delayTime] * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.task resume];
@@ -108,6 +106,22 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     }else{
         [self.task resume];
     }
+}
+
+- (BOOL)needLoading{
+    BOOL result = YES;
+    if ([DoraemonNetworkInterceptor shareInstance].weakDelegate){
+        if(DoraemonWeakNetwork_OutTime == [[DoraemonNetworkInterceptor shareInstance].weakDelegate weakNetSelecte]){
+            DoKitLog(@"yd Outtime Net");
+            [self.client URLProtocol:self didFailWithError:[[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSURLErrorTimedOut userInfo:nil]];
+            result = NO;
+        }else if(DoraemonWeakNetwork_Break == [[DoraemonNetworkInterceptor shareInstance].weakDelegate weakNetSelecte]){
+            DoKitLog(@"yd Break Net");
+            [self.client URLProtocol:self didFailWithError:[[NSError alloc] initWithDomain:NSCocoaErrorDomain code:NSURLErrorNotConnectedToInternet userInfo:nil]];
+            result = NO;
+        }
+    }
+    return YES;
 }
 
 - (void)startLoading{
@@ -183,12 +197,7 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     if (error) {
         self.error = error;
         [self.client URLProtocol:self didFailWithError:error];
-    }else{
-        if(DoraemonWeakNetwork_OutTime == [[DoraemonNetworkInterceptor shareInstance].weakDelegate weakNetSelecte]){
-            DoKitLog(@"yd Outtime Net");
-            [self.client URLProtocol:self didFailWithError:[[NSError alloc] initWithCoder:[[NSCoder alloc] init]]];
-            return ;
-        }
+    }else if([self needLoading]){
         [self.client URLProtocolDidFinishLoading:self];
     }
 }

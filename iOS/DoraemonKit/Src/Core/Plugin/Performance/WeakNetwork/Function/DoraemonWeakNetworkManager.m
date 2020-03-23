@@ -37,6 +37,7 @@
 
 - (void)startRecord{
     [DoraemonWeakNetworkManager shareInstance].startTime = [NSDate date];
+    [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:YES];
     if(!_secondTimer){
         _secondTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(doSecondFunction) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:_secondTimer forMode:NSRunLoopCommonModes];
@@ -57,6 +58,7 @@
     if(_secondTimer){
         [_secondTimer invalidate];
         _secondTimer = nil;
+        [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:NO];
     }
 }
 

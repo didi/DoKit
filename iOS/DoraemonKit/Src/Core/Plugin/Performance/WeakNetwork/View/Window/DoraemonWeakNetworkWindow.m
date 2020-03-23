@@ -174,10 +174,15 @@
 }
 
 -(void)_updateFlowValue:(NSString *)upFlow downFlow:(NSString *)downFlow fromWeak:(BOOL)is{
+    NSInteger selecte = [DoraemonWeakNetworkManager shareInstance].selecte;
     if(self.hidden){
         return ;
-    }else if(!is && [DoraemonWeakNetworkManager shareInstance].selecte == DoraemonWeakNetwork_WeakSpeed){
-        return ;
+    }else if(!is){
+        if(selecte == DoraemonWeakNetwork_Break ||selecte == DoraemonWeakNetwork_OutTime){
+            downFlow = nil;
+        }else if(selecte == DoraemonWeakNetwork_WeakSpeed){
+            return ;
+        }
     }
         
     if([upFlow floatValue]>=1000){
