@@ -152,8 +152,6 @@ class DoraemonKitReal {
 
         //OkHttp 拦截器 注入
         OkHttpHook.installInterceptor();
-        //初始化三大图片框架代码
-        installImgCode();
         LogHelper.i(TAG, "IS_HOOK====>" + IS_HOOK);
         //赋值全局变量
         DokitConstant.IS_HOOK = IS_HOOK;
@@ -295,12 +293,6 @@ class DoraemonKitReal {
         DataPickManager.getInstance().postData();
     }
 
-    /**
-     * 初始化图片框架代码
-     */
-    private static void installImgCode() {
-        GlideHook.install();
-    }
 
     private static void checkGPSMock() {
         if (GpsMockConfig.isGPSMockOpen(APPLICATION)) {
@@ -395,7 +387,6 @@ class DoraemonKitReal {
         //开启大文件检测
         startBigFileInspect();
     }
-
 
 
     static void setWebDoorCallback(WebDoorManager.WebDoorCallback callback) {
