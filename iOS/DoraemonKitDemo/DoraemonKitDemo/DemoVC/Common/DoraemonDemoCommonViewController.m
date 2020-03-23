@@ -42,6 +42,10 @@
     imgView.image = [[self class] jy_QRCodeFromString:@"hello" size:100];
     [self.view addSubview:imgView];
 
+    // 设置允许摇一摇功能
+    [UIApplication sharedApplication].applicationSupportsShakeToEdit = YES;
+    // 并让自己成为第一响应者
+    [self becomeFirstResponder];
 }
 
 - (void)addSubViewAtOtherThread{
@@ -109,6 +113,23 @@
     CGImageRelease(bitmapImage);
     CGContextRelease(bitmapContextRef);
     return retVal;
+}
+
+- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    NSLog(@"开始摇动");
+    return;
+}
+
+- (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    NSLog(@"取消摇动");
+    return;
+}
+
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    if (event.subtype == UIEventSubtypeMotionShake) { // 判断是否是摇动结束
+        NSLog(@"摇动结束");
+    }
+    return;
 }
 
 
