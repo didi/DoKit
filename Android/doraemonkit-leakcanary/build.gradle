@@ -51,5 +51,6 @@ dependencies {
     compileOnly project(':doraemonkit')
     //跨进程通信框架
     compileOnly rootProject.ext.dependencies["abridge"]
+    compileOnly rootProject.ext.dependencies["utilcode"]
 
 }

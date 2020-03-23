@@ -1,15 +1,21 @@
 package com.didichuxing.doraemondemo.util;
 
+import android.graphics.drawable.Animatable;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import com.didichuxing.doraemonkit.kit.largepicture.fresco.LargeBitmapFrescoProcessor;
+import com.didichuxing.doraemonkit.ui.realtime.datasource.IDataSource;
+import com.didichuxing.doraemonkit.util.LogHelper;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeControllerBuilder;
+import com.facebook.drawee.controller.BaseControllerListener;
+import com.facebook.drawee.controller.ControllerListener;
 import com.facebook.drawee.drawable.ScalingUtils;
 import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 
@@ -25,6 +31,7 @@ import jp.wasabeef.fresco.processors.CombinePostProcessors;
  * ================================================
  */
 public class FrescoUtil {
+    private static final String TAG = "FrescoUtil";
     /**
      * 加载图片核心方法
      *
@@ -55,6 +62,7 @@ public class FrescoUtil {
         builder.setTapToRetryEnabled(false);//设置是否允许加载失败时点击再次加载
         builder.setAutoPlayAnimations(false);//设置是否允许动画图自动播放
         builder.setOldController(oldController);
+        builder.setControllerListener(new BaseControllerListener<>());
         return builder.build();
     }
 

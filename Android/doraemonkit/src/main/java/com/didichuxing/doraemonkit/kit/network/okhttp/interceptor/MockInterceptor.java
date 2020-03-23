@@ -6,17 +6,15 @@ import android.text.TextUtils;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.kit.network.core.ResourceType;
-import com.didichuxing.doraemonkit.kit.network.core.ResourceTypeHelper;
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -176,7 +174,7 @@ public class MockInterceptor implements Interceptor {
             newUrl = sb.append(NetworkManager.MOCK_SCHEME_HTTPS).append(NetworkManager.MOCK_HOST).append("/api/app/scene/").append(selectedSceneId).toString();
         }
 
-        LogHelper.i("MOCK_INTERCEPT", "path===>" + path + "  newUrl=====>" + newUrl);
+        //LogHelper.i("MOCK_INTERCEPT", "path===>" + path + "  newUrl=====>" + newUrl);
 
         Request newRequest = oldRequest.newBuilder()
                 .method("GET", null)
@@ -186,11 +184,14 @@ public class MockInterceptor implements Interceptor {
             //判断新的response是否有数据
             if (newResponseHasData(newResponse)) {
                 matchedTemplateRule(newResponse, path, templateMatchedId);
+                //拦截命中提示
+                ToastUtils.showShort("接口别名:==" + interceptApiBean.getMockApiName() + "==已被拦截");
                 return newResponse;
             } else {
                 matchedTemplateRule(oldResponse, path, templateMatchedId);
                 return oldResponse;
             }
+
         }
         matchedTemplateRule(oldResponse, path, templateMatchedId);
         return oldResponse;
@@ -211,7 +212,7 @@ public class MockInterceptor implements Interceptor {
         if (templateApiBean == null) {
             return;
         }
-        LogHelper.i("MOCK_TEMPLATE", "path=====>" + path + "isOpen===>" + templateApiBean.isOpen());
+        //LogHelper.i("MOCK_TEMPLATE", "path=====>" + path + "isOpen===>" + templateApiBean.isOpen());
         if (templateApiBean.isOpen()) {
             //保存老的response 数据到数据库
             saveResponse2DB(oldResponse, templateApiBean);
@@ -257,6 +258,8 @@ public class MockInterceptor implements Interceptor {
         mockApi.setStrResponse(strResponseBody);
         //更新本地数据库
         DokitDbManager.getInstance().updateTemplateApi(mockApi);
+        //拦截命中提示
+        ToastUtils.showShort("模板别名:==" + mockApi.getMockApiName() + "==已被保存");
     }
 
     /**

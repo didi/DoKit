@@ -68,7 +68,7 @@ dependencies {
     implementation rootProject.ext.dependencies["room_runtime"]
     annotationProcessor rootProject.ext.dependencies["room_compile"]
     //跨进程通信框架
-    implementation rootProject.ext.dependencies["abridge"]
+    //implementation rootProject.ext.dependencies["abridge"]
 
     //三大图片框架
     compileOnly rootProject.ext.dependencies["glide"]
