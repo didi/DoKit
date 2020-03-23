@@ -125,7 +125,8 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
             "com/didichuxing/doraemonkit/kit/methodtrace",
             "com/didichuxing/doraemonkit/kit/network",
             "com/didichuxing/doraemonkit/kit/timecounter",
-            "com/didichuxing/doraemonkit/okgo"
+            "com/didichuxing/doraemonkit/okgo",
+            "com/didichuxing/doraemonkit/datapick"
     };
 
     private boolean ignorePackageNames(String className) {
