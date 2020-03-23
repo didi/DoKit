@@ -15,6 +15,8 @@
  */
 package com.squareup.leakcanary;
 
+import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
@@ -47,6 +49,10 @@ public class UploadLeakService extends DisplayLeakService {
             return;
         }
         LogHelper.i(TAG, "====leakInfo====" + leakInfo);
-        IBridge.sendAIDLMessage(leakInfo);
+        try {
+            IBridge.sendAIDLMessage(leakInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

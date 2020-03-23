@@ -131,10 +131,10 @@ public final class RefWatcher {
         removeWeaklyReachableReferences();
 
         //如果当前处于debug attach模式 这过滤掉
-        if (debuggerControl.isDebuggerAttached()) {
-            // The debugger can create false leaks.
-            return Retryable.Result.RETRY;
-        }
+//        if (debuggerControl.isDebuggerAttached()) {
+//            // The debugger can create false leaks.
+//            return Retryable.Result.RETRY;
+//        }
 
         if (gone(reference)) {
             return Retryable.Result.DONE;
