@@ -235,7 +235,8 @@
     "断网"                                  = "Broken";
     "超时"                                  = "Timeout";
     "限速"                                  = "Limit";
-    "超时时间"                               = "timeout";
+    "延时"                                  = "Delay";
+    "延时时间"                               = "Delay time";
     "请求限速"                               = "Request limit";
     "响应限速"                               = "Response limit";
     "数据预览为空"                            = "The data is previewed as empty";
@@ -249,8 +250,12 @@
     "本地是否存在mock数据: %@"                  = "mock data exists locally: %@";
     "存在"                                  = "exist";
     "不存在"                                 = "inexistence";
+    "App当前处于健康体检状态，无法进行此操作"        = "App is currently in the state of health check, so this operation cannot be carried out";
     
     //DoraemonKitDemo
+    "图片测试"                              = "Image Test";
+    "Mock测试"                              = "Mock Test";
+    "Mock测试2"                             = "Mock Test 2";
     "block方式加入插件"                       = "Add plugins from block";
     "测试工具集"                                      = "Test tools";
     "视觉测试Demo"                                 = "UI test Demo";

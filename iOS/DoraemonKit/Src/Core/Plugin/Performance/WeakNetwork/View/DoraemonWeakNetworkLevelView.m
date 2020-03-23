@@ -42,7 +42,7 @@
 
 -(void)renderUIWithItemArray:(NSArray *)itemArray selecte:(NSUInteger)selected{
     for (int i = 0; i<itemArray.count; i++) {
-        [_segment insertSegmentWithTitle:DoraemonLocalizedString(itemArray[i]) atIndex:i animated:YES];
+        [_segment insertSegmentWithTitle:DoraemonLocalizedString(itemArray[i]) atIndex:i animated:NO];
     }
     [_segment setSelectedSegmentIndex:selected];
 }

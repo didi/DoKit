@@ -16,7 +16,6 @@
 @implementation DoraemonWeakNetworkHandle
 
 - (NSData *)weakFlow:(NSData *)data count:(NSInteger)times size:(NSInteger)weakSize{
-    
     if(data.length < weakSize){
         return data;
     }

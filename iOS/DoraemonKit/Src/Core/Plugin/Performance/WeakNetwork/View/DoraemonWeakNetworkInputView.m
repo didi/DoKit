@@ -13,6 +13,7 @@
 @property (nonatomic, strong) UILabel *inputTitle;
 @property (nonatomic, strong) UILabel *inputEpilog;
 @property (nonatomic, strong) UITextField *speedInput;
+@property (nonatomic, copy) DoraemonNetWeakInputBlock block;
 
 @end
 
@@ -48,18 +49,29 @@
     _inputEpilog.frame = CGRectMake(_speedInput.doraemon_right + kDoraemonSizeFrom750_Landscape(32), 0, kDoraemonSizeFrom750_Landscape(100), self.doraemon_height);
 }
 
-- (void)changeInput:(long)speed{
+- (void)renderUIWithSpeed:(long)speed define:(NSInteger)value{
     if(speed > 0){
         _speedInput.text = [NSString stringWithFormat:@"%ld",speed];
         _speedInput.textColor = [UIColor doraemon_black_1];
     }else{
-        _speedInput.placeholder = [NSString stringWithFormat:@"%d",2000];
+        _speedInput.placeholder = [NSString stringWithFormat:@"%ld",(long)value];
         _speedInput.textColor = [UIColor lightGrayColor];
     }
 }
 
 - (long)getInputValue{
     return [_speedInput.text intValue];
+}
+
+- (void)addBlock:(DoraemonNetWeakInputBlock)block{
+    self.block = block;
+}
+
+#pragma mark - UITextFieldDelegate
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    if(self.block){
+        self.block();
+    }
 }
 
 #pragma mark - UITextFieldDelegate

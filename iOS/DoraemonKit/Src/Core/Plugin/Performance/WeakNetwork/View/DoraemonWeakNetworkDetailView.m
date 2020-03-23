@@ -14,14 +14,13 @@
 @interface DoraemonWeakNetworkDetailView()<DoraemonWeakNetworkLevelViewDelegate>
 
 @property (nonatomic, strong) DoraemonWeakNetworkLevelView *levelView;
-@property (nonatomic, strong) DoraemonWeakNetworkInputView *timeOutInputView;
+@property (nonatomic, strong) DoraemonWeakNetworkInputView *delayInputView;
 @property (nonatomic, strong) DoraemonWeakNetworkInputView *upInputView;
 @property (nonatomic, strong) DoraemonWeakNetworkInputView *downInputView;
 @property (nonatomic, strong) NSArray *weakItemArray;
 @property (nonatomic, strong) NSDictionary *inputItemArray;
-@property (nonatomic, assign) CGFloat sleepTime;
 @property (nonatomic, assign) NSInteger weakSize;
-@property (nonatomic, strong) NSString *timeOutTitle;
+@property (nonatomic, strong) NSString *delayTitle;
 @property (nonatomic, strong) NSString *upFlowTitle;
 @property (nonatomic, strong) NSString *downFlowTitle;
 @property (nonatomic, strong) NSString *flowEpilog;
@@ -40,15 +39,26 @@
         _levelView = [[DoraemonWeakNetworkLevelView alloc] initWithFrame:CGRectMake(0, padding, self.doraemon_width, padding)];
         _levelView.delegate = self;
         [self initWeakItem];
-        [_levelView renderUIWithItemArray:_weakItemArray selecte:[DoraemonWeakNetworkManager shareInstance].selecte];
+        [_levelView renderUIWithItemArray:_weakItemArray selecte:[DoraemonWeakNetworkManager shareInstance].selecte ? :0];
         [self addSubview:_levelView];
         
-        _timeOutInputView = [[DoraemonWeakNetworkInputView alloc] initWithFrame:CGRectMake(padding * 2, _levelView.doraemon_bottom + padding/2, self.doraemon_width - padding, padding)];
+        _delayInputView = [[DoraemonWeakNetworkInputView alloc] initWithFrame:CGRectMake(padding * 2, _levelView.doraemon_bottom + padding/2, self.doraemon_width - padding, padding)];
         _upInputView = [[DoraemonWeakNetworkInputView alloc] initWithFrame:CGRectMake(padding * 2, _levelView.doraemon_bottom + padding/2, self.doraemon_width - padding, padding)];
         _downInputView = [[DoraemonWeakNetworkInputView alloc] initWithFrame:CGRectMake(padding * 2, _upInputView.doraemon_bottom , self.doraemon_width - padding, padding)];
         [self renderInputView:[DoraemonWeakNetworkManager shareInstance].selecte];
         
-        [self addSubview:_timeOutInputView];
+        __weak typeof(self) weakSelf = self;
+         [_delayInputView addBlock:^{
+             [DoraemonWeakNetworkManager shareInstance].delayTime = [weakSelf.delayInputView getInputValue];
+         }];
+         [_upInputView addBlock:^{
+             [DoraemonWeakNetworkManager shareInstance].upFlowSpeed = [weakSelf.upInputView getInputValue];
+         }];
+         [_downInputView addBlock:^{
+             [DoraemonWeakNetworkManager shareInstance].downFlowSpeed = [weakSelf.downInputView getInputValue];
+         }];
+        
+        [self addSubview:_delayInputView];
         [self addSubview:_upInputView];
         [self addSubview:_downInputView];
         
@@ -60,27 +70,25 @@
     _weakItemArray = @[
         @"断网",
         @"超时",
-        @"限速"
+        @"限速",
+        @"延时"
     ];
     
-    _timeOutTitle = [NSString stringWithFormat:@"%@:",DoraemonLocalizedString(@"超时时间")];
+    _delayTitle = [NSString stringWithFormat:@"%@:",DoraemonLocalizedString(@"延时时间")];
     _upFlowTitle = [NSString stringWithFormat:@"%@:",DoraemonLocalizedString(@"请求限速")];
     _downFlowTitle = [NSString stringWithFormat:@"%@:",DoraemonLocalizedString(@"响应限速")];
-    _flowEpilog = @"K/s";
-    _timeEpilog = @"ms";
-    
-    _sleepTime = 10.0;
-    _weakSize = 1000;
+    _flowEpilog = @"Kb/s";
+    _timeEpilog = @"S";
 }
 
 - (void)_renderInputHidden:(BOOL)hidden{
-    _timeOutInputView.hidden = !hidden;
+    _delayInputView.hidden = !hidden;
     _upInputView.hidden = hidden;
     _downInputView.hidden = hidden;
 }
 
 - (void)_renderInputValue{
-    [DoraemonWeakNetworkManager shareInstance].outTime = [_timeOutInputView getInputValue];
+    [DoraemonWeakNetworkManager shareInstance].delayTime = [_delayInputView getInputValue];
     [DoraemonWeakNetworkManager shareInstance].upFlowSpeed = [_upInputView getInputValue];
     [DoraemonWeakNetworkManager shareInstance].downFlowSpeed = [_downInputView getInputValue];
 }
@@ -89,21 +97,22 @@
     
     switch (select) {
         case 0:
-            _timeOutInputView.hidden = YES;
+        case 1:
+            _delayInputView.hidden = YES;
             _upInputView.hidden = YES;
             _downInputView.hidden = YES;
             break;
-        case 1:
-            [_timeOutInputView renderUIWithTitle:_timeOutTitle end:_timeEpilog];
-            [_timeOutInputView changeInput:[DoraemonWeakNetworkManager shareInstance].outTime];
-            [self _renderInputHidden:YES];
-            break;
         case 2:
             [_upInputView renderUIWithTitle:_upFlowTitle end:_flowEpilog];
-            [_upInputView changeInput:[DoraemonWeakNetworkManager shareInstance].upFlowSpeed];
+            [_upInputView renderUIWithSpeed:[DoraemonWeakNetworkManager shareInstance].upFlowSpeed define:2000];
             [_downInputView renderUIWithTitle:_downFlowTitle end:_flowEpilog];
-            [_downInputView changeInput:[DoraemonWeakNetworkManager shareInstance].downFlowSpeed];
-            [self _renderInputHidden:NO];
+            [_downInputView renderUIWithSpeed:[DoraemonWeakNetworkManager shareInstance].downFlowSpeed define:2000];
+           [self _renderInputHidden:NO];
+            break;
+        case 3:
+            [_delayInputView renderUIWithTitle:_delayTitle end:_timeEpilog];
+            [_delayInputView renderUIWithSpeed:[DoraemonWeakNetworkManager shareInstance].delayTime define:10];
+            [self _renderInputHidden:YES];
             break;
                 
         default:
@@ -115,7 +124,6 @@
 - (void)segmentSelected:(NSInteger)index{
 
     [DoraemonWeakNetworkManager shareInstance].selecte = index;
-    [[DoraemonWeakNetworkManager shareInstance] selectWeakItemChange:index sleepTime:_sleepTime weakSize:_weakSize];
     [self renderInputView:index];
     [self _renderInputValue];
 }

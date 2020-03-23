@@ -8,14 +8,17 @@
 #import "DoraemonWeakNetworkManager.h"
 #import "DoraemonNetworkInterceptor.h"
 #import "DoraemonWeakNetworkHandle.h"
-#import <UIKit/UIKit.h>
+#import "DoraemonDefine.h"
+#import "DoraemonWeakNetworkWindow.h"
+#import "DoraemonNetFlowManager.h"
 
 @interface DoraemonWeakNetworkManager()<DoraemonNetworkInterceptorDelegate,DoraemonNetworkWeakDelegate>
 
-@property (nonatomic, assign) NSUInteger selectItem;
-@property (nonatomic, assign) NSUInteger weakSize;
 @property (nonatomic, assign) CGFloat sleepTime;
 @property (nonatomic, strong) DoraemonWeakNetworkHandle *weakHandle;
+@property (nonatomic, strong) NSDate *startTime;
+@property (nonatomic, strong) NSTimer *secondTimer;
+
 
 @end
 
@@ -27,18 +30,35 @@
     dispatch_once(&once, ^{
         instance = [[DoraemonWeakNetworkManager alloc] init];
         instance.shouldWeak = NO;
-        instance.weakSize = 1000;
+        instance.sleepTime = 500000;
     });
     return instance;
 }
 
-- (void)changeWeakSize:(NSInteger)size{
-    if(size > 0){
-        _shouldWeak = YES;
-        _weakSize = size;
-    }else{
-        _shouldWeak = NO;
-        _weakSize = 1000;
+- (void)startRecord{
+    [DoraemonWeakNetworkManager shareInstance].startTime = [NSDate date];
+    [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:YES];
+    if(!_secondTimer){
+        _secondTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(doSecondFunction) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_secondTimer forMode:NSRunLoopCommonModes];
+    }
+}
+
+- (void)doSecondFunction{
+    NSString *str = nil;
+    if(![DoraemonWeakNetworkWindow shareInstance].upFlowChanged){
+        [[DoraemonWeakNetworkWindow shareInstance] updateFlowValue:@"0" downFlow:str fromWeak:YES];
+    }
+    if(![DoraemonWeakNetworkWindow shareInstance].downFlowChanged){
+        [[DoraemonWeakNetworkWindow shareInstance] updateFlowValue:str downFlow:@"0" fromWeak:YES];
+    }
+}
+
+- (void)endRecord{
+    if(_secondTimer){
+        [_secondTimer invalidate];
+        _secondTimer = nil;
+        [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:NO];
     }
 }
 
@@ -50,38 +70,7 @@
         _weakHandle = [[DoraemonWeakNetworkHandle alloc] init];
     }else{
         [DoraemonNetworkInterceptor.shareInstance removeDelegate:self];
-    }
-}
-
-- (void)selectWeakItemChange:(NSUInteger)select sleepTime:(CGFloat)time weakSize:(NSUInteger)size{
-    _selectItem = select;
-    _weakSize = size;
-    _sleepTime = time;
-}
-
-#pragma mark -- DoraemonNetworkInterceptorDelegate
-- (void)doraemonNetworkInterceptorDidReceiveData:(NSData *)data response:(NSURLResponse *)response request:(NSURLRequest *)request error:(NSError *)error startTime:(NSTimeInterval)startTime {
-    
-}
-
-- (BOOL)shouldIntercept {
-    return _shouldWeak;
-}
-
-#pragma mark - doraemonNSURLProtocolWeakNetDelegate
-- (NSData *)doraemonNSURLProtocolWeak:(NSData *)data count:(NSInteger)times{
-    
-    return [_weakHandle weakFlow:data count:times size:_weakSize];
-}
-
-- (BOOL)endWeak:(NSData *)data{
-    
-    if(0 == data.length || data.length < _weakSize){
-        return true;
-    }
-    else{
-        sleep(_sleepTime);
-        return false;
+        [DoraemonNetworkInterceptor shareInstance].weakDelegate = nil;
     }
 }
 
@@ -89,6 +78,74 @@
     return _shouldWeak;
 }
 
+- (BOOL)limitSpeed:(NSData *)data isDown:(BOOL)is{
+    BOOL result = NO;
+    CGFloat speed = is ? _downFlowSpeed : _upFlowSpeed ;
+    if(0 == data.length || data.length < (kbChange(speed) ? : kbChange(2000))){
+        [self showWeakNetworkWindow:is speed:speed];
+        result = YES;
+    }
+    else{
+        [self showWeakNetworkWindow:is speed:speed];
+        usleep(_sleepTime);
+        [self showWeakNetworkWindow:is speed:speed];
+        usleep(_sleepTime);
+    }
+    [self flowChange:is change:NO];
+    return result;
+}
+
+- (void)flowChange:(BOOL)isDownFlow change:(BOOL)change{
+    if(isDownFlow){
+        [DoraemonWeakNetworkWindow shareInstance].downFlowChanged = change;
+    }else{
+        [DoraemonWeakNetworkWindow shareInstance].upFlowChanged = change;
+    }
+}
+
+- (void)showWeakNetworkWindow:(BOOL) is speed:(CGFloat)speed{
+    NSString *str = nil;
+    [self flowChange:is change:YES];
+    if(is){
+        [[DoraemonWeakNetworkWindow shareInstance] updateFlowValue:str downFlow:[NSString stringWithFormat: @"%f", (kbChange(speed) ? : kbChange(2000))] fromWeak:YES];
+    }else{
+        [[DoraemonWeakNetworkWindow shareInstance] updateFlowValue:[NSString stringWithFormat: @"%f", (kbChange(speed) ? : kbChange(2000))] downFlow:str fromWeak:YES];
+    }
+}
+
+#pragma mark -- DoraemonNetworkInterceptorDelegate
+- (void)doraemonNetworkInterceptorDidReceiveData:(NSData *)data response:(NSURLResponse *)response request:(NSURLRequest *)request error:(NSError *)error startTime:(NSTimeInterval)startTime {
+}
+
+- (BOOL)shouldIntercept {
+    return _shouldWeak;
+}
+
+
+#pragma mark - doraemonNSURLProtocolWeakNetDelegate
+- (void)handleWeak:(NSData *)data isDown:(BOOL)is{
+    NSUInteger count = 0;
+    NSData *limitedData = nil;
+    NSInteger speed = 0;
+    speed = is ? _downFlowSpeed : _upFlowSpeed;
+    while (true) {
+        limitedData = [_weakHandle weakFlow:data count:count size:kbChange(speed) ? : kbChange(2000)];
+        if([self limitSpeed:limitedData isDown:is]){
+            return ;
+        }
+        DoKitLog(@"count == %ld",count);
+        [self flowChange:is change:YES];
+        count++;
+    }
+}
+
+- (NSUInteger)delayTime{
+    return _delayTime;
+}
+
+- (NSInteger)weakNetSelecte{
+    return _selecte;
+}
 
 @end
 

@@ -6,7 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,17 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSUInteger selecte;
 @property (nonatomic, assign) NSUInteger upFlowSpeed;
 @property (nonatomic, assign) NSUInteger downFlowSpeed;
-@property (nonatomic, assign) NSUInteger outTime;
-
+@property (nonatomic, assign) NSUInteger delayTime;
 
 
 + (DoraemonWeakNetworkManager *)shareInstance;
 
-- (void)changeWeakSize:(NSInteger)size;
-
 - (void)canInterceptNetFlow:(BOOL)enable;
-
-- (void)selectWeakItemChange:(NSUInteger)select sleepTime:(CGFloat)time weakSize:(NSUInteger)size;
+- (void)startRecord;
+- (void)endRecord;
 
 @end
 

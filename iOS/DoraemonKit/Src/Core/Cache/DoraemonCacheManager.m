@@ -28,7 +28,6 @@ static NSString * const kDoraemonMemoryLeakAlertKey = @"doraemon_memory_leak_ale
 static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 static NSString * const kDoraemonMockCacheKey = @"doraemon_mock_cache_key";
 static NSString * const kDoraemonHealthStartKey = @"doraemon_health_start_key";
-static NSString * const kDoraemonShouldAutorotate = @"doraemon_shouldAutorotate_key";
 
 @interface DoraemonCacheManager()
 
@@ -209,16 +208,6 @@ static NSString * const kDoraemonShouldAutorotate = @"doraemon_shouldAutorotate_
 - (BOOL)anrTrackSwitch {
     return [_defaults boolForKey:kDoraemonANRTrackKey];
 }
-
-- (void)saveShouldAutorotate:(BOOL)on{
-    [_defaults setBool:on forKey:kDoraemonShouldAutorotate];
-    [_defaults synchronize];
-}
-
-- (BOOL)shouldAutorotate{
-    return [_defaults boolForKey:kDoraemonShouldAutorotate];
-}
-
 
 - (NSArray<NSString *> *)h5historicalRecord {
     return [_defaults objectForKey:kDoraemonH5historicalRecord];
