@@ -28,7 +28,7 @@
         self.view.backgroundColor = [UIColor systemBackgroundColor];
         [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor labelColor]}];
         if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-            [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:[UIColor doraemon_black_3] size:CGSizeMake(self.view.frame.size.width, 0.5)]];
+            [self.navigationController.navigationBar setShadowImage:[UIImage doraemon_imageWithColor:[UIColor doraemon_black_3] size:CGSizeMake(self.view.frame.size.width, 0.5)]];
         }
     } else {
 #endif
@@ -81,7 +81,7 @@
         if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
             if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
                 self.leftModel.image = [UIImage doraemon_imageNamed:@"doraemon_back_dark"];
-                [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:[UIColor doraemon_black_3] size:CGSizeMake(self.view.frame.size.width, 0.5)]];
+                [self.navigationController.navigationBar setShadowImage:[UIImage doraemon_imageWithColor:[UIColor doraemon_black_3] size:CGSizeMake(self.view.frame.size.width, 0.5)]];
             } else {
                 self.leftModel.image = [UIImage doraemon_imageNamed:@"doraemon_back"];
             }
