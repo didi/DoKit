@@ -168,6 +168,12 @@
 }
 
 -(void)updateFlowValue:(NSString *)upFlow downFlow:(NSString *)downFlow fromWeak:(BOOL)is{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self _updateFlowValue:upFlow downFlow:downFlow fromWeak:is];
+    });
+}
+
+-(void)_updateFlowValue:(NSString *)upFlow downFlow:(NSString *)downFlow fromWeak:(BOOL)is{
     if(self.hidden){
         return ;
     }else if(!is && [DoraemonWeakNetworkManager shareInstance].selecte == DoraemonWeakNetwork_WeakSpeed){

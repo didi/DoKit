@@ -63,9 +63,9 @@ static DoraemonNetworkInterceptor *instance = nil;
     for (id<DoraemonNetworkInterceptorDelegate> delegate in self.delegates) {
         if (delegate.shouldIntercept) {
             shouldIntercept = YES;
-            if (shouldIntercept) {
-                DoKitLog(@"yixiang shouldIntercept from %@",[delegate class]);
-            }
+//            if (shouldIntercept) {
+//                DoKitLog(@"yixiang shouldIntercept from %@",[delegate class]);
+//            }
         }
     }
     return shouldIntercept;
