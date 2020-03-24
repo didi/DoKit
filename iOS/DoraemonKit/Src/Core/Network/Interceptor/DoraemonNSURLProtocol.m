@@ -13,6 +13,7 @@
 #import "DoraemonNetworkInterceptor.h"
 #import "DoraemonMockManager.h"
 #import "DoraemonDefine.h"
+#import "DoraemonUrlUtil.h"
 #import "UIViewController+Doraemon.h"
 
 static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
@@ -97,11 +98,7 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
         });
     }else if(DoraemonWeakNetwork_WeakSpeed == [[DoraemonNetworkInterceptor shareInstance].weakDelegate weakNetSelecte]){
         DoKitLog(@"yd WeakUpFlow Net");
-        if (@available(iOS 9.0, *)) {
-            [[DoraemonNetworkInterceptor shareInstance].weakDelegate handleWeak:[self.request.URL dataRepresentation] isDown:NO];
-        } else {
-            // Fallback on earlier versions
-        }
+        [[DoraemonNetworkInterceptor shareInstance].weakDelegate handleWeak:[DoraemonUrlUtil getHttpBodyFromRequest:self.request] isDown:NO];
         [self.task resume];
     }else{
         [self.task resume];
