@@ -10,26 +10,26 @@ package com.didichuxing.doraemonkit.kit.largepicture;
  * ================================================
  */
 public class LargeImageInfo {
+    private String framework = "other";
     private String url;
-    private String fileSize;
-    private String memorySize;
+    private double fileSize;
+    private double memorySize;
     private int width;
     private int height;
-    private String from;
 
     public void setUrl(String url) {
         this.url = url;
     }
 
-    public String getFileSize() {
+    public double getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(String fileSize) {
+    public void setFileSize(double fileSize) {
         this.fileSize = fileSize;
     }
 
-    public void setMemorySize(String memorySize) {
+    public void setMemorySize(double memorySize) {
         this.memorySize = memorySize;
     }
 
@@ -41,19 +41,11 @@ public class LargeImageInfo {
         this.height = height;
     }
 
-    public String getFrom() {
-        return from;
-    }
-
-    public void setFrom(String from) {
-        this.from = from;
-    }
-
     public String getUrl() {
         return url;
     }
 
-    public String getMemorySize() {
+    public double getMemorySize() {
         return memorySize;
     }
 
@@ -66,15 +58,23 @@ public class LargeImageInfo {
     }
 
 
+    public String getFramework() {
+        return framework;
+    }
+
+    public void setFramework(String framework) {
+        this.framework = framework;
+    }
+
     @Override
     public String toString() {
         return "LargeImageInfo{" +
-                "url='" + url + '\'' +
+                "framework='" + framework + '\'' +
+                ", url='" + url + '\'' +
                 ", fileSize='" + fileSize + '\'' +
                 ", memorySize='" + memorySize + '\'' +
                 ", width=" + width +
                 ", height=" + height +
-                ", from='" + from + '\'' +
                 '}';
     }
 }

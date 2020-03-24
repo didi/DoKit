@@ -14,11 +14,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.IdRes;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
@@ -81,9 +83,29 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
      * 上一次DoKitview的位置信息
      */
     private LastDokitViewPosInfo mLastDokitViewPosInfo;
-
+    /**
+     * 根布局的实际宽
+     */
     private int mDokitViewWidth = 0;
+    /**
+     * 根布局的实际高
+     */
     private int mDokitViewHeight = 0;
+    private ViewTreeObserver mViewTreeObserver;
+    private ViewTreeObserver.OnGlobalLayoutListener mOnGlobalLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+        @Override
+        public void onGlobalLayout() {
+            if (mRootView != null) {
+                //每次布局发生变动的时候重新赋值
+                mDokitViewWidth = mRootView.getMeasuredWidth();
+                mDokitViewHeight = mRootView.getMeasuredHeight();
+                if (mLastDokitViewPosInfo != null) {
+                    mLastDokitViewPosInfo.setDokitViewWidth(mDokitViewWidth);
+                    mLastDokitViewPosInfo.setDokitViewHeight(mDokitViewHeight);
+                }
+            }
+        }
+    };
     /**
      * 页面启动模式
      */
@@ -98,22 +120,28 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
     }
 
     /**
+     * 构造函数
+     */
+    public AbsDokitView() {
+        TAG = this.getClass().getSimpleName();
+        if (DokitViewManager.getInstance().getLastDokitViewPosInfo(mTag) == null) {
+            mLastDokitViewPosInfo = new LastDokitViewPosInfo();
+            DokitViewManager.getInstance().saveLastDokitViewPosInfo(mTag, mLastDokitViewPosInfo);
+        } else {
+            mLastDokitViewPosInfo = DokitViewManager.getInstance().getLastDokitViewPosInfo(mTag);
+        }
+        //创建主线程handler
+        mHandler = new Handler(Looper.myLooper());
+    }
+
+    /**
      * 执行floatPage create
      *
      * @param context 上下文环境
      */
     @SuppressLint("ClickableViewAccessibility")
     void performCreate(Context context) {
-        TAG = this.getClass().getSimpleName();
         try {
-            if (DokitViewManager.getInstance().getLastDokitViewPosInfo(mTag) == null) {
-                mLastDokitViewPosInfo = new LastDokitViewPosInfo();
-                DokitViewManager.getInstance().saveLastDokitViewPosInfo(mTag, mLastDokitViewPosInfo);
-            } else {
-                mLastDokitViewPosInfo = DokitViewManager.getInstance().getLastDokitViewPosInfo(mTag);
-            }
-            //创建主线程handler
-            mHandler = new Handler(Looper.myLooper());
             //调用onCreate方法
             onCreate(context);
             if (!isNormalMode()) {
@@ -136,6 +164,9 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
                     }
                 };
             }
+            //添加根布局的layout回调
+            addViewTreeObserverListener();
+
 
             //调用onCreateView抽象方法
             mChildView = onCreateView(context, mRootView);
@@ -195,14 +226,35 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
 
     }
 
+
     void performDestroy() {
         if (!isNormalMode()) {
             getContext().unregisterReceiver(mInnerReceiver);
         }
+        //移除布局监听
+        removeViewTreeObserverListener();
         mHandler = null;
         mRootView = null;
         onDestroy();
     }
+
+    private void addViewTreeObserverListener() {
+        if (mViewTreeObserver == null && mRootView != null && mOnGlobalLayoutListener != null) {
+            mViewTreeObserver = mRootView.getViewTreeObserver();
+            mViewTreeObserver.addOnGlobalLayoutListener(mOnGlobalLayoutListener);
+        }
+
+    }
+
+    private void removeViewTreeObserverListener() {
+        if (mViewTreeObserver != null && mOnGlobalLayoutListener != null) {
+            if (mViewTreeObserver.isAlive()) {
+                mViewTreeObserver.removeOnGlobalLayoutListener(mOnGlobalLayoutListener);
+            }
+        }
+
+    }
+
 
     /**
      * 确定普通浮标的初始位置
@@ -458,6 +510,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
     /**
      * 不能在改方法中进行dokitview的添加和删除 因为处于遍历过程在
      * 只有系统模式下才会调用
+     *
      * @param dokitView
      */
     @Override
@@ -468,23 +521,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
 
     @Override
     public void onResume() {
-        if (isNormalMode()) {
-            if (mRootView != null) {
-                if (mLastDokitViewPosInfo.getDokitViewWidth() == 0) {
-                    mDokitViewWidth = mRootView.getWidth();
-                    mLastDokitViewPosInfo.setDokitViewWidth(mDokitViewWidth);
-                } else {
-                    mDokitViewWidth = mLastDokitViewPosInfo.getDokitViewWidth();
-                }
 
-                if (mLastDokitViewPosInfo.getDokitViewHeight() == 0) {
-                    mDokitViewHeight = mRootView.getHeight();
-                    mLastDokitViewPosInfo.setDokitViewHeight(mDokitViewHeight);
-                } else {
-                    mDokitViewHeight = mLastDokitViewPosInfo.getDokitViewHeight();
-                }
-            }
-        }
     }
 
     @Override
@@ -754,4 +791,5 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
             mRootView.setLayoutParams(mFrameLayoutParams);
         }
     }
+
 }

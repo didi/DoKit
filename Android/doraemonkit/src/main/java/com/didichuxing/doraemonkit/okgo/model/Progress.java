@@ -19,7 +19,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.SystemClock;
 
-import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.request.base.Request;
 import com.didichuxing.doraemonkit.okgo.utils.IOUtils;
 
@@ -102,7 +102,7 @@ public class Progress implements Serializable {
         progress.tempSize += writeSize;
 
         long currentTime = SystemClock.elapsedRealtime();
-        boolean isNotify = (currentTime - progress.lastRefreshTime) >= OkGo.REFRESH_TIME;
+        boolean isNotify = (currentTime - progress.lastRefreshTime) >= DokitOkGo.REFRESH_TIME;
         if (isNotify || progress.currentSize == totalSize) {
             long diffTime = currentTime - progress.lastRefreshTime;
             if (diffTime == 0) diffTime = 1;

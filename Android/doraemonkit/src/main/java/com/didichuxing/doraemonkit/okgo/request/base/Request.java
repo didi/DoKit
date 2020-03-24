@@ -17,7 +17,7 @@ package com.didichuxing.doraemonkit.okgo.request.base;
 
 import android.text.TextUtils;
 
-import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.adapter.AdapterParam;
 import com.didichuxing.doraemonkit.okgo.adapter.CacheCall;
 import com.didichuxing.doraemonkit.okgo.adapter.Call;
@@ -74,7 +74,7 @@ public abstract class Request<T, R extends Request> implements Serializable {
     public Request(String url) {
         this.url = url;
         baseUrl = url;
-        OkGo go = OkGo.getInstance();
+        DokitOkGo go = DokitOkGo.getInstance();
         //默认添加 Accept-Language
         String acceptLanguage = HttpHeaders.getAcceptLanguage();
         if (!TextUtils.isEmpty(acceptLanguage)) headers(HttpHeaders.HEAD_KEY_ACCEPT_LANGUAGE, acceptLanguage);
@@ -347,7 +347,7 @@ public abstract class Request<T, R extends Request> implements Serializable {
         } else {
             mRequest = generateRequest(null);
         }
-        if (client == null) client = OkGo.getInstance().getOkHttpClient();
+        if (client == null) client = DokitOkGo.getInstance().getOkHttpClient();
         return client.newCall(mRequest);
     }
 

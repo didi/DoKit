@@ -7,7 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockListAdapter;
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
 import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockMonitorManager;
@@ -69,13 +71,19 @@ public class LargeImageListFragment extends BaseFragment {
         });
     }
 
+    private double fileThreshold = PerformanceSpInfoConfig.getLargeImgFileThreshold(DoraemonKit.APPLICATION, LargePictureManager.FILE_DEFAULT_THRESHOLD);
+    private double memoryThreshold = PerformanceSpInfoConfig.getLargeImgMemoryThreshold(DoraemonKit.APPLICATION, LargePictureManager.MEMORY_DEFAULT_THRESHOLD);
+
 
     private void load() {
-        List<LargeImageInfo> infos = new ArrayList<>();
+        List<LargeImageInfo> imageInfos = new ArrayList<>();
         for (LargeImageInfo largeImageInfo : LargePictureManager.LARGE_IMAGE_INFO_MAP.values()) {
-            infos.add(largeImageInfo);
+            if (largeImageInfo.getFileSize() < fileThreshold && largeImageInfo.getMemorySize() < memoryThreshold) {
+                continue;
+            }
+            imageInfos.add(largeImageInfo);
         }
-        mLargeImageListAdapter.setData(infos);
+        mLargeImageListAdapter.setData(imageInfos);
     }
 
     @Override

@@ -23,7 +23,7 @@ ext {
                //didi内部仓库版本号
                didiArchivesVersionName   : "1000.0.21",
                versionName               : "2.2.4",
-               glide                     : "4.8.0",
+               glide                     : "4.9.0",
     ]
     dependencies = [// ###### android library  start ######
                     "multidex"                : "com.android.support:multidex:1.0.3",
@@ -50,11 +50,13 @@ ext {
                     //"okio"                    : "com.squareup.okio:okio:1.15.0",
                     "utilcode"                : 'com.blankj:utilcode:1.25.9',
                     "glide"                   : 'com.github.bumptech.glide:glide:4.9.0',
+                    "glide_v3"                : 'com.github.bumptech.glide:glide:3.8.0',
                     "glide_okhttp3"           : "com.github.bumptech.glide:okhttp3-integration:4.9.0",
                     "glide_compiler"          : "com.github.bumptech.glide:compiler:4.9.0",
                     "picasso"                 : 'com.squareup.picasso:picasso:2.71828',
                     "fresco"                  : 'com.facebook.fresco:fresco:1.13.0',
                     "fresco-processors"       : "jp.wasabeef:fresco-processors:2.1.0",
+                    "image-loader"            : 'com.nostra13.universalimageloader:universal-image-loader:1.9.5',
                     "rootbeer-lib"            : 'com.scottyab:rootbeer-lib:0.0.7',
                     "gson"                    : 'com.google.code.gson:gson:2.8.2',
                     "zxing"                   : 'com.google.zxing:core:3.3.0',

@@ -9,10 +9,13 @@ import org.objectweb.asm.commons.LocalVariablesSorter;
  * Created by jint on 13/12/2019.
  */
 public final class UrlConnectionMethodAdapter extends LocalVariablesSorter implements Opcodes {
+    private String className;
+    private String methodName;
 
-
-    public UrlConnectionMethodAdapter(int access, String desc, MethodVisitor mv) {
+    public UrlConnectionMethodAdapter(String className, String methodName, int access, String desc, MethodVisitor mv) {
         super(Opcodes.ASM7, access, desc, mv);
+        this.className = className;
+        this.methodName = methodName;
     }
 
 
@@ -46,6 +49,6 @@ public final class UrlConnectionMethodAdapter extends LocalVariablesSorter imple
      * @param desc
      */
     private void log(int opcode, String owner, String name, String desc, boolean isInterface) {
-        System.out.println("matched====>" + "   opcode====" + opcode + "  owner===" + owner + "   methodName===" + name + "   desc===" + desc + "   isInterface===" + isInterface);
+        System.out.println("UrlConnectionMethodAdapter===matched====>" + "   className===" + className + "   methodName===" + methodName + "   opcode====" + opcode + "  owner===" + owner + "   methodName===" + name + "   desc===" + desc + "   isInterface===" + isInterface);
     }
 }

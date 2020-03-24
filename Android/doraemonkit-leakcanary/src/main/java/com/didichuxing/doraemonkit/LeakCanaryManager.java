@@ -2,6 +2,13 @@ package com.didichuxing.doraemonkit;
 
 import android.app.Application;
 
+import com.blankj.utilcode.util.ActivityUtils;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
+import com.didichuxing.doraemonkit.util.LogHelper;
+import com.sjtu.yifei.AbridgeCallBack;
+import com.sjtu.yifei.IBridge;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -14,6 +21,8 @@ import com.squareup.leakcanary.LeakCanary;
  * ================================================
  */
 class LeakCanaryManager {
+    private static final String TAG = "LeakCanaryManager";
+
     public static void install(Application app) {
         if (LeakCanary.isInAnalyzerProcess(app)) {
             // This process is dedicated to LeakCanary for heap analysis.
@@ -21,5 +30,34 @@ class LeakCanaryManager {
             return;
         }
         LeakCanary.install(app);
+    }
+
+    /**
+     * 初始化跨进程框架
+     * 接受leakcanary 进程泄漏传递过来的数据
+     */
+    public static void initAidlBridge(Application application) {
+        if (!DokitConstant.APP_HEALTH_RUNNING) {
+            return;
+        }
+        IBridge.init(application, application.getPackageName(), IBridge.AbridgeType.AIDL);
+        IBridge.registerAIDLCallBack(new AbridgeCallBack() {
+            @Override
+            public void receiveMessage(String message) {
+                try {
+                    LogHelper.i(TAG, "====aidl=====>" + message);
+                    if (DokitConstant.APP_HEALTH_RUNNING) {
+                        AppHealthInfo.DataBean.LeakBean leakBean = new AppHealthInfo.DataBean.LeakBean();
+                        leakBean.setPage(ActivityUtils.getTopActivity().getClass().getCanonicalName());
+                        leakBean.setDetail(message);
+                        AppHealthInfoUtil.getInstance().addLeakInfo(leakBean);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
     }
 }

@@ -6,6 +6,7 @@ import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.GlobalConfig;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
+import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.ui.kit.KitItem;
@@ -52,6 +53,11 @@ public class DokitConstant {
      * icon主入口是否处于显示状态
      */
     public static boolean MAIN_ICON_HAS_SHOW = false;
+
+    /**
+     * 流量监控白名单
+     */
+    public static List<WhiteHostBean> WHITE_HOSTS = new ArrayList<>();
 
 
     /**

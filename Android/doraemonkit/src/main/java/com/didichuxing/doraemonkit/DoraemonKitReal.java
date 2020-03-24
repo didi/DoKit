@@ -68,8 +68,6 @@ import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
-import com.sjtu.yifei.AbridgeCallBack;
-import com.sjtu.yifei.IBridge;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -287,12 +285,13 @@ class DoraemonKitReal {
         initAndroidUtil(app);
         checkLargeImgIsOpen();
         registerNetworkStatusChangedListener();
-        initAidlBridge(app);
+        //initAidlBridge(app);
         startAppHealth();
         checkGPSMock();
         //上传埋点
         DataPickManager.getInstance().postData();
     }
+
 
     private static void checkGPSMock() {
         if (GpsMockConfig.isGPSMockOpen(APPLICATION)) {
@@ -389,35 +388,6 @@ class DoraemonKitReal {
     }
 
 
-    /**
-     * 初始化跨进程框架
-     * 接受leakcanary 进程泄漏传递过来的数据
-     */
-    private static void initAidlBridge(Application application) {
-        if (!DokitConstant.APP_HEALTH_RUNNING) {
-            return;
-        }
-        IBridge.init(application, application.getPackageName(), IBridge.AbridgeType.AIDL);
-        IBridge.registerAIDLCallBack(new AbridgeCallBack() {
-            @Override
-            public void receiveMessage(String message) {
-                try {
-                    LogHelper.i(TAG, "====aidl=====>" + message);
-                    if (DokitConstant.APP_HEALTH_RUNNING) {
-                        AppHealthInfo.DataBean.LeakBean leakBean = new AppHealthInfo.DataBean.LeakBean();
-                        leakBean.setPage(ActivityUtils.getTopActivity().getClass().getCanonicalName());
-                        leakBean.setDetail(message);
-                        AppHealthInfoUtil.getInstance().addLeakInfo(leakBean);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-    }
-
-
     static void setWebDoorCallback(WebDoorManager.WebDoorCallback callback) {
         WebDoorManager.getInstance().setWebDoorCallback(callback);
     }
@@ -480,6 +450,10 @@ class DoraemonKitReal {
             Method install = leakCanaryManager.getMethod("install", Application.class);
             //调用静态的install方法
             install.invoke(null, app);
+
+            Method initAidlBridge = leakCanaryManager.getMethod("initAidlBridge", Application.class);
+            //调用静态initAidlBridge方法
+            initAidlBridge.invoke(null, app);
         } catch (Exception e) {
         }
 

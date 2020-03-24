@@ -9,15 +9,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.bumptech.glide.Glide;
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.picasso.MemoryPolicy;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
 import com.didichuxing.doraemonkit.util.ClipboardUtils;
+import com.didichuxing.doraemonkit.picasso.DokitPicasso;
+
+import java.text.DecimalFormat;
 
 public class LargeImageListAdapter extends AbsRecyclerAdapter<AbsViewBinder<LargeImageInfo>, LargeImageInfo> {
-
+    private DecimalFormat mDecimalFormat = new DecimalFormat("#0.00");
 
     public LargeImageListAdapter(Context context) {
         super(context);
@@ -37,9 +42,9 @@ public class LargeImageListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Larg
         private ImageView iv;
         private TextView tvLink;
         /**
-         * 来源
+         * 框架
          */
-        private TextView tvFrom;
+        private TextView tvFrameWork;
 
         /**
          * 文件大小
@@ -64,7 +69,7 @@ public class LargeImageListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Larg
         protected void getViews() {
             iv = getView(R.id.iv);
             tvLink = getView(R.id.tv_link);
-            tvFrom = getView(R.id.tv_from);
+            tvFrameWork = getView(R.id.tv_framework);
             tvFileSize = getView(R.id.tv_file_size);
             tvMemorySize = getView(R.id.tv_memory_size);
             tvSize = getView(R.id.tv_size);
@@ -73,11 +78,16 @@ public class LargeImageListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Larg
 
         @Override
         public void bind(final LargeImageInfo largeImageInfo) {
-            Glide.with(getContext()).load(largeImageInfo.getUrl()).centerCrop().into(iv);
+            DokitPicasso.with(DoraemonKit.APPLICATION)
+                    .load(largeImageInfo.getUrl())
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .resize(ConvertUtils.dp2px(100), ConvertUtils.dp2px(100))
+                    .centerCrop()
+                    .into(iv);
             tvLink.setText(largeImageInfo.getUrl());
-            tvFrom.setText(String.format("from:%s", largeImageInfo.getFrom()));
-            tvFileSize.setText(String.format("fileSize:%s", largeImageInfo.getFileSize()));
-            tvMemorySize.setText(String.format("memorySize:%s", largeImageInfo.getMemorySize()));
+            tvFrameWork.setText(String.format("framework:%s", largeImageInfo.getFramework()));
+            tvFileSize.setText(String.format("fileSize:%s", mDecimalFormat.format(largeImageInfo.getFileSize()) + "KB"));
+            tvMemorySize.setText(String.format("memorySize:%s", mDecimalFormat.format(largeImageInfo.getMemorySize()) + "MB"));
             tvSize.setText(String.format("width:%s   height:%s", largeImageInfo.getWidth(), largeImageInfo.getHeight()));
             btnCopy.setOnClickListener(new View.OnClickListener() {
                 @Override

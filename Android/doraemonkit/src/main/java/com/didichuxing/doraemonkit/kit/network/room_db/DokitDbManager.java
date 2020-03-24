@@ -359,7 +359,6 @@ public class DokitDbManager<T extends AbsMockApiBean> {
     }
 
 
-
     /**
      * 通过path和query查询指定的对象
      *
@@ -409,23 +408,26 @@ public class DokitDbManager<T extends AbsMockApiBean> {
      * @param mockApi
      */
     private boolean queriesMatched(String strLocalQuery, T mockApi) {
+        //{}代表没有配置query
         String mockQuery = mockApi.getQuery();
+        boolean mockQueryIsEmpty = TextUtils.isEmpty(mockQuery) || "{}".equals(mockQuery);
         //没有配置query参数
-        if (TextUtils.isEmpty(mockQuery) && TextUtils.isEmpty(strLocalQuery)) {
+        if (mockQueryIsEmpty && TextUtils.isEmpty(strLocalQuery)) {
             return true;
         }
 
-        if (TextUtils.isEmpty(strLocalQuery) && !TextUtils.isEmpty(mockQuery)) {
+
+        if (TextUtils.isEmpty(strLocalQuery) && !mockQueryIsEmpty) {
             return false;
         }
 
-        if (!TextUtils.isEmpty(strLocalQuery) && TextUtils.isEmpty(mockQuery)) {
+        if (!TextUtils.isEmpty(strLocalQuery) && mockQueryIsEmpty) {
             return false;
         }
 
 
         //匹配query
-        if (!TextUtils.isEmpty(strLocalQuery) && !TextUtils.isEmpty(mockQuery)) {
+        if (!TextUtils.isEmpty(strLocalQuery) && !mockQueryIsEmpty) {
             try {
                 JSONObject mockQueryObject = new JSONObject(mockQuery);
                 List<String> keys = new ArrayList<>();

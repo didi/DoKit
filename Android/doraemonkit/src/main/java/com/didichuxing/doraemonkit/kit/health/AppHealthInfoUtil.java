@@ -14,10 +14,9 @@ import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureManager;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -291,7 +290,7 @@ public class AppHealthInfoUtil {
         }
         //线上地址：https://www.dokit.cn/healthCheck/addCheckData
         //测试环境地址:http://dokit-test.intra.xiaojukeji.com/healthCheck/addCheckData
-        OkGo.<String>post(NetworkManager.APP_HEALTH_URL)
+        DokitOkGo.<String>post(NetworkManager.APP_HEALTH_URL)
                 .upJson(GsonUtils.toJson(mAppHealthInfo))
                 .execute(new StringCallback() {
                     @Override
