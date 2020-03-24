@@ -66,8 +66,8 @@ dokitExt {
     dokitPluginSwitch = true
     slowMethodSwitch = true
     //单位为us 1000us =1ms
-    thresholdTime = 400
-    packageNames = ["com.didichuxing.doraemondemo","com.didichuxing.doraemonkit"]
+    thresholdTime = 300
+    packageNames = ["com.didichuxing.doraemondemo"]
 }
 
 dependencies {

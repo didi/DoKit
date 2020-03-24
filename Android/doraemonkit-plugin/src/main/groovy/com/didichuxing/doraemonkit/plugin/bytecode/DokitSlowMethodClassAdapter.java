@@ -85,7 +85,7 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
         this.className = className;
 
         try {
-            if (SlowMethodUtil.getInstance().needUpdate(dokitExtension)) {
+            if (SlowMethodUtil.getInstance().needInit(dokitExtension)) {
                 SlowMethodUtil.getInstance().init(appExtension, dokitExtension);
             }
 
@@ -94,18 +94,16 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
                     matchedMethod = false;
                     return;
                 }
-                synchronized (DokitSlowMethodClassAdapter.class) {
-                    for (String packageName : SlowMethodUtil.getInstance().getPackageNames()) {
-                        if (className.contains(packageName)) {
-                            System.out.println("DokitSlowMethod==className===>" + className + " thresholdTime==>" + SlowMethodUtil.getInstance().getThresholdTime());
-                            matchedMethod = true;
-                            thresholdTime = SlowMethodUtil.getInstance().getThresholdTime();
-                            break;
-                        }
+                for (String packageName : SlowMethodUtil.getInstance().getPackageNames()) {
+                    if (className.contains(packageName)) {
+                        matchedMethod = true;
+                        thresholdTime = SlowMethodUtil.getInstance().getThresholdTime();
+                        System.out.println("DokitSlowMethod==className===>" + className + " thresholdTime==>" + SlowMethodUtil.getInstance().getThresholdTime());
+                        break;
                     }
                 }
-
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,7 +139,7 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
 
         return mv;

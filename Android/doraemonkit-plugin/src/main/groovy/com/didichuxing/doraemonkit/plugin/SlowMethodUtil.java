@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.plugin;
 import com.android.build.gradle.AppExtension;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -16,12 +17,15 @@ import java.util.List;
  */
 public class SlowMethodUtil {
     private boolean showMethodSwitch = true;
-    private List<String> packageNames = new ArrayList<>();
+    private final List<String> packageNames = Collections.synchronizedList(new ArrayList<String>());
+    /**
+     * 单位为500ms
+     */
+    private int thresholdTime = 500;
 
     public boolean isShowMethodSwitch() {
         return showMethodSwitch;
     }
-
 
     public List<String> getPackageNames() {
         return packageNames;
@@ -31,11 +35,6 @@ public class SlowMethodUtil {
         return thresholdTime;
     }
 
-
-    /**
-     * 单位为500ms
-     */
-    private int thresholdTime = 500;
 
     /**
      * 静态内部类单例
@@ -48,33 +47,42 @@ public class SlowMethodUtil {
         return Holder.INSTANCE;
     }
 
-    public boolean needUpdate(DokitExtension dokitExtension) {
+    public boolean needInit(DokitExtension dokitExtension) {
+        if (!dokitExtension.dokitPluginSwitch) {
+            showMethodSwitch = false;
+            return false;
+        }
+        if (!dokitExtension.slowMethodSwitch) {
+            showMethodSwitch = false;
+            return false;
+        }
+        if (dokitExtension.packageNames.isEmpty()) {
+            return true;
+        }
         if (dokitExtension.packageNames.size() != packageNames.size() || dokitExtension.slowMethodSwitch != showMethodSwitch || dokitExtension.thresholdTime != thresholdTime) {
             return true;
         }
-
+        showMethodSwitch = false;
         return false;
     }
 
-    public synchronized void init(AppExtension appExtension, DokitExtension dokitExtension) {
+    public void init(AppExtension appExtension, DokitExtension dokitExtension) {
         List<String> innerPackageNames = new ArrayList<>();
         //需要将applicationId中的 .替换为/ 因为字节码中会把.转化为/
         String applicationId = appExtension.getDefaultConfig().getApplicationId().replaceAll("\\.", "/");
         if (dokitExtension != null) {
             showMethodSwitch = dokitExtension.slowMethodSwitch;
-            innerPackageNames = dokitExtension.packageNames;
+            innerPackageNames.addAll(dokitExtension.packageNames);
             thresholdTime = dokitExtension.thresholdTime;
             if (innerPackageNames.isEmpty() && !StringUtils.isEmpty(applicationId)) {
                 innerPackageNames.add(applicationId);
             }
-        } else {
-            if (!StringUtils.isEmpty(applicationId)) {
-                innerPackageNames.add(applicationId);
-            }
+        }
+        if (packageNames.size() == innerPackageNames.size()) {
+            return;
         }
 
         packageNames.clear();
-
         for (String packageName : innerPackageNames) {
             packageName = packageName.replaceAll("\\.", "/");
             packageNames.add(packageName);

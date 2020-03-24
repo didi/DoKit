@@ -29,10 +29,13 @@ public class DokitExtension {
 
     @Override
     public String toString() {
-        return "FlagExtension{" +
+        return "DokitExtension{" +
                 "runVariant=" + runVariant +
                 ", duplcatedClassSafeMode=" + duplcatedClassSafeMode +
+                ", dokitPluginSwitch=" + dokitPluginSwitch +
+                ", slowMethodSwitch=" + slowMethodSwitch +
+                ", thresholdTime=" + thresholdTime +
+                ", packageNames=" + packageNames +
                 '}';
     }
-
 }
