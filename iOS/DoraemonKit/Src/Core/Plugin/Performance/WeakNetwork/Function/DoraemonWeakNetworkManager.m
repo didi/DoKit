@@ -11,6 +11,7 @@
 #import "DoraemonDefine.h"
 #import "DoraemonWeakNetworkWindow.h"
 #import "DoraemonNetFlowManager.h"
+#import "DoraemonUrlUtil.h"
 
 @interface DoraemonWeakNetworkManager()<DoraemonNetworkInterceptorDelegate,DoraemonNetworkWeakDelegate>
 
@@ -37,7 +38,6 @@
 
 - (void)startRecord{
     [DoraemonWeakNetworkManager shareInstance].startTime = [NSDate date];
-    [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:YES];
     if(!_secondTimer){
         _secondTimer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(doSecondFunction) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:_secondTimer forMode:NSRunLoopCommonModes];
@@ -59,7 +59,7 @@
         [_secondTimer invalidate];
         _secondTimer = nil;
     }
-    [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:NO];
+    [self canInterceptNetFlow:NO];
 }
 
 - (void)canInterceptNetFlow:(BOOL)enable{
@@ -115,6 +115,7 @@
 
 #pragma mark -- DoraemonNetworkInterceptorDelegate
 - (void)doraemonNetworkInterceptorDidReceiveData:(NSData *)data response:(NSURLResponse *)response request:(NSURLRequest *)request error:(NSError *)error startTime:(NSTimeInterval)startTime {
+    [[DoraemonWeakNetworkWindow shareInstance] updateFlowValue:[NSString stringWithFormat:@"%zi",[DoraemonUrlUtil getRequestLength:request]] downFlow:[NSString stringWithFormat:@"%lli",[DoraemonUrlUtil getResponseLength:(NSHTTPURLResponse *)response data:data]] fromWeak:NO];
 }
 
 - (BOOL)shouldIntercept {
