@@ -220,7 +220,6 @@
         <![CDATA[
         描述:关于图片文件大小和文件被加载到内存以后的区别。<br/>
         <font color="red">参考:https://juejin.im/post/5bc406b9f265da0aa664ea1e</font><br/>
-        <font color="red">注意:大图文件检测功能依赖于流量监控功能，请确保流量监控开关是否打开</font>
         ]]>
     </string>
 

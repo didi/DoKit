@@ -19,7 +19,7 @@ import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.MockTemplateTitleBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
-import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
@@ -151,7 +151,7 @@ public class TemplateMockAdapter<T extends MultiItemEntity> extends BaseMultiIte
                 tvUpload.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        OkGo.<String>patch(TEMPLATER_UPLOAD_URL)
+                        DokitOkGo.<String>patch(TEMPLATER_UPLOAD_URL)
                                 .params("projectId", mockApi.getProjectId())
                                 .params("id", mockApi.getId())
                                 .params("tempData", mockApi.getStrResponse())

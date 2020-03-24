@@ -49,9 +49,28 @@ public final class SlowMethodAdapter extends AdviceAdapter {
     protected void onMethodEnter() {
         super.onMethodEnter();
         try {
-            mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;", false);
-            mv.visitLdcInsn(this.className + "&" + this.getName());
-            mv.visitMethodInsn(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeMethodCostStart", "(Ljava/lang/String;)V", false);
+//            if (this.getName().equals("attachBaseContext")) {
+//                mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;", false);
+//                mv.visitIntInsn(SIPUSH, thresholdTime);
+//                mv.visitLdcInsn(this.className + "&" + this.getName());
+//                mv.visitMethodInsn(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeStaticMethodCostStart", "(ILjava/lang/String;)V", false);
+//                return;
+//            }
+
+            if (isStaticMethod) {
+                //静态方法需要插入的代码
+                mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;", false);
+                mv.visitIntInsn(SIPUSH, thresholdTime);
+                mv.visitLdcInsn(this.className + "&" + this.getName());
+                mv.visitMethodInsn(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeStaticMethodCostStart", "(ILjava/lang/String;)V", false);
+            } else {
+                //普通方法插入的代码
+                mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;", false);
+                mv.visitIntInsn(SIPUSH, thresholdTime);
+                mv.visitLdcInsn(this.className + "&" + this.getName());
+                mv.visitVarInsn(ALOAD, 0);
+                mv.visitMethodInsn(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeObjectMethodCostStart", "(ILjava/lang/String;Ljava/lang/Object;)V", false);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

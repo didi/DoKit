@@ -33,9 +33,8 @@ public final class DokitCommClassAdapter extends ClassVisitor {
     private DokitExtension dokitExtension;
 
     /**
-     *
-     * @param cv cv
-     * @param appExtension appExtension
+     * @param cv             cv
+     * @param appExtension   appExtension
      * @param dokitExtension dokitExtension
      */
     public DokitCommClassAdapter(final ClassVisitor cv, AppExtension appExtension, DokitExtension dokitExtension) {
@@ -136,10 +135,10 @@ public final class DokitCommClassAdapter extends ClassVisitor {
             return mv == null ? null : new PlatformHttpMethodAdapter(access, desc, mv);
         }
         //app启动hook点 onCreate()函数 兼容MultiDex
-        if (!StringUtils.isEmpty(superName) && (superName.equals("android/app/Application") || superName.equals("android/support/multidex/MultiDexApplication")) && methodName.equals("onCreate") && desc.equals("()V")) {
-            log(className, access, methodName, desc, signature);
-            return mv == null ? null : new ApplicationOnCreateMethodAdapter(access, methodName, desc, mv);
-        }
+//        if (!StringUtils.isEmpty(superName) && (superName.equals("android/app/Application") || superName.equals("android/support/multidex/MultiDexApplication")) && methodName.equals("onCreate") && desc.equals("()V")) {
+//            log(className, access, methodName, desc, signature);
+//            return mv == null ? null : new ApplicationOnCreateMethodAdapter(access, methodName, desc, mv);
+//        }
 
         //过滤所有类中当前方法中所有的字节码
         return mv;
@@ -170,7 +169,7 @@ public final class DokitCommClassAdapter extends ClassVisitor {
      * @param signature
      */
     private void log(String className, int access, String name, String desc, String signature) {
-        System.out.println("matched====>" + "  className===" + className + "   access===" + access + "   methodName===" + name + "   desc===" + desc + "   signature===" + signature);
+        System.out.println("DokitCommClassAdapter===matched====>" + "  className===" + className + "   access===" + access + "   methodName===" + name + "   desc===" + desc + "   signature===" + signature);
     }
 
 }

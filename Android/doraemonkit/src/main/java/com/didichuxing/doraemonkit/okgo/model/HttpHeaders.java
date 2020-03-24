@@ -18,7 +18,7 @@ package com.didichuxing.doraemonkit.okgo.model;
 import android.os.Build;
 import android.text.TextUtils;
 
-import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.utils.OkLogger;
 
 import org.json.JSONException;
@@ -206,7 +206,7 @@ public class HttpHeaders implements Serializable {
                 Class<?> sysResCls = Class.forName("com.android.internal.R$string");
                 Field webUserAgentField = sysResCls.getDeclaredField("web_user_agent");
                 Integer resId = (Integer) webUserAgentField.get(null);
-                webUserAgent = OkGo.getInstance().getContext().getString(resId);
+                webUserAgent = DokitOkGo.getInstance().getContext().getString(resId);
             } catch (Exception e) {
                 // We have nothing to do
             }

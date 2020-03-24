@@ -11,6 +11,7 @@ import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +35,10 @@ public class App extends Application {
         //是否显示入口icon
         //DoraemonKit.setAwaysShowMainIcon(false);
         DoraemonKit.install(this, kits, "749a0600b5e48dd77cf8ee680be7b1b7");
-
-        Fresco.initialize(this);
+        ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
+                .setDiskCacheEnabled(false)
+                .build();
+        Fresco.initialize(this, config);
         DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
             @Override
             public void overrideUrlLoading(Context context, String url) {

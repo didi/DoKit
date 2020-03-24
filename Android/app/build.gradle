@@ -62,13 +62,13 @@ android {
 }
 
 //dokit 扩展
-//dokitExt {
-//    dokitPluginSwitch = true
-//    slowMethodSwitch = true
-//    //单位为us 1000us =1ms
-//    thresholdTime = 200
-//    packageNames = ["com.didichuxing.doraemondemo","com.didichuxing.doraemonkit"]
-//}
+dokitExt {
+    dokitPluginSwitch = true
+    slowMethodSwitch = true
+    //单位为us 1000us =1ms
+    thresholdTime = 400
+    packageNames = ["com.didichuxing.doraemondemo","com.didichuxing.doraemonkit"]
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -83,6 +83,8 @@ dependencies {
     implementation rootProject.ext.dependencies["picasso"]
     implementation rootProject.ext.dependencies["fresco"]
     implementation rootProject.ext.dependencies["fresco-processors"]
+    implementation rootProject.ext.dependencies["image-loader"]
+
     //weex相关
     implementation rootProject.ext.dependencies["weex_inspector"]
     implementation rootProject.ext.dependencies["weex_sdk"]

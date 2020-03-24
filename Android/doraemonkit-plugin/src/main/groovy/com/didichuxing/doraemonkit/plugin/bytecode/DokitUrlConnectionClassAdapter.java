@@ -25,7 +25,10 @@ import org.objectweb.asm.Type;
 public final class DokitUrlConnectionClassAdapter extends ClassVisitor {
 
     private DokitExtension dokitExtension;
-
+    /**
+     * 当前类型
+     */
+    private String className;
 
     /**
      *
@@ -40,9 +43,9 @@ public final class DokitUrlConnectionClassAdapter extends ClassVisitor {
     }
 
     @Override
-    public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-        super.visit(version, access, name, signature, superName, interfaces);
-
+    public void visit(int version, int access, String className, String signature, String superName, String[] interfaces) {
+        super.visit(version, access, className, signature, superName, interfaces);
+        this.className = className;
     }
 
 
@@ -71,7 +74,7 @@ public final class DokitUrlConnectionClassAdapter extends ClassVisitor {
             return mv;
         }
         //过滤所有类中当前方法中所有的字节码
-        return mv == null ? null : new UrlConnectionMethodAdapter(access, desc, mv);
+        return mv == null ? null : new UrlConnectionMethodAdapter(className,methodName,access, desc, mv);
 
     }
 

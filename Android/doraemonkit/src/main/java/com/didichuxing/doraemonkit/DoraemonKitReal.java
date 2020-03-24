@@ -15,7 +15,6 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
 import com.didichuxing.doraemonkit.aop.OkHttpHook;
-import com.didichuxing.doraemonkit.aop.img.glide.GlideHook;
 import com.didichuxing.doraemonkit.config.GlobalConfig;
 import com.didichuxing.doraemonkit.config.GpsMockConfig;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;

@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -37,19 +38,19 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.didichuxing.doraemondemo.util.FrescoUtil;
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.kit.largepicture.glide.LargeBitmapGlideTransformation;
-import com.didichuxing.doraemonkit.kit.largepicture.picasso.LargeBitmapPicassoTransformation;
-import com.didichuxing.doraemonkit.kit.methodtrace.MethodCost;
 import com.didichuxing.doraemonkit.kit.network.common.CommonHeaders;
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorRequest;
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorResponse;
 import com.didichuxing.doraemonkit.kit.network.common.NetworkPrinterHelper;
-import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.core.ImagePipeline;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.squareup.picasso.Picasso;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
@@ -164,6 +165,10 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         ).build());
+        //初始化
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                .build();
+        ImageLoader.getInstance().init(config);
     }
 
 
@@ -305,9 +310,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
         switch (v.getId()) {
 
             case R.id.btn_trace:
-                MethodCost.startMethodTracing("doramemon");
                 test1();
-                MethodCost.stopMethodTracingAndPrintLog("doramemon");
                 break;
 
             case R.id.btn_show_tool_panel:
@@ -344,21 +347,28 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.btn_load_img:
                 //Glide 加载
-                String imgUrl = "http://b-ssl.duitang.com/uploads/item/201808/27/20180827043223_twunu.jpg";
+                String picassoImgUrl = "http://b-ssl.duitang.com/uploads/item/201808/27/20180827043223_twunu.jpg";
+                String glideImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662890&di=bc7b18d8b4efa73fb88ddef4f6f56acc&imgtype=0&src=http%3A%2F%2Ft9.baidu.com%2Fit%2Fu%3D583874135%2C70653437%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D3607%26h%3D2408";
+                String frescoImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662890&di=09318a918fe9ea73a8e27c80291bf669&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853";
+                String imageLoaderImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662891&di=acaf549645e58b6c67c231d495e18271&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D3571592872%2C3353494284%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1200%26h%3D1290";
                 Glide.with(MainDebugActivity.this)
-                        .asBitmap()
-                        .load(imgUrl)
+                        //.asBitmap()
+                        .load(glideImageUrl)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
-                        .transform(new LargeBitmapGlideTransformation(imgUrl))
                         .into((ImageView) findViewById(R.id.iv_glide));
-
-                Picasso.get().load(imgUrl)
-                        .transform(new LargeBitmapPicassoTransformation(imgUrl))
+//
+                Picasso.get().load(picassoImgUrl)
                         .into((ImageView) findViewById(R.id.iv_picasso));
+//
+                ImageLoader imageLoader = ImageLoader.getInstance();
+                imageLoader.displayImage(imageLoaderImageUrl, (ImageView) findViewById(R.id.iv_imageloader));
 
-                FrescoUtil.loadImage((SimpleDraweeView) findViewById(R.id.iv_fresco), imgUrl);
-
+                SimpleDraweeView frescoImageView = findViewById(R.id.iv_fresco);
+                frescoImageView.setImageURI(Uri.parse(frescoImageUrl));
+                ImagePipeline imagePipeline = Fresco.getImagePipeline();
+                // combines above two lines
+                imagePipeline.clearCaches();
 
 //                new Thread(new Runnable() {
 //                    @Override
@@ -373,7 +383,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.btn_okhttp_mock:
                 //OkGo.<String>get("http://gank.io/gateway?api=dj.map")
-                OkGo.<String>get("https://www.v2ex.com/api/topics/hot.json")
+                DokitOkGo.<String>get("https://www.v2ex.com/api/topics/hot.json")
                         .execute(new StringCallback() {
 
                             @Override
@@ -426,6 +436,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                 break;
         }
     }
+
 
     public String testCrash() {
         return null;

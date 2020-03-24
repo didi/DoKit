@@ -72,6 +72,7 @@ dependencies {
     compileOnly rootProject.ext.dependencies["glide"]
     compileOnly rootProject.ext.dependencies["picasso"]
     compileOnly rootProject.ext.dependencies["fresco"]
+    compileOnly rootProject.ext.dependencies["image-loader"]
 
     //高德地图定位
     compileOnly rootProject.ext.dependencies["amap_location"]
@@ -79,6 +80,7 @@ dependencies {
     compileOnly rootProject.ext.dependencies["tencent_location"]
     //百度地图定位
     compileOnly files('libs/BaiduLBS_Android.jar')
+    compileOnly files('libs/okhttp-2.1.0.jar')
 
 
 }

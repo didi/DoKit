@@ -8,7 +8,7 @@ import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.PathUtils;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
 import com.didichuxing.doraemonkit.util.LogHelper;
@@ -105,7 +105,7 @@ public class DataPickManager {
     private void realPost(final int from, String content) {
         //LogHelper.i(TAG,"content===>" + content);
         //LogHelper.i(TAG, "====realPost======from==>" + from);
-        OkGo.<String>post(NetworkManager.APP_DATA_PICK_URL)
+        DokitOkGo.<String>post(NetworkManager.APP_DATA_PICK_URL)
                 .upJson(content)
                 .execute(new StringCallback() {
                     @Override
