@@ -17,7 +17,7 @@ package com.didichuxing.doraemonkit.okgo.cache.policy;
 
 import android.graphics.Bitmap;
 
-import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.cache.CacheEntity;
 import com.didichuxing.doraemonkit.okgo.cache.CacheMode;
 import com.didichuxing.doraemonkit.okgo.callback.Callback;
@@ -194,7 +194,7 @@ public abstract class BaseCachePolicy<T> implements CachePolicy<T> {
     }
 
     protected void runOnUiThread(Runnable run) {
-        OkGo.getInstance().getDelivery().post(run);
+        DokitOkGo.getInstance().getDelivery().post(run);
     }
 
     @Override

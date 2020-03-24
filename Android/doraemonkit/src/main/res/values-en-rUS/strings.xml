@@ -152,7 +152,6 @@
         <![CDATA[
         Desc: the difference between the size of the picture file and the fact that the file is loaded into memory.<br/>
         <font color="red">link: https://juejin.im/post/5bc406b9f265da0aa664ea1e</font><br/>
-        <font color="red">Note: the large chart file detection function depends on the traffic monitoring function, please make sure that the traffic monitoring switch is turned on.</font>
         ]]>
         </string>
 

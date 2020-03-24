@@ -7,15 +7,15 @@ import java.util.List;
  * Created by hasee on 2017/4/20.
  */
 public class AppHealthMethodCostBeanWrap {
-    String trace;
-    List<AppHealthMethodCostBean> data;
+    private String title;
+    private List<AppHealthMethodCostBean> data;
 
-    public String getTrace() {
-        return trace;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTrace(String trace) {
-        this.trace = trace;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public List<AppHealthMethodCostBean> getData() {
@@ -29,7 +29,7 @@ public class AppHealthMethodCostBeanWrap {
     @Override
     public String toString() {
         return "AppHealthMethodCostBeanWrap{" +
-                "trace='" + trace + '\'' +
+                "trace='" + title + '\'' +
                 ", data=" + data +
                 '}';
     }

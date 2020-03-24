@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
  * 修订历史：
  * ================================================
  */
+@Deprecated
 public class MethodCost {
     private static final String TAG = "MethodTrace";
     /**

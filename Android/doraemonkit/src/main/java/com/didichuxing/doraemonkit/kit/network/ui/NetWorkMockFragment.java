@@ -30,7 +30,7 @@ import com.didichuxing.doraemonkit.kit.network.bean.MockTemplateTitleBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
-import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
@@ -437,7 +437,7 @@ public class NetWorkMockFragment extends BaseFragment {
             curPage = mTemplateApiAdapter.getData().size() / pageSize + 1;
         }
         String apiUrl = String.format(mFormatApiUrl, projectId, curPage, pageSize);
-        OkGo.<String>get(apiUrl).tag(this)
+        DokitOkGo.<String>get(apiUrl).tag(this)
                 .execute(new StringCallback() {
 
                     @Override
@@ -558,7 +558,7 @@ public class NetWorkMockFragment extends BaseFragment {
      */
     private void initResponseApis() {
         String apiUrl = String.format(mFormatApiUrl, projectId, 1, pageSize);
-        OkGo.<String>get(apiUrl).tag(this)
+        DokitOkGo.<String>get(apiUrl).tag(this)
                 .execute(new StringCallback() {
 
                     @Override

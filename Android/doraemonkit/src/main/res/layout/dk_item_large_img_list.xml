@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    >
+    android:paddingRight="16dp">
 
     <ImageView
         android:id="@+id/iv"
@@ -32,7 +31,7 @@
             tools:text="https://www.xxx.com" />
 
         <TextView
-            android:id="@+id/tv_from"
+            android:id="@+id/tv_framework"
             style="@style/DK.TextSmall.Dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +44,7 @@
             style="@style/DK.TextSmall.Dark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_from"
+            android:layout_below="@id/tv_framework"
             android:layout_marginTop="10dp"
             tools:text="fileSize:10kb" />
 

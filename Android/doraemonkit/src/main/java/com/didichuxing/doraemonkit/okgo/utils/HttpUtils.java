@@ -17,7 +17,7 @@ package com.didichuxing.doraemonkit.okgo.utils;
 
 import android.text.TextUtils;
 
-import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.model.HttpHeaders;
 import com.didichuxing.doraemonkit.okgo.model.HttpParams;
 
@@ -220,6 +220,6 @@ public class HttpUtils {
     }
 
     public static void runOnUiThread(Runnable runnable) {
-        OkGo.getInstance().getDelivery().post(runnable);
+        DokitOkGo.getInstance().getDelivery().post(runnable);
     }
 }

@@ -23,7 +23,7 @@ public class DokitExtension {
     /**
      * 单位为us 默认200us
      */
-    public int thresholdTime = 200;
+    public int thresholdTime = 500;
     public List<String> packageNames = new ArrayList<>();
 
 

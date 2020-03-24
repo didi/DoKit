@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.plugin.bytecode;
 
 import com.android.build.gradle.AppExtension;
 import com.didichuxing.doraemonkit.plugin.DokitExtension;
+import com.didichuxing.doraemonkit.plugin.SlowMethodUtil;
 import com.didichuxing.doraemonkit.plugin.StringUtils;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.slow.SlowMethodAdapter;
 
@@ -11,6 +12,8 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -75,69 +78,38 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
         if (isInterface) {
             return;
         }
+        //插件开关被关闭
+        if (!dokitExtension.dokitPluginSwitch) {
+            return;
+        }
         this.className = className;
+
         try {
-            //插件开关被关闭
-            if (!dokitExtension.dokitPluginSwitch) {
-                return;
-            }
-            //需要将applicationId中的 .替换为/ 因为字节码中会把.转化为/
-            String applicationId = appExtension.getDefaultConfig().getApplicationId().replaceAll("\\.", "/");
-            boolean showMethodSwitch = true;
-            List<String> packageNames = new ArrayList<>();
-            if (dokitExtension != null) {
-                showMethodSwitch = dokitExtension.slowMethodSwitch;
-                packageNames = dokitExtension.packageNames;
-                thresholdTime = dokitExtension.thresholdTime;
-                if (packageNames.isEmpty() && !StringUtils.isEmpty(applicationId)) {
-                    packageNames.add(applicationId);
-                }
-            } else {
-                if (!StringUtils.isEmpty(applicationId)) {
-                    packageNames.add(applicationId);
-                }
+            if (SlowMethodUtil.getInstance().needUpdate(dokitExtension)) {
+                SlowMethodUtil.getInstance().init(appExtension, dokitExtension);
             }
 
-
-            if (showMethodSwitch) {
-                //是否命中忽略的包名
-                if (ignorePackageNames(className)) {
+            if (SlowMethodUtil.getInstance().isShowMethodSwitch()) {
+                if (SlowMethodUtil.getInstance().ignorePackageNames(className)) {
                     matchedMethod = false;
                     return;
                 }
-                for (String packageName : packageNames) {
-                    packageName = packageName.replaceAll("\\.", "/");
-                    if (className.contains(packageName)) {
-                        matchedMethod = true;
-                        break;
+                synchronized (DokitSlowMethodClassAdapter.class) {
+                    for (String packageName : SlowMethodUtil.getInstance().getPackageNames()) {
+                        if (className.contains(packageName)) {
+                            System.out.println("DokitSlowMethod==className===>" + className + " thresholdTime==>" + SlowMethodUtil.getInstance().getThresholdTime());
+                            matchedMethod = true;
+                            thresholdTime = SlowMethodUtil.getInstance().getThresholdTime();
+                            break;
+                        }
                     }
                 }
-            }
 
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-    }
-
-    private String[] packageNames = new String[]{
-            "com/didichuxing/doraemonkit/aop",
-            "com/didichuxing/doraemonkit/kit/methodtrace",
-            "com/didichuxing/doraemonkit/kit/network",
-            "com/didichuxing/doraemonkit/kit/timecounter",
-            "com/didichuxing/doraemonkit/okgo",
-            "com/didichuxing/doraemonkit/datapick"
-    };
-
-    private boolean ignorePackageNames(String className) {
-        boolean isMatched = false;
-        for (String packageName : packageNames) {
-            if (className.contains(packageName)) {
-                isMatched = true;
-                break;
-            }
-        }
-        return isMatched;
     }
 
 

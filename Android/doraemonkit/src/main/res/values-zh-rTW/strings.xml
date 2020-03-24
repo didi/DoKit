@@ -150,7 +150,6 @@
         <![CDATA[
         描述:關於圖片文件大小和文件被加載到內存以後的區別.<br/>
         <font color="red">參考：https://juejin.im/post/5bc406b9f265da0aa664ea1e</font><br/>
-        <font color="red">注意：大圖文件檢測功能依賴于流量監控功能，請確保流量監控開關是否被打開</font>
         ]]>
     </string>
 

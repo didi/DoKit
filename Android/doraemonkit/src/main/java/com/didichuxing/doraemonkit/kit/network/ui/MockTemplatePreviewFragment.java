@@ -10,7 +10,7 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
-import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
@@ -66,7 +66,7 @@ public class MockTemplatePreviewFragment extends BaseFragment {
                     return;
                 }
                 MockTemplateApiBean mockApi = DokitDbManager.getInstance().getGlobalTemplateApiBean();
-                OkGo.<String>patch(TemplateMockAdapter.TEMPLATER_UPLOAD_URL)
+                DokitOkGo.<String>patch(TemplateMockAdapter.TEMPLATER_UPLOAD_URL)
                         .params("projectId", mockApi.getProjectId())
                         .params("id", mockApi.getId())
                         .params("tempData", mockApi.getStrResponse())

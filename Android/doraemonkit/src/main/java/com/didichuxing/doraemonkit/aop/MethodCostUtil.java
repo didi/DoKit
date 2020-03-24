@@ -6,6 +6,8 @@ import android.app.Service;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -33,7 +35,27 @@ public class MethodCostUtil {
         return MethodCostUtil.Holder.INSTANCE;
     }
 
-    public synchronized void recodeMethodCostStart(String methodName) {
+    public synchronized void recodeObjectMethodCostStart(int thresholdTime, String methodName, Object classObj) {
+        if (METHOD_COSTS == null) {
+            return;
+        }
+        try {
+            METHOD_COSTS.put(methodName, System.currentTimeMillis());
+            if (classObj instanceof Application) {
+                String[] methods = methodName.split("&");
+                if (methods.length == 2) {
+                    if (methods[1].equals("onCreate")) {
+                        TimeCounterManager.get().onAppCreateStart();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public synchronized void recodeStaticMethodCostStart(int thresholdTime, String methodName) {
         if (METHOD_COSTS == null) {
             return;
         }
@@ -63,6 +85,12 @@ public class MethodCostUtil {
                     METHOD_COSTS.remove(methodName);
                     if (classObj instanceof Application) {
                         //Application 启动时间统计
+                        String[] methods = methodName.split("&");
+                        if (methods.length == 2) {
+                            if (methods[1].equals("onCreate")) {
+                                TimeCounterManager.get().onAppCreateEnd();
+                            }
+                        }
                         //printApplicationStartTime(methodName);
                     } else if (classObj instanceof Activity) {
                         //Activity 启动时间统计
