@@ -51,6 +51,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.core.ImagePipeline;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
@@ -359,6 +360,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                         .into((ImageView) findViewById(R.id.iv_glide));
 //
                 Picasso.get().load(picassoImgUrl)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE)
                         .into((ImageView) findViewById(R.id.iv_picasso));
 //
                 ImageLoader imageLoader = ImageLoader.getInstance();
