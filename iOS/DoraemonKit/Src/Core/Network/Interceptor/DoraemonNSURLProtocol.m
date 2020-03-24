@@ -118,7 +118,7 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
             result = NO;
         }
     }
-    return YES;
+    return result;
 }
 
 - (void)startLoading{

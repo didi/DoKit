@@ -59,8 +59,6 @@
         [_secondTimer invalidate];
         _secondTimer = nil;
     }
-    [DoraemonNetworkInterceptor shareInstance].weakDelegate = nil;
-    [DoraemonWeakNetworkManager shareInstance].shouldWeak = NO;
     [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:NO];
 }
 
