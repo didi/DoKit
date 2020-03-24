@@ -92,7 +92,6 @@
 
 - (void)hide{
     self.hidden = YES;
-    [DoraemonWeakNetworkManager shareInstance].shouldWeak = NO;
     [[DoraemonWeakNetworkManager shareInstance] endRecord];
     if(self.delegate) {
         [_delegate doraemonWeakNetworkWindowClosed];

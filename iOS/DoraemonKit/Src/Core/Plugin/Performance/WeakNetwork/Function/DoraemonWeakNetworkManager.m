@@ -58,8 +58,10 @@
     if(_secondTimer){
         [_secondTimer invalidate];
         _secondTimer = nil;
-        [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:NO];
     }
+    [DoraemonNetworkInterceptor shareInstance].weakDelegate = nil;
+    [DoraemonWeakNetworkManager shareInstance].shouldWeak = NO;
+    [[DoraemonNetFlowManager shareInstance] canInterceptNetFlow:NO];
 }
 
 - (void)canInterceptNetFlow:(BOOL)enable{
