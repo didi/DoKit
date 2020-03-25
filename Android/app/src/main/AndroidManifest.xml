@@ -39,7 +39,6 @@
         android:allowBackup="false"
         android:icon="@mipmap/dk_app_icon"
         android:label="@string/app_name"
-        android:networkSecurityConfig="@xml/dokit_network_config"
         android:roundIcon="@mipmap/dk_app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
