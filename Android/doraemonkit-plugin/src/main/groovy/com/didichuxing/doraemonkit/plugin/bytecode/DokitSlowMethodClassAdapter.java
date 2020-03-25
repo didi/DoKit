@@ -2,19 +2,13 @@ package com.didichuxing.doraemonkit.plugin.bytecode;
 
 import com.android.build.gradle.AppExtension;
 import com.didichuxing.doraemonkit.plugin.DokitExtension;
-import com.didichuxing.doraemonkit.plugin.SlowMethodUtil;
-import com.didichuxing.doraemonkit.plugin.StringUtils;
+import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.slow.SlowMethodAdapter;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by jint on 13/12/2019.
@@ -34,24 +28,11 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
     private String className;
 
 
-    private boolean matchedMethod = false;
-    private AppExtension appExtension;
-    private DokitExtension dokitExtension;
     /**
-     * 单位为500ms
+     * @param cv cv 传进来的是 ClassWriter
      */
-    private int thresholdTime = 500;
-
-
-    /**
-     * @param cv             cv 传进来的是 ClassWriter
-     * @param appExtension   appExtension
-     * @param dokitExtension dokitExtension
-     */
-    public DokitSlowMethodClassAdapter(final ClassVisitor cv, AppExtension appExtension, DokitExtension dokitExtension) {
+    public DokitSlowMethodClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM7, cv);
-        this.appExtension = appExtension;
-        this.dokitExtension = dokitExtension;
     }
 
     /**
@@ -78,35 +59,7 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
         if (isInterface) {
             return;
         }
-        //插件开关被关闭
-        if (!dokitExtension.dokitPluginSwitch) {
-            return;
-        }
         this.className = className;
-
-        try {
-            if (SlowMethodUtil.getInstance().needInit(dokitExtension)) {
-                SlowMethodUtil.getInstance().init(appExtension, dokitExtension);
-            }
-
-            if (SlowMethodUtil.getInstance().isShowMethodSwitch()) {
-                if (SlowMethodUtil.getInstance().ignorePackageNames(className)) {
-                    matchedMethod = false;
-                    return;
-                }
-                for (String packageName : SlowMethodUtil.getInstance().getPackageNames()) {
-                    if (className.contains(packageName)) {
-                        matchedMethod = true;
-                        thresholdTime = SlowMethodUtil.getInstance().getThresholdTime();
-                        System.out.println("DokitSlowMethod==className===>" + className + " thresholdTime==>" + SlowMethodUtil.getInstance().getThresholdTime());
-                        break;
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -134,12 +87,37 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
         //从传进来的ClassWriter中读取MethodVisitor
         MethodVisitor mv = cv.visitMethod(access, methodName, desc, signature, exceptions);
         try {
-            if (matchedMethod && !("<init>").equals(methodName)) {
-                return mv == null ? null : new SlowMethodAdapter(mv, className, thresholdTime, access, methodName, desc);
+            //插件开关被关闭
+            if (!DokitExtUtil.getInstance().isDokitPluginSwitch()) {
+                return mv;
+            }
+            if (!DokitExtUtil.getInstance().isSlowMethodSwitch()) {
+                return mv;
+            }
+
+            if (DokitExtUtil.getInstance().ignorePackageNames(className)) {
+                return mv;
+            }
+
+
+            if (("<init>").equals(methodName)) {
+                return mv;
+            }
+
+            boolean matchedMethod = false;
+            for (String packageName : DokitExtUtil.getInstance().getPackageNames()) {
+                if (className.contains(packageName)) {
+                    matchedMethod = true;
+                    break;
+                }
+            }
+
+            if (matchedMethod) {
+                System.out.println("DokitSlowMethod==className===>" + className + "   methodName===>" + methodName + "   thresholdTime==>" + DokitExtUtil.getInstance().getThresholdTime());
+                return mv == null ? null : new SlowMethodAdapter(mv, className, DokitExtUtil.getInstance().getThresholdTime(), access, methodName, desc);
             }
 
         } catch (Exception e) {
-            // e.printStackTrace();
         }
 
         return mv;

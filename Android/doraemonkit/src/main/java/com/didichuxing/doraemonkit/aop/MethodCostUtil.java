@@ -47,6 +47,10 @@ public class MethodCostUtil {
                     if (methods[1].equals("onCreate")) {
                         TimeCounterManager.get().onAppCreateStart();
                     }
+
+                    if (methods[1].equals("attachBaseContext")) {
+                        TimeCounterManager.get().onAppAttachBaseContextStart();
+                    }
                 }
             }
         } catch (Exception e) {
@@ -89,6 +93,9 @@ public class MethodCostUtil {
                         if (methods.length == 2) {
                             if (methods[1].equals("onCreate")) {
                                 TimeCounterManager.get().onAppCreateEnd();
+                            }
+                            if (methods[1].equals("attachBaseContext")) {
+                                TimeCounterManager.get().onAppAttachBaseContextEnd();
                             }
                         }
                         //printApplicationStartTime(methodName);

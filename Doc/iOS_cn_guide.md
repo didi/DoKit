@@ -5,13 +5,13 @@
 #### 1.1: cocoapods依赖
 
 ```
-    pod 'DoraemonKit/Core', '~> 2.0.0', :configurations => ['Debug'] //必选
-    pod 'DoraemonKit/WithLogger', '~> 2.0.0', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithGPS', '~> 2.0.0', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithLoad', '~> 2.0.0', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithWeex', '~> 2.0.0', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithDatabase', '~> 2.0.0', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithMLeaksFinder', '2.0.0', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/Core', '~> 3.0.0', :configurations => ['Debug'] //必选
+    pod 'DoraemonKit/WithLogger', '~> 3.0.0', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithGPS', '~> 3.0.0', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithLoad', '~> 3.0.0', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithWeex', '~> 3.0.0', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithDatabase', '~> 3.0.0', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithMLeaksFinder', '3.0.0', :configurations => ['Debug'] //可选
 ```
 Core subspec作为核心，必须引入。
 
@@ -47,9 +47,9 @@ Core subspec作为核心，必须引入。
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     #ifdef DEBUG
-    	//默认
+        //默认
         [[DoraemonManager shareInstance] install];
-    	// 或者使用传入位置,解决遮挡关键区域,减少频繁移动
+        // 或者使用传入位置,解决遮挡关键区域,减少频繁移动
         //[[DoraemonManager shareInstance] installWithStartingPosition:CGPointMake(66, 66)];
     #endif
 }
@@ -60,7 +60,7 @@ Core subspec作为核心，必须引入。
 ### 三、添加自定义测试模块到Doraemon面板中（非必要）
 比如我们要在Doraemon面板中添加一个环境切换的功能。
 
-第一步：新建一个类，实现DoraemonPluginProtocol协议中的pluginDidLoad方法，该方法就是以后点击Doraemon工具面板中“环境切换”按钮触发的事件。
+第一步：新建一个类，实现DoraemonPluginProtocol协议中的pluginDidLoad方法，该方法就是以后点击Doraemon工具面板中"环境切换"按钮触发的事件。
 
 比如以代驾司机端为例，点击按钮之后会进入环境切换页面。
 
@@ -74,7 +74,7 @@ Core subspec作为核心，必须引入。
 ```
 
 
-第二步：在Doraemon初始化的地方添加第一步中添加的“环境切换”插件
+第二步：在Doraemon初始化的地方添加第一步中添加的"环境切换"插件
 
 调用DoraemonManager的以下方法：
 

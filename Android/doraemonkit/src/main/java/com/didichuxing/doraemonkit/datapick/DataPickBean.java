@@ -2,11 +2,13 @@ package com.didichuxing.doraemonkit.datapick;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.DeviceUtils;
+import com.blankj.utilcode.util.LanguageUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.didichuxing.doraemonkit.BuildConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * ================================================
@@ -38,6 +40,10 @@ public class DataPickBean {
      */
     private String appId;
     private String dokitVersion;
+    /**
+     * app 或者系统语言
+     */
+    private String language;
     private List<EventBean> events;
 
     DataPickBean() {
@@ -50,7 +56,9 @@ public class DataPickBean {
         this.phoneMode = DeviceUtils.getModel();
         this.time = "" + TimeUtils.getNowMills();
         this.systemVersion = DeviceUtils.getSDKVersionName();
+        this.language = Locale.getDefault().getDisplayLanguage();
     }
+
 
     void setEvents(List<EventBean> events) {
         this.events = events;
@@ -85,6 +93,22 @@ public class DataPickBean {
                     ", time=" + time +
                     '}';
         }
+    }
+
+    @Override
+    public String toString() {
+        return "DataPickBean{" +
+                "platform='" + platform + '\'' +
+                ", pId='" + pId + '\'' +
+                ", time='" + time + '\'' +
+                ", phoneMode='" + phoneMode + '\'' +
+                ", systemVersion='" + systemVersion + '\'' +
+                ", appName='" + appName + '\'' +
+                ", appId='" + appId + '\'' +
+                ", dokitVersion='" + dokitVersion + '\'' +
+                ", language='" + language + '\'' +
+                ", events=" + events +
+                '}';
     }
 
 

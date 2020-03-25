@@ -38,6 +38,6 @@ public class DokitBigImageWeaver extends BaseWeaver {
     @Override
     protected ClassVisitor wrapClassWriter(ClassWriter classWriter) {
         //返回指定的ClassVisitor
-        return new DokitBigImageClassAdapter(classWriter, appExtension, dokitExtension);
+        return new DokitBigImageClassAdapter(classWriter);
     }
 }

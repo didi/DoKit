@@ -1,10 +1,7 @@
 package com.didichuxing.doraemonkit.plugin.bytecode;
 
-import com.android.build.gradle.AppExtension;
-import com.didichuxing.doraemonkit.plugin.DokitExtension;
-import com.didichuxing.doraemonkit.plugin.StringUtils;
+import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.AmapLocationMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.ApplicationOnCreateMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.BaiduLocationMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.FlagMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.OkHttpMethodAdapter;
@@ -30,16 +27,12 @@ public final class DokitCommClassAdapter extends ClassVisitor {
      * 当前类的父类 假如存在的话
      */
     private String superName;
-    private DokitExtension dokitExtension;
 
     /**
      * @param cv             cv
-     * @param appExtension   appExtension
-     * @param dokitExtension dokitExtension
      */
-    public DokitCommClassAdapter(final ClassVisitor cv, AppExtension appExtension, DokitExtension dokitExtension) {
+    public DokitCommClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM7, cv);
-        this.dokitExtension = dokitExtension;
     }
 
     @Override
@@ -73,7 +66,7 @@ public final class DokitCommClassAdapter extends ClassVisitor {
         //从传进来的ClassWriter中读取MethodVisitor
         MethodVisitor mv = cv.visitMethod(access, methodName, desc, signature, exceptions);
         //开关被关闭 不插入代码
-        if (!dokitExtension.dokitPluginSwitch) {
+        if (!DokitExtUtil.getInstance().isDokitPluginSwitch()) {
             return mv;
         }
         //开发者变量字节码替换

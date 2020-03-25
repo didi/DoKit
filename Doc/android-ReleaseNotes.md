@@ -1,6 +1,12 @@
 DoraemonKit-Android releases
 ===
 
+## 3.0.0
+1.优化dokit 慢函数代码插件性能
+2.优化大图检测实现方式，不再需要手动注入代码(支持Glide4.0+、Fresco、Picasso、ImageLoader)
+3.优化安卓端启动性能
+4.其他功能优化
+
 ## 3.0_beta3
 1.优化dokit插件
 

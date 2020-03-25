@@ -37,6 +37,6 @@ public class DokitSlowMethodWeaver extends BaseWeaver {
     @Override
     protected ClassVisitor wrapClassWriter(ClassWriter classWriter) {
         //返回指定的ClassVisitor
-        return new DokitSlowMethodClassAdapter(classWriter, appExtension, dokitExtension);
+        return new DokitSlowMethodClassAdapter(classWriter);
     }
 }

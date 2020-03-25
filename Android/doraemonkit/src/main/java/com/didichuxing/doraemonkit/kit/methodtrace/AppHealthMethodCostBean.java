@@ -7,8 +7,7 @@ package com.didichuxing.doraemonkit.kit.methodtrace;
 public class AppHealthMethodCostBean {
     private String functionName;
     private String costTime = "0";
-    private String threadId;
-    private String threadName;
+
 
     public String getFunctionName() {
         return functionName;
@@ -26,29 +25,12 @@ public class AppHealthMethodCostBean {
         this.costTime = costTime;
     }
 
-    public String getThreadId() {
-        return threadId;
-    }
-
-    public void setThreadId(String threadId) {
-        this.threadId = threadId;
-    }
-
-    public String getThreadName() {
-        return threadName;
-    }
-
-    public void setThreadName(String threadName) {
-        this.threadName = threadName;
-    }
 
     @Override
     public String toString() {
         return "AppHealthMethodCostBean{" +
                 "functionName='" + functionName + '\'' +
                 ", costTime='" + costTime + '\'' +
-                ", threadId='" + threadId + '\'' +
-                ", threadName='" + threadName + '\'' +
                 '}';
     }
 }

@@ -2,10 +2,10 @@
 ### 1： Use Cocoapods to Get latest version of DoraemonKit
 
 ```
-    pod 'DoraemonKit/Core', '~> 1.1.7', :configurations => ['Debug']
-    pod 'DoraemonKit/WithLogger', '~> 1.1.7', :configurations => ['Debug']
-    pod 'DoraemonKit/WithGPS', '~> 1.1.7', :configurations => ['Debug']
-    pod 'DoraemonKit/WithLoad', '~> 1.1.7', :configurations => ['Debug']
+    pod 'DoraemonKit/Core', '~> 3.0.0', :configurations => ['Debug']
+    pod 'DoraemonKit/WithLogger', '~> 3.0.0', :configurations => ['Debug']
+    pod 'DoraemonKit/WithGPS', '~> 3.0.0', :configurations => ['Debug']
+    pod 'DoraemonKit/WithLoad', '~> 3.0.0', :configurations => ['Debug']
 ```
 
 ### 2： Access method using DoraemonKit's built-in toolset
@@ -16,7 +16,7 @@ Add code when the app starts.
     #ifdef DEBUG
         [[DoraemonManager shareInstance] install];
         // or custom position
-    	// [DoraemonManager shareInstance] installWithStartingPosition:CGPointMake(66, 66)];
+        // [DoraemonManager shareInstance] installWithStartingPosition:CGPointMake(66, 66)];
     #endif
 }
 ```

@@ -1,21 +1,10 @@
 package com.didichuxing.doraemonkit.plugin.bytecode;
 
-import com.android.build.gradle.AppExtension;
-import com.didichuxing.doraemonkit.plugin.DokitExtension;
-import com.didichuxing.doraemonkit.plugin.StringUtils;
+import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.FrescoMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.GlideMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.GlideV3MethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.ImageLoaderMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.PicassoMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.AmapLocationMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.ApplicationOnCreateMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.BaiduLocationMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.FlagMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.OkHttpMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.PlatformHttpMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.TencentLocationMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.TencentLocationSingleMethodAdapter;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -35,16 +24,12 @@ public final class DokitBigImageClassAdapter extends ClassVisitor {
      * 当前类的父类 假如存在的话
      */
     private String superName;
-    private DokitExtension dokitExtension;
 
     /**
      * @param cv             cv
-     * @param appExtension   appExtension
-     * @param dokitExtension dokitExtension
      */
-    public DokitBigImageClassAdapter(final ClassVisitor cv, AppExtension appExtension, DokitExtension dokitExtension) {
+    public DokitBigImageClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM7, cv);
-        this.dokitExtension = dokitExtension;
     }
 
     @Override
@@ -76,7 +61,7 @@ public final class DokitBigImageClassAdapter extends ClassVisitor {
         //从传进来的ClassWriter中读取MethodVisitor
         MethodVisitor mv = cv.visitMethod(access, methodName, desc, signature, exceptions);
         //开关被关闭 不插入代码
-        if (!dokitExtension.dokitPluginSwitch) {
+        if (!DokitExtUtil.getInstance().isDokitPluginSwitch()) {
             return mv;
         }
         //Glide v4字节码替换
