@@ -68,11 +68,14 @@ static CGFloat const kDoraemonBlockMonitorTimeInterval = 0.2f;
     if (![info isKindOfClass:[NSDictionary class]]) {
         return;
     }
-    [[DoraemonHealthManager sharedInstance] addANRInfo:info];
-    if (self.block) {
-        self.block(info);
-    }
-    [DoraemonANRTool saveANRInfo:info];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[DoraemonHealthManager sharedInstance] addANRInfo:info];
+        if (self.block) {
+            self.block(info);
+        }
+        [DoraemonANRTool saveANRInfo:info];
+    });
+
 }
 
 - (void)addANRBlock:(DoraemonANRManagerBlock)block{
