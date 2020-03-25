@@ -62,6 +62,9 @@
         [_basicInfoDic setValue:[DoraemonAppInfoUtil appName] forKey:@"appName"];
         [_basicInfoDic setValue:[DoraemonAppInfoUtil bundleIdentifier] forKey:@"appId"];
         [_basicInfoDic setValue:DoKitVersion forKey:@"dokitVersion"];
+        
+        NSString *currentLanguageRegion = [[[NSUserDefaults standardUserDefaults] objectForKey:@"AppleLanguages"] firstObject];
+        [_basicInfoDic setValue:STRING_NOT_NULL(currentLanguageRegion) forKey:@"language"];//语言这一块主要是为了统计国内外用户分布
     }
     return _basicInfoDic;
 }
