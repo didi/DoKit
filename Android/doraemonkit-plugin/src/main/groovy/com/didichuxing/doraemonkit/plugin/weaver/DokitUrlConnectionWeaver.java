@@ -38,6 +38,6 @@ public class DokitUrlConnectionWeaver extends BaseWeaver {
     @Override
     protected ClassVisitor wrapClassWriter(ClassWriter classWriter) {
         //返回指定的ClassVisitor
-        return new DokitUrlConnectionClassAdapter(classWriter, appExtension, dokitExtension);
+        return new DokitUrlConnectionClassAdapter(classWriter);
     }
 }

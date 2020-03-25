@@ -6,6 +6,7 @@ import com.didichuxing.doraemonkit.plugin.transform.DokitCommTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitSlowMethodTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitUrlConnectionTransform;
 
+import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
@@ -35,6 +36,15 @@ public final class DoKitPlugin implements Plugin<Project> {
                 return;
             }
         }
+
+        project.afterEvaluate(new Action<Project>() {
+            //项目评估之后回调
+            @Override
+            public void execute(Project project1) {
+                DokitExtension dokitExtension = project1.getExtensions().getByType(DokitExtension.class);
+                DokitExtUtil.getInstance().init(dokitExtension, appExtension);
+            }
+        });
 
 
         //普通的插装

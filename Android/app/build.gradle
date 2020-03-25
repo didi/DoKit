@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
-apply from: 'doraemonkit.gradle'
 apply plugin: 'com.jakewharton.butterknife'
+apply from: 'doraemonkit.gradle'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -65,9 +65,10 @@ android {
 dokitExt {
     dokitPluginSwitch = true
     slowMethodSwitch = true
-    //单位为us 1000us =1ms
-    thresholdTime = 300
+    //单位为ms 1000ms = 1s
+    thresholdTime = 200
     packageNames = ["com.didichuxing.doraemondemo"]
+//    packageNames = ["com.didichuxing.doraemondemo","com.didichuxing.doraemonkit"]
 }
 
 dependencies {

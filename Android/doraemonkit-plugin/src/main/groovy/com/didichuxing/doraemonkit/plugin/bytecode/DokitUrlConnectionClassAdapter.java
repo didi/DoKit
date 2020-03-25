@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.plugin.bytecode;
 
 import com.android.build.gradle.AppExtension;
+import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
 import com.didichuxing.doraemonkit.plugin.DokitExtension;
 import com.didichuxing.doraemonkit.plugin.StringUtils;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.AmapLocationMethodAdapter;
@@ -24,21 +25,16 @@ import org.objectweb.asm.Type;
  */
 public final class DokitUrlConnectionClassAdapter extends ClassVisitor {
 
-    private DokitExtension dokitExtension;
     /**
      * 当前类型
      */
     private String className;
 
     /**
-     *
      * @param cv cv 传进来的是 ClassWriter
-     * @param appExtension appExtension
-     * @param dokitExtension dokitExtension
      */
-    public DokitUrlConnectionClassAdapter(final ClassVisitor cv, AppExtension appExtension, DokitExtension dokitExtension) {
+    public DokitUrlConnectionClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM7, cv);
-        this.dokitExtension = dokitExtension;
 
     }
 
@@ -70,11 +66,11 @@ public final class DokitUrlConnectionClassAdapter extends ClassVisitor {
         //从传进来的ClassWriter中读取MethodVisitor
         MethodVisitor mv = cv.visitMethod(access, methodName, desc, signature, exceptions);
         //开关被关闭 不插入代码
-        if (!dokitExtension.dokitPluginSwitch) {
+        if (!DokitExtUtil.getInstance().isDokitPluginSwitch()) {
             return mv;
         }
         //过滤所有类中当前方法中所有的字节码
-        return mv == null ? null : new UrlConnectionMethodAdapter(className,methodName,access, desc, mv);
+        return mv == null ? null : new UrlConnectionMethodAdapter(className, methodName, access, desc, mv);
 
     }
 

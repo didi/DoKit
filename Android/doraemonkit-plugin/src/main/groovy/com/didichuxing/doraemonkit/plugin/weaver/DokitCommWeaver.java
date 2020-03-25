@@ -37,6 +37,6 @@ public class DokitCommWeaver extends BaseWeaver {
     @Override
     protected ClassVisitor wrapClassWriter(ClassWriter classWriter) {
         //返回指定的ClassVisitor
-        return new DokitCommClassAdapter(classWriter, appExtension, dokitExtension);
+        return new DokitCommClassAdapter(classWriter);
     }
 }
