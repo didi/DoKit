@@ -134,6 +134,22 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 <br/>
 <br/>
 
+## 微信公众号
+<div align="center">    
+ <img src="https://javer.oss-cn-shanghai.aliyuncs.com/2020/dokit/dokitwx.jpg" width = "200" height = "200" alt="微信公众号" align=left />
+</div>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+
 ## 项目成员
 
 ### 发起者 / 负责人
@@ -215,6 +231,7 @@ DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [
 
 
 敬请各位用户知晓。
+
 
 ## 友情链接
 1. [AoE](https://github.com/didi/AoE)，一个终端侧AI集成运行时环境 
