@@ -23,62 +23,72 @@
             android:id="@+id/btn_show_hide_icon"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_show_hide_icon" />
+            android:text="@string/app_btn_show_hide_icon"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_show_tool_panel"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_show_tool_panel" />
+            android:text="@string/app_btn_show_tool_panel"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_jump"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_jump" />
+            android:text="@string/app_btn_jump"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_jump_leak"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_leak" />
+            android:text="@string/app_btn_leak"
+            android:textAllCaps="false" />
 
 
         <Button
             android:id="@+id/btn_method_cost"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_method_cost" />
+            android:text="@string/app_btn_method_cost"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_location"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_location" />
+            android:text="@string/app_btn_location"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_location_amap"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_location_amap" />
+            android:text="@string/app_btn_location_amap"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_location_tencent"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_location_tencent" />
+            android:text="@string/app_btn_location_tencent"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_location_baidu"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_location_baidu" />
+            android:text="@string/app_btn_location_baidu"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_load_img"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_load_img" />
+            android:text="@string/app_btn_load_img"
+            android:textAllCaps="false" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -183,13 +193,15 @@
             android:id="@+id/btn_okhttp_mock"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_okhttp_mock" />
+            android:text="@string/app_btn_okhttp_mock"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_connection_mock"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_urlconnection_mock" />
+            android:text="@string/app_btn_urlconnection_mock"
+            android:textAllCaps="false" />
         <!--    滴滴内部网络框架mock-->
         <!--        <Button-->
         <!--            android:id="@+id/btn_rpc_mock"-->
@@ -201,20 +213,23 @@
             android:id="@+id/btn_test_custom"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_custom_mock" />
+            android:text="@string/app_btn_custom_mock"
+            android:textAllCaps="false" />
 
 
         <Button
             android:id="@+id/btn_test_crash"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_crash_test" />
+            android:text="@string/app_btn_crash_test"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_create_database"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_create_database" />
+            android:text="@string/app_btn_create_database"
+            android:textAllCaps="false" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -225,14 +240,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:text="@string/app_btn_upload_file" />
+                android:text="@string/app_btn_upload_file"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/btn_download_test"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:text="@string/app_btn_download_file" />
+                android:text="@string/app_btn_download_file"
+                android:textAllCaps="false" />
 
         </LinearLayout>
 
