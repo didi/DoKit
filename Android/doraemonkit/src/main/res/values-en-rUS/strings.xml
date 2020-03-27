@@ -31,7 +31,7 @@
     <string name="dk_kit_db_debug">DBView</string>
     <string name="dk_kit_weak_network">Simulated Weak Network</string>
     <string name="dk_kit_view_check">View Ciewer</string>
-    <string name="dk_kit_net_monitor">Traffic Monitor</string>
+    <string name="dk_kit_net_monitor">NetWork Monitor</string>
     <string name="dk_kit_ui_monitor">Show Current Infos On UI</string>
     <string name="dk_kit_time_counter">Time Counter</string>
     <string name="dk_kit_method_cost">method cost</string>
@@ -261,4 +261,36 @@
     <!--jsonviewer-->
     <string name="dk_jsonViewer_icon_plus">expand</string>
     <string name="dk_jsonViewer_icon_minus">collapse</string>
+    <string name="dk_data_mock_et_hint">support filtrate</string>
+    <string name="dk_data_mock_bottom_table_mock">DataMock</string>
+    <string name="dk_data_mock_bottom_table_template">Template</string>
+    <string name="dk_data_mock_switch_all">All</string>
+    <string name="dk_data_mock_switch_opened">Open</string>
+    <string name="dk_data_mock_switch_closed">Close</string>
+    <string name="dk_data_mock_group">Group</string>
+    <string name="dk_data_mock_switch_status">Group Status</string>
+    <string name="dk_health_upload_successed">Data uploaded successfully</string>
+    <string name="dk_health_upload_failed">upload failed,try again</string>
+    <string name="dk_health_upload_droped">This test case has been discarded!</string>
+    <string name="dk_health_upload_title">Health Checkup</string>
+    <string name="dk_health_upload_message">Are you sure to start the health checkup?</string>
+    <string name="dk_health_funcation_start">App is about to restart and start to enter medical examination mode</string>
+    <string name="dk_health_funcation_running">Checking up ...</string>
+    <string name="dk_health_step_index">Swipe up to see how to use the feature</string>
+    <string name="dk_health_title_step1">Step 1</string>
+    <string name="dk_health_title_step2">Step 2</string>
+    <string name="dk_health_title_step3">Step 3</string>
+    <string name="dk_health_title_step4">Step 4</string>
+    <string name="dk_health_step1">Click the Start Experience button to start this performance test</string>
+    <string name="dk_health_step2">Stay on each page for at least 10 seconds, if less than 10 seconds, we will discard the data collected on that page.</string>
+    <string name="dk_health_step3">After the test is completed, re-enter this page and click the end test button, fill in the test case name and the name of the test person, and you can upload the performance test data.</string>
+    <string name="dk_health_step4">Open the www.dokit.cn platform and enter the app health checklist to view the performance test report</string>
+    <string name="dk_health_back_top">back to the top</string>
+    <string name="dk_log_btn_clean">Clear</string>
+    <string name="dk_log_btn_export">Export</string>
+    <string name="dk_log_btn_back_top">Top</string>
+    <string name="dk_log_btn_to_bottom">Bottom</string>
+    <string name="dk_kit_net_monitor_white_host_tip">Whitelist (Block all by default. If you add a whitelist, only network requests in the whitelist will be blocked, and the whitelist rule will take effect when the current page is closed. Example of whitelist host: m.baidu.com)</string>
+    <string name="dk_kit_net_monitor_white_host_edit_tip">Please enter whitelist host</string>
+    <string name="dk_kit_net_monitor_white_host_edit_toast">Please enter host first</string>
 </resources>

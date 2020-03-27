@@ -94,8 +94,8 @@ public class MainReleaseActivity extends AppCompatActivity implements View.OnCli
 
         setContentView(R.layout.activity_main);
         TextView tvEnv = findViewById(R.id.tv_env);
-        tvEnv.setText("当前编译环境:Release");
-        findViewById(R.id.btn_trace).setOnClickListener(this);
+        tvEnv.setText(getString(R.string.app_build_types) + ":Release");
+        findViewById(R.id.btn_method_cost).setOnClickListener(this);
         findViewById(R.id.btn_jump).setOnClickListener(this);
         findViewById(R.id.btn_show_tool_panel).setOnClickListener(this);
         findViewById(R.id.btn_location).setOnClickListener(this);
@@ -278,7 +278,7 @@ public class MainReleaseActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_trace:
+            case R.id.btn_method_cost:
                 MethodCost.startMethodTracing("doramemon");
                 test1();
                 MethodCost.stopMethodTracingAndPrintLog("doramemon");

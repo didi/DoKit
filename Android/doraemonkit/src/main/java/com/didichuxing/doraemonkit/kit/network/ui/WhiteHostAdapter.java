@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
+import com.didichuxing.doraemonkit.util.DokitUtil;
 
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class WhiteHostAdapter extends BaseQuickAdapter<WhiteHostBean, BaseViewHo
                 if (text.equals("+")) {
                     String editText = helper.<EditText>getView(R.id.ed_host).getText().toString();
                     if (TextUtils.isEmpty(editText)) {
-                        ToastUtils.showShort("请先输入host");
+                        ToastUtils.showShort(DokitUtil.getString(R.string.dk_kit_net_monitor_white_host_edit_toast));
                         return;
                     }
                     for (WhiteHostBean hostBean : hostBeans) {

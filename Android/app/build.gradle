@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
-apply from: 'doraemonkit.gradle'
 apply plugin: 'com.jakewharton.butterknife'
+apply from: 'doraemonkit.gradle'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]

@@ -35,6 +35,7 @@ import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.util.DokitUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.view.DkDropDownMenu;
 
@@ -63,7 +64,8 @@ public class NetWorkMockFragment extends BaseFragment {
     private LinearLayout mLlBottomInterceptWrap, mLlBottomTemplateWrap;
     private TextView mTvMock, mTvTemplate;
     private ImageView mIvMock, mIvTemplate;
-    private String mMenuHeaders[] = {"接口分组", "开关状态"};
+    private String mMenuHeaders[] = {DokitUtil.getString(R.string.dk_data_mock_group),
+            DokitUtil.getString(R.string.dk_data_mock_switch_status)};
 
 
     ListView mGroupListView;
@@ -75,7 +77,9 @@ public class NetWorkMockFragment extends BaseFragment {
     private ListDropDownAdapter mGroupMenuAdapter, mSwitchMenuAdapter;
 
 
-    private String[] mSwitchMenus = {"所有", "打开", "关闭"};
+    private String[] mSwitchMenus = {DokitUtil.getString(R.string.dk_data_mock_switch_all),
+            DokitUtil.getString(R.string.dk_data_mock_switch_opened),
+            DokitUtil.getString(R.string.dk_data_mock_switch_closed)};
     private List<View> popupViews = new ArrayList<>();
 
     FilterConditionBean mInterceptFilterBean, mTemplateFilterBean;

@@ -12,4 +12,9 @@
 
     <string name="dk_storage_tip_key">key:</string>
     <string name="dk_storage_tip_value">value:</string>
+
+    <string name="dk_log_btn_clean">Clear</string>
+    <string name="dk_log_btn_export">Export</string>
+    <string name="dk_log_btn_back_top">Top</string>
+    <string name="dk_log_btn_to_bottom">Bottom</string>
 </resources>

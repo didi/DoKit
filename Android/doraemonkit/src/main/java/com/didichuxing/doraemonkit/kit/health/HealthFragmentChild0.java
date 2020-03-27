@@ -24,6 +24,7 @@ import com.didichuxing.doraemonkit.ui.dialog.DialogListener;
 import com.didichuxing.doraemonkit.ui.dialog.DialogProvider;
 import com.didichuxing.doraemonkit.ui.dialog.UniversalDialogFragment;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.util.DokitUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.view.verticalviewpager.VerticalViewPager;
 
@@ -68,7 +69,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                         @Override
                         public void onSuccess(Response<String> response) {
                             LogHelper.i(TAG, "上传成功===>" + response.body());
-                            ToastUtils.showShort("上传数据成功!");
+                            ToastUtils.showShort(DokitUtil.getString(R.string.dk_health_upload_successed));
                             //重置状态
                             GlobalConfig.setAppHealth(DoraemonKit.APPLICATION, false);
                             DokitConstant.APP_HEALTH_RUNNING = false;
@@ -82,7 +83,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                         @Override
                         public void onError(Response<String> response) {
                             LogHelper.e(TAG, "error response===>" + response.body());
-                            ToastUtils.showShort("上传数据失败,请重新上传");
+                            ToastUtils.showShort(DokitUtil.getString(R.string.dk_health_upload_failed));
                         }
                     });
 
@@ -101,7 +102,7 @@ public class HealthFragmentChild0 extends BaseFragment {
 
             @Override
             public void onCancel() {
-                ToastUtils.showShort("本次测试用例已丢弃!");
+                ToastUtils.showShort(DokitUtil.getString(R.string.dk_health_upload_droped));
                 //重置状态
                 GlobalConfig.setAppHealth(DoraemonKit.APPLICATION, false);
                 DokitConstant.APP_HEALTH_RUNNING = false;
@@ -125,14 +126,14 @@ public class HealthFragmentChild0 extends BaseFragment {
                     }
                 } else {
                     new AlertDialog.Builder(getActivity())
-                            .setTitle("健康体检")
-                            .setMessage("是否确认开始执行健康体检?")
+                            .setTitle(DokitUtil.getString(R.string.dk_health_upload_title))
+                            .setMessage(DokitUtil.getString(R.string.dk_health_upload_message))
                             .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                     if (mController != null) {
-                                        ToastUtils.showShort("App即将重启并开始进入体检模式");
+                                        ToastUtils.showShort(DokitUtil.getString(R.string.dk_health_funcation_start));
                                         GlobalConfig.setAppHealth(DoraemonKit.APPLICATION, true);
                                         DokitConstant.APP_HEALTH_RUNNING = true;
                                         //重启app

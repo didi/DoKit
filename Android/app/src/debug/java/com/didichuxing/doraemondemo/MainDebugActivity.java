@@ -120,9 +120,9 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         TextView tvEnv = findViewById(R.id.tv_env);
-        tvEnv.setText("当前编译环境:Debug");
+        tvEnv.setText(getString(R.string.app_build_types) + ":Debug");
         mBtnJump.setOnClickListener(this);
-        findViewById(R.id.btn_trace).setOnClickListener(this);
+        findViewById(R.id.btn_method_cost).setOnClickListener(this);
         findViewById(R.id.btn_jump_leak).setOnClickListener(this);
         findViewById(R.id.btn_show_tool_panel).setOnClickListener(this);
         findViewById(R.id.btn_location).setOnClickListener(this);
@@ -310,7 +310,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.btn_trace:
+            case R.id.btn_method_cost:
                 test1();
                 break;
 
