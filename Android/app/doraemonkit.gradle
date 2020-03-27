@@ -7,7 +7,7 @@ if (rootProject.ext.config["applyPlugin"]) {
         debugImplementation project(":doraemonkit")
         debugImplementation project(":doraemonkit-leakcanary")
         debugImplementation project(":doraemonkit-weex")
-//        releaseImplementation project(":doraemonkit-no-op")
+        releaseImplementation project(":doraemonkit-no-op")
         releaseImplementation project(":doraemonkit-weex-no-op")
         //新版线上包
 //        debugImplementation "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["didiArchivesVersionName"]}"

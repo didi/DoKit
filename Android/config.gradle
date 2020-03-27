@@ -4,7 +4,7 @@ ext {
             // 线上包不会接入DoraemonKit，测试包会自动接入
             applyPlugin          : true,
             //上传到仓库时需要打开
-            uploadArchives       : true,
+            uploadArchives       : false,
             //是否发布插件到远程仓库
             publishPluginToRemote: false,
             localRepoURL         : "/Users/didi/project/dokit_repo"
@@ -15,15 +15,14 @@ ext {
                minSdkVersion             : 16,
                targetSdkVersion          : 29,
                //app版本号
-               versionCode               : 224,
+               versionCode               : 300,
                //dokit 插件版本号
                pluginVersionName         : "1000.0.2",
                //jcenter dokit版本号
-               jcenterArchivesVersionName: "2.2.4",
+               jcenterArchivesVersionName: "3.0.0",
                //didi内部仓库版本号
                didiArchivesVersionName   : "1000.0.21",
-               //打包上传时 dokit的版本名字
-               versionName               : "2.2.4",
+               versionName               : "3.0.0",
                glide                     : "4.9.0",
     ]
     dependencies = [// ###### android library  start ######

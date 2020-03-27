@@ -25,17 +25,17 @@
                 android:layout_height="36dp"
                 android:background="@drawable/dk_health_title_bg"
                 android:gravity="center"
-                android:text="第1步"
+                android:text="@string/dk_health_title_step1"
                 android:textColor="@color/dk_color_FFFFFF"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="点击开始体验按钮开始本次的性能测试"
+                android:text="@string/dk_health_step1"
                 android:textColor="@color/dk_color_333333"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -49,17 +49,17 @@
                 android:layout_height="36dp"
                 android:background="@drawable/dk_health_title_bg"
                 android:gravity="center"
-                android:text="第2步"
+                android:text="@string/dk_health_title_step2"
                 android:textColor="@color/dk_color_FFFFFF"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="在每一个页面至少停留10秒钟，如果低于10秒钟的话，我们将会丢弃该页面收集到的数据。"
+                android:text="@string/dk_health_step2"
                 android:textColor="@color/dk_color_333333"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -73,17 +73,17 @@
                 android:layout_height="36dp"
                 android:background="@drawable/dk_health_title_bg"
                 android:gravity="center"
-                android:text="第3步"
+                android:text="@string/dk_health_title_step3"
                 android:textColor="@color/dk_color_FFFFFF"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="测试完毕之后，重新进入本页面并点击结束测试按钮，填写测试用例名称和测试人的名字，即可上传本次性能测试数据"
+                android:text="@string/dk_health_step2"
                 android:textColor="@color/dk_color_333333"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -97,17 +97,17 @@
                 android:layout_height="36dp"
                 android:background="@drawable/dk_health_title_bg"
                 android:gravity="center"
-                android:text="第4步"
+                android:text="@string/dk_health_title_step4"
                 android:textColor="@color/dk_color_FFFFFF"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="打开www.dokit.cn平台，进入app健康体检列表，即可查看本次的性能测试报告"
                 android:textColor="@color/dk_color_333333"
-                android:textSize="16sp" />
+                android:text="@string/dk_health_step4"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -124,7 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="回到顶部"
+            android:text="@string/dk_health_back_top"
             android:textColor="#27BCB7"
             android:textSize="16sp" />
 

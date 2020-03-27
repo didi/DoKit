@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="80dp"
-            android:text="正在体检中..."
+            android:text="@string/dk_health_funcation_running"
             android:textColor="#27BCB7"
             android:textSize="18sp" />
     </FrameLayout>
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:text="向上滑动查看功能使用说明"
+            android:text="@string/dk_health_step_index"
             android:textColor="#27BCB7"
             android:textSize="16sp" />
 

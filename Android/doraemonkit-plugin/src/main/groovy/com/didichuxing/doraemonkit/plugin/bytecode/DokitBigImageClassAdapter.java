@@ -1,22 +1,10 @@
 package com.didichuxing.doraemonkit.plugin.bytecode;
 
-import com.android.build.gradle.AppExtension;
 import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
-import com.didichuxing.doraemonkit.plugin.DokitExtension;
-import com.didichuxing.doraemonkit.plugin.StringUtils;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.FrescoMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.GlideMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.GlideV3MethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.ImageLoaderMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.PicassoMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.AmapLocationMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.ApplicationOnCreateMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.BaiduLocationMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.FlagMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.OkHttpMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.PlatformHttpMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.TencentLocationMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.TencentLocationSingleMethodAdapter;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;

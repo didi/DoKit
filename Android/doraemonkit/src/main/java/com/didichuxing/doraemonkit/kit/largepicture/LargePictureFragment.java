@@ -53,8 +53,8 @@ public class LargePictureFragment extends BaseFragment {
     private void initView() {
         HomeTitleBar titleBar = findViewById(R.id.title_bar);
         titleBar.setTitle(R.string.dk_category_large_image);
-        TextView tvDesc = findViewById(R.id.tv_desc);
-        tvDesc.setText(Html.fromHtml(getResources().getString(R.string.dk_large_picture_threshold_desc)));
+        //TextView tvDesc = findViewById(R.id.tv_desc);
+        //tvDesc.setText(Html.fromHtml(getResources().getString(R.string.dk_large_picture_threshold_desc)));
 
         EditText fileEditText = findViewById(R.id.ed_file_threshold);
         fileEditText.addTextChangedListener(new TextWatcher() {

@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.kit.network.ui;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -17,12 +18,15 @@ import android.widget.TextView;
 
 import com.ajguan.library.EasyRefreshLayout;
 import com.ajguan.library.LoadModel;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.ResourceUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.kit.loginfo.util.StringUtil;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.MockApiResponseBean;
 import com.didichuxing.doraemonkit.kit.network.bean.MockInterceptTitleBean;
@@ -35,6 +39,7 @@ import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.util.DokitUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.view.DkDropDownMenu;
 
@@ -63,7 +68,8 @@ public class NetWorkMockFragment extends BaseFragment {
     private LinearLayout mLlBottomInterceptWrap, mLlBottomTemplateWrap;
     private TextView mTvMock, mTvTemplate;
     private ImageView mIvMock, mIvTemplate;
-    private String mMenuHeaders[] = {"接口分组", "开关状态"};
+    private String mMenuHeaders[] = {DokitUtil.getString(R.string.dk_data_mock_group),
+            DokitUtil.getString(R.string.dk_data_mock_switch_status)};
 
 
     ListView mGroupListView;
@@ -75,7 +81,9 @@ public class NetWorkMockFragment extends BaseFragment {
     private ListDropDownAdapter mGroupMenuAdapter, mSwitchMenuAdapter;
 
 
-    private String[] mSwitchMenus = {"所有", "打开", "关闭"};
+    private String[] mSwitchMenus = {DokitUtil.getString(R.string.dk_data_mock_switch_all),
+            DokitUtil.getString(R.string.dk_data_mock_switch_opened),
+            DokitUtil.getString(R.string.dk_data_mock_switch_closed)};
     private List<View> popupViews = new ArrayList<>();
 
     FilterConditionBean mInterceptFilterBean, mTemplateFilterBean;
