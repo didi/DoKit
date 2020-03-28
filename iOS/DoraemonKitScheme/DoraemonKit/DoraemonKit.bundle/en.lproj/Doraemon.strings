@@ -222,7 +222,41 @@
     "启动耗时"                               = "Start time";
     "启动耗时统计"                            = "Start time statistics";
     
+    //yd checked
+    "应用设置"                               = "Application Settings";
+    "手机屏幕"                               = "Mobile phone screen";
+    "清除搜索历史"                            = "Clear search history";
+    "模拟器不支持扫码功能"                      = "The simulator does not support scanning";
+    "导出"                                  = "export";
+    "清除"                                  = "remove";
+    "模拟弱网"                               = "Weak Network";
+    "模拟弱网测试"                            = "Weak Network Test";
+    "弱网模式"                               = "Weak network mode";
+    "断网"                                  = "Broken";
+    "超时"                                  = "Timeout";
+    "限速"                                  = "Limit";
+    "延时"                                  = "Delay";
+    "延时时间"                               = "Delay time";
+    "请求限速"                               = "Request limit";
+    "响应限速"                               = "Response limit";
+    "数据预览为空"                            = "The data is previewed as empty";
+    "上传成功"                               = "Uploaded Successfully";
+    "上传失败"                               = "Uploaded Failed";
+    "上传"                                  = "Upload";
+    "数据预览"                               = "Preview";
+    "分组: %@\n"                             = "group: %@\n";
+    "修改人: %@\n"                           = "modifier: %@\n";
+    "创建人: %@\n"                           = "founder: %@\n";
+    "本地是否存在mock数据: %@"                  = "mock data exists locally: %@";
+    "存在"                                  = "exist";
+    "不存在"                                 = "inexistence";
+    "App当前处于健康体检状态，无法进行此操作"        = "App is currently in the state of health check, so this operation cannot be carried out";
+    
     //DoraemonKitDemo
+    "图片测试"                              = "Image Test";
+    "Mock测试"                              = "Mock Test";
+    "Mock测试2"                             = "Mock Test 2";
+    "block方式加入插件"                       = "Add plugins from block";
     "测试工具集"                                      = "Test tools";
     "视觉测试Demo"                                 = "UI test Demo";
     "高流量操作打开"                            = "High traffic operation";
