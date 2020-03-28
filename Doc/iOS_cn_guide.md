@@ -30,7 +30,7 @@ Core subspec作为核心，必须引入。
 #### 1.2: Carthage依赖
 
 ```
-    git "https://github.com/didi/DoraemonKit.git"  "1.2.5"
+git "https://github.com/didi/DoraemonKit.git"  "c3.0.0"
     或者
     github "didi/DoraemonKit"
 ```
