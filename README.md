@@ -36,7 +36,7 @@ DoraemonKit 是一个功能平台，能够让每一个 App 快速接入一些常
 ## 效果演示
 
 <div align="center">    
-  <img src="https://pt-starimg.didistatic.com/static/starimg/img/3p0sMQwPsl1583910529606.jpeg" width = "380" alt="DoKit 首页效果演示" align=center />
+  <img src="https://pt-starimg.didistatic.com/static/starimg/img/H1SVa0S6Zm1585189141793.jpg" width = "200" alt="DoKit 首页效果演示" align=center />
 </div>
 
 ## 功能模块

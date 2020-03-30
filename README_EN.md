@@ -33,7 +33,7 @@ A full-featured App (iOS & Android) development assistant. You deserve it.
 ## Feature Demonstration
 
 <div align="center">    
- <img src="https://pt-starimg.didistatic.com/static/starimg/img/3p0sMQwPsl1583910529606.jpeg" width = "380" alt="Demonstration" align=center />
+ <img src="https://pt-starimg.didistatic.com/static/starimg/img/H1SVa0S6Zm1585189141793.jpg" width = "200" alt="Demonstration" align=center />
 </div>
 
 ## How To Use
