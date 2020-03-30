@@ -154,7 +154,7 @@ public enum AndroidReachabilityInspectors {
     @Override
     public @NonNull
     Reachability expectedReachability(@NonNull LeakTraceElement element) {
-      if (!element.isInstanceOf("android.support.v4.app.Fragment")) {
+      if (!element.isInstanceOf("androidx.fragment.app.Fragment")) {
         return Reachability.UNKNOWN;
       }
       String mDetached = element.getFieldReferenceValue("mDetached");

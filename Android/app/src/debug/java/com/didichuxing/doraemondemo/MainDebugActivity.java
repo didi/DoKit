@@ -24,7 +24,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -122,6 +124,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
         TextView tvEnv = findViewById(R.id.tv_env);
         tvEnv.setText(getString(R.string.app_build_types) + ":Debug");
         mBtnJump.setOnClickListener(this);
+
         findViewById(R.id.btn_method_cost).setOnClickListener(this);
         findViewById(R.id.btn_jump_leak).setOnClickListener(this);
         findViewById(R.id.btn_show_tool_panel).setOnClickListener(this);

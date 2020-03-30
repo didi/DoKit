@@ -1,7 +1,8 @@
 package com.didichuxing.doraemondemo;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * 模拟内存泄漏的activity

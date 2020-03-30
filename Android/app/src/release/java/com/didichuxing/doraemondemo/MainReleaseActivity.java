@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;

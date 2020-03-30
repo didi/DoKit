@@ -81,6 +81,8 @@ dependencies {
     //百度地图定位
     compileOnly files('libs/BaiduLBS_Android.jar')
     compileOnly files('libs/okhttp-2.1.0.jar')
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'junit:junit:4.12'
 
 
 }
