@@ -21,14 +21,14 @@ import java.util.List;
  * 修订历史：
  * ================================================
  */
-public class TemplateMockAdapter<T extends BaseNode> extends BaseNodeAdapter implements LoadMoreModule {
+public class TemplateMockAdapter extends BaseNodeAdapter implements LoadMoreModule {
     public static String TEMPLATER_UPLOAD_URL = NetworkManager.MOCK_DOMAIN + "/api/app/interface";
     public static final String TAG = "InterceptMockAdapter";
     public final static int TYPE_TITLE = 100;
     public final static int TYPE_CONTENT = 200;
 
-    public TemplateMockAdapter(List<T> nodeList) {
-        super((List<BaseNode>) nodeList);
+    public TemplateMockAdapter(List<BaseNode> nodeList) {
+        super(nodeList);
         addFullSpanNodeProvider(new TemplateTitleNodeProvider());
         addNodeProvider(new TemplateDetailNodeProvider());
     }

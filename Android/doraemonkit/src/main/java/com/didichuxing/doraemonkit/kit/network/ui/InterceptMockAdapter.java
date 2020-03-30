@@ -20,13 +20,13 @@ import java.util.List;
  * 修订历史：
  * ================================================
  */
-public class InterceptMockAdapter<T extends BaseNode> extends BaseNodeAdapter implements LoadMoreModule {
+public class InterceptMockAdapter extends BaseNodeAdapter implements LoadMoreModule {
     public static final String TAG = "InterceptMockAdapter";
     public final static int TYPE_TITLE = 100;
     public final static int TYPE_CONTENT = 200;
 
-    public InterceptMockAdapter(List<T> nodeList) {
-        super((List<BaseNode>) nodeList);
+    public InterceptMockAdapter(List<BaseNode> nodeList) {
+        super(nodeList);
         addFullSpanNodeProvider(new InterceptTitleNodeProvider());
         addNodeProvider(new InterceptDetailNodeProvider());
     }
