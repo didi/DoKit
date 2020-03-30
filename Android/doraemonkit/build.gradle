@@ -41,9 +41,9 @@ dependencies {
     //noinspection GradleCompatible
     testImplementation rootProject.ext.dependencies["junit"]
     implementation rootProject.ext.dependencies["constraintLayout"]
-    implementation rootProject.ext.dependencies["appcompat-v7"]
-    implementation rootProject.ext.dependencies["cardview-v7"]
-    implementation(rootProject.ext.dependencies["recyclerview-v7"]) {
+    implementation rootProject.ext.dependencies["appcompat"]
+    implementation rootProject.ext.dependencies["cardview"]
+    implementation(rootProject.ext.dependencies["recyclerview"]) {
         exclude group: 'com.android.support'
     }
     implementation(rootProject.ext.dependencies["rootbeer-lib"]) {

@@ -17,19 +17,19 @@ ext {
                //app版本号
                versionCode               : 300,
                //dokit 插件版本号
-               pluginVersionName         : "1000.0.2",
+               pluginVersionName         : "1000.0.3",
                //jcenter dokit版本号
                jcenterArchivesVersionName: "3.0.0",
                //didi内部仓库版本号
-               didiArchivesVersionName   : "1000.0.21",
+               didiArchivesVersionName   : "1000.0.22",
                versionName               : "3.0.0",
                glide                     : "4.11.0",
     ]
     dependencies = [// ###### android library  start ######
                     "multidex"                : 'androidx.multidex:multidex:2.0.0',
-                    "appcompat-v7"            : 'androidx.appcompat:appcompat:1.0.0',
-                    "cardview-v7"             : 'androidx.cardview:cardview:1.0.0',
-                    "recyclerview-v7"         : 'androidx.recyclerview:recyclerview:1.0.0',
+                    "appcompat"               : 'androidx.appcompat:appcompat:1.0.0',
+                    "cardview"                : 'androidx.cardview:cardview:1.0.0',
+                    "recyclerview"            : 'androidx.recyclerview:recyclerview:1.0.0',
                     "design"                  : 'com.google.android.material:material:1.0.0',
                     //constraintLayout
                     "constraintLayout"        : 'androidx.constraintlayout:constraintlayout:1.1.3',
