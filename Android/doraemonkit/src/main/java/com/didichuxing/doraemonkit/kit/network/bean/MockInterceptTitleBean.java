@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit.kit.network.bean;
 
-import com.chad.library.adapter.base.entity.AbstractExpandableItem;
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
 import com.didichuxing.doraemonkit.kit.network.ui.InterceptMockAdapter;
