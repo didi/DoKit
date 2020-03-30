@@ -1,8 +1,10 @@
 package com.didichuxing.doraemonkit.kit.network.bean;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.chad.library.adapter.base.entity.node.BaseExpandNode;
+import com.chad.library.adapter.base.entity.node.BaseNode;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
-import com.didichuxing.doraemonkit.kit.network.ui.InterceptMockAdapter;
+
+import java.util.List;
 
 /**
  * ================================================
@@ -13,28 +15,23 @@ import com.didichuxing.doraemonkit.kit.network.ui.InterceptMockAdapter;
  * 修订历史：
  * ================================================
  */
-public class MockInterceptTitleBean extends AbstractExpandableItem<MockInterceptApiBean> implements MultiItemEntity {
-    private String name;
+public class MockInterceptTitleBean<T extends BaseNode> extends BaseExpandNode {
+    private String mName;
+    private List<T> mChildNode;
 
-
-    @Override
-    public int getItemType() {
-        return InterceptMockAdapter.TYPE_TITLE;
-    }
-
-    @Override
-    public int getLevel() {
-        return 0;
-    }
-
-    public MockInterceptTitleBean(String path) {
-        this.name = path;
-
+    public MockInterceptTitleBean(String name, List<T> childNode) {
+        this.mName = name;
+        this.mChildNode = childNode;
+        setExpanded(false);
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
 
+    @Override
+    public List<BaseNode> getChildNode() {
+        return (List<BaseNode>) mChildNode;
+    }
 }

@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.network.ui;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -112,7 +113,7 @@ public class NetWorkMonitorFragment extends AbsParameterFragment {
         }
 
         mHostAdapter = new WhiteHostAdapter(R.layout.dk_item_white_host, mHostBeans);
-        mHostAdapter.bindToRecyclerView(mHostRv);
+        mHostRv.setAdapter(mHostAdapter);
     }
 
     private void startMonitor() {

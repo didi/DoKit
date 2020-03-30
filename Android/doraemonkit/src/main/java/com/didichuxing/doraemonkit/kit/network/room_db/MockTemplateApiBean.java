@@ -20,7 +20,7 @@ import java.io.Serializable;
  * ================================================
  */
 @Entity(tableName = "mock_template_api")
-public class MockTemplateApiBean implements AbsMockApiBean, Serializable {
+public class MockTemplateApiBean extends AbsMockApiBean implements Serializable {
     /**
      * 来自真实接口返回数据
      */
@@ -183,10 +183,6 @@ public class MockTemplateApiBean implements AbsMockApiBean, Serializable {
         this.isOpen = open;
     }
 
-    @Override
-    public int getItemType() {
-        return InterceptMockAdapter.TYPE_CONTENT;
-    }
 
     public String getStrResponse() {
         return strResponse;

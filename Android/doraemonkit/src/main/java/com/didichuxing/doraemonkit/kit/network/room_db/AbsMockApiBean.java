@@ -1,8 +1,10 @@
 package com.didichuxing.doraemonkit.kit.network.room_db;
 
 
-
 import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.chad.library.adapter.base.entity.node.BaseNode;
+
+import java.util.List;
 
 
 /**
@@ -14,19 +16,35 @@ import com.chad.library.adapter.base.entity.MultiItemEntity;
  * 修订历史：
  * ================================================
  */
-public interface AbsMockApiBean extends MultiItemEntity {
+public abstract class AbsMockApiBean extends BaseNode {
 
-    boolean isOpen();
+    boolean isOpen() {
+        return false;
+    }
 
-    void setOpen(boolean open);
+    void setOpen(boolean open) {
 
-    String getId();
+    }
 
-    String getSelectedSceneId();
+    String getId() {
+        return "";
+    }
 
-    String getQuery();
+    String getSelectedSceneId() {
+        return "";
+    }
+
+    String getQuery() {
+        return "";
+    }
 
 
-    String getPath();
+    String getPath() {
+        return "";
+    }
 
+    @Override
+    public List<BaseNode> getChildNode() {
+        return null;
+    }
 }

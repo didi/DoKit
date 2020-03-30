@@ -21,7 +21,7 @@ import java.util.List;
  * ================================================
  */
 @Entity(tableName = "mock_intercept_api")
-public class MockInterceptApiBean implements AbsMockApiBean {
+public class MockInterceptApiBean extends AbsMockApiBean {
     /**
      * /设置主键 并且组建不为null
      */
@@ -188,9 +188,5 @@ public class MockInterceptApiBean implements AbsMockApiBean {
         this.isOpen = open;
     }
 
-    @Override
-    public int getItemType() {
-        return InterceptMockAdapter.TYPE_CONTENT;
-    }
 
 }

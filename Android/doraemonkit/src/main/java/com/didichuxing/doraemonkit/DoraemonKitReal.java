@@ -324,7 +324,7 @@ class DoraemonKitReal {
             }
             if (file.isFile()) {
                 //若是文件，直接打印 byte
-                long fileLength = FileUtils.getFileLength(file);
+                long fileLength = FileUtils.getLength(file);
                 if (fileLength > FILE_LENGTH_THRESHOLD) {
                     AppHealthInfo.DataBean.BigFileBean fileBean = new AppHealthInfo.DataBean.BigFileBean();
                     fileBean.setFileName(FileUtils.getFileName(file));

@@ -185,7 +185,7 @@ public class MethodCost {
                 } else {
                     if (traceFileName.equals("appStart")) {
                         String destFilePath = PathUtils.getInternalAppFilesPath() + File.separator + "appStart.trace";
-                        FileUtils.copyFile(filePath, destFilePath);
+                        FileUtils.copy(filePath, destFilePath);
                     }
                 }
 

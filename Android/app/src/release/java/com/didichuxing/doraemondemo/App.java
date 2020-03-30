@@ -5,6 +5,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.multidex.MultiDex;
+
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
