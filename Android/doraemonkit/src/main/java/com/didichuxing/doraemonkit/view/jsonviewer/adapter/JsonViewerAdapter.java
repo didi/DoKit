@@ -1,12 +1,13 @@
 package com.didichuxing.doraemonkit.view.jsonviewer.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.didichuxing.doraemonkit.view.jsonviewer.utils.Utils;
 import com.didichuxing.doraemonkit.view.jsonviewer.view.JsonItemView;

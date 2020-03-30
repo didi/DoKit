@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.aop.bigimg.glide;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.request.RequestListener;
 

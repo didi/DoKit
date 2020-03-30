@@ -18,9 +18,9 @@ package com.squareup.leakcanary;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.test.internal.runner.listener.InstrumentationResultPrinter;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.junit.runner.Description;
 import org.junit.runner.Result;
@@ -29,8 +29,7 @@ import org.junit.runner.notification.RunListener;
 
 import java.util.List;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.internal.runner.listener.InstrumentationResultPrinter.REPORT_VALUE_RESULT_FAILURE;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.squareup.leakcanary.Preconditions.checkNotNull;
 
 /**

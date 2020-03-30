@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.network.core;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 

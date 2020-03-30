@@ -5,14 +5,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.IdRes;
-import android.support.annotation.StringRes;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import java.lang.ref.WeakReference;
+import androidx.annotation.IdRes;
+import androidx.annotation.StringRes;
 
 /**
  * ================================================

@@ -1,7 +1,8 @@
 package com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor;
 
-import android.support.annotation.NonNull;
 import android.util.Pair;
+
+import androidx.annotation.NonNull;
 
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;

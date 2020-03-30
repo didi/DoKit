@@ -15,7 +15,8 @@
  */
 package com.squareup.leakcanary;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,7 +27,8 @@ import java.util.List;
  */
 public final class LeakTrace implements Serializable {
 
-  @NonNull public final List<LeakTraceElement> elements;
+  @NonNull
+  public final List<LeakTraceElement> elements;
   @NonNull public final List<Reachability> expectedReachability;
 
   LeakTrace(List<LeakTraceElement> elements, List<Reachability> expectedReachability) {

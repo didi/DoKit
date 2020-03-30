@@ -26,17 +26,13 @@ ext {
                glide                     : "4.9.0",
     ]
     dependencies = [// ###### android library  start ######
-                    "multidex"                : "com.android.support:multidex:1.0.3",
-                    "annotations"             : "com.android.support:support-annotations:${android["suppotrSdkVersion"]}",
-                    "support-v4"              : "com.android.support:support-v4:${android["suppotrSdkVersion"]}",
-                    "appcompat-v7"            : "com.android.support:appcompat-v7:${android["suppotrSdkVersion"]}",
-                    "support-v13"             : "com.android.support:support-v13:${android["suppotrSdkVersion"]}",
-                    "cardview-v7"             : "com.android.support:cardview-v7:${android["suppotrSdkVersion"]}",
-                    "recyclerview-v7"         : "com.android.support:recyclerview-v7:${android["suppotrSdkVersion"]}",
-                    "design"                  : "com.android.support:design:${android["suppotrSdkVersion"]}",
-                    "gridlayout-v7"           : "com.android.support:gridlayout-v7:${android["suppotrSdkVersion"]}",
+                    "multidex"                : 'androidx.multidex:multidex:2.0.0',
+                    "appcompat-v7"            : 'androidx.appcompat:appcompat:1.0.0',
+                    "cardview-v7"             : 'androidx.cardview:cardview:1.0.0',
+                    "recyclerview-v7"         : 'androidx.recyclerview:recyclerview:1.0.0',
+                    "design"                  : 'com.google.android.material:material:1.0.0',
                     //constraintLayout
-                    "constraintLayout"        : "com.android.support.constraint:constraint-layout:1.1.3",
+                    "constraintLayout"        : 'androidx.constraintlayout:constraintlayout:1.1.3',
                     //test
                     "junit"                   : "junit:junit:4.12",
                     //第三方
@@ -71,8 +67,8 @@ ext {
                     "brvah"                   : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50',
                     "easy_refresh_layout"     : 'com.github.anzaizai:EasyRefreshLayout:1.3.1',
                     "jsonviewer"              : "com.yuyh.json:jsonviewer:1.0.6",
-                    "room_runtime"            : 'android.arch.persistence.room:runtime:1.1.1',
-                    "room_compile"            : 'android.arch.persistence.room:compiler:1.1.1',
+                    "room_runtime"            : 'androidx.room:room-runtime:2.0.0',
+                    "room_compile"            : 'androidx.room:room-compiler:2.0.0',
                     "um_analytics"            : 'com.umeng.umsdk:analytics:8.0.0',
                     "um_common"               : 'com.umeng.umsdk:common:2.0.0',
                     "didi_http"               : 'com.didichuxing.foundation:http:2.1.0.74',

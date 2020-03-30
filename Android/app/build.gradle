@@ -79,7 +79,7 @@ dependencies {
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["okhttp"]
     implementation rootProject.ext.dependencies["glide"]
-    implementation rootProject.ext.dependencies["glide_okhttp3"]
+//    implementation rootProject.ext.dependencies["glide_okhttp3"]
     annotationProcessor rootProject.ext.dependencies["glide_compiler"]
     implementation rootProject.ext.dependencies["picasso"]
     implementation rootProject.ext.dependencies["fresco"]

@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.util;
 
-import android.support.annotation.StringRes;
+
+import androidx.annotation.StringRes;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
 

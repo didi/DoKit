@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.aop.bigimg.fresco;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
 import com.facebook.cache.common.CacheKey;

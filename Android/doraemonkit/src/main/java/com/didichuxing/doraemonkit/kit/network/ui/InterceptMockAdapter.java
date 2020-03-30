@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit.kit.network.ui;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +7,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 
-import com.blankj.utilcode.util.EncodeUtils;
+import androidx.annotation.NonNull;
+
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.entity.MultiItemEntity;

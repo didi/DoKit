@@ -52,7 +52,7 @@
         android:enabled="false"
         android:text="@string/dk_web_door_explore" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -78,5 +78,5 @@
                 android:text="@string/dk_web_door_clear_history" />
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

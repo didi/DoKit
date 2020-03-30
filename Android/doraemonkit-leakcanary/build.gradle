@@ -21,7 +21,7 @@ android {
 
         buildConfigField "String", "LEAKCANARY_LIBRARY_VERSION", "\"1.6.3\""
         buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
 
@@ -45,7 +45,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation rootProject.ext.dependencies["appcompat-v7"]
-    implementation 'com.android.support.test:runner:1.0.2'
+    implementation 'androidx.test.ext:junit:1.1.1'
     //leakCanary
     implementation rootProject.ext.dependencies["haha"]
     compileOnly project(':doraemonkit')

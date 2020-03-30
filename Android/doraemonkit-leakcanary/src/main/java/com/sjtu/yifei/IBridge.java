@@ -2,7 +2,8 @@ package com.sjtu.yifei;
 
 import android.app.Application;
 import android.os.Message;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 /**
  * 类描述：

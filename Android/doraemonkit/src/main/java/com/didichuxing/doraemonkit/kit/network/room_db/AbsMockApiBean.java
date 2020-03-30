@@ -1,15 +1,9 @@
 package com.didichuxing.doraemonkit.kit.network.room_db;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
+
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.didichuxing.doraemonkit.kit.network.ui.InterceptMockAdapter;
 
-import java.io.Serializable;
 
 /**
  * ================================================
