@@ -283,6 +283,7 @@
     <string name="dk_data_mock_switch_all">全部</string>
     <string name="dk_data_mock_switch_opened">打开</string>
     <string name="dk_data_mock_switch_closed">关闭</string>
+    <string name="dk_data_mock_plugin_toast">请先到https://www.dokit.cn申请projectId,并参考使用中心进行接入</string>
 
     <!--健康体检页面-->
     <string name="dk_health_upload_successed">上传数据成功</string>
