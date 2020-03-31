@@ -293,4 +293,5 @@
     <string name="dk_kit_net_monitor_white_host_tip">Whitelist (Block all by default. If you add a whitelist, only network requests in the whitelist will be blocked, and the whitelist rule will take effect when the current page is closed. Example of whitelist host: m.baidu.com)</string>
     <string name="dk_kit_net_monitor_white_host_edit_tip">Please enter whitelist host</string>
     <string name="dk_kit_net_monitor_white_host_edit_toast">Please enter host first</string>
+    <string name="dk_data_mock_plugin_toast">Please go to https://www.dokit.cn to apply for projectId first, and refer to the use center for access</string>
 </resources>

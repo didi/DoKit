@@ -112,7 +112,7 @@ public class NetWorkMockFragment extends BaseFragment {
             }
         });
         if (TextUtils.isEmpty(projectId)) {
-            ToastUtils.showLong("请先到www.dokit.cn申请projectId,并参考接入手册");
+            ToastUtils.showLong(DokitUtil.getString(R.string.dk_data_mock_plugin_toast));
             return;
         }
         mEditText = findViewById(R.id.edittext);
@@ -487,7 +487,7 @@ public class NetWorkMockFragment extends BaseFragment {
      */
     private void initMenus(List<MockInterceptTitleBean> mockInterceptTitleBeans) {
         final List<String> groups = new ArrayList<>();
-        groups.add("接口分组");
+        groups.add(DokitUtil.getString(R.string.dk_data_mock_group));
         for (MockInterceptTitleBean mockInterceptTitleBean : mockInterceptTitleBeans) {
             MockInterceptApiBean mockInterceptApiBean = mockInterceptTitleBean.getSubItem(0);
             if (!groups.contains(mockInterceptApiBean.getGroup())) {
@@ -508,10 +508,10 @@ public class NetWorkMockFragment extends BaseFragment {
                 //保存删选状态
                 if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
                     mInterceptFilterBean.setGroupIndex(position);
-                    mStrInterceptGroup = groups.get(position).equals("接口分组") ? "" : groups.get(position);
+                    mStrInterceptGroup = groups.get(position).equals(DokitUtil.getString(R.string.dk_data_mock_group)) ? "" : groups.get(position);
                 } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
                     mTemplateFilterBean.setGroupIndex(position);
-                    mStrTemplateGroup = groups.get(position).equals("接口分组") ? "" : groups.get(position);
+                    mStrTemplateGroup = groups.get(position).equals(DokitUtil.getString(R.string.dk_data_mock_group)) ? "" : groups.get(position);
                 }
 
                 filterAndNotifyData();
