@@ -10,7 +10,7 @@ ext {
             localRepoURL         : "/Users/didi/project/dokit_repo"
     ]
     android = [compileSdkVersion         : 29,
-               suppotrSdkVersion         : "27.1.1",
+               suppotrSdkVersion         : "28.0.0",
                applicationId             : "com.didichuxing.doraemondemo",
                minSdkVersion             : 16,
                targetSdkVersion          : 29,
