@@ -11,6 +11,7 @@
 #import <objc/runtime.h>
 #import "DoraemonHealthManager.h"
 #import "DoraemonCacheManager.h"
+#import "DoraemonManager.h"
 
 //#define Doraemon_VC_Profiler_LOG_ENABLE 
 
@@ -158,7 +159,19 @@ static void doraemon_vc_profiler_viewDidDisappear(UIViewController *kvo_self, SE
     return self;
 }
 
+// 黑名单用户不会触发KVO监控
+- (BOOL)blackList:(NSString *)className{
+    NSArray *blackList=[DoraemonManager shareInstance].vcProfilerBlackList;
+    if (blackList && blackList.count>0 && [blackList containsObject:className]) {
+       return YES;
+    }
+    return NO;
+}
+
 - (void)createAndHookKVOClass {
+    if ([self blackList:NSStringFromClass(self.class)]) {
+        return;
+    }
     [self addObserver:[DoraemonFakeKVOObserver shared] forKeyPath:kUniqueFakeKeyPath options:NSKeyValueObservingOptionNew context:nil];
     
     DoraemonFakeKVORemover *remover = [[DoraemonFakeKVORemover alloc] init];
