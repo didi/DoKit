@@ -7,7 +7,7 @@
     <string name="dk_category_large_image">大圖檢測</string>
     <string name="dk_category_ui">視覺工具</string>
     <string name="dk_category_platform">平台工具</string>
-    <string name="dk_kit_network_mock">數據Mock</string>
+    <string name="dk_kit_network_mock">接口Mock</string>
     <string name="dk_kit_health">健康體檢</string>
     <string name="dk_category_weex">WEEX</string>
 
@@ -17,7 +17,7 @@
     <string name="dk_kit_local_lang">本地語言</string>
     <string name="dk_kit_list">工具列表</string>
     <string name="dk_kit_demo">demo</string>
-    <string name="dk_kit_file_explorer">Sandbox</string>
+    <string name="dk_kit_file_explorer">沙盒瀏覽</string>
     <string name="dk_kit_frame_info">幀率</string>
     <string name="dk_kit_frame_info_desc">幀率檢測</string>
     <string name="dk_kit_gps_mock">位置模擬</string>
@@ -33,7 +33,7 @@
     <string name="dk_kit_view_check">View 元件檢查</string>
     <string name="dk_kit_net_monitor">流量監控</string>
     <string name="dk_kit_ui_monitor">UI顯示實時數據</string>
-    <string name="dk_kit_time_counter">耗時</string>
+    <string name="dk_kit_time_counter">啟動耗時</string>
     <string name="dk_kit_method_cost">函數耗時</string>
     <string name="dk_kit_mock_template_preview">數據預覽</string>
     <string name="dk_kit_method_cost_desc">
@@ -99,8 +99,8 @@
     <string name="dk_frameinfo_downstream">下行流量</string>
     <string name="dk_frameinfo_upstream">上流量</string>
     <string name="dk_frameinfo_avg_value">平均值</string>
-    <string name="dk_frameinfo_big_img">大圖</string>
-    <string name="dk_frameinfo_leakcanary">leakCanary</string>
+    <string name="dk_frameinfo_big_img">大圖監控</string>
+    <string name="dk_frameinfo_leakcanary">LeakCanary</string>
     <string name="dk_tools_dbdebug">DBView</string>
 
     <string name="dk_log_info_edt_hint">輸入想要過濾的關鍵字</string>
@@ -122,7 +122,7 @@
     <string name="dk_gpsmock_hint_longlat">請輸入經緯度</string>
 
     <!--卡頓檢測-->
-    <string name="dk_kit_block_monitor">ANR 檢測</string>
+    <string name="dk_kit_block_monitor">卡頓檢測</string>
     <string name="dk_kit_block_monitor_list">ANR 列表</string>
     <string name="dk_kit_block_monitor_detail">ANR 詳情</string>
     <string name="dk_item_block_switch">ANR 檢測開關</string>

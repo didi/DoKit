@@ -34,7 +34,7 @@ public class App extends Application {
         //线上环境:749a0600b5e48dd77cf8ee680be7b1b7
         DoraemonKit.disableUpload();
         //是否显示入口icon
-        //DoraemonKit.setAwaysShowMainIcon(false);
+//        DoraemonKit.setAwaysShowMainIcon(false);
         DoraemonKit.install(this, kits, "749a0600b5e48dd77cf8ee680be7b1b7");
         ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
                 .setDiskCacheEnabled(false)

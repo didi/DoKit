@@ -7,7 +7,7 @@
     <string name="dk_category_large_image">大图检测</string>
     <string name="dk_category_ui">视觉工具</string>
     <string name="dk_category_platform">平台工具</string>
-    <string name="dk_kit_network_mock">数据Mock</string>
+    <string name="dk_kit_network_mock">接口Mock</string>
     <string name="dk_kit_health">健康体检</string>
     <string name="dk_category_weex">WEEX</string>
 
@@ -18,7 +18,7 @@
     <string name="dk_kit_service_running">运行中服务</string>
     <string name="dk_kit_list">工具列表</string>
     <string name="dk_kit_demo">demo</string>
-    <string name="dk_kit_file_explorer">沙盒游览</string>
+    <string name="dk_kit_file_explorer">沙盒浏览</string>
     <string name="dk_kit_frame_info">帧率</string>
     <string name="dk_kit_frame_info_desc">帧率检测</string>
     <string name="dk_kit_gps_mock">位置模拟</string>
@@ -38,7 +38,7 @@
     <string name="dk_kit_net_monitor_white_host_edit_toast">请先输入host</string>
 
     <string name="dk_kit_ui_monitor">UI显示实时数据</string>
-    <string name="dk_kit_time_counter">耗时</string>
+    <string name="dk_kit_time_counter">启动耗时</string>
     <string name="dk_kit_method_cost">函数耗时</string>
     <string name="dk_kit_mock_template_preview">数据预览</string>
     <string name="dk_kit_method_cost_desc">
@@ -111,8 +111,8 @@
     <string name="dk_frameinfo_upstream">上行流量</string>
     <string name="dk_frameinfo_downstream">下行流量</string>
     <string name="dk_frameinfo_avg_value">平均值</string>
-    <string name="dk_frameinfo_big_img">大图</string>
-    <string name="dk_frameinfo_leakcanary">leakCanary</string>
+    <string name="dk_frameinfo_big_img">大图监控</string>
+    <string name="dk_frameinfo_leakcanary">LeakCanary</string>
     <string name="dk_tools_dbdebug">DBView</string>
 
     <string name="dk_log_info_edt_hint">输入想要过滤的关键字</string>
