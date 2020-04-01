@@ -20,7 +20,6 @@ import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
 
-import com.scottyab.rootbeer.RootBeer;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -306,9 +305,8 @@ public class DeviceUtils {
             return ROOTED;
         }
         try {
-            RootBeer rootBeer = new RootBeer(context);
-            rootBeer.setLogging(true);
-            ROOTED = rootBeer.isRootedWithoutBusyBoxCheck();
+
+            ROOTED = com.blankj.utilcode.util.DeviceUtils.isDeviceRooted();
             if (ROOTED) {
                 Log.w(TAG, "Device rooted.");
             }
