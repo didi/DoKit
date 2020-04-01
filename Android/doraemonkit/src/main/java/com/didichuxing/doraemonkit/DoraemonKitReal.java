@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit;
 import android.app.Application;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.amitshekhar.DebugDB;
 import com.amitshekhar.debug.encrypt.sqlite.DebugDBEncryptFactory;
@@ -399,7 +400,8 @@ class DoraemonKitReal {
         NetworkUtils.registerNetworkStatusChangedListener(new NetworkUtils.OnNetworkStatusChangedListener() {
             @Override
             public void onDisconnected() {
-                ToastUtils.showShort("当前网络已断开");
+                //ToastUtils.showShort("当前网络已断开");
+                Log.i("Doraemon", "当前网络已断开");
                 try {
                     DebugDB.shutDown();
                     if (DokitConstant.DB_DEBUG_FRAGMENT != null && DokitConstant.DB_DEBUG_FRAGMENT.get() != null) {
@@ -413,7 +415,8 @@ class DoraemonKitReal {
             @Override
             public void onConnected(NetworkUtils.NetworkType networkType) {
                 //重启DebugDB
-                ToastUtils.showShort("当前网络类型:" + networkType.name());
+                //ToastUtils.showShort("当前网络类型:" + networkType.name());
+                Log.i("Doraemon", "当前网络类型" + networkType.name());
                 try {
                     DebugDB.shutDown();
                     DebugDB.initialize(APPLICATION, new DebugDBFactory());

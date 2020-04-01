@@ -226,7 +226,10 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
             //LogHelper.i(TAG, " activity  resume==>" + activity.getClass().getSimpleName() + "  dokitView==>" + globalSingleDokitViewInfo.getTag());
             //判断resume Activity 中时候存在指定的dokitview
-            AbsDokitView existDokitView = existDokitViews.get(globalSingleDokitViewInfo.getTag());
+            AbsDokitView existDokitView = null;
+            if (existDokitViews != null && !existDokitViews.isEmpty()) {
+                existDokitView = existDokitViews.get(globalSingleDokitViewInfo.getTag());
+            }
 
             //当前页面已存在dokitview
             if (existDokitView != null && existDokitView.getRootView() != null) {
