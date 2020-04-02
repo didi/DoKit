@@ -218,16 +218,20 @@ static NSString * const kDoraemonHealthStartKey = @"doraemon_health_start_key";
     if (!text || text.length <= 0) { return; }
     
     NSArray *records = [self h5historicalRecord];
+    
+    NSMutableArray *muarr = [NSMutableArray arrayWithArray:records];
+    
     /// 去重
-    if ([records containsObject:text]) { return; }
-    
-    NSMutableArray *muarr = [NSMutableArray array];
-    if (records && records.count > 0) { [muarr addObjectsFromArray:records]; }
-    
-    [muarr addObject:text];
+    if ([muarr containsObject:text]) {
+        if ([muarr.firstObject isEqualToString:text]) {
+            return;
+        }
+        [muarr removeObject:text];
+    }
+    [muarr insertObject:text atIndex:0];
     
     /// 限制数量
-    if (muarr.count > 10) { [muarr removeObjectAtIndex:0]; }
+    if (muarr.count > 10) { [muarr removeLastObject]; }
     
     [_defaults setObject:muarr.copy forKey:kDoraemonH5historicalRecord];
     [_defaults synchronize];
