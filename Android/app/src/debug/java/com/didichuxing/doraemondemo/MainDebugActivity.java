@@ -384,7 +384,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
 
 
             case R.id.btn_okhttp_mock:
-                //OkGo.<String>get("http://gank.io/gateway?api=dj.map")
+                //DokitOkGo.<String>get("https://v4.21tb.com/biz-oim/mobile/refreshVerifyCode.do?corpCodeOrDomainName=%22happy%22&loginName=%22jidan%22")
                 DokitOkGo.<String>get("https://www.v2ex.com/api/topics/hot.json")
                         .execute(new StringCallback() {
 
