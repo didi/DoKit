@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit.kit.network.room_db;
 
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.chad.library.adapter.base.entity.node.BaseNode;
+
+import com.didichuxing.doraemonkit.view.bravh.entity.node.BaseNode;
 
 import java.util.List;
 

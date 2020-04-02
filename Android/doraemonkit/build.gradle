@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply from: 'upload.gradle'
 
 android {
@@ -34,6 +36,10 @@ android {
 //        sourceCompatibility JavaVersion.VERSION_1_8
 //        targetCompatibility JavaVersion.VERSION_1_8
 //    }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -45,6 +51,7 @@ dependencies {
     implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["cardview"]
     implementation rootProject.ext.dependencies["recyclerview"]
+    implementation rootProject.ext.dependencies["kotlin"]
 
     implementation rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]
@@ -55,10 +62,10 @@ dependencies {
     implementation rootProject.ext.dependencies["debug-db"]
     implementation rootProject.ext.dependencies["debug-db-encrypt"]
     //rv
-    implementation rootProject.ext.dependencies["brvah"]
+//    implementation rootProject.ext.dependencies["brvah"]
     implementation rootProject.ext.dependencies["android_spinkit"]
-//    implementation rootProject.ext.dependencies["easy_refresh_layout"]
     implementation rootProject.ext.dependencies["okhttp"]
+    implementation rootProject.ext.dependencies["okhttp_v2"]
     implementation rootProject.ext.dependencies["room_runtime"]
     annotationProcessor rootProject.ext.dependencies["room_compile"]
 
@@ -74,8 +81,6 @@ dependencies {
     compileOnly rootProject.ext.dependencies["tencent_location"]
     //百度地图定位
     compileOnly files('libs/BaiduLBS_Android.jar')
-    compileOnly files('libs/okhttp-2.1.0.jar')
-
 
 }
 

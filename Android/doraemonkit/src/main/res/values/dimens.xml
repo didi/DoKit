@@ -7,4 +7,9 @@
     <dimen name="dk_dp_16">16dp</dimen>
     <dimen name="dk_title_height">46.5dp</dimen>
     <dimen name="dk_home_title_height">89dp</dimen>
+    <dimen name="dk_def_height">50dp</dimen>
+
+    <dimen name="dk_dp_4">4dp</dimen>
+    <dimen name="dk_dp_10">10dp</dimen>
+    <dimen name="dk_sp_14">14sp</dimen>
 </resources>

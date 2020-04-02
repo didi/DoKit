@@ -320,4 +320,10 @@
     <string name="dk_header_refreshing">正在刷新...</string>
     <string name="dk_header_completed">刷新成功</string>
 
+    <!--    bravh-->
+    <string name="dk_brvah_loading">正在加载中...</string>
+    <string name="dk_brvah_load_failed">加载失败，请点我重试</string>
+    <string name="dk_brvah_load_end">没有更多数据</string>
+    <string name="dk_brvah_load_complete">点击加载更多</string>
+
 </resources>
