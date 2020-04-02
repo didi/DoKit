@@ -39,19 +39,15 @@ android {
 dependencies {
     //implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
-    testImplementation rootProject.ext.dependencies["junit"]
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'junit:junit:4.12'
     implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["cardview"]
     implementation rootProject.ext.dependencies["recyclerview"]
 
-//    implementation(rootProject.ext.dependencies["rootbeer-lib"]) {
-//        transitive = true
-//        exclude group: 'com.android.support'
-//    }
     implementation rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]
-    //implementation rootProject.ext.dependencies["free_reflection"]
     //函数耗时
     implementation rootProject.ext.dependencies["guava"]
     implementation rootProject.ext.dependencies["utilcode"]
@@ -61,9 +57,7 @@ dependencies {
     //rv
     implementation rootProject.ext.dependencies["brvah"]
     implementation rootProject.ext.dependencies["easy_refresh_layout"]
-    //implementation rootProject.ext.dependencies["okgo"]
     implementation rootProject.ext.dependencies["okhttp"]
-    //implementation rootProject.ext.dependencies["okio"]
     implementation rootProject.ext.dependencies["room_runtime"]
     annotationProcessor rootProject.ext.dependencies["room_compile"]
 
@@ -80,8 +74,6 @@ dependencies {
     //百度地图定位
     compileOnly files('libs/BaiduLBS_Android.jar')
     compileOnly files('libs/okhttp-2.1.0.jar')
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'junit:junit:4.12'
 
 
 }

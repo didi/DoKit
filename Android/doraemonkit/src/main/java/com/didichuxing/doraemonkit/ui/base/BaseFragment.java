@@ -138,9 +138,7 @@ public class BaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        DokitIntent intent = new DokitIntent(MainIconDokitView.class);
-        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(intent);
+
     }
 
     public DialogProvider showDialog(DialogInfo dialogInfo) {

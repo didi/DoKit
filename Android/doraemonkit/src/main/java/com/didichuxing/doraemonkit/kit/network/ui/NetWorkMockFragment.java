@@ -109,7 +109,7 @@ public class NetWorkMockFragment extends BaseFragment {
         homeTitleBar.setListener(new HomeTitleBar.OnTitleBarClickListener() {
             @Override
             public void onRightClick() {
-                getActivity().finish();
+                finish();
             }
         });
         if (TextUtils.isEmpty(projectId)) {
