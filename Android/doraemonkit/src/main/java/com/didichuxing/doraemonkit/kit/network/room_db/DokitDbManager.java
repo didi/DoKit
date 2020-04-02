@@ -411,20 +411,20 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         //{}代表没有配置query
         String mockQuery = mockApi.getQuery();
         boolean mockQueryIsEmpty = TextUtils.isEmpty(mockQuery) || "{}".equals(mockQuery);
-        //没有配置query参数
+        //平台没有配置query参数且本地也没有query参数
         if (mockQueryIsEmpty && TextUtils.isEmpty(strLocalQuery)) {
             return true;
         }
 
+        //本地有参数 平台没有配置参数
+        if (!TextUtils.isEmpty(strLocalQuery) && mockQueryIsEmpty) {
+            return true;
+        }
 
+        //本地没有参数 但是平台有参数
         if (TextUtils.isEmpty(strLocalQuery) && !mockQueryIsEmpty) {
             return false;
         }
-
-        if (!TextUtils.isEmpty(strLocalQuery) && mockQueryIsEmpty) {
-            return false;
-        }
-
 
         //匹配query
         if (!TextUtils.isEmpty(strLocalQuery) && !mockQueryIsEmpty) {

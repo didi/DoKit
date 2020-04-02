@@ -46,10 +46,6 @@ dependencies {
     implementation(rootProject.ext.dependencies["recyclerview-v7"]) {
         exclude group: 'com.android.support'
     }
-    implementation(rootProject.ext.dependencies["rootbeer-lib"]) {
-        transitive = true
-        exclude group: 'com.android.support'
-    }
     implementation rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]
     //implementation rootProject.ext.dependencies["free_reflection"]

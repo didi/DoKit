@@ -149,6 +149,10 @@ public class UniversalActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        try {
+            super.onDestroy();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
