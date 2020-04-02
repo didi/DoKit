@@ -305,7 +305,6 @@ public class DeviceUtils {
             return ROOTED;
         }
         try {
-
             ROOTED = com.blankj.utilcode.util.DeviceUtils.isDeviceRooted();
             if (ROOTED) {
                 Log.w(TAG, "Device rooted.");

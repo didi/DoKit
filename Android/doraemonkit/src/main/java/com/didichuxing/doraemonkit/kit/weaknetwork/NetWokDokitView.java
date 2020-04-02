@@ -110,6 +110,9 @@ public class NetWokDokitView extends AbsDokitView {
 
     @Override
     public void invalidate() {
+        if (getRootView() == null) {
+            return;
+        }
         if (isNormalMode()) {
             FrameLayout.LayoutParams layoutParams = getNormalLayoutParams();
             if (layoutParams == null) {
