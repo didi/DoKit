@@ -12,6 +12,9 @@
 
 @interface DoraemonDemoUIViewController ()
 
+@property (nonatomic, strong) UIView *redView;
+@property (nonatomic, strong) UILabel *titleLabelAAA;
+
 @end
 
 @implementation DoraemonDemoUIViewController
@@ -23,6 +26,7 @@
     UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(100, 200, 60, 60)];
     redView.backgroundColor = [UIColor redColor];
     [self.view addSubview:redView];
+    _redView = redView;
     
 //    UIView *alphaView = [[UIView alloc] initWithFrame:CGRectMake(100, 300, 60, 60)];
 //    alphaView.backgroundColor = [UIColor doraemon_colorWithHexString:@"#FFFF00"];
@@ -34,6 +38,7 @@
     titleLabel.backgroundColor = [UIColor doraemon_colorWithString:@"#00FF00"];
     titleLabel.textColor = [UIColor doraemon_colorWithString:@"#FF0000"];
     [self.view addSubview:titleLabel];
+    _titleLabelAAA = titleLabel;
     
     UITextField *input = [[UITextField alloc] initWithFrame:CGRectMake(100, 300, 200, 50)];
     input.textAlignment = NSTextAlignmentCenter;

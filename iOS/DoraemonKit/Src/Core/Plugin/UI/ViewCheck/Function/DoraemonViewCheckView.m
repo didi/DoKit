@@ -9,6 +9,8 @@
 #import "DoraemonDefine.h"
 #import "Doraemoni18NUtil.h"
 #import "DoraemonVisualInfoWindow.h"
+#import <objc/runtime.h>
+
 
 static CGFloat const kViewCheckSize = 62;
 
@@ -20,6 +22,7 @@ static CGFloat const kViewCheckSize = 62;
 @property (nonatomic, assign) CGFloat left;
 @property (nonatomic, assign) CGFloat top;
 @property (nonatomic, strong) NSMutableArray *arrViewHit;
+@property (nonatomic, strong) UIView *oldView;
 
 @end
 
@@ -67,10 +70,10 @@ static CGFloat const kViewCheckSize = 62;
     CGRect frame = [self.window convertRect:view.bounds fromView:view];
     _viewBound.frame = frame;
     [self.window addSubview:_viewBound];
-    
-    // _infoWindow.hidden = NO;
-    _infoWindow.infoAttributedText = [self viewInfo:view];
-    
+
+    if ([self needRefresh:view]) {
+        _infoWindow.infoAttributedText = [self viewInfo:view];
+    }
 }
 
 -(void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -82,32 +85,17 @@ static CGFloat const kViewCheckSize = 62;
     UIView *view = [self topView:self.window Point:topPoint];
     CGRect frame = [self.window convertRect:view.bounds fromView:view];
     _viewBound.frame = frame;
-    // _infoWindow.hidden = NO;
-    _infoWindow.infoAttributedText = [self viewInfo:view];
+    if ([self needRefresh:view]) {
+        _infoWindow.infoAttributedText = [self viewInfo:view];
+    }
 }
 
 -(void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [_viewBound removeFromSuperview];
-    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    //        [UIView animateWithDuration:0.5 animations:^{
-    //            _viewInfoWindow.alpha = 0;
-    //        } completion:^(BOOL finished) {
-    //            _viewInfoWindow.hidden = YES;
-    //            _viewInfoWindow.alpha = 1;
-    //        }];
-    //    });
 }
 
 -(void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [_viewBound removeFromSuperview];
-    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    //        [UIView animateWithDuration:0.5 animations:^{
-    //            _viewInfoWindow.alpha = 0;
-    //        } completion:^(BOOL finished) {
-    //            _viewInfoWindow.hidden = YES;
-    //            _viewInfoWindow.alpha = 1;
-    //        }];
-    //    });
 }
 
 -(UIView*)topView:(UIView*)view Point:(CGPoint) point{
@@ -147,10 +135,46 @@ static CGFloat const kViewCheckSize = 62;
     self.hidden = YES;
 }
 
+- (BOOL)needRefresh:(UIView *)view{
+    if (!_oldView) {
+        _oldView = view;
+    }
+    BOOL needRefresh = NO;
+    if (_oldView != view) {
+        needRefresh = YES;
+        _oldView = view;
+    }
+    return needRefresh;
+}
+
 -(NSMutableAttributedString *)viewInfo:(UIView *)view{
     if (view) {
+        //获取属性名
+        UIView *tempView = view;
+        NSString *ivarName = nil;
+        while(tempView != nil && tempView != self.viewController.view) {
+            ivarName =  [self nameWithInstance:view inTarger:tempView.superview];
+            if (ivarName) {
+                break;
+            }
+            tempView = tempView.superview;
+        }
+        if (!ivarName) {
+            ivarName = [self nameWithInstance:view inTarger:self.viewController.view];
+        }
+        
+        if (!ivarName) {
+            ivarName = [self nameWithInstance:view inTarger:view.viewController];
+        }
+        
         NSMutableString *showString = [[NSMutableString alloc] init];
-        NSString *tempString = [NSString stringWithFormat:@"%@:%@",DoraemonLocalizedString(@"控件名称"),NSStringFromClass([view class])];
+        NSString *tempString = nil;
+        if (ivarName) {
+            tempString = [NSString stringWithFormat:@"%@:%@(%@)",DoraemonLocalizedString(@"控件名称"),NSStringFromClass([view class]),ivarName];
+        }else{
+            tempString = [NSString stringWithFormat:@"%@:%@",DoraemonLocalizedString(@"控件名称"),NSStringFromClass([view class])];
+        }
+        NSLog(@"tempString == %@",tempString);
         [showString appendString:tempString];
         
         tempString = [NSString stringWithFormat:DoraemonLocalizedString(@"\n控件位置：左%0.1lf  上%0.1lf  宽%0.1lf  高%0.1lf"),view.frame.origin.x,view.frame.origin.y,view.frame.size.width,view.frame.size.height];
@@ -183,6 +207,26 @@ static CGFloat const kViewCheckSize = 62;
         return attrString;
     }
     return nil;
+}
+
+- (NSString *)nameWithInstance:(id)instance inTarger:(id)target{
+    unsigned int numIvars = 0;
+    NSString *key=nil;
+    Ivar * ivars = class_copyIvarList([target class], &numIvars);
+    for(int i = 0; i < numIvars; i++) {
+        Ivar thisIvar = ivars[i];
+        const char *type = ivar_getTypeEncoding(thisIvar);
+        NSString *stringType =  [NSString stringWithCString:type encoding:NSUTF8StringEncoding];
+        if (![stringType hasPrefix:@"@"]) {
+            continue;
+        }
+        if ((object_getIvar(target, thisIvar) == instance)) {
+            key = [NSString stringWithUTF8String:ivar_getName(thisIvar)];
+            break;
+        }
+    }
+    free(ivars);
+    return key;
 }
 
 - (NSString *)hexFromUIColor: (UIColor*) color {
