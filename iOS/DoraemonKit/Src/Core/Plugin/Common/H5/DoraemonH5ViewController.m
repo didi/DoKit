@@ -209,6 +209,21 @@
     return footerView;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return YES;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return DoraemonLocalizedString(@"删除");
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    [[DoraemonCacheManager sharedInstance] clearH5historicalRecordWithText:self.dataSource[indexPath.row]];
+    self.dataSource = [[DoraemonCacheManager sharedInstance] h5historicalRecord];
+    [self.tableView reloadData];
+}
+
+
 /// 清除记录
 - (void)clearRecord {
     [[DoraemonCacheManager sharedInstance] clearAllH5historicalRecord];
