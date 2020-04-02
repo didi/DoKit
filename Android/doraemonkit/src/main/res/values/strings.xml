@@ -313,5 +313,11 @@
     <string name="dk_log_btn_export">导出</string>
     <string name="dk_log_btn_back_top">回到顶部</string>
     <string name="dk_log_btn_to_bottom">滚至底部</string>
+    <!--        refreshlayout-->
+    <string name="dk_header_reset">下拉刷新</string>
+    <string name="dk_header_pull">下拉刷新</string>
+    <string name="dk_header_pull_over">释放立即刷新</string>
+    <string name="dk_header_refreshing">正在刷新...</string>
+    <string name="dk_header_completed">刷新成功</string>
 
 </resources>

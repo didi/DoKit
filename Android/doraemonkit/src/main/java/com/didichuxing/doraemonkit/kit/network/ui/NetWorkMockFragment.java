@@ -16,8 +16,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ajguan.library.EasyRefreshLayout;
-import com.ajguan.library.LoadModel;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -40,6 +38,8 @@ import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.util.DokitUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.view.DkDropDownMenu;
+import com.didichuxing.doraemonkit.view.easyrefresh.EasyRefreshLayout;
+import com.didichuxing.doraemonkit.view.easyrefresh.LoadModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

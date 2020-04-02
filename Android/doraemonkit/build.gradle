@@ -56,7 +56,8 @@ dependencies {
     implementation rootProject.ext.dependencies["debug-db-encrypt"]
     //rv
     implementation rootProject.ext.dependencies["brvah"]
-    implementation rootProject.ext.dependencies["easy_refresh_layout"]
+    implementation rootProject.ext.dependencies["android_spinkit"]
+//    implementation rootProject.ext.dependencies["easy_refresh_layout"]
     implementation rootProject.ext.dependencies["okhttp"]
     implementation rootProject.ext.dependencies["room_runtime"]
     annotationProcessor rootProject.ext.dependencies["room_compile"]
