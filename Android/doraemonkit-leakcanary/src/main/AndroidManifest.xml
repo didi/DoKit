@@ -68,7 +68,7 @@
             android:theme="@style/leak_canary_Theme.Transparent" />
 
         <service
-            android:name="com.sjtu.yifei.service.ABridgeService"
+            android:name="com.didichuxing.doraemonkit.abridge.service.ABridgeService"
             android:enabled="true"
             android:exported="true"
             android:process=":aidl">
@@ -78,7 +78,7 @@
         </service>
 
         <service
-            android:name="com.sjtu.yifei.service.MessengerService"
+            android:name="com.didichuxing.doraemonkit.abridge.service.MessengerService"
             android:enabled="true"
             android:exported="true"
             android:process=":messenger">

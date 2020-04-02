@@ -25,7 +25,7 @@ public class NetworkManager {
     //    private static final String MOCK_HOST_DEBUG = "xyrd.intra.xiaojukeji.com";
     private static final String MOCK_HOST_DEBUG = "mock.dokit.cn";
     private static final String MOCK_HOST_RELEASE = "mock.dokit.cn";
-    private static final String MOCK_DEBUG_DOMAIN = MOCK_SCHEME_HTTP + MOCK_HOST_DEBUG;
+    private static final String MOCK_DEBUG_DOMAIN = MOCK_SCHEME_HTTPS + MOCK_HOST_DEBUG;
     private static final String MOCK_RELEASE_DOMAIN = MOCK_SCHEME_HTTPS + MOCK_HOST_RELEASE;
     public static final String MOCK_DOMAIN = BuildConfig.DEBUG ? MOCK_DEBUG_DOMAIN : MOCK_RELEASE_DOMAIN;
     public static final String MOCK_HOST = BuildConfig.DEBUG ? MOCK_HOST_DEBUG : MOCK_HOST_RELEASE;

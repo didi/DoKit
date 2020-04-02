@@ -1,4 +1,4 @@
-package com.sjtu.yifei;
+package com.didichuxing.doraemonkit.abridge;
 
 import android.app.Application;
 import android.content.ComponentName;
@@ -26,7 +26,7 @@ import java.util.List;
 final class AbridgeMessengerManager {
     private static final String TAG = "AbridgeMessengerManager";
     private static final String BIND_SERVICE_ACTION = "android.intent.action.ICALL_MESSENGER_YIFEI";
-    private static final String BIND_MESSENGER_SERVICE_COMPONENT_NAME_CLS = "com.sjtu.yifei.service.MessengerService";
+    private static final String BIND_MESSENGER_SERVICE_COMPONENT_NAME_CLS = "com.didichuxing.doraemonkit.abridge.service.MessengerService";
     private static AbridgeMessengerManager instance;
 
     private Application sApplication;

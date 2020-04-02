@@ -152,7 +152,7 @@ class DoraemonKitReal {
 
         //OkHttp 拦截器 注入
         OkHttpHook.installInterceptor();
-        LogHelper.i(TAG, "IS_HOOK====>" + IS_HOOK);
+        Log.i(TAG, "IS_HOOK====>" + IS_HOOK);
         //赋值全局变量
         DokitConstant.IS_HOOK = IS_HOOK;
         //注册全局的activity生命周期回调

@@ -15,13 +15,12 @@
  */
 package com.squareup.leakcanary;
 
-import android.os.Bundle;
-import android.os.Message;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.didichuxing.doraemonkit.util.LogHelper;
-import com.sjtu.yifei.IBridge;
+import androidx.annotation.NonNull;
+
+import com.didichuxing.doraemonkit.abridge.IBridge;
 import com.squareup.leakcanary.internal.DisplayLeakActivity;
 
 /**
@@ -48,7 +47,7 @@ public class UploadLeakService extends DisplayLeakService {
         if (TextUtils.isEmpty(leakInfo)) {
             return;
         }
-        LogHelper.i(TAG, "====leakInfo====" + leakInfo);
+        Log.i(TAG, "====leakInfo====" + leakInfo);
         try {
             IBridge.sendAIDLMessage(leakInfo);
         } catch (Exception e) {

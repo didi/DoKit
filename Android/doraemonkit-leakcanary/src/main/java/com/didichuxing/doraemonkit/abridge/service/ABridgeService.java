@@ -1,4 +1,4 @@
-package com.sjtu.yifei.service;
+package com.didichuxing.doraemonkit.abridge.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -7,8 +7,9 @@ import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import android.util.Log;
 
-import com.sjtu.yifei.aidl.IReceiverAidlInterface;
-import com.sjtu.yifei.aidl.ISenderAidlInterface;
+
+import com.didichuxing.doraemonkit.aidl.IReceiverAidlInterface;
+import com.didichuxing.doraemonkit.aidl.ISenderAidlInterface;
 
 import java.util.ArrayList;
 import java.util.List;
