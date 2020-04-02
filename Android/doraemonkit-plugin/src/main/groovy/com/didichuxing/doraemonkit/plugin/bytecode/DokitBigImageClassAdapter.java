@@ -26,7 +26,7 @@ public final class DokitBigImageClassAdapter extends ClassVisitor {
     private String superName;
 
     /**
-     * @param cv             cv
+     * @param cv cv
      */
     public DokitBigImageClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM7, cv);
@@ -64,8 +64,8 @@ public final class DokitBigImageClassAdapter extends ClassVisitor {
         if (!DokitExtUtil.getInstance().isDokitPluginSwitch()) {
             return mv;
         }
-        //Glide v4字节码替换
-        if (className.equals("com/bumptech/glide/request/SingleRequest") && methodName.equals("init") && desc != null) {
+        //Glide v4字节码替换 glide v4.9 通过init注入 4.11.0 通哟构造函数
+        if (className.equals("com/bumptech/glide/request/SingleRequest") && (methodName.equals("init") || methodName.equals("<init>")) && desc != null) {
             log(className, access, methodName, desc, signature);
             //创建MethodVisitor代理
             return mv == null ? null : new GlideMethodAdapter(mv, access, methodName, desc);

@@ -2,7 +2,9 @@ package com.didichuxing.doraemonkit.ui.base;
 
 import android.app.Activity;
 import android.content.Context;
+
 import androidx.annotation.NonNull;
+
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -210,38 +212,51 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
 
         //更新所有全局DokitView的位置
-        for (GlobalSingleDokitViewInfo globalSingleDokitViewInfo : mGlobalSingleDokitViews.values()) {
-            if (activity instanceof UniversalActivity && globalSingleDokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
-                return;
-            }
-            //是否过滤掉 入口icon
-            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && globalSingleDokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
-                DokitConstant.MAIN_ICON_HAS_SHOW = false;
-                continue;
-            }
+        if (mGlobalSingleDokitViews != null && mGlobalSingleDokitViews.size() > 0) {
+            for (GlobalSingleDokitViewInfo globalSingleDokitViewInfo : mGlobalSingleDokitViews.values()) {
+                if (activity instanceof UniversalActivity && globalSingleDokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
+                    return;
+                }
+                //是否过滤掉 入口icon
+                if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && globalSingleDokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
+                    DokitConstant.MAIN_ICON_HAS_SHOW = false;
+                    continue;
+                }
 
-            if (globalSingleDokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
-                DokitConstant.MAIN_ICON_HAS_SHOW = true;
+                if (globalSingleDokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
+                    DokitConstant.MAIN_ICON_HAS_SHOW = true;
+                }
+
+                //LogHelper.i(TAG, " activity  resume==>" + activity.getClass().getSimpleName() + "  dokitView==>" + globalSingleDokitViewInfo.getTag());
+                //判断resume Activity 中时候存在指定的dokitview
+                AbsDokitView existDokitView = null;
+                if (existDokitViews != null && !existDokitViews.isEmpty()) {
+                    existDokitView = existDokitViews.get(globalSingleDokitViewInfo.getTag());
+                }
+
+                //当前页面已存在dokitview
+                if (existDokitView != null && existDokitView.getRootView() != null) {
+                    existDokitView.getRootView().setVisibility(View.VISIBLE);
+                    //更新位置
+                    existDokitView.updateViewLayout(existDokitView.getTag(), true);
+                    existDokitView.onResume();
+                } else {
+                    //添加相应的
+                    DokitIntent dokitIntent = new DokitIntent(globalSingleDokitViewInfo.getAbsDokitViewClass());
+                    dokitIntent.mode = globalSingleDokitViewInfo.getMode();
+                    dokitIntent.bundle = globalSingleDokitViewInfo.getBundle();
+                    attach(dokitIntent);
+                }
             }
-
-            //LogHelper.i(TAG, " activity  resume==>" + activity.getClass().getSimpleName() + "  dokitView==>" + globalSingleDokitViewInfo.getTag());
-            //判断resume Activity 中时候存在指定的dokitview
-            AbsDokitView existDokitView = existDokitViews.get(globalSingleDokitViewInfo.getTag());
-
-            //当前页面已存在dokitview
-            if (existDokitView != null && existDokitView.getRootView() != null) {
-                existDokitView.getRootView().setVisibility(View.VISIBLE);
-                //更新位置
-                existDokitView.updateViewLayout(existDokitView.getTag(), true);
-                existDokitView.onResume();
-            } else {
-                //添加相应的
-                DokitIntent dokitIntent = new DokitIntent(globalSingleDokitViewInfo.getAbsDokitViewClass());
-                dokitIntent.mode = globalSingleDokitViewInfo.getMode();
-                dokitIntent.bundle = globalSingleDokitViewInfo.getBundle();
+        } else {
+            //假如不存在全局的icon这需要全局显示主icon
+            if (DokitConstant.AWAYS_SHOW_MAIN_ICON && !(activity instanceof UniversalActivity)) {
+                DokitIntent dokitIntent = new DokitIntent(MainIconDokitView.class);
+                dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
                 attach(dokitIntent);
             }
         }
+
         attachCountDownDokitView(activity);
     }
 

@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.chad.library.adapter.base.entity.node.BaseNode;
-import com.chad.library.adapter.base.provider.BaseNodeProvider;
-import com.chad.library.adapter.base.viewholder.BaseViewHolder;
+import com.didichuxing.doraemonkit.view.bravh.entity.node.BaseNode;
+import com.didichuxing.doraemonkit.view.bravh.provider.BaseNodeProvider;
+import com.didichuxing.doraemonkit.view.bravh.viewholder.BaseViewHolder;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;

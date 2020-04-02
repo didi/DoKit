@@ -16,13 +16,11 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ajguan.library.EasyRefreshLayout;
-import com.ajguan.library.LoadModel;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.chad.library.adapter.base.listener.OnLoadMoreListener;
-import com.chad.library.adapter.base.module.BaseLoadMoreModule;
+import com.didichuxing.doraemonkit.view.bravh.listener.OnLoadMoreListener;
+import com.didichuxing.doraemonkit.view.bravh.module.BaseLoadMoreModule;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
@@ -40,6 +38,8 @@ import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.util.DokitUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.view.DkDropDownMenu;
+import com.didichuxing.doraemonkit.view.easyrefresh.EasyRefreshLayout;
+import com.didichuxing.doraemonkit.view.easyrefresh.LoadModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -109,7 +109,7 @@ public class NetWorkMockFragment extends BaseFragment {
         homeTitleBar.setListener(new HomeTitleBar.OnTitleBarClickListener() {
             @Override
             public void onRightClick() {
-                getActivity().finish();
+                finish();
             }
         });
         if (TextUtils.isEmpty(projectId)) {

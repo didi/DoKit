@@ -25,8 +25,9 @@ import java.util.concurrent.TimeUnit;
  * startMethodTracingSampling采用的采样的模式 可以再整个activity的生命周期中使用
  * <p>
  * 生成的trace文件位于getExternalFilesDir() 下 **.trace
- * 修订历史：
+ * 修订历史：  该功能已经废弃 请使用插件的函数耗时统计 使用手册:http://xingyun.xiaojukeji.com/docs/dokit/#/TimeProfiler
  * ================================================
+ * @author didi
  */
 @Deprecated
 public class MethodCost {

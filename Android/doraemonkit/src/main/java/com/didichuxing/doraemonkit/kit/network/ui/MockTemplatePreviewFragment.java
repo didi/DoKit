@@ -48,7 +48,7 @@ public class MockTemplatePreviewFragment extends BaseFragment {
         homeTitleBar.setListener(new HomeTitleBar.OnTitleBarClickListener() {
             @Override
             public void onRightClick() {
-                getActivity().finish();
+                finish();
             }
         });
         TextView tvName = findViewById(R.id.tv_name);
@@ -74,8 +74,8 @@ public class MockTemplatePreviewFragment extends BaseFragment {
                         .execute(new StringCallback() {
                             @Override
                             public void onSuccess(Response<String> response) {
-                                LogHelper.i(TAG, "上传模板===>" + response.body());
                                 ToastUtils.showShort("上传模板成功");
+                                LogHelper.i(TAG, "上传模板===>" + response.body());
                             }
 
                             @Override
