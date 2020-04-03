@@ -45,7 +45,7 @@ public class ScreenRecorderService extends Service {
             if (ColorPickManager.getInstance().getColorPickerDokitView() != null) {
                 ColorPickManager.getInstance().getColorPickerDokitView().onScreenServiceReady();
             }
-        } catch (SecurityException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return super.onStartCommand(intent, flags, startId);
