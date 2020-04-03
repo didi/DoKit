@@ -464,9 +464,9 @@ class DoraemonKitReal {
         //反射调用
         try {
             Class leakCanaryManager = Class.forName("com.didichuxing.doraemonkit.LeakCanaryManager");
-//            Method install = leakCanaryManager.getMethod("install", Application.class);
-//            //调用静态的install方法
-//            install.invoke(null, app);
+            Method install = leakCanaryManager.getMethod("install", Application.class);
+            //调用静态的install方法
+            install.invoke(null, app);
 
             Method initAidlBridge = leakCanaryManager.getMethod("initAidlBridge", Application.class);
             //调用静态initAidlBridge方法
