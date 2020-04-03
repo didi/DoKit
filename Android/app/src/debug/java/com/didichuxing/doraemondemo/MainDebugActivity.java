@@ -25,8 +25,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -39,7 +37,6 @@ import com.baidu.location.LocationClientOption;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.network.common.CommonHeaders;
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorRequest;
@@ -86,7 +83,10 @@ import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.PermissionRequest;
 
 
-public class MainDebugActivity extends AppCompatActivity implements View.OnClickListener {
+/**
+ * @author jintai
+ */
+public class MainDebugActivity extends BaseActivity implements View.OnClickListener {
     public static final String TAG = "MainDebugActivity";
 
 
@@ -362,8 +362,8 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                 Glide.with(MainDebugActivity.this)
                         .asBitmap()
                         .load(glideImageUrl)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
+                        //.diskCacheStrategy(DiskCacheStrategy.NONE)
+                        //.skipMemoryCache(true)
                         .into((ImageView) findViewById(R.id.iv_glide));
 
 

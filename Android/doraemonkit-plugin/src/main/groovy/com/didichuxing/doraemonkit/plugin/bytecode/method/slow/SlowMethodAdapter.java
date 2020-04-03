@@ -49,13 +49,6 @@ public final class SlowMethodAdapter extends AdviceAdapter {
     protected void onMethodEnter() {
         super.onMethodEnter();
         try {
-//            if (this.getName().equals("attachBaseContext")) {
-//                mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;", false);
-//                mv.visitIntInsn(SIPUSH, thresholdTime);
-//                mv.visitLdcInsn(this.className + "&" + this.getName());
-//                mv.visitMethodInsn(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeStaticMethodCostStart", "(ILjava/lang/String;)V", false);
-//                return;
-//            }
 
             if (isStaticMethod) {
                 //静态方法需要插入的代码

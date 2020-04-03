@@ -15,11 +15,11 @@ import com.squareup.picasso.Transformation;
  * 修订历史：
  * ================================================
  */
-public class DokitTransformation implements Transformation {
+public class DokitPicassoTransformation implements Transformation {
     private static final String TAG = "DokitTransformation";
     private Uri mUri;
 
-    public DokitTransformation(Uri uri) {
+    public DokitPicassoTransformation(Uri uri) {
         this.mUri = uri;
     }
 

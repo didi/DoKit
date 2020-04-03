@@ -73,7 +73,7 @@
                 android:id="@+id/label_timeout"
                 style="@style/DK.TextBig.Darker"
                 android:layout_centerVertical="true"
-                android:text="超时时间：" />
+                android:text="Timeout：" />
 
             <EditText
                 android:id="@+id/value_timeout"

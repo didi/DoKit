@@ -14,6 +14,7 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.util.DokitUtil;
 
 /**
  * ================================================
@@ -81,21 +82,21 @@ public class NetWokDokitView extends AbsDokitView {
             final int type = WeakNetworkManager.get().getType();
             switch (type) {
                 case WeakNetworkManager.TYPE_TIMEOUT:
-                    mTvNetWork.setText("超时");
+                    mTvNetWork.setText(DokitUtil.getString(R.string.dk_weaknet_type_timeout));
                     mTvTimeOutTime.setText("" + WeakNetworkManager.get().getTimeOutMillis() + " ms");
                     mLlTimeWrap.setVisibility(View.VISIBLE);
                     mLlSpeedWrap.setVisibility(View.GONE);
 
                     break;
                 case WeakNetworkManager.TYPE_SPEED_LIMIT:
-                    mTvNetWork.setText("限速");
+                    mTvNetWork.setText(DokitUtil.getString(R.string.dk_weaknet_type_speed));
                     mTvRequestSpeed.setText("" + WeakNetworkManager.get().getRequestSpeed() + " KB/S");
                     mTvResponseSpeed.setText("" + WeakNetworkManager.get().getResponseSpeed() + " KB/S");
                     mLlTimeWrap.setVisibility(View.GONE);
                     mLlSpeedWrap.setVisibility(View.VISIBLE);
                     break;
                 default:
-                    mTvNetWork.setText("断网");
+                    mTvNetWork.setText(DokitUtil.getString(R.string.dk_weaknet_type_off));
                     mLlTimeWrap.setVisibility(View.GONE);
                     mLlSpeedWrap.setVisibility(View.GONE);
                     break;

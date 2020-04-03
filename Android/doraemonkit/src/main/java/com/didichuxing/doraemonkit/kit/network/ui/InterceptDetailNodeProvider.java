@@ -58,9 +58,9 @@ public class InterceptDetailNodeProvider extends BaseNodeProvider {
                 holder.getView(R.id.rl_params).setVisibility(View.GONE);
             }
 
-            holder.setText(R.id.tv_group, "分组:" + mockApi.getGroup());
-            holder.setText(R.id.tv_create, "创建人:" + mockApi.getCreatePerson());
-            holder.setText(R.id.tv_modify, "修改人:" + mockApi.getModifyPerson());
+            holder.setText(R.id.tv_group, "group:" + mockApi.getGroup());
+            holder.setText(R.id.tv_create, "create person:" + mockApi.getCreatePerson());
+            holder.setText(R.id.tv_modify, "modify person:" + mockApi.getModifyPerson());
             final MultiLineRadioGroup radioGroup = holder.getView(R.id.radio_group);
             if (mockApi.getSceneList() != null && mockApi.getSceneList().size() != 0) {
                 String[] radioButtons = new String[mockApi.getSceneList().size()];
