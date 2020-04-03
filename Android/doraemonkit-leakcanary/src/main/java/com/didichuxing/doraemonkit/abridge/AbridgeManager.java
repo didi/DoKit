@@ -1,4 +1,4 @@
-package com.sjtu.yifei;
+package com.didichuxing.doraemonkit.abridge;
 
 import android.app.Application;
 import android.content.ComponentName;
@@ -13,8 +13,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 ;
-import com.sjtu.yifei.aidl.IReceiverAidlInterface;
-import com.sjtu.yifei.aidl.ISenderAidlInterface;
+
+import com.didichuxing.doraemonkit.aidl.IReceiverAidlInterface;
+import com.didichuxing.doraemonkit.aidl.ISenderAidlInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ import java.util.List;
 final class AbridgeManager {
     private static final String TAG = "AbridgeManager";
     private static final String BIND_SERVICE_ACTION = "android.intent.action.ICALL_AIDL_YIFEI";
-    private static final String BIND_SERVICE_COMPONENT_NAME_CLS = "com.sjtu.yifei.service.ABridgeService";
+    private static final String BIND_SERVICE_COMPONENT_NAME_CLS = "com.didichuxing.doraemonkit.abridge.service.ABridgeService";
     private static AbridgeManager instance;
 
     private Application sApplication;

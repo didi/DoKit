@@ -20,6 +20,8 @@ import android.content.Intent;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
+import com.blankj.utilcode.util.Utils;
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.squareup.leakcanary.R;
 import com.squareup.leakcanary.AbstractAnalysisResultService;
 import com.squareup.leakcanary.AnalysisResult;
@@ -63,6 +65,7 @@ public final class HeapAnalyzerService extends ForegroundService
 
     public HeapAnalyzerService() {
         super(HeapAnalyzerService.class.getSimpleName(), R.string.leak_canary_notification_analysing);
+//        Utils.init(getApplication());
     }
 
     /**

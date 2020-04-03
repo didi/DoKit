@@ -61,8 +61,6 @@ dependencies {
     //远程调试db
     implementation rootProject.ext.dependencies["debug-db"]
     implementation rootProject.ext.dependencies["debug-db-encrypt"]
-    //rv
-//    implementation rootProject.ext.dependencies["brvah"]
     implementation rootProject.ext.dependencies["android_spinkit"]
     implementation rootProject.ext.dependencies["okhttp"]
     implementation rootProject.ext.dependencies["okhttp_v2"]

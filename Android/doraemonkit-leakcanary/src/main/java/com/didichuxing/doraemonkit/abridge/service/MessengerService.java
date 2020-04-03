@@ -1,4 +1,4 @@
-package com.sjtu.yifei.service;
+package com.didichuxing.doraemonkit.abridge.service;
 
 import android.annotation.SuppressLint;
 import android.app.Service;
@@ -7,11 +7,8 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
-import android.os.RemoteCallbackList;
 import android.os.RemoteException;
 import android.text.TextUtils;
-
-import com.sjtu.yifei.aidl.IReceiverAidlInterface;
 
 import java.util.ArrayList;
 import java.util.List;

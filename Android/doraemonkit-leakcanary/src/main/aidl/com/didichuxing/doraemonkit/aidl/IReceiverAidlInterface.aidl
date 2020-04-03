@@ -1,5 +1,5 @@
 // ICallback.aidl
-package com.sjtu.yifei.aidl;
+package com.didichuxing.doraemonkit.aidl;
 
 // Declare any non-default types here with import statements
 

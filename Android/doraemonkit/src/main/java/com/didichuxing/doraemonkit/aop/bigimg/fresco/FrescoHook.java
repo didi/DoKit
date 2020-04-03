@@ -15,6 +15,6 @@ import com.facebook.imagepipeline.request.Postprocessor;
  */
 public class FrescoHook {
     public static Postprocessor proxy(Uri uri, Postprocessor postprocessor) {
-        return new DokitPostprocessor(uri, postprocessor);
+        return new DokitFrescoPostprocessor(uri, postprocessor);
     }
 }

@@ -18,11 +18,9 @@ package com.squareup.leakcanary;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.didichuxing.doraemonkit.util.LogHelper;
 import com.squareup.leakcanary.internal.ActivityLifecycleCallbacksAdapter;
 
 /**

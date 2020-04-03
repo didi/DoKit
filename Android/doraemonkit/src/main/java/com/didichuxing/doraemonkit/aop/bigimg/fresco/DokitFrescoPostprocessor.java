@@ -24,13 +24,13 @@ import static com.facebook.imagepipeline.request.BasePostprocessor.FALLBACK_BITM
  * 修订历史：
  * ================================================
  */
-public class DokitPostprocessor implements Postprocessor {
+public class DokitFrescoPostprocessor implements Postprocessor {
     private static final String TAG = "DokitPostprocessor";
     @Nullable
     private Postprocessor mOriginalPostprocessor;
     private Uri mUri;
 
-    public DokitPostprocessor(Uri uri, Postprocessor postprocessor) {
+    public DokitFrescoPostprocessor(Uri uri, Postprocessor postprocessor) {
         this.mOriginalPostprocessor = postprocessor;
         this.mUri = uri;
     }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.util.DokitUtil;
 import com.didichuxing.doraemonkit.view.bravh.entity.node.BaseNode;
 import com.didichuxing.doraemonkit.view.bravh.provider.BaseNodeProvider;
 import com.didichuxing.doraemonkit.view.bravh.viewholder.BaseViewHolder;
@@ -68,15 +69,15 @@ public class TemplateDetailNodeProvider extends BaseNodeProvider {
                 holder.getView(R.id.rl_params).setVisibility(View.GONE);
             }
 
-            holder.setText(R.id.tv_group, "分组:" + mockApi.getGroup());
-            holder.setText(R.id.tv_create, "创建人:" + mockApi.getCreatePerson());
-            holder.setText(R.id.tv_modify, "修改人:" + mockApi.getModifyPerson());
+            holder.setText(R.id.tv_group, "group:" + mockApi.getGroup());
+            holder.setText(R.id.tv_create, "create person:" + mockApi.getCreatePerson());
+            holder.setText(R.id.tv_modify, "modify person:" + mockApi.getModifyPerson());
             final TextView tvView = holder.getView(R.id.tv_view);
             tvView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (TextUtils.isEmpty(mockApi.getStrResponse())) {
-                        ToastUtils.showShort("暂无mock模板数据");
+                        ToastUtils.showShort("no mock template data");
                         return;
                     }
                     //保存到全局
@@ -99,13 +100,13 @@ public class TemplateDetailNodeProvider extends BaseNodeProvider {
                                 @Override
                                 public void onSuccess(Response<String> response) {
                                     LogHelper.i(TAG, "上传模板===>" + response.body());
-                                    ToastUtils.showShort("上传模板成功");
+                                    ToastUtils.showShort("upload template succeed");
                                 }
 
                                 @Override
                                 public void onError(Response<String> response) {
                                     super.onError(response);
-                                    ToastUtils.showShort("上传模板失败");
+                                    ToastUtils.showShort("upload template failed");
                                     LogHelper.e(TAG, "上传模板失败===>" + response.body());
                                 }
                             });
@@ -116,15 +117,15 @@ public class TemplateDetailNodeProvider extends BaseNodeProvider {
             TextView tvHasLocalMockData = holder.getView(R.id.tv_local_has_mock_template);
             String hasLocalMockData;
             if (!TextUtils.isEmpty(mockApi.getStrResponse())) {
-                hasLocalMockData = "是";
+                hasLocalMockData = "Y";
                 tvUpload.setClickable(true);
                 tvUpload.setTextColor(tvUpload.getContext().getResources().getColor(R.color.dk_color_337CC4));
             } else {
-                hasLocalMockData = "否";
+                hasLocalMockData = "N";
                 tvUpload.setClickable(false);
                 tvUpload.setTextColor(tvUpload.getContext().getResources().getColor(R.color.dk_color_999999));
             }
-            tvHasLocalMockData.setText(String.format("本地是否存在mock模板数据:%s", hasLocalMockData));
+            tvHasLocalMockData.setText(String.format(DokitUtil.getString(R.string.dk_data_mock_template_tip), hasLocalMockData));
 
         }
 

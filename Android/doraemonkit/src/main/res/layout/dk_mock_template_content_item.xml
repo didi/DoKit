@@ -77,9 +77,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:text="本地是否存在mock模板数据"
         android:textColor="@color/dk_color_666666"
-        android:textSize="14sp"
-        android:text="本地是否存在mock模板数据" />
+        android:textSize="14sp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -91,7 +91,7 @@
             android:id="@+id/tv_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="数据预览"
+            android:text="Preview"
             android:textColor="@color/dk_color_337CC4"
             android:textSize="14sp" />
 
@@ -100,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
-            android:text="上传"
+            android:text="Upload"
             android:textColor="@color/dk_color_337CC4"
             android:textSize="14sp" />
     </LinearLayout>

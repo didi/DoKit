@@ -1,7 +1,7 @@
 // ICall.aidl
-package com.sjtu.yifei.aidl;
+package com.didichuxing.doraemonkit.aidl;
 
-import com.sjtu.yifei.aidl.IReceiverAidlInterface;
+import  com.didichuxing.doraemonkit.aidl.IReceiverAidlInterface;
 
 interface ISenderAidlInterface {
 

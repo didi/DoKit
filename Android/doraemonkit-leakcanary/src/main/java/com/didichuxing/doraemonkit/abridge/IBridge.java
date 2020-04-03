@@ -1,4 +1,4 @@
-package com.sjtu.yifei;
+package com.didichuxing.doraemonkit.abridge;
 
 import android.app.Application;
 import android.os.Message;
