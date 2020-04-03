@@ -1,7 +1,7 @@
 <div align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
- <img src="https://img.shields.io/badge/Android-2.2.2-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/Android-3.1.0-blue.svg" align=left />
  <img src="https://img.shields.io/badge/iOS-2.0.0-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
@@ -33,7 +33,7 @@ A full-featured App (iOS & Android) development assistant. You deserve it.
 ## Feature Demonstration
 
 <div align="center">    
- <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/DoraemonKit2/DoraemonKit2.png" width = "300" height = "565" alt="Demonstration" align=center />
+  <img src="https://pt-starimg.didistatic.com/static/starimg/img/H1SVa0S6Zm1585189141793.jpg" width = "250" alt="DoKit 首页效果演示" align=center />
 </div>
 
 ## How To Use

@@ -1,6 +1,12 @@
 DoraemonKit-Android releases
 ===
 
+## 3.1.0
+1.安卓版本DoKit从3.1.0版本开始全面拥抱Androidx,假如你的项目还没有升级到androidx你可以选择依赖3.0.2版本
+
+## 3.0.2
+1.安卓版DoKit从3.0.2版本开始将逐渐放弃对Android Support版本的支持，请大家全面拥抱androidx吧
+
 ## 3.0.0
 1.优化dokit 慢函数代码插件性能
 2.优化大图检测实现方式，不再需要手动注入代码(支持Glide4.0+、Fresco、Picasso、ImageLoader)
