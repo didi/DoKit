@@ -22,7 +22,6 @@ public class GlideTransformMethodAdapter extends AdviceAdapter {
      *
      * @param methodVisitor the method visitor to which this adapter delegates calls.
      * @param access        the method's access flags (see {@link Opcodes}).
-     * @param name          the method's name.
      * @param descriptor    the method's descriptor (see {@link Type Type}).
      */
     public GlideTransformMethodAdapter(MethodVisitor methodVisitor, int access, String methodName, String descriptor) {
