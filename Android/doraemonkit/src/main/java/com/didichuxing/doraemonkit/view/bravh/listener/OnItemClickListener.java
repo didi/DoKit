@@ -8,7 +8,7 @@ import com.didichuxing.doraemonkit.view.bravh.BaseQuickAdapter;
 
 /**
  * @author: limuyang
- * @date: 2019-12-03
+ *  2019-12-03
  * @Description: Interface definition for a callback to be invoked when an item in this
  * RecyclerView itemView has been clicked.
  */

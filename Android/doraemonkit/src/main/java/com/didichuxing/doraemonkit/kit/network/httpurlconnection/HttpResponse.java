@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @date: 2019/3/12
+ *  2019/3/12
  * @desc: 响应体
  */
 public class HttpResponse {

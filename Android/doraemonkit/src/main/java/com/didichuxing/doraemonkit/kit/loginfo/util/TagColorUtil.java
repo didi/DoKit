@@ -8,7 +8,7 @@ import com.didichuxing.doraemonkit.R;
 
 /**
  * @author: linjizong
- * @date: 2019/4/30
+ *  2019/4/30
  * @desc:
  */
 public class TagColorUtil {

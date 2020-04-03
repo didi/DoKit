@@ -4,19 +4,11 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven {
-            //本地插件地址
-            url uri(rootProject.ext.config["localRepoURL"])
-        }
-        //北京maven库
-        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public/' }
-        maven { url 'https://www.jitpack.io' }
-
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.1'
+        classpath 'com.android.tools.build:gradle:3.6.2'
         classpath 'com.novoda:bintray-release:0.9.2'
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:1000.0.3'
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.0'
         classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.ext.android["kotlin_version"]}"
         // NOTE: Do not place your application dependencies here; they belong
@@ -28,16 +20,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven {
-            url "http://maven.aliyun.com/nexus/content/repositories/releases"
-        }
-        maven {
-            //本地插件地址
-            url uri(rootProject.ext.config["localRepoURL"])
-        }
-        //北京maven库
-        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public/' }
-        maven { url 'https://www.jitpack.io' }
 
     }
 }
@@ -46,5 +28,10 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-//tasks.getByPath(":doraemonkit:javadocRelease").enabled = false
-//tasks.getByPath(":doraemonkit-no-op:javadocRelease").enabled = false
+//解决打包时由于javadocRelease校验引起的打包失败
+tasks.getByPath(":doraemonkit:javadocRelease").enabled = false
+tasks.getByPath(":doraemonkit-no-op:javadocRelease").enabled = false
+tasks.getByPath(":doraemonkit-leakcanary:javadocRelease").enabled = false
+tasks.getByPath(":doraemonkit-weex:javadocRelease").enabled = false
+tasks.getByPath(":doraemonkit-weex-no-op:javadocRelease").enabled = false
+tasks.getByPath(":doraemonkit-rpc:javadocRelease").enabled = false
