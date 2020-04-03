@@ -3,7 +3,6 @@ package com.didichuxing.doraemonkit.aop;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;

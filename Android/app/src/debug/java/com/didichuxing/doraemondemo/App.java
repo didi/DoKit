@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.support.multidex.MultiDex;
+
+import androidx.multidex.MultiDex;
 
 import com.didichuxing.doraemondemo.dokit.DemoKit;
 import com.didichuxing.doraemonkit.DoraemonKit;

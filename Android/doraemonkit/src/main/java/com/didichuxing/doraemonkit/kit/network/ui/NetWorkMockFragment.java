@@ -1,10 +1,6 @@
 package com.didichuxing.doraemonkit.kit.network.ui;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,12 +11,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.ajguan.library.EasyRefreshLayout;
-import com.ajguan.library.LoadModel;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.didichuxing.doraemonkit.view.bravh.listener.OnLoadMoreListener;
+import com.didichuxing.doraemonkit.view.bravh.module.BaseLoadMoreModule;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
@@ -38,6 +38,8 @@ import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.util.DokitUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.view.DkDropDownMenu;
+import com.didichuxing.doraemonkit.view.easyrefresh.EasyRefreshLayout;
+import com.didichuxing.doraemonkit.view.easyrefresh.LoadModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,28 +50,27 @@ import java.util.List;
 
 /**
  * 数据mock 相关设置 详情页
+ *
+ * @author jintai
  */
 public class NetWorkMockFragment extends BaseFragment {
     private String projectId = DokitConstant.PRODUCT_ID;
     private int pageSize = 100;
     private String mFormatApiUrl = NetworkManager.MOCK_DOMAIN + "/api/app/interface?projectId=%s&isfull=1&curPage=%s&pageSize=%s";
     private EditText mEditText;
-    private TextView mTvSearch;
     private EasyRefreshLayout mInterceptRefreshLayout, mTemplateRefreshLayout;
-    private InterceptMockAdapter<MockInterceptTitleBean> mInterceptApiAdapter;
-    private TemplateMockAdapter<MockTemplateTitleBean> mTemplateApiAdapter;
+    private InterceptMockAdapter mInterceptApiAdapter;
+    private TemplateMockAdapter mTemplateApiAdapter;
+    private BaseLoadMoreModule mInterceptLoadMoreModule;
+    private BaseLoadMoreModule mTemplateLoadMoreModule;
     private RecyclerView mRvIntercept;
     private RecyclerView mRvTemplate;
     private FrameLayout mRvWrap;
-    private LinearLayout mLlBottomInterceptWrap, mLlBottomTemplateWrap;
     private TextView mTvMock, mTvTemplate;
     private ImageView mIvMock, mIvTemplate;
-    private String mMenuHeaders[] = {DokitUtil.getString(R.string.dk_data_mock_group),
+    private String[] mMenuHeaders = {DokitUtil.getString(R.string.dk_data_mock_group),
             DokitUtil.getString(R.string.dk_data_mock_switch_status)};
 
-
-    ListView mGroupListView;
-    ListView mSwitchListView;
     private DkDropDownMenu mDropDownMenu;
     /**
      * drop down 分组adapter
@@ -82,7 +83,7 @@ public class NetWorkMockFragment extends BaseFragment {
             DokitUtil.getString(R.string.dk_data_mock_switch_closed)};
     private List<View> popupViews = new ArrayList<>();
 
-    FilterConditionBean mInterceptFilterBean, mTemplateFilterBean;
+    private FilterConditionBean mInterceptFilterBean, mTemplateFilterBean;
     private static int BOTTOM_TAB_INDEX_0 = 0;
     private static int BOTTOM_TAB_INDEX_1 = 1;
     private int mSelectedTableIndex = BOTTOM_TAB_INDEX_0;
@@ -108,7 +109,7 @@ public class NetWorkMockFragment extends BaseFragment {
         homeTitleBar.setListener(new HomeTitleBar.OnTitleBarClickListener() {
             @Override
             public void onRightClick() {
-                getActivity().finish();
+                finish();
             }
         });
         if (TextUtils.isEmpty(projectId)) {
@@ -116,7 +117,7 @@ public class NetWorkMockFragment extends BaseFragment {
             return;
         }
         mEditText = findViewById(R.id.edittext);
-        mTvSearch = findViewById(R.id.tv_search);
+        TextView mTvSearch = findViewById(R.id.tv_search);
         mTvSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,14 +129,14 @@ public class NetWorkMockFragment extends BaseFragment {
                 filterAndNotifyData();
             }
         });
-        mLlBottomInterceptWrap = findViewById(R.id.ll_bottom_tab_mock);
+        LinearLayout mLlBottomInterceptWrap = findViewById(R.id.ll_bottom_tab_mock);
         mLlBottomInterceptWrap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switchBottomTabStatus(BOTTOM_TAB_INDEX_0);
             }
         });
-        mLlBottomTemplateWrap = findViewById(R.id.ll_bottom_tab_template);
+        LinearLayout mLlBottomTemplateWrap = findViewById(R.id.ll_bottom_tab_template);
         mLlBottomTemplateWrap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,7 +225,7 @@ public class NetWorkMockFragment extends BaseFragment {
         if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
             List<MockInterceptTitleBean> interceptTitleBeans = new ArrayList<>();
             for (MockInterceptTitleBean interceptTitleBean : mInterceptTitleBeans) {
-                MockInterceptApiBean interceptApiBean = interceptTitleBean.getSubItem(0);
+                MockInterceptApiBean interceptApiBean = (MockInterceptApiBean) interceptTitleBean.getChildNode().get(0);
                 //分组信息是否匹配
                 boolean boolGroupMatched;
                 if (TextUtils.isEmpty(mStrInterceptGroup)) {
@@ -270,15 +271,15 @@ public class NetWorkMockFragment extends BaseFragment {
                     interceptTitleBeans.add(interceptTitleBean);
                 }
             }
-            mInterceptApiAdapter.setNewData(interceptTitleBeans);
-            mInterceptApiAdapter.loadMoreEnd();
+            mInterceptApiAdapter.setNewInstance((List) interceptTitleBeans);
+            mInterceptLoadMoreModule.loadMoreEnd();
             if (interceptTitleBeans.isEmpty()) {
-                mInterceptApiAdapter.setEmptyView(R.layout.dk_rv_empty_layout2, mRvIntercept);
+                mInterceptApiAdapter.setEmptyView(R.layout.dk_rv_empty_layout2);
             }
         } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
             List<MockTemplateTitleBean> templateTitleBeans = new ArrayList<>();
             for (MockTemplateTitleBean templateTitleBean : mTemplateTitleBeans) {
-                MockTemplateApiBean templateApiBean = templateTitleBean.getSubItem(0);
+                MockTemplateApiBean templateApiBean = (MockTemplateApiBean) templateTitleBean.getChildNode().get(0);
                 //分组信息是否匹配
                 boolean boolGroupMatched;
                 if (TextUtils.isEmpty(mStrTemplateGroup)) {
@@ -324,10 +325,10 @@ public class NetWorkMockFragment extends BaseFragment {
                     templateTitleBeans.add(templateTitleBean);
                 }
             }
-            mTemplateApiAdapter.setNewData(templateTitleBeans);
-            mTemplateApiAdapter.loadMoreEnd();
+            mTemplateApiAdapter.setNewInstance((List) templateTitleBeans);
+            mTemplateLoadMoreModule.loadMoreEnd();
             if (templateTitleBeans.isEmpty()) {
-                mTemplateApiAdapter.setEmptyView(R.layout.dk_rv_empty_layout2, mRvTemplate);
+                mTemplateApiAdapter.setEmptyView(R.layout.dk_rv_empty_layout2);
             }
         }
     }
@@ -338,31 +339,33 @@ public class NetWorkMockFragment extends BaseFragment {
      *
      * @param mockTitleBeans
      */
-    private void attachInterceptRv(List<MockInterceptTitleBean> mockTitleBeans) {
+    private void attachInterceptRv(@NonNull List<MockInterceptTitleBean> mockTitleBeans) {
         //全局保存列表数据
         mInterceptTitleBeans.addAll(mockTitleBeans);
 
         mInterceptRefreshLayout.refreshComplete();
         if (mInterceptApiAdapter == null) {
-            mInterceptApiAdapter = new InterceptMockAdapter<>(null);
-            mInterceptApiAdapter.bindToRecyclerView(mRvIntercept);
+            mInterceptApiAdapter = new InterceptMockAdapter(null);
+            mRvIntercept.setAdapter(mInterceptApiAdapter);
+            mInterceptLoadMoreModule = mInterceptApiAdapter.getLoadMoreModule();
             //关闭加载更多
-            mInterceptApiAdapter.setEnableLoadMore(false);
-            mInterceptApiAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            mInterceptLoadMoreModule.setEnableLoadMore(false);
+            mInterceptLoadMoreModule.setOnLoadMoreListener(new OnLoadMoreListener() {
                 @Override
-                public void onLoadMoreRequested() {
+                public void onLoadMore() {
                     loadMoreResponseApis();
                 }
-            }, mRvIntercept);
-            mInterceptApiAdapter.disableLoadMoreIfNotFullPage();
+            });
+
+            mInterceptLoadMoreModule.setEnableLoadMoreIfNotFullPage(false);
         }
         if (mockTitleBeans.isEmpty()) {
-            mInterceptApiAdapter.setEmptyView(R.layout.dk_rv_empty_layout, mRvIntercept);
+            mInterceptApiAdapter.setEmptyView(R.layout.dk_rv_empty_layout);
             return;
         }
-        mInterceptApiAdapter.setNewData(mockTitleBeans);
+        mInterceptApiAdapter.setNewInstance((List) mockTitleBeans);
         if (mockTitleBeans.size() < pageSize) {
-            mInterceptApiAdapter.loadMoreEnd();
+            mInterceptLoadMoreModule.loadMoreEnd();
         }
 
     }
@@ -372,32 +375,34 @@ public class NetWorkMockFragment extends BaseFragment {
      *
      * @param mockTitleBeans
      */
-    private void attachTemplateRv(List<MockTemplateTitleBean> mockTitleBeans) {
+    private void attachTemplateRv(@NonNull List<MockTemplateTitleBean> mockTitleBeans) {
         //全局保存列表数据
         mTemplateTitleBeans.addAll(mockTitleBeans);
         mTemplateRefreshLayout.refreshComplete();
         if (mTemplateApiAdapter == null) {
             //template
-            mTemplateApiAdapter = new TemplateMockAdapter<>(null);
-            mTemplateApiAdapter.bindToRecyclerView(mRvTemplate);
+            mTemplateApiAdapter = new TemplateMockAdapter(null);
+            mRvTemplate.setAdapter(mTemplateApiAdapter);
+            mTemplateLoadMoreModule = mTemplateApiAdapter.getLoadMoreModule();
             //关闭加载更多
-            mTemplateApiAdapter.setEnableLoadMore(false);
-            mTemplateApiAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            mTemplateLoadMoreModule.setEnableLoadMore(false);
+            mTemplateLoadMoreModule.setOnLoadMoreListener(new OnLoadMoreListener() {
                 @Override
-                public void onLoadMoreRequested() {
+                public void onLoadMore() {
                     loadMoreResponseApis();
                 }
-            }, mRvIntercept);
-            mTemplateApiAdapter.disableLoadMoreIfNotFullPage();
+            });
+
+            mTemplateLoadMoreModule.setEnableLoadMoreIfNotFullPage(false);
         }
-        if (mockTitleBeans == null || mockTitleBeans.isEmpty()) {
-            mTemplateApiAdapter.setEmptyView(R.layout.dk_rv_empty_layout, mRvTemplate);
+        if (mockTitleBeans.isEmpty()) {
+            mTemplateApiAdapter.setEmptyView(R.layout.dk_rv_empty_layout);
             return;
         }
 
-        mTemplateApiAdapter.setNewData(mockTitleBeans);
+        mTemplateApiAdapter.setNewInstance((List) mockTitleBeans);
         if (mockTitleBeans.size() < pageSize) {
-            mTemplateApiAdapter.loadMoreEnd();
+            mTemplateLoadMoreModule.loadMoreEnd();
         }
 
     }
@@ -410,9 +415,9 @@ public class NetWorkMockFragment extends BaseFragment {
     private void loadMoreInterceptDates(List<MockInterceptTitleBean> mockTitleBeans) {
         mInterceptApiAdapter.addData(mockTitleBeans);
         if (mockTitleBeans.size() < pageSize) {
-            mInterceptApiAdapter.loadMoreEnd();
+            mInterceptLoadMoreModule.loadMoreEnd();
         } else {
-            mInterceptApiAdapter.loadMoreComplete();
+            mInterceptLoadMoreModule.loadMoreComplete();
         }
     }
 
@@ -424,9 +429,9 @@ public class NetWorkMockFragment extends BaseFragment {
     private void loadMoreTemplateDates(List<MockTemplateTitleBean> mockTitleBeans) {
         mTemplateApiAdapter.addData(mockTitleBeans);
         if (mockTitleBeans.size() < pageSize) {
-            mTemplateApiAdapter.loadMoreEnd();
+            mTemplateLoadMoreModule.loadMoreEnd();
         } else {
-            mTemplateApiAdapter.loadMoreComplete();
+            mTemplateLoadMoreModule.loadMoreComplete();
         }
     }
 
@@ -462,9 +467,9 @@ public class NetWorkMockFragment extends BaseFragment {
                         } catch (Exception e) {
                             e.printStackTrace();
                             if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
-                                mInterceptApiAdapter.loadMoreEnd();
+                                mInterceptLoadMoreModule.loadMoreEnd();
                             } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
-                                mTemplateApiAdapter.loadMoreEnd();
+                                mTemplateLoadMoreModule.loadMoreEnd();
                             }
                         }
 
@@ -474,9 +479,9 @@ public class NetWorkMockFragment extends BaseFragment {
                     public void onError(Response<String> response) {
                         super.onError(response);
                         if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
-                            mInterceptApiAdapter.loadMoreEnd();
+                            mInterceptLoadMoreModule.loadMoreEnd();
                         } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
-                            mTemplateApiAdapter.loadMoreEnd();
+                            mTemplateLoadMoreModule.loadMoreEnd();
                         }
                     }
                 });
@@ -489,13 +494,13 @@ public class NetWorkMockFragment extends BaseFragment {
         final List<String> groups = new ArrayList<>();
         groups.add(DokitUtil.getString(R.string.dk_data_mock_group));
         for (MockInterceptTitleBean mockInterceptTitleBean : mockInterceptTitleBeans) {
-            MockInterceptApiBean mockInterceptApiBean = mockInterceptTitleBean.getSubItem(0);
+            MockInterceptApiBean mockInterceptApiBean = (MockInterceptApiBean) mockInterceptTitleBean.getChildNode().get(0);
             if (!groups.contains(mockInterceptApiBean.getGroup())) {
                 groups.add(mockInterceptApiBean.getGroup());
             }
         }
         //init group menu
-        mGroupListView = new ListView(getActivity());
+        ListView mGroupListView = new ListView(getActivity());
         mGroupListView.setDividerHeight(0);
         mGroupMenuAdapter = new ListDropDownAdapter(getActivity(), groups);
         mGroupListView.setAdapter(mGroupMenuAdapter);
@@ -518,7 +523,7 @@ public class NetWorkMockFragment extends BaseFragment {
             }
         });
         //init switch menu
-        mSwitchListView = new ListView(getActivity());
+        ListView mSwitchListView = new ListView(getActivity());
         mSwitchListView.setDividerHeight(0);
         mSwitchMenuAdapter = new ListDropDownAdapter(getActivity(), Arrays.asList(mSwitchMenus));
         mSwitchListView.setAdapter(mSwitchMenuAdapter);
@@ -613,7 +618,8 @@ public class NetWorkMockFragment extends BaseFragment {
      * @param strResponse 返回的数据
      * @return
      */
-    private List<MockInterceptTitleBean> dealInterceptResponseData(String strResponse) throws Exception {
+    private @NonNull
+    List<MockInterceptTitleBean> dealInterceptResponseData(String strResponse) throws Exception {
 
         JSONObject responseJsonObject = new JSONObject(strResponse);
         JSONArray jsonArray = responseJsonObject.getJSONObject("data").getJSONArray("datalist");
@@ -633,8 +639,9 @@ public class NetWorkMockFragment extends BaseFragment {
                 modifyName = datalistBean.getCurStatus().getOperator().getName();
             }
             //新建 intercept
-            MockInterceptTitleBean mockInterceptTitleBean = new MockInterceptTitleBean(datalistBean.getName());
-            mockInterceptTitleBean.addSubItem(new MockInterceptApiBean(datalistBean.get_id(), datalistBean.getName(), datalistBean.getPath(), datalistBean.getMethod(), datalistBean.getFormatType(), paramsJsonObject == null ? " " : paramsJsonObject.toString(), datalistBean.getCategoryName(), datalistBean.getOwner().getName(), modifyName, datalistBean.getSceneList()));
+            List<MockInterceptApiBean> mockInterceptApiBeans = new ArrayList<>();
+            mockInterceptApiBeans.add(new MockInterceptApiBean(datalistBean.get_id(), datalistBean.getName(), datalistBean.getPath(), datalistBean.getMethod(), datalistBean.getFormatType(), paramsJsonObject == null ? " " : paramsJsonObject.toString(), datalistBean.getCategoryName(), datalistBean.getOwner().getName(), modifyName, datalistBean.getSceneList()));
+            MockInterceptTitleBean mockInterceptTitleBean = new MockInterceptTitleBean(datalistBean.getName(), mockInterceptApiBeans);
             mockInterceptTitleBeans.add(mockInterceptTitleBean);
 
         }
@@ -647,7 +654,8 @@ public class NetWorkMockFragment extends BaseFragment {
      * @param strResponse 返回的数据
      * @return
      */
-    private List<MockTemplateTitleBean> dealTemplateResponseData(String strResponse) throws Exception {
+    private @NonNull
+    List<MockTemplateTitleBean> dealTemplateResponseData(String strResponse) throws Exception {
 
         JSONObject responseJsonObject = new JSONObject(strResponse);
         JSONArray jsonArray = responseJsonObject.getJSONObject("data").getJSONArray("datalist");
@@ -668,8 +676,9 @@ public class NetWorkMockFragment extends BaseFragment {
             }
 
             //新建 template
-            MockTemplateTitleBean mockTemplateTitleBean = new MockTemplateTitleBean(datalistBean.getName());
-            mockTemplateTitleBean.addSubItem(new MockTemplateApiBean(datalistBean.get_id(), datalistBean.getName(), datalistBean.getPath(), datalistBean.getMethod(), datalistBean.getFormatType(), paramsJsonObject == null ? " " : paramsJsonObject.toString(), datalistBean.getCategoryName(), datalistBean.getOwner().getName(), modifyName, datalistBean.getProjectId()));
+            List<MockTemplateApiBean> mockTemplateApiBeans = new ArrayList<>();
+            mockTemplateApiBeans.add(new MockTemplateApiBean(datalistBean.get_id(), datalistBean.getName(), datalistBean.getPath(), datalistBean.getMethod(), datalistBean.getFormatType(), paramsJsonObject == null ? " " : paramsJsonObject.toString(), datalistBean.getCategoryName(), datalistBean.getOwner().getName(), modifyName, datalistBean.getProjectId()));
+            MockTemplateTitleBean mockTemplateTitleBean = new MockTemplateTitleBean(datalistBean.getName(), mockTemplateApiBeans);
             mockTemplateTitleBeans.add(mockTemplateTitleBean);
         }
 
@@ -687,9 +696,8 @@ public class NetWorkMockFragment extends BaseFragment {
     private void insertAllInterceptApis(ArrayList<MockInterceptTitleBean> mockTitleBeans) {
         List<MockInterceptApiBean> mockApis = new ArrayList<>();
 
-        for (MockInterceptTitleBean multiItemEntity : mockTitleBeans) {
-            MockInterceptTitleBean mockInterceptTitleBean = multiItemEntity;
-            MockInterceptApiBean mockApi = mockInterceptTitleBean.getSubItem(0);
+        for (MockInterceptTitleBean mockInterceptTitleBean : mockTitleBeans) {
+            MockInterceptApiBean mockApi = (MockInterceptApiBean) mockInterceptTitleBean.getChildNode().get(0);
             if (!hasInterceptApiInDb(mockApi.getPath(), mockApi.getId())) {
                 mockApis.add(mockApi);
             } else {
@@ -710,9 +718,8 @@ public class NetWorkMockFragment extends BaseFragment {
     private void insertAllTemplateApis(ArrayList<MockTemplateTitleBean> mockTitleBeans) {
         List<MockTemplateApiBean> mockApis = new ArrayList<>();
 
-        for (MockTemplateTitleBean multiItemEntity : mockTitleBeans) {
-            MockTemplateTitleBean mockTemplateTitleBean = multiItemEntity;
-            MockTemplateApiBean mockApi = mockTemplateTitleBean.getSubItem(0);
+        for (MockTemplateTitleBean mockTemplateTitleBean : mockTitleBeans) {
+            MockTemplateApiBean mockApi = (MockTemplateApiBean) mockTemplateTitleBean.getChildNode().get(0);
             if (!hasTemplateApiInDb(mockApi.getPath(), mockApi.getId())) {
                 mockApis.add(mockApi);
             } else {

@@ -62,23 +62,24 @@ android {
 }
 
 //dokit 扩展
-//dokitExt {
-//    dokitPluginSwitch = true
-//    slowMethodSwitch = true
-//    //单位为us 1000us =1ms
-//    thresholdTime = 200
-//    packageNames = ["com.didichuxing.doraemondemo"]
-//}
+dokitExt {
+    dokitPluginSwitch = true
+    slowMethodSwitch = true
+    //单位为ms 1000ms = 1s
+    thresholdTime = 200
+    packageNames = ["com.didichuxing.doraemondemo"]
+//    packageNames = ["com.didichuxing.doraemondemo","com.didichuxing.doraemonkit"]
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation rootProject.ext.dependencies["junit"]
     implementation rootProject.ext.dependencies["multidex"]
-    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["okhttp"]
     implementation rootProject.ext.dependencies["glide"]
-    implementation rootProject.ext.dependencies["glide_okhttp3"]
+//    implementation rootProject.ext.dependencies["glide_okhttp3"]
     annotationProcessor rootProject.ext.dependencies["glide_compiler"]
     implementation rootProject.ext.dependencies["picasso"]
     implementation rootProject.ext.dependencies["fresco"]
@@ -97,8 +98,8 @@ dependencies {
     implementation rootProject.ext.dependencies["tencent_location"]
     //百度地图定位
     implementation files('libs/BaiduLBS_Android.jar')
-    implementation 'com.jakewharton:butterknife:9.0.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 //    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.12'
 
 }

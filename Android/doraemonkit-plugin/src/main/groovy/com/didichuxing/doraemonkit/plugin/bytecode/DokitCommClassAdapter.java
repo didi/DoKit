@@ -29,7 +29,7 @@ public final class DokitCommClassAdapter extends ClassVisitor {
     private String superName;
 
     /**
-     * @param cv             cv
+     * @param cv cv
      */
     public DokitCommClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM7, cv);
@@ -149,6 +149,7 @@ public final class DokitCommClassAdapter extends ClassVisitor {
         if (desc == null || desc.equals("")) {
             return 0;
         }
+        //包含返回值 所以需要减1
         return desc.split(";").length - 1;
     }
 

@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * 生成的trace文件位于getExternalFilesDir() 下 **.trace
  * 修订历史：  该功能已经废弃 请使用插件的函数耗时统计 使用手册:http://xingyun.xiaojukeji.com/docs/dokit/#/TimeProfiler
  * ================================================
- *
+ * @author didi
  */
 @Deprecated
 public class MethodCost {
@@ -186,7 +186,7 @@ public class MethodCost {
                 } else {
                     if (traceFileName.equals("appStart")) {
                         String destFilePath = PathUtils.getInternalAppFilesPath() + File.separator + "appStart.trace";
-                        FileUtils.copyFile(filePath, destFilePath);
+                        FileUtils.copy(filePath, destFilePath);
                     }
                 }
 

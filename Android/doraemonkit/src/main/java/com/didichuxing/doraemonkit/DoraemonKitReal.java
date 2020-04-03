@@ -9,9 +9,11 @@ import com.amitshekhar.DebugDB;
 import com.amitshekhar.debug.encrypt.sqlite.DebugDBEncryptFactory;
 import com.amitshekhar.debug.sqlite.DebugDBFactory;
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
+import com.blankj.utilcode.util.ProcessUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.blankj.utilcode.util.Utils;
@@ -80,7 +82,7 @@ import java.util.List;
  * DoraemonKit 真正执行的类  不建议外部app调用
  */
 class DoraemonKitReal {
-    private static final String TAG = "DoraemonKitReal";
+    private static final String TAG = "Doraemon";
 
 
     private static boolean sHasInit = false;
@@ -138,12 +140,32 @@ class DoraemonKitReal {
         sHasInit = true;
         //赋值
         APPLICATION = app;
+        //初始化工具类
+        initAndroidUtil(app);
+        //判断进程名
+        if (!ProcessUtils.isMainProcess()) {
+            Log.i(TAG, "======isNotMainProcess===");
+            return;
+        }
+        Log.i(TAG, "======isMainProcess===");
+
+
         String strDokitMode = SharedPrefsUtil.getString(app, SharedPrefsKey.FLOAT_START_MODE, "normal");
         if (strDokitMode.equals("normal")) {
             DokitConstant.IS_NORMAL_FLOAT_MODE = true;
         } else {
             DokitConstant.IS_NORMAL_FLOAT_MODE = false;
         }
+        Log.i(TAG, "IS_HOOK====>" + IS_HOOK);
+        //赋值全局变量
+        DokitConstant.IS_HOOK = IS_HOOK;
+        //初始化第三方工具
+        installLeakCanary(app);
+
+        checkLargeImgIsOpen();
+        registerNetworkStatusChangedListener();
+        startAppHealth();
+        checkGPSMock();
 
         //解锁系统隐藏api限制权限以及hook Instrumentation
         HandlerHooker.doHook(app);
@@ -152,9 +174,7 @@ class DoraemonKitReal {
 
         //OkHttp 拦截器 注入
         OkHttpHook.installInterceptor();
-        LogHelper.i(TAG, "IS_HOOK====>" + IS_HOOK);
-        //赋值全局变量
-        DokitConstant.IS_HOOK = IS_HOOK;
+
         //注册全局的activity生命周期回调
         app.registerActivityLifecycleCallbacks(new DokitActivityLifecycleCallbacks());
         DokitConstant.KIT_MAPS.clear();
@@ -282,13 +302,7 @@ class DoraemonKitReal {
                 e.printStackTrace();
             }
         }
-        installLeakCanary(app);
-        initAndroidUtil(app);
-        checkLargeImgIsOpen();
-        registerNetworkStatusChangedListener();
-        //initAidlBridge(app);
-        startAppHealth();
-        checkGPSMock();
+
         //上传埋点
         DataPickManager.getInstance().postData();
     }
@@ -325,7 +339,7 @@ class DoraemonKitReal {
             }
             if (file.isFile()) {
                 //若是文件，直接打印 byte
-                long fileLength = FileUtils.getFileLength(file);
+                long fileLength = FileUtils.getLength(file);
                 if (fileLength > FILE_LENGTH_THRESHOLD) {
                     AppHealthInfo.DataBean.BigFileBean fileBean = new AppHealthInfo.DataBean.BigFileBean();
                     fileBean.setFileName(FileUtils.getFileName(file));

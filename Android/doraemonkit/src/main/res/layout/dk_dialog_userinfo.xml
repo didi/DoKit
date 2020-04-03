@@ -38,7 +38,7 @@
             <EditText
                 android:id="@+id/edit_case_name"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_40"
+                android:layout_height="@dimen/dk_dp_40"
                 android:layout_marginTop="@dimen/dk_dp_5"
                 android:background="@drawable/dk_health_edittext_style"
                 android:hint="测试用例名称"

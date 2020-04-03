@@ -2,14 +2,15 @@ package com.didichuxing.doraemonkit.ui.dialog;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 
 import com.didichuxing.doraemonkit.R;
 
@@ -27,7 +28,7 @@ public class UniversalDialogFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStyle(android.app.DialogFragment.STYLE_NO_TITLE, 0);
+        setStyle(androidx.fragment.app.DialogFragment.STYLE_NO_TITLE, 0);
     }
 
 

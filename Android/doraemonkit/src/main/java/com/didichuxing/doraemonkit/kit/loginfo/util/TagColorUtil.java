@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.kit.loginfo.util;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.util.Log;
 import android.util.SparseIntArray;
 import com.didichuxing.doraemonkit.R;

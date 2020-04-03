@@ -294,4 +294,20 @@
     <string name="dk_kit_net_monitor_white_host_edit_tip">Please enter whitelist host</string>
     <string name="dk_kit_net_monitor_white_host_edit_toast">Please enter host first</string>
     <string name="dk_data_mock_plugin_toast">Please go to https://www.dokit.cn to apply for projectId first, and refer to the use center for access</string>
+    <string name="dk_header_reset">Pull refresh</string>
+    <string name="dk_header_pull">Pull refresh</string>
+    <string name="dk_header_pull_over">Release Refresh</string>
+    <string name="dk_header_refreshing">Refreshing...</string>
+    <string name="dk_header_completed">refresh succeed</string>
+    <string name="dk_brvah_loading">loading...</string>
+    <string name="dk_brvah_load_failed">load failed,try again</string>
+    <string name="dk_brvah_load_end">no moe data</string>
+    <string name="dk_brvah_load_complete">click load more</string>
+    <string name="dk_data_mock_template_tip">has template data：%s</string>
+    <string name="dk_data_mock_template_upload">Upload Template</string>
+    <string name="dk_weaknet_type">Net Type</string>
+    <string name="dk_weaknet_type_speed">Limit Speed</string>
+    <string name="dk_weaknet_type_timeout">Timeout</string>
+    <string name="dk_weaknet_type_off">Off</string>
+    <string name="dk_weak_network_speed_unit">K/s</string>
 </resources>

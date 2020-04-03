@@ -62,8 +62,8 @@ public class DokitExtUtil {
     /**
      * 初始化
      *
-     * @param dokitExtension
-     * @param appExtension
+     * @param dokitExtension dokitExtension
+     * @param appExtension appExtension
      */
     public void init(DokitExtension dokitExtension, AppExtension appExtension) {
         if (dokitExtension != null) {

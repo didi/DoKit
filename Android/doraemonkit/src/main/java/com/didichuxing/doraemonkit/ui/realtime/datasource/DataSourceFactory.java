@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.ui.realtime.datasource;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 /**
  * @desc: 产生数据源对象的工厂类

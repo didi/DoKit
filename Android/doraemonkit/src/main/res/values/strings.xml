@@ -155,7 +155,7 @@
     <string name="dk_weak_network_request_limit">请求限速：</string>
     <string name="dk_weak_network_response_limit">响应限速：</string>
     <string name="dk_weak_network_limit_message">请求限速会在上传时限速，响应限速会在下载时限速，0则不限速</string>
-    <string name="dk_weak_network_speed_unit" translatable="false">K/s</string>
+    <string name="dk_weak_network_speed_unit">K/s</string>
 
     <!--流量监控-->
     <string name="dk_kit_network_monitor">流量监控</string>
@@ -284,6 +284,8 @@
     <string name="dk_data_mock_switch_opened">打开</string>
     <string name="dk_data_mock_switch_closed">关闭</string>
     <string name="dk_data_mock_plugin_toast">请先到https://www.dokit.cn申请projectId,并参考使用中心进行接入</string>
+    <string name="dk_data_mock_template_tip">本地是否存在mock模板数据:%s</string>
+    <string name="dk_data_mock_template_upload">上传模板</string>
 
     <!--健康体检页面-->
     <string name="dk_health_upload_successed">上传数据成功</string>
@@ -313,5 +315,23 @@
     <string name="dk_log_btn_export">导出</string>
     <string name="dk_log_btn_back_top">回到顶部</string>
     <string name="dk_log_btn_to_bottom">滚至底部</string>
+    <!--        refreshlayout-->
+    <string name="dk_header_reset">下拉刷新</string>
+    <string name="dk_header_pull">下拉刷新</string>
+    <string name="dk_header_pull_over">释放立即刷新</string>
+    <string name="dk_header_refreshing">正在刷新...</string>
+    <string name="dk_header_completed">刷新成功</string>
 
+    <!--    bravh-->
+    <string name="dk_brvah_loading">正在加载中...</string>
+    <string name="dk_brvah_load_failed">加载失败，请点我重试</string>
+    <string name="dk_brvah_load_end">没有更多数据</string>
+    <string name="dk_brvah_load_complete">点击加载更多</string>
+
+
+    <!--    弱网dokitView-->
+    <string name="dk_weaknet_type">弱网类型</string>
+    <string name="dk_weaknet_type_off">断网</string>
+    <string name="dk_weaknet_type_timeout">超时</string>
+    <string name="dk_weaknet_type_speed">限速</string>
 </resources>

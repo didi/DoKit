@@ -1,8 +1,9 @@
 package com.didichuxing.doraemonkit.kit.network.ui;
 
-import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 

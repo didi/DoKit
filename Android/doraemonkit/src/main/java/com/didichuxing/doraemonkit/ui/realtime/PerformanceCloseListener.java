@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit.ui.realtime;
 
-import android.support.annotation.IdRes;
 
 /**
  * ================================================

@@ -2,7 +2,9 @@ package com.didichuxing.doraemonkit.ui.base;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -246,16 +248,26 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                     attach(dokitIntent);
                 }
             }
+
+            if (!mGlobalSingleDokitViews.containsKey(MainIconDokitView.class.getSimpleName())) {
+                attachMainIconDokitView(activity);
+            }
+
         } else {
             //假如不存在全局的icon这需要全局显示主icon
-            if (DokitConstant.AWAYS_SHOW_MAIN_ICON && !(activity instanceof UniversalActivity)) {
-                DokitIntent dokitIntent = new DokitIntent(MainIconDokitView.class);
-                dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-                attach(dokitIntent);
-            }
+            attachMainIconDokitView(activity);
         }
 
         attachCountDownDokitView(activity);
+    }
+
+    private void attachMainIconDokitView(Activity activity) {
+        //假如不存在全局的icon这需要全局显示主icon
+        if (DokitConstant.AWAYS_SHOW_MAIN_ICON && !(activity instanceof UniversalActivity)) {
+            DokitIntent dokitIntent = new DokitIntent(MainIconDokitView.class);
+            dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+            attach(dokitIntent);
+        }
     }
 
     @Override

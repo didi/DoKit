@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.aop.bigimg.imageloader;
 
 import android.graphics.Bitmap;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;

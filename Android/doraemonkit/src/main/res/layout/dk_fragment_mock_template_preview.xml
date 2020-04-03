@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dk_color_FFFFFF"
@@ -26,18 +27,18 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="接口名称:"
             android:textColor="@color/dk_color_333333"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:text="接口名称:" />
 
         <TextView
             android:id="@+id/tv_path"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="接口路径:"
             android:textColor="@color/dk_color_333333"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:text="接口路径:" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,7 +69,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="6dp"
         android:layout_marginRight="16dp"
-        android:text="mock数据模板:"
+        android:text="mock tempalte:"
         android:textColor="@color/dk_color_333333"
         android:textSize="16sp" />
 
@@ -82,7 +83,7 @@
         android:gravity="center"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
-        android:text="上传模板"
+        android:text="@string/dk_data_mock_template_upload"
         android:textColor="@color/dk_color_FFFFFF"
         android:textSize="18sp" />
 

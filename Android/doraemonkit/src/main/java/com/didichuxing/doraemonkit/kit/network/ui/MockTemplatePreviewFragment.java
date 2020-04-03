@@ -1,10 +1,11 @@
 package com.didichuxing.doraemonkit.kit.network.ui;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
@@ -47,13 +48,13 @@ public class MockTemplatePreviewFragment extends BaseFragment {
         homeTitleBar.setListener(new HomeTitleBar.OnTitleBarClickListener() {
             @Override
             public void onRightClick() {
-                getActivity().finish();
+                finish();
             }
         });
         TextView tvName = findViewById(R.id.tv_name);
         TextView tvPath = findViewById(R.id.tv_path);
-        tvName.setText(String.format("mock接口名称:%s", DokitDbManager.getInstance().getGlobalTemplateApiBean().getMockApiName()));
-        tvPath.setText(String.format("mock接口路径:%s", DokitDbManager.getInstance().getGlobalTemplateApiBean().getPath()));
+        tvName.setText(String.format("mock api name:%s", DokitDbManager.getInstance().getGlobalTemplateApiBean().getMockApiName()));
+        tvPath.setText(String.format("mock api path:%s", DokitDbManager.getInstance().getGlobalTemplateApiBean().getPath()));
         JsonRecyclerView jsonViewQuery = findViewById(R.id.json_query);
         JsonRecyclerView jsonRecycleView = findViewById(R.id.jsonviewer);
 
@@ -62,7 +63,7 @@ public class MockTemplatePreviewFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (DokitDbManager.getInstance().getGlobalTemplateApiBean() == null) {
-                    ToastUtils.showShort("暂无本地mock数据模板");
+                    ToastUtils.showShort("no mock template data");
                     return;
                 }
                 MockTemplateApiBean mockApi = DokitDbManager.getInstance().getGlobalTemplateApiBean();
@@ -73,14 +74,14 @@ public class MockTemplatePreviewFragment extends BaseFragment {
                         .execute(new StringCallback() {
                             @Override
                             public void onSuccess(Response<String> response) {
+                                ToastUtils.showShort("upload template succeed");
                                 LogHelper.i(TAG, "上传模板===>" + response.body());
-                                ToastUtils.showShort("上传模板成功");
                             }
 
                             @Override
                             public void onError(Response<String> response) {
                                 super.onError(response);
-                                ToastUtils.showShort("上传模板失败");
+                                ToastUtils.showShort("upload template failed");
                                 LogHelper.e(TAG, "error===>" + response.body());
                             }
                         });
@@ -88,7 +89,7 @@ public class MockTemplatePreviewFragment extends BaseFragment {
         });
 
         if (DokitDbManager.getInstance().getGlobalTemplateApiBean() == null) {
-            ToastUtils.showShort("暂无本地mock数据模板");
+            ToastUtils.showShort("no mock template data");
             return;
         }
         try {
@@ -106,7 +107,7 @@ public class MockTemplatePreviewFragment extends BaseFragment {
             jsonRecycleView.bindJson(DokitDbManager.getInstance().getGlobalTemplateApiBean().getStrResponse());
         } catch (JSONException e) {
             e.printStackTrace();
-            ToastUtils.showShort("数据不符合json格式");
+            ToastUtils.showShort("the data is not json");
         }
 
     }

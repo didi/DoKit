@@ -20,7 +20,7 @@ import android.app.Application;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.os.MessageQueue;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -154,7 +154,7 @@ public enum AndroidReachabilityInspectors {
     @Override
     public @NonNull
     Reachability expectedReachability(@NonNull LeakTraceElement element) {
-      if (!element.isInstanceOf("android.support.v4.app.Fragment")) {
+      if (!element.isInstanceOf("androidx.fragment.app.Fragment")) {
         return Reachability.UNKNOWN;
       }
       String mDetached = element.getFieldReferenceValue("mDetached");
