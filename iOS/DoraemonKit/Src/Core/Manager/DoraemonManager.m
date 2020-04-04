@@ -235,7 +235,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonSubThreadUICheckPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonANRPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonLargeImageFilter];
-    //[self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeakNetworkPlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeakNetworkPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonStartTimePlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonUIProfilePlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonTimeProfilePlugin];
@@ -415,7 +415,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kDesc:@"Weex日志显示"},
                                    @{kIcon:@"doraemon_log"},
                                    @{kPluginName:@"DoraemonWeexLogPlugin"},
-                                   @{kAtModule:@"Weex专区"},
+                                   @{kAtModule:@"Weex"},
                                    @{kBuriedPoint:@"dokit_sdk_weex_ck_log"}
                                    ],
                            @(DoraemonManagerPluginType_DoraemonWeexStoragePlugin) : @[
@@ -423,7 +423,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kDesc:@"weex storage 查看"},
                                    @{kIcon:@"doraemon_file"},
                                    @{kPluginName:@"DoraemonWeexStoragePlugin"},
-                                   @{kAtModule:@"Weex专区"},
+                                   @{kAtModule:@"Weex"},
                                    @{kBuriedPoint:@"dokit_sdk_weex_ck_storage"}
                                    ],
                            @(DoraemonManagerPluginType_DoraemonWeexInfoPlugin) : @[
@@ -431,7 +431,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kDesc:@"weex 信息查看"},
                                    @{kIcon:@"doraemon_app_info"},
                                    @{kPluginName:@"DoraemonWeexInfoPlugin"},
-                                   @{kAtModule:@"Weex专区"},
+                                   @{kAtModule:@"Weex"},
                                    @{kBuriedPoint:@"dokit_sdk_weex_ck_vessel"}
                                    ],
                            @(DoraemonManagerPluginType_DoraemonWeexDevToolPlugin) : @[
@@ -439,7 +439,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kDesc:@"weex devtool"},
                                    @{kIcon:@"doraemon_default"},
                                    @{kPluginName:@"DoraemonWeexDevTooloPlugin"},
-                                   @{kAtModule:@"Weex专区"},
+                                   @{kAtModule:@"Weex"},
                                    @{kBuriedPoint:@"dokit_sdk_weex_ck_devtool"}
                                    ],
                            @(DoraemonManagerPluginType_DoraemonAppSettingPlugin) : @[
@@ -452,23 +452,23 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                     ],
                            @(DoraemonManagerPluginType_DoraemonAppInfoPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"App信息")},
-                                   @{kDesc:DoraemonLocalizedString(@"App的一些基本信息")},
+                                   @{kDesc:DoraemonLocalizedString(@"App信息")},
                                    @{kIcon:@"doraemon_app_info"},
                                    @{kPluginName:@"DoraemonAppInfoPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"常用工具")},
                                    @{kBuriedPoint:@"dokit_sdk_comm_ck_appinfo"}
                                    ],
                            @(DoraemonManagerPluginType_DoraemonSandboxPlugin) : @[
-                                   @{kTitle:DoraemonLocalizedString(@"沙盒浏览")},
-                                   @{kDesc:DoraemonLocalizedString(@"沙盒浏览")},
+                                   @{kTitle:DoraemonLocalizedString(@"沙盒浏览器")},
+                                   @{kDesc:DoraemonLocalizedString(@"沙盒浏览器")},
                                    @{kIcon:@"doraemon_file"},
                                    @{kPluginName:@"DoraemonSandboxPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"常用工具")},
                                    @{kBuriedPoint:@"dokit_sdk_comm_ck_sandbox"}
                                    ],
                            @(DoraemonManagerPluginType_DoraemonGPSPlugin) : @[
-                                   @{kTitle:@"MockGPS"},
-                                   @{kDesc:@"MockGPS"},
+                                   @{kTitle:@"Mock GPS"},
+                                   @{kDesc:@"Mock GPS"},
                                    @{kIcon:@"doraemon_mock_gps"},
                                    @{kPluginName:@"DoraemonGPSPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"常用工具")},
@@ -476,7 +476,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    ],
                            @(DoraemonManagerPluginType_DoraemonH5Plugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"H5任意门")},
-                                   @{kDesc:DoraemonLocalizedString(@"H5通用跳转")},
+                                   @{kDesc:DoraemonLocalizedString(@"H5任意门")},
                                    @{kIcon:@"doraemon_h5"},
                                    @{kPluginName:@"DoraemonH5Plugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"常用工具")},
@@ -500,7 +500,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    ],
                            @(DoraemonManagerPluginType_DoraemonCocoaLumberjackPlugin) : @[
                                    @{kTitle:@"Lumberjack"},
-                                   @{kDesc:DoraemonLocalizedString(@"日志显示")},
+                                   @{kDesc:DoraemonLocalizedString(@"Lumberjack")},
                                    @{kIcon:@"doraemon_log"},
                                    @{kPluginName:@"DoraemonCocoaLumberjackPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"常用工具")},
@@ -515,8 +515,8 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kBuriedPoint:@"dokit_sdk_comm_ck_dbview"}
                                    ],
                            @(DoraemonManagerPluginType_DoraemonNSUserDefaultsPlugin) : @[
-                                   @{kTitle:@"NSUserDefaults"},
-                                   @{kDesc:@"NSUserDefaults"},
+                                   @{kTitle:@"UserDefaults"},
+                                   @{kDesc:@"UserDefaults"},
                                    @{kIcon:@"doraemon_database"},
                                    @{kPluginName:@"DoraemonNSUserDefaultsPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"常用工具")},
@@ -526,7 +526,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                            // 性能检测
                            @(DoraemonManagerPluginType_DoraemonFPSPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"帧率")},
-                                   @{kDesc:DoraemonLocalizedString(@"帧率监控")},
+                                   @{kDesc:DoraemonLocalizedString(@"帧率")},
                                    @{kIcon:@"doraemon_fps"},
                                    @{kPluginName:@"DoraemonFPSPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")},
@@ -534,7 +534,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    ],
                            @(DoraemonManagerPluginType_DoraemonCPUPlugin) : @[
                                    @{kTitle:@"CPU"},
-                                   @{kDesc:DoraemonLocalizedString(@"CPU监控")},
+                                   @{kDesc:DoraemonLocalizedString(@"CPU")},
                                    @{kIcon:@"doraemon_cpu"},
                                    @{kPluginName:@"DoraemonCPUPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")},
@@ -542,23 +542,23 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    ],
                            @(DoraemonManagerPluginType_DoraemonMemoryPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"内存")},
-                                   @{kDesc:DoraemonLocalizedString(@"内存监控")},
+                                   @{kDesc:DoraemonLocalizedString(@"内存")},
                                    @{kIcon:@"doraemon_memory"},
                                    @{kPluginName:@"DoraemonMemoryPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")},
                                    @{kBuriedPoint:@"dokit_sdk_performance_ck_arm"}
                                    ],
                            @(DoraemonManagerPluginType_DoraemonNetFlowPlugin) : @[
-                                   @{kTitle:DoraemonLocalizedString(@"流量")},
-                                   @{kDesc:DoraemonLocalizedString(@"流量监控")},
+                                   @{kTitle:DoraemonLocalizedString(@"网络")},
+                                   @{kDesc:DoraemonLocalizedString(@"网络监控")},
                                    @{kIcon:@"doraemon_net"},
                                    @{kPluginName:@"DoraemonNetFlowPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")},
                                    @{kBuriedPoint:@"dokit_sdk_performance_ck_network"}
                                    ],
                            @(DoraemonManagerPluginType_DoraemonCrashPlugin) : @[
-                                   @{kTitle:DoraemonLocalizedString(@"Crash查看")},
-                                   @{kDesc:DoraemonLocalizedString(@"Crash本地查看")},
+                                   @{kTitle:DoraemonLocalizedString(@"Crash")},
+                                   @{kDesc:DoraemonLocalizedString(@"Crash")},
                                    @{kIcon:@"doraemon_crash"},
                                    @{kPluginName:@"DoraemonCrashPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")},
@@ -566,7 +566,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    ],
                            @(DoraemonManagerPluginType_DoraemonSubThreadUICheckPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"子线程UI")},
-                                   @{kDesc:DoraemonLocalizedString(@"非主线程UI渲染检查")},
+                                   @{kDesc:DoraemonLocalizedString(@"子线程UI")},
                                    @{kIcon:@"doraemon_ui"},
                                    @{kPluginName:@"DoraemonSubThreadUICheckPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")},
@@ -574,7 +574,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    ],
                            @(DoraemonManagerPluginType_DoraemonANRPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"卡顿")},
-                                   @{kDesc:DoraemonLocalizedString(@"卡顿监控")},
+                                   @{kDesc:DoraemonLocalizedString(@"卡顿")},
                                    @{kIcon:@"doraemon_kadun"},
                                    @{kPluginName:@"DoraemonANRPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")},
@@ -582,7 +582,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    ],
                            @(DoraemonManagerPluginType_DoraemonMethodUseTimePlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"Load耗时")},
-                                   @{kDesc:DoraemonLocalizedString(@"Load方法消耗时间")},
+                                   @{kDesc:DoraemonLocalizedString(@"Load耗时")},
                                    @{kIcon:@"doraemon_method_use_time"},
                                    @{kPluginName:@"DoraemonMethodUseTimePlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")},
@@ -599,7 +599,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    ],
                            @(DoraemonManagerPluginType_DoraemonStartTimePlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"启动耗时")},
-                                   @{kDesc:DoraemonLocalizedString(@"启动耗时统计")},
+                                   @{kDesc:DoraemonLocalizedString(@"启动耗时")},
                                    @{kIcon:@"doraemon_app_start_time"},
                                    @{kPluginName:@"DoraemonStartTimePlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")},
@@ -639,7 +639,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                              ],
                            // 视觉工具
                            @(DoraemonManagerPluginType_DoraemonColorPickPlugin) : @[
-                                   @{kTitle:DoraemonLocalizedString(@"颜色吸管")},
+                                   @{kTitle:DoraemonLocalizedString(@"颜色拾取器")},
                                    @{kDesc:DoraemonLocalizedString(@"颜色拾取器")},
                                    @{kIcon:@"doraemon_straw"},
                                    @{kPluginName:@"DoraemonColorPickPlugin"},
@@ -648,7 +648,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    ],
                            @(DoraemonManagerPluginType_DoraemonViewCheckPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"组件检查")},
-                                   @{kDesc:DoraemonLocalizedString(@"View查看器")},
+                                   @{kDesc:DoraemonLocalizedString(@"组件检查")},
                                    @{kIcon:@"doraemon_view_check"},
                                    @{kPluginName:@"DoraemonViewCheckPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"视觉工具")},
@@ -656,7 +656,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    ],
                            @(DoraemonManagerPluginType_DoraemonViewAlignPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"对齐标尺")},
-                                   @{kDesc:DoraemonLocalizedString(@"查看组件是否对齐")},
+                                   @{kDesc:DoraemonLocalizedString(@"对齐标尺")},
                                    @{kIcon:@"doraemon_align"},
                                    @{kPluginName:@"DoraemonViewAlignPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"视觉工具")},
@@ -664,7 +664,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    ],
                            @(DoraemonManagerPluginType_DoraemonViewMetricsPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"元素边框线")},
-                                   @{kDesc:DoraemonLocalizedString(@"显示元素边框线")},
+                                   @{kDesc:DoraemonLocalizedString(@"元素边框线")},
                                    @{kIcon:@"doraemon_viewmetrics"},
                                    @{kPluginName:@"DoraemonViewMetricsPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"视觉工具")},
@@ -680,8 +680,8 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    ],
                            // 平台工具
                            @(DoraemonManagerPluginType_DoraemonMockPlugin) : @[
-                                @{kTitle:DoraemonLocalizedString(@"数据Mock")},
-                                   @{kDesc:DoraemonLocalizedString(@"Mock数据修改")},
+                                @{kTitle:DoraemonLocalizedString(@"Mock数据")},
+                                   @{kDesc:DoraemonLocalizedString(@"Mock数据")},
                                    @{kIcon:@"doraemon_mock"},
                                    @{kPluginName:@"DoraemonMockPlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"平台工具")},

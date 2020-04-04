@@ -48,7 +48,7 @@
 
 - (void)initUI
 {
-    self.title = DoraemonLocalizedString(@"App基本信息");
+    self.title = DoraemonLocalizedString(@"App信息");
 
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-self.bigTitleView.doraemon_bottom) style:UITableViewStyleGrouped];
 #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)

@@ -26,7 +26,7 @@
     "帧率检测开关"                               = "帧率检测开关";
     "位置：左%@  右%@  上%@  下%@"              = "位置：左%@  右%@  上%@  下%@";
     "控件名称"                                = "控件名称";
-    "MockGPS"                                          = "MockGPS";
+    "MockGPS"                                          = "Mock GPS";
     "Unknown"                                          = "Unknown";
     "Mock GPS"                                         = "Mock GPS";
     "响应头"                                        = "响应头";

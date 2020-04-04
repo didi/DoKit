@@ -246,7 +246,7 @@ static CGFloat const kViewCheckSize = 62;
     
     if (CGColorSpaceGetModel(CGColorGetColorSpace(color.CGColor)) != kCGColorSpaceModelRGB) {
         //return [NSString stringWithFormat:@"#FFFFFF"];
-        return DoraemonLocalizedString(@"单色色彩空间模式");
+        return @"单色色彩空间模式";
     }
     
     int alpha = (int)((CGColorGetComponents(color.CGColor))[3]*255.0);

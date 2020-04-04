@@ -21,7 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Load耗时检测记录";
+    self.title = DoraemonLocalizedString(@"Load耗时检测记录") ;
     
     _loadModelArray = [[DoraemonMethodUseTimeManager sharedInstance] fixLoadModelArray];
     

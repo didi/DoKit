@@ -91,9 +91,9 @@
     if (startInterceptDate) {
         NSDate *nowDate = [NSDate date];
         NSTimeInterval cha = [nowDate timeIntervalSinceDate:startInterceptDate];
-        time = [NSString stringWithFormat:@"%.2f秒",cha];
+        time = [NSString stringWithFormat:@"%.2f%@",cha,DoraemonLocalizedString(@"秒")];
     }else{
-        time = DoraemonLocalizedString(@"暂未开启流量监控");
+        time = DoraemonLocalizedString(@"暂未开启网络监控");
     }
     
     //抓包数量

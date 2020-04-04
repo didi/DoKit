@@ -8,6 +8,7 @@
 #import "DoraemonMethodUseTimeManager.h"
 #import "DoraemonCacheManager.h"
 #import <DoraemonLoadAnalyze/DoraemonLoadAnalyze.h>
+#import "DoraemonDefine.h"
 
 @implementation DoraemonMethodUseTimeManager
 
@@ -47,7 +48,7 @@
             allCost += cost;
         }
         NSDictionary *allDic = @{
-                                 @"name":@"总共耗时",
+                                 @"name":DoraemonLocalizedString(@"总共耗时"),
                                  @"cost":@(allCost)
                                  };
         [loadModelArray insertObject:allDic atIndex:0];

@@ -52,7 +52,7 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
     
     [self initData];
     
-    self.title = DoraemonLocalizedString(@"流量监控详情");
+    self.title = DoraemonLocalizedString(@"网络监控详情");
     
     _segmentView = [[DoraemonNetFlowDetailSegment alloc] initWithFrame:CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(88))];
     _segmentView.delegate = self;
@@ -71,7 +71,7 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
 
 - (void)initData{
     
-    NSString *requestDataSize = [NSString stringWithFormat:DoraemonLocalizedString(@"数据大小 : %@B"),[DoraemonUtil formatByte:[self.httpModel.uploadFlow floatValue]]];
+    NSString *requestDataSize = [NSString stringWithFormat:DoraemonLocalizedString(@"数据大小 : %@"),[DoraemonUtil formatByte:[self.httpModel.uploadFlow floatValue]]];
     NSString *method = [NSString stringWithFormat:@"Method : %@",self.httpModel.method];
     NSString *linkUrl = self.httpModel.url;
     NSDictionary<NSString *, NSString *> *allHTTPHeaderFields = self.httpModel.request.allHTTPHeaderFields;
@@ -90,7 +90,7 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
     }
     
     _requestArray = @[@{
-                          @"sectionTitle":DoraemonLocalizedString(@"消息体"),
+                          @"sectionTitle":DoraemonLocalizedString(@"请求概要"),
                           @"dataArray":@[requestDataSize,method]
                           },
                       @{
@@ -102,7 +102,7 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
                           @"dataArray":@[allHTTPHeaderString]
                           },
                       @{
-                          @"sectionTitle":DoraemonLocalizedString(@"请求行"),
+                          @"sectionTitle":DoraemonLocalizedString(@"请求体"),
                           @"dataArray":@[requestBody]
                           }
                       ];
@@ -123,7 +123,7 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
     }
     
     _responseArray = @[@{
-                          @"sectionTitle":DoraemonLocalizedString(@"消息体"),
+                          @"sectionTitle":DoraemonLocalizedString(@"响应概要"),
                           @"dataArray":@[respanseDataSize,mineType]
                           },
                       @{
@@ -131,7 +131,7 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
                           @"dataArray":@[responseHeaderString]
                           },
                       @{
-                          @"sectionTitle":DoraemonLocalizedString(@"响应行"),
+                          @"sectionTitle":DoraemonLocalizedString(@"响应体"),
                           @"dataArray":@[responseBody]
                           }
                       ];

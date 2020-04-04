@@ -56,7 +56,7 @@ static NSTimeInterval endTime;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = DoraemonLocalizedString(@"启动耗时统计");
+    self.title = DoraemonLocalizedString(@"启动耗时");
     
     _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
     [_switchView renderUIWithTitle:DoraemonLocalizedString(@"开关") switchOn:[[DoraemonCacheManager sharedInstance] startTimeSwitch]];
@@ -67,7 +67,7 @@ static NSTimeInterval endTime;
     
     _cellBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, _switchView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
     if ([[DoraemonCacheManager sharedInstance] startTimeSwitch]){
-        [_cellBtn renderUIWithTitle:[NSString stringWithFormat:@"本次启动时间为%fs",endTime-startTime]];
+        [_cellBtn renderUIWithTitle:[NSString stringWithFormat:@"%@%fs",DoraemonLocalizedString(@"本次启动时间为"),endTime-startTime]];
     }
     _cellBtn.delegate = self;
     [_cellBtn needDownLine];

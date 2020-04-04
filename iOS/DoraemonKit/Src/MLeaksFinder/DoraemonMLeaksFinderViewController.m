@@ -35,7 +35,7 @@
     [self.view addSubview:_switchView];
     
     _alertSwitchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, _switchView.doraemon_bottom, self.view.doraemon_width, 53)];
-    [_alertSwitchView renderUIWithTitle:DoraemonLocalizedString(@"泄漏检测弹框提醒") switchOn:[[DoraemonCacheManager sharedInstance] memoryLeakAlert]];
+    [_alertSwitchView renderUIWithTitle:DoraemonLocalizedString(@"内存泄漏检测弹框提醒") switchOn:[[DoraemonCacheManager sharedInstance] memoryLeakAlert]];
     [_alertSwitchView needDownLine];
     _alertSwitchView.delegate = self;
     [self.view addSubview:_alertSwitchView];

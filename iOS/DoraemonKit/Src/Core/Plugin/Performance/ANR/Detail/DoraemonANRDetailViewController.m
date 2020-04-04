@@ -22,7 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = DoraemonLocalizedString(@"卡顿详情");
-    [self setRightNavTitle:@"导出"];
+    [self setRightNavTitle:DoraemonLocalizedString(@"导出")];
     
     self.anrInfo = [NSDictionary dictionaryWithContentsOfFile:self.filePath];
     

@@ -39,7 +39,7 @@
 }
 
 - (void)commonInit {
-    self.title = DoraemonLocalizedString(@"Crash查看");
+    self.title = DoraemonLocalizedString(@"Crash");
     
     self.switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
     [self.switchView renderUIWithTitle:DoraemonLocalizedString(@"Crash日志收集开关") switchOn:[[DoraemonCacheManager sharedInstance] crashSwitch]];

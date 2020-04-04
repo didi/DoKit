@@ -26,7 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Storage查看";
+    self.title = DoraemonLocalizedString(@"Weex缓存");
     DoraemonWeexStorageResolver *resolver = [[DoraemonWeexStorageResolver alloc] init];
     _storageInfo = [resolver getWeexStorageInfo];
     _allKeys = [_storageInfo allKeys];

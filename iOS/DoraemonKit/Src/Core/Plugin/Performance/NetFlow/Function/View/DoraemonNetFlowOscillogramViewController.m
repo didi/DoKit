@@ -23,7 +23,7 @@
 }
 
 - (NSString *)title{
-    return DoraemonLocalizedString(@"流量检测");
+    return DoraemonLocalizedString(@"网络监控");
 }
 
 - (NSString *)lowValue{

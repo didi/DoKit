@@ -23,7 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"weex信息查看";
+    self.title = DoraemonLocalizedString(@"weex信息查看");
     
     _headerView = [[DoraemonWeexInfoHeaderView alloc] init];
     [_headerView renderUIWithWxBundleUrl:[DoraemonWeexInfoDataManager shareInstance].wxBundleUrl];
@@ -59,28 +59,28 @@
     NSUInteger row = indexPath.row;
     NSString *title,*content;
     if (row == 0) {
-        title = @"weexsdk版本号";
+        title = DoraemonLocalizedString(@"weexsdk版本号");
         content = [DoraemonWeexInfoDataManager shareInstance].wxSDKVersion;
     }else if(row == 1) {
-        title = @"wxJSLib版本号";
+        title = DoraemonLocalizedString(@"wxJSLib版本号");
         content = [DoraemonWeexInfoDataManager shareInstance].wxJSLibVersion;
     }else if(row == 2) {
-        title = @"wxBundleType";
+        title = DoraemonLocalizedString(@"wxBundleType");
         content = [DoraemonWeexInfoDataManager shareInstance].wxBundleType;
     }else if(row == 3) {
-        title = @"wxBundleSize";
+        title = DoraemonLocalizedString(@"wxBundleSize");
         content = [DoraemonWeexInfoDataManager shareInstance].wxBundleSize;
     }else if(row ==4) {
-        title = @"请求bundle时间";
+        title = DoraemonLocalizedString(@"请求bundle时间");
         content = [self timeFromStart:[DoraemonWeexInfoDataManager shareInstance].wxStartDownLoadBundle end:[DoraemonWeexInfoDataManager shareInstance].wxEndDownLoadBundle];
     }else if(row ==5) {
-        title = @"处理bundle时间";
+        title = DoraemonLocalizedString(@"处理bundle时间");
         content = [self timeFromStart:[DoraemonWeexInfoDataManager shareInstance].wxEndDownLoadBundle end:[DoraemonWeexInfoDataManager shareInstance].wxEndLoadBundle];
     }else if(row ==6) {
-        title = @"第一个view出现时间";
+        title = DoraemonLocalizedString(@"第一个view出现时间");
         content = [self timeFromStart:[DoraemonWeexInfoDataManager shareInstance].wxEndLoadBundle end:[DoraemonWeexInfoDataManager shareInstance].wxFirstInteractionView];
     }else if(row ==7) {
-        title = @"可交互时间";
+        title = DoraemonLocalizedString(@"可交互时间");
         content = [self timeFromStart:[DoraemonWeexInfoDataManager shareInstance].wxFirstInteractionView end:[DoraemonWeexInfoDataManager shareInstance].wxInteraction];
     }else{
         title = @"默认";

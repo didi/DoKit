@@ -25,7 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = DoraemonLocalizedString(@"Load耗时检测");
+    self.title = DoraemonLocalizedString(@"Load耗时");
     
     _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, 53)];
     [_switchView renderUIWithTitle:DoraemonLocalizedString(@"Load耗时检测开关") switchOn:[DoraemonMethodUseTimeManager sharedInstance].on];

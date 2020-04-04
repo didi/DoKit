@@ -91,7 +91,7 @@
                 [DoraemonHealthManager sharedInstance].testPerson = result[1];
                 [weakSelf showFooter:YES];
                 [weakSelf.homeView.btnView statusForBtn:NO];
-                [weakSelf.homeView.startingTitle renderUIWithTitle:@"点击开始检测"];
+                [weakSelf.homeView.startingTitle renderUIWithTitle:DoraemonLocalizedString(@"点击开始检测")];
                 [[DoraemonHealthManager sharedInstance] stopHealthCheck];
             }
         } quitBlock:^{
@@ -99,7 +99,7 @@
             [DoraemonHealthManager sharedInstance].testPerson = @"";
             [weakSelf showFooter:YES];
             [weakSelf.homeView.btnView statusForBtn:NO];
-            [weakSelf.homeView.startingTitle renderUIWithTitle:@"点击开始检测"];
+            [weakSelf.homeView.startingTitle renderUIWithTitle:DoraemonLocalizedString(@"点击开始检测")];
             [[DoraemonHealthManager sharedInstance] stopHealthCheck];
         } cancleBlock:^{
         }];

@@ -30,8 +30,8 @@
     [super viewDidLoad];
     
     self.title = DoraemonLocalizedString(@"日志记录");
-    DoraemonNavBarItemModel *model1 = [[DoraemonNavBarItemModel alloc] initWithText:@"清除" color:[UIColor doraemon_blue] selector:@selector(clear)];
-    DoraemonNavBarItemModel *model2 = [[DoraemonNavBarItemModel alloc] initWithText:@"导出" color:[UIColor doraemon_blue] selector:@selector(export)];
+    DoraemonNavBarItemModel *model1 = [[DoraemonNavBarItemModel alloc] initWithText:DoraemonLocalizedString(@"清除") color:[UIColor doraemon_blue] selector:@selector(clear)];
+    DoraemonNavBarItemModel *model2 = [[DoraemonNavBarItemModel alloc] initWithText:DoraemonLocalizedString(@"导出") color:[UIColor doraemon_blue] selector:@selector(export)];
     [self setRightNavBarItems:@[model1,model2]];
     
     self.origArray = [NSArray arrayWithArray:[DoraemonCocoaLumberjackLogger sharedInstance].messages];
