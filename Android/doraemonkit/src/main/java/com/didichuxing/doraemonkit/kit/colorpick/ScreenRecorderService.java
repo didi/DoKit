@@ -14,8 +14,8 @@ import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
@@ -45,7 +45,7 @@ public class ScreenRecorderService extends Service {
             if (ColorPickManager.getInstance().getColorPickerDokitView() != null) {
                 ColorPickManager.getInstance().getColorPickerDokitView().onScreenServiceReady();
             }
-        } catch (SecurityException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return super.onStartCommand(intent, flags, startId);

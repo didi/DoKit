@@ -1,8 +1,10 @@
 package com.didichuxing.doraemonkit.aop.bigimg.glide;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
+import com.blankj.utilcode.util.ReflectUtils;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.SingleRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +19,19 @@ import java.util.List;
  * ================================================
  */
 public class GlideHook {
+    /**
+     * hook requestListeners字段
+     *
+     * @param singleRequest
+     * @return
+     */
 
-    public static List<RequestListener> proxy(@Nullable List<RequestListener> requestListeners) {
+    public static void proxy(Object singleRequest) {
         try {
+            List<RequestListener> requestListeners = null;
+            if (singleRequest instanceof SingleRequest) {
+                requestListeners = ReflectUtils.reflect(singleRequest).field("requestListeners").get();
+            }
             //可能存在用户没有引入okhttp的情况
             if (requestListeners == null) {
                 requestListeners = new ArrayList<>();
@@ -27,10 +39,12 @@ public class GlideHook {
             } else {
                 requestListeners.add(new DokitGlideRequestListener());
             }
-            return requestListeners;
+            if (singleRequest instanceof SingleRequest) {
+                ReflectUtils.reflect(singleRequest).field("requestListeners",requestListeners);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
     }
+
 }

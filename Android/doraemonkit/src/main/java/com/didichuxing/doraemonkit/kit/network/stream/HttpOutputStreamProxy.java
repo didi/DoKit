@@ -10,7 +10,7 @@ import java.io.OutputStream;
 
 /**
  * @author: linjizong
- * @date: 2019/3/14
+ *  2019/3/14
  * @desc:
  */
 public class HttpOutputStreamProxy extends OutputStreamProxy {

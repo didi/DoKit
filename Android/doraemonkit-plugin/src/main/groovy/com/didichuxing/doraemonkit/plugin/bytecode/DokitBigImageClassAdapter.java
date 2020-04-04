@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.plugin.bytecode;
 import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.FrescoMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.GlideMethodAdapter;
+import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.GlideTransformMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.ImageLoaderMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.PicassoMethodAdapter;
 
@@ -26,7 +27,7 @@ public final class DokitBigImageClassAdapter extends ClassVisitor {
     private String superName;
 
     /**
-     * @param cv             cv
+     * @param cv cv
      */
     public DokitBigImageClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM7, cv);
@@ -64,12 +65,23 @@ public final class DokitBigImageClassAdapter extends ClassVisitor {
         if (!DokitExtUtil.getInstance().isDokitPluginSwitch()) {
             return mv;
         }
-        //Glide v4字节码替换
-        if (className.equals("com/bumptech/glide/request/SingleRequest") && methodName.equals("init") && desc != null) {
+        //Glide v4字节码替换 glide v4.9 通过init注入 4.11.0 通用构造函数
+        if (className.equals("com/bumptech/glide/request/SingleRequest") && (methodName.equals("init") || methodName.equals("<init>")) && desc != null) {
             log(className, access, methodName, desc, signature);
             //创建MethodVisitor代理
             return mv == null ? null : new GlideMethodAdapter(mv, access, methodName, desc);
         }
+
+        //Glide v4字节码替换 transform 代码注入
+        if (className.equals("com/bumptech/glide/request/BaseRequestOptions") && methodName.equals("transform") && desc != null) {
+            if (desc.equals("(Lcom/bumptech/glide/load/Transformation;Z)Lcom/bumptech/glide/request/BaseRequestOptions;")) {
+                log(className, access, methodName, desc, signature);
+                //创建MethodVisitor代理
+                return mv == null ? null : new GlideTransformMethodAdapter(mv, access, methodName, desc);
+            }
+
+        }
+
 
         //Glide v3字节码替换
 //        if (className.equals("com/bumptech/glide/GenericRequestBuilder") && methodName.equals("listener") && desc != null) {
@@ -81,6 +93,7 @@ public final class DokitBigImageClassAdapter extends ClassVisitor {
         //Picasso 字节码替换
         if (className.equals("com/squareup/picasso/Request") && methodName.equals("<init>") && desc != null) {
             log(className, access, methodName, desc, signature);
+//            (Lcom/bumptech/glide/load/Transformation;Z)Lcom/bumptech/glide/request/BaseRequestOptions;
             //创建MethodVisitor代理
             return mv == null ? null : new PicassoMethodAdapter(mv, access, methodName, desc);
         }

@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.network.common;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;

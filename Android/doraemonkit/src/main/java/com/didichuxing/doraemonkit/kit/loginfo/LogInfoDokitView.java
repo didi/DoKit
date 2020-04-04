@@ -1,12 +1,6 @@
 package com.didichuxing.doraemonkit.kit.loginfo;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -17,13 +11,15 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.CollectionUtils;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.PathUtils;
@@ -37,7 +33,6 @@ import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.ui.dialog.DialogProvider;
 import com.didichuxing.doraemonkit.ui.dialog.UniversalDialogFragment;
-import com.didichuxing.doraemonkit.ui.fileexplorer.FileExplorerChooseDialog;
 import com.didichuxing.doraemonkit.ui.loginfo.LogItemAdapter;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
 import com.didichuxing.doraemonkit.util.FileUtil;

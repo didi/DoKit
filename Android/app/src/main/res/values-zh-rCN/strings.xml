@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">DoKitDemo</string>
     <string name="app_build_types">当前编译环境</string>
     <string name="app_btn_jump">跳转其他Activity</string>

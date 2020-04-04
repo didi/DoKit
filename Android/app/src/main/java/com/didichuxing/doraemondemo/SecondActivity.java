@@ -1,10 +1,11 @@
 package com.didichuxing.doraemondemo;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.didichuxing.doraemonkit.DoraemonKit;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.blankj.utilcode.util.ToastUtils;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -15,7 +16,9 @@ public class SecondActivity extends AppCompatActivity {
         findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DoraemonKit.show();
+                ToastUtils.showShort("aaaaa");
+                ToastUtils.showShort("bbbbb");
+                //DoraemonKit.show();
             }
         });
     }

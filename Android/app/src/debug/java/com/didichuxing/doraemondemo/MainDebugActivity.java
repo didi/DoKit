@@ -16,8 +16,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +23,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -37,7 +37,6 @@ import com.baidu.location.LocationClientOption;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.network.common.CommonHeaders;
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorRequest;
@@ -84,7 +83,10 @@ import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.PermissionRequest;
 
 
-public class MainDebugActivity extends AppCompatActivity implements View.OnClickListener {
+/**
+ * @author jintai
+ */
+public class MainDebugActivity extends BaseActivity implements View.OnClickListener {
     public static final String TAG = "MainDebugActivity";
 
 
@@ -122,6 +124,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
         TextView tvEnv = findViewById(R.id.tv_env);
         tvEnv.setText(getString(R.string.app_build_types) + ":Debug");
         mBtnJump.setOnClickListener(this);
+
         findViewById(R.id.btn_method_cost).setOnClickListener(this);
         findViewById(R.id.btn_jump_leak).setOnClickListener(this);
         findViewById(R.id.btn_show_tool_panel).setOnClickListener(this);
@@ -348,21 +351,22 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.btn_load_img:
                 //Glide 加载
-                String picassoImgUrl = "http://b-ssl.duitang.com/uploads/item/201808/27/20180827043223_twunu.jpg";
+                String picassoImgUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585832555614&di=ea70ed1254b3242803d7dde56eedfe9f&imgtype=0&src=http%3A%2F%2Ft9.baidu.com%2Fit%2Fu%3D2268908537%2C2815455140%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D719";
                 String glideImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662890&di=bc7b18d8b4efa73fb88ddef4f6f56acc&imgtype=0&src=http%3A%2F%2Ft9.baidu.com%2Fit%2Fu%3D583874135%2C70653437%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D3607%26h%3D2408";
                 String frescoImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662890&di=09318a918fe9ea73a8e27c80291bf669&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853";
                 String imageLoaderImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662891&di=acaf549645e58b6c67c231d495e18271&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D3571592872%2C3353494284%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1200%26h%3D1290";
-                Glide.with(MainDebugActivity.this)
-                        .asBitmap()
-                        .load(glideImageUrl)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .into((ImageView) findViewById(R.id.iv_glide));
-//
                 Picasso.get().load(picassoImgUrl)
                         .memoryPolicy(MemoryPolicy.NO_CACHE)
                         .into((ImageView) findViewById(R.id.iv_picasso));
-//
+
+                Glide.with(MainDebugActivity.this)
+                        .asBitmap()
+                        .load(glideImageUrl)
+                        //.diskCacheStrategy(DiskCacheStrategy.NONE)
+                        //.skipMemoryCache(true)
+                        .into((ImageView) findViewById(R.id.iv_glide));
+
+
                 ImageLoader imageLoader = ImageLoader.getInstance();
                 imageLoader.displayImage(imageLoaderImageUrl, (ImageView) findViewById(R.id.iv_imageloader));
 
@@ -384,7 +388,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
 
 
             case R.id.btn_okhttp_mock:
-                //DokitOkGo.<String>get("https://v4.21tb.com/biz-oim/mobile/refreshVerifyCode.do?corpCodeOrDomainName=%22happy%22&loginName=%22jidan%22")
+                //DokitOkGo.<String>get("http://gank.io/biz-oim/mobile/refreshVerifyCode.do")
                 DokitOkGo.<String>get("https://www.v2ex.com/api/topics/hot.json")
                         .execute(new StringCallback() {
 
@@ -403,7 +407,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
             case R.id.btn_connection_mock:
                 //requestByGet("https://www.v2ex.com/api/topics/hot.json");
                 //requestByGet("https://gank.io/api/today?a=哈哈&b=bb");
-                requestByGet("http://gank.io/gateway?api=dj.map");
+                requestByGet("https://www.v2ex.com/api/topics/hot.json");
                 break;
 //            case R.id.btn_rpc_mock:
 //                break;

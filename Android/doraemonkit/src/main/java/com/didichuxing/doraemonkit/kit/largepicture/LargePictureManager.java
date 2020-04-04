@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * @author: linjizong
- * @date: 2019-07-05
+ *  2019-07-05
  * @desc: 大图检测管理类
  */
 public class LargePictureManager {
@@ -137,7 +137,7 @@ public class LargePictureManager {
                 Bitmap newBitmap = Bitmap.createBitmap(sourceBitmap);
                 saveImageInfo(imageUrl, imgSize, newBitmap.getWidth(), newBitmap.getHeight(), framework);
                 if (imgSize > memoryThreshold) {
-                    newBitmap = ImageUtils.addTextWatermark(newBitmap, "MemorySize:" + strImageSize, ConvertUtils.sp2px(16), Color.RED, newBitmap.getWidth() / 2 - ConvertUtils.sp2px(16) * strImageSize.length() / 2, newBitmap.getHeight() / 2);
+                    newBitmap = ImageUtils.addTextWatermark(newBitmap, "MS:" + strImageSize, ConvertUtils.sp2px(16), Color.RED, newBitmap.getWidth() / 2 - ConvertUtils.sp2px(16) * strImageSize.length() / 2, newBitmap.getHeight() / 2);
                     sourceBitmap.recycle();
                     return newBitmap;
                 } else {
@@ -148,7 +148,7 @@ public class LargePictureManager {
 
             saveImageInfo(imageUrl, imgSize, sourceBitmap.getWidth(), sourceBitmap.getHeight(), framework);
             if (imgSize > memoryThreshold) {
-                sourceBitmap = ImageUtils.addTextWatermark(sourceBitmap, "MemorySize:" + strImageSize, ConvertUtils.sp2px(16), Color.RED, sourceBitmap.getWidth() / 2 - ConvertUtils.sp2px(16) * strImageSize.length() / 2, sourceBitmap.getHeight() / 2);
+                sourceBitmap = ImageUtils.addTextWatermark(sourceBitmap, "MS:" + strImageSize, ConvertUtils.sp2px(16), Color.RED, sourceBitmap.getWidth() / 2 - ConvertUtils.sp2px(16) * strImageSize.length() / 2, sourceBitmap.getHeight() / 2);
             }
             return sourceBitmap;
         }

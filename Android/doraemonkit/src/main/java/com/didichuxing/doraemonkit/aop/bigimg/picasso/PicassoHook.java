@@ -26,9 +26,9 @@ public class PicassoHook {
         try {
             if (transformations == null) {
                 transformations = new ArrayList<>();
-                transformations.add(new DokitTransformation(uri));
+                transformations.add(new DokitPicassoTransformation(uri));
             } else {
-                transformations.add(new DokitTransformation(uri));
+                transformations.add(new DokitPicassoTransformation(uri));
             }
             return transformations;
         } catch (Exception e) {

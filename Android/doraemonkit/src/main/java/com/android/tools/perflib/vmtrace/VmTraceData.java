@@ -16,8 +16,9 @@
 
 package com.android.tools.perflib.vmtrace;
 
-import android.support.annotation.NonNull;
 import android.util.SparseArray;
+
+import androidx.annotation.NonNull;
 
 import com.google.common.collect.Maps;
 

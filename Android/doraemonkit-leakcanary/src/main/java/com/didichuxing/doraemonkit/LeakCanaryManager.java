@@ -1,14 +1,14 @@
 package com.didichuxing.doraemonkit;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.didichuxing.doraemonkit.abridge.AbridgeCallBack;
+import com.didichuxing.doraemonkit.abridge.IBridge;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
-import com.didichuxing.doraemonkit.util.LogHelper;
-import com.sjtu.yifei.AbridgeCallBack;
-import com.sjtu.yifei.IBridge;
 import com.squareup.leakcanary.LeakCanary;
 
 /**
@@ -45,7 +45,7 @@ class LeakCanaryManager {
             @Override
             public void receiveMessage(String message) {
                 try {
-                    LogHelper.i(TAG, "====aidl=====>" + message);
+                    Log.i(TAG, "====aidl=====>" + message);
                     if (DokitConstant.APP_HEALTH_RUNNING) {
                         AppHealthInfo.DataBean.LeakBean leakBean = new AppHealthInfo.DataBean.LeakBean();
                         leakBean.setPage(ActivityUtils.getTopActivity().getClass().getCanonicalName());

@@ -12,7 +12,7 @@
         android:layout_height="89dp"
         app:dkIcon="@drawable/dk_close_icon_big"/>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/setting_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

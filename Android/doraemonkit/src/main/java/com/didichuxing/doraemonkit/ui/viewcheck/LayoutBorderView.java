@@ -6,9 +6,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.model.ViewInfo;

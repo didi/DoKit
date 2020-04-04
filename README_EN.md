@@ -1,8 +1,8 @@
 <div align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
- <img src="https://img.shields.io/badge/Android-3.0.0-blue.svg" align=left />
- <img src="https://img.shields.io/badge/iOS-3.0.9-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/Android-3.1.0-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/iOS-2.0.0-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
 
@@ -33,13 +33,111 @@ A full-featured App (iOS & Android) development assistant. You deserve it.
 ## Feature Demonstration
 
 <div align="center">    
- <img src="https://pt-starimg.didistatic.com/static/starimg/img/H1SVa0S6Zm1585189141793.jpg" width = "250" alt="Demonstration" align=center />
+  <img src="https://pt-starimg.didistatic.com/static/starimg/img/H1SVa0S6Zm1585189141793.jpg" width = "250" alt="DoKit 首页效果演示" align=center />
 </div>
 
 ## How To Use
 
 - [iOS_Guide](Doc/iOS_en_guide.md)
 - [Android_Guide](Doc/android_en_guide.md)
+
+## Communication
+
+<div align="center">    
+ <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKitQQ.jpeg" width = "160" height = "200" alt="QQ Group" align=left />
+</div>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+## Contributors
+
+### Initiator
+
+<table id='team'>
+    <tr>
+        <td id='yixiangboy'>
+            <a href='https://github.com/yixiangboy'>
+                      <img src='https://github.com/yixiangboy.png?v=3&s=330' width="165" height="165">
+               </a>
+            <h4 align='center'>
+                      <a href='https://github.com/yixiangboy'>yixiangboy</a>
+               </h4>
+        </td>
+    </tr>
+</table>
+
+### Contributors
+
+<table id='team'>
+    <tr>
+        <td id='wenquanlebao'>
+            <a href='https://github.com/wenquanlebao'>
+                      <img src='https://github.com/wenquanlebao.png?v=3&s=330' width="165" height="165">
+               </a>
+            <h4 align='center'>
+                      <a href='https://github.com/wenquanlebao'>wenquanlebao</a>
+               </h4>
+        </td>
+        <td id='hiXgb'>
+            <a href='https://github.com/hiXgb'>
+                      <img src='https://github.com/hiXgb.png?v=3&s=330' width="165" height="165">
+               </a>
+            <h4 align='center'>
+                      <a href='https://github.com/hiXgb'>hiXgb</a>
+               </h4>
+        </td>
+        <td id='teethandnail'>
+            <a href='https://github.com/teethandnail'>
+                      <img src='https://github.com/teethandnail.png?v=3&s=330' width="165" height="165">
+               </a>
+            <h4 align='center'>
+                      <a href='https://github.com/teethandnail'>teethandnail</a>
+               </h4>
+        </td>
+        <td id='wanglikun7342'>
+            <a href='https://github.com/wanglikun7342'>
+                      <img src='https://github.com/wanglikun7342.png?v=3&s=330' width="165" height="165">
+               </a>
+            <h4 align='center'>
+                      <a href='https://github.com/wanglikun7342'>wanglikun7342</a>
+               </h4>
+        </td>
+        <td id='Chinnko'>
+            <a href='https://github.com/Chinnko'>
+                      <img src='https://github.com/Chinnko.png?v=3&s=330' width="165" height="165">
+               </a>
+            <h4 align='center'>
+                      <a href='https://github.com/Chinnko'>Chinnko</a>
+               </h4>
+        </td>
+    </tr>
+    <tr>
+        <td id='LinJZong'>
+            <a href='https://github.com/LinJZong'>
+                      <img src='https://github.com/LinJZong.png?v=3&s=330' width="165" height="165">
+               </a>
+            <h4 align='center'>
+                      <a href='https://github.com/LinJZong'>LinJZong</a>
+               </h4>
+        </td>
+        <td id='y644938647'>
+            <a href='https://github.com/y644938647'>
+                      <img src='https://github.com/y644938647.png?v=3&s=330' width="165" height="165">
+               </a>
+            <h4 align='center'>
+                      <a href='https://github.com/y644938647'>y644938647</a>
+               </h4>
+        </td>
+    </tr>
+</table>
 
 ## License
 

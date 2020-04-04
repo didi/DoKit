@@ -1,15 +1,11 @@
 package com.didichuxing.doraemonkit.kit.network.room_db;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.didichuxing.doraemonkit.kit.network.ui.InterceptMockAdapter;
 
-import java.io.Serializable;
+import com.didichuxing.doraemonkit.view.bravh.entity.node.BaseNode;
+
+import java.util.List;
+
 
 /**
  * ================================================
@@ -20,19 +16,35 @@ import java.io.Serializable;
  * 修订历史：
  * ================================================
  */
-public interface AbsMockApiBean extends MultiItemEntity {
+public abstract class AbsMockApiBean extends BaseNode {
 
-    boolean isOpen();
+    boolean isOpen() {
+        return false;
+    }
 
-    void setOpen(boolean open);
+    void setOpen(boolean open) {
 
-    String getId();
+    }
 
-    String getSelectedSceneId();
+    String getId() {
+        return "";
+    }
 
-    String getQuery();
+    String getSelectedSceneId() {
+        return "";
+    }
+
+    String getQuery() {
+        return "";
+    }
 
 
-    String getPath();
+    String getPath() {
+        return "";
+    }
 
+    @Override
+    public List<BaseNode> getChildNode() {
+        return null;
+    }
 }

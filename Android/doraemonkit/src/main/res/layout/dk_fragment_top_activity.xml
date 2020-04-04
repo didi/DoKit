@@ -12,7 +12,7 @@
         app:dkIcon="@drawable/dk_close_icon_big"
         app:dkTitle="@string/dk_kit_top_activity" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/top_activity_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

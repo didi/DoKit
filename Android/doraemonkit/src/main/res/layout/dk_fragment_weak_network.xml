@@ -16,7 +16,7 @@
         app:dkIcon="@drawable/dk_close_icon_big"
         app:dkTitle="@string/dk_kit_weak_network" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/setting_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                 android:id="@+id/label_timeout"
                 style="@style/DK.TextBig.Darker"
                 android:layout_centerVertical="true"
-                android:text="超时时间：" />
+                android:text="Timeout：" />
 
             <EditText
                 android:id="@+id/value_timeout"

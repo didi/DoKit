@@ -1,19 +1,16 @@
 package com.didichuxing.doraemonkit.kit.layoutborder;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.FrameLayout;
+
+import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 import com.didichuxing.doraemonkit.ui.layoutborder.ViewBorderFrameLayout;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
-import com.didichuxing.doraemonkit.util.UIUtils;
 
 /**
  * Created by wanglikun on 2019/1/9

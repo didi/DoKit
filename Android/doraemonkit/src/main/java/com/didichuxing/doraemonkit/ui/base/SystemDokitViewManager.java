@@ -183,7 +183,21 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
             //重置倒计时
             ((CountDownDokitView) countDownDokitView).resetTime();
         }
+
+        //判断是否存在主入口icon
+        Map<String, AbsDokitView> dokitViews = getDokitViews(activity);
+        if (dokitViews == null || dokitViews.get(MainIconDokitView.class.getSimpleName()) == null) {
+            if (DokitConstant.AWAYS_SHOW_MAIN_ICON && !(activity instanceof UniversalActivity)) {
+                //添加main icon
+                DokitIntent intent = new DokitIntent(MainIconDokitView.class);
+                intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+                DokitViewManager.getInstance().attach(intent);
+                DokitConstant.MAIN_ICON_HAS_SHOW = true;
+            }
+        }
+
     }
+
 
     @Override
     public void onActivityPause(Activity activity) {

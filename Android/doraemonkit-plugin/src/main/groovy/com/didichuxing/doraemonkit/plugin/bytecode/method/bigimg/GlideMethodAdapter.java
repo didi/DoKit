@@ -34,11 +34,16 @@ public final class GlideMethodAdapter extends AdviceAdapter {
     @Override
     protected void onMethodExit(int opcode) {
         super.onMethodExit(opcode);
+
+//        mv.visitVarInsn(ALOAD, 0);
+//        mv.visitVarInsn(ALOAD, 0);
+//        mv.visitFieldInsn(GETFIELD, "com/bumptech/glide/request/SingleRequest", "requestListeners", "Ljava/util/List;");
+//        mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/glide/GlideHook", "proxy", "(Ljava/util/List;)Ljava/util/List;", false);
+//        mv.visitFieldInsn(PUTFIELD, "com/bumptech/glide/request/SingleRequest", "requestListeners", "Ljava/util/List;");
+
+
         mv.visitVarInsn(ALOAD, 0);
-        mv.visitVarInsn(ALOAD, 0);
-        mv.visitFieldInsn(GETFIELD, "com/bumptech/glide/request/SingleRequest", "requestListeners", "Ljava/util/List;");
-        mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/glide/GlideHook", "proxy", "(Ljava/util/List;)Ljava/util/List;", false);
-        mv.visitFieldInsn(PUTFIELD, "com/bumptech/glide/request/SingleRequest", "requestListeners", "Ljava/util/List;");
+        mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/glide/GlideHook", "proxy", "(Ljava/lang/Object;)V", false);
     }
 
 }

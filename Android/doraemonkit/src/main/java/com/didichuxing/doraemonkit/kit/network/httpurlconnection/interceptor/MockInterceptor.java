@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.didichuxing.doraemonkit.kit.network.core.ResourceTypeHelper;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.HttpRequest;

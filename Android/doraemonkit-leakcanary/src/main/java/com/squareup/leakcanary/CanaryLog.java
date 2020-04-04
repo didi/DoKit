@@ -1,8 +1,9 @@
 package com.squareup.leakcanary;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public final class CanaryLog {
 

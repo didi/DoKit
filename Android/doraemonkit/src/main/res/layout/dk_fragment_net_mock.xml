@@ -34,7 +34,7 @@
             android:textColor="@color/dk_color_337CC4"
             android:textSize="14sp" />
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/cardview"
             android:layout_width="match_parent"
             android:layout_height="36dp"
@@ -59,7 +59,7 @@
                 android:textColorHint="@color/dk_color_BEBEBE"
                 android:textSize="14sp" />
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
     </RelativeLayout>

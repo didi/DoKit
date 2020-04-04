@@ -26,7 +26,7 @@ import didihttp.HttpUrl;
 
 /**
  * @author: linjizong
- * @date: 2019/3/6
+ *  2019/3/6
  * @desc: mock请求拦截器
  */
 public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRpcResponse> {

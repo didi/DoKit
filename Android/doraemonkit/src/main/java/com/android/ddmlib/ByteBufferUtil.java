@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 package com.android.ddmlib;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
