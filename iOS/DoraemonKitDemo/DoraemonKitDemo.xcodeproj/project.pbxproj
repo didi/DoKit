@@ -12,6 +12,8 @@
 		0A53998B2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A53998A2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m */; };
 		0A6C9CEA2423214600BAEF5E /* DoraemonDemoURLProtocol1.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6C9CE92423214600BAEF5E /* DoraemonDemoURLProtocol1.m */; };
 		0A6C9CED2423219400BAEF5E /* DoraemonDemoURLProtocol2.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6C9CEC2423219400BAEF5E /* DoraemonDemoURLProtocol2.m */; };
+		0A6CF2762438BD3B00A2CBF4 /* DoraemonKitDemo.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A6CF2782438BD3B00A2CBF4 /* DoraemonKitDemo.strings */; };
+		0A6CF27C2438BDDD00A2CBF4 /* DoraemonKitDemoi18Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6CF27B2438BDDD00A2CBF4 /* DoraemonKitDemoi18Util.m */; };
 		0AA262E1240F8AC400BF144F /* DoraemonDemoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA262E0240F8AC400BF144F /* DoraemonDemoBaseViewController.m */; };
 		0AFBC55223BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFBC55023BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m */; };
 		B65C2263AF96F94C50A222DF /* libPods-DoraemonKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E964A2D92411C9DC5482EF /* libPods-DoraemonKitDemo.a */; };
@@ -55,6 +57,11 @@
 		0A6C9CE92423214600BAEF5E /* DoraemonDemoURLProtocol1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoURLProtocol1.m; sourceTree = "<group>"; };
 		0A6C9CEB2423219400BAEF5E /* DoraemonDemoURLProtocol2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoURLProtocol2.h; sourceTree = "<group>"; };
 		0A6C9CEC2423219400BAEF5E /* DoraemonDemoURLProtocol2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoURLProtocol2.m; sourceTree = "<group>"; };
+		0A6CF2752438BD0100A2CBF4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		0A6CF2772438BD3B00A2CBF4 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/DoraemonKitDemo.strings"; sourceTree = "<group>"; };
+		0A6CF2792438BD4600A2CBF4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/DoraemonKitDemo.strings; sourceTree = "<group>"; };
+		0A6CF27A2438BDDD00A2CBF4 /* DoraemonKitDemoi18Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonKitDemoi18Util.h; sourceTree = "<group>"; };
+		0A6CF27B2438BDDD00A2CBF4 /* DoraemonKitDemoi18Util.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonKitDemoi18Util.m; sourceTree = "<group>"; };
 		0AA262DF240F8AC400BF144F /* DoraemonDemoBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoBaseViewController.h; sourceTree = "<group>"; };
 		0AA262E0240F8AC400BF144F /* DoraemonDemoBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoBaseViewController.m; sourceTree = "<group>"; };
 		0AFBC55023BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoNetTableViewCell.m; sourceTree = "<group>"; };
@@ -261,6 +268,7 @@
 				DAC8A8881FDE2C3B00F03E6F /* Info.plist */,
 				DAC8A8891FDE2C3B00F03E6F /* main.m */,
 				DAC0D76F1FE103A50048E322 /* DoraemonKitDemo-PrefixHeader.pch */,
+				0A6CF2782438BD3B00A2CBF4 /* DoraemonKitDemo.strings */,
 			);
 			path = DoraemonKitDemo;
 			sourceTree = "<group>";
@@ -270,6 +278,8 @@
 			children = (
 				DAE7BFAB20205C20008D49D8 /* NSObject+Runtime.h */,
 				DAE7BFAC20205C20008D49D8 /* NSObject+Runtime.m */,
+				0A6CF27A2438BDDD00A2CBF4 /* DoraemonKitDemoi18Util.h */,
+				0A6CF27B2438BDDD00A2CBF4 /* DoraemonKitDemoi18Util.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -426,6 +436,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = DAC8A86E1FDE2C3B00F03E6F;
 			productRefGroup = DAC8A8781FDE2C3B00F03E6F /* Products */;
@@ -443,6 +454,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA63F1D321C8CF9500E0D9F5 /* huoying.mp4 in Resources */,
+				0A6CF2762438BD3B00A2CBF4 /* DoraemonKitDemo.strings in Resources */,
 				DA0C6F331FDEBC2E00F43588 /* LaunchScreen.storyboard in Resources */,
 				DA4AD81E224E27DA006F767C /* doraemon.html in Resources */,
 				DA4AD81A224E0EC8006F767C /* Doraemon.docx in Resources */,
@@ -545,6 +557,7 @@
 				0AFBC55223BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m in Sources */,
 				0AA262E1240F8AC400BF144F /* DoraemonDemoBaseViewController.m in Sources */,
 				DAFE052A21BD4A4D00F97A59 /* DoraemonDemoCrashMRCView.m in Sources */,
+				0A6CF27C2438BDDD00A2CBF4 /* DoraemonKitDemoi18Util.m in Sources */,
 				DAC3FA7622B8DD7400871E5C /* DoraemonDemoImageViewController.m in Sources */,
 				DAC3FA7922B8E0EE00871E5C /* DoraemonDemoImageShowViewController.m in Sources */,
 				DAC8A87C1FDE2C3B00F03E6F /* DoKitAppDelegate.m in Sources */,
@@ -561,10 +574,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		0A6CF2782438BD3B00A2CBF4 /* DoraemonKitDemo.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0A6CF2772438BD3B00A2CBF4 /* zh-Hans */,
+				0A6CF2792438BD4600A2CBF4 /* en */,
+			);
+			name = DoraemonKitDemo.strings;
+			sourceTree = "<group>";
+		};
 		DA0C6F311FDEBC2E00F43588 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				DA0C6F321FDEBC2E00F43588 /* Base */,
+				0A6CF2752438BD0100A2CBF4 /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -576,6 +599,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -634,6 +658,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

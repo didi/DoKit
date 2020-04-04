@@ -35,7 +35,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = DoraemonLocalizedString(@"网络测试Demo");
+    self.title = DoraemonDemoLocalizedString(@"网络测试Demo");
     
     [self initCellTitleArray];
     _DoraemonDemoNetViewCellID = @"DoraemonDemoNetViewCell";
@@ -99,7 +99,7 @@
     if (!cell) {
         cell = [[DoraemonDemoNetTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:_DoraemonDemoNetViewCellID];
     }
-    [cell renderUIWithTitle:DoraemonLocalizedString(_cellTitleArray[indexPath.section])];
+    [cell renderUIWithTitle:DoraemonDemoLocalizedString(_cellTitleArray[indexPath.section])];
     return cell;
 }
 
