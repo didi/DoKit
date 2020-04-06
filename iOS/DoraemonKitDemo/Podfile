@@ -20,7 +20,7 @@ target :'DoraemonKitDemo' do
   pod 'DoraemonKit', :subspecs => ['Core','WithLogger','WithGPS','WithLoad','WithDatabase', 'WithMLeaksFinder','WithWeex'], :path => '../../'
   pod 'AFNetworking','2.6.3'
   pod 'SDWebImage', '5.0.6'
-  pod 'FBRetainCycleDetector', :git => 'git@github.com:facebook/FBRetainCycleDetector.git', :configurations => ['Debug']
+  pod 'FBRetainCycleDetector', :git => 'https://github.com:facebook/FBRetainCycleDetector.git', :configurations => ['Debug']
   #pod 'fishhook', :git => 'git@github.com:facebook/fishhook.git', :configurations => ['Debug']
   pod 'YYDebugDatabase', :git => 'https://github.com/y500/YYDebugDatabase.git', :configurations => ['Debug']
   #pod 'YYDebugDatabase', '2.0.8'
