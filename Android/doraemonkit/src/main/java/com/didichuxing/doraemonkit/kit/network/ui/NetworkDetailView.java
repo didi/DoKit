@@ -138,7 +138,7 @@ public class NetworkDetailView extends LinearLayout {
                         body.setVisibility(View.VISIBLE);
                         body.setText(strBody);
                         diverFormat.setText("format");
-                        ToastUtils.showShort("不支持格式化");
+                        ToastUtils.showShort("format error");
                     }
                 } else {
                     //反格式化

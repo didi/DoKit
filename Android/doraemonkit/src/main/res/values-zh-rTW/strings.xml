@@ -7,11 +7,11 @@
     <string name="dk_category_large_image">大圖檢測</string>
     <string name="dk_category_ui">視覺工具</string>
     <string name="dk_category_platform">平台工具</string>
-    <string name="dk_kit_network_mock">接口Mock</string>
+    <string name="dk_kit_network_mock">数据Mock</string>
     <string name="dk_kit_health">健康體檢</string>
-    <string name="dk_category_weex">WEEX</string>
+    <string name="dk_category_weex">Weex</string>
 
-    <string name="dk_kit_sysinfo">App 基本資訊</string>
+    <string name="dk_kit_sysinfo">App信息</string>
     <string name="dk_kit_develop">開發者選項</string>
     <string name="dk_kit_service_running">運行中服務</string>
     <string name="dk_kit_local_lang">本地語言</string>
@@ -23,15 +23,15 @@
     <string name="dk_kit_gps_mock">位置模擬</string>
     <string name="dk_kit_color_picker">取色器</string>
     <string name="dk_kit_align_ruler">對齊標尺</string>
-    <string name="dk_kit_log_info">Log 查看</string>
-    <string name="dk_kit_web_door">H5 任意門</string>
+    <string name="dk_kit_log_info">Log</string>
+    <string name="dk_kit_web_door">H5任意門</string>
     <string name="dk_kit_temporary_close">隱藏</string>
-    <string name="dk_kit_crash">Crash 查看</string>
-    <string name="dk_kit_data_clean">清除 Cache</string>
+    <string name="dk_kit_crash">Crash</string>
+    <string name="dk_kit_data_clean">清理缓存</string>
     <string name="dk_kit_db_debug">DBView</string>
     <string name="dk_kit_weak_network">模擬弱網</string>
     <string name="dk_kit_view_check">View 元件檢查</string>
-    <string name="dk_kit_net_monitor">流量監控</string>
+    <string name="dk_kit_net_monitor">網絡</string>
     <string name="dk_kit_ui_monitor">UI顯示實時數據</string>
     <string name="dk_kit_time_counter">啟動耗時</string>
     <string name="dk_kit_method_cost">函數耗時</string>
@@ -99,7 +99,7 @@
     <string name="dk_frameinfo_downstream">下行流量</string>
     <string name="dk_frameinfo_upstream">上流量</string>
     <string name="dk_frameinfo_avg_value">平均值</string>
-    <string name="dk_frameinfo_big_img">大圖監控</string>
+    <string name="dk_frameinfo_big_img">大圖檢測</string>
     <string name="dk_frameinfo_leakcanary">LeakCanary</string>
     <string name="dk_tools_dbdebug">DBView</string>
 
@@ -122,7 +122,7 @@
     <string name="dk_gpsmock_hint_longlat">請輸入經緯度</string>
 
     <!--卡頓檢測-->
-    <string name="dk_kit_block_monitor">卡頓檢測</string>
+    <string name="dk_kit_block_monitor">卡頓</string>
     <string name="dk_kit_block_monitor_list">ANR 列表</string>
     <string name="dk_kit_block_monitor_detail">ANR 詳情</string>
     <string name="dk_item_block_switch">ANR 檢測開關</string>
@@ -163,7 +163,7 @@
 
     <string name="dk_back">返回</string>
     <string name="dk_frameinfo_ram">RAM</string>
-    <string name="dk_kit_network_monitor">流量監控</string>
+    <string name="dk_kit_network_monitor">網絡</string>
     <string name="dk_data_clean_toast">清除系統資料</string>
     <string name="dk_float_permission_toast">哆啦A夢需要打開懸浮視窗權限才能正常使用</string>
     <string name="dk_gps_location_change_toast">地址變為: %1$s , %2$s</string>
@@ -246,7 +246,7 @@
     <string name="dk_platform_monitor_page_data">頁面數據</string>
     <string name="dk_app_data_clean">確認要刪除本地數據</string>
 
-    <string name="dk_kit_ui_performance">UI渲染性能</string>
+    <string name="dk_kit_ui_performance">UI層級</string>
     <string name="dk_view_render_analysis">View渲染统计</string>
     <string name="dk_max_level">最大層級: </string>
     <string name="dk_view_id">控件id: </string>
@@ -307,4 +307,9 @@
     <string name="dk_weaknet_type_timeout">超时</string>
     <string name="dk_weaknet_type_off">断网</string>
     <string name="dk_weak_network_speed_unit">K/s</string>
+    <string name="dk_health_dialog_title">结束前请完善以下信息</string>
+    <string name="dk_health_dialog_test_name">测试用例名称</string>
+    <string name="dk_health_dialog_test_name_hint">测试用例名称</string>
+    <string name="dk_health_dialog_test_person">测试人</string>
+    <string name="dk_health_dialog_test_person_hint">测试人</string>
 </resources>

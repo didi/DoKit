@@ -18,7 +18,7 @@
 
     <include layout="@layout/dk_view_network_detail_pager_title"/>
 
-    <androidx.core.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/network_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
