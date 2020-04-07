@@ -23,7 +23,7 @@ ext {
                //didi内部仓库版本号
                didiArchivesVersionName   : "1000.0.22",
                versionName               : "3.1.1",
-               glide_version             : "4.11.0",
+               glide_version             : "4.9.0",
                kotlin_version            : "1.3.61"
     ]
     dependencies = [// ###### android library  start ######
