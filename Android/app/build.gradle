@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'
 apply from: 'doraemonkit.gradle'
 
 android {
@@ -21,14 +22,16 @@ android {
     }
     buildTypes {
         debug {
+            debuggable true
             minifyEnabled false
             shrinkResources false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
-            minifyEnabled true
-            shrinkResources true
+//            debuggable true
+            minifyEnabled false
+            shrinkResources false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -42,36 +45,61 @@ android {
     sourceSets {
         debug {
             manifest.srcFile 'src/debug/java/AndroidManifest.xml'
+            jniLibs.srcDir 'libs'
         }
 
         release {
             manifest.srcFile 'src/release/java/AndroidManifest.xml'
+            jniLibs.srcDir 'libs'
         }
+
     }
 
     lintOptions {
         abortOnError false
     }
 
+}
 
+//dokit 扩展
+dokitExt {
+    dokitPluginSwitch = true
+    slowMethodSwitch = true
+    //单位为ms 1000ms = 1s
+    thresholdTime = 200
+    packageNames = ["com.didichuxing.doraemondemo"]
+//    packageNames = ["com.didichuxing.doraemondemo","com.didichuxing.doraemonkit"]
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation rootProject.ext.dependencies["junit"]
     implementation rootProject.ext.dependencies["multidex"]
-    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["design"]
-    //implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["okhttp"]
-    implementation rootProject.ext.dependencies["okio"]
     implementation rootProject.ext.dependencies["glide"]
-    implementation rootProject.ext.dependencies["glide_okhttp3"]
+//    implementation rootProject.ext.dependencies["glide_okhttp3"]
     annotationProcessor rootProject.ext.dependencies["glide_compiler"]
     implementation rootProject.ext.dependencies["picasso"]
     implementation rootProject.ext.dependencies["fresco"]
     implementation rootProject.ext.dependencies["fresco-processors"]
+    implementation rootProject.ext.dependencies["image-loader"]
+
     //weex相关
     implementation rootProject.ext.dependencies["weex_inspector"]
     implementation rootProject.ext.dependencies["weex_sdk"]
+    implementation rootProject.ext.dependencies["utilcode"]
+    implementation rootProject.ext.dependencies["easypermissions"]
+    releaseImplementation rootProject.ext.dependencies["okgo"]
+    //高德地图定位
+    implementation rootProject.ext.dependencies["amap_location"]
+    //腾讯地图定位
+    implementation rootProject.ext.dependencies["tencent_location"]
+    //百度地图定位
+    implementation files('libs/BaiduLBS_Android.jar')
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+//    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.12'
+
 }

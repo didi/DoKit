@@ -1,25 +1,25 @@
+
 if (rootProject.ext.config["applyPlugin"]) {
-    // 引用插件，插件会在编译期把DoraemonKit.install方法插入Application中，前提是用户必须实现自己的Application
-    apply plugin: 'android-aspectjx'
+    // 引用插件
+    apply plugin: 'com.didi.dokit'
     // 这里引用正常库
     dependencies {
-//        debugImplementation project(":doraemonkit")
-//        debugImplementation project(":doraemonkit-leakcanary")
-//        debugImplementation project(":doraemonkit-aop")
-//        debugImplementation project(":doraemonkit_weex")
-//        releaseImplementation project(":doraemonkit-no-op")
-//        releaseImplementation project(":doraemonkit_weex_no_op")
+        //外部平台依赖
+        debugImplementation project(":doraemonkit")
+        debugImplementation project(":doraemonkit-leakcanary")
+        debugImplementation project(":doraemonkit-weex")
+        releaseImplementation project(":doraemonkit-no-op")
+        releaseImplementation project(":doraemonkit-weex-no-op")
+        //新版线上包
+//        debugImplementation "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+//        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-leakcanary:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+//        releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-no-op:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+//        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-weex:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+//        releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-weex-no-op:${rootProject.ext.android["jcenterArchivesVersionName"]}"
 
-        debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.0.1'
-        debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:2.0.1'
-        debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:2.0.1'
-        debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:2.0.1'
-        releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:2.0.1'
-        releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.0.1'
     }
 } else {
     // 引用no-op的库
     dependencies {
-
     }
 }
