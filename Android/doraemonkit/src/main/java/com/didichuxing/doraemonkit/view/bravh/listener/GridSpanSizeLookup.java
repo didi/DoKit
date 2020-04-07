@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 /**
  * @author: limuyang
- * @date: 2019-12-03
+ *  2019-12-03
  * @Description:
  */
 public interface GridSpanSizeLookup {

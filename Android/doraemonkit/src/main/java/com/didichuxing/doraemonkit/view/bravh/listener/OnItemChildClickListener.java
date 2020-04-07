@@ -8,7 +8,7 @@ import com.didichuxing.doraemonkit.view.bravh.BaseQuickAdapter;
 
 /**
  * @author: limuyang
- * @date: 2019-12-03
+ *  2019-12-03
  * @Description:
  */
 public interface OnItemChildClickListener {

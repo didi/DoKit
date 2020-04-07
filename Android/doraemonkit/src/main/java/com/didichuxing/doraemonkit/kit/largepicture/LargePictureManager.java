@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * @author: linjizong
- * @date: 2019-07-05
+ *  2019-07-05
  * @desc: 大图检测管理类
  */
 public class LargePictureManager {

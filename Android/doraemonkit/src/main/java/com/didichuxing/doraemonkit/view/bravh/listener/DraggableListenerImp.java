@@ -7,7 +7,7 @@ import com.didichuxing.doraemonkit.view.bravh.listener.OnItemSwipeListener;
 
 /**
  * @author: limuyang
- * @date: 2019-12-05
+ *  2019-12-05
  * @Description:
  */
 public interface DraggableListenerImp {
