@@ -8,10 +8,15 @@ import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okhttp3.internal.http.RealResponseBody;
+import okio.Okio;
+import okio.Source;
 
 /**
  * Created by xiandanin on 2019-05-09 16:30
@@ -80,19 +85,32 @@ public class WeakNetworkManager {
     /**
      * 模拟断网
      */
-    public UnknownHostException simulateOffNetwork(String host) {
-        return new UnknownHostException(String.format("Unable to resolve host \"%s\": No address associated with hostname", host));
+    public Response simulateOffNetwork(Interceptor.Chain chain) throws IOException {
+        final Response response = chain.proceed(chain.request());
+        ResponseBody responseBody = ResponseBody.create(response.body().contentType(), "");
+        Response newResponse = response.newBuilder()
+                .code(400)
+                .message(String.format("Unable to resolve host %s: No address associated with hostname", chain.request().url().host()))
+                .body(responseBody)
+                .build();
+        return newResponse;
     }
 
     /**
      * 模拟超时
      *
-     * @param host
-     * @param port
+     * @param chain url
      */
-    public SocketTimeoutException simulateTimeOut(String host, int port) {
+    public Response simulateTimeOut(Interceptor.Chain chain) throws IOException {
         SystemClock.sleep(mTimeOutMillis);
-        return new SocketTimeoutException(String.format("failed to connect to %s (port %d) after %dms", host, port, mTimeOutMillis));
+        final Response response = chain.proceed(chain.request());
+        ResponseBody responseBody = ResponseBody.create(response.body().contentType(), "");
+        Response newResponse = response.newBuilder()
+                .code(400)
+                .message(String.format("failed to connect to %s  after %dms", chain.request().url().host(), mTimeOutMillis))
+                .body(responseBody)
+                .build();
+        return newResponse;
     }
 
     /**

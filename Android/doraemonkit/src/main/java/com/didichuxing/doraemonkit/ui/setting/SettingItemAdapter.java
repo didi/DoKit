@@ -10,7 +10,10 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.StringRes;
+
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
 
@@ -63,6 +66,14 @@ public class SettingItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<Setting
                 mMenuSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isMatched(settingItem.desc)) {
+                            if (AppHealthInfoUtil.getInstance().isAppHealthRunning()) {
+                                mMenuSwitch.setChecked(true);
+                                return;
+                            }
+                        }
+
+
                         settingItem.isChecked = isChecked;
                         mOnSettingItemSwitchListener.onSettingItemSwitch(mMenuSwitch, settingItem, isChecked);
                     }
@@ -85,6 +96,31 @@ public class SettingItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<Setting
                 mOnSettingItemClickListener.onSettingItemClick(view, data);
             }
         }
+    }
+
+    /**
+     * 是否命中
+     *
+     * @return
+     */
+    private boolean isMatched(@StringRes int desc) {
+        int[] resources = new int[]{
+                R.string.dk_weak_network_switch,
+                R.string.dk_item_block_switch,
+                R.string.dk_crash_capture_switch,
+                R.string.dk_cpu_detection_switch,
+                R.string.dk_frameinfo_detection_switch,
+                R.string.dk_ram_detection_switch,
+        };
+        boolean isMatches = false;
+        for (int res : resources) {
+            if (res == desc) {
+                isMatches = true;
+                break;
+            }
+        }
+
+        return isMatches;
     }
 
     public void setOnSettingItemClickListener(OnSettingItemClickListener onSettingItemClickListener) {

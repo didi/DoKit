@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AppOpsManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,10 +19,10 @@ import android.os.Environment;
 import android.os.Process;
 import android.provider.ContactsContract;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Size;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Size;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -104,29 +103,7 @@ public class PermissionUtil {
         }
     }
 
-    public static void startDevelopmentSetting(Activity activity) {
-        try {
-            Intent intent = new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
-            activity.startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                ComponentName componentName = new ComponentName("com.android.settings", "com.android.settings.DevelopmentSettings");
-                Intent intent = new Intent();
-                intent.setComponent(componentName);
-                intent.setAction(Intent.ACTION_VIEW);
-                activity.startActivity(intent);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-                try {
-                    Intent intent = new Intent("com.android.settings.APPLICATION_DEVELOPMENT_SETTINGS");
-                    activity.startActivity(intent);
-                } catch (Exception e2) {
-                    e2.printStackTrace();
-                }
-            }
-        }
-    }
+
 
     public static boolean isMockLocationEnabled(Context context) {
         boolean isMockLocation = false;

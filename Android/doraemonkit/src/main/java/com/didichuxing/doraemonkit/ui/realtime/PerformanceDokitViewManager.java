@@ -34,6 +34,7 @@ public class PerformanceDokitViewManager {
         PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
         if (performanceDokitView == null) {
             DokitIntent dokitIntent = new DokitIntent(PerformanceDokitView.class);
+            dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
             DokitViewManager.getInstance().attach(dokitIntent);
             performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
             performanceDokitView.addItem(performanceType, title, interval);
@@ -42,6 +43,18 @@ public class PerformanceDokitViewManager {
         }
         performanceDokitView.addPerformanceFragmentCloseListener(listener);
         singleperformanceViewInfos.put(title, new performanceViewInfo(performanceType, title, interval));
+    }
+
+    /**
+     * 性能检测设置页面关闭时调用
+     *
+     * @param listener
+     */
+    public static void onPerformanceSettingFragmentDestroy(PerformanceFragmentCloseListener listener) {
+        PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
+        if (performanceDokitView != null) {
+            performanceDokitView.removePerformanceFragmentCloseListener(listener);
+        }
     }
 
     /**
@@ -57,7 +70,7 @@ public class PerformanceDokitViewManager {
     }
 
 
-    public static String getTitileByPerformanceType(Context context, int performanceType) {
+    public static String getTitleByPerformanceType(Context context, int performanceType) {
         String title = "";
         switch (performanceType) {
             case DataSourceFactory.TYPE_FPS:

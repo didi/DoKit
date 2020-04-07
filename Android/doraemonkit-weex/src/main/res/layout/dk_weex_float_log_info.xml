@@ -16,10 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="89dp"
             android:layout_alignParentTop="true"
-            app:dkIcon="@drawable/dk_close_icon"
-            app:dkTitle="@string/dk_console_log_title"
             android:background="@color/foreground_wtf"
-            />
+            app:dkIcon="@drawable/dk_close_icon"
+            app:dkTitle="@string/dk_console_log_title" />
 
         <View
             android:id="@+id/view_divider"
@@ -94,14 +93,24 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btn_top"
+                    android:id="@+id/btn_clean"
                     style="@style/DK.RadioButton.Left"
-                    android:text="回到顶部" />
+                    android:text="@string/dk_log_btn_clean" />
+
+                <Button
+                    android:id="@+id/btn_export"
+                    style="@style/DK.RadioButton.middle"
+                    android:text="@string/dk_log_btn_export" />
+
+                <Button
+                    android:id="@+id/btn_top"
+                    style="@style/DK.RadioButton.middle"
+                    android:text="@string/dk_log_btn_back_top" />
 
                 <Button
                     android:id="@+id/btn_bottom"
                     style="@style/DK.RadioButton.Right"
-                    android:text="滚至底部" />
+                    android:text="@string/dk_log_btn_to_bottom" />
             </LinearLayout>
 
         </LinearLayout>
@@ -130,7 +139,7 @@
                 android:textSize="@dimen/dk_font_size_14" />
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/log_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

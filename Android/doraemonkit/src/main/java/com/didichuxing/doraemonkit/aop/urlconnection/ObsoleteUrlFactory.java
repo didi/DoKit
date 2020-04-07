@@ -1,8 +1,9 @@
 package com.didichuxing.doraemonkit.aop.urlconnection;
 
 import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
+
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -101,12 +102,13 @@ final class ObsoleteUrlFactory implements URLStreamHandlerFactory, Cloneable {
     private static final Comparator<String> FIELD_NAME_COMPARATOR = new Comparator<String>() {
         @Override
         public int compare(String a, String b) {
-            if (a.equals(b)) {
-                return 0;
-            } else if (a == null) {
+
+            if (a == null) {
                 return -1;
             } else if (b == null) {
                 return 1;
+            } else if (a.equals(b)) {
+                return 0;
             } else {
                 return String.CASE_INSENSITIVE_ORDER.compare(a, b);
             }

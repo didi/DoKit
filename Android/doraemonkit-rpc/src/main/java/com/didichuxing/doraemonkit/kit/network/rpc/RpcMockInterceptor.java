@@ -8,9 +8,9 @@ import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
 import com.didichuxing.doraemonkit.kit.network.stream.InputStreamProxy;
-import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.foundation.net.MimeType;
 import com.didichuxing.foundation.net.http.HttpEntity;
+import com.didichuxing.foundation.net.http.HttpMethod;
 import com.didichuxing.foundation.net.rpc.http.HttpRpcRequest;
 import com.didichuxing.foundation.net.rpc.http.HttpRpcResponse;
 import com.didichuxing.foundation.rpc.RpcInterceptor;
@@ -26,7 +26,7 @@ import didihttp.HttpUrl;
 
 /**
  * @author: linjizong
- * @date: 2019/3/6
+ *  2019/3/6
  * @desc: mock请求拦截器
  */
 public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRpcResponse> {
@@ -46,9 +46,10 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         }
         //path  /test/upload/img
         String path = URLDecoder.decode(url.encodedPath(), "utf-8");
+        //兼容滴滴内部外网映射环境  该环境的 path上会多一级/kop_xxx/路径
         String queries = url.query();
-        String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_INTERCEPT);
-        String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_TEMPLATE);
+        String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_INTERCEPT, DokitDbManager.FROM_SDK_DIDI);
+        String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_DIDI);
 
         try {
             //是否命中拦截规则
@@ -57,7 +58,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
             }
 
             //是否命中模板规则
-            matchedTemplateRule(oldResponse, path, templateMatchedId);
+            oldResponse = matchedTemplateRule(oldResponse, path, templateMatchedId);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,20 +79,22 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         //判断是否需要重定向数据接口
         //http https
         String scheme = url.scheme();
-        MockInterceptApiBean interceptApiBean = (MockInterceptApiBean) DokitDbManager.getInstance().getInterceptApiByIdInMap(path, interceptMatchedId);
+        MockInterceptApiBean interceptApiBean = (MockInterceptApiBean) DokitDbManager.getInstance().getInterceptApiByIdInMap(path, interceptMatchedId, DokitDbManager.FROM_SDK_DIDI);
+        if (interceptApiBean == null) {
+            return matchedTemplateRule(oldResponse, path, templateMatchedId);
+        }
 
         String selectedSceneId = interceptApiBean.getSelectedSceneId();
         //开关是否被打开
         if (!interceptApiBean.isOpen()) {
             return matchedTemplateRule(oldResponse, path, templateMatchedId);
-
         }
 
         //判断是否有选中的场景
         if (TextUtils.isEmpty(selectedSceneId)) {
             return matchedTemplateRule(oldResponse, path, templateMatchedId);
-
         }
+
         StringBuffer sb = new StringBuffer();
         String newUrl;
         if (NetworkManager.MOCK_SCHEME_HTTP.contains(scheme.toLowerCase())) {
@@ -100,7 +103,10 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
             newUrl = sb.append(NetworkManager.MOCK_SCHEME_HTTPS).append(NetworkManager.MOCK_HOST).append("/api/app/scene/").append(selectedSceneId).toString();
         }
 
+        //LogHelper.i("MOCK_INTERCEPT", "name===>" + interceptApiBean.getMockApiName() + "  newUrl=====>" + newUrl);
+
         HttpRpcRequest mockRequest = oldRequest.newBuilder()
+                .setMethod(HttpMethod.GET, null)
                 .setUrl(newUrl).build();
         HttpRpcResponse mockResponse = chain.proceed(mockRequest);
         if (mockResponse.isSuccessful()) {
@@ -126,10 +132,14 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         if (TextUtils.isEmpty(templateMatchedId)) {
             return response;
         }
-        MockTemplateApiBean templateApiBean = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, templateMatchedId);
+        MockTemplateApiBean templateApiBean = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, templateMatchedId,DokitDbManager.FROM_SDK_DIDI);
+        if (templateApiBean == null) {
+            return response;
+        }
+        //LogHelper.i("MOCK_TEMPLATE", "name=====>" + templateApiBean.getMockApiName() + "   isOpen===>" + templateApiBean.isOpen());
         if (templateApiBean.isOpen()) {
             //保存老的response 数据到数据库
-            response = saveRespnse2DB(response, templateApiBean);
+            response = saveResponse2DB(response, templateApiBean);
         }
 
         return response;
@@ -144,28 +154,31 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
      * @param mockApi
      * @throws Exception
      */
-    private HttpRpcResponse saveRespnse2DB(HttpRpcResponse response, MockTemplateApiBean mockApi) throws Exception {
+    private HttpRpcResponse saveResponse2DB(HttpRpcResponse response, MockTemplateApiBean mockApi) throws Exception {
         if (!response.isSuccessful()) {
             return response;
         }
         String host = HttpUrl.parse(response.getRequest().getUrl()).host();
-        LogHelper.i(TAG, "host====>" + host);
+        //LogHelper.i(TAG, "host====>" + host);
         //这里不能直接使用response.body().string()的方式输出日志
         //因为response.body().string()之后，response中的流会被关闭，程序会报错，我们需要创建出一
         //个新的response给应用层处理
 
-        if (response.getEntity() == null || response.getEntity().getContentLength() <= 0 || response.getEntity().getContent() == null) {
+        if (response.getEntity() == null || response.getEntity().getContent() == null) {
             return response;
         }
+        HttpEntity entity = response.getEntity();
+        InputStream responseStream = entity.getContent();
 
         //新建InputStream 代理 并设置到新的response中去
         InputStream newInputStream = new InputStreamProxy(
-                response.getEntity().getContent(),
+                responseStream,
                 new MockResponseHandler(host, mockApi));
         // 必须重置response的body
-        return resetResponseInputStream(response, response.getEntity(), newInputStream);
+        return resetResponseInputStream(response, entity, newInputStream);
 
     }
+
 
     /**
      * 对response 的Entity进行重置
@@ -175,44 +188,49 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
      * @param newInputStream
      */
     private HttpRpcResponse resetResponseInputStream(HttpRpcResponse response, final HttpEntity entity, final InputStream newInputStream) {
-        return response.newBuilder()
-                .setEntity(new HttpEntity() {
-                    @Override
-                    public MimeType getContentType() {
-                        return entity.getContentType();
-                    }
+        if (newInputStream != null) {
+            response = response.newBuilder()
+                    .setEntity(new HttpEntity() {
+                        @Override
+                        public MimeType getContentType() {
+                            return entity.getContentType();
+                        }
 
-                    @Override
-                    public String getTransferEncoding() {
-                        return entity.getTransferEncoding();
-                    }
+                        @Override
+                        public String getTransferEncoding() {
+                            return entity.getTransferEncoding();
+                        }
 
-                    @Override
-                    public Charset getCharset() {
-                        return entity.getCharset();
-                    }
+                        @Override
+                        public Charset getCharset() {
+                            return entity.getCharset();
+                        }
 
-                    @Override
-                    public InputStream getContent() throws IOException {
-                        return newInputStream;
-                    }
+                        @Override
+                        public InputStream getContent() throws IOException {
+                            return newInputStream;
+                        }
 
-                    @Override
-                    public long getContentLength() throws IOException {
-                        return entity.getContentLength();
-                    }
+                        @Override
+                        public long getContentLength() throws IOException {
+                            return entity.getContentLength();
+                        }
 
-                    @Override
-                    public void writeTo(OutputStream out) throws IOException {
-                        entity.writeTo(out);
-                    }
+                        @Override
+                        public void writeTo(OutputStream out) throws IOException {
+                            entity.writeTo(out);
+                        }
 
-                    @Override
-                    public void close() throws IOException {
-                        entity.close();
-                    }
-                })
-                .build();
+                        @Override
+                        public void close() throws IOException {
+                            entity.close();
+                        }
+                    })
+                    .build();
+        }
+
+        return response;
+
     }
 
 
@@ -225,11 +243,10 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         //这里不能直接使用response.body().string()的方式输出日志
         //因为response.body().string()之后，response中的流会被关闭，程序会报错，我们需要创建出一
         //个新的response给应用层处理
-
-        if (response.getEntity() == null || response.getEntity().getContent() == null) {
-            return false;
+        if (response.getEntity() != null && response.getEntity().getContent() != null) {
+            return true;
         }
-        return response.getEntity().getContentLength() > 0;
+        return false;
     }
 
 

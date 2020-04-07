@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.methodtrace;
 
+import android.app.Application;
 import android.os.Build;
 import android.os.Debug;
 import android.util.Log;
@@ -8,10 +9,10 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.ThreadUtils;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * ================================================
@@ -22,12 +23,24 @@ import java.util.ArrayList;
  * startMethodTracing(startMethodTracingSampling) 和stopMethodTracingAndPrintLog 需要配对使用
  * 其中startMethodTracing是不采样的 所以在操作会产生大量的数据 导致缓存区会一下就满了 所以该方法建议该方法针对在一个方法中调用 类似demo
  * startMethodTracingSampling采用的采样的模式 可以再整个activity的生命周期中使用
- * 修订历史：
+ * <p>
+ * 生成的trace文件位于getExternalFilesDir() 下 **.trace
+ * 修订历史：  该功能已经废弃 请使用插件的函数耗时统计 使用手册:http://xingyun.xiaojukeji.com/docs/dokit/#/TimeProfiler
  * ================================================
+ * @author didi
  */
+@Deprecated
 public class MethodCost {
-    private static final String TAG = "MethodCost";
-    private static final String ROOT_PATH = PathUtils.getExternalAppFilesPath() + File.separator;
+    private static final String TAG = "MethodTrace";
+    /**
+     * storage/sdcard/Android/data/com.didichuxing.doraemondemo/files/  高版本的.trace文件路径
+     */
+    private static final String ROOT_APP_PATH = PathUtils.getExternalAppFilesPath() + File.separator;
+    /**
+     * storage/sdcard/ 低版本的.trace文件路径
+     */
+    private static final String ROOT_STORAGE_PATH = PathUtils.getExternalStoragePath() + File.separator;
+
     private static final String packageName = AppUtils.getAppPackageName();
 
     /**
@@ -55,6 +68,9 @@ public class MethodCost {
 
     }
 
+    public static Application APPLICATION;
+
+
     /**
      * @param traceFileName Path to the trace log file to create. If {@code null},
      *                      this will default to "dmtrace.trace". If the file already
@@ -62,7 +78,7 @@ public class MethodCost {
      *                      in ".trace", it will be appended for you.
      */
     public static void startMethodTracing(String traceFileName) {
-        startMethodTracing(traceFileName, 16 * 1024 * 1024);
+        startMethodTracing(traceFileName, 32 * 1024 * 1024);
     }
 
 
@@ -79,7 +95,7 @@ public class MethodCost {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Debug.startMethodTracingSampling(traceFileName, bufferSize, intervalUs);
         } else {
-            LogHelper.e(TAG, "current api need OS Api level 21");
+            Log.e(TAG, "current api need OS Api level 21");
         }
     }
 
@@ -100,9 +116,9 @@ public class MethodCost {
      * @param traceFileName .trace 的文件名 不需要后缀
      * @param needIndent    是否需要缩进
      */
-    public static void stopMethodTracingAndPrintLog(String traceFileName, boolean needIndent) {
+    public static void stopMethodTracingAndPrintLog(String traceFileName, boolean needIndent, MethodCostCallback appStartCallback) {
         Debug.stopMethodTracing();
-        printLog(traceFileName, needIndent);
+        printLog(traceFileName, needIndent, appStartCallback);
     }
 
 
@@ -112,20 +128,45 @@ public class MethodCost {
      * @param traceFileName .trace 的文件名 不需要后缀
      */
     public static void stopMethodTracingAndPrintLog(String traceFileName) {
-        stopMethodTracingAndPrintLog(traceFileName, true);
+        stopMethodTracingAndPrintLog(traceFileName, true, null);
     }
+
+
+    /**
+     * 结束方法耗时并打印日志
+     *
+     * @param traceFileName .trace 的文件名 不需要后缀
+     */
+    public static void stopMethodTracingAndPrintLog(String traceFileName, MethodCostCallback appStartCallback) {
+        stopMethodTracingAndPrintLog(traceFileName, true, appStartCallback);
+    }
+
+    static String filePath;
 
     /**
      * @param traceFileName
      */
-    private static void printLog(String traceFileName, final boolean needIndent) {
-        final String filePath = ROOT_PATH + traceFileName + ".trace";
-        ThreadUtils.executeByCached(new ThreadUtils.Task<ArrayList<OrderBean>>() {
+    private static void printLog(final String traceFileName, final boolean needIndent, final MethodCostCallback appStartCallback) {
+
+        ThreadUtils.executeByCachedWithDelay(new ThreadUtils.Task<ArrayList<OrderBean>>() {
             @Override
             public ArrayList<OrderBean> doInBackground() throws Throwable {
+                if (APPLICATION != null) {
+                    filePath = APPLICATION.getExternalFilesDir(null) + File.separator + traceFileName + ".trace";
+                } else {
+                    filePath = ROOT_APP_PATH + traceFileName + ".trace";
+                }
+                //假如不存在改文件 则用低版本的路径再次尝试
+                if (!FileUtils.isFileExists(filePath)) {
+                    filePath = ROOT_STORAGE_PATH + traceFileName + ".trace";
+                }
+                if (!FileUtils.isFileExists(filePath) || FileUtils.getFileLength(filePath) == 0) {
+                    filePath = PathUtils.getInternalAppFilesPath() + File.separator + "appStart.trace";
+                }
                 File file = new File(filePath);
-                if (!file.exists()) {
-                    LogHelper.i(TAG, "file not exists");
+                if (!FileUtils.isFileExists(filePath)) {
+                    Log.i(TAG, "filePath==>" + filePath + "  not found");
+                    appStartCallback.onError("no matched file", filePath);
                     return null;
                 }
                 //LogHelper.i(TAG, "file size===>" + FileUtils.getFileSize(file));
@@ -137,9 +178,23 @@ public class MethodCost {
             @Override
             public void onSuccess(ArrayList<OrderBean> orderBeans) {
                 if (orderBeans == null || orderBeans.size() == 0) {
-                    LogHelper.e(TAG, "no match method");
+                    Log.i(TAG, "filePath==>" + filePath + "  not found");
+                    if (appStartCallback != null) {
+                        appStartCallback.onError("no match method", filePath);
+                    }
                     return;
+                } else {
+                    if (traceFileName.equals("appStart")) {
+                        String destFilePath = PathUtils.getInternalAppFilesPath() + File.separator + "appStart.trace";
+                        FileUtils.copy(filePath, destFilePath);
+                    }
                 }
+
+                if (appStartCallback != null) {
+                    appStartCallback.onCall(filePath, orderBeans);
+                }
+
+
                 Log.i(TAG, "-------" + orderBeans.get(0).getFunctionName() + " Call Chain-----------------");
 
                 for (int index = 0; index < orderBeans.size(); index++) {
@@ -151,22 +206,22 @@ public class MethodCost {
                     }
                 }
 
-                FileUtils.delete(filePath);
+                //FileUtils.delete(filePath);
 
             }
 
             @Override
             public void onCancel() {
-                FileUtils.delete(filePath);
+                //FileUtils.delete(filePath);
                 Log.i(TAG, "--------onCancel---------");
             }
 
             @Override
             public void onFail(Throwable t) {
-                FileUtils.delete(filePath);
+                //FileUtils.delete(filePath);
                 Log.e(TAG, "throwable: " + t.getMessage());
             }
-        });
+        }, 2, TimeUnit.SECONDS);
     }
 
     private static String strMultiply(String singleStr, int count) {

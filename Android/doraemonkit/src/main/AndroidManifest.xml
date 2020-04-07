@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.didichuxing.doraemonkit">
 
     <!-- Window -->
@@ -26,12 +27,16 @@
     <!-- To allow starting foreground services on Android P+ - https://developer.android.com/preview/behavior-changes#fg-svc -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
+
+    <!--    networkSecurityConfig 兼容android P 的网络请求
+    android:networkSecurityConfig="@xml/dokit_network_config"
+    -->
     <application>
         <activity
             android:name=".ui.UniversalActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+            android:windowSoftInputMode="adjustPan|stateHidden|stateUnchanged" />
         <activity
             android:name=".ui.TranslucentActivity"
             android:theme="@style/DK.Theme.Translucent"
@@ -48,7 +53,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/debug_provider_paths" />
+                android:resource="@xml/dokit_debug_provider_paths" />
         </provider>
 
         <!--<service-->
@@ -61,6 +66,9 @@
         <!--android:name="android.accessibilityservice"-->
         <!--android:resource="@xml/debug_accessibility_service_config" />-->
         <!--</service>-->
+
+        <!--        截图服务 适配Android Q-->
+
 
     </application>
 

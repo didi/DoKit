@@ -1,6 +1,8 @@
 package com.didichuxing.doraemonkit.kit.network.bean;
 
 import com.blankj.utilcode.util.EncodeUtils;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 
 import java.util.List;
 
@@ -39,6 +41,9 @@ public class MockApiResponseBean {
         this.data = data;
     }
 
+    /**
+     * 该对象需要做特殊处理
+     */
     public static class DataBean {
         private List<DatalistBean> datalist;
 
@@ -137,7 +142,15 @@ public class MockApiResponseBean {
                 this.categoryId = categoryId;
             }
 
+            /**
+             * 拦截一层kop
+             *
+             * @return path
+             */
             public String getPath() {
+                if (DokitConstant.isRpcSDK()) {
+                    path = DokitConstant.dealDidiPlatformPath(path, DokitDbManager.FROM_SDK_DIDI);
+                }
                 return path;
             }
 

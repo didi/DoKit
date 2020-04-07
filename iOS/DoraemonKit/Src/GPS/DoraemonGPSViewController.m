@@ -32,7 +32,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Mock GPS";
+    self.title = DoraemonLocalizedString(@"Mock GPS");
     
     [self initUI];
 }
@@ -67,13 +67,11 @@
 
     if (_operateView.switchView.on) {
         CLLocationCoordinate2D coordinate = [[DoraemonCacheManager sharedInstance] mockCoordinate];
-        if (coordinate.longitude>0&&coordinate.latitude>0) {
-            [_mapCenterView hiddenGPSInfo:NO];
-            [_mapCenterView renderUIWithGPS:[NSString stringWithFormat:@"%f , %f",coordinate.longitude,coordinate.latitude]];
-            [self.mapView setCenterCoordinate:coordinate animated:NO];
-            CLLocation *loc = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
-            [[DoraemonGPSMocker shareInstance] mockPoint:loc];
-        }
+        [_mapCenterView hiddenGPSInfo:NO];
+        [_mapCenterView renderUIWithGPS:[NSString stringWithFormat:@"%f , %f",coordinate.longitude,coordinate.latitude]];
+        [self.mapView setCenterCoordinate:coordinate animated:NO];
+        CLLocation *loc = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+        [[DoraemonGPSMocker shareInstance] mockPoint:loc];
     }else{
         [_mapCenterView hiddenGPSInfo:YES];
         [[DoraemonGPSMocker shareInstance] stopMockPoint];
@@ -87,13 +85,11 @@
     [[DoraemonCacheManager sharedInstance] saveMockGPSSwitch:isButtonOn];
     if (isButtonOn) {
         CLLocationCoordinate2D coordinate = [[DoraemonCacheManager sharedInstance] mockCoordinate];
-        if (coordinate.longitude>0 && coordinate.latitude>0) {
-            [_mapCenterView hiddenGPSInfo:NO];
-            [_mapCenterView renderUIWithGPS:[NSString stringWithFormat:@"%f , %f",coordinate.longitude,coordinate.latitude]];
-            [self.mapView setCenterCoordinate:coordinate animated:NO];
-            CLLocation *loc = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
-            [[DoraemonGPSMocker shareInstance] mockPoint:loc];
-        }
+        [_mapCenterView hiddenGPSInfo:NO];
+        [_mapCenterView renderUIWithGPS:[NSString stringWithFormat:@"%f , %f",coordinate.longitude,coordinate.latitude]];
+        [self.mapView setCenterCoordinate:coordinate animated:NO];
+        CLLocation *loc = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+        [[DoraemonGPSMocker shareInstance] mockPoint:loc];
     }else{
         [_mapCenterView hiddenGPSInfo:YES];
         [[DoraemonGPSMocker shareInstance] stopMockPoint];

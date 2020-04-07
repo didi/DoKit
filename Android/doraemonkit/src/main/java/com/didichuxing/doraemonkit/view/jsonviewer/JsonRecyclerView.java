@@ -1,13 +1,14 @@
 package com.didichuxing.doraemonkit.view.jsonviewer;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.didichuxing.doraemonkit.view.jsonviewer.adapter.BaseJsonViewerAdapter;
 import com.didichuxing.doraemonkit.view.jsonviewer.adapter.JsonViewerAdapter;
@@ -18,6 +19,7 @@ import org.json.JSONObject;
 
 /**
  * Created by yuyuhang on 2017/11/30.
+ * https://github.com/smuyyh/JsonViewer
  */
 public class JsonRecyclerView extends RecyclerView {
 

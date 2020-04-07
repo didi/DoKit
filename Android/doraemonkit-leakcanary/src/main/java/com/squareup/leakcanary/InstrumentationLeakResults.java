@@ -15,7 +15,8 @@
  */
 package com.squareup.leakcanary;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,7 +52,8 @@ public final class InstrumentationLeakResults {
   }
 
   public static final class Result {
-    @NonNull public final HeapDump heapDump;
+    @NonNull
+    public final HeapDump heapDump;
     @NonNull public final AnalysisResult analysisResult;
 
     public Result(@NonNull HeapDump heapDump, @NonNull AnalysisResult analysisResult) {

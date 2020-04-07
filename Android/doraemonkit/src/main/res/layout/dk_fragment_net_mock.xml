@@ -34,7 +34,7 @@
             android:textColor="@color/dk_color_337CC4"
             android:textSize="14sp" />
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/cardview"
             android:layout_width="match_parent"
             android:layout_height="36dp"
@@ -55,11 +55,11 @@
                 android:background="@drawable/dk_edittext_shape"
                 android:drawableLeft="@drawable/dk_search"
                 android:drawablePadding="5dp"
-                android:hint="支持筛选"
+                android:hint="@string/dk_data_mock_et_hint"
                 android:textColorHint="@color/dk_color_BEBEBE"
                 android:textSize="14sp" />
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
     </RelativeLayout>
@@ -92,7 +92,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Mock数据"
+                android:text="@string/dk_data_mock_bottom_table_mock"
                 android:textSize="10sp" />
         </LinearLayout>
 
@@ -115,7 +115,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="上传模板"
+                android:text="@string/dk_data_mock_bottom_table_template"
                 android:textSize="10sp" />
         </LinearLayout>
 

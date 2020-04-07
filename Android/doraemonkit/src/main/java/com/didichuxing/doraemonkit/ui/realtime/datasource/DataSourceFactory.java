@@ -1,5 +1,8 @@
 package com.didichuxing.doraemonkit.ui.realtime.datasource;
 
+
+import androidx.annotation.NonNull;
+
 /**
  * @desc: 产生数据源对象的工厂类
  */
@@ -9,6 +12,7 @@ public class DataSourceFactory {
     public static final int TYPE_RAM = 3;
     public static final int TYPE_FPS = 4;
 
+    @NonNull
     public static IDataSource createDataSource(int type) {
         switch (type) {
             case TYPE_NETWORK:
@@ -20,7 +24,7 @@ public class DataSourceFactory {
             case TYPE_FPS:
                 return new FpsDataSource();
             default:
-                return null;
+                return new DefaultDataSource();
         }
     }
 }

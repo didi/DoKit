@@ -5,14 +5,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.IdRes;
-import android.support.annotation.StringRes;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import java.lang.ref.WeakReference;
+import androidx.annotation.IdRes;
+import androidx.annotation.StringRes;
 
 /**
  * ================================================
@@ -23,37 +21,14 @@ import java.lang.ref.WeakReference;
  * 修订历史：
  * ================================================
  */
-public abstract class AbsDokitView implements DokitView,TouchProxy.OnTouchEventListener, DokitViewManager.DokitViewAttachedListener {
+public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEventListener, DokitViewManager.DokitViewAttachedListener {
 
+    public int getMode() {
+        return 0;
+    }
 
-
-    protected WindowManager mWindowManager = DokitViewManager.getInstance().getWindowManager();
-    /**
-     * 创建FrameLayout#LayoutParams 内置悬浮窗调用
-     */
-    private FrameLayout.LayoutParams mFrameLayoutParams;
-    /**
-     * 创建FrameLayout#LayoutParams 系统悬浮窗调用
-     */
-    private WindowManager.LayoutParams mWindowLayoutParams;
-    private Handler mHandler;
-
-    /**
-     * 当前dokitViewName 用来当做map的key 和dokitViewIntent的tag一致
-     */
-
-    private Bundle mBundle;
-    /**
-     * weakActivity attach activity
-     */
-    private WeakReference<Activity> mAttachActivity;
-
-    private FrameLayout mRootView;
-    /**
-     * rootView的直接子View 一般是用户的xml布局 被添加到mRootView中
-     */
-    private View mChildView;
-
+    public void setMode(int mode) {
+    }
 
     /**
      * 执行floatPage create
@@ -61,7 +36,7 @@ public abstract class AbsDokitView implements DokitView,TouchProxy.OnTouchEventL
      * @param context
      */
     @SuppressLint("ClickableViewAccessibility")
-    protected void performCreate(Context context) {
+    void performCreate(Context context) {
 
 
     }
@@ -70,27 +45,6 @@ public abstract class AbsDokitView implements DokitView,TouchProxy.OnTouchEventL
 
     }
 
-    /**
-     * 确定普通浮标的初始位置
-     * LayoutParams创建完以后调用
-     * 调用时建议放在实现下方
-     *
-     * @param params
-     */
-    private void onNormalLayoutParamsCreated(FrameLayout.LayoutParams params) {
-
-    }
-
-    /**
-     * 确定系统浮标的初始位置
-     * LayoutParams创建完以后调用
-     * 调用时建议放在实现下方
-     *
-     * @param params
-     */
-    private void onSystemLayoutParamsCreated(WindowManager.LayoutParams params) {
-
-    }
 
     @Override
     public void initDokitViewLayoutParams(DokitViewLayoutParams params) {
@@ -171,7 +125,6 @@ public abstract class AbsDokitView implements DokitView,TouchProxy.OnTouchEventL
     }
 
 
-
     /**
      * home键被点击 只有系统悬浮窗控件才会被调用
      */
@@ -202,12 +155,12 @@ public abstract class AbsDokitView implements DokitView,TouchProxy.OnTouchEventL
      * @return
      */
     public Context getContext() {
-       return  null;
+        return null;
     }
 
 
     public Resources getResources() {
-        return  null;
+        return null;
     }
 
     public String getString(@StringRes int resId) {
@@ -259,13 +212,7 @@ public abstract class AbsDokitView implements DokitView,TouchProxy.OnTouchEventL
 
     }
 
-    /**
-     * 限制边界
-     */
-    private void resetBorderline(FrameLayout.LayoutParams normalFrameLayoutParams) {
 
-
-    }
 
 
     /**
@@ -334,7 +281,7 @@ public abstract class AbsDokitView implements DokitView,TouchProxy.OnTouchEventL
      * @return
      */
     public int getScreenLongSideLength() {
-        return  0;
+        return 0;
     }
 
 

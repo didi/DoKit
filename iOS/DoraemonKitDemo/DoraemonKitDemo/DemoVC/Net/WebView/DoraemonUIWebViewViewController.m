@@ -7,7 +7,7 @@
 //
 
 #import "DoraemonUIWebViewViewController.h"
-#import "Doraemoni18NUtil.h"
+
 
 @interface DoraemonUIWebViewViewController ()
 
@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = DoraemonLocalizedString(@"UIWebView");
+    self.title = DoraemonDemoLocalizedString(@"UIWebView");
     UIWebView * view = [[UIWebView alloc] initWithFrame:self.view.frame];
     [view loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.juyanwenjuan.com/"]]];
     [self.view addSubview:view];

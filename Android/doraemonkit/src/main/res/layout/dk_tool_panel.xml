@@ -18,7 +18,7 @@
         android:layout_height="@dimen/dk_dp_5"
         android:background="@color/dk_color_F5F6F7" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/group_kit_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

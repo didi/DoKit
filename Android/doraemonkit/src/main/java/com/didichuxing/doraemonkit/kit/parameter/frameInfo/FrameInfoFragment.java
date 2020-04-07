@@ -1,9 +1,10 @@
 package com.didichuxing.doraemonkit.kit.parameter.frameInfo;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
@@ -32,7 +33,7 @@ public class FrameInfoFragment extends AbsParameterFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PerformanceDataManager.getInstance().init(getContext());
+        PerformanceDataManager.getInstance().init();
     }
 
     @Override

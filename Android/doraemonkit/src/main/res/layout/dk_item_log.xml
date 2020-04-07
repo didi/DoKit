@@ -69,6 +69,6 @@
         android:paddingLeft="2dp"
         android:paddingRight="2dp"
         android:textSize="12sp"/>
-     />
+
 
 </RelativeLayout>

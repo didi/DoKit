@@ -14,13 +14,17 @@
 #import "DoraemonUIWebViewViewController.h"
 #import "DoraemonWKWebViewViewController.h"
 #import "DoraemonDemoImageViewController.h"
+#import <DoraemonKit/DoraemonNetworkUtil.h>
+#import "DoraemonDemoNetTableViewCell.h"
+#import "DoraemonDemoURLProtocol1.h"
+#import "DoraemonDemoURLProtocol2.h"
 
-@interface DoraemonDemoNetViewController ()<NSURLConnectionDataDelegate,NSURLSessionDelegate>
+@interface DoraemonDemoNetViewController ()<NSURLConnectionDataDelegate,NSURLSessionDelegate,UITableViewDataSource,UITableViewDelegate>
 
-@property (nonatomic, strong) UIButton *btn0;
-@property (nonatomic, strong) UIButton *btn1;
-@property (nonatomic, strong) UIButton *btn2;
-@property (nonatomic, strong) UIButton *btn3;
+
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSArray *cellTitleArray;
+@property (nonatomic, strong) NSString *DoraemonDemoNetViewCellID;
 
 /** 可变的二进制数据 */
 @property (nonatomic, strong) NSMutableData *fileData;
@@ -31,55 +35,113 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = DoraemonLocalizedString(@"网络测试Demo");
+    self.title = DoraemonDemoLocalizedString(@"网络测试Demo");
     
-    UIButton *btn0 = [[UIButton alloc] initWithFrame:CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, 60)];
-    btn0.backgroundColor = [UIColor orangeColor];
-    [btn0 setTitle:DoraemonLocalizedString(@"发送一条URLConnection请求") forState:UIControlStateNormal];
-    [btn0 addTarget:self action:@selector(netForURLConnection) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn0];
-    _btn0 = btn0;
+    [self initCellTitleArray];
+    _DoraemonDemoNetViewCellID = @"DoraemonDemoNetViewCell";
+    [self.view addSubview:self.tableView];
     
-    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn0.doraemon_bottom+20, self.view.doraemon_width, 60)];
-    btn1.backgroundColor = [UIColor orangeColor];
-    [btn1 setTitle:DoraemonLocalizedString(@"发送一条NSURLSession请求") forState:UIControlStateNormal];
-    [btn1 addTarget:self action:@selector(netForNSURLSession) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn1];
-    _btn1 = btn1;
-    
-    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn1.doraemon_bottom+20, self.view.doraemon_width, 60)];
-    btn2.backgroundColor = [UIColor orangeColor];
-    [btn2 setTitle:DoraemonLocalizedString(@"发送一条AFNetworking请求") forState:UIControlStateNormal];
-    [btn2 addTarget:self action:@selector(netForAFNetworking) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn2];
-    _btn2 = btn2;
-    
-    UIButton *btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn2.doraemon_bottom+20, self.view.doraemon_width, 60)];
-    btn3.backgroundColor = [UIColor orangeColor];
-    [btn3 setTitle:DoraemonLocalizedString(@"发送一条AFNetworking请求2") forState:UIControlStateNormal];
-    [btn3 addTarget:self action:@selector(netForAFNetworking2) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn3];
-    _btn3 = btn3;
-    
-    UIButton *btn4 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn3.doraemon_bottom+20, self.view.doraemon_width, 60)];
-    btn4.backgroundColor = [UIColor orangeColor];
-    [btn4 setTitle:DoraemonLocalizedString(@"打开UIWebView") forState:UIControlStateNormal];
-    [btn4 addTarget:self action:@selector(openUIWebView) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn4];
-    
-    UIButton *btn5 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn4.doraemon_bottom+20, self.view.doraemon_width, 60)];
-    btn5.backgroundColor = [UIColor orangeColor];
-    [btn5 setTitle:DoraemonLocalizedString(@"打开WKWebView") forState:UIControlStateNormal];
-    [btn5 addTarget:self action:@selector(openWKWebView) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn5];
-    
-    UIButton *btn6 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn5.doraemon_bottom+20, self.view.doraemon_width, 60)];
-    btn6.backgroundColor = [UIColor orangeColor];
-    [btn6 setTitle:DoraemonLocalizedString(@"图片测试") forState:UIControlStateNormal];
-    [btn6 addTarget:self action:@selector(imageTest) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn6];
-    
+    //[NSURLProtocol registerClass:[DoraemonDemoURLProtocol1 class]];
+    //[NSURLProtocol registerClass:[DoraemonDemoURLProtocol2 class]];
 }
+
+- (void)initCellTitleArray{
+    _cellTitleArray = @[
+        @"发送一条URLConnection请求",
+        @"发送一条NSURLSession请求",
+        @"发送一条AFNetworking请求",
+        @"发送一条AFNetworking请求2",
+        @"打开UIWebView",
+        @"打开WKWebView",
+        @"图片测试",
+        @"Mock测试",
+        @"Mock测试2"
+    ];
+}
+
+- (UITableView *)tableView{
+    if(!_tableView){
+        _tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
+        _tableView.backgroundColor = [UIColor whiteColor];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        [_tableView registerClass:[DoraemonDemoNetTableViewCell class] forCellReuseIdentifier:_DoraemonDemoNetViewCellID];
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    }
+    return _tableView;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return _cellTitleArray.count;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return kDoraemonSizeFrom750_Landscape(104);
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return kDoraemonSizeFrom750_Landscape(24);
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width,kDoraemonSizeFrom750_Landscape(24))];
+    footerView.backgroundColor = [UIColor clearColor];
+    return footerView;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    DoraemonDemoNetTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:_DoraemonDemoNetViewCellID];
+    if (!cell) {
+        cell = [[DoraemonDemoNetTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:_DoraemonDemoNetViewCellID];
+    }
+    [cell renderUIWithTitle:DoraemonDemoLocalizedString(_cellTitleArray[indexPath.section])];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self cellSelected:indexPath.section];
+}
+
+- (void)cellSelected:(NSInteger)row{
+    switch (row) {
+        case 0:
+            [self netForURLConnection];
+            break;
+        case 1:
+            [self netForNSURLSession];
+            break;
+        case 2:
+            [self netForAFNetworking];
+            break;
+        case 3:
+            [self netForAFNetworking2];
+            break;
+        case 4:
+            [self openUIWebView];
+            break;
+        case 5:
+            [self openWKWebView];
+            break;
+        case 6:
+            [self imageTest];
+            break;
+        case 7:
+            [self mockTest];
+            break;
+        case 8:
+            [self mockTest2];
+            break;
+        
+        default:
+            break;
+    }
+}
+
 
 - (void)openUIWebView{
     UIViewController *vc = [[DoraemonUIWebViewViewController alloc] init];
@@ -103,7 +165,7 @@
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init]completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
         if ((data != nil) && (connectionError == nil)) {
             //            NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            NSLog(@"response == %@",data);
+            NSLog(@"response == %@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
         }
         
     }];
@@ -241,6 +303,22 @@
     // 请求完成,成功或者失败的处理
     NSString *json = [[NSString alloc]initWithData:self.fileData encoding:NSUTF8StringEncoding];
     NSLog(@"%@",json);
+}
+
+- (void)mockTest {
+    [DoraemonNetworkUtil getWithUrlString:@"http://172.23.162.150:8080/gateway?api=dj.home" params:nil success:^(NSDictionary * _Nonnull result) {
+        NSLog(@"result == %@",result);
+    } error:^(NSError * _Nonnull error) {
+        NSLog(@"error == %@",error);
+    }];
+}
+
+- (void)mockTest2 {
+    [DoraemonNetworkUtil getWithUrlString:@"http://172.23.162.150:8080/gateway?api=dj.map" params:nil success:^(NSDictionary * _Nonnull result) {
+        NSLog(@"result == %@",result);
+    } error:^(NSError * _Nonnull error) {
+        NSLog(@"error == %@",error);
+    }];
 }
 
 @end

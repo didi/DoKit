@@ -2,7 +2,11 @@ package com.didichuxing.doraemonkit.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
+
+import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
+
+import static com.didichuxing.doraemonkit.constant.SharedPrefsKey.APP_HEALTH;
 
 /**
  * Created by wanglikun on 2018/9/14.
@@ -10,7 +14,7 @@ import android.support.annotation.Nullable;
 
 public class SharedPrefsUtil {
     /**
-     *退出时保存sp状态 需要用commit
+     * 退出时保存sp状态 需要用commit
      */
     private static final String SHARED_PREFS_DORAEMON = "shared_prefs_doraemon";
 
@@ -47,7 +51,11 @@ public class SharedPrefsUtil {
     }
 
     public static void putBoolean(Context context, String table, String key, boolean value) {
-        getSharedPrefs(context, table).edit().putBoolean(key, value).apply();
+        if (key.equals(SharedPrefsKey.APP_HEALTH)) {
+            getSharedPrefs(context, table).edit().putBoolean(key, value).commit();
+        } else {
+            getSharedPrefs(context, table).edit().putBoolean(key, value).apply();
+        }
     }
 
     public static boolean getBoolean(Context context, String key, boolean defVal) {

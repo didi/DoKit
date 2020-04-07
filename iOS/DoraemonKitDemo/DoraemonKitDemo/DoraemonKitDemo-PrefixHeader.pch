@@ -10,10 +10,15 @@
 #ifndef DoraemonKitDemo_PrefixHeader_pch
 #define DoraemonKitDemo_PrefixHeader_pch
 
+#import "DoraemonKitDemoi18Util.h"
 
+
+#if __has_include(<CocoaLumberjack/CocoaLumberjack.h>)
 #import <CocoaLumberjack/CocoaLumberjack.h>
 
 static const DDLogLevel ddLogLevel = DDLogLevelDebug;
+#endif
+
 
 #endif /* DoraemonKitDemo_PrefixHeader_pch */
 #endif

@@ -54,4 +54,11 @@ public interface SharedPrefsKey {
      * 大图文件检测阈值
      */
     String LARGE_IMG_FILE_THRESHOLD = "large_img_file_threshold";
+
+    /**
+     * 是否处于健康体检状态的key
+     */
+
+    String APP_HEALTH = "APP_HEALTH";
+
 }

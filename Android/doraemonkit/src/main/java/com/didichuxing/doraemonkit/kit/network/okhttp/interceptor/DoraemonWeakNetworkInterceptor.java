@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor;
 
 import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkManager;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.IOException;
 
@@ -13,8 +14,11 @@ import okhttp3.Response;
  * 用于模拟弱网的拦截器
  * <p>
  * Created by xiandanin on 2019-05-09 16:29
+ *
+ * @author didi
  */
 public class DoraemonWeakNetworkInterceptor implements Interceptor {
+    private static final String TAG = "DoraemonWeakNetworkInterceptor";
 
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -23,17 +27,17 @@ public class DoraemonWeakNetworkInterceptor implements Interceptor {
             return chain.proceed(request);
         }
         final int type = WeakNetworkManager.get().getType();
+        final HttpUrl url = chain.request().url();
         switch (type) {
             case WeakNetworkManager.TYPE_TIMEOUT:
                 //超时
-                final HttpUrl url = chain.request().url();
-                throw WeakNetworkManager.get().simulateTimeOut(url.host(), url.port());
+                return WeakNetworkManager.get().simulateTimeOut(chain);
             case WeakNetworkManager.TYPE_SPEED_LIMIT:
                 //限速
                 return WeakNetworkManager.get().simulateSpeedLimit(chain);
             default:
                 //断网
-                throw WeakNetworkManager.get().simulateOffNetwork(chain.request().url().host());
+                return WeakNetworkManager.get().simulateOffNetwork(chain);
         }
     }
 }

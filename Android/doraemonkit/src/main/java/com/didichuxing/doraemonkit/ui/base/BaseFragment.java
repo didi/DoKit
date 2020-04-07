@@ -2,19 +2,21 @@ package com.didichuxing.doraemonkit.ui.base;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.didichuxing.doraemonkit.ui.main.FloatIconDokitView;
+import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.ui.dialog.DialogProvider;
 import com.didichuxing.doraemonkit.ui.dialog.CommonDialogProvider;
 import com.didichuxing.doraemonkit.ui.dialog.DialogInfo;
@@ -73,7 +75,7 @@ public class BaseFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        DokitViewManager.getInstance().detach(FloatIconDokitView.class);
+        DokitViewManager.getInstance().detach(MainIconDokitView.class);
     }
 
 
@@ -136,9 +138,7 @@ public class BaseFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        DokitIntent intent = new DokitIntent(FloatIconDokitView.class);
-        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(intent);
+
     }
 
     public DialogProvider showDialog(DialogInfo dialogInfo) {

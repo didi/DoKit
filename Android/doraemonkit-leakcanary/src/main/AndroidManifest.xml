@@ -28,7 +28,7 @@
             android:enabled="false"
             android:process=":leakcanary" />
         <service
-            android:name=".DisplayLeakService"
+            android:name=".UploadLeakService"
             android:enabled="false"
             android:process=":leakcanary" />
 
@@ -66,6 +66,26 @@
             android:roundIcon="@mipmap/leak_canary_icon"
             android:taskAffinity="com.squareup.leakcanary.${applicationId}"
             android:theme="@style/leak_canary_Theme.Transparent" />
+
+        <service
+            android:name="com.didichuxing.doraemonkit.abridge.service.ABridgeService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":aidl">
+            <intent-filter>
+                <action android:name="android.intent.action.ICALL_AIDL_YIFEI" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="com.didichuxing.doraemonkit.abridge.service.MessengerService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":messenger">
+            <intent-filter>
+                <action android:name="android.intent.action.ICALL_MESSENGER_YIFEI" />
+            </intent-filter>
+        </service>
 
     </application>
 </manifest>

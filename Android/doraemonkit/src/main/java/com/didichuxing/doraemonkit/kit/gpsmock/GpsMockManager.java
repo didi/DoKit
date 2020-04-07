@@ -7,10 +7,10 @@ package com.didichuxing.doraemonkit.kit.gpsmock;
 public class GpsMockManager {
     private static final String TAG = "GpsMockManager";
 
-    private double mLatitude = -1;
-    private double mLongitude = -1;
+    private static double mLatitude = -1;
+    private static double mLongitude = -1;
 
-    private boolean isMocking;
+    private static boolean isMocking;
 
     public void startMock() {
         isMocking = true;
@@ -33,7 +33,7 @@ public class GpsMockManager {
 
     public void mockLocation(double latitude, double longitude) {
         mLatitude = latitude;
-        mLongitude= longitude;
+        mLongitude = longitude;
     }
 
     public boolean isMocking() {

@@ -101,16 +101,16 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dk_dp_16"
-        android:layout_marginRight="@dimen/dk_dp_16"
-        android:layout_marginBottom="10dp"
-        tools:text="@string/dk_large_picture_threshold_desc"
-        android:textIsSelectable="true"
-        android:textSize="14sp" />
+<!--    <TextView-->
+<!--        android:id="@+id/tv_desc"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="@dimen/dk_dp_16"-->
+<!--        android:layout_marginRight="@dimen/dk_dp_16"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        tools:text="@string/dk_large_picture_threshold_desc"-->
+<!--        android:textIsSelectable="true"-->
+<!--        android:textSize="14sp" />-->
 
 
     <View
@@ -118,7 +118,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/setting_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

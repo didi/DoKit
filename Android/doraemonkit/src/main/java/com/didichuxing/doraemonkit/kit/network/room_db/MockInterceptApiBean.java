@@ -1,13 +1,11 @@
 package com.didichuxing.doraemonkit.kit.network.room_db;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
-import com.blankj.utilcode.util.EncodeUtils;
-import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.didichuxing.doraemonkit.kit.network.bean.MockApiResponseBean;
 import com.didichuxing.doraemonkit.kit.network.ui.InterceptMockAdapter;
 
@@ -23,7 +21,7 @@ import java.util.List;
  * ================================================
  */
 @Entity(tableName = "mock_intercept_api")
-public class MockInterceptApiBean implements AbsMockApiBean {
+public class MockInterceptApiBean extends AbsMockApiBean {
     /**
      * /设置主键 并且组建不为null
      */
@@ -190,9 +188,5 @@ public class MockInterceptApiBean implements AbsMockApiBean {
         this.isOpen = open;
     }
 
-    @Override
-    public int getItemType() {
-        return InterceptMockAdapter.TYPE_CONTENT;
-    }
 
 }

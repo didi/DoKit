@@ -9,18 +9,21 @@
 
 @implementation DoraemonVisualMagnifierWindow
 
-#pragma mark - Lifecycle
-
-- (void)dealloc {
-    NSLog(@"DoraemonVisualMagnifierWindow dealloc");
-}
-
 -(instancetype)init{
     self = [super init];
     if (self) {
         self.magnifierSize = 90;
         self.magnification = 2.0;
-        
+        #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+            if (@available(iOS 13.0, *)) {
+                for (UIWindowScene* windowScene in [UIApplication sharedApplication].connectedScenes){
+                    if (windowScene.activationState == UISceneActivationStateForegroundActive){
+                        self.windowScene = windowScene;
+                        break;
+                    }
+                }
+            }
+        #endif
         self.frame = CGRectMake(0, 0, self.magnifierSize, self.magnifierSize);
         self.layer.delegate = self;
         self.layer.borderWidth = 1;

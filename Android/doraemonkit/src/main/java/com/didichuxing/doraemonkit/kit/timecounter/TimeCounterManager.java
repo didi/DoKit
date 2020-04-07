@@ -2,20 +2,32 @@ package com.didichuxing.doraemonkit.kit.timecounter;
 
 import android.app.Application;
 import android.os.Looper;
+import android.util.Log;
 
+import com.blankj.utilcode.util.GsonUtils;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
+import com.didichuxing.doraemonkit.kit.methodtrace.AppHealthMethodCostBean;
+import com.didichuxing.doraemonkit.kit.methodtrace.AppHealthMethodCostBeanWrap;
+import com.didichuxing.doraemonkit.kit.methodtrace.MethodCost;
+import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostCallback;
+import com.didichuxing.doraemonkit.kit.methodtrace.OrderBean;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.ActivityCounter;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.AppCounter;
 import com.didichuxing.doraemonkit.ui.base.DokitIntent;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @desc: App启动、Activity跳转的耗时统计类
  */
 public class TimeCounterManager {
+    private static final String TAG = "TimeCounterManager";
     private boolean mIsRunning;
+
 
     private static class Holder {
         private static TimeCounterManager INSTANCE = new TimeCounterManager();
@@ -28,22 +40,51 @@ public class TimeCounterManager {
     private AppCounter mAppCounter = new AppCounter();
     private ActivityCounter mActivityCounter = new ActivityCounter();
 
+
+    /**
+     * App attachBaseContext
+     */
+    public void onAppAttachBaseContextStart() {
+        mAppCounter.attachStart();
+    }
+
+
+    /**
+     * App attachBaseContext
+     */
+    public void onAppAttachBaseContextEnd() {
+        mAppCounter.attachEnd();
+    }
+
     /**
      * App 启动
-     *
-     * @param application
      */
-    public void onAppCreateStart(Application application) {
+    public void onAppCreateStart() {
         mAppCounter.start();
+
     }
 
     /**
      * App 启动结束
-     *
-     * @param application
      */
-    public void onAppCreateEnd(Application application) {
+    public void onAppCreateEnd() {
         mAppCounter.end();
+        CounterInfo counterInfo = getAppSetupInfo();
+        List<AppHealthMethodCostBean> appHealthMethodCostBeans = new ArrayList<>();
+        AppHealthMethodCostBean onCreate = new AppHealthMethodCostBean();
+        onCreate.setCostTime(mAppCounter.getStartCountTime() + "ms");
+        onCreate.setFunctionName("Application onCreate");
+        appHealthMethodCostBeans.add(onCreate);
+        AppHealthMethodCostBean onAttach = new AppHealthMethodCostBean();
+        onAttach.setCostTime(mAppCounter.getAttachCountTime() + "ms");
+        onAttach.setFunctionName("Application attachBaseContext");
+        appHealthMethodCostBeans.add(onAttach);
+
+        AppHealthMethodCostBeanWrap appHealthMethodCostBeanWrap = new AppHealthMethodCostBeanWrap();
+        appHealthMethodCostBeanWrap.setTitle("App启动耗时");
+        appHealthMethodCostBeanWrap.setData(appHealthMethodCostBeans);
+        AppHealthInfoUtil.getInstance().setAppStartInfo(counterInfo.totalCost, GsonUtils.toJson(appHealthMethodCostBeanWrap), new ArrayList<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean>());
+
     }
 
     public void onActivityPause() {

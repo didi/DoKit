@@ -18,7 +18,8 @@ package com.squareup.leakcanary;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.squareup.leakcanary.internal.ActivityLifecycleCallbacksAdapter;
 
@@ -30,42 +31,46 @@ import com.squareup.leakcanary.internal.ActivityLifecycleCallbacksAdapter;
 @SuppressWarnings("DeprecatedIsStillUsed")
 @Deprecated
 public final class ActivityRefWatcher {
+    private static final String TAG = "ActivityRefWatcher";
 
-  public static void installOnIcsPlus(@NonNull Application application,
-      @NonNull RefWatcher refWatcher) {
-    install(application, refWatcher);
-  }
+    public static void installOnIcsPlus(@NonNull Application application,
+                                        @NonNull RefWatcher refWatcher) {
+        install(application, refWatcher);
+    }
 
-  public static void install(@NonNull Context context, @NonNull RefWatcher refWatcher) {
-    Application application = (Application) context.getApplicationContext();
-    ActivityRefWatcher activityRefWatcher = new ActivityRefWatcher(application, refWatcher);
+    public static void install(@NonNull Context context, @NonNull RefWatcher refWatcher) {
+        Application application = (Application) context.getApplicationContext();
+        ActivityRefWatcher activityRefWatcher = new ActivityRefWatcher(application, refWatcher);
 
-    application.registerActivityLifecycleCallbacks(activityRefWatcher.lifecycleCallbacks);
-  }
+        application.registerActivityLifecycleCallbacks(activityRefWatcher.lifecycleCallbacks);
+    }
 
-  private final Application.ActivityLifecycleCallbacks lifecycleCallbacks =
-      new ActivityLifecycleCallbacksAdapter() {
-        @Override
-        public void onActivityDestroyed(Activity activity) {
-          refWatcher.watch(activity);
-        }
-      };
+    private final Application.ActivityLifecycleCallbacks lifecycleCallbacks =
+            new ActivityLifecycleCallbacksAdapter() {
+                @Override
+                public void onActivityDestroyed(Activity activity) {
+                    //当activity被关闭时 进行内存泄漏查找
+                    refWatcher.watch(activity);
+                }
+            };
 
-  private final Application application;
-  private final RefWatcher refWatcher;
 
-  private ActivityRefWatcher(Application application, RefWatcher refWatcher) {
-    this.application = application;
-    this.refWatcher = refWatcher;
-  }
 
-  public void watchActivities() {
-    // Make sure you don't get installed twice.
-    stopWatchingActivities();
-    application.registerActivityLifecycleCallbacks(lifecycleCallbacks);
-  }
+    private final Application application;
+    private final RefWatcher refWatcher;
 
-  public void stopWatchingActivities() {
-    application.unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
-  }
+    private ActivityRefWatcher(Application application, RefWatcher refWatcher) {
+        this.application = application;
+        this.refWatcher = refWatcher;
+    }
+
+    public void watchActivities() {
+        // Make sure you don't get installed twice.
+        stopWatchingActivities();
+        application.registerActivityLifecycleCallbacks(lifecycleCallbacks);
+    }
+
+    public void stopWatchingActivities() {
+        application.unregisterActivityLifecycleCallbacks(lifecycleCallbacks);
+    }
 }

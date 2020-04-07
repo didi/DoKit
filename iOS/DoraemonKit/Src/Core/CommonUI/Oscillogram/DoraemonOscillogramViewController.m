@@ -35,7 +35,7 @@
     
     UIButton *closeBtn = [[UIButton alloc] init];
     [closeBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close_white"] forState:UIControlStateNormal];
-    closeBtn.frame = CGRectMake((kInterfaceOrientationPortrait ? DoraemonScreenWidth : DoraemonScreenHeight)-kDoraemonSizeFrom750_Landscape(60), 0, kDoraemonSizeFrom750_Landscape(60), kDoraemonSizeFrom750_Landscape(60));
+    closeBtn.frame = CGRectMake((kInterfaceOrientationPortrait ? DoraemonScreenWidth : DoraemonScreenHeight)-kDoraemonSizeFrom750_Landscape(80), 0, kDoraemonSizeFrom750_Landscape(80), kDoraemonSizeFrom750_Landscape(80));
     [closeBtn addTarget:self action:@selector(closeBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:closeBtn];
     _closeBtn = closeBtn;

@@ -16,13 +16,13 @@
 
     <include layout="@layout/dk_item_tips_view" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/data_show"
         android:layout_width="match_parent"
         android:layout_height="198dp"
         android:layout_marginTop="15dp" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/data_detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

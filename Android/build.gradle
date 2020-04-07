@@ -4,16 +4,13 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url 'https://www.jitpack.io' }
-//        maven {
-//            //本地插件地址
-//            url uri('./plugins')
-//        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.3'
-        classpath 'com.novoda:bintray-release:0.9.1'
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:1.0.0'
+        classpath 'com.android.tools.build:gradle:3.6.2'
+        classpath 'com.novoda:bintray-release:0.9.2'
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.0'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.ext.android["kotlin_version"]}"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -23,7 +20,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://www.jitpack.io' }
 
     }
 }
@@ -32,5 +28,10 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+//解决打包时由于javadocRelease校验引起的打包失败
 tasks.getByPath(":doraemonkit:javadocRelease").enabled = false
 tasks.getByPath(":doraemonkit-no-op:javadocRelease").enabled = false
+tasks.getByPath(":doraemonkit-leakcanary:javadocRelease").enabled = false
+tasks.getByPath(":doraemonkit-weex:javadocRelease").enabled = false
+tasks.getByPath(":doraemonkit-weex-no-op:javadocRelease").enabled = false
+tasks.getByPath(":doraemonkit-rpc:javadocRelease").enabled = false

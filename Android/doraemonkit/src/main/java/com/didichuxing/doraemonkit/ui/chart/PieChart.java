@@ -6,9 +6,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import com.didichuxing.doraemonkit.util.UIUtils;
 
@@ -204,7 +205,7 @@ public class PieChart extends View {
      * @param space
      */
     public void setSliceSpace(float space) {
-        mSliceSpace = UIUtils.dp2px(getContext(), space);
+        mSliceSpace = UIUtils.dp2px(space);
     }
 
     /**
@@ -213,7 +214,7 @@ public class PieChart extends View {
      * @param ringWidth
      */
     public void setRingWidth(float ringWidth) {
-        mRingWidth = UIUtils.dp2px(getContext(), ringWidth);
+        mRingWidth = UIUtils.dp2px(ringWidth);
     }
 
     /**

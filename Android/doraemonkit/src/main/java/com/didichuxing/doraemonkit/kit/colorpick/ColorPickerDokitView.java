@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.kit.colorpick;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +20,38 @@ import com.didichuxing.doraemonkit.util.ImageUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 /**
- * Created by jintai on 2019/09/26.
+ * @author jintai
+ * @date 2019/09/26
  */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ColorPickerDokitView extends AbsDokitView {
-    private static final String TAG = "ColorPickerFloatPage";
 
     private ImageCapture mImageCapture;
     private ColorPickerView mPickerView;
     private ColorPickerInfoDokitView mInfoDokitView;
     private int width;
     private int height;
-    private int statuBarHeight;
+    private int statusBarHeight;
+
+    @Override
+    public void onCreate(Context context) {
+        ColorPickManager.getInstance().setColorPickerDokitView(this);
+        mInfoDokitView = (ColorPickerInfoDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), ColorPickerInfoDokitView.class.getSimpleName());
+        mImageCapture = new ImageCapture();
+        try {
+            mImageCapture.init(context, getBundle(), this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 当服务准备好
+     */
+    void onScreenServiceReady() {
+        mImageCapture.initImageRead(ColorPickManager.getInstance().getMediaProjection());
+    }
+
 
     @Override
     public void onViewCreated(FrameLayout view) {
@@ -46,10 +66,9 @@ public class ColorPickerDokitView extends AbsDokitView {
         params.height = ColorPickConstants.PICK_VIEW_SIZE;
         mPickerView.setLayoutParams(params);
 
-
-        width = UIUtils.getWidthPixels(getContext());
-        height = UIUtils.getHeightPixels(getContext());
-        statuBarHeight = UIUtils.getStatusBarHeight(getContext());
+        width = UIUtils.getWidthPixels();
+        height = UIUtils.getHeightPixels();
+        statusBarHeight = UIUtils.getStatusBarHeight();
         captureInfo(500);
     }
 
@@ -66,12 +85,6 @@ public class ColorPickerDokitView extends AbsDokitView {
         params.width = DokitViewLayoutParams.WRAP_CONTENT;
     }
 
-    @Override
-    public void onCreate(Context context) {
-        mInfoDokitView = (ColorPickerInfoDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), ColorPickerInfoDokitView.class.getSimpleName());
-        mImageCapture = new ImageCapture();
-        mImageCapture.init(context, getBundle());
-    }
 
     @Override
     public void onDestroy() {
@@ -91,7 +104,7 @@ public class ColorPickerDokitView extends AbsDokitView {
 
         int pickAreaSize = ColorPickConstants.PICK_AREA_SIZE;
         int startX = x + ColorPickConstants.PICK_VIEW_SIZE / 2 - pickAreaSize / 2;
-        int startY = y + ColorPickConstants.PICK_VIEW_SIZE / 2 - pickAreaSize / 2 + UIUtils.getStatusBarHeight(getContext());
+        int startY = y + ColorPickConstants.PICK_VIEW_SIZE / 2 - pickAreaSize / 2 + UIUtils.getStatusBarHeight();
         Bitmap bitmap = mImageCapture.getPartBitmap(startX, startY, pickAreaSize, pickAreaSize);
         if (bitmap == null) {
             return;
@@ -103,17 +116,23 @@ public class ColorPickerDokitView extends AbsDokitView {
         mInfoDokitView.showInfo(colorInt, startX, startY);
     }
 
+    /**
+     * 捕捉截图信息
+     */
     private void captureInfo(int delay) {
-        getRootView().setVisibility(View.GONE);
+        //先隐藏拾色器控件 否则会把拾色器也截图进去
+        mPickerView.setVisibility(View.INVISIBLE);
         getRootView().postDelayed(new Runnable() {
             @Override
             public void run() {
                 mImageCapture.capture();
-                getRootView().setVisibility(View.VISIBLE);
+                //截图完成以后恢复
+                mPickerView.setVisibility(View.VISIBLE);
                 showInfo();
             }
         }, delay);
     }
+
 
     @Override
     public void onDown(int x, int y) {
@@ -139,8 +158,8 @@ public class ColorPickerDokitView extends AbsDokitView {
         if (layoutParams.leftMargin > width - mPickerView.getWidth() / 2 - ColorPickConstants.PIX_INTERVAL) {
             layoutParams.leftMargin = width - mPickerView.getWidth() / 2 - ColorPickConstants.PIX_INTERVAL;
         }
-        if (layoutParams.topMargin < -mPickerView.getHeight() / 2 - statuBarHeight) {
-            layoutParams.topMargin = -mPickerView.getHeight() / 2 - statuBarHeight;
+        if (layoutParams.topMargin < -mPickerView.getHeight() / 2 - statusBarHeight) {
+            layoutParams.topMargin = -mPickerView.getHeight() / 2 - statusBarHeight;
         }
         if (layoutParams.topMargin > height - mPickerView.getHeight() / 2 - ColorPickConstants.PIX_INTERVAL) {
             layoutParams.topMargin = height - mPickerView.getHeight() / 2 - ColorPickConstants.PIX_INTERVAL;
@@ -157,8 +176,8 @@ public class ColorPickerDokitView extends AbsDokitView {
         if (layoutParams.x > width - mPickerView.getWidth() / 2 - ColorPickConstants.PIX_INTERVAL) {
             layoutParams.x = width - mPickerView.getWidth() / 2 - ColorPickConstants.PIX_INTERVAL;
         }
-        if (layoutParams.y < -mPickerView.getHeight() / 2 - statuBarHeight) {
-            layoutParams.y = -mPickerView.getHeight() / 2 - statuBarHeight;
+        if (layoutParams.y < -mPickerView.getHeight() / 2 - statusBarHeight) {
+            layoutParams.y = -mPickerView.getHeight() / 2 - statusBarHeight;
         }
         if (layoutParams.y > height - mPickerView.getHeight() / 2 - ColorPickConstants.PIX_INTERVAL) {
             layoutParams.y = height - mPickerView.getHeight() / 2 - ColorPickConstants.PIX_INTERVAL;
@@ -180,4 +199,6 @@ public class ColorPickerDokitView extends AbsDokitView {
     public boolean restrictBorderline() {
         return false;
     }
+
+
 }

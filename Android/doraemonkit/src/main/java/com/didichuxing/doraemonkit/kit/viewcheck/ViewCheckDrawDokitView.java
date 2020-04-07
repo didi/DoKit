@@ -1,23 +1,26 @@
 package com.didichuxing.doraemonkit.kit.viewcheck;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.core.model.ViewInfo;
+import com.didichuxing.doraemonkit.model.ViewInfo;
 import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
 import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.ui.viewcheck.LayoutBorderView;
 
+import java.util.List;
+
 /**
  * Created by jintai on 2019/09/26.
  */
-
 public class ViewCheckDrawDokitView extends AbsDokitView implements ViewCheckDokitView.OnViewSelectListener {
     private LayoutBorderView mLayoutBorderView;
 
@@ -65,13 +68,12 @@ public class ViewCheckDrawDokitView extends AbsDokitView implements ViewCheckDok
 
     }
 
-
     @Override
-    public void onViewSelected(View view) {
-        if (view == null) {
+    public void onViewSelected(@Nullable View current, @NonNull List<View> checkViewList) {
+        if (current == null) {
             mLayoutBorderView.showViewLayoutBorder((ViewInfo) null);
         } else {
-            mLayoutBorderView.showViewLayoutBorder(new ViewInfo(view));
+            mLayoutBorderView.showViewLayoutBorder(new ViewInfo(current));
         }
     }
 

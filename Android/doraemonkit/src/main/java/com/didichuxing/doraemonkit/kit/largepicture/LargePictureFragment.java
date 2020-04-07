@@ -1,27 +1,26 @@
 package com.didichuxing.doraemonkit.kit.largepicture;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+
+import java.text.DecimalFormat;
 
 /**
  * 大图功能检测
@@ -29,6 +28,8 @@ import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
 public class LargePictureFragment extends BaseFragment {
     private LargePictureItemAdapter mSettingItemAdapter;
     private RecyclerView mSettingList;
+
+    private DecimalFormat mDecimalFormat = new DecimalFormat("0.00");
 
     @Override
     protected int onRequestLayout() {
@@ -49,8 +50,8 @@ public class LargePictureFragment extends BaseFragment {
     private void initView() {
         HomeTitleBar titleBar = findViewById(R.id.title_bar);
         titleBar.setTitle(R.string.dk_category_large_image);
-        TextView tvDesc = findViewById(R.id.tv_desc);
-        tvDesc.setText(Html.fromHtml(getResources().getString(R.string.dk_large_picture_threshold_desc)));
+        //TextView tvDesc = findViewById(R.id.tv_desc);
+        //tvDesc.setText(Html.fromHtml(getResources().getString(R.string.dk_large_picture_threshold_desc)));
 
         EditText fileEditText = findViewById(R.id.ed_file_threshold);
         fileEditText.addTextChangedListener(new TextWatcher() {
@@ -61,6 +62,11 @@ public class LargePictureFragment extends BaseFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 try {
                     if (TextUtils.isEmpty(s)) {
                         ToastUtils.showShort("value can not null");
@@ -71,16 +77,12 @@ public class LargePictureFragment extends BaseFragment {
                         return;
                     }
                     float value = Float.parseFloat(s.toString());
-                    PerformanceSpInfoConfig.setLargeImgFileThreshold(getActivity(), value);
+                    float formateValue = Float.parseFloat(mDecimalFormat.format(value));
+                    //设置文件大小
+                    PerformanceSpInfoConfig.setLargeImgFileThreshold(getActivity(), formateValue);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -94,6 +96,12 @@ public class LargePictureFragment extends BaseFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 try {
                     if (TextUtils.isEmpty(s)) {
                         ToastUtils.showShort("value can not null");
@@ -104,24 +112,20 @@ public class LargePictureFragment extends BaseFragment {
                         return;
                     }
                     float value = Float.parseFloat(s.toString());
-                    PerformanceSpInfoConfig.setLargeImgMemoryThreshold(getActivity(), value);
+                    float formateValue = Float.parseFloat(mDecimalFormat.format(value));
+                    //设置内存大小
+                    PerformanceSpInfoConfig.setLargeImgMemoryThreshold(getActivity(), formateValue);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
-        float fileThreshold = PerformanceSpInfoConfig.getLargeImgFileThreshold(getActivity(), LargePictureManager.FILE_DEFAULT_THRESHOLD);
-        fileEditText.setText("" + fileThreshold);
+        double fileThreshold = PerformanceSpInfoConfig.getLargeImgFileThreshold(getActivity(), LargePictureManager.FILE_DEFAULT_THRESHOLD);
+        fileEditText.setText(mDecimalFormat.format(fileThreshold));
 
-        float memoryThreshold = PerformanceSpInfoConfig.getLargeImgMemoryThreshold(getActivity(), LargePictureManager.MEMORY_DEFAULT_THRESHOLD);
-        memoryEditText.setText("" + memoryThreshold);
+        double memoryThreshold = PerformanceSpInfoConfig.getLargeImgMemoryThreshold(getActivity(), LargePictureManager.MEMORY_DEFAULT_THRESHOLD);
+        memoryEditText.setText(mDecimalFormat.format(memoryThreshold));
 
 
         titleBar.setListener(new HomeTitleBar.OnTitleBarClickListener() {

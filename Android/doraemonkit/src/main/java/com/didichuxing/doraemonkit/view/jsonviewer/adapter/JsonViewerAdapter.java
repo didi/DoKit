@@ -1,12 +1,13 @@
 package com.didichuxing.doraemonkit.view.jsonviewer.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.didichuxing.doraemonkit.view.jsonviewer.utils.Utils;
 import com.didichuxing.doraemonkit.view.jsonviewer.view.JsonItemView;
@@ -82,8 +83,8 @@ public class JsonViewerAdapter extends BaseJsonViewerAdapter<JsonViewerAdapter.J
             } else if (mJSONObject.names() == null) {
                 return;
             }
-
-            String key = mJSONObject.names().optString(position - 1); // 遍历key
+            // 遍历key
+            String key = mJSONObject.names().optString(position - 1);
             Object value = mJSONObject.opt(key);
             if (position < getItemCount() - 2) {
                 handleJsonObject(key, value, itemView, true, 1);

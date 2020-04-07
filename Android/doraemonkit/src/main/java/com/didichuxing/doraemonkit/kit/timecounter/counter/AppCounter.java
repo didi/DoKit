@@ -8,15 +8,43 @@ import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
 public class AppCounter {
 
     private long mStartTime;
+    private long mStartCountTime;
+    private long mAttachTime;
+    private long mAttachCountTime;
+
+    public long getStartCountTime() {
+        return mStartCountTime;
+    }
+
+
+    public long getAttachCountTime() {
+        return mAttachCountTime;
+    }
+
+
+
     private CounterInfo mCounterInfo = new CounterInfo();
 
     public void start() {
         mStartTime = System.currentTimeMillis();
     }
 
+    public void attachStart() {
+        mAttachTime = System.currentTimeMillis();
+    }
+
+    public void attachEnd() {
+        mAttachCountTime = System.currentTimeMillis() - mAttachTime;
+    }
+
     public void end() {
+        mStartCountTime = System.currentTimeMillis() - mStartTime;
+        account();
+    }
+
+    public void account() {
         mCounterInfo.title = "App Setup Cost";
-        mCounterInfo.totalCost = System.currentTimeMillis() - mStartTime;
+        mCounterInfo.totalCost = mAttachCountTime + mStartCountTime;
         mCounterInfo.type = CounterInfo.TYPE_APP;
         mCounterInfo.time = System.currentTimeMillis();
     }

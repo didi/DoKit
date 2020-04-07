@@ -1,23 +1,41 @@
 package com.didichuxing.doraemonkit.kit.network.ui;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.TextUtils;
 import android.view.View;
 
+import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.PathUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
+import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
 import com.didichuxing.doraemonkit.kit.parameter.AbsParameterFragment;
 import com.didichuxing.doraemonkit.ui.realtime.datasource.DataSourceFactory;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @author jint
+ */
 public class NetWorkMonitorFragment extends AbsParameterFragment {
-
+    RecyclerView mHostRv;
+    WhiteHostAdapter mHostAdapter;
+    List<WhiteHostBean> mHostBeans = new ArrayList<>();
 
     @Override
     protected int onRequestLayout() {
@@ -79,6 +97,23 @@ public class NetWorkMonitorFragment extends AbsParameterFragment {
                 showContent(NetWorkMainPagerFragment.class);
             }
         });
+        mHostRv = findViewById(R.id.host_list);
+        mHostRv.setLayoutManager(new LinearLayoutManager(getActivity()));
+        if (DokitConstant.WHITE_HOSTS.isEmpty()) {
+            String whiteHostArray = FileIOUtils.readFile2String(whiteHostPath);
+            if (TextUtils.isEmpty(whiteHostArray)) {
+                mHostBeans.add(new WhiteHostBean("", true));
+            } else {
+                mHostBeans = GsonUtils.fromJson(whiteHostArray, GsonUtils.getListType(WhiteHostBean.class));
+                DokitConstant.WHITE_HOSTS.clear();
+                DokitConstant.WHITE_HOSTS.addAll(mHostBeans);
+            }
+        } else {
+            mHostBeans.addAll(DokitConstant.WHITE_HOSTS);
+        }
+
+        mHostAdapter = new WhiteHostAdapter(R.layout.dk_item_white_host, mHostBeans);
+        mHostRv.setAdapter(mHostAdapter);
     }
 
     private void startMonitor() {
@@ -91,4 +126,25 @@ public class NetWorkMonitorFragment extends AbsParameterFragment {
         closeChartPage();
     }
 
+    private String whiteHostPath = PathUtils.getInternalAppFilesPath() + File.separator + "white_host.json";
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //保存白名单
+        List<WhiteHostBean> hostBeans = mHostAdapter.getData();
+        if (hostBeans.size() == 1 && TextUtils.isEmpty(hostBeans.get(0).getHost())) {
+            DokitConstant.WHITE_HOSTS.clear();
+            FileUtils.delete(whiteHostPath);
+            return;
+        }
+        DokitConstant.WHITE_HOSTS.clear();
+        DokitConstant.WHITE_HOSTS.addAll(hostBeans);
+        String hostArray = GsonUtils.toJson(hostBeans);
+        //保存到本地
+        FileUtils.delete(whiteHostPath);
+        FileIOUtils.writeFileFromString(whiteHostPath, hostArray);
+        //ToastUtils.showShort("host白名单已保存");
+
+    }
 }

@@ -29,7 +29,7 @@ public interface DokitViewManagerInterface {
      *
      * @param dokitView
      */
-    void detach(Object dokitView);
+    void detach(AbsDokitView dokitView);
 
     /**
      * 移除每个activity指定的dokitView tag
@@ -43,7 +43,7 @@ public interface DokitViewManagerInterface {
      *
      * @param dokitViewClass
      */
-    void detach(Class<? extends Object> dokitViewClass);
+    void detach(Class<? extends AbsDokitView> dokitViewClass);
 
     /**
      * 移除所有activity的所有dokitView
@@ -58,7 +58,7 @@ public interface DokitViewManagerInterface {
      * @param tag
      * @return
      */
-    Object getDokitView(Activity activity, String tag);
+    AbsDokitView getDokitView(Activity activity, String tag);
 
 
     /**
@@ -67,7 +67,7 @@ public interface DokitViewManagerInterface {
      * @param activity
      * @return
      */
-    Map<String, Object> getDokitViews(Activity activity);
+    Map<String, AbsDokitView> getDokitViews(Activity activity);
 
     /**
      * 当app进入后台时调用
@@ -95,4 +95,32 @@ public interface DokitViewManagerInterface {
      * @param activity
      */
     void resumeAndAttachDokitViews(Activity activity);
+
+    /**
+     * main activity 创建时回调
+     *
+     * @param activity
+     */
+    void onMainActivityCreate(Activity activity);
+
+    /**
+     * 除main activity 以外 其他activty 创建时回调
+     *
+     * @param activity
+     */
+    void onActivityCreate(Activity activity);
+
+    /**
+     * 页面回退的时候调用
+     *
+     * @param activity
+     */
+    void onActivityResume(Activity activity);
+
+    /**
+     * 页面onPause时调用
+     *
+     * @param activity
+     */
+    void onActivityPause(Activity activity);
 }

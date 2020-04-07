@@ -16,7 +16,6 @@
 #import "DoraemonDemoCrashViewController.h"
 #import "DoraemonDemoCommonViewController.h"
 #import <objc/runtime.h>
-#import "Doraemoni18NUtil.h"
 #import "UIView+Doraemon.h"
 #import "UIViewController+Doraemon.h"
 #import "DoraemonDemoMemoryLeakViewController.h"
@@ -43,7 +42,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = DoraemonLocalizedString(@"DoraemonKit");
+    self.title = DoraemonDemoLocalizedString(@"DoraemonKit");
     self.navigationItem.leftBarButtonItems = nil;
     [self.view addSubview:self.tableView];
 }
@@ -61,23 +60,23 @@
     NSString *txt = nil;
     NSInteger row = indexPath.row;
     if (row==0) {
-        txt = DoraemonLocalizedString(@"沙盒测试Demo");
+        txt = DoraemonDemoLocalizedString(@"沙盒测试Demo");
     }else if(row==1){
-        txt = DoraemonLocalizedString(@"日记测试Demo");
+        txt = DoraemonDemoLocalizedString(@"日志测试Demo");
     }else if(row==2){
-        txt = DoraemonLocalizedString(@"性能测试Demo");
+        txt = DoraemonDemoLocalizedString(@"性能测试Demo");
     }else if(row==3){
-        txt = DoraemonLocalizedString(@"视觉测试Demo");
+        txt = DoraemonDemoLocalizedString(@"视觉测试Demo");
     }else if(row==4){
-        txt = DoraemonLocalizedString(@"网络测试Demo");
+        txt = DoraemonDemoLocalizedString(@"网络测试Demo");
     }else if(row==5){
-        txt = DoraemonLocalizedString(@"模拟位置Demo");
+        txt = DoraemonDemoLocalizedString(@"模拟位置Demo");
     }else if(row==6){
-        txt = DoraemonLocalizedString(@"crash触发Demo");
+        txt = DoraemonDemoLocalizedString(@"crash触发Demo");
     }else if(row==7){
-        txt = DoraemonLocalizedString(@"通用测试Demo");
+        txt = DoraemonDemoLocalizedString(@"通用测试Demo");
     }else if(row==8){
-        txt = DoraemonLocalizedString(@"内存泄漏测试");
+        txt = DoraemonDemoLocalizedString(@"内存泄漏测试");
     }
     cell.textLabel.text = txt;
     return cell;

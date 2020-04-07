@@ -84,6 +84,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        app:max_in_row="3" />
+        app:max_in_row="1" />
 
 </LinearLayout>

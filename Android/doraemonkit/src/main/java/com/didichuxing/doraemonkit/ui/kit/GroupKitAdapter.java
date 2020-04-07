@@ -1,15 +1,15 @@
 package com.didichuxing.doraemonkit.ui.kit;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.BarUtils;
@@ -69,6 +69,9 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
     }
 
 
+    /**
+     * 关闭按钮的holder
+     */
     public class CloseKitViewHolder extends AbsViewBinder<List<KitItem>> {
         public CloseKitViewHolder(View view) {
             super(view);
@@ -88,6 +91,9 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
         protected void onViewClick(View view, List<KitItem> data) {
             super.onViewClick(view, data);
             for (KitItem item : data) {
+                /**
+                 * 关闭按钮点击
+                 */
                 item.kit.onClick(getContext());
             }
         }
@@ -113,7 +119,7 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
         @Override
         public void bind(List<KitItem> kitItems) {
             String version = mContext.getString(R.string.dk_kit_version);
-            name.setText(String.format(version, BuildConfig.VERSION_NAME));
+            name.setText(String.format(version, BuildConfig.DOKIT_VERSION));
         }
 
     }

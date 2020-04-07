@@ -5,8 +5,8 @@
 ```
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.2.1'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.2.1'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.0'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.0'
     …
 }
 ```
@@ -45,7 +45,7 @@ Add a dependency in `build.gradle` in root of host project as following.
 buildscript {
     dependencies {
         …
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:1.0.0'
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.0'
         …
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -69,7 +69,7 @@ Define a class implement the interface IKit，the interface describe a component
 An environment switch component can be defined as following.
 
 ```Java
-public class EnvSwitchKit implements IKit {
+public class EnvSwitchKit extends AbstractKit {
     @Override
     public int getCategory() {
         return Category.BIZ;
@@ -104,7 +104,7 @@ Register the environment switch component when `DoraemonKit` installed.
 @Override
 public void onCreate() {
     kits.add(new EnvSwitchKit());
-    DoraemonKit.install(application, kits);
+    DoraemonKit.install(application, kits,"pId");
     …
 }
 ```

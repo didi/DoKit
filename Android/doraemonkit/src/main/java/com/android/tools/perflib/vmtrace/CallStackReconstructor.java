@@ -16,7 +16,8 @@
 
 package com.android.tools.perflib.vmtrace;
 
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,8 +156,6 @@ public class CallStackReconstructor {
         // Now that we have parsed the entire call stack, let us move all of it under a single
         // top level call.
         exitMethod(mTopLevelCallId, 0, 0, mTopLevelCalls);
-
-        // TODO: use global / thread times to infer context switches
 
         // Build calls from their respective builders
         // Now that we've added the top level call, there should be only 1 top level call

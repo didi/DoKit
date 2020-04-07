@@ -19,7 +19,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.cache.CacheEntity;
 import com.didichuxing.doraemonkit.okgo.cookie.SerializableCookie;
 import com.didichuxing.doraemonkit.okgo.model.Progress;
@@ -53,7 +53,7 @@ class DBHelper extends SQLiteOpenHelper {
     private TableEntity uploadTableEntity = new TableEntity(TABLE_UPLOAD);
 
     DBHelper() {
-        this(OkGo.getInstance().getContext());
+        this(DokitOkGo.getInstance().getContext());
     }
 
     DBHelper(Context context) {

@@ -9,17 +9,11 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.text.TextUtils;
-import android.util.Log;
-
-import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,7 +46,6 @@ public class LocationHooker extends BaseServiceHooker {
 
     @Override
     public void replaceBinder(Context context, IBinder proxy) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
-        LogHelper.d(TAG, "replaceBinder");
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if (locationManager == null) {
             return;
@@ -67,15 +60,14 @@ public class LocationHooker extends BaseServiceHooker {
         mServiceField.setAccessible(false);
     }
 
-    public class GetLastKnownLocationMethodHandler implements MethodHandler {
+    static class GetLastKnownLocationMethodHandler implements MethodHandler {
 
         @Override
-        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
-            LogHelper.d(TAG, "GetLastKnownLocationMethodHandler");
+        public Object onInvoke(Object originObject, Object proxyObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
             if (!GpsMockManager.getInstance().isMocking()) {
-                return method.invoke(originService, args);
+                return method.invoke(originObject, args);
             }
-            Location lastKnownLocation = (Location) method.invoke(originService, args);
+            Location lastKnownLocation = (Location) method.invoke(originObject, args);
             if (lastKnownLocation == null) {
                 String provider = (String) args[0].getClass().getDeclaredMethod("getProvider").invoke(args[0]);
                 lastKnownLocation = buildValidLocation(provider);
@@ -90,15 +82,14 @@ public class LocationHooker extends BaseServiceHooker {
         }
     }
 
-    public class GetLastLocationMethodHandler implements MethodHandler {
+    static class GetLastLocationMethodHandler implements MethodHandler {
 
         @Override
-        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
-            LogHelper.d(TAG, "GetLastLocationMethodHandler");
+        public Object onInvoke(Object originObject, Object proxyObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
             if (!GpsMockManager.getInstance().isMocking()) {
-                return method.invoke(originService, args);
+                return method.invoke(originObject, args);
             }
-            Location lastLocation = (Location) method.invoke(originService, args);
+            Location lastLocation = (Location) method.invoke(originObject, args);
             if (lastLocation == null) {
                 lastLocation = buildValidLocation(null);
             }
@@ -116,7 +107,7 @@ public class LocationHooker extends BaseServiceHooker {
     /**
      * LocationListener代理
      */
-    private class LocationListenerProxy implements LocationListener {
+    private static class LocationListenerProxy implements LocationListener {
         /**
          * 原始LocationListener
          */
@@ -163,7 +154,7 @@ public class LocationHooker extends BaseServiceHooker {
     /**
      * transport:ListenerTransport 内部包含LocationListener
      */
-    public class RequestLocationUpdatesMethodHandler implements MethodHandler {
+    static class RequestLocationUpdatesMethodHandler implements MethodHandler {
         /**
          * @param originService 原始对象 LocationManager#mService
          * @param proxy         生成的代理对象
@@ -176,7 +167,6 @@ public class LocationHooker extends BaseServiceHooker {
          */
         @Override
         public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws IllegalAccessException, InvocationTargetException, NoSuchFieldException {
-            LogHelper.d(TAG, "RequestLocationUpdatesMethodHandler");
             if (!GpsMockManager.getInstance().isMocking()) {
                 return method.invoke(originService, args);
             }
@@ -190,12 +180,11 @@ public class LocationHooker extends BaseServiceHooker {
             mListenerField.set(listenerTransport, locationListenerProxy);
             mListenerField.setAccessible(false);
             return method.invoke(originService, args);
-
         }
     }
 
 
-    private Location buildValidLocation(String provider) {
+    private static Location buildValidLocation(String provider) {
         if (TextUtils.isEmpty(provider)) {
             provider = "gps";
         }

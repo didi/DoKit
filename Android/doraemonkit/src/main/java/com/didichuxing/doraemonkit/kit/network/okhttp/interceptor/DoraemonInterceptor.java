@@ -1,17 +1,26 @@
 package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor;
 
 
+import android.text.TextUtils;
+
+import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
+import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
 import com.didichuxing.doraemonkit.kit.network.core.DefaultResponseHandler;
 import com.didichuxing.doraemonkit.kit.network.core.NetworkInterpreter;
 import com.didichuxing.doraemonkit.kit.network.core.RequestBodyHelper;
+import com.didichuxing.doraemonkit.kit.network.core.ResourceType;
+import com.didichuxing.doraemonkit.kit.network.core.ResourceTypeHelper;
 import com.didichuxing.doraemonkit.kit.network.okhttp.ForwardingResponseBody;
+import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
 import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorRequest;
 import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorResponse;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -33,15 +42,27 @@ public class DoraemonInterceptor implements Interceptor {
             Request request = chain.request();
             return chain.proceed(request);
         }
-        int requestId = mNetworkInterpreter.nextRequestId();
 
         Request request = chain.request();
+        Response response = chain.proceed(request);
+
+        String strContentType = response.header("Content-Type");
+        //如果是图片则不进行拦截
+        if (InterceptorUtil.isImg(strContentType)) {
+            return response;
+        }
+        //白名单过滤
+        if (!matchWhiteHost(request)) {
+            return response;
+        }
+
+
+        int requestId = mNetworkInterpreter.nextRequestId();
 
         RequestBodyHelper requestBodyHelper = new RequestBodyHelper();
         OkHttpInspectorRequest inspectorRequest =
                 new OkHttpInspectorRequest(requestId, request, requestBodyHelper);
         NetworkRecord record = mNetworkInterpreter.createRecord(requestId, inspectorRequest);
-        Response response;
         try {
             response = chain.proceed(request);
         } catch (IOException e) {
@@ -74,6 +95,31 @@ public class DoraemonInterceptor implements Interceptor {
         }
 
         return response;
+    }
+
+    /**
+     * 是否命中白名单规则
+     *
+     * @return bool
+     */
+    private boolean matchWhiteHost(Request request) {
+        List<WhiteHostBean> whiteHostBeans = DokitConstant.WHITE_HOSTS;
+        if (whiteHostBeans.isEmpty()) {
+            return true;
+        }
+
+        for (WhiteHostBean whiteHostBean : whiteHostBeans) {
+            if (TextUtils.isEmpty(whiteHostBean.getHost())) {
+                continue;
+            }
+            String realHost = request.url().host();
+            //正则判断
+            if (whiteHostBean.getHost().equalsIgnoreCase(realHost)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 

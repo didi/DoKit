@@ -2,21 +2,20 @@ package com.didichuxing.doraemonkit.kit.gpsmock;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.GpsMockConfig;
-import com.didichuxing.doraemonkit.core.model.LatLng;
+import com.didichuxing.doraemonkit.model.LatLng;
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.setting.SettingItem;
 import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
@@ -31,6 +30,7 @@ import java.util.List;
 
 /**
  * Created by wanglikun on 2018/9/20.
+ * gps mock
  */
 
 public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.OnSettingItemSwitchListener, MyWebViewClient.InvokeListener {
@@ -39,10 +39,13 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
     private HomeTitleBar mTitleBar;
     private RecyclerView mSettingList;
     private SettingItemAdapter mSettingItemAdapter;
-    private EditText mLongitude;
-    private EditText mLatitude;
-    private TextView mMockLocationBtn;
+    //    private EditText mLongitude;
+//    private EditText mLatitude;
+//    private TextView mMockLocationBtn;
+    private ImageView mIvSearch;
+    private EditText mEdLongLat;
     private MyWebView mWebView;
+    private boolean isInit = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,73 +74,64 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
     }
 
     private void initMockLocationArea() {
-        mLongitude = findViewById(R.id.longitude);
-        mLatitude = findViewById(R.id.latitude);
-        mLatitude.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        mEdLongLat = findViewById(R.id.ed_long_lat);
+        mIvSearch = findViewById(R.id.iv_search);
 
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (checkInput()) {
-                    mMockLocationBtn.setEnabled(true);
-                } else {
-                    mMockLocationBtn.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        mLongitude.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (checkInput()) {
-                    mMockLocationBtn.setEnabled(true);
-                } else {
-                    mMockLocationBtn.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        mMockLocationBtn = findViewById(R.id.mock_location);
-        mMockLocationBtn.setOnClickListener(new View.OnClickListener() {
+        mIvSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!checkInput()) {
                     return;
                 }
-                double latitude = Double.valueOf(mLatitude.getText().toString());
-                double longitude = Double.valueOf(mLongitude.getText().toString());
+                String strLongLat = mEdLongLat.getText().toString();
+                String[] longAndLat = strLongLat.split(" ");
+                double longitude, latitude;
+                try {
+                    longitude = Double.valueOf(longAndLat[0]);
+                    latitude = Double.valueOf(longAndLat[1]);
+                } catch (Exception e) {
+                    ToastUtils.showShort("经纬度必须为数字");
+                    return;
+                }
+
                 GpsMockManager.getInstance().mockLocation(latitude, longitude);
                 GpsMockConfig.saveMockLocation(getContext(), new LatLng(latitude, longitude));
-                Toast.makeText(getContext(), getString(R.string.dk_gps_location_change_toast, mLatitude.getText(), mLongitude.getText()), Toast.LENGTH_SHORT).show();
+                //刷新地图
+                String url = String.format("javascript:updateLocation(%s,%s)", latitude, longitude);
+                mWebView.loadUrl(url);
+                ToastUtils.showShort(getString(R.string.dk_gps_location_change_toast, "" + longitude, "" + latitude));
             }
         });
     }
 
     private boolean checkInput() {
-        if (TextUtils.isEmpty(mLongitude.getText().toString())) {
+        String strLongLat = mEdLongLat.getText().toString();
+        if (TextUtils.isEmpty(strLongLat)) {
+            ToastUtils.showShort("请输入经纬度");
             return false;
         }
-        if (TextUtils.isEmpty(mLatitude.getText().toString())) {
+        String[] longAndLat = strLongLat.split(" ");
+        if (longAndLat.length != 2) {
+            ToastUtils.showShort("请输入符合规范的经纬度格式");
             return false;
         }
-        double longitude = Double.valueOf(mLongitude.getText().toString());
-        double latitude = Double.valueOf(mLatitude.getText().toString());
+
+        if (TextUtils.isEmpty(longAndLat[0])) {
+            return false;
+        }
+        if (TextUtils.isEmpty(longAndLat[1])) {
+            return false;
+        }
+        double longitude, latitude;
+        try {
+            longitude = Double.valueOf(longAndLat[0]);
+            latitude = Double.valueOf(longAndLat[1]);
+        } catch (Exception e) {
+            ToastUtils.showShort("经纬度必须为数字");
+            return false;
+        }
+
         if (longitude > 180 || longitude < -180) {
             return false;
         }
@@ -176,12 +170,12 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
     @Override
     public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
         if (data.desc == R.string.dk_gpsmock_open) {
-            GpsMockConfig.setGPSMockOpen(getContext(), on);
             if (on) {
                 GpsMockManager.getInstance().startMock();
             } else {
                 GpsMockManager.getInstance().stopMock();
             }
+            GpsMockConfig.setGPSMockOpen(getContext(), on);
         }
     }
 
@@ -205,7 +199,26 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
         if (TextUtils.isEmpty(lat) && TextUtils.isEmpty(lnt)) {
             return;
         }
-        mLatitude.setText(lat);
-        mLongitude.setText(lnt);
+        mEdLongLat.setText(String.format("%s %s", lnt, lat));
+        if (!isInit) {
+            double longitude, latitude;
+            try {
+                //保存当前的经纬度
+                longitude = Double.valueOf(lnt);
+                latitude = Double.valueOf(lat);
+            } catch (Exception e) {
+                ToastUtils.showShort("经纬度必须为数字");
+                return;
+            }
+
+            GpsMockManager.getInstance().mockLocation(latitude, longitude);
+            GpsMockConfig.saveMockLocation(getContext(), new LatLng(latitude, longitude));
+            ToastUtils.showShort(getString(R.string.dk_gps_location_change_toast, "" + longitude, "" + latitude));
+
+        }
+        isInit = false;
+
     }
+
+
 }

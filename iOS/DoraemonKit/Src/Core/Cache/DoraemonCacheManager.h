@@ -89,4 +89,12 @@
 // 内存泄漏弹框开关
 - (void)saveMemoryLeakAlert:(BOOL)on;
 - (BOOL)memoryLeakAlert;
+
+// mockapi本地缓存情况
+- (void)saveMockCache:(NSArray *)mocks;
+- (NSArray *)mockCahce;
+
+// 健康体检开关
+- (void)saveHealthStart:(BOOL)on;
+- (BOOL)healthStart;
 @end

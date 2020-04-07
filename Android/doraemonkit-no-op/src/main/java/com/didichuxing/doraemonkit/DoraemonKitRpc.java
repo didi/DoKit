@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit;
 
 import android.app.Application;
 
-import com.didichuxing.doraemonkit.kit.IKit;
+import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class DoraemonKitRpc {
     public static void install(Application app) {
     }
 
-    public static void install(Application app, List<IKit> selfKits) {
+    public static void install(Application app, List<AbstractKit> selfKits) {
     }
 
     /**
@@ -23,7 +23,7 @@ public class DoraemonKitRpc {
      * @param selfKits  自定义kits
      * @param productId Dokit平台端申请的productId
      */
-    public static void install(final Application app, List<IKit> selfKits, String productId) {
+    public static void install(final Application app, List<AbstractKit> selfKits, String productId) {
     }
 
 
@@ -66,7 +66,7 @@ public class DoraemonKitRpc {
     /**
      * 是否显示主入口icon
      */
-    public static void setAwaysShowMianIcon(boolean awaysShow) {
+    public static void setAwaysShowMainIcon(boolean awaysShow) {
 
     }
 }

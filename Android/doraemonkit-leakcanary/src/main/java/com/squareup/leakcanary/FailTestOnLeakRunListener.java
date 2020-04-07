@@ -18,9 +18,9 @@ package com.squareup.leakcanary;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.test.internal.runner.listener.InstrumentationResultPrinter;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import org.junit.runner.Description;
 import org.junit.runner.Result;
@@ -29,8 +29,7 @@ import org.junit.runner.notification.RunListener;
 
 import java.util.List;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.internal.runner.listener.InstrumentationResultPrinter.REPORT_VALUE_RESULT_FAILURE;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static com.squareup.leakcanary.Preconditions.checkNotNull;
 
 /**
@@ -45,106 +44,111 @@ import static com.squareup.leakcanary.Preconditions.checkNotNull;
  */
 public class FailTestOnLeakRunListener extends RunListener {
 
-  private static final String SEPARATOR = "######################################\n";
-  private Bundle bundle;
+    private static final String SEPARATOR = "######################################\n";
+    private Bundle bundle;
 
-  private String skipLeakDetectionReason;
+    private String skipLeakDetectionReason;
 
-  @Override
-  public final void testStarted(Description description) {
-    skipLeakDetectionReason = skipLeakDetectionReason(description);
-    if (skipLeakDetectionReason != null) {
-      return;
-    }
-    String testClass = description.getClassName();
-    String testName = description.getMethodName();
+    @Override
+    public final void testStarted(Description description) {
+        skipLeakDetectionReason = skipLeakDetectionReason(description);
+        if (skipLeakDetectionReason != null) {
+            return;
+        }
+        String testClass = description.getClassName();
+        String testName = description.getMethodName();
 
-    bundle = new Bundle();
-    bundle.putString(Instrumentation.REPORT_KEY_IDENTIFIER,
-        FailTestOnLeakRunListener.class.getName());
-    bundle.putString(InstrumentationResultPrinter.REPORT_KEY_NAME_CLASS, testClass);
-    bundle.putString(InstrumentationResultPrinter.REPORT_KEY_NAME_TEST, testName);
-  }
-
-  /**
-   * Can be overridden to skip leak detection based on the description provided when a test
-   * is started. Returns null to continue leak detection, or a string describing the reason for
-   * skipping otherwise.
-   */
-  protected @Nullable
-  String skipLeakDetectionReason(@NonNull Description description) {
-    return null;
-  }
-
-  @Override
-  public final void testFailure(Failure failure) {
-    skipLeakDetectionReason = "failed";
-  }
-
-  @Override
-  public final void testIgnored(Description description) {
-    skipLeakDetectionReason = "was ignored";
-  }
-
-  @Override
-  public final void testAssumptionFailure(Failure failure) {
-    skipLeakDetectionReason = "had an assumption failure";
-  }
-
-  @Override
-  public final void testFinished(Description description) {
-    detectLeaks();
-    LeakCanary.installedRefWatcher().clearWatchedReferences();
-  }
-
-  @Override
-  public final void testRunStarted(Description description) {
-  }
-
-  @Override
-  public final void testRunFinished(Result result) {
-  }
-
-  private void detectLeaks() {
-    if (skipLeakDetectionReason != null) {
-      CanaryLog.d("Skipping leak detection because the test %s", skipLeakDetectionReason);
-      skipLeakDetectionReason = null;
-      return;
+        bundle = new Bundle();
+        bundle.putString(Instrumentation.REPORT_KEY_IDENTIFIER,
+                FailTestOnLeakRunListener.class.getName());
+        bundle.putString("class", testClass);
+        bundle.putString("test", testName);
     }
 
-    InstrumentationLeakDetector leakDetector = new InstrumentationLeakDetector();
-    InstrumentationLeakResults results = leakDetector.detectLeaks();
-
-    reportLeaks(results);
-  }
-
-  /** Can be overridden to report leaks in a different way or do additional reporting. */
-  protected void reportLeaks(@NonNull InstrumentationLeakResults results) {
-    if (!results.detectedLeaks.isEmpty()) {
-      String message =
-          checkNotNull(buildLeakDetectedMessage(results.detectedLeaks), "buildLeakDetectedMessage");
-
-      bundle.putString(InstrumentationResultPrinter.REPORT_KEY_STACK, message);
-      getInstrumentation().sendStatus(REPORT_VALUE_RESULT_FAILURE, bundle);
-    }
-  }
-
-  /** Can be overridden to customize the failure string message. */
-  protected @NonNull
-  String buildLeakDetectedMessage(
-      @NonNull List<InstrumentationLeakResults.Result> detectedLeaks) {
-    StringBuilder failureMessage = new StringBuilder();
-    failureMessage.append(
-        "Test failed because memory leaks were detected, see leak traces below.\n");
-    failureMessage.append(SEPARATOR);
-
-    Context context = getInstrumentation().getContext();
-    for (InstrumentationLeakResults.Result detectedLeak : detectedLeaks) {
-      failureMessage.append(
-          LeakCanary.leakInfo(context, detectedLeak.heapDump, detectedLeak.analysisResult, true));
-      failureMessage.append(SEPARATOR);
+    /**
+     * Can be overridden to skip leak detection based on the description provided when a test
+     * is started. Returns null to continue leak detection, or a string describing the reason for
+     * skipping otherwise.
+     */
+    protected @Nullable
+    String skipLeakDetectionReason(@NonNull Description description) {
+        return null;
     }
 
-    return failureMessage.toString();
-  }
+    @Override
+    public final void testFailure(Failure failure) {
+        skipLeakDetectionReason = "failed";
+    }
+
+    @Override
+    public final void testIgnored(Description description) {
+        skipLeakDetectionReason = "was ignored";
+    }
+
+    @Override
+    public final void testAssumptionFailure(Failure failure) {
+        skipLeakDetectionReason = "had an assumption failure";
+    }
+
+    @Override
+    public final void testFinished(Description description) {
+        detectLeaks();
+        LeakCanary.installedRefWatcher().clearWatchedReferences();
+    }
+
+    @Override
+    public final void testRunStarted(Description description) {
+    }
+
+    @Override
+    public final void testRunFinished(Result result) {
+    }
+
+    private void detectLeaks() {
+        if (skipLeakDetectionReason != null) {
+            CanaryLog.d("Skipping leak detection because the test %s", skipLeakDetectionReason);
+            skipLeakDetectionReason = null;
+            return;
+        }
+
+        InstrumentationLeakDetector leakDetector = new InstrumentationLeakDetector();
+        InstrumentationLeakResults results = leakDetector.detectLeaks();
+
+        reportLeaks(results);
+    }
+
+    /**
+     * Can be overridden to report leaks in a different way or do additional reporting.
+     */
+    protected void reportLeaks(@NonNull InstrumentationLeakResults results) {
+        if (!results.detectedLeaks.isEmpty()) {
+            String message =
+                    checkNotNull(buildLeakDetectedMessage(results.detectedLeaks), "buildLeakDetectedMessage");
+
+            bundle.putString("stack", message);
+            //public static final int REPORT_VALUE_RESULT_FAILURE = -2;
+            getInstrumentation().sendStatus(-2, bundle);
+        }
+    }
+
+    /**
+     * Can be overridden to customize the failure string message.
+     */
+    protected @NonNull
+    String buildLeakDetectedMessage(
+            @NonNull List<InstrumentationLeakResults.Result> detectedLeaks) {
+        StringBuilder failureMessage = new StringBuilder();
+        failureMessage.append(
+                "Test failed because memory leaks were detected, see leak traces below.\n");
+        failureMessage.append(SEPARATOR);
+
+        Context context = getInstrumentation().getContext();
+        for (InstrumentationLeakResults.Result detectedLeak : detectedLeaks) {
+            failureMessage.append(
+                    LeakCanary.leakInfo(context, detectedLeak.heapDump, detectedLeak.analysisResult, true));
+            failureMessage.append(SEPARATOR);
+        }
+
+        return failureMessage.toString();
+    }
 }

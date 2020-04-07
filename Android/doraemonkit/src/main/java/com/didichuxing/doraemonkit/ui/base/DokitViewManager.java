@@ -1,11 +1,13 @@
 package com.didichuxing.doraemonkit.ui.base;
 
 import android.app.Activity;
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.graphics.Point;
 import android.view.WindowManager;
 
+import androidx.room.Room;
+
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDatabase;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
@@ -21,7 +23,7 @@ import java.util.Map;
  */
 
 public class DokitViewManager implements DokitViewManagerInterface {
-    public static final String TAG = "DokitViewManager";
+    private static final String TAG = "DokitViewManagerProxy";
     /**
      * 每个类型在页面中的位置 只保存marginLeft 和marginTop
      */
@@ -58,14 +60,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
         }
         mDokitViewPos = new HashMap<>();
         mLastDokitViewPosInfoMaps = new HashMap<>();
-        mDB = Room.databaseBuilder(context,
-                DokitDatabase.class,
-                "dokit-database")
-                //下面注释表示允许主线程进行数据库操作，但是不推荐这样做。
-                //他可能造成主线程lock以及anr
-                //所以我们的操作都是在新线程完成的
-                .allowMainThreadQueries()
-                .build();
+        getDb();
         //获取所有的intercept apis
         DokitDbManager.getInstance().getAllInterceptApis();
 
@@ -75,6 +70,19 @@ public class DokitViewManager implements DokitViewManagerInterface {
     }
 
     public DokitDatabase getDb() {
+        if (mDB != null) {
+            return mDB;
+        }
+
+        mDB = Room.databaseBuilder(DoraemonKit.APPLICATION,
+                DokitDatabase.class,
+                "dokit-database")
+                //下面注释表示允许主线程进行数据库操作，但是不推荐这样做。
+                //他可能造成主线程lock以及anr
+                //所以我们的操作都是在新线程完成的
+                .allowMainThreadQueries()
+                .build();
+
         return mDB;
     }
 
@@ -83,6 +91,10 @@ public class DokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void notifyBackground() {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return;
+        }
         mDokitViewManager.notifyBackground();
     }
 
@@ -91,6 +103,10 @@ public class DokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void notifyForeground() {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return;
+        }
         mDokitViewManager.notifyForeground();
     }
 
@@ -98,7 +114,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
      * 只有普通浮标才会调用
      * 保存每种类型dokitView的位置
      */
-    public void saveDokitViewPos(String tag, int marginLeft, int marginTop) {
+    void saveDokitViewPos(String tag, int marginLeft, int marginTop) {
         if (mDokitViewPos == null) {
             return;
         }
@@ -108,12 +124,14 @@ public class DokitViewManager implements DokitViewManagerInterface {
             mDokitViewPos.put(tag, point);
         } else {
             Point point = mDokitViewPos.get(tag);
-            point.set(marginLeft, marginTop);
+            if (point != null) {
+                point.set(marginLeft, marginTop);
+            }
         }
 
-        for (String key : mDokitViewPos.keySet()) {
-            LogHelper.i(TAG, "saveDokitViewPos  key==> " + key + "  point===>" + mDokitViewPos.get(key));
-        }
+//        for (String key : mDokitViewPos.keySet()) {
+//            LogHelper.i(TAG, "saveDokitViewPos  key==> " + key + "  point===>" + mDokitViewPos.get(key));
+//        }
     }
 
     /**
@@ -128,9 +146,9 @@ public class DokitViewManager implements DokitViewManagerInterface {
             return null;
         }
 
-        for (String key : mDokitViewPos.keySet()) {
-            LogHelper.i(TAG, "getDokitViewPos  key==> " + key + "  point===>" + mDokitViewPos.get(key));
-        }
+//        for (String key : mDokitViewPos.keySet()) {
+//            LogHelper.i(TAG, "getDokitViewPos  key==> " + key + "  point===>" + mDokitViewPos.get(key));
+//        }
         return mDokitViewPos.get(tag);
     }
 
@@ -142,7 +160,35 @@ public class DokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void resumeAndAttachDokitViews(Activity activity) {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return;
+        }
         mDokitViewManager.resumeAndAttachDokitViews(activity);
+    }
+
+    @Override
+    public void onMainActivityCreate(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityCreate(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResume(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityPause(Activity activity) {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return;
+        }
+        mDokitViewManager.onActivityPause(activity);
     }
 
     /**
@@ -152,6 +198,10 @@ public class DokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void attach(DokitIntent dokitIntent) {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return;
+        }
         mDokitViewManager.attach(dokitIntent);
     }
 
@@ -167,7 +217,20 @@ public class DokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void detach(String tag) {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return;
+        }
         mDokitViewManager.detach(tag);
+    }
+
+    @Override
+    public void detach(Activity activity, String tag) {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return;
+        }
+        mDokitViewManager.detach(activity, tag);
     }
 
 
@@ -176,7 +239,39 @@ public class DokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void detach(AbsDokitView dokitView) {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return;
+        }
         mDokitViewManager.detach(dokitView);
+    }
+
+    @Override
+    public void detach(Activity activity, AbsDokitView dokitView) {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return;
+        }
+        mDokitViewManager.detach(activity, dokitView);
+    }
+
+
+    @Override
+    public void detach(Class<? extends AbsDokitView> dokitViewClass) {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return;
+        }
+        mDokitViewManager.detach(dokitViewClass);
+    }
+
+    @Override
+    public void detach(Activity activity, Class<? extends AbsDokitView> dokitViewClass) {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return;
+        }
+        mDokitViewManager.detach(activity, dokitViewClass);
     }
 
     /**
@@ -184,12 +279,11 @@ public class DokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void detachAll() {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return;
+        }
         mDokitViewManager.detachAll();
-    }
-
-    @Override
-    public void detach(Class<? extends AbsDokitView> dokitViewClass) {
-        mDokitViewManager.detach(dokitViewClass);
     }
 
 
@@ -198,6 +292,10 @@ public class DokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public void onActivityDestroy(Activity activity) {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return;
+        }
         mDokitViewManager.onActivityDestroy(activity);
     }
 
@@ -210,6 +308,10 @@ public class DokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public AbsDokitView getDokitView(Activity activity, String tag) {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return null;
+        }
         return mDokitViewManager.getDokitView(activity, tag);
     }
 
@@ -219,6 +321,10 @@ public class DokitViewManager implements DokitViewManagerInterface {
      */
     @Override
     public Map<String, AbsDokitView> getDokitViews(Activity activity) {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return new HashMap<>();
+        }
         return mDokitViewManager.getDokitViews(activity);
     }
 
@@ -235,6 +341,10 @@ public class DokitViewManager implements DokitViewManagerInterface {
      * @param listener
      */
     void addDokitViewAttachedListener(DokitViewAttachedListener listener) {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return;
+        }
         if (!DokitConstant.IS_NORMAL_FLOAT_MODE && mDokitViewManager instanceof SystemDokitViewManager) {
             ((SystemDokitViewManager) mDokitViewManager).addListener(listener);
         }
@@ -246,6 +356,10 @@ public class DokitViewManager implements DokitViewManagerInterface {
      * @param listener
      */
     void removeDokitViewAttachedListener(DokitViewAttachedListener listener) {
+        if (mDokitViewManager == null) {
+            LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
+            return;
+        }
         if (!DokitConstant.IS_NORMAL_FLOAT_MODE && mDokitViewManager instanceof SystemDokitViewManager) {
             ((SystemDokitViewManager) mDokitViewManager).removeListener(listener);
         }

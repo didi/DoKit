@@ -16,8 +16,9 @@
 
 package com.android.tools.perflib.vmtrace;
 
-import android.support.annotation.NonNull;
 import android.util.SparseArray;
+
+import androidx.annotation.NonNull;
 
 import com.google.common.collect.Maps;
 
@@ -107,7 +108,6 @@ public class VmTraceData {
 
     public static TimeUnit getDefaultTimeUnits() {
         // The traces from the VM currently use microseconds.
-        // TODO: figure out if this can be obtained/inferred from the trace itself
         return TimeUnit.MICROSECONDS;
     }
 

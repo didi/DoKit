@@ -5,19 +5,26 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -30,20 +37,20 @@ import com.baidu.location.LocationClientOption;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.didichuxing.doraemondemo.util.FrescoUtil;
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.kit.largepicture.glide.LargeBitmapGlideTransformation;
-import com.didichuxing.doraemonkit.kit.largepicture.picasso.LargeBitmapPicassoTransformation;
-import com.didichuxing.doraemonkit.kit.methodtrace.MethodCost;
 import com.didichuxing.doraemonkit.kit.network.common.CommonHeaders;
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorRequest;
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorResponse;
 import com.didichuxing.doraemonkit.kit.network.common.NetworkPrinterHelper;
-import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.core.ImagePipeline;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
@@ -56,10 +63,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.UnknownHostException;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
@@ -73,7 +83,10 @@ import pub.devrel.easypermissions.EasyPermissions;
 import pub.devrel.easypermissions.PermissionRequest;
 
 
-public class MainDebugActivity extends AppCompatActivity implements View.OnClickListener {
+/**
+ * @author jintai
+ */
+public class MainDebugActivity extends BaseActivity implements View.OnClickListener {
     public static final String TAG = "MainDebugActivity";
 
 
@@ -84,16 +97,36 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
     AMapLocationClientOption mMapOption;
     TencentLocationRequest mTencentLocationRequest;
     TencentLocationManager mTencentLocationManager;
+    private int UPDATE_UI = 100;
+    @BindView(R.id.btn_jump)
+    Button mBtnJump;
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 100:
+                    ((ImageView) MainDebugActivity.this.findViewById(R.id.iv_picasso)).setImageBitmap((Bitmap) msg.obj);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         TextView tvEnv = findViewById(R.id.tv_env);
-        tvEnv.setText("当前编译环境:Debug");
-        findViewById(R.id.btn_trace).setOnClickListener(this);
-        findViewById(R.id.btn_jump).setOnClickListener(this);
+        tvEnv.setText(getString(R.string.app_build_types) + ":Debug");
+        mBtnJump.setOnClickListener(this);
+
+        findViewById(R.id.btn_method_cost).setOnClickListener(this);
+        findViewById(R.id.btn_jump_leak).setOnClickListener(this);
         findViewById(R.id.btn_show_tool_panel).setOnClickListener(this);
         findViewById(R.id.btn_location).setOnClickListener(this);
         findViewById(R.id.btn_location_amap).setOnClickListener(this);
@@ -136,12 +169,16 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         ).build());
+        //初始化
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
+                .build();
+        ImageLoader.getInstance().init(config);
     }
 
 
     private void test1() {
         try {
-            Thread.sleep(200);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -275,10 +312,9 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_trace:
-                MethodCost.startMethodTracing("doramemon");
+
+            case R.id.btn_method_cost:
                 test1();
-                MethodCost.stopMethodTracingAndPrintLog("doramemon");
                 break;
 
             case R.id.btn_show_tool_panel:
@@ -287,8 +323,12 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.btn_jump:
-
                 startActivity(new Intent(this, SecondActivity.class));
+                break;
+
+            case R.id.btn_jump_leak:
+
+                startActivity(new Intent(this, LeakActivity.class));
 
                 break;
             case R.id.btn_location:
@@ -311,33 +351,55 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
 
             case R.id.btn_load_img:
                 //Glide 加载
-                String imgUrl = "http://b-ssl.duitang.com/uploads/item/201808/27/20180827043223_twunu.jpg";
-                Glide.with(MainDebugActivity.this)
-                        .asBitmap()
-                        .load(imgUrl)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .transform(new LargeBitmapGlideTransformation(imgUrl))
-                        .into((ImageView) findViewById(R.id.iv_glide));
-
-                Picasso.get().load(imgUrl)
-                        .transform(new LargeBitmapPicassoTransformation(imgUrl))
+                String picassoImgUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585832555614&di=ea70ed1254b3242803d7dde56eedfe9f&imgtype=0&src=http%3A%2F%2Ft9.baidu.com%2Fit%2Fu%3D2268908537%2C2815455140%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D719";
+                String glideImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662890&di=bc7b18d8b4efa73fb88ddef4f6f56acc&imgtype=0&src=http%3A%2F%2Ft9.baidu.com%2Fit%2Fu%3D583874135%2C70653437%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D3607%26h%3D2408";
+                String frescoImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662890&di=09318a918fe9ea73a8e27c80291bf669&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853";
+                String imageLoaderImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662891&di=acaf549645e58b6c67c231d495e18271&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D3571592872%2C3353494284%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1200%26h%3D1290";
+                Picasso.get().load(picassoImgUrl)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE)
                         .into((ImageView) findViewById(R.id.iv_picasso));
 
-                FrescoUtil.loadImage((SimpleDraweeView) findViewById(R.id.iv_fresco), imgUrl);
+                Glide.with(MainDebugActivity.this)
+                        .asBitmap()
+                        .load(glideImageUrl)
+                        //.diskCacheStrategy(DiskCacheStrategy.NONE)
+                        //.skipMemoryCache(true)
+                        .into((ImageView) findViewById(R.id.iv_glide));
+
+
+                ImageLoader imageLoader = ImageLoader.getInstance();
+                imageLoader.displayImage(imageLoaderImageUrl, (ImageView) findViewById(R.id.iv_imageloader));
+
+                SimpleDraweeView frescoImageView = findViewById(R.id.iv_fresco);
+                frescoImageView.setImageURI(Uri.parse(frescoImageUrl));
+                ImagePipeline imagePipeline = Fresco.getImagePipeline();
+                // combines above two lines
+                imagePipeline.clearCaches();
+
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        requestImage(imgUrl);
+//                    }
+//                }).start();
+
 
                 break;
 
 
             case R.id.btn_okhttp_mock:
-                OkGo.<String>get("http://gank.io/gateway?api=dj.map")
-                        //OkGo.<String>get("https://www.v2ex.com/api/topics/hot.json")
+                //DokitOkGo.<String>get("http://gank.io/biz-oim/mobile/refreshVerifyCode.do")
+                DokitOkGo.<String>get("https://www.v2ex.com/api/topics/hot.json")
                         .execute(new StringCallback() {
-
 
                             @Override
                             public void onSuccess(Response<String> response) {
-                                Log.i(TAG, "okhttp====response===>" + response.body());
+                                Log.i(TAG, "okhttp====onSuccess===>" + response.body());
+                            }
+
+                            @Override
+                            public void onError(Response<String> response) {
+                                Log.i(TAG, "okhttp====onError===>" + response.message());
                             }
                         });
                 break;
@@ -345,7 +407,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
             case R.id.btn_connection_mock:
                 //requestByGet("https://www.v2ex.com/api/topics/hot.json");
                 //requestByGet("https://gank.io/api/today?a=哈哈&b=bb");
-                requestByGet("http://gank.io/gateway?api=dj.map");
+                requestByGet("https://www.v2ex.com/api/topics/hot.json");
                 break;
 //            case R.id.btn_rpc_mock:
 //                break;
@@ -380,6 +442,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
                 break;
         }
     }
+
 
     public String testCrash() {
         return null;
@@ -425,7 +488,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
      * {@link NetworkPrinterHelper#updateResponseBody(int, String)}
      */
     public void requestByCustom(String url) {
-        // obtain id for this request
+// obtain id for this request
         final int id = NetworkPrinterHelper.obtainRequestId();
 
         OkHttpClient client = new OkHttpClient().newBuilder()
@@ -485,7 +548,7 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
         Request request = null;
         if (upload) {
             try {
-                //模拟一个1M的文件用来上传
+//模拟一个1M的文件用来上传
                 final long length = 1L * 1024 * 1024;
                 final File temp = new File(getFilesDir(), "test.tmp");
                 if (!temp.exists() || temp.length() != length) {
@@ -590,5 +653,37 @@ public class MainDebugActivity extends AppCompatActivity implements View.OnClick
     protected void onStop() {
         super.onStop();
 
+    }
+
+    private void requestImage(String urlStr) {
+        try {
+            //
+            URL url = new URL(urlStr);
+            // http    https
+            // ftp
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            //http get post
+            urlConnection.setRequestMethod("GET");
+
+
+            urlConnection.setConnectTimeout(5000);
+            urlConnection.setReadTimeout(5000);
+
+            int responseCode = urlConnection.getResponseCode();
+            if (responseCode == 200) {
+                Bitmap bitmap = BitmapFactory.decodeStream(urlConnection.getInputStream());
+                //更新 ui
+                mHandler.sendMessage(mHandler.obtainMessage(UPDATE_UI, bitmap));
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

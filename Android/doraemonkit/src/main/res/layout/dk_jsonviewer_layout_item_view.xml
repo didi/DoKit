@@ -14,7 +14,7 @@
         android:visibility="gone"
         tools:visibility="visible" />
 
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_icon"
         android:layout_width="6dp"
         android:layout_height="match_parent"

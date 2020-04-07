@@ -2,8 +2,11 @@ package com.didichuxing.doraemonkit.kit.gpsmock;
 
 import android.content.Context;
 import android.net.wifi.ScanResult;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
+
+import com.blankj.utilcode.util.ReflectUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -49,7 +52,7 @@ public class WifiHooker extends BaseServiceHooker {
         mServiceField.setAccessible(false);
     }
 
-    public class GetScanResultsMethodHandler implements MethodHandler {
+    static class GetScanResultsMethodHandler implements MethodHandler {
 
         @Override
         public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
@@ -60,14 +63,21 @@ public class WifiHooker extends BaseServiceHooker {
         }
     }
 
-    public class GetConnectionInfoMethodHandler implements MethodHandler {
+    static class GetConnectionInfoMethodHandler implements MethodHandler {
 
         @Override
-        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        public Object onInvoke(Object originObject, Object proxyObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
             if (!GpsMockManager.getInstance().isMocking()) {
-                return method.invoke(originService, args);
+                return method.invoke(originObject, args);
             }
-            return null;
+            try {
+                return Class.forName("android.net.wifi.WifiInfo").newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            return method.invoke(originObject, args);
         }
     }
 }

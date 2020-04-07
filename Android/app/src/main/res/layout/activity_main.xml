@@ -16,56 +16,79 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="10dp"
-            android:text="当前编译环境"
+            android:text="@string/app_build_types"
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/btn_jump"
+            android:id="@+id/btn_show_hide_icon"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="跳转" />
+            android:text="@string/app_btn_show_hide_icon"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_show_tool_panel"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="显示工具面板" />
+            android:text="@string/app_btn_show_tool_panel"
+            android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/btn_trace"
+            android:id="@+id/btn_jump"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="函数调用耗时" />
+            android:text="@string/app_btn_jump"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_jump_leak"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/app_btn_leak"
+            android:textAllCaps="false" />
+
+
+        <Button
+            android:id="@+id/btn_method_cost"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/app_btn_method_cost"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_location"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="获取位置信息(系统)" />
+            android:text="@string/app_btn_location"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_location_amap"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="获取位置信息(高德)" />
+            android:text="@string/app_btn_location_amap"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_location_tencent"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="获取位置信息(腾讯)" />
+            android:text="@string/app_btn_location_tencent"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_location_baidu"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="获取位置信息(百度)" />
+            android:text="@string/app_btn_location_baidu"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_load_img"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="加载网络图片" />
+            android:text="@string/app_btn_load_img"
+            android:textAllCaps="false" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,14 +121,6 @@
                     android:textColor="#ffffff"
                     android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="Fresco"
-                    android:textColor="#ffffff"
-                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -125,6 +140,45 @@
                     android:layout_height="150dp"
                     android:layout_weight="1" />
 
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="ImageLoader"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Fresco"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:id="@+id/iv_imageloader"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_weight="1" />
+
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/iv_fresco"
                     android:layout_width="match_parent"
@@ -139,13 +193,15 @@
             android:id="@+id/btn_okhttp_mock"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="OkHttp Mock" />
+            android:text="@string/app_btn_okhttp_mock"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_connection_mock"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="HttpURLConnection Mock" />
+            android:text="@string/app_btn_urlconnection_mock"
+            android:textAllCaps="false" />
         <!--    滴滴内部网络框架mock-->
         <!--        <Button-->
         <!--            android:id="@+id/btn_rpc_mock"-->
@@ -157,26 +213,23 @@
             android:id="@+id/btn_test_custom"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="其他网络库(自定义抓包)" />
-
-        <Button
-            android:id="@+id/btn_show_hide_icon"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="显示/隐藏入口" />
+            android:text="@string/app_btn_custom_mock"
+            android:textAllCaps="false" />
 
 
         <Button
             android:id="@+id/btn_test_crash"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="模拟 Crash" />
+            android:text="@string/app_btn_crash_test"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_create_database"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="创建数据库" />
+            android:text="@string/app_btn_create_database"
+            android:textAllCaps="false" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -187,17 +240,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:text="上传测试" />
+                android:text="@string/app_btn_upload_file"
+                android:textAllCaps="false" />
 
             <Button
                 android:id="@+id/btn_download_test"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_weight="1"
-                android:text="下载测试" />
+                android:text="@string/app_btn_download_file"
+                android:textAllCaps="false" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 </ScrollView>

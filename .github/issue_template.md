@@ -9,3 +9,4 @@ Please complete the following informations.
 > 问题重现的步骤。（如有）
 > Android 还是 iOS？系统版本是多少？手机品牌是什么？（如有）
 > 其他的错误信息和堆栈信息如果有也可以一并提供出来。（如有）
+> 最好给我们提供可以复现问题的Demo

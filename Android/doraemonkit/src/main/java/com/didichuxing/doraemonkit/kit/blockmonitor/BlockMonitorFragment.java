@@ -1,10 +1,11 @@
 package com.didichuxing.doraemonkit.kit.blockmonitor;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
@@ -55,7 +56,7 @@ public class BlockMonitorFragment extends BaseFragment {
             public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
                 if (data.desc == R.string.dk_item_block_switch) {
                     if (on) {
-                        BlockMonitorManager.getInstance().start(getContext());
+                        BlockMonitorManager.getInstance().start();
                     } else {
                         BlockMonitorManager.getInstance().stop();
                     }
@@ -94,7 +95,7 @@ public class BlockMonitorFragment extends BaseFragment {
                 }
             }, 1000);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 

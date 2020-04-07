@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.util;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.BuildConfig;
+import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,8 +28,7 @@ public class DoraemonStatisticsUtil {
     private DoraemonStatisticsUtil() {
     }
 
-    public static void uploadUserInfo(Context context) {
-        String url = "https://doraemon.xiaojukeji.com/uploadAppData";
+    public static void uploadUserInfo(Context context) throws Exception {
         String appId = SystemUtil.getPackageName(context);
         String appName = SystemUtil.getAppName(context);
         String type = "Android";
@@ -41,7 +41,7 @@ public class DoraemonStatisticsUtil {
         try {
             jsonObject.put("appId", appId);
             jsonObject.put("appName", appName);
-            jsonObject.put("version", "" + BuildConfig.VERSION_NAME);
+            jsonObject.put("version", "" + BuildConfig.DOKIT_VERSION);
             jsonObject.put("type", type);
             jsonObject.put("from", from);
         } catch (JSONException e) {
@@ -52,14 +52,14 @@ public class DoraemonStatisticsUtil {
         RequestBody requestBody = RequestBody.create(mediaType,
                 jsonObject.toString());
         Request request = new Request.Builder()
-                .url(url)
+                .url(NetworkManager.APP_START_DATA_PICK_URL)
                 .post(requestBody)
                 .build();
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-
+                e.printStackTrace();
             }
 
             @Override

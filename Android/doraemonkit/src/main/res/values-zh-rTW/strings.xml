@@ -7,13 +7,17 @@
     <string name="dk_category_large_image">大圖檢測</string>
     <string name="dk_category_ui">視覺工具</string>
     <string name="dk_category_platform">平台工具</string>
-    <string name="dk_kit_network_mock">數據Mock</string>
+    <string name="dk_kit_network_mock">接口Mock</string>
+    <string name="dk_kit_health">健康體檢</string>
     <string name="dk_category_weex">WEEX</string>
 
     <string name="dk_kit_sysinfo">App 基本資訊</string>
+    <string name="dk_kit_develop">開發者選項</string>
+    <string name="dk_kit_service_running">運行中服務</string>
+    <string name="dk_kit_local_lang">本地語言</string>
     <string name="dk_kit_list">工具列表</string>
     <string name="dk_kit_demo">demo</string>
-    <string name="dk_kit_file_explorer">Sandbox</string>
+    <string name="dk_kit_file_explorer">沙盒瀏覽</string>
     <string name="dk_kit_frame_info">幀率</string>
     <string name="dk_kit_frame_info_desc">幀率檢測</string>
     <string name="dk_kit_gps_mock">位置模擬</string>
@@ -29,7 +33,7 @@
     <string name="dk_kit_view_check">View 元件檢查</string>
     <string name="dk_kit_net_monitor">流量監控</string>
     <string name="dk_kit_ui_monitor">UI顯示實時數據</string>
-    <string name="dk_kit_time_counter">耗時</string>
+    <string name="dk_kit_time_counter">啟動耗時</string>
     <string name="dk_kit_method_cost">函數耗時</string>
     <string name="dk_kit_mock_template_preview">數據預覽</string>
     <string name="dk_kit_method_cost_desc">
@@ -95,8 +99,8 @@
     <string name="dk_frameinfo_downstream">下行流量</string>
     <string name="dk_frameinfo_upstream">上流量</string>
     <string name="dk_frameinfo_avg_value">平均值</string>
-    <string name="dk_frameinfo_big_img">大圖</string>
-    <string name="dk_frameinfo_leakcanary">leakCanary</string>
+    <string name="dk_frameinfo_big_img">大圖監控</string>
+    <string name="dk_frameinfo_leakcanary">LeakCanary</string>
     <string name="dk_tools_dbdebug">DBView</string>
 
     <string name="dk_log_info_edt_hint">輸入想要過濾的關鍵字</string>
@@ -113,11 +117,12 @@
 
     <string name="dk_gpsmock_open">開啟模擬定位</string>
     <string name="dk_gpsmock_tv_location">模擬地址</string>
-    <string name="dk_gpsmock_hint_latitude">輸入緯度 (Lat)</string>
-    <string name="dk_gpsmock_hint_longitude">輸入經度 (Lng)</string>
+
+
+    <string name="dk_gpsmock_hint_longlat">請輸入經緯度</string>
 
     <!--卡頓檢測-->
-    <string name="dk_kit_block_monitor">ANR 檢測</string>
+    <string name="dk_kit_block_monitor">卡頓檢測</string>
     <string name="dk_kit_block_monitor_list">ANR 列表</string>
     <string name="dk_kit_block_monitor_detail">ANR 詳情</string>
     <string name="dk_item_block_switch">ANR 檢測開關</string>
@@ -145,7 +150,6 @@
         <![CDATA[
         描述:關於圖片文件大小和文件被加載到內存以後的區別.<br/>
         <font color="red">參考：https://juejin.im/post/5bc406b9f265da0aa664ea1e</font><br/>
-        <font color="red">注意：大圖文件檢測功能依賴于流量監控功能，請確保流量監控開關是否被打開</font>
         ]]>
     </string>
 
@@ -162,7 +166,7 @@
     <string name="dk_kit_network_monitor">流量監控</string>
     <string name="dk_data_clean_toast">清除系統資料</string>
     <string name="dk_float_permission_toast">哆啦A夢需要打開懸浮視窗權限才能正常使用</string>
-    <string name="dk_gps_location_change_toast">地址變為: %1$s, %2$s</string>
+    <string name="dk_gps_location_change_toast">地址變為: %1$s , %2$s</string>
     <string name="dk_view_check_info_desc">背景顏色：%1$s</string>
     <string name="dk_view_check_info_padding">內邊距：%1$d, %2$d, %3$d, %4$d</string>
     <string name="dk_view_check_info_margin">外邊距：%1$d, %2$d, %3$d, %4$d</string>
@@ -217,11 +221,14 @@
     <string name="dk_item_time_goto_list">查看紀錄</string>
     <string name="dk_kit_block_time_counter_list">耗時列表</string>
     <string name="dk_sysinfo_display_size">解析度</string>
+    <string name="dk_sysinfo_display_inch">屏幕尺寸</string>
     <string name="dk_network_detail_title_body">Message Body</string>
     <string name="dk_network_detail_title_url">鏈接</string>
     <string name="dk_network_summary_total_number_time_tips">總封包數</string>
     <string name="dk_cancel">取消</string>
+    <string name="dk_discard">丟棄</string>
     <string name="dk_confirm">確認</string>
+    <string name="dk_post">提交</string>
     <string name="dk_crash_need_permission">請授權讀寫權限，避免crash文件丟失</string>
     <string name="dk_db_tips_insert">添加</string>
     <string name="dk_delete">刪除</string>
@@ -230,6 +237,7 @@
 
     <string name="dk_hint">提示</string>
     <string name="dk_share">分享</string>
+    <string name="dk_save">保存</string>
     <string name="dk_platform_monitor_data_button">開始測試</string>
     <string name="dk_platform_monitor_data_button_stop">結束測試</string>
     <string name="dk_success">成功</string>
@@ -250,4 +258,53 @@
     <!--jsonviewer-->
     <string name="dk_jsonViewer_icon_plus">expand</string>
     <string name="dk_jsonViewer_icon_minus">collapse</string>
+    <string name="dk_data_mock_et_hint">支持篩選</string>
+    <string name="dk_data_mock_bottom_table_mock">Mock數據</string>
+    <string name="dk_data_mock_bottom_table_template">上傳模板</string>
+    <string name="dk_data_mock_switch_all">全部</string>
+    <string name="dk_data_mock_switch_opened">打開</string>
+    <string name="dk_data_mock_switch_closed">關閉</string>
+    <string name="dk_data_mock_group">接口分組</string>
+    <string name="dk_data_mock_switch_status">開關狀態</string>
+    <string name="dk_health_upload_successed">上传数据成功</string>
+    <string name="dk_health_upload_failed">上传数据失败,请重新上传</string>
+    <string name="dk_health_upload_droped">本次测试用例已丢弃!</string>
+    <string name="dk_health_upload_title">健康体检</string>
+    <string name="dk_health_upload_message">是否确认开始执行健康体检?</string>
+    <string name="dk_health_funcation_start">App即将重启并开始进入体检模式</string>
+    <string name="dk_health_funcation_running">正在体检中...</string>
+    <string name="dk_health_step_index">向上滑动查看功能使用说明</string>
+    <string name="dk_health_title_step1">第一步</string>
+    <string name="dk_health_title_step2">第二步</string>
+    <string name="dk_health_title_step3">第三步</string>
+    <string name="dk_health_title_step4">第四步</string>
+    <string name="dk_health_step1">点击开始体验按钮开始本次的性能测试</string>
+    <string name="dk_health_step2">在每一个页面至少停留10秒钟，如果低于10秒钟的话，我们将会丢弃该页面收集到的数据。</string>
+    <string name="dk_health_step3">测试完毕之后，重新进入本页面并点击结束测试按钮，填写测试用例名称和测试人的名字，即可上传本次性能测试数据</string>
+    <string name="dk_health_step4">打开www.dokit.cn平台，进入app健康体检列表，即可查看本次的性能测试报告</string>
+    <string name="dk_health_back_top">回到顶部</string>
+    <string name="dk_log_btn_clean">清空日志</string>
+    <string name="dk_log_btn_export">导出</string>
+    <string name="dk_log_btn_back_top">回到顶部</string>
+    <string name="dk_log_btn_to_bottom">滚至底部</string>
+    <string name="dk_kit_net_monitor_white_host_tip">白名单(默认全部拦截,如有添加白名单则只会拦截白名单中的网络请求,同时白名单规则在关闭当前页面时生效。白名单host示例:m.baidu.com)</string>
+    <string name="dk_kit_net_monitor_white_host_edit_tip">请输入白名单host</string>
+    <string name="dk_kit_net_monitor_white_host_edit_toast">请先输入host</string>
+    <string name="dk_data_mock_plugin_toast">请先到https://www.dokit.cn申请projectId,并参考使用中心进行接入</string>
+    <string name="dk_header_reset">下拉刷新</string>
+    <string name="dk_header_pull">下拉刷新</string>
+    <string name="dk_header_pull_over">释放立即刷新</string>
+    <string name="dk_header_refreshing">正在刷新...</string>
+    <string name="dk_header_completed">刷新成功</string>
+    <string name="dk_brvah_loading">正在加载中...</string>
+    <string name="dk_brvah_load_failed">加载失败，请点我重试</string>
+    <string name="dk_brvah_load_end">没有更多数据</string>
+    <string name="dk_brvah_load_complete">点击加载更多</string>
+    <string name="dk_data_mock_template_tip">本地是否存在mock模板数据:%s</string>
+    <string name="dk_data_mock_template_upload">上传模板</string>
+    <string name="dk_weaknet_type">弱网类型</string>
+    <string name="dk_weaknet_type_speed">限速</string>
+    <string name="dk_weaknet_type_timeout">超时</string>
+    <string name="dk_weaknet_type_off">断网</string>
+    <string name="dk_weak_network_speed_unit">K/s</string>
 </resources>

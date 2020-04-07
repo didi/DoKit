@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.network.httpurlconnection.interceptor;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.didichuxing.doraemonkit.kit.network.core.ResourceTypeHelper;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.HttpRequest;
@@ -9,7 +9,7 @@ import com.didichuxing.doraemonkit.kit.network.httpurlconnection.chain.HttpReque
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.chain.HttpRequestStreamChain;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.chain.HttpResponseChain;
 import com.didichuxing.doraemonkit.kit.network.httpurlconnection.chain.HttpResponseStreamChain;
-import com.didichuxing.doraemonkit.okgo.OkGo;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 
 import java.io.IOException;
 
@@ -79,7 +79,7 @@ public class MockInterceptor implements DKInterceptor<HttpRequest, HttpResponse>
             HttpUrl originUrl = HttpUrl.parse(mockUrl.queryParameter("originUrl"));
             if (originUrl != null) {
                 //用okhttp代理发送
-                OkGo.<String>get(originUrl.toString()).execute();
+                DokitOkGo.<String>get(originUrl.toString()).execute();
             }
         }
 

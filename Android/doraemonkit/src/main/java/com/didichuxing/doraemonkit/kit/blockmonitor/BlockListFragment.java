@@ -1,11 +1,11 @@
 package com.didichuxing.doraemonkit.kit.blockmonitor;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.method.ScrollingMovementMethod;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.TextView;
 
@@ -16,6 +16,7 @@ import com.didichuxing.doraemonkit.kit.blockmonitor.core.OnBlockInfoUpdateListen
 import com.didichuxing.doraemonkit.ui.base.BaseFragment;
 import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
 import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,7 +52,8 @@ public class BlockListFragment extends BaseFragment implements OnBlockInfoUpdate
     private void initView() {
         mBlockList = findViewById(R.id.block_list);
         mLogDetail = findViewById(R.id.tx_block_detail);
-        mLogDetail.setMovementMethod(ScrollingMovementMethod.getInstance());
+        //和长按复制功能冲突
+        //mLogDetail.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mBlockList.setLayoutManager(layoutManager);
@@ -63,6 +65,7 @@ public class BlockListFragment extends BaseFragment implements OnBlockInfoUpdate
         mBlockListAdapter.setOnItemClickListener(new BlockListAdapter.OnItemClickListener() {
             @Override
             public void onClick(BlockInfo info) {
+                LogHelper.i(TAG, info.toString());
                 mLogDetail.setText(info.toString());
                 mLogDetail.setVisibility(View.VISIBLE);
                 mBlockList.setVisibility(View.GONE);

@@ -19,8 +19,33 @@ NS_ASSUME_NONNULL_BEGIN
                                               startTime: (NSTimeInterval)startTime;
 @end
 
+@protocol DoraemonNetworkWeakDelegate <NSObject>
+
+typedef NS_ENUM(NSUInteger, DoraemonWeakNetType) {
+    #pragma mark - 弱网选项对应
+    // 断网
+    DoraemonWeakNetwork_Break,
+    // 超时
+    DoraemonWeakNetwork_OutTime,
+    // 限网
+    DoraemonWeakNetwork_WeakSpeed,
+    //延时
+    DoraemonWeakNetwork_Delay
+};
+
+- (NSInteger)weakNetSelecte;
+
+- (NSUInteger)delayTime;
+
+- (void)handleWeak:(NSData *)data isDown:(BOOL)is;
+//- (NSData *)doraemonNSURLProtocolWeak:(NSData *)data count:(NSInteger)times;
+
+@end
+
 @interface DoraemonNetworkInterceptor : NSObject
 @property (nonatomic, assign) BOOL shouldIntercept;
+
+@property (nonatomic, weak) id<DoraemonNetworkWeakDelegate> weakDelegate;
 
 + (instancetype)shareInstance;
 

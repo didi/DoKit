@@ -16,7 +16,8 @@
 
 package com.android.tools.perflib.vmtrace;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
+
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;

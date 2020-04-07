@@ -15,7 +15,7 @@
  */
 package com.squareup.leakcanary;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.squareup.leakcanary.internal.LeakCanaryInternals;
 
@@ -38,7 +38,6 @@ import static android.os.Build.VERSION_CODES.N;
 import static android.os.Build.VERSION_CODES.N_MR1;
 import static android.os.Build.VERSION_CODES.O;
 import static android.os.Build.VERSION_CODES.O_MR1;
-import static android.os.Build.VERSION_CODES.P;
 
 /**
  * This class is a work in progress. You can help by reporting leak traces that seem to be caused
@@ -215,7 +214,7 @@ public enum AndroidExcludedRefs {
           + " ActivityChooserModelPolicy which can be an activity context."
           + " Tracked here: https://code.google.com/p/android/issues/detail?id=172659"
           + " Hack: https://gist.github.com/andaag/b05ab66ed0f06167d6e0";
-      excluded.instanceField("android.support.v7.internal.widget.ActivityChooserModel",
+      excluded.instanceField("androidx.appcompat.widget.ActivityChooserModel",
           "mActivityChoserModelPolicy").reason(reason);
       excluded.instanceField("android.widget.ActivityChooserModel", "mActivityChoserModelPolicy")
           .reason(reason);
@@ -617,7 +616,8 @@ public enum AndroidExcludedRefs {
     }
   },
 
-  VIEWLOCATIONHOLDER_ROOT(SDK_INT == P) {
+  //28 为安卓P
+  VIEWLOCATIONHOLDER_ROOT(SDK_INT == 28) {
     @Override
     void add(ExcludedRefs.Builder excluded) {
       //  In Android P, ViewLocationHolder has an mRoot field that is not cleared in its clear()

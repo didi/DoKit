@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.kit.colorpick;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.ColorInt;
+import androidx.annotation.ColorInt;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -43,7 +43,7 @@ public class ColorPickerInfoDokitView extends AbsDokitView {
         params.width = getScreenShortSideLength();
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.x = 0;
-        params.y = UIUtils.getHeightPixels(getContext()) - UIUtils.dp2px(getContext(), 95);
+        params.y = UIUtils.getHeightPixels() - UIUtils.dp2px(95);
     }
 
     @Override
@@ -58,6 +58,7 @@ public class ColorPickerInfoDokitView extends AbsDokitView {
         mClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ColorPickManager.getInstance().setColorPickerDokitView(null);
                 ColorPickConfig.setColorPickOpen(getContext(), false);
                 DokitViewManager.getInstance().detach(ColorPickerDokitView.class.getSimpleName());
                 DokitViewManager.getInstance().detach(ColorPickerInfoDokitView.class.getSimpleName());

@@ -151,9 +151,7 @@ public class TableMeasurer<T> {
                 int width = column.getDrawFormat().measureWidth(column, position);
                 measureRowHeight(lineHeightArray, column, currentPosition, position);
                 currentPosition += 1;
-                /**
-                 *Todo 为了解决合并单元宽度过大问题
-                 */
+                //为了解决合并单元宽度过大问题
                 if (rangeCells != null) {
                     Cell cell = rangeCells[position][columnPos];
                     if (cell != null) {

@@ -35,7 +35,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["appcompat"]
+    implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["utilcode"]
     if (rootProject.ext.config["uploadArchives"]) {

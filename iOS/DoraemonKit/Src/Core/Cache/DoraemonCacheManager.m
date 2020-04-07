@@ -26,6 +26,8 @@ static NSString * const kDoraemonANRTrackKey = @"doraemon_anr_track_key";
 static NSString * const kDoraemonMemoryLeakKey = @"doraemon_memory_leak_key";
 static NSString * const kDoraemonMemoryLeakAlertKey = @"doraemon_memory_leak_alert_key";
 static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
+static NSString * const kDoraemonMockCacheKey = @"doraemon_mock_cache_key";
+static NSString * const kDoraemonHealthStartKey = @"doraemon_health_start_key";
 
 @interface DoraemonCacheManager()
 
@@ -88,12 +90,12 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
     if (dic[@"longitude"]) {
         coordinate.longitude = [dic[@"longitude"] doubleValue];
     }else{
-        coordinate.longitude = -1.;
+        coordinate.longitude = 0.;
     }
     if (dic[@"latitude"]) {
         coordinate.latitude = [dic[@"latitude"] doubleValue];
     }else{
-        coordinate.latitude = -1.;
+        coordinate.latitude = 0.;
     }
     
     return coordinate;
@@ -216,16 +218,20 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
     if (!text || text.length <= 0) { return; }
     
     NSArray *records = [self h5historicalRecord];
+    
+    NSMutableArray *muarr = [NSMutableArray arrayWithArray:records];
+    
     /// 去重
-    if ([records containsObject:text]) { return; }
-    
-    NSMutableArray *muarr = [NSMutableArray array];
-    if (records && records.count > 0) { [muarr addObjectsFromArray:records]; }
-    
-    [muarr addObject:text];
+    if ([muarr containsObject:text]) {
+        if ([muarr.firstObject isEqualToString:text]) {
+            return;
+        }
+        [muarr removeObject:text];
+    }
+    [muarr insertObject:text atIndex:0];
     
     /// 限制数量
-    if (muarr.count > 10) { [muarr removeObjectAtIndex:0]; }
+    if (muarr.count > 10) { [muarr removeLastObject]; }
     
     [_defaults setObject:muarr.copy forKey:kDoraemonH5historicalRecord];
     [_defaults synchronize];
@@ -289,5 +295,22 @@ static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
     return [_defaults boolForKey:kDoraemonMemoryLeakAlertKey];
 }
 
+// mockapi本地缓存情况
+- (void)saveMockCache:(NSArray *)mocks{
+    [_defaults setObject:mocks forKey:kDoraemonMockCacheKey];
+    [_defaults synchronize];
+}
+- (NSArray *)mockCahce{
+    return [_defaults objectForKey:kDoraemonMockCacheKey];
+}
+
+// 健康体检开关
+- (void)saveHealthStart:(BOOL)on{
+    [_defaults setBool:on forKey:kDoraemonHealthStartKey];
+    [_defaults synchronize];
+}
+- (BOOL)healthStart{
+    return [_defaults boolForKey:kDoraemonHealthStartKey];
+}
 
 @end
