@@ -21,10 +21,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = DoraemonLocalizedString(@"清除本地数据");
+    self.title = DoraemonLocalizedString(@"清理缓存");
     
     _cellBtn = [[DoraemonCellButton alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
-    [_cellBtn renderUIWithTitle:DoraemonLocalizedString(@"清除本地数据")];
+    [_cellBtn renderUIWithTitle:DoraemonLocalizedString(@"清理缓存")];
     [_cellBtn renderUIWithRightContent:[self getHomeDirFileSize]];
     _cellBtn.delegate = self;
     [_cellBtn needDownLine];

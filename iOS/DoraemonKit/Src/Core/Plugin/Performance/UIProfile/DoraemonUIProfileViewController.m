@@ -22,7 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = DoraemonLocalizedString(@"UI层级检查");
+    self.title = DoraemonLocalizedString(@"UI层级");
     
     _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750(104))];
     [_switchView renderUIWithTitle:DoraemonLocalizedString(@"UI层级检查开关") switchOn:[DoraemonUIProfileManager sharedInstance].enable];

@@ -21,10 +21,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = DoraemonLocalizedString(@"元素边框线");
+    self.title = DoraemonLocalizedString(@"布局边框");
     
     _switchView = [[DoraemonCellSwitch alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(104))];
-    [_switchView renderUIWithTitle:DoraemonLocalizedString(@"元素边框线开关") switchOn:[DoraemonViewMetricsConfig defaultConfig].enable];
+    [_switchView renderUIWithTitle:DoraemonLocalizedString(@"布局边框开关") switchOn:[DoraemonViewMetricsConfig defaultConfig].enable];
     [_switchView needTopLine];
     [_switchView needDownLine];
     _switchView.delegate = self;

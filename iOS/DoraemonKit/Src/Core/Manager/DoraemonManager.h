@@ -37,7 +37,7 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     DoraemonManagerPluginType_DoraemonCrashPlugin,
     // 子线程UI
     DoraemonManagerPluginType_DoraemonSubThreadUICheckPlugin,
-    // 清除本地数据
+    // 清理缓存
     DoraemonManagerPluginType_DoraemonDeleteLocalDataPlugin,
     // NSLog
     DoraemonManagerPluginType_DoraemonNSLogPlugin,

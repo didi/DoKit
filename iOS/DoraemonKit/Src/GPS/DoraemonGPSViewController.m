@@ -32,7 +32,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Mock GPS";
+    self.title = DoraemonLocalizedString(@"Mock GPS");
     
     [self initUI];
 }

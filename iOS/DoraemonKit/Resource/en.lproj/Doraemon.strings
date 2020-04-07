@@ -107,7 +107,7 @@
     "链接不能为空"                        =   "url can not be nil";
     
     //清除本地数据
-    "清除本地数据"                          = "Clear Sanbox";
+    "清理缓存"                          = "Clear Sanbox";
     "确定要删除本地数据"                      = "Confirm to clear sanbox data";
     "正在清理中"                                  = "Deleting";
     
@@ -207,8 +207,8 @@
      "确认删除所有卡顿记录吗？"             = "Confirm to delete all ANR tracks?";
      
      //大图检测
-     "大图检测"                                     = "Large Image";
-     "大图检测开关"                                  = "Large image detection switch";
+     "大图检测"                                     = "BigImg";
+     "大图检测开关"                                  = "Big image detection switch";
      
      //弱网检测
      "模拟弱网"                               = "Weak Network";
@@ -229,7 +229,7 @@
      "本次启动时间为"                          = "App launch time = ";
      
     //UI层级
-    "UI层级检查"                                  = "UI Hierarchy";
+    "UI层级"                                  = "UI Hierarchy";
     "UI层级检查开关"                              = "UI Hierarchy switch";
 
     //函数耗时
@@ -250,8 +250,8 @@
     "内存泄漏检测弹框提醒"                            = "Memory Leak Alert Warning";
     "内存泄漏检测结果"                             = "Memory Leak Result";
     
-    //颜色拾取器
-    "颜色拾取器"                             =   "Color Picker";
+    //取色器
+    "取色器"                             =   "Color Picker";
     
     //组件检查
     "组件检查"                                =   "View Check";
@@ -265,8 +265,8 @@
     "位置：左%@  右%@  上%@  下%@"                 =  "Position: left:%@  right:%@  top:%@  bottom:%@";
     
     //元素边框线
-    "元素边框线"                                  = "View Border";
-    "元素边框线开关"                            = "Widget border switch";
+    "布局边框"                                  = "View Border";
+    "布局边框开关"                            = "View border switch";
     
     //UI结构
     "UI结构"                                 = "UI Structure";
