@@ -52,13 +52,4 @@ public interface Category {
      */
     int WEEX = 8;
 
-    /**
-     * 用于编写代码时限制int类型的输入
-     */
-    @Retention(RetentionPolicy.SOURCE)
-    @Target(ElementType.PARAMETER)
-    @IntDef({BIZ, TOOLS, PERFORMANCE, UI, CLOSE, VERSION, FLOAT_MODE, WEEX})
-    @interface Menu {
-
-    }
 }

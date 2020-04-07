@@ -1,26 +1,10 @@
 package com.didichuxing.doraemonkit.constant;
 
-import android.support.annotation.IntDef;
-import android.support.annotation.StringDef;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 /**
  * Created by wanglikun on 2018/9/14.
  */
 
 public interface SharedPrefsKey {
-    /**
-     * 配置支持自动初始化的模块
-     */
-    @Target(ElementType.PARAMETER)
-    @Retention(RetentionPolicy.SOURCE)
-    @StringDef({LOG_INFO_OPEN})
-    @interface AutoInit { }
-
     String FRAME_INFO_FPS_OPEN = "frame_info_fps_open";
     String FRAME_INFO_CPU_OPEN = "frame_info_cpu_open";
     String FRAME_INFO_MEMORY_OPEN = "frame_info_memory_open";

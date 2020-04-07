@@ -1,4 +1,3 @@
-
 if (rootProject.ext.config["applyPlugin"]) {
     // 引用插件
     apply plugin: 'com.didi.dokit'
