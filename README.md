@@ -30,7 +30,7 @@ DoKit is rich in functions, easy to access, and easy to expand. Everyone is welc
 
 ## SDK Show
 <div align="center">    
- <img src="https://javer.oss-cn-shanghai.aliyuncs.com/2020/dokit/dokiten.png" width = "250" alt="Demonstration" align=center />
+ <img src="https://javer.oss-cn-shanghai.aliyuncs.com/2020/dokit/dokiten1.png" width = "250" alt="Demonstration" align=center />
 </div>
 
 ## Feature List
