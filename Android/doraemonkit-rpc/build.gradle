@@ -48,7 +48,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation rootProject.ext.dependencies["utilcode"]
-    implementation rootProject.ext.dependencies["brvah"]
+//    implementation rootProject.ext.dependencies["brvah"]
     //platform http
     compileOnly rootProject.ext.dependencies["didi_http"]
     compileOnly rootProject.ext.dependencies["didi_rpc"]

@@ -3,7 +3,7 @@ apply plugin: 'com.novoda.bintray-release'
 publish {
     def groupProjectID = 'com.didichuxing.doraemonkit'
     def artifactProjectID = 'doraemonkit-plugin'
-    def publishVersionID = "${rootProject.ext.android["jcenterArchivesVersionName"]}"
+    def publishVersionID = "${rootProject.ext.android["pluginVersionName"]}"
 
     userOrg = 'doraemonkit'
     repoName = 'DoraemonKit'

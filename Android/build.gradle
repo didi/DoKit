@@ -34,4 +34,4 @@ tasks.getByPath(":doraemonkit-no-op:javadocRelease").enabled = false
 tasks.getByPath(":doraemonkit-leakcanary:javadocRelease").enabled = false
 tasks.getByPath(":doraemonkit-weex:javadocRelease").enabled = false
 tasks.getByPath(":doraemonkit-weex-no-op:javadocRelease").enabled = false
-tasks.getByPath(":doraemonkit-rpc:javadocRelease").enabled = false
+//tasks.getByPath(":doraemonkit-rpc:javadocRelease").enabled = false
