@@ -31,15 +31,22 @@ public final class PicassoMethodAdapter extends AdviceAdapter {
     }
 
 
+//    @Override
+//    protected void onMethodEnter() {
+//        super.onMethodEnter();
+//        //加载第一个参数 uri
+//        mv.visitVarInsn(ALOAD, 1);
+//        //加载第四个参数 List<Transformation> transformations
+//        mv.visitVarInsn(ALOAD, 4);
+//        mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/picasso/PicassoHook", "proxy", "(Landroid/net/Uri;Ljava/util/List;)Ljava/util/List;", false);
+//        //重新赋值给第4个参数 List<Transformation> transformations
+//        mv.visitVarInsn(ASTORE, 4);
+//    }
+
     @Override
-    protected void onMethodEnter() {
-        super.onMethodEnter();
-        //加载第一个参数 uri
-        mv.visitVarInsn(ALOAD, 1);
-        //加载第四个参数 List<Transformation> transformations
-        mv.visitVarInsn(ALOAD, 4);
-        mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/picasso/PicassoHook", "proxy", "(Landroid/net/Uri;Ljava/util/List;)Ljava/util/List;", false);
-        //重新赋值给第4个参数 List<Transformation> transformations
-        mv.visitVarInsn(ASTORE, 4);
+    protected void onMethodExit(int opcode) {
+        super.onMethodExit(opcode);
+        mv.visitVarInsn(ALOAD, 0);
+        mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/picasso/PicassoHook", "proxy", "(Ljava/lang/Object;)V", false);
     }
 }

@@ -37,6 +37,9 @@ import com.baidu.location.LocationClientOption;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.network.common.CommonHeaders;
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorRequest;
@@ -357,13 +360,18 @@ public class MainDebugActivity extends BaseActivity implements View.OnClickListe
                 String imageLoaderImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662891&di=acaf549645e58b6c67c231d495e18271&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D3571592872%2C3353494284%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1200%26h%3D1290";
                 Picasso.get().load(picassoImgUrl)
                         .memoryPolicy(MemoryPolicy.NO_CACHE)
+                        .placeholder(R.drawable.dk_health_bg)
+                        .error(R.drawable.dk_health_bg)
                         .into((ImageView) findViewById(R.id.iv_picasso));
 
                 Glide.with(MainDebugActivity.this)
                         .asBitmap()
                         .load(glideImageUrl)
-                        //.diskCacheStrategy(DiskCacheStrategy.NONE)
-                        //.skipMemoryCache(true)
+                        .placeholder(R.drawable.dk_health_bg)
+                        .error(R.drawable.dk_health_bg)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .transform(new CircleCrop())
                         .into((ImageView) findViewById(R.id.iv_glide));
 
 

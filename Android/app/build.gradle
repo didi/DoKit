@@ -65,6 +65,7 @@ android {
 dokitExt {
     dokitPluginSwitch = true
     slowMethodSwitch = true
+    bigImgSwitch = true
     //单位为ms 1000ms = 1s
     thresholdTime = 200
     packageNames = ["com.didichuxing.doraemondemo"]

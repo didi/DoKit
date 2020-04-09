@@ -20,6 +20,11 @@ public class DokitExtension {
      * 慢函数开关
      */
     public boolean slowMethodSwitch = true;
+
+    /**
+     * 大图检测开关
+     */
+    public boolean bigImgSwitch = true;
     /**
      * 单位为ms 默认500ms
      */
@@ -35,6 +40,7 @@ public class DokitExtension {
                 ", duplcatedClassSafeMode=" + duplcatedClassSafeMode +
                 ", dokitPluginSwitch=" + dokitPluginSwitch +
                 ", slowMethodSwitch=" + slowMethodSwitch +
+                ", bigImgSwitch=" + bigImgSwitch +
                 ", thresholdTime=" + thresholdTime +
                 ", packageNames=" + packageNames +
                 '}';

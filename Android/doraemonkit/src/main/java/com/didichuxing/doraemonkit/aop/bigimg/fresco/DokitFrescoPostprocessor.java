@@ -3,14 +3,19 @@ package com.didichuxing.doraemonkit.aop.bigimg.fresco;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
+
 import androidx.annotation.Nullable;
 
+import com.blankj.utilcode.constant.MemoryConstants;
+import com.blankj.utilcode.util.ConvertUtils;
+import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
 import com.facebook.cache.common.CacheKey;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.nativecode.Bitmaps;
 import com.facebook.imagepipeline.request.Postprocessor;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
 
 import static com.facebook.imagepipeline.request.BasePostprocessor.FALLBACK_BITMAP_CONFIGURATION;
 
@@ -37,7 +42,15 @@ public class DokitFrescoPostprocessor implements Postprocessor {
 
     @Override
     public CloseableReference<Bitmap> process(Bitmap sourceBitmap, PlatformBitmapFactory bitmapFactory) {
-        sourceBitmap = LargePictureManager.getInstance().transform(mUri.toString(), sourceBitmap, false, "Fresco");
+        try {
+            if (PerformanceSpInfoConfig.isLargeImgOpen()) {
+                double imgSize = ConvertUtils.byte2MemorySize(sourceBitmap.getByteCount(), MemoryConstants.MB);
+                LargePictureManager.getInstance().saveImageInfo(mUri.toString(), imgSize, sourceBitmap.getWidth(), sourceBitmap.getHeight(), "Fresco");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         if (mOriginalPostprocessor != null) {
             return mOriginalPostprocessor.process(sourceBitmap, bitmapFactory);
         }
