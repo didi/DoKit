@@ -2,7 +2,7 @@
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
  <img src="https://img.shields.io/badge/Android-3.1.2-blue.svg" align=left />
- <img src="https://img.shields.io/badge/iOS-2.0.0-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/iOS-3.0.0-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
 
@@ -18,129 +18,153 @@ A full-featured App (iOS & Android) development assistant. You deserve it.
 
 > [中文文档](README.md)
 
+## Introduction
+
+In the development stage of the App, in order to improve the efficiency of the developer and tester， we have developed a collection of tools with full-featured functions. I can use it to simulate the positioning of the App; preview the content of the sandbox file; view the information and logs of the App; test the performance of the App and view the detailed information of the view, etc. Each tool solves every problem in our app development. 
+And our UI interface is simple and beautiful, and the user experience is good.
+
+At present, we provide a total of more than 30+ built-in tools, including 2 platform tools; 10 common tools; 12 performance tools; and 5 ui tools. At the same time, you can also add your own tools in our DoKit panel for unified management.
+
+DoKit is rich in functions, easy to access, and easy to expand. Everyone is welcome to try and feedback.
+
+
+## SDK Show
+<div align="center">    
+ <img src="https://javer.oss-cn-shanghai.aliyuncs.com/2020/dokit/dokiten.png" width = "250" alt="Demonstration" align=center />
+</div>
+
 ## Feature List
+### Common Tools
+* App Settings： quickly open the setting page of the specific app
+* App Info：view mobile phone information, device information, permission information of the current App
+* Sanbox：support sandbox files for viewing, previewing, deleting, sharing and other operations
+* Mock GPS：You can uniformly modify the latitude and longitude callbacks inside the App
+* Browser：quickly enter the html address to view the effect of the page, and support scan code;
+* Clear Sanbox： delete all data in the sandbox
+* Log：print all logs to the UI interface for easy viewing
+* UserDefaults（iOS）: add, delete, and modify the NSUserDefaults file
+* DBView：perform more detailed operations on the DB file on the web
 
-1. Including an entrance to examine information of device, app and app's permissions;
-2. Including a file browser, with a convenient way to transfer file through airDrop;
-3. Including a tool for mocking GPS location;
-4. Including a built-in web browser;
-5. Including a log printer, with every log printed in app;
-6. Including profilers for App's FPS, CPU usage, memory usage and network traffic. All of them are shown in charts and can be saved for further analysis;
-7. Including a color picker, obtaining color values of every pixel in an easy manner;
-8. Including a UI viewer, obtaining properties, such as name, position, background color and font size, of every view;
-9. Including a coordinate ruler, a useful tool to acquire screen coordinates and to check the alignment of views.
 
-## Feature Demonstration
+### Performance Tools
+* FPS：view the real-time fps of the app through floating window 
+* CPU：view the real-time cpu of the app through floating window 
+* Memory：view the real-time memory of the app through floating window 
+* Network：view the real-time network of the app through floating window，and analysis of all network data
+* Crash：convenient to print out the code stack where Crash appears
+* Sub Thread UI：quickly locate UI operations in some sub-threads
+* ANR：when the app appears anr, print out the corresponding code call stack
+* BigImg：Through network monitoring, find out all the images with oversized size, to avoid the waste of network caused by downloading large images and the CPU consumption caused by rendering large images
+* Weak Network：view the running status of the App when the network is not good
+* Launch Time：show app launch time
+* UI Hierrachy：find the deepest element in each page
+* Time Profiler：analyze app performance bottlenecks at the function level
+* Memory Leak：quickly locate App memory leaks
+* Load（iOS）：check out all “+load” functions in iOS, and time-consuming statistics
 
-<div align="center">    
-  <img src="https://pt-starimg.didistatic.com/static/starimg/img/H1SVa0S6Zm1585189141793.jpg" width = "250" alt="DoKit 首页效果演示" align=center />
-</div>
 
-## How To Use
+### UI Tools
 
-- [iOS_Guide](Doc/iOS_en_guide.md)
-- [Android_Guide](Doc/android_en_guide.md)
+* Color Picker：capture the color value of every point in the app in real time
+* View Check：you can touch any view and view their detailed information, including view name, view position, background color, font color, font size
+* Align Ruler：ability to capture screen coordinates in real time and see if views are aligned
+* View Border：draw the border of each view
 
-## Communication
+### Platform Tools
 
-<div align="center">    
- <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKitQQ.jpeg" width = "160" height = "200" alt="QQ Group" align=left />
-</div>
+* Mock Data： App network mock solution, provides a set of network mock solutions based on App network interception, and can complete the mock for network data without modifying the code
+* Health Check： integration of multiple DoKit tools, data visualization, quick and accurate positioning of problems, let you know the performance of the app
 
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
+**tip：** Platform tools need to be used in conjunction with [http://www.dokit.cn/](http://www.dokit.cn/)
 
-## Contributors
+## Installation
 
-### Initiator
+### iOS
+#### Cocoapods
+```
+    pod 'DoraemonKit/Core', '~> 3.0.0', :configurations => ['Debug'] //Required
+    pod 'DoraemonKit/WithGPS', '~> 3.0.0', :configurations => ['Debug'] //Optional
+    pod 'DoraemonKit/WithLoad', '~> 3.0.0', :configurations => ['Debug'] //Optional
+```
+#### Example Usage
 
-<table id='team'>
-    <tr>
-        <td id='yixiangboy'>
-            <a href='https://github.com/yixiangboy'>
-                      <img src='https://github.com/yixiangboy.png?v=3&s=330' width="165" height="165">
-               </a>
-            <h4 align='center'>
-                      <a href='https://github.com/yixiangboy'>yixiangboy</a>
-               </h4>
-        </td>
-    </tr>
-</table>
+```
+#ifdef DEBUG
+#import <DoraemonKit/DoraemonManager.h>
+#endif
 
-### Contributors
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    #ifdef DEBUG
+    [[DoraemonManager shareInstance] install];
+    #endif
+}
 
-<table id='team'>
-    <tr>
-        <td id='wenquanlebao'>
-            <a href='https://github.com/wenquanlebao'>
-                      <img src='https://github.com/wenquanlebao.png?v=3&s=330' width="165" height="165">
-               </a>
-            <h4 align='center'>
-                      <a href='https://github.com/wenquanlebao'>wenquanlebao</a>
-               </h4>
-        </td>
-        <td id='hiXgb'>
-            <a href='https://github.com/hiXgb'>
-                      <img src='https://github.com/hiXgb.png?v=3&s=330' width="165" height="165">
-               </a>
-            <h4 align='center'>
-                      <a href='https://github.com/hiXgb'>hiXgb</a>
-               </h4>
-        </td>
-        <td id='teethandnail'>
-            <a href='https://github.com/teethandnail'>
-                      <img src='https://github.com/teethandnail.png?v=3&s=330' width="165" height="165">
-               </a>
-            <h4 align='center'>
-                      <a href='https://github.com/teethandnail'>teethandnail</a>
-               </h4>
-        </td>
-        <td id='wanglikun7342'>
-            <a href='https://github.com/wanglikun7342'>
-                      <img src='https://github.com/wanglikun7342.png?v=3&s=330' width="165" height="165">
-               </a>
-            <h4 align='center'>
-                      <a href='https://github.com/wanglikun7342'>wanglikun7342</a>
-               </h4>
-        </td>
-        <td id='Chinnko'>
-            <a href='https://github.com/Chinnko'>
-                      <img src='https://github.com/Chinnko.png?v=3&s=330' width="165" height="165">
-               </a>
-            <h4 align='center'>
-                      <a href='https://github.com/Chinnko'>Chinnko</a>
-               </h4>
-        </td>
-    </tr>
-    <tr>
-        <td id='LinJZong'>
-            <a href='https://github.com/LinJZong'>
-                      <img src='https://github.com/LinJZong.png?v=3&s=330' width="165" height="165">
-               </a>
-            <h4 align='center'>
-                      <a href='https://github.com/LinJZong'>LinJZong</a>
-               </h4>
-        </td>
-        <td id='y644938647'>
-            <a href='https://github.com/y644938647'>
-                      <img src='https://github.com/y644938647.png?v=3&s=330' width="165" height="165">
-               </a>
-            <h4 align='center'>
-                      <a href='https://github.com/y644938647'>y644938647</a>
-               </h4>
-        </td>
-    </tr>
-</table>
+```
+
+
+
+### Android
+#### 1、gradle 依赖
+```
+# 添加仓库
+buildscript {
+    apply from: "config.gradle"
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://www.jitpack.io' }
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.6.1'
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.0.0'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+```
+
+#### 2、插件引入
+```
+# 项目 app module 的 build.gradle 中
+apply plugin: 'com.didi.dokit'
+```
+
+#### 3、SDK 引入
+```
+debugImplementation "com.didichuxing.doraemonkit:doraemonkit:3.0.0"
+releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-no-op:3.0.0"
+```
+
+#### 4、SDK 初始化
+```
+public class App extends Application {
+    private static final String TAG = "App";
+    public static Activity leakActivity;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        DoraemonKit.install(this);
+    }
+}
+```
+
+##  Product Manual
+
+If you want to know more details about DoKit, please visit 
+**[https://www.dokit.cn/](https://www.dokit.cn/)**.
+
+
 
 ## License
 
-<img alt="Apache-2.0 license" src="https://lucene.apache.org/images/mantle-power.png" width="128">
+<img alt="Apache-2.0 license" src="https://www.apache.org/img/ASF20thAnniversary.jpg" width="128">
 
 DoraemonKit is available under the Apache-2.0 license. See the [LICENSE](LICENSE) file for more info.
