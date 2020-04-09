@@ -1,5 +1,8 @@
 DoraemonKit-Android releases
 ===
+## 3.1.2
+1.安卓版本DoKit从3.1.0版本开始全面拥抱Androidx,假如你的项目还没有升级到androidx你可以选择依赖3.0.3版本
+2.修复大图检测圆角失效的问题
 
 ## 3.1.1
 1.修复网络工具里由于androidx的ViewPage包名不一致导致的进入页面崩溃的bug
@@ -7,6 +10,9 @@ DoraemonKit-Android releases
 
 ## 3.1.0
 1.安卓版本DoKit从3.1.0版本开始全面拥抱Androidx,假如你的项目还没有升级到androidx你可以选择依赖3.0.2版本
+
+## 3.0.3
+1.修复大图检测圆角失效的问题
 
 ## 3.0.2
 1.安卓版DoKit从3.0.2版本开始将逐渐放弃对Android Support版本的支持，请大家全面拥抱androidx吧
