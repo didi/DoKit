@@ -10,7 +10,7 @@
         android:layout_margin="8dp"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:background="@color/dk_color_FFFFFF">
@@ -123,7 +123,7 @@
                 app:layout_constraintLeft_toLeftOf="@id/total_down"
                 app:layout_constraintTop_toBottomOf="@id/total_down"
                 app:layout_constraintWidth_percent="0.33" />
-        </androidx.constraintlayout.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <LinearLayout

@@ -207,10 +207,8 @@ class DoraemonKitReal {
             tool.add(new GpsMockKit());
         }
         tool.add(new WebDoorKit());
-        tool.add(new CrashCaptureKit());
-        tool.add(new LogInfoKit());
         tool.add(new DataCleanKit());
-        tool.add(new WeakNetworkKit());
+        tool.add(new LogInfoKit());
         tool.add(new DbDebugKit());
 
         //添加性能监控kit
@@ -218,12 +216,13 @@ class DoraemonKitReal {
         performance.add(new CpuKit());
         performance.add(new RamKit());
         performance.add(new NetworkKit());
+        performance.add(new CrashCaptureKit());
         performance.add(new BlockMonitorKit());
-        performance.add(new TimeCounterKit());
-        performance.add(new MethodCostKit());
-        performance.add(new UIPerformanceKit());
         performance.add(new LargePictureKit());
-
+        performance.add(new WeakNetworkKit());
+        performance.add(new TimeCounterKit());
+        performance.add(new UIPerformanceKit());
+        performance.add(new MethodCostKit());
         try {
             //动态添加leakcanary
             AbstractKit leakCanaryKit = (AbstractKit) Class.forName("com.didichuxing.doraemonkit.kit.leakcanary.LeakCanaryKit").newInstance();
