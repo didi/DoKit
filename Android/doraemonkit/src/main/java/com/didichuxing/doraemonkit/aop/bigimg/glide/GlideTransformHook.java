@@ -1,6 +1,8 @@
 package com.didichuxing.doraemonkit.aop.bigimg.glide;
 
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import android.graphics.Bitmap;
+
+import com.bumptech.glide.load.Transformation;
 
 /**
  * ================================================
@@ -12,7 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
  * ================================================
  */
 public class GlideTransformHook {
-    public static BitmapTransformation transform(Object baseRequestOptions) {
-        return new DokitGlideTransform(baseRequestOptions);
+    public static Transformation<Bitmap> transform(Object baseRequestOptions, Object transformation) {
+        return new DokitGlideTransform(baseRequestOptions, transformation);
     }
 }

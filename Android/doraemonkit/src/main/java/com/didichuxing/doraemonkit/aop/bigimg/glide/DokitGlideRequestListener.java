@@ -5,10 +5,14 @@ import android.graphics.drawable.BitmapDrawable;
 
 import androidx.annotation.Nullable;
 
+import com.blankj.utilcode.constant.MemoryConstants;
+import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.ImageUtils;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
 
 /**
@@ -30,11 +34,24 @@ public class DokitGlideRequestListener<R> implements RequestListener<R> {
 
     @Override
     public boolean onResourceReady(R resource, Object model, Target<R> target, DataSource dataSource, boolean isFirstResource) {
-        if (resource instanceof Bitmap) {
-            LargePictureManager.getInstance().transform(model.toString(), (Bitmap) resource, false, "Glide");
-        } else if (resource instanceof BitmapDrawable) {
-            LargePictureManager.getInstance().transform(model.toString(), (BitmapDrawable) resource, false, "Glide");
+        try {
+            if (PerformanceSpInfoConfig.isLargeImgOpen()) {
+                Bitmap bitmap;
+                if (resource instanceof Bitmap) {
+                    bitmap = (Bitmap) resource;
+                    double imgSize = ConvertUtils.byte2MemorySize(bitmap.getByteCount(), MemoryConstants.MB);
+                    LargePictureManager.getInstance().saveImageInfo(model.toString(), imgSize, bitmap.getWidth(), bitmap.getHeight(), "Glide");
+                } else if (resource instanceof BitmapDrawable) {
+                    bitmap = ImageUtils.drawable2Bitmap((BitmapDrawable) resource);
+                    double imgSize = ConvertUtils.byte2MemorySize(bitmap.getByteCount(), MemoryConstants.MB);
+                    LargePictureManager.getInstance().saveImageInfo(model.toString(), imgSize, bitmap.getWidth(), bitmap.getHeight(), "Glide");
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
         return false;
     }
 

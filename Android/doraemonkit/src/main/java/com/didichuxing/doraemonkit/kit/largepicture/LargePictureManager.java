@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * @author: linjizong
- *  2019-07-05
+ * 2019-07-05
  * @desc: 大图检测管理类
  */
 public class LargePictureManager {
@@ -101,7 +101,7 @@ public class LargePictureManager {
      * @param width
      * @param height
      */
-    private void saveImageInfo(String url, double memorySize, int width, int height, String framework) {
+    public void saveImageInfo(String url, double memorySize, int width, int height, String framework) {
         if (ActivityUtils.getTopActivity() instanceof UniversalActivity) {
             return;
         }
@@ -119,40 +119,40 @@ public class LargePictureManager {
         largeImageInfo.setFramework(framework);
     }
 
-    public Bitmap transform(String imageUrl, BitmapDrawable bitmapDrawable, boolean isPicasso, String framework) {
-        Bitmap sourceBitmap = ImageUtils.drawable2Bitmap(bitmapDrawable);
-        return transform(imageUrl, sourceBitmap, isPicasso, framework);
-    }
+//    public Bitmap transform(String imageUrl, BitmapDrawable bitmapDrawable, boolean isPicasso, String framework) {
+//        Bitmap sourceBitmap = ImageUtils.drawable2Bitmap(bitmapDrawable);
+//        return transform(imageUrl, sourceBitmap, isPicasso, framework);
+//    }
 
 
-    public Bitmap transform(String imageUrl, Bitmap sourceBitmap, boolean isPicasso, String framework) {
-        if (ActivityUtils.getTopActivity() instanceof UniversalActivity) {
-            return sourceBitmap;
-        }
-        if (PerformanceSpInfoConfig.isLargeImgOpen()) {
-            double imgSize = ConvertUtils.byte2MemorySize(sourceBitmap.getByteCount(), MemoryConstants.MB);
-            String strImageSize = mDecimalFormat.format(imgSize) + "MB";
-            //picasso需要创建新的bitmap进行操作
-            if (isPicasso) {
-                Bitmap newBitmap = Bitmap.createBitmap(sourceBitmap);
-                saveImageInfo(imageUrl, imgSize, newBitmap.getWidth(), newBitmap.getHeight(), framework);
-                if (imgSize > memoryThreshold) {
-                    newBitmap = ImageUtils.addTextWatermark(newBitmap, "MS:" + strImageSize, ConvertUtils.sp2px(16), Color.RED, newBitmap.getWidth() / 2 - ConvertUtils.sp2px(16) * strImageSize.length() / 2, newBitmap.getHeight() / 2);
-                    sourceBitmap.recycle();
-                    return newBitmap;
-                } else {
-                    return sourceBitmap;
-                }
-
-            }
-
-            saveImageInfo(imageUrl, imgSize, sourceBitmap.getWidth(), sourceBitmap.getHeight(), framework);
-            if (imgSize > memoryThreshold) {
-                sourceBitmap = ImageUtils.addTextWatermark(sourceBitmap, "MS:" + strImageSize, ConvertUtils.sp2px(16), Color.RED, sourceBitmap.getWidth() / 2 - ConvertUtils.sp2px(16) * strImageSize.length() / 2, sourceBitmap.getHeight() / 2);
-            }
-            return sourceBitmap;
-        }
-        return sourceBitmap;
-    }
+//    public Bitmap transform(String imageUrl, Bitmap sourceBitmap, boolean isPicasso, String framework) {
+//        if (ActivityUtils.getTopActivity() instanceof UniversalActivity) {
+//            return sourceBitmap;
+//        }
+//        if (PerformanceSpInfoConfig.isLargeImgOpen()) {
+//            double imgSize = ConvertUtils.byte2MemorySize(sourceBitmap.getByteCount(), MemoryConstants.MB);
+//            String strImageSize = mDecimalFormat.format(imgSize) + "MB";
+//            //picasso需要创建新的bitmap进行操作
+//            if (isPicasso) {
+//                Bitmap newBitmap = Bitmap.createBitmap(sourceBitmap);
+//                saveImageInfo(imageUrl, imgSize, newBitmap.getWidth(), newBitmap.getHeight(), framework);
+//                if (imgSize > memoryThreshold) {
+//                    newBitmap = ImageUtils.addTextWatermark(newBitmap, "MS:" + strImageSize, ConvertUtils.sp2px(16), Color.RED, newBitmap.getWidth() / 2 - ConvertUtils.sp2px(16) * strImageSize.length() / 2, newBitmap.getHeight() / 2);
+//                    sourceBitmap.recycle();
+//                    return newBitmap;
+//                } else {
+//                    return sourceBitmap;
+//                }
+//
+//            }
+//
+//            saveImageInfo(imageUrl, imgSize, sourceBitmap.getWidth(), sourceBitmap.getHeight(), framework);
+//            if (imgSize > memoryThreshold) {
+//                sourceBitmap = ImageUtils.addTextWatermark(sourceBitmap, "MS:" + strImageSize, ConvertUtils.sp2px(16), Color.RED, sourceBitmap.getWidth() / 2 - ConvertUtils.sp2px(16) * strImageSize.length() / 2, sourceBitmap.getHeight() / 2);
+//            }
+//            return sourceBitmap;
+//        }
+//        return sourceBitmap;
+//    }
 
 }

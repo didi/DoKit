@@ -25,6 +25,10 @@ public class DokitExtUtil {
      */
     private boolean mSlowMethodSwitch = true;
     /**
+     * 大图检测开关
+     */
+    public boolean mBigImgSwitch = true;
+    /**
      * 单位为ms 默认500ms
      */
     private int mThresholdTime = 500;
@@ -38,6 +42,10 @@ public class DokitExtUtil {
 
     public boolean isSlowMethodSwitch() {
         return mSlowMethodSwitch;
+    }
+
+    public boolean isBigImgSwitch() {
+        return mBigImgSwitch;
     }
 
     public int getThresholdTime() {
@@ -63,13 +71,14 @@ public class DokitExtUtil {
      * 初始化
      *
      * @param dokitExtension dokitExtension
-     * @param appExtension appExtension
+     * @param appExtension   appExtension
      */
     public void init(DokitExtension dokitExtension, AppExtension appExtension) {
         if (dokitExtension != null) {
             this.mDokitPluginSwitch = dokitExtension.dokitPluginSwitch;
             this.mSlowMethodSwitch = dokitExtension.slowMethodSwitch;
             this.mThresholdTime = dokitExtension.thresholdTime;
+            this.mBigImgSwitch = dokitExtension.bigImgSwitch;
             mPackageNames.clear();
             for (String packageName : dokitExtension.packageNames) {
                 mPackageNames.add(packageName.replaceAll("\\.", "/"));

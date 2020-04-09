@@ -1,9 +1,14 @@
 package com.didichuxing.doraemonkit.aop.bigimg.imageloader;
 
 import android.graphics.Bitmap;
+
 import androidx.annotation.Nullable;
+
 import android.view.View;
 
+import com.blankj.utilcode.constant.MemoryConstants;
+import com.blankj.utilcode.util.ConvertUtils;
+import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
@@ -45,7 +50,14 @@ public class DokitImageLoadingListener implements ImageLoadingListener {
 
     @Override
     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-        LargePictureManager.getInstance().transform(imageUri, loadedImage, false, "ImageLoader");
+        try {
+            if (PerformanceSpInfoConfig.isLargeImgOpen()) {
+                double imgSize = ConvertUtils.byte2MemorySize(loadedImage.getByteCount(), MemoryConstants.MB);
+                LargePictureManager.getInstance().saveImageInfo(imageUri, imgSize, loadedImage.getWidth(), loadedImage.getHeight(), "ImageLoader");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (mOriginalImageLoadingListener != null) {
             mOriginalImageLoadingListener.onLoadingComplete(imageUri, view, loadedImage);
         }

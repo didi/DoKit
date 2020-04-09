@@ -32,16 +32,32 @@ public class GlideTransformMethodAdapter extends AdviceAdapter {
     @Override
     protected void onMethodEnter() {
         super.onMethodEnter();
+//        mv.visitVarInsn(ALOAD, 0);
+//        mv.visitLdcInsn(Type.getType("Landroid/graphics/Bitmap;"));
+//        mv.visitVarInsn(ALOAD, 0);
+//        mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/glide/GlideTransformHook", "transform", "(Ljava/lang/Object;)Lcom/bumptech/glide/load/resource/bitmap/BitmapTransformation;", false);
+//        mv.visitVarInsn(ILOAD, 2);
+//        mv.visitMethodInsn(INVOKEVIRTUAL, "com/bumptech/glide/request/BaseRequestOptions", "transform", "(Ljava/lang/Class;Lcom/bumptech/glide/load/Transformation;Z)Lcom/bumptech/glide/request/BaseRequestOptions;", false);
+//        mv.visitInsn(POP);
     }
 
     @Override
     protected void onMethodExit(int opcode) {
         super.onMethodExit(opcode);
 
+//        mv.visitVarInsn(ALOAD, 0);
+//        mv.visitLdcInsn(Type.getType("Landroid/graphics/Bitmap;"));
+//        mv.visitVarInsn(ALOAD, 0);
+//        mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/glide/GlideTransformHook", "transform", "(Ljava/lang/Object;)Lcom/bumptech/glide/load/resource/bitmap/BitmapTransformation;", false);
+//        mv.visitVarInsn(ILOAD, 2);
+//        mv.visitMethodInsn(INVOKEVIRTUAL, "com/bumptech/glide/request/BaseRequestOptions", "transform", "(Ljava/lang/Class;Lcom/bumptech/glide/load/Transformation;Z)Lcom/bumptech/glide/request/BaseRequestOptions;", false);
+//        mv.visitInsn(POP);
+
         mv.visitVarInsn(ALOAD, 0);
         mv.visitLdcInsn(Type.getType("Landroid/graphics/Bitmap;"));
         mv.visitVarInsn(ALOAD, 0);
-        mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/glide/GlideTransformHook", "transform", "(Ljava/lang/Object;)Lcom/bumptech/glide/load/resource/bitmap/BitmapTransformation;", false);
+        mv.visitVarInsn(ALOAD, 1);
+        mv.visitMethodInsn(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/glide/GlideTransformHook", "transform", "(Ljava/lang/Object;Ljava/lang/Object;)Lcom/bumptech/glide/load/Transformation;", false);
         mv.visitVarInsn(ILOAD, 2);
         mv.visitMethodInsn(INVOKEVIRTUAL, "com/bumptech/glide/request/BaseRequestOptions", "transform", "(Ljava/lang/Class;Lcom/bumptech/glide/load/Transformation;Z)Lcom/bumptech/glide/request/BaseRequestOptions;", false);
         mv.visitInsn(POP);
