@@ -78,14 +78,40 @@ public class LargeImageListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Larg
 
         @Override
         public void bind(final LargeImageInfo largeImageInfo) {
-            DokitPicasso.with(DoraemonKit.APPLICATION)
-                    .load(largeImageInfo.getUrl())
-                    .memoryPolicy(MemoryPolicy.NO_CACHE)
-                    .resize(ConvertUtils.dp2px(100), ConvertUtils.dp2px(100))
-                    .centerCrop()
-                    .into(iv);
-            tvLink.setText(largeImageInfo.getUrl());
-            tvFrameWork.setText(String.format("framework:%s", largeImageInfo.getFramework()));
+            try {
+                int resourceUrl = Integer.parseInt(largeImageInfo.getUrl());
+                DokitPicasso.with(DoraemonKit.APPLICATION)
+                        .load(resourceUrl)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE)
+                        .resize(ConvertUtils.dp2px(100), ConvertUtils.dp2px(100))
+                        .centerCrop()
+                        .into(iv);
+                tvLink.setText("resource id:" + resourceUrl);
+            } catch (Exception e) {
+                DokitPicasso.with(DoraemonKit.APPLICATION)
+                        .load(largeImageInfo.getUrl())
+                        .memoryPolicy(MemoryPolicy.NO_CACHE)
+                        .resize(ConvertUtils.dp2px(100), ConvertUtils.dp2px(100))
+                        .centerCrop()
+                        .into(iv);
+                tvLink.setText(largeImageInfo.getUrl());
+            }
+
+            if (largeImageInfo.getMemorySize() == 0) {
+                tvFrameWork.setText(String.format("framework:%s", "network"));
+                tvMemorySize.setVisibility(View.GONE);
+                tvSize.setVisibility(View.GONE);
+            } else {
+                tvFrameWork.setText(String.format("framework:%s", largeImageInfo.getFramework()));
+                tvMemorySize.setVisibility(View.VISIBLE);
+                tvSize.setVisibility(View.VISIBLE);
+            }
+            if (largeImageInfo.getFileSize() == 0) {
+                tvFileSize.setVisibility(View.GONE);
+            } else {
+                tvFileSize.setVisibility(View.VISIBLE);
+            }
+
             tvFileSize.setText(String.format("fileSize:%s", mDecimalFormat.format(largeImageInfo.getFileSize()) + "KB"));
             tvMemorySize.setText(String.format("memorySize:%s", mDecimalFormat.format(largeImageInfo.getMemorySize()) + "MB"));
             tvSize.setText(String.format("width:%s   height:%s", largeImageInfo.getWidth(), largeImageInfo.getHeight()));

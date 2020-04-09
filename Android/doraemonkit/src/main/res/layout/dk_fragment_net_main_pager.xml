@@ -13,14 +13,13 @@
         app:dkLeftText="@string/dk_back"
         app:dkTitle="@string/dk_net_monitor_title_summary"/>
 
-    <androidx.core.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_show"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tabMode"
         android:layout_below="@+id/title_bar"
         android:background="@color/dk_color_F4F5F6"/>
-
 
 
     <LinearLayout

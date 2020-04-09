@@ -26,13 +26,13 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textColor="@color/dk_color_151515"
+            android:textColor="@color/dk_color_333333"
             android:textSize="12sp"
             tools:text="https://www.xxx.com" />
 
         <TextView
             android:id="@+id/tv_framework"
-            style="@style/DK.TextSmall.Dark"
+            style="@style/DK.TextSmall.Darker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_link"
@@ -41,7 +41,7 @@
 
         <TextView
             android:id="@+id/tv_file_size"
-            style="@style/DK.TextSmall.Dark"
+            style="@style/DK.TextSmall.Darker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_framework"
@@ -50,7 +50,7 @@
 
         <TextView
             android:id="@+id/tv_memory_size"
-            style="@style/DK.TextSmall.Dark"
+            style="@style/DK.TextSmall.Darker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_file_size"
@@ -59,7 +59,7 @@
 
         <TextView
             android:id="@+id/tv_size"
-            style="@style/DK.TextSmall.Dark"
+            style="@style/DK.TextSmall.Darker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_memory_size"
@@ -70,10 +70,15 @@
 
     <Button
         android:id="@+id/btn_copy"
-        style="@style/DK.TextSmall.Dark"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_below="@id/rl_content"
         android:layout_alignParentRight="true"
-        android:text="copy url" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/dk_item_btn_img"
+        android:text="copy url"
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
+
 </RelativeLayout>

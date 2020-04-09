@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -44,6 +45,7 @@ public class DoraemonStatisticsUtil {
             jsonObject.put("version", "" + BuildConfig.DOKIT_VERSION);
             jsonObject.put("type", type);
             jsonObject.put("from", from);
+            jsonObject.put("language", Locale.getDefault().getDisplayLanguage());
         } catch (JSONException e) {
             LogHelper.e(TAG, e.toString());
         }

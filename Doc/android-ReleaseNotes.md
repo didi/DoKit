@@ -1,6 +1,10 @@
 DoraemonKit-Android releases
 ===
 
+## 3.1.1
+1.修复网络工具里由于androidx的ViewPage包名不一致导致的进入页面崩溃的bug
+2.修复其他github issues
+
 ## 3.1.0
 1.安卓版本DoKit从3.1.0版本开始全面拥抱Androidx,假如你的项目还没有升级到androidx你可以选择依赖3.0.2版本
 

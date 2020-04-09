@@ -3,6 +3,8 @@ package com.didichuxing.doraemonkit.kit;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.annotation.StringRes;
+
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.ui.UniversalActivity;
 
@@ -47,5 +49,18 @@ public abstract class AbstractKit implements IKit {
     public String innerKitId() {
         return "";
     }
+
+    /**
+     * 分组名
+     * 强烈建议中英文的资源文件都填写为国际化做铺垫
+     *
+     * @return 字符串资源名
+     */
+    @StringRes
+    public int groupName() {
+        return -1;
+    }
+
+
 }
 
