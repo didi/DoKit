@@ -1,8 +1,5 @@
 package com.didichuxing.doraemonkit.aop.bigimg.picasso;
 
-import android.net.Uri;
-
-
 import com.blankj.utilcode.util.ReflectUtils;
 import com.squareup.picasso.Request;
 import com.squareup.picasso.Transformation;

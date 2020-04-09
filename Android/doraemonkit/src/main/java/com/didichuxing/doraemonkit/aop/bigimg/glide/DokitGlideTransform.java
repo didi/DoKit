@@ -8,16 +8,11 @@ import androidx.annotation.NonNull;
 import com.blankj.utilcode.constant.MemoryConstants;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ReflectUtils;
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.Resource;
-import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
-import com.bumptech.glide.load.resource.bitmap.BitmapResource;
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.security.MessageDigest;
 

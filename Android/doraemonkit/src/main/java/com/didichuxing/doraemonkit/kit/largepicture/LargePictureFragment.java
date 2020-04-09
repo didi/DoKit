@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.largepicture;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -151,6 +152,8 @@ public class LargePictureFragment extends BaseFragment {
                         }
                     } else {
                         NetworkManager.get().stopMonitor();
+                        //清空缓存
+                        LargePictureManager.LARGE_IMAGE_INFO_MAP.clear();
                     }
                 }
             }
