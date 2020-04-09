@@ -396,8 +396,8 @@ public class MainDebugActivity extends BaseActivity implements View.OnClickListe
 
 
             case R.id.btn_okhttp_mock:
-                //DokitOkGo.<String>get("http://gank.io/biz-oim/mobile/refreshVerifyCode.do")
                 DokitOkGo.<String>get("https://www.v2ex.com/api/topics/hot.json")
+                //DokitOkGo.<String>get("https://www.tianqiapi.com/api")
                         .execute(new StringCallback() {
 
                             @Override

@@ -5,10 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.didichuxing.doraemonkit.aop.bigimg.glide.GlideHook;
-
-import java.util.ArrayList;
-
 
 /**
  * ================================================
