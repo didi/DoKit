@@ -1,75 +1,116 @@
-## Document
+# Android Guide
 
-#### 1. Dependency
+|DoKit|new Version|Desc|
+|-    |-      |-  |
+|support Androidx|3.1.2|support Androidx from v3.1.0|
+|supprot android support|3.0.3|For support Android support, one or two versions will be maintained, please hug Androidx as soon as possible|
+
+
+#### 1. DoKit SDK Dependencie
+
+```groovy
+dependencies {
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.2'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.2'
+}
+```
+
+
+**Note:** 
+
+If you cannot download the dependent library through jcenter and report the following error
 
 ```
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.1.2
+```
+
+You can try again from the command line (take Mac system as an example under the project root directory)
+
+```
+./gradlew clean assembleDebug
+```
+
+
+[new versions](https://github.com/didi/DoraemonKit/blob/master/Doc/android-ReleaseNotes.md)
+
+
+
+DoraemonKit currently supports Weex tools, including
+
+* Console Log
+* Storage Cache
+* Weex Info
+* DevTool
+
+If you need to support Weex, you can directly add the following dependencies
+
+```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.2.2'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.2.2'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.1.2'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:3.1.2'
     …
 }
 ```
 
-Please use [the latest release](android-ReleaseNotes.md).
+If you need to integrate LeakCanary, you can directly add the following dependencies
+
+```groovy
+dependencies {
+    …
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.2'
+    …
+}
+```
+LeakCanary has been dynamically integrated in doraemonkit, you do n't need to do manual integration by yourself, just add the above dependency.
 
 
-#### 2. Install
+#### 2. Init
 
-Install `DoraemonKit` in `Application#onCreate()`.
+Initialize in the Application onCreate().
 
 ```Java
 @Override
 public void onCreate() {
-    …
-    DoraemonKit.install(application）
-     
-    // for web container debug, optional
-    DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
-    @Override
-    public void overrideUrlLoading(Context context, String s) {
-        // use your web container open the link
-    }
-    …
+    DoraemonKit.install(application,null,"pId");
 } 
 ```
 
+#### 3. DoKit Plugin（Optional）
+Plugin includes the following functions:
 
-#### 3. Network Monitor（Optional）
+1.Longitude and latitude simulation of baidu, tencent and AMap maps
+2.UrlConnection, Okhttp packet capture and subsequent interface hook function
+3.App Launch Time
+4.SlowMethod
+5.BigImg
 
-Add a dependency in `build.gradle` in root of host project as following.
+**Apply plugin**
 
 ```groovy
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
     dependencies {
-        …
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:1.0.0'
-        …
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.2'
+        
     }
 }
 ```
 
-Apply plugin in application module of `build.gradle`
+Add plugin to the app's `build.gradle`.
 
 ```groovy
 apply plugin: 'com.didi.dokit'
-
-
 ```
 
 
-#### 4. Custom Component（Optional）
+#### 4. Custom function components (optional)
 
-Define a class implement the interface IKit，the interface describe a component in DoraemonKit panel.
+Custom components need to inherit AbstractKit, which corresponds to the components in the Doraemon function panel.
 
-An environment switch component can be defined as following.
+Taking the passenger didi driver's terminal as an example, the components for implementing environment switching are as follows
 
 ```Java
-public class EnvSwitchKit implements IKit {
+public class EnvSwitchKit extends AbstractKit {
     @Override
     public int getCategory() {
         return Category.BIZ;
@@ -98,13 +139,35 @@ public class EnvSwitchKit implements IKit {
 }
 ```
 
-Register the environment switch component when `DoraemonKit` installed.
+Register custom components during initialization.
 
 ```Java
 @Override
 public void onCreate() {
     kits.add(new EnvSwitchKit());
     DoraemonKit.install(application, kits);
+}
+```
+
+**Other Api:**
+
+```Java
+@Override
+public void onCreate() {
+    kits.add(new EnvSwitchKit());
+    DoraemonKit.install(application, kits);
+    //false:hide icon default is true
+    DoraemonKit.setAwaysShowMainIcon(false);
     …
 }
 ```
+
+**Call up the tool panel directly**
+
+```Java
+DoraemonKit.showToolPanel();
+```
+
+#### 5. FAQ
+
+[Other Problems](SDKProblems.md)

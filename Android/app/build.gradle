@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply from: 'doraemonkit.gradle'
 
 android {
@@ -78,6 +80,7 @@ dependencies {
     implementation rootProject.ext.dependencies["multidex"]
     implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["design"]
+    implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["okhttp"]
     implementation rootProject.ext.dependencies["glide"]
 //    implementation rootProject.ext.dependencies["glide_okhttp3"]
@@ -99,8 +102,8 @@ dependencies {
     implementation rootProject.ext.dependencies["tencent_location"]
     //百度地图定位
     implementation files('libs/BaiduLBS_Android.jar')
-    implementation 'com.jakewharton:butterknife:10.2.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
+    // implementation 'com.jakewharton:butterknife:10.2.1'
+    // annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 //    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.12'
 
 }

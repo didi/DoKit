@@ -1,50 +1,48 @@
-package com.didichuxing.doraemonkit.kit;
+package com.didichuxing.doraemonkit.kit
 
-import android.content.Context;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.StringRes;
+import android.content.Context
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 
 /**
  * Created by zhangweida on 2018/6/22.
  * 工具入口 请继承AbstractKit
  */
-interface IKit {
+internal interface IKit {
     /**
      * 返回分类
      *
      * @return int
      */
-    int getCategory();
+    val category: Int
 
     /**
      * 返回名称
      *
      * @return
      */
-    @StringRes
-    int getName();
+    @get:StringRes
+    val name: Int
 
     /**
      * 返回图标
      *
      * @return
      */
-    @DrawableRes
-    int getIcon();
+    @get:DrawableRes
+    val icon: Int
 
     /**
      * 点击回调
      *
      * @param context
      */
-    void onClick(Context context);
+    fun onClick(context: Context?)
 
     /**
      * app 初始化时调用
      *
      * @param context
      */
-    void onAppInit(Context context);
-
-
+    fun onAppInit(context: Context?)
 }
