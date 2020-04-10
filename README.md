@@ -82,9 +82,9 @@ DoKit is rich in functions, easy to access, and easy to expand. Everyone is welc
 ### iOS
 #### Cocoapods
 ```
-    pod 'DoraemonKit/Core', '~> 3.0.0', :configurations => ['Debug'] //Required
-    pod 'DoraemonKit/WithGPS', '~> 3.0.0', :configurations => ['Debug'] //Optional
-    pod 'DoraemonKit/WithLoad', '~> 3.0.0', :configurations => ['Debug'] //Optional
+    pod 'DoraemonKit/Core', '~> 3.0.0', :configurations => ['Debug'] #Required
+    pod 'DoraemonKit/WithGPS', '~> 3.0.0', :configurations => ['Debug'] #Optional
+    pod 'DoraemonKit/WithLoad', '~> 3.0.0', :configurations => ['Debug'] #Optional
 ```
 #### Example Usage
 
