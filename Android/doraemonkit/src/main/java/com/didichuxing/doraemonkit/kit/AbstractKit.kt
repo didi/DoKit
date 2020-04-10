@@ -1,8 +1,10 @@
 package com.didichuxing.doraemonkit.kit
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
+import com.blankj.utilcode.util.ActivityUtils
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.ui.UniversalActivity
 
@@ -55,5 +57,14 @@ abstract class AbstractKit : IKit {
     @StringRes
     fun groupName(): Int {
         return -1
+    }
+
+
+    /**
+     * 返回当前栈顶的activity
+     * @return activity
+     */
+    fun currentActivity(): Activity? {
+        return ActivityUtils.getTopActivity()
     }
 }

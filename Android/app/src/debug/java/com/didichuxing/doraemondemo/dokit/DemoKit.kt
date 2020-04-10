@@ -31,6 +31,6 @@ class DemoKit : AbstractKit() {
     }
 
     override fun onAppInit(context: Context?) {
-
     }
+
 }
