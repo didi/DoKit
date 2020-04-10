@@ -131,7 +131,7 @@ debugImplementation "com.didichuxing.doraemonkit:doraemonkit:3.1.2"
 releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.2"
 ```
 
-#### 4、SDK 初始化
+#### 2、SDK Init
 ```
 public class App extends Application {
     @Override
