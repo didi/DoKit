@@ -26,6 +26,7 @@
 #import "DoraemonNetFlowOscillogramWindow.h"
 #import "DoraemonNetFlowManager.h"
 #import "DoraemonHealthManager.h"
+#import "DoraemonGPSMocker.h"
 
 #if DoraemonWithLogger
 #import "DoraemonCocoaLumberjackLogger.h"
@@ -36,10 +37,6 @@
 #if DoraemonWithWeex
 #import "DoraemonWeexLogDataSource.h"
 #import "DoraemonWeexInfoDataManager.h"
-#endif
-
-#if DoraemonWithGPS
-#import "DoraemonGPSMocker.h"
 #endif
 
 
@@ -143,15 +140,12 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [[DoraemonCacheManager sharedInstance] saveCpuSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveMemorySwitch:NO];
     
-    
-#if DoraemonWithGPS
     //开启mockGPS功能
     if ([[DoraemonCacheManager sharedInstance] mockGPSSwitch]) {
         CLLocationCoordinate2D coordinate = [[DoraemonCacheManager sharedInstance] mockCoordinate];
         CLLocation *loc = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
         [[DoraemonGPSMocker shareInstance] mockPoint:loc];
     }
-#endif
     
     //开启NSLog监控功能
     if ([[DoraemonCacheManager sharedInstance] nsLogSwitch]) {
@@ -210,9 +204,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAppSettingPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAppInfoPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonSandboxPlugin];
-#if DoraemonWithGPS
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonGPSPlugin];
-#endif
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonH5Plugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonDeleteLocalDataPlugin];
     

@@ -27,8 +27,6 @@ PODS:
   - DoraemonKit/WithDatabase (3.0.0):
     - DoraemonKit/Core
     - YYDebugDatabase
-  - DoraemonKit/WithGPS (3.0.0):
-    - DoraemonKit/Core
   - DoraemonKit/WithLoad (3.0.0):
     - DoraemonKit/Core
   - DoraemonKit/WithLogger (3.0.0):
@@ -63,7 +61,6 @@ DEPENDENCIES:
   - AFNetworking (= 2.6.3)
   - DoraemonKit/Core (from `../../`)
   - DoraemonKit/WithDatabase (from `../../`)
-  - DoraemonKit/WithGPS (from `../../`)
   - DoraemonKit/WithLoad (from `../../`)
   - DoraemonKit/WithLogger (from `../../`)
   - DoraemonKit/WithMLeaksFinder (from `../../`)
@@ -102,7 +99,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   CocoaLumberjack: b17ae15142558d08bbacf69775fa10c4abbebcc9
-  DoraemonKit: 4ad75a74374d836425e947f0f891157cacfdcf46
+  DoraemonKit: a3255b1f1066637cd7fd9ccf45a593db37d4b27c
   FBRetainCycleDetector: 46daef95c2dfa9be34b53087edf6a8f34e4c749c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: c0ab22c73e1b84f358d1e2f74bf6afd1c60829f2
@@ -112,6 +109,6 @@ SPEC CHECKSUMS:
   WXDevtool: 95b70c73c06fc3299d65bd53ba4b3e0b0087f3cb
   YYDebugDatabase: 037486297a7dd40bc50e2c6df5de7b4ad24c9c17
 
-PODFILE CHECKSUM: 319dde754d61f3ac15d746178f478a87ba63f128
+PODFILE CHECKSUM: 668dc9b43df6b1e4d1d71a99513ac5163b99dd0d
 
 COCOAPODS: 1.8.4

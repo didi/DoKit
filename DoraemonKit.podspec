@@ -39,14 +39,6 @@ Pod::Spec.new do |s|
     ss.dependency 'CocoaLumberjack'
   end
 
-  s.subspec 'WithGPS' do |ss| 
-    ss.source_files = 'iOS/DoraemonKit/Src/GPS/**/*{.h,.m}'
-    ss.pod_target_xcconfig = {
-      'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithGPS'
-    }
-    ss.dependency 'DoraemonKit/Core'
-  end
-
   s.subspec 'WithLoad' do |ss| 
     ss.source_files = 'iOS/DoraemonKit/Src/MethodUseTime/**/*{.h,.m}'
     ss.pod_target_xcconfig = {
