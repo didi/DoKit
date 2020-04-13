@@ -19,7 +19,6 @@ import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
 import com.didichuxing.doraemonkit.util.DokitUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -27,11 +26,8 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -68,8 +64,8 @@ public class MockInterceptor implements Interceptor {
         String queries = url.query();
         String jsonQuery = transformQuery(queries);
         String jsonRequestBody = transformRequestBody(oldRequest.body());
-        LogHelper.i(TAG, "jsonQuery===>" + jsonQuery);
-        LogHelper.i(TAG, "jsonRequestBody===>" + jsonRequestBody);
+        LogHelper.i(TAG, "realJsonQuery===>" + jsonQuery);
+        LogHelper.i(TAG, "realJsonRequestBody===>" + jsonRequestBody);
         String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_INTERCEPT, DokitDbManager.FROM_SDK_OTHER);
         String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_OTHER);
         try {
