@@ -44,6 +44,10 @@ public class MockTemplateApiBean extends AbsMockApiBean implements Serializable 
     private String method;
     @ColumnInfo(name = "query")
     private String query;
+
+    @ColumnInfo(name = "body")
+    private String body;
+
     @ColumnInfo(name = "fromType")
     private String fromType;
     /**
@@ -77,13 +81,14 @@ public class MockTemplateApiBean extends AbsMockApiBean implements Serializable 
     }
 
     @Ignore
-    public MockTemplateApiBean(@NonNull String id, String mockApiName, String path, String method, String fromType, String query, String group, String createPerson, String modifyPerson, String projectId) {
+    public MockTemplateApiBean(@NonNull String id, String mockApiName, String path, String method, String fromType, String query, String body, String group, String createPerson, String modifyPerson, String projectId) {
         this.id = id;
         this.mockApiName = mockApiName;
         this.path = path;
         this.method = method;
         this.fromType = fromType;
         this.query = query;
+        this.body = body;
         this.group = group;
         this.createPerson = createPerson;
         this.modifyPerson = modifyPerson;
@@ -134,6 +139,15 @@ public class MockTemplateApiBean extends AbsMockApiBean implements Serializable 
 
     public void setQuery(String query) {
         this.query = query;
+    }
+
+    @Override
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 
     public String getFromType() {

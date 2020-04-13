@@ -629,9 +629,11 @@ public class NetWorkMockFragment extends BaseFragment {
         ArrayList<MockInterceptTitleBean> mockInterceptTitleBeans = new ArrayList<>();
         for (int index = 0; index < lists.size(); index++) {
             MockApiResponseBean.DataBean.DatalistBean datalistBean = lists.get(index);
-            JSONObject paramsJsonObject = null;
+            JSONObject queryJsonObject = null;
+            JSONObject bodyJsonObject = null;
             if (jsonArray != null) {
-                paramsJsonObject = jsonArray.getJSONObject(index).getJSONObject("query");
+                queryJsonObject = jsonArray.getJSONObject(index).getJSONObject("query");
+                bodyJsonObject = jsonArray.getJSONObject(index).getJSONObject("body");
             }
 
             String modifyName = "null";
@@ -640,7 +642,11 @@ public class NetWorkMockFragment extends BaseFragment {
             }
             //新建 intercept
             List<MockInterceptApiBean> mockInterceptApiBeans = new ArrayList<>();
-            mockInterceptApiBeans.add(new MockInterceptApiBean(datalistBean.get_id(), datalistBean.getName(), datalistBean.getPath(), datalistBean.getMethod(), datalistBean.getFormatType(), paramsJsonObject == null ? " " : paramsJsonObject.toString(), datalistBean.getCategoryName(), datalistBean.getOwner().getName(), modifyName, datalistBean.getSceneList()));
+            mockInterceptApiBeans.add(new MockInterceptApiBean(datalistBean.get_id(), datalistBean.getName(), datalistBean.getPath()
+                    , datalistBean.getMethod(), datalistBean.getFormatType(),
+                    queryJsonObject.toString(), bodyJsonObject.toString(),
+                    datalistBean.getCategoryName(), datalistBean.getOwner().getName(),
+                    modifyName, datalistBean.getSceneList()));
             MockInterceptTitleBean mockInterceptTitleBean = new MockInterceptTitleBean(datalistBean.getName(), mockInterceptApiBeans);
             mockInterceptTitleBeans.add(mockInterceptTitleBean);
 
@@ -665,19 +671,24 @@ public class NetWorkMockFragment extends BaseFragment {
         ArrayList<MockTemplateTitleBean> mockTemplateTitleBeans = new ArrayList<>();
         for (int index = 0; index < lists.size(); index++) {
             MockApiResponseBean.DataBean.DatalistBean datalistBean = lists.get(index);
-            JSONObject paramsJsonObject = null;
+            JSONObject queryJsonObject = null;
+            JSONObject bodyJsonObject = null;
             if (jsonArray != null) {
-                paramsJsonObject = jsonArray.getJSONObject(index).getJSONObject("query");
+                queryJsonObject = jsonArray.getJSONObject(index).getJSONObject("query");
+                bodyJsonObject = jsonArray.getJSONObject(index).getJSONObject("body");
             }
 
             String modifyName = "null";
             if (datalistBean.getCurStatus() != null && datalistBean.getCurStatus().getOperator() != null) {
                 modifyName = datalistBean.getCurStatus().getOperator().getName();
             }
-
             //新建 template
             List<MockTemplateApiBean> mockTemplateApiBeans = new ArrayList<>();
-            mockTemplateApiBeans.add(new MockTemplateApiBean(datalistBean.get_id(), datalistBean.getName(), datalistBean.getPath(), datalistBean.getMethod(), datalistBean.getFormatType(), paramsJsonObject == null ? " " : paramsJsonObject.toString(), datalistBean.getCategoryName(), datalistBean.getOwner().getName(), modifyName, datalistBean.getProjectId()));
+            mockTemplateApiBeans.add(new MockTemplateApiBean(datalistBean.get_id(), datalistBean.getName(),
+                    datalistBean.getPath(), datalistBean.getMethod(),
+                    datalistBean.getFormatType(), queryJsonObject.toString(),
+                    bodyJsonObject.toString(), datalistBean.getCategoryName(), datalistBean.getOwner().getName(),
+                    modifyName, datalistBean.getProjectId()));
             MockTemplateTitleBean mockTemplateTitleBean = new MockTemplateTitleBean(datalistBean.getName(), mockTemplateApiBeans);
             mockTemplateTitleBeans.add(mockTemplateTitleBean);
         }

@@ -51,6 +51,7 @@ import com.tencent.map.geolocation.TencentLocationManager
 import com.tencent.map.geolocation.TencentLocationRequest
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
+import org.json.JSONObject
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.PermissionRequest
 import java.io.*
@@ -286,16 +287,39 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                 // combines above two lines
                 imagePipeline.clearCaches()
             }
-            R.id.btn_okhttp_mock -> DokitOkGo.get<String>("https://www.v2ex.com/api/topics/hot.json") //DokitOkGo.<String>get("https://www.tianqiapi.com/api")
-                    .execute(object : StringCallback() {
-                        override fun onSuccess(response: Response<String>) {
-                            Log.i(TAG, "okhttp====onSuccess===>" + response.body())
-                        }
+            R.id.btn_okhttp_mock -> {
+                //DokitOkGo.<String>get("https://www.tianqiapi.com/api")
+//                DokitOkGo.post<String>("http://www.v2ex.com/api/topics/hot.json?aaa=aaa&bbb=bbb")
+//                        .params("ccc", "ccc")
+//                        .params("ddd", "ddd")
+//                        .execute(object : StringCallback() {
+//                            override fun onSuccess(response: Response<String>) {
+//                                Log.i(TAG, "okhttp====onSuccess===>" + response.body())
+//                            }
+//
+//                            override fun onError(response: Response<String>) {
+//                                Log.i(TAG, "okhttp====onError===>" + response.message())
+//                            }
+//                        })
 
-                        override fun onError(response: Response<String>) {
-                            Log.i(TAG, "okhttp====onError===>" + response.message())
-                        }
-                    })
+                val json = JSONObject()
+                json.put("ccc", "ccc")
+                //json.put("ddd", "dddd")
+                //json
+                DokitOkGo.post<String>("http://www.v2ex.com/api/topics/hot.json?aaa=aaa")
+                        .upJson(json.toString())
+                        .execute(object : StringCallback() {
+                            override fun onSuccess(response: Response<String>) {
+                                Log.i(TAG, "okhttp====onSuccess===>" + response.body())
+                            }
+
+                            override fun onError(response: Response<String>) {
+                                Log.i(TAG, "okhttp====onError===>" + response.message())
+                            }
+                        })
+            }
+
+
             R.id.btn_connection_mock ->                 //requestByGet("https://www.v2ex.com/api/topics/hot.json");
                 //requestByGet("https://gank.io/api/today?a=哈哈&b=bb");
                 requestByGet("https://www.v2ex.com/api/topics/hot.json")

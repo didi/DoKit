@@ -42,21 +42,35 @@ public class InterceptDetailNodeProvider extends BaseNodeProvider {
         if (item instanceof MockInterceptApiBean) {
             final MockInterceptApiBean mockApi = (MockInterceptApiBean) item;
             holder.setText(R.id.tv_path, "path:" + mockApi.getPath());
-            JsonRecyclerView jsonRecyclerView = holder.getView(R.id.jsonviewer);
+            JsonRecyclerView jsonQuery = holder.getView(R.id.jsonviewer_query);
+            JsonRecyclerView jsonBody = holder.getView(R.id.jsonviewer_body);
 
             try {
-                holder.getView(R.id.rl_params).setVisibility(View.VISIBLE);
+                holder.getView(R.id.rl_query).setVisibility(View.VISIBLE);
                 JSONObject jsonObject = new JSONObject(mockApi.getQuery());
                 if (jsonObject.length() == 0) {
-                    holder.getView(R.id.rl_params).setVisibility(View.GONE);
+                    holder.getView(R.id.rl_query).setVisibility(View.GONE);
                 } else {
-                    jsonRecyclerView.bindJson(mockApi.getQuery());
+                    jsonQuery.bindJson(mockApi.getQuery());
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
-                holder.getView(R.id.rl_params).setVisibility(View.GONE);
+                holder.getView(R.id.rl_query).setVisibility(View.GONE);
             }
+
+            try {
+                holder.getView(R.id.rl_body).setVisibility(View.VISIBLE);
+                JSONObject jsonObject = new JSONObject(mockApi.getBody());
+                if (jsonObject.length() == 0) {
+                    holder.getView(R.id.rl_body).setVisibility(View.GONE);
+                } else {
+                    jsonBody.bindJson(mockApi.getBody());
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                holder.getView(R.id.rl_body).setVisibility(View.GONE);
+            }
+
 
             holder.setText(R.id.tv_group, "group:" + mockApi.getGroup());
             holder.setText(R.id.tv_create, "create person:" + mockApi.getCreatePerson());

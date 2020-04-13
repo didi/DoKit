@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.RequestBody;
+
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -346,12 +348,12 @@ public class DokitDbManager<T extends AbsMockApiBean> {
      * 返回命中的id
      *
      * @param path
-     * @param strLocalQuery
+     * @param jsonQuery
      * @param operateType
      * @return
      */
-    public String isMockMatched(String path, String strLocalQuery, int operateType, int fromSDK) {
-        T mockApi = mockMatched(path, strLocalQuery, operateType, fromSDK);
+    public String isMockMatched(String path, String jsonQuery, String jsonRequestBody, int operateType, int fromSDK) {
+        T mockApi = mockMatched(path, jsonQuery, jsonRequestBody, operateType, fromSDK);
         if (mockApi == null) {
             return "";
         }
@@ -363,11 +365,11 @@ public class DokitDbManager<T extends AbsMockApiBean> {
      * 通过path和query查询指定的对象
      *
      * @param path
-     * @param strLocalQuery
-     * @param operateType   1:代表拦截 2：代表模板
+     * @param jsonQuery
+     * @param operateType 1:代表拦截 2：代表模板
      * @return
      */
-    private T mockMatched(String path, String strLocalQuery, int operateType, int fromSDK) {
+    private T mockMatched(String path, String jsonQuery, String jsonRequestBody, int operateType, int fromSDK) {
         List<T> mockApis = null;
         if (operateType == DokitDbManager.MOCK_API_INTERCEPT) {
             //先进行一次全匹配
@@ -391,7 +393,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         }
         T matchedMockApi = null;
         for (T mockApi : mockApis) {
-            if (mockApi.isOpen() && queriesMatched(strLocalQuery, mockApi)) {
+            if (mockApi.isOpen() && queriesMatched(jsonQuery, mockApi) && bodyMatched(jsonRequestBody, mockApi)) {
                 matchedMockApi = mockApi;
                 break;
             }
@@ -404,42 +406,100 @@ public class DokitDbManager<T extends AbsMockApiBean> {
     /**
      * queries 是否命中
      *
-     * @param strLocalQuery
+     * @param jsonQuery
      * @param mockApi
      */
-    private boolean queriesMatched(String strLocalQuery, T mockApi) {
+    private boolean queriesMatched(String jsonQuery, T mockApi) {
         //{}代表没有配置query
         String mockQuery = mockApi.getQuery();
         boolean mockQueryIsEmpty = TextUtils.isEmpty(mockQuery) || "{}".equals(mockQuery);
         //平台没有配置query参数且本地也没有query参数
-        if (mockQueryIsEmpty && TextUtils.isEmpty(strLocalQuery)) {
+        if (mockQueryIsEmpty && TextUtils.isEmpty(jsonQuery)) {
             return true;
         }
 
         //本地有参数 平台没有配置参数
-        if (!TextUtils.isEmpty(strLocalQuery) && mockQueryIsEmpty) {
+        if (!TextUtils.isEmpty(jsonQuery) && mockQueryIsEmpty) {
             return true;
         }
 
         //本地没有参数 但是平台有参数
-        if (TextUtils.isEmpty(strLocalQuery) && !mockQueryIsEmpty) {
+        if (TextUtils.isEmpty(jsonQuery) && !mockQueryIsEmpty) {
             return false;
         }
 
         //匹配query
-        if (!TextUtils.isEmpty(strLocalQuery) && !mockQueryIsEmpty) {
+        if (!TextUtils.isEmpty(jsonQuery) && !mockQueryIsEmpty) {
             try {
-                JSONObject mockQueryObject = new JSONObject(mockQuery);
+                JSONObject jsonQueryLocal = new JSONObject(jsonQuery);
+                JSONObject jsonQueryMock = new JSONObject(mockQuery);
                 List<String> keys = new ArrayList<>();
-                Iterator<String> iterator = mockQueryObject.keys();
+                //通过平台端的来主动匹配
+                Iterator<String> iterator = jsonQueryMock.keys();
+                while (iterator.hasNext()) {
+                    keys.add(iterator.next());
+                }
+                int count = 0;
+
+                for (int index = 0; index < keys.size(); index++) {
+                    String key = keys.get(index);
+                    if (jsonQueryLocal.has(key) && jsonQueryMock.getString(key).equals(jsonQueryLocal.get(key))) {
+                        count++;
+                    }
+                }
+
+                if (count == keys.size()) {
+                    return true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * body 是否命中
+     *
+     * @param jsonRequestBody
+     * @param mockApi
+     */
+    private boolean bodyMatched(String jsonRequestBody, T mockApi) {
+        //{}代表没有配置query
+        String mockBody = mockApi.getBody();
+        boolean mockQueryIsEmpty = TextUtils.isEmpty(mockBody) || "{}".equals(mockBody);
+        //平台没有配置query参数且本地也没有query参数
+        if (mockQueryIsEmpty && TextUtils.isEmpty(jsonRequestBody)) {
+            return true;
+        }
+
+        //本地有参数 平台没有配置参数
+        if (!TextUtils.isEmpty(jsonRequestBody) && mockQueryIsEmpty) {
+            return true;
+        }
+
+        //本地没有参数 但是平台有参数
+        if (TextUtils.isEmpty(jsonRequestBody) && !mockQueryIsEmpty) {
+            return false;
+        }
+
+        //匹配body
+        if (!TextUtils.isEmpty(jsonRequestBody) && !mockQueryIsEmpty) {
+            try {
+                JSONObject jsonBodyLocal = new JSONObject(jsonRequestBody);
+                JSONObject jsonBodyMock = new JSONObject(mockBody);
+
+                List<String> keys = new ArrayList<>();
+                Iterator<String> iterator = jsonBodyMock.keys();
                 while (iterator.hasNext()) {
                     keys.add(iterator.next());
                 }
                 int count = 0;
                 for (int index = 0; index < keys.size(); index++) {
-                    String param = keys.get(index) + "=" + mockQueryObject.getString(keys.get(index));
-                    //判断本地是否包含配置的query
-                    if (strLocalQuery.contains(param)) {
+                    String key = keys.get(index);
+                    if (jsonBodyLocal.has(key) && jsonBodyMock.getString(key).equals(jsonBodyLocal.get(key))) {
                         count++;
                     }
                 }

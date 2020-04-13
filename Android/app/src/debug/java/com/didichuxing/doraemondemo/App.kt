@@ -26,7 +26,8 @@ class App : Application() {
         DoraemonKit.disableUpload()
         //是否显示入口icon
 //        DoraemonKit.setAwaysShowMainIcon(false);
-        DoraemonKit.install(this, kits, "749a0600b5e48dd77cf8ee680be7b1b7")
+//        DoraemonKit.install(this, kits, "749a0600b5e48dd77cf8ee680be7b1b7")
+        DoraemonKit.install(this, kits, "70e78c27f9174d68668d8a66a2b66483")
         val config = ImagePipelineConfig.newBuilder(this)
                 .setDiskCacheEnabled(false)
                 .build()

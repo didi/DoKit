@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply from: 'doraemonkit.gradle'
@@ -71,7 +70,9 @@ dokitExt {
     //单位为ms 1000ms = 1s
     thresholdTime = 200
     packageNames = ["com.didichuxing.doraemondemo"]
-//    packageNames = ["com.didichuxing.doraemondemo","com.didichuxing.doraemonkit"]
+    //packageNames = ["com.didichuxing.doraemondemo","com.didichuxing.doraemonkit"]
+    //慢函数 黑名单 可以是包名 也可以是全路径的类名
+    methodBlacklist = ["com.didichuxing.doraemondemo.dokit"]
 }
 
 dependencies {
@@ -102,8 +103,6 @@ dependencies {
     implementation rootProject.ext.dependencies["tencent_location"]
     //百度地图定位
     implementation files('libs/BaiduLBS_Android.jar')
-    // implementation 'com.jakewharton:butterknife:10.2.1'
-    // annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 //    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.12'
 
 }

@@ -26,7 +26,7 @@ import didihttp.HttpUrl;
 
 /**
  * @author: linjizong
- *  2019/3/6
+ * 2019/3/6
  * @desc: mock请求拦截器
  */
 public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRpcResponse> {
@@ -48,8 +48,9 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         String path = URLDecoder.decode(url.encodedPath(), "utf-8");
         //兼容滴滴内部外网映射环境  该环境的 path上会多一级/kop_xxx/路径
         String queries = url.query();
-        String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_INTERCEPT, DokitDbManager.FROM_SDK_DIDI);
-        String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_DIDI);
+        String strRequestBody = transformRequestBody(oldRequest.getEntity());
+        String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, strRequestBody, DokitDbManager.MOCK_API_INTERCEPT, DokitDbManager.FROM_SDK_DIDI);
+        String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, strRequestBody, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_DIDI);
 
         try {
             //是否命中拦截规则
@@ -65,6 +66,19 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
             return oldResponse;
         }
         return oldResponse;
+    }
+
+
+    /**
+     * 将request body 转化成json字符串
+     *
+     * @return
+     */
+    private String transformRequestBody(HttpEntity requestBody) {
+        if (requestBody == null) {
+            return "";
+        }
+        return "";
     }
 
 
@@ -105,7 +119,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
 
         //LogHelper.i("MOCK_INTERCEPT", "name===>" + interceptApiBean.getMockApiName() + "  newUrl=====>" + newUrl);
 
-        HttpRpcRequest mockRequest = oldRequest.newBuilder()
+        HttpRpcRequest mockRequest = new HttpRpcRequest.Builder()
                 .setMethod(HttpMethod.GET, null)
                 .setUrl(newUrl).build();
         HttpRpcResponse mockResponse = chain.proceed(mockRequest);
@@ -132,7 +146,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         if (TextUtils.isEmpty(templateMatchedId)) {
             return response;
         }
-        MockTemplateApiBean templateApiBean = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, templateMatchedId,DokitDbManager.FROM_SDK_DIDI);
+        MockTemplateApiBean templateApiBean = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, templateMatchedId, DokitDbManager.FROM_SDK_DIDI);
         if (templateApiBean == null) {
             return response;
         }

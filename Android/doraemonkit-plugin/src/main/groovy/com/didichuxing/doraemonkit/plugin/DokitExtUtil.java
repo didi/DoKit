@@ -15,7 +15,7 @@ import java.util.List;
  * ================================================
  */
 public class DokitExtUtil {
-    private String mApplicationId;
+     private String mApplicationId;
     /**
      * dokit 插件开关 字段权限必须为public 否则无法进行赋值
      */
@@ -27,13 +27,18 @@ public class DokitExtUtil {
     /**
      * 大图检测开关
      */
-    public boolean mBigImgSwitch = true;
+    private boolean mBigImgSwitch = true;
     /**
      * 单位为ms 默认500ms
      */
     private int mThresholdTime = 500;
 
     private List<String> mPackageNames = new ArrayList<>();
+
+    /**
+     * 黑名单
+     */
+    private List<String> mMethodBlacklist = new ArrayList<>();
 
 
     public boolean isDokitPluginSwitch() {
@@ -54,6 +59,10 @@ public class DokitExtUtil {
 
     public List<String> getPackageNames() {
         return mPackageNames;
+    }
+
+    public List<String> getMethodBlacklist() {
+        return mMethodBlacklist;
     }
 
     /**
@@ -83,13 +92,19 @@ public class DokitExtUtil {
             for (String packageName : dokitExtension.packageNames) {
                 mPackageNames.add(packageName.replaceAll("\\.", "/"));
             }
-        }
-        if (appExtension != null) {
+
+            mMethodBlacklist.clear();
+            for (String blackStr : dokitExtension.methodBlacklist) {
+                mMethodBlacklist.add(blackStr.replaceAll("\\.", "/"));
+            }
+
+            //添加默认的包名
             String applicationId = appExtension.getDefaultConfig().getApplicationId().replaceAll("\\.", "/");
             if (mPackageNames.isEmpty()) {
                 mPackageNames.add(applicationId);
             }
         }
+
 
     }
 

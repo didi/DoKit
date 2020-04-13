@@ -126,7 +126,7 @@ public class UniversalActivity extends BaseActivity {
             case FragmentIndex.FRAGMENT_METHOD_COST:
                 fragmentClass = MethodCostFragment.class;
                 break;
-            //性能监控===数据mock
+            //平台共计===数据mock
             case FragmentIndex.FRAGMENT_NETWORK_MOCK:
                 fragmentClass = NetWorkMockFragment.class;
                 break;
