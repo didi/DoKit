@@ -60,7 +60,7 @@ DoKit is rich in functions, easy to access, and easy to expand. Everyone is welc
 * UI Hierrachy：find the deepest element in each page
 * Time Profiler：analyze app performance bottlenecks at the function level
 * Memory Leak：quickly locate App memory leaks
-* Load（iOS）：check out all “+load” functions in iOS, and time-consuming statistics
+* Load（iOS）：check out all "+load" functions in iOS, and time-consuming statistics
 
 
 ### UI Tools
@@ -82,9 +82,9 @@ DoKit is rich in functions, easy to access, and easy to expand. Everyone is welc
 ### iOS
 #### Cocoapods
 ```
-    pod 'DoraemonKit/Core', '~> 3.0.0', :configurations => ['Debug'] //Required
-    pod 'DoraemonKit/WithGPS', '~> 3.0.0', :configurations => ['Debug'] //Optional
-    pod 'DoraemonKit/WithLoad', '~> 3.0.0', :configurations => ['Debug'] //Optional
+    pod 'DoraemonKit/Core', '~> 3.0.0', :configurations => ['Debug'] #Required
+    pod 'DoraemonKit/WithGPS', '~> 3.0.0', :configurations => ['Debug'] #Optional
+    pod 'DoraemonKit/WithLoad', '~> 3.0.0', :configurations => ['Debug'] #Optional
 ```
 #### Example Usage
 
@@ -101,53 +101,37 @@ DoKit is rich in functions, easy to access, and easy to expand. Everyone is welc
 
 ```
 
-
-
 ### Android
-#### 1、gradle 依赖
+#### 1、Download
+To use DoKit , add the plugin to your buildscript:
 ```
-# 添加仓库
 buildscript {
-    apply from: "config.gradle"
     repositories {
         google()
         jcenter()
-        maven { url 'https://www.jitpack.io' }
-
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.1'
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.0.0'
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        jcenter()
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.2'
     }
 }
 
 ```
+and then apply it in your app module
 
-#### 2、插件引入
 ```
-# 项目 app module 的 build.gradle 中
 apply plugin: 'com.didi.dokit'
 ```
 
-#### 3、SDK 引入
+and then implementation DoKit SDK
 ```
-debugImplementation "com.didichuxing.doraemonkit:doraemonkit:3.0.0"
-releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-no-op:3.0.0"
+debugImplementation "com.didichuxing.doraemonkit:doraemonkit:3.1.2"
+releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.2"
 ```
 
-#### 4、SDK 初始化
+#### 2、SDK Init
 ```
 public class App extends Application {
-    private static final String TAG = "App";
-    public static Activity leakActivity;
-
     @Override
     public void onCreate() {
         super.onCreate();
