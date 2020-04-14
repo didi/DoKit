@@ -120,6 +120,11 @@ public class MockInterceptor implements Interceptor {
     }
 
     /**
+     * 请求体非字符串类型标识
+     */
+    public static final String NOT_STRING_CONTENT_FLAG = "is not string content";
+
+    /**
      * 将request body 转化成json字符串
      *
      * @return
@@ -140,12 +145,14 @@ public class MockInterceptor implements Interceptor {
             } else if (requestBody.contentType().toString().toLowerCase().contains(MEDIA_TYPE_JSON)) {
                 json = DokitUtil.requestBodyToString(requestBody);
                 //类似 {"ccc":"ccc","ddd":"ddd"}
+            } else {
+                json = NOT_STRING_CONTENT_FLAG;
             }
             //测试是否是json字符串
             new JSONObject(json);
         } catch (Exception e) {
             e.printStackTrace();
-            json = "";
+            json = NOT_STRING_CONTENT_FLAG;
             LogHelper.e(TAG, "===body json====>" + json);
         }
 

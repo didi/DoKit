@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import com.blankj.utilcode.util.ThreadUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor;
 import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
@@ -353,6 +354,11 @@ public class DokitDbManager<T extends AbsMockApiBean> {
      * @return
      */
     public String isMockMatched(String path, String jsonQuery, String jsonRequestBody, int operateType, int fromSDK) {
+        //如果是非字符串类型的请求体 直接不匹配
+        if (!TextUtils.isEmpty(jsonRequestBody) && jsonRequestBody.equals(MockInterceptor.NOT_STRING_CONTENT_FLAG)) {
+            return "";
+        }
+
         T mockApi = mockMatched(path, jsonQuery, jsonRequestBody, operateType, fromSDK);
         if (mockApi == null) {
             return "";
