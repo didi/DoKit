@@ -31,6 +31,8 @@ import com.blankj.utilcode.util.ThreadUtils.SimpleTask
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.didichuxing.doraemondemo.retrofit.GithubService
+import com.didichuxing.doraemondemo.retrofit.GithubUserInfo
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.kit.network.common.CommonHeaders
 import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorRequest
@@ -49,11 +51,15 @@ import com.tencent.map.geolocation.TencentLocation
 import com.tencent.map.geolocation.TencentLocationListener
 import com.tencent.map.geolocation.TencentLocationManager
 import com.tencent.map.geolocation.TencentLocationRequest
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
 import org.json.JSONObject
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.PermissionRequest
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.*
 import java.net.*
 
@@ -69,6 +75,11 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
     var mTencentLocationRequest: TencentLocationRequest? = null
     var mTencentLocationManager: TencentLocationManager? = null
     private val UPDATE_UI = 100
+
+    /**
+     * github 接口
+     */
+    private var githubService: GithubService? = null
 
     @SuppressLint("HandlerLeak")
     private val mHandler: Handler = object : Handler() {
@@ -100,6 +111,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         findViewById<View>(R.id.btn_okhttp_mock).setOnClickListener(this)
         findViewById<View>(R.id.btn_connection_mock).setOnClickListener(this)
         //        findViewById(R.id.btn_rpc_mock).setOnClickListener(this);
+        btn_retrofit_mock.setOnClickListener(this)
         findViewById<View>(R.id.btn_test_crash).setOnClickListener(this)
         findViewById<View>(R.id.btn_show_hide_icon).setOnClickListener(this)
         findViewById<View>(R.id.btn_create_database).setOnClickListener(this)
@@ -136,6 +148,13 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         val config = ImageLoaderConfiguration.Builder(this)
                 .build()
         ImageLoader.getInstance().init(config)
+
+        val retrofit = Retrofit.Builder()
+                .baseUrl("https://api.github.com/")
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        githubService = retrofit.create(GithubService::class.java)
     }
 
     private fun test1() {
@@ -306,8 +325,8 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                 json.put("ccc", "ccc")
                 //json.put("ddd", "dddd")
                 //json
-                DokitOkGo.post<String>("http://www.v2ex.com/api/topics/hot.json?aaa=aaa")
-                        .upJson(json.toString())
+                DokitOkGo.post<String>("http://www.v2ex.com/api/topics/hot.json?name=yi")
+                        //.upJson(json.toString())
                         .execute(object : StringCallback() {
                             override fun onSuccess(response: Response<String>) {
                                 Log.i(TAG, "okhttp====onSuccess===>" + response.body())
@@ -323,6 +342,13 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
             R.id.btn_connection_mock ->                 //requestByGet("https://www.v2ex.com/api/topics/hot.json");
                 //requestByGet("https://gank.io/api/today?a=哈哈&b=bb");
                 requestByGet("https://www.v2ex.com/api/topics/hot.json")
+            R.id.btn_retrofit_mock -> {
+                val githubUserInfo = githubService?.githubUserInfo("jtsky")
+                githubUserInfo?.subscribeOn(Schedulers.io())?.subscribe {
+                    Log.i(TAG, "githubUserInfo===>${it.login}")
+                }
+
+            }
             R.id.btn_test_custom -> requestByCustom("http://apis.baidu.com/txapi/weixin/wxhot?num=10&page=1&word=%E7%9B%97%E5%A2%93%E7%AC%94%E8%AE%B0")
             R.id.btn_test_crash -> testCrash()!!.length
             R.id.btn_show_hide_icon -> if (DoraemonKit.isShow()) {

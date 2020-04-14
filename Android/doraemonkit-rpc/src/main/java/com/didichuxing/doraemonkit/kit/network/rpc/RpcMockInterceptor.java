@@ -103,8 +103,8 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
             //测试是否是json字符串
             new JSONObject(json);
         } catch (Exception e) {
-            e.printStackTrace();
-            json = "";
+            //e.printStackTrace();
+            json = NOT_STRING_CONTENT_FLAG;
             LogHelper.e(TAG, "===query json====>" + json);
         }
 
@@ -125,6 +125,11 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         }
 
         try {
+            String strBody = ConvertUtils.inputStream2String(requestBody.getContent(), "utf-8");
+            if (TextUtils.isEmpty(strBody)) {
+                return "";
+            }
+
             if (requestBody.getContentType().toString().toLowerCase().contains(MEDIA_TYPE_FORM)) {
                 String form = ConvertUtils.inputStream2String(requestBody.getContent(), "utf-8");
                 //类似 ccc=ccc&ddd=ddd
@@ -138,7 +143,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
             //测试是否是json字符串
             new JSONObject(json);
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             json = NOT_STRING_CONTENT_FLAG;
             LogHelper.e(TAG, "===body json====>" + json);
         }
@@ -187,6 +192,8 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         HttpRpcRequest mockRequest = new HttpRpcRequest.Builder()
                 .setMethod(HttpMethod.GET, null)
                 .setUrl(newUrl).build();
+        //需要提前关闭数据流 不然在某些场景下会报错
+        oldResponse.close();
         HttpRpcResponse mockResponse = chain.proceed(mockRequest);
         if (mockResponse.isSuccessful()) {
             //判断新的response是否有数据

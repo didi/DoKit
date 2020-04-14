@@ -629,11 +629,19 @@ public class NetWorkMockFragment extends BaseFragment {
         ArrayList<MockInterceptTitleBean> mockInterceptTitleBeans = new ArrayList<>();
         for (int index = 0; index < lists.size(); index++) {
             MockApiResponseBean.DataBean.DatalistBean datalistBean = lists.get(index);
-            JSONObject queryJsonObject = null;
-            JSONObject bodyJsonObject = null;
-            if (jsonArray != null) {
-                queryJsonObject = jsonArray.getJSONObject(index).getJSONObject("query");
-                bodyJsonObject = jsonArray.getJSONObject(index).getJSONObject("body");
+            JSONObject queryJsonObject;
+            JSONObject bodyJsonObject;
+            JSONObject mockJsonObject = jsonArray.getJSONObject(index);
+            if (mockJsonObject.has("query")) {
+                queryJsonObject = mockJsonObject.getJSONObject("query");
+            } else {
+                queryJsonObject = new JSONObject();
+            }
+
+            if (mockJsonObject.has("body")) {
+                bodyJsonObject = mockJsonObject.getJSONObject("body");
+            } else {
+                bodyJsonObject = new JSONObject();
             }
 
             String modifyName = "null";
@@ -671,11 +679,19 @@ public class NetWorkMockFragment extends BaseFragment {
         ArrayList<MockTemplateTitleBean> mockTemplateTitleBeans = new ArrayList<>();
         for (int index = 0; index < lists.size(); index++) {
             MockApiResponseBean.DataBean.DatalistBean datalistBean = lists.get(index);
-            JSONObject queryJsonObject = null;
-            JSONObject bodyJsonObject = null;
-            if (jsonArray != null) {
-                queryJsonObject = jsonArray.getJSONObject(index).getJSONObject("query");
-                bodyJsonObject = jsonArray.getJSONObject(index).getJSONObject("body");
+            JSONObject queryJsonObject;
+            JSONObject bodyJsonObject;
+            JSONObject mockJsonObject = jsonArray.getJSONObject(index);
+            if (mockJsonObject.has("query")) {
+                queryJsonObject = mockJsonObject.getJSONObject("query");
+            } else {
+                queryJsonObject = new JSONObject();
+            }
+
+            if (mockJsonObject.has("body")) {
+                bodyJsonObject = mockJsonObject.getJSONObject("body");
+            } else {
+                bodyJsonObject = new JSONObject();
             }
 
             String modifyName = "null";

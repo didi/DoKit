@@ -202,6 +202,13 @@
             android:layout_height="50dp"
             android:text="@string/app_btn_urlconnection_mock"
             android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_retrofit_mock"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/app_btn_retrofit_mock"
+            android:textAllCaps="false" />
         <!--    滴滴内部网络框架mock-->
         <!--        <Button-->
         <!--            android:id="@+id/btn_rpc_mock"-->

@@ -355,6 +355,10 @@ public class DokitDbManager<T extends AbsMockApiBean> {
      */
     public String isMockMatched(String path, String jsonQuery, String jsonRequestBody, int operateType, int fromSDK) {
         //如果是非字符串类型的请求体 直接不匹配
+        if (!TextUtils.isEmpty(jsonQuery) && jsonQuery.equals(MockInterceptor.NOT_STRING_CONTENT_FLAG)) {
+            return "";
+        }
+
         if (!TextUtils.isEmpty(jsonRequestBody) && jsonRequestBody.equals(MockInterceptor.NOT_STRING_CONTENT_FLAG)) {
             return "";
         }
