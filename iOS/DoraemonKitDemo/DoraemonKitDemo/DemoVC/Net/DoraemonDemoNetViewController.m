@@ -306,7 +306,7 @@
 }
 
 - (void)mockTest {
-    [DoraemonNetworkUtil getWithUrlString:@"http://172.23.162.150:8080/gateway?api=dj.home" params:nil success:^(NSDictionary * _Nonnull result) {
+    [DoraemonNetworkUtil getWithUrlString:@"http://172.23.162.150:8080/api/topics/hot.json?name=yi" params:nil success:^(NSDictionary * _Nonnull result) {
         NSLog(@"result == %@",result);
     } error:^(NSError * _Nonnull error) {
         NSLog(@"error == %@",error);
@@ -314,7 +314,7 @@
 }
 
 - (void)mockTest2 {
-    [DoraemonNetworkUtil getWithUrlString:@"http://172.23.162.150:8080/gateway?api=dj.map" params:nil success:^(NSDictionary * _Nonnull result) {
+    [DoraemonNetworkUtil postWithUrlString:@"http://172.23.162.150:8080/api/topics/hot.json" params:@{@"bodyTitle":@"bodyName"} success:^(NSDictionary * _Nonnull result) {
         NSLog(@"result == %@",result);
     } error:^(NSError * _Nonnull error) {
         NSLog(@"error == %@",error);

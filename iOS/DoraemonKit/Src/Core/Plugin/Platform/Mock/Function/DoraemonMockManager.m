@@ -80,6 +80,8 @@
                 mock.name = item[@"name"];
                 mock.path = item[@"path"];
                 mock.query = item[@"query"];
+                mock.body = item[@"body"];
+                //mock.body = @{@"bodyTitle":@"bodyName"};
                 mock.category = item[@"categoryName"];
                 mock.owner = item[@"owner"][@"name"];
                 mock.editor = item[@"curStatus"][@"operator"][@"name"];
@@ -101,6 +103,8 @@
                 upload.name = item[@"name"];
                 upload.path = item[@"path"];
                 upload.query = item[@"query"];
+                upload.body = item[@"body"];
+                //upload.body = @{@"bodyTitle":@"bodyName"};
                 upload.category = item[@"categoryName"];
                 upload.owner = item[@"owner"][@"name"];
                 upload.editor = item[@"curStatus"][@"operator"][@"name"];
@@ -177,12 +181,14 @@
 - (DoraemonMockBaseModel *)getSelectedData:(NSURLRequest *)request dataArray:(NSArray *)dataArray{
     NSString *path = request.URL.path;
     NSString *query = request.URL.query;
+    NSData *httpBody = [DoraemonUrlUtil getHttpBodyFromRequest:request];
+    NSDictionary *requestBody = [DoraemonUrlUtil convertDicFromData:httpBody];
     DoraemonMockBaseModel *selectedApi;
     for (DoraemonMockBaseModel *api in dataArray) {
         //匹配path
         if (([path hasSuffix:api.path]) && api.selected) {
             //匹配query
-            if (api.query && api.query.allKeys.count>0) {
+            if (api.query && api.query.allKeys.count>0 && query && query.length>0) {
                 NSDictionary *q = api.query;
                 BOOL match = YES;
                 for (NSString *key in q.allKeys) {
@@ -195,15 +201,36 @@
                 }
                 if (match) {
                     selectedApi = api;
+                    DoKitLog(@"yixiang mock query match");
                     break;
                 }
-            }else{
-                selectedApi = api;
-                break;
             }
             
             //匹配body
-            //todo
+            if (api.body && api.body.allKeys.count>0 && requestBody && requestBody.allKeys.count>0) {
+                NSDictionary *q = api.body;
+                BOOL match = YES;
+                for (NSString *key in q.allKeys) {
+                    NSString *value1 = q[key];
+                    NSString *value2 = requestBody[key];
+                    if (!(value1 && value2 && [value1 isEqualToString:value2])) {
+                        match = NO;
+                        break;
+                    }
+                }
+                if (match) {
+                    selectedApi = api;
+                    DoKitLog(@"yixiang mock body match");
+                    break;
+                }
+            }
+            
+            if ((!api.query || api.query.allKeys.count==0) && (!api.body || api.body.allKeys.count==0)) {
+                //都没有匹配到的话，只匹配path
+                selectedApi = api;
+                DoKitLog(@"yixiang mock path match");
+                break;
+            }
         }
     }
     return selectedApi;
