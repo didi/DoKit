@@ -45,14 +45,13 @@ public class MockInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request oldRequest = chain.request();
         Response oldResponse = chain.proceed(oldRequest);
-
-        HttpUrl url = oldRequest.url();
-        String host = url.host();
         String contentType = oldResponse.header("Content-Type");
         //如果是图片则不进行拦截
         if (InterceptorUtil.isImg(contentType)) {
             return oldResponse;
         }
+        HttpUrl url = oldRequest.url();
+        String host = url.host();
 
         //如果是mock平台的接口则不进行拦截
         if (host.equalsIgnoreCase(NetworkManager.MOCK_HOST)) {
@@ -84,7 +83,6 @@ public class MockInterceptor implements Interceptor {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return oldResponse;
         }
         return oldResponse;
     }

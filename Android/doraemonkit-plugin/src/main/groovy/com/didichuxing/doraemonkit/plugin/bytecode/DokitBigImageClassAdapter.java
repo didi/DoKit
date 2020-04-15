@@ -77,14 +77,13 @@ public final class DokitBigImageClassAdapter extends ClassVisitor {
         }
 
         //Glide v4字节码替换 transform 代码注入
-        if (className.equals("com/bumptech/glide/request/BaseRequestOptions") && methodName.equals("transform") && desc != null) {
-            if (desc.equals("(Lcom/bumptech/glide/load/Transformation;Z)Lcom/bumptech/glide/request/BaseRequestOptions;")) {
-                log(className, access, methodName, desc, signature);
-                //创建MethodVisitor代理
-                return mv == null ? null : new GlideTransformMethodAdapter(mv, access, methodName, desc);
-            }
-
-        }
+//        if (className.equals("com/bumptech/glide/request/BaseRequestOptions") && methodName.equals("transform") && desc != null) {
+//            if (desc.equals("(Lcom/bumptech/glide/load/Transformation;Z)Lcom/bumptech/glide/request/BaseRequestOptions;")) {
+//                log(className, access, methodName, desc, signature);
+//                //创建MethodVisitor代理
+//                return mv == null ? null : new GlideTransformMethodAdapter(mv, access, methodName, desc);
+//            }
+//        }
 
 
         //Glide v3字节码替换
