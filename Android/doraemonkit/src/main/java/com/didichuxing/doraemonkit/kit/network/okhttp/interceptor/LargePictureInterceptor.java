@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor;
 
 import android.text.TextUtils;
 
+import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
 
@@ -29,7 +30,9 @@ public class LargePictureInterceptor implements Interceptor {
         String contentType = response.header("Content-Type");
 
         if (InterceptorUtil.isImg(contentType)) {
-            processResponse(response);
+            if (PerformanceSpInfoConfig.isLargeImgOpen()) {
+                processResponse(response);
+            }
         }
         return response;
     }
