@@ -51,9 +51,6 @@ public class LargePictureManager {
         private static LargePictureManager INSTANCE = new LargePictureManager();
     }
 
-    private LargePictureManager() {
-    }
-
 
     /**
      * @param url
