@@ -45,7 +45,7 @@ ext {
                     "retrofit2_rxjava2"       : "com.squareup.retrofit2:adapter-rxjava2:2.8.1",
                     "retrofit2_gson"          : "com.squareup.retrofit2:converter-gson:2.8.1",
                     //暂时不支持3.14.0以上的okhttp版本
-                    "okhttp"                  : "com.squareup.okhttp3:okhttp:3.14.7",
+                    "okhttp"                  : "com.squareup.okhttp3:okhttp:3.12.1",
                     "okhttp_v2"               : "com.squareup.okhttp:okhttp:2.7.5",
                     //将urlconnection代理到okhttp
                     //"okhttp_urlconnection"    : "com.squareup.okhttp3:okhttp-urlconnection:3.12.1",

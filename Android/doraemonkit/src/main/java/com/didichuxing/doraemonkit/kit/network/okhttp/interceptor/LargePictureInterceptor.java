@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -19,6 +21,7 @@ public class LargePictureInterceptor implements Interceptor {
     public static final String TAG = "LargePictureInterceptor";
 
 
+    @NotNull
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();

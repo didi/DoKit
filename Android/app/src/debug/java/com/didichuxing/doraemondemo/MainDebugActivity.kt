@@ -323,10 +323,10 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
 
                 val json = JSONObject()
                 json.put("ccc", "ccc")
-                //json.put("ddd", "dddd")
+                json.put("age", "15")
                 //json
                 DokitOkGo.post<String>("http://www.v2ex.com/api/topics/hot.json?name=yi")
-                        //.upJson(json.toString())
+                        .upJson(json.toString())
                         .execute(object : StringCallback() {
                             override fun onSuccess(response: Response<String>) {
                                 Log.i(TAG, "okhttp====onSuccess===>" + response.body())

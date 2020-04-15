@@ -79,7 +79,22 @@ dependencies {
     compileOnly rootProject.ext.dependencies["tencent_location"]
     //百度地图定位
     compileOnly files('libs/BaiduLBS_Android.jar')
+}
 
+configurations.all {
+    //循环每个依赖库
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        //获取当前循环到的依赖库
+        def requested = details.requested
+        //如果这个依赖库群组的名字是com.android.support
+        if (requested.group == 'com.squareup.okhttp3') {
+            //且其名字不是以multidex开头的
+            if (requested.name == "okhttp") {
+                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
+                details.useVersion '3.14.7'
+            }
+        }
+    }
 }
 
 
