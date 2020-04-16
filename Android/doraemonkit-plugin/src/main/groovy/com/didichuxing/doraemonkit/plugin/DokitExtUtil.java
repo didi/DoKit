@@ -121,11 +121,11 @@ public class DokitExtUtil {
 
     private String[] ignorePackageNames = new String[]{
             "com/didichuxing/doraemonkit/aop",
-            "com/didichuxing/doraemonkit/kit/methodtrace",
-            "com/didichuxing/doraemonkit/kit/network",
-            "com/didichuxing/doraemonkit/kit/timecounter",
+            "com/didichuxing/doraemonkit/kit",
             "com/didichuxing/doraemonkit/okgo",
-            "com/didichuxing/doraemonkit/datapick"
+            "com/didichuxing/doraemonkit/datapick",
+            "com/didichuxing/doraemonkit/reflection",
+            "com/didichuxing/doraemonkit/zxing"
     };
 
 }

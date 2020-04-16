@@ -337,7 +337,7 @@
 
 
     <!--    弱网dokitView-->
-    <string name="dk_weaknet_type">弱网类型</string>
+    <string name="dk_weaknet_type">弱网类型:</string>
     <string name="dk_weaknet_type_off">断网</string>
     <string name="dk_weaknet_type_timeout">超时</string>
     <string name="dk_weaknet_type_speed">限速</string>

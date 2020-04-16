@@ -3,15 +3,14 @@ package com.didichuxing.doraemonkit.kit.timecounter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
-import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
-import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
+import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
+import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 /**

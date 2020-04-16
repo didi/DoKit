@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import com.blankj.utilcode.util.ThreadUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import org.json.JSONException;
@@ -16,8 +16,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import okhttp3.RequestBody;
 
 /**
  * ================================================

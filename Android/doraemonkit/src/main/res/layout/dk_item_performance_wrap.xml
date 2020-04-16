@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.didichuxing.doraemonkit.ui.realtime.widget.LineChart
+    <com.didichuxing.doraemonkit.kit.performance.widget.LineChart
         android:id="@+id/linechart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

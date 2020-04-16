@@ -18,10 +18,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.webdoor.WebDoorHistoryAdapter;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration;
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.zxing.activity.CaptureActivity;
 
 import java.util.List;

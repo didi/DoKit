@@ -6,7 +6,7 @@ import android.content.Intent
 import androidx.annotation.StringRes
 import com.blankj.utilcode.util.ActivityUtils
 import com.didichuxing.doraemonkit.constant.BundleKey
-import com.didichuxing.doraemonkit.ui.UniversalActivity
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity
 
 /**
  * ================================================

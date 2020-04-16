@@ -42,7 +42,7 @@
             android:textColor="@color/dk_color_666666"
             android:textSize="14sp" />
 
-        <com.didichuxing.doraemonkit.view.jsonviewer.JsonRecyclerView
+        <com.didichuxing.doraemonkit.widget.jsonviewer.JsonRecyclerView
             android:id="@+id/jsonviewer_query"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
             android:textColor="@color/dk_color_666666"
             android:textSize="14sp" />
 
-        <com.didichuxing.doraemonkit.view.jsonviewer.JsonRecyclerView
+        <com.didichuxing.doraemonkit.widget.jsonviewer.JsonRecyclerView
             android:id="@+id/jsonviewer_body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
         android:textSize="14sp"
         tools:text="修改人:" />
 
-    <com.didichuxing.doraemonkit.view.MultiLineRadioGroup
+    <com.didichuxing.doraemonkit.widget.MultiLineRadioGroup
         android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

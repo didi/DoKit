@@ -1,11 +1,9 @@
 package com.didichuxing.doraemonkit.kit.colorpick;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.media.projection.MediaProjectionManager;
-import android.os.Build;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,9 +13,9 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.ColorPickConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.constant.RequestCode;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.base.DokitIntent;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.kit.core.DokitIntent;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 
 /**
  * @author wanglikun

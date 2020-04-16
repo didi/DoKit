@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.kit.colorpick;
 
 import android.app.Activity;
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -18,7 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 
 /**
  * ================================================

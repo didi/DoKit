@@ -7,9 +7,9 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.didichuxing.doraemondemo.R
-import com.didichuxing.doraemonkit.ui.base.AbsDokitView
-import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager
+import com.didichuxing.doraemonkit.kit.core.AbsDokitView
+import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 
 /**
  * ================================================

@@ -6,7 +6,7 @@ import android.content.Intent;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.CachesKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.util.CacheUtils;
 
 import java.util.ArrayList;

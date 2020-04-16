@@ -9,8 +9,8 @@ import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
+import com.didichuxing.doraemonkit.widget.recyclerview.AbsRecyclerAdapter;
+import com.didichuxing.doraemonkit.widget.recyclerview.AbsViewBinder;
 
 import static android.text.format.DateUtils.FORMAT_SHOW_DATE;
 import static android.text.format.DateUtils.FORMAT_SHOW_TIME;

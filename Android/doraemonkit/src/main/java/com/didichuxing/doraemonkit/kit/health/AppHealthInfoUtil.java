@@ -10,7 +10,7 @@ import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.CrashCaptureConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockMonitorManager;
-import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
+import com.didichuxing.doraemonkit.kit.performance.PerformanceDataManager;
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureManager;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;

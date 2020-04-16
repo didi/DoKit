@@ -32,12 +32,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.didichuxing.doraemondemo.retrofit.GithubService
-import com.didichuxing.doraemondemo.retrofit.GithubUserInfo
 import com.didichuxing.doraemonkit.DoraemonKit
-import com.didichuxing.doraemonkit.kit.network.common.CommonHeaders
-import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorRequest
-import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorResponse
-import com.didichuxing.doraemonkit.kit.network.common.NetworkPrinterHelper
 import com.didichuxing.doraemonkit.okgo.DokitOkGo
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback
 import com.didichuxing.doraemonkit.okgo.model.Response
@@ -349,7 +344,6 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                 }
 
             }
-            R.id.btn_test_custom -> requestByCustom("http://apis.baidu.com/txapi/weixin/wxhot?num=10&page=1&word=%E7%9B%97%E5%A2%93%E7%AC%94%E8%AE%B0")
             R.id.btn_test_crash -> testCrash()!!.length
             R.id.btn_show_hide_icon -> if (DoraemonKit.isShow()) {
                 DoraemonKit.hide()
@@ -399,58 +393,6 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         })
     }
 
-    /**
-     * 手动添加网络抓包数据。目前只支持OKHttp3和HttpUrlConnection的自动注册，其他不基于OkHttp3和HttpUrlConnection的网络库如果
-     * 想统计抓包数据，需要调用下面四个方法手动添加。添加方式如下
-     * [NetworkPrinterHelper.obtainRequestId]}
-     * [NetworkPrinterHelper.updateRequest]
-     * [NetworkPrinterHelper.updateResponse]
-     * [NetworkPrinterHelper.updateResponseBody]
-     */
-    fun requestByCustom(url: String?) {
-// obtain id for this request
-        val id = NetworkPrinterHelper.obtainRequestId()
-        val client = OkHttpClient().newBuilder()
-                .addInterceptor { chain ->
-                    val request = chain.request()
-                    var headers = request.headers()
-                    var builder = CommonHeaders.Builder()
-                    for (i in 0 until headers.size()) {
-                        builder.add(headers.name(i), headers.value(i))
-                    }
-                    var body: String? = null
-                    if (request.body() != null) {
-                        body = request.body().toString()
-                    }
-                    // create request bean and updateInterceptApi
-                    val rq = CommonInspectorRequest(id, request.url().toString(), request.method(), body, builder.build())
-                    NetworkPrinterHelper.updateRequest(rq)
-                    val response = chain.proceed(request)
-                    headers = response.headers()
-                    builder = CommonHeaders.Builder()
-                    for (i in 0 until headers.size()) {
-                        builder.add(headers.name(i), headers.value(i))
-                    }
-                    // create response bean and updateInterceptApi
-                    val rp = CommonInspectorResponse(id, rq.url(), response.code(), builder.build())
-                    NetworkPrinterHelper.updateResponse(rp)
-                    response
-                }.build()
-        val request = Request.Builder().get().url(url).build()
-        val call = client.newCall(request)
-        call.enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                onHttpFailure(e)
-            }
-
-            @Throws(IOException::class)
-            override fun onResponse(call: Call, response: okhttp3.Response) {
-                val responseStr = response.body()!!.string()
-                // updateInterceptApi response body
-                NetworkPrinterHelper.updateResponseBody(id, responseStr)
-            }
-        })
-    }
 
     /**
      * 模拟上传或下载文件

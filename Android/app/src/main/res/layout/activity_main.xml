@@ -216,13 +216,6 @@
         <!--            android:layout_height="50dp"-->
         <!--            android:text="Didi Rpc Mock" />-->
 
-        <Button
-            android:id="@+id/btn_test_custom"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="@string/app_btn_custom_mock"
-            android:textAllCaps="false" />
-
 
         <Button
             android:id="@+id/btn_test_crash"

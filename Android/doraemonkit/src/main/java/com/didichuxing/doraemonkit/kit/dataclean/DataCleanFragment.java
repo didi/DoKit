@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.dialog.DialogInfo;
-import com.didichuxing.doraemonkit.ui.dialog.SimpleDialogListener;
-import com.didichuxing.doraemonkit.ui.setting.SettingItem;
-import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.widget.dialog.DialogInfo;
+import com.didichuxing.doraemonkit.widget.dialog.SimpleDialogListener;
+import com.didichuxing.doraemonkit.kit.core.SettingItem;
+import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
+import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration;
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.util.DataCleanUtil;
 
 import java.util.ArrayList;
