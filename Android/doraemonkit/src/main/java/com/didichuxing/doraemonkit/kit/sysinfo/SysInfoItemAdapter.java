@@ -8,9 +8,9 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.PermissionUtils;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
-import com.didichuxing.doraemonkit.ui.widget.textview.LabelTextView;
+import com.didichuxing.doraemonkit.widget.recyclerview.AbsRecyclerAdapter;
+import com.didichuxing.doraemonkit.widget.recyclerview.AbsViewBinder;
+import com.didichuxing.doraemonkit.widget.textview.LabelTextView;
 
 
 /**

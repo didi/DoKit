@@ -1,8 +1,7 @@
 package com.didichuxing.doraemonkit.kit.network.room_db;
 
 
-
-import com.didichuxing.doraemonkit.view.bravh.entity.node.BaseNode;
+import com.didichuxing.doraemonkit.widget.bravh.entity.node.BaseNode;
 
 import java.util.List;
 
@@ -35,6 +34,10 @@ public abstract class AbsMockApiBean extends BaseNode {
     }
 
     String getQuery() {
+        return "";
+    }
+
+    String getBody() {
         return "";
     }
 

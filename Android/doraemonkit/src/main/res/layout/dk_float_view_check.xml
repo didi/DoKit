@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <com.didichuxing.doraemonkit.ui.viewcheck.AimCircleView
+    <com.didichuxing.doraemonkit.kit.viewcheck.AimCircleView
         android:layout_width="60dp"
         android:layout_height="60dp" />
 

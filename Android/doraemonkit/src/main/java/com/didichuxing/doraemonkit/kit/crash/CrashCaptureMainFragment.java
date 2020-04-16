@@ -13,10 +13,10 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.CrashCaptureConfig;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.setting.SettingItem;
-import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.kit.core.SettingItem;
+import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.util.FileUtil;
 
 public class CrashCaptureMainFragment extends BaseFragment {

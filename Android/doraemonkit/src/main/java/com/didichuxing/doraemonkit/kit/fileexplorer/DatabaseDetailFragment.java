@@ -11,13 +11,13 @@ import android.widget.ListView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.widget.tableview.TableConfig;
-import com.didichuxing.doraemonkit.ui.widget.tableview.bean.ArrayTableData;
-import com.didichuxing.doraemonkit.ui.widget.tableview.format.FastTextDrawFormat;
-import com.didichuxing.doraemonkit.ui.widget.tableview.style.FontStyle;
-import com.didichuxing.doraemonkit.ui.widget.tableview.component.SmartTable;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.widget.tableview.TableConfig;
+import com.didichuxing.doraemonkit.widget.tableview.bean.ArrayTableData;
+import com.didichuxing.doraemonkit.widget.tableview.format.FastTextDrawFormat;
+import com.didichuxing.doraemonkit.widget.tableview.style.FontStyle;
+import com.didichuxing.doraemonkit.widget.tableview.component.SmartTable;
+import com.didichuxing.doraemonkit.widget.titlebar.TitleBar;
 import com.didichuxing.doraemonkit.util.DatabaseUtil;
 
 import java.io.File;

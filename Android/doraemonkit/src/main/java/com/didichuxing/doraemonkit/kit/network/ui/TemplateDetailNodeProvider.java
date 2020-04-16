@@ -7,9 +7,9 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.util.DokitUtil;
-import com.didichuxing.doraemonkit.view.bravh.entity.node.BaseNode;
-import com.didichuxing.doraemonkit.view.bravh.provider.BaseNodeProvider;
-import com.didichuxing.doraemonkit.view.bravh.viewholder.BaseViewHolder;
+import com.didichuxing.doraemonkit.widget.bravh.entity.node.BaseNode;
+import com.didichuxing.doraemonkit.widget.bravh.provider.BaseNodeProvider;
+import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
@@ -18,9 +18,9 @@ import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
 import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.util.LogHelper;
-import com.didichuxing.doraemonkit.view.jsonviewer.JsonRecyclerView;
+import com.didichuxing.doraemonkit.widget.jsonviewer.JsonRecyclerView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,20 +53,33 @@ public class TemplateDetailNodeProvider extends BaseNodeProvider {
         if (item instanceof MockTemplateApiBean) {
             final MockTemplateApiBean mockApi = (MockTemplateApiBean) item;
             holder.setText(R.id.tv_path, "path:" + mockApi.getPath());
-            JsonRecyclerView jsonRecyclerView = holder.getView(R.id.jsonviewer);
+            JsonRecyclerView jsonQuery = holder.getView(R.id.jsonviewer_query);
+            JsonRecyclerView jsonBody = holder.getView(R.id.jsonviewer_body);
 
             try {
-                holder.getView(R.id.rl_params).setVisibility(View.VISIBLE);
+                holder.getView(R.id.rl_query).setVisibility(View.VISIBLE);
                 JSONObject jsonObject = new JSONObject(mockApi.getQuery());
                 if (jsonObject.length() == 0) {
-                    holder.getView(R.id.rl_params).setVisibility(View.GONE);
+                    holder.getView(R.id.rl_query).setVisibility(View.GONE);
                 } else {
-                    jsonRecyclerView.bindJson(mockApi.getQuery());
+                    jsonQuery.bindJson(mockApi.getQuery());
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
-                holder.getView(R.id.rl_params).setVisibility(View.GONE);
+                holder.getView(R.id.rl_query).setVisibility(View.GONE);
+            }
+
+            try {
+                holder.getView(R.id.rl_body).setVisibility(View.VISIBLE);
+                JSONObject jsonObject = new JSONObject(mockApi.getBody());
+                if (jsonObject.length() == 0) {
+                    holder.getView(R.id.rl_body).setVisibility(View.GONE);
+                } else {
+                    jsonBody.bindJson(mockApi.getBody());
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                holder.getView(R.id.rl_body).setVisibility(View.GONE);
             }
 
             holder.setText(R.id.tv_group, "group:" + mockApi.getGroup());

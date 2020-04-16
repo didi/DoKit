@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <com.didichuxing.doraemonkit.ui.viewcheck.AimCircleView
+    <com.didichuxing.doraemonkit.kit.viewcheck.AimCircleView
         android:id="@+id/ruler_marker"
         android:layout_width="60dp"
         android:layout_height="60dp" />

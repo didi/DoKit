@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 
 /**
  * 健康体检fragment

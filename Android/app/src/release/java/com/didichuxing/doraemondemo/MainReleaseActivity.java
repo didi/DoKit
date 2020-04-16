@@ -34,12 +34,6 @@ import com.blankj.utilcode.util.ThreadUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.kit.methodtrace.MethodCost;
-import com.didichuxing.doraemonkit.kit.network.common.CommonHeaders;
-import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorRequest;
-import com.didichuxing.doraemonkit.kit.network.common.CommonInspectorResponse;
-import com.didichuxing.doraemonkit.kit.network.common.NetworkPrinterHelper;
-
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.facebook.imagepipeline.core.ImagePipeline;
@@ -280,9 +274,7 @@ public class MainReleaseActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_method_cost:
-                MethodCost.startMethodTracing("doramemon");
                 test1();
-                MethodCost.stopMethodTracingAndPrintLog("doramemon");
                 break;
 
             case R.id.btn_jump:
@@ -362,10 +354,6 @@ public class MainReleaseActivity extends AppCompatActivity implements View.OnCli
 //            case R.id.btn_rpc_mock:
 //                break;
 
-            case R.id.btn_test_custom:
-
-                requestByCustom("http://apis.baidu.com/txapi/weixin/wxhot?num=10&page=1&word=%E7%9B%97%E5%A2%93%E7%AC%94%E8%AE%B0");
-                break;
             case R.id.btn_test_crash:
                 testCrash().length();
                 break;
@@ -427,64 +415,6 @@ public class MainReleaseActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-
-    /**
-     * 手动添加网络抓包数据。目前只支持OKHttp3和HttpUrlConnection的自动注册，其他不基于OkHttp3和HttpUrlConnection的网络库如果
-     * 想统计抓包数据，需要调用下面四个方法手动添加。添加方式如下
-     * {@link NetworkPrinterHelper#obtainRequestId()}}
-     * {@link NetworkPrinterHelper#updateRequest(CommonInspectorRequest)}
-     * {@link NetworkPrinterHelper#updateResponse(CommonInspectorResponse)}
-     * {@link NetworkPrinterHelper#updateResponseBody(int, String)}
-     */
-    public void requestByCustom(String url) {
-        // obtain id for this request
-        final int id = NetworkPrinterHelper.obtainRequestId();
-
-        OkHttpClient client = new OkHttpClient().newBuilder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public okhttp3.Response intercept(Chain chain) throws IOException {
-                        Request request = chain.request();
-                        Headers headers = request.headers();
-                        CommonHeaders.Builder builder = new CommonHeaders.Builder();
-                        for (int i = 0; i < headers.size(); i++) {
-                            builder.add(headers.name(i), headers.value(i));
-                        }
-                        String body = null;
-                        if (request.body() != null) {
-                            body = request.body().toString();
-                        }
-                        // create request bean and updateInterceptApi
-                        CommonInspectorRequest rq = new CommonInspectorRequest(id, request.url().toString(), request.method(), body, builder.build());
-                        NetworkPrinterHelper.updateRequest(rq);
-                        okhttp3.Response response = chain.proceed(request);
-                        headers = response.headers();
-                        builder = new CommonHeaders.Builder();
-                        for (int i = 0; i < headers.size(); i++) {
-                            builder.add(headers.name(i), headers.value(i));
-                        }
-                        // create response bean and updateInterceptApi
-                        CommonInspectorResponse rp = new CommonInspectorResponse(id, rq.url(), response.code(), builder.build());
-                        NetworkPrinterHelper.updateResponse(rp);
-                        return response;
-                    }
-                }).build();
-        Request request = new Request.Builder().get().url(url).build();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                onHttpFailure(e);
-            }
-
-            @Override
-            public void onResponse(Call call, okhttp3.Response response) throws IOException {
-                final String responseStr = response.body().string();
-                // updateInterceptApi response body
-                NetworkPrinterHelper.updateResponseBody(id, responseStr);
-            }
-        });
-    }
 
     /**
      * 模拟上传或下载文件
