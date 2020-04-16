@@ -136,6 +136,10 @@
 }
 
 - (void)pan:(UIPanGestureRecognizer *)sender{
+    if (self.autoDock) {
+        [self autoDocking:sender];
+        return;
+    }
     //1、获得拖动位移
     CGPoint offsetPoint = [sender translationInView:sender.view];
     //2、清空拖动位移
@@ -157,6 +161,61 @@
         newY = DoraemonScreenHeight - _kEntryViewSize/2;
     }
     panView.center = CGPointMake(newX, newY);
+    [[NSUserDefaults standardUserDefaults] setObject:@{
+                                                       @"x":[NSNumber numberWithFloat:newX],
+                                                       @"y":[NSNumber numberWithFloat:newY]
+                                                       } forKey:@"FloatViewCenterLocation"];
+}
+
+- (void)autoDocking:(UIPanGestureRecognizer *)panGestureRecognizer {
+    UIView *panView = panGestureRecognizer.view;
+    switch (panGestureRecognizer.state) {
+        case UIGestureRecognizerStateBegan:
+        case UIGestureRecognizerStateChanged:
+        {
+            CGPoint translation = [panGestureRecognizer translationInView:panView];
+            [panGestureRecognizer setTranslation:CGPointZero inView:panView];
+            panView.center = CGPointMake(panView.center.x + translation.x, panView.center.y + translation.y);
+        }
+            break;
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled:
+        {
+            CGPoint location = panView.center;
+            CGFloat centerX;
+            CGFloat safeBottom = 0;
+            if (@available(iOS 11.0, *)) {
+               safeBottom = self.safeAreaInsets.bottom;
+            }
+            CGFloat centerY = MAX(MIN(location.y, CGRectGetMaxY([UIScreen mainScreen].bounds)-safeBottom), [UIApplication sharedApplication].statusBarFrame.size.height);
+            if(location.x > CGRectGetWidth([UIScreen mainScreen].bounds)/2.f)
+            {
+                centerX = CGRectGetWidth([UIScreen mainScreen].bounds)-6;
+            }
+            else
+            {
+                centerX = 6.f;
+            }
+            [[NSUserDefaults standardUserDefaults] setObject:@{
+                                                               @"x":[NSNumber numberWithFloat:centerX],
+                                                               @"y":[NSNumber numberWithFloat:centerY]
+                                                               } forKey:@"FloatViewCenterLocation"];
+            [UIView animateWithDuration:0.3 animations:^{
+                panView.center = CGPointMake(centerX, centerY);
+            }];
+        }
+
+        default:
+            break;
+    }
+}
+
+- (void)setAutoDock:(BOOL)autoDock {
+    _autoDock = autoDock;
+    NSDictionary *dict = [[NSUserDefaults standardUserDefaults] objectForKey:@"FloatViewCenterLocation"];
+    if (dict && dict[@"x"] && dict[@"y"]) {
+        self.center = CGPointMake([dict[@"x"] integerValue], [dict[@"y"] integerValue]);
+    }
 }
 
 @end
