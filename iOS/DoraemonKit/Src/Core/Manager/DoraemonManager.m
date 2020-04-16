@@ -102,6 +102,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self installWithCustomBlock:^{
         //什么也没发生
     }];
+    [self setAutoDock:YES];
 }
 
 - (void)installWithCustomBlock:(void(^)(void))customBlock{
@@ -191,6 +192,9 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     
 }
 
+- (void)setAutoDock:(BOOL)autoDock {
+    self.entryView.autoDock = autoDock;
+}
 
 /**
  初始化内置工具数据

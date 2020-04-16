@@ -120,6 +120,10 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 - (void)installWithCustomBlock:(void(^)(void))customBlock;
 
+/// 设置是否自动停靠屏幕边缘
+/// @param autoDock bool
+- (void)setAutoDock:(BOOL)autoDock;
+
 @property (nonatomic,strong) NSMutableArray *dataArray;
 
 @property (nonatomic, copy) DoraemonH5DoorBlock h5DoorBlock;
