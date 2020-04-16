@@ -47,6 +47,7 @@
     [[DoraemonManager shareInstance] addStartPlugin:@"StartPlugin"];
     [DoraemonManager shareInstance].bigImageDetectionSize = 10 * 1024;//大图检测只检测10K以上的
     [DoraemonManager shareInstance].startClass = @"DoKitAppDelegate";
+    //[DoraemonManager shareInstance].autoDock = NO;
     [[DoraemonManager shareInstance] installWithPid:@"749a0600b5e48dd77cf8ee680be7b1b7"];
     //[[DoraemonManager shareInstance] installWithStartingPosition:CGPointMake(66, 66)];
     

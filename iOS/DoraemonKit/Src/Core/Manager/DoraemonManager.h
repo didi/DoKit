@@ -111,6 +111,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 @property (nonatomic, copy) NSString *pId; //产品id 平台端的工具必须填写
 
+@property (nonatomic, assign) BOOL autoDock; //dokit entry icon support autoDock，deffault yes
+
 - (void)install;
 //带有平台端功能的s初始化方式
 - (void)installWithPid:(NSString *)pId;
@@ -119,10 +121,6 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 - (void)installWithStartingPosition:(CGPoint) position;
 
 - (void)installWithCustomBlock:(void(^)(void))customBlock;
-
-/// 设置是否自动停靠屏幕边缘
-/// @param autoDock bool
-- (void)setAutoDock:(BOOL)autoDock;
 
 @property (nonatomic,strong) NSMutableArray *dataArray;
 

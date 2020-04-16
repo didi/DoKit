@@ -82,6 +82,14 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     return instance;
 }
 
+- (instancetype)init{
+    self = [super init];
+    if (self) {
+        _autoDock = YES;
+    }
+    return self;
+}
+
 - (void)install{
     //启用默认位置
     CGPoint defaultPosition = DoraemonStartingPosition;
@@ -102,7 +110,6 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self installWithCustomBlock:^{
         //什么也没发生
     }];
-    [self setAutoDock:YES];
 }
 
 - (void)installWithCustomBlock:(void(^)(void))customBlock{
@@ -192,9 +199,6 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     
 }
 
-- (void)setAutoDock:(BOOL)autoDock {
-    self.entryView.autoDock = autoDock;
-}
 
 /**
  初始化内置工具数据
@@ -264,6 +268,9 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 - (void)initEntry:(CGPoint) startingPosition{
     _entryView = [[DoraemonEntryView alloc] initWithStartPoint:startingPosition];
     [_entryView show];
+    if(_autoDock){
+        [_entryView setAutoDock:YES];
+    }
 }
 
 - (void)addStartPlugin:(NSString *)pluginName{
