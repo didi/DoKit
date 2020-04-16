@@ -16,7 +16,7 @@ dependencies {
 ```
 
 
-**Note:** 
+**Note:**
 
 If you cannot download the dependent library through jcenter and report the following error
 
@@ -73,7 +73,7 @@ Initialize in the Application onCreate().
 @Override
 public void onCreate() {
     DoraemonKit.install(application,null,"pId");
-} 
+}
 ```
 
 #### 3. DoKit Plugin（Optional）
@@ -91,7 +91,7 @@ Plugin includes the following functions:
 buildscript {
     dependencies {
         classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.2'
-        
+
     }
 }
 ```
@@ -133,26 +133,26 @@ public class EnvSwitchKit extends AbstractKit {
     public int getCategory() {
         return Category.BIZ;
     }
- 
+
     @Override
     public int getName() {
         return R.string.bh_env_switch;
     }
- 
+
     @Override
     public int getIcon() {
         return R.drawable.bh_roadbit;
     }
- 
+
     @Override
     public void onClick(Context context) {
         DebugService service = ServiceManager.getInstance().getService(context, DebugService.class);
         PageManager.getInstance().startFragment(service.getContainer(), EnvSwitchFragment.class);
     }
- 
+
     @Override
     public void onAppInit(Context context) {
-    
+
     }
 }
 ```

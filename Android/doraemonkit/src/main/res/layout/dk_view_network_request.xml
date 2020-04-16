@@ -209,7 +209,7 @@
                 android:textIsSelectable="true"
                 android:textSize="@dimen/dk_font_size_16" />
 
-            <com.didichuxing.doraemonkit.view.jsonviewer.JsonRecyclerView
+            <com.didichuxing.doraemonkit.widget.jsonviewer.JsonRecyclerView
                 android:id="@+id/json_body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

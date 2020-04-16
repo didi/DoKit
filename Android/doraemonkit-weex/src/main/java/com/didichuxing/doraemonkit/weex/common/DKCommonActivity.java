@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 
-import com.didichuxing.doraemonkit.ui.base.BaseActivity;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
+import com.didichuxing.doraemonkit.kit.core.BaseActivity;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 
 /**
  * @author haojianglong

@@ -8,12 +8,8 @@ import android.content.Intent;
 import androidx.multidex.MultiDex;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.facebook.drawee.backends.pipeline.Fresco;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by zhangweida on 2018/6/22.

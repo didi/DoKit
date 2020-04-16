@@ -16,8 +16,8 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.OnNetworkInfoUpdateListener;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
-import com.didichuxing.doraemonkit.ui.base.BaseActivity;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
+import com.didichuxing.doraemonkit.kit.core.BaseActivity;
+import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration;
 
 import java.util.ArrayList;
 import java.util.Collections;

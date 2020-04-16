@@ -16,7 +16,7 @@ import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceUtil;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.model.ViewInfo;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.PermissionUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
@@ -73,7 +73,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
     public void onActivityResumed(Activity activity) {
         recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_RESUME);
         //记录页面层级
-        if (!activity.getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.ui.UniversalActivity")) {
+        if (!activity.getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.kit.base.UniversalActivity")) {
             recordActivityUiLevel(activity);
         }
         //如果是leakCanary页面不进行添加

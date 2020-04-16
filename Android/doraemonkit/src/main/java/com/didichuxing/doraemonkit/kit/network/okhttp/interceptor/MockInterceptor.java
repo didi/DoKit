@@ -16,6 +16,11 @@ import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
+import com.didichuxing.doraemonkit.util.DokitUtil;
+import com.didichuxing.doraemonkit.util.LogHelper;
+
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -25,6 +30,7 @@ import java.util.List;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
@@ -36,19 +42,18 @@ public class MockInterceptor implements Interceptor {
     public static final String TAG = "MockInterceptor";
 
 
+    @NotNull
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request oldRequest = chain.request();
         Response oldResponse = chain.proceed(oldRequest);
-
-        HttpUrl url = oldRequest.url();
-        String host = url.host();
         String contentType = oldResponse.header("Content-Type");
         //如果是图片则不进行拦截
         if (InterceptorUtil.isImg(contentType)) {
             return oldResponse;
         }
-
+        HttpUrl url = oldRequest.url();
+        String host = url.host();
         //如果是mock平台的接口则不进行拦截
         if (host.equalsIgnoreCase(NetworkManager.MOCK_HOST)) {
             return oldResponse;
@@ -57,8 +62,12 @@ public class MockInterceptor implements Interceptor {
         //path  /test/upload/img
         String path = URLDecoder.decode(url.encodedPath(), "utf-8");
         String queries = url.query();
-        String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_INTERCEPT, DokitDbManager.FROM_SDK_OTHER);
-        String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_OTHER);
+        String jsonQuery = transformQuery(queries);
+        String jsonRequestBody = transformRequestBody(oldRequest.body());
+        LogHelper.i(TAG, "realJsonQuery===>" + jsonQuery);
+        LogHelper.i(TAG, "realJsonRequestBody===>" + jsonRequestBody);
+        String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_INTERCEPT, DokitDbManager.FROM_SDK_OTHER);
+        String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_OTHER);
         try {
             //网络的健康体检功能 统计流量大小
             if (DokitConstant.APP_HEALTH_RUNNING) {
@@ -75,10 +84,85 @@ public class MockInterceptor implements Interceptor {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return oldResponse;
         }
         return oldResponse;
     }
+
+
+    public final static String MEDIA_TYPE_FORM = "application/x-www-form-urlencoded";
+    public final static String MEDIA_TYPE_JSON = "application/json";
+
+
+    /**
+     * 将request query 转化成json字符串
+     *
+     * @return
+     */
+    private String transformQuery(String query) {
+        String json = "";
+        if (TextUtils.isEmpty(query)) {
+            return json;
+        }
+
+        try {
+            //query 类似 ccc=ccc&ddd=ddd
+            json = DokitUtil.param2Json(query);
+            //测试是否是json字符串
+            new JSONObject(json);
+        } catch (Exception e) {
+            //e.printStackTrace();
+            json = NOT_STRING_CONTENT_FLAG;
+            LogHelper.e(TAG, "===query json====>" + json);
+        }
+
+        return json;
+    }
+
+    /**
+     * 请求体非字符串类型标识
+     */
+    public static final String NOT_STRING_CONTENT_FLAG = "is not string content";
+
+    /**
+     * 将request body 转化成json字符串
+     *
+     * @return
+     */
+    private String transformRequestBody(RequestBody requestBody) {
+        //form :"application/x-www-form-urlencoded"
+        //json :"application/json;"
+        String json = "";
+        if (requestBody == null || requestBody.contentType() == null) {
+            return json;
+        }
+
+        try {
+            String strBody = DokitUtil.requestBodyToString(requestBody);
+            if (TextUtils.isEmpty(strBody)) {
+                return "";
+            }
+
+            if (requestBody.contentType().toString().toLowerCase().contains(MEDIA_TYPE_FORM)) {
+                String form = DokitUtil.requestBodyToString(requestBody);
+                //类似 ccc=ccc&ddd=ddd
+                json = DokitUtil.param2Json(form);
+            } else if (requestBody.contentType().toString().toLowerCase().contains(MEDIA_TYPE_JSON)) {
+                json = DokitUtil.requestBodyToString(requestBody);
+                //类似 {"ccc":"ccc","ddd":"ddd"}
+            } else {
+                json = NOT_STRING_CONTENT_FLAG;
+            }
+            //测试是否是json字符串
+            new JSONObject(json);
+        } catch (Exception e) {
+            //e.printStackTrace();
+            json = NOT_STRING_CONTENT_FLAG;
+            LogHelper.e(TAG, "===body json====>" + json);
+        }
+
+        return json;
+    }
+
 
     /**
      * 动态添加网络拦截
@@ -177,9 +261,11 @@ public class MockInterceptor implements Interceptor {
 
         //LogHelper.i("MOCK_INTERCEPT", "path===>" + path + "  newUrl=====>" + newUrl);
 
-        Request newRequest = oldRequest.newBuilder()
+        Request newRequest = new Request.Builder()
                 .method("GET", null)
                 .url(newUrl).build();
+        //需要提前关闭数据流 不然在某些场景下会报错
+        oldResponse.close();
         Response newResponse = chain.proceed(newRequest);
         if (newResponse.code() == 200) {
             //判断新的response是否有数据

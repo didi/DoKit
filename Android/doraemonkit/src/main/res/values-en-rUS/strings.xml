@@ -305,7 +305,7 @@
     <string name="dk_brvah_load_complete">click load more</string>
     <string name="dk_data_mock_template_tip">has template data：%s</string>
     <string name="dk_data_mock_template_upload">Upload Template</string>
-    <string name="dk_weaknet_type">Net Type</string>
+    <string name="dk_weaknet_type">Net Type:</string>
     <string name="dk_weaknet_type_speed">Limit Speed</string>
     <string name="dk_weaknet_type_timeout">Timeout</string>
     <string name="dk_weaknet_type_off">Off</string>

@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/dk_dp_15"
     android:paddingRight="@dimen/dk_dp_15">
 
-    <com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar
+    <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="89dp"

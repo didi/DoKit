@@ -1,7 +1,5 @@
 package com.didichuxing.doraemonkit.plugin.bytecode;
 
-import com.android.build.gradle.AppExtension;
-import com.didichuxing.doraemonkit.plugin.DokitExtension;
 import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.slow.SlowMethodAdapter;
 
@@ -105,10 +103,21 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
             }
 
             boolean matchedMethod = false;
+
             for (String packageName : DokitExtUtil.getInstance().getPackageNames()) {
                 if (className.contains(packageName)) {
-                    matchedMethod = true;
-                    break;
+                    if (DokitExtUtil.getInstance().getMethodBlacklist().isEmpty()) {
+                        matchedMethod = true;
+                        break;
+                    } else {
+                        for (String blackStr : DokitExtUtil.getInstance().getMethodBlacklist()) {
+                            //当前全路径类名不存在在黑名单中
+                            if (!className.contains(blackStr)) {
+                                matchedMethod = true;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
 

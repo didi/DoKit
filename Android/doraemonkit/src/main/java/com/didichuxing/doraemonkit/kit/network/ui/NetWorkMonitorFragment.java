@@ -20,9 +20,9 @@ import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
 import com.didichuxing.doraemonkit.kit.parameter.AbsParameterFragment;
-import com.didichuxing.doraemonkit.ui.realtime.datasource.DataSourceFactory;
-import com.didichuxing.doraemonkit.ui.setting.SettingItem;
-import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
+import com.didichuxing.doraemonkit.kit.performance.datasource.DataSourceFactory;
+import com.didichuxing.doraemonkit.kit.core.SettingItem;
+import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
 
 import java.io.File;
 import java.util.ArrayList;

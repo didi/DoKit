@@ -3,13 +3,12 @@ package com.didichuxing.doraemonkit.kit.timecounter.counter;
 import android.app.Activity;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.TimeUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterDokitView;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,7 +126,7 @@ public class ActivityCounter {
         try {
             //将Activity 打开耗时 添加到AppHealth 中
             if (DokitConstant.APP_HEALTH_RUNNING) {
-                if (!ActivityUtils.getTopActivity().getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.ui.UniversalActivity")) {
+                if (!ActivityUtils.getTopActivity().getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.kit.base.UniversalActivity")) {
                     AppHealthInfo.DataBean.PageLoadBean pageLoadBean = new AppHealthInfo.DataBean.PageLoadBean();
                     pageLoadBean.setPage(ActivityUtils.getTopActivity().getClass().getCanonicalName());
                     pageLoadBean.setTime("" + counterInfo.totalCost);

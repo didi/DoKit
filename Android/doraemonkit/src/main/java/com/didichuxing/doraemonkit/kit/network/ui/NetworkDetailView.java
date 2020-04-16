@@ -17,7 +17,7 @@ import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 import com.didichuxing.doraemonkit.kit.network.bean.Request;
 import com.didichuxing.doraemonkit.kit.network.bean.Response;
 import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil;
-import com.didichuxing.doraemonkit.view.jsonviewer.JsonRecyclerView;
+import com.didichuxing.doraemonkit.widget.jsonviewer.JsonRecyclerView;
 
 import org.json.JSONException;
 import org.json.JSONObject;

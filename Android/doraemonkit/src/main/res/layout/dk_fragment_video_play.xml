@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.didichuxing.doraemonkit.ui.widget.videoview.MyVideoView
+    <com.didichuxing.doraemonkit.widget.videoview.MyVideoView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

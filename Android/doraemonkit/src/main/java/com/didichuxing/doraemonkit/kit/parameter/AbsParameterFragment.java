@@ -14,12 +14,12 @@ import android.view.View;
 import android.widget.CheckBox;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.realtime.PerformanceDokitViewManager;
-import com.didichuxing.doraemonkit.ui.realtime.PerformanceFragmentCloseListener;
-import com.didichuxing.doraemonkit.ui.setting.SettingItem;
-import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitViewManager;
+import com.didichuxing.doraemonkit.kit.performance.PerformanceFragmentCloseListener;
+import com.didichuxing.doraemonkit.kit.core.SettingItem;
+import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 import java.util.ArrayList;
 import java.util.Collection;

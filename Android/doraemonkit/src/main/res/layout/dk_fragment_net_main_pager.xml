@@ -5,7 +5,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/dk_color_F4F5F6">
 
-    <com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar
+    <com.didichuxing.doraemonkit.widget.titlebar.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="44dp"

@@ -17,10 +17,10 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.GlobalConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.okgo.model.Response;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.dialog.DialogListener;
-import com.didichuxing.doraemonkit.ui.dialog.DialogProvider;
-import com.didichuxing.doraemonkit.ui.dialog.UniversalDialogFragment;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.widget.dialog.DialogListener;
+import com.didichuxing.doraemonkit.widget.dialog.DialogProvider;
+import com.didichuxing.doraemonkit.widget.dialog.UniversalDialogFragment;
 import com.didichuxing.doraemonkit.util.DokitUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 

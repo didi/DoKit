@@ -1,17 +1,9 @@
 package com.didichuxing.doraemonkit.kit.largepicture;
 
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-
-import com.blankj.utilcode.constant.MemoryConstants;
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.ConvertUtils;
-import com.blankj.utilcode.util.ImageUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
-import com.facebook.imageutils.BitmapUtil;
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -49,9 +41,6 @@ public class LargePictureManager {
 
     private static class Holder {
         private static LargePictureManager INSTANCE = new LargePictureManager();
-    }
-
-    private LargePictureManager() {
     }
 
 
