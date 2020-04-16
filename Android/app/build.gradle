@@ -70,9 +70,8 @@ dokitExt {
     //单位为ms 1000ms = 1s
     thresholdTime = 200
     packageNames = ["com.didichuxing.doraemondemo"]
-    //packageNames = ["com.didichuxing.doraemondemo","com.didichuxing.doraemonkit"]
     //慢函数 黑名单 可以是包名 也可以是全路径的类名
-    methodBlacklist = ["com.didichuxing.doraemondemo.dokit"]
+    //methodBlacklist = ["com.didichuxing.doraemondemo.dokit"]
 }
 
 dependencies {
