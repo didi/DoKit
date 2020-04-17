@@ -82,7 +82,7 @@
     NSString *text = data;
     BOOL writeSuccess = [text writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
     if (writeSuccess) {
-        DoKitLog(@"写入成功");
+        DoKitLog(@"write success");
     }
 }
 
@@ -97,7 +97,7 @@
                                                         options:NSJSONReadingMutableContainers
                                                           error:&err];
     if(err) {
-        DoKitLog(@"json解析失败：%@",err);
+        DoKitLog(@"json read error：%@",err);
         return nil;
     }
     return dic;
@@ -114,7 +114,7 @@
                                                         options:NSJSONReadingMutableContainers
                                                           error:&err];
     if(err) {
-        DoKitLog(@"json解析失败：%@",err);
+        DoKitLog(@"json read error：%@",err);
         return nil;
     }
     return array;
@@ -200,7 +200,7 @@
          }
      }else{
          //不存在该文件path
-         DoKitLog(@"不存在该文件");
+         DoKitLog(@"file not exist");
      }
      
      return nil;

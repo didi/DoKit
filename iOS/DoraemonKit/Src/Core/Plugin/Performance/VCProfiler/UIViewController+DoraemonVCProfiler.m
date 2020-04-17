@@ -35,11 +35,7 @@ static void doraemon_vc_profiler_viewDidLoad(UIViewController *kvo_self, SEL _se
     [[DoraemonHealthManager sharedInstance] startEnterPage:origin_cls];
     
     void (*func)(UIViewController *, SEL) = (void (*)(UIViewController *, SEL))origin_imp;
-
-    //DoKitLog(@"VC: %p -viewDidLoad \t\tbegin  at CF time:\t%lf", kvo_self, CFAbsoluteTimeGetCurrent());
-    //DoKitLog(@"yixiang class = %@ viewDidLoad",origin_cls);
     func(kvo_self, _sel);
-    //DoKitLog(@"VC: %p -viewDidLoad \t\tfinish at CF time:\t%lf", kvo_self, CFAbsoluteTimeGetCurrent());
 }
 
 static void doraemon_vc_profiler_viewWillAppear(UIViewController *kvo_self, SEL _sel, BOOL animated) {
@@ -50,11 +46,7 @@ static void doraemon_vc_profiler_viewWillAppear(UIViewController *kvo_self, SEL 
     assert(origin_imp != NULL);
 
     void (*func)(UIViewController *, SEL, BOOL) = (void (*)(UIViewController *, SEL, BOOL))origin_imp;
-
-    //DoKitLog(@"yixiang class = %@ viewWillAppear",origin_cls);
-    //DoKitLog(@"VC: %p -viewWillAppear \tbegin  at CF time:\t%lf", kvo_self, CFAbsoluteTimeGetCurrent());
     func(kvo_self, _sel, animated);
-    //DoKitLog(@"VC: %p -viewWillAppear \tfinish at CF time:\t%lf", kvo_self, CFAbsoluteTimeGetCurrent());
 }
 
 static void doraemon_vc_profiler_viewDidAppear(UIViewController *kvo_self, SEL _sel, BOOL animated) {
@@ -64,11 +56,8 @@ static void doraemon_vc_profiler_viewDidAppear(UIViewController *kvo_self, SEL _
     assert(origin_imp != NULL);
 
     void (*func)(UIViewController *, SEL, BOOL) = (void (*)(UIViewController *, SEL, BOOL))origin_imp;
-
-    //DoKitLog(@"yixiang class = %@ viewDidAppear",origin_cls);
-    //DoKitLog(@"VC: %p -viewDidAppear \tbegin  at CF time:\t%lf", kvo_self, CFAbsoluteTimeGetCurrent());
+    
     func(kvo_self, _sel, animated);
-    //DoKitLog(@"VC: %p -viewDidAppear \tfinish at CF time:\t%lf", kvo_self, CFAbsoluteTimeGetCurrent());
     [[DoraemonHealthManager sharedInstance] enterPage:origin_cls];
 }
 
@@ -80,10 +69,7 @@ static void doraemon_vc_profiler_viewWillDisAppear(UIViewController *kvo_self, S
 
     void (*func)(UIViewController *, SEL, BOOL) = (void (*)(UIViewController *, SEL, BOOL))origin_imp;
 
-    //DoKitLog(@"yixiang class = %@ viewWillDisAppear",origin_cls);
-    //DoKitLog(@"VC: %p -viewDidAppear \tbegin  at CF time:\t%lf", kvo_self, CFAbsoluteTimeGetCurrent());
     func(kvo_self, _sel, animated);
-    //DoKitLog(@"VC: %p -viewDidAppear \tfinish at CF time:\t%lf", kvo_self, CFAbsoluteTimeGetCurrent());
 }
 
 static void doraemon_vc_profiler_viewDidDisappear(UIViewController *kvo_self, SEL _sel, BOOL animated) {
@@ -94,10 +80,7 @@ static void doraemon_vc_profiler_viewDidDisappear(UIViewController *kvo_self, SE
 
     void (*func)(UIViewController *, SEL, BOOL) = (void (*)(UIViewController *, SEL, BOOL))origin_imp;
 
-    //DoKitLog(@"yixiang class = %@ viewDidDisappear",origin_cls);
-    //DoKitLog(@"VC: %p -viewDidAppear \tbegin  at CF time:\t%lf", kvo_self, CFAbsoluteTimeGetCurrent());
     func(kvo_self, _sel, animated);
-    //DoKitLog(@"VC: %p -viewDidAppear \tfinish at CF time:\t%lf", kvo_self, CFAbsoluteTimeGetCurrent());
     [[DoraemonHealthManager sharedInstance] leavePage:origin_cls];
 }
 

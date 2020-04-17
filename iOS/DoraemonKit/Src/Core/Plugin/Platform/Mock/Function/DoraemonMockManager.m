@@ -125,7 +125,7 @@
             block(2);
         }];
     }else{
-        DoKitLog(@"请求接口列表必须保证pId不为空");
+        DoKitLog(@"Request interface list must ensure that pId is not empty");
         block(3);
     }
     
@@ -342,13 +342,13 @@
         };
         
         [DoraemonNetworkUtil patchWithUrlString:@"https://mock.dokit.cn/api/app/interface" params:params success:^(NSDictionary * _Nonnull result) {
-            [self showToast:@"上传成功" atView:view];
+            [self showToast:DoraemonLocalizedString(@"上传成功") atView:view];
         } error:^(NSError * _Nonnull error) {
             DoKitLog(@"error == %@",error);
-            [self showToast:@"上传失败" atView:view];
+            [self showToast:DoraemonLocalizedString(@"上传失败") atView:view];
         }];
     }else{
-        DoKitLog(@"上传模版接口必须要传pid");
+        DoKitLog(@"Upload template must has pid");
     }
 }
 
