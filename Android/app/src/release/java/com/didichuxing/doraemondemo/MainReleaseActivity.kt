@@ -5,19 +5,20 @@ import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
-import android.os.*
+import android.os.Bundle
+import android.os.Looper
+import android.os.SystemClock
 import android.text.format.Formatter
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
@@ -30,38 +31,30 @@ import com.blankj.utilcode.util.ThreadUtils
 import com.blankj.utilcode.util.ThreadUtils.SimpleTask
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.didichuxing.doraemondemo.retrofit.GithubService
+import com.didichuxing.doraemondemo.MainReleaseActivity
 import com.didichuxing.doraemonkit.DoraemonKit
-import com.didichuxing.doraemonkit.okgo.DokitOkGo
-import com.didichuxing.doraemonkit.okgo.callback.StringCallback
-import com.didichuxing.doraemonkit.okgo.model.Response
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
+import com.lzy.okgo.OkGo
+import com.lzy.okgo.callback.StringCallback
+import com.lzy.okgo.model.Response
 import com.nostra13.universalimageloader.core.ImageLoader
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 import com.tencent.map.geolocation.TencentLocation
 import com.tencent.map.geolocation.TencentLocationListener
 import com.tencent.map.geolocation.TencentLocationManager
 import com.tencent.map.geolocation.TencentLocationRequest
-import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
-import org.json.JSONObject
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.PermissionRequest
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.*
-import java.net.*
+import java.net.HttpURLConnection
+import java.net.SocketTimeoutException
+import java.net.URL
+import java.net.UnknownHostException
 
-/**
- * @author jintai
- */
-class MainDebugActivity : BaseActivity(), View.OnClickListener {
+class MainReleaseActivity : AppCompatActivity(), View.OnClickListener {
     private var okHttpClient: OkHttpClient? = null
     private var mLocationManager: LocationManager? = null
     private var mLocationClient: AMapLocationClient? = null
@@ -69,34 +62,13 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
     private var mMapOption: AMapLocationClientOption? = null
     private var mTencentLocationRequest: TencentLocationRequest? = null
     private var mTencentLocationManager: TencentLocationManager? = null
-    private val UPDATE_UI = 100
-
-    /**
-     * github 接口
-     */
-    private var githubService: GithubService? = null
-
-    @SuppressLint("HandlerLeak")
-    private val mHandler: Handler = object : Handler() {
-        override fun handleMessage(msg: Message) {
-            super.handleMessage(msg)
-            when (msg.what) {
-                100 -> (findViewById<View>(R.id.iv_picasso) as ImageView).setImageBitmap(msg.obj as Bitmap)
-                else -> {
-                }
-            }
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val tvEnv = findViewById<TextView>(R.id.tv_env)
-        tvEnv.text = "${getString(R.string.app_build_types)}:Debug"
-        btn_jump.setOnClickListener(this)
-        // findViewById<View>(R.id.btn_jump).setOnClickListener(this)
+        tvEnv.text = "${getString(R.string.app_build_types)}:Release"
         findViewById<View>(R.id.btn_method_cost).setOnClickListener(this)
-        findViewById<View>(R.id.btn_jump_leak).setOnClickListener(this)
+        findViewById<View>(R.id.btn_jump).setOnClickListener(this)
         findViewById<View>(R.id.btn_show_tool_panel).setOnClickListener(this)
         findViewById<View>(R.id.btn_location).setOnClickListener(this)
         findViewById<View>(R.id.btn_location_amap).setOnClickListener(this)
@@ -106,7 +78,6 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         findViewById<View>(R.id.btn_okhttp_mock).setOnClickListener(this)
         findViewById<View>(R.id.btn_connection_mock).setOnClickListener(this)
         //        findViewById(R.id.btn_rpc_mock).setOnClickListener(this);
-        btn_retrofit_mock.setOnClickListener(this)
         findViewById<View>(R.id.btn_test_crash).setOnClickListener(this)
         findViewById<View>(R.id.btn_show_hide_icon).setOnClickListener(this)
         findViewById<View>(R.id.btn_create_database).setOnClickListener(this)
@@ -139,22 +110,11 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
         ).build())
-        //初始化
-        val config = ImageLoaderConfiguration.Builder(this)
-                .build()
-        ImageLoader.getInstance().init(config)
-
-        val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        githubService = retrofit.create(GithubService::class.java)
     }
 
     private fun test1() {
         try {
-            Thread.sleep(1000)
+            Thread.sleep(200)
         } catch (e: InterruptedException) {
             e.printStackTrace()
         }
@@ -204,7 +164,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
      * 启动普通定位
      */
     @SuppressLint("MissingPermission")
-    private fun startNormaLocation() {
+    fun startNormaLocation() {
         mLocationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, mLocationListener)
     }
 
@@ -265,34 +225,30 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn_method_cost -> test1()
+            R.id.btn_jump -> startActivity(Intent(this, SecondActivity::class.java))
             R.id.btn_show_tool_panel ->                 //直接调起工具面板
                 DoraemonKit.showToolPanel()
-            R.id.btn_jump -> startActivity(Intent(this, SecondActivity::class.java))
-            R.id.btn_jump_leak -> startActivity(Intent(this, LeakActivity::class.java))
             R.id.btn_location -> startNormaLocation()
             R.id.btn_location_amap -> startAmapLocation()
             R.id.btn_location_tencent -> startTencentLocation()
             R.id.btn_location_baidu -> startBaiDuLocation()
             R.id.btn_load_img -> {
                 //Glide 加载
-                val picassoImgUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585832555614&di=ea70ed1254b3242803d7dde56eedfe9f&imgtype=0&src=http%3A%2F%2Ft9.baidu.com%2Fit%2Fu%3D2268908537%2C2815455140%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D719"
+                val picassoImgUrl = "http://b-ssl.duitang.com/uploads/item/201808/27/20180827043223_twunu.jpg"
                 val glideImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662890&di=bc7b18d8b4efa73fb88ddef4f6f56acc&imgtype=0&src=http%3A%2F%2Ft9.baidu.com%2Fit%2Fu%3D583874135%2C70653437%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D3607%26h%3D2408"
                 val frescoImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662890&di=09318a918fe9ea73a8e27c80291bf669&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853"
                 val imageLoaderImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662891&di=acaf549645e58b6c67c231d495e18271&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D3571592872%2C3353494284%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1200%26h%3D1290"
-                Picasso.get().load(picassoImgUrl)
-                        .memoryPolicy(MemoryPolicy.NO_CACHE)
-                        .placeholder(R.drawable.dk_health_bg)
-                        .error(R.drawable.dk_health_bg)
-                        .into(findViewById<View>(R.id.iv_picasso) as ImageView)
-                Glide.with(this@MainDebugActivity)
+                Glide.with(this@MainReleaseActivity)
                         .asBitmap()
                         .load(glideImageUrl)
-                        .placeholder(R.drawable.dk_health_bg)
-                        .error(R.drawable.dk_health_bg)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
-                        .transform(CircleCrop())
                         .into((findViewById<View>(R.id.iv_glide) as ImageView))
+                //
+                Picasso.get().load(picassoImgUrl)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE)
+                        .into(findViewById<View>(R.id.iv_picasso) as ImageView)
+                //
                 val imageLoader = ImageLoader.getInstance()
                 imageLoader.displayImage(imageLoaderImageUrl, findViewById<View>(R.id.iv_imageloader) as ImageView)
                 val frescoImageView = findViewById<SimpleDraweeView>(R.id.iv_fresco)
@@ -301,49 +257,15 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                 // combines above two lines
                 imagePipeline.clearCaches()
             }
-            R.id.btn_okhttp_mock -> {
-                //DokitOkGo.<String>get("https://www.tianqiapi.com/api")
-//                DokitOkGo.post<String>("http://www.v2ex.com/api/topics/hot.json?aaa=aaa&bbb=bbb")
-//                        .params("ccc", "ccc")
-//                        .params("ddd", "ddd")
-//                        .execute(object : StringCallback() {
-//                            override fun onSuccess(response: Response<String>) {
-//                                Log.i(TAG, "okhttp====onSuccess===>" + response.body())
-//                            }
-//
-//                            override fun onError(response: Response<String>) {
-//                                Log.i(TAG, "okhttp====onError===>" + response.message())
-//                            }
-//                        })
-
-                val json = JSONObject()
-                json.put("ccc", "ccc")
-                json.put("age", "15")
-                //json
-                DokitOkGo.post<String>("http://www.v2ex.com/api/topics/hot.json?name=yi")
-                        .upJson(json.toString())
-                        .execute(object : StringCallback() {
-                            override fun onSuccess(response: Response<String>) {
-                                Log.i(TAG, "okhttp====onSuccess===>" + response.body())
-                            }
-
-                            override fun onError(response: Response<String>) {
-                                Log.i(TAG, "okhttp====onError===>" + response.message())
-                            }
-                        })
-            }
-
-
+            R.id.btn_okhttp_mock -> OkGo.get<String>("http://gank.io/gateway?api=dj.map") //OkGo.<String>get("https://www.v2ex.com/api/topics/hot.json")
+                    .execute(object : StringCallback() {
+                        override fun onSuccess(response: Response<String>) {
+                            Log.i(TAG, "okhttp====response===>" + response.body())
+                        }
+                    })
             R.id.btn_connection_mock ->                 //requestByGet("https://www.v2ex.com/api/topics/hot.json");
                 //requestByGet("https://gank.io/api/today?a=哈哈&b=bb");
-                requestByGet("https://www.v2ex.com/api/topics/hot.json")
-            R.id.btn_retrofit_mock -> {
-                val githubUserInfo = githubService?.githubUserInfo("jtsky")
-                githubUserInfo?.subscribeOn(Schedulers.io())?.subscribe {
-                    Log.i(TAG, "githubUserInfo===>${it.login}")
-                }
-
-            }
+                requestByGet("http://gank.io/gateway?api=dj.map")
             R.id.btn_test_crash -> testCrash()!!.length
             R.id.btn_show_hide_icon -> if (DoraemonKit.isShow()) {
                 DoraemonKit.hide()
@@ -386,13 +308,11 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                 return "error"
             }
 
-
             override fun onSuccess(result: String?) {
                 Log.i(TAG, "httpUrlConnection====response===>===>$result")
             }
         })
     }
-
 
     /**
      * 模拟上传或下载文件
@@ -405,7 +325,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         var request: Request? = null
         if (upload) {
             try {
-//模拟一个1M的文件用来上传
+                //模拟一个1M的文件用来上传
                 val length = 1L * 1024 * 1024
                 val temp = File(filesDir, "test.tmp")
                 if (!temp.exists() || temp.length() != length) {
@@ -453,7 +373,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                 val message = String.format("请求大小：%s，响应大小：%s，耗时：%dms，均速：%s/s", Formatter.formatFileSize(applicationContext, requestLength), Formatter.formatFileSize(applicationContext, responseLength), endTime, Formatter.formatFileSize(applicationContext, speed))
                 runOnUiThread {
                     Log.d("onResponse", message)
-                    Toast.makeText(this@MainDebugActivity, message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MainReleaseActivity, message, Toast.LENGTH_LONG).show()
                 }
             }
         })
@@ -463,11 +383,11 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         e.printStackTrace()
         runOnUiThread {
             if (e is UnknownHostException) {
-                Toast.makeText(this@MainDebugActivity, "网络异常", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainReleaseActivity, "网络异常", Toast.LENGTH_SHORT).show()
             } else if (e is SocketTimeoutException) {
-                Toast.makeText(this@MainDebugActivity, "请求超时", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainReleaseActivity, "请求超时", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this@MainDebugActivity, e.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainReleaseActivity, e.message, Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -496,31 +416,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         mBaiduLocationClient!!.stop()
     }
 
-    private fun requestImage(urlStr: String) {
-        try {
-            //
-            val url = URL(urlStr)
-            // http    https
-            // ftp
-            val urlConnection = url.openConnection() as HttpURLConnection
-            //http get post
-            urlConnection.requestMethod = "GET"
-            urlConnection.connectTimeout = 5000
-            urlConnection.readTimeout = 5000
-            val responseCode = urlConnection.responseCode
-            if (responseCode == 200) {
-                val bitmap = BitmapFactory.decodeStream(urlConnection.inputStream)
-                //更新 ui
-                mHandler.sendMessage(mHandler.obtainMessage(UPDATE_UI, bitmap))
-            }
-        } catch (e: MalformedURLException) {
-            e.printStackTrace()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-    }
-
     companion object {
-        const val TAG = "MainDebugActivity"
+        const val TAG = "MainReleaseActivity"
     }
 }
