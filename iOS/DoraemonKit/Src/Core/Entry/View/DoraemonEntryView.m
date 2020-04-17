@@ -135,17 +135,21 @@
     }
 }
 
-- (void)pan:(UIPanGestureRecognizer *)sender{
+- (void)pan:(UIPanGestureRecognizer *)pan{
     if (self.autoDock) {
-        [self autoDocking:sender];
-        return;
+        [self autoDocking:pan];
+    }else{
+        [self normalMode:pan];
     }
+}
+
+- (void)normalMode: (UIPanGestureRecognizer *)panGestureRecognizer{
     //1、获得拖动位移
-    CGPoint offsetPoint = [sender translationInView:sender.view];
+    CGPoint offsetPoint = [panGestureRecognizer translationInView:panGestureRecognizer.view];
     //2、清空拖动位移
-    [sender setTranslation:CGPointZero inView:sender.view];
+    [panGestureRecognizer setTranslation:CGPointZero inView:panGestureRecognizer.view];
     //3、重新设置控件位置
-    UIView *panView = sender.view;
+    UIView *panView = panGestureRecognizer.view;
     CGFloat newX = panView.doraemon_centerX+offsetPoint.x;
     CGFloat newY = panView.doraemon_centerY+offsetPoint.y;
     if (newX < _kEntryViewSize/2) {
@@ -161,10 +165,6 @@
         newY = DoraemonScreenHeight - _kEntryViewSize/2;
     }
     panView.center = CGPointMake(newX, newY);
-    [[NSUserDefaults standardUserDefaults] setObject:@{
-                                                       @"x":[NSNumber numberWithFloat:newX],
-                                                       @"y":[NSNumber numberWithFloat:newY]
-                                                       } forKey:@"FloatViewCenterLocation"];
 }
 
 - (void)autoDocking:(UIPanGestureRecognizer *)panGestureRecognizer {
@@ -190,11 +190,11 @@
             CGFloat centerY = MAX(MIN(location.y, CGRectGetMaxY([UIScreen mainScreen].bounds)-safeBottom), [UIApplication sharedApplication].statusBarFrame.size.height);
             if(location.x > CGRectGetWidth([UIScreen mainScreen].bounds)/2.f)
             {
-                centerX = CGRectGetWidth([UIScreen mainScreen].bounds)-6;
+                centerX = CGRectGetWidth([UIScreen mainScreen].bounds)-_kEntryViewSize/2;
             }
             else
             {
-                centerX = 6.f;
+                centerX = _kEntryViewSize/2;
             }
             [[NSUserDefaults standardUserDefaults] setObject:@{
                                                                @"x":[NSNumber numberWithFloat:centerX],
