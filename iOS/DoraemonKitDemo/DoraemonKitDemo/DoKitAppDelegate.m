@@ -92,7 +92,7 @@
 
 - (void)test2{
     
-    NSLog(@"a == %zi",XXX);
+    NSLog(@"a == %i",XXX);
 }
 
 void uncaughtExceptionHandler(NSException*exception){

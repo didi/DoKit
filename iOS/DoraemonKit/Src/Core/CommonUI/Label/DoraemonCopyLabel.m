@@ -41,7 +41,7 @@
 
 - (void)longPressAction:(UIGestureRecognizer *)recognizer {
     [self becomeFirstResponder];
-    UIMenuItem *copyItem = [[UIMenuItem alloc] initWithTitle:@"拷贝" action:@selector(customCopy:)];
+    UIMenuItem *copyItem = [[UIMenuItem alloc] initWithTitle:@"copy" action:@selector(customCopy:)];
     
     [[UIMenuController sharedMenuController] setMenuItems:[NSArray arrayWithObjects:copyItem, nil]];
     [[UIMenuController sharedMenuController] setTargetRect:CGRectMake(0, 0, 100, 20) inView:self];

@@ -50,7 +50,7 @@
 /** 获取到新的位置信息时调用*/
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
     CLLocation *l = locations[0];
-    NSLog(@"定位到了 %f %f",l.coordinate.longitude,l.coordinate.latitude);
+    NSLog(@"location at %f %f",l.coordinate.longitude,l.coordinate.latitude);
     [self refreshAnnotation:l];
 }
 
@@ -77,7 +77,7 @@
 }
 /** 不能获取位置信息时调用*/
 -(void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error{
-    NSLog(@"获取定位失败");
+    NSLog(@"location failure");
 }
 
 /* 每当大头针显示在可视界面上时，就会调用该方法，用户位置的蓝色点也是个大头针，也会调用 */
