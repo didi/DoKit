@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.multidex.MultiDex
 import com.didichuxing.doraemondemo.WebViewActivity
 import com.didichuxing.doraemondemo.dokit.DemoKit
@@ -11,6 +12,8 @@ import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
+import com.taobao.android.dexposed.DexposedBridge
+import com.taobao.android.dexposed.XC_MethodHook
 import java.util.*
 
 /**
@@ -38,6 +41,13 @@ class App : Application() {
             intent.putExtra(WebViewActivity.KEY_URL, url)
             startActivity(intent)
         }
+
+        DexposedBridge.findAndHookMethod(Thread::class.java, "run", object : XC_MethodHook() {
+            override fun afterHookedMethod(param: MethodHookParam?) {
+                super.afterHookedMethod(param)
+                Log.i(TAG, "param==>${param.toString()}")
+            }
+        })
         //严格检查模式
         //StrictMode.enableDefaults();
     }

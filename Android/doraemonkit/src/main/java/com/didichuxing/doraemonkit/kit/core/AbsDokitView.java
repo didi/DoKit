@@ -7,14 +7,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+
 import androidx.annotation.IdRes;
 import androidx.annotation.StringRes;
+
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
