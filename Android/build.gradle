@@ -29,9 +29,9 @@ task clean(type: Delete) {
 }
 
 //解决打包时由于javadocRelease校验引起的打包失败
-tasks.getByPath(":doraemonkit:javadocRelease").enabled = false
-tasks.getByPath(":doraemonkit-no-op:javadocRelease").enabled = false
-tasks.getByPath(":doraemonkit-leakcanary:javadocRelease").enabled = false
-tasks.getByPath(":doraemonkit-weex:javadocRelease").enabled = false
-tasks.getByPath(":doraemonkit-weex-no-op:javadocRelease").enabled = false
+//tasks.getByPath(":doraemonkit:javadocRelease").enabled = false
+//tasks.getByPath(":doraemonkit-no-op:javadocRelease").enabled = false
+//tasks.getByPath(":doraemonkit-leakcanary:javadocRelease").enabled = false
+//tasks.getByPath(":doraemonkit-weex:javadocRelease").enabled = false
+//tasks.getByPath(":doraemonkit-weex-no-op:javadocRelease").enabled = false
 //tasks.getByPath(":doraemonkit-rpc:javadocRelease").enabled = false
