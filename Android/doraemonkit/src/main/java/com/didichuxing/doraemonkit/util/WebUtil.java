@@ -22,7 +22,7 @@ public class WebUtil {
         view.postDelayed(new Runnable() {
             @Override
             public void run() {
-                LatLng latLng = GpsMockConfig.getMockLocation(view.getContext());
+                LatLng latLng = GpsMockConfig.getMockLocation();
                 if (latLng == null) {
                     latLng = new LatLng(0, 0);
                 }

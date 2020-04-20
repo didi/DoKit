@@ -1,5 +1,10 @@
 DoraemonKit-Android releases
 ===
+## 3.1.3
+1.DoKit项目结构调整,对外暴露的api已全部移到com.didichuxing.doraemonkit.kit.core包名下,如果你有自定义Kit，请重新引入一下包名
+2.DoKit数据Mock模块支持post模式匹配
+3.github issues fixed
+
 ## 3.1.2
 1.安卓版本DoKit从3.1.0版本开始全面拥抱Androidx,假如你的项目还没有升级到androidx你可以选择依赖3.0.3版本
 2.修复大图检测圆角失效的问题

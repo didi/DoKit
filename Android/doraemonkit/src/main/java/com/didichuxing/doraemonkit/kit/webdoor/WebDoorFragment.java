@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -83,7 +84,7 @@ public class WebDoorFragment extends BaseFragment {
         findViewById(R.id.clear).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebDoorManager.getInstance().clearHistory(getContext());
+                WebDoorManager.getInstance().clearHistory();
                 mWebDoorHistoryAdapter.clear();
             }
         });
@@ -103,7 +104,7 @@ public class WebDoorFragment extends BaseFragment {
         mHistoryList.setNestedScrollingEnabled(false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mHistoryList.setLayoutManager(layoutManager);
-        List<String> historyItems = WebDoorManager.getInstance().getHistory(getContext());
+        List<String> historyItems = WebDoorManager.getInstance().getHistory();
 
         mWebDoorHistoryAdapter = new WebDoorHistoryAdapter(getContext());
         mWebDoorHistoryAdapter.setData(historyItems);
@@ -120,9 +121,9 @@ public class WebDoorFragment extends BaseFragment {
     }
 
     private void doSearch(String url) {
-        WebDoorManager.getInstance().saveHistory(getContext(), url);
+        WebDoorManager.getInstance().saveHistory(url);
         WebDoorManager.getInstance().getWebDoorCallback().overrideUrlLoading(getContext(), url);
-        mWebDoorHistoryAdapter.setData(WebDoorManager.getInstance().getHistory(getContext()));
+        mWebDoorHistoryAdapter.setData(WebDoorManager.getInstance().getHistory());
     }
 
     private boolean checkInput() {

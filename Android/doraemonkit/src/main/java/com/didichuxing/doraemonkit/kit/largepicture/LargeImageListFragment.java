@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.largepicture;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -67,8 +68,8 @@ public class LargeImageListFragment extends BaseFragment {
         });
     }
 
-    private double fileThreshold = PerformanceSpInfoConfig.getLargeImgFileThreshold(DoraemonKit.APPLICATION, LargePictureManager.FILE_DEFAULT_THRESHOLD);
-    private double memoryThreshold = PerformanceSpInfoConfig.getLargeImgMemoryThreshold(DoraemonKit.APPLICATION, LargePictureManager.MEMORY_DEFAULT_THRESHOLD);
+    private double fileThreshold = PerformanceSpInfoConfig.getLargeImgFileThreshold(LargePictureManager.FILE_DEFAULT_THRESHOLD);
+    private double memoryThreshold = PerformanceSpInfoConfig.getLargeImgMemoryThreshold(LargePictureManager.MEMORY_DEFAULT_THRESHOLD);
 
 
     private void load() {

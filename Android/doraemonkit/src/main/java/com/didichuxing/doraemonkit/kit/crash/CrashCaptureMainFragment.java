@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.crash;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,7 +43,7 @@ public class CrashCaptureMainFragment extends BaseFragment {
         RecyclerView settingList = findViewById(R.id.setting_list);
         settingList.setLayoutManager(new LinearLayoutManager(getContext()));
         final SettingItemAdapter mSettingItemAdapter = new SettingItemAdapter(getContext());
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_crash_capture_switch, CrashCaptureConfig.isCrashCaptureOpen(getContext())));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_crash_capture_switch, CrashCaptureConfig.isCrashCaptureOpen()));
         mSettingItemAdapter.append(new SettingItem(R.string.dk_crash_capture_look, R.drawable.dk_more_icon));
         SettingItem item = new SettingItem(R.string.dk_crash_capture_clean_data);
         item.rightDesc = Formatter.formatFileSize(getContext(), FileUtil.getDirectorySize(CrashCaptureManager.getInstance().getCrashCacheDir()));
@@ -51,7 +52,7 @@ public class CrashCaptureMainFragment extends BaseFragment {
             @Override
             public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
                 if (data.desc == R.string.dk_crash_capture_switch) {
-                    CrashCaptureConfig.setCrashCaptureOpen(getContext(), on);
+                    CrashCaptureConfig.setCrashCaptureOpen(on);
                     if (on) {
                         CrashCaptureManager.getInstance().start();
                     } else {

@@ -43,7 +43,7 @@ public class LogInfoSettingFragment extends BaseFragment {
         mSettingList = findViewById(R.id.setting_list);
         mSettingList.setLayoutManager(new LinearLayoutManager(getContext()));
         mSettingItemAdapter = new SettingItemAdapter(getContext());
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_log_info, LogInfoConfig.isLogInfoOpen(getContext())));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_log_info, LogInfoConfig.isLogInfoOpen()));
         mSettingItemAdapter.setOnSettingItemSwitchListener(new SettingItemAdapter.OnSettingItemSwitchListener() {
             @Override
             public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
@@ -61,7 +61,7 @@ public class LogInfoSettingFragment extends BaseFragment {
                         //清空回调
                         LogInfoManager.getInstance().removeListener();
                     }
-                    LogInfoConfig.setLogInfoOpen(getContext(), on);
+                    LogInfoConfig.setLogInfoOpen(on);
                 }
             }
         });

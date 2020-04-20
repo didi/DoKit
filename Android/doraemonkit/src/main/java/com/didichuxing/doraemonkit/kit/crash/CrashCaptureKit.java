@@ -35,7 +35,7 @@ public class CrashCaptureKit extends AbstractKit {
     @Override
     public void onAppInit(Context context) {
         CrashCaptureManager.getInstance().init(context);
-        if (CrashCaptureConfig.isCrashCaptureOpen(context)) {
+        if (CrashCaptureConfig.isCrashCaptureOpen()) {
             CrashCaptureManager.getInstance().start();
         } else {
             CrashCaptureManager.getInstance().stop();

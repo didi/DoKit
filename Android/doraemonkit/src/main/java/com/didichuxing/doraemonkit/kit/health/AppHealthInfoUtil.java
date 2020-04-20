@@ -363,7 +363,7 @@ public class AppHealthInfoUtil {
         //卡顿
         BlockMonitorManager.getInstance().start();
         //crash 开关
-        CrashCaptureConfig.setCrashCaptureOpen(DoraemonKit.APPLICATION, true);
+        CrashCaptureConfig.setCrashCaptureOpen(true);
         CrashCaptureManager.getInstance().start();
     }
 
@@ -382,7 +382,7 @@ public class AppHealthInfoUtil {
         //卡顿
         BlockMonitorManager.getInstance().stop();
         //crash 开关
-        CrashCaptureConfig.setCrashCaptureOpen(DoraemonKit.APPLICATION, false);
+        CrashCaptureConfig.setCrashCaptureOpen(false);
         CrashCaptureManager.getInstance().stop();
 
     }

@@ -53,8 +53,8 @@ public class MainIconDokitView extends AbsDokitView {
 
     @Override
     public void initDokitViewLayoutParams(DokitViewLayoutParams params) {
-        params.x = FloatIconConfig.getLastPosX(getContext());
-        params.y = FloatIconConfig.getLastPosY(getContext());
+        params.x = FloatIconConfig.getLastPosX();
+        params.y = FloatIconConfig.getLastPosY();
         params.width = FLOAT_SIZE;
         params.height = FLOAT_SIZE;
     }

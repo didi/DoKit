@@ -13,8 +13,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+
 import androidx.annotation.IdRes;
 import androidx.annotation.StringRes;
+
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -429,11 +431,11 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
 
         if (mTag.equals(MainIconDokitView.class.getSimpleName())) {
             if (isNormalMode()) {
-                FloatIconConfig.saveLastPosX(getContext(), mFrameLayoutParams.leftMargin);
-                FloatIconConfig.saveLastPosY(getContext(), mFrameLayoutParams.topMargin);
+                FloatIconConfig.saveLastPosX(mFrameLayoutParams.leftMargin);
+                FloatIconConfig.saveLastPosY(mFrameLayoutParams.topMargin);
             } else {
-                FloatIconConfig.saveLastPosX(getContext(), mWindowLayoutParams.x);
-                FloatIconConfig.saveLastPosY(getContext(), mWindowLayoutParams.y);
+                FloatIconConfig.saveLastPosX(mWindowLayoutParams.x);
+                FloatIconConfig.saveLastPosY(mWindowLayoutParams.y);
             }
 
         } else {
@@ -606,8 +608,8 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
         }
         if (isActivityResume) {
             if (tag.equals(MainIconDokitView.class.getSimpleName())) {
-                mFrameLayoutParams.leftMargin = FloatIconConfig.getLastPosX(getContext());
-                mFrameLayoutParams.topMargin = FloatIconConfig.getLastPosY(getContext());
+                mFrameLayoutParams.leftMargin = FloatIconConfig.getLastPosX();
+                mFrameLayoutParams.topMargin = FloatIconConfig.getLastPosY();
             } else {
                 Point point = DokitViewManager.getInstance().getDokitViewPos(tag);
                 if (point != null) {
