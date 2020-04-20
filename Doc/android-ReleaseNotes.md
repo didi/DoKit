@@ -20,6 +20,13 @@ DoraemonKit-Android releases
 ## 3.1.0
 1.安卓版本DoKit从3.1.0版本开始全面拥抱Androidx,假如你的项目还没有升级到androidx你可以选择依赖3.0.2版本
 
+## 3.0.5
+1.该版本为支持Android support的最后一个版本，后期也将不在提供维护，请大家尽快升级和适配Androidx
+
+2.DoKit数据Mock模块支持post模式匹配
+
+3.github issues fixed
+
 ## 3.0.3
 1.修复大图检测圆角失效的问题
 

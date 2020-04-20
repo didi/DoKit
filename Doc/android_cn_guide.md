@@ -5,7 +5,7 @@
 |DoKit|最新版本|描述|
 |-|-|-|-|
 |支持Androidx|3.1.3|从v3.1.0版本开始支持androidx
-|支持android support|3.0.3|support 支持还会维护一到两个版本，请大家尽快拥抱androidx吧
+|支持android support|3.0.5|该版本为支持Android support的最后一个版本，后期也将不在提供维护，请大家尽快升级和适配Androidx
 
 
 ```groovy
