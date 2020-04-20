@@ -13,6 +13,7 @@ import com.didichuxing.doraemonkit.util.CacheUtils;
 import com.didichuxing.doraemonkit.util.FileUtil;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -56,7 +57,7 @@ public class CrashCaptureManager implements Thread.UncaughtExceptionHandler {
     @Override
     public void uncaughtException(final Thread t, final Throwable e) {
         //保存崩溃信息
-        CacheUtils.saveObject(Log.getStackTraceString(e), getCrashCacheFile());
+        CacheUtils.saveObject((Serializable) Log.getStackTraceString(e), getCrashCacheFile());
         //保存埋点数据
         DataPickManager.getInstance().saveData2Local();
         post(new Runnable() {

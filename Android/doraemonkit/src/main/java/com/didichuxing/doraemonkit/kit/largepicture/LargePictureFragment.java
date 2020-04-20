@@ -80,7 +80,7 @@ public class LargePictureFragment extends BaseFragment {
                     float value = Float.parseFloat(s.toString());
                     float formateValue = Float.parseFloat(mDecimalFormat.format(value));
                     //设置文件大小
-                    PerformanceSpInfoConfig.setLargeImgFileThreshold(getActivity(), formateValue);
+                    PerformanceSpInfoConfig.setLargeImgFileThreshold(formateValue);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -115,17 +115,17 @@ public class LargePictureFragment extends BaseFragment {
                     float value = Float.parseFloat(s.toString());
                     float formateValue = Float.parseFloat(mDecimalFormat.format(value));
                     //设置内存大小
-                    PerformanceSpInfoConfig.setLargeImgMemoryThreshold(getActivity(), formateValue);
+                    PerformanceSpInfoConfig.setLargeImgMemoryThreshold(formateValue);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
 
-        double fileThreshold = PerformanceSpInfoConfig.getLargeImgFileThreshold(getActivity(), LargePictureManager.FILE_DEFAULT_THRESHOLD);
+        double fileThreshold = PerformanceSpInfoConfig.getLargeImgFileThreshold(LargePictureManager.FILE_DEFAULT_THRESHOLD);
         fileEditText.setText(mDecimalFormat.format(fileThreshold));
 
-        double memoryThreshold = PerformanceSpInfoConfig.getLargeImgMemoryThreshold(getActivity(), LargePictureManager.MEMORY_DEFAULT_THRESHOLD);
+        double memoryThreshold = PerformanceSpInfoConfig.getLargeImgMemoryThreshold(LargePictureManager.MEMORY_DEFAULT_THRESHOLD);
         memoryEditText.setText(mDecimalFormat.format(memoryThreshold));
 
 

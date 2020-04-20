@@ -81,7 +81,7 @@ public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerM
         mClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlignRulerConfig.setAlignRulerOpen(getContext(), false);
+                AlignRulerConfig.setAlignRulerOpen(false);
                 DokitViewManager.getInstance().detach(AlignRulerMarkerDokitView.class.getSimpleName());
                 DokitViewManager.getInstance().detach(AlignRulerLineDokitView.class.getSimpleName());
                 DokitViewManager.getInstance().detach(AlignRulerInfoDokitView.class.getSimpleName());

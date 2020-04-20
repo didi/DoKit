@@ -111,7 +111,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
     @Override
     public void onClick(View v) {
         if (v == mClose) {
-            ViewCheckConfig.setViewCheckOpen(getContext(), false);
+            ViewCheckConfig.setViewCheckOpen( false);
             DokitViewManager.getInstance().detach(ViewCheckDrawDokitView.class.getSimpleName());
             DokitViewManager.getInstance().detach(ViewCheckInfoDokitView.class.getSimpleName());
             DokitViewManager.getInstance().detach(ViewCheckDokitView.class.getSimpleName());

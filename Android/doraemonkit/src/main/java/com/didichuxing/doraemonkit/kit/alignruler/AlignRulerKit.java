@@ -46,12 +46,12 @@ public class AlignRulerKit extends AbstractKit {
         DokitViewManager.getInstance().attach(pageIntent);
 
 
-        AlignRulerConfig.setAlignRulerOpen(context, true);
+        AlignRulerConfig.setAlignRulerOpen(true);
     }
 
     @Override
     public void onAppInit(Context context) {
-        AlignRulerConfig.setAlignRulerOpen(context, false);
+        AlignRulerConfig.setAlignRulerOpen(false);
     }
 
     @Override

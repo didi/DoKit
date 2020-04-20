@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
@@ -30,7 +32,7 @@ public class ColorPickerSettingFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (requestCaptureScreen()) {
-            ColorPickConfig.setColorPickOpen(getContext(), true);
+            ColorPickConfig.setColorPickOpen(true);
         }
     }
 

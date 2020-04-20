@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.kit.fileexplorer;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -42,7 +43,7 @@ public class SpFragment extends BaseFragment {
             return spBeans;
         }
         spTableName = mFile.getName().replace(XML, "");
-        SharedPreferences sp = SharedPrefsUtil.getSharedPrefs(getActivity(), spTableName);
+        SharedPreferences sp = SharedPrefsUtil.getSharedPrefs(spTableName);
         edit = sp.edit();
         Map<String, ?> all = sp.getAll();
         if (all.isEmpty()) {
@@ -98,19 +99,19 @@ public class SpFragment extends BaseFragment {
         String key = bean.key;
         switch (bean.value.getClass().getSimpleName()) {
             case SpInputType.STRING:
-                SharedPrefsUtil.putString(getActivity(), key, bean.value.toString());
+                SharedPrefsUtil.putString(key, bean.value.toString());
                 break;
             case SpInputType.BOOLEAN:
-                SharedPrefsUtil.putBoolean(getActivity(), spTableName, key, (Boolean) bean.value);
+                SharedPrefsUtil.putBoolean(spTableName, key, (Boolean) bean.value);
                 break;
             case SpInputType.INTEGER:
-                SharedPrefsUtil.putInt(getActivity(), spTableName, key, (Integer) bean.value);
+                SharedPrefsUtil.putInt(spTableName, key, (Integer) bean.value);
                 break;
             case SpInputType.FLOAT:
-                SharedPrefsUtil.putFloat(getActivity(), spTableName, key, (Float) bean.value);
+                SharedPrefsUtil.putFloat(spTableName, key, (Float) bean.value);
                 break;
             case SpInputType.LONG:
-                SharedPrefsUtil.putLong(getActivity(), spTableName, key, (Long) bean.value);
+                SharedPrefsUtil.putLong(spTableName, key, (Long) bean.value);
                 break;
             default:
                 break;

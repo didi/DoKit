@@ -37,7 +37,7 @@ public class DokitConstant {
     /**
      * 是否处于健康体检中
      */
-    public static boolean APP_HEALTH_RUNNING = GlobalConfig.getAppHealth(DoraemonKit.APPLICATION);
+    public static boolean APP_HEALTH_RUNNING = GlobalConfig.getAppHealth();
 
     /**
      * 是否是普通的浮标模式
