@@ -7,7 +7,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DoraemonKit'
-  s.version          = '3.0.0'
+  s.version          = '3.0.1'
   s.summary          = 'iOS各式各样的工具集合'
   s.description      = <<-DESC
                           iOS各式各样的工具集合 Desc
@@ -37,6 +37,14 @@ Pod::Spec.new do |s|
     }
     ss.dependency 'DoraemonKit/Core'
     ss.dependency 'CocoaLumberjack'
+  end
+
+  s.subspec 'WithGPS' do |ss| 
+    ss.source_files = 'iOS/DoraemonKit/Src/GPS/**/*{.h,.m}'
+    ss.pod_target_xcconfig = {
+      'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithGPS'
+    }
+    ss.dependency 'DoraemonKit/Core'
   end
 
   s.subspec 'WithLoad' do |ss| 
