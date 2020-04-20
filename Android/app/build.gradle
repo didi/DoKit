@@ -92,6 +92,7 @@ dependencies {
     implementation rootProject.ext.dependencies["fresco"]
     implementation rootProject.ext.dependencies["fresco-processors"]
     implementation rootProject.ext.dependencies["image-loader"]
+//    implementation rootProject.ext.dependencies["swipeback"]
 
     //weex相关
     implementation rootProject.ext.dependencies["weex_inspector"]
