@@ -6,9 +6,10 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.3'
+        classpath 'com.android.tools.build:gradle:3.6.2'
         classpath 'com.novoda:bintray-release:0.9.2'
         classpath "com.didichuxing.doraemonkit:doraemonkit-plugin:${rootProject.ext.android["pluginVersionName"]}"
+//        classpath "com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.ext.android["kotlin_version"]}"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
