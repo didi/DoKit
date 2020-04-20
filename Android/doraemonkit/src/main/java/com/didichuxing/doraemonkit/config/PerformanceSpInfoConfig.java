@@ -13,59 +13,57 @@ import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
  */
 
 public class PerformanceSpInfoConfig {
-    public static boolean isFPSOpen(Context context) {
+    public static boolean isFPSOpen() {
 //        return false;
-        return SharedPrefsUtil.getBoolean(context, SharedPrefsKey.FRAME_INFO_FPS_OPEN, false);
+        return SharedPrefsUtil.getBoolean(SharedPrefsKey.FRAME_INFO_FPS_OPEN, false);
     }
 
-    public static void setFPSOpen(Context context, boolean open) {
-        SharedPrefsUtil.putBoolean(context, SharedPrefsKey.FRAME_INFO_FPS_OPEN, open);
+    public static void setFPSOpen(boolean open) {
+        SharedPrefsUtil.putBoolean(SharedPrefsKey.FRAME_INFO_FPS_OPEN, open);
     }
 
-    public static boolean isCPUOpen(Context context) {
+    public static boolean isCPUOpen() {
 //        return false;
-        return SharedPrefsUtil.getBoolean(context, SharedPrefsKey.FRAME_INFO_CPU_OPEN, false);
+        return SharedPrefsUtil.getBoolean(SharedPrefsKey.FRAME_INFO_CPU_OPEN, false);
     }
 
-    public static void setCPUOpen(Context context, boolean open) {
-        SharedPrefsUtil.putBoolean(context, SharedPrefsKey.FRAME_INFO_CPU_OPEN, open);
+    public static void setCPUOpen(boolean open) {
+        SharedPrefsUtil.putBoolean(SharedPrefsKey.FRAME_INFO_CPU_OPEN, open);
     }
 
-    public static boolean isMemoryOpen(Context context) {
+    public static boolean isMemoryOpen() {
 //        return false;
-        return SharedPrefsUtil.getBoolean(context, SharedPrefsKey.FRAME_INFO_MEMORY_OPEN, false);
+        return SharedPrefsUtil.getBoolean(SharedPrefsKey.FRAME_INFO_MEMORY_OPEN, false);
     }
 
-    public static void setMemoryOpen(Context context, boolean open) {
-        SharedPrefsUtil.putBoolean(context, SharedPrefsKey.FRAME_INFO_MEMORY_OPEN, open);
+    public static void setMemoryOpen(boolean open) {
+        SharedPrefsUtil.putBoolean(SharedPrefsKey.FRAME_INFO_MEMORY_OPEN, open);
     }
 
-    public static boolean isTrafficOpen(Context context) {
-        return SharedPrefsUtil.getBoolean(context, SharedPrefsKey.FRAME_INFO_TRAFFIC_OPEN, false);
+    public static boolean isTrafficOpen() {
+        return SharedPrefsUtil.getBoolean(SharedPrefsKey.FRAME_INFO_TRAFFIC_OPEN, false);
     }
 
-    public static void setTrafficOpen(Context context, boolean open) {
-        SharedPrefsUtil.putBoolean(context, SharedPrefsKey.FRAME_INFO_TRAFFIC_OPEN, open);
+    public static void setTrafficOpen(boolean open) {
+        SharedPrefsUtil.putBoolean(SharedPrefsKey.FRAME_INFO_TRAFFIC_OPEN, open);
     }
 
     /**
      * 是否显示性能检测UI开关
      *
-     * @param context
      * @return
      */
-    public static boolean isFrameUiOpen(Context context) {
-        return SharedPrefsUtil.getBoolean(context, SharedPrefsKey.FRAME_INFO_UI_OPEN, false);
+    public static boolean isFrameUiOpen() {
+        return SharedPrefsUtil.getBoolean(SharedPrefsKey.FRAME_INFO_UI_OPEN, false);
     }
 
     /**
      * 设置显示性能检测UI开关
      *
-     * @param context
      * @return
      */
-    public static void setFrameUiOpen(Context context, boolean open) {
-        SharedPrefsUtil.putBoolean(context, SharedPrefsKey.FRAME_INFO_UI_OPEN, open);
+    public static void setFrameUiOpen(boolean open) {
+        SharedPrefsUtil.putBoolean(SharedPrefsKey.FRAME_INFO_UI_OPEN, open);
     }
 
     /**
@@ -74,7 +72,7 @@ public class PerformanceSpInfoConfig {
      * @return
      */
     public static boolean isLargeImgOpen() {
-        return SharedPrefsUtil.getBoolean(DoraemonKit.APPLICATION, SharedPrefsKey.LARGE_IMG_OPEN, false);
+        return SharedPrefsUtil.getBoolean(SharedPrefsKey.LARGE_IMG_OPEN, false);
     }
 
     /**
@@ -83,18 +81,17 @@ public class PerformanceSpInfoConfig {
      * @param open
      */
     public static void setLargeImgOpen(boolean open) {
-        SharedPrefsUtil.putBoolean(DoraemonKit.APPLICATION, SharedPrefsKey.LARGE_IMG_OPEN, open);
+        SharedPrefsUtil.putBoolean(SharedPrefsKey.LARGE_IMG_OPEN, open);
     }
 
 
     /**
      * 设置大图内存阈值
      *
-     * @param context
      * @param threshold
      */
-    public static void setLargeImgMemoryThreshold(Context context, float threshold) {
-        SharedPrefsUtil.putFloat(context, SharedPrefsKey.LARGE_IMG_MEMORY_THRESHOLD, threshold);
+    public static void setLargeImgMemoryThreshold(float threshold) {
+        SharedPrefsUtil.putFloat(SharedPrefsKey.LARGE_IMG_MEMORY_THRESHOLD, threshold);
         LargePictureManager.getInstance().setMemoryThreshold(threshold);
     }
 
@@ -102,32 +99,29 @@ public class PerformanceSpInfoConfig {
     /**
      * 获得大图内存阈值
      *
-     * @param context
      * @param threshold
      */
-    public static double getLargeImgMemoryThreshold(Context context, float threshold) {
-        return SharedPrefsUtil.getFloat(context, SharedPrefsKey.LARGE_IMG_MEMORY_THRESHOLD, threshold);
+    public static double getLargeImgMemoryThreshold(float threshold) {
+        return SharedPrefsUtil.getFloat(SharedPrefsKey.LARGE_IMG_MEMORY_THRESHOLD, threshold);
     }
 
     /**
      * 设置大图文件阈值
      *
-     * @param context
      * @param threshold
      */
-    public static void setLargeImgFileThreshold(Context context, float threshold) {
-        SharedPrefsUtil.putFloat(context, SharedPrefsKey.LARGE_IMG_FILE_THRESHOLD, threshold);
+    public static void setLargeImgFileThreshold(float threshold) {
+        SharedPrefsUtil.putFloat(SharedPrefsKey.LARGE_IMG_FILE_THRESHOLD, threshold);
         LargePictureManager.getInstance().setFileThreshold(threshold);
     }
 
     /**
      * 获得大图文件阈值
      *
-     * @param context
      * @param threshold
      */
-    public static double getLargeImgFileThreshold(Context context, float threshold) {
-        return SharedPrefsUtil.getFloat(context, SharedPrefsKey.LARGE_IMG_FILE_THRESHOLD, threshold);
+    public static double getLargeImgFileThreshold(float threshold) {
+        return SharedPrefsUtil.getFloat(SharedPrefsKey.LARGE_IMG_FILE_THRESHOLD, threshold);
     }
 
 }

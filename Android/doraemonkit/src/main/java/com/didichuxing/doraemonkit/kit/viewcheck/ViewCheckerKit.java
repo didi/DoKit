@@ -46,12 +46,12 @@ public class ViewCheckerKit extends AbstractKit {
         DokitViewManager.getInstance().attach(intent);
 
 
-        ViewCheckConfig.setViewCheckOpen(context, true);
+        ViewCheckConfig.setViewCheckOpen(true);
     }
 
     @Override
     public void onAppInit(Context context) {
-        ViewCheckConfig.setViewCheckOpen(context, false);
+        ViewCheckConfig.setViewCheckOpen(false);
     }
 
     @Override

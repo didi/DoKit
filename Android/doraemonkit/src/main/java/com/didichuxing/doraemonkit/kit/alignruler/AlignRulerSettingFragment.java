@@ -43,7 +43,7 @@ public class AlignRulerSettingFragment extends BaseFragment {
         mSettingList = findViewById(R.id.setting_list);
         mSettingList.setLayoutManager(new LinearLayoutManager(getContext()));
         mSettingItemAdapter = new SettingItemAdapter(getContext());
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_align_ruler, AlignRulerConfig.isAlignRulerOpen(getContext())));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_align_ruler, AlignRulerConfig.isAlignRulerOpen()));
         mSettingList.setAdapter(mSettingItemAdapter);
         mSettingItemAdapter.setOnSettingItemSwitchListener(new SettingItemAdapter.OnSettingItemSwitchListener() {
             @Override
@@ -57,7 +57,7 @@ public class AlignRulerSettingFragment extends BaseFragment {
                         DokitViewManager.getInstance().detach(AlignRulerMarkerDokitView.class);
                         DokitViewManager.getInstance().detach(AlignRulerLineDokitView.class);
                     }
-                    AlignRulerConfig.setAlignRulerOpen(getContext(), on);
+                    AlignRulerConfig.setAlignRulerOpen(on);
                 }
             }
         });

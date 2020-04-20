@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.util;
 
-import android.content.Context;
+import com.blankj.utilcode.util.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,11 +17,9 @@ import java.io.Serializable;
 public class CacheUtils {
     private static final String TAG = "CacheUtils";
 
-    private CacheUtils() {
-    }
 
-    public static boolean saveObject(Context context, String key, Serializable ser) {
-        File file = new File(context.getCacheDir() + "/" + key);
+    public static boolean saveObject(String key, Serializable ser) {
+        File file = new File(Utils.getApp().getCacheDir() + "/" + key);
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -32,8 +30,8 @@ public class CacheUtils {
         return saveObject(ser, file);
     }
 
-    public static Serializable readObject(Context context, String key) {
-        File file = new File(context.getCacheDir() + "/" + key);
+    public static Serializable readObject(String key) {
+        File file = new File(Utils.getApp().getCacheDir() + "/" + key);
         return readObject(file);
     }
 

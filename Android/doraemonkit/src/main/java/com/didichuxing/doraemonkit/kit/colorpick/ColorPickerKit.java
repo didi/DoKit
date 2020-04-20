@@ -44,7 +44,7 @@ public class ColorPickerKit extends AbstractKit {
 
     @Override
     public void onAppInit(Context context) {
-        ColorPickConfig.setColorPickOpen(context, false);
+        ColorPickConfig.setColorPickOpen(false);
     }
 
     @Override

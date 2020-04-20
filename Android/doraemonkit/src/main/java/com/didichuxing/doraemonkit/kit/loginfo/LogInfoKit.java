@@ -21,23 +21,23 @@ public class LogInfoKit extends AbstractKit {
 
     @Override
     public int getName() {
-        return  R.string.dk_kit_log_info;
+        return R.string.dk_kit_log_info;
     }
 
     @Override
     public int getIcon() {
-        return  R.drawable.dk_log_info;
+        return R.drawable.dk_log_info;
     }
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context,FragmentIndex.FRAGMENT_LOG_INFO_SETTING);
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_LOG_INFO_SETTING);
 
     }
 
     @Override
     public void onAppInit(Context context) {
-        LogInfoConfig.setLogInfoOpen(context, false);
+        LogInfoConfig.setLogInfoOpen(false);
     }
 
     @Override

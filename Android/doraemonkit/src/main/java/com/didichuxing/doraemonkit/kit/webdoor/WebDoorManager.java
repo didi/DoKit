@@ -32,9 +32,9 @@ public class WebDoorManager {
         mWebDoorCallback = null;
     }
 
-    public void saveHistory(Context context, String text) {
+    public void saveHistory(String text) {
         if (mHistory == null) {
-            mHistory = (ArrayList<String>) CacheUtils.readObject(context, CachesKey.WEB_DOOR_HISTORY);
+            mHistory = (ArrayList<String>) CacheUtils.readObject(CachesKey.WEB_DOOR_HISTORY);
         }
         if (mHistory == null) {
             mHistory = new ArrayList<>();
@@ -46,12 +46,12 @@ public class WebDoorManager {
             mHistory.remove(0);
         }
         mHistory.add(text);
-        CacheUtils.saveObject(context, CachesKey.WEB_DOOR_HISTORY, mHistory);
+        CacheUtils.saveObject(CachesKey.WEB_DOOR_HISTORY, mHistory);
     }
 
-    public ArrayList<String> getHistory(Context context) {
+    public ArrayList<String> getHistory() {
         if (mHistory == null) {
-            mHistory = (ArrayList<String>) CacheUtils.readObject(context, CachesKey.WEB_DOOR_HISTORY);
+            mHistory = (ArrayList<String>) CacheUtils.readObject(CachesKey.WEB_DOOR_HISTORY);
         }
         if (mHistory == null) {
             mHistory = new ArrayList<>();
@@ -59,9 +59,9 @@ public class WebDoorManager {
         return mHistory;
     }
 
-    public void clearHistory(Context context) {
+    public void clearHistory() {
         mHistory.clear();
-        CacheUtils.saveObject(context, CachesKey.WEB_DOOR_HISTORY, mHistory);
+        CacheUtils.saveObject(CachesKey.WEB_DOOR_HISTORY, mHistory);
     }
 
     private static class Holder {

@@ -65,7 +65,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                             LogHelper.i(TAG, "上传成功===>" + response.body());
                             ToastUtils.showShort(DokitUtil.getString(R.string.dk_health_upload_successed));
                             //重置状态
-                            GlobalConfig.setAppHealth(DoraemonKit.APPLICATION, false);
+                            GlobalConfig.setAppHealth(false);
                             DokitConstant.APP_HEALTH_RUNNING = false;
                             mTitle.setVisibility(View.INVISIBLE);
                             mController.setImageResource(R.drawable.dk_health_start);
@@ -98,7 +98,7 @@ public class HealthFragmentChild0 extends BaseFragment {
             public void onCancel() {
                 ToastUtils.showShort(DokitUtil.getString(R.string.dk_health_upload_droped));
                 //重置状态
-                GlobalConfig.setAppHealth(DoraemonKit.APPLICATION, false);
+                GlobalConfig.setAppHealth(false);
                 DokitConstant.APP_HEALTH_RUNNING = false;
                 mTitle.setVisibility(View.INVISIBLE);
                 mController.setImageResource(R.drawable.dk_health_start);
@@ -128,7 +128,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                                     dialog.dismiss();
                                     if (mController != null) {
                                         ToastUtils.showShort(DokitUtil.getString(R.string.dk_health_funcation_start));
-                                        GlobalConfig.setAppHealth(DoraemonKit.APPLICATION, true);
+                                        GlobalConfig.setAppHealth(true);
                                         DokitConstant.APP_HEALTH_RUNNING = true;
                                         //重启app
                                         mController.postDelayed(new Runnable() {
