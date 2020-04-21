@@ -37,19 +37,7 @@
 }
 
 - (void)export:(NSString *)text {
-    NSString *cachesDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *tempDir = [cachesDir stringByAppendingPathComponent:@"DoKitTemp"];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isDir = NO;
-    BOOL existed = [fileManager fileExistsAtPath:tempDir isDirectory:&isDir];
-    if(!(isDir && existed)){
-        [fileManager createDirectoryAtPath:tempDir withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-    NSString *path = [tempDir stringByAppendingPathComponent:@"startCostDetail.txt"];
-    BOOL writeSuccess = [text writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    if (writeSuccess) {
-        [DoraemonUtil shareFileWithPath:path formVC:self];
-    }
+    [DoraemonUtil shareText:text formVC:self];
 }
 
 @end

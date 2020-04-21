@@ -245,20 +245,28 @@
     return [UIViewController topViewControllerForKeyWindow];
 }
 
-//分享文件
-+ (void)shareFileWithPath:(NSString *)filePath formVC:(UIViewController *)vc{
-    NSURL *url = [NSURL fileURLWithPath:filePath];
-    NSArray *objectsToShare = @[url];
+//share text
++ (void)shareText:(NSString *)text formVC:(UIViewController *)vc{
+    [self share:text formVC:vc];
+}
+
+//share image
++ (void)shareImage:(UIImage *)image formVC:(UIViewController *)vc{
+    [self share:image formVC:vc];
+}
+
+//share url
++ (void)shareURL:(NSURL *)url formVC:(UIViewController *)vc{
+    [self share:url formVC:vc];
+}
+
++ (void)share:(id)object formVC:(UIViewController *)vc{
+    if (!object) {
+        return;
+    }
+    NSArray *objectsToShare = @[object];//support NSString、NSURL、UIImage
 
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
-    NSArray *excludedActivities = @[UIActivityTypePostToTwitter, UIActivityTypePostToFacebook,
-                                    UIActivityTypePostToWeibo,
-                                    UIActivityTypeMessage, UIActivityTypeMail,
-                                    UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
-                                    UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll,
-                                    UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr,
-                                    UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo];
-    controller.excludedActivityTypes = excludedActivities;
 
     if([DoraemonAppInfoUtil isIpad]){
         if ( [controller respondsToSelector:@selector(popoverPresentationController)] ) {

@@ -48,7 +48,7 @@
 }
 
 - (void)rightNavTitleClick:(id)clickView{
-    [DoraemonUtil shareFileWithPath:self.filePath formVC:self];
+    [DoraemonUtil shareURL:[NSURL fileURLWithPath:self.filePath] formVC:self];
 }
 
 
