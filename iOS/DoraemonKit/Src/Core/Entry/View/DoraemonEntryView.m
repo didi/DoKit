@@ -13,11 +13,13 @@
 #import "DoraemonDefine.h"
 #import "DoraemonHomeWindow.h"
 #import "DoraemonStatusBarViewController.h"
+#import "DoraemonBuriedPointManager.h"
 
 @interface DoraemonEntryView()
 
 @property (nonatomic, strong) UIButton *entryBtn;
 @property (nonatomic, assign) CGFloat kEntryViewSize;
+@property (nonatomic) CGPoint startingPosition;
 
 @end
 
@@ -59,7 +61,8 @@
 #endif
 }
 
-- (instancetype)init{
+- (instancetype)initWithStartPoint:(CGPoint)startingPosition{
+    self.startingPosition = startingPosition;
     _kEntryViewSize = 58;
     CGFloat x = self.startingPosition.x;
     CGFloat y = self.startingPosition.y;
@@ -73,7 +76,15 @@
     }
     
     self = [super initWithFrame:CGRectMake(x, y, _kEntryViewSize, _kEntryViewSize)];
-    if (self) { 
+    if (self) {
+        #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+            if (@available(iOS 13.0, *)) {
+                UIScene *scene = [[UIApplication sharedApplication].connectedScenes anyObject];
+                if (scene) {
+                    self.windowScene = (UIWindowScene *)scene;
+                }
+            }
+        #endif
         self.backgroundColor = [UIColor clearColor];
         self.windowLevel = UIWindowLevelStatusBar + 100.f;
         self.layer.masksToBounds = YES;
@@ -96,6 +107,10 @@
     return self;
 }
 
+- (void)show{
+    self.hidden = NO;
+}
+
 - (void)showClose:(NSNotification *)notification{
     [_entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
     [_entryBtn removeTarget:self action:@selector(showClose:) forControlEvents:UIControlEventTouchUpInside];
@@ -106,13 +121,6 @@
     [_entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_logo"] forState:UIControlStateNormal];
     [_entryBtn removeTarget:self action:@selector(closePluginClick:) forControlEvents:UIControlEventTouchUpInside];
     [_entryBtn addTarget:self action:@selector(entryClick:) forControlEvents:UIControlEventTouchUpInside];
-    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonClosePluginNotification object:nil userInfo:nil];
-}
-
-//不能让该View成为keyWindow，每一次它要成为keyWindow的时候，都要将appDelegate的window指为keyWindow
-- (void)becomeKeyWindow{
-    UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
-    [appWindow makeKeyWindow];
 }
 
 /**
@@ -121,20 +129,27 @@
 - (void)entryClick:(UIButton *)btn{
     if ([DoraemonHomeWindow shareInstance].hidden) {
         [[DoraemonHomeWindow shareInstance] show];
+        DoKitBP(@"dokit_sdk_home_ck_entry")
     }else{
         [[DoraemonHomeWindow shareInstance] hide];
     }
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonClosePluginNotification object:nil userInfo:nil];
 }
 
-- (void)pan:(UIPanGestureRecognizer *)sender{
+- (void)pan:(UIPanGestureRecognizer *)pan{
+    if (self.autoDock) {
+        [self autoDocking:pan];
+    }else{
+        [self normalMode:pan];
+    }
+}
+
+- (void)normalMode: (UIPanGestureRecognizer *)panGestureRecognizer{
     //1、获得拖动位移
-    CGPoint offsetPoint = [sender translationInView:sender.view];
+    CGPoint offsetPoint = [panGestureRecognizer translationInView:panGestureRecognizer.view];
     //2、清空拖动位移
-    [sender setTranslation:CGPointZero inView:sender.view];
+    [panGestureRecognizer setTranslation:CGPointZero inView:panGestureRecognizer.view];
     //3、重新设置控件位置
-    UIView *panView = sender.view;
+    UIView *panView = panGestureRecognizer.view;
     CGFloat newX = panView.doraemon_centerX+offsetPoint.x;
     CGFloat newY = panView.doraemon_centerY+offsetPoint.y;
     if (newX < _kEntryViewSize/2) {
@@ -150,6 +165,57 @@
         newY = DoraemonScreenHeight - _kEntryViewSize/2;
     }
     panView.center = CGPointMake(newX, newY);
+}
+
+- (void)autoDocking:(UIPanGestureRecognizer *)panGestureRecognizer {
+    UIView *panView = panGestureRecognizer.view;
+    switch (panGestureRecognizer.state) {
+        case UIGestureRecognizerStateBegan:
+        case UIGestureRecognizerStateChanged:
+        {
+            CGPoint translation = [panGestureRecognizer translationInView:panView];
+            [panGestureRecognizer setTranslation:CGPointZero inView:panView];
+            panView.center = CGPointMake(panView.center.x + translation.x, panView.center.y + translation.y);
+        }
+            break;
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled:
+        {
+            CGPoint location = panView.center;
+            CGFloat centerX;
+            CGFloat safeBottom = 0;
+            if (@available(iOS 11.0, *)) {
+               safeBottom = self.safeAreaInsets.bottom;
+            }
+            CGFloat centerY = MAX(MIN(location.y, CGRectGetMaxY([UIScreen mainScreen].bounds)-safeBottom), [UIApplication sharedApplication].statusBarFrame.size.height);
+            if(location.x > CGRectGetWidth([UIScreen mainScreen].bounds)/2.f)
+            {
+                centerX = CGRectGetWidth([UIScreen mainScreen].bounds)-_kEntryViewSize/2;
+            }
+            else
+            {
+                centerX = _kEntryViewSize/2;
+            }
+            [[NSUserDefaults standardUserDefaults] setObject:@{
+                                                               @"x":[NSNumber numberWithFloat:centerX],
+                                                               @"y":[NSNumber numberWithFloat:centerY]
+                                                               } forKey:@"FloatViewCenterLocation"];
+            [UIView animateWithDuration:0.3 animations:^{
+                panView.center = CGPointMake(centerX, centerY);
+            }];
+        }
+
+        default:
+            break;
+    }
+}
+
+- (void)setAutoDock:(BOOL)autoDock {
+    _autoDock = autoDock;
+    NSDictionary *dict = [[NSUserDefaults standardUserDefaults] objectForKey:@"FloatViewCenterLocation"];
+    if (dict && dict[@"x"] && dict[@"y"]) {
+        self.center = CGPointMake([dict[@"x"] integerValue], [dict[@"y"] integerValue]);
+    }
 }
 
 @end

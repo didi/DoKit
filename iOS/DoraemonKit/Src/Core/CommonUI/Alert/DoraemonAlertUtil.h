@@ -25,6 +25,12 @@ typedef void (^DoraemonAlertCancleActionBlock)(void);
                      okBlock:(DoraemonAlertOKActionBlock)okBlock
                       cancleBlock:(DoraemonAlertCancleActionBlock)cancleBlock;
 
++ (void)handleAlertActionWithVC:(UIViewController *)vc
+                           text:(NSString *)text
+                        okBlock:(DoraemonAlertOKActionBlock)okBlock;
+
+
+
 @end
 
 NS_ASSUME_NONNULL_END

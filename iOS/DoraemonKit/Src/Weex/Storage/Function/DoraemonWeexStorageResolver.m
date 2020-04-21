@@ -30,7 +30,7 @@
         NSDictionary *dic = [[NSDictionary alloc] initWithContentsOfFile:_weexStorageFile];
         return dic;
     }
-    return nil;
+    return @{};
 }
 
 @end

@@ -12,7 +12,6 @@
 #import "DoraemonHomeWindow.h"
 #import "UIView+Doraemon.h"
 #import "DoraemonDefine.h"
-#import "DoraemonStateBar.h"
 
 @interface DoraemonBaseViewController ()<DoraemonBaseBigTitleViewDelegate>
  
@@ -29,7 +28,7 @@
         self.view.backgroundColor = [UIColor systemBackgroundColor];
         [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor labelColor]}];
         if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-            [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:[UIColor doraemon_black_3] size:CGSizeMake(self.view.frame.size.width, 0.5)]];
+            [self.navigationController.navigationBar setShadowImage:[UIImage doraemon_imageWithColor:[UIColor doraemon_black_3] size:CGSizeMake(self.view.frame.size.width, 0.5)]];
         }
     } else {
 #endif
@@ -39,11 +38,7 @@
 #endif
      
     if ([self needBigTitleView]) {
-        if ([DoraemonStateBar shareInstance].hidden) {
-            _bigTitleView = [[DoraemonBaseBigTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(178))];
-        }else{
-            _bigTitleView = [[DoraemonBaseBigTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(178)+IPHONE_STATUSBAR_HEIGHT)];
-        }
+        _bigTitleView = [[DoraemonBaseBigTitleView alloc] initWithFrame:CGRectMake(0, 0, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(178))];
         _bigTitleView.delegate = self;
         [self.view addSubview:_bigTitleView];
     } else {
@@ -69,10 +64,12 @@
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     //输入框聚焦的时候，会把当前window设置为keyWindow，我们在当页面消失的时候，判断一下，把keyWindow交还给[[UIApplication sharedApplication].delegate window]
-    UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    if (appWindow != keyWindow) {
-        [appWindow makeKeyWindow];
+    if ([[UIApplication sharedApplication].delegate respondsToSelector:@selector(window)]) {
+        UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        if (appWindow != keyWindow) {
+            [appWindow makeKeyWindow];
+        }
     }
 }
 
@@ -84,7 +81,7 @@
         if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
             if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
                 self.leftModel.image = [UIImage doraemon_imageNamed:@"doraemon_back_dark"];
-                [self.navigationController.navigationBar setShadowImage:[UIImage imageWithColor:[UIColor doraemon_black_3] size:CGSizeMake(self.view.frame.size.width, 0.5)]];
+                [self.navigationController.navigationBar setShadowImage:[UIImage doraemon_imageWithColor:[UIColor doraemon_black_3] size:CGSizeMake(self.view.frame.size.width, 0.5)]];
             } else {
                 self.leftModel.image = [UIImage doraemon_imageNamed:@"doraemon_back"];
             }
@@ -122,6 +119,22 @@
     }
 }
 
+- (void)setRightNavBarItems:(NSArray *)items{
+    NSArray *barItems = [self navigationItems:items];
+    if (barItems) {
+        self.navigationItem.rightBarButtonItems = barItems;
+    }
+}
+
+- (void)setRightNavTitle:(NSString *)title{
+    DoraemonNavBarItemModel *item = [[DoraemonNavBarItemModel alloc] initWithText:title color:[UIColor doraemon_blue] selector:@selector(rightNavTitleClick:)];
+    NSArray *barItems = [self navigationItems:@[item]];
+    if (barItems) {
+        self.navigationItem.rightBarButtonItems = barItems;
+    }
+}
+
+
 - (NSArray *)navigationItems:(NSArray *)items{
     NSMutableArray *barItems = [NSMutableArray array];
     //距离左右的间距
@@ -146,6 +159,8 @@
             btn.frame = CGRectMake(0, 0, 30, 30);
             btn.clipsToBounds = YES;
             barItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+        }else{
+            barItem = [[UIBarButtonItem alloc] init];
         }
         [barItems addObject:barItem];
     }
@@ -170,6 +185,10 @@
 #pragma mark - DoraemonBaseBigTitleViewDelegate
 - (void)bigTitleCloseClick{
     [self leftNavBackClick:nil];
+}
+
+- (void)rightNavTitleClick:(id)clickView{
+    
 }
 
 //点击屏幕空白处收起键盘

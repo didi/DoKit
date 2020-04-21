@@ -12,6 +12,7 @@
 @interface DoraemonUtil : NSObject
 
 @property (nonatomic, assign) NSInteger fileSize;
+@property (nonatomic, strong) NSMutableArray *bigFileArray;
 
 + (NSString *)dateFormatTimeInterval:(NSTimeInterval)timeInterval;
 
@@ -26,17 +27,32 @@
 
 + (NSString *)dictToJsonStr:(NSDictionary *)dict;
 
++ (NSString *)arrayToJsonStr:(NSArray *)array;
+
 + (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
+
++ (NSArray *)arrayWithJsonString:(NSString *)jsonString;
 
 + (NSString *)formatTimeIntervalToMS:(NSTimeInterval)timeInterval;
 
++ (NSString *)currentTimeInterval;
+
 //获取某一条文件路径的文件大小
 - (void)getFileSizeWithPath:(NSString *)path;
+
+- (NSArray *)getBigSizeFileFormPath:(NSString *)path;
 
 //删除某一路径下的所有文件
 + (void)clearFileWithPath:(NSString *)path;
 
 + (void)clearLocalDatas;
+
+//分享文件
++ (void)shareFileWithPath:(NSString *)filePath formVC:(UIViewController *)vc;
+
++ (void)openAppSetting;
+
++ (UIWindow *)getKeyWindow;
 
 + (void)openPlugin:(UIViewController *)vc __attribute__((deprecated("此方法已弃用,请使用[DoraemonHomeWindow openPlugin:vc];")));
 

@@ -27,7 +27,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Weex 日志记录";
+    self.title = DoraemonLocalizedString(@"Weex日志记录");
     
     self.origArray = [NSArray arrayWithArray:[DoraemonWeexLogDataSource shareInstance].logs];
     self.dataArray = [NSArray arrayWithArray:self.origArray];

@@ -96,7 +96,7 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
                 }
 
                 GpsMockManager.getInstance().mockLocation(latitude, longitude);
-                GpsMockConfig.saveMockLocation(getContext(), new LatLng(latitude, longitude));
+                GpsMockConfig.saveMockLocation(new LatLng(latitude, longitude));
                 //刷新地图
                 String url = String.format("javascript:updateLocation(%s,%s)", latitude, longitude);
                 mWebView.loadUrl(url);
@@ -157,7 +157,7 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
         mSettingList.setLayoutManager(layoutManager);
         List<SettingItem> settingItems = new ArrayList<>();
         settingItems.add(new SettingItem(R.string.dk_gpsmock_open,
-                GpsMockConfig.isGPSMockOpen(getContext())));
+                GpsMockConfig.isGPSMockOpen()));
         mSettingItemAdapter = new SettingItemAdapter(getContext());
         mSettingItemAdapter.setData(settingItems);
         mSettingItemAdapter.setOnSettingItemSwitchListener(this);
@@ -175,7 +175,7 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
             } else {
                 GpsMockManager.getInstance().stopMock();
             }
-            GpsMockConfig.setGPSMockOpen(getContext(), on);
+            GpsMockConfig.setGPSMockOpen(on);
         }
     }
 
@@ -212,7 +212,7 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
             }
 
             GpsMockManager.getInstance().mockLocation(latitude, longitude);
-            GpsMockConfig.saveMockLocation(getContext(), new LatLng(latitude, longitude));
+            GpsMockConfig.saveMockLocation(new LatLng(latitude, longitude));
             ToastUtils.showShort(getString(R.string.dk_gps_location_change_toast, "" + longitude, "" + latitude));
 
         }

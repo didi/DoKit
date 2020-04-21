@@ -81,7 +81,7 @@ public class LayoutLevelDokitView extends AbsDokitView {
 
         if (appContentView.toString().contains("SwipeBackLayout")) {
             LogHelper.i(TAG, "普通模式下布局层级功能暂不支持以SwipeBackLayout为根布局,请改用系统模式");
-            ToastUtils.showShort("普通模式下布局层级功能暂不支持以SwipeBackLayout为根布局");
+            ToastUtils.showLong("普通模式下布局层级功能暂不支持以SwipeBackLayout为根布局");
             return;
         }
 

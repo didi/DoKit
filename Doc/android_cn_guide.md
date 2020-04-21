@@ -2,11 +2,17 @@
 
 #### 1. Gradle 依赖
 
+|DoKit|最新版本|描述|
+|-|-|-|-|
+|支持Androidx|3.1.3|从v3.1.0版本开始支持androidx
+|支持android support|3.0.3|support 支持还会维护一到两个版本，请大家尽快拥抱androidx吧
+
+
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:2.2.2'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:2.2.2'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.3'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.3'
     …
 }
 ```
@@ -14,7 +20,7 @@ dependencies {
  假如你无法通过 jcenter 下载到依赖库并报了以下的错误 
 
 ```
-ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:2.2.2 
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.1.3
 ```
 
 建议你可以尝试挂载VPN或通过命令行重试(以Mac系统为例 项目根目录下)
@@ -38,8 +44,8 @@ DoraemonKit目前已支持Weex工具，包括
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:2.2.2'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:2.2.2'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.1.3'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:3.1.3'
     …
 }
 ```
@@ -49,7 +55,7 @@ dependencies {
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:2.2.2'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.3'
     …
 }
 ```
@@ -91,7 +97,7 @@ AOP包括以下几个功能:
 buildscript {
     dependencies {
         …
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:1.0.0'
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.3'
         …
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -134,7 +140,7 @@ Android Studio支持:
 以黑马乘客端为例，实现环境切换组件如下。
 
 ```Java
-public class EnvSwitchKit implements IKit {
+public class EnvSwitchKit extends AbstractKit {
     @Override
     public int getCategory() {
         return Category.BIZ;
@@ -169,7 +175,7 @@ public class EnvSwitchKit implements IKit {
 @Override
 public void onCreate() {
     kits.add(new EnvSwitchKit());
-    DoraemonKit.install(application, kits);
+    DoraemonKit.install(application, kits,"pId");
     …
 }
 ```
@@ -180,7 +186,7 @@ public void onCreate() {
 @Override
 public void onCreate() {
     kits.add(new EnvSwitchKit());
-    DoraemonKit.install(application, kits);
+    DoraemonKit.install(application, kits,"pId");
     //false:不显示入口icon 默认为true
     DoraemonKit.setAwaysShowMainIcon(false);
     …

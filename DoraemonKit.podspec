@@ -7,7 +7,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DoraemonKit'
-  s.version          = '2.0.0'
+  s.version          = '3.0.1'
   s.summary          = 'iOS各式各样的工具集合'
   s.description      = <<-DESC
                           iOS各式各样的工具集合 Desc
@@ -81,11 +81,7 @@ Pod::Spec.new do |s|
       'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithMLeaksFinder'
     }
     ss.dependency 'DoraemonKit/Core'
-    ss.dependency 'FBRetainCycleDetector'
+    #ss.dependency 'FBRetainCycleDetector'
   end
-
-  s.dependency 'BSBacktraceLogger'
-  s.dependency 'fishhook'
-
 end
 

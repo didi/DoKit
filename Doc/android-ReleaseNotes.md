@@ -1,5 +1,54 @@
 DoraemonKit-Android releases
 ===
+## 3.1.3
+1.DoKit项目结构调整,对外暴露的api已全部移到com.didichuxing.doraemonkit.kit.core包名下,如果你有自定义Kit，请重新引入一下包名
+
+2.DoKit数据Mock模块支持post模式匹配
+
+3.github issues fixed
+
+## 3.1.2
+1.安卓版本DoKit从3.1.0版本开始全面拥抱Androidx,假如你的项目还没有升级到androidx你可以选择依赖3.0.3版本
+
+2.修复大图检测圆角失效的问题
+
+## 3.1.1
+1.修复网络工具里由于androidx的ViewPage包名不一致导致的进入页面崩溃的bug
+
+2.修复其他github issues
+
+## 3.1.0
+1.安卓版本DoKit从3.1.0版本开始全面拥抱Androidx,假如你的项目还没有升级到androidx你可以选择依赖3.0.2版本
+
+## 3.0.3
+1.修复大图检测圆角失效的问题
+
+## 3.0.2
+1.安卓版DoKit从3.0.2版本开始将逐渐放弃对Android Support版本的支持，请大家全面拥抱androidx吧
+
+## 3.0.0
+1.优化dokit 慢函数代码插件性能
+
+2.优化大图检测实现方式，不再需要手动注入代码(支持Glide4.0+、Fresco、Picasso、ImageLoader)
+
+3.优化安卓端启动性能
+
+4.其他功能优化
+
+## 3.0_beta3
+1.优化dokit插件
+
+## 3.0_beta2
+1.新增日志一键导出功能
+
+2.bug fix
+
+## 3.0_beta1
+1.新增2个平台端功能 接口mock和健康体检
+
+2.优化内部架构，提升性能和代码稳定性
+
+
 ## 2.2.2
 
 1. 更新视图检查工具，展示符合当前页面位置条件的所有视图
@@ -8,7 +57,9 @@ DoraemonKit-Android releases
 ## 2.2.1
 
 1. 升级 AOP 方案，原先采用Aspectj，现已升级为ASM方案，提升编译性能和兼容性
+   
 2. 新增高德、腾讯、百度的经纬度模拟功能
+   
 3. 合并pr以及大量issue解决
 
 

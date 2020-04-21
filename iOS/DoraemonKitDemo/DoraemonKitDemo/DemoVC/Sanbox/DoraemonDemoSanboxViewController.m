@@ -19,41 +19,41 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = DoraemonLocalizedString(@"沙盒测试Demo");
+    self.title = DoraemonDemoLocalizedString(@"沙盒测试Demo");
     
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, 60)];
     btn.backgroundColor = [UIColor orangeColor];
-    [btn setTitle:DoraemonLocalizedString(@"添加一条json到沙盒中") forState:UIControlStateNormal];
+    [btn setTitle:DoraemonDemoLocalizedString(@"添加一条json到沙盒中") forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(addFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     
     UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn1.backgroundColor = [UIColor orangeColor];
-    [btn1 setTitle:DoraemonLocalizedString(@"添加一张图片到沙盒中") forState:UIControlStateNormal];
+    [btn1 setTitle:DoraemonDemoLocalizedString(@"添加一张图片到沙盒中") forState:UIControlStateNormal];
     [btn1 addTarget:self action:@selector(addImageFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn1];
     
     UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn1.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn2.backgroundColor = [UIColor orangeColor];
-    [btn2 setTitle:DoraemonLocalizedString(@"添加一段mp4到沙盒中") forState:UIControlStateNormal];
+    [btn2 setTitle:DoraemonDemoLocalizedString(@"添加一段mp4到沙盒中") forState:UIControlStateNormal];
     [btn2 addTarget:self action:@selector(addMP4File) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn2];
     
     UIButton *btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn2.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn3.backgroundColor = [UIColor orangeColor];
-    [btn3 setTitle:DoraemonLocalizedString(@"添加doc、xlsx、pdf到沙盒中") forState:UIControlStateNormal];
+    [btn3 setTitle:DoraemonDemoLocalizedString(@"添加doc、xlsx、pdf到沙盒中") forState:UIControlStateNormal];
     [btn3 addTarget:self action:@selector(addOtherFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn3];
     
     UIButton *btn4 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn3.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn4.backgroundColor = [UIColor orangeColor];
-    [btn4 setTitle:DoraemonLocalizedString(@"添加html到沙盒中") forState:UIControlStateNormal];
+    [btn4 setTitle:DoraemonDemoLocalizedString(@"添加html到沙盒中") forState:UIControlStateNormal];
     [btn4 addTarget:self action:@selector(addHtmlFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn4];
     
     UIButton *btn5 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn4.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn5.backgroundColor = [UIColor orangeColor];
-    [btn5 setTitle:DoraemonLocalizedString(@"添加DB到沙盒中") forState:UIControlStateNormal];
+    [btn5 setTitle:DoraemonDemoLocalizedString(@"添加DB到沙盒中") forState:UIControlStateNormal];
     [btn5 addTarget:self action:@selector(addDBFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn5];
 }
@@ -113,9 +113,9 @@
     sqlite3 *db = nil;
     int result = sqlite3_open(filename, &db);
     if(result == SQLITE_OK){
-        NSLog(@"打开数据库成功");
+        NSLog(@"open sqlite success");
     }else{
-        NSLog(@"打开数据库失败");
+        NSLog(@"open sqlite failure");
     }
     
     //2.创建表
@@ -123,15 +123,15 @@
     char *errmsg = NULL;
     result = sqlite3_exec(db, sql, NULL, NULL, &errmsg);
     if (result == SQLITE_OK) {
-        NSLog(@"创表成功");
+        NSLog(@"create table success");
     }else{
-        NSLog(@"创表失败----%s",errmsg);
+        NSLog(@"create table failure----%s",errmsg);
     }
     
     //插入数据
     for (int i=0; i<20; i++) {
         //1.拼接SQL语句
-        NSString *name=[NSString stringWithFormat:@"文晓--%d",arc4random_uniform(100)];
+        NSString *name=[NSString stringWithFormat:@"TestText--%d",arc4random_uniform(100)];
         int age=arc4random_uniform(20)+10;
         NSString *sql=[NSString stringWithFormat:@"INSERT INTO t_students (name,age) VALUES ('%@',%d);",name,age];
         
@@ -139,10 +139,10 @@
         char *errmsg=NULL;
         sqlite3_exec(db, sql.UTF8String, NULL, NULL, &errmsg);
         if (errmsg) {//如果有错误信息
-            NSLog(@"插入数据失败--%s",errmsg);
+            NSLog(@"insert failure--%s",errmsg);
         }else
         {
-            NSLog(@"插入数据成功");
+            NSLog(@"insert success");
         }
     }
 }
@@ -153,7 +153,7 @@
     NSBundle *bundle = [NSBundle mainBundle];
     NSString *path = [bundle pathForResource:name ofType:type];
     if(![fileManage fileExistsAtPath:path]){
-        NSLog(@"文件不存在");
+        NSLog(@"file not exist");
         return;
     }
     NSString *fromPath = path;
@@ -162,7 +162,7 @@
     NSString *toPath = [path_document stringByAppendingString:appendingString];
     if (![fileManage fileExistsAtPath:toPath]) {
         BOOL isSuccess = [fileManage copyItemAtPath:fromPath toPath:toPath error:nil];
-        NSLog(@"name=%@ %@",name,isSuccess ? @"拷贝成功" : @"拷贝失败");
+        NSLog(@"name=%@ %@",name,isSuccess ? @"copy success" : @"copy failure");
     }
 }
 

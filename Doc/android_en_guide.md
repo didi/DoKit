@@ -2,7 +2,7 @@
 
 |DoKit|new Version|Desc|
 |-    |-      |-  |
-|support Androidx|3.1.2|support Androidx from v3.1.0|
+|support Androidx|3.1.3|support Androidx from v3.1.0|
 |supprot android support|3.0.3|For support Android support, one or two versions will be maintained, please hug Androidx as soon as possible|
 
 
@@ -10,18 +10,18 @@
 
 ```groovy
 dependencies {
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.2'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.2'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.3'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.3'
 }
 ```
 
 
-**Note:** 
+**Note:**
 
 If you cannot download the dependent library through jcenter and report the following error
 
 ```
-ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.1.2
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.1.3
 ```
 
 You can try again from the command line (take Mac system as an example under the project root directory)
@@ -47,8 +47,8 @@ If you need to support Weex, you can directly add the following dependencies
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.1.2'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:3.1.2'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.1.3'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:3.1.3'
     …
 }
 ```
@@ -58,7 +58,7 @@ If you need to integrate LeakCanary, you can directly add the following dependen
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.2'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.3'
     …
 }
 ```
@@ -73,7 +73,7 @@ Initialize in the Application onCreate().
 @Override
 public void onCreate() {
     DoraemonKit.install(application,null,"pId");
-} 
+}
 ```
 
 #### 3. DoKit Plugin（Optional）
@@ -90,8 +90,8 @@ Plugin includes the following functions:
 ```groovy
 buildscript {
     dependencies {
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.2'
-        
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.3'
+
     }
 }
 ```
@@ -101,6 +101,24 @@ Add plugin to the app's `build.gradle`.
 ```groovy
 apply plugin: 'com.didi.dokit'
 ```
+
+**Plugin configuration options:**
+Added to the app module's build.gradle file at the same level as android {}
+```groovy
+dokitExt {
+    //Plug-in switch for the entire dokit
+    dokitPluginSwitch = true
+    //Time Profiler switch
+    slowMethodSwitch = true
+    //BigImg Switch
+    bigImgSwitch = true
+    //Custom threshold for time-consuming function unit is ms 1000ms = 1s
+    thresholdTime = 200
+    //Insert code under the specified package name business code
+    packageNames = ["com.didichuxing.doraemondemo"]
+}
+```
+
 
 
 #### 4. Custom function components (optional)
@@ -115,26 +133,26 @@ public class EnvSwitchKit extends AbstractKit {
     public int getCategory() {
         return Category.BIZ;
     }
- 
+
     @Override
     public int getName() {
         return R.string.bh_env_switch;
     }
- 
+
     @Override
     public int getIcon() {
         return R.drawable.bh_roadbit;
     }
- 
+
     @Override
     public void onClick(Context context) {
         DebugService service = ServiceManager.getInstance().getService(context, DebugService.class);
         PageManager.getInstance().startFragment(service.getContainer(), EnvSwitchFragment.class);
     }
- 
+
     @Override
     public void onAppInit(Context context) {
-    
+
     }
 }
 ```

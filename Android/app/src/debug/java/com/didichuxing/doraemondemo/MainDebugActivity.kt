@@ -64,11 +64,11 @@ import java.net.*
 class MainDebugActivity : BaseActivity(), View.OnClickListener {
     private var okHttpClient: OkHttpClient? = null
     private var mLocationManager: LocationManager? = null
-    var mLocationClient: AMapLocationClient? = null
-    var mBaiduLocationClient: LocationClient? = null
-    var mMapOption: AMapLocationClientOption? = null
-    var mTencentLocationRequest: TencentLocationRequest? = null
-    var mTencentLocationManager: TencentLocationManager? = null
+    private var mLocationClient: AMapLocationClient? = null
+    private var mBaiduLocationClient: LocationClient? = null
+    private var mMapOption: AMapLocationClientOption? = null
+    private var mTencentLocationRequest: TencentLocationRequest? = null
+    private var mTencentLocationManager: TencentLocationManager? = null
     private val UPDATE_UI = 100
 
     /**
@@ -92,7 +92,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val tvEnv = findViewById<TextView>(R.id.tv_env)
-        tvEnv.text = getString(R.string.app_build_types) + ":Debug"
+        tvEnv.text = "${getString(R.string.app_build_types)}:Debug"
         btn_jump.setOnClickListener(this)
         // findViewById<View>(R.id.btn_jump).setOnClickListener(this)
         findViewById<View>(R.id.btn_method_cost).setOnClickListener(this)
@@ -204,14 +204,14 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
      * 启动普通定位
      */
     @SuppressLint("MissingPermission")
-    fun startNormaLocation() {
+    private fun startNormaLocation() {
         mLocationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, mLocationListener)
     }
 
     /**
      * 启动高德定位服务
      */
-    var mapLocationListener = AMapLocationListener { aMapLocation ->
+    private var mapLocationListener = AMapLocationListener { aMapLocation ->
         val errorCode = aMapLocation.errorCode
         val errorInfo = aMapLocation.errorInfo
         Log.i(TAG, "高德定位===lat==>" + aMapLocation.latitude + "   lng==>" + aMapLocation.longitude + "  errorCode===>" + errorCode + "   errorInfo===>" + errorInfo)
@@ -220,7 +220,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
     /**
      * 启动高德地图定位
      */
-    fun startAmapLocation() {
+    private fun startAmapLocation() {
         mLocationClient!!.setLocationListener(mapLocationListener)
         mMapOption!!.locationMode = AMapLocationClientOption.AMapLocationMode.Hight_Accuracy
         mMapOption!!.isOnceLocation = true
@@ -229,7 +229,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         mLocationClient!!.startLocation()
     }
 
-    var mTencentLocationListener: TencentLocationListener = object : TencentLocationListener {
+    private var mTencentLocationListener: TencentLocationListener = object : TencentLocationListener {
         override fun onLocationChanged(tencentLocation: TencentLocation, error: Int, errorInfo: String) {
             Log.i(TAG, "腾讯定位===onLocationChanged===lat==>" + tencentLocation.latitude + "   lng==>" + tencentLocation.longitude + "  error===>" + error + "  errorInfo===>" + errorInfo)
         }
@@ -242,13 +242,13 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
     /**
      * 启动腾讯地图定位
      */
-    fun startTencentLocation() {
+    private fun startTencentLocation() {
         //mTencentLocationManager.requestLocationUpdates(mTencentLocationRequest, mTencentLocationListener);
         //获取获取当前单次定位
         mTencentLocationManager!!.requestSingleFreshLocation(mTencentLocationRequest, mTencentLocationListener, Looper.myLooper())
     }
 
-    var mbdLocationListener: BDAbstractLocationListener = object : BDAbstractLocationListener() {
+    private var mbdLocationListener: BDAbstractLocationListener = object : BDAbstractLocationListener() {
         override fun onReceiveLocation(bdLocation: BDLocation) {
             Log.i(TAG, "百度定位===onReceiveLocation===lat==>" + bdLocation.latitude + "   lng==>" + bdLocation.longitude)
         }
@@ -257,7 +257,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
     /**
      * 启动百度地图定位
      */
-    fun startBaiDuLocation() {
+    private fun startBaiDuLocation() {
         mBaiduLocationClient!!.stop()
         mBaiduLocationClient!!.start()
     }
@@ -362,11 +362,11 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         }
     }
 
-    fun testCrash(): String? {
+    private fun testCrash(): String? {
         return null
     }
 
-    fun requestByGet(path: String) {
+    private fun requestByGet(path: String) {
         ThreadUtils.executeByIo(object : SimpleTask<String?>() {
             @Throws(Throwable::class)
             override fun doInBackground(): String {
@@ -496,10 +496,6 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         mBaiduLocationClient!!.stop()
     }
 
-    override fun onStop() {
-        super.onStop()
-    }
-
     private fun requestImage(urlStr: String) {
         try {
             //
@@ -522,10 +518,6 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     companion object {

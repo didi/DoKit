@@ -6,9 +6,9 @@
 //  Copyright © 2018年 yixiang. All rights reserved.
 //
 
-#import "DoraemonBaseViewController.h"
+#import "DoraemonDemoBaseViewController.h"
 
-@interface DoraemonDemoCommonViewController : DoraemonBaseViewController
+@interface DoraemonDemoCommonViewController : DoraemonDemoBaseViewController
 
 @end
 

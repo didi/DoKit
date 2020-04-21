@@ -4,9 +4,11 @@ import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonInterc
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonWeakNetworkInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.LargePictureInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor;
+import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -44,7 +46,12 @@ public class HttpUrlConnectionProxyUtil {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         //不需要再重复添加拦截器 因为已经通过字节码主如果拦截器了
         //addInterceptor(builder);
-        OkHttpClient mClient = builder.build();
+        OkHttpClient mClient = builder
+                .retryOnConnectionFailure(true)
+                .readTimeout(DokitOkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
+                .writeTimeout(DokitOkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
+                .connectTimeout(DokitOkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
+                .build();
 
         String strUrl = urlConnection.getURL().toString();
         URL url = new URL(strUrl);

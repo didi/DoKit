@@ -18,7 +18,7 @@ extern const void *const kLatestSenderKey;
 @implementation UIApplication (MemoryLeak)
 
 + (void)load {
-    if ([[DoraemonCacheManager sharedInstance]  memoryLeak]){
+    if ([[DoraemonCacheManager sharedInstance] memoryLeak]){
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             [self swizzleSEL:@selector(sendAction:to:from:forEvent:) withSEL:@selector(swizzled_sendAction:to:from:forEvent:)];

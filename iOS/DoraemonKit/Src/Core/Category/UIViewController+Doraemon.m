@@ -7,6 +7,7 @@
 
 #import "UIViewController+Doraemon.h"
 #import "UIView+Doraemon.h"
+#import "DoraemonHomeWindow.h"
 
 @implementation UIViewController (Doraemon)
 
@@ -50,12 +51,25 @@
 }
 
 + (UIViewController *)rootViewControllerForKeyWindow{
-    return [[[UIApplication sharedApplication].delegate window] rootViewController];
+    UIWindow *keyWindow = nil;
+    if ([[UIApplication sharedApplication].delegate respondsToSelector:@selector(window)]) {
+        keyWindow = [[UIApplication sharedApplication].delegate window];
+    }else{
+        keyWindow = [UIApplication sharedApplication].windows.firstObject;
+    }
+    
+    return [keyWindow rootViewController];
 }
 
 + (UIViewController *)topViewControllerForKeyWindow {
     UIViewController *resultVC;
-    resultVC = [self _topViewController:[[[UIApplication sharedApplication].delegate window] rootViewController]];
+    UIWindow *keyWindow = nil;
+    if ([[UIApplication sharedApplication].delegate respondsToSelector:@selector(window)]) {
+        keyWindow = [[UIApplication sharedApplication].delegate window];
+    }else{
+        keyWindow = [UIApplication sharedApplication].windows.firstObject;
+    }
+    resultVC = [self _topViewController:[keyWindow rootViewController]];
     while (resultVC.presentedViewController) {
         resultVC = [self _topViewController:resultVC.presentedViewController];
     }
@@ -71,6 +85,10 @@
         return vc;
     }
     return nil;
+}
+
++ (UIViewController *)rootViewControllerForDoraemonHomeWindow{
+    return [DoraemonHomeWindow shareInstance].rootViewController;
 }
 
 @end

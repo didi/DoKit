@@ -10,7 +10,6 @@
     //DoraemonKit
     "常用工具"                                      = "Common tools";
     "业务工具"                                      = "Test tools";
-    "自定义"                                        = "Custom";
     "性能检测"                                      = "Performance";
     "视觉工具"                                      = "UI tools";
     "平台工具"                                      = "Platform tool";
@@ -98,12 +97,30 @@
     "推送权限"                                =   "Push Privacy";
     "关闭DoraemonKit"                                = "Close DoraemonKit";
     "当前版本"                                 = "Current Version";
-    "自定义检测"                                = "Custom Monitor";
     "查看统计数据"                              = "View Statistics";
     "上行流量"                                 = "Upstream";
     "下行流量"                                 = "Downstream";
     "平均值"                                   ="Average";
     "实时数据"                                 ="Realtime Data";
+    
+    
+    "上传模版"                                 = "Upload template";
+    "接口分组"                                 = "Interface Grouping";
+    "开关状态"                                 = "Opening State";
+    "Mock数据"                                = "Mock Data";
+    
+    "健康体检"                                 = "Health Checkup";
+    "向下滑动查看功能使用说明"                    = "swipe down to see how to use the feature";
+    "回到顶部"                                 = "back to the top";
+    "正在检测中..."                            = "Detecting ...";
+    "提交成功\n恭喜已完成检测！"                  = "Submitted successfully \n Congratulations!";
+    "第%d步"                                  = "Step %d";
+    "是否确认"                                 = "Whether to confirm";
+    "提交"                                    = "Submit";
+    "结束前请完善下列信息"                        = "Please complete the following";
+    "测试用例名称"                              = "Test case name";
+    "测试人名称"                               = "Test person name";
+
     
 
     "该功能需要重启App才能生效"        =   "Reboot to work";
@@ -205,7 +222,41 @@
     "启动耗时"                               = "Start time";
     "启动耗时统计"                            = "Start time statistics";
     
+    //yd checked
+    "应用设置"                               = "Application Settings";
+    "手机屏幕"                               = "Mobile phone screen";
+    "清除搜索历史"                            = "Clear search history";
+    "模拟器不支持扫码功能"                      = "The simulator does not support scanning";
+    "导出"                                  = "export";
+    "清除"                                  = "remove";
+    "模拟弱网"                               = "Weak Network";
+    "模拟弱网测试"                            = "Weak Network Test";
+    "弱网模式"                               = "Weak network mode";
+    "断网"                                  = "Broken";
+    "超时"                                  = "Timeout";
+    "限速"                                  = "Limit";
+    "延时"                                  = "Delay";
+    "延时时间"                               = "Delay time";
+    "请求限速"                               = "Request limit";
+    "响应限速"                               = "Response limit";
+    "数据预览为空"                            = "The data is previewed as empty";
+    "上传成功"                               = "Uploaded Successfully";
+    "上传失败"                               = "Uploaded Failed";
+    "上传"                                  = "Upload";
+    "数据预览"                               = "Preview";
+    "分组: %@\n"                             = "group: %@\n";
+    "修改人: %@\n"                           = "modifier: %@\n";
+    "创建人: %@\n"                           = "founder: %@\n";
+    "本地是否存在mock数据: %@"                  = "mock data exists locally: %@";
+    "存在"                                  = "exist";
+    "不存在"                                 = "inexistence";
+    "App当前处于健康体检状态，无法进行此操作"        = "App is currently in the state of health check, so this operation cannot be carried out";
+    
     //DoraemonKitDemo
+    "图片测试"                              = "Image Test";
+    "Mock测试"                              = "Mock Test";
+    "Mock测试2"                             = "Mock Test 2";
+    "block方式加入插件"                       = "Add plugins from block";
     "测试工具集"                                      = "Test tools";
     "视觉测试Demo"                                 = "UI test Demo";
     "高流量操作打开"                            = "High traffic operation";
@@ -257,6 +308,7 @@
     "服务已关闭"                                   = "server is off";
     "UI层级检查"                                  = "UI Hierarchy";
     "UI层级检查开关"                              = "UI Hierarchy switch";
+    "UI结构"                                 = "Hierarchy";
     "函数耗时"                                   = "Time Profiler";
     "内存泄漏"                                   = "Memory Leak";
     "内存泄漏检测开关"                            = "Memory Leak Switch";

@@ -147,10 +147,10 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                     if (checkedId == R.id.rb_normal) {
                         //选中normal
-                        SharedPrefsUtil.putString(mContext, SharedPrefsKey.FLOAT_START_MODE, "normal");
+                        SharedPrefsUtil.putString(SharedPrefsKey.FLOAT_START_MODE, "normal");
                     } else {
                         //选中系统
-                        SharedPrefsUtil.putString(mContext, SharedPrefsKey.FLOAT_START_MODE, "system");
+                        SharedPrefsUtil.putString(SharedPrefsKey.FLOAT_START_MODE, "system");
                     }
                 }
             });
@@ -183,7 +183,7 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
                 }
             });
 
-            String floatMode = SharedPrefsUtil.getString(mContext, SharedPrefsKey.FLOAT_START_MODE, "normal");
+            String floatMode = SharedPrefsUtil.getString(SharedPrefsKey.FLOAT_START_MODE, "normal");
             if (floatMode.equals("normal")) {
                 rbNormal.setChecked(true);
             } else {

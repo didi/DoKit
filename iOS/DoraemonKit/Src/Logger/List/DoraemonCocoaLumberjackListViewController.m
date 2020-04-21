@@ -12,6 +12,7 @@
 #import "DoraemonCocoaLumberjackListCell.h"
 #import "DoraemonDDLogMessage.h"
 #import "DoraemonCocoaLumberjackLogger.h"
+#import "DoraemonNavBarItemModel.h"
 
 @interface DoraemonCocoaLumberjackListViewController ()<DoraemonNSLogSearchViewDelegate,DoraemonCocoaLumberjackLevelViewDelegate,UITableViewDelegate,UITableViewDataSource>
 
@@ -28,7 +29,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.title = DoraemonLocalizedString(@"CocoaLumberjack日志记录");
+    self.title = DoraemonLocalizedString(@"日志记录");
+    DoraemonNavBarItemModel *model1 = [[DoraemonNavBarItemModel alloc] initWithText:DoraemonLocalizedString(@"清除") color:[UIColor doraemon_blue] selector:@selector(clear)];
+    DoraemonNavBarItemModel *model2 = [[DoraemonNavBarItemModel alloc] initWithText:DoraemonLocalizedString(@"导出") color:[UIColor doraemon_blue] selector:@selector(export)];
+    [self setRightNavBarItems:@[model1,model2]];
     
     self.origArray = [NSArray arrayWithArray:[DoraemonCocoaLumberjackLogger sharedInstance].messages];
     self.dataArray = [NSArray arrayWithArray:self.origArray];
@@ -47,6 +51,42 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.view addSubview:self.tableView];
+    
+}
+
+- (void)clear {
+    [[DoraemonCocoaLumberjackLogger sharedInstance].messages removeAllObjects];
+    self.origArray = @[];
+    self.dataArray = @[];
+    [self.tableView reloadData];
+}
+
+- (void)export {
+    NSArray<DoraemonDDLogMessage *> *dataArray = [[DoraemonCocoaLumberjackLogger sharedInstance].messages copy];
+    NSMutableString *log = [[NSMutableString alloc] init];
+    for (DoraemonDDLogMessage *model in dataArray) {
+        NSString *time = [NSString stringWithFormat:@"[%@]",[DoraemonUtil dateFormatNSDate:model.timestamp]];
+        [log appendString:time];
+        [log appendString:@" "];
+        [log appendString:model.message];
+        [log appendString:@"\n"];
+    }
+    
+    NSString *cachesDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
+    NSString *anrDir = [cachesDir stringByAppendingPathComponent:@"DoraemonLumberjackLog"];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isDir = NO;
+    BOOL existed = [fileManager fileExistsAtPath:anrDir isDirectory:&isDir];
+    if(!(isDir && existed)){
+        [fileManager createDirectoryAtPath:anrDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    NSString *path = [anrDir stringByAppendingPathComponent:@"LumberjackLog.txt"];
+    NSString *text = log;
+    BOOL writeSuccess = [text writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    if (writeSuccess) {
+        [DoraemonUtil shareFileWithPath:path formVC:self];
+    }
+    
     
 }
 
@@ -88,6 +128,23 @@
     DoraemonDDLogMessage* model = [self.dataArray objectAtIndex:indexPath.row];
     model.expand = !model.expand;
     [self.tableView reloadData];
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return YES;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return DoraemonLocalizedString(@"复制");
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    DoraemonDDLogMessage* model = [self.dataArray objectAtIndex:indexPath.row];
+    NSString *content = model.message;
+    if (content.length>0) {
+        UIPasteboard *pboard = [UIPasteboard generalPasteboard];
+        pboard.string = content;
+    }
 }
 
 #pragma mark - DoraemonNSLogSearchViewDelegate

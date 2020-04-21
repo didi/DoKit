@@ -13,6 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedInstance;
 
+- (void)startMonitor;
+
+- (void)stopMonitor;
+
 @property (nonatomic, strong) dispatch_queue_t consoleQueue;
 @property (nonatomic, strong) NSMutableArray *messages; 
 
