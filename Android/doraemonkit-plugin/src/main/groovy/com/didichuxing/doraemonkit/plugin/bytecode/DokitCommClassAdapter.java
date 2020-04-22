@@ -4,7 +4,8 @@ import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.AmapLocationMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.BaiduLocationMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.FlagMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.OkHttpMethodAdapter;
+import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.OkHttpNullConsMethodAdapter;
+import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.OkHttpOneParamConsMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.PlatformHttpMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.TencentLocationMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.TencentLocationSingleMethodAdapter;
@@ -114,11 +115,18 @@ public final class DokitCommClassAdapter extends ClassVisitor {
         }
 
 
-        //okhttp 拦截器字节码替换
-        if (className.equals("okhttp3/OkHttpClient$Builder") && methodName.equals("<init>")) {
+        //okhttp 拦截器字节码替换 空构造函数
+        if (className.equals("okhttp3/OkHttpClient$Builder") && methodName.equals("<init>") && getParamsSize(desc) == 0) {
             //创建MethodVisitor代理
             log(className, access, methodName, desc, signature);
-            return mv == null ? null : new OkHttpMethodAdapter(access, desc, mv);
+            return mv == null ? null : new OkHttpNullConsMethodAdapter(access, desc, mv);
+        }
+
+        //okhttp 拦截器字节码替换 一个参数的构造函数
+        if (className.equals("okhttp3/OkHttpClient$Builder") && methodName.equals("<init>") && getParamsSize(desc) == 1) {
+            //创建MethodVisitor代理
+            log(className, access, methodName, desc, signature);
+            return mv == null ? null : new OkHttpOneParamConsMethodAdapter(mv, access, methodName, desc);
         }
 
         //didi平台端 网络 拦截器字节码替换
