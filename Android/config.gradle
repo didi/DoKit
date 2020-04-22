@@ -15,7 +15,7 @@ ext {
                minSdkVersion             : 16,
                targetSdkVersion          : 29,
                //app版本号
-               versionCode               : 313,
+               versionCode               : 314,
                //dokit 插件版本号
                pluginVersionName         : "3.1.4",
                //jcenter dokit版本号 打包上传时 dokit的版本名字

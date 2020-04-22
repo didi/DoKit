@@ -1,14 +1,20 @@
 package com.didichuxing.doraemonkit.aop;
 
+import android.util.Log;
+
+import com.blankj.utilcode.util.ReflectUtils;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonWeakNetworkInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.LargePictureInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 
 /**
  * ================================================
@@ -55,6 +61,40 @@ public class OkHttpHook {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    /**
+     * @param builder      真实的对象为okHttpClient.Builder
+     * @param okHttpClient 真实的对象为okHttpClient
+     */
+    public static void performOkhttpOneParamBuilderInit(Object builder, Object okHttpClient) {
+        try {
+            if (builder instanceof OkHttpClient.Builder) {
+                OkHttpClient.Builder localBuild = (OkHttpClient.Builder) builder;
+                List<Interceptor> interceptors = removeDuplicate(localBuild.interceptors());
+                List<Interceptor> networkInterceptors = removeDuplicate(localBuild.networkInterceptors());
+                ReflectUtils.reflect(localBuild).field("interceptors", interceptors);
+                ReflectUtils.reflect(localBuild).field("networkInterceptors", networkInterceptors);
+            }
+        } catch (Exception e) {
+            Log.i("Doraemon", "" + e.getMessage());
+        }
 
     }
+
+    /**
+     * 保证顺序并去重
+     *
+     * @param list
+     * @return
+     */
+    private static List<Interceptor> removeDuplicate(List<Interceptor> list) {
+        //保证顺序并去重
+        LinkedHashSet h = new LinkedHashSet<Interceptor>(list);
+        list.clear();
+        list.addAll(h);
+        return list;
+    }
+
 }
