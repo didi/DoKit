@@ -99,13 +99,12 @@ dependencies {
     implementation rootProject.ext.dependencies["weex_sdk"]
     implementation rootProject.ext.dependencies["utilcode"]
     implementation rootProject.ext.dependencies["easypermissions"]
-    implementation rootProject.ext.dependencies["epic"]
     releaseImplementation rootProject.ext.dependencies["okgo"]
     //高德地图定位
     implementation rootProject.ext.dependencies["amap_location"]
     //腾讯地图定位
     implementation rootProject.ext.dependencies["tencent_location"]
-    debugImplementation rootProject.ext.dependencies["leakcanary-android"]
+    //debugImplementation rootProject.ext.dependencies["leakcanary-android"]
     //百度地图定位
     implementation files('libs/BaiduLBS_Android.jar')
 //    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.12'

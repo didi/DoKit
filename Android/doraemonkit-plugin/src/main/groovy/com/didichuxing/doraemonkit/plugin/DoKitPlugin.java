@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.plugin;
 
 import com.android.build.gradle.AppExtension;
+import com.didichuxing.doraemonkit.plugin.transform.DokitApplicationTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitBigImageTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitCommTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitSlowMethodTransform;
@@ -46,7 +47,8 @@ public final class DoKitPlugin implements Plugin<Project> {
             }
         });
 
-
+        //Application启动查找
+        appExtension.registerTransform(new DokitApplicationTransform(project), Collections.EMPTY_LIST);
         //普通的插装
         appExtension.registerTransform(new DokitCommTransform(project), Collections.EMPTY_LIST);
         //urlConnection代理到OkHttp

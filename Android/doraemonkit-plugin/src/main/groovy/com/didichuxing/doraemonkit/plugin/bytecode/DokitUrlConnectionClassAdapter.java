@@ -24,7 +24,6 @@ public final class DokitUrlConnectionClassAdapter extends ClassVisitor {
      */
     public DokitUrlConnectionClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM7, cv);
-
     }
 
     @Override
@@ -60,7 +59,6 @@ public final class DokitUrlConnectionClassAdapter extends ClassVisitor {
         }
         //过滤所有类中当前方法中所有的字节码
         return mv == null ? null : new UrlConnectionMethodAdapter(className, methodName, access, desc, mv);
-
     }
 
 

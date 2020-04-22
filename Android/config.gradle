@@ -17,12 +17,13 @@ ext {
                //app版本号
                versionCode               : 313,
                //dokit 插件版本号
-               pluginVersionName         : "3.1.3",
+               pluginVersionName         : "3.1.4",
                //jcenter dokit版本号 打包上传时 dokit的版本名字
                jcenterArchivesVersionName: "3.1.3",
                //didi内部仓库版本号
-               didiArchivesVersionName   : "1000.0.22",
-               versionName               : "3.1.3",
+               //didiArchivesVersionName   : "1000.0.22",
+               didiArchivesVersionName   : "3.1.3",
+               versionName               : "3.1.4",
                glide_version             : "4.9.0",
                kotlin_version            : "1.3.61"
     ]
