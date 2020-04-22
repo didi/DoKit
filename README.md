@@ -17,7 +17,7 @@
 A full-featured App (iOS & Android) development assistant. You deserve it.
 
 > [中文文档](README_CN.md)
-
+ 
 ## Introduction
 
 In the development stage of the App, in order to improve the efficiency of the developer and tester， we have developed a collection of tools with full-featured functions. I can use it to simulate the positioning of the App; preview the content of the sandbox file; view the information and logs of the App; test the performance of the App and view the detailed information of the view, etc. Each tool solves every problem in our app development. 
@@ -75,16 +75,16 @@ DoKit is rich in functions, easy to access, and easy to expand. Everyone is welc
 * Mock Data： App network mock solution, provides a set of network mock solutions based on App network interception, and can complete the mock for network data without modifying the code
 * Health Check： integration of multiple DoKit tools, data visualization, quick and accurate positioning of problems, let you know the performance of the app
 
-**tip：** Platform tools need to be used in conjunction with [http://www.dokit.cn/](http://www.dokit.cn/)
+**tip：** Platform tools need to be used in conjunction with [https://www.dokit.cn/](https://www.dokit.cn/)
 
 ## Installation
 
 ### iOS
 #### Cocoapods
 ```
-    pod 'DoraemonKit/Core', '~> 3.0.0', :configurations => ['Debug'] #Required
-    pod 'DoraemonKit/WithGPS', '~> 3.0.0', :configurations => ['Debug'] #Optional
-    pod 'DoraemonKit/WithLoad', '~> 3.0.0', :configurations => ['Debug'] #Optional
+    pod 'DoraemonKit/Core', '~> 3.0.1', :configurations => ['Debug'] #Required
+    pod 'DoraemonKit/WithGPS', '~> 3.0.1', :configurations => ['Debug'] #Optional
+    pod 'DoraemonKit/WithLoad', '~> 3.0.1', :configurations => ['Debug'] #Optional
 ```
 #### Example Usage
 
