@@ -409,13 +409,18 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         dokitRootView.requestFocus();
         dokitRootView.setId(R.id.dokit_contentview_id);
         FrameLayout.LayoutParams dokitParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        if (BarUtils.isStatusBarVisible(activity)) {
-            dokitParams.topMargin = BarUtils.getStatusBarHeight();
-        }
-        if (BarUtils.isSupportNavBar()) {
-            if (BarUtils.isNavBarVisible(activity)) {
-                dokitParams.bottomMargin = BarUtils.getNavBarHeight();
+        try {
+            //解决由于项目集成SwipeBackLayout而出现的dokit入口不显示
+            if (BarUtils.isStatusBarVisible(activity)) {
+                dokitParams.topMargin = BarUtils.getStatusBarHeight();
             }
+            if (BarUtils.isSupportNavBar()) {
+                if (BarUtils.isNavBarVisible(activity)) {
+                    dokitParams.bottomMargin = BarUtils.getNavBarHeight();
+                }
+            }
+        } catch (Exception e) {
+            //e.printStackTrace();
         }
         dokitRootView.setLayoutParams(dokitParams);
         //添加到DecorView中 为了不和用户自己往根布局中添加view干扰

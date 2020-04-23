@@ -5,15 +5,14 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.LocalVariablesSorter;
 
 /**
- * Only weave okhttp3/OkHttpClient's init method
- * Created by Quinn on 09/09/2018.
+ * Only weave okhttp3/OkHttpClient's null init method
  */
-public final class OkHttpMethodAdapter extends LocalVariablesSorter implements Opcodes {
+public final class OkHttpNullConsMethodAdapter extends LocalVariablesSorter implements Opcodes {
 
     //private static final LoggerWrapper logger = LoggerWrapper.getLogger(OkHttpMethodAdapter.class);
 
 
-    public OkHttpMethodAdapter(int access, String desc, MethodVisitor mv) {
+    public OkHttpNullConsMethodAdapter(int access, String desc, MethodVisitor mv) {
         super(Opcodes.ASM7, access, desc, mv);
     }
 
@@ -28,7 +27,7 @@ public final class OkHttpMethodAdapter extends LocalVariablesSorter implements O
             mv.visitMethodInsn(INVOKEINTERFACE, "java/util/List", "addAll", "(Ljava/util/Collection;)Z", true);
             mv.visitInsn(POP);
 
-            //插入application 网络拦截器
+            //插入NetworkInterceptor 网络拦截器
             mv.visitVarInsn(ALOAD, 0);
             mv.visitFieldInsn(GETFIELD, "okhttp3/OkHttpClient$Builder", "networkInterceptors", "Ljava/util/List;");
             mv.visitFieldInsn(GETSTATIC, "com/didichuxing/doraemonkit/aop/OkHttpHook", "globalNetworkInterceptors", "Ljava/util/List;");

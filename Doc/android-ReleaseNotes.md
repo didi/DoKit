@@ -1,5 +1,12 @@
 DoraemonKit-Android releases
 ===
+## 3.1.4
+1.DoKit项目结构调整,对外暴露的api已全部移到com.didichuxing.doraemonkit.kit.core包名下,如果你有自定义Kit，请重新引入一下包名
+
+2.修复okhttp拦截器被重复调用的问题
+
+3.github issues fixed
+
 ## 3.1.3
 1.DoKit项目结构调整,对外暴露的api已全部移到com.didichuxing.doraemonkit.kit.core包名下,如果你有自定义Kit，请重新引入一下包名
 
