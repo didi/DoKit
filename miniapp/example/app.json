@@ -1,5 +1,6 @@
 {
   "pages": [
+    "dist/apimock/apimock",
     "pages/index/index",
     "pages/logs/logs",
     "dist/appInformation/appInformation",

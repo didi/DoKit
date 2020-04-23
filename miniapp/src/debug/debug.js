@@ -47,6 +47,11 @@ Page({
                         "image": "../assets/img/update-version-icon.png",
                         "type": "function",
                         "path": "onUpdate"
+                    },
+                    {
+                        "title": "Api Mock",
+                        "image": "../assets/img/api-mock.png",
+                        "path": "../apimock/apimock"
                     }
                 ]
             }

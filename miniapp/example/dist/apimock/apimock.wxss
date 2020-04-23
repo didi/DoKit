@@ -1,0 +1,76 @@
+.wx-switch-input {
+  width: 84rpx!important;
+  height: 40rpx!important
+}
+.wx-switch-input::before {
+  width: 82rpx!important;
+  height: 40rpx!important
+}
+.wx-switch-input::after {
+  width: 36rpx!important;
+  height: 36rpx!important
+}
+.page-box {
+  background: #f5f6f7;
+  width: 100%
+}
+.tab-bar {
+  width: 100%;
+  height: 132rpx;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #fff
+}
+.tab-bar-item {
+  width: 50%;
+  height: 100%;
+  line-height: 132rpx;
+  text-align: center
+}
+.mock-list {
+  margin-top: 12rpx;
+  width: 100%;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column
+}
+.item-wrap {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 32rpx;
+  background-color: #fff
+}
+.mock-item {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  box-sizing: border-box;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  width: 100%;
+  height: 104rpx;
+  -ms-flex-align: center;
+  align-items: center;
+  border-bottom: 1rpx solid #e5e5e5
+}
+.mock-item::after {
+  position: absolute;
+  content: '＞';
+  right: 10rpx;
+  font-size: 34rpx;
+  color: #ccc
+}
+.mock-switch {
+  margin-right: 72rpx
+}
+.item-detail {
+  box-sizing: border-box;
+  padding: 0 32rpx;
+  transition: height .2s;
+  height: 400rpx
+}
+.item-detail.hidden {
+  height: 0;
+  overflow: hidden
+}

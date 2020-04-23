@@ -1,0 +1,75 @@
+/* .wx-switch-input { 
+    width: 88rpx !important;
+    height: 50rpx !important; 
+}
+.wx-switch-input::before {
+    width: 87rpx !important;
+    height: 50rpx !important; 
+}
+.wx-switch-input::after { 
+    width: 42rpx !important;
+    height: 42prx !important;
+} */
+.wx-switch-input{width:42px !important;height:20px !important;}
+.wx-switch-input::before{width:41px !important;height: 20px !important;}
+.wx-switch-input::after{width: 18px !important;height: 18px !important;}
+
+.page-box{
+    background: #F5F6F7;
+    width: 100%;
+}
+.tab-bar {
+    width: 100%;
+    height: 132rpx;
+    display: flex;
+    background-color: #FFFFFF;
+}
+.tab-bar-item {
+    width: 50%;
+    height: 100%;
+    line-height: 132rpx;
+    text-align: center;
+}
+.mock-list {
+    margin-top: 12rpx;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.item-wrap {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 32rpx;
+    background-color: #FFFFFF;
+}
+.mock-item {
+    position: relative;
+    display: flex;
+    box-sizing: border-box;
+    justify-content: space-between;
+    width: 100%;
+    height: 104rpx;
+    align-items: center;
+    border-bottom: 1rpx solid #E5E5E5;
+}
+.mock-item::after {
+    position: absolute;
+    content: '＞';
+    right: 10rpx;
+    font-size: 34rpx;
+    color: #CCC;
+}
+.mock-switch {
+    margin-right: 72rpx;
+}
+.item-detail {
+    box-sizing: border-box;
+    padding: 0 32rpx;
+    transition: height 0.2s;
+    height: 400rpx;
+}
+.item-detail.hidden {
+    height: 0;
+    overflow: hidden;
+}
+

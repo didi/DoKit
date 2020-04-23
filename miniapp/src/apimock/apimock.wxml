@@ -1,0 +1,24 @@
+<view class="page-box">
+  <view class="tab-bar">
+    <view class="tab-bar-item" data-type="api" bindtap="onTapbar">接口分组</view>
+    <view class="tab-bar-item" data-type="status" bindtap="onTapbar">开关状态</view>
+  </view>
+  <view class="mock-list">
+    <view wx:for="{{ mockList }}">
+      <view class="item-wrap">
+        <view class="mock-item" data-index="{{ index }}" catchtap="onExpand">
+          <view>{{ item.name }}</view>
+          <switch class="mock-switch" color="#337CC4" checked="{{ item.checked }}" data-index="{{ index }}" catchtap="onToggleChecked" />
+        </view>
+      </view>
+      <view class="item-detail {{ mockList[index].hidden ? 'hidden' : '' }}" >
+        <view>test</view>
+        <view>test</view>
+        <view>test</view>
+        <view>test</view>
+        <view>test</view>
+      </view>
+    </view>
+  </view>
+</view>
+
