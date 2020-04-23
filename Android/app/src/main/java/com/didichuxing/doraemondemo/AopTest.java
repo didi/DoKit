@@ -1,8 +1,8 @@
 package com.didichuxing.doraemondemo;
 
-import com.didichuxing.doraemonkit.aop.OkHttpHook;
+import android.util.Log;
 
-import okhttp3.OkHttpClient;
+import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil;
 
 /**
  * ================================================
@@ -14,9 +14,17 @@ import okhttp3.OkHttpClient;
  * ================================================
  */
 public class AopTest {
+    private static final String TAG = "AopTest";
 
+    public void test() {
+        MethodStackUtil.getInstance().recodeObjectMethodCostStart(1, "AopTest", "test", "desc", this);
+        Log.i(TAG, "================");
+        MethodStackUtil.getInstance().recodeObjectMethodCostEnd(2, "AopTest", "test", "desc", this);
+    }
 
-    public void test(OkHttpClient okHttpClient) {
-        OkHttpHook.performOkhttpOneParamBuilderInit(this, okHttpClient);
+    public static void test2() {
+        MethodStackUtil.getInstance().recodeStaticMethodCostStart(3, "AopTest", "test2", "desc");
+        Log.i(TAG, "================");
+        MethodStackUtil.getInstance().recodeStaticMethodCostEnd(4, "AopTest", "test2", "desc");
     }
 }

@@ -35,7 +35,7 @@
     <!-- https://blog.csdn.net/CHS007chs/article/details/85849625
        tools:replace="android:allowBackup,android:label"-->
     <application
-        android:name=".App"
+        android:name=".AopApp"
         android:allowBackup="false"
         android:icon="@mipmap/dk_app_icon"
         android:label="@string/app_name"

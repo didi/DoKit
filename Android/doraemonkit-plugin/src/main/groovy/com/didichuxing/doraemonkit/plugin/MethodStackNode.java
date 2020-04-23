@@ -12,27 +12,21 @@ import java.util.List;
  * ================================================
  */
 public class MethodStackNode {
-    private int Level = 0;
-    private int childSize = 0;
+    private int level = 0;
     private String className;
     private String methodName;
-    private List<MethodStackNode> children;
+    private String desc;
+    private String parentDesc;
+    private String parentClassName;
+    private String parentMethodName;
 
     public int getLevel() {
-        return Level;
+        return level;
     }
 
     public void setLevel(int level) {
-        Level = level;
+        this.level = level;
     }
-
-    public int getChildSize() {
-        if (children == null) {
-            return 0;
-        }
-        return children.size();
-    }
-
 
     public String getClassName() {
         return className;
@@ -50,11 +44,35 @@ public class MethodStackNode {
         this.methodName = methodName;
     }
 
-    public List<MethodStackNode> getChildren() {
-        return children;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setChildren(List<MethodStackNode> children) {
-        this.children = children;
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public String getParentDesc() {
+        return parentDesc;
+    }
+
+    public void setParentDesc(String parentDesc) {
+        this.parentDesc = parentDesc;
+    }
+
+    public String getParentClassName() {
+        return parentClassName;
+    }
+
+    public void setParentClassName(String parentClassName) {
+        this.parentClassName = parentClassName;
+    }
+
+    public String getParentMethodName() {
+        return parentMethodName;
+    }
+
+    public void setParentMethodName(String parentMethodName) {
+        this.parentMethodName = parentMethodName;
     }
 }
