@@ -26,6 +26,19 @@ void myNSLog(NSString *format, ...){
 }
 
 
+//函数指针，用来保存原始的fwrite函数的地址
+static size_t (*orig_fwrite)(const void * __restrict __ptr, size_t __size, size_t __nitems, FILE * __restrict __stream);
+size_t new_fwrite(const void * __restrict __ptr, size_t __size, size_t __nitems, FILE * __restrict __stream) {
+    char *str = (char *)__ptr;
+    NSString *s = [NSString stringWithCString:str encoding:NSUTF8StringEncoding];
+    //过滤换行 在日志记录里不需要  这里不影响控制台输出
+    if (![s isEqualToString:@"\n"]) {
+        [[DoraemonNSLogManager sharedInstance] addNSLog:s];
+    }
+    return orig_fwrite(__ptr, __size, __nitems, __stream);
+}
+
+
 @implementation DoraemonNSLogManager
 
 + (instancetype)sharedInstance {
@@ -40,10 +53,12 @@ void myNSLog(NSString *format, ...){
 
 - (void)startNSLogMonitor{
     doraemon_rebind_symbols((struct doraemon_rebinding[1]){"NSLog", (void *)myNSLog, (void **)&old_nslog},1);
+    doraemon_rebind_symbols((struct doraemon_rebinding[1]){"fwrite", (void *)new_fwrite, (void **)&orig_fwrite},1);
 }
 
 - (void)stopNSLogMonitor{
     doraemon_rebind_symbols((struct doraemon_rebinding[1]){"NSLog", (void *)old_nslog, NULL},1);
+    doraemon_rebind_symbols((struct doraemon_rebinding[1]){"fwrite", (void *)orig_fwrite, NULL},1);
 }
 
 - (void)addNSLog:(NSString *)log{

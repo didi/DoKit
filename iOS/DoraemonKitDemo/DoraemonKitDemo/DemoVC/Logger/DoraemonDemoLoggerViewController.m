@@ -9,6 +9,7 @@
 #import "DoraemonDemoLoggerViewController.h"
 #import <DoraemonKit/UIView+Doraemon.h>
 #import "DoraemonDefine.h"
+#import <DoraemonKitDemo-Swift.h>
 
 #if __has_include(<CocoaLumberjack/CocoaLumberjack.h>)
 #import <CocoaLumberjack/CocoaLumberjack.h>
@@ -35,6 +36,12 @@
     [btn_2 setTitle:DoraemonDemoLocalizedString(@"添加一条NSLog日志") forState:UIControlStateNormal];
     [btn_2 addTarget:self action:@selector(addLogger2) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn_2];
+    
+    UIButton *btn_3 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn_2.doraemon_bottom+20, self.view.doraemon_width, 60)];
+    btn_3.backgroundColor = [UIColor orangeColor];
+    [btn_3 setTitle:DoraemonDemoLocalizedString(@"添加一条Swift日志") forState:UIControlStateNormal];
+    [btn_3 addTarget:self action:@selector(addSwiftLogger) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn_3];
 }
 
 - (void)addLogger{
@@ -51,6 +58,10 @@
     
     NSString *specialString = @"callnative://saveTian/%22saveTianDataCallback43%22";
     NSLog(@"%@",specialString);
+}
+
+- (void)addSwiftLogger{
+    [SwiftLog addLogWithLog:@"这是一条swift的log"];
 }
 
 @end
