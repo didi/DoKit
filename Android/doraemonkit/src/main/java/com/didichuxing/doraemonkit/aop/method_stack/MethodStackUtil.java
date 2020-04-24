@@ -1,9 +1,11 @@
 package com.didichuxing.doraemonkit.aop.method_stack;
 
-import android.util.Log;
-
+import com.blankj.utilcode.util.GsonUtils;
+import com.blankj.utilcode.util.LogUtils;
 import com.didichuxing.doraemonkit.aop.MethodCostUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -19,7 +21,11 @@ public class MethodStackUtil {
     /**
      * key className&methodName
      */
-    private static ConcurrentHashMap<String, MethodInvokNode> METHOD_STACKS = new ConcurrentHashMap<>();
+    public static ConcurrentHashMap<String, MethodInvokNode> ROOT_METHOD_STACKS = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, MethodInvokNode> LEVEL1_METHOD_STACKS = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, MethodInvokNode> LEVEL2_METHOD_STACKS = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, MethodInvokNode> LEVEL3_METHOD_STACKS = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, MethodInvokNode> LEVEL4_METHOD_STACKS = new ConcurrentHashMap<>();
     private static final String TAG = "MethodStackUtil";
 
 
@@ -40,9 +46,7 @@ public class MethodStackUtil {
      * @param classObj   null 代表静态函数
      */
     public void recodeObjectMethodCostStart(int level, String className, String methodName, String desc, Object classObj) {
-        if (METHOD_STACKS == null) {
-            return;
-        }
+
         try {
             MethodInvokNode methodInvokNode = new MethodInvokNode();
             methodInvokNode.setStartTimeMillis(System.currentTimeMillis());
@@ -50,7 +54,22 @@ public class MethodStackUtil {
             methodInvokNode.setClassName(className);
             methodInvokNode.setMethodName(methodName);
 
-            METHOD_STACKS.put(String.format("%s&%s", className, methodName), methodInvokNode);
+            if (level == 0) {
+                methodInvokNode.setLevel(0);
+                ROOT_METHOD_STACKS.put(String.format("%s&%s", className, methodName), methodInvokNode);
+            } else if (level == 1) {
+                methodInvokNode.setLevel(1);
+                LEVEL1_METHOD_STACKS.put(String.format("%s&%s", className, methodName), methodInvokNode);
+            } else if (level == 2) {
+                methodInvokNode.setLevel(2);
+                LEVEL2_METHOD_STACKS.put(String.format("%s&%s", className, methodName), methodInvokNode);
+            } else if (level == 3) {
+                methodInvokNode.setLevel(3);
+                LEVEL3_METHOD_STACKS.put(String.format("%s&%s", className, methodName), methodInvokNode);
+            } else if (level == 4) {
+                methodInvokNode.setLevel(4);
+                LEVEL4_METHOD_STACKS.put(String.format("%s&%s", className, methodName), methodInvokNode);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,41 +83,97 @@ public class MethodStackUtil {
      * @param classObj   null 代表静态函数
      */
     public void recodeObjectMethodCostEnd(int level, String className, String methodName, String desc, Object classObj) {
-        if (METHOD_STACKS == null) {
-            return;
-        }
+
         synchronized (MethodCostUtil.class) {
             try {
-                if (METHOD_STACKS.containsKey(String.format("%s&%s", className, methodName))) {
-                    MethodInvokNode methodInvokNode = METHOD_STACKS.get(String.format("%s&%s", className, methodName));
+                MethodInvokNode methodInvokNode = null;
+
+                if (level == 0) {
+                    methodInvokNode = ROOT_METHOD_STACKS.get(String.format("%s&%s", className, methodName));
+                } else if (level == 1) {
+                    methodInvokNode = LEVEL1_METHOD_STACKS.get(String.format("%s&%s", className, methodName));
+                } else if (level == 2) {
+                    methodInvokNode = LEVEL2_METHOD_STACKS.get(String.format("%s&%s", className, methodName));
+                } else if (level == 3) {
+                    methodInvokNode = LEVEL3_METHOD_STACKS.get(String.format("%s&%s", className, methodName));
+                } else if (level == 4) {
+                    methodInvokNode = LEVEL4_METHOD_STACKS.get(String.format("%s&%s", className, methodName));
+                }
+                if (methodInvokNode != null) {
                     methodInvokNode.setEndTimeMillis(System.currentTimeMillis());
-                    if (level == 0) {
-                        //代表一整个函数调用结束
-                    }
-
-
-                    Log.i(TAG, "================Dokit================");
-                    Log.i(TAG, "\t methodName===>" + String.format("%s&%s&%s", className, methodName, desc) + "  threadName==>" + methodInvokNode.getCurrentThreadName() + "   costTime===>" + methodInvokNode.getCostTimeMillis());
-                    StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-                    for (StackTraceElement stackTraceElement : stackTraceElements) {
-                        if (stackTraceElement.toString().contains("MethodStackUtil")) {
-                            continue;
-                        }
-                        if (stackTraceElement.toString().contains("dalvik.system.VMStack.getThreadStackTrace")) {
-                            continue;
-                        }
-                        if (stackTraceElement.toString().contains("java.lang.Thread.getStackTrace")) {
-                            continue;
-                        }
-
-                        Log.i(TAG, "\tat " + stackTraceElement.getClassName() + "&" + stackTraceElement.getMethodName());
-                    }
+                    bindNode(level, methodInvokNode);
                 }
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
+        }
+    }
+
+    private String getParentMethod(String currentClassName, String currentMethodName) {
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        int index = 0;
+        for (int i = 0; i < stackTraceElements.length; i++) {
+            StackTraceElement stackTraceElement = stackTraceElements[i];
+            if (currentClassName.equals(stackTraceElement.getClassName().replaceAll("\\.", "/")) && currentMethodName.equals(stackTraceElement.getMethodName())) {
+                index = i;
+                break;
+            }
+        }
+        StackTraceElement parentStackTraceElement = stackTraceElements[index + 1];
+
+        return String.format("%s&%s", parentStackTraceElement.getClassName().replaceAll("\\.", "/"), parentStackTraceElement.getMethodName());
+    }
+
+
+    private void bindNode(int level, MethodInvokNode methodInvokNode) {
+        if (methodInvokNode == null) {
+            return;
+        }
+
+        if (methodInvokNode.getCostTimeMillis() < 10) {
+            return;
+        }
+
+        MethodInvokNode parentMethodNode;
+        switch (level) {
+            case 1:
+                //设置父node 并将自己添加到父node中
+                parentMethodNode = ROOT_METHOD_STACKS.get(getParentMethod(methodInvokNode.getClassName(), methodInvokNode.getMethodName()));
+                if (parentMethodNode != null) {
+                    methodInvokNode.setParent(parentMethodNode);
+                    parentMethodNode.addChild(methodInvokNode);
+                }
+
+                break;
+            case 2:
+                //设置父node 并将自己添加到父node中
+                parentMethodNode = LEVEL1_METHOD_STACKS.get(getParentMethod(methodInvokNode.getClassName(), methodInvokNode.getMethodName()));
+                if (parentMethodNode != null) {
+                    methodInvokNode.setParent(parentMethodNode);
+                    parentMethodNode.addChild(methodInvokNode);
+                }
+                break;
+            case 3:
+                //设置父node 并将自己添加到父node中
+                parentMethodNode = LEVEL2_METHOD_STACKS.get(getParentMethod(methodInvokNode.getClassName(), methodInvokNode.getMethodName()));
+                if (parentMethodNode != null) {
+                    methodInvokNode.setParent(parentMethodNode);
+                    parentMethodNode.addChild(methodInvokNode);
+                }
+                break;
+            case 4:
+                //设置父node 并将自己添加到父node中
+                parentMethodNode = LEVEL3_METHOD_STACKS.get(getParentMethod(methodInvokNode.getClassName(), methodInvokNode.getMethodName()));
+                if (parentMethodNode != null) {
+                    methodInvokNode.setParent(parentMethodNode);
+                    parentMethodNode.addChild(methodInvokNode);
+                }
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -110,5 +185,78 @@ public class MethodStackUtil {
 
     public void recodeStaticMethodCostEnd(int level, String className, String methodName, String desc) {
         recodeObjectMethodCostEnd(level, className, methodName, desc, null);
+    }
+
+    private void jsonTravel(List<MethodStackBean> methodStackBeans, List<MethodInvokNode> methodInvokNodes) {
+        if (methodInvokNodes == null) {
+            return;
+        }
+        for (MethodInvokNode methodInvokNode : methodInvokNodes) {
+            MethodStackBean methodStackBean = new MethodStackBean();
+            methodStackBean.setCostTime(methodInvokNode.getCostTimeMillis());
+            methodStackBean.setFunction(methodInvokNode.getClassName() + "&" + methodInvokNode.getMethodName());
+            methodStackBean.setChildren(new ArrayList<MethodStackBean>());
+            jsonTravel(methodStackBean.getChildren(), methodInvokNode.getChildren());
+            methodStackBeans.add(methodStackBean);
+        }
+    }
+
+
+    private void stackTravel(StringBuilder stringBuilder, List<MethodInvokNode> methodInvokNodes) {
+        if (methodInvokNodes == null) {
+            return;
+        }
+        for (MethodInvokNode methodInvokNode : methodInvokNodes) {
+            stringBuilder.append(String.format("%s%s%s%s%s", methodInvokNode.getLevel(), SPACE_0, methodInvokNode.getCostTimeMillis() + "ms", getSpaceString(methodInvokNode.getLevel()), methodInvokNode.getClassName() + "&" + methodInvokNode.getMethodName())).append("\n");
+            stackTravel(stringBuilder, methodInvokNode.getChildren());
+        }
+    }
+
+    public void toJson() {
+        List<MethodStackBean> methodStackBeans = new ArrayList<>();
+        for (MethodInvokNode methodInvokNode : ROOT_METHOD_STACKS.values()) {
+            MethodStackBean methodStackBean = new MethodStackBean();
+            methodStackBean.setCostTime(methodInvokNode.getCostTimeMillis());
+            methodStackBean.setFunction(methodInvokNode.getClassName() + "&" + methodInvokNode.getMethodName());
+            methodStackBean.setChildren(new ArrayList<MethodStackBean>());
+            jsonTravel(methodStackBean.getChildren(), methodInvokNode.getChildren());
+            methodStackBeans.add(methodStackBean);
+        }
+
+        String json = GsonUtils.toJson(methodStackBeans);
+        LogUtils.json(json);
+    }
+
+    private static final String SPACE_0 = "********";
+    private static final String SPACE_1 = "*************";
+    private static final String SPACE_2 = "*****************";
+    private static final String SPACE_3 = "*********************";
+    private static final String SPACE_4 = "*************************";
+
+    public void toStack() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(String.format("%s    %s    %s", "level", "time", "function")).append("\n");
+        for (MethodInvokNode methodInvokNode : ROOT_METHOD_STACKS.values()) {
+            stringBuilder.append(String.format("%s%s%s%s%s", methodInvokNode.getLevel(), SPACE_0, methodInvokNode.getCostTimeMillis() + "ms", getSpaceString(methodInvokNode.getLevel()), methodInvokNode.getClassName() + "&" + methodInvokNode.getMethodName())).append("\n");
+            stackTravel(stringBuilder, methodInvokNode.getChildren());
+        }
+
+        LogUtils.i(stringBuilder.toString());
+    }
+
+    private String getSpaceString(int level) {
+        if (level == 0) {
+            return SPACE_0;
+        } else if (level == 1) {
+            return SPACE_1;
+        } else if (level == 2) {
+            return SPACE_2;
+        } else if (level == 3) {
+            return SPACE_3;
+        } else if (level == 4) {
+            return SPACE_4;
+        }
+
+        return SPACE_0;
     }
 }

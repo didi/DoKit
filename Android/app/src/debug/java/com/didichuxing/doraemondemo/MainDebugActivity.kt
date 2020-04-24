@@ -25,19 +25,24 @@ import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
-import com.blankj.utilcode.util.ConvertUtils
-import com.blankj.utilcode.util.ThreadUtils
+import com.blankj.utilcode.util.*
 import com.blankj.utilcode.util.ThreadUtils.SimpleTask
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.didichuxing.doraemondemo.retrofit.GithubService
 import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.aop.method_stack.MethodInvokNode
+import com.didichuxing.doraemonkit.aop.method_stack.MethodStackBean
+import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil
 import com.didichuxing.doraemonkit.okgo.DokitOkGo
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback
 import com.didichuxing.doraemonkit.okgo.model.Response
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonObject
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import com.squareup.picasso.MemoryPolicy
@@ -49,6 +54,7 @@ import com.tencent.map.geolocation.TencentLocationRequest
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
+import org.json.JSONArray
 import org.json.JSONObject
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.PermissionRequest
@@ -56,7 +62,9 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.*
+import java.lang.reflect.Type
 import java.net.*
+import java.util.ArrayList
 
 /**
  * @author jintai
@@ -97,6 +105,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         // findViewById<View>(R.id.btn_jump).setOnClickListener(this)
         findViewById<View>(R.id.btn_method_cost).setOnClickListener(this)
         findViewById<View>(R.id.btn_jump_leak).setOnClickListener(this)
+        findViewById<View>(R.id.btn_app_launch_stack).setOnClickListener(this)
         findViewById<View>(R.id.btn_show_tool_panel).setOnClickListener(this)
         findViewById<View>(R.id.btn_location).setOnClickListener(this)
         findViewById<View>(R.id.btn_location_amap).setOnClickListener(this)
@@ -262,6 +271,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         mBaiduLocationClient!!.start()
     }
 
+
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn_method_cost -> test1()
@@ -269,6 +279,10 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                 DoraemonKit.showToolPanel()
             R.id.btn_jump -> startActivity(Intent(this, SecondActivity::class.java))
             R.id.btn_jump_leak -> startActivity(Intent(this, LeakActivity::class.java))
+            R.id.btn_app_launch_stack -> {
+                //MethodStackUtil.getInstance().toJson()
+                MethodStackUtil.getInstance().toStack()
+            }
             R.id.btn_location -> startNormaLocation()
             R.id.btn_location_amap -> startAmapLocation()
             R.id.btn_location_tencent -> startTencentLocation()

@@ -1,5 +1,8 @@
 package com.didichuxing.doraemonkit.aop.method_stack;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,9 +21,9 @@ public class MethodInvokNode {
     private long endTimeMillis;
     private int costTimeMillis;
     private String currentThreadName;
-    private int level;
     private String className;
     private String methodName;
+    private int level;
     private List<MethodInvokNode> children = new ArrayList<>();
 
     public MethodInvokNode getParent() {
@@ -45,6 +48,7 @@ public class MethodInvokNode {
 
     public void setEndTimeMillis(long endTimeMillis) {
         this.endTimeMillis = endTimeMillis;
+        this.costTimeMillis = (int) (endTimeMillis - startTimeMillis);
     }
 
     public int getCostTimeMillis() {
@@ -80,5 +84,25 @@ public class MethodInvokNode {
         if (children != null) {
             children.add(methodInvokNode);
         }
+    }
+
+    public void setCostTimeMillis(int costTimeMillis) {
+        this.costTimeMillis = costTimeMillis;
+    }
+
+    public List<MethodInvokNode> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<MethodInvokNode> children) {
+        this.children = children;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }

@@ -112,7 +112,7 @@ public class MockInterceptor implements Interceptor {
         } catch (Exception e) {
             //e.printStackTrace();
             json = NOT_STRING_CONTENT_FLAG;
-            LogHelper.e(TAG, "===query json====>" + json);
+            //LogHelper.e(TAG, "===query json====>" + json);
         }
 
         return json;
