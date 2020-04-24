@@ -1,6 +1,9 @@
 package com.didichuxing.doraemonkit.plugin;
 
 import com.android.build.gradle.AppExtension;
+import com.android.build.gradle.api.ApplicationVariant;
+import com.android.build.gradle.api.BaseVariantOutput;
+import com.android.build.gradle.tasks.ManifestProcessorTask;
 import com.didichuxing.doraemonkit.plugin.transform.DokitBigImageTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitCommTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitMethodStack0Transform;
@@ -11,12 +14,17 @@ import com.didichuxing.doraemonkit.plugin.transform.DokitMethodStack4Transform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitSlowMethodTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitUrlConnectionTransform;
 
+import org.codehaus.groovy.runtime.StringGroovyMethods;
 import org.gradle.api.Action;
+import org.gradle.api.DomainObjectSet;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.Task;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 
 /**
@@ -30,6 +38,7 @@ public final class DoKitPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
         AppExtension appExtension = (AppExtension) project.getProperties().get("android");
+
 
         //创建指定扩展
         project.getExtensions().create("dokitExt", DokitExtension.class);
@@ -46,15 +55,20 @@ public final class DoKitPlugin implements Plugin<Project> {
         project.afterEvaluate(new Action<Project>() {
             //项目评估之后回调
             @Override
-            public void execute(Project project1) {
-                DokitExtension dokitExtension = project1.getExtensions().getByType(DokitExtension.class);
-                DokitExtUtil.getInstance().init(dokitExtension, appExtension);
-                //System.out.println("====afterEvaluate====");
-                MethodStackNodeUtil.firstMethodStackNodes.clear();
-                MethodStackNodeUtil.secondMethodStackNodes.clear();
-                MethodStackNodeUtil.thirdMethodStackNodes.clear();
-                MethodStackNodeUtil.fourthlyMethodStackNodes.clear();
-                MethodStackNodeUtil.fifthMethodStackNodes.clear();
+            public void execute(Project partProject) {
+                try {
+                    DokitExtension dokitExtension = partProject.getExtensions().getByType(DokitExtension.class);
+                    DokitExtUtil.getInstance().init(dokitExtension, appExtension);
+                    System.out.println("====afterEvaluate====");
+//                    MethodStackNodeUtil.firstMethodStackNodes.clear();
+//                    MethodStackNodeUtil.secondMethodStackNodes.clear();
+//                    MethodStackNodeUtil.thirdMethodStackNodes.clear();
+//                    MethodStackNodeUtil.fourthlyMethodStackNodes.clear();
+//                    MethodStackNodeUtil.fifthMethodStackNodes.clear();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 

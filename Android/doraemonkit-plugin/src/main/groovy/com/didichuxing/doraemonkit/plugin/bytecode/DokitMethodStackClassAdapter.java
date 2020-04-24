@@ -11,6 +11,8 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import java.text.MessageFormat;
+
 /**
  * Created by jint on 13/12/2019.
  * 类访问器
@@ -84,6 +86,8 @@ public final class DokitMethodStackClassAdapter extends ClassVisitor {
         }
 
         try {
+            String key = className + "&" + methodName + "&" + desc;
+            MethodStackNode methodStackNode;
             switch (level) {
                 case MethodStackNodeUtil.LEVEL_0:
                     //app启动hook点 onCreate()函数 兼容MultiDex
@@ -103,34 +107,34 @@ public final class DokitMethodStackClassAdapter extends ClassVisitor {
                     }
                     break;
                 case MethodStackNodeUtil.LEVEL_1:
-                    for (MethodStackNode methodStackNode : MethodStackNodeUtil.firstMethodStackNodes) {
-                        if (className.equals(methodStackNode.getClassName()) && methodName.equals(methodStackNode.getMethodName()) && desc.equals(methodStackNode.getDesc())) {
-                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
-                        }
+
+                    methodStackNode = MethodStackNodeUtil.firstMethodStackNodes.get(key);
+                    if (methodStackNode != null) {
+                        return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
                     }
 
                     break;
 
                 case MethodStackNodeUtil.LEVEL_2:
-                    for (MethodStackNode methodStackNode : MethodStackNodeUtil.secondMethodStackNodes) {
-                        if (className.equals(methodStackNode.getClassName()) && methodName.equals(methodStackNode.getMethodName()) && desc.equals(methodStackNode.getDesc())) {
-                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
-                        }
+
+                    methodStackNode = MethodStackNodeUtil.secondMethodStackNodes.get(key);
+                    if (methodStackNode != null) {
+                        return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
                     }
+
                     break;
                 case MethodStackNodeUtil.LEVEL_3:
-                    for (MethodStackNode methodStackNode : MethodStackNodeUtil.thirdMethodStackNodes) {
-                        if (className.equals(methodStackNode.getClassName()) && methodName.equals(methodStackNode.getMethodName()) && desc.equals(methodStackNode.getDesc())) {
-                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
-                        }
+                    methodStackNode = MethodStackNodeUtil.thirdMethodStackNodes.get(key);
+                    if (methodStackNode != null) {
+                        return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
                     }
+
                     break;
 
                 case MethodStackNodeUtil.LEVEL_4:
-                    for (MethodStackNode methodStackNode : MethodStackNodeUtil.fourthlyMethodStackNodes) {
-                        if (className.equals(methodStackNode.getClassName()) && methodName.equals(methodStackNode.getMethodName()) && desc.equals(methodStackNode.getDesc())) {
-                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
-                        }
+                    methodStackNode = MethodStackNodeUtil.fourthlyMethodStackNodes.get(key);
+                    if (methodStackNode != null) {
+                        return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
                     }
                     break;
 

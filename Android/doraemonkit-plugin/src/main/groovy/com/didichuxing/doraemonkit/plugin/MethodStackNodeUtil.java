@@ -2,7 +2,9 @@ package com.didichuxing.doraemonkit.plugin;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ================================================
@@ -22,39 +24,39 @@ public class MethodStackNodeUtil {
     /**
      * 最顶层的MethodStackNodes
      */
-    public static List<MethodStackNode> firstMethodStackNodes = Collections.synchronizedList(new ArrayList<>());
-    public static List<MethodStackNode> secondMethodStackNodes = Collections.synchronizedList(new ArrayList<>());
-    public static List<MethodStackNode> thirdMethodStackNodes = Collections.synchronizedList(new ArrayList<>());
-    public static List<MethodStackNode> fourthlyMethodStackNodes = Collections.synchronizedList(new ArrayList<>());
-    public static List<MethodStackNode> fifthMethodStackNodes = Collections.synchronizedList(new ArrayList<>());
+    public static Map<String, MethodStackNode> firstMethodStackNodes = Collections.synchronizedMap(new HashMap<>());
+    public static Map<String, MethodStackNode> secondMethodStackNodes = Collections.synchronizedMap(new HashMap<>());
+    public static Map<String, MethodStackNode> thirdMethodStackNodes = Collections.synchronizedMap(new HashMap<>());
+    public static Map<String, MethodStackNode> fourthlyMethodStackNodes = Collections.synchronizedMap(new HashMap<>());
+    public static Map<String, MethodStackNode> fifthMethodStackNodes = Collections.synchronizedMap(new HashMap<>());
 
     public static void addFirstLevel(MethodStackNode methodStackNode) {
         if (firstMethodStackNodes != null) {
-            firstMethodStackNodes.add(methodStackNode);
+            firstMethodStackNodes.put(methodStackNode.getClassName() + "&" + methodStackNode.getMethodName() + "&" + methodStackNode.getDesc(), methodStackNode);
         }
     }
 
     public static void addSecondLevel(MethodStackNode methodStackNode) {
         if (secondMethodStackNodes != null) {
-            secondMethodStackNodes.add(methodStackNode);
+            secondMethodStackNodes.put(methodStackNode.getClassName() + "&" + methodStackNode.getMethodName() + "&" + methodStackNode.getDesc(), methodStackNode);
         }
     }
 
     public static void addThirdLevel(MethodStackNode methodStackNode) {
         if (thirdMethodStackNodes != null) {
-            thirdMethodStackNodes.add(methodStackNode);
+            thirdMethodStackNodes.put(methodStackNode.getClassName() + "&" + methodStackNode.getMethodName() + "&" + methodStackNode.getDesc(), methodStackNode);
         }
     }
 
     public static void addFourthlyLevel(MethodStackNode methodStackNode) {
         if (fourthlyMethodStackNodes != null) {
-            fourthlyMethodStackNodes.add(methodStackNode);
+            fourthlyMethodStackNodes.put(methodStackNode.getClassName() + "&" + methodStackNode.getMethodName() + "&" + methodStackNode.getDesc(), methodStackNode);
         }
     }
 
     public static void addFifthLevel(MethodStackNode methodStackNode) {
         if (fifthMethodStackNodes != null) {
-            fifthMethodStackNodes.add(methodStackNode);
+            fifthMethodStackNodes.put(methodStackNode.getClassName() + "&" + methodStackNode.getMethodName() + "&" + methodStackNode.getDesc(), methodStackNode);
         }
     }
 }

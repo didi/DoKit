@@ -134,6 +134,7 @@ public class MethodStackUtil {
             return;
         }
 
+        //过滤掉小于10ms的函数
         if (methodInvokNode.getCostTimeMillis() < 10) {
             return;
         }
@@ -224,7 +225,6 @@ public class MethodStackUtil {
             jsonTravel(methodStackBean.getChildren(), methodInvokNode.getChildren());
             methodStackBeans.add(methodStackBean);
         }
-
         String json = GsonUtils.toJson(methodStackBeans);
         LogUtils.json(json);
     }
@@ -245,6 +245,8 @@ public class MethodStackUtil {
 
         Log.i(TAG, stringBuilder.toString());
     }
+
+
 
     private String getSpaceString(int level) {
         if (level == 0) {
