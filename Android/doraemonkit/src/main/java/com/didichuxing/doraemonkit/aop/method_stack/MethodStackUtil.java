@@ -1,5 +1,7 @@
 package com.didichuxing.doraemonkit.aop.method_stack;
 
+import android.util.Log;
+
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.didichuxing.doraemonkit.aop.MethodCostUtil;
@@ -241,7 +243,7 @@ public class MethodStackUtil {
             stackTravel(stringBuilder, methodInvokNode.getChildren());
         }
 
-        LogUtils.i(stringBuilder.toString());
+        Log.i(TAG, stringBuilder.toString());
     }
 
     private String getSpaceString(int level) {

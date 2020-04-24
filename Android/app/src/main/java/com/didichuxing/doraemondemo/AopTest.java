@@ -16,11 +16,19 @@ import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil;
 public class AopTest {
     private static final String TAG = "AopTest";
 
+//    public void test() {
+//        //MethodStackUtil.getInstance().recodeObjectMethodCostStart(1, "AopTest", "test", "desc", this);
+//        Log.i(TAG, "================");
+//        //MethodStackUtil.getInstance().recodeObjectMethodCostEnd(2, "AopTest", "test", "desc", this);
+//    }
+
+
     public void test() {
-        MethodStackUtil.getInstance().recodeObjectMethodCostStart(1, "AopTest", "test", "desc", this);
-        Log.i(TAG, "================");
-        MethodStackUtil.getInstance().recodeObjectMethodCostEnd(2, "AopTest", "test", "desc", this);
+        long beginTime = System.currentTimeMillis();
+        Log.i(TAG, "我是耗时操作");
+        long costTime = System.currentTimeMillis() - beginTime;
     }
+
 
     public static void test2() {
         MethodStackUtil.getInstance().recodeStaticMethodCostStart(3, "AopTest", "test2", "desc");
