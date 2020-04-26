@@ -1,14 +1,5 @@
-.wx-switch-input {
-  width: 84rpx!important;
-  height: 40rpx!important
-}
-.wx-switch-input::before {
-  width: 82rpx!important;
-  height: 40rpx!important
-}
-.wx-switch-input::after {
-  width: 36rpx!important;
-  height: 36rpx!important
+switch {
+  zoom: .8
 }
 .page-box {
   background: #f5f6f7;

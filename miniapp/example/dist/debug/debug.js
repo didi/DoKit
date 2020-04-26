@@ -49,7 +49,7 @@ Page({
                         "path": "onUpdate"
                     },
                     {
-                        "title": "Api Mock",
+                        "title": "数据模拟",
                         "image": "../assets/img/api-mock.png",
                         "path": "../apimock/apimock"
                     }

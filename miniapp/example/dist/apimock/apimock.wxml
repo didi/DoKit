@@ -1,4 +1,8 @@
 <view class="page-box">
+  <view class="injection-toggle">
+      <text>mock开关</text>
+      <switch color="#337CC4" checked="{{isMock}}" bindchange="toggleMockState" />
+  </view>
   <view class="tab-bar">
     <view class="tab-bar-item" data-type="api" bindtap="onTapbar">接口分组</view>
     <view class="tab-bar-item" data-type="status" bindtap="onTapbar">开关状态</view>

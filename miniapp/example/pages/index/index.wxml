@@ -11,5 +11,6 @@
     <text class="user-motto">{{motto}}</text>
   </view>
   <button class="operate-btn" bindtap="sendRequest">发个请求</button>
+  <button class="operate-btn" bindtap="sendDokitRequest">发个dokit.cn请求</button>
   <dokit></dokit>
 </view>

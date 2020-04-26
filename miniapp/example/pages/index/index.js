@@ -25,6 +25,16 @@ Page({
       }
     })
   },
+  sendDokitRequest: function () {
+    wx.request({
+      url: 'http://jsonplaceholder.typicode.com/users/2',
+      success: (res) => {
+        this.setData({
+          motto: JSON.stringify(res.data)
+        })
+      }
+    })
+  },
   onLoad: function () {
     if (app.globalData.userInfo) {
       this.setData({

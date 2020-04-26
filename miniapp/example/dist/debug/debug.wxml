@@ -4,6 +4,7 @@
       <view class="debug-collections-title">{{item.title}}</view>
       <view class="debug-collections-main">
         <view wx:for="{{item.tools}}"
+              wx:key="{{tool.title}}"
               wx:for-index="idx"
               wx:for-item="tool"
               data-path="{{tool.path}}"

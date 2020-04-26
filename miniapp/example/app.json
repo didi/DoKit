@@ -1,6 +1,5 @@
 {
   "pages": [
-    "dist/apimock/apimock",
     "pages/index/index",
     "pages/logs/logs",
     "dist/appInformation/appInformation",
@@ -10,7 +9,8 @@
     "dist/positionSimulation/positionSimulation",
     "dist/storage/storage",
     "dist/httpInjector/httpInjector",
-    "dist/index/index"
+    "dist/index/index",
+    "dist/apimock/apimock"
   ],
   "window": {
     "backgroundTextStyle": "light",

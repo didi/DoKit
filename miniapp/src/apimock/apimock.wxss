@@ -1,19 +1,6 @@
-/* .wx-switch-input { 
-    width: 88rpx !important;
-    height: 50rpx !important; 
+switch {
+    zoom: 0.8;
 }
-.wx-switch-input::before {
-    width: 87rpx !important;
-    height: 50rpx !important; 
-}
-.wx-switch-input::after { 
-    width: 42rpx !important;
-    height: 42prx !important;
-} */
-.wx-switch-input{width:42px !important;height:20px !important;}
-.wx-switch-input::before{width:41px !important;height: 20px !important;}
-.wx-switch-input::after{width: 18px !important;height: 18px !important;}
-
 .page-box{
     background: #F5F6F7;
     width: 100%;
