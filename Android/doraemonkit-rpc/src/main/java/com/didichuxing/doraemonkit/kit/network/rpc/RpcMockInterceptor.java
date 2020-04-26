@@ -55,8 +55,8 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         String queries = url.query();
         String jsonQuery = transformQuery(queries);
         String jsonRequestBody = transformRequestBody(oldRequest.getEntity());
-        LogHelper.i(TAG, "realJsonQuery===>" + jsonQuery);
-        LogHelper.i(TAG, "realJsonRequestBody===>" + jsonRequestBody);
+        //LogHelper.i(TAG, "realJsonQuery===>" + jsonQuery);
+        //LogHelper.i(TAG, "realJsonRequestBody===>" + jsonRequestBody);
         String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_INTERCEPT, DokitDbManager.FROM_SDK_DIDI);
         String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_DIDI);
 

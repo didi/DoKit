@@ -30,7 +30,6 @@ public class DoraemonWeakNetworkInterceptor implements Interceptor {
             return chain.proceed(request);
         }
         final int type = WeakNetworkManager.get().getType();
-        final HttpUrl url = chain.request().url();
         switch (type) {
             case WeakNetworkManager.TYPE_TIMEOUT:
                 //超时

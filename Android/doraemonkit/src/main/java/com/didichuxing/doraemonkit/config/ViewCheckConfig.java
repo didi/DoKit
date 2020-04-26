@@ -1,7 +1,5 @@
 package com.didichuxing.doraemonkit.config;
 
-import android.content.Context;
-
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
 import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
 

@@ -10,10 +10,10 @@ import org.objectweb.asm.commons.LocalVariablesSorter;
  * Only weave okhttp3/OkHttpClient's init method
  * Created by Quinn on 09/09/2018.
  */
-public final class PlatformHttpMethodAdapter extends LocalVariablesSorter implements Opcodes {
+public final class PlatformNullConsHttpMethodAdapter extends LocalVariablesSorter implements Opcodes {
 
 
-    public PlatformHttpMethodAdapter(int access, String desc, MethodVisitor mv) {
+    public PlatformNullConsHttpMethodAdapter(int access, String desc, MethodVisitor mv) {
         super(Opcodes.ASM7, access, desc, mv);
     }
 
@@ -25,6 +25,14 @@ public final class PlatformHttpMethodAdapter extends LocalVariablesSorter implem
             mv.visitVarInsn(ALOAD, 0);
             mv.visitFieldInsn(GETFIELD, "didihttp/DidiHttpClient$Builder", "interceptors", "Ljava/util/List;");
             mv.visitFieldInsn(GETSTATIC, "com/didichuxing/foundation/net/rpc/http/PlatformHttpHook", "globalInterceptors", "Ljava/util/List;");
+            mv.visitMethodInsn(INVOKEINTERFACE, "java/util/List", "addAll", "(Ljava/util/Collection;)Z", true);
+            mv.visitInsn(POP);
+
+
+            //插入NetworkInterceptor 网络拦截器
+            mv.visitVarInsn(ALOAD, 0);
+            mv.visitFieldInsn(GETFIELD, "didihttp/DidiHttpClient$Builder", "networkInterceptors", "Ljava/util/List;");
+            mv.visitFieldInsn(GETSTATIC, "com/didichuxing/foundation/net/rpc/http/PlatformHttpHook", "globalNetworkInterceptors", "Ljava/util/List;");
             mv.visitMethodInsn(INVOKEINTERFACE, "java/util/List", "addAll", "(Ljava/util/Collection;)Z", true);
             mv.visitInsn(POP);
         }
