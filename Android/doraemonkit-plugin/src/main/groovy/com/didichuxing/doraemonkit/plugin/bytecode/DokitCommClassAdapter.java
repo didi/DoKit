@@ -6,7 +6,8 @@ import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.BaiduLocationMeth
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.FlagMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.OkHttpNullConsMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.OkHttpOneParamConsMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.PlatformHttpMethodAdapter;
+import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.PlatformNullConsHttpMethodAdapter;
+import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.PlatformOneParamHttpMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.TencentLocationMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.TencentLocationSingleMethodAdapter;
 
@@ -129,11 +130,19 @@ public final class DokitCommClassAdapter extends ClassVisitor {
             return mv == null ? null : new OkHttpOneParamConsMethodAdapter(mv, access, methodName, desc);
         }
 
-        //didi平台端 网络 拦截器字节码替换
-        if (className.equals("didihttp/DidiHttpClient$Builder") && methodName.equals("<init>")) {
+
+        //didi平台端 网络 空构造函数
+        if (className.equals("didihttp/DidiHttpClient$Builder") && methodName.equals("<init>") && getParamsSize(desc) == 0) {
             //创建MethodVisitor代理
             log(className, access, methodName, desc, signature);
-            return mv == null ? null : new PlatformHttpMethodAdapter(access, desc, mv);
+            return mv == null ? null : new PlatformNullConsHttpMethodAdapter(access, desc, mv);
+        }
+
+        //didi平台端 网络 一个参数的构造函数
+        if (className.equals("didihttp/DidiHttpClient$Builder") && methodName.equals("<init>") && getParamsSize(desc) == 1) {
+            //创建MethodVisitor代理
+            log(className, access, methodName, desc, signature);
+            return mv == null ? null : new PlatformOneParamHttpMethodAdapter(mv, access, methodName, desc);
         }
         //app启动hook点 onCreate()函数 兼容MultiDex
 //        if (!StringUtils.isEmpty(superName) && (superName.equals("android/app/Application") || superName.equals("android/support/multidex/MultiDexApplication")) && methodName.equals("onCreate") && desc.equals("()V")) {

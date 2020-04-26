@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.config;
 
 /**
  * Created by jintai on 2019/10/10.
- * 将配置信息保存在内存中
+ * 将配置信息保存在内存中 不需要持久化保存
  */
 
 public class PerformanceMemoryInfoConfig {
