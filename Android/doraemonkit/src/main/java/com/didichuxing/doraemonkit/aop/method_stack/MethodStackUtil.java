@@ -106,9 +106,17 @@ public class MethodStackUtil {
                     bindNode(level, methodInvokNode);
                 }
 
+                //打印函数调用栈
+                if (level == 0) {
+                    if (methodInvokNode != null) {
+                        toStack(methodInvokNode);
+                    }
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
+
 
         }
     }
@@ -135,7 +143,7 @@ public class MethodStackUtil {
         }
 
         //过滤掉小于10ms的函数
-        if (methodInvokNode.getCostTimeMillis() < 10) {
+        if (methodInvokNode.getCostTimeMillis() <= 1) {
             return;
         }
 
@@ -235,17 +243,15 @@ public class MethodStackUtil {
     private static final String SPACE_3 = "*********************";
     private static final String SPACE_4 = "*************************";
 
-    public void toStack() {
+    public void toStack(MethodInvokNode methodInvokNode) {
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("=========DoKit函数调用栈==========").append("\n");
         stringBuilder.append(String.format("%s    %s    %s", "level", "time", "function")).append("\n");
-        for (MethodInvokNode methodInvokNode : ROOT_METHOD_STACKS.values()) {
-            stringBuilder.append(String.format("%s%s%s%s%s", methodInvokNode.getLevel(), SPACE_0, methodInvokNode.getCostTimeMillis() + "ms", getSpaceString(methodInvokNode.getLevel()), methodInvokNode.getClassName() + "&" + methodInvokNode.getMethodName())).append("\n");
-            stackTravel(stringBuilder, methodInvokNode.getChildren());
-        }
+        stringBuilder.append(String.format("%s%s%s%s%s", methodInvokNode.getLevel(), SPACE_0, methodInvokNode.getCostTimeMillis() + "ms", getSpaceString(methodInvokNode.getLevel()), methodInvokNode.getClassName() + "&" + methodInvokNode.getMethodName())).append("\n");
+        stackTravel(stringBuilder, methodInvokNode.getChildren());
 
         Log.i(TAG, stringBuilder.toString());
     }
-
 
 
     private String getSpaceString(int level) {
@@ -260,7 +266,6 @@ public class MethodStackUtil {
         } else if (level == 4) {
             return SPACE_4;
         }
-
         return SPACE_0;
     }
 }

@@ -3,7 +3,6 @@ package com.didichuxing.doraemonkit.kit.viewcheck;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.config.ViewCheckConfig;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.core.DokitIntent;
@@ -44,14 +43,10 @@ public class ViewCheckerKit extends AbstractKit {
         intent = new DokitIntent(ViewCheckInfoDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
         DokitViewManager.getInstance().attach(intent);
-
-
-        ViewCheckConfig.setViewCheckOpen(true);
     }
 
     @Override
     public void onAppInit(Context context) {
-        ViewCheckConfig.setViewCheckOpen(false);
     }
 
     @Override

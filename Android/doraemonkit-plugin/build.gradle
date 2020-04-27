@@ -5,8 +5,8 @@ dependencies {
     implementation gradleApi()
     implementation localGroovy()
     //版本不能太高 否则会跟项目的as版本冲突
-    implementation 'com.android.tools.build:gradle:3.0.0'
-    implementation 'com.android.tools.build:gradle-api:3.0.0'
+    compileOnly 'com.android.tools.build:gradle:3.0.0'
+    implementation 'com.didiglobal.booster:booster-android-gradle-api:1.6.0'
     implementation 'commons-io:commons-io:2.6'
     implementation 'commons-codec:commons-codec:1.11'
     //noinspection GradleDependency
@@ -15,6 +15,7 @@ dependencies {
     implementation 'org.ow2.asm:asm-util:7.2'
     //noinspection GradleDependency
     implementation 'org.ow2.asm:asm-commons:7.2'
+    //https://github.com/Leaking/Hunter
     implementation 'com.quinn.hunter:hunter-transform:0.9.3'
 }
 

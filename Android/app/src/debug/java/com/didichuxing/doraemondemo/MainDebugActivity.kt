@@ -281,7 +281,6 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
             R.id.btn_jump_leak -> startActivity(Intent(this, LeakActivity::class.java))
             R.id.btn_app_launch_stack -> {
                 //MethodStackUtil.getInstance().toJson()
-                MethodStackUtil.getInstance().toStack()
             }
             R.id.btn_location -> startNormaLocation()
             R.id.btn_location_amap -> startAmapLocation()

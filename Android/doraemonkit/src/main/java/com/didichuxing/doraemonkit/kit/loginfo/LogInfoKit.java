@@ -7,6 +7,8 @@ import com.didichuxing.doraemonkit.config.LogInfoConfig;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
+import com.didichuxing.doraemonkit.kit.core.DokitIntent;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 
 /**
  * Created by wanglikun on 2018/10/9.
@@ -31,7 +33,12 @@ public class LogInfoKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_LOG_INFO_SETTING);
+        DokitIntent intent = new DokitIntent(LogInfoDokitView.class);
+        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        DokitViewManager.getInstance().attach(intent);
+        //开启日志服务
+        LogInfoManager.getInstance().start();
+        //startUniversalActivity(context, FragmentIndex.FRAGMENT_LOG_INFO_SETTING);
 
     }
 

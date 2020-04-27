@@ -15,7 +15,7 @@ import java.util.List;
  * ================================================
  */
 public class DokitExtUtil {
-     private String mApplicationId;
+    private String mApplicationId;
     /**
      * dokit 插件开关 字段权限必须为public 否则无法进行赋值
      */
@@ -39,6 +39,7 @@ public class DokitExtUtil {
      * 黑名单
      */
     private List<String> mMethodBlacklist = new ArrayList<>();
+    private List<String> applications = new ArrayList<>();
 
 
     public boolean isDokitPluginSwitch() {
@@ -106,6 +107,22 @@ public class DokitExtUtil {
         }
 
 
+    }
+
+    public void setApplications(List<String> applications) {
+
+        if (applications.isEmpty()) {
+            return;
+        }
+        this.applications.clear();
+        for (String application : applications) {
+            this.applications.add(application.replaceAll("\\.", "/"));
+        }
+
+    }
+
+    public List<String> getApplications() {
+        return this.applications;
     }
 
     public boolean ignorePackageNames(String className) {

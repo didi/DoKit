@@ -12,6 +12,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 /**
  * Created by jint on 13/12/2019.
@@ -90,21 +91,36 @@ public final class DokitMethodStackClassAdapter extends ClassVisitor {
             MethodStackNode methodStackNode;
             switch (level) {
                 case MethodStackNodeUtil.LEVEL_0:
-                    //app启动hook点 onCreate()函数 兼容MultiDex
-                    if (!StringUtils.isEmpty(superName) &&
-                            (superName.equals("android/app/Application") || superName.equals("android/support/multidex/MultiDexApplication") || superName.equals("androidx/multidex/MultiDexApplication")) &&
-                            methodName.equals("onCreate") && desc.equals("()V")) {
-                        //log(className, access, methodName, desc, signature);
-                        return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                    //匹配Application
+                    List<String> applications = DokitExtUtil.getInstance().getApplications();
+                    if (applications == null || applications.isEmpty()) {
+                        //app启动hook点 onCreate()函数 兼容MultiDex
+                        if (!StringUtils.isEmpty(superName) &&
+                                (superName.equals("android/app/Application") || superName.equals("android/support/multidex/MultiDexApplication") || superName.equals("androidx/multidex/MultiDexApplication")) &&
+                                methodName.equals("onCreate") && desc.equals("()V")) {
+                            //log(className, access, methodName, desc, signature);
+                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                        }
+
+                        //app启动hook点 attachBaseContext()函数 兼容MultiDex
+                        if (!StringUtils.isEmpty(superName) &&
+                                (superName.equals("android/app/Application") || superName.equals("android/support/multidex/MultiDexApplication") || superName.equals("androidx/multidex/MultiDexApplication")) &&
+                                methodName.equals("attachBaseContext")) {
+                            //log(className, access, methodName, desc, signature);
+                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                        }
+                    } else {
+                        for (String application : applications) {
+                            if (className.equals(application)) {
+                                if (methodName.equals("attachBaseContext")) {
+                                    return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                                } else if (methodName.equals("onCreate") && desc.equals("()V")) {
+                                    return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                                }
+                            }
+                        }
                     }
 
-                    //app启动hook点 attachBaseContext()函数 兼容MultiDex
-                    if (!StringUtils.isEmpty(superName) &&
-                            (superName.equals("android/app/Application") || superName.equals("android/support/multidex/MultiDexApplication") || superName.equals("androidx/multidex/MultiDexApplication")) &&
-                            methodName.equals("attachBaseContext")) {
-                        //log(className, access, methodName, desc, signature);
-                        return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
-                    }
                     break;
                 case MethodStackNodeUtil.LEVEL_1:
 
@@ -141,7 +157,8 @@ public final class DokitMethodStackClassAdapter extends ClassVisitor {
                 default:
                     break;
             }
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             System.out.println("e=====>" + e.getMessage());
         }
 

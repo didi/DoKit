@@ -1,9 +1,6 @@
 package com.didichuxing.doraemonkit.plugin;
 
 import com.android.build.gradle.AppExtension;
-import com.android.build.gradle.api.ApplicationVariant;
-import com.android.build.gradle.api.BaseVariantOutput;
-import com.android.build.gradle.tasks.ManifestProcessorTask;
 import com.didichuxing.doraemonkit.plugin.transform.DokitBigImageTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitCommTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitMethodStack0Transform;
@@ -13,18 +10,21 @@ import com.didichuxing.doraemonkit.plugin.transform.DokitMethodStack3Transform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitMethodStack4Transform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitSlowMethodTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitUrlConnectionTransform;
+import com.didiglobal.booster.gradle.BaseVariantKt;
+import com.didiglobal.booster.gradle.VariantScopeKt;
 
-import org.codehaus.groovy.runtime.StringGroovyMethods;
-import org.gradle.api.Action;
-import org.gradle.api.DomainObjectSet;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.Task;
+import org.xml.sax.SAXException;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 
 /**
@@ -52,24 +52,41 @@ public final class DoKitPlugin implements Plugin<Project> {
             }
         }
 
-        project.afterEvaluate(new Action<Project>() {
-            //项目评估之后回调
-            @Override
-            public void execute(Project partProject) {
-                try {
-                    DokitExtension dokitExtension = partProject.getExtensions().getByType(DokitExtension.class);
-                    DokitExtUtil.getInstance().init(dokitExtension, appExtension);
-                    System.out.println("====afterEvaluate====");
-//                    MethodStackNodeUtil.firstMethodStackNodes.clear();
-//                    MethodStackNodeUtil.secondMethodStackNodes.clear();
-//                    MethodStackNodeUtil.thirdMethodStackNodes.clear();
-//                    MethodStackNodeUtil.fourthlyMethodStackNodes.clear();
-//                    MethodStackNodeUtil.fifthMethodStackNodes.clear();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
+        //解析并获取Application 类
+        appExtension.getApplicationVariants().all(applicationVariant -> {
+            if (applicationVariant.getName().contains("debug")) {
+                VariantScopeKt.getMergedManifests(BaseVariantKt.getScope(applicationVariant))
+                        .forEach(file -> {
+                            String manifestPath = file.getPath() + "/AndroidManifest.xml";
+                            File manifest = new File(manifestPath);
+                            if (manifest.exists()) {
+                                try {
+                                    SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+                                    CommHandler handler = new CommHandler();
+                                    parser.parse(manifest, handler);
+                                    DokitExtUtil.getInstance().setApplications(handler.getApplication());
+                                } catch (ParserConfigurationException e) {
+                                    e.printStackTrace();
+                                } catch (SAXException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
             }
+
+        });
+
+        //项目评估之后回调
+        project.afterEvaluate(partProject -> {
+            try {
+                DokitExtension dokitExtension = partProject.getExtensions().getByType(DokitExtension.class);
+                DokitExtUtil.getInstance().init(dokitExtension, appExtension);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         });
 
         //普通的插装

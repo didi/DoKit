@@ -28,11 +28,14 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.widget.dialog.DialogProvider;
 import com.didichuxing.doraemonkit.widget.dialog.UniversalDialogFragment;
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.widget.titlebar.LogTitleBar;
 import com.didichuxing.doraemonkit.widget.titlebar.TitleBar;
 import com.didichuxing.doraemonkit.util.FileUtil;
 
@@ -79,6 +82,8 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
     }
 
     public void initView() {
+
+
         mLogHint = findViewById(R.id.log_hint);
         mLogRvWrap = findViewById(R.id.log_page);
         mLogRv = findViewById(R.id.log_list);
@@ -102,20 +107,24 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
                 mLogItemAdapter.getFilter().filter(s);
             }
         });
-        FrameLayout mTitleBar = findViewById(R.id.dokit_title_bar);
-        if (mTitleBar instanceof TitleBar) {
-            ((TitleBar) mTitleBar).setOnTitleBarClickListener(new TitleBar.OnTitleBarClickListener() {
-                @Override
-                public void onLeftClick() {
-                    minimize();
-                }
+        LogTitleBar mTitleBar = findViewById(R.id.dokit_title_bar);
 
-                @Override
-                public void onRightClick() {
+        mTitleBar.setListener(new LogTitleBar.OnTitleBarClickListener() {
+            @Override
+            public void onRightClick() {
+                //关闭日志服务
+                LogInfoManager.getInstance().stop();
+                //清空回调
+                LogInfoManager.getInstance().removeListener();
+                detach();
+            }
 
-                }
-            });
-        }
+            @Override
+            public void onLeftClick() {
+                minimize();
+            }
+        });
+
 
         mLogHint.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -359,7 +368,7 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
     /**
      * 最小化
      */
-    private void minimize() {
+    public void minimize() {
         isMaximize = false;
         if (isNormalMode()) {
             mLogHint.setVisibility(View.VISIBLE);
