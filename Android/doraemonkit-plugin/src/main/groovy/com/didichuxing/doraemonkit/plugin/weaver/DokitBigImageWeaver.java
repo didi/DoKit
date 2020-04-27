@@ -1,8 +1,10 @@
 package com.didichuxing.doraemonkit.plugin.weaver;
 
 import com.android.build.gradle.AppExtension;
+import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
 import com.didichuxing.doraemonkit.plugin.DokitExtension;
 import com.didichuxing.doraemonkit.plugin.bytecode.DokitBigImageClassAdapter;
+import com.didichuxing.doraemonkit.plugin.bytecode.DokitCommClassAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.DokitSlowMethodClassAdapter;
 import com.quinn.hunter.transform.asm.BaseWeaver;
 
@@ -37,7 +39,11 @@ public class DokitBigImageWeaver extends BaseWeaver {
 
     @Override
     protected ClassVisitor wrapClassWriter(ClassWriter classWriter) {
-        //返回指定的ClassVisitor
-        return new DokitBigImageClassAdapter(classWriter);
+        if (DokitExtUtil.getInstance().dokitPluginSwitchOpen()) {
+            //返回指定的ClassVisitor
+            return new DokitBigImageClassAdapter(classWriter);
+        } else {
+            return super.wrapClassWriter(classWriter);
+        }
     }
 }

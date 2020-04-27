@@ -20,50 +20,21 @@ public class DokitExtUtil {
      * dokit 插件开关 字段权限必须为public 否则无法进行赋值
      */
     private boolean mDokitPluginSwitch = true;
-    /**
-     * 慢函数开关
-     */
-    private boolean mSlowMethodSwitch = true;
-    /**
-     * 大图检测开关
-     */
-    private boolean mBigImgSwitch = true;
-    /**
-     * 单位为ms 默认500ms
-     */
-    private int mThresholdTime = 500;
-
-    private List<String> mPackageNames = new ArrayList<>();
-
-    /**
-     * 黑名单
-     */
-    private List<String> mMethodBlacklist = new ArrayList<>();
     private List<String> applications = new ArrayList<>();
+    private DokitExtension.CommConfig commConfig = new DokitExtension.CommConfig();
+    private DokitExtension.SlowMethodConfig slowMethodConfig = new DokitExtension.SlowMethodConfig();
 
 
-    public boolean isDokitPluginSwitch() {
+    public boolean dokitPluginSwitchOpen() {
         return mDokitPluginSwitch;
     }
 
-    public boolean isSlowMethodSwitch() {
-        return mSlowMethodSwitch;
+    public DokitExtension.CommConfig getCommConfig() {
+        return commConfig;
     }
 
-    public boolean isBigImgSwitch() {
-        return mBigImgSwitch;
-    }
-
-    public int getThresholdTime() {
-        return mThresholdTime;
-    }
-
-    public List<String> getPackageNames() {
-        return mPackageNames;
-    }
-
-    public List<String> getMethodBlacklist() {
-        return mMethodBlacklist;
+    public DokitExtension.SlowMethodConfig getSlowMethodConfig() {
+        return slowMethodConfig;
     }
 
     /**
@@ -86,30 +57,59 @@ public class DokitExtUtil {
     public void init(DokitExtension dokitExtension, AppExtension appExtension) {
         if (dokitExtension != null) {
             this.mDokitPluginSwitch = dokitExtension.dokitPluginSwitch;
-            this.mSlowMethodSwitch = dokitExtension.slowMethodSwitch;
-            this.mThresholdTime = dokitExtension.thresholdTime;
-            this.mBigImgSwitch = dokitExtension.bigImgSwitch;
-            mPackageNames.clear();
-            for (String packageName : dokitExtension.packageNames) {
-                mPackageNames.add(packageName.replaceAll("\\.", "/"));
-            }
+            //设置普通的配置
+            this.commConfig = dokitExtension.comm;
 
-            mMethodBlacklist.clear();
-            for (String blackStr : dokitExtension.methodBlacklist) {
-                mMethodBlacklist.add(blackStr.replaceAll("\\.", "/"));
+            this.slowMethodConfig.strategy = dokitExtension.slowMethod.strategy;
+            this.slowMethodConfig.methodSwitch = dokitExtension.slowMethod.methodSwitch;
+            /**
+             * ============慢函数普通策略的配置==========
+             */
+            this.slowMethodConfig.normalMethodConfig.thresholdTime = dokitExtension.slowMethod.normalMethodConfig.thresholdTime;
+            //设置慢函数普通策略插装包名
+            this.slowMethodConfig.normalMethodConfig.packageNames.clear();
+            for (String packageName : dokitExtension.slowMethod.normalMethodConfig.packageNames) {
+                this.slowMethodConfig.normalMethodConfig.packageNames.add(packageName.replaceAll("\\.", "/"));
             }
-
             //添加默认的包名
             String applicationId = appExtension.getDefaultConfig().getApplicationId().replaceAll("\\.", "/");
-            if (mPackageNames.isEmpty()) {
-                mPackageNames.add(applicationId);
+            if (this.slowMethodConfig.normalMethodConfig.packageNames.isEmpty()) {
+                this.slowMethodConfig.normalMethodConfig.packageNames.add(applicationId);
             }
+
+            //设置慢函数普通策略插装包名黑名单
+            this.slowMethodConfig.normalMethodConfig.methodBlacklist.clear();
+            for (String blackStr : dokitExtension.slowMethod.normalMethodConfig.methodBlacklist) {
+                this.slowMethodConfig.normalMethodConfig.methodBlacklist.add(blackStr.replaceAll("\\.", "/"));
+            }
+            /**
+             * ============慢函数普通策略的配置==========
+             */
+
+            /**
+             * ============慢函数stack策略的配置==========
+             */
+            this.slowMethodConfig.stackMethodConfig.thresholdTime = dokitExtension.slowMethod.stackMethodConfig.thresholdTime;
+            this.slowMethodConfig.stackMethodConfig.enterMethods.clear();
+            for (String methodName : dokitExtension.slowMethod.stackMethodConfig.enterMethods) {
+                this.slowMethodConfig.stackMethodConfig.enterMethods.add(methodName.replaceAll("\\.", "/"));
+            }
+            //添加默认的入口函数
+            if (this.slowMethodConfig.normalMethodConfig.packageNames.isEmpty()) {
+                for (String application : applications) {
+                    String attachBaseContextMethodName = application + "/attachBaseContext";
+                    String onCreateMethodName = application + "/onCreate";
+                    this.slowMethodConfig.stackMethodConfig.enterMethods.add(attachBaseContextMethodName);
+                    this.slowMethodConfig.stackMethodConfig.enterMethods.add(onCreateMethodName);
+                }
+            }
+            /**
+             * ============慢函数stack策略的配置==========
+             */
         }
-
-
     }
 
-    public void setApplications(List<String> applications) {
+    void setApplications(List<String> applications) {
 
         if (applications.isEmpty()) {
             return;
@@ -121,9 +121,6 @@ public class DokitExtUtil {
 
     }
 
-    public List<String> getApplications() {
-        return this.applications;
-    }
 
     public boolean ignorePackageNames(String className) {
         boolean isMatched = false;

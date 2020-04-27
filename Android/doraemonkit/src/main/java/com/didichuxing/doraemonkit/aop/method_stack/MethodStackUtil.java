@@ -47,7 +47,7 @@ public class MethodStackUtil {
      * @param methodName
      * @param classObj   null 代表静态函数
      */
-    public void recodeObjectMethodCostStart(int level, String className, String methodName, String desc, Object classObj) {
+    public void recodeObjectMethodCostStart(int thresholdTime, int level, String className, String methodName, String desc, Object classObj) {
 
         try {
             MethodInvokNode methodInvokNode = new MethodInvokNode();
@@ -84,7 +84,7 @@ public class MethodStackUtil {
      * @param desc
      * @param classObj   null 代表静态函数
      */
-    public void recodeObjectMethodCostEnd(int level, String className, String methodName, String desc, Object classObj) {
+    public void recodeObjectMethodCostEnd(int thresholdTime, int level, String className, String methodName, String desc, Object classObj) {
 
         synchronized (MethodCostUtil.class) {
             try {
@@ -103,7 +103,7 @@ public class MethodStackUtil {
                 }
                 if (methodInvokNode != null) {
                     methodInvokNode.setEndTimeMillis(System.currentTimeMillis());
-                    bindNode(level, methodInvokNode);
+                    bindNode(thresholdTime, level, methodInvokNode);
                 }
 
                 //打印函数调用栈
@@ -137,13 +137,13 @@ public class MethodStackUtil {
     }
 
 
-    private void bindNode(int level, MethodInvokNode methodInvokNode) {
+    private void bindNode(int thresholdTime, int level, MethodInvokNode methodInvokNode) {
         if (methodInvokNode == null) {
             return;
         }
 
         //过滤掉小于10ms的函数
-        if (methodInvokNode.getCostTimeMillis() <= 1) {
+        if (methodInvokNode.getCostTimeMillis() <= thresholdTime) {
             return;
         }
 
@@ -189,13 +189,13 @@ public class MethodStackUtil {
     }
 
 
-    public void recodeStaticMethodCostStart(int level, String className, String methodName, String desc) {
-        recodeObjectMethodCostStart(level, className, methodName, desc, null);
+    public void recodeStaticMethodCostStart(int thresholdTime, int level, String className, String methodName, String desc) {
+        recodeObjectMethodCostStart(thresholdTime, level, className, methodName, desc, null);
     }
 
 
-    public void recodeStaticMethodCostEnd(int level, String className, String methodName, String desc) {
-        recodeObjectMethodCostEnd(level, className, methodName, desc, null);
+    public void recodeStaticMethodCostEnd(int thresholdTime, int level, String className, String methodName, String desc) {
+        recodeObjectMethodCostEnd(thresholdTime, level, className, methodName, desc, null);
     }
 
     private void jsonTravel(List<MethodStackBean> methodStackBeans, List<MethodInvokNode> methodInvokNodes) {

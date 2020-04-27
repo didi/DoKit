@@ -1,12 +1,15 @@
 package com.didichuxing.doraemonkit.plugin.weaver;
 
 import com.android.build.gradle.AppExtension;
+import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
 import com.didichuxing.doraemonkit.plugin.DokitExtension;
 import com.didichuxing.doraemonkit.plugin.bytecode.DokitMethodStackClassAdapter;
 import com.quinn.hunter.transform.asm.BaseWeaver;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
+
+import static com.didichuxing.doraemonkit.plugin.DokitExtension.SlowMethodConfig.STRATEGY_STACK;
 
 /**
  * ================================================
@@ -44,7 +47,14 @@ public class DokitMethodStackWeaver extends BaseWeaver {
      */
     @Override
     protected ClassVisitor wrapClassWriter(ClassWriter classWriter) {
-        //返回指定的ClassVisitor
-        return new DokitMethodStackClassAdapter(classWriter, level);
+        boolean isOpen = DokitExtUtil.getInstance().dokitPluginSwitchOpen() &&
+                DokitExtUtil.getInstance().getSlowMethodConfig().methodSwitch &&
+                DokitExtUtil.getInstance().getSlowMethodConfig().strategy == STRATEGY_STACK;
+
+        if (isOpen) {
+            return new DokitMethodStackClassAdapter(classWriter, level);
+        } else {
+            return super.wrapClassWriter(classWriter);
+        }
     }
 }

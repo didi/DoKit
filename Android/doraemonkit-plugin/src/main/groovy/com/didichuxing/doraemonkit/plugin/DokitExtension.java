@@ -16,41 +16,65 @@ public class DokitExtension {
      * dokit 插件开关 字段权限必须为public 否则无法进行赋值
      */
     public boolean dokitPluginSwitch = true;
-    /**
-     * 慢函数开关
-     */
-    public boolean slowMethodSwitch = true;
+
+    public CommConfig comm = new CommConfig();
+
+    public SlowMethodConfig slowMethod = new SlowMethodConfig();
 
     /**
-     * 大图检测开关
+     * 通用配置
      */
-    public boolean bigImgSwitch = true;
-    /**
-     * 单位为ms 默认500ms
-     */
-    public int thresholdTime = 500;
-
-    /**
-     * 插桩代码包名
-     */
-    public List<String> packageNames = new ArrayList<>();
-    /**
-     * 慢函数黑名单
-     */
-    public List<String> methodBlacklist = new ArrayList<>();
-
-
-    @Override
-    public String toString() {
-        return "DokitExtension{" +
-                "runVariant=" + runVariant +
-                ", duplcatedClassSafeMode=" + duplcatedClassSafeMode +
-                ", dokitPluginSwitch=" + dokitPluginSwitch +
-                ", slowMethodSwitch=" + slowMethodSwitch +
-                ", bigImgSwitch=" + bigImgSwitch +
-                ", thresholdTime=" + thresholdTime +
-                ", packageNames=" + packageNames +
-                ", blacklist=" + methodBlacklist +
-                '}';
+    public static class CommConfig {
+        /**
+         * 地图经纬度开关
+         */
+        public boolean mapSwitch = true;
+        /**
+         * 网络开关
+         */
+        public boolean networkSwitch = true;
+        /**
+         * 大图开关
+         */
+        public boolean bigImgSwitch = true;
     }
+
+    /**
+     * 慢函数配置
+     */
+    public static class SlowMethodConfig {
+        public static final int STRATEGY_STACK = 0;
+        public static final int STRATEGY_NORMAL = 1;
+        /**
+         * 0:打印函数调用栈  1:普通模式 运行时打印某个函数的耗时 全局业务代码函数插入
+         */
+        public int strategy = STRATEGY_STACK;
+        /**
+         * 函数功能开关
+         */
+        public boolean methodSwitch = true;
+
+        public StackMethodConfig stackMethodConfig = new StackMethodConfig();
+        public NormalMethodConfig normalMethodConfig = new NormalMethodConfig();
+
+        public static class StackMethodConfig {
+            /**
+             * 默认值为5ms
+             */
+            public int thresholdTime = 5;
+            public List<String> enterMethods = new ArrayList<>();
+        }
+
+
+        public static class NormalMethodConfig {
+            /**
+             * 默认值为500ms
+             */
+            public int thresholdTime = 500;
+            public List<String> packageNames = new ArrayList<>();
+            public List<String> methodBlacklist = new ArrayList<>();
+        }
+    }
+
+
 }

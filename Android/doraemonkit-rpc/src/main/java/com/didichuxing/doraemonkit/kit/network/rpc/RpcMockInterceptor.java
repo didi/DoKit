@@ -179,7 +179,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
             return matchedTemplateRule(oldResponse, path, templateMatchedId);
         }
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         String newUrl;
         if (NetworkManager.MOCK_SCHEME_HTTP.contains(scheme.toLowerCase())) {
             newUrl = sb.append(NetworkManager.MOCK_SCHEME_HTTP).append(NetworkManager.MOCK_HOST).append("/api/app/scene/").append(selectedSceneId).toString();

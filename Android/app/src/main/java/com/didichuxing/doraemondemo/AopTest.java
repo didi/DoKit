@@ -2,7 +2,11 @@ package com.didichuxing.doraemondemo;
 
 import android.util.Log;
 
+import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
 import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * ================================================
@@ -23,14 +27,8 @@ public class AopTest {
 //    }
 
 
-    public void test() {
-        //long beginTime = System.currentTimeMillis();
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //long costTime = System.currentTimeMillis() - beginTime;
+    public void AopTest() {
+        MethodStackUtil.getInstance().recodeObjectMethodCostStart(500, 0, "AopTest", "AopTest", "desc", this);
     }
 
 

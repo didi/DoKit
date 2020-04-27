@@ -86,10 +86,10 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
         MethodVisitor mv = cv.visitMethod(access, methodName, desc, signature, exceptions);
         try {
             //插件开关被关闭
-            if (!DokitExtUtil.getInstance().isDokitPluginSwitch()) {
+            if (!DokitExtUtil.getInstance().dokitPluginSwitchOpen()) {
                 return mv;
             }
-            if (!DokitExtUtil.getInstance().isSlowMethodSwitch()) {
+            if (!DokitExtUtil.getInstance().getSlowMethodConfig().methodSwitch) {
                 return mv;
             }
 
@@ -104,13 +104,13 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
 
             boolean matchedMethod = false;
 
-            for (String packageName : DokitExtUtil.getInstance().getPackageNames()) {
+            for (String packageName : DokitExtUtil.getInstance().getSlowMethodConfig().normalMethodConfig.packageNames) {
                 if (className.contains(packageName)) {
-                    if (DokitExtUtil.getInstance().getMethodBlacklist().isEmpty()) {
+                    if (DokitExtUtil.getInstance().getSlowMethodConfig().normalMethodConfig.methodBlacklist.isEmpty()) {
                         matchedMethod = true;
                         break;
                     } else {
-                        for (String blackStr : DokitExtUtil.getInstance().getMethodBlacklist()) {
+                        for (String blackStr : DokitExtUtil.getInstance().getSlowMethodConfig().normalMethodConfig.methodBlacklist) {
                             //当前全路径类名不存在在黑名单中
                             if (!className.contains(blackStr)) {
                                 matchedMethod = true;
@@ -122,8 +122,8 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
             }
 
             if (matchedMethod) {
-                System.out.println("DokitSlowMethod==className===>" + className + "   methodName===>" + methodName + "   thresholdTime==>" + DokitExtUtil.getInstance().getThresholdTime());
-                return mv == null ? null : new SlowMethodAdapter(mv, className, DokitExtUtil.getInstance().getThresholdTime(), access, methodName, desc);
+                System.out.println("DokitSlowMethod==className===>" + className + "   methodName===>" + methodName + "   thresholdTime==>" + DokitExtUtil.getInstance().getSlowMethodConfig().normalMethodConfig.thresholdTime);
+                return mv == null ? null : new SlowMethodAdapter(mv, className, DokitExtUtil.getInstance().getSlowMethodConfig().normalMethodConfig.thresholdTime, access, methodName, desc);
             }
 
         } catch (Exception e) {

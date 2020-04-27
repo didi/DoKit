@@ -2,10 +2,10 @@ apply plugin: 'groovy'
 apply from: 'upload.gradle'
 
 dependencies {
-    implementation gradleApi()
-    implementation localGroovy()
+    compile gradleApi()
+    compile localGroovy()
     //版本不能太高 否则会跟项目的as版本冲突
-    compileOnly 'com.android.tools.build:gradle:3.0.0'
+    compile 'com.android.tools.build:gradle:3.0.0'
     implementation 'com.didiglobal.booster:booster-android-gradle-api:1.6.0'
     implementation 'commons-io:commons-io:2.6'
     implementation 'commons-codec:commons-codec:1.11'

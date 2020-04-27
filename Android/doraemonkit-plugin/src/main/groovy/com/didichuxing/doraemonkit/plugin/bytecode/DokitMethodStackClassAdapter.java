@@ -11,7 +11,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 /**
@@ -77,10 +76,6 @@ public final class DokitMethodStackClassAdapter extends ClassVisitor {
     public MethodVisitor visitMethod(int access, String methodName, String desc, String signature, String[] exceptions) {
         //从传进来的ClassWriter中读取MethodVisitor
         MethodVisitor mv = cv.visitMethod(access, methodName, desc, signature, exceptions);
-        //开关被关闭 不插入代码
-        if (!DokitExtUtil.getInstance().isDokitPluginSwitch()) {
-            return mv;
-        }
 
         if (DokitExtUtil.getInstance().ignorePackageNames(className)) {
             return mv;
@@ -92,14 +87,14 @@ public final class DokitMethodStackClassAdapter extends ClassVisitor {
             switch (level) {
                 case MethodStackNodeUtil.LEVEL_0:
                     //匹配Application
-                    List<String> applications = DokitExtUtil.getInstance().getApplications();
-                    if (applications == null || applications.isEmpty()) {
+                    List<String> enterMethods = DokitExtUtil.getInstance().getSlowMethodConfig().stackMethodConfig.enterMethods;
+                    if (enterMethods == null || enterMethods.isEmpty()) {
                         //app启动hook点 onCreate()函数 兼容MultiDex
                         if (!StringUtils.isEmpty(superName) &&
                                 (superName.equals("android/app/Application") || superName.equals("android/support/multidex/MultiDexApplication") || superName.equals("androidx/multidex/MultiDexApplication")) &&
                                 methodName.equals("onCreate") && desc.equals("()V")) {
                             //log(className, access, methodName, desc, signature);
-                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, DokitExtUtil.getInstance().getSlowMethodConfig().stackMethodConfig.thresholdTime, access, methodName, desc, level);
                         }
 
                         //app启动hook点 attachBaseContext()函数 兼容MultiDex
@@ -107,16 +102,13 @@ public final class DokitMethodStackClassAdapter extends ClassVisitor {
                                 (superName.equals("android/app/Application") || superName.equals("android/support/multidex/MultiDexApplication") || superName.equals("androidx/multidex/MultiDexApplication")) &&
                                 methodName.equals("attachBaseContext")) {
                             //log(className, access, methodName, desc, signature);
-                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, DokitExtUtil.getInstance().getSlowMethodConfig().stackMethodConfig.thresholdTime, access, methodName, desc, level);
                         }
                     } else {
-                        for (String application : applications) {
-                            if (className.equals(application)) {
-                                if (methodName.equals("attachBaseContext")) {
-                                    return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
-                                } else if (methodName.equals("onCreate") && desc.equals("()V")) {
-                                    return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
-                                }
+                        for (String enterMethod : enterMethods) {
+                            String allMethodName = className + "/" + methodName;
+                            if (allMethodName.equals(enterMethod)) {
+                                return mv == null ? null : new MethodStackMethodAdapter(mv, className, DokitExtUtil.getInstance().getSlowMethodConfig().stackMethodConfig.thresholdTime, access, methodName, desc, level);
                             }
                         }
                     }
@@ -126,7 +118,7 @@ public final class DokitMethodStackClassAdapter extends ClassVisitor {
                     if (MethodStackNodeUtil.firstMethodStackNodes.containsKey(key)) {
                         methodStackNode = MethodStackNodeUtil.firstMethodStackNodes.get(key);
                         if (methodStackNode != null) {
-                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, DokitExtUtil.getInstance().getSlowMethodConfig().stackMethodConfig.thresholdTime, access, methodName, desc, level);
                         }
                     }
 
@@ -136,7 +128,7 @@ public final class DokitMethodStackClassAdapter extends ClassVisitor {
                     if (MethodStackNodeUtil.secondMethodStackNodes.containsKey(key)) {
                         methodStackNode = MethodStackNodeUtil.secondMethodStackNodes.get(key);
                         if (methodStackNode != null) {
-                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, DokitExtUtil.getInstance().getSlowMethodConfig().stackMethodConfig.thresholdTime, access, methodName, desc, level);
                         }
                     }
 
@@ -146,7 +138,7 @@ public final class DokitMethodStackClassAdapter extends ClassVisitor {
                     if (MethodStackNodeUtil.thirdMethodStackNodes.containsKey(key)) {
                         methodStackNode = MethodStackNodeUtil.thirdMethodStackNodes.get(key);
                         if (methodStackNode != null) {
-                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, DokitExtUtil.getInstance().getSlowMethodConfig().stackMethodConfig.thresholdTime, access, methodName, desc, level);
                         }
                     }
 
@@ -157,7 +149,7 @@ public final class DokitMethodStackClassAdapter extends ClassVisitor {
                     if (MethodStackNodeUtil.fourthlyMethodStackNodes.containsKey(key)) {
                         methodStackNode = MethodStackNodeUtil.fourthlyMethodStackNodes.get(key);
                         if (methodStackNode != null) {
-                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, DokitExtUtil.getInstance().getSlowMethodConfig().stackMethodConfig.thresholdTime, access, methodName, desc, level);
                         }
                     }
 

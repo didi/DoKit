@@ -15,14 +15,11 @@ import com.didiglobal.booster.gradle.VariantScopeKt;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.xml.sax.SAXException;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -52,26 +49,23 @@ public final class DoKitPlugin implements Plugin<Project> {
             }
         }
 
-        //解析并获取Application 类
+        //解析注册表文件
         appExtension.getApplicationVariants().all(applicationVariant -> {
             if (applicationVariant.getName().contains("debug")) {
                 VariantScopeKt.getMergedManifests(BaseVariantKt.getScope(applicationVariant))
                         .forEach(file -> {
-                            String manifestPath = file.getPath() + "/AndroidManifest.xml";
-                            File manifest = new File(manifestPath);
-                            if (manifest.exists()) {
-                                try {
+                            try {
+                                String manifestPath = file.getPath() + "/AndroidManifest.xml";
+                                System.out.println("Dokit==manifestPath=>" + manifestPath);
+                                File manifest = new File(manifestPath);
+                                if (manifest.exists()) {
                                     SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
                                     CommHandler handler = new CommHandler();
                                     parser.parse(manifest, handler);
                                     DokitExtUtil.getInstance().setApplications(handler.getApplication());
-                                } catch (ParserConfigurationException e) {
-                                    e.printStackTrace();
-                                } catch (SAXException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
                                 }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
                         });
             }

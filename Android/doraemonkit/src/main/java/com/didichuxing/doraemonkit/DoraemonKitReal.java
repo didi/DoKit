@@ -118,6 +118,7 @@ class DoraemonKitReal {
      * @param productId Dokit平台端申请的productId
      */
     static void install(final Application app, List<AbstractKit> selfKits, String productId) {
+        pluginConfig();
         DokitConstant.PRODUCT_ID = productId;
         DokitConstant.APP_HEALTH_RUNNING = GlobalConfig.getAppHealth();
         //添加常用工具
@@ -305,6 +306,12 @@ class DoraemonKitReal {
         DataPickManager.getInstance().postData();
     }
 
+    /**
+     * 插件会在当前方法中插入代码
+     */
+    private static void pluginConfig() {
+
+    }
 
     private static void checkGPSMock() {
         if (GpsMockConfig.isGPSMockOpen()) {

@@ -31,7 +31,7 @@ public class AopApp extends Application {
         kits.add(new DemoKit());
         //测试环境:a49842eeebeb1989b3f9565eb12c276b
         //线上环境:749a0600b5e48dd77cf8ee680be7b1b7
-        new AopTest().test();
+        //new AopTest().test();
         ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
                 .setDiskCacheEnabled(false)
                 .build();
@@ -39,11 +39,10 @@ public class AopApp extends Application {
 
         //是否显示入口icon
         // DoraemonKit.setAwaysShowMainIcon(false);
-        DoraemonKit.disableUpload();
         DoraemonKit.install(this, kits, "749a0600b5e48dd77cf8ee680be7b1b7");
+        DoraemonKit.disableUpload();
         //DoraemonKit.install(this, kits, "70e78c27f9174d68668d8a66a2b66483")
     }
-
 
 
     @Override

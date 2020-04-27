@@ -64,16 +64,16 @@ android {
 
 
 //dokit 扩展
-dokitExt {
-    dokitPluginSwitch = true
-    slowMethodSwitch = true
-    bigImgSwitch = true
-    //单位为ms 1000ms = 1s
-    thresholdTime = 200
-    packageNames = ["com.didichuxing.doraemondemo"]
-    //慢函数 黑名单 可以是包名 也可以是全路径的类名
-    methodBlacklist = ["com.didichuxing.doraemondemo.dokit"]
-}
+//dokitExt {
+//    dokitPluginSwitch = true
+//    slowMethodSwitch = true
+//    bigImgSwitch = true
+//    //单位为ms 1000ms = 1s
+//    thresholdTime = 200
+//    packageNames = ["com.didichuxing.doraemondemo"]
+//    //慢函数 黑名单 可以是包名 也可以是全路径的类名
+//    methodBlacklist = ["com.didichuxing.doraemondemo.dokit"]
+//}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
