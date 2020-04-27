@@ -24,15 +24,14 @@ public class AopTest {
 
 
     public void test() {
-        long beginTime = System.currentTimeMillis();
-        Log.i(TAG, "我是耗时操作");
-        long costTime = System.currentTimeMillis() - beginTime;
+        //long beginTime = System.currentTimeMillis();
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        //long costTime = System.currentTimeMillis() - beginTime;
     }
 
 
-    public static void test2() {
-        MethodStackUtil.getInstance().recodeStaticMethodCostStart(3, "AopTest", "test2", "desc");
-        Log.i(TAG, "================");
-        MethodStackUtil.getInstance().recodeStaticMethodCostEnd(4, "AopTest", "test2", "desc");
-    }
 }

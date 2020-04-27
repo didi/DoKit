@@ -83,6 +83,11 @@ public final class DoKitPlugin implements Plugin<Project> {
             try {
                 DokitExtension dokitExtension = partProject.getExtensions().getByType(DokitExtension.class);
                 DokitExtUtil.getInstance().init(dokitExtension, appExtension);
+//                MethodStackNodeUtil.firstMethodStackNodes.clear();
+//                MethodStackNodeUtil.secondMethodStackNodes.clear();
+//                MethodStackNodeUtil.thirdMethodStackNodes.clear();
+//                MethodStackNodeUtil.fourthlyMethodStackNodes.clear();
+//                MethodStackNodeUtil.fifthMethodStackNodes.clear();
             } catch (Exception e) {
                 e.printStackTrace();
             }

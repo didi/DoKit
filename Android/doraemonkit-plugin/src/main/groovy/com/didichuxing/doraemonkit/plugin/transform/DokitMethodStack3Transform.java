@@ -47,7 +47,11 @@ public class DokitMethodStack3Transform extends HunterTransform {
 
     @Override
     public void transform(Context context, Collection<TransformInput> inputs, Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider, boolean isIncremental) throws IOException, TransformException, InterruptedException {
-        super.transform(context, inputs, referencedInputs, outputProvider, isIncremental);
+        try {
+            super.transform(context, inputs, referencedInputs, outputProvider, isIncremental);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -57,6 +61,10 @@ public class DokitMethodStack3Transform extends HunterTransform {
 
     @Override
     protected boolean inDuplcatedClassSafeMode() {
-        return dokitExtension.duplcatedClassSafeMode;
+        if (dokitExtension != null) {
+            return dokitExtension.duplcatedClassSafeMode;
+        }
+
+        return false;
     }
 }

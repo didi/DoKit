@@ -75,4 +75,17 @@ public class MethodStackNode {
     public void setParentMethodName(String parentMethodName) {
         this.parentMethodName = parentMethodName;
     }
+
+    @Override
+    public String toString() {
+        return "MethodStackNode{" +
+                "level=" + level +
+                ", className='" + className + '\'' +
+                ", methodName='" + methodName + '\'' +
+                ", desc='" + desc + '\'' +
+                ", parentDesc='" + parentDesc + '\'' +
+                ", parentClassName='" + parentClassName + '\'' +
+                ", parentMethodName='" + parentMethodName + '\'' +
+                '}';
+    }
 }

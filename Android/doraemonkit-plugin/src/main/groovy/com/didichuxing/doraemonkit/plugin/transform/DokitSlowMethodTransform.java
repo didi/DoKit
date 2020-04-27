@@ -60,7 +60,6 @@ public class DokitSlowMethodTransform extends HunterTransform {
     @Override
     protected boolean inDuplcatedClassSafeMode() {
         if (dokitExtension != null) {
-
             return dokitExtension.duplcatedClassSafeMode;
         }
 

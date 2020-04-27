@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.plugin.bytecode.method.method_stack;
 
+import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
 import com.didichuxing.doraemonkit.plugin.MethodStackNode;
 import com.didichuxing.doraemonkit.plugin.MethodStackNodeUtil;
 
@@ -14,9 +15,6 @@ public final class MethodStackMethodAdapter extends AdviceAdapter implements Opc
     private String className;
     private String methodName;
     private String desc;
-    //    private String parentClassName;
-//    private String parentMethodName;
-//    private String parentDesc;
     private int level;
     /**
      * 是否属于静态方法
@@ -43,8 +41,17 @@ public final class MethodStackMethodAdapter extends AdviceAdapter implements Opc
     @Override
     public void visitMethodInsn(int opcode, String innerClassName, String innerMethodName, String innerDesc, boolean isInterface) {
         //全局替换URL的openConnection方法为dokit的URLConnection
-        if (opcode == Opcodes.INVOKEVIRTUAL || opcode == Opcodes.INVOKESTATIC) {
+        if (className.equals(DokitExtUtil.getInstance().getApplications().get(0))) {
             log(opcode, innerClassName, innerMethodName, innerDesc, isInterface);
+        }
+        //普通方法 内部方法 静态方法
+        if (opcode == Opcodes.INVOKEVIRTUAL || opcode == Opcodes.INVOKESTATIC || opcode == Opcodes.INVOKESPECIAL) {
+            //过滤掉构造方法
+            if (innerMethodName.equals("<init>")) {
+                super.visitMethodInsn(opcode, innerClassName, innerMethodName, innerDesc, isInterface);
+                return;
+            }
+
             MethodStackNode methodStackNode = new MethodStackNode();
             methodStackNode.setClassName(innerClassName);
             methodStackNode.setMethodName(innerMethodName);
@@ -55,6 +62,7 @@ public final class MethodStackMethodAdapter extends AdviceAdapter implements Opc
             switch (level) {
                 case MethodStackNodeUtil.LEVEL_0:
                     methodStackNode.setLevel(MethodStackNodeUtil.LEVEL_1);
+                    System.out.println("methodStackNode==>" + methodStackNode);
                     MethodStackNodeUtil.addFirstLevel(methodStackNode);
                     break;
                 case MethodStackNodeUtil.LEVEL_1:

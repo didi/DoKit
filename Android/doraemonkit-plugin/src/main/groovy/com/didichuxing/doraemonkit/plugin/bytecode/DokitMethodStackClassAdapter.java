@@ -123,47 +123,53 @@ public final class DokitMethodStackClassAdapter extends ClassVisitor {
 
                     break;
                 case MethodStackNodeUtil.LEVEL_1:
-
-                    methodStackNode = MethodStackNodeUtil.firstMethodStackNodes.get(key);
-                    if (methodStackNode != null) {
-                        return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                    if (MethodStackNodeUtil.firstMethodStackNodes.containsKey(key)) {
+                        methodStackNode = MethodStackNodeUtil.firstMethodStackNodes.get(key);
+                        if (methodStackNode != null) {
+                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                        }
                     }
 
                     break;
 
                 case MethodStackNodeUtil.LEVEL_2:
-
-                    methodStackNode = MethodStackNodeUtil.secondMethodStackNodes.get(key);
-                    if (methodStackNode != null) {
-                        return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                    if (MethodStackNodeUtil.secondMethodStackNodes.containsKey(key)) {
+                        methodStackNode = MethodStackNodeUtil.secondMethodStackNodes.get(key);
+                        if (methodStackNode != null) {
+                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                        }
                     }
+
 
                     break;
                 case MethodStackNodeUtil.LEVEL_3:
-                    methodStackNode = MethodStackNodeUtil.thirdMethodStackNodes.get(key);
-                    if (methodStackNode != null) {
-                        return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                    if (MethodStackNodeUtil.thirdMethodStackNodes.containsKey(key)) {
+                        methodStackNode = MethodStackNodeUtil.thirdMethodStackNodes.get(key);
+                        if (methodStackNode != null) {
+                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                        }
                     }
+
 
                     break;
 
                 case MethodStackNodeUtil.LEVEL_4:
-                    methodStackNode = MethodStackNodeUtil.fourthlyMethodStackNodes.get(key);
-                    if (methodStackNode != null) {
-                        return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                    if (MethodStackNodeUtil.fourthlyMethodStackNodes.containsKey(key)) {
+                        methodStackNode = MethodStackNodeUtil.fourthlyMethodStackNodes.get(key);
+                        if (methodStackNode != null) {
+                            return mv == null ? null : new MethodStackMethodAdapter(mv, className, access, methodName, desc, level);
+                        }
                     }
+
                     break;
 
                 default:
                     break;
             }
-        } catch (
-                Exception e) {
+        } catch (Exception e) {
             System.out.println("e=====>" + e.getMessage());
         }
 
-
-        //过滤所有类中当前方法中所有的字节码
         return mv;
 
     }
