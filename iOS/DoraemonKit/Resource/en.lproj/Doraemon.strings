@@ -298,6 +298,15 @@
     "第一个view出现时间"                              = "first view appear time";
     "可交互时间"                              = "interactive time";
     
+    //设置
+    "设置"                                           = "Settings";
+    "工具管理"                                        = "Kit Manager";
+    "编辑"                                           = "Edit";
+    "完成"                                           = "Done";
+    "是否保存已编辑的内容"                              = "Whether to save the edited content";
+    "保存成功"                                        = "Saved successfully";
+    "还原"                                           = "Reset";
+    "是否还原到初始状态"                                = "Whether to reset to the initial state";
     
     //其他
     "提示"                                      =   "Tip";
@@ -311,4 +320,5 @@
     "Doraemon关闭之后需要重启App才能重新打开"   =   "Reboot to open Doraemon";
     "复制"                                           = "Copy";
     "删除"                                           = "Delete";
+
 }

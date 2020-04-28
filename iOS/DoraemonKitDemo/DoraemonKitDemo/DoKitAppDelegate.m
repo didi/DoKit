@@ -91,8 +91,11 @@
 }
 
 - (void)test2{
-    
-    NSLog(@"a == %i",XXX);
+    NSDictionary *dic = @{
+        @"name":@"yixiang"
+    }.mutableCopy;
+    [dic setValue:@"caoweoweo" forKey:@"name"];
+    NSLog(@"a == %@",dic);
 }
 
 void uncaughtExceptionHandler(NSException*exception){

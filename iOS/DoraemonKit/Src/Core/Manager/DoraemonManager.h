@@ -156,5 +156,7 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 @property (nonatomic, copy) NSArray *vcProfilerBlackList;//使用vcProfiler的使用，兼容一些异常情况，比如issue416
 
+@property (nonatomic, strong) NSMutableDictionary *keyBlockDic;//保存key和block的关系
+
 @end
 NS_ASSUME_NONNULL_END

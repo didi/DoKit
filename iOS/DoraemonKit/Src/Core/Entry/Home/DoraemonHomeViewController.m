@@ -1,11 +1,11 @@
 //
-//  DoraemonHomeEntry.m
+//  DoraemonHomeViewController.m
 //  DoraemonKit
 //
 //  Created by dengyouhua on 2019/9/4.
 //
 
-#import "DoraemonHomeEntry.h"
+#import "DoraemonHomeViewController.h"
 #import "UIView+Doraemon.h"
 #import "UIColor+Doraemon.h"
 #import "DoraemonManager.h"
@@ -18,21 +18,70 @@
 #import "DoraemonHomeCloseCell.h"
 #import "UIViewController+Doraemon.h"
 #import "DoraemonBuriedPointManager.h"
+#import "DoraemonSettingViewController.h"
+#import "DoraemonCacheManager.h"
 
 static NSString *DoraemonHomeCellID = @"DoraemonHomeCellID";
 static NSString *DoraemonHomeHeadCellID = @"DoraemonHomeHeadCellID";
 static NSString *DoraemonHomeFootCellID = @"DoraemonHomeFootCellID";
 static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
 
-@interface DoraemonHomeEntry () <UICollectionViewDelegate, UICollectionViewDataSource>
+@interface DoraemonHomeViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic,strong) NSMutableArray *dataArray;
 
 @end
 
-@implementation DoraemonHomeEntry
+@implementation DoraemonHomeViewController
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.title = @"DoKit";
+    [self setLeftNavBarItems:nil];
+    [self setRightNavTitle:DoraemonLocalizedString(@"设置")];
+    
+    
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    if (@available(iOS 13.0, *)) {
+        self.view.backgroundColor = [UIColor tertiarySystemBackgroundColor];
+    } else {
+#endif
+        self.view.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+    }
+#endif
+    NSMutableArray *dataArray = [[DoraemonCacheManager sharedInstance] kitShowManagerData];
+    if (!dataArray) {
+        dataArray = [DoraemonManager shareInstance].dataArray;
+    }
+    _dataArray = dataArray;
+    [self.view addSubview:self.collectionView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(kitManagerUpdate:) name:DoraemonKitManagerUpdateNotification object:nil];
+}
+
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+
+    self.collectionView.frame = [self fullscreen];
+}
+
+- (void)rightNavTitleClick:(id)clickView{
+    DoraemonSettingViewController *vc = [[DoraemonSettingViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)kitManagerUpdate:(NSNotification *)aNotification {
+    _dataArray = [[DoraemonCacheManager sharedInstance] kitShowManagerData];
+    [self.collectionView reloadData];
+}
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark -- UICollectionView
 - (UICollectionView *)collectionView {
     if (!_collectionView) {
         UICollectionViewFlowLayout *fl = [[UICollectionViewFlowLayout alloc] init];
@@ -194,7 +243,8 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
             if ([plugin respondsToSelector:@selector(pluginDidLoad:)]) {
                 [plugin pluginDidLoad:(NSDictionary *)itemData];
             }
-            void (^handleBlock)(NSDictionary *itemData) = itemData[@"handleBlock"];
+            
+            void (^handleBlock)(NSDictionary *itemData) = [DoraemonManager shareInstance].keyBlockDic[itemData[@"key"]];
             if (handleBlock) {
                 handleBlock(itemData);
             }
@@ -202,32 +252,5 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
     }
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
-    if (@available(iOS 13.0, *)) {
-        self.view.backgroundColor = [UIColor tertiarySystemBackgroundColor];
-    } else {
-#endif
-        self.view.backgroundColor = [UIColor whiteColor];
-#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
-    }
-#endif
-    
-    _dataArray = [DoraemonManager shareInstance].dataArray;
-    [self.view addSubview:self.collectionView];
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
-}
-
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-
-    self.collectionView.frame = [self fullscreen];
-}
 
 @end

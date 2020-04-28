@@ -1,12 +1,12 @@
 //
-//  DoraemonEntryView.m
+//  DoraemonEntryWindow.m
 //  DoraemonKitDemo
 //
 //  Created by yixiang on 2017/12/11.
 //  Copyright © 2017年 yixiang. All rights reserved.
 //
 
-#import "DoraemonEntryView.h"
+#import "DoraemonEntryWindow.h"
 #import "DoraemonDefine.h"
 #import "UIView+Doraemon.h"
 #import "UIImage+Doraemon.h"
@@ -15,7 +15,7 @@
 #import "DoraemonStatusBarViewController.h"
 #import "DoraemonBuriedPointManager.h"
 
-@interface DoraemonEntryView()
+@interface DoraemonEntryWindow()
 
 @property (nonatomic, strong) UIButton *entryBtn;
 @property (nonatomic, assign) CGFloat kEntryViewSize;
@@ -23,7 +23,7 @@
 
 @end
 
-@implementation DoraemonEntryView
+@implementation DoraemonEntryWindow
 
 - (UIButton *)entryBtn {
     if (!_entryBtn) {

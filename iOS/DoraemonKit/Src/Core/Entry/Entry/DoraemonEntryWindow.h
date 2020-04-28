@@ -1,5 +1,5 @@
 //
-//  DoraemonEntryView.h
+//  DoraemonEntryWindow.h
 //  DoraemonKitDemo
 //
 //  Created by yixiang on 2017/12/11.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 /// 入口滑动浮窗（默认记录上次坐标）
-@interface DoraemonEntryView : UIWindow
+@interface DoraemonEntryWindow : UIWindow
 
 /// 是否自动停靠，默认为YES
 @property (nonatomic, assign) BOOL autoDock;

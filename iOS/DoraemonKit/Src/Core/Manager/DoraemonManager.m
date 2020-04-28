@@ -6,7 +6,7 @@
 //
 #import <UIKit/UIKit.h>
 #import "DoraemonManager.h"
-#import "DoraemonEntryView.h"
+#import "DoraemonEntryWindow.h"
 #import "DoraemonCacheManager.h"
 #import "DoraemonStartPluginProtocol.h"
 #import "DoraemonDefine.h"
@@ -60,7 +60,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 
 @interface DoraemonManager()
 
-@property (nonatomic, strong) DoraemonEntryView *entryView;
+@property (nonatomic, strong) DoraemonEntryWindow *entryWindow;
 
 @property (nonatomic, strong) NSMutableArray *startPlugins;
 
@@ -90,6 +90,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     self = [super init];
     if (self) {
         _autoDock = YES;
+        _keyBlockDic = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -276,10 +277,10 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
  初始化工具入口
  */
 - (void)initEntry:(CGPoint) startingPosition{
-    _entryView = [[DoraemonEntryView alloc] initWithStartPoint:startingPosition];
-    [_entryView show];
+    _entryWindow = [[DoraemonEntryWindow alloc] initWithStartPoint:startingPosition];
+    [_entryWindow show];
     if(_autoDock){
-        [_entryView setAutoDock:YES];
+        [_entryWindow setAutoDock:YES];
     }
 }
 
@@ -303,22 +304,26 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 - (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName buriedPoint:(NSString *)buriedPoint{
     
     NSMutableDictionary *pluginDic = [self foundGroupWithModule:moduleName];
+    pluginDic[@"key"] = [NSString stringWithFormat:@"%@-%@-%@-%@",moduleName,title,iconName,desc];
     pluginDic[@"name"] = title;
     pluginDic[@"icon"] = iconName;
     pluginDic[@"desc"] = desc;
     pluginDic[@"pluginName"] = entryName;
     pluginDic[@"buriedPoint"] = buriedPoint;
+    pluginDic[@"show"] = @1;
 }
 
 - (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName handle:(void (^)(NSDictionary *))handleBlock
 {
     NSMutableDictionary *pluginDic = [self foundGroupWithModule:moduleName];
+    pluginDic[@"key"] = [NSString stringWithFormat:@"%@-%@-%@-%@",moduleName,title,iconName,desc];
     pluginDic[@"name"] = title;
     pluginDic[@"icon"] = iconName;
     pluginDic[@"desc"] = desc;
     pluginDic[@"pluginName"] = entryName;
-    pluginDic[@"handleBlock"] = [handleBlock copy];
+    [_keyBlockDic setValue:[handleBlock copy] forKey:pluginDic[@"key"]];
     pluginDic[@"buriedPoint"] = @"dokit_sdk_business_ck";
+    pluginDic[@"show"] = @1;
 
 }
 - (NSMutableDictionary *)foundGroupWithModule:(NSString *)module
@@ -387,18 +392,18 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 }
 
 - (BOOL)isShowDoraemon{
-    return !_entryView.hidden;
+    return !_entryWindow.hidden;
 }
 
 - (void)showDoraemon{
-    if (_entryView.hidden) {
-        _entryView.hidden = NO;
+    if (_entryWindow.hidden) {
+        _entryWindow.hidden = NO;
     }
 }
 
 - (void)hiddenDoraemon{
-    if (!_entryView.hidden) {
-        _entryView.hidden = YES;
+    if (!_entryWindow.hidden) {
+        _entryWindow.hidden = YES;
      }
 }
 
