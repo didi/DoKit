@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.plugin.bytecode;
 
-import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
+import com.didichuxing.doraemonkit.plugin.DoKitExtUtil;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.FrescoMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.GlideMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.bigimg.ImageLoaderMethodAdapter;
@@ -62,7 +62,7 @@ public final class DokitBigImageClassAdapter extends ClassVisitor {
         MethodVisitor mv = cv.visitMethod(access, methodName, desc, signature, exceptions);
         //开关被关闭 不插入代码
 
-        if (!DokitExtUtil.getInstance().getCommConfig().bigImgSwitch) {
+        if (!DoKitExtUtil.getInstance().getCommExt().bigImgSwitch) {
             return mv;
         }
 

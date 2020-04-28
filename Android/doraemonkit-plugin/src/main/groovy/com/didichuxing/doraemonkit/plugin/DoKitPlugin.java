@@ -1,6 +1,9 @@
 package com.didichuxing.doraemonkit.plugin;
 
 import com.android.build.gradle.AppExtension;
+import com.didichuxing.doraemonkit.plugin.extension.CommExt;
+import com.didichuxing.doraemonkit.plugin.extension.DoKitExt;
+import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt;
 import com.didichuxing.doraemonkit.plugin.transform.DokitBigImageTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitCommTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitMethodStack0Transform;
@@ -13,6 +16,7 @@ import com.didichuxing.doraemonkit.plugin.transform.DokitUrlConnectionTransform;
 import com.didiglobal.booster.gradle.BaseVariantKt;
 import com.didiglobal.booster.gradle.VariantScopeKt;
 
+import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
@@ -36,9 +40,8 @@ public final class DoKitPlugin implements Plugin<Project> {
     public void apply(Project project) {
         AppExtension appExtension = (AppExtension) project.getProperties().get("android");
 
-
-        //创建指定扩展
-        project.getExtensions().create("dokitExt", DokitExtension.class);
+        //创建指定扩展 并将project 传入构造函数
+        project.getExtensions().create("dokitExt", DoKitExt.class);
 
         List<String> taskNames = project.getGradle().getStartParameter().getTaskNames();
 
@@ -62,7 +65,7 @@ public final class DoKitPlugin implements Plugin<Project> {
                                     SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
                                     CommHandler handler = new CommHandler();
                                     parser.parse(manifest, handler);
-                                    DokitExtUtil.getInstance().setApplications(handler.getApplication());
+                                    DoKitExtUtil.getInstance().setApplications(handler.getApplication());
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -75,8 +78,9 @@ public final class DoKitPlugin implements Plugin<Project> {
         //项目评估之后回调
         project.afterEvaluate(partProject -> {
             try {
-                DokitExtension dokitExtension = partProject.getExtensions().getByType(DokitExtension.class);
-                DokitExtUtil.getInstance().init(dokitExtension, appExtension);
+                DoKitExt dokitExtension = partProject.getExtensions().getByType(DoKitExt.class);
+                System.out.println("DokitPluginExt==>" + dokitExtension.toString());
+                DoKitExtUtil.getInstance().init(dokitExtension, appExtension);
 //                MethodStackNodeUtil.firstMethodStackNodes.clear();
 //                MethodStackNodeUtil.secondMethodStackNodes.clear();
 //                MethodStackNodeUtil.thirdMethodStackNodes.clear();

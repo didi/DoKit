@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.plugin.bytecode;
 
-import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
+import com.didichuxing.doraemonkit.plugin.DoKitExtUtil;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.AmapLocationMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.BaiduLocationMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.PluginConfigMethodAdapter;
@@ -77,7 +77,7 @@ public final class DokitCommClassAdapter extends ClassVisitor {
 
 
         //地图配置
-        if (DokitExtUtil.getInstance().getCommConfig().mapSwitch) {
+        if (DoKitExtUtil.getInstance().getCommExt().gpsSwitch) {
             //高德地图字节码替换
             if (className.equals("com/amap/api/location/AMapLocationClient") && methodName.equals("setLocationListener")) {
                 //创建MethodVisitor代理
@@ -115,7 +115,7 @@ public final class DokitCommClassAdapter extends ClassVisitor {
         }
 
         //网络配置
-        if (DokitExtUtil.getInstance().getCommConfig().networkSwitch) {
+        if (DoKitExtUtil.getInstance().getCommExt().networkSwitch) {
             //okhttp 拦截器字节码替换 空构造函数
             if (className.equals("okhttp3/OkHttpClient$Builder") && methodName.equals("<init>") && getParamsSize(desc) == 0) {
                 //创建MethodVisitor代理

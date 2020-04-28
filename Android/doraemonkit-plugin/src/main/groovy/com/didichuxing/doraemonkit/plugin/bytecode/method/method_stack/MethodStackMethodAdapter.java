@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit.plugin.bytecode.method.method_stack;
 
-import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
 import com.didichuxing.doraemonkit.plugin.MethodStackNode;
 import com.didichuxing.doraemonkit.plugin.MethodStackNodeUtil;
 

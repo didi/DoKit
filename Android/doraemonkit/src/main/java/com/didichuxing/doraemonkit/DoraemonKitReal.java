@@ -93,12 +93,6 @@ class DoraemonKitReal {
     private static Application APPLICATION;
 
 
-    /**
-     * 用来判断是否接入了dokit插件 如果安装了插件会动态修改这个值为true
-     */
-    private static boolean IS_HOOK = false;
-
-
     static void setDebug(boolean debug) {
         LogHelper.setDebug(debug);
     }
@@ -156,9 +150,6 @@ class DoraemonKitReal {
         } else {
             DokitConstant.IS_NORMAL_FLOAT_MODE = false;
         }
-        Log.i(TAG, "IS_HOOK====>" + IS_HOOK);
-        //赋值全局变量
-        DokitConstant.IS_HOOK = IS_HOOK;
         //初始化第三方工具
         installLeakCanary(app);
 

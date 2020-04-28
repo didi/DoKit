@@ -64,16 +64,45 @@ android {
 
 
 //dokit 扩展
-//dokitExt {
-//    dokitPluginSwitch = true
-//    slowMethodSwitch = true
-//    bigImgSwitch = true
-//    //单位为ms 1000ms = 1s
-//    thresholdTime = 200
-//    packageNames = ["com.didichuxing.doraemondemo"]
-//    //慢函数 黑名单 可以是包名 也可以是全路径的类名
-//    methodBlacklist = ["com.didichuxing.doraemondemo.dokit"]
-//}
+
+dokitExt {
+    //dokit 插件开关
+    dokitPluginSwitch true
+    //通用设置
+    comm {
+        //地图经纬度开关
+        gpsSwitch false
+        //网络开关
+        networkSwitch true
+        //大图开关
+        bigImgSwitch false
+    }
+
+    slowMethod {
+        //0:默认模式 打印函数调用栈 需添加指定入口  默认为application onCreate 和attachBaseContext
+        //1:普通模式 运行时打印某个函数的耗时 全局业务代码函数插入
+        strategy 0
+        //函数功能开关
+        methodSwitch true
+
+        //调用栈模式配置
+        stackMethod {
+            //默认值为 5ms 小于该值的函数在调用栈中不显示
+            thresholdTime 10
+            //调用栈函数入口
+            enterMethods = ["com.didichuxing.doraemondemo.AopApp.onCreate", "com.didichuxing.doraemondemo.AopApp.attachBaseContext"]
+        }
+        //普通模式配置
+        normalMethod {
+            //默认值为 500ms 小于该值的函数在运行时不会在控制台中被打印
+            thresholdTime 500
+            //需要针对函数插装的包名
+            packageNames = ["com.didichuxing.doraemondemo"]
+            //不需要针对函数插装的包名&类名
+            methodBlacklist = ["com.didichuxing.doraemondemo.dokit"]
+        }
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])

@@ -1,10 +1,12 @@
 package com.didichuxing.doraemonkit.aop.method_stack;
 
+import android.app.Application;
 import android.util.Log;
 
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.didichuxing.doraemonkit.aop.MethodCostUtil;
+import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +22,15 @@ import java.util.concurrent.ConcurrentHashMap;
  * ================================================
  */
 public class MethodStackUtil {
+    private static final String TAG = "MethodStackUtil";
     /**
      * key className&methodName
      */
-    public static ConcurrentHashMap<String, MethodInvokNode> ROOT_METHOD_STACKS = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, MethodInvokNode> ROOT_METHOD_STACKS = new ConcurrentHashMap<>();
     private static ConcurrentHashMap<String, MethodInvokNode> LEVEL1_METHOD_STACKS = new ConcurrentHashMap<>();
     private static ConcurrentHashMap<String, MethodInvokNode> LEVEL2_METHOD_STACKS = new ConcurrentHashMap<>();
     private static ConcurrentHashMap<String, MethodInvokNode> LEVEL3_METHOD_STACKS = new ConcurrentHashMap<>();
     private static ConcurrentHashMap<String, MethodInvokNode> LEVEL4_METHOD_STACKS = new ConcurrentHashMap<>();
-    private static final String TAG = "MethodStackUtil";
 
 
     /**
@@ -72,6 +74,21 @@ public class MethodStackUtil {
                 methodInvokNode.setLevel(4);
                 LEVEL4_METHOD_STACKS.put(String.format("%s&%s", className, methodName), methodInvokNode);
             }
+
+            //特殊判定
+            if (level == 0) {
+                if (classObj instanceof Application) {
+                    if (methodName.equals("onCreate")) {
+                        TimeCounterManager.get().onAppCreateStart();
+                    }
+
+                    if (methodName.equals("attachBaseContext")) {
+                        TimeCounterManager.get().onAppAttachBaseContextStart();
+                    }
+                }
+            }
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -108,8 +125,18 @@ public class MethodStackUtil {
 
                 //打印函数调用栈
                 if (level == 0) {
+
                     if (methodInvokNode != null) {
-                        toStack(methodInvokNode);
+                        toStack(classObj instanceof Application, methodInvokNode);
+                    }
+                    if (classObj instanceof Application) {
+                        //Application 启动时间统计
+                        if (methodName.equals("onCreate")) {
+                            TimeCounterManager.get().onAppCreateEnd();
+                        }
+                        if (methodName.equals("attachBaseContext")) {
+                            TimeCounterManager.get().onAppAttachBaseContextEnd();
+                        }
                     }
                 }
 
@@ -190,12 +217,12 @@ public class MethodStackUtil {
 
 
     public void recodeStaticMethodCostStart(int thresholdTime, int level, String className, String methodName, String desc) {
-        recodeObjectMethodCostStart(thresholdTime, level, className, methodName, desc, null);
+        recodeObjectMethodCostStart(thresholdTime, level, className, methodName, desc, new StaicMethodObject());
     }
 
 
     public void recodeStaticMethodCostEnd(int thresholdTime, int level, String className, String methodName, String desc) {
-        recodeObjectMethodCostEnd(thresholdTime, level, className, methodName, desc, null);
+        recodeObjectMethodCostEnd(thresholdTime, level, className, methodName, desc, new StaicMethodObject());
     }
 
     private void jsonTravel(List<MethodStackBean> methodStackBeans, List<MethodInvokNode> methodInvokNodes) {
@@ -243,15 +270,27 @@ public class MethodStackUtil {
     private static final String SPACE_3 = "*********************";
     private static final String SPACE_4 = "*************************";
 
-    public void toStack(MethodInvokNode methodInvokNode) {
+    public void toStack(boolean isAppStart, MethodInvokNode methodInvokNode) {
+
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("=========DoKit函数调用栈==========").append("\n");
         stringBuilder.append(String.format("%s    %s    %s", "level", "time", "function")).append("\n");
         stringBuilder.append(String.format("%s%s%s%s%s", methodInvokNode.getLevel(), SPACE_0, methodInvokNode.getCostTimeMillis() + "ms", getSpaceString(methodInvokNode.getLevel()), methodInvokNode.getClassName() + "&" + methodInvokNode.getMethodName())).append("\n");
         stackTravel(stringBuilder, methodInvokNode.getChildren());
-
         Log.i(TAG, stringBuilder.toString());
+        if (isAppStart && methodInvokNode.getLevel() == 0) {
+            if (methodInvokNode.getMethodName().equals("onCreate")) {
+                STR_APP_ON_CREATE = stringBuilder.toString();
+            }
+            if (methodInvokNode.getMethodName().equals("attachBaseContext")) {
+                STR_APP_ATTACH_BASECONTEXT = stringBuilder.toString();
+            }
+        }
     }
+
+
+    public static String STR_APP_ON_CREATE;
+    public static String STR_APP_ATTACH_BASECONTEXT;
 
 
     private String getSpaceString(int level) {

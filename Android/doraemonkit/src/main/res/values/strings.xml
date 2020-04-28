@@ -342,4 +342,18 @@
     <string name="dk_weaknet_type_off">断网</string>
     <string name="dk_weaknet_type_timeout">超时</string>
     <string name="dk_weaknet_type_speed">限速</string>
+
+
+    <!--    plugin tip-->
+    <string name="dk_plugin_close_tip">未引入插件或插件未开启</string>
+
+    <string name="dk_plugin_network_close_tip">网络插件未开启</string>
+
+    <string name="dk_plugin_method_close_tip">慢函数插件未开启</string>
+    <string name="dk_plugin_method_strategy_tip">请修改慢函数的插件配置等于0</string>
+    <string name="dk_plugin_big_img_close_tip">大图检测插件未开启</string>
+    <string name="dk_plugin_gps_close_tip">GPS插件未开启</string>
+
+    <string name="dk_platform_tip">"需要到www.dokit.cn上注册pId才能使用该功能"</string>
+
 </resources>

@@ -1,15 +1,16 @@
 package com.didichuxing.doraemonkit.plugin.weaver;
 
 import com.android.build.gradle.AppExtension;
-import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
-import com.didichuxing.doraemonkit.plugin.DokitExtension;
+import com.didichuxing.doraemonkit.plugin.DoKitExtUtil;
+import com.didichuxing.doraemonkit.plugin.extension.DoKitExt;
 import com.didichuxing.doraemonkit.plugin.bytecode.DokitMethodStackClassAdapter;
 import com.quinn.hunter.transform.asm.BaseWeaver;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 
-import static com.didichuxing.doraemonkit.plugin.DokitExtension.SlowMethodConfig.STRATEGY_STACK;
+import static com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt.STRATEGY_STACK;
+
 
 /**
  * ================================================
@@ -21,7 +22,7 @@ import static com.didichuxing.doraemonkit.plugin.DokitExtension.SlowMethodConfig
  * ================================================
  */
 public class DokitMethodStackWeaver extends BaseWeaver {
-    private DokitExtension dokitExtension;
+    private DoKitExt dokitExtension;
 
     private AppExtension appExtension;
     private int level;
@@ -36,7 +37,7 @@ public class DokitMethodStackWeaver extends BaseWeaver {
         if (extension == null) {
             return;
         }
-        this.dokitExtension = (DokitExtension) extension;
+        this.dokitExtension = (DoKitExt) extension;
     }
 
     /**
@@ -47,9 +48,9 @@ public class DokitMethodStackWeaver extends BaseWeaver {
      */
     @Override
     protected ClassVisitor wrapClassWriter(ClassWriter classWriter) {
-        boolean isOpen = DokitExtUtil.getInstance().dokitPluginSwitchOpen() &&
-                DokitExtUtil.getInstance().getSlowMethodConfig().methodSwitch &&
-                DokitExtUtil.getInstance().getSlowMethodConfig().strategy == STRATEGY_STACK;
+        boolean isOpen = DoKitExtUtil.getInstance().dokitPluginSwitchOpen() &&
+                DoKitExtUtil.getInstance().getSlowMethodExt().methodSwitch &&
+                DoKitExtUtil.getInstance().getSlowMethodExt().strategy == STRATEGY_STACK;
 
         if (isOpen) {
             return new DokitMethodStackClassAdapter(classWriter, level);

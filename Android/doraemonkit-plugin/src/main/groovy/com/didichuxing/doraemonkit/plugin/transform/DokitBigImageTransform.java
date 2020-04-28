@@ -5,9 +5,8 @@ import com.android.build.api.transform.TransformException;
 import com.android.build.api.transform.TransformInput;
 import com.android.build.api.transform.TransformOutputProvider;
 import com.android.build.gradle.AppExtension;
-import com.didichuxing.doraemonkit.plugin.DokitExtension;
+import com.didichuxing.doraemonkit.plugin.extension.DoKitExt;
 import com.didichuxing.doraemonkit.plugin.weaver.DokitBigImageWeaver;
-import com.didichuxing.doraemonkit.plugin.weaver.DokitSlowMethodWeaver;
 import com.quinn.hunter.transform.HunterTransform;
 import com.quinn.hunter.transform.RunVariant;
 
@@ -27,7 +26,7 @@ import java.util.Collection;
  */
 public class DokitBigImageTransform extends HunterTransform {
 
-    private DokitExtension dokitExtension;
+    private DoKitExt dokitExtension;
     private String extensionName = "dokitExt";
     private AppExtension appExtension;
 
@@ -37,7 +36,7 @@ public class DokitBigImageTransform extends HunterTransform {
             this.appExtension = (AppExtension) project.getProperties().get("android");
             //创建自动的代码
             this.bytecodeWeaver = new DokitBigImageWeaver(appExtension);
-            this.dokitExtension = (DokitExtension) project.getExtensions().getByName(extensionName);
+            this.dokitExtension = (DoKitExt) project.getExtensions().getByName(extensionName);
             this.bytecodeWeaver.setExtension(dokitExtension);
         } catch (Exception e) {
             e.printStackTrace();
