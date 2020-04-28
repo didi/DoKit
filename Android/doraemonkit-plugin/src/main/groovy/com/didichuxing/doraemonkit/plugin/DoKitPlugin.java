@@ -34,6 +34,7 @@ import javax.xml.parsers.SAXParserFactory;
  * ，然后按debug按钮，接着执行task debug便会生效
  */
 public final class DoKitPlugin implements Plugin<Project> {
+    private boolean isDebug = true;
 
     @SuppressWarnings("NullableProblems")
     @Override
@@ -48,6 +49,7 @@ public final class DoKitPlugin implements Plugin<Project> {
         //如果task包含release 则不进行字节码替换
         for (String taskName : taskNames) {
             if (taskName.contains("Release")) {
+                isDebug = false;
                 return;
             }
         }
@@ -78,14 +80,13 @@ public final class DoKitPlugin implements Plugin<Project> {
         //项目评估之后回调
         project.afterEvaluate(partProject -> {
             try {
-                DoKitExt dokitExtension = partProject.getExtensions().getByType(DoKitExt.class);
-                System.out.println("DokitPluginExt==>" + dokitExtension.toString());
-                DoKitExtUtil.getInstance().init(dokitExtension, appExtension);
-//                MethodStackNodeUtil.firstMethodStackNodes.clear();
-//                MethodStackNodeUtil.secondMethodStackNodes.clear();
-//                MethodStackNodeUtil.thirdMethodStackNodes.clear();
-//                MethodStackNodeUtil.fourthlyMethodStackNodes.clear();
-//                MethodStackNodeUtil.fifthMethodStackNodes.clear();
+                if(isDebug){
+                    DoKitExt dokitExtension = partProject.getExtensions().getByType(DoKitExt.class);
+                    System.out.println("DokitPluginExt==>" + dokitExtension.toString());
+                    DoKitExtUtil.getInstance().init(dokitExtension, appExtension);
+                }
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

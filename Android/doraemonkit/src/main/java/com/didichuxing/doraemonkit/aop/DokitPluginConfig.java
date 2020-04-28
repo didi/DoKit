@@ -35,7 +35,7 @@ public class DokitPluginConfig {
      * 注入插件配置 动态注入到DoraemonKitReal#pluginConfig方法中
      */
     public static void inject(Map config) {
-        LogHelper.i(TAG, "map====>" + config);
+        //LogHelper.i(TAG, "map====>" + config);
         SWITCH_DOKIT_PLUGIN = (boolean) config.get("dokitPluginSwitch");
         SWITCH_METHOD = (boolean) config.get("methodSwitch");
         SWITCH_BIG_IMG = (boolean) config.get("bigImgSwitch");

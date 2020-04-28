@@ -138,11 +138,10 @@ class DoraemonKitReal {
         initAndroidUtil(app);
         //判断进程名
         if (!ProcessUtils.isMainProcess()) {
-            Log.i(TAG, "======isNotMainProcess===");
+            //Log.i(TAG, "======isNotMainProcess===");
             return;
         }
-        Log.i(TAG, "======isMainProcess===");
-
+        //Log.i(TAG, "======isMainProcess===");
 
         String strDokitMode = SharedPrefsUtil.getString(SharedPrefsKey.FLOAT_START_MODE, "normal");
         if (strDokitMode.equals("normal")) {

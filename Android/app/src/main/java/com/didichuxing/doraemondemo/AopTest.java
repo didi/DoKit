@@ -1,13 +1,5 @@
 package com.didichuxing.doraemondemo;
 
-import android.util.Log;
-
-import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
-import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil;
-
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -28,7 +20,7 @@ public class AopTest {
 
 
     public void AopTest() {
-        MethodStackUtil.getInstance().recodeObjectMethodCostStart(500, 0, "AopTest", "AopTest", "desc", this);
+
     }
 
 

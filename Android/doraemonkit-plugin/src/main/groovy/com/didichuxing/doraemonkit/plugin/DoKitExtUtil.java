@@ -66,7 +66,7 @@ public class DoKitExtUtil {
             this.slowMethodExt.strategy = dokitExtension.slowMethod.strategy;
             this.slowMethodExt.methodSwitch = dokitExtension.slowMethod.methodSwitch;
             /**
-             * ============慢函数普通策略的配置==========
+             * ============慢函数普通策略的配置 start==========
              */
             this.slowMethodExt.normalMethod.thresholdTime = dokitExtension.slowMethod.normalMethod.thresholdTime;
             //设置慢函数普通策略插装包名
@@ -86,28 +86,28 @@ public class DoKitExtUtil {
                 this.slowMethodExt.normalMethod.methodBlacklist.add(blackStr.replaceAll("\\.", "/"));
             }
             /**
-             * ============慢函数普通策略的配置==========
+             * ============慢函数普通策略的配置end==========
              */
 
             /**
-             * ============慢函数stack策略的配置==========
+             * ============慢函数stack策略的配置 start==========
              */
             this.slowMethodExt.stackMethod.thresholdTime = dokitExtension.slowMethod.stackMethod.thresholdTime;
             this.slowMethodExt.stackMethod.enterMethods.clear();
+            //添加默认的入口函数
+            for (String application : applications) {
+                String attachBaseContextMethodName = application + "/attachBaseContext";
+                String onCreateMethodName = application + "/onCreate";
+                this.slowMethodExt.stackMethod.enterMethods.add(attachBaseContextMethodName);
+                this.slowMethodExt.stackMethod.enterMethods.add(onCreateMethodName);
+            }
+
             for (String methodName : dokitExtension.slowMethod.stackMethod.enterMethods) {
                 this.slowMethodExt.stackMethod.enterMethods.add(methodName.replaceAll("\\.", "/"));
             }
-            //添加默认的入口函数
-            if (this.slowMethodExt.normalMethod.packageNames.isEmpty()) {
-                for (String application : applications) {
-                    String attachBaseContextMethodName = application + "/attachBaseContext";
-                    String onCreateMethodName = application + "/onCreate";
-                    this.slowMethodExt.stackMethod.enterMethods.add(attachBaseContextMethodName);
-                    this.slowMethodExt.stackMethod.enterMethods.add(onCreateMethodName);
-                }
-            }
+
             /**
-             * ============慢函数stack策略的配置==========
+             * ============慢函数stack策略的配置  end==========
              */
         }
     }
