@@ -52,7 +52,7 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
     }
 #endif
     NSMutableArray *dataArray = [[DoraemonCacheManager sharedInstance] kitShowManagerData];
-    if (!dataArray) {
+    if (ARRAY_IS_NULL(dataArray)) {
         dataArray = [DoraemonManager shareInstance].dataArray;
     }
     _dataArray = dataArray;
