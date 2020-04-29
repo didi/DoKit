@@ -176,6 +176,7 @@
     <string name="dk_view_check_info_fragment">可见Fragments：%1$s</string>
 
     <string name="dk_back">返回</string>
+    <string name="dk_export">导出</string>
 
     <string name="dk_net_monitor_title_summary">流量监控摘要</string>
     <string name="dk_net_monitor_list">流量监控列表</string>
@@ -241,6 +242,7 @@
     <string name="dk_item_time_counter_switch">Activity跳转耗时</string>
     <string name="dk_item_time_goto_list">查看记录</string>
     <string name="dk_kit_block_time_counter_list">耗时列表</string>
+    <string name="dk_kit_block_time_app_start_info">启动详情</string>
 
     <string name="dk_submit">提交</string>
     <string name="dk_cancel">取消</string>

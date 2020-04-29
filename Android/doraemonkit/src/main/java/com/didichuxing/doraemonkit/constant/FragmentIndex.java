@@ -53,4 +53,9 @@ public interface FragmentIndex {
      * 健康体检
      */
     int FRAGMENT_HEALTH = 27;
+
+    /**
+     * APP启动耗时
+     */
+    int FRAGMENT_APP_START = 28;
 }

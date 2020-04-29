@@ -1,9 +1,7 @@
 package com.didichuxing.doraemonkit.plugin;
 
 import com.android.build.gradle.AppExtension;
-import com.didichuxing.doraemonkit.plugin.extension.CommExt;
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExt;
-import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt;
 import com.didichuxing.doraemonkit.plugin.transform.DokitBigImageTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitCommTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitMethodStack0Transform;
@@ -16,7 +14,6 @@ import com.didichuxing.doraemonkit.plugin.transform.DokitUrlConnectionTransform;
 import com.didiglobal.booster.gradle.BaseVariantKt;
 import com.didiglobal.booster.gradle.VariantScopeKt;
 
-import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
@@ -54,6 +51,8 @@ public final class DoKitPlugin implements Plugin<Project> {
             }
         }
 
+        isDebug = true;
+
         //解析注册表文件
         appExtension.getApplicationVariants().all(applicationVariant -> {
             if (applicationVariant.getName().contains("debug")) {
@@ -80,7 +79,7 @@ public final class DoKitPlugin implements Plugin<Project> {
         //项目评估之后回调
         project.afterEvaluate(partProject -> {
             try {
-                if(isDebug){
+                if (isDebug) {
                     DoKitExt dokitExtension = partProject.getExtensions().getByType(DoKitExt.class);
                     System.out.println("DokitPluginExt==>" + dokitExtension.toString());
                     DoKitExtUtil.getInstance().init(dokitExtension, appExtension);

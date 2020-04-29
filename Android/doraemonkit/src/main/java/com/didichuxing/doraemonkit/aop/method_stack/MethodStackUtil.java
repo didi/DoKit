@@ -26,11 +26,11 @@ public class MethodStackUtil {
     /**
      * key className&methodName
      */
-    private static ConcurrentHashMap<String, MethodInvokNode> ROOT_METHOD_STACKS = new ConcurrentHashMap<>();
-    private static ConcurrentHashMap<String, MethodInvokNode> LEVEL1_METHOD_STACKS = new ConcurrentHashMap<>();
-    private static ConcurrentHashMap<String, MethodInvokNode> LEVEL2_METHOD_STACKS = new ConcurrentHashMap<>();
-    private static ConcurrentHashMap<String, MethodInvokNode> LEVEL3_METHOD_STACKS = new ConcurrentHashMap<>();
-    private static ConcurrentHashMap<String, MethodInvokNode> LEVEL4_METHOD_STACKS = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, MethodInvokNode> ROOT_METHOD_STACKS = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, MethodInvokNode> LEVEL1_METHOD_STACKS = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, MethodInvokNode> LEVEL2_METHOD_STACKS = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, MethodInvokNode> LEVEL3_METHOD_STACKS = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, MethodInvokNode> LEVEL4_METHOD_STACKS = new ConcurrentHashMap<>();
 
 
     /**
@@ -125,7 +125,6 @@ public class MethodStackUtil {
 
                 //打印函数调用栈
                 if (level == 0) {
-
                     if (methodInvokNode != null) {
                         toStack(classObj instanceof Application, methodInvokNode);
                     }
@@ -138,8 +137,11 @@ public class MethodStackUtil {
                             TimeCounterManager.get().onAppAttachBaseContextEnd();
                         }
                     }
-                }
 
+                    //移除对象
+                    ROOT_METHOD_STACKS.remove(className + "&" + methodName);
+
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
