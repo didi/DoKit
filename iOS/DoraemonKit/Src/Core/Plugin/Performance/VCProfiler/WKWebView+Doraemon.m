@@ -16,10 +16,11 @@
     [self doraemon_swizzleInstanceMethodWithOriginSel:@selector(loadRequest:) swizzledSel:@selector(doraemon_loadRequest:)];
 }
 
-- (void)doraemon_loadRequest:(NSURLRequest *)request{
-    [self doraemon_loadRequest:request];
+- (WKNavigation *)doraemon_loadRequest:(NSURLRequest *)request{
+    WKNavigation *navigation = [self doraemon_loadRequest:request];
     NSString *urlString = request.URL.absoluteString;
     [[DoraemonHealthManager sharedInstance] openH5Page:urlString];
+    return navigation;
 }
 
 @end
