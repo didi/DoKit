@@ -6,8 +6,8 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.AlignRulerConfig;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.ui.base.DokitIntent;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.DokitIntent;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 
 /**
  * Created by wanglikun on 2018/9/19.
@@ -46,12 +46,12 @@ public class AlignRulerKit extends AbstractKit {
         DokitViewManager.getInstance().attach(pageIntent);
 
 
-        AlignRulerConfig.setAlignRulerOpen(context, true);
+        AlignRulerConfig.setAlignRulerOpen(true);
     }
 
     @Override
     public void onAppInit(Context context) {
-        AlignRulerConfig.setAlignRulerOpen(context, false);
+        AlignRulerConfig.setAlignRulerOpen(false);
     }
 
     @Override

@@ -18,11 +18,10 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
-import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
-import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
-import com.didichuxing.doraemonkit.ui.layoutborder.ScalpelFrameLayout;
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
+import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
+import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.UIUtils;
@@ -82,7 +81,7 @@ public class LayoutLevelDokitView extends AbsDokitView {
 
         if (appContentView.toString().contains("SwipeBackLayout")) {
             LogHelper.i(TAG, "普通模式下布局层级功能暂不支持以SwipeBackLayout为根布局,请改用系统模式");
-            ToastUtils.showShort("普通模式下布局层级功能暂不支持以SwipeBackLayout为根布局");
+            ToastUtils.showLong("普通模式下布局层级功能暂不支持以SwipeBackLayout为根布局");
             return;
         }
 

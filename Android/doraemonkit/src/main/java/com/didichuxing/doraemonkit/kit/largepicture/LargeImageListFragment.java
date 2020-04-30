@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.largepicture;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -11,9 +12,9 @@ import android.view.View;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration;
+import com.didichuxing.doraemonkit.widget.titlebar.TitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,8 +68,8 @@ public class LargeImageListFragment extends BaseFragment {
         });
     }
 
-    private double fileThreshold = PerformanceSpInfoConfig.getLargeImgFileThreshold(DoraemonKit.APPLICATION, LargePictureManager.FILE_DEFAULT_THRESHOLD);
-    private double memoryThreshold = PerformanceSpInfoConfig.getLargeImgMemoryThreshold(DoraemonKit.APPLICATION, LargePictureManager.MEMORY_DEFAULT_THRESHOLD);
+    private double fileThreshold = PerformanceSpInfoConfig.getLargeImgFileThreshold(LargePictureManager.FILE_DEFAULT_THRESHOLD);
+    private double memoryThreshold = PerformanceSpInfoConfig.getLargeImgMemoryThreshold(LargePictureManager.MEMORY_DEFAULT_THRESHOLD);
 
 
     private void load() {

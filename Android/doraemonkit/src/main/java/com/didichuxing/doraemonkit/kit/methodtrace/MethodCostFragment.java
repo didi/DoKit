@@ -3,15 +3,14 @@ package com.didichuxing.doraemonkit.kit.methodtrace;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import android.text.Html;
+
 import android.view.View;
-import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
-import com.didichuxing.doraemonkit.ui.widget.webview.MyWebView;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.widget.webview.MyWebView;
 
 /**
  * @author jintai

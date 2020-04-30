@@ -30,7 +30,14 @@ public class DokitExtension {
      */
     public int thresholdTime = 500;
 
+    /**
+     * 插桩代码包名
+     */
     public List<String> packageNames = new ArrayList<>();
+    /**
+     * 慢函数黑名单
+     */
+    public List<String> methodBlacklist = new ArrayList<>();
 
 
     @Override
@@ -43,6 +50,7 @@ public class DokitExtension {
                 ", bigImgSwitch=" + bigImgSwitch +
                 ", thresholdTime=" + thresholdTime +
                 ", packageNames=" + packageNames +
+                ", blacklist=" + methodBlacklist +
                 '}';
     }
 }

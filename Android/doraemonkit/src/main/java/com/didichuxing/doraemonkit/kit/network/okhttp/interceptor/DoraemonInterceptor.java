@@ -18,6 +18,8 @@ import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorRequest;
 import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorResponse;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -36,6 +38,7 @@ public class DoraemonInterceptor implements Interceptor {
 
     private final NetworkInterpreter mNetworkInterpreter = NetworkInterpreter.get();
 
+    @NotNull
     @Override
     public Response intercept(Chain chain) throws IOException {
         if (!NetworkManager.isActive()) {
@@ -44,7 +47,17 @@ public class DoraemonInterceptor implements Interceptor {
         }
 
         Request request = chain.request();
-        Response response = chain.proceed(request);
+        Response response = null;
+        try {
+            response = chain.proceed(request);
+        } catch (Exception e) {
+            ResponseBody responseBody = ResponseBody.create(response.body().contentType(), "");
+            return new Response.Builder()
+                    .code(400)
+                    .message(String.format("%s==>Exception:%s", chain.request().url().host(), e.getMessage()))
+                    .body(responseBody)
+                    .build();
+        }
 
         String strContentType = response.header("Content-Type");
         //如果是图片则不进行拦截
@@ -64,6 +77,7 @@ public class DoraemonInterceptor implements Interceptor {
                 new OkHttpInspectorRequest(requestId, request, requestBodyHelper);
         NetworkRecord record = mNetworkInterpreter.createRecord(requestId, inspectorRequest);
         try {
+            response.close();
             response = chain.proceed(request);
         } catch (IOException e) {
             mNetworkInterpreter.httpExchangeFailed(requestId, e.toString());

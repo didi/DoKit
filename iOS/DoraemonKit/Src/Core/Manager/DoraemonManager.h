@@ -111,6 +111,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 @property (nonatomic, copy) NSString *pId; //产品id 平台端的工具必须填写
 
+@property (nonatomic, assign) BOOL autoDock; //dokit entry icon support autoDock，deffault yes
+
 - (void)install;
 //带有平台端功能的s初始化方式
 - (void)installWithPid:(NSString *)pId;
@@ -153,6 +155,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 @property (nonatomic, copy) NSString *startClass; //如果你的启动代理不是默认的AppDelegate,需要传入才能获取正确的启动时间
 
 @property (nonatomic, copy) NSArray *vcProfilerBlackList;//使用vcProfiler的使用，兼容一些异常情况，比如issue416
+
+@property (nonatomic, strong) NSMutableDictionary *keyBlockDic;//保存key和block的关系
 
 @end
 NS_ASSUME_NONNULL_END

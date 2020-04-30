@@ -2,7 +2,6 @@ package com.didichuxing.foundation.net.rpc.http;
 
 import com.didichuxing.doraemonkit.kit.network.rpc.RpcMockInterceptor;
 import com.didichuxing.doraemonkit.kit.network.rpc.RpcMonitorInterceptor;
-import com.didichuxing.foundation.rpc.RpcInterceptor;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -18,19 +18,16 @@ public class GlobalConfig {
     /**
      * 设置健康体检
      *
-     * @param context
      * @param isRunning
      */
-    public static void setAppHealth(Context context, boolean isRunning) {
-        SharedPrefsUtil.putBoolean(context, SharedPrefsKey.APP_HEALTH, isRunning);
+    public static void setAppHealth(boolean isRunning) {
+        SharedPrefsUtil.putBoolean(SharedPrefsKey.APP_HEALTH, isRunning);
     }
 
     /**
      * 获得app 健康体检功能的本地状态
-     *
-     * @param context
      */
-    public static boolean getAppHealth(Context context) {
-        return SharedPrefsUtil.getBoolean(context, SharedPrefsKey.APP_HEALTH, false);
+    public static boolean getAppHealth() {
+        return SharedPrefsUtil.getBoolean(SharedPrefsKey.APP_HEALTH, false);
     }
 }

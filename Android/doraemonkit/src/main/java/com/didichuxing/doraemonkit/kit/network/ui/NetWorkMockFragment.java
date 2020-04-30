@@ -19,8 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.didichuxing.doraemonkit.view.bravh.listener.OnLoadMoreListener;
-import com.didichuxing.doraemonkit.view.bravh.module.BaseLoadMoreModule;
+import com.didichuxing.doraemonkit.widget.bravh.listener.OnLoadMoreListener;
+import com.didichuxing.doraemonkit.widget.bravh.module.BaseLoadMoreModule;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
@@ -33,13 +33,13 @@ import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
 import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
 import com.didichuxing.doraemonkit.okgo.model.Response;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.util.DokitUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
-import com.didichuxing.doraemonkit.view.DkDropDownMenu;
-import com.didichuxing.doraemonkit.view.easyrefresh.EasyRefreshLayout;
-import com.didichuxing.doraemonkit.view.easyrefresh.LoadModel;
+import com.didichuxing.doraemonkit.widget.DkDropDownMenu;
+import com.didichuxing.doraemonkit.widget.easyrefresh.EasyRefreshLayout;
+import com.didichuxing.doraemonkit.widget.easyrefresh.LoadModel;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -629,9 +629,19 @@ public class NetWorkMockFragment extends BaseFragment {
         ArrayList<MockInterceptTitleBean> mockInterceptTitleBeans = new ArrayList<>();
         for (int index = 0; index < lists.size(); index++) {
             MockApiResponseBean.DataBean.DatalistBean datalistBean = lists.get(index);
-            JSONObject paramsJsonObject = null;
-            if (jsonArray != null) {
-                paramsJsonObject = jsonArray.getJSONObject(index).getJSONObject("query");
+            JSONObject queryJsonObject;
+            JSONObject bodyJsonObject;
+            JSONObject mockJsonObject = jsonArray.getJSONObject(index);
+            if (mockJsonObject.has("query")) {
+                queryJsonObject = mockJsonObject.getJSONObject("query");
+            } else {
+                queryJsonObject = new JSONObject();
+            }
+
+            if (mockJsonObject.has("body")) {
+                bodyJsonObject = mockJsonObject.getJSONObject("body");
+            } else {
+                bodyJsonObject = new JSONObject();
             }
 
             String modifyName = "null";
@@ -640,7 +650,11 @@ public class NetWorkMockFragment extends BaseFragment {
             }
             //新建 intercept
             List<MockInterceptApiBean> mockInterceptApiBeans = new ArrayList<>();
-            mockInterceptApiBeans.add(new MockInterceptApiBean(datalistBean.get_id(), datalistBean.getName(), datalistBean.getPath(), datalistBean.getMethod(), datalistBean.getFormatType(), paramsJsonObject == null ? " " : paramsJsonObject.toString(), datalistBean.getCategoryName(), datalistBean.getOwner().getName(), modifyName, datalistBean.getSceneList()));
+            mockInterceptApiBeans.add(new MockInterceptApiBean(datalistBean.get_id(), datalistBean.getName(), datalistBean.getPath()
+                    , datalistBean.getMethod(), datalistBean.getFormatType(),
+                    queryJsonObject.toString(), bodyJsonObject.toString(),
+                    datalistBean.getCategoryName(), datalistBean.getOwner().getName(),
+                    modifyName, datalistBean.getSceneList()));
             MockInterceptTitleBean mockInterceptTitleBean = new MockInterceptTitleBean(datalistBean.getName(), mockInterceptApiBeans);
             mockInterceptTitleBeans.add(mockInterceptTitleBean);
 
@@ -665,19 +679,32 @@ public class NetWorkMockFragment extends BaseFragment {
         ArrayList<MockTemplateTitleBean> mockTemplateTitleBeans = new ArrayList<>();
         for (int index = 0; index < lists.size(); index++) {
             MockApiResponseBean.DataBean.DatalistBean datalistBean = lists.get(index);
-            JSONObject paramsJsonObject = null;
-            if (jsonArray != null) {
-                paramsJsonObject = jsonArray.getJSONObject(index).getJSONObject("query");
+            JSONObject queryJsonObject;
+            JSONObject bodyJsonObject;
+            JSONObject mockJsonObject = jsonArray.getJSONObject(index);
+            if (mockJsonObject.has("query")) {
+                queryJsonObject = mockJsonObject.getJSONObject("query");
+            } else {
+                queryJsonObject = new JSONObject();
+            }
+
+            if (mockJsonObject.has("body")) {
+                bodyJsonObject = mockJsonObject.getJSONObject("body");
+            } else {
+                bodyJsonObject = new JSONObject();
             }
 
             String modifyName = "null";
             if (datalistBean.getCurStatus() != null && datalistBean.getCurStatus().getOperator() != null) {
                 modifyName = datalistBean.getCurStatus().getOperator().getName();
             }
-
             //新建 template
             List<MockTemplateApiBean> mockTemplateApiBeans = new ArrayList<>();
-            mockTemplateApiBeans.add(new MockTemplateApiBean(datalistBean.get_id(), datalistBean.getName(), datalistBean.getPath(), datalistBean.getMethod(), datalistBean.getFormatType(), paramsJsonObject == null ? " " : paramsJsonObject.toString(), datalistBean.getCategoryName(), datalistBean.getOwner().getName(), modifyName, datalistBean.getProjectId()));
+            mockTemplateApiBeans.add(new MockTemplateApiBean(datalistBean.get_id(), datalistBean.getName(),
+                    datalistBean.getPath(), datalistBean.getMethod(),
+                    datalistBean.getFormatType(), queryJsonObject.toString(),
+                    bodyJsonObject.toString(), datalistBean.getCategoryName(), datalistBean.getOwner().getName(),
+                    modifyName, datalistBean.getProjectId()));
             MockTemplateTitleBean mockTemplateTitleBean = new MockTemplateTitleBean(datalistBean.getName(), mockTemplateApiBeans);
             mockTemplateTitleBeans.add(mockTemplateTitleBean);
         }

@@ -10,7 +10,7 @@ import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.CrashCaptureConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockMonitorManager;
-import com.didichuxing.doraemonkit.kit.common.PerformanceDataManager;
+import com.didichuxing.doraemonkit.kit.performance.PerformanceDataManager;
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureManager;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
@@ -363,7 +363,7 @@ public class AppHealthInfoUtil {
         //卡顿
         BlockMonitorManager.getInstance().start();
         //crash 开关
-        CrashCaptureConfig.setCrashCaptureOpen(DoraemonKit.APPLICATION, true);
+        CrashCaptureConfig.setCrashCaptureOpen(true);
         CrashCaptureManager.getInstance().start();
     }
 
@@ -382,7 +382,7 @@ public class AppHealthInfoUtil {
         //卡顿
         BlockMonitorManager.getInstance().stop();
         //crash 开关
-        CrashCaptureConfig.setCrashCaptureOpen(DoraemonKit.APPLICATION, false);
+        CrashCaptureConfig.setCrashCaptureOpen(false);
         CrashCaptureManager.getInstance().stop();
 
     }

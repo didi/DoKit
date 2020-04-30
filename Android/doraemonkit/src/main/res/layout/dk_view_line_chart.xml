@@ -20,7 +20,7 @@
         android:layout_marginBottom="10dp"
         android:background="@color/dk_color_33999999" />
 
-    <com.didichuxing.doraemonkit.ui.realtime.widget.CardiogramView
+    <com.didichuxing.doraemonkit.kit.performance.widget.CardiogramView
         android:id="@+id/line_chart_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -224,7 +224,7 @@
 
 
 - (void)shareFileWithPath:(NSString *)filePath {
-    [DoraemonUtil shareFileWithPath:filePath formVC:self];
+    [DoraemonUtil shareURL:[NSURL fileURLWithPath:filePath] formVC:self];
 }
 
 - (void)deleteByDoraemonSandboxModel:(DoraemonSandboxModel *)model {

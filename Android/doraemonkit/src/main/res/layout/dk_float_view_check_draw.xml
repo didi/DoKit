@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.didichuxing.doraemonkit.ui.viewcheck.LayoutBorderView
+    <com.didichuxing.doraemonkit.kit.viewcheck.LayoutBorderView
         android:id="@+id/rect_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

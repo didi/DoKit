@@ -13,9 +13,9 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
 import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockMonitorManager;
 import com.didichuxing.doraemonkit.kit.blockmonitor.core.OnBlockInfoUpdateListener;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.DividerItemDecoration;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration;
+import com.didichuxing.doraemonkit.widget.titlebar.TitleBar;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.ArrayList;

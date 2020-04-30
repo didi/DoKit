@@ -224,9 +224,9 @@
     session.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json",@"text/javascript",@"text/html", nil];
     [session GET:@"https://www.taobao.com/" parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        NSLog(@"请求成功 %@",string);
+        NSLog(@"success %@",string);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"请求失败");
+        NSLog(@"failure");
     }];
     
     //    [session POST:@"http://172.23.160.242:8080/YxReactServerDemo/message/getAllMessage" parameters:@{@"name":@"yixiang1"} success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -251,34 +251,34 @@
     
     [manager POST:@"https://www.taobao.com/" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        NSLog(@"请求成功 %@",string);
+        NSLog(@"success %@",string);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"请求失败");
+        NSLog(@"failure");
     }];
 }
 
 #pragma mark -- NSURLConnectionDataDelegate
 //1.当接受到服务器响应的时候会调用:response(响应头)
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response{
-    NSLog(@"接受到相应");
+    NSLog(@"receive response");
 }
 
 //2.当接受到服务器返回数据的时候调用(会调用多次)
 -(void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data{
     //
-    NSLog(@"接受到数据");
+    NSLog(@"receive data");
     //拼接数据
     [self.fileData appendData:data];
 }
 
 //3.当请求失败的时候调用
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-    NSLog(@"请求失败");
+    NSLog(@"fail with error");
 }
 
 //4.当请求结束(成功|失败)的时候调用
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection{
-    NSLog(@"请求结束");
+    NSLog(@"connection did finish loading");
     //解析数据
     NSString *json = [[NSString alloc]initWithData:self.fileData encoding:NSUTF8StringEncoding];
     NSLog(@"%@",json);
@@ -306,7 +306,7 @@
 }
 
 - (void)mockTest {
-    [DoraemonNetworkUtil getWithUrlString:@"http://172.23.162.150:8080/gateway?api=dj.home" params:nil success:^(NSDictionary * _Nonnull result) {
+    [DoraemonNetworkUtil getWithUrlString:@"http://172.23.162.150:8080/api/topics/hot.json?name=yi" params:nil success:^(NSDictionary * _Nonnull result) {
         NSLog(@"result == %@",result);
     } error:^(NSError * _Nonnull error) {
         NSLog(@"error == %@",error);
@@ -314,7 +314,7 @@
 }
 
 - (void)mockTest2 {
-    [DoraemonNetworkUtil getWithUrlString:@"http://172.23.162.150:8080/gateway?api=dj.map" params:nil success:^(NSDictionary * _Nonnull result) {
+    [DoraemonNetworkUtil postWithUrlString:@"http://172.23.162.150:8080/api/topics/hot.json" params:@{@"bodyTitle":@"bodyName"} success:^(NSDictionary * _Nonnull result) {
         NSLog(@"result == %@",result);
     } error:^(NSError * _Nonnull error) {
         NSLog(@"error == %@",error);

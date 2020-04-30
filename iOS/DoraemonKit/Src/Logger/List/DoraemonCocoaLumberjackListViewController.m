@@ -72,22 +72,7 @@
         [log appendString:@"\n"];
     }
     
-    NSString *cachesDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *anrDir = [cachesDir stringByAppendingPathComponent:@"DoraemonLumberjackLog"];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isDir = NO;
-    BOOL existed = [fileManager fileExistsAtPath:anrDir isDirectory:&isDir];
-    if(!(isDir && existed)){
-        [fileManager createDirectoryAtPath:anrDir withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-    NSString *path = [anrDir stringByAppendingPathComponent:@"LumberjackLog.txt"];
-    NSString *text = log;
-    BOOL writeSuccess = [text writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    if (writeSuccess) {
-        [DoraemonUtil shareFileWithPath:path formVC:self];
-    }
-    
-    
+    [DoraemonUtil shareText:log formVC:self];
 }
 
 #pragma mark - UITableView Delegate

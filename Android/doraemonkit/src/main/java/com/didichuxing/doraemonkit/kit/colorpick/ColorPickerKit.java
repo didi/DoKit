@@ -9,7 +9,7 @@ import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.ui.TranslucentActivity;
+import com.didichuxing.doraemonkit.kit.core.TranslucentActivity;
 
 /**
  * Created by wanglikun on 2018/9/13.
@@ -44,7 +44,7 @@ public class ColorPickerKit extends AbstractKit {
 
     @Override
     public void onAppInit(Context context) {
-        ColorPickConfig.setColorPickOpen(context, false);
+        ColorPickConfig.setColorPickOpen(false);
     }
 
     @Override

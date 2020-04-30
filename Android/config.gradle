@@ -15,14 +15,14 @@ ext {
                minSdkVersion             : 16,
                targetSdkVersion          : 29,
                //app版本号
-               versionCode               : 312,
+               versionCode               : 314,
                //dokit 插件版本号
-               pluginVersionName         : "3.1.2",
+               pluginVersionName         : "3.1.4",
                //jcenter dokit版本号 打包上传时 dokit的版本名字
-               jcenterArchivesVersionName: "3.1.2",
+               jcenterArchivesVersionName: "3.1.4",
                //didi内部仓库版本号
                didiArchivesVersionName   : "1000.0.22",
-               versionName               : "3.1.2",
+               versionName               : "3.1.4",
                glide_version             : "4.9.0",
                kotlin_version            : "1.3.61"
     ]
@@ -41,13 +41,16 @@ ext {
                     "guava"                   : "com.google.guava:guava:27.1-android",
                     //表格
                     //"SmartTable"                    : 'com.github.huangyanbin:SmartTable:2.2.0',
+                    "retrofit2"               : "com.squareup.retrofit2:retrofit:2.8.1",
+                    "retrofit2_rxjava2"       : "com.squareup.retrofit2:adapter-rxjava2:2.8.1",
+                    "retrofit2_gson"          : "com.squareup.retrofit2:converter-gson:2.8.1",
                     //暂时不支持3.14.0以上的okhttp版本
                     "okhttp"                  : "com.squareup.okhttp3:okhttp:3.12.1",
                     "okhttp_v2"               : "com.squareup.okhttp:okhttp:2.7.5",
                     //将urlconnection代理到okhttp
                     //"okhttp_urlconnection"    : "com.squareup.okhttp3:okhttp-urlconnection:3.12.1",
                     //"okio"                    : "com.squareup.okio:okio:1.15.0",
-                    "utilcode"                : 'com.blankj:utilcodex:1.27.5',
+                    "utilcode"                : 'com.blankj:utilcodex:1.28.0',
                     "glide"                   : "com.github.bumptech.glide:glide:${android["glide_version"]}",
                     "glide_v3"                : 'com.github.bumptech.glide:glide:3.8.0',
                     "glide_okhttp3"           : "com.github.bumptech.glide:okhttp3-integration:${android["glide_version"]}",
@@ -60,8 +63,7 @@ ext {
                     "gson"                    : 'com.google.code.gson:gson:2.8.2',
                     "zxing"                   : 'com.google.zxing:core:3.3.0',
                     "free_reflection"         : 'me.weishu:free_reflection:2.1.0',
-                    "leakcanary-android"      : 'com.squareup.leakcanary:leakcanary-android:1.6.3',
-                    "leakcanary-android-no-op": 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3',
+                    "leakcanary-android"      : 'com.squareup.leakcanary:leakcanary-android:2.2',
                     "haha"                    : 'com.squareup.haha:haha:2.0.4',
                     "debug-db"                : "com.amitshekhar.android:debug-db:1.0.6",
                     "debug-db-encrypt"        : "com.amitshekhar.android:debug-db-encrypt:1.0.6",

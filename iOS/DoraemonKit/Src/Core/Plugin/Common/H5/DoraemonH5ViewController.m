@@ -172,7 +172,7 @@
     if (self.dataSource.count > indexPath.row) {
         cell.textLabel.text = self.dataSource[indexPath.row];
     } else {
-        cell.textLabel.text = @"默认值";
+        cell.textLabel.text = @"default value";
     }
     cell.textLabel.textColor = [UIColor doraemon_colorWithHex:0x333333 andAlpha:1];
     cell.textLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(30)];

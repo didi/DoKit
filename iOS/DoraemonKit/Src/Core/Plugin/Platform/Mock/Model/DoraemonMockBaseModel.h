@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *name; //接口名称
 @property (nonatomic, copy) NSString *path; //path
 @property (nonatomic, copy) NSDictionary *query; //query
+@property (nonatomic, copy) NSDictionary *body; //body
 @property (nonatomic, copy) NSString *category; //分组
 @property (nonatomic, copy) NSString *owner;//创建者
 @property (nonatomic, copy) NSString *editor;//最新的一次修改人

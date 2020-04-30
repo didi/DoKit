@@ -3,8 +3,11 @@ package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor;
 
 import android.text.TextUtils;
 
+import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
@@ -19,6 +22,7 @@ public class LargePictureInterceptor implements Interceptor {
     public static final String TAG = "LargePictureInterceptor";
 
 
+    @NotNull
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
@@ -26,7 +30,9 @@ public class LargePictureInterceptor implements Interceptor {
         String contentType = response.header("Content-Type");
 
         if (InterceptorUtil.isImg(contentType)) {
-            processResponse(response);
+            if (PerformanceSpInfoConfig.isLargeImgOpen()) {
+                processResponse(response);
+            }
         }
         return response;
     }

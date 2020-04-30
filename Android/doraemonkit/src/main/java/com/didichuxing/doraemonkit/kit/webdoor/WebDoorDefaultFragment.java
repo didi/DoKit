@@ -8,7 +8,7 @@ import android.webkit.WebView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 
 /**
  * Created by wanglikun on 2019/4/4

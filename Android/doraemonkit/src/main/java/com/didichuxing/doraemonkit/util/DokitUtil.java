@@ -5,6 +5,11 @@ import androidx.annotation.StringRes;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
 
+import java.io.IOException;
+
+import okhttp3.RequestBody;
+import okio.Buffer;
+
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -18,5 +23,29 @@ public class DokitUtil {
 
     public static String getString(@StringRes int stringId) {
         return DoraemonKit.APPLICATION.getString(stringId);
+    }
+
+
+    public static String requestBodyToString(RequestBody requestBody) {
+        try {
+            Buffer buffer = new Buffer();
+            requestBody.writeTo(buffer);
+            return buffer.readUtf8();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    /**
+     * 字符串对转json
+     *
+     * @param param
+     * @return
+     */
+    public static String param2Json(String param) {
+        param = param.replaceAll("=", "\":\"");
+        param = param.replaceAll("&", "\",\"");
+        return "{\"" + param + "\"}";
     }
 }
