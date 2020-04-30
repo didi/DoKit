@@ -113,9 +113,9 @@
     sqlite3 *db = nil;
     int result = sqlite3_open(filename, &db);
     if(result == SQLITE_OK){
-        NSLog(@"打开数据库成功");
+        NSLog(@"open sqlite success");
     }else{
-        NSLog(@"打开数据库失败");
+        NSLog(@"open sqlite failure");
     }
     
     //2.创建表
@@ -123,15 +123,15 @@
     char *errmsg = NULL;
     result = sqlite3_exec(db, sql, NULL, NULL, &errmsg);
     if (result == SQLITE_OK) {
-        NSLog(@"创表成功");
+        NSLog(@"create table success");
     }else{
-        NSLog(@"创表失败----%s",errmsg);
+        NSLog(@"create table failure----%s",errmsg);
     }
     
     //插入数据
     for (int i=0; i<20; i++) {
         //1.拼接SQL语句
-        NSString *name=[NSString stringWithFormat:@"文晓--%d",arc4random_uniform(100)];
+        NSString *name=[NSString stringWithFormat:@"TestText--%d",arc4random_uniform(100)];
         int age=arc4random_uniform(20)+10;
         NSString *sql=[NSString stringWithFormat:@"INSERT INTO t_students (name,age) VALUES ('%@',%d);",name,age];
         
@@ -139,10 +139,10 @@
         char *errmsg=NULL;
         sqlite3_exec(db, sql.UTF8String, NULL, NULL, &errmsg);
         if (errmsg) {//如果有错误信息
-            NSLog(@"插入数据失败--%s",errmsg);
+            NSLog(@"insert failure--%s",errmsg);
         }else
         {
-            NSLog(@"插入数据成功");
+            NSLog(@"insert success");
         }
     }
 }
@@ -153,7 +153,7 @@
     NSBundle *bundle = [NSBundle mainBundle];
     NSString *path = [bundle pathForResource:name ofType:type];
     if(![fileManage fileExistsAtPath:path]){
-        NSLog(@"文件不存在");
+        NSLog(@"file not exist");
         return;
     }
     NSString *fromPath = path;
@@ -162,7 +162,7 @@
     NSString *toPath = [path_document stringByAppendingString:appendingString];
     if (![fileManage fileExistsAtPath:toPath]) {
         BOOL isSuccess = [fileManage copyItemAtPath:fromPath toPath:toPath error:nil];
-        NSLog(@"name=%@ %@",name,isSuccess ? @"拷贝成功" : @"拷贝失败");
+        NSLog(@"name=%@ %@",name,isSuccess ? @"copy success" : @"copy failure");
     }
 }
 

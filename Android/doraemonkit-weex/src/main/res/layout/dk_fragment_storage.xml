@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:background="@color/dk_color_FFFFFF">
 
-    <com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar
+    <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         app:dkIcon="@drawable/dk_close_icon_big"

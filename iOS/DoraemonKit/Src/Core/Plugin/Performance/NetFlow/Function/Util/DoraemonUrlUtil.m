@@ -26,6 +26,19 @@
     return jsonString;
 }
 
++ (NSDictionary *)convertDicFromData:(NSData *)data{
+    if (!data) {
+        return nil;
+    }
+    NSDictionary *jsonObj = nil;
+    
+    id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
+    if ([NSJSONSerialization isValidJSONObject:jsonObject]){
+        jsonObj = jsonObject;
+    }
+    return jsonObj;
+}
+
 + (NSUInteger)getRequestLength:(NSURLRequest *)request{
     NSDictionary<NSString *, NSString *> *headerFields = request.allHTTPHeaderFields;
     NSDictionary<NSString *, NSString *> *cookiesHeader = [self getCookies:request];

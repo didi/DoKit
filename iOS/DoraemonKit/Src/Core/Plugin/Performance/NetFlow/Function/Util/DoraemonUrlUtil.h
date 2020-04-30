@@ -11,6 +11,8 @@
 
 + (NSString *)convertJsonFromData:(NSData *)data;
 
++ (NSDictionary *)convertDicFromData:(NSData *)data;
+
 + (NSUInteger)getRequestLength:(NSURLRequest *)request;
 
 + (NSUInteger)getHeadersLength:(NSDictionary *)headers ;

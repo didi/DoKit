@@ -3,17 +3,22 @@ package com.didichuxing.doraemonkit.kit.network.rpc;
 
 import android.text.TextUtils;
 
+import com.blankj.utilcode.util.ConvertUtils;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
 import com.didichuxing.doraemonkit.kit.network.stream.InputStreamProxy;
+import com.didichuxing.doraemonkit.util.DokitUtil;
+import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.foundation.net.MimeType;
 import com.didichuxing.foundation.net.http.HttpEntity;
 import com.didichuxing.foundation.net.http.HttpMethod;
 import com.didichuxing.foundation.net.rpc.http.HttpRpcRequest;
 import com.didichuxing.foundation.net.rpc.http.HttpRpcResponse;
 import com.didichuxing.foundation.rpc.RpcInterceptor;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,7 +31,7 @@ import didihttp.HttpUrl;
 
 /**
  * @author: linjizong
- *  2019/3/6
+ * 2019/3/6
  * @desc: mock请求拦截器
  */
 public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRpcResponse> {
@@ -48,8 +53,12 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         String path = URLDecoder.decode(url.encodedPath(), "utf-8");
         //兼容滴滴内部外网映射环境  该环境的 path上会多一级/kop_xxx/路径
         String queries = url.query();
-        String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_INTERCEPT, DokitDbManager.FROM_SDK_DIDI);
-        String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, queries, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_DIDI);
+        String jsonQuery = transformQuery(queries);
+        String jsonRequestBody = transformRequestBody(oldRequest.getEntity());
+        LogHelper.i(TAG, "realJsonQuery===>" + jsonQuery);
+        LogHelper.i(TAG, "realJsonRequestBody===>" + jsonRequestBody);
+        String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_INTERCEPT, DokitDbManager.FROM_SDK_DIDI);
+        String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_DIDI);
 
         try {
             //是否命中拦截规则
@@ -65,6 +74,81 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
             return oldResponse;
         }
         return oldResponse;
+    }
+
+
+    public final static String MEDIA_TYPE_FORM = "application/x-www-form-urlencoded";
+    public final static String MEDIA_TYPE_JSON = "application/json";
+
+
+    /**
+     * 请求体非字符串类型标识
+     */
+    public static final String NOT_STRING_CONTENT_FLAG = "is not string content";
+
+    /**
+     * 将request query 转化成json字符串
+     *
+     * @return
+     */
+    private String transformQuery(String query) {
+        String json = "";
+        if (TextUtils.isEmpty(query)) {
+            return json;
+        }
+
+        try {
+            //query 类似 ccc=ccc&ddd=ddd
+            json = DokitUtil.param2Json(query);
+            //测试是否是json字符串
+            new JSONObject(json);
+        } catch (Exception e) {
+            //e.printStackTrace();
+            json = NOT_STRING_CONTENT_FLAG;
+            LogHelper.e(TAG, "===query json====>" + json);
+        }
+
+        return json;
+    }
+
+    /**
+     * 将request body 转化成json字符串
+     *
+     * @return
+     */
+    private String transformRequestBody(HttpEntity requestBody) {
+        //form :"application/x-www-form-urlencoded"
+        //json :"application/json;"
+        String json = "";
+        if (requestBody == null || requestBody.getContentType() == null) {
+            return json;
+        }
+
+        try {
+            String strBody = ConvertUtils.inputStream2String(requestBody.getContent(), "utf-8");
+            if (TextUtils.isEmpty(strBody)) {
+                return "";
+            }
+
+            if (requestBody.getContentType().toString().toLowerCase().contains(MEDIA_TYPE_FORM)) {
+                String form = ConvertUtils.inputStream2String(requestBody.getContent(), "utf-8");
+                //类似 ccc=ccc&ddd=ddd
+                json = DokitUtil.param2Json(form);
+            } else if (requestBody.getContentType().toString().toLowerCase().contains(MEDIA_TYPE_JSON)) {
+                //类似 {"ccc":"ccc","ddd":"ddd"}
+                json = ConvertUtils.inputStream2String(requestBody.getContent(), "utf-8");
+            } else {
+                json = NOT_STRING_CONTENT_FLAG;
+            }
+            //测试是否是json字符串
+            new JSONObject(json);
+        } catch (Exception e) {
+            //e.printStackTrace();
+            json = NOT_STRING_CONTENT_FLAG;
+            LogHelper.e(TAG, "===body json====>" + json);
+        }
+
+        return json;
     }
 
 
@@ -105,9 +189,11 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
 
         //LogHelper.i("MOCK_INTERCEPT", "name===>" + interceptApiBean.getMockApiName() + "  newUrl=====>" + newUrl);
 
-        HttpRpcRequest mockRequest = oldRequest.newBuilder()
+        HttpRpcRequest mockRequest = new HttpRpcRequest.Builder()
                 .setMethod(HttpMethod.GET, null)
                 .setUrl(newUrl).build();
+        //需要提前关闭数据流 不然在某些场景下会报错
+        oldResponse.close();
         HttpRpcResponse mockResponse = chain.proceed(mockRequest);
         if (mockResponse.isSuccessful()) {
             //判断新的response是否有数据
@@ -132,7 +218,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         if (TextUtils.isEmpty(templateMatchedId)) {
             return response;
         }
-        MockTemplateApiBean templateApiBean = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, templateMatchedId,DokitDbManager.FROM_SDK_DIDI);
+        MockTemplateApiBean templateApiBean = (MockTemplateApiBean) DokitDbManager.getInstance().getTemplateApiByIdInMap(path, templateMatchedId, DokitDbManager.FROM_SDK_DIDI);
         if (templateApiBean == null) {
             return response;
         }

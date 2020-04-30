@@ -8,7 +8,7 @@ import android.widget.FrameLayout;
 import com.didichuxing.doraemonkit.kit.loginfo.LogInfoDokitView;
 import com.didichuxing.doraemonkit.kit.loginfo.LogInfoManager;
 import com.didichuxing.doraemonkit.kit.loginfo.LogLine;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.weex.R;
 
 import java.util.ArrayList;

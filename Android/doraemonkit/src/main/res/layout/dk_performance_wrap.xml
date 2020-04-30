@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.didichuxing.doraemonkit.ui.realtime.widget.LineChart
+        <com.didichuxing.doraemonkit.kit.performance.widget.LineChart
             android:id="@+id/linechart0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.didichuxing.doraemonkit.ui.realtime.widget.LineChart
+        <com.didichuxing.doraemonkit.kit.performance.widget.LineChart
             android:id="@+id/linechart1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.didichuxing.doraemonkit.ui.realtime.widget.LineChart
+        <com.didichuxing.doraemonkit.kit.performance.widget.LineChart
             android:id="@+id/linechart2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.didichuxing.doraemonkit.ui.realtime.widget.LineChart
+        <com.didichuxing.doraemonkit.kit.performance.widget.LineChart
             android:id="@+id/linechart3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

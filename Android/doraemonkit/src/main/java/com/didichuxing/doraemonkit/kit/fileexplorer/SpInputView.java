@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.SpInputType;
-import com.didichuxing.doraemonkit.ui.widget.bottomview.BottomUpWindow;
-import com.didichuxing.doraemonkit.ui.widget.bottomview.EditSpInputView;
+import com.didichuxing.doraemonkit.widget.bottomview.BottomUpWindow;
+import com.didichuxing.doraemonkit.widget.bottomview.EditSpInputView;
 
 public class SpInputView extends FrameLayout {
 

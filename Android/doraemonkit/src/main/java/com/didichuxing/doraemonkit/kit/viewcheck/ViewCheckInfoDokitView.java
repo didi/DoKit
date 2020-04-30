@@ -21,9 +21,9 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.ViewCheckConfig;
-import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
-import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
+import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.util.ColorUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
@@ -111,7 +111,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
     @Override
     public void onClick(View v) {
         if (v == mClose) {
-            ViewCheckConfig.setViewCheckOpen(getContext(), false);
+            ViewCheckConfig.setViewCheckOpen( false);
             DokitViewManager.getInstance().detach(ViewCheckDrawDokitView.class.getSimpleName());
             DokitViewManager.getInstance().detach(ViewCheckInfoDokitView.class.getSimpleName());
             DokitViewManager.getInstance().detach(ViewCheckDokitView.class.getSimpleName());

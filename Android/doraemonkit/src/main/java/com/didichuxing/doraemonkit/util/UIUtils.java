@@ -15,18 +15,15 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.ui.layoutborder.ViewBorderFrameLayout;
+import com.didichuxing.doraemonkit.kit.layoutborder.ViewBorderFrameLayout;
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.security.PublicKey;
 
 /**
  * Created by zhangweida on 2018/6/22.

@@ -19,7 +19,6 @@
 - (void)doraemon_loadRequest:(NSURLRequest *)request{
     [self doraemon_loadRequest:request];
     NSString *urlString = request.URL.absoluteString;
-    urlString = [NSString stringWithFormat:@"wkwebview:%@",urlString];
     [[DoraemonHealthManager sharedInstance] openH5Page:urlString];
 }
 

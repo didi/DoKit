@@ -11,11 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.fileexplorer.FileExplorerChooseDialog;
-import com.didichuxing.doraemonkit.ui.fileexplorer.FileInfo;
-import com.didichuxing.doraemonkit.ui.fileexplorer.FileInfoAdapter;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.widget.titlebar.TitleBar;
 import com.didichuxing.doraemonkit.util.FileUtil;
 
 import java.io.File;

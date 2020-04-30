@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF">
 
-    <com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar
+    <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="89dp"
@@ -17,7 +17,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/title_bar">
 
-        <com.didichuxing.doraemonkit.ui.widget.webview.MyWebView
+        <com.didichuxing.doraemonkit.widget.webview.MyWebView
             android:id="@+id/web_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

@@ -18,7 +18,7 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp">
 
-            <com.didichuxing.doraemonkit.ui.widget.textview.LabelTextView
+            <com.didichuxing.doraemonkit.widget.textview.LabelTextView
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:id="@+id/max_level"
@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content" />
 
-            <com.didichuxing.doraemonkit.ui.widget.textview.LabelTextView
+            <com.didichuxing.doraemonkit.widget.textview.LabelTextView
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:id="@+id/max_level_view_id"
@@ -38,7 +38,7 @@
                 android:background="@color/dk_color_333333"
                 style="@style/DK.Divider" />
 
-            <com.didichuxing.doraemonkit.ui.widget.textview.LabelTextView
+            <com.didichuxing.doraemonkit.widget.textview.LabelTextView
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:id="@+id/total_time"
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content" />
 
-            <com.didichuxing.doraemonkit.ui.widget.textview.LabelTextView
+            <com.didichuxing.doraemonkit.widget.textview.LabelTextView
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:id="@+id/max_time"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content" />
 
-            <com.didichuxing.doraemonkit.ui.widget.textview.LabelTextView
+            <com.didichuxing.doraemonkit.widget.textview.LabelTextView
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:id="@+id/max_time_view_id"

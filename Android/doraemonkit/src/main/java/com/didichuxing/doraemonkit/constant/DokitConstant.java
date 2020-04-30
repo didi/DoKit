@@ -9,7 +9,7 @@ import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
-import com.didichuxing.doraemonkit.ui.kit.KitItem;
+import com.didichuxing.doraemonkit.kit.main.KitItem;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ public class DokitConstant {
     /**
      * 是否处于健康体检中
      */
-    public static boolean APP_HEALTH_RUNNING = GlobalConfig.getAppHealth(DoraemonKit.APPLICATION);
+    public static boolean APP_HEALTH_RUNNING = GlobalConfig.getAppHealth();
 
     /**
      * 是否是普通的浮标模式

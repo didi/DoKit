@@ -9,7 +9,6 @@ import com.amitshekhar.DebugDB;
 import com.amitshekhar.debug.encrypt.sqlite.DebugDBEncryptFactory;
 import com.amitshekhar.debug.sqlite.DebugDBFactory;
 import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
@@ -63,11 +62,11 @@ import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorKit;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager;
 import com.didichuxing.doraemonkit.model.LatLng;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
-import com.didichuxing.doraemonkit.ui.base.DokitIntent;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
-import com.didichuxing.doraemonkit.ui.main.MainIconDokitView;
-import com.didichuxing.doraemonkit.ui.main.ToolPanelDokitView;
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
+import com.didichuxing.doraemonkit.kit.core.DokitIntent;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
+import com.didichuxing.doraemonkit.kit.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
@@ -120,7 +119,7 @@ class DoraemonKitReal {
      */
     static void install(final Application app, List<AbstractKit> selfKits, String productId) {
         DokitConstant.PRODUCT_ID = productId;
-        DokitConstant.APP_HEALTH_RUNNING = GlobalConfig.getAppHealth(DoraemonKit.APPLICATION);
+        DokitConstant.APP_HEALTH_RUNNING = GlobalConfig.getAppHealth();
         //添加常用工具
         if (sHasInit) {
             //已经初始化添加自定义kits
@@ -150,7 +149,7 @@ class DoraemonKitReal {
         Log.i(TAG, "======isMainProcess===");
 
 
-        String strDokitMode = SharedPrefsUtil.getString(app, SharedPrefsKey.FLOAT_START_MODE, "normal");
+        String strDokitMode = SharedPrefsUtil.getString(SharedPrefsKey.FLOAT_START_MODE, "normal");
         if (strDokitMode.equals("normal")) {
             DokitConstant.IS_NORMAL_FLOAT_MODE = true;
         } else {
@@ -308,10 +307,10 @@ class DoraemonKitReal {
 
 
     private static void checkGPSMock() {
-        if (GpsMockConfig.isGPSMockOpen(APPLICATION)) {
+        if (GpsMockConfig.isGPSMockOpen()) {
             GpsMockManager.getInstance().startMock();
         }
-        LatLng latLng = GpsMockConfig.getMockLocation(APPLICATION);
+        LatLng latLng = GpsMockConfig.getMockLocation();
         if (latLng == null) {
             return;
         }

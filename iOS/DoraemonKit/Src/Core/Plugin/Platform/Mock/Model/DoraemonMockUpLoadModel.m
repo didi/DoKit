@@ -18,6 +18,9 @@
     if (self.query && self.query.allKeys.count>0) {
         [info appendFormat:@"query: %@\n",self.query];
     }
+    if (self.body && self.body.allValues.count>0) {
+        [info appendFormat :@"body: %@\n",self.body];
+    }
     if (self.category) {
         [self appendFormat:info text:@"分组: %@\n" append:self.category];
     }

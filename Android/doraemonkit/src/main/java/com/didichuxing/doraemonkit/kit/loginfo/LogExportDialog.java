@@ -7,12 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.ui.dialog.DialogListener;
-import com.didichuxing.doraemonkit.ui.dialog.DialogProvider;
-import com.didichuxing.doraemonkit.ui.setting.SettingItem;
-import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
-
-import java.io.File;
+import com.didichuxing.doraemonkit.widget.dialog.DialogListener;
+import com.didichuxing.doraemonkit.widget.dialog.DialogProvider;
+import com.didichuxing.doraemonkit.kit.core.SettingItem;
+import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
 
 /**
  * Created by wanglikun on 2019/4/16

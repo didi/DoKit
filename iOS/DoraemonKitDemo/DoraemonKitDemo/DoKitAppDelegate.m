@@ -37,7 +37,7 @@
     }
     [[DoraemonManager shareInstance] addPluginWithTitle:DoraemonDemoLocalizedString(@"测试插件") icon:@"doraemon_default" desc:DoraemonDemoLocalizedString(@"测试插件") pluginName:@"TestPlugin" atModule:DoraemonDemoLocalizedString(@"业务工具")];
 
-    [[DoraemonManager shareInstance] addPluginWithTitle:DoraemonDemoLocalizedString(@"block方式加入插件") icon:@"doraemon_default" desc:@"测试插件" pluginName:@"TestPlugin" atModule:DoraemonDemoLocalizedString(@"业务工具") handle:^(NSDictionary *itemData) {
+    [[DoraemonManager shareInstance] addPluginWithTitle:DoraemonDemoLocalizedString(@"block方式加入插件") icon:@"doraemon_default" desc:@"测试插件" pluginName:@"pluginName" atModule:DoraemonDemoLocalizedString(@"业务工具") handle:^(NSDictionary *itemData) {
         NSLog(@"handle block plugin");
     }];
 
@@ -47,6 +47,7 @@
     [[DoraemonManager shareInstance] addStartPlugin:@"StartPlugin"];
     [DoraemonManager shareInstance].bigImageDetectionSize = 10 * 1024;//大图检测只检测10K以上的
     [DoraemonManager shareInstance].startClass = @"DoKitAppDelegate";
+    //[DoraemonManager shareInstance].autoDock = NO;
     [[DoraemonManager shareInstance] installWithPid:@"749a0600b5e48dd77cf8ee680be7b1b7"];
     //[[DoraemonManager shareInstance] installWithStartingPosition:CGPointMake(66, 66)];
     
@@ -90,8 +91,11 @@
 }
 
 - (void)test2{
-    
-    NSLog(@"a == %zi",XXX);
+    NSDictionary *dic = @{
+        @"name":@"yixiang"
+    }.mutableCopy;
+    [dic setValue:@"caoweoweo" forKey:@"name"];
+    NSLog(@"a == %@",dic);
 }
 
 void uncaughtExceptionHandler(NSException*exception){

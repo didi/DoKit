@@ -12,9 +12,9 @@ import android.widget.TextView;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.AlignRulerConfig;
-import com.didichuxing.doraemonkit.ui.base.AbsDokitView;
-import com.didichuxing.doraemonkit.ui.base.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.ui.base.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
+import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 /**
@@ -81,7 +81,7 @@ public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerM
         mClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlignRulerConfig.setAlignRulerOpen(getContext(), false);
+                AlignRulerConfig.setAlignRulerOpen(false);
                 DokitViewManager.getInstance().detach(AlignRulerMarkerDokitView.class.getSimpleName());
                 DokitViewManager.getInstance().detach(AlignRulerLineDokitView.class.getSimpleName());
                 DokitViewManager.getInstance().detach(AlignRulerInfoDokitView.class.getSimpleName());

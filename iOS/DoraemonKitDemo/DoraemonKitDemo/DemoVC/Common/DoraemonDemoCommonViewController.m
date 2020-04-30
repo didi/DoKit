@@ -116,18 +116,18 @@
 }
 
 - (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-    NSLog(@"开始摇动");
+    NSLog(@"start shake");
     return;
 }
 
 - (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-    NSLog(@"取消摇动");
+    NSLog(@"cancel shake");
     return;
 }
 
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
     if (event.subtype == UIEventSubtypeMotionShake) { // 判断是否是摇动结束
-        NSLog(@"摇动结束");
+        NSLog(@"stop shake");
     }
     return;
 }
