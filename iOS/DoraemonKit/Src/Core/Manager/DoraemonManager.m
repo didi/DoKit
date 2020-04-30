@@ -392,6 +392,9 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 }
 
 - (BOOL)isShowDoraemon{
+    if (!_entryWindow) {
+        return NO;
+    }
     return !_entryWindow.hidden;
 }
 
