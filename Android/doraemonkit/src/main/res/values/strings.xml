@@ -32,6 +32,7 @@
     <string name="dk_kit_data_clean">清理缓存</string>
     <string name="dk_kit_db_debug">DBView</string>
     <string name="dk_kit_weak_network">模拟弱网</string>
+    <string name="dk_kit_setting">设置</string>
     <string name="dk_kit_view_check">控件检查</string>
     <string name="dk_kit_net_monitor">网络</string>
     <string name="dk_kit_net_monitor_white_host_tip">白名单(默认全部拦截,如有添加白名单则只会拦截白名单中的网络请求,同时白名单规则在关闭当前页面时生效。白名单host示例:m.baidu.com)</string>
@@ -176,7 +177,10 @@
     <string name="dk_view_check_info_fragment">可见Fragments：%1$s</string>
 
     <string name="dk_back">返回</string>
+    <string name="dk_setting">设置</string>
+    <string name="dk_edit">编辑</string>
     <string name="dk_export">导出</string>
+    <string name="dk_manager_kit_title">管理我的功能</string>
 
     <string name="dk_net_monitor_title_summary">流量监控摘要</string>
     <string name="dk_net_monitor_list">流量监控列表</string>
@@ -357,5 +361,6 @@
     <string name="dk_plugin_gps_close_tip">GPS插件未开启</string>
 
     <string name="dk_platform_tip">"需要到www.dokit.cn上注册pId才能使用该功能"</string>
+
 
 </resources>

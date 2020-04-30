@@ -2,23 +2,21 @@ package com.didichuxing.doraemonkit.kit.core;
 
 import android.app.Activity;
 import android.content.Context;
-
-import androidx.annotation.NonNull;
-
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
+
 import com.blankj.utilcode.util.BarUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
-import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.kit.health.CountDownDokitView;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
-import com.didichuxing.doraemonkit.kit.main.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitView;
+import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.SystemUtil;
 
@@ -429,13 +427,6 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         return dokitRootView;
     }
 
-
-    /**
-     * 隐藏工具列表dokitView
-     */
-    public void detachKitDokitView() {
-        detach(ToolPanelDokitView.class.getSimpleName());
-    }
 
     /**
      * 移除每个activity指定的dokitView

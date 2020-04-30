@@ -72,6 +72,7 @@
         <item name="android:textColor">@color/dk_color_333333</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="DK.TextSmall">

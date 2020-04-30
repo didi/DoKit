@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit.kit.network.bean;
 
-import com.blankj.utilcode.util.EncodeUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 

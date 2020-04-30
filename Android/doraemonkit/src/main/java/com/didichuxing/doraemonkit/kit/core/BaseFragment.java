@@ -23,18 +23,20 @@ import com.didichuxing.doraemonkit.widget.dialog.DialogInfo;
 import com.didichuxing.doraemonkit.widget.dialog.UniversalDialogFragment;
 
 /**
- * Created by wanglikun on 2018/10/26.
+ * @author wanglikun
+ * @date 2018/10/26
  */
 
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
     public String TAG = this.getClass().getSimpleName();
     private View mRootView;
     private int mContainer;
 
+    /**
+     * @return 资源文件
+     */
     @LayoutRes
-    protected int onRequestLayout() {
-        return 0;
-    }
+    protected abstract int onRequestLayout();
 
     final public <T extends View> T findViewById(@IdRes int id) {
         return mRootView.findViewById(id);
@@ -77,8 +79,6 @@ public class BaseFragment extends Fragment {
         }
         DokitViewManager.getInstance().detach(MainIconDokitView.class);
     }
-
-
 
 
     private void tryGetContainerId() {

@@ -58,4 +58,15 @@ public interface FragmentIndex {
      * APP启动耗时
      */
     int FRAGMENT_APP_START = 28;
+
+
+    /**
+     * DoKit 设置页面
+     */
+    int FRAGMENT_DOKIT_SETTING = 29;
+
+    /**
+     * Dokit 功能管理页面
+     */
+    int FRAGMENT_DOKIT_MANAGER = 30;
 }

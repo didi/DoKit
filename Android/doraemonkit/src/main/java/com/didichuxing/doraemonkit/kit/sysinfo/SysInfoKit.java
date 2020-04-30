@@ -23,6 +23,7 @@ public class SysInfoKit extends AbstractKit {
         return R.string.dk_kit_sysinfo;
     }
 
+
     @Override
     public int getIcon() {
         return R.drawable.dk_sys_info;

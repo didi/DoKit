@@ -358,7 +358,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
 
             }
             R.id.btn_test_crash -> testCrash()!!.length
-            R.id.btn_show_hide_icon -> if (DoraemonKit.isShow()) {
+            R.id.btn_show_hide_icon -> if (DoraemonKit.isShow) {
                 DoraemonKit.hide()
             } else {
                 DoraemonKit.show()

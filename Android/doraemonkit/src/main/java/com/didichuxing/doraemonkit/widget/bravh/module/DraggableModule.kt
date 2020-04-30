@@ -5,6 +5,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnLongClickListener
 import android.view.View.OnTouchListener
+import androidx.annotation.NonNull
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.didichuxing.doraemonkit.R
@@ -140,6 +141,11 @@ open class BaseDraggableModule(private val baseQuickAdapter: BaseQuickAdapter<*,
     open fun onItemDragEnd(viewHolder: RecyclerView.ViewHolder) {
         mOnItemDragListener?.onItemDragEnd(viewHolder, getViewHolderPosition(viewHolder))
     }
+
+    open fun canDropOver(@NonNull recyclerView: RecyclerView, @NonNull current: RecyclerView.ViewHolder, @NonNull target: RecyclerView.ViewHolder): Boolean {
+        return mOnItemDragListener?.canDropOver(recyclerView, current, target)!!
+    }
+
 
     /************************* Swipe *************************/
 

@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.widget.bravh.listener;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -11,4 +12,6 @@ public interface OnItemDragListener {
     void onItemDragMoving(RecyclerView.ViewHolder source, int from, RecyclerView.ViewHolder target, int to);
 
     void onItemDragEnd(RecyclerView.ViewHolder viewHolder, int pos);
+
+    boolean canDropOver(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder current, @NonNull RecyclerView.ViewHolder target);
 }

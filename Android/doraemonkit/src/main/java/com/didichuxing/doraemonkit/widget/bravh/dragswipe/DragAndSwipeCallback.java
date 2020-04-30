@@ -8,8 +8,13 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.kit.toolpanel.MultiKitItem;
+import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.widget.bravh.BaseQuickAdapter;
+import com.didichuxing.doraemonkit.widget.bravh.entity.MultiItemEntity;
 import com.didichuxing.doraemonkit.widget.bravh.module.BaseDraggableModule;
+
+import static androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_IDLE;
 
 
 /**
@@ -17,11 +22,11 @@ import com.didichuxing.doraemonkit.widget.bravh.module.BaseDraggableModule;
  * @date 2016/6/20
  */
 public class DragAndSwipeCallback extends ItemTouchHelper.Callback {
+    private static final String TAG = "DragAndSwipeCallback";
 
-
-    private BaseDraggableModule      mDraggableModule;
-    private float                    mMoveThreshold = 0.1f;
-    private float                    mSwipeThreshold = 0.7f;
+    private BaseDraggableModule mDraggableModule;
+    private float mMoveThreshold = 0.1f;
+    private float mSwipeThreshold = 0.7f;
 
 
     private int mDragMoveFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
@@ -89,18 +94,43 @@ public class DragAndSwipeCallback extends ItemTouchHelper.Callback {
         }
     }
 
+    /**
+     * 这个方法用于让RecyclerView拦截向上滑动，向下滑动，想左滑动
+     * makeMovementFlags(dragFlags, swipeFlags);dragFlags是上下方向的滑动 swipeFlags是左右方向上的滑动
+     *
+     * @param recyclerView
+     * @param viewHolder
+     * @return
+     */
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+        //设置指定item 不可拖动
+        if (viewHolder.getItemViewType() == MultiKitItem.TYPE_TITLE) {
+            return makeMovementFlags(ACTION_STATE_IDLE, ACTION_STATE_IDLE);
+        }
+
         if (isViewCreateByAdapter(viewHolder)) {
-            return makeMovementFlags(0, 0);
+            return makeMovementFlags(ACTION_STATE_IDLE, ACTION_STATE_IDLE);
         }
 
         return makeMovementFlags(mDragMoveFlags, mSwipeMoveFlags);
     }
 
+    /**
+     * drag状态下，在canDropOver()返回true时，会调用该方法让我们拖动换位置的逻辑(需要自己处理变换位置的逻辑)
+     */
     @Override
     public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder source, @NonNull RecyclerView.ViewHolder target) {
         return source.getItemViewType() == target.getItemViewType();
+    }
+
+    /**
+     * 针对drag状态，当前target对应的item是否允许移动
+     * 我们一般用drag来做一些换位置的操作，就是当前对应的target对应的Item可以移动
+     */
+    @Override
+    public boolean canDropOver(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder current, @NonNull RecyclerView.ViewHolder target) {
+        return mDraggableModule.canDropOver(recyclerView, current, target);
     }
 
     @Override
