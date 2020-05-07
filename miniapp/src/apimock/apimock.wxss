@@ -17,7 +17,7 @@ switch {
     line-height: 132rpx;
     text-align: center;
 }
-.mock-list {
+.list-wrap {
     margin-top: 12rpx;
     width: 100%;
     display: flex;
@@ -29,7 +29,7 @@ switch {
     padding: 0 32rpx;
     background-color: #FFFFFF;
 }
-.mock-item {
+.list-item {
     position: relative;
     display: flex;
     box-sizing: border-box;
@@ -39,14 +39,14 @@ switch {
     align-items: center;
     border-bottom: 1rpx solid #E5E5E5;
 }
-.mock-item::after {
+.list-item::after {
     position: absolute;
     content: '＞';
     right: 10rpx;
     font-size: 34rpx;
     color: #CCC;
 }
-.mock-switch {
+.switch {
     margin-right: 72rpx;
 }
 .item-detail {
@@ -58,5 +58,78 @@ switch {
 .item-detail.hidden {
     height: 0;
     overflow: hidden;
+}
+.item-req-desc {
+    line-height: 46rpx;
+}
+.radio-group {
+    width: 100%;
+    margin-top: 12rpx;
+}
+.radio {
+    width: 50%;
+}
+.active-text {
+    color: #337CC4;
+}
+.nav-bar {
+    display: flex;
+    width: 100%;
+    height: 100rpx;
+    background-color: #E5E5E5;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+.nav-bar-item {
+    width: 50%;
+    height: 100%;
+    line-height: 100rpx;
+    text-align: center;
+    color: #333333;
+}
+.nav-bar-item.active {
+    color: #337CC4;
+}
+.item-btn-wrap {
+    display: flex;
+    align-items: flex-start;
+}
+.btn-item {
+    width: 25%;
+}
+.btn-item.active {
+    color: #337CC4;
+}
+.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .5);
+}
+.modal-inner {
+    margin: 50% auto 0;
+    transform: translateY(-25%);
+    width: 80%;
+    height: 80%;
+    background-color: white;
+}
+.operate-area {
+    display: flex;
+    width: 100%;
+    height: 100rpx;
+    background-color: #337CC4;
+    position: absolute;
+    bottom: 0;
+}
+.operate-item {
+    width: 50%;
+    text-align: center;
+    line-height: 100rpx;
+    color: white;
 }
 

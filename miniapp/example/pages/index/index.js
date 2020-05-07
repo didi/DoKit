@@ -17,7 +17,7 @@ Page({
   },
   sendRequest: function() {
     wx.request({
-      url: 'http://jsonplaceholder.typicode.com/users/2',
+      url: 'http://jsonplaceholder.typicode.com/users/2?app=name',
       success: (res) => {
         this.setData({
           motto: JSON.stringify(res.data)
@@ -27,11 +27,10 @@ Page({
   },
   sendDokitRequest: function () {
     wx.request({
-      url: 'http://jsonplaceholder.typicode.com/users/2',
+      url: 'https://mock.dokit.cn/api/app/interface?name=zzy',
+      method: 'GET',
       success: (res) => {
-        this.setData({
-          motto: JSON.stringify(res.data)
-        })
+        console.log('用户自定义',res.data)
       }
     })
   },
