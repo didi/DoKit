@@ -4,6 +4,7 @@ import com.android.build.gradle.AppExtension;
 import com.didichuxing.doraemonkit.plugin.transform.DokitBigImageTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitCommTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitSlowMethodTransform;
+import com.didichuxing.doraemonkit.plugin.transform.DokitThreadTransform;
 import com.didichuxing.doraemonkit.plugin.transform.DokitUrlConnectionTransform;
 
 import org.gradle.api.Action;
@@ -55,6 +56,8 @@ public final class DoKitPlugin implements Plugin<Project> {
         appExtension.registerTransform(new DokitBigImageTransform(project), Collections.EMPTY_LIST);
         //慢函数
         appExtension.registerTransform(new DokitSlowMethodTransform(project), Collections.EMPTY_LIST);
+        //线程启动日志
+        appExtension.registerTransform(new DokitThreadTransform(project), Collections.EMPTY_LIST);
 
     }
 
