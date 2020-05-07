@@ -452,8 +452,6 @@ public class NetWorkMockFragment extends BaseFragment {
                     @Override
                     public void onSuccess(Response<String> response) {
                         try {
-
-
                             if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
                                 List<MockInterceptTitleBean> mockInterceptTitleBeans = dealInterceptResponseData(response.body());
                                 //插入拦截接口
@@ -567,6 +565,7 @@ public class NetWorkMockFragment extends BaseFragment {
      */
     private void initResponseApis() {
         String apiUrl = String.format(mFormatApiUrl, projectId, 1, pageSize);
+        LogHelper.i(TAG, "apiUrl===>" + apiUrl);
         DokitOkGo.<String>get(apiUrl).tag(this)
                 .execute(new StringCallback() {
 

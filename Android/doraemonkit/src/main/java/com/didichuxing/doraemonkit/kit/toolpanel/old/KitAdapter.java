@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.main;
+package com.didichuxing.doraemonkit.kit.toolpanel.old;
 
 import android.content.Context;
 import android.text.TextUtils;

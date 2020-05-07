@@ -220,9 +220,14 @@ public class TitleBar extends FrameLayout {
         return mRightIcon;
     }
 
+    public TextView getRightText() {
+        return mRightText;
+    }
+
     public ImageView getLeftIcon() {
         return mLeftIcon;
     }
+
 
     /**
      * TitleBar 点击事件回调

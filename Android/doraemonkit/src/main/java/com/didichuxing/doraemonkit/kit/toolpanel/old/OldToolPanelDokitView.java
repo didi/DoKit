@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.main;
+package com.didichuxing.doraemonkit.kit.toolpanel.old;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -23,7 +23,7 @@ import java.util.List;
  * Created by jintai on 2019/09/26.
  * 工具面板弹窗
  */
-public class ToolPanelDokitView extends AbsDokitView {
+public class OldToolPanelDokitView extends AbsDokitView {
     private RecyclerView mGroupKitContainer;
     private GroupKitAdapter mGroupKitAdapter;
 
@@ -34,7 +34,7 @@ public class ToolPanelDokitView extends AbsDokitView {
 
     @Override
     public View onCreateView(Context context, FrameLayout view) {
-        return LayoutInflater.from(context).inflate(R.layout.dk_tool_panel, view, false);
+        return LayoutInflater.from(context).inflate(R.layout.dk_tool_panel_old, view, false);
     }
 
     @Override

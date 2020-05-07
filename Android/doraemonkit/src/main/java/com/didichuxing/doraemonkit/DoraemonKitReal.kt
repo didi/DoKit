@@ -22,11 +22,9 @@ import com.didichuxing.doraemonkit.kit.Category
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerKit
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerKit
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitIntent
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity
-import com.didichuxing.doraemonkit.kit.core.group.AbsDokitGroup
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureKit
 import com.didichuxing.doraemonkit.kit.dataclean.DataCleanKit
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugKit
@@ -55,6 +53,9 @@ import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoKit
 import com.didichuxing.doraemonkit.kit.temporaryclose.TemporaryCloseKit
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterKit
 import com.didichuxing.doraemonkit.kit.timecounter.instrumentation.HandlerHooker
+import com.didichuxing.doraemonkit.kit.toolpanel.KitBean
+import com.didichuxing.doraemonkit.kit.toolpanel.KitGroupBean
+import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelUtil
 import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceKit
 import com.didichuxing.doraemonkit.kit.version.DokitVersionKit
 import com.didichuxing.doraemonkit.kit.viewcheck.ViewCheckerKit
@@ -62,6 +63,7 @@ import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkKit
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorKit
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
+import com.didichuxing.doraemonkit.util.DokitUtil
 import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.SharedPrefsUtil
@@ -274,11 +276,9 @@ internal object DoraemonKitReal {
     /**
      * 推荐使用该方法进行初始化
      */
-    fun init(app: Application, selfKits: LinkedHashMap<AbsDokitGroup, MutableList<AbstractKit>>? = linkedMapOf(), productId: String? = "") {
+    fun init(app: Application, selfKits: LinkedHashMap<String, MutableList<AbstractKit>> = linkedMapOf(), productId: String = "") {
         pluginConfig()
-        if (productId != null) {
-            DokitConstant.PRODUCT_ID = productId
-        }
+        DokitConstant.PRODUCT_ID = productId
         DokitConstant.APP_HEALTH_RUNNING = GlobalConfig.getAppHealth()
         //添加常用工具
 
@@ -320,6 +320,7 @@ internal object DoraemonKitReal {
         }
         //添加自定义的kit
         addSystemKit(app)
+        //addSystemKitForTest(app)
         //初始化悬浮窗管理类
         DokitViewManager.getInstance().init(app)
         //上传app基本信息便于统计
@@ -338,100 +339,35 @@ internal object DoraemonKitReal {
      * 添加自定义kit
      */
     private fun addSystemKit(application: Application) {
-        //weex专区
-        val weex: MutableList<AbstractKit> = mutableListOf()
-        //动态添加weex专区
-        try {
-            val weexLogKit = Class.forName("com.didichuxing.doraemonkit.weex.log.WeexLogKit").newInstance() as AbstractKit
-            weex.add(weexLogKit)
-            val storageKit = Class.forName("com.didichuxing.doraemonkit.weex.storage.WeexStorageKit").newInstance() as AbstractKit
-            weex.add(storageKit)
-            val weexInfoKit = Class.forName("com.didichuxing.doraemonkit.weex.info.WeexInfoKit").newInstance() as AbstractKit
-            weex.add(weexInfoKit)
-            val devToolKit = Class.forName("com.didichuxing.doraemonkit.weex.devtool.WeexDevToolKit").newInstance() as AbstractKit
-            weex.add(devToolKit)
-        } catch (e: Exception) {
-            //LogHelper.e(TAG, "e====>" + e.getMessage());
+        var json = ""
+        val systemKitPath = PathUtils.getInternalAppFilesPath() + File.separator + "system_kit_bak.json"
+        if (FileUtils.isFileExists(systemKitPath)) {
+            json = FileIOUtils.readFile2String(systemKitPath)
+        } else {
+            val open = application.assets.open("dokit_system_kits.json")
+            json = ConvertUtils.inputStream2String(open, "UTF-8")
         }
 
-        //常用工具
-        val tool: MutableList<AbstractKit> = mutableListOf()
-        //添加工具kit
-        tool.add(SysInfoKit())
-        tool.add(DevelopmentPageKit())
-        tool.add(LocalLangKit())
-        tool.add(FileExplorerKit())
-        if (GpsMockManager.getInstance().isMockEnable) {
-            tool.add(GpsMockKit())
-        }
-        tool.add(WebDoorKit())
-        tool.add(DataCleanKit())
-        tool.add(LogInfoKit())
-        tool.add(DbDebugKit())
-        //性能监控
-        val performance: MutableList<AbstractKit> = mutableListOf()
-
-        //视觉工具
-        val ui: MutableList<AbstractKit> = ArrayList()
-        //平台工具
-        val platform: MutableList<AbstractKit> = ArrayList()
+        ToolPanelUtil.json2SystemKits(json)
         //悬浮窗模式
-        val floatMode: MutableList<AbstractKit> = ArrayList()
-        //退出
-        val exit: MutableList<AbstractKit> = ArrayList()
-        //版本号
-        val version: MutableList<AbstractKit> = ArrayList()
-        //添加工具kit
-        tool.add(SysInfoKit())
-        tool.add(DevelopmentPageKit())
-        tool.add(LocalLangKit())
-        tool.add(FileExplorerKit())
-        if (GpsMockManager.getInstance().isMockEnable) {
-            tool.add(GpsMockKit())
-        }
-        tool.add(WebDoorKit())
-        tool.add(DataCleanKit())
-        tool.add(LogInfoKit())
-        tool.add(DbDebugKit())
-
-        //添加性能监控kit
-        performance.add(FrameInfoKit())
-        performance.add(CpuKit())
-        performance.add(RamKit())
-        performance.add(NetworkKit())
-        performance.add(CrashCaptureKit())
-        performance.add(BlockMonitorKit())
-        performance.add(LargePictureKit())
-        performance.add(WeakNetworkKit())
-        performance.add(TimeCounterKit())
-        performance.add(UIPerformanceKit())
-        performance.add(MethodCostKit())
-        try {
-            //动态添加leakcanary
-            val leakCanaryKit = Class.forName("com.didichuxing.doraemonkit.kit.leakcanary.LeakCanaryKit").newInstance() as AbstractKit
-            performance.add(leakCanaryKit)
-        } catch (e: Exception) {
-            //e.printStackTrace();
-        }
-
-
-        //添加视觉ui kit
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ui.add(ColorPickerKit())
-        }
-        ui.add(AlignRulerKit())
-        ui.add(ViewCheckerKit())
-        ui.add(LayoutBorderKit())
-        //新增数据mock工具 由于Dokit管理平台还没完善 所以暂时关闭入口
-        platform.add(MockKit())
-        platform.add(HealthKit())
+        val floatMode: MutableList<AbstractKit> = mutableListOf()
 
         //增加浮标模式
         floatMode.add(FloatModeKit())
+        DokitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_mode)] = floatMode
+
         //添加退出项
+        //退出
+        val exit: MutableList<AbstractKit> = mutableListOf()
+
         exit.add(TemporaryCloseKit())
+
+        DokitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_exit)] = exit
         //添加版本号项
+        //版本号
+        val version: MutableList<AbstractKit> = mutableListOf()
         version.add(DokitVersionKit())
+        DokitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_version)] = version
 
         //遍历初始化
         DokitConstant.GLOBAL_KITS.forEach { map ->
@@ -439,6 +375,106 @@ internal object DoraemonKitReal {
                 kit.onAppInit(application)
             }
         }
+    }
+
+
+    /**
+     * 添加自定义kit
+     */
+    private fun addSystemKitForTest(application: Application) {
+
+        //平台工具
+        val platformKits: MutableList<AbstractKit> = mutableListOf()
+        //新增数据mock工具 由于Dokit管理平台还没完善 所以暂时关闭入口
+        platformKits.add(MockKit())
+        platformKits.add(HealthKit())
+        DokitConstant.GLOBAL_KITS["R.string.dk_category_platform"] = platformKits
+
+        //常用工具
+        val commKits: MutableList<AbstractKit> = mutableListOf()
+        //添加工具kit
+        commKits.add(SysInfoKit())
+        commKits.add(DevelopmentPageKit())
+        commKits.add(LocalLangKit())
+        commKits.add(FileExplorerKit())
+        if (GpsMockManager.getInstance().isMockEnable) {
+            commKits.add(GpsMockKit())
+        }
+        commKits.add(WebDoorKit())
+        commKits.add(DataCleanKit())
+        commKits.add(LogInfoKit())
+        commKits.add(DbDebugKit())
+        DokitConstant.GLOBAL_KITS["R.string.dk_category_comms"] = commKits
+
+        //weex专区
+        val weexKits: MutableList<AbstractKit> = mutableListOf()
+        //动态添加weex专区
+        try {
+            val weexLogKit = Class.forName("com.didichuxing.doraemonkit.weex.log.WeexLogKit").newInstance() as AbstractKit
+            weexKits.add(weexLogKit)
+            val storageKit = Class.forName("com.didichuxing.doraemonkit.weex.storage.WeexStorageKit").newInstance() as AbstractKit
+            weexKits.add(storageKit)
+            val weexInfoKit = Class.forName("com.didichuxing.doraemonkit.weex.info.WeexInfoKit").newInstance() as AbstractKit
+            weexKits.add(weexInfoKit)
+            val devToolKit = Class.forName("com.didichuxing.doraemonkit.weex.devtool.WeexDevToolKit").newInstance() as AbstractKit
+            weexKits.add(devToolKit)
+            DokitConstant.GLOBAL_KITS["R.string.dk_category_weex"] = weexKits
+        } catch (e: Exception) {
+            //LogHelper.e(TAG, "e====>" + e.getMessage());
+        }
+
+
+        //性能监控
+        val performanceKits: MutableList<AbstractKit> = mutableListOf()
+        //添加性能监控kit
+        performanceKits.add(FrameInfoKit())
+        performanceKits.add(CpuKit())
+        performanceKits.add(RamKit())
+        performanceKits.add(NetworkKit())
+        performanceKits.add(CrashCaptureKit())
+        performanceKits.add(BlockMonitorKit())
+        performanceKits.add(LargePictureKit())
+        performanceKits.add(WeakNetworkKit())
+        performanceKits.add(TimeCounterKit())
+        performanceKits.add(UIPerformanceKit())
+        performanceKits.add(MethodCostKit())
+        try {
+            //动态添加leakcanary
+            val leakCanaryKit = Class.forName("com.didichuxing.doraemonkit.kit.leakcanary.LeakCanaryKit").newInstance() as AbstractKit
+            performanceKits.add(leakCanaryKit)
+        } catch (e: Exception) {
+        }
+        DokitConstant.GLOBAL_KITS["R.string.dk_category_performance"] = performanceKits
+
+
+        //视觉工具
+        val uiKits: MutableList<AbstractKit> = mutableListOf()
+        //添加视觉ui kit
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            uiKits.add(ColorPickerKit())
+        }
+        uiKits.add(AlignRulerKit())
+        uiKits.add(ViewCheckerKit())
+        uiKits.add(LayoutBorderKit())
+        DokitConstant.GLOBAL_KITS["R.string.dk_category_ui"] = uiKits
+        //测试专用
+        convert2json()
+
+    }
+
+    fun convert2json() {
+        val localKits = mutableListOf<KitGroupBean>()
+        //遍历初始化
+        DokitConstant.GLOBAL_KITS.forEach { map ->
+            val kitGroupBean = KitGroupBean(map.key, mutableListOf())
+            localKits.add(kitGroupBean)
+            map.value.forEach { kit ->
+                kitGroupBean.kits.add(KitBean(kit::class.java.canonicalName!!, true, kit.innerKitId()))
+            }
+        }
+
+        val jsonKits = GsonUtils.toJson(localKits)
+        LogHelper.i(TAG, jsonKits)
     }
 
 

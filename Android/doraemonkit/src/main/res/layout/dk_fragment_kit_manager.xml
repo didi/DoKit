@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dk_color_F5F6F7"
+    android:background="@color/dk_color_FFFFFF"
     android:orientation="vertical">
 
     <com.didichuxing.doraemonkit.widget.titlebar.TitleBar
@@ -21,7 +21,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/title_bar"
-        android:layout_marginTop="12dp"
-        android:background="@color/dk_color_FFFFFF" />
+        android:layout_marginTop="12dp" />
 
 </RelativeLayout>

@@ -2,7 +2,7 @@
     <string name="dk_app_name">DoraemonKit</string>
 
     <string name="dk_category_biz">业务专区</string>
-    <string name="dk_category_tools">常用工具</string>
+    <string name="dk_category_comms">常用工具</string>
     <string name="dk_category_performance">性能监控</string>
     <string name="dk_category_large_image">大图检测</string>
     <string name="dk_category_ui">视觉工具</string>
@@ -70,7 +70,9 @@
     <string name="dk_kit_pkg_name">包名：</string>
     <string name="dk_kit_class_name">类名：</string>
     <string name="dk_kit_path_name">路径：</string>
-    <string name="dk_kit_mode_title">悬浮窗模式</string>
+    <string name="dk_category_mode">悬浮窗模式</string>
+    <string name="dk_category_exit">退出</string>
+    <string name="dk_category_version">version</string>
     <string name="dk_kit_mode_desc">悬浮窗模式:
         \n
         1）系统代表系统悬浮窗(需要系统权限)
@@ -179,6 +181,7 @@
     <string name="dk_back">返回</string>
     <string name="dk_setting">设置</string>
     <string name="dk_edit">编辑</string>
+    <string name="dk_complete">完成</string>
     <string name="dk_export">导出</string>
     <string name="dk_manager_kit_title">管理我的功能</string>
 

@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:singleLine="true"
-        android:text="@string/dk_kit_mode_title"
+        android:text="@string/dk_category_mode"
         />
 
 

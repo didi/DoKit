@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.main;
+package com.didichuxing.doraemonkit.kit.toolpanel.old;
 
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 

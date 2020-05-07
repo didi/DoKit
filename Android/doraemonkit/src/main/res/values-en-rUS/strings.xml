@@ -2,7 +2,7 @@
     <string name="dk_app_name">DoraemonKit</string>
 
     <string name="dk_category_biz">Business</string>
-    <string name="dk_category_tools">Common</string>
+    <string name="dk_category_comms">Common</string>
     <string name="dk_category_performance">Performance</string>
     <string name="dk_category_large_image">Large image detection</string>
     <string name="dk_category_ui">UI</string>
@@ -64,7 +64,7 @@
     <string name="dk_kit_pkg_name">Package Name：</string>
     <string name="dk_kit_class_name">Class Name：</string>
     <string name="dk_kit_path_name">Class Path：</string>
-    <string name="dk_kit_mode_title">float mode</string>
+    <string name="dk_category_mode">float mode</string>
     <string name="dk_kit_mode_desc">float mode:
         \n
         1）system is system float(need dialog permission)
@@ -315,4 +315,21 @@
     <string name="dk_health_dialog_test_name_hint">Test case name</string>
     <string name="dk_health_dialog_test_person">tester</string>
     <string name="dk_health_dialog_test_person_hint">tester</string>
+    <string name="dk_kit_log_min">Min</string>
+    <string name="dk_kit_setting">setting</string>
+    <string name="dk_category_exit">Exit</string>
+    <string name="dk_category_version">version</string>
+    <string name="dk_setting">Setting</string>
+    <string name="dk_edit">Edit</string>
+    <string name="dk_complete">Complete</string>
+    <string name="dk_export">Export</string>
+    <string name="dk_manager_kit_title">Manager</string>
+    <string name="dk_kit_block_time_app_start_info">Launch Info</string>
+    <string name="dk_plugin_close_tip">The plugin is not introduced or the plugin is not turned on</string>
+    <string name="dk_plugin_network_close_tip">Network plugin is not open</string>
+    <string name="dk_plugin_method_close_tip">Slow function plugin is not enabled</string>
+    <string name="dk_plugin_method_strategy_tip">Please modify the plugin configuration of the slow function to equal 0</string>
+    <string name="dk_plugin_big_img_close_tip">Large image detection plugin is not turned on</string>
+    <string name="dk_plugin_gps_close_tip">GPS plugin is not open</string>
+    <string name="dk_platform_tip">You need to register the pId on www.dokit.cn to use this function</string>
 </resources>

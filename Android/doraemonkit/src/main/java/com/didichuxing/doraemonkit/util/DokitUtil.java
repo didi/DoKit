@@ -1,6 +1,8 @@
 package com.didichuxing.doraemonkit.util;
 
 
+import android.content.res.Resources;
+
 import androidx.annotation.StringRes;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
@@ -23,6 +25,17 @@ public class DokitUtil {
 
     public static String getString(@StringRes int stringId) {
         return DoraemonKit.APPLICATION.getString(stringId);
+    }
+
+    @StringRes
+    public static int getStringId(String str) {
+        try {
+            Resources r = DoraemonKit.APPLICATION.getResources();
+            return r.getIdentifier(str, "string", DoraemonKit.APPLICATION.getPackageName());
+        } catch (Exception e) {
+            LogHelper.e("getStringId", "getStringId===>" + str);
+        }
+        return -1;
     }
 
 

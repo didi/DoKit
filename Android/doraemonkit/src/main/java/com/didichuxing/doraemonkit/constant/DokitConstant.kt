@@ -1,13 +1,11 @@
 package com.didichuxing.doraemonkit.constant
 
-import android.util.SparseArray
 import com.didichuxing.doraemonkit.config.GlobalConfig
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.core.group.AbsDokitGroup
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment
-import com.didichuxing.doraemonkit.kit.main.KitItem
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
+import com.didichuxing.doraemonkit.kit.toolpanel.old.KitItem
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo
 import java.lang.ref.WeakReference
 import java.util.*
@@ -23,11 +21,21 @@ import kotlin.collections.LinkedHashMap
  * ================================================
  */
 object DokitConstant {
+
+    const val GROUP_ID_PLATFORM = "dk_category_platform"
+    const val GROUP_ID_COMM = "dk_category_comms"
+    const val GROUP_ID_WEEX = "dk_category_weex"
+    const val GROUP_ID_PERFORMANCE = "dk_category_performance"
+    const val GROUP_ID_UI = "dk_category_ui"
+
     /**
      * 全局的Kits
      */
     @JvmField
-    val GLOBAL_KITS: LinkedHashMap<AbsDokitGroup, MutableList<AbstractKit>> = LinkedHashMap()
+    val GLOBAL_KITS: LinkedHashMap<String, MutableList<AbstractKit>> = LinkedHashMap()
+
+    @JvmField
+    val GLOBAL_SYSTEM_KITS: LinkedHashMap<String, MutableList<AbstractKit>> = LinkedHashMap()
 
     /**
      * 是否显示新的工具面板

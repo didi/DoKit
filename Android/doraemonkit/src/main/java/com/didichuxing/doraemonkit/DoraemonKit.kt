@@ -3,8 +3,6 @@ package com.didichuxing.doraemonkit
 import android.app.Application
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView
-import com.didichuxing.doraemonkit.kit.core.group.AbsDokitGroup
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
 
 /**
@@ -51,7 +49,7 @@ object DoraemonKit {
     /**
      * in的初始化方式
      */
-    fun init(app: Application, selfKits: LinkedHashMap<AbsDokitGroup, MutableList<AbstractKit>>? = null, productId: String? = "") {
+    fun init(app: Application, selfKits: LinkedHashMap<String, MutableList<AbstractKit>> = linkedMapOf(), productId: String = "") {
         APPLICATION = app
         try {
             DoraemonKitReal.init(app, selfKits, productId)

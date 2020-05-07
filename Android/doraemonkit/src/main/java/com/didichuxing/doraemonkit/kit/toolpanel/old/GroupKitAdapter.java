@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.main;
+package com.didichuxing.doraemonkit.kit.toolpanel.old;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -50,9 +50,9 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
     @Override
     protected View createView(LayoutInflater inflater, ViewGroup parent, int viewType) {
         if (viewType == Category.CLOSE) {
-            return inflater.inflate(R.layout.dk_item_close_kit, parent, false);
+            return inflater.inflate(R.layout.dk_item_group_exit, parent, false);
         } else if (viewType == Category.VERSION) {
-            return inflater.inflate(R.layout.dk_item_version_kit, parent, false);
+            return inflater.inflate(R.layout.dk_item_group_version, parent, false);
         } else if (viewType == Category.FLOAT_MODE) {
             return inflater.inflate(R.layout.dk_item_group_mode, parent, false);
         } else {
@@ -230,7 +230,7 @@ public class GroupKitAdapter extends AbsRecyclerAdapter<AbsViewBinder<List<KitIt
                     break;
 
                 case Category.TOOLS:
-                    name.setText(R.string.dk_category_tools);
+                    name.setText(R.string.dk_category_comms);
                     break;
 
                 case Category.UI:
