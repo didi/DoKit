@@ -57,7 +57,7 @@ public final class DoKitPlugin implements Plugin<Project> {
         //慢函数
         appExtension.registerTransform(new DokitSlowMethodTransform(project), Collections.EMPTY_LIST);
         //线程启动日志
-        appExtension.registerTransform(new DokitThreadTransform(project), Collections.EMPTY_LIST);
+        //appExtension.registerTransform(new DokitThreadTransform(project), Collections.EMPTY_LIST);
 
     }
 
