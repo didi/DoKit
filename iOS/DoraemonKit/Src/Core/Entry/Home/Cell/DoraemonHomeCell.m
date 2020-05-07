@@ -19,7 +19,7 @@
 
 - (UIImageView *)icon {
     if (!_icon) {
-        CGFloat size = 34;
+        CGFloat size = kDoraemonSizeFrom750_Landscape(68);
         _icon = [[UIImageView alloc] initWithFrame:CGRectMake((self.doraemon_width - size) / 2.0, 4, size, size)];
     }
     
@@ -28,7 +28,7 @@
 
 - (UILabel *)name {
     if (!_name) {
-        CGFloat height = 16;
+        CGFloat height = kDoraemonSizeFrom750_Landscape(32);
         _name = [[UILabel alloc] initWithFrame:CGRectMake(0, self.doraemon_height - height - 4, self.doraemon_width, height)];
         _name.textAlignment = NSTextAlignmentCenter;
         _name.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];

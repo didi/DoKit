@@ -195,7 +195,7 @@ static NSString *DoraemonKitManagerHeadCellID = @"DoraemonKitManagerHeadCellID";
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat w = DoraemonScreenWidth/4;
+    CGFloat w = kDoraemonSizeFrom750_Landscape(750)/4;
     CGFloat h = w/187*209;
     
     CGSize size = CGSizeMake(w, h);

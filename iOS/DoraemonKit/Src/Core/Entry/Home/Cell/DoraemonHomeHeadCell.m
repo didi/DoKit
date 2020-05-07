@@ -52,6 +52,7 @@
 
 - (void)renderUIWithTitle:(NSString *)title{
     _title.text = title;
+    _title.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
     if (_subTitleLabel) {
         [_subTitleLabel removeFromSuperview];
         _subTitleLabel = nil;

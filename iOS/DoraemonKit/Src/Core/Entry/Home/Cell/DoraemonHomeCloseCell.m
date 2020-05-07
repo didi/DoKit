@@ -51,10 +51,11 @@
 #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         }
 #endif
-        _closeButton.layer.cornerRadius = 5.0;
+        _closeButton.layer.cornerRadius = kDoraemonSizeFrom750_Landscape(5.0);
         _closeButton.layer.masksToBounds = YES;
         [_closeButton setTitle:DoraemonLocalizedString(@"关闭DoraemonKit") forState:UIControlStateNormal];
         [_closeButton setTitleColor:[UIColor doraemon_colorWithString:@"#CC3A4B"] forState:UIControlStateNormal];
+        _closeButton.titleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(28)];
         [_closeButton addTarget:self action:@selector(closeButtonHandle) forControlEvents:UIControlEventTouchUpInside];
     }
     
@@ -72,9 +73,9 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGFloat x = 5;
+    CGFloat x = kDoraemonSizeFrom750_Landscape(10);
 
-    self.closeButton.frame = CGRectMake(x, x, self.doraemon_width - x * 2, 50);
+    self.closeButton.frame = CGRectMake(x, 0, self.doraemon_width - x * 2, kDoraemonSizeFrom750_Landscape(100));
 }
 
 @end
