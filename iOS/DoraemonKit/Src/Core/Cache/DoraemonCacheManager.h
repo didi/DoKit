@@ -102,4 +102,5 @@
 - (void)saveKitManagerData:(NSMutableArray *)dataArray;
 - (NSMutableArray *)kitManagerData;
 - (NSMutableArray *)kitShowManagerData;
+- (NSMutableArray *)allKitShowManagerData;
 @end

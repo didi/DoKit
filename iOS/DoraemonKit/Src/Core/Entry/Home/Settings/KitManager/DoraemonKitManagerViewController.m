@@ -82,8 +82,6 @@ static NSString *DoraemonKitManagerHeadCellID = @"DoraemonKitManagerHeadCellID";
     } cancleBlock:^{
         
     }];
-    
-    
 }
 
 - (void)rightNavTitleClick{
@@ -156,7 +154,7 @@ static NSString *DoraemonKitManagerHeadCellID = @"DoraemonKitManagerHeadCellID";
         case UIGestureRecognizerStateBegan:
         {
             NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:[longPress locationInView:self.collectionView]];
-            if (!indexPath) {
+            if (![self canMove:indexPath]) {
                 break;
             }
             if (@available(iOS 9.0, *)) {
@@ -286,9 +284,45 @@ static NSString *DoraemonKitManagerHeadCellID = @"DoraemonKitManagerHeadCellID";
     NSMutableArray *pluginArray = dict[@"pluginArray"];
     NSMutableDictionary *itemData = pluginArray[indexPath.row];
     BOOL show = [itemData[@"show"] boolValue];
+    if (show){
+        //取消的时候要观察是不是这个section中的最后一个
+        NSInteger showCount = 0;
+        for (NSDictionary *subDic in pluginArray){
+            BOOL show = [subDic[@"show"] boolValue];
+            if (show) {
+                showCount++;
+            }
+        }
+        if (showCount == 1) {
+            [DoraemonToastUtil showToastBlack:DoraemonLocalizedString(@"每一个分组至少保留一项") inView:self.view];
+            return;
+        }
+    }
     itemData[@"show"] = @(!show);
     
     [self.collectionView reloadData];
+}
+
+#pragma mark -- private
+- (BOOL)canMove:(NSIndexPath *)indexPath{
+    if (!indexPath) {
+        return NO;
+    }
+    NSInteger section = indexPath.section;
+    NSMutableDictionary *dict = _currentArray[section];
+    NSMutableArray *pluginArray = dict[@"pluginArray"];
+    NSInteger showCount = 0;
+    for (NSDictionary *subDic in pluginArray){
+        BOOL show = [subDic[@"show"] boolValue];
+        if (show) {
+            showCount++;
+        }
+    }
+    if (showCount <= 1) {
+        [DoraemonToastUtil showToastBlack:DoraemonLocalizedString(@"每一个分组至少保留一项") inView:self.view];
+        return NO;
+    }
+    return YES;
 }
 
 

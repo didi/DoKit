@@ -307,6 +307,7 @@
     "保存成功"                                        = "Saved successfully";
     "还原"                                           = "Reset";
     "是否还原到初始状态"                                = "Whether to reset to the initial state";
+    "每一个分组至少保留一项"                             = "Keep at least one item in each section";
     
     //其他
     "提示"                                      =   "Tip";
