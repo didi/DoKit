@@ -13,10 +13,7 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
  */
 
 public class ViewCheckerKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.UI;
-    }
+
 
     @Override
     public int getName() {

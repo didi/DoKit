@@ -92,4 +92,8 @@ public class UserInfoDialogProvider extends DialogProvider<Object> {
         return true;
     }
 
+    @Override
+    public boolean isCancellable() {
+        return false;
+    }
 }

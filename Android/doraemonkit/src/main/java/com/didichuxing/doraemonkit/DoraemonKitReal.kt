@@ -18,7 +18,6 @@ import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey
 import com.didichuxing.doraemonkit.datapick.DataPickManager
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.Category
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerKit
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerKit
@@ -40,7 +39,6 @@ import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit
 import com.didichuxing.doraemonkit.kit.loginfo.LogInfoKit
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostKit
-import com.didichuxing.doraemonkit.kit.mode.FloatModeKit
 import com.didichuxing.doraemonkit.kit.network.MockKit
 import com.didichuxing.doraemonkit.kit.network.NetworkKit
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
@@ -50,14 +48,12 @@ import com.didichuxing.doraemonkit.kit.parameter.ram.RamKit
 import com.didichuxing.doraemonkit.kit.sysinfo.DevelopmentPageKit
 import com.didichuxing.doraemonkit.kit.sysinfo.LocalLangKit
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoKit
-import com.didichuxing.doraemonkit.kit.temporaryclose.TemporaryCloseKit
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterKit
 import com.didichuxing.doraemonkit.kit.timecounter.instrumentation.HandlerHooker
 import com.didichuxing.doraemonkit.kit.toolpanel.KitBean
 import com.didichuxing.doraemonkit.kit.toolpanel.KitGroupBean
 import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelUtil
 import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceKit
-import com.didichuxing.doraemonkit.kit.version.DokitVersionKit
 import com.didichuxing.doraemonkit.kit.viewcheck.ViewCheckerKit
 import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkKit
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorKit
@@ -76,7 +72,6 @@ import java.util.*
  */
 internal object DoraemonKitReal {
     private const val TAG = "Doraemon"
-    private var sHasInit = false
 
     /**
      * 是否允许上传统计信息
@@ -89,199 +84,14 @@ internal object DoraemonKitReal {
 
     /**
      * @param app
+     * @param mapKits  自定义kits  根据用户传进来的分组 建议优选选择mapKits 两者都传的话会选择mapKits
      * @param selfKits  自定义kits
      * @param productId Dokit平台端申请的productId
      */
-    @Deprecated("请使用init初始化")
-    fun install(app: Application, selfKits: List<AbstractKit>?, productId: String?) {
-        pluginConfig()
-        if (productId != null) {
-            DokitConstant.PRODUCT_ID = productId
-        }
-        DokitConstant.APP_HEALTH_RUNNING = GlobalConfig.getAppHealth()
-        //添加常用工具
-        if (sHasInit) {
-            //已经初始化添加自定义kits
-            if (selfKits != null) {
-                val biz = DokitConstant.KIT_MAPS[Category.BIZ]
-                if (biz != null) {
-                    biz.clear()
-                    biz.addAll(selfKits)
-                    for (kit in biz) {
-                        kit.onAppInit(app)
-                    }
-                }
-            }
-            //aop会再次注入一遍 所以需要直接返回
-            return
-        }
-        sHasInit = true
-        //赋值
-        APPLICATION = app
-        //初始化工具类
-        initAndroidUtil(app)
-        //判断进程名
-        if (!ProcessUtils.isMainProcess()) {
-            //Log.i(TAG, "======isNotMainProcess===");
-            return
-        }
-        //Log.i(TAG, "======isMainProcess===");
-        val strDokitMode = SharedPrefsUtil.getString(SharedPrefsKey.FLOAT_START_MODE, "normal")
-        DokitConstant.IS_NORMAL_FLOAT_MODE = strDokitMode == "normal"
-        //初始化第三方工具
-        installLeakCanary(app)
-        checkLargeImgIsOpen()
-        registerNetworkStatusChangedListener()
-        startAppHealth()
-        checkGPSMock()
-
-        //解锁系统隐藏api限制权限以及hook Instrumentation
-        HandlerHooker.doHook(app)
-        //hook WIFI GPS Telephony系统服务
-        ServiceHookManager.getInstance().install(app)
-
-        //OkHttp 拦截器 注入
-        OkHttpHook.installInterceptor()
-
-        //注册全局的activity生命周期回调
-        app.registerActivityLifecycleCallbacks(DokitActivityLifecycleCallbacks())
-        DokitConstant.KIT_MAPS.clear()
-
-        //业务专区
-        val biz: MutableList<AbstractKit> = ArrayList()
-        //weex专区
-        val weex: MutableList<AbstractKit> = ArrayList()
-
-        //常用工具
-        val tool: MutableList<AbstractKit> = ArrayList()
-        //性能监控
-        val performance: MutableList<AbstractKit> = ArrayList()
-        //视觉工具
-        val ui: MutableList<AbstractKit> = ArrayList()
-        //平台工具
-        val platform: MutableList<AbstractKit> = ArrayList()
-        //悬浮窗模式
-        val floatMode: MutableList<AbstractKit> = ArrayList()
-        //退出
-        val exit: MutableList<AbstractKit> = ArrayList()
-        //版本号
-        val version: MutableList<AbstractKit> = ArrayList()
-        //添加工具kit
-        tool.add(SysInfoKit())
-        tool.add(DevelopmentPageKit())
-        tool.add(LocalLangKit())
-        tool.add(FileExplorerKit())
-        if (GpsMockManager.getInstance().isMockEnable) {
-            tool.add(GpsMockKit())
-        }
-        tool.add(WebDoorKit())
-        tool.add(DataCleanKit())
-        tool.add(LogInfoKit())
-        tool.add(DbDebugKit())
-
-        //添加性能监控kit
-        performance.add(FrameInfoKit())
-        performance.add(CpuKit())
-        performance.add(RamKit())
-        performance.add(NetworkKit())
-        performance.add(CrashCaptureKit())
-        performance.add(BlockMonitorKit())
-        performance.add(LargePictureKit())
-        performance.add(WeakNetworkKit())
-        performance.add(TimeCounterKit())
-        performance.add(UIPerformanceKit())
-        performance.add(MethodCostKit())
-        try {
-            //动态添加leakcanary
-            val leakCanaryKit = Class.forName("com.didichuxing.doraemonkit.kit.leakcanary.LeakCanaryKit").newInstance() as AbstractKit
-            performance.add(leakCanaryKit)
-        } catch (e: Exception) {
-            //e.printStackTrace();
-        }
-
-
-        //添加视觉ui kit
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ui.add(ColorPickerKit())
-        }
-        ui.add(AlignRulerKit())
-        ui.add(ViewCheckerKit())
-        ui.add(LayoutBorderKit())
-        //新增数据mock工具 由于Dokit管理平台还没完善 所以暂时关闭入口
-        platform.add(MockKit())
-        platform.add(HealthKit())
-
-        //增加浮标模式
-        floatMode.add(FloatModeKit())
-        //添加退出项
-        exit.add(TemporaryCloseKit())
-        //添加版本号项
-        version.add(DokitVersionKit())
-        //添加自定义
-        if (selfKits != null && !selfKits.isEmpty()) {
-            biz.addAll(selfKits)
-        }
-        //调用kit 初始化
-        for (kit in biz) {
-            kit.onAppInit(app)
-        }
-        for (kit in performance) {
-            kit.onAppInit(app)
-        }
-        for (kit in tool) {
-            kit.onAppInit(app)
-        }
-        for (kit in ui) {
-            kit.onAppInit(app)
-        }
-        //注入到sKitMap中
-        DokitConstant.KIT_MAPS.put(Category.BIZ, biz)
-        //动态添加weex专区
-        try {
-            val weexLogKit = Class.forName("com.didichuxing.doraemonkit.weex.log.WeexLogKit").newInstance() as AbstractKit
-            weex.add(weexLogKit)
-            val storageKit = Class.forName("com.didichuxing.doraemonkit.weex.storage.WeexStorageKit").newInstance() as AbstractKit
-            weex.add(storageKit)
-            val weexInfoKit = Class.forName("com.didichuxing.doraemonkit.weex.info.WeexInfoKit").newInstance() as AbstractKit
-            weex.add(weexInfoKit)
-            val devToolKit = Class.forName("com.didichuxing.doraemonkit.weex.devtool.WeexDevToolKit").newInstance() as AbstractKit
-            weex.add(devToolKit)
-            DokitConstant.KIT_MAPS.put(Category.WEEX, weex)
-        } catch (e: Exception) {
-            //LogHelper.e(TAG, "e====>" + e.getMessage());
-        }
-        DokitConstant.KIT_MAPS.put(Category.PERFORMANCE, performance)
-        DokitConstant.KIT_MAPS.put(Category.PLATFORM, platform)
-        DokitConstant.KIT_MAPS.put(Category.TOOLS, tool)
-        DokitConstant.KIT_MAPS.put(Category.UI, ui)
-        DokitConstant.KIT_MAPS.put(Category.FLOAT_MODE, floatMode)
-        DokitConstant.KIT_MAPS.put(Category.CLOSE, exit)
-        DokitConstant.KIT_MAPS.put(Category.VERSION, version)
-        //初始化悬浮窗管理类
-        DokitViewManager.getInstance().init(app)
-        //上传app基本信息便于统计
-        if (sEnableUpload) {
-            try {
-                DoraemonStatisticsUtil.uploadUserInfo(app)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-
-        //上传埋点
-        DataPickManager.getInstance().postData()
-    }
-
-
-    /**
-     * 推荐使用该方法进行初始化
-     */
-    fun init(app: Application, selfKits: LinkedHashMap<String, MutableList<AbstractKit>> = linkedMapOf(), productId: String = "") {
+    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>?, selfKits: MutableList<AbstractKit>?, productId: String) {
         pluginConfig()
         DokitConstant.PRODUCT_ID = productId
         DokitConstant.APP_HEALTH_RUNNING = GlobalConfig.getAppHealth()
-        //添加常用工具
-
 
         //赋值
         APPLICATION = app
@@ -289,11 +99,8 @@ internal object DoraemonKitReal {
         initAndroidUtil(app)
         //判断进程名
         if (!ProcessUtils.isMainProcess()) {
-            //Log.i(TAG, "======isNotMainProcess===");
             return
         }
-
-        sHasInit = true
         val strDokitMode = SharedPrefsUtil.getString(SharedPrefsKey.FLOAT_START_MODE, "normal")
         DokitConstant.IS_NORMAL_FLOAT_MODE = strDokitMode == "normal"
         //初始化第三方工具
@@ -313,11 +120,22 @@ internal object DoraemonKitReal {
 
         //注册全局的activity生命周期回调
         app.registerActivityLifecycleCallbacks(DokitActivityLifecycleCallbacks())
+        //DokitConstant.KIT_MAPS.clear()
         DokitConstant.GLOBAL_KITS.clear()
         //添加用户的自定义kit
-        selfKits?.forEach { map ->
-            DokitConstant.GLOBAL_KITS.put(map.key, map.value)
+        when {
+            mapKits!!.isNotEmpty() -> {
+                mapKits.forEach { map ->
+                    DokitConstant.GLOBAL_KITS[map.key] = map.value
+                }
+            }
+
+            mapKits.isEmpty() && selfKits!!.isNotEmpty() -> {
+                DokitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_biz)] = selfKits
+            }
+
         }
+
         //添加自定义的kit
         addSystemKit(app)
         //addSystemKitForTest(app)
@@ -331,9 +149,11 @@ internal object DoraemonKitReal {
                 e.printStackTrace()
             }
         }
+
         //上传埋点
         DataPickManager.getInstance().postData()
     }
+
 
     /**
      * 添加自定义kit
@@ -350,24 +170,11 @@ internal object DoraemonKitReal {
 
         ToolPanelUtil.json2SystemKits(json)
         //悬浮窗模式
-        val floatMode: MutableList<AbstractKit> = mutableListOf()
-
-        //增加浮标模式
-        floatMode.add(FloatModeKit())
-        DokitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_mode)] = floatMode
-
+        DokitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_mode)] = mutableListOf()
         //添加退出项
-        //退出
-        val exit: MutableList<AbstractKit> = mutableListOf()
-
-        exit.add(TemporaryCloseKit())
-
-        DokitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_exit)] = exit
-        //添加版本号项
+        DokitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_exit)] = mutableListOf()
         //版本号
-        val version: MutableList<AbstractKit> = mutableListOf()
-        version.add(DokitVersionKit())
-        DokitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_version)] = version
+        DokitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_version)] = mutableListOf()
 
         //遍历初始化
         DokitConstant.GLOBAL_KITS.forEach { map ->

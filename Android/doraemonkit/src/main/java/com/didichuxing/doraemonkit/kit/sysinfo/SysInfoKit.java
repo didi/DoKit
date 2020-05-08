@@ -13,10 +13,7 @@ import com.didichuxing.doraemonkit.kit.Category;
  */
 
 public class SysInfoKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.TOOLS;
-    }
+
 
     @Override
     public int getName() {

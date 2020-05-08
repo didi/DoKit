@@ -17,6 +17,9 @@ import java.lang.Exception
 class ToolPanelUtil {
     companion object {
 
+        /**
+         * json 转系统kit
+         */
         fun json2SystemKits(json: String) {
             val localKits: MutableList<KitGroupBean> = GsonUtils.fromJson(json, GsonUtils.getListType(KitGroupBean::class.java))
             localKits.forEach { group ->

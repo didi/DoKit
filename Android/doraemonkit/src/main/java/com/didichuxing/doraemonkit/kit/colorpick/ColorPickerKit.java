@@ -18,10 +18,7 @@ import com.didichuxing.doraemonkit.kit.core.TranslucentActivity;
 public class ColorPickerKit extends AbstractKit {
     private static final String TAG = "ColorPicker";
 
-    @Override
-    public int getCategory() {
-        return Category.UI;
-    }
+
 
     @Override
     public int getName() {

@@ -17,10 +17,7 @@ import com.didichuxing.doraemonkit.kit.Category;
  * ================================================
  */
 public class DbDebugKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.TOOLS;
-    }
+
 
     @Override
     public int getName() {

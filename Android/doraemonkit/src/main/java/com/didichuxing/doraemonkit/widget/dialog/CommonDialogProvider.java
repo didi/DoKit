@@ -52,4 +52,9 @@ public class CommonDialogProvider extends DialogProvider<DialogInfo> {
     protected View getNegativeView() {
         return mNegative;
     }
+
+    @Override
+    public boolean isCancellable() {
+        return false;
+    }
 }

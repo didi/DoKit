@@ -21,10 +21,7 @@ import com.didichuxing.doraemonkit.util.DokitUtil;
  * ================================================
  */
 public class LargePictureKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.PERFORMANCE;
-    }
+
 
     @Override
     public int getName() {

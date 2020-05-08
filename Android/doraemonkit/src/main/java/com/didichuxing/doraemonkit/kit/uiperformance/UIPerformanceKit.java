@@ -13,10 +13,7 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
  * UI渲染性能kit
  */
 public class UIPerformanceKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.PERFORMANCE;
-    }
+
 
     @Override
     public int getName() {

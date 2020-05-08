@@ -115,7 +115,6 @@ class ToolPanelDokitView : AbsDokitView() {
             if (multiKitItem.itemType == MultiKitItem.TYPE_KIT) {
                 //常规模式下点击常用工具不隐藏工具面板
                 DokitViewManager.getInstance().detachToolPanel()
-
                 multiKitItem.kit?.onClick(ActivityUtils.getTopActivity())
                 try {
                     //添加埋点

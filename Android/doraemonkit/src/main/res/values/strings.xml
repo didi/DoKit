@@ -181,6 +181,7 @@
     <string name="dk_back">返回</string>
     <string name="dk_setting">设置</string>
     <string name="dk_edit">编辑</string>
+    <string name="dk_reset">还原</string>
     <string name="dk_complete">完成</string>
     <string name="dk_export">导出</string>
     <string name="dk_manager_kit_title">管理我的功能</string>
@@ -258,7 +259,7 @@
     <string name="dk_db_tips_insert">添加</string>
     <string name="dk_success">成功</string>
     <string name="dk_fail">失败</string>
-    <string name="dk_confirm">确认</string>
+    <string name="dk_confirm">确定</string>
     <string name="dk_post">提交</string>
     <string name="dk_app_data_clean">确认要删除本地数据</string>
     <string name="dk_hint">提示</string>
@@ -363,7 +364,12 @@
     <string name="dk_plugin_big_img_close_tip">大图检测插件未开启</string>
     <string name="dk_plugin_gps_close_tip">GPS插件未开启</string>
 
-    <string name="dk_platform_tip">"需要到www.dokit.cn上注册pId才能使用该功能"</string>
+    <string name="dk_platform_tip">需要到www.dokit.cn上注册pId才能使用该功能</string>
 
+    <!--toolpanel-->
+    <string name="dk_toolpanel_save_complete">保存成功</string>
+    <string name="dk_toolpanel_reset_complete">功能还原成功</string>
 
+    <string name="dk_toolpanel_dialog_edit_tip">是否保存已编辑的内容</string>
+    <string name="dk_toolpanel_dialog_reset_tip">是否还原到初始状态</string>
 </resources>

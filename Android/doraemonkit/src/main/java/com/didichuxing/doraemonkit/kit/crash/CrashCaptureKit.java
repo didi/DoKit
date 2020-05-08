@@ -12,10 +12,6 @@ import com.didichuxing.doraemonkit.kit.Category;
  * Created by wanglikun on 2019/6/12
  */
 public class CrashCaptureKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.TOOLS;
-    }
 
     @Override
     public int getName() {

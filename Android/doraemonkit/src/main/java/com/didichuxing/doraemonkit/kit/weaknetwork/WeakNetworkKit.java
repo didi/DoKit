@@ -17,10 +17,7 @@ import com.didichuxing.doraemonkit.util.DokitUtil;
  * Created by xiandanin on 2019/5/7 19:05
  */
 public class WeakNetworkKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.TOOLS;
-    }
+
 
     @Override
     public int getName() {

@@ -8,10 +8,6 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 
 public class CpuKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.PERFORMANCE;
-    }
 
     @Override
     public int getName() {
@@ -25,7 +21,7 @@ public class CpuKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context,FragmentIndex.FRAGMENT_CPU);
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_CPU);
     }
 
     @Override

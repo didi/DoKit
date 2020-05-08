@@ -19,10 +19,7 @@ import com.didichuxing.doraemonkit.util.DokitUtil;
  */
 public class MockKit extends AbstractKit {
 
-    @Override
-    public int getCategory() {
-        return Category.PLATFORM;
-    }
+
 
     @Override
     public int getName() {

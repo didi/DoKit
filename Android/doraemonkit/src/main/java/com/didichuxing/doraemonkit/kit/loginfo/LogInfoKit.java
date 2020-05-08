@@ -16,10 +16,7 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 
 public class LogInfoKit extends AbstractKit {
 
-    @Override
-    public int getCategory() {
-        return Category.TOOLS;
-    }
+
 
     @Override
     public int getName() {

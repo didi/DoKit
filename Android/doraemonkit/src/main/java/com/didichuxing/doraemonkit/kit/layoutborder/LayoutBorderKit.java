@@ -13,10 +13,7 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
  * Created by wanglikun on 2019/1/7
  */
 public class LayoutBorderKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.UI;
-    }
+
 
     @Override
     public int getName() {

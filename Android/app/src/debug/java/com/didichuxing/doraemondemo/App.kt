@@ -12,24 +12,27 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig
 import java.util.*
 
 /**
- * Created by zhangweida on 2018/6/22.
+ * @author jint
+ * @mail 704167880@qq.com
  */
 class App : Application() {
     override fun onCreate() {
         super.onCreate()
+
+        //测试环境:a49842eeebeb1989b3f9565eb12c276b
+        //线上环境:749a0600b5e48dd77cf8ee680be7b1b7
+        DoraemonKit.disableUpload()
+        //是否显示入口icon
+        // DoraemonKit.setAwaysShowMainIcon(false);
+
+
         val kits: MutableList<AbstractKit> = ArrayList()
         kits.add(DemoKit())
-        //测试环境:a49842eeebeb1989b3f9565eb12c276b
-//线上环境:749a0600b5e48dd77cf8ee680be7b1b7
-        // DoraemonKit.disableUpload()
-        //是否显示入口icon
-//        DoraemonKit.setAwaysShowMainIcon(false);
-        //DoraemonKit.install(this, kits, "749a0600b5e48dd77cf8ee680be7b1b7")
-        val selfKits: LinkedHashMap<String, MutableList<AbstractKit>> = linkedMapOf()
-        selfKits.put("业务专区1", mutableListOf(DemoKit()))
-        selfKits.put("业务专区2", mutableListOf(DemoKit()))
-        DoraemonKit.init(this, selfKits)
-        //DoraemonKit.install(this, kits, "749a0600b5e48dd77cf8ee680be7b1b7")
+//        val mapKits: LinkedHashMap<String, MutableList<AbstractKit>> = linkedMapOf()
+//        mapKits.put("业务专区1", mutableListOf(DemoKit()))
+//        mapKits.put("业务专区2", mutableListOf(DemoKit()))
+
+        DoraemonKit.install(this)
         val config = ImagePipelineConfig.newBuilder(this)
                 .setDiskCacheEnabled(false)
                 .build()

@@ -18,11 +18,6 @@ import com.didichuxing.doraemonkit.util.DokitUtil;
 public class NetworkKit extends AbstractKit {
 
     @Override
-    public int getCategory() {
-        return Category.PERFORMANCE;
-    }
-
-    @Override
     public int getName() {
         return R.string.dk_kit_network_monitor;
     }

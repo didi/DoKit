@@ -13,10 +13,7 @@ import com.didichuxing.doraemonkit.weex.common.DKCommonActivity;
  */
 public class WeexStorageKit extends AbstractKit {
 
-    @Override
-    public int getCategory() {
-        return Category.WEEX;
-    }
+
 
     @Override
     public int getName() {

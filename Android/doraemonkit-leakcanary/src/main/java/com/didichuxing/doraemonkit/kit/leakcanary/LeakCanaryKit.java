@@ -18,10 +18,6 @@ import com.squareup.leakcanary.internal.DisplayLeakActivity;
  * ================================================
  */
 public class LeakCanaryKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.PERFORMANCE;
-    }
 
     @Override
     public int getName() {

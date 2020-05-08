@@ -13,10 +13,6 @@ import com.didichuxing.doraemonkit.weex.R;
  */
 public class WeexDevToolKit extends AbstractKit {
 
-    @Override
-    public int getCategory() {
-        return Category.WEEX;
-    }
 
     @Override
     public int getName() {

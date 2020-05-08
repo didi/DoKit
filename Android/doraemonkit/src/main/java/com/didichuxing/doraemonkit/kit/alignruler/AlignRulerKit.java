@@ -14,10 +14,7 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
  */
 
 public class AlignRulerKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.UI;
-    }
+
 
     @Override
     public int getName() {

@@ -10,10 +10,9 @@ import androidx.room.Room;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
-import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDatabase;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
-import com.didichuxing.doraemonkit.kit.toolpanel.old.OldToolPanelDokitView;
+import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.HashMap;
@@ -210,23 +209,14 @@ public class DokitViewManager implements DokitViewManagerInterface {
      * 隐藏工具列表dokitView
      */
     public void detachToolPanel() {
-        if (DokitConstant.IS_NEW_TOOL_PANEL) {
-            detach(ToolPanelDokitView.class.getSimpleName());
-        } else {
-            detach(OldToolPanelDokitView.class.getSimpleName());
-        }
+        detach(ToolPanelDokitView.class.getSimpleName());
     }
 
     /**
      * 显示工具列表dokitView
      */
     public void attachToolPanel() {
-        DokitIntent toolPanelIntent;
-        if (DokitConstant.IS_NEW_TOOL_PANEL) {
-            toolPanelIntent = new DokitIntent(ToolPanelDokitView.class);
-        } else {
-            toolPanelIntent = new DokitIntent(OldToolPanelDokitView.class);
-        }
+        DokitIntent toolPanelIntent = new DokitIntent(ToolPanelDokitView.class);
         toolPanelIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
         attach(toolPanelIntent);
     }

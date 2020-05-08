@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.toolpanel
 
 import android.os.Process
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RadioButton
@@ -43,6 +44,12 @@ class ToolPanelAdapter(kitViews: MutableList<MultiKitItem>?)
         when (item.itemType) {
             MultiKitItem.TYPE_TITLE -> {
                 item.name?.let {
+                    if (it.equals(DokitUtil.getString(R.string.dk_category_platform))) {
+                        holder.getView<TextView>(R.id.tv_sub_title_name).visibility = View.VISIBLE
+                        holder.getView<TextView>(R.id.tv_sub_title_name).text = "(www.dokit.cn)"
+                    } else {
+                        holder.getView<TextView>(R.id.tv_sub_title_name).visibility = View.GONE
+                    }
                     holder.getView<TextView>(R.id.tv_title_name).text = it
                 }
             }

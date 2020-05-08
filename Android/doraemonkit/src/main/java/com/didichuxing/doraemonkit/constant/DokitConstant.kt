@@ -5,11 +5,8 @@ import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
-import com.didichuxing.doraemonkit.kit.toolpanel.old.KitItem
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo
 import java.lang.ref.WeakReference
-import java.util.*
-import kotlin.collections.LinkedHashMap
 
 /**
  * ================================================
@@ -36,12 +33,6 @@ object DokitConstant {
 
     @JvmField
     val GLOBAL_SYSTEM_KITS: LinkedHashMap<String, MutableList<AbstractKit>> = LinkedHashMap()
-
-    /**
-     * 是否显示新的工具面板
-     */
-    @JvmField
-    var IS_NEW_TOOL_PANEL = true
 
     /**
      * 产品id
@@ -85,40 +76,10 @@ object DokitConstant {
     @JvmField
     var DB_DEBUG_FRAGMENT: WeakReference<DbDebugFragment>? = null
 
-    /**
-     * 全局的dokit Kit信息
-     */
-    var KIT_MAPS: LinkedHashMap<Int, MutableList<AbstractKit>> = linkedMapOf()
 
     @JvmField
     var ACTIVITY_LIFECYCLE_INFOS = mutableMapOf<String, ActivityLifecycleInfo>()
 
-    fun getKitList(catgory: Int): List<AbstractKit>? {
-        return if (KIT_MAPS[catgory] != null) {
-            ArrayList(KIT_MAPS[catgory]!!)
-        } else {
-            null
-        }
-    }
-
-    /**
-     * 将指定类目的kits转为指定的KitItems
-     *
-     * @param catgory
-     * @return
-     */
-    @JvmStatic
-    fun getKitItems(catgory: Int): List<KitItem>? {
-        return if (KIT_MAPS[catgory] != null) {
-            val kitItems: MutableList<KitItem> = ArrayList()
-            for (kit in KIT_MAPS[catgory]!!) {
-                kitItems.add(KitItem(kit))
-            }
-            kitItems
-        } else {
-            null
-        }
-    }
 
     /**
      * 判断接入的是否是滴滴内部的rpc sdk

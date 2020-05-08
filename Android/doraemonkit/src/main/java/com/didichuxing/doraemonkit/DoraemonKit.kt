@@ -13,50 +13,23 @@ object DoraemonKit {
     var APPLICATION: Application? = null
     private const val TAG = "DoraemonKit"
 
-    /**
-     * 请使用init 初始化
-     *
-     * @param app
-     */
-    @Deprecated("请使用init初始化", ReplaceWith("install(app, null)", "com.didichuxing.doraemonkit.DoraemonKit.install"))
-    fun install(app: Application) {
-        install(app, null)
-    }
-
-
-    @Deprecated("请使用init初始化", ReplaceWith("install(app, selfKits, \"\")", "com.didichuxing.doraemonkit.DoraemonKit.install"))
-    fun install(app: Application, selfKits: List<AbstractKit>?) {
-        install(app, selfKits, "")
-    }
-
 
     /**
      * @param app
+     * @param mapKits  自定义kits  根据用户传进来的分组 建议优选选择mapKits 两者都传的话会选择mapKits
      * @param selfKits  自定义kits
      * @param productId Dokit平台端申请的productId
      */
     @JvmStatic
-    @Deprecated("请使用init初始化")
-    fun install(app: Application, selfKits: List<AbstractKit>?, productId: String?) {
+    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), selfKits: MutableList<AbstractKit>? = mutableListOf(), productId: String = "") {
         APPLICATION = app
         try {
-            DoraemonKitReal.install(app, selfKits, productId)
+            DoraemonKitReal.install(app, mapKits, selfKits, productId)
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    /**
-     * in的初始化方式
-     */
-    fun init(app: Application, selfKits: LinkedHashMap<String, MutableList<AbstractKit>> = linkedMapOf(), productId: String = "") {
-        APPLICATION = app
-        try {
-            DoraemonKitReal.init(app, selfKits, productId)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
 
     fun setWebDoorCallback(callback: WebDoorCallback?) {
         DoraemonKitReal.setWebDoorCallback(callback)

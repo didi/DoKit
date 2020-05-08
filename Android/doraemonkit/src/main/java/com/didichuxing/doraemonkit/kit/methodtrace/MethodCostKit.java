@@ -17,10 +17,7 @@ import com.didichuxing.doraemonkit.kit.Category;
  * ================================================
  */
 public class MethodCostKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.PERFORMANCE;
-    }
+
 
     @Override
     public int getName() {

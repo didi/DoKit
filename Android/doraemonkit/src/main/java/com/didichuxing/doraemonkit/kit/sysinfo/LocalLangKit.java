@@ -13,10 +13,7 @@ import com.didichuxing.doraemonkit.util.SystemUtil;
  */
 
 public class LocalLangKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.TOOLS;
-    }
+
 
     @Override
     public int getName() {
