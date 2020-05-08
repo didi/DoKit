@@ -52,9 +52,6 @@ static NSString *DoraemonHomeCloseCellID = @"DoraemonHomeCloseCellID";
     }
 #endif
     NSMutableArray *dataArray = [[DoraemonCacheManager sharedInstance] allKitShowManagerData];
-    if (ARRAY_IS_NULL(dataArray)) {
-        dataArray = [DoraemonManager shareInstance].dataArray;
-    }
     _dataArray = dataArray;
     [self.view addSubview:self.collectionView];
     
