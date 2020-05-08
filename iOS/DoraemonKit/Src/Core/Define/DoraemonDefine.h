@@ -19,7 +19,7 @@
 #import "DoraemonUtil.h"
 
 #define DoKitVersion @"3.0.2"
-#define kbChange(x) x * 1000
+#define DoKitKbChange(x) x * 1000
 
 //#define DoKit_OpenLog
 
