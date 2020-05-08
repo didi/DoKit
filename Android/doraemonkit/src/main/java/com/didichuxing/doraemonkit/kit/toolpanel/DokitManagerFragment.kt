@@ -136,8 +136,7 @@ class DokitManagerFragment : BaseFragment() {
         }
 
         val json = GsonUtils.toJson(localKits)
-        val systemKitPath = PathUtils.getInternalAppFilesPath() + File.separator + "system_kit_bak.json"
-        FileIOUtils.writeFileFromString(systemKitPath, json, false)
+        FileIOUtils.writeFileFromString(DokitConstant.SYSTEM_KITS_BAK_PATH, json, false)
     }
 
     /**

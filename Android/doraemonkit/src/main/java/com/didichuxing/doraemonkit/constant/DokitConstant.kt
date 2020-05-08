@@ -1,11 +1,14 @@
 package com.didichuxing.doraemonkit.constant
 
+import com.blankj.utilcode.util.PathUtils
+import com.didichuxing.doraemonkit.BuildConfig
 import com.didichuxing.doraemonkit.config.GlobalConfig
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo
+import java.io.File
 import java.lang.ref.WeakReference
 
 /**
@@ -24,6 +27,11 @@ object DokitConstant {
     const val GROUP_ID_WEEX = "dk_category_weex"
     const val GROUP_ID_PERFORMANCE = "dk_category_performance"
     const val GROUP_ID_UI = "dk_category_ui"
+
+    val SYSTEM_KITS_BAK_PATH: String by lazy {
+        "${PathUtils.getInternalAppFilesPath()}${File.separator}system_kit_bak_${BuildConfig.DOKIT_VERSION}.json"
+    }
+
 
     /**
      * 全局的Kits

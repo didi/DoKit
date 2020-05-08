@@ -78,6 +78,7 @@ internal object DoraemonKitReal {
      */
     private var sEnableUpload = true
     private var APPLICATION: Application? = null
+
     fun setDebug(debug: Boolean) {
         LogHelper.setDebug(debug)
     }
@@ -160,9 +161,8 @@ internal object DoraemonKitReal {
      */
     private fun addSystemKit(application: Application) {
         var json = ""
-        val systemKitPath = PathUtils.getInternalAppFilesPath() + File.separator + "system_kit_bak.json"
-        if (FileUtils.isFileExists(systemKitPath)) {
-            json = FileIOUtils.readFile2String(systemKitPath)
+        if (FileUtils.isFileExists(DokitConstant.SYSTEM_KITS_BAK_PATH)) {
+            json = FileIOUtils.readFile2String(DokitConstant.SYSTEM_KITS_BAK_PATH)
         } else {
             val open = application.assets.open("dokit_system_kits.json")
             json = ConvertUtils.inputStream2String(open, "UTF-8")
