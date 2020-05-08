@@ -14,9 +14,9 @@ Pod::Spec.new do |s|
                        DESC
 
   s.homepage         = 'https://github.com/didi/DoraemonKit'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
+  s.license          = { :type => 'Apache-2.0', :file => 'LICENSE' }
   s.author           = { 'yixiang' => 'javer_yi@163.com' }
-  s.source           = { :git => 'https://github.com/didi/DoraemonKit', :tag => s.version.to_s }
+  s.source           = { :git => 'git@github.com:didi/DoraemonKit.git', :tag => s.version.to_s }
   s.ios.deployment_target = '8.0'
 
 
