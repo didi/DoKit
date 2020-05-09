@@ -11,4 +11,4 @@ package com.didichuxing.doraemonkit.kit.toolpanel
  */
 
 data class KitGroupBean(var groupId: String, var kits: MutableList<KitBean>)
-data class KitBean(var allClassName: String, var canShow: Boolean, var innerKitId: String = "")
+data class KitBean(var allClassName: String, var checked: Boolean, var innerKitId: String = "")

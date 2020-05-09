@@ -19,7 +19,6 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity
 import com.didichuxing.doraemonkit.util.DokitUtil
-import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.widget.titlebar.TitleBar
 
 /**
@@ -29,7 +28,7 @@ import com.didichuxing.doraemonkit.widget.titlebar.TitleBar
  */
 class ToolPanelDokitView : AbsDokitView() {
     private lateinit var mAdapter: ToolPanelAdapter
-    private var mKits: MutableList<MultiKitItem> = mutableListOf()
+    private var mKits: MutableList<KitWrapItem> = mutableListOf()
 
     override fun onCreate(context: Context) {
 
@@ -48,13 +47,13 @@ class ToolPanelDokitView : AbsDokitView() {
         DokitConstant.GLOBAL_KITS.forEach { group ->
             when (group.key) {
                 DokitUtil.getString(R.string.dk_category_mode) -> {
-                    mKits.add(MultiKitItem(MultiKitItem.TYPE_MODE, name = group.key, kit = null))
+                    mKits.add(KitWrapItem(KitWrapItem.TYPE_MODE, name = group.key, kit = null))
                 }
                 DokitUtil.getString(R.string.dk_category_exit) -> {
-                    mKits.add(MultiKitItem(MultiKitItem.TYPE_EXIT, name = group.key, kit = null))
+                    mKits.add(KitWrapItem(KitWrapItem.TYPE_EXIT, name = group.key, kit = null))
                 }
                 DokitUtil.getString(R.string.dk_category_version) -> {
-                    mKits.add(MultiKitItem(MultiKitItem.TYPE_VERSION, name = group.key, kit = null))
+                    mKits.add(KitWrapItem(KitWrapItem.TYPE_VERSION, name = group.key, kit = null))
                 }
                 DokitConstant.GROUP_ID_PLATFORM,
                 DokitConstant.GROUP_ID_COMM,
@@ -62,20 +61,20 @@ class ToolPanelDokitView : AbsDokitView() {
                 DokitConstant.GROUP_ID_PERFORMANCE,
                 DokitConstant.GROUP_ID_UI -> {
                     if (group.value.size != 0) {
-                        mKits.add(MultiKitItem(MultiKitItem.TYPE_TITLE, name = DokitUtil.getString(DokitUtil.getStringId(group.key)), kit = null))
-                        group.value.forEach { kit ->
-                            if (kit.canShow) {
-                                mKits.add(MultiKitItem(MultiKitItem.TYPE_KIT, name = DokitUtil.getString(kit.name), kit = kit))
+                        mKits.add(KitWrapItem(KitWrapItem.TYPE_TITLE, name = DokitUtil.getString(DokitUtil.getStringId(group.key)), kit = null))
+                        group.value.forEach { kitWrap ->
+                            if (kitWrap.checked) {
+                                mKits.add(kitWrap)
                             }
                         }
                     }
                 }
                 else -> {
                     if (group.value.size != 0) {
-                        mKits.add(MultiKitItem(MultiKitItem.TYPE_TITLE, name = group.key, kit = null))
-                        group.value.forEach { kit ->
-                            if (kit.canShow) {
-                                mKits.add(MultiKitItem(MultiKitItem.TYPE_KIT, name = DokitUtil.getString(kit.name), kit = kit))
+                        mKits.add(KitWrapItem(KitWrapItem.TYPE_TITLE, name = group.key, kit = null))
+                        group.value.forEach { kitWrap ->
+                            if (kitWrap.checked) {
+                                mKits.add(kitWrap)
                             }
                         }
                     }
@@ -104,7 +103,7 @@ class ToolPanelDokitView : AbsDokitView() {
         mAdapter = ToolPanelAdapter(mKits)
         val gridLayoutManager = GridLayoutManager(activity, 4)
         mAdapter.setGridSpanSizeLookup { _, viewType, _ ->
-            if (viewType == MultiKitItem.TYPE_KIT) {
+            if (viewType == KitWrapItem.TYPE_KIT) {
                 1
             } else {
                 4
@@ -112,7 +111,7 @@ class ToolPanelDokitView : AbsDokitView() {
         }
         mAdapter.setOnItemClickListener { adapter, view, position ->
             val multiKitItem = mKits[position]
-            if (multiKitItem.itemType == MultiKitItem.TYPE_KIT) {
+            if (multiKitItem.itemType == KitWrapItem.TYPE_KIT) {
                 //常规模式下点击常用工具不隐藏工具面板
                 DokitViewManager.getInstance().detachToolPanel()
                 multiKitItem.kit?.onClick(ActivityUtils.getTopActivity())

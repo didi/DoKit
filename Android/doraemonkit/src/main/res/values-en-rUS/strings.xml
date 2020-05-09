@@ -321,7 +321,7 @@
     <string name="dk_category_version">version</string>
     <string name="dk_setting">Setting</string>
     <string name="dk_edit">Edit</string>
-    <string name="dk_complete">Complete</string>
+    <string name="dk_complete">OK</string>
     <string name="dk_export">Export</string>
     <string name="dk_manager_kit_title">Manager</string>
     <string name="dk_kit_block_time_app_start_info">Launch Info</string>
@@ -332,4 +332,10 @@
     <string name="dk_plugin_big_img_close_tip">Large image detection plugin is not turned on</string>
     <string name="dk_plugin_gps_close_tip">GPS plugin is not open</string>
     <string name="dk_platform_tip">You need to register the pId on www.dokit.cn to use this function</string>
+    <string name="dk_reset">Reset</string>
+    <string name="dk_toolpanel_save_complete">Saved successfully</string>
+    <string name="dk_toolpanel_reset_complete">Function restored successfully</string>
+    <string name="dk_toolpanel_dialog_edit_tip">Whether to save the edited content</string>
+    <string name="dk_toolpanel_dialog_reset_tip">Whether to restore to the initial state</string>
+    <string name="dk_setting_kit_manager">Function management</string>
 </resources>

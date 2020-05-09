@@ -175,8 +175,7 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
     private var mUpFetchModule: BaseUpFetchModule? = null
     private var mDraggableModule: BaseDraggableModule? = null
 
-    protected lateinit var context: Context
-        private set
+    public var context: Context? = null
 
     lateinit var weakRecyclerView: WeakReference<RecyclerView>
 

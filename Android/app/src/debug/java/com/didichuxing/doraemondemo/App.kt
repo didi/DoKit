@@ -26,13 +26,16 @@ class App : Application() {
         // DoraemonKit.setAwaysShowMainIcon(false);
 
 
-        val kits: MutableList<AbstractKit> = ArrayList()
-        kits.add(DemoKit())
-//        val mapKits: LinkedHashMap<String, MutableList<AbstractKit>> = linkedMapOf()
-//        mapKits.put("业务专区1", mutableListOf(DemoKit()))
-//        mapKits.put("业务专区2", mutableListOf(DemoKit()))
+//        val kits: MutableList<AbstractKit> = ArrayList()
+//        kits.add(DemoKit())
+//        kits.add(DemoKit())
+//        kits.add(DemoKit())
+//        kits.add(DemoKit())
+        val mapKits: LinkedHashMap<String, MutableList<AbstractKit>> = linkedMapOf()
+        mapKits.put("业务专区1", mutableListOf(DemoKit()))
+        mapKits.put("业务专区2", mutableListOf(DemoKit()))
 
-        DoraemonKit.install(this)
+        DoraemonKit.install(this, mapKits = mapKits)
         val config = ImagePipelineConfig.newBuilder(this)
                 .setDiskCacheEnabled(false)
                 .build()

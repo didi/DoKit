@@ -7,6 +7,7 @@ import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
+import com.didichuxing.doraemonkit.kit.toolpanel.KitWrapItem
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo
 import java.io.File
 import java.lang.ref.WeakReference
@@ -37,10 +38,10 @@ object DokitConstant {
      * 全局的Kits
      */
     @JvmField
-    val GLOBAL_KITS: LinkedHashMap<String, MutableList<AbstractKit>> = LinkedHashMap()
+    val GLOBAL_KITS: LinkedHashMap<String, MutableList<KitWrapItem>> = LinkedHashMap()
 
     @JvmField
-    val GLOBAL_SYSTEM_KITS: LinkedHashMap<String, MutableList<AbstractKit>> = LinkedHashMap()
+    val GLOBAL_SYSTEM_KITS: LinkedHashMap<String, MutableList<KitWrapItem>> = LinkedHashMap()
 
     /**
      * 产品id

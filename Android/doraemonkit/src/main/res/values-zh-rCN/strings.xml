@@ -329,4 +329,10 @@
     <string name="dk_plugin_big_img_close_tip">大图检测插件未开启</string>
     <string name="dk_plugin_gps_close_tip">GPS插件未开启</string>
     <string name="dk_platform_tip">需要到www.dokit.cn上注册pId才能使用该功能</string>
+    <string name="dk_reset">还原</string>
+    <string name="dk_toolpanel_save_complete">保存成功</string>
+    <string name="dk_toolpanel_reset_complete">功能还原成功</string>
+    <string name="dk_toolpanel_dialog_edit_tip">是否保存已编辑的内容</string>
+    <string name="dk_toolpanel_dialog_reset_tip">是否还原到初始状态</string>
+    <string name="dk_setting_kit_manager">功能管理</string>
 </resources>

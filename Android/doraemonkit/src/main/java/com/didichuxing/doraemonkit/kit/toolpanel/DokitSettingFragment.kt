@@ -10,6 +10,7 @@ import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity
+import com.didichuxing.doraemonkit.util.DokitUtil
 import kotlinx.android.synthetic.main.dk_fragment_setting.*
 
 /**
@@ -23,7 +24,7 @@ import kotlinx.android.synthetic.main.dk_fragment_setting.*
  */
 class DokitSettingFragment : BaseFragment() {
     private lateinit var mAdapter: DokitSettingAdapter
-    private val mSettings = mutableListOf("功能管理")
+    private val mSettings = mutableListOf(DokitUtil.getString(R.string.dk_setting_kit_manager))
 
     @LayoutRes
     override fun onRequestLayout(): Int {
@@ -41,7 +42,7 @@ class DokitSettingFragment : BaseFragment() {
             finish()
         }
 
-        mAdapter = DokitSettingAdapter( mSettings)
+        mAdapter = DokitSettingAdapter(mSettings)
         setting_list.adapter = mAdapter
         setting_list.layoutManager = LinearLayoutManager(activity)
         mAdapter.setOnItemClickListener { adapter, view, position ->

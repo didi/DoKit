@@ -19,13 +19,10 @@ import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.decoration.HorizontalDividerItemDecoration
 import com.didichuxing.doraemonkit.kit.toolpanel.decoration.VerticalDividerItemDecoration
 import com.didichuxing.doraemonkit.util.DokitUtil
-import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.widget.bravh.listener.OnItemDragListener
 import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
-import com.didichuxing.doraemonkit.widget.dialog.DialogListener
 import com.didichuxing.doraemonkit.widget.dialog.SimpleDialogListener
 import kotlinx.android.synthetic.main.dk_fragment_kit_manager.*
-import java.io.File
 
 /**
  * ================================================
@@ -38,10 +35,10 @@ import java.io.File
  */
 class DokitManagerFragment : BaseFragment() {
     private lateinit var mAdapter: DokitManagerAdapter
-    private val mKits: MutableList<MultiKitItem> = mutableListOf()
-    private val mBakKits: MutableList<MultiKitItem> = mutableListOf()
+    private val mKits: MutableList<KitWrapItem> = mutableListOf()
+    private val mBakKits: MutableList<KitWrapItem> = mutableListOf()
     private var mDragStartPos = -1
-    private val mBakGlobalKits: LinkedHashMap<String, MutableList<AbstractKit>> = LinkedHashMap()
+    private val mBakGlobalKits: LinkedHashMap<String, MutableList<KitWrapItem>> = LinkedHashMap()
 
     @LayoutRes
     override fun onRequestLayout(): Int {
@@ -55,9 +52,26 @@ class DokitManagerFragment : BaseFragment() {
     }
 
     private fun updateGlobalBakKits() {
-        //更新备份数据
-        mBakGlobalKits.clear()
-        mBakGlobalKits.putAll(DokitConstant.GLOBAL_KITS)
+        //更新备份数据 需要深度拷贝
+        for (group in mBakGlobalKits.keys) {
+            when (group) {
+                DokitConstant.GROUP_ID_PLATFORM,
+                DokitConstant.GROUP_ID_COMM,
+                DokitConstant.GROUP_ID_WEEX,
+                DokitConstant.GROUP_ID_PERFORMANCE,
+                DokitConstant.GROUP_ID_UI -> {
+                    mBakGlobalKits[group]?.clear()
+                }
+            }
+        }
+
+        for (group in DokitConstant.GLOBAL_KITS.keys) {
+            mBakGlobalKits[group] = mutableListOf()
+            DokitConstant.GLOBAL_KITS[group]?.forEach { it ->
+                mBakGlobalKits[group]?.add(it.clone())
+            }
+        }
+
     }
 
     private fun generateData() {
@@ -71,10 +85,10 @@ class DokitManagerFragment : BaseFragment() {
                 DokitConstant.GROUP_ID_PERFORMANCE,
                 DokitConstant.GROUP_ID_UI -> {
                     if (group.value.size != 0) {
-                        mKits.add(MultiKitItem(MultiKitItem.TYPE_TITLE, name = DokitUtil.getString(DokitUtil.getStringId(group.key)), kit = null))
-                        group.value.forEach { kit ->
-                            if (kit.canShow) {
-                                mKits.add(MultiKitItem(MultiKitItem.TYPE_KIT, name = DokitUtil.getString(kit.name), checked = kit.canShow, kit = kit, groupName = group.key))
+                        mKits.add(KitWrapItem(KitWrapItem.TYPE_TITLE, name = DokitUtil.getString(DokitUtil.getStringId(group.key)), kit = null))
+                        group.value.forEach { kitWrap ->
+                            if (kitWrap.checked) {
+                                mKits.add(kitWrap)
                             }
                         }
                     }
@@ -98,9 +112,9 @@ class DokitManagerFragment : BaseFragment() {
                     DokitConstant.GROUP_ID_PERFORMANCE,
                     DokitConstant.GROUP_ID_UI -> {
                         if (group.value.size != 0) {
-                            mKits.add(MultiKitItem(MultiKitItem.TYPE_TITLE, name = DokitUtil.getString(DokitUtil.getStringId(group.key)), kit = null))
-                            group.value.forEach { kit ->
-                                mKits.add(MultiKitItem(MultiKitItem.TYPE_KIT, name = DokitUtil.getString(kit.name), checked = kit.canShow, kit = kit, groupName = group.key))
+                            mKits.add(KitWrapItem(KitWrapItem.TYPE_TITLE, name = DokitUtil.getString(DokitUtil.getStringId(group.key)), kit = null))
+                            group.value.forEach { kitWrap ->
+                                mKits.add(kitWrap)
                             }
                         }
                     }
@@ -129,7 +143,7 @@ class DokitManagerFragment : BaseFragment() {
                     val groupBean = KitGroupBean(group.key, mutableListOf())
                     localKits.add(groupBean)
                     group.value.forEach {
-                        groupBean.kits.add(KitBean(it.javaClass.canonicalName!!, it.canShow, it.innerKitId()))
+                        groupBean.kits.add(KitBean(it.kit!!.javaClass.canonicalName!!, it.checked, it.kit.innerKitId()))
                     }
                 }
             }
@@ -140,59 +154,57 @@ class DokitManagerFragment : BaseFragment() {
     }
 
     /**
-     * 在全局的数据结构中改变分组信息
+     * 重新进行分组
      */
-    private fun changeKitsPosInGlob(origin: MultiKitItem, current: MultiKitItem) {
-        //先原先的分组中去掉kit
-        val iterator = DokitConstant.GLOBAL_KITS[current.groupName]?.iterator()
-        while (iterator!!.hasNext()) {
-            val abstractKit = iterator.next()
-            if (abstractKit.innerKitId().equals(current.kit?.innerKitId())) {
-                iterator.remove()
+    private fun reGroupForKit() {
+        //先清空分组内的数据
+        for (group: String in DokitConstant.GLOBAL_KITS.keys) {
+            when (group) {
+                DokitConstant.GROUP_ID_PLATFORM,
+                DokitConstant.GROUP_ID_COMM,
+                DokitConstant.GROUP_ID_WEEX,
+                DokitConstant.GROUP_ID_PERFORMANCE,
+                DokitConstant.GROUP_ID_UI ->
+                    DokitConstant.GLOBAL_KITS[group]?.clear()
             }
         }
 
-        //在新的分组中插入数据
-        val mutableList = DokitConstant.GLOBAL_KITS[origin.groupName]
-        var originPos = -1
-        mutableList?.forEachIndexed { index, abstractKit ->
-            if (abstractKit.innerKitId() == origin.kit?.innerKitId()) {
-                originPos = index
-                return@forEachIndexed
+        mKits.forEach {
+            if (it.itemType == KitWrapItem.TYPE_KIT) {
+                DokitConstant.GLOBAL_KITS[it.groupName]?.add(it)
             }
         }
-        current.groupName = origin.groupName
-        DokitConstant.GLOBAL_KITS[origin.groupName]?.add(originPos, current.kit!!)
+    }
 
-        updateGlobalBakKits()
+    private fun dealBack() {
+        if (IS_EDIT) {
+            showDialog(ConfirmDialogProvider(DokitUtil.getString(R.string.dk_toolpanel_dialog_edit_tip), object : SimpleDialogListener() {
+                override fun onPositive(): Boolean {
+                    //需要将数据保存在本地备份
+                    saveSystemKits()
+                    finish()
+                    return true
+                }
+
+
+                override fun onNegative(): Boolean {
+                    DokitConstant.GLOBAL_KITS.putAll(mBakGlobalKits)
+                    finish()
+                    return true
+                }
+
+            }))
+        } else {
+            finish()
+        }
+
+        IS_EDIT = false
     }
 
     private fun dealTitleBar() {
         tv_reset.visibility = View.GONE
         ll_back.setOnClickListener {
-            if (IS_EDIT) {
-                showDialog(ConfirmDialogProvider(DokitUtil.getString(R.string.dk_toolpanel_dialog_edit_tip), object : SimpleDialogListener() {
-                    override fun onPositive(): Boolean {
-                        //需要将数据保存在本地备份
-                        saveSystemKits()
-                        finish()
-                        return true
-                    }
-
-
-                    override fun onNegative(): Boolean {
-                        DokitConstant.GLOBAL_KITS.clear()
-                        DokitConstant.GLOBAL_KITS.putAll(mBakGlobalKits)
-                        finish()
-                        return true
-                    }
-
-                }))
-            } else {
-                finish()
-            }
-
-
+            dealBack()
         }
 
         tv_edit.setOnClickListener {
@@ -242,7 +254,6 @@ class DokitManagerFragment : BaseFragment() {
                     return true
                 }
 
-
                 override fun onNegative(): Boolean {
                     return true
                 }
@@ -274,7 +285,6 @@ class DokitManagerFragment : BaseFragment() {
                 //copy 一份数据用来做位置交换
                 mBakKits.clear()
                 mBakKits.addAll(mKits)
-                LogHelper.i(TAG, "onItemDragStart===>$pos   ${mKits[pos].name}   ${mKits[pos].groupName}")
             }
 
             /**
@@ -282,11 +292,6 @@ class DokitManagerFragment : BaseFragment() {
              * 我们一般用drag来做一些换位置的操作，就是当前对应的target对应的Item可以移动
              */
             override fun canDropOver(recyclerView: RecyclerView, current: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-                //只有kit之间可以交换位置
-                if (mKits[target.adapterPosition].itemType != MultiKitItem.TYPE_KIT) {
-                    return false
-                }
-
                 //如果当前分组只存在一个item 不允许移动
                 val groupName = mKits[current.adapterPosition].groupName
                 if (DokitConstant.GLOBAL_KITS[groupName]?.size == 1) {
@@ -314,10 +319,16 @@ class DokitManagerFragment : BaseFragment() {
                 }
                 //针对kits重新分组 交换位置
                 if (mDragStartPos != pos) {
+                    //设置当前item的新分组名称
+                    val originItem = mBakKits[pos]
+                    val currentItem = mKits[pos]
+                    if (originItem.itemType == currentItem.itemType) {
+                        currentItem.groupName = originItem.groupName
+                    } else {
+                        currentItem.groupName = mBakKits[pos - 1].groupName
+                    }
                     //原来的
-                    changeKitsPosInGlob(mBakKits[pos], mKits[pos])
-                    LogHelper.i(TAG, "onItemDragEnd==origin=>$pos   ${mBakKits[pos].name}   ${mBakKits[pos].groupName}")
-                    LogHelper.i(TAG, "onItemDragEnd=current==>$pos   ${mKits[pos].name}   ${mKits[pos].groupName}")
+                    reGroupForKit()
                 }
             }
         })
@@ -325,7 +336,7 @@ class DokitManagerFragment : BaseFragment() {
 
         val gridLayoutManager = GridLayoutManager(activity, 4)
         mAdapter.setGridSpanSizeLookup { _, viewType, _ ->
-            if (viewType == MultiKitItem.TYPE_TITLE) {
+            if (viewType == KitWrapItem.TYPE_TITLE) {
                 4
             } else {
                 1
@@ -336,15 +347,14 @@ class DokitManagerFragment : BaseFragment() {
         mAdapter.setOnItemClickListener { adapter, view, position ->
             if (IS_EDIT) {
                 val multiKitItem = mKits[position]
-                if (multiKitItem.itemType == MultiKitItem.TYPE_KIT) {
+                if (multiKitItem.itemType == KitWrapItem.TYPE_KIT) {
                     multiKitItem.checked = !multiKitItem.checked
                     mAdapter.notifyDataSetChanged()
                     DokitConstant.GLOBAL_KITS[multiKitItem.groupName]?.forEach {
-                        if (it.innerKitId() == multiKitItem.kit?.innerKitId()) {
-                            it.canShow = multiKitItem.checked
+                        if (it.kit?.innerKitId() == multiKitItem.kit?.innerKitId()) {
+                            it.checked = multiKitItem.checked
                         }
                     }
-                    updateGlobalBakKits()
                 }
             }
         }
@@ -365,9 +375,19 @@ class DokitManagerFragment : BaseFragment() {
         rv_kits.adapter = mAdapter
     }
 
+    override fun onBackPressed(): Boolean {
+        dealBack()
+        return true
+    }
+
 
     companion object {
         var IS_EDIT: Boolean = false
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mAdapter.context = null
     }
 
 

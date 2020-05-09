@@ -11,7 +11,6 @@ import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.BarUtils
 import com.didichuxing.doraemonkit.BuildConfig
 import com.didichuxing.doraemonkit.DoraemonKit
-import com.didichuxing.doraemonkit.DoraemonKit.hide
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
@@ -29,20 +28,20 @@ import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
  * 修订历史：
  * ================================================
  */
-class ToolPanelAdapter(kitViews: MutableList<MultiKitItem>?)
-    : BaseMultiItemQuickAdapter<MultiKitItem, BaseViewHolder>(kitViews) {
+class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?)
+    : BaseMultiItemQuickAdapter<KitWrapItem, BaseViewHolder>(kitViews) {
 
     init {
-        addItemType(MultiKitItem.TYPE_TITLE, R.layout.dk_item_group_title)
-        addItemType(MultiKitItem.TYPE_KIT, R.layout.dk_item_kit)
-        addItemType(MultiKitItem.TYPE_MODE, R.layout.dk_item_group_mode)
-        addItemType(MultiKitItem.TYPE_EXIT, R.layout.dk_item_group_exit)
-        addItemType(MultiKitItem.TYPE_VERSION, R.layout.dk_item_group_version)
+        addItemType(KitWrapItem.TYPE_TITLE, R.layout.dk_item_group_title)
+        addItemType(KitWrapItem.TYPE_KIT, R.layout.dk_item_kit)
+        addItemType(KitWrapItem.TYPE_MODE, R.layout.dk_item_group_mode)
+        addItemType(KitWrapItem.TYPE_EXIT, R.layout.dk_item_group_exit)
+        addItemType(KitWrapItem.TYPE_VERSION, R.layout.dk_item_group_version)
     }
 
-    override fun convert(holder: BaseViewHolder, item: MultiKitItem) {
+    override fun convert(holder: BaseViewHolder, item: KitWrapItem) {
         when (item.itemType) {
-            MultiKitItem.TYPE_TITLE -> {
+            KitWrapItem.TYPE_TITLE -> {
                 item.name?.let {
                     if (it.equals(DokitUtil.getString(R.string.dk_category_platform))) {
                         holder.getView<TextView>(R.id.tv_sub_title_name).visibility = View.VISIBLE
@@ -53,7 +52,7 @@ class ToolPanelAdapter(kitViews: MutableList<MultiKitItem>?)
                     holder.getView<TextView>(R.id.tv_title_name).text = it
                 }
             }
-            MultiKitItem.TYPE_KIT -> {
+            KitWrapItem.TYPE_KIT -> {
                 item.kit?.let {
                     holder.getView<TextView>(R.id.name).setText(it.name)
                     holder.getView<ImageView>(R.id.icon).setImageResource(it.icon)
@@ -61,7 +60,7 @@ class ToolPanelAdapter(kitViews: MutableList<MultiKitItem>?)
 
             }
 
-            MultiKitItem.TYPE_MODE -> {
+            KitWrapItem.TYPE_MODE -> {
                 val radioGroup = holder.getView<RadioGroup>(R.id.rb_group)
                 val rbNormal = holder.getView<RadioButton>(R.id.rb_normal)
                 val rbSystem = holder.getView<RadioButton>(R.id.rb_system)
@@ -99,7 +98,7 @@ class ToolPanelAdapter(kitViews: MutableList<MultiKitItem>?)
                 }
             }
 
-            MultiKitItem.TYPE_EXIT -> {
+            KitWrapItem.TYPE_EXIT -> {
                 holder.getView<TextView>(R.id.close).setOnClickListener {
                     DokitViewManager.getInstance().detachToolPanel()
                     DoraemonKit.hide()
@@ -107,7 +106,7 @@ class ToolPanelAdapter(kitViews: MutableList<MultiKitItem>?)
 
             }
 
-            MultiKitItem.TYPE_VERSION -> {
+            KitWrapItem.TYPE_VERSION -> {
                 val name = holder.getView<TextView>(R.id.version)
                 //适配无法准确获取底部导航栏高度的bug
                 //适配无法准确获取底部导航栏高度的bug

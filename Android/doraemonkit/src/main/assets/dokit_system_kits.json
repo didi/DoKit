@@ -4,12 +4,12 @@
     "kits":[
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.network.MockKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_platform_ck_mock"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.health.HealthKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_platform_ck_health"
       }
     ]
@@ -19,47 +19,47 @@
     "kits":[
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.sysinfo.SysInfoKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_comm_ck_appinfo"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.sysinfo.DevelopmentPageKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_comm_ck_devpage"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.sysinfo.LocalLangKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_comm_ck_local_lang"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_comm_ck_sandbox"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.gpsmock.GpsMockKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_comm_ck_gps"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.webdoor.WebDoorKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_comm_ck_h5"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.dataclean.DataCleanKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_comm_ck_cache"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.loginfo.LogInfoKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_comm_ck_log"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.dbdebug.DbDebugKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_comm_ck_dbview"
       }
     ]
@@ -69,22 +69,22 @@
     "kits":[
       {
         "allClassName":"com.didichuxing.doraemonkit.weex.log.WeexLogKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_weex_ck_log"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.weex.storage.WeexStorageKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_weex_ck_storage"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.weex.info.WeexInfoKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_weex_ck_info"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.weex.devtool.WeexDevToolKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_weex_ck_devtool"
       }
     ]
@@ -94,62 +94,62 @@
     "kits":[
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfoKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_performance_ck_fps"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.parameter.cpu.CpuKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_performance_ck_cpu"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.parameter.ram.RamKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_performance_ck_arm"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.network.NetworkKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_performance_ck_network"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.crash.CrashCaptureKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_comm_ck_crash"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_performance_ck_block"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.largepicture.LargePictureKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_performance_ck_img"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_comm_ck_weaknetwork"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.timecounter.TimeCounterKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_performance_ck_open_coast"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_performance_ck_hierarchy"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.methodtrace.MethodCostKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_performance_ck_method_coast"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.leakcanary.LeakCanaryKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_performance_ck_leak"
       }
     ]
@@ -159,22 +159,22 @@
     "kits":[
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.colorpick.ColorPickerKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_ui_ck_color_pick"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.alignruler.AlignRulerKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_ui_ck_aligin_scaleplate"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.viewcheck.ViewCheckerKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_ui_ck_widget"
       },
       {
         "allClassName":"com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit",
-        "canShow":true,
+        "checked":true,
         "innerKitId":"dokit_sdk_ui_ck_border"
       }
     ]

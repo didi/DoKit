@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.kit.toolpanel
 import com.blankj.utilcode.util.GsonUtils
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.didichuxing.doraemonkit.util.DokitUtil
 import java.lang.Exception
 
 /**
@@ -28,7 +29,8 @@ class ToolPanelUtil {
                     try {
                         //有可能不存在该模块
                         val kit: AbstractKit = Class.forName(kitBean.allClassName).newInstance() as AbstractKit
-                        DokitConstant.GLOBAL_SYSTEM_KITS[group.groupId]?.add(kit)
+                        val kitWrapItem = KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(kit.name), kitBean.checked, group.groupId, kit)
+                        DokitConstant.GLOBAL_SYSTEM_KITS[group.groupId]?.add(kitWrapItem)
                     } catch (e: Exception) {
 
                     }

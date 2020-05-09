@@ -8,10 +8,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.kit.toolpanel.MultiKitItem;
-import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.kit.toolpanel.KitWrapItem;
 import com.didichuxing.doraemonkit.widget.bravh.BaseQuickAdapter;
-import com.didichuxing.doraemonkit.widget.bravh.entity.MultiItemEntity;
 import com.didichuxing.doraemonkit.widget.bravh.module.BaseDraggableModule;
 
 import static androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_IDLE;
@@ -105,7 +103,7 @@ public class DragAndSwipeCallback extends ItemTouchHelper.Callback {
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         //设置指定item 不可拖动
-        if (viewHolder.getItemViewType() == MultiKitItem.TYPE_TITLE) {
+        if (viewHolder.getItemViewType() == KitWrapItem.TYPE_TITLE) {
             return makeMovementFlags(ACTION_STATE_IDLE, ACTION_STATE_IDLE);
         }
 

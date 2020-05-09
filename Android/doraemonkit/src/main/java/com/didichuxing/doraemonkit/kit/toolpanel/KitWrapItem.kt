@@ -12,7 +12,7 @@ import com.didichuxing.doraemonkit.widget.bravh.entity.MultiItemEntity
  * 修订历史：
  * ================================================
  */
-public data class MultiKitItem(override val itemType: Int, val name: String?, var checked: Boolean = false, val kit: AbstractKit?, var groupName: String = "") : MultiItemEntity {
+data class KitWrapItem(override val itemType: Int, val name: String, var checked: Boolean = false, var groupName: String = "", val kit: AbstractKit?) : MultiItemEntity, Cloneable {
     companion object {
         const val TYPE_TITLE = 999
         const val TYPE_KIT = 201
@@ -21,5 +21,11 @@ public data class MultiKitItem(override val itemType: Int, val name: String?, va
         const val TYPE_VERSION = 204
     }
 
+    public override fun clone(): KitWrapItem {
+        val item = super.clone() as KitWrapItem
+        item.checked = this.checked
+        item.groupName = this.groupName
+        return item
+    }
 
 }

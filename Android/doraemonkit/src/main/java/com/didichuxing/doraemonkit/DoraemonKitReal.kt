@@ -52,6 +52,7 @@ import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterKit
 import com.didichuxing.doraemonkit.kit.timecounter.instrumentation.HandlerHooker
 import com.didichuxing.doraemonkit.kit.toolpanel.KitBean
 import com.didichuxing.doraemonkit.kit.toolpanel.KitGroupBean
+import com.didichuxing.doraemonkit.kit.toolpanel.KitWrapItem
 import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelUtil
 import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceKit
 import com.didichuxing.doraemonkit.kit.viewcheck.ViewCheckerKit
@@ -86,10 +87,10 @@ internal object DoraemonKitReal {
     /**
      * @param app
      * @param mapKits  自定义kits  根据用户传进来的分组 建议优选选择mapKits 两者都传的话会选择mapKits
-     * @param selfKits  自定义kits
+     * @param listKits  自定义kits
      * @param productId Dokit平台端申请的productId
      */
-    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>?, selfKits: MutableList<AbstractKit>?, productId: String) {
+    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, listKits: MutableList<AbstractKit>, productId: String) {
         pluginConfig()
         DokitConstant.PRODUCT_ID = productId
         DokitConstant.APP_HEALTH_RUNNING = GlobalConfig.getAppHealth()
@@ -125,14 +126,21 @@ internal object DoraemonKitReal {
         DokitConstant.GLOBAL_KITS.clear()
         //添加用户的自定义kit
         when {
-            mapKits!!.isNotEmpty() -> {
+            mapKits.isNotEmpty() -> {
                 mapKits.forEach { map ->
-                    DokitConstant.GLOBAL_KITS[map.key] = map.value
+                    val kitWraps: MutableList<KitWrapItem> = map.value.map {
+                        KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(it.name), true, map.key, it)
+                    } as MutableList<KitWrapItem>
+
+                    DokitConstant.GLOBAL_KITS[map.key] = kitWraps
                 }
             }
 
-            mapKits.isEmpty() && selfKits!!.isNotEmpty() -> {
-                DokitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_biz)] = selfKits
+            mapKits.isEmpty() && listKits.isNotEmpty() -> {
+                val kitWraps: MutableList<KitWrapItem> = listKits.map {
+                    KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(it.name), true, DokitUtil.getString(R.string.dk_category_biz), it)
+                } as MutableList<KitWrapItem>
+                DokitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_biz)] = kitWraps
             }
 
         }
@@ -178,105 +186,133 @@ internal object DoraemonKitReal {
 
         //遍历初始化
         DokitConstant.GLOBAL_KITS.forEach { map ->
-            map.value.forEach { kit ->
-                kit.onAppInit(application)
+            map.value.forEach { kitWrap ->
+                kitWrap.kit?.onAppInit(application)
             }
         }
     }
 
 
     /**
-     * 添加自定义kit
+     * for test
      */
     private fun addSystemKitForTest(application: Application) {
 
         //平台工具
-        val platformKits: MutableList<AbstractKit> = mutableListOf()
+        val platformKits: MutableList<KitWrapItem> = mutableListOf()
         //新增数据mock工具 由于Dokit管理平台还没完善 所以暂时关闭入口
-        platformKits.add(MockKit())
-        platformKits.add(HealthKit())
-        DokitConstant.GLOBAL_KITS["R.string.dk_category_platform"] = platformKits
+        val mockKit = MockKit()
+        platformKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(mockKit.name), true, "dk_category_platform", mockKit))
+        val healKit = HealthKit()
+        platformKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(healKit.name), true, "dk_category_platform", healKit))
+        DokitConstant.GLOBAL_KITS["dk_category_platform"] = platformKits
 
         //常用工具
-        val commKits: MutableList<AbstractKit> = mutableListOf()
+        val commKits: MutableList<KitWrapItem> = mutableListOf()
         //添加工具kit
-        commKits.add(SysInfoKit())
-        commKits.add(DevelopmentPageKit())
-        commKits.add(LocalLangKit())
-        commKits.add(FileExplorerKit())
-        if (GpsMockManager.getInstance().isMockEnable) {
-            commKits.add(GpsMockKit())
-        }
-        commKits.add(WebDoorKit())
-        commKits.add(DataCleanKit())
-        commKits.add(LogInfoKit())
-        commKits.add(DbDebugKit())
-        DokitConstant.GLOBAL_KITS["R.string.dk_category_comms"] = commKits
+        val sysInfoKit = SysInfoKit()
+        commKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(sysInfoKit.name), true, "dk_category_comms", sysInfoKit))
+        val developmentPageKit = DevelopmentPageKit()
+        commKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(developmentPageKit.name), true, "dk_category_comms", developmentPageKit))
+        val localLangKit = LocalLangKit()
+        commKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(localLangKit.name), true, "dk_category_comms", localLangKit))
+        val fileExplorerKit = FileExplorerKit()
+        commKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(fileExplorerKit.name), true, "dk_category_comms", fileExplorerKit))
+        val gpsMockKit = GpsMockKit()
+        commKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(gpsMockKit.name), true, "dk_category_comms", gpsMockKit))
+        val webDoorKit = WebDoorKit()
+        commKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(webDoorKit.name), true, "dk_category_comms", webDoorKit))
+        val dataCleanKit = DataCleanKit()
+        commKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(dataCleanKit.name), true, "dk_category_comms", dataCleanKit))
+        val logInfoKit = LogInfoKit()
+        commKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(logInfoKit.name), true, "dk_category_comms", logInfoKit))
+        val dbDebugKit = DbDebugKit()
+        commKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(dbDebugKit.name), true, "dk_category_comms", dbDebugKit))
+
+        DokitConstant.GLOBAL_KITS["dk_category_comms"] = commKits
 
         //weex专区
-        val weexKits: MutableList<AbstractKit> = mutableListOf()
+        val weexKits: MutableList<KitWrapItem> = mutableListOf()
         //动态添加weex专区
         try {
             val weexLogKit = Class.forName("com.didichuxing.doraemonkit.weex.log.WeexLogKit").newInstance() as AbstractKit
-            weexKits.add(weexLogKit)
+            commKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(weexLogKit.name), true, "dk_category_weex", weexLogKit))
             val storageKit = Class.forName("com.didichuxing.doraemonkit.weex.storage.WeexStorageKit").newInstance() as AbstractKit
-            weexKits.add(storageKit)
+            commKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(storageKit.name), true, "dk_category_weex", storageKit))
             val weexInfoKit = Class.forName("com.didichuxing.doraemonkit.weex.info.WeexInfoKit").newInstance() as AbstractKit
-            weexKits.add(weexInfoKit)
+            commKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(weexInfoKit.name), true, "dk_category_weex", weexInfoKit))
             val devToolKit = Class.forName("com.didichuxing.doraemonkit.weex.devtool.WeexDevToolKit").newInstance() as AbstractKit
-            weexKits.add(devToolKit)
-            DokitConstant.GLOBAL_KITS["R.string.dk_category_weex"] = weexKits
+            commKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(devToolKit.name), true, "dk_category_weex", devToolKit))
+            DokitConstant.GLOBAL_KITS["dk_category_weex"] = weexKits
         } catch (e: Exception) {
-            //LogHelper.e(TAG, "e====>" + e.getMessage());
         }
 
 
         //性能监控
-        val performanceKits: MutableList<AbstractKit> = mutableListOf()
+        val performanceKits: MutableList<KitWrapItem> = mutableListOf()
         //添加性能监控kit
-        performanceKits.add(FrameInfoKit())
-        performanceKits.add(CpuKit())
-        performanceKits.add(RamKit())
-        performanceKits.add(NetworkKit())
-        performanceKits.add(CrashCaptureKit())
-        performanceKits.add(BlockMonitorKit())
-        performanceKits.add(LargePictureKit())
-        performanceKits.add(WeakNetworkKit())
-        performanceKits.add(TimeCounterKit())
-        performanceKits.add(UIPerformanceKit())
-        performanceKits.add(MethodCostKit())
+        val frameInfoKit = FrameInfoKit()
+        performanceKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(frameInfoKit.name), true, "dk_category_performance", frameInfoKit))
+        val cpuKit = CpuKit()
+        performanceKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(cpuKit.name), true, "dk_category_performance", cpuKit))
+        val ramKit = RamKit()
+        performanceKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(ramKit.name), true, "dk_category_performance", ramKit))
+        val networkKit = NetworkKit()
+        performanceKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(networkKit.name), true, "dk_category_performance", networkKit))
+        val crashCaptureKit = CrashCaptureKit()
+        performanceKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(crashCaptureKit.name), true, "dk_category_performance", crashCaptureKit))
+        val blockMonitorKit = BlockMonitorKit()
+        performanceKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(blockMonitorKit.name), true, "dk_category_performance", blockMonitorKit))
+        val largePictureKit = LargePictureKit()
+        performanceKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(largePictureKit.name), true, "dk_category_performance", largePictureKit))
+        val weakNetworkKit = WeakNetworkKit()
+        performanceKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(weakNetworkKit.name), true, "dk_category_performance", weakNetworkKit))
+        val timeCounterKit = TimeCounterKit()
+        performanceKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(timeCounterKit.name), true, "dk_category_performance", timeCounterKit))
+        val uiPerformanceKit = UIPerformanceKit()
+        performanceKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(uiPerformanceKit.name), true, "dk_category_performance", uiPerformanceKit))
+        val methodCostKit = MethodCostKit()
+        performanceKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(methodCostKit.name), true, "dk_category_performance", methodCostKit))
+
         try {
             //动态添加leakcanary
             val leakCanaryKit = Class.forName("com.didichuxing.doraemonkit.kit.leakcanary.LeakCanaryKit").newInstance() as AbstractKit
-            performanceKits.add(leakCanaryKit)
+            performanceKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(leakCanaryKit.name), true, "dk_category_performance", leakCanaryKit))
         } catch (e: Exception) {
         }
-        DokitConstant.GLOBAL_KITS["R.string.dk_category_performance"] = performanceKits
+        DokitConstant.GLOBAL_KITS["dk_category_performance"] = performanceKits
 
 
         //视觉工具
-        val uiKits: MutableList<AbstractKit> = mutableListOf()
+        val uiKits: MutableList<KitWrapItem> = mutableListOf()
         //添加视觉ui kit
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            uiKits.add(ColorPickerKit())
+            val colorPickerKit = ColorPickerKit()
+            uiKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(colorPickerKit.name), true, "dk_category_ui", colorPickerKit))
         }
-        uiKits.add(AlignRulerKit())
-        uiKits.add(ViewCheckerKit())
-        uiKits.add(LayoutBorderKit())
-        DokitConstant.GLOBAL_KITS["R.string.dk_category_ui"] = uiKits
+        val alignRulerKit = AlignRulerKit()
+        uiKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(alignRulerKit.name), true, "dk_category_ui", alignRulerKit))
+        val viewCheckerKit = ViewCheckerKit()
+        uiKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(viewCheckerKit.name), true, "dk_category_ui", viewCheckerKit))
+        val layoutBorderKit = LayoutBorderKit()
+        uiKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(layoutBorderKit.name), true, "dk_category_ui", layoutBorderKit))
+        DokitConstant.GLOBAL_KITS["dk_category_ui"] = uiKits
         //测试专用
         convert2json()
 
     }
 
-    fun convert2json() {
+    /**
+     * for test
+     */
+    private fun convert2json() {
         val localKits = mutableListOf<KitGroupBean>()
         //遍历初始化
         DokitConstant.GLOBAL_KITS.forEach { map ->
             val kitGroupBean = KitGroupBean(map.key, mutableListOf())
             localKits.add(kitGroupBean)
-            map.value.forEach { kit ->
-                kitGroupBean.kits.add(KitBean(kit::class.java.canonicalName!!, true, kit.innerKitId()))
+            map.value.forEach { kitWrap ->
+                kitGroupBean.kits.add(KitBean(kitWrap.kit!!::class.java.canonicalName!!, true, kitWrap.kit.innerKitId()))
             }
         }
 

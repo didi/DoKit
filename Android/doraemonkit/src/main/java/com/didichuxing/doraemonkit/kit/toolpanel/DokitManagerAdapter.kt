@@ -17,22 +17,22 @@ import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
  * 修订历史：
  * ================================================
  */
-class DokitManagerAdapter(kitViews: MutableList<MultiKitItem>?)
-    : BaseMultiItemQuickAdapter<MultiKitItem, BaseViewHolder>(kitViews), DraggableModule {
+class DokitManagerAdapter(kitViews: MutableList<KitWrapItem>?)
+    : BaseMultiItemQuickAdapter<KitWrapItem, BaseViewHolder>(kitViews), DraggableModule {
 
     init {
-        addItemType(MultiKitItem.TYPE_TITLE, R.layout.dk_item_group_title)
-        addItemType(MultiKitItem.TYPE_KIT, R.layout.dk_item_group_kit_manager)
+        addItemType(KitWrapItem.TYPE_TITLE, R.layout.dk_item_group_title)
+        addItemType(KitWrapItem.TYPE_KIT, R.layout.dk_item_group_kit_manager)
     }
 
-    override fun convert(holder: BaseViewHolder, item: MultiKitItem) {
+    override fun convert(holder: BaseViewHolder, item: KitWrapItem) {
         when (item.itemType) {
-            MultiKitItem.TYPE_TITLE -> {
+            KitWrapItem.TYPE_TITLE -> {
                 item.name?.let {
-                    holder.getView<TextView>(R.id.tv_title_name).setText(it)
+                    holder.getView<TextView>(R.id.tv_title_name).text = it
                 }
             }
-            MultiKitItem.TYPE_KIT -> {
+            KitWrapItem.TYPE_KIT -> {
                 item.kit?.let {
                     holder.getView<TextView>(R.id.name).setText(it.name)
                     holder.getView<ImageView>(R.id.icon).setImageResource(it.icon)

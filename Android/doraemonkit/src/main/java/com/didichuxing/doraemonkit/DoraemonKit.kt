@@ -6,7 +6,7 @@ import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
 
 /**
- * Created by zhangweida on 2018/6/22.
+ * Created by jint on 2018/6/22.
  */
 object DoraemonKit {
     @JvmField
@@ -17,14 +17,15 @@ object DoraemonKit {
     /**
      * @param app
      * @param mapKits  自定义kits  根据用户传进来的分组 建议优选选择mapKits 两者都传的话会选择mapKits
-     * @param selfKits  自定义kits
+     * @param listKits  自定义kits
      * @param productId Dokit平台端申请的productId
      */
     @JvmStatic
-    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), selfKits: MutableList<AbstractKit>? = mutableListOf(), productId: String = "") {
+    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String = "") {
         APPLICATION = app
         try {
-            DoraemonKitReal.install(app, mapKits, selfKits, productId)
+            DoraemonKitReal.install(app, mapKits ?: linkedMapOf(), listKits
+                    ?: mutableListOf(), productId)
         } catch (e: Exception) {
             e.printStackTrace()
         }
