@@ -44,7 +44,7 @@ public class CrashCaptureMainFragment extends BaseFragment {
         settingList.setLayoutManager(new LinearLayoutManager(getContext()));
         final SettingItemAdapter mSettingItemAdapter = new SettingItemAdapter(getContext());
         mSettingItemAdapter.append(new SettingItem(R.string.dk_crash_capture_switch, CrashCaptureConfig.isCrashCaptureOpen()));
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_crash_capture_look, R.drawable.dk_more_icon));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_crash_capture_look, R.mipmap.dk_more_icon));
         SettingItem item = new SettingItem(R.string.dk_crash_capture_clean_data);
         item.rightDesc = Formatter.formatFileSize(getContext(), FileUtil.getDirectorySize(CrashCaptureManager.getInstance().getCrashCacheDir()));
         mSettingItemAdapter.append(item);

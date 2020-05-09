@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="80dp"
                 android:layout_height="36dp"
-                android:background="@drawable/dk_health_title_bg"
+                android:background="@mipmap/dk_health_title_bg"
                 android:gravity="center"
                 android:text="@string/dk_health_title_step1"
                 android:textColor="@color/dk_color_FFFFFF"
@@ -47,7 +47,7 @@
             <TextView
                 android:layout_width="80dp"
                 android:layout_height="36dp"
-                android:background="@drawable/dk_health_title_bg"
+                android:background="@mipmap/dk_health_title_bg"
                 android:gravity="center"
                 android:text="@string/dk_health_title_step2"
                 android:textColor="@color/dk_color_FFFFFF"
@@ -71,7 +71,7 @@
             <TextView
                 android:layout_width="80dp"
                 android:layout_height="36dp"
-                android:background="@drawable/dk_health_title_bg"
+                android:background="@mipmap/dk_health_title_bg"
                 android:gravity="center"
                 android:text="@string/dk_health_title_step3"
                 android:textColor="@color/dk_color_FFFFFF"
@@ -95,7 +95,7 @@
             <TextView
                 android:layout_width="80dp"
                 android:layout_height="36dp"
-                android:background="@drawable/dk_health_title_bg"
+                android:background="@mipmap/dk_health_title_bg"
                 android:gravity="center"
                 android:text="@string/dk_health_title_step4"
                 android:textColor="@color/dk_color_FFFFFF"
@@ -133,6 +133,6 @@
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
             android:rotation="180"
-            android:src="@drawable/dk_health_next_page" />
+            android:src="@mipmap/dk_health_next_page" />
     </LinearLayout>
 </RelativeLayout>

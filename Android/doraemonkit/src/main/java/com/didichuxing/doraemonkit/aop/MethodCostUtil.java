@@ -19,6 +19,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * ================================================
  */
 public class MethodCostUtil {
+    /**
+     * key className&method
+     */
     private static ConcurrentHashMap<String, Long> METHOD_COSTS = new ConcurrentHashMap<>();
     private static final String TAG = "MethodCostUtil";
 

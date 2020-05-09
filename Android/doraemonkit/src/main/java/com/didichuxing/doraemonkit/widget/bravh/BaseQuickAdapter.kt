@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.widget.bravh.animation.*
 import com.didichuxing.doraemonkit.widget.bravh.diff.BrvahAsyncDiffer
 import com.didichuxing.doraemonkit.widget.bravh.diff.BrvahAsyncDifferConfig
@@ -174,8 +175,7 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
     private var mUpFetchModule: BaseUpFetchModule? = null
     private var mDraggableModule: BaseDraggableModule? = null
 
-    protected lateinit var context: Context
-        private set
+    public var context: Context? = null
 
     lateinit var weakRecyclerView: WeakReference<RecyclerView>
 
@@ -425,10 +425,11 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
                     return if (mSpanSizeLookup == null) {
                         if (isFixedViewType(type)) manager.spanCount else defSpanSizeLookup.getSpanSize(position)
                     } else {
-                        if (isFixedViewType(type))
+                        if (isFixedViewType(type)) {
                             manager.spanCount
-                        else
+                        } else {
                             mSpanSizeLookup!!.getSpanSize(manager, type, position - headerLayoutCount)
+                        }
                     }
                 }
 

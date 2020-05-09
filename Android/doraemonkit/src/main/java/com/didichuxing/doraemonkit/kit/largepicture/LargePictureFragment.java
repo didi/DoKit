@@ -139,7 +139,7 @@ public class LargePictureFragment extends BaseFragment {
         mSettingList.setLayoutManager(new LinearLayoutManager(getContext()));
         mSettingItemAdapter = new LargePictureItemAdapter(getContext());
         mSettingItemAdapter.append(new SettingItem(R.string.dk_large_picture_switch, PerformanceSpInfoConfig.isLargeImgOpen()));
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_large_picture_look, R.drawable.dk_more_icon));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_large_picture_look, R.mipmap.dk_more_icon));
 
         mSettingItemAdapter.setOnSettingItemSwitchListener(new LargePictureItemAdapter.OnSettingItemSwitchListener() {
             @Override

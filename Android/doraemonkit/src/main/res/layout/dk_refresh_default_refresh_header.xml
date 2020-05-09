@@ -21,7 +21,7 @@
         android:layout_centerInParent="true"
         android:layout_marginRight="5dp"
         android:layout_toLeftOf="@id/text"
-        android:background="@drawable/dk_refresh_cpmplete_icon"
+        android:background="@mipmap/dk_refresh_cpmplete_icon"
         android:visibility="invisible"
         tools:ignore="RtlHardcoded" />
 
@@ -33,9 +33,7 @@
         android:layout_marginRight="16dp"
         android:layout_toLeftOf="@+id/text"
         android:scaleType="fitCenter"
-        android:src="@drawable/dk_refresh_arrow"
-
-        />
+        android:src="@mipmap/dk_refresh_arrow" />
 
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/loadingIcon"

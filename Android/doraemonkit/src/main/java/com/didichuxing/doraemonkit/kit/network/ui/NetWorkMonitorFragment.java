@@ -15,7 +15,7 @@ import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.PathUtils;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
+import com.didichuxing.doraemonkit.config.DokitMemoryConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
@@ -75,7 +75,7 @@ public class NetWorkMonitorFragment extends AbsParameterFragment {
                 } else {
                     stopMonitor();
                 }
-                PerformanceMemoryInfoConfig.NETWORK_STATUS = on;
+                DokitMemoryConfig.NETWORK_STATUS = on;
             }
         };
     }

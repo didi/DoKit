@@ -1,7 +1,8 @@
 package com.didichuxing.doraemonkit.plugin.weaver;
 
 import com.android.build.gradle.AppExtension;
-import com.didichuxing.doraemonkit.plugin.DokitExtension;
+import com.didichuxing.doraemonkit.plugin.DoKitExtUtil;
+import com.didichuxing.doraemonkit.plugin.extension.DoKitExt;
 import com.didichuxing.doraemonkit.plugin.bytecode.DokitCommClassAdapter;
 import com.quinn.hunter.transform.asm.BaseWeaver;
 
@@ -18,7 +19,7 @@ import org.objectweb.asm.ClassWriter;
  * ================================================
  */
 public class DokitCommWeaver extends BaseWeaver {
-    private DokitExtension dokitExtension;
+    private DoKitExt dokitExtension;
 
     private AppExtension appExtension;
 
@@ -31,12 +32,16 @@ public class DokitCommWeaver extends BaseWeaver {
         if (extension == null) {
             return;
         }
-        this.dokitExtension = (DokitExtension) extension;
+        this.dokitExtension = (DoKitExt) extension;
     }
 
     @Override
     protected ClassVisitor wrapClassWriter(ClassWriter classWriter) {
-        //返回指定的ClassVisitor
-        return new DokitCommClassAdapter(classWriter);
+        if (DoKitExtUtil.getInstance().dokitPluginSwitchOpen()) {
+            return new DokitCommClassAdapter(classWriter);
+        } else {
+            return super.wrapClassWriter(classWriter);
+        }
+
     }
 }

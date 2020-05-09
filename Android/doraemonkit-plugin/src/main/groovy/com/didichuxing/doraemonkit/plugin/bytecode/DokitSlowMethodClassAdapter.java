@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.plugin.bytecode;
 
-import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
+import com.didichuxing.doraemonkit.plugin.DoKitExtUtil;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.slow.SlowMethodAdapter;
 
 import org.objectweb.asm.ClassVisitor;
@@ -86,14 +86,14 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
         MethodVisitor mv = cv.visitMethod(access, methodName, desc, signature, exceptions);
         try {
             //插件开关被关闭
-            if (!DokitExtUtil.getInstance().isDokitPluginSwitch()) {
+            if (!DoKitExtUtil.getInstance().dokitPluginSwitchOpen()) {
                 return mv;
             }
-            if (!DokitExtUtil.getInstance().isSlowMethodSwitch()) {
+            if (!DoKitExtUtil.getInstance().getSlowMethodExt().methodSwitch) {
                 return mv;
             }
 
-            if (DokitExtUtil.getInstance().ignorePackageNames(className)) {
+            if (DoKitExtUtil.getInstance().ignorePackageNames(className)) {
                 return mv;
             }
 
@@ -104,13 +104,13 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
 
             boolean matchedMethod = false;
 
-            for (String packageName : DokitExtUtil.getInstance().getPackageNames()) {
+            for (String packageName : DoKitExtUtil.getInstance().getSlowMethodExt().normalMethod.packageNames) {
                 if (className.contains(packageName)) {
-                    if (DokitExtUtil.getInstance().getMethodBlacklist().isEmpty()) {
+                    if (DoKitExtUtil.getInstance().getSlowMethodExt().normalMethod.methodBlacklist.isEmpty()) {
                         matchedMethod = true;
                         break;
                     } else {
-                        for (String blackStr : DokitExtUtil.getInstance().getMethodBlacklist()) {
+                        for (String blackStr : DoKitExtUtil.getInstance().getSlowMethodExt().normalMethod.methodBlacklist) {
                             //当前全路径类名不存在在黑名单中
                             if (!className.contains(blackStr)) {
                                 matchedMethod = true;
@@ -122,8 +122,8 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
             }
 
             if (matchedMethod) {
-                System.out.println("DokitSlowMethod==className===>" + className + "   methodName===>" + methodName + "   thresholdTime==>" + DokitExtUtil.getInstance().getThresholdTime());
-                return mv == null ? null : new SlowMethodAdapter(mv, className, DokitExtUtil.getInstance().getThresholdTime(), access, methodName, desc);
+                System.out.println("DokitSlowMethod==className===>" + className + "   methodName===>" + methodName + "   thresholdTime==>" + DoKitExtUtil.getInstance().getSlowMethodExt().normalMethod.thresholdTime);
+                return mv == null ? null : new SlowMethodAdapter(mv, className, DoKitExtUtil.getInstance().getSlowMethodExt().normalMethod.thresholdTime, access, methodName, desc);
             }
 
         } catch (Exception e) {

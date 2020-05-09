@@ -26,7 +26,10 @@ import com.didichuxing.doraemonkit.kit.parameter.cpu.CpuMainPageFragment;
 import com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfoFragment;
 import com.didichuxing.doraemonkit.kit.parameter.ram.RamMainPageFragment;
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoFragment;
+import com.didichuxing.doraemonkit.kit.timecounter.AppStartInfoFragment;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterFragment;
+import com.didichuxing.doraemonkit.kit.toolpanel.DokitManagerFragment;
+import com.didichuxing.doraemonkit.kit.toolpanel.DokitSettingFragment;
 import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkFragment;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorDefaultFragment;
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorFragment;
@@ -135,6 +138,18 @@ public class UniversalActivity extends BaseActivity {
             case FragmentIndex.FRAGMENT_HEALTH:
                 fragmentClass = HealthFragment.class;
                 break;
+            case FragmentIndex.FRAGMENT_APP_START:
+                fragmentClass = AppStartInfoFragment.class;
+                break;
+
+            case FragmentIndex.FRAGMENT_DOKIT_SETTING:
+                fragmentClass = DokitSettingFragment.class;
+                break;
+
+            case FragmentIndex.FRAGMENT_DOKIT_MANAGER:
+                fragmentClass = DokitManagerFragment.class;
+                break;
+
             default:
                 break;
         }

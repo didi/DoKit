@@ -22,7 +22,7 @@
         android:layout_height="12dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/dk_arrow_normal" />
+        android:src="@mipmap/dk_arrow_normal" />
 
 
     <CheckBox

@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/high_data_txt"
-        android:drawableLeft="@drawable/dk_performance_up_arrow"
+        android:drawableLeft="@mipmap/dk_performance_up_arrow"
         android:drawablePadding="4dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
 
     <TextView
         android:id="@+id/low_data_txt"
-        android:drawableLeft="@drawable/dk_performance_down_arrow"
+        android:drawableLeft="@mipmap/dk_performance_down_arrow"
         android:drawablePadding="4dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -14,10 +14,7 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
  */
 
 public class AlignRulerKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.UI;
-    }
+
 
     @Override
     public int getName() {
@@ -26,7 +23,7 @@ public class AlignRulerKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_align_ruler;
+        return R.mipmap.dk_align_ruler;
     }
 
     @Override

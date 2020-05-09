@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
+import com.didichuxing.doraemonkit.config.DokitMemoryConfig;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.kit.parameter.AbsParameterFragment;
 import com.didichuxing.doraemonkit.kit.performance.PerformanceDataManager;
@@ -45,7 +45,7 @@ public class RamMainPageFragment extends AbsParameterFragment {
 
     @Override
     protected Collection<SettingItem> getSettingItems(List<SettingItem> list) {
-        list.add(new SettingItem(R.string.dk_ram_detection_switch, PerformanceMemoryInfoConfig.RAM_STATUS));
+        list.add(new SettingItem(R.string.dk_ram_detection_switch, DokitMemoryConfig.RAM_STATUS));
         return list;
     }
 
@@ -59,7 +59,7 @@ public class RamMainPageFragment extends AbsParameterFragment {
                 } else {
                     stopMonitor();
                 }
-                PerformanceMemoryInfoConfig.RAM_STATUS = on;
+                DokitMemoryConfig.RAM_STATUS = on;
             }
 
         };

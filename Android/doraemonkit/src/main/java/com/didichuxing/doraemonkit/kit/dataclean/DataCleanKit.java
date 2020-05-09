@@ -12,10 +12,7 @@ import com.didichuxing.doraemonkit.kit.Category;
  */
 
 public class DataCleanKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.TOOLS;
-    }
+
 
     @Override
     public int getName() {
@@ -24,7 +21,7 @@ public class DataCleanKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_data_clean;
+        return R.mipmap.dk_data_clean;
     }
 
     @Override

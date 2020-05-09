@@ -138,7 +138,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="44dp"
                 android:layout_marginLeft="10dp"
-                android:drawableLeft="@drawable/dk_network_bar"
+                android:drawableLeft="@mipmap/dk_network_bar"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
                 android:text="@string/dk_network_summary_http_method"
@@ -164,7 +164,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="44dp"
                 android:layout_marginLeft="10dp"
-                android:drawableLeft="@drawable/dk_network_pie"
+                android:drawableLeft="@mipmap/dk_network_pie"
                 android:drawablePadding="5dp"
                 android:text="@string/dk_network_summary_data_type"
                 android:textSize="14sp" />

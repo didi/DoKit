@@ -13,10 +13,6 @@ import com.didichuxing.doraemonkit.kit.Category;
  */
 public class BlockMonitorKit extends AbstractKit {
 
-    @Override
-    public int getCategory() {
-        return Category.PERFORMANCE;
-    }
 
     @Override
     public int getName() {
@@ -25,13 +21,13 @@ public class BlockMonitorKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_block_monitor;
+        return R.mipmap.dk_block_monitor;
     }
 
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context,FragmentIndex.FRAGMENT_BLOCK_MONITOR);
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_BLOCK_MONITOR);
     }
 
     @Override

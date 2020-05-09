@@ -12,10 +12,7 @@ import com.didichuxing.doraemonkit.kit.Category;
  */
 
 public class WebDoorKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.TOOLS;
-    }
+
 
     @Override
     public int getName() {
@@ -24,7 +21,7 @@ public class WebDoorKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_web_door;
+        return R.mipmap.dk_web_door;
     }
 
     @Override

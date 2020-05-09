@@ -13,10 +13,7 @@ import com.didichuxing.doraemonkit.weex.common.DKCommonActivity;
  */
 public class WeexStorageKit extends AbstractKit {
 
-    @Override
-    public int getCategory() {
-        return Category.WEEX;
-    }
+
 
     @Override
     public int getName() {
@@ -25,7 +22,7 @@ public class WeexStorageKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_file_explorer;
+        return R.mipmap.dk_file_explorer;
     }
 
     @Override

@@ -17,7 +17,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
+import com.didichuxing.doraemonkit.config.DokitMemoryConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
@@ -225,7 +225,7 @@ public class PerformanceDataManager {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void startMonitorFrameInfo() {
-        PerformanceMemoryInfoConfig.FPS_STATUS = true;
+        DokitMemoryConfig.FPS_STATUS = true;
         //开启定时任务
         mMainHandler.postDelayed(mRateRunnable, FPS_SAMPLING_TIME);
         Choreographer.getInstance().postFrameCallback(mRateRunnable);
@@ -233,23 +233,23 @@ public class PerformanceDataManager {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void stopMonitorFrameInfo() {
-        PerformanceMemoryInfoConfig.FPS_STATUS = false;
+        DokitMemoryConfig.FPS_STATUS = false;
         Choreographer.getInstance().removeFrameCallback(mRateRunnable);
         mMainHandler.removeCallbacks(mRateRunnable);
     }
 
     public void startMonitorCPUInfo() {
-        PerformanceMemoryInfoConfig.CPU_STATUS = true;
+        DokitMemoryConfig.CPU_STATUS = true;
         mNormalHandler.sendEmptyMessageDelayed(MSG_CPU, NORMAL_SAMPLING_TIME);
     }
 
     public void startMonitorNetFlowInfo() {
-        PerformanceMemoryInfoConfig.NETWORK_STATUS = true;
+        DokitMemoryConfig.NETWORK_STATUS = true;
         mNormalHandler.sendEmptyMessageDelayed(MSG_NET_FLOW, NORMAL_SAMPLING_TIME);
     }
 
     public void stopMonitorNetFlowInfo() {
-        PerformanceMemoryInfoConfig.NETWORK_STATUS = false;
+        DokitMemoryConfig.NETWORK_STATUS = false;
         mNormalHandler.removeMessages(MSG_NET_FLOW);
     }
 
@@ -268,7 +268,7 @@ public class PerformanceDataManager {
 
 
     public void stopMonitorCPUInfo() {
-        PerformanceMemoryInfoConfig.CPU_STATUS = false;
+        DokitMemoryConfig.CPU_STATUS = false;
         mNormalHandler.removeMessages(MSG_CPU);
     }
 
@@ -277,7 +277,7 @@ public class PerformanceDataManager {
 
 
     public void startMonitorMemoryInfo() {
-        PerformanceMemoryInfoConfig.RAM_STATUS = true;
+        DokitMemoryConfig.RAM_STATUS = true;
         if (mMaxMemory == 0) {
             mMaxMemory = mActivityManager.getMemoryClass();
         }
@@ -285,7 +285,7 @@ public class PerformanceDataManager {
     }
 
     public void stopMonitorMemoryInfo() {
-        PerformanceMemoryInfoConfig.RAM_STATUS = false;
+        DokitMemoryConfig.RAM_STATUS = false;
         mNormalHandler.removeMessages(MSG_MEMORY);
     }
 

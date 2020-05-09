@@ -40,23 +40,17 @@ abstract class AbstractKit : IKit {
         get() = false
 
     /**
+     * 是否可以显示在工具面板上
+     */
+    var canShow: Boolean = true
+
+    /**
      * 返回kitId
      *
      * @return
      */
-    open fun innerKitId(): String? {
+    open fun innerKitId(): String {
         return ""
-    }
-
-    /**
-     * 分组名
-     * 强烈建议中英文的资源文件都填写为国际化做铺垫
-     *
-     * @return 字符串资源名
-     */
-    @StringRes
-    fun groupName(): Int {
-        return -1
     }
 
 
@@ -67,4 +61,9 @@ abstract class AbstractKit : IKit {
     fun currentActivity(): Activity? {
         return ActivityUtils.getTopActivity()
     }
+
+    override val category: Int
+        get() = Category.DEFAULT
+
+
 }

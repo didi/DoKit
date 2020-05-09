@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.FloatIconConfig;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;
@@ -36,9 +37,8 @@ public class MainIconDokitView extends AbsDokitView {
             public void onClick(View v) {
                 //统计入口
                 DataPickManager.getInstance().addData("dokit_sdk_home_ck_entry");
-                DokitIntent dokitViewIntent = new DokitIntent(ToolPanelDokitView.class);
-                dokitViewIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-                DokitViewManager.getInstance().attach(dokitViewIntent);
+                DoraemonKit.showToolPanel();
+
             }
         });
 

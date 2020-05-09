@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <attr name="dkTitle" format="string" />
+    <attr name="dkBack" format="string" />
 
     <declare-styleable name="LabelTextView">
         <attr name="dkLabel" format="string" />
@@ -28,6 +29,12 @@
         <attr name="dkIcon" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="LogTitleBar">
+        <attr name="dkBack" />
+        <attr name="dkTitle" />
+        <attr name="dkIcon" />
+    </declare-styleable>
+
     <declare-styleable name="ViewfinderView">
         <attr name="dkCornerColor" format="color" />
         <attr name="dkLaserColor" format="color" />
@@ -42,24 +49,24 @@
 
     <declare-styleable name="DkDropDownMenu">
 
-        <attr name="dk_ddunderlineColor" format="color"/>
-        <attr name="dk_dddividerColor" format="color"/>
-        <attr name="dk_ddtextSelectedColor" format="color"/>
-        <attr name="dk_ddtextUnselectedColor" format="color"/>
-        <attr name="dk_ddmenuBackgroundColor" format="color"/>
-        <attr name="dk_ddmaskColor" format="color"/>
-        <attr name="dk_ddmenuTextSize" format="dimension"/>
-        <attr name="dk_ddmenuSelectedIcon" format="reference"/>
-        <attr name="dk_ddmenuUnselectedIcon" format="reference"/>
-        <attr name="dk_dddividerHeight" format="dimension"/>
+        <attr name="dk_ddunderlineColor" format="color" />
+        <attr name="dk_dddividerColor" format="color" />
+        <attr name="dk_ddtextSelectedColor" format="color" />
+        <attr name="dk_ddtextUnselectedColor" format="color" />
+        <attr name="dk_ddmenuBackgroundColor" format="color" />
+        <attr name="dk_ddmaskColor" format="color" />
+        <attr name="dk_ddmenuTextSize" format="dimension" />
+        <attr name="dk_ddmenuSelectedIcon" format="reference" />
+        <attr name="dk_ddmenuUnselectedIcon" format="reference" />
+        <attr name="dk_dddividerHeight" format="dimension" />
         <attr name="dk_ddmenuIconOrientation">
-            <flag name="left" value="0"/>
+            <flag name="left" value="0" />
 
-            <flag name="top" value="1"/>
+            <flag name="top" value="1" />
 
-            <flag name="right" value="2"/>
+            <flag name="right" value="2" />
 
-            <flag name="bottom" value="3"/>
+            <flag name="bottom" value="3" />
         </attr>
     </declare-styleable>
 

@@ -6,12 +6,14 @@
     android:background="@color/dk_color_FFFFFF"
     android:orientation="vertical">
 
-    <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
+    <com.didichuxing.doraemonkit.widget.titlebar.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dk_home_title_height"
-        app:dkIcon="@drawable/dk_close_icon_big"
-        app:dkTitle="@string/dk_kit_list" />
+        android:layout_height="@dimen/dk_title_height"
+        app:dkLeftIcon="@mipmap/dk_title_back"
+        app:dkLeftText="@string/dk_back"
+        app:dkRightText="@string/dk_setting"
+        app:dkTitle="DoKit" />
 
     <View
         android:layout_width="match_parent"
@@ -19,10 +21,9 @@
         android:background="@color/dk_color_F5F6F7" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/group_kit_container"
+        android:id="@+id/rv_kits"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dk_color_F5F6F7"
         android:orientation="vertical"
         android:overScrollMode="never"
         android:scrollbars="none" />

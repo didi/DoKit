@@ -14,10 +14,7 @@ import com.didichuxing.doraemonkit.util.SystemUtil;
  */
 
 public class DevelopmentPageKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.TOOLS;
-    }
+
 
     @Override
     public int getName() {
@@ -26,7 +23,7 @@ public class DevelopmentPageKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_kit_devlop;
+        return R.mipmap.dk_kit_devlop;
     }
 
     @Override

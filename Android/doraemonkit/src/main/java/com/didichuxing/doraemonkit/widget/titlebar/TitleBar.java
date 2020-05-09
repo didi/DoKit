@@ -27,10 +27,9 @@ import com.didichuxing.doraemonkit.R;
 
 public class TitleBar extends FrameLayout {
     private ImageView mLeftIcon;
-    private ImageView mRightIcon;
     private TextView mTitle;
     private TextView mLeftText;
-
+    private ImageView mRightIcon;
     private TextView mRightText;
 
     private OnTitleBarClickListener mListener;
@@ -220,9 +219,14 @@ public class TitleBar extends FrameLayout {
         return mRightIcon;
     }
 
+    public TextView getRightText() {
+        return mRightText;
+    }
+
     public ImageView getLeftIcon() {
         return mLeftIcon;
     }
+
 
     /**
      * TitleBar 点击事件回调

@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit.plugin.bytecode;
 
-import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.urlconnection.UrlConnectionMethodAdapter;
 
 import org.objectweb.asm.ClassVisitor;
@@ -24,7 +23,6 @@ public final class DokitUrlConnectionClassAdapter extends ClassVisitor {
      */
     public DokitUrlConnectionClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM7, cv);
-
     }
 
     @Override
@@ -54,13 +52,8 @@ public final class DokitUrlConnectionClassAdapter extends ClassVisitor {
     public MethodVisitor visitMethod(int access, String methodName, String desc, String signature, String[] exceptions) {
         //从传进来的ClassWriter中读取MethodVisitor
         MethodVisitor mv = cv.visitMethod(access, methodName, desc, signature, exceptions);
-        //开关被关闭 不插入代码
-        if (!DokitExtUtil.getInstance().isDokitPluginSwitch()) {
-            return mv;
-        }
         //过滤所有类中当前方法中所有的字节码
         return mv == null ? null : new UrlConnectionMethodAdapter(className, methodName, access, desc, mv);
-
     }
 
 
