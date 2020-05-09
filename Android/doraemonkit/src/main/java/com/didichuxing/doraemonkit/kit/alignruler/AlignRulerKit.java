@@ -23,7 +23,7 @@ public class AlignRulerKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_align_ruler;
+        return R.mipmap.dk_align_ruler;
     }
 
     @Override

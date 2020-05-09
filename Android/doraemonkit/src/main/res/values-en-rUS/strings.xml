@@ -1,5 +1,5 @@
 <resources>
-    <string name="dk_app_name">DoraemonKit</string>
+    <string name="dk_app_name">DoKit</string>
 
     <string name="dk_category_biz">Business</string>
     <string name="dk_category_comms">Common</string>
@@ -57,7 +57,7 @@
             If you want to modify the current app\'s database, you can operate it on the pc with the following address:
         ]]>
         </string>
-    <string name="dk_kit_exit">Exit Doraemonkit</string>
+    <string name="dk_kit_exit">Exit DoKit</string>
     <string name="dk_kit_version">current version:V%s</string>
     <string name="dk_kit_db_detail">Data Base</string>
     <string name="dk_kit_top_activity">Top Activity</string>

@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="dk_app_name">DoraemonKit</string>
+    <string name="dk_app_name">DoKit</string>
 
     <string name="dk_category_biz">业务专区</string>
     <string name="dk_category_comms">常用工具</string>
@@ -58,7 +58,7 @@
             想要对当前app的数据库进行修改可以在pc上通过以下地址进行操作:
         ]]>
         </string>
-    <string name="dk_kit_exit">退出 Doraemonkit</string>
+    <string name="dk_kit_exit">退出 DoKit</string>
     <string name="dk_kit_version">当前版本：V%s</string>
     <string name="dk_kit_db_detail">数据库查看</string>
     <string name="dk_kit_top_activity">当前Activity</string>

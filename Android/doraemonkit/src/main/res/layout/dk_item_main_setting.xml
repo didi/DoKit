@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/dk_more_icon" />
+        android:src="@mipmap/dk_more_icon" />
 
     <View
         style="@style/DK.Divider"

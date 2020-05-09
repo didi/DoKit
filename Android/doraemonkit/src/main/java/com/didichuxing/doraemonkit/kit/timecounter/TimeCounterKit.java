@@ -21,7 +21,7 @@ public class TimeCounterKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_time_counter;
+        return R.mipmap.dk_time_counter;
     }
 
     @Override

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="89dp"
         android:layout_alignParentTop="true"
-        app:dkIcon="@drawable/dk_close_icon_big"
+        app:dkIcon="@mipmap/dk_close_icon_big"
         app:dkTitle="@string/dk_kit_net_monitor" />
 
     <androidx.recyclerview.widget.RecyclerView

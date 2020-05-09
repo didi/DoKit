@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="dk_app_name">DoraemonKit</string>
+    <string name="dk_app_name">DoKit</string>
 
     <string name="dk_category_biz">业务专区</string>
     <string name="dk_category_comms">常用工具</string>
@@ -82,7 +82,7 @@
     <string name="dk_kit_mode_rb_system">系统</string>
     <string name="dk_kit_mode_rb_normal">常规</string>
 
-    <string name="dk_kit_exit">退出 Doraemonkit</string>
+    <string name="dk_kit_exit">退出 DoKit</string>
     <string name="dk_kit_version">当前版本：V%s</string>
     <string name="dk_kit_layout_border">布局边框</string>
 

@@ -18,7 +18,7 @@
             <ImageView
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:src="@drawable/dk_icon_complete" />
+                android:src="@mipmap/dk_icon_complete" />
 
             <TextView
                 android:id="@+id/tv_tip"

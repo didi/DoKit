@@ -22,7 +22,7 @@ public class ViewCheckerKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_view_check;
+        return R.mipmap.dk_view_check;
     }
 
     @Override

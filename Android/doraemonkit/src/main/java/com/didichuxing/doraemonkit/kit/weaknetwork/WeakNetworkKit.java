@@ -26,7 +26,7 @@ public class WeakNetworkKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_weak_network;
+        return R.mipmap.dk_weak_network;
     }
 
     @Override

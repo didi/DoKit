@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="89dp"
         android:layout_alignParentTop="true"
-        app:dkIcon="@drawable/dk_close_icon_big"
+        app:dkIcon="@mipmap/dk_close_icon_big"
         app:dkTitle="@string/dk_kit_network_mock" />
 
     <RelativeLayout
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/dk_edittext_shape"
-                android:drawableLeft="@drawable/dk_search"
+                android:drawableLeft="@mipmap/dk_search"
                 android:drawablePadding="5dp"
                 android:hint="@string/dk_data_mock_et_hint"
                 android:textColorHint="@color/dk_color_BEBEBE"
@@ -85,7 +85,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:src="@drawable/dk_mock_normal" />
+                android:src="@mipmap/dk_mock_normal" />
 
             <TextView
                 android:id="@+id/tv_mock"
@@ -108,7 +108,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:src="@drawable/dk_template_normal" />
+                android:src="@mipmap/dk_template_normal" />
 
             <TextView
                 android:id="@+id/tv_template"
@@ -138,9 +138,9 @@
         app:dk_ddmaskColor="@color/dk_mask_color"
         app:dk_ddmenuBackgroundColor="@color/dk_color_FFFFFF"
         app:dk_ddmenuIconOrientation="right"
-        app:dk_ddmenuSelectedIcon="@drawable/dk_arrow_selected"
+        app:dk_ddmenuSelectedIcon="@mipmap/dk_arrow_selected"
         app:dk_ddmenuTextSize="13sp"
-        app:dk_ddmenuUnselectedIcon="@drawable/dk_arrow_unselected"
+        app:dk_ddmenuUnselectedIcon="@mipmap/dk_arrow_unselected"
         app:dk_ddtextSelectedColor="@color/dk_color_337CC4"
         app:dk_ddtextUnselectedColor="@color/dk_color_333333"
         app:dk_ddunderlineColor="@color/dk_color_FFFFFF" />

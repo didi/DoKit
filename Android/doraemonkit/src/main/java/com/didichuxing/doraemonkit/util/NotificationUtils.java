@@ -73,7 +73,7 @@ public class NotificationUtils {
             builder = new NotificationCompat.Builder(context);
         }
         builder.setSmallIcon(smallIconId)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.dk_doraemon))
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.dk_doraemon))
                 .setContentTitle(title)
                 .setContentText(summary)
                 .setAutoCancel(true)
@@ -106,7 +106,7 @@ public class NotificationUtils {
         } else {
             builder = new NotificationCompat.Builder(context);
         }
-        builder.setSmallIcon(R.drawable.dk_doraemon)
+        builder.setSmallIcon(R.mipmap.dk_doraemon)
                 .setContentTitle(title)
                 .setContentText(summary)
                 .setAutoCancel(true)
@@ -163,7 +163,7 @@ public class NotificationUtils {
             builder = new NotificationCompat.Builder(context);
         }
         builder.setSmallIcon(android.R.drawable.stat_sys_download)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.dk_doraemon))
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.dk_doraemon))
                 .setContentTitle(title)
                 .setProgress(100, progress, progress == 0)
                 .setOngoing(progress < 100)

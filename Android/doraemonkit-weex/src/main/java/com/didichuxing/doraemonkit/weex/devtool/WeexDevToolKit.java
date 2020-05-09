@@ -21,7 +21,7 @@ public class WeexDevToolKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_custom;
+        return R.mipmap.dk_custom;
     }
 
     @Override

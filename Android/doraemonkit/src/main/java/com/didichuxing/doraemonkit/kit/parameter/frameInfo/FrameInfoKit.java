@@ -21,7 +21,7 @@ public class FrameInfoKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_frame_hist;
+        return R.mipmap.dk_frame_hist;
     }
 
     @Override

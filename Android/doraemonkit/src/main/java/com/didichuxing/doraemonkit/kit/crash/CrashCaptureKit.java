@@ -20,7 +20,7 @@ public class CrashCaptureKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_crash_catch;
+        return R.mipmap.dk_crash_catch;
     }
 
     @Override

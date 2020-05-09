@@ -22,7 +22,7 @@ public class LocalLangKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_kit_local_lang;
+        return R.mipmap.dk_kit_local_lang;
     }
 
     @Override

@@ -112,7 +112,7 @@
     </style>
 
     <style name="DK.Shadow.Bottom">
-        <item name="android:background">@drawable/dk_shadow_bottom</item>
+        <item name="android:background">@mipmap/dk_shadow_bottom</item>
     </style>
 
     <style name="DK.CheckBox">

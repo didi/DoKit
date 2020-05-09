@@ -25,7 +25,7 @@ public class LogInfoKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_log_info;
+        return R.mipmap.dk_log_info;
     }
 
     @Override

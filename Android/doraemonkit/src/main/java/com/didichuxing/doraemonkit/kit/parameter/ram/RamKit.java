@@ -17,7 +17,7 @@ public class RamKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_ram;
+        return R.mipmap.dk_ram;
     }
 
     @Override

@@ -18,7 +18,7 @@
             android:layout_alignParentTop="true"
             android:background="@color/foreground_wtf"
             app:dkBack="@string/dk_kit_log_min"
-            app:dkIcon="@drawable/dk_close_icon"
+            app:dkIcon="@mipmap/dk_close_icon"
             app:dkTitle="@string/dk_console_log_title" />
 
         <View

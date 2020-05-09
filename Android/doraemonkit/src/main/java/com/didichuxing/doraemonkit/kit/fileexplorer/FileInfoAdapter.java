@@ -60,17 +60,17 @@ public class FileInfoAdapter extends AbsRecyclerAdapter<AbsViewBinder<FileInfo>,
             });
             mName.setText(fileInfo.file.getName());
             if (fileInfo.file.isDirectory()) {
-                mIcon.setImageResource(R.drawable.dk_dir_icon);
+                mIcon.setImageResource(R.mipmap.dk_dir_icon);
                 mMoreBtn.setVisibility(View.VISIBLE);
             } else {
                 if (FileUtil.getSuffix(fileInfo.file).equals(FileUtil.JPG)) {
-                    mIcon.setImageResource(R.drawable.dk_jpg_icon);
+                    mIcon.setImageResource(R.mipmap.dk_jpg_icon);
                 } else if (FileUtil.getSuffix(fileInfo.file).equals(FileUtil.TXT)) {
-                    mIcon.setImageResource(R.drawable.dk_txt_icon);
+                    mIcon.setImageResource(R.mipmap.dk_txt_icon);
                 } else if (FileUtil.getSuffix(fileInfo.file).equals(FileUtil.DB)){
-                    mIcon.setImageResource(R.drawable.dk_file_db);
+                    mIcon.setImageResource(R.mipmap.dk_file_db);
                 }else {
-                    mIcon.setImageResource(R.drawable.dk_file_icon);
+                    mIcon.setImageResource(R.mipmap.dk_file_icon);
                 }
                 mMoreBtn.setVisibility(View.GONE);
             }

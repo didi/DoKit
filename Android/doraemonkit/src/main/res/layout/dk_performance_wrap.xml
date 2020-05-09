@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
             android:padding="10dp"
-            android:src="@drawable/dk_close_white"
+            android:src="@mipmap/dk_close_white"
             android:tag="closeView" />
     </FrameLayout>
 
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
             android:padding="10dp"
-            android:src="@drawable/dk_close_white"
+            android:src="@mipmap/dk_close_white"
             android:tag="closeView" />
 
     </FrameLayout>
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
             android:padding="10dp"
-            android:src="@drawable/dk_close_white"
+            android:src="@mipmap/dk_close_white"
             android:tag="closeView" />
 
     </FrameLayout>
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
             android:padding="10dp"
-            android:src="@drawable/dk_close_white"
+            android:src="@mipmap/dk_close_white"
             android:tag="closeView" />
 
     </FrameLayout>

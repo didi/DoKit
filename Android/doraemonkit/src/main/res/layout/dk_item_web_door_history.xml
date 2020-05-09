@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left|center_vertical"
         android:layout_marginLeft="5dp"
-        android:drawableLeft="@drawable/dk_web_door_history_item_magnifier"
+        android:drawableLeft="@mipmap/dk_web_door_history_item_magnifier"
         android:drawablePadding="10dp" />
 
 </FrameLayout>

@@ -164,7 +164,7 @@ public final class LeakCanaryInternals {
 
   public static Notification buildNotification(Context context,
                                                Notification.Builder builder) {
-    builder.setSmallIcon(R.drawable.leak_canary_notification)
+    builder.setSmallIcon(R.mipmap.leak_canary_notification)
         .setWhen(System.currentTimeMillis())
         .setOnlyAlertOnce(true);
 

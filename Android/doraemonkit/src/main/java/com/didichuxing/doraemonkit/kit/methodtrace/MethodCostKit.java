@@ -26,7 +26,7 @@ public class MethodCostKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_method_cost;
+        return R.mipmap.dk_method_cost;
     }
 
     @Override

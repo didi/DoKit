@@ -24,7 +24,7 @@ public class GpsMockKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_gps_mock;
+        return R.mipmap.dk_gps_mock;
     }
 
     @Override

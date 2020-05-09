@@ -28,7 +28,7 @@ public class MockKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_net_mock;
+        return R.mipmap.dk_net_mock;
     }
 
 

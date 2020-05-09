@@ -22,7 +22,7 @@ public class LayoutBorderKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_view_border;
+        return R.mipmap.dk_view_border;
     }
 
     @Override

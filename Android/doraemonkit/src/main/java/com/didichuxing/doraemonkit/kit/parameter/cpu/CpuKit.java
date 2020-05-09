@@ -16,7 +16,7 @@ public class CpuKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_cpu;
+        return R.mipmap.dk_cpu;
     }
 
     @Override

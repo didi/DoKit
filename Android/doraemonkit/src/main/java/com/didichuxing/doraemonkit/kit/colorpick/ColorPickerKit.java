@@ -27,7 +27,7 @@ public class ColorPickerKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_color_picker;
+        return R.mipmap.dk_color_picker;
     }
 
     @Override

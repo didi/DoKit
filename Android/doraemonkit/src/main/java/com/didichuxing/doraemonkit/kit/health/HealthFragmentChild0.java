@@ -49,10 +49,10 @@ public class HealthFragmentChild0 extends BaseFragment {
         mController = findViewById(R.id.iv_btn);
         if (DokitConstant.APP_HEALTH_RUNNING) {
             mTitle.setVisibility(View.VISIBLE);
-            mController.setImageResource(R.drawable.dk_health_stop);
+            mController.setImageResource(R.mipmap.dk_health_stop);
         } else {
             mTitle.setVisibility(View.INVISIBLE);
-            mController.setImageResource(R.drawable.dk_health_start);
+            mController.setImageResource(R.mipmap.dk_health_start);
         }
         mUserInfoDialogProvider = new UserInfoDialogProvider(null, new DialogListener() {
             @Override
@@ -68,7 +68,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                             GlobalConfig.setAppHealth(false);
                             DokitConstant.APP_HEALTH_RUNNING = false;
                             mTitle.setVisibility(View.INVISIBLE);
-                            mController.setImageResource(R.drawable.dk_health_start);
+                            mController.setImageResource(R.mipmap.dk_health_start);
                             //关闭健康体检监控
                             AppHealthInfoUtil.getInstance().stop();
                             AppHealthInfoUtil.getInstance().release();
@@ -101,7 +101,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                 GlobalConfig.setAppHealth(false);
                 DokitConstant.APP_HEALTH_RUNNING = false;
                 mTitle.setVisibility(View.INVISIBLE);
-                mController.setImageResource(R.drawable.dk_health_start);
+                mController.setImageResource(R.mipmap.dk_health_start);
                 //关闭健康体检监控
                 AppHealthInfoUtil.getInstance().stop();
                 AppHealthInfoUtil.getInstance().release();

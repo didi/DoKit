@@ -40,9 +40,9 @@ class DokitManagerAdapter(kitViews: MutableList<KitWrapItem>?)
                         holder.getView<ImageView>(R.id.iv_tag).visibility = View.VISIBLE
                         holder.getView<ImageView>(R.id.iv_tag).apply {
                             if (item.checked) {
-                                setImageResource(R.drawable.dk_kit_item_checked)
+                                setImageResource(R.mipmap.dk_kit_item_checked)
                             } else {
-                                setImageResource(R.drawable.dk_kit_item_normal)
+                                setImageResource(R.mipmap.dk_kit_item_normal)
                             }
                         }
                         if (item.checked) {

@@ -28,7 +28,7 @@ public class HealthKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_health;
+        return R.mipmap.dk_health;
     }
 
 

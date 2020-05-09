@@ -10,7 +10,7 @@
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dk_title_height"
-        app:dkLeftIcon="@drawable/dk_title_back"
+        app:dkLeftIcon="@mipmap/dk_title_back"
         app:dkLeftText="@string/dk_back"
         app:dkTitle="@string/dk_kit_network_monitor_detail"/>
 

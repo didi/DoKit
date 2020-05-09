@@ -21,7 +21,7 @@ public class WeexInfoKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_sys_info;
+        return R.mipmap.dk_sys_info;
     }
 
     @Override

@@ -22,7 +22,7 @@ public class UIPerformanceKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_ui_performance;
+        return R.mipmap.dk_ui_performance;
     }
 
     @Override

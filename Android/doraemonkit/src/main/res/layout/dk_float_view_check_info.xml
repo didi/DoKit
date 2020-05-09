@@ -22,7 +22,7 @@
                 android:id="@+id/pre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/dk_pre_icon"
+                android:src="@mipmap/dk_pre_icon"
                 android:layout_marginRight="12dp"/>
         </FrameLayout>
 
@@ -38,7 +38,7 @@
                 android:id="@+id/next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/dk_next_icon"
+                android:src="@mipmap/dk_next_icon"
                 android:layout_marginLeft="12dp"/>
         </FrameLayout>
 
@@ -105,7 +105,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="14dp"
             android:layout_marginRight="16dp"
-            android:src="@drawable/dk_close_icon"/>
+            android:src="@mipmap/dk_close_icon"/>
 
     </RelativeLayout>
 </FrameLayout>

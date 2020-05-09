@@ -24,7 +24,7 @@ public class NetworkKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_net_monitor;
+        return R.mipmap.dk_net_monitor;
     }
 
 

@@ -21,7 +21,7 @@
                 android:id="@+id/icon"
                 android:layout_width="34dp"
                 android:layout_height="34dp"
-                tools:src="@drawable/dk_gps_mock" />
+                tools:src="@mipmap/dk_gps_mock" />
 
             <TextView
                 android:id="@+id/name"
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_margin="6dp"
-            android:src="@drawable/dk_kit_item_checked" />
+            android:src="@mipmap/dk_kit_item_checked" />
 
         <View
             android:id="@+id/view_mask"

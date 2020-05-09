@@ -21,7 +21,7 @@ public class DataCleanKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_data_clean;
+        return R.mipmap.dk_data_clean;
     }
 
     @Override

@@ -55,9 +55,9 @@ public class ScreenRecorderService extends Service {
         Intent nfIntent = new Intent(this, UniversalActivity.class); //点击后跳转的界面，可以设置跳转数据
 
         builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0)) // 设置PendingIntent
-                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.dk_doraemon)) // 设置下拉列表中的图标(大图标)
+                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.mipmap.dk_doraemon)) // 设置下拉列表中的图标(大图标)
                 //.setContentTitle("SMI InstantView") // 设置下拉列表里的标题
-                .setSmallIcon(R.drawable.dk_doraemon) // 设置状态栏内的小图标
+                .setSmallIcon(R.mipmap.dk_doraemon) // 设置状态栏内的小图标
                 .setContentText("Dokit屏幕取色器前台服务") // 设置上下文内容
                 .setWhen(System.currentTimeMillis()); // 设置该通知发生的时间
 

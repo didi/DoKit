@@ -30,7 +30,7 @@ public class LargePictureKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_performance_large_picture;
+        return R.mipmap.dk_performance_large_picture;
     }
 
     @Override

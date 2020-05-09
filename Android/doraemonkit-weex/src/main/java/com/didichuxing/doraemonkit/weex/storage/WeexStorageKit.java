@@ -22,7 +22,7 @@ public class WeexStorageKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_file_explorer;
+        return R.mipmap.dk_file_explorer;
     }
 
     @Override

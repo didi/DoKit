@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="89dp"
         app:dkTitle="@string/dk_kit_layout_border"
-        app:dkIcon="@drawable/dk_close_icon_big"/>
+        app:dkIcon="@mipmap/dk_close_icon_big"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/setting_list"
