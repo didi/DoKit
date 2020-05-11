@@ -1,5 +1,14 @@
 DoraemonKit-Android releases
 ===
+## 3.1.5
+1.更加精细化的插件控制(具体的插件配置信息可参考www.dokit.cn Android接入指南)
+
+2.新增用户自定义管理kit和自定义业务专区分组api(具体的插件配置信息可参考www.dokit.cn Android接入指南)
+
+3.核心Api升级成kotlin，同时欢迎大家和我一起参与dokit kotlin改造
+
+4.github issues fixed
+
 ## 3.1.4
 1.DoKit项目结构调整,对外暴露的api已全部移到com.didichuxing.doraemonkit.kit.core包名下,如果你有自定义Kit，请重新引入一下包名
 
