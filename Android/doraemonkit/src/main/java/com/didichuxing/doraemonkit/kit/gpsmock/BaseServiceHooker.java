@@ -3,12 +3,13 @@ package com.didichuxing.doraemonkit.kit.gpsmock;
 import android.content.Context;
 import android.os.IBinder;
 
+import androidx.annotation.Nullable;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import javax.annotation.Nullable;
 
 /**
  * Created by wanglikun on 2019/4/2

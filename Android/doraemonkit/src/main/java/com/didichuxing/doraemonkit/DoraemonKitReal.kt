@@ -71,7 +71,7 @@ import java.util.*
  * Created by jintai on 2019/12/18.
  * DoraemonKit 真正执行的类  不建议外部app调用
  */
-internal object DoraemonKitReal {
+object DoraemonKitReal {
     private const val TAG = "Doraemon"
 
     /**
@@ -144,9 +144,17 @@ internal object DoraemonKitReal {
             }
 
         }
+        //添加自定义的kit 需要读取配置文件
+        ThreadUtils.executeByIo(object : SimpleTask<Any>() {
+            override fun doInBackground(): Any {
+                addInnerKit(app)
+                return Any()
+            }
 
-        //添加自定义的kit
-        addSystemKit(app)
+            override fun onSuccess(result: Any?) {
+            }
+        })
+
         //addSystemKitForTest(app)
         //初始化悬浮窗管理类
         DokitViewManager.getInstance().init(app)
@@ -165,9 +173,9 @@ internal object DoraemonKitReal {
 
 
     /**
-     * 添加自定义kit
+     * 添加内置kit
      */
-    private fun addSystemKit(application: Application) {
+    private fun addInnerKit(application: Application) {
         var json = ""
         if (FileUtils.isFileExists(DokitConstant.SYSTEM_KITS_BAK_PATH)) {
             json = FileIOUtils.readFile2String(DokitConstant.SYSTEM_KITS_BAK_PATH)
@@ -176,7 +184,7 @@ internal object DoraemonKitReal {
             json = ConvertUtils.inputStream2String(open, "UTF-8")
         }
 
-        ToolPanelUtil.json2SystemKits(json)
+        ToolPanelUtil.jsonConfig2InnerKits(json)
         //悬浮窗模式
         DokitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_mode)] = mutableListOf()
         //添加退出项

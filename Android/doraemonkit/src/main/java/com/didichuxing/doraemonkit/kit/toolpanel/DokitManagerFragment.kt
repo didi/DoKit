@@ -14,7 +14,6 @@ import com.blankj.utilcode.util.*
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.DokitConstant
-import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.decoration.HorizontalDividerItemDecoration
 import com.didichuxing.doraemonkit.kit.toolpanel.decoration.VerticalDividerItemDecoration
@@ -240,7 +239,7 @@ class DokitManagerFragment : BaseFragment() {
                     val open = DoraemonKit.APPLICATION?.assets?.open("dokit_system_kits.json")
                     val json = ConvertUtils.inputStream2String(open, "UTF-8")
                     //设置成默认的系统控件排序
-                    ToolPanelUtil.json2SystemKits(json)
+                    ToolPanelUtil.jsonConfig2InnerKits(json)
                     generateData()
                     mAdapter.notifyDataSetChanged()
                     saveSystemKits()

@@ -10,7 +10,7 @@ class SecondActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
         tv.setOnClickListener {
-            DoraemonKit.show();
+            DoraemonKit.show()
         }
     }
 }

@@ -1,37 +1,30 @@
 package com.didichuxing.doraemonkit
 
 import android.app.Application
-import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
+import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 
 /**
- * Created by jint on 2018/6/22.
+ * Created by zhangweida on 2018/6/22.
  */
-object DoraemonKit {
-    @JvmField
+object DoraemonKitRpc {
     var APPLICATION: Application? = null
-    private const val TAG = "DoraemonKit"
 
 
     @JvmStatic
     fun install(app: Application) {
-        install(app, linkedMapOf(), mutableListOf(), "")
     }
 
     @JvmStatic
     fun install(app: Application, productId: String) {
-        install(app, linkedMapOf(), mutableListOf(), productId)
     }
 
     @JvmStatic
     fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, productId: String) {
-        install(app, mapKits, mutableListOf(), productId)
     }
 
     @JvmStatic
     fun install(app: Application, listKits: MutableList<AbstractKit>, productId: String) {
-        install(app, linkedMapOf(), listKits, productId)
     }
 
     /**
@@ -42,23 +35,15 @@ object DoraemonKit {
      */
     @JvmStatic
     private fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
-        APPLICATION = app
-        try {
-            DoraemonKitReal.install(app, mapKits ?: linkedMapOf(), listKits
-                    ?: mutableListOf(), productId ?: "")
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+
     }
 
     @JvmStatic
-    fun setWebDoorCallback(callback: WebDoorCallback?) {
-        DoraemonKitReal.setWebDoorCallback(callback)
+    fun setWebDoorCallback(callback: WebDoorManager.WebDoorCallback?) {
     }
 
     @JvmStatic
     fun show() {
-        DoraemonKitReal.show()
     }
 
     /**
@@ -66,7 +51,6 @@ object DoraemonKit {
      */
     @JvmStatic
     fun showToolPanel() {
-        DoraemonKitReal.showToolPanel()
     }
 
     /**
@@ -74,12 +58,10 @@ object DoraemonKit {
      */
     @JvmStatic
     fun hideToolPanel() {
-        DoraemonKitReal.hideToolPanel()
     }
 
     @JvmStatic
     fun hide() {
-        DoraemonKitReal.hide()
     }
 
     /**
@@ -87,16 +69,14 @@ object DoraemonKit {
      */
     @JvmStatic
     fun disableUpload() {
-        DoraemonKitReal.disableUpload()
     }
 
     @JvmStatic
     val isShow: Boolean
-        get() = DoraemonKitReal.isShow
+        get() = false
 
     @JvmStatic
     fun setDebug(debug: Boolean) {
-        DoraemonKitReal.setDebug(debug)
     }
 
     /**
@@ -104,6 +84,5 @@ object DoraemonKit {
      */
     @JvmStatic
     fun setAwaysShowMainIcon(awaysShow: Boolean) {
-        DokitConstant.AWAYS_SHOW_MAIN_ICON = awaysShow
     }
 }

@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ActivityUtils
+import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.DokitConstant
@@ -84,6 +85,7 @@ class ToolPanelDokitView : AbsDokitView() {
         }
     }
 
+
     private fun initView() {
         val titleBar = findViewById<TitleBar>(R.id.title_bar)
         titleBar.setOnTitleBarClickListener(object : TitleBar.OnTitleBarClickListener {
@@ -92,6 +94,9 @@ class ToolPanelDokitView : AbsDokitView() {
             }
 
             override fun onRightClick() {
+                if (!isNormalMode) {
+                    DoraemonKit.hideToolPanel()
+                }
                 if (activity != null) {
                     val intent = Intent(activity, UniversalActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -130,7 +135,9 @@ class ToolPanelDokitView : AbsDokitView() {
         val rvKits = findViewById<RecyclerView>(R.id.rv_kits)
         rvKits.layoutManager = gridLayoutManager
         rvKits.adapter = mAdapter
+
     }
+
 
     override fun initDokitViewLayoutParams(params: DokitViewLayoutParams) {
         params.x = 0
