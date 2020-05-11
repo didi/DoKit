@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply from: './upload.gradle'
 
 android {
@@ -48,7 +50,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation rootProject.ext.dependencies["utilcode"]
-//    implementation rootProject.ext.dependencies["brvah"]
+    implementation rootProject.ext.dependencies["kotlin"]
     //platform http
     compileOnly rootProject.ext.dependencies["didi_http"]
     compileOnly rootProject.ext.dependencies["didi_rpc"]

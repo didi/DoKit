@@ -3,15 +3,14 @@ package com.didichuxing.doraemonkit
 import android.app.Application
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
+import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 
 /**
- * Created by jint on 2018/6/22.
+ * Created by jintai on 2018/6/22.
  */
-object DoraemonKit {
-    @JvmField
+object DoraemonKitRpc {
     var APPLICATION: Application? = null
-    private const val TAG = "DoraemonKit"
+    private const val TAG = "DoraemonKitRpc"
 
 
     @JvmStatic
@@ -43,16 +42,19 @@ object DoraemonKit {
     @JvmStatic
     fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
         APPLICATION = app
+        DoraemonKit.APPLICATION = app
         try {
             DoraemonKitReal.install(app, mapKits ?: linkedMapOf(), listKits
                     ?: mutableListOf(), productId ?: "")
         } catch (e: Exception) {
             e.printStackTrace()
         }
+        //平台端 http 拦截器注入
+        PlatformHttpHook.installInterceptor()
     }
 
 
-    fun setWebDoorCallback(callback: WebDoorCallback?) {
+    fun setWebDoorCallback(callback: WebDoorManager.WebDoorCallback?) {
         DoraemonKitReal.setWebDoorCallback(callback)
     }
 

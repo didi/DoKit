@@ -75,10 +75,13 @@ public class DoKitExtUtil {
                 this.slowMethodExt.normalMethod.packageNames.add(packageName.replaceAll("\\.", "/"));
             }
             //添加默认的包名
-            String applicationId = appExtension.getDefaultConfig().getApplicationId().replaceAll("\\.", "/");
-            if (this.slowMethodExt.normalMethod.packageNames.isEmpty()) {
-                this.slowMethodExt.normalMethod.packageNames.add(applicationId);
+            if (appExtension.getDefaultConfig() != null && appExtension.getDefaultConfig().getApplicationId() != null) {
+                String applicationId = appExtension.getDefaultConfig().getApplicationId().replaceAll("\\.", "/");
+                if (this.slowMethodExt.normalMethod.packageNames.isEmpty()) {
+                    this.slowMethodExt.normalMethod.packageNames.add(applicationId);
+                }
             }
+
 
             //设置慢函数普通策略插装包名黑名单
             this.slowMethodExt.normalMethod.methodBlacklist.clear();

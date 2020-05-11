@@ -21,7 +21,7 @@ class ToolPanelUtil {
         /**
          * json 转系统kit
          */
-        fun json2SystemKits(json: String) {
+        fun jsonConfig2InnerKits(json: String) {
             val localKits: MutableList<KitGroupBean> = GsonUtils.fromJson(json, GsonUtils.getListType(KitGroupBean::class.java))
             localKits.forEach { group ->
                 DokitConstant.GLOBAL_SYSTEM_KITS[group.groupId] = mutableListOf()

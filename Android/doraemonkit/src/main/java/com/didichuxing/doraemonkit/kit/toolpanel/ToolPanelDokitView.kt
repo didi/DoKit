@@ -84,6 +84,7 @@ class ToolPanelDokitView : AbsDokitView() {
         }
     }
 
+
     private fun initView() {
         val titleBar = findViewById<TitleBar>(R.id.title_bar)
         titleBar.setOnTitleBarClickListener(object : TitleBar.OnTitleBarClickListener {
@@ -130,7 +131,9 @@ class ToolPanelDokitView : AbsDokitView() {
         val rvKits = findViewById<RecyclerView>(R.id.rv_kits)
         rvKits.layoutManager = gridLayoutManager
         rvKits.adapter = mAdapter
+
     }
+
 
     override fun initDokitViewLayoutParams(params: DokitViewLayoutParams) {
         params.x = 0

@@ -1,37 +1,27 @@
 package com.didichuxing.doraemonkit
 
 import android.app.Application
-import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
+import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 
 /**
  * Created by jint on 2018/6/22.
  */
 object DoraemonKit {
-    @JvmField
-    var APPLICATION: Application? = null
-    private const val TAG = "DoraemonKit"
-
-
     @JvmStatic
     fun install(app: Application) {
-        DoraemonKitReal.install(app, linkedMapOf(), mutableListOf(), "")
     }
 
     @JvmStatic
     fun install(app: Application, productId: String) {
-        DoraemonKitReal.install(app, linkedMapOf(), mutableListOf(), productId)
     }
 
     @JvmStatic
     fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, productId: String) {
-        DoraemonKitReal.install(app, mapKits, mutableListOf(), productId)
     }
 
     @JvmStatic
     fun install(app: Application, listKits: MutableList<AbstractKit>, productId: String) {
-        DoraemonKitReal.install(app, linkedMapOf(), listKits, productId)
     }
 
     /**
@@ -42,42 +32,28 @@ object DoraemonKit {
      */
     @JvmStatic
     fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
-        APPLICATION = app
-        try {
-            DoraemonKitReal.install(app, mapKits ?: linkedMapOf(), listKits
-                    ?: mutableListOf(), productId ?: "")
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+
     }
 
 
-    fun setWebDoorCallback(callback: WebDoorCallback?) {
-        DoraemonKitReal.setWebDoorCallback(callback)
-    }
+    fun setWebDoorCallback(callback: WebDoorManager.WebDoorCallback?) {}
 
-    fun show() {
-        DoraemonKitReal.show()
-    }
+    fun show() {}
 
     /**
      * 直接显示工具面板页面
      */
     @JvmStatic
     fun showToolPanel() {
-        DoraemonKitReal.showToolPanel()
     }
 
     /**
      * 直接隐藏工具面板
      */
-    fun hideToolPanel() {
-        DoraemonKitReal.hideToolPanel()
-    }
+    fun hideToolPanel() {}
 
     @JvmStatic
     fun hide() {
-        DoraemonKitReal.hide()
     }
 
     /**
@@ -85,20 +61,15 @@ object DoraemonKit {
      */
     @JvmStatic
     fun disableUpload() {
-        DoraemonKitReal.disableUpload()
     }
 
     val isShow: Boolean
-        get() = DoraemonKitReal.isShow
+        get() = false
 
-    fun setDebug(debug: Boolean) {
-        DoraemonKitReal.setDebug(debug)
-    }
+    fun setDebug(debug: Boolean) {}
 
     /**
      * 是否显示主入口icon
      */
-    fun setAwaysShowMainIcon(awaysShow: Boolean) {
-        DokitConstant.AWAYS_SHOW_MAIN_ICON = awaysShow
-    }
+    fun setAwaysShowMainIcon(awaysShow: Boolean) {}
 }

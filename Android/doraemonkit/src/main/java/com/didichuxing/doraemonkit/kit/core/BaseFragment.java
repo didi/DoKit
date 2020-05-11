@@ -157,4 +157,12 @@ public abstract class BaseFragment extends Fragment {
     public void dismissDialog(DialogProvider provider) {
         provider.dismiss();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mRootView != null) {
+            mRootView = null;
+        }
+    }
 }
