@@ -4,6 +4,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+import androidx.annotation.NonNull;
+
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.network.bean.MockTemplateTitleBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
@@ -12,7 +14,6 @@ import com.didichuxing.doraemonkit.widget.bravh.entity.node.BaseNode;
 import com.didichuxing.doraemonkit.widget.bravh.provider.BaseNodeProvider;
 import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder;
 
-import org.checkerframework.checker.nullness.compatqual.NonNullType;
 
 /**
  * ================================================
@@ -36,7 +37,7 @@ public class TemplateTitleNodeProvider extends BaseNodeProvider {
 
 
     @Override
-    public void convert(@NonNullType BaseViewHolder holder, BaseNode item) {
+    public void convert(@NonNull BaseViewHolder holder, BaseNode item) {
         if (item instanceof MockTemplateTitleBean) {
             final MockTemplateTitleBean mockTitleBean = (MockTemplateTitleBean) item;
             MockTemplateApiBean mockApi = (MockTemplateApiBean) mockTitleBean.getChildNode().get(0);

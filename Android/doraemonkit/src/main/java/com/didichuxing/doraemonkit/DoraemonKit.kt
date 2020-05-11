@@ -16,22 +16,22 @@ object DoraemonKit {
 
     @JvmStatic
     fun install(app: Application) {
-        DoraemonKitReal.install(app, linkedMapOf(), mutableListOf(), "")
+        install(app, linkedMapOf(), mutableListOf(), "")
     }
 
     @JvmStatic
     fun install(app: Application, productId: String) {
-        DoraemonKitReal.install(app, linkedMapOf(), mutableListOf(), productId)
+        install(app, linkedMapOf(), mutableListOf(), productId)
     }
 
     @JvmStatic
     fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, productId: String) {
-        DoraemonKitReal.install(app, mapKits, mutableListOf(), productId)
+        install(app, mapKits, mutableListOf(), productId)
     }
 
     @JvmStatic
     fun install(app: Application, listKits: MutableList<AbstractKit>, productId: String) {
-        DoraemonKitReal.install(app, linkedMapOf(), listKits, productId)
+        install(app, linkedMapOf(), listKits, productId)
     }
 
     /**
@@ -41,7 +41,7 @@ object DoraemonKit {
      * @param productId Dokit平台端申请的productId
      */
     @JvmStatic
-    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
+    private fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
         APPLICATION = app
         try {
             DoraemonKitReal.install(app, mapKits ?: linkedMapOf(), listKits
@@ -51,11 +51,12 @@ object DoraemonKit {
         }
     }
 
-
+    @JvmStatic
     fun setWebDoorCallback(callback: WebDoorCallback?) {
         DoraemonKitReal.setWebDoorCallback(callback)
     }
 
+    @JvmStatic
     fun show() {
         DoraemonKitReal.show()
     }
@@ -71,6 +72,7 @@ object DoraemonKit {
     /**
      * 直接隐藏工具面板
      */
+    @JvmStatic
     fun hideToolPanel() {
         DoraemonKitReal.hideToolPanel()
     }
@@ -88,9 +90,11 @@ object DoraemonKit {
         DoraemonKitReal.disableUpload()
     }
 
+    @JvmStatic
     val isShow: Boolean
         get() = DoraemonKitReal.isShow
 
+    @JvmStatic
     fun setDebug(debug: Boolean) {
         DoraemonKitReal.setDebug(debug)
     }
@@ -98,6 +102,7 @@ object DoraemonKit {
     /**
      * 是否显示主入口icon
      */
+    @JvmStatic
     fun setAwaysShowMainIcon(awaysShow: Boolean) {
         DokitConstant.AWAYS_SHOW_MAIN_ICON = awaysShow
     }

@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+import androidx.annotation.NonNull;
+
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.network.bean.MockApiResponseBean;
 import com.didichuxing.doraemonkit.kit.network.bean.MockInterceptTitleBean;
@@ -13,8 +15,6 @@ import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
 import com.didichuxing.doraemonkit.widget.bravh.entity.node.BaseNode;
 import com.didichuxing.doraemonkit.widget.bravh.provider.BaseNodeProvider;
 import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder;
-
-import org.checkerframework.checker.nullness.compatqual.NonNullType;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class InterceptTitleNodeProvider extends BaseNodeProvider {
 
 
     @Override
-    public void convert(@NonNullType BaseViewHolder holder, BaseNode item) {
+    public void convert(@NonNull BaseViewHolder holder, BaseNode item) {
         if (item instanceof MockInterceptTitleBean) {
             final MockInterceptTitleBean mockTitleBean = (MockInterceptTitleBean) item;
             MockInterceptApiBean mockApi0 = (MockInterceptApiBean) mockTitleBean.getChildNode().get(0);

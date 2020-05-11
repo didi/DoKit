@@ -31,14 +31,17 @@ object DoraemonKit {
      * @param productId Dokit平台端申请的productId
      */
     @JvmStatic
-    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
+    private  fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
 
     }
 
+    @JvmStatic
+    fun setWebDoorCallback(callback: WebDoorManager.WebDoorCallback?) {
+    }
 
-    fun setWebDoorCallback(callback: WebDoorManager.WebDoorCallback?) {}
-
-    fun show() {}
+    @JvmStatic
+    fun show() {
+    }
 
     /**
      * 直接显示工具面板页面
@@ -50,7 +53,9 @@ object DoraemonKit {
     /**
      * 直接隐藏工具面板
      */
-    fun hideToolPanel() {}
+    @JvmStatic
+    fun hideToolPanel() {
+    }
 
     @JvmStatic
     fun hide() {
@@ -63,13 +68,18 @@ object DoraemonKit {
     fun disableUpload() {
     }
 
+    @JvmStatic
     val isShow: Boolean
         get() = false
 
-    fun setDebug(debug: Boolean) {}
+    @JvmStatic
+    fun setDebug(debug: Boolean) {
+    }
 
     /**
      * 是否显示主入口icon
      */
-    fun setAwaysShowMainIcon(awaysShow: Boolean) {}
+    @JvmStatic
+    fun setAwaysShowMainIcon(awaysShow: Boolean) {
+    }
 }

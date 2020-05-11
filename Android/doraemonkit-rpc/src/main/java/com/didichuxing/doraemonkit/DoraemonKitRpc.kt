@@ -4,33 +4,33 @@ import android.app.Application
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
+import com.didichuxing.foundation.net.rpc.http.PlatformHttpHook
 
 /**
  * Created by jintai on 2018/6/22.
  */
 object DoraemonKitRpc {
     var APPLICATION: Application? = null
-    private const val TAG = "DoraemonKitRpc"
 
 
     @JvmStatic
     fun install(app: Application) {
-        DoraemonKitReal.install(app, linkedMapOf(), mutableListOf(), "")
+        install(app, linkedMapOf(), mutableListOf(), "")
     }
 
     @JvmStatic
     fun install(app: Application, productId: String) {
-        DoraemonKitReal.install(app, linkedMapOf(), mutableListOf(), productId)
+        install(app, linkedMapOf(), mutableListOf(), productId)
     }
 
     @JvmStatic
     fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, productId: String) {
-        DoraemonKitReal.install(app, mapKits, mutableListOf(), productId)
+        install(app, mapKits, mutableListOf(), productId)
     }
 
     @JvmStatic
     fun install(app: Application, listKits: MutableList<AbstractKit>, productId: String) {
-        DoraemonKitReal.install(app, linkedMapOf(), listKits, productId)
+        install(app, linkedMapOf(), listKits, productId)
     }
 
     /**
@@ -40,7 +40,7 @@ object DoraemonKitRpc {
      * @param productId Dokit平台端申请的productId
      */
     @JvmStatic
-    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
+    private fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
         APPLICATION = app
         DoraemonKit.APPLICATION = app
         try {
@@ -53,11 +53,12 @@ object DoraemonKitRpc {
         PlatformHttpHook.installInterceptor()
     }
 
-
+    @JvmStatic
     fun setWebDoorCallback(callback: WebDoorManager.WebDoorCallback?) {
         DoraemonKitReal.setWebDoorCallback(callback)
     }
 
+    @JvmStatic
     fun show() {
         DoraemonKitReal.show()
     }
@@ -73,6 +74,7 @@ object DoraemonKitRpc {
     /**
      * 直接隐藏工具面板
      */
+    @JvmStatic
     fun hideToolPanel() {
         DoraemonKitReal.hideToolPanel()
     }
@@ -90,9 +92,11 @@ object DoraemonKitRpc {
         DoraemonKitReal.disableUpload()
     }
 
+    @JvmStatic
     val isShow: Boolean
         get() = DoraemonKitReal.isShow
 
+    @JvmStatic
     fun setDebug(debug: Boolean) {
         DoraemonKitReal.setDebug(debug)
     }
@@ -100,6 +104,7 @@ object DoraemonKitRpc {
     /**
      * 是否显示主入口icon
      */
+    @JvmStatic
     fun setAwaysShowMainIcon(awaysShow: Boolean) {
         DokitConstant.AWAYS_SHOW_MAIN_ICON = awaysShow
     }

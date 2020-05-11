@@ -76,7 +76,7 @@ public class HealthFragmentChild0 extends BaseFragment {
 
                         @Override
                         public void onError(Response<String> response) {
-                            LogHelper.e(TAG, "error response===>" + response.body());
+                            LogHelper.e(TAG, "error response===>" + response.message());
                             ToastUtils.showShort(DokitUtil.getString(R.string.dk_health_upload_failed));
                         }
                     });

@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.ActivityUtils
+import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.DokitConstant
@@ -93,6 +94,9 @@ class ToolPanelDokitView : AbsDokitView() {
             }
 
             override fun onRightClick() {
+                if (!isNormalMode) {
+                    DoraemonKit.hideToolPanel()
+                }
                 if (activity != null) {
                     val intent = Intent(activity, UniversalActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK

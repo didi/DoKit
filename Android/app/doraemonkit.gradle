@@ -5,8 +5,9 @@ if (rootProject.ext.config["applyPlugin"]) {
     dependencies {
         //外部平台依赖
         debugImplementation project(":doraemonkit")
+        releaseImplementation project(":doraemonkit-no-op")
 //        debugImplementation project(":doraemonkit-weex")
-        debugImplementation project(":doraemonkit-leakcanary")
+//        debugImplementation project(":doraemonkit-leakcanary")
         //新版线上包
 //        debugImplementation "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
 //        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-leakcanary:${rootProject.ext.android["jcenterArchivesVersionName"]}"
