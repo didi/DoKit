@@ -13,19 +13,17 @@ import com.didichuxing.doraemonkit.kit.Category;
  */
 
 public class SysInfoKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.TOOLS;
-    }
+
 
     @Override
     public int getName() {
         return R.string.dk_kit_sysinfo;
     }
 
+
     @Override
     public int getIcon() {
-        return R.drawable.dk_sys_info;
+        return R.mipmap.dk_sys_info;
     }
 
     @Override

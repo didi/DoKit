@@ -41,6 +41,13 @@
             android:textAllCaps="false" />
 
         <Button
+            android:id="@+id/btn_app_launch_stack"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/app_btn_app_launch_stack"
+            android:textAllCaps="false" />
+
+        <Button
             android:id="@+id/btn_jump_leak"
             android:layout_width="match_parent"
             android:layout_height="50dp"

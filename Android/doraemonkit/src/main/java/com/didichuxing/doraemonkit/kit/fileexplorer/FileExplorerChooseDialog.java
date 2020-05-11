@@ -71,4 +71,9 @@ public class FileExplorerChooseDialog extends DialogProvider<File> {
 
         void onShareClick(FileExplorerChooseDialog dialog);
     }
+
+    @Override
+    public boolean isCancellable() {
+        return false;
+    }
 }

@@ -13,10 +13,6 @@ import com.didichuxing.doraemonkit.kit.Category;
 
 public class FrameInfoKit extends AbstractKit {
 
-    @Override
-    public int getCategory() {
-        return Category.PERFORMANCE;
-    }
 
     @Override
     public int getName() {
@@ -25,12 +21,12 @@ public class FrameInfoKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_frame_hist;
+        return R.mipmap.dk_frame_hist;
     }
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context,FragmentIndex.FRAGMENT_FRAME_INFO);
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_FRAME_INFO);
     }
 
     @Override

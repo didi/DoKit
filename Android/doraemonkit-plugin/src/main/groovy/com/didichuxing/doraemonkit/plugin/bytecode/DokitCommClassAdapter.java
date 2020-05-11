@@ -1,12 +1,13 @@
 package com.didichuxing.doraemonkit.plugin.bytecode;
 
-import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
+import com.didichuxing.doraemonkit.plugin.DoKitExtUtil;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.AmapLocationMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.BaiduLocationMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.FlagMethodAdapter;
+import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.PluginConfigMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.OkHttpNullConsMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.OkHttpOneParamConsMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.PlatformHttpMethodAdapter;
+import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.PlatformNullConsHttpMethodAdapter;
+import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.PlatformOneParamHttpMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.TencentLocationMethodAdapter;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.TencentLocationSingleMethodAdapter;
 
@@ -66,82 +67,85 @@ public final class DokitCommClassAdapter extends ClassVisitor {
     public MethodVisitor visitMethod(int access, String methodName, String desc, String signature, String[] exceptions) {
         //从传进来的ClassWriter中读取MethodVisitor
         MethodVisitor mv = cv.visitMethod(access, methodName, desc, signature, exceptions);
-        //开关被关闭 不插入代码
-        if (!DokitExtUtil.getInstance().isDokitPluginSwitch()) {
-            return mv;
-        }
+
         //开发者变量字节码替换
-        if (className.equals("com/didichuxing/doraemonkit/DoraemonKitReal") && methodName.equals("install") && desc != null) {
-            if (getParamsSize(desc) == 3) {
+        if (className.equals("com/didichuxing/doraemonkit/DoraemonKitReal") && methodName.equals("pluginConfig")) {
+            log(className, access, methodName, desc, signature);
+            //创建MethodVisitor代理
+            return mv == null ? null : new PluginConfigMethodAdapter(access, desc, mv, methodName);
+        }
+
+
+        //地图配置
+        if (DoKitExtUtil.getInstance().getCommExt().gpsSwitch) {
+            //高德地图字节码替换
+            if (className.equals("com/amap/api/location/AMapLocationClient") && methodName.equals("setLocationListener")) {
+                //创建MethodVisitor代理
+                log(className, access, methodName, desc, signature);
+                return mv == null ? null : new AmapLocationMethodAdapter(access, desc, mv);
+            }
+
+            //腾讯地图字节码替换
+            if (className.equals("com/tencent/map/geolocation/TencentLocationManager") && methodName.equals("requestLocationUpdates")) {
                 log(className, access, methodName, desc, signature);
                 //创建MethodVisitor代理
-                return mv == null ? null : new FlagMethodAdapter(access, desc, mv);
+                return mv == null ? null : new TencentLocationMethodAdapter(access, desc, mv);
             }
-        }
 
-        //高德地图字节码替换
-        if (className.equals("com/amap/api/location/AMapLocationClient") && methodName.equals("setLocationListener")) {
-            //创建MethodVisitor代理
-            log(className, access, methodName, desc, signature);
-            return mv == null ? null : new AmapLocationMethodAdapter(access, desc, mv);
-        }
+            //腾讯地图单次定位
+            if (className.equals("com/tencent/map/geolocation/TencentLocationManager") && methodName.equals("requestSingleFreshLocation")) {
+                log(className, access, methodName, desc, signature);
+                //创建MethodVisitor代理
+                return mv == null ? null : new TencentLocationSingleMethodAdapter(access, desc, mv);
+            }
 
-        //腾讯地图字节码替换
-        if (className.equals("com/tencent/map/geolocation/TencentLocationManager") && methodName.equals("requestLocationUpdates")) {
-            log(className, access, methodName, desc, signature);
-            //创建MethodVisitor代理
-            return mv == null ? null : new TencentLocationMethodAdapter(access, desc, mv);
-        }
-
-        //腾讯地图单次定位
-        if (className.equals("com/tencent/map/geolocation/TencentLocationManager") && methodName.equals("requestSingleFreshLocation")) {
-            log(className, access, methodName, desc, signature);
-            //创建MethodVisitor代理
-            return mv == null ? null : new TencentLocationSingleMethodAdapter(access, desc, mv);
-        }
-
-        //百度地图定位 汇报函数签名错误 暂时未找到原因
+            //百度地图定位 汇报函数签名错误 暂时未找到原因
 //        if (className.equals("com/baidu/location/LocationClient") && name.equals("registerLocationListener")) {
 //            log(className, access, name, desc, signature);
 //            //创建MethodVisitor代理
 //            return mv == null ? null : new BaiduLocationMethodAdapter(access, desc, mv);
 //        }
 
-        //百度地图定位
-        if (methodName.equals("onReceiveLocation") && desc.equals("(Lcom/baidu/location/BDLocation;)V")) {
-            log(className, access, methodName, desc, signature);
-            //创建MethodVisitor代理
-            return mv == null ? null : new BaiduLocationMethodAdapter(access, desc, mv);
+            //百度地图定位
+            if (methodName.equals("onReceiveLocation") && desc.equals("(Lcom/baidu/location/BDLocation;)V")) {
+                log(className, access, methodName, desc, signature);
+                //创建MethodVisitor代理
+                return mv == null ? null : new BaiduLocationMethodAdapter(access, desc, mv);
+            }
         }
 
+        //网络配置
+        if (DoKitExtUtil.getInstance().getCommExt().networkSwitch) {
+            //okhttp 拦截器字节码替换 空构造函数
+            if (className.equals("okhttp3/OkHttpClient$Builder") && methodName.equals("<init>") && getParamsSize(desc) == 0) {
+                //创建MethodVisitor代理
+                log(className, access, methodName, desc, signature);
+                return mv == null ? null : new OkHttpNullConsMethodAdapter(access, desc, mv);
+            }
 
-        //okhttp 拦截器字节码替换 空构造函数
-        if (className.equals("okhttp3/OkHttpClient$Builder") && methodName.equals("<init>") && getParamsSize(desc) == 0) {
-            //创建MethodVisitor代理
-            log(className, access, methodName, desc, signature);
-            return mv == null ? null : new OkHttpNullConsMethodAdapter(access, desc, mv);
+            //okhttp 拦截器字节码替换 一个参数的构造函数
+            if (className.equals("okhttp3/OkHttpClient$Builder") && methodName.equals("<init>") && getParamsSize(desc) == 1) {
+                //创建MethodVisitor代理
+                log(className, access, methodName, desc, signature);
+                return mv == null ? null : new OkHttpOneParamConsMethodAdapter(mv, access, methodName, desc);
+            }
+
+
+            //didi平台端 网络 空构造函数
+            if (className.equals("didihttp/DidiHttpClient$Builder") && methodName.equals("<init>") && getParamsSize(desc) == 0) {
+                //创建MethodVisitor代理
+                log(className, access, methodName, desc, signature);
+                return mv == null ? null : new PlatformNullConsHttpMethodAdapter(access, desc, mv);
+            }
+
+            //didi平台端 网络 一个参数的构造函数
+            if (className.equals("didihttp/DidiHttpClient$Builder") && methodName.equals("<init>") && getParamsSize(desc) == 1) {
+                //创建MethodVisitor代理
+                log(className, access, methodName, desc, signature);
+                return mv == null ? null : new PlatformOneParamHttpMethodAdapter(mv, access, methodName, desc);
+            }
         }
 
-        //okhttp 拦截器字节码替换 一个参数的构造函数
-        if (className.equals("okhttp3/OkHttpClient$Builder") && methodName.equals("<init>") && getParamsSize(desc) == 1) {
-            //创建MethodVisitor代理
-            log(className, access, methodName, desc, signature);
-            return mv == null ? null : new OkHttpOneParamConsMethodAdapter(mv, access, methodName, desc);
-        }
-
-        //didi平台端 网络 拦截器字节码替换
-        if (className.equals("didihttp/DidiHttpClient$Builder") && methodName.equals("<init>")) {
-            //创建MethodVisitor代理
-            log(className, access, methodName, desc, signature);
-            return mv == null ? null : new PlatformHttpMethodAdapter(access, desc, mv);
-        }
-        //app启动hook点 onCreate()函数 兼容MultiDex
-//        if (!StringUtils.isEmpty(superName) && (superName.equals("android/app/Application") || superName.equals("android/support/multidex/MultiDexApplication")) && methodName.equals("onCreate") && desc.equals("()V")) {
-//            log(className, access, methodName, desc, signature);
-//            return mv == null ? null : new ApplicationOnCreateMethodAdapter(access, methodName, desc, mv);
-//        }
-
-        //过滤所有类中当前方法中所有的字节码
         return mv;
 
     }

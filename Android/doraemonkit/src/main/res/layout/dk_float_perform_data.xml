@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right|top"
             android:layout_margin="@dimen/dk_dp_5"
-            android:src="@drawable/dk_close_white" />
+            android:src="@mipmap/dk_close_white" />
 
     </FrameLayout>
 

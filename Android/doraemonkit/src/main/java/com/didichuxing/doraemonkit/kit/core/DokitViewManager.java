@@ -9,9 +9,10 @@ import androidx.room.Room;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDatabase;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
-import com.didichuxing.doraemonkit.kit.main.ToolPanelDokitView;
+import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.HashMap;
@@ -21,7 +22,6 @@ import java.util.Map;
  * Created by jintai on 2018/10/23.
  * 浮标管理类
  */
-
 public class DokitViewManager implements DokitViewManagerInterface {
     private static final String TAG = "DokitViewManagerProxy";
     /**
@@ -210,6 +210,31 @@ public class DokitViewManager implements DokitViewManagerInterface {
      */
     public void detachToolPanel() {
         detach(ToolPanelDokitView.class.getSimpleName());
+    }
+
+    /**
+     * 显示工具列表dokitView
+     */
+    public void attachToolPanel() {
+        DokitIntent toolPanelIntent = new DokitIntent(ToolPanelDokitView.class);
+        toolPanelIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        attach(toolPanelIntent);
+    }
+
+    /**
+     * 显示主图标 dokitView
+     */
+    public void attachMainIcon() {
+        DokitIntent mainIconIntent = new DokitIntent(MainIconDokitView.class);
+        mainIconIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+        attach(mainIconIntent);
+    }
+
+    /**
+     * 隐藏首页图标
+     */
+    public void detachMainIcon() {
+        detach(MainIconDokitView.class.getSimpleName());
     }
 
     /**

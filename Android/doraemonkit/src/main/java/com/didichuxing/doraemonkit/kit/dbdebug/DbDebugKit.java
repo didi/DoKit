@@ -17,10 +17,7 @@ import com.didichuxing.doraemonkit.kit.Category;
  * ================================================
  */
 public class DbDebugKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.TOOLS;
-    }
+
 
     @Override
     public int getName() {
@@ -29,7 +26,7 @@ public class DbDebugKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_db_view;
+        return R.mipmap.dk_db_view;
     }
 
     @Override

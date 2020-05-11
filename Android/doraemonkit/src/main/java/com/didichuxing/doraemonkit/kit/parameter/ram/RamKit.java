@@ -8,10 +8,7 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 
 public class RamKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.PERFORMANCE;
-    }
+
 
     @Override
     public int getName() {
@@ -20,7 +17,7 @@ public class RamKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_ram;
+        return R.mipmap.dk_ram;
     }
 
     @Override

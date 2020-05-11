@@ -18,10 +18,7 @@ import com.didichuxing.doraemonkit.kit.core.TranslucentActivity;
 public class ColorPickerKit extends AbstractKit {
     private static final String TAG = "ColorPicker";
 
-    @Override
-    public int getCategory() {
-        return Category.UI;
-    }
+
 
     @Override
     public int getName() {
@@ -30,7 +27,7 @@ public class ColorPickerKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_color_picker;
+        return R.mipmap.dk_color_picker;
     }
 
     @Override

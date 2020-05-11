@@ -3,6 +3,8 @@ package com.didichuxing.doraemonkit.kit.timecounter;
 import android.os.Looper;
 
 import com.blankj.utilcode.util.GsonUtils;
+import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
+import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.methodtrace.AppHealthMethodCostBean;
@@ -65,20 +67,29 @@ public class TimeCounterManager {
     public void onAppCreateEnd() {
         mAppCounter.end();
         CounterInfo counterInfo = getAppSetupInfo();
-        List<AppHealthMethodCostBean> appHealthMethodCostBeans = new ArrayList<>();
-        AppHealthMethodCostBean onCreate = new AppHealthMethodCostBean();
-        onCreate.setCostTime(mAppCounter.getStartCountTime() + "ms");
-        onCreate.setFunctionName("Application onCreate");
-        appHealthMethodCostBeans.add(onCreate);
-        AppHealthMethodCostBean onAttach = new AppHealthMethodCostBean();
-        onAttach.setCostTime(mAppCounter.getAttachCountTime() + "ms");
-        onAttach.setFunctionName("Application attachBaseContext");
-        appHealthMethodCostBeans.add(onAttach);
+        if (DokitPluginConfig.VALUE_METHOD_STRATEGY == DokitPluginConfig.STRATEGY_STACK) {
+            StringBuilder startInfo = new StringBuilder();
+            startInfo.append(MethodStackUtil.STR_APP_ATTACH_BASECONTEXT);
+            startInfo.append("\n");
+            startInfo.append(MethodStackUtil.STR_APP_ON_CREATE);
+            AppHealthInfoUtil.getInstance().setAppStartInfo(counterInfo.totalCost, startInfo.toString(), new ArrayList<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean>());
+        } else {
+            List<AppHealthMethodCostBean> appHealthMethodCostBeans = new ArrayList<>();
+            AppHealthMethodCostBean onCreate = new AppHealthMethodCostBean();
+            onCreate.setCostTime(mAppCounter.getStartCountTime() + "ms");
+            onCreate.setFunctionName("Application onCreate");
+            appHealthMethodCostBeans.add(onCreate);
+            AppHealthMethodCostBean onAttach = new AppHealthMethodCostBean();
+            onAttach.setCostTime(mAppCounter.getAttachCountTime() + "ms");
+            onAttach.setFunctionName("Application attachBaseContext");
+            appHealthMethodCostBeans.add(onAttach);
 
-        AppHealthMethodCostBeanWrap appHealthMethodCostBeanWrap = new AppHealthMethodCostBeanWrap();
-        appHealthMethodCostBeanWrap.setTitle("App启动耗时");
-        appHealthMethodCostBeanWrap.setData(appHealthMethodCostBeans);
-        AppHealthInfoUtil.getInstance().setAppStartInfo(counterInfo.totalCost, GsonUtils.toJson(appHealthMethodCostBeanWrap), new ArrayList<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean>());
+            AppHealthMethodCostBeanWrap appHealthMethodCostBeanWrap = new AppHealthMethodCostBeanWrap();
+            appHealthMethodCostBeanWrap.setTitle("App启动耗时");
+            appHealthMethodCostBeanWrap.setData(appHealthMethodCostBeans);
+            AppHealthInfoUtil.getInstance().setAppStartInfo(counterInfo.totalCost, GsonUtils.toJson(appHealthMethodCostBeanWrap), new ArrayList<AppHealthInfo.DataBean.AppStartBean.LoadFuncBean>());
+
+        }
 
     }
 

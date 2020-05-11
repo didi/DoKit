@@ -2,22 +2,20 @@ package com.didichuxing.doraemonkit.kit.gpsmock;
 
 import android.content.Context;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.config.GpsMockConfig;
+import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
-import com.didichuxing.doraemonkit.model.LatLng;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
+import com.didichuxing.doraemonkit.util.DokitUtil;
 
 /**
  * Created by wanglikun on 2018/9/20.
  */
 
 public class GpsMockKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.TOOLS;
-    }
+
 
     @Override
     public int getName() {
@@ -26,12 +24,23 @@ public class GpsMockKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return  R.drawable.dk_gps_mock;
+        return R.mipmap.dk_gps_mock;
     }
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context,FragmentIndex.FRAGMENT_GPS_MOCK);
+        if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
+            ToastUtils.showShort(DokitUtil.getString(R.string.dk_plugin_close_tip));
+            return;
+        }
+
+        if (!DokitPluginConfig.SWITCH_GPS) {
+            ToastUtils.showShort(DokitUtil.getString(R.string.dk_plugin_gps_close_tip));
+            return;
+        }
+
+
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_GPS_MOCK);
     }
 
     @Override

@@ -12,10 +12,7 @@ import com.didichuxing.doraemonkit.kit.Category;
  */
 
 public class TimeCounterKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.PERFORMANCE;
-    }
+
 
     @Override
     public int getName() {
@@ -24,7 +21,7 @@ public class TimeCounterKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_time_counter;
+        return R.mipmap.dk_time_counter;
     }
 
     @Override

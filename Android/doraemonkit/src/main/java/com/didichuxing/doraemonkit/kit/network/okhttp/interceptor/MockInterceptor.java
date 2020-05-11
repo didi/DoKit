@@ -64,8 +64,8 @@ public class MockInterceptor implements Interceptor {
         String queries = url.query();
         String jsonQuery = transformQuery(queries);
         String jsonRequestBody = transformRequestBody(oldRequest.body());
-        LogHelper.i(TAG, "realJsonQuery===>" + jsonQuery);
-        LogHelper.i(TAG, "realJsonRequestBody===>" + jsonRequestBody);
+        //LogHelper.i(TAG, "realJsonQuery===>" + jsonQuery);
+        //LogHelper.i(TAG, "realJsonRequestBody===>" + jsonRequestBody);
         String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_INTERCEPT, DokitDbManager.FROM_SDK_OTHER);
         String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_OTHER);
         try {
@@ -112,7 +112,7 @@ public class MockInterceptor implements Interceptor {
         } catch (Exception e) {
             //e.printStackTrace();
             json = NOT_STRING_CONTENT_FLAG;
-            LogHelper.e(TAG, "===query json====>" + json);
+            //LogHelper.e(TAG, "===query json====>" + json);
         }
 
         return json;
@@ -251,7 +251,7 @@ public class MockInterceptor implements Interceptor {
             matchedTemplateRule(oldResponse, path, templateMatchedId);
             return oldResponse;
         }
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         String newUrl;
         if (NetworkManager.MOCK_SCHEME_HTTP.contains(scheme.toLowerCase())) {
             newUrl = sb.append(NetworkManager.MOCK_SCHEME_HTTP).append(NetworkManager.MOCK_HOST).append("/api/app/scene/").append(selectedSceneId).toString();

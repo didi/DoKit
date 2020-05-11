@@ -10,6 +10,7 @@ import com.didichuxing.doraemonkit.kit.loginfo.LogInfoManager;
 import com.didichuxing.doraemonkit.kit.loginfo.LogLine;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.weex.R;
+import com.didichuxing.doraemonkit.widget.titlebar.LogTitleBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,6 @@ import java.util.List;
 public class WeexLogInfoDokitView extends LogInfoDokitView {
 
     private final String WEEX_TAG = "weex";
-    FrameLayout mHomeTitleBar;
 
     @Override
     public View onCreateView(Context context, FrameLayout view) {
@@ -33,19 +33,22 @@ public class WeexLogInfoDokitView extends LogInfoDokitView {
     public void initView() {
         super.initView();
 
-        mHomeTitleBar = findViewById(R.id.dokit_title_bar);
-        if (mHomeTitleBar instanceof HomeTitleBar) {
-            ((HomeTitleBar) mHomeTitleBar).setListener(new HomeTitleBar.OnTitleBarClickListener() {
-                @Override
-                public void onRightClick() {
-                    //关闭日志服务
-                    LogInfoManager.getInstance().stop();
-                    //清空回调
-                    LogInfoManager.getInstance().removeListener();
-                    detach();
-                }
-            });
-        }
+        LogTitleBar logTitleBar = findViewById(R.id.dokit_title_bar);
+        logTitleBar.setListener(new LogTitleBar.OnTitleBarClickListener() {
+            @Override
+            public void onRightClick() {
+                //关闭日志服务
+                LogInfoManager.getInstance().stop();
+                //清空回调
+                LogInfoManager.getInstance().removeListener();
+                detach();
+            }
+
+            @Override
+            public void onLeftClick() {
+                minimize();
+            }
+        });
 
 
     }

@@ -11,10 +11,7 @@ import com.didichuxing.doraemonkit.kit.Category;
  * Created by zhangweida on 2018/6/26.
  */
 public class FileExplorerKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.TOOLS;
-    }
+
 
     @Override
     public int getName() {
@@ -23,12 +20,12 @@ public class FileExplorerKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_file_explorer;
+        return R.mipmap.dk_file_explorer;
     }
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context,FragmentIndex.FRAGMENT_FILE_EXPLORER);
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_FILE_EXPLORER);
     }
 
     @Override

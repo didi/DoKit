@@ -13,10 +13,6 @@ import com.didichuxing.doraemonkit.weex.R;
  */
 public class WeexDevToolKit extends AbstractKit {
 
-    @Override
-    public int getCategory() {
-        return Category.WEEX;
-    }
 
     @Override
     public int getName() {
@@ -25,7 +21,7 @@ public class WeexDevToolKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_custom;
+        return R.mipmap.dk_custom;
     }
 
     @Override

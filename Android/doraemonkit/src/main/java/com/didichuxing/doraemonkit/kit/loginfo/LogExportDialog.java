@@ -74,4 +74,9 @@ public class LogExportDialog extends DialogProvider<Object> {
          */
         void onShareClick(LogExportDialog dialog);
     }
+
+    @Override
+    public boolean isCancellable() {
+        return false;
+    }
 }

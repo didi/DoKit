@@ -9,7 +9,7 @@
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="89dp"
-        app:dkIcon="@drawable/dk_close_icon_big"
+        app:dkIcon="@mipmap/dk_close_icon_big"
         app:dkTitle="@string/dk_kit_gps_mock" />
 
     <FrameLayout
@@ -57,7 +57,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:src="@drawable/dk_search_icon" />
+                        android:src="@mipmap/dk_search_icon" />
 
                     <EditText
                         android:id="@+id/ed_long_lat"

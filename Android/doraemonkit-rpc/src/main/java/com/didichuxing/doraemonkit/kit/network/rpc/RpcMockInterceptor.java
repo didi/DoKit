@@ -55,8 +55,8 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         String queries = url.query();
         String jsonQuery = transformQuery(queries);
         String jsonRequestBody = transformRequestBody(oldRequest.getEntity());
-        LogHelper.i(TAG, "realJsonQuery===>" + jsonQuery);
-        LogHelper.i(TAG, "realJsonRequestBody===>" + jsonRequestBody);
+        //LogHelper.i(TAG, "realJsonQuery===>" + jsonQuery);
+        //LogHelper.i(TAG, "realJsonRequestBody===>" + jsonRequestBody);
         String interceptMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_INTERCEPT, DokitDbManager.FROM_SDK_DIDI);
         String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_DIDI);
 
@@ -179,7 +179,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
             return matchedTemplateRule(oldResponse, path, templateMatchedId);
         }
 
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         String newUrl;
         if (NetworkManager.MOCK_SCHEME_HTTP.contains(scheme.toLowerCase())) {
             newUrl = sb.append(NetworkManager.MOCK_SCHEME_HTTP).append(NetworkManager.MOCK_HOST).append("/api/app/scene/").append(selectedSceneId).toString();

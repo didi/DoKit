@@ -71,7 +71,7 @@
             android:layout_gravity="right|top"
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
-            android:src="@drawable/dk_close_icon" />
+            android:src="@mipmap/dk_close_icon" />
 
     </FrameLayout>
 </FrameLayout>

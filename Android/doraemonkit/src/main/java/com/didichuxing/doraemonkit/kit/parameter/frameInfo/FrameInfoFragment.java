@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
+import com.didichuxing.doraemonkit.config.DokitMemoryConfig;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.kit.performance.PerformanceDataManager;
 import com.didichuxing.doraemonkit.kit.performance.PerformanceFragment;
@@ -48,7 +48,7 @@ public class FrameInfoFragment extends AbsParameterFragment {
 
     @Override
     protected Collection<SettingItem> getSettingItems(List<SettingItem> list) {
-        list.add(new SettingItem(R.string.dk_frameinfo_detection_switch, PerformanceMemoryInfoConfig.FPS_STATUS));
+        list.add(new SettingItem(R.string.dk_frameinfo_detection_switch, DokitMemoryConfig.FPS_STATUS));
         //list.add(new SettingItem(R.string.dk_item_cache_log, R.drawable.dk_more_icon));
         return list;
     }
@@ -64,7 +64,7 @@ public class FrameInfoFragment extends AbsParameterFragment {
                     stopMonitor();
                 }
 
-                PerformanceMemoryInfoConfig.FPS_STATUS = on;
+                DokitMemoryConfig.FPS_STATUS = on;
             }
         };
     }

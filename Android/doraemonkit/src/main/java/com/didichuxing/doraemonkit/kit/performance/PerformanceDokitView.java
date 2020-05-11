@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.config.PerformanceMemoryInfoConfig;
+import com.didichuxing.doraemonkit.config.DokitMemoryConfig;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
 import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
@@ -133,16 +133,16 @@ public class PerformanceDokitView extends AbsDokitView implements PerformanceClo
         needOperateLineChart.setPerformanceType(-1);
         switch (performanceType) {
             case DataSourceFactory.TYPE_FPS:
-                PerformanceMemoryInfoConfig.FPS_STATUS = false;
+                DokitMemoryConfig.FPS_STATUS = false;
                 break;
             case DataSourceFactory.TYPE_CPU:
-                PerformanceMemoryInfoConfig.CPU_STATUS = false;
+                DokitMemoryConfig.CPU_STATUS = false;
                 break;
             case DataSourceFactory.TYPE_RAM:
-                PerformanceMemoryInfoConfig.RAM_STATUS = false;
+                DokitMemoryConfig.RAM_STATUS = false;
                 break;
             case DataSourceFactory.TYPE_NETWORK:
-                PerformanceMemoryInfoConfig.NETWORK_STATUS = false;
+                DokitMemoryConfig.NETWORK_STATUS = false;
                 break;
             default:
                 break;

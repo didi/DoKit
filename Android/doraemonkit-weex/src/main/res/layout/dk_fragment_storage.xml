@@ -9,7 +9,7 @@
     <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
-        app:dkIcon="@drawable/dk_close_icon_big"
+        app:dkIcon="@mipmap/dk_close_icon_big"
         android:layout_height="@dimen/dk_home_title_height"
         app:dkTitle="@string/dk_storage_cache_title"/>
 

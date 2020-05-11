@@ -1,9 +1,11 @@
 package com.didichuxing.doraemonkit.kit;
 
 /**
- * Created by zhangweida on 2018/6/22.
+ * Created by jint on 2018/6/22.
+ * 已弃用 保留是为了兼容以前的api
  */
 
+@Deprecated
 public interface Category {
     /**
      * 业务模块
@@ -44,4 +46,10 @@ public interface Category {
      * weex
      */
     int WEEX = 8;
+
+
+    /**
+     * default
+     */
+    int DEFAULT = 9;
 }

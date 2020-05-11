@@ -52,7 +52,7 @@ public class DataCleanFragment extends BaseFragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         mSettingList.setLayoutManager(layoutManager);
         List<SettingItem> settingItems = new ArrayList<>();
-        SettingItem settingItem = new SettingItem(R.string.dk_kit_data_clean, R.drawable.dk_more_icon);
+        SettingItem settingItem = new SettingItem(R.string.dk_kit_data_clean, R.mipmap.dk_more_icon);
         settingItem.rightDesc = DataCleanUtil.getApplicationDataSizeStr(getContext());
         settingItems.add(settingItem);
         mSettingItemAdapter = new SettingItemAdapter(getContext());

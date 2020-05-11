@@ -13,58 +13,6 @@ import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
  */
 
 public class PerformanceSpInfoConfig {
-    public static boolean isFPSOpen() {
-//        return false;
-        return SharedPrefsUtil.getBoolean(SharedPrefsKey.FRAME_INFO_FPS_OPEN, false);
-    }
-
-    public static void setFPSOpen(boolean open) {
-        SharedPrefsUtil.putBoolean(SharedPrefsKey.FRAME_INFO_FPS_OPEN, open);
-    }
-
-    public static boolean isCPUOpen() {
-//        return false;
-        return SharedPrefsUtil.getBoolean(SharedPrefsKey.FRAME_INFO_CPU_OPEN, false);
-    }
-
-    public static void setCPUOpen(boolean open) {
-        SharedPrefsUtil.putBoolean(SharedPrefsKey.FRAME_INFO_CPU_OPEN, open);
-    }
-
-    public static boolean isMemoryOpen() {
-//        return false;
-        return SharedPrefsUtil.getBoolean(SharedPrefsKey.FRAME_INFO_MEMORY_OPEN, false);
-    }
-
-    public static void setMemoryOpen(boolean open) {
-        SharedPrefsUtil.putBoolean(SharedPrefsKey.FRAME_INFO_MEMORY_OPEN, open);
-    }
-
-    public static boolean isTrafficOpen() {
-        return SharedPrefsUtil.getBoolean(SharedPrefsKey.FRAME_INFO_TRAFFIC_OPEN, false);
-    }
-
-    public static void setTrafficOpen(boolean open) {
-        SharedPrefsUtil.putBoolean(SharedPrefsKey.FRAME_INFO_TRAFFIC_OPEN, open);
-    }
-
-    /**
-     * 是否显示性能检测UI开关
-     *
-     * @return
-     */
-    public static boolean isFrameUiOpen() {
-        return SharedPrefsUtil.getBoolean(SharedPrefsKey.FRAME_INFO_UI_OPEN, false);
-    }
-
-    /**
-     * 设置显示性能检测UI开关
-     *
-     * @return
-     */
-    public static void setFrameUiOpen(boolean open) {
-        SharedPrefsUtil.putBoolean(SharedPrefsKey.FRAME_INFO_UI_OPEN, open);
-    }
 
     /**
      * 判断是否开启大图检测

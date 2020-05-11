@@ -46,9 +46,9 @@ public class InterceptTitleNodeProvider extends BaseNodeProvider {
             MockInterceptApiBean mockApi0 = (MockInterceptApiBean) mockTitleBean.getChildNode().get(0);
             holder.setText(R.id.tv_title, mockTitleBean.getName());
             if (mockTitleBean.isExpanded()) {
-                holder.setImageResource(R.id.iv_more, R.drawable.dk_arrow_open);
+                holder.setImageResource(R.id.iv_more, R.mipmap.dk_arrow_open);
             } else {
-                holder.setImageResource(R.id.iv_more, R.drawable.dk_arrow_normal);
+                holder.setImageResource(R.id.iv_more, R.mipmap.dk_arrow_normal);
             }
             CheckBox checkBox = holder.getView(R.id.menu_switch);
             //建议将setOnCheckedChangeListener放在控件checkBox.setChecked前面 否则代码设置选中时会触发回调导致状态不正确
@@ -89,9 +89,9 @@ public class InterceptTitleNodeProvider extends BaseNodeProvider {
             getAdapter().expandOrCollapse(position);
             final MockInterceptTitleBean mockTitleBean = (MockInterceptTitleBean) data;
             if (mockTitleBean.isExpanded()) {
-                holder.setImageResource(R.id.iv_more, R.drawable.dk_arrow_normal);
+                holder.setImageResource(R.id.iv_more, R.mipmap.dk_arrow_normal);
             } else {
-                holder.setImageResource(R.id.iv_more, R.drawable.dk_arrow_open);
+                holder.setImageResource(R.id.iv_more, R.mipmap.dk_arrow_open);
             }
         }
 

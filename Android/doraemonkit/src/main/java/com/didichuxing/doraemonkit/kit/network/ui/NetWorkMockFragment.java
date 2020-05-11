@@ -37,7 +37,7 @@ import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.util.DokitUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
-import com.didichuxing.doraemonkit.widget.DkDropDownMenu;
+import com.didichuxing.doraemonkit.widget.dropdown.DkDropDownMenu;
 import com.didichuxing.doraemonkit.widget.easyrefresh.EasyRefreshLayout;
 import com.didichuxing.doraemonkit.widget.easyrefresh.LoadModel;
 
@@ -452,8 +452,6 @@ public class NetWorkMockFragment extends BaseFragment {
                     @Override
                     public void onSuccess(Response<String> response) {
                         try {
-
-
                             if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
                                 List<MockInterceptTitleBean> mockInterceptTitleBeans = dealInterceptResponseData(response.body());
                                 //插入拦截接口
@@ -567,6 +565,7 @@ public class NetWorkMockFragment extends BaseFragment {
      */
     private void initResponseApis() {
         String apiUrl = String.format(mFormatApiUrl, projectId, 1, pageSize);
+        LogHelper.i(TAG, "apiUrl===>" + apiUrl);
         DokitOkGo.<String>get(apiUrl).tag(this)
                 .execute(new StringCallback() {
 
@@ -836,8 +835,8 @@ public class NetWorkMockFragment extends BaseFragment {
             case 0:
                 mTvMock.setTextColor(getResources().getColor(R.color.dk_color_337CC4));
                 mTvTemplate.setTextColor(getResources().getColor(R.color.dk_color_333333));
-                mIvMock.setImageResource(R.drawable.dk_mock_highlight);
-                mIvTemplate.setImageResource(R.drawable.dk_template_normal);
+                mIvMock.setImageResource(R.mipmap.dk_mock_highlight);
+                mIvTemplate.setImageResource(R.mipmap.dk_template_normal);
                 mInterceptRefreshLayout.setVisibility(View.VISIBLE);
                 mTemplateRefreshLayout.setVisibility(View.GONE);
                 mSelectedTableIndex = BOTTOM_TAB_INDEX_0;
@@ -845,8 +844,8 @@ public class NetWorkMockFragment extends BaseFragment {
             case 1:
                 mTvMock.setTextColor(getResources().getColor(R.color.dk_color_333333));
                 mTvTemplate.setTextColor(getResources().getColor(R.color.dk_color_337CC4));
-                mIvMock.setImageResource(R.drawable.dk_mock_normal);
-                mIvTemplate.setImageResource(R.drawable.dk_template_highlight);
+                mIvMock.setImageResource(R.mipmap.dk_mock_normal);
+                mIvTemplate.setImageResource(R.mipmap.dk_template_highlight);
                 mInterceptRefreshLayout.setVisibility(View.GONE);
                 mTemplateRefreshLayout.setVisibility(View.VISIBLE);
                 mSelectedTableIndex = BOTTOM_TAB_INDEX_1;
