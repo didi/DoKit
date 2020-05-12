@@ -1,9 +1,9 @@
 package com.didichuxing.doraemondemo
 
-import android.app.Activity
+import android.support.v7.app.AppCompatActivity
 import android.app.Application
 import android.content.Context
-import androidx.multidex.MultiDex
+import android.support.multidex.MultiDex
 import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
@@ -52,6 +52,6 @@ class App : Application() {
 
     companion object {
         private const val TAG = "App"
-        var leakActivity: Activity? = null
+        var leakActivity: AppCompatActivity? = null
     }
 }

@@ -6,13 +6,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.GlobalConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;

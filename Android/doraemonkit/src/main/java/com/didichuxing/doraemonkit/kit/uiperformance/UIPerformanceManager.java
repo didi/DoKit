@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.fragment.app.Fragment;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.model.ViewInfo;

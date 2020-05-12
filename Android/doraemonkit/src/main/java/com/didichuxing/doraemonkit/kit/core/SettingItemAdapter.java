@@ -10,7 +10,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.StringRes;
+import android.support.annotation.StringRes;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;

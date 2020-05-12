@@ -1,9 +1,9 @@
 package com.didichuxing.doraemonkit.widget.bravh
 
+import android.support.v7.widget.RecyclerView
 import android.util.SparseArray
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.didichuxing.doraemonkit.widget.bravh.provider.BaseItemProvider
 import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
 

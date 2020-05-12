@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.Utils;

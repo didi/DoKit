@@ -14,7 +14,7 @@
         app:dkIcon="@mipmap/dk_close_icon_big"
         app:dkTitle="@string/dk_kit_net_monitor" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/setting_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         android:text="@string/dk_kit_net_monitor_white_host_tip"
         android:textSize="16sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/host_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

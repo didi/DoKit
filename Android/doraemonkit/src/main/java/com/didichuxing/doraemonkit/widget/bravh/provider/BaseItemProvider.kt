@@ -1,10 +1,10 @@
 package com.didichuxing.doraemonkit.widget.bravh.provider
 
 import android.content.Context
+import android.support.annotation.IdRes
+import android.support.annotation.LayoutRes
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.IdRes
-import androidx.annotation.LayoutRes
 import com.didichuxing.doraemonkit.widget.bravh.BaseProviderMultiAdapter
 import com.didichuxing.doraemonkit.widget.bravh.util.getItemView
 import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder

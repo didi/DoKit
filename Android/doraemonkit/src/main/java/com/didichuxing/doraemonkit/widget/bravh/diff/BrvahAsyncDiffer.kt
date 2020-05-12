@@ -2,9 +2,8 @@ package com.didichuxing.doraemonkit.widget.bravh.diff
 
 import android.os.Handler
 import android.os.Looper
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.DiffUtil.DiffResult
-import androidx.recyclerview.widget.ListUpdateCallback
+import android.support.v7.util.DiffUtil
+import android.support.v7.util.ListUpdateCallback
 import com.didichuxing.doraemonkit.widget.bravh.BaseQuickAdapter
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.Executor
@@ -109,7 +108,7 @@ class BrvahAsyncDiffer<T>(private val adapter: BaseQuickAdapter<T, *>,
 
     private fun latchList(
             newList: MutableList<T>,
-            diffResult: DiffResult,
+            diffResult: DiffUtil.DiffResult,
             commitCallback: Runnable?) {
         val previousList: List<T> = adapter.data
         adapter.data = newList

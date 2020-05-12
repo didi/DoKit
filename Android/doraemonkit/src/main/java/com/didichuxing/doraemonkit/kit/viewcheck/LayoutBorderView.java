@@ -9,7 +9,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.model.ViewInfo;

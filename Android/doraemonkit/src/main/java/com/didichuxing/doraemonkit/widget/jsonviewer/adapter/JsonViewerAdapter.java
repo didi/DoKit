@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView;
 
 import com.didichuxing.doraemonkit.widget.jsonviewer.utils.Utils;
 import com.didichuxing.doraemonkit.widget.jsonviewer.view.JsonItemView;

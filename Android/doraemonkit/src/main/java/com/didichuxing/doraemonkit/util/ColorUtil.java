@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.util;
 
 import android.graphics.Color;
-import androidx.annotation.ColorInt;
+import android.support.annotation.ColorInt;
 
 /**
  * Created by wanglikun on 2018/9/15.

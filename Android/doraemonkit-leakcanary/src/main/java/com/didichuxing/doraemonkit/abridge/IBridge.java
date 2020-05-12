@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.abridge;
 import android.app.Application;
 import android.os.Message;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 /**
  * 类描述：

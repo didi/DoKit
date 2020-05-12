@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--性能监控包裹-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_performance_wrap"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -22,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
             android:padding="10dp"
-            android:src="@mipmap/dk_close_white"
+            app:srcCompat="@mipmap/dk_close_white"
             android:tag="closeView" />
     </FrameLayout>
 
@@ -43,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
             android:padding="10dp"
-            android:src="@mipmap/dk_close_white"
+            app:srcCompat="@mipmap/dk_close_white"
             android:tag="closeView" />
 
     </FrameLayout>
@@ -65,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
             android:padding="10dp"
-            android:src="@mipmap/dk_close_white"
+            app:srcCompat="@mipmap/dk_close_white"
             android:tag="closeView" />
 
     </FrameLayout>
@@ -87,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
             android:padding="10dp"
-            android:src="@mipmap/dk_close_white"
+            app:srcCompat="@mipmap/dk_close_white"
             android:tag="closeView" />
 
     </FrameLayout>

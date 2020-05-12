@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.aop.bigimg.imageloader;
 
 import android.graphics.Bitmap;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import android.view.View;
 

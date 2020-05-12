@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.util;
 import android.app.Activity;
 
 
-import androidx.fragment.app.Fragment;
+import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.List;

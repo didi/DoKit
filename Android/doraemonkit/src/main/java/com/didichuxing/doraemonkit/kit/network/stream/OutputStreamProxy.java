@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.kit.network.stream;
 
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FilterOutputStream;

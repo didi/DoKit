@@ -15,27 +15,33 @@ ext {
                minSdkVersion             : 16,
                targetSdkVersion          : 29,
                //app版本号
-               versionCode               : 316,
+               versionCode               : 306,
                //dokit 插件版本号
-               pluginVersionName         : "3.1.6",
+               pluginVersionName         : "3.0.6",
                //jcenter dokit版本号 打包上传时 dokit的版本名字
-               jcenterArchivesVersionName: "3.1.6",
+               jcenterArchivesVersionName: "3.0.6",
                //didi内部仓库版本号
                //didiArchivesVersionName   : "1000.0.22",
-               didiArchivesVersionName   : "3.1.6",
-               versionName               : "3.1.6",
+               didiArchivesVersionName   : "3.0.6",
+               versionName               : "3.0.6",
                glide_version             : "4.9.0",
                kotlin_version            : "1.3.61"
     ]
+
     dependencies = [// ###### android library  start ######
-                    "multidex"           : 'androidx.multidex:multidex:2.0.0',
-                    "appcompat"          : 'androidx.appcompat:appcompat:1.0.0',
-                    "cardview"           : 'androidx.cardview:cardview:1.0.0',
-                    "recyclerview"       : 'androidx.recyclerview:recyclerview:1.0.0',
-                    "design"             : 'com.google.android.material:material:1.0.0',
-                    "kotlin"             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${android["kotlin_version"]}",
+                    "multidex"           : "com.android.support:multidex:1.0.3",
+                    "annotations"        : "com.android.support:support-annotations:${android["suppotrSdkVersion"]}",
+                    "support-v4"         : "com.android.support:support-v4:${android["suppotrSdkVersion"]}",
+                    "appcompat-v7"       : "com.android.support:appcompat-v7:${android["suppotrSdkVersion"]}",
+                    "support-v13"        : "com.android.support:support-v13:${android["suppotrSdkVersion"]}",
+                    "cardview"           : "com.android.support:cardview-v7:${android["suppotrSdkVersion"]}",
+                    "recyclerview"       : "com.android.support:recyclerview-v7:${android["suppotrSdkVersion"]}",
+                    "design"             : "com.android.support:design:${android["suppotrSdkVersion"]}",
+                    "gridlayout"         : "com.android.support:gridlayout-v7:${android["suppotrSdkVersion"]}",
                     //constraintLayout
-                    "constraintLayout"   : 'androidx.constraintlayout:constraintlayout:1.1.3',
+                    "constraintLayout"   : 'com.android.support.constraint:constraint-layout:1.1.3',
+                    "kotlin"             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${android["kotlin_version"]}",
+
                     //test
                     "junit"              : "junit:junit:4.12",
                     //第三方
@@ -51,7 +57,7 @@ ext {
                     //将urlconnection代理到okhttp
                     //"okhttp_urlconnection"    : "com.squareup.okhttp3:okhttp-urlconnection:3.12.1",
                     //"okio"                    : "com.squareup.okio:okio:1.15.0",
-                    "utilcode"           : 'com.blankj:utilcodex:1.28.4',
+                    "utilcode"           : 'com.blankj:utilcode:1.28.4',
                     "glide"              : "com.github.bumptech.glide:glide:${android["glide_version"]}",
                     "glide_v3"           : 'com.github.bumptech.glide:glide:3.8.0',
                     "glide_okhttp3"      : "com.github.bumptech.glide:okhttp3-integration:${android["glide_version"]}",
@@ -74,8 +80,8 @@ ext {
                     "easy_refresh_layout": 'com.github.anzaizai:EasyRefreshLayout:1.3.1',
                     "android_spinkit"    : 'com.github.ybq:Android-SpinKit:1.4.0',
                     "jsonviewer"         : "com.yuyh.json:jsonviewer:1.0.6",
-                    "room_runtime"       : 'androidx.room:room-runtime:2.0.0',
-                    "room_compile"       : 'androidx.room:room-compiler:2.0.0',
+                    "room_runtime"       : 'android.arch.persistence.room:runtime:1.1.1',
+                    "room_compile"       : 'android.arch.persistence.room:compiler:1.1.1',
                     "um_analytics"       : 'com.umeng.umsdk:analytics:8.0.0',
                     "um_common"          : 'com.umeng.umsdk:common:2.0.0',
                     "didi_http"          : 'com.didichuxing.foundation:http:2.1.0.74',
@@ -91,4 +97,5 @@ ext {
 //                    "swipeback"    : "me.imid.swipebacklayout.lib:library:1.1.0"
 
     ]
+
 }

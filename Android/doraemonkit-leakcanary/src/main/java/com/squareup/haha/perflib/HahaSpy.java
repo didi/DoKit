@@ -15,7 +15,7 @@
  */
 package com.squareup.haha.perflib;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 import java.util.HashSet;
 import java.util.Set;

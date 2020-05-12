@@ -2,6 +2,8 @@ package com.didichuxing.doraemonkit.widget.bravh
 
 import android.animation.Animator
 import android.content.Context
+import android.support.annotation.IdRes
+import android.support.annotation.LayoutRes
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,14 +12,11 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.view.ViewParent
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import androidx.annotation.IdRes
-import androidx.annotation.IntRange
-import androidx.annotation.LayoutRes
-import androidx.annotation.NonNull
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import android.support.annotation.NonNull
+import android.support.v7.util.DiffUtil
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.StaggeredGridLayoutManager
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.widget.bravh.animation.*
 import com.didichuxing.doraemonkit.widget.bravh.diff.BrvahAsyncDiffer
@@ -448,11 +447,11 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
      * data set.
      * @return The data at the specified position.
      */
-    open fun getItem(@IntRange(from = 0) position: Int): T {
+    open fun getItem(@android.support.annotation.IntRange(from = 0) position: Int): T {
         return data[position]
     }
 
-    open fun getItemOrNull(@IntRange(from = 0) position: Int): T? {
+    open fun getItemOrNull(@android.support.annotation.IntRange(from = 0) position: Int): T? {
         return data.getOrNull(position)
     }
 
@@ -1184,7 +1183,7 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
      * change data
      * 改变某一位置数据
      */
-    open fun setData(@IntRange(from = 0) index: Int, data: T) {
+    open fun setData(@android.support.annotation.IntRange(from = 0) index: Int, data: T) {
         if (index >= this.data.size) {
             return
         }
@@ -1198,7 +1197,7 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
      *
      * @param position
      */
-    open fun addData(@IntRange(from = 0) position: Int, data: T) {
+    open fun addData(@android.support.annotation.IntRange(from = 0) position: Int, data: T) {
         this.data.add(position, data)
         notifyItemInserted(position + headerLayoutCount)
         compatibilityDataSizeChanged(1)
@@ -1221,7 +1220,7 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
      * @param position the insert position
      * @param newData  the new data collection
      */
-    open fun addData(@IntRange(from = 0) position: Int, newData: Collection<T>) {
+    open fun addData(@android.support.annotation.IntRange(from = 0) position: Int, newData: Collection<T>) {
         this.data.addAll(position, newData)
         notifyItemRangeInserted(position + headerLayoutCount, newData.size)
         compatibilityDataSizeChanged(newData.size)
@@ -1239,7 +1238,7 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
      *
      * @param position
      */
-    open fun remove(@IntRange(from = 0) position: Int) {
+    open fun remove(@android.support.annotation.IntRange(from = 0) position: Int) {
         if (position >= data.size) {
             return
         }

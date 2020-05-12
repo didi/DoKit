@@ -22,7 +22,7 @@ import android.os.Debug;
 import android.os.SystemClock;
 
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,7 +30,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+
 
 /**
  * <p>{@link InstrumentationLeakDetector} can be used to detect memory leaks in instrumentation

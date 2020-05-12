@@ -1,7 +1,8 @@
 package com.didichuxing.doraemonkit.kit.network.room_db;
 
-import androidx.room.Database;
-import androidx.room.RoomDatabase;
+
+import android.arch.persistence.room.Database;
+import android.arch.persistence.room.RoomDatabase;
 
 /**
  * ================================================

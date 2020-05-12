@@ -13,7 +13,7 @@
         android:layout_height="@dimen/dk_home_title_height"
         app:dkTitle="@string/dk_storage_cache_title"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/info_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

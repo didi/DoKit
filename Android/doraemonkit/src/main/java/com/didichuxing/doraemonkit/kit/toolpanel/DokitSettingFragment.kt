@@ -2,9 +2,9 @@ package com.didichuxing.doraemonkit.kit.toolpanel
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.annotation.LayoutRes
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import androidx.annotation.LayoutRes
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.FragmentIndex

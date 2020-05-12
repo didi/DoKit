@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit.widget.bravh.binder
 
+import android.databinding.ViewDataBinding
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.ViewDataBinding
 import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
 
 /**

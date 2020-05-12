@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.weex.common;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import com.didichuxing.doraemonkit.kit.core.BaseActivity;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;

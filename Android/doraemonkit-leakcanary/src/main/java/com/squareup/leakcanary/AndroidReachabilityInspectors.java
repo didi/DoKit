@@ -20,8 +20,9 @@ import android.app.Application;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.os.MessageQueue;
-import androidx.annotation.NonNull;
 import android.view.View;
+
+import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -19,8 +19,8 @@ import android.app.Instrumentation;
 import android.content.Context;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.junit.runner.Description;
 import org.junit.runner.Result;
@@ -29,7 +29,7 @@ import org.junit.runner.notification.RunListener;
 
 import java.util.List;
 
-import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static com.squareup.leakcanary.Preconditions.checkNotNull;
 
 /**

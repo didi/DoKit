@@ -12,7 +12,7 @@
         android:layout_height="89dp"
         app:dkIcon="@mipmap/dk_close_icon_big"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/setting_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

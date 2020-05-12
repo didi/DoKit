@@ -16,7 +16,7 @@
         app:dkIcon="@mipmap/dk_close_icon_big"
         app:dkTitle="@string/dk_kit_weak_network" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/setting_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

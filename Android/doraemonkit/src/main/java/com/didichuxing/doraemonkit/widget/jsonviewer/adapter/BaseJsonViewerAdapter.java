@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.widget.jsonviewer.adapter;
 
 
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView;
 
 /**
  * Created by yuyuhang on 2017/11/30.

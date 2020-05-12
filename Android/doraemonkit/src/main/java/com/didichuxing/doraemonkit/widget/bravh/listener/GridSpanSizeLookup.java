@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.widget.bravh.listener;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.GridLayoutManager;
 
 /**
  * @author: limuyang

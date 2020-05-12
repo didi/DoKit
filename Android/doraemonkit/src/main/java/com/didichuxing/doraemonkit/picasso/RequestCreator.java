@@ -15,12 +15,14 @@
  */
 package com.didichuxing.doraemonkit.picasso;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.v4.app.Fragment;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
 
@@ -29,11 +31,11 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.didichuxing.doraemonkit.picasso.BitmapHunter.forRequest;
+import static com.didichuxing.doraemonkit.picasso.DokitPicasso.LoadedFrom.MEMORY;
+import static com.didichuxing.doraemonkit.picasso.DokitPicasso.Priority;
 import static com.didichuxing.doraemonkit.picasso.MemoryPolicy.NO_CACHE;
 import static com.didichuxing.doraemonkit.picasso.MemoryPolicy.NO_STORE;
 import static com.didichuxing.doraemonkit.picasso.MemoryPolicy.shouldReadFromMemoryCache;
-import static com.didichuxing.doraemonkit.picasso.DokitPicasso.LoadedFrom.MEMORY;
-import static com.didichuxing.doraemonkit.picasso.DokitPicasso.Priority;
 import static com.didichuxing.doraemonkit.picasso.PicassoDrawable.setBitmap;
 import static com.didichuxing.doraemonkit.picasso.PicassoDrawable.setPlaceholder;
 import static com.didichuxing.doraemonkit.picasso.RemoteViewsAction.AppWidgetAction;
@@ -173,8 +175,8 @@ public class RequestCreator {
      * <p>
      * You can either use simple {@link String} tags or objects that naturally
      * define the scope of your requests within your app such as a
-     * {@link android.content.Context}, an {@link android.app.Activity}, or a
-     * {@link android.app.Fragment}.
+     * {@link android.content.Context}, an {@link Activity}, or a
+     * {@link Fragment}.
      *
      * <strong>WARNING:</strong>: Picasso will keep a reference to the tag for
      * as long as this tag is paused and/or has active requests. Look out for
@@ -431,7 +433,7 @@ public class RequestCreator {
      * up the cache with an image.
      * <p>
      * <em>Note:</em> The {@link Callback} param is a strong reference and will prevent your
-     * {@link android.app.Activity} or {@link android.app.Fragment} from being garbage collected
+     * {@link Activity} or {@link Fragment} from being garbage collected
      * until the request is completed.
      */
     public void fetch(Callback callback) {
@@ -625,7 +627,7 @@ public class RequestCreator {
      * target {@link Callback} if it's not {@code null}.
      * <p>
      * <em>Note:</em> The {@link Callback} param is a strong reference and will prevent your
-     * {@link android.app.Activity} or {@link android.app.Fragment} from being garbage collected. If
+     * {@link Activity} or {@link Fragment} from being garbage collected. If
      * you use this method, it is <b>strongly</b> recommended you invoke an adjacent
      * {@link DokitPicasso#cancelRequest(android.widget.ImageView)} call to prevent temporary leaking.
      */

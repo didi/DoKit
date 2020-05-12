@@ -3,8 +3,8 @@ package com.didichuxing.doraemonkit.widget.recyclerview;
 import android.content.Context;
 import android.view.View;
 
-import androidx.annotation.IdRes;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.IdRes;
+import android.support.v7.widget.RecyclerView;
 
 /**
  * 简单封装的适用于RecyclerView的ViewHolder

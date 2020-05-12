@@ -6,9 +6,9 @@ import android.text.TextUtils;
 import android.view.WindowManager;
 
 import com.didichuxing.doraemonkit.constant.DokitConstant;
-import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.kit.health.CountDownDokitView;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
+import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.util.SystemUtil;
 
 import java.util.ArrayList;

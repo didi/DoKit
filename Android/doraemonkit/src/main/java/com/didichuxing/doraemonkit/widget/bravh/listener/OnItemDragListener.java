@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.widget.bravh.listener;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 
 /**
  * Created by luoxw on 2016/6/20.

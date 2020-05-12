@@ -1,18 +1,18 @@
 package com.didichuxing.doraemonkit.widget.bravh.dragswipe;
 
 import android.graphics.Canvas;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.NonNull;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.toolpanel.KitWrapItem;
 import com.didichuxing.doraemonkit.widget.bravh.BaseQuickAdapter;
 import com.didichuxing.doraemonkit.widget.bravh.module.BaseDraggableModule;
 
-import static androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_IDLE;
+import static android.support.v7.widget.helper.ItemTouchHelper.ACTION_STATE_IDLE;
 
 
 /**

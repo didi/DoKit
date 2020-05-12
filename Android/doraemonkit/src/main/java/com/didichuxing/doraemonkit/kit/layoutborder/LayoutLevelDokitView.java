@@ -11,17 +11,17 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 
-import androidx.fragment.app.Fragment;
+import android.support.v4.app.Fragment;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;
-import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.UIUtils;

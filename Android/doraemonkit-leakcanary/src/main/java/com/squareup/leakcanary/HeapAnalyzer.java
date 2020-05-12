@@ -15,7 +15,7 @@
  */
 package com.squareup.leakcanary;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 import com.squareup.haha.perflib.ArrayInstance;
 import com.squareup.haha.perflib.ClassInstance;

@@ -18,7 +18,7 @@ package com.squareup.leakcanary;
 import android.text.TextUtils;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 import com.didichuxing.doraemonkit.abridge.IBridge;
 import com.squareup.leakcanary.internal.DisplayLeakActivity;

@@ -18,7 +18,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_gravity="center"
-            android:src="@mipmap/dk_logo" />
+            app:srcCompat="@mipmap/dk_logo" />
 
         <TextView
             android:layout_width="wrap_content"

@@ -42,14 +42,14 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.squareup.leakcanary.BuildConfig;
-import com.squareup.leakcanary.R;
 import com.squareup.leakcanary.AnalysisResult;
 import com.squareup.leakcanary.AnalyzedHeap;
+import com.squareup.leakcanary.BuildConfig;
 import com.squareup.leakcanary.CanaryLog;
 import com.squareup.leakcanary.HeapDump;
-import com.squareup.leakcanary.LeakDirectoryProvider;
 import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.LeakDirectoryProvider;
+import com.squareup.leakcanary.R;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -60,7 +60,6 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
-import static androidx.core.content.FileProvider.getUriForFile;
 import static android.text.format.DateUtils.FORMAT_SHOW_DATE;
 import static android.text.format.DateUtils.FORMAT_SHOW_TIME;
 import static android.text.format.Formatter.formatShortFileSize;
@@ -386,7 +385,7 @@ public final class DisplayLeakActivity extends Activity {
   }
 
   private void setDisplayHomeAsUpEnabled(boolean enabled) {
-    ActionBar actionBar = getActionBar();
+    ActionBar actionBar = getSupportActionBar();
     if (actionBar == null) {
       // https://github.com/square/leakcanary/issues/967
       return;

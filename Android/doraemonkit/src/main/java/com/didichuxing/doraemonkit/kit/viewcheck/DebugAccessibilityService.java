@@ -5,10 +5,10 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.didichuxing.doraemonkit.constant.BroadcastAction;
 import com.didichuxing.doraemonkit.constant.BundleKey;

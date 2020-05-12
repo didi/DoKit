@@ -10,7 +10,7 @@ import android.graphics.PaintFlagsDrawFilter;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.text.TextPaint;

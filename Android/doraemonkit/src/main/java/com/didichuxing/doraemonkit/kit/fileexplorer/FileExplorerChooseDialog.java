@@ -3,8 +3,8 @@ package com.didichuxing.doraemonkit.kit.fileexplorer;
 
 import android.view.View;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.widget.dialog.DialogListener;

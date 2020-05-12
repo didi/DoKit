@@ -9,7 +9,7 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
-import androidx.annotation.RequiresApi;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.view.Choreographer;
 

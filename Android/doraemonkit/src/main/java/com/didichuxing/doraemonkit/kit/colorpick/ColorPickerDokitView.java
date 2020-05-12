@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.kit.colorpick;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
-import androidx.annotation.RequiresApi;
+import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

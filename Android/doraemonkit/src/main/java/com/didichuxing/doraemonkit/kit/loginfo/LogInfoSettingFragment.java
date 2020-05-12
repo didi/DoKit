@@ -1,12 +1,12 @@
 package com.didichuxing.doraemonkit.kit.loginfo;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LogInfoConfig;

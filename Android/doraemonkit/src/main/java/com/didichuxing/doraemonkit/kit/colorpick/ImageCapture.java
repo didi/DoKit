@@ -12,11 +12,10 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.RequiresApi;
-import android.view.View;
+
+import android.support.annotation.RequiresApi;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;

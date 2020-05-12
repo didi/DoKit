@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.widget.bravh
 
-import androidx.annotation.IntRange
-import androidx.recyclerview.widget.DiffUtil
+import android.support.v7.util.DiffUtil
 import com.didichuxing.doraemonkit.widget.bravh.entity.node.BaseExpandNode
 import com.didichuxing.doraemonkit.widget.bravh.entity.node.BaseNode
 import com.didichuxing.doraemonkit.widget.bravh.entity.node.NodeFooterImp
@@ -415,7 +414,7 @@ abstract class BaseNodeAdapter(nodeList: MutableList<BaseNode>? = null)
      * @param animate Boolean
      * @param notify Boolean
      */
-    private fun collapse(@IntRange(from = 0) position: Int,
+    private fun collapse(@android.support.annotation.IntRange(from = 0)  position: Int,
                          isChangeChildCollapse: Boolean = false,
                          animate: Boolean = true,
                          notify: Boolean = true,
@@ -455,7 +454,7 @@ abstract class BaseNodeAdapter(nodeList: MutableList<BaseNode>? = null)
      * @param animate Boolean
      * @param notify Boolean
      */
-    private fun expand(@IntRange(from = 0) position: Int,
+    private fun expand(@android.support.annotation.IntRange(from = 0) position: Int,
                        isChangeChildExpand: Boolean = false,
                        animate: Boolean = true,
                        notify: Boolean = true,
@@ -493,7 +492,7 @@ abstract class BaseNodeAdapter(nodeList: MutableList<BaseNode>? = null)
      * @param notify Boolean
      */
     @JvmOverloads
-    fun collapse(@IntRange(from = 0) position: Int,
+    fun collapse(@android.support.annotation.IntRange(from = 0) position: Int,
                  animate: Boolean = true,
                  notify: Boolean = true,
                  parentPayload: Any? = null): Int {
@@ -507,7 +506,7 @@ abstract class BaseNodeAdapter(nodeList: MutableList<BaseNode>? = null)
      * @param notify Boolean
      */
     @JvmOverloads
-    fun expand(@IntRange(from = 0) position: Int,
+    fun expand(@android.support.annotation.IntRange(from = 0) position: Int,
                animate: Boolean = true,
                notify: Boolean = true,
                parentPayload: Any? = null): Int {
@@ -521,7 +520,7 @@ abstract class BaseNodeAdapter(nodeList: MutableList<BaseNode>? = null)
      * @param notify Boolean
      */
     @JvmOverloads
-    fun expandOrCollapse(@IntRange(from = 0) position: Int,
+    fun expandOrCollapse(@android.support.annotation.IntRange(from = 0) position: Int,
                          animate: Boolean = true,
                          notify: Boolean = true,
                          parentPayload: Any? = null): Int {
@@ -537,7 +536,7 @@ abstract class BaseNodeAdapter(nodeList: MutableList<BaseNode>? = null)
     }
 
     @JvmOverloads
-    fun expandAndChild(@IntRange(from = 0) position: Int,
+    fun expandAndChild(@android.support.annotation.IntRange(from = 0) position: Int,
                        animate: Boolean = true,
                        notify: Boolean = true,
                        parentPayload: Any? = null): Int {
@@ -545,7 +544,7 @@ abstract class BaseNodeAdapter(nodeList: MutableList<BaseNode>? = null)
     }
 
     @JvmOverloads
-    fun collapseAndChild(@IntRange(from = 0) position: Int,
+    fun collapseAndChild(@android.support.annotation.IntRange(from = 0) position: Int,
                          animate: Boolean = true,
                          notify: Boolean = true,
                          parentPayload: Any? = null): Int {
@@ -561,7 +560,7 @@ abstract class BaseNodeAdapter(nodeList: MutableList<BaseNode>? = null)
      * @param notify Boolean
      */
     @JvmOverloads
-    fun expandAndCollapseOther(@IntRange(from = 0) position: Int,
+    fun expandAndCollapseOther(@android.support.annotation.IntRange(from = 0) position: Int,
                                isExpandedChild: Boolean = false,
                                isCollapseChild: Boolean = true,
                                animate: Boolean = true,
@@ -641,7 +640,7 @@ abstract class BaseNodeAdapter(nodeList: MutableList<BaseNode>? = null)
         return -1
     }
 
-    fun findParentNode(@IntRange(from = 0) position: Int): Int {
+    fun findParentNode(@android.support.annotation.IntRange(from = 0) position: Int): Int {
         if (position == 0) {
             return -1
         }

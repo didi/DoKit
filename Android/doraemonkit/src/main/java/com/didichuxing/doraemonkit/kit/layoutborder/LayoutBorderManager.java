@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
-import androidx.fragment.app.Fragment;
+import android.support.v4.app.Fragment;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity;

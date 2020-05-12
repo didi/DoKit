@@ -17,11 +17,9 @@ package com.squareup.leakcanary.internal;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 
-import com.blankj.utilcode.util.Utils;
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.squareup.leakcanary.R;
 import com.squareup.leakcanary.AbstractAnalysisResultService;
 import com.squareup.leakcanary.AnalysisResult;

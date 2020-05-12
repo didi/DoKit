@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.widget.bravh.diff;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 import java.util.List;
 

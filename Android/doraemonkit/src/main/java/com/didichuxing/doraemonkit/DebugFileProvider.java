@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit;
 
-import androidx.core.content.FileProvider;
+
+import android.support.v4.content.FileProvider;
 
 /**
  * Created by wanglikun on 2018/11/14.

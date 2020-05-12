@@ -4,12 +4,12 @@ import android.animation.ValueAnimator
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.support.annotation.LayoutRes
+import android.support.v4.content.ContextCompat
+import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
-import androidx.annotation.LayoutRes
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.*
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.R

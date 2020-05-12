@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.aop.bigimg.glide;
 import android.content.Context;
 import android.graphics.Bitmap;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 import com.blankj.utilcode.constant.MemoryConstants;
 import com.blankj.utilcode.util.ConvertUtils;

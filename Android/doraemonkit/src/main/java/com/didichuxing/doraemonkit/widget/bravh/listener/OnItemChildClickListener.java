@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.widget.bravh.listener;
 
 import android.view.View;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 import com.didichuxing.doraemonkit.widget.bravh.BaseQuickAdapter;
 

@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor;
 
 import android.text.TextUtils;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.TimeUtils;

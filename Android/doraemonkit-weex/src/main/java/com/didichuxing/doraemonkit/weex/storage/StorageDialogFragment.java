@@ -2,9 +2,8 @@ package com.didichuxing.doraemonkit.weex.storage;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;

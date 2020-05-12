@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.widget.bravh.binder
 
+import android.support.annotation.LayoutRes
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 import com.didichuxing.doraemonkit.widget.bravh.util.getItemView
 import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
 

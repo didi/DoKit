@@ -2,8 +2,8 @@ package com.didichuxing.doraemonkit;
 
 import android.content.Context;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;

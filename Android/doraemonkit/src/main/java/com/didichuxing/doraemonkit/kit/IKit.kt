@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit.kit
 
 import android.content.Context
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+import android.support.annotation.DrawableRes
+import android.support.annotation.StringRes
 
 /**
  * Created by zhangweida on 2018/6/22.

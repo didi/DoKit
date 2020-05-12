@@ -1,11 +1,11 @@
 package com.didichuxing.doraemonkit.widget.bravh
 
 import android.annotation.SuppressLint
+import android.support.v7.util.DiffUtil
+import android.support.v7.widget.RecyclerView
 import android.util.SparseArray
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.didichuxing.doraemonkit.widget.bravh.binder.BaseItemBinder
 import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
 

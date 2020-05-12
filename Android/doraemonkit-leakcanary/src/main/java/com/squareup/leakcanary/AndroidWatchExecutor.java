@@ -20,7 +20,7 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.MessageQueue;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 import java.util.concurrent.TimeUnit;
 

@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.widget.bravh
 
-import androidx.annotation.LayoutRes
+import android.support.annotation.LayoutRes
 import com.didichuxing.doraemonkit.widget.bravh.entity.SectionEntity
 import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
 

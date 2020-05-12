@@ -2,14 +2,12 @@ package com.didichuxing.doraemonkit.kit.largepicture;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;

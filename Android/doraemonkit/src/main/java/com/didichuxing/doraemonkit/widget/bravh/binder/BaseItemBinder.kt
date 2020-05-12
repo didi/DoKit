@@ -1,9 +1,9 @@
 package com.didichuxing.doraemonkit.widget.bravh.binder
 
 import android.content.Context
+import android.support.annotation.IdRes
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.IdRes
 import com.didichuxing.doraemonkit.widget.bravh.BaseBinderAdapter
 import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
 

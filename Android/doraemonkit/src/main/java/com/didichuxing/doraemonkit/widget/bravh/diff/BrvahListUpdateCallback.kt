@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.widget.bravh.diff
 
-import androidx.recyclerview.widget.ListUpdateCallback
+import android.support.v7.util.ListUpdateCallback
 import com.didichuxing.doraemonkit.widget.bravh.BaseQuickAdapter
 
 class BrvahListUpdateCallback(private val mAdapter: BaseQuickAdapter<*, *>) : ListUpdateCallback {

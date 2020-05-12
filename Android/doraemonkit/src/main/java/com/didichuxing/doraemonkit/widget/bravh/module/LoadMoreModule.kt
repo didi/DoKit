@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.widget.bravh.module
 
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.StaggeredGridLayoutManager
 import com.didichuxing.doraemonkit.widget.bravh.BaseQuickAdapter
 import com.didichuxing.doraemonkit.widget.bravh.listener.LoadMoreListenerImp
 import com.didichuxing.doraemonkit.widget.bravh.listener.OnLoadMoreListener

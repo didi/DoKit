@@ -13,10 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-
-import androidx.annotation.IdRes;
-import androidx.annotation.StringRes;
-
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -25,10 +21,13 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import android.support.annotation.IdRes;
+import android.support.annotation.StringRes;
+
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ScreenUtils;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.config.FloatIconConfig;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
 

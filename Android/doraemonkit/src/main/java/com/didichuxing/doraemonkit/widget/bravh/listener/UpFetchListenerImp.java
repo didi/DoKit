@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.widget.bravh.listener;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 /**
  * @author: limuyang

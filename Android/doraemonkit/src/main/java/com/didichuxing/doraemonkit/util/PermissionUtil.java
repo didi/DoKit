@@ -19,13 +19,14 @@ import android.os.Environment;
 import android.os.Process;
 import android.provider.ContactsContract;
 import android.provider.Settings;
-import androidx.annotation.NonNull;
-import androidx.annotation.Size;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Size;
 
 import java.io.File;
 import java.io.FileInputStream;

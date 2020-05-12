@@ -44,8 +44,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation rootProject.ext.dependencies["appcompat"]
-    implementation 'androidx.test.ext:junit:1.1.1'
+    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation 'com.android.support.test:runner:1.0.2'
     //leakCanary
     implementation rootProject.ext.dependencies["haha"]
     compileOnly project(':doraemonkit')

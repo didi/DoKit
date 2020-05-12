@@ -9,8 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.Nullable;
+import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
 
 import com.didichuxing.doraemonkit.R;
 

@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.network.ui;
 
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 
 import com.didichuxing.doraemonkit.widget.bravh.BaseNodeAdapter;
 import com.didichuxing.doraemonkit.widget.bravh.entity.node.BaseNode;

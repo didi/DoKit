@@ -34,7 +34,7 @@
             android:textColor="@color/dk_color_337CC4"
             android:textSize="14sp" />
 
-        <androidx.cardview.widget.CardView
+        <android.support.v7.widget.CardView
             android:id="@+id/cardview"
             android:layout_width="match_parent"
             android:layout_height="36dp"
@@ -59,7 +59,7 @@
                 android:textColorHint="@color/dk_color_BEBEBE"
                 android:textSize="14sp" />
 
-        </androidx.cardview.widget.CardView>
+        </android.support.v7.widget.CardView>
 
 
     </RelativeLayout>
@@ -85,7 +85,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/dk_mock_normal" />
+                app:srcCompat="@mipmap/dk_mock_normal" />
 
             <TextView
                 android:id="@+id/tv_mock"
@@ -108,7 +108,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
-                android:src="@mipmap/dk_template_normal" />
+                app:srcCompat="@mipmap/dk_template_normal" />
 
             <TextView
                 android:id="@+id/tv_template"

@@ -7,8 +7,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 
 /**
  * Created by jinliang on 2017/9/29.

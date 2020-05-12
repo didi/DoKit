@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit.widget.bravh
 
+import android.support.annotation.LayoutRes
 import android.util.SparseIntArray
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 import com.didichuxing.doraemonkit.widget.bravh.entity.MultiItemEntity
 import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
 

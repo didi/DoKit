@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.provider.Settings;
 import android.text.TextUtils;
 
-import com.blankj.utilcode.util.PhoneUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 

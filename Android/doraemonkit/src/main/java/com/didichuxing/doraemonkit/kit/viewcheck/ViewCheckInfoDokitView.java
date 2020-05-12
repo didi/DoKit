@@ -4,12 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +14,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
@@ -253,11 +253,11 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
     private String getFragmentForActivity(Activity activity) {
         StringBuilder builder = new StringBuilder();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            android.app.FragmentManager manager = activity.getFragmentManager();
-            List<android.app.Fragment> list = manager.getFragments();
+            android.support.v4.app.FragmentManager manager = activity.getSupportFragmentManager();
+            List<android.support.v4.app.Fragment> list = manager.getFragments();
             if (list != null && list.size() > 0) {
                 for (int i = 0; i < list.size(); i++) {
-                    android.app.Fragment fragment = list.get(i);
+                    android.support.v4.app.Fragment fragment = list.get(i);
                     if (fragment != null && fragment.isVisible()) {
                         builder.append(fragment.getClass().getSimpleName() + "#" + fragment.getId());
                         if (i < list.size() - 1) {

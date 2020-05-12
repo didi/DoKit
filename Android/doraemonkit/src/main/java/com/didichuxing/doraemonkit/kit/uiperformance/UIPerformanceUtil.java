@@ -3,7 +3,6 @@ package com.didichuxing.doraemonkit.kit.uiperformance;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SimpleCursorTreeAdapter;
 
 import com.didichuxing.doraemonkit.model.ViewInfo;
 import com.didichuxing.doraemonkit.util.LogHelper;

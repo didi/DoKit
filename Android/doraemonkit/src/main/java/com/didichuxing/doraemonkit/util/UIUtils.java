@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.Rect;
-import androidx.annotation.AnyRes;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -15,6 +14,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+
+import android.support.annotation.AnyRes;
 
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.ScreenUtils;

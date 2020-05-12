@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import com.blankj.utilcode.constant.MemoryConstants;
 import com.blankj.utilcode.util.ConvertUtils;

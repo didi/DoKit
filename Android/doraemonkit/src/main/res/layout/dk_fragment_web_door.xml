@@ -38,7 +38,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginRight="@dimen/dk_dp_16"
             android:layout_marginBottom="@dimen/dk_dp_16"
-            android:src="@mipmap/dk_web_door_history_qrcode" />
+            app:srcCompat="@mipmap/dk_web_door_history_qrcode" />
     </RelativeLayout>
 
     <View style="@style/DK.Divider" />
@@ -52,7 +52,7 @@
         android:enabled="false"
         android:text="@string/dk_web_door_explore" />
 
-    <androidx.core.widget.NestedScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -61,7 +61,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <androidx.recyclerview.widget.RecyclerView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/history_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,5 +78,5 @@
                 android:text="@string/dk_web_door_clear_history" />
 
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

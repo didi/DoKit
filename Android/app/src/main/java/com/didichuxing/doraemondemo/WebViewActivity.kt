@@ -1,10 +1,10 @@
 package com.didichuxing.doraemondemo
 
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.appcompat.app.AppCompatActivity
 
 /**
  * Created by wanglikun on 2018/11/13.

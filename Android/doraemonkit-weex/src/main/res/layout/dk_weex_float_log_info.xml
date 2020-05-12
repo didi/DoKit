@@ -140,7 +140,7 @@
                 android:textSize="@dimen/dk_font_size_14" />
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/log_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

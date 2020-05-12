@@ -6,17 +6,17 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceUtil;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.model.ViewInfo;
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.PermissionUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;

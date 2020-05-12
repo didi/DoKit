@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.kit.core;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;

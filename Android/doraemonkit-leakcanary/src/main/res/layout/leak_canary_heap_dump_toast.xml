@@ -15,6 +15,7 @@
   ~ limitations under the License.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -25,7 +26,7 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_gravity="center_horizontal"
-      android:src="@mipmap/leak_canary_icon"/>
+      app:srcCompat="@mipmap/leak_canary_icon"/>
 
   <TextView
       android:layout_width="wrap_content"

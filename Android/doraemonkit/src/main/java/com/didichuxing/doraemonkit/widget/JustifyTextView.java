@@ -3,12 +3,12 @@ package com.didichuxing.doraemonkit.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.support.v7.widget.AppCompatTextView;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 
-import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * ================================================

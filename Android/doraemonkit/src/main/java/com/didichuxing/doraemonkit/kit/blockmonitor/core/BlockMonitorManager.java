@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Debug;
 import android.os.Looper;
-import androidx.annotation.NonNull;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.blankj.utilcode.util.ActivityUtils;

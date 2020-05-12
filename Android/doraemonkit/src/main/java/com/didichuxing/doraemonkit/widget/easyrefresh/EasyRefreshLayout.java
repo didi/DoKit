@@ -16,12 +16,8 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Scroller;
 
-import androidx.core.view.MotionEventCompat;
-import androidx.core.view.ViewCompat;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.didichuxing.doraemonkit.widget.easyrefresh.exception.ERVHRuntimeException;
 import com.didichuxing.doraemonkit.widget.easyrefresh.view.SimpleLoadMoreView;
