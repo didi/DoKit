@@ -2,7 +2,7 @@
 
 |DoKit|new Version|Desc|
 |-    |-      |-  |
-|support Androidx|3.1.4|support Androidx from v3.1.0|
+|support Androidx|3.1.5|support Androidx from v3.1.0|
 |supprot android support|3.0.3|For support Android support, one or two versions will be maintained, please hug Androidx as soon as possible|
 
 
@@ -10,18 +10,18 @@
 
 ```groovy
 dependencies {
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.4'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.4'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.5'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.5'
 }
 ```
 
 
-**Note:**
+**Note:** 
 
 If you cannot download the dependent library through jcenter and report the following error
 
 ```
-ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.1.4
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.1.5
 ```
 
 You can try again from the command line (take Mac system as an example under the project root directory)
@@ -47,8 +47,7 @@ If you need to support Weex, you can directly add the following dependencies
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.1.4'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:3.1.4'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.1.5'
     …
 }
 ```
@@ -58,11 +57,11 @@ If you need to integrate LeakCanary, you can directly add the following dependen
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.4'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.5'
     …
 }
 ```
-LeakCanary has been dynamically integrated in doraemonkit, you do n't need to do manual integration by yourself, just add the above dependency.
+LeakCanary has been dynamically integrated in doraemonkit, you do n’t need to do manual integration by yourself, just add the above dependency.
 
 
 #### 2. Init
@@ -73,7 +72,7 @@ Initialize in the Application onCreate().
 @Override
 public void onCreate() {
     DoraemonKit.install(application,null,"pId");
-}
+} 
 ```
 
 #### 3. DoKit Plugin（Optional）
@@ -90,8 +89,7 @@ Plugin includes the following functions:
 ```groovy
 buildscript {
     dependencies {
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.4'
-
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.5'
     }
 }
 ```
@@ -106,16 +104,41 @@ apply plugin: 'com.didi.dokit'
 Added to the app module's build.gradle file at the same level as android {}
 ```groovy
 dokitExt {
-    //Plug-in switch for the entire dokit
-    dokitPluginSwitch = true
-    //Time Profiler switch
-    slowMethodSwitch = true
-    //BigImg Switch
-    bigImgSwitch = true
-    //Custom threshold for time-consuming function unit is ms 1000ms = 1s
-    thresholdTime = 200
-    //Insert code under the specified package name business code
-    packageNames = ["com.didichuxing.doraemondemo"]
+    //dokit plugin switch
+    dokitPluginSwitch true
+    comm {
+        
+        gpsSwitch true
+        
+        networkSwitch true
+        
+        bigImgSwitch true
+    }
+
+    slowMethod {
+        //0: The default mode prints the function call stack. The specified entry needs to be added. The default is application onCreate and attachBaseContext
+        //1:Normal mode Time-consuming printing of a function at runtime Global business code function insertion
+        strategy 0
+        //Function switch
+        methodSwitch true
+
+        //Call stack mode configuration
+        stackMethod {
+            //The default value is 5ms. Functions smaller than this value are not displayed in the call stack
+            thresholdTime 10
+            //Call stack function entry
+            enterMethods = ["com.didichuxing.doraemondemo.MainDebugActivity.test1"]
+        }
+        //Normal mode configuration
+        normalMethod {
+            //The default value is 500ms. Functions smaller than this value will not be printed in the console at runtime
+            thresholdTime 500
+            //The name of the package to be inserted for the function
+            packageNames = ["com.didichuxing.doraemondemo"]
+            //No package name & class name for function insertion
+            methodBlacklist = ["com.didichuxing.doraemondemo.dokit"]
+        }
+    }
 }
 ```
 
@@ -133,26 +156,26 @@ public class EnvSwitchKit extends AbstractKit {
     public int getCategory() {
         return Category.BIZ;
     }
-
+ 
     @Override
     public int getName() {
         return R.string.bh_env_switch;
     }
-
+ 
     @Override
     public int getIcon() {
         return R.drawable.bh_roadbit;
     }
-
+ 
     @Override
     public void onClick(Context context) {
         DebugService service = ServiceManager.getInstance().getService(context, DebugService.class);
         PageManager.getInstance().startFragment(service.getContainer(), EnvSwitchFragment.class);
     }
-
+ 
     @Override
     public void onAppInit(Context context) {
-
+    
     }
 }
 ```
@@ -167,25 +190,96 @@ public void onCreate() {
 }
 ```
 
-**Other Api:**
-
-```Java
-@Override
-public void onCreate() {
-    kits.add(new EnvSwitchKit());
-    DoraemonKit.install(application, kits);
-    //false:hide icon default is true
-    DoraemonKit.setAwaysShowMainIcon(false);
-    …
-}
+**DoraemonKit入口api**
 ```
+object DoraemonKit {
+    
+    @JvmStatic
+    fun install(app: Application) {
+    }
 
-**Call up the tool panel directly**
+   
+    @JvmStatic
+    fun install(app: Application, productId: String) {
+    }
+    
+   //User-defined user zone grouping
+    @JvmStatic
+    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, productId: String) {
+    }
+   
+   //Default user zone grouping
+    @JvmStatic
+    fun install(app: Application, listKits: MutableList<AbstractKit>, productId: String) {
+    }
 
-```Java
-DoraemonKit.showToolPanel();
+    /**
+     * @param app
+     * @param mapKits Custom kits are grouped according to users. It is recommended to choose mapKits first. If both are passed, mapKits will be selected.
+     * @param listKits  Custom kits are compatible with old APIs
+     * @param productId ProductId applied on the Dokit platform
+     */
+    @JvmStatic
+    private  fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
+
+    }
+    
+    //h5 arbitrary door callback
+    @JvmStatic
+    fun setWebDoorCallback(callback: WebDoorManager.WebDoorCallback?) {
+    }
+
+    //Show mainIcon
+    @JvmStatic
+    fun show() {
+    }
+
+   //hide mainIcon
+    @JvmStatic
+    fun hide() {
+    }
+
+    /**
+     * Directly display the tool panel page
+     */
+    @JvmStatic
+    fun showToolPanel() {
+    }
+
+    /**
+     * Hide the tool panel directly
+     */
+    @JvmStatic
+    fun hideToolPanel() {
+    }
+
+    
+
+    /**
+     * Disable the app information upload switch, this upload information is only for the statistics of DoKit access, if users need to protect app privacy, you can call this method to disable
+     */
+    @JvmStatic
+    fun disableUpload() {
+    }
+
+    @JvmStatic
+    val isShow: Boolean
+        get() = false
+
+    @JvmStatic
+    fun setDebug(debug: Boolean) {
+    }
+
+    /**
+     * Whether to display the main entrance icon
+     */
+    @JvmStatic
+    fun setAwaysShowMainIcon(awaysShow: Boolean) {
+    }
+}
+
 ```
 
 #### 5. FAQ
 
-[Other Problems](SDKProblems.md)
+[Other Problems](http://xingyun.xiaojukeji.com/docs/dokit_en#/SDKProblems)

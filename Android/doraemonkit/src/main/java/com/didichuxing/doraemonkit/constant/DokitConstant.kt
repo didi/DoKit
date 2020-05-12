@@ -33,6 +33,11 @@ object DokitConstant {
         "${PathUtils.getInternalAppFilesPath()}${File.separator}system_kit_bak_${BuildConfig.DOKIT_VERSION}.json"
     }
 
+    /**
+     * 工具面板RV上次的位置
+     */
+    var TOOL_PANEL_RV_LAST_DY = 0
+
 
     /**
      * 全局的Kits

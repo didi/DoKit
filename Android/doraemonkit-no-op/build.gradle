@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply from: 'upload.gradle'
 
 android {
@@ -35,6 +37,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //implementation rootProject.ext.dependencies["appcompat"]
     //compileOnly rootProject.ext.dependencies["okio"]
+    implementation rootProject.ext.dependencies["kotlin"]
     compileOnly rootProject.ext.dependencies["okhttp"]
     //三大图片框架
     compileOnly rootProject.ext.dependencies["glide"]

@@ -267,7 +267,7 @@ class MainReleaseActivity : AppCompatActivity(), View.OnClickListener {
                 //requestByGet("https://gank.io/api/today?a=哈哈&b=bb");
                 requestByGet("http://gank.io/gateway?api=dj.map")
             R.id.btn_test_crash -> testCrash()!!.length
-            R.id.btn_show_hide_icon -> if (DoraemonKit.isShow()) {
+            R.id.btn_show_hide_icon -> if (DoraemonKit.isShow) {
                 DoraemonKit.hide()
             } else {
                 DoraemonKit.show()

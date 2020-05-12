@@ -2,11 +2,6 @@ package com.didichuxing.doraemonkit.kit
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import androidx.annotation.StringRes
-import com.blankj.utilcode.util.ActivityUtils
-import com.didichuxing.doraemonkit.constant.BundleKey
-import com.didichuxing.doraemonkit.kit.core.UniversalActivity
 
 /**
  * ================================================
@@ -24,5 +19,43 @@ abstract class AbstractKit : IKit {
      * @param context
      * @param fragmentIndex
      */
-    fun startUniversalActivity(context: Context, fragmentIndex: Int) {}
+    fun startUniversalActivity(context: Context, fragmentIndex: Int) {
+
+    }
+
+    /**
+     * 是否是内置kit 外部kit不需要实现
+     *
+     * @return
+     */
+    open val isInnerKit: Boolean
+        get() = false
+
+    /**
+     * 是否可以显示在工具面板上
+     */
+    var canShow: Boolean = true
+
+    /**
+     * 返回kitId
+     *
+     * @return
+     */
+    open fun innerKitId(): String {
+        return ""
+    }
+
+
+    /**
+     * 返回当前栈顶的activity
+     * @return activity
+     */
+    fun currentActivity(): Activity? {
+        return null
+    }
+
+    override val category: Int
+        get() = Category.DEFAULT
+
+
 }

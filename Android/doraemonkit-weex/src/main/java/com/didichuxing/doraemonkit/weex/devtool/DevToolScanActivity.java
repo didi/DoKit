@@ -31,7 +31,7 @@ public class DevToolScanActivity extends CaptureActivity {
         HomeTitleBar homeTitleBar = new HomeTitleBar(this);
         homeTitleBar.setBackgroundColor(getResources().getColor(R.color.foreground_wtf));
         homeTitleBar.setTitle(getResources().getString(R.string.dk_dev_tool_title));
-        homeTitleBar.setIcon(R.drawable.dk_close_icon);
+        homeTitleBar.setIcon(R.mipmap.dk_close_icon);
         homeTitleBar.setListener(new HomeTitleBar.OnTitleBarClickListener() {
             @Override
             public void onRightClick() {

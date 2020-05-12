@@ -76,7 +76,7 @@ public class HealthFragmentChild0 extends BaseFragment {
 
                         @Override
                         public void onError(Response<String> response) {
-                            LogHelper.e(TAG, "error response===>" + response.body());
+                            LogHelper.e(TAG, "error response===>" + response.message());
                             ToastUtils.showShort(DokitUtil.getString(R.string.dk_health_upload_failed));
                         }
                     });
@@ -122,6 +122,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                     new AlertDialog.Builder(getActivity())
                             .setTitle(DokitUtil.getString(R.string.dk_health_upload_title))
                             .setMessage(DokitUtil.getString(R.string.dk_health_upload_message))
+                            .setCancelable(false)
                             .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

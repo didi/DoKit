@@ -1,9 +1,7 @@
 package com.didichuxing.doraemonkit.plugin.bytecode;
 
-import com.didichuxing.doraemonkit.plugin.DokitExtUtil;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.comm.ThreadLogAdapter;
+import com.didichuxing.doraemonkit.plugin.DoKitExtUtil;
 import com.didichuxing.doraemonkit.plugin.bytecode.method.thread.ThreadMethodAdapter;
-import com.didichuxing.doraemonkit.plugin.bytecode.method.urlconnection.UrlConnectionMethodAdapter;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -60,7 +58,7 @@ public class DokitThreadClassAdapter extends ClassVisitor {
         //从传进来的ClassWriter中读取MethodVisitor
         MethodVisitor mv = cv.visitMethod(access, methodName, desc, signature, exceptions);
         //开关被关闭 不插入代码
-        if (!DokitExtUtil.getInstance().isDokitPluginSwitch()) {
+        if (!DoKitExtUtil.getInstance().dokitPluginSwitchOpen()) {
             return mv;
         }
         //过滤所有类中当前方法中所有的字节码

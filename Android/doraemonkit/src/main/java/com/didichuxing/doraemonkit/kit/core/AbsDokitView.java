@@ -25,6 +25,7 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.config.FloatIconConfig;
@@ -707,7 +708,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
         if (mAttachActivity != null) {
             return mAttachActivity.get();
         }
-        return null;
+        return ActivityUtils.getTopActivity();
     }
 
     public void setActivity(Activity activity) {
