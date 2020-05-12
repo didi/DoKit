@@ -12,6 +12,7 @@
 #import "DoraemonTimeProfiler.h"
 //#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "DoraemonUtil.h"
+#import "SDImageWebPCoder.h"
 
 #if __has_include(<FBRetainCycleDetector/FBRetainCycleDetector.h>)
 #define XXX 1
@@ -55,9 +56,15 @@
         NSLog(@"anrDic == %@",anrDic);
     }];
 
-//    [[DoraemonManager shareInstance] addH5DoorBlock:^(NSString *h5Url) {
-//        NSLog(@"使用自带容器打开H5链接: %@",h5Url);
-//    }];
+    [[DoraemonManager shareInstance] addH5DoorBlock:^(NSString *h5Url) {
+        NSLog(@"使用自带容器打开H5链接: %@",h5Url);
+    }];
+    
+    [[DoraemonManager shareInstance] addWebpHandleBlock:^UIImage * _Nullable(NSString * _Nonnull filePath) {
+        NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
+        UIImage *image = [[SDImageWebPCoder sharedCoder] decodedImageWithData:data options:nil];
+        return image;
+    }];
     // 例子：移除 GPS Mock
 //    [[DoraemonManager shareInstance] installWithCustomBlock:^{
 //        [[DoraemonManager shareInstance] removePluginWithPluginName:@"DoraemonGPSPlugin" atModule:@"常用工具"];

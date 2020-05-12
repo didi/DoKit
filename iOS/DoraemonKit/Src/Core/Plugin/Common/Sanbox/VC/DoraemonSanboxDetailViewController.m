@@ -14,9 +14,11 @@
 #import <QuickLook/QuickLook.h>
 #import "DoraemonDBManager.h"
 #import "DoraemonDBTableViewController.h"
+#import "DoraemonManager.h"
 
 @interface DoraemonSanboxDetailViewController ()<QLPreviewControllerDelegate,QLPreviewControllerDataSource,UITableViewDelegate,UITableViewDataSource>
 
+@property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, copy) NSArray *tableNameArray;
 @property (nonatomic, strong) UITableView *dbTableNameTableView;
@@ -38,6 +40,15 @@
             // 数据库文件
             self.title = DoraemonLocalizedString(@"数据库预览");
             [self browseDBTable];
+        } else if([[path lowercaseString] hasSuffix:@".webp"]){
+            // webp文件
+            DoraemonWebpHandleBlock block = [DoraemonManager shareInstance].webpHandleBlock;
+            if (block) {
+                UIImage *img = [DoraemonManager shareInstance].webpHandleBlock(path);
+                [self setOriginalImage:img];
+            }else{
+                [self setContent:@"webp need implement webpHandleBlock in DoraemonManager"];
+            }
         } else {
             // 其他文件 尝试使用 QLPreviewController 进行打开
             QLPreviewController *previewController = [[QLPreviewController alloc]init];
@@ -74,6 +85,37 @@
     }
 #endif
     [self.view addSubview:_textView];
+}
+
+- (void)setOriginalImage:(UIImage *)originalImage{
+    if (!originalImage) {
+        return;
+    }
+    CGFloat viewWidth = self.view.doraemon_width;
+    CGFloat viewHeight = self.view.doraemon_height;
+    CGFloat imageWidth = originalImage.size.width;
+    CGFloat imageHeight = originalImage.size.height;
+    BOOL isPortrait = imageHeight / viewHeight > imageWidth / viewWidth;
+    CGFloat scaledImageWidth, scaledImageHeight;
+    CGFloat x,y;
+    CGFloat imageScale;
+    if (isPortrait) {//图片竖屏分量比较大
+        imageScale = imageHeight / viewHeight;
+        scaledImageHeight = viewHeight;
+        scaledImageWidth = imageWidth / imageScale;
+        x = (viewWidth - scaledImageWidth) / 2;
+        y = 0;
+    }else{//图片横屏分量比较大
+        imageScale = imageWidth / viewWidth;
+        scaledImageWidth = viewWidth;
+        scaledImageHeight = imageHeight / imageScale;
+        x = 0;
+        y = (viewHeight - scaledImageHeight) / 2;
+    }
+    _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(x, y, scaledImageWidth, scaledImageHeight)];
+    _imageView.image = originalImage;
+    _imageView.userInteractionEnabled = YES;
+    [self.view addSubview:_imageView];
 }
 
 //浏览数据库中所有数据表

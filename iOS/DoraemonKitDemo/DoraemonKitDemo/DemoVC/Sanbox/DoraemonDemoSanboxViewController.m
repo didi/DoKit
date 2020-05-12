@@ -56,6 +56,12 @@
     [btn5 setTitle:DoraemonDemoLocalizedString(@"添加DB到沙盒中") forState:UIControlStateNormal];
     [btn5 addTarget:self action:@selector(addDBFile) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn5];
+    
+    UIButton *btn6 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn5.doraemon_bottom+20, self.view.doraemon_width, 60)];
+    btn6.backgroundColor = [UIColor orangeColor];
+    [btn6 setTitle:DoraemonDemoLocalizedString(@"添加Webp到沙盒中") forState:UIControlStateNormal];
+    [btn6 addTarget:self action:@selector(addWebPFile) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn6];
 }
 
 - (void)addFile{
@@ -103,6 +109,10 @@
 
 - (void)addHtmlFile{
     [self copyBundleToSanboxWithName:@"doraemon" type:@"html"];
+}
+
+- (void)addWebPFile{
+    [self copyBundleToSanboxWithName:@"WebpDemo" type:@"webp"];
 }
 
 - (void)addDBFile{

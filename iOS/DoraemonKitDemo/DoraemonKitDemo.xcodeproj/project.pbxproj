@@ -15,6 +15,7 @@
 		0A6CF2762438BD3B00A2CBF4 /* DoraemonKitDemo.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0A6CF2782438BD3B00A2CBF4 /* DoraemonKitDemo.strings */; };
 		0A6CF27C2438BDDD00A2CBF4 /* DoraemonKitDemoi18Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A6CF27B2438BDDD00A2CBF4 /* DoraemonKitDemoi18Util.m */; };
 		0AA262E1240F8AC400BF144F /* DoraemonDemoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA262E0240F8AC400BF144F /* DoraemonDemoBaseViewController.m */; };
+		0AC7509C246A8EE100F87363 /* WebpDemo.webp in Resources */ = {isa = PBXBuildFile; fileRef = 0AC7509B246A8B4900F87363 /* WebpDemo.webp */; };
 		0AFBC55223BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFBC55023BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m */; };
 		B65C2263AF96F94C50A222DF /* libPods-DoraemonKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E964A2D92411C9DC5482EF /* libPods-DoraemonKitDemo.a */; };
 		DA0C6F331FDEBC2E00F43588 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA0C6F311FDEBC2E00F43588 /* LaunchScreen.storyboard */; };
@@ -64,6 +65,7 @@
 		0A6CF27B2438BDDD00A2CBF4 /* DoraemonKitDemoi18Util.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonKitDemoi18Util.m; sourceTree = "<group>"; };
 		0AA262DF240F8AC400BF144F /* DoraemonDemoBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoBaseViewController.h; sourceTree = "<group>"; };
 		0AA262E0240F8AC400BF144F /* DoraemonDemoBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoBaseViewController.m; sourceTree = "<group>"; };
+		0AC7509B246A8B4900F87363 /* WebpDemo.webp */ = {isa = PBXFileReference; lastKnownFileType = file; path = WebpDemo.webp; sourceTree = "<group>"; };
 		0AFBC55023BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoNetTableViewCell.m; sourceTree = "<group>"; };
 		0AFBC55123BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoNetTableViewCell.h; sourceTree = "<group>"; };
 		29E964A2D92411C9DC5482EF /* libPods-DoraemonKitDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DoraemonKitDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -205,6 +207,7 @@
 		DA63F1D121C8CC9700E0D9F5 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				0AC7509B246A8B4900F87363 /* WebpDemo.webp */,
 				DA63F1D221C8CCAB00E0D9F5 /* huoying.mp4 */,
 				DA4AD817224E0EC8006F767C /* Doraemon.docx */,
 				DA4AD818224E0EC8006F767C /* Doraemon.pdf */,
@@ -453,6 +456,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AC7509C246A8EE100F87363 /* WebpDemo.webp in Resources */,
 				DA63F1D321C8CF9500E0D9F5 /* huoying.mp4 in Resources */,
 				0A6CF2762438BD3B00A2CBF4 /* DoraemonKitDemo.strings in Resources */,
 				DA0C6F331FDEBC2E00F43588 /* LaunchScreen.storyboard in Resources */,
@@ -473,7 +477,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/DoraemonKit/DoraemonKit.bundle",
 				"${PODS_ROOT}/WeexSDK/pre-build/native-bundle-main.js",
 				"${PODS_ROOT}/WeexSDK/pre-build/weex-main-jsfm.js",
@@ -494,7 +498,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4F099CCEC2895A53433BFD37 /* [CP] Check Pods Manifest.lock */ = {
@@ -521,7 +525,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-frameworks.sh",
 				"${PODS_ROOT}/../../DoraemonKit/Framework/DoraemonLoadAnalyze.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -530,7 +534,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DoraemonKitDemo/Pods-DoraemonKitDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

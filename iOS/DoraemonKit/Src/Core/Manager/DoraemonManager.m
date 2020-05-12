@@ -425,6 +425,10 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     self.performanceBlock = block;
 }
 
+- (void)addWebpHandleBlock:(UIImage *(^)(NSString *filePath))block{
+    self.webpHandleBlock = block;
+}
+
 - (void)hiddenHomeWindow{
     [[DoraemonHomeWindow shareInstance] hide];
 }
