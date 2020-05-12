@@ -1,0 +1,16 @@
+PODS:
+  - DoraemonKit/Core (3.0.2)
+
+DEPENDENCIES:
+  - DoraemonKit/Core (from `../../../`)
+
+EXTERNAL SOURCES:
+  DoraemonKit:
+    :path: "../../../"
+
+SPEC CHECKSUMS:
+  DoraemonKit: 8587e7a9aae0773dfc96707d2369d89d2a21b3d2
+
+PODFILE CHECKSUM: 701b12950cfc563a42e783cecdf51d4ca7e96740
+
+COCOAPODS: 1.6.1
