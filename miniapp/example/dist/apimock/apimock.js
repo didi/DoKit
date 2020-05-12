@@ -1,9 +1,10 @@
 const util = require('../utils/util.js');
 const app = getApp()
-// console.log(Object.getOwnPropertyDescriptor(wx, 'request'))
 app.globalData.originRequest = wx.request
 const mockBaseUrl = 'https://mock.dokit.cn'
-const projectId = '749a0600b5e48dd77cf8ee680be7b1b7'
+const projectId = app.globalData.projectId
+console.log('projectId', projectId)
+if (!projectId) console.warn("您还没有设置 projectId，去快平台端体验吧：https://www.dokit.cn")
 
 Page({
     data: {
@@ -16,9 +17,6 @@ Page({
         isShow: false
     },
     onLoad: function () {
-        // 初始化
-        console.log(Object.getOwnPropertyDescriptor(wx, 'request'))
-        console.log(Object.getOwnPropertyDescriptor(getApp().globalData, 'originRequest'))
         this.pageInit()
     },
     request (options) {
@@ -48,7 +46,7 @@ Page({
                 that.updateMockList(data.datalist)
                 that.updateTplList(data.datalist)
             }
-        }).catch(err => console.log(err))
+        }).catch()
     },
     updateMockList (datalist) {
         let list = [], that = this
@@ -88,17 +86,26 @@ Page({
                 if (dataItem._id == mockItem._id) {
                     dataItem.hidden = mockItem.hidden
                     dataItem.checked = mockItem.checked
-                    // Todo：将 sceneList 的记录
+                    dataItem.query = dataItem.query ? JSON.stringify(dataItem.query) : '{}'
+                    dataItem.body = dataItem.body ? JSON.stringify(dataItem.body) : '{}'
                     if (util.isArray(dataItem.sceneList) && dataItem.sceneList.length) {
+                        let isScene = false
                         for (let k = 0,kLen = dataItem.sceneList.length; k < kLen; k++) {
                             const nowSceneItem = dataItem.sceneList[k]
                             for (let h = 0, hLen = mockItem.sceneList.length; h < hLen; h++) {
                                const preSceneItem = mockItem.sceneList[h]
-                               if (nowSceneItem._id == preSceneItem._id) {
+                               if (nowSceneItem._id == preSceneItem._id && preSceneItem.checked) {
                                     nowSceneItem.checked = preSceneItem.checked
+                                    isScene = true
                                     break;
                                }
                             }
+                            if (isScene) {
+                                break;
+                            }
+                        }
+                        if (!isScene && dataItem.sceneList[0]) {
+                            dataItem.sceneList[0].checked = true
                         }
                     } else {
                         dataItem.sceneList = []
@@ -159,46 +166,38 @@ Page({
         }
     },
     addRequestHooks () {
-        // Todo 添加一个拦截标识
-        if (getApp().globalData.requsetIsChanged) {
-            return
-        }
         Object.defineProperty(wx,  "request" , { writable:  true });
-        getApp().globalData.requsetIsChanged = true
-        console.log('addRequestHooks success')
+        console.group('addRequestHooks success')
         const matchUrlRequest = this.matchUrlRequest
         const matchUrlTpl = this.matchUrlTpl
         wx.request = function (options) {
+            const opt = util.deepClone(options)
             const originSuccessFn = options.success
             const sceneId = matchUrlRequest(options)
             if (sceneId) {
                 options.url = `${mockBaseUrl}/api/app/scene/${sceneId}`
-                console.log('request options', options)
+                console.group('request options', options)
                 console.warn('被拦截了~')
             }
             options.success = function (res) {
                 originSuccessFn(res)
-                matchUrlTpl(options, res)
+                matchUrlTpl(opt, res)
             }
             app.globalData.originRequest(options)
         }
     },
-    onTapbar (event) {
-        const type = event.target.dataset.type
+    onTabbar (event) {
+        const type = event.currentTarget.dataset.type
     },
     onNavChange (event) {
-        const type = event.target.dataset.type
-        this.setData({
-            curNav: type
-        })
+        const type = event.currentTarget.dataset.type
+        this.setData({ curNav: type })
     },
     onExpand (evnet) {
         const { index,type } = evnet.currentTarget.dataset
         const curHidden = `${type}List[${index}].hidden`
         this.setData({
             [curHidden]: !this.data[`${type}List`][index].hidden
-        }, () => {
-            console.log(this.data[`${type}List`][index].hidden)
         })
     },
     onToggleChecked (evnet) {
@@ -206,8 +205,6 @@ Page({
         const curChecked = `${type}List[${index}].checked`
         this.setData({
             [curChecked]: !this.data[`${type}List`][index].checked
-        }, () => {
-            console.log(this.data[`${type}List`][index].checked)
         })
     },
     onRadioChange (event) {
@@ -219,10 +216,6 @@ Page({
                 this.data.mockList[index].sceneList[sceneIndex].checked = false
             }
         })
-    },
-    onRadioGroupChange (e) {
-        const val = e.detail.value
-        console.log('val', val)
     },
     matchUrlTpl (options, res) {
         let curTplItem,that = this
@@ -298,12 +291,16 @@ Page({
                 isShow: !that.data.isShow
             })
         } else {
-            // Todo: 提示
+            wx.showToast({
+                title: '没有模板数据哦~',
+                image: '../assets/img/error.png',
+                duration: 1000
+            })
         }
     },
     onCancel () {
         this.setData({
-            isShow: !this.data.isShow
+            isShow: false
         })
     },
     onUpload (event) {
@@ -330,12 +327,13 @@ Page({
             data
         }
         that.request(opt).then(res => {
-            const { data } = res.data
-            console.log(data)
-        }).catch(err => console.log(err))
-    },
-    onHide: function () {
-        console.log('影藏了~')
+            wx.showToast({
+                title: '上传成功!',
+                icon: 'success',
+                duration: 1000
+            })
+            that.data.isShow && that.onCancel()
+        }).catch()
     },
     onUnload: function () {
         wx.setStorageSync('dokit-mocklist', this.data.mockList)

@@ -1,15 +1,23 @@
+page {
+    height: 100%;
+}
+.page-box {
+    width: 100%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    background: #F5F6F7;
+}
 switch {
     zoom: 0.8;
 }
-.page-box{
-    background: #F5F6F7;
-    width: 100%;
-}
 .tab-bar {
     width: 100%;
+    line-height: 132rpx;
     height: 132rpx;
     display: flex;
     background-color: #FFFFFF;
+    flex: 0 0 132rpx;
 }
 .tab-bar-item {
     width: 50%;
@@ -19,9 +27,16 @@ switch {
 }
 .list-wrap {
     margin-top: 12rpx;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+    padding-top: 12rpx;
+    flex: 1;
+    position: relative;
+}
+.list-scroll {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
 }
 .item-wrap {
     box-sizing: border-box;
@@ -45,6 +60,11 @@ switch {
     right: 10rpx;
     font-size: 34rpx;
     color: #CCC;
+}
+.item-name {
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
 }
 .switch {
     margin-right: 72rpx;
@@ -73,24 +93,29 @@ switch {
     color: #337CC4;
 }
 .nav-bar {
-    display: flex;
     width: 100%;
-    height: 100rpx;
-    background-color: #E5E5E5;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    display: flex;
+    flex: 0 0 100rpx;
+    border-top: 1rpx solid #e5e5e5;
+    background-color: white;
 }
 .nav-bar-item {
     width: 50%;
     height: 100%;
-    line-height: 100rpx;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     color: #333333;
+    font-size: 20rpx;
 }
 .nav-bar-item.active {
     color: #337CC4;
+}
+.nav-bar-icon {
+    display: block;
+    width: 40rpx;
+    height: 40rpx;
 }
 .item-btn-wrap {
     display: flex;

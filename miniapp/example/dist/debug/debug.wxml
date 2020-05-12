@@ -1,12 +1,12 @@
 <view class="page-box">
   <view class="debug-container">
-    <view wx:for="{{tools}}" class="debug-collections card">
+    <view wx:for="{{tools}}" wx:key="index" class="debug-collections card">
       <view class="debug-collections-title">{{item.title}}</view>
       <view class="debug-collections-main">
         <view wx:for="{{item.tools}}"
-              wx:key="{{tool.title}}"
               wx:for-index="idx"
               wx:for-item="tool"
+              wx:key="idx"
               data-path="{{tool.path}}"
               data-type="{{tool.type}}"
               bindtap="onRedirect"

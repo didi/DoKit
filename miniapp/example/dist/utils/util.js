@@ -46,11 +46,24 @@ const isArray = list => {
   return Object.prototype.toString.call(list).slice(8, -1) == 'Array'
 }
 
+const deepClone = obj => {
+  if(typeof obj !="object"){
+      return obj
+  }
+  var newObj = {};
+  for (var key in obj) {
+    newObj[key] = deepClone(obj[key])
+  }
+  return newObj;
+}
+
+
 
 module.exports = {
   formatTime: formatTime,
   goToLink,
   search2Json,
   getPartUrlByParam,
-  isArray
+  isArray,
+  deepClone
 }

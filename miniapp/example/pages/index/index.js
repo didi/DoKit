@@ -26,6 +26,7 @@ Page({
     })
   },
   sendDokitRequest: function () {
+    // Tip: 小程序测试
     wx.request({
       url: 'https://mock.dokit.cn/api/app/interface?name=zzy',
       method: 'GET',
@@ -33,6 +34,15 @@ Page({
         console.log('用户自定义',res.data)
       }
     })
+    // Tip: 小程序测试4-post加参数
+    // wx.request({
+    //   url: 'https://mock.dokit.cn/users/jtsky_copy_copy_copy',
+    //   data: '{name: aa}',
+    //   method: 'POST',
+    //   success: (res) => {
+    //     console.log('用户自定义',res.data)
+    //   }
+    // })
   },
   onLoad: function () {
     if (app.globalData.userInfo) {
