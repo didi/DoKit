@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.plugin.bytecode.method.method_stack;
 
+import com.didichuxing.doraemonkit.plugin.DoKitExtUtil;
 import com.didichuxing.doraemonkit.plugin.MethodStackNode;
 import com.didichuxing.doraemonkit.plugin.MethodStackNodeUtil;
 
@@ -118,7 +119,6 @@ public final class MethodStackMethodAdapter extends AdviceAdapter implements Opc
                 mv.visitMethodInsn(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "recodeObjectMethodCostStart", "(IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false);
 
 
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -156,18 +156,5 @@ public final class MethodStackMethodAdapter extends AdviceAdapter implements Opc
         }
     }
 
-
-    /**
-     * 日志输出
-     *
-     * @param opcode
-     * @param owner
-     * @param name
-     * @param desc
-     */
-    private void log(int opcode, String owner, String name, String desc, boolean isInterface) {
-        System.out.println("ApplicationOnCreateMethodAdapter=matched=>" + "  opcode=" + opcode + " owner=" + owner + "  methodName=" + name + "  desc=" + desc + "  isInterface=" + isInterface);
-        System.out.println("");
-    }
 
 }
