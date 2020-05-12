@@ -33,7 +33,7 @@
         android:layout_marginRight="16dp"
         android:layout_toLeftOf="@+id/text"
         android:scaleType="fitCenter"
-        app:srcCompat="@mipmap/dk_refresh_arrow" />
+        android:src="@mipmap/dk_refresh_arrow" />
 
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/loadingIcon"

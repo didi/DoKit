@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--性能监控包裹-->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fl_chart"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -17,6 +16,6 @@
         android:layout_gravity="top|right"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        app:srcCompat="@mipmap/dk_close_white" />
+        android:src="@mipmap/dk_close_white" />
 </FrameLayout>
 

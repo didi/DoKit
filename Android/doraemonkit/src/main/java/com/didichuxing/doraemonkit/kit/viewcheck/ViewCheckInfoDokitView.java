@@ -152,7 +152,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
                 mDesc.setText(descText);
                 mDesc.setVisibility(View.VISIBLE);
             }
-            Activity activity = ActivityUtils.getTopActivity();
+            AppCompatActivity activity = (AppCompatActivity) ActivityUtils.getTopActivity();
             if (activity != null) {
                 String activityText = activity.getClass().getSimpleName();
                 setTextAndVisible(mActivityInfo, getResources().getString(R.string.dk_view_check_info_activity, activityText));
@@ -222,7 +222,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
         }
     }
 
-    private String getVisibleFragment(Activity activity) {
+    private String getVisibleFragment(AppCompatActivity activity) {
         if (activity == null) {
             return null;
         }
@@ -250,10 +250,10 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
         }
     }
 
-    private String getFragmentForActivity(Activity activity) {
+    private String getFragmentForActivity(AppCompatActivity activity) {
         StringBuilder builder = new StringBuilder();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            android.support.v4.app.FragmentManager manager = activity.getSupportFragmentManager();
+            FragmentManager manager = activity.getSupportFragmentManager();
             List<android.support.v4.app.Fragment> list = manager.getFragments();
             if (list != null && list.size() > 0) {
                 for (int i = 0; i < list.size(); i++) {

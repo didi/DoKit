@@ -15,7 +15,7 @@
         <ImageView
             android:layout_width="260dp"
             android:layout_height="match_parent"
-            app:srcCompat="@mipmap/dk_health_bg" />
+            android:src="@mipmap/dk_health_bg" />
 
         <ImageView
             android:id="@+id/iv_btn"
@@ -24,7 +24,7 @@
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="80dp"
             android:layout_marginLeft="3dp"
-            app:srcCompat="@mipmap/dk_health_start" />
+            android:src="@mipmap/dk_health_start" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -57,7 +57,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
-            app:srcCompat="@mipmap/dk_health_next_page" />
+            android:src="@mipmap/dk_health_next_page" />
     </LinearLayout>
 
 </RelativeLayout>

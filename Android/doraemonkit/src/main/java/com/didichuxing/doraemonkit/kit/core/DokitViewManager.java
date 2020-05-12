@@ -1,11 +1,10 @@
 package com.didichuxing.doraemonkit.kit.core;
 
 import android.app.Activity;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.graphics.Point;
 import android.view.WindowManager;
-
-import androidx.room.Room;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.constant.DokitConstant;

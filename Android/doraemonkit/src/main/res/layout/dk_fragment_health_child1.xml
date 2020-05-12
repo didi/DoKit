@@ -133,6 +133,6 @@
             android:layout_height="30dp"
             android:layout_gravity="center_horizontal"
             android:rotation="180"
-            app:srcCompat="@mipmap/dk_health_next_page" />
+            android:src="@mipmap/dk_health_next_page" />
     </LinearLayout>
 </RelativeLayout>

@@ -85,7 +85,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
-                app:srcCompat="@mipmap/dk_mock_normal" />
+                android:src="@mipmap/dk_mock_normal" />
 
             <TextView
                 android:id="@+id/tv_mock"
@@ -108,7 +108,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="center"
-                app:srcCompat="@mipmap/dk_template_normal" />
+                android:src="@mipmap/dk_template_normal" />
 
             <TextView
                 android:id="@+id/tv_template"

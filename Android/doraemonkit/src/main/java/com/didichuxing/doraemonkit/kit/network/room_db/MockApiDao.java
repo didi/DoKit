@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.kit.network.room_db;
 
 
-
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;

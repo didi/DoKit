@@ -7,6 +7,10 @@ import android.content.Context;
 import android.os.Handler;
 
 
+import android.support.v4.view.MotionEventCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;

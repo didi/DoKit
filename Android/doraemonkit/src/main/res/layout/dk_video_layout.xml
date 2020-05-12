@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_container"
     android:layout_width="match_parent"
     android:layout_height="290dp">
@@ -39,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                app:srcCompat="@drawable/dk_btn_play_style"
+                android:src="@drawable/dk_btn_play_style"
                 />
             <TextView
                 android:id="@+id/tv_currentProgress"
@@ -73,7 +72,7 @@
                     android:id="@+id/iv_volume"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@mipmap/dk_ic_volume"
+                    android:src="@mipmap/dk_ic_volume"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_centerVertical="true"
@@ -96,7 +95,7 @@
                     android:id="@+id/btn_screen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@mipmap/dk_ic_screen"
+                    android:src="@mipmap/dk_ic_screen"
                     android:layout_marginRight="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_alignParentRight="true"

@@ -10,9 +10,7 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.FloatIconConfig;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
-import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 
 /**
  * 悬浮按钮

@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit.widget.verticalviewpager.transforms;
 
+import android.support.v4.view.ViewPager;
 import android.view.View;
 
-import androidx.viewpager.widget.ViewPager;
 
 /**
  * ================================================

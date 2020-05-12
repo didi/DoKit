@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.loginfo;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;

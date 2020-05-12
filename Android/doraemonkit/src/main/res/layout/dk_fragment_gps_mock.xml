@@ -57,7 +57,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        app:srcCompat="@mipmap/dk_search_icon" />
+                        android:src="@mipmap/dk_search_icon" />
 
                     <EditText
                         android:id="@+id/ed_long_lat"

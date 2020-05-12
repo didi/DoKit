@@ -38,7 +38,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginRight="@dimen/dk_dp_16"
             android:layout_marginBottom="@dimen/dk_dp_16"
-            app:srcCompat="@mipmap/dk_web_door_history_qrcode" />
+            android:src="@mipmap/dk_web_door_history_qrcode" />
     </RelativeLayout>
 
     <View style="@style/DK.Divider" />
