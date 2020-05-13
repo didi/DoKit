@@ -60,6 +60,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 
 import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+import static android.support.v4.content.FileProvider.getUriForFile;
 import static android.text.format.DateUtils.FORMAT_SHOW_DATE;
 import static android.text.format.DateUtils.FORMAT_SHOW_TIME;
 import static android.text.format.Formatter.formatShortFileSize;
@@ -385,7 +386,7 @@ public final class DisplayLeakActivity extends Activity {
   }
 
   private void setDisplayHomeAsUpEnabled(boolean enabled) {
-    ActionBar actionBar = getSupportActionBar();
+    ActionBar actionBar = getActionBar();
     if (actionBar == null) {
       // https://github.com/square/leakcanary/issues/967
       return;
