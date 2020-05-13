@@ -1,5 +1,9 @@
 DoraemonKit-Android releases
 ===
+## 3.0.6
+1.对齐androidx dokit v3.1.5 版本功能
+
+
 ## 3.1.5
 1.更加精细化的插件控制(具体的插件配置信息可参考www.dokit.cn Android接入指南)
 

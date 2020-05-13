@@ -3,7 +3,7 @@
 |DoKit|最新版本|描述|
 |-|-|-|
 |支持Androidx|3.1.5|从v3.1.0版本开始支持androidx|
-|支持android support|3.0.5|3.0.5版本对应3.1.3的功能，同时该版本为支持Android support的最后一个版本，后期也将不在提供维护，请大家尽快升级和适配Androidx|
+|支持android support|3.0.6|3.0.6版本对应3.1.5的功能，后期support将会不定期更新，主要还是看社区的反馈，请大家尽快升级和适配Androidx|
 
 
 #### 1. Gradle 依赖
