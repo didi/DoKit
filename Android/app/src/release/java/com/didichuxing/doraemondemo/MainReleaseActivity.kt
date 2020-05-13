@@ -12,13 +12,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
 import android.os.SystemClock
+import android.support.v7.app.AppCompatActivity
 import android.text.format.Formatter
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
@@ -31,7 +31,6 @@ import com.blankj.utilcode.util.ThreadUtils
 import com.blankj.utilcode.util.ThreadUtils.SimpleTask
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.didichuxing.doraemondemo.MainReleaseActivity
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
@@ -149,10 +148,8 @@ class MainReleaseActivity : AppCompatActivity(), View.OnClickListener {
 
     private val mLocationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            if (location != null) {
-                val string = "lat====>" + location.latitude + "  lng====>" + location.longitude
-                Log.i(TAG, "系统定位====>$string")
-            }
+            val string = "lat====>" + location.latitude + "  lng====>" + location.longitude
+            Log.i(TAG, "系统定位====>$string")
         }
 
         override fun onProviderDisabled(arg0: String) {}

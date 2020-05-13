@@ -21,7 +21,7 @@ android {
 
         buildConfigField "String", "LEAKCANARY_LIBRARY_VERSION", "\"1.6.3\""
         buildConfigField "String", "GIT_SHA", "\"${gitSha()}\""
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
 
