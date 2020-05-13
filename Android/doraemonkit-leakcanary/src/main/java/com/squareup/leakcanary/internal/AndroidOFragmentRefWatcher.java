@@ -53,7 +53,7 @@ class AndroidOFragmentRefWatcher implements FragmentRefWatcher {
 
   @Override
   public void watchFragments(Activity activity) {
-    FragmentManager fragmentManager = activity.getSupportFragmentManager();
+    FragmentManager fragmentManager = activity.getFragmentManager();
     fragmentManager.registerFragmentLifecycleCallbacks(fragmentLifecycleCallbacks, true);
   }
 }
