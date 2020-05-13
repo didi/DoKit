@@ -60,7 +60,7 @@ public final class DoKitPlugin implements Plugin<Project> {
                         .forEach(file -> {
                             try {
                                 String manifestPath = file.getPath() + "/AndroidManifest.xml";
-                                System.out.println("Dokit==manifestPath=>" + manifestPath);
+                                //System.out.println("Dokit==manifestPath=>" + manifestPath);
                                 File manifest = new File(manifestPath);
                                 if (manifest.exists()) {
                                     SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
@@ -81,7 +81,7 @@ public final class DoKitPlugin implements Plugin<Project> {
             try {
                 if (isDebug) {
                     DoKitExt dokitExtension = partProject.getExtensions().getByType(DoKitExt.class);
-                    System.out.println("DokitPluginExt==>" + dokitExtension.toString());
+                    //System.out.println("DokitPluginExt==>" + dokitExtension.toString());
                     DoKitExtUtil.getInstance().init(dokitExtension, appExtension);
                 }
 

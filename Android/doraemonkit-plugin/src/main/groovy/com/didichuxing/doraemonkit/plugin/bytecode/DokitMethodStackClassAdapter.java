@@ -159,7 +159,7 @@ public final class DokitMethodStackClassAdapter extends ClassVisitor {
                     break;
             }
         } catch (Exception e) {
-            System.out.println("e=====>" + e.getMessage());
+            //System.out.println("e=====>" + e.getMessage());
         }
 
         return mv;
@@ -181,17 +181,5 @@ public final class DokitMethodStackClassAdapter extends ClassVisitor {
         return desc.split(";").length - 1;
     }
 
-    /**
-     * 日志输出
-     *
-     * @param className
-     * @param access
-     * @param name
-     * @param desc
-     * @param signature
-     */
-    private void log(String className, int access, String name, String desc, String signature) {
-        System.out.println("DokitApplicationClassAdapter=matched=>" + "className=" + className + "   access=" + access + "  methodName=" + name + "  desc=" + desc + "  signature=" + signature);
-    }
 
 }

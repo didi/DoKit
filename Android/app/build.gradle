@@ -68,6 +68,7 @@ android {
 dokitExt {
     //dokit 插件开关
     dokitPluginSwitch true
+//    dokitLogSwitch false
     //通用设置
     comm {
         //地图经纬度开关

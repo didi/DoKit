@@ -22,15 +22,25 @@ public class DoKitExt {
      */
     public boolean dokitPluginSwitch = true;
 
+
+    /**
+     * dokit 编译日志开关 字段权限必须为public 否则无法进行赋值
+     */
+    public boolean dokitLogSwitch = false;
+
     public void dokitPluginSwitch(boolean dokitPluginSwitch) {
         this.dokitPluginSwitch = dokitPluginSwitch;
+    }
+
+
+    public void dokitLogSwitch(boolean dokitLogSwitch) {
+        this.dokitLogSwitch = dokitLogSwitch;
     }
 
 
     public CommExt comm = new CommExt();
 
     public SlowMethodExt slowMethod = new SlowMethodExt();
-
 
 
     /**
@@ -51,14 +61,12 @@ public class DoKitExt {
         action.execute(slowMethod);
     }
 
-    public void test() {
-        System.out.println("DoKitExt===>" + toString());
-    }
 
     @Override
     public String toString() {
         return "DoKitExt{" +
                 "dokitPluginSwitch=" + dokitPluginSwitch +
+                ", dokitLogSwitch=" + dokitLogSwitch +
                 ", commExt=" + comm +
                 ", slowMethodExt=" + slowMethod +
                 '}';

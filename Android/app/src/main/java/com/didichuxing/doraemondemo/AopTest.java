@@ -1,5 +1,7 @@
 package com.didichuxing.doraemondemo;
 
+import android.util.Log;
+
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -19,8 +21,10 @@ public class AopTest {
 //    }
 
 
-    public void AopTest() {
-
+    public void sleepMethod() {
+        long begin = System.currentTimeMillis();
+        Log.i(TAG, "我是耗时函数");
+        long costTime = System.currentTimeMillis() - begin;
     }
 
 

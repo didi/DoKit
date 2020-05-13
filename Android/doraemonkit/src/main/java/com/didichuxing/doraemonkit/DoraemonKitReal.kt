@@ -503,16 +503,13 @@ object DoraemonKitReal {
     /**
      * 显示系统悬浮窗icon
      */
-    private fun showSystemMainIcon() {
+    private fun showMainIcon() {
         if (ActivityUtils.getTopActivity() is UniversalActivity) {
             return
         }
         if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
             return
         }
-        val intent = DokitIntent(MainIconDokitView::class.java)
-        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE
-        DokitViewManager.getInstance().attach(intent)
         DokitViewManager.getInstance().attachMainIcon()
         DokitConstant.MAIN_ICON_HAS_SHOW = true
     }
@@ -520,7 +517,7 @@ object DoraemonKitReal {
     fun show() {
         DokitConstant.AWAYS_SHOW_MAIN_ICON = true
         if (!isShow) {
-            showSystemMainIcon()
+            showMainIcon()
         }
     }
 

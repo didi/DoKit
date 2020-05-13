@@ -1,5 +1,7 @@
 package com.didichuxing.doraemonkit.plugin.bytecode.method.urlconnection;
 
+import com.didichuxing.doraemonkit.plugin.DoKitExtUtil;
+
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.LocalVariablesSorter;
@@ -45,10 +47,10 @@ public final class UrlConnectionMethodAdapter extends LocalVariablesSorter imple
      *
      * @param opcode
      * @param owner
-     * @param name
+     * @param methodName
      * @param desc
      */
-    private void log(int opcode, String owner, String name, String desc, boolean isInterface) {
-        System.out.println("UrlConnectionMethodAdapter===matched====>" + "   className===" + className + "   methodName===" + methodName + "   opcode====" + opcode + "  owner===" + owner + "   methodName===" + name + "   desc===" + desc + "   isInterface===" + isInterface);
+    private void log(int opcode, String owner, String methodName, String desc, boolean isInterface) {
+        DoKitExtUtil.getInstance().log(this.getClass().getSimpleName(), owner, methodName, opcode, desc, "", -1);
     }
 }

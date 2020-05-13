@@ -122,7 +122,7 @@ public final class DokitSlowMethodClassAdapter extends ClassVisitor {
             }
 
             if (matchedMethod) {
-                System.out.println("DokitSlowMethod==className===>" + className + "   methodName===>" + methodName + "   thresholdTime==>" + DoKitExtUtil.getInstance().getSlowMethodExt().normalMethod.thresholdTime);
+                DoKitExtUtil.getInstance().log(this.getClass().getSimpleName(), className, methodName, access, desc, signature, DoKitExtUtil.getInstance().getSlowMethodExt().normalMethod.thresholdTime);
                 return mv == null ? null : new SlowMethodAdapter(mv, className, DoKitExtUtil.getInstance().getSlowMethodExt().normalMethod.thresholdTime, access, methodName, desc);
             }
 

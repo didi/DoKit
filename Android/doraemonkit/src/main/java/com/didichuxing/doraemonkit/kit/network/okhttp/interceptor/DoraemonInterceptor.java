@@ -47,11 +47,11 @@ public class DoraemonInterceptor implements Interceptor {
         }
 
         Request request = chain.request();
-        Response response = null;
+        Response response;
         try {
             response = chain.proceed(request);
         } catch (Exception e) {
-            ResponseBody responseBody = ResponseBody.create(response.body().contentType(), "");
+            ResponseBody responseBody = ResponseBody.create(MediaType.parse("application/json;charset=utf-8"), "");
             return new Response.Builder()
                     .code(400)
                     .message(String.format("%s==>Exception:%s", chain.request().url().host(), e.getMessage()))

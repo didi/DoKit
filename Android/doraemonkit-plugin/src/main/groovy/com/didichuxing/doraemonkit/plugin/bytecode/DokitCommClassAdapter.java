@@ -170,12 +170,12 @@ public final class DokitCommClassAdapter extends ClassVisitor {
      *
      * @param className
      * @param access
-     * @param name
+     * @param methodName
      * @param desc
      * @param signature
      */
-    private void log(String className, int access, String name, String desc, String signature) {
-        System.out.println("DokitCommClassAdapter===matched====>" + "  className===" + className + "   access===" + access + "   methodName===" + name + "   desc===" + desc + "   signature===" + signature);
+    private void log(String className, int access, String methodName, String desc, String signature) {
+        DoKitExtUtil.getInstance().log(this.getClass().getSimpleName(), className, methodName, access, desc, signature, -1);
     }
 
 }

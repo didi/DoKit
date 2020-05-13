@@ -23,6 +23,7 @@ public class DoKitExtUtil {
      * dokit 插件开关 字段权限必须为public 否则无法进行赋值
      */
     private boolean mDokitPluginSwitch = true;
+    private boolean mDokitLogSwitch = false;
     private List<String> applications = new ArrayList<>();
     private CommExt commExt = new CommExt();
     private SlowMethodExt slowMethodExt = new SlowMethodExt();
@@ -30,6 +31,10 @@ public class DoKitExtUtil {
 
     public boolean dokitPluginSwitchOpen() {
         return mDokitPluginSwitch;
+    }
+
+    public boolean dokitLogSwitchOpen() {
+        return mDokitLogSwitch;
     }
 
     public CommExt getCommExt() {
@@ -60,6 +65,7 @@ public class DoKitExtUtil {
     public void init(DoKitExt dokitExtension, AppExtension appExtension) {
         if (dokitExtension != null) {
             this.mDokitPluginSwitch = dokitExtension.dokitPluginSwitch;
+            this.mDokitLogSwitch = dokitExtension.dokitLogSwitch;
             //设置普通的配置
             this.commExt = dokitExtension.comm;
 
@@ -147,5 +153,12 @@ public class DoKitExtUtil {
             "com/didichuxing/doraemonkit/reflection",
             "com/didichuxing/doraemonkit/zxing"
     };
+
+
+    public void log(String tag, String className, String methodName, int access, String desc, String signature, int thresholdTime) {
+        if (mDokitLogSwitch) {
+            System.out.println(tag + "===matched====>" + "  className===" + className + "   methodName===" + methodName + "   access===" + access + "   desc===" + desc + "   signature===" + signature + "    thresholdTime===" + thresholdTime);
+        }
+    }
 
 }
