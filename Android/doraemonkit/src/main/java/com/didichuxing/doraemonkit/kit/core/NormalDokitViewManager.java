@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 
 import com.blankj.utilcode.util.BarUtils;
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.health.CountDownDokitView;
@@ -171,6 +172,11 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             dokitIntent.bundle = dokitViewInfo.getBundle();
             attach(dokitIntent);
         }
+        //判断是否有MainIcon
+        if (DokitConstant.AWAYS_SHOW_MAIN_ICON && !DoraemonKit.isShow()) {
+            DoraemonKit.show();
+        }
+
         //倒计时DokitView
         attachCountDownDokitView(activity);
     }
