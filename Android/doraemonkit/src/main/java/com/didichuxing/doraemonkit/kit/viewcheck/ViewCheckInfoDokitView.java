@@ -152,7 +152,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
                 mDesc.setText(descText);
                 mDesc.setVisibility(View.VISIBLE);
             }
-            AppCompatActivity activity = (AppCompatActivity) ActivityUtils.getTopActivity();
+            Activity activity = ActivityUtils.getTopActivity();
             if (activity != null) {
                 String activityText = activity.getClass().getSimpleName();
                 setTextAndVisible(mActivityInfo, getResources().getString(R.string.dk_view_check_info_activity, activityText));
@@ -222,7 +222,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
         }
     }
 
-    private String getVisibleFragment(AppCompatActivity activity) {
+    private String getVisibleFragment(Activity activity) {
         if (activity == null) {
             return null;
         }
@@ -250,14 +250,14 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
         }
     }
 
-    private String getFragmentForActivity(AppCompatActivity activity) {
+    private String getFragmentForActivity(Activity activity) {
         StringBuilder builder = new StringBuilder();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            FragmentManager manager = activity.getSupportFragmentManager();
-            List<android.support.v4.app.Fragment> list = manager.getFragments();
+            android.app.FragmentManager manager = activity.getFragmentManager();
+            List<android.app.Fragment> list = manager.getFragments();
             if (list != null && list.size() > 0) {
                 for (int i = 0; i < list.size(); i++) {
-                    android.support.v4.app.Fragment fragment = list.get(i);
+                    android.app.Fragment fragment = list.get(i);
                     if (fragment != null && fragment.isVisible()) {
                         builder.append(fragment.getClass().getSimpleName() + "#" + fragment.getId());
                         if (i < list.size() - 1) {

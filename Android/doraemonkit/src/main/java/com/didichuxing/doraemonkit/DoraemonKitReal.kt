@@ -21,7 +21,6 @@ import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerKit
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerKit
-import com.didichuxing.doraemonkit.kit.core.DokitIntent
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureKit
@@ -37,7 +36,6 @@ import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.BigFi
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureKit
 import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit
 import com.didichuxing.doraemonkit.kit.loginfo.LogInfoKit
-import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
 import com.didichuxing.doraemonkit.kit.methodtrace.MethodCostKit
 import com.didichuxing.doraemonkit.kit.network.MockKit
 import com.didichuxing.doraemonkit.kit.network.NetworkKit
@@ -362,6 +360,7 @@ object DoraemonKitReal {
             if (file.isFile) {
                 //若是文件，直接打印 byte
                 val fileLength = FileUtils.getLength(file)
+
                 if (fileLength > FILE_LENGTH_THRESHOLD) {
                     val fileBean = BigFileBean()
                     fileBean.fileName = FileUtils.getFileName(file)
@@ -503,16 +502,13 @@ object DoraemonKitReal {
     /**
      * 显示系统悬浮窗icon
      */
-    private fun showSystemMainIcon() {
+    private fun showMainIcon() {
         if (ActivityUtils.getTopActivity() is UniversalActivity) {
             return
         }
         if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
             return
         }
-        val intent = DokitIntent(MainIconDokitView::class.java)
-        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE
-        DokitViewManager.getInstance().attach(intent)
         DokitViewManager.getInstance().attachMainIcon()
         DokitConstant.MAIN_ICON_HAS_SHOW = true
     }
@@ -520,7 +516,7 @@ object DoraemonKitReal {
     fun show() {
         DokitConstant.AWAYS_SHOW_MAIN_ICON = true
         if (!isShow) {
-            showSystemMainIcon()
+            showMainIcon()
         }
     }
 
