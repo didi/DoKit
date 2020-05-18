@@ -1,0 +1,74 @@
+/* 
+  DoraemonKitDemo.strings
+  DoKitSwiftDemo
+
+  Created by didi on 2020/5/13.
+  Copyright © 2020 didi. All rights reserved.
+*/
+{
+    
+    //DoraemonKitDemo
+    
+    
+    //沙盒测试Demo
+    "沙盒测试Demo"                                 = "沙盒测试Demo";
+    "添加一条json到沙盒中"                     = "添加一条json到沙盒中";
+    "添加一张图片到沙盒中"                   = "添加一张图片到沙盒中";
+    "添加一段mp4到沙盒中"                      = "添加一段mp4到沙盒中";
+    "添加doc、xlsx、pdf到沙盒中"               = "添加doc、xlsx、pdf到沙盒中";
+    "添加html到沙盒中"                           = "添加html到沙盒中";
+    "添加DB到沙盒中"                             = "添加DB到沙盒中";
+    
+    //日志测试Demo
+    "日志测试Demo"                                 = "日志测试Demo";
+    "添加一条NSLog日志"                          = "添加一条NSLog日志";
+    "添加一条CocoaLumberjack日志"                = "添加一条CocoaLumberjack日志";
+    
+    //性能测试Demo
+    "性能测试Demo"                                 = "性能测试Demo";
+    "低FPS操作打开"                               = "低FPS操作打开";
+    "高CPU操作打开"                               = "高CPU操作打开";
+    "高CPU操作关闭"                               = "高CPU操作关闭";
+    "高内存操作打开"                            = "高内存操作打开";
+    "高内存操作关闭"                            = "高内存操作关闭";
+    "高流量操作打开"                            = "高流量操作打开";
+    "卡顿操作打开"                               = "卡顿操作打开";
+    
+    //视觉测试Demo
+    "视觉测试Demo"                                 = "视觉测试Demo";
+    "我是来测试的"                               = "我是来测试的";
+    
+    //网络测试Demo
+    "网络测试Demo"                                 = "网络测试Demo";
+    "发送一条URLConnection请求"                  = "发送一条URLConnection请求";
+    "发送一条NSURLSession请求"                   = "发送一条NSURLSession请求";
+    "发送一条AFNetworking请求"                   = "发送一条AFNetworking请求";
+    "发送一条AFNetworking请求2"                  = "发送一条AFNetworking请求2";
+    "打开UIWebView"                                  = "打开UIWebView";
+    "打开WKWebView"                                  = "打开WKWebView";
+    "图片测试"                              = "图片测试";
+    "Mock测试"                              = "Mock测试";
+    "Mock测试2"                             = "Mock测试2";
+    
+    //模拟位置Demo
+    "模拟位置Demo"                                 = "模拟位置Demo";
+    "模拟位置"                                     = "模拟位置";
+    
+    //crash
+    "crash触发Demo"                                  = "crash触发Demo";
+    "uncaughtException"                                = "uncaughtException";
+    "signalException"                                  = "signalException";
+    
+    //通用测试Demo
+    "通用测试Demo"                                 = "通用测试Demo";
+    "子线程UI操作"                                = "子线程UI操作";
+    "显示入口"                                   = "显示入口";
+    "隐藏入口"                                   = "隐藏入口";
+    
+    //测试泄漏测试
+    "内存泄漏测试"                            = "内存泄漏测试";
+    
+    //Other
+    "block方式加入插件"                       = "block方式加入插件";
+    "测试插件"                                     = "测试插件";
+}

@@ -7,6 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0AC750A0246BD56400F87363 /* DoraemonDemoBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC7509F246BD56400F87363 /* DoraemonDemoBaseViewController.swift */; };
+		0AC750A2246BD5C000F87363 /* DoraemonDemoHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC750A1246BD5C000F87363 /* DoraemonDemoHomeViewController.swift */; };
+		0AC750A5246BD90900F87363 /* TestPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC750A4246BD90900F87363 /* TestPlugin.swift */; };
+		0AC750A8246BDA2700F87363 /* DoraemonDemoi18Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC750A7246BDA2700F87363 /* DoraemonDemoi18Util.swift */; };
+		0AC750AB246BDC6300F87363 /* DoraemonKitDemo.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0AC750AD246BDC6300F87363 /* DoraemonKitDemo.strings */; };
+		0AC750B2246BEA6D00F87363 /* DoraemonDemoDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC750B1246BEA6D00F87363 /* DoraemonDemoDefine.swift */; };
+		0AC750B5246BF5C500F87363 /* DoraemonDemoSanboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC750B4246BF5C500F87363 /* DoraemonDemoSanboxViewController.swift */; };
+		0AC750B7246BF9D700F87363 /* UIColor+DoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC750B6246BF9D700F87363 /* UIColor+DoKit.swift */; };
+		0AC750B9246BFA8500F87363 /* UIView+DoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC750B8246BFA8500F87363 /* UIView+DoKit.swift */; };
+		0AC750BB246CF4C500F87363 /* Dictionary+DoKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC750BA246CF4C500F87363 /* Dictionary+DoKit.swift */; };
+		0AC750CF246D411400F87363 /* Doraemon.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 0AC750C9246D411300F87363 /* Doraemon.xlsx */; };
+		0AC750D0246D411400F87363 /* huoying.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 0AC750CA246D411300F87363 /* huoying.mp4 */; };
+		0AC750D1246D411400F87363 /* WebpDemo.webp in Resources */ = {isa = PBXBuildFile; fileRef = 0AC750CB246D411300F87363 /* WebpDemo.webp */; };
+		0AC750D2246D411400F87363 /* Doraemon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 0AC750CC246D411400F87363 /* Doraemon.pdf */; };
+		0AC750D3246D411400F87363 /* doraemon.html in Resources */ = {isa = PBXBuildFile; fileRef = 0AC750CD246D411400F87363 /* doraemon.html */; };
+		0AC750D4246D411400F87363 /* Doraemon.docx in Resources */ = {isa = PBXBuildFile; fileRef = 0AC750CE246D411400F87363 /* Doraemon.docx */; };
+		0AC750D7246E3DCF00F87363 /* DoraemonDemoLoggerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC750D6246E3DCF00F87363 /* DoraemonDemoLoggerViewController.swift */; };
+		0AC750DA246E7FE200F87363 /* DoraemonDemoPerformanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC750D9246E7FE200F87363 /* DoraemonDemoPerformanceViewController.swift */; };
 		0AE1029E24693DAB006CA490 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE1029D24693DAB006CA490 /* AppDelegate.swift */; };
 		0AE102A024693DAB006CA490 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE1029F24693DAB006CA490 /* SceneDelegate.swift */; };
 		0AE102A224693DAB006CA490 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE102A124693DAB006CA490 /* ViewController.swift */; };
@@ -17,6 +35,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0AC7509F246BD56400F87363 /* DoraemonDemoBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoBaseViewController.swift; sourceTree = "<group>"; };
+		0AC750A1246BD5C000F87363 /* DoraemonDemoHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoHomeViewController.swift; sourceTree = "<group>"; };
+		0AC750A4246BD90900F87363 /* TestPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPlugin.swift; sourceTree = "<group>"; };
+		0AC750A7246BDA2700F87363 /* DoraemonDemoi18Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoi18Util.swift; sourceTree = "<group>"; };
+		0AC750AC246BDC6300F87363 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/DoraemonKitDemo.strings; sourceTree = "<group>"; };
+		0AC750AE246BDCA600F87363 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Main.strings"; sourceTree = "<group>"; };
+		0AC750AF246BDCA600F87363 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		0AC750B0246BDCA700F87363 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/DoraemonKitDemo.strings"; sourceTree = "<group>"; };
+		0AC750B1246BEA6D00F87363 /* DoraemonDemoDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoDefine.swift; sourceTree = "<group>"; };
+		0AC750B4246BF5C500F87363 /* DoraemonDemoSanboxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoSanboxViewController.swift; sourceTree = "<group>"; };
+		0AC750B6246BF9D700F87363 /* UIColor+DoKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+DoKit.swift"; sourceTree = "<group>"; };
+		0AC750B8246BFA8500F87363 /* UIView+DoKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+DoKit.swift"; sourceTree = "<group>"; };
+		0AC750BA246CF4C500F87363 /* Dictionary+DoKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+DoKit.swift"; sourceTree = "<group>"; };
+		0AC750C9246D411300F87363 /* Doraemon.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; path = Doraemon.xlsx; sourceTree = "<group>"; };
+		0AC750CA246D411300F87363 /* huoying.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = huoying.mp4; sourceTree = "<group>"; };
+		0AC750CB246D411300F87363 /* WebpDemo.webp */ = {isa = PBXFileReference; lastKnownFileType = file; path = WebpDemo.webp; sourceTree = "<group>"; };
+		0AC750CC246D411400F87363 /* Doraemon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = Doraemon.pdf; sourceTree = "<group>"; };
+		0AC750CD246D411400F87363 /* doraemon.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = doraemon.html; sourceTree = "<group>"; };
+		0AC750CE246D411400F87363 /* Doraemon.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = Doraemon.docx; sourceTree = "<group>"; };
+		0AC750D6246E3DCF00F87363 /* DoraemonDemoLoggerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoLoggerViewController.swift; sourceTree = "<group>"; };
+		0AC750D9246E7FE200F87363 /* DoraemonDemoPerformanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoPerformanceViewController.swift; sourceTree = "<group>"; };
 		0AE1029A24693DAB006CA490 /* DoKitSwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoKitSwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AE1029D24693DAB006CA490 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0AE1029F24693DAB006CA490 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -42,6 +81,79 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0AC7509D246BD51500F87363 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				0AC750A1246BD5C000F87363 /* DoraemonDemoHomeViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		0AC7509E246BD53800F87363 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				0AC7509F246BD56400F87363 /* DoraemonDemoBaseViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		0AC750A3246BD8E200F87363 /* Plugin */ = {
+			isa = PBXGroup;
+			children = (
+				0AC750A4246BD90900F87363 /* TestPlugin.swift */,
+			);
+			path = Plugin;
+			sourceTree = "<group>";
+		};
+		0AC750A6246BDA0D00F87363 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				0AC750A7246BDA2700F87363 /* DoraemonDemoi18Util.swift */,
+				0AC750B1246BEA6D00F87363 /* DoraemonDemoDefine.swift */,
+				0AC750B6246BF9D700F87363 /* UIColor+DoKit.swift */,
+				0AC750B8246BFA8500F87363 /* UIView+DoKit.swift */,
+				0AC750BA246CF4C500F87363 /* Dictionary+DoKit.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		0AC750B3246BF57F00F87363 /* Sanbox */ = {
+			isa = PBXGroup;
+			children = (
+				0AC750B4246BF5C500F87363 /* DoraemonDemoSanboxViewController.swift */,
+			);
+			path = Sanbox;
+			sourceTree = "<group>";
+		};
+		0AC750BC246D40B400F87363 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				0AC750CE246D411400F87363 /* Doraemon.docx */,
+				0AC750CD246D411400F87363 /* doraemon.html */,
+				0AC750CC246D411400F87363 /* Doraemon.pdf */,
+				0AC750C9246D411300F87363 /* Doraemon.xlsx */,
+				0AC750CA246D411300F87363 /* huoying.mp4 */,
+				0AC750CB246D411300F87363 /* WebpDemo.webp */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		0AC750D5246E3DA400F87363 /* Logger */ = {
+			isa = PBXGroup;
+			children = (
+				0AC750D6246E3DCF00F87363 /* DoraemonDemoLoggerViewController.swift */,
+			);
+			path = Logger;
+			sourceTree = "<group>";
+		};
+		0AC750D8246E7FA700F87363 /* Performance */ = {
+			isa = PBXGroup;
+			children = (
+				0AC750D9246E7FE200F87363 /* DoraemonDemoPerformanceViewController.swift */,
+			);
+			path = Performance;
+			sourceTree = "<group>";
+		};
 		0AE1029124693DAB006CA490 = {
 			isa = PBXGroup;
 			children = (
@@ -63,6 +175,14 @@
 		0AE1029C24693DAB006CA490 /* DoKitSwiftDemo */ = {
 			isa = PBXGroup;
 			children = (
+				0AC750D8246E7FA700F87363 /* Performance */,
+				0AC750D5246E3DA400F87363 /* Logger */,
+				0AC750BC246D40B400F87363 /* Resource */,
+				0AC750B3246BF57F00F87363 /* Sanbox */,
+				0AC750A6246BDA0D00F87363 /* Util */,
+				0AC750A3246BD8E200F87363 /* Plugin */,
+				0AC7509E246BD53800F87363 /* Base */,
+				0AC7509D246BD51500F87363 /* Home */,
 				0AE1029D24693DAB006CA490 /* AppDelegate.swift */,
 				0AE1029F24693DAB006CA490 /* SceneDelegate.swift */,
 				0AE102A124693DAB006CA490 /* ViewController.swift */,
@@ -70,6 +190,7 @@
 				0AE102A624693DAD006CA490 /* Assets.xcassets */,
 				0AE102A824693DAD006CA490 /* LaunchScreen.storyboard */,
 				0AE102AB24693DAD006CA490 /* Info.plist */,
+				0AC750AD246BDC6300F87363 /* DoraemonKitDemo.strings */,
 			);
 			path = DoKitSwiftDemo;
 			sourceTree = "<group>";
@@ -88,7 +209,6 @@
 				1AFC6EE9B77134AC5569E638 /* Pods-DoKitSwiftDemo.debug.xcconfig */,
 				CA80ADA0C49F110A66409112 /* Pods-DoKitSwiftDemo.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -136,6 +256,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 0AE1029124693DAB006CA490;
 			productRefGroup = 0AE1029B24693DAB006CA490 /* Products */;
@@ -152,7 +273,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AC750D3246D411400F87363 /* doraemon.html in Resources */,
 				0AE102AA24693DAD006CA490 /* LaunchScreen.storyboard in Resources */,
+				0AC750D4246D411400F87363 /* Doraemon.docx in Resources */,
+				0AC750D2246D411400F87363 /* Doraemon.pdf in Resources */,
+				0AC750AB246BDC6300F87363 /* DoraemonKitDemo.strings in Resources */,
+				0AC750CF246D411400F87363 /* Doraemon.xlsx in Resources */,
+				0AC750D1246D411400F87363 /* WebpDemo.webp in Resources */,
+				0AC750D0246D411400F87363 /* huoying.mp4 in Resources */,
 				0AE102A724693DAD006CA490 /* Assets.xcassets in Resources */,
 				0AE102A524693DAB006CA490 /* Main.storyboard in Resources */,
 			);
@@ -212,19 +340,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AC750B9246BFA8500F87363 /* UIView+DoKit.swift in Sources */,
+				0AC750BB246CF4C500F87363 /* Dictionary+DoKit.swift in Sources */,
 				0AE102A224693DAB006CA490 /* ViewController.swift in Sources */,
+				0AC750A8246BDA2700F87363 /* DoraemonDemoi18Util.swift in Sources */,
+				0AC750A2246BD5C000F87363 /* DoraemonDemoHomeViewController.swift in Sources */,
 				0AE1029E24693DAB006CA490 /* AppDelegate.swift in Sources */,
 				0AE102A024693DAB006CA490 /* SceneDelegate.swift in Sources */,
+				0AC750A5246BD90900F87363 /* TestPlugin.swift in Sources */,
+				0AC750A0246BD56400F87363 /* DoraemonDemoBaseViewController.swift in Sources */,
+				0AC750B7246BF9D700F87363 /* UIColor+DoKit.swift in Sources */,
+				0AC750D7246E3DCF00F87363 /* DoraemonDemoLoggerViewController.swift in Sources */,
+				0AC750DA246E7FE200F87363 /* DoraemonDemoPerformanceViewController.swift in Sources */,
+				0AC750B5246BF5C500F87363 /* DoraemonDemoSanboxViewController.swift in Sources */,
+				0AC750B2246BEA6D00F87363 /* DoraemonDemoDefine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		0AC750AD246BDC6300F87363 /* DoraemonKitDemo.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0AC750AC246BDC6300F87363 /* en */,
+				0AC750B0246BDCA700F87363 /* zh-Hans */,
+			);
+			name = DoraemonKitDemo.strings;
+			sourceTree = "<group>";
+		};
 		0AE102A324693DAB006CA490 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				0AE102A424693DAB006CA490 /* Base */,
+				0AC750AE246BDCA600F87363 /* zh-Hans */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -233,6 +382,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				0AE102A924693DAD006CA490 /* Base */,
+				0AC750AF246BDCA600F87363 /* zh-Hans */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -244,6 +394,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -304,6 +455,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
