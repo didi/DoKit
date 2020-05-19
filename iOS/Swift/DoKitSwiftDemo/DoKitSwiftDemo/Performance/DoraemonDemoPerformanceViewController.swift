@@ -11,7 +11,11 @@ import UIKit
 class DoraemonDemoPerformanceViewController: DoraemonDemoBaseViewController {
     var highCpu = false
     var cpuThread: Thread?
+    var highMemory = false
+    var memoryThread: Thread?
+    var addMemory: UnsafeMutableRawPointer?
     var btn1: UIButton!
+    var btn2: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = DoraemonDemoLocalizedString("性能测试Demo")
@@ -28,7 +32,7 @@ class DoraemonDemoPerformanceViewController: DoraemonDemoBaseViewController {
         btn1.addTarget(self, action: #selector(cpuClick), for: .touchUpInside);
         view.addSubview(btn1)
         
-        let btn2 = UIButton(frame: CGRect(x: 0, y: btn1.bottom+20, width: view.width, height: 60.0))
+        btn2 = UIButton(frame: CGRect(x: 0, y: btn1.bottom+20, width: view.width, height: 60.0))
         btn2.backgroundColor = UIColor.orange
         btn2.setTitle(DoraemonDemoLocalizedString("高内存操作打开"), for: .normal)
         btn2.addTarget(self, action: #selector(memoryClick), for: .touchUpInside);
@@ -68,22 +72,77 @@ class DoraemonDemoPerformanceViewController: DoraemonDemoBaseViewController {
     }
     
     @objc func memoryClick() {
-        
+        highMemory = !highMemory
+        if highMemory {
+            memoryThread = Thread(target: self, selector: #selector(highMemoryOperate), object: nil)
+            memoryThread?.name = "HighMemoryThread"
+            memoryThread?.start()
+            
+            btn2.setTitle("高内存操作关闭", for: .normal)
+        }else{
+            memoryThread?.cancel()
+            memoryThread = nil
+            
+            btn2.setTitle("高内存操作打开", for: .normal)
+        }
     }
     
     @objc func flowClick() {
-        
+        for _ in 0...10 {
+            let url: URL = URL(string: "https://www.taobao.com/")!
+            let request: URLRequest = URLRequest(url: url)
+            let configuration: URLSessionConfiguration = URLSessionConfiguration.default
+            let session:URLSession = URLSession(configuration: configuration)
+            
+            let task:URLSessionDataTask = session.dataTask(with: request) { (data:Data?, respanse:URLResponse?, error:Error?) in
+                if error == nil{
+                    let result: String = String(data: data!, encoding: String.Encoding.utf8)!
+                    print("请求成功 = \(result)")
+                }else{
+                    print("请求失败 error = \(error.debugDescription)")
+                }
+            }
+            task.resume()
+            
+        }
     }
     
     @objc func anrClick() {
-        
+        print("0.4s anr")
+        Thread.sleep(forTimeInterval: 0.4)
     }
     
-    func highCPUOperate() {
+    @objc func highCPUOperate() {
         while true {
-            if Thread.current {
-                <#code#>
+            if Thread.current.isCancelled {
+                Thread.exit()
             }
+        }
+    }
+    
+    @objc func highMemoryOperate() {
+        let addMemSize = 400
+        let interval: TimeInterval = 2
+        while true {
+            if Thread.current.isCancelled {
+                Thread.exit()
+            }
+            if addMemory == nil {
+                addMemory = malloc(1024*1024*addMemSize)
+                memset(addMemory, 0, 1024*1024*addMemSize)
+            }
+            
+            Thread.sleep(forTimeInterval: interval)
+            if Thread.current.isCancelled {
+                Thread.exit()
+            }
+            
+            if addMemory != nil {
+                free(addMemory)
+                addMemory = nil
+            }
+            
+            Thread.sleep(forTimeInterval: interval)
         }
     }
 }

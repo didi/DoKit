@@ -33,7 +33,8 @@ class DoraemonDemoHomeViewController: DoraemonDemoBaseViewController, UITableVie
                  "模拟位置Demo",
                  "crash触发Demo",
                  "通用测试Demo",
-                 "内存泄漏测试"];
+                 "内存泄漏测试",
+                 "Call OC"];
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -60,8 +61,20 @@ class DoraemonDemoHomeViewController: DoraemonDemoBaseViewController, UITableVie
             vc = DoraemonDemoLoggerViewController()
         case 2:
             vc = DoraemonDemoPerformanceViewController()
+        case 3:
+            vc = DoraemonDemoUIViewController()
+        case 4:
+            vc = DoraemonDemoNetViewController()
+        case 5:
+            vc = DoraemonDemoGPSViewController()
+        case 6:
+            vc = DoraemonDemoCrashViewController()
+        case 7:
+            vc = DoraemonDemoCommonViewController()
+        case 8:
+            vc = DoraemonDemoMemoryLeakViewController()
         default:
-            vc = DoraemonDemoSanboxViewController()
+            vc = DoraemonDemoOCViewController()
         }
         
         navigationController?.pushViewController(vc, animated: true)

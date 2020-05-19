@@ -81,7 +81,7 @@ Pod::Spec.new do |s|
       'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithMLeaksFinder'
     }
     ss.dependency 'DoraemonKit/Core'
-    #ss.dependency 'FBRetainCycleDetector'
+    ss.dependency 'FBRetainCycleDetector'
   end
 end
 

@@ -3,10 +3,21 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A652E0A24726E0E00BC12A8 /* DoraemonDemoUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A652E0924726E0E00BC12A8 /* DoraemonDemoUIViewController.swift */; };
+		0A652E0D24727B5700BC12A8 /* DoraemonDemoNetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A652E0C24727B5700BC12A8 /* DoraemonDemoNetViewController.swift */; };
+		0A652E122472905700BC12A8 /* DoraemonDemoOCViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A652E112472905700BC12A8 /* DoraemonDemoOCViewController.m */; };
+		0A652E1C2472B37900BC12A8 /* DoraemonDemoGPSViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A652E1B2472B37900BC12A8 /* DoraemonDemoGPSViewController.swift */; };
+		0A652E1E2472B78700BC12A8 /* DoraemonDemoGPSAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A652E1D2472B78700BC12A8 /* DoraemonDemoGPSAnnotation.swift */; };
+		0A652E2124737A6100BC12A8 /* DoraemonDemoCrashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A652E2024737A6100BC12A8 /* DoraemonDemoCrashViewController.swift */; };
+		0A652E2424738A4600BC12A8 /* DoraemonDemoCommonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A652E2324738A4600BC12A8 /* DoraemonDemoCommonViewController.swift */; };
+		0A652E272473ADE000BC12A8 /* DoraemonDemoMemoryLeakViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A652E262473ADE000BC12A8 /* DoraemonDemoMemoryLeakViewController.swift */; };
+		0A652E292473B2DA00BC12A8 /* DoraemonDemoSwiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A652E282473B2DA00BC12A8 /* DoraemonDemoSwiftViewController.swift */; };
+		0A652E2B2473BE5800BC12A8 /* DoraemonDemoMemoryLeakView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A652E2A2473BE5800BC12A8 /* DoraemonDemoMemoryLeakView.swift */; };
+		0A652E2D2473C44D00BC12A8 /* DoraemonDemoMemoryLeakModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A652E2C2473C44D00BC12A8 /* DoraemonDemoMemoryLeakModel.swift */; };
 		0AC750A0246BD56400F87363 /* DoraemonDemoBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC7509F246BD56400F87363 /* DoraemonDemoBaseViewController.swift */; };
 		0AC750A2246BD5C000F87363 /* DoraemonDemoHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC750A1246BD5C000F87363 /* DoraemonDemoHomeViewController.swift */; };
 		0AC750A5246BD90900F87363 /* TestPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC750A4246BD90900F87363 /* TestPlugin.swift */; };
@@ -27,7 +38,6 @@
 		0AC750DA246E7FE200F87363 /* DoraemonDemoPerformanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC750D9246E7FE200F87363 /* DoraemonDemoPerformanceViewController.swift */; };
 		0AE1029E24693DAB006CA490 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE1029D24693DAB006CA490 /* AppDelegate.swift */; };
 		0AE102A024693DAB006CA490 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE1029F24693DAB006CA490 /* SceneDelegate.swift */; };
-		0AE102A224693DAB006CA490 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE102A124693DAB006CA490 /* ViewController.swift */; };
 		0AE102A524693DAB006CA490 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A324693DAB006CA490 /* Main.storyboard */; };
 		0AE102A724693DAD006CA490 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A624693DAD006CA490 /* Assets.xcassets */; };
 		0AE102AA24693DAD006CA490 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A824693DAD006CA490 /* LaunchScreen.storyboard */; };
@@ -35,6 +45,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A652E0924726E0E00BC12A8 /* DoraemonDemoUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoUIViewController.swift; sourceTree = "<group>"; };
+		0A652E0C24727B5700BC12A8 /* DoraemonDemoNetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoNetViewController.swift; sourceTree = "<group>"; };
+		0A652E0F2472905700BC12A8 /* DoKitSwiftDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DoKitSwiftDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		0A652E102472905700BC12A8 /* DoraemonDemoOCViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoOCViewController.h; sourceTree = "<group>"; };
+		0A652E112472905700BC12A8 /* DoraemonDemoOCViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoOCViewController.m; sourceTree = "<group>"; };
+		0A652E1B2472B37900BC12A8 /* DoraemonDemoGPSViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoGPSViewController.swift; sourceTree = "<group>"; };
+		0A652E1D2472B78700BC12A8 /* DoraemonDemoGPSAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoGPSAnnotation.swift; sourceTree = "<group>"; };
+		0A652E2024737A6100BC12A8 /* DoraemonDemoCrashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoCrashViewController.swift; sourceTree = "<group>"; };
+		0A652E2324738A4600BC12A8 /* DoraemonDemoCommonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoCommonViewController.swift; sourceTree = "<group>"; };
+		0A652E262473ADE000BC12A8 /* DoraemonDemoMemoryLeakViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoMemoryLeakViewController.swift; sourceTree = "<group>"; };
+		0A652E282473B2DA00BC12A8 /* DoraemonDemoSwiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoSwiftViewController.swift; sourceTree = "<group>"; };
+		0A652E2A2473BE5800BC12A8 /* DoraemonDemoMemoryLeakView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoMemoryLeakView.swift; sourceTree = "<group>"; };
+		0A652E2C2473C44D00BC12A8 /* DoraemonDemoMemoryLeakModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoMemoryLeakModel.swift; sourceTree = "<group>"; };
 		0AC7509F246BD56400F87363 /* DoraemonDemoBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoBaseViewController.swift; sourceTree = "<group>"; };
 		0AC750A1246BD5C000F87363 /* DoraemonDemoHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoHomeViewController.swift; sourceTree = "<group>"; };
 		0AC750A4246BD90900F87363 /* TestPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestPlugin.swift; sourceTree = "<group>"; };
@@ -59,7 +82,6 @@
 		0AE1029A24693DAB006CA490 /* DoKitSwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoKitSwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AE1029D24693DAB006CA490 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0AE1029F24693DAB006CA490 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		0AE102A124693DAB006CA490 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0AE102A424693DAB006CA490 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0AE102A624693DAD006CA490 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0AE102A924693DAD006CA490 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -81,6 +103,67 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A652E0824726DF000BC12A8 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				0A652E0924726E0E00BC12A8 /* DoraemonDemoUIViewController.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		0A652E0B2472714F00BC12A8 /* Net */ = {
+			isa = PBXGroup;
+			children = (
+				0A652E0C24727B5700BC12A8 /* DoraemonDemoNetViewController.swift */,
+			);
+			path = Net;
+			sourceTree = "<group>";
+		};
+		0A652E0E2472901800BC12A8 /* OC */ = {
+			isa = PBXGroup;
+			children = (
+				0A652E102472905700BC12A8 /* DoraemonDemoOCViewController.h */,
+				0A652E112472905700BC12A8 /* DoraemonDemoOCViewController.m */,
+				0A652E282473B2DA00BC12A8 /* DoraemonDemoSwiftViewController.swift */,
+			);
+			path = OC;
+			sourceTree = "<group>";
+		};
+		0A652E172472B34500BC12A8 /* MockGPS */ = {
+			isa = PBXGroup;
+			children = (
+				0A652E1B2472B37900BC12A8 /* DoraemonDemoGPSViewController.swift */,
+				0A652E1D2472B78700BC12A8 /* DoraemonDemoGPSAnnotation.swift */,
+			);
+			path = MockGPS;
+			sourceTree = "<group>";
+		};
+		0A652E1F24737A2D00BC12A8 /* Crash */ = {
+			isa = PBXGroup;
+			children = (
+				0A652E2024737A6100BC12A8 /* DoraemonDemoCrashViewController.swift */,
+			);
+			path = Crash;
+			sourceTree = "<group>";
+		};
+		0A652E2224738A3100BC12A8 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				0A652E2324738A4600BC12A8 /* DoraemonDemoCommonViewController.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		0A652E252473ADAE00BC12A8 /* MemoryLeak */ = {
+			isa = PBXGroup;
+			children = (
+				0A652E262473ADE000BC12A8 /* DoraemonDemoMemoryLeakViewController.swift */,
+				0A652E2A2473BE5800BC12A8 /* DoraemonDemoMemoryLeakView.swift */,
+				0A652E2C2473C44D00BC12A8 /* DoraemonDemoMemoryLeakModel.swift */,
+			);
+			path = MemoryLeak;
+			sourceTree = "<group>";
+		};
 		0AC7509D246BD51500F87363 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +258,13 @@
 		0AE1029C24693DAB006CA490 /* DoKitSwiftDemo */ = {
 			isa = PBXGroup;
 			children = (
+				0A652E252473ADAE00BC12A8 /* MemoryLeak */,
+				0A652E2224738A3100BC12A8 /* Common */,
+				0A652E1F24737A2D00BC12A8 /* Crash */,
+				0A652E172472B34500BC12A8 /* MockGPS */,
+				0A652E0E2472901800BC12A8 /* OC */,
+				0A652E0B2472714F00BC12A8 /* Net */,
+				0A652E0824726DF000BC12A8 /* UI */,
 				0AC750D8246E7FA700F87363 /* Performance */,
 				0AC750D5246E3DA400F87363 /* Logger */,
 				0AC750BC246D40B400F87363 /* Resource */,
@@ -185,7 +275,7 @@
 				0AC7509D246BD51500F87363 /* Home */,
 				0AE1029D24693DAB006CA490 /* AppDelegate.swift */,
 				0AE1029F24693DAB006CA490 /* SceneDelegate.swift */,
-				0AE102A124693DAB006CA490 /* ViewController.swift */,
+				0A652E0F2472905700BC12A8 /* DoKitSwiftDemo-Bridging-Header.h */,
 				0AE102A324693DAB006CA490 /* Main.storyboard */,
 				0AE102A624693DAD006CA490 /* Assets.xcassets */,
 				0AE102A824693DAD006CA490 /* LaunchScreen.storyboard */,
@@ -246,6 +336,7 @@
 				TargetAttributes = {
 					0AE1029924693DAB006CA490 = {
 						CreatedOnToolsVersion = 11.4.1;
+						LastSwiftMigration = 1140;
 					};
 				};
 			};
@@ -295,16 +386,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/DoraemonKit/DoraemonKit.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DoraemonKit.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -342,17 +428,27 @@
 			files = (
 				0AC750B9246BFA8500F87363 /* UIView+DoKit.swift in Sources */,
 				0AC750BB246CF4C500F87363 /* Dictionary+DoKit.swift in Sources */,
-				0AE102A224693DAB006CA490 /* ViewController.swift in Sources */,
+				0A652E2124737A6100BC12A8 /* DoraemonDemoCrashViewController.swift in Sources */,
+				0A652E2424738A4600BC12A8 /* DoraemonDemoCommonViewController.swift in Sources */,
+				0A652E292473B2DA00BC12A8 /* DoraemonDemoSwiftViewController.swift in Sources */,
 				0AC750A8246BDA2700F87363 /* DoraemonDemoi18Util.swift in Sources */,
 				0AC750A2246BD5C000F87363 /* DoraemonDemoHomeViewController.swift in Sources */,
+				0A652E1E2472B78700BC12A8 /* DoraemonDemoGPSAnnotation.swift in Sources */,
+				0A652E272473ADE000BC12A8 /* DoraemonDemoMemoryLeakViewController.swift in Sources */,
 				0AE1029E24693DAB006CA490 /* AppDelegate.swift in Sources */,
+				0A652E0A24726E0E00BC12A8 /* DoraemonDemoUIViewController.swift in Sources */,
 				0AE102A024693DAB006CA490 /* SceneDelegate.swift in Sources */,
 				0AC750A5246BD90900F87363 /* TestPlugin.swift in Sources */,
 				0AC750A0246BD56400F87363 /* DoraemonDemoBaseViewController.swift in Sources */,
 				0AC750B7246BF9D700F87363 /* UIColor+DoKit.swift in Sources */,
 				0AC750D7246E3DCF00F87363 /* DoraemonDemoLoggerViewController.swift in Sources */,
+				0A652E122472905700BC12A8 /* DoraemonDemoOCViewController.m in Sources */,
 				0AC750DA246E7FE200F87363 /* DoraemonDemoPerformanceViewController.swift in Sources */,
 				0AC750B5246BF5C500F87363 /* DoraemonDemoSanboxViewController.swift in Sources */,
+				0A652E2B2473BE5800BC12A8 /* DoraemonDemoMemoryLeakView.swift in Sources */,
+				0A652E1C2472B37900BC12A8 /* DoraemonDemoGPSViewController.swift in Sources */,
+				0A652E2D2473C44D00BC12A8 /* DoraemonDemoMemoryLeakModel.swift in Sources */,
+				0A652E0D24727B5700BC12A8 /* DoraemonDemoNetViewController.swift in Sources */,
 				0AC750B2246BEA6D00F87363 /* DoraemonDemoDefine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -511,6 +607,7 @@
 			baseConfigurationReference = 1AFC6EE9B77134AC5569E638 /* Pods-DoKitSwiftDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2M632FEG3H;
 				INFOPLIST_FILE = DoKitSwiftDemo/Info.plist;
@@ -520,6 +617,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "javer-yi.DoKitSwiftDemo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "DoKitSwiftDemo/DoKitSwiftDemo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -530,6 +629,7 @@
 			baseConfigurationReference = CA80ADA0C49F110A66409112 /* Pods-DoKitSwiftDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2M632FEG3H;
 				INFOPLIST_FILE = DoKitSwiftDemo/Info.plist;
@@ -539,6 +639,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "javer-yi.DoKitSwiftDemo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "DoKitSwiftDemo/DoKitSwiftDemo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

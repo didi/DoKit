@@ -108,7 +108,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   FBRetainCycleDetector:
-    :commit: 66fd5f4b4ba30ab1fae2cb243963556e5228d583
+    :commit: 1ff2adee84a6ee94a1ae82526104a188774eb90a
     :git: https://github.com/facebook/FBRetainCycleDetector.git
   YYDebugDatabase:
     :commit: b68105eb0784aede05036616c0b94d26b8d97ad0
