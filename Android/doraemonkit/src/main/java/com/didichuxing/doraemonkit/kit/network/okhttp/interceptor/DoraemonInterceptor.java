@@ -47,10 +47,12 @@ public class DoraemonInterceptor implements Interceptor {
         }
 
         Request request = chain.request();
+        int requestId = mNetworkInterpreter.nextRequestId();
         Response response;
         try {
             response = chain.proceed(request);
         } catch (Exception e) {
+            mNetworkInterpreter.httpExchangeFailed(requestId, e.toString());
             ResponseBody responseBody = ResponseBody.create(MediaType.parse("application/json;charset=utf-8"), "");
             return new Response.Builder()
                     .code(400)
@@ -70,19 +72,10 @@ public class DoraemonInterceptor implements Interceptor {
         }
 
 
-        int requestId = mNetworkInterpreter.nextRequestId();
-
         RequestBodyHelper requestBodyHelper = new RequestBodyHelper();
         OkHttpInspectorRequest inspectorRequest =
                 new OkHttpInspectorRequest(requestId, request, requestBodyHelper);
         NetworkRecord record = mNetworkInterpreter.createRecord(requestId, inspectorRequest);
-        try {
-            response.close();
-            response = chain.proceed(request);
-        } catch (IOException e) {
-            mNetworkInterpreter.httpExchangeFailed(requestId, e.toString());
-            throw e;
-        }
 
         NetworkInterpreter.InspectorResponse inspectorResponse = new OkHttpInspectorResponse(
                 requestId,

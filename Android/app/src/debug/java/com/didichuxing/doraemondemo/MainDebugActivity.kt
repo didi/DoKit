@@ -384,7 +384,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
             @Throws(Throwable::class)
             override fun doInBackground(): String {
                 try {
-                    val url = URL(path.trim { it <= ' ' })
+                    val url = URL(path.trim())
                     //打开连接
                     val urlConnection = url.openConnection() as HttpURLConnection
                     //urlConnection.setRequestProperty("token", "10051:abc");

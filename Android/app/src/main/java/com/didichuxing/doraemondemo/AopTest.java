@@ -2,6 +2,16 @@ package com.didichuxing.doraemondemo;
 
 import android.util.Log;
 
+import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
+import com.didichuxing.doraemonkit.aop.urlconnection.HttpUrlConnectionProxyUtil;
+
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -14,17 +24,15 @@ import android.util.Log;
 public class AopTest {
     private static final String TAG = "AopTest";
 
-//    public void test() {
-//        //MethodStackUtil.getInstance().recodeObjectMethodCostStart(1, "AopTest", "test", "desc", this);
-//        Log.i(TAG, "================");
-//        //MethodStackUtil.getInstance().recodeObjectMethodCostEnd(2, "AopTest", "test", "desc", this);
-//    }
-
-
-    public void sleepMethod() {
-        long begin = System.currentTimeMillis();
-        Log.i(TAG, "我是耗时函数");
-        long costTime = System.currentTimeMillis() - begin;
+    public void test() {
+        try {
+            URL url = new URL("sss");
+            URLConnection connection = url.openConnection();
+            connection.setReadTimeout(1000);
+            connection.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

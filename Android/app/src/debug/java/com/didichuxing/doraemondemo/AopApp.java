@@ -40,7 +40,7 @@ public class AopApp extends Application {
         //是否显示入口icon
         // DoraemonKit.setAwaysShowMainIcon(false);
         DoraemonKit.disableUpload();
-        DoraemonKit.install(this, kits, "749a0600b5e48dd77cf8ee680be7b1b7");
+        DoraemonKit.install(this, "749a0600b5e48dd77cf8ee680be7b1b7");
         //DoraemonKit.install(this, kits, "70e78c27f9174d68668d8a66a2b66483")
     }
 
