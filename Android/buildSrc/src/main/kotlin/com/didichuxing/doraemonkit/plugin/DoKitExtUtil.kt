@@ -22,7 +22,7 @@ object DoKitExtUtil {
     private var mDokitPluginSwitch = true
     private var mDokitLogSwitch = false
     private var mUsefulInRelease = false
-    private val applications: MutableList<String> = mutableListOf()
+    private val applications: MutableSet<String> = mutableSetOf()
     var commExt = CommExt()
         private set
     val slowMethodExt = SlowMethodExt()

@@ -3,8 +3,6 @@ package com.didichuxing.doraemonkit.plugin.transform
 import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.kotlinx.asIterable
-import com.didiglobal.booster.kotlinx.file
-import com.didiglobal.booster.kotlinx.touch
 import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.ClassTransformer
 import com.didiglobal.booster.transform.asm.className
@@ -13,8 +11,6 @@ import org.objectweb.asm.Opcodes.INVOKESTATIC
 import org.objectweb.asm.Opcodes.INVOKEVIRTUAL
 import org.objectweb.asm.tree.ClassNode
 import org.objectweb.asm.tree.MethodInsnNode
-import org.objectweb.asm.tree.MethodNode
-import java.io.PrintWriter
 
 /**
  * ================================================
@@ -28,10 +24,15 @@ import java.io.PrintWriter
 @Priority(1)
 @AutoService(ClassTransformer::class)
 class UrlConnectionTransformer : ClassTransformer {
-
+    private val SHADOW_URL = "com/didichuxing/doraemonkit/aop/urlconnection/HttpUrlConnectionProxyUtil"
+    private val DESC = "(Ljava/net/URLConnection;)Ljava/net/URLConnection;"
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
         if (!DoKitExtUtil.dokitPluginSwitchOpen()) {
+            return klass
+        }
+
+        if (!DoKitExtUtil.commExt.networkSwitch) {
             return klass
         }
 
@@ -39,22 +40,20 @@ class UrlConnectionTransformer : ClassTransformer {
             return klass
         }
 
-
-        if (DoKitExtUtil.commExt.networkSwitch) {
-            klass.methods.forEach { method ->
-                method.instructions?.iterator()?.asIterable()?.filterIsInstance(MethodInsnNode::class.java)?.filter {
-                    it.opcode == INVOKEVIRTUAL &&
-                            it.owner == "java/net/URL" &&
-                            it.name == "openConnection" &&
-                            it.desc == "()Ljava/net/URLConnection;"
-                }?.forEach {
-                    method.instructions.insert(it, MethodInsnNode(INVOKESTATIC, SHADOW_URL, "proxy", "(Ljava/net/URLConnection;)Ljava/net/URLConnection;", false))
-                }
+        klass.methods.forEach { method ->
+            method.instructions?.iterator()?.asIterable()?.filterIsInstance(MethodInsnNode::class.java)?.filter {
+                it.opcode == INVOKEVIRTUAL &&
+                        it.owner == "java/net/URL" &&
+                        it.name == "openConnection" &&
+                        it.desc == "()Ljava/net/URLConnection;"
+            }?.forEach {
+                method.instructions.insert(it, MethodInsnNode(INVOKESTATIC, SHADOW_URL, "proxy", DESC, false))
             }
         }
+
         return klass
     }
-}
 
-private const val SHADOW_URL = "com/didichuxing/doraemonkit/aop/urlconnection/HttpUrlConnectionProxyUtil"
+
+}
 

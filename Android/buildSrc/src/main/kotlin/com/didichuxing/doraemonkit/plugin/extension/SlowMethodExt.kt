@@ -48,7 +48,7 @@ open class SlowMethodExt(
             //默认阈值为5ms
             var thresholdTime: Int = 5,
             //入口函集合
-            var enterMethods: MutableList<String> = mutableListOf()) {
+            var enterMethods: MutableSet<String> = mutableSetOf()) {
         /**
          * 默认值为5ms
          */
@@ -56,7 +56,7 @@ open class SlowMethodExt(
             this.thresholdTime = thresholdTime
         }
 
-        fun normalMethod(enterMethods: MutableList<String>) {
+        fun normalMethod(enterMethods: MutableSet<String>) {
             this.enterMethods = enterMethods
         }
 
@@ -72,9 +72,9 @@ open class SlowMethodExt(
             //默认阈值为500ms
             var thresholdTime: Int = 500,
             //普通函数的插装包名集合
-            var packageNames: MutableList<String> = mutableListOf(),
+            var packageNames: MutableSet<String> = mutableSetOf(),
             //插桩黑名单
-            var methodBlacklist: MutableList<String> = mutableListOf()) {
+            var methodBlacklist: MutableSet<String> = mutableSetOf()) {
         /**
          * 默认值为500ms
          */
@@ -83,11 +83,11 @@ open class SlowMethodExt(
             this.thresholdTime = thresholdTime
         }
 
-        fun packageNames(packageNames: MutableList<String>) {
+        fun packageNames(packageNames: MutableSet<String>) {
             this.packageNames = packageNames
         }
 
-        fun methodBlacklist(methodBlacklist: MutableList<String>) {
+        fun methodBlacklist(methodBlacklist: MutableSet<String>) {
             this.methodBlacklist = methodBlacklist
         }
 
