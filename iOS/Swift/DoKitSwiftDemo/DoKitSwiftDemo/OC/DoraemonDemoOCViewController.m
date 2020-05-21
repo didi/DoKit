@@ -22,7 +22,7 @@
     self.title = @"Call OC";
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, 60)];
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 88, self.view.frame.size.width, 60)];
     btn.backgroundColor = [UIColor orangeColor];
     [btn setTitle:@"Call Swift" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(callSwift) forControlEvents:UIControlEventTouchUpInside];

@@ -20,12 +20,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         
-        DoraemonManager.shareInstance().addPlugin(withTitle: DoraemonDemoLocalizedString("测试插件"), icon: "doraemon_default", desc: DoraemonDemoLocalizedString("测试插件"), pluginName: "TestPlugin", atModule: DoraemonDemoLocalizedString("业务工具"))
+//        DoraemonManager.shareInstance().addPlugin(withTitle: DoraemonDemoLocalizedString("测试插件"), icon: "doraemon_default", desc: DoraemonDemoLocalizedString("测试插件"), pluginName: "TestPlugin", atModule: DoraemonDemoLocalizedString("业务工具"))
+//        
+//        DoraemonManager.shareInstance().addPlugin(withTitle: DoraemonDemoLocalizedString("block方式加入插件"), icon: "doraemon_default", desc: DoraemonDemoLocalizedString("测试插件"), pluginName: "", atModule: DoraemonDemoLocalizedString("业务工具")) { (itemData: [AnyHashable : Any]) in
+//            print(itemData)
+//        }
+//        DoraemonManager.shareInstance().install()
         
-        DoraemonManager.shareInstance().addPlugin(withTitle: DoraemonDemoLocalizedString("block方式加入插件"), icon: "doraemon_default", desc: DoraemonDemoLocalizedString("测试插件"), pluginName: "", atModule: DoraemonDemoLocalizedString("业务工具")) { (itemData: [AnyHashable : Any]) in
-            print(itemData)
-        }
-        DoraemonManager.shareInstance().install()
+        DoraemonManager.shareInstance.install()
 
         self.window = UIWindow(windowScene: scene as! UIWindowScene)
         self.window?.frame = UIScreen.main.bounds;

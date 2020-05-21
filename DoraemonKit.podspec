@@ -83,5 +83,12 @@ Pod::Spec.new do |s|
     ss.dependency 'DoraemonKit/Core'
     ss.dependency 'FBRetainCycleDetector'
   end
+
+  s.subspec 'Swift' do |ss|
+    ss.source_files = 'iOS/Swift/DoKitSwift/Src/**/*{.swift}'
+    ss.resource_bundles = {
+      'DoKitSwift' => 'iOS/DoraemonKit/Resource/**/*'
+    }
+  end
 end
 

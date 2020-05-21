@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import DoraemonKit
 
 class DoraemonDemoCommonViewController: DoraemonDemoBaseViewController {
 
@@ -44,11 +43,11 @@ class DoraemonDemoCommonViewController: DoraemonDemoBaseViewController {
     }
     
     @objc func showEntry() {
-        DoraemonManager.shareInstance().showDoraemon()
+        //DoraemonManager.shareInstance().showDoraemon()
     }
     
     @objc func hiddenEntry() {
-        DoraemonManager.shareInstance().hiddenDoraemon()
+        //DoraemonManager.shareInstance().hiddenDoraemon()
     }
 
 }
