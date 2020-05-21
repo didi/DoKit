@@ -4,13 +4,13 @@
         <view class="head-title">大小限制：{{limitSize}}</view>
         <view class="head-title">当前总体积：{{currentSize}}</view>
         <view class="storage-manage" bindtap="openManageMeau">
-            <image class="storage-manage-img" src="../../assets/img/more-icon.png" />
+            <image class="storage-manage-img" src="{{ img.moreicon }}" />
         </view>
         <view wx:if="{{isShowManage}}" class="storage-manage-list">
             <view class="arrow-top"></view>
-            <view class="manage-item" bindtap="showAddPopup"><image class="manage-item-img" src="../../assets/img/add-icon.png" />新增</view>
-            <view class="manage-item" bindtap="openDeleteMode"><image class="manage-item-img" src="../../assets/img/delete-icon.png" />删除</view>
-            <view class="manage-item" bindtap="clearAll"><image class="manage-item-img" src="../../assets/img/clear-all-icon.png" />清除全部</view>
+            <view class="manage-item" bindtap="showAddPopup"><image class="manage-item-img" src="{{ img.addicon }}" />新增</view>
+            <view class="manage-item" bindtap="openDeleteMode"><image class="manage-item-img" src="{{ img.deleteicon }}" />删除</view>
+            <view class="manage-item" bindtap="clearAll"><image class="manage-item-img" src="{{ img.clearallicon }}" />清除全部</view>
         </view>
     </view>
     <view class="storage-main">
@@ -21,7 +21,7 @@
                 <text class="storage-key {{isDeleteMode?'':'add-some-flex'}}">{{item.key}}</text>
                 <text class="storage-value" title="{{item.value}}">{{item.value}}</text>
                 <view class="clear-single-btn" type="primary" data-key="{{item.key}}" data-value="{{item.value}}" bindtap="modifyItemValue">
-                    <image class="clear-single-img" src="../../assets/img/modify-icon.png" />
+                    <image class="clear-single-img" src="{{ img.modifyicon }}" />
                 </view>
             </view>
         </checkbox-group>
