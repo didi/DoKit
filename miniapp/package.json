@@ -1,6 +1,6 @@
 {
   "name": "dokit-miniapp",
-  "version": "0.0.2-alpha1",
+  "version": "0.0.2",
   "description": "",
   "main": "dokit/index.js",
   "miniprogram": "dokit",
