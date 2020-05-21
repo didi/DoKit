@@ -1,0 +1,7 @@
+<cover-image
+    bindtap="onbackDokitEntry"
+    data-type="debug"
+    class="dokit-back"
+    src="//pt-starimg.didistatic.com/static/starimg/img/W8OeOO6Pue1561556055823.png"
+    style="top: {{ top }}"
+></cover-image>

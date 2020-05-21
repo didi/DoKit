@@ -8,6 +8,6 @@
     }
   },
   "usingComponents": {
-    "dokit": "../../dist/index/index"
+    "dokit": "../../dokit/index/index"
   }
 }

@@ -1,1 +1,0 @@
-"use strict";Component({methods:{jumpToDebug:function(){wx.navigateTo({url:"../../dist/debug/debug"})}}});

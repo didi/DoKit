@@ -1,0 +1,25 @@
+<view class="page-box">
+    <view class="appinfo-header">系统信息</view>
+    <view class="appinfo-item" wx:for="{{systemInfo}}" wx:key="index">
+        <text class="appinfo-title">{{item.name}}</text>
+        <text class="appinfo-val">{{item.value}}</text>
+    </view>
+    <view class="appinfo-header">账号信息</view>
+    <view class="appinfo-item" wx:for="{{accountInfo}}" wx:key="index">
+        <text class="appinfo-title">{{item.name}}</text>
+        <text class="appinfo-val">{{item.value}}</text>
+    </view>
+    <view class="appinfo-header">用户信息</view>
+    <view class="appinfo-item" wx:for="{{userInfo}}" wx:key="index">
+        <text class="appinfo-title">{{item.name}}</text>
+        <image class="appinfo-val img" wx:if="{{item.type === 'img'}}" src="{{item.value}}"></image>
+        <text wx:else class="appinfo-val">{{item.value}}</text>
+    </view>
+    <view class="appinfo-header">授权信息</view>
+    <view class="appinfo-item" wx:for="{{authInfo}}" wx:key="index">
+        <text class="appinfo-title">{{item.name}}</text>
+        <image class="appinfo-val img" wx:if="{{item.type === 'img'}}" src="{{item.value}}"></image>
+        <text wx:else class="appinfo-val">{{item.value}}</text>
+    </view>
+</view>
+<back bindreturn="onGoBack"></back>

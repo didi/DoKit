@@ -12,5 +12,5 @@
   </view>
   <button class="operate-btn" bindtap="sendRequest">发个请求</button>
   <button class="operate-btn" bindtap="sendDokitRequest">发个dokit.cn请求</button>
-  <dokit></dokit>
+  <dokit projectId="749a0600b5e48dd77cf8ee680be7b1b7"></dokit>
 </view>

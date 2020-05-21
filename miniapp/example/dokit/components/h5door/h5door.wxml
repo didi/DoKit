@@ -1,0 +1,24 @@
+<view class="h5door-page">
+    <view class="area-box">
+        <textarea  class="url-box" focus="true" value="{{qrCodeUrl}}" placeholder="请输入跳转链接" maxlength="140" placeholder-class="url-paceholder-text"
+        bindinput="textareaChange">
+        </textarea>
+        <cover-view class="scaning" bindtap="qrCodeArouse">
+            <cover-image class="scaning-cover-img" src="../../assets/img/scraning-icon.png"/>
+        </cover-view>
+    </view>
+    <view class="history-list" wx:if="{{historyUrlList.length>0}}">
+        <view class="history-content">
+            <view class="history-item" data-qr-code="{{item}}" bindtap="setQrCode" wx:for="{{historyUrlList}}" wx:key="key">
+                <image class="search-icon" src="../../assets/img/search-icon.png"/>
+                {{item}}
+            </view>
+        </view>
+        <view class="clear-all"  bindtap="clearAll">清空搜索历史</view>
+    </view>
+    <button class="go-webview-button" bindtap="goWebview" size="default" type="" plain="default" hover-stop-propagation="false">
+        点击跳转
+    </button>
+</view>
+<web-view wx:if="{{isShowWebView}}" src="{{qrCodeUrl}}"> </web-view>
+<back top="50%" bindreturn="onGoBack"></back>

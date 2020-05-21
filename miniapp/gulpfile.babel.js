@@ -16,7 +16,7 @@ import del from 'del'
 const ENV = process.env.NODE_ENV
 const isDev = ENV === 'development' || ENV === 'dev'
 const isProd = ENV === 'production' || ENV === 'prod'
-const buildPath = path.join(__dirname, isProd ? 'dist/' : 'example/dist/')
+const buildPath = path.join(__dirname, isProd ? 'dokit/' : 'example/dokit/')
 const format = isProd ? false : 'beautify'
 
 const paths = {
