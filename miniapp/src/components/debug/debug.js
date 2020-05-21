@@ -1,3 +1,4 @@
+const img = require('../../utils/imgbase64')
 Component({
     data: {
         logs: [],
@@ -20,38 +21,37 @@ Component({
                     "tools": [
                         {
                             "title": "App信息",
-                            "image": "../../assets/img/appinfo-icon.png",
+                            "image": img.appinfoicon,
                             "type": "appinformation"
                         },
                         {
                             "title": "位置模拟",
-                            "image": "../../assets/img/gps-icon.png",
+                            "image": img.gpsicon,
                             "type": "positionsimulation"
                         },
                         {
                             "title": "缓存管理",
-                            "image": "../../assets/img/save-icon.png",
+                            "image": img.saveicon,
                             "type": "storage"
                         },
                         {
                             "title": "H5任意门",
-                            "image": "../../assets/img/h5door-icon.png",
+                            "image": img.h5dooricon,
                             "type": "h5door"
                         },
                         {
                             "title": "请求注射",
-                            "image": "../../assets/img/injector.png",
+                            "image": img.injectoricon,
                             "type": "httpinjector"
                         },
                         {
                             "title": "更新版本",
-                            "image": "../../assets/img/update-version-icon.png",
-                            "type": "function",
-                            "type": "onUpdate"
+                            "image": img.updateversionicon,
+                            "type": "onUpdate",
                         },
                         {
                             "title": "数据模拟",
-                            "image": "../../assets/img/api-mock.png",
+                            "image": img.apimockicon,
                             "type": "apimock"
                         }
                     ]
@@ -61,7 +61,7 @@ Component({
         onUpdate () {
             const updateManager = wx.getUpdateManager();
             updateManager.onCheckForUpdate(function (res) {
-                if(!res) {
+                if(!res.hasUpdate) {
                     // 请求完新版本信息的回调
                     wx.showModal({
                         title: '更新提示',
@@ -86,9 +86,8 @@ Component({
             })
         },
         onToggle (event) {
-            const eventType = event.currentTarget.dataset.type;
             const type = event.currentTarget.dataset.type;
-            if(eventType === 'function') {
+            if(type === 'onUpdate') {
                 this[type]();
             } else {
                 this.triggerEvent('toggle', { componentType: type })

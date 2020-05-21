@@ -1,3 +1,4 @@
+const img = require('../../assets/imgs/imgbase64')
 const util = require('../../utils/util.js');
 const app = getApp()
 if (!Object.prototype.hasOwnProperty.call(app, 'originRequest') && Object.prototype.toString.apply(getApp().originRequest) !== "[object Function]") {
@@ -18,7 +19,8 @@ Component({
         curNav: 'mock',
         templateData: '',
         urlId: '',
-        isShow: false
+        isShow: false,
+        img
     },
     lifetimes: {
       created () {

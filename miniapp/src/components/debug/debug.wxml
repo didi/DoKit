@@ -7,7 +7,6 @@
               wx:for-index="idx"
               wx:for-item="tool"
               wx:key="idx"
-              data-path="{{tool.path}}"
               data-type="{{tool.type}}"
               bindtap="onToggle"
               class="card-item">

@@ -2,7 +2,7 @@
   "name": "dokit-miniapp",
   "version": "0.0.2-alpha1",
   "description": "",
-  "main": "dokit/index.js",
+  "main": "dokit/index/index.js",
   "miniprogram": "dokit",
   "devDependencies": {
     "@babel/core": "^7.5.0",

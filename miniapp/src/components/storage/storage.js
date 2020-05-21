@@ -1,3 +1,4 @@
+const img = require('../../utils/imgbase64')
 Component({
     data: {
         storage:[],
@@ -13,7 +14,8 @@ Component({
             value:'',
             title:'添加',
             disabled:false
-        }
+        },
+        img
     },
     lifetimes: {
       created () { },

@@ -67,11 +67,11 @@
   </view>
   <view class="nav-bar">
     <view class="nav-bar-item {{curNav == 'mock' ? 'active':''}}" data-type="mock" bindtap="onNavChange">
-      <image class="nav-bar-icon" src="{{curNav == 'mock' ? '../../assets/img/mock-active.png':'../../assets/img/mock.png'}}" lazy-load="false" />
+      <image class="nav-bar-icon" src="{{curNav == 'mock' ? img.mockactive:img.mock}}" lazy-load="false" />
       <view>Mock数据</view>
     </view>
     <view class="nav-bar-item {{curNav == 'tpl' ? 'active':''}}" data-type="tpl" bindtap="onNavChange">
-      <image class="nav-bar-icon" src="{{curNav == 'tpl' ? '../../assets/img/tpl-upload-active.png':'../../assets/img/tpl-upload.png'}}" lazy-load="false" />
+      <image class="nav-bar-icon" src="{{curNav == 'tpl' ? img.tpluploadactive:img.tplupload}}" lazy-load="false" />
       <view>上传模板</view>
     </view>
   </view>

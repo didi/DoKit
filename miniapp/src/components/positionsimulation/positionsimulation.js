@@ -1,3 +1,4 @@
+const img = require('../../utils/imgbase64')
 const app = getApp()
 Component({
     lifetimes: {
@@ -11,7 +12,8 @@ Component({
     },
     data: {
         currentLatitude:0,
-        currentLongitude:0
+        currentLongitude:0,
+        img
     },
     methods: {
         choosePosition (){

@@ -1,8 +1,10 @@
+const img = require('../../assets/imgs/imgbase64')
 Component({
     data: {
         qrCodeUrl:'',
         historyUrlList:[],
-        isShowWebView:false
+        isShowWebView:false,
+        img
     },
     lifetimes: {
       created () {

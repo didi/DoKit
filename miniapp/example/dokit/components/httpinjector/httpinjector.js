@@ -1,3 +1,4 @@
+const img = require('../../assets/imgs/imgbase64')
 const app = getApp()
 if (!Object.prototype.hasOwnProperty.call(app, 'originRequest')) {
     app.originRequest = wx.request
@@ -15,7 +16,8 @@ Component({
             title:'添加',
             isRegex: false,
             disabled:false
-        }
+        },
+        img
     },
     lifetimes: {
       created () {

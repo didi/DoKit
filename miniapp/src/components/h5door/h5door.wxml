@@ -4,13 +4,13 @@
         bindinput="textareaChange">
         </textarea>
         <cover-view class="scaning" bindtap="qrCodeArouse">
-            <cover-image class="scaning-cover-img" src="../../assets/img/scraning-icon.png"/>
+            <cover-image class="scaning-cover-img" src="{{ img.scanningicon }}"/>
         </cover-view>
     </view>
     <view class="history-list" wx:if="{{historyUrlList.length>0}}">
         <view class="history-content">
             <view class="history-item" data-qr-code="{{item}}" bindtap="setQrCode" wx:for="{{historyUrlList}}" wx:key="key">
-                <image class="search-icon" src="../../assets/img/search-icon.png"/>
+                <image class="search-icon" src="{{ img.searchicon }}"/>
                 {{item}}
             </view>
         </view>
