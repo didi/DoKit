@@ -3,6 +3,7 @@ package com.didichuxing.doraemondemo;
 import android.util.Log;
 
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
+import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil;
 import com.didichuxing.doraemonkit.aop.urlconnection.HttpUrlConnectionProxyUtil;
 
 import java.io.IOException;
@@ -25,14 +26,8 @@ public class AopTest {
     private static final String TAG = "AopTest";
 
     public void test() {
-        try {
-            URL url = new URL("sss");
-            URLConnection connection = url.openConnection();
-            connection.setReadTimeout(1000);
-            connection.connect();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //MethodStackUtil.getInstance().recodeObjectMethodCostStart(10, 5, 0, "AopTest", "test", "desc", this);
+        MethodStackUtil.getInstance().recodeStaticMethodCostStart(10, 5, 7, "AopTest", "test", "desc");
     }
 
 

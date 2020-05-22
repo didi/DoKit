@@ -3,6 +3,8 @@ package com.didichuxing.doraemonkit.plugin
 import com.didichuxing.doraemonkit.plugin.extension.CommExt
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
 import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
+import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt.Companion.STRATEGY_NORMAL
+import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
 
 /**
  * ================================================
@@ -21,7 +23,11 @@ object DoKitExtUtil {
      */
     private var mDokitPluginSwitch = true
     private var mDokitLogSwitch = false
-    private var mUsefulInRelease = false
+
+    /**
+     * 默认函数调用为5级
+     */
+    public var mStackMethodLevel = 5
     private val applications: MutableSet<String> = mutableSetOf()
     var commExt = CommExt()
         private set
@@ -35,11 +41,6 @@ object DoKitExtUtil {
         return mDokitLogSwitch
     }
 
-    fun usefulInRelease(): Boolean {
-        return mUsefulInRelease
-    }
-
-
     /**
      * 初始化
      *
@@ -49,7 +50,6 @@ object DoKitExtUtil {
     fun init(dokitEx: DoKitExt, applicationId: String) {
         mDokitPluginSwitch = dokitEx.dokitPluginSwitch
         mDokitLogSwitch = dokitEx.dokitLogSwitch
-        mUsefulInRelease = dokitEx.usefulInRelease
         //设置普通的配置
         commExt = dokitEx.comm
         slowMethodExt.strategy = dokitEx.slowMethod.strategy
@@ -97,7 +97,9 @@ object DoKitExtUtil {
         /**
          * ============慢函数stack策略的配置  end==========
          */
+
     }
+
 
     fun setApplications(applications: MutableSet<String>) {
         if (applications.isEmpty()) {

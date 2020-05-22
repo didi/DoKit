@@ -67,7 +67,7 @@ dependencies {
     implementation rootProject.ext.dependencies["okhttp"]
     implementation rootProject.ext.dependencies["okhttp_v2"]
     implementation rootProject.ext.dependencies["room_runtime"]
-    annotationProcessor rootProject.ext.dependencies["room_compile"]
+    kapt rootProject.ext.dependencies["room_compile"]
 
     //三大图片框架
     compileOnly rootProject.ext.dependencies["glide"]

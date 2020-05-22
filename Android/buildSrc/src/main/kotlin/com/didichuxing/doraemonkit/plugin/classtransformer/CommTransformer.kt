@@ -1,8 +1,8 @@
-package com.didichuxing.doraemonkit.plugin.transform
+package com.didichuxing.doraemonkit.plugin.classtransformer
 
 import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
 import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
-import com.didichuxing.doraemonkit.plugin.methodExitInsnNode
+import com.didichuxing.doraemonkit.plugin.getMethodExitInsnNodes
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.ClassTransformer
@@ -29,6 +29,9 @@ class CommTransformer : ClassTransformer {
     }
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
+//        if(klass.className == "com.didichuxing.doraemondemo.App"){
+//            println("===CommTransformer====transform===")
+//        }
         if (!DoKitExtUtil.dokitPluginSwitchOpen()) {
             return klass
         }
@@ -78,15 +81,17 @@ class CommTransformer : ClassTransformer {
                 val zeroConsMethodNode = klass.methods?.find {
                     it.name == "<init>" && it.desc == "()V"
                 }
-                val zeroReturnInsnNode = zeroConsMethodNode?.instructions?.methodExitInsnNode()
-                zeroConsMethodNode?.instructions?.insertBefore(zeroReturnInsnNode, createOkHttpZeroConsInsnList())
+                zeroConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                    zeroConsMethodNode.instructions.insertBefore(it, createOkHttpZeroConsInsnList())
+                }
 
                 //一个参数的构造方法
                 val oneConsMethodNode = klass.methods?.find {
                     it.name == "<init>" && it.desc == "(Lokhttp3/OkHttpClient;)V"
                 }
-                val oneReturnInsnNode = oneConsMethodNode?.instructions?.methodExitInsnNode()
-                oneConsMethodNode?.instructions?.insertBefore(oneReturnInsnNode, createOkHttpOneConsInsnList())
+                oneConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                    oneConsMethodNode.instructions.insertBefore(it, createOkHttpOneConsInsnList())
+                }
             }
 
             //didi platform
@@ -95,16 +100,18 @@ class CommTransformer : ClassTransformer {
                 val zeroConsMethodNode = klass.methods?.find {
                     it.name == "<init>" && it.desc == "()V"
                 }
-                val zeroReturnInsnNode = zeroConsMethodNode?.instructions?.methodExitInsnNode()
-                zeroConsMethodNode?.instructions?.insertBefore(zeroReturnInsnNode, createDidiHttpZeroConsInsnList())
+                zeroConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                    zeroConsMethodNode.instructions.insertBefore(it, createDidiHttpZeroConsInsnList())
+                }
 
                 //一个参数的构造方法
                 val oneConsMethodNode = klass.methods?.find {
                     it.name == "<init>" && it.desc == "(Ldidihttp/DidiHttpClient;)V"
                 }
 
-                val oneReturnInsnNode = oneConsMethodNode?.instructions?.methodExitInsnNode()
-                oneConsMethodNode?.instructions?.insertBefore(oneReturnInsnNode, createDidiHttpOneConsInsnList())
+                oneConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                    oneConsMethodNode.instructions.insertBefore(it, createDidiHttpOneConsInsnList())
+                }
             }
 
         }

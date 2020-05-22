@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.plugin.transform;
+package com.didichuxing.doraemonkit.plugin.classtransformer;
 
 import com.android.build.api.transform.Context;
 import com.android.build.api.transform.TransformException;

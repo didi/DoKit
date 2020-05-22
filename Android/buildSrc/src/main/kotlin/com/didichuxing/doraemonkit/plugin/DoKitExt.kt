@@ -1,8 +1,10 @@
 package com.didichuxing.doraemonkit.plugin
 
 import org.objectweb.asm.Opcodes.*
+import org.objectweb.asm.tree.ClassNode
 import org.objectweb.asm.tree.InsnList
 import org.objectweb.asm.tree.InsnNode
+import org.objectweb.asm.tree.MethodInsnNode
 
 /**
  * ================================================
@@ -14,8 +16,8 @@ import org.objectweb.asm.tree.InsnNode
  * ================================================
  */
 
-fun InsnList.methodExitInsnNode(): InsnNode? {
-    return this.iterator()?.asSequence()?.filterIsInstance(InsnNode::class.java)?.find {
+fun InsnList.getMethodExitInsnNodes(): Sequence<InsnNode>? {
+    return this.iterator()?.asSequence()?.filterIsInstance(InsnNode::class.java)?.filter {
         it.opcode == RETURN ||
                 it.opcode == IRETURN ||
                 it.opcode == FRETURN ||
@@ -25,3 +27,6 @@ fun InsnList.methodExitInsnNode(): InsnNode? {
                 it.opcode == ATHROW
     }
 }
+
+val MethodInsnNode.ownerClassName: String
+    get() = owner.replace('/', '.')

@@ -1,7 +1,7 @@
-package com.didichuxing.doraemonkit.plugin.transform
+package com.didichuxing.doraemonkit.plugin.classtransformer
 
 import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
-import com.didichuxing.doraemonkit.plugin.methodExitInsnNode
+import com.didichuxing.doraemonkit.plugin.getMethodExitInsnNodes
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.ClassTransformer
@@ -25,10 +25,12 @@ import org.objectweb.asm.tree.VarInsnNode
 @Priority(2)
 @AutoService(ClassTransformer::class)
 class BigImgTransformer : ClassTransformer {
-    private val SHADOW_URL = "com/didichuxing/doraemonkit/aop/urlconnection/HttpUrlConnectionProxyUtil"
-    private val DESC = "(Ljava/net/URLConnection;)Ljava/net/URLConnection;"
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
+//        if(klass.className == "com.didichuxing.doraemondemo.App"){
+//            println("===BigImgTransformer====transform===")
+//        }
+
         if (!DoKitExtUtil.dokitPluginSwitchOpen()) {
             return klass
         }
@@ -49,8 +51,8 @@ class BigImgTransformer : ClassTransformer {
                 (methodNode.name == "init" || methodNode.name == "<init>") && methodNode.desc != null
             }.let { methodNode ->
                 //函数结束的地方插入
-                methodNode?.instructions?.methodExitInsnNode().let {
-                    methodNode?.instructions?.insertBefore(it, createGlideInsnList())
+                methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                    methodNode.instructions?.insertBefore(it, createGlideInsnList())
                 }
             }
         }
@@ -61,8 +63,8 @@ class BigImgTransformer : ClassTransformer {
                 methodNode.name == "<init>" && methodNode.desc != null
             }.let { methodNode ->
                 //函数结束的地方插入
-                methodNode?.instructions?.methodExitInsnNode().let {
-                    methodNode?.instructions?.insertBefore(it, createPicassoInsnList())
+                methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                    methodNode.instructions?.insertBefore(it, createPicassoInsnList())
                 }
             }
         }

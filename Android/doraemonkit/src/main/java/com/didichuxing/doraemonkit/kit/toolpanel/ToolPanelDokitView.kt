@@ -114,7 +114,7 @@ class ToolPanelDokitView : AbsDokitView() {
                 4
             }
         }
-        mAdapter.setOnItemClickListener { adapter, view, position ->
+        mAdapter.setOnItemClickListener { _, _, position ->
             val multiKitItem = mKits[position]
             if (multiKitItem.itemType == KitWrapItem.TYPE_KIT) {
                 //常规模式下点击常用工具不隐藏工具面板

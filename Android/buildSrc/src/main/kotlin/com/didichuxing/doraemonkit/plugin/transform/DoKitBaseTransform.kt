@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.plugin
+package com.didichuxing.doraemonkit.plugin.transform
 
 import com.android.build.api.transform.QualifiedContent
 import com.android.build.api.transform.Transform
@@ -6,6 +6,7 @@ import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.android.build.gradle.internal.pipeline.TransformManager.SCOPE_FULL_PROJECT
+import com.didichuxing.doraemonkit.plugin.DoKitTransformInvocation
 import com.didiglobal.booster.gradle.SCOPE_FULL_WITH_FEATURES
 import com.didiglobal.booster.gradle.SCOPE_PROJECT
 import com.didiglobal.booster.gradle.getAndroid
@@ -16,15 +17,15 @@ import java.util.ServiceLoader
 
 /**
  * Represents the transform base
- *
+ * DoKitCommTransform 作用于 CommTransformer、BigImgTransformer、UrlConnectionTransformer、GlobalSlowMethodTransformer
  * @author johnsonlee
  */
-open class DoKitTransform(val project: Project) : Transform() {
+open class DoKitBaseTransform(val project: Project) : Transform() {
 
     /*
      * Preload transformers as List to fix NoSuchElementException caused by ServiceLoader in parallel mode
      */
-    internal val transformers = ServiceLoader.load(Transformer::class.java, javaClass.classLoader).toList()
+    internal open val transformers = ServiceLoader.load(Transformer::class.java, javaClass.classLoader).toList()
 
     private val androidExt: BaseExtension = project.getAndroid()
 
@@ -39,7 +40,7 @@ open class DoKitTransform(val project: Project) : Transform() {
     val bootKlassPool: AbstractKlassPool
         get() = androidKlassPool
 
-    override fun getName() = "booster"
+    override fun getName() = this.javaClass.simpleName
 
     override fun isIncremental() = true
 

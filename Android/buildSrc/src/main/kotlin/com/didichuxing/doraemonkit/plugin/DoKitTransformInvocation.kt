@@ -13,6 +13,7 @@ import com.android.build.api.transform.Status.REMOVED
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformInvocation
 import com.android.build.api.transform.TransformOutputProvider
+import com.didichuxing.doraemonkit.plugin.transform.DoKitBaseTransform
 import com.didiglobal.booster.gradle.*
 import com.didiglobal.booster.kotlinx.NCPU
 import com.didiglobal.booster.transform.AbstractKlassPool
@@ -30,7 +31,7 @@ import java.util.concurrent.Future
  *
  * @author johnsonlee
  */
-internal class DoKitTransformInvocation(private val delegate: TransformInvocation, internal val transform: DoKitTransform) : TransformInvocation, TransformContext, ArtifactManager {
+internal class DoKitTransformInvocation(private val delegate: TransformInvocation, internal val transform: DoKitBaseTransform) : TransformInvocation, TransformContext, ArtifactManager {
 
     private val executor = Executors.newWorkStealingPool(NCPU)
 

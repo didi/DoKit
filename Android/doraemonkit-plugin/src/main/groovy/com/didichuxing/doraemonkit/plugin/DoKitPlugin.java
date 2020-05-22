@@ -2,15 +2,15 @@ package com.didichuxing.doraemonkit.plugin;
 
 import com.android.build.gradle.AppExtension;
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExt;
-import com.didichuxing.doraemonkit.plugin.transform.DokitBigImageTransform;
-import com.didichuxing.doraemonkit.plugin.transform.DokitCommTransform;
-import com.didichuxing.doraemonkit.plugin.transform.DokitMethodStack0Transform;
-import com.didichuxing.doraemonkit.plugin.transform.DokitMethodStack1Transform;
-import com.didichuxing.doraemonkit.plugin.transform.DokitMethodStack2Transform;
-import com.didichuxing.doraemonkit.plugin.transform.DokitMethodStack3Transform;
-import com.didichuxing.doraemonkit.plugin.transform.DokitMethodStack4Transform;
-import com.didichuxing.doraemonkit.plugin.transform.DokitSlowMethodTransform;
-import com.didichuxing.doraemonkit.plugin.transform.DokitUrlConnectionTransform;
+import com.didichuxing.doraemonkit.plugin.classtransformer.DokitBigImageTransform;
+import com.didichuxing.doraemonkit.plugin.classtransformer.DokitCommTransform;
+import com.didichuxing.doraemonkit.plugin.classtransformer.DokitMethodStack0Transform;
+import com.didichuxing.doraemonkit.plugin.classtransformer.DokitMethodStack1Transform;
+import com.didichuxing.doraemonkit.plugin.classtransformer.DokitMethodStack2Transform;
+import com.didichuxing.doraemonkit.plugin.classtransformer.DokitMethodStack3Transform;
+import com.didichuxing.doraemonkit.plugin.classtransformer.DokitMethodStack4Transform;
+import com.didichuxing.doraemonkit.plugin.classtransformer.DokitSlowMethodTransform;
+import com.didichuxing.doraemonkit.plugin.classtransformer.DokitUrlConnectionTransform;
 import com.didiglobal.booster.gradle.BaseVariantKt;
 import com.didiglobal.booster.gradle.VariantScopeKt;
 

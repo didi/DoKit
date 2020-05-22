@@ -56,16 +56,16 @@ open class SlowMethodExt(
             this.thresholdTime = thresholdTime
         }
 
+
         fun normalMethod(enterMethods: MutableSet<String>) {
             this.enterMethods = enterMethods
         }
 
         override fun toString(): String {
-            return "StackMethodExt{" +
-                    "thresholdTime=" + thresholdTime +
-                    ", enterMethods=" + enterMethods +
-                    '}'
+            return "StackMethodExt(thresholdTime=$thresholdTime, enterMethods=$enterMethods)"
         }
+
+
     }
 
     class NormalMethodExt(

@@ -5,6 +5,7 @@ import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.api.LibraryVariant
 import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
+import com.didichuxing.doraemonkit.plugin.transform.*
 import com.didiglobal.booster.gradle.getAndroid
 import com.didiglobal.booster.gradle.isDynamicFeature
 import com.didiglobal.booster.gradle.project
@@ -14,6 +15,7 @@ import com.didiglobal.booster.transform.ArtifactManager
 import com.didiglobal.booster.transform.artifacts
 import com.didiglobal.booster.transform.util.ComponentHandler
 import com.google.auto.service.AutoService
+import org.gradle.api.Project
 import javax.xml.parsers.SAXParserFactory
 
 /**
@@ -37,7 +39,6 @@ class DoKitPluginConfigProcessor : VariantProcessor {
             val parser = SAXParserFactory.newInstance().newSAXParser()
             val handler = ComponentHandler()
             parser.parse(manifest, handler)
-            //println("handler====>${handler.applications}")
             DoKitExtUtil.setApplications(handler.applications)
         }
 
@@ -47,10 +48,9 @@ class DoKitPluginConfigProcessor : VariantProcessor {
             //查找Application路径
             val doKitExt = variant.project.extensions.getByType(DoKitExt::class.java)
             DoKitExtUtil.init(doKitExt, appExt.defaultConfig.applicationId)
-            // println("doKitExt====>$doKitExt  applicationId===>${appExt.defaultConfig.applicationId}")
         }
 
-        //println("variant====>${variant.name}")
     }
+
 
 }

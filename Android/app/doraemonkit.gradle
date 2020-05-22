@@ -5,7 +5,7 @@ if (rootProject.ext.config["applyPlugin"]) {
     dependencies {
         //外部平台依赖
         debugImplementation project(":doraemonkit")
-        debugImplementation project(":doraemonkit-weex")
+        //debugImplementation project(":doraemonkit-weex")
 //        releaseImplementation project(":doraemonkit-no-op")
 //        debugImplementation project(":doraemonkit-leakcanary")
         //新版线上包

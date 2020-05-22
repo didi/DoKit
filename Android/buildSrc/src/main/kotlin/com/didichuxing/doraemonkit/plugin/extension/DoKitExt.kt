@@ -7,7 +7,6 @@ import org.gradle.api.Action
  */
 open class DoKitExt(var dokitPluginSwitch: Boolean = true,
                     var dokitLogSwitch: Boolean = true,
-                    var usefulInRelease: Boolean = false,
                     var comm: CommExt = CommExt(),
                     var slowMethod: SlowMethodExt = SlowMethodExt()) {
 
@@ -21,9 +20,6 @@ open class DoKitExt(var dokitPluginSwitch: Boolean = true,
         this.dokitLogSwitch = dokitLogSwitch
     }
 
-    fun usefulInRelease(usefulInRelease: Boolean) {
-        this.usefulInRelease = usefulInRelease
-    }
 
     /**
      * 让comm 支持 DSL 语法
@@ -44,7 +40,7 @@ open class DoKitExt(var dokitPluginSwitch: Boolean = true,
     }
 
     override fun toString(): String {
-        return "DoKitExt(dokitPluginSwitch=$dokitPluginSwitch, dokitLogSwitch=$dokitLogSwitch, usefulInRelease=$usefulInRelease, comm=$comm, slowMethod=$slowMethod)"
+        return "DoKitExt(dokitPluginSwitch=$dokitPluginSwitch, dokitLogSwitch=$dokitLogSwitch, comm=$comm, slowMethod=$slowMethod)"
     }
 
 

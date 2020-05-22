@@ -3,8 +3,11 @@ package com.didichuxing.doraemonkit.plugin
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
+import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
+import com.didichuxing.doraemonkit.plugin.transform.*
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.gradle.getAndroid
+import com.didiglobal.booster.gradle.getProperty
 import com.didiglobal.booster.task.spi.VariantProcessor
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -25,6 +28,13 @@ class DoKitPlugin : Plugin<Project> {
 
         //创建指定扩展 并将project 传入构造函数
         project.extensions.create("dokitExt", DoKitExt::class.java)
+
+//        val debug = project.gradle.startParameter.taskNames.any {
+//            it.contains("debug") || it.contains("Debug")
+//        }
+//        if (!debug) {
+//            return
+//        }
         project.gradle.addListener(DoKitTransformTaskExecutionListener(project))
 
         //println("project.plugins===>${project.plugins}")
@@ -68,8 +78,20 @@ class DoKitPlugin : Plugin<Project> {
         when {
             project.plugins.hasPlugin("com.android.application") || project.plugins.hasPlugin("com.android.dynamic-feature") -> {
                 project.getAndroid<AppExtension>().let { androidExt ->
+                    val methodStackLevel = project.getProperty("DoKit_MethodStack_Level", 5)
+                    DoKitExtUtil.mStackMethodLevel = methodStackLevel
+                    MethodStackNodeUtil.METHOD_STACK_KEYS.clear()
                     //注册transform
-                    androidExt.registerTransform(DoKitTransform(project))
+                    androidExt.registerTransform(DoKitCommTransform(project))
+                    MethodStackNodeUtil.METHOD_STACK_KEYS.add(0, mutableSetOf<String>())
+                    val methodStackRange = 1 until methodStackLevel
+                    if (methodStackLevel > 1) {
+                        for (index in methodStackRange) {
+                            MethodStackNodeUtil.METHOD_STACK_KEYS.add(index, mutableSetOf<String>())
+                            androidExt.registerTransform(DoKitDependTransform(project, index))
+                        }
+                    }
+
                     //项目评估完毕回调
                     project.afterEvaluate {
                         this.variantProcessors.let { processors ->
@@ -85,7 +107,7 @@ class DoKitPlugin : Plugin<Project> {
 
             project.plugins.hasPlugin("com.android.library") -> {
                 project.getAndroid<LibraryExtension>().let { libraryExt ->
-                    libraryExt.registerTransform(DoKitTransform(project))
+                    libraryExt.registerTransform(DoKitCommTransform(project))
                     project.afterEvaluate {
                         this.variantProcessors.let { processors ->
                             libraryExt.libraryVariants.forEach { variant ->

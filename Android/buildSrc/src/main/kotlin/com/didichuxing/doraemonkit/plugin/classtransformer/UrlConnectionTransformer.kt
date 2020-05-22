@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.plugin.transform
+package com.didichuxing.doraemonkit.plugin.classtransformer
 
 import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
 import com.didiglobal.booster.annotations.Priority
@@ -28,6 +28,9 @@ class UrlConnectionTransformer : ClassTransformer {
     private val DESC = "(Ljava/net/URLConnection;)Ljava/net/URLConnection;"
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
+//        if(klass.className == "com.didichuxing.doraemondemo.App"){
+//            println("===UrlConnectionTransformer====transform===")
+//        }
         if (!DoKitExtUtil.dokitPluginSwitchOpen()) {
             return klass
         }
