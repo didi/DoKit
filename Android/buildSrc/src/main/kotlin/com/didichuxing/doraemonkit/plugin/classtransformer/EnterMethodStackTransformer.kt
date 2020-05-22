@@ -36,7 +36,7 @@ class EnterMethodStackTransformer : ClassTransformer {
             return klass
         }
 
-        if (!DoKitExtUtil.slowMethodExt.methodSwitch) {
+        if (!DoKitExtUtil.dokitSlowMethodSwitchOpen()) {
             return klass
         }
 

@@ -167,7 +167,7 @@ class CommTransformer : ClassTransformer {
         //put("methodSwitch",true)
         insnList.add(VarInsnNode(ALOAD, 0))
         insnList.add(LdcInsnNode("methodSwitch"))
-        insnList.add(InsnNode(if (DoKitExtUtil.slowMethodExt.methodSwitch) ICONST_1 else ICONST_0))
+        insnList.add(InsnNode(if (DoKitExtUtil.dokitSlowMethodSwitchOpen()) ICONST_1 else ICONST_0))
         insnList.add(MethodInsnNode(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false))
         insnList.add(MethodInsnNode(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true))
         insnList.add(InsnNode(POP))

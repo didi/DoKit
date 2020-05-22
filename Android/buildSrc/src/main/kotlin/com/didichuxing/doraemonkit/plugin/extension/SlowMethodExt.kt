@@ -18,7 +18,8 @@ open class SlowMethodExt(
         //0:打印函数调用栈  1:普通模式 运行时打印某个函数的耗时 全局业务代码函数插入
         var strategy: Int = STRATEGY_STACK,
         //函数功能开关
-        var methodSwitch: Boolean = true,
+        @Deprecated("已弃用,请在项目根目录的gradle.properties中通过DoKit_SLOW_METHOD_SWITCH=true|false 来控制")
+        var methodSwitch: Boolean = false,
         //函数调用栈模式
         var stackMethod: StackMethodExt = StackMethodExt(),
         //普通模式

@@ -78,19 +78,25 @@ class DoKitPlugin : Plugin<Project> {
         when {
             project.plugins.hasPlugin("com.android.application") || project.plugins.hasPlugin("com.android.dynamic-feature") -> {
                 project.getAndroid<AppExtension>().let { androidExt ->
+                    val slowMethodSwitch = project.getProperty("DoKit_SLOW_METHOD_SWITCH", false)
                     val methodStackLevel = project.getProperty("DoKit_MethodStack_Level", 5)
+                    DoKitExtUtil.mSlowMethodSwitch = slowMethodSwitch
                     DoKitExtUtil.mStackMethodLevel = methodStackLevel
+
                     MethodStackNodeUtil.METHOD_STACK_KEYS.clear()
                     //注册transform
                     androidExt.registerTransform(DoKitCommTransform(project))
                     MethodStackNodeUtil.METHOD_STACK_KEYS.add(0, mutableSetOf<String>())
-                    val methodStackRange = 1 until methodStackLevel
-                    if (methodStackLevel > 1) {
-                        for (index in methodStackRange) {
-                            MethodStackNodeUtil.METHOD_STACK_KEYS.add(index, mutableSetOf<String>())
-                            androidExt.registerTransform(DoKitDependTransform(project, index))
+                    if (slowMethodSwitch) {
+                        val methodStackRange = 1 until methodStackLevel
+                        if (methodStackLevel > 1) {
+                            for (index in methodStackRange) {
+                                MethodStackNodeUtil.METHOD_STACK_KEYS.add(index, mutableSetOf<String>())
+                                androidExt.registerTransform(DoKitDependTransform(project, index))
+                            }
                         }
                     }
+
 
                     //项目评估完毕回调
                     project.afterEvaluate {

@@ -57,8 +57,16 @@ android {
 
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     lintOptions {
         abortOnError false
+    }
+
+    dataBinding {
+        enabled = true
     }
 
 
@@ -74,7 +82,7 @@ dokitExt {
     //通用设置
     comm {
         //地图经纬度开关
-        gpsSwitch false
+        gpsSwitch true
         //网络开关
         networkSwitch true
         //大图开关
@@ -86,7 +94,7 @@ dokitExt {
         //1:普通模式 运行时打印某个函数的耗时 全局业务代码函数插入
         strategy 0
         //函数功能开关
-        methodSwitch true
+        methodSwitch false
 
         //调用栈模式配置
         stackMethod {
@@ -120,7 +128,7 @@ dependencies {
     implementation rootProject.ext.dependencies["okhttp"]
     implementation rootProject.ext.dependencies["glide"]
 //    implementation rootProject.ext.dependencies["glide_okhttp3"]
-    annotationProcessor rootProject.ext.dependencies["glide_compiler"]
+    kapt rootProject.ext.dependencies["glide_compiler"]
     implementation rootProject.ext.dependencies["picasso"]
     implementation rootProject.ext.dependencies["fresco"]
     implementation rootProject.ext.dependencies["fresco-processors"]

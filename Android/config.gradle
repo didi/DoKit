@@ -33,6 +33,7 @@ ext {
                     "appcompat"          : 'androidx.appcompat:appcompat:1.0.0',
                     "cardview"           : 'androidx.cardview:cardview:1.0.0',
                     "recyclerview"       : 'androidx.recyclerview:recyclerview:1.0.0',
+                    "databinding"        : 'androidx.databinding:3.2.0-alpha11',
                     "design"             : 'com.google.android.material:material:1.0.0',
                     "kotlin"             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${android["kotlin_version"]}",
                     "core-ktx"           : "androidx.core:core-ktx:1.2.0",

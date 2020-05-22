@@ -1,6 +1,6 @@
 if (rootProject.ext.config["applyPlugin"]) {
 // 引用插件
-    apply plugin: 'com.didi.dokit'
+    apply plugin: 'com.didi.dokit.debug'
     // 这里引用正常库
     dependencies {
         //外部平台依赖

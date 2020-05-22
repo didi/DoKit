@@ -28,6 +28,12 @@ object DoKitExtUtil {
      * 默认函数调用为5级
      */
     public var mStackMethodLevel = 5
+
+    /**
+     * 慢函数默认关闭
+     */
+    public var mSlowMethodSwitch = false
+
     private val applications: MutableSet<String> = mutableSetOf()
     var commExt = CommExt()
         private set
@@ -39,6 +45,10 @@ object DoKitExtUtil {
 
     fun dokitLogSwitchOpen(): Boolean {
         return mDokitLogSwitch
+    }
+
+    fun dokitSlowMethodSwitchOpen(): Boolean {
+        return mSlowMethodSwitch
     }
 
     /**
@@ -124,10 +134,16 @@ object DoKitExtUtil {
 
     private val ignorePackageNames = arrayOf(
             "com.didichuxing.doraemonkit.aop",
-            "com.didichuxing.doraemonkit.kit",
-            "com.didichuxing.doraemonkit.okgo",
+            "com.didichuxing.doraemonkit.config",
+            "com.didichuxing.doraemonkit.constant",
             "com.didichuxing.doraemonkit.datapick",
+            "com.didichuxing.doraemonkit.kit",
+            "com.didichuxing.doraemonkit.model",
+            "com.didichuxing.doraemonkit.okgo",
+            "com.didichuxing.doraemonkit.picasso",
             "com.didichuxing.doraemonkit.reflection",
+            "com.didichuxing.doraemonkit.util",
+            "com.didichuxing.doraemonkit.widget",
             "com.didichuxing.doraemonkit.zxing"
     )
 

@@ -30,7 +30,7 @@ class MethodStackDepTransformer(private val level: Int = 1) : BaseDoKitClassTran
             return klass
         }
 
-        if (!DoKitExtUtil.slowMethodExt.methodSwitch) {
+        if (!DoKitExtUtil.dokitSlowMethodSwitchOpen()) {
             return klass
         }
 
