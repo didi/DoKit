@@ -1,4 +1,4 @@
-const img = require('../../assets/imgs/imgbase64')
+const img = require('../../utils/imgbase64')
 Component({
     data: {
         qrCodeUrl:'',
