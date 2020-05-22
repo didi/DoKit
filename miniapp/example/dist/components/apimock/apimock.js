@@ -1,5 +1,5 @@
-const img = require('../../assets/imgs/imgbase64')
 const util = require('../../utils/util.js');
+const img = require('../../utils/imgbase64')
 const app = getApp()
 if (!Object.prototype.hasOwnProperty.call(app, 'originRequest') && Object.prototype.toString.apply(getApp().originRequest) !== "[object Function]") {
     app.originRequest = wx.request
