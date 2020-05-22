@@ -8,6 +8,7 @@
     left: 0;
     right: 0;
     top: 0;
+    z-index: 9998;
 }
 .storage-container .mask{
     position: fixed;

@@ -6,6 +6,7 @@
   background: #F5F6F7;
   width: 100%;
   min-height: 100%;
+  z-index: 9998;
 }
 .appinfo-header {
   height:40rpx;

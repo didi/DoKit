@@ -5,7 +5,8 @@
   top: 0;
   background: #f5f6f7;
   width: 100%;
-  min-height: 100%
+  min-height: 100%;
+  z-index: 9998
 }
 .appinfo-header {
   height: 40rpx;

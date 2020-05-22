@@ -9,7 +9,8 @@
   display: flex;
   -ms-flex-direction: column;
   flex-direction: column;
-  background: #f5f6f7
+  background: #f5f6f7;
+  z-index: 9998
 }
 .switch {
   zoom: .8

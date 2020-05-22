@@ -7,7 +7,8 @@
   right: 0;
   top: 0;
   padding: 32rpx;
-  background-color: #fff
+  background-color: #fff;
+  z-index: 9998
 }
 .injector-container .mask {
   position: fixed;

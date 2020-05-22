@@ -15,6 +15,7 @@
     padding-left: 32rpx;
     text-align: left;
     background-color:#fff;
+    z-index: 9998;
 }
 .tools-item{
     height: 104rpx;

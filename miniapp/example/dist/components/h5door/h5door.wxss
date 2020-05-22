@@ -5,7 +5,8 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: #fff
+  background-color: #fff;
+  z-index: 9998
 }
 .h5door-page .url-box {
   height: 358rpx;
