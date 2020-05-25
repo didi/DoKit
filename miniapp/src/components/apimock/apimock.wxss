@@ -4,7 +4,7 @@
     right: 0;
     left: 0;
     width: 100%;
-    min-height:100%;
+    height:100vh;
     display: flex;
     flex-direction: column;
     background: #F5F6F7;
