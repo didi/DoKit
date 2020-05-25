@@ -99,7 +99,11 @@ export const styles = () => (
 export const scripts = () => (
     gulp.src(paths.scripts.src, { base: 'src' })
         .pipe(babel())
-        .pipe(uglify())
+        .pipe(uglify({
+            compress: {
+                drop_console: true  // 过滤 console
+            }
+        }))
         .pipe(gulp.dest(paths.scripts.dest))
 )
 
