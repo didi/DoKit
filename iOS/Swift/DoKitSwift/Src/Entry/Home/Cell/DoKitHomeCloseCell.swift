@@ -30,7 +30,17 @@ class DoKitHomeCloseCell: UICollectionViewCell {
     }
     
     @objc private func closeClick() {
-        print("close")
+        DoKitHomeWindow.shared.hide()
+        if let vc = UIViewController.rootViewControllerForKeyWindow() {
+            DoKitAlertUtil.handleAlertAction(vc: vc, title: DoKitLocalizedString("提示"), text: "该功能需要重启App才能生效", ok: "确定", cancel: "取消", okBlock: {
+                DoKit.shared.hideDoKit()
+            }) {
+                //print("cancel")
+            }
+        }else{
+            DoKit.shared.hideDoKit()
+        }
+
     }
     
 }

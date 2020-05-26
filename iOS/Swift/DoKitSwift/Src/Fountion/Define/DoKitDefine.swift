@@ -52,7 +52,6 @@ func kIsIphoneXSeries() -> Bool{
 func getKeyWindow() -> UIWindow? {
     let keyWindow: UIWindow? = UIApplication.shared.delegate?.window ?? UIApplication.shared.windows.first
     return keyWindow
-    
 }
 
 

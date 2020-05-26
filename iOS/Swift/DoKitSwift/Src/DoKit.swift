@@ -7,10 +7,16 @@
 //
 
 public class DoKit {
-    var entryWindow:DoKitEntryWindow
-    var originalPluginArray: Array<DoKitPluginModel>
     public var pluginArray: Array<Dictionary<String, Any>>
     public static let shared = DoKit()
+    public var isShowDoKit: Bool {
+        get {
+            return !entryWindow.isHidden
+        }
+    }
+    
+    var entryWindow:DoKitEntryWindow
+       var originalPluginArray: Array<DoKitPluginModel>
     private init() {
         originalPluginArray = [DoKitPluginModel]()
         pluginArray = [Dictionary<String, Any>]()
@@ -21,18 +27,8 @@ public class DoKit {
     }
     
     public func install() {
-        self.addPlugin(title: DoKitLocalizedString("Mock数据"), icon: "doraemon_mock", plugin: "DoKitAppSettingPlugin", module: DoKitLocalizedString("平台工具"))
-        self.addPlugin(title: DoKitLocalizedString("Mock数据"), icon: "doraemon_mock", plugin: "DoKitAppSettingPlugin", module: DoKitLocalizedString("平台工具"))
         self.addPlugin(title: DoKitLocalizedString("应用设置"), icon: "doraemon_setting", plugin: "DoKitAppSettingPlugin", module: DoKitLocalizedString("常用工具"))
-        self.addPlugin(title: DoKitLocalizedString("App信息"), icon: "doraemon_app_info", plugin: "DoKitAppSettingPlugin", module: DoKitLocalizedString("常用工具"))
-        self.addPlugin(title: DoKitLocalizedString("应用设置"), icon: "doraemon_setting", plugin: "DoKitAppSettingPlugin", module: DoKitLocalizedString("常用工具"))
-        self.addPlugin(title: DoKitLocalizedString("App信息"), icon: "doraemon_app_info", plugin: "DoKitAppSettingPlugin", module: DoKitLocalizedString("常用工具"))
-        self.addPlugin(title: DoKitLocalizedString("应用设置"), icon: "doraemon_setting", plugin: "DoKitAppSettingPlugin", module: DoKitLocalizedString("常用工具"))
-        self.addPlugin(title: DoKitLocalizedString("App信息"), icon: "doraemon_app_info", plugin: "DoKitAppSettingPlugin", module: DoKitLocalizedString("常用工具"))
-        self.addPlugin(title: DoKitLocalizedString("帧率"), icon: "doraemon_fps", plugin: "DoKitAppSettingPlugin", module: DoKitLocalizedString("性能检测"))
-        self.addPlugin(title: DoKitLocalizedString("帧率"), icon: "doraemon_fps", plugin: "DoKitAppSettingPlugin", module: DoKitLocalizedString("性能检测"))
-        self.addPlugin(title: DoKitLocalizedString("帧率"), icon: "doraemon_fps", plugin: "DoKitAppSettingPlugin", module: DoKitLocalizedString("性能检测"))
-        self.addPlugin(title: DoKitLocalizedString("取色器"), icon: "doraemon_straw", plugin: "DoKitAppSettingPlugin", module: DoKitLocalizedString("视觉工具"))
+        self.addPlugin(title: DoKitLocalizedString("清理缓存"), icon: "doraemon_qingchu", plugin: "DoKitDelSanboxPlugin", module: DoKitLocalizedString("常用工具"))
         
         var modules = Array<String>()
         for plugin in originalPluginArray {
@@ -63,6 +59,18 @@ public class DoKit {
         pluginModel.plugin = plugin
         pluginModel.module = module
         originalPluginArray.append(pluginModel)
+    }
+    
+    public func showDoKit() {
+        if entryWindow.isHidden {
+            entryWindow.isHidden = false
+        }
+    }
+    
+    public func hideDoKit() {
+        if !entryWindow.isHidden {
+            entryWindow.isHidden = true
+        }
     }
 
 }

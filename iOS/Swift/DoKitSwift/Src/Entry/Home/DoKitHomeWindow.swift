@@ -40,4 +40,8 @@ class DoKitHomeWindow: UIWindow {
             self.rootViewController = nil
         }
     }
+    
+    func openPlugin(vc: UIViewController) {
+        self.setRootVc(rootVc: vc)
+    }
 }

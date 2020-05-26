@@ -134,21 +134,22 @@ class DoKitHomeViewController: DoKitBaseViewController, UICollectionViewDelegate
             let pluginModel: DoKitPluginModel = plugins[row]
             let plugin = pluginModel.plugin
             if let plugin = plugin {
-                let className = "DoraemonKit.\(plugin)"
-                print(className)
-                let pluginClass = NSClassFromString(className) as! DoKitPluginProtocol.Type
+                guard let pluginClass = getClass(className: plugin) as? DoKitBasePlugin.Type else {
+                    print("pluginClass not found")
+                    return
+                }
                 let pluginInstance = pluginClass.init()
-                
-                
-//                let pluginClass = NSClassFromString(className) as! DoKitBasePlugin.Type
-//                let pluginInstance = pluginClass.init()
-//                pluginInstance.pluginDidLoad()
-//                print(pluginInstance)
-                
+                pluginInstance.pluginDidLoad()
             }
-            
-            
         }
+    }
+    
+    // swift 类名有需要添加前缀
+    func getClass(className: String) -> AnyClass? {
+        guard let prefix = NSStringFromClass(type(of: self)).split(separator: ".").first else {
+            return nil
+        }
+        return NSClassFromString(prefix + ".\(className)")
     }
     
 }

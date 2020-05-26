@@ -7,11 +7,9 @@
 
 import UIKit
 
-class DoKitBasePlugin: NSObject {
+class DoKitBasePlugin {
     
-    required override init() {
-        super.init()
-    }
+    required init() {}
     
     func pluginDidLoad(){
         print("子类实现功能")
