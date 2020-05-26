@@ -37,7 +37,6 @@
 		0AC750D7246E3DCF00F87363 /* DoraemonDemoLoggerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC750D6246E3DCF00F87363 /* DoraemonDemoLoggerViewController.swift */; };
 		0AC750DA246E7FE200F87363 /* DoraemonDemoPerformanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC750D9246E7FE200F87363 /* DoraemonDemoPerformanceViewController.swift */; };
 		0AE1029E24693DAB006CA490 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE1029D24693DAB006CA490 /* AppDelegate.swift */; };
-		0AE102A024693DAB006CA490 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AE1029F24693DAB006CA490 /* SceneDelegate.swift */; };
 		0AE102A524693DAB006CA490 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A324693DAB006CA490 /* Main.storyboard */; };
 		0AE102A724693DAD006CA490 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A624693DAD006CA490 /* Assets.xcassets */; };
 		0AE102AA24693DAD006CA490 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A824693DAD006CA490 /* LaunchScreen.storyboard */; };
@@ -81,7 +80,6 @@
 		0AC750D9246E7FE200F87363 /* DoraemonDemoPerformanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoraemonDemoPerformanceViewController.swift; sourceTree = "<group>"; };
 		0AE1029A24693DAB006CA490 /* DoKitSwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoKitSwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0AE1029D24693DAB006CA490 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0AE1029F24693DAB006CA490 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		0AE102A424693DAB006CA490 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0AE102A624693DAD006CA490 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0AE102A924693DAD006CA490 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -274,7 +272,6 @@
 				0AC7509E246BD53800F87363 /* Base */,
 				0AC7509D246BD51500F87363 /* Home */,
 				0AE1029D24693DAB006CA490 /* AppDelegate.swift */,
-				0AE1029F24693DAB006CA490 /* SceneDelegate.swift */,
 				0A652E0F2472905700BC12A8 /* DoKitSwiftDemo-Bridging-Header.h */,
 				0AE102A324693DAB006CA490 /* Main.storyboard */,
 				0AE102A624693DAD006CA490 /* Assets.xcassets */,
@@ -437,7 +434,6 @@
 				0A652E272473ADE000BC12A8 /* DoraemonDemoMemoryLeakViewController.swift in Sources */,
 				0AE1029E24693DAB006CA490 /* AppDelegate.swift in Sources */,
 				0A652E0A24726E0E00BC12A8 /* DoraemonDemoUIViewController.swift in Sources */,
-				0AE102A024693DAB006CA490 /* SceneDelegate.swift in Sources */,
 				0AC750A5246BD90900F87363 /* TestPlugin.swift in Sources */,
 				0AC750A0246BD56400F87363 /* DoraemonDemoBaseViewController.swift in Sources */,
 				0AC750B7246BF9D700F87363 /* UIColor+DoKit.swift in Sources */,
