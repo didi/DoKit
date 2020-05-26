@@ -1,10 +1,7 @@
 package com.didichuxing.doraemonkit.plugin.classtransformer
 
-import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
+import com.didichuxing.doraemonkit.plugin.*
 import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
-import com.didichuxing.doraemonkit.plugin.getMethodExitInsnNodes
-import com.didichuxing.doraemonkit.plugin.isRelease
-import com.didichuxing.doraemonkit.plugin.ownerClassName
 import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNode
 import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
 import com.didiglobal.booster.annotations.Priority
@@ -76,7 +73,7 @@ class EnterMethodStackTransformer : ClassTransformer {
                 klass.methods.forEach { methodNode ->
                     val allMethodName = "${klass.className}.${methodNode.name}"
                     if (allMethodName == enterMethodName) {
-                        println("level===>$level   mathched enterMethod===>$allMethodName")
+                        "level===>$level   mathched enterMethod===>$allMethodName".println()
                         operateMethodInsn(klass, methodNode)
                     }
                 }

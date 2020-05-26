@@ -1,10 +1,7 @@
 package com.didichuxing.doraemonkit.plugin.classtransformer
 
-import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
+import com.didichuxing.doraemonkit.plugin.*
 import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
-import com.didichuxing.doraemonkit.plugin.getMethodExitInsnNodes
-import com.didichuxing.doraemonkit.plugin.isRelease
-import com.didichuxing.doraemonkit.plugin.ownerClassName
 import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNode
 import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
 import com.didiglobal.booster.transform.TransformContext
@@ -54,7 +51,7 @@ class MethodStackDepTransformer(private val level: Int = 1) : ClassTransformer {
         klass.methods.forEach { methodNode ->
             val key = "${klass.className}&${methodNode.name}&${methodNode.desc}"
             if (methodStackKeys.contains(key)) {
-                println("level===>$level   mathched key===>$key")
+                "level===>$level   mathched key===>$key".println()
                 operateMethodInsn(klass, methodNode)
             }
 
