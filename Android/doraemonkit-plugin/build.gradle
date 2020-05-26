@@ -1,22 +1,34 @@
-apply plugin: 'groovy'
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
 apply from: 'upload.gradle'
+
+sourceSets {
+    main {
+        java {
+            srcDirs += []
+        }
+        kotlin {
+            srcDirs += ['src/main/kotlin', 'src/main/java']
+        }
+    }
+
+
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
+}
 
 dependencies {
     compileOnly gradleApi()
     compileOnly localGroovy()
     //版本不能太高 否则会跟项目的as版本冲突
     compileOnly 'com.android.tools.build:gradle:3.0.0'
-    implementation 'com.didiglobal.booster:booster-android-gradle-api:1.6.0'
-    implementation 'commons-io:commons-io:2.6'
-    implementation 'commons-codec:commons-codec:1.11'
-    //noinspection GradleDependency
-    implementation 'org.ow2.asm:asm:7.2'
-    //noinspection GradleDependency
-    implementation 'org.ow2.asm:asm-util:7.2'
-    //noinspection GradleDependency
-    implementation 'org.ow2.asm:asm-commons:7.2'
-    //https://github.com/Leaking/Hunter
-    implementation 'com.quinn.hunter:hunter-transform:0.9.3'
+    /* 👇👇👇👇 引用这两个模块 👇👇👇👇 */
+    api "com.didiglobal.booster:booster-api:${rootProject.ext.android["booster_version"]}"
+    api "com.didiglobal.booster:booster-transform-asm:${rootProject.ext.android["booster_version"]}"
+    kapt "com.google.auto.service:auto-service:1.0-rc6"
 }
 
 repositories {
