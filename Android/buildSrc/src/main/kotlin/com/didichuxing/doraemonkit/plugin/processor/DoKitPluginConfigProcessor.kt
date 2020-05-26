@@ -5,6 +5,8 @@ import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.api.LibraryVariant
 import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
+import com.didichuxing.doraemonkit.plugin.isRelease
+import com.didichuxing.doraemonkit.plugin.println
 import com.didichuxing.doraemonkit.plugin.transform.*
 import com.didiglobal.booster.gradle.getAndroid
 import com.didiglobal.booster.gradle.isDynamicFeature
@@ -31,15 +33,22 @@ import javax.xml.parsers.SAXParserFactory
 class DoKitPluginConfigProcessor : VariantProcessor {
     override fun process(variant: BaseVariant) {
         if (variant is LibraryVariant || variant.variantData.isDynamicFeature()) {
-            println("error====>dokit plugin config must in the app module")
+            "error====>dokit plugin config must in the app module".println()
             return
         }
+
+        if (variant.isRelease()) {
+            return
+        }
+
         //查找AndroidManifest.xml 文件路径
         variant.artifacts.get(ArtifactManager.MERGED_MANIFESTS).forEach { manifest ->
             val parser = SAXParserFactory.newInstance().newSAXParser()
             val handler = ComponentHandler()
             parser.parse(manifest, handler)
             DoKitExtUtil.setApplications(handler.applications)
+            "applications path====>${handler.applications}".println()
+
         }
 
 

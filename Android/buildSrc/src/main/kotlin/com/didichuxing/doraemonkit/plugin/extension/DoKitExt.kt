@@ -6,7 +6,7 @@ import org.gradle.api.Action
  * Created by jint on 07/10/2018.
  */
 open class DoKitExt(var dokitPluginSwitch: Boolean = true,
-                    var dokitLogSwitch: Boolean = true,
+                    var dokitLogSwitch: Boolean = false,
                     var comm: CommExt = CommExt(),
                     var slowMethod: SlowMethodExt = SlowMethodExt()) {
 

@@ -1,18 +1,5 @@
 package com.didichuxing.doraemondemo;
 
-import android.util.Log;
-
-import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
-import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil;
-import com.didichuxing.doraemonkit.aop.urlconnection.HttpUrlConnectionProxyUtil;
-
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -26,8 +13,7 @@ public class AopTest {
     private static final String TAG = "AopTest";
 
     public void test() {
-        //MethodStackUtil.getInstance().recodeObjectMethodCostStart(10, 5, 0, "AopTest", "test", "desc", this);
-        MethodStackUtil.getInstance().recodeStaticMethodCostStart(10, 5, 7, "AopTest", "test", "desc");
+
     }
 
 

@@ -1,6 +1,8 @@
 package com.didichuxing.doraemonkit.plugin.classtransformer
 
 import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
+import com.didichuxing.doraemonkit.plugin.isRelease
+import com.didichuxing.doraemonkit.plugin.println
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.kotlinx.asIterable
 import com.didiglobal.booster.transform.TransformContext
@@ -28,9 +30,10 @@ class UrlConnectionTransformer : ClassTransformer {
     private val DESC = "(Ljava/net/URLConnection;)Ljava/net/URLConnection;"
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
-//        if(klass.className == "com.didichuxing.doraemondemo.App"){
-//            println("===UrlConnectionTransformer====transform===")
-//        }
+        if (context.isRelease()) {
+            return klass
+        }
+
         if (!DoKitExtUtil.dokitPluginSwitchOpen()) {
             return klass
         }

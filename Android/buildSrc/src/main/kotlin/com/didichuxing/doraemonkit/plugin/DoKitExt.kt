@@ -1,5 +1,8 @@
 package com.didichuxing.doraemonkit.plugin
 
+import com.android.build.gradle.api.BaseVariant
+import com.didiglobal.booster.kotlinx.boolean
+import com.didiglobal.booster.transform.TransformContext
 import org.objectweb.asm.Opcodes.*
 import org.objectweb.asm.tree.ClassNode
 import org.objectweb.asm.tree.InsnList
@@ -25,6 +28,28 @@ fun InsnList.getMethodExitInsnNodes(): Sequence<InsnNode>? {
                 it.opcode == LRETURN ||
                 it.opcode == DRETURN ||
                 it.opcode == ATHROW
+    }
+}
+
+fun BaseVariant.isRelease(): Boolean {
+    if (this.name.contains("release") || this.name.contains("Release")) {
+        return true
+    }
+    return false
+}
+
+
+fun TransformContext.isRelease(): Boolean {
+    if (this.name.contains("release") || this.name.contains("Release")) {
+        return true
+    }
+    return false
+}
+
+
+fun String.println() {
+    if (DoKitExtUtil.dokitLogSwitchOpen()) {
+        print(this)
     }
 }
 

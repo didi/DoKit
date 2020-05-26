@@ -1,9 +1,9 @@
 package com.didichuxing.doraemonkit.plugin.asmtransformer
 
-import com.didichuxing.doraemonkit.plugin.asmclasstransformer.BaseDoKitClassTransformer
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.Transformer
+import com.didiglobal.booster.transform.asm.ClassTransformer
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.tree.ClassNode
@@ -22,14 +22,14 @@ import java.lang.management.ThreadMXBean
 open class BaseDoKitAsmTransformer : Transformer {
     private val threadMxBean = ManagementFactory.getThreadMXBean()
 
-    private val durations = mutableMapOf<BaseDoKitClassTransformer, Long>()
+    private val durations = mutableMapOf<ClassTransformer, Long>()
 
-    internal val transformers: Collection<BaseDoKitClassTransformer>
+    internal val transformers: Collection<ClassTransformer>
 
     /**
      * For unit test only
      */
-    constructor(vararg transformers: BaseDoKitClassTransformer) {
+    constructor(vararg transformers: ClassTransformer) {
         this.transformers = transformers.sortedBy {
             it.javaClass.getAnnotation(Priority::class.java)?.value ?: 0
         }
@@ -70,7 +70,7 @@ open class BaseDoKitAsmTransformer : Transformer {
         }
     }
 
-    private fun <R> ThreadMXBean.sumCpuTime(transformer: BaseDoKitClassTransformer, action: () -> R): R {
+    private fun <R> ThreadMXBean.sumCpuTime(transformer: ClassTransformer, action: () -> R): R {
         val ct0 = this.currentThreadCpuTime
         val result = action()
         val ct1 = this.currentThreadCpuTime

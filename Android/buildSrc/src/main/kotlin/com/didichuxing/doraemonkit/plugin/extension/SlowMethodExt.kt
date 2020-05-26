@@ -50,6 +50,8 @@ open class SlowMethodExt(
             var thresholdTime: Int = 5,
             //入口函集合
             var enterMethods: MutableSet<String> = mutableSetOf()) {
+
+
         /**
          * 默认值为5ms
          */

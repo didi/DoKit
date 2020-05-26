@@ -4,7 +4,8 @@ import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
 import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
-import com.didichuxing.doraemonkit.plugin.transform.*
+import com.didichuxing.doraemonkit.plugin.transform.DoKitCommTransform
+import com.didichuxing.doraemonkit.plugin.transform.DoKitDependTransform
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.gradle.getAndroid
 import com.didiglobal.booster.gradle.getProperty
@@ -23,11 +24,13 @@ import java.util.*
  * ================================================
  */
 class DoKitPlugin : Plugin<Project> {
+    private lateinit var mProject: Project
     override fun apply(project: Project) {
+        mProject = project
         //创建指定扩展 并将project 传入构造函数
 
         //创建指定扩展 并将project 传入构造函数
-        project.extensions.create("dokitExt", DoKitExt::class.java)
+        val doKitExt = project.extensions.create("dokitExt", DoKitExt::class.java)
 
 //        val debug = project.gradle.startParameter.taskNames.any {
 //            it.contains("debug") || it.contains("Debug")
@@ -78,8 +81,8 @@ class DoKitPlugin : Plugin<Project> {
         when {
             project.plugins.hasPlugin("com.android.application") || project.plugins.hasPlugin("com.android.dynamic-feature") -> {
                 project.getAndroid<AppExtension>().let { androidExt ->
-                    val slowMethodSwitch = project.getProperty("DoKit_SLOW_METHOD_SWITCH", false)
-                    val methodStackLevel = project.getProperty("DoKit_MethodStack_Level", 5)
+                    val slowMethodSwitch = project.getProperty("DOKIT_SLOW_METHOD_SWITCH", false)
+                    val methodStackLevel = project.getProperty("DOKIT_METHOD_STACK_LEVEL", 5)
                     DoKitExtUtil.mSlowMethodSwitch = slowMethodSwitch
                     DoKitExtUtil.mStackMethodLevel = methodStackLevel
 
@@ -132,5 +135,6 @@ class DoKitPlugin : Plugin<Project> {
         get() = ServiceLoader.load(VariantProcessor::class.java, javaClass.classLoader).sortedBy {
             it.javaClass.getAnnotation(Priority::class.java)?.value ?: 0
         }
+
 
 }

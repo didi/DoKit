@@ -36,6 +36,7 @@ class App : Application() {
         mapKits["业务专区2"] = mutableListOf<AbstractKit>(DemoKit())
 
         DoraemonKit.install(this, mapKits = mapKits, productId = "749a0600b5e48dd77cf8ee680be7b1b7")
+
         val config = ImagePipelineConfig.newBuilder(this)
                 .setDiskCacheEnabled(false)
                 .build()

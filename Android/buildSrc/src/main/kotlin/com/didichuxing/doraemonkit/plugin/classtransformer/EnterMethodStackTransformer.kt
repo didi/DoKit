@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.plugin.classtransformer
 import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
 import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
 import com.didichuxing.doraemonkit.plugin.getMethodExitInsnNodes
+import com.didichuxing.doraemonkit.plugin.isRelease
 import com.didichuxing.doraemonkit.plugin.ownerClassName
 import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNode
 import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
@@ -32,6 +33,10 @@ class EnterMethodStackTransformer : ClassTransformer {
     private val thresholdTime = DoKitExtUtil.slowMethodExt.stackMethod.thresholdTime
     private val level = 0
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
+        if (context.isRelease()) {
+            return klass
+        }
+
         if (!DoKitExtUtil.dokitPluginSwitchOpen()) {
             return klass
         }
@@ -105,29 +110,31 @@ class EnterMethodStackTransformer : ClassTransformer {
      */
     private fun createMethodEnterInsnList(level: Int, className: String, methodName: String, desc: String, access: Int): InsnList {
         val isStaticMethod = access and ACC_STATIC != 0
-        val insnList = InsnList()
-        if (isStaticMethod) {
-            insnList.add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;", false))
-            insnList.add(IntInsnNode(BIPUSH, DoKitExtUtil.mStackMethodLevel))
-            insnList.add(IntInsnNode(BIPUSH, thresholdTime))
-            insnList.add(IntInsnNode(BIPUSH, level))
-            insnList.add(LdcInsnNode(className))
-            insnList.add(LdcInsnNode(methodName))
-            insnList.add(LdcInsnNode(desc))
-            insnList.add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "recodeStaticMethodCostStart", "(IIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", false))
-        } else {
-            insnList.add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;", false))
-            insnList.add(IntInsnNode(BIPUSH, DoKitExtUtil.mStackMethodLevel))
-            insnList.add(IntInsnNode(BIPUSH, thresholdTime))
-            insnList.add(IntInsnNode(BIPUSH, level))
-            insnList.add(LdcInsnNode(className))
-            insnList.add(LdcInsnNode(methodName))
-            insnList.add(LdcInsnNode(desc))
-            insnList.add(VarInsnNode(ALOAD, 0))
-            insnList.add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "recodeObjectMethodCostStart", "(IIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false))
+        return with(InsnList()) {
+            if (isStaticMethod) {
+                add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;", false))
+                add(IntInsnNode(BIPUSH, DoKitExtUtil.mStackMethodLevel))
+                add(IntInsnNode(BIPUSH, thresholdTime))
+                add(IntInsnNode(BIPUSH, level))
+                add(LdcInsnNode(className))
+                add(LdcInsnNode(methodName))
+                add(LdcInsnNode(desc))
+                add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "recodeStaticMethodCostStart", "(IIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", false))
+            } else {
+                add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;", false))
+                add(IntInsnNode(BIPUSH, DoKitExtUtil.mStackMethodLevel))
+                add(IntInsnNode(BIPUSH, thresholdTime))
+                add(IntInsnNode(BIPUSH, level))
+                add(LdcInsnNode(className))
+                add(LdcInsnNode(methodName))
+                add(LdcInsnNode(desc))
+                add(VarInsnNode(ALOAD, 0))
+                add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "recodeObjectMethodCostStart", "(IIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false))
+            }
+            this
         }
 
-        return insnList
+
     }
 
 
@@ -136,26 +143,29 @@ class EnterMethodStackTransformer : ClassTransformer {
      */
     private fun createMethodExitInsnList(level: Int, className: String, methodName: String, desc: String, access: Int): InsnList {
         val isStaticMethod = access and ACC_STATIC != 0
-        val insnList = InsnList()
-        if (isStaticMethod) {
-            insnList.add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;", false))
-            insnList.add(IntInsnNode(BIPUSH, thresholdTime))
-            insnList.add(IntInsnNode(BIPUSH, level))
-            insnList.add(LdcInsnNode(className))
-            insnList.add(LdcInsnNode(methodName))
-            insnList.add(LdcInsnNode(desc))
-            insnList.add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "recodeStaticMethodCostEnd", "(IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", false))
-        } else {
-            insnList.add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;", false))
-            insnList.add(IntInsnNode(BIPUSH, thresholdTime))
-            insnList.add(IntInsnNode(BIPUSH, level))
-            insnList.add(LdcInsnNode(className))
-            insnList.add(LdcInsnNode(methodName))
-            insnList.add(LdcInsnNode(desc))
-            insnList.add(VarInsnNode(ALOAD, 0))
-            insnList.add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "recodeObjectMethodCostEnd", "(IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false))
+
+        return with(InsnList()) {
+            if (isStaticMethod) {
+                add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;", false))
+                add(IntInsnNode(BIPUSH, thresholdTime))
+                add(IntInsnNode(BIPUSH, level))
+                add(LdcInsnNode(className))
+                add(LdcInsnNode(methodName))
+                add(LdcInsnNode(desc))
+                add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "recodeStaticMethodCostEnd", "(IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", false))
+            } else {
+                add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "getInstance", "()Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;", false))
+                add(IntInsnNode(BIPUSH, thresholdTime))
+                add(IntInsnNode(BIPUSH, level))
+                add(LdcInsnNode(className))
+                add(LdcInsnNode(methodName))
+                add(LdcInsnNode(desc))
+                add(VarInsnNode(ALOAD, 0))
+                add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "recodeObjectMethodCostEnd", "(IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false))
+            }
+            this
         }
-        return insnList
+
     }
 
 }

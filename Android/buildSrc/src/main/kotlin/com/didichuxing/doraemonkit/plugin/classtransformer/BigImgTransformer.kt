@@ -2,6 +2,8 @@ package com.didichuxing.doraemonkit.plugin.classtransformer
 
 import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
 import com.didichuxing.doraemonkit.plugin.getMethodExitInsnNodes
+import com.didichuxing.doraemonkit.plugin.isRelease
+import com.didichuxing.doraemonkit.plugin.println
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.ClassTransformer
@@ -27,9 +29,9 @@ import org.objectweb.asm.tree.VarInsnNode
 class BigImgTransformer : ClassTransformer {
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
-//        if(klass.className == "com.didichuxing.doraemondemo.App"){
-//            println("===BigImgTransformer====transform===")
-//        }
+        if (context.isRelease()) {
+            return klass
+        }
 
         if (!DoKitExtUtil.dokitPluginSwitchOpen()) {
             return klass
@@ -52,6 +54,7 @@ class BigImgTransformer : ClassTransformer {
             }.let { methodNode ->
                 //函数结束的地方插入
                 methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                    "hook glide  succeed: ${className}_${methodNode.name}_${methodNode.desc}".println()
                     methodNode.instructions?.insertBefore(it, createGlideInsnList())
                 }
             }
@@ -64,6 +67,7 @@ class BigImgTransformer : ClassTransformer {
             }.let { methodNode ->
                 //函数结束的地方插入
                 methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                    "hook picasso  succeed: ${className}_${methodNode.name}_${methodNode.desc}".println()
                     methodNode.instructions?.insertBefore(it, createPicassoInsnList())
                 }
             }
@@ -74,6 +78,7 @@ class BigImgTransformer : ClassTransformer {
             klass.methods.find { methodNode ->
                 methodNode.name == "<init>" && methodNode.desc != null
             }.let { methodNode ->
+                "hook Fresco succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
                 //函数开始的地方插入
                 methodNode?.instructions?.insert(createFrescoInsnList())
             }
@@ -84,6 +89,7 @@ class BigImgTransformer : ClassTransformer {
             klass.methods.find { methodNode ->
                 methodNode.name == "<init>" && methodNode.desc != null
             }.let { methodNode ->
+                "hook ImageLoader  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
                 methodNode?.instructions?.insert(createImageLoaderInsnList())
             }
         }
@@ -96,20 +102,23 @@ class BigImgTransformer : ClassTransformer {
      * 创建Glide Aop代码指令
      */
     private fun createGlideInsnList(): InsnList {
-        val insnList = InsnList()
-        insnList.add(VarInsnNode(ALOAD, 0))
-        insnList.add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/glide/GlideHook", "proxy", "(Ljava/lang/Object;)V", false))
-        return insnList
+        return with(InsnList()) {
+            add(VarInsnNode(ALOAD, 0))
+            add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/glide/GlideHook", "proxy", "(Ljava/lang/Object;)V", false))
+            this
+        }
     }
 
     /**
      * 创建Picasso Aop代码指令
      */
     private fun createPicassoInsnList(): InsnList {
-        val insnList = InsnList()
-        insnList.add(VarInsnNode(ALOAD, 0))
-        insnList.add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/picasso/PicassoHook", "proxy", "(Ljava/lang/Object;)V", false))
-        return insnList
+        return with(InsnList()) {
+            add(VarInsnNode(ALOAD, 0))
+            add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/picasso/PicassoHook", "proxy", "(Ljava/lang/Object;)V", false))
+            this
+        }
+
     }
 
 
@@ -117,15 +126,17 @@ class BigImgTransformer : ClassTransformer {
      * 创建Fresco Aop代码指令
      */
     private fun createFrescoInsnList(): InsnList {
-        val insnList = InsnList()
-        insnList.add(VarInsnNode(ALOAD, 1))
-        insnList.add(VarInsnNode(ALOAD, 1))
-        insnList.add(MethodInsnNode(INVOKEVIRTUAL, "com/facebook/imagepipeline/request/ImageRequestBuilder", "getSourceUri", "()Landroid/net/Uri;", false))
-        insnList.add(VarInsnNode(ALOAD, 1))
-        insnList.add(MethodInsnNode(INVOKEVIRTUAL, "com/facebook/imagepipeline/request/ImageRequestBuilder", "getPostprocessor", "()Lcom/facebook/imagepipeline/request/Postprocessor;", false))
-        insnList.add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/fresco/FrescoHook", "proxy", "(Landroid/net/Uri;Lcom/facebook/imagepipeline/request/Postprocessor;)Lcom/facebook/imagepipeline/request/Postprocessor;", false))
-        insnList.add(MethodInsnNode(INVOKEVIRTUAL, "com/facebook/imagepipeline/request/ImageRequestBuilder", "setPostprocessor", "(Lcom/facebook/imagepipeline/request/Postprocessor;)Lcom/facebook/imagepipeline/request/ImageRequestBuilder;", false))
-        return insnList
+        return with(InsnList()) {
+            add(VarInsnNode(ALOAD, 1))
+            add(VarInsnNode(ALOAD, 1))
+            add(MethodInsnNode(INVOKEVIRTUAL, "com/facebook/imagepipeline/request/ImageRequestBuilder", "getSourceUri", "()Landroid/net/Uri;", false))
+            add(VarInsnNode(ALOAD, 1))
+            add(MethodInsnNode(INVOKEVIRTUAL, "com/facebook/imagepipeline/request/ImageRequestBuilder", "getPostprocessor", "()Lcom/facebook/imagepipeline/request/Postprocessor;", false))
+            add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/fresco/FrescoHook", "proxy", "(Landroid/net/Uri;Lcom/facebook/imagepipeline/request/Postprocessor;)Lcom/facebook/imagepipeline/request/Postprocessor;", false))
+            add(MethodInsnNode(INVOKEVIRTUAL, "com/facebook/imagepipeline/request/ImageRequestBuilder", "setPostprocessor", "(Lcom/facebook/imagepipeline/request/Postprocessor;)Lcom/facebook/imagepipeline/request/ImageRequestBuilder;", false))
+            this
+        }
+
     }
 
 
@@ -133,13 +144,12 @@ class BigImgTransformer : ClassTransformer {
      * 创建ImageLoader Aop代码指令
      */
     private fun createImageLoaderInsnList(): InsnList {
-        val insnList = InsnList()
-        insnList.add(VarInsnNode(ALOAD, 6))
-        insnList.add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/imageloader/ImageLoaderHook", "proxy", "(Lcom/nostra13/universalimageloader/core/listener/ImageLoadingListener;)Lcom/nostra13/universalimageloader/core/listener/ImageLoadingListener;", false))
-        insnList.add(VarInsnNode(ASTORE, 6))
-        return insnList
+        return with(InsnList()) {
+            add(VarInsnNode(ALOAD, 6))
+            add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/imageloader/ImageLoaderHook", "proxy", "(Lcom/nostra13/universalimageloader/core/listener/ImageLoadingListener;)Lcom/nostra13/universalimageloader/core/listener/ImageLoadingListener;", false))
+            add(VarInsnNode(ASTORE, 6))
+            this
+        }
     }
-
-
 }
 
