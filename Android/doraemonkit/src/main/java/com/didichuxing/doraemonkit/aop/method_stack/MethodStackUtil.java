@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * ================================================
  */
 public class MethodStackUtil {
-    private static final String TAG = "MethodStackUtil";
+    private static final String TAG = "DOKIT_SLOW_METHOD";
     /**
      * key className&methodName
      */
