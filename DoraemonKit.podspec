@@ -89,6 +89,7 @@ Pod::Spec.new do |s|
     ss.resource_bundles = {
       'DoKitSwift' => 'iOS/DoraemonKit/Resource/**/*'
     }
+    ss.dependency 'SnapKit'
   end
 end
 
