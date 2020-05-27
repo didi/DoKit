@@ -17,7 +17,8 @@ class DoKitHomeViewController: DoKitBaseViewController, UICollectionViewDelegate
     let DoKitHomeFootCellID = "DoKitHomeFootCellID"
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "DoKit"
+        self.setTitle(title: "DoKit")
+        self.setLeftNavBarItems(items: nil)
         
         let fl = UICollectionViewFlowLayout()
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: fl)
