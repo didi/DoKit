@@ -23,7 +23,7 @@ DEPENDENCIES:
   - DoraemonKit-Swift (from `../../../`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - AFNetworking
 
 EXTERNAL SOURCES:
@@ -34,6 +34,6 @@ SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   DoraemonKit-Swift: 2360f49ae0c4ce1f9ad76925c2e88c47dd19e149
 
-PODFILE CHECKSUM: 9e64b860476ec1c40ced29dec7bc70177f50ece3
+PODFILE CHECKSUM: afafd3f8405276aad7647340143c6be5c8ff6d74
 
 COCOAPODS: 1.9.2
