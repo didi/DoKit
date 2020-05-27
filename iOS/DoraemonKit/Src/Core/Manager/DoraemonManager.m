@@ -248,6 +248,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonLargeImageFilter];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWeakNetworkPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonStartTimePlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonPageTimePlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonUIProfilePlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonTimeProfilePlugin];
 #if DoraemonWithLoad
@@ -629,6 +630,14 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kDesc:DoraemonLocalizedString(@"启动耗时")},
                                    @{kIcon:@"doraemon_app_start_time"},
                                    @{kPluginName:@"DoraemonStartTimePlugin"},
+                                   @{kAtModule:DoraemonLocalizedString(@"性能检测")},
+                                   @{kBuriedPoint:@"dokit_sdk_performance_ck_appstart_coast"}
+                                   ],
+                           @(DoraemonManagerPluginType_DoraemonPageTimePlugin) : @[
+                                   @{kTitle:DoraemonLocalizedString(@"页面耗时")},
+                                   @{kDesc:DoraemonLocalizedString(@"页面耗时")},
+                                   @{kIcon:@"doraemon_app_start_time"},
+                                   @{kPluginName:@"DoraemonPageTimePlugin"},
                                    @{kAtModule:DoraemonLocalizedString(@"性能检测")},
                                    @{kBuriedPoint:@"dokit_sdk_performance_ck_appstart_coast"}
                                    ],

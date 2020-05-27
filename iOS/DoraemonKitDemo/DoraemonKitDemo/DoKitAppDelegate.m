@@ -12,8 +12,7 @@
 #import "DoraemonTimeProfiler.h"
 //#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "DoraemonUtil.h"
-#import "SDImageWebPCoder.h"
-#import <DoraemonKit/DoraemonAppInfoViewController.h>
+//#import "SDImageWebPCoder.h"
 
 #if __has_include(<FBRetainCycleDetector/FBRetainCycleDetector.h>)
 #define XXX 1
@@ -61,11 +60,11 @@
         NSLog(@"使用自带容器打开H5链接: %@",h5Url);
     }];
     
-    [[DoraemonManager shareInstance] addWebpHandleBlock:^UIImage * _Nullable(NSString * _Nonnull filePath) {
-        NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
-        UIImage *image = [[SDImageWebPCoder sharedCoder] decodedImageWithData:data options:nil];
-        return image;
-    }];
+//    [[DoraemonManager shareInstance] addWebpHandleBlock:^UIImage * _Nullable(NSString * _Nonnull filePath) {
+//        NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
+//        UIImage *image = [[SDImageWebPCoder sharedCoder] decodedImageWithData:data options:nil];
+//        return image;
+//    }];
     // 例子：移除 GPS Mock
 //    [[DoraemonManager shareInstance] installWithCustomBlock:^{
 //        [[DoraemonManager shareInstance] removePluginWithPluginName:@"DoraemonGPSPlugin" atModule:@"常用工具"];
@@ -96,12 +95,6 @@
 
 - (void)test{
     [self test2];
-    
-    DoraemonAppInfoViewController.customAppInfoBlock = ^(NSMutableArray<NSDictionary *> *appInfos) {
-        [appInfos addObject:@{@"title": @"Build Time", @"value": @"2020-05-21 11:29:22"}];
-        [appInfos addObject:@{@"title": @"Commit", @"value": @"1ffa9c6"}];
-        [appInfos addObject:@{@"title": @"Branch", @"value": @"version/1.2.0"}];
-    };
 }
 
 - (void)test2{
