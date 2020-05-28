@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import DoraemonKit
+import DoraemonKit_Swift
 
 class DoraemonDemoCommonViewController: DoraemonDemoBaseViewController {
 
