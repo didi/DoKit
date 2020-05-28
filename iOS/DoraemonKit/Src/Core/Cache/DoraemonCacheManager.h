@@ -68,6 +68,10 @@
 
 - (BOOL)startTimeSwitch;
 
+- (void)savePageTimeSwitch:(BOOL)on;
+
+- (BOOL)pageTimeSwitch;
+
 - (void)saveANRTrackSwitch:(BOOL)on;
 
 - (BOOL)anrTrackSwitch;

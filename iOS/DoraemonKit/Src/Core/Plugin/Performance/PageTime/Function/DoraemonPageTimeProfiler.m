@@ -60,14 +60,14 @@ static void doraemon_viewDidAppear(id _self, SEL _sel, BOOL animated) {
     doraemon_animated_timeProfiler(_self, _sel, animated);
 }
 
-@interface doraemonTimeProfilerKVORemover : NSObject
+@interface DoraemonTimeProfilerKVORemover : NSObject
 
 @property (nonatomic, unsafe_unretained) id target;
 @property (nonatomic, copy) NSString *keyPath;
 
 @end
 
-@implementation doraemonTimeProfilerKVORemover
+@implementation DoraemonTimeProfilerKVORemover
 
 - (void)dealloc {
     @try {
@@ -121,7 +121,7 @@ static void doraemon_viewDidAppear(id _self, SEL _sel, BOOL animated) {
     [self addObserver:DoraemonPageTimeInstance.sharedInstance forKeyPath:kUniqueFakeKeyPath options:NSKeyValueObservingOptionNew context:nil];
     
     // 内存管理
-    doraemonTimeProfilerKVORemover *obj = [doraemonTimeProfilerKVORemover new];
+    DoraemonTimeProfilerKVORemover *obj = [DoraemonTimeProfilerKVORemover new];
     obj.target = self;
     obj.keyPath = kUniqueFakeKeyPath;
     objc_setAssociatedObject(self, &kAssociatedKey, obj, OBJC_ASSOCIATION_RETAIN_NONATOMIC);

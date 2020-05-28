@@ -7,11 +7,11 @@
 
 #import "DoraemonPageTimePlugin.h"
 #import "DoraemonHomeWindow.h"
-#import "DoraemonCPUViewController.h"
+#import "DoraemonPageTimeViewController.h"
 
 @implementation DoraemonPageTimePlugin
 - (void)pluginDidLoad{
-    DoraemonCPUViewController *vc = [[DoraemonCPUViewController alloc] init];
+    DoraemonPageTimeViewController *vc = [[DoraemonPageTimeViewController alloc] init];
     [DoraemonHomeWindow openPlugin:vc];
 }
 

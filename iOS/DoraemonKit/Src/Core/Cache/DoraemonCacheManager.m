@@ -24,6 +24,7 @@ static NSString * const kDoraemonMethodUseTimeKey = @"doraemon_method_use_time_k
 static NSString * const kDoraemonLargeImageDetectionKey = @"doraemon_large_image_detection_key";
 static NSString * const kDoraemonH5historicalRecord = @"doraemon_historical_record";
 static NSString * const kDoraemonStartTimeKey = @"doraemon_start_time_key";
+static NSString * const kDoraemonPageTimeKey = @"doraemon_page_time_key";
 static NSString * const kDoraemonStartClassKey = @"doraemon_start_class_key";
 static NSString * const kDoraemonANRTrackKey = @"doraemon_anr_track_key";
 static NSString * const kDoraemonMemoryLeakKey = @"doraemon_memory_leak_key";
@@ -202,6 +203,15 @@ static NSString * const kDoraemonHealthStartKey = @"doraemon_health_start_key";
 
 - (BOOL)startTimeSwitch{
     return [_defaults boolForKey:kDoraemonStartTimeKey];
+}
+
+- (void)savePageTimeSwitch:(BOOL)on {
+    [_defaults setBool:on forKey:kDoraemonPageTimeKey];
+    [_defaults synchronize];
+}
+
+- (BOOL)pageTimeSwitch {
+    return [_defaults boolForKey:kDoraemonPageTimeKey];
 }
 
 - (void)saveANRTrackSwitch:(BOOL)on {
