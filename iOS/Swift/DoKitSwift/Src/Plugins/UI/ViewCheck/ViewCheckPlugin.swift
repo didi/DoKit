@@ -10,11 +10,11 @@ import Foundation
 struct ViewCheckPlugin: Plugin {
     
     var module: String {
-        return DoKitLocalizedString("常用工具")
+        return LocalizedString("常用工具")
     }
     
     var title: String {
-        return DoKitLocalizedString("清理缓存")
+        return LocalizedString("清理缓存")
     }
     
     var icon: UIImage? {
@@ -22,7 +22,7 @@ struct ViewCheckPlugin: Plugin {
     }
     
     func didLoad() {
-        let vc = DoKitDelSanboxViewController()
-        DoKitHomeWindow.shared.openPlugin(vc: vc)
+        let vc = DelSanboxViewController()
+        HomeWindow.shared.openPlugin(vc: vc)
     }
 }

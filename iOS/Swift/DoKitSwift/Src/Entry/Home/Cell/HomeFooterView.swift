@@ -1,5 +1,5 @@
 //
-//  DoKitHomeFooterView.swift
+//  HomeFooterView.swift
 //  AFNetworking
 //
 //  Created by didi on 2020/5/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DoKitHomeFooterView: UICollectionReusableView {
+class HomeFooterView: UICollectionReusableView {
     var titleLabel: UILabel!
     override init(frame: CGRect) {
         super.init(frame: frame)

@@ -10,7 +10,7 @@ import UIKit
 
 extension UIViewController {
     static func rootViewControllerForDoKitHomeWindow() -> UIViewController?{
-        return DoKitHomeWindow.shared.rootViewController
+        return HomeWindow.shared.rootViewController
     }
     
     static func rootViewControllerForKeyWindow() -> UIViewController?{

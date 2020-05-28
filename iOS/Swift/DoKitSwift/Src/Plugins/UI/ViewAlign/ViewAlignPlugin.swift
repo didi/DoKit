@@ -10,11 +10,11 @@ import UIKit
 struct ViewAlignPlugin: Plugin {
     
     var module: String {
-        return DoKitLocalizedString("视觉工具")
+        return LocalizedString("视觉工具")
     }
     
     var title: String {
-        return DoKitLocalizedString("对齐标尺")
+        return LocalizedString("对齐标尺")
     }
     
     var icon: UIImage? {
@@ -23,6 +23,6 @@ struct ViewAlignPlugin: Plugin {
     
     func didLoad() {
         ViewAlign.shared.show()
-        DoKitHomeWindow.shared.hide()
+        HomeWindow.shared.hide()
     }
 }

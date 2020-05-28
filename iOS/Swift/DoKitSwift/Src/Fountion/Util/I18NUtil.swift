@@ -7,11 +7,11 @@
 
 import Foundation
 
-func DoKitLocalizedString(_ key: String) -> String{
-    return  DoKiti18Util.localizedString(key)
+func LocalizedString(_ key: String) -> String{
+    return  I18Util.localizedString(key)
 }
 
-class DoKiti18Util {
+class I18Util {
     class func localizedString(_ key : String) -> String {
         let language = Locale.preferredLanguages.first
         if let language = language {
