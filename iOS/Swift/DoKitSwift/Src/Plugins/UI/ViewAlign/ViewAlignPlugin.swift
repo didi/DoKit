@@ -9,17 +9,11 @@ import UIKit
 
 struct ViewAlignPlugin: Plugin {
     
-    var module: String {
-        return LocalizedString("视觉工具")
-    }
+    var module: String { LocalizedString("视觉工具") }
     
-    var title: String {
-        return LocalizedString("对齐标尺")
-    }
+    var title: String { LocalizedString("对齐标尺") }
     
-    var icon: UIImage? {
-        return UIImage.dokitImageNamed(name: "doraemon_align")
-    }
+    var icon: UIImage? { UIImage.dokitImageNamed(name: "doraemon_align") }
     
     func didLoad() {
         ViewAlign.shared.show()

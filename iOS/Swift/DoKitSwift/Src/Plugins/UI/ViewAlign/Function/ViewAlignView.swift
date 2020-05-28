@@ -10,7 +10,7 @@ import UIKit
 class ViewAlignView: UIView {
     
     private let color = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
-    private lazy var imageView = UIImageView(image: UIImage.dokitImageNamed(name: "doraemon_visual"))
+    private lazy var imageView = UIImageView(image: UIImage("doraemon_visual"))
     private lazy var lines = (horizontal: UIView(), vertical: UIView())
     private lazy var labels = (top: UILabel(), left: UILabel(), bottom: UILabel(), right: UILabel())
     
@@ -30,7 +30,6 @@ class ViewAlignView: UIView {
     
     private func setup() {
         backgroundColor = .clear
-        layer.zPosition = .greatestFiniteMagnitude
         
         let pan = UIPanGestureRecognizer(target: self, action: #selector(panAction))
         imageView.addGestureRecognizer(pan)
@@ -95,7 +94,8 @@ extension ViewAlignView {
 }
 
 extension ViewAlignView {
-
+    
+    /// 重置位置
     func reset() {
         imageView.center = .init(x: width / 2, y: height / 2)
         layoutSubviews()

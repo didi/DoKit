@@ -52,6 +52,7 @@ extension ViewAlign {
             view.frame = window.bounds
             window.addSubview(view)
             view.reset()
+            self.view = view
         }
     }
     
