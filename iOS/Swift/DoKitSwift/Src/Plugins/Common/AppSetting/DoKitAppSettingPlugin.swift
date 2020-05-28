@@ -8,7 +8,7 @@
 import Foundation
 
 
-class DoKitAppSettingPlugin: Plugin{
+struct DoKitAppSettingPlugin: Plugin{
     var module: String {
         return DoKitLocalizedString("常用工具")
     }

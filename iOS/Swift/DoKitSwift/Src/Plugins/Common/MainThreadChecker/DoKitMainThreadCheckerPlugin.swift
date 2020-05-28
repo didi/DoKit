@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DoKitMainThreadCheckerPlugin: Plugin{
+struct DoKitMainThreadCheckerPlugin: Plugin{
     var module: String {
         return DoKitLocalizedString("常用工具")
     }

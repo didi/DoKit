@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DoKitDelSanboxPlugin: Plugin{
+struct DoKitDelSanboxPlugin: Plugin{
     var module: String {
         return DoKitLocalizedString("常用工具")
     }
