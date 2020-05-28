@@ -7,59 +7,39 @@
 //
 
 public class DoKit {
-    public var pluginArray: Array<Dictionary<String, Any>>
     public static let shared = DoKit()
     public var isShowDoKit: Bool {
         get {
             return !entryWindow.isHidden
         }
     }
-    
+    var pluginMap = [String: [Plugin]]()
+    var modules = [String]()
     var entryWindow:DoKitEntryWindow
-       var originalPluginArray: Array<DoKitPluginModel>
     private init() {
-        originalPluginArray = [DoKitPluginModel]()
-        pluginArray = [Dictionary<String, Any>]()
-        
         let startPoint = CGPoint(x: 0, y: kScreenHeight/3)
         entryWindow = DoKitEntryWindow(frame: CGRect(x: startPoint.x, y: startPoint.y, width: 58, height: 58))
         entryWindow.show()
     }
     
     public func install() {
-        self.addPlugin(title: DoKitLocalizedString("应用设置"), icon: "doraemon_setting", plugin: "DoKitAppSettingPlugin", module: DoKitLocalizedString("常用工具"))
-        self.addPlugin(title: DoKitLocalizedString("清理缓存"), icon: "doraemon_qingchu", plugin: "DoKitDelSanboxPlugin", module: DoKitLocalizedString("常用工具"))
-        self.addPlugin(title: DoKitLocalizedString("子线程UI"), icon: "doraemon_ui", plugin: "DoKitMainThreadCheckerPlugin", module: DoKitLocalizedString("常用工具"))
-        
-        var modules = Array<String>()
-        for plugin in originalPluginArray {
-            let module = plugin.module
-            if !modules.contains(module!) {
-                modules.append(module!)
-            }
-        }
-        
-        for module in modules {
-            var moduleDic = [String: Any]()
-            moduleDic["module"] = module
-            var plugins = [DoKitPluginModel]()
-            for plugin in originalPluginArray {
-                if module == plugin.module {
-                    plugins.append(plugin)
-                }
-            }
-            moduleDic["pluginArray"] = plugins
-            pluginArray.append(moduleDic)
+        self.addPlugin(plugin: DoKitAppSettingPlugin())
+        self.addPlugin(plugin: DoKitDelSanboxPlugin())
+        self.addPlugin(plugin: DoKitMainThreadCheckerPlugin())
+    }
+    
+    public func addPlugin(plugin:Plugin){
+        if pluginMap[plugin.module] != nil {
+            pluginMap[plugin.module]?.append(plugin)
+        }else{
+            self.modules.append(plugin.module)
+            pluginMap[plugin.module] = [plugin]
         }
     }
     
-    public func addPlugin(title: String, icon: String, plugin: String, module: String) {
-        let pluginModel = DoKitPluginModel()
-        pluginModel.title = title
-        pluginModel.icon = icon
-        pluginModel.plugin = plugin
-        pluginModel.module = module
-        originalPluginArray.append(pluginModel)
+    public func addPlugin(module: String,title: String, icon: UIImage?,didLoad:@escaping ()->Void){
+        let plugin = DefaultPlugin.init(module: module, title: title, icon: icon, callBack: didLoad)
+        self.addPlugin(plugin: plugin)
     }
     
     public func showDoKit() {
@@ -75,11 +55,3 @@ public class DoKit {
     }
 
 }
-
-public class DoKitPluginModel {
-    var title: String!
-    var icon: String!
-    var plugin: String!
-    var module: String!
-}
-
