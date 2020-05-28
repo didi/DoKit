@@ -10,19 +10,19 @@ import Foundation
 struct ViewCheckPlugin: Plugin {
     
     var module: String {
-        return DoKitLocalizedString("常用工具")
+        return DoKitLocalizedString("视觉工具")
     }
     
     var title: String {
-        return DoKitLocalizedString("清理缓存")
+        return DoKitLocalizedString("组件检查")
     }
     
     var icon: UIImage? {
-        return UIImage.dokitImageNamed(name: "doraemon_qingchu")
+        return UIImage.dokitImageNamed(name: "doraemon_view_check")
     }
     
     func didLoad() {
-        let vc = DoKitDelSanboxViewController()
-        DoKitHomeWindow.shared.openPlugin(vc: vc)
+        ViewCheck.shared.show()
+        DoKitHomeWindow.shared.hide()
     }
 }
