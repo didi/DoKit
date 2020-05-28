@@ -7,15 +7,15 @@
 
 import Foundation
 
-class DoKitMainThreadCheckerViewController: DoKitBaseViewController, DoKitCellButtonDelegate {
+class MainThreadCheckerViewController: BaseViewController, CellButtonDelegate {
 
-    var cellBtn: DoKitCellButton!
+    var cellBtn: CellButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setTitle(title: DoKitLocalizedString("子2线程UI"))
+        self.setTitle(title: LocalizedString("子2线程UI"))
         
-        cellBtn = DoKitCellButton(frame: CGRect(x: 0, y: self.bigTitleView!.bottom, width: self.view.width, height: kSizeFrom750_Landscape(104)))
-        cellBtn.renderUIWithTitle(title: DoKitLocalizedString("子线程UI"))
+        cellBtn = CellButton(frame: CGRect(x: 0, y: self.bigTitleView!.bottom, width: self.view.width, height: kSizeFrom750_Landscape(104)))
+        cellBtn.renderUIWithTitle(title: LocalizedString("子线程UI"))
         cellBtn.renderUIWithRightContent(rightContent: "")
         cellBtn.delegate = self
         cellBtn.needDownLine()

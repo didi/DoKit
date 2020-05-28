@@ -1,5 +1,5 @@
 //
-//  DoKitEntryWindow.swift
+//  EntryWindow.swift
 //  AFNetworking
 //
 //  Created by didi on 2020/5/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DoKitEntryWindow: UIWindow {
+class EntryWindow: UIWindow {
 
     var entryBtn: UIButton
     
@@ -43,10 +43,10 @@ class DoKitEntryWindow: UIWindow {
     }
     
     @objc private func entryClick(btn:UIButton) {
-        if DoKitHomeWindow.shared.isHidden {
-            DoKitHomeWindow.shared.show()
+        if HomeWindow.shared.isHidden {
+            HomeWindow.shared.show()
         }else{
-            DoKitHomeWindow.shared.hide()
+            HomeWindow.shared.hide()
         }
     }
     

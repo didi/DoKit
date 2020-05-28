@@ -1,5 +1,5 @@
 //
-//  DoKitHomeCloseCell.swift
+//  HomeCloseCell.swift
 //  AFNetworking
 //
 //  Created by didi on 2020/5/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DoKitHomeCloseCell: UICollectionViewCell {
+class HomeCloseCell: UICollectionViewCell {
     var closeBtn: UIButton!
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -17,7 +17,7 @@ class DoKitHomeCloseCell: UICollectionViewCell {
         closeBtn.backgroundColor = UIColor.white
         closeBtn.layer.cornerRadius = kSizeFrom750_Landscape(5.0)
         closeBtn.layer.masksToBounds = true
-        closeBtn.setTitle(DoKitLocalizedString("关闭DoraemonKit"), for: .normal)
+        closeBtn.setTitle(LocalizedString("关闭DoraemonKit"), for: .normal)
         closeBtn.setTitleColor(UIColor.hexColor(0xCC3A4B), for: .normal)
         closeBtn.titleLabel?.font = UIFont.systemFont(ofSize: kSizeFrom750_Landscape(28))
         closeBtn.addTarget(self, action: #selector(closeClick), for: .touchUpInside)
@@ -30,9 +30,9 @@ class DoKitHomeCloseCell: UICollectionViewCell {
     }
     
     @objc private func closeClick() {
-        DoKitHomeWindow.shared.hide()
+        HomeWindow.shared.hide()
         if let vc = UIViewController.rootViewControllerForKeyWindow() {
-            DoKitAlertUtil.handleAlertAction(vc: vc, title: DoKitLocalizedString("提示"), text: "该功能需要重启App才能生效", ok: "确定", cancel: "取消", okBlock: {
+            AlertUtil.handleAlertAction(vc: vc, title: LocalizedString("提示"), text: "该功能需要重启App才能生效", ok: "确定", cancel: "取消", okBlock: {
                 DoKit.shared.hideDoKit()
             }) {
                 //print("cancel")

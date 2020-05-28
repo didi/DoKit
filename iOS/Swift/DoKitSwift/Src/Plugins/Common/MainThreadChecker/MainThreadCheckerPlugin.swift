@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct DoKitMainThreadCheckerPlugin: Plugin {
+struct MainThreadCheckerPlugin: Plugin {
     
     var module: String {
-        return DoKitLocalizedString("常用工具")
+        return LocalizedString("常用工具")
     }
     
     var title: String {
-        return DoKitLocalizedString("子线程UI")
+        return LocalizedString("子线程UI")
     }
     
     var icon: UIImage? {
@@ -22,7 +22,7 @@ struct DoKitMainThreadCheckerPlugin: Plugin {
     }
     
     func didLoad() {
-        let vc = DoKitMainThreadCheckerViewController()
-        DoKitHomeWindow.shared.openPlugin(vc: vc)
+        let vc = MainThreadCheckerViewController()
+        HomeWindow.shared.openPlugin(vc: vc)
     }
 }

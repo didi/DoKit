@@ -1,5 +1,5 @@
 //
-//  DoKitBaseViewController.swift
+//  BaseViewController.swift
 //  AFNetworking
 //
 //  Created by didi on 2020/5/25.
@@ -7,20 +7,20 @@
 
 import UIKit
 
-class DoKitBaseViewController: UIViewController, DoKitBaseBigTitleViewDelegate {
+class BaseViewController: UIViewController, BaseBigTitleViewDelegate {
     
-    var bigTitleView: DoKitBaseBigTitleView?
+    var bigTitleView: BaseBigTitleView?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         
         if self.needBigTitleView() {
-            bigTitleView = DoKitBaseBigTitleView(frame: CGRect(x: 0, y: 0, width: view.width, height: kSizeFrom750_Landscape(178)))
+            bigTitleView = BaseBigTitleView(frame: CGRect(x: 0, y: 0, width: view.width, height: kSizeFrom750_Landscape(178)))
             bigTitleView!.delegate = self
             view.addSubview(bigTitleView!)
         }else{
             let image = UIImage.dokitImageNamed(name: "doraemon_back")
-            let leftModel = DoKitNavBarItemModel(icon: image, iconSelector: #selector(leftNavBackClick))
+            let leftModel = NavBarItemModel(icon: image, iconSelector: #selector(leftNavBackClick))
             self.setLeftNavBarItems(items: [leftModel])
         }
     }
@@ -51,7 +51,7 @@ class DoKitBaseViewController: UIViewController, DoKitBaseBigTitleViewDelegate {
     }
     
     
-    func setLeftNavBarItems(items: Array<DoKitNavBarItemModel>?) {
+    func setLeftNavBarItems(items: Array<NavBarItemModel>?) {
         if let items = items {
             let barItems = self.navigationItems(items: items)
             self.navigationItem.leftBarButtonItems = barItems
@@ -60,7 +60,7 @@ class DoKitBaseViewController: UIViewController, DoKitBaseBigTitleViewDelegate {
         }
     }
     
-    func setRightNavBarItems(items: Array<DoKitNavBarItemModel>?) {
+    func setRightNavBarItems(items: Array<NavBarItemModel>?) {
         if let items = items {
             let barItems = self.navigationItems(items: items)
             self.navigationItem.rightBarButtonItems = barItems
@@ -71,12 +71,12 @@ class DoKitBaseViewController: UIViewController, DoKitBaseBigTitleViewDelegate {
     }
     
     func setRightNavTitle(title: String) {
-        let item = DoKitNavBarItemModel(title: title, titleColor: UIColor.blue, titleSelector: #selector(rightNavTitleClick))
+        let item = NavBarItemModel(title: title, titleColor: UIColor.blue, titleSelector: #selector(rightNavTitleClick))
         let barItems = self.navigationItems(items: [item])
         self.navigationItem.rightBarButtonItems = barItems
     }
     
-    func navigationItems(items: Array<DoKitNavBarItemModel>) -> Array<UIBarButtonItem> {
+    func navigationItems(items: Array<NavBarItemModel>) -> Array<UIBarButtonItem> {
         var barItems: Array<UIBarButtonItem> = [UIBarButtonItem]()
         
         for item in items {
@@ -106,7 +106,7 @@ class DoKitBaseViewController: UIViewController, DoKitBaseBigTitleViewDelegate {
     
     @objc func leftNavBackClick() {
         if self.navigationController?.viewControllers.count == 1 {
-            DoKitHomeWindow.shared.hide()
+            HomeWindow.shared.hide()
         }else{
             self.navigationController?.popViewController(animated: true)
         }
@@ -121,13 +121,13 @@ class DoKitBaseViewController: UIViewController, DoKitBaseBigTitleViewDelegate {
     }
 }
 
-enum DoKitNavBarItemType{
+enum NavBarItemType{
     case text
     case image
 }
 
-class DoKitNavBarItemModel {
-    var type: DoKitNavBarItemType?
+class NavBarItemModel {
+    var type: NavBarItemType?
     var text: String?
     var image: UIImage?
     var textColor: UIColor?

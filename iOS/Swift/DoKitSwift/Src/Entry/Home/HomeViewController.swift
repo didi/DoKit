@@ -1,5 +1,5 @@
 //
-//  DoKitHomeViewController.swift
+//  HomeViewController.swift
 //  AFNetworking
 //
 //  Created by didi on 2020/5/25.
@@ -7,13 +7,13 @@
 
 import UIKit
 
-class DoKitHomeViewController: DoKitBaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class HomeViewController: BaseViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     var collectionView: UICollectionView!
-    let DoKitHomeCellID = "DoKitHomeCellID"
-    let DoKitHomeCloseCellID = "DoKitHomeCloseCellID"
-    let DoKitHomeHeadCellID = "DoKitHomeHeadCellID"
-    let DoKitHomeFootCellID = "DoKitHomeFootCellID"
+    let HomeCellID = "DoKitHomeCellID"
+    let HomeCloseCellID = "DoKitHomeCloseCellID"
+    let HomeHeadCellID = "DoKitHomeHeadCellID"
+    let HomeFootCellID = "DoKitHomeFootCellID"
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setTitle(title: "DoKit")
@@ -25,10 +25,10 @@ class DoKitHomeViewController: DoKitBaseViewController, UICollectionViewDelegate
         collectionView.backgroundColor = UIColor.white
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(DoKitHomeCell.self, forCellWithReuseIdentifier: DoKitHomeCellID)
-        collectionView.register(DoKitHomeCloseCell.self, forCellWithReuseIdentifier: DoKitHomeCloseCellID)
-        collectionView.register(DoKitHomeHeadView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: DoKitHomeHeadCellID)
-        collectionView.register(DoKitHomeFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: DoKitHomeFootCellID)
+        collectionView.register(HomeCell.self, forCellWithReuseIdentifier: HomeCellID)
+        collectionView.register(HomeCloseCell.self, forCellWithReuseIdentifier: HomeCloseCellID)
+        collectionView.register(HomeHeadView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: HomeHeadCellID)
+        collectionView.register(HomeFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: HomeFootCellID)
         
         view.addSubview(collectionView)
     }
@@ -48,12 +48,12 @@ class DoKitHomeViewController: DoKitBaseViewController, UICollectionViewDelegate
         let row = indexPath.row
         let section = indexPath.section
         if section < DoKit.shared.modules.count {
-            let homeCell: DoKitHomeCell = collectionView.dequeueReusableCell(withReuseIdentifier: DoKitHomeCellID, for: indexPath) as! DoKitHomeCell
+            let homeCell: HomeCell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCellID, for: indexPath) as! HomeCell
             let plugin = DoKit.shared.pluginMap[DoKit.shared.modules[section]]?[row]
             homeCell.update(name: plugin?.title, icon: plugin?.icon)
             return homeCell
         }else{
-            let closeCell: DoKitHomeCloseCell = collectionView.dequeueReusableCell(withReuseIdentifier: DoKitHomeCloseCellID, for: indexPath) as! DoKitHomeCloseCell
+            let closeCell: HomeCloseCell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCloseCellID, for: indexPath) as! HomeCloseCell
             return closeCell
         }
     }
@@ -61,7 +61,7 @@ class DoKitHomeViewController: DoKitBaseViewController, UICollectionViewDelegate
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         var view = UICollectionReusableView()
         if kind == UICollectionView.elementKindSectionHeader {
-            let headView: DoKitHomeHeadView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: DoKitHomeHeadCellID, for: indexPath) as! DoKitHomeHeadView
+            let headView: HomeHeadView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeadCellID, for: indexPath) as! HomeHeadView
             let section = indexPath.section
             if section < DoKit.shared.modules.count {
                 headView.renderUI(title: DoKit.shared.modules[section])
@@ -69,10 +69,10 @@ class DoKitHomeViewController: DoKitBaseViewController, UICollectionViewDelegate
             view = headView
             
         }else if kind == UICollectionView.elementKindSectionFooter {
-            let footerView: DoKitHomeFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: DoKitHomeFootCellID, for: indexPath) as! DoKitHomeFooterView
+            let footerView: HomeFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeFootCellID, for: indexPath) as! HomeFooterView
             let section = indexPath.section
             if  section >= DoKit.shared.modules.count {
-                footerView.titleLabel.text = "\(DoKitLocalizedString("当前版本")): \(DoKitVersion)"
+                footerView.titleLabel.text = "\(LocalizedString("当前版本")): \(DoKitVersion)"
                 footerView.titleLabel.textColor = UIColor.hexColor(0x999999)
                 footerView.titleLabel.textAlignment = .center
                 footerView.titleLabel.font = UIFont.systemFont(ofSize: kSizeFrom750_Landscape(24))
