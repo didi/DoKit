@@ -9,21 +9,6 @@
 
 #import "DoraemonHealthManager.h"
 
-@interface GKTZeusPageTimeRecord : NSObject
-@property (nonatomic, copy) NSString *className;
-@property (nonatomic, assign) float loadViewTime;
-@property (nonatomic, assign) float viewDidLoadTime;
-@property (nonatomic, assign) float viewWillAppearTime;
-@property (nonatomic, assign) float viewWillDidAppearTime;
-@property (nonatomic, assign) float viewDidLayoutSubviewsTime;
-@property (nonatomic, copy) NSString *loadViewTimeDict;
-@property (nonatomic, copy) NSString *viewDidLoadTimeDict;
-@property (nonatomic, copy) NSString *viewWillAppearTimeDict;
-@property (nonatomic, copy) NSString *viewWillDidAppearTimeDict;
-@property (nonatomic, copy) NSString *viewDidLayoutSubviewsTimeDict;
-;
-
-@end
 
 @implementation GKTZeusPageTimeRecord
 @end

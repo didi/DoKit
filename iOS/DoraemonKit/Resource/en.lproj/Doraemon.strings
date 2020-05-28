@@ -235,7 +235,8 @@
      
      //页面耗时
      "页面耗时"                               = "Page Time";
-     
+     "页面耗时时间为"                          = "App page time = ";
+     "页面耗时检测开关"                           = "Page Time switch";
     //UI层级
     "UI层级"                                  = "UI Hierarchy";
     "UI层级检查开关"                              = "UI Hierarchy switch";
