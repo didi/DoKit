@@ -9,20 +9,14 @@ import Foundation
 
 struct ViewCheckPlugin: Plugin {
     
-    var module: String {
-        return LocalizedString("视觉工具")
-    }
+    var module: String { LocalizedString("视觉工具") }
     
-    var title: String {
-        return LocalizedString("组件检查")
-    }
+    var title: String { LocalizedString("组件检查") }
     
-    var icon: UIImage? {
-        return UIImage.dokitImageNamed(name: "doraemon_view_check")
-    }
+    var icon: UIImage? { UIImage.dokitImageNamed(name: "doraemon_view_check") }
     
     func didLoad() {
         ViewCheck.shared.show()
-        DoKitHomeWindow.shared.hide()
+        HomeWindow.shared.hide()
     }
 }

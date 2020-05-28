@@ -10,7 +10,7 @@ import UIKit
 class ViewCheckView: UIView {
     
     private let color = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
-    private lazy var imageView = UIImageView(image: UIImage.dokitImageNamed(name: "doraemon_visual"))
+    private lazy var imageView = UIImageView(image: UIImage("doraemon_visual"))
     private lazy var borderView = UIView()
     
     override func awakeFromNib() {
