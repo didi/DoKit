@@ -31,8 +31,8 @@ class DoKitHomeCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func update(name:String, icon:String) {
-        iconView.image = UIImage.dokitImageNamed(name: icon)
+    func update(name:String?, icon:UIImage?) {
+        iconView.image = icon
         nameLabel.text = name
         
     }
