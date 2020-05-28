@@ -7,7 +7,8 @@
 
 import Foundation
 
-class ViewMetricsPlugin: Plugin{
+struct ViewMetricsPlugin: Plugin {
+    
     var module: String {
         return DoKitLocalizedString("常用工具")
     }

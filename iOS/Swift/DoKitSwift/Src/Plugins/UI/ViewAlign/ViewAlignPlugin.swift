@@ -5,23 +5,24 @@
 //  Created by Lee on 2020/5/28.
 //
 
-import Foundation
+import UIKit
 
-class ViewAlignPlugin: Plugin{
+struct ViewAlignPlugin: Plugin {
+    
     var module: String {
-        return DoKitLocalizedString("常用工具")
+        return DoKitLocalizedString("视觉工具")
     }
     
     var title: String {
-        return DoKitLocalizedString("应用设置")
+        return DoKitLocalizedString("对齐标尺")
     }
     
     var icon: UIImage? {
-        return UIImage.dokitImageNamed(name: "doraemon_setting")
+        return UIImage.dokitImageNamed(name: "doraemon_align")
     }
     
     func didLoad() {
-        DoKitUtil.openAppSetting()
+        ViewAlign.shared.show()
         DoKitHomeWindow.shared.hide()
     }
 }
