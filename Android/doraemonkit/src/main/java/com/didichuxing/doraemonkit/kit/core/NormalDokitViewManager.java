@@ -155,8 +155,9 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
         //将所有的dokitView添加到新建的Activity中去
         for (GlobalSingleDokitViewInfo dokitViewInfo : mGlobalSingleDokitViews.values()) {
+            //如果不是性能kitView 则不显示
             if (activity instanceof UniversalActivity && dokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
-                return;
+                continue;
             }
             //是否过滤掉 入口icon
             if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && dokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
