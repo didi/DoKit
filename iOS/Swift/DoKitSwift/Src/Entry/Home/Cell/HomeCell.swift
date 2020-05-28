@@ -1,5 +1,5 @@
 //
-//  DoKitHomeCell.swift
+//  HomeCell.swift
 //  AFNetworking
 //
 //  Created by didi on 2020/5/25.
@@ -8,7 +8,7 @@
 import UIKit
 
 
-class DoKitHomeCell: UICollectionViewCell {
+class HomeCell: UICollectionViewCell {
     var iconView: UIImageView!
     var nameLabel: UILabel!
     override init(frame: CGRect) {

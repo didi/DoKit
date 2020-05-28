@@ -10,11 +10,11 @@ import Foundation
 struct ViewMetricsPlugin: Plugin {
     
     var module: String {
-        return DoKitLocalizedString("视觉工具")
+        return LocalizedString("视觉工具")
     }
     
     var title: String {
-        return DoKitLocalizedString("布局边框")
+        return LocalizedString("布局边框")
     }
     
     var icon: UIImage? {

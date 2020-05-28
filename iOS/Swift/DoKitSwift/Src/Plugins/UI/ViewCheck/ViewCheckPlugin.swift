@@ -10,11 +10,11 @@ import Foundation
 struct ViewCheckPlugin: Plugin {
     
     var module: String {
-        return DoKitLocalizedString("视觉工具")
+        return LocalizedString("视觉工具")
     }
     
     var title: String {
-        return DoKitLocalizedString("组件检查")
+        return LocalizedString("组件检查")
     }
     
     var icon: UIImage? {
