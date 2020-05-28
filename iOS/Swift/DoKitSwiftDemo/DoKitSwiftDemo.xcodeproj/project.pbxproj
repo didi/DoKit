@@ -385,9 +385,6 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-				"${BUILT_PRODUCTS_DIR}/DoraemonKit-Swift/DoraemonKit_Swift.framework",
-			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
