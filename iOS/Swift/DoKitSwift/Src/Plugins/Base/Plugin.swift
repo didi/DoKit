@@ -8,9 +8,10 @@
 import UIKit
 
 public protocol Plugin {
-    var module: String{get}
-    var title: String{get}
-    var icon: UIImage?{get}
+    var module: String { get }
+    var title: String { get }
+    var icon: UIImage? { get }
+    
     func didLoad()
 }
 
@@ -18,7 +19,7 @@ struct DefaultPlugin: Plugin {
     var module: String
     var title: String
     var icon: UIImage?
-    var callBack:()->Void
+    var callBack: ()->Void
     
     func didLoad() {
         self.callBack()

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DoKitAlertUtil {
+class AlertUtil {
     static func handleAlertAction(vc: UIViewController, title: String, text: String, ok: String, cancel: String, okBlock:@escaping ()->Void, cancelBlock:@escaping ()->Void) {
         let alertController = UIAlertController(title: title, message: text, preferredStyle: .alert)
         let okAction = UIAlertAction(title: ok, style: .default) { (action: UIAlertAction) in

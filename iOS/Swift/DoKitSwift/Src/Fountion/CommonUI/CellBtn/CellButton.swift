@@ -1,5 +1,5 @@
 //
-//  DoKitCellButton.swift
+//  CellButton.swift
 //  AFNetworking
 //
 //  Created by didi on 2020/5/27.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-protocol DoKitCellButtonDelegate {
+protocol CellButtonDelegate {
     func cellBtnClick()
 }
 
-class DoKitCellButton: UIView {
-    var delegate: DoKitCellButtonDelegate?
+class CellButton: UIView {
+    var delegate: CellButtonDelegate?
     var titleLabel: UILabel!
     var rightLabel: UILabel!
     var topLine: UIView!

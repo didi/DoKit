@@ -15,17 +15,18 @@ public class DoKit {
     }
     var pluginMap = [String: [Plugin]]()
     var modules = [String]()
-    var entryWindow:DoKitEntryWindow
+    var entryWindow:EntryWindow
     private init() {
         let startPoint = CGPoint(x: 0, y: kScreenHeight/3)
-        entryWindow = DoKitEntryWindow(frame: CGRect(x: startPoint.x, y: startPoint.y, width: 58, height: 58))
+        entryWindow = EntryWindow(frame: CGRect(x: startPoint.x, y: startPoint.y, width: 58, height: 58))
         entryWindow.show()
     }
     
     public func install() {
-        self.addPlugin(plugin: DoKitAppSettingPlugin())
-        self.addPlugin(plugin: DoKitDelSanboxPlugin())
-        self.addPlugin(plugin: DoKitMainThreadCheckerPlugin())
+        addPlugin(plugin: AppSettingPlugin())
+        addPlugin(plugin: DelSanboxPlugin())
+        addPlugin(plugin: MainThreadCheckerPlugin())
+        addPlugin(plugin: ViewAlignPlugin())
     }
     
     public func addPlugin(plugin:Plugin){

@@ -8,13 +8,14 @@
 import Foundation
 
 
-struct DoKitAppSettingPlugin: Plugin{
+struct AppSettingPlugin: Plugin {
+    
     var module: String {
-        return DoKitLocalizedString("常用工具")
+        return LocalizedString("常用工具")
     }
     
     var title: String {
-        return DoKitLocalizedString("应用设置")
+        return LocalizedString("应用设置")
     }
     
     var icon: UIImage? {
@@ -23,6 +24,6 @@ struct DoKitAppSettingPlugin: Plugin{
     
     func didLoad() {
         DoKitUtil.openAppSetting()
-        DoKitHomeWindow.shared.hide()
+        HomeWindow.shared.hide()
     }
 }

@@ -1,5 +1,5 @@
 //
-//  DoKitHomeWindow.swift
+//  HomeWindow.swift
 //  AFNetworking
 //
 //  Created by didi on 2020/5/22.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-class DoKitHomeWindow: UIWindow {
-    public static let shared = DoKitHomeWindow(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight))
+class HomeWindow: UIWindow {
+    public static let shared = HomeWindow(frame: CGRect(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight))
     
     private override init(frame: CGRect) {
         super.init(frame: frame)
@@ -19,7 +19,7 @@ class DoKitHomeWindow: UIWindow {
     }
     
     func show() {
-        let homeVc = DoKitHomeViewController()
+        let homeVc = HomeViewController()
         self.setRootVc(rootVc: homeVc)
         self.isHidden = false
     }
