@@ -7,11 +7,23 @@
 
 import Foundation
 
-class ColorPickPlugin: DoKitBasePlugin {
+struct ColorPickPlugin: Plugin {
 
-    override func pluginDidLoad() {
-        
-        
+    var module: String {
+        return DoKitLocalizedString("视觉工具")
+    }
+    
+    var title: String {
+        return DoKitLocalizedString("取色器")
+    }
+    
+    var icon: UIImage? {
+        return UIImage.dokitImageNamed(name: "doraemon_setting")
+    }
+    
+    func didLoad() {
+        ColorPickWindow.shared.show()
+        ColorPickInfoWindow.shared.show()
         DoKitHomeWindow.shared.hide()
     }
 }
