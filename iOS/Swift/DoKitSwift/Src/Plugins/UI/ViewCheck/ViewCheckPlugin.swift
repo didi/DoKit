@@ -7,7 +7,8 @@
 
 import Foundation
 
-class ViewCheckPlugin: Plugin{
+struct ViewCheckPlugin: Plugin {
+    
     var module: String {
         return DoKitLocalizedString("常用工具")
     }

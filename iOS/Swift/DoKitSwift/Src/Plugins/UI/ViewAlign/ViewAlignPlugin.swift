@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewAlignPlugin: Plugin {
+struct ViewAlignPlugin: Plugin {
     
     var module: String {
         return DoKitLocalizedString("视觉工具")
