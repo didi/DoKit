@@ -29,6 +29,7 @@ public class DoKit {
     public func install() {
         self.addPlugin(title: DoKitLocalizedString("应用设置"), icon: "doraemon_setting", plugin: "DoKitAppSettingPlugin", module: DoKitLocalizedString("常用工具"))
         self.addPlugin(title: DoKitLocalizedString("清理缓存"), icon: "doraemon_qingchu", plugin: "DoKitDelSanboxPlugin", module: DoKitLocalizedString("常用工具"))
+        self.addPlugin(title: DoKitLocalizedString("子线程UI"), icon: "doraemon_ui", plugin: "DoKitMainThreadCheckerPlugin", module: DoKitLocalizedString("常用工具"))
         
         var modules = Array<String>()
         for plugin in originalPluginArray {
