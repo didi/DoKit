@@ -14,7 +14,7 @@
 
 static NSTimeInterval startTime;
 static NSTimeInterval stopTime;
-
+static NSTimeInterval totalRecord;
 @implementation DoraemonTimeProfiler
 
 + (instancetype)sharedInstance {
@@ -64,6 +64,11 @@ static NSTimeInterval stopTime;
     [self share:result];
 }
 
+/// 获取调用时间
++ (NSTimeInterval)totalTime {
+    return totalRecord * 1000;
+}
+
 /// 打印调用记录
 + (void)printRecords {
     NSString *result = [self getRecordsResult];
@@ -74,7 +79,7 @@ static NSTimeInterval stopTime;
 + (NSString *)getRecordsResult {
     NSMutableString *str = [NSMutableString new];
     [str appendFormat:@"\n\ntime profile result : \n"];
-    NSTimeInterval totalRecord = 0;
+    totalRecord = 0;
     NSArray<DoraemonTimeProfilerRecord *>*arr = [self getRecords];
     for (DoraemonTimeProfilerRecord *r in arr) {
         [self appendRecord:r to:str];

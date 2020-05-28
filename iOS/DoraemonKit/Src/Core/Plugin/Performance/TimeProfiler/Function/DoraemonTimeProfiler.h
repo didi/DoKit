@@ -30,6 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 打印调用记录
 + (void)printRecords;
 
+/// 获取调用时间
++ (NSTimeInterval)totalTime;
+
 /// 获取调用记录
 + (NSArray<DoraemonTimeProfilerRecord *> *)getRecords;
 

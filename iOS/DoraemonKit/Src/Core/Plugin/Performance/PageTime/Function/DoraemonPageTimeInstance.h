@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 NS_ASSUME_NONNULL_BEGIN
 @interface GKTZeusPageTimeRecord : NSObject
-@property (nonatomic, copy) NSString *className;
+@property (nonatomic, copy) NSString *clsName;
 @property (nonatomic, assign) float loadViewTime;
 @property (nonatomic, assign) float viewDidLoadTime;
 @property (nonatomic, assign) float viewWillAppearTime;

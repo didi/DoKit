@@ -11,6 +11,8 @@
 #import "DoraemonPageTimeInstance.h"
 #import <objc/runtime.h>
 #import "DoraemonTimeProfiler.h"
+#import "DoraemonCacheManager.h"
+
 
 static char const kAssociatedKey;
 static NSString *const kUniqueFakeKeyPath = @"doraemon_useless_key_path";
@@ -22,10 +24,14 @@ static inline void doraemon_timeProfiler(id _self, SEL _sel) {
     Class orginCls = class_getSuperclass(kvoCls);
     IMP orginImp = method_getImplementation(class_getInstanceMethod(orginCls, _sel));
     orig_sel = (void (*)(id _self, SEL _sel))orginImp;
-    [DoraemonTimeProfiler startRecord];
-    orig_sel(_self, _sel);
-    [DoraemonTimeProfiler stopRecord];
-    [[DoraemonPageTimeInstance sharedInstance] timeWithVC:_self sel:_sel];
+    if ([[DoraemonCacheManager sharedInstance] pageTimeSwitch]) {
+        [DoraemonTimeProfiler startRecord];
+        orig_sel(_self, _sel);
+        [DoraemonTimeProfiler stopRecord];
+        [[DoraemonPageTimeInstance sharedInstance] timeWithVC:_self sel:_sel];
+    } else {
+        orig_sel(_self, _sel);
+    }
 }
 
 static inline void doraemon_animated_timeProfiler(id _self, SEL _sel, BOOL animated) {
@@ -33,10 +39,15 @@ static inline void doraemon_animated_timeProfiler(id _self, SEL _sel, BOOL anima
     Class orginCls = class_getSuperclass(kvoCls);
     IMP orginImp = method_getImplementation(class_getInstanceMethod(orginCls, _sel));
     orig_animated_sel = (void (*)(id _self, SEL _sel, BOOL animated))orginImp;
-    [DoraemonTimeProfiler startRecord];
-    orig_animated_sel(_self, _sel, animated);
-    [DoraemonTimeProfiler stopRecord];
-    [[DoraemonPageTimeInstance sharedInstance] timeWithVC:_self sel:_sel];
+    if ([[DoraemonCacheManager sharedInstance] pageTimeSwitch]) {
+        [DoraemonTimeProfiler startRecord];
+        orig_animated_sel(_self, _sel, animated);
+        [DoraemonTimeProfiler stopRecord];
+        [[DoraemonPageTimeInstance sharedInstance] timeWithVC:_self sel:_sel];
+
+    } else {
+        orig_animated_sel(_self, _sel, animated);
+    }
 }
 
 

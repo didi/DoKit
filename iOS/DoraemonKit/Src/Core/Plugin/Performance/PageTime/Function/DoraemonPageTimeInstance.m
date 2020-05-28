@@ -7,8 +7,8 @@
 
 #import "DoraemonPageTimeInstance.h"
 
+#import "DoraemonTimeProfiler.h"
 #import "DoraemonHealthManager.h"
-
 
 @implementation GKTZeusPageTimeRecord
 @end
@@ -31,7 +31,7 @@ static DoraemonPageTimeInstance *_sharedInstance = nil;
         _sharedInstance = [[super allocWithZone:NULL] init];
         _sharedInstance.pageTimeDict = [NSMutableDictionary dictionary];
         _sharedInstance.pageTimeQueue = dispatch_queue_create("doraemon_page_time_queue", DISPATCH_QUEUE_SERIAL);
-
+        _sharedInstance.arrayRecord = [NSMutableArray array];
     });
 
     return _sharedInstance;
@@ -44,32 +44,33 @@ static DoraemonPageTimeInstance *_sharedInstance = nil;
 - (void)timeWithVC:(id)vc sel:(SEL)sel {
     
     dispatch_async(self.pageTimeQueue, ^{
-        float f = DoraemonHealthManager.sharedInstance.startTime;
         NSString *detail =  DoraemonHealthManager.sharedInstance.costDetail;
+        NSTimeInterval f = [DoraemonTimeProfiler totalTime];
+
         NSString *p = [NSString stringWithFormat:@"%p",vc];
         GKTZeusPageTimeRecord *record = self.pageTimeDict[p];
         
         // 如果是空并且方法是loadView则代表当前页面第一次进入
         if (!record && !strcmp(sel_getName(sel), "loadView")) {
             record = [GKTZeusPageTimeRecord new];
+            record.clsName = NSStringFromClass([vc class]);
             record.loadViewTime = f;
             record.loadViewTimeDict = detail;
             [self.pageTimeDict setObject:record forKey:p];
         } else if (record && !strcmp(sel_getName(sel), "viewDidLoad")) {
             record.viewDidLoadTime = f;
             record.viewDidLoadTimeDict = detail;
-        } else if (record && !strcmp(sel_getName(sel), "viewWillAppear")) {
+        } else if (record && !strcmp(sel_getName(sel), "viewWillAppear:")) {
             record.viewWillAppearTime = f;
             record.viewWillAppearTimeDict = detail;
-        } else if (record && !strcmp(sel_getName(sel), "viewWillDidAppear")) {
+        } else if (record && !strcmp(sel_getName(sel), "viewDidAppear:")) {
             record.viewWillDidAppearTime = f;
             record.viewWillDidAppearTimeDict = detail;
+            [self.arrayRecord addObject:record];
+            [self.pageTimeDict removeAllObjects];
         } else if (record && !strcmp(sel_getName(sel), "viewDidLayoutSubviews")) {
             record.viewDidLayoutSubviewsTime = f;
             record.viewDidLayoutSubviewsTimeDict = detail;
-            record.className = NSStringFromClass([vc class]);
-            [self.arrayRecord addObject:record];
-            [self.pageTimeDict removeAllObjects];
         }
     });
 }

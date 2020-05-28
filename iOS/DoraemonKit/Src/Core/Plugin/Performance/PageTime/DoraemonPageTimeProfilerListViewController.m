@@ -7,8 +7,9 @@
 
 #import "DoraemonPageTimeProfilerListViewController.h"
 /*ViewController*/
-
+#import "DoraemonPageTimeDetailViewController.h"
 /*View&&Util*/
+#import "DoraemonDefine.h"
 
 /*model*/
 
@@ -52,6 +53,8 @@
 }
 
 - (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.tableView.frame = self.view.bounds;
 }
 
 - (void)loadUI {
@@ -74,25 +77,25 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     GKTZeusPageTimeRecord *record = self.arrayData[indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ - totalTime:%f",record.className,record.loadViewTime + record.viewDidLoadTime + record.viewWillAppearTime + record.viewWillDidAppearTime + record.viewDidLayoutSubviewsTime];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
+    cell.textLabel.text = [NSString stringWithFormat:@"%@\ntotalTime:%f",record.clsName,record.loadViewTime + record.viewDidLoadTime + record.viewWillAppearTime + record.viewWillDidAppearTime + record.viewDidLayoutSubviewsTime];
+    cell.textLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(20)];
+    cell.textLabel.numberOfLines = 0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    DoraemonPageTimeDetailViewController *vc = DoraemonPageTimeDetailViewController.new;
+    vc.pageTimeDetail = self.arrayData[indexPath.row];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UITableViewDataSource
 //...(多个代理方法依次往下写)
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return self.arrayData.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.arrayData.count;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -102,12 +105,13 @@
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"_tableViewId"];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        [_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"_tableViewId"];
         _tableView.sectionHeaderHeight = 8;
         _tableView.sectionFooterHeight = 0;
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _tableView.estimatedRowHeight = 44;
+        _tableView.rowHeight = UITableViewAutomaticDimension;
     }
     return _tableView;
 }
