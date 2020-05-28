@@ -8,8 +8,20 @@
 import Foundation
 
 
-class DoKitAppSettingPlugin: DoKitBasePlugin{
-    override func pluginDidLoad() {
+class DoKitAppSettingPlugin: Plugin{
+    var module: String {
+        return DoKitLocalizedString("常用工具")
+    }
+    
+    var title: String {
+        return DoKitLocalizedString("应用设置")
+    }
+    
+    var icon: UIImage? {
+        return UIImage.dokitImageNamed(name: "doraemon_setting")
+    }
+    
+    func didLoad() {
         DoKitUtil.openAppSetting()
         DoKitHomeWindow.shared.hide()
     }
