@@ -26,12 +26,20 @@ class H5ViewController: BaseViewController {
         self.setTitle(title: LocalizedString("H5任意门"))
         
         initUI()
+        
+        // 监听键盘的显示和隐藏
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.historyArray = CacheManager.shared.h5historicalRecord
         self.historyTableView.reloadData()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     // MARK: - Override Methods
@@ -104,6 +112,40 @@ class H5ViewController: BaseViewController {
         }
         return URL
     }
+    
+    // MARK: - Notification
+    
+    // 当键盘出现或改变时调用（调整view位置，适应键盘高度，即：让view在键盘上）
+    @objc func keyboardWillShow(_ aNotification: Notification?) {
+        // 获取键盘的高度
+        let userInfo = aNotification?.userInfo
+        let aValue = userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        let keyboardRect = aValue?.cgRectValue
+        let height = keyboardRect?.size.height ?? 0.0
+
+        let frame = jumpBtn.frame
+
+        let offset = height - (CGFloat(kScreenHeight) - frame.maxY)
+
+        let duration = CGFloat((userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0.0)
+        UIView.animate(withDuration: TimeInterval(duration), animations: {
+            if offset > 0 {
+                self.jumpBtn.frame.origin.y = self.jumpBtn.frame.origin.y - offset
+                self.view.layoutIfNeeded()
+            }
+        })
+    }
+    
+    // 当键退出时调用
+    @objc func keyboardWillHide(_ aNotification: Notification?) {
+        let userInfo = aNotification?.userInfo
+        let duration = CGFloat((userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue ?? 0.0)
+        UIView.animate(withDuration: TimeInterval(duration), animations: {
+            self.jumpBtn.frame.origin.y = self.view.frame.size.height - kSizeFrom750_Landscape(130)
+            self.view.layoutIfNeeded()
+        })
+    }
+
 }
 
 // MARK: - UI
