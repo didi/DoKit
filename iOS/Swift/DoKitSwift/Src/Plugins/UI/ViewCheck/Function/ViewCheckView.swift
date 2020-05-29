@@ -142,16 +142,6 @@ fileprivate extension UILabel {
 }
 
 fileprivate extension UIColor {
-
-    /// Hexadecimal value string (read-only).
-    var hexString: String {
-        let components: [Int] = {
-            let comps = cgColor.components ?? [0.0, 0.0]
-            let components = comps.count == 4 ? comps : [comps[0], comps[0], comps[0], comps[1]]
-            return components.map { Int($0 * 255.0) }
-        } ()
-        return String(format: "#%02X%02X%02X", components[0], components[1], components[2])
-    }
     
     var debugInfo: String {
         switch self {
