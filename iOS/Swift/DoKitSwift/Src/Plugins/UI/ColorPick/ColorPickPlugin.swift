@@ -13,7 +13,7 @@ struct ColorPickPlugin: Plugin {
     
     var title: String { LocalizedString("取色器") }
     
-    var icon: UIImage? { UIImage("doraemon_setting") }
+    var icon: UIImage? { DKImage(named: "doraemon_setting") }
     
     func onInstall() {
         
