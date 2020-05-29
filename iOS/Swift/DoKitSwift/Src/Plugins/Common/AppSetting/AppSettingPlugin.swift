@@ -19,7 +19,7 @@ struct AppSettingPlugin: Plugin {
     }
     
     var icon: UIImage? {
-        return UIImage.dokitImageNamed(name: "doraemon_setting")
+        return DKImage(named: "doraemon_setting")
     }
     
     func onInstall() {

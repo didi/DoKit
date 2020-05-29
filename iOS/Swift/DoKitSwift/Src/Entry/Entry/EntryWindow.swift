@@ -32,7 +32,7 @@ class EntryWindow: UIWindow {
         }
         
         entryBtn.frame = self.bounds
-        entryBtn.setImage(UIImage.dokitImageNamed(name: "doraemon_logo"), for: .normal)
+        entryBtn.setImage(DKImage(named: "doraemon_logo"), for: .normal)
         entryBtn.layer.cornerRadius = 20
         entryBtn .addTarget(self, action: #selector(entryClick(btn:)), for: .touchUpInside)
         self.rootViewController?.view.addSubview(entryBtn)
