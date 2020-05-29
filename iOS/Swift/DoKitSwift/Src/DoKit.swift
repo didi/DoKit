@@ -25,6 +25,7 @@ public class DoKit {
     public func install() {
         addPlugin(plugin: AppSettingPlugin())
         addPlugin(plugin: DelSanboxPlugin())
+        addPlugin(plugin: H5Plugin())
         addPlugin(plugin: MainThreadCheckerPlugin())
         addPlugin(plugin: ViewAlignPlugin())
         addPlugin(plugin: ViewCheckPlugin())
