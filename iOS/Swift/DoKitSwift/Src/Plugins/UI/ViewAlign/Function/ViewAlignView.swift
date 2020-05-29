@@ -68,6 +68,10 @@ class ViewAlignView: UIView {
         labels.1.text = .init(format: "%.1f", target.x)
         labels.2.text = .init(format: "%.1f", height - target.y)
         labels.3.text = .init(format: "%.1f", width - target.x)
+        
+        // 超出范围 重置位置
+        guard !bounds.contains(target) else { return }
+        reset()
     }
     
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
