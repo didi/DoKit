@@ -50,6 +50,7 @@ extension ViewAlign {
         } else {
             let view = ViewAlignView()
             view.frame = window.bounds
+            view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             window.addSubview(view)
             view.reset()
             self.view = view
