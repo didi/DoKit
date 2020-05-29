@@ -311,6 +311,7 @@
 				0AE1029724693DAB006CA490 /* Frameworks */,
 				0AE1029824693DAB006CA490 /* Resources */,
 				69356E1B92816D4FCAB695A6 /* [CP] Embed Pods Frameworks */,
+				C95DB2F42480C61600BC30DB /* Build Info */,
 			);
 			buildRules = (
 			);
@@ -393,6 +394,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		C95DB2F42480C61600BC30DB /* Build Info */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Info";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$CONFIGURATION\" != \"Release\" ]\nthen\ncommit=$(git rev-parse --short HEAD)\nbranch=$(git rev-parse --abbrev-ref HEAD)\necho \"[[\\\"Date\\\",\\\"\"$(date \"+%Y-%m-%d %H:%M:%S\")\"\\\"], [\\\"Branch\\\",\\\"HEAD -> $commit, $branch\\\"]]\" > $CODESIGNING_FOLDER_PATH/build.json\nfi\n";
 		};
 		DC320A002ED71A2200D0A799 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

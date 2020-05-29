@@ -21,6 +21,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("点击环境切换插件")
         })
         DoKit.shared.install()
+        DoKit.shared.customAppInfo = {
+            do {
+                let path = Bundle.main.path(forResource: "build.json", ofType: nil)
+                let newInfos:[[String]] = try JSONSerialization.jsonObject(with: Data.init(contentsOf: URL.init(fileURLWithPath: path!)) , options: .mutableLeaves) as! [[String]]
+                return newInfos
+            } catch {
+                return []
+            }
+        }
 
         self.window?.frame = UIScreen.main.bounds;
         let homeVc = DoraemonDemoHomeViewController()

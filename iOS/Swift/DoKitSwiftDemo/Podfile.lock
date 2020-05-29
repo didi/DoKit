@@ -16,7 +16,9 @@ PODS:
     - AFNetworking/NSURLSession
   - DoraemonKit-Swift (0.0.1):
     - DoraemonKit-Swift/Core (= 0.0.1)
-  - DoraemonKit-Swift/Core (0.0.1)
+  - DoraemonKit-Swift/Core (0.0.1):
+    - SnapKit (~> 4.2)
+  - SnapKit (4.2.0)
 
 DEPENDENCIES:
   - AFNetworking
@@ -25,6 +27,7 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - AFNetworking
+    - SnapKit
 
 EXTERNAL SOURCES:
   DoraemonKit-Swift:
@@ -32,7 +35,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
-  DoraemonKit-Swift: 2360f49ae0c4ce1f9ad76925c2e88c47dd19e149
+  DoraemonKit-Swift: 71d2060977a8d754b77823f181a61545d2d6ccd7
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
 
 PODFILE CHECKSUM: afafd3f8405276aad7647340143c6be5c8ff6d74
 

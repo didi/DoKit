@@ -16,6 +16,7 @@ public class DoKit {
     var pluginMap = [String: [Plugin]]()
     var modules = [String]()
     var entryWindow:EntryWindow
+    public var customAppInfo: (() -> [[String]])?
     private init() {
         let startPoint = CGPoint(x: 0, y: kScreenHeight/3)
         entryWindow = EntryWindow(frame: CGRect(x: startPoint.x, y: startPoint.y, width: 58, height: 58))
@@ -24,6 +25,7 @@ public class DoKit {
     
     public func install() {
         addPlugin(plugin: AppSettingPlugin())
+        addPlugin(plugin: AppInfoPlugin())
         addPlugin(plugin: DelSanboxPlugin())
         addPlugin(plugin: MainThreadCheckerPlugin())
         addPlugin(plugin: ViewAlignPlugin())
