@@ -11,7 +11,7 @@ class ColorPickInfoWindow: UIWindow {
 
     static let shared = ColorPickInfoWindow(frame: ColorPickInfoWindow.rect)
     
-    private lazy var pickInfoView = ColorPickInfoView(frame: bounds)
+    private lazy var pickInfoView = ColorPickInfoView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,6 +44,11 @@ class ColorPickInfoWindow: UIWindow {
             selector: #selector(closePluginNotification),
             name: .closePluginNotification,
             object: nil)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        pickInfoView.frame = bounds
     }
 }
 
@@ -78,6 +83,7 @@ extension ColorPickInfoWindow {
             x: view.centerX + offsetPoint.x,
             y: view.centerY + offsetPoint.y
         )
+        layoutSubviews()
     }
     
     @objc
