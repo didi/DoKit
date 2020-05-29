@@ -83,7 +83,6 @@ extension ColorPickInfoWindow {
             x: view.centerX + offsetPoint.x,
             y: view.centerY + offsetPoint.y
         )
-        layoutSubviews()
     }
     
     @objc

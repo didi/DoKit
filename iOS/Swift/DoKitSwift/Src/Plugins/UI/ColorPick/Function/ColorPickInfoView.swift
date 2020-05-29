@@ -83,18 +83,6 @@ class ColorPickInfoView: UIView {
         let image = DKImage(named: "doraemon_close")
         closeButton.setImage(image, for: .normal)
     }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesMoved(touches, with: event)
-        guard let touch = touches.first else { return }
-        
-        let currentPoint = touch.location(in: self)
-        // 获取上一个点
-        let prePoint = touch.previousLocation(in: self)
-        let offsetX = currentPoint.x - prePoint.x
-        let offsetY = currentPoint.y - prePoint.y
-        transform = transform.translatedBy(x: offsetX, y: offsetY)
-    }
 }
 
 // MARK:- Public
