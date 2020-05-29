@@ -13,7 +13,7 @@ struct ViewCheckPlugin: Plugin {
     
     var title: String { LocalizedString("组件检查") }
     
-    var icon: UIImage? { UIImage.dokitImageNamed(name: "doraemon_view_check") }
+    var icon: UIImage? { UIImage("doraemon_view_check") }
     
     func onInstall() {
         
