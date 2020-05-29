@@ -23,7 +23,7 @@ class ViewCheck {
         }
         
         NotificationCenter.default.addObserver(
-            forName: .init("DoraemonClosePluginNotification"),
+            forName: .closePluginNotification,
             object: self,
             queue: .main
         ) { [weak self] (sender) in

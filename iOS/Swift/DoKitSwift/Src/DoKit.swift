@@ -28,7 +28,7 @@ public class DoKit {
         addPlugin(plugin: MainThreadCheckerPlugin())
         addPlugin(plugin: ViewAlignPlugin())
         addPlugin(plugin: ViewCheckPlugin())
-        
+        addPlugin(plugin: ViewMetricsPlugin())
     }
     
     public func addPlugin(plugin:Plugin){

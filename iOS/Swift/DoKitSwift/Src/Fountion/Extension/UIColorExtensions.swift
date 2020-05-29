@@ -64,6 +64,27 @@ extension UIColor {
         return image!
     }
     
+
+    /// Random color.
+    static var random: UIColor {
+        .init(
+            red: .random(in: 0.0 ... 1.0),
+            green: .random(in: 0.0 ... 1.0),
+            blue: .random(in: 0.0 ... 1.0),
+            alpha: 1.0
+        )
+    }
+    
+    /// Hexadecimal value string (read-only).
+    var hexString: String {
+        let components: [Int] = {
+            let comps = cgColor.components ?? [0.0, 0.0]
+            let components = comps.count == 4 ? comps : [comps[0], comps[0], comps[0], comps[1]]
+            return components.map { Int($0 * 255.0) }
+        } ()
+        return String(format: "#%02X%02X%02X", components[0], components[1], components[2])
+    }
+    
     static func dynamic(with light: UIColor, dark: UIColor) -> UIColor {
         if #available(iOS 13.0, *) {
             return UIColor {
