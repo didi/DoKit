@@ -25,24 +25,19 @@ import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
-import com.blankj.utilcode.util.*
+import com.blankj.utilcode.util.ConvertUtils
+import com.blankj.utilcode.util.ThreadUtils
 import com.blankj.utilcode.util.ThreadUtils.SimpleTask
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.didichuxing.doraemondemo.retrofit.GithubService
 import com.didichuxing.doraemonkit.DoraemonKit
-import com.didichuxing.doraemonkit.aop.method_stack.MethodInvokNode
-import com.didichuxing.doraemonkit.aop.method_stack.MethodStackBean
-import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil
 import com.didichuxing.doraemonkit.okgo.DokitOkGo
 import com.didichuxing.doraemonkit.okgo.callback.StringCallback
 import com.didichuxing.doraemonkit.okgo.model.Response
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonObject
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import com.squareup.picasso.MemoryPolicy
@@ -54,7 +49,6 @@ import com.tencent.map.geolocation.TencentLocationRequest
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
-import org.json.JSONArray
 import org.json.JSONObject
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.PermissionRequest
@@ -62,9 +56,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.*
-import java.lang.reflect.Type
 import java.net.*
-import java.util.ArrayList
 
 /**
  * @author jintai
@@ -198,10 +190,8 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
 
     private val mLocationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            if (location != null) {
-                val string = "lat====>" + location.latitude + "  lng====>" + location.longitude
-                Log.i(TAG, "系统定位====>$string")
-            }
+            val string = "lat====>" + location.latitude + "  lng====>" + location.longitude
+            Log.i(TAG, "系统定位====>$string")
         }
 
         override fun onProviderDisabled(arg0: String) {}
@@ -384,7 +374,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
             @Throws(Throwable::class)
             override fun doInBackground(): String {
                 try {
-                    val url = URL(path.trim { it <= ' ' })
+                    val url = URL(path.trim())
                     //打开连接
                     val urlConnection = url.openConnection() as HttpURLConnection
                     //urlConnection.setRequestProperty("token", "10051:abc");
@@ -440,7 +430,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                     .url("http://cdn1.lbesec.com/products/history/20131220/privacyspace_rel_2.2.1617.apk")
                     .build()
         }
-        val call = okHttpClient!!.newCall(request)
+        val call = okHttpClient!!.newCall(request!!)
         val startTime = SystemClock.uptimeMillis()
         call.enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {

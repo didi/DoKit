@@ -18,6 +18,6 @@ class DokitSettingAdapter(datas: MutableList<String>)
     : BaseQuickAdapter<String, BaseViewHolder>(R.layout.dk_item_main_setting, datas) {
 
     override fun convert(holder: BaseViewHolder, name: String) {
-        holder.getView<TextView>(R.id.tv_name).setText(name)
+        holder.getView<TextView>(R.id.tv_name).text = name
     }
 }

@@ -19,11 +19,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * ================================================
  */
 public class MethodCostUtil {
+    private static final String TAG = "DOKIT_SLOW_METHOD";
     /**
      * key className&method
      */
     private static ConcurrentHashMap<String, Long> METHOD_COSTS = new ConcurrentHashMap<>();
-    private static final String TAG = "MethodCostUtil";
 
 
     /**

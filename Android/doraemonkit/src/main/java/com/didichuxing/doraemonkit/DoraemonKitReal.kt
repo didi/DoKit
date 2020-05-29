@@ -176,7 +176,7 @@ object DoraemonKitReal {
      * 添加内置kit
      */
     private fun addInnerKit(application: Application) {
-        var json = ""
+        val json: String?
         if (FileUtils.isFileExists(DokitConstant.SYSTEM_KITS_BAK_PATH)) {
             json = FileIOUtils.readFile2String(DokitConstant.SYSTEM_KITS_BAK_PATH)
         } else {
@@ -353,7 +353,7 @@ object DoraemonKitReal {
             return
         }
         val files = rootFileDir.listFiles()
-        for (file in files) {
+        files?.forEach { file ->
             if (file.isDirectory) {
                 //若是目录，则递归打印该目录下的文件
                 //LogHelper.i(TAG, "文件夹==>" + file.getAbsolutePath());
@@ -372,6 +372,7 @@ object DoraemonKitReal {
                 //LogHelper.i(TAG, "文件==>" + file.getAbsolutePath() + "   fileName===>" + FileUtils.getFileName(file) + " fileLength===>" + fileLength);
             }
         }
+
     }
 
     /**

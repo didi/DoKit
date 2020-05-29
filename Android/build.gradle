@@ -1,6 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     apply from: "config.gradle"
+    ext {
+        kotlin_version = '1.3.72'
+    }
     repositories {
         google()
         jcenter()
@@ -15,8 +18,6 @@ buildscript {
         classpath "com.didichuxing.doraemonkit:doraemonkit-plugin:${rootProject.ext.android["pluginVersionName"]}"
         //classpath "com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.5"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.ext.android["kotlin_version"]}"
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 

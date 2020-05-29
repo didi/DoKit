@@ -9,6 +9,8 @@ import com.didichuxing.doraemonkit.aop.MethodCostUtil;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,16 +24,17 @@ import java.util.concurrent.ConcurrentHashMap;
  * ================================================
  */
 public class MethodStackUtil {
-    private static final String TAG = "MethodStackUtil";
+    private static final String TAG = "DOKIT_SLOW_METHOD";
     /**
      * key className&methodName
      */
-    private ConcurrentHashMap<String, MethodInvokNode> ROOT_METHOD_STACKS = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, MethodInvokNode> LEVEL1_METHOD_STACKS = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, MethodInvokNode> LEVEL2_METHOD_STACKS = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, MethodInvokNode> LEVEL3_METHOD_STACKS = new ConcurrentHashMap<>();
-    private ConcurrentHashMap<String, MethodInvokNode> LEVEL4_METHOD_STACKS = new ConcurrentHashMap<>();
+//    private ConcurrentHashMap<String, MethodInvokNode> ROOT_METHOD_STACKS = new ConcurrentHashMap<>();
+//    private ConcurrentHashMap<String, MethodInvokNode> LEVEL1_METHOD_STACKS = new ConcurrentHashMap<>();
+//    private ConcurrentHashMap<String, MethodInvokNode> LEVEL2_METHOD_STACKS = new ConcurrentHashMap<>();
+//    private ConcurrentHashMap<String, MethodInvokNode> LEVEL3_METHOD_STACKS = new ConcurrentHashMap<>();
+//    private ConcurrentHashMap<String, MethodInvokNode> LEVEL4_METHOD_STACKS = new ConcurrentHashMap<>();
 
+    private List<ConcurrentHashMap<String, MethodInvokNode>> METHOD_STACKS = Collections.synchronizedList(new ArrayList<ConcurrentHashMap<String, MethodInvokNode>>());
 
     /**
      * 静态内部类单例
@@ -44,39 +47,37 @@ public class MethodStackUtil {
         return MethodStackUtil.Holder.INSTANCE;
     }
 
+    private void createMethodStackList(int totalLevel) {
+        if (METHOD_STACKS.size() == totalLevel) {
+            return;
+        }
+        METHOD_STACKS.clear();
+        for (int index = 0; index < totalLevel; index++) {
+            METHOD_STACKS.add(index, new ConcurrentHashMap<String, MethodInvokNode>());
+        }
+    }
+
     /**
-     * @param level
+     * @param currentLevel
      * @param methodName
      * @param classObj   null 代表静态函数
      */
-    public void recodeObjectMethodCostStart(int thresholdTime, int level, String className, String methodName, String desc, Object classObj) {
-
+    public void recodeObjectMethodCostStart(int totalLevel, int thresholdTime, int currentLevel, String className, String methodName, String desc, Object classObj) {
         try {
+            //先创建队列
+            createMethodStackList(totalLevel);
+
             MethodInvokNode methodInvokNode = new MethodInvokNode();
             methodInvokNode.setStartTimeMillis(System.currentTimeMillis());
             methodInvokNode.setCurrentThreadName(Thread.currentThread().getName());
             methodInvokNode.setClassName(className);
             methodInvokNode.setMethodName(methodName);
 
-            if (level == 0) {
-                methodInvokNode.setLevel(0);
-                ROOT_METHOD_STACKS.put(String.format("%s&%s", className, methodName), methodInvokNode);
-            } else if (level == 1) {
-                methodInvokNode.setLevel(1);
-                LEVEL1_METHOD_STACKS.put(String.format("%s&%s", className, methodName), methodInvokNode);
-            } else if (level == 2) {
-                methodInvokNode.setLevel(2);
-                LEVEL2_METHOD_STACKS.put(String.format("%s&%s", className, methodName), methodInvokNode);
-            } else if (level == 3) {
-                methodInvokNode.setLevel(3);
-                LEVEL3_METHOD_STACKS.put(String.format("%s&%s", className, methodName), methodInvokNode);
-            } else if (level == 4) {
-                methodInvokNode.setLevel(4);
-                LEVEL4_METHOD_STACKS.put(String.format("%s&%s", className, methodName), methodInvokNode);
-            }
+            methodInvokNode.setLevel(currentLevel);
+            METHOD_STACKS.get(currentLevel).put(String.format("%s&%s", className, methodName), methodInvokNode);
 
             //特殊判定
-            if (level == 0) {
+            if (currentLevel == 0) {
                 if (classObj instanceof Application) {
                     if (methodName.equals("onCreate")) {
                         TimeCounterManager.get().onAppCreateStart();
@@ -95,36 +96,25 @@ public class MethodStackUtil {
     }
 
     /**
-     * @param level
+     * @param currentLevel
      * @param className
      * @param methodName
      * @param desc
      * @param classObj   null 代表静态函数
      */
-    public void recodeObjectMethodCostEnd(int thresholdTime, int level, String className, String methodName, String desc, Object classObj) {
+    public void recodeObjectMethodCostEnd(int thresholdTime, int currentLevel, String className, String methodName, String desc, Object classObj) {
 
         synchronized (MethodCostUtil.class) {
             try {
-                MethodInvokNode methodInvokNode = null;
+                MethodInvokNode methodInvokNode = METHOD_STACKS.get(currentLevel).get(String.format("%s&%s", className, methodName));
 
-                if (level == 0) {
-                    methodInvokNode = ROOT_METHOD_STACKS.get(String.format("%s&%s", className, methodName));
-                } else if (level == 1) {
-                    methodInvokNode = LEVEL1_METHOD_STACKS.get(String.format("%s&%s", className, methodName));
-                } else if (level == 2) {
-                    methodInvokNode = LEVEL2_METHOD_STACKS.get(String.format("%s&%s", className, methodName));
-                } else if (level == 3) {
-                    methodInvokNode = LEVEL3_METHOD_STACKS.get(String.format("%s&%s", className, methodName));
-                } else if (level == 4) {
-                    methodInvokNode = LEVEL4_METHOD_STACKS.get(String.format("%s&%s", className, methodName));
-                }
                 if (methodInvokNode != null) {
                     methodInvokNode.setEndTimeMillis(System.currentTimeMillis());
-                    bindNode(thresholdTime, level, methodInvokNode);
+                    bindNode(thresholdTime, currentLevel, methodInvokNode);
                 }
 
                 //打印函数调用栈
-                if (level == 0) {
+                if (currentLevel == 0) {
                     if (methodInvokNode != null) {
                         toStack(classObj instanceof Application, methodInvokNode);
                     }
@@ -139,7 +129,7 @@ public class MethodStackUtil {
                     }
 
                     //移除对象
-                    ROOT_METHOD_STACKS.remove(className + "&" + methodName);
+                    METHOD_STACKS.get(0).remove(className + "&" + methodName);
 
                 }
             } catch (Exception e) {
@@ -155,18 +145,18 @@ public class MethodStackUtil {
         int index = 0;
         for (int i = 0; i < stackTraceElements.length; i++) {
             StackTraceElement stackTraceElement = stackTraceElements[i];
-            if (currentClassName.equals(stackTraceElement.getClassName().replaceAll("\\.", "/")) && currentMethodName.equals(stackTraceElement.getMethodName())) {
+            if (currentClassName.equals(stackTraceElement.getClassName()) && currentMethodName.equals(stackTraceElement.getMethodName())) {
                 index = i;
                 break;
             }
         }
         StackTraceElement parentStackTraceElement = stackTraceElements[index + 1];
 
-        return String.format("%s&%s", parentStackTraceElement.getClassName().replaceAll("\\.", "/"), parentStackTraceElement.getMethodName());
+        return String.format("%s&%s", parentStackTraceElement.getClassName(), parentStackTraceElement.getMethodName());
     }
 
 
-    private void bindNode(int thresholdTime, int level, MethodInvokNode methodInvokNode) {
+    private void bindNode(int thresholdTime, int currentLevel, MethodInvokNode methodInvokNode) {
         if (methodInvokNode == null) {
             return;
         }
@@ -176,55 +166,24 @@ public class MethodStackUtil {
             return;
         }
 
-        MethodInvokNode parentMethodNode;
-        switch (level) {
-            case 1:
-                //设置父node 并将自己添加到父node中
-                parentMethodNode = ROOT_METHOD_STACKS.get(getParentMethod(methodInvokNode.getClassName(), methodInvokNode.getMethodName()));
-                if (parentMethodNode != null) {
-                    methodInvokNode.setParent(parentMethodNode);
-                    parentMethodNode.addChild(methodInvokNode);
-                }
-
-                break;
-            case 2:
-                //设置父node 并将自己添加到父node中
-                parentMethodNode = LEVEL1_METHOD_STACKS.get(getParentMethod(methodInvokNode.getClassName(), methodInvokNode.getMethodName()));
-                if (parentMethodNode != null) {
-                    methodInvokNode.setParent(parentMethodNode);
-                    parentMethodNode.addChild(methodInvokNode);
-                }
-                break;
-            case 3:
-                //设置父node 并将自己添加到父node中
-                parentMethodNode = LEVEL2_METHOD_STACKS.get(getParentMethod(methodInvokNode.getClassName(), methodInvokNode.getMethodName()));
-                if (parentMethodNode != null) {
-                    methodInvokNode.setParent(parentMethodNode);
-                    parentMethodNode.addChild(methodInvokNode);
-                }
-                break;
-            case 4:
-                //设置父node 并将自己添加到父node中
-                parentMethodNode = LEVEL3_METHOD_STACKS.get(getParentMethod(methodInvokNode.getClassName(), methodInvokNode.getMethodName()));
-                if (parentMethodNode != null) {
-                    methodInvokNode.setParent(parentMethodNode);
-                    parentMethodNode.addChild(methodInvokNode);
-                }
-                break;
-
-            default:
-                break;
+        if (currentLevel >= 1) {
+            MethodInvokNode parentMethodNode = METHOD_STACKS.get(currentLevel - 1).get(getParentMethod(methodInvokNode.getClassName(), methodInvokNode.getMethodName()));
+            if (parentMethodNode != null) {
+                methodInvokNode.setParent(parentMethodNode);
+                parentMethodNode.addChild(methodInvokNode);
+            }
         }
+
     }
 
 
-    public void recodeStaticMethodCostStart(int thresholdTime, int level, String className, String methodName, String desc) {
-        recodeObjectMethodCostStart(thresholdTime, level, className, methodName, desc, new StaicMethodObject());
+    public void recodeStaticMethodCostStart(int totalLevel, int thresholdTime, int currentLevel, String className, String methodName, String desc) {
+        recodeObjectMethodCostStart(totalLevel, thresholdTime, currentLevel, className, methodName, desc, new StaicMethodObject());
     }
 
 
-    public void recodeStaticMethodCostEnd(int thresholdTime, int level, String className, String methodName, String desc) {
-        recodeObjectMethodCostEnd(thresholdTime, level, className, methodName, desc, new StaicMethodObject());
+    public void recodeStaticMethodCostEnd(int thresholdTime, int currentLevel, String className, String methodName, String desc) {
+        recodeObjectMethodCostEnd(thresholdTime, currentLevel, className, methodName, desc, new StaicMethodObject());
     }
 
     private void jsonTravel(List<MethodStackBean> methodStackBeans, List<MethodInvokNode> methodInvokNodes) {
@@ -254,7 +213,7 @@ public class MethodStackUtil {
 
     public void toJson() {
         List<MethodStackBean> methodStackBeans = new ArrayList<>();
-        for (MethodInvokNode methodInvokNode : ROOT_METHOD_STACKS.values()) {
+        for (MethodInvokNode methodInvokNode : METHOD_STACKS.get(0).values()) {
             MethodStackBean methodStackBean = new MethodStackBean();
             methodStackBean.setCostTime(methodInvokNode.getCostTimeMillis());
             methodStackBean.setFunction(methodInvokNode.getClassName() + "&" + methodInvokNode.getMethodName());

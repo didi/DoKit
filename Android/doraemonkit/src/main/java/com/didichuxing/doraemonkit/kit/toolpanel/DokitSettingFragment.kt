@@ -45,7 +45,7 @@ class DokitSettingFragment : BaseFragment() {
         mAdapter = DokitSettingAdapter(mSettings)
         setting_list.adapter = mAdapter
         setting_list.layoutManager = LinearLayoutManager(activity)
-        mAdapter.setOnItemClickListener { adapter, view, position ->
+        mAdapter.setOnItemClickListener { _, _, position ->
 
             when (position) {
                 0 -> {

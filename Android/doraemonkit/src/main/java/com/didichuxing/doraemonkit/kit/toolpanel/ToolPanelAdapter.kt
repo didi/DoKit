@@ -42,7 +42,7 @@ class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?)
     override fun convert(holder: BaseViewHolder, item: KitWrapItem) {
         when (item.itemType) {
             KitWrapItem.TYPE_TITLE -> {
-                item.name?.let {
+                item.name.let {
                     if (it.equals(DokitUtil.getString(R.string.dk_category_platform))) {
                         holder.getView<TextView>(R.id.tv_sub_title_name).visibility = View.VISIBLE
                         holder.getView<TextView>(R.id.tv_sub_title_name).text = "(www.dokit.cn)"
@@ -64,7 +64,7 @@ class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?)
                 val radioGroup = holder.getView<RadioGroup>(R.id.rb_group)
                 val rbNormal = holder.getView<RadioButton>(R.id.rb_normal)
                 val rbSystem = holder.getView<RadioButton>(R.id.rb_system)
-                radioGroup.setOnCheckedChangeListener { group, checkedId ->
+                radioGroup.setOnCheckedChangeListener { _, checkedId ->
                     if (checkedId == R.id.rb_normal) {
                         //选中normal
                         SharedPrefsUtil.putString(SharedPrefsKey.FLOAT_START_MODE, "normal")
