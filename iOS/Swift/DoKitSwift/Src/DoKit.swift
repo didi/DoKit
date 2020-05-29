@@ -27,6 +27,7 @@ public class DoKit {
         addPlugin(plugin: DelSanboxPlugin())
         addPlugin(plugin: MainThreadCheckerPlugin())
         addPlugin(plugin: ViewAlignPlugin())
+        addPlugin(plugin: ViewCheckPlugin())
     }
     
     public func addPlugin(plugin:Plugin){
