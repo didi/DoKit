@@ -15,7 +15,10 @@ struct ColorPickPlugin: Plugin {
     
     var icon: UIImage? { UIImage("doraemon_setting") }
     
-    func didLoad() {
+    func onInstall() {
+        
+    }
+    func onSelected() {
         ColorPickWindow.shared.show()
         ColorPickInfoWindow.shared.show()
         HomeWindow.shared.hide()

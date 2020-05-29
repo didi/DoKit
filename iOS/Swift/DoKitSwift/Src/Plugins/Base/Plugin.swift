@@ -12,16 +12,24 @@ public protocol Plugin {
     var title: String { get }
     var icon: UIImage? { get }
     
-    func didLoad()
+    /// 当组件被安装时调用
+    func onInstall()
+    /// 当组件在主页面被选中时调用
+    func onSelected()
 }
 
 struct DefaultPlugin: Plugin {
+
     var module: String
     var title: String
     var icon: UIImage?
-    var callBack: ()->Void
+    var onInstallClosure: (()->Void)?
+    var onSelectedClosure: (()->Void)?
     
-    func didLoad() {
-        self.callBack()
+    func onInstall() {
+        self.onInstallClosure?()
+    }
+    func onSelected() {
+        self.onSelectedClosure?()
     }
 }

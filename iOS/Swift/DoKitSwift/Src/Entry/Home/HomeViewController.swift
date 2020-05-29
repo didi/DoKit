@@ -123,7 +123,7 @@ class HomeViewController: BaseViewController, UICollectionViewDelegate, UICollec
         let row = indexPath.row
         if section < DoKit.shared.modules.count {
             let plugin = DoKit.shared.pluginMap[DoKit.shared.modules[section]]?[row]
-            plugin?.didLoad()
+            plugin?.onSelected()
         }
     }
 }

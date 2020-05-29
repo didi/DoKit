@@ -28,9 +28,11 @@ public class DoKit {
         addPlugin(plugin: MainThreadCheckerPlugin())
         addPlugin(plugin: ViewAlignPlugin())
         addPlugin(plugin: ViewCheckPlugin())
+        
     }
     
     public func addPlugin(plugin:Plugin){
+        plugin.onInstall()
         if pluginMap[plugin.module] != nil {
             pluginMap[plugin.module]?.append(plugin)
         }else{
@@ -39,8 +41,8 @@ public class DoKit {
         }
     }
     
-    public func addPlugin(module: String,title: String, icon: UIImage?,didLoad:@escaping ()->Void){
-        let plugin = DefaultPlugin.init(module: module, title: title, icon: icon, callBack: didLoad)
+    public func addPlugin(module: String,title: String, icon: UIImage?,onInstall: (()->Void)?,onSelected: (()->Void)?){
+        let plugin = DefaultPlugin.init(module: module, title: title, icon: icon, onInstallClosure: onInstall,onSelectedClosure: onSelected)
         self.addPlugin(plugin: plugin)
     }
     
