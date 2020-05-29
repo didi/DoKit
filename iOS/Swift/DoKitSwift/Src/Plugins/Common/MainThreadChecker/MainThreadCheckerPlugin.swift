@@ -9,17 +9,11 @@ import Foundation
 
 struct MainThreadCheckerPlugin: Plugin {
     
-    var module: String {
-        return LocalizedString("常用工具")
-    }
+    var module: String { LocalizedString("常用工具") }
     
-    var title: String {
-        return LocalizedString("子线程UI")
-    }
+    var title: String { LocalizedString("子线程UI") }
     
-    var icon: UIImage? {
-        return UIImage.dokitImageNamed(name: "doraemon_ui")
-    }
+    var icon: UIImage? { UIImage.dokitImageNamed(name: "doraemon_ui") }
     
     func onInstall() {
         if MainThreadCheckerPlugin.mainThreadChecker {
