@@ -26,7 +26,7 @@ class ColorPickInfoView: UIView {
     }(UILabel())
     
     private lazy var closeButton: UIButton = {
-        let image = UIImage.dynamic(with: UIImage("doraemon_close"), dark: UIImage("doraemon_close_dark"))
+        let image = DKImage(named: "doraemon_close")
         $0.setBackgroundImage(image, for: .normal)
         $0.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
         return $0
@@ -83,7 +83,7 @@ class ColorPickInfoView: UIView {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        let image = UIImage.dynamic(with: UIImage("doraemon_close"), dark: UIImage("doraemon_close_dark"))
+        let image = DKImage(named: "doraemon_close")
         closeButton.setImage(image, for: .normal)
     }
     

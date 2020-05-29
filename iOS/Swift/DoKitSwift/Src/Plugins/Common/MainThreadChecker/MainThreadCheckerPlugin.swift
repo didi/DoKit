@@ -18,7 +18,7 @@ struct MainThreadCheckerPlugin: Plugin {
     }
     
     var icon: UIImage? {
-        return UIImage.dokitImageNamed(name: "doraemon_ui")
+        return DKImage(named: "doraemon_ui")
     }
     
     func onInstall() {

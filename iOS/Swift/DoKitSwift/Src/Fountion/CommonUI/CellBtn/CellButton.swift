@@ -39,7 +39,7 @@ class CellButton: UIView {
         downLine.backgroundColor = UIColor.line()
         self.addSubview(downLine)
         
-        arrowImageView.image = UIImage.dokitImageNamed(name: "doraemon_more")
+        arrowImageView.image = DKImage(named: "doraemon_more")
         arrowImageView.frame = CGRect(x: self.width-kSizeFrom750_Landscape(32)-arrowImageView.width, y: self.height/2-arrowImageView.height/2, width: arrowImageView.width, height: arrowImageView.height)
         self.addSubview(arrowImageView)
         
