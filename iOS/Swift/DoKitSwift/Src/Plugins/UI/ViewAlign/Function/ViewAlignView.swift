@@ -10,7 +10,7 @@ import UIKit
 class ViewAlignView: UIView {
     
     private let color = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
-    private lazy var imageView = UIImageView(image: UIImage("doraemon_visual"))
+    private lazy var imageView = UIImageView(image: DKImage(named: "doraemon_visual"))
     private lazy var lines = (horizontal: UIView(), vertical: UIView())
     private lazy var labels = (top: UILabel(), left: UILabel(), bottom: UILabel(), right: UILabel())
     

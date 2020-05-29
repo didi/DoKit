@@ -19,7 +19,7 @@ class BaseViewController: UIViewController, BaseBigTitleViewDelegate {
             bigTitleView!.delegate = self
             view.addSubview(bigTitleView!)
         }else{
-            let image = UIImage.dokitImageNamed(name: "doraemon_back")
+            let image = DKImage(named: "doraemon_back")
             let leftModel = NavBarItemModel(icon: image, iconSelector: #selector(leftNavBackClick))
             self.setLeftNavBarItems(items: [leftModel])
         }
