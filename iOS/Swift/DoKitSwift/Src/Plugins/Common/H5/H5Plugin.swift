@@ -19,10 +19,14 @@ struct H5Plugin: Plugin {
     }
     
     var icon: UIImage? {
-        return UIImage("doraemon_h5")
+        return DKImage(named: "doraemon_h5")
     }
     
-    func didLoad() {
+    func onInstall() {
+        
+    }
+    
+    func onSelected() {
         let vc = H5ViewController()
         HomeWindow.shared.openPlugin(vc: vc)
     }

@@ -78,9 +78,15 @@ class H5ViewController: BaseViewController {
         
         let h5Url = h5UrlTextView.text
         CacheManager.shared.saveH5historicalRecord(text: h5Url)
-        let vc = DefaultWebViewController()
-        vc.url = urlCorrectionWithURL(URL: h5Url ?? "")
-        self.navigationController?.pushViewController(vc, animated: true)
+        
+        if DoKit.shared.H5DoorBlock != nil {
+            self.leftNavBackClick()
+            DoKit.shared.H5DoorBlock!(h5Url ?? "")
+        } else {
+            let vc = DefaultWebViewController()
+            vc.url = urlCorrectionWithURL(URL: h5Url ?? "")
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     @objc func clearRecordBtnClickHandle(sender: UIButton) -> Void {
@@ -175,7 +181,7 @@ extension H5ViewController {
         
         // scanJumpBtn
         scanJumpBtn = UIButton(frame: CGRect(x: view.width - kSizeFrom750_Landscape(71.8), y: lineView.top - kSizeFrom750_Landscape(71.8), width: kSizeFrom750_Landscape(38.6), height: kSizeFrom750_Landscape(38.6)))
-        scanJumpBtn.setBackgroundImage(UIImage("doraemon_scan"), for: .normal)
+        scanJumpBtn.setBackgroundImage(DKImage(named: "doraemon_scan"), for: .normal)
         scanJumpBtn.addTarget(self, action: #selector(clickScanBtnClickHandle), for: .touchUpInside)
         self.view.addSubview(scanJumpBtn)
         
@@ -204,7 +210,7 @@ extension H5ViewController: UITableViewDataSource, UITableViewDelegate {
         cell?.textLabel?.text =  historyArray?[indexPath.row]
         cell?.textLabel?.textColor = UIColor.init(0x333333, alphaValue: 1.0)
         cell?.textLabel?.font = UIFont.systemFont(ofSize: kSizeFrom750_Landscape(30.0))
-        cell?.imageView?.image = UIImage("doraemon_search")
+        cell?.imageView?.image = DKImage(named: "doraemon_search")
         return cell!
     }
     
