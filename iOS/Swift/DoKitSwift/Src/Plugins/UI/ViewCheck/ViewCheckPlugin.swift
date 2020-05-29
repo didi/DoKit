@@ -15,7 +15,11 @@ struct ViewCheckPlugin: Plugin {
     
     var icon: UIImage? { UIImage.dokitImageNamed(name: "doraemon_view_check") }
     
-    func didLoad() {
+    func onInstall() {
+        
+    }
+    
+    func onSelected() {
         ViewCheck.shared.show()
         HomeWindow.shared.hide()
     }

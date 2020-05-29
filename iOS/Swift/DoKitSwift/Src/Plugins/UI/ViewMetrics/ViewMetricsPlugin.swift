@@ -15,7 +15,11 @@ struct ViewMetricsPlugin: Plugin {
     
     var icon: UIImage? { UIImage("doraemon_viewmetrics") }
     
-    func didLoad() {
+    func onInstall() {
+        
+    }
+    
+    func onSelected() {
         ViewMetrics.shared.enable.toggle()
         HomeWindow.shared.hide()
         // toast

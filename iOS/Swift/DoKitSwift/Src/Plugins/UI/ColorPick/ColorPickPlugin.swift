@@ -13,9 +13,12 @@ struct ColorPickPlugin: Plugin {
     
     var title: String { LocalizedString("取色器") }
     
-    var icon: UIImage? { UIImage.dokitImageNamed(name: "doraemon_setting") }
+    var icon: UIImage? { UIImage("doraemon_setting") }
     
-    func didLoad() {
+    func onInstall() {
+        
+    }
+    func onSelected() {
         ColorPickWindow.shared.show()
         ColorPickInfoWindow.shared.show()
         HomeWindow.shared.hide()

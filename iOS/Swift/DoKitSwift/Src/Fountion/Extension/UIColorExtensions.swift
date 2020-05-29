@@ -64,6 +64,7 @@ extension UIColor {
         return image!
     }
     
+
     /// Random color.
     static var random: UIColor {
         .init(
@@ -72,5 +73,20 @@ extension UIColor {
             blue: .random(in: 0.0 ... 1.0),
             alpha: 1.0
         )
+    }
+    
+    static func dynamic(with light: UIColor, dark: UIColor) -> UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor {
+                switch $0.userInterfaceStyle {
+                case .light:        return light
+                case .dark:         return dark
+                case .unspecified:  return light
+                @unknown default:   return light
+                }
+            }
+        } else {
+            return light
+        }
     }
 }
