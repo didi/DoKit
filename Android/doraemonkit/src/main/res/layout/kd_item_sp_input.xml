@@ -8,7 +8,7 @@
         android:id="@+id/tv_sp_value"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableRight="@drawable/dk_sp_modify"
+        android:drawableRight="@mipmap/dk_sp_modify"
         android:ellipsize="end"
         android:gravity="center"
         android:maxEms="6"

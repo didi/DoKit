@@ -1,30 +1,46 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply from: 'upload.gradle'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    compileOnly 'com.squareup.okio:okio:1.15.0'
-    compileOnly 'com.squareup.okhttp3:okhttp:3.12.1'
+    //implementation rootProject.ext.dependencies["appcompat"]
+    //compileOnly rootProject.ext.dependencies["okio"]
+    implementation rootProject.ext.dependencies["kotlin"]
+    compileOnly rootProject.ext.dependencies["okhttp"]
+    //三大图片框架
+    compileOnly rootProject.ext.dependencies["glide"]
+    compileOnly rootProject.ext.dependencies["picasso"]
+    compileOnly rootProject.ext.dependencies["fresco"]
 }

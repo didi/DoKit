@@ -8,18 +8,17 @@ import android.widget.Toast;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.CachesKey;
+import com.didichuxing.doraemonkit.datapick.DataPickManager;
 import com.didichuxing.doraemonkit.util.CacheUtils;
 import com.didichuxing.doraemonkit.util.FileUtil;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by wanglikun on 2019-06-12
+ * 系统崩溃异常捕获
  */
 public class CrashCaptureManager implements Thread.UncaughtExceptionHandler {
     private static final String TAG = "CrashCaptureManager";
@@ -57,7 +56,10 @@ public class CrashCaptureManager implements Thread.UncaughtExceptionHandler {
 
     @Override
     public void uncaughtException(final Thread t, final Throwable e) {
-        CacheUtils.saveObject(Log.getStackTraceString(e), getCrashCacheFile());
+        //保存崩溃信息
+        CacheUtils.saveObject((Serializable) Log.getStackTraceString(e), getCrashCacheFile());
+        //保存埋点数据
+        DataPickManager.getInstance().saveData2Local();
         post(new Runnable() {
             @Override
             public void run() {

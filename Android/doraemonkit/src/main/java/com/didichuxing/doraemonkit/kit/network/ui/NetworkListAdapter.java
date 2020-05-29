@@ -13,8 +13,8 @@ import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 import com.didichuxing.doraemonkit.kit.network.bean.Request;
 import com.didichuxing.doraemonkit.kit.network.bean.Response;
 import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
+import com.didichuxing.doraemonkit.widget.recyclerview.AbsRecyclerAdapter;
+import com.didichuxing.doraemonkit.widget.recyclerview.AbsViewBinder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

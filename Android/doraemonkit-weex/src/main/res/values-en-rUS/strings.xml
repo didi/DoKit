@@ -1,0 +1,20 @@
+<resources>
+<!--    <string name="app_name">weexkit</string>-->
+    
+    <string name="dk_console_log_name">Log</string>
+    <string name="dk_console_log_title">Weex Logging</string>
+    <string name="dk_storage_cache_name">Cache</string>
+    <string name="dk_storage_cache_title">Storage Information</string>
+    <string name="dk_weex_info_name">Info</string>
+    <string name="dk_weex_info_title">Weex Information</string>
+    <string name="dk_dev_tool_name">DevTool</string>
+    <string name="dk_dev_tool_title">DevTool</string>
+
+    <string name="dk_storage_tip_key">key:</string>
+    <string name="dk_storage_tip_value">value:</string>
+
+    <string name="dk_log_btn_clean">Clear</string>
+    <string name="dk_log_btn_export">Export</string>
+    <string name="dk_log_btn_back_top">Top</string>
+    <string name="dk_log_btn_to_bottom">Bottom</string>
+</resources>

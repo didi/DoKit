@@ -2,72 +2,123 @@ package com.didichuxing.doraemonkit.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
+
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.Utils;
+import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
+
+import static com.didichuxing.doraemonkit.constant.SharedPrefsKey.APP_HEALTH;
 
 /**
  * Created by wanglikun on 2018/9/14.
  */
 
 public class SharedPrefsUtil {
+    /**
+     * 退出时保存sp状态 需要用commit
+     */
     private static final String SHARED_PREFS_DORAEMON = "shared_prefs_doraemon";
 
-    private static SharedPreferences getSharedPrefs(Context context) {
-        return getSharedPrefs(context, SHARED_PREFS_DORAEMON);
+    private static SharedPreferences getSharedPrefs() {
+        return getSharedPrefs(SHARED_PREFS_DORAEMON);
     }
 
     @Nullable
-    public static SharedPreferences getSharedPrefs(Context context, String name) {
-        return context.getSharedPreferences(name, Context.MODE_PRIVATE);
+    public static SharedPreferences getSharedPrefs(String name) {
+        return Utils.getApp().getSharedPreferences(name, Context.MODE_PRIVATE);
     }
 
-    public static String getString(Context context, String key, String defVal) {
-        return getSharedPrefs(context).getString(key, defVal);
+    public static String getString(String key, String defVal) {
+        return getSharedPrefs().getString(key, defVal);
     }
 
-    public static void putString(Context context, String key, String value) {
-        putString(context, SHARED_PREFS_DORAEMON, key, value);
+    public static void putString(String key, String value) {
+        putString(SHARED_PREFS_DORAEMON, key, value);
     }
 
-    public static void putString(Context context, String table, String key, String value) {
-        getSharedPrefs(context, table).edit().putString(key, value).apply();
-    }
-
-    public static void putBoolean(Context context, String key, boolean value) {
-        if (context == null) {
-            return;
+    public static void putString(String table, String key, String value) {
+        try {
+            if (getSharedPrefs(table) != null) {
+                if (key.equals(SHARED_PREFS_DORAEMON)) {
+                    getSharedPrefs(table).edit().putString(key, value).commit();
+                } else {
+                    getSharedPrefs(table).edit().putString(key, value).apply();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        putBoolean(context, SHARED_PREFS_DORAEMON, key, value);
+
     }
 
-    public static void putBoolean(Context context, String table, String key, boolean value) {
-        getSharedPrefs(context, table).edit().putBoolean(key, value).apply();
+    public static void putBoolean(String key, boolean value) {
+
+        putBoolean(SHARED_PREFS_DORAEMON, key, value);
     }
 
-    public static boolean getBoolean(Context context, String key, boolean defVal) {
-        return context != null && getSharedPrefs(context).getBoolean(key, defVal);
+    public static void putBoolean(String table, String key, boolean value) {
+        try {
+            if (getSharedPrefs(table) != null) {
+                if (key.equals(SharedPrefsKey.APP_HEALTH)) {
+                    getSharedPrefs(table).edit().putBoolean(key, value).commit();
+                } else {
+                    getSharedPrefs(table).edit().putBoolean(key, value).apply();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void putInt(Context context, String key, int value) {
-        putInt(context, SHARED_PREFS_DORAEMON, key, value);
+    public static boolean getBoolean(String key, boolean defVal) {
+        return getSharedPrefs().getBoolean(key, defVal);
     }
 
-    public static void putInt(Context context, String table, String key, Integer value) {
-        getSharedPrefs(context, table).edit().putInt(key, value).apply();
+    public static void putInt(String key, int value) {
+        putInt(SHARED_PREFS_DORAEMON, key, value);
     }
 
-    public static int getInt(Context context, String key, int defVal) {
-        return getSharedPrefs(context).getInt(key, defVal);
+    public static void putInt(String table, String key, Integer value) {
+        try {
+            getSharedPrefs(table).edit().putInt(key, value).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void putFloat(Context context, String table, String key, Float value) {
-        getSharedPrefs(context, table).edit().putFloat(key, value).apply();
+    public static int getInt(String key, int defVal) {
+        return getSharedPrefs().getInt(key, defVal);
     }
 
-    public static void putFloat(Context context, String key, Float value) {
-        getSharedPrefs(context, SHARED_PREFS_DORAEMON).edit().putFloat(key, value).apply();
+    public static void putFloat(String table, String key, Float value) {
+        try {
+            getSharedPrefs(table).edit().putFloat(key, value).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void putLong(Context context, String table, String key, Long value) {
-        getSharedPrefs(context, table).edit().putLong(key, value).apply();
+    public static void putFloat(String key, Float value) {
+        try {
+            getSharedPrefs(SHARED_PREFS_DORAEMON).edit().putFloat(key, value).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+    public static float getFloat(String key, Float value) {
+        return getSharedPrefs().getFloat(key, value);
+    }
+
+    public static void putLong(String table, String key, Long value) {
+        try {
+            getSharedPrefs(table).edit().putLong(key, value).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

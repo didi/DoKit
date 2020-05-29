@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.kit.gpsmock;
 import android.content.Context;
 import android.os.IBinder;
 import android.telephony.CellInfo;
+import android.telephony.gsm.GsmCellLocation;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -38,33 +39,34 @@ public class TelephonyHooker extends BaseServiceHooker {
 
     }
 
-    public class GetAllCellInfoMethodHandler implements MethodHandler {
+    static class GetAllCellInfoMethodHandler implements MethodHandler {
 
         @Override
-        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        public Object onInvoke(Object originObject, Object proxyObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
             if (!GpsMockManager.getInstance().isMocking()) {
-                return method.invoke(originService, args);
+                return method.invoke(originObject, args);
             }
             return new ArrayList<CellInfo>();
         }
     }
 
-    public class GetCellLocationMethodHandler implements MethodHandler {
+    static class GetCellLocationMethodHandler implements MethodHandler {
 
         @Override
-        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        public Object onInvoke(Object originObject, Object proxyObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
             if (!GpsMockManager.getInstance().isMocking()) {
-                return method.invoke(originService, args);
+                return method.invoke(originObject, args);
             }
-            return null;
+
+            return new GsmCellLocation();
         }
     }
 
-    private class ListenMethodHandler implements MethodHandler {
+    static class ListenMethodHandler implements MethodHandler {
         @Override
-        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        public Object onInvoke(Object originObject, Object proxyObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
             if (!GpsMockManager.getInstance().isMocking()) {
-                return method.invoke(originService, args);
+                return method.invoke(originObject, args);
             }
             return null;
         }

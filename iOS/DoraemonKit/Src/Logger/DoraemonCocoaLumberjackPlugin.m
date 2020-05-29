@@ -6,14 +6,14 @@
 //
 
 #import "DoraemonCocoaLumberjackPlugin.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 #import "DoraemonCocoaLumberjackViewController.h"
 
 @implementation DoraemonCocoaLumberjackPlugin
 
 - (void)pluginDidLoad{
     DoraemonCocoaLumberjackViewController *vc = [[DoraemonCocoaLumberjackViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

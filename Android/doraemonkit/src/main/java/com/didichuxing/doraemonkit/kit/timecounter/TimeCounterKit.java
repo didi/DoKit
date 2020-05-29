@@ -1,24 +1,18 @@
 package com.didichuxing.doraemonkit.kit.timecounter;
 
 import android.content.Context;
-import android.content.Intent;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
+import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.kit.IKit;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
 
 /**
  * app启动、页面跳转的计时kit
  */
 
-public class TimeCounterKit implements IKit {
-    @Override
-    public int getCategory() {
-        return Category.TOOLS;
-    }
+public class TimeCounterKit extends AbstractKit {
+
 
     @Override
     public int getName() {
@@ -27,15 +21,12 @@ public class TimeCounterKit implements IKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_time_counter;
+        return R.mipmap.dk_time_counter;
     }
 
     @Override
     public void onClick(Context context) {
-        Intent intent = new Intent(context, UniversalActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_TIME_COUNTER);
-        context.startActivity(intent);
+        startUniversalActivity(context,FragmentIndex.FRAGMENT_TIME_COUNTER);
     }
 
     @Override
@@ -43,4 +34,13 @@ public class TimeCounterKit implements IKit {
 
     }
 
+    @Override
+    public boolean isInnerKit() {
+        return true;
+    }
+
+    @Override
+    public String innerKitId() {
+        return "dokit_sdk_performance_ck_open_coast";
+    }
 }

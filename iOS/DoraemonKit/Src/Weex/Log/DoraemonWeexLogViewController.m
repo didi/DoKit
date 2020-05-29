@@ -27,7 +27,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Weex 日志记录";
+    self.title = DoraemonLocalizedString(@"Weex日志记录");
     
     self.origArray = [NSArray arrayWithArray:[DoraemonWeexLogDataSource shareInstance].logs];
     self.dataArray = [NSArray arrayWithArray:self.origArray];
@@ -41,7 +41,7 @@
     [self.view addSubview:_levelView];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, _levelView.doraemon_bottom+kDoraemonSizeFrom750(32), self.view.doraemon_width, self.view.doraemon_height-_searchView.doraemon_bottom-kDoraemonSizeFrom750(32)) style:UITableViewStylePlain];
-    self.tableView.backgroundColor = [UIColor whiteColor];
+//    self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;

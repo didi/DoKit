@@ -28,6 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="15dp"
-            android:src="@drawable/dk_close_icon" />
+            android:src="@mipmap/dk_close_icon" />
     </LinearLayout>
 </FrameLayout>

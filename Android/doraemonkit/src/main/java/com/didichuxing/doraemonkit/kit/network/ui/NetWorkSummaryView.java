@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.kit.network.ui;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -11,8 +11,8 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil;
 import com.didichuxing.doraemonkit.kit.network.utils.CostTimeUtil;
-import com.didichuxing.doraemonkit.ui.chart.BarChart;
-import com.didichuxing.doraemonkit.ui.chart.PieChart;
+import com.didichuxing.doraemonkit.widget.chart.BarChart;
+import com.didichuxing.doraemonkit.widget.chart.PieChart;
 
 import java.util.ArrayList;
 import java.util.List;

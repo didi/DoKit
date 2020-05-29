@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/dk_color_337CC4" />
+    <!-- 这里是设置为四周 也可以单独设置某个位置为圆角-->
+    <corners
+        android:bottomLeftRadius="10dp"
+        android:bottomRightRadius="10dp"
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp" />
+    <!--    <stroke-->
+    <!--        android:width="1dp"-->
+    <!--        android:color="#000000" />-->
+</shape>

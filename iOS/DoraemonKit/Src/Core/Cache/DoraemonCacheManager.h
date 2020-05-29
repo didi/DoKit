@@ -40,6 +40,10 @@
 
 - (BOOL)netFlowSwitch;
 
+- (void)saveAllTestSwitch:(BOOL)on;
+
+- (BOOL)allTestSwitch;
+
 - (void)saveLargeImageDetectionSwitch:(BOOL)on;
 
 - (BOOL)largeImageDetectionSwitch;
@@ -64,6 +68,10 @@
 
 - (BOOL)startTimeSwitch;
 
+- (void)saveANRTrackSwitch:(BOOL)on;
+
+- (BOOL)anrTrackSwitch;
+
 /// 历史记录
 - (NSArray<NSString *> *)h5historicalRecord;
 - (void)saveH5historicalRecordWithText:(NSString *)text;
@@ -73,4 +81,26 @@
 /// 保存启动类
 - (void)saveStartClass : (NSString *)startClass;
 - (NSString *)startClass;
+
+// 内存泄漏开关
+- (void)saveMemoryLeak:(BOOL)on;
+- (BOOL)memoryLeak;
+
+// 内存泄漏弹框开关
+- (void)saveMemoryLeakAlert:(BOOL)on;
+- (BOOL)memoryLeakAlert;
+
+// mockapi本地缓存情况
+- (void)saveMockCache:(NSArray *)mocks;
+- (NSArray *)mockCahce;
+
+// 健康体检开关
+- (void)saveHealthStart:(BOOL)on;
+- (BOOL)healthStart;
+
+// Kit Manager数据保存
+- (void)saveKitManagerData:(NSMutableArray *)dataArray;
+- (NSMutableArray *)kitManagerData;
+- (NSMutableArray *)kitShowManagerData;
+- (NSMutableArray *)allKitShowManagerData;
 @end

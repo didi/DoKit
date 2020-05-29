@@ -13,17 +13,21 @@ import okio.Okio;
 import okio.Source;
 
 /**
- * @author denghaha
- * created 2019-05-09 18:35
+ * Created by xiandanin on 2019-05-09 18:35
  */
 public class SpeedLimitResponseBody extends ResponseBody {
-    private long mSpeedByte;//b/s
+    private static String TAG = "SpeedLimitResponseBody";
+    /**
+     * 限速字节
+     */
+    private long mSpeedByte;
     private ResponseBody mResponseBody;
     private BufferedSource mBufferedSource;
 
-    public SpeedLimitResponseBody(long speed, ResponseBody source) {
+    SpeedLimitResponseBody(long speed, ResponseBody source) {
         this.mResponseBody = source;
-        this.mSpeedByte = speed * 1024L;//转成字节
+        //转成字节
+        this.mSpeedByte = speed * 1024L;
     }
 
     @Override
@@ -46,7 +50,13 @@ public class SpeedLimitResponseBody extends ResponseBody {
 
     private Source source(Source source) {
         return new ForwardingSource(source) {
+            /**
+             * 如果小于1s 会重置
+             */
             private long cacheTotalBytesRead;
+            /**
+             * 分片读取1024个字节开始时间 小于1s会重置
+             */
             private long cacheStartTime;
 
             @Override
@@ -55,19 +65,24 @@ public class SpeedLimitResponseBody extends ResponseBody {
                     cacheStartTime = SystemClock.uptimeMillis();
                 }
 
-                //默认8K 精确到1K
+                //默认8K 精确到1K -1代表已经读取完毕
                 long bytesRead = super.read(sink.buffer(), 1024L);
-                cacheTotalBytesRead += bytesRead == -1 ? 0 : bytesRead;
+                if (bytesRead == -1) {
+                    return bytesRead;
+                }
+                //一般为1024
+                cacheTotalBytesRead = cacheTotalBytesRead + bytesRead;
 
-                long endTime = SystemClock.uptimeMillis() - cacheStartTime;
+                /**
+                 * 判断当前请求累计消耗的时间 即相当于读取1024个字节所需要的时间
+                 */
+                long costTime = SystemClock.uptimeMillis() - cacheStartTime;
 
-                //如果在一秒内
-                if (endTime <= 1000L) {
-                    //大小就超出了限制
+                //如果每次分片读取时间小于ls sleep 延迟时间
+                if (costTime <= 1000L) {
                     if (cacheTotalBytesRead >= mSpeedByte) {
-                        long sleep = 1000L - endTime;
+                        long sleep = 1000L - costTime;
                         SystemClock.sleep(sleep);
-
                         //重置计算
                         cacheStartTime = 0L;
                         cacheTotalBytesRead = 0L;

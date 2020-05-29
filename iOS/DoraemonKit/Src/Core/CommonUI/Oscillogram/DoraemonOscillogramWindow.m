@@ -49,7 +49,16 @@
         self.windowLevel = UIWindowLevelStatusBar + 2.f;
         self.backgroundColor = [UIColor doraemon_colorWithHex:0x000000 andAlpha:0.33];
         self.layer.masksToBounds = YES;
-        
+        #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+            if (@available(iOS 13.0, *)) {
+                for (UIWindowScene* windowScene in [UIApplication sharedApplication].connectedScenes){
+                    if (windowScene.activationState == UISceneActivationStateForegroundActive){
+                        self.windowScene = windowScene;
+                        break;
+                    }
+                }
+            }
+        #endif
         [self addRootVc];
     }
     return self;
@@ -57,11 +66,6 @@
 
 - (void)addRootVc{
    //需要子类重写
-}
-
-- (void)becomeKeyWindow{
-    UIWindow *appWindow = [[UIApplication sharedApplication].delegate window];
-    [appWindow makeKeyWindow];
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{

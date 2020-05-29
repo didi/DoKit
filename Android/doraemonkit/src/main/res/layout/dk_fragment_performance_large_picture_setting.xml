@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/dk_color_FFFFFF"
+    android:orientation="vertical">
+
+    <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="89dp"
+        app:dkIcon="@mipmap/dk_close_icon_big" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dk_dp_16"
+        android:layout_marginRight="@dimen/dk_dp_16">
+
+        <TextView
+            android:id="@+id/tv_file_name"
+            style="@style/DK.TextBig.Dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/dk_large_picture_file_threshold"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/tv_file_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:inputType="numberDecimal"
+            android:text="KB"
+            android:textColor="@color/dk_color_151515"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/ed_file_threshold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/tv_file_unit"
+            android:inputType="numberDecimal"
+            android:text="150"
+            android:textColor="@color/dk_color_151515"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/DK.Divider"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dk_dp_16"
+        android:layout_marginRight="@dimen/dk_dp_16">
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/DK.TextBig.Dark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/dk_large_picture_threshold"
+            android:textSize="16sp" />
+
+
+        <TextView
+            android:id="@+id/tv_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:inputType="numberDecimal"
+            android:text="MB"
+            android:textColor="@color/dk_color_151515"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/ed_memory_threshold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/tv_unit"
+            android:inputType="numberDecimal"
+            android:text="1.5"
+            android:textColor="@color/dk_color_151515"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv_desc"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginLeft="@dimen/dk_dp_16"-->
+<!--        android:layout_marginRight="@dimen/dk_dp_16"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        tools:text="@string/dk_large_picture_threshold_desc"-->
+<!--        android:textIsSelectable="true"-->
+<!--        android:textSize="14sp" />-->
+
+
+    <View
+        style="@style/DK.Divider"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/setting_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

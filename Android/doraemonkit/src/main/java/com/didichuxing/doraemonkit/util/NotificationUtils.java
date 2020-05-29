@@ -7,10 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 import android.text.TextUtils;
 
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 
 import java.util.ArrayList;
@@ -74,7 +73,7 @@ public class NotificationUtils {
             builder = new NotificationCompat.Builder(context);
         }
         builder.setSmallIcon(smallIconId)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.dk_doraemon))
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.dk_doraemon))
                 .setContentTitle(title)
                 .setContentText(summary)
                 .setAutoCancel(true)
@@ -107,7 +106,7 @@ public class NotificationUtils {
         } else {
             builder = new NotificationCompat.Builder(context);
         }
-        builder.setSmallIcon(R.drawable.dk_doraemon)
+        builder.setSmallIcon(R.mipmap.dk_doraemon)
                 .setContentTitle(title)
                 .setContentText(summary)
                 .setAutoCancel(true)
@@ -164,7 +163,7 @@ public class NotificationUtils {
             builder = new NotificationCompat.Builder(context);
         }
         builder.setSmallIcon(android.R.drawable.stat_sys_download)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.dk_doraemon))
+                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.dk_doraemon))
                 .setContentTitle(title)
                 .setProgress(100, progress, progress == 0)
                 .setOngoing(progress < 100)

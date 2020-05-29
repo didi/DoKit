@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.timecounter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +9,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.constant.BundleKey;
+import com.didichuxing.doraemonkit.constant.FragmentIndex;
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
+import com.didichuxing.doraemonkit.widget.recyclerview.AbsRecyclerAdapter;
+import com.didichuxing.doraemonkit.widget.recyclerview.AbsViewBinder;
 
 import static android.text.format.DateUtils.FORMAT_SHOW_TIME;
 
 public class TimeCounterListAdapter extends AbsRecyclerAdapter<AbsViewBinder<CounterInfo>, CounterInfo> {
-
 
     public TimeCounterListAdapter(Context context) {
         super(context);
@@ -73,6 +76,13 @@ public class TimeCounterListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Cou
                 public void onClick(View v) {
                     info.show = !info.show;
                     showDetail(info);
+                    if (info.type == CounterInfo.TYPE_APP && mContext != null) {
+                        //跳转启动耗时详情页
+                        Intent intent = new Intent(mContext, UniversalActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_APP_START);
+                        mContext.startActivity(intent);
+                    }
                 }
             });
             showDetail(info);
@@ -89,6 +99,7 @@ public class TimeCounterListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Cou
             }
         }
 
+        //显示详情
         private void showDetail(CounterInfo info) {
             if (info.type == CounterInfo.TYPE_APP) {
                 info.show = false;

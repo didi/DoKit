@@ -1,0 +1,3 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="dk_frameinfo_leakcanary">LeakCanary</string>
+</resources>

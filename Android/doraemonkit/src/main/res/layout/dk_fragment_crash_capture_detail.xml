@@ -6,18 +6,18 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar
+    <com.didichuxing.doraemonkit.widget.titlebar.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        app:dkLeftIcon="@drawable/dk_title_back"
+        app:dkLeftIcon="@mipmap/dk_title_back"
         app:dkLeftText="@string/dk_back"
         app:dkTitle="@string/dk_crash_capture_summary_title"/>
 
     <View
         style="@style/DK.Shadow.Bottom"/>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:visibility="gone"
         android:id="@+id/crash_list"
         android:layout_width="match_parent"

@@ -9,18 +9,24 @@ import com.didichuxing.doraemonkit.util.Reflector;
 
 /**
  * @author: linjizong
- * @date: 2019/6/3
- * @desc:
+ *  2019/6/3
+ * @desc: 自定义的handlerCallback
  */
 class ProxyHandlerCallback implements Handler.Callback {
+    private static final String TAG = "ProxyHandlerCallback";
+    /**
+     * Android 28开始 变量从110开始
+     */
+    private static final int LAUNCH_ACTIVITY = 100;
+    /**
+     * Android 28开始 变量从110开始
+     */
+    private static final int PAUSE_ACTIVITY = 101;
+    private static final int EXECUTE_TRANSACTION = 159;
+    private static final String LAUNCH_ITEM_CLASS = "android.app.servertransaction.ResumeActivityItem";
+    private static final String PAUSE_ITEM_CLASS = "android.app.servertransaction.PauseActivityItem";
 
-    public static final int LAUNCH_ACTIVITY = 100;
-    public static final int PAUSE_ACTIVITY = 101;
-    public static final int EXECUTE_TRANSACTION = 159;
-    public static final String LAUNCH_ITEM_CLASS = "android.app.servertransaction.ResumeActivityItem";
-    public static final String PAUSE_ITEM_CLASS = "android.app.servertransaction.PauseActivityItem";
-
-    public final Handler.Callback mOldCallback;
+    private final Handler.Callback mOldCallback;
     public final Handler mHandler;
 
     ProxyHandlerCallback(Handler.Callback oldCallback, Handler handler) {
@@ -48,8 +54,11 @@ class ProxyHandlerCallback implements Handler.Callback {
             case PAUSE_ACTIVITY:
                 TimeCounterManager.get().onActivityPause();
                 break;
+            //兼容 Android SDK 28及以上
             case EXECUTE_TRANSACTION:
                 return handlerActivity(msg);
+            default:
+                break;
         }
         return msg.what;
     }
@@ -78,6 +87,8 @@ class ProxyHandlerCallback implements Handler.Callback {
                 break;
             case PAUSE_ACTIVITY:
                 TimeCounterManager.get().onActivityPaused();
+                break;
+            default:
                 break;
         }
     }

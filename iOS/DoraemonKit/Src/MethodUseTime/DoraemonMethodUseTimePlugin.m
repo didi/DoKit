@@ -6,14 +6,14 @@
 //
 
 #import "DoraemonMethodUseTimePlugin.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 #import "DoraemonMethodUseTimeViewController.h"
 
 @implementation DoraemonMethodUseTimePlugin
 
 - (void)pluginDidLoad{
     DoraemonMethodUseTimeViewController *vc = [[DoraemonMethodUseTimeViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

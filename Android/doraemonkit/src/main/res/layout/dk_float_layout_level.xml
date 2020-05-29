@@ -31,7 +31,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="16dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/dk_close_icon" />
+            android:src="@mipmap/dk_close_icon" />
 
     </RelativeLayout>
 

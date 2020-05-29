@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AppOpsManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,10 +19,10 @@ import android.os.Environment;
 import android.os.Process;
 import android.provider.ContactsContract;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Size;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Size;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -56,10 +55,17 @@ public class PermissionUtil {
     private PermissionUtil() {
     }
 
+    /**
+     * 判断是否具有悬浮窗权限
+     * @param context
+     * @return
+     */
     public static boolean canDrawOverlays(Context context) {
+        //android 6.0及以上的判断条件
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             return Settings.canDrawOverlays(context);
         }
+        //android 4.4~6.0的判断条件
         return checkOp(context, OP_SYSTEM_ALERT_WINDOW);
     }
 
@@ -81,6 +87,10 @@ public class PermissionUtil {
         return true;
     }
 
+    /**
+     * 请求悬浮窗权限
+     * @param context
+     */
     public static void requestDrawOverlays(Context context) {
         Intent intent = new Intent("android.settings.action.MANAGE_OVERLAY_PERMISSION", Uri.parse("package:" + context.getPackageName()));
         if (!(context instanceof Activity)) {
@@ -93,29 +103,7 @@ public class PermissionUtil {
         }
     }
 
-    public static void startDevelopmentSetting(Activity activity) {
-        try {
-            Intent intent = new Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS);
-            activity.startActivity(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                ComponentName componentName = new ComponentName("com.android.settings", "com.android.settings.DevelopmentSettings");
-                Intent intent = new Intent();
-                intent.setComponent(componentName);
-                intent.setAction(Intent.ACTION_VIEW);
-                activity.startActivity(intent);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-                try {
-                    Intent intent = new Intent("com.android.settings.APPLICATION_DEVELOPMENT_SETTINGS");
-                    activity.startActivity(intent);
-                } catch (Exception e2) {
-                    e2.printStackTrace();
-                }
-            }
-        }
-    }
+
 
     public static boolean isMockLocationEnabled(Context context) {
         boolean isMockLocation = false;

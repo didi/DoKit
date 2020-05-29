@@ -1,47 +1,100 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply from: 'upload.gradle'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+
         lintOptions {
             abortOnError false
         }
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "DOKIT_VERSION", "\"" + rootProject.ext.android["jcenterArchivesVersionName"] + "\"")
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField("String", "DOKIT_VERSION", "\"" + rootProject.ext.android["jcenterArchivesVersionName"] + "\"")
         }
+    }
+//    compileOptions {
+//        sourceCompatibility JavaVersion.VERSION_1_8
+//        targetCompatibility JavaVersion.VERSION_1_8
+//    }
+
+    dataBinding {
+        enabled = true
     }
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation ('com.android.support:recyclerview-v7:26.1.0'){
-        exclude group: 'com.android.support'
-    }
-
-    implementation('com.scottyab:rootbeer-lib:0.0.6') {
-        transitive=true
-        exclude group: 'com.android.support'
-    }
-    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
-    compileOnly 'com.squareup.okio:okio:1.15.0'
+    //implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //noinspection GradleCompatible
     testImplementation 'junit:junit:4.12'
-    implementation 'com.google.code.gson:gson:2.8.2'
-    implementation 'com.google.zxing:core:3.3.0'
-    // Android P禁用hide api，这个库可以支持hide api的反射访问
-    implementation 'me.weishu:free_reflection:2.0.0'
+    androidTestImplementation 'junit:junit:4.12'
+    implementation rootProject.ext.dependencies["constraintLayout"]
+    implementation rootProject.ext.dependencies["appcompat"]
+    implementation rootProject.ext.dependencies["cardview"]
+    implementation rootProject.ext.dependencies["recyclerview"]
+    implementation rootProject.ext.dependencies["kotlin"]
+
+    implementation rootProject.ext.dependencies["gson"]
+    implementation rootProject.ext.dependencies["zxing"]
+    //函数耗时
+    //implementation rootProject.ext.dependencies["guava"]
+    implementation rootProject.ext.dependencies["utilcode"]
+    //远程调试db
+    implementation rootProject.ext.dependencies["debug-db"]
+    implementation rootProject.ext.dependencies["debug-db-encrypt"]
+    implementation rootProject.ext.dependencies["android_spinkit"]
+    implementation rootProject.ext.dependencies["okhttp"]
+    implementation rootProject.ext.dependencies["okhttp_v2"]
+    implementation rootProject.ext.dependencies["room_runtime"]
+    annotationProcessor rootProject.ext.dependencies["room_compile"]
+
+    //三大图片框架
+    compileOnly rootProject.ext.dependencies["glide"]
+    compileOnly rootProject.ext.dependencies["picasso"]
+    compileOnly rootProject.ext.dependencies["fresco"]
+    compileOnly rootProject.ext.dependencies["image-loader"]
+
+    //高德地图定位
+    compileOnly rootProject.ext.dependencies["amap_location"]
+    //腾讯地图定位
+    compileOnly rootProject.ext.dependencies["tencent_location"]
+    //百度地图定位
+    compileOnly files('libs/BaiduLBS_Android.jar')
+}
+
+configurations.all {
+    //循环每个依赖库
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        //获取当前循环到的依赖库
+        def requested = details.requested
+        //如果这个依赖库群组的名字是com.android.support
+        if (requested.group == 'com.squareup.okhttp3') {
+            //且其名字不是以multidex开头的
+            if (requested.name == "okhttp") {
+                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
+                details.useVersion '3.14.7'
+            }
+        }
+    }
 }
 
 

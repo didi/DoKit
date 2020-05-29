@@ -9,19 +9,21 @@
     android:paddingLeft="@dimen/dk_dp_15"
     android:paddingRight="@dimen/dk_dp_15">
 
-    <com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar
+    <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="89dp"
-        app:dkIcon="@drawable/dk_close_icon_big"
+        app:dkIcon="@mipmap/dk_close_icon_big"
         app:dkTitle="@string/dk_kit_weak_network" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/setting_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title_bar" />
 
+
+    <!--    模拟弱网详情View-->
     <RelativeLayout
         android:id="@+id/weak_network_layout"
         android:layout_width="match_parent"
@@ -33,7 +35,7 @@
         android:paddingRight="@dimen/dk_dp_15"
         android:visibility="gone"
         tools:visibility="visible">
-
+        <!--        redioGroup-->
         <RadioGroup
             android:id="@+id/weak_network_option"
             android:layout_width="match_parent"
@@ -59,7 +61,7 @@
                 android:layout_weight="1"
                 android:text="@string/dk_weak_network_speed_limit" />
         </RadioGroup>
-
+        <!--        超时设置布局设置-->
         <RelativeLayout
             android:id="@+id/layout_timeout_option"
             android:layout_width="wrap_content"
@@ -71,7 +73,7 @@
                 android:id="@+id/label_timeout"
                 style="@style/DK.TextBig.Darker"
                 android:layout_centerVertical="true"
-                android:text="超时时间：" />
+                android:text="Timeout：" />
 
             <EditText
                 android:id="@+id/value_timeout"
@@ -91,7 +93,7 @@
                 android:layout_toRightOf="@id/value_timeout"
                 android:text="ms" />
         </RelativeLayout>
-
+        <!--        限速设置布局-->
         <RelativeLayout
             android:id="@+id/layout_speed_limit"
             android:layout_width="match_parent"

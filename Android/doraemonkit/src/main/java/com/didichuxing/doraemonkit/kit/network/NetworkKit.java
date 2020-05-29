@@ -1,25 +1,21 @@
 package com.didichuxing.doraemonkit.kit.network;
 
 import android.content.Context;
-import android.content.Intent;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.constant.BundleKey;
+import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
+import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.kit.IKit;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
+import com.didichuxing.doraemonkit.util.DokitUtil;
 
 
 /**
  * @desc: 网络监测kit
  */
-public class NetworkKit implements IKit {
-
-    @Override
-    public int getCategory() {
-        return Category.PERFORMANCE;
-    }
+public class NetworkKit extends AbstractKit {
 
     @Override
     public int getName() {
@@ -28,20 +24,37 @@ public class NetworkKit implements IKit {
 
     @Override
     public int getIcon() {
-        return R.drawable.dk_net_monitor;
+        return R.mipmap.dk_net_monitor;
     }
 
 
     @Override
     public void onClick(Context context) {
-        Intent intent = new Intent(context, UniversalActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_NETWORK_MONITOR);
-        context.startActivity(intent);
+        if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
+            ToastUtils.showShort(DokitUtil.getString(R.string.dk_plugin_close_tip));
+            return;
+        }
+
+        if (!DokitPluginConfig.SWITCH_NETWORK) {
+            ToastUtils.showShort(DokitUtil.getString(R.string.dk_plugin_network_close_tip));
+            return;
+        }
+
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_NETWORK_MONITOR);
     }
 
     @Override
     public void onAppInit(Context context) {
 
+    }
+
+    @Override
+    public boolean isInnerKit() {
+        return true;
+    }
+
+    @Override
+    public String innerKitId() {
+        return "dokit_sdk_performance_ck_network";
     }
 }

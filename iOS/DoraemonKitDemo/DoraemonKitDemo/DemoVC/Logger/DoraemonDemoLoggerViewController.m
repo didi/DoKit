@@ -7,9 +7,12 @@
 //
 
 #import "DoraemonDemoLoggerViewController.h"
-#import <CocoaLumberjack/CocoaLumberjack.h>
 #import <DoraemonKit/UIView+Doraemon.h>
 #import "DoraemonDefine.h"
+
+#if __has_include(<CocoaLumberjack/CocoaLumberjack.h>)
+#import <CocoaLumberjack/CocoaLumberjack.h>
+#endif
 
 @interface DoraemonDemoLoggerViewController ()
 
@@ -19,24 +22,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = DoraemonLocalizedString(@"日记测试Demo");
+    self.title = DoraemonDemoLocalizedString(@"日志测试Demo");
     
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, 60)];
     btn.backgroundColor = [UIColor orangeColor];
-    [btn setTitle:DoraemonLocalizedString(@"添加一条CocoaLumberjack日志") forState:UIControlStateNormal];
+    [btn setTitle:DoraemonDemoLocalizedString(@"添加一条CocoaLumberjack日志") forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(addLogger) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn];
     
     UIButton *btn_2 = [[UIButton alloc] initWithFrame:CGRectMake(0, btn.doraemon_bottom+20, self.view.doraemon_width, 60)];
     btn_2.backgroundColor = [UIColor orangeColor];
-    [btn_2 setTitle:DoraemonLocalizedString(@"添加一条NSLog日志") forState:UIControlStateNormal];
+    [btn_2 setTitle:DoraemonDemoLocalizedString(@"添加一条NSLog日志") forState:UIControlStateNormal];
     [btn_2 addTarget:self action:@selector(addLogger2) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:btn_2];
 }
 
 - (void)addLogger{
+    #if __has_include(<CocoaLumberjack/CocoaLumberjack.h>)
     DDLogInfo(@"DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。DDLogInfo。。。");
     DDLogError(@"DDLogError。。。DDLogError。。。DDLogError。。。DDLogError。。。DDLogError。。。DDLogError。。。DDLogError。。。DDLogError。。。DDLogError。。。DDLogError。。。");
+    #endif
 }
 
 - (void)addLogger2{

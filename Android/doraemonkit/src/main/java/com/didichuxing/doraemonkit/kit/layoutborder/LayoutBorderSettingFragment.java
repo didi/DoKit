@@ -1,20 +1,21 @@
 package com.didichuxing.doraemonkit.kit.layoutborder;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
-import com.didichuxing.doraemonkit.ui.base.PageIntent;
-import com.didichuxing.doraemonkit.ui.setting.SettingItem;
-import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.kit.core.DokitIntent;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.SettingItem;
+import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 /**
  * Created by wanglikun on 2018/10/9.
@@ -56,11 +57,11 @@ public class LayoutBorderSettingFragment extends BaseFragment {
                     LayoutBorderConfig.setLayoutBorderOpen(on);
                 } else if (data.desc == R.string.dk_layout_level) {
                     if (on) {
-                        PageIntent intent = new PageIntent(LayoutLevelFloatPage.class);
-                        intent.mode = PageIntent.MODE_SINGLE_INSTANCE;
-                        FloatPageManager.getInstance().add(intent);
+                        DokitIntent intent = new DokitIntent(LayoutLevelDokitView.class);
+                        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
+                        DokitViewManager.getInstance().attach(intent);
                     } else {
-                        FloatPageManager.getInstance().removeAll(LayoutLevelFloatPage.class);
+                        DokitViewManager.getInstance().detach(LayoutLevelDokitView.class);
                     }
                     LayoutBorderConfig.setLayoutLevelOpen(on);
                 }

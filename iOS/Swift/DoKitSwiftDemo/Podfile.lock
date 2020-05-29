@@ -1,0 +1,54 @@
+PODS:
+  - AFNetworking (3.2.1):
+    - AFNetworking/NSURLSession (= 3.2.1)
+    - AFNetworking/Reachability (= 3.2.1)
+    - AFNetworking/Security (= 3.2.1)
+    - AFNetworking/Serialization (= 3.2.1)
+    - AFNetworking/UIKit (= 3.2.1)
+  - AFNetworking/NSURLSession (3.2.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.2.1)
+  - AFNetworking/Security (3.2.1)
+  - AFNetworking/Serialization (3.2.1)
+  - AFNetworking/UIKit (3.2.1):
+    - AFNetworking/NSURLSession
+  - DoraemonKit/Core (3.0.2)
+  - DoraemonKit/WithGPS (3.0.2):
+    - DoraemonKit/Core
+  - DoraemonKit/WithMLeaksFinder (3.0.2):
+    - DoraemonKit/Core
+    - FBRetainCycleDetector
+  - FBRetainCycleDetector (0.1.4)
+
+DEPENDENCIES:
+  - AFNetworking
+  - DoraemonKit/Core (from `../../../`)
+  - DoraemonKit/WithGPS (from `../../../`)
+  - DoraemonKit/WithMLeaksFinder (from `../../../`)
+  - FBRetainCycleDetector (from `https://github.com/facebook/FBRetainCycleDetector.git`)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - AFNetworking
+
+EXTERNAL SOURCES:
+  DoraemonKit:
+    :path: "../../../"
+  FBRetainCycleDetector:
+    :git: https://github.com/facebook/FBRetainCycleDetector.git
+
+CHECKOUT OPTIONS:
+  FBRetainCycleDetector:
+    :commit: 1ff2adee84a6ee94a1ae82526104a188774eb90a
+    :git: https://github.com/facebook/FBRetainCycleDetector.git
+
+SPEC CHECKSUMS:
+  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  DoraemonKit: 6dffe62a7f0baf9bf4b0173ac4354257182d47ea
+  FBRetainCycleDetector: 46daef95c2dfa9be34b53087edf6a8f34e4c749c
+
+PODFILE CHECKSUM: e224448ecde6b0a11895d96f284279e205f572ef
+
+COCOAPODS: 1.9.1

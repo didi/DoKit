@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dk_color_F5F6F7"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_path"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dk_color_666666"
+        android:textSize="14sp"
+        tools:text="接口1" />
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tv_method"-->
+    <!--        android:layout_marginTop="8dp"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:textColor="@color/dk_color_666666"-->
+    <!--        android:textSize="14sp"-->
+    <!--        tools:text="get" />-->
+
+    <RelativeLayout
+        android:id="@+id/rl_query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_query"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="query:"
+            android:textColor="@color/dk_color_666666"
+            android:textSize="14sp" />
+
+        <com.didichuxing.doraemonkit.widget.jsonviewer.JsonRecyclerView
+            android:id="@+id/jsonviewer_query"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_query" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_body"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="body:"
+            android:textColor="@color/dk_color_666666"
+            android:textSize="14sp" />
+
+        <com.didichuxing.doraemonkit.widget.jsonviewer.JsonRecyclerView
+            android:id="@+id/jsonviewer_body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_body" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/dk_color_666666"
+        android:textSize="14sp"
+        tools:text="分组:" />
+
+    <TextView
+        android:id="@+id/tv_create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/dk_color_666666"
+        android:textSize="14sp"
+        tools:text="创建人:" />
+
+    <TextView
+        android:id="@+id/tv_modify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/dk_color_666666"
+        android:textSize="14sp"
+        tools:text="修改人:" />
+
+    <com.didichuxing.doraemonkit.widget.MultiLineRadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        app:max_in_row="1" />
+
+</LinearLayout>

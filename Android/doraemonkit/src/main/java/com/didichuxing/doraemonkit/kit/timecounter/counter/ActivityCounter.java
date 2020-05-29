@@ -2,12 +2,13 @@ package com.didichuxing.doraemonkit.kit.timecounter.counter;
 
 import android.app.Activity;
 
-import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.constant.PageTag;
-import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterFloatPage;
+import com.blankj.utilcode.util.ActivityUtils;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
+import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterDokitView;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
-import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
-import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class ActivityCounter {
         mLaunchStartTime = 0;
         mTotalCostTime = 0;
         mPreviousActivity = null;
-        Activity activity = DoraemonKit.getCurrentResumedActivity();
+        Activity activity = ActivityUtils.getTopActivity();
         if (activity != null) {
             mPreviousActivity = activity.getClass().getSimpleName();
         }
@@ -51,7 +52,7 @@ public class ActivityCounter {
 
     public void paused() {
         mPauseCostTime = System.currentTimeMillis() - mStartTime;
-        LogHelper.d(TAG, "pause cost：" + mPauseCostTime);
+        //LogHelper.d(TAG, "pause cost：" + mPauseCostTime);
     }
 
     public void launch() {
@@ -71,13 +72,13 @@ public class ActivityCounter {
 
     public void launchEnd() {
         mLaunchCostTime = System.currentTimeMillis() - mLaunchStartTime;
-        LogHelper.d(TAG, "create cost：" + mLaunchCostTime);
+        //LogHelper.d(TAG, "create cost：" + mLaunchCostTime);
         render();
     }
 
     public void render() {
         mRenderStartTime = System.currentTimeMillis();
-        final Activity activity = DoraemonKit.getCurrentResumedActivity();
+        final Activity activity = ActivityUtils.getTopActivity();
         if (activity != null && activity.getWindow() != null) {
             mCurrentActivity = activity.getClass().getSimpleName();
             activity.getWindow().getDecorView().post(new Runnable() {
@@ -103,18 +104,16 @@ public class ActivityCounter {
         mStartTime = 0;
     }
 
-    public void renderEnd() {
+    private void renderEnd() {
         mRenderCostTime = System.currentTimeMillis() - mRenderStartTime;
-        LogHelper.d(TAG, "render cost：" + mRenderCostTime);
+        //LogHelper.d(TAG, "render cost：" + mRenderCostTime);
         mTotalCostTime = System.currentTimeMillis() - mStartTime;
-        LogHelper.d(TAG, "total cost：" + mTotalCostTime);
+        //LogHelper.d(TAG, "total cost：" + mTotalCostTime);
         mOtherCostTime = mTotalCostTime - mRenderCostTime - mPauseCostTime - mLaunchCostTime;
         print();
     }
 
-    public void print() {
-        TimeCounterFloatPage page = (TimeCounterFloatPage) FloatPageManager.getInstance().getFloatPage(PageTag.PAGE_TIME_COUNTER);
-
+    private void print() {
         CounterInfo counterInfo = new CounterInfo();
         counterInfo.time = System.currentTimeMillis();
         counterInfo.type = CounterInfo.TYPE_ACTIVITY;
@@ -124,10 +123,29 @@ public class ActivityCounter {
         counterInfo.renderCost = mRenderCostTime;
         counterInfo.totalCost = mTotalCostTime;
         counterInfo.otherCost = mOtherCostTime;
-        mCounterInfos.add(counterInfo);
-        if (page != null) {
-            page.showInfo(counterInfo);
+        try {
+            //将Activity 打开耗时 添加到AppHealth 中
+            if (DokitConstant.APP_HEALTH_RUNNING) {
+                if (!ActivityUtils.getTopActivity().getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.kit.base.UniversalActivity")) {
+                    AppHealthInfo.DataBean.PageLoadBean pageLoadBean = new AppHealthInfo.DataBean.PageLoadBean();
+                    pageLoadBean.setPage(ActivityUtils.getTopActivity().getClass().getCanonicalName());
+                    pageLoadBean.setTime("" + counterInfo.totalCost);
+                    pageLoadBean.setTrace(counterInfo.title);
+                    AppHealthInfoUtil.getInstance().addPageLoadInfo(pageLoadBean);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
+        mCounterInfos.add(counterInfo);
+
+        TimeCounterDokitView dokitView = (TimeCounterDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), TimeCounterDokitView.class.getSimpleName());
+        if (dokitView != null) {
+            dokitView.showInfo(counterInfo);
+        }
+
+
     }
 
     public List<CounterInfo> getHistory() {

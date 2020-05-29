@@ -6,14 +6,14 @@
     android:background="@color/dk_color_FFFFFF"
     android:orientation="vertical">
 
-    <com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar
+    <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
         android:id="@+id/title_bar"
         app:dkTitle="@string/dk_kit_data_clean"
-        app:dkIcon="@drawable/dk_close_icon_big"
+        app:dkIcon="@mipmap/dk_close_icon_big"
         android:layout_width="match_parent"
         android:layout_height="89dp" />
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/setting_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

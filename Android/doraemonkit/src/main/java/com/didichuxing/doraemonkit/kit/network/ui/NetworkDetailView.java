@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.kit.network.ui;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -11,12 +11,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 import com.didichuxing.doraemonkit.kit.network.bean.Request;
 import com.didichuxing.doraemonkit.kit.network.bean.Response;
 import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil;
+import com.didichuxing.doraemonkit.widget.jsonviewer.JsonRecyclerView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -38,6 +44,11 @@ public class NetworkDetailView extends LinearLayout {
     private TextView diverTime;
     private TextView diverHeader;
     private TextView diverBody;
+    /**
+     * 针对响应体
+     */
+    private TextView diverFormat;
+    private JsonRecyclerView jsonView;
 
     private ClipboardManager mClipboard;
 
@@ -55,6 +66,9 @@ public class NetworkDetailView extends LinearLayout {
         diverTime = findViewById(R.id.diver_time);
         diverHeader = findViewById(R.id.diver_header);
         diverBody = findViewById(R.id.diver_body);
+        diverFormat = findViewById(R.id.diver_format);
+        jsonView = findViewById(R.id.json_body);
+
         body.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -74,21 +88,68 @@ public class NetworkDetailView extends LinearLayout {
         diverTime.setText(R.string.dk_network_detail_title_request_time);
         diverHeader.setText(R.string.dk_network_detail_title_request_header);
         diverBody.setText(R.string.dk_network_detail_title_request_body);
+        diverFormat.setVisibility(View.GONE);
+        jsonView.setVisibility(View.GONE);
+        body.setVisibility(View.VISIBLE);
         if (record.mRequest != null) {
             Request request = record.mRequest;
             url.setText(request.url);
             method.setText(request.method);
-            header.setText(request.headers);
+            try {
+                header.setText(URLDecoder.decode(request.headers, "utf-8"));
+            } catch (Exception e) {
+                header.setText(request.headers);
+            }
             time.setText(mDateFormat.format(new Date(record.startTime)));
             size.setText(ByteUtil.getPrintSize(record.requestLength));
-            body.setText(TextUtils.isEmpty(request.postData) ? "NULL" : request.postData);
+            try {
+                String strBody = TextUtils.isEmpty(request.postData) ? "NULL" : request.postData;
+                strBody = URLDecoder.decode(strBody, "utf-8");
+                body.setText(strBody);
+            } catch (Exception e) {
+                body.setText(TextUtils.isEmpty(request.postData) ? "NULL" : request.postData);
+            }
         }
     }
 
-    public void bindResponse(NetworkRecord record) {
+    public void bindResponse(final NetworkRecord record) {
         diverTime.setText(R.string.dk_network_detail_title_response_time);
         diverHeader.setText(R.string.dk_network_detail_title_response_header);
         diverBody.setText(R.string.dk_network_detail_title_response_body);
+        diverFormat.setVisibility(View.VISIBLE);
+        diverFormat.setText("unFormat");
+        jsonView.setVisibility(View.VISIBLE);
+        jsonView.setTextSize(16.0f);
+        jsonView.setScaleEnable(false);
+        body.setVisibility(View.GONE);
+        diverFormat.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (body.getVisibility() == View.VISIBLE) {
+                    //格式化
+                    String strBody = TextUtils.isEmpty(record.mResponseBody) ? "NULL" : record.mResponseBody;
+                    try {
+                        new JSONObject(strBody);
+                        jsonView.setVisibility(View.VISIBLE);
+                        body.setVisibility(View.GONE);
+                        diverFormat.setText("unFormat");
+                    } catch (JSONException e) {
+                        jsonView.setVisibility(View.GONE);
+                        body.setVisibility(View.VISIBLE);
+                        body.setText(strBody);
+                        diverFormat.setText("format");
+                        ToastUtils.showShort("format error");
+                    }
+                } else {
+                    //反格式化
+                    String strBody = TextUtils.isEmpty(record.mResponseBody) ? "NULL" : record.mResponseBody;
+                    body.setText(strBody);
+                    diverFormat.setText("format");
+                    jsonView.setVisibility(View.GONE);
+                    body.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         if (record.mResponse != null) {
             Response response = record.mResponse;
             Request request = record.mRequest;
@@ -97,7 +158,18 @@ public class NetworkDetailView extends LinearLayout {
             header.setText(response.headers);
             time.setText(mDateFormat.format(new Date(record.endTime)));
             size.setText(ByteUtil.getPrintSize(record.responseLength));
-            body.setText(TextUtils.isEmpty(record.mResponseBody) ? "NULL" : record.mResponseBody);
+            String strBody = TextUtils.isEmpty(record.mResponseBody) ? "NULL" : record.mResponseBody;
+            try {
+                new JSONObject(strBody);
+                jsonView.bindJson(strBody);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                body.setVisibility(View.VISIBLE);
+                jsonView.setVisibility(View.GONE);
+                diverFormat.setText("format");
+                body.setText(strBody);
+            }
+
         }
     }
 }

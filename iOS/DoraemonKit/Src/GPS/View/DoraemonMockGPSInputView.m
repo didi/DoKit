@@ -23,7 +23,6 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
         self.layer.cornerRadius = kDoraemonSizeFrom750_Landscape(8);
         
         _textField = [[UITextField alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(32), kDoraemonSizeFrom750_Landscape(40), self.doraemon_width-2*kDoraemonSizeFrom750_Landscape(32), kDoraemonSizeFrom750_Landscape(45))];
@@ -46,6 +45,15 @@
         _exampleLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(24)];
         _exampleLabel.text = DoraemonLocalizedString(@"(示例: 120.15 30.28)");
         [self addSubview:_exampleLabel];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        if (@available(iOS 13.0, *)) {
+            self.backgroundColor = [UIColor systemBackgroundColor];
+        } else {
+#endif
+            self.backgroundColor = [UIColor whiteColor];
+#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
+        }
+#endif
     }
     return self;
 }

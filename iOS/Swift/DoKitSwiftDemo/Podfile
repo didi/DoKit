@@ -1,0 +1,11 @@
+source 'git@github.com:CocoaPods/Specs.git'
+platform :ios, '8.0'
+use_frameworks!
+
+target 'DoKitSwiftDemo' do
+  pod 'DoraemonKit', :subspecs => ['Core'],  :path => '../../../', :configurations => ['Debug']
+  pod 'DoraemonKit', :subspecs => ['WithGPS'],  :path => '../../../', :configurations => ['Debug']
+  pod 'DoraemonKit', :subspecs => ['WithMLeaksFinder'],  :path => '../../../', :configurations => ['Debug']
+  pod 'FBRetainCycleDetector', :git => 'https://github.com/facebook/FBRetainCycleDetector.git', :configurations => ['Debug']
+  pod 'AFNetworking'
+end

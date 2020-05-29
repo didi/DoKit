@@ -12,6 +12,7 @@
 #import "DoraemonNetFlowDataSource.h"
 #import "DoraemonNetFlowHttpModel.h"
 #import "DoraemonResponseImageModel.h"
+#import "DoraemonDefine.h"
 
 static DoraemonNetworkInterceptor *instance = nil;
 
@@ -62,6 +63,9 @@ static DoraemonNetworkInterceptor *instance = nil;
     for (id<DoraemonNetworkInterceptorDelegate> delegate in self.delegates) {
         if (delegate.shouldIntercept) {
             shouldIntercept = YES;
+//            if (shouldIntercept) {
+//                DoKitLog(@"yixiang shouldIntercept from %@",[delegate class]);
+//            }
         }
     }
     return shouldIntercept;
@@ -105,9 +109,11 @@ static DoraemonNetworkInterceptor *instance = nil;
                      request: (NSURLRequest *)request
                        error: (NSError *)error
                    startTime: (NSTimeInterval)startTime {
-    for (id<DoraemonNetworkInterceptorDelegate> delegate in self.delegates) {
-        [delegate doraemonNetworkInterceptorDidReceiveData:data response:response request:request error:error startTime:startTime];
-    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        for (id<DoraemonNetworkInterceptorDelegate> delegate in self.delegates) {
+            [delegate doraemonNetworkInterceptorDidReceiveData:data response:response request:request error:error startTime:startTime];
+        }
+    });
 }
 
 @end

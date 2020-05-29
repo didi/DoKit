@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp">
+
+
+    <FrameLayout
+        android:id="@+id/fl_add_wrap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_add"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/dk_add_shape"
+            android:gravity="center"
+            android:text="+"
+            android:textSize="14sp" />
+    </FrameLayout>
+
+    <EditText
+        android:id="@+id/ed_host"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/fl_add_wrap"
+        android:background="@null"
+        android:digits="0123456789abcdefghijklmnopqrstuvwxyz."
+        android:hint="@string/dk_kit_net_monitor_white_host_edit_tip"
+        android:padding="10dp"
+        android:textSize="16sp" />
+
+    <View
+        style="@style/DK.Divider"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp" />
+</RelativeLayout>

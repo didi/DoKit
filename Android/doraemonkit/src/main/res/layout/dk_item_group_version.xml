@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="15dp">
+
+    <TextView
+        android:id="@+id/version"
+        style="@style/DK.Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/dk_kit_version"
+        android:textColor="@color/dk_color_999999"
+        android:textSize="@dimen/dk_font_size_12" />
+
+</FrameLayout>

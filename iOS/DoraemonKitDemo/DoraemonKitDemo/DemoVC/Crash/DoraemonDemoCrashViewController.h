@@ -6,11 +6,11 @@
 //  Copyright © 2018 yixiang. All rights reserved.
 //
 
-#import <DoraemonKit/DoraemonKit.h>
+#import "DoraemonDemoBaseViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DoraemonDemoCrashViewController : DoraemonBaseViewController
+@interface DoraemonDemoCrashViewController : DoraemonDemoBaseViewController
 
 @end
 

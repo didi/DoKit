@@ -5,9 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 
-import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.ui.UniversalActivity;
-import com.didichuxing.doraemonkit.ui.layoutborder.ViewBorderFrameLayout;
+import androidx.fragment.app.Fragment;
+
+import com.blankj.utilcode.util.ActivityUtils;
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
+import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 
 /**
  * Created by wanglikun on 2019/1/9
@@ -17,15 +19,28 @@ public class LayoutBorderManager {
 
     private ViewBorderFrameLayout mViewBorderFrameLayout;
 
-    private DoraemonKit.ActivityLifecycleListener mLifecycleListener = new DoraemonKit.ActivityLifecycleListener() {
+    private LifecycleListenerUtil.LifecycleListener mLifecycleListener = new LifecycleListenerUtil.LifecycleListener() {
         @Override
         public void onActivityResumed(Activity activity) {
+            //UIUtils.getDokitAppContentView(activity).setId(R.id.dokit_app_contentview_id);
             resolveActivity(activity);
         }
 
         @Override
         public void onActivityPaused(Activity activity) {
 
+        }
+
+        @Override
+        public void onFragmentAttached(Fragment f) {
+
+        }
+
+        @Override
+        public void onFragmentDetached(Fragment f) {
+            if (mViewBorderFrameLayout != null) {
+                mViewBorderFrameLayout = null;
+            }
         }
     };
 
@@ -67,8 +82,8 @@ public class LayoutBorderManager {
 
     public void start() {
         isRunning = true;
-        resolveActivity(DoraemonKit.getCurrentResumedActivity());
-        DoraemonKit.registerListener(mLifecycleListener);
+        resolveActivity(ActivityUtils.getTopActivity());
+        LifecycleListenerUtil.registerListener(mLifecycleListener);
     }
 
     public void stop() {
@@ -77,7 +92,7 @@ public class LayoutBorderManager {
             mViewBorderFrameLayout.requestLayout();
         }
         mViewBorderFrameLayout = null;
-        DoraemonKit.unRegisterListener(mLifecycleListener);
+        LifecycleListenerUtil.unRegisterListener(mLifecycleListener);
     }
 
     public boolean isRunning() {

@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="16dp"
-            android:src="@drawable/dk_more_icon"
+            android:src="@mipmap/dk_more_icon"
             android:visibility="gone" />
 
     </LinearLayout>

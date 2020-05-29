@@ -19,8 +19,8 @@
             android:id="@+id/network_list_filter"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:background="@drawable/dk_network_filter_bg"
-            android:drawableLeft="@drawable/dk_search_icon"
+            android:background="@mipmap/dk_network_filter_bg"
+            android:drawableLeft="@mipmap/dk_search_icon"
             android:drawablePadding="10dp"
             android:hint="@string/dk_kit_network_filter_hint"
             android:paddingLeft="14dp"
@@ -30,7 +30,7 @@
             android:textSize="@dimen/dk_font_size_16"/>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/network_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

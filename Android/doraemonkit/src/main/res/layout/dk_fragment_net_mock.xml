@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dk_color_FFFFFF"
+    android:orientation="vertical">
+
+    <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="89dp"
+        android:layout_alignParentTop="true"
+        app:dkIcon="@mipmap/dk_close_icon_big"
+        app:dkTitle="@string/dk_kit_network_mock" />
+
+    <RelativeLayout
+        android:id="@+id/rl_searchbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_bar"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:gravity="center"
+            android:text="@string/dk_mock_search"
+            android:textColor="@color/dk_color_337CC4"
+            android:textSize="14sp" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_margin="5dp"
+            android:layout_toLeftOf="@id/tv_search"
+            app:cardBackgroundColor="@color/dk_color_FFFFFF"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="3dp"
+            app:contentPaddingBottom="5dp"
+            app:contentPaddingLeft="12dp"
+            app:contentPaddingRight="@dimen/dk_dp_5"
+            app:contentPaddingTop="5dp">
+
+            <EditText
+                android:id="@+id/edittext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/dk_edittext_shape"
+                android:drawableLeft="@mipmap/dk_search"
+                android:drawablePadding="5dp"
+                android:hint="@string/dk_data_mock_et_hint"
+                android:textColorHint="@color/dk_color_BEBEBE"
+                android:textSize="14sp" />
+
+        </androidx.cardview.widget.CardView>
+
+
+    </RelativeLayout>
+
+
+    <!--底部导航栏-->
+    <LinearLayout
+        android:id="@+id/ll_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_bottom_tab_mock"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_mock"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/dk_mock_normal" />
+
+            <TextView
+                android:id="@+id/tv_mock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/dk_data_mock_bottom_table_mock"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_bottom_tab_template"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_template"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/dk_template_normal" />
+
+            <TextView
+                android:id="@+id/tv_template"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/dk_data_mock_bottom_table_template"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        style="@style/DK.Divider"
+        android:layout_above="@id/ll_bottom_bar"
+        android:layout_marginBottom="5dp" />
+    <!--下拉菜单-->
+    <com.didichuxing.doraemonkit.widget.dropdown.DkDropDownMenu
+        android:id="@+id/drop_down_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/divider"
+        android:layout_below="@id/rl_searchbar"
+        android:layout_marginTop="8dp"
+        app:dk_dddividerColor="@color/dk_color_FFFFFF"
+        app:dk_ddmaskColor="@color/dk_mask_color"
+        app:dk_ddmenuBackgroundColor="@color/dk_color_FFFFFF"
+        app:dk_ddmenuIconOrientation="right"
+        app:dk_ddmenuSelectedIcon="@mipmap/dk_arrow_selected"
+        app:dk_ddmenuTextSize="13sp"
+        app:dk_ddmenuUnselectedIcon="@mipmap/dk_arrow_unselected"
+        app:dk_ddtextSelectedColor="@color/dk_color_337CC4"
+        app:dk_ddtextUnselectedColor="@color/dk_color_333333"
+        app:dk_ddunderlineColor="@color/dk_color_FFFFFF" />
+
+
+</RelativeLayout>

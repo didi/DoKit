@@ -8,15 +8,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
-
-import com.didichuxing.doraemonkit.util.LogHelper;
+import android.text.TextUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,8 +21,8 @@ import java.util.Map;
  */
 public class LocationHooker extends BaseServiceHooker {
     private static final String TAG = "LocationHooker";
-    private List<LocationListener> mListeners = new ArrayList<>();
-    private LocationListener mHookLocationListener = null;
+//    private List<LocationListener> mListeners = new ArrayList<>();
+//    private LocationListener mHookLocationListener = null;
 
     @Override
     public String getServiceName() {
@@ -40,7 +37,7 @@ public class LocationHooker extends BaseServiceHooker {
     @Override
     public Map<String, MethodHandler> getMethodHandlers() {
         Map<String, MethodHandler> methodHandlers = new HashMap<>();
-        methodHandlers.put("removeUpdates", new RemoveUpdatesMethodHandler());
+        //methodHandlers.put("removeUpdates", new RemoveUpdatesMethodHandler());
         methodHandlers.put("requestLocationUpdates", new RequestLocationUpdatesMethodHandler());
         methodHandlers.put("getLastLocation", new GetLastLocationMethodHandler());
         methodHandlers.put("getLastKnownLocation", new GetLastKnownLocationMethodHandler());
@@ -49,7 +46,6 @@ public class LocationHooker extends BaseServiceHooker {
 
     @Override
     public void replaceBinder(Context context, IBinder proxy) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
-        LogHelper.d(TAG, "replaceBinder");
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         if (locationManager == null) {
             return;
@@ -64,15 +60,18 @@ public class LocationHooker extends BaseServiceHooker {
         mServiceField.setAccessible(false);
     }
 
-    public class GetLastKnownLocationMethodHandler implements MethodHandler {
+    static class GetLastKnownLocationMethodHandler implements MethodHandler {
 
         @Override
-        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
-            LogHelper.d(TAG, "GetLastKnownLocationMethodHandler");
+        public Object onInvoke(Object originObject, Object proxyObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
             if (!GpsMockManager.getInstance().isMocking()) {
-                return method.invoke(originService, args);
+                return method.invoke(originObject, args);
             }
-            Location lastKnownLocation = (Location) method.invoke(originService, args);
+            Location lastKnownLocation = (Location) method.invoke(originObject, args);
+            if (lastKnownLocation == null) {
+                String provider = (String) args[0].getClass().getDeclaredMethod("getProvider").invoke(args[0]);
+                lastKnownLocation = buildValidLocation(provider);
+            }
             lastKnownLocation.setLongitude(GpsMockManager.getInstance().getLongitude());
             lastKnownLocation.setLatitude(GpsMockManager.getInstance().getLatitude());
             lastKnownLocation.setTime(System.currentTimeMillis());
@@ -83,15 +82,17 @@ public class LocationHooker extends BaseServiceHooker {
         }
     }
 
-    public class GetLastLocationMethodHandler implements MethodHandler {
+    static class GetLastLocationMethodHandler implements MethodHandler {
 
         @Override
-        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
-            LogHelper.d(TAG, "GetLastLocationMethodHandler");
+        public Object onInvoke(Object originObject, Object proxyObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
             if (!GpsMockManager.getInstance().isMocking()) {
-                return method.invoke(originService, args);
+                return method.invoke(originObject, args);
             }
-            Location lastLocation = (Location) method.invoke(originService, args);
+            Location lastLocation = (Location) method.invoke(originObject, args);
+            if (lastLocation == null) {
+                lastLocation = buildValidLocation(null);
+            }
             lastLocation.setLongitude(GpsMockManager.getInstance().getLongitude());
             lastLocation.setLatitude(GpsMockManager.getInstance().getLatitude());
             lastLocation.setTime(System.currentTimeMillis());
@@ -102,73 +103,108 @@ public class LocationHooker extends BaseServiceHooker {
         }
     }
 
-    public class RequestLocationUpdatesMethodHandler implements MethodHandler {
+
+    /**
+     * LocationListener代理
+     */
+    private static class LocationListenerProxy implements LocationListener {
+        /**
+         * 原始LocationListener
+         */
+        LocationListener locationListener;
+
+        private LocationListenerProxy(LocationListener locationListener) {
+            this.locationListener = locationListener;
+        }
+
         @Override
-        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws IllegalAccessException, InvocationTargetException, NoSuchFieldException {
-            LogHelper.d(TAG, "RequestLocationUpdatesMethodHandler");
-            Field mListenerField = args[1].getClass().getDeclaredField("mListener");
-            mListenerField.setAccessible(true);
-            if (mHookLocationListener == null) {
-                mHookLocationListener = new LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
-                        if (!GpsMockManager.getInstance().isMocking()) {
-                            for (LocationListener listener : mListeners) {
-                                listener.onLocationChanged(location);
-                            }
-                        } else {
-                            location.setLongitude(GpsMockManager.getInstance().getLongitude());
-                            location.setLatitude(GpsMockManager.getInstance().getLatitude());
-                            location.setTime(System.currentTimeMillis());
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                                location.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
-                            }
-                            for (LocationListener listener : mListeners) {
-                                listener.onLocationChanged(location);
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onStatusChanged(String provider, int status, Bundle extras) {
-                        for (LocationListener listener : mListeners) {
-                            listener.onStatusChanged(provider, status , extras);
-                        }
-                    }
-
-                    @Override
-                    public void onProviderEnabled(String provider) {
-                        for (LocationListener listener : mListeners) {
-                            listener.onProviderEnabled(provider);
-                        }
-                    }
-
-                    @Override
-                    public void onProviderDisabled(String provider) {
-                        for (LocationListener listener : mListeners) {
-                            listener.onProviderDisabled(provider);
-                        }
-                    }
-                };
-                LogHelper.d(TAG, "RequestLocationUpdatesMethodHandler: create listener");
-                mListeners.add((LocationListener) mListenerField.get(args[1]));
-                mListenerField.set(args[1], mHookLocationListener);
-                mListenerField.setAccessible(false);
-                return method.invoke(originService, args);
+        public void onLocationChanged(Location location) {
+            if (locationListener != null) {
+                if (GpsMockManager.getInstance().isMocking()) {
+                    location.setLongitude(GpsMockManager.getInstance().getLongitude());
+                    location.setLatitude(GpsMockManager.getInstance().getLatitude());
+                    location.setTime(System.currentTimeMillis());
+                }
+                locationListener.onLocationChanged(location);
             }
+        }
 
-            mListeners.add((LocationListener) mListenerField.get(args[1]));
-            mListenerField.setAccessible(false);
-            return null;
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            if (locationListener != null) {
+                locationListener.onStatusChanged(provider, status, extras);
+            }
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            if (locationListener != null) {
+                locationListener.onProviderEnabled(provider);
+            }
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            if (locationListener != null) {
+                locationListener.onProviderDisabled(provider);
+            }
         }
     }
 
-    private class RemoveUpdatesMethodHandler implements MethodHandler {
+    /**
+     * transport:ListenerTransport 内部包含LocationListener
+     */
+    static class RequestLocationUpdatesMethodHandler implements MethodHandler {
+        /**
+         * @param originService 原始对象 LocationManager#mService
+         * @param proxy         生成的代理对象
+         * @param method        需要被代理的方法 LocationManager#mService.requestLocationUpdates(request, transport, intent, packageName)
+         * @param args          代理方法的参数 request, transport, intent, packageName
+         * @return
+         * @throws IllegalAccessException
+         * @throws InvocationTargetException
+         * @throws NoSuchFieldException
+         */
         @Override
-        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, NoSuchFieldException {
-            Field mListenerField = args[0].getClass().getDeclaredField("mListener");
-            mListeners.remove(mListenerField.get(args[0]));
-            return null;
+        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws IllegalAccessException, InvocationTargetException, NoSuchFieldException {
+            if (!GpsMockManager.getInstance().isMocking()) {
+                return method.invoke(originService, args);
+            }
+            Object listenerTransport = args[1];
+            //LocationListener mListener 类型
+            Field mListenerField = listenerTransport.getClass().getDeclaredField("mListener");
+            mListenerField.setAccessible(true);
+            LocationListener locationListener = (LocationListener) mListenerField.get(listenerTransport);
+            LocationListenerProxy locationListenerProxy = new LocationListenerProxy(locationListener);
+            //将原始的LocationListener替换为LocationListenerProxy
+            mListenerField.set(listenerTransport, locationListenerProxy);
+            mListenerField.setAccessible(false);
+            return method.invoke(originService, args);
         }
+    }
+
+
+    private static Location buildValidLocation(String provider) {
+        if (TextUtils.isEmpty(provider)) {
+            provider = "gps";
+        }
+        Location validLocation = new Location(provider);
+        validLocation.setAccuracy(5.36f);
+        validLocation.setBearing(315.0f);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            validLocation.setBearingAccuracyDegrees(52.285362f);
+        }
+        validLocation.setSpeed(0.79f);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            validLocation.setSpeedAccuracyMetersPerSecond(0.9462558f);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            validLocation.setVerticalAccuracyMeters(8.0f);
+        }
+        validLocation.setTime(System.currentTimeMillis());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            validLocation.setElapsedRealtimeNanos(SystemClock.elapsedRealtimeNanos());
+        }
+        return validLocation;
     }
 }

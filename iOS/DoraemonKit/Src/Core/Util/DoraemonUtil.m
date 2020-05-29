@@ -7,13 +7,10 @@
 //
 
 #import "DoraemonUtil.h"
+#import "UIViewController+Doraemon.h"
 #import "DoraemonHomeWindow.h"
-
-@interface DoraemonUtil()
-
-@property (nonatomic, strong) UINavigationController *nav;
-
-@end
+#import "DoraemonAppInfoUtil.h"
+#import "DoraemonDefine.h"
 
 @implementation DoraemonUtil
 
@@ -21,33 +18,9 @@
     self = [super init];
     if (self) {
         _fileSize = 0;
+        _bigFileArray = [[NSMutableArray alloc] init];
     }
     return self;
-}
-
-+ (void)openPlugin:(UIViewController *)vc{
-    [[DoraemonHomeWindow shareInstance] openPlugin:vc];
-}
-
-+ (UIViewController *)topViewControllerForKeyWindow {
-    UIViewController *resultVC;
-    resultVC = [self _topViewController:[[[UIApplication sharedApplication].delegate window] rootViewController]];
-//    while (resultVC.presentedViewController) {
-//        resultVC = [self _topViewController:resultVC.presentedViewController];
-//    }
-    return resultVC;
-}
-
-+ (UIViewController *)_topViewController:(UIViewController *)vc {
-    return vc;
-//    if ([vc isKindOfClass:[UINavigationController class]]) {
-//        return [self _topViewController:[(UINavigationController *)vc topViewController]];
-//    } else if ([vc isKindOfClass:[UITabBarController class]]) {
-//        return [self _topViewController:[(UITabBarController *)vc selectedViewController]];
-//    } else {
-//        return vc;
-//    }
-//    return nil;
 }
 
 + (NSString *)dateFormatTimeInterval:(NSTimeInterval)timeInterval{
@@ -91,6 +64,11 @@
     return [NSString stringWithFormat:@"%.0f",ms];
 }
 
++ (NSString *)currentTimeInterval{
+    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970]*1000;
+    return [NSString stringWithFormat:@"%0.f",timeInterval];
+}
+
 + (void)savePerformanceDataInFile:(NSString *)fileName data:(NSString *)data{
     NSString *cachesDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
     NSString *anrDir = [cachesDir stringByAppendingPathComponent:@"DoraemonPerformance"];
@@ -104,7 +82,7 @@
     NSString *text = data;
     BOOL writeSuccess = [text writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
     if (writeSuccess) {
-        NSLog(@"写入成功");
+        DoKitLog(@"write success");
     }
 }
 
@@ -119,10 +97,27 @@
                                                         options:NSJSONReadingMutableContainers
                                                           error:&err];
     if(err) {
-        NSLog(@"json解析失败：%@",err);
+        DoKitLog(@"json read error：%@",err);
         return nil;
     }
     return dic;
+}
+
++ (NSArray *)arrayWithJsonString:(NSString *)jsonString {
+    if (jsonString == nil) {
+        return nil;
+    }
+    
+    NSData *jsonData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    NSArray *array = [NSJSONSerialization JSONObjectWithData:jsonData
+                                                        options:NSJSONReadingMutableContainers
+                                                          error:&err];
+    if(err) {
+        DoKitLog(@"json read error：%@",err);
+        return nil;
+    }
+    return array;
 }
 
 +(NSString *)dictToJsonStr:(NSDictionary *)dict{
@@ -134,7 +129,22 @@
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
         jsonString =[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         if (error) {
-            NSLog(@"Error:%@" , error);
+            DoKitLog(@"Error:%@" , error);
+        }
+    }
+    return jsonString;
+}
+
++(NSString *)arrayToJsonStr:(NSArray *)array{
+    
+    NSString *jsonString = nil;
+    if ([NSJSONSerialization isValidJSONObject:array])
+    {
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:&error];
+        jsonString =[[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        if (error) {
+            DoKitLog(@"Error:%@" , error);
         }
     }
     return jsonString;
@@ -162,8 +172,38 @@
         }
     }else{
         //不存在该文件path
-        //NSLog(@"不存在该文件");
+        DoKitLog(@"不存在该文件");
     }
+}
+
+//获取所有>1M的文件
+- (NSArray *)getBigSizeFileFormPath:(NSString *)path{
+     NSFileManager * fileManger = [NSFileManager defaultManager];
+     BOOL isDir = NO;
+     BOOL isExist = [fileManger fileExistsAtPath:path isDirectory:&isDir];
+     if (isExist){
+         if(isDir){
+             //文件夹
+             NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
+             NSString * subPath = nil;
+             for(NSString *str in dirArray) {
+                 subPath = [path stringByAppendingPathComponent:str];
+                 [self getBigSizeFileFormPath:subPath];
+             }
+         }else{
+             //文件
+             NSDictionary *dict = [[NSFileManager defaultManager] attributesOfItemAtPath:path error:nil];
+             NSInteger size = [dict[@"NSFileSize"] integerValue];
+             if (size > 1024 * 1014) { //大于1M的内容被称为大文件
+                 [_bigFileArray addObject:path];
+             }
+         }
+     }else{
+         //不存在该文件path
+         DoKitLog(@"file not exist");
+     }
+     
+     return nil;
 }
 
 //删除某一路径下的所有文件
@@ -190,6 +230,82 @@
             [DoraemonUtil clearFileWithPath:[homePath stringByAppendingPathComponent:folder]];
         }
     });
+}
+
++ (void)openPlugin:(UIViewController *)vc {
+    [DoraemonHomeWindow openPlugin:vc];
+}
+
+
++ (UIViewController *)rootViewControllerForKeyWindow {
+    return [UIViewController rootViewControllerForKeyWindow];
+}
+
++ (UIViewController *)topViewControllerForKeyWindow {
+    return [UIViewController topViewControllerForKeyWindow];
+}
+
+//share text
++ (void)shareText:(NSString *)text formVC:(UIViewController *)vc{
+    [self share:text formVC:vc];
+}
+
+//share image
++ (void)shareImage:(UIImage *)image formVC:(UIViewController *)vc{
+    [self share:image formVC:vc];
+}
+
+//share url
++ (void)shareURL:(NSURL *)url formVC:(UIViewController *)vc{
+    [self share:url formVC:vc];
+}
+
++ (void)share:(id)object formVC:(UIViewController *)vc{
+    if (!object) {
+        return;
+    }
+    NSArray *objectsToShare = @[object];//support NSString、NSURL、UIImage
+
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
+
+    if([DoraemonAppInfoUtil isIpad]){
+        if ( [controller respondsToSelector:@selector(popoverPresentationController)] ) {
+            controller.popoverPresentationController.sourceView = vc.view;
+        }
+        [vc presentViewController:controller animated:YES completion:nil];
+    }else{
+        [vc presentViewController:controller animated:YES completion:nil];
+    }
+}
+
++ (void)openAppSetting{
+    NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+    if([[UIApplication sharedApplication] canOpenURL:url]) {
+        NSURL*url =[NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        if (@available(iOS 10.0, *)) {
+            [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:^(BOOL success) {
+                
+            }];
+        } else {
+            [[UIApplication sharedApplication] openURL:url];
+        }
+    }
+}
+
++ (UIWindow *)getKeyWindow{
+    UIWindow *keyWindow = nil;
+    if ([[UIApplication sharedApplication].delegate respondsToSelector:@selector(window)]) {
+        keyWindow = [[UIApplication sharedApplication].delegate window];
+    }else{
+        NSArray *windows = [UIApplication sharedApplication].windows;
+        for (UIWindow *window in windows) {
+            if (!window.hidden) {
+                keyWindow = window;
+                break;
+            }
+        }
+    }
+    return keyWindow;
 }
 
 @end

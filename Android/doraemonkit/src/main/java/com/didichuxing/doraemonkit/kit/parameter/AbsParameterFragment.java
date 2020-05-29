@@ -2,30 +2,31 @@ package com.didichuxing.doraemonkit.kit.parameter;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.CheckBox;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.realtime.OnFloatPageChangeListener;
-import com.didichuxing.doraemonkit.ui.realtime.RealTimeChartIconPage;
-import com.didichuxing.doraemonkit.ui.realtime.RealTimeChartPage;
-import com.didichuxing.doraemonkit.ui.setting.SettingItem;
-import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitViewManager;
+import com.didichuxing.doraemonkit.kit.performance.PerformanceFragmentCloseListener;
+import com.didichuxing.doraemonkit.kit.core.SettingItem;
+import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public abstract class AbsParameterFragment extends BaseFragment implements OnFloatPageChangeListener {
+
+public abstract class AbsParameterFragment extends BaseFragment implements PerformanceFragmentCloseListener {
 
 
     private SettingItemAdapter mSettingItemAdapter;
@@ -50,6 +51,9 @@ public abstract class AbsParameterFragment extends BaseFragment implements OnFlo
     @StringRes
     protected abstract int getTitle();
 
+
+    protected abstract int getPerformanceType();
+
     protected abstract Collection<SettingItem> getSettingItems(List<SettingItem> list);
 
     protected abstract SettingItemAdapter.OnSettingItemSwitchListener getItemSwitchListener();
@@ -57,11 +61,14 @@ public abstract class AbsParameterFragment extends BaseFragment implements OnFlo
     protected abstract SettingItemAdapter.OnSettingItemClickListener getItemClickListener();
 
     protected void openChartPage(@StringRes int title, int type) {
-        RealTimeChartPage.openChartPage(getString(title), type, RealTimeChartPage.DEFAULT_REFRESH_INTERVAL, this);
+
+        PerformanceDokitViewManager.open(type, getString(title), this);
     }
 
+
     protected void closeChartPage() {
-        RealTimeChartPage.closeChartPage();
+        PerformanceDokitViewManager.close(getPerformanceType(), getString(getTitle()));
+        //RealTimeChartDokitView.closeChartPage();
     }
 
     private void initView() {
@@ -134,8 +141,8 @@ public abstract class AbsParameterFragment extends BaseFragment implements OnFlo
     }
 
     @Override
-    public void onFloatPageClose(String tag) {
-        if (!TextUtils.equals(RealTimeChartIconPage.TAG, tag)) {
+    public void onClose(int performanceType) {
+        if (performanceType != getPerformanceType()) {
             return;
         }
         if (mSettingList == null || mSettingList.isComputingLayout()) {
@@ -151,14 +158,17 @@ public abstract class AbsParameterFragment extends BaseFragment implements OnFlo
         mSettingItemAdapter.notifyItemChanged(0);
     }
 
-    @Override
-    public void onFloatPageOpen(String tag) {
-
-    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        RealTimeChartPage.removeCloseListener();
+        mSettingItemAdapter = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //移除监听
+        PerformanceDokitViewManager.onPerformanceSettingFragmentDestroy(this);
     }
 }

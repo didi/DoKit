@@ -5,22 +5,21 @@
                 android:layout_height="match_parent"
                 android:background="@color/dk_color_F4F5F6">
 
-    <com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar
+    <com.didichuxing.doraemonkit.widget.titlebar.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        app:dkLeftIcon="@drawable/dk_title_back"
+        app:dkLeftIcon="@mipmap/dk_title_back"
         app:dkLeftText="@string/dk_back"
         app:dkTitle="@string/dk_net_monitor_title_summary"/>
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_show"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/tabMode"
         android:layout_below="@+id/title_bar"
         android:background="@color/dk_color_F4F5F6"/>
-
 
 
     <LinearLayout

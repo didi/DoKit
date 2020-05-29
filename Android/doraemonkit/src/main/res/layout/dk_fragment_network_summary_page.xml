@@ -10,7 +10,7 @@
         android:layout_margin="8dp"
         android:orientation="vertical">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:background="@color/dk_color_FFFFFF">
@@ -123,7 +123,7 @@
                 app:layout_constraintLeft_toLeftOf="@id/total_down"
                 app:layout_constraintTop_toBottomOf="@id/total_down"
                 app:layout_constraintWidth_percent="0.33" />
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <LinearLayout
@@ -138,7 +138,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="44dp"
                 android:layout_marginLeft="10dp"
-                android:drawableLeft="@drawable/dk_network_bar"
+                android:drawableLeft="@mipmap/dk_network_bar"
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
                 android:text="@string/dk_network_summary_http_method"
@@ -146,7 +146,7 @@
 
             <View style="@style/DK.Divider" />
 
-            <com.didichuxing.doraemonkit.ui.chart.BarChart
+            <com.didichuxing.doraemonkit.widget.chart.BarChart
                 android:id="@+id/network_bar_chart"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -164,14 +164,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="44dp"
                 android:layout_marginLeft="10dp"
-                android:drawableLeft="@drawable/dk_network_pie"
+                android:drawableLeft="@mipmap/dk_network_pie"
                 android:drawablePadding="5dp"
                 android:text="@string/dk_network_summary_data_type"
                 android:textSize="14sp" />
 
             <View style="@style/DK.Divider" />
 
-            <com.didichuxing.doraemonkit.ui.chart.PieChart
+            <com.didichuxing.doraemonkit.widget.chart.PieChart
                 android:id="@+id/network_pier_chart"
                 android:layout_width="150dp"
                 android:layout_height="150dp"

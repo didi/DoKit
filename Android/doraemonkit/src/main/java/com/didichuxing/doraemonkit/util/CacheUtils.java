@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.util;
 
-import android.content.Context;
+import com.blankj.utilcode.util.Utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,23 +17,21 @@ import java.io.Serializable;
 public class CacheUtils {
     private static final String TAG = "CacheUtils";
 
-    private CacheUtils() {
-    }
 
-    public static boolean saveObject(Context context, String key, Serializable ser) {
-        File file = new File(context.getCacheDir() + "/" + key);
+    public static boolean saveObject(String key, Serializable ser) {
+        File file = new File(Utils.getApp().getCacheDir() + "/" + key);
         if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                LogHelper.e(TAG, e.toString());
+                e.printStackTrace();
             }
         }
         return saveObject(ser, file);
     }
 
-    public static Serializable readObject(Context context, String key) {
-        File file = new File(context.getCacheDir() + "/" + key);
+    public static Serializable readObject(String key) {
+        File file = new File(Utils.getApp().getCacheDir() + "/" + key);
         return readObject(file);
     }
 
@@ -47,21 +45,21 @@ public class CacheUtils {
             oos.flush();
             return true;
         } catch (IOException e) {
-            LogHelper.e(TAG, e.toString());
+            e.printStackTrace();
             return false;
         } finally {
             if (oos != null) {
                 try {
                     oos.close();
                 } catch (IOException e) {
-                    LogHelper.e(TAG, e.toString());
+                    e.printStackTrace();
                 }
             }
             if (fos != null) {
                 try {
                     fos.close();
                 } catch (IOException e) {
-                    LogHelper.e(TAG, e.toString());
+                    e.printStackTrace();
                 }
             }
         }
@@ -81,10 +79,10 @@ public class CacheUtils {
             if (e instanceof InvalidClassException) {
                 file.delete();
             }
-            LogHelper.e(TAG, e.toString());
+            e.printStackTrace();
             return null;
         } catch (ClassNotFoundException e) {
-            LogHelper.e(TAG, e.toString());
+            e.printStackTrace();
             return null;
         } finally {
             if (fis != null) {

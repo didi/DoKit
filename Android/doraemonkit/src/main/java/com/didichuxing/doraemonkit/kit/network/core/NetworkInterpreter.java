@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.network.core;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -26,16 +26,16 @@ public class NetworkInterpreter {
     private ResourceTypeHelper mResourceTypeHelper;
 
     public void httpExchangeFailed(int requestId, String s) {
-        LogHelper.i(TAG, "[httpExchangeFailed] requestId: " + requestId + " error: " + s);
+        //LogHelper.i(TAG, "[httpExchangeFailed] requestId: " + requestId + " error: " + s);
     }
 
     public void responseReadFinished(int requestId, NetworkRecord record, ByteArrayOutputStream outputStream) {
         if (outputStream != null) {
             record.responseLength = outputStream.size();
             record.mResponseBody = outputStream.toString();
-            LogHelper.i(TAG, "[responseReadFinished] body: " + record.mResponseBody.toString().length());
+            //LogHelper.i(TAG, "[responseReadFinished] body: " + record.mResponseBody.toString().length());
         } else {
-            LogHelper.i(TAG, "[responseReadFinished] outputStream is null request id: " + requestId);
+            //LogHelper.i(TAG, "[responseReadFinished] outputStream is null request id: " + requestId);
         }
     }
 
@@ -97,7 +97,7 @@ public class NetworkInterpreter {
         record.mRequest = requestJSON;
         record.startTime = System.currentTimeMillis();
         record.requestLength = readBodyLength(request);
-        Log.e(TAG, requestJSON.toString());
+        //Log.e(TAG, requestJSON.toString());
     }
 
     public void fetRequestBody(NetworkRecord record, byte[] request) {
@@ -105,7 +105,7 @@ public class NetworkInterpreter {
             record.mRequest.postData = readBodyAsString(request);
             record.requestLength = readBodyLength(request);
             NetworkManager.get().updateRecord(record, false);
-            Log.e(TAG, record.mRequest.postData);
+            //Log.e(TAG, record.mRequest.postData);
         }
     }
 
@@ -133,7 +133,7 @@ public class NetworkInterpreter {
         record.mResponse = responseJSON;
         record.endTime = System.currentTimeMillis();
         NetworkManager.get().updateRecord(record, false);
-        Log.e(TAG, responseJSON.toString());
+        //Log.e(TAG, responseJSON.toString());
     }
 
     private ResourceTypeHelper getResourceTypeHelper() {

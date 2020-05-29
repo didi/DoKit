@@ -1,0 +1,21 @@
+<resources>
+<!--    <string name="app_name">weexkit</string>-->
+    
+    <string name="dk_console_log_name">日志</string>
+    <string name="dk_console_log_title">Weex日志记录</string>
+    <string name="dk_storage_cache_name">缓存</string>
+    <string name="dk_storage_cache_title">Storage信息查看</string>
+    <string name="dk_weex_info_name">信息</string>
+    <string name="dk_weex_info_title">Weex信息查看</string>
+    <string name="dk_dev_tool_name">DevTool</string>
+    <string name="dk_dev_tool_title">DevTool</string>
+
+    <string name="dk_storage_tip_key">key:</string>
+    <string name="dk_storage_tip_value">value:</string>
+
+    <!--日志-->
+    <string name="dk_log_btn_clean">清空日志</string>
+    <string name="dk_log_btn_export">导出</string>
+    <string name="dk_log_btn_back_top">回到顶部</string>
+    <string name="dk_log_btn_to_bottom">滚至底部</string>
+</resources>

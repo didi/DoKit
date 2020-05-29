@@ -32,4 +32,8 @@
 
 + (UIColor *)doraemon_randomColor;
 
++ (UIColor *)doraemon_bg; //#F4F5F6
+
++ (UIColor *)doraemon_orange; //#FF8903
+
 @end

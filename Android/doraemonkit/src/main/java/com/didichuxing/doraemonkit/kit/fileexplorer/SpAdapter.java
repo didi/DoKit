@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.SpInputType;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
+import com.didichuxing.doraemonkit.widget.recyclerview.AbsRecyclerAdapter;
+import com.didichuxing.doraemonkit.widget.recyclerview.AbsViewBinder;
 
 public class SpAdapter extends AbsRecyclerAdapter<AbsViewBinder<SpBean>, SpBean> {
 

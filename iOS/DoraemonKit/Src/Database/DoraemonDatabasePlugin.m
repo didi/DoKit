@@ -6,14 +6,14 @@
 //
 
 #import "DoraemonDatabasePlugin.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 #import "DoraemonDatabaseViewController.h"
 
 @implementation DoraemonDatabasePlugin
 
 - (void)pluginDidLoad{
     DoraemonDatabaseViewController *vc = [[DoraemonDatabaseViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

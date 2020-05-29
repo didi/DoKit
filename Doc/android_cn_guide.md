@@ -1,126 +1,188 @@
 ## 接入方式
 
-#### 1. Gradle依赖
+|DoKit|最新版本|描述|
+|-|-|-|
+|支持Androidx|3.1.5|从v3.1.0版本开始支持androidx|
+|支持android support|3.0.6|3.0.6版本对应3.1.5的功能，后期support将会不定期更新，主要还是看社区的反馈，请大家尽快升级和适配Androidx|
 
-```
+
+#### 1. Gradle 依赖
+
+```groovy
 dependencies {
-	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.2.1'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.2.0'
-    ...
+    …
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.5'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.5'
+    …
 }
 ```
 
-最新版本参见[这里](android-ReleaseNotes.md)。
+**滴滴内部业务:**
+
+滴滴内部业务线接入请将
+```
+debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.5'
+```
+
+替换为
+
+```
+debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-rpc:3.1.5'
+```
+
+**注意:** 
+ 假如你无法通过 jcenter 下载到依赖库并报了以下的错误 
+
+```
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.1.5
+```
+
+建议你可以尝试挂载VPN或通过命令行重试(以Mac系统为例 项目根目录下)
+
+```
+./gradlew clean assembleDebug
+```
+
+
+最新版本参见[这里](https://github.com/didi/DoraemonKit/blob/master/Doc/android-ReleaseNotes.md)。
+
+**注意:**
+
+>安卓版本DoKit从3.1.0版本开始全面拥抱Androidx,假如你的项目还没有升级到androidx你可以选择依赖3.0.2版本
+安卓版DoKit从3.0.2版本开始将逐渐放弃对Android Support版本的支持，请大家全面拥抱androidx吧
 
 DoraemonKit目前已支持Weex工具，包括
 
-* Console日志查看
-* Storage缓存查看
+* Console 日志查看
+* Storage 缓存查看
 * 容器信息
 * DevTool
 
 如果有需要支持Weex的需求可以直接添加下面依赖
 
-```
+```groovy
 dependencies {
-	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:1.0.1'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex-no-op:1.0.1'
-    ...
+    …
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.1.5'
+    …
 }
 ```
+
+如果有需要集成 `LeakCanary` 的需求可以直接添加下面依赖
+
+```groovy
+dependencies {
+    …
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.5'
+    …
+}
+```
+`LeakCanary` 已经在 doraemonkit 中动态集成，不需要自己再进行手动集成，只需要添加上面的依赖即可。
 
 
 #### 2. 初始化
 
-在App启动的时候进行初始化。
+在 App 启动的时候进行初始化。
 
-```
+```Java
 @Override
 public void onCreate() {
-	...
-    DoraemonKit.install(application)
-     
-    // H5任意门功能需要，非必须
-    DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
-    @Override
-    public void overrideUrlLoading(Context context, String s) {
-        // 使用自己的H5容器打开这个链接
-    }
-    ...
+   
+    DoraemonKit.install(application,null,"pId");
+   
 } 
 ```
+**滴滴内部业务**
 
-如果已接入了Weex工具（暂不支持自定义功能组件），使用下面方式初始化
-
-```
+```Java
 @Override
 public void onCreate() {
-	...
-    DKWeexInstance.install(application)
-     
-    // H5任意门功能需要，非必须
-    DoraemonKit.setWebDoorCallback(new WebDoorManager.WebDoorCallback() {
-    @Override
-    public void overrideUrlLoading(Context context, String s) {
-        // 使用自己的H5容器打开这个链接
-    }
-    ...
+   
+    DoraemonKitRpc.install(application,null,"pId")
+  
 } 
 ```
 
 
-#### 3. 流量监控功能（可选）
+#### 3. 流量监控以及其他AOP功能（可选）
+AOP包括以下几个功能:
+1)百度、腾讯、高德地图的经纬度模拟
+2)UrlConnection、Okhttp 抓包以及后续的接口hook功能
+3)App 启动耗时统计
+4)慢函数
+5)大图
 
-在项目的build.gradle中添加classpath。
+在项目的 `build.gradle` 中添加 classpath。
 
-```
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
+```groovy
 buildscript {
     dependencies {
-        ...
-        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.4'
-        ...
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+        …
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.5'
+        …
     }
 }
 ```
 
-在app的build.gradle中添加plugin和引用。新版本中已经将插件用到的注解类提取到单独的aar中，用以解决
-和其他AspectJ插件冲突问题。如果项目中引用了其他AspectJ插件，请勿引用本插件，改为手动注册。
+在 app 的 `build.gradle` 中添加 plugin。
+
+```groovy
+apply plugin: 'com.didi.dokit'
 
 ```
-...
-apply plugin: 'android-aspectjx'
-dependencies {
-	...
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-aop:1.0.0'
-    ...
+
+**插件配置选项:**
+添加到app module 的build.gradle文件下 与android {}处于同一级
+```groovy
+dokitExt {
+    //dokit 插件开关
+    dokitPluginSwitch true
+    //通用设置
+    comm {
+        //地图经纬度开关
+        gpsSwitch true
+        //网络开关
+        networkSwitch true
+        //大图开关
+        bigImgSwitch true
+    }
+
+    slowMethod {
+        //0:默认模式 打印函数调用栈 需添加指定入口  默认为application onCreate 和attachBaseContext
+        //1:普通模式 运行时打印某个函数的耗时 全局业务代码函数插入
+        strategy 0
+        //函数功能开关
+        methodSwitch true
+
+        //调用栈模式配置
+        stackMethod {
+            //默认值为 5ms 小于该值的函数在调用栈中不显示
+            thresholdTime 10
+            //调用栈函数入口
+            enterMethods = ["com.didichuxing.doraemondemo.MainDebugActivity.test1"]
+        }
+        //普通模式配置
+        normalMethod {
+            //默认值为 500ms 小于该值的函数在运行时不会在控制台中被打印
+            thresholdTime 500
+            //需要针对函数插装的包名
+            packageNames = ["com.didichuxing.doraemondemo"]
+            //不需要针对函数插装的包名&类名
+            methodBlacklist = ["com.didichuxing.doraemondemo.dokit"]
+        }
+    }
 }
 ```
 
-注：
-使用插件有两个目的：1是实现网络请求的自动监控和模拟弱网功能，不需要手动写其他代码。2是可以实现三方jar包内的请求的hook。
-但使用插件会稍微影响到编译速度。如果不需要这个功能，可以通过手动添加DoraemonInterceptor的方式进行OkHttp的监控,如下：
 
-```
-OkHttpClient client = new OkHttpClient().newBuilder()
-                //用于模拟弱网的拦截器
-                .addNetworkInterceptor(new DoraemonWeakNetworkInterceptor())
-                //网络请求监控的拦截器
-                .addInterceptor(new DoraemonInterceptor()).build();
-```
 #### 4. 自定义功能组件（可选）
 
-自定义组件需要实现IKit接口，该接口对应哆啦A梦功能面板中的组件。
+自定义组件需要实现 IKit 接口，该接口对应哆啦A梦功能面板中的组件。
 
-以黑马乘客端为例，实现环境切换组件如下。
+以代驾乘客端为例，实现环境切换组件如下。
 
-```
-public class EnvSwitchKit implements IKit {
+```Java
+public class EnvSwitchKit extends AbstractKit {
     @Override
     public int getCategory() {
         return Category.BIZ;
@@ -151,45 +213,106 @@ public class EnvSwitchKit implements IKit {
 
 在初始化的时候注册自定义组件。
 
-```
+```Java
 @Override
 public void onCreate() {
     kits.add(new EnvSwitchKit());
     DoraemonKit.install(application, kits);
-    ...
+    …
 }
 ```
 
+**DoraemonKit入口api**
+```
+object DoraemonKit {
+    //不需要productId
+    @JvmStatic
+    fun install(app: Application) {
+    }
+
+   //需要productId
+    @JvmStatic
+    fun install(app: Application, productId: String) {
+    }
+    
+   //用户自定义用户专区分组
+    @JvmStatic
+    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, productId: String) {
+    }
+   
+   //默认用户专区分组
+    @JvmStatic
+    fun install(app: Application, listKits: MutableList<AbstractKit>, productId: String) {
+    }
+
+    /**
+     * @param app
+     * @param mapKits  自定义kits  根据用户传进来的分组 建议优先选择mapKits 两者都传的话会选择mapKits
+     * @param listKits  自定义kits 兼容原先老的api
+     * @param productId Dokit平台端申请的productId
+     */
+    @JvmStatic
+    private  fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
+
+    }
+    
+    //h5任意门回调
+    @JvmStatic
+    fun setWebDoorCallback(callback: WebDoorManager.WebDoorCallback?) {
+    }
+
+    //显示mainIcon
+    @JvmStatic
+    fun show() {
+    }
+
+   //隐藏mainIcon
+    @JvmStatic
+    fun hide() {
+    }
+
+    /**
+     * 直接显示工具面板页面
+     */
+    @JvmStatic
+    fun showToolPanel() {
+    }
+
+    /**
+     * 直接隐藏工具面板
+     */
+    @JvmStatic
+    fun hideToolPanel() {
+    }
+
+    
+
+    /**
+     * 禁用app信息上传开关，该上传信息只为做DoKit接入量的统计，如果用户需要保护app隐私，可调用该方法进行禁用
+     */
+    @JvmStatic
+    fun disableUpload() {
+    }
+
+    @JvmStatic
+    val isShow: Boolean
+        get() = false
+
+    @JvmStatic
+    fun setDebug(debug: Boolean) {
+    }
+
+    /**
+     * 是否显示主入口icon
+     */
+    @JvmStatic
+    fun setAwaysShowMainIcon(awaysShow: Boolean) {
+    }
+}
+
+```
 
 
 #### 5. FAQ
 
-**1. 为什么接入后看不到悬浮窗入口？**
-
-> 先确认是否打开应用的悬浮窗权限，同时确认是否错误引用no-op版本。
-
-**2. com.didichuxing.doraemonkit:kit和com.didichuxing.doraemonkit:kit-no-op有什么区别？**
-
-> no-op版本提供空实现，DoraemonKit不推荐集成到线上版本使用的，可通过gradle配置动态切换正常版本和no-op版本。
-
-**3. 流量监控无数据**
-
-> 目前流量监测功能只支持OkHttp3和HttpUrlConnection的自动注入，其他网络库暂不支持。
-> 其他网络库可以使用NetworkPrinterHelper类进行请求数据的手动注入，使用参考demo。
-
-**4. 性能监控中，CPU、RAM无数据**
-
-> 旧版本SDK的CPU监控实现在8.0系统读取不到数据。新版本已修改实现方式，可以正常读取。
-
-**5. 帧率、CPU、RAM数据不准确**
-
-> 由于读取cpu、内存数据本身需要消耗cpu和内存，加上心跳图绘制需要消耗性能，所以开启这几项功能后，数据比app实际使用值有升高。
-
-**6. com.hujiang.aspectjx:gradle-android-plugin-aspectjx是否必须?**
-
-> 这个插件的用处是在编译阶段在okhttp和httpurlconnection的调用处进行插桩，用来收集网络请求数据从而实现流量监控功能，如果不需要流量监控功能或者使用的是非okhttp和httpurlconnection网络库，可以不引用这个插件。
-> 因为这个插件会涉及到字节码的修改，同时会插入一些代码到网络请求中，对性能和稳定性有影响，所以非常不推荐在线上版本中使用。在线上版本中，务必去除该插件的引用。
-
-**7. 沙盒游览功能能否打开数据库、sp文件?**
-
-> 目前已经支持
+参考[这里](http://xingyun.xiaojukeji.com/docs/dokit#/SDKProblems)

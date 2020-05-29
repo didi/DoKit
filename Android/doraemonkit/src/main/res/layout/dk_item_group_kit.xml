@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
@@ -7,17 +8,36 @@
     android:elevation="1dp"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/name"
-        style="@style/DK.Title"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:singleLine="true" />
+        android:orientation="horizontal">
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="16dp"
+        <TextView
+            android:id="@+id/name"
+            style="@style/DK.Title"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            tools:text="平台工具" />
+
+        <TextView
+            android:id="@+id/tv_sub_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/dk_color_333333"
+            android:textSize="12sp"
+            tools:text="(www.dokit.com)" />
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/group_kit_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" />
 </LinearLayout>

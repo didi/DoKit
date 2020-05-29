@@ -19,7 +19,12 @@
     if([language hasPrefix:@"en"]) {
         fileNamePrefix = @"en";
     }
-    NSBundle *tmp = [NSBundle bundleWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.bundle/", @"DoraemonKit"]]];
+//    NSBundle *tmp = [NSBundle bundleWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.bundle/", @"DoraemonKit"]]];
+    NSBundle *tmpBundle = [NSBundle bundleForClass:NSClassFromString(@"DoraemonManager")];
+    NSURL *url = [tmpBundle URLForResource:@"DoraemonKit" withExtension:@"bundle"];
+    if(!url) return key;
+    NSBundle *tmp = [NSBundle bundleWithURL:url];
+    
     NSString *path = [tmp pathForResource:fileNamePrefix ofType:@"lproj"];
     NSBundle *bundle = [NSBundle bundleWithPath:path];
     NSString *localizedString = [bundle localizedStringForKey:key value:nil table:@"Doraemon"];

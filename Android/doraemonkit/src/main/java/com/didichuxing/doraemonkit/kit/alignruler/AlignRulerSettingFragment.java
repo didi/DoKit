@@ -1,21 +1,21 @@
 package com.didichuxing.doraemonkit.kit.alignruler;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.AlignRulerConfig;
-import com.didichuxing.doraemonkit.constant.PageTag;
-import com.didichuxing.doraemonkit.ui.base.BaseFragment;
-import com.didichuxing.doraemonkit.ui.base.FloatPageManager;
-import com.didichuxing.doraemonkit.ui.base.PageIntent;
-import com.didichuxing.doraemonkit.ui.setting.SettingItem;
-import com.didichuxing.doraemonkit.ui.setting.SettingItemAdapter;
-import com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.kit.core.DokitIntent;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.SettingItem;
+import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 /**
  * Created by wanglikun on 2018/9/19.
@@ -43,22 +43,21 @@ public class AlignRulerSettingFragment extends BaseFragment {
         mSettingList = findViewById(R.id.setting_list);
         mSettingList.setLayoutManager(new LinearLayoutManager(getContext()));
         mSettingItemAdapter = new SettingItemAdapter(getContext());
-        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_align_ruler, AlignRulerConfig.isAlignRulerOpen(getContext())));
+        mSettingItemAdapter.append(new SettingItem(R.string.dk_kit_align_ruler, AlignRulerConfig.isAlignRulerOpen()));
         mSettingList.setAdapter(mSettingItemAdapter);
         mSettingItemAdapter.setOnSettingItemSwitchListener(new SettingItemAdapter.OnSettingItemSwitchListener() {
             @Override
             public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
                 if (data.desc == R.string.dk_kit_align_ruler) {
                     if (on) {
-                        PageIntent pageIntent = new PageIntent(AlignRulerMarkerFloatPage.class);
-                        pageIntent.tag = PageTag.PAGE_ALIGN_RULER_MARKER;
-                        FloatPageManager.getInstance().add(pageIntent);
-                        FloatPageManager.getInstance().add(new PageIntent(AlignRulerLineFloatPage.class));
+                        DokitIntent pageIntent = new DokitIntent(AlignRulerMarkerDokitView.class);
+                        DokitViewManager.getInstance().attach(pageIntent);
+                        DokitViewManager.getInstance().attach(new DokitIntent(AlignRulerLineDokitView.class));
                     } else {
-                        FloatPageManager.getInstance().removeAll(AlignRulerMarkerFloatPage.class);
-                        FloatPageManager.getInstance().removeAll(AlignRulerLineFloatPage.class);
+                        DokitViewManager.getInstance().detach(AlignRulerMarkerDokitView.class);
+                        DokitViewManager.getInstance().detach(AlignRulerLineDokitView.class);
                     }
-                    AlignRulerConfig.setAlignRulerOpen(getContext(), on);
+                    AlignRulerConfig.setAlignRulerOpen(on);
                 }
             }
         });

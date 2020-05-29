@@ -10,10 +10,12 @@
 @class DoraemonManager;
 @implementation UIImage (Doraemon)
 
-+ (UIImage *)doraemon_imageNamed:(NSString *)name{
-    if(name){
++ (nullable UIImage *)doraemon_imageNamed:(NSString *)name{
+    if(name &&
+       ![name isEqualToString:@""]){
         NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"DoraemonManager")];
         NSURL *url = [bundle URLForResource:@"DoraemonKit" withExtension:@"bundle"];
+        if(!url) return [UIImage new];
         NSBundle *imageBundle = [NSBundle bundleWithURL:url];
         
         NSString *imageName = nil;
@@ -39,7 +41,7 @@
 }
 
 //压缩图片尺寸 等比缩放 通过计算得到缩放系数
-- (UIImage*)doraemon_scaledToSize:(CGSize)newSize{
+- (nullable UIImage*)doraemon_scaledToSize:(CGSize)newSize{
     UIImage *sourceImage = self;
     UIImage *newImage = nil;
     CGSize imageSize = sourceImage.size;
@@ -81,13 +83,25 @@
     thumbnailRect.size.height = scaledHeight;
     [sourceImage drawInRect:thumbnailRect];
     newImage = UIGraphicsGetImageFromCurrentImageContext();
-    
-    if(newImage == nil)
-        NSLog(@"could not scale image");
-    //pop the context to get back to the default
     UIGraphicsEndImageContext();
     
     return newImage;
+}
+
++ (UIImage *)doraemon_imageWithColor:(UIColor *)color {
+    return [self doraemon_imageWithColor:color size:CGSizeMake(1, 1)];
+}
+
++ (UIImage *)doraemon_imageWithColor:(UIColor *)color size:(CGSize)size {
+    if (!color || size.width <= 0 || size.height <= 0) return [[UIImage alloc] init];
+    CGRect rect = CGRectMake(0.0f, 0.0f, size.width, size.height);
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    CGContextFillRect(context, rect);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
 }
 
 @end

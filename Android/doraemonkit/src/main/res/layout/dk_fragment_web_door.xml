@@ -6,11 +6,11 @@
     android:background="@color/dk_color_FFFFFF"
     android:orientation="vertical">
 
-    <com.didichuxing.doraemonkit.ui.widget.titlebar.HomeTitleBar
+    <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="89dp"
-        app:dkIcon="@drawable/dk_close_icon_big"
+        app:dkIcon="@mipmap/dk_close_icon_big"
         app:dkTitle="@string/dk_kit_web_door" />
 
 
@@ -38,7 +38,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginRight="@dimen/dk_dp_16"
             android:layout_marginBottom="@dimen/dk_dp_16"
-            android:src="@drawable/dk_web_door_history_qrcode" />
+            android:src="@mipmap/dk_web_door_history_qrcode" />
     </RelativeLayout>
 
     <View style="@style/DK.Divider" />
@@ -52,7 +52,7 @@
         android:enabled="false"
         android:text="@string/dk_web_door_explore" />
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -61,7 +61,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <android.support.v7.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/history_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,5 +78,5 @@
                 android:text="@string/dk_web_door_clear_history" />
 
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

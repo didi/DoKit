@@ -1,7 +1,5 @@
 package com.didichuxing.doraemonkit.config;
 
-import android.content.Context;
-
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
 import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
 
@@ -11,19 +9,19 @@ import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
 
 public class FloatIconConfig {
 
-    public static int getLastPosX(Context context) {
-        return SharedPrefsUtil.getInt(context, SharedPrefsKey.FLOAT_ICON_POS_X, 0);
+    public static int getLastPosX() {
+        return SharedPrefsUtil.getInt(SharedPrefsKey.FLOAT_ICON_POS_X, 0);
     }
 
-    public static int getLastPosY(Context context) {
-        return SharedPrefsUtil.getInt(context, SharedPrefsKey.FLOAT_ICON_POS_Y, 0);
+    public static int getLastPosY() {
+        return SharedPrefsUtil.getInt(SharedPrefsKey.FLOAT_ICON_POS_Y, 0);
     }
 
-    public static void saveLastPosY(Context context, int val) {
-        SharedPrefsUtil.putInt(context, SharedPrefsKey.FLOAT_ICON_POS_Y, val);
+    public static void saveLastPosY(int val) {
+        SharedPrefsUtil.putInt(SharedPrefsKey.FLOAT_ICON_POS_Y, val);
     }
 
-    public static void saveLastPosX(Context context, int val) {
-        SharedPrefsUtil.putInt(context, SharedPrefsKey.FLOAT_ICON_POS_X, val);
+    public static void saveLastPosX(int val) {
+        SharedPrefsUtil.putInt(SharedPrefsKey.FLOAT_ICON_POS_X, val);
     }
 }

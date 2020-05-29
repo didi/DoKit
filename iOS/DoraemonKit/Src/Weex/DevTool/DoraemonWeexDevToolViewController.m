@@ -7,12 +7,13 @@
 //
 
 #import "DoraemonWeexDevToolViewController.h"
-#import "DoraemonQRCodeTool.h"
+#import "DoraemonQRScanView.h"
+#import "DoraemonDefine.h"
 #import "WXDevTool.h"
 
-@interface DoraemonWeexDevToolViewController ()
+@interface DoraemonWeexDevToolViewController ()<DoraemonQRScanDelegate>
 
-@property (nonatomic,strong) DoraemonQRCodeTool *qrcode;
+@property (nonatomic, strong) DoraemonQRScanView *scanView;
 
 @end
 
@@ -21,16 +22,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"Weex DevTool";
-    self.bigTitleView.backgroundColor = [UIColor whiteColor];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     
-    self.qrcode = [DoraemonQRCodeTool shared];
-    __weak typeof(self) weakSelf = self;
-    [self.qrcode QRCodeDeviceInitWithVC:self WithQRCodeWidth:0 ScanResults:^(NSString *result) {
-        [weakSelf.qrcode stopScanning];
-        [weakSelf doUrl:result];
-    }];
-    [self.qrcode startScanning];
-    [self.view bringSubviewToFront:self.bigTitleView];
+    DoraemonQRScanView *scaner = [[DoraemonQRScanView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-self.bigTitleView.doraemon_bottom)];
+    scaner.delegate = self;
+    scaner.showScanLine = YES;
+    scaner.showBorderLine = YES;
+    scaner.showCornerLine = YES;
+    scaner.scanRect = CGRectMake(scaner.doraemon_width/2-kDoraemonSizeFrom750(480)/2, kDoraemonSizeFrom750(195), kDoraemonSizeFrom750(480), kDoraemonSizeFrom750(480));
+    [self.view addSubview:scaner];
+    self.scanView = scaner;
+    [scaner startScanning];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self removeScanView];
+}
+
+- (void)removeScanView{
+    if (self.scanView) {
+        [self.scanView stopScanning];
+        [self.scanView removeFromSuperview];
+        self.scanView = nil;
+    }
 }
 
 - (void)doUrl:(NSString *)URL{
@@ -62,6 +80,17 @@
 
 - (BOOL)needBigTitleView{
     return YES;
+}
+
+#pragma mark -- DoraemonQRScanDelegate
+- (void)scanView:(DoraemonQRScanView *)scanView pickUpMessage:(NSString *)message{
+    if(message.length>0){
+        [self doUrl:message];
+    }
+}
+
+- (void)scanView:(DoraemonQRScanView *)scanView aroundBrightness:(NSString *)brightnessValue{
+    
 }
 
 @end

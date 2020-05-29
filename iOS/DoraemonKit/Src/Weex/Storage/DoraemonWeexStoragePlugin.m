@@ -7,14 +7,14 @@
 //
 
 #import "DoraemonWeexStoragePlugin.h"
-#import "DoraemonUtil.h"
+#import "DoraemonHomeWindow.h"
 #import "DoraemonWeexStorageViewController.h"
 
 @implementation DoraemonWeexStoragePlugin
 
 - (void)pluginDidLoad{
     DoraemonWeexStorageViewController *vc = [[DoraemonWeexStorageViewController alloc] init];
-    [DoraemonUtil openPlugin:vc];
+    [DoraemonHomeWindow openPlugin:vc];
 }
 
 @end

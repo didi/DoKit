@@ -37,9 +37,11 @@
     <style name="DK.Text.White" parent="DK.Text">
         <item name="android:textColor">@color/dk_color_FFFFFF</item>
     </style>
+
     <style name="DK.Text.Gray" parent="DK.Text">
         <item name="android:textColor">@color/dk_color_666666</item>
     </style>
+
     <style name="DK.Text.Blue" parent="DK.Text">
         <item name="android:textColor">@color/dk_color_55A8FD</item>
     </style>
@@ -70,6 +72,7 @@
         <item name="android:textColor">@color/dk_color_333333</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="DK.TextSmall">
@@ -109,7 +112,7 @@
     </style>
 
     <style name="DK.Shadow.Bottom">
-        <item name="android:background">@drawable/dk_shadow_bottom</item>
+        <item name="android:background">@mipmap/dk_shadow_bottom</item>
     </style>
 
     <style name="DK.CheckBox">
@@ -139,6 +142,17 @@
         <item name="android:background">@drawable/dk_radio_button_background_left</item>
     </style>
 
+
+    <style name="DK.RadioButton.middle">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/dk_font_size_14</item>
+        <item name="android:textColor">@color/dk_radio_button_text_color</item>
+        <item name="android:layout_height">34dp</item>
+        <item name="android:layout_width">70dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/dk_radio_button_background_middle</item>
+    </style>
+
     <style name="DK.RadioButton.Right">
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/dk_font_size_14</item>
@@ -151,7 +165,7 @@
 
     <style name="DK.Input">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_vertical|left</item>
         <item name="android:textColor">@color/dk_color_333333</item>
         <item name="android:textColorHint">@color/dk_color_CCCCCC</item>
@@ -181,6 +195,20 @@
         <item name="android:gravity">center_vertical|left</item>
         <item name="android:background">@color/dk_color_FFFFFF</item>
     </style>
+
+    <style name="DK.CommonItemAppInfo">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:background">@color/dk_color_FFFFFF</item>
+    </style>
+
     <style name="DK.Theme.Translucent" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -192,6 +220,7 @@
         <item name="android:windowAnimationStyle">@android:style/Animation
         </item>
     </style>
+
     <style name="DK.Dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -201,4 +230,6 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackgroundFallback">@android:color/transparent</item>
     </style>
+
+
 </resources>

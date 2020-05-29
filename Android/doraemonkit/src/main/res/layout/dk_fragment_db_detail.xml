@@ -6,11 +6,11 @@
     android:background="@color/dk_color_FFFFFF"
     android:orientation="vertical">
 
-    <com.didichuxing.doraemonkit.ui.widget.titlebar.TitleBar
+    <com.didichuxing.doraemonkit.widget.titlebar.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        app:dkLeftIcon="@drawable/dk_title_back"
+        app:dkLeftIcon="@mipmap/dk_title_back"
         app:dkLeftText="@string/dk_back"
         app:dkTitle="@string/dk_kit_db_detail" />
 
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.didichuxing.doraemonkit.ui.widget.tableview.component.SmartTable
+    <com.didichuxing.doraemonkit.widget.tableview.component.SmartTable
         android:id="@+id/table"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

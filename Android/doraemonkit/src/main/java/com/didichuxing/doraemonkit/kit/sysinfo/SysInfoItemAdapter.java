@@ -6,10 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.PermissionUtils;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsRecyclerAdapter;
-import com.didichuxing.doraemonkit.ui.widget.recyclerview.AbsViewBinder;
-import com.didichuxing.doraemonkit.ui.widget.textview.LabelTextView;
+import com.didichuxing.doraemonkit.widget.recyclerview.AbsRecyclerAdapter;
+import com.didichuxing.doraemonkit.widget.recyclerview.AbsViewBinder;
+import com.didichuxing.doraemonkit.widget.textview.LabelTextView;
 
 
 /**
@@ -65,9 +66,17 @@ public class SysInfoItemAdapter extends AbsRecyclerAdapter<AbsViewBinder<SysInfo
         }
 
         @Override
-        public void bind(SysInfoItem sysInfoItem) {
+        public void bind(final SysInfoItem sysInfoItem) {
             mLabelText.setLabel(sysInfoItem.name);
             mLabelText.setText(sysInfoItem.value);
+            mLabelText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (sysInfoItem.isPermission) {
+                        PermissionUtils.launchAppDetailsSettings();
+                    }
+                }
+            });
         }
     }
 
