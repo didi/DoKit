@@ -214,6 +214,13 @@ extension H5ViewController: UITableViewDataSource, UITableViewDelegate {
         return cell!
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if self.historyArray?.count ?? 0 > indexPath.row {
+            self.h5UrlTextView.text = self.historyArray![indexPath.row]
+            self.jumpBtnClickHandle()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return kSizeFrom750_Landscape(73.0)
     }
