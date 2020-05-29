@@ -15,7 +15,11 @@ struct ViewAlignPlugin: Plugin {
     
     var icon: UIImage? { UIImage.dokitImageNamed(name: "doraemon_align") }
     
-    func didLoad() {
+    func onInstall() {
+        
+    }
+    
+    func onSelected() {
         ViewAlign.shared.show()
         HomeWindow.shared.hide()
     }

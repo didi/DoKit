@@ -21,7 +21,11 @@ struct DelSanboxPlugin: Plugin {
         return UIImage.dokitImageNamed(name: "doraemon_qingchu")
     }
     
-    func didLoad() {
+    func onInstall() {
+        
+    }
+    
+    func onSelected() {
         let vc = DelSanboxViewController()
         HomeWindow.shared.openPlugin(vc: vc)
     }
