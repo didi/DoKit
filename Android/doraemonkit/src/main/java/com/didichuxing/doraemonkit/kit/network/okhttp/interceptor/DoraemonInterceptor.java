@@ -26,6 +26,7 @@ import java.util.List;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
+import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -43,7 +44,18 @@ public class DoraemonInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         if (!NetworkManager.isActive()) {
             Request request = chain.request();
-            return chain.proceed(request);
+            try {
+                return chain.proceed(request);
+            } catch (Exception e) {
+                ResponseBody responseBody = ResponseBody.create(MediaType.parse("application/json;charset=utf-8"), "" + e.getMessage());
+                return new Response.Builder()
+                        .code(400)
+                        .message(String.format("%s==>Exception:%s", chain.request().url().host(), e.getMessage()))
+                        .request(request)
+                        .body(responseBody)
+                        .protocol(Protocol.HTTP_1_1)
+                        .build();
+            }
         }
 
         Request request = chain.request();
@@ -52,12 +64,15 @@ public class DoraemonInterceptor implements Interceptor {
         try {
             response = chain.proceed(request);
         } catch (Exception e) {
+            LogHelper.e(TAG, "e===>" + e.getMessage());
             mNetworkInterpreter.httpExchangeFailed(requestId, e.toString());
-            ResponseBody responseBody = ResponseBody.create(MediaType.parse("application/json;charset=utf-8"), "");
+            ResponseBody responseBody = ResponseBody.create(MediaType.parse("application/json;charset=utf-8"), "" + e.getMessage());
             return new Response.Builder()
                     .code(400)
                     .message(String.format("%s==>Exception:%s", chain.request().url().host(), e.getMessage()))
+                    .request(request)
                     .body(responseBody)
+                    .protocol(Protocol.HTTP_1_1)
                     .build();
         }
 
