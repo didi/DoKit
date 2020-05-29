@@ -13,7 +13,7 @@ struct ViewMetricsPlugin: Plugin {
     
     var title: String { LocalizedString("布局边框") }
     
-    var icon: UIImage? { UIImage("doraemon_viewmetrics") }
+    var icon: UIImage? { DKImage(named: "doraemon_viewmetrics") }
     
     func onInstall() {
         
