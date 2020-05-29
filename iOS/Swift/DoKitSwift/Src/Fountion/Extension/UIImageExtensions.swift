@@ -30,13 +30,10 @@ func DKImage(named name: String, of type: String = "png") -> UIImage? {
 }
 
 private let sharedResourceBundle: Bundle? = {
-    let bundle = Bundle(for: DoKit.self)
-    guard let url = bundle.url(forResource: "DoKitSwift", withExtension: "bundle"),
-        let resourceBundle = Bundle(url: url) else {
+    guard let url = Bundle(for: DoKit.self).url(forResource: "DoKitSwift", withExtension: "bundle") else {
         return nil
     }
-
-    return resourceBundle
+    return Bundle(url: url)
 }()
 
 private let sortedScaleSuffix: [String] = {
@@ -47,21 +44,17 @@ private let sortedScaleSuffix: [String] = {
     case 2.0:   suffix = ("@2x", 1)
     default:    suffix = ("", 2)
     }
-
+    
     var all: [String] = ["@3x", "@2x", ""]
-    all.remove(at: suffix.index)
-    all.insert(suffix.string, at: 0)
+    (all[suffix.index], all[0]) = (all[0], all[suffix.index])
     return all
 }()
 
 private func DKImage(from names: [String], in bundle: Bundle) -> UIImage? {
-    var result: UIImage? = nil
     for name in names {
         if let image = UIImage(named: name, in: bundle, compatibleWith: nil) {
-            result = image
-            break
+            return image
         }
     }
-
-    return result
+    return nil
 }

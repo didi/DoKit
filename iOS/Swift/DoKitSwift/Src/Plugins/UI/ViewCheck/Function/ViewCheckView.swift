@@ -46,6 +46,13 @@ class ViewCheckView: UIView {
         addSubview(borderView)
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // 超出范围 重置位置
+        guard !bounds.contains(imageView.center) else { return }
+        reset()
+    }
+    
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
         return imageView.frame.contains(point)
     }
