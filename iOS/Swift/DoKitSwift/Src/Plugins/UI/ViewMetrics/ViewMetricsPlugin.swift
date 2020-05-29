@@ -13,9 +13,12 @@ struct ViewMetricsPlugin: Plugin {
     
     var title: String { LocalizedString("布局边框") }
     
-    var icon: UIImage? { UIImage.dokitImageNamed(name: "doraemon_viewmetrics") }
+    var icon: UIImage? { UIImage("doraemon_viewmetrics") }
     
     func didLoad() {
-        
+        ViewMetrics.shared.enable.toggle()
+        HomeWindow.shared.hide()
+        // toast
+        print(ViewMetrics.shared.enable ? "布局边框已开启" : "布局边框已关闭")
     }
 }

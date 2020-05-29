@@ -13,6 +13,8 @@ class ViewCheckView: UIView {
     private lazy var imageView = UIImageView(image: UIImage("doraemon_visual"))
     private lazy var borderView = UIView()
     
+    private weak var current: UIView?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setup()
@@ -74,10 +76,18 @@ extension ViewCheckView {
         case .began, .changed:
             borderView.frame = convert(current.bounds, from: current)
             borderView.isHidden = false
+            updateInfo(current)
             
         default:
             borderView.isHidden = true
         }
+    }
+    
+    private func updateInfo(_ view: UIView) {
+        guard current != view else { return }
+        defer { current = view }
+        
+        print(view.debugInfo)
     }
 }
 
@@ -113,8 +123,40 @@ fileprivate extension UIView {
 
 fileprivate extension UIView {
     
-    var debugInfo: NSAttributedString {
-        // 待完善
-        return .init(string: "")
+    @objc
+    var debugInfo: String {
+        """
+        控件名称: \(classForCoder)
+        控件位置: 左 \(frame.minX) 上 \(frame.minY) 宽 \(frame.width) 高 \(frame.height)
+        背景颜色: \(backgroundColor?.debugInfo ?? "未知")
+        """
+    }
+}
+
+fileprivate extension UILabel {
+    
+    @objc
+    override var debugInfo: String {
+        super.debugInfo + " 字体颜色: \(textColor.debugInfo) 字体大小: \(font.pointSize)"
+    }
+}
+
+fileprivate extension UIColor {
+
+    /// Hexadecimal value string (read-only).
+    var hexString: String {
+        let components: [Int] = {
+            let comps = cgColor.components ?? [0.0, 0.0]
+            let components = comps.count == 4 ? comps : [comps[0], comps[0], comps[0], comps[1]]
+            return components.map { Int($0 * 255.0) }
+        } ()
+        return String(format: "#%02X%02X%02X", components[0], components[1], components[2])
+    }
+    
+    var debugInfo: String {
+        switch self {
+        case .clear:    return "clear"
+        default:        return  hexString
+        }
     }
 }
