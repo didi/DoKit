@@ -7,15 +7,15 @@
 
 import UIKit
 
-class DoKitDelSanboxViewController: DoKitBaseViewController, DoKitCellButtonDelegate {
+class DelSanboxViewController: BaseViewController, CellButtonDelegate {
 
-    var cellBtn: DoKitCellButton!
+    var cellBtn: CellButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setTitle(title: DoKitLocalizedString("清理缓存"))
+        self.setTitle(title: LocalizedString("清理缓存"))
         
-        cellBtn = DoKitCellButton(frame: CGRect(x: 0, y: self.bigTitleView!.bottom, width: self.view.width, height: kSizeFrom750_Landscape(104)))
-        cellBtn.renderUIWithTitle(title: DoKitLocalizedString("清理缓存"))
+        cellBtn = CellButton(frame: CGRect(x: 0, y: self.bigTitleView!.bottom, width: self.view.width, height: kSizeFrom750_Landscape(104)))
+        cellBtn.renderUIWithTitle(title: LocalizedString("清理缓存"))
         cellBtn.renderUIWithRightContent(rightContent: getHomeDirFileSize())
         cellBtn.delegate = self
         cellBtn.needDownLine()
@@ -37,8 +37,8 @@ class DoKitDelSanboxViewController: DoKitBaseViewController, DoKitCellButtonDele
     
     func cellBtnClick(){
         
-        DoKitAlertUtil.handleAlertAction(vc: self, title: DoKitLocalizedString("提示"), text: DoKitLocalizedString("确定要删除本地数据"), ok: DoKitLocalizedString("确定"), cancel: DoKitLocalizedString("取消"), okBlock: {
-            self.cellBtn.renderUIWithRightContent(rightContent: DoKitLocalizedString("正在清理中"))
+        AlertUtil.handleAlertAction(vc: self, title: LocalizedString("提示"), text: LocalizedString("确定要删除本地数据"), ok: LocalizedString("确定"), cancel: LocalizedString("取消"), okBlock: {
+            self.cellBtn.renderUIWithRightContent(rightContent: LocalizedString("正在清理中"))
             DoKitUtil.clearLocalDatas()
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now()+1) {
                 self.cellBtn.renderUIWithRightContent(rightContent: self.getHomeDirFileSize())

@@ -1,5 +1,5 @@
 //
-//  DoKitBaseBigTitleView.swift
+//  BaseBigTitleView.swift
 //  AFNetworking
 //
 //  Created by didi on 2020/5/26.
@@ -7,14 +7,14 @@
 
 import UIKit
 
-protocol DoKitBaseBigTitleViewDelegate {
+protocol BaseBigTitleViewDelegate {
     func bigTitleCloseClick()
 }
 
-class DoKitBaseBigTitleView: UIView {
+class BaseBigTitleView: UIView {
 
     let titleLabel: UILabel
-    var delegate: DoKitBaseBigTitleViewDelegate?
+    var delegate: BaseBigTitleViewDelegate?
     var title: String {
         didSet{
             titleLabel.text = title

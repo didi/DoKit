@@ -7,21 +7,15 @@
 
 import Foundation
 
-class ViewMetricsPlugin: Plugin{
-    var module: String {
-        return DoKitLocalizedString("常用工具")
-    }
+struct ViewMetricsPlugin: Plugin {
     
-    var title: String {
-        return DoKitLocalizedString("清理缓存")
-    }
+    var module: String { LocalizedString("视觉工具") }
     
-    var icon: UIImage? {
-        return UIImage.dokitImageNamed(name: "doraemon_qingchu")
-    }
+    var title: String { LocalizedString("布局边框") }
+    
+    var icon: UIImage? { UIImage.dokitImageNamed(name: "doraemon_viewmetrics") }
     
     func didLoad() {
-        let vc = DoKitDelSanboxViewController()
-        DoKitHomeWindow.shared.openPlugin(vc: vc)
+        
     }
 }

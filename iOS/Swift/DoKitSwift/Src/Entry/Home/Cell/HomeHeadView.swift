@@ -1,5 +1,5 @@
 //
-//  DoKitHomeHeadView.swift
+//  HomeHeadView.swift
 //  AFNetworking
 //
 //  Created by didi on 2020/5/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DoKitHomeHeadView: UICollectionReusableView {
+class HomeHeadView: UICollectionReusableView {
     var titleLabel: UILabel!
     var subTitleLabel: UILabel?
     override init(frame: CGRect) {
@@ -26,7 +26,7 @@ class DoKitHomeHeadView: UICollectionReusableView {
         if let subTitleLabel = subTitleLabel {
             subTitleLabel.removeFromSuperview()
         }
-        if title.count>0 && title == DoKitLocalizedString("平台工具") {
+        if title.count>0 && title == LocalizedString("平台工具") {
             self.renderUI(subTitle: "(www.dokit.cn)")
         }
         self.setNeedsLayout()
