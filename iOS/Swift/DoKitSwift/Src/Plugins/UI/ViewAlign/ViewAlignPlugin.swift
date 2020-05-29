@@ -13,7 +13,7 @@ struct ViewAlignPlugin: Plugin {
     
     var title: String { LocalizedString("对齐标尺") }
     
-    var icon: UIImage? { UIImage.dokitImageNamed(name: "doraemon_align") }
+    var icon: UIImage? { UIImage("doraemon_align") }
     
     func onInstall() {
         
