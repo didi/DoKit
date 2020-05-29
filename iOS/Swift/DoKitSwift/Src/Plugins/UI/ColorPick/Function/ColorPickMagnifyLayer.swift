@@ -8,7 +8,7 @@
 import UIKit
 
 class ColorPickMagnifyLayer: CALayer {
-    struct Const {
+    private struct Const {
         static let magnify: CGFloat = 150; // 放大镜尺寸
         static let rimThickness: CGFloat = 3.0; // 放大镜边缘的厚度
         static let gridNum = 15; // 放大镜网格的数量
@@ -23,9 +23,12 @@ class ColorPickMagnifyLayer: CALayer {
     
     private lazy var gridCirclePath: CGPath = {
         let path = CGMutablePath()
-        let size: CGFloat = Const.magnify
-        let thickness: CGFloat = Const.rimThickness
-        path.addArc(center: .init(x: 0, y: 0), radius: size / 2 - thickness / 2, startAngle: 0, endAngle: .pi * 2.0, clockwise: true)
+        path.addArc(center: .init(x: 0, y: 0),
+                    radius: Const.magnify / 2 - Const.rimThickness / 2,
+                    startAngle: 0,
+                    endAngle: .pi * 2.0,
+                    clockwise: true
+        )
         return path
     }()
         
