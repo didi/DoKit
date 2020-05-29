@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol ColorPickInfoViewDelegate: NSObjectProtocol {
-    
-}
-
 class ColorPickInfoView: UIView {
 
     private lazy var colorView: UIView = {
@@ -42,11 +38,6 @@ class ColorPickInfoView: UIView {
     }
     
     private func setup() {
-        if #available(iOS 13.0, *) {
-            backgroundColor = UIColor.dynamic(with: .white, dark: .secondarySystemGroupedBackground)
-        } else {
-            backgroundColor = .white
-        }
         layer.cornerRadius = kSizeFrom750_Landscape(8)
         layer.borderWidth = 1
         layer.borderColor = #colorLiteral(red: 0.6, green: 0.6, blue: 0.6, alpha: 0.2)
@@ -54,6 +45,12 @@ class ColorPickInfoView: UIView {
         addSubview(colorView)
         addSubview(valueLabel)
         addSubview(closeButton)
+        
+        if #available(iOS 13.0, *) {
+            backgroundColor = UIColor.dynamic(with: .white, dark: .secondarySystemGroupedBackground)
+        } else {
+            backgroundColor = .white
+        }
     }
     
     override func layoutSubviews() {
@@ -61,7 +58,7 @@ class ColorPickInfoView: UIView {
         let colorConst: CGFloat = kSizeFrom750_Landscape(28)
         colorView.frame = CGRect(
             x: kSizeFrom750_Landscape(32),
-            y: height - colorConst,
+            y: (height - colorConst) / 2,
             width: colorConst,
             height: colorConst
         )
@@ -103,9 +100,9 @@ class ColorPickInfoView: UIView {
 // MARK:- Public
 extension ColorPickInfoView {
     
-    func set(current hexValue: Int) {
-        colorView.backgroundColor = UIColor.hexColor(hexValue)
-        valueLabel.text = "#\(hexValue)"
+    func set(current color: UIColor) {
+        colorView.backgroundColor = color
+        valueLabel.text = color.hexString
     }
 }
 

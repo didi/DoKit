@@ -29,6 +29,7 @@ public class DoKit {
         addPlugin(plugin: ViewAlignPlugin())
         addPlugin(plugin: ViewCheckPlugin())
         addPlugin(plugin: ViewMetricsPlugin())
+        addPlugin(plugin: ColorPickPlugin())
     }
     
     public func addPlugin(plugin:Plugin){
