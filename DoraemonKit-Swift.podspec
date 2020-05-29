@@ -23,12 +23,13 @@ Pod::Spec.new do |s|
 
 
   s.default_subspec = 'Core'
-  
+    
   s.subspec 'Core' do |ss| 
     ss.source_files = 'iOS/Swift/DoKitSwift/Src/**/*{.swift}'
     ss.resource_bundles = {
       'DoKitSwift' => 'iOS/DoraemonKit/Resource/**/*'
     }
+    ss.dependency 'SnapKit', '~> 4.2'
   end
 end
 
