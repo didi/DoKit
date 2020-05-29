@@ -22,7 +22,11 @@ struct AppSettingPlugin: Plugin {
         return UIImage.dokitImageNamed(name: "doraemon_setting")
     }
     
-    func didLoad() {
+    func onInstall() {
+        
+    }
+    
+    func onSelected() {
         DoKitUtil.openAppSetting()
         HomeWindow.shared.hide()
     }

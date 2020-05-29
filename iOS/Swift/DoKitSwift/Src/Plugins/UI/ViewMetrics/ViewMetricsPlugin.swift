@@ -15,7 +15,11 @@ struct ViewMetricsPlugin: Plugin {
     
     var icon: UIImage? { UIImage.dokitImageNamed(name: "doraemon_viewmetrics") }
     
-    func didLoad() {
+    func onInstall() {
+        
+    }
+    
+    func onSelected() {
         
     }
 }
