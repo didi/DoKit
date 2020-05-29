@@ -20,6 +20,15 @@ extension UIImage {
         }
         self.init(contentsOfFile: path)
     }
+    
+    static func dynamic(with light: UIImage?, dark: UIImage?) -> UIImage? {
+        if #available(iOS 13.0, *), UITraitCollection.current.userInterfaceStyle == .dark {
+            return dark
+            
+        } else {
+            return light
+        }
+    }
 }
 
 fileprivate extension String {

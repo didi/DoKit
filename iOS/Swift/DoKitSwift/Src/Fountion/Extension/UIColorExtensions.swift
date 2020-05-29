@@ -63,4 +63,19 @@ extension UIColor {
         UIGraphicsEndImageContext()
         return image!
     }
+    
+    static func dynamic(with light: UIColor, dark: UIColor) -> UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor {
+                switch $0.userInterfaceStyle {
+                case .light:        return light
+                case .dark:         return dark
+                case .unspecified:  return light
+                @unknown default:   return light
+                }
+            }
+        } else {
+            return light
+        }
+    }
 }

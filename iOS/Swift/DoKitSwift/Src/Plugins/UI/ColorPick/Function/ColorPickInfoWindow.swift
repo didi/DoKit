@@ -8,31 +8,27 @@
 import UIKit
 
 class ColorPickInfoWindow: UIWindow {
+
+    static let shared = ColorPickInfoWindow(frame: ColorPickInfoWindow.rect)
     
-    private struct Const {
+    static private var rect: CGRect {
         let height: CGFloat = kSizeFrom750_Landscape(100)
         let margin: CGFloat = kSizeFrom750_Landscape(30)
-    }
-
-    static let shared = ColorPickInfoWindow(frame: ColorPickInfoWindow.getRect())
-    
-    static private func getRect() -> CGRect {
-        let const = Const()
         switch kOrientationPortrait {
         case true:
             return CGRect(
-                x: const.margin,
-                y: kScreenHeight - const.height - const.margin - kIphoneSafeBottomAreaHeight,
-                width: kScreenWidth - 2 * const.margin,
-                height: const.height
+                x: margin,
+                y: kScreenHeight - height - margin - kIphoneSafeBottomAreaHeight,
+                width: kScreenWidth - 2 * margin,
+                height: height
             )
             
         case false:
             return CGRect(
-                x: const.margin,
-                y: kScreenHeight - const.height - const.margin - kIphoneSafeBottomAreaHeight,
-                width: kScreenHeight - 2 * const.margin,
-                height: const.height
+                x: margin,
+                y: kScreenHeight - height - margin - kIphoneSafeBottomAreaHeight,
+                width: kScreenHeight - 2 * margin,
+                height: height
             )
         }
     }
