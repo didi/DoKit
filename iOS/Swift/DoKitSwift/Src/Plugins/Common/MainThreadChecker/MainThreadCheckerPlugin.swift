@@ -58,6 +58,11 @@ extension UIView {
     func checkUI(){
         if !Thread.isMainThread{
             print("\(self)触发了子线程渲染")
+            print(backTraceMainThread().joined(separator: "\n"))
+            print("\n\n\n======================\n\n\n")
+            print(backTraceCurrentThread().joined(separator: "\n"))
+            print("\n\n\n======================\n\n\n")
+            print(backTraceAllThread())
         }
     }
 }
