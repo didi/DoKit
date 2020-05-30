@@ -38,8 +38,12 @@ class BaseViewController: UIViewController, BaseBigTitleViewDelegate {
         }
     }
     
-    func needBigTitleView() -> Bool{
-        return false
+    func needBigTitleView() -> Bool {
+        if #available(iOS 13.0, *) {
+            return true
+        } else {
+            return false
+        }
     }
     
     func setTitle(title: String) {

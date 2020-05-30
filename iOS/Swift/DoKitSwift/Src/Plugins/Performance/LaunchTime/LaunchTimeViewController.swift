@@ -25,8 +25,4 @@ class LaunchTimeViewController: BaseViewController {
         cellBtn.needDownLine()
         view.addSubview(cellBtn)
     }
-
-    override func needBigTitleView() -> Bool {
-        return true
-    }
 }
