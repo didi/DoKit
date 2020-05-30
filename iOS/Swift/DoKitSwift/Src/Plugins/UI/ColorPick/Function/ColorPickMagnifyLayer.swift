@@ -84,6 +84,7 @@ class ColorPickMagnifyLayer: CALayer {
     }
 }
 
+// MARK:- Private
 extension ColorPickMagnifyLayer {
     
     private func makeMagnifyImage() -> UIImage? {

@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+enum CrashTool {
+    
+    static func save(crash log: String, file name: String) {
+        
+    }
+    
+    static func directory() -> String {
+        return ""
+    }
+}
