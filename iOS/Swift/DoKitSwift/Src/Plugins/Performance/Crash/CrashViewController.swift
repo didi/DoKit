@@ -38,6 +38,10 @@ class CrashViewController: BaseViewController {
         view.addSubview(tableView)
     }
     
+    override func needBigTitleView() -> Bool {
+        return false
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds

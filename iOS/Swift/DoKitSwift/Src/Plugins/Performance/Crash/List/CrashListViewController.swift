@@ -32,6 +32,10 @@ class CrashListViewController: BaseViewController {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
+    
+    override func needBigTitleView() -> Bool {
+        return false
+    }
 }
 
 // MARK:- UITableViewDataSource & UITableViewDelegate
