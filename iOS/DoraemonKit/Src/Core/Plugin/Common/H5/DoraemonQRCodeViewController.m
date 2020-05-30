@@ -33,7 +33,7 @@
 #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
     }
 #endif
-    self.title = @"QR Scanning";
+    self.title = DoraemonLocalizedString(@"扫描二维码");
     
 }
 
