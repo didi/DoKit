@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   s.default_subspec = 'Core'
   
   s.subspec 'Core' do |ss| 
-    ss.source_files = 'iOS/Swift/DoKitSwift/Src/**/*{.swift}'
+    ss.source_files = 'iOS/Swift/DoKitSwift/Src/**/*.{h,m,swift}'
     ss.resource_bundles = {
       'DoKitSwift' => 'iOS/DoraemonKit/Resource/**/*'
     }

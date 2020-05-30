@@ -22,10 +22,6 @@ class MainThreadCheckerViewController: BaseViewController, CellButtonDelegate {
         view.addSubview(cellBtn)
     }
     
-    override func needBigTitleView() -> Bool {
-        return true
-    }
-    
     func cellBtnClick() {
         
     }

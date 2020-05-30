@@ -6,6 +6,8 @@
 //  Copyright © 2020 didi. All rights reserved.
 //
 
+import UIKit
+
 public class DoKit {
     public static let shared = DoKit()
     public var isShowDoKit: Bool {
@@ -32,6 +34,9 @@ public class DoKit {
         addPlugin(plugin: ViewCheckPlugin())
         addPlugin(plugin: ViewMetricsPlugin())
         addPlugin(plugin: ColorPickPlugin())
+
+        // 性能检测
+        addPlugin(plugin: LaunchTimePlugin())
     }
     
     public func addPlugin(plugin:Plugin){
