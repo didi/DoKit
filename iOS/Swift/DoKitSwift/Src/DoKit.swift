@@ -23,6 +23,7 @@ public class DoKit {
     }
     
     public func install() {
+        addPlugin(plugin: CrashPlugin())
         addPlugin(plugin: AppSettingPlugin())
         addPlugin(plugin: DelSanboxPlugin())
         addPlugin(plugin: H5Plugin())

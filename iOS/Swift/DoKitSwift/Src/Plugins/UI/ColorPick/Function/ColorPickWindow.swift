@@ -25,10 +25,9 @@ class ColorPickWindow: UIWindow {
             return self.screenShotImage?.toColor(point: potin) ?? .blue
         }
         return $0
-    }(ColorPickMagnifyLayer())
+    }( ColorPickMagnifyLayer() )
     
     private var screenShotImage: UIImage?
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,17 +52,16 @@ class ColorPickWindow: UIWindow {
         if rootViewController == nil {
             rootViewController = UIViewController()
         }
-        
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(panAction))
-        addGestureRecognizer(pan)
+        addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(panAction)))
         
         layer.addSublayer(magnifyLayer)
         
         NotificationCenter.default.addObserver(
-        self,
-        selector: #selector(closePluginNotification),
-        name: .closePluginNotification,
-        object: nil)
+            self,
+            selector: #selector(closePluginNotification),
+            name: .closePluginNotification,
+            object: nil
+        )
     }
 }
 
@@ -105,9 +103,6 @@ extension ColorPickWindow {
         let centerPoint = CGPoint(x: x, y: y)
         view.center = centerPoint
         magnifyLayer.targetPoint = centerPoint
-        // update positions
-        //    self.magnifyLayer.position = centerPoint;
-        
         // Make magnifyLayer sharp on screen
         let magnifyFrame = magnifyLayer.frame
         magnifyLayer.frame.origin = CGPoint(x: magnifyFrame.origin.x.rounded(), y: magnifyFrame.origin.y.rounded())
@@ -150,18 +145,16 @@ extension UIImage {
         }
         // Create a 1x1 pixel byte array and bitmap context to draw the pixel into.
         // Reference: http://stackoverflow.com/questions/1042830/retrieving-a-pixel-alpha-value-for-a-uiimage
-        let pointX: CGFloat = trunc(point.x)
-        let pointY: CGFloat = trunc(point.y)
-        let width = inputCGImage.width
-        let height = inputCGImage.height
+        let width = CGFloat(inputCGImage.width)
+        let height = CGFloat(inputCGImage.height)
         
         var pixel = [UInt8](repeatElement(0, count: 4))
         let colorSpace = CGColorSpaceCreateDeviceRGB()
-//        let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue
         let bitmapInfo = CGImageAlphaInfo.premultipliedLast.rawValue | CGBitmapInfo.byteOrder32Big.rawValue
         
         guard let context = CGContext(
-            data: &pixel,width: 1,
+            data: &pixel,
+            width: 1,
             height: 1,
             bitsPerComponent: 8,
             bytesPerRow: 4,
@@ -170,8 +163,8 @@ extension UIImage {
             return .clear
         }
         context.setBlendMode(.copy)
-        context.translateBy(x: -pointX, y: pointY - CGFloat(height))
-        context.draw(inputCGImage, in: CGRect(x: 0, y: 0, width: CGFloat(width), height: CGFloat(height)))
+        context.translateBy(x: -trunc(point.x), y: trunc(point.y) - height)
+        context.draw(inputCGImage, in: CGRect(x: 0, y: 0, width: width, height: height))
         
         let r = pixel[0]
         let g = pixel[1]
