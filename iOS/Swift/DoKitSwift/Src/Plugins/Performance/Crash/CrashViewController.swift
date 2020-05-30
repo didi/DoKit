@@ -80,7 +80,7 @@ extension CrashViewController: UITableViewDelegate {
             showAlert(
                 title: LocalizedString("提示"),
                 message: LocalizedString("确认删除所有崩溃日志吗？"),
-                buttonTitles: ["取消", "确定"]
+                buttonTitles: [LocalizedString("取消"), LocalizedString("确定")]
             ) { index in
                 switch index {
                 case 1:
@@ -103,7 +103,7 @@ extension CrashViewController: CrashListCellDelegate {
         showAlert(
             title: LocalizedString("提示"),
             message: LocalizedString("该功能需要重启App才能生效"),
-            buttonTitles: ["取消", "确定"]
+            buttonTitles: [LocalizedString("取消"), LocalizedString("确定")]
         ) { index in
             switch index {
             case 1:
