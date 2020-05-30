@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import DoraemonKit
+import DoraemonKit_Swift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,9 +15,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        DoKit.shared.addPlugin(title: "环境切换", icon: "doraemon_default", plugin: "TestPlugin",module: "业务工具")
+        DoKit.shared.addPlugin(module: "业务工具", title: "环境切换", icon: UIImage.init(named: "emoji"), onInstall: {
+            print("启动了环境切换插件")
+        }) {
+            print("点击环境切换插件")
+        }
+        
+//        DoKit.shared.addH5DoorBlock { h5Url in
+//            print("使用自带容器打开H5链接: \(h5Url)")
+//        }
+        
         DoKit.shared.install()
-
+        
+         
         self.window?.frame = UIScreen.main.bounds;
         let homeVc = DoraemonDemoHomeViewController()
         let nav = UINavigationController(rootViewController: homeVc)

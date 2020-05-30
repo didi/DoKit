@@ -40,7 +40,7 @@
 		0AE102A524693DAB006CA490 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A324693DAB006CA490 /* Main.storyboard */; };
 		0AE102A724693DAD006CA490 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A624693DAD006CA490 /* Assets.xcassets */; };
 		0AE102AA24693DAD006CA490 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A824693DAD006CA490 /* LaunchScreen.storyboard */; };
-		DB2B059C3CCF6E7DB1873738 /* Pods_DoKitSwiftDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7739F27405C3590224A6DCE /* Pods_DoKitSwiftDemo.framework */; };
+		9641FD53E5188CC12138F10E /* Pods_DoKitSwiftDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8F32BE7A7700406D9B7F48 /* Pods_DoKitSwiftDemo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,7 +85,7 @@
 		0AE102A924693DAD006CA490 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0AE102AB24693DAD006CA490 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AFC6EE9B77134AC5569E638 /* Pods-DoKitSwiftDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoKitSwiftDemo.debug.xcconfig"; path = "Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		B7739F27405C3590224A6DCE /* Pods_DoKitSwiftDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoKitSwiftDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D8F32BE7A7700406D9B7F48 /* Pods_DoKitSwiftDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoKitSwiftDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA80ADA0C49F110A66409112 /* Pods-DoKitSwiftDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoKitSwiftDemo.release.xcconfig"; path = "Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,7 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB2B059C3CCF6E7DB1873738 /* Pods_DoKitSwiftDemo.framework in Frameworks */,
+				9641FD53E5188CC12138F10E /* Pods_DoKitSwiftDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,7 +285,7 @@
 		9084201A2BFB765675DE6B6F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B7739F27405C3590224A6DCE /* Pods_DoKitSwiftDemo.framework */,
+				3D8F32BE7A7700406D9B7F48 /* Pods_DoKitSwiftDemo.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -310,7 +310,7 @@
 				0AE1029624693DAB006CA490 /* Sources */,
 				0AE1029724693DAB006CA490 /* Frameworks */,
 				0AE1029824693DAB006CA490 /* Resources */,
-				69356E1B92816D4FCAB695A6 /* [CP] Embed Pods Frameworks */,
+				4A98AA4F075F2137F3DF701C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -377,7 +377,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		69356E1B92816D4FCAB695A6 /* [CP] Embed Pods Frameworks */ = {
+		4A98AA4F075F2137F3DF701C /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -533,7 +533,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -588,7 +588,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -605,8 +605,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2M632FEG3H;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DoKitSwiftDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -627,8 +628,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 2M632FEG3H;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DoKitSwiftDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -14,24 +14,26 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
-  - DoraemonKit/Swift (3.0.2)
+  - DoraemonKit-Swift (0.0.1):
+    - DoraemonKit-Swift/Core (= 0.0.1)
+  - DoraemonKit-Swift/Core (0.0.1)
 
 DEPENDENCIES:
   - AFNetworking
-  - DoraemonKit/Swift (from `../../../`)
+  - DoraemonKit-Swift (from `../../../`)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AFNetworking
 
 EXTERNAL SOURCES:
-  DoraemonKit:
+  DoraemonKit-Swift:
     :path: "../../../"
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
-  DoraemonKit: b41986c8e8112720253fceaf20fdc77e4e228cc3
+  DoraemonKit-Swift: 807f02733ff1ab45c6b37b9380122f3ed04e7d87
 
-PODFILE CHECKSUM: 9cc98cb1d623c9b762c84084f7f6bf4a450dccc9
+PODFILE CHECKSUM: 9e64b860476ec1c40ced29dec7bc70177f50ece3
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.9.3
