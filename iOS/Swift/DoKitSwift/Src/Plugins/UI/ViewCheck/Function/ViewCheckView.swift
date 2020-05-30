@@ -10,7 +10,7 @@ import UIKit
 class ViewCheckView: UIView {
     
     private let color = #colorLiteral(red: 1, green: 0, blue: 0, alpha: 1)
-    private lazy var imageView = UIImageView(image: UIImage("doraemon_visual"))
+    private lazy var imageView = UIImageView(image: DKImage(named: "doraemon_visual"))
     private lazy var borderView = UIView()
     
     private weak var current: UIView?
@@ -44,6 +44,13 @@ class ViewCheckView: UIView {
         borderView.layer.borderColor = color.cgColor
         borderView.layer.borderWidth = 2
         addSubview(borderView)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // 超出范围 重置位置
+        guard !bounds.contains(imageView.center) else { return }
+        reset()
     }
     
     override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {

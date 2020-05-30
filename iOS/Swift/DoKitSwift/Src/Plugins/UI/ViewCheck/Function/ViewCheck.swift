@@ -50,6 +50,7 @@ extension ViewCheck {
         } else {
             let view = ViewCheckView()
             view.frame = window.bounds
+            view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             window.addSubview(view)
             view.reset()
             self.view = view

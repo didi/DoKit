@@ -19,7 +19,7 @@ class BaseViewController: UIViewController, BaseBigTitleViewDelegate {
             bigTitleView!.delegate = self
             view.addSubview(bigTitleView!)
         }else{
-            let image = UIImage.dokitImageNamed(name: "doraemon_back")
+            let image = DKImage(named: "doraemon_back")
             let leftModel = NavBarItemModel(icon: image, iconSelector: #selector(leftNavBackClick))
             self.setLeftNavBarItems(items: [leftModel])
         }
@@ -38,8 +38,12 @@ class BaseViewController: UIViewController, BaseBigTitleViewDelegate {
         }
     }
     
-    func needBigTitleView() -> Bool{
-        return false
+    func needBigTitleView() -> Bool {
+        if #available(iOS 13.0, *) {
+            return true
+        } else {
+            return false
+        }
     }
     
     func setTitle(title: String) {

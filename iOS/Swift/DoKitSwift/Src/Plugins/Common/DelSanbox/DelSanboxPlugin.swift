@@ -18,7 +18,7 @@ struct DelSanboxPlugin: Plugin {
     }
     
     var icon: UIImage? {
-        return UIImage.dokitImageNamed(name: "doraemon_qingchu")
+        return DKImage(named: "doraemon_qingchu")
     }
     
     func onInstall() {

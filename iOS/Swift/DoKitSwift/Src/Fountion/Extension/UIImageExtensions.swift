@@ -5,82 +5,56 @@
 //  Created by Lee on 2020/5/28.
 //
 
-import Foundation
+import UIKit
 
-extension UIImage {
-    
-    convenience init?(_ named: String, of type: String = "png") {
-        guard
-            let url = Bundle(for: DoKit.self).url(forResource: "DoKitSwift", withExtension: "bundle"),
-            let bundle = Bundle(url: url) else {
-            return nil
-        }
-        guard let path = bundle.path(forResource: named.format(), ofType: type) else {
-            return nil
-        }
-        self.init(contentsOfFile: path)
-    }
-    
-    static func dynamic(with light: UIImage?, dark: UIImage?) -> UIImage? {
-        if #available(iOS 13.0, *), UITraitCollection.current.userInterfaceStyle == .dark {
-            return dark
-            
-        } else {
-            return light
-        }
-    }
-}
-
-fileprivate extension String {
-    
-    func format(_ scale: CGFloat = UIScreen.main.scale) -> String {
-        switch scale {
-        case 2.0:   return "\(self)@2x"
-        case 3.0:   return "\(self)@3x"
-        default:    return self
-        }
-    }
-}
-
-#warning("老版本 待替换")
-extension UIImage {
-    
-    static func dokitImageNamed(name: String) -> UIImage? {
-        let bundle = Bundle(for: DoKit.self)
-        let url = bundle.url(forResource: "DoKitSwift", withExtension: "bundle")
-        if url == nil {
-            return nil
-        }
-        let imageBundle = Bundle(url: url!)
-        var imageName = name
-        let scale = UIScreen.main.scale
-        if abs(scale-3) <= 0.001{
-            imageName = "\(name)@3x"
-        }else if abs(scale-2) <= 0.001{
-            imageName = "\(name)@2x"
-        }
-        var filePath = imageBundle?.path(forResource: imageName, ofType: "png")
-        if let path = filePath {
-            var image = UIImage(contentsOfFile: path)
-            if image == nil {
-                filePath = imageBundle?.path(forResource: name, ofType: "png")
-                if let path = filePath {
-                    image = UIImage(contentsOfFile: path)
-                    if image == nil {
-                        image = UIImage(named: name)
-                        if image == nil {
-                            return nil
-                        }else{
-                            return image
-                        }
-                    }else{
-                        return image
-                    }
-                }
-            }else{
-                return image
-            }
-        }
+func DKImage(named name: String, of type: String = "png") -> UIImage? {
+    guard let bundle = sharedResourceBundle else {
         return nil
     }
+
+    let onDarkMode: Bool
+    if #available(iOS 13.0, *), UITraitCollection.current.userInterfaceStyle == .dark {
+        onDarkMode = true
+    } else {
+        onDarkMode = false
+    }
+
+    let light = sortedScaleSuffix.map { return "\(name)\($0).\(type)" }
+    let dark = sortedScaleSuffix.map { return "\(name)_dark\($0).\(type)" }
+
+    if onDarkMode, let darkImage = DKImage(from: dark, in: bundle) {
+        return darkImage
+    } else {
+        return DKImage(from: light, in: bundle)
+    }
+}
+
+private let sharedResourceBundle: Bundle? = {
+    guard let url = Bundle(for: DoKit.self).url(forResource: "DoKitSwift", withExtension: "bundle") else {
+        return nil
+    }
+    return Bundle(url: url)
+}()
+
+private let sortedScaleSuffix: [String] = {
+    let suffix: (string: String, index: Int)
+    let scale = UIScreen.main.scale
+    switch scale {
+    case 3.0:   suffix = ("@3x", 0)
+    case 2.0:   suffix = ("@2x", 1)
+    default:    suffix = ("", 2)
+    }
+    
+    var all: [String] = ["@3x", "@2x", ""]
+    (all[suffix.index], all[0]) = (all[0], all[suffix.index])
+    return all
+}()
+
+private func DKImage(from names: [String], in bundle: Bundle) -> UIImage? {
+    for name in names {
+        if let image = UIImage(named: name, in: bundle, compatibleWith: nil) {
+            return image
+        }
+    }
+    return nil
 }

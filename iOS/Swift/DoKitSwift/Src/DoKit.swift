@@ -6,6 +6,8 @@
 //  Copyright © 2020 didi. All rights reserved.
 //
 
+import UIKit
+
 public class DoKit {
     public static let shared = DoKit()
     public var isShowDoKit: Bool {
@@ -23,12 +25,18 @@ public class DoKit {
     }
     
     public func install() {
+        addPlugin(plugin: CrashPlugin())
         addPlugin(plugin: AppSettingPlugin())
         addPlugin(plugin: DelSanboxPlugin())
+        addPlugin(plugin: H5Plugin())
         addPlugin(plugin: MainThreadCheckerPlugin())
         addPlugin(plugin: ViewAlignPlugin())
         addPlugin(plugin: ViewCheckPlugin())
         addPlugin(plugin: ViewMetricsPlugin())
+        addPlugin(plugin: ColorPickPlugin())
+
+        // 性能检测
+        addPlugin(plugin: LaunchTimePlugin())
     }
     
     public func addPlugin(plugin:Plugin){
@@ -58,4 +66,8 @@ public class DoKit {
         }
     }
 
+    public var H5DoorBlock: ((_ h5Url: String) -> Void)?
+    public func addH5DoorBlock(blcok: @escaping (_ h5Url: String) -> Void) {
+        H5DoorBlock = blcok
+    }
 }

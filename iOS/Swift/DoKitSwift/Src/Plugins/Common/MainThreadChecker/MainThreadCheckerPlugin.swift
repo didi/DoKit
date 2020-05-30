@@ -13,7 +13,9 @@ struct MainThreadCheckerPlugin: Plugin {
     
     var title: String { LocalizedString("子线程UI") }
     
-    var icon: UIImage? { UIImage.dokitImageNamed(name: "doraemon_ui") }
+    var icon: UIImage? {
+        return DKImage(named: "doraemon_ui")
+    }
     
     func onInstall() {
         if MainThreadCheckerPlugin.mainThreadChecker {
