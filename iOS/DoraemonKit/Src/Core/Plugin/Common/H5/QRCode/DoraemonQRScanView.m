@@ -284,6 +284,10 @@ static NSString *const scanLineAnimationName = @"scanLineAnimation";
     if (metadataObjects.count == 0) {
         return;
     }
+    
+    // 停止扫描
+    [self stopScanning];
+    
     NSString *result = [metadataObjects.firstObject stringValue];
     if ([self.delegate respondsToSelector:@selector(scanView:pickUpMessage:)]) {
         [self.delegate scanView:self pickUpMessage:result];
