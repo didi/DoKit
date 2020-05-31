@@ -8,6 +8,12 @@
 import Foundation
 
 public func backTrace(thread: Thread)->[String]{
+    if thread.isMainThread{
+        return backTraceMainThread()
+    }
+    if Thread.current == thread {
+        return backTraceCurrentThread()
+    }
     let mach = machThread(from: thread)
     return backTrace(t: mach)
 }
