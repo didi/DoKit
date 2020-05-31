@@ -218,8 +218,9 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         //更新所有全局DokitView的位置
         if (mGlobalSingleDokitViews != null && mGlobalSingleDokitViews.size() > 0) {
             for (GlobalSingleDokitViewInfo globalSingleDokitViewInfo : mGlobalSingleDokitViews.values()) {
+                //如果不是性能kitView 则需要重新更新位置
                 if (activity instanceof UniversalActivity && globalSingleDokitViewInfo.getAbsDokitViewClass() != PerformanceDokitView.class) {
-                    return;
+                    continue;
                 }
                 //是否过滤掉 入口icon
                 if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && globalSingleDokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
