@@ -17,7 +17,7 @@
         <view class="table-title"><view class="key-title">Key</view><view class="value-title">Value</view></view>
         <checkbox-group bindchange="checkboxChange" class="storage-content-box">
             <view class="storage-item" wx:for="{{storage}}" wx:key="key">
-                <checkbox wx:if="{{isDeleteMode}}" class="storage-check" value="{{item.key}}" checked="{{item.checked}}" color="#fff"/>
+                <checkbox wx:if="{{isDeleteMode}}" class="storage-check" value="{{item.key}}" checked="{{item.checked}}" color="#337cc4"/>
                 <text class="storage-key {{isDeleteMode?'':'add-some-flex'}}">{{item.key}}</text>
                 <text class="storage-value" title="{{item.value}}">{{item.value}}</text>
                 <view class="clear-single-btn" type="primary" data-key="{{item.key}}" data-value="{{item.value}}" bindtap="modifyItemValue">

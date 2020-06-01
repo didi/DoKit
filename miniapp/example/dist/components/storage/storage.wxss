@@ -2,7 +2,7 @@
   background-color: #fff;
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   box-sizing: border-box;
   padding: 32rpx;
   left: 0;

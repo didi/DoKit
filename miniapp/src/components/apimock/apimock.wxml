@@ -5,7 +5,7 @@
   </view>
   <view class="list-wrap">
     <scroll-view class='list-scroll' scroll-y style="height: 100%">
-      <view wx:if="{{ curNav == 'mock'}}" class="mock-list">
+      <view hidden="{{curNav !== 'mock'}}" class="mock-list">
         <view wx:for="{{ mockList }}" wx:key="index">
           <view class="item-wrap">
             <view class="list-item" data-index="{{ index }}" data-type="mock" catchtap="onExpand">
@@ -40,7 +40,7 @@
           </view>
         </view>
       </view>
-      <view wx:if="{{ curNav == 'tpl'}}" class="tpl-list">
+      <view hidden="{{curNav !== 'tpl'}}" class="tpl-list">
         <view wx:for="{{ tplList }}" wx:key="index">
           <view class="item-wrap">
             <view class="list-item" data-index="{{ index }}" data-type="tpl" catchtap="onExpand">

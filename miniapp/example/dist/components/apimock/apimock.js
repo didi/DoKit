@@ -31,6 +31,7 @@ Component({
       },
       detached () {
         wx.setStorageSync('dokit-mocklist', this.data.mockList)
+        wx.setStorageSync('dokit-tpllist', this.data.tplList)
       }
     },
     methods: {
@@ -194,8 +195,8 @@ Component({
         addRequestHooks () {
             Object.defineProperty(wx,  "request" , { writable:  true });
             console.group('addRequestHooks success')
-            const matchUrlRequest = this.matchUrlRequest
-            const matchUrlTpl = this.matchUrlTpl
+            const matchUrlRequest = this.matchUrlRequest.bind(this)
+            const matchUrlTpl = this.matchUrlTpl.bind(this)
             wx.request = function (options) {
                 const opt = util.deepClone(options)
                 const originSuccessFn = options.success
@@ -206,8 +207,7 @@ Component({
                     console.warn('被拦截了~')
                 }
                 options.success = function (res) {
-                    originSuccessFn(res)
-                    matchUrlTpl(opt, res)
+                    originSuccessFn(matchUrlTpl(opt, res))
                 }
                 app.originRequest(options)
             }
@@ -245,7 +245,7 @@ Component({
         },
         matchUrlTpl (options, res) {
             let curTplItem,that = this
-            if (!that.data.tplList.length) { return false }
+            if (!that.data.tplList.length) { return res }
             for (let i=0,len=that.data.tplList.length;i<len;i++) {
                 curTplItem = that.data.tplList[i]
                 if (that.requestIsmatch(options, curTplItem) && curTplItem.checked && res.statusCode == 200) {
@@ -253,6 +253,7 @@ Component({
                 }
             }
             wx.setStorageSync('dokit-tpllist', that.data.tplList)
+            return res
         },
         uploadTplData () {
     

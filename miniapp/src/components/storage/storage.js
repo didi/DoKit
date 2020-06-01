@@ -20,21 +20,24 @@ Component({
     lifetimes: {
       created () { },
       attached () {
-        this.setData({
-            addInfo:{
-                key:'',
-                value:'',
-                title:'添加',
-                disabled:false
-            }
-        })
-        this.getStorageInfo()
+        this.componentInit()
       },
       detached () {
         console.log('detached')
       }
     },
     methods: {
+        componentInit () {
+            this.setData({
+                addInfo:{
+                    key:'',
+                    value:'',
+                    title:'添加',
+                    disabled:false
+                }
+            })
+            this.getStorageInfo()
+        },
         openDeleteMode(){
             this.setData({
                 isDeleteMode:true
@@ -73,6 +76,7 @@ Component({
                 }
                 storageArr.push(info)
             });
+            storageArr = storageArr.filter(item => ["dokit-mocklist", "dokit-tpllist"].indexOf(item.key) == -1)
             this.setData({storage:storageArr})
         },
         closeAddPopup(){
@@ -103,7 +107,7 @@ Component({
                         this.data.checkedStorage.forEach((item)=>{
                             wx.removeStorageSync(item)
                         })
-                        this.onLoad()
+                        this.componentInit()
                     }
                 }
             })
@@ -117,8 +121,13 @@ Component({
                 content: '确定要清除所有吗？',
                 success:res => {
                     if (res.confirm) {
-                        wx.clearStorageSync()
-                        this.onLoad()
+                        let storageInfo = wx.getStorageInfoSync()
+                        storageInfo.keys.forEach(key => {
+                            if (["dokit-mocklist", "dokit-tpllist"].indexOf(key) == -1) {
+                                wx.removeStorageSync(key)
+                            }
+                        });
+                        this.componentInit()
                     }
                     this.closeAll()
                 }
@@ -148,7 +157,7 @@ Component({
         addStorage(){
             if(this.data.addInfo.key&&this.data.addInfo.value){
                 wx.setStorageSync(this.data.addInfo.key, this.data.addInfo.value)
-                this.onLoad()
+                this.componentInit()
             }
             this.closeAll()
         },
