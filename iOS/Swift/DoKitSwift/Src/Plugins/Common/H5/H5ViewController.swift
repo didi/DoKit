@@ -81,10 +81,9 @@ class H5ViewController: BaseViewController {
         
         if DoKit.shared.H5DoorBlock != nil {
             self.leftNavBackClick()
-            DoKit.shared.H5DoorBlock!(h5Url ?? "")
+            DoKit.shared.H5DoorBlock!(h5Url!)
         } else {
-            let vc = DefaultWebViewController()
-            vc.url = urlCorrectionWithURL(URL: h5Url ?? "")
+            let vc = DefaultWebViewController(url: urlCorrectionWithURL(URL: h5Url!))
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
