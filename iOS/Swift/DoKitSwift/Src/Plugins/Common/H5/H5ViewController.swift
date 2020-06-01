@@ -17,7 +17,11 @@ class H5ViewController: BaseViewController {
     var scanJumpBtn: UIButton!
     var historyTableView: UITableView!
     
-    var historyArray: [String]?
+    var historyArray: [String]? {
+        didSet {
+            self.historyTableView.reloadData()
+        }
+    }
     
     // MARK: - Life Cycle Methods
     override func viewDidLoad() {
@@ -35,7 +39,6 @@ class H5ViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.historyArray = CacheManager.shared.h5historicalRecord
-        self.historyTableView.reloadData()
     }
     
     deinit {
@@ -66,37 +69,39 @@ class H5ViewController: BaseViewController {
     }
     
     @objc func jumpBtnClickHandle() -> Void {
-        if h5UrlTextView.text.isBlack {
+        guard let h5Url = h5UrlTextView.text else {
+            return
+        }
+        
+        if h5Url.isBlack {
             ToastUtil.showToastBlack(LocalizedString("链接不能为空"), superView: self.view)
             return
         }
         
-        if NSURL(string: h5UrlTextView.text) == nil {
-            ToastUtil.showToastBlack(LocalizedString("H5链接有误"), superView: self.view)
+        CacheManager.shared.saveH5historicalRecord(text: h5Url)
+        
+        guard let H5DoorBlock = DoKit.shared.H5DoorBlock else {
+            if (URL.init(string: h5Url) == nil) {
+                ToastUtil.showToastBlack(LocalizedString("H5链接有误"), superView: self.view)
+                return
+            }
+
+            let vc = DefaultWebViewController(url: urlCorrectionWithURL(URL: h5Url))
+            self.navigationController?.pushViewController(vc, animated: true)
             return
         }
         
-        let h5Url = h5UrlTextView.text
-        CacheManager.shared.saveH5historicalRecord(text: h5Url)
-        
-        if DoKit.shared.H5DoorBlock != nil {
-            self.leftNavBackClick()
-            DoKit.shared.H5DoorBlock!(h5Url ?? "")
-        } else {
-            let vc = DefaultWebViewController()
-            vc.url = urlCorrectionWithURL(URL: h5Url ?? "")
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+        self.leftNavBackClick()
+        H5DoorBlock(h5Url)
     }
     
     @objc func clearRecordBtnClickHandle(sender: UIButton) -> Void {
         CacheManager.shared.clearAllH5historicalRecord()
         self.historyArray = CacheManager.shared.h5historicalRecord
-        self.historyTableView.reloadData()
     }
     
     // MARK: - Private Methods
-    func urlCorrectionWithURL(URL: String) -> String {
+    private func urlCorrectionWithURL(URL: String) -> String {
         if URL.isBlack {
             return URL
         }
@@ -203,11 +208,8 @@ extension H5ViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: Identifier)
-        if cell == nil {
-            cell = UITableViewCell(style: .default, reuseIdentifier: Identifier)
-        }
-        cell?.textLabel?.text =  historyArray?[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: Identifier)
+        cell?.textLabel?.text = self.historyArray?[indexPath.row]
         cell?.textLabel?.textColor = UIColor.init(0x333333, alphaValue: 1.0)
         cell?.textLabel?.font = UIFont.systemFont(ofSize: kSizeFrom750_Landscape(30.0))
         cell?.imageView?.image = DKImage(named: "doraemon_search")
@@ -249,6 +251,5 @@ extension H5ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         CacheManager.shared.clearH5historicalRecord(text: self.historyArray![indexPath.row])
         self.historyArray = CacheManager.shared.h5historicalRecord
-        self.historyTableView.reloadData()
     }
 }
