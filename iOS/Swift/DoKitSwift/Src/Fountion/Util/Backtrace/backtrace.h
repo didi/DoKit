@@ -10,6 +10,6 @@
 
 #include <mach/mach.h>
 
-int dokit_backtrace(thread_t thread, void** stack, int maxSymbols);
+int df_backtrace(thread_t thread, void** stack, int maxSymbols);
 
 #endif /* backtrace_h */
