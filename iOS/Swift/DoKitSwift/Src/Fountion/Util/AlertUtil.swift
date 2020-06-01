@@ -1,6 +1,6 @@
 //
 //  DoKitAlertUtil.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by didi on 2020/5/26.
 //
