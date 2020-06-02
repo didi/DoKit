@@ -33,9 +33,7 @@ class ColorPickInfoWindow: UIWindow {
         
         backgroundColor = .clear
         windowLevel = .statusBar + 1.1
-        if rootViewController == nil {
-            rootViewController = ColorPickInfoController()
-        }
+        rootViewController = rootViewController ?? ColorPickInfoController()
         rootViewController?.view.addSubview(pickInfoView)
         
         addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(panAction)))
@@ -52,7 +50,7 @@ class ColorPickInfoWindow: UIWindow {
     }
 }
 
-// MARK:- Public
+// MARK: - Public
 extension ColorPickInfoWindow {
     
     func show() {
@@ -68,7 +66,7 @@ extension ColorPickInfoWindow {
     }
 }
 
-// MARK:- Actions
+// MARK: - Actions
 extension ColorPickInfoWindow {
     
     @objc
@@ -91,7 +89,7 @@ extension ColorPickInfoWindow {
     }
 }
 
-// MARK:- Private
+// MARK: - Private
 extension ColorPickInfoWindow {
     
     static private var rect: CGRect {

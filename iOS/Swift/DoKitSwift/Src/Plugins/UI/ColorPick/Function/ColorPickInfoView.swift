@@ -85,7 +85,7 @@ class ColorPickInfoView: UIView {
     }
 }
 
-// MARK:- Public
+// MARK: - Public
 extension ColorPickInfoView {
     
     func set(current color: UIColor) {
@@ -94,7 +94,7 @@ extension ColorPickInfoView {
     }
 }
 
-// MARK:- Actions
+// MARK: - Actions
 extension ColorPickInfoView {
     
     @objc

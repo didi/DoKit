@@ -7,13 +7,34 @@
 
 import Foundation
 
-enum CrashTool {
+extension Crash {
     
-    static func save(crash log: String, file name: String) {
+    enum Tool {
         
-    }
-    
-    static func directory() -> String {
-        return ""
+        static private let dateFormart: DateFormatter = {
+            $0.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            $0.timeZone = TimeZone.current
+            return $0
+        }( DateFormatter() )
+        
+        static func save(crash log: String, file name: String) throws {
+            guard !log.isEmpty else { return }
+            // 获取当前年月日字符串
+            let dateString = dateFormart.string(from: Date())
+            let crashDirectory = try directory()
+            // 获取crash保存的路径
+            let filePath = crashDirectory.appendingPathComponent("Crash(\(name)) \(dateString).txt")
+            try log.write(to: filePath, atomically: true, encoding: .utf8)
+        }
+        
+        static func directory() throws -> URL {
+            let manager = FileManager.default
+            let url = try manager.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+            let path = url.appendingPathComponent("com.doraemon.cache.crash")
+            if !manager.fileExists(atPath: path.path) {
+                try manager.createDirectory(at: path, withIntermediateDirectories: true, attributes: nil)
+            }
+            return path
+        }
     }
 }
