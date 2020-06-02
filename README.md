@@ -17,6 +17,11 @@
 A full-featured App (iOS & Android) development assistant. You deserve it.
 
 > [中文文档](README_CN.md)
+
+**community activity**
+>dokit-android: [dokit-kotlin](https://github.com/didi/DoraemonKit/issues/531)
+>
+>dokit-iOS: [dokit-swift](https://github.com/didi/DoraemonKit/issues/493)
  
 ## Introduction
 

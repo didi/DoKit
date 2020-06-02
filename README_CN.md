@@ -20,6 +20,11 @@
 
 > [English Readme](README.md)
 
+**社区活动**
+
+>dokit-android: [dokit-kotlin](https://github.com/didi/DoraemonKit/issues/531)
+>
+>dokit-iOS: [dokit-swift](https://github.com/didi/DoraemonKit/issues/493)
 
 ## 开发背景
 
