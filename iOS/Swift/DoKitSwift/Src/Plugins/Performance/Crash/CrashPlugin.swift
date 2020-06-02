@@ -34,12 +34,29 @@ struct CrashPlugin: Plugin {
             \(Thread.current.description)
             
             AppInfo:
-            \(model.appinfo)
+            \(CrashPlugin.appInfo)
             """
             /// 存沙盒或者发邮件
             try? Crash.Tool.save(crash: info, file:  "\(model.type.rawValue)")
         }
         Crash.registerHandler()
         HomeWindow.shared.openPlugin(vc: CrashViewController())
+    }
+}
+
+extension CrashPlugin {
+    
+    private static var appInfo: String {
+        let displayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") ?? ""
+        let shortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? ""
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") ?? ""
+        let deviceModel = UIDevice.current.model
+        let systemName = UIDevice.current.systemName
+        let systemVersion = UIDevice.current.systemVersion
+        return """
+        App: \(displayName) \(shortVersion)(\(version))
+        Device:\(deviceModel)
+        OS Version:\(systemName) \(systemVersion)
+        """
     }
 }
