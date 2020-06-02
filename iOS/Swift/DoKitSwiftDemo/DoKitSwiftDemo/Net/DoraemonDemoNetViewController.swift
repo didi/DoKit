@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AFNetworking
 
 class DoraemonDemoNetViewController: DoraemonDemoBaseViewController, UITableViewDelegate, UITableViewDataSource {
     var tableView: UITableView!

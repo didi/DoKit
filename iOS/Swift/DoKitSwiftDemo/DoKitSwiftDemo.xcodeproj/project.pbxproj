@@ -40,7 +40,7 @@
 		0AE102A524693DAB006CA490 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A324693DAB006CA490 /* Main.storyboard */; };
 		0AE102A724693DAD006CA490 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A624693DAD006CA490 /* Assets.xcassets */; };
 		0AE102AA24693DAD006CA490 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A824693DAD006CA490 /* LaunchScreen.storyboard */; };
-		9641FD53E5188CC12138F10E /* Pods_DoKitSwiftDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D8F32BE7A7700406D9B7F48 /* Pods_DoKitSwiftDemo.framework */; };
+		7606F3089C89D413F88E415C /* libPods-DoKitSwiftDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57491D3C6A0E4E5521217F1B /* libPods-DoKitSwiftDemo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,7 +85,7 @@
 		0AE102A924693DAD006CA490 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0AE102AB24693DAD006CA490 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AFC6EE9B77134AC5569E638 /* Pods-DoKitSwiftDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoKitSwiftDemo.debug.xcconfig"; path = "Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		3D8F32BE7A7700406D9B7F48 /* Pods_DoKitSwiftDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DoKitSwiftDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		57491D3C6A0E4E5521217F1B /* libPods-DoKitSwiftDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DoKitSwiftDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA80ADA0C49F110A66409112 /* Pods-DoKitSwiftDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoKitSwiftDemo.release.xcconfig"; path = "Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,7 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9641FD53E5188CC12138F10E /* Pods_DoKitSwiftDemo.framework in Frameworks */,
+				7606F3089C89D413F88E415C /* libPods-DoKitSwiftDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,7 +285,7 @@
 		9084201A2BFB765675DE6B6F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3D8F32BE7A7700406D9B7F48 /* Pods_DoKitSwiftDemo.framework */,
+				57491D3C6A0E4E5521217F1B /* libPods-DoKitSwiftDemo.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -310,7 +310,7 @@
 				0AE1029624693DAB006CA490 /* Sources */,
 				0AE1029724693DAB006CA490 /* Frameworks */,
 				0AE1029824693DAB006CA490 /* Resources */,
-				4A98AA4F075F2137F3DF701C /* [CP] Embed Pods Frameworks */,
+				963800CFF4ADF64CDE973315 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -377,21 +377,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4A98AA4F075F2137F3DF701C /* [CP] Embed Pods Frameworks */ = {
+		963800CFF4ADF64CDE973315 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		DC320A002ED71A2200D0A799 /* [CP] Check Pods Manifest.lock */ = {
