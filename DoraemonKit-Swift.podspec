@@ -22,13 +22,18 @@ Pod::Spec.new do |s|
   s.swift_versions = ['5', '5.1', '5.2']
 
 
-  s.default_subspec = 'Core'
+  s.default_subspecs = ['Core', 'Motion']
   
   s.subspec 'Core' do |ss| 
-    ss.source_files = 'iOS/Swift/DoKitSwift/Src/**/*{.swift,.h,.c,.m}'
+    ss.source_files = 'iOS/Swift/DoKitSwift/Source/Core/**/*.{swift,h,c,m}'
     ss.resource_bundles = {
       'DoKitSwift' => 'iOS/DoraemonKit/Resource/**/*'
     }
+  end
+
+  s.subspec 'Motion' do |ss| 
+    ss.source_files = 'iOS/Swift/DoKitSwift/Source/Motion/*.{swift}'
+    ss.xcconfig = { 'SWIFT_ACTIVE_COMPILATION_CONDITIONS' => 'DOKIT_MOTION_ENABLED' }
   end
   
 end

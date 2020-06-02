@@ -16,7 +16,9 @@ PODS:
     - AFNetworking/NSURLSession
   - DoraemonKit-Swift (0.0.1):
     - DoraemonKit-Swift/Core (= 0.0.1)
+    - DoraemonKit-Swift/Motion (= 0.0.1)
   - DoraemonKit-Swift/Core (0.0.1)
+  - DoraemonKit-Swift/Motion (0.0.1)
 
 DEPENDENCIES:
   - AFNetworking
@@ -32,7 +34,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
-  DoraemonKit-Swift: ed3a73f88894f44983d0e25f4a3a79cd844f3c8d
+  DoraemonKit-Swift: 40f270e6cd545269fb40a2d303f5b6d5814f92bd
 
 PODFILE CHECKSUM: 8b8816d469a9e571491afed09aea50c9ddf5ae3b
 
