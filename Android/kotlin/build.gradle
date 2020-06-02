@@ -1,0 +1,36 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    apply from: "config.gradle"
+    repositories {
+        google()
+        jcenter()
+
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.3.0'
+        //classpath 'com.novoda:bintray-release:0.9.2'
+        //classpath "com.didichuxing.doraemonkit:doraemonkit-plugin:${rootProject.ext.android["pluginVersionName"]}"
+        //classpath "com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.5"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.ext.android["kotlin_version"]}"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+//解决打包时由于javadocRelease校验引起的打包失败
+//tasks.getByPath(":doraemonkit:javadocRelease").enabled = false
+//tasks.getByPath(":doraemonkit-no-op:javadocRelease").enabled = false
+//tasks.getByPath(":doraemonkit-leakcanary:javadocRelease").enabled = false
+//tasks.getByPath(":doraemonkit-weex:javadocRelease").enabled = false
+//tasks.getByPath(":doraemonkit-weex-no-op:javadocRelease").enabled = false
+//tasks.getByPath(":doraemonkit-rpc:javadocRelease").enabled = false

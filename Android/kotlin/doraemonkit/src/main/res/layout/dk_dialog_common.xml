@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@color/dk_color_FFFFFF"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/DK.TextBig.Dark"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp" />
+
+        <TextView
+            android:id="@+id/desc"
+            style="@style/DK.Text.Gray"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp" />
+
+        <View
+            style="@style/DK.Divider"
+            android:layout_marginTop="30dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/negative"
+                style="@style/DK.Text"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/dk_dialog_button_background"
+                android:text="@string/dk_cancel" />
+
+            <View style="@style/DK.Divider.Vertical" />
+
+            <TextView
+                android:id="@+id/positive"
+                style="@style/DK.Text.Blue"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/dk_dialog_button_background"
+                android:text="@string/dk_confirm" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

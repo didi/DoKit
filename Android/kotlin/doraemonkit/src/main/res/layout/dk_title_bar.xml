@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="left|center_vertical">
+
+        <ImageView
+            android:id="@+id/left_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="15dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/left_text"
+            style="@style/DK.TextBig"
+            android:textColor="@color/dk_color_337CC4"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/DK.TitleBar"
+        android:visibility="gone"/>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|center_vertical">
+
+        <CheckBox
+            android:id="@+id/right_check"
+            style="@style/DK.CheckBox"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="15dp"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/right_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="15dp"
+            android:padding="5dp"
+            android:scaleType="fitXY"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/right_text"
+            style="@style/DK.Text.Normal"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"/>
+    </FrameLayout>
+</merge>
