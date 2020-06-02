@@ -21,7 +21,9 @@ public class DoKit {
     private init() {
         let startPoint = CGPoint(x: 0, y: kScreenHeight/3)
         entryWindow = EntryWindow(frame: CGRect(x: startPoint.x, y: startPoint.y, width: 58, height: 58))
+        #if !DOKIT_MOTION_ENABLED
         entryWindow.show()
+        #endif
     }
     
     public func install() {
