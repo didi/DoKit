@@ -10,8 +10,6 @@ import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
 import com.didichuxing.doraemonkit.kit.network.core.DefaultResponseHandler;
 import com.didichuxing.doraemonkit.kit.network.core.NetworkInterpreter;
 import com.didichuxing.doraemonkit.kit.network.core.RequestBodyHelper;
-import com.didichuxing.doraemonkit.kit.network.core.ResourceType;
-import com.didichuxing.doraemonkit.kit.network.core.ResourceTypeHelper;
 import com.didichuxing.doraemonkit.kit.network.okhttp.ForwardingResponseBody;
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
 import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorRequest;
@@ -26,6 +24,7 @@ import java.util.List;
 
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
+import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
@@ -43,19 +42,35 @@ public class DoraemonInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         if (!NetworkManager.isActive()) {
             Request request = chain.request();
-            return chain.proceed(request);
+            try {
+                return chain.proceed(request);
+            } catch (Exception e) {
+                ResponseBody responseBody = ResponseBody.create(MediaType.parse("application/json;charset=utf-8"), "" + e.getMessage());
+                return new Response.Builder()
+                        .code(400)
+                        .message(String.format("%s==>Exception:%s", chain.request().url().host(), e.getMessage()))
+                        .request(request)
+                        .body(responseBody)
+                        .protocol(Protocol.HTTP_1_1)
+                        .build();
+            }
         }
 
         Request request = chain.request();
+        int requestId = mNetworkInterpreter.nextRequestId();
         Response response;
         try {
             response = chain.proceed(request);
         } catch (Exception e) {
-            ResponseBody responseBody = ResponseBody.create(MediaType.parse("application/json;charset=utf-8"), "");
+            LogHelper.e(TAG, "e===>" + e.getMessage());
+            mNetworkInterpreter.httpExchangeFailed(requestId, e.toString());
+            ResponseBody responseBody = ResponseBody.create(MediaType.parse("application/json;charset=utf-8"), "" + e.getMessage());
             return new Response.Builder()
                     .code(400)
                     .message(String.format("%s==>Exception:%s", chain.request().url().host(), e.getMessage()))
+                    .request(request)
                     .body(responseBody)
+                    .protocol(Protocol.HTTP_1_1)
                     .build();
         }
 
@@ -70,19 +85,10 @@ public class DoraemonInterceptor implements Interceptor {
         }
 
 
-        int requestId = mNetworkInterpreter.nextRequestId();
-
         RequestBodyHelper requestBodyHelper = new RequestBodyHelper();
         OkHttpInspectorRequest inspectorRequest =
                 new OkHttpInspectorRequest(requestId, request, requestBodyHelper);
         NetworkRecord record = mNetworkInterpreter.createRecord(requestId, inspectorRequest);
-        try {
-            response.close();
-            response = chain.proceed(request);
-        } catch (IOException e) {
-            mNetworkInterpreter.httpExchangeFailed(requestId, e.toString());
-            throw e;
-        }
 
         NetworkInterpreter.InspectorResponse inspectorResponse = new OkHttpInspectorResponse(
                 requestId,
