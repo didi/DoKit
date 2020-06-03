@@ -3,6 +3,7 @@ package com.didichuxing.doraemondemo
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.multidex.MultiDex
 import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemonkit.DoraemonKit
@@ -16,6 +17,8 @@ import java.util.*
  * @mail 704167880@qq.com
  */
 class App : Application() {
+    var name = "init"
+
     override fun onCreate() {
         super.onCreate()
 
@@ -31,6 +34,11 @@ class App : Application() {
 //        kits.add(DemoKit())
 //        kits.add(DemoKit())
 //        kits.add(DemoKit())
+
+        name = "jint"
+
+        var newName = name
+        Log.i("TAG", "newName====>$newName")
         val mapKits: LinkedHashMap<String, MutableList<AbstractKit>> = linkedMapOf()
         mapKits["业务专区1"] = mutableListOf<AbstractKit>(DemoKit())
         mapKits["业务专区2"] = mutableListOf<AbstractKit>(DemoKit())
