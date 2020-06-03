@@ -1,10 +1,8 @@
 package com.didichuxing.doraemonkit.plugin
 
 import com.android.build.gradle.api.BaseVariant
-import com.didiglobal.booster.kotlinx.boolean
 import com.didiglobal.booster.transform.TransformContext
 import org.objectweb.asm.Opcodes.*
-import org.objectweb.asm.tree.ClassNode
 import org.objectweb.asm.tree.InsnList
 import org.objectweb.asm.tree.InsnNode
 import org.objectweb.asm.tree.MethodInsnNode

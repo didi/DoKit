@@ -22,7 +22,7 @@ import org.objectweb.asm.tree.*
  * 修订历史：
  * ================================================
  */
-@Priority(3)
+@Priority(2)
 @AutoService(ClassTransformer::class)
 class GlobalSlowMethodTransformer : ClassTransformer {
     val thresholdTime = DoKitExtUtil.slowMethodExt.normalMethod.thresholdTime

@@ -24,7 +24,7 @@ import org.objectweb.asm.tree.VarInsnNode
  * 修订历史：
  * ================================================
  */
-@Priority(2)
+@Priority(1)
 @AutoService(ClassTransformer::class)
 class BigImgTransformer : ClassTransformer {
 

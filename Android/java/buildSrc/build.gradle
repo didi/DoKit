@@ -10,11 +10,11 @@ buildscript {
         maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.3'
+        //classpath 'com.android.tools.build:gradle:3.3.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.ext.android["kotlin_version"]}"
     }
 }
-apply plugin: 'java-library'
+//apply plugin: 'java-library'
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
 
@@ -51,7 +51,7 @@ compileKotlin {
 dependencies {
     compileOnly localGroovy()
     compileOnly gradleApi()
-    implementation 'com.android.tools.build:gradle:3.4.2'
+    implementation 'com.android.tools.build:gradle:3.3.0'
     /* 👇👇👇👇 引用这两个模块 👇👇👇👇 */
     kapt "com.google.auto.service:auto-service:1.0-rc6"
     api "com.didiglobal.booster:booster-api:${rootProject.ext.android["booster_version"]}"
