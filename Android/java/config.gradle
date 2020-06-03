@@ -11,7 +11,7 @@ ext {
     ]
     android = [compileSdkVersion         : 29,
                suppotrSdkVersion         : "28.0.0",
-               applicationId             : "com.didichuxing.doraemondemo",
+               applicationId             : "com.didichuxing.doraemondemo.java",
                minSdkVersion             : 16,
                targetSdkVersion          : 29,
                //app版本号
@@ -26,7 +26,7 @@ ext {
                versionName               : "3.1.6",
                glide_version             : "4.9.0",
                kotlin_version            : "1.3.72",
-               booster_version           : "1.6.0"
+               booster_version           : "1.7.0"
     ]
     dependencies = [// ###### android library  start ######
                     "multidex"           : 'androidx.multidex:multidex:2.0.0',

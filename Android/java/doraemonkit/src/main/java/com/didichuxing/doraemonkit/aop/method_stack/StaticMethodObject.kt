@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.aop.method_stack;
+package com.didichuxing.doraemonkit.aop.method_stack
 
 /**
  * ================================================
@@ -9,5 +9,4 @@ package com.didichuxing.doraemonkit.aop.method_stack;
  * 修订历史：
  * ================================================
  */
-public class StaicMethodObject {
-}
+class StaticMethodObject
