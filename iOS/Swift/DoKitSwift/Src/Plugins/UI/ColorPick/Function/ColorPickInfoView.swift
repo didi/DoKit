@@ -1,6 +1,6 @@
 //
 //  ColorPickInfoView.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by 方林威 on 2020/5/29.
 //
@@ -85,7 +85,7 @@ class ColorPickInfoView: UIView {
     }
 }
 
-// MARK:- Public
+// MARK: - Public
 extension ColorPickInfoView {
     
     func set(current color: UIColor) {
@@ -94,7 +94,7 @@ extension ColorPickInfoView {
     }
 }
 
-// MARK:- Actions
+// MARK: - Actions
 extension ColorPickInfoView {
     
     @objc

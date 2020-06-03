@@ -9,13 +9,9 @@ import Foundation
 
 struct MainThreadCheckerPlugin: Plugin {
     
-    var module: String {
-        return LocalizedString("常用工具")
-    }
+    var module: String { LocalizedString("常用工具") }
     
-    var title: String {
-        return LocalizedString("子线程UI")
-    }
+    var title: String { LocalizedString("子线程UI") }
     
     var icon: UIImage? {
         return DKImage(named: "doraemon_ui")
@@ -62,6 +58,11 @@ extension UIView {
     func checkUI(){
         if !Thread.isMainThread{
             print("\(self)触发了子线程渲染")
+            print(backtraceAllThread().joined(separator: "\n\n\n======================\n\n\n"))
+//            print("\n\n\n======================\n\n\n")
+//            print(backTraceCurrentThread())
+//            print("\n\n\n======================\n\n\n")
+//            print(backTraceAllThread().joined(separator: "\n\n\n======================\n\n\n"))
         }
     }
 }
