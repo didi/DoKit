@@ -1,9 +1,7 @@
 package com.didichuxing.doraemonkit.plugin.classtransformer
 
-import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
+import com.didichuxing.doraemonkit.plugin.*
 import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
-import com.didichuxing.doraemonkit.plugin.getMethodExitInsnNodes
-import com.didichuxing.doraemonkit.plugin.isRelease
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.ClassTransformer
@@ -22,7 +20,7 @@ import org.objectweb.asm.tree.*
  * 修订历史：
  * ================================================
  */
-@Priority(3)
+@Priority(2)
 @AutoService(ClassTransformer::class)
 class GlobalSlowMethodTransformer : ClassTransformer {
     val thresholdTime = DoKitExtUtil.slowMethodExt.normalMethod.thresholdTime
@@ -55,7 +53,10 @@ class GlobalSlowMethodTransformer : ClassTransformer {
             //包含在白名单中且不在黑名单中
             if (className.contains(packageName) && notMatchedBlackList(className)) {
                 klass.methods.filter { methodNode ->
-                    methodNode.name != "<init>"
+                    methodNode.name != "<init>" &&
+                            !methodNode.isEmptyMethod() &&
+                            !methodNode.isSingleMethod() &&
+                            !methodNode.isGetSetMethod()
                 }.forEach { methodNode ->
                     methodNode.instructions.asIterable().filterIsInstance(MethodInsnNode::class.java).let { methodInsnNodes ->
                         if (methodInsnNodes.isNotEmpty()) {
