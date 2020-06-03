@@ -1,0 +1,97 @@
+ext {
+    config = [
+            // 很多app都会有自己的打包开关，来区分线上包和测试包，可以通过给applyPlugin赋值来区分测试包和线上包
+            // 线上包不会接入DoraemonKit，测试包会自动接入
+            applyPlugin          : true,
+            //上传到仓库时需要打开
+            uploadArchives       : false,
+            //是否发布插件到远程仓库
+            publishPluginToRemote: false,
+            localRepoURL         : "/Users/didi/project/dokit_repo"
+    ]
+    android = [compileSdkVersion         : 29,
+               suppotrSdkVersion         : "28.0.0",
+               applicationId             : "com.didichuxing.doraemondemo.java",
+               minSdkVersion             : 16,
+               targetSdkVersion          : 29,
+               //app版本号
+               versionCode               : 316,
+               //dokit 插件版本号
+               pluginVersionName         : "3.1.6",
+               //jcenter dokit版本号 打包上传时 dokit的版本名字
+               jcenterArchivesVersionName: "3.1.6",
+               //didi内部仓库版本号
+               //didiArchivesVersionName   : "1000.0.22",
+               didiArchivesVersionName   : "3.1.6",
+               versionName               : "3.1.6",
+               glide_version             : "4.9.0",
+               kotlin_version            : "1.3.72",
+               booster_version           : "1.7.0"
+    ]
+    dependencies = [// ###### android library  start ######
+                    "multidex"           : 'androidx.multidex:multidex:2.0.0',
+                    "appcompat"          : 'androidx.appcompat:appcompat:1.0.0',
+                    "cardview"           : 'androidx.cardview:cardview:1.0.0',
+                    "recyclerview"       : 'androidx.recyclerview:recyclerview:1.0.0',
+                    "databinding"        : 'androidx.databinding:3.2.0-alpha11',
+                    "design"             : 'com.google.android.material:material:1.0.0',
+                    "kotlin"             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${android["kotlin_version"]}",
+                    "core-ktx"           : "androidx.core:core-ktx:1.2.0",
+                    //constraintLayout
+                    "constraintLayout"   : 'androidx.constraintlayout:constraintlayout:1.1.3',
+                    //test
+                    "junit"              : "junit:junit:4.12",
+                    //第三方
+                    "guava"              : "com.google.guava:guava:27.1-android",
+                    //表格
+                    //"SmartTable"                    : 'com.github.huangyanbin:SmartTable:2.2.0',
+                    "retrofit2"          : "com.squareup.retrofit2:retrofit:2.8.1",
+                    "retrofit2_rxjava2"  : "com.squareup.retrofit2:adapter-rxjava2:2.8.1",
+                    "retrofit2_gson"     : "com.squareup.retrofit2:converter-gson:2.8.1",
+                    //暂时不支持3.14.0以上的okhttp版本
+                    "okhttp"             : "com.squareup.okhttp3:okhttp:3.12.1",
+                    "okhttp_v2"          : "com.squareup.okhttp:okhttp:2.7.5",
+                    //将urlconnection代理到okhttp
+                    //"okhttp_urlconnection"    : "com.squareup.okhttp3:okhttp-urlconnection:3.12.1",
+                    //"okio"                    : "com.squareup.okio:okio:1.15.0",
+                    "utilcode"           : 'com.blankj:utilcodex:1.28.4',
+                    "glide"              : "com.github.bumptech.glide:glide:${android["glide_version"]}",
+                    "glide_v3"           : 'com.github.bumptech.glide:glide:3.8.0',
+                    "glide_okhttp3"      : "com.github.bumptech.glide:okhttp3-integration:${android["glide_version"]}",
+                    "glide_compiler"     : "com.github.bumptech.glide:compiler:${android["glide_version"]}",
+                    "picasso"            : 'com.squareup.picasso:picasso:2.71828',
+                    "fresco"             : 'com.facebook.fresco:fresco:1.13.0',
+                    "fresco-processors"  : "jp.wasabeef:fresco-processors:2.1.0",
+                    "image-loader"       : 'com.nostra13.universalimageloader:universal-image-loader:1.9.5',
+                    "rootbeer-lib"       : 'com.scottyab:rootbeer-lib:0.0.8',
+                    "gson"               : 'com.google.code.gson:gson:2.8.2',
+                    "zxing"              : 'com.google.zxing:core:3.3.0',
+                    "free_reflection"    : 'me.weishu:free_reflection:2.1.0',
+                    "leakcanary-android" : 'com.squareup.leakcanary:leakcanary-android:2.2',
+                    "haha"               : 'com.squareup.haha:haha:2.0.4',
+                    "debug-db"           : "com.amitshekhar.android:debug-db:1.0.6",
+                    "debug-db-encrypt"   : "com.amitshekhar.android:debug-db-encrypt:1.0.6",
+                    "weex_inspector"     : "com.taobao.android:weex_inspector:0.24.2.11",
+                    "weex_sdk"           : "com.taobao.android:weex_sdk:0.26.0",
+                    "brvah"              : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.2',
+                    "easy_refresh_layout": 'com.github.anzaizai:EasyRefreshLayout:1.3.1',
+                    "android_spinkit"    : 'com.github.ybq:Android-SpinKit:1.4.0',
+                    "jsonviewer"         : "com.yuyh.json:jsonviewer:1.0.6",
+                    "room_runtime"       : 'androidx.room:room-runtime:2.0.0',
+                    "room_compile"       : 'androidx.room:room-compiler:2.0.0',
+                    "um_analytics"       : 'com.umeng.umsdk:analytics:8.0.0',
+                    "um_common"          : 'com.umeng.umsdk:common:2.0.0',
+                    "didi_http"          : 'com.didichuxing.foundation:http:2.1.0.74',
+                    "didi_rpc"           : 'com.didichuxing.foundation:rpc:2.1.0.74',
+                    "okgo"               : "com.lzy.net:okgo:3.0.4",
+                    //高德地图定位
+                    "amap_location"      : 'com.amap.api:location:latest.integration',
+                    //腾讯地图定位
+                    "tencent_location"   : 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.5',
+                    "easypermissions"    : "pub.devrel:easypermissions:2.0.1",
+                    //跨进程通信框架
+                    "abridge"            : "com.sjtu.yifei:abridge:1.0.1",
+//                    "swipeback"    : "me.imid.swipebacklayout.lib:library:1.1.0"
+
+    ]
+}

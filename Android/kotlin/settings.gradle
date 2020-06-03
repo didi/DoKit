@@ -1,0 +1,4 @@
+include ':app'
+include ':doraemonkit'
+include ':doraemonkit-no-op'
+//include ':doraemonkit-plugin'
