@@ -3,7 +3,7 @@
 |DoKit|new Version|Desc|
 |-    |-      |-  |
 |support Androidx|3.1.6|support Androidx from v3.1.0|
-|supprot android support|3.0.6|Version 3.0.6 corresponds to the function of 3.1.5. Later support will be updated from time to time, mainly based on community feedback, please upgrade and adapt to Androidx as soon as possible|
+|supprot android support|3.0.7.1|Version 3.0.7.1 corresponds to the function of 3.1.6. Later support will be updated from time to time, mainly based on community feedback, please upgrade and adapt to Androidx as soon as possible|
 
 
 #### 1. DoKit SDK Dependencie
