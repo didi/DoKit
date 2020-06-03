@@ -1,5 +1,6 @@
 const img = require('../../utils/imgbase64')
 const app = getApp()
+app.originGetLocation = wx.getLocation
 Component({
     lifetimes: {
       created (){
@@ -56,7 +57,7 @@ Component({
             Object.defineProperty(wx, 'getLocation',
             {
                 get(val) {
-                    return app.globalData.getLocation
+                    return app.originGetLocation
                 }
             });
             wx.showToast({title:'还原成功！'})
