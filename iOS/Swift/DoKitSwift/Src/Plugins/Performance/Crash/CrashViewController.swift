@@ -15,12 +15,10 @@ class CrashViewController: BaseViewController {
         $0.delegate = self
         $0.register(CrashListCell.self, forCellReuseIdentifier: CrashListCell.identifier)
         return $0
-    }(UITableView(frame: .zero, style: .plain) )
+    }( UITableView(frame: .zero, style: .plain) )
     
-    private static var isCache: Bool {
-        get { UserDefaults.standard.bool(forKey: "Dokit.CrashCache.isOn") }
-        set { UserDefaults.standard.set(newValue, forKey: "Dokit.CrashCache.isOn")}
-    }
+    @Store("Dokit.CrashCache.isOn", defaultValue: true)
+    private static var isCache: Bool
     
     private var rows: [Row] = [.switch(isOn: isCache), .log, .clean]
     
@@ -48,7 +46,7 @@ class CrashViewController: BaseViewController {
     }
 }
 
-// MARK:- UITableViewDataSource & UITableViewDelegate
+// MARK: - UITableViewDataSource & UITableViewDelegate
 extension CrashViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -78,17 +76,25 @@ extension CrashViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         switch rows[indexPath.row] {
         case .log:
-            navigationController?.pushViewController(CrashListViewController(), animated: true)
+            guard let url = try? Crash.Tool.directory() else { return }
+            let controller = SandboxListViewController(url)
+            controller.title = LocalizedString("Crash日志列表")
+            navigationController?.pushViewController(controller, animated: true)
             
         case .clean:
             showAlert(
                 title: LocalizedString("提示"),
                 message: LocalizedString("确认删除所有崩溃日志吗？"),
                 buttonTitles: [LocalizedString("取消"), LocalizedString("确定")]
-            ) { index in
+            ) { [weak self] index in
                 switch index {
                 case 1:
-                    print("删除")
+                    do {
+                        try FileManager.default.removeItem(at: Crash.Tool.directory())
+                        ToastUtil.showToast("删除成功", superView: self?.view)
+                    } catch {
+                        ToastUtil.showToast("删除失败", superView: self?.view)
+                    }
                     
                 default:
                     break

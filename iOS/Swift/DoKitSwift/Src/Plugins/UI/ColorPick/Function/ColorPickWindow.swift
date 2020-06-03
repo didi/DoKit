@@ -49,9 +49,8 @@ class ColorPickWindow: UIWindow {
         
         backgroundColor = .clear
         windowLevel = .statusBar + 1.1
-        if rootViewController == nil {
-            rootViewController = UIViewController()
-        }
+        rootViewController = rootViewController ?? UIViewController()
+        
         addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(panAction)))
         
         layer.addSublayer(magnifyLayer)
@@ -65,7 +64,7 @@ class ColorPickWindow: UIWindow {
     }
 }
 
-// MARK:- Public
+// MARK: - Public
 extension ColorPickWindow {
     
     func show() {
@@ -77,7 +76,7 @@ extension ColorPickWindow {
     }
 }
 
-// MARK:- Actions
+// MARK: - Actions
 extension ColorPickWindow {
     
     @objc
@@ -119,7 +118,7 @@ extension ColorPickWindow {
     }
 }
 
-// MARK:- Private
+// MARK: - Private
 extension ColorPickWindow {
     
     private func updateScreeShotImage() {

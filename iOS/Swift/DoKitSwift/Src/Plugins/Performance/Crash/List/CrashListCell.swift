@@ -38,7 +38,7 @@ class CrashListCell: UITableViewCell {
     }
 }
 
-// MARK:- Public
+// MARK: - Public
 extension CrashListCell {
     
     enum Mode {
