@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="75dp"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:layout_marginBottom="16dp"
+    android:layout_marginLeft="10dp"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="34dp"
+        android:layout_height="34dp" />
+
+    <TextView
+        style="@style/DK.TextSmall.Dark"
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/dk_app_name" />
+</LinearLayout>

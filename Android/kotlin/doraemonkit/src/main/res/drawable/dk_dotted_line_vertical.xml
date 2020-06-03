@@ -1,0 +1,10 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:left="-300dp"
+        android:right="-300dp">
+        <rotate
+            android:drawable="@drawable/dk_dotted_line_horizontal"
+            android:fromDegrees="90"
+            android:visible="true" />
+    </item>
+</layer-list>
