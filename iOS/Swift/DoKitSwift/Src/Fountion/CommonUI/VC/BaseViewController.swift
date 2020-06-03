@@ -38,12 +38,9 @@ class BaseViewController: UIViewController, BaseBigTitleViewDelegate {
         }
     }
     
+    //功能的首页需要使用大标题，次级页面使用普通标题
     func needBigTitleView() -> Bool {
-        if #available(iOS 13.0, *) {
-            return true
-        } else {
-            return false
-        }
+        return false
     }
     
     func setTitle(title: String) {

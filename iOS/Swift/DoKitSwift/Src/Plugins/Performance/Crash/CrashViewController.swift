@@ -28,21 +28,17 @@ class CrashViewController: BaseViewController {
     }
     
     private func setup() {
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true
-        }
-        
         setTitle(title: LocalizedString("Crash"))
         view.addSubview(tableView)
     }
     
     override func needBigTitleView() -> Bool {
-        return false
+        return true
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
+        tableView.frame = CGRect(x: 0, y: self.bigTitleView!.bottom, width: view.width, height: view.height-self.bigTitleView!.bottom)
     }
 }
 
