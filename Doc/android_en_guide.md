@@ -2,7 +2,7 @@
 
 |DoKit|new Version|Desc|
 |-    |-      |-  |
-|support Androidx|3.1.5|support Androidx from v3.1.0|
+|support Androidx|3.1.6|support Androidx from v3.1.0|
 |supprot android support|3.0.6|Version 3.0.6 corresponds to the function of 3.1.5. Later support will be updated from time to time, mainly based on community feedback, please upgrade and adapt to Androidx as soon as possible|
 
 
@@ -10,8 +10,8 @@
 
 ```groovy
 dependencies {
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.5'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.5'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.6'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.6'
 }
 ```
 
@@ -21,7 +21,7 @@ dependencies {
 If you cannot download the dependent library through jcenter and report the following error
 
 ```
-ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.1.5
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.1.6
 ```
 
 You can try again from the command line (take Mac system as an example under the project root directory)
@@ -47,7 +47,7 @@ If you need to support Weex, you can directly add the following dependencies
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.1.5'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.1.6'
     …
 }
 ```
@@ -57,7 +57,7 @@ If you need to integrate LeakCanary, you can directly add the following dependen
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.5'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.6'
     …
 }
 ```
@@ -89,7 +89,7 @@ Plugin includes the following functions:
 ```groovy
 buildscript {
     dependencies {
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.5'
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.6'
     }
 }
 ```

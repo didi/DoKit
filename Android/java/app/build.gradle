@@ -78,7 +78,7 @@ android {
 dokitExt {
     //dokit 插件开关
     dokitPluginSwitch true
-    //dokitLogSwitch false
+    dokitLogSwitch true
     //通用设置
     comm {
         //地图经纬度开关
@@ -145,7 +145,7 @@ dependencies {
     implementation rootProject.ext.dependencies["amap_location"]
     //腾讯地图定位
     implementation rootProject.ext.dependencies["tencent_location"]
-    debugImplementation rootProject.ext.dependencies["leakcanary-android"]
+    //debugImplementation rootProject.ext.dependencies["leakcanary-android"]
     //百度地图定位
     implementation files('libs/BaiduLBS_Android.jar')
 //    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.12'

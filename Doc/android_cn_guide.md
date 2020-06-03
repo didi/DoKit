@@ -2,7 +2,7 @@
 
 |DoKit|最新版本|描述|
 |-|-|-|
-|支持Androidx|3.1.5|从v3.1.0版本开始支持androidx|
+|支持Androidx|3.1.6|从v3.1.0版本开始支持androidx|
 |支持android support|3.0.6|3.0.6版本对应3.1.5的功能，后期support将会不定期更新，主要还是看社区的反馈，请大家尽快升级和适配Androidx|
 
 
@@ -11,8 +11,8 @@
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.5'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.5'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.6'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.6'
     …
 }
 ```
@@ -21,20 +21,20 @@ dependencies {
 
 滴滴内部业务线接入请将
 ```
-debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.5'
+debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.6'
 ```
 
 替换为
 
 ```
-debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-rpc:3.1.5'
+debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-rpc:3.1.6'
 ```
 
 **注意:** 
  假如你无法通过 jcenter 下载到依赖库并报了以下的错误 
 
 ```
-ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.1.5
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.1.6
 ```
 
 建议你可以尝试挂载VPN或通过命令行重试(以Mac系统为例 项目根目录下)
@@ -63,7 +63,7 @@ DoraemonKit目前已支持Weex工具，包括
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.1.5'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.1.6'
     …
 }
 ```
@@ -73,7 +73,7 @@ dependencies {
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.5'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.6'
     …
 }
 ```
@@ -118,7 +118,7 @@ AOP包括以下几个功能:
 buildscript {
     dependencies {
         …
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.5'
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.6'
         …
     }
 }

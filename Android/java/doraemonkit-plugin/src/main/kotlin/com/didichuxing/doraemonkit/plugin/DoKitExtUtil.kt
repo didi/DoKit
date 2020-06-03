@@ -163,11 +163,4 @@ object DoKitExtUtil {
             "android.",
             "androidx."
     )
-
-    fun log(tag: String, className: String, methodName: String, access: Int, desc: String, signature: String, thresholdTime: Int) {
-        if (mDokitLogSwitch) {
-            println("$tag===matched====>  className===$className   methodName===$methodName   access===$access   desc===$desc   signature===$signature    thresholdTime===$thresholdTime")
-        }
-    }
-
 }
