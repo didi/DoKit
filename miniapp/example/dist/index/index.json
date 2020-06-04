@@ -1,4 +1,13 @@
 {
-  "navigationBarTitleText": "h5任意门",
-  "usingComponents": {}
+  "component": true,
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "debug": "../components/debug/debug",
+    "appinformation": "../components/appinformation/appinformation",
+    "positionsimulation": "../components/positionsimulation/positionsimulation",
+    "storage": "../components/storage/storage",
+    "h5door": "../components/h5door/h5door",
+    "httpinjector": "../components/httpinjector/httpinjector",
+    "apimock": "../components/apimock/apimock"
+  }
 }

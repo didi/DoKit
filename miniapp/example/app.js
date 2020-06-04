@@ -34,6 +34,7 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    projectId: '749a0600b5e48dd77cf8ee680be7b1b7'
   }
 })

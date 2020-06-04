@@ -1,1 +1,1 @@
-"use strict";Component({methods:{jumpToDebug:function(){wx.navigateTo({url:"../../dist/debug/debug"})}}});
+"use strict";Component({properties:{projectId:{type:String,value:""}},data:{curCom:"dokit"},methods:{tooggleComponent:function(t){var e=t.currentTarget.dataset.type||t.detail.componentType;this.setData({curCom:e})}}});

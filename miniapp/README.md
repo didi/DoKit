@@ -44,6 +44,14 @@ Doraemon小程序端调试工具，内置很多常用的工具，避免重复实
 <img width="200" src="./docs/assets/h5door.jpg"><br>
 可以通过扫码和粘贴链接的方式在小程序中打开h5页面，操作简单方便
 
+- api mock<br>
+<img width="200" height="350" src="./docs/assets/apimock-1.png">
+<img width="200" height="350" src="./docs/assets/apimock-2.png">
+<img width="200" height="350" src="./docs/assets/apimock-3.png">
+<img width="200" height="350" src="./docs/assets/apimock-4.png"><br>
+可以在平台端(https://www.dokit.cn)创建接口列表,选中想要mock的接口和想要返回的场景类型，就可以mock数据了。在模板页面，选中的url，会将接口返回的response作为模板上传到平台端，可以依次作为模板为不同的场景制定不同的response，灵活易用
+
+
 - 更新版本<br>
 当你的小程序进行代码更新时，为了获取最新的线上包需要重启小程序，该功能可以在你的小程序上
 通过点击更新操作，直接获取到最新的远程代码资源
@@ -73,6 +81,7 @@ Doraemon小程序端调试工具，内置很多常用的工具，避免重复实
 ### 在应用app.json中通过如下方式注册需要依赖的页面
  ```js
 "pages": [
+    "dist/apimock/apimock",
     "dist/appInformation/appInformation",
     "dist/debug/debug",
     "dist/h5door/h5door",
