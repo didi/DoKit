@@ -15,7 +15,7 @@ class AppInfoPlugin: Plugin {
         return LocalizedString("App信息")
     }
     var icon: UIImage? {
-        return UIImage.dokitImageNamed(name: "doraemon_app_info")
+        return DKImage(named: "doraemon_app_info")
     }
     func onInstall() {
         
