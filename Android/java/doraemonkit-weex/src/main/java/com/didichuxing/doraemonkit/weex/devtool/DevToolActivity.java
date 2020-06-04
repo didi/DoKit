@@ -15,8 +15,9 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.didichuxing.doraemonkit.zxing.activity.CaptureActivity;
-import com.taobao.weex.WXEnvironment;
-import com.taobao.weex.WXSDKEngine;
+
+import org.apache.weex.WXEnvironment;
+import org.apache.weex.WXSDKEngine;
 
 /**
  * @author haojianglong

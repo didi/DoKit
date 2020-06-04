@@ -100,6 +100,7 @@ configurations.all {
             if (requested.name == "okhttp") {
                 //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
                 details.useVersion '3.14.7'
+                //details.useVersion '4.7.2'
             }
         }
     }
