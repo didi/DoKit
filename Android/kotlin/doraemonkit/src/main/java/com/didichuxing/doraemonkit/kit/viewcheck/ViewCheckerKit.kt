@@ -17,7 +17,20 @@ class ViewCheckerKit : AbstractKit() {
         get() = R.mipmap.dk_view_check
 
     override fun onClick(context: Context?) {
-        kotlinTip()
+        DokitViewManager.instance.detachToolPanel()
+
+        var intent = DokitIntent(ViewCheckDokitView::class.java)
+        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE
+        DokitViewManager.instance.attach(intent)
+
+        intent = DokitIntent(ViewCheckDrawDokitView::class.java)
+        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE
+        DokitViewManager.instance.attach(intent)
+
+        intent = DokitIntent(ViewCheckInfoDokitView::class.java)
+        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE
+        DokitViewManager.instance.attach(intent)
+
     }
 
     override fun onAppInit(context: Context?) {}
