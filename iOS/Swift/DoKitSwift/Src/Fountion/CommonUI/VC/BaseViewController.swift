@@ -1,6 +1,6 @@
 //
 //  BaseViewController.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by didi on 2020/5/25.
 //
@@ -19,7 +19,7 @@ class BaseViewController: UIViewController, BaseBigTitleViewDelegate {
             bigTitleView!.delegate = self
             view.addSubview(bigTitleView!)
         }else{
-            let image = UIImage.dokitImageNamed(name: "doraemon_back")
+            let image = DKImage(named: "doraemon_back")
             let leftModel = NavBarItemModel(icon: image, iconSelector: #selector(leftNavBackClick))
             self.setLeftNavBarItems(items: [leftModel])
         }
@@ -38,7 +38,8 @@ class BaseViewController: UIViewController, BaseBigTitleViewDelegate {
         }
     }
     
-    func needBigTitleView() -> Bool{
+    //功能的首页需要使用大标题，次级页面使用普通标题
+    func needBigTitleView() -> Bool {
         return false
     }
     

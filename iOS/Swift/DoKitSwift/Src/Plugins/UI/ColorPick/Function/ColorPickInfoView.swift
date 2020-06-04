@@ -1,15 +1,11 @@
 //
 //  ColorPickInfoView.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by 方林威 on 2020/5/29.
 //
 
 import UIKit
-
-protocol ColorPickInfoViewDelegate: NSObjectProtocol {
-    
-}
 
 class ColorPickInfoView: UIView {
 
@@ -26,7 +22,7 @@ class ColorPickInfoView: UIView {
     }(UILabel())
     
     private lazy var closeButton: UIButton = {
-        let image = UIImage.dynamic(with: UIImage("doraemon_close"), dark: UIImage("doraemon_close_dark"))
+        let image = DKImage(named: "doraemon_close")
         $0.setBackgroundImage(image, for: .normal)
         $0.addTarget(self, action: #selector(closeAction), for: .touchUpInside)
         return $0
@@ -42,11 +38,6 @@ class ColorPickInfoView: UIView {
     }
     
     private func setup() {
-        if #available(iOS 13.0, *) {
-            backgroundColor = UIColor.dynamic(with: .white, dark: .secondarySystemGroupedBackground)
-        } else {
-            backgroundColor = .white
-        }
         layer.cornerRadius = kSizeFrom750_Landscape(8)
         layer.borderWidth = 1
         layer.borderColor = #colorLiteral(red: 0.6, green: 0.6, blue: 0.6, alpha: 0.2)
@@ -54,6 +45,12 @@ class ColorPickInfoView: UIView {
         addSubview(colorView)
         addSubview(valueLabel)
         addSubview(closeButton)
+        
+        if #available(iOS 13.0, *) {
+            backgroundColor = UIColor.dynamic(with: .white, dark: .secondarySystemGroupedBackground)
+        } else {
+            backgroundColor = .white
+        }
     }
     
     override func layoutSubviews() {
@@ -61,7 +58,7 @@ class ColorPickInfoView: UIView {
         let colorConst: CGFloat = kSizeFrom750_Landscape(28)
         colorView.frame = CGRect(
             x: kSizeFrom750_Landscape(32),
-            y: height - colorConst,
+            y: (height - colorConst) / 2,
             width: colorConst,
             height: colorConst
         )
@@ -83,33 +80,21 @@ class ColorPickInfoView: UIView {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        let image = UIImage.dynamic(with: UIImage("doraemon_close"), dark: UIImage("doraemon_close_dark"))
+        let image = DKImage(named: "doraemon_close")
         closeButton.setImage(image, for: .normal)
     }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        super.touchesMoved(touches, with: event)
-        guard let touch = touches.first else { return }
-        
-        let currentPoint = touch.location(in: self)
-        // 获取上一个点
-        let prePoint = touch.previousLocation(in: self)
-        let offsetX = currentPoint.x - prePoint.x
-        let offsetY = currentPoint.y - prePoint.y
-        transform = transform.translatedBy(x: offsetX, y: offsetY)
-    }
 }
 
-// MARK:- Public
+// MARK: - Public
 extension ColorPickInfoView {
     
-    func set(current hexValue: Int) {
-        colorView.backgroundColor = UIColor.hexColor(hexValue)
-        valueLabel.text = "#\(hexValue)"
+    func set(current color: UIColor) {
+        colorView.backgroundColor = color
+        valueLabel.text = color.hexString
     }
 }
 
-// MARK:- Actions
+// MARK: - Actions
 extension ColorPickInfoView {
     
     @objc

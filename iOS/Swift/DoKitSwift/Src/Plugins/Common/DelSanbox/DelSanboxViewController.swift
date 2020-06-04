@@ -1,6 +1,6 @@
 //
 //  DoKitDelSanboxViewController.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by didi on 2020/5/26.
 //
@@ -31,10 +31,6 @@ class DelSanboxViewController: BaseViewController, CellButtonDelegate {
         return fileSizeString
     }
     
-    override func needBigTitleView() -> Bool {
-        return true
-    }
-    
     func cellBtnClick(){
         
         AlertUtil.handleAlertAction(vc: self, title: LocalizedString("提示"), text: LocalizedString("确定要删除本地数据"), ok: LocalizedString("确定"), cancel: LocalizedString("取消"), okBlock: {
@@ -46,6 +42,10 @@ class DelSanboxViewController: BaseViewController, CellButtonDelegate {
         }) {
             
         }
+    }
+    
+    override func needBigTitleView() -> Bool {
+        return true
     }
 
 }

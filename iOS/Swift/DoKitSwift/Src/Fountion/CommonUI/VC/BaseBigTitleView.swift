@@ -1,6 +1,6 @@
 //
 //  BaseBigTitleView.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by didi on 2020/5/26.
 //
@@ -35,7 +35,7 @@ class BaseBigTitleView: UIView {
         titleLabel.font = UIFont.systemFont(ofSize: kSizeFrom750_Landscape(48))
         self.addSubview(titleLabel)
         
-        let closeImage = UIImage.dokitImageNamed(name: "doraemon_close")
+        let closeImage = DKImage(named: "doraemon_close")
         let closeBtn = UIButton(frame: CGRect(x: self.width-closeBtnH, y: offsetY, width: closeBtnH, height: closeBtnH))
         closeBtn.imageView?.contentMode = .center
         closeBtn.setImage(closeImage, for: .normal)

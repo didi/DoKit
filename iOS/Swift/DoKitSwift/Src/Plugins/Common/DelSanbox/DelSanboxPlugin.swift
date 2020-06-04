@@ -1,6 +1,6 @@
 //
 //  DoKitDelSanboxPlugin.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by didi on 2020/5/26.
 //
@@ -18,7 +18,7 @@ struct DelSanboxPlugin: Plugin {
     }
     
     var icon: UIImage? {
-        return UIImage.dokitImageNamed(name: "doraemon_qingchu")
+        return DKImage(named: "doraemon_qingchu")
     }
     
     func onInstall() {

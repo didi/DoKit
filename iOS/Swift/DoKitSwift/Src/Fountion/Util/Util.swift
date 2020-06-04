@@ -1,6 +1,6 @@
 //
 //  DoKitUtil.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by didi on 2020/5/26.
 //
@@ -85,6 +85,13 @@ class DoKitUtil {
                 }
             }
         }
-
+    }
+    
+    static func isSimulator() -> Bool {
+        var isSim = false
+        #if arch(i386) || arch(x86_64)
+            isSim = true
+        #endif
+        return isSim
     }
 }

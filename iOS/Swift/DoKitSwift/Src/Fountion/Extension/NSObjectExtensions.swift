@@ -1,6 +1,6 @@
 //
 //  NSObjectExtensions.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by 邓锋 on 2020/5/29.
 //

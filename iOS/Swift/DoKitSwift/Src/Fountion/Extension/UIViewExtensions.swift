@@ -1,6 +1,6 @@
 //
 //  UIView+DoKit.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by didi on 2020/5/25.
 //
@@ -80,5 +80,17 @@ extension UIView {
         } set(value) {
             self.center.y = value
         }
+    }
+    
+    public var viewController: UIViewController? {
+        var next = superview
+        while next != nil {
+            let nextResponder = next?.next
+            if (nextResponder is UIViewController) {
+                return nextResponder as? UIViewController
+            }
+            next = next?.superview
+        }
+        return nil
     }
 }
