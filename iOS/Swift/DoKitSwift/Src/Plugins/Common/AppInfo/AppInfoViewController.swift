@@ -1,5 +1,5 @@
 //
-//  DoKitAppInfoViewController.swift
+//  AppInfoViewController.swift
 //  DoraemonKit
 //
 //  Created by Rake Yang on 2020/5/27.
@@ -12,7 +12,7 @@ let IOS_WIFI     = "en0"
 let IP_ADDR_IPv4 = "ipv4"
 let IP_ADDR_IPv6 = "ipv6"
 
-class DoKitAppInfoViewController: BaseViewController {
+class AppInfoViewController: BaseViewController {
     var infoTableView:UITableView?
     var datas:[Dictionary<String, [[String]]>]?
     override func viewDidLoad() {
@@ -24,7 +24,7 @@ class DoKitAppInfoViewController: BaseViewController {
         infoTableView?.delegate = self;
         infoTableView?.dataSource = self;
         view.addSubview(infoTableView!)
-        infoTableView?.register(DoKitAppInfoCell.self, forCellReuseIdentifier: "AppInfoCell")
+        infoTableView?.register(AppInfoCell.self, forCellReuseIdentifier: "AppInfoCell")
         
         let deviceArr = [[LocalizedString("设备名称"),UIDevice.current.name],
                    [LocalizedString("手机型号"),UIDevice.current.localizedModel],
@@ -46,15 +46,15 @@ class DoKitAppInfoViewController: BaseViewController {
         }
         datas?.append([LocalizedString("App信息"):infoArr])
         
-        let authorityArr = [[LocalizedString("地理位置权限"), DoKitAuthorityUtil.locationAuthority()],
+        let authorityArr = [[LocalizedString("地理位置权限"), AuthorityUtil.locationAuthority()],
                             [LocalizedString("网络权限"), "Unknown"],
-                            [LocalizedString("推送权限"), DoKitAuthorityUtil.pushAuthority()],
-                            [LocalizedString("麦克风权限"), DoKitAuthorityUtil.audioAuthority()],
-                            [LocalizedString("相册权限"), DoKitAuthorityUtil.photoAuthority()],
-                            [LocalizedString("相机权限"), DoKitAuthorityUtil.cameraAuthority()],
-                            [LocalizedString("通讯录权限"), DoKitAuthorityUtil.addressAuthority()],
-                            [LocalizedString("日历权限"), DoKitAuthorityUtil.calendarAuthority()],
-                            [LocalizedString("提醒事项权限"), DoKitAuthorityUtil.remindAuthority()],
+                            [LocalizedString("推送权限"), AuthorityUtil.pushAuthority()],
+                            [LocalizedString("麦克风权限"), AuthorityUtil.audioAuthority()],
+                            [LocalizedString("相册权限"), AuthorityUtil.photoAuthority()],
+                            [LocalizedString("相机权限"), AuthorityUtil.cameraAuthority()],
+                            [LocalizedString("通讯录权限"), AuthorityUtil.addressAuthority()],
+                            [LocalizedString("日历权限"), AuthorityUtil.calendarAuthority()],
+                            [LocalizedString("提醒事项权限"), AuthorityUtil.remindAuthority()],
 
         ]
         
@@ -62,7 +62,7 @@ class DoKitAppInfoViewController: BaseViewController {
     }
 }
 
-extension DoKitAppInfoViewController: UITableViewDataSource {
+extension AppInfoViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return datas!.count
     }
@@ -73,7 +73,8 @@ extension DoKitAppInfoViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "AppInfoCell", for: indexPath) as! DoKitAppInfoCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "AppInfoCell", for: indexPath) as! AppInfoCell
+        cell.translatesAutoresizingMaskIntoConstraints = false
         let group = datas?[indexPath.section]
         let item = group?.values.first![indexPath.row]
         cell.titleLabel?.text = item?.first
@@ -87,7 +88,10 @@ extension DoKitAppInfoViewController: UITableViewDataSource {
     }
 }
 
-extension DoKitAppInfoViewController: UITableViewDelegate {
+extension AppInfoViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 44
+    }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 38
     }
@@ -97,11 +101,10 @@ extension DoKitAppInfoViewController: UITableViewDelegate {
         let titleLabel = UILabel.init()
         titleLabel.text = datas?[section].keys.first
         titleLabel.font = .boldSystemFont(ofSize: 16)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false;
         headerView.addSubview(titleLabel)
-        titleLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(headerView).offset(16)
-            make.centerY.equalTo(headerView)
-        }
+        headerView.addConstraint(NSLayoutConstraint.init(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: headerView, attribute: .leading, multiplier: 1, constant: 16))
+        headerView.addConstraint(NSLayoutConstraint.init(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: headerView, attribute: .centerY, multiplier: 1, constant: 0))
         return headerView
     }
 }

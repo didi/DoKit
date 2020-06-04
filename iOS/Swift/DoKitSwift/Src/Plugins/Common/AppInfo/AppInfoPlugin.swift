@@ -21,7 +21,7 @@ class AppInfoPlugin: Plugin {
         
     }
     func onSelected() {        
-        let vc = DoKitAppInfoViewController()
+        let vc = AppInfoViewController()
         HomeWindow.shared.openPlugin(vc: vc)
     }
 }

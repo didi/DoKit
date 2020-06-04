@@ -1,5 +1,5 @@
 //
-//  DoKitAuthorityUtil.swift
+//  AuthorityUtil.swift
 //  DoraemonKit
 //
 //  Created by Rake Yang on 2020/5/28.
@@ -13,7 +13,7 @@ import Contacts
 import AddressBook
 import EventKit
 
-class DoKitAuthorityUtil {
+class AuthorityUtil {
     static func locationAuthority() -> String {
         var authority = "NoEnabled";
         if (CLLocationManager.locationServicesEnabled()) {
