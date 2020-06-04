@@ -133,18 +133,10 @@ class ViewCheckDokitView : AbsDokitView(), LifecycleListenerUtil.LifecycleListen
                     traverseViews(viewList, view.getChildAt(index), x, y)
                 }
             }
-            if (left < x && x < right && top < y && y < bottom) {
-                viewList.add(view)
-            }
-
-        } else {
-            if (left < x && x < right && top < y && y < bottom) {
-                viewList.add(view)
-            }
         }
-//        if (x in (left + 1) until right && top < y && y < bottom) {
-//            viewList.add(view)
-//        }
+        if (x in (left + 1) until right && top < y && y < bottom) {
+            viewList.add(view)
+        }
     }
 
     private fun onViewSelected(current: View?, checkViewList: List<View>?) {

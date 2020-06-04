@@ -105,19 +105,6 @@ class ViewCheckInfoDokitView : AbsDokitView(), OnViewSelectListener, View.OnClic
                 dokitView?.preformPreCheckView()
             }
         }
-//        if (v === mClose) {
-//            DokitViewManager.instance.detach(ViewCheckDrawDokitView::class.java.simpleName)
-//            DokitViewManager.instance.detach(ViewCheckInfoDokitView::class.java.simpleName)
-//            DokitViewManager.instance.detach(ViewCheckDokitView::class.java.simpleName)
-//        }
-//        if (v === mNext) {
-//            val dokitView = DokitViewManager.instance.getDokitView(activity, ViewCheckDokitView::class.java.simpleName) as ViewCheckDokitView?
-//            dokitView?.preformNextCheckView()
-//        }
-//        if (v === mPre) {
-//            val dokitView = DokitViewManager.instance.getDokitView(activity, ViewCheckDokitView::class.java.simpleName) as ViewCheckDokitView?
-//            dokitView?.preformPreCheckView()
-//        }
     }
 
     override fun onViewSelected(current: View?, checkViewList: List<View>) {
