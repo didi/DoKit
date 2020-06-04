@@ -18,7 +18,6 @@ Pod::Spec.new do |s|
   s.author           = { 'yixiang' => 'javer_yi@163.com' }
   s.source           = { :git => 'https://github.com/didi/DoraemonKit.git', :tag => s.version.to_s }
   s.ios.deployment_target = '8.0'
-  s.swift_version = '5.0'
 
   s.default_subspec = 'Core'
   
@@ -90,7 +89,6 @@ Pod::Spec.new do |s|
     ss.resource_bundles = {
       'DoKitSwift' => 'iOS/DoraemonKit/Resource/**/*'
     }
-    ss.dependency 'SnapKit'
   end
 end
 
