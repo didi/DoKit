@@ -16,7 +16,7 @@ import java.util.*
  * @time: 2020/6/4 - 14:47
  * @desc: layout边框View
  */
-class LayoutBorderView constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
+class LayoutBorderView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
     private lateinit var mRectPaint: Paint
     private val mViewInfoList: MutableList<ViewInfo> = ArrayList()
 
