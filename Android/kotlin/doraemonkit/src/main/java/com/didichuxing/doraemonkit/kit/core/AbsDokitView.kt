@@ -12,8 +12,11 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.*
+import android.view.Gravity
+import android.view.KeyEvent
+import android.view.View
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
@@ -45,7 +48,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener, DokitV
     /**
      * 手势代理
      */
-    private val mTouchProxy = TouchProxy(this)
+    val mTouchProxy = TouchProxy(this)
 
     private val mWindowManager = DokitViewManager.instance.windowManager
 
