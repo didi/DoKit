@@ -68,7 +68,8 @@ extension UIView {
     var centerX: CGFloat {
         get {
             return self.center.x
-        } set(value) {
+        }
+        set(value) {
             self.center.x = value
         }
     }
@@ -77,7 +78,8 @@ extension UIView {
     var centerY: CGFloat {
         get {
             return self.center.y
-        } set(value) {
+        }
+        set(value) {
             self.center.y = value
         }
     }
