@@ -85,14 +85,15 @@ extension UIView {
     }
     
     var viewController: UIViewController? {
-        var next = superview
-        while next != nil {
-            let nextResponder = next?.next
-            if (nextResponder is UIViewController) {
-                return nextResponder as? UIViewController
+        var responder: UIResponder? = next
+        while responder != nil {
+            if let viewController = responder as? UIViewController {
+                return viewController
+            } else {
+                responder = responder?.next
             }
-            next = next?.superview
         }
+
         return nil
     }
 }
