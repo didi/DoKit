@@ -43,5 +43,9 @@ class DelSanboxViewController: BaseViewController, CellButtonDelegate {
             
         }
     }
+    
+    override func needBigTitleView() -> Bool {
+        return true
+    }
 
 }
