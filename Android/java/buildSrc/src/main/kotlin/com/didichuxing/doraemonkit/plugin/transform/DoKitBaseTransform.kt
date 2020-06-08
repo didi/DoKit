@@ -12,8 +12,9 @@ import com.didiglobal.booster.gradle.SCOPE_PROJECT
 import com.didiglobal.booster.gradle.getAndroid
 import com.didiglobal.booster.transform.AbstractKlassPool
 import com.didiglobal.booster.transform.Transformer
+import com.google.common.collect.ImmutableSet
 import org.gradle.api.Project
-import java.util.ServiceLoader
+import java.util.*
 
 /**
  * Represents the transform base
@@ -56,17 +57,18 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
         else -> TODO("Not an Android project")
     }
 
-    override fun getReferencedScopes(): MutableSet<in QualifiedContent.Scope> = when {
-        transformers.isEmpty() ->
-            when {
+
+    override fun getReferencedScopes(): MutableSet<in QualifiedContent.Scope> {
+        if (transformers.isEmpty()) {
+            return when {
                 project.plugins.hasPlugin("com.android.library") -> SCOPE_PROJECT
                 project.plugins.hasPlugin("com.android.application") -> SCOPE_FULL_PROJECT
                 project.plugins.hasPlugin("com.android.dynamic-feature") -> SCOPE_FULL_WITH_FEATURES
                 else -> TODO("Not an Android project")
             }
-
-        else -> super.getReferencedScopes()
-    } as MutableSet<in QualifiedContent.Scope>
+        }
+        return super.getReferencedScopes()
+    }
 
     final override fun transform(invocation: TransformInvocation) {
         DoKitTransformInvocation(invocation, this).apply {

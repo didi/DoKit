@@ -23,7 +23,7 @@ import org.objectweb.asm.tree.*
  * 原理:transform()方法的调用是无序的  原因:哪一个class会先被transformer执行是不确定的  但是每一个class被transformer执行顺序是遵循transformer的Priority规则的
  * ================================================
  */
-@Priority(4)
+@Priority(3)
 @AutoService(ClassTransformer::class)
 class EnterMethodStackTransformer : ClassTransformer {
 
