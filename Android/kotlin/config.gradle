@@ -67,6 +67,7 @@ ext {
                     "rootbeer-lib"       : 'com.scottyab:rootbeer-lib:0.0.8',
                     "gson"               : 'com.google.code.gson:gson:2.8.2',
                     "zxing"              : 'com.google.zxing:core:3.3.0',
+                    "zxing-lite"        : 'com.king.zxing:zxing-lite:1.1.9-androidx',
                     "free_reflection"    : 'me.weishu:free_reflection:2.1.0',
                     "leakcanary-android" : 'com.squareup.leakcanary:leakcanary-android:2.2',
                     "haha"               : 'com.squareup.haha:haha:2.0.4',

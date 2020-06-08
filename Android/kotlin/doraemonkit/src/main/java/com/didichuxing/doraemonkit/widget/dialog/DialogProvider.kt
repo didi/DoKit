@@ -69,7 +69,7 @@ abstract class DialogProvider<T>(private val mData: T, private var mDialogListen
     }
 
     fun show(childFragmentManager: FragmentManager?) {
-        host!!.show(childFragmentManager, null)
+        host!!.show(childFragmentManager!!, null)
     }
 
     fun dismiss() {
