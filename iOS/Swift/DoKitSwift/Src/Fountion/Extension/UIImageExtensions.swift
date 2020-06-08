@@ -29,7 +29,7 @@ func DKImage(named name: String, of type: String = "png") -> UIImage? {
     }
 }
 
-private let sharedResourceBundle: Bundle? = {
+let sharedResourceBundle: Bundle? = {
     guard let url = Bundle(for: DoKit.self).url(forResource: "DoKitSwift", withExtension: "bundle") else {
         return nil
     }

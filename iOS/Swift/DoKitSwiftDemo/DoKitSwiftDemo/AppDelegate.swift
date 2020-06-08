@@ -26,8 +26,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        }
         
         DoKit.shared.install()
-        
-         
+        DoKit.shared.customAppInfo = {
+            do {
+                let path = Bundle.main.path(forResource: "build.json", ofType: nil)
+                let newInfos:[[String]] = try JSONSerialization.jsonObject(with: Data.init(contentsOf: URL.init(fileURLWithPath: path!)) , options: .mutableLeaves) as! [[String]]
+                return newInfos
+            } catch {
+                return []
+            }
+        }
+
         self.window?.frame = UIScreen.main.bounds;
         let homeVc = DoraemonDemoHomeViewController()
         let nav = UINavigationController(rootViewController: homeVc)

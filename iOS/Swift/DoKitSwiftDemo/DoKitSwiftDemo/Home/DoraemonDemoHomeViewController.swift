@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import DoraemonKit_Swift
 
 class DoraemonDemoHomeViewController: DoraemonDemoBaseViewController, UITableViewDelegate, UITableViewDataSource {
     var tableView: UITableView!
