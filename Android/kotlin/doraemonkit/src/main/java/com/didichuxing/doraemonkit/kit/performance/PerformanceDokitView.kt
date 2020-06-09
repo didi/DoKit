@@ -26,7 +26,7 @@ import com.didichuxing.doraemonkit.kit.performance.manager.widget.LineChart
  * 作    者：jint（金台）
  * 版    本：1.0
  * 创建日期：2019-10-11-16:05
- * 描    述：性能监控 帧率、 CPU、RAM、流量监控统一显示的DokitView 功能待实现
+ * 描    述：性能监控 帧率、 CPU、RAM、流量监控统一显示的DokitView
  * 修订历史：
  * ================================================
  */
@@ -116,7 +116,7 @@ class PerformanceDokitView : AbsDokitView(), PerformanceCloseListener {
         for (index in 0 until mPerformanceWrap!!.childCount) {
             if (mPerformanceWrap!!.getChildAt(index).visibility != View.GONE) {
                 val needOperateLineChart: LineChart = mPerformanceWrap!!.getChildAt(index).findViewWithTag("lineChart")
-                if (needOperateLineChart.performanceType === performanceType) {
+                if (needOperateLineChart.performanceType == performanceType) {
                     needOperateViewIndex = index
                     break
                 }

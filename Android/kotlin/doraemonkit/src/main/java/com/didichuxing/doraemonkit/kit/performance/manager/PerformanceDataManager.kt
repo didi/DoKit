@@ -29,6 +29,7 @@ class PerformanceDataManager private constructor() {
     private val memoryFileName = "memory.txt"
     private val cpuFileName = "cpu.txt"
     private val fpsFileName = "fps.txt"
+
     /**
      * cpu 百分比
      */
@@ -89,14 +90,14 @@ class PerformanceDataManager private constructor() {
      *
      * @return
      */
-    private fun getCpuData():Float{
+    private fun getCpuData(): Float {
         var process: Process? = null
         try {
             process = Runtime.getRuntime().exec("top -n 1")
             val reader = BufferedReader(InputStreamReader(process.inputStream))
-            var line: String
+            var line = ""
             var cpuIndex = -1
-            while (reader.readLine().apply { line = this }  != null) {
+            while (reader.readLine()?.also { line = it } != null) {
                 line = line.trim { it <= ' ' }
                 if (TextUtils.isEmpty(line)) {
                     continue
@@ -273,7 +274,7 @@ class PerformanceDataManager private constructor() {
      * Date: 2020-06-09
      * @return Float
      */
-    private fun getCpuDataAndroidVersion8():Float{
+    private fun getCpuDataAndroidVersion8(): Float {
         val cpuTime: Long
         val appTime: Long
         var value = 0.0f
@@ -313,7 +314,7 @@ class PerformanceDataManager private constructor() {
      * Date: 2020-06-09
      * @return Float
      */
-    private fun getMemoryData():Float{
+    private fun getMemoryData(): Float {
         var mem = 0.0f
         try {
             var memInfo: Debug.MemoryInfo? = null
