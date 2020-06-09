@@ -7,6 +7,7 @@ import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitManagerFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitSettingFragment
+import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkFragment
 
 
 /**
@@ -30,6 +31,7 @@ open class UniversalActivity : BaseActivity() {
         when (index) {
             FragmentIndex.FRAGMENT_DOKIT_SETTING -> fragmentClass = DokitSettingFragment::class.java
             FragmentIndex.FRAGMENT_DOKIT_MANAGER -> fragmentClass = DokitManagerFragment::class.java
+            FragmentIndex.FRAGMENT_WEAK_NETWORK -> fragmentClass = WeakNetworkFragment::class.java
             else -> {
             }
         }
