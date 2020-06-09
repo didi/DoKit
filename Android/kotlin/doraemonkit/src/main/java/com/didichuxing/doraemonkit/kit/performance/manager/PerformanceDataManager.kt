@@ -29,7 +29,6 @@ class PerformanceDataManager private constructor() {
     private val memoryFileName = "memory.txt"
     private val cpuFileName = "cpu.txt"
     private val fpsFileName = "fps.txt"
-
     /**
      * cpu 百分比
      */
@@ -253,8 +252,7 @@ class PerformanceDataManager private constructor() {
     }
 
     private fun writeMemoryDataIntoFile() {
-
-        //保存cpu数据到app健康体检
+        //保存内存数据到app健康体检
         if (DokitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(lastMemoryInfo, PERFORMANCE_TYPE_MEMORY)
         }
@@ -448,9 +446,6 @@ class PerformanceDataManager private constructor() {
         private const val MSG_MEMORY = 2
         private const val MSG_NET_FLOW = 4
         val instance = Holder.INSTANCE
-        //    private AppHealthInfo.DataBean.PerformanceBean cpuBean;
-        //    private AppHealthInfo.DataBean.PerformanceBean memoryBean;
-        //    private AppHealthInfo.DataBean.PerformanceBean fpsBean;
         /**
          * cpu
          */

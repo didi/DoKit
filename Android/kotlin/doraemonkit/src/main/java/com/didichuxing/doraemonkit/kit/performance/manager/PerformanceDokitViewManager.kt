@@ -32,6 +32,12 @@ object PerformanceDokitViewManager {
         open(performanceType, title, DEFAULT_REFRESH_INTERVAL, listener)
     }
 
+    /**
+     * @param performanceType    监控类型
+     * @param title              标题
+     * @param interval           刷新间隔
+     * @param listener           关闭监控
+     */
     fun open(performanceType: Int, title: String, interval: Int, listener: PerformanceFragmentCloseListener?) {
         var performanceDokitView = DokitViewManager.instance.getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView::class.java.simpleName) as? PerformanceDokitView
         if (performanceDokitView==null){
