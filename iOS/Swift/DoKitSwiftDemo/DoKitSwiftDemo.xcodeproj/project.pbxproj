@@ -40,7 +40,7 @@
 		0AE102A524693DAB006CA490 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A324693DAB006CA490 /* Main.storyboard */; };
 		0AE102A724693DAD006CA490 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A624693DAD006CA490 /* Assets.xcassets */; };
 		0AE102AA24693DAD006CA490 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A824693DAD006CA490 /* LaunchScreen.storyboard */; };
-		7606F3089C89D413F88E415C /* libPods-DoKitSwiftDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57491D3C6A0E4E5521217F1B /* libPods-DoKitSwiftDemo.a */; };
+		551C20B2E55A31BF2E07C0FC /* libPods-DoKitSwiftDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57491D3C6A0E4E5521217F1B /* libPods-DoKitSwiftDemo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,7 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7606F3089C89D413F88E415C /* libPods-DoKitSwiftDemo.a in Frameworks */,
+				551C20B2E55A31BF2E07C0FC /* libPods-DoKitSwiftDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,7 +310,6 @@
 				0AE1029624693DAB006CA490 /* Sources */,
 				0AE1029724693DAB006CA490 /* Frameworks */,
 				0AE1029824693DAB006CA490 /* Resources */,
-				69356E1B92816D4FCAB695A6 /* [CP] Embed Pods Frameworks */,
 				C95DB2F42480C61600BC30DB /* Build Info */,
 				963800CFF4ADF64CDE973315 /* [CP] Copy Pods Resources */,
 			);
