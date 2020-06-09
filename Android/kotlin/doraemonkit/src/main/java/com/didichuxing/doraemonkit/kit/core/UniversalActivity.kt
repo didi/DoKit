@@ -8,6 +8,8 @@ import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitManagerFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitSettingFragment
 import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkFragment
+import com.didichuxing.doraemonkit.kit.webdoor.WebDoorDefaultFragment
+import com.didichuxing.doraemonkit.kit.webdoor.WebDoorFragment
 
 
 /**
@@ -32,6 +34,8 @@ open class UniversalActivity : BaseActivity() {
             FragmentIndex.FRAGMENT_DOKIT_SETTING -> fragmentClass = DokitSettingFragment::class.java
             FragmentIndex.FRAGMENT_DOKIT_MANAGER -> fragmentClass = DokitManagerFragment::class.java
             FragmentIndex.FRAGMENT_WEAK_NETWORK -> fragmentClass = WeakNetworkFragment::class.java
+            FragmentIndex.FRAGMENT_WEB_DOOR -> fragmentClass = WebDoorFragment::class.java
+            FragmentIndex.FRAGMENT_WEB_DOOR_DEFAULT -> fragmentClass = WebDoorDefaultFragment::class.java
             else -> {
             }
         }

@@ -6,7 +6,7 @@ import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.AbstractKit
 
 /**
- * Created by wanglikun on 2018/10/10.
+ * Created by guofeng007 on 2020/6/8
  */
 class WebDoorKit : AbstractKit() {
     override val name: Int
@@ -16,7 +16,7 @@ class WebDoorKit : AbstractKit() {
         get() = R.mipmap.dk_web_door
 
     override fun onClick(context: Context?) {
-        kotlinTip()
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_WEB_DOOR)
     }
 
     override fun onAppInit(context: Context?) {}

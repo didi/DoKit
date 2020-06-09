@@ -56,6 +56,11 @@
                 android:resource="@xml/dokit_debug_provider_paths" />
         </provider>
 
+
+        <activity
+            android:name=".zxing.activity.ZXingCodeCaptureActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--<service-->
         <!--android:name=".kit.viewcheck.DebugAccessibilityService"-->
         <!--android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">-->
