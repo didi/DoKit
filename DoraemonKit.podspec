@@ -19,7 +19,6 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/didi/DoraemonKit.git', :tag => s.version.to_s }
   s.ios.deployment_target = '8.0'
 
-
   s.default_subspec = 'Core'
   
   s.subspec 'Core' do |ss| 
@@ -82,6 +81,14 @@ Pod::Spec.new do |s|
     }
     ss.dependency 'DoraemonKit/Core'
     ss.dependency 'FBRetainCycleDetector'
+  end
+
+  s.subspec 'Swift' do |ss|
+    ss.ios.deployment_target = '9.0'
+    ss.source_files = 'iOS/Swift/DoKitSwift/Src/**/*{.swift}'
+    ss.resource_bundles = {
+      'DoKitSwift' => 'iOS/DoraemonKit/Resource/**/*'
+    }
   end
 end
 

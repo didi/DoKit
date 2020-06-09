@@ -7,11 +7,11 @@
 //
 
 import UIKit
-import DoraemonKit
+//import DoraemonKit
 
-@objc(TestPlugin)
-class TestPlugin: NSObject,DoraemonPluginProtocol {
-    @objc func pluginDidLoad(){
-        print("pluginDidLoad")
-    }
-}
+//@objc(TestPlugin)
+//class TestPlugin: NSObject,DoraemonPluginProtocol {
+//    @objc func pluginDidLoad(){
+//        print("pluginDidLoad")
+//    }
+//}

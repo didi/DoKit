@@ -23,10 +23,17 @@
     [super viewDidLoad];
     self.title = DoraemonDemoLocalizedString(@"视觉测试Demo");
     
-    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(100, 200, 60, 60)];
+    UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(0, 80, 160, 160)];
     redView.backgroundColor = [UIColor redColor];
     [self.view addSubview:redView];
+    redView.alpha = 0.1;
     _redView = redView;
+    
+    UIButton *btn0 = [[UIButton alloc] initWithFrame:CGRectMake(20, 20, 100, 40)];
+    [btn0 setTitle:@"按钮" forState:UIControlStateNormal];
+    btn0.backgroundColor = [UIColor orangeColor];
+    [btn0 addTarget:self action:@selector(btn0Click) forControlEvents:UIControlEventTouchUpInside];
+    [redView addSubview:btn0];
     
 //    UIView *alphaView = [[UIView alloc] initWithFrame:CGRectMake(100, 300, 60, 60)];
 //    alphaView.backgroundColor = [UIColor doraemon_colorWithHexString:@"#FFFF00"];
@@ -61,6 +68,10 @@
     [self.view addSubview:button];
     
     
+}
+
+- (void)btn0Click{
+    NSLog(@"btn0Click");
 }
 
 
