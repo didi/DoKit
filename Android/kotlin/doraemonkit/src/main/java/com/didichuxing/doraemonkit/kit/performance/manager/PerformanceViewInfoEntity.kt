@@ -11,7 +11,7 @@ package com.didichuxing.doraemonkit.kit.performance.manager
  * Update Comments:
  * @param performanceType Int     类型
  * @param title String            标题
- * @param interval Int            值
+ * @param interval Int            刷新间隔
  * @constructor
  *
  * Author: pengyushan

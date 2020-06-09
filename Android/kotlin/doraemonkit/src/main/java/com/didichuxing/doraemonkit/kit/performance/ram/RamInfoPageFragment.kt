@@ -67,17 +67,13 @@ class RamInfoPageFragment : AbsPerformanceFragment() {
             }
         }
 
-    protected fun startMonitor() {
+    private fun startMonitor() {
         PerformanceDataManager.instance.startMonitorMemoryInfo()
         openChartPage(R.string.dk_ram_detection_title, DataSourceFactory.TYPE_RAM)
     }
 
-    protected fun stopMonitor() {
+    private fun stopMonitor() {
         PerformanceDataManager.instance.stopMonitorMemoryInfo()
         closeChartPage()
-    }
-
-    companion object {
-        private const val TAG = "RamMainPageFragment"
     }
 }

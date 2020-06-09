@@ -14,7 +14,7 @@ package com.didichuxing.doraemonkit.kit.performance.manager
  */
 interface PerformanceCloseListener {
     /**
-     * @param performanceType
+     * @param performanceType 关闭类型
      */
     fun onClose(performanceType: Int)
 }

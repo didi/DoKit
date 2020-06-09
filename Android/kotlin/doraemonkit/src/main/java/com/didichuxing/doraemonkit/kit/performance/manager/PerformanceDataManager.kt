@@ -56,7 +56,7 @@ class PerformanceDataManager private constructor() {
 
     var maxMemory = 0f
     private var mContext: Context? = null
-    private var mActivityManager: ActivityManager? = null
+    private lateinit var mActivityManager: ActivityManager
     private var mProcStatFile: RandomAccessFile? = null
     private var mAppStatFile: RandomAccessFile? = null
     private var mLastCpuTime: Long? = null
@@ -233,7 +233,7 @@ class PerformanceDataManager private constructor() {
     fun startMonitorMemoryInfo() {
         DokitMemoryConfig.RAM_STATUS = true
         if (maxMemory == 0f) {
-            maxMemory = mActivityManager!!.memoryClass.toFloat()
+            maxMemory = mActivityManager.memoryClass.toFloat()
         }
         mNormalHandler!!.sendEmptyMessageDelayed(MSG_MEMORY, NORMAL_SAMPLING_TIME.toLong())
     }
@@ -324,8 +324,8 @@ class PerformanceDataManager private constructor() {
             } else {
                 //As of Android Q, for regular apps this method will only return information about the memory info for the processes running as the caller's uid;
                 // no other process memory info is available and will be zero. Also of Android Q the sample rate allowed by this API is significantly limited, if called faster the limit you will receive the same data as the previous call.
-                val memInfos = mActivityManager!!.getProcessMemoryInfo(intArrayOf(android.os.Process.myPid()))
-                if (memInfos != null && memInfos.size > 0) {
+                val memInfos = mActivityManager.getProcessMemoryInfo(intArrayOf(android.os.Process.myPid()))
+                if (memInfos != null && memInfos.isNotEmpty()) {
                     memInfo = memInfos[0]
                 }
             }

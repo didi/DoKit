@@ -72,8 +72,4 @@ open class CpuInfoPageFragment : AbsPerformanceFragment() {
         PerformanceDataManager.instance.stopMonitorCPUInfo()
         closeChartPage()
     }
-
-    companion object {
-        private const val TAG = "CpuMainPageFragment"
-    }
 }

@@ -33,21 +33,24 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
  * Author: pengyushan
  */
 class PerformanceCloseDokitView : AbsDokitView() {
-    var mLlCloseWrap: LinearLayout? = null
-    var mWrap0: FrameLayout? = null
-    var mWrap1: FrameLayout? = null
-    var mWrap2: FrameLayout? = null
-    var mWrap3: FrameLayout? = null
-    var mIvClose0: ImageView? = null
-    var mIvClose1: ImageView? = null
-    var mIvClose2: ImageView? = null
-    var mIvClose3: ImageView? = null
-    var mPerformanceCloseListener: PerformanceCloseListener? = null
+    private var mLlCloseWrap: LinearLayout? = null
+    private var mWrap0: FrameLayout? = null
+    private var mWrap1: FrameLayout? = null
+    private var mWrap2: FrameLayout? = null
+    private var mWrap3: FrameLayout? = null
+    private var mIvClose0: ImageView? = null
+    private var mIvClose1: ImageView? = null
+    private var mIvClose2: ImageView? = null
+    private var mIvClose3: ImageView? = null
+    private var mPerformanceCloseListener: PerformanceCloseListener? = null
     override fun onCreate(context: Context?) {}
     override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_performance_close_wrap, rootView, false)
     }
 
+    /**
+     * 添加item
+     */
     fun addItem(index: Int, performanceType: Int) {
         if (mLlCloseWrap == null) {
             return
@@ -57,6 +60,9 @@ class PerformanceCloseDokitView : AbsDokitView() {
         closeViewWrap.tag = performanceType
     }
 
+    /**
+     * 移除item
+     */
     fun removeItem(index: Int) {
         val closeViewWrap = mLlCloseWrap!!.getChildAt(index) as FrameLayout
         closeViewWrap.visibility = View.GONE
