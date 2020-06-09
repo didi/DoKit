@@ -58,12 +58,10 @@ class WeakNetworkFragment : BaseFragment(), TextWatcher {
                 //断网
                 showOffNetworkOptionView()
             }
-            if (mNetWorkDokitView == null) {
-                mNetWorkDokitView = DokitViewManager.instance.getDokitView(activity, NetWokDokitView::class.java.simpleName)
-            }
+            mNetWorkDokitView = mNetWorkDokitView
+                    ?: DokitViewManager.instance.getDokitView(activity, NetWokDokitView::class.java.simpleName)
             //重新调用刷新
             mNetWorkDokitView?.onResume()
-
         }
 
         value_timeout.addTextChangedListener(this)
@@ -98,6 +96,7 @@ class WeakNetworkFragment : BaseFragment(), TextWatcher {
             val dokitIntent = DokitIntent(NetWokDokitView::class.java)
             dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE
             DokitViewManager.instance.attach(dokitIntent)
+            mNetWorkDokitView = DokitViewManager.instance.getDokitView(activity, NetWokDokitView::class.java.simpleName)
         } else {
             DokitViewManager.instance.detach(NetWokDokitView::class.java)
         }
@@ -121,8 +120,8 @@ class WeakNetworkFragment : BaseFragment(), TextWatcher {
         WeakNetworkManager.get().type = WeakNetworkManager.TYPE_OFF_NETWORK
     }
 
-    private fun getLongValue(editText: EditText?): Long {
-        val text: CharSequence = editText!!.text
+    private fun getLongValue(editText: EditText): Long {
+        val text: CharSequence = editText.text
         return if (TextUtils.isEmpty(text)) 0L else text.toString().toLong()
     }
 

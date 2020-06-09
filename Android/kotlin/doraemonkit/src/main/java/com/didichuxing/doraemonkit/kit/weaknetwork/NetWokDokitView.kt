@@ -59,29 +59,12 @@ class NetWokDokitView : AbsDokitView() {
 
     override fun onResume() {
         super.onResume()
+        if (mTvNetWork == null) return
         try {
-            if (mTvNetWork == null) {
-                return
-            }
             when (WeakNetworkManager.get().type) {
-                WeakNetworkManager.TYPE_TIMEOUT -> {
-                    mTvNetWork?.text = DokitUtil.getString(R.string.dk_weaknet_type_timeout)
-                    mTvTimeOutTime?.text = WeakNetworkManager.get().timeOutMillis.toString() + " ms"
-                    mLlTimeWrap?.visibility = View.VISIBLE
-                    mLlSpeedWrap?.visibility = View.GONE
-                }
-                WeakNetworkManager.TYPE_SPEED_LIMIT -> {
-                    mTvNetWork?.text = DokitUtil.getString(R.string.dk_weaknet_type_speed)
-                    mTvRequestSpeed?.text = WeakNetworkManager.get().requestSpeed.toString() + " KB/S"
-                    mTvResponseSpeed?.text = WeakNetworkManager.get().responseSpeed.toString() + " KB/S"
-                    mLlTimeWrap?.visibility = View.GONE
-                    mLlSpeedWrap?.visibility = View.VISIBLE
-                }
-                else -> {
-                    mTvNetWork?.text = DokitUtil.getString(R.string.dk_weaknet_type_off)
-                    mLlTimeWrap?.visibility = View.GONE
-                    mLlSpeedWrap?.visibility = View.GONE
-                }
+                WeakNetworkManager.TYPE_TIMEOUT -> showTimeOutView()
+                WeakNetworkManager.TYPE_SPEED_LIMIT -> showSpeedLimitView()
+                else -> showOffNetworkView()
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -89,6 +72,26 @@ class NetWokDokitView : AbsDokitView() {
         invalidate()
     }
 
+    private fun showTimeOutView() {
+        mTvNetWork?.text = DokitUtil.getString(R.string.dk_weaknet_type_timeout)
+        mTvTimeOutTime?.text = WeakNetworkManager.get().timeOutMillis.toString() + " ms"
+        mLlTimeWrap?.visibility = View.VISIBLE
+        mLlSpeedWrap?.visibility = View.GONE
+    }
+
+    private fun showSpeedLimitView() {
+        mTvNetWork?.text = DokitUtil.getString(R.string.dk_weaknet_type_speed)
+        mTvRequestSpeed?.text = WeakNetworkManager.get().requestSpeed.toString() + " KB/S"
+        mTvResponseSpeed?.text = WeakNetworkManager.get().responseSpeed.toString() + " KB/S"
+        mLlTimeWrap?.visibility = View.GONE
+        mLlSpeedWrap?.visibility = View.VISIBLE
+    }
+
+    private fun showOffNetworkView() {
+        mTvNetWork?.text = DokitUtil.getString(R.string.dk_weaknet_type_off)
+        mLlTimeWrap?.visibility = View.GONE
+        mLlSpeedWrap?.visibility = View.GONE
+    }
 
     override fun invalidate() {
         if (isNormalMode) {
