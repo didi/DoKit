@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              style="@style/DK.CommonItem"
+              android:layout_height="56dp"
+              android:gravity="center_vertical"
+              android:paddingLeft="5dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dk_color_999999"
+        android:textSize="@dimen/dk_font_size_14"/>
+
+</LinearLayout>
