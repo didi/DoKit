@@ -8,4 +8,4 @@ import android.view.View
  */
 
 inline val View.layoutInflater: LayoutInflater
-  get() = LayoutInflater.from(context)
+    get() = LayoutInflater.from(context)

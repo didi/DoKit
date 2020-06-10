@@ -6,32 +6,25 @@ import android.os.Build
  * @author lostjobs created on 2020/6/9
  */
 
-inline fun Any.runGreaterThanAndroidX(targetVersion: Int, runnable: () -> Unit) {
-  if (Build.VERSION.SDK_INT >= targetVersion) {
-    runnable()
-  }
+typealias Task = () -> Unit
+
+inline fun Any.runStartWithAndroidX(targetVersion: Int, below: Task = {}, above: Task) {
+    if (Build.VERSION.SDK_INT >= targetVersion) {
+        above()
+    } else {
+        below()
+    }
 }
 
-inline fun Any.runBelowAndroidX(targetVersion: Int, runnable: () -> Unit) {
-  if (Build.VERSION.SDK_INT < targetVersion) {
-    runnable()
-  }
-}
 
-inline fun Any.runGreaterThanAndroidP(runnable: () -> Unit) =
-  runGreaterThanAndroidX(Build.VERSION_CODES.P, runnable)
+inline fun Any.runStartWithAndroidP(below: Task = {}, above: Task) =
+        runStartWithAndroidX(Build.VERSION_CODES.P, below, above)
 
-inline fun Any.runBelowAndroidP(runnable: () -> Unit) =
-  runBelowAndroidX(Build.VERSION_CODES.P, runnable)
 
-inline fun Any.runGreaterThanAndroidN(runnable: () -> Unit) =
-  runGreaterThanAndroidX(Build.VERSION_CODES.N, runnable)
+inline fun Any.runStartWithAndroidN(below: Task = {}, above: Task) =
+        runStartWithAndroidX(Build.VERSION_CODES.N, below, above)
 
-inline fun Any.runBelowAndroidN(runnable: () -> Unit) =
-  runBelowAndroidX(Build.VERSION_CODES.N, runnable)
 
-inline fun Any.runGreaterThanAndroidM(runnable: () -> Unit) =
-  runGreaterThanAndroidX(Build.VERSION_CODES.M, runnable)
+inline fun Any.runStartWithAndroidM(below: Task = {}, above: Task) =
+        runStartWithAndroidX(Build.VERSION_CODES.M, below, above)
 
-inline fun Any.runBelowAndroidM(runnable: () -> Unit) =
-  runBelowAndroidX(Build.VERSION_CODES.M, runnable)
