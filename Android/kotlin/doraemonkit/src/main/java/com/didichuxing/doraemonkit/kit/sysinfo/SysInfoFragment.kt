@@ -13,8 +13,8 @@ import com.blankj.utilcode.util.AppUtils
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.PhoneUtils
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.extensions.runGreaterThanAndroidM
-import com.didichuxing.doraemonkit.extensions.runGreaterThanAndroidN
+import com.didichuxing.doraemonkit.extensions.runStartWithAndroidM
+import com.didichuxing.doraemonkit.extensions.runStartWithAndroidN
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.util.DeviceUtils
 import com.didichuxing.doraemonkit.util.DeviceUtils.getRomSpace
@@ -74,7 +74,7 @@ class SysInfoFragment : BaseFragment(), HomeTitleBar.OnTitleBarClickListener {
         val sysInfoItems = mutableListOf<SysInfoItem>()
         addAppData(sysInfoItems)
         addDeviceData(sysInfoItems)
-        runGreaterThanAndroidM(below = {
+        runStartWithAndroidM(below = {
             addPermissionDataUnreliable()
         }) {
             addPermissionData(sysInfoItems)
@@ -368,7 +368,11 @@ class SysInfoFragment : BaseFragment(), HomeTitleBar.OnTitleBarClickListener {
                         value = pi?.versionCode.toString()
                 )
         )
-        runGreaterThanAndroidN {
+
+
+
+
+        runStartWithAndroidN {
             sysInfoItems.add(
                     SysInfoItem(
                             type = SysInfoItemAdapter.TYPE_INFO_ITEM,
