@@ -5,6 +5,7 @@ import android.widget.Toast
 import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.FragmentIndex
+import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerSettingFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitManagerFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitSettingFragment
 import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkFragment
@@ -36,6 +37,7 @@ open class UniversalActivity : BaseActivity() {
             FragmentIndex.FRAGMENT_WEAK_NETWORK -> fragmentClass = WeakNetworkFragment::class.java
             FragmentIndex.FRAGMENT_WEB_DOOR -> fragmentClass = WebDoorFragment::class.java
             FragmentIndex.FRAGMENT_WEB_DOOR_DEFAULT -> fragmentClass = WebDoorDefaultFragment::class.java
+            FragmentIndex.FRAGMENT_COLOR_PICKER_SETTING -> fragmentClass = ColorPickerSettingFragment::class.java
             else -> {
             }
         }

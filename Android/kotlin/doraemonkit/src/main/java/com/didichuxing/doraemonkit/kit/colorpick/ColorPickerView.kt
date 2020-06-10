@@ -78,9 +78,9 @@ class ColorPickerView : View {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-//        drawBitmap(canvas!!)
-        drawRing(canvas!!)
+        drawBitmap(canvas!!)
         drawGrid(canvas)
+        drawRing(canvas)
         drawFocus(canvas)
     }
 
@@ -164,14 +164,14 @@ class ColorPickerView : View {
     private fun drawFocus(canvas: Canvas) {
         val focusWidth = ColorPickConstants.PIX_INTERVAL + 4F
         val center = width / 2F
-        val start = center - focusWidth + 2
+        val start = center -  2
         val end = center + focusWidth - 2
-        canvas.drawLine(start, center, end, center, mFocusPaint)
-        canvas.drawLine(center, start, center, end, mFocusPaint)
+        canvas.drawRect(start, start, end, end, mFocusPaint)
     }
 
     fun setBitmap(bitmap: Bitmap, @ColorInt color: Int, x: Int, y: Int) {
         mCircleBitmap = bitmap
         mRingPaint.color = color
+        invalidate()
     }
 }
