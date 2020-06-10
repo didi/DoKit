@@ -8,6 +8,7 @@ import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.performance.cpu.CpuInfoPageFragment
 import com.didichuxing.doraemonkit.kit.performance.fps.FrameInfoPageFragment
 import com.didichuxing.doraemonkit.kit.performance.ram.RamInfoPageFragment
+import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitManagerFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitSettingFragment
 import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkFragment
@@ -42,6 +43,7 @@ open class UniversalActivity : BaseActivity() {
             FragmentIndex.FRAGMENT_FRAME_INFO -> fragmentClass = FrameInfoPageFragment::class.java
             FragmentIndex.FRAGMENT_CPU -> fragmentClass = CpuInfoPageFragment::class.java
             FragmentIndex.FRAGMENT_RAM -> fragmentClass = RamInfoPageFragment::class.java
+            FragmentIndex.FRAGMENT_SYS_INFO -> fragmentClass = SysInfoFragment::class.java
             else -> {
             }
         }

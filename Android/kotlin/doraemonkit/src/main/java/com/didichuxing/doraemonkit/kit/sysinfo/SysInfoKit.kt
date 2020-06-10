@@ -17,7 +17,7 @@ class SysInfoKit : AbstractKit() {
         get() = R.mipmap.dk_sys_info
 
     override fun onClick(context: Context?) {
-        kotlinTip()
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_SYS_INFO)
     }
 
     override fun onAppInit(context: Context?) {}
