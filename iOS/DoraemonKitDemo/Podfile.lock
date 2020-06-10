@@ -23,7 +23,8 @@ PODS:
   - CocoaLumberjack (3.6.1):
     - CocoaLumberjack/Core (= 3.6.1)
   - CocoaLumberjack/Core (3.6.1)
-  - DoraemonKit/Core (3.0.3)
+  - DoraemonKit/Core (3.0.3):
+    - GCDWebServer
   - DoraemonKit/WithDatabase (3.0.3):
     - DoraemonKit/Core
     - YYDebugDatabase

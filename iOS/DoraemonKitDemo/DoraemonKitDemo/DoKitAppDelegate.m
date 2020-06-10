@@ -31,6 +31,9 @@
     
     //[DoraemonTimeProfiler startRecord];
     
+//    id a = [[NSObject alloc] init];
+//    [a b];
+    
     //[[self class] handleCCrashReportWrap];
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
 
