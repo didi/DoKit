@@ -23,7 +23,8 @@ PODS:
   - CocoaLumberjack (3.6.1):
     - CocoaLumberjack/Core (= 3.6.1)
   - CocoaLumberjack/Core (3.6.1)
-  - DoraemonKit/Core (3.0.2)
+  - DoraemonKit/Core (3.0.2):
+    - GCDWebServer
   - DoraemonKit/WithDatabase (3.0.2):
     - DoraemonKit/Core
     - YYDebugDatabase
@@ -118,7 +119,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   CocoaLumberjack: b17ae15142558d08bbacf69775fa10c4abbebcc9
-  DoraemonKit: 6dffe62a7f0baf9bf4b0173ac4354257182d47ea
+  DoraemonKit: a5c297d0b0b8896311f0a413f051d43321ddc859
   FBRetainCycleDetector: 46daef95c2dfa9be34b53087edf6a8f34e4c749c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: c0ab22c73e1b84f358d1e2f74bf6afd1c60829f2
