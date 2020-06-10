@@ -43,10 +43,6 @@ class PerformanceDataManager private constructor() {
      * 当前的帧率
      */
     private var mLastFrameRate = MAX_FRAME_RATE
-    private val mUpBytes: Long = 0
-    private val mDownBytes: Long = 0
-    val lastUpBytes: Long = 0
-    val lastDownBytes: Long = 0
 
     /**
      * 默认的采集时间 通常为1s
@@ -66,6 +62,10 @@ class PerformanceDataManager private constructor() {
     private var mAboveAndroidO = false
     private val mMainHandler = Handler(Looper.getMainLooper())
     private val mRateRunnable = FrameRateRunnable()
+
+    /**
+     * 获取 cpu数据，判断是否是低于8.0
+     */
     private fun executeCpuData() {
         if (mAboveAndroidO) {
             lastCpuRate = getCpuData()
@@ -129,6 +129,9 @@ class PerformanceDataManager private constructor() {
         return 0F
     }
 
+    /**
+     * 根据取到的数据获取cpu数据
+     */
     private fun getCPUIndex(line: String): Int {
         if (line.contains("CPU")) {
             val titles = line.split("\\s+".toRegex()).toTypedArray()
@@ -171,10 +174,6 @@ class PerformanceDataManager private constructor() {
                         }
                         mNormalHandler!!.sendEmptyMessageDelayed(MSG_MEMORY, NORMAL_SAMPLING_TIME.toLong())
                     }
-                    //                    else if (msg.what == MSG_SAVE_LOCAL) {
-//                        saveToLocal();
-//                        mNormalHandler.sendEmptyMessageDelayed(MSG_SAVE_LOCAL, NORMAL_SAMPLING_TIME);
-//                    }
                 }
             }
         }
@@ -202,16 +201,6 @@ class PerformanceDataManager private constructor() {
     fun startMonitorCPUInfo() {
         DokitMemoryConfig.CPU_STATUS = true
         mNormalHandler!!.sendEmptyMessageDelayed(MSG_CPU, NORMAL_SAMPLING_TIME.toLong())
-    }
-
-    fun startMonitorNetFlowInfo() {
-        DokitMemoryConfig.NETWORK_STATUS = true
-        mNormalHandler!!.sendEmptyMessageDelayed(MSG_NET_FLOW, NORMAL_SAMPLING_TIME.toLong())
-    }
-
-    fun stopMonitorNetFlowInfo() {
-        DokitMemoryConfig.NETWORK_STATUS = false
-        mNormalHandler!!.removeMessages(MSG_NET_FLOW)
     }
 
     fun destroy() {
@@ -243,24 +232,30 @@ class PerformanceDataManager private constructor() {
         mNormalHandler!!.removeMessages(MSG_MEMORY)
     }
 
+    /**
+     * 保存cpu数据到app健康体检
+     */
     private fun writeCpuDataIntoFile() {
-
-        //保存cpu数据到app健康体检
         if (DokitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(lastCpuRate, PERFORMANCE_TYPE_CPU)
         }
     }
 
+    /**
+     * 保存内存数据到app健康体检
+     */
     private fun writeMemoryDataIntoFile() {
-        //保存内存数据到app健康体检
         if (DokitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(lastMemoryInfo, PERFORMANCE_TYPE_MEMORY)
         }
     }
 
+    /**
+     * 保存内存数据到app健康体检
+     */
     private fun writeFpsDataIntoFile() {
         if (DokitConstant.APP_HEALTH_RUNNING) {
-//            addPerformanceDataInAppHealth(if (mLastFrameRate > 60) 60 else mLastFrameRate.toFloat(), PERFORMANCE_TYPE_FPS)
+            addPerformanceDataInAppHealth(if (mLastFrameRate > 60) 60F else mLastFrameRate.toFloat(), PERFORMANCE_TYPE_FPS)
         }
     }
 
@@ -426,11 +421,11 @@ class PerformanceDataManager private constructor() {
      */
     @Synchronized
     private fun addPerformanceDataInAppHealth(performanceValue: Float, performanceType: Int) {
-
+        //todo 需要完善保存到监控体检
     }
 
     companion object {
-        private const val TAG = "PerformanceDataManager"
+
         private const val MAX_FRAME_RATE = 60
 
         /**
@@ -444,7 +439,6 @@ class PerformanceDataManager private constructor() {
         private const val FPS_SAMPLING_TIME = 1000
         private const val MSG_CPU = 1
         private const val MSG_MEMORY = 2
-        private const val MSG_NET_FLOW = 4
         val instance = Holder.INSTANCE
         /**
          * cpu
