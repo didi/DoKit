@@ -65,6 +65,7 @@ dependencies {
 
     implementation rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]
+    implementation rootProject.ext.dependencies["zxing-lite"]
     //函数耗时
     //implementation rootProject.ext.dependencies["guava"]
     implementation rootProject.ext.dependencies["utilcode"]

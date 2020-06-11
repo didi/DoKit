@@ -50,7 +50,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener, DokitV
      */
     val mTouchProxy = TouchProxy(this)
 
-    private val mWindowManager = DokitViewManager.instance.windowManager
+    protected val mWindowManager = DokitViewManager.instance.windowManager
 
     /**
      * 创建FrameLayout#LayoutParams 内置悬浮窗调用
