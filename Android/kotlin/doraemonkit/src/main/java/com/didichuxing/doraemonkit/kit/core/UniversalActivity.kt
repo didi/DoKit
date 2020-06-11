@@ -5,6 +5,7 @@ import android.widget.Toast
 import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.FragmentIndex
+import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitManagerFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitSettingFragment
 
@@ -30,6 +31,7 @@ open class UniversalActivity : BaseActivity() {
         when (index) {
             FragmentIndex.FRAGMENT_DOKIT_SETTING -> fragmentClass = DokitSettingFragment::class.java
             FragmentIndex.FRAGMENT_DOKIT_MANAGER -> fragmentClass = DokitManagerFragment::class.java
+            FragmentIndex.FRAGMENT_LARGE_PICTURE -> fragmentClass = LargePictureFragment::class.java
             else -> {
             }
         }
