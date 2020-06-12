@@ -60,4 +60,7 @@
 
 //获取设备当前网络IP地址
 + (NSString *)getIPAddress:(BOOL)preferIPv4;
+
+//获取当前UUID
++ (NSString *)uuid;
 @end

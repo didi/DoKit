@@ -8,6 +8,13 @@
 #import "DoraemonFileSyncManager.h"
 #import <GCDWebServer/GCDWebServerRequest.h>
 #import <GCDWebServer/GCDWebServerDataResponse.h>
+#import "DoraemonAppInfoUtil.h"
+
+@interface DoraemonFileSyncManager()
+
+@property (nonatomic, strong) NSFileManager *fm;
+
+@end
 
 
 @implementation DoraemonFileSyncManager
@@ -26,6 +33,7 @@
     if (self) {
         _start = NO;
         [self setRouter];
+        _fm = [NSFileManager defaultManager];
     }
     return self;
 }
@@ -38,29 +46,89 @@
         return [GCDWebServerDataResponse responseWithHTML:html];
     }];
     
+    __weak typeof(self) weakSelf = self;
     [self addHandlerForMethod:@"GET"
-                         path:@"/list"
+                         path:@"/getDeviceInfo"
                  requestClass:[GCDWebServerRequest class]
                  processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
-        GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:@{@"rows" : @"XXXX"}];
-        [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
-        
-        return response;
+        return  [weakSelf getDeviceInfo];
     }];
-    
-    //__weak typeof(self)weakSelf = self;
     
     [self addHandlerForMethod:@"GET"
-                         path:@"/databaseList"
+                         path:@"/getFileList"
                  requestClass:[GCDWebServerRequest class]
-                 processBlock:^GCDWebServerResponse*(GCDWebServerRequest* request) {
-        
-        return [GCDWebServerDataResponse responseWithJSONObject:@{@"rows" : @"gagaagg"}];
+                 processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
+        return [weakSelf getFileList:request];
     }];
+}
+
+- (NSString *)getRelativeFilePath:(NSString *)fullPath{
+    NSString *rootPath = NSHomeDirectory();
+    return [fullPath stringByReplacingOccurrencesOfString:rootPath withString:@""];
+}
+
+- (NSDictionary *)getCode:(NSInteger)code data:(NSDictionary *)data{
+    NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
+    [info setValue:@(code) forKey:@"code"];
+    [info setValue:data forKey:@"data"];
+    return info;
 }
 
 - (void)startServer{
     [self startWithPort:9002 bonjourName:@"Hello DoKit"];
+}
+
+
+#pragma mark -- 服务具体处理
+- (GCDWebServerResponse *)getDeviceInfo{
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+    [dic setValue:[DoraemonAppInfoUtil iphoneName] forKey:@"deviceName"];
+    [dic setValue:[DoraemonAppInfoUtil uuid] forKey:@"deviceId"];
+    
+    NSDictionary *info = [self getCode:200 data:dic];
+    GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:info];
+    [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
+    
+    return response;
+}
+
+- (GCDWebServerResponse *)getFileList: (GCDWebServerRequest *)request{
+    
+    NSDictionary *query = request.query;
+    NSString *filePath = query[@"filePath"];
+    NSString *rootPath = NSHomeDirectory();
+    NSString *targetPath = [NSString stringWithFormat:@"%@%@",rootPath,filePath];
+    
+    NSMutableArray *files = @[].mutableCopy;
+       NSError *error = nil;
+    NSArray *paths = [_fm contentsOfDirectoryAtPath:targetPath error:&error];
+    for (NSString *path in paths) {
+        BOOL isDir = false;
+        NSString *fullPath = [targetPath stringByAppendingPathComponent:path];
+        [_fm fileExistsAtPath:fullPath isDirectory:&isDir];
+        
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+        dic[@"name"] = path;
+        dic[@"filePath"] = [self getRelativeFilePath:fullPath];
+        if (isDir) {
+            dic[@"fileType"] = @"dir";
+        }else{
+            dic[@"fileType"] = [path pathExtension];
+        }
+        [files addObject:dic];
+    }
+    
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    [data setValue:filePath forKey:@"filePath"];
+    [data setValue:[DoraemonAppInfoUtil uuid] forKey:@"deviceId"];
+    [data setValue:files forKey:@"fileList"];
+    
+    NSDictionary *res = [self getCode:200 data:data];
+    
+    GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:res];
+    [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
+    
+    return response;
 }
 
 @end
