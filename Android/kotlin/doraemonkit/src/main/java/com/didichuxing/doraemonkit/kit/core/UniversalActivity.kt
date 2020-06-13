@@ -5,6 +5,9 @@ import android.widget.Toast
 import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.FragmentIndex
+import com.didichuxing.doraemonkit.kit.performance.cpu.CpuInfoPageFragment
+import com.didichuxing.doraemonkit.kit.performance.fps.FrameInfoPageFragment
+import com.didichuxing.doraemonkit.kit.performance.ram.RamInfoPageFragment
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitManagerFragment
@@ -38,6 +41,9 @@ open class UniversalActivity : BaseActivity() {
             FragmentIndex.FRAGMENT_WEAK_NETWORK -> fragmentClass = WeakNetworkFragment::class.java
             FragmentIndex.FRAGMENT_WEB_DOOR -> fragmentClass = WebDoorFragment::class.java
             FragmentIndex.FRAGMENT_WEB_DOOR_DEFAULT -> fragmentClass = WebDoorDefaultFragment::class.java
+            FragmentIndex.FRAGMENT_FRAME_INFO -> fragmentClass = FrameInfoPageFragment::class.java
+            FragmentIndex.FRAGMENT_CPU -> fragmentClass = CpuInfoPageFragment::class.java
+            FragmentIndex.FRAGMENT_RAM -> fragmentClass = RamInfoPageFragment::class.java
             FragmentIndex.FRAGMENT_SYS_INFO -> fragmentClass = SysInfoFragment::class.java
             // 性能监控-> 卡顿检测
             FragmentIndex.FRAGMENT_BLOCK_MONITOR -> fragmentClass = BlockMonitorFragment::class.java
