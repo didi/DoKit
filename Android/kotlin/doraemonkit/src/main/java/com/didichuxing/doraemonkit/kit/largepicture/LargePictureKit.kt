@@ -7,6 +7,7 @@ import com.didichuxing.doraemonkit.aop.DokitPluginConfig
 import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.util.DokitUtil
+import com.didichuxing.doraemonkit.util.DokitUtil.getString
 
 /**
  * ================================================
@@ -25,7 +26,15 @@ class LargePictureKit : AbstractKit() {
         get() = R.mipmap.dk_performance_large_picture
 
     override fun onClick(context: Context?) {
-        kotlinTip()
+        if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
+            ToastUtils.showShort(getString(R.string.dk_plugin_close_tip))
+            return
+        }
+        if(!DokitPluginConfig.SWITCH_BIG_IMG){
+            ToastUtils.showShort(DokitUtil.getString(R.string.dk_plugin_big_img_close_tip))
+            return
+        }
+        startUniversalActivity(context,FragmentIndex.FRAGMENT_LARGE_PICTURE)
     }
 
     override fun onAppInit(context: Context?) {}
