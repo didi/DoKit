@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.kit.performance.fps
 
 import android.content.Context
 import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.AbstractKit
 
 /**
@@ -15,7 +16,7 @@ class FrameInfoKit : AbstractKit() {
         get() = R.mipmap.dk_frame_hist
 
     override fun onClick(context: Context?) {
-        kotlinTip()
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_FRAME_INFO)
     }
 
     override fun onAppInit(context: Context?) {}

@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.kit.performance.cpu
 
 import android.content.Context
 import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.AbstractKit
 
 class CpuKit : AbstractKit() {
@@ -12,7 +13,7 @@ class CpuKit : AbstractKit() {
         get() = R.mipmap.dk_cpu
 
     override fun onClick(context: Context?) {
-        kotlinTip()
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_CPU)
     }
 
     override fun onAppInit(context: Context?) {}
