@@ -100,7 +100,16 @@ configurations.all {
             if (requested.name == "okhttp") {
                 //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
                 details.useVersion '3.14.7'
-                //details.useVersion '4.7.2'
+            }
+        } else if (requested.group == 'androidx.core') {
+            if (requested.name == "core") {
+                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
+                details.useVersion '1.2.0'
+            }
+        } else if (requested.group == 'androidx.versionedparcelable') {
+            if (requested.name == "versionedparcelable") {
+                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
+                details.useVersion '1.1.0'
             }
         }
     }

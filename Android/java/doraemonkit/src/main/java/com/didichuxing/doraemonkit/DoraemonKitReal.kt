@@ -204,7 +204,7 @@ object DoraemonKitReal {
     /**
      * for test
      */
-    private fun addSystemKitForTest(application: Application) {
+    private fun addSystemKit4Test(application: Application) {
 
         //平台工具
         val platformKits: MutableList<KitWrapItem> = mutableListOf()

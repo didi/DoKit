@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.kit.weaknetwork;
 
 
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.OutputStream;
