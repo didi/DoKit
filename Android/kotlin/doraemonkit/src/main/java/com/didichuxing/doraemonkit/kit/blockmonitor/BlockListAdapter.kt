@@ -18,7 +18,7 @@ class BlockListAdapter(context: Context?) : AbsRecyclerAdapter<AbsViewBinder<Blo
         return ItemViewHolder(view)
     }
 
-    override fun createView(inflater: LayoutInflater?, parent: ViewGroup?, viewType: Int): View {
+    override fun createView(inflater: LayoutInflater, parent: ViewGroup?, viewType: Int): View {
         return inflater!!.inflate(R.layout.dk_item_block_list, parent, false)
     }
 

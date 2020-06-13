@@ -5,6 +5,7 @@ import android.widget.Toast
 import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.FragmentIndex
+import com.didichuxing.doraemonkit.kit.dataclean.DataCleanFragment
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitManagerFragment
@@ -41,6 +42,7 @@ open class UniversalActivity : BaseActivity() {
             FragmentIndex.FRAGMENT_SYS_INFO -> fragmentClass = SysInfoFragment::class.java
             // 性能监控-> 卡顿检测
             FragmentIndex.FRAGMENT_BLOCK_MONITOR -> fragmentClass = BlockMonitorFragment::class.java
+            FragmentIndex.FRAGMENT_DATA_CLEAN -> fragmentClass = DataCleanFragment::class.java
             else -> {
             }
         }
