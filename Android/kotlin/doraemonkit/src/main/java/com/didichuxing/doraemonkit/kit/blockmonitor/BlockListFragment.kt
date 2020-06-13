@@ -82,7 +82,7 @@ class BlockListFragment : BaseFragment(), OnBlockInfoUpdateListener {
         instance.setOnBlockInfoUpdateListener(null)
     }
 
-    override fun onBlockInfoUpdate(blockInfo: BlockInfo?) {
+    override fun onBlockInfoUpdate(blockInfo: BlockInfo) {
         mBlockListAdapter?.append(blockInfo, 0)
     }
 
