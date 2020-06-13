@@ -98,4 +98,17 @@ class SettingItemAdapter : BaseQuickAdapter<SettingItem, BaseViewHolder> {
     fun append(item: SettingItem?) {
         item?.apply { addData(this) }
     }
+
+    /**
+     * 追加一个集合
+     *
+     * @param items
+     */
+    fun append(items: Collection<SettingItem>?) {
+        if (items == null || items.isEmpty()) {
+            return
+        }
+        items.apply { addData(this) }
+    }
+
 }

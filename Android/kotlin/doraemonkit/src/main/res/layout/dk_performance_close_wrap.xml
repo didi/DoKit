@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?><!--性能监控包裹-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_close_wrap"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/fl_wrap0"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="right">
+
+        <ImageView
+            android:id="@+id/iv_close0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:padding="10dp"
+            android:src="@mipmap/dk_close_white" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_wrap1"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="right">
+
+
+        <ImageView
+            android:id="@+id/iv_close1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:padding="10dp"
+            android:src="@mipmap/dk_close_white" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_wrap2"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="right">
+
+
+        <ImageView
+            android:id="@+id/iv_close2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:padding="10dp"
+            android:src="@mipmap/dk_close_white" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_wrap3"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="right">
+
+
+        <ImageView
+            android:id="@+id/iv_close3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:padding="10dp"
+            android:src="@mipmap/dk_close_white" />
+    </FrameLayout>
+</LinearLayout>
