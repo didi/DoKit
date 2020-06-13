@@ -5,6 +5,7 @@ import android.widget.Toast
 import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.FragmentIndex
+import com.didichuxing.doraemonkit.kit.dataclean.DataCleanFragment
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment
 import com.didichuxing.doraemonkit.kit.performance.cpu.CpuInfoPageFragment
 import com.didichuxing.doraemonkit.kit.performance.fps.FrameInfoPageFragment
@@ -49,6 +50,7 @@ open class UniversalActivity : BaseActivity() {
             FragmentIndex.FRAGMENT_LARGE_PICTURE -> fragmentClass = LargePictureFragment::class.java
             // 性能监控-> 卡顿检测
             FragmentIndex.FRAGMENT_BLOCK_MONITOR -> fragmentClass = BlockMonitorFragment::class.java
+            FragmentIndex.FRAGMENT_DATA_CLEAN -> fragmentClass = DataCleanFragment::class.java
             else -> {
             }
         }
