@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.kit.blockmonitor
 
 import android.content.Context
 import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.AbstractKit
 
 /**
@@ -15,7 +16,7 @@ class BlockMonitorKit : AbstractKit() {
         get() = R.mipmap.dk_block_monitor
 
     override fun onClick(context: Context?) {
-        kotlinTip()
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_BLOCK_MONITOR)
     }
 
     override fun onAppInit(context: Context?) {}
