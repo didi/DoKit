@@ -112,6 +112,10 @@ abstract class BaseFragment : Fragment() {
         activity?.showContent(fragmentClass!!, bundle)
     }
 
+    inline fun <reified T: BaseFragment> showContent(bundle: Bundle? = null) {
+        (activity as? BaseActivity)?.showContent(T::class.java, bundle)
+    }
+
     fun finish() {
         val activity = activity as BaseActivity?
         activity?.doBack(this)

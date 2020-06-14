@@ -338,4 +338,7 @@
     <string name="dk_toolpanel_dialog_edit_tip">Whether to save the edited content</string>
     <string name="dk_toolpanel_dialog_reset_tip">Whether to restore to the initial state</string>
     <string name="dk_setting_kit_manager">Function management</string>
+
+    <!--    dokit sp fragment-->
+    <string name="dk_prefs_is_empty">There is no item in [%1$s] preference.</string>
 </resources>
