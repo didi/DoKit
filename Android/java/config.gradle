@@ -26,7 +26,7 @@ ext {
                versionName               : "3.1.6",
                glide_version             : "4.9.0",
                kotlin_version            : "1.3.72",
-               booster_version           : "1.7.0"
+               booster_version           : "2.0.0"
     ]
     dependencies = [// ###### android library  start ######
                     "multidex"           : 'androidx.multidex:multidex:2.0.0',

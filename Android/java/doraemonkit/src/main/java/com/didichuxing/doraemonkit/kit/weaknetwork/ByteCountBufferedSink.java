@@ -17,7 +17,7 @@ import okio.Timeout;
 
 /**
  * 可以设置每次写入大小的BufferedSink
- *
+ * <p>
  * Created by xiandanin on 2019-05-10 16:07
  */
 public class ByteCountBufferedSink implements BufferedSink {
@@ -193,6 +193,5 @@ public class ByteCountBufferedSink implements BufferedSink {
     public void close() throws IOException {
         mDelegate.close();
     }
-
 
 }

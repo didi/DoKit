@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.datapick;
 
 import androidx.annotation.NonNull;
+
 import android.text.TextUtils;
 
 import com.blankj.utilcode.util.FileIOUtils;
@@ -85,7 +86,11 @@ public class DataPickManager {
         String strJson = FileIOUtils.readFile2String(filePath);
         if (!TextUtils.isEmpty(strJson)) {
             //上传数据
-            realPost(jsonFromFile, strJson);
+            try {
+                realPost(jsonFromFile, strJson);
+            } catch (Exception e) {
+                //e.printStackTrace();
+            }
             return;
         }
         //判断对象是否为null
@@ -94,15 +99,18 @@ public class DataPickManager {
         }
         dataPickBean.setEvents(events);
         strJson = GsonUtils.toJson(dataPickBean);
-        realPost(jsonFromMemory, strJson);
+        try {
+            realPost(jsonFromMemory, strJson);
+        } catch (Exception e) {
+            //e.printStackTrace();
+        }
 
-        //ToastUtils.showShort("上传埋点成功");
     }
 
     /**
      * 真正需要上传的方法
      */
-    private void realPost(final int from, String content) {
+    private void realPost(final int from, String content) throws Exception {
         //LogHelper.i(TAG,"content===>" + content);
         //LogHelper.i(TAG, "====realPost======from==>" + from);
         DokitOkGo.<String>post(NetworkManager.APP_DATA_PICK_URL)
