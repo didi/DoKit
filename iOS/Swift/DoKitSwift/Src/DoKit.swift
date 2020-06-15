@@ -41,6 +41,7 @@ public class DoKit {
         addPlugin(plugin: LaunchTimePlugin())
         
         //日志收集
+        addPlugin(plugin: LogPlugin())
         
         
     }

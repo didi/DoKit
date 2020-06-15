@@ -23,4 +23,5 @@ class LogPlugin: Plugin {
         let vc = LogViewController()
         HomeWindow.shared.openPlugin(vc: vc)
     }
+    
 }
