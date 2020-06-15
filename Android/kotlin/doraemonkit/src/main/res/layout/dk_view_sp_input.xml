@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="5dp">
+
+    <TextView
+        android:id="@+id/tv_sp_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableRight="@mipmap/dk_sp_modify"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxEms="6"
+        android:singleLine="true"
+        android:visibility="gone" />
+
+    <Switch
+        android:id="@+id/switch_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+</FrameLayout>

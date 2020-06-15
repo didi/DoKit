@@ -27,7 +27,7 @@ class BlockListAdapter(context: Context?) : AbsRecyclerAdapter<AbsViewBinder<Blo
         private val tvTitle: TextView = view.findViewById(R.id.title)
 
 
-        override fun bind(info: BlockInfo?, position: Int) {
+        override fun onBind(info: BlockInfo?, position: Int) {
             info?.let {
                 val index: String = (this@BlockListAdapter.itemCount - position).toString() + ". "
                 val title = index + info.concernStackString + " " +
