@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fl_light"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:visibility="gone"
+    android:background="@drawable/dk_hint_bg"
+    android:layout_centerInParent="true">
+    <ImageView
+        android:id="@+id/iv_volume_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/dk_ic_light_hint"
+        android:layout_gravity="center"
+        android:scaleType="center"
+        />
+</FrameLayout>

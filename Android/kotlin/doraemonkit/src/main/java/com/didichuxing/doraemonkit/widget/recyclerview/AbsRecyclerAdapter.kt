@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.didichuxing.doraemonkit.util.LogHelper.e
 import java.util.*
 
 /**
@@ -44,8 +43,7 @@ abstract class AbsRecyclerAdapter<T : AbsViewBinder<V>, V>(var context: Context?
 
     override fun onBindViewHolder(holder: T, position: Int) {
         val data = mList.get(position)
-        holder.setData(data)
-        holder.bind(data, position)
+        holder.bindData(data)
     }
 
     override fun getItemCount(): Int {

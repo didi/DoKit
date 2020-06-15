@@ -16,7 +16,7 @@ class FileExplorerKit : AbstractKit() {
         get() = R.mipmap.dk_file_explorer
 
     override fun onClick(context: Context?) {
-        kotlinTip()
+        startUniversalActivity(FragmentIndex.FRAGMENT_FILE_EXPLORER)
     }
 
     override fun onAppInit(context: Context?) {}

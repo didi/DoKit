@@ -11,18 +11,24 @@ import androidx.recyclerview.widget.RecyclerView
  * @since 16/1/5
  */
 abstract class AbsViewBinder<T>(private val mView: View) : RecyclerView.ViewHolder(mView) {
-    private var data: T? = null
-    abstract fun bind(t: T, position: Int)
-    protected fun onViewClick(view: View?, data: T?) {}
-
-    fun setData(data: T) {
+    protected var data: T? = null
+    fun bindData(data: T) {
         this.data = data
+        onBind(data, adapterPosition)
     }
 
+    protected abstract fun onBind(data: T, position: Int)
+    protected open fun onViewClick(view: View, data: T?) {}
+    protected open fun onViewLongClick(view: View, data: T?): Boolean {
+        return false
+    }
+
+
     protected val context: Context
-        protected get() = mView.context
+        get() = mView.context
 
     init {
         mView.setOnClickListener { onViewClick(mView, data) }
+        mView.setOnLongClickListener { onViewLongClick(itemView, data) }
     }
 }

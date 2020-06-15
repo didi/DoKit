@@ -58,31 +58,28 @@ object FileUtil {
     }
 
     @JvmStatic
-    fun isImage(file: File?): Boolean {
+    fun isXFormat(file: File?, vararg format: String): Boolean {
         if (file == null) {
             return false
         }
         val suffix = getSuffix(file)
-        return "jpg" == suffix || "jpeg" == suffix || "png" == suffix || "bmp" == suffix
+        return format.firstOrNull { suffix.equals(it, true) } != null
     }
 
     @JvmStatic
-    fun isVideo(file: File?): Boolean {
-        if (file == null) {
-            return false
-        }
-        val suffix = getSuffix(file)
-        return "3gp" == suffix || "mp4" == suffix || "mkv" == suffix || "webm" == suffix
-    }
+    fun isImage(file: File?): Boolean = isXFormat(file, JPG, "jpeg", "png", "bmp")
 
     @JvmStatic
-    fun isDB(file: File?): Boolean {
-        if (file == null) {
-            return false
-        }
-        val suffix = getSuffix(file)
-        return "db" == suffix
-    }
+    fun isJPG(file: File?): Boolean = isXFormat(file, JPG, "jpeg")
+
+    @JvmStatic
+    fun isTxt(file: File?): Boolean = isXFormat(file, TXT)
+
+    @JvmStatic
+    fun isVideo(file: File?): Boolean = isXFormat(file, "3gp", "mp4", "mkv", "webm")
+
+    @JvmStatic
+    fun isDB(file: File?): Boolean = isXFormat(file, "db") || file?.absolutePath.toString().contains("databases", ignoreCase = true)
 
     @JvmStatic
     fun isSp(file: File): Boolean {
