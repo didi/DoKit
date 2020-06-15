@@ -3,16 +3,12 @@ package com.didichuxing.doraemonkit.kit.uiperformance
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.blankj.utilcode.util.ActivityUtils
 import com.didichuxing.doraemonkit.model.ViewInfo
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil.registerListener
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil.unRegisterListener
-import com.didichuxing.doraemonkit.util.LogHelper.d
-import com.didichuxing.doraemonkit.util.UIUtils.getDokitAppContentView
 import com.didichuxing.doraemonkit.util.UIUtils.heightPixels
 import com.didichuxing.doraemonkit.util.UIUtils.widthPixels
 import java.util.*
