@@ -65,9 +65,9 @@ android {
         abortOnError false
     }
 
-    dataBinding {
-        enabled = true
-    }
+//    dataBinding {
+//        enabled = true
+//    }
 
 
 }
@@ -78,7 +78,7 @@ android {
 dokitExt {
     //dokit 插件开关
     dokitPluginSwitch true
-    dokitLogSwitch true
+    //dokitLogSwitch false
     //通用设置
     comm {
         //地图经纬度开关
@@ -92,9 +92,9 @@ dokitExt {
     slowMethod {
         //0:默认模式 打印函数调用栈 需添加指定入口  默认为application onCreate 和attachBaseContext
         //1:普通模式 运行时打印某个函数的耗时 全局业务代码函数插入
-        strategy 1
+        strategy 0
         //函数功能开关 已弃用
-        methodSwitch false
+        methodSwitch true
 
         //调用栈模式配置
         stackMethod {
