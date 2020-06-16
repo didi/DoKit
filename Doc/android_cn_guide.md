@@ -2,8 +2,8 @@
 
 |DoKit|最新版本|描述|
 |-|-|-|
-|支持Androidx|3.1.6|从v3.1.0版本开始支持androidx|
-|支持android support|3.0.7.1|3.0.7.1版本对应3.1.6的功能，后期support将会不定期更新，主要还是看社区的反馈，请大家尽快升级和适配Androidx|
+|支持Androidx|3.1.8|从v3.1.0版本开始支持androidx|
+|支持android support|3.0.7.2|3.0.7.1版本对应3.1.8的功能，后期support将会不定期更新，主要还是看社区的反馈，请大家尽快升级和适配Androidx|
 
 
 #### 1. Gradle 依赖
@@ -11,8 +11,8 @@
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.6'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.6'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.8'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.8'
     …
 }
 ```
@@ -21,20 +21,20 @@ dependencies {
 
 滴滴内部业务线接入请将
 ```
-debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.6'
+debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.8'
 ```
 
 替换为
 
 ```
-debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-rpc:3.1.6'
+debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-rpc:3.1.8'
 ```
 
 **注意:** 
  假如你无法通过 jcenter 下载到依赖库并报了以下的错误 
 
 ```
-ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.1.6
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.1.8
 ```
 
 建议你可以尝试挂载VPN或通过命令行重试(以Mac系统为例 项目根目录下)
@@ -63,7 +63,7 @@ DoraemonKit目前已支持Weex工具，包括
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.1.6'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.1.8'
     …
 }
 ```
@@ -73,7 +73,7 @@ dependencies {
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.6'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.8'
     …
 }
 ```
@@ -118,7 +118,7 @@ AOP包括以下几个功能:
 buildscript {
     dependencies {
         …
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.6'
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.8'
         …
     }
 }
