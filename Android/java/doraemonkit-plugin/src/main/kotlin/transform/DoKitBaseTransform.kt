@@ -7,6 +7,8 @@ import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.android.build.gradle.internal.pipeline.TransformManager.SCOPE_FULL_PROJECT
 import com.didichuxing.doraemonkit.plugin.DoKitTransformInvocation
+import com.didichuxing.doraemonkit.plugin.loadTransformers
+import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.gradle.SCOPE_FULL_WITH_FEATURES
 import com.didiglobal.booster.gradle.SCOPE_PROJECT
 import com.didiglobal.booster.gradle.getAndroid
@@ -26,15 +28,17 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
     /*
      * Preload transformers as List to fix NoSuchElementException caused by ServiceLoader in parallel mode
      */
-    internal open val transformers = ServiceLoader.load(Transformer::class.java, javaClass.classLoader).toList()
+    internal open val transformers = loadTransformers(project.buildscript.classLoader).sortedBy {
+        it.javaClass.getAnnotation(Priority::class.java)?.value ?: 0
+    }
 
-    private val androidExt: BaseExtension = project.getAndroid()
+    private val android: BaseExtension = project.getAndroid()
 
     private lateinit var androidKlassPool: AbstractKlassPool
 
     init {
         project.afterEvaluate {
-            androidKlassPool = object : AbstractKlassPool(androidExt.bootClasspath) {}
+            androidKlassPool = object : AbstractKlassPool(android.bootClasspath) {}
         }
     }
 
@@ -52,22 +56,19 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
     override fun getScopes(): MutableSet<in QualifiedContent.Scope> = when {
         transformers.isEmpty() -> mutableSetOf()
         project.plugins.hasPlugin("com.android.library") -> SCOPE_PROJECT
-        project.plugins.hasPlugin("com.android.application") -> SCOPE_FULL_PROJECT
+        project.plugins.hasPlugin("com.android.application") -> com.didiglobal.booster.gradle.SCOPE_FULL_PROJECT
         project.plugins.hasPlugin("com.android.dynamic-feature") -> SCOPE_FULL_WITH_FEATURES
         else -> TODO("Not an Android project")
     }
 
-
-    override fun getReferencedScopes(): MutableSet<in QualifiedContent.Scope> {
-        if (transformers.isEmpty()) {
-            return when {
-                project.plugins.hasPlugin("com.android.library") -> SCOPE_PROJECT
-                project.plugins.hasPlugin("com.android.application") -> SCOPE_FULL_PROJECT
-                project.plugins.hasPlugin("com.android.dynamic-feature") -> SCOPE_FULL_WITH_FEATURES
-                else -> TODO("Not an Android project")
-            }
+    override fun getReferencedScopes(): MutableSet<in QualifiedContent.Scope> = when {
+        transformers.isEmpty() -> when {
+            project.plugins.hasPlugin("com.android.library") -> SCOPE_PROJECT
+            project.plugins.hasPlugin("com.android.application") -> com.didiglobal.booster.gradle.SCOPE_FULL_PROJECT
+            project.plugins.hasPlugin("com.android.dynamic-feature") -> SCOPE_FULL_WITH_FEATURES
+            else -> TODO("Not an Android project")
         }
-        return super.getReferencedScopes()
+        else -> super.getReferencedScopes()
     }
 
     final override fun transform(invocation: TransformInvocation) {
@@ -80,5 +81,6 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
             }
         }
     }
+
 
 }

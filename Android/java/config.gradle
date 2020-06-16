@@ -15,18 +15,18 @@ ext {
                minSdkVersion             : 16,
                targetSdkVersion          : 29,
                //app版本号
-               versionCode               : 307,
+               versionCode               : 308,
                //dokit 插件版本号
-               pluginVersionName         : "3.0.7.1",
+               pluginVersionName         : "3.0.7.2",
                //jcenter dokit版本号 打包上传时 dokit的版本名字
-               jcenterArchivesVersionName: "3.0.7.1",
+               jcenterArchivesVersionName: "3.0.7.2",
                //didi内部仓库版本号
                //didiArchivesVersionName   : "1000.0.22",
-               didiArchivesVersionName   : "3.0.7.1",
-               versionName               : "3.0.7.1",
+               didiArchivesVersionName   : "3.0.7.2",
+               versionName               : "3.0.7.2",
                glide_version             : "4.9.0",
                kotlin_version            : "1.3.72",
-               booster_version           : "1.7.0"
+               booster_version           : "2.1.0"
     ]
 
     dependencies = [// ###### android library  start ######
@@ -58,7 +58,7 @@ ext {
                     //将urlconnection代理到okhttp
                     //"okhttp_urlconnection"    : "com.squareup.okhttp3:okhttp-urlconnection:3.12.1",
                     //"okio"                    : "com.squareup.okio:okio:1.15.0",
-                    "utilcode"           : 'com.blankj:utilcode:1.28.4',
+                    "utilcode"           : 'com.blankj:utilcode:1.29.0',
                     "glide"              : "com.github.bumptech.glide:glide:${android["glide_version"]}",
                     "glide_v3"           : 'com.github.bumptech.glide:glide:3.8.0',
                     "glide_okhttp3"      : "com.github.bumptech.glide:okhttp3-integration:${android["glide_version"]}",
@@ -76,7 +76,7 @@ ext {
                     "debug-db"           : "com.amitshekhar.android:debug-db:1.0.6",
                     "debug-db-encrypt"   : "com.amitshekhar.android:debug-db-encrypt:1.0.6",
                     "weex_inspector"     : "com.taobao.android:weex_inspector:0.24.2.11",
-                    "weex_sdk"           : "com.taobao.android:weex_sdk:0.26.0",
+                    "weex_sdk"           : "org.apache.weex:sdk:0.28.0",
                     "brvah"              : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.2',
                     "easy_refresh_layout": 'com.github.anzaizai:EasyRefreshLayout:1.3.1',
                     "android_spinkit"    : 'com.github.ybq:Android-SpinKit:1.4.0',
