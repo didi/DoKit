@@ -58,11 +58,11 @@ class ColorPickerSettingFragment: BaseFragment() {
     private fun showColorPicker(data: Intent?) {
         Log.e("ColorPickerSettingFrag", "showColorPicker: ${data?.extras}")
         DokitViewManager.instance.detachToolPanel()
-//        var pageIntent = DokitIntent(ColorPickerInfoDokitView::class.java)
-//        pageIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE
-//        DokitViewManager.instance.attach(pageIntent)
+        var pageIntent = DokitIntent(ColorPickerInfoDokitView::class.java)
+        pageIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE
+        DokitViewManager.instance.attach(pageIntent)
 
-        var pageIntent = DokitIntent(ColorPickerDokitView::class.java)
+        pageIntent = DokitIntent(ColorPickerDokitView::class.java)
         val bundle = Bundle()
         bundle.putParcelable("data", data)
         pageIntent.bundle = bundle

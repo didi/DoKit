@@ -3,12 +3,14 @@ package com.didichuxing.doraemonkit.kit.colorpick
 import android.content.Context
 import android.graphics.*
 import android.text.TextPaint
+import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.core.graphics.drawable.RoundedBitmapDrawable
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.util.ColorUtil
 
 /**
  * 用于拾色的view
@@ -44,13 +46,13 @@ class ColorPickerView : View {
 
         mFocusPaint.isAntiAlias = true
         mFocusPaint.style = Paint.Style.STROKE
-        mFocusPaint.strokeWidth = 3f
-        mFocusPaint.color = Color.RED
+        mFocusPaint.strokeWidth = 3F
+        mFocusPaint.color = Color.BLACK
 
         mBitmapPaint.isFilterBitmap = false
 
         //设置线宽。单位为1像素
-        mGridPaint.strokeWidth = 1f
+        mGridPaint.strokeWidth = 1F
         mGridPaint.style = Paint.Style.STROKE
         //画笔颜色
         mGridShadowPaint = Paint(mGridPaint)
@@ -81,6 +83,7 @@ class ColorPickerView : View {
         drawBitmap(canvas!!)
         drawGrid(canvas)
         drawRing(canvas)
+        drawText(canvas)
         drawFocus(canvas)
     }
 
@@ -160,18 +163,34 @@ class ColorPickerView : View {
         return gridBitmap
     }
 
+    private fun drawText(canvas: Canvas) {
+        if (!TextUtils.isEmpty(mText)) {
+            val ringWidth = ColorPickConstants.PIX_INTERVAL * 2 + 4
+            val hOffset = (width * Math.PI * (90 * 1.0 / 360)).toFloat()
+            val wOffset = (ringWidth - 5).toFloat()
+            canvas.drawTextOnPath(mText!!, mClipPath, hOffset, wOffset, mTextPaint)
+            canvas.drawFilter = null
+        }
+    }
 
     private fun drawFocus(canvas: Canvas) {
         val focusWidth = ColorPickConstants.PIX_INTERVAL + 4F
         val center = width / 2F
-        val start = center -  2
         val end = center + focusWidth - 2
-        canvas.drawRect(start, start, end, end, mFocusPaint)
+        canvas.drawRect(center, center, end, end, mFocusPaint)
     }
 
     fun setBitmap(bitmap: Bitmap, @ColorInt color: Int, x: Int, y: Int) {
         mCircleBitmap = bitmap
         mRingPaint.color = color
+        mText = "${ColorUtil.parseColorInt(color)}   ${x + ColorPickConstants.PIX_INTERVAL}, ${y + ColorPickConstants.PIX_INTERVAL}"
+        if (ColorUtil.isColdColor(color)) {
+            mFocusPaint.color = Color.WHITE
+            mTextPaint.color = Color.WHITE
+        }else {
+            mFocusPaint.color = Color.BLACK
+            mTextPaint.color = Color.BLACK
+        }
         invalidate()
     }
 }

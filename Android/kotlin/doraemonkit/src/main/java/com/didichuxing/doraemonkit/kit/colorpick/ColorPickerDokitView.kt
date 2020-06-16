@@ -8,9 +8,11 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.annotation.RequiresApi
+import com.blankj.utilcode.util.ActivityUtils
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.util.ImageUtil
 import com.didichuxing.doraemonkit.util.UIUtils
 
@@ -24,6 +26,7 @@ class ColorPickerDokitView : AbsDokitView() {
 
     private var mImageCapture: ImageCapture? = null
     private lateinit var mPickerView: ColorPickerView
+    private lateinit var mInfoDokitView: ColorPickerInfoDokitView
 
     private var width: Int = 0
     private var height: Int = 0
@@ -32,6 +35,7 @@ class ColorPickerDokitView : AbsDokitView() {
     private lateinit var coordinate: Coordinate
 
     override fun onCreate(context: Context?) {
+        mInfoDokitView = DokitViewManager.instance.getDokitView(ActivityUtils.getTopActivity(), ColorPickerInfoDokitView::class.java.simpleName) as ColorPickerInfoDokitView
         if (context != null && bundle != null) {
             mImageCapture = ImageCapture(context, bundle!!)
         }
@@ -82,14 +86,15 @@ class ColorPickerDokitView : AbsDokitView() {
         }
 
         val pickAreaSize = ColorPickConstants.PICK_AREA_SIZE
-        val startX = x + ColorPickConstants.PICK_VIEW_SIZE / 2 - pickAreaSize / 2
-        val startY = y + ColorPickConstants.PICK_VIEW_SIZE / 2 - pickAreaSize / 2 + statusBarHeight
-        val bitmap: Bitmap = mImageCapture?.getPartBitmap(startX, startY, pickAreaSize, pickAreaSize)
-                ?: return
-        val xCenter = bitmap.width / 2
-        val yCenter = bitmap.height / 2
-        val colorInt: Int = ImageUtil.getPixel(bitmap, xCenter, yCenter)
+        //取色器边框宽度
+        val ringWidth = (ColorPickConstants.PICK_VIEW_SIZE shr 1) - (pickAreaSize shr 1)
+        val startX = x + ringWidth
+        val startY = y + ringWidth + statusBarHeight
+        val bitmap: Bitmap = mImageCapture?.getPartBitmap(startX, startY, pickAreaSize, pickAreaSize) ?: return
+        val colorInt: Int = ImageUtil.getPixel(bitmap, bitmap.width shr 1, bitmap.height shr 1)
         mPickerView.setBitmap(bitmap, colorInt, startX, startY)
+        mInfoDokitView.showInfo(colorInt, startX, startY)
+
     }
 
     override fun initDokitViewLayoutParams(params: DokitViewLayoutParams?) {
@@ -136,7 +141,7 @@ class ColorPickerDokitView : AbsDokitView() {
      * 矫正边界
      */
     private fun redressBound(x: Int, y: Int) {
-        val centerX = mPickerView.width shl 1
+        val centerX = mPickerView.width shr 1
         var boundX: Int = x
         if (x < -centerX) {
             boundX = -centerX
@@ -147,7 +152,7 @@ class ColorPickerDokitView : AbsDokitView() {
         }
         coordinate.x = boundX
 
-        val centerY = mPickerView.height shl 1
+        val centerY = mPickerView.height shr 1
         var boundY: Int = y
         if (y < -centerY - statusBarHeight) {
             boundY = -centerY - statusBarHeight
