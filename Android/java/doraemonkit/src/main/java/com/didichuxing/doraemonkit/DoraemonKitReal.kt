@@ -71,7 +71,7 @@ import java.util.*
  * Created by jintai on 2019/12/18.
  * DoraemonKit 真正执行的类  不建议外部app调用
  */
-internal object DoraemonKitReal {
+object DoraemonKitReal {
     private const val TAG = "Doraemon"
 
     /**
