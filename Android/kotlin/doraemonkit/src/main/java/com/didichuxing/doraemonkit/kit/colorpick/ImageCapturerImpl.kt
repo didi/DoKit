@@ -1,7 +1,9 @@
 package com.didichuxing.doraemonkit.kit.colorpick
 
 import android.app.Activity
+import android.content.ComponentName
 import android.content.Context
+import android.content.ServiceConnection
 import android.graphics.Bitmap
 import android.graphics.PixelFormat
 import android.hardware.display.DisplayManager
@@ -10,6 +12,7 @@ import android.media.projection.MediaProjection
 import android.media.projection.MediaProjectionManager
 import android.os.Build
 import android.os.Bundle
+import android.os.IBinder
 import androidx.annotation.RequiresApi
 import com.didichuxing.doraemonkit.util.UIUtils
 
@@ -19,7 +22,7 @@ import com.didichuxing.doraemonkit.util.UIUtils
  * @date 2020/6/9
  */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-class ImageCapture constructor(context: Context, bundle: Bundle) {
+class ImageCapturerImpl constructor(private val context: Context, bundle: Bundle): ImageCapturer {
 
     private lateinit var mMediaProjection: MediaProjection
 
@@ -29,12 +32,25 @@ class ImageCapture constructor(context: Context, bundle: Bundle) {
 
     private lateinit var mBitmap: Bitmap
 
+    private  var serviceConnection: ServiceConnection?  = null
+
     init {
-        initImageRead(context, bundle)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && context.packageManager.getApplicationInfo(context.packageName, 0).targetSdkVersion >= 29) {
+            serviceConnection = object : ServiceConnection {
+                override fun onServiceDisconnected(name: ComponentName?) {
+                }
+
+                override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+                    initImageRead(context, bundle)
+                }
+            }
+            ScreenRecorderService.bindService(context, serviceConnection!!)
+        }else {
+            initImageRead(context, bundle)
+        }
     }
 
-
-    fun initImageRead(context: Context, bundle: Bundle) {
+    private fun initImageRead(context: Context, bundle: Bundle) {
         val mediaProjectionManager = context.getSystemService(Context.MEDIA_PROJECTION_SERVICE) as MediaProjectionManager
         mMediaProjection = mediaProjectionManager.getMediaProjection(Activity.RESULT_OK, bundle.getParcelable("data")!!)
         val width = UIUtils.widthPixels
@@ -44,17 +60,18 @@ class ImageCapture constructor(context: Context, bundle: Bundle) {
         mMediaProjection.createVirtualDisplay("ScreenCapture", width, height, dpi, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR, mImageReader.surface, null, null)
     }
 
-
-
-    fun destroy() {
+    override fun destroy() {
         mImageReader.close()
         mMediaProjection.stop()
         if (this::mBitmap.isInitialized) {
             mBitmap.recycle()
         }
+        if (serviceConnection != null) {
+            ScreenRecorderService.unbindService(context, serviceConnection!!)
+        }
     }
 
-    fun capture() {
+    override fun capture() {
         if (isCapturing) {
             return
         }
@@ -75,7 +92,7 @@ class ImageCapture constructor(context: Context, bundle: Bundle) {
         isCapturing = false
     }
 
-    fun getPartBitmap(x: Int, y: Int, width: Int, height: Int): Bitmap? {
+    override fun getPartBitmap(x: Int, y: Int, width: Int, height: Int): Bitmap? {
         if (!this::mBitmap.isInitialized || mBitmap.isRecycled) {
             return null
         }

@@ -24,7 +24,7 @@ import com.didichuxing.doraemonkit.util.UIUtils
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 class ColorPickerDokitView : AbsDokitView() {
 
-    private var mImageCapture: ImageCapture? = null
+    private var mImageCapturer: ImageCapturer? = null
     private lateinit var mPickerView: ColorPickerView
     private lateinit var mInfoDokitView: ColorPickerInfoDokitView
 
@@ -37,7 +37,7 @@ class ColorPickerDokitView : AbsDokitView() {
     override fun onCreate(context: Context?) {
         mInfoDokitView = DokitViewManager.instance.getDokitView(ActivityUtils.getTopActivity(), ColorPickerInfoDokitView::class.java.simpleName) as ColorPickerInfoDokitView
         if (context != null && bundle != null) {
-            mImageCapture = ImageCapture(context, bundle!!)
+            mImageCapturer = ImageCapturerImpl(context, bundle!!)
         }
     }
 
@@ -67,7 +67,7 @@ class ColorPickerDokitView : AbsDokitView() {
         //先隐藏拾色器控件 否则会把拾色器也截图进去
         mPickerView.visibility = View.INVISIBLE
         rootView.postDelayed({
-            mImageCapture?.capture()
+            mImageCapturer?.capture()
             //截图完成以后恢复
             mPickerView.visibility = View.VISIBLE
             showInfo()
@@ -90,7 +90,7 @@ class ColorPickerDokitView : AbsDokitView() {
         val ringWidth = (ColorPickConstants.PICK_VIEW_SIZE shr 1) - (pickAreaSize shr 1)
         val startX = x + ringWidth
         val startY = y + ringWidth + statusBarHeight
-        val bitmap: Bitmap = mImageCapture?.getPartBitmap(startX, startY, pickAreaSize, pickAreaSize) ?: return
+        val bitmap: Bitmap = mImageCapturer?.getPartBitmap(startX, startY, pickAreaSize, pickAreaSize) ?: return
         val colorInt: Int = ImageUtil.getPixel(bitmap, bitmap.width shr 1, bitmap.height shr 1)
         mPickerView.setBitmap(bitmap, colorInt, startX, startY)
         mInfoDokitView.showInfo(colorInt, startX, startY)
@@ -166,8 +166,8 @@ class ColorPickerDokitView : AbsDokitView() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mImageCapture?.destroy()
-        mImageCapture = null
+        mImageCapturer?.destroy()
+        mImageCapturer = null
     }
 
     private class Coordinate {
