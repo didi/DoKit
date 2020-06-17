@@ -26,6 +26,9 @@ public class DoKit {
     }
     
     public func install() {
+        // 平台工具
+        addPlugin(plugin: HealthPlugin())// 健康体检
+        
         addPlugin(plugin: CrashPlugin())
         addPlugin(plugin: AppSettingPlugin())
         addPlugin(plugin: AppInfoPlugin())
