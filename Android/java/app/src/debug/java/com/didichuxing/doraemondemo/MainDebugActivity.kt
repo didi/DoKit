@@ -347,9 +347,12 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
             }
 
 
-            R.id.btn_connection_mock ->                 //requestByGet("https://www.v2ex.com/api/topics/hot.json");
-                //requestByGet("https://gank.io/api/today?a=哈哈&b=bb");
-                requestByGet("https://www.v2ex.com/api/topics/hot.json")
+            R.id.btn_connection_mock -> {
+                //requestByGet("https://www.v2ex.com/api/topics/hot.json");
+                requestByGet("https://gank.io/api/today?a=哈哈&b=bb")
+                requestByGet("https://wanandroid.com/user_article/list/0/json")
+                //requestByGet("https://ant.pingan.com.cn/c.gif?title=非车险产品dock&url=http://com.pingan.lifecircle/feiche_AllProductPage&eventName=pageview&refererUrlTime=400&referer=http://com.pingan.lifecircle/personal_MainPage&siteId=QRM79jeIRrN2B565&userProperty=%7B\"userIdType\":\"aopsId\"%7D&resolution=1080*2340&userAgent=Dalvik/2.1.0(Linux;U;Android9;RedmiNote8ProMIUI/V11.0.6.0.PGGCNXM)&language=zh&apiv=2&seStartTime=1592363736562&eventTime=1592363794558&userId=138068825&netType=4G&customerVar=%7B\"sdkVersion\":\"2.2.8.6\",\"macAddress\":\"A4:45:19:38:4A:5A\",\"gpsFlag\":\"0\",\"imei\":\"\"%7D&uaOs=Android&uaOsMajor=&uaOsMinor=&uaDevice=RedmiNote8Pro&downloadChannel=ch1&appVersion=1.13.1&deviceId=b69a044c294af87f&sessionId=8416a37db255daa4&projectId=OCUTeffvo02r7nmj")
+            }
             R.id.btn_retrofit_mock -> {
                 val githubUserInfo = githubService?.githubUserInfo("jtsky")
                 githubUserInfo?.subscribeOn(Schedulers.io())?.subscribe {
@@ -401,7 +404,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
 
 
             override fun onSuccess(result: String?) {
-                Log.i(TAG, "httpUrlConnection====response===>===>$result")
+                Log.i(TAG, "httpUrlConnection===url===$path===response===>$result")
             }
         })
     }
@@ -418,7 +421,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         var request: Request? = null
         if (upload) {
             try {
-//模拟一个1M的文件用来上传
+                //模拟一个1M的文件用来上传
                 val length = 1L * 1024 * 1024
                 val temp = File(filesDir, "test.tmp")
                 if (!temp.exists() || temp.length() != length) {
