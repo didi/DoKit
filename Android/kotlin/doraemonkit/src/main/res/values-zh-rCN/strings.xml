@@ -335,4 +335,7 @@
     <string name="dk_toolpanel_dialog_edit_tip">是否保存已编辑的内容</string>
     <string name="dk_toolpanel_dialog_reset_tip">是否还原到初始状态</string>
     <string name="dk_setting_kit_manager">功能管理</string>
+
+    <!--    dokit sp fragment-->
+    <string name="dk_prefs_is_empty">配置项 [%1$s] 没有任何条目</string>
 </resources>

@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentManager
 /**
  * Created by wanglikun on 2019/4/12
  */
-abstract class DialogProvider<T>(private val mData: T, private var mDialogListener: DialogListener? = null) {
+abstract class DialogProvider<T>(protected val mData: T, private var mDialogListener: DialogListener? = null) {
     var host: DialogFragment? = null
     private var mView: View? = null
 

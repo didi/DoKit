@@ -16,7 +16,7 @@ class DataCleanKit : AbstractKit() {
         get() = R.mipmap.dk_data_clean
 
     override fun onClick(context: Context?) {
-        kotlinTip()
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_DATA_CLEAN)
     }
 
     override fun onAppInit(context: Context?) {}
