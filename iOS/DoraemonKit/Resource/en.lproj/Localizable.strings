@@ -118,7 +118,7 @@
     "正在清理中"                                  = "Deleting";
     
     //NSLog
-    "NSLog"                               = "NSLog";
+    "print"                               = "print";
     "开关"                                      = "On/Off";
     "查看记录"                                = "View log";
     "NSLog日志记录"                           = "NSLog Results";
