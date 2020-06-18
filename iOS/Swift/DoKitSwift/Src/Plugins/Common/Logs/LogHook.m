@@ -67,10 +67,10 @@ static ssize_t new_writev(int a, const struct iovec *v, int v_len) {
 
 void rebindFunction(void) {
     int error = 0;
-    error = rebind_symbols((struct rebinding[1]){{"writev", new_writev, (void *)&orig_writev}}, 1);
-    if (error < 0) {
-        NSLog(@"错误 writev");
-    }
+//    error = rebind_symbols((struct rebinding[1]){{"writev", new_writev, (void *)&orig_writev}}, 1);
+//    if (error < 0) {
+//        NSLog(@"错误 writev");
+//    }
     error = rebind_symbols((struct rebinding[1]){{"fwrite", new_fwrite, (void *)&orig_fwrite}}, 1);
     if (error < 0) {
         NSLog(@"错误 fwrite");
