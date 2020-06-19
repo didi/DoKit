@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.ImageView
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.BundleKey
-import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.TitledBaseFragment
 import com.didichuxing.doraemonkit.util.ImageUtil
 import com.didichuxing.doraemonkit.widget.titlebar.TitleBar

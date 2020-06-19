@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--必须fragment包一层，不然显示不对-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="@dimen/dk_dp_15"
+        android:layout_marginEnd="@dimen/dk_dp_15"
+        android:background="@drawable/dk_info_background"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/dk_dp_15"
+        android:paddingEnd="@dimen/dk_dp_15">
+
+        <ImageView
+            android:id="@+id/iv_info_color"
+            android:layout_width="@dimen/dk_dp_15"
+            android:layout_height="@dimen/dk_dp_15"
+            android:background="@color/dk_color_8F0005"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/tv_info_hex"
+            style="@style/DK.Text.Darker"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dk_dp_10"
+            android:layout_marginRight="@dimen/dk_dp_10"
+            android:layout_weight="1"
+            android:gravity="start"
+            tools:text="#12dddfff  100, 200" />
+
+        <ImageView
+            android:id="@+id/iv_info_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null"
+            android:src="@mipmap/dk_close_icon" />
+
+    </LinearLayout>
+</FrameLayout>
