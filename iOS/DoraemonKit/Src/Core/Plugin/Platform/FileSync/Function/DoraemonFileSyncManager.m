@@ -9,6 +9,7 @@
 #import <GCDWebServer/GCDWebServerRequest.h>
 #import <GCDWebServer/GCDWebServerDataResponse.h>
 #import <GCDWebServer/GCDWebServerMultiPartFormRequest.h>
+#import <GCDWebServer/GCDWebServerFileResponse.h>
 #import "DoraemonAppInfoUtil.h"
 
 @interface DoraemonFileSyncManager()
@@ -64,6 +65,13 @@
     
     [self addHandlerForMethod:@"POST" path:@"/uploadFile" requestClass:[GCDWebServerMultiPartFormRequest class] processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
         return [weakSelf uploadFile:(GCDWebServerMultiPartFormRequest *)request];
+    }];
+    
+    [self addHandlerForMethod:@"GET"
+                         path:@"/downloadFile"
+                 requestClass:[GCDWebServerRequest class]
+                 processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
+        return [weakSelf downloadFile:request];
     }];
 }
 
@@ -142,11 +150,38 @@
     NSString *rootPath = NSHomeDirectory();
     NSString *targetPath = [NSString stringWithFormat:@"%@%@%@",rootPath,filePath,file.fileName];
     NSError* error = nil;
+    
+    NSDictionary *res;
     if (![[NSFileManager defaultManager] moveItemAtPath:file.temporaryPath toPath:targetPath error:&error]) {
         NSLog(@"Failed moving uploaded file to \"%@\"", targetPath);
+        res = [self getCode:0 data:nil];
+    }else{
+        res = [self getCode:200 data:nil];
     }
     
-    return [GCDWebServerDataResponse responseWithJSONObject:@{}];;
+     
+    GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:res];
+    [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
+    
+    return response;
+}
+
+- (GCDWebServerResponse *)downloadFile:(GCDWebServerRequest *)request{
+    NSString *rootPath = NSHomeDirectory();
+    NSString *relativePath = [[request query] objectForKey:@"filePath"];
+    NSString *fileName = [[request query] objectForKey:@"fileName"];
+    NSString *targetPath = [NSString stringWithFormat:@"%@%@%@",rootPath,relativePath,fileName];
+    
+    NSDictionary *res;
+    BOOL isDirectory = NO;
+    if (![[NSFileManager defaultManager] fileExistsAtPath:targetPath isDirectory:&isDirectory]) {
+        NSLog(@"\"%@\" does not exist", targetPath);
+        res = [self getCode:0 data:nil];
+        GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:res];
+        [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
+        return response;
+    }
+    return [GCDWebServerFileResponse responseWithFile:targetPath isAttachment:YES];
 }
 
 @end
