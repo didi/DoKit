@@ -10,5 +10,6 @@ import UIKit
 class LogModel: NSObject {
     var content:String?
     var timestamp:Date?
+    var cellHeight:CGFloat?
 
 }

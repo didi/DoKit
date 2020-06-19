@@ -22,9 +22,9 @@ class DoraemonDemoLoggerViewController: DoraemonDemoBaseViewController {
     }
     
     @objc func addNSLog() {
-        let str = "jack"
-        let age = 29
-        print("\n北京欢迎你")
+        print("asdeasdve北京欢迎你aaaaasdfsdfg欢迎你*^(*&R()8y23rkvwd예사소리/평음い　うけ か　さ た　 に ぬ の ま み め も り る")
+        print("asdeasdve北京欢迎你aaaaasdfsdfg欢迎你*^(*&R()8y23rkvwdåß∂çåß∂ƒœ∑¥øµ≤åß∫∂çø…ƒπœ∑¬µ√÷“æ˙¡ª•§")
+        print("asdfasdf".cString(using: String.Encoding.ascii))
         
 //        NSLog("NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦。。。str == %@  age == %zi", str,age)
 //        let specialString = "callnative://saveTian/%22saveTianDataCallback43%22"

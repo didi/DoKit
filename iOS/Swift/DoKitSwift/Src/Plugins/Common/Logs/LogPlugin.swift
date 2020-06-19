@@ -19,7 +19,7 @@ class LogPlugin: Plugin {
     func onInstall() {
         let isOn = LogManager.shared.isOn;
         if isOn {
-            rebindPrintMethod()
+            LogManager.shared.start()
         }
     }
     func onSelected() {

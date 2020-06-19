@@ -14,7 +14,10 @@ extern void addLogFromSwift (char *);
 static size_t (*orig_fwrite)(const void * __restrict __ptr, size_t __size, size_t __nitems, FILE * __restrict __stream);
 size_t new_fwrite(const void * __restrict __ptr, size_t __size, size_t __nitems, FILE * __restrict __stream) {
     char *chars = (char*)__ptr;
-    addLogFromSwift(chars);
+    if (chars[0] == '\n' && chars[1] == '\0') {
+    }else {
+        addLogFromSwift(chars);
+    }
     return orig_fwrite(__ptr, __size, __nitems, __stream);
 }
 
@@ -33,6 +36,13 @@ void rebindPrintMethod (void) {
     }else {
         printf("fwrite绑定");
     }
+    
+    int errorCode = rebind_symbols((struct rebinding[1]){{"__swbuf", new___swbuf, (void *)&orin___swbuf}}, 1);
+    if (errorCode < 0) {
+        printf("__swbuf绑定出错");
+    }else {
+        printf("__swbuf绑定");
+    }
 
     
 }
@@ -44,6 +54,12 @@ void bindPrintMethod (void) {
         printf("fwrite恢复");
     }
     
+    int errorCode = rebind_symbols((struct rebinding[1]){{"__swbuf", orin___swbuf, NULL}}, 1);
+    if (errorCode < 0) {
+        printf("__swbuf恢复出错");
+    }else {
+        printf("__swbuf恢复");
+    }
 }
 
 
