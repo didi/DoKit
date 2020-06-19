@@ -8,16 +8,19 @@
 
 import Foundation
 
-extension Array {
+extension Array where Element: Hashable {
     /// 数组去重
-    func filterDuplicates<E: Equatable>(_ filter: (Element) -> E) -> [Element] {
+    mutating func removeDuplicateIfNeeded() {
+        if Set<Element>(self).count == count {
+            return
+        }
+
         var result = [Element]()
         for value in self {
-            let key = filter(value)
-            if !result.map({filter($0)}).contains(key) {
+            if !result.contains(value) {
                 result.append(value)
             }
         }
-        return result
+        self = result
     }
 }
