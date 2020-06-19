@@ -14,7 +14,7 @@ class LogViewController: BaseViewController, UITableViewDelegate, UITableViewDat
     var titleArray:[String]?
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setTitle(title: LocalizedString("NSLog"))
+        self.setTitle(title: LocalizedString("print"))
         self.initUI()
         self.initData()
     }
@@ -39,12 +39,15 @@ class LogViewController: BaseViewController, UITableViewDelegate, UITableViewDat
         if indexPath.row == 0 {
             let cell:LogSwitchStyleCell = tableView.dequeueReusableCell(withIdentifier: switchCellID, for: indexPath) as! LogSwitchStyleCell
             cell.selectionStyle = .none
+            cell.titleLabel?.text = title;
+            let printOn:Bool = LogManager.shared.isOn;
+            cell.switchButton?.setOn(printOn, animated: false)
             cell.switchOnBlock = {(isOn:Bool) in
-//                日志收集开关回调
-                print("日志收集开关：\(isOn)")
-                self.hookPrintMethod();
-                
-                
+                if isOn {
+                    LogManager.shared.start()
+                }else {
+                    LogManager.shared.stop()
+                }
             }
             return cell
         }else {

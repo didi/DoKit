@@ -17,8 +17,8 @@ static char *__chineseChar = {0};
 static int __buffIdx = 0;
 static NSString *__syncToken = @"token";
 static size_t (*orig_fwrite)(const void * __restrict, size_t, size_t, FILE * __restrict);
+
 size_t new_fwrite(const void * __restrict ptr, size_t size, size_t nitems, FILE * __restrict stream) {
-    
     char *str = (char *)ptr;
     __block NSString *s = [NSString stringWithCString:str encoding:NSUTF8StringEncoding];
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -33,7 +33,6 @@ size_t new_fwrite(const void * __restrict ptr, size_t size, size_t nitems, FILE 
                 
             }
         }
-//        [[logInWindowManager share] addPrintWithMessage:s needReturn:false];
     });
     return orig_fwrite(ptr, size, nitems, stream);
 }
@@ -67,16 +66,33 @@ static ssize_t new_writev(int a, const struct iovec *v, int v_len) {
 
 void rebindFunction(void) {
     int error = 0;
-    error = rebind_symbols((struct rebinding[1]){{"writev", new_writev, (void *)&orig_writev}}, 1);
-    if (error < 0) {
-        NSLog(@"错误 writev");
-    }
+//    error = rebind_symbols((struct rebinding[1]){{"writev", new_writev, (void *)&orig_writev}}, 1);
+//    if (error < 0) {
+//        NSLog(@"错误 writev");
+//    }
     error = rebind_symbols((struct rebinding[1]){{"fwrite", new_fwrite, (void *)&orig_fwrite}}, 1);
     if (error < 0) {
         NSLog(@"错误 fwrite");
+    }else {
+        NSLog(@"绑定成功");
     }
     error = rebind_symbols((struct rebinding[1]){{"__swbuf", new___swbuf, (void *)&orin___swbuf}}, 1);
     if (error < 0) {
         NSLog(@"错误 __swbuf");
     }
+}
+void bindFuntion(void) {
+    int error = 0;
+    error = rebind_symbols((struct rebinding[1]){{"fwrite", orig_fwrite, NULL}}, 1);
+    if (error < 0) {
+        NSLog(@"错误 fwrite");
+    }else {
+        NSLog(@"解绑成功");
+    }
+    
+    error = rebind_symbols((struct rebinding[1]){{"__swbuf", orin___swbuf, NULL}}, 1);
+    if (error < 0) {
+        NSLog(@"错误 __swbuf");
+    }
+    
 }

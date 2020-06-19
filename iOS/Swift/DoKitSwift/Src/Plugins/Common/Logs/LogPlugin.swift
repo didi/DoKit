@@ -17,7 +17,10 @@ class LogPlugin: Plugin {
         return DKImage(named: "doraemon_log")
     }
     func onInstall() {
-        
+        let isOn = LogManager.shared.isOn;
+        if isOn {
+            rebindPrintMethod()
+        }
     }
     func onSelected() {
         let vc = LogViewController()
