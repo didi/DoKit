@@ -10,8 +10,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LogHook : NSObject
-
-@end
 void rebindFunction(void);
+void bindFuntion(void);
+@end
 
 NS_ASSUME_NONNULL_END

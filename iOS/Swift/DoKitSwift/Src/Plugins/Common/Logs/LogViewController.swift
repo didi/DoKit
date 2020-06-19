@@ -40,21 +40,14 @@ class LogViewController: BaseViewController, UITableViewDelegate, UITableViewDat
             let cell:LogSwitchStyleCell = tableView.dequeueReusableCell(withIdentifier: switchCellID, for: indexPath) as! LogSwitchStyleCell
             cell.selectionStyle = .none
             cell.titleLabel?.text = title;
-            let printOn:Bool = (UserDefaults.standard.value(forKey: "printOn") != nil);
-            cell.switchButton?.setOn(printOn, animated: true)
-            
+            let printOn:Bool = LogManager.shared.isOn;
+            cell.switchButton?.setOn(printOn, animated: false)
             cell.switchOnBlock = {(isOn:Bool) in
-//                日志收集开关回调
-                print("日志收集开关：\(isOn)")
-                UserDefaults.standard.set(isOn, forKey: "printOn")
                 if isOn {
-                    self.hookPrintMethod();
+                    LogManager.shared.start()
                 }else {
-                    //关闭
+                    LogManager.shared.stop()
                 }
-                
-                
-                
             }
             return cell
         }else {

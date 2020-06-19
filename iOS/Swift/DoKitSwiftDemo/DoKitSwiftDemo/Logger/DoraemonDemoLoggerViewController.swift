@@ -24,7 +24,8 @@ class DoraemonDemoLoggerViewController: DoraemonDemoBaseViewController {
     @objc func addNSLog() {
         let str = "jack"
         let age = 29
-        print("\(str) + \(age)")
+        print("\n北京欢迎你")
+        
 //        NSLog("NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦。。。str == %@  age == %zi", str,age)
 //        let specialString = "callnative://saveTian/%22saveTianDataCallback43%22"
 //        NSLog("%@", specialString)
