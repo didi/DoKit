@@ -10,7 +10,6 @@
 
 ///用于记录原始 fwrite 方法
 extern void addLogFromSwift (char *);
-
 static size_t (*orig_fwrite)(const void * __restrict __ptr, size_t __size, size_t __nitems, FILE * __restrict __stream);
 size_t new_fwrite(const void * __restrict __ptr, size_t __size, size_t __nitems, FILE * __restrict __stream) {
     char *chars = (char*)__ptr;

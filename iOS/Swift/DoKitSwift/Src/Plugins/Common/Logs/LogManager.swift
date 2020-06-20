@@ -8,12 +8,13 @@
 import UIKit
 import fishhook
 
+
+
 class LogManager: NSObject {
     static let shared = LogManager()
     let switchKey = "doraemon_logSwitchKey"
     var isOn = false
     var logs:[LogModel]
-    
     private override init() {
         print("LogManager init")
         isOn = UserDefaults.standard.bool(forKey: switchKey)
@@ -30,29 +31,21 @@ class LogManager: NSObject {
         bindPrintMethod()
         UserDefaults.standard.set(isOn, forKey: switchKey)
     }
-
-    @_silgen_name("addLogFromSwift")
-    func addLog(log:UnsafePointer<CChar>) {
-        let log = String(cString: log)
-//        let model = LogModel.init()
-//        model.content = log;
-//        model.timestamp = Date.init()
-//        logs.append(model);
-     }
-    
     public func clearLog() {
-        let model = LogModel.init()
-        model.content = "log";
-        model.timestamp = Date.init()
-        logs.append(model);
-//        logs.removeAll()
+        logs.removeAll()
     }
-
-//    lazy var logs = { () -> [LogModel] in
-//        let logs = [LogModel]()
-//        return logs
-//    }()
+    func addLog(log:String) {
+        let model = LogModel.init()
+        model.content = log;
+        LogManager.shared.logs.append(model);
+    }
 }
+
+@_silgen_name("addLogFromSwift")
+func addLog(log:UnsafePointer<CChar>) {
+    let log = String(cString: log)
+    LogManager.shared.addLog(log: log)
+ }
 
 
 

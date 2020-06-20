@@ -10,8 +10,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LogHook : NSObject
-void rebindFunction(void);
-void bindFuntion(void);
++ (instancetype)shared;
+@property (assign, nonatomic) BOOL *isOn;
+//@property (strong, nonatomic) <#className#> *<#name#>;
+//void rebindFunction(void);
+//void bindFuntion(void);
 @end
 
 NS_ASSUME_NONNULL_END

@@ -121,7 +121,7 @@
     "print"                               = "print";
     "开关"                                      = "On/Off";
     "查看记录"                                = "View log";
-    "NSLog日志记录"                           = "NSLog Results";
+    "print日志记录"                           = "print Results";
     "导出"                                  = "export";
     "清除"                                  = "delete";
     "%@\n触发时间: %@"                             = "%@\nTrigger time: %@";

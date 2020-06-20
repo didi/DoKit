@@ -7,9 +7,24 @@
 
 #import "LogHook.h"
 #import <fishhook/fishhook.h>
-
 @implementation LogHook
-
++ (instancetype)shared {
+    static LogHook *instance;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        instance = [[super allocWithZone:NULL] init];
+    });
+    return instance;
+}
++ (instancetype)allocWithZone:(struct _NSZone *)zone {
+    return [LogHook shared];
+}
+- (id)copyWithZone:(nullable NSZone *)zone {
+    return [LogHook shared];
+}
+- (id)mutableCopyWithZone:(nullable NSZone *)zone {
+    return [LogHook shared];
+}
 @end
 
 
