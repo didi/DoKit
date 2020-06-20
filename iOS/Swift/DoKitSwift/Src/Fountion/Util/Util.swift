@@ -11,16 +11,15 @@ class DoKitUtil {
     
     var fileSize : UInt64 = 0
     static func openAppSetting() {
-        let url = URL(string: UIApplication.openSettingsURLString)
-        if let url = url {
-            if UIApplication.shared.canOpenURL(url) {
-                if #available(iOS 10, *) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }else{
-                    UIApplication.shared.openURL(url)
-                }
-                
-            }
+        guard let url = URL(string: UIApplication.openSettingsURLString),
+            UIApplication.shared.canOpenURL(url) else {
+            return
+        }
+        
+        if #available(iOS 10, *) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }else{
+            UIApplication.shared.openURL(url)
         }
     }
     
@@ -93,5 +92,35 @@ class DoKitUtil {
             isSim = true
         #endif
         return isSim
+    }
+}
+
+// MARK:- 分享
+extension DoKitUtil {
+    
+    static func share(with image: UIImage, _ controller: UIViewController,completion: ((_ : Bool) -> Swift.Void)? = nil) {
+        _share(with: image, controller, completion: completion)
+    }
+    
+    static func share(with text: String, _ controller: UIViewController, completion: ((_ : Bool) -> Swift.Void)? = nil) {
+        _share(with: text, controller, completion: completion)
+    }
+    
+    static func share(with url: URL, _ controller: UIViewController, completion: ((_ : Bool) -> Swift.Void)? = nil) {
+        _share(with: url, controller, completion: completion)
+    }
+    
+    private static func _share(with object: Any, _ controller: UIViewController, completion: ((_ : Bool) -> Void)?) {
+        let activity = UIActivityViewController(activityItems: [object], applicationActivities: nil)
+        activity.completionWithItemsHandler = {
+            (type, result, returnedItems, error) in
+            completion?(result)
+        }
+        
+        if Device.isPad {
+            activity.popoverPresentationController?.sourceView = controller.view
+        } else {
+            controller.present(activity, animated: true)
+        }
     }
 }

@@ -35,7 +35,10 @@ class CrashViewController: BaseViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tableView.frame = CGRect(x: 0, y: self.bigTitleView!.bottom, width: view.width, height: view.height-self.bigTitleView!.bottom)
+        tableView.frame = CGRect(x: 0,
+                                 y: bigTitleView!.bottom,
+                                 width: view.width,
+                                 height: view.height - bigTitleView!.bottom)
     }
 }
 

@@ -102,8 +102,9 @@ extension SandboxListViewController {
             #warning("预览 crash日志")
         }
         
-        let share = UIAlertAction(title: LocalizedString("分享"), style: .default) { _ in
-            #warning("分享 crash日志")
+        let share = UIAlertAction(title: LocalizedString("分享"), style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            DoKitUtil.share(with: url, self)
         }
         
         let cancel = UIAlertAction(title: LocalizedString("取消"), style: .cancel)
