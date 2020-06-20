@@ -170,21 +170,12 @@ extension Device {
     
     private static func getType() -> Type {
         
-        let code = deviceCode
-        if code.contains("iPhone") {
-            return .iPhone
-            
-        } else if code.contains("iPad") {
-            return .iPad
-            
-        } else if code.contains("iPod") {
-            return .iPod
-            
-        } else if code == "i386" || code == "x86_64" {
-            return .simulator
-            
-        } else {
-            return .unknown
+        switch deviceCode {
+        case let code where code.contains("iPhone"):        return .iPhone
+        case let code where code.contains("iPad"):          return .iPad
+        case let code where code.contains("iPod"):          return .iPod
+        case "i386", "x86_64":                              return .simulator
+        default:                                            return .unknown
         }
     }
 }
