@@ -68,8 +68,8 @@ extension CrashListCell {
     
     @objc
     func switchAction(_ sender: UISwitch) {
-        delegate?.switchAction(cell: self, sender.isOn) { [weak self] isOn  in
-            guard !isOn else { return }
+        delegate?.switchAction(cell: self, sender.isOn) { [weak self] isOK  in
+            guard !isOK else { return }
             self?._switch.setOn(!sender.isOn, animated: true)
         }
     }
