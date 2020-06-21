@@ -30,7 +30,7 @@ class LogSwitchStyleCell: UITableViewCell {
     func initUI() {
         self.selectionStyle = .none
         titleLabel = UILabel.init()
-        titleLabel?.font = .systemFont(ofSize: 15.0)
+        titleLabel?.font = .systemFont(ofSize: 17.0)
         titleLabel?.textColor = .black
         titleLabel?.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(titleLabel!)

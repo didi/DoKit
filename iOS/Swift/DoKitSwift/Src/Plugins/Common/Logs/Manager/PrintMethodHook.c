@@ -24,7 +24,6 @@ size_t new_fwrite(const void * __restrict __ptr, size_t __size, size_t __nitems,
 static int  (*orin___swbuf)(int, FILE *);
 int new___swbuf(int c, FILE *p) {
     char cChar = (char)c;
-    
     return orin___swbuf(c, p);
 }
 

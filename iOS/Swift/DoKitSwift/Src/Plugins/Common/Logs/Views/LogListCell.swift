@@ -45,14 +45,10 @@ class LogListCell: UITableViewCell {
     }
     
     func renderWithModel(model:LogModel) {
-        let formmat = "yyyy-MM-dd HH:mm:ss"
-        let formmatter = DateFormatter()
-        formmatter.dateFormat = formmat
-        let dateString = formmatter.string(from: model.logDate)
         guard let content = model.content else {
             return
         }
-        self.logLabel?.text = "\(dateString)\n\(content)"
+        self.logLabel?.text = "\(model.dateFormat)\n\(content)"
         let iconName = model.expand ? "doraemon_expand":"doraemon_expand_no"
         arrowImage?.image = DKImage(named: iconName)
     }

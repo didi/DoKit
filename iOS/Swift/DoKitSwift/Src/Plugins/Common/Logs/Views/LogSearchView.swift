@@ -50,4 +50,9 @@ class LogSearchView: UIView, UITextFieldDelegate {
         let text = textField.text?.trimmingCharacters(in: .whitespaces)
         delegate?.searchKeyword(keyword: text!)
     }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        return true
+    }
 }

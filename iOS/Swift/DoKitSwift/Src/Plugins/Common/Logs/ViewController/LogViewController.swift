@@ -63,8 +63,6 @@ class LogViewController: BaseViewController, UITableViewDelegate, UITableViewDat
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 1 {
-//            查看日志
-            print("日志收集test")
             let listViewController = LogListViewController.init()
             self.navigationController?.pushViewController(listViewController, animated: true)
         }

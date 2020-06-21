@@ -32,14 +32,12 @@ class LogListViewController: BaseViewController, UITableViewDelegate, UITableVie
         view.addSubview(searchView)
         
         //列表
-//        logListTableView?.translatesAutoresizingMaskIntoConstraints = false
-        
-//        logListTableView = UITableView.init(frame:CGRect(x: 0, y: kIphoneNavBarHeight + kIphoneStatusBarHeight + 50 + 15, width: kScreenWidth, height: kScreenHeight - ), style: .grouped)
         logListTableView = UITableView.init(frame:.zero, style: .grouped)
         logListTableView?.delegate = self
         logListTableView?.dataSource = self
         logListTableView?.sectionHeaderHeight = 0.1
         logListTableView?.separatorStyle = .none
+        logListTableView?.backgroundColor = .white
         logListTableView?.register(LogListCell.self, forCellReuseIdentifier: logListCellID)
         view.addSubview(logListTableView!)
         logListTableView?.translatesAutoresizingMaskIntoConstraints = false
@@ -50,26 +48,23 @@ class LogListViewController: BaseViewController, UITableViewDelegate, UITableVie
     }
     func loadData() {
         dataArray = LogManager.shared.logs.reversed()
-        for log:LogModel in dataArray! {
-            let formmat = "yyyy-MM-dd HH:mm:ss"
-            let formmatter = DateFormatter()
-            formmatter.dateFormat = formmat
-            let dateString = formmatter.string(from: log.logDate)
-            guard let content = log.content else {
-                log.cellHeight = 50
-                return
-            }
-            log.calculationHeight(string: "\(dateString)\n\(content)", width: Int(kScreenWidth) - 53, font: UIFont.systemFont(ofSize: 12.0))
-        }
     }
     
-    
     @objc func exportLog() {
-        print("exportLog")
+        let logArray = LogManager.shared.logs
+        let logString:NSMutableString = .init()
+        for log:LogModel in logArray {
+            logString.append(log.dateFormat)
+            logString.append(" ")
+            logString.append(log.content ?? "")
+            logString.append("\n")
+        }
+        DoKitUtil.shareString(content: logString as String, fromViewController: self)
     }
     
     @objc func clearLog() {
         LogManager.shared.clearLog()
+        loadData()
         logListTableView?.reloadData()
     }
     

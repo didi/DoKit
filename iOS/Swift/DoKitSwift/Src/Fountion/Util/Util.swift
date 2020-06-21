@@ -94,4 +94,48 @@ class DoKitUtil {
         #endif
         return isSim
     }
+    
+
+    // 分享图片
+    static func shareImage(image:UIImage,fromViewController:UIViewController) {
+        share(item: image, fromViewController:fromViewController)
+    }
+    // 分享地址
+    static func shareURL(url:URL,fromViewController:UIViewController) {
+        share(item: url, fromViewController:fromViewController)
+    }
+//    分享文字
+    static func shareString(content:String,fromViewController:UIViewController) {
+        share(item: content, fromViewController: fromViewController)
+    }
+    
+    static func share(item:Any,fromViewController:UIViewController) {
+        let activityViewController = UIActivityViewController.init(activityItems: [item], applicationActivities: nil)
+        if isIpad() {
+            let popOver = activityViewController.popoverPresentationController
+            popOver?.sourceView = fromViewController.view
+            popOver?.sourceRect = CGRect(x: 0, y: 0, width: kScreenWidth, height: 340)
+        }
+        fromViewController.present(activityViewController, animated: true, completion: nil)
+        
+    }
+    
+//    时间转时间格式字符串
+    static func dateString(date:Date) -> String {
+        let format = "yyyy-MM-dd HH:mm:ss"
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        let dateString = formatter.string(from: date)
+        return dateString
+    }
+    
+    static func dateString(interval:TimeInterval) -> String {
+        let date = Date.init(timeIntervalSince1970: interval)
+        return dateString(date: date)
+    }
+    
+    static func isIpad() -> Bool {
+        return UIDevice.current.userInterfaceIdiom == .pad
+    }
+    
 }

@@ -7,16 +7,12 @@
 
 import UIKit
 import fishhook
-
-
-
 class LogManager: NSObject {
     static let shared = LogManager()
     let switchKey = "doraemon_logSwitchKey"
     var isOn = false
     var logs:[LogModel]
     private override init() {
-        print("LogManager init")
         isOn = UserDefaults.standard.bool(forKey: switchKey)
         logs = [LogModel]()
     }
@@ -37,6 +33,7 @@ class LogManager: NSObject {
     func addLog(log:String) {
         let model = LogModel.init()
         model.content = log;
+        
         LogManager.shared.logs.append(model);
     }
 }
