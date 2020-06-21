@@ -31,7 +31,7 @@ class DelSanboxViewController: BaseViewController, CellButtonDelegate {
         return fileSizeString
     }
     
-    func cellBtnClick(){
+    func cellBtnClick(sender: CellButton){
         
         AlertUtil.handleAlertAction(vc: self, title: LocalizedString("提示"), text: LocalizedString("确定要删除本地数据"), ok: LocalizedString("确定"), cancel: LocalizedString("取消"), okBlock: {
             self.cellBtn.renderUIWithRightContent(rightContent: LocalizedString("正在清理中"))

@@ -39,7 +39,7 @@ public class DoKit {
 
         // 性能检测
         addPlugin(plugin: LaunchTimePlugin())
-        
+        addPlugin(plugin: ANRPlugin())
         setup()
     }
     
