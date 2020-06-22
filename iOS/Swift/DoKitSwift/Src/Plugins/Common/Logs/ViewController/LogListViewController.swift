@@ -53,7 +53,7 @@ class LogListViewController: BaseViewController, UITableViewDelegate, UITableVie
     @objc func exportLog() {
         let logArray = LogManager.shared.logs
         let logString:NSMutableString = .init()
-        for log:LogModel in logArray {
+        for log in logArray {
             logString.append(log.dateFormat)
             logString.append(" ")
             logString.append(log.content ?? "")

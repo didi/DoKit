@@ -22,13 +22,12 @@ class DoraemonDemoLoggerViewController: DoraemonDemoBaseViewController {
     }
     
     @objc func addNSLog() {
-        print("asdeasdve北京欢迎你aaaaasdfsdfg欢迎你*^(*&R()8y23rkvwd예사소리/평음い　うけ か　さ た　 に ぬ の ま み め も り る")
-        print("asdeasdve北京欢迎你aaaaasdfsdfg欢迎你*^(*&R()8y23rkvwdåß∂çåß∂ƒœ∑¥øµ≤åß∫∂çø…ƒπœ∑¬µ√÷“æ˙¡ª•§")
-        print("asdfasdf".cString(using: String.Encoding.ascii))
-        
-//        NSLog("NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦。。。str == %@  age == %zi", str,age)
-//        let specialString = "callnative://saveTian/%22saveTianDataCallback43%22"
-//        NSLog("%@", specialString)
+        for num in 1...100 {
+            DispatchQueue.global().async {
+                print("北京欢迎你aaaaasdfsdfg欢迎你*^(*&R()8y23rkvwd예사소리/평음北京欢迎你aaaaasdfsdfg欢迎你*^(*&R()8y23rkvwd예사소리/평음jdfsjkhkjsdndsnkmvn\(num)")
+//                print("thread:\(Thread.current)")
+            }
+        }
     }
 
 }
