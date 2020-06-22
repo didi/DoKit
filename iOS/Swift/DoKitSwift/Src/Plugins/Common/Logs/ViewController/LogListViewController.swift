@@ -52,15 +52,18 @@ class LogListViewController: BaseViewController, UITableViewDelegate, UITableVie
     
     @objc func exportLog() {
         let logArray = LogManager.shared.logs
-        let logString:NSMutableString = .init()
+        var string = String()
         for log in logArray {
-            logString.append(log.dateFormat)
-            logString.append(" ")
-            logString.append(log.content ?? "")
-            logString.append("\n")
+            guard let content = log.content  else {
+                return
+            }
+            string += log.dateFormat
+            string += " "
+            string += content
+            string += "\n"
         }
-        DoKitUtil.share(with: logString, self)
-
+        DoKitUtil.share(obj: string, from: self)
+//        DoKitUtil.share(with: string, self, completion: nil)
     }
     
     @objc func clearLog() {

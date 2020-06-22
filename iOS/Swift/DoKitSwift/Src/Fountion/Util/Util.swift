@@ -123,10 +123,9 @@ class DoKitUtil {
         let controller = UIActivityViewController(activityItems: [obj], applicationActivities: nil)
         if AppInfoUtil.isIpad {
             controller.popoverPresentationController?.sourceView = from.view
-            from.present(controller, animated: true, completion: nil)
-        } else {
-            from.present(controller, animated: true, completion: nil)
+            controller.popoverPresentationController?.sourceRect = CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 400)
         }
+        from.present(controller, animated: true, completion: nil)
     }
 }
 

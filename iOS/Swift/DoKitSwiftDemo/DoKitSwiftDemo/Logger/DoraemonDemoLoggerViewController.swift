@@ -22,10 +22,9 @@ class DoraemonDemoLoggerViewController: DoraemonDemoBaseViewController {
     }
     
     @objc func addNSLog() {
-        for num in 1...100 {
+        for num in 1...10 {
             DispatchQueue.global().async {
                 print("北京欢迎你aaaaasdfsdfg欢迎你*^(*&R()8y23rkvwd예사소리/평음北京欢迎你aaaaasdfsdfg欢迎你*^(*&R()8y23rkvwd예사소리/평음jdfsjkhkjsdndsnkmvn\(num)")
-//                print("thread:\(Thread.current)")
             }
         }
     }
