@@ -27,7 +27,6 @@ public class DoKit {
     
     public func install() {
         addPlugin(plugin: CrashPlugin())
-        addPlugin(plugin: CpuPlugin())
         addPlugin(plugin: AppSettingPlugin())
         addPlugin(plugin: AppInfoPlugin())
         addPlugin(plugin: DelSanboxPlugin())
