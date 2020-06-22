@@ -10,7 +10,7 @@ import UIKit
 
 struct LaunchTimePlugin: Plugin {
 
-    var module: String { LocalizedString("性能检测") }
+    var module: PluginModule { .performance }
 
     var title: String { LocalizedString("启动耗时") }
 

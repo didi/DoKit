@@ -64,7 +64,7 @@ class HomeViewController: BaseViewController, UICollectionViewDelegate, UICollec
             let headView: HomeHeadView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: HomeHeadCellID, for: indexPath) as! HomeHeadView
             let section = indexPath.section
             if section < DoKit.shared.modules.count {
-                headView.renderUI(title: DoKit.shared.modules[section])
+                headView.renderUI(title: DoKit.shared.modules[section].name)
             }
             view = headView
             

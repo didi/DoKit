@@ -10,9 +10,7 @@ import Foundation
 
 struct AppSettingPlugin: Plugin {
     
-    var module: String {
-        return LocalizedString("常用工具")
-    }
+    var module: PluginModule { .common }
     
     var title: String {
         return LocalizedString("应用设置")

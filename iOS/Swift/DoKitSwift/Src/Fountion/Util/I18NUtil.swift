@@ -7,7 +7,7 @@
 
 import Foundation
 
-func LocalizedString(_ key: String) -> String{
+func LocalizedString(_ key: String) -> String {
     guard let resourceBundle = sharedResourceBundle else {
         return key
     }

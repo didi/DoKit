@@ -9,7 +9,7 @@ import Foundation
 
 struct ViewCheckPlugin: Plugin {
     
-    var module: String { LocalizedString("视觉工具") }
+    var module: PluginModule { .UI }
     
     var title: String { LocalizedString("组件检查") }
     

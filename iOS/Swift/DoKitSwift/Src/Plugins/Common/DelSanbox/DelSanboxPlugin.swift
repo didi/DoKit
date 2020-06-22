@@ -9,10 +9,7 @@ import UIKit
 
 struct DelSanboxPlugin: Plugin {
     
-    var module: String {
-        return LocalizedString("常用工具")
-    }
-    
+    var module: PluginModule { .common }
     var title: String {
         return LocalizedString("清理缓存")
     }

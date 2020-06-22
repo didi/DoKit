@@ -7,8 +7,10 @@
 
 import UIKit
 
+
+
 public protocol Plugin {
-    var module: String { get }
+    var module: PluginModule { get }
     var title: String { get }
     var icon: UIImage? { get }
     
@@ -18,9 +20,29 @@ public protocol Plugin {
     func onSelected()
 }
 
+public enum PluginModule {
+    case performance
+    case UI
+    case common
+    case customize
+    
+    var name: String {
+        switch self {
+        case .performance:
+            return LocalizedString("性能检测")
+        case .UI:
+            return LocalizedString("视觉工具")
+        case .common:
+            return LocalizedString("常用工具")
+        case .customize:
+            return LocalizedString("业务工具")
+        }
+    }
+}
+
 struct DefaultPlugin: Plugin {
 
-    var module: String
+    var module: PluginModule
     var title: String
     var icon: UIImage?
     var onInstallClosure: (()->Void)?

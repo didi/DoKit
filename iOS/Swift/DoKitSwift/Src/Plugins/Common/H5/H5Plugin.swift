@@ -10,9 +10,7 @@ import UIKit
 
 struct H5Plugin: Plugin {
     
-    var module: String {
-        return LocalizedString("常用工具")
-    }
+    var module: PluginModule { .common }
     
     var title: String {
         return LocalizedString("H5任意门")
