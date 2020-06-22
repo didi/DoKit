@@ -7,6 +7,11 @@
 
 import Foundation
 
+protocol SharedProtocal {}
+extension URL: SharedProtocal {}
+extension String: SharedProtocal {}
+extension UIImage: SharedProtocal {}
+
 class DoKitUtil {
     
     var fileSize : UInt64 = 0
@@ -92,6 +97,22 @@ class DoKitUtil {
             isSim = true
         #endif
         return isSim
+    }
+    
+    static func dateFormatNow() -> String {
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return format.string(from: Date())
+    }
+    
+    static func share(obj: SharedProtocal, from: UIViewController) {
+        let controller = UIActivityViewController(activityItems: [obj], applicationActivities: nil)
+        if AppInfoUtil.isIpad {
+            controller.popoverPresentationController?.sourceView = from.view
+            from.present(controller, animated: true, completion: nil)
+        } else {
+            from.present(controller, animated: true, completion: nil)
+        }
     }
 }
 

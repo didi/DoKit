@@ -22,7 +22,7 @@ class MainThreadCheckerViewController: BaseViewController, CellButtonDelegate {
         view.addSubview(cellBtn)
     }
     
-    func cellBtnClick() {
+    func cellBtnClick(sender: CellButton) {
         
     }
     
