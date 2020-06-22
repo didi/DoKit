@@ -98,6 +98,20 @@ class DoKitUtil {
         #endif
         return isSim
     }
+        
+//    时间转时间格式字符串
+    static func dateString(date:Date) -> String {
+        let format = "yyyy-MM-dd HH:mm:ss"
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        let dateString = formatter.string(from: date)
+        return dateString
+    }
+    
+    static func dateString(interval:TimeInterval) -> String {
+        let date = Date.init(timeIntervalSince1970: interval)
+        return dateString(date: date)
+    }
     
     static func dateFormatNow() -> String {
         let format = DateFormatter()
@@ -109,10 +123,9 @@ class DoKitUtil {
         let controller = UIActivityViewController(activityItems: [obj], applicationActivities: nil)
         if AppInfoUtil.isIpad {
             controller.popoverPresentationController?.sourceView = from.view
-            from.present(controller, animated: true, completion: nil)
-        } else {
-            from.present(controller, animated: true, completion: nil)
+            controller.popoverPresentationController?.sourceRect = CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 400)
         }
+        from.present(controller, animated: true, completion: nil)
     }
 }
 
