@@ -20,7 +20,7 @@ class HealthBtnView: UIView {
         super.init(frame: frame)
         
         healthBtn = UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: height))
-        healthBtn.image = UIImage(named: "doraemon_health_start")
+        healthBtn.image = DKImage(named: "doraemon_health_start")
         self.addSubview(healthBtn)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
@@ -32,12 +32,16 @@ class HealthBtnView: UIView {
     }
     
     func statusForBtn(start: Bool) {
-        if self.delegate != nil {
-            self.delegate?.healthBtnClick(sender: self)
+        var imgName = "doraemon_health_start"
+        if start {
+            imgName = "doraemon_health_end"
         }
+        healthBtn.image = DKImage(named: imgName)
     }
     
     @objc func tapAction() {
+        guard let delegate = self.delegate else { return }
         
+        delegate.healthBtnClick(sender: self)
     }
 }

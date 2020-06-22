@@ -22,17 +22,16 @@ class HealthHomeView: UIView {
         
         bgView = HealthBgView(frame: CGRect(x: 0, y: 0, width: width, height: height))
         
-        // startingTitle 初始化
-        startingTitle = HealthStartingTitle(frame: CGRect.zero)
+        startingTitle = HealthStartingTitle(frame: bgView.getStartingTitleCGRect())
         
-        if true/*HealthManager.shared.start */ {
-//            startingTitle.renderUIWithTitle(LocalizedString("正在检测中..."))
+        if HealthManager.shared.start {
+            startingTitle.renderUIWithTitle(LocalizedString("正在检测中..."))
         } else {
-//            startingTitle.renderUIWithTitle(LocalizedString("点击开始检测..."))
+            startingTitle.renderUIWithTitle(LocalizedString("点击开始检测"))
         }
         
-        btnView = HealthBtnView(frame: CGRect.zero)
-        btnView.statusForBtn(start: true/*HealthManager.shared.start */)
+        btnView = HealthBtnView(frame: bgView.getButtonCGRect())
+        btnView.statusForBtn(start: HealthManager.shared.start)
         btnView.delegate = self
         
         self.addSubview(bgView)

@@ -26,4 +26,13 @@ class HealthBgView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func getStartingTitleCGRect() -> CGRect {
+        return CGRect(origin: CGPoint(x: 0, y: bgImgView.frame.minY + bgImgView.height * 11/60), size: CGSize(width: self.width, height: kSizeFrom750_Landscape(40)))//根据图片比例获取)
+    }
+    
+    func getButtonCGRect() -> CGRect {
+        let width = bgImgView.width*2/5
+        let point = CGPoint(x: bgImgView.frame.minX + bgImgView.width*2, y: bgImgView.frame.minY + bgImgView.height * 7/10)
+        return CGRect(origin: CGPoint(x: point.x - width/2, y: point.y - width/2 + kSizeFrom750_Landscape(5)), size: CGSize(width: width, height: width))
+    }
 }
