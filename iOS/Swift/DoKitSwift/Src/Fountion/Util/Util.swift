@@ -98,13 +98,16 @@ class DoKitUtil {
         #endif
         return isSim
     }
-        
+    
+    static let dateFormatter: DateFormatter = {
+        $0.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        $0.timeZone = TimeZone.current
+        return $0
+    }(DateFormatter())
+    
 //    时间转时间格式字符串
     static func dateString(date:Date) -> String {
-        let format = "yyyy-MM-dd HH:mm:ss"
-        let formatter = DateFormatter()
-        formatter.dateFormat = format
-        let dateString = formatter.string(from: date)
+        let dateString = dateFormatter.string(from: date)
         return dateString
     }
     
@@ -114,9 +117,7 @@ class DoKitUtil {
     }
     
     static func dateFormatNow() -> String {
-        let format = DateFormatter()
-        format.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        return format.string(from: Date())
+        return dateFormatter.string(from: Date())
     }
     
     static func share(obj: SharedProtocal, from: UIViewController) {
