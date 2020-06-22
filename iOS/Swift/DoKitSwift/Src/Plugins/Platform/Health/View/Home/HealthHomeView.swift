@@ -24,14 +24,14 @@ class HealthHomeView: UIView {
         
         startingTitle = HealthStartingTitle(frame: bgView.getStartingTitleCGRect())
         
-        if false/*HealthManager.shared.start */ {
+        if HealthManager.shared.start {
             startingTitle.renderUIWithTitle(LocalizedString("正在检测中..."))
         } else {
             startingTitle.renderUIWithTitle(LocalizedString("点击开始检测"))
         }
         
         btnView = HealthBtnView(frame: bgView.getButtonCGRect())
-        btnView.statusForBtn(start: true)/*HealthManager.shared.start */
+        btnView.statusForBtn(start: HealthManager.shared.start)
         btnView.delegate = self
         
         self.addSubview(bgView)

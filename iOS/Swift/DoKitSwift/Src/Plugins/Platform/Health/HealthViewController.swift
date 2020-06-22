@@ -44,12 +44,12 @@ class HealthViewController: BaseViewController {
         
         weak var weakSelf = self
         homeView.addBlock {
-            let currentStatus = false//HealthManager.shared.start
+            let currentStatus = HealthManager.shared.start
             if currentStatus {
                 weakSelf?.showEndAlert(true)
             } else {
                 AlertUtil.handleAlertAction(vc: self, text: "是否重启App开启健康体检") {
-//                    HealthManager.shared.rebootAppForHealthCheck()
+                    HealthManager.shared.rebootAppForHealthCheck()
                 }
             }
         }
@@ -59,7 +59,7 @@ class HealthViewController: BaseViewController {
         view.addSubview(scrollView)
         view.addSubview(footerView)
 
-        self.showFooter(true)//HealthManager.shared.start
+        self.showFooter(HealthManager.shared.start)
     }
     
     override func needBigTitleView() -> Bool {
