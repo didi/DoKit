@@ -39,42 +39,57 @@ public class DoKit {
 
         // 性能检测
         addPlugin(plugin: LaunchTimePlugin())
-        
         //日志收集
         addPlugin(plugin: LogPlugin())
         
-        
+        addPlugin(plugin: ANRPlugin())
+        setup()
     }
     
-    public func addPlugin(plugin:Plugin){
-        plugin.onInstall()
-        if pluginMap[plugin.module] != nil {
-            pluginMap[plugin.module]?.append(plugin)
-        }else{
-            self.modules.append(plugin.module)
-            pluginMap[plugin.module] = [plugin]
-        }
+
+    public var H5DoorBlock: ((_ h5Url: String) -> Void)?
+    public func addH5DoorBlock(blcok: @escaping (_ h5Url: String) -> Void) {
+        H5DoorBlock = blcok
     }
+}
+
+// MARK:- Public
+public extension DoKit {
     
-    public func addPlugin(module: String,title: String, icon: UIImage?,onInstall: (()->Void)?,onSelected: (()->Void)?){
-        let plugin = DefaultPlugin.init(module: module, title: title, icon: icon, onInstallClosure: onInstall,onSelectedClosure: onSelected)
-        self.addPlugin(plugin: plugin)
-    }
-    
-    public func showDoKit() {
+    func showDoKit() {
         if entryWindow.isHidden {
             entryWindow.isHidden = false
         }
     }
     
-    public func hideDoKit() {
+    func hideDoKit() {
         if !entryWindow.isHidden {
             entryWindow.isHidden = true
         }
     }
+    
+    func addPlugin(plugin:Plugin){
+        plugin.onInstall()
+        if pluginMap[plugin.module] != nil {
+            pluginMap[plugin.module]?.append(plugin)
+        }else{
+            modules.append(plugin.module)
+            pluginMap[plugin.module] = [plugin]
+        }
+    }
+    
+    func addPlugin(module: String,title: String, icon: UIImage?,onInstall: (()->Void)?,onSelected: (()->Void)?){
+        let plugin = DefaultPlugin.init(module: module, title: title, icon: icon, onInstallClosure: onInstall,onSelectedClosure: onSelected)
+        addPlugin(plugin: plugin)
+    }
+}
 
-    public var H5DoorBlock: ((_ h5Url: String) -> Void)?
-    public func addH5DoorBlock(blcok: @escaping (_ h5Url: String) -> Void) {
-        H5DoorBlock = blcok
+private extension DoKit {
+    
+    func setup() {
+        //根据开关判断是否收集Crash日志
+        if CacheManager.shared.isOnCrash {
+            Crash.register()
+        }
     }
 }

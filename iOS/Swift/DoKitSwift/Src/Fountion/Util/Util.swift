@@ -7,20 +7,24 @@
 
 import Foundation
 
+protocol SharedProtocal {}
+extension URL: SharedProtocal {}
+extension String: SharedProtocal {}
+extension UIImage: SharedProtocal {}
+
 class DoKitUtil {
     
     var fileSize : UInt64 = 0
     static func openAppSetting() {
-        let url = URL(string: UIApplication.openSettingsURLString)
-        if let url = url {
-            if UIApplication.shared.canOpenURL(url) {
-                if #available(iOS 10, *) {
-                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                }else{
-                    UIApplication.shared.openURL(url)
-                }
-                
-            }
+        guard let url = URL(string: UIApplication.openSettingsURLString),
+            UIApplication.shared.canOpenURL(url) else {
+            return
+        }
+        
+        if #available(iOS 10, *) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }else{
+            UIApplication.shared.openURL(url)
         }
     }
     
@@ -94,32 +98,7 @@ class DoKitUtil {
         #endif
         return isSim
     }
-    
-
-    // 分享图片
-    static func shareImage(image:UIImage,fromViewController:UIViewController) {
-        share(item: image, fromViewController:fromViewController)
-    }
-    // 分享地址
-    static func shareURL(url:URL,fromViewController:UIViewController) {
-        share(item: url, fromViewController:fromViewController)
-    }
-//    分享文字
-    static func shareString(content:String,fromViewController:UIViewController) {
-        share(item: content, fromViewController: fromViewController)
-    }
-    
-    static func share(item:Any,fromViewController:UIViewController) {
-        let activityViewController = UIActivityViewController.init(activityItems: [item], applicationActivities: nil)
-        if isIpad() {
-            let popOver = activityViewController.popoverPresentationController
-            popOver?.sourceView = fromViewController.view
-            popOver?.sourceRect = CGRect(x: 0, y: 0, width: kScreenWidth, height: 340)
-        }
-        fromViewController.present(activityViewController, animated: true, completion: nil)
         
-    }
-    
 //    时间转时间格式字符串
     static func dateString(date:Date) -> String {
         let format = "yyyy-MM-dd HH:mm:ss"
@@ -134,8 +113,49 @@ class DoKitUtil {
         return dateString(date: date)
     }
     
-    static func isIpad() -> Bool {
-        return UIDevice.current.userInterfaceIdiom == .pad
+    static func dateFormatNow() -> String {
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return format.string(from: Date())
     }
     
+    static func share(obj: SharedProtocal, from: UIViewController) {
+        let controller = UIActivityViewController(activityItems: [obj], applicationActivities: nil)
+        if AppInfoUtil.isIpad {
+            controller.popoverPresentationController?.sourceView = from.view
+            from.present(controller, animated: true, completion: nil)
+        } else {
+            from.present(controller, animated: true, completion: nil)
+        }
+    }
+}
+
+// MARK:- 分享
+extension DoKitUtil {
+    
+    static func share(with image: UIImage, _ controller: UIViewController,completion: ((_ : Bool) -> Swift.Void)? = nil) {
+        _share(with: image, controller, completion: completion)
+    }
+    
+    static func share(with text: String, _ controller: UIViewController, completion: ((_ : Bool) -> Swift.Void)? = nil) {
+        _share(with: text, controller, completion: completion)
+    }
+    
+    static func share(with url: URL, _ controller: UIViewController, completion: ((_ : Bool) -> Swift.Void)? = nil) {
+        _share(with: url, controller, completion: completion)
+    }
+    
+    private static func _share(with object: Any, _ controller: UIViewController, completion: ((_ : Bool) -> Void)?) {
+        let activity = UIActivityViewController(activityItems: [object], applicationActivities: nil)
+        activity.completionWithItemsHandler = {
+            (type, result, returnedItems, error) in
+            completion?(result)
+        }
+        
+        if Device.isPad {
+            activity.popoverPresentationController?.sourceView = controller.view
+        } else {
+            controller.present(activity, animated: true)
+        }
+    }
 }

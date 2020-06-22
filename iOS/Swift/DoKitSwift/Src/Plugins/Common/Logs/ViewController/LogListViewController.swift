@@ -59,7 +59,8 @@ class LogListViewController: BaseViewController, UITableViewDelegate, UITableVie
             logString.append(log.content ?? "")
             logString.append("\n")
         }
-        DoKitUtil.shareString(content: logString as String, fromViewController: self)
+        DoKitUtil.share(with: logString, self)
+
     }
     
     @objc func clearLog() {
