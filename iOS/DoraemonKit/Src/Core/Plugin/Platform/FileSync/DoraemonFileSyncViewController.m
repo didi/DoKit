@@ -8,13 +8,16 @@
 #import "DoraemonFileSyncViewController.h"
 #import "DoraemonDefine.h"
 #import "DoraemonFileSyncManager.h"
+#import <GCDWebServer/GCDWebUploader.h>
 
-@interface DoraemonFileSyncViewController ()
+@interface DoraemonFileSyncViewController ()<GCDWebUploaderDelegate>
 
 @property (nonatomic, strong) UIImageView *bannerImage;
 @property (nonatomic, strong) UIButton *ctrlBtn;
 @property (nonatomic, strong) UILabel *tipLabel;
 @property (nonatomic, strong) UILabel *ipLabel;
+
+@property (nonatomic, strong) GCDWebUploader *webServer;
 
 @end
 
@@ -60,10 +63,39 @@
     [DoraemonFileSyncManager sharedInstance].start = status;
     if (status) {
         [[DoraemonFileSyncManager sharedInstance] startServer];
+//        NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+//        self.webServer = [[GCDWebUploader alloc] initWithUploadDirectory:docPath];
+//        self.webServer.delegate = self;
+//        self.webServer.allowHiddenItems = YES;
+//        [self.webServer start];
+        
     }else{
         [[DoraemonFileSyncManager sharedInstance] stop];
+//        [self.webServer stop];
+//        self.webServer = nil;
     }
     [self refreshUIWithStatus:status];
+}
+
+- (void)webUploader:(GCDWebUploader*)uploader didDownloadFileAtPath:(NSString*)path{
+    NSLog(@"upload == %@  path == %@",uploader,path);
+}
+
+- (void)webUploader:(GCDWebUploader*)uploader didUploadFileAtPath:(NSString*)path{
+    NSLog(@"upload == %@  path == %@",uploader,path);
+}
+
+- (void)webUploader:(GCDWebUploader*)uploader didMoveItemFromPath:(NSString*)fromPath toPath:(NSString*)toPath{
+    
+}
+
+- (void)webUploader:(GCDWebUploader*)uploader didDeleteItemAtPath:(NSString*)path{
+    
+}
+
+
+- (void)webUploader:(GCDWebUploader*)uploader didCreateDirectoryAtPath:(NSString*)path{
+    
 }
 
 - (void)refreshUIWithStatus:(BOOL)start{

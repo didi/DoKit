@@ -25,6 +25,8 @@ PODS:
   - CocoaLumberjack/Core (3.6.1)
   - DoraemonKit/Core (3.0.2):
     - GCDWebServer
+    - GCDWebServer/WebDAV
+    - GCDWebServer/WebUploader
   - DoraemonKit/WithDatabase (3.0.2):
     - DoraemonKit/Core
     - YYDebugDatabase
@@ -49,6 +51,10 @@ PODS:
   - GCDWebServer (3.5.3):
     - GCDWebServer/Core (= 3.5.3)
   - GCDWebServer/Core (3.5.3)
+  - GCDWebServer/WebDAV (3.5.3):
+    - GCDWebServer/Core
+  - GCDWebServer/WebUploader (3.5.3):
+    - GCDWebServer/Core
   - libwebp (1.1.0):
     - libwebp/demux (= 1.1.0)
     - libwebp/mux (= 1.1.0)
@@ -119,7 +125,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   CocoaLumberjack: b17ae15142558d08bbacf69775fa10c4abbebcc9
-  DoraemonKit: a5c297d0b0b8896311f0a413f051d43321ddc859
+  DoraemonKit: bcbdd9a167319d8372b3e6c252ce1de496335252
   FBRetainCycleDetector: 46daef95c2dfa9be34b53087edf6a8f34e4c749c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: c0ab22c73e1b84f358d1e2f74bf6afd1c60829f2

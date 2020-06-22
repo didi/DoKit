@@ -29,6 +29,8 @@ Pod::Spec.new do |s|
       'DoraemonKit' => 'iOS/DoraemonKit/Resource/**/*'
     }
     ss.dependency 'GCDWebServer'
+    ss.dependency 'GCDWebServer/WebUploader'
+    ss.dependency 'GCDWebServer/WebDAV'
   end
 
   s.subspec 'WithLogger' do |ss| 

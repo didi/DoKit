@@ -80,6 +80,13 @@
                  processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
         return [weakSelf createFolder:request];
     }];
+    
+    [self addHandlerForMethod:@"GET"
+                         path:@"/getFileDetail"
+                 requestClass:[GCDWebServerRequest class]
+                 processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
+        return [weakSelf getFileDetail:request];
+    }];
 }
 
 - (NSString *)getRelativeFilePath:(NSString *)fullPath{
@@ -192,6 +199,25 @@
 }
 
 - (GCDWebServerResponse *)createFolder:(GCDWebServerRequest *)request{
+    NSString *rootPath = NSHomeDirectory();
+    NSString *relativePath = [[request query] objectForKey:@"filePath"];
+    NSString *fileName = [[request query] objectForKey:@"fileName"];
+    NSString *targetPath = [NSString stringWithFormat:@"%@%@%@",rootPath,relativePath,fileName];
+    
+    NSDictionary *res;
+    if (![[NSFileManager defaultManager] createDirectoryAtPath:targetPath withIntermediateDirectories:NO attributes:nil error:nil]) {
+        NSLog(@"Failed creating directory \"%@\"", targetPath);
+        res = [self getCode:0 data:nil];
+    }else{
+        res = [self getCode:200 data:nil];
+    }
+    
+    GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:res];
+    [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
+    return response;
+}
+
+- (GCDWebServerResponse *)getFileDetail:(GCDWebServerRequest *)request{
     NSString *rootPath = NSHomeDirectory();
     NSString *relativePath = [[request query] objectForKey:@"filePath"];
     NSString *fileName = [[request query] objectForKey:@"fileName"];
