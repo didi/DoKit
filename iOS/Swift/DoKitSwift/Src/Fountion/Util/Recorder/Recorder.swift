@@ -25,7 +25,7 @@ public class Recorder {
                 return
             }
             if !FileManager.default.fileExists(atPath: module.absoluteString){
-                try? FileManager.default.createDirectory(atPath: module.absoluteString, withIntermediateDirectories: false, attributes: nil)
+                try? FileManager.default.createDirectory(atPath: module.absoluteString, withIntermediateDirectories: true, attributes: nil)
             }
             let path = module.absoluteString + "/" + fileName
             try? data.write(to: URL.init(fileURLWithPath: path), options: .atomic)
