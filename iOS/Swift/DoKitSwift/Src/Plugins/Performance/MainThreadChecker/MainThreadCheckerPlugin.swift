@@ -9,7 +9,7 @@ import Foundation
 
 struct MainThreadCheckerPlugin: Plugin {
     
-    var module: String { LocalizedString("性能检测") }
+    var module: PluginModule { .performance }
     
     var title: String { LocalizedString("子线程UI") }
     

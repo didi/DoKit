@@ -8,15 +8,11 @@
 import UIKit
 
 class LogListViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource,LogSearchViewDelegate {
-    let logListCellID = "logListCellID"
-
-    var logListTableView:UITableView?
     var dataArray:[LogModel]?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.initUI()
         self.loadData()
-
     }
     private func initUI() {
         title = LocalizedString("print日志记录")
@@ -32,19 +28,12 @@ class LogListViewController: BaseViewController, UITableViewDelegate, UITableVie
         view.addSubview(searchView)
         
         //列表
-        logListTableView = UITableView.init(frame:.zero, style: .grouped)
-        logListTableView?.delegate = self
-        logListTableView?.dataSource = self
-        logListTableView?.sectionHeaderHeight = 0.1
-        logListTableView?.separatorStyle = .none
-        logListTableView?.backgroundColor = .white
-        logListTableView?.register(LogListCell.self, forCellReuseIdentifier: logListCellID)
-        view.addSubview(logListTableView!)
-        logListTableView?.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraint(NSLayoutConstraint.init(item: logListTableView!, attribute: .top, relatedBy: .equal, toItem: searchView, attribute: .bottom, multiplier: 1.0, constant: 0))
-        view.addConstraint(NSLayoutConstraint.init(item: logListTableView!, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1.0, constant: 0))
-        view.addConstraint(NSLayoutConstraint.init(item: logListTableView!, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1.0, constant: 0))
-        view.addConstraint(NSLayoutConstraint.init(item: logListTableView!, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0))
+        view.addSubview(logListTableView)
+        
+        view.addConstraint(NSLayoutConstraint.init(item: logListTableView, attribute: .top, relatedBy: .equal, toItem: searchView, attribute: .bottom, multiplier: 1.0, constant: 0))
+        view.addConstraint(NSLayoutConstraint.init(item: logListTableView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1.0, constant: 0))
+        view.addConstraint(NSLayoutConstraint.init(item: logListTableView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1.0, constant: 0))
+        view.addConstraint(NSLayoutConstraint.init(item: logListTableView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1.0, constant: 0))
     }
     func loadData() {
         dataArray = LogManager.shared.logs.reversed()
@@ -63,13 +52,12 @@ class LogListViewController: BaseViewController, UITableViewDelegate, UITableVie
             string += "\n"
         }
         DoKitUtil.share(obj: string, from: self)
-//        DoKitUtil.share(with: string, self, completion: nil)
     }
     
     @objc func clearLog() {
         LogManager.shared.clearLog()
         loadData()
-        logListTableView?.reloadData()
+        logListTableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -78,7 +66,7 @@ class LogListViewController: BaseViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let log = (dataArray?[indexPath.row])!
-        let cell:LogListCell = tableView.dequeueReusableCell(withIdentifier: logListCellID, for: indexPath) as! LogListCell
+        let cell:LogListCell = tableView.dequeueReusableCell(withIdentifier: LogListCell.identifier, for: indexPath) as! LogListCell
         cell.renderWithModel(model: log)
         return cell
     }
@@ -109,10 +97,19 @@ class LogListViewController: BaseViewController, UITableViewDelegate, UITableVie
                 }
             }
             dataArray = matchArray
-            
         }else {
             loadData()
         }
-        logListTableView?.reloadData()
+        logListTableView.reloadData()
     }
+    lazy var logListTableView: UITableView = {
+        $0.register(LogListCell.self, forCellReuseIdentifier: LogListCell.identifier)
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.delegate = self
+        $0.dataSource = self
+        $0.sectionHeaderHeight = 0.1
+        $0.separatorStyle = .none
+        $0.backgroundColor = .white
+        return $0
+    }(UITableView(frame: .zero, style: .grouped))
 }

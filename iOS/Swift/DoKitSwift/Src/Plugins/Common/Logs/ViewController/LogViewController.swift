@@ -7,24 +7,17 @@
 
 import UIKit
 class LogViewController: BaseViewController, UITableViewDelegate, UITableViewDataSource {
-    let switchCellID = "LogSwitchStyleCellID"
     let normalCellID = "LogNormalCellID"
-
-    var logTableView:UITableView?
     var titleArray:[String]?
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setTitle(title: LocalizedString("print"))
-        self.initUI()
-        self.initData()
+        setTitle(title: LocalizedString("print"))
+        initUI()
+        initData()
     }
     func initUI() {
-        logTableView = UITableView.init(frame:CGRect(x: 0, y: self.bigTitleView!.bottom, width: self.view.frame.size.width, height: self.view.frame.size.height), style: .grouped)
-        logTableView?.delegate = self
-        logTableView?.dataSource = self
-        logTableView?.register(UITableViewCell.self, forCellReuseIdentifier: normalCellID)
-        logTableView?.register(LogSwitchStyleCell.self, forCellReuseIdentifier: switchCellID)
-        view.addSubview(logTableView!)
+        logTableView.frame = CGRect(x: 0, y: self.bigTitleView!.bottom, width: self.view.frame.size.width, height: self.view.frame.size.height)
+        view.addSubview(logTableView)
     }
     func initData() {
         titleArray = [LocalizedString("开关"),LocalizedString("查看记录")]
@@ -37,11 +30,11 @@ class LogViewController: BaseViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let title = titleArray![indexPath.row]
         if indexPath.row == 0 {
-            let cell:LogSwitchStyleCell = tableView.dequeueReusableCell(withIdentifier: switchCellID, for: indexPath) as! LogSwitchStyleCell
+            let cell:LogSwitchStyleCell = tableView.dequeueReusableCell(withIdentifier: LogSwitchStyleCell.identifier, for: indexPath) as! LogSwitchStyleCell
             cell.selectionStyle = .none
-            cell.titleLabel?.text = title;
+            cell.titleLabel.text = title;
             let printOn:Bool = LogManager.shared.isOn;
-            cell.switchButton?.setOn(printOn, animated: false)
+            cell.switchButton.setOn(printOn, animated: false)
             cell.switchOnBlock = {(isOn:Bool) in
                 if isOn {
                     LogManager.shared.start()
@@ -72,5 +65,12 @@ class LogViewController: BaseViewController, UITableViewDelegate, UITableViewDat
         return true
     }
     
+    lazy var logTableView: UITableView = {
+        $0.delegate = self
+        $0.dataSource = self
+        $0.register(UITableViewCell.self, forCellReuseIdentifier: normalCellID)
+        $0.register(LogSwitchStyleCell.self, forCellReuseIdentifier: LogSwitchStyleCell.identifier)
+        return $0
+    }( UITableView(frame: .zero, style: .grouped))
     
 }
