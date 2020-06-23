@@ -13,6 +13,19 @@ fileprivate struct FileModel {
     let name: String
     let size: UInt64
     let createDate: Date
+    
+    var sizeFormat: String {
+        let size: Double = Double(self.size)
+        if size < 1024 {
+            return .init(format: "%.2fB", size)
+        }else if size < 1024 * 1024{
+            return .init(format: "%.2fK", size / 1024)
+        }else if size < 1024 * 1024 * 1024{
+            return .init(format: "%.2fM", size / 1024 / 1024)
+        }else{
+            return .init(format: "%.2fG", size / 1024 / 1024 / 1024)
+        }
+    }
 }
 
 class FileListViewController: BaseViewController {
@@ -126,23 +139,37 @@ class FileCell: UITableViewCell {
     lazy var titleLabel: UILabel = {
         $0.textColor = .black_1()
         $0.font = .systemFont(ofSize: kSizeFrom750_Landscape(32))
+        $0.lineBreakMode = .byTruncatingMiddle
         return $0
     }(UILabel())
-    lazy var arrowImageView = UIImageView(image: DKImage(named: "doraemon_more"))
+    
+    lazy var iconView:UIImageView = UIImageView()
+    
+    lazy var sizeView: UILabel = {
+        $0.textColor = .black_1()
+        $0.font = .systemFont(ofSize: kSizeFrom750_Landscape(32))
+        return $0
+    }(UILabel())
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
 
-        [titleLabel, arrowImageView].forEach { contentView.addSubview($0) }
+        [iconView,titleLabel, sizeView].forEach { contentView.addSubview($0) }
+        
+        iconView.translatesAutoresizingMaskIntoConstraints = false
+        iconView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        iconView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: kSizeFrom750_Landscape(32)).isActive = true
+        
+        sizeView.translatesAutoresizingMaskIntoConstraints = false
+        sizeView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        sizeView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -kSizeFrom750_Landscape(32)).isActive = true
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: kSizeFrom750_Landscape(32)).isActive = true
-        
-        arrowImageView.translatesAutoresizingMaskIntoConstraints = false
-        arrowImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        arrowImageView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -kSizeFrom750_Landscape(32)).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: iconView.rightAnchor, constant: kSizeFrom750_Landscape(32)).isActive = true
+        titleLabel.rightAnchor.constraint(lessThanOrEqualTo: sizeView.leftAnchor, constant:-kSizeFrom750_Landscape(32)).isActive = true
+  
     }
     
     required init?(coder: NSCoder) {
@@ -151,6 +178,8 @@ class FileCell: UITableViewCell {
     
     fileprivate func renderCell(model: FileModel) {
         titleLabel.text = model.name
+        iconView.image = model.isDirectory ? DKImage(named: "doraemon_dir") : DKImage(named: "doraemon_file_2")
+        sizeView.text = model.sizeFormat
     }
 
 }
