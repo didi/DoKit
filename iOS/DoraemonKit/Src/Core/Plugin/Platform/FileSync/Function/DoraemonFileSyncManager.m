@@ -135,13 +135,17 @@
         [_fm fileExistsAtPath:fullPath isDirectory:&isDir];
         
         NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
-        dic[@"name"] = path;
+        dic[@"fileName"] = path;
         dic[@"filePath"] = [self getRelativeFilePath:fullPath];
         if (isDir) {
-            dic[@"fileType"] = @"dir";
+            dic[@"fileType"] = @"folder";
         }else{
             dic[@"fileType"] = [path pathExtension];
         }
+        
+        NSDictionary *fileAttributes = [_fm attributesOfItemAtPath:fullPath error:nil];
+        NSDate *modifyDate = [fileAttributes objectForKey:NSFileModificationDate];
+        dic[@"modifyTime"] = @([modifyDate timeIntervalSince1970]*1000);
         [files addObject:dic];
     }
     
