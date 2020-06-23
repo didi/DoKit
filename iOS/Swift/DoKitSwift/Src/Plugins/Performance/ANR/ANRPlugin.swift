@@ -8,7 +8,7 @@
 import UIKit
 
 struct ANRPlugin: Plugin {
-    var module: String { LocalizedString("性能检测") }
+    var module: PluginModule { .performance }
     var title: String { LocalizedString("卡顿") }
     var icon: UIImage? { DKImage(named: "doraemon_kadun") }
     

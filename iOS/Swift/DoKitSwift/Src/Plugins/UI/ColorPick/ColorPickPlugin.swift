@@ -9,7 +9,7 @@ import Foundation
 
 struct ColorPickPlugin: Plugin {
 
-    var module: String { LocalizedString("视觉工具") }
+    var module: PluginModule { .ui }
     
     var title: String { LocalizedString("取色器") }
     

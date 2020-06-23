@@ -8,7 +8,7 @@
 import UIKit
 
 public protocol Plugin {
-    var module: String { get }
+    var module: PluginModule { get }
     var title: String { get }
     var icon: UIImage? { get }
     
@@ -20,7 +20,7 @@ public protocol Plugin {
 
 struct DefaultPlugin: Plugin {
 
-    var module: String
+    var module: PluginModule
     var title: String
     var icon: UIImage?
     var onInstallClosure: (()->Void)?
@@ -33,3 +33,23 @@ struct DefaultPlugin: Plugin {
         self.onSelectedClosure?()
     }
 }
+
+public struct PluginModule: Hashable {
+    public let name: String
+    
+    public init(name: String) {
+        self.name = name
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+    }
+}
+
+extension PluginModule {
+    static let performance = PluginModule(name: "性能检测")
+    static let ui = PluginModule(name: LocalizedString("视觉工具"))
+    static let common = PluginModule(name: LocalizedString("常用工具"))
+}
+
+
