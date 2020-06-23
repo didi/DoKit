@@ -12,7 +12,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.0'
         classpath 'com.novoda:bintray-release:0.9.2'
-        //classpath "com.didichuxing.doraemonkit:doraemonkit-plugin:${rootProject.ext.android["pluginVersionName"]}"
+        classpath "com.didichuxing.doraemonkit:doraemonkit-plugin:${rootProject.ext.android["pluginVersionName"]}"
         //classpath "com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.6"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.ext.android["kotlin_version"]}"
     }

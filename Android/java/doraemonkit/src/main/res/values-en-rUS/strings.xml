@@ -9,6 +9,7 @@
     <string name="dk_category_platform">Platform</string>
     <string name="dk_kit_network_mock">Mock Data</string>
     <string name="dk_kit_health">Health Check</string>
+    <string name="dk_kit_file_transfer">FileTransfer</string>
     <string name="dk_category_weex">Weex</string>
 
     <string name="dk_kit_sysinfo">App Info</string>

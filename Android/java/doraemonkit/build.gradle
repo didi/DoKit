@@ -47,6 +47,7 @@ android {
         jvmTarget = "1.8"
     }
 
+
 }
 
 dependencies {
@@ -73,6 +74,11 @@ dependencies {
     implementation rootProject.ext.dependencies["okhttp"]
     implementation rootProject.ext.dependencies["okhttp_v2"]
     implementation rootProject.ext.dependencies["room_runtime"]
+    //ktor
+    implementation rootProject.ext.dependencies["ktor-core"]
+    implementation rootProject.ext.dependencies["ktor-cio"]
+    implementation rootProject.ext.dependencies["ktor-jackson"]
+
     kapt rootProject.ext.dependencies["room_compile"]
 
     //三大图片框架

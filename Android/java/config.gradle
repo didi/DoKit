@@ -50,6 +50,13 @@ ext {
                     //暂时不支持3.14.0以上的okhttp版本
                     "okhttp"             : "com.squareup.okhttp3:okhttp:3.12.1",
                     "okhttp_v2"          : "com.squareup.okhttp:okhttp:2.7.5",
+                    //okSocket wiki:https://www.jianshu.com/p/8ee3ee766265
+                    "oksocket"           : "com.tonystark.android:socket:4.2.2",
+                    "oksocket-server"    : "com.tonystark.android:socket-server:4.2.2",
+                    //ktor
+                    "ktor-core"          : "io.ktor:ktor-server-core:1.3.2",
+                    "ktor-cio"           : "io.ktor:ktor-server-cio:1.3.2",
+                    "ktor-jackson"       : "io.ktor:ktor-jackson:1.3.2",
                     //将urlconnection代理到okhttp
                     //"okhttp_urlconnection"    : "com.squareup.okhttp3:okhttp-urlconnection:3.12.1",
                     //"okio"                    : "com.squareup.okio:okio:1.15.0",
