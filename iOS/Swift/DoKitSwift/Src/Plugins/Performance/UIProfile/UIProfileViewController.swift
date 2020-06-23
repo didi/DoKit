@@ -24,6 +24,7 @@ class UIProfileViewController: BaseViewController {
     }
     
     private func configUI() {
+        self.setTitle(title: LocalizedString("UI层级"))
         self.view.addSubview(switchView)
         switchView.delegate = self
     }

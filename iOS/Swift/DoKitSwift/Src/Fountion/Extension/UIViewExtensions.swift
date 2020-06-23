@@ -84,6 +84,24 @@ extension UIView {
         }
     }
     
+    var originX: CGFloat {
+        get {
+            self.frame.origin.x
+        }
+        set {
+            self.frame.origin.x = newValue
+        }
+    }
+    
+    var originY: CGFloat {
+        get {
+            self.frame.origin.y
+        }
+        set {
+            self.frame.origin.y = newValue
+        }
+    }
+    
     var viewController: UIViewController? {
         var responder: UIResponder? = next
         while responder != nil {
