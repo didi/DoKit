@@ -13,32 +13,37 @@ protocol LogSearchViewDelegate : NSObjectProtocol{
 class LogSearchView: UIView, UITextFieldDelegate {
     weak var delegate:LogSearchViewDelegate?
     
-    var searchIcon:UIImageView?
-    var textFiled:UITextField?
+    private lazy var searchIcon: UIImageView = {
+        $0.image = DKImage(named: "doraemon_search")
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        return $0
+    }(UIImageView())
+    
+    private lazy var textFiled: UITextField = {
+        $0.delegate = self;
+        $0.placeholder = LocalizedString("请输入您要搜索的关键字")
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        return $0
+    }(UITextField())
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.layer.borderWidth = 1.0;
-        self.layer.cornerRadius = 8;
-        self.layer.borderColor = UIColor.hexColor(0x999999, alphaValue: 0.2).cgColor
+        layer.borderWidth = 1.0;
+        layer.cornerRadius = 8;
+        layer.borderColor = UIColor.hexColor(0x999999, alphaValue: 0.2).cgColor
         
-        searchIcon = UIImageView.init()
-        searchIcon?.image = DKImage(named: "doraemon_search")
-        searchIcon?.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(searchIcon!)
-        self.addConstraint(NSLayoutConstraint.init(item: searchIcon!, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 10))
-        self.addConstraint(NSLayoutConstraint.init(item: searchIcon!, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0))
-        self.addConstraint(NSLayoutConstraint.init(item: searchIcon!, attribute: .width, relatedBy: .equal, toItem: .none, attribute: .notAnAttribute, multiplier: 1.0, constant: 22))
-        self.addConstraint(NSLayoutConstraint.init(item: searchIcon!, attribute: .height, relatedBy: .equal, toItem: .none, attribute: .notAnAttribute, multiplier: 1.0, constant: 22))
+        addSubview(searchIcon)
+        addSubview(textFiled)
+        
+        self.addConstraint(NSLayoutConstraint.init(item: searchIcon, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 10))
+        self.addConstraint(NSLayoutConstraint.init(item: searchIcon, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0))
+        self.addConstraint(NSLayoutConstraint.init(item: searchIcon, attribute: .width, relatedBy: .equal, toItem: .none, attribute: .notAnAttribute, multiplier: 1.0, constant: 22))
+        self.addConstraint(NSLayoutConstraint.init(item: searchIcon, attribute: .height, relatedBy: .equal, toItem: .none, attribute: .notAnAttribute, multiplier: 1.0, constant: 22))
 
-        textFiled = UITextField.init()
-        textFiled?.delegate = self;
-        textFiled?.placeholder = LocalizedString("请输入您要搜索的关键字")
-        textFiled?.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(textFiled!)
-        self.addConstraint(NSLayoutConstraint.init(item: textFiled!, attribute: .leading, relatedBy: .equal, toItem:searchIcon!, attribute: .trailing, multiplier: 1.0, constant: 10))
-        self.addConstraint(NSLayoutConstraint.init(item: textFiled!, attribute: .top, relatedBy: .equal, toItem:self, attribute: .top, multiplier: 1.0, constant: 10))
-        self.addConstraint(NSLayoutConstraint.init(item: textFiled!, attribute: .bottom, relatedBy: .equal, toItem:self, attribute: .bottom, multiplier: 1.0, constant: -10))
-        self.addConstraint(NSLayoutConstraint.init(item: textFiled!, attribute: .trailing, relatedBy: .equal, toItem:self, attribute: .trailing, multiplier: 1.0, constant: -10))
+        self.addConstraint(NSLayoutConstraint.init(item: textFiled, attribute: .leading, relatedBy: .equal, toItem:searchIcon, attribute: .trailing, multiplier: 1.0, constant: 10))
+        self.addConstraint(NSLayoutConstraint.init(item: textFiled, attribute: .top, relatedBy: .equal, toItem:self, attribute: .top, multiplier: 1.0, constant: 10))
+        self.addConstraint(NSLayoutConstraint.init(item: textFiled, attribute: .bottom, relatedBy: .equal, toItem:self, attribute: .bottom, multiplier: 1.0, constant: -10))
+        self.addConstraint(NSLayoutConstraint.init(item: textFiled, attribute: .trailing, relatedBy: .equal, toItem:self, attribute: .trailing, multiplier: 1.0, constant: -10))
 
     }
     
