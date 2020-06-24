@@ -15,13 +15,13 @@ class ANRDetailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setTitle(title: LocalizedString("卡顿详情"))
+        set(title: LocalizedString("卡顿详情"))
         setRightNavTitle(title: LocalizedString("导出"))
         
         anrInfo = (NSDictionary(contentsOfFile: filePath) as? [String : Any]) ?? [:]
         
         let contentLabel = UILabel()
-        contentLabel.textColor = .black_2()
+        contentLabel.textColor = .black_2
         contentLabel.font = .systemFont(ofSize: kSizeFrom750_Landscape(16))
         contentLabel.numberOfLines = 0
         contentLabel.text = anrInfo["content"] as? String
@@ -29,7 +29,7 @@ class ANRDetailViewController: BaseViewController {
         contentLabel.frame = CGRect(x: 20, y: kIphoneNavBarHeight + 10, width: fontSize.width, height: fontSize.height)
         
         let timeLabel = UILabel()
-        timeLabel.textColor = .black_1()
+        timeLabel.textColor = .black_1
         timeLabel.font = .systemFont(ofSize: kSizeFrom750_Landscape(16))
         let time = anrInfo["duration"] as? String ?? "0"
         timeLabel.text = "anr time : \(time)ms"

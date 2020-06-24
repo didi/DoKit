@@ -25,7 +25,7 @@ class MainThreadCheckerViewController: BaseViewController {
     }()
     
     private lazy var switchCell: CellSwitch = {
-        let frame = CGRect(x: 0, y: bigTitleView?.bottom ?? kSizeFrom750_Landscape(178), width: self.view.width, height: 53)
+        let frame = CGRect(x: 0, y: bigTitleView?.bottom ?? kSizeFrom750_Landscape(178), width: self.view.width, height: CellSwitch.defaultHeight)
         let btn = CellSwitch(frame: frame)
         btn.renderUIWithTitle(title: LocalizedString("子线程UI检测开关"), on: MainThreadCheckerManager.mainThreadChecker)
         btn.needTopLine()
@@ -39,12 +39,12 @@ class MainThreadCheckerViewController: BaseViewController {
         setupUI()
     }
     
-    override func needBigTitleView() -> Bool {
+    override var needBigTitleView: Bool {
         return true
     }
     
     func setupUI() {
-        setTitle(title: LocalizedString("子线程UI检测"))
+        set(title: LocalizedString("子线程UI检测"))
         [switchCell, checkBtn, clearBtn].forEach { view.addSubview($0) }
     }
 
@@ -60,7 +60,7 @@ extension MainThreadCheckerViewController: CellButtonDelegate {
     func cellBtnClick(sender: CellButton) {
         if sender == self.checkBtn {
             let listVc = FileListViewController.init(directory: MainThreadCheckerManager.default.directory)
-            listVc.setTitle(title: LocalizedString("子线程UI列表"))
+            listVc.set(title: LocalizedString("子线程UI列表"))
             navigationController?.pushViewController(listVc, animated: true)
         } else if sender == self.clearBtn {
             let alertController = UIAlertController(title: LocalizedString("提示"), message: LocalizedString("确认删除所有子线程UI记录吗？"), preferredStyle: .alert)

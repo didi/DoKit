@@ -34,7 +34,7 @@ class FileListViewController: BaseViewController {
     init(directory: String) {
         self.directory = directory
         super.init(nibName: nil, bundle: nil)
-        setTitle(title: LocalizedString((directory as NSString).lastPathComponent))
+        set(title: LocalizedString((directory as NSString).lastPathComponent))
     }
     
     required init?(coder: NSCoder) {
@@ -137,7 +137,7 @@ extension FileListViewController: UITableViewDataSource, UITableViewDelegate {
 class FileCell: UITableViewCell {
     
     lazy var titleLabel: UILabel = {
-        $0.textColor = .black_1()
+        $0.textColor = .black_1
         $0.font = .systemFont(ofSize: kSizeFrom750_Landscape(32))
         $0.lineBreakMode = .byTruncatingMiddle
         return $0
@@ -146,7 +146,7 @@ class FileCell: UITableViewCell {
     lazy var iconView:UIImageView = UIImageView()
     
     lazy var sizeView: UILabel = {
-        $0.textColor = .black_1()
+        $0.textColor = .black_1
         $0.font = .systemFont(ofSize: kSizeFrom750_Landscape(32))
         return $0
     }(UILabel())

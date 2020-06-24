@@ -11,7 +11,7 @@ class LogViewController: BaseViewController, UITableViewDelegate, UITableViewDat
     var titleArray:[String]?
     override func viewDidLoad() {
         super.viewDidLoad()
-        setTitle(title: LocalizedString("print"))
+        set(title: LocalizedString("print"))
         initUI()
         initData()
     }
@@ -61,7 +61,7 @@ class LogViewController: BaseViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    override func needBigTitleView() -> Bool {
+    override var needBigTitleView: Bool {
         return true
     }
     

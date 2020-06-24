@@ -16,7 +16,7 @@ class ANRListCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
         
-        titleLabel.textColor = .black_1()
+        titleLabel.textColor = .black_1
         titleLabel.font = .systemFont(ofSize: kSizeFrom750_Landscape(32))
         
         [titleLabel, arrowImageView].forEach { contentView.addSubview($0) }

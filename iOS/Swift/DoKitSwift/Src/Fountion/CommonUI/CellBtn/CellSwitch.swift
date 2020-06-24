@@ -31,17 +31,17 @@ class CellSwitch: UIView {
     }
     
     func setupUI() {
-        titleLabel.textColor = .black_1()
+        titleLabel.textColor = .black_1
         titleLabel.font = .systemFont(ofSize: kSizeFrom750_Landscape(32))
         
-        switchView.onTintColor = .blue()
+        switchView.onTintColor = .blue
         switchView.addTarget(self, action: #selector(switchChange(swh:)), for: .valueChanged)
         
         topLine.isHidden = true
-        topLine.backgroundColor = .line()
+        topLine.backgroundColor = .line
         
         bottomLine.isHidden = true
-        bottomLine.backgroundColor = .line()
+        bottomLine.backgroundColor = .line
         
         [titleLabel, switchView, topLine, bottomLine].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false

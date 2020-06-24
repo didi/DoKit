@@ -17,14 +17,14 @@ class ANRViewController: BaseViewController {
         setupUI()
     }
     
-    override func needBigTitleView() -> Bool {
+    override var needBigTitleView: Bool {
         return true
     }
     
     func setupUI() {
-        setTitle(title: LocalizedString("卡顿检测"))
+        set(title: LocalizedString("卡顿检测"))
         
-        let swhFrame = CGRect(x: 0, y: bigTitleView?.bottom ?? kSizeFrom750_Landscape(178), width: view.width, height: 53)
+        let swhFrame = CGRect(x: 0, y: bigTitleView?.bottom ?? kSizeFrom750_Landscape(178), width: view.width, height: CellSwitch.defaultHeight)
         let switchCell = CellSwitch(frame: swhFrame)
         switchCell.renderUIWithTitle(title: LocalizedString("卡顿检测开关"), on: ANRManager.sharedInstance.isOn)
         switchCell.needTopLine()

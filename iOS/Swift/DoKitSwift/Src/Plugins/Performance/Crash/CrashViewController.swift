@@ -25,11 +25,11 @@ class CrashViewController: BaseViewController {
     }
     
     private func setup() {
-        setTitle(title: LocalizedString("Crash"))
+        set(title: LocalizedString("Crash"))
         view.addSubview(tableView)
     }
     
-    override func needBigTitleView() -> Bool {
+    override var needBigTitleView: Bool {
         return true
     }
     

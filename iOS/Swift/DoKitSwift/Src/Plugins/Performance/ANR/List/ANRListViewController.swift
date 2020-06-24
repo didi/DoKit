@@ -23,7 +23,7 @@ class ANRListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setTitle(title: LocalizedString("卡顿列表"))
+        set(title: LocalizedString("卡顿列表"))
         tableView.frame = CGRect(x: 0, y: kIphoneNavBarHeight, width: kScreenWidth, height: kScreenHeight - kIphoneNavBarHeight)
         view.addSubview(tableView)
         tableView.tableFooterView = UIView()
