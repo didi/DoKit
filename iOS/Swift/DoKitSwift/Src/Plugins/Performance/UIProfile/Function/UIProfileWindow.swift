@@ -41,6 +41,19 @@ class UIProfileWindow: UIWindow {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func show(depthText: String, detailInfo: String) {
+        textLb.text = depthText
+        textView.text = detailInfo
+        self.addSubview(textLb)
+        self.addSubview(textView)
+        self.isHidden = false
+    }
+    
+    func hide() {
+        textLb.removeFromSuperview()
+        textView.removeFromSuperview()
+    }
 }
 
 extension UIProfileWindow {
