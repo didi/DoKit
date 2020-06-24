@@ -9,30 +9,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.config.LayoutBorderConfig
 import com.didichuxing.doraemonkit.kit.core.DokitViewInterface
 import java.util.*
 
 /**
  * Created by wanglikun on 2019/1/12
  */
-class ViewBorderFrameLayout : FrameLayout {
-    constructor(context: Context) : super(context) {
-        id = R.id.dokit_view_border_id
-        //LogHelper.i(TAG, "childId=====>" + UIUtils.getIdText(this));
-    }
+class ViewBorderFrameLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) : FrameLayout(context, attrs, defStyle) {
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        id = R.id.dokit_view_border_id
-    }
+    private var open = true
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    init {
         id = R.id.dokit_view_border_id
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
-        if (LayoutBorderConfig.isLayoutBorderOpen) {
+        if (open) {
             traverseChild(this)
         } else {
             clearChild(this)
@@ -41,16 +34,14 @@ class ViewBorderFrameLayout : FrameLayout {
 
     private fun traverseChild(view: View) {
         //过滤掉dokitView
+        replaceDrawable(view)
         if (view is ViewGroup && view !is DokitViewInterface) {
-            replaceDrawable(view)
             val childCount = view.childCount
             if (childCount != 0) {
                 for (index in 0 until childCount) {
                     traverseChild(view.getChildAt(index))
                 }
             }
-        } else {
-            replaceDrawable(view)
         }
     }
 
@@ -69,16 +60,11 @@ class ViewBorderFrameLayout : FrameLayout {
                         return
                     }
                 }
-                LayerDrawable(arrayOf(
-                        oldDrawable,
-                        ViewBorderDrawable(view)
-                ))
-            } else {
-                LayerDrawable(arrayOf(
-                        oldDrawable,
-                        ViewBorderDrawable(view)
-                ))
             }
+            LayerDrawable(arrayOf(
+                    oldDrawable,
+                    ViewBorderDrawable(view)
+            ))
         } else {
             LayerDrawable(arrayOf<Drawable>(
                     ViewBorderDrawable(view)
@@ -91,17 +77,20 @@ class ViewBorderFrameLayout : FrameLayout {
         }
     }
 
+    fun close() {
+        open = false
+        requestLayout()
+    }
+
     private fun clearChild(view: View) {
+        clearDrawable(view)
         if (view is ViewGroup) {
-            clearDrawable(view)
             val childCount = view.childCount
             if (childCount != 0) {
                 for (index in 0 until childCount) {
                     clearChild(view.getChildAt(index))
                 }
             }
-        } else {
-            clearDrawable(view)
         }
     }
 
@@ -110,13 +99,12 @@ class ViewBorderFrameLayout : FrameLayout {
             return
         }
         val oldDrawable = view.background as? LayerDrawable ?: return
-        val layerDrawable = oldDrawable
         val drawables: MutableList<Drawable> = ArrayList()
-        for (i in 0 until layerDrawable.numberOfLayers) {
-            if (layerDrawable.getDrawable(i) is ViewBorderDrawable) {
+        for (i in 0 until oldDrawable.numberOfLayers) {
+            if (oldDrawable.getDrawable(i) is ViewBorderDrawable) {
                 continue
             }
-            drawables.add(layerDrawable.getDrawable(i))
+            drawables.add(oldDrawable.getDrawable(i))
         }
         val newDrawable = LayerDrawable(drawables.toTypedArray())
         view.background = newDrawable
