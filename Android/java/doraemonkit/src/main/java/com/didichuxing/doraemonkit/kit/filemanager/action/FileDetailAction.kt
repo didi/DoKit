@@ -1,10 +1,7 @@
-package com.didichuxing.doraemonkit.kit.filetransfer.action
+package com.didichuxing.doraemonkit.kit.filemanager.action
 
 import com.blankj.utilcode.util.FileIOUtils
 import com.blankj.utilcode.util.FileUtils
-import com.blankj.utilcode.util.PathUtils
-import java.io.File
-import java.io.FileReader
 
 /**
  * ================================================

@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.filetransfer.action
+package com.didichuxing.doraemonkit.kit.filemanager.action
 
 import com.blankj.utilcode.util.DeviceUtils
 

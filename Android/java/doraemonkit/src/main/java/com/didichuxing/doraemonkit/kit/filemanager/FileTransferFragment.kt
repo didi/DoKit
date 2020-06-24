@@ -1,12 +1,13 @@
-package com.didichuxing.doraemonkit.kit.filetransfer
+package com.didichuxing.doraemonkit.kit.filemanager
 
 import android.os.Bundle
 import android.view.View
+import com.blankj.utilcode.util.NetworkUtils
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import io.ktor.http.headersOf
 import io.ktor.server.cio.CIO
 import io.ktor.server.engine.embeddedServer
+import kotlinx.android.synthetic.main.dk_fragment_file_transfer.*
 
 /**
  * ================================================
@@ -24,6 +25,7 @@ class FileTransferFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        tv.text = "${NetworkUtils.getIpAddressByWifi()}:8089"
         initKtor()
     }
 

@@ -14,7 +14,7 @@ import com.didichuxing.doraemonkit.kit.crash.CrashCaptureMainFragment;
 import com.didichuxing.doraemonkit.kit.dataclean.DataCleanFragment;
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment;
-import com.didichuxing.doraemonkit.kit.filetransfer.FileTransferFragment;
+import com.didichuxing.doraemonkit.kit.filemanager.FileTransferFragment;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment;
 import com.didichuxing.doraemonkit.kit.health.HealthFragment;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment;

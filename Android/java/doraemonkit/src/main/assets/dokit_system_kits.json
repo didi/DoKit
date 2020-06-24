@@ -13,7 +13,7 @@
         "innerKitId": "dokit_sdk_platform_ck_health"
       },
       {
-        "allClassName": "com.didichuxing.doraemonkit.kit.filetransfer.FileTransferKit",
+        "allClassName": "com.didichuxing.doraemonkit.kit.filemanager.FileTransferKit",
         "checked": true,
         "innerKitId": "dokit_sdk_platform_ck_filetransfer"
       }

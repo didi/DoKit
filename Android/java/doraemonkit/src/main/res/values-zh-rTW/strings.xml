@@ -9,7 +9,7 @@
     <string name="dk_category_platform">平台工具</string>
     <string name="dk_kit_network_mock">数据Mock</string>
     <string name="dk_kit_health">健康體檢</string>
-    <string name="dk_kit_file_transfer">文件互傳</string>
+    <string name="dk_kit_file_transfer">文件管理</string>
     <string name="dk_category_weex">Weex</string>
 
     <string name="dk_kit_sysinfo">App信息</string>

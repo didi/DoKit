@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.filetransfer
+package com.didichuxing.doraemonkit.kit.filemanager
 
 import android.content.Context
 import com.didichuxing.doraemonkit.R

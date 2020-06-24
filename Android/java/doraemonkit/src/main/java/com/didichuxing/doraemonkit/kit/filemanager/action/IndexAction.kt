@@ -1,6 +1,4 @@
-package com.didichuxing.doraemonkit.kit.filetransfer.action
-
-import com.blankj.utilcode.util.DeviceUtils
+package com.didichuxing.doraemonkit.kit.filemanager.action
 
 /**
  * ================================================
@@ -15,7 +13,7 @@ object IndexAction {
     fun createIndexInfo(): MutableMap<String, Any> {
         return mutableMapOf<String, Any>().apply {
             this["code"] = 200
-            this["data"] = "success"
+            this["data"] = "请在www.dokit.cn里的控制台中的文件同步助手中使用该功能"
         }
     }
 

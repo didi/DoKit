@@ -77,7 +77,7 @@ android {
 
 dokitExt {
     //dokit 插件开关
-    dokitPluginSwitch false
+    dokitPluginSwitch true
     //dokitLogSwitch false
     //通用设置
     comm {

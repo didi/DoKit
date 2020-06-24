@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.filetransfer.bean
+package com.didichuxing.doraemonkit.kit.filemanager.bean
 
 /**
  * ================================================
@@ -9,5 +9,4 @@ package com.didichuxing.doraemonkit.kit.filetransfer.bean
  * 修订历史：
  * ================================================
  */
-data class DirInfo(val filePath: String, val fileName: String) {
-}
+data class RenameFileInfo(val filePath: String, val oldName: String, val newName: String)
