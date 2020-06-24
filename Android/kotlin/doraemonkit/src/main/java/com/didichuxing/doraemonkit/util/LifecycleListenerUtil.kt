@@ -41,3 +41,21 @@ object LifecycleListenerUtil {
         fun onFragmentDetached(f: Fragment?)
     }
 }
+
+/**
+ * 生命周期包装类
+ */
+abstract class LifecycleListenerWrapper : LifecycleListenerUtil.LifecycleListener {
+
+    override fun onActivityResumed(activity: Activity?) {
+    }
+
+    override fun onActivityPaused(activity: Activity?) {
+    }
+
+    override fun onFragmentAttached(f: Fragment?) {
+    }
+
+    override fun onFragmentDetached(f: Fragment?) {
+    }
+}

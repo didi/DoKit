@@ -4,19 +4,16 @@ import android.content.Context
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.view.View
-import com.didichuxing.doraemonkit.config.LayoutBorderConfig
 
 /**
  * Created by wanglikun on 2019/1/11
  */
 class ViewBorderDrawable(view: View) : Drawable() {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-    private val rect: Rect
-    private val context: Context
+    private val rect: Rect = Rect(0, 0, view.width, view.height)
+    private val context: Context = view.context
     override fun draw(canvas: Canvas) {
-        if (LayoutBorderConfig.isLayoutBorderOpen) {
-            canvas.drawRect(rect, paint)
-        }
+        canvas.drawRect(rect, paint)
     }
 
     override fun setAlpha(alpha: Int) {}
@@ -27,8 +24,6 @@ class ViewBorderDrawable(view: View) : Drawable() {
     }
 
     init {
-        rect = Rect(0, 0, view.width, view.height)
-        context = view.context
         paint.style = Paint.Style.STROKE
         paint.color = Color.RED
         paint.strokeWidth = 4f
