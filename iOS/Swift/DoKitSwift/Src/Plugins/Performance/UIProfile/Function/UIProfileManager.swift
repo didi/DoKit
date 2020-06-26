@@ -13,7 +13,6 @@ struct UIProfileManager {
     
     var isEnable = false
     
-    
     func start() {
         UIViewController.topViewControllerForKeyWindow()?.profileViewDepth()
     }

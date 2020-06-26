@@ -35,7 +35,6 @@ class UIProfileWindow: UIWindow {
     }()
     
 
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -64,12 +63,8 @@ extension UIProfileWindow {
     private func setupUI() {
         if #available(iOS 13.0, *) {
             for windowScene in UIApplication.shared.connectedScenes {
-                guard let windowScene = windowScene as? UIWindowScene else {
-                    continue
-                }
-                if windowScene.activationState == .foregroundActive {
-                    break
-                }
+                guard let windowScene = windowScene as? UIWindowScene else { continue }
+                if windowScene.activationState == .foregroundActive { break }
             }
         }
         backgroundColor = .white

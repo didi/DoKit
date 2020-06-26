@@ -7,9 +7,6 @@
 
 // MARK: - UIProfile
 
-private var dokitDepthKey: Void?
-private var dokitDepthViewKey: Void?
-
 extension UIViewController {
     
     func profileViewDepth() {
@@ -23,7 +20,6 @@ extension UIViewController {
         self.dokitDepthView?.layer.borderWidth = 0
         self.dokitDepthView?.layer.borderColor = nil
     }
-    
     
     private func travelView(view: UIView, depth: Int) {
         let newDepth = depth + 1
@@ -40,42 +36,24 @@ extension UIViewController {
     private func showUIProfile() {
         guard let view = dokitDepthView else { return }
         let text = String(format: "[%d][%@]", self.dokitDepth, NSStringFromClass(type(of: view)))
-        var array = [String]()
-        array.append(NSStringFromClass(type(of: view)))
+        var classNames = [String]()
+        classNames.append(NSStringFromClass(type(of: view)))
         var tmpSuperView = view.superview
         while tmpSuperView != nil && tmpSuperView != self.view {
-            array.append(NSStringFromClass(type(of: tmpSuperView!)))
+            classNames.append(NSStringFromClass(type(of: tmpSuperView!)))
             tmpSuperView = tmpSuperView!.superview
         }
-        array.append(NSStringFromClass(type(of: self.view)))
-        let detail = array.reversed().reduce("") { $0 + $1 + "\r\n"}
+        classNames.append(NSStringFromClass(type(of: self.view)))
+        let detail = classNames.reversed().reduce("") { $0 + $1 + "\r\n"}
         UIProfileWindow.shared.show(depthText: text, detailInfo: detail)
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.red.cgColor
     }
     
-    
-    var dokitDepth: Int {
-        get {
-            objc_getAssociatedObject(self, &dokitDepthKey) as? Int ?? 0
-        }
-        
-        set {
-            objc_setAssociatedObject(self, &dokitDepthKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
-    
-    var dokitDepthView: UIView? {
-        get {
-            objc_getAssociatedObject(self, &dokitDepthViewKey) as? UIView
-        }
-        
-        set {
-            objc_setAssociatedObject(self, &dokitDepthViewKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        }
-    }
 }
 
+
+// MARK: -
 
 extension UIViewController {
     
@@ -89,3 +67,22 @@ extension UIViewController {
         self.resetProfileData()
     }
 }
+
+// MARK: -
+
+private var dokitDepthKey: Void?
+private var dokitDepthViewKey: Void?
+
+extension UIViewController {
+    
+    var dokitDepth: Int {
+        get { objc_getAssociatedObject(self, &dokitDepthKey) as? Int ?? 0 }
+        set { objc_setAssociatedObject(self, &dokitDepthKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+    
+    var dokitDepthView: UIView? {
+        get { objc_getAssociatedObject(self, &dokitDepthViewKey) as? UIView }
+        set { objc_setAssociatedObject(self, &dokitDepthViewKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+}
+
