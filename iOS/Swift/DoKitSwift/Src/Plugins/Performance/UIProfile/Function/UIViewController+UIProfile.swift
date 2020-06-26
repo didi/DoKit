@@ -13,26 +13,23 @@ private var dokitDepthViewKey: Void?
 extension UIViewController {
     
     func profileViewDepth() {
-//        guard UIProfileManager.shared.isEnable else { return }
-        travelView(view: self.view)
+        guard UIProfileManager.shared.isEnable else { return }
+        travelView(view: view, depth: 0)
         showUIProfile()
     }
     
     func resetProfileData() {
-        self.dokit_depth = 0
-        self.dokit_view = nil
+        self.dokitDepth = 0
+        self.dokitDepthView?.layer.borderWidth = 0
+        self.dokitDepthView?.layer.borderColor = nil
     }
     
-    
-    private func travelView(view: UIView) {
-        travelView(view: view, depth: 0)
-    }
     
     private func travelView(view: UIView, depth: Int) {
         let newDepth = depth + 1
-        if newDepth > self.dokit_depth {
-            self.dokit_depth = newDepth
-            self.dokit_view = view
+        if newDepth > self.dokitDepth {
+            self.dokitDepth = newDepth
+            self.dokitDepthView = view
         }
         guard view.subviews.count > 0 else { return }
         view.subviews.forEach { subview in
@@ -41,8 +38,8 @@ extension UIViewController {
     }
     
     private func showUIProfile() {
-        guard let view = dokit_view else { return }
-        let text = String(format: "[%d][%@]", self.dokit_depth, NSStringFromClass(type(of: view)))
+        guard let view = dokitDepthView else { return }
+        let text = String(format: "[%d][%@]", self.dokitDepth, NSStringFromClass(type(of: view)))
         var array = [String]()
         array.append(NSStringFromClass(type(of: view)))
         var tmpSuperView = view.superview
@@ -58,7 +55,7 @@ extension UIViewController {
     }
     
     
-    var dokit_depth: Int {
+    var dokitDepth: Int {
         get {
             objc_getAssociatedObject(self, &dokitDepthKey) as? Int ?? 0
         }
@@ -68,7 +65,7 @@ extension UIViewController {
         }
     }
     
-    var dokit_view: UIView? {
+    var dokitDepthView: UIView? {
         get {
             objc_getAssociatedObject(self, &dokitDepthViewKey) as? UIView
         }

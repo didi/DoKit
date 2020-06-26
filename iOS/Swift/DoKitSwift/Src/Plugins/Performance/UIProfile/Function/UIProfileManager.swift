@@ -11,15 +11,8 @@ struct UIProfileManager {
     
     static var shared = UIProfileManager()
     
-    var isEnable = false {
-        didSet {
-            if isEnable {
-                start()
-            } else {
-                stop()
-            }
-        }
-    }
+    var isEnable = false
+    
     
     func start() {
         UIViewController.topViewControllerForKeyWindow()?.profileViewDepth()

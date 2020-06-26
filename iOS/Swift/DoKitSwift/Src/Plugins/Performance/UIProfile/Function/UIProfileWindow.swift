@@ -56,6 +56,7 @@ class UIProfileWindow: UIWindow {
     func hide() {
         textLb.removeFromSuperview()
         textView.removeFromSuperview()
+        self.isHidden = true
     }
 }
 

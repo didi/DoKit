@@ -39,6 +39,10 @@ class UIProfileViewController: BaseViewController {
 extension UIProfileViewController: CellSwitchDelegate {
     func changeSwitchOn(on: Bool) {
         UIProfileManager.shared.isEnable = on
-        HomeWindow.shared.hide()
+        if UIProfileManager.shared.isEnable {
+            UIProfileManager.shared.start()
+        } else {
+            UIProfileManager.shared.stop()
+        }
     }
 }
