@@ -16,16 +16,16 @@ extension UIViewController {
     }
     
     func resetProfileData() {
-        self.dokitDepth = 0
-        self.dokitDepthView?.layer.borderWidth = 0
-        self.dokitDepthView?.layer.borderColor = nil
+        dokitDepth = 0
+        dokitDepthView?.layer.borderWidth = 0
+        dokitDepthView?.layer.borderColor = nil
     }
     
     private func travelView(view: UIView, depth: Int) {
         let newDepth = depth + 1
         if newDepth > self.dokitDepth {
-            self.dokitDepth = newDepth
-            self.dokitDepthView = view
+            dokitDepth = newDepth
+            dokitDepthView = view
         }
         guard view.subviews.count > 0 else { return }
         view.subviews.forEach { subview in
@@ -35,16 +35,15 @@ extension UIViewController {
     
     private func showUIProfile() {
         guard let view = dokitDepthView else { return }
-        let text = String(format: "[%d][%@]", self.dokitDepth, NSStringFromClass(type(of: view)))
-        var classNames = [String]()
-        classNames.append(NSStringFromClass(type(of: view)))
-        var tmpSuperView = view.superview
-        while tmpSuperView != nil && tmpSuperView != self.view {
-            classNames.append(NSStringFromClass(type(of: tmpSuperView!)))
-            tmpSuperView = tmpSuperView!.superview
+        let text = String(format: "[%d][%@]", self.dokitDepth, name(of: view))
+        var classNames = [name(of: view)]
+        var nextView = view.superview
+        while let curView = nextView, curView != self.view {
+            classNames.append(name(of: curView))
+            nextView = curView.superview
         }
-        classNames.append(NSStringFromClass(type(of: self.view)))
-        let detail = classNames.reversed().reduce("") { $0 + $1 + "\r\n"}
+        classNames.append(name(of: self.view))
+        let detail = classNames.reversed().reduce("") { $0 + $1 + "\r\n" }
         UIProfileWindow.shared.show(depthText: text, detailInfo: detail)
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.red.cgColor
@@ -58,20 +57,20 @@ extension UIViewController {
 extension UIViewController {
     
     @objc func dokit_viewDidAppear(_ animated: Bool) {
-        self.dokit_viewDidAppear(animated)
-        self.profileViewDepth()
+        dokit_viewDidAppear(animated)
+        profileViewDepth()
     }
     
     @objc func dokit_viewWillDisappear(_ animated: Bool) {
-        self.dokit_viewWillDisappear(animated)
-        self.resetProfileData()
+        dokit_viewWillDisappear(animated)
+        resetProfileData()
     }
 }
 
 // MARK: -
 
-private var dokitDepthKey: Void?
-private var dokitDepthViewKey: Void?
+fileprivate var dokitDepthKey: Void?
+fileprivate var dokitDepthViewKey: Void?
 
 extension UIViewController {
     
@@ -86,3 +85,8 @@ extension UIViewController {
     }
 }
 
+// MARK: -
+
+fileprivate func name<T>(of cls: T) -> String where T: AnyObject {
+    NSStringFromClass(type(of: cls))
+}

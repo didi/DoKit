@@ -47,15 +47,15 @@ class UIProfileWindow: UIWindow {
     func show(depthText: String, detailInfo: String) {
         textLb.text = depthText
         textView.text = detailInfo
-        self.addSubview(textLb)
-        self.addSubview(textView)
-        self.isHidden = false
+        addSubview(textLb)
+        addSubview(textView)
+        isHidden = false
     }
     
     func hide() {
         textLb.removeFromSuperview()
         textView.removeFromSuperview()
-        self.isHidden = true
+        isHidden = true
     }
 }
 
@@ -73,9 +73,9 @@ extension UIProfileWindow {
         windowLevel = .statusBar + UIWindow.Level(rawValue: 50).rawValue
         clipsToBounds = true
         let pan = UIPanGestureRecognizer(target: self, action: #selector(onPan(sender:)))
-        self.addGestureRecognizer(pan)
+        addGestureRecognizer(pan)
         let tap = UITapGestureRecognizer(target: self, action: #selector(onTap))
-        self.addGestureRecognizer(tap)
+        addGestureRecognizer(tap)
     }
     
     @objc func onPan(sender: UIPanGestureRecognizer) {
@@ -101,12 +101,10 @@ extension UIProfileWindow {
     
     @objc func onTap() {
         if storedFrame.isEmpty {
-            storedFrame = CGRect(x: self.originX, y: self.originY, width: self.width, height: 180)
+            storedFrame = CGRect(x: originX, y: originY, width: width, height: 180)
         }
         UIView.animate(withDuration: 0.25) {
-            let tmp = self.frame
-            self.frame = self.storedFrame
-            self.storedFrame = tmp
+            (self.frame, self.storedFrame) = (self.storedFrame, self.frame)
         }
     }
 }
