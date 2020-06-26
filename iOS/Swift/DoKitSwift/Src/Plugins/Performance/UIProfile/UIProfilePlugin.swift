@@ -7,9 +7,7 @@
 
 import Foundation
 
-struct UIProfilePlugin {
-
-}
+struct UIProfilePlugin { }
 
 extension UIProfilePlugin: Plugin {
     var module: PluginModule {
@@ -25,7 +23,9 @@ extension UIProfilePlugin: Plugin {
     }
     
     func onInstall() {
+        UIViewController.swizzle(originalSelector: #selector(UIViewController.viewDidAppear(_:)), swizzledSelector: #selector(UIViewController.dokit_viewDidAppear(_:)))
         
+        UIViewController.swizzle(originalSelector: #selector(UIViewController.viewWillDisappear(_:)), swizzledSelector: #selector(UIViewController.dokit_viewWillDisappear(_:)))
     }
     
     func onSelected() {

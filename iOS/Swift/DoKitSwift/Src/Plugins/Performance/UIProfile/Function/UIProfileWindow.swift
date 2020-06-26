@@ -7,9 +7,14 @@
 
 import UIKit
 
+
+fileprivate let windowWidth = 220
+fileprivate let expandHeight = 250
+fileprivate let textHeight = 30
+
 class UIProfileWindow: UIWindow {
     
-    static let shared = UIProfileWindow(frame: CGRect(x: 10, y: 65, width: kScreenWidth, height: kScreenHeight))
+    static let shared = UIProfileWindow(frame: CGRect(x: 10, y: 65, width: windowWidth, height: textHeight))
     
     var storedFrame = CGRect.zero
     
@@ -29,9 +34,7 @@ class UIProfileWindow: UIWindow {
         return tv
     }()
     
-    private let windowWidth = 220
-    private let expandHeight = 250
-    private let textHeight = 30
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -73,13 +76,13 @@ extension UIProfileWindow {
         layer.borderColor = UIColor.lightGray.cgColor
         windowLevel = .statusBar + UIWindow.Level(rawValue: 50).rawValue
         clipsToBounds = true
-        let pan = UIPanGestureRecognizer(target: self, action: #selector(pan(sender:)))
+        let pan = UIPanGestureRecognizer(target: self, action: #selector(onPan(sender:)))
         self.addGestureRecognizer(pan)
-        let tap = UIPanGestureRecognizer(target: self, action: #selector(tap(sender:)))
+        let tap = UIPanGestureRecognizer(target: self, action: #selector(onTap))
         self.addGestureRecognizer(tap)
     }
     
-    @objc func pan(sender: UIPanGestureRecognizer) {
+    @objc func onPan(sender: UIPanGestureRecognizer) {
         let offsetPoint = sender.translation(in: sender.view)
         sender.setTranslation(CGPoint.zero, in: sender.view)
         guard let panView = sender.view else { return }
@@ -100,7 +103,7 @@ extension UIProfileWindow {
         panView.center = CGPoint(x: newX, y: newY)
     }
     
-    @objc func tap(sender: UIPanGestureRecognizer) {
+    @objc func onTap() {
         if storedFrame.isEmpty {
             storedFrame = CGRect(x: self.originX, y: self.originY, width: self.width, height: 180)
         }

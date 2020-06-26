@@ -10,7 +10,8 @@ import UIKit
 class UIProfileViewController: BaseViewController {
     
     lazy var switchView: CellSwitch = {
-        let switchView = CellSwitch(frame: CGRect(x: 0, y: self.bigTitleView!.bottom, width: self.view.width, height: kSizeFrom750(104)))
+        let switchView = CellSwitch(frame: CGRect(x: 0, y: self.bigTitleView!.bottom,
+                                                  width: self.view.width, height: kSizeFrom750(104)))
         switchView.renderUIWithTitle(title: LocalizedString("UI层级检查开关"),
                                      on: UIProfileManager.shared.isEnable)
         switchView.needTopLine()

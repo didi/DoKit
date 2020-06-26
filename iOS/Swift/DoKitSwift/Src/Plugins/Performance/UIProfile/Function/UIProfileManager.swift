@@ -21,7 +21,12 @@ struct UIProfileManager {
         }
     }
     
-    func start() {}
+    func start() {
+        UIViewController.topViewControllerForKeyWindow()?.profileViewDepth()
+    }
     
-    func stop() {}
+    func stop() {
+        UIViewController.topViewControllerForKeyWindow()?.resetProfileData()
+        UIProfileWindow.shared.hide()
+    }
 }
