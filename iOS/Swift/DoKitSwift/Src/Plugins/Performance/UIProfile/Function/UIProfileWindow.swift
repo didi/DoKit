@@ -78,7 +78,7 @@ extension UIProfileWindow {
         clipsToBounds = true
         let pan = UIPanGestureRecognizer(target: self, action: #selector(onPan(sender:)))
         self.addGestureRecognizer(pan)
-        let tap = UIPanGestureRecognizer(target: self, action: #selector(onTap))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(onTap))
         self.addGestureRecognizer(tap)
     }
     
