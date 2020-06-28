@@ -27,7 +27,7 @@ class H5ViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.setTitle(title: LocalizedString("H5任意门"))
+        self.set(title: LocalizedString("H5任意门"))
         
         initUI()
         
@@ -46,7 +46,7 @@ class H5ViewController: BaseViewController {
     }
     
     // MARK: - Override Methods
-    override func needBigTitleView() -> Bool {
+    override var needBigTitleView: Bool {
         return true
     }
     
@@ -173,7 +173,7 @@ extension H5ViewController {
         
         // lineView
         lineView = UIView(frame: CGRect(x: 0.0, y: h5UrlTextView.bottom, width: view.width, height: kSizeFrom750_Landscape(1.0)))
-        lineView.backgroundColor = UIColor.line()
+        lineView.backgroundColor = UIColor.line
         self.view.addSubview(lineView)
         
         // jumpBtn

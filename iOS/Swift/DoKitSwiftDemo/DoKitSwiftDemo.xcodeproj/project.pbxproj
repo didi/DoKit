@@ -40,7 +40,7 @@
 		0AE102A524693DAB006CA490 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A324693DAB006CA490 /* Main.storyboard */; };
 		0AE102A724693DAD006CA490 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A624693DAD006CA490 /* Assets.xcassets */; };
 		0AE102AA24693DAD006CA490 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0AE102A824693DAD006CA490 /* LaunchScreen.storyboard */; };
-		7606F3089C89D413F88E415C /* libPods-DoKitSwiftDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57491D3C6A0E4E5521217F1B /* libPods-DoKitSwiftDemo.a */; };
+		551C20B2E55A31BF2E07C0FC /* libPods-DoKitSwiftDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 57491D3C6A0E4E5521217F1B /* libPods-DoKitSwiftDemo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,7 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7606F3089C89D413F88E415C /* libPods-DoKitSwiftDemo.a in Frameworks */,
+				551C20B2E55A31BF2E07C0FC /* libPods-DoKitSwiftDemo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,6 +310,7 @@
 				0AE1029624693DAB006CA490 /* Sources */,
 				0AE1029724693DAB006CA490 /* Frameworks */,
 				0AE1029824693DAB006CA490 /* Resources */,
+				C95DB2F42480C61600BC30DB /* Build Info */,
 				963800CFF4ADF64CDE973315 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -393,6 +394,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-DoKitSwiftDemo/Pods-DoKitSwiftDemo-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		C95DB2F42480C61600BC30DB /* Build Info */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Info";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ \"$CONFIGURATION\" != \"Release\" ]\nthen\ncommit=$(git rev-parse --short HEAD)\nbranch=$(git rev-parse --abbrev-ref HEAD)\necho \"[[\\\"Date\\\",\\\"\"$(date \"+%Y-%m-%d %H:%M:%S\")\"\\\"], [\\\"Branch\\\",\\\"HEAD -> $commit, $branch\\\"]]\" > $CODESIGNING_FOLDER_PATH/build.json\nfi\n";
 		};
 		DC320A002ED71A2200D0A799 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -604,6 +623,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = DoKitSwiftDemo/Info.plist;
@@ -614,6 +634,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "javer-yi.DoKitSwiftDemo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "DoKitSwiftDemo/DoKitSwiftDemo-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -628,7 +649,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = J348GGV6CX;
 				INFOPLIST_FILE = DoKitSwiftDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -637,6 +658,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "javer-yi.DoKitSwiftDemo";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "DoKitSwiftDemo/DoKitSwiftDemo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

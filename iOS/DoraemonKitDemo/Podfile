@@ -1,7 +1,8 @@
 platform:ios,’8.0’
 #use_frameworks!
 #inhibit_all_warnings! #消除第三方仓库的警告
-source 'git@github.com:CocoaPods/Specs.git'
+# 新版本采用trunk模式，无需clone庞大的master
+# source 'git@github.com:CocoaPods/Specs.git'
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|

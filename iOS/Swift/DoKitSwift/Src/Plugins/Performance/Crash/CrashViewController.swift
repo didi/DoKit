@@ -17,10 +17,7 @@ class CrashViewController: BaseViewController {
         return $0
     }( UITableView(frame: .zero, style: .plain) )
     
-    @Store("Dokit.CrashCache.isOn", defaultValue: true)
-    private static var isCache: Bool
-    
-    private var rows: [Row] = [.switch(isOn: isCache), .log, .clean]
+    private var rows: [Row] = [.switch(isOn: CacheManager.shared.isOnCrash), .log, .clean]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,21 +25,20 @@ class CrashViewController: BaseViewController {
     }
     
     private func setup() {
-        if #available(iOS 11.0, *) {
-            navigationController?.navigationBar.prefersLargeTitles = true
-        }
-        
-        setTitle(title: LocalizedString("Crash"))
+        set(title: LocalizedString("Crash"))
         view.addSubview(tableView)
     }
     
-    override func needBigTitleView() -> Bool {
-        return false
+    override var needBigTitleView: Bool {
+        return true
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
+        tableView.frame = CGRect(x: 0,
+                                 y: bigTitleView!.bottom,
+                                 width: view.width,
+                                 height: view.height - bigTitleView!.bottom)
     }
 }
 
@@ -117,12 +113,11 @@ extension CrashViewController: CrashListCellDelegate {
         ) { index in
             switch index {
             case 1:
-                CrashViewController.isCache = true
+                CacheManager.shared.isOnCrash = isOn
                 handle(true)
                 exit(0)
                 
             default:
-                CrashViewController.isCache = false
                 handle(false)
             }
         }

@@ -18,7 +18,7 @@ class CrashListCell: UITableViewCell {
     weak var delegate: CrashListCellDelegate?
     
     private lazy var _switch: UISwitch = {
-        $0.onTintColor = .blue()
+        $0.onTintColor = .blue
         $0.addTarget(self, action: #selector(switchAction), for: .valueChanged)
         return $0
     }( UISwitch(frame: .zero) )
@@ -68,8 +68,8 @@ extension CrashListCell {
     
     @objc
     func switchAction(_ sender: UISwitch) {
-        delegate?.switchAction(cell: self, sender.isOn) { [weak self] isOn  in
-            guard !isOn else { return }
+        delegate?.switchAction(cell: self, sender.isOn) { [weak self] isOK  in
+            guard !isOK else { return }
             self?._switch.setOn(!sender.isOn, animated: true)
         }
     }

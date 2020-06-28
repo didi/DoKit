@@ -16,32 +16,30 @@ class CacheManager: NSObject {
     
     let defaults = UserDefaults.standard
     
+    @Store("Dokit.CrashCache.isOn", defaultValue: false)
+    var isOnCrash: Bool
     
     // MARK: - H5任意门历史记录
-    public var h5historicalRecord: [String]? {
-        return defaults.object(forKey: kDoraemonH5historicalRecord) as? [String]
+    public var h5historicalRecord: [String] {
+        guard let array = defaults.object(forKey: kDoraemonH5historicalRecord) as? [String] else {
+            return []
+        }
+        return array
     }
     
     public func saveH5historicalRecord(text: String?) {
         /// 过滤异常数据
-        if text?.isBlack ?? false {
-            return
-        }
+        guard let recordString = text, !recordString.isBlack else { return }
 
         var records = h5historicalRecord
-        
-        if records != nil {
-            records?.insert(text!, at: 0)
-        } else {
-            records = [text!]
-        } 
+        records.insert(recordString, at: 0)
 
         /// 去重
-        records = records?.filterDuplicates({$0})
+        records.removeDuplicateIfNeeded()
  
         /// 限制数量
-        if records!.count > 10 {
-            records!.removeLast()
+        if records.count > 10 {
+            records.removeLast()
         }
         defaults.setValue(records, forKey: kDoraemonH5historicalRecord)
     }
@@ -52,24 +50,15 @@ class CacheManager: NSObject {
 
     public func clearH5historicalRecord(text: String?) {
         /// 过滤异常数据
-        if text?.isBlack ?? false {
-            return
-        }
-        
+        guard let recordString = text, !recordString.isBlack else { return }
+
         var records = h5historicalRecord
-        
-        /// 不包含
-        if !records!.contains(text!) {
-            return
-        }
-        
-        records!.removeAll { $0 as String == text! }
+        records.removeAll { $0 == recordString }
 
-
-        if records!.count > 0 {
-            defaults.setValue(records, forKey: kDoraemonH5historicalRecord)
-        } else {
+        if records.isEmpty {
             defaults.removeObject(forKey: kDoraemonH5historicalRecord)
+        } else {
+            defaults.setValue(records, forKey: kDoraemonH5historicalRecord)
         }
     }
 }

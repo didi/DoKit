@@ -37,11 +37,6 @@ class SandboxListViewController: BaseViewController {
         tableView.frame = view.bounds
     }
     
-    override func needBigTitleView() -> Bool {
-        return false
-    }
-    
-    
     init(_ url: URL) {
         self.url = url
         super.init(nibName: nil, bundle: nil)
@@ -99,11 +94,12 @@ extension SandboxListViewController {
     private func handleFile(at url: URL) {
         let alert = UIAlertController(title: LocalizedString("请选择操作方式"), message: nil, preferredStyle: .actionSheet)
         let preview = UIAlertAction(title: LocalizedString("本地预览"), style: .default) { _ in
-            print("预览: \(url)")
+            #warning("预览 crash日志")
         }
         
-        let share = UIAlertAction(title: LocalizedString("分享"), style: .default) { _ in
-            print("分享")
+        let share = UIAlertAction(title: LocalizedString("分享"), style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            DoKitUtil.share(with: url, self)
         }
         
         let cancel = UIAlertAction(title: LocalizedString("取消"), style: .cancel)

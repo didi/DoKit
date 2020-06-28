@@ -9,13 +9,17 @@
 import UIKit
 import DoraemonKit_Swift
 
+extension PluginModule {
+    static let customize = PluginModule(name: "业务工具")
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        DoKit.shared.addPlugin(module: "业务工具", title: "环境切换", icon: UIImage.init(named: "emoji"), onInstall: {
+        DoKit.shared.addPlugin(module: .customize, title: "环境切换", icon: UIImage(named: "emoji"), onInstall: {
             print("启动了环境切换插件")
         }) {
             print("点击环境切换插件")
@@ -26,8 +30,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        }
         
         DoKit.shared.install()
-        
-         
+        DoKit.shared.customAppInfo = {
+            do {
+                let path = Bundle.main.path(forResource: "build.json", ofType: nil)
+                let newInfos:[[String]] = try JSONSerialization.jsonObject(with: Data.init(contentsOf: URL.init(fileURLWithPath: path!)) , options: .mutableLeaves) as! [[String]]
+                return newInfos
+            } catch {
+                return []
+            }
+        }
+
         self.window?.frame = UIScreen.main.bounds;
         let homeVc = DoraemonDemoHomeViewController()
         let nav = UINavigationController(rootViewController: homeVc)

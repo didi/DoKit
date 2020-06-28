@@ -15,7 +15,7 @@ class LaunchTimeViewController: BaseViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.setTitle(title: LocalizedString("启动耗时"))
+        self.set(title: LocalizedString("启动耗时"))
 
         cellBtn = CellButton(frame: CGRect(x: 0, y: self.bigTitleView!.bottom, width: self.view.width, height: kSizeFrom750_Landscape(104)))
         let title = "\(LocalizedString("本次启动时间为")) :"
@@ -24,5 +24,9 @@ class LaunchTimeViewController: BaseViewController {
         cellBtn.renderUIWithRightContent(rightContent: content)
         cellBtn.needDownLine()
         view.addSubview(cellBtn)
+    }
+    
+    override var needBigTitleView: Bool {
+        return true
     }
 }

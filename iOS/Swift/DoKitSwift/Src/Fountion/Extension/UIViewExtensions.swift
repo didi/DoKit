@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 extension UIView {
-    public var left: CGFloat {
+    var left: CGFloat {
         get{
             return self.frame.origin.x
         }
@@ -19,7 +19,7 @@ extension UIView {
             self.frame = rect
         }
     }
-    public var top: CGFloat {
+    var top: CGFloat {
         get{
             return self.frame.origin.y
         }
@@ -29,7 +29,7 @@ extension UIView {
             self.frame = rect
         }
     }
-    public var width: CGFloat {
+    var width: CGFloat {
         get{
             return self.frame.size.width
         }
@@ -39,7 +39,7 @@ extension UIView {
             self.frame = rect
         }
     }
-    public var height: CGFloat {
+    var height: CGFloat {
         get{
             return self.frame.size.height
         }
@@ -49,7 +49,7 @@ extension UIView {
             self.frame = rect
         }
     }
-    public var bottom: CGFloat {
+    var bottom: CGFloat {
         get{
             return self.top + self.height
         }
@@ -57,7 +57,7 @@ extension UIView {
             self.top = value - self.height
         }
     }
-    public var right: CGFloat {
+    var right: CGFloat {
         get{
             return self.left + self.width
         }
@@ -65,32 +65,53 @@ extension UIView {
             self.left = value - self.width
         }
     }
-    public var centerX: CGFloat {
+    var centerX: CGFloat {
         get {
             return self.center.x
-        } set(value) {
+        }
+        set(value) {
             self.center.x = value
         }
     }
 
     /// EZSE: getter and setter for the Y coordinate for the center of a view.
-    public var centerY: CGFloat {
+    var centerY: CGFloat {
         get {
             return self.center.y
-        } set(value) {
+        }
+        set(value) {
             self.center.y = value
         }
     }
     
-    public var viewController: UIViewController? {
-        var next = superview
-        while next != nil {
-            let nextResponder = next?.next
-            if (nextResponder is UIViewController) {
-                return nextResponder as? UIViewController
-            }
-            next = next?.superview
+    var originX: CGFloat {
+        get {
+            self.frame.origin.x
         }
+        set {
+            self.frame.origin.x = newValue
+        }
+    }
+    
+    var originY: CGFloat {
+        get {
+            self.frame.origin.y
+        }
+        set {
+            self.frame.origin.y = newValue
+        }
+    }
+    
+    var viewController: UIViewController? {
+        var responder: UIResponder? = next
+        while responder != nil {
+            if let viewController = responder as? UIViewController {
+                return viewController
+            } else {
+                responder = responder?.next
+            }
+        }
+
         return nil
     }
 }

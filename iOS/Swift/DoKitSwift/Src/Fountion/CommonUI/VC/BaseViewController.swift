@@ -10,11 +10,16 @@ import UIKit
 class BaseViewController: UIViewController, BaseBigTitleViewDelegate {
     
     var bigTitleView: BaseBigTitleView?
+    //功能的首页需要使用大标题，次级页面使用普通标题
+    var needBigTitleView: Bool {
+        return false
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
         
-        if self.needBigTitleView() {
+        if needBigTitleView {
             bigTitleView = BaseBigTitleView(frame: CGRect(x: 0, y: 0, width: view.width, height: kSizeFrom750_Landscape(178)))
             bigTitleView!.delegate = self
             view.addSubview(bigTitleView!)
@@ -27,7 +32,8 @@ class BaseViewController: UIViewController, BaseBigTitleViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = self.needBigTitleView()
+        navigationController?.setNavigationBarHidden(needBigTitleView, animated: true)
+        self.navigationController?.isNavigationBarHidden = needBigTitleView
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -37,19 +43,11 @@ class BaseViewController: UIViewController, BaseBigTitleViewDelegate {
             appWindow!.makeKey()
         }
     }
-    
-    func needBigTitleView() -> Bool {
-        if #available(iOS 13.0, *) {
-            return true
+        
+    func set(title: String) {
+        if let bigTitleView = bigTitleView {
+            bigTitleView.title = title
         } else {
-            return false
-        }
-    }
-    
-    func setTitle(title: String) {
-        if bigTitleView != nil {
-            bigTitleView!.title = title
-        }else{
             super.title = title
         }
     }
