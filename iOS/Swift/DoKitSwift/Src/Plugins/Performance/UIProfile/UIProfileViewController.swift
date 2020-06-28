@@ -25,13 +25,13 @@ class UIProfileViewController: BaseViewController {
     }
     
     private func configUI() {
-        self.setTitle(title: LocalizedString("UI层级"))
+        self.set(title: LocalizedString("UI层级"))
         self.view.addSubview(switchView)
         switchView.delegate = self
     }
     
-    override func needBigTitleView() -> Bool {
-        true
+    override var needBigTitleView: Bool {
+        return true
     }
     
 }
