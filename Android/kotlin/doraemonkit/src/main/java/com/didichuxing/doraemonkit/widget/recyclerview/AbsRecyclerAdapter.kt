@@ -22,7 +22,7 @@ abstract class AbsRecyclerAdapter<T : AbsViewBinder<V>, V>(var context: Context?
         private const val TAG = "AbsRecyclerAdapter"
     }
 
-    private var mList: MutableList<V> = mutableListOf()
+    protected var mList: MutableList<V> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): T {
         val view = createView(LayoutInflater.from(parent.context), parent, viewType)

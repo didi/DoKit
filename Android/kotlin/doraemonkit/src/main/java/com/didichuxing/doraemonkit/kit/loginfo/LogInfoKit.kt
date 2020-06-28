@@ -3,6 +3,8 @@ package com.didichuxing.doraemonkit.kit.loginfo
 import android.content.Context
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.didichuxing.doraemonkit.kit.core.DokitIntent
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 
 /**
  * Created by wanglikun on 2018/10/9.
@@ -15,7 +17,11 @@ class LogInfoKit : AbstractKit() {
         get() = R.mipmap.dk_log_info
 
     override fun onClick(context: Context?) {
-        kotlinTip()
+        val dokitIntent = DokitIntent(LogInfoDokitView::class.java).also {
+            it.mode  = DokitIntent.MODE_SINGLE_INSTANCE
+        }
+        DokitViewManager.instance.attach(dokitIntent)
+        LogInfoManager.start()
     }
 
     override fun onAppInit(context: Context?) {
