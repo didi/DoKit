@@ -37,11 +37,6 @@ class SandboxListViewController: BaseViewController {
         tableView.frame = view.bounds
     }
     
-    override func needBigTitleView() -> Bool {
-        return false
-    }
-    
-    
     init(_ url: URL) {
         self.url = url
         super.init(nibName: nil, bundle: nil)

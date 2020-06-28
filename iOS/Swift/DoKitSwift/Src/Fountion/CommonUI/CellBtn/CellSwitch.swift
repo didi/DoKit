@@ -12,12 +12,14 @@ protocol CellSwitchDelegate {
 }
 
 class CellSwitch: UIView {
+    static let defaultHeight: CGFloat = 53
+    
     var delegate: CellSwitchDelegate?
     
     private var switchView = UISwitch()
     private var titleLabel = UILabel()
     private var topLine = UIView()
-    private var downLine = UIView()
+    private var bottomLine = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,19 +31,52 @@ class CellSwitch: UIView {
     }
     
     func setupUI() {
-        titleLabel.textColor = .black_1()
+        titleLabel.textColor = .black_1
         titleLabel.font = .systemFont(ofSize: kSizeFrom750_Landscape(32))
         
-        switchView.onTintColor = .blue()
+        switchView.onTintColor = .blue
         switchView.addTarget(self, action: #selector(switchChange(swh:)), for: .valueChanged)
         
         topLine.isHidden = true
-        topLine.backgroundColor = .line()
+        topLine.backgroundColor = .line
         
-        downLine.isHidden = true
-        downLine.backgroundColor = .line()
+        bottomLine.isHidden = true
+        bottomLine.backgroundColor = .line
         
-        [titleLabel, switchView, topLine, downLine].forEach { addSubview($0) }
+        [titleLabel, switchView, topLine, bottomLine].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            addSubview($0)
+        }
+        
+        let switchViewConstraints = [
+            switchView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            switchView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
+        ]
+        NSLayoutConstraint.activate(switchViewConstraints)
+        
+        let titleLabelConstraints = [
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: switchView.leadingAnchor, constant: 10),
+        ]
+        NSLayoutConstraint.activate(titleLabelConstraints)
+        
+        let topLineConstraints = [
+            topLine.leadingAnchor.constraint(equalTo: leadingAnchor),
+            topLine.trailingAnchor.constraint(equalTo: trailingAnchor),
+            topLine.topAnchor.constraint(equalTo: topAnchor),
+            topLine.heightAnchor.constraint(equalToConstant: 0.5)
+        ]
+        NSLayoutConstraint.activate(topLineConstraints)
+        
+        let bottomLineConstraints = [
+            bottomLine.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bottomLine.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bottomLine.bottomAnchor.constraint(equalTo: bottomAnchor),
+            bottomLine.heightAnchor.constraint(equalToConstant: 0.5)
+        ]
+        NSLayoutConstraint.activate(bottomLineConstraints)
     }
     
     @objc func switchChange(swh: UISwitch) {
@@ -50,20 +85,15 @@ class CellSwitch: UIView {
     
     func renderUIWithTitle(title: String, on: Bool) {
         titleLabel.text = title
-        titleLabel.sizeToFit()
-        titleLabel.frame.origin = CGPoint(x: 20, y: height/2 - titleLabel.height/2)
-        
         switchView.isOn = on
-        switchView.frame.origin = CGPoint(x: width - 20 - switchView.width, y: height/2 - switchView.height/2)
     }
     
     func needTopLine() {
         topLine.isHidden = false
-        topLine.frame = CGRect(x: 0, y: 0, width: width, height: 0.5)
     }
     
     func needDownLine() {
-        downLine.isHidden = false
-        downLine.frame = CGRect(x: 0, y: height - 0.5, width: width, height: 0.5)
+        bottomLine.isHidden = false
+
     }
 }

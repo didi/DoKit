@@ -12,7 +12,7 @@ class DelSanboxViewController: BaseViewController, CellButtonDelegate {
     var cellBtn: CellButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setTitle(title: LocalizedString("清理缓存"))
+        self.set(title: LocalizedString("清理缓存"))
         
         cellBtn = CellButton(frame: CGRect(x: 0, y: self.bigTitleView!.bottom, width: self.view.width, height: kSizeFrom750_Landscape(104)))
         cellBtn.renderUIWithTitle(title: LocalizedString("清理缓存"))
@@ -44,7 +44,7 @@ class DelSanboxViewController: BaseViewController, CellButtonDelegate {
         }
     }
     
-    override func needBigTitleView() -> Bool {
+    override var needBigTitleView: Bool {
         return true
     }
 

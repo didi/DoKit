@@ -21,17 +21,13 @@ class DefaultWebViewController: BaseViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = .white
-        self.setTitle(title: LocalizedString("Doraemon内置浏览器"))
+        self.set(title: LocalizedString("Doraemon内置浏览器"))
         
         self.view.addSubview(self.webView)
         self.view.addSubview(self.progressView)
         self.view.bringSubviewToFront(self.progressView) // 将进度条至于最顶层
         self.webView.frame = CGRect(x: 0.0, y: kIphoneNavBarHeight, width: kScreenWidth, height: kScreenHeight - kIphoneNavBarHeight)
         self.webView.load(URLRequest.init(url: URL.init(string: self.url)!))
-    }
-    
-    override func needBigTitleView() -> Bool {
-        return false
     }
             
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -57,7 +53,7 @@ class DefaultWebViewController: BaseViewController {
     /// 添加进度条
     private lazy var progressView: UIProgressView = {
         self.progressView = UIProgressView.init(frame: CGRect(x: 0.0, y: kIphoneNavBarHeight, width: kScreenWidth, height: 1.0))
-        self.progressView.tintColor = .blue()        // 进度条颜色
+        self.progressView.tintColor = .blue        // 进度条颜色
         self.progressView.trackTintColor = .white    // 进度条背景色
         return self.progressView
     }()

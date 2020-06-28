@@ -16,7 +16,7 @@ class HomeViewController: BaseViewController, UICollectionViewDelegate, UICollec
     let HomeFootCellID = "DoKitHomeFootCellID"
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setTitle(title: "DoKit")
+        self.set(title: "DoKit")
         self.setLeftNavBarItems(items: nil)
         
         let fl = UICollectionViewFlowLayout()

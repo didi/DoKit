@@ -25,7 +25,7 @@ class FilePreviewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setTitle(title: LocalizedString(filePath.lastPathComponent))
+        set(title: LocalizedString(filePath.lastPathComponent))
         setRightNavTitle(title: LocalizedString("导出"))
         
         self.view.addSubview(webView)
