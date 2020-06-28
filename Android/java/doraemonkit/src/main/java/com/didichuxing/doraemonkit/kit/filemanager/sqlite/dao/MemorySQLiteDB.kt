@@ -28,7 +28,7 @@ class MemorySQLiteDB(private val database: SupportSQLiteDatabase) : SQLiteDB {
         //database.close()
     }
 
-    override fun rawQuery(sql: String, selectionArgs: Array<String>): Cursor {
+    override fun rawQuery(sql: String, selectionArgs: Array<String>?): Cursor? {
         return database.query(sql, selectionArgs)
     }
 

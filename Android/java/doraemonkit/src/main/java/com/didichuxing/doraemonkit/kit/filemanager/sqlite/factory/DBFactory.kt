@@ -13,5 +13,5 @@ import com.didichuxing.doraemonkit.kit.filemanager.sqlite.dao.SQLiteDB
  * ================================================
  */
 interface DBFactory {
-    fun create(context: Context, path: String, password: String): SQLiteDB
+    fun create(context: Context, path: String, password: String?): SQLiteDB
 }

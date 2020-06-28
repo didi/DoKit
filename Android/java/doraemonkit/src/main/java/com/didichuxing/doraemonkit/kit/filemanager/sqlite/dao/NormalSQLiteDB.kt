@@ -27,7 +27,7 @@ class NormalSQLiteDB(private val database: SQLiteDatabase) : SQLiteDB {
         database.close()
     }
 
-    override fun rawQuery(sql: String, selectionArgs: Array<String>): Cursor {
+    override fun rawQuery(sql: String, selectionArgs: Array<String>?): Cursor? {
         return database.rawQuery(sql, selectionArgs)
     }
 

@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.filemanager.action
+package com.didichuxing.doraemonkit.kit.filemanager.action.file
 
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
@@ -45,8 +45,8 @@ object FileListAction {
         val fileInfos = mutableListOf<FileInfo>()
         val internalAppDataPath = PathUtils.getInternalAppDataPath()
         val externalStoragePath = PathUtils.getExternalStoragePath()
-        fileInfos.add(FileInfo(internalAppDataPath, FileUtils.getFileName(internalAppDataPath), "folder", "", "" + FileUtils.getFileLastModified(internalAppDataPath)))
-        fileInfos.add(FileInfo(externalStoragePath, FileUtils.getFileName(externalStoragePath), "folder", "", "" + FileUtils.getFileLastModified(externalStoragePath)))
+        fileInfos.add(FileInfo(internalAppDataPath, FileUtils.getFileName(internalAppDataPath), "folder", "", "" + FileUtils.getFileLastModified(internalAppDataPath), true))
+        fileInfos.add(FileInfo(externalStoragePath, FileUtils.getFileName(externalStoragePath), "folder", "", "" + FileUtils.getFileLastModified(externalStoragePath), true))
         return fileInfos
     }
 
@@ -62,7 +62,7 @@ object FileListAction {
                     "folder"
                 } else {
                     FileUtils.getFileExtension(file)
-                }, "", "" + FileUtils.getFileLastModified(file))
+                }, "", "" + FileUtils.getFileLastModified(file), false)
                 fileInfos.add(fileInfo)
             }
 
@@ -77,7 +77,8 @@ object FileListAction {
             val fileName: String,
             val fileType: String,
             val fileUri: String,
-            val modifyTime: String
+            val modifyTime: String,
+            val isRootPath: Boolean
     )
 }
 

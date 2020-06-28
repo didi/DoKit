@@ -3,9 +3,12 @@ package com.didichuxing.doraemonkit.kit.filemanager
 import android.os.Build
 import com.blankj.utilcode.util.FileUtils
 import com.didichuxing.doraemonkit.kit.filemanager.action.*
+import com.didichuxing.doraemonkit.kit.filemanager.action.file.*
+import com.didichuxing.doraemonkit.kit.filemanager.action.sql.DatabaseAction
 import com.didichuxing.doraemonkit.kit.filemanager.bean.DirInfo
 import com.didichuxing.doraemonkit.kit.filemanager.bean.RenameFileInfo
 import com.didichuxing.doraemonkit.kit.filemanager.bean.SaveFileInfo
+import com.didichuxing.doraemonkit.kit.filemanager.sqlite.DBHelper
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.application.Application
 import io.ktor.application.call
@@ -182,7 +185,23 @@ val DoKitFileRouter: Application.() -> Unit = {
          * 数据库相关接口
          */
 
+        get("/getAllTable") {
+            val queryParameters = call.request.queryParameters
+            val dirPath = queryParameters["filePath"]
+            val fileName = queryParameters["fileName"]
+            val fileType = queryParameters["fileType"]
+            val filePath = "$dirPath${File.separator}$fileName"
+            call.respond(DatabaseAction.allTablesRes(filePath))
+        }
 
+        get("/getTableData") {
+            val queryParameters = call.request.queryParameters
+            val dirPath = queryParameters["filePath"]
+            val fileName = queryParameters["fileName"]
+            val tableName = queryParameters["tableName"]
+            val filePath = "$dirPath${File.separator}$fileName"
+            call.respond(DatabaseAction.tableDatasRes(filePath, tableName!!))
+        }
 
     }
 }

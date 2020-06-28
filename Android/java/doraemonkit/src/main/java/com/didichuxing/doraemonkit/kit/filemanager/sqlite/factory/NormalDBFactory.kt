@@ -2,7 +2,6 @@ package com.didichuxing.doraemonkit.kit.filemanager.sqlite.factory
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import com.didichuxing.doraemonkit.kit.filemanager.sqlite.dao.EncryptSQLiteDB
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.dao.NormalSQLiteDB
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.dao.SQLiteDB
 
@@ -16,8 +15,8 @@ import com.didichuxing.doraemonkit.kit.filemanager.sqlite.dao.SQLiteDB
  * 修订历史：
  * ================================================
  */
-class normalDBFactory : DBFactory {
-    override fun create(context: Context, path: String, password: String): SQLiteDB {
+class NormalDBFactory : DBFactory {
+    override fun create(context: Context, path: String, password: String?): SQLiteDB {
         return NormalSQLiteDB(SQLiteDatabase.openOrCreateDatabase(path, null))
     }
 }

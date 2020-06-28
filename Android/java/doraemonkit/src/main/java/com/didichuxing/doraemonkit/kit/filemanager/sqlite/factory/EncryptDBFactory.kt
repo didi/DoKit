@@ -16,8 +16,8 @@ import net.sqlcipher.database.SQLiteDatabase
  * ================================================
  */
 class EncryptDBFactory : DBFactory {
-    override fun create(context: Context, path: String, password: String): SQLiteDB {
+    override fun create(context: Context, path: String, password: String?): SQLiteDB {
         SQLiteDatabase.loadLibs(context)
-        return EncryptSQLiteDB(SQLiteDatabase.openOrCreateDatabase(path, password,null))
+        return EncryptSQLiteDB(SQLiteDatabase.openOrCreateDatabase(path, password, null))
     }
 }

@@ -5,9 +5,12 @@ import android.view.View
 import com.blankj.utilcode.util.NetworkUtils
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
+import com.didichuxing.doraemonkit.kit.filemanager.sqlite.http.HttpServer
 import io.ktor.server.cio.CIO
+import io.ktor.server.cio.CIOApplicationEngine
 import io.ktor.server.engine.embeddedServer
 import kotlinx.android.synthetic.main.dk_fragment_file_transfer.*
+import java.net.BindException
 
 /**
  * ================================================
@@ -30,7 +33,11 @@ class FileTransferFragment : BaseFragment() {
     }
 
     private fun initKtor() {
-        val server = embeddedServer(CIO, port = 8089, module = DoKitFileRouter)
-        server.start()
+        try {
+            HttpServer.server.start()
+        } catch (e: BindException) {
+
+        }
+
     }
 }
