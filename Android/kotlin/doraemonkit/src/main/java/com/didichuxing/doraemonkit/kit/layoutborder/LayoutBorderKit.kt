@@ -2,9 +2,7 @@ package com.didichuxing.doraemonkit.kit.layoutborder
 
 import android.content.Context
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.config.LayoutBorderConfig
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.core.DokitIntent
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 
 /**
@@ -18,7 +16,8 @@ class LayoutBorderKit : AbstractKit() {
         get() = R.mipmap.dk_view_border
 
     override fun onClick(context: Context?) {
-        kotlinTip()
+        DokitViewManager.instance.detachToolPanel()
+        LayoutManager.instance.showBorder()
     }
 
     override fun onAppInit(context: Context?) {

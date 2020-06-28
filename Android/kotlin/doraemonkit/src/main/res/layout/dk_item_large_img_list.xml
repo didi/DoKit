@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp" />
+
+    <RelativeLayout
+        android:id="@+id/rl_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/iv">
+
+        <TextView
+            android:id="@+id/tv_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/dk_color_333333"
+            android:textSize="12sp"
+            tools:text="https://www.xxx.com" />
+
+        <TextView
+            android:id="@+id/tv_framework"
+            style="@style/DK.TextSmall.Darker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_link"
+            android:layout_marginTop="10dp"
+            tools:text="form:memory" />
+
+        <TextView
+            android:id="@+id/tv_file_size"
+            style="@style/DK.TextSmall.Darker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_framework"
+            android:layout_marginTop="10dp"
+            tools:text="fileSize:10kb" />
+
+        <TextView
+            android:id="@+id/tv_memory_size"
+            style="@style/DK.TextSmall.Darker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_file_size"
+            android:layout_marginTop="10dp"
+            tools:text="memorySize:1.5mb" />
+
+        <TextView
+            android:id="@+id/tv_size"
+            style="@style/DK.TextSmall.Darker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_memory_size"
+            android:layout_marginTop="10dp"
+            tools:text="width:1000    height:668" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_copy"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@id/rl_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/dk_item_btn_img"
+        android:text="copy url"
+        android:textColor="#ffffff"
+        android:textSize="12sp" />
+
+</RelativeLayout>

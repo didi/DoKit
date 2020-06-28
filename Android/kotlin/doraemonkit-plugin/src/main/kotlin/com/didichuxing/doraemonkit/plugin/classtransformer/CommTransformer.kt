@@ -6,6 +6,7 @@ import com.didichuxing.doraemonkit.plugin.getMethodExitInsnNodes
 import com.didichuxing.doraemonkit.plugin.isRelease
 import com.didichuxing.doraemonkit.plugin.println
 import com.didiglobal.booster.annotations.Priority
+import com.didiglobal.booster.kotlinx.asIterable
 import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.ClassTransformer
 import com.didiglobal.booster.transform.asm.className
@@ -25,7 +26,8 @@ import org.objectweb.asm.tree.*
 @Priority(0)
 @AutoService(ClassTransformer::class)
 class CommTransformer : ClassTransformer {
-
+    private val SHADOW_URL = "com/didichuxing/doraemonkit/aop/urlconnection/HttpUrlConnectionProxyUtil"
+    private val DESC = "(Ljava/net/URLConnection;)Ljava/net/URLConnection;"
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
         if (context.isRelease()) {
@@ -128,6 +130,18 @@ class CommTransformer : ClassTransformer {
                     oneConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
                         oneConsMethodNode.instructions.insertBefore(it, createDidiHttpOneConsInsnList())
                     }
+                }
+            }
+
+            // url connection
+            klass.methods.forEach { method ->
+                method.instructions?.iterator()?.asIterable()?.filterIsInstance(MethodInsnNode::class.java)?.filter {
+                    it.opcode == INVOKEVIRTUAL &&
+                            it.owner == "java/net/URL" &&
+                            it.name == "openConnection" &&
+                            it.desc == "()Ljava/net/URLConnection;"
+                }?.forEach {
+                    method.instructions.insert(it, MethodInsnNode(INVOKESTATIC, SHADOW_URL, "proxy", DESC, false))
                 }
             }
 

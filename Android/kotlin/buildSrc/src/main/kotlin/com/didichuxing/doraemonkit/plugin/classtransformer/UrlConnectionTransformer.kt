@@ -23,8 +23,8 @@ import org.objectweb.asm.tree.MethodInsnNode
  * 修订历史：
  * ================================================
  */
-@Priority(1)
-@AutoService(ClassTransformer::class)
+//@Priority(1)
+//@AutoService(ClassTransformer::class)
 class UrlConnectionTransformer : ClassTransformer {
     private val SHADOW_URL = "com/didichuxing/doraemonkit/aop/urlconnection/HttpUrlConnectionProxyUtil"
     private val DESC = "(Ljava/net/URLConnection;)Ljava/net/URLConnection;"

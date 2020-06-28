@@ -1,94 +1,61 @@
 package com.didichuxing.doraemonkit.kit.core
 
+
 import android.content.Context
 import android.text.TextUtils
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.CompoundButton
 import androidx.annotation.StringRes
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.widget.recyclerview.AbsRecyclerAdapter
-import com.didichuxing.doraemonkit.widget.recyclerview.AbsViewBinder
+import com.didichuxing.doraemonkit.widget.bravh.BaseQuickAdapter
+import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
+
 
 /**
- * Created by wanglikun on 2018/9/14.
+ * Created by zhanys on 2020/06/08.
+ * java版SettingItemAdapter使用BaseQuickAdapter重写
  */
-class SettingItemAdapter(context: Context) : AbsRecyclerAdapter<AbsViewBinder<SettingItem>, SettingItem>(context) {
+class SettingItemAdapter : BaseQuickAdapter<SettingItem, BaseViewHolder> {
+    // 兼容老代码
+    constructor(context: Context?) : super(R.layout.dk_item_setting, null)
+
+    constructor(data: MutableList<SettingItem>) : super(R.layout.dk_item_setting, data)
+
     private var mOnSettingItemClickListener: OnSettingItemClickListener? = null
     private var mOnSettingItemSwitchListener: OnSettingItemSwitchListener? = null
-    override fun createViewHolder(view: View, viewType: Int): AbsViewBinder<SettingItem> {
-        return SettingItemViewHolder(view)
-    }
 
-    override fun createView(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): View {
-        return inflater.inflate(R.layout.dk_item_setting, parent, false)
-    }
-
-    inner class SettingItemViewHolder(view: View) : AbsViewBinder<SettingItem>(view) {
-        private var mDesc: TextView? = null
-        private var mMenuSwitch: CheckBox? = null
-        private var mIcon: ImageView? = null
-        private var mRightDesc: TextView? = null
-
-        init {
-
-        }
-
-        override fun getViews() {
-            mMenuSwitch = getView(R.id.menu_switch)
-            mDesc = getView(R.id.desc)
-            mIcon = getView(R.id.right_icon)
-            mRightDesc = getView(R.id.right_desc)
-        }
-
-        override fun bind(settingItem: SettingItem) {
-            mDesc?.setText(settingItem.desc)
-            if (settingItem.canCheck) {
-                mMenuSwitch?.apply {
-                    visibility = View.VISIBLE
-                    isChecked = settingItem.isChecked
-                    setOnCheckedChangeListener { buttonView, isChecked ->
-                        if (isMatched(settingItem.desc)) {
-                            /**
-                             * todo 未完成
-                             * 监控体检
-                             */
-                        }
-                        settingItem.isChecked = isChecked
-                        mOnSettingItemSwitchListener!!.onSettingItemSwitch(mMenuSwitch, settingItem, isChecked)
+    override fun convert(holder: BaseViewHolder, item: SettingItem) {
+        holder.setText(R.id.desc, item.desc)
+        if (item.canCheck) {
+            holder.getView<CheckBox>(R.id.menu_switch).apply {
+                visibility = View.VISIBLE
+                isChecked = item.isChecked
+                setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+                    if (isMatched(item.desc)) {
+                        // todo
+                        // if (AppHealthInfoUtil.getInstance().isAppHealthRunning()) {
+                        //     buttonView.isChecked = true
+                        //     return@OnCheckedChangeListener
+                        // }
                     }
-                }
-
-            }
-            if (settingItem.icon != 0) {
-                mIcon?.apply {
-                   visibility = View.VISIBLE
-                    setImageResource(settingItem.icon)
-                }
-            }
-            if (!TextUtils.isEmpty(settingItem.rightDesc)) {
-                mRightDesc?.apply {
-                    visibility = View.VISIBLE
-                    text = settingItem.rightDesc
-                }
+                    item.isChecked = isChecked
+                    mOnSettingItemSwitchListener?.onSettingItemSwitch(buttonView, item, isChecked)
+                })
             }
         }
-
-        protected override fun onViewClick(view: View?, data: SettingItem?) {
-            super.onViewClick(view, data)
-            if (mOnSettingItemClickListener != null) {
-                mOnSettingItemClickListener!!.onSettingItemClick(view, data)
-            }
+        if (item.icon != 0) {
+            holder.setVisible(R.id.right_icon, true)
+            holder.setImageResource(R.id.right_icon, item.icon)
+        }
+        if (!TextUtils.isEmpty(item.rightDesc)) {
+            holder.setVisible(R.id.right_desc, true)
+            holder.setText(R.id.right_desc, item.rightDesc)
         }
     }
 
     /**
      * 是否命中
-     *
-     * @return
      */
     private fun isMatched(@StringRes desc: Int): Boolean {
         val resources = intArrayOf(
@@ -110,6 +77,7 @@ class SettingItemAdapter(context: Context) : AbsRecyclerAdapter<AbsViewBinder<Se
 
     fun setOnSettingItemClickListener(onSettingItemClickListener: OnSettingItemClickListener?) {
         mOnSettingItemClickListener = onSettingItemClickListener
+        setOnItemClickListener { adapter, view, position -> mOnSettingItemClickListener?.onSettingItemClick(view, data[position]) }
     }
 
     fun setOnSettingItemSwitchListener(onSettingItemSwitchListener: OnSettingItemSwitchListener?) {
@@ -117,10 +85,30 @@ class SettingItemAdapter(context: Context) : AbsRecyclerAdapter<AbsViewBinder<Se
     }
 
     interface OnSettingItemClickListener {
-        fun onSettingItemClick(view: View?, data: SettingItem?)
+        fun onSettingItemClick(view: View, data: SettingItem)
     }
 
     interface OnSettingItemSwitchListener {
-        fun onSettingItemSwitch(view: View?, data: SettingItem?, on: Boolean)
+        fun onSettingItemSwitch(view: View, data: SettingItem, on: Boolean)
     }
+
+    /**
+     * 列表末尾追加一个元素，兼容旧代码
+     */
+    fun append(item: SettingItem?) {
+        item?.apply { addData(this) }
+    }
+
+    /**
+     * 追加一个集合
+     *
+     * @param items
+     */
+    fun append(items: Collection<SettingItem>?) {
+        if (items == null || items.isEmpty()) {
+            return
+        }
+        items.apply { addData(this) }
+    }
+
 }

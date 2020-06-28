@@ -102,9 +102,18 @@ abstract class BaseFragment : Fragment() {
         ToastUtils.showShort(DokitUtil.getString(resId))
     }
 
+
+    fun showContent(fragmentClass: Class<out BaseFragment?>?) {
+        showContent(fragmentClass, null)
+    }
+
     fun showContent(fragmentClass: Class<out BaseFragment?>?, bundle: Bundle? = null) {
         val activity = activity as BaseActivity?
         activity?.showContent(fragmentClass!!, bundle)
+    }
+
+    inline fun <reified T: BaseFragment> showContent(bundle: Bundle? = null) {
+        (activity as? BaseActivity)?.showContent(T::class.java, bundle)
     }
 
     fun finish() {

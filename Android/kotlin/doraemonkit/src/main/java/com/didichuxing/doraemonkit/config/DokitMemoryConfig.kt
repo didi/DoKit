@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.config
 
 /**
- * Created by jintai on 2019/10/10.
+ * @author will
  * 将性能检测配置信息保存在内存中 不需要持久化保存
  */
 object DokitMemoryConfig {

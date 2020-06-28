@@ -15,12 +15,17 @@ import java.util.*
  * @author Jin Liang
  * @since 16/1/6
  */
-abstract class AbsRecyclerAdapter<T : AbsViewBinder<V>, V>(context: Context) : RecyclerView.Adapter<T>() {
-    lateinit var mList: MutableList<V>;
-    private lateinit var mInflater: LayoutInflater;
-    protected lateinit var mContext: Context
+abstract class AbsRecyclerAdapter<T : AbsViewBinder<V>, V>(var context: Context?) : RecyclerView.Adapter<T>() {
+
+
+    companion object {
+        private const val TAG = "AbsRecyclerAdapter"
+    }
+
+    private var mList: MutableList<V> = mutableListOf()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): T {
-        val view = createView(mInflater, parent, viewType)
+        val view = createView(LayoutInflater.from(parent.context), parent, viewType)
         return createViewHolder(view, viewType)
     }
 
@@ -34,11 +39,11 @@ abstract class AbsRecyclerAdapter<T : AbsViewBinder<V>, V>(context: Context) : R
      * @param viewType
      * @return
      */
-    protected abstract fun createView(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): View
+    protected abstract fun createView(inflater: LayoutInflater, parent: ViewGroup?, viewType: Int): View
+
     override fun onBindViewHolder(holder: T, position: Int) {
-        val data = mList[position]
-        holder!!.setData(data)
-        holder.bind(data, position)
+        val data = mList.get(position)
+        holder.bindData(data)
     }
 
     override fun getItemCount(): Int {
@@ -84,7 +89,7 @@ abstract class AbsRecyclerAdapter<T : AbsViewBinder<V>, V>(context: Context) : R
      * @param items
      */
     fun append(items: Collection<V>?) {
-        if (items == null || items.size == 0) {
+        if (items == null || items.isEmpty()) {
             return
         }
         mList.addAll(items)
@@ -147,32 +152,18 @@ abstract class AbsRecyclerAdapter<T : AbsViewBinder<V>, V>(context: Context) : R
      * 替换数据集合
      *
      * @param items
-     * todo 需要二次校验
      */
-    open fun replaceData(items: Collection<V>) {
-        if (items == null || items.size == 0) {
-            return
-        }
-        if (mList.size > 0) {
-            mList.clear()
-        }
-        mList.addAll(items)
-        notifyDataSetChanged()
-    }
-
-    companion object {
-        private const val TAG = "AbsRecyclerAdapter"
-    }
-
-    init {
-        if (context == null) {
-            //LogHelper.e(TAG, "Context should not be null");
-        }
-        context?.let {
-            mContext = context
-            mList = ArrayList()
-            mInflater = LayoutInflater.from(context)
+    var data: Collection<V>?
+        get() = ArrayList(mList)
+        set(items) {
+            if (items == null || items.size == 0) {
+                return
+            }
+            if (mList.size > 0) {
+                mList.clear()
+            }
+            mList.addAll(items)
+            notifyDataSetChanged()
         }
 
-    }
 }

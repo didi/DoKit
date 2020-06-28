@@ -32,7 +32,15 @@ abstract class AbstractKit : IKit {
             intent.putExtra(BundleKey.FRAGMENT_INDEX, fragmentIndex)
             context.startActivity(intent)
         }
+    }
 
+    fun startUniversalActivity(fragmentIndex: Int) {
+        currentActivity()?.run {
+            val intent = Intent(this, UniversalActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra(BundleKey.FRAGMENT_INDEX, fragmentIndex)
+            this.startActivity(intent)
+        }
     }
 
 

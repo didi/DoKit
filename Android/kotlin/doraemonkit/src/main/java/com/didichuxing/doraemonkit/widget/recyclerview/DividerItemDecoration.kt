@@ -8,6 +8,7 @@ import android.os.Build
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
+import kotlin.math.roundToInt
 
 /**
  * Created by jinliang on 2017/9/29.
@@ -18,16 +19,23 @@ class DividerItemDecoration(orientation: Int) : ItemDecoration() {
     private val mBounds = Rect()
     private var mShowHeaderDivider = false
     private var mShowFooterDivider = true
+
+
     fun setOrientation(orientation: Int) {
         require(!(orientation != 0 && orientation != 1)) { "Invalid orientation. It should be either HORIZONTAL or VERTICAL" }
         mOrientation = orientation
     }
 
-    fun setDrawable(drawable: Drawable) {
+    fun setDrawable(drawable: Drawable?): DividerItemDecoration {
         mDivider = drawable
+        return this
     }
 
-    override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+    override fun onDrawOver(
+            c: Canvas,
+            parent: RecyclerView,
+            state: RecyclerView.State
+    ) {
         if (parent.layoutManager != null && mDivider != null) {
             if (mOrientation == 1) {
                 drawVertical(c, parent)
@@ -88,7 +96,12 @@ class DividerItemDecoration(orientation: Int) : ItemDecoration() {
         if (parent.clipToPadding) {
             top = parent.paddingTop
             bottom = parent.height - parent.paddingBottom
-            canvas.clipRect(parent.paddingLeft, top, parent.width - parent.paddingRight, bottom)
+            canvas.clipRect(
+                    parent.paddingLeft,
+                    top,
+                    parent.width - parent.paddingRight,
+                    bottom
+            )
         } else {
             top = 0
             bottom = parent.height
@@ -97,7 +110,7 @@ class DividerItemDecoration(orientation: Int) : ItemDecoration() {
         for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
             parent.layoutManager!!.getDecoratedBoundsWithMargins(child, mBounds)
-            val right = mBounds.right + Math.round(child.translationX)
+            val right = mBounds.right + child.translationX.roundToInt()
             val left = right - mDivider!!.intrinsicWidth
             mDivider!!.setBounds(left, top, right, bottom)
             mDivider!!.draw(canvas)
@@ -105,7 +118,12 @@ class DividerItemDecoration(orientation: Int) : ItemDecoration() {
         canvas.restore()
     }
 
-    override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
+    override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+    ) {
         if (mDivider == null) {
             outRect[0, 0, 0] = 0
         } else {

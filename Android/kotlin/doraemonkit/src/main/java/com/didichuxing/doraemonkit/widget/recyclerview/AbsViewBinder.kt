@@ -2,7 +2,10 @@ package com.didichuxing.doraemonkit.widget.recyclerview
 
 import android.content.Context
 import android.view.View
+<<<<<<< HEAD
 import androidx.annotation.IdRes
+=======
+>>>>>>> origin/kotlin
 import androidx.recyclerview.widget.RecyclerView
 
 /**
@@ -11,30 +14,25 @@ import androidx.recyclerview.widget.RecyclerView
  * @author Jin Liang
  * @since 16/1/5
  */
-abstract class AbsViewBinder<T>(protected val view: View) : RecyclerView.ViewHolder(view) {
-    private var data: T? = null
-
-
-    protected abstract fun getViews()
-    fun <V : View?> getView(@IdRes id: Int): V {
-        return view.findViewById<View>(id) as V
-    }
-
-    abstract fun bind(t: T)
-    fun bind(t: T, position: Int) {
-        bind(t)
-    }
-
-    protected open fun onViewClick(view: View?, data: T?) {}
-    fun setData(data: T) {
+abstract class AbsViewBinder<T>(private val mView: View) : RecyclerView.ViewHolder(mView) {
+    protected var data: T? = null
+    fun bindData(data: T) {
         this.data = data
+        onBind(data, adapterPosition)
     }
+
+    protected abstract fun onBind(data: T, position: Int)
+    protected open fun onViewClick(view: View, data: T?) {}
+    protected open fun onViewLongClick(view: View, data: T?): Boolean {
+        return false
+    }
+
 
     protected val context: Context
-        protected get() = view.context
+        get() = mView.context
 
     init {
-        getViews()
-        view.setOnClickListener { onViewClick(view, data) }
+        mView.setOnClickListener { onViewClick(mView, data) }
+        mView.setOnLongClickListener { onViewLongClick(itemView, data) }
     }
 }

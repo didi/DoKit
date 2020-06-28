@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.weex.info;
 
-import com.taobao.weex.WXEnvironment;
+
+import org.apache.weex.WXEnvironment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +16,9 @@ public class WeexInfoHacker {
 
     public static List<WeexInfo> getWeexInfos() {
         List<WeexInfo> infos = new ArrayList<>();
-        if (WXEnvironment.getConfig() != null) {
-            Set<Map.Entry<String, String>> entrySet = WXEnvironment.getConfig().entrySet();
-            for (Map.Entry<String, String> entry : entrySet) {
-                infos.add(new WeexInfo(entry.getKey(), entry.getValue()));
-            }
+        Set<Map.Entry<String, String>> entrySet = WXEnvironment.getConfig().entrySet();
+        for (Map.Entry<String, String> entry : entrySet) {
+            infos.add(new WeexInfo(entry.getKey(), entry.getValue()));
         }
         return infos;
     }

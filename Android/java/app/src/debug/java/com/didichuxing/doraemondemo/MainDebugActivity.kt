@@ -151,6 +151,8 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         githubService = retrofit.create(GithubService::class.java)
+
+        AopTest().test()
     }
 
     private fun test1() {

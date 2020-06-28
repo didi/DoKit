@@ -48,7 +48,12 @@ class MethodStackDepTransformer(private val level: Int = 1) : ClassTransformer {
 
         val methodStackKeys: MutableSet<String> = MethodStackNodeUtil.METHOD_STACK_KEYS[level - 1]
 
-        klass.methods.forEach { methodNode ->
+        klass.methods.filter { methodNode ->
+            methodNode.name != "<init>" &&
+                    !methodNode.isEmptyMethod() &&
+                    !methodNode.isSingleMethod() &&
+                    !methodNode.isGetSetMethod()
+        }.forEach { methodNode ->
             val key = "${klass.className}&${methodNode.name}&${methodNode.desc}"
             if (methodStackKeys.contains(key)) {
                 "level===>$level   mathched key===>$key".println()

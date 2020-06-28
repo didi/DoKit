@@ -22,9 +22,9 @@ class UniversalDialogFragment(private val provider: DialogProvider<*>) : DialogF
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         isCancelable = provider.isCancellable
-        val window = dialog.window
+        val window = dialog!!.window
         val lp = window!!.attributes
         lp.gravity = gravity
         lp.width = width
@@ -39,8 +39,8 @@ class UniversalDialogFragment(private val provider: DialogProvider<*>) : DialogF
 
     override fun onStart() {
         super.onStart()
-        dialog.window!!.setLayout(width, height)
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(resources.getColor(android.R.color.transparent)))
+        dialog!!.window!!.setLayout(width, height)
+        dialog!!.window!!.setBackgroundDrawable(ColorDrawable(resources.getColor(android.R.color.transparent)))
     }
 
     override fun onCancel(dialog: DialogInterface) {

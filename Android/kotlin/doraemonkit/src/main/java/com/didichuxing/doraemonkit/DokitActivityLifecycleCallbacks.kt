@@ -9,8 +9,11 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
+import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceUtil
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo
+import com.didichuxing.doraemonkit.model.ViewInfo
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil
+import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.PermissionUtil
 import com.didichuxing.doraemonkit.util.UIUtils
 
@@ -24,6 +27,7 @@ import com.didichuxing.doraemonkit.util.UIUtils
  * ================================================
  */
 internal class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
+    private val TAG = "DokitActivityLifecycleCallbacks"
     private var startedActivityCounts = 0
     private var sHasRequestPermission = false
 
@@ -64,7 +68,7 @@ internal class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCa
             recordActivityLifeCycleStatus(it, LIFE_CYCLE_STATUS_RESUME)
             //记录页面层级 健康体检需要
             if (it.javaClass.canonicalName != "com.didichuxing.doraemonkit.kit.base.UniversalActivity") {
-                //recordActivityUiLevel(activity)
+                recordActivityUiLevel(activity)
             }
             //如果是leakCanary页面不进行添加
             if (ignoreCurrentActivityDokitView(it)) {
@@ -181,45 +185,46 @@ internal class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCa
      *
      * @param activity
      */
-//    private fun recordActivityUiLevel(activity: Activity) {
-//        try {
-//            if (!DokitConstant.APP_HEALTH_RUNNING) {
-//                return
-//            }
-//            val viewInfos = UIPerformanceUtil.getViewInfos(activity)
-//            var maxLevel = 0
-//            var maxTime = 0f
-//            var totalTime = 0f
-//            var maxLevelViewInfo: ViewInfo? = null
-//            var maxTimeViewInfo: ViewInfo? = null
-//            for (viewInfo in viewInfos) {
-//                if (viewInfo.layerNum > maxLevel) {
-//                    maxLevel = viewInfo.layerNum
-//                    maxLevelViewInfo = viewInfo
-//                }
-//                if (viewInfo.drawTime > maxTime) {
-//                    maxTime = viewInfo.drawTime
-//                    maxTimeViewInfo = viewInfo
-//                }
-//                totalTime += viewInfo.drawTime
-//            }
-//            val detail = """
-//                最大层级:$maxLevel
-//                控件id:${if (maxLevelViewInfo == null) "no id" else maxLevelViewInfo.id}
-//                总绘制耗时:${totalTime}ms
-//                绘制耗时最长控件:${maxTime}ms
-//                绘制耗时最长控件id:${if (maxTimeViewInfo == null) "no id" else maxTimeViewInfo.id}
-//
-//                """.trimIndent()
+    private fun recordActivityUiLevel(activity: Activity) {
+        try {
+            if (!DokitConstant.APP_HEALTH_RUNNING) {
+                return
+            }
+            val viewInfos = UIPerformanceUtil.getActivityViewInfo(activity)
+            var maxLevel = 0
+            var maxTime = 0f
+            var totalTime = 0f
+            var maxLevelViewInfo: ViewInfo? = null
+            var maxTimeViewInfo: ViewInfo? = null
+            for (viewInfo in viewInfos) {
+                if (viewInfo.layerNum > maxLevel) {
+                    maxLevel = viewInfo.layerNum
+                    maxLevelViewInfo = viewInfo
+                }
+                if (viewInfo.drawTime > maxTime) {
+                    maxTime = viewInfo.drawTime
+                    maxTimeViewInfo = viewInfo
+                }
+                totalTime += viewInfo.drawTime
+            }
+            val detail = """
+                最大层级:$maxLevel
+                控件id:${if (maxLevelViewInfo == null) "no id" else maxLevelViewInfo.id}
+                总绘制耗时:${totalTime}ms
+                绘制耗时最长控件:${maxTime}ms
+                绘制耗时最长控件id:${if (maxTimeViewInfo == null) "no id" else maxTimeViewInfo.id}
+                """.trimIndent()
+            LogHelper.d(TAG,detail)
+            //todo 需要完成上传数据到健康数据
 //            val uiLevelBean = UiLevelBean()
 //            uiLevelBean.page = activity.javaClass.canonicalName
 //            uiLevelBean.level = "" + maxLevel
 //            uiLevelBean.detail = detail
 //            AppHealthInfoUtil.getInstance().addUiLevelInfo(uiLevelBean)
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//    }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
     /**
      * 记录当前Activity的生命周期状态

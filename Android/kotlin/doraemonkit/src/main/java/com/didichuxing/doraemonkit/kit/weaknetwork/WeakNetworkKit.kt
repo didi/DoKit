@@ -6,7 +6,7 @@ import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig
 import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.util.DokitUtil
+import com.didichuxing.doraemonkit.util.DokitUtil.getString
 
 /**
  * 模拟弱网
@@ -22,7 +22,16 @@ class WeakNetworkKit : AbstractKit() {
         get() = R.mipmap.dk_weak_network
 
     override fun onClick(context: Context?) {
-        kotlinTip()
+        if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
+            ToastUtils.showShort(getString(R.string.dk_plugin_close_tip))
+            return
+        }
+
+        if (!DokitPluginConfig.SWITCH_NETWORK) {
+            ToastUtils.showShort(getString(R.string.dk_plugin_network_close_tip))
+            return
+        }
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_WEAK_NETWORK)
     }
 
     override fun onAppInit(context: Context?) {}
