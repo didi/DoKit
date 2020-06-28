@@ -5,9 +5,8 @@ import com.blankj.utilcode.util.ActivityUtils
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.core.DokitIntent
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager.Companion.instance
-import com.didichuxing.doraemonkit.kit.parameter.PerformanceFragmentCloseListener
-import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitView
-import com.didichuxing.doraemonkit.kit.performance.datasource.DataSourceFactory
+import com.didichuxing.doraemonkit.kit.performance.manager.PerformanceFragmentCloseListener
+import com.didichuxing.doraemonkit.kit.performance.manager.datasource.DataSourceFactory
 import java.util.*
 
 /**

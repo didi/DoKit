@@ -67,20 +67,6 @@ class PerformanceDokitView : AbsDokitView(), PerformanceCloseListener {
         }
     }
 
-    /**
-     * 移除性能检测页面的浮标关闭监听
-     *
-     * @param listener
-     */
-    fun removePerformanceFragmentCloseListener(listener: PerformanceFragmentCloseListener) {
-        if (mPerformanceFragmentCloseListener != null && mPerformanceFragmentCloseListener === listener) {
-            mPerformanceFragmentCloseListener = null
-        }
-    }
-
-
-    override fun onCreate(context: Context?) {}
-
     override fun onCreate(context: Context?) {}
     override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_performance_wrap, rootView, false)
@@ -148,75 +134,6 @@ class PerformanceDokitView : AbsDokitView(), PerformanceCloseListener {
             DataSourceFactory.TYPE_FPS -> DokitMemoryConfig.FPS_STATUS = false
             DataSourceFactory.TYPE_CPU -> DokitMemoryConfig.CPU_STATUS = false
             DataSourceFactory.TYPE_RAM -> DokitMemoryConfig.RAM_STATUS = false
-            else -> {
-            }
-        }
-
-        //系统模式下添加关闭按钮
-        if (!isNormalMode && mPerformanceCloseDokitView != null) {
-            mPerformanceCloseDokitView?.removeItem(needOperateViewIndex)
-        }
-    }
-
-    /**
-     * 动态添加性能项目
-     *
-     * @param performanceType
-     * @param title
-     * @param interval
-     */
-    fun addItem(performanceType: Int, title: String?, interval: Int) {
-        if (mPerformanceWrap == null) {
-            return
-        }
-        var needOperateViewIndex = -1
-        for (index in 0 until mPerformanceWrap!!.childCount) {
-            if (mPerformanceWrap!!.getChildAt(index).visibility == View.GONE) {
-                needOperateViewIndex = index
-                break
-            }
-        }
-        if (needOperateViewIndex == -1) {
-            return
-        }
-        val needOperateViewWrap = mPerformanceWrap!!.getChildAt(needOperateViewIndex) as FrameLayout
-        needOperateViewWrap.visibility = View.VISIBLE
-        val needOperateLineChart: LineChart = needOperateViewWrap.findViewWithTag("lineChart")
-        val dataSource = DataSourceFactory.createDataSource(performanceType)
-        needOperateLineChart.performanceType = performanceType
-        needOperateLineChart.setTitle(title)
-        needOperateLineChart.setInterval(interval)
-        needOperateLineChart.setDataSource(dataSource)
-        needOperateLineChart.startMove()
-        //系统模式下添加关闭按钮
-        if (!isNormalMode && mPerformanceCloseDokitView != null) {
-            mPerformanceCloseDokitView?.addItem(needOperateViewIndex, performanceType)
-        }
-    }
-
-    fun removeItem(performanceType: Int) {
-        if (mPerformanceWrap == null) {
-            return
-        }
-        var needOperateViewIndex = -1
-        for (index in 0 until mPerformanceWrap!!.childCount) {
-            if (mPerformanceWrap!!.getChildAt(index).visibility != View.GONE) {
-                val needOperateLineChart: LineChart = mPerformanceWrap!!.getChildAt(index).findViewWithTag("lineChart")
-                if (needOperateLineChart.performanceType === performanceType) {
-                    needOperateViewIndex = index
-                    break
-                }
-            }
-        }
-        if (needOperateViewIndex == -1) {
-            return
-        }
-        val frameLayout = mPerformanceWrap!!.getChildAt(needOperateViewIndex) as FrameLayout
-        frameLayout.visibility = View.GONE
-        val needOperateLineChart: LineChart = frameLayout.findViewWithTag("lineChart")
-        needOperateLineChart.stopMove()
-        needOperateLineChart.performanceType = -1
-        when (performanceType) {
             DataSourceFactory.TYPE_NETWORK -> DokitMemoryConfig.NETWORK_STATUS = false
             else -> {
             }
@@ -227,6 +144,9 @@ class PerformanceDokitView : AbsDokitView(), PerformanceCloseListener {
             mPerformanceCloseDokitView?.removeItem(needOperateViewIndex)
         }
     }
+
+
+
 
 
     override fun onViewCreated(rootView: FrameLayout?) {

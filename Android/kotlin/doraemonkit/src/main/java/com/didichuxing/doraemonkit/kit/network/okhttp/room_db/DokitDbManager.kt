@@ -221,7 +221,7 @@ class DokitDbManager<T : AbsMockApiBean> {
         ThreadUtils.executeByIo(object : SimpleTask<Any?>() {
             @Throws(Throwable::class)
             override fun doInBackground(): Any? {
-                DokitViewManager.instance.db.mockApiDao().updateInterceptApi(mockApi)
+                var count = DokitViewManager.instance.db.mockApiDao().updateInterceptApi(mockApi)
                 return null
             }
 

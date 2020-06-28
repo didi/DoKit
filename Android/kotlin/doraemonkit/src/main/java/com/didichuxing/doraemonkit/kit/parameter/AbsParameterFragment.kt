@@ -17,6 +17,7 @@ import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter.OnSettingItemSwit
 import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitViewManager.close
 import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitViewManager.onPerformanceSettingFragmentDestroy
 import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitViewManager.open
+import com.didichuxing.doraemonkit.kit.performance.manager.PerformanceFragmentCloseListener
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
 import java.util.*
 
@@ -64,7 +65,7 @@ abstract class AbsParameterFragment : BaseFragment(), PerformanceFragmentCloseLi
             var list = getSettingItems(ArrayList());
             append(list)
             setOnSettingItemSwitchListener(object : OnSettingItemSwitchListener {
-                override fun onSettingItemSwitch(view: View?, data: SettingItem?, on: Boolean) {
+                override fun onSettingItemSwitch(view: View, data: SettingItem, on: Boolean) {
                     if (on && !ownPermissionCheck()) {
                         if (view is CheckBox) {
                             view.isChecked = false
@@ -75,10 +76,12 @@ abstract class AbsParameterFragment : BaseFragment(), PerformanceFragmentCloseLi
                     val itemSwitchListener = itemSwitchListener
                     itemSwitchListener?.onSettingItemSwitch(view, data, on)
                 }
+
+
             })
 
             setOnSettingItemClickListener(object : OnSettingItemClickListener {
-                override fun onSettingItemClick(view: View?, data: SettingItem?) {
+                override fun onSettingItemClick(view: View, data: SettingItem) {
                     if (!ownPermissionCheck()) {
                         requestPermissions(PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE)
                         return
@@ -117,10 +120,10 @@ abstract class AbsParameterFragment : BaseFragment(), PerformanceFragmentCloseLi
         if (mSettingItemAdapter == null) {
             return
         }
-        if (!mSettingItemAdapter!!.mList[0].isChecked) {
+        if (!mSettingItemAdapter!!.data[0].isChecked) {
             return
         }
-        mSettingItemAdapter!!.mList[0].isChecked = false
+        mSettingItemAdapter!!.data[0].isChecked = false
         mSettingItemAdapter!!.notifyItemChanged(0)
     }
 

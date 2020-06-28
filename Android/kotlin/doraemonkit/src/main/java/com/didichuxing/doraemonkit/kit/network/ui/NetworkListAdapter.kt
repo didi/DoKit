@@ -25,35 +25,25 @@ public class NetworkListAdapter(context: Context) : AbsRecyclerAdapter<AbsViewBi
         return ItemViewHolder(view)
     }
 
-    override fun createView(inflater: LayoutInflater, parent: ViewGroup, viewType: Int): View {
-        return inflater.inflate(R.layout.dk_item_network_list, parent, false)
-    }
 
     override fun getFilter(): Filter {
         return mFilter
     }
 
     private inner class ItemViewHolder(view: View) : AbsViewBinder<NetworkRecord>(view) {
-        private var url: TextView? = null
-        private var method: TextView? = null
-        private var code: TextView? = null
-        private var time: TextView? = null
-        private var flow: TextView? = null
+        private var url: TextView = view.findViewById(R.id.network_list_url)
+        private var method: TextView=view.findViewById(R.id.network_list_method)
+        private var code: TextView = view.findViewById(R.id.network_list_code)
+        private var time: TextView = view.findViewById(R.id.network_list_time_and_cost)
+        private var flow: TextView = view.findViewById(R.id.network_list_flow)
         private val mDateFormat = SimpleDateFormat("yyyy-MM-dd-HH:mm:ss:SSS")
-        override fun getViews() {
-            url = getView(R.id.network_list_url)
-            method = getView(R.id.network_list_method)
-            code = getView(R.id.network_list_code)
-            time = getView(R.id.network_list_time_and_cost)
-            flow = getView(R.id.network_list_flow)
-        }
 
-        override fun bind(record: NetworkRecord) {
+
+        override fun onBind(record: NetworkRecord, position: Int) {
             if (record.mRequest != null) {
                 val request = record.mRequest
                 url!!.text = request?.url
-                val cost: String
-                cost = if (record.endTime < record.startTime) {
+                val cost: String = if (record.endTime < record.startTime) {
                     Companion.UNKNOWN
                 } else {
                     ((record.endTime - record.startTime).toFloat() / 1000f).toString() + "s"
@@ -80,6 +70,8 @@ public class NetworkListAdapter(context: Context) : AbsRecyclerAdapter<AbsViewBi
                 }
             }
         }
+
+
 
 
     }
@@ -115,20 +107,13 @@ public class NetworkListAdapter(context: Context) : AbsRecyclerAdapter<AbsViewBi
             if (filteredList == null || filteredList.isEmpty()) {
                 clear()
             } else {
-                super@NetworkListAdapter.replaceData(filteredList)
+                data=(filteredList)
             }
             notifyDataSetChanged()
         }
     }
 
 
-    /**
-     */
-    override fun replaceData(items: Collection<NetworkRecord>) {
-        mSourceList.clear()
-        mSourceList.addAll(items)
-        super.mList = items.toMutableList()
-    }
 
     fun setOnItemClickListener(listener: OnItemClickListener?) {
         mListener = listener
@@ -136,6 +121,10 @@ public class NetworkListAdapter(context: Context) : AbsRecyclerAdapter<AbsViewBi
 
     interface OnItemClickListener {
         fun onClick(info: NetworkRecord)
+    }
+
+    override fun createView(inflater: LayoutInflater, parent: ViewGroup?, viewType: Int): View {
+        return inflater.inflate(R.layout.dk_item_network_list, parent, false)
     }
 
 

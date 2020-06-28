@@ -9,6 +9,7 @@ import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
 import com.didichuxing.doraemonkit.kit.network.okhttp.room_db.DokitDatabase
+import com.didichuxing.doraemonkit.kit.network.okhttp.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelDokitView
 
 /**
@@ -31,7 +32,7 @@ class DokitViewManager : DokitViewManagerInterface {
 
 
     /**
-     * 数据库操作类 懒加载  todo("功能待实现")
+     * 数据库操作类 懒加载
      */
     val db: DokitDatabase by lazy {
         Room.databaseBuilder(DoraemonKit.APPLICATION!!,
@@ -52,11 +53,10 @@ class DokitViewManager : DokitViewManagerInterface {
         } else {
             SystemDokitViewManager(context)
         }
-        //TODO("功能待实现")
         //获取所有的intercept apis
-        //DokitDbManager.getInstance().getAllInterceptApis()
+        DokitDbManager.instance.allInterceptApis
         //获取所有的template apis
-        //DokitDbManager.getInstance().getAllTemplateApis()
+        DokitDbManager.instance.allTemplateApis
     }
 
 

@@ -68,9 +68,6 @@ class HomeTitleBar @JvmOverloads constructor(context: Context, attrs: AttributeS
         mListener = listener
     }
 
-    fun setListener(listener: OnTitleBarClickListener) {
-        mListener = listener
-    }
 
     init {
         init(context, attrs)

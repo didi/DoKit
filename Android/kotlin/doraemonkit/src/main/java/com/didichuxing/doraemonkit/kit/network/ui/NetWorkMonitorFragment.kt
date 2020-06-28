@@ -18,13 +18,13 @@ import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter.OnSettingItemSwit
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.okhttp.bean.WhiteHostBean
 import com.didichuxing.doraemonkit.kit.parameter.AbsParameterFragment
-import com.didichuxing.doraemonkit.kit.performance.datasource.DataSourceFactory
+import com.didichuxing.doraemonkit.kit.performance.manager.PerformanceDataManager
+import com.didichuxing.doraemonkit.kit.performance.manager.datasource.DataSourceFactory
 import java.io.File
 import java.util.*
 
 /**
  * @author jint
- * todo  无法保存开关结果
  */
 class NetWorkMonitorFragment : AbsParameterFragment() {
     var mHostRv: RecyclerView? = null
@@ -52,7 +52,7 @@ class NetWorkMonitorFragment : AbsParameterFragment() {
 
     override val itemSwitchListener: OnSettingItemSwitchListener
         protected get() = object : OnSettingItemSwitchListener {
-            override fun onSettingItemSwitch(view: View?, data: SettingItem?, on: Boolean) {
+            override fun onSettingItemSwitch(view: View, data: SettingItem, on: Boolean) {
                 if (on) {
                     startMonitor()
                 } else {
@@ -64,8 +64,10 @@ class NetWorkMonitorFragment : AbsParameterFragment() {
 
     override val itemClickListener: OnSettingItemClickListener
         protected get() = object : OnSettingItemClickListener {
-            override fun onSettingItemClick(view: View?, data: SettingItem?) {
 
+
+            override fun onSettingItemClick(view: View, data: SettingItem) {
+                TODO("Not yet implemented")
             }
         }
 

@@ -62,7 +62,7 @@ class NetworkListView : LinearLayout, OnNetworkInfoUpdateListener {
         synchronized(this) {
             val records: List<NetworkRecord> = ArrayList(NetworkManager.get().records)
             Collections.reverse(records)
-            mNetworkListAdapter!!.replaceData(records)
+            mNetworkListAdapter!!.data = (records)
         }
     }
 

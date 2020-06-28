@@ -1,10 +1,10 @@
-package com.didichuxing.doraemonkit.kit.performance.datasource
+package com.didichuxing.doraemonkit.kit.performance.manager.datasource
 
 import com.didichuxing.doraemonkit.kit.network.NetworkManager.Companion.get
 import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil
-import com.didichuxing.doraemonkit.kit.performance.widget.LineData
-import com.didichuxing.doraemonkit.kit.performance.widget.LineData.Companion.obtain
-
+import com.didichuxing.doraemonkit.kit.performance.manager.datasource.IDataSource
+import com.didichuxing.doraemonkit.kit.performance.manager.widget.LineData
+import com.didichuxing.doraemonkit.kit.performance.manager.widget.LineData.Companion.obtain
 /**
  * @desc: 抓包数据源
  */

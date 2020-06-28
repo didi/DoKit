@@ -11,6 +11,8 @@ import com.didichuxing.doraemonkit.kit.dataclean.DataCleanFragment
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment
+import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMockFragment
+import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMonitorFragment
 import com.didichuxing.doraemonkit.kit.performance.cpu.CpuInfoPageFragment
 import com.didichuxing.doraemonkit.kit.performance.fps.FrameInfoPageFragment
 import com.didichuxing.doraemonkit.kit.performance.ram.RamInfoPageFragment
@@ -54,6 +56,8 @@ open class UniversalActivity : BaseActivity() {
             // 性能监控-> 卡顿检测
             FragmentIndex.FRAGMENT_BLOCK_MONITOR -> BlockMonitorFragment::class.java
             FragmentIndex.FRAGMENT_DATA_CLEAN -> DataCleanFragment::class.java
+            FragmentIndex.FRAGMENT_NETWORK_MONITOR -> NetWorkMonitorFragment::class.java
+            FragmentIndex.FRAGMENT_NETWORK_MOCK -> NetWorkMockFragment::class.java
             FragmentIndex.FRAGMENT_FILE_EXPLORER -> FileExplorerFragment::class.java
             FragmentIndex.FRAGMENT_GPS_MOCK -> GpsMockFragment::class.java
             else -> null

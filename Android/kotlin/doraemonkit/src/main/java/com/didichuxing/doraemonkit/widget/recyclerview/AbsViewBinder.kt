@@ -2,10 +2,6 @@ package com.didichuxing.doraemonkit.widget.recyclerview
 
 import android.content.Context
 import android.view.View
-<<<<<<< HEAD
-import androidx.annotation.IdRes
-=======
->>>>>>> origin/kotlin
 import androidx.recyclerview.widget.RecyclerView
 
 /**
