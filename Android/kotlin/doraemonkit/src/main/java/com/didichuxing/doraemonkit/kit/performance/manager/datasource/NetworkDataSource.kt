@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.performance.manager.datasource
 
-import com.didichuxing.doraemonkit.kit.network.NetworkManager.Companion.get
+import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil
 import com.didichuxing.doraemonkit.kit.performance.manager.datasource.IDataSource
 import com.didichuxing.doraemonkit.kit.performance.manager.widget.LineData
@@ -12,7 +12,7 @@ class NetworkDataSource : IDataSource {
     private var latestTotalLength: Long = -1
     override fun createData(): LineData {
         var diff: Long = 0
-        val totalSize = get().totalSize
+        val totalSize = NetworkManager.instance.totalSize
         if (latestTotalLength >= 0) {
             diff = totalSize - latestTotalLength
             if (diff < 0) {

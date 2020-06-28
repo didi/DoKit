@@ -107,12 +107,9 @@ class NetworkManager {
         }
     }
     companion object {
-        @JvmStatic
-        fun get(): NetworkManager {
-            return Holder.INSTANCE
-        }
+        val instance = Holder.INSTANCE
 
         val isActive: Boolean
-            get() = get().mIsActive.get()
+            get() = instance.mIsActive.get()
     }
 }

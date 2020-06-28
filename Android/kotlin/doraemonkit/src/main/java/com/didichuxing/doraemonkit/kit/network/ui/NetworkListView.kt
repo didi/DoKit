@@ -60,18 +60,18 @@ class NetworkListView : LinearLayout, OnNetworkInfoUpdateListener {
 
     private fun initData() {
         synchronized(this) {
-            val records: List<NetworkRecord> = ArrayList(NetworkManager.get().records)
+            val records: List<NetworkRecord> = ArrayList(NetworkManager.instance.records)
             Collections.reverse(records)
             mNetworkListAdapter!!.data = (records)
         }
     }
 
     fun registerNetworkListener() {
-        NetworkManager.get().setOnNetworkInfoUpdateListener(this)
+        NetworkManager.instance.setOnNetworkInfoUpdateListener(this)
     }
 
     fun unRegisterNetworkListener() {
-        NetworkManager.get().setOnNetworkInfoUpdateListener(null)
+        NetworkManager.instance.setOnNetworkInfoUpdateListener(null)
     }
 
     private val mTextWatcher: TextWatcher = object : TextWatcher {

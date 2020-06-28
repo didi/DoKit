@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.kit.network.NetworkManager.Companion.get
+import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil
 import com.didichuxing.doraemonkit.kit.network.utils.CostTimeUtil
 import com.didichuxing.doraemonkit.widget.chart.BarChart
@@ -30,14 +30,14 @@ class NetWorkSummaryView : LinearLayout {
         val totalNumber = findViewById<TextView>(R.id.total_number)
         val totalUpload = findViewById<TextView>(R.id.total_upload)
         val totalDown = findViewById<TextView>(R.id.total_down)
-        val postCount = get().postCount
-        val getCount = get().getCount
-        val totalCount = get().totalCount
+        val postCount = NetworkManager.instance.postCount
+        val getCount = NetworkManager.instance.getCount
+        val totalCount = NetworkManager.instance.totalCount
         totalNumber.text = totalCount.toString()
-        val time = get().runningTime
+        val time = NetworkManager.instance.runningTime
         totalSec.text = CostTimeUtil.formatTime(context, time)
-        val requestSize = get().totalRequestSize
-        val responseSize = get().totalResponseSize
+        val requestSize = NetworkManager.instance.totalRequestSize
+        val responseSize = NetworkManager.instance.totalResponseSize
         totalUpload.text = ByteUtil.getPrintSizeForSpannable(requestSize)
         totalDown.text = ByteUtil.getPrintSizeForSpannable(responseSize)
         val chart: PieChart = findViewById(R.id.network_pier_chart)

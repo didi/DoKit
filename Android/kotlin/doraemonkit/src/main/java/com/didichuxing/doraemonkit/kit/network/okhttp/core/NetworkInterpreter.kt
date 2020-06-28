@@ -69,7 +69,7 @@ class NetworkInterpreter {
         val record = NetworkRecord()
         record.mRequestId = requestId
         fetchRequestInfo(record, request)
-        NetworkManager.get().addRecord(requestId, record)
+        NetworkManager.instance.addRecord(requestId, record)
         return record
     }
 
@@ -96,7 +96,7 @@ class NetworkInterpreter {
         if (record.mRequest != null) {
             record.mRequest!!.postData = readBodyAsString(request)
             record.requestLength = readBodyLength(request)
-            NetworkManager.get().updateRecord(record, false)
+            NetworkManager.instance.updateRecord(record, false)
             //Log.e(TAG, record.mRequest.postData);
         }
     }
@@ -122,7 +122,7 @@ class NetworkInterpreter {
         }
         record.mResponse = responseJSON
         record.endTime = System.currentTimeMillis()
-        NetworkManager.get().updateRecord(record, false)
+        NetworkManager.instance.updateRecord(record, false)
         //Log.e(TAG, responseJSON.toString());
     }
 

@@ -93,12 +93,12 @@ class NetWorkMonitorFragment : AbsPerformanceFragment() {
     }
 
     private fun startMonitor() {
-        NetworkManager.get().startMonitor()
+        NetworkManager.instance.startMonitor()
         openChartPage(R.string.dk_kit_net_monitor, DataSourceFactory.TYPE_NETWORK)
     }
 
     private fun stopMonitor() {
-        NetworkManager.get().stopMonitor()
+        NetworkManager.instance.stopMonitor()
         closeChartPage()
     }
 
