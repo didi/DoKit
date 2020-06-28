@@ -5,6 +5,8 @@ import android.widget.Toast
 import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.FragmentIndex
+import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMockFragment
+import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMonitorFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitManagerFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitSettingFragment
 
@@ -30,6 +32,9 @@ open class UniversalActivity : BaseActivity() {
         when (index) {
             FragmentIndex.FRAGMENT_DOKIT_SETTING -> fragmentClass = DokitSettingFragment::class.java
             FragmentIndex.FRAGMENT_DOKIT_MANAGER -> fragmentClass = DokitManagerFragment::class.java
+            FragmentIndex.FRAGMENT_NETWORK_MONITOR -> fragmentClass = NetWorkMonitorFragment::class.java
+            FragmentIndex.FRAGMENT_NETWORK_MOCK -> fragmentClass = NetWorkMockFragment::class.java
+
             else -> {
             }
         }

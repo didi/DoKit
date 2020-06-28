@@ -5,7 +5,6 @@ import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -64,6 +63,9 @@ class HomeTitleBar @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
         mIcon.setImageResource(id)
         mIcon.visibility = View.VISIBLE
+    }
+    fun setListener(listener: OnTitleBarClickListener) {
+        mListener = listener
     }
 
 

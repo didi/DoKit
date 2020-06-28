@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:id="@+id/post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="31.5dp"
+        android:layout_marginTop="62dp"
+        android:text="@string/dk_network_post_method" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/post"
+        android:layout_marginLeft="31.5dp"
+        android:layout_marginTop="25.5dp"
+        android:text="@string/dk_network_get_method" />
+
+    <View
+        android:id="@+id/solid_line_fir"
+        android:layout_width="0.5dp"
+        android:layout_height="97dp"
+        android:layout_marginLeft="12.5dp"
+        android:layout_marginTop="40dp"
+        android:layout_toRightOf="@id/post"
+        android:background="@drawable/dk_dotted_line_vertical"
+        android:layerType="software" />
+
+    <View
+        android:layout_width="0.5dp"
+        android:layout_height="97dp"
+        android:layout_marginLeft="95dp"
+        android:layout_marginTop="40dp"
+        android:layout_toRightOf="@+id/solid_line_fir"
+        android:background="@drawable/dk_dotted_line_vertical"
+        android:layerType="software" />
+
+    <View
+        android:id="@+id/solid_line_end"
+        android:layout_width="0.5dp"
+        android:layout_height="97dp"
+        android:layout_marginLeft="190dp"
+        android:layout_marginTop="40dp"
+        android:layout_toRightOf="@id/solid_line_fir"
+        android:background="@drawable/dk_dotted_line_vertical"
+        android:layerType="software" />
+
+    <View
+        android:layout_width="257.5dp"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/solid_line_fir"
+        android:layout_toRightOf="@+id/solid_line_fir"
+        android:background="@color/dk_color_DDDDDD" />
+
+    <TextView
+        android:id="@+id/mark_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/solid_line_fir"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="145dp" />
+
+    <TextView
+        android:id="@+id/mark_second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/solid_line_fir"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="91dp"
+        android:layout_marginTop="142dp" />
+
+    <TextView
+        android:id="@+id/mark_third"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/solid_line_fir"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="182dp"
+        android:layout_marginTop="143dp" />
+
+    <View
+        android:id="@+id/post_value"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignLeft="@+id/solid_line_fir"
+        android:layout_alignTop="@+id/post" />
+
+    <View
+        android:id="@+id/get_value"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_alignLeft="@+id/solid_line_fir"
+        android:layout_alignTop="@+id/post"
+        android:layout_marginTop="42dp" />
+
+
+</RelativeLayout>

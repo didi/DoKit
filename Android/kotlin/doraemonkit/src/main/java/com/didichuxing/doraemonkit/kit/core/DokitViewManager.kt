@@ -4,8 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Point
 import android.view.WindowManager
+import androidx.room.Room
+import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
+import com.didichuxing.doraemonkit.kit.network.okhttp.room_db.DokitDatabase
 import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelDokitView
 
 /**
@@ -30,15 +33,15 @@ class DokitViewManager : DokitViewManagerInterface {
     /**
      * 数据库操作类 懒加载  todo("功能待实现")
      */
-//    val db: DokitDatabase by lazy {
-//        Room.databaseBuilder(DoraemonKit.APPLICATION!!,
-//                DokitDatabase::class.java,
-//                "dokit-database") //下面注释表示允许主线程进行数据库操作，但是不推荐这样做。
-//                //他可能造成主线程lock以及anr
-//                //所以我们的操作都是在新线程完成的
-//                .allowMainThreadQueries()
-//                .build()
-//    }
+    val db: DokitDatabase by lazy {
+        Room.databaseBuilder(DoraemonKit.APPLICATION!!,
+                DokitDatabase::class.java,
+                "dokit-database") //下面注释表示允许主线程进行数据库操作，但是不推荐这样做。
+                //他可能造成主线程lock以及anr
+                //所以我们的操作都是在新线程完成的
+                .allowMainThreadQueries()
+                .build()
+    }
 
 
     fun init(context: Context) {
