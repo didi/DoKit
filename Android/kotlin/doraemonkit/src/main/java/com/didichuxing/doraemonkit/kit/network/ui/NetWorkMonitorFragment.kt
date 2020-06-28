@@ -17,8 +17,7 @@ import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter.OnSettingItemClic
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter.OnSettingItemSwitchListener
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.okhttp.bean.WhiteHostBean
-import com.didichuxing.doraemonkit.kit.parameter.AbsParameterFragment
-import com.didichuxing.doraemonkit.kit.performance.manager.PerformanceDataManager
+import com.didichuxing.doraemonkit.kit.performance.AbsPerformanceFragment
 import com.didichuxing.doraemonkit.kit.performance.manager.datasource.DataSourceFactory
 import java.io.File
 import java.util.*
@@ -26,7 +25,7 @@ import java.util.*
 /**
  * @author jint
  */
-class NetWorkMonitorFragment : AbsParameterFragment() {
+class NetWorkMonitorFragment : AbsPerformanceFragment() {
     var mHostRv: RecyclerView? = null
     var mHostAdapter: WhiteHostAdapter? = null
     var mHostBeans: MutableList<WhiteHostBean> = ArrayList()
@@ -45,10 +44,12 @@ class NetWorkMonitorFragment : AbsParameterFragment() {
     override val performanceType: Int
         protected get() = DataSourceFactory.TYPE_NETWORK
 
-    override fun getSettingItems(list: MutableList<SettingItem>?): Collection<SettingItem> {
+    override fun getSettingItems(list: MutableList<SettingItem>): MutableList<SettingItem>? {
         list?.add(SettingItem(R.string.dk_net_monitor_detection_switch, NetworkManager.isActive))
         return list!!
     }
+
+
 
     override val itemSwitchListener: OnSettingItemSwitchListener
         protected get() = object : OnSettingItemSwitchListener {
@@ -67,7 +68,7 @@ class NetWorkMonitorFragment : AbsParameterFragment() {
 
 
             override fun onSettingItemClick(view: View, data: SettingItem) {
-                TODO("Not yet implemented")
+
             }
         }
 

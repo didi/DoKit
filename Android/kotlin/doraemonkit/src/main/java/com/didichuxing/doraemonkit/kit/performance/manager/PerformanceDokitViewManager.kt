@@ -79,6 +79,7 @@ object PerformanceDokitViewManager {
                 DataSourceFactory.TYPE_FPS -> title = context.getString(R.string.dk_kit_frame_info_desc)
                 DataSourceFactory.TYPE_CPU -> title = context.getString(R.string.dk_frameinfo_cpu)
                 DataSourceFactory.TYPE_RAM -> title = context.getString(R.string.dk_ram_detection_title)
+                DataSourceFactory.TYPE_NETWORK -> title = context.getString(R.string.dk_kit_network_monitor)
                 else -> {
                 }
             }
