@@ -17,21 +17,18 @@
     z-index: 1;
 }
 .h5door-page .area-box{
-    width: 100%;
+    width: 98%;
+    margin: 0 auto;
     box-sizing: border-box;
     border: 1px solid #efefef;
     height: 358rpx;
     position: relative;
 }
-.h5door-page .scaning{
+.scaning-img {
     position: absolute;
+    display: block;
     right: 32rpx;
-    bottom: 32rpx;
-    height: 56rpx;
-    width: 56rpx;
-    z-index: 99;
-}
-.scaning-cover-img {
+    top: 375rpx;
     height: 56rpx;
     width: 56rpx;
 }
@@ -40,6 +37,7 @@
     color: #BEBEBE;
 }
 .h5door-page .history-list{
+    margin-top: 70rpx;
     padding:0 20rpx;
 }
 .h5door-page .history-content{
