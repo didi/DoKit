@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+              android:paddingTop="2dp"
+              android:paddingBottom="1dp"
+              android:paddingLeft="3dp"
+              android:paddingRight="3dp">
+
+    <TextView
+        android:id="@+id/pid_text"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:singleLine="true"
+        android:textColor="@color/dk_color_FFFFFF"
+        android:paddingEnd="2dp"
+        android:paddingRight="2dp"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/timestamp_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/pid_text"
+        android:layout_toRightOf="@+id/pid_text"
+        android:singleLine="true"
+        android:textColor="@color/dk_color_FFFFFF"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/tag_text"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/pid_text"
+        android:ellipsize="end"
+        android:textColor="@color/dk_color_000000"
+        android:singleLine="true"
+        android:paddingEnd="2dp"
+        android:paddingRight="2dp"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/log_level_text"
+        android:layout_width="15dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pid_text"
+        android:layout_toEndOf="@+id/tag_text"
+        android:layout_toRightOf="@+id/tag_text"
+        android:gravity="center_horizontal"
+        android:singleLine="true"
+        android:textSize="12sp"/>
+
+
+    <TextView
+        android:id="@+id/log_output_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pid_text"
+        android:layout_toEndOf="@+id/log_level_text"
+        android:layout_toRightOf="@+id/log_level_text"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:textSize="12sp"/>
+
+
+</RelativeLayout>
