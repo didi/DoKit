@@ -64,10 +64,10 @@ class HomeTitleBar @JvmOverloads constructor(context: Context, attrs: AttributeS
         mIcon.setImageResource(id)
         mIcon.visibility = View.VISIBLE
     }
-
     fun setListener(listener: OnTitleBarClickListener) {
         mListener = listener
     }
+
 
     init {
         init(context, attrs)

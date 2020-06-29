@@ -1,0 +1,185 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:background="@color/dk_color_FFFFFF">
+
+            <TextView
+                android:id="@+id/total_sec"
+                style="@style/DK.Text.Darker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:textSize="@dimen/dk_font_size_22"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/total_tips"
+                style="@style/DK.Text.Gray"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:text="@string/dk_network_summary_total_number_time_tips"
+                android:textSize="10sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/total_sec" />
+
+            <TextView
+                android:id="@+id/total_number"
+                style="@style/DK.Text.Darker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:textSize="@dimen/dk_font_size_22"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/total_upload"
+                app:layout_constraintTop_toBottomOf="@id/total_tips"
+                app:layout_constraintWidth_percent="0.33" />
+
+            <TextView
+                android:id="@+id/total_upload"
+                style="@style/DK.Text.Darker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/dk_font_size_22"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toRightOf="@id/total_number"
+                app:layout_constraintTop_toTopOf="@id/total_number"
+                app:layout_constraintWidth_percent="0.33" />
+
+            <TextView
+                android:id="@+id/total_down"
+                style="@style/DK.Text.Darker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="@dimen/dk_font_size_22"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toRightOf="@id/total_upload"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/total_number"
+                app:layout_constraintWidth_percent="0.33" />
+
+            <TextView
+                style="@style/DK.Text.Gray"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/total_upload"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/dk_network_summary_data_upload"
+                android:textSize="10sp"
+                app:layout_constraintLeft_toLeftOf="@id/total_upload"
+                app:layout_constraintTop_toBottomOf="@id/total_upload"
+                app:layout_constraintWidth_percent="0.33" />
+
+
+            <TextView
+                style="@style/DK.Text.Gray"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/total_number"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:text="@string/dk_network_summary_total_number"
+                android:textSize="10sp"
+                app:layout_constraintLeft_toLeftOf="@id/total_number"
+                app:layout_constraintTop_toBottomOf="@id/total_number"
+                app:layout_constraintWidth_percent="0.33" />
+
+
+            <TextView
+                style="@style/DK.Text.Gray"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/total_down"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:text="@string/dk_network_summary_data_down"
+                android:textSize="10sp"
+                app:layout_constraintLeft_toLeftOf="@id/total_down"
+                app:layout_constraintTop_toBottomOf="@id/total_down"
+                app:layout_constraintWidth_percent="0.33" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/dk_color_FFFFFF"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/DK.Text.Darker"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@mipmap/dk_network_bar"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:text="@string/dk_network_summary_http_method"
+                android:textSize="14sp" />
+
+            <View style="@style/DK.Divider" />
+
+            <com.didichuxing.doraemonkit.widget.chart.BarChart
+                android:id="@+id/network_bar_chart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="284dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/dk_color_FFFFFF"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/DK.Text.Darker"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_marginLeft="10dp"
+                android:drawableLeft="@mipmap/dk_network_pie"
+                android:drawablePadding="5dp"
+                android:text="@string/dk_network_summary_data_type"
+                android:textSize="14sp" />
+
+            <View style="@style/DK.Divider" />
+
+            <com.didichuxing.doraemonkit.widget.chart.PieChart
+                android:id="@+id/network_pier_chart"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dk_dp_40" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</ScrollView>

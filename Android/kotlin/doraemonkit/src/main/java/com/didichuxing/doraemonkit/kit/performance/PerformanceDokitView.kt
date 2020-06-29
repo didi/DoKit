@@ -134,6 +134,7 @@ class PerformanceDokitView : AbsDokitView(), PerformanceCloseListener {
             DataSourceFactory.TYPE_FPS -> DokitMemoryConfig.FPS_STATUS = false
             DataSourceFactory.TYPE_CPU -> DokitMemoryConfig.CPU_STATUS = false
             DataSourceFactory.TYPE_RAM -> DokitMemoryConfig.RAM_STATUS = false
+            DataSourceFactory.TYPE_NETWORK -> DokitMemoryConfig.NETWORK_STATUS = false
             else -> {
             }
         }
@@ -143,6 +144,10 @@ class PerformanceDokitView : AbsDokitView(), PerformanceCloseListener {
             mPerformanceCloseDokitView?.removeItem(needOperateViewIndex)
         }
     }
+
+
+
+
 
     override fun onViewCreated(rootView: FrameLayout?) {
         mPerformanceWrap = findViewById(R.id.ll_performance_wrap)

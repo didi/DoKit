@@ -3,6 +3,8 @@ package com.didichuxing.doraemonkit.constant
 import com.blankj.utilcode.util.PathUtils
 import com.didichuxing.doraemonkit.BuildConfig
 import com.didichuxing.doraemonkit.config.GlobalConfig
+import com.didichuxing.doraemonkit.kit.network.okhttp.bean.WhiteHostBean
+import com.didichuxing.doraemonkit.kit.network.okhttp.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.kit.toolpanel.KitWrapItem
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo
 import java.io.File
@@ -71,8 +73,8 @@ object DokitConstant {
     /**
      * 流量监控白名单
      */
-//    @JvmField
-//    var WHITE_HOSTS = mutableListOf<WhiteHostBean>()
+    @JvmField
+    var WHITE_HOSTS = mutableListOf<WhiteHostBean>()
 
     /**
      * 全局DBDebugFragment
@@ -110,21 +112,21 @@ object DokitConstant {
      * @param fromSDK
      * @return
      */
-//    @JvmStatic
-//    fun dealDidiPlatformPath(oldPath: String, fromSDK: Int): String {
-//        if (fromSDK == DokitDbManager.FROM_SDK_OTHER) {
-//            return oldPath
-//        }
-//        var newPath = oldPath
-//        //包含多级路径
-//        if (oldPath.contains("/kop") && oldPath.split("\\/").toTypedArray().size > 1) {
-//            //比如/kop_stable/a/b/gateway 分解以后为 "" "kop_stable" "a" "b" "gateway"
-//            val childPaths = oldPath.split("\\/").toTypedArray()
-//            val firstPath = childPaths[1]
-//            if (firstPath.contains("kop")) {
-//                newPath = oldPath.replace("/$firstPath", "")
-//            }
-//        }
-//        return newPath
-//    }
+    @JvmStatic
+    fun dealDidiPlatformPath(oldPath: String, fromSDK: Int): String {
+        if (fromSDK == DokitDbManager.FROM_SDK_OTHER) {
+            return oldPath
+        }
+        var newPath = oldPath
+        //包含多级路径
+        if (oldPath.contains("/kop") && oldPath.split("\\/").toTypedArray().size > 1) {
+            //比如/kop_stable/a/b/gateway 分解以后为 "" "kop_stable" "a" "b" "gateway"
+            val childPaths = oldPath.split("\\/").toTypedArray()
+            val firstPath = childPaths[1]
+            if (firstPath.contains("kop")) {
+                newPath = oldPath.replace("/$firstPath", "")
+            }
+        }
+        return newPath
+    }
 }

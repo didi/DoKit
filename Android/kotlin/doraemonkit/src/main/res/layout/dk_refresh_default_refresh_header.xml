@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp">
+
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="#000000"
+        tools:text="下拉刷新" />
+
+    <View
+        android:id="@+id/successIcon"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@id/text"
+        android:background="@mipmap/dk_refresh_cpmplete_icon"
+        android:visibility="invisible"
+        tools:ignore="RtlHardcoded" />
+
+    <ImageView
+        android:id="@+id/arrowIcon"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16dp"
+        android:layout_toLeftOf="@+id/text"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/dk_refresh_arrow" />
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/loadingIcon"
+        style="@style/SpinKitView.Small.Circle"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/text"
+        android:padding="3dp"
+        android:visibility="gone"
+        app:SpinKit_Color="#FF4081" />
+
+</RelativeLayout>

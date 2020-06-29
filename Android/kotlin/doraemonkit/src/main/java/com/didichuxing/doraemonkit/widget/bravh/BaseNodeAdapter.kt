@@ -2,6 +2,8 @@ package com.didichuxing.doraemonkit.widget.bravh
 
 import androidx.annotation.IntRange
 import androidx.recyclerview.widget.DiffUtil
+import com.didichuxing.doraemonkit.kit.network.okhttp.bean.MockInterceptTitleBean
+import com.didichuxing.doraemonkit.kit.network.okhttp.room_db.MockInterceptApiBean
 import com.didichuxing.doraemonkit.widget.bravh.entity.node.BaseExpandNode
 import com.didichuxing.doraemonkit.widget.bravh.entity.node.BaseNode
 import com.didichuxing.doraemonkit.widget.bravh.entity.node.NodeFooterImp

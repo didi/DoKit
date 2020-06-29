@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="44dp"
+    android:clickable="true"
+    tools:showIn="@layout/dk_fragment_network_monitor_detail">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_pager_request"
+            style="@style/DK.TextBig"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:text="@string/dk_network_request"
+            android:textColor="@color/dk_network_pager_color" />
+
+        <View
+            android:id="@+id/diver_request"
+            android:layout_width="64dp"
+            android:layout_height="2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/dk_color_337CC4" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_pager_response"
+            style="@style/DK.TextBig"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:text="@string/dk_network_response"
+            android:textColor="@color/dk_network_pager_color" />
+
+        <View
+            android:id="@+id/diver_response"
+            android:layout_width="64dp"
+            android:layout_height="2dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/dk_color_337CC4"
+            android:visibility="gone" />
+    </RelativeLayout>
+</LinearLayout>
