@@ -13,12 +13,12 @@ import android.database.Cursor
  * ================================================
  */
 interface SQLiteDB {
-    fun delete(table: String, whereClause: String, whereArgs: Array<String>)
+    fun delete(table: String, whereClause: String, whereArgs: Array<String>): Int
     fun isOpen(): Boolean
     fun close()
     fun rawQuery(sql: String, selectionArgs: Array<String>?): Cursor?
     fun execSQL(sql: String)
-    fun insert(table: String, nullColumnHack: String, values: ContentValues): Long
+    fun insert(table: String, nullColumnHack: String?, values: ContentValues): Long
     fun update(table: String, values: ContentValues, whereClause: String, whereArgs: Array<String>): Int
     fun getVersion(): Int
 }

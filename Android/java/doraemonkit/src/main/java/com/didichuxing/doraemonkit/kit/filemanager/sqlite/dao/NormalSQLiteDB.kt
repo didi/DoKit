@@ -15,8 +15,8 @@ import android.database.sqlite.SQLiteDatabase
  */
 class NormalSQLiteDB(private val database: SQLiteDatabase) : SQLiteDB {
 
-    override fun delete(table: String, whereClause: String, whereArgs: Array<String>) {
-        database.delete(table, whereClause, whereArgs)
+    override fun delete(table: String, whereClause: String, whereArgs: Array<String>): Int {
+        return database.delete(table, whereClause, whereArgs)
     }
 
     override fun isOpen(): Boolean {
@@ -35,7 +35,7 @@ class NormalSQLiteDB(private val database: SQLiteDatabase) : SQLiteDB {
         database.execSQL(sql)
     }
 
-    override fun insert(table: String, nullColumnHack: String, values: ContentValues): Long {
+    override fun insert(table: String, nullColumnHack: String?, values: ContentValues): Long {
         return database.insert(table, nullColumnHack, values)
     }
 

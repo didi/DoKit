@@ -16,8 +16,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
  */
 class MemorySQLiteDB(private val database: SupportSQLiteDatabase) : SQLiteDB {
 
-    override fun delete(table: String, whereClause: String, whereArgs: Array<String>) {
-        database.delete(table, whereClause, whereArgs)
+    override fun delete(table: String, whereClause: String, whereArgs: Array<String>): Int {
+        return database.delete(table, whereClause, whereArgs)
     }
 
     override fun isOpen(): Boolean {
@@ -36,7 +36,7 @@ class MemorySQLiteDB(private val database: SupportSQLiteDatabase) : SQLiteDB {
         database.execSQL(sql)
     }
 
-    override fun insert(table: String, nullColumnHack: String, values: ContentValues): Long {
+    override fun insert(table: String, nullColumnHack: String?, values: ContentValues): Long {
         return database.insert(table, 0, values)
     }
 

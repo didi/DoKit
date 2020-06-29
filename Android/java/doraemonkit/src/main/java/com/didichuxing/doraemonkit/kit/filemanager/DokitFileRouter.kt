@@ -8,7 +8,7 @@ import com.didichuxing.doraemonkit.kit.filemanager.action.sql.DatabaseAction
 import com.didichuxing.doraemonkit.kit.filemanager.bean.DirInfo
 import com.didichuxing.doraemonkit.kit.filemanager.bean.RenameFileInfo
 import com.didichuxing.doraemonkit.kit.filemanager.bean.SaveFileInfo
-import com.didichuxing.doraemonkit.kit.filemanager.sqlite.DBHelper
+import com.didichuxing.doraemonkit.kit.filemanager.sqlite.bean.RowRequestInfo
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.application.Application
 import io.ktor.application.call
@@ -187,20 +187,62 @@ val DoKitFileRouter: Application.() -> Unit = {
 
         get("/getAllTable") {
             val queryParameters = call.request.queryParameters
-            val dirPath = queryParameters["filePath"]
+            val dirPath = queryParameters["dirPath"]
             val fileName = queryParameters["fileName"]
             val fileType = queryParameters["fileType"]
             val filePath = "$dirPath${File.separator}$fileName"
             call.respond(DatabaseAction.allTablesRes(filePath))
         }
 
+        /**
+         * 查询指定表中的数据
+         */
         get("/getTableData") {
             val queryParameters = call.request.queryParameters
-            val dirPath = queryParameters["filePath"]
+            val dirPath = queryParameters["dirPath"]
             val fileName = queryParameters["fileName"]
             val tableName = queryParameters["tableName"]
             val filePath = "$dirPath${File.separator}$fileName"
             call.respond(DatabaseAction.tableDatasRes(filePath, tableName!!))
+        }
+
+        /**
+         * 插入一行数据
+         */
+        post("/insertRow") {
+            val rowRequestInfo = call.receive<RowRequestInfo>()
+            val dirPath = rowRequestInfo.dirPath
+            val fileName = rowRequestInfo.fileName
+            val tableName = rowRequestInfo.tableName
+            val filePath = "$dirPath${File.separator}$fileName"
+            val rowDatas = rowRequestInfo.rowDatas
+            call.respond(DatabaseAction.insertRowRes(filePath, tableName, rowDatas))
+        }
+
+        /**
+         * 更新一条数据
+         */
+        post("/updateRow") {
+            val rowRequestInfo = call.receive<RowRequestInfo>()
+            val dirPath = rowRequestInfo.dirPath
+            val fileName = rowRequestInfo.fileName
+            val tableName = rowRequestInfo.tableName
+            val filePath = "$dirPath${File.separator}$fileName"
+            val rowDatas = rowRequestInfo.rowDatas
+            call.respond(DatabaseAction.updateRowRes(filePath, tableName, rowDatas))
+        }
+
+        /**
+         * 删除一条数据
+         */
+        post("/deleteRow") {
+            val rowRequestInfo = call.receive<RowRequestInfo>()
+            val dirPath = rowRequestInfo.dirPath
+            val fileName = rowRequestInfo.fileName
+            val tableName = rowRequestInfo.tableName
+            val filePath = "$dirPath${File.separator}$fileName"
+            val rowDatas = rowRequestInfo.rowDatas
+            call.respond(DatabaseAction.deleteRowRes(filePath, tableName, rowDatas))
         }
 
     }
