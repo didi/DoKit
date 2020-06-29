@@ -103,7 +103,8 @@ val DoKitFileRouter: Application.() -> Unit = {
             val dirPath = FileManagerUtil.absoluteRootPath(queryParameters["dirPath"])
             val fileType = queryParameters["fileType"]
             val fileName = queryParameters["fileName"]
-            call.respond(FileDetailAction.fileDetailInfoRes("$dirPath${File.separator}$fileName", fileType))
+            val filePath = "$dirPath${File.separator}$fileName"
+            call.respond(FileDetailAction.fileDetailInfoRes(filePath, fileType))
         }
 
         /**
