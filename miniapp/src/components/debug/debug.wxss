@@ -33,9 +33,10 @@
     margin-right:0;
 }
 .debug-item-image {
-    width:68rpx;
-    height:68rpx;
-    margin:0 auto;
+    display: block;
+    width: 68rpx;
+    height: 68rpx;
+    margin: 0 auto;
 }
 .debug-text{
     font-size: 24rpx;

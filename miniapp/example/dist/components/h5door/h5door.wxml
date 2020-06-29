@@ -3,14 +3,12 @@
         <textarea  class="url-box" focus="true" value="{{qrCodeUrl}}" placeholder="请输入跳转链接" maxlength="140" placeholder-class="url-paceholder-text"
         bindinput="textareaChange">
         </textarea>
-        <cover-view class="scaning" bindtap="qrCodeArouse">
-            <cover-image class="scaning-cover-img" src="{{ img.scanningicon }}"/>
-        </cover-view>
     </view>
+    <image class="scaning-img" src="{{ img.scanningicon }}" bindtap="qrCodeArouse"></image>
     <view class="history-list" wx:if="{{historyUrlList.length>0}}">
         <view class="history-content">
             <view class="history-item" data-qr-code="{{item}}" bindtap="setQrCode" wx:for="{{historyUrlList}}" wx:key="key">
-                <image class="search-icon" src="{{ img.searchicon }}"/>
+                <image class="search-icon" src="{{ img.searchicon }}"></image>
                 {{item}}
             </view>
         </view>

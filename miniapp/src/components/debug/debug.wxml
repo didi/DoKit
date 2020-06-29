@@ -10,10 +10,14 @@
               data-type="{{tool.type}}"
               bindtap="onToggle"
               class="card-item">
-          <cover-image
+          <!-- <cover-image
               class="debug-item-image"
               src="{{tool.image}}"
-          ></cover-image>
+          ></cover-image> -->
+          <image
+              class="debug-item-image"
+              src="{{tool.image}}"
+          ></image>
           <text class="debug-text">{{tool.title}}</text>
         </view>
       </view>

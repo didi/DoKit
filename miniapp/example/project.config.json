@@ -25,7 +25,7 @@
 		"nodeModules": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.10.4",
+	"libVersion": "2.11.3",
 	"appid": "wxdae0660715fa1bf8",
 	"projectname": "dokit-sdk-example",
 	"debugOptions": {
