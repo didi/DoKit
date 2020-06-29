@@ -13,7 +13,7 @@ import com.blankj.utilcode.util.FileUtils
  * ================================================
  */
 object SaveFileAction {
-    fun saveRes(content: String, filePath: String): MutableMap<String, Any> {
+    fun saveFileRes(content: String, filePath: String): MutableMap<String, Any> {
         val response = mutableMapOf<String, Any>()
         if (FileUtils.isFileExists(filePath)) {
             FileIOUtils.writeFileFromString(filePath, content, false)

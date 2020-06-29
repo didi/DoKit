@@ -9,4 +9,4 @@ package com.didichuxing.doraemonkit.kit.filemanager.bean
  * 修订历史：
  * ================================================
  */
-data class SaveFileInfo(val filePath: String, val fileName: String, val content: String)
+data class SaveFileInfo(val dirPath: String, val fileName: String, val content: String)

@@ -24,12 +24,12 @@ object DBManager {
     private val sqliteDBs: MutableMap<String, SQLiteDB> = mutableMapOf()
 
 
-    private fun openDB(dbFactory: DBFactory, databasePath: String, password: String?): SQLiteDB {
+    private fun openDB(dbFactory: DBFactory, databasePath: String, password: String?): SQLiteDB? {
         return if (sqliteDBs.containsKey(databasePath)) {
-            sqliteDBs["databasePath"]!!
+            sqliteDBs["databasePath"]
         } else {
             sqliteDBs["databasePath"] = dbFactory.create(DoraemonKit.APPLICATION!!.applicationContext, databasePath, password)
-            sqliteDBs["databasePath"]!!
+            sqliteDBs["databasePath"]
         }
 
     }
@@ -40,16 +40,18 @@ object DBManager {
     fun getAllTableName(databasePath: String, password: String?): List<String> {
         val openDB = openDB(NormalDBFactory(), databasePath, password)
         val tables = mutableListOf<String>()
-        val cursor = openDB.rawQuery("SELECT name FROM sqlite_master WHERE type='table' OR type='view' ORDER BY name COLLATE NOCASE", null)
-        cursor?.let {
-            if (it.moveToFirst()) {
-                while (!it.isAfterLast) {
-                    val name = it.getString(0)
-                    tables.add(name)
-                    it.moveToNext()
+        openDB?.let { db ->
+            val cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' OR type='view' ORDER BY name COLLATE NOCASE", null)
+            cursor?.let {
+                if (it.moveToFirst()) {
+                    while (!it.isAfterLast) {
+                        val name = it.getString(0)
+                        tables.add(name)
+                        it.moveToNext()
+                    }
                 }
+                it.close()
             }
-            it.close()
         }
 
         return tables
@@ -60,31 +62,39 @@ object DBManager {
      */
     fun getTableData(databasePath: String, password: String?, tableName: String): Map<String, Any> {
         val openDB = openDB(NormalDBFactory(), databasePath, password)
-        val tableFieldInfos = getTableFieldInfos(openDB, tableName)
-        val tableRows = getTableRows(openDB, tableName, tableFieldInfos)
         val params = mutableMapOf<String, Any>()
-        params["fieldInfo"] = tableFieldInfos
-        params["rows"] = tableRows
+        openDB?.let { db ->
+            val tableFieldInfos = getTableFieldInfos(db, tableName)
+            val tableRows = getTableRows(db, tableName, tableFieldInfos)
+            params["fieldInfo"] = tableFieldInfos
+            params["rows"] = tableRows
+        }
         return params
     }
+
 
     /**
      * 插入数据
      */
     fun insertRow(databasePath: String, password: String?, tableName: String, rowDatas: List<RowFiledInfo>): Long {
-        val sqlite = openDB(NormalDBFactory(), databasePath, password)
+        val openDB = openDB(NormalDBFactory(), databasePath, password)
         if (rowDatas.isEmpty()) {
             return -1
         }
-        val contentValues = ContentValues()
-        rowDatas.forEach { rowInfo ->
-            if (rowInfo.value.isNullOrBlank()) {
-                contentValues.put(rowInfo.title, "null")
-            } else {
-                contentValues.put(rowInfo.title, rowInfo.value)
+        openDB?.let { db ->
+            val contentValues = ContentValues()
+            rowDatas.forEach { rowInfo ->
+                if (rowInfo.value.isNullOrBlank()) {
+                    contentValues.put(rowInfo.title, "null")
+                } else {
+                    contentValues.put(rowInfo.title, rowInfo.value)
+                }
             }
+            return db.insert("[$tableName]", null, contentValues)
         }
-        return sqlite.insert("[$tableName]", null, contentValues)
+
+        return -1
+
     }
 
 
@@ -92,67 +102,75 @@ object DBManager {
      * 更新数据
      */
     fun updateRow(databasePath: String, password: String?, tableName: String, rowDatas: List<RowFiledInfo>): Int {
-        val sqlite = openDB(NormalDBFactory(), databasePath, password)
+        val openDB = openDB(NormalDBFactory(), databasePath, password)
         if (rowDatas.isEmpty()) {
             return -1
         }
 
-        val contentValues = ContentValues()
-        var whereClause = ""
-        val whereArgList = mutableListOf<String>()
-        rowDatas.forEach { rowInfo ->
-            if (rowInfo.isPrimary) {
-                if (whereClause.isBlank()) {
-                    whereClause = "${rowInfo.title} =? "
+        openDB?.let { db ->
+            val contentValues = ContentValues()
+            var whereClause = ""
+            val whereArgList = mutableListOf<String>()
+            rowDatas.forEach { rowInfo ->
+                if (rowInfo.isPrimary) {
+                    if (whereClause.isBlank()) {
+                        whereClause = "${rowInfo.title} =? "
+                    } else {
+                        whereClause = "$whereClause and ${rowInfo.title} =? "
+                    }
+                    whereArgList.add(if (rowInfo.value.isNullOrBlank()) {
+                        "null"
+                    } else {
+                        rowInfo.value
+                    })
                 } else {
-                    whereClause = "$whereClause and ${rowInfo.title} =? "
-                }
-                whereArgList.add(if (rowInfo.value.isNullOrBlank()) {
-                    "null"
-                } else {
-                    rowInfo.value
-                })
-            } else {
-                if (rowInfo.value.isNullOrBlank()) {
-                    contentValues.put(rowInfo.title, "null")
-                } else {
-                    contentValues.put(rowInfo.title, rowInfo.value)
+                    if (rowInfo.value.isNullOrBlank()) {
+                        contentValues.put(rowInfo.title, "null")
+                    } else {
+                        contentValues.put(rowInfo.title, rowInfo.value)
+                    }
                 }
             }
+            val whereArgs = whereArgList.toTypedArray()
+            return db.update("[$tableName]", contentValues, whereClause, whereArgs)
+
         }
-        val whereArgs = whereArgList.toTypedArray()
-        return sqlite.update("[$tableName]", contentValues, whereClause, whereArgs)
 
 
+        return -1
     }
 
     /**
      * 删除数据
      */
     fun deleteRow(databasePath: String, password: String?, tableName: String, rowDatas: List<RowFiledInfo>): Int {
-        val sqlite = openDB(NormalDBFactory(), databasePath, password)
+        val openDB = openDB(NormalDBFactory(), databasePath, password)
         if (rowDatas.isEmpty()) {
             return -1
         }
-        var whereClause = ""
-        val whereArgList = mutableListOf<String>()
-        rowDatas.forEach { rowInfo ->
-            if (rowInfo.isPrimary) {
-                if (whereClause.isBlank()) {
-                    whereClause = "${rowInfo.title} =? "
-                } else {
-                    whereClause = "$whereClause and ${rowInfo.title} =? "
-                }
-                whereArgList.add(if (rowInfo.value.isNullOrBlank()) {
-                    "null"
-                } else {
-                    rowInfo.value
-                })
-            }
-        }
-        val whereArgs = whereArgList.toTypedArray()
-        return sqlite.delete("[$tableName]", whereClause, whereArgs)
 
+        openDB?.let { db ->
+            var whereClause = ""
+            val whereArgList = mutableListOf<String>()
+            rowDatas.forEach { rowInfo ->
+                if (rowInfo.isPrimary) {
+                    if (whereClause.isBlank()) {
+                        whereClause = "${rowInfo.title} =? "
+                    } else {
+                        whereClause = "$whereClause and ${rowInfo.title} =? "
+                    }
+                    whereArgList.add(if (rowInfo.value.isNullOrBlank()) {
+                        "null"
+                    } else {
+                        rowInfo.value
+                    })
+                }
+            }
+            val whereArgs = whereArgList.toTypedArray()
+            return db.delete("[$tableName]", whereClause, whereArgs)
+        }
+
+        return -1
 
     }
 

@@ -9,4 +9,4 @@ package com.didichuxing.doraemonkit.kit.filemanager.bean
  * 修订历史：
  * ================================================
  */
-data class RenameFileInfo(val filePath: String, val oldName: String, val newName: String)
+data class RenameFileInfo(val dirPath: String, val oldName: String, val newName: String)

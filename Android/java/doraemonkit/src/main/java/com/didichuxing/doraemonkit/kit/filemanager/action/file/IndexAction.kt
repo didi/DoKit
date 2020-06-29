@@ -10,7 +10,7 @@ package com.didichuxing.doraemonkit.kit.filemanager.action.file
  * ================================================
  */
 object IndexAction {
-    fun createIndexInfo(): MutableMap<String, Any> {
+    fun indexInfoRes(): MutableMap<String, Any> {
         return mutableMapOf<String, Any>().apply {
             this["code"] = 200
             this["data"] = "请在www.dokit.cn里的控制台中的文件同步助手中使用该功能"

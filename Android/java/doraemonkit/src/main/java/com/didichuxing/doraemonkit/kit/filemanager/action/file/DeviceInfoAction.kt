@@ -12,7 +12,7 @@ import com.blankj.utilcode.util.DeviceUtils
  * ================================================
  */
 object DeviceInfoAction {
-    fun createDeviceInfo(): MutableMap<String, Any> {
+    fun deviceInfoRes(): MutableMap<String, Any> {
         return mutableMapOf<String, Any>().apply {
             this["code"] = 200
             val data = mutableMapOf<String, String>().apply {

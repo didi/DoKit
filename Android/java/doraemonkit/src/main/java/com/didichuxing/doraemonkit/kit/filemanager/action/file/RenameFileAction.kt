@@ -12,7 +12,7 @@ import com.blankj.utilcode.util.FileUtils
  * ================================================
  */
 object RenameFileAction {
-    fun renameRes(newName: String, filePath: String): MutableMap<String, Any> {
+    fun renameFileRes(newName: String, filePath: String): MutableMap<String, Any> {
         val response = mutableMapOf<String, Any>()
         if (FileUtils.isFileExists(filePath)) {
             FileUtils.rename(filePath, newName)

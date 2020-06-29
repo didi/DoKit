@@ -9,5 +9,5 @@ package com.didichuxing.doraemonkit.kit.filemanager.bean
  * 修订历史：
  * ================================================
  */
-data class DirInfo(val filePath: String, val fileName: String) {
+data class DirInfo(val dirPath: String, val fileName: String) {
 }

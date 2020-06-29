@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.kit.filemanager.action.file
 
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
+import com.didichuxing.doraemonkit.kit.filemanager.FileManagerUtil
 import java.io.File
 
 /**
@@ -14,21 +15,21 @@ import java.io.File
  * ================================================
  */
 object FileListAction {
-    fun createFileList(filePath: String): MutableMap<String, Any> {
+    fun fileListRes(filePath: String): MutableMap<String, Any> {
         //root  path
         val params = mutableMapOf<String, Any>().apply {
             this["code"] = 200
         }
         if (filePath == "/") {
             val data = mutableMapOf<String, Any>().apply {
-                this["filePath"] = "/"
+                this["dirPath"] = "/"
                 this["fileList"] = createRootInfo()
             }
             params["data"] = data
         } else {
             //not root path
             val data = mutableMapOf<String, Any>().apply {
-                this["filePath"] = filePath
+                this["dirPath"] = FileManagerUtil.relativeRootPath(filePath)
                 this["fileList"] = traverseDir(filePath)
             }
             params["data"] = data
@@ -45,8 +46,8 @@ object FileListAction {
         val fileInfos = mutableListOf<FileInfo>()
         val internalAppDataPath = PathUtils.getInternalAppDataPath()
         val externalStoragePath = PathUtils.getExternalStoragePath()
-        fileInfos.add(FileInfo(internalAppDataPath, FileUtils.getFileName(internalAppDataPath), "folder", "", "" + FileUtils.getFileLastModified(internalAppDataPath), true))
-        fileInfos.add(FileInfo(externalStoragePath, FileUtils.getFileName(externalStoragePath), "folder", "", "" + FileUtils.getFileLastModified(externalStoragePath), true))
+        fileInfos.add(FileInfo(FileManagerUtil.relativeRootPath(internalAppDataPath), FileUtils.getFileName(internalAppDataPath), "folder", "", "" + FileUtils.getFileLastModified(internalAppDataPath), true))
+        fileInfos.add(FileInfo(FileManagerUtil.relativeRootPath(externalStoragePath), "external", "folder", "", "" + FileUtils.getFileLastModified(externalStoragePath), true))
         return fileInfos
     }
 
@@ -58,8 +59,10 @@ object FileListAction {
         val dir = File(dirPath)
         if (FileUtils.isDir(dir)) {
             dir.listFiles()?.forEach { file ->
-                val fileInfo = FileInfo(file.path, file.name, if (FileUtils.isDir(file)) {
+                val fileInfo = FileInfo(FileManagerUtil.relativeRootPath(file.path), file.name, if (FileUtils.isDir(file)) {
                     "folder"
+                } else if (dir.absolutePath.contains("/databases")) {
+                    "db"
                 } else {
                     FileUtils.getFileExtension(file)
                 }, "", "" + FileUtils.getFileLastModified(file), false)
@@ -73,7 +76,7 @@ object FileListAction {
 
 
     data class FileInfo(
-            val filePath: String,
+            val dirPath: String,
             val fileName: String,
             val fileType: String,
             val fileUri: String,

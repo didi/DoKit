@@ -13,7 +13,7 @@ import java.io.File
  * ================================================
  */
 object DeleteFileAction {
-    fun createDeleteRes(filePath: String, dirPath: String, fileName: String): MutableMap<String, Any> {
+    fun deleteFileRes(filePath: String, dirPath: String, fileName: String): MutableMap<String, Any> {
         val response = mutableMapOf<String, Any>()
         //删除文件夹
         if (FileUtils.isFileExists(filePath)) {

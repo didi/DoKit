@@ -13,7 +13,7 @@ import com.blankj.utilcode.util.FileUtils
  * ================================================
  */
 object FileDetailAction {
-    fun createFileDetailInfo(filePath: String, fileType: String?): MutableMap<String, Any> {
+    fun fileDetailInfoRes(filePath: String, fileType: String?): MutableMap<String, Any> {
         val params = mutableMapOf<String, Any>()
         if (FileUtils.isFileExists(filePath)) {
             params["code"] = 200

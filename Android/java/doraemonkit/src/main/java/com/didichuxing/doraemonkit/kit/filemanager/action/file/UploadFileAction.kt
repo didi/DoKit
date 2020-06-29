@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.filemanager.action.file
 
 import com.blankj.utilcode.util.FileUtils
+import com.didichuxing.doraemonkit.kit.filemanager.FileManagerUtil
 import io.ktor.http.content.MultiPartData
 import io.ktor.http.content.PartData
 import io.ktor.http.content.forEachPart
@@ -34,7 +35,7 @@ object UploadFileAction {
         val response = mutableMapOf<String, Any>()
 
         filePart?.let {
-            val dirPath = formPart?.value
+            val dirPath = FileManagerUtil.absoluteRootPath(formPart?.value)
             val fileName = filePart?.originalFileName
             val file = File("$dirPath${File.separator}$fileName")
 
