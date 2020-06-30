@@ -2,6 +2,10 @@ package com.didichuxing.doraemonkit.aop.bigimg.imageloader
 
 import android.graphics.Bitmap
 import android.view.View
+import com.blankj.utilcode.constant.MemoryConstants
+import com.blankj.utilcode.util.ConvertUtils
+import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig
+import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager
 import com.nostra13.universalimageloader.core.assist.FailReason
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener
 
@@ -28,15 +32,15 @@ class DokitImageLoadingListener(
     }
 
     override fun onLoadingComplete(imageUri: String, view: View, loadedImage: Bitmap) {
-        //TODO("功能待实现")
-//        try {
-//            if (PerformanceSpInfoConfig.isLargeImgOpen()) {
-//                val imgSize = ConvertUtils.byte2MemorySize(loadedImage.byteCount.toLong(), MemoryConstants.MB)
-//                LargePictureManager.getInstance().saveImageInfo(imageUri, imgSize, loadedImage.width, loadedImage.height, "ImageLoader")
-//            }
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
+
+        try {
+            if (PerformanceSpInfoConfig.isLargeImgOpen()) {
+                val imgSize = ConvertUtils.byte2MemorySize(loadedImage.byteCount.toLong(), MemoryConstants.MB)
+                LargePictureManager.getInstance().saveImageInfo(imageUri, imgSize, loadedImage.width, loadedImage.height, "ImageLoader")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         mOriginalImageLoadingListener?.onLoadingComplete(imageUri, view, loadedImage)
     }
 

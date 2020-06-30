@@ -1,9 +1,16 @@
 package com.didichuxing.doraemonkit.aop.bigimg.glide
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import com.blankj.utilcode.constant.MemoryConstants
+import com.blankj.utilcode.util.ConvertUtils
+import com.blankj.utilcode.util.ImageUtils
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig
+import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager
 
 /**
  * ================================================
@@ -20,23 +27,23 @@ class DokitGlideRequestListener<R> : RequestListener<R> {
     }
 
     override fun onResourceReady(resource: R, model: Any, target: Target<R>, dataSource: DataSource, isFirstResource: Boolean): Boolean {
-        //TODO("功能待实现")
-//        try {
-//            if (PerformanceSpInfoConfig.isLargeImgOpen()) {
-//                val bitmap: Bitmap
-//                if (resource is Bitmap) {
-//                    bitmap = resource
-//                    val imgSize = ConvertUtils.byte2MemorySize(bitmap.byteCount.toLong(), MemoryConstants.MB)
-//                    LargePictureManager.getInstance().saveImageInfo(model.toString(), imgSize, bitmap.width, bitmap.height, "Glide")
-//                } else if (resource is BitmapDrawable) {
-//                    bitmap = ImageUtils.drawable2Bitmap(resource as BitmapDrawable)
-//                    val imgSize = ConvertUtils.byte2MemorySize(bitmap.byteCount.toLong(), MemoryConstants.MB)
-//                    LargePictureManager.getInstance().saveImageInfo(model.toString(), imgSize, bitmap.width, bitmap.height, "Glide")
-//                }
-//            }
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
+
+        try {
+            if (PerformanceSpInfoConfig.isLargeImgOpen()) {
+                val bitmap: Bitmap
+                if (resource is Bitmap) {
+                    bitmap = resource
+                    val imgSize = ConvertUtils.byte2MemorySize(bitmap.byteCount.toLong(), MemoryConstants.MB)
+                    LargePictureManager.getInstance().saveImageInfo(model.toString(), imgSize, bitmap.width, bitmap.height, "Glide")
+                } else if (resource is BitmapDrawable) {
+                    bitmap = ImageUtils.drawable2Bitmap(resource as BitmapDrawable)
+                    val imgSize = ConvertUtils.byte2MemorySize(bitmap.byteCount.toLong(), MemoryConstants.MB)
+                    LargePictureManager.getInstance().saveImageInfo(model.toString(), imgSize, bitmap.width, bitmap.height, "Glide")
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         return false
     }
 

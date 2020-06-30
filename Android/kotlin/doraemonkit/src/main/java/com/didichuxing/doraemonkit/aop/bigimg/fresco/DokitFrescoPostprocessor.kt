@@ -3,6 +3,10 @@ package com.didichuxing.doraemonkit.aop.bigimg.fresco
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
+import com.blankj.utilcode.constant.MemoryConstants
+import com.blankj.utilcode.util.ConvertUtils
+import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig
+import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager
 import com.facebook.cache.common.CacheKey
 import com.facebook.common.references.CloseableReference
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory
@@ -22,11 +26,10 @@ import com.facebook.imagepipeline.request.Postprocessor
 class DokitFrescoPostprocessor(private val mUri: Uri, private val mOriginalPostprocessor: Postprocessor?) : Postprocessor {
     override fun process(sourceBitmap: Bitmap, bitmapFactory: PlatformBitmapFactory): CloseableReference<Bitmap> {
         try {
-            //TODO("功能待实现")
-//            if (PerformanceSpInfoConfig.isLargeImgOpen()) {
-//                double imgSize = ConvertUtils.byte2MemorySize(sourceBitmap.getByteCount(), MemoryConstants.MB);
-//                LargePictureManager.getInstance().saveImageInfo(mUri.toString(), imgSize, sourceBitmap.getWidth(), sourceBitmap.getHeight(), "Fresco");
-//            }
+            if (PerformanceSpInfoConfig.isLargeImgOpen()) {
+                var imgSize = ConvertUtils.byte2MemorySize(sourceBitmap.byteCount.toLong(), MemoryConstants.MB);
+                LargePictureManager.getInstance().saveImageInfo(mUri.toString(), imgSize, sourceBitmap.getWidth(), sourceBitmap.getHeight(), "Fresco");
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
