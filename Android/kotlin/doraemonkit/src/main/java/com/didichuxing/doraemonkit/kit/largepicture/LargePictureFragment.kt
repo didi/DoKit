@@ -21,6 +21,7 @@ import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.SettingItem
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureItemAdapter.OnSettingItemClickListener
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureItemAdapter.OnSettingItemSwitchListener
+import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
 import java.text.DecimalFormat
 
@@ -117,13 +118,12 @@ class LargePictureFragment : BaseFragment() {
                     setLargeImgOpen(on)
                     if (on) {
 
-                        //todo:等待network完成.
-                        /* if (!NetworkManager.isActive()) {
-                             NetworkManager.get().startMonitor()
-                         }*/
+                         if (!NetworkManager.isActive) {
+                             NetworkManager.instance.startMonitor()
+                         }
                     } else {
-                        //todo:等待network完成.
-                        // NetworkManager.get().stopMonitor()
+
+                         NetworkManager.instance.stopMonitor()
                         //清空缓存
                         LargePictureManager.LARGE_IMAGE_INFO_MAP.clear()
                     }
