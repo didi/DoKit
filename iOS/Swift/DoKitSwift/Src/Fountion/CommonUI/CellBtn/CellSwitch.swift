@@ -16,7 +16,7 @@ class CellSwitch: UIView {
     
     var delegate: CellSwitchDelegate?
     
-    private var switchView = UISwitch()
+    var switchView = UISwitch()
     private var titleLabel = UILabel()
     private var topLine = UIView()
     private var bottomLine = UIView()

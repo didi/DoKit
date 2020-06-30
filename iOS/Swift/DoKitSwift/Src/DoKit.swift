@@ -10,6 +10,9 @@ import UIKit
 
 public class DoKit {
     public static let shared = DoKit()
+    
+    public var pid: String?
+    
     public var isShowDoKit: Bool {
         get {
             return !entryWindow.isHidden
@@ -19,6 +22,7 @@ public class DoKit {
     var modules = [PluginModule]()
     var entryWindow:EntryWindow
     public var customAppInfo: (() -> [[String]])?
+    
     private init() {
         let startPoint = CGPoint(x: 0, y: kScreenHeight/3)
         entryWindow = EntryWindow(frame: CGRect(x: startPoint.x, y: startPoint.y, width: 58, height: 58))
@@ -26,6 +30,7 @@ public class DoKit {
     }
     
     public func install() {
+        addPlugin(plugin: MockPlugin())
         addPlugin(plugin: CrashPlugin())
         addPlugin(plugin: AppSettingPlugin())
         addPlugin(plugin: AppInfoPlugin())
