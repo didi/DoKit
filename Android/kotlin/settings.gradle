@@ -1,3 +1,5 @@
+rootProject.name = 'Dokit-Kotlin'
+
 include ':app'
 include ':doraemonkit'
 include ':doraemonkit-no-op'
