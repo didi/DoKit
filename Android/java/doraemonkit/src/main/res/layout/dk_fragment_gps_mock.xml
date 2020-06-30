@@ -18,7 +18,7 @@
         android:layout_below="@id/title_bar">
 
         <com.didichuxing.doraemonkit.widget.webview.MyWebView
-            android:id="@+id/web_view"
+            android:id="@+id/webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

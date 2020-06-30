@@ -3,13 +3,12 @@ package com.didichuxing.doraemonkit.kit.colorpick;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
+import androidx.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-
-import androidx.annotation.RequiresApi;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;

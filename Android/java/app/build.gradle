@@ -65,9 +65,9 @@ android {
         abortOnError false
     }
 
-    dataBinding {
-        enabled = true
-    }
+//    dataBinding {
+//        enabled = true
+//    }
 
 
 }
