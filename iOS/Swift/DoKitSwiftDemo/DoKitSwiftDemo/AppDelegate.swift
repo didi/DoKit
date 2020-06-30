@@ -45,6 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let nav = UINavigationController(rootViewController: homeVc)
         self.window?.rootViewController = nav
         self.window?.makeKeyAndVisible()
+
+        DoKit.shared.didFinishLaunching()
         return true
     }
 
