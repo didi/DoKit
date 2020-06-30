@@ -16,7 +16,7 @@ class ColorPickInfoView: UIView {
     }(UIView())
     
     private lazy var valueLabel: UILabel = {
-        $0.textColor = .black_1()
+        $0.textColor = .black_1
         $0.font = .systemFont(ofSize: kSizeFrom750_Landscape(28))
         return $0
     }(UILabel())

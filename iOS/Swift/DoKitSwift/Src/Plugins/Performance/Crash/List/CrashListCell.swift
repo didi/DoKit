@@ -18,7 +18,7 @@ class CrashListCell: UITableViewCell {
     weak var delegate: CrashListCellDelegate?
     
     private lazy var _switch: UISwitch = {
-        $0.onTintColor = .blue()
+        $0.onTintColor = .blue
         $0.addTarget(self, action: #selector(switchAction), for: .valueChanged)
         return $0
     }( UISwitch(frame: .zero) )

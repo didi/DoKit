@@ -15,8 +15,8 @@ public class DoKit {
             return !entryWindow.isHidden
         }
     }
-    var pluginMap = [String: [Plugin]]()
-    var modules = [String]()
+    var pluginMap = [PluginModule: [Plugin]]()
+    var modules = [PluginModule]()
     var entryWindow:EntryWindow
     public var customAppInfo: (() -> [[String]])?
     private init() {
@@ -39,7 +39,11 @@ public class DoKit {
 
         // 性能检测
         addPlugin(plugin: LaunchTimePlugin())
+        //日志收集
+        addPlugin(plugin: LogPlugin())
         
+        addPlugin(plugin: ANRPlugin())
+        addPlugin(plugin: UIProfilePlugin())
         setup()
     }
     
@@ -75,7 +79,7 @@ public extension DoKit {
         }
     }
     
-    func addPlugin(module: String,title: String, icon: UIImage?,onInstall: (()->Void)?,onSelected: (()->Void)?){
+    func addPlugin(module: PluginModule,title: String, icon: UIImage?,onInstall: (()->Void)?,onSelected: (()->Void)?){
         let plugin = DefaultPlugin.init(module: module, title: title, icon: icon, onInstallClosure: onInstall,onSelectedClosure: onSelected)
         addPlugin(plugin: plugin)
     }

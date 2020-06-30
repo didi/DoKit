@@ -16,7 +16,7 @@ class AppInfoViewController: BaseViewController {
     var infoTableView:UITableView?
     var datas:[Dictionary<String, [[String]]>]?
     override func viewDidLoad() {
-        self.setTitle(title: LocalizedString("App信息"))
+        self.set(title: LocalizedString("App信息"))
         
         view.backgroundColor = UIColor.purple
                     

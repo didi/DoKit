@@ -55,9 +55,9 @@ class QRScanView: UIView {
         }
     }
     /// 上下移动的扫描线的颜色，默认为橙色
-    var scanLineColor: UIColor = .orange()
+    var scanLineColor: UIColor = .orange
     /// 四角的线的颜色，默认为橙色
-    var cornerLineColor: UIColor = .orange()
+    var cornerLineColor: UIColor = .orange
     /// 扫描边框的颜色，默认为白色
     var borderLineColor: UIColor = .white
     /// 是否显示上下移动的扫描线，默认为YES

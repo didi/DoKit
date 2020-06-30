@@ -8,7 +8,7 @@
 import UIKit
 
 protocol CellButtonDelegate {
-    func cellBtnClick()
+    func cellBtnClick(sender: CellButton)
 }
 
 class CellButton: UIView {
@@ -24,27 +24,26 @@ class CellButton: UIView {
         rightLabel = UILabel()
         topLine = UIView()
         downLine = UIView()
-        arrowImageView = UIImageView()
+        arrowImageView = UIImageView(image: DKImage(named: "doraemon_more"))
         super.init(frame: frame)
         
         titleLabel.font = UIFont.systemFont(ofSize: kSizeFrom750_Landscape(32))
-        titleLabel.textColor = UIColor.black_1()
+        titleLabel.textColor = UIColor.black_1
         self.addSubview(titleLabel)
         
         topLine.isHidden = true
-        topLine.backgroundColor = UIColor.line()
+        topLine.backgroundColor = UIColor.line
         self.addSubview(topLine)
         
         downLine.isHidden = true
-        downLine.backgroundColor = UIColor.line()
+        downLine.backgroundColor = UIColor.line
         self.addSubview(downLine)
         
-        arrowImageView.image = DKImage(named: "doraemon_more")
         arrowImageView.frame = CGRect(x: self.width-kSizeFrom750_Landscape(32)-arrowImageView.width, y: self.height/2-arrowImageView.height/2, width: arrowImageView.width, height: arrowImageView.height)
         self.addSubview(arrowImageView)
         
         rightLabel.isHidden = true
-        rightLabel.textColor = UIColor.black_2()
+        rightLabel.textColor = UIColor.black_2
         rightLabel.font = UIFont.systemFont(ofSize: kSizeFrom750_Landscape(32))
         self.addSubview(rightLabel)
         
@@ -82,7 +81,7 @@ class CellButton: UIView {
     }
     
     @objc func tapSelf(){
-        delegate?.cellBtnClick()
+        delegate?.cellBtnClick(sender: self)
     }
     
 }

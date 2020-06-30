@@ -10,7 +10,14 @@ import Foundation
 public func backtrace(thread: Thread)->String{
     let name = "Backtrace of : \(thread.description)\n"
     if Thread.current == thread {
-        return name +  Thread.callStackSymbols.joined(separator: "\n")
+        let symbols = Thread.callStackSymbols.map { (s) -> String in
+            var symbolSplits = s.split(separator: " ").map {String($0)}
+            if symbolSplits.count >= 4{
+                symbolSplits[3] = _stdlib_demangleName(symbolSplits[3])
+            }
+            return symbolSplits.joined(separator: " ")
+        }
+        return name +  symbols.joined(separator: "\n")
     }
     let mach = machThread(from: thread)
     return name + backtrace(t: mach)
@@ -46,7 +53,11 @@ fileprivate func backtrace(t:thread_t)-> String{
             guard let symbol = $0 else {
                 return "<null>"
             }
-            return String(cString: symbol)
+            var symbolSplits = String(cString: symbol).split(separator: " ").map {String($0)}
+            if symbolSplits.count >= 4{
+                symbolSplits[3] = _stdlib_demangleName(symbolSplits[3])
+            }
+            return symbolSplits.joined(separator: " ")
         }
     }
     return symbols.joined(separator: "\n")
@@ -59,6 +70,36 @@ fileprivate func backtrace(_ thread: thread_t, stack: UnsafeMutablePointer<Unsaf
 @_silgen_name("backtrace_symbols")
 fileprivate func backtrace_symbols(_ stack: UnsafePointer<UnsafeMutableRawPointer?>!, _ frame: Int32) -> UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>!
 
+@_silgen_name("swift_demangle")
+public
+func _stdlib_demangleImpl(
+    _ mangledName: UnsafePointer<CChar>?,
+    mangledNameLength: UInt,
+    outputBuffer: UnsafeMutablePointer<UInt8>?,
+    outputBufferSize: UnsafeMutablePointer<UInt>?,
+    flags: UInt32
+) -> UnsafeMutablePointer<CChar>?
+
+func _stdlib_demangleName(_ mangledName: String) -> String {
+    return mangledName.utf8CString.withUnsafeBufferPointer {
+        mangledNameUTF8 in
+
+        let demangledNamePtr = _stdlib_demangleImpl(
+            mangledNameUTF8.baseAddress,
+            mangledNameLength: UInt(mangledNameUTF8.count - 1),
+            outputBuffer: nil,
+            outputBufferSize: nil,
+            flags: 0
+        )
+
+        if let demangledNamePtr = demangledNamePtr {
+            let demangledName = String(cString: demangledNamePtr)
+            free(demangledNamePtr)
+            return demangledName
+        }
+        return mangledName
+    }
+}
 
 /**
     这里主要利用了Thread 和 pThread 共用一个Name的特性，找到对应 thread的内核线程thread_t

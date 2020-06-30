@@ -21,7 +21,7 @@
     
     //日志测试Demo
     "日志测试Demo"                                 = "日志测试Demo";
-    "添加一条NSLog日志"                          = "添加一条NSLog日志";
+    "添加一条print日志"                          = "添加一条print日志";
     "添加一条CocoaLumberjack日志"                = "添加一条CocoaLumberjack日志";
     
     //性能测试Demo

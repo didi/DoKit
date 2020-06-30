@@ -11,16 +11,10 @@ extension Crash {
     
     enum Tool {
         
-        static private let dateFormart: DateFormatter = {
-            $0.dateFormat = "yyyy-MM-dd HH:mm:ss"
-            $0.timeZone = TimeZone.current
-            return $0
-        }( DateFormatter() )
-        
         static func save(crash log: String, file name: String) throws {
             guard !log.isEmpty else { return }
             // 获取当前年月日字符串
-            let dateString = dateFormart.string(from: Date())
+            let dateString = DoKitUtil.dateFormatNow
             let crashDirectory = try directory()
             // 获取crash保存的路径
             let filePath = crashDirectory.appendingPathComponent("Crash(\(name)) \(dateString).txt")

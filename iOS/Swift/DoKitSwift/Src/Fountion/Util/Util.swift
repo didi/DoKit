@@ -7,6 +7,11 @@
 
 import Foundation
 
+protocol SharedProtocal {}
+extension URL: SharedProtocal {}
+extension String: SharedProtocal {}
+extension UIImage: SharedProtocal {}
+
 class DoKitUtil {
     
     var fileSize : UInt64 = 0
@@ -92,6 +97,36 @@ class DoKitUtil {
             isSim = true
         #endif
         return isSim
+    }
+    
+    static let dateFormatter: DateFormatter = {
+        $0.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        $0.timeZone = TimeZone.current
+        return $0
+    }(DateFormatter())
+    
+//    时间转时间格式字符串
+    static func dateString(date:Date) -> String {
+        let dateString = dateFormatter.string(from: date)
+        return dateString
+    }
+    
+    static func dateString(interval:TimeInterval) -> String {
+        let date = Date.init(timeIntervalSince1970: interval)
+        return dateString(date: date)
+    }
+    
+    static func dateFormatNow() -> String {
+        return dateFormatter.string(from: Date())
+    }
+    
+    static func share(obj: SharedProtocal, from: UIViewController) {
+        let controller = UIActivityViewController(activityItems: [obj], applicationActivities: nil)
+        if AppInfoUtil.isIpad {
+            controller.popoverPresentationController?.sourceView = from.view
+            controller.popoverPresentationController?.sourceRect = CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 400)
+        }
+        from.present(controller, animated: true, completion: nil)
     }
 }
 
