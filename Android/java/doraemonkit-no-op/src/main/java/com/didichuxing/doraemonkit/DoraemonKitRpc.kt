@@ -85,4 +85,11 @@ object DoraemonKitRpc {
     @JvmStatic
     fun setAwaysShowMainIcon(awaysShow: Boolean) {
     }
+
+    /**
+     * 设置加密数据库密码
+     */
+    @JvmStatic
+    fun setDatabasePass(map: Map<String, String>) {
+    }
 }
