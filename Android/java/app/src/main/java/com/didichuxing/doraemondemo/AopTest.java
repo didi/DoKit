@@ -2,6 +2,11 @@ package com.didichuxing.doraemondemo;
 
 import android.util.Log;
 
+import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -25,9 +30,10 @@ public class AopTest {
 
 
     public void test() {
-        setName("jint");
-        String newName = getName();
-        Log.i("TAG", "newName====>" + newName);
+//        setName("jint");
+//        String newName = getName();
+//        Log.i("TAG", "newName====>" + newName);
+
     }
 
 

@@ -548,4 +548,8 @@ object DoraemonKitReal {
 
     val isShow: Boolean
         get() = DokitConstant.MAIN_ICON_HAS_SHOW
+
+    fun setDatabasePass(map: Map<String, String>) {
+        DokitConstant.DATABASE_PASS = map
+    }
 }

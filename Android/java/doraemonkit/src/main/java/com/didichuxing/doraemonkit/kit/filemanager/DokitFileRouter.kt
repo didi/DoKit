@@ -190,7 +190,7 @@ val DoKitFileRouter: Application.() -> Unit = {
             val dirPath = FileManagerUtil.absoluteRootPath(queryParameters["dirPath"])
             val fileName = queryParameters["fileName"]
             val filePath = "$dirPath${File.separator}$fileName"
-            call.respond(DatabaseAction.allTablesRes(filePath))
+            call.respond(DatabaseAction.allTablesRes(filePath, fileName!!))
         }
 
         /**
@@ -202,7 +202,7 @@ val DoKitFileRouter: Application.() -> Unit = {
             val fileName = queryParameters["fileName"]
             val tableName = queryParameters["tableName"]
             val filePath = "$dirPath${File.separator}$fileName"
-            call.respond(DatabaseAction.tableDatasRes(filePath, tableName!!))
+            call.respond(DatabaseAction.tableDatasRes(filePath, fileName!!, tableName!!))
         }
 
         /**
@@ -215,7 +215,7 @@ val DoKitFileRouter: Application.() -> Unit = {
             val tableName = rowRequestInfo.tableName
             val filePath = "$dirPath${File.separator}$fileName"
             val rowDatas = rowRequestInfo.rowDatas
-            call.respond(DatabaseAction.insertRowRes(filePath, tableName, rowDatas))
+            call.respond(DatabaseAction.insertRowRes(filePath, fileName, tableName, rowDatas))
         }
 
         /**
@@ -228,7 +228,7 @@ val DoKitFileRouter: Application.() -> Unit = {
             val tableName = rowRequestInfo.tableName
             val filePath = "$dirPath${File.separator}$fileName"
             val rowDatas = rowRequestInfo.rowDatas
-            call.respond(DatabaseAction.updateRowRes(filePath, tableName, rowDatas))
+            call.respond(DatabaseAction.updateRowRes(filePath, fileName, tableName, rowDatas))
         }
 
         /**
@@ -241,7 +241,7 @@ val DoKitFileRouter: Application.() -> Unit = {
             val tableName = rowRequestInfo.tableName
             val filePath = "$dirPath${File.separator}$fileName"
             val rowDatas = rowRequestInfo.rowDatas
-            call.respond(DatabaseAction.deleteRowRes(filePath, tableName, rowDatas))
+            call.respond(DatabaseAction.deleteRowRes(filePath, fileName, tableName, rowDatas))
         }
 
     }

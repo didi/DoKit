@@ -77,8 +77,8 @@ ext {
                     "haha"               : 'com.squareup.haha:haha:2.0.4',
                     "debug-db"           : "com.amitshekhar.android:debug-db:1.0.6",
                     "debug-db-encrypt"   : "com.amitshekhar.android:debug-db-encrypt:1.0.6",
-                    //https://github.com/sqlcipher/android-database-sqlcipher
-                    "sqlcipher"          : "net.zetetic:android-database-sqlcipher:4.4.0",
+                    //https://github.com/Tencent/wcdb
+                    "wcdb"               : "com.tencent.wcdb:wcdb-android:1.0.8",
                     "weex_inspector"     : "com.taobao.android:weex_inspector:0.24.2.11",
                     "weex_sdk"           : "org.apache.weex:sdk:0.28.0",
                     "brvah"              : 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.2',

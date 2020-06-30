@@ -75,7 +75,7 @@ dependencies {
     implementation rootProject.ext.dependencies["okhttp_v2"]
     implementation rootProject.ext.dependencies["room_runtime"]
     //sql
-    implementation rootProject.ext.dependencies["sqlcipher"]
+    implementation rootProject.ext.dependencies["wcdb"]
     //ktor
     implementation rootProject.ext.dependencies["ktor-core"]
     implementation rootProject.ext.dependencies["ktor-cio"]

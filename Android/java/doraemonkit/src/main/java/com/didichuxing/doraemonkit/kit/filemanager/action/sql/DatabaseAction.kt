@@ -13,25 +13,25 @@ import com.didichuxing.doraemonkit.kit.filemanager.sqlite.bean.RowFiledInfo
  * ================================================
  */
 object DatabaseAction {
-    fun allTablesRes(filePath: String): MutableMap<String, Any> {
+    fun allTablesRes(filePath: String, fileName: String): MutableMap<String, Any> {
         val response = mutableMapOf<String, Any>()
-        val tables = DBManager.getAllTableName(filePath, null)
+        val tables = DBManager.getAllTableName(filePath, fileName)
         response["code"] = 200
         response["data"] = tables
         return response
     }
 
-    fun tableDatasRes(filePath: String, tableName: String): MutableMap<String, Any> {
+    fun tableDatasRes(filePath: String, fileName: String, tableName: String): MutableMap<String, Any> {
         val response = mutableMapOf<String, Any>()
-        val tables = DBManager.getTableData(filePath, null, tableName)
+        val tables = DBManager.getTableData(filePath, fileName, tableName)
         response["code"] = 200
         response["data"] = tables
         return response
     }
 
-    fun insertRowRes(filePath: String, tableName: String, rowDatas: List<RowFiledInfo>): Map<String, Any> {
+    fun insertRowRes(filePath: String, fileName: String, tableName: String, rowDatas: List<RowFiledInfo>): Map<String, Any> {
         val response = mutableMapOf<String, Any>()
-        val insertRow = DBManager.insertRow(filePath, null, tableName, rowDatas)
+        val insertRow = DBManager.insertRow(filePath, fileName, tableName, rowDatas)
         if (insertRow == -1L) {
             response["code"] = 0
             response["success"] = false
@@ -42,9 +42,9 @@ object DatabaseAction {
         return response
     }
 
-    fun updateRowRes(filePath: String, tableName: String, rowDatas: List<RowFiledInfo>): Map<String, Any> {
+    fun updateRowRes(filePath: String, fileName: String, tableName: String, rowDatas: List<RowFiledInfo>): Map<String, Any> {
         val response = mutableMapOf<String, Any>()
-        val updateRow = DBManager.updateRow(filePath, null, tableName, rowDatas)
+        val updateRow = DBManager.updateRow(filePath, fileName, tableName, rowDatas)
         if (updateRow == -1) {
             response["code"] = 0
             response["success"] = false
@@ -56,9 +56,9 @@ object DatabaseAction {
 
     }
 
-    fun deleteRowRes(filePath: String, tableName: String, rowDatas: List<RowFiledInfo>): Map<String, Any> {
+    fun deleteRowRes(filePath: String, fileName: String, tableName: String, rowDatas: List<RowFiledInfo>): Map<String, Any> {
         val response = mutableMapOf<String, Any>()
-        val deleteRow = DBManager.deleteRow(filePath, null, tableName, rowDatas)
+        val deleteRow = DBManager.deleteRow(filePath, fileName, tableName, rowDatas)
         if (deleteRow == -1) {
             response["code"] = 0
             response["success"] = false

@@ -24,6 +24,7 @@ android {
     }
     buildTypes {
         debug {
+            resValue("string", "dokit_db_Person.db", "a_password")
             debuggable true
             minifyEnabled false
             shrinkResources false
@@ -77,7 +78,7 @@ android {
 
 dokitExt {
     //dokit 插件开关
-    dokitPluginSwitch false
+    dokitPluginSwitch true
     //dokitLogSwitch false
     //通用设置
     comm {
@@ -133,7 +134,8 @@ dependencies {
     implementation rootProject.ext.dependencies["fresco"]
     implementation rootProject.ext.dependencies["fresco-processors"]
     implementation rootProject.ext.dependencies["image-loader"]
-//    implementation rootProject.ext.dependencies["swipeback"]
+    implementation rootProject.ext.dependencies["room_runtime"]
+    implementation rootProject.ext.dependencies["wcdb"]
 
     //weex相关
     implementation rootProject.ext.dependencies["weex_inspector"]

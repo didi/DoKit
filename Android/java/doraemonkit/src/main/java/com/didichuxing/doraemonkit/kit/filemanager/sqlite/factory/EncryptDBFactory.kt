@@ -3,7 +3,8 @@ package com.didichuxing.doraemonkit.kit.filemanager.sqlite.factory
 import android.content.Context
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.dao.EncryptSQLiteDB
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.dao.SQLiteDB
-import net.sqlcipher.database.SQLiteDatabase
+import com.tencent.wcdb.database.SQLiteCipherSpec
+import com.tencent.wcdb.database.SQLiteDatabase
 
 
 /**
@@ -17,7 +18,6 @@ import net.sqlcipher.database.SQLiteDatabase
  */
 class EncryptDBFactory : DBFactory {
     override fun create(context: Context, path: String, password: String?): SQLiteDB {
-        SQLiteDatabase.loadLibs(context)
-        return EncryptSQLiteDB(SQLiteDatabase.openOrCreateDatabase(path, password, null))
+        return EncryptSQLiteDB(SQLiteDatabase.openOrCreateDatabase(path, password?.toByteArray(), null, null, 1))
     }
 }

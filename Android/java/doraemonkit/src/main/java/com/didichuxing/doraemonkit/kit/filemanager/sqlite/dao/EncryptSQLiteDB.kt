@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.kit.filemanager.sqlite.dao
 
 import android.content.ContentValues
 import android.database.Cursor
-import net.sqlcipher.database.SQLiteDatabase
+import com.tencent.wcdb.database.SQLiteDatabase
 
 /**
  * ================================================

@@ -49,6 +49,11 @@ object DokitConstant {
     val GLOBAL_SYSTEM_KITS: LinkedHashMap<String, MutableList<KitWrapItem>> = LinkedHashMap()
 
     /**
+     * 加密数据库账号密码配置
+     */
+    var DATABASE_PASS = mapOf<String, String>()
+
+    /**
      * 产品id
      */
     @JvmField

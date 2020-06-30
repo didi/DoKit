@@ -108,4 +108,12 @@ object DoraemonKitRpc {
     fun setAwaysShowMainIcon(awaysShow: Boolean) {
         DokitConstant.AWAYS_SHOW_MAIN_ICON = awaysShow
     }
+
+    /**
+     * 设置加密数据库密码
+     */
+    @JvmStatic
+    fun setDatabasePass(map: Map<String, String>) {
+        DoraemonKitReal.setDatabasePass(map)
+    }
 }

@@ -2,11 +2,16 @@ package com.didichuxing.doraemonkit.kit.filemanager.sqlite
 
 import android.content.ContentValues
 import android.database.Cursor
+import com.blankj.utilcode.util.JsonUtils
 import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.aop.DokitPluginConfig
+import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.bean.RowFiledInfo
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.bean.TableFieldInfo
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.dao.SQLiteDB
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.factory.DBFactory
+import com.didichuxing.doraemonkit.kit.filemanager.sqlite.factory.EncryptDBFactory
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.factory.NormalDBFactory
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.util.DBUtil
 
@@ -23,8 +28,18 @@ object DBManager {
     val TAG = "DBHelper"
     private val sqliteDBs: MutableMap<String, SQLiteDB> = mutableMapOf()
 
+    private fun openDB(databasePath: String, databaseName: String): SQLiteDB? {
+        var dbFactory: DBFactory = NormalDBFactory()
+        val password: String?
+        if (DokitConstant.DATABASE_PASS.isEmpty()) {
+            password = null
+        } else {
+            password = DokitConstant.DATABASE_PASS[databaseName]
+            password?.let {
+                dbFactory = EncryptDBFactory()
+            }
+        }
 
-    private fun openDB(dbFactory: DBFactory, databasePath: String, password: String?): SQLiteDB? {
         return if (sqliteDBs.containsKey(databasePath)) {
             sqliteDBs["databasePath"]
         } else {
@@ -37,8 +52,8 @@ object DBManager {
     /**
      * 获取所有的表名
      */
-    fun getAllTableName(databasePath: String, password: String?): List<String> {
-        val openDB = openDB(NormalDBFactory(), databasePath, password)
+    fun getAllTableName(databasePath: String, databaseName: String): List<String> {
+        val openDB = openDB(databasePath, databaseName)
         val tables = mutableListOf<String>()
         openDB?.let { db ->
             val cursor = db.rawQuery("SELECT name FROM sqlite_master WHERE type='table' OR type='view' ORDER BY name COLLATE NOCASE", null)
@@ -60,8 +75,8 @@ object DBManager {
     /**
      * 获取表中的数据
      */
-    fun getTableData(databasePath: String, password: String?, tableName: String): Map<String, Any> {
-        val openDB = openDB(NormalDBFactory(), databasePath, password)
+    fun getTableData(databasePath: String, databaseName: String, tableName: String): Map<String, Any> {
+        val openDB = openDB(databasePath, databaseName)
         val params = mutableMapOf<String, Any>()
         openDB?.let { db ->
             val tableFieldInfos = getTableFieldInfos(db, tableName)
@@ -76,8 +91,8 @@ object DBManager {
     /**
      * 插入数据
      */
-    fun insertRow(databasePath: String, password: String?, tableName: String, rowDatas: List<RowFiledInfo>): Long {
-        val openDB = openDB(NormalDBFactory(), databasePath, password)
+    fun insertRow(databasePath: String, databaseName: String, tableName: String, rowDatas: List<RowFiledInfo>): Long {
+        val openDB = openDB(databasePath, databaseName)
         if (rowDatas.isEmpty()) {
             return -1
         }
@@ -101,8 +116,8 @@ object DBManager {
     /**
      * 更新数据
      */
-    fun updateRow(databasePath: String, password: String?, tableName: String, rowDatas: List<RowFiledInfo>): Int {
-        val openDB = openDB(NormalDBFactory(), databasePath, password)
+    fun updateRow(databasePath: String, databaseName: String, tableName: String, rowDatas: List<RowFiledInfo>): Int {
+        val openDB = openDB(databasePath, databaseName)
         if (rowDatas.isEmpty()) {
             return -1
         }
@@ -143,8 +158,8 @@ object DBManager {
     /**
      * 删除数据
      */
-    fun deleteRow(databasePath: String, password: String?, tableName: String, rowDatas: List<RowFiledInfo>): Int {
-        val openDB = openDB(NormalDBFactory(), databasePath, password)
+    fun deleteRow(databasePath: String, databaseName: String, tableName: String, rowDatas: List<RowFiledInfo>): Int {
+        val openDB = openDB(databasePath, databaseName)
         if (rowDatas.isEmpty()) {
             return -1
         }
