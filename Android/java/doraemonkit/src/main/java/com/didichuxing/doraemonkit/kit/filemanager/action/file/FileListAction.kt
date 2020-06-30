@@ -15,12 +15,12 @@ import java.io.File
  * ================================================
  */
 object FileListAction {
-    fun fileListRes(filePath: String): MutableMap<String, Any> {
+    fun fileListRes(dirPath: String): MutableMap<String, Any> {
         //root  path
         val params = mutableMapOf<String, Any>().apply {
             this["code"] = 200
         }
-        if (filePath == "/") {
+        if (dirPath == "/") {
             val data = mutableMapOf<String, Any>().apply {
                 this["dirPath"] = "/"
                 this["fileList"] = createRootInfo()
@@ -29,8 +29,8 @@ object FileListAction {
         } else {
             //not root path
             val data = mutableMapOf<String, Any>().apply {
-                this["dirPath"] = FileManagerUtil.relativeRootPath(filePath)
-                this["fileList"] = traverseDir(filePath)
+                this["dirPath"] = "${FileManagerUtil.relativeRootPath(dirPath)}/"
+                this["fileList"] = traverseDir(dirPath)
             }
             params["data"] = data
         }
@@ -46,8 +46,8 @@ object FileListAction {
         val fileInfos = mutableListOf<FileInfo>()
         val internalAppDataPath = PathUtils.getInternalAppDataPath()
         val externalStoragePath = PathUtils.getExternalStoragePath()
-        fileInfos.add(FileInfo(FileManagerUtil.relativeRootPath(internalAppDataPath), FileUtils.getFileName(internalAppDataPath), "folder", "", "" + FileUtils.getFileLastModified(internalAppDataPath), true))
-        fileInfos.add(FileInfo(FileManagerUtil.relativeRootPath(externalStoragePath), "external", "folder", "", "" + FileUtils.getFileLastModified(externalStoragePath), true))
+        fileInfos.add(FileInfo("/", FileUtils.getFileName(internalAppDataPath), "folder", "", "" + FileUtils.getFileLastModified(internalAppDataPath), true))
+        fileInfos.add(FileInfo("/", "external", "folder", "", "" + FileUtils.getFileLastModified(externalStoragePath), true))
         return fileInfos
     }
 
@@ -59,7 +59,7 @@ object FileListAction {
         val dir = File(dirPath)
         if (FileUtils.isDir(dir)) {
             dir.listFiles()?.forEach { file ->
-                val fileInfo = FileInfo(FileManagerUtil.relativeRootPath(file.path), file.name, if (FileUtils.isDir(file)) {
+                val fileInfo = FileInfo("${FileManagerUtil.relativeRootPath(dirPath)}/", file.name, if (FileUtils.isDir(file)) {
                     "folder"
                 } else if (dir.absolutePath.contains("/databases")) {
                     "db"

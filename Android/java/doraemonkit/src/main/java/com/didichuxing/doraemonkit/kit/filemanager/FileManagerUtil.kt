@@ -25,9 +25,9 @@ object FileManagerUtil {
     fun relativeRootPath(path: String?): String {
         path?.let {
             if (it.contains(internalAppRootPath)) {
-                return it.replace(internalAppRootPath, internalAppRootReplacePath)
+                return it.replace(internalAppRootPath, "/$internalAppRootReplacePath")
             } else if (it.contains(externalStorageRootPath)) {
-                return it.replace(externalStorageRootPath, externalStorageRootReplacePath)
+                return it.replace(externalStorageRootPath, "/$externalStorageRootReplacePath")
             }
             return it
         }
@@ -40,10 +40,10 @@ object FileManagerUtil {
      */
     fun absoluteRootPath(path: String?): String {
         path?.let {
-            if (it.contains(internalAppRootReplacePath)) {
-                return it.replace(internalAppRootReplacePath, internalAppRootPath)
-            } else if (it.contains(externalStorageRootReplacePath)) {
-                return it.replace(externalStorageRootReplacePath, externalStorageRootPath)
+            if (it.contains("/$internalAppRootReplacePath")) {
+                return it.replace("/$internalAppRootReplacePath", internalAppRootPath)
+            } else if (it.contains("/$externalStorageRootReplacePath")) {
+                return it.replace("/$externalStorageRootReplacePath", externalStorageRootPath)
             }
             return it
         }
