@@ -21,9 +21,17 @@ class LeakCanaryKit : AbstractKit() {
     override val icon: Int = R.mipmap.leak_canary_icon
 
     override fun onClick(context: Context?) {
-        val intent = Intent(context, DisplayLeakActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        context!!.startActivity(intent)
+        try {
+            context?.let {
+                val intent = Intent(context, DisplayLeakActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                it.startActivity(intent)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+
     }
 
     override fun onAppInit(context: Context?) {

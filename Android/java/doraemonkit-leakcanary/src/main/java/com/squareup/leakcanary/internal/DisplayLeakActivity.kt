@@ -31,6 +31,7 @@ import android.text.format.Formatter
 import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import com.squareup.leakcanary.*
 import com.squareup.leakcanary.AnalyzedHeap.Companion.load
@@ -42,7 +43,7 @@ import com.squareup.leakcanary.internal.LeakCanaryInternals.Companion.setEnabled
 import java.io.FilenameFilter
 import java.util.*
 
-class DisplayLeakActivity : Activity() {
+class DisplayLeakActivity : AppCompatActivity() {
     // null until it's been first loaded.
     var leaks: List<AnalyzedHeap>? = null
     var visibleLeakRefKey: String? = null
@@ -67,7 +68,8 @@ class DisplayLeakActivity : Activity() {
         updateUi()
     }
 
-    override fun onRetainNonConfigurationInstance(): Any {
+
+    override fun onRetainCustomNonConfigurationInstance(): Any? {
         return leaks!!
     }
 

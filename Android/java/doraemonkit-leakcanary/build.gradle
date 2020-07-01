@@ -53,7 +53,6 @@ dependencies {
     compileOnly project(':doraemonkit')
     //跨进程通信框架
     compileOnly rootProject.ext.dependencies["utilcode"]
-    implementation "androidx.core:core-ktx:+"
     implementation rootProject.ext.dependencies["kotlin"]
 }
 repositories {
