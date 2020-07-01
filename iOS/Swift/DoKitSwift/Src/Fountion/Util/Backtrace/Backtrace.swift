@@ -104,8 +104,9 @@ func _stdlib_demangleName(_ mangledName: String) -> String {
 /**
     这里主要利用了Thread 和 pThread 共用一个Name的特性，找到对应 thread的内核线程thread_t
     但是主线程不行，主线程设置Name无效.
+ main_thread_t 在程序初始化的+load里面拿
  */
-public var main_thread_t: mach_port_t?
+//public var main_thread_t: mach_port_t?
 fileprivate func machThread(from thread: Thread) -> thread_t {
     var count: mach_msg_type_number_t = 0
     var threads: thread_act_array_t!
@@ -114,13 +115,18 @@ fileprivate func machThread(from thread: Thread) -> thread_t {
         return mach_thread_self()
     }
 
-    /// 如果当前线程不是主线程，但是需要获取主线程的堆栈
-    if !Thread.isMainThread && thread.isMainThread  && main_thread_t == nil {
-        DispatchQueue.main.sync {
-            main_thread_t = mach_thread_self()
-        }
-        return main_thread_t ?? mach_thread_self()
+    /// 取数组的第一个  目前来看 第一个就是主线程
+    if thread.isMainThread {
+        return threads[0]
     }
+    
+    /// 该种方案不可行  当主线程卡顿的时候 获取到的堆栈不正确
+//    if !Thread.isMainThread && thread.isMainThread  && main_thread_t == nil {
+//        DispatchQueue.main.sync {
+//            main_thread_t = mach_thread_self()
+//        }
+//        return main_thread_t ?? mach_thread_self()
+//    }
     
     let originName = thread.name
     defer {
