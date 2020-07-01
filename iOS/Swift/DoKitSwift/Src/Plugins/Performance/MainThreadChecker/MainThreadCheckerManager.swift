@@ -25,7 +25,7 @@ class MainThreadCheckerManager {
     
     static let swizzleIfNeeded: () = {
         UIView.swizzle(originalSelector: #selector(UIView.setNeedsLayout), swizzledSelector: #selector(UIView.dokit_setNeedsLayout))
-        //UIView.swizzle(originalSelector: #selector(UIView.setNeedsDisplay), swizzledSelector: #selector(UIView.dokit_setNeedsDisplay))
+        UIView.swizzle(originalSelector: #selector(UIView.setNeedsDisplay as (UIView) -> () -> Void), swizzledSelector: #selector(UIView.dokit_setNeedsDisplay as (UIView) -> () -> Void))
         UIView.swizzle(originalSelector: #selector(UIView.setNeedsDisplay(_:)), swizzledSelector: #selector(UIView.dokit_setNeedsDisplay(_:)))
     }()
     
