@@ -29,6 +29,12 @@ struct LaunchTime {
 
 extension LaunchTimePlugin {
     func onInstall() {
+    }
+}
+
+public extension DoKit {
+    func didFinishLaunching()
+    {
         LaunchTime.latency = CFAbsoluteTimeGetCurrent() - LaunchTime.startTime
     }
 }
