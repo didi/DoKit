@@ -5,6 +5,7 @@ import android.content.Intent
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.squareup.leakcanary.R
 import com.squareup.leakcanary.internal.DisplayLeakActivity
+import java.lang.Exception
 
 /**
  * ================================================
@@ -21,9 +22,17 @@ class LeakCanaryKit : AbstractKit() {
     override val icon: Int = R.mipmap.leak_canary_icon
 
     override fun onClick(context: Context?) {
-        val intent = Intent(context, DisplayLeakActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        context!!.startActivity(intent)
+        context?.let {
+            try {
+                val intent = Intent(context, DisplayLeakActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                it.startActivity(intent)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+        }
+
     }
 
     override fun onAppInit(context: Context?) {

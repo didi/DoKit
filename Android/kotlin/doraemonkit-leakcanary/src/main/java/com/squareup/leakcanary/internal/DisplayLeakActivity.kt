@@ -42,6 +42,7 @@ import com.squareup.leakcanary.internal.LeakCanaryInternals.Companion.setEnabled
 import java.io.FilenameFilter
 import java.util.*
 
+@SuppressWarnings("ConstantConditions")
 class DisplayLeakActivity : Activity() {
     // null until it's been first loaded.
     var leaks: List<AnalyzedHeap>? = null
