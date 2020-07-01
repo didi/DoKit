@@ -197,8 +197,8 @@ object DBManager {
         val pragmaQuery = "PRAGMA table_info([$tableName])"
         val cursor = openDB.rawQuery(pragmaQuery, null)
         cursor?.let {
-            it.moveToFirst()
             if (it.count > 0) {
+                it.moveToFirst()
                 do {
                     val tableFieldInfo = TableFieldInfo("", false)
                     for (index in 0 until it.columnCount) {
@@ -225,20 +225,22 @@ object DBManager {
         val cursor = sqLiteDB.rawQuery("SELECT * FROM  $tableName", null)
         val rows = mutableListOf<MutableMap<String, String?>>()
         cursor?.let {
-            it.moveToFirst()
-            do {
-                val row = mutableMapOf<String, String?>()
-                for (index in 0 until it.columnCount) {
-                    when (it.getType(index)) {
-                        Cursor.FIELD_TYPE_BLOB -> row[tableFieldInfos[index].title] = DBUtil.blob2String(cursor.getBlob(index))
-                        Cursor.FIELD_TYPE_FLOAT -> row[tableFieldInfos[index].title] = cursor.getDouble(index).toString()
-                        Cursor.FIELD_TYPE_INTEGER -> row[tableFieldInfos[index].title] = cursor.getLong(index).toString()
-                        Cursor.FIELD_TYPE_STRING -> row[tableFieldInfos[index].title] = cursor.getString(index)
-                        else -> row[tableFieldInfos[index].title] = cursor.getString(index)
+            if (it.count > 0) {
+                it.moveToFirst()
+                do {
+                    val row = mutableMapOf<String, String?>()
+                    for (index in 0 until it.columnCount) {
+                        when (it.getType(index)) {
+                            Cursor.FIELD_TYPE_BLOB -> row[tableFieldInfos[index].title] = DBUtil.blob2String(cursor.getBlob(index))
+                            Cursor.FIELD_TYPE_FLOAT -> row[tableFieldInfos[index].title] = cursor.getDouble(index).toString()
+                            Cursor.FIELD_TYPE_INTEGER -> row[tableFieldInfos[index].title] = cursor.getLong(index).toString()
+                            Cursor.FIELD_TYPE_STRING -> row[tableFieldInfos[index].title] = cursor.getString(index)
+                            else -> row[tableFieldInfos[index].title] = cursor.getString(index)
+                        }
                     }
-                }
-                rows.add(row)
-            } while (it.moveToNext())
+                    rows.add(row)
+                } while (it.moveToNext())
+            }
             it.close()
         }
         return rows
