@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/dk_dp_20"
+    android:paddingTop="@dimen/dk_dp_40"
+    android:paddingRight="@dimen/dk_dp_20"
+    android:paddingBottom="@dimen/dk_dp_40">
+
+    <TextView
+        android:id="@+id/tv_key_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dk_storage_tip_key"
+        android:textSize="@dimen/dk_font_size_16"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_key_tip"
+        android:textSize="@dimen/dk_font_size_18" />
+
+    <TextView
+        android:id="@+id/tv_value_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_name"
+        android:layout_marginTop="10dp"
+        android:text="@string/dk_storage_tip_value"
+        android:textSize="@dimen/dk_font_size_16"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tv_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_value_tip"
+        android:textSize="@dimen/dk_font_size_18" />
+
+</RelativeLayout>

@@ -28,7 +28,7 @@ class ViewCheckDokitView : AbsDokitView(), LifecycleListenerUtil.LifecycleListen
     private lateinit var mTraverHandler: Handler
     private val mViewSelectListeners: MutableList<OnViewSelectListener> = ArrayList()
     private var mResumedActivity: Activity? = null
-    override fun onCreate(context: Context?) {
+    override fun onCreate(context: Context) {
         mTraverHandlerThread = HandlerThread(TAG)
         mTraverHandlerThread.start()
         mTraverHandler = Handler(mTraverHandlerThread.looper)
@@ -44,7 +44,7 @@ class ViewCheckDokitView : AbsDokitView(), LifecycleListenerUtil.LifecycleListen
         LifecycleListenerUtil.unRegisterListener(this)
     }
 
-    override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
+    override fun onCreateView(context: Context, rootView: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_float_view_check, null)
     }
 
@@ -68,7 +68,7 @@ class ViewCheckDokitView : AbsDokitView(), LifecycleListenerUtil.LifecycleListen
         preformFindCheckView()
     }
 
-    override fun onViewCreated(rootView: FrameLayout?) {}
+    override fun onViewCreated(rootView: FrameLayout) {}
     override fun onActivityPaused(activity: Activity?) {}
     override fun onFragmentAttached(f: Fragment?) {}
     override fun onFragmentDetached(f: Fragment?) {}

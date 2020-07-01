@@ -26,11 +26,11 @@ import com.didichuxing.doraemonkit.model.ViewInfo
  */
 class UIPerformanceDisplayDokitView : AbsDokitView(), PerformanceDataListener {
     private var mLayoutBorderView: LayoutBorderView? = null
-    override fun onCreateView(context: Context?, view: FrameLayout?): View {
-        return LayoutInflater.from(view!!.context).inflate(R.layout.dk_float_ui_performance_display, view, false)
+    override fun onCreateView(context: Context, view: FrameLayout): View {
+        return LayoutInflater.from(view.context).inflate(R.layout.dk_float_ui_performance_display, view, false)
     }
 
-    override fun onViewCreated(view: FrameLayout?) {
+    override fun onViewCreated(view: FrameLayout) {
         mLayoutBorderView = findViewById(R.id.rect_view)
         //设置不响应触摸事件
         setDokitViewNotResponseTouchEvent(rootView)
@@ -42,7 +42,7 @@ class UIPerformanceDisplayDokitView : AbsDokitView(), PerformanceDataListener {
         params.height = DokitViewLayoutParams.MATCH_PARENT
     }
 
-    override fun onCreate(context: Context?) {
+    override fun onCreate(context: Context) {
         instance.addListener(this@UIPerformanceDisplayDokitView)
     }
 

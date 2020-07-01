@@ -41,18 +41,18 @@ class ViewCheckInfoDokitView : AbsDokitView(), OnViewSelectListener, View.OnClic
     private var mPre: ImageView? = null
     private var mNext: ImageView? = null
     private var mClose: ImageView? = null
-    override fun onCreate(context: Context?) {}
+    override fun onCreate(context: Context) {}
     override fun onDestroy() {
         super.onDestroy()
         val dokitView = DokitViewManager.instance.getDokitView(activity, ViewCheckDokitView::class.java.simpleName) as ViewCheckDokitView?
         dokitView?.removeViewSelectListener(this)
     }
 
-    override fun onCreateView(context: Context?, view: FrameLayout?): View {
+    override fun onCreateView(context: Context, view: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_float_view_check_info, null)
     }
 
-    override fun onViewCreated(view: FrameLayout?) {
+    override fun onViewCreated(view: FrameLayout) {
         mId = findViewById(R.id.id)
         mName = findViewById(R.id.name)
         mPosition = findViewById(R.id.position)
