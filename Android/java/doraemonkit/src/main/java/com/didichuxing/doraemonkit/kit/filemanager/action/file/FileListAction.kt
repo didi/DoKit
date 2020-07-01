@@ -29,7 +29,7 @@ object FileListAction {
         } else {
             //not root path
             val data = mutableMapOf<String, Any>().apply {
-                this["dirPath"] = "${FileManagerUtil.relativeRootPath(dirPath)}/"
+                this["dirPath"] = FileManagerUtil.relativeRootPath(dirPath)
                 this["fileList"] = traverseDir(dirPath)
             }
             params["data"] = data
@@ -59,7 +59,7 @@ object FileListAction {
         val dir = File(dirPath)
         if (FileUtils.isDir(dir)) {
             dir.listFiles()?.forEach { file ->
-                val fileInfo = FileInfo("${FileManagerUtil.relativeRootPath(dirPath)}/", file.name, if (FileUtils.isDir(file)) {
+                val fileInfo = FileInfo(FileManagerUtil.relativeRootPath(dirPath), file.name, if (FileUtils.isDir(file)) {
                     "folder"
                 } else if (dir.absolutePath.contains("/databases")) {
                     "db"
