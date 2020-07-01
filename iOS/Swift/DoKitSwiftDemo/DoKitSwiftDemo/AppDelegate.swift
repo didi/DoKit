@@ -46,7 +46,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = nav
         self.window?.makeKeyAndVisible()
 
-        DoKit.shared.didFinishLaunching()
         return true
     }
 
