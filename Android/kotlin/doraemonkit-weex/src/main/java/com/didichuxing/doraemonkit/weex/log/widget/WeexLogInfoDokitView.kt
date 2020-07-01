@@ -9,7 +9,7 @@ import com.didichuxing.doraemonkit.kit.loginfo.LogInfoManager
 import com.didichuxing.doraemonkit.kit.loginfo.LogLine
 import com.didichuxing.doraemonkit.weex.R
 import com.didichuxing.doraemonkit.widget.titlebar.LogTitleBar
-import com.taobao.weex.utils.WXLogUtils.WEEX_TAG
+import org.apache.weex.utils.WXLogUtils.WEEX_TAG
 
 /**
  * Transformed by alvince on 2020/6/30

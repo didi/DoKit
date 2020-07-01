@@ -7,10 +7,10 @@ import android.database.sqlite.SQLiteDatabase
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.taobao.weex.WXSDKEngine
-import com.taobao.weex.appfram.storage.DefaultWXStorage
-import com.taobao.weex.appfram.storage.IWXStorageAdapter
-import com.taobao.weex.appfram.storage.WXSQLiteOpenHelper
+import org.apache.weex.WXSDKEngine
+import org.apache.weex.appfram.storage.DefaultWXStorage
+import org.apache.weex.appfram.storage.IWXStorageAdapter
+import org.apache.weex.appfram.storage.WXSQLiteOpenHelper
 import java.util.concurrent.Executors
 
 /**

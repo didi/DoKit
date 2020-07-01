@@ -1,3 +1,4 @@
+rootProject.name = 'Dokit-Java'
 include ':app'
 include ':doraemonkit'
 //include ':doraemonkit-rpc'

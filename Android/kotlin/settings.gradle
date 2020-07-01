@@ -4,5 +4,5 @@ include ':app'
 include ':doraemonkit'
 include ':doraemonkit-no-op'
 //include ':doraemonkit-plugin'
-
 include ':doraemonkit-weex'
+include ':doraemonkit-leakcanary'

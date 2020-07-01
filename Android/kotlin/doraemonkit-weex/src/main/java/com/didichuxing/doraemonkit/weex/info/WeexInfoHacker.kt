@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.weex.info
 
-import com.taobao.weex.WXEnvironment
+import org.apache.weex.WXEnvironment
 
 /**
  * Transformed by alvince on 2020/6/30
