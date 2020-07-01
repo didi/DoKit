@@ -57,7 +57,7 @@ class HomeTitleBar @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    private fun setIcon(@DrawableRes id: Int) {
+    fun setIcon(@DrawableRes id: Int) {
         if (id == 0) {
             return
         }

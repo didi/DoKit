@@ -24,14 +24,14 @@ class NetWokDokitView : AbsDokitView() {
     var mLlSpeedWrap: LinearLayout? = null
     var mIvClose: ImageView? = null
 
-    override fun onCreate(context: Context?) {}
+    override fun onCreate(context: Context) {}
 
-    override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
+    override fun onCreateView(context: Context, rootView: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_float_network, rootView, false)
     }
 
-    override fun onViewCreated(rootView: FrameLayout?) {
-        rootView?.apply {
+    override fun onViewCreated(rootView: FrameLayout) {
+        rootView.apply {
             mTvNetWork = findViewById(R.id.tv_net_type)
             mTvTimeOutTime = findViewById(R.id.tv_time)
             mTvRequestSpeed = findViewById(R.id.tv_request_speed)

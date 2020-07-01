@@ -21,12 +21,12 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewManager
  * ================================================
  */
 class DemoDokitView : AbsDokitView() {
-    override fun onCreate(context: Context?) {}
-    override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
+    override fun onCreate(context: Context) {}
+    override fun onCreateView(context: Context, rootView: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_demo, rootView, false)
     }
 
-    override fun onViewCreated(rootView: FrameLayout?) {
+    override fun onViewCreated(rootView: FrameLayout) {
         val tvClose = findViewById<TextView>(R.id.tv_close)
         tvClose.setOnClickListener { DokitViewManager.instance.detach(this@DemoDokitView) }
     }

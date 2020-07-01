@@ -30,14 +30,14 @@ class ColorPickerInfoDokitView: AbsDokitView() {
     private lateinit var mColorHex: TextView
     private lateinit var mColor: ImageView
 
-    override fun onCreate(context: Context?) {
+    override fun onCreate(context: Context) {
     }
 
-    override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
+    override fun onCreateView(context: Context, rootView: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_float_color_picker_info, null)
     }
 
-    override fun onViewCreated(rootView: FrameLayout?) {
+    override fun onViewCreated(rootView: FrameLayout) {
         mColorHex = findViewById(R.id.tv_info_hex)
         mColor = findViewById(R.id.iv_info_color)
         findViewById<ImageView>(R.id.iv_info_close).setOnClickListener {

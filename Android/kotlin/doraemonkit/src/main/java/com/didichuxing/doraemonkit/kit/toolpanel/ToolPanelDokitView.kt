@@ -29,15 +29,15 @@ class ToolPanelDokitView : AbsDokitView() {
     private lateinit var mAdapter: ToolPanelAdapter
     private var mKits: MutableList<KitWrapItem> = mutableListOf()
 
-    override fun onCreate(context: Context?) {
+    override fun onCreate(context: Context) {
 
     }
 
-    override fun onCreateView(context: Context?, view: FrameLayout?): View {
+    override fun onCreateView(context: Context, view: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_tool_panel, view, false)
     }
 
-    override fun onViewCreated(view: FrameLayout?) {
+    override fun onViewCreated(view: FrameLayout) {
         generateKits()
         initView()
     }

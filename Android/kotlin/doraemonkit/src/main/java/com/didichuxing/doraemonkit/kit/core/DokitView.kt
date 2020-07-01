@@ -19,7 +19,7 @@ internal interface DokitView {
      *
      * @param context
      */
-    fun onCreate(context: Context?)
+    fun onCreate(context: Context)
 
     /**
      * 传入rootView 用于创建kit控件
@@ -28,14 +28,14 @@ internal interface DokitView {
      * @param rootView
      * @return 返回创建的childView
      */
-    fun onCreateView(context: Context?, rootView: FrameLayout?): View
+    fun onCreateView(context: Context, rootView: FrameLayout): View
 
     /**
      * 将xml中的控件添加到rootView以后调用，在当前方法中可以进行view的一些操作
      *
      * @param rootView
      */
-    fun onViewCreated(rootView: FrameLayout?)
+    fun onViewCreated(rootView: FrameLayout)
 
     /**
      * 当前的dokitView添加到根布局里时调用

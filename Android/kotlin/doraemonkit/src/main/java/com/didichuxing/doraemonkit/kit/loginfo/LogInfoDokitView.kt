@@ -27,7 +27,7 @@ import java.util.*
 /**
  * @author lostjobs created on 2020/6/28
  */
-class LogInfoDokitView : AbsDokitView(), LogInfoManager.OnLogCatchListener {
+open class LogInfoDokitView : AbsDokitView(), LogInfoManager.OnLogCatchListener {
 
     companion object {
         private const val SAVE = 100
@@ -63,15 +63,15 @@ class LogInfoDokitView : AbsDokitView(), LogInfoManager.OnLogCatchListener {
 
     private var isLoaded: Boolean = false
 
-    override fun onCreate(context: Context?) {
+    override fun onCreate(context: Context) {
         LogInfoManager.registerListener(this)
     }
 
-    override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
+    override fun onCreateView(context: Context, rootView: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_float_log_info, null)
     }
 
-    override fun onViewCreated(rootView: FrameLayout?) {
+    override fun onViewCreated(rootView: FrameLayout) {
         initView()
     }
 
@@ -300,11 +300,11 @@ class LogInfoDokitView : AbsDokitView(), LogInfoManager.OnLogCatchListener {
         }
     }
 
-    private fun maximize() {
+    protected fun maximize() {
         changeSize(isMaximize)
     }
 
-    private fun minimize() {
+    protected fun minimize() {
         changeSize(isMaximize)
     }
 
