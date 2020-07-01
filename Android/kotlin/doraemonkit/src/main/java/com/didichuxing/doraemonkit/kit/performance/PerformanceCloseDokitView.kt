@@ -31,8 +31,8 @@ class PerformanceCloseDokitView : AbsDokitView() {
     var mIvClose2: ImageView? = null
     var mIvClose3: ImageView? = null
     var mPerformanceCloseListener: PerformanceCloseListener? = null
-    override fun onCreate(context: Context?) {}
-    override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
+    override fun onCreate(context: Context) {}
+    override fun onCreateView(context: Context, rootView: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_performance_close_wrap, rootView, false)
     }
 
@@ -51,7 +51,7 @@ class PerformanceCloseDokitView : AbsDokitView() {
         closeViewWrap.tag = -1
     }
 
-    override fun onViewCreated(rootView: FrameLayout?) {
+    override fun onViewCreated(rootView: FrameLayout) {
         mLlCloseWrap = findViewById(R.id.ll_close_wrap)
         mWrap0 = findViewById(R.id.fl_wrap0)
         mIvClose0 = findViewById(R.id.iv_close0)

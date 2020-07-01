@@ -18,11 +18,11 @@ import java.util.*
  */
 class AlignRulerMarkerDokitView : AbsDokitView() {
     private val mPositionChangeListeners: MutableList<OnAlignRulerMarkerPositionChangeListener> = ArrayList()
-    override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
+    override fun onCreateView(context: Context, rootView: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_float_align_ruler_marker, null)
     }
 
-    override fun onViewCreated(rootView: FrameLayout?) {}
+    override fun onViewCreated(rootView: FrameLayout) {}
     override fun initDokitViewLayoutParams(params: DokitViewLayoutParams?) {
         params?.let {
             it.height = DokitViewLayoutParams.WRAP_CONTENT
@@ -33,7 +33,7 @@ class AlignRulerMarkerDokitView : AbsDokitView() {
 
     }
 
-    override fun onCreate(context: Context?) {}
+    override fun onCreate(context: Context) {}
     override fun onDestroy() {
         super.onDestroy()
         removePositionChangeListeners()

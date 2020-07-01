@@ -33,11 +33,11 @@ class UIPerformanceInfoDokitView : AbsDokitView(), PerformanceDataListener {
     private var mTotalTimeText: LabelTextView? = null
     private var mMaxTimeText: LabelTextView? = null
     private var mMaxTimeViewIdText: LabelTextView? = null
-    override fun onCreateView(context: Context?, view: FrameLayout?): View {
-        return LayoutInflater.from(view!!.context).inflate(R.layout.dk_float_ui_performance_info, view, false)
+    override fun onCreateView(context: Context, view: FrameLayout): View {
+        return LayoutInflater.from(view.context).inflate(R.layout.dk_float_ui_performance_info, view, false)
     }
 
-    override fun onViewCreated(view: FrameLayout?) {
+    override fun onViewCreated(view: FrameLayout) {
         mClose = findViewById(R.id.close)
         mClose!!.setOnClickListener {
             DokitViewManager.instance.detach(UIPerformanceDisplayDokitView::class.java.simpleName)
@@ -57,7 +57,7 @@ class UIPerformanceInfoDokitView : AbsDokitView(), PerformanceDataListener {
         params.width = DokitViewLayoutParams.WRAP_CONTENT
     }
 
-    override fun onCreate(context: Context?) {
+    override fun onCreate(context: Context) {
         UIPerformanceManager.instance.addListener(this@UIPerformanceInfoDokitView)
     }
 

@@ -27,7 +27,7 @@ class AlignRulerInfoDokitView : AbsDokitView(), OnAlignRulerMarkerPositionChange
     private var mMarker: AlignRulerMarkerDokitView? = null
     private var mWindowWidth = 0
     private var mWindowHeight = 0
-    override fun onCreate(context: Context?) {
+    override fun onCreate(context: Context) {
         mWindowWidth = UIUtils.widthPixels
         mWindowHeight = UIUtils.heightPixels
     }
@@ -37,7 +37,7 @@ class AlignRulerInfoDokitView : AbsDokitView(), OnAlignRulerMarkerPositionChange
         mMarker?.removePositionChangeListener(this)
     }
 
-    override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
+    override fun onCreateView(context: Context, rootView: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_float_align_ruler_info, null)
     }
 
@@ -51,7 +51,7 @@ class AlignRulerInfoDokitView : AbsDokitView(), OnAlignRulerMarkerPositionChange
 
     }
 
-    override fun onViewCreated(rootView: FrameLayout?) {
+    override fun onViewCreated(rootView: FrameLayout) {
         postDelayed(100, Runnable {
             mMarker = DokitViewManager.instance.getDokitView(ActivityUtils.getTopActivity(), AlignRulerMarkerDokitView::class.java.simpleName) as AlignRulerMarkerDokitView?
             mMarker?.addPositionChangeListener(this)
