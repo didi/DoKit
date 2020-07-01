@@ -92,4 +92,11 @@ object DoraemonKitRpc {
     @JvmStatic
     fun setDatabasePass(map: Map<String, String>) {
     }
+
+    /**
+     * 设置文件管理助手http端口号
+     */
+    @JvmStatic
+    fun setFileManagerHttpPort(port: Int) {
+    }
 }

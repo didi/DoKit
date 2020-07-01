@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.filemanager.sqlite.http
 
+import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.filemanager.DoKitFileRouter
 import io.ktor.server.cio.CIO
 import io.ktor.server.cio.CIOApplicationEngine
@@ -16,6 +17,6 @@ import io.ktor.server.engine.embeddedServer
  */
 object HttpServer {
     val server: CIOApplicationEngine by lazy {
-        embeddedServer(CIO, port = 8089, module = DoKitFileRouter)
+        embeddedServer(CIO, port = DokitConstant.FILE_MANAGER_HTTP_PORT, module = DoKitFileRouter)
     }
 }

@@ -1,9 +1,11 @@
 package com.didichuxing.doraemonkit.kit.filemanager
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import com.blankj.utilcode.util.NetworkUtils
 import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.http.HttpServer
 import io.ktor.server.cio.CIO
@@ -26,9 +28,10 @@ class FileTransferFragment : BaseFragment() {
         return R.layout.dk_fragment_file_transfer
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tv.text = "${NetworkUtils.getIpAddressByWifi()}:8089"
+        tv.text = "${NetworkUtils.getIpAddressByWifi()}:${DokitConstant.FILE_MANAGER_HTTP_PORT}"
         initKtor()
     }
 

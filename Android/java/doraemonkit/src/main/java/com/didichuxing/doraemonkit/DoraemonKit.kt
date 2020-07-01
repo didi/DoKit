@@ -114,4 +114,15 @@ object DoraemonKit {
     fun setDatabasePass(map: Map<String, String>) {
         DoraemonKitReal.setDatabasePass(map)
     }
+
+
+    /**
+     * 设置文件管理助手http端口号
+     */
+    @JvmStatic
+    fun setFileManagerHttpPort(port: Int) {
+        DoraemonKitReal.setFileManagerHttpPort(port)
+    }
+
+
 }

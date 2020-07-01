@@ -32,7 +32,7 @@ object DatabaseAction {
     fun insertRowRes(filePath: String, fileName: String, tableName: String, rowDatas: List<RowFiledInfo>): Map<String, Any> {
         val response = mutableMapOf<String, Any>()
         val insertRow = DBManager.insertRow(filePath, fileName, tableName, rowDatas)
-        if (insertRow == -1L) {
+        if (insertRow <= 0) {
             response["code"] = 0
             response["success"] = false
         } else {
@@ -45,7 +45,7 @@ object DatabaseAction {
     fun updateRowRes(filePath: String, fileName: String, tableName: String, rowDatas: List<RowFiledInfo>): Map<String, Any> {
         val response = mutableMapOf<String, Any>()
         val updateRow = DBManager.updateRow(filePath, fileName, tableName, rowDatas)
-        if (updateRow == -1) {
+        if (updateRow <= 0) {
             response["code"] = 0
             response["success"] = false
         } else {
@@ -59,7 +59,7 @@ object DatabaseAction {
     fun deleteRowRes(filePath: String, fileName: String, tableName: String, rowDatas: List<RowFiledInfo>): Map<String, Any> {
         val response = mutableMapOf<String, Any>()
         val deleteRow = DBManager.deleteRow(filePath, fileName, tableName, rowDatas)
-        if (deleteRow == -1) {
+        if (deleteRow <= 0) {
             response["code"] = 0
             response["success"] = false
         } else {

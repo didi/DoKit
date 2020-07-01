@@ -549,7 +549,17 @@ object DoraemonKitReal {
     val isShow: Boolean
         get() = DokitConstant.MAIN_ICON_HAS_SHOW
 
+    /**
+     * 设置加密数据库的密码
+     */
     fun setDatabasePass(map: Map<String, String>) {
         DokitConstant.DATABASE_PASS = map
+    }
+
+    /**
+     * 设置平台端文件管理端口号
+     */
+    fun setFileManagerHttpPort(port: Int) {
+        DokitConstant.FILE_MANAGER_HTTP_PORT = port
     }
 }

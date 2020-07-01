@@ -54,6 +54,11 @@ object DokitConstant {
     var DATABASE_PASS = mapOf<String, String>()
 
     /**
+     * 平台端文件管理端口号
+     */
+    var FILE_MANAGER_HTTP_PORT = 8089
+
+    /**
      * 产品id
      */
     @JvmField
