@@ -57,17 +57,17 @@ class HomeTitleBar @JvmOverloads constructor(context: Context, attrs: AttributeS
         }
     }
 
-    private fun setIcon(@DrawableRes id: Int) {
+    fun setIcon(@DrawableRes id: Int) {
         if (id == 0) {
             return
         }
         mIcon.setImageResource(id)
         mIcon.visibility = View.VISIBLE
     }
-
     fun setListener(listener: OnTitleBarClickListener) {
         mListener = listener
     }
+
 
     init {
         init(context, attrs)

@@ -16,14 +16,14 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
  * ================================================
  */
 class CountDownDokitView : AbsDokitView() {
-    override fun onCreate(context: Context?) {
+    override fun onCreate(context: Context) {
     }
 
-    override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
-        return rootView!!
+    override fun onCreateView(context: Context, rootView: FrameLayout): View {
+        return rootView
     }
 
-    override fun onViewCreated(rootView: FrameLayout?) {
+    override fun onViewCreated(rootView: FrameLayout) {
     }
 
     override fun initDokitViewLayoutParams(params: DokitViewLayoutParams?) {

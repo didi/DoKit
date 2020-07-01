@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/dk_color_F4F5F6">
+
+    <com.didichuxing.doraemonkit.widget.titlebar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        app:dkLeftIcon="@mipmap/dk_title_back"
+        app:dkLeftText="@string/dk_back"
+        app:dkTitle="@string/dk_net_monitor_title_summary"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vp_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tabMode"
+        android:layout_below="@+id/title_bar"
+        android:background="@color/dk_color_F4F5F6"/>
+
+
+    <LinearLayout
+        android:id="@+id/tabMode"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/dk_color_FFFFFF"
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/tab_summary"
+            layout="@layout/dk_view_network_tab_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <include
+            android:id="@+id/tab_list"
+            layout="@layout/dk_view_network_tab_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <View
+        style="@style/DK.Divider"
+        android:layout_alignTop="@id/tabMode"/>
+</RelativeLayout>

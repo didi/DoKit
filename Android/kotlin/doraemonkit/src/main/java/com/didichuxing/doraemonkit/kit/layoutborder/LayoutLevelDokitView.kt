@@ -45,7 +45,7 @@ class LayoutLevelDokitView : AbsDokitView() {
         }
     }
 
-    override fun onCreate(context: Context?) {
+    override fun onCreate(context: Context) {
         resolveActivity(ActivityUtils.getTopActivity())
         LifecycleListenerUtil.registerListener(mLifecycleListenerWrapper)
     }
@@ -88,11 +88,11 @@ class LayoutLevelDokitView : AbsDokitView() {
         appContentView.addView(mScalpelFrameLayout)
     }
 
-    override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
+    override fun onCreateView(context: Context, rootView: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_float_layout_level, rootView, false)
     }
 
-    override fun onViewCreated(rootView: FrameLayout?) {
+    override fun onViewCreated(rootView: FrameLayout) {
         findViewById<View>(R.id.iv_layout_close).setOnClickListener {
             LayoutManager.instance.close()
         }

@@ -9,7 +9,7 @@ import org.gradle.api.Project
  * DoKitCommTransform 作用于 CommTransformer、BigImgTransformer、UrlConnectionTransformer、GlobalSlowMethodTransformer
  * @author johnsonlee
  */
-open class DoKitDependTransform(androidProject: Project, val level: Int) : DoKitBaseTransform(androidProject) {
+open class DoKitDependTransform(androidProject: Project, private val level: Int) : DoKitBaseTransform(androidProject) {
 
     internal override val transformers = mutableListOf<Transformer>(DoKitAsmTransformer(level))
 

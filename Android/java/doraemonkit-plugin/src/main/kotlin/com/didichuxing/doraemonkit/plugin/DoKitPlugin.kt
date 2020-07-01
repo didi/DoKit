@@ -106,7 +106,7 @@ class DoKitPlugin : Plugin<Project> {
 
                     //项目评估完毕回调
                     project.afterEvaluate {
-                        this.variantProcessors.let { processors ->
+                        loadVariantProcessors(project).let { processors ->
                             androidExt.applicationVariants.forEach { variant ->
                                 processors.forEach { processor ->
                                     processor.process(variant)
@@ -121,7 +121,7 @@ class DoKitPlugin : Plugin<Project> {
                 project.getAndroid<LibraryExtension>().let { libraryExt ->
                     libraryExt.registerTransform(DoKitCommTransform(project))
                     project.afterEvaluate {
-                        this.variantProcessors.let { processors ->
+                        loadVariantProcessors(project).let { processors ->
                             libraryExt.libraryVariants.forEach { variant ->
                                 processors.forEach { processor ->
                                     processor.process(variant)
@@ -133,11 +133,5 @@ class DoKitPlugin : Plugin<Project> {
             }
         }
     }
-
-    private val variantProcessors: Collection<VariantProcessor>
-        get() = ServiceLoader.load(VariantProcessor::class.java, javaClass.classLoader).sortedBy {
-            it.javaClass.getAnnotation(Priority::class.java)?.value ?: 0
-        }
-
 
 }

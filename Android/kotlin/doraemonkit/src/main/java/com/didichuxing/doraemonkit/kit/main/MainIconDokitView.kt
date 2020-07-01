@@ -15,8 +15,8 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
  * Created by jintai on 2019/09/26.
  */
 class MainIconDokitView : AbsDokitView() {
-    override fun onCreate(context: Context?) {}
-    override fun onViewCreated(view: FrameLayout?) {
+    override fun onCreate(context: Context) {}
+    override fun onViewCreated(view: FrameLayout) {
         //设置id便于查找
         rootView?.id = R.id.float_icon_id
         //设置icon 点击事件
@@ -26,7 +26,7 @@ class MainIconDokitView : AbsDokitView() {
         }
     }
 
-    override fun onCreateView(context: Context?, view: FrameLayout?): View {
+    override fun onCreateView(context: Context, view: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_main_launch_icon, view, false)
     }
 

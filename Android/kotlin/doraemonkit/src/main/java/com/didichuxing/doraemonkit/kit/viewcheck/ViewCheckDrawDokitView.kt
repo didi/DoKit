@@ -19,14 +19,14 @@ import com.didichuxing.doraemonkit.model.ViewInfo
  */
 class ViewCheckDrawDokitView : AbsDokitView(), OnViewSelectListener {
     private var mLayoutBorderView: LayoutBorderView? = null
-    override fun onCreate(context: Context?) {}
+    override fun onCreate(context: Context) {}
     override fun onDestroy() {
         super.onDestroy()
         val page = DokitViewManager.instance.getDokitView(ActivityUtils.getTopActivity(), ViewCheckDokitView::class.java.simpleName) as ViewCheckDokitView?
         page?.removeViewSelectListener(this)
     }
 
-    override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
+    override fun onCreateView(context: Context, rootView: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_float_view_check_draw, null)
     }
 
@@ -39,7 +39,7 @@ class ViewCheckDrawDokitView : AbsDokitView(), OnViewSelectListener {
 
     }
 
-    override fun onViewCreated(rootView: FrameLayout?) {
+    override fun onViewCreated(rootView: FrameLayout) {
         mLayoutBorderView = findViewById(R.id.rect_view)
         setDokitViewNotResponseTouchEvent(this.rootView)
         postDelayed(200, Runnable {

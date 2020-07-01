@@ -22,13 +22,13 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 class AlignRulerLineDokitView : AbsDokitView(), OnAlignRulerMarkerPositionChangeListener {
     private var mMarker: AlignRulerMarkerDokitView? = null
     private var mAlignInfoView: AlignLineView? = null
-    override fun onCreate(context: Context?) {}
+    override fun onCreate(context: Context) {}
     override fun onDestroy() {
         super.onDestroy()
         mMarker?.removePositionChangeListener(this)
     }
 
-    override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
+    override fun onCreateView(context: Context, rootView: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_float_align_ruler_line, rootView, false)
     }
 
@@ -41,7 +41,7 @@ class AlignRulerLineDokitView : AbsDokitView(), OnAlignRulerMarkerPositionChange
 
     }
 
-    override fun onViewCreated(view: FrameLayout?) {
+    override fun onViewCreated(view: FrameLayout) {
         postDelayed(100, Runnable {
             mMarker = DokitViewManager.instance.getDokitView(ActivityUtils.getTopActivity(), AlignRulerMarkerDokitView::class.java.simpleName) as AlignRulerMarkerDokitView?
             mMarker?.addPositionChangeListener(this@AlignRulerLineDokitView)

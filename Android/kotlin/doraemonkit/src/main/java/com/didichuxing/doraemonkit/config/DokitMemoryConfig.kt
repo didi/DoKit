@@ -13,6 +13,8 @@ object DokitMemoryConfig {
 
     //RAM检测全局开关
     var RAM_STATUS = false
+
+    //流量检测全局开关
     var NETWORK_STATUS = false
 
     //日志全局开关

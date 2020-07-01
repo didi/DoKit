@@ -67,8 +67,8 @@ class PerformanceDokitView : AbsDokitView(), PerformanceCloseListener {
         }
     }
 
-    override fun onCreate(context: Context?) {}
-    override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
+    override fun onCreate(context: Context) {}
+    override fun onCreateView(context: Context, rootView: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_performance_wrap, rootView, false)
     }
 
@@ -134,6 +134,7 @@ class PerformanceDokitView : AbsDokitView(), PerformanceCloseListener {
             DataSourceFactory.TYPE_FPS -> DokitMemoryConfig.FPS_STATUS = false
             DataSourceFactory.TYPE_CPU -> DokitMemoryConfig.CPU_STATUS = false
             DataSourceFactory.TYPE_RAM -> DokitMemoryConfig.RAM_STATUS = false
+            DataSourceFactory.TYPE_NETWORK -> DokitMemoryConfig.NETWORK_STATUS = false
             else -> {
             }
         }
@@ -144,7 +145,11 @@ class PerformanceDokitView : AbsDokitView(), PerformanceCloseListener {
         }
     }
 
-    override fun onViewCreated(rootView: FrameLayout?) {
+
+
+
+
+    override fun onViewCreated(rootView: FrameLayout) {
         mPerformanceWrap = findViewById(R.id.ll_performance_wrap)
         mFlWrap0 = findViewById(R.id.fl_chart0)
         mFlWrap0!!.visibility = View.GONE

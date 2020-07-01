@@ -690,5 +690,14 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener, DokitV
         this.rootView.layoutParams = normalLayoutParams
     }
 
+    /**
+     * 是否在 UniversalActivity 的 window 上
+     */
+    val isOnUniversalActivity: Boolean
+        get() {
+            val activity = attachActivity?.get()
+            return activity != null && activity is UniversalActivity
+        }
+
 
 }

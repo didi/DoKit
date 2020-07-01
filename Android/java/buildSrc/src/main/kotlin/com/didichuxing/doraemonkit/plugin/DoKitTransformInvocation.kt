@@ -31,7 +31,7 @@ import java.util.concurrent.Future
  *
  * @author johnsonlee
  */
-internal class DoKitTransformInvocation(private val delegate: TransformInvocation, internal val transform: DoKitBaseTransform) : TransformInvocation, TransformContext, ArtifactManager {
+internal class DoKitTransformInvocation(private val delegate: TransformInvocation, internal val transform: DoKitBaseTransform) : TransformInvocation, TransformContext, ArtifactManager  {
 
     private val executor = Executors.newWorkStealingPool(NCPU)
 
@@ -160,10 +160,10 @@ internal class DoKitTransformInvocation(private val delegate: TransformInvocatio
                     project.logger.info("Deleting $file")
                     outputProvider?.let { provider ->
                         provider.getContentLocation(dirInput.name, dirInput.contentTypes, dirInput.scopes, Format.DIRECTORY).parentFile.listFiles()?.asSequence()
-                            ?.filter { it.isDirectory }
-                            ?.map { File(it, dirInput.file.toURI().relativize(file.toURI()).path) }
-                            ?.filter { it.exists() }
-                            ?.forEach { it.delete() }
+                                ?.filter { it.isDirectory }
+                                ?.map { File(it, dirInput.file.toURI().relativize(file.toURI()).path) }
+                                ?.filter { it.exists() }
+                                ?.forEach { it.delete() }
                     }
                     file.delete()
                 }

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/log_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/dk_color_FFFFFF"
+        android:orientation="vertical">
+
+        <com.didichuxing.doraemonkit.widget.titlebar.LogTitleBar
+            android:id="@id/dokit_title_bar"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:layout_alignParentTop="true"
+            android:background="@color/foreground_wtf"
+            app:dkBack="@string/dk_kit_log_min"
+            app:dkIcon="@mipmap/dk_close_icon"
+            app:dkTitle="@string/dk_kit_log_info" />
+
+        <View
+            android:id="@+id/view_divider"
+            style="@style/DK.Shadow.Bottom"
+            android:layout_below="@id/dokit_title_bar" />
+
+        <EditText
+            android:id="@+id/log_filter"
+            style="@style/DK.Input"
+            android:layout_height="50dp"
+            android:layout_below="@id/view_divider"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/dk_log_filter_background"
+            android:elevation="1dp"
+            android:hint="@string/dk_log_info_edt_hint"
+            android:inputType="text"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp" />
+
+        <LinearLayout
+            android:id="@+id/button_wrap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/log_filter"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="6dp"
+            android:orientation="vertical">
+
+
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/verbose"
+                    style="@style/DK.RadioButton.Left"
+                    android:text="@string/dk_log_info_verbose" />
+
+                <RadioButton
+                    android:id="@+id/debug"
+                    style="@style/DK.RadioButton"
+                    android:text="@string/dk_log_info_debug" />
+
+                <RadioButton
+                    android:id="@+id/info"
+                    style="@style/DK.RadioButton"
+                    android:text="@string/dk_log_info_info" />
+
+                <RadioButton
+                    android:id="@+id/warn"
+                    style="@style/DK.RadioButton"
+                    android:text="@string/dk_log_info_warn" />
+
+                <RadioButton
+                    android:id="@+id/error"
+                    style="@style/DK.RadioButton.Right"
+                    android:text="@string/dk_log_info_error" />
+
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_clean"
+                    style="@style/DK.RadioButton.Left"
+                    android:text="@string/dk_log_btn_clean" />
+
+                <Button
+                    android:id="@+id/btn_export"
+                    style="@style/DK.RadioButton.middle"
+                    android:text="@string/dk_log_btn_export" />
+
+                <Button
+                    android:id="@+id/btn_top"
+                    style="@style/DK.RadioButton.middle"
+                    android:text="@string/dk_log_btn_back_top" />
+
+                <Button
+                    android:id="@+id/btn_bottom"
+                    style="@style/DK.RadioButton.Right"
+                    android:text="@string/dk_log_btn_to_bottom" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/ll_loading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ProgressBar
+                style="@android:style/Widget.ProgressBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:text="@string/dk_log_text_loading"
+                android:textColor="@color/dk_color_666666"
+                android:textSize="@dimen/dk_font_size_14" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/log_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/ll_loading"
+            android:layout_below="@id/button_wrap"
+            android:scrollbars="vertical"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/log_hint"
+        style="@style/DK.Text.White"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/dk_color_337CC4"
+        android:singleLine="true"
+        android:text="@string/dk_kit_log_info"
+        android:visibility="gone" />
+
+</FrameLayout>

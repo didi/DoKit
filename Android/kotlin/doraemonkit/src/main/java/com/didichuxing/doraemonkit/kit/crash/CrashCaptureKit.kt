@@ -2,6 +2,8 @@ package com.didichuxing.doraemonkit.kit.crash
 
 import android.content.Context
 import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.config.CrashCaptureConfig
+import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.AbstractKit
 
 /**
@@ -14,16 +16,21 @@ class CrashCaptureKit : AbstractKit() {
     override val icon: Int
         get() = R.mipmap.dk_crash_catch
 
+    override val isInnerKit: Boolean
+        get() = true
+
     override fun onClick(context: Context?) {
-        kotlinTip()
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_CRASH)
     }
 
     override fun onAppInit(context: Context?) {
-
+        CrashCaptureManager.instance.init(context)
+        if (CrashCaptureConfig.isCrashCaptureOpen) {
+            CrashCaptureManager.instance.start()
+        } else {
+            CrashCaptureManager.instance.stop()
+        }
     }
-
-    override val isInnerKit: Boolean
-        get() = true
 
     override fun innerKitId(): String {
         return "dokit_sdk_comm_ck_crash"

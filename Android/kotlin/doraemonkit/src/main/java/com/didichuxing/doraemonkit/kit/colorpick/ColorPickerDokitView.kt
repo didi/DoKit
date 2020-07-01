@@ -34,18 +34,18 @@ class ColorPickerDokitView : AbsDokitView() {
 
     private lateinit var coordinate: Coordinate
 
-    override fun onCreate(context: Context?) {
+    override fun onCreate(context: Context) {
         mInfoDokitView = DokitViewManager.instance.getDokitView(ActivityUtils.getTopActivity(), ColorPickerInfoDokitView::class.java.simpleName) as ColorPickerInfoDokitView
-        if (context != null && bundle != null) {
+        if (bundle != null) {
             mImageCapturer = ImageCapturerImpl(context, bundle!!)
         }
     }
 
-    override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
+    override fun onCreateView(context: Context, rootView: FrameLayout): View {
         return LayoutInflater.from(context).inflate(R.layout.dk_float_color_picker, null)
     }
 
-    override fun onViewCreated(rootView: FrameLayout?) {
+    override fun onViewCreated(rootView: FrameLayout) {
         mPickerView = findViewById(R.id.cpv_color_picker_view)
         val params = mPickerView.layoutParams
         //大小必须是2的倍数
