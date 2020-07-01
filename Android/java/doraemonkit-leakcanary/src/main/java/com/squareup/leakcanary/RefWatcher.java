@@ -22,7 +22,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-import static com.squareup.leakcanary.HeapDumper.RETRY_LATER;
+import static com.squareup.leakcanary.HeapDumper.Companion.*;
 import static com.squareup.leakcanary.Preconditions.checkNotNull;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
@@ -34,7 +34,7 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
  */
 public final class RefWatcher {
 
-    public static final RefWatcher DISABLED = new RefWatcherBuilder<>().build();
+    public static final RefWatcher DISABLED = new RefWatcherBuilder().build();
 
     private final WatchExecutor watchExecutor;
     private final DebuggerControl debuggerControl;
@@ -148,7 +148,7 @@ public final class RefWatcher {
             long gcDurationMs = NANOSECONDS.toMillis(startDumpHeap - gcStartNanoTime);
 
             File heapDumpFile = heapDumper.dumpHeap();
-            if (heapDumpFile == RETRY_LATER) {
+            if (heapDumpFile == HeapDumper.Companion.getRETRY_LATER()) {
                 // Could not dump the heap.
                 return Retryable.Result.RETRY;
             }
