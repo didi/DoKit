@@ -339,4 +339,14 @@
     <string name="dk_toolpanel_dialog_edit_tip">Whether to save the edited content</string>
     <string name="dk_toolpanel_dialog_reset_tip">Whether to restore to the initial state</string>
     <string name="dk_setting_kit_manager">Function management</string>
+
+    <!--    文件同步助手-->
+    <string name="dk_file_manager_tip_top">
+        <![CDATA[
+        Please use this function in the <font color=\"blue\"> [File Synchronization Assistant] </font> in the platform console of www.dokit.cn
+
+        ]]>
+    </string>
+
+    <string name="dk_file_manager_tip_bottom">Please connect through the current ip:port on the web</string>
 </resources>

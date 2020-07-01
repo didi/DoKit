@@ -2,12 +2,17 @@ package com.didichuxing.doraemonkit.kit.filemanager
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.text.Html
+import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.view.View
 import com.blankj.utilcode.util.NetworkUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.http.HttpServer
+import com.didichuxing.doraemonkit.util.DokitUtil
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
 import io.ktor.server.cio.CIO
 import io.ktor.server.cio.CIOApplicationEngine
 import io.ktor.server.engine.embeddedServer
@@ -31,7 +36,12 @@ class FileTransferFragment : BaseFragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tv.text = "${NetworkUtils.getIpAddressByWifi()}:${DokitConstant.FILE_MANAGER_HTTP_PORT}"
+        tv_ip.text = "${NetworkUtils.getIpAddressByWifi()}:${DokitConstant.FILE_MANAGER_HTTP_PORT}"
+        title_bar.setListener { finish() }
+        tv_tip_top.text = Html.fromHtml(DokitUtil.getString(R.string.dk_file_manager_tip_top))
+        tv_tip_top.setOnClickListener {
+            ToastUtils.showShort("操作文档")
+        }
         initKtor()
     }
 
