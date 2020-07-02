@@ -9,12 +9,13 @@ import java.util.*
  */
 class MyWebViewClient : WebViewClient() {
     private val mListeners: MutableList<InvokeListener> = ArrayList()
+
     override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
         if (url.startsWith("doraemon://invokeNative")) {
             handleInvokeFromJs(url)
             return true
         }
-        return super.shouldOverrideUrlLoading(view, url)
+        return false
     }
 
     private fun handleInvokeFromJs(url: String) {

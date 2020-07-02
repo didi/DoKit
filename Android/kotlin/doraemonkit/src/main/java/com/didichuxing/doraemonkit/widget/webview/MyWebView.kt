@@ -19,7 +19,7 @@ import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.widget.webview.MyWebViewClient.InvokeListener
 
 /**
- * Created by guofeng007 on 2020/6/8
+ * Created by wanglikun on 2019/4/8
  */
 class MyWebView : WebView {
     private var mProgressBar: ProgressBar? = null
@@ -38,6 +38,7 @@ class MyWebView : WebView {
     }
 
     var activity: Activity? = null
+        private set
 
     private fun init(context: Context) {
         if (context !is Activity) {
@@ -85,12 +86,12 @@ class MyWebView : WebView {
         }
     }
 
-    fun addInvokeListener(listener: InvokeListener) {
-        mMyWebViewClient!!.addInvokeListener(listener)
+    fun addInvokeListener(listener: InvokeListener?) {
+        mMyWebViewClient!!.addInvokeListener(listener!!)
     }
 
-    fun removeInvokeListener(listener: InvokeListener) {
-        mMyWebViewClient!!.removeInvokeListener(listener)
+    fun removeInvokeListener(listener: InvokeListener?) {
+        mMyWebViewClient!!.removeInvokeListener(listener!!)
     }
 
     private fun addProgressView() {
@@ -129,7 +130,6 @@ class MyWebView : WebView {
     }
 
     companion object {
-
         /**
          * 参考: https://www.jianshu.com/p/d86de6a1e791
          *
@@ -137,7 +137,7 @@ class MyWebView : WebView {
          * @return
          */
         @SuppressLint("ObsoleteSdkInt")
-        private fun getFixedContext(context: Context): Context? {
+        private fun getFixedContext(context: Context): Context {
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 context.createConfigurationContext(Configuration())
             } else {
@@ -145,5 +145,4 @@ class MyWebView : WebView {
             }
         }
     }
-
 }
