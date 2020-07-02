@@ -1,7 +1,9 @@
 package com.didichuxing.doraemonkit.widget.webview
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.drawable.ClipDrawable
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -23,15 +25,15 @@ class MyWebView : WebView {
     private var mProgressBar: ProgressBar? = null
     private var mMyWebViewClient: MyWebViewClient? = null
 
-    constructor(context: Context) : super(context) {
+    constructor(context: Context) : super(getFixedContext(context)) {
         init(context)
     }
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+    constructor(context: Context, attrs: AttributeSet?) : super(getFixedContext(context), attrs) {
         init(context)
     }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(getFixedContext(context), attrs, defStyleAttr) {
         init(context)
     }
 
@@ -124,6 +126,24 @@ class MyWebView : WebView {
             }
         }
         super.loadUrl(url)
+    }
+
+    companion object {
+
+        /**
+         * 参考: https://www.jianshu.com/p/d86de6a1e791
+         *
+         * @param context
+         * @return
+         */
+        @SuppressLint("ObsoleteSdkInt")
+        private fun getFixedContext(context: Context): Context? {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                context.createConfigurationContext(Configuration())
+            } else {
+                context
+            }
+        }
     }
 
 }
