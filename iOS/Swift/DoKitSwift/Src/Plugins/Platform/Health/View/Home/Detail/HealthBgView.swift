@@ -1,13 +1,13 @@
 //
-//  ColorPickView.swift
-//  AFNetworking
+//  HealthBgView.swift
+//  DoraemonKit-Swift
 //
-//  Created by 方林威 on 2020/5/29.
+//  Created by Ailsa on 2020/6/15.
 //
 
 import UIKit
 
-class ColorPickView: UIView {
+class HealthBgView: UIView {
 
     /*
     // Only override draw() if you perform custom drawing.

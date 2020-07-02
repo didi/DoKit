@@ -1,6 +1,6 @@
 //
 //  DoKitDelSanboxPlugin.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by didi on 2020/5/26.
 //
@@ -9,8 +9,8 @@ import UIKit
 
 struct DelSanboxPlugin: Plugin {
     
-    var module: String {
-        return LocalizedString("常用工具")
+    var module: PluginModule {
+        return .common
     }
     
     var title: String {

@@ -1,6 +1,6 @@
 //
 //  BaseBigTitleView.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by didi on 2020/5/26.
 //
@@ -43,7 +43,7 @@ class BaseBigTitleView: UIView {
         self.addSubview(closeBtn)
         
         let downLine = UIView(frame: CGRect(x: 0, y: self.height-kSizeFrom750_Landscape(1), width: self.width, height: kSizeFrom750_Landscape(1)))
-        downLine.backgroundColor = UIColor.line()
+        downLine.backgroundColor = UIColor.line
         self.addSubview(downLine)
     }
     

@@ -23,12 +23,16 @@ Pod::Spec.new do |s|
 
 
   s.default_subspec = 'Core'
-  
+    
   s.subspec 'Core' do |ss| 
-    ss.source_files = 'iOS/Swift/DoKitSwift/Src/**/*{.swift}'
+    ss.source_files = 'iOS/Swift/DoKitSwift/Src/**/*{.swift,.h,.c,.m}'
     ss.resource_bundles = {
       'DoKitSwift' => 'iOS/DoraemonKit/Resource/**/*'
     }
+    
+  s.dependency 'fishhook'
+  
   end
+  
 end
 

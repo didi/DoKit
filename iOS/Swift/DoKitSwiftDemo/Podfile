@@ -1,7 +1,5 @@
-source 'git@github.com:CocoaPods/Specs.git'
 platform :ios, '9.0'
-use_frameworks!
-
+use_modular_headers!
 target 'DoKitSwiftDemo' do
   pod 'AFNetworking'
   pod 'DoraemonKit-Swift', :path => '../../../', :configurations => ['Debug']

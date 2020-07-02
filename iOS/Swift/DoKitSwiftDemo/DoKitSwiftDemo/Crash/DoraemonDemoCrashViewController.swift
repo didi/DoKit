@@ -31,12 +31,16 @@ class DoraemonDemoCrashViewController: DoraemonDemoBaseViewController {
     }
     
     @objc func uncaughtExceptionBtnClicked(button: UIButton) {
-        let array = ["A","B","C"]
-        var v = array[5]
+        let arr = NSArray()
+        arr[10]
     }
     
     @objc func signalExceptionBtnClicked(_ button: UIButton) {
-
+        //SIGBUS，内存地址未对齐
+        //Thread 1: EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0)
+        var string: String? = "1"
+        string = nil
+        _ = string!.lowercased()
     }
 
 }

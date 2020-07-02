@@ -104,6 +104,7 @@
     "H5任意门"                                 =  "Browser";
     "清除搜索历史"                            = "Clear search history";
     "模拟器不支持扫码功能"                      = "The simulator does not support scanning";
+    "扫描二维码"                             = "QR Scanning";
     "点击跳转"                                =   "Click to jump";
     "Doraemon内置浏览器"                          = "Doraemon Built-in browser";
     "链接不能为空"                        =   "url can not be nil";
@@ -117,10 +118,10 @@
     "正在清理中"                                  = "Deleting";
     
     //NSLog
-    "NSLog"                               = "NSLog";
+    "print"                               = "print";
     "开关"                                      = "On/Off";
     "查看记录"                                = "View log";
-    "NSLog日志记录"                           = "NSLog Results";
+    "print日志记录"                           = "print Results";
     "导出"                                  = "export";
     "清除"                                  = "delete";
     "%@\n触发时间: %@"                             = "%@\nTrigger time: %@";

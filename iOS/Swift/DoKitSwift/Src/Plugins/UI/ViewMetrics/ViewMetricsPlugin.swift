@@ -9,7 +9,7 @@ import Foundation
 
 struct ViewMetricsPlugin: Plugin {
     
-    var module: String { LocalizedString("视觉工具") }
+    var module: PluginModule { .ui }
     
     var title: String { LocalizedString("布局边框") }
     
