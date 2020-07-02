@@ -16,7 +16,7 @@ class TimeCounterKit : AbstractKit() {
         get() = R.mipmap.dk_time_counter
 
     override fun onClick(context: Context?) {
-        kotlinTip()
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_TIME_COUNTER)
     }
 
     override fun onAppInit(context: Context?) {}
@@ -26,4 +26,5 @@ class TimeCounterKit : AbstractKit() {
     override fun innerKitId(): String {
         return "dokit_sdk_performance_ck_open_coast"
     }
+
 }
