@@ -4,14 +4,11 @@ import android.app.Application
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import com.taobao.weex.WXSDKEngine
-import com.taobao.weex.appfram.storage.DefaultWXStorage
-import com.taobao.weex.appfram.storage.IWXStorageAdapter
-import com.taobao.weex.appfram.storage.WXSQLiteOpenHelper
-import java.util.concurrent.Executors
+import org.apache.weex.WXSDKEngine
+import org.apache.weex.appfram.storage.DefaultWXStorage
+import org.apache.weex.appfram.storage.IWXStorageAdapter
+import org.apache.weex.appfram.storage.WXSQLiteOpenHelper
 
 /**
  * Transformed by alvince on 2020/7/1
@@ -21,22 +18,8 @@ import java.util.concurrent.Executors
  */
 class StorageHacker(context: Context, private val isDebug: Boolean) {
 
-    interface OnLoadListener {
-        fun onLoad(list: List<StorageInfo>)
-    }
-
-    interface OnRemoveListener {
-        fun onRemoved(status: Boolean)
-    }
-
     companion object {
         const val TAG = "StorageHacker"
-    }
-
-    private val handler by lazy { Handler(Looper.getMainLooper()) }
-
-    private val executor by lazy {
-        Executors.newCachedThreadPool { runnable -> Thread(runnable, "wx_analyzer_storage_dumper") }
     }
 
     private var storageAdapter: IWXStorageAdapter? = WXSDKEngine.getIWXStorageAdapter()
@@ -52,111 +35,97 @@ class StorageHacker(context: Context, private val isDebug: Boolean) {
         if (disposed) {
             return
         }
-        handler.removeCallbacksAndMessages(null)
-        executor.takeIf { !it.isShutdown }?.shutdown()
         disposed = true
     }
 
-    fun isDestroy(): Boolean = disposed || executor.isShutdown
+    fun isDestroy(): Boolean = disposed
 
-    fun fetch(listener: OnLoadListener) {
+    suspend fun fetch(): List<StorageInfo> {
         if (storageAdapter == null
             || storageAdapter !is DefaultWXStorage
         ) {
-            listener.onLoad(emptyList())
-            return
+            return emptyList()
         }
 
         if (isDestroy()) {
-            listener.onLoad(emptyList())
-            return
+            return emptyList()
         }
 
-        executor.execute {
-            var sqliteHelper: WXSQLiteOpenHelper? = null
-            try {
-                sqliteHelper = WXSQLiteOpenHelper::class.java.getDeclaredConstructor(Context::class.java)
-                    .let { constructor ->
-                        constructor.isAccessible = true
-                        constructor.newInstance(hackerContext)
-                    }
-                WXSQLiteOpenHelper::class.java.getDeclaredMethod("getDatabase")
-                    .let { method ->
-                        method.isAccessible = true
-                        method.invoke(sqliteHelper) as? SQLiteDatabase
-                    }
-                    ?.also { database ->
-                        val result = mutableListOf<StorageInfo>()
-                        database.query(
-                            "default_wx_storage", arrayOf("key", "value", "timestamp"),
-                            null, null, null, null, null
-                        ).use { cursor ->
-                            if (isDebug) {
-                                Log.d("weex-analyzer", "start dump weex storage")
-                            }
-                            while (cursor.moveToNext()) {
-                                StorageInfo().apply {
-                                    key = cursor.stringAt("key")
-                                    value = cursor.stringAt("value")
-                                    timestamp = cursor.stringAt("timestamp")
-                                }.also { info ->
-                                    if (isDebug) {
-                                        Log.d("weex-analyzer", "weex storage[${info.key} | ${info.value}]")
-                                    }
-                                    result.add(info)
+        val result = mutableListOf<StorageInfo>()
+        var sqliteHelper: WXSQLiteOpenHelper? = null
+        try {
+            sqliteHelper = WXSQLiteOpenHelper::class.java.getDeclaredConstructor(Context::class.java)
+                .let { constructor ->
+                    constructor.isAccessible = true
+                    constructor.newInstance(hackerContext)
+                }
+            WXSQLiteOpenHelper::class.java.getDeclaredMethod("getDatabase")
+                .let { method ->
+                    method.isAccessible = true
+                    method.invoke(sqliteHelper) as? SQLiteDatabase
+                }
+                ?.also { database ->
+                    database.query(
+                        "default_wx_storage", arrayOf("key", "value", "timestamp"),
+                        null, null, null, null, null
+                    ).use { cursor ->
+                        if (isDebug) {
+                            Log.d("weex-analyzer", "start dump weex storage")
+                        }
+                        while (cursor.moveToNext()) {
+                            StorageInfo().apply {
+                                key = cursor.stringAt("key")
+                                value = cursor.stringAt("value")
+                                timestamp = cursor.stringAt("timestamp")
+                            }.also { info ->
+                                if (isDebug) {
+                                    Log.d("weex-analyzer", "weex storage[${info.key} | ${info.value}]")
                                 }
-                            }
-                            if (isDebug) {
-                                Log.d("weex-analyzer", "end dump weex storage")
+                                result.add(info)
                             }
                         }
-                        handler.post { listener.onLoad(result) }
+                        if (isDebug) {
+                            Log.d("weex-analyzer", "end dump weex storage")
+                        }
                     }
-            } catch (ex: Exception) {
-                Log.e(TAG, "", ex)
-            } finally {
-                sqliteHelper?.closeDatabase()
-            }
+                }
+        } catch (ex: Exception) {
+            Log.e(TAG, "", ex)
+        } finally {
+            sqliteHelper?.closeDatabase()
         }
+        return result
     }
 
-    fun remove(key: String, listener: OnRemoveListener) {
+    suspend fun remove(key: String): Boolean {
         if (key.isEmpty()) {
-            return
+            return false
         }
 
         if (storageAdapter == null
             || storageAdapter !is DefaultWXStorage
         ) {
-            listener.onRemoved(false)
-            return
+            return false
         }
 
         if (isDestroy()) {
-            listener.onRemoved(false)
-            return
+            return false
         }
 
-        executor.execute {
-            (storageAdapter as? DefaultWXStorage)?.also { storage ->
-                try {
-                    storage.javaClass.getDeclaredMethod("performRemoveItem", String::class.java)
-                        .also { method ->
-                            method.isAccessible = true
-                            method.invoke(storage, key)
-                                ?.let { it as? Boolean }
-                                ?.also { result ->
-                                    handler.post {
-                                        listener.onRemoved(result)
-                                    }
-                                }
-                            method.isAccessible = false
-                        }
-                } catch (ex: Exception) {
-                    Log.d(TAG, "Fail to resolve storage method: performRemoveItem(String)", ex)
-                }
+        return (storageAdapter as? DefaultWXStorage)?.let { storage ->
+            try {
+                storage.javaClass.getDeclaredMethod("performRemoveItem", String::class.java)
+                    .let { method ->
+                        method.isAccessible = true
+                        val result = method.invoke(storage, key)?.let { it as? Boolean }
+                        method.isAccessible = false
+                        result
+                    }
+            } catch (ex: Exception) {
+                Log.d(TAG, "Fail to resolve storage method: performRemoveItem(String)", ex)
+                false
             }
-        }
+        } == true
     }
 
     private fun Cursor.stringAt(column: String): String {

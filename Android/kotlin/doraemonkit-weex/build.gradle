@@ -35,7 +35,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation rootProject.ext.dependencies["kotlin"]
+//    implementation rootProject.ext.dependencies["kotlin"]
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${rootProject.getProperty('kotlin.version')}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${rootProject.getProperty('kotlin.coroutines')}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${rootProject.getProperty('kotlin.coroutines')}"
     implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["core-ktx"]
     implementation rootProject.ext.dependencies["constraintLayout"]

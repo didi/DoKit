@@ -47,7 +47,7 @@ internal object LeakCanaryManager {
                         val leakBean = LeakBean()
                         leakBean.page = ActivityUtils.getTopActivity().javaClass.canonicalName
                         leakBean.detail = message
-                        AppHealthInfoUtil.getInstance().addLeakInfo(leakBean)
+                        //AppHealthInfoUtil.getInstance().addLeakInfo(leakBean)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
