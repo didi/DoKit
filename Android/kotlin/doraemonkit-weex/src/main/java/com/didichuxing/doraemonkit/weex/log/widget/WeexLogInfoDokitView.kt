@@ -23,6 +23,7 @@ class WeexLogInfoDokitView : LogInfoDokitView() {
         LayoutInflater.from(context).inflate(R.layout.dk_weex_float_log_info, null)
 
     override fun onViewCreated(rootView: FrameLayout) {
+        super.onViewCreated(rootView)
         findViewById<LogTitleBar>(R.id.dokit_title_bar)
             .setListener(object : LogTitleBar.OnTitleBarClickListener {
                 override fun onRightClick() {
