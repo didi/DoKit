@@ -23,14 +23,9 @@ class LeakCanaryKit : AbstractKit() {
 
     override fun onClick(context: Context?) {
         context?.let {
-            try {
-                val intent = Intent(context, DisplayLeakActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                it.startActivity(intent)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-
+            val intent = Intent(context, DisplayLeakActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            it.startActivity(intent)
         }
 
     }
