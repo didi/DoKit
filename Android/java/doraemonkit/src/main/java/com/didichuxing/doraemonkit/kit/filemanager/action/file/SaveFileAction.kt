@@ -1,18 +1,13 @@
 package com.didichuxing.doraemonkit.kit.filemanager.action.file
 
 import android.util.Xml
+import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.FileIOUtils
 import com.blankj.utilcode.util.FileUtils
-import com.blankj.utilcode.util.GsonUtils
-import com.blankj.utilcode.util.JsonUtils
-import com.google.gson.JsonObject
 import org.json.JSONArray
 import org.json.JSONObject
-import org.w3c.dom.Document
-import org.xml.sax.ContentHandler
-import org.xml.sax.helpers.DefaultHandler
 import org.xmlpull.v1.XmlPullParser
-import java.lang.Exception
+
 
 /**
  * ================================================
@@ -29,6 +24,18 @@ object SaveFileAction {
 
         if (FileUtils.isFileExists(filePath)) {
             val fileExtension = FileUtils.getFileExtension(filePath)
+            if (fileExtension.contains("xml")) {
+                if (parseXml(content)) {
+                    FileIOUtils.writeFileFromString(filePath, content, false)
+                    response["code"] = 200
+                    response["success"] = true
+                    response["message"] = "success"
+                } else {
+                    response["code"] = 0
+                    response["success"] = false
+                    response["message"] = "is not xml"
+                }
+            }
             if (fileExtension.contains("json")) {
                 var isJsonObject = false
                 var isJsonArray = false
@@ -68,6 +75,26 @@ object SaveFileAction {
             response["message"] = "is not a file"
         }
         return response
+    }
+
+    /**
+     * 判断是否是xml
+     */
+    private fun parseXml(content: String): Boolean {
+        try {
+            val parser = Xml.newPullParser()
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
+            parser.setInput(ConvertUtils.string2InputStream(content, "utf-8"), null)
+            parser.nextTag()
+            while (parser.next() !== XmlPullParser.END_TAG) {
+                if (parser.eventType !== XmlPullParser.START_TAG) {
+                    continue
+                }
+            }
+            return true
+        } catch (e: Exception) {
+            return false
+        }
     }
 
 }
