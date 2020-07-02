@@ -18,9 +18,11 @@ object RenameFileAction {
             FileUtils.rename(filePath, newName)
             response["code"] = 200
             response["success"] = true
+            response["message"] = "success"
         } else {
             response["code"] = 0
             response["success"] = false
+            response["message"] = "$filePath is not exists"
         }
         return response
     }

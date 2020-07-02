@@ -23,9 +23,11 @@ object DeleteFileAction {
                 if (deleteSuccess) {
                     response["code"] = 200
                     response["success"] = true
+                    response["message"] = "success"
                 } else {
                     response["code"] = 0
                     response["success"] = false
+                    response["message"] = "delete $filePath failure"
                 }
             } else {
                 //删除文件
@@ -33,14 +35,17 @@ object DeleteFileAction {
                 if (deleteSuccess) {
                     response["code"] = 200
                     response["success"] = true
+                    response["message"] = "success"
                 } else {
                     response["code"] = 0
                     response["success"] = false
+                    response["message"] = "delete $filePath failure"
                 }
             }
         } else {
             response["code"] = 0
             response["success"] = false
+            response["message"] = "delete $filePath failure"
         }
 
         return response

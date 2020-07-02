@@ -13,16 +13,12 @@ import com.blankj.utilcode.util.FileUtils
  * ================================================
  */
 object FileDetailAction {
-    fun fileDetailInfoRes(filePath: String, fileType: String?): MutableMap<String, Any> {
+    fun fileDetailInfoRes(filePath: String): MutableMap<String, Any> {
         val params = mutableMapOf<String, Any>()
         if (FileUtils.isFileExists(filePath)) {
             params["code"] = 200
             val data = mutableMapOf<String, Any>()
-            data["fileType"] = if (fileType.isNullOrBlank()) {
-                "none"
-            } else {
-                fileType
-            }
+            data["fileType"] = FileUtils.getFileExtension(filePath)
             data["fileContent"] = FileIOUtils.readFile2String(filePath)
             params["data"] = data
         } else {

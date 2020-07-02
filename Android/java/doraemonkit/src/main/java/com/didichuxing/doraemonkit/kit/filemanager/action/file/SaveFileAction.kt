@@ -3,8 +3,12 @@ package com.didichuxing.doraemonkit.kit.filemanager.action.file
 import android.util.Xml
 import com.blankj.utilcode.util.FileIOUtils
 import com.blankj.utilcode.util.FileUtils
+import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.JsonUtils
+import com.google.gson.JsonObject
+import org.json.JSONArray
 import org.json.JSONObject
+import org.w3c.dom.Document
 import org.xml.sax.ContentHandler
 import org.xml.sax.helpers.DefaultHandler
 import org.xmlpull.v1.XmlPullParser
@@ -25,29 +29,43 @@ object SaveFileAction {
 
         if (FileUtils.isFileExists(filePath)) {
             val fileExtension = FileUtils.getFileExtension(filePath)
-            if (fileExtension.contains("xml")) {
-                try {
-                    Xml.parse(content, DefaultHandler())
-                } catch (e: Exception) {
-                    response["code"] = 0
-                    response["success"] = false
-                }
-
-            } else if (fileExtension.contains("json")) {
+            if (fileExtension.contains("json")) {
+                var isJsonObject = false
+                var isJsonArray = false
                 try {
                     JSONObject(content)
+                    isJsonObject = true
                 } catch (e: Exception) {
+                    isJsonObject = false
+                }
+
+                try {
+                    JSONArray(content)
+                    isJsonArray = true
+                } catch (e: Exception) {
+                    isJsonArray = false
+                }
+                if (isJsonObject || isJsonArray) {
+                    FileIOUtils.writeFileFromString(filePath, content, false)
+                    response["code"] = 200
+                    response["success"] = true
+                    response["message"] = "success"
+                } else {
                     response["code"] = 0
                     response["success"] = false
+                    response["message"] = "is not json"
                 }
+
             } else {
                 FileIOUtils.writeFileFromString(filePath, content, false)
                 response["code"] = 200
                 response["success"] = true
+                response["message"] = "success"
             }
         } else {
             response["code"] = 0
             response["success"] = false
+            response["message"] = "is not a file"
         }
         return response
     }

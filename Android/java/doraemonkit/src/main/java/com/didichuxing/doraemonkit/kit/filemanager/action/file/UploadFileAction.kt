@@ -50,13 +50,16 @@ object UploadFileAction {
             if (FileUtils.isFileExists(file)) {
                 response["code"] = 200
                 response["success"] = true
+                response["message"] = "success"
             } else {
                 response["code"] = 0
                 response["success"] = false
+                response["message"] = "${file.absolutePath} is not exists"
             }
         } ?: let {
             response["code"] = 0
             response["success"] = false
+            response["message"] = "filePart is null"
         }
 
 

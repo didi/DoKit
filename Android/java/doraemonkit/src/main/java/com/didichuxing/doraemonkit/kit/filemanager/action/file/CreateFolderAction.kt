@@ -20,13 +20,16 @@ object CreateFolderAction {
             if (createOrExistsFile) {
                 response["code"] = 200
                 response["success"] = true
+                response["message"] = "success"
             } else {
                 response["code"] = 0
                 response["success"] = false
+                response["message"] = "create dir failure"
             }
         } else {
             response["code"] = 0
             response["success"] = false
+            response["message"] = "is not dir"
         }
 
         return response

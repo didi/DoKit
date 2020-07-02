@@ -35,9 +35,11 @@ object DatabaseAction {
         if (insertRow <= 0) {
             response["code"] = 0
             response["success"] = false
+            response["message"] = "insertRow=$insertRow"
         } else {
             response["code"] = 200
             response["success"] = true
+            response["message"] = "insertRow=$insertRow"
         }
         return response
     }
@@ -48,9 +50,11 @@ object DatabaseAction {
         if (updateRow <= 0) {
             response["code"] = 0
             response["success"] = false
+            response["message"] = "updateRow=$updateRow"
         } else {
             response["code"] = 200
             response["success"] = true
+            response["message"] = "updateRow=$updateRow"
         }
         return response
 
@@ -62,9 +66,11 @@ object DatabaseAction {
         if (deleteRow <= 0) {
             response["code"] = 0
             response["success"] = false
+            response["message"] = "deleteRow=$deleteRow"
         } else {
             response["code"] = 200
             response["success"] = true
+            response["message"] = "deleteRow=$deleteRow"
         }
         return response
     }

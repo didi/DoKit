@@ -18,12 +18,10 @@ class FileTransferKit : AbstractKit() {
     override val name: Int
         get() = R.string.dk_kit_file_transfer
     override val icon: Int
-        get() = R.mipmap.dk_health
+        get() = R.mipmap.dk_icon_file_manager
 
     override fun onClick(context: Context?) {
-        context?.let {
-            startUniversalActivity(it, FragmentIndex.FRAGMENT_FILE_TRANSFER)
-        }
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_FILE_TRANSFER)
     }
 
     override fun onAppInit(context: Context?) {
