@@ -16,17 +16,17 @@ class DoraemonDemoLoggerViewController: DoraemonDemoBaseViewController {
         
         let btn = UIButton(frame: CGRect(x: 0, y: kIphoneNavBarHeight, width: view.width, height: 60.0))
         btn.backgroundColor = UIColor.orange
-        btn.setTitle(DoraemonDemoLocalizedString("添加一条NSLog日志"), for: .normal)
+        btn.setTitle(DoraemonDemoLocalizedString("添加一条print日志"), for: .normal)
         btn.addTarget(self, action: #selector(addNSLog), for: .touchUpInside);
         view.addSubview(btn)
     }
     
     @objc func addNSLog() {
-        let str = "jack"
-        let age = 29
-        NSLog("NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦NSLog日记来啦。。。str == %@  age == %zi", str,age)
-        let specialString = "callnative://saveTian/%22saveTianDataCallback43%22"
-        NSLog("%@", specialString)
+        for num in 1...10 {
+            DispatchQueue.global().async {
+                print("北京欢迎你aaaaasdfsdfg欢迎你*^(*&R()8y23rkvwd예사소리/평음北京欢迎你aaaaasdfsdfg欢迎你*^(*&R()8y23rkvwd예사소리/평음jdfsjkhkjsdndsnkmvn\(num)")
+            }
+        }
     }
 
 }

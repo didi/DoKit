@@ -1,6 +1,6 @@
 //
 //  DoKitAlertUtil.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by didi on 2020/5/26.
 //
@@ -19,5 +19,14 @@ class AlertUtil {
         alertController.addAction(okAction)
         alertController.addAction(cancelAction)
         vc.present(alertController, animated: true, completion: nil)
+    }
+    
+    static func handleAlertAction(vc: UIViewController?, text: String, okBlock:@escaping ()->Void) {
+        let alertController = UIAlertController(title: LocalizedString("提示"), message: text, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: LocalizedString("确定"), style: .default, handler: { action in
+            okBlock()
+        })
+        alertController.addAction(okAction)
+        vc?.present(alertController, animated: true, completion: nil)
     }
 }

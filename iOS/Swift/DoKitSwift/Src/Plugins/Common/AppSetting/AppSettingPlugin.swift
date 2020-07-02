@@ -1,6 +1,6 @@
 //
 //  DoKitAppSettingPlugin.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by didi on 2020/5/25.
 //
@@ -10,8 +10,8 @@ import Foundation
 
 struct AppSettingPlugin: Plugin {
     
-    var module: String {
-        return LocalizedString("常用工具")
+    var module: PluginModule {
+        return .common
     }
     
     var title: String {

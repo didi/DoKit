@@ -1,6 +1,6 @@
 //
 //  DoKitDelSanboxViewController.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by didi on 2020/5/26.
 //
@@ -12,7 +12,7 @@ class DelSanboxViewController: BaseViewController, CellButtonDelegate {
     var cellBtn: CellButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setTitle(title: LocalizedString("清理缓存"))
+        self.set(title: LocalizedString("清理缓存"))
         
         cellBtn = CellButton(frame: CGRect(x: 0, y: self.bigTitleView!.bottom, width: self.view.width, height: kSizeFrom750_Landscape(104)))
         cellBtn.renderUIWithTitle(title: LocalizedString("清理缓存"))
@@ -31,11 +31,7 @@ class DelSanboxViewController: BaseViewController, CellButtonDelegate {
         return fileSizeString
     }
     
-    override func needBigTitleView() -> Bool {
-        return true
-    }
-    
-    func cellBtnClick(){
+    func cellBtnClick(sender: CellButton){
         
         AlertUtil.handleAlertAction(vc: self, title: LocalizedString("提示"), text: LocalizedString("确定要删除本地数据"), ok: LocalizedString("确定"), cancel: LocalizedString("取消"), okBlock: {
             self.cellBtn.renderUIWithRightContent(rightContent: LocalizedString("正在清理中"))
@@ -46,6 +42,10 @@ class DelSanboxViewController: BaseViewController, CellButtonDelegate {
         }) {
             
         }
+    }
+    
+    override var needBigTitleView: Bool {
+        return true
     }
 
 }

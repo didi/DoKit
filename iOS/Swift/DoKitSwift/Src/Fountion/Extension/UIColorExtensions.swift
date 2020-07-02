@@ -1,6 +1,6 @@
 //
 //  UIColor+DoKit.swift
-//  AFNetworking
+//  DoraemonKit-Swift
 //
 //  Created by didi on 2020/5/25.
 //
@@ -8,34 +8,19 @@
 import Foundation
 
 extension UIColor {
-    static func black_1() -> UIColor {
-        return UIColor.hexColor(0x333333)
-    }
+    static var black_1: UIColor { .hexColor(0x333333) }
     
-    static func black_2() -> UIColor {
-        return UIColor.hexColor(0x666666)
-    }
+    static var black_2: UIColor { .hexColor(0x666666) }
     
-    static func black_3() -> UIColor {
-        return UIColor.hexColor(0x999999)
-    }
+    static var black_3: UIColor { .hexColor(0x999999) }
     
-    static func orange() -> UIColor{
-        return UIColor.hexColor(0xFF8903)
-    }
+    static var orange: UIColor { .hexColor(0xFF8903) }
     
-    static func bg() -> UIColor{
-        return UIColor.hexColor(0xF4F5F6)
-    }
+    static var bg: UIColor { .hexColor(0xF4F5F6) }
     
-    static func blue() -> UIColor{
-        return UIColor.hexColor(0x337CC4)
-    }
+    static var blue: UIColor {  .hexColor(0x337CC4) }
     
-    static func line() -> UIColor{
-        return UIColor.hexColor(0x000000, alphaValue: 0.1)
-    }
-    
+    static var line: UIColor { .hexColor(0x000000, alphaValue: 0.1) }
     
     static func hexColor(_ hexValue: Int, alphaValue: Float) -> UIColor {
         return UIColor(red: CGFloat((hexValue & 0xFF0000) >> 16) / 255, green: CGFloat((hexValue & 0x00FF00) >> 8) / 255, blue: CGFloat(hexValue & 0x0000FF) / 255, alpha: CGFloat(alphaValue))

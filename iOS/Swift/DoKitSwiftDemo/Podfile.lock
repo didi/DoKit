@@ -16,15 +16,19 @@ PODS:
     - AFNetworking/NSURLSession
   - DoraemonKit-Swift (0.0.1):
     - DoraemonKit-Swift/Core (= 0.0.1)
-  - DoraemonKit-Swift/Core (0.0.1)
+    - fishhook
+  - DoraemonKit-Swift/Core (0.0.1):
+    - fishhook
+  - fishhook (0.2)
 
 DEPENDENCIES:
   - AFNetworking
   - DoraemonKit-Swift (from `../../../`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - AFNetworking
+    - fishhook
 
 EXTERNAL SOURCES:
   DoraemonKit-Swift:
@@ -32,8 +36,9 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
-  DoraemonKit-Swift: 2360f49ae0c4ce1f9ad76925c2e88c47dd19e149
+  DoraemonKit-Swift: 1168d6710365beadba0be993d94062fa38186ccf
+  fishhook: ea19933abfe8f2f52c55fd8b6e2718467d3ebc89
 
-PODFILE CHECKSUM: 9e64b860476ec1c40ced29dec7bc70177f50ece3
+PODFILE CHECKSUM: fec5c4cfc4280179b4cb19138d8c02cdfc020d4c
 
 COCOAPODS: 1.9.3
