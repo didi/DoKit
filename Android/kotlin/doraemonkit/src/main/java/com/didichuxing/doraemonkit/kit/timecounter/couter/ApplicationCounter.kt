@@ -35,6 +35,7 @@ internal class ApplicationCounter {
      */
     fun onAppCreateEnd() {
         applicationRecord?.createEndTime = SystemClock.elapsedRealtime()
+        // TODO 加入健康体检
     }
 
     fun getApplicationRecord(): ApplicationTimeCounterRecord? {
