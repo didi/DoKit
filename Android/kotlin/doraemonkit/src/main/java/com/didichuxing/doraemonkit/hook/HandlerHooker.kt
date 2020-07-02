@@ -27,7 +27,8 @@ object HandlerHooker {
     }
 
     @SuppressLint("PrivateApi", "DiscouragedPrivateApi")
-    @Throws(ClassNotFoundException::class, NoSuchMethodException::class, InvocationTargetException::class, IllegalAccessException::class, NoSuchFieldException::class)
+    @Throws(ClassNotFoundException::class, NoSuchMethodException::class, InvocationTargetException::class,
+            IllegalAccessException::class, NoSuchFieldException::class)
     private fun hookInstrumentation() {
         val activityThreadClass = Class.forName("android.app.ActivityThread")
         val currentActivityThreadMethod = activityThreadClass.getDeclaredMethod("currentActivityThread")
@@ -53,15 +54,14 @@ object HandlerHooker {
         if (!acc) {
             handlerCallbackField.isAccessible = true
         }
-        handlerCallbackField[handlerObj]?.let {
-            val oldCallbackObj = handlerCallbackField[handlerObj] as Handler.Callback
-            //自定义handlerCallback
-            val proxyMHCallback = ProxyHandlerCallback(oldCallbackObj, handlerObj)
-            //将自定义callback注入到activityThread的mH对象中 后期回调会走ProxyHandlerCallback
-            handlerCallbackField[handlerObj] = proxyMHCallback
-            if (!acc) {
-                handlerCallbackField.isAccessible = acc
-            }
+
+        val oldCallbackObj = handlerCallbackField[handlerObj] as? Handler.Callback
+        //自定义handlerCallback
+        val proxyMHCallback = ProxyHandlerCallback(oldCallbackObj, handlerObj)
+        //将自定义callback注入到activityThread的mH对象中 后期回调会走ProxyHandlerCallback
+        handlerCallbackField[handlerObj] = proxyMHCallback
+        if (!acc) {
+            handlerCallbackField.isAccessible = acc
         }
     }
 }

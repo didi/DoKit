@@ -18,6 +18,8 @@ import com.didichuxing.doraemonkit.kit.performance.cpu.CpuInfoPageFragment
 import com.didichuxing.doraemonkit.kit.performance.fps.FrameInfoPageFragment
 import com.didichuxing.doraemonkit.kit.performance.ram.RamInfoPageFragment
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoFragment
+import com.didichuxing.doraemonkit.kit.timecounter.AppRecordFragment
+import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitManagerFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitSettingFragment
 import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkFragment
@@ -52,6 +54,8 @@ open class UniversalActivity : BaseActivity() {
             FragmentIndex.FRAGMENT_FRAME_INFO -> FrameInfoPageFragment::class.java
             FragmentIndex.FRAGMENT_CPU -> CpuInfoPageFragment::class.java
             FragmentIndex.FRAGMENT_RAM -> RamInfoPageFragment::class.java
+            FragmentIndex.FRAGMENT_TIME_COUNTER -> TimeCounterFragment::class.java
+            FragmentIndex.FRAGMENT_APP_RECORD_DETAIL -> AppRecordFragment::class.java
             FragmentIndex.FRAGMENT_SYS_INFO -> SysInfoFragment::class.java
             FragmentIndex.FRAGMENT_LARGE_PICTURE -> LargePictureFragment::class.java
             // 性能监控-> 卡顿检测
