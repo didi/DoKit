@@ -11,6 +11,7 @@ import com.didichuxing.doraemonkit.weex.storage.StorageInfo
 import com.didichuxing.doraemonkit.weex.storage.adapter.StorageAdapter
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
+import kotlinx.coroutines.*
 
 /**
  * Transformed by alvince on 2020/7/1
@@ -18,7 +19,7 @@ import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
  * @author haojianglong
  * @date 2019-06-18
  */
-class StorageFragment : BaseFragment() {
+class StorageFragment : BaseFragment(), CoroutineScope by MainScope() {
 
     private var storageHacker: StorageHacker? = null
 
@@ -54,17 +55,17 @@ class StorageFragment : BaseFragment() {
                     }
                 }
                 storageHacker = StorageHacker(context, true).also {
-                    it.fetch(object : StorageHacker.OnLoadListener {
-                        override fun onLoad(list: List<StorageInfo>) {
-                            (adapter as? StorageAdapter)?.append(list)
-                        }
-                    })
+                    launch {
+                        val list = withContext(Dispatchers.IO) { it.fetch() }
+                        (adapter as? StorageAdapter)?.append(list)
+                    }
                 }
             }
     }
 
     override fun onDestroy() {
         storageHacker?.destroy()
+        cancel()
         super.onDestroy()
     }
 
