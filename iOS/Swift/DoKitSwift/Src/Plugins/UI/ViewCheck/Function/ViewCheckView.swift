@@ -94,7 +94,7 @@ extension ViewCheckView {
         guard current != view else { return }
         defer { current = view }
         
-        print(view.debugInfo)
+        VisualInfo.defalut.view.set(text: view.debugInfo)
     }
 }
 

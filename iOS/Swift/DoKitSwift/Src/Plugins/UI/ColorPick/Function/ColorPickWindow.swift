@@ -108,7 +108,7 @@ extension ColorPickWindow {
         magnifyLayer.setNeedsDisplay()
         CATransaction.commit()
         if let color = screenShotImage?.toColor(point: centerPoint) {
-            ColorPickInfoWindow.shared.set(current: color)
+            VisualInfo.colorPick.view.set(current: color)
         }
     }
     

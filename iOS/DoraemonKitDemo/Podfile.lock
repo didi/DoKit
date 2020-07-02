@@ -122,7 +122,7 @@ SPEC CHECKSUMS:
   FBRetainCycleDetector: 46daef95c2dfa9be34b53087edf6a8f34e4c749c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: c0ab22c73e1b84f358d1e2f74bf6afd1c60829f2
-  libwebp: 04242ef451672185c1fe41b285a034d2fbda483c
+  libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
   SDWebImage: 920f1a2ff1ca8296ad34f6e0510a1ef1d70ac965
   SDWebImageWebPCoder: ce58a29621c2806dd5c36695ed192cf67163ff9d
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
