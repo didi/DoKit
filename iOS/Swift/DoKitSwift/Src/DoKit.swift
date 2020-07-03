@@ -43,6 +43,7 @@ public class DoKit {
         addPlugin(plugin: LogPlugin())
         
         addPlugin(plugin: ANRPlugin())
+        addPlugin(plugin: MemoryPlugin())
         setup()
     }
     
