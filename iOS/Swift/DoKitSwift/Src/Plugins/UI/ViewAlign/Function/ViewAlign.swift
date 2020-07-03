@@ -24,7 +24,7 @@ class ViewAlign {
         
         NotificationCenter.default.addObserver(
             forName: .closePluginNotification,
-            object: self,
+            object: nil,
             queue: .main
         ) { [weak self] (sender) in
             self?.hide()

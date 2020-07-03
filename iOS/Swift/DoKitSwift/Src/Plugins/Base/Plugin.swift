@@ -47,7 +47,8 @@ public struct PluginModule: Hashable {
 }
 
 extension PluginModule {
-    static let performance = PluginModule(name: "性能检测")
+    static let platform = PluginModule(name: LocalizedString("平台工具"))
+    static let performance = PluginModule(name: LocalizedString("性能检测"))
     static let ui = PluginModule(name: LocalizedString("视觉工具"))
     static let common = PluginModule(name: LocalizedString("常用工具"))
 }
