@@ -13,19 +13,22 @@ import java.util.*
  * Created by wanglikun on 2019/4/2
  */
 class WifiHooker : BaseServiceHooker() {
-    override val serviceName: String
-        get() = Context.WIFI_SERVICE
 
-    override val stubName: String
-        get() = "android.net.wifi.IWifiManager\$Stub"
 
-    override val methodHandlers: MutableMap<String, MethodHandler?>
-        get() {
-            val methodHandlers: MutableMap<String, MethodHandler?> = mutableMapOf()
-            methodHandlers["getScanResults"] = GetScanResultsMethodHandler()
-            methodHandlers["getConnectionInfo"] = GetConnectionInfoMethodHandler()
-            return methodHandlers
-        }
+    override fun serviceName(): String {
+        return Context.WIFI_SERVICE
+    }
+
+    override fun stubName(): String {
+        return "android.net.wifi.IWifiManager\$Stub"
+    }
+
+    override fun methodHandlers(): MutableMap<String, MethodHandler?> {
+        val methodHandlers: MutableMap<String, MethodHandler?> = mutableMapOf()
+        methodHandlers["getScanResults"] = GetScanResultsMethodHandler()
+        methodHandlers["getConnectionInfo"] = GetConnectionInfoMethodHandler()
+        return methodHandlers
+    }
 
     @Throws(NoSuchFieldException::class, IllegalAccessException::class, ClassNotFoundException::class, NoSuchMethodException::class, InvocationTargetException::class)
     override fun replaceBinder(context: Context?, proxy: IBinder?) {
@@ -34,7 +37,7 @@ class WifiHooker : BaseServiceHooker() {
         val wifiManagerClass: Class<*> = wifiManager.javaClass
         val mServiceField = wifiManagerClass.getDeclaredField("mService")
         mServiceField.isAccessible = true
-        val stub = Class.forName(stubName)
+        val stub = Class.forName(stubName())
         val asInterface = stub.getDeclaredMethod(BaseServiceHooker.METHOD_ASINTERFACE, IBinder::class.java)
         mServiceField[wifiManager] = asInterface.invoke(null, proxy)
         mServiceField.isAccessible = false
@@ -50,19 +53,33 @@ class WifiHooker : BaseServiceHooker() {
     }
 
     internal class GetConnectionInfoMethodHandler : MethodHandler {
-        @Throws(InvocationTargetException::class, IllegalAccessException::class)
+
         override fun onInvoke(originObject: Any?, proxyObject: Any?, method: Method?, args: Array<Any>?): Any? {
-            if (!GpsMockManager.instance.isMocking) {
-                return method!!.invoke(originObject, args)
+            method?.let { m ->
+                try {
+                    if (!GpsMockManager.instance.isMocking) {
+                        return if (args != null) {
+                            m.invoke(originObject, *args)
+                        } else {
+                            null
+                        }
+                    }
+                } catch (e: IllegalArgumentException) {
+                    e.printStackTrace()
+                    return null
+                }
+
+                try {
+                    return Class.forName("android.net.wifi.WifiInfo").newInstance()
+                } catch (e: InstantiationException) {
+                    e.printStackTrace()
+                } catch (e: ClassNotFoundException) {
+                    e.printStackTrace()
+                }
+                return m.invoke(originObject, args)
             }
-            try {
-                return Class.forName("android.net.wifi.WifiInfo").newInstance()
-            } catch (e: InstantiationException) {
-                e.printStackTrace()
-            } catch (e: ClassNotFoundException) {
-                e.printStackTrace()
-            }
-            return method!!.invoke(originObject, args)
+
+            return null
         }
     }
 }

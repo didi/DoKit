@@ -14,9 +14,11 @@ abstract class BaseServiceHooker : InvocationHandler {
      * 系统的真实对象
      */
     private var mOriginService: Any? = null
-    abstract val serviceName: String?
-    abstract val stubName: String?
-    abstract val methodHandlers: MutableMap<String, MethodHandler?>
+
+    abstract fun serviceName(): String
+    abstract fun stubName(): String
+    abstract fun methodHandlers(): MutableMap<String, MethodHandler?>
+
 
     /**
      * @param proxy  我们自己包装的代理对象
@@ -28,13 +30,12 @@ abstract class BaseServiceHooker : InvocationHandler {
      * @throws NoSuchFieldException
      * @throws NoSuchMethodException
      */
-    @Throws(InvocationTargetException::class, IllegalAccessException::class, NoSuchFieldException::class, NoSuchMethodException::class)
-    override fun invoke(proxy: Any, method: Method, args: Array<Any>): Any? {
-        if (mOriginService == null) {
+    override fun invoke(proxy: Any?, method: Method, args: Array<Any>): Any? {
+        if (mOriginService == null && proxy == null) {
             return null
         }
-        return if (methodHandlers.containsKey(method.name) && methodHandlers[method.name] != null) {
-            methodHandlers[method.name]!!.onInvoke(mOriginService, proxy, method, args)
+        return if (methodHandlers().containsKey(method.name) && methodHandlers()[method.name] != null) {
+            methodHandlers()[method.name]?.onInvoke(mOriginService, proxy, method, args)
         } else {
             method.invoke(mOriginService, *args)
         }
@@ -42,7 +43,7 @@ abstract class BaseServiceHooker : InvocationHandler {
 
     fun setBinder(binder: IBinder?) {
         try {
-            val stub = Class.forName(stubName!!)
+            val stub = Class.forName(stubName())
             val asInterface = stub.getDeclaredMethod(METHOD_ASINTERFACE, IBinder::class.java)
             mOriginService = asInterface.invoke(null, binder)
         } catch (e: Exception) {

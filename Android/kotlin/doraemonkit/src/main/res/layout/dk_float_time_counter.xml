@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:background="@drawable/dk_time_counter_background"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp">
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/DK.TextSmall.Dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="start|center_vertical"
+                android:singleLine="true"
+                android:text="1233" />
+
+            <TextView
+                android:id="@+id/tv_total_cost"
+                style="@style/DK.TextSmall.Dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dk_font_size_12" />
+
+            <TextView
+                android:id="@+id/tv_detail"
+                style="@style/DK.TextSmall.Dark"
+                android:gravity="start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dk_font_size_10" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|top"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:src="@mipmap/dk_close_icon" />
+
+    </FrameLayout>
+</FrameLayout>

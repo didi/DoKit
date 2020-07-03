@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.kit.core
 import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.annotation.IdRes
 
 /**
@@ -19,14 +20,14 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener, DokitV
         return false
     }
 
-    override fun onCreate(context: Context?) {
+    override fun onCreate(context: Context) {
     }
 
-    override fun onCreateView(context: Context?, rootView: FrameLayout?): View? {
-        return null
+    override fun onCreateView(context: Context, rootView: FrameLayout): View {
+        return TextView(context)
     }
 
-    override fun onViewCreated(rootView: FrameLayout?) {
+    override fun onViewCreated(rootView: FrameLayout) {
     }
 
     override fun onResume() {

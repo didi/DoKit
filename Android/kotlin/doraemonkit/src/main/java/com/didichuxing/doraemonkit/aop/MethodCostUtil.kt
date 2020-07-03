@@ -5,6 +5,7 @@ import android.app.Application
 import android.app.Service
 import android.util.Log
 import com.didichuxing.doraemonkit.aop.method_stack.StaticMethodObject
+import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -41,13 +42,12 @@ object MethodCostUtil {
             if (classObj is Application) {
                 val methods = methodName.split("&").toTypedArray()
                 if (methods.size == 2) {
-                    //TODO("功能待实现")
-//                    if (methods[1] == "onCreate") {
-//                        TimeCounterManager.get().onAppCreateStart()
-//                    }
-//                    if (methods[1] == "attachBaseContext") {
-//                        TimeCounterManager.get().onAppAttachBaseContextStart()
-//                    }
+                    if (methods[1] == "onCreate") {
+                        TimeCounterManager.getAppCounter().onAppCreateStart()
+                    }
+                    if (methods[1] == "attachBaseContext") {
+                        TimeCounterManager.getAppCounter().onAppAttachBaseContextStart()
+                    }
                 }
             }
         } catch (e: Exception) {
@@ -78,13 +78,12 @@ object MethodCostUtil {
                         //Application 启动时间统计
                         val methods = methodName.split("&").toTypedArray()
                         if (methods.size == 2) {
-                            //TODO("功能待实现")
-//                            if (methods[1] == "onCreate") {
-//                                TimeCounterManager.get().onAppCreateEnd()
-//                            }
-//                            if (methods[1] == "attachBaseContext") {
-//                                TimeCounterManager.get().onAppAttachBaseContextEnd()
-//                            }
+                            if (methods[1] == "onCreate") {
+                                TimeCounterManager.getAppCounter().onAppCreateEnd()
+                            }
+                            if (methods[1] == "attachBaseContext") {
+                                TimeCounterManager.getAppCounter().onAppAttachBaseContextEnd()
+                            }
                         }
                         //printApplicationStartTime(methodName);
                     } else if (classObj is Activity) {
@@ -99,7 +98,8 @@ object MethodCostUtil {
                     if (costTime >= thresholdTime) {
                         val threadName = Thread.currentThread().name
                         Log.i(TAG, "================Dokit================")
-                        Log.i(TAG, "\t methodName===>$methodName  threadName==>$threadName  thresholdTime===>$thresholdTime   costTime===>$costTime")
+                        Log.i(TAG,
+                                "\t methodName===>$methodName  threadName==>$threadName  thresholdTime===>$thresholdTime   costTime===>$costTime")
                         val stackTraceElements = Thread.currentThread().stackTrace
                         for (stackTraceElement in stackTraceElements) {
                             if (stackTraceElement.toString().contains("MethodCostUtil")) {

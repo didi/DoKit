@@ -298,18 +298,15 @@ internal class NormalDokitViewManager(val mContext: Context) : DokitViewManagerI
 
 
             //往DecorView的子RootView中添加dokitView
-            if (dokitView.rootView != null) {
-                getDokitRootContentView(dokitIntent.activity, mDecorView)
-                        .addView(dokitView.rootView,
-                                dokitView.normalLayoutParams)
-                //延迟100毫秒调用
-                dokitView.postDelayed(100, Runnable {
-                    dokitView.onResume()
-                    //操作DecorRootView
-                    dokitView.dealDecorRootView(getDokitRootContentView(dokitIntent.activity, mDecorView))
-                })
+            getDokitRootContentView(dokitIntent.activity, mDecorView)
+                .addView(dokitView.rootView, dokitView.normalLayoutParams)
+            //延迟100毫秒调用
+            dokitView.postDelayed(100, Runnable {
+                dokitView.onResume()
+                //操作DecorRootView
+                dokitView.dealDecorRootView(getDokitRootContentView(dokitIntent.activity, mDecorView))
+            })
 
-            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
