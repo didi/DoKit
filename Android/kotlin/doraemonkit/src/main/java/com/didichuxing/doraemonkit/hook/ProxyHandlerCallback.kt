@@ -11,7 +11,8 @@ import java.lang.reflect.Method
  * 2019/6/3
  * @desc: 自定义的handlerCallback
  */
-internal class ProxyHandlerCallback(private val mOldCallback: Handler.Callback?, val mHandler: Handler) : Handler.Callback {
+internal class ProxyHandlerCallback(private val mOldCallback: Handler.Callback?, val mHandler: Handler) :
+        Handler.Callback {
     override fun handleMessage(msg: Message): Boolean {
         val msgType = preDispatch(msg)
         if (mOldCallback != null && mOldCallback.handleMessage(msg)) {
@@ -26,10 +27,10 @@ internal class ProxyHandlerCallback(private val mOldCallback: Handler.Callback?,
     private fun preDispatch(msg: Message): Int {
         when (msg.what) {
             LAUNCH_ACTIVITY -> {
-                //TODO("需要kotlin实现")
+                ActivityHookManager.dispatchActivityPreLauncher()
             }
             PAUSE_ACTIVITY -> {
-                //TODO("需要kotlin实现")
+                ActivityHookManager.dispatchActivityPrePause()
             }
             EXECUTE_TRANSACTION -> return handlerActivity(msg)
             else -> {
@@ -40,15 +41,14 @@ internal class ProxyHandlerCallback(private val mOldCallback: Handler.Callback?,
 
     private fun handlerActivity(msg: Message): Int {
         val obj = msg.obj
-//        val activityCallback =   Reflector.QuietReflector.with(obj).method("getLifecycleStateRequest").call<Any>()
-        val activityCallback =   ReflectUtils.reflect(obj).method("getLifecycleStateRequest").get<Method>().invoke(obj)
+        val activityCallback = obj?.javaClass?.getMethod("getLifecycleStateRequest")?.invoke(obj)
         if (activityCallback != null) {
             val transactionName = activityCallback.javaClass.canonicalName
             if (TextUtils.equals(transactionName, LAUNCH_ITEM_CLASS)) {
-                //TimeCounterManager.get().onActivityLaunch()
+                ActivityHookManager.dispatchActivityPreLauncher()
                 return LAUNCH_ACTIVITY
             } else if (TextUtils.equals(transactionName, PAUSE_ITEM_CLASS)) {
-                //TimeCounterManager.get().onActivityPause()
+                ActivityHookManager.dispatchActivityPrePause()
                 return PAUSE_ACTIVITY
             }
         }
@@ -58,10 +58,10 @@ internal class ProxyHandlerCallback(private val mOldCallback: Handler.Callback?,
     private fun postDispatch(msgType: Int) {
         when (msgType) {
             LAUNCH_ACTIVITY -> {
-                //TODO("需要kotlin实现")
+                ActivityHookManager.dispatchActivityLaunched()
             }
             PAUSE_ACTIVITY -> {
-                //TODO("需要kotlin实现")
+                ActivityHookManager.dispatchActivityPaused()
             }
             else -> {
             }

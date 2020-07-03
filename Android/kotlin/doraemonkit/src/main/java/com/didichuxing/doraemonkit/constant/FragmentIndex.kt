@@ -59,7 +59,7 @@ interface FragmentIndex {
         /**
          * APP启动耗时
          */
-        const val FRAGMENT_APP_START = 28
+        const val FRAGMENT_APP_RECORD_DETAIL = 28
 
         /**
          * DoKit 设置页面
