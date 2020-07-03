@@ -10,8 +10,8 @@ import Foundation
 struct MemoryPlugin: Plugin {
     static var isOn = false
     var module: PluginModule { .performance }
-    var title: String { "Memory" }
-    var icon: UIImage? { DKImage(named: "doraemon_kadun") }
+    var title: String { LocalizedString("内存") }
+    var icon: UIImage? { DKImage(named: "doraemon_memory") }
     
     func onInstall() { /* do nothing */ }
     

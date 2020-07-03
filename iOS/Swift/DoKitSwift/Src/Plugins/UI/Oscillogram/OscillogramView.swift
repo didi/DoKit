@@ -68,24 +68,24 @@ class OscillogramView: UIView {
     }
     
     override func draw(_ rect: CGRect) {
-        if points().isEmpty { return }
+        if visiableNodes().isEmpty { return }
         let path = UIBezierPath()
         path.lineWidth = 1
-        var p = points()
-        let startPoint = p.removeFirst()
+        var n = visiableNodes()
+        let startPoint = n.removeFirst().point
         path.move(to: startPoint)
         UIColor(0x00DFDD).set()
-        p.forEach { (point) in
-            path.addLine(to: point)
-            path.addArc(withCenter: point, radius: 1, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+        n.forEach { (node) in
+            path.addLine(to: node.point)
+            path.addArc(withCenter: node.point, radius: 1, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
         }
         path.stroke()
-        tipLabel.text = String(format: "%.2f", p.last?.y ?? 0)
-        tipLabel.center = CGPoint(x: p.last?.x ?? 0, y: (p.last?.y ?? 0) - tipLabel.height)
+        tipLabel.text = String(format: "%.2f", n.last?.value ?? 0)
+        tipLabel.center = CGPoint(x: n.last?.point.x ?? 0, y: (n.last?.point.y ?? 0) - tipLabel.height)
         tipLabel.sizeToFit()
     }
     
-    private func points() -> [CGPoint] {
+    private func visiableNodes() -> [Node] {
         let padding = UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         let spacing: CGFloat = 10
         
@@ -93,14 +93,15 @@ class OscillogramView: UIView {
         let lineChartHeight = bounds.size.height - padding.top - padding.bottom
         let count = Int(floor(lineChartWidth / spacing))
         let array =  Array(nodes.suffix(count))
-        var points = [CGPoint]()
+        var nodes = [Node]()
         var x: CGFloat = padding.left
         array.forEach { (value) in
             let y = lineChartHeight * CGFloat(1 - Double(value) / maxValue) + padding.bottom
-            points.append(CGPoint(x: x, y: y))
+            let node = Node(point: CGPoint(x: x, y: y), value: value)
+            nodes.append(node)
             x += spacing
         }
-        return points
+        return nodes
     }
     
     @objc func stop() {
@@ -128,7 +129,13 @@ class OscillogramView: UIView {
         }
         return nil
     }
+}
 
+extension OscillogramView {
+    struct Node {
+        let point: CGPoint
+        let value: Double
+    }
 }
 
 protocol OscillogramViewDelegate: class {

@@ -44,12 +44,12 @@ class MemoryViewController: BaseViewController {
 
 extension MemoryViewController: CellSwitchDelegate {
     func changeSwitchOn(on: Bool) {
-         MemoryPlugin.isOn = on
+        MemoryPlugin.isOn = on
         if on {
             OscillogramWindowManager.shared.add(oscillogramView: MemoryViewController.oscillogramView)
             MemoryViewController.oscillogramView.delegate = self
         } else {
-            OscillogramWindowManager.shared.remove(oscillogramView: MemoryViewController.oscillogramView)
+            oscillogramViewDidColsed()
         }
     }
 }
@@ -68,5 +68,4 @@ extension MemoryViewController: OscillogramViewDelegate {
         OscillogramWindowManager.shared.remove(oscillogramView: MemoryViewController.oscillogramView)
         switchView.renderUIWithTitle(title: LocalizedString("内存检测开关"), on:  MemoryPlugin.isOn)
     }
-
 }
