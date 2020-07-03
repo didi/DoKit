@@ -13,20 +13,22 @@ import java.util.*
  * Created by wanglikun on 2019/4/2
  */
 class TelephonyHooker : BaseServiceHooker() {
-    override val serviceName: String
-        get() = Context.TELEPHONY_SERVICE
 
-    override val stubName: String
-        get() = "com.android.internal.telephony.ITelephony\$Stub"
+    override fun serviceName(): String {
+        return Context.TELEPHONY_SERVICE
+    }
 
-    override val methodHandlers: MutableMap<String, MethodHandler?>
-        get() {
-            val methodHandlers: MutableMap<String, MethodHandler?> = mutableMapOf()
-            methodHandlers["getAllCellInfo"] = GetAllCellInfoMethodHandler()
-            methodHandlers["getCellLocation"] = GetCellLocationMethodHandler()
-            methodHandlers["listen"] = ListenMethodHandler()
-            return methodHandlers
-        }
+    override fun stubName(): String {
+        return "com.android.internal.telephony.ITelephony\$Stub"
+    }
+
+    override fun methodHandlers(): MutableMap<String, MethodHandler?> {
+        val methodHandlers: MutableMap<String, MethodHandler?> = mutableMapOf()
+        methodHandlers["getAllCellInfo"] = GetAllCellInfoMethodHandler()
+        methodHandlers["getCellLocation"] = GetCellLocationMethodHandler()
+        methodHandlers["listen"] = ListenMethodHandler()
+        return methodHandlers
+    }
 
     override fun replaceBinder(context: Context?, proxy: IBinder?) {}
     internal class GetAllCellInfoMethodHandler : MethodHandler {

@@ -18,24 +18,23 @@ import java.util.*
  * Created by wanglikun on 2019/4/2
  */
 class LocationHooker : BaseServiceHooker() {
-    //    private List<LocationListener> mListeners = new ArrayList<>();
-    //    private LocationListener mHookLocationListener = null;
-    override val serviceName: String
-        get() = Context.LOCATION_SERVICE
 
-    override val stubName: String
-        get() = "android.location.ILocationManager\$Stub"
+    override fun serviceName(): String {
+        return Context.LOCATION_SERVICE
+    }
 
-    //methodHandlers.put("removeUpdates", new RemoveUpdatesMethodHandler());
-    override val methodHandlers: MutableMap<String, MethodHandler?>
-        get() {
-            val methodHandlers: MutableMap<String, MethodHandler?> = mutableMapOf()
-            //methodHandlers.put("removeUpdates", new RemoveUpdatesMethodHandler());
-            methodHandlers["requestLocationUpdates"] = RequestLocationUpdatesMethodHandler()
-            methodHandlers["getLastLocation"] = GetLastLocationMethodHandler()
-            methodHandlers["getLastKnownLocation"] = GetLastKnownLocationMethodHandler()
-            return methodHandlers
-        }
+    override fun stubName(): String {
+        return "android.location.ILocationManager\$Stub"
+    }
+
+    override fun methodHandlers(): MutableMap<String, MethodHandler?> {
+        val methodHandlers: MutableMap<String, MethodHandler?> = mutableMapOf()
+        //methodHandlers.put("removeUpdates", new RemoveUpdatesMethodHandler());
+        methodHandlers["requestLocationUpdates"] = RequestLocationUpdatesMethodHandler()
+        methodHandlers["getLastLocation"] = GetLastLocationMethodHandler()
+        methodHandlers["getLastKnownLocation"] = GetLastKnownLocationMethodHandler()
+        return methodHandlers
+    }
 
     @Throws(NoSuchFieldException::class, IllegalAccessException::class, ClassNotFoundException::class, NoSuchMethodException::class, InvocationTargetException::class)
     override fun replaceBinder(context: Context?, proxy: IBinder?) {
@@ -44,7 +43,7 @@ class LocationHooker : BaseServiceHooker() {
         val locationManagerClass: Class<*> = locationManager.javaClass
         val mServiceField = locationManagerClass.getDeclaredField("mService")
         mServiceField.isAccessible = true
-        val stub = Class.forName(stubName)
+        val stub = Class.forName(stubName())
         val asInterface = stub.getDeclaredMethod(METHOD_ASINTERFACE, IBinder::class.java)
         mServiceField[locationManager] = asInterface.invoke(null, proxy)
         mServiceField.isAccessible = false

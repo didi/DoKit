@@ -27,7 +27,7 @@ class ServiceHookManager private constructor() {
             val serviceManager = Class.forName(CLASS_SERVICE_MANAGER)
             val getService = serviceManager.getDeclaredMethod(METHOD_GET_SERVICE, String::class.java)
             for (hooker in mHookers) {
-                val binder = getService.invoke(null, hooker.serviceName) as IBinder ?: return
+                val binder = getService.invoke(null, hooker.serviceName()) as IBinder ?: return
                 val classLoader = binder.javaClass.classLoader
                 val interfaces = arrayOf<Class<*>>(IBinder::class.java)
                 val handler = BinderHookHandler(binder, hooker)
@@ -37,8 +37,8 @@ class ServiceHookManager private constructor() {
                 val sCache = serviceManager.getDeclaredField(FIELD_S_CACHE)
                 sCache.isAccessible = true
                 val cache = sCache[null] as MutableMap<String, IBinder>
-                hooker.serviceName?.let {
-                    cache[hooker.serviceName!!] = proxy
+                hooker.serviceName().let {
+                    cache[hooker.serviceName()] = proxy
                     sCache.isAccessible = false
                 }
             }
