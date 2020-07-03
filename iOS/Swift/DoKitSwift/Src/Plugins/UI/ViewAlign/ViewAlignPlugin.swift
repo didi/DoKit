@@ -21,6 +21,7 @@ struct ViewAlignPlugin: Plugin {
     
     func onSelected() {
         ViewAlign.shared.show()
+        VisualInfo.defalut.show()
         HomeWindow.shared.hide()
     }
 }

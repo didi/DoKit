@@ -20,7 +20,7 @@ struct ColorPickPlugin: Plugin {
     }
     func onSelected() {
         ColorPickWindow.shared.show()
-        ColorPickInfoWindow.shared.show()
+        VisualInfo.colorPick.show()
         HomeWindow.shared.hide()
     }
 }

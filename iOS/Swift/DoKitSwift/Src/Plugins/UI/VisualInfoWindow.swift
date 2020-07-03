@@ -1,25 +1,28 @@
 //
-//  ColorPickInfoWindow.swift
+//  VisualInfoWindow.swift
 //  DoraemonKit-Swift
 //
-//  Created by 方林威 on 2020/5/28.
+//  Created by Lee on 2020/7/2.
 //
 
 import UIKit
 
-class ColorPickInfoWindow: UIWindow {
-
-    static let shared = ColorPickInfoWindow(frame: ColorPickInfoWindow.rect)
+enum VisualInfo {
     
-    private lazy var pickInfoView = ColorPickInfoView()
+}
+
+class VisualInfoWindow<View: UIView>: UIWindow {
+    
+    private(set) var view = View()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
     
-   required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setup()
     }
     
     private func setup() {
@@ -33,25 +36,28 @@ class ColorPickInfoWindow: UIWindow {
         
         backgroundColor = .clear
         windowLevel = .statusBar + 1.1
-        rootViewController = rootViewController ?? ColorPickInfoController()
-        rootViewController?.view.addSubview(pickInfoView)
+        rootViewController = VisualInfoController()
+        rootViewController?.view.addSubview(view)
         
-        addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(panAction)))
+        addGestureRecognizer(UIPanGestureRecognizer(panAction))
+        
         NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(closePluginNotification),
-            name: .closePluginNotification,
-            object: nil)
+            forName: .closePluginNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] (sender) in
+            self?.hide()
+        }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        pickInfoView.frame = bounds
+        view.frame = bounds
     }
 }
 
 // MARK: - Public
-extension ColorPickInfoWindow {
+extension VisualInfoWindow {
     
     func show() {
         isHidden = false
@@ -60,16 +66,11 @@ extension ColorPickInfoWindow {
     func hide() {
         isHidden = true
     }
-    
-    func set(current color: UIColor) {
-        pickInfoView.set(current: color)
-    }
 }
 
 // MARK: - Actions
-extension ColorPickInfoWindow {
+extension VisualInfoWindow {
     
-    @objc
     private func panAction(_ sender: UIPanGestureRecognizer) {
         guard let view = sender.view else { return }
         //1、获得拖动位移
@@ -82,40 +83,9 @@ extension ColorPickInfoWindow {
             y: view.centerY + offsetPoint.y
         )
     }
-    
-    @objc
-    private func closePluginNotification() {
-        hide()
-    }
 }
 
-// MARK: - Private
-extension ColorPickInfoWindow {
-    
-    static private var rect: CGRect {
-        let height: CGFloat = kSizeFrom750_Landscape(100)
-        let margin: CGFloat = kSizeFrom750_Landscape(30)
-        switch kOrientationPortrait {
-        case true:
-            return CGRect(
-                x: margin,
-                y: kScreenHeight - height - margin - kIphoneSafeBottomAreaHeight,
-                width: kScreenWidth - 2 * margin,
-                height: height
-            )
-            
-        case false:
-            return CGRect(
-                x: margin,
-                y: kScreenHeight - height - margin - kIphoneSafeBottomAreaHeight,
-                width: kScreenHeight - 2 * margin,
-                height: height
-            )
-        }
-    }
-}
-
-fileprivate class ColorPickInfoController: UIViewController {
+private class VisualInfoController: UIViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -127,6 +97,37 @@ fileprivate class ColorPickInfoController: UIViewController {
                 width: size.height,
                 height: size.width
             )
+        }
+    }
+}
+
+private var UIGestureRecognizerWrapperKey: Void?
+private extension UIGestureRecognizer {
+    
+    private var wrapper: Any? {
+        get { objc_getAssociatedObject(self, &UIGestureRecognizerWrapperKey) }
+        set { objc_setAssociatedObject(self, &UIGestureRecognizerWrapperKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+    
+    convenience init<T: UIGestureRecognizer>(_ closure: @escaping (T) -> Void) {
+        let wrapper = Wrapper(closure)
+        self.init(target: wrapper, action: #selector(Wrapper<T>.action))
+        self.wrapper = wrapper
+    }
+    
+    class Wrapper<T>: NSObject {
+        let value: ((T) -> Void)?
+        
+        init(_ value: @escaping (T) -> Void) {
+            self.value = value
+        }
+        
+        @objc
+        func action(_ sender: UIGestureRecognizer) {
+            guard let sender = sender as? T else {
+                return
+            }
+            value?(sender)
         }
     }
 }

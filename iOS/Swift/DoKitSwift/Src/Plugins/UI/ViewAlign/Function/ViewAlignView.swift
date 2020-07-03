@@ -69,6 +69,15 @@ class ViewAlignView: UIView {
         labels.2.text = .init(format: "%.1f", height - target.y)
         labels.3.text = .init(format: "%.1f", width - target.x)
         
+        let string = String(
+            format: LocalizedString("位置：左%@  右%@  上%@  下%@"),
+            labels.0.text ?? "",
+            labels.1.text ?? "",
+            labels.2.text ?? "",
+            labels.3.text ?? ""
+        )
+        VisualInfo.defalut.view.set(text: string)
+        
         // 超出范围 重置位置
         guard !bounds.contains(target) else { return }
         reset()
