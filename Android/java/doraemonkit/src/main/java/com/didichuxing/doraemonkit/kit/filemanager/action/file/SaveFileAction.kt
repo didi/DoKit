@@ -1,12 +1,12 @@
 package com.didichuxing.doraemonkit.kit.filemanager.action.file
 
-import android.util.Xml
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.FileIOUtils
 import com.blankj.utilcode.util.FileUtils
 import org.json.JSONArray
 import org.json.JSONObject
-import org.xmlpull.v1.XmlPullParser
+import org.xml.sax.helpers.DefaultHandler
+import javax.xml.parsers.SAXParserFactory
 
 
 /**
@@ -25,7 +25,7 @@ object SaveFileAction {
         if (FileUtils.isFileExists(filePath)) {
             val fileExtension = FileUtils.getFileExtension(filePath)
             if (fileExtension.contains("xml")) {
-                if (parseXml(content)) {
+                if (isXml(content)) {
                     FileIOUtils.writeFileFromString(filePath, content, false)
                     response["code"] = 200
                     response["success"] = true
@@ -80,17 +80,11 @@ object SaveFileAction {
     /**
      * 判断是否是xml
      */
-    private fun parseXml(content: String): Boolean {
+    private fun isXml(content: String): Boolean {
         try {
-            val parser = Xml.newPullParser()
-            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
-            parser.setInput(ConvertUtils.string2InputStream(content, "utf-8"), null)
-            parser.nextTag()
-            while (parser.next() !== XmlPullParser.END_TAG) {
-                if (parser.eventType !== XmlPullParser.START_TAG) {
-                    continue
-                }
-            }
+            val factory = SAXParserFactory.newInstance()
+            val sp = factory.newSAXParser()
+            sp.parse(ConvertUtils.string2InputStream(content, "utf-8"), DefaultHandler())
             return true
         } catch (e: Exception) {
             return false
