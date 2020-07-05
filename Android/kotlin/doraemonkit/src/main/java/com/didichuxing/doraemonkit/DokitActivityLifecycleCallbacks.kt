@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo
 import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceUtil
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo
 import com.didichuxing.doraemonkit.model.ViewInfo
@@ -216,11 +218,11 @@ internal class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCa
                 """.trimIndent()
             LogHelper.d(TAG,detail)
             //todo 需要完成上传数据到健康数据
-//            val uiLevelBean = UiLevelBean()
-//            uiLevelBean.page = activity.javaClass.canonicalName
-//            uiLevelBean.level = "" + maxLevel
-//            uiLevelBean.detail = detail
-//            AppHealthInfoUtil.getInstance().addUiLevelInfo(uiLevelBean)
+            val uiLevelBean = AppHealthInfo.DataBean.UiLevelBean()
+            uiLevelBean.page = activity.javaClass.canonicalName
+            uiLevelBean.level = "" + maxLevel
+            uiLevelBean.detail = detail
+            AppHealthInfoUtil.instance.addUiLevelInfo(uiLevelBean)
         } catch (e: Exception) {
             e.printStackTrace()
         }

@@ -95,7 +95,7 @@ abstract class DialogProvider<T>(protected val mData: T, private var mDialogList
     open val negativeView: View?
         get() = null
 
-    val cancelView: View?
+    open val cancelView: View?
         get() = null
 
 

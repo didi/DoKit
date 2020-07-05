@@ -6,10 +6,15 @@ import android.os.*
 import android.text.TextUtils
 import android.view.Choreographer
 import androidx.annotation.RequiresApi
+import com.blankj.utilcode.util.ActivityUtils
 import com.blankj.utilcode.util.AppUtils
+import com.blankj.utilcode.util.TimeUtils
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.config.DokitMemoryConfig
 import com.didichuxing.doraemonkit.constant.DokitConstant
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.PerformanceBean.ValuesBean
 import java.io.*
 import java.lang.Process
 
@@ -421,7 +426,72 @@ class PerformanceDataManager private constructor() {
      */
     @Synchronized
     private fun addPerformanceDataInAppHealth(performanceValue: Float, performanceType: Int) {
-        //todo 需要完善保存到监控体检
+        try {
+            val lastPerformanceInfo: PerformanceBean? = AppHealthInfoUtil.instance.getLastPerformanceInfo(performanceType)
+            //第一次启动
+            if (lastPerformanceInfo == null) {
+                val performanceBean = PerformanceBean()
+                val valuesBeans: MutableList<ValuesBean> = ArrayList()
+                valuesBeans.add(ValuesBean("" + TimeUtils.getNowMills(), "" + performanceValue))
+                performanceBean.page = ActivityUtils.getTopActivity().javaClass.canonicalName
+                performanceBean.pageKey = ActivityUtils.getTopActivity().toString()
+                performanceBean.values = valuesBeans
+                when (performanceType) {
+                    PERFORMANCE_TYPE_CPU -> {
+                        AppHealthInfoUtil.instance.addCPUInfo(performanceBean)
+                    }
+                    PERFORMANCE_TYPE_MEMORY -> {
+                        AppHealthInfoUtil.instance.addMemoryInfo(performanceBean)
+                    }
+                    else -> {
+                        AppHealthInfoUtil.instance.addFPSInfo(performanceBean)
+                    }
+                }
+            } else { //不是第一次启动
+                val lastPageKey = lastPerformanceInfo.pageKey
+                //同一个页面
+                if (lastPageKey == ActivityUtils.getTopActivity().toString()) {
+                    val valuesBeans = lastPerformanceInfo.values
+                    val valueSize = valuesBeans!!.size
+                    //判断是否需要上传数据
+                    //采集的点数必须在10~40之间 其中cpu 、 内存必须在20~40 因为fps 1s中采集一次
+                    if (valueSize < 40) {
+                        valuesBeans.add(ValuesBean("" + TimeUtils.getNowMills(), "" + performanceValue))
+                    }
+                } else { //页面已发生变化
+                    val lastValuesBeans = lastPerformanceInfo.values
+                    val valueSize = lastValuesBeans!!.size
+                    //先丢弃上一个页面的数据
+                    if (performanceType == PERFORMANCE_TYPE_CPU && valueSize < 20) {
+                        AppHealthInfoUtil.instance.removeLastPerformanceInfo(performanceType)
+                    } else if (performanceType == PERFORMANCE_TYPE_MEMORY && valueSize < 20) {
+                        AppHealthInfoUtil.instance.removeLastPerformanceInfo(performanceType)
+                    } else if (performanceType == PERFORMANCE_TYPE_FPS && valueSize < 10) {
+                        AppHealthInfoUtil.instance.removeLastPerformanceInfo(performanceType)
+                    }
+                    val performanceBean = PerformanceBean()
+                    val newValuesBeans: MutableList<ValuesBean> = ArrayList()
+                    newValuesBeans.add(ValuesBean("" + TimeUtils.getNowMills(), "" + performanceValue))
+                    performanceBean.page = ActivityUtils.getTopActivity().javaClass.canonicalName
+                    performanceBean.pageKey = ActivityUtils.getTopActivity().toString()
+                    performanceBean.values = newValuesBeans
+                    when (performanceType) {
+                        PERFORMANCE_TYPE_CPU -> {
+                            AppHealthInfoUtil.instance.addCPUInfo(performanceBean)
+                        }
+                        PERFORMANCE_TYPE_MEMORY -> {
+                            AppHealthInfoUtil.instance.addMemoryInfo(performanceBean)
+                        }
+                        else -> {
+                            AppHealthInfoUtil.instance.addFPSInfo(performanceBean)
+                        }
+                    }
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+
     }
 
     companion object {

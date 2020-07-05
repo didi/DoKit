@@ -109,7 +109,7 @@ class AppHealthInfo {
             @Expose
             var pageKey: String? = null
             var page: String? = null
-            var values: List<ValuesBean>? = null
+            var values: MutableList<ValuesBean>? = null
 
             /**
              * cpu、内存、fps 共享的ValueBean

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:background="@color/dk_color_FFFFFF"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:text="@string/dk_health_dialog_title"
+            android:textColor="@color/dk_color_333333"
+            android:textSize="21sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/dk_health_dialog_test_name"
+                android:textColor="@color/dk_color_BEBEBE"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/edit_case_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dk_dp_40"
+                android:layout_marginTop="@dimen/dk_dp_5"
+                android:background="@drawable/dk_health_edittext_style"
+                android:hint="@string/dk_health_dialog_test_name_hint"
+                android:paddingLeft="6dp"
+                android:textColor="@color/dk_color_333333"
+                android:textSize="14sp" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dk_dp_16"
+                android:text="@string/dk_health_dialog_test_person"
+                android:textColor="@color/dk_color_BEBEBE"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/edit_user_name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dk_dp_40"
+                android:layout_marginTop="@dimen/dk_dp_5"
+                android:background="@drawable/dk_health_edittext_style"
+                android:hint="@string/dk_health_dialog_test_person_hint"
+                android:paddingLeft="6dp"
+                android:textColor="@color/dk_color_333333"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <View
+            style="@style/DK.Divider"
+            android:layout_marginTop="20dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/negative"
+                style="@style/DK.Text"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/dk_dialog_button_background"
+                android:text="@string/dk_cancel" />
+
+            <View style="@style/DK.Divider.Vertical" />
+
+            <TextView
+                android:id="@+id/close"
+                style="@style/DK.Text"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/dk_dialog_button_background"
+                android:text="@string/dk_discard" />
+
+            <View style="@style/DK.Divider.Vertical" />
+
+            <TextView
+                android:id="@+id/positive"
+                style="@style/DK.Text.Blue"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/dk_dialog_button_background"
+                android:text="@string/dk_post" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

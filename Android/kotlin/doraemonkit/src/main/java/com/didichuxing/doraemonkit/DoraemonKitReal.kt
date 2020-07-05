@@ -28,7 +28,9 @@ import com.didichuxing.doraemonkit.kit.dataclean.DataCleanKit
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugKit
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerKit
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockKit
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil
 import com.didichuxing.doraemonkit.kit.health.HealthKit
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureKit
 import com.didichuxing.doraemonkit.kit.layoutborder.LayoutBorderKit
 import com.didichuxing.doraemonkit.kit.loginfo.LogInfoKit
@@ -359,12 +361,11 @@ object DoraemonKitReal {
                 //若是文件，直接打印 byte
                 val fileLength = FileUtils.getLength(file)
                 if (fileLength > FILE_LENGTH_THRESHOLD) {
-                    //TODO("健康体检功能")
-//                    val fileBean = BigFileBean()
-//                    fileBean.fileName = FileUtils.getFileName(file)
-//                    fileBean.filePath = file.absolutePath
-//                    fileBean.fileSize = "" + fileLength
-//                    AppHealthInfoUtil.getInstance().addBigFilrInfo(fileBean)
+                    val fileBean = AppHealthInfo.DataBean.BigFileBean()
+                    fileBean.fileName = FileUtils.getFileName(file)
+                    fileBean.filePath = file.absolutePath
+                    fileBean.fileSize = "" + fileLength
+                    AppHealthInfoUtil.instance.addBigFilrInfo(fileBean)
                 }
                 //LogHelper.i(TAG, "文件==>" + file.getAbsolutePath() + "   fileName===>" + FileUtils.getFileName(file) + " fileLength===>" + fileLength);
             }
