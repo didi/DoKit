@@ -25,19 +25,21 @@ class UserInfoDialogProvider internal constructor(data: Any?, listener: DialogLi
         get() = R.layout.dk_dialog_userinfo
 
     override fun findViews(view: View?) {
-        mPositive = view!!.findViewById(R.id.positive)
-        mNegative = view.findViewById(R.id.negative)
-        mClose = view.findViewById(R.id.close)
-        mCaseName = view.findViewById(R.id.edit_case_name)
-        mUserName = view.findViewById(R.id.edit_user_name)
+        view?.let {
+            mPositive = view.findViewById(R.id.positive)
+            mNegative = view.findViewById(R.id.negative)
+            mClose = view.findViewById(R.id.close)
+            mCaseName = view.findViewById(R.id.edit_case_name)
+            mUserName = view.findViewById(R.id.edit_user_name)
+        }
     }
 
     override fun bindData(data: Any?) {}
-    override val positiveView: View? = mPositive
+    override val positiveView = mPositive
 
-    override val negativeView: View? = mNegative
+    override val negativeView = mNegative
 
-    override val cancelView: View? = mClose
+    override val cancelView = mClose
 
     /**
      * 上传健康体检数据
