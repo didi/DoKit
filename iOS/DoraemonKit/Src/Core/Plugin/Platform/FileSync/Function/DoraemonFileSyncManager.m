@@ -104,6 +104,13 @@
                  processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
         return [weakSelf rename:(GCDWebServerMultiPartFormRequest *)request];
     }];
+    
+    [self addHandlerForMethod:@"POST"
+                         path:@"/saveFile"
+                 requestClass:[GCDWebServerMultiPartFormRequest class]
+                 processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
+        return [weakSelf saveFile:(GCDWebServerMultiPartFormRequest *)request];
+    }];
 }
 
 - (NSString *)getRelativeFilePath:(NSString *)fullPath{
@@ -124,6 +131,27 @@
 
 
 #pragma mark -- 服务具体处理
+
+- (GCDWebServerResponse *)saveFile:(GCDWebServerMultiPartFormRequest *)request {
+    NSString *dirPath = [[request firstArgumentForControlName:@"dirPath"] string];
+    NSString *fileName = [[request firstArgumentForControlName:@"fileName"] string];
+    NSString *content = [[request firstArgumentForControlName:@"content"] string];
+    NSString *rootPath = NSHomeDirectory();
+    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@", rootPath, dirPath, fileName];
+
+    NSDictionary *res;
+    if (![_fm createFileAtPath:targetPath contents:[content dataUsingEncoding:NSUTF8StringEncoding] attributes:nil]) {
+        NSLog(@"Failed save file at \"%@\"", targetPath);
+        res = [self getCode:0 data:nil];
+    }else{
+        res = [self getCode:200 data:nil];
+    }
+    
+    GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:res];
+    [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
+    
+    return response;
+}
 
 - (GCDWebServerResponse *)deleteFile:(GCDWebServerMultiPartFormRequest *)request {
     NSString *dirPath = [[request firstArgumentForControlName:@"dirPath"] string];
