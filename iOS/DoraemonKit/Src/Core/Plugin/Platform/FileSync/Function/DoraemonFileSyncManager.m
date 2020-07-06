@@ -125,7 +125,7 @@
     NSDictionary *query = request.query;
     NSString *dirPath = query[@"dirPath"];
     NSString *rootPath = NSHomeDirectory();
-    NSString *targetPath = [NSString stringWithFormat:@"%@%@",rootPath,dirPath];
+    NSString *targetPath = [NSString stringWithFormat:@"%@/%@",rootPath,dirPath];
     
     NSMutableArray *files = @[].mutableCopy;
        NSError *error = nil;
@@ -168,7 +168,7 @@
     GCDWebServerMultiPartFile* file = [request firstFileForControlName:@"file"];
     NSString *filePath = [[request firstArgumentForControlName:@"filePath"] string];
     NSString *rootPath = NSHomeDirectory();
-    NSString *targetPath = [NSString stringWithFormat:@"%@%@%@",rootPath,filePath,file.fileName];
+    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@",rootPath,filePath,file.fileName];
     NSError* error = nil;
     
     NSDictionary *res;
@@ -190,7 +190,7 @@
     NSString *rootPath = NSHomeDirectory();
     NSString *relativePath = [[request query] objectForKey:@"filePath"];
     NSString *fileName = [[request query] objectForKey:@"fileName"];
-    NSString *targetPath = [NSString stringWithFormat:@"%@%@%@",rootPath,relativePath,fileName];
+    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@",rootPath,relativePath,fileName];
     
     NSDictionary *res;
     BOOL isDirectory = NO;
@@ -206,9 +206,9 @@
 
 - (GCDWebServerResponse *)createFolder:(GCDWebServerRequest *)request{
     NSString *rootPath = NSHomeDirectory();
-    NSString *relativePath = [[request query] objectForKey:@"filePath"];
+    NSString *dirPath = [[request query] objectForKey:@"dirPath"];
     NSString *fileName = [[request query] objectForKey:@"fileName"];
-    NSString *targetPath = [NSString stringWithFormat:@"%@%@%@",rootPath,relativePath,fileName];
+    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@",rootPath,dirPath,fileName];
     
     NSDictionary *res;
     if (![[NSFileManager defaultManager] createDirectoryAtPath:targetPath withIntermediateDirectories:NO attributes:nil error:nil]) {
