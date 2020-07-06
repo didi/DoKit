@@ -225,18 +225,22 @@
 
 - (GCDWebServerResponse *)getFileDetail:(GCDWebServerRequest *)request{
     NSString *rootPath = NSHomeDirectory();
-    NSString *relativePath = [[request query] objectForKey:@"filePath"];
+    NSString *dirPath = [[request query] objectForKey:@"dirPath"];
     NSString *fileName = [[request query] objectForKey:@"fileName"];
-    NSString *targetPath = [NSString stringWithFormat:@"%@%@%@",rootPath,relativePath,fileName];
+    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@",rootPath,dirPath,fileName];
     
     NSDictionary *res;
-    if (![[NSFileManager defaultManager] createDirectoryAtPath:targetPath withIntermediateDirectories:NO attributes:nil error:nil]) {
-        NSLog(@"Failed creating directory \"%@\"", targetPath);
+    if ([_fm fileExistsAtPath:targetPath]) {
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+        NSString *fileContent = [[NSString alloc] initWithData:[_fm contentsAtPath:targetPath] encoding:NSUTF8StringEncoding];
+        [dic setValue:targetPath.pathExtension forKey:@"fileType"];
+        [dic setValue:fileContent forKey:@"fileContent"];
+        res = [self getCode:200 data:dic];
+    } else {
+        NSLog(@"File not founded at \"%@\"", targetPath);
         res = [self getCode:0 data:nil];
-    }else{
-        res = [self getCode:200 data:nil];
     }
-    
+
     GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:res];
     [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
     return response;
