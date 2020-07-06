@@ -90,6 +90,20 @@
                  processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
         return [weakSelf getFileDetail:request];
     }];
+    
+    [self addHandlerForMethod:@"POST"
+                         path:@"/deleteFile"
+                 requestClass:[GCDWebServerMultiPartFormRequest class]
+                 processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
+        return [weakSelf deleteFile:(GCDWebServerMultiPartFormRequest *)request];
+    }];
+    
+    [self addHandlerForMethod:@"POST"
+                         path:@"/rename"
+                 requestClass:[GCDWebServerMultiPartFormRequest class]
+                 processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
+        return [weakSelf rename:(GCDWebServerMultiPartFormRequest *)request];
+    }];
 }
 
 - (NSString *)getRelativeFilePath:(NSString *)fullPath{
@@ -110,6 +124,51 @@
 
 
 #pragma mark -- 服务具体处理
+
+- (GCDWebServerResponse *)deleteFile:(GCDWebServerMultiPartFormRequest *)request {
+    NSString *dirPath = [[request firstArgumentForControlName:@"dirPath"] string];
+    NSString *fileName = [[request firstArgumentForControlName:@"fileName"] string];
+    NSString *rootPath = NSHomeDirectory();
+    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@", rootPath, dirPath, fileName];
+    NSError *error = nil;
+
+    NSDictionary *res;
+    if (![_fm removeItemAtPath:targetPath error:&error]) {
+        NSLog(@"Failed deleting file at \"%@\"", targetPath);
+        res = [self getCode:0 data:nil];
+    }else{
+        res = [self getCode:200 data:nil];
+    }
+    
+    GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:res];
+    [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
+    
+    return response;
+}
+
+- (GCDWebServerResponse *)rename:(GCDWebServerMultiPartFormRequest *)request {
+    NSString *dirPath = [[request firstArgumentForControlName:@"dirPath"] string];
+    NSString *oldName = [[request firstArgumentForControlName:@"oldName"] string];
+    NSString *newName = [[request firstArgumentForControlName:@"newName"] string];
+    NSString *rootPath = NSHomeDirectory();
+    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@", rootPath, dirPath, oldName];
+    NSString *destinationPath = [NSString stringWithFormat:@"%@/%@/%@", rootPath, dirPath, newName];
+    NSError *error = nil;
+
+    NSDictionary *res;
+    if (![_fm moveItemAtPath:targetPath toPath:destinationPath error:&error]) {
+        NSLog(@"Failed rename file at \"%@\"", targetPath);
+        res = [self getCode:0 data:nil];
+    }else{
+        res = [self getCode:200 data:nil];
+    }
+    
+    GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:res];
+    [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
+    
+    return response;
+}
+
 - (GCDWebServerResponse *)getDeviceInfo{
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     [dic setValue:[DoraemonAppInfoUtil iphoneName] forKey:@"deviceName"];
