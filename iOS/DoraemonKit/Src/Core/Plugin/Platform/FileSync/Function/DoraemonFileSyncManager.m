@@ -63,7 +63,10 @@
         return [weakSelf getFileList:request];
     }];
     
-    [self addHandlerForMethod:@"POST" path:@"/uploadFile" requestClass:[GCDWebServerMultiPartFormRequest class] processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
+    [self addHandlerForMethod:@"POST"
+                         path:@"/uploadFile"
+                 requestClass:[GCDWebServerMultiPartFormRequest class]
+                 processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
         return [weakSelf uploadFile:(GCDWebServerMultiPartFormRequest *)request];
     }];
     
@@ -165,14 +168,15 @@
 }
 
 - (GCDWebServerResponse*)uploadFile:(GCDWebServerMultiPartFormRequest*)request{
-    GCDWebServerMultiPartFile* file = [request firstFileForControlName:@"file"];
-    NSString *filePath = [[request firstArgumentForControlName:@"filePath"] string];
+#warning todo
+    GCDWebServerMultiPartFile *file = [request firstFileForControlName:@"file"];
+    NSString *dirPath = [[request firstArgumentForControlName:@"dirPath"] string];
     NSString *rootPath = NSHomeDirectory();
-    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@",rootPath,filePath,file.fileName];
-    NSError* error = nil;
+    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@",rootPath,dirPath,file.fileName];
+    NSError *error = nil;
     
     NSDictionary *res;
-    if (![[NSFileManager defaultManager] moveItemAtPath:file.temporaryPath toPath:targetPath error:&error]) {
+    if (![_fm moveItemAtPath:file.temporaryPath toPath:targetPath error:&error]) {
         NSLog(@"Failed moving uploaded file to \"%@\"", targetPath);
         res = [self getCode:0 data:nil];
     }else{
@@ -188,20 +192,22 @@
 
 - (GCDWebServerResponse *)downloadFile:(GCDWebServerRequest *)request{
     NSString *rootPath = NSHomeDirectory();
-    NSString *relativePath = [[request query] objectForKey:@"filePath"];
+    NSString *dirPath = [[request query] objectForKey:@"dirPath"];
     NSString *fileName = [[request query] objectForKey:@"fileName"];
-    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@",rootPath,relativePath,fileName];
+    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@",rootPath,dirPath,fileName];
     
     NSDictionary *res;
     BOOL isDirectory = NO;
-    if (![[NSFileManager defaultManager] fileExistsAtPath:targetPath isDirectory:&isDirectory]) {
+    if (![_fm fileExistsAtPath:targetPath isDirectory:&isDirectory]) {
         NSLog(@"\"%@\" does not exist", targetPath);
         res = [self getCode:0 data:nil];
         GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:res];
         [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
         return response;
+    } else {
+        GCDWebServerFileResponse *response = [GCDWebServerFileResponse responseWithFile:targetPath isAttachment:YES];
+        return response;
     }
-    return [GCDWebServerFileResponse responseWithFile:targetPath isAttachment:YES];
 }
 
 - (GCDWebServerResponse *)createFolder:(GCDWebServerRequest *)request{
