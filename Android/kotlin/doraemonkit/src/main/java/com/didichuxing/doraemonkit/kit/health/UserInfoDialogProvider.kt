@@ -35,11 +35,14 @@ class UserInfoDialogProvider internal constructor(data: Any?, listener: DialogLi
     }
 
     override fun bindData(data: Any?) {}
-    override val positiveView = mPositive
+    override val positiveView
+        get() = mPositive
 
-    override val negativeView = mNegative
+    override val negativeView
+        get() = mNegative
 
-    override val cancelView = mClose
+    override val cancelView
+        get() = mClose
 
     /**
      * 上传健康体检数据

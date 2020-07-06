@@ -205,7 +205,7 @@ class PerformanceDataManager private constructor() {
 
     fun startMonitorCPUInfo() {
         DokitMemoryConfig.CPU_STATUS = true
-        mNormalHandler!!.sendEmptyMessageDelayed(MSG_CPU, NORMAL_SAMPLING_TIME.toLong())
+        mNormalHandler?.sendEmptyMessageDelayed(MSG_CPU, NORMAL_SAMPLING_TIME.toLong())
     }
 
     fun destroy() {
@@ -221,7 +221,7 @@ class PerformanceDataManager private constructor() {
 
     fun stopMonitorCPUInfo() {
         DokitMemoryConfig.CPU_STATUS = false
-        mNormalHandler!!.removeMessages(MSG_CPU)
+        mNormalHandler?.removeMessages(MSG_CPU)
     }
 
     fun startMonitorMemoryInfo() {
@@ -229,12 +229,12 @@ class PerformanceDataManager private constructor() {
         if (maxMemory == 0f) {
             maxMemory = mActivityManager.memoryClass.toFloat()
         }
-        mNormalHandler!!.sendEmptyMessageDelayed(MSG_MEMORY, NORMAL_SAMPLING_TIME.toLong())
+        mNormalHandler?.sendEmptyMessageDelayed(MSG_MEMORY, NORMAL_SAMPLING_TIME.toLong())
     }
 
     fun stopMonitorMemoryInfo() {
         DokitMemoryConfig.RAM_STATUS = false
-        mNormalHandler!!.removeMessages(MSG_MEMORY)
+        mNormalHandler?.removeMessages(MSG_MEMORY)
     }
 
     /**
