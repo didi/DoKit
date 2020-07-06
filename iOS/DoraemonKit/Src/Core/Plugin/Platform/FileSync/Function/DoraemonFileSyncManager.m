@@ -168,12 +168,15 @@
 }
 
 - (GCDWebServerResponse*)uploadFile:(GCDWebServerMultiPartFormRequest*)request{
-#warning todo
     GCDWebServerMultiPartFile *file = [request firstFileForControlName:@"file"];
     NSString *dirPath = [[request firstArgumentForControlName:@"dirPath"] string];
     NSString *rootPath = NSHomeDirectory();
-    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@",rootPath,dirPath,file.fileName];
+    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@", rootPath, dirPath, file.fileName];
     NSError *error = nil;
+    
+    if (![_fm fileExistsAtPath:[NSString stringWithFormat:@"%@/%@", rootPath, dirPath]]) {
+        [_fm createDirectoryAtPath:[NSString stringWithFormat:@"%@/%@", rootPath, dirPath] withIntermediateDirectories:YES attributes:nil error:nil];
+    }
     
     NSDictionary *res;
     if (![_fm moveItemAtPath:file.temporaryPath toPath:targetPath error:&error]) {
@@ -183,7 +186,6 @@
         res = [self getCode:200 data:nil];
     }
     
-     
     GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:res];
     [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
     
@@ -217,10 +219,10 @@
     NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@",rootPath,dirPath,fileName];
     
     NSDictionary *res;
-    if (![[NSFileManager defaultManager] createDirectoryAtPath:targetPath withIntermediateDirectories:NO attributes:nil error:nil]) {
+    if (![[NSFileManager defaultManager] createDirectoryAtPath:targetPath withIntermediateDirectories:YES attributes:nil error:nil]) {
         NSLog(@"Failed creating directory \"%@\"", targetPath);
         res = [self getCode:0 data:nil];
-    }else{
+    } else {
         res = [self getCode:200 data:nil];
     }
     
