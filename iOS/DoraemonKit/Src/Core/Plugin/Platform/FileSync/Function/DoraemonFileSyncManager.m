@@ -122,9 +122,9 @@
 - (GCDWebServerResponse *)getFileList: (GCDWebServerRequest *)request{
     
     NSDictionary *query = request.query;
-    NSString *filePath = query[@"filePath"];
+    NSString *dirPath = query[@"dirPath"];
     NSString *rootPath = NSHomeDirectory();
-    NSString *targetPath = [NSString stringWithFormat:@"%@%@",rootPath,filePath];
+    NSString *targetPath = [NSString stringWithFormat:@"%@%@",rootPath,dirPath];
     
     NSMutableArray *files = @[].mutableCopy;
        NSError *error = nil;
@@ -135,8 +135,9 @@
         [_fm fileExistsAtPath:fullPath isDirectory:&isDir];
         
         NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+        dic[@"isRootPath"] = [path isEqualToString:rootPath] ? @YES : @NO;
         dic[@"fileName"] = path;
-        dic[@"filePath"] = [self getRelativeFilePath:fullPath];
+        dic[@"fileUrl"] = [self getRelativeFilePath:fullPath];
         if (isDir) {
             dic[@"fileType"] = @"folder";
         }else{
@@ -150,7 +151,7 @@
     }
     
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-    [data setValue:filePath forKey:@"filePath"];
+    [data setValue:dirPath forKey:@"dirPath"];
     [data setValue:[DoraemonAppInfoUtil uuid] forKey:@"deviceId"];
     [data setValue:files forKey:@"fileList"];
     
