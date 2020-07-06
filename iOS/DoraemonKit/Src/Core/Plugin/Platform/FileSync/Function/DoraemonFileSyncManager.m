@@ -111,6 +111,7 @@
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     [dic setValue:[DoraemonAppInfoUtil iphoneName] forKey:@"deviceName"];
     [dic setValue:[DoraemonAppInfoUtil uuid] forKey:@"deviceId"];
+    [dic setValue:[DoraemonAppInfoUtil getIPAddress:YES] forKey:@"deviceIp"];
     
     NSDictionary *info = [self getCode:200 data:dic];
     GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:info];
