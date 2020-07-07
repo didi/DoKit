@@ -1,15 +1,15 @@
-platform:ios,’8.0’
+platform:ios,'8.0'
 #use_frameworks!
 #inhibit_all_warnings! #消除第三方仓库的警告
 # 新版本采用trunk模式，无需clone庞大的master
 # source 'git@github.com:CocoaPods/Specs.git'
 
 post_install do |installer|
-    installer.pods_project.targets.each do |target|
-        target.build_configurations.each do |config|
-            config.build_settings['COMPILER_INDEX_STORE_ENABLE'] = "NO"
-        end
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['COMPILER_INDEX_STORE_ENABLE'] = "NO"
     end
+  end
 end
 
 #install! 'cocoapods', generate_multiple_pod_projects: true
