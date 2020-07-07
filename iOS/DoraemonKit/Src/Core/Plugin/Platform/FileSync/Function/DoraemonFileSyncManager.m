@@ -41,6 +41,7 @@
 }
 
 - (void)setRouter{
+#pragma mark - file
     [self addDefaultHandlerForMethod:@"GET"
                         requestClass:[GCDWebServerRequest class]
                         processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
@@ -111,6 +112,14 @@
                  processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
         return [weakSelf saveFile:(GCDWebServerMultiPartFormRequest *)request];
     }];
+    
+#pragma mark - database
+    [self addHandlerForMethod:@"GET"
+                         path:@"/getAllTable"
+                 requestClass:[GCDWebServerRequest class]
+                 processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
+        return [weakSelf getAllTable:request];
+    }];
 }
 
 - (NSString *)getRelativeFilePath:(NSString *)fullPath{
@@ -131,6 +140,48 @@
 
 
 #pragma mark -- 服务具体处理
+
+- (GCDWebServerResponse *)responseWhenFailed {
+    GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:[self getCode:0 data:nil]];
+    [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
+    return response;
+}
+
+- (GCDWebServerResponse *)getAllTable:(GCDWebServerRequest *)request {
+    NSDictionary *query = request.query;
+    NSString *dirPath = query[@"dirPath"];
+    NSString *fileName = query[@"fileName"];
+    NSString *rootPath = NSHomeDirectory();
+    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@", rootPath, dirPath, fileName];
+
+    if (![_fm fileExistsAtPath:targetPath]) {
+        return [self responseWhenFailed];
+    }
+    
+    FMDatabase *db = [FMDatabase databaseWithPath:targetPath];
+    if (![db open]) {
+        return [self responseWhenFailed];
+    }
+    
+    NSString *sql = @"SELECT * FROM sqlite_master WHERE type='table' ORDER BY name;";
+    FMResultSet *set = [db executeQuery:sql];
+    NSMutableArray *data = @[].mutableCopy;
+    while ([set next]) {
+        NSString *name = [set stringForColumnIndex:1];
+        [data addObject:name];
+    }
+    
+    [db close];
+    
+    NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
+    [info setValue:@(200) forKey:@"code"];
+    [info setValue:data forKey:@"data"];
+
+    GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:info];
+    [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
+    
+    return response;
+}
 
 - (GCDWebServerResponse *)saveFile:(GCDWebServerMultiPartFormRequest *)request {
     NSString *dirPath = [[request firstArgumentForControlName:@"dirPath"] string];
