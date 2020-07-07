@@ -122,6 +122,13 @@
         return [weakSelf getAllTable:request];
     }];
     
+    [self addHandlerForMethod:@"GET"
+                         path:@"/getTableData"
+                 requestClass:[GCDWebServerRequest class]
+                 processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
+        return [weakSelf getTableData:request];
+    }];
+    
     [self addHandlerForMethod:@"POST"
                          path:@"/insertRow"
                  requestClass:[GCDWebServerDataRequest class]
@@ -152,6 +159,50 @@
 - (GCDWebServerResponse *)responseWhenFailed {
     GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:[self getCode:0 data:nil]];
     [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
+    return response;
+}
+
+- (GCDWebServerResponse *)getTableData:(GCDWebServerRequest *)request {
+    NSDictionary *query = request.query;
+    NSString *dirPath = query[@"dirPath"];
+    NSString *fileName = query[@"fileName"];
+    NSString *tableName = query[@"tableName"];
+    NSString *rootPath = NSHomeDirectory();
+    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@", rootPath, dirPath, fileName];
+
+    if (![_fm fileExistsAtPath:targetPath]) {
+        return [self responseWhenFailed];
+    }
+    
+    FMDatabase *db = [FMDatabase databaseWithPath:targetPath];
+    if (![db open]) {
+        return [self responseWhenFailed];
+    }
+    
+    NSMutableArray *fieldInfo = @[].mutableCopy;
+    NSMutableArray *rows = @[].mutableCopy;
+    FMResultSet *tableInfo = [db executeQuery:[NSString stringWithFormat:@"PRAGMA table_info(%@)", tableName]];
+    while ([tableInfo next]) {
+        NSString *title = [tableInfo stringForColumn:@"name"];
+        BOOL isPrimary = [tableInfo boolForColumn:@"pk"];
+        if (title) {
+            [fieldInfo addObject:@{@"title" : title,
+                                   @"isPrimary" : @(isPrimary)}];
+        }
+    }
+    
+    FMResultSet *set = [db executeQuery:[NSString stringWithFormat:@"SELECT * FROM %@;", tableName]];
+    while ([set next]) {
+        NSDictionary *row = [NSDictionary dictionaryWithDictionary:set.resultDictionary];
+        [rows addObject:row];
+    }
+    
+    [db close];
+    
+    GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:@{@"fieldInfo" : fieldInfo,
+                                                                                        @"rows" : rows}];
+    [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
+    
     return response;
 }
 
