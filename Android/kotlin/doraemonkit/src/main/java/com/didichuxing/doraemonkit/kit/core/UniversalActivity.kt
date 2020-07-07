@@ -11,6 +11,7 @@ import com.didichuxing.doraemonkit.kit.crash.CrashCaptureMainFragment
 import com.didichuxing.doraemonkit.kit.dataclean.DataCleanFragment
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment
+import com.didichuxing.doraemonkit.kit.health.HealthFragment
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment
 import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMockFragment
 import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMonitorFragment
@@ -66,6 +67,7 @@ open class UniversalActivity : BaseActivity() {
             FragmentIndex.FRAGMENT_FILE_EXPLORER -> FileExplorerFragment::class.java
             FragmentIndex.FRAGMENT_GPS_MOCK -> GpsMockFragment::class.java
             FragmentIndex.FRAGMENT_CRASH -> CrashCaptureMainFragment::class.java
+            FragmentIndex.FRAGMENT_HEALTH -> HealthFragment::class.java
             else -> null
         }
         if (fragmentClass == null) {

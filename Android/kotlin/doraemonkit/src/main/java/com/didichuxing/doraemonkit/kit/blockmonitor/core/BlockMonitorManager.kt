@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Debug
 import android.os.Looper
 import android.text.TextUtils
+import com.blankj.utilcode.util.ActivityUtils
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.BundleKey
@@ -15,6 +16,8 @@ import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo
 import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockCanaryUtils.concernStackString
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.BlockBean
 import com.didichuxing.doraemonkit.util.LogHelper.e
 import com.didichuxing.doraemonkit.util.LogHelper.i
 import com.didichuxing.doraemonkit.util.NotificationUtils
@@ -78,7 +81,16 @@ class BlockMonitorManager private constructor() {
      * @param blockInfo
      */
     private fun addBlockInfoInAppHealth(blockInfo: BlockInfo) {
-        //todo addBlockInfoInAppHealth
+        try {
+            val activityName = ActivityUtils.getTopActivity().javaClass.canonicalName
+            val blockBean = BlockBean()
+            blockBean.page = activityName
+            blockBean.blockTime = blockInfo.timeCost
+            blockBean.detail = blockInfo.toString()
+            AppHealthInfoUtil.instance.addBlockInfo(blockBean)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     /**

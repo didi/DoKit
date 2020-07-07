@@ -61,7 +61,7 @@ dependencies {
     implementation rootProject.ext.dependencies["recyclerview"]
     implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["core-ktx"]
-//    implementation rootProject.ext.dependencies["kotlin-coroutines"]
+    implementation rootProject.ext.dependencies["kotlin-coroutines"]
 
     implementation rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]

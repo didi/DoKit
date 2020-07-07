@@ -3,7 +3,11 @@ package com.didichuxing.doraemonkit.kit.timecounter.couter
 import android.app.Activity
 import android.os.SystemClock
 import com.blankj.utilcode.util.ActivityUtils
+import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterView
 import com.didichuxing.doraemonkit.kit.timecounter.bean.ActivityTimeCounterRecord
 
@@ -94,16 +98,15 @@ internal class ActivityCounter {
 
     private fun addToAppHealth(activityRecord: ActivityTimeCounterRecord) {
         try {
-            //TODO 将Activity 打开耗时 添加到AppHealth 中
-            //if (DokitConstant.APP_HEALTH_RUNNING) {
-            //    if (ActivityUtils.getTopActivity().javaClass.canonicalName != UniversalActivity::class.java.canonicalName) {
-            //        val pageLoadBean = AppHealthInfo.DataBean.PageLoadBean()
-            //        pageLoadBean.page = ActivityUtils.getTopActivity().javaClass.canonicalName
-            //        pageLoadBean.time = activityRecord.totalCost().toString()
-            //        pageLoadBean.trace = activityRecord.title()
-            //        AppHealthInfoUtil.instance.addPageLoadInfo(pageLoadBean)
-            //    }
-            //}
+            if (DokitConstant.APP_HEALTH_RUNNING) {
+                if (ActivityUtils.getTopActivity().javaClass.canonicalName != UniversalActivity::class.java.canonicalName) {
+                    val pageLoadBean = AppHealthInfo.DataBean.PageLoadBean()
+                    pageLoadBean.page = ActivityUtils.getTopActivity().javaClass.canonicalName
+                    pageLoadBean.time = activityRecord.totalCost().toString()
+                    pageLoadBean.trace = activityRecord.title()
+                    AppHealthInfoUtil.instance.addPageLoadInfo(pageLoadBean)
+                }
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
