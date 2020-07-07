@@ -126,7 +126,7 @@
         db.shouldCacheStatements = YES;
         
         if ([db open]) {
-            NSString *sql_1 = @"CREATE TABLE IF NOT EXISTS dokit_records_table (id INTEGER PRIMARY KEY AUTOINCREMENT, record TEXT);";
+            NSString *sql_1 = @"CREATE TABLE IF NOT EXISTS dokit_records_table (id INTEGER PRIMARY KEY, record TEXT, record_2 TEXT, record_3 TEXT);";
             [db executeUpdate:sql_1];
             
             NSString *sql_2 = @"CREATE TABLE IF NOT EXISTS dokit_records_table_2 (id_2 INTEGER PRIMARY KEY AUTOINCREMENT, record_2 TEXT);";
