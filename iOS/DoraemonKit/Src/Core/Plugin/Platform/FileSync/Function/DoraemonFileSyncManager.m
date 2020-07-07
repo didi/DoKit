@@ -7,6 +7,7 @@
 
 #import "DoraemonFileSyncManager.h"
 #import <GCDWebServer/GCDWebServerRequest.h>
+#import <GCDWebServer/GCDWebServerDataRequest.h>
 #import <GCDWebServer/GCDWebServerDataResponse.h>
 #import <GCDWebServer/GCDWebServerMultiPartFormRequest.h>
 #import <GCDWebServer/GCDWebServerFileResponse.h>
@@ -120,6 +121,13 @@
                  processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
         return [weakSelf getAllTable:request];
     }];
+    
+    [self addHandlerForMethod:@"POST"
+                         path:@"/insertRow"
+                 requestClass:[GCDWebServerDataRequest class]
+                 processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
+        return [weakSelf insertRow:(GCDWebServerDataRequest *)request];
+    }];
 }
 
 - (NSString *)getRelativeFilePath:(NSString *)fullPath{
@@ -145,6 +153,82 @@
     GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:[self getCode:0 data:nil]];
     [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
     return response;
+}
+
+- (GCDWebServerResponse *)insertRow:(GCDWebServerDataRequest *)request {
+    NSDictionary *data = [NSJSONSerialization JSONObjectWithData:request.data options:0 error:nil];
+    NSString *dirPath = data[@"dirPath"];
+    NSString *fileName = data[@"fileName"];
+    NSString *tableName = data[@"tableName"];
+    NSArray *rowDatas = data[@"rowDatas"];
+    NSString *rootPath = NSHomeDirectory();
+    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@", rootPath, dirPath, fileName];
+    
+    if (![_fm fileExistsAtPath:targetPath]) {
+        return [self responseWhenFailed];
+    }
+    
+    FMDatabase *db = [FMDatabase databaseWithPath:targetPath];
+    if (![db open]) {
+        return [self responseWhenFailed];
+    }
+    
+    //获取列名
+    NSMutableArray *colArr = @[].mutableCopy;
+    FMResultSet *tableInfo = [db executeQuery:[NSString stringWithFormat:@"PRAGMA table_info(%@)", tableName]];
+    while ([tableInfo next]) {
+        NSString *colName = [tableInfo stringForColumn:@"name"];
+        if (colName) {
+            [colArr addObject:colName];
+        }
+    }
+    
+    NSString *columns = [colArr componentsJoinedByString:@","];
+    
+    BOOL sus = NO;
+    
+    if (rowDatas.count) {
+        NSMutableString *sql = [NSString stringWithFormat:@"INSERT INTO %@(%@) VALUES ", tableName, columns].mutableCopy;
+        NSMutableArray *allValues = @[].mutableCopy;
+        @autoreleasepool {
+            /**
+             构造sql
+             INSERT INTO
+             tableName(key_1,key_2,key_3)
+             VALUES
+             (value_1,value_2,value_3),
+             (value_4,value_5,value_6);
+             */
+            [rowDatas enumerateObjectsUsingBlock:^(NSDictionary *  _Nonnull data, NSUInteger idx, BOOL * _Nonnull stop) {
+                NSMutableArray *arr = @[].mutableCopy;
+                [colArr enumerateObjectsUsingBlock:^(NSString *  _Nonnull colName, NSUInteger idx, BOOL * _Nonnull stop) {
+                    id value = data[colName] != nil ? data[colName] : @"NULL";
+                    if ([value isKindOfClass:[NSString class]] && ![value isEqualToString:@"NULL"]) {
+                        value = [NSString stringWithFormat:@"'%@'", value];
+                    }
+                    [arr addObject:value];
+                }];
+                NSString *values = [arr componentsJoinedByString:@","];
+                [allValues addObject:[NSString stringWithFormat:@"(%@)", values]];
+            }];
+        }
+        
+        NSString *allValuesStr = [allValues componentsJoinedByString:@","];
+        [sql appendString:allValuesStr];
+        [sql appendString:@";"];
+        
+        sus = [db executeUpdate:sql];
+    }
+    
+    [db close];
+    
+    if (sus) {
+        GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:[self getCode:200 data:nil]];
+        [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
+        return response;
+    } else {
+        return [self responseWhenFailed];
+    }
 }
 
 - (GCDWebServerResponse *)getAllTable:(GCDWebServerRequest *)request {
