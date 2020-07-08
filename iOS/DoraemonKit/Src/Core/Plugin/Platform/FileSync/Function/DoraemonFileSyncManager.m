@@ -13,6 +13,8 @@
 #import <GCDWebServer/GCDWebServerFileResponse.h>
 #import "DoraemonAppInfoUtil.h"
 
+#define DK_SERVER_PORT 9002
+
 @interface DoraemonFileSyncManager()
 
 @property (nonatomic, strong) NSFileManager *fm;
@@ -164,7 +166,7 @@
 }
 
 - (void)startServer{
-    [self startWithPort:9002 bonjourName:@"Hello DoKit"];
+    [self startWithPort:DK_SERVER_PORT bonjourName:@"Hello DoKit"];
 }
 
 
@@ -515,7 +517,7 @@
     NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
     [dic setValue:[DoraemonAppInfoUtil iphoneName] forKey:@"deviceName"];
     [dic setValue:[DoraemonAppInfoUtil uuid] forKey:@"deviceId"];
-    [dic setValue:[DoraemonAppInfoUtil getIPAddress:YES] forKey:@"deviceIp"];
+    [dic setValue:[NSString stringWithFormat:@"%@:%@", [DoraemonAppInfoUtil getIPAddress:YES], @(DK_SERVER_PORT)] forKey:@"deviceIp"];
     
     NSDictionary *info = [self getCode:200 data:dic];
     GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:info];
@@ -540,9 +542,10 @@
         [_fm fileExistsAtPath:fullPath isDirectory:&isDir];
         
         NSMutableDictionary *dic = [[NSMutableDictionary alloc] init];
+        dic[@"dirPath"] = dirPath;
         dic[@"isRootPath"] = [path isEqualToString:rootPath] ? @YES : @NO;
         dic[@"fileName"] = path;
-        dic[@"fileUrl"] = [self getRelativeFilePath:fullPath];
+//        dic[@"fileUrl"] = [self getRelativeFilePath:fullPath];
         if (isDir) {
             dic[@"fileType"] = @"folder";
         }else{
