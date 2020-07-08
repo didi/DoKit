@@ -142,6 +142,13 @@
                  processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
         return [weakSelf updateRow:(GCDWebServerDataRequest *)request];
     }];
+    
+    [self addHandlerForMethod:@"POST"
+                         path:@"/deleteRow"
+                 requestClass:[GCDWebServerDataRequest class]
+                 processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
+        return [weakSelf deleteRow:(GCDWebServerDataRequest *)request];
+    }];
 }
 
 - (NSString *)getRelativeFilePath:(NSString *)fullPath{
@@ -167,6 +174,56 @@
     GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:[self getCode:0 data:nil]];
     [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
     return response;
+}
+
+- (GCDWebServerResponse *)deleteRow:(GCDWebServerDataRequest *)request {
+    NSDictionary *data = [NSJSONSerialization JSONObjectWithData:request.data options:0 error:nil];
+    NSString *dirPath = data[@"dirPath"];
+    NSString *fileName = data[@"fileName"];
+    NSString *tableName = data[@"tableName"];
+    NSArray *rowDatas = data[@"rowDatas"];
+    NSString *rootPath = NSHomeDirectory();
+    NSString *targetPath = [NSString stringWithFormat:@"%@/%@/%@", rootPath, dirPath, fileName];
+    
+    if (![_fm fileExistsAtPath:targetPath]) {
+        return [self responseWhenFailed];
+    }
+    
+    FMDatabase *db = [FMDatabase databaseWithPath:targetPath];
+    if (![db open]) {
+        return [self responseWhenFailed];
+    }
+    
+    /**
+     构造sql
+     DELETE FROM tableName
+     WHERE pk=pkValue;
+     */
+    NSMutableString *sql = [NSString stringWithFormat:@"DELETE FROM %@ WHERE ", tableName].mutableCopy;
+    __block NSString *pk = nil;
+    __block id pkValue = nil;
+    
+    [rowDatas enumerateObjectsUsingBlock:^(NSDictionary *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj[@"isPrimary"] boolValue]) {
+            pk = obj[@"title"];
+            pkValue = obj[@"value"];
+            *stop = YES;
+        }
+    }];
+    
+    [sql appendString:[NSString stringWithFormat:@"%@=%@;", pk, pkValue]];
+
+    BOOL sus = [db executeUpdate:sql];;
+    
+    [db close];
+    
+    if (sus) {
+        GCDWebServerResponse *response = [GCDWebServerDataResponse responseWithJSONObject:[self getCode:200 data:nil]];
+        [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
+        return response;
+    } else {
+        return [self responseWhenFailed];
+    }
 }
 
 - (GCDWebServerResponse *)updateRow:(GCDWebServerDataRequest *)request {
