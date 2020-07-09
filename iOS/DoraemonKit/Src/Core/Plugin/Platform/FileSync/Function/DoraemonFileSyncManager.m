@@ -81,11 +81,11 @@
         return [weakSelf downloadFile:request];
     }];
     
-    [self addHandlerForMethod:@"GET"
+    [self addHandlerForMethod:@"POST"
                          path:@"/createFolder"
-                 requestClass:[GCDWebServerRequest class]
+                 requestClass:[GCDWebServerDataRequest class]
                  processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
-        return [weakSelf createFolder:request];
+        return [weakSelf createFolder:(GCDWebServerDataRequest *)request];
     }];
     
     [self addHandlerForMethod:@"GET"
@@ -104,16 +104,16 @@
     
     [self addHandlerForMethod:@"POST"
                          path:@"/rename"
-                 requestClass:[GCDWebServerMultiPartFormRequest class]
+                 requestClass:[GCDWebServerDataRequest class]
                  processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
-        return [weakSelf rename:(GCDWebServerMultiPartFormRequest *)request];
+        return [weakSelf rename:(GCDWebServerDataRequest *)request];
     }];
     
     [self addHandlerForMethod:@"POST"
                          path:@"/saveFile"
-                 requestClass:[GCDWebServerMultiPartFormRequest class]
+                 requestClass:[GCDWebServerDataRequest class]
                  processBlock:^GCDWebServerResponse * _Nullable(__kindof GCDWebServerRequest * _Nonnull request) {
-        return [weakSelf saveFile:(GCDWebServerMultiPartFormRequest *)request];
+        return [weakSelf saveFile:(GCDWebServerDataRequest *)request];
     }];
     
 #pragma mark - database
@@ -460,10 +460,11 @@
     return response;
 }
 
-- (GCDWebServerResponse *)saveFile:(GCDWebServerMultiPartFormRequest *)request {
-    NSString *dirPath = [[request firstArgumentForControlName:@"dirPath"] string];
-    NSString *fileName = [[request firstArgumentForControlName:@"fileName"] string];
-    NSString *content = [[request firstArgumentForControlName:@"content"] string];
+- (GCDWebServerResponse *)saveFile:(GCDWebServerDataRequest *)request {
+    NSDictionary *data = [NSJSONSerialization JSONObjectWithData:request.data options:0 error:nil];
+    NSString *dirPath = data[@"dirPath"];
+    NSString *fileName = data[@"fileName"];
+    NSString *content = data[@"content"];
     NSString *rootPath = NSHomeDirectory();
     NSString *targetPath = [NSString stringWithFormat:@"%@%@%@", rootPath, dirPath, fileName];
 
@@ -503,10 +504,11 @@
     return response;
 }
 
-- (GCDWebServerResponse *)rename:(GCDWebServerMultiPartFormRequest *)request {
-    NSString *dirPath = [[request firstArgumentForControlName:@"dirPath"] string];
-    NSString *oldName = [[request firstArgumentForControlName:@"oldName"] string];
-    NSString *newName = [[request firstArgumentForControlName:@"newName"] string];
+- (GCDWebServerResponse *)rename:(GCDWebServerDataRequest *)request {
+    NSDictionary *data = [NSJSONSerialization JSONObjectWithData:request.data options:0 error:nil];
+    NSString *dirPath = data[@"dirPath"];
+    NSString *oldName = data[@"oldName"];
+    NSString *newName = data[@"newName"];
     NSString *rootPath = NSHomeDirectory();
     NSString *targetPath = [NSString stringWithFormat:@"%@%@%@", rootPath, dirPath, oldName];
     NSString *destinationPath = [NSString stringWithFormat:@"%@%@%@", rootPath, dirPath, newName];
@@ -625,14 +627,16 @@
         return response;
     } else {
         GCDWebServerFileResponse *response = [GCDWebServerFileResponse responseWithFile:targetPath isAttachment:YES];
+        [response setValue:@"*" forAdditionalHeader:@"Access-Control-Allow-Origin"];
         return response;
     }
 }
 
-- (GCDWebServerResponse *)createFolder:(GCDWebServerRequest *)request{
+- (GCDWebServerResponse *)createFolder:(GCDWebServerDataRequest *)request{
+    NSDictionary *data = [NSJSONSerialization JSONObjectWithData:request.data options:0 error:nil];
+    NSString *dirPath = data[@"dirPath"];
+    NSString *fileName = data[@"fileName"];
     NSString *rootPath = NSHomeDirectory();
-    NSString *dirPath = [[request query] objectForKey:@"dirPath"];
-    NSString *fileName = [[request query] objectForKey:@"fileName"];
     NSString *targetPath = [NSString stringWithFormat:@"%@%@%@",rootPath,dirPath,fileName];
     
     NSDictionary *res;
