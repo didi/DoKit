@@ -57,7 +57,7 @@ object FileListAction {
     private fun traverseDir(dirPath: String): MutableList<FileInfo> {
         val fileInfos = mutableListOf<FileInfo>()
         val dir = File(dirPath)
-        if (FileUtils.isDir(dir)) {
+        if (FileUtils.isFileExists(dir) && FileUtils.isDir(dir)) {
             dir.listFiles()?.forEach { file ->
                 val fileInfo = FileInfo(FileManagerUtil.relativeRootPath(dirPath), file.name, if (FileUtils.isDir(file)) {
                     "folder"
