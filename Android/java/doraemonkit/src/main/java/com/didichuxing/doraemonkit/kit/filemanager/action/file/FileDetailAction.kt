@@ -15,7 +15,7 @@ import com.blankj.utilcode.util.FileUtils
 object FileDetailAction {
     fun fileDetailInfoRes(filePath: String): MutableMap<String, Any> {
         val params = mutableMapOf<String, Any>()
-        if (FileUtils.isFileExists(filePath)) {
+        if (FileUtils.isFileExists(filePath) && FileUtils.isFile(filePath)) {
             params["code"] = 200
             val data = mutableMapOf<String, Any>()
             data["fileType"] = FileUtils.getFileExtension(filePath)
@@ -23,7 +23,7 @@ object FileDetailAction {
             params["data"] = data
         } else {
             params["code"] = 0
-            params["data"] = "filePath is not a file"
+            params["data"] = "$filePath is not a file"
         }
 
         return params

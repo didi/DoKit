@@ -1,6 +1,8 @@
 package com.didichuxing.doraemonkit.kit.filemanager.action.file
 
 import com.blankj.utilcode.util.DeviceUtils
+import com.blankj.utilcode.util.NetworkUtils
+import com.didichuxing.doraemonkit.constant.DokitConstant
 
 /**
  * ================================================
@@ -18,6 +20,7 @@ object DeviceInfoAction {
             val data = mutableMapOf<String, String>().apply {
                 this["deviceName"] = "${DeviceUtils.getManufacturer()}-${DeviceUtils.getModel()}"
                 this["deviceId"] = DeviceUtils.getUniqueDeviceId()
+                this["deviceIp"] = "${NetworkUtils.getIpAddressByWifi()}:${DokitConstant.FILE_MANAGER_HTTP_PORT}"
             }
             this["data"] = data
         }
