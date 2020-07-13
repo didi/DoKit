@@ -3,14 +3,11 @@ package com.didichuxing.doraemonkit.constant
 import com.blankj.utilcode.util.PathUtils
 import com.didichuxing.doraemonkit.BuildConfig
 import com.didichuxing.doraemonkit.config.GlobalConfig
-import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.kit.toolpanel.KitWrapItem
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo
 import java.io.File
-import java.lang.ref.WeakReference
 
 /**
  * ================================================
@@ -93,12 +90,6 @@ object DokitConstant {
      */
     @JvmField
     var WHITE_HOSTS = mutableListOf<WhiteHostBean>()
-
-    /**
-     * 全局DBDebugFragment
-     */
-    @JvmField
-    var DB_DEBUG_FRAGMENT: WeakReference<DbDebugFragment>? = null
 
 
     @JvmField

@@ -12,7 +12,6 @@ import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment;
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerSettingFragment;
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureMainFragment;
 import com.didichuxing.doraemonkit.kit.dataclean.DataCleanFragment;
-import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment;
 import com.didichuxing.doraemonkit.kit.filemanager.FileTransferFragment;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment;
@@ -71,9 +70,9 @@ public class UniversalActivity extends BaseActivity {
                 fragmentClass = ColorPickerSettingFragment.class;
                 break;
             //远程数据库调试
-            case FragmentIndex.FRAGMENT_DB_DEBUG:
-                fragmentClass = DbDebugFragment.class;
-                break;
+//            case FragmentIndex.FRAGMENT_DB_DEBUG:
+//                fragmentClass = DbDebugFragment.class;
+//                break;
 
             case FragmentIndex.FRAGMENT_GPS_MOCK:
                 fragmentClass = GpsMockFragment.class;

@@ -4,9 +4,6 @@ import android.app.Application
 import android.os.Build
 import android.text.TextUtils
 import android.util.Log
-import com.amitshekhar.DebugDB
-import com.amitshekhar.debug.encrypt.sqlite.DebugDBEncryptFactory
-import com.amitshekhar.debug.sqlite.DebugDBFactory
 import com.blankj.utilcode.util.*
 import com.blankj.utilcode.util.NetworkUtils.OnNetworkStatusChangedListener
 import com.blankj.utilcode.util.ThreadUtils.SimpleTask
@@ -428,30 +425,14 @@ object DoraemonKitReal {
             override fun onDisconnected() {
                 //ToastUtils.showShort("当前网络已断开");
                 Log.i("Doraemon", "当前网络已断开")
-                try {
-                    DebugDB.shutDown()
-                    if (DokitConstant.DB_DEBUG_FRAGMENT != null) {
-                        DokitConstant.DB_DEBUG_FRAGMENT?.get()?.networkChanged(NetworkUtils.NetworkType.NETWORK_NO)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+
             }
 
             override fun onConnected(networkType: NetworkUtils.NetworkType) {
                 //重启DebugDB
                 //ToastUtils.showShort("当前网络类型:" + networkType.name());
                 Log.i("Doraemon", "当前网络类型" + networkType.name)
-                try {
-                    DebugDB.shutDown()
-                    DebugDB.initialize(APPLICATION, DebugDBFactory())
-                    DebugDB.initialize(APPLICATION, DebugDBEncryptFactory())
-                    if (DokitConstant.DB_DEBUG_FRAGMENT != null) {
-                        DokitConstant.DB_DEBUG_FRAGMENT?.get()?.networkChanged(networkType)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+
             }
         })
     }
