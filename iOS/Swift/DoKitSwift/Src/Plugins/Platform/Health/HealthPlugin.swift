@@ -2,7 +2,7 @@
 //  HealthPlugin.swift
 //  DoraemonKit-Swift
 //
-//  Created by 李盛安 on 2020/6/23.
+//  Created by Ailsa on 2020/6/23.
 //
 
 import UIKit

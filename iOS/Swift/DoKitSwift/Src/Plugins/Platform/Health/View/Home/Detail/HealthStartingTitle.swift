@@ -2,7 +2,7 @@
 //  HealthStartingTitle.swift
 //  DoraemonKit-Swift
 //
-//  Created by 李盛安 on 2020/6/15.
+//  Created by Ailsa on 2020/6/15.
 //
 
 import UIKit
