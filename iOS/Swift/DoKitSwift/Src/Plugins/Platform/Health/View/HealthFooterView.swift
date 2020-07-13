@@ -14,8 +14,20 @@ public protocol HealthFooterButtonDelegate {
 class HealthFooterView: UIView {
     public var _top: Bool = false
     
-    var footerTitle: UILabel?
-    var footerImg: UIImageView?
+    private lazy var footerTitle: UILabel = {
+        $0.textAlignment = .center
+        $0.textColor = UIColor.hexColor(0x27BCB7)
+        $0.font = UIFont.systemFont(ofSize: kSizeFrom750_Landscape(24))
+        return $0
+    }(UILabel())
+    
+    private lazy var footerImg: UIImageView = {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+        $0.addGestureRecognizer(tap)
+        $0.isUserInteractionEnabled = true
+        return $0
+    }(UIImageView())
+
     lazy var titleDictionary: NSDictionary = {
         return NSDictionary(dictionary: ["top": "向下滑动查看功能使用说明",
                                          "bottom": "回到顶部",
@@ -28,29 +40,24 @@ class HealthFooterView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        footerTitle = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: kSizeFrom750_Landscape(36)))
-        footerTitle?.textAlignment = .center
-        footerTitle?.textColor = UIColor.hexColor(0x27BCB7)
-        footerTitle?.font = UIFont.systemFont(ofSize: kSizeFrom750_Landscape(24))
-        
-        let size = kSizeFrom750_Landscape(56)
-        footerImg = UIImageView(frame: CGRect(x: (width - size)/2, y: size, width: size, height: size))
-        footerImg?.isUserInteractionEnabled = true
-        
-        self.addSubview(footerTitle!)
-        self.addSubview(footerImg!)
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction))
-        footerImg?.addGestureRecognizer(tap)
+        self.addSubview(footerTitle)
+        self.addSubview(footerImg)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        footerTitle.frame = CGRect(x: 0, y: 0, width: width, height: kSizeFrom750_Landscape(36))
+        
+        let size = kSizeFrom750_Landscape(56)
+        footerImg.frame = CGRect(x: (width - size)/2, y: size, width: size, height: size)
+    }
+    
     func renderUIWithTitleImg(title: String, imgName: String) {
-        footerTitle?.text = title
-        footerImg?.image = DKImage(named: imgName)
+        footerTitle.text = title
+        footerImg.image = DKImage(named: imgName)
     }
     
     func renderUIWithTitleImg(_ top: Bool) {
@@ -67,8 +74,8 @@ class HealthFooterView: UIView {
             icon = self.titleDictionary["bottom_icon"] as! String
         }
         
-        footerTitle?.text = title
-        footerImg?.image = DKImage(named: icon)
+        footerTitle.text = title
+        footerImg.image = DKImage(named: icon)
     }
     
     @objc func tapAction() {

@@ -14,13 +14,14 @@ public protocol HealthButtonDelegate {
 class HealthBtnView: UIView {
     var delegate: HealthButtonDelegate?
     
-    var healthBtn: UIImageView!
-    
+    private lazy var healthBtn: UIImageView = {
+        $0.image = DKImage(named: "doraemon_health_start")
+        return $0
+    }(UIImageView())
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        healthBtn = UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: height))
-        healthBtn.image = DKImage(named: "doraemon_health_start")
         self.addSubview(healthBtn)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
@@ -29,6 +30,12 @@ class HealthBtnView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        healthBtn.frame = self.bounds
     }
     
     func statusForBtn(start: Bool) {
