@@ -9,6 +9,7 @@
     <string name="dk_category_platform">平台工具</string>
     <string name="dk_kit_network_mock">数据Mock</string>
     <string name="dk_kit_health">健康体检</string>
+    <string name="dk_kit_file_transfer">文件同步助手</string>
     <string name="dk_category_weex">Weex</string>
 
     <string name="dk_kit_ui_performance">UI层级</string>
@@ -376,4 +377,14 @@
 
     <!--    dokit setting-->
     <string name="dk_setting_kit_manager">功能管理</string>
+
+    <!--    文件同步助手-->
+    <string name="dk_file_manager_tip_top">
+        <![CDATA[
+        请在www.dokit.cn平台端控制台中的<font color=\"blue\">【文件同步助手】</font>
+        中使用该功能
+        ]]>
+    </string>
+
+    <string name="dk_file_manager_tip_bottom">请在web端通过当前ip:port进行连接</string>
 </resources>
