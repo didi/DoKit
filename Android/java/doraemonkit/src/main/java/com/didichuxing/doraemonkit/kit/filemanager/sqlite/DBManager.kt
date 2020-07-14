@@ -129,9 +129,9 @@ object DBManager {
             rowDatas.forEach { rowInfo ->
                 if (rowInfo.isPrimary) {
                     if (whereClause.isBlank()) {
-                        whereClause = "${rowInfo.title} =? "
+                        whereClause = "${rowInfo.title} = ? "
                     } else {
-                        whereClause = "$whereClause and ${rowInfo.title} =? "
+                        whereClause = "$whereClause and ${rowInfo.title} = ? "
                     }
                     whereArgList.add(if (rowInfo.value.isNullOrBlank()) {
                         "null"
@@ -170,9 +170,9 @@ object DBManager {
             rowDatas.forEach { rowInfo ->
                 if (rowInfo.isPrimary) {
                     if (whereClause.isBlank()) {
-                        whereClause = "${rowInfo.title} =? "
+                        whereClause = "${rowInfo.title} = ? "
                     } else {
-                        whereClause = "$whereClause and ${rowInfo.title} =? "
+                        whereClause = "$whereClause and ${rowInfo.title} = ? "
                     }
                     whereArgList.add(if (rowInfo.value.isNullOrBlank()) {
                         "null"

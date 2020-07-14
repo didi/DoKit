@@ -121,6 +121,7 @@ dependencies {
     testImplementation rootProject.ext.dependencies["junit"]
     implementation rootProject.ext.dependencies["multidex"]
     implementation rootProject.ext.dependencies["appcompat"]
+    implementation rootProject.ext.dependencies["coroutines-core"]
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["retrofit2"]
