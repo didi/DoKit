@@ -162,5 +162,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 @property (nonatomic, strong) NSMutableDictionary *keyBlockDic;//保存key和block的关系
 
+/// DoKit 支持的旋转方向
+@property (assign, nonatomic) UIInterfaceOrientationMask supportedInterfaceOrientations;
+
 @end
 NS_ASSUME_NONNULL_END

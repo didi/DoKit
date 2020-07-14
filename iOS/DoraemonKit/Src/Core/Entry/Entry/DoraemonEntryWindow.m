@@ -88,17 +88,13 @@
         self.backgroundColor = [UIColor clearColor];
         self.windowLevel = UIWindowLevelStatusBar + 100.f;
         self.layer.masksToBounds = YES;
-        NSString *version= [UIDevice currentDevice].systemVersion;
-        if(version.doubleValue >=10.0) {
-            if (!self.rootViewController) {
-                self.rootViewController = [[UIViewController alloc] init];
-            }
-        }else{
-            //iOS9.0的系统中，新建的window设置的rootViewController默认没有显示状态栏
-            if (!self.rootViewController) {
-                self.rootViewController = [[DoraemonStatusBarViewController alloc] init];
-            }
+        
+        // 统一使用 DoraemonStatusBarViewController
+        // 对系统的版本处理放入 DoraemonStatusBarViewController 类中
+        if (!self.rootViewController) {
+            self.rootViewController = [[DoraemonStatusBarViewController alloc] init];
         }
+
         
         [self.rootViewController.view addSubview:self.entryBtn];
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
