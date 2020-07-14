@@ -87,7 +87,7 @@ DEPENDENCIES:
   - YYDebugDatabase (from `https://github.com/y500/YYDebugDatabase.git`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - AFNetworking
     - CocoaLumberjack
     - FMDB
@@ -118,7 +118,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   CocoaLumberjack: b17ae15142558d08bbacf69775fa10c4abbebcc9
-  DoraemonKit: b41986c8e8112720253fceaf20fdc77e4e228cc3
+  DoraemonKit: f44489d1cbbc7a94cf1c13527cf7d77f56b196a9
   FBRetainCycleDetector: 46daef95c2dfa9be34b53087edf6a8f34e4c749c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: c0ab22c73e1b84f358d1e2f74bf6afd1c60829f2
@@ -130,6 +130,6 @@ SPEC CHECKSUMS:
   WXDevtool: 95b70c73c06fc3299d65bd53ba4b3e0b0087f3cb
   YYDebugDatabase: 037486297a7dd40bc50e2c6df5de7b4ad24c9c17
 
-PODFILE CHECKSUM: b5c0a12184f9da8ec30b11bf62a406d66a64b543
+PODFILE CHECKSUM: 5f1dcd15ca63a6c44978b50f105166e29d3a9fd4
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.9.3

@@ -25,16 +25,29 @@ struct LaunchTime {
             return _internalLatency
         }
     }
+
+    static func addObserver()
+    {
+        NotificationCenter.default.addObserver(forName: UIApplication.didFinishLaunchingNotification, object: nil, queue: nil) { _ in
+            LaunchTime.latency = CFAbsoluteTimeGetCurrent() - LaunchTime.startTime
+            LaunchTime.stopObserver()
+        }
+    }
+
+    static func stopObserver()
+    {
+        NotificationCenter.default.removeObserver(self, name:  UIApplication.willResignActiveNotification, object: nil)
+    }
 }
 
 extension LaunchTimePlugin {
     func onInstall() {
-        LaunchTime.latency = CFAbsoluteTimeGetCurrent() - LaunchTime.startTime
     }
 }
 
 extension UIApplication {
     @objc dynamic static func applicationLoadHandle() {
         LaunchTime.startTime = CFAbsoluteTimeGetCurrent()
+        LaunchTime.addObserver()
     }
 }

@@ -16,7 +16,7 @@ class AppInfoViewController: BaseViewController {
     var infoTableView:UITableView?
     var datas:[Dictionary<String, [[String]]>]?
     override func viewDidLoad() {
-        self.setTitle(title: LocalizedString("App信息"))
+        self.set(title: LocalizedString("App信息"))
         
         view.backgroundColor = UIColor.purple
                     
@@ -29,8 +29,8 @@ class AppInfoViewController: BaseViewController {
         let deviceArr = [[LocalizedString("设备名称"),UIDevice.current.name],
                    [LocalizedString("手机型号"),UIDevice.current.localizedModel],
                    [LocalizedString("系统版本"),UIDevice.current.systemVersion],
-                   [LocalizedString("手机屏幕"),"\(String(format: "%.0f", UIScreen.main.bounds.size.width)) * \(String(format: "%.0f", UIScreen.main.bounds.size.height))"],
-                   //[DoKitLocalizedString("ipV4"),UIDevice.current.localizedModel],
+                   [LocalizedString("手机屏幕"),"\(String(format: "%.0f", kScreenWidth)) * \(String(format: "%.0f", kScreenHeight))"],
+                   [LocalizedString("IP"), String.safeString(obj: ipv4())],
 //                   [DoKitLocalizedString("ipV6"),UIDevice.current.localizedModel]
         ]
         datas = [[LocalizedString("手机信息"):deviceArr]]
@@ -106,6 +106,36 @@ extension AppInfoViewController: UITableViewDelegate {
         headerView.addConstraint(NSLayoutConstraint.init(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: headerView, attribute: .leading, multiplier: 1, constant: 16))
         headerView.addConstraint(NSLayoutConstraint.init(item: titleLabel, attribute: .centerY, relatedBy: .equal, toItem: headerView, attribute: .centerY, multiplier: 1, constant: 0))
         return headerView
+    }
+}
+
+extension AppInfoViewController {
+    func ipv4() -> String? {
+        var addresses = [String]()
+        var ifaddr : UnsafeMutablePointer<ifaddrs>? = nil
+        if getifaddrs(&ifaddr) == 0 {
+            var ptr = ifaddr
+            while (ptr != nil) {
+                let flags = Int32(ptr!.pointee.ifa_flags)
+                var addr = ptr!.pointee.ifa_addr.pointee
+                if (flags & (IFF_UP|IFF_RUNNING|IFF_LOOPBACK)) == (IFF_UP|IFF_RUNNING) {
+                    if addr.sa_family == UInt8(AF_INET) || addr.sa_family == UInt8(AF_INET6) {
+                        var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                        if (getnameinfo(&addr, socklen_t(addr.sa_len), &hostname, socklen_t(hostname.count),nil, socklen_t(0), NI_NUMERICHOST) == 0) {
+                            if let address = String(validatingUTF8:hostname) {
+                                if String.init(cString: ptr!.pointee.ifa_name).hasPrefix("en") {
+                                    addresses.append(address)
+                                }
+                            }
+                        }
+                    }
+                }
+                ptr = ptr!.pointee.ifa_next
+            }
+            freeifaddrs(ifaddr)
+        }
+        
+        return addresses.joined(separator: "，")
     }
 }
 

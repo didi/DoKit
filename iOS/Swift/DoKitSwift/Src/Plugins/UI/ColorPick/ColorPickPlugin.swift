@@ -9,7 +9,7 @@ import Foundation
 
 struct ColorPickPlugin: Plugin {
 
-    var module: String { LocalizedString("视觉工具") }
+    var module: PluginModule { .ui }
     
     var title: String { LocalizedString("取色器") }
     
@@ -20,7 +20,7 @@ struct ColorPickPlugin: Plugin {
     }
     func onSelected() {
         ColorPickWindow.shared.show()
-        ColorPickInfoWindow.shared.show()
+        VisualInfo.colorPick.show()
         HomeWindow.shared.hide()
     }
 }

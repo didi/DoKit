@@ -15,6 +15,8 @@ class CacheManager: NSObject {
     
     let defaults = UserDefaults.standard
     
+    @Store("Dokit.CrashCache.isOn", defaultValue: false)
+    var isOnCrash: Bool
     
     // MARK: - H5任意门历史记录
     public var h5historicalRecord: [String] {

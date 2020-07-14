@@ -7,6 +7,33 @@
 
 import UIKit
 
+extension VisualInfo {
+    
+    static let colorPick = VisualInfoWindow<ColorPickInfoView>(frame: rect)
+    
+    private static var rect: CGRect {
+        let height: CGFloat = kSizeFrom750_Landscape(100)
+        let margin: CGFloat = kSizeFrom750_Landscape(30)
+        switch kOrientationPortrait {
+        case true:
+            return .init(
+                x: margin,
+                y: kScreenHeight - height - margin - kIphoneSafeBottomAreaHeight,
+                width: kScreenWidth - 2 * margin,
+                height: height
+            )
+            
+        case false:
+            return .init(
+                x: margin,
+                y: kScreenHeight - height - margin - kIphoneSafeBottomAreaHeight,
+                width: kScreenHeight - 2 * margin,
+                height: height
+            )
+        }
+    }
+}
+
 class ColorPickInfoView: UIView {
 
     private lazy var colorView: UIView = {
@@ -16,7 +43,7 @@ class ColorPickInfoView: UIView {
     }(UIView())
     
     private lazy var valueLabel: UILabel = {
-        $0.textColor = .black_1()
+        $0.textColor = .black_1
         $0.font = .systemFont(ofSize: kSizeFrom750_Landscape(28))
         return $0
     }(UILabel())
@@ -71,7 +98,7 @@ class ColorPickInfoView: UIView {
         
         let closeConst: CGFloat = kSizeFrom750_Landscape(44)
         closeButton.frame = CGRect(
-            x: width - colorConst - kSizeFrom750_Landscape(32),
+            x: width - closeConst - kSizeFrom750_Landscape(32),
             y: (height - closeConst) / 2,
             width: closeConst,
             height: closeConst

@@ -9,7 +9,7 @@ import Foundation
 
 struct ViewCheckPlugin: Plugin {
     
-    var module: String { LocalizedString("视觉工具") }
+    var module: PluginModule { .ui }
     
     var title: String { LocalizedString("组件检查") }
     
@@ -21,6 +21,33 @@ struct ViewCheckPlugin: Plugin {
     
     func onSelected() {
         ViewCheck.shared.show()
+        VisualInfo.defalut.show()
+        VisualInfo.defalut.frame = VisualInfo.rect
         HomeWindow.shared.hide()
+    }
+}
+
+extension VisualInfo {
+    
+    fileprivate static var rect: CGRect {
+        let height: CGFloat = kSizeFrom750_Landscape(180)
+        let margin: CGFloat = kSizeFrom750_Landscape(30)
+        switch kOrientationPortrait {
+        case true:
+            return .init(
+                x: margin,
+                y: kScreenHeight - height - margin - kIphoneSafeBottomAreaHeight,
+                width: kScreenWidth - 2 * margin,
+                height: height
+            )
+            
+        case false:
+            return .init(
+                x: margin,
+                y: kScreenHeight - height - margin - kIphoneSafeBottomAreaHeight,
+                width: kScreenHeight - 2 * margin,
+                height: height
+            )
+        }
     }
 }

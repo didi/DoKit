@@ -10,7 +10,14 @@ import Foundation
 public func backtrace(thread: Thread)->String{
     let name = "Backtrace of : \(thread.description)\n"
     if Thread.current == thread {
-        return name +  Thread.callStackSymbols.joined(separator: "\n")
+        let symbols = Thread.callStackSymbols.map { (s) -> String in
+            var symbolSplits = s.split(separator: " ").map {String($0)}
+            if symbolSplits.count >= 4{
+                symbolSplits[3] = _stdlib_demangleName(symbolSplits[3])
+            }
+            return symbolSplits.joined(separator: " ")
+        }
+        return name +  symbols.joined(separator: "\n")
     }
     let mach = machThread(from: thread)
     return name + backtrace(t: mach)
@@ -46,7 +53,11 @@ fileprivate func backtrace(t:thread_t)-> String{
             guard let symbol = $0 else {
                 return "<null>"
             }
-            return String(cString: symbol)
+            var symbolSplits = String(cString: symbol).split(separator: " ").map {String($0)}
+            if symbolSplits.count >= 4{
+                symbolSplits[3] = _stdlib_demangleName(symbolSplits[3])
+            }
+            return symbolSplits.joined(separator: " ")
         }
     }
     return symbols.joined(separator: "\n")
@@ -59,12 +70,43 @@ fileprivate func backtrace(_ thread: thread_t, stack: UnsafeMutablePointer<Unsaf
 @_silgen_name("backtrace_symbols")
 fileprivate func backtrace_symbols(_ stack: UnsafePointer<UnsafeMutableRawPointer?>!, _ frame: Int32) -> UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>!
 
+@_silgen_name("swift_demangle")
+public
+func _stdlib_demangleImpl(
+    _ mangledName: UnsafePointer<CChar>?,
+    mangledNameLength: UInt,
+    outputBuffer: UnsafeMutablePointer<UInt8>?,
+    outputBufferSize: UnsafeMutablePointer<UInt>?,
+    flags: UInt32
+) -> UnsafeMutablePointer<CChar>?
+
+func _stdlib_demangleName(_ mangledName: String) -> String {
+    return mangledName.utf8CString.withUnsafeBufferPointer {
+        mangledNameUTF8 in
+
+        let demangledNamePtr = _stdlib_demangleImpl(
+            mangledNameUTF8.baseAddress,
+            mangledNameLength: UInt(mangledNameUTF8.count - 1),
+            outputBuffer: nil,
+            outputBufferSize: nil,
+            flags: 0
+        )
+
+        if let demangledNamePtr = demangledNamePtr {
+            let demangledName = String(cString: demangledNamePtr)
+            free(demangledNamePtr)
+            return demangledName
+        }
+        return mangledName
+    }
+}
 
 /**
     这里主要利用了Thread 和 pThread 共用一个Name的特性，找到对应 thread的内核线程thread_t
     但是主线程不行，主线程设置Name无效.
+ main_thread_t 在程序初始化的+load里面拿
  */
-public var main_thread_t: mach_port_t?
+//public var main_thread_t: mach_port_t?
 fileprivate func machThread(from thread: Thread) -> thread_t {
     var count: mach_msg_type_number_t = 0
     var threads: thread_act_array_t!
@@ -73,13 +115,18 @@ fileprivate func machThread(from thread: Thread) -> thread_t {
         return mach_thread_self()
     }
 
-    /// 如果当前线程不是主线程，但是需要获取主线程的堆栈
-    if !Thread.isMainThread && thread.isMainThread  && main_thread_t == nil {
-        DispatchQueue.main.sync {
-            main_thread_t = mach_thread_self()
-        }
-        return main_thread_t ?? mach_thread_self()
+    /// 取数组的第一个  目前来看 第一个就是主线程
+    if thread.isMainThread {
+        return threads[0]
     }
+    
+    /// 该种方案不可行  当主线程卡顿的时候 获取到的堆栈不正确
+//    if !Thread.isMainThread && thread.isMainThread  && main_thread_t == nil {
+//        DispatchQueue.main.sync {
+//            main_thread_t = mach_thread_self()
+//        }
+//        return main_thread_t ?? mach_thread_self()
+//    }
     
     let originName = thread.name
     defer {

@@ -29,6 +29,9 @@ Pod::Spec.new do |s|
     ss.resource_bundles = {
       'DoKitSwift' => 'iOS/DoraemonKit/Resource/**/*'
     }
+    
+  s.dependency 'fishhook'
+  
   end
   
 end

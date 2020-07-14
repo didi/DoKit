@@ -18,15 +18,32 @@ enum Crash {
         public let type: Type
         public let name: String
         public let reason: String?
-        public let appinfo: String
         public let symbols: [String]
     }
     
-    static var handler: ((Model) -> Void)?
+    // crash信息可以抛给外界自定义处理
+    static var handler: ((Model) -> Void)? = {
+        let info = """
+        ======================== \($0.type.rawValue)异常错误报告 ========================
+        name: \($0.name)
+        reason: \($0.reason ?? "unknown")
+        
+        Call Stack:
+        \($0.symbols.joined(separator: "\r"))
+        
+        ThreadInfo:
+        \(Thread.current.description)
+        
+        AppInfo:
+        \(appInfo)
+        """
+        /// 存沙盒或者发邮件
+        try? Crash.Tool.save(crash: info, file:  "\($0.type.rawValue)")
+    }
     
     private static var app_old_exceptionHandler:(@convention(c) (NSException) -> Swift.Void)? = nil
     
-    static func registerHandler() {
+    static func register() {
         setupSignalHandler()
         setupExceptionHandler()
     }
@@ -57,7 +74,6 @@ extension Crash {
         let model = Model(type: .exception,
                           name: "\(exteption.name)",
                           reason: exteption.reason,
-                          appinfo: appInfo,
                           symbols: exteption.callStackSymbols)
         handler?(model)
         killApp()
@@ -70,7 +86,6 @@ extension Crash {
         let model = Model(type: .signal,
                           name: signal.signalName,
                           reason: "Signal \(signal.signalName)(\(signal)) was raised.",
-                          appinfo: appInfo,
                           symbols: stack)
         
         handler?(model)
@@ -91,20 +106,6 @@ extension Crash {
         
         kill(getpid(), SIGKILL)
     }
-    
-    private static var appInfo: String {
-        let displayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") ?? ""
-        let shortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? ""
-        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") ?? ""
-        let deviceModel = UIDevice.current.model
-        let systemName = UIDevice.current.systemName
-        let systemVersion = UIDevice.current.systemVersion
-        return """
-        App: \(displayName) \(shortVersion)(\(version))
-        Device:\(deviceModel)
-        OS Version:\(systemName) \(systemVersion)
-        """
-    }
 }
 
 fileprivate extension Int32 {
@@ -121,5 +122,22 @@ fileprivate extension Int32 {
         case SIGTRAP:   return "SIGTRAP"
         default:        return "UNKNOWN"
         }
+    }
+}
+
+extension Crash {
+    
+    private static var appInfo: String {
+        let displayName = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") ?? ""
+        let shortVersion = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") ?? ""
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") ?? ""
+        let deviceModel = UIDevice.current.model
+        let systemName = UIDevice.current.systemName
+        let systemVersion = UIDevice.current.systemVersion
+        return """
+        App: \(displayName) \(shortVersion)(\(version))
+        Device:\(deviceModel)
+        OS Version:\(systemName) \(systemVersion)
+        """
     }
 }
