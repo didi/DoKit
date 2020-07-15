@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.filemanager.action.sql
 
+import android.database.sqlite.SQLiteDatabaseCorruptException
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.DBManager
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.bean.RowFiledInfo
 
@@ -15,9 +16,16 @@ import com.didichuxing.doraemonkit.kit.filemanager.sqlite.bean.RowFiledInfo
 object DatabaseAction {
     fun allTablesRes(filePath: String, fileName: String): MutableMap<String, Any> {
         val response = mutableMapOf<String, Any>()
-        val tables = DBManager.getAllTableName(filePath, fileName)
-        response["code"] = 200
-        response["data"] = tables
+        try {
+            val tables = DBManager.getAllTableName(filePath, fileName)
+            response["code"] = 200
+            response["data"] = tables
+        } catch (e: SQLiteDatabaseCorruptException) {
+            response["code"] = 0
+            response["data"] = arrayListOf<String>()
+            response["message"] = "${e.message}"
+        }
+
         return response
     }
 
