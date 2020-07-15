@@ -109,6 +109,7 @@ dependencies {
     testImplementation rootProject.ext.dependencies["junit"]
     implementation rootProject.ext.dependencies["multidex"]
     implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["coroutines-core"]
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["retrofit2"]
@@ -122,7 +123,8 @@ dependencies {
     implementation rootProject.ext.dependencies["fresco"]
     implementation rootProject.ext.dependencies["fresco-processors"]
     implementation rootProject.ext.dependencies["image-loader"]
-//    implementation rootProject.ext.dependencies["swipeback"]
+    implementation rootProject.ext.dependencies["room_runtime"]
+    implementation rootProject.ext.dependencies["wcdb"]
 
     //weex相关
     implementation rootProject.ext.dependencies["weex_inspector"]
@@ -134,7 +136,7 @@ dependencies {
     implementation rootProject.ext.dependencies["amap_location"]
     //腾讯地图定位
     implementation rootProject.ext.dependencies["tencent_location"]
-    debugImplementation rootProject.ext.dependencies["leakcanary-android"]
+//    debugImplementation rootProject.ext.dependencies["leakcanary-android"]
     //百度地图定位
     implementation files('libs/BaiduLBS_Android.jar')
 //    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.12'

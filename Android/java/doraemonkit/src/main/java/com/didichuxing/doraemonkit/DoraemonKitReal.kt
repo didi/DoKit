@@ -4,9 +4,6 @@ import android.app.Application
 import android.os.Build
 import android.text.TextUtils
 import android.util.Log
-import com.amitshekhar.DebugDB
-import com.amitshekhar.debug.encrypt.sqlite.DebugDBEncryptFactory
-import com.amitshekhar.debug.sqlite.DebugDBFactory
 import com.blankj.utilcode.util.*
 import com.blankj.utilcode.util.NetworkUtils.OnNetworkStatusChangedListener
 import com.blankj.utilcode.util.ThreadUtils.SimpleTask
@@ -174,7 +171,7 @@ object DoraemonKitReal {
      * 添加内置kit
      */
     private fun addInnerKit(application: Application) {
-        var json = ""
+        val json: String?
         if (FileUtils.isFileExists(DokitConstant.SYSTEM_KITS_BAK_PATH)) {
             json = FileIOUtils.readFile2String(DokitConstant.SYSTEM_KITS_BAK_PATH)
         } else {
@@ -202,7 +199,7 @@ object DoraemonKitReal {
     /**
      * for test
      */
-    private fun addSystemKitForTest(application: Application) {
+    private fun addSystemKit4Test(application: Application) {
 
         //平台工具
         val platformKits: MutableList<KitWrapItem> = mutableListOf()
@@ -351,7 +348,7 @@ object DoraemonKitReal {
             return
         }
         val files = rootFileDir.listFiles()
-        for (file in files) {
+        files?.forEach { file ->
             if (file.isDirectory) {
                 //若是目录，则递归打印该目录下的文件
                 //LogHelper.i(TAG, "文件夹==>" + file.getAbsolutePath());
@@ -360,7 +357,6 @@ object DoraemonKitReal {
             if (file.isFile) {
                 //若是文件，直接打印 byte
                 val fileLength = FileUtils.getLength(file)
-
                 if (fileLength > FILE_LENGTH_THRESHOLD) {
                     val fileBean = BigFileBean()
                     fileBean.fileName = FileUtils.getFileName(file)
@@ -371,6 +367,7 @@ object DoraemonKitReal {
                 //LogHelper.i(TAG, "文件==>" + file.getAbsolutePath() + "   fileName===>" + FileUtils.getFileName(file) + " fileLength===>" + fileLength);
             }
         }
+
     }
 
     /**
@@ -426,30 +423,14 @@ object DoraemonKitReal {
             override fun onDisconnected() {
                 //ToastUtils.showShort("当前网络已断开");
                 Log.i("Doraemon", "当前网络已断开")
-                try {
-                    DebugDB.shutDown()
-                    if (DokitConstant.DB_DEBUG_FRAGMENT != null) {
-                        DokitConstant.DB_DEBUG_FRAGMENT?.get()?.networkChanged(NetworkUtils.NetworkType.NETWORK_NO)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+
             }
 
             override fun onConnected(networkType: NetworkUtils.NetworkType) {
                 //重启DebugDB
                 //ToastUtils.showShort("当前网络类型:" + networkType.name());
                 Log.i("Doraemon", "当前网络类型" + networkType.name)
-                try {
-                    DebugDB.shutDown()
-                    DebugDB.initialize(APPLICATION, DebugDBFactory())
-                    DebugDB.initialize(APPLICATION, DebugDBEncryptFactory())
-                    if (DokitConstant.DB_DEBUG_FRAGMENT != null) {
-                        DokitConstant.DB_DEBUG_FRAGMENT?.get()?.networkChanged(networkType)
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
+
             }
         })
     }
@@ -546,4 +527,18 @@ object DoraemonKitReal {
 
     val isShow: Boolean
         get() = DokitConstant.MAIN_ICON_HAS_SHOW
+
+    /**
+     * 设置加密数据库的密码
+     */
+    fun setDatabasePass(map: Map<String, String>) {
+        DokitConstant.DATABASE_PASS = map
+    }
+
+    /**
+     * 设置平台端文件管理端口号
+     */
+    fun setFileManagerHttpPort(port: Int) {
+        DokitConstant.FILE_MANAGER_HTTP_PORT = port
+    }
 }

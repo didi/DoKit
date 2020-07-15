@@ -1,5 +1,8 @@
 package com.didichuxing.doraemonkit.aop.urlconnection;
 
+import android.net.Uri;
+import android.util.Log;
+
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonWeakNetworkInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.LargePictureInterceptor;
@@ -8,6 +11,7 @@ import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.HttpUrl;
@@ -43,29 +47,39 @@ public class HttpUrlConnectionProxyUtil {
 
     private static URLConnection createOkHttpURLConnection(URLConnection urlConnection) throws Exception {
 
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        //不需要再重复添加拦截器 因为已经通过字节码主如果拦截器了
-        //addInterceptor(builder);
-        OkHttpClient mClient = builder
-                .retryOnConnectionFailure(true)
-                .readTimeout(DokitOkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
-                .writeTimeout(DokitOkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
-                .connectTimeout(DokitOkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
-                .build();
+//        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+//        //不需要再重复添加拦截器 因为已经通过字节码主如果拦截器了
+//        //addInterceptor(builder);
+//        OkHttpClient mClient = builder
+//                .retryOnConnectionFailure(true)
+//                .readTimeout(DokitOkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
+//                .writeTimeout(DokitOkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
+//                .connectTimeout(DokitOkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
+//                .build();
 
-        String strUrl = urlConnection.getURL().toString();
+        //对url进行encode
+        String strUrl = encodeUrl(urlConnection.getURL().toString());
+        //Log.i("decode", decodeUrl(strUrl));
         URL url = new URL(strUrl);
         String protocol = url.getProtocol().toLowerCase();
         if (protocol.equalsIgnoreCase("http")) {
-            return new ObsoleteUrlFactory.OkHttpURLConnection(url, mClient);
+            return new ObsoleteUrlFactory.OkHttpURLConnection(url, OkhttpClientUtil.INSTANCE.getOkhttpClient());
         }
 
         if (protocol.equalsIgnoreCase("https")) {
-            return new ObsoleteUrlFactory.OkHttpsURLConnection(url, mClient);
+            return new ObsoleteUrlFactory.OkHttpsURLConnection(url, OkhttpClientUtil.INSTANCE.getOkhttpClient());
         }
 
         return urlConnection;
 
+    }
+
+    public static String encodeUrl(String url) {
+        return Uri.encode(url, "-![.:/,%?&=]");
+    }
+
+    public static String decodeUrl(String url) {
+        return Uri.decode(url);
     }
 
     private static void addInterceptor(OkHttpClient.Builder builder) {

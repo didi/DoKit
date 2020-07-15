@@ -31,7 +31,7 @@ object DoraemonKit {
      * @param productId Dokit平台端申请的productId
      */
     @JvmStatic
-    private  fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
+    private fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
 
     }
 
@@ -81,5 +81,19 @@ object DoraemonKit {
      */
     @JvmStatic
     fun setAwaysShowMainIcon(awaysShow: Boolean) {
+    }
+
+    /**
+     * 设置加密数据库密码
+     */
+    @JvmStatic
+    fun setDatabasePass(map: Map<String, String>) {
+    }
+
+    /**
+     * 设置文件管理助手http端口号
+     */
+    @JvmStatic
+    fun setFileManagerHttpPort(port: Int) {
     }
 }

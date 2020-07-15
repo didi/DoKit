@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.kit
 
 import android.app.Activity
-import android.support.v7.app.AppCompatActivity
 import android.content.Context
 import android.content.Intent
 import com.blankj.utilcode.util.ActivityUtils
@@ -24,11 +23,13 @@ abstract class AbstractKit : IKit {
      * @param context
      * @param fragmentIndex
      */
-    fun startUniversalActivity(context: Context, fragmentIndex: Int) {
-        val intent = Intent(context, UniversalActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        intent.putExtra(BundleKey.FRAGMENT_INDEX, fragmentIndex)
-        context.startActivity(intent)
+    fun startUniversalActivity(context: Context?, fragmentIndex: Int) {
+        context?.let {
+            val intent = Intent(context, UniversalActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra(BundleKey.FRAGMENT_INDEX, fragmentIndex)
+            it.startActivity(intent)
+        }
     }
 
     /**

@@ -1,15 +1,10 @@
 package com.didichuxing.doraemonkit;
 
 import android.content.Context;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import com.didichuxing.doraemonkit.constant.DokitConstant;
-import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugFragment;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
-
-import java.lang.ref.WeakReference;
 
 /**
  * ================================================
@@ -28,9 +23,7 @@ public class DokitFragmentLifecycleCallbacks extends FragmentManager.FragmentLif
     public void onFragmentAttached(FragmentManager fm, Fragment fragment, Context context) {
         super.onFragmentAttached(fm, fragment, context);
         //LogHelper.d(TAG, "onFragmentAttached: " + fragment);
-        if (fragment instanceof DbDebugFragment) {
-            DokitConstant.DB_DEBUG_FRAGMENT = new WeakReference<>((DbDebugFragment) fragment);
-        }
+
         for (LifecycleListenerUtil.LifecycleListener listener : LifecycleListenerUtil.LIFECYCLE_LISTENERS) {
             listener.onFragmentAttached(fragment);
         }
@@ -40,10 +33,7 @@ public class DokitFragmentLifecycleCallbacks extends FragmentManager.FragmentLif
     public void onFragmentDetached(FragmentManager fm, Fragment fragment) {
         super.onFragmentDetached(fm, fragment);
         //LogHelper.d(TAG, "onFragmentDetached: " + fragment);
-        if (fragment instanceof DbDebugFragment) {
-            DokitConstant.DB_DEBUG_FRAGMENT.clear();
-            DokitConstant.DB_DEBUG_FRAGMENT = null;
-        }
+
         for (LifecycleListenerUtil.LifecycleListener listener : LifecycleListenerUtil.LIFECYCLE_LISTENERS) {
             listener.onFragmentDetached(fragment);
         }
