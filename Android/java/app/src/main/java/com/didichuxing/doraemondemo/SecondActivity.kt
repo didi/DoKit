@@ -3,9 +3,9 @@ package com.didichuxing.doraemondemo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
-import com.didichuxing.doraemondemo.db.room.PersonDBHelper
 import com.didichuxing.doraemonkit.util.LogHelper
 import kotlinx.android.synthetic.main.activity_second.*
+import com.didichuxing.doraemondemo.db.room.PersonDBHelper
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
