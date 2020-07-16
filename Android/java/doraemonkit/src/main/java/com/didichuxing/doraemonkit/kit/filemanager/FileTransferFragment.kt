@@ -9,7 +9,6 @@ import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.filemanager.sqlite.http.HttpServer
 import com.didichuxing.doraemonkit.util.DokitUtil
 import kotlinx.android.synthetic.main.dk_fragment_db_debug.title_bar
 import kotlinx.android.synthetic.main.dk_fragment_db_debug.tv_ip

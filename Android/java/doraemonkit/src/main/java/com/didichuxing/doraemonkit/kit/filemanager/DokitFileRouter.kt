@@ -2,21 +2,21 @@ package com.didichuxing.doraemonkit.kit.filemanager
 
 import android.os.Build
 import com.blankj.utilcode.util.FileUtils
-import com.didichuxing.doraemonkit.kit.filemanager.action.*
+import com.didichuxing.doraemonkit.kit.filemanager.action.RequestErrorAction
 import com.didichuxing.doraemonkit.kit.filemanager.action.file.*
 import com.didichuxing.doraemonkit.kit.filemanager.action.sql.DatabaseAction
 import com.didichuxing.doraemonkit.kit.filemanager.bean.DirInfo
 import com.didichuxing.doraemonkit.kit.filemanager.bean.RenameFileInfo
 import com.didichuxing.doraemonkit.kit.filemanager.bean.SaveFileInfo
+import com.didichuxing.doraemonkit.kit.filemanager.convert.GsonConverter
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.bean.RowRequestInfo
-import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.*
+import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
-import io.ktor.jackson.jackson
 import io.ktor.request.receive
 import io.ktor.request.receiveMultipart
 import io.ktor.response.respond
@@ -24,6 +24,7 @@ import io.ktor.response.respondFile
 import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.routing
+
 import java.io.File
 import java.time.Duration
 
@@ -39,9 +40,7 @@ import java.time.Duration
  */
 val DoKitFileRouter: Application.() -> Unit = {
     install(ContentNegotiation) {
-        jackson {
-            enable(SerializationFeature.INDENT_OUTPUT) // 美化输出 JSON
-        }
+        register(ContentType.Application.Json, GsonConverter())
     }
     install(CORS) {
         method(HttpMethod.Options)

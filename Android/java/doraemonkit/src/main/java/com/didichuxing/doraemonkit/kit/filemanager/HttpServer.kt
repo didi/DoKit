@@ -1,7 +1,6 @@
-package com.didichuxing.doraemonkit.kit.filemanager.sqlite.http
+package com.didichuxing.doraemonkit.kit.filemanager
 
 import com.didichuxing.doraemonkit.constant.DokitConstant
-import com.didichuxing.doraemonkit.kit.filemanager.DoKitFileRouter
 import io.ktor.server.cio.CIO
 import io.ktor.server.cio.CIOApplicationEngine
 import io.ktor.server.engine.embeddedServer

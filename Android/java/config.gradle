@@ -58,6 +58,9 @@ ext {
                     //ktor
                     "ktor-core"          : "io.ktor:ktor-server-core:1.3.2",
                     "ktor-cio"           : "io.ktor:ktor-server-cio:1.3.2",
+                    "ktor-serialization" : "io.ktor:ktor-serialization:1.3.2",
+                    //jackson & gson 会和滴滴内部业务冲突
+                    "ktor-gson"          : "io.ktor:ktor-gson:1.3.2",
                     "ktor-jackson"       : "io.ktor:ktor-jackson:1.3.2",
                     //将urlconnection代理到okhttp
                     //"okhttp_urlconnection"    : "com.squareup.okhttp3:okhttp-urlconnection:3.12.1",
