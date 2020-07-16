@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.filemanager.action.file
 
+import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
 import com.didichuxing.doraemonkit.kit.filemanager.FileManagerUtil
@@ -46,8 +47,8 @@ object FileListAction {
         val fileInfos = mutableListOf<FileInfo>()
         val internalAppDataPath = PathUtils.getInternalAppDataPath()
         val externalStoragePath = PathUtils.getExternalStoragePath()
-        fileInfos.add(FileInfo("/", FileUtils.getFileName(internalAppDataPath), "folder", "", "" + FileUtils.getFileLastModified(internalAppDataPath), true))
-        fileInfos.add(FileInfo("/", "external", "folder", "", "" + FileUtils.getFileLastModified(externalStoragePath), true))
+        fileInfos.add(FileInfo("/", FileUtils.getFileName(internalAppDataPath), "", "folder", "", "" + FileUtils.getFileLastModified(internalAppDataPath), true))
+        fileInfos.add(FileInfo("/", "external", "", "folder", "", "" + FileUtils.getFileLastModified(externalStoragePath), true))
         return fileInfos
     }
 
@@ -59,13 +60,19 @@ object FileListAction {
         val dir = File(dirPath)
         if (FileUtils.isFileExists(dir) && FileUtils.isDir(dir)) {
             dir.listFiles()?.forEach { file ->
-                val fileInfo = FileInfo(FileManagerUtil.relativeRootPath(dirPath), file.name, if (FileUtils.isDir(file)) {
-                    "folder"
-                } else if (dir.absolutePath.contains("/databases")) {
-                    "db"
-                } else {
-                    FileUtils.getFileExtension(file)
-                }, "", "" + FileUtils.getFileLastModified(file), false)
+                val fileInfo = FileInfo(FileManagerUtil.relativeRootPath(dirPath), file.name,
+                        if (FileUtils.isDir(file)) {
+                            ""
+                        } else {
+                            ConvertUtils.byte2FitMemorySize(file.length(), 1)
+                        },
+                        if (FileUtils.isDir(file)) {
+                            "folder"
+                        } else if (dir.absolutePath.contains("/databases")) {
+                            "db"
+                        } else {
+                            FileUtils.getFileExtension(file)
+                        }, "", "" + FileUtils.getFileLastModified(file), false)
                 fileInfos.add(fileInfo)
             }
 
@@ -78,6 +85,7 @@ object FileListAction {
     data class FileInfo(
             val dirPath: String,
             val fileName: String,
+            val fileSize: String,
             val fileType: String,
             val fileUri: String,
             val modifyTime: String,
