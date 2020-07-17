@@ -41,13 +41,6 @@ android {
     dataBinding {
         enabled = true
     }
-
-
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
-
 }
 
 dependencies {
@@ -81,7 +74,8 @@ dependencies {
     //ktor
     implementation rootProject.ext.dependencies["ktor-core"]
     implementation rootProject.ext.dependencies["ktor-cio"]
-    implementation rootProject.ext.dependencies["ktor-jackson"]
+//    implementation rootProject.ext.dependencies["ktor-serialization"]
+//    implementation rootProject.ext.dependencies["ktor-gson"]
 
     kapt rootProject.ext.dependencies["room_compile"]
 
