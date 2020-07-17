@@ -3,19 +3,15 @@ package com.didichuxing.doraemonkit.kit.filemanager
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Html
-import android.text.Html.FROM_HTML_MODE_LEGACY
 import android.view.View
 import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.filemanager.sqlite.http.HttpServer
 import com.didichuxing.doraemonkit.util.DokitUtil
-import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
-import io.ktor.server.cio.CIO
-import io.ktor.server.cio.CIOApplicationEngine
-import io.ktor.server.engine.embeddedServer
+import kotlinx.android.synthetic.main.dk_fragment_db_debug.title_bar
+import kotlinx.android.synthetic.main.dk_fragment_db_debug.tv_ip
 import kotlinx.android.synthetic.main.dk_fragment_file_transfer.*
 import java.net.BindException
 
