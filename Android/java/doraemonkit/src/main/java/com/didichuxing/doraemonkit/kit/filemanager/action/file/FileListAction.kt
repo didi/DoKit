@@ -21,9 +21,9 @@ object FileListAction {
         val params = mutableMapOf<String, Any>().apply {
             this["code"] = 200
         }
-        if (dirPath == "/") {
+        if (dirPath == FileManagerUtil.ROOT_PATH_STR) {
             val data = mutableMapOf<String, Any>().apply {
-                this["dirPath"] = "/"
+                this["dirPath"] = FileManagerUtil.ROOT_PATH_STR
                 this["fileList"] = createRootInfo()
             }
             params["data"] = data
@@ -47,8 +47,8 @@ object FileListAction {
         val fileInfos = mutableListOf<FileInfo>()
         val internalAppDataPath = PathUtils.getInternalAppDataPath()
         val externalStoragePath = PathUtils.getExternalStoragePath()
-        fileInfos.add(FileInfo("/", FileUtils.getFileName(internalAppDataPath), "", "folder", "", "" + FileUtils.getFileLastModified(internalAppDataPath), true))
-        fileInfos.add(FileInfo("/", "external", "", "folder", "", "" + FileUtils.getFileLastModified(externalStoragePath), true))
+        fileInfos.add(FileInfo(FileManagerUtil.ROOT_PATH_STR, FileUtils.getFileName(internalAppDataPath), "", "folder", "", "" + FileUtils.getFileLastModified(internalAppDataPath), true))
+        fileInfos.add(FileInfo(FileManagerUtil.ROOT_PATH_STR, "external", "", "folder", "", "" + FileUtils.getFileLastModified(externalStoragePath), true))
         return fileInfos
     }
 

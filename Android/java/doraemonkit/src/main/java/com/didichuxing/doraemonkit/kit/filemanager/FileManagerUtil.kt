@@ -13,6 +13,11 @@ import com.blankj.utilcode.util.PathUtils
  * ================================================
  */
 object FileManagerUtil {
+    /**
+     * 根目录匹配字段
+     */
+    const val ROOT_PATH_STR = "/root/"
+
     private val internalAppRootPath by lazy { PathUtils.getInternalAppDataPath() }
     private val internalAppRootReplacePath by lazy { FileUtils.getFileName(PathUtils.getInternalAppDataPath()) }
     private val externalStorageRootPath by lazy { PathUtils.getExternalStoragePath() }
@@ -25,9 +30,9 @@ object FileManagerUtil {
     fun relativeRootPath(path: String?): String {
         path?.let {
             if (it.contains(internalAppRootPath)) {
-                return it.replace(internalAppRootPath, "/$internalAppRootReplacePath")
+                return it.replace(internalAppRootPath, "$ROOT_PATH_STR$internalAppRootReplacePath")
             } else if (it.contains(externalStorageRootPath)) {
-                return it.replace(externalStorageRootPath, "/$externalStorageRootReplacePath")
+                return it.replace(externalStorageRootPath, "$ROOT_PATH_STR$externalStorageRootReplacePath")
             }
             return it
         }
@@ -40,10 +45,10 @@ object FileManagerUtil {
      */
     fun absoluteRootPath(path: String?): String {
         path?.let {
-            if (it.contains("/$internalAppRootReplacePath")) {
-                return it.replace("/$internalAppRootReplacePath", internalAppRootPath)
-            } else if (it.contains("/$externalStorageRootReplacePath")) {
-                return it.replace("/$externalStorageRootReplacePath", externalStorageRootPath)
+            if (it.contains("$ROOT_PATH_STR$internalAppRootReplacePath")) {
+                return it.replace("$ROOT_PATH_STR$internalAppRootReplacePath", internalAppRootPath)
+            } else if (it.contains("$ROOT_PATH_STR$externalStorageRootReplacePath")) {
+                return it.replace("$ROOT_PATH_STR$externalStorageRootReplacePath", externalStorageRootPath)
             }
             return it
         }
