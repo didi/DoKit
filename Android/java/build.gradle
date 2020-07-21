@@ -4,10 +4,10 @@ buildscript {
     repositories {
         google()
         jcenter()
-//        maven {
-//            //本地插件地址
-//            url uri(rootProject.ext.config["localRepoURL"])
-//        }
+        maven {
+            //本地插件地址
+            url uri(rootProject.ext.config["localRepoURL"])
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
@@ -22,10 +22,10 @@ allprojects {
     repositories {
         google()
         jcenter()
-//        maven {
-//            //本地插件地址
-//            url uri(rootProject.ext.config["localRepoURL"])
-//        }
+        maven {
+            //本地插件地址
+            url uri(rootProject.ext.config["localRepoURL"])
+        }
     }
 }
 

@@ -32,7 +32,7 @@
     android:networkSecurityConfig="@xml/dokit_network_config"
     -->
     <!--    android:requestLegacyExternalStorage="true" 解决sd卡没有权限的问题-->
-    <application android:requestLegacyExternalStorage="true">
+    <application>
         <activity
             android:name=".kit.core.UniversalActivity"
             android:screenOrientation="portrait"

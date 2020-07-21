@@ -7,7 +7,7 @@ if (isRemote) {
                 pom.project {
                     groupId project.GROUP_ID
                     artifactId project.ARTIFACT_ID
-                    version rootProject.ext.android["didiArchivesVersionName"]
+                    version rootProject.ext.android["jcenterArchivesVersionName"]
                 }
 
                 pom.withXml {
@@ -43,7 +43,7 @@ if (isRemote) {
                 pom.project {
                     groupId project.GROUP_ID
                     artifactId project.ARTIFACT_ID
-                    version rootProject.ext.android["didiArchivesVersionName"]
+                    version rootProject.ext.android["jcenterArchivesVersionName"]
                 }
                 pom.withXml {
                     def node = it.asElement()

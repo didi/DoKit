@@ -79,7 +79,9 @@ dependencies {
     //ktor
     implementation rootProject.ext.dependencies["ktor-core"]
     implementation rootProject.ext.dependencies["ktor-cio"]
-    implementation rootProject.ext.dependencies["ktor-jackson"]
+    //会合滴滴内部的spi-plugin冲突
+//    implementation rootProject.ext.dependencies["ktor-serialization"]
+//    implementation rootProject.ext.dependencies["ktor-gson"]
 
     kapt rootProject.ext.dependencies["room_compile"]
 

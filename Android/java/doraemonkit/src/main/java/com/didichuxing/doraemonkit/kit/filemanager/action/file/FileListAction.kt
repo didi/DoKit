@@ -3,7 +3,9 @@ package com.didichuxing.doraemonkit.kit.filemanager.action.file
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
+import com.didichuxing.doraemonkit.R as DoKitR
 import com.didichuxing.doraemonkit.kit.filemanager.FileManagerUtil
+import com.didichuxing.doraemonkit.util.DokitUtil
 import java.io.File
 
 /**
@@ -31,7 +33,12 @@ object FileListAction {
             //not root path
             val data = mutableMapOf<String, Any>().apply {
                 this["dirPath"] = FileManagerUtil.relativeRootPath(dirPath)
-                this["fileList"] = traverseDir(dirPath)
+                val fileInfos = traverseDir(dirPath)
+                if (dirPath == FileManagerUtil.externalStorageRootPath && fileInfos.isEmpty()) {
+                    this["code"] = 0
+                    this["message"] = DokitUtil.getString(DoKitR.string.dk_file_manager_sd_permission_tip)
+                }
+                this["fileList"] = fileInfos
             }
             params["data"] = data
         }

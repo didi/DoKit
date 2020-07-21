@@ -20,7 +20,7 @@ object FileManagerUtil {
 
     private val internalAppRootPath by lazy { PathUtils.getInternalAppDataPath() }
     private val internalAppRootReplacePath by lazy { FileUtils.getFileName(PathUtils.getInternalAppDataPath()) }
-    private val externalStorageRootPath by lazy { PathUtils.getExternalStoragePath() }
+    public val externalStorageRootPath by lazy { PathUtils.getExternalStoragePath() }
     private val externalStorageRootReplacePath by lazy { "external" }
 
 
