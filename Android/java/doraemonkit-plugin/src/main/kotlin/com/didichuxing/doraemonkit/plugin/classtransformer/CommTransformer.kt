@@ -212,6 +212,7 @@ class CommTransformer : ClassTransformer {
             add(MethodInsnNode(INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;", false))
             add(MethodInsnNode(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true))
             add(InsnNode(POP))
+
             //将HashMap注入到DokitPluginConfig中
             add(VarInsnNode(ALOAD, 0))
             add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/DokitPluginConfig", "inject", "(Ljava/util/Map;)V", false))

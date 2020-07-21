@@ -47,6 +47,7 @@ object DoKitExtUtil {
         return mDokitPluginSwitch
     }
 
+
     fun dokitLogSwitchOpen(): Boolean {
         return mDokitLogSwitch
     }

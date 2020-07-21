@@ -4,7 +4,7 @@ ext {
             // 线上包不会接入DoraemonKit，测试包会自动接入
             applyPlugin          : true,
             //上传到仓库时需要打开
-            uploadArchives       : false,
+            uploadArchives       : true,
             //是否发布插件到远程仓库
             publishPluginToRemote: false,
             localRepoURL         : "/Users/didi/project/dokit_repo"
@@ -26,7 +26,7 @@ ext {
                versionName               : "3.0.7.2",
                glide_version             : "4.9.0",
                kotlin_version            : "1.3.72",
-               booster_version           : "2.1.0"
+               booster_version           : "2.3.0"
     ]
 
     dependencies = [// ###### android library  start ######
