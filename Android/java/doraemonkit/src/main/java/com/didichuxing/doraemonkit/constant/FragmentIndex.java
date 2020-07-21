@@ -74,4 +74,9 @@ public interface FragmentIndex {
      * Dokit 文件互传
      */
     int FRAGMENT_FILE_TRANSFER = 31;
+
+    /**
+     * Dokit 文件互传文档
+     */
+    int FRAGMENT_FILE_TRANSFER_DOC = 32;
 }

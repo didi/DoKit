@@ -50,6 +50,12 @@ public class NetworkManager {
      */
 
     public static final String APP_DOCUMENT_URL = "http://xingyun.xiaojukeji.com/docs/dokit/#/TimeProfiler";
+
+    /**
+     * 文件同步助手操作文档
+     */
+
+    public static final String FILE_MANAGER_DOCUMENT_URL = "http://xingyun.xiaojukeji.com/docs/dokit/#/FileList";
     /**
      * app 启动数据埋点
      */

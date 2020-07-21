@@ -42,7 +42,6 @@ public class MethodCostFragment extends BaseFragment {
         });
         mWebView = findViewById(R.id.webview);
         mWebView.loadUrl(NetworkManager.APP_DOCUMENT_URL);
-
     }
 
     @Override

@@ -1,14 +1,17 @@
 package com.didichuxing.doraemonkit.kit.filemanager
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.view.View
 import com.blankj.utilcode.util.NetworkUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.DokitConstant
+import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity
 import com.didichuxing.doraemonkit.util.DokitUtil
 import kotlinx.android.synthetic.main.dk_fragment_db_debug.title_bar
 import kotlinx.android.synthetic.main.dk_fragment_db_debug.tv_ip
@@ -36,7 +39,10 @@ class FileTransferFragment : BaseFragment() {
         title_bar.setListener { finish() }
         tv_tip_top.text = Html.fromHtml(DokitUtil.getString(R.string.dk_file_manager_tip_top))
         tv_tip_top.setOnClickListener {
-            ToastUtils.showShort("操作文档")
+            val intent = Intent(context, UniversalActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_FILE_TRANSFER_DOC)
+            startActivity(intent)
         }
         initKtor()
     }
