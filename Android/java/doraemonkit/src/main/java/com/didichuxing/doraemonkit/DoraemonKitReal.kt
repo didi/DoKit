@@ -25,6 +25,7 @@ import com.didichuxing.doraemonkit.kit.crash.CrashCaptureKit
 import com.didichuxing.doraemonkit.kit.dataclean.DataCleanKit
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugKit
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerKit
+import com.didichuxing.doraemonkit.kit.filemanager.FileTransferKit
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockKit
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager
 import com.didichuxing.doraemonkit.kit.gpsmock.ServiceHookManager
@@ -173,9 +174,13 @@ object DoraemonKitReal {
      * 添加内置kit
      */
     private fun addInnerKit(application: Application) {
-        val json: String?
+        var json: String?
         if (FileUtils.isFileExists(DokitConstant.SYSTEM_KITS_BAK_PATH)) {
             json = FileIOUtils.readFile2String(DokitConstant.SYSTEM_KITS_BAK_PATH)
+            if (TextUtils.isEmpty(json) || json == "[]") {
+                val open = application.assets.open("dokit_system_kits.json")
+                json = ConvertUtils.inputStream2String(open, "UTF-8")
+            }
         } else {
             val open = application.assets.open("dokit_system_kits.json")
             json = ConvertUtils.inputStream2String(open, "UTF-8")
@@ -210,6 +215,10 @@ object DoraemonKitReal {
         platformKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(mockKit.name), true, "dk_category_platform", mockKit))
         val healKit = HealthKit()
         platformKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(healKit.name), true, "dk_category_platform", healKit))
+
+        val fileSyncKit = FileTransferKit()
+        platformKits.add(KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(fileSyncKit.name), true, "dk_category_platform", fileSyncKit))
+
         DokitConstant.GLOBAL_KITS["dk_category_platform"] = platformKits
 
         //常用工具

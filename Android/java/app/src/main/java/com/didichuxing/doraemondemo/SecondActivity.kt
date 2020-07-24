@@ -1,18 +1,12 @@
 package com.didichuxing.doraemondemo
 
 import android.os.Bundle
-import android.util.Xml
 import androidx.appcompat.app.AppCompatActivity
-import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemondemo.db.room.PersonDBHelper
 import com.didichuxing.doraemonkit.util.LogHelper
 import kotlinx.android.synthetic.main.activity_second.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.xml.sax.helpers.DefaultHandler
-import org.xmlpull.v1.XmlPullParser
-import javax.xml.parsers.SAXParserFactory
+import kotlinx.coroutines.*
 
 class SecondActivity : AppCompatActivity() {
     companion object {
@@ -23,20 +17,26 @@ class SecondActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-
         tv.setOnClickListener {
             // Create Person encrypted database
-            GlobalScope.launch {
-                insertPersonDB()
+            CoroutineScope(Dispatchers.Main).launch {
+                val job = async(Dispatchers.IO) { insertPersonDB() }
+                val success = job.await()
+                LogHelper.i(TAG, "success===>$success")
+                LogHelper.i(TAG, "threadName1===>${Thread.currentThread().name}")
+                ToastUtils.showShort("插入数据成功")
+
             }
-            LogHelper.i(TAG,"inner thread====>${Thread.currentThread().name}" )
             ToastUtils.showShort("开始插入数据")
         }
     }
 
 
-    private fun insertPersonDB() {
-        LogHelper.i(TAG,"inner thread====>${Thread.currentThread().name}" )
+    /**
+     * 只非ui编程中执行操作
+     */
+    private fun insertPersonDB(): Boolean {
+        LogHelper.i(TAG, "threadName0===>${Thread.currentThread().name}")
         val personDBHelper = PersonDBHelper(applicationContext)
         if (personDBHelper.count() == 0) {
             for (i in 0..99) {
@@ -45,9 +45,9 @@ class SecondActivity : AppCompatActivity() {
                 val address = "${PersonDBHelper.PERSON_COLUMN_ADDRESS}_$i"
                 personDBHelper.insertPerson(firstName, lastName, address)
             }
-            ToastUtils.showShort("插入数据成功")
         }
-    }
 
+        return true
+    }
 
 }

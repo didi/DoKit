@@ -53,6 +53,5 @@ class FileTransferFragment : BaseFragment() {
         } catch (e: BindException) {
 
         }
-
     }
 }

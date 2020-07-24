@@ -3,25 +3,21 @@ package com.didichuxing.doraemondemo
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import androidx.multidex.MultiDex
 import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
-import java.util.*
 
 /**
  * @author jint
  * @mail 704167880@qq.com
  */
 class App : Application() {
-    var name = "init"
 
     override fun onCreate() {
         super.onCreate()
-
         //测试环境:a49842eeebeb1989b3f9565eb12c276b
         //线上环境:749a0600b5e48dd77cf8ee680be7b1b7
         DoraemonKit.disableUpload()
@@ -35,10 +31,6 @@ class App : Application() {
 //        kits.add(DemoKit())
 //        kits.add(DemoKit())
 
-        name = "jint"
-
-        var newName = name
-        Log.i("TAG", "newName====>$newName")
         val mapKits: LinkedHashMap<String, MutableList<AbstractKit>> = linkedMapOf()
         mapKits["业务专区1"] = mutableListOf<AbstractKit>(DemoKit())
         mapKits["业务专区2"] = mutableListOf<AbstractKit>(DemoKit())

@@ -26,4 +26,11 @@ class FileTransferKit : AbstractKit() {
 
     override fun onAppInit(context: Context?) {
     }
+
+    override val isInnerKit: Boolean
+        get() = true
+
+    override fun innerKitId(): String {
+        return "dokit_sdk_platform_ck_file_sync"
+    }
 }
