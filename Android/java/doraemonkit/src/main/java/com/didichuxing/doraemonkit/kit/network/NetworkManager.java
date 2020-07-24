@@ -49,7 +49,13 @@ public class NetworkManager {
      * 慢函数操作文档
      */
 
-    public static final String APP_DOCUMENT_URL = "http://xingyun.xiaojukeji.com/docs/dokit/#/TimeProfiler";
+    public static final String APP_DOCUMENT_URL = "https://xingyun.xiaojukeji.com/docs/dokit/#/TimeProfiler";
+
+    /**
+     * 文件同步助手操作文档
+     */
+
+    public static final String FILE_MANAGER_DOCUMENT_URL = "https://xingyun.xiaojukeji.com/docs/dokit/#/FileList";
     /**
      * app 启动数据埋点
      */

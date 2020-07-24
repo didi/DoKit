@@ -11,6 +11,7 @@ import com.didichuxing.doraemonkit.kit.crash.CrashCaptureMainFragment
 import com.didichuxing.doraemonkit.kit.dataclean.DataCleanFragment
 import com.didichuxing.doraemonkit.kit.fileexplorer.FileExplorerFragment
 import com.didichuxing.doraemonkit.kit.filemanager.FileTransferFragment
+import com.didichuxing.doraemonkit.kit.filemanager.FileTransformDocFragment
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment
 import com.didichuxing.doraemonkit.kit.health.HealthFragment
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment
@@ -73,6 +74,7 @@ open class UniversalActivity : BaseActivity() {
             FragmentIndex.FRAGMENT_MOCK_TEMPLATE_PREVIEW -> fragmentClass = MockTemplatePreviewFragment::class.java
             FragmentIndex.FRAGMENT_HEALTH -> fragmentClass = HealthFragment::class.java
             FragmentIndex.FRAGMENT_FILE_TRANSFER -> fragmentClass = FileTransferFragment::class.java
+            FragmentIndex.FRAGMENT_FILE_TRANSFER_DOC -> fragmentClass = FileTransformDocFragment::class.java
             FragmentIndex.FRAGMENT_APP_START -> fragmentClass = AppStartInfoFragment::class.java
             FragmentIndex.FRAGMENT_DOKIT_SETTING -> fragmentClass = DokitSettingFragment::class.java
             FragmentIndex.FRAGMENT_DOKIT_MANAGER -> fragmentClass = DokitManagerFragment::class.java
