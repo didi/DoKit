@@ -100,7 +100,8 @@ fun TransformContext.isRelease(): Boolean {
 
 fun String.println() {
     if (DoKitExtUtil.dokitLogSwitchOpen()) {
-        print(this)
+        //print("dokit plugin===${this}")
+        println("[dokit plugin]===>$this")
     }
 }
 
