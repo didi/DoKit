@@ -30,25 +30,29 @@ public class DoKit {
     }
     
     public func install() {
+        /** Platform */
         addPlugin(plugin: MockPlugin())
+        
+        /** Performance */
         addPlugin(plugin: CrashPlugin())
+        addPlugin(plugin: MainThreadCheckerPlugin())
+        addPlugin(plugin: LaunchTimePlugin())
+        addPlugin(plugin: ANRPlugin())
+        
+        /** Common */
         addPlugin(plugin: AppSettingPlugin())
         addPlugin(plugin: AppInfoPlugin())
         addPlugin(plugin: DelSanboxPlugin())
         addPlugin(plugin: H5Plugin())
-        addPlugin(plugin: MainThreadCheckerPlugin())
+        addPlugin(plugin: LogPlugin())
+        
+        /** UI */
         addPlugin(plugin: ViewAlignPlugin())
         addPlugin(plugin: ViewCheckPlugin())
         addPlugin(plugin: ViewMetricsPlugin())
         addPlugin(plugin: ColorPickPlugin())
-
-        // 性能检测
-        addPlugin(plugin: LaunchTimePlugin())
-        //日志收集
-        addPlugin(plugin: LogPlugin())
-        
-        addPlugin(plugin: ANRPlugin())
         addPlugin(plugin: UIProfilePlugin())
+        
         setup()
     }
     
