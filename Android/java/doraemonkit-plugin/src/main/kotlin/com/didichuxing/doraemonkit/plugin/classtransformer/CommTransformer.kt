@@ -1,10 +1,7 @@
 package com.didichuxing.doraemonkit.plugin.classtransformer
 
-import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
+import com.didichuxing.doraemonkit.plugin.*
 import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
-import com.didichuxing.doraemonkit.plugin.getMethodExitInsnNodes
-import com.didichuxing.doraemonkit.plugin.isRelease
-import com.didichuxing.doraemonkit.plugin.println
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.kotlinx.asIterable
 import com.didiglobal.booster.transform.TransformContext
@@ -39,12 +36,17 @@ class CommTransformer : ClassTransformer {
         }
 
         val className = klass.className
+
+        if (className.contains("didihttp")) {
+            "${context.projectDir.lastPath()}==className===>$className".println()
+        }
+
         //查找DoraemonKitReal&pluginConfig方法并插入指定字节码
         if (className == "com.didichuxing.doraemonkit.DoraemonKitReal") {
             klass.methods?.find {
                 it.name == "pluginConfig"
             }.let { methodNode ->
-                "insert map to the DoraemonKitReal pluginConfig succeed".println()
+                "${context.projectDir.lastPath()}->insert map to the DoraemonKitReal pluginConfig succeed".println()
                 methodNode?.instructions?.insert(createPluginConfigInsnList())
             }
         }
@@ -56,7 +58,7 @@ class CommTransformer : ClassTransformer {
                 klass.methods?.find {
                     it.name == "setLocationListener"
                 }.let { methodNode ->
-                    "hook amap  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    "${context.projectDir.lastPath()}->hook amap  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
                     methodNode?.instructions?.insert(createAmapLocationInsnList())
                 }
 
@@ -68,7 +70,7 @@ class CommTransformer : ClassTransformer {
                 klass.methods?.filter {
                     it.name == "requestSingleFreshLocation" || it.name == "requestLocationUpdates"
                 }?.forEach { methodNode ->
-                    "hook tencent map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    "${context.projectDir.lastPath()}->hook tencent map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
                     methodNode?.instructions?.insert(createTencentLocationInsnList())
                 }
             }
@@ -77,10 +79,13 @@ class CommTransformer : ClassTransformer {
             klass.methods?.find {
                 it.name == "onReceiveLocation" && it.desc == "(Lcom/baidu/location/BDLocation;)V"
             }.let { methodNode ->
-                "hook baidu map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-                methodNode?.instructions?.insert(createBaiduLocationInsnList())
+                methodNode?.name?.let {
+                    "${context.projectDir.lastPath()}->hook baidu map  succeed: ${className}_${methodNode.name}_${methodNode.desc}".println()
+                    methodNode.instructions?.insert(createBaiduLocationInsnList())
+                }
             }
         }
+
 
         //网络 OkHttp&didi platform aop
         if (DoKitExtUtil.commExt.networkSwitch) {
@@ -90,7 +95,7 @@ class CommTransformer : ClassTransformer {
                 klass.methods?.find {
                     it.name == "<init>" && it.desc == "()V"
                 }.let { zeroConsMethodNode ->
-                    "hook OkHttp  succeed: ${className}_${zeroConsMethodNode?.name}_${zeroConsMethodNode?.desc}".println()
+                    "${context.projectDir.lastPath()}->hook OkHttp  succeed: ${className}_${zeroConsMethodNode?.name}_${zeroConsMethodNode?.desc}".println()
                     zeroConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
                         zeroConsMethodNode.instructions.insertBefore(it, createOkHttpZeroConsInsnList())
                     }
@@ -101,7 +106,7 @@ class CommTransformer : ClassTransformer {
                 klass.methods?.find {
                     it.name == "<init>" && it.desc == "(Lokhttp3/OkHttpClient;)V"
                 }.let { oneConsMethodNode ->
-                    "hook OkHttp  succeed: ${className}_${oneConsMethodNode?.name}_${oneConsMethodNode?.desc}".println()
+                    "${context.projectDir.lastPath()}->hook OkHttp  succeed: ${className}_${oneConsMethodNode?.name}_${oneConsMethodNode?.desc}".println()
                     oneConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
                         oneConsMethodNode.instructions.insertBefore(it, createOkHttpOneConsInsnList())
                     }
@@ -109,16 +114,14 @@ class CommTransformer : ClassTransformer {
 
             }
 
-            "className===>$className".println()
-
             //didi platform
-            if (className == "didihttp/DidiHttpClient\$Builder") {
+            if (className == "didihttp.DidiHttpClient\$Builder") {
                 "find DidiHttpClient succeed: ${className}".println()
                 //空参数的构造方法
                 klass.methods?.find {
                     it.name == "<init>" && it.desc == "()V"
                 }.let { zeroConsMethodNode ->
-                    "hook didi http  succeed: ${className}_${zeroConsMethodNode?.name}_${zeroConsMethodNode?.desc}".println()
+                    "${context.projectDir.lastPath()}->hook didi http  succeed: ${className}_${zeroConsMethodNode?.name}_${zeroConsMethodNode?.desc}".println()
                     zeroConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
                         zeroConsMethodNode.instructions.insertBefore(it, createDidiHttpZeroConsInsnList())
                     }
@@ -129,7 +132,7 @@ class CommTransformer : ClassTransformer {
                 klass.methods?.find {
                     it.name == "<init>" && it.desc == "(Ldidihttp/DidiHttpClient;)V"
                 }.let { oneConsMethodNode ->
-                    "hook didi http  succeed: ${className}_${oneConsMethodNode?.name}_${oneConsMethodNode?.desc}".println()
+                    "${context.projectDir.lastPath()}->hook didi http  succeed: ${className}_${oneConsMethodNode?.name}_${oneConsMethodNode?.desc}".println()
                     oneConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
                         oneConsMethodNode.instructions.insertBefore(it, createDidiHttpOneConsInsnList())
                     }
@@ -211,7 +214,7 @@ class CommTransformer : ClassTransformer {
             //put("methodStrategy",0)
             add(VarInsnNode(ALOAD, 0))
             add(LdcInsnNode("methodStrategy"))
-            add(InsnNode(if (DoKitExtUtil.mSlowMethodStrategy == SlowMethodExt.STRATEGY_STACK) ICONST_0 else ICONST_1))
+            add(InsnNode(if (DoKitExtUtil.SLOW_METHOD_STRATEGY == SlowMethodExt.STRATEGY_STACK) ICONST_0 else ICONST_1))
             add(MethodInsnNode(INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;", false))
             add(MethodInsnNode(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true))
             add(InsnNode(POP))

@@ -3,6 +3,8 @@ package com.didichuxing.foundation.net.rpc.http;
 import android.util.Log;
 
 import com.blankj.utilcode.util.ReflectUtils;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonWeakNetworkInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor;
 import com.didichuxing.doraemonkit.kit.network.rpc.RpcMockInterceptor;
 import com.didichuxing.doraemonkit.kit.network.rpc.RpcMonitorInterceptor;
 import com.didichuxing.doraemonkit.kit.network.rpc.RpcWeakNetworkInterceptor;
@@ -56,6 +58,11 @@ public class PlatformHttpHook {
         try {
             if (builder instanceof DidiHttpClient.Builder) {
                 DidiHttpClient.Builder localBuild = (DidiHttpClient.Builder) builder;
+
+                //防止注入失败
+                localBuild.interceptors().addAll(globalInterceptors);
+                localBuild.networkInterceptors().addAll(globalNetworkInterceptors);
+                //判断去重
                 List<Interceptor> interceptors = removeDuplicate(localBuild.interceptors());
                 List<Interceptor> networkInterceptors = removeDuplicate(localBuild.networkInterceptors());
                 ReflectUtils.reflect(localBuild).field("interceptors", interceptors);

@@ -89,8 +89,8 @@ ext {
                     "room_compile"       : 'androidx.room:room-compiler:2.0.0',
                     "um_analytics"       : 'com.umeng.umsdk:analytics:8.0.0',
                     "um_common"          : 'com.umeng.umsdk:common:2.0.0',
-                    "didi_http"          : 'com.didichuxing.foundation:http:2.1.0.74',
-                    "didi_rpc"           : 'com.didichuxing.foundation:rpc:2.1.0.74',
+                    "didi_http"          : 'com.didichuxing.foundation:http:2.1.0.86',
+                    "didi_rpc"           : 'com.didichuxing.foundation:rpc:2.1.0.86',
                     "okgo"               : "com.lzy.net:okgo:3.0.4",
                     //高德地图定位
                     "amap_location"      : 'com.amap.api:location:latest.integration',

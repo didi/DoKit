@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.plugin.processor
 
 import com.android.build.gradle.AppExtension
+import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariant
 import com.android.build.gradle.api.LibraryVariant
 import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
@@ -32,31 +33,33 @@ import javax.xml.parsers.SAXParserFactory
 @AutoService(VariantProcessor::class)
 class DoKitPluginConfigProcessor : VariantProcessor {
     override fun process(variant: BaseVariant) {
-        if (variant is LibraryVariant || variant.variantData.isDynamicFeature()) {
-            "error====>dokit plugin config must in the app module".println()
+        if (!DoKitExtUtil.DOKIT_PLUGIN_SWITCH) {
             return
         }
 
         if (variant.isRelease()) {
             return
         }
+        //查找application module下的配置
+        if (variant is ApplicationVariant) {
+            //查找AndroidManifest.xml 文件路径
+            variant.artifacts.get(ArtifactManager.MERGED_MANIFESTS).forEach { manifest ->
+                val parser = SAXParserFactory.newInstance().newSAXParser()
+                val handler = ComponentHandler()
+                parser.parse(manifest, handler)
+                DoKitExtUtil.setApplications(handler.applications)
+                "applications path====>${handler.applications}".println()
+            }
 
-        //查找AndroidManifest.xml 文件路径
-        variant.artifacts.get(ArtifactManager.MERGED_MANIFESTS).forEach { manifest ->
-            val parser = SAXParserFactory.newInstance().newSAXParser()
-            val handler = ComponentHandler()
-            parser.parse(manifest, handler)
-            DoKitExtUtil.setApplications(handler.applications)
-            "applications path====>${handler.applications}".println()
 
-        }
-
-
-        //读取插件配置
-        variant.project.getAndroid<AppExtension>().let { appExt ->
-            //查找Application路径
-            val doKitExt = variant.project.extensions.getByType(DoKitExt::class.java)
-            DoKitExtUtil.init(doKitExt, appExt.defaultConfig.applicationId)
+            //读取插件配置
+            variant.project.getAndroid<AppExtension>().let { appExt ->
+                //查找Application路径
+                val doKitExt = variant.project.extensions.getByType(DoKitExt::class.java)
+                DoKitExtUtil.init(doKitExt, appExt.defaultConfig.applicationId)
+            }
+        } else {
+            "${variant.project.name}-不建议在Library Module下引入dokit插件".println()
         }
 
     }

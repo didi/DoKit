@@ -89,10 +89,6 @@ public class MockInterceptor implements Interceptor {
     }
 
 
-    public final static String MEDIA_TYPE_FORM = "application/x-www-form-urlencoded";
-    public final static String MEDIA_TYPE_JSON = "application/json";
-
-
     /**
      * 将request query 转化成json字符串
      *
@@ -111,17 +107,13 @@ public class MockInterceptor implements Interceptor {
             new JSONObject(json);
         } catch (Exception e) {
             //e.printStackTrace();
-            json = NOT_STRING_CONTENT_FLAG;
+            json = DokitDbManager.IS_NOT_NORMAL_QUERY_PARAMS;
             //LogHelper.e(TAG, "===query json====>" + json);
         }
 
         return json;
     }
 
-    /**
-     * 请求体非字符串类型标识
-     */
-    public static final String NOT_STRING_CONTENT_FLAG = "is not string content";
 
     /**
      * 将request body 转化成json字符串
@@ -142,21 +134,22 @@ public class MockInterceptor implements Interceptor {
                 return "";
             }
 
-            if (requestBody.contentType().toString().toLowerCase().contains(MEDIA_TYPE_FORM)) {
+            if (requestBody.contentType().toString().toLowerCase().contains(DokitDbManager.MEDIA_TYPE_FORM)) {
                 String form = DokitUtil.requestBodyToString(requestBody);
                 //类似 ccc=ccc&ddd=ddd
                 json = DokitUtil.param2Json(form);
-            } else if (requestBody.contentType().toString().toLowerCase().contains(MEDIA_TYPE_JSON)) {
+                //测试是否是json字符串
+                new JSONObject(json);
+            } else if (requestBody.contentType().toString().toLowerCase().contains(DokitDbManager.MEDIA_TYPE_JSON)) {
                 json = DokitUtil.requestBodyToString(requestBody);
-                //类似 {"ccc":"ccc","ddd":"ddd"}
+                //测试是否是json字符串
+                new JSONObject(json);
             } else {
-                json = NOT_STRING_CONTENT_FLAG;
+                json = DokitDbManager.IS_NOT_NORMAL_BODY_PARAMS;
             }
-            //测试是否是json字符串
-            new JSONObject(json);
         } catch (Exception e) {
             //e.printStackTrace();
-            json = NOT_STRING_CONTENT_FLAG;
+            json = "";
             LogHelper.e(TAG, "===body json====>" + json);
         }
 
@@ -268,11 +261,11 @@ public class MockInterceptor implements Interceptor {
         oldResponse.close();
         Response newResponse = chain.proceed(newRequest);
         if (newResponse.code() == 200) {
+            //拦截命中提示
+            ToastUtils.showShort("接口别名:==" + interceptApiBean.getMockApiName() + "==已被拦截");
             //判断新的response是否有数据
             if (newResponseHasData(newResponse)) {
                 matchedTemplateRule(newResponse, path, templateMatchedId);
-                //拦截命中提示
-                ToastUtils.showShort("接口别名:==" + interceptApiBean.getMockApiName() + "==已被拦截");
                 return newResponse;
             } else {
                 matchedTemplateRule(oldResponse, path, templateMatchedId);

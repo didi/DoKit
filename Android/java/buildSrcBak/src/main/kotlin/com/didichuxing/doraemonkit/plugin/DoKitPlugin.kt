@@ -7,13 +7,10 @@ import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
 import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
 import com.didichuxing.doraemonkit.plugin.transform.DoKitCommTransform
 import com.didichuxing.doraemonkit.plugin.transform.DoKitDependTransform
-import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.gradle.getAndroid
 import com.didiglobal.booster.gradle.getProperty
-import com.didiglobal.booster.task.spi.VariantProcessor
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import java.util.*
 
 /**
  * ================================================
@@ -25,11 +22,7 @@ import java.util.*
  * ================================================
  */
 class DoKitPlugin : Plugin<Project> {
-    private lateinit var mProject: Project
     override fun apply(project: Project) {
-        mProject = project
-        //创建指定扩展 并将project 传入构造函数
-
         //创建指定扩展 并将project 传入构造函数
         val doKitExt = project.extensions.create("dokitExt", DoKitExt::class.java)
 
@@ -82,27 +75,35 @@ class DoKitPlugin : Plugin<Project> {
         when {
             project.plugins.hasPlugin("com.android.application") || project.plugins.hasPlugin("com.android.dynamic-feature") -> {
                 project.getAndroid<AppExtension>().let { androidExt ->
+
+                    val pluginSwitch = project.getProperty("DOKIT_PLUGIN_SWITCH", true)
+                    val logSwitch = project.getProperty("DOKIT_LOG_SWITCH", false)
                     val slowMethodSwitch = project.getProperty("DOKIT_METHOD_SWITCH", false)
                     val slowMethodStrategy = project.getProperty("DOKIT_METHOD_STRATEGY", 0)
                     val methodStackLevel = project.getProperty("DOKIT_METHOD_STACK_LEVEL", 5)
-                    DoKitExtUtil.mSlowMethodSwitch = slowMethodSwitch
-                    DoKitExtUtil.mSlowMethodStrategy = slowMethodStrategy
-                    DoKitExtUtil.mStackMethodLevel = methodStackLevel
+                    DoKitExtUtil.DOKIT_PLUGIN_SWITCH = pluginSwitch
+                    DoKitExtUtil.DOKIT_LOG_SWITCH = logSwitch
+                    DoKitExtUtil.SLOW_METHOD_SWITCH = slowMethodSwitch
+                    DoKitExtUtil.SLOW_METHOD_STRATEGY = slowMethodStrategy
+                    DoKitExtUtil.STACK_METHOD_LEVEL = methodStackLevel
+
+                    "application module ${project.name} is executing...".println()
 
                     MethodStackNodeUtil.METHOD_STACK_KEYS.clear()
-                    //注册transform
-                    androidExt.registerTransform(DoKitCommTransform(project))
-                    if (slowMethodSwitch && slowMethodStrategy == SlowMethodExt.STRATEGY_STACK) {
-                        MethodStackNodeUtil.METHOD_STACK_KEYS.add(0, mutableSetOf<String>())
-                        val methodStackRange = 1 until methodStackLevel
-                        if (methodStackLevel > 1) {
-                            for (index in methodStackRange) {
-                                MethodStackNodeUtil.METHOD_STACK_KEYS.add(index, mutableSetOf<String>())
-                                androidExt.registerTransform(DoKitDependTransform(project, index))
+                    if (DoKitExtUtil.DOKIT_PLUGIN_SWITCH) {
+                        //注册transform
+                        androidExt.registerTransform(DoKitCommTransform(project))
+                        if (slowMethodSwitch && slowMethodStrategy == SlowMethodExt.STRATEGY_STACK) {
+                            MethodStackNodeUtil.METHOD_STACK_KEYS.add(0, mutableSetOf<String>())
+                            val methodStackRange = 1 until methodStackLevel
+                            if (methodStackLevel > 1) {
+                                for (index in methodStackRange) {
+                                    MethodStackNodeUtil.METHOD_STACK_KEYS.add(index, mutableSetOf<String>())
+                                    androidExt.registerTransform(DoKitDependTransform(project, index))
+                                }
                             }
                         }
                     }
-
 
                     //项目评估完毕回调
                     project.afterEvaluate {
@@ -119,7 +120,10 @@ class DoKitPlugin : Plugin<Project> {
 
             project.plugins.hasPlugin("com.android.library") -> {
                 project.getAndroid<LibraryExtension>().let { libraryExt ->
-                    libraryExt.registerTransform(DoKitCommTransform(project))
+                    "library module ${project.name} is executing...".println()
+                    if (DoKitExtUtil.DOKIT_PLUGIN_SWITCH) {
+                        libraryExt.registerTransform(DoKitCommTransform(project))
+                    }
                     project.afterEvaluate {
                         loadVariantProcessors(project).let { processors ->
                             libraryExt.libraryVariants.forEach { variant ->

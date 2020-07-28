@@ -3,7 +3,15 @@ package com.didichuxing.doraemonkit.kit.network.rpc;
 
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.TimeUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
+import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
@@ -25,12 +33,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 import didihttp.HttpUrl;
 
 
 /**
- * @author: linjizong
+ * @author: jint
  * 2019/3/6
  * @desc: mock请求拦截器
  */
@@ -61,6 +71,10 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_DIDI);
 
         try {
+            //网络的健康体检功能 统计流量大小
+            if (DokitConstant.APP_HEALTH_RUNNING) {
+                addNetWokInfoInAppHealth(oldRequest, oldResponse);
+            }
             //是否命中拦截规则
             if (!TextUtils.isEmpty(interceptMatchedId)) {
                 return matchedInterceptRule(url, path, interceptMatchedId, templateMatchedId, oldRequest, oldResponse, chain);
@@ -76,15 +90,64 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         return oldResponse;
     }
 
-
-    public final static String MEDIA_TYPE_FORM = "application/x-www-form-urlencoded";
-    public final static String MEDIA_TYPE_JSON = "application/json";
-
-
     /**
-     * 请求体非字符串类型标识
+     * 动态添加网络拦截
+     *
+     * @param request
+     * @param response
      */
-    public static final String NOT_STRING_CONTENT_FLAG = "is not string content";
+    private void addNetWokInfoInAppHealth(@NonNull HttpRpcRequest request, @NonNull HttpRpcResponse response) {
+        try {
+            long upSize = -1;
+            long downSize = -1;
+            if (request.getEntity() != null) {
+                upSize = request.getEntity().getContentLength();
+            }
+            if (response.getEntity() != null) {
+                downSize = response.getEntity().getContentLength();
+            }
+
+
+            if (upSize < 0 && downSize < 0) {
+                return;
+            }
+
+            upSize = upSize > 0 ? upSize : 0;
+            downSize = downSize > 0 ? downSize : 0;
+
+            String activityName = ActivityUtils.getTopActivity().getClass().getCanonicalName();
+            AppHealthInfo.DataBean.NetworkBean networkBean = AppHealthInfoUtil.getInstance().getNetWorkInfo(activityName);
+            AppHealthInfo.DataBean.NetworkBean.NetworkValuesBean networkValuesBean = new AppHealthInfo.DataBean.NetworkBean.NetworkValuesBean();
+            networkValuesBean.setCode("" + response.getStatus());
+
+            networkValuesBean.setUp("" + upSize);
+            networkValuesBean.setDown("" + downSize);
+            networkValuesBean.setMethod(request.getMethod().name());
+            networkValuesBean.setTime("" + TimeUtils.getNowMills());
+            networkValuesBean.setUrl(request.getUrl());
+            if (networkBean == null) {
+                networkBean = new AppHealthInfo.DataBean.NetworkBean();
+                networkBean.setPage(activityName);
+                List<AppHealthInfo.DataBean.NetworkBean.NetworkValuesBean> networkValuesBeans = new ArrayList<>();
+                networkValuesBeans.add(networkValuesBean);
+                networkBean.setValues(networkValuesBeans);
+                AppHealthInfoUtil.getInstance().addNetWorkInfo(networkBean);
+            } else {
+                List<AppHealthInfo.DataBean.NetworkBean.NetworkValuesBean> networkValuesBeans = networkBean.getValues();
+                if (networkValuesBeans == null) {
+                    networkValuesBeans = new ArrayList<>();
+                    networkValuesBeans.add(networkValuesBean);
+                    networkBean.setValues(networkValuesBeans);
+                } else {
+                    networkValuesBeans.add(networkValuesBean);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     /**
      * 将request query 转化成json字符串
@@ -104,7 +167,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
             new JSONObject(json);
         } catch (Exception e) {
             //e.printStackTrace();
-            json = NOT_STRING_CONTENT_FLAG;
+            json = DokitDbManager.IS_NOT_NORMAL_QUERY_PARAMS;
             LogHelper.e(TAG, "===query json====>" + json);
         }
 
@@ -130,21 +193,24 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
                 return "";
             }
 
-            if (requestBody.getContentType().toString().toLowerCase().contains(MEDIA_TYPE_FORM)) {
+            if (requestBody.getContentType().toString().toLowerCase().contains(DokitDbManager.MEDIA_TYPE_FORM)) {
                 String form = ConvertUtils.inputStream2String(requestBody.getContent(), "utf-8");
                 //类似 ccc=ccc&ddd=ddd
                 json = DokitUtil.param2Json(form);
-            } else if (requestBody.getContentType().toString().toLowerCase().contains(MEDIA_TYPE_JSON)) {
+                //测试是否是json字符串
+                new JSONObject(json);
+            } else if (requestBody.getContentType().toString().toLowerCase().contains(DokitDbManager.MEDIA_TYPE_JSON)) {
                 //类似 {"ccc":"ccc","ddd":"ddd"}
                 json = ConvertUtils.inputStream2String(requestBody.getContent(), "utf-8");
+                //测试是否是json字符串
+                new JSONObject(json);
             } else {
-                json = NOT_STRING_CONTENT_FLAG;
+                json = DokitDbManager.IS_NOT_NORMAL_BODY_PARAMS;
             }
-            //测试是否是json字符串
-            new JSONObject(json);
+
         } catch (Exception e) {
             //e.printStackTrace();
-            json = NOT_STRING_CONTENT_FLAG;
+            json = "";
             LogHelper.e(TAG, "===body json====>" + json);
         }
 
@@ -195,7 +261,9 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         //需要提前关闭数据流 不然在某些场景下会报错
         oldResponse.close();
         HttpRpcResponse mockResponse = chain.proceed(mockRequest);
+        //拦截命中提示
         if (mockResponse.isSuccessful()) {
+            ToastUtils.showShort("接口别名:==" + interceptApiBean.getMockApiName() + "==已被拦截");
             //判断新的response是否有数据
             if (newResponseHasData(mockResponse)) {
                 return matchedTemplateRule(mockResponse, path, templateMatchedId);

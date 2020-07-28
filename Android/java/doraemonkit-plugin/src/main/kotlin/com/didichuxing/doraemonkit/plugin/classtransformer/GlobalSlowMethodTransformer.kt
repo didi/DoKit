@@ -38,7 +38,7 @@ class GlobalSlowMethodTransformer : ClassTransformer {
             return klass
         }
 
-        if (DoKitExtUtil.mSlowMethodStrategy == SlowMethodExt.STRATEGY_STACK) {
+        if (DoKitExtUtil.SLOW_METHOD_STRATEGY == SlowMethodExt.STRATEGY_STACK) {
             return klass
         }
 
