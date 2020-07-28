@@ -45,6 +45,7 @@ public class DoKit {
         addPlugin(plugin: DelSanboxPlugin())
         addPlugin(plugin: H5Plugin())
         addPlugin(plugin: LogPlugin())
+        addPlugin(plugin: UserDefaultsPlugin())
         
         /** UI */
         addPlugin(plugin: ViewAlignPlugin())
