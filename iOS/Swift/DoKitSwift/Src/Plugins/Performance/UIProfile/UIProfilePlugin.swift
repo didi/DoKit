@@ -11,7 +11,7 @@ struct UIProfilePlugin { }
 
 extension UIProfilePlugin: Plugin {
     var module: PluginModule {
-        .performance
+        .ui
     }
     
     var title: String {
