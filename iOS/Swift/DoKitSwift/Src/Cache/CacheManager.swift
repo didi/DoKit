@@ -10,7 +10,6 @@ import UIKit
 
 private let kDoraemonH5historicalRecord = "doraemon_historical_record"
 
-
 class CacheManager: NSObject {
     public static let shared = CacheManager()
     
@@ -60,5 +59,25 @@ class CacheManager: NSObject {
         } else {
             defaults.setValue(records, forKey: kDoraemonH5historicalRecord)
         }
+    }
+    
+    public func saveHealthStart(_ on: Bool) {
+        //...
+    }
+    
+    public func saveStartTimeSwitch(_ on: Bool) {
+        //...
+    }
+    
+    public func saveNetFlowSwitch(_ on: Bool) {
+        //...
+    }
+    
+    public func saveSubThreadUICheckSwitch(_ on: Bool) {
+        //...
+    }
+    
+    public func saveMemoryLeak(_ on: Bool) {
+        //...
     }
 }

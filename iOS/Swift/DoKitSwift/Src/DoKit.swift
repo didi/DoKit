@@ -31,6 +31,7 @@ public class DoKit {
     
     public func install() {
         /** Platform */
+        addPlugin(plugin: HealthPlugin())
         addPlugin(plugin: MockPlugin())
         
         /** Performance */
