@@ -29,6 +29,7 @@
     <string name="dk_kit_temporary_close">隱藏</string>
     <string name="dk_kit_crash">Crash</string>
     <string name="dk_kit_data_clean">清理缓存</string>
+    <string name="dk_kit_cache_check_all">全选</string>
     <string name="dk_kit_db_debug">DBView</string>
     <string name="dk_kit_weak_network">模擬弱網</string>
     <string name="dk_kit_view_check">View 元件檢查</string>

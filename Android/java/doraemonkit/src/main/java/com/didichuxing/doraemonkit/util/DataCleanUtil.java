@@ -6,6 +6,8 @@ import android.content.Context;
 import android.os.Environment;
 import android.text.format.Formatter;
 
+import com.blankj.utilcode.util.PathUtils;
+
 /**
  * Created by wanglikun on 2018/11/17.
  */
@@ -79,16 +81,16 @@ public class DataCleanUtil {
     }
 
     public static long getApplicationDataSize(Context context) {
-        long size = 0;
-        // internal cache
-        size += FileUtil.getDirectorySize(context.getCacheDir());
-        // databases
-        size += FileUtil.getDirectorySize(new File(context.getFilesDir().getParent() + "/databases"));
-        // shared preference
-        size += FileUtil.getDirectorySize(new File(context.getFilesDir().getParent() + "/shared_prefs"));
-        // files
-        size += FileUtil.getDirectorySize(context.getFilesDir());
-        return size;
+//        long size = 0;
+//        // internal cache
+//        size += FileUtil.getDirectorySize(context.getCacheDir());
+//        // databases
+//        size += FileUtil.getDirectorySize(new File(context.getFilesDir().getParent() + "/databases"));
+//        // shared preference
+//        size += FileUtil.getDirectorySize(new File(context.getFilesDir().getParent() + "/shared_prefs"));
+//        // files
+//        size += FileUtil.getDirectorySize(context.getFilesDir());
+        return FileUtil.getDirectorySize(new File(PathUtils.getInternalAppDataPath()));
     }
 
     public static String getApplicationDataSizeStr(Context context) {
