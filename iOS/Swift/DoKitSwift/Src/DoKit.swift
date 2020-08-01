@@ -39,6 +39,7 @@ public class DoKit {
         addPlugin(plugin: MainThreadCheckerPlugin())
         addPlugin(plugin: LaunchTimePlugin())
         addPlugin(plugin: ANRPlugin())
+        addPlugin(plugin: MemoryPlugin())
         
         /** Common */
         addPlugin(plugin: AppSettingPlugin())
