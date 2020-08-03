@@ -1,11 +1,12 @@
 if (rootProject.ext.config["applyPlugin"]) {
     // 引用插件
-//    apply plugin: 'com.didi.dokit.debug'
-    apply plugin: 'com.didi.dokit'
+    apply plugin: 'com.didi.dokit.debug'
+//    apply plugin: 'com.didi.dokit'
     // 这里引用正常库
     dependencies {
         //外部平台依赖
         debugImplementation project(":doraemonkit")
+        releaseImplementation project(":doraemonkit-rpc")
         releaseImplementation project(":doraemonkit-no-op")
 //        debugImplementation project(":doraemonkit-weex")
 //        debugImplementation project(":doraemonkit-leakcanary")

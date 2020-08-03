@@ -63,12 +63,15 @@ class DataCleanFragment : BaseFragment() {
                 val name = innerItem.findViewById<TextView>(R.id.tv_name)
                 if (name.text == DokitUtil.getString(R.string.dk_kit_cache_check_all)) {
                     if (switch.isChecked) {
-                        mItemWrap.children.forEach {
-                            it.findViewById<Switch>(R.id.switch_btn).isChecked = false
+                        for (index in 0 until mItemWrap.childCount) {
+                            val itemView = mItemWrap.getChildAt(index)
+                            itemView.findViewById<Switch>(R.id.switch_btn).isChecked = false
                         }
+
                     } else {
-                        mItemWrap.children.forEach {
-                            it.findViewById<Switch>(R.id.switch_btn).isChecked = true
+                        for (index in 0 until mItemWrap.childCount) {
+                            val itemView = mItemWrap.getChildAt(index)
+                            itemView.findViewById<Switch>(R.id.switch_btn).isChecked = true
                         }
                     }
                 } else {

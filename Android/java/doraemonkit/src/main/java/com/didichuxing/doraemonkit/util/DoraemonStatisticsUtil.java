@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.util;
 
 import android.content.Context;
 
+import com.blankj.utilcode.util.AppUtils;
 import com.didichuxing.doraemonkit.BuildConfig;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 

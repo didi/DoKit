@@ -4,7 +4,7 @@ ext {
             // 线上包不会接入DoraemonKit，测试包会自动接入
             applyPlugin          : true,
             //上传到仓库时需要打开
-            uploadArchives       : true,
+            uploadArchives       : false,
             //是否发布插件到远程仓库
             publishPluginToRemote: false,
             localRepoURL         : "/Users/didi/project/dokit_repo"
