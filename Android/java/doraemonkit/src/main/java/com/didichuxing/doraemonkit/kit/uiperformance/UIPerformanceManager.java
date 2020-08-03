@@ -83,7 +83,9 @@ public class UIPerformanceManager implements LifecycleListenerUtil.LifecycleList
             }
         } else {
             long startTime = System.nanoTime();
-            view.draw(mPerformanceCanvas);
+            if (mPerformanceCanvas != null) {
+                view.draw(mPerformanceCanvas);
+            }
             long endTime = System.nanoTime();
             float time = (endTime - startTime) / 10_000 / 100f;
             //LogHelper.d(TAG, "drawTime: " + time + " ms");

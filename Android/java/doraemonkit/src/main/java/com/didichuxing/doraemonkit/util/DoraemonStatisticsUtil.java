@@ -22,7 +22,6 @@ import okhttp3.Response;
 /**
  * Created by wanglikun on 2018/12/21.
  */
-
 public class DoraemonStatisticsUtil {
     private static final String TAG = "DoraemonStatisticsUtil";
 
@@ -42,6 +41,7 @@ public class DoraemonStatisticsUtil {
         try {
             jsonObject.put("appId", appId);
             jsonObject.put("appName", appName);
+            jsonObject.put("appVersion", AppUtils.getAppVersionName());
             jsonObject.put("version", "" + BuildConfig.DOKIT_VERSION);
             jsonObject.put("type", type);
             jsonObject.put("from", from);

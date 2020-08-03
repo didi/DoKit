@@ -71,6 +71,10 @@ public class OkHttpHook {
         try {
             if (builder instanceof OkHttpClient.Builder) {
                 OkHttpClient.Builder localBuild = (OkHttpClient.Builder) builder;
+                //防止注入失败
+                localBuild.interceptors().addAll(globalInterceptors);
+                localBuild.networkInterceptors().addAll(globalNetworkInterceptors);
+
                 List<Interceptor> interceptors = removeDuplicate(localBuild.interceptors());
                 List<Interceptor> networkInterceptors = removeDuplicate(localBuild.networkInterceptors());
                 ReflectUtils.reflect(localBuild).field("interceptors", interceptors);

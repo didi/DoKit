@@ -54,6 +54,6 @@ class App : Application() {
 
     companion object {
         private const val TAG = "App"
-        var leakActivity: AppCompatActivity? = null
+        var leakActivity: Activity? = null
     }
 }

@@ -13,18 +13,22 @@ import android.util.Log;
  */
 public class AopTest {
     private static final String TAG = "AopTest";
+    private String name;
 
-//    public void test() {
-//        //MethodStackUtil.getInstance().recodeObjectMethodCostStart(1, "AopTest", "test", "desc", this);
-//        Log.i(TAG, "================");
-//        //MethodStackUtil.getInstance().recodeObjectMethodCostEnd(2, "AopTest", "test", "desc", this);
-//    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
 
-    public void sleepMethod() {
-        long begin = System.currentTimeMillis();
-        Log.i(TAG, "我是耗时函数");
-        long costTime = System.currentTimeMillis() - begin;
+    public void test() {
+//        setName("jint");
+//        String newName = getName();
+//        Log.i("TAG", "newName====>" + newName);
+
     }
 
 

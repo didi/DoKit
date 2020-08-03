@@ -33,7 +33,7 @@ public class WebDoorDefaultFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mWebView = findViewById(R.id.web_view);
+        mWebView = findViewById(R.id.webview);
         mWebView.loadUrl(mUrl);
     }
 

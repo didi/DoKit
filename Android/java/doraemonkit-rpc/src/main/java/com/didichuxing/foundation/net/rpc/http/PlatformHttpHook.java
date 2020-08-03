@@ -56,6 +56,11 @@ public class PlatformHttpHook {
         try {
             if (builder instanceof DidiHttpClient.Builder) {
                 DidiHttpClient.Builder localBuild = (DidiHttpClient.Builder) builder;
+
+                //防止注入失败
+                localBuild.interceptors().addAll(globalInterceptors);
+                localBuild.networkInterceptors().addAll(globalNetworkInterceptors);
+                //判断去重
                 List<Interceptor> interceptors = removeDuplicate(localBuild.interceptors());
                 List<Interceptor> networkInterceptors = removeDuplicate(localBuild.networkInterceptors());
                 ReflectUtils.reflect(localBuild).field("interceptors", interceptors);

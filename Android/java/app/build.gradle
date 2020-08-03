@@ -66,8 +66,6 @@ android {
 //dokit 扩展
 
 dokitExt {
-    //dokit 插件开关
-    dokitPluginSwitch true
     //通用设置
     comm {
         //地图经纬度开关
@@ -108,7 +106,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation rootProject.ext.dependencies["junit"]
     implementation rootProject.ext.dependencies["multidex"]
-    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["coroutines-core"]
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["kotlin"]

@@ -141,6 +141,7 @@
     <string name="dk_crash_capture_switch">Crash Log Collection Switch</string>
     <string name="dk_crash_capture_look">View Crash Log</string>
     <string name="dk_crash_capture_clean_data">Clean Crash Cache</string>
+    <string name="dk_kit_cache_check_all">all check</string>
     <string name="dk_crash_capture_summary_title">Crash Log List</string>
 
     <!--大图检测开关-->

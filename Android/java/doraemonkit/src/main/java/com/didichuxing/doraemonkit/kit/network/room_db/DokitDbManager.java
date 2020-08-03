@@ -27,6 +27,12 @@ import java.util.Map;
  * ================================================
  */
 public class DokitDbManager<T extends AbsMockApiBean> {
+    public final static String IS_NOT_NORMAL_QUERY_PARAMS = "is not normal query parmas";
+    public final static String IS_NOT_NORMAL_BODY_PARAMS = "is not normal body parmas";
+
+    public final static String MEDIA_TYPE_FORM = "application/x-www-form-urlencoded";
+    public final static String MEDIA_TYPE_JSON = "application/json";
+
     private static final String TAG = "DokitDbManager";
 
     /**
@@ -353,11 +359,11 @@ public class DokitDbManager<T extends AbsMockApiBean> {
      */
     public String isMockMatched(String path, String jsonQuery, String jsonRequestBody, int operateType, int fromSDK) {
         //如果是非字符串类型的请求体 直接不匹配
-        if (!TextUtils.isEmpty(jsonQuery) && jsonQuery.equals(MockInterceptor.NOT_STRING_CONTENT_FLAG)) {
+        if (!TextUtils.isEmpty(jsonQuery) && jsonQuery.equals(IS_NOT_NORMAL_QUERY_PARAMS)) {
             return "";
         }
 
-        if (!TextUtils.isEmpty(jsonRequestBody) && jsonRequestBody.equals(MockInterceptor.NOT_STRING_CONTENT_FLAG)) {
+        if (!TextUtils.isEmpty(jsonRequestBody) && jsonRequestBody.equals(IS_NOT_NORMAL_BODY_PARAMS)) {
             return "";
         }
 

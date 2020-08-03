@@ -50,7 +50,7 @@ class FileTransferFragment : BaseFragment() {
     private fun initKtor() {
         try {
             HttpServer.server.start()
-        } catch (e: Exception) {
+        } catch (e: BindException) {
 
         }
     }

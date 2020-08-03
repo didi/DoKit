@@ -30,7 +30,7 @@ ext {
                     "multidex"           : "com.android.support:multidex:1.0.3",
                     "annotations"        : "com.android.support:support-annotations:${android["suppotrSdkVersion"]}",
                     "support-v4"         : "com.android.support:support-v4:${android["suppotrSdkVersion"]}",
-                    "appcompat-v7"       : "com.android.support:appcompat-v7:${android["suppotrSdkVersion"]}",
+                    "appcompat"          : "com.android.support:appcompat-v7:${android["suppotrSdkVersion"]}",
                     "support-v13"        : "com.android.support:support-v13:${android["suppotrSdkVersion"]}",
                     "cardview"           : "com.android.support:cardview-v7:${android["suppotrSdkVersion"]}",
                     "recyclerview"       : "com.android.support:recyclerview-v7:${android["suppotrSdkVersion"]}",
