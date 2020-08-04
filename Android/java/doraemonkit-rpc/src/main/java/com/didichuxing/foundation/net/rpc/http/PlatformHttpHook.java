@@ -81,7 +81,7 @@ public class PlatformHttpHook {
      */
     private static List<Interceptor> removeDuplicate(List<Interceptor> list) {
         //保证顺序并去重
-        LinkedHashSet h = new LinkedHashSet<Interceptor>(list);
+        LinkedHashSet<Interceptor> h = new LinkedHashSet<>(list);
         list.clear();
         list.addAll(h);
         return list;
