@@ -82,14 +82,24 @@ public class UIPerformanceManager implements LifecycleListenerUtil.LifecycleList
                 }
             }
         } else {
-            long startTime = System.nanoTime();
-            view.draw(mPerformanceCanvas);
-            long endTime = System.nanoTime();
-            float time = (endTime - startTime) / 10_000 / 100f;
-            //LogHelper.d(TAG, "drawTime: " + time + " ms");
             ViewInfo viewInfo = new ViewInfo(view);
-            viewInfo.drawTime = time;
-            viewInfo.layerNum = layerNum;
+            try {
+                //页面不可见不进行渲染时间的统计,统计时候为0
+                if(chartView.getVisibility() == View.VISIBLE){
+                    long startTime = System.nanoTime();
+                    view.draw(mPerformanceCanvas);
+                    long endTime = System.nanoTime();
+                    float time = (endTime - startTime) / 10_000 / 100f;
+                    //LogHelper.d(TAG, "drawTime: " + time + " ms");
+                    viewInfo.drawTime = time;
+                    viewInfo.layerNum = layerNum;
+                }
+            }catch (Exception e){
+                //自定义View某些变量尚未初始化可能会崩溃
+                //方便区分方法走到了异常,可以判断没有成功渲染设置值为-1
+                viewInfo.drawTime = -1;
+                viewInfo.layerNum = -1;
+            }
             infos.add(viewInfo);
         }
     }
