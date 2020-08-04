@@ -43,7 +43,7 @@ dependencies {
     implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["utilcode"]
-    if (rootProject.ext.config["dependOnlineDokitVersion"]) {
+    if (rootProject.ext.config["dependDokitVersion"]) {
         implementation "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
     } else {
         implementation project(':doraemonkit')

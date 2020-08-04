@@ -59,7 +59,7 @@ dependencies {
     compileOnly rootProject.ext.dependencies["didi_http"]
     compileOnly rootProject.ext.dependencies["didi_rpc"]
     //此处需要使用api的形式 向上暴露内部api
-    if (rootProject.ext.config["dependOnlineDokitVersion"]) {
+    if (rootProject.ext.config["dependDokitVersion"]) {
         api "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
     } else {
         api project(':doraemonkit')
