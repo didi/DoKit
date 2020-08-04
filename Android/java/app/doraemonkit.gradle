@@ -1,4 +1,4 @@
-if (rootProject.ext.config["applyPlugin"]) {
+if (rootProject.ext.config["applyLocalModule"]) {
 // 引用插件
     apply plugin: 'com.didi.dokit.debug'
 //    apply plugin: 'com.didi.dokit'
@@ -8,16 +8,16 @@ if (rootProject.ext.config["applyPlugin"]) {
         debugImplementation project(":doraemonkit")
         debugImplementation project(":doraemonkit-weex")
         releaseImplementation project(":doraemonkit-no-op")
-        debugImplementation project(":doraemonkit-leakcanary")
-        //新版线上包
-//        debugImplementation "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-//        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-leakcanary:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-//        releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-no-op:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-//        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-weex:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-
+        //debugImplementation project(":doraemonkit-leakcanary")
     }
 } else {
     // 引用no-op的库
     dependencies {
+        //新版线上包
+        debugImplementation "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+//        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-leakcanary:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-no-op:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-weex:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+
     }
 }

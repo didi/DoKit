@@ -1,6 +1,10 @@
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
-apply from: 'upload.gradle'
+if (rootProject.ext.config["publishDevEnvArchives"]) {
+    apply from: 'upload-dev.gradle'
+} else {
+    apply from: 'upload-release.gradle'
+}
 
 sourceSets {
     main {

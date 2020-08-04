@@ -1,5 +1,9 @@
 apply plugin: 'com.android.library'
-apply from: 'upload.gradle'
+if (rootProject.ext.config["publishDevEnvArchives"]) {
+    apply from: 'upload-dev.gradle'
+} else {
+    apply from: 'upload-release.gradle'
+}
 
 /**
  * 必须配置git path 否则会报Error:(29, 0) CreateProcess error=2, The system cannot find the file specified 错误

@@ -1,5 +1,9 @@
 apply plugin: 'com.android.library'
-apply from: './upload.gradle'
+if (rootProject.ext.config["publishDevEnvArchives"]) {
+    apply from: 'upload-dev.gradle'
+} else {
+    apply from: 'upload-release.gradle'
+}
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -39,7 +43,7 @@ dependencies {
     implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["utilcode"]
-    if (rootProject.ext.config["uploadArchives"]) {
+    if (rootProject.ext.config["dependOnlineDokitVersion"]) {
         implementation "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
     } else {
         implementation project(':doraemonkit')

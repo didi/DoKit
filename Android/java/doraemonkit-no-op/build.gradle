@@ -1,7 +1,11 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply from: 'upload.gradle'
+if (rootProject.ext.config["publishDevEnvArchives"]) {
+    apply from: 'upload-dev.gradle'
+} else {
+    apply from: 'upload-release.gradle'
+}
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]

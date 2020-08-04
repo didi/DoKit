@@ -1,12 +1,12 @@
-def isRemote = rootProject.ext.config["publishPluginToRemote"]
+def isRemote = rootProject.ext.config["publishDevEnvToRemote"]
 apply plugin: 'maven'
 if(isRemote){
   uploadArchives {
     repositories {
       mavenDeployer {
         pom.project {
-          groupId project.GROUP_ID
-          artifactId project.ARTIFACT_ID
+          groupId "com.didichuxing.doraemonkit"
+          artifactId "doraemonkit-no-op"
           version rootProject.ext.android["jcenterArchivesVersionName"]
         }
 
@@ -26,11 +26,11 @@ if(isRemote){
         }
 
 
-        repository(url: project.RELEASE_REPOSITORY_URL) {
-          authentication(userName: project.USERNAME, password: project.PASSWORD)
+        repository(url: "http://artifactory.intra.xiaojukeji.com/artifactory/libs-release/") {
+          authentication(userName: "deployment", password: "deployment123")
         }
-        snapshotRepository(url: project.SNAPSHOT_REPOSITORY_URL) {
-          authentication(userName: project.USERNAME, password: project.PASSWORD)
+        snapshotRepository(url: "http://artifactory.intra.xiaojukeji.com/artifactory/libs-snapshot/") {
+          authentication(userName: "deployment", password: "deployment123")
         }
       }
     }
@@ -41,8 +41,8 @@ if(isRemote){
     repositories {
       mavenDeployer {
         pom.project {
-          groupId project.GROUP_ID
-          artifactId project.ARTIFACT_ID
+          groupId "com.didichuxing.doraemonkit"
+          artifactId "doraemonkit-no-op"
           version rootProject.ext.android["jcenterArchivesVersionName"]
         }
         pom.withXml {
