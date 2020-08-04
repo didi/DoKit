@@ -1,7 +1,8 @@
 package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor;
 
-
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
@@ -10,15 +11,12 @@ import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
 import com.didichuxing.doraemonkit.kit.network.core.DefaultResponseHandler;
 import com.didichuxing.doraemonkit.kit.network.core.NetworkInterpreter;
 import com.didichuxing.doraemonkit.kit.network.core.RequestBodyHelper;
-import com.didichuxing.doraemonkit.kit.network.core.ResourceType;
-import com.didichuxing.doraemonkit.kit.network.core.ResourceTypeHelper;
 import com.didichuxing.doraemonkit.kit.network.okhttp.ForwardingResponseBody;
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
 import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorRequest;
 import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorResponse;
+import com.didichuxing.doraemonkit.kit.network.utils.OkHttpResponseKt;
 import com.didichuxing.doraemonkit.util.LogHelper;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,9 +37,9 @@ public class DoraemonInterceptor implements Interceptor {
 
     private final NetworkInterpreter mNetworkInterpreter = NetworkInterpreter.get();
 
-    @NotNull
+    @NonNull
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         if (!NetworkManager.isActive()) {
             Request request = chain.request();
             try {
@@ -110,6 +108,9 @@ public class DoraemonInterceptor implements Interceptor {
                 contentType != null ? contentType.toString() : null,
                 responseStream,
                 new DefaultResponseHandler(mNetworkInterpreter, requestId, record));
+        record.mResponseBody = OkHttpResponseKt.bodyContent(response);
+        LogHelper.d("http-monitor", "response body >>>\n" + record.mResponseBody);
+
         if (responseStream != null) {
             response = response.newBuilder()
                     .body(new ForwardingResponseBody(body, responseStream))

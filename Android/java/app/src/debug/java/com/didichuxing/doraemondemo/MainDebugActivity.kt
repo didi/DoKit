@@ -71,6 +71,12 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
     private var mTencentLocationManager: TencentLocationManager? = null
     private val UPDATE_UI = 100
 
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("https://api.github.com/")
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
     /**
      * github 接口
      */
@@ -145,11 +151,6 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                 .build()
         ImageLoader.getInstance().init(config)
 
-        val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
         githubService = retrofit.create(GithubService::class.java)
 
         AopTest().test()
@@ -343,11 +344,12 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                 //requestByGet("https://gank.io/api/today?a=哈哈&b=bb");
                 requestByGet("https://www.v2ex.com/api/topics/hot.json")
             R.id.btn_retrofit_mock -> {
-                val githubUserInfo = githubService?.githubUserInfo("jtsky")
-                githubUserInfo?.subscribeOn(Schedulers.io())?.subscribe {
-                    Log.i(TAG, "githubUserInfo===>${it.login}")
-                }
-
+                githubService?.githubUserInfo("jtsky")
+                    ?.subscribeOn(Schedulers.io())
+                    ?.subscribe(
+                        { Log.i(TAG, "githubUserInfo===>${it.login}") },
+                        { Log.e(TAG, "Request failed by retrofit mock", it) }
+                    )
             }
             R.id.btn_test_crash -> testCrash()!!.length
             R.id.btn_show_hide_icon -> if (DoraemonKit.isShow) {
