@@ -29,7 +29,7 @@ public class DefaultResponseHandler implements ResponseHandler {
 
     @Override
     public void onEOF(ByteArrayOutputStream outputStream) {
-        mNetworkInterpreter.responseReadFinished(mRequestId,mRecord,outputStream);
+        mNetworkInterpreter.responseReadFinished(mRequestId, mRecord, outputStream);
     }
 
     @Override
