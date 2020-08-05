@@ -85,7 +85,7 @@ public class UIPerformanceManager implements LifecycleListenerUtil.LifecycleList
             ViewInfo viewInfo = new ViewInfo(view);
             try {
                 //页面不可见不进行渲染时间的统计,统计时候为0
-                if(chartView.getVisibility() == View.VISIBLE){
+                if(view.getVisibility() == View.VISIBLE){
                     long startTime = System.nanoTime();
                     view.draw(mPerformanceCanvas);
                     long endTime = System.nanoTime();
