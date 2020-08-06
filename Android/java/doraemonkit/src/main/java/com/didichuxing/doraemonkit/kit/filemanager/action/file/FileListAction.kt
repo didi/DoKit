@@ -37,7 +37,8 @@ object FileListAction {
                 val fileInfos = traverseDir(dirPath)
                 if (dirPath == FileManagerUtil.externalStorageRootPath && fileInfos.isEmpty()) {
                     this["code"] = 0
-                    this["message"] = DokitUtil.getString(DoKitR.string.dk_file_manager_sd_permission_tip)
+                    this["message"] =
+                        DokitUtil.getString(DoKitR.string.dk_file_manager_sd_permission_tip)
                     ToastUtils.showShort(DokitUtil.getString(DoKitR.string.dk_file_manager_sd_permission_tip))
                 }
                 this["fileList"] = fileInfos
@@ -56,8 +57,28 @@ object FileListAction {
         val fileInfos = mutableListOf<FileInfo>()
         val internalAppDataPath = PathUtils.getInternalAppDataPath()
         val externalStoragePath = PathUtils.getExternalStoragePath()
-        fileInfos.add(FileInfo(FileManagerUtil.ROOT_PATH_STR, FileUtils.getFileName(internalAppDataPath), "", "folder", "", "" + FileUtils.getFileLastModified(internalAppDataPath), true))
-        fileInfos.add(FileInfo(FileManagerUtil.ROOT_PATH_STR, "external", "", "folder", "", "" + FileUtils.getFileLastModified(externalStoragePath), true))
+        fileInfos.add(
+            FileInfo(
+                FileManagerUtil.ROOT_PATH_STR,
+                FileUtils.getFileName(internalAppDataPath),
+                "",
+                "folder",
+                "",
+                "" + FileUtils.getFileLastModified(internalAppDataPath),
+                true
+            )
+        )
+        fileInfos.add(
+            FileInfo(
+                FileManagerUtil.ROOT_PATH_STR,
+                "external",
+                "",
+                "folder",
+                "",
+                "" + FileUtils.getFileLastModified(externalStoragePath),
+                true
+            )
+        )
         return fileInfos
     }
 
@@ -69,19 +90,25 @@ object FileListAction {
         val dir = File(dirPath)
         if (FileUtils.isFileExists(dir) && FileUtils.isDir(dir)) {
             dir.listFiles()?.forEach { file ->
-                val fileInfo = FileInfo(FileManagerUtil.relativeRootPath(dirPath), file.name,
-                        if (FileUtils.isDir(file)) {
-                            ""
-                        } else {
-                            ConvertUtils.byte2FitMemorySize(file.length(), 1)
-                        },
-                        if (FileUtils.isDir(file)) {
-                            "folder"
-                        } else if (dir.absolutePath.contains("/databases")) {
-                            "db"
-                        } else {
+                val fileInfo = FileInfo(
+                    FileManagerUtil.relativeRootPath(dirPath), file.name,
+                    if (FileUtils.isDir(file)) {
+                        ""
+                    } else {
+                        ConvertUtils.byte2FitMemorySize(file.length(), 1)
+                    },
+                    if (FileUtils.isDir(file)) {
+                        "folder"
+                    } else if (dir.absolutePath.contains("/databases")) {
+                        "db"
+                    } else {
+                        if (FileUtils.getFileExtension(file).isNotBlank()) {
                             FileUtils.getFileExtension(file)
-                        }, "", "" + FileUtils.getFileLastModified(file), false)
+                        } else {
+                            "txt"
+                        }
+                    }, "", "" + FileUtils.getFileLastModified(file), false
+                )
                 fileInfos.add(fileInfo)
             }
 
@@ -92,13 +119,13 @@ object FileListAction {
 
 
     data class FileInfo(
-            val dirPath: String,
-            val fileName: String,
-            val fileSize: String,
-            val fileType: String,
-            val fileUri: String,
-            val modifyTime: String,
-            val isRootPath: Boolean
+        val dirPath: String,
+        val fileName: String,
+        val fileSize: String,
+        val fileType: String,
+        val fileUri: String,
+        val modifyTime: String,
+        val isRootPath: Boolean
     )
 }
 
