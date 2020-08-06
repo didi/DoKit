@@ -1,9 +1,9 @@
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
-if (rootProject.ext.config["publishDevEnvArchives"]) {
-    apply from: 'upload-dev.gradle'
-} else {
+if (rootProject.ext.config["publishArchivesType"] == 2) {
     apply from: 'upload-release.gradle'
+} else if (rootProject.ext.config["publishArchivesType"] == 0 || rootProject.ext.config["publishArchivesType"] == 1) {
+    apply from: 'upload-dev.gradle'
 }
 
 sourceSets {

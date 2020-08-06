@@ -1,6 +1,6 @@
-def isRemote = rootProject.ext.config["publishDevEnvToRemote"]
+def publishArchivesType = rootProject.ext.config["publishArchivesType"]
 apply plugin: 'maven'
-if (isRemote) {
+if (publishArchivesType == 1) {
     uploadArchives {
         repositories {
             mavenDeployer {
@@ -35,7 +35,7 @@ if (isRemote) {
             }
         }
     }
-} else {
+} else if (publishArchivesType == 0) {
     def localRepoURL = uri(rootProject.ext.config["localRepoURL"])
     uploadArchives {
         repositories {

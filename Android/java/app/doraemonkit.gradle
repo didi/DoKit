@@ -1,4 +1,4 @@
-if (rootProject.ext.config["applyLocalModule"]) {
+if (rootProject.ext.config["runType"] == 0) {
 // 引用插件
     apply plugin: 'com.didi.dokit.debug'
 //    apply plugin: 'com.didi.dokit'
@@ -10,7 +10,8 @@ if (rootProject.ext.config["applyLocalModule"]) {
         releaseImplementation project(":doraemonkit-no-op")
         //debugImplementation project(":doraemonkit-leakcanary")
     }
-} else {
+} else if (rootProject.ext.config["runType"] == 1) {
+    apply plugin: 'com.didi.dokit'
     // 引用no-op的库
     dependencies {
         //新版线上包

@@ -1,10 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-if (rootProject.ext.config["publishDevEnvArchives"]) {
-    apply from: 'upload-dev.gradle'
-} else {
+if (rootProject.ext.config["publishArchivesType"] == 2) {
     apply from: 'upload-release.gradle'
+} else if (rootProject.ext.config["publishArchivesType"] == 0 || rootProject.ext.config["publishArchivesType"] == 1) {
+    apply from: 'upload-dev.gradle'
 }
 
 android {
@@ -58,11 +58,11 @@ dependencies {
     //platform http
     compileOnly rootProject.ext.dependencies["didi_http"]
     compileOnly rootProject.ext.dependencies["didi_rpc"]
-    //此处需要使用api的形式 向上暴露内部api
-    if (rootProject.ext.config["dependDokitVersion"]) {
-        api "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-    } else {
-        api project(':doraemonkit')
-    }
 
+    //此处需要使用api的形式 向上暴露内部api
+    if (rootProject.ext.config["runOrPublish"] == 0) {
+        api project(':doraemonkit')
+    } else {
+        api "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+    }
 }
