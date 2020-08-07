@@ -5,18 +5,12 @@ import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
-import com.android.build.gradle.internal.pipeline.TransformManager.SCOPE_FULL_PROJECT
 import com.didichuxing.doraemonkit.plugin.DoKitTransformInvocation
 import com.didichuxing.doraemonkit.plugin.loadTransformers
 import com.didiglobal.booster.annotations.Priority
-import com.didiglobal.booster.gradle.SCOPE_FULL_WITH_FEATURES
-import com.didiglobal.booster.gradle.SCOPE_PROJECT
-import com.didiglobal.booster.gradle.getAndroid
+import com.didiglobal.booster.gradle.*
 import com.didiglobal.booster.transform.AbstractKlassPool
-import com.didiglobal.booster.transform.Transformer
-import com.google.common.collect.ImmutableSet
 import org.gradle.api.Project
-import java.util.*
 
 /**
  * Represents the transform base
@@ -31,6 +25,8 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
     internal open val transformers = loadTransformers(project.buildscript.classLoader).sortedBy {
         it.javaClass.getAnnotation(Priority::class.java)?.value ?: 0
     }
+
+    internal val verifyEnabled = project.getProperty(OPT_TRANSFORM_VERIFY, false)
 
     private val android: BaseExtension = project.getAndroid()
 
@@ -47,16 +43,16 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
 
     override fun getName() = this.javaClass.simpleName
 
-    override fun isIncremental() = true
+    override fun isIncremental() = !verifyEnabled
 
-    override fun isCacheable() = true
+    override fun isCacheable() = !verifyEnabled
 
     override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> = TransformManager.CONTENT_CLASS
 
     override fun getScopes(): MutableSet<in QualifiedContent.Scope> = when {
         transformers.isEmpty() -> mutableSetOf()
         project.plugins.hasPlugin("com.android.library") -> SCOPE_PROJECT
-        project.plugins.hasPlugin("com.android.application") -> com.didiglobal.booster.gradle.SCOPE_FULL_PROJECT
+        project.plugins.hasPlugin("com.android.application") -> SCOPE_FULL_PROJECT
         project.plugins.hasPlugin("com.android.dynamic-feature") -> SCOPE_FULL_WITH_FEATURES
         else -> TODO("Not an Android project")
     }
@@ -64,7 +60,7 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
     override fun getReferencedScopes(): MutableSet<in QualifiedContent.Scope> = when {
         transformers.isEmpty() -> when {
             project.plugins.hasPlugin("com.android.library") -> SCOPE_PROJECT
-            project.plugins.hasPlugin("com.android.application") -> com.didiglobal.booster.gradle.SCOPE_FULL_PROJECT
+            project.plugins.hasPlugin("com.android.application") -> SCOPE_FULL_PROJECT
             project.plugins.hasPlugin("com.android.dynamic-feature") -> SCOPE_FULL_WITH_FEATURES
             else -> TODO("Not an Android project")
         }
@@ -82,5 +78,9 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
         }
     }
 
-
 }
+
+/**
+ * The option for transform outputs verifying, default is false
+ */
+private const val OPT_TRANSFORM_VERIFY = "dokit.transform.verify"

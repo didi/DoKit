@@ -4,16 +4,16 @@ buildscript {
     repositories {
         google()
         jcenter()
-//        maven {
-//            //本地插件地址
-//            url uri(rootProject.ext.config["localRepoURL"])
-//        }
+        maven {
+            //本地插件地址
+            url uri(rootProject.ext.config["localRepoURL"])
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0'
+        classpath 'com.android.tools.build:gradle:4.0.1'
         classpath 'com.novoda:bintray-release:0.9.2'
-        //classpath "com.didichuxing.doraemonkit:doraemonkit-plugin:${rootProject.ext.android["pluginVersionName"]}"
-//        classpath "com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.6"
+//        classpath "com.didichuxing.doraemonkit:doraemonkit-plugin:${rootProject.ext.android["pluginVersionName"]}"
+        //classpath "com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.8"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.ext.android["kotlin_version"]}"
     }
 }
@@ -22,10 +22,10 @@ allprojects {
     repositories {
         google()
         jcenter()
-//        maven {
-//            //本地插件地址
-//            url uri(rootProject.ext.config["localRepoURL"])
-//        }
+        maven {
+            //本地插件地址
+            url uri(rootProject.ext.config["localRepoURL"])
+        }
     }
 }
 

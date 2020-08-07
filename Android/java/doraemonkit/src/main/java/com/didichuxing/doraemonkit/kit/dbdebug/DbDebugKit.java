@@ -31,8 +31,9 @@ public class DbDebugKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_DB_DEBUG);
-
+        //startUniversalActivity(context, FragmentIndex.FRAGMENT_DB_DEBUG);
+        //指向文件同步助手
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_FILE_TRANSFER);
     }
 
     @Override

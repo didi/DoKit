@@ -1,9 +1,6 @@
 package com.didichuxing.doraemonkit.plugin.classtransformer
 
-import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
-import com.didichuxing.doraemonkit.plugin.getMethodExitInsnNodes
-import com.didichuxing.doraemonkit.plugin.isRelease
-import com.didichuxing.doraemonkit.plugin.println
+import com.didichuxing.doraemonkit.plugin.*
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.ClassTransformer
@@ -54,7 +51,7 @@ class BigImgTransformer : ClassTransformer {
             }.let { methodNode ->
                 //函数结束的地方插入
                 methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                    "hook glide  succeed: ${className}_${methodNode.name}_${methodNode.desc}".println()
+                    "${context.projectDir.lastPath()}->hook glide  succeed: ${className}_${methodNode.name}_${methodNode.desc}".println()
                     methodNode.instructions?.insertBefore(it, createGlideInsnList())
                 }
             }
@@ -67,7 +64,7 @@ class BigImgTransformer : ClassTransformer {
             }.let { methodNode ->
                 //函数结束的地方插入
                 methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                    "hook picasso  succeed: ${className}_${methodNode.name}_${methodNode.desc}".println()
+                    "${context.projectDir.lastPath()}->hook picasso  succeed: ${className}_${methodNode.name}_${methodNode.desc}".println()
                     methodNode.instructions?.insertBefore(it, createPicassoInsnList())
                 }
             }
@@ -78,7 +75,7 @@ class BigImgTransformer : ClassTransformer {
             klass.methods.find { methodNode ->
                 methodNode.name == "<init>" && methodNode.desc != null
             }.let { methodNode ->
-                "hook Fresco succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                "${context.projectDir.lastPath()}->hook Fresco succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
                 //函数开始的地方插入
                 methodNode?.instructions?.insert(createFrescoInsnList())
             }
@@ -89,7 +86,7 @@ class BigImgTransformer : ClassTransformer {
             klass.methods.find { methodNode ->
                 methodNode.name == "<init>" && methodNode.desc != null
             }.let { methodNode ->
-                "hook ImageLoader  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                "${context.projectDir.lastPath()}->hook ImageLoader  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
                 methodNode?.instructions?.insert(createImageLoaderInsnList())
             }
         }

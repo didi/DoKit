@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.plugin.classtransformer
 
 import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
 import com.didichuxing.doraemonkit.plugin.isRelease
+import com.didichuxing.doraemonkit.plugin.lastPath
 import com.didichuxing.doraemonkit.plugin.println
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.kotlinx.asIterable
@@ -53,6 +54,7 @@ class UrlConnectionTransformer : ClassTransformer {
                         it.name == "openConnection" &&
                         it.desc == "()Ljava/net/URLConnection;"
             }?.forEach {
+                "${context.projectDir.lastPath()}-> hook urlconnection succeed:${klass.name}_${it.name}_${it.desc}".println()
                 method.instructions.insert(it, MethodInsnNode(INVOKESTATIC, SHADOW_URL, "proxy", DESC, false))
             }
         }

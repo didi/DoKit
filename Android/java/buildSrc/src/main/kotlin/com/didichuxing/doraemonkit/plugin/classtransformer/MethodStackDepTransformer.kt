@@ -37,7 +37,7 @@ class MethodStackDepTransformer(private val level: Int = 1) : ClassTransformer {
             return klass
         }
 
-        if (DoKitExtUtil.mSlowMethodStrategy == SlowMethodExt.STRATEGY_NORMAL) {
+        if (DoKitExtUtil.SLOW_METHOD_STRATEGY == SlowMethodExt.STRATEGY_NORMAL) {
             return klass
         }
 
@@ -56,7 +56,7 @@ class MethodStackDepTransformer(private val level: Int = 1) : ClassTransformer {
         }.forEach { methodNode ->
             val key = "${klass.className}&${methodNode.name}&${methodNode.desc}"
             if (methodStackKeys.contains(key)) {
-                "level===>$level   mathched key===>$key".println()
+                "${context.projectDir.lastPath()}->level-->$level   mathched key===>$key".println()
                 operateMethodInsn(klass, methodNode)
             }
 
@@ -92,7 +92,7 @@ class MethodStackDepTransformer(private val level: Int = 1) : ClassTransformer {
         return with(InsnList()) {
             if (isStaticMethod) {
                 add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "INSTANCE", "Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;"))
-                add(IntInsnNode(BIPUSH, DoKitExtUtil.mStackMethodLevel))
+                add(IntInsnNode(BIPUSH, DoKitExtUtil.STACK_METHOD_LEVEL))
                 add(IntInsnNode(BIPUSH, thresholdTime))
                 add(IntInsnNode(BIPUSH, level))
                 add(LdcInsnNode(className))
@@ -101,7 +101,7 @@ class MethodStackDepTransformer(private val level: Int = 1) : ClassTransformer {
                 add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "recodeStaticMethodCostStart", "(IIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", false))
             } else {
                 add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "INSTANCE", "Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;"))
-                add(IntInsnNode(BIPUSH, DoKitExtUtil.mStackMethodLevel))
+                add(IntInsnNode(BIPUSH, DoKitExtUtil.STACK_METHOD_LEVEL))
                 add(IntInsnNode(BIPUSH, thresholdTime))
                 add(IntInsnNode(BIPUSH, level))
                 add(LdcInsnNode(className))

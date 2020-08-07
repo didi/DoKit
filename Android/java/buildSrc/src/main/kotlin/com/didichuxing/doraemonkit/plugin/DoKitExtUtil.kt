@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.plugin
 import com.didichuxing.doraemonkit.plugin.extension.CommExt
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
 import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
+import org.gradle.api.Project
 
 /**
  * ================================================
@@ -19,40 +20,42 @@ object DoKitExtUtil {
     /**
      * dokit 插件开关 字段权限必须为public 否则无法进行赋值
      */
-    private var mDokitPluginSwitch = true
-    private var mDokitLogSwitch = false
+    var DOKIT_PLUGIN_SWITCH = true
+    var DOKIT_LOG_SWITCH = false
 
     /**
      * 默认函数调用为5级
      */
-    public var mStackMethodLevel = 5
+    var STACK_METHOD_LEVEL = 5
 
     /**
      * 慢函数默认关闭
      */
-    public var mSlowMethodSwitch = false
+    var SLOW_METHOD_SWITCH = false
 
 
     /**
      * 慢函数策略 默认为函数调用栈策略
      */
-    public var mSlowMethodStrategy = SlowMethodExt.STRATEGY_STACK
+    var SLOW_METHOD_STRATEGY = SlowMethodExt.STRATEGY_STACK
 
     private val applications: MutableSet<String> = mutableSetOf()
     var commExt = CommExt()
         private set
     val slowMethodExt = SlowMethodExt()
 
+
     fun dokitPluginSwitchOpen(): Boolean {
-        return mDokitPluginSwitch
+        return DOKIT_PLUGIN_SWITCH
     }
 
+
     fun dokitLogSwitchOpen(): Boolean {
-        return mDokitLogSwitch
+        return DOKIT_LOG_SWITCH
     }
 
     fun dokitSlowMethodSwitchOpen(): Boolean {
-        return mSlowMethodSwitch
+        return SLOW_METHOD_SWITCH
     }
 
     /**
@@ -62,8 +65,6 @@ object DoKitExtUtil {
      * @param appExtension   appExtension
      */
     fun init(dokitEx: DoKitExt, applicationId: String) {
-        mDokitPluginSwitch = dokitEx.dokitPluginSwitch
-        mDokitLogSwitch = dokitEx.dokitLogSwitch
         //设置普通的配置
         commExt = dokitEx.comm
         //slowMethodExt.strategy = dokitEx.slowMethod.strategy
@@ -165,7 +166,7 @@ object DoKitExtUtil {
     )
 
     fun log(tag: String, className: String, methodName: String, access: Int, desc: String, signature: String, thresholdTime: Int) {
-        if (mDokitLogSwitch) {
+        if (DOKIT_LOG_SWITCH) {
             println("$tag===matched====>  className===$className   methodName===$methodName   access===$access   desc===$desc   signature===$signature    thresholdTime===$thresholdTime")
         }
     }

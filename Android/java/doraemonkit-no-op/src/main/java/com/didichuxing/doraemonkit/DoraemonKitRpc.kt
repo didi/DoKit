@@ -20,7 +20,15 @@ object DoraemonKitRpc {
     }
 
     @JvmStatic
+    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>) {
+    }
+
+    @JvmStatic
     fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, productId: String) {
+    }
+
+    @JvmStatic
+    fun install(app: Application, listKits: MutableList<AbstractKit>) {
     }
 
     @JvmStatic
@@ -84,5 +92,19 @@ object DoraemonKitRpc {
      */
     @JvmStatic
     fun setAwaysShowMainIcon(awaysShow: Boolean) {
+    }
+
+    /**
+     * 设置加密数据库密码
+     */
+    @JvmStatic
+    fun setDatabasePass(map: Map<String, String>) {
+    }
+
+    /**
+     * 设置文件管理助手http端口号
+     */
+    @JvmStatic
+    fun setFileManagerHttpPort(port: Int) {
     }
 }

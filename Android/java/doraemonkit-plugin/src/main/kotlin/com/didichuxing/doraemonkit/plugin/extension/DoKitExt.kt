@@ -5,21 +5,16 @@ import org.gradle.api.Action
 /**
  * Created by jint on 07/10/2018.
  */
-open class DoKitExt(var dokitPluginSwitch: Boolean = true,
-                    var dokitLogSwitch: Boolean = false,
-                    var comm: CommExt = CommExt(),
-                    var slowMethod: SlowMethodExt = SlowMethodExt()) {
+open class DoKitExt(
+        //var dokitPluginSwitch: Boolean = true,
+        var comm: CommExt = CommExt(),
+        var slowMethod: SlowMethodExt = SlowMethodExt()) {
 
 
     //方法名必须和插件配置一直才能进行反射注入
-    fun dokitPluginSwitch(dokitPluginSwitch: Boolean) {
-        this.dokitPluginSwitch = dokitPluginSwitch
-    }
-
-    fun dokitLogSwitch(dokitLogSwitch: Boolean) {
-        this.dokitLogSwitch = dokitLogSwitch
-    }
-
+//    fun dokitPluginSwitch(dokitPluginSwitch: Boolean) {
+//        this.dokitPluginSwitch = dokitPluginSwitch
+//    }
 
     /**
      * 让comm 支持 DSL 语法
@@ -40,7 +35,7 @@ open class DoKitExt(var dokitPluginSwitch: Boolean = true,
     }
 
     override fun toString(): String {
-        return "DoKitExt(dokitPluginSwitch=$dokitPluginSwitch, dokitLogSwitch=$dokitLogSwitch, comm=$comm, slowMethod=$slowMethod)"
+        return "DoKitExt(comm=$comm, slowMethod=$slowMethod)"
     }
 
 

@@ -2,7 +2,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply from: 'upload.gradle'
+if (rootProject.ext.config["publishArchivesType"] == 2) {
+    apply from: 'upload-release.gradle'
+} else if (rootProject.ext.config["publishArchivesType"] == 0 || rootProject.ext.config["publishArchivesType"] == 1) {
+    apply from: 'upload-dev.gradle'
+}
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -47,6 +51,7 @@ android {
         jvmTarget = "1.8"
     }
 
+
 }
 
 dependencies {
@@ -67,12 +72,21 @@ dependencies {
     //implementation rootProject.ext.dependencies["guava"]
     implementation rootProject.ext.dependencies["utilcode"]
     //远程调试db
-    implementation rootProject.ext.dependencies["debug-db"]
-    implementation rootProject.ext.dependencies["debug-db-encrypt"]
+    //implementation rootProject.ext.dependencies["debug-db"]
+    //implementation rootProject.ext.dependencies["debug-db-encrypt"]
     implementation rootProject.ext.dependencies["android_spinkit"]
     implementation rootProject.ext.dependencies["okhttp"]
     implementation rootProject.ext.dependencies["okhttp_v2"]
     implementation rootProject.ext.dependencies["room_runtime"]
+    //sql
+    implementation rootProject.ext.dependencies["wcdb"]
+    //ktor
+    implementation rootProject.ext.dependencies["ktor-core"]
+    implementation rootProject.ext.dependencies["ktor-cio"]
+    //会合滴滴内部的spi-plugin冲突
+//    implementation rootProject.ext.dependencies["ktor-serialization"]
+//    implementation rootProject.ext.dependencies["ktor-gson"]
+
     kapt rootProject.ext.dependencies["room_compile"]
 
     //三大图片框架
@@ -102,6 +116,17 @@ configurations.all {
                 details.useVersion '3.14.7'
             }
         }
+//        else if (requested.group == 'androidx.core') {
+//            if (requested.name == "core") {
+//                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
+//                details.useVersion '1.2.0'
+//            }
+//        } else if (requested.group == 'androidx.versionedparcelable') {
+//            if (requested.name == "versionedparcelable") {
+//                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
+//                details.useVersion '1.1.0'
+//            }
+//        }
     }
 }
 
