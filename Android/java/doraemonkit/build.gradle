@@ -2,7 +2,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply from: 'upload.gradle'
+if (rootProject.ext.config["publishArchivesType"] == 2) {
+    apply from: 'upload-release.gradle'
+} else if (rootProject.ext.config["publishArchivesType"] == 0 || rootProject.ext.config["publishArchivesType"] == 1) {
+    apply from: 'upload-dev.gradle'
+}
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]

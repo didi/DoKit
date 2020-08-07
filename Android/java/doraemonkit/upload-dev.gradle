@@ -1,13 +1,13 @@
-def isRemote = rootProject.ext.config["publishPluginToRemote"]
+def publishArchivesType = rootProject.ext.config["publishArchivesType"]
 apply plugin: 'maven'
-if (isRemote) {
+if (publishArchivesType == 1) {
     uploadArchives {
         repositories {
             mavenDeployer {
                 pom.project {
-                    groupId project.GROUP_ID
-                    artifactId project.ARTIFACT_ID
-                    version rootProject.ext.android["pluginVersionName"]
+                    groupId "com.didichuxing.doraemonkit"
+                    artifactId "doraemonkit"
+                    version rootProject.ext.android["jcenterArchivesVersionName"]
                 }
 
                 pom.withXml {
@@ -26,24 +26,24 @@ if (isRemote) {
                 }
 
 
-                repository(url: project.RELEASE_REPOSITORY_URL) {
-                    authentication(userName: project.USERNAME, password: project.PASSWORD)
+                repository(url: "http://artifactory.intra.xiaojukeji.com/artifactory/libs-release/") {
+                    authentication(userName: "deployment", password: "deployment123")
                 }
-                snapshotRepository(url: project.SNAPSHOT_REPOSITORY_URL) {
-                    authentication(userName: project.USERNAME, password: project.PASSWORD)
+                snapshotRepository(url: "http://artifactory.intra.xiaojukeji.com/artifactory/libs-snapshot/") {
+                    authentication(userName: "deployment", password: "deployment123")
                 }
             }
         }
     }
-} else {
+} else if (publishArchivesType == 0) {
     def localRepoURL = uri(rootProject.ext.config["localRepoURL"])
     uploadArchives {
         repositories {
             mavenDeployer {
                 pom.project {
-                    groupId project.GROUP_ID
-                    artifactId project.ARTIFACT_ID
-                    version rootProject.ext.android["pluginVersionName"]
+                    groupId "com.didichuxing.doraemonkit"
+                    artifactId "doraemonkit"
+                    version rootProject.ext.android["jcenterArchivesVersionName"]
                 }
                 pom.withXml {
                     def node = it.asElement()

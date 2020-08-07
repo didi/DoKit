@@ -14,6 +14,7 @@ import com.didichuxing.doraemonkit.kit.network.okhttp.ForwardingResponseBody;
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
 import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorRequest;
 import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorResponse;
+import com.didichuxing.doraemonkit.kit.network.utils.OkHttpResponseKt;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import org.jetbrains.annotations.NotNull;
@@ -108,6 +109,9 @@ public class DoraemonInterceptor implements Interceptor {
                 contentType != null ? contentType.toString() : null,
                 responseStream,
                 new DefaultResponseHandler(mNetworkInterpreter, requestId, record));
+        record.mResponseBody = OkHttpResponseKt.bodyContent(response);
+        LogHelper.d("http-monitor", "response body >>>\n" + record.mResponseBody);
+
         if (responseStream != null) {
             response = response.newBuilder()
                     .body(new ForwardingResponseBody(body, responseStream))

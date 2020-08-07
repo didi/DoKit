@@ -1,5 +1,9 @@
 apply plugin: 'com.android.library'
-apply from: 'upload.gradle'
+if (rootProject.ext.config["publishArchivesType"] == 2) {
+    apply from: 'upload-release.gradle'
+} else if (rootProject.ext.config["publishArchivesType"] == 0 || rootProject.ext.config["publishArchivesType"] == 1) {
+    apply from: 'upload-dev.gradle'
+}
 
 /**
  * 必须配置git path 否则会报Error:(29, 0) CreateProcess error=2, The system cannot find the file specified 错误

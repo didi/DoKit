@@ -1,13 +1,17 @@
 ext {
     config = [
-            // 很多app都会有自己的打包开关，来区分线上包和测试包，可以通过给applyPlugin赋值来区分测试包和线上包
-            // 线上包不会接入DoraemonKit，测试包会自动接入
-            applyPlugin          : true,
-            //上传到仓库时需要打开
-            uploadArchives       : false,
-            //是否发布插件到远程仓库
-            publishPluginToRemote: false,
-            localRepoURL         : "/Users/didi/project/dokit_repo"
+            //0:运行模式
+            //1:打包模式
+            runOrPublish       : 0,
+            //0:依赖dokit本地module运行
+            //1:依赖dokit远程aar运行
+            runType            : 0,
+            //0:发布到到本地localRepoURL仓库
+            //1:发布到滴滴内部仓库 一般不建议使用 如果需要发布到滴滴内网仓库需要将版本号改得比较大 假如版本号跟jcenter上的一致会由于缓存导致没法下载最新的jcenter的线上代码
+            //2:发布到jcenter远程仓库
+            publishArchivesType: 0,
+            //本地仓库地址
+            localRepoURL       : "/Users/didi/project/dokit_repo"
     ]
     android = [compileSdkVersion         : 29,
                suppotrSdkVersion         : "28.0.0",

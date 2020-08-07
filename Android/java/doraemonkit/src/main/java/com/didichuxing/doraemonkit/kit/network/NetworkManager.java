@@ -60,6 +60,7 @@ public class NetworkManager {
      * app 启动数据埋点
      */
     public static final String APP_START_DATA_PICK_URL = "https://doraemon.xiaojukeji.com/uploadAppData";
+    //public static final String APP_START_DATA_PICK_URL = "http://pre.dokit.cn/uploadAppData";
 
 
     private static final int MAX_SIZE = 100;

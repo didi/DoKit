@@ -11,6 +11,6 @@ import com.didichuxing.doraemonkit.plugin.classtransformer.MethodStackDepTransfo
  * 修订历史：
  * ================================================
  */
-class DoKitAsmTransformer(val level: Int) : BaseDoKitAsmTransformer(MethodStackDepTransformer(level)) {
+class DoKitAsmTransformer(private val level: Int) : BaseDoKitAsmTransformer(MethodStackDepTransformer(level)) {
 
 }
