@@ -141,6 +141,7 @@
     <string name="dk_crash_capture_switch">Crash Log Collection Switch</string>
     <string name="dk_crash_capture_look">View Crash Log</string>
     <string name="dk_crash_capture_clean_data">Clean Crash Cache</string>
+    <string name="dk_kit_cache_check_all">all check</string>
     <string name="dk_crash_capture_summary_title">Crash Log List</string>
 
     <!--大图检测开关-->
@@ -349,4 +350,5 @@
     </string>
 
     <string name="dk_file_manager_tip_bottom">Please connect through the current ip:port on the web</string>
+    <string name="dk_file_manager_sd_permission_tip">Your current targetSdkVersion>=29, please add android:requestLegacyExternalStorage="true" under the application of AndroidManifest.xml to solve the problem that the SD card does not have permission</string>
 </resources>

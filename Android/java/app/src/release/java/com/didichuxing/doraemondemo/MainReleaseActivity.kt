@@ -148,8 +148,10 @@ class MainReleaseActivity : AppCompatActivity(), View.OnClickListener {
 
     private val mLocationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            val string = "lat====>" + location.latitude + "  lng====>" + location.longitude
-            Log.i(TAG, "系统定位====>$string")
+            if (location != null) {
+                val string = "lat====>" + location.latitude + "  lng====>" + location.longitude
+                Log.i(TAG, "系统定位====>$string")
+            }
         }
 
         override fun onProviderDisabled(arg0: String) {}

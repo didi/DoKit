@@ -1,5 +1,6 @@
 package com.didichuxing.doraemondemo
 
+import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import android.app.Application
 import android.content.Context
@@ -31,16 +32,18 @@ class App : Application() {
 //        kits.add(DemoKit())
 //        kits.add(DemoKit())
 //        kits.add(DemoKit())
+
         val mapKits: LinkedHashMap<String, MutableList<AbstractKit>> = linkedMapOf()
-        mapKits.put("业务专区1", mutableListOf(DemoKit()))
-        mapKits.put("业务专区2", mutableListOf(DemoKit()))
+        mapKits["业务专区1"] = mutableListOf<AbstractKit>(DemoKit())
+        mapKits["业务专区2"] = mutableListOf<AbstractKit>(DemoKit())
 
         DoraemonKit.install(this, mapKits = mapKits, productId = "749a0600b5e48dd77cf8ee680be7b1b7")
+        DoraemonKit.setFileManagerHttpPort(9001)
         //设置加密数据库
         DoraemonKit.setDatabasePass(mapOf("Person.db" to "a_password"))
         val config = ImagePipelineConfig.newBuilder(this)
-                .setDiskCacheEnabled(false)
-                .build()
+            .setDiskCacheEnabled(false)
+            .build()
         Fresco.initialize(this, config)
 
         //严格检查模式
@@ -54,6 +57,6 @@ class App : Application() {
 
     companion object {
         private const val TAG = "App"
-        var leakActivity: AppCompatActivity? = null
+        var leakActivity: Activity? = null
     }
 }

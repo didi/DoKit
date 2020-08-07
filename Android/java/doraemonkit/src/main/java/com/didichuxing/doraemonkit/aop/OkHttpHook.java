@@ -71,6 +71,10 @@ public class OkHttpHook {
         try {
             if (builder instanceof OkHttpClient.Builder) {
                 OkHttpClient.Builder localBuild = (OkHttpClient.Builder) builder;
+                //防止注入失败
+                localBuild.interceptors().addAll(globalInterceptors);
+                localBuild.networkInterceptors().addAll(globalNetworkInterceptors);
+
                 List<Interceptor> interceptors = removeDuplicate(localBuild.interceptors());
                 List<Interceptor> networkInterceptors = removeDuplicate(localBuild.networkInterceptors());
                 ReflectUtils.reflect(localBuild).field("interceptors", interceptors);
@@ -90,7 +94,7 @@ public class OkHttpHook {
      */
     private static List<Interceptor> removeDuplicate(List<Interceptor> list) {
         //保证顺序并去重
-        LinkedHashSet h = new LinkedHashSet<Interceptor>(list);
+        LinkedHashSet<Interceptor> h = new LinkedHashSet<>(list);
         list.clear();
         list.addAll(h);
         return list;

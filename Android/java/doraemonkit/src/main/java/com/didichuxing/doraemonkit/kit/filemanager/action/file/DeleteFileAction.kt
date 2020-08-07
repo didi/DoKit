@@ -19,8 +19,11 @@ object DeleteFileAction {
         if (FileUtils.isFileExists(filePath)) {
             //假如是文件夹
             if (FileUtils.isDir(filePath)) {
-                val deleteSuccess = FileUtils.deleteAllInDir("$dirPath${File.separator}$fileName")
-                if (deleteSuccess) {
+                //先删除文件夹下的所有内容
+                val deleteFilesSuccess = FileUtils.deleteAllInDir("$dirPath${File.separator}$fileName")
+                //再删除文件夹本身
+                val deleteDirSuccess = FileUtils.delete("$dirPath${File.separator}$fileName")
+                if (deleteFilesSuccess && deleteDirSuccess) {
                     response["code"] = 200
                     response["success"] = true
                     response["message"] = "success"

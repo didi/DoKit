@@ -34,6 +34,7 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <!-- https://blog.csdn.net/CHS007chs/article/details/85849625
        tools:replace="android:allowBackup,android:label"-->
+    <!--    android:requestLegacyExternalStorage="true" 解决sd卡没有权限的问题-->
     <application
         android:name=".App"
         android:allowBackup="false"

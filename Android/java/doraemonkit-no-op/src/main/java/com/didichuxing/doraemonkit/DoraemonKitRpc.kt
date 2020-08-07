@@ -20,7 +20,15 @@ object DoraemonKitRpc {
     }
 
     @JvmStatic
+    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>) {
+    }
+
+    @JvmStatic
     fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, productId: String) {
+    }
+
+    @JvmStatic
+    fun install(app: Application, listKits: MutableList<AbstractKit>) {
     }
 
     @JvmStatic

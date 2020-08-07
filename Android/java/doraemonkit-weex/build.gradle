@@ -1,5 +1,9 @@
 apply plugin: 'com.android.library'
-apply from: './upload.gradle'
+if (rootProject.ext.config["publishArchivesType"] == 2) {
+    apply from: 'upload-release.gradle'
+} else if (rootProject.ext.config["publishArchivesType"] == 0 || rootProject.ext.config["publishArchivesType"] == 1) {
+    apply from: 'upload-dev.gradle'
+}
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -35,14 +39,14 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["utilcode"]
-    if (rootProject.ext.config["uploadArchives"]) {
-        implementation "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+    if (rootProject.ext.config["runOrPublish"] == 0) {
+        api project(':doraemonkit')
     } else {
-        implementation project(':doraemonkit')
+        api "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
     }
 
     compileOnly rootProject.ext.dependencies["weex_inspector"]

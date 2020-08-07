@@ -19,6 +19,7 @@
             android:text="@string/app_build_types"
             android:textSize="18sp" />
 
+
         <Button
             android:id="@+id/btn_show_hide_icon"
             android:layout_width="match_parent"

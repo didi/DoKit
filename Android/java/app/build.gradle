@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply from: 'doraemonkit.gradle'
 
 android {
@@ -23,6 +24,7 @@ android {
     }
     buildTypes {
         debug {
+            resValue("string", "dokit_db_Person.db", "a_password")
             debuggable true
             minifyEnabled false
             shrinkResources false
@@ -53,12 +55,21 @@ android {
             manifest.srcFile 'src/release/java/AndroidManifest.xml'
             jniLibs.srcDir 'libs'
         }
+    }
 
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 
     lintOptions {
         abortOnError false
     }
+
+//    dataBinding {
+//        enabled = true
+//    }
+
 
 }
 
@@ -66,8 +77,6 @@ android {
 //dokit 扩展
 
 dokitExt {
-    //dokit 插件开关
-    dokitPluginSwitch true
     //通用设置
     comm {
         //地图经纬度开关
@@ -81,14 +90,14 @@ dokitExt {
     slowMethod {
         //0:默认模式 打印函数调用栈 需添加指定入口  默认为application onCreate 和attachBaseContext
         //1:普通模式 运行时打印某个函数的耗时 全局业务代码函数插入
-        strategy 0
-        //函数功能开关
-        methodSwitch true
+        strategy 1
+        //函数功能开关 已弃用
+        methodSwitch false
 
         //调用栈模式配置
         stackMethod {
             //默认值为 5ms 小于该值的函数在调用栈中不显示
-            thresholdTime 10
+            thresholdTime 5
             //调用栈函数入口
             enterMethods = ["com.didichuxing.doraemondemo.MainDebugActivity.test1"]
         }
@@ -108,7 +117,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation rootProject.ext.dependencies["junit"]
     implementation rootProject.ext.dependencies["multidex"]
-    implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["coroutines-core"]
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["kotlin"]

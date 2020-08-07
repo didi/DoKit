@@ -21,9 +21,19 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @desc: 网络请求解析类
  */
 public class NetworkInterpreter {
+
+    private static class Holder {
+        private static NetworkInterpreter INSTANCE = new NetworkInterpreter();
+    }
+
     public static final String TAG = "NetworkInterpreter";
+
     private final AtomicInteger mNextRequestId = new AtomicInteger(0);
     private ResourceTypeHelper mResourceTypeHelper;
+
+    public static NetworkInterpreter get() {
+        return NetworkInterpreter.Holder.INSTANCE;
+    }
 
     public void httpExchangeFailed(int requestId, String s) {
         //LogHelper.i(TAG, "[httpExchangeFailed] requestId: " + requestId + " error: " + s);
@@ -39,18 +49,8 @@ public class NetworkInterpreter {
         }
     }
 
-
     public void responseReadFailed(int requestId, String s) {
         LogHelper.i(TAG, "[responseReadFailed] requestId: " + requestId + " error: " + s);
-    }
-
-
-    private static class Holder {
-        private static NetworkInterpreter INSTANCE = new NetworkInterpreter();
-    }
-
-    public static NetworkInterpreter get() {
-        return NetworkInterpreter.Holder.INSTANCE;
     }
 
     public int nextRequestId() {
@@ -60,24 +60,21 @@ public class NetworkInterpreter {
     public InputStream interpretResponseStream(
             String contentType,
             @Nullable InputStream availableInputStream,
-            ResponseHandler responseHandler) {
+            ResponseHandler responseHandler
+    ) {
         if (availableInputStream == null) {
             responseHandler.onEOF(null);
             return null;
         }
-        ResourceType resourceType =
-                contentType != null ?
-                        getResourceTypeHelper().determineResourceType(contentType) :
-                        null;
+        ResourceType resourceType = contentType != null
+                ? getResourceTypeHelper().determineResourceType(contentType)
+                : null;
         if (resourceType != ResourceType.DOCUMENT && resourceType != ResourceType.XHR) {
             responseHandler.onEOF(null);
             return availableInputStream;
         }
-        return new InputStreamProxy(
-                availableInputStream,
-                responseHandler);
+        return new InputStreamProxy(availableInputStream, responseHandler);
     }
-
 
     public NetworkRecord createRecord(int requestId, NetworkInterpreter.InspectorRequest request) {
         NetworkRecord record = new NetworkRecord();
@@ -117,9 +114,7 @@ public class NetworkInterpreter {
             record.responseLength = body.getBytes().length;
             record.mResponseBody = body;
         }
-
     }
-
 
     public void fetchResponseInfo(NetworkRecord record, NetworkInterpreter.InspectorResponse response) {
         Response responseJSON = new Response();
@@ -156,8 +151,7 @@ public class NetworkInterpreter {
         return builder.toString();
     }
 
-    private String readBodyAsString(
-            NetworkInterpreter.InspectorRequest request) {
+    private String readBodyAsString(NetworkInterpreter.InspectorRequest request) {
         try {
             byte[] body = request.body();
             if (body != null) {
@@ -168,8 +162,7 @@ public class NetworkInterpreter {
         return null;
     }
 
-    private String readBodyAsString(
-            byte[] body) {
+    private String readBodyAsString(byte[] body) {
         try {
             if (body != null) {
                 return new String(body, Utf8Charset.INSTANCE);
@@ -179,8 +172,7 @@ public class NetworkInterpreter {
         return null;
     }
 
-    private long readBodyLength(
-            NetworkInterpreter.InspectorRequest request) {
+    private long readBodyLength(NetworkInterpreter.InspectorRequest request) {
         try {
             byte[] body = request.body();
             if (body != null) {
@@ -191,8 +183,7 @@ public class NetworkInterpreter {
         return 0;
     }
 
-    private long readBodyLength(
-            byte[] body) {
+    private long readBodyLength(byte[] body) {
         try {
             if (body != null) {
                 return body.length;
@@ -237,7 +228,6 @@ public class NetworkInterpreter {
         String url();
     }
 
-
     public interface InspectorRequestCommon extends InspectorHeaders {
         /**
          * Unique identifier for this request.  This identifier must be used in all other network
@@ -245,7 +235,6 @@ public class NetworkInterpreter {
          * WebSockets that have exhuasted the state machine to its final closed/finished state.
          */
         int id();
-
     }
 
     public interface InspectorResponseCommon extends InspectorHeaders {
@@ -255,7 +244,6 @@ public class NetworkInterpreter {
         int requestId();
 
         int statusCode();
-
     }
 
     public interface InspectorHeaders {

@@ -56,6 +56,11 @@ public class PlatformHttpHook {
         try {
             if (builder instanceof DidiHttpClient.Builder) {
                 DidiHttpClient.Builder localBuild = (DidiHttpClient.Builder) builder;
+
+                //防止注入失败
+                localBuild.interceptors().addAll(globalInterceptors);
+                localBuild.networkInterceptors().addAll(globalNetworkInterceptors);
+                //判断去重
                 List<Interceptor> interceptors = removeDuplicate(localBuild.interceptors());
                 List<Interceptor> networkInterceptors = removeDuplicate(localBuild.networkInterceptors());
                 ReflectUtils.reflect(localBuild).field("interceptors", interceptors);
@@ -76,7 +81,7 @@ public class PlatformHttpHook {
      */
     private static List<Interceptor> removeDuplicate(List<Interceptor> list) {
         //保证顺序并去重
-        LinkedHashSet h = new LinkedHashSet<Interceptor>(list);
+        LinkedHashSet<Interceptor> h = new LinkedHashSet<>(list);
         list.clear();
         list.addAll(h);
         return list;

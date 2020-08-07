@@ -7,6 +7,9 @@ import android.support.annotation.StringRes;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import okhttp3.RequestBody;
@@ -56,9 +59,17 @@ public class DokitUtil {
      * @param param
      * @return
      */
-    public static String param2Json(String param) {
-        param = param.replaceAll("=", "\":\"");
-        param = param.replaceAll("&", "\",\"");
-        return "{\"" + param + "\"}";
+    public static String param2Json(String param) throws JSONException {
+        String[] params = param.split("&");
+        JSONObject jsonObject = new JSONObject();
+
+        for (String p : params) {
+            String[] ps = p.split("=");
+            String key = ps[0];
+            String value = ps[1];
+            jsonObject.put(key, value);
+        }
+
+        return jsonObject.toString();
     }
 }
