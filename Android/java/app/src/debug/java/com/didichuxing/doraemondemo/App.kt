@@ -36,11 +36,12 @@ class App : Application() {
         mapKits["业务专区2"] = mutableListOf<AbstractKit>(DemoKit())
 
         DoraemonKit.install(this, mapKits = mapKits, productId = "749a0600b5e48dd77cf8ee680be7b1b7")
+        DoraemonKit.setFileManagerHttpPort(9001)
         //设置加密数据库
         DoraemonKit.setDatabasePass(mapOf("Person.db" to "a_password"))
         val config = ImagePipelineConfig.newBuilder(this)
-                .setDiskCacheEnabled(false)
-                .build()
+            .setDiskCacheEnabled(false)
+            .build()
         Fresco.initialize(this, config)
 
         //严格检查模式
