@@ -4,7 +4,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
+//        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
             url uri(rootProject.ext.config["localRepoURL"])
@@ -23,7 +23,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
+//        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
             url uri(rootProject.ext.config["localRepoURL"])

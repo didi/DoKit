@@ -2,16 +2,16 @@
 
 |DoKit|new Version|Desc|
 |-    |-      |-  |
-|support Androidx|3.1.8|support Androidx from v3.1.0|
-|supprot android support|3.0.7.2|Version 3.0.7.2 corresponds to the function of 3.1.8. Later support will be updated from time to time, mainly based on community feedback, please upgrade and adapt to Androidx as soon as possible|
+|support Androidx|3.2.0|support Androidx from v3.1.0|
+|supprot android support|3.0.8.0|Version 3.0.8.0 corresponds to the function of 3.2.0. Later support will be updated from time to time, mainly based on community feedback, please upgrade and adapt to Androidx as soon as possible|
 
 
 #### 1. DoKit SDK Dependencie
 
 ```groovy
 dependencies {
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.1.8'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.1.8'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.2.0'
+    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.2.0'
 }
 ```
 
@@ -21,7 +21,7 @@ dependencies {
 If you cannot download the dependent library through jcenter and report the following error
 
 ```
-ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.1.8
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.2.0
 ```
 
 You can try again from the command line (take Mac system as an example under the project root directory)
@@ -47,7 +47,7 @@ If you need to support Weex, you can directly add the following dependencies
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.1.8'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.2.0'
     …
 }
 ```
@@ -57,7 +57,7 @@ If you need to integrate LeakCanary, you can directly add the following dependen
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.1.8'
+    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-leakcanary:3.2.0'
     …
 }
 ```
@@ -89,7 +89,7 @@ Plugin includes the following functions:
 ```groovy
 buildscript {
     dependencies {
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.1.8'
+        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.2.0'
     }
 }
 ```
@@ -105,7 +105,6 @@ Added to the app module's build.gradle file at the same level as android {}
 ```groovy
 dokitExt {
     //dokit plugin switch
-    dokitPluginSwitch true
     comm {
         
         gpsSwitch true
@@ -140,6 +139,21 @@ dokitExt {
         }
     }
 }
+```
+The gradle.properties file in the project root directory is configured as follows
+```
+# dokit global configuration
+# Plug-in switch
+DOKIT_PLUGIN_SWITCH=true
+# Plugin log
+DOKIT_LOG_SWITCH=true
+# dokit slow function switch
+DOKIT_METHOD_SWITCH=true
+# dokit function call stack level
+DOKIT_METHOD_STACK_LEVEL=4
+# 0:The default mode is to print the function call stack, and the specified entry needs to be added. The default is application onCreate and attachBaseContext
+# 1:Normal mode prints the time consuming of a certain function when running, inserts global business code functions
+DOKIT_METHOD_STRATEGY=0
 ```
 
 
