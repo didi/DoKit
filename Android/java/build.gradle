@@ -4,13 +4,14 @@ buildscript {
     repositories {
         google()
         jcenter()
+//        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
             url uri(rootProject.ext.config["localRepoURL"])
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:3.3.0'
         classpath 'com.novoda:bintray-release:0.9.2'
 //        classpath "com.didichuxing.doraemonkit:doraemonkit-plugin:${rootProject.ext.android["pluginVersionName"]}"
 //        classpath "com.didichuxing.doraemonkit:doraemonkit-plugin:3.0.7.1"
@@ -24,6 +25,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+//        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
             url uri(rootProject.ext.config["localRepoURL"])
