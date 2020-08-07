@@ -9,6 +9,7 @@
 #import "DoraemonDefine.h"
 #import "UIColor+Doraemon.h"
 #import "DoraemonHomeViewController.h"
+#import "DoraemonNavigationController.h"
 
 @interface DoraemonHomeWindow()
 
@@ -70,7 +71,7 @@
 
 - (void)setRootVc:(UIViewController *)rootVc{
     if (rootVc) {
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:rootVc];
+        DoraemonNavigationController *nav = [[DoraemonNavigationController alloc] initWithRootViewController:rootVc];
         NSDictionary *attributesDic = @{
                                         NSForegroundColorAttributeName:[UIColor blackColor],
                                         NSFontAttributeName:[UIFont systemFontOfSize:18]
