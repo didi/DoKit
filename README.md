@@ -19,9 +19,14 @@ A full-featured App (iOS & Android) development assistant. You deserve it.
 > [中文文档](README_CN.md)
 
 **community activity**
->dokit-android: [dokit-kotlin](https://github.com/didi/DoraemonKit/issues/531)
->
->dokit-iOS: [dokit-swift](https://github.com/didi/DoraemonKit/issues/493)
+
+>DoKit official community satisfaction survey
+
+link:https://page.juyanwenjuan.com/jy_0CMpJzlu.html
+
+<div align="center">    
+  <img src="https://pt-starimg.didistatic.com/static/starimg/img/INLjGkp9wN1597062733948.jpg" width = "250" alt="DoKit 首页效果演示" align=center />
+</div>
  
 ## Introduction
 

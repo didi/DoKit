@@ -22,9 +22,14 @@
 
 **社区活动**
 
->dokit-android: [dokit-kotlin](https://github.com/didi/DoraemonKit/issues/531)
->
->dokit-iOS: [dokit-swift](https://github.com/didi/DoraemonKit/issues/493)
+>亲爱的DoKit用户,动动你的小手指参与一下我们的官方调研活动吧。我们极度渴望听到你们的声音:
+
+链接:https://page.juyanwenjuan.com/jy_0CMpJzlu.html
+
+<div align="center">    
+  <img src="https://pt-starimg.didistatic.com/static/starimg/img/INLjGkp9wN1597062733948.jpg" width = "250" alt="DoKit 首页效果演示" align=center />
+</div>
+
 
 ## 开发背景
 
