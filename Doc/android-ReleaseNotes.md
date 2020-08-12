@@ -5,8 +5,6 @@ DoraemonKit-Android releases
 详细文档参考：
 http://xingyun.xiaojukeji.com/docs/dokit/#/FileList
 
-**注意: 由于文件同步助手的http服务是在终端启动的，暂时没法正常处理https协议的请求。所以要正常使用该功能，需要手动将当前web页面的https协议手动改成http协议,否则浏览器会对当前的请求进行安全拦截，导致不能正常使用该功能。**
-
 2.github issues fixed
 
 ## 3.1.8 & 3.0.7.2
