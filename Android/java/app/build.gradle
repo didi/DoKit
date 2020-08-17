@@ -88,12 +88,6 @@ dokitExt {
     }
 
     slowMethod {
-        //0:默认模式 打印函数调用栈 需添加指定入口  默认为application onCreate 和attachBaseContext
-        //1:普通模式 运行时打印某个函数的耗时 全局业务代码函数插入
-        strategy 1
-        //函数功能开关 已弃用
-        methodSwitch false
-
         //调用栈模式配置
         stackMethod {
             //默认值为 5ms 小于该值的函数在调用栈中不显示
@@ -137,8 +131,8 @@ dependencies {
     implementation rootProject.ext.dependencies["wcdb"]
 
     //weex相关
-    //implementation rootProject.ext.dependencies["weex_inspector"]
-    //implementation rootProject.ext.dependencies["weex_sdk"]
+    implementation rootProject.ext.dependencies["weex_inspector"]
+    implementation rootProject.ext.dependencies["weex_sdk"]
     implementation rootProject.ext.dependencies["utilcode"]
     implementation rootProject.ext.dependencies["easypermissions"]
     releaseImplementation rootProject.ext.dependencies["okgo"]
