@@ -34,7 +34,7 @@
     <string name="dk_kit_cache_check_all">全选</string>
     <string name="dk_kit_db_debug">DBView</string>
     <string name="dk_kit_weak_network">模拟弱网</string>
-    <string name="dk_kit_setting">设置</string>
+    <string name="dk_kit_setting">更多</string>
     <string name="dk_kit_view_check">控件检查</string>
     <string name="dk_kit_net_monitor">网络</string>
     <string name="dk_kit_net_monitor_white_host_tip">白名单(默认全部拦截,如有添加白名单则只会拦截白名单中的网络请求,同时白名单规则在关闭当前页面时生效。白名单host示例:m.baidu.com)</string>
@@ -181,7 +181,7 @@
     <string name="dk_view_check_info_fragment">可见Fragments：%1$s</string>
 
     <string name="dk_back">返回</string>
-    <string name="dk_setting">设置</string>
+    <string name="dk_setting">更多</string>
     <string name="dk_edit">编辑</string>
     <string name="dk_reset">还原</string>
     <string name="dk_complete">完成</string>

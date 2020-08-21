@@ -318,10 +318,10 @@
     <string name="dk_health_dialog_test_person">tester</string>
     <string name="dk_health_dialog_test_person_hint">tester</string>
     <string name="dk_kit_log_min">Min</string>
-    <string name="dk_kit_setting">setting</string>
+    <string name="dk_kit_setting">more</string>
     <string name="dk_category_exit">Exit</string>
     <string name="dk_category_version">version</string>
-    <string name="dk_setting">Setting</string>
+    <string name="dk_setting">More</string>
     <string name="dk_edit">Edit</string>
     <string name="dk_complete">OK</string>
     <string name="dk_export">Export</string>

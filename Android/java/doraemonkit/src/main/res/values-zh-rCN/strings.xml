@@ -315,10 +315,10 @@
     <string name="dk_health_dialog_test_person">测试人</string>
     <string name="dk_health_dialog_test_person_hint">测试人</string>
     <string name="dk_kit_log_min">最小化</string>
-    <string name="dk_kit_setting">设置</string>
+    <string name="dk_kit_setting">更多</string>
     <string name="dk_category_exit">退出</string>
     <string name="dk_category_version">version</string>
-    <string name="dk_setting">设置</string>
+    <string name="dk_setting">更多</string>
     <string name="dk_edit">编辑</string>
     <string name="dk_complete">完成</string>
     <string name="dk_export">导出</string>

@@ -33,11 +33,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.didichuxing.doraemondemo.retrofit.GithubService
 import com.didichuxing.doraemonkit.DoraemonKit
-import com.didichuxing.doraemonkit.okgo.DokitOkGo
-import com.didichuxing.doraemonkit.okgo.callback.StringCallback
-import com.didichuxing.doraemonkit.okgo.model.Response
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
+import com.lzy.okgo.OkGo
+import com.lzy.okgo.callback.StringCallback
+import com.lzy.okgo.model.Response
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import com.squareup.picasso.MemoryPolicy
@@ -140,15 +140,18 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         mBaiduLocationClient!!.locOption = option
         //获取获取当前单次定位
         mBaiduLocationClient!!.registerLocationListener(mbdLocationListener)
-        EasyPermissions.requestPermissions(PermissionRequest.Builder(this, 200,
+        EasyPermissions.requestPermissions(
+            PermissionRequest.Builder(
+                this, 200,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ).build())
+            ).build()
+        )
         //初始化
         val config = ImageLoaderConfiguration.Builder(this)
-                .build()
+            .build()
         ImageLoader.getInstance().init(config)
 
         githubService = retrofit.create(GithubService::class.java)
@@ -207,7 +210,12 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
      */
     @SuppressLint("MissingPermission")
     private fun startNormaLocation() {
-        mLocationManager!!.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, mLocationListener)
+        mLocationManager!!.requestLocationUpdates(
+            LocationManager.NETWORK_PROVIDER,
+            0,
+            0f,
+            mLocationListener
+        )
     }
 
     /**
@@ -216,7 +224,10 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
     private var mapLocationListener = AMapLocationListener { aMapLocation ->
         val errorCode = aMapLocation.errorCode
         val errorInfo = aMapLocation.errorInfo
-        Log.i(TAG, "高德定位===lat==>" + aMapLocation.latitude + "   lng==>" + aMapLocation.longitude + "  errorCode===>" + errorCode + "   errorInfo===>" + errorInfo)
+        Log.i(
+            TAG,
+            "高德定位===lat==>" + aMapLocation.latitude + "   lng==>" + aMapLocation.longitude + "  errorCode===>" + errorCode + "   errorInfo===>" + errorInfo
+        )
     }
 
     /**
@@ -231,15 +242,23 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         mLocationClient!!.startLocation()
     }
 
-    private var mTencentLocationListener: TencentLocationListener = object : TencentLocationListener {
-        override fun onLocationChanged(tencentLocation: TencentLocation, error: Int, errorInfo: String) {
-            Log.i(TAG, "腾讯定位===onLocationChanged===lat==>" + tencentLocation.latitude + "   lng==>" + tencentLocation.longitude + "  error===>" + error + "  errorInfo===>" + errorInfo)
-        }
+    private var mTencentLocationListener: TencentLocationListener =
+        object : TencentLocationListener {
+            override fun onLocationChanged(
+                tencentLocation: TencentLocation,
+                error: Int,
+                errorInfo: String
+            ) {
+                Log.i(
+                    TAG,
+                    "腾讯定位===onLocationChanged===lat==>" + tencentLocation.latitude + "   lng==>" + tencentLocation.longitude + "  error===>" + error + "  errorInfo===>" + errorInfo
+                )
+            }
 
-        override fun onStatusUpdate(name: String, status: Int, desc: String) {
-            Log.i(TAG, "腾讯定位===onStatusUpdate==>  name===>$name status===$status  desc===$desc")
+            override fun onStatusUpdate(name: String, status: Int, desc: String) {
+                Log.i(TAG, "腾讯定位===onStatusUpdate==>  name===>$name status===$status  desc===$desc")
+            }
         }
-    }
 
     /**
      * 启动腾讯地图定位
@@ -247,14 +266,22 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
     private fun startTencentLocation() {
         //mTencentLocationManager.requestLocationUpdates(mTencentLocationRequest, mTencentLocationListener);
         //获取获取当前单次定位
-        mTencentLocationManager!!.requestSingleFreshLocation(mTencentLocationRequest, mTencentLocationListener, Looper.myLooper())
+        mTencentLocationManager!!.requestSingleFreshLocation(
+            mTencentLocationRequest,
+            mTencentLocationListener,
+            Looper.myLooper()
+        )
     }
 
-    private var mbdLocationListener: BDAbstractLocationListener = object : BDAbstractLocationListener() {
-        override fun onReceiveLocation(bdLocation: BDLocation) {
-            Log.i(TAG, "百度定位===onReceiveLocation===lat==>" + bdLocation.latitude + "   lng==>" + bdLocation.longitude)
+    private var mbdLocationListener: BDAbstractLocationListener =
+        object : BDAbstractLocationListener() {
+            override fun onReceiveLocation(bdLocation: BDLocation) {
+                Log.i(
+                    TAG,
+                    "百度定位===onReceiveLocation===lat==>" + bdLocation.latitude + "   lng==>" + bdLocation.longitude
+                )
+            }
         }
-    }
 
     /**
      * 启动百度地图定位
@@ -281,26 +308,33 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
             R.id.btn_location_baidu -> startBaiDuLocation()
             R.id.btn_load_img -> {
                 //Glide 加载
-                val picassoImgUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585832555614&di=ea70ed1254b3242803d7dde56eedfe9f&imgtype=0&src=http%3A%2F%2Ft9.baidu.com%2Fit%2Fu%3D2268908537%2C2815455140%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D719"
-                val glideImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662890&di=bc7b18d8b4efa73fb88ddef4f6f56acc&imgtype=0&src=http%3A%2F%2Ft9.baidu.com%2Fit%2Fu%3D583874135%2C70653437%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D3607%26h%3D2408"
-                val frescoImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662890&di=09318a918fe9ea73a8e27c80291bf669&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853"
-                val imageLoaderImageUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662891&di=acaf549645e58b6c67c231d495e18271&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D3571592872%2C3353494284%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1200%26h%3D1290"
+                val picassoImgUrl =
+                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585832555614&di=ea70ed1254b3242803d7dde56eedfe9f&imgtype=0&src=http%3A%2F%2Ft9.baidu.com%2Fit%2Fu%3D2268908537%2C2815455140%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D719"
+                val glideImageUrl =
+                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662890&di=bc7b18d8b4efa73fb88ddef4f6f56acc&imgtype=0&src=http%3A%2F%2Ft9.baidu.com%2Fit%2Fu%3D583874135%2C70653437%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D3607%26h%3D2408"
+                val frescoImageUrl =
+                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662890&di=09318a918fe9ea73a8e27c80291bf669&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853"
+                val imageLoaderImageUrl =
+                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662891&di=acaf549645e58b6c67c231d495e18271&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D3571592872%2C3353494284%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1200%26h%3D1290"
                 Picasso.get().load(picassoImgUrl)
-                        .memoryPolicy(MemoryPolicy.NO_CACHE)
-                        .placeholder(R.mipmap.dk_health_bg)
-                        .error(R.mipmap.dk_health_bg)
-                        .into(findViewById<View>(R.id.iv_picasso) as ImageView)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
+                    .placeholder(R.mipmap.dk_health_bg)
+                    .error(R.mipmap.dk_health_bg)
+                    .into(findViewById<View>(R.id.iv_picasso) as ImageView)
                 Glide.with(this@MainDebugActivity)
-                        .asBitmap()
-                        .load(glideImageUrl)
-                        .placeholder(R.mipmap.dk_health_bg)
-                        .error(R.mipmap.dk_health_bg)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)
-                        .skipMemoryCache(true)
-                        .transform(CircleCrop())
-                        .into((findViewById<View>(R.id.iv_glide) as ImageView))
+                    .asBitmap()
+                    .load(glideImageUrl)
+                    .placeholder(R.mipmap.dk_health_bg)
+                    .error(R.mipmap.dk_health_bg)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .transform(CircleCrop())
+                    .into((findViewById<View>(R.id.iv_glide) as ImageView))
                 val imageLoader = ImageLoader.getInstance()
-                imageLoader.displayImage(imageLoaderImageUrl, findViewById<View>(R.id.iv_imageloader) as ImageView)
+                imageLoader.displayImage(
+                    imageLoaderImageUrl,
+                    findViewById<View>(R.id.iv_imageloader) as ImageView
+                )
                 val frescoImageView = findViewById<SimpleDraweeView>(R.id.iv_fresco)
                 frescoImageView.setImageURI(Uri.parse(frescoImageUrl))
                 val imagePipeline = Fresco.getImagePipeline()
@@ -324,17 +358,22 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
 
                 val json = JSONObject()
                 //json
-                DokitOkGo.get<String>("https://wanandroid.com/user_article/list/0/json")
-                        //.upJson(json.toString())
-                        .execute(object : StringCallback() {
-                            override fun onSuccess(response: Response<String>) {
-                                Log.i(TAG, "okhttp====onSuccess===>" + response.body())
+                OkGo.get<String>("https://wanandroid.com/user_article/list/0/json")
+                    //.upJson(json.toString())
+                    .execute(object : StringCallback() {
+                        override fun onSuccess(response: Response<String>?) {
+                            response?.let {
+                                Log.i(TAG, "okhttp====onSuccess===>" + it.body())
                             }
+                        }
 
-                            override fun onError(response: Response<String>) {
-                                Log.i(TAG, "okhttp====onError===>" + response.message())
+                        override fun onError(response: Response<String>?) {
+                            response?.let {
+                                Log.i(TAG, "okhttp====onError===>" + it.message())
                             }
-                        })
+                        }
+
+                    })
             }
 
 
@@ -422,18 +461,18 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                     temp.createNewFile()
                 }
                 request = Request.Builder()
-                        .post(RequestBody.create(MediaType.parse(temp.name), temp))
-                        .url("http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&start=0&count=1&from=360chrome")
-                        .build()
+                    .post(RequestBody.create(MediaType.parse(temp.name), temp))
+                    .url("http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&start=0&count=1&from=360chrome")
+                    .build()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
         } else {
             //下载一个2M的文件
             request = Request.Builder()
-                    .get()
-                    .url("http://cdn1.lbesec.com/products/history/20131220/privacyspace_rel_2.2.1617.apk")
-                    .build()
+                .get()
+                .url("http://cdn1.lbesec.com/products/history/20131220/privacyspace_rel_2.2.1617.apk")
+                .build()
         }
         val call = okHttpClient!!.newCall(request!!)
         val startTime = SystemClock.uptimeMillis()
@@ -458,7 +497,13 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                 val responseLength = if (body!!.contentLength() < 0) 0 else body.contentLength()
                 val endTime = SystemClock.uptimeMillis() - startTime
                 val speed = (if (upload) requestLength else responseLength) / endTime * 1000
-                val message = String.format("请求大小：%s，响应大小：%s，耗时：%dms，均速：%s/s", Formatter.formatFileSize(applicationContext, requestLength), Formatter.formatFileSize(applicationContext, responseLength), endTime, Formatter.formatFileSize(applicationContext, speed))
+                val message = String.format(
+                    "请求大小：%s，响应大小：%s，耗时：%dms，均速：%s/s",
+                    Formatter.formatFileSize(applicationContext, requestLength),
+                    Formatter.formatFileSize(applicationContext, responseLength),
+                    endTime,
+                    Formatter.formatFileSize(applicationContext, speed)
+                )
                 runOnUiThread {
                     Log.d("onResponse", message)
                     Toast.makeText(this@MainDebugActivity, message, Toast.LENGTH_LONG).show()
