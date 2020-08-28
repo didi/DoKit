@@ -55,6 +55,7 @@ android {
 }
 
 dependencies {
+
     //implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
     testImplementation 'junit:junit:4.12'
@@ -65,6 +66,7 @@ dependencies {
     implementation rootProject.ext.dependencies["recyclerview"]
     implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["core-ktx"]
+    implementation rootProject.ext.dependencies["webview"]
 
     implementation rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]
@@ -83,6 +85,8 @@ dependencies {
     //ktor
     implementation rootProject.ext.dependencies["ktor-core"]
     implementation rootProject.ext.dependencies["ktor-cio"]
+    implementation rootProject.ext.dependencies["jsoup"]
+//    implementation rootProject.ext.dependencies["mimecraft"]
     //会合滴滴内部的spi-plugin冲突
 //    implementation rootProject.ext.dependencies["ktor-serialization"]
 //    implementation rootProject.ext.dependencies["ktor-gson"]

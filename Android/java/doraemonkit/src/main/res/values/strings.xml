@@ -389,5 +389,7 @@
 
     <string name="dk_file_manager_tip_bottom">请在web端通过当前ip:port进行连接</string>
     <string name="dk_file_manager_sd_permission_tip">你当前的targetSdkVersion>=29,请在AndroidManifest.xml的application下添加android:requestLegacyExternalStorage="true"解决sd卡没有权限的问题</string>
+    <!-- h5助手-->
+    <string name="dk_kit_h5_help">H5助手</string>
 
 </resources>

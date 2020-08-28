@@ -130,7 +130,7 @@ dependencies {
     implementation rootProject.ext.dependencies["image-loader"]
     implementation rootProject.ext.dependencies["room_runtime"]
     implementation rootProject.ext.dependencies["wcdb"]
-
+    implementation rootProject.ext.dependencies["jsoup"]
     //weex相关
     implementation rootProject.ext.dependencies["weex_inspector"]
     implementation rootProject.ext.dependencies["weex_sdk"]

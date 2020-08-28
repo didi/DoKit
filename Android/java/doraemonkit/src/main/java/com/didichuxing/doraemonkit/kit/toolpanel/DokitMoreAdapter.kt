@@ -37,10 +37,11 @@ class DokitMoreAdapter(
     }
 
     override fun convert(
-        helper: BaseViewHolder,
+        holder: BaseViewHolder,
         item: MorePageGroupBean.DataBean.GroupBean.ListBean
     ) {
-        helper.setText(R.id.tv_name, item.name)
+        holder.setText(R.id.tv_name, item.name)
+        holder.setText(R.id.tv_desc, item.desc)
     }
 
 

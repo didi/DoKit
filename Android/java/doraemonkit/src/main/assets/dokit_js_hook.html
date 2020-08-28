@@ -1,0 +1,84 @@
+<script type="text/javascript">
+    function generateRandom() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+
+    HTMLFormElement.prototype._submit = HTMLFormElement.prototype.submit;
+    HTMLFormElement.prototype.submit = interceptor;
+
+    window.addEventListener('submit', function(e) {
+        interceptor(e);
+    }, true);
+
+    function interceptor(e) {
+        var frm = e ? e.target : this;
+        interceptor_onsubmit(frm);
+        frm._submit();
+    }
+
+    function interceptor_onsubmit(f) {
+        var jsonArr = [];
+        for (i = 0; i < f.elements.length; i++) {
+            var parName = f.elements[i].name;
+            var parValue = f.elements[i].value;
+            var parType = f.elements[i].type;
+
+            jsonArr.push({
+                name : parName,
+                value : parValue,
+                type : parType
+            });
+        }
+
+        dokitJsi.submit();
+
+//        dokitJsi.customSubmit(JSON.stringify(jsonArr),
+//                f.attributes['method'] === undefined ? null
+//                        : f.attributes['method'].nodeValue,
+//                f.attributes['enctype'] === undefined ? null
+//                        : f.attributes['enctype'].nodeValue);
+    }
+
+    var requestID = null;
+    //hook XMLHttpRequest open method
+    XMLHttpRequest.prototype.reallyOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
+        //console.log(url)
+        requestID = generateRandom();
+        var hasQuery = url.split("?")[1];
+        var urlWrap = null;
+        if(hasQuery){
+            urlWrap = url + "&" + "dokit_flag=" + requestID
+        }else{
+            urlWrap = url + "?" + "dokit_flag=" + requestID
+        }
+        //console.log(urlWrap)
+        dokitJsi.open(requestID,method,urlWrap,async,user,password);
+        this.reallyOpen(method, urlWrap, async, user, password);
+    };
+
+    //hook XMLHttpRequest setRequestHeader method
+    XMLHttpRequest.prototype.reallySetRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
+    XMLHttpRequest.prototype.setRequestHeader = function(header, value) {
+        console.log(header,value)
+        dokitJsi.setRequestHeader(requestID,header,value);
+        this.reallySetRequestHeader(header, value);
+    };
+
+    //hook XMLHttpRequest overrideMimeType method
+    XMLHttpRequest.prototype.reallyOverrideMimeType = XMLHttpRequest.prototype.overrideMimeType;
+    XMLHttpRequest.prototype.overrideMimeType = function(mimeType) {
+        dokitJsi.overrideMimeType(requestID,mimeType);
+        this.reallyOverrideMimeType(mimeType);
+    };
+
+    //hook XMLHttpRequest send method
+    XMLHttpRequest.prototype.reallySend = XMLHttpRequest.prototype.send;
+    XMLHttpRequest.prototype.send = function(body) {
+        dokitJsi.send(requestID,body);
+        //console.log(body)
+        this.reallySend(body);
+    };
+</script>

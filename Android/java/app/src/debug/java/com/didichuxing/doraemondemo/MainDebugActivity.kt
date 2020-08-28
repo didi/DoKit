@@ -100,7 +100,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         val tvEnv = findViewById<TextView>(R.id.tv_env)
         tvEnv.text = "${getString(R.string.app_build_types)}:Debug"
         btn_jump.setOnClickListener(this)
-        // findViewById<View>(R.id.btn_jump).setOnClickListener(this)
+        btn_webview.setOnClickListener(this)
         findViewById<View>(R.id.btn_method_cost).setOnClickListener(this)
         findViewById<View>(R.id.btn_jump_leak).setOnClickListener(this)
         findViewById<View>(R.id.btn_app_launch_stack).setOnClickListener(this)
@@ -298,6 +298,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
             R.id.btn_show_tool_panel ->                 //直接调起工具面板
                 DoraemonKit.showToolPanel()
             R.id.btn_jump -> startActivity(Intent(this, SecondActivity::class.java))
+            R.id.btn_webview -> startActivity(Intent(this, WebViewActivity::class.java))
             R.id.btn_jump_leak -> startActivity(Intent(this, LeakActivity::class.java))
             R.id.btn_app_launch_stack -> {
                 //MethodStackUtil.getInstance().toJson()
