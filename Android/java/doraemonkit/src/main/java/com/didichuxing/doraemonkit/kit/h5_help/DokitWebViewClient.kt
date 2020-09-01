@@ -82,8 +82,15 @@ class DokitWebViewClientProxy(webViewClient: WebViewClient?) : WebViewClient() {
                     TAG,
                     "url===>${webRequest.url?.toString()}  method==>${webRequest.method}"
                 )
+                val httpUrl = HttpUrl.parse(webRequest.url?.toString())
 
-                val response = DokitOkGo.get<String>(webRequest.url?.toString()).execute()
+                val url = if (httpUrl?.url()?.query.isNullOrBlank()) {
+                    webRequest.url?.toString() + "?dokit_flag=web"
+                } else {
+                    webRequest.url?.toString() + "&dokit_flag=web"
+                }
+
+                val response = DokitOkGo.get<String>(url).execute()
                 //注入本地js
                 val newHtml = injectJsHook(response.body()?.string())
 
@@ -103,7 +110,7 @@ class DokitWebViewClientProxy(webViewClient: WebViewClient?) : WebViewClient() {
                         val host = url?.host()
                         //如果是dokit mock host 则不进行拦截
                         if (host.equals(NetworkManager.MOCK_HOST, true)) {
-                            return super.shouldInterceptRequest(view, request)
+                            return null
                         }
                         //web 抓包
                         if (NetworkManager.isActive()) {
@@ -111,13 +118,14 @@ class DokitWebViewClientProxy(webViewClient: WebViewClient?) : WebViewClient() {
                                 //构建okhttp用来抓包
                                 val newRequest: Request =
                                     JsHttpUtil.createOkHttpRequest(requestBean)
-                                //发送模拟请求
-                                mOkhttpClient.newCall(newRequest).execute()
+
+                                if (!JsHttpUtil.matchWhiteHost(newRequest)) {
+                                    //发送模拟请求
+                                    mOkhttpClient.newCall(newRequest).execute()
+                                }
                             } catch (e: Exception) {
                                 e.printStackTrace()
                             }
-
-
                         }
                         // web 数据mock
                         url?.let { httpUrl ->

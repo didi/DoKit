@@ -4,8 +4,10 @@ import android.text.TextUtils
 import android.webkit.WebResourceResponse
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
+import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean
@@ -288,6 +290,29 @@ internal object JsHttpUtil {
             }
         }
 
+    }
+
+    /**
+     * 是否命中白名单规则
+     *
+     * @return bool
+     */
+    fun matchWhiteHost(request: Request): Boolean {
+        val whiteHostBeans: List<WhiteHostBean> = DokitConstant.WHITE_HOSTS
+        if (whiteHostBeans.isEmpty()) {
+            return true
+        }
+        for (whiteHostBean in whiteHostBeans) {
+            if (TextUtils.isEmpty(whiteHostBean.host)) {
+                continue
+            }
+            val realHost = request.url().host()
+            //正则判断
+            if (whiteHostBean.host.equals(realHost, ignoreCase = true)) {
+                return true
+            }
+        }
+        return false
     }
 
 }

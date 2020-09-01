@@ -55,7 +55,7 @@
             urlWrap = url + "?" + "dokit_flag=" + requestID
         }
         //console.log(urlWrap)
-        dokitJsi.open(requestID,urlWrap,method,async,user,password);
+        dokitJsi.open(requestID,urlWrap,method,window.location.origin);
         this.reallyOpen(method, urlWrap, async, user, password);
     };
 
@@ -81,4 +81,7 @@
         //console.log(body)
         this.reallySend(body);
     };
+
+
+
 </script>

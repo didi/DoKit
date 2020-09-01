@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.kit.h5_help
 import android.webkit.JavascriptInterface
 import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean
 import com.didichuxing.doraemonkit.util.LogHelper
+import okhttp3.HttpUrl
 
 /**
  * ================================================
@@ -23,17 +24,22 @@ class DokitJSI {
         requestId: String?,
         url: String?,
         method: String?,
-        async: Boolean?,
-        user: String?,
-        password: String?
+        origin: String?
     ) {
+        val httpUrl = HttpUrl.parse(url)
+        val newUrl = if (httpUrl == null) {
+            origin + url
+        } else {
+            url
+        }
+
         if (JsRequestManager.jsRequestMap[requestId] == null) {
             JsRequestManager.jsRequestMap[requestId] =
-                JsRequestBean(requestId, url, method, null, null, null)
+                JsRequestBean(requestId, newUrl, method, null, null, null)
         } else {
             JsRequestManager.jsRequestMap[requestId]?.apply {
                 this.requestId = requestId
-                this.url = url
+                this.url = newUrl
                 this.method = method
             }
         }
