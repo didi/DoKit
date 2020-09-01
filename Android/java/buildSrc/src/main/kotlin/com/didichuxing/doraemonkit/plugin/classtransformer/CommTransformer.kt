@@ -8,6 +8,7 @@ import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.ClassTransformer
 import com.didiglobal.booster.transform.asm.className
 import com.google.auto.service.AutoService
+import org.objectweb.asm.Opcodes
 import org.objectweb.asm.Opcodes.*
 import org.objectweb.asm.tree.*
 
@@ -23,7 +24,8 @@ import org.objectweb.asm.tree.*
 @Priority(0)
 @AutoService(ClassTransformer::class)
 class CommTransformer : ClassTransformer {
-    private val SHADOW_URL = "com/didichuxing/doraemonkit/aop/urlconnection/HttpUrlConnectionProxyUtil"
+    private val SHADOW_URL =
+        "com/didichuxing/doraemonkit/aop/urlconnection/HttpUrlConnectionProxyUtil"
     private val DESC = "(Ljava/net/URLConnection;)Ljava/net/URLConnection;"
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
@@ -97,7 +99,10 @@ class CommTransformer : ClassTransformer {
                 }.let { zeroConsMethodNode ->
                     "${context.projectDir.lastPath()}->hook OkHttp  succeed: ${className}_${zeroConsMethodNode?.name}_${zeroConsMethodNode?.desc}".println()
                     zeroConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        zeroConsMethodNode.instructions.insertBefore(it, createOkHttpZeroConsInsnList())
+                        zeroConsMethodNode.instructions.insertBefore(
+                            it,
+                            createOkHttpZeroConsInsnList()
+                        )
                     }
                 }
 
@@ -108,7 +113,10 @@ class CommTransformer : ClassTransformer {
                 }.let { oneConsMethodNode ->
                     "${context.projectDir.lastPath()}->hook OkHttp  succeed: ${className}_${oneConsMethodNode?.name}_${oneConsMethodNode?.desc}".println()
                     oneConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        oneConsMethodNode.instructions.insertBefore(it, createOkHttpOneConsInsnList())
+                        oneConsMethodNode.instructions.insertBefore(
+                            it,
+                            createOkHttpOneConsInsnList()
+                        )
                     }
                 }
 
@@ -123,7 +131,10 @@ class CommTransformer : ClassTransformer {
                 }.let { zeroConsMethodNode ->
                     "${context.projectDir.lastPath()}->hook didi http  succeed: ${className}_${zeroConsMethodNode?.name}_${zeroConsMethodNode?.desc}".println()
                     zeroConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        zeroConsMethodNode.instructions.insertBefore(it, createDidiHttpZeroConsInsnList())
+                        zeroConsMethodNode.instructions.insertBefore(
+                            it,
+                            createDidiHttpZeroConsInsnList()
+                        )
                     }
                 }
 
@@ -134,21 +145,49 @@ class CommTransformer : ClassTransformer {
                 }.let { oneConsMethodNode ->
                     "${context.projectDir.lastPath()}->hook didi http  succeed: ${className}_${oneConsMethodNode?.name}_${oneConsMethodNode?.desc}".println()
                     oneConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        oneConsMethodNode.instructions.insertBefore(it, createDidiHttpOneConsInsnList())
+                        oneConsMethodNode.instructions.insertBefore(
+                            it,
+                            createDidiHttpOneConsInsnList()
+                        )
                     }
                 }
             }
 
+            //webView 字节码操作
+            if (DoKitExtUtil.commExt.webViewSwitch) {
+                klass.methods.forEach { method ->
+                    method.instructions?.iterator()?.asIterable()
+                        ?.filterIsInstance(MethodInsnNode::class.java)?.filter {
+                            it.opcode == INVOKEVIRTUAL &&
+                                    it.owner == "android/webkit/WebView" &&
+                                    it.name == "loadUrl" &&
+                                    it.desc == "(Ljava/lang/String;)V"
+                        }?.forEach {
+                            "${context.projectDir.lastPath()}->hook WebView#loadurl method  succeed in :  ${className}_${method.name}_${method.desc}".println()
+                            method.instructions.insertBefore(
+                                it,
+                                createWebViewInsnList()
+                            )
+                        }
+                }
+            }
+
+
             // url connection
             klass.methods.forEach { method ->
-                method.instructions?.iterator()?.asIterable()?.filterIsInstance(MethodInsnNode::class.java)?.filter {
-                    it.opcode == INVOKEVIRTUAL &&
-                            it.owner == "java/net/URL" &&
-                            it.name == "openConnection" &&
-                            it.desc == "()Ljava/net/URLConnection;"
-                }?.forEach {
-                    method.instructions.insert(it, MethodInsnNode(INVOKESTATIC, SHADOW_URL, "proxy", DESC, false))
-                }
+                method.instructions?.iterator()?.asIterable()
+                    ?.filterIsInstance(MethodInsnNode::class.java)?.filter {
+                        it.opcode == INVOKEVIRTUAL &&
+                                it.owner == "java/net/URL" &&
+                                it.name == "openConnection" &&
+                                it.desc == "()Ljava/net/URLConnection;"
+                    }?.forEach {
+                        "${context.projectDir.lastPath()}->hook URL#openConnection method  succeed in : ${className}_${method.name}_${method.desc}".println()
+                        method.instructions.insert(
+                            it,
+                            MethodInsnNode(INVOKESTATIC, SHADOW_URL, "proxy", DESC, false)
+                        )
+                    }
             }
 
         }
@@ -174,40 +213,120 @@ class CommTransformer : ClassTransformer {
             add(VarInsnNode(ALOAD, 0))
             add(LdcInsnNode("dokitPluginSwitch"))
             add(InsnNode(if (DoKitExtUtil.dokitPluginSwitchOpen()) ICONST_1 else ICONST_0))
-            add(MethodInsnNode(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false))
-            add(MethodInsnNode(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "java/lang/Boolean",
+                    "valueOf",
+                    "(Z)Ljava/lang/Boolean;",
+                    false
+                )
+            )
+            add(
+                MethodInsnNode(
+                    INVOKEINTERFACE,
+                    "java/util/Map",
+                    "put",
+                    "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
+                    true
+                )
+            )
             add(InsnNode(POP))
 
             //put("gpsSwitch",true)
             add(VarInsnNode(ALOAD, 0))
             add(LdcInsnNode("gpsSwitch"))
             add(InsnNode(if (DoKitExtUtil.commExt.gpsSwitch) ICONST_1 else ICONST_0))
-            add(MethodInsnNode(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false))
-            add(MethodInsnNode(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "java/lang/Boolean",
+                    "valueOf",
+                    "(Z)Ljava/lang/Boolean;",
+                    false
+                )
+            )
+            add(
+                MethodInsnNode(
+                    INVOKEINTERFACE,
+                    "java/util/Map",
+                    "put",
+                    "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
+                    true
+                )
+            )
             add(InsnNode(POP))
 
             //put("networkSwitch",true)
             add(VarInsnNode(ALOAD, 0))
             add(LdcInsnNode("networkSwitch"))
             add(InsnNode(if (DoKitExtUtil.commExt.networkSwitch) ICONST_1 else ICONST_0))
-            add(MethodInsnNode(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false))
-            add(MethodInsnNode(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "java/lang/Boolean",
+                    "valueOf",
+                    "(Z)Ljava/lang/Boolean;",
+                    false
+                )
+            )
+            add(
+                MethodInsnNode(
+                    INVOKEINTERFACE,
+                    "java/util/Map",
+                    "put",
+                    "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
+                    true
+                )
+            )
             add(InsnNode(POP))
 
             //put("bigImgSwitch",true)
             add(VarInsnNode(ALOAD, 0))
             add(LdcInsnNode("bigImgSwitch"))
             add(InsnNode(if (DoKitExtUtil.commExt.bigImgSwitch) ICONST_1 else ICONST_0))
-            add(MethodInsnNode(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false))
-            add(MethodInsnNode(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "java/lang/Boolean",
+                    "valueOf",
+                    "(Z)Ljava/lang/Boolean;",
+                    false
+                )
+            )
+            add(
+                MethodInsnNode(
+                    INVOKEINTERFACE,
+                    "java/util/Map",
+                    "put",
+                    "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
+                    true
+                )
+            )
             add(InsnNode(POP))
 
             //put("methodSwitch",true)
             add(VarInsnNode(ALOAD, 0))
             add(LdcInsnNode("methodSwitch"))
             add(InsnNode(if (DoKitExtUtil.dokitSlowMethodSwitchOpen()) ICONST_1 else ICONST_0))
-            add(MethodInsnNode(INVOKESTATIC, "java/lang/Boolean", "valueOf", "(Z)Ljava/lang/Boolean;", false))
-            add(MethodInsnNode(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "java/lang/Boolean",
+                    "valueOf",
+                    "(Z)Ljava/lang/Boolean;",
+                    false
+                )
+            )
+            add(
+                MethodInsnNode(
+                    INVOKEINTERFACE,
+                    "java/util/Map",
+                    "put",
+                    "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
+                    true
+                )
+            )
             add(InsnNode(POP))
 
 
@@ -215,13 +334,37 @@ class CommTransformer : ClassTransformer {
             add(VarInsnNode(ALOAD, 0))
             add(LdcInsnNode("methodStrategy"))
             add(InsnNode(if (DoKitExtUtil.SLOW_METHOD_STRATEGY == SlowMethodExt.STRATEGY_STACK) ICONST_0 else ICONST_1))
-            add(MethodInsnNode(INVOKESTATIC, "java/lang/Integer", "valueOf", "(I)Ljava/lang/Integer;", false))
-            add(MethodInsnNode(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "java/lang/Integer",
+                    "valueOf",
+                    "(I)Ljava/lang/Integer;",
+                    false
+                )
+            )
+            add(
+                MethodInsnNode(
+                    INVOKEINTERFACE,
+                    "java/util/Map",
+                    "put",
+                    "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
+                    true
+                )
+            )
             add(InsnNode(POP))
 
             //将HashMap注入到DokitPluginConfig中
             add(VarInsnNode(ALOAD, 0))
-            add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/DokitPluginConfig", "inject", "(Ljava/util/Map;)V", false))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/DokitPluginConfig",
+                    "inject",
+                    "(Ljava/util/Map;)V",
+                    false
+                )
+            )
 
             this
         }
@@ -241,7 +384,15 @@ class CommTransformer : ClassTransformer {
             add(InsnNode(DUP))
             //访问第一个参数
             add(VarInsnNode(ALOAD, 1))
-            add(MethodInsnNode(INVOKESPECIAL, "com/didichuxing/doraemonkit/aop/AMapLocationListenerProxy", "<init>", "(Lcom/amap/api/location/AMapLocationListener;)V", false))
+            add(
+                MethodInsnNode(
+                    INVOKESPECIAL,
+                    "com/didichuxing/doraemonkit/aop/AMapLocationListenerProxy",
+                    "<init>",
+                    "(Lcom/amap/api/location/AMapLocationListener;)V",
+                    false
+                )
+            )
             //对第一个参数进行重新赋值
             add(VarInsnNode(ASTORE, 1))
             this
@@ -260,7 +411,15 @@ class CommTransformer : ClassTransformer {
             add(InsnNode(DUP))
             //访问第一个参数
             add(VarInsnNode(ALOAD, 2))
-            add(MethodInsnNode(INVOKESPECIAL, "com/didichuxing/doraemonkit/aop/TencentLocationListenerProxy", "<init>", "(Lcom/tencent/map/geolocation/TencentLocationListener;)V", false))
+            add(
+                MethodInsnNode(
+                    INVOKESPECIAL,
+                    "com/didichuxing/doraemonkit/aop/TencentLocationListenerProxy",
+                    "<init>",
+                    "(Lcom/tencent/map/geolocation/TencentLocationListener;)V",
+                    false
+                )
+            )
             //对第一个参数进行重新赋值
             add(VarInsnNode(ASTORE, 2))
 
@@ -277,7 +436,15 @@ class CommTransformer : ClassTransformer {
         return with(InsnList()) {
             //在AMapLocationClient的setLocationListener方法之中插入自定义代理回调类
             add(VarInsnNode(ALOAD, 1))
-            add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/BDLocationUtil", "proxy", "(Lcom/baidu/location/BDLocation;)Lcom/baidu/location/BDLocation;", false))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/BDLocationUtil",
+                    "proxy",
+                    "(Lcom/baidu/location/BDLocation;)Lcom/baidu/location/BDLocation;",
+                    false
+                )
+            )
             //对第一个参数进行重新赋值
             add(VarInsnNode(ASTORE, 1))
             this
@@ -293,16 +460,60 @@ class CommTransformer : ClassTransformer {
         return with(InsnList()) {
             //插入application 拦截器
             add(VarInsnNode(ALOAD, 0))
-            add(FieldInsnNode(GETFIELD, "okhttp3/OkHttpClient\$Builder", "interceptors", "Ljava/util/List;"))
-            add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/OkHttpHook", "globalInterceptors", "Ljava/util/List;"))
-            add(MethodInsnNode(INVOKEINTERFACE, "java/util/List", "addAll", "(Ljava/util/Collection;)Z", true))
+            add(
+                FieldInsnNode(
+                    GETFIELD,
+                    "okhttp3/OkHttpClient\$Builder",
+                    "interceptors",
+                    "Ljava/util/List;"
+                )
+            )
+            add(
+                FieldInsnNode(
+                    GETSTATIC,
+                    "com/didichuxing/doraemonkit/aop/OkHttpHook",
+                    "globalInterceptors",
+                    "Ljava/util/List;"
+                )
+            )
+            add(
+                MethodInsnNode(
+                    INVOKEINTERFACE,
+                    "java/util/List",
+                    "addAll",
+                    "(Ljava/util/Collection;)Z",
+                    true
+                )
+            )
             add(InsnNode(POP))
 
             //插入NetworkInterceptor 拦截器
             add(VarInsnNode(ALOAD, 0))
-            add(FieldInsnNode(GETFIELD, "okhttp3/OkHttpClient\$Builder", "networkInterceptors", "Ljava/util/List;"))
-            add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/OkHttpHook", "globalNetworkInterceptors", "Ljava/util/List;"))
-            add(MethodInsnNode(INVOKEINTERFACE, "java/util/List", "addAll", "(Ljava/util/Collection;)Z", true))
+            add(
+                FieldInsnNode(
+                    GETFIELD,
+                    "okhttp3/OkHttpClient\$Builder",
+                    "networkInterceptors",
+                    "Ljava/util/List;"
+                )
+            )
+            add(
+                FieldInsnNode(
+                    GETSTATIC,
+                    "com/didichuxing/doraemonkit/aop/OkHttpHook",
+                    "globalNetworkInterceptors",
+                    "Ljava/util/List;"
+                )
+            )
+            add(
+                MethodInsnNode(
+                    INVOKEINTERFACE,
+                    "java/util/List",
+                    "addAll",
+                    "(Ljava/util/Collection;)Z",
+                    true
+                )
+            )
             add(InsnNode(POP))
             this
         }
@@ -317,7 +528,15 @@ class CommTransformer : ClassTransformer {
         return with(InsnList()) {
             add(VarInsnNode(ALOAD, 0))
             add(VarInsnNode(ALOAD, 1))
-            add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/OkHttpHook", "performOkhttpOneParamBuilderInit", "(Ljava/lang/Object;Ljava/lang/Object;)V", false))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/OkHttpHook",
+                    "performOkhttpOneParamBuilderInit",
+                    "(Ljava/lang/Object;Ljava/lang/Object;)V",
+                    false
+                )
+            )
             this
         }
 
@@ -331,16 +550,60 @@ class CommTransformer : ClassTransformer {
         return with(InsnList()) {
             //插入application 拦截器
             add(VarInsnNode(ALOAD, 0))
-            add(FieldInsnNode(GETFIELD, "didihttp/DidiHttpClient\$Builder", "interceptors", "Ljava/util/List;"))
-            add(FieldInsnNode(GETSTATIC, "com/didichuxing/foundation/net/rpc/http/PlatformHttpHook", "globalInterceptors", "Ljava/util/List;"))
-            add(MethodInsnNode(INVOKEINTERFACE, "java/util/List", "addAll", "(Ljava/util/Collection;)Z", true))
+            add(
+                FieldInsnNode(
+                    GETFIELD,
+                    "didihttp/DidiHttpClient\$Builder",
+                    "interceptors",
+                    "Ljava/util/List;"
+                )
+            )
+            add(
+                FieldInsnNode(
+                    GETSTATIC,
+                    "com/didichuxing/foundation/net/rpc/http/PlatformHttpHook",
+                    "globalInterceptors",
+                    "Ljava/util/List;"
+                )
+            )
+            add(
+                MethodInsnNode(
+                    INVOKEINTERFACE,
+                    "java/util/List",
+                    "addAll",
+                    "(Ljava/util/Collection;)Z",
+                    true
+                )
+            )
             add(InsnNode(POP))
 
             //插入NetworkInterceptor 拦截器
             add(VarInsnNode(ALOAD, 0))
-            add(FieldInsnNode(GETFIELD, "didihttp/DidiHttpClient\$Builder", "networkInterceptors", "Ljava/util/List;"))
-            add(FieldInsnNode(GETSTATIC, "com/didichuxing/foundation/net/rpc/http/PlatformHttpHook", "globalNetworkInterceptors", "Ljava/util/List;"))
-            add(MethodInsnNode(INVOKEINTERFACE, "java/util/List", "addAll", "(Ljava/util/Collection;)Z", true))
+            add(
+                FieldInsnNode(
+                    GETFIELD,
+                    "didihttp/DidiHttpClient\$Builder",
+                    "networkInterceptors",
+                    "Ljava/util/List;"
+                )
+            )
+            add(
+                FieldInsnNode(
+                    GETSTATIC,
+                    "com/didichuxing/foundation/net/rpc/http/PlatformHttpHook",
+                    "globalNetworkInterceptors",
+                    "Ljava/util/List;"
+                )
+            )
+            add(
+                MethodInsnNode(
+                    INVOKEINTERFACE,
+                    "java/util/List",
+                    "addAll",
+                    "(Ljava/util/Collection;)Z",
+                    true
+                )
+            )
             add(InsnNode(POP))
             this
         }
@@ -355,7 +618,39 @@ class CommTransformer : ClassTransformer {
         return with(InsnList()) {
             add(VarInsnNode(ALOAD, 0))
             add(VarInsnNode(ALOAD, 1))
-            add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/foundation/net/rpc/http/PlatformHttpHook", "performDidiHttpOneParamBuilderInit", "(Ljava/lang/Object;Ljava/lang/Object;)V", false))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/foundation/net/rpc/http/PlatformHttpHook",
+                    "performDidiHttpOneParamBuilderInit",
+                    "(Ljava/lang/Object;Ljava/lang/Object;)V",
+                    false
+                )
+            )
+            this
+        }
+    }
+
+
+    /**
+     * 创建webView函数指令集
+     * 参考:https://www.jianshu.com/p/7d623f441bed
+     */
+    private fun createWebViewInsnList(): InsnList {
+        return with(InsnList()) {
+            //复制栈顶的2个指令 指令集变为 比如 aload 2 aload0 aload 2 aload0
+            add(InsnNode(DUP2))
+            //抛出最上面的指令 指令集变为 aload 2 aload0 aload 2  其中 aload 2即为我们所需要的对象
+            add(InsnNode(POP))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/WebViewHook",
+                    "inject",
+                    "(Landroid/webkit/WebView;)V",
+                    false
+                )
+            )
             this
         }
     }

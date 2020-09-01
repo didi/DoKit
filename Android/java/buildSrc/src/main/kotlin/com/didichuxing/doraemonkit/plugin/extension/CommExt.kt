@@ -9,9 +9,12 @@ package com.didichuxing.doraemonkit.plugin.extension
  * 修订历史：
  * ================================================
  */
-open class CommExt(var gpsSwitch: Boolean = true,
-                   var networkSwitch: Boolean = true,
-                   var bigImgSwitch: Boolean = true) {
+open class CommExt(
+    var gpsSwitch: Boolean = true,
+    var networkSwitch: Boolean = true,
+    var bigImgSwitch: Boolean = true,
+    var webViewSwitch: Boolean = true
+) {
 
     fun gpsSwitch(gpsSwitch: Boolean) {
         this.gpsSwitch = gpsSwitch
@@ -26,8 +29,12 @@ open class CommExt(var gpsSwitch: Boolean = true,
         this.bigImgSwitch = bigImgSwitch
     }
 
+    fun webViewSwitch(webViewSwitch: Boolean) {
+        this.webViewSwitch = webViewSwitch
+    }
+
     override fun toString(): String {
-        return "CommExt(gpsSwitch=$gpsSwitch, networkSwitch=$networkSwitch, bigImgSwitch=$bigImgSwitch)"
+        return "CommExt(gpsSwitch=$gpsSwitch, networkSwitch=$networkSwitch, bigImgSwitch=$bigImgSwitch, webviewSwitch=$webViewSwitch)"
     }
 
 

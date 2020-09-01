@@ -64,18 +64,16 @@ class H5DokitView : AbsDokitView() {
         if (webView == null) {
             mTvLink.text = "当前页面不存在WebView"
         } else {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                val webViewClient = WebViewCompat.getWebViewClient(webView)
-                webView.webViewClient = WebViewClientProxy(webViewClient) { url ->
-                    mTvLink.text = url
-                }
-            } else {
-                ToastUtils.showShort("当前系统SDK低于26,不支持获取webViewClient")
-            }
-
             mTvLink.text = webView.url
 
         }
+    }
+
+    /**
+     * 更新url
+     */
+    public fun updateUrl(url: String?) {
+        mTvLink.text = url
     }
 
 

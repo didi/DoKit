@@ -59,7 +59,7 @@
             urlWrap = url + "?" + "dokit_flag=" + requestID
         }
         //console.log(urlWrap)
-        dokitJsi.open(requestID,method,urlWrap,async,user,password);
+        dokitJsi.open(requestID,urlWrap,method,async,user,password);
         this.reallyOpen(method, urlWrap, async, user, password);
     };
 
@@ -87,8 +87,6 @@
     };
 
 
-
-
     </script>
 
     <meta charset="UTF-8">
@@ -113,19 +111,16 @@
     <button class="axios_post">axios post</button>
 </div>
 
-<style type="text/css">
-
-</style>
 <script type="text/javascript">
 	 	var vConsole = new VConsole();
 		$(document).ready(function () {
 		    //启动请求
-		    $.get("https://wanandroid.com/wxarticle/chapters/json", function (data, status) {
-					console.log(data);
-				});
-		    $.post("https://www.wanandroid.com/article/query/0/json", {k: "dokit"}, function (data, status) {
-					console.log(data)
-				})
+//		    $.get("https://wanandroid.com/wxarticle/chapters/json", function (data, status) {
+//					console.log(data);
+//				});
+//		    $.post("https://www.wanandroid.com/article/query/0/json", {k: "dokit"}, function (data, status) {
+//					console.log(data)
+//				})
 		    //点击事件
 			$(".jquery_get").click(function () {
 				$.get("https://wanandroid.com/wxarticle/chapters/json", function (data, status) {
