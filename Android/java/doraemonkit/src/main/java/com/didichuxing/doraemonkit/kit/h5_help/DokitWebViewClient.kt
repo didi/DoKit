@@ -110,6 +110,7 @@ class DokitWebViewClientProxy(webViewClient: WebViewClient?) : WebViewClient() {
                         val host = url?.host()
                         //如果是dokit mock host 则不进行拦截
                         if (host.equals(NetworkManager.MOCK_HOST, true)) {
+                            JsRequestManager.jsRequestMap.remove(requestBean.requestId)
                             return null
                         }
                         //web 抓包
@@ -160,6 +161,7 @@ class DokitWebViewClientProxy(webViewClient: WebViewClient?) : WebViewClient() {
                                 val newResponse = mOkhttpClient.newCall(newRequest).execute()
                                 //是否命中拦截规则
                                 if (!interceptMatchedId.isNullOrBlank()) {
+                                    JsRequestManager.jsRequestMap.remove(requestBean.requestId)
                                     return JsHttpUtil.matchedInterceptRule(
                                         httpUrl,
                                         path,
@@ -185,8 +187,10 @@ class DokitWebViewClientProxy(webViewClient: WebViewClient?) : WebViewClient() {
 
                         }
 
+                        JsRequestManager.jsRequestMap.remove(requestBean.requestId)
                         return null
                     }
+
                 } else {
                     return super.shouldInterceptRequest(view, request)
                 }
