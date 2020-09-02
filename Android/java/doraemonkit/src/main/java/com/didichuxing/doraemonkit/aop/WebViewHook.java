@@ -8,7 +8,7 @@ import android.webkit.WebView;
 import androidx.webkit.WebViewCompat;
 
 import com.didichuxing.doraemonkit.kit.h5_help.DokitJSI;
-import com.didichuxing.doraemonkit.kit.h5_help.DokitWebViewClientProxy;
+import com.didichuxing.doraemonkit.kit.h5_help.DokitWebViewClient;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 /**
@@ -31,12 +31,12 @@ public class WebViewHook {
         LogHelper.i(TAG, "====inject====");
         if (webView != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                if (!(WebViewCompat.getWebViewClient(webView) instanceof DokitWebViewClientProxy)) {
+                if (!(WebViewCompat.getWebViewClient(webView) instanceof DokitWebViewClient)) {
                     WebSettings settings = webView.getSettings();
                     settings.setJavaScriptEnabled(true);
                     settings.setAllowUniversalAccessFromFileURLs(true);
                     webView.addJavascriptInterface(new DokitJSI(), "dokitJsi");
-                    webView.setWebViewClient(new DokitWebViewClientProxy(WebViewCompat.getWebViewClient(webView)));
+                    webView.setWebViewClient(new DokitWebViewClient(WebViewCompat.getWebViewClient(webView)));
                 }
             }
         }

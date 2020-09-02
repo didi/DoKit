@@ -26,7 +26,6 @@ import java.util.List;
 /**
  * @desc: 抓包列表
  */
-
 public class NetworkListView extends LinearLayout implements OnNetworkInfoUpdateListener {
     private static final String TAG = "NetworkListFragment";
     public static final String KEY_RECORD = "record";

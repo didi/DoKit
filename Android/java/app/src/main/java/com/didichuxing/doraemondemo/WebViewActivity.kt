@@ -23,7 +23,8 @@ class WebViewActivity : AppCompatActivity() {
 //        WebViewHook.inject(webView)
         //webView.loadUrl(url)
 //        webView.loadUrl("file:///android_asset/dokit_index.html")
-        webView.loadUrl("https://www.dokit.cn")
+//        webView.loadUrl("https://www.dokit.cn")
+        webView.loadUrl("http://xingyun.xiaojukeji.com/docs/dokit/#/intro")
     }
 
 

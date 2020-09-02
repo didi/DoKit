@@ -13,19 +13,11 @@ import com.blankj.utilcode.util.ResourceUtils
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
-import com.didichuxing.doraemonkit.kit.network.core.DefaultResponseHandler
-import com.didichuxing.doraemonkit.kit.network.core.NetworkInterpreter
-import com.didichuxing.doraemonkit.kit.network.core.RequestBodyHelper
-import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorRequest
-import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorResponse
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
-import com.didichuxing.doraemonkit.kit.network.utils.bodyContent
 import com.didichuxing.doraemonkit.okgo.DokitOkGo
 import com.didichuxing.doraemonkit.util.LogHelper
 import okhttp3.*
-import org.json.JSONObject
 import org.jsoup.Jsoup
-import java.io.InputStream
 import java.net.URLDecoder
 
 /**
@@ -37,12 +29,11 @@ import java.net.URLDecoder
  * 修订历史：
  * ================================================
  */
-class DokitWebViewClientProxy(webViewClient: WebViewClient?) : WebViewClient() {
+class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
 
-    private val TAG = "DokitWebViewClientProxy"
+    private val TAG = "DokitWebViewClient"
     private val mWebViewClient: WebViewClient? = webViewClient
-    private val mNetworkInterpreter = NetworkInterpreter.get()
-    private val mOkhttpClient = OkHttpClient()
+    private val mOkHttpClient = OkHttpClient()
 
     /**
      * 更新悬浮窗上的链接
@@ -122,7 +113,7 @@ class DokitWebViewClientProxy(webViewClient: WebViewClient?) : WebViewClient() {
 
                                 if (!JsHttpUtil.matchWhiteHost(newRequest)) {
                                     //发送模拟请求
-                                    mOkhttpClient.newCall(newRequest).execute()
+                                    mOkHttpClient.newCall(newRequest).execute()
                                 }
                             } catch (e: Exception) {
                                 e.printStackTrace()
@@ -158,7 +149,7 @@ class DokitWebViewClientProxy(webViewClient: WebViewClient?) : WebViewClient() {
                                 val newRequest: Request =
                                     JsHttpUtil.createOkHttpRequest(requestBean)
                                 //发送模拟请求
-                                val newResponse = mOkhttpClient.newCall(newRequest).execute()
+                                val newResponse = mOkHttpClient.newCall(newRequest).execute()
                                 //是否命中拦截规则
                                 if (!interceptMatchedId.isNullOrBlank()) {
                                     JsRequestManager.jsRequestMap.remove(requestBean.requestId)
@@ -169,7 +160,7 @@ class DokitWebViewClientProxy(webViewClient: WebViewClient?) : WebViewClient() {
                                         templateMatchedId,
                                         newRequest,
                                         newResponse,
-                                        mOkhttpClient
+                                        mOkHttpClient
                                     )
                                 }
 

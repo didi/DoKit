@@ -74,9 +74,4 @@ class DokitJSI {
             this.body = body
         }
     }
-
-    @JavascriptInterface
-    fun submit() {
-        LogHelper.i("DokitJSI", "====submit====")
-    }
 }
