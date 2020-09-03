@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.kit.toolpanel
 
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.widget.bravh.entity.MultiItemEntity
+import com.didichuxing.doraemonkit.widget.brvah.entity.MultiItemEntity
 
 /**
  * ================================================

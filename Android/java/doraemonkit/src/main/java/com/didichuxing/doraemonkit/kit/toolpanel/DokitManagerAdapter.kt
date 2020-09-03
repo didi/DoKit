@@ -4,9 +4,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.widget.bravh.BaseMultiItemQuickAdapter
-import com.didichuxing.doraemonkit.widget.bravh.module.DraggableModule
-import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
+import com.didichuxing.doraemonkit.widget.brvah.BaseMultiItemQuickAdapter
+import com.didichuxing.doraemonkit.widget.brvah.module.DraggableModule
+import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder
 
 /**
  * ================================================

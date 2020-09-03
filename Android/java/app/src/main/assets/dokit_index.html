@@ -8,43 +8,6 @@
         .toString(16)
         .substring(1);
     }
-
-    HTMLFormElement.prototype._submit = HTMLFormElement.prototype.submit;
-    HTMLFormElement.prototype.submit = interceptor;
-
-    window.addEventListener('submit', function(e) {
-        interceptor(e);
-    }, true);
-
-    function interceptor(e) {
-        var frm = e ? e.target : this;
-        interceptor_onsubmit(frm);
-        frm._submit();
-    }
-
-    function interceptor_onsubmit(f) {
-        var jsonArr = [];
-        for (i = 0; i < f.elements.length; i++) {
-            var parName = f.elements[i].name;
-            var parValue = f.elements[i].value;
-            var parType = f.elements[i].type;
-
-            jsonArr.push({
-                name : parName,
-                value : parValue,
-                type : parType
-            });
-        }
-
-        dokitJsi.submit();
-
-//        dokitJsi.customSubmit(JSON.stringify(jsonArr),
-//                f.attributes['method'] === undefined ? null
-//                        : f.attributes['method'].nodeValue,
-//                f.attributes['enctype'] === undefined ? null
-//                        : f.attributes['enctype'].nodeValue);
-    }
-
     var requestID = null;
     //hook XMLHttpRequest open method
     XMLHttpRequest.prototype.reallyOpen = XMLHttpRequest.prototype.open;
@@ -59,7 +22,7 @@
             urlWrap = url + "?" + "dokit_flag=" + requestID
         }
         //console.log(urlWrap)
-        dokitJsi.open(requestID,urlWrap,method,async,user,password);
+        dokitJsi.open(requestID,urlWrap,method,window.location.origin);
         this.reallyOpen(method, urlWrap, async, user, password);
     };
 
@@ -86,6 +49,51 @@
         this.reallySend(body);
     };
 
+    //hook Storage
+    //保存一个值
+    Storage.prototype.reallySetItem = Storage.prototype.setItem;
+    Storage.prototype.setItem = function(key,value) {
+        if(this === localStorage){
+            dokitJsi.localStorageSetItem(key,value);
+        }else if(this === sessionStorage){
+            dokitJsi.sessionStorageSetItem(key,value);
+        }
+        this.reallySetItem(key,value);
+    };
+
+    //移除一个值
+    Storage.prototype.reallyRemoveItem = Storage.prototype.removeItem;
+    Storage.prototype.removeItem = function(key) {
+        if(this === localStorage){
+            dokitJsi.localStorageRemoveItem(key);
+        }else if(this === sessionStorage){
+            dokitJsi.sessionStorageRemoveItem(key,value);
+        }
+
+        this.reallyRemoveItem(key);
+    };
+
+    //清空
+    Storage.prototype.reallyClear = Storage.prototype.clear;
+    Storage.clear = function() {
+        if(this === localStorage){
+            dokitJsi.localStorageClear();
+        }else if(this === sessionStorage){
+            dokitJsi.sessionStorageClear(key,value);
+        }
+
+        this.reallyClear();
+    };
+
+    //遍历并输出localStorage里存储的名字和值
+    for(var i=0; i<localStorage.length;i++){
+        dokitJsi.localStorageSetItem(localStorage.key(i),localStorage.getItem(localStorage.key(i)));
+    }
+
+    //遍历并输出sessionStorage里存储的名字和值
+    for(var i=0; i<sessionStorage.length;i++){
+        dokitJsi.sessionStorageSetItem(sessionStorage.key(i),sessionStorage.getItem(sessionStorage.key(i)));
+    }
 
     </script>
 
@@ -95,6 +103,9 @@
     <script src="http://libs.baidu.com/jquery/2.0.3/jquery.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/vConsole/3.3.4/vconsole.min.js"></script>
+    <script type="text/javascript">
+        var vConsole = new VConsole();
+    </script>
 </head>
 
 <body>
@@ -109,10 +120,17 @@
     <br/>
     <br/>
     <button class="axios_post">axios post</button>
+    <br/>
+    <br/>
+    <button class="add_localStorage">add localStorage</button>
+    <br/>
+    <br/>
+    <button class="add_sessionStorage">add sessionStorage</button>
 </div>
 
+
 <script type="text/javascript">
-	 	var vConsole = new VConsole();
+
 		$(document).ready(function () {
 		    //启动请求
 //		    $.get("https://wanandroid.com/wxarticle/chapters/json", function (data, status) {
@@ -151,6 +169,14 @@
 				}).catch((err) => {
 					console.log(err)
 				});
+			});
+
+			$(".add_localStorage").click(function () {
+				localStorage.setItem('local', 'jintjintjintjintjintjintjintjint');
+			});
+
+			$(".add_sessionStorage").click(function () {
+				sessionStorage.setItem('session', 'jintjintjintjintjintjintjintjintjint');
 			});
 		});
 </script>

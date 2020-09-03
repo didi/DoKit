@@ -45,4 +45,50 @@
         this.reallySend(body);
     };
 
-</script>
+    //hook Storage
+    //保存一个值
+    Storage.prototype.reallySetItem = Storage.prototype.setItem;
+    Storage.prototype.setItem = function(key,value) {
+        if(this === localStorage){
+            dokitJsi.localStorageSetItem(key,value);
+        }else if(this === sessionStorage){
+            dokitJsi.sessionStorageSetItem(key,value);
+        }
+        this.reallySetItem(key,value);
+    };
+
+    //移除一个值
+    Storage.prototype.reallyRemoveItem = Storage.prototype.removeItem;
+    Storage.prototype.removeItem = function(key) {
+        if(this === localStorage){
+            dokitJsi.localStorageRemoveItem(key);
+        }else if(this === sessionStorage){
+            dokitJsi.sessionStorageRemoveItem(key,value);
+        }
+
+        this.reallyRemoveItem(key);
+    };
+
+    //清空
+    Storage.prototype.reallyClear = Storage.prototype.clear;
+    Storage.clear = function() {
+        if(this === localStorage){
+            dokitJsi.localStorageClear();
+        }else if(this === sessionStorage){
+            dokitJsi.sessionStorageClear(key,value);
+        }
+
+        this.reallyClear();
+    };
+
+    //遍历并输出localStorage里存储的名字和值
+    for(var i=0; i<localStorage.length;i++){
+        dokitJsi.localStorageSetItem(localStorage.key(i),localStorage.getItem(localStorage.key(i)));
+    }
+
+    //遍历并输出sessionStorage里存储的名字和值
+    for(var i=0; i<sessionStorage.length;i++){
+        dokitJsi.sessionStorageSetItem(sessionStorage.key(i),sessionStorage.getItem(sessionStorage.key(i)));
+    }
+
+    </script>

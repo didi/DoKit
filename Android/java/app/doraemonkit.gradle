@@ -7,7 +7,7 @@ if (rootProject.ext.config["runType"] == 0) {
         //外部平台依赖
         debugImplementation project(":doraemonkit")
         debugImplementation project(":doraemonkit-weex")
-        releaseImplementation project(":doraemonkit-no-op")
+//        releaseImplementation project(":doraemonkit-no-op")
         //debugImplementation project(":doraemonkit-leakcanary")
     }
 } else if (rootProject.ext.config["runType"] == 1) {

@@ -10,8 +10,10 @@ import android.webkit.*
 import androidx.annotation.RequiresApi
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ResourceUtils
+import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
+import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.okgo.DokitOkGo
@@ -66,12 +68,16 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
         view: WebView?,
         request: WebResourceRequest?
     ): WebResourceResponse? {
+        //是否允许js抓包和数据mock
+        if (!DokitConstant.H5_JS_INJECT) {
+            return super.shouldInterceptRequest(view, request)
+        }
         request?.let { webRequest ->
             //加载页面资源
             if (webRequest.isForMainFrame) {
                 LogHelper.i(
                     TAG,
-                    "url===>${webRequest.url?.toString()}  method==>${webRequest.method}"
+                    "url===>${webRequest.url?.toString()}  method==>${webRequest.method} thread==>${Thread.currentThread().name}"
                 )
                 val httpUrl = HttpUrl.parse(webRequest.url?.toString())
 
@@ -82,8 +88,12 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                 }
 
                 val response = DokitOkGo.get<String>(url).execute()
-                //注入本地js
-                val newHtml = injectJsHook(response.body()?.string())
+                //注入本地网络拦截js
+                var newHtml = injectJsHook(response.body()?.string())
+                //注入vConsole的代码
+                if (DokitConstant.H5_VCONSOLE_INJECT) {
+                    newHtml = injectVConsoleHook(newHtml)
+                }
 
                 return WebResourceResponse(
                     "text/html",
@@ -94,14 +104,14 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                 //加载js网络请求
                 if (webRequest.url.toString().contains("dokit_flag")) {
                     val jsRequestId = getUrlQuery(webRequest.url.toString(), "dokit_flag")
-                    val jsRequestBean = JsRequestManager.jsRequestMap[jsRequestId]
+                    val jsRequestBean = JsHookDataManager.jsRequestMap[jsRequestId]
                     LogHelper.i(TAG, jsRequestBean.toString())
                     jsRequestBean?.let { requestBean ->
                         val url = HttpUrl.parse(requestBean.url)
                         val host = url?.host()
                         //如果是dokit mock host 则不进行拦截
                         if (host.equals(NetworkManager.MOCK_HOST, true)) {
-                            JsRequestManager.jsRequestMap.remove(requestBean.requestId)
+                            JsHookDataManager.jsRequestMap.remove(requestBean.requestId)
                             return null
                         }
                         //web 抓包
@@ -119,67 +129,9 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                                 e.printStackTrace()
                             }
                         }
+
                         // web 数据mock
-                        url?.let { httpUrl ->
-                            try {
-                                val path = URLDecoder.decode(httpUrl.encodedPath(), "utf-8")
-                                val queries = httpUrl.query()
-                                val jsonQuery = JsHttpUtil.transformQuery(queries)
-                                val jsonRequestBody = JsHttpUtil.transformRequestBody(
-                                    requestBean.method,
-                                    requestBean.body,
-                                    requestBean.headers
-                                )
-
-                                val interceptMatchedId = DokitDbManager.getInstance().isMockMatched(
-                                    path,
-                                    jsonQuery,
-                                    jsonRequestBody,
-                                    DokitDbManager.MOCK_API_INTERCEPT,
-                                    DokitDbManager.FROM_SDK_OTHER
-                                )
-
-                                val templateMatchedId = DokitDbManager.getInstance().isMockMatched(
-                                    path,
-                                    jsonQuery,
-                                    jsonRequestBody,
-                                    DokitDbManager.MOCK_API_TEMPLATE,
-                                    DokitDbManager.FROM_SDK_OTHER
-                                )
-                                val newRequest: Request =
-                                    JsHttpUtil.createOkHttpRequest(requestBean)
-                                //发送模拟请求
-                                val newResponse = mOkHttpClient.newCall(newRequest).execute()
-                                //是否命中拦截规则
-                                if (!interceptMatchedId.isNullOrBlank()) {
-                                    JsRequestManager.jsRequestMap.remove(requestBean.requestId)
-                                    return JsHttpUtil.matchedInterceptRule(
-                                        httpUrl,
-                                        path,
-                                        interceptMatchedId,
-                                        templateMatchedId,
-                                        newRequest,
-                                        newResponse,
-                                        mOkHttpClient
-                                    )
-                                }
-
-                                //是否命中模板规则
-                                if (!templateMatchedId.isNullOrBlank()) {
-                                    JsHttpUtil.matchedTemplateRule(
-                                        newResponse,
-                                        path,
-                                        templateMatchedId
-                                    )
-                                }
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-
-                        }
-
-                        JsRequestManager.jsRequestMap.remove(requestBean.requestId)
-                        return null
+                        return dealMock(requestBean, url)
                     }
 
                 } else {
@@ -193,10 +145,74 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
     }
 
     /**
-     * 数据mock相关操作
+     * 处理数据mock的相关逻辑
      */
-    private fun intercept() {
+    private fun dealMock(
+        requestBean: JsRequestBean,
+        url: HttpUrl?
+    ): WebResourceResponse? {
+        url?.let { httpUrl ->
+            try {
+                val path = URLDecoder.decode(httpUrl.encodedPath(), "utf-8")
+                val queries = httpUrl.query()
+                val jsonQuery = JsHttpUtil.transformQuery(queries)
+                val jsonRequestBody = JsHttpUtil.transformRequestBody(
+                    requestBean.method,
+                    requestBean.body,
+                    requestBean.headers
+                )
 
+                val interceptMatchedId =
+                    DokitDbManager.getInstance().isMockMatched(
+                        path,
+                        jsonQuery,
+                        jsonRequestBody,
+                        DokitDbManager.MOCK_API_INTERCEPT,
+                        DokitDbManager.FROM_SDK_OTHER
+                    )
+
+                val templateMatchedId =
+                    DokitDbManager.getInstance().isMockMatched(
+                        path,
+                        jsonQuery,
+                        jsonRequestBody,
+                        DokitDbManager.MOCK_API_TEMPLATE,
+                        DokitDbManager.FROM_SDK_OTHER
+                    )
+                val newRequest: Request =
+                    JsHttpUtil.createOkHttpRequest(requestBean)
+                //发送模拟请求
+                val newResponse =
+                    mOkHttpClient.newCall(newRequest).execute()
+                //是否命中拦截规则
+                if (!interceptMatchedId.isNullOrBlank()) {
+                    JsHookDataManager.jsRequestMap.remove(requestBean.requestId)
+                    return JsHttpUtil.matchedInterceptRule(
+                        httpUrl,
+                        path,
+                        interceptMatchedId,
+                        templateMatchedId,
+                        newRequest,
+                        newResponse,
+                        mOkHttpClient
+                    )
+                }
+
+                //是否命中模板规则
+                if (!templateMatchedId.isNullOrBlank()) {
+                    JsHttpUtil.matchedTemplateRule(
+                        newResponse,
+                        path,
+                        templateMatchedId
+                    )
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        JsHookDataManager.jsRequestMap.remove(requestBean.requestId)
+
+        return null
     }
 
 
@@ -216,7 +232,7 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
     }
 
     /**
-     * 注入js代码
+     * 注入hook js 哇共诺请求的代码
      */
     private fun injectJsHook(html: String?): String {
         //读取本地js hook 代码
@@ -226,6 +242,21 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
         val elements = doc.getElementsByTag("head")
         if (elements.size > 0) {
             elements[0].prepend(jsHook)
+        }
+        return doc.toString()
+    }
+
+    /**
+     * 注入 vConsole的代码
+     */
+    private fun injectVConsoleHook(html: String?): String {
+        //读取本地js hook 代码
+        val vconsoleHook = ResourceUtils.readAssets2String("dokit_js_vconsole_hook.html")
+        val doc = Jsoup.parse(html)
+        doc.outputSettings().prettyPrint(true)
+        val elements = doc.getElementsByTag("head")
+        if (elements.size > 0) {
+            elements[elements.size - 1].append(vconsoleHook)
         }
         return doc.toString()
     }

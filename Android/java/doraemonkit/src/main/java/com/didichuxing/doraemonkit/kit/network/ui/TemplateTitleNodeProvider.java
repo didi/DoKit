@@ -10,9 +10,9 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.network.bean.MockTemplateTitleBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
-import com.didichuxing.doraemonkit.widget.bravh.entity.node.BaseNode;
-import com.didichuxing.doraemonkit.widget.bravh.provider.BaseNodeProvider;
-import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder;
+import com.didichuxing.doraemonkit.widget.brvah.entity.node.BaseNode;
+import com.didichuxing.doraemonkit.widget.brvah.provider.BaseNodeProvider;
+import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder;
 
 
 /**

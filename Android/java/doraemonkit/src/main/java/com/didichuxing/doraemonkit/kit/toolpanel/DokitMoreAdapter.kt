@@ -3,8 +3,8 @@ package com.didichuxing.doraemonkit.kit.toolpanel
 import androidx.annotation.LayoutRes
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.toolpanel.bean.MorePageGroupBean
-import com.didichuxing.doraemonkit.widget.bravh.BaseSectionQuickAdapter
-import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
+import com.didichuxing.doraemonkit.widget.brvah.BaseSectionQuickAdapter
+import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder
 
 /**
  * ================================================

@@ -81,6 +81,9 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
      */
     private View mChildView;
 
+    /**
+     * 用来保存rootview的LayoutParams
+     */
     private DokitViewLayoutParams mDokitViewLayoutParams;
     /**
      * 上一次DoKitview的位置信息
@@ -167,6 +170,8 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
                     }
                 };
             }
+//            mRootView.setClipChildren(false);
+//            mRootView.setClipToPadding(false);
             //添加根布局的layout回调
             addViewTreeObserverListener();
 
@@ -796,5 +801,6 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
             mRootView.setLayoutParams(mFrameLayoutParams);
         }
     }
+
 
 }

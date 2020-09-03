@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.toolpanel.bean;
 
-import com.didichuxing.doraemonkit.widget.bravh.entity.JSectionEntity;
+import com.didichuxing.doraemonkit.widget.brvah.entity.JSectionEntity;
 
 import java.util.List;
 

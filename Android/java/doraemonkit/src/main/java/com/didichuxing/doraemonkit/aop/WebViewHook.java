@@ -7,6 +7,7 @@ import android.webkit.WebView;
 
 import androidx.webkit.WebViewCompat;
 
+import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.kit.h5_help.DokitJSI;
 import com.didichuxing.doraemonkit.kit.h5_help.DokitWebViewClient;
 import com.didichuxing.doraemonkit.util.LogHelper;
