@@ -3,17 +3,17 @@ package com.didichuxing.doraemondemo
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import com.tencent.smtt.sdk.WebView
+import com.tencent.smtt.sdk.WebViewClient
 
 /**
  * Created by wanglikun on 2018/11/13.
  */
-class WebViewActivity : AppCompatActivity() {
+class WebViewX5Activity : AppCompatActivity() {
     //private var mWebView: WebView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_webview)
+        setContentView(R.layout.activity_x5_webview)
         val mWebView = findViewById<WebView>(R.id.web_view)
         mWebView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {

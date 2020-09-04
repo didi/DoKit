@@ -105,6 +105,10 @@ ext {
                     "easypermissions"    : "pub.devrel:easypermissions:2.0.1",
                     //跨进程通信框架
                     "abridge"            : "com.sjtu.yifei:abridge:1.0.1",
+                    "jsoup"              : "org.jsoup:jsoup:1.13.1",
+                    "mimecraft"          : "com.squareup.mimecraft:mimecraft:1.1.1",
+                    //tencent x5 浏览器 https://x5.tencent.com/
+                    "tbs"                : "com.tencent.tbs.tbssdk:sdk:43903",
 //                    "swipeback"    : "me.imid.swipebacklayout.lib:library:1.1.0"
 
     ]

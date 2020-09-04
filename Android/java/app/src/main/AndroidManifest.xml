@@ -46,7 +46,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".WebViewActivity" />
+        <activity android:name=".WebViewNormalActivity" />
         <activity android:name=".SecondActivity" />
         <activity android:name=".LeakActivity" />
 
