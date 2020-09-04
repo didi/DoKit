@@ -10,20 +10,20 @@ import androidx.appcompat.app.AppCompatActivity
 /**
  * Created by wanglikun on 2018/11/13.
  */
-class WebViewActivity : AppCompatActivity() {
+class WebViewNormalActivity : AppCompatActivity() {
     val TAG = "WebViewActivity"
 //    val url = "file:///android_asset/dokit_index.html"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_webview)
-        val webView = findViewById<WebView>(R.id.web_view)
+        setContentView(R.layout.activity_normal_webview)
+        val webView = findViewById<WebView>(R.id.normal_web_view)
         initWebView(webView)
 //        webView.loadUrl("https://page-daily.kuaidadi.com/m/ddPage_0sTyVhyq.html")
 //        WebViewHook.inject(webView)
         //webView.loadUrl(url)
-        webView.loadUrl("file:///android_asset/dokit_index.html")
-//        webView.loadUrl("https://www.dokit.cn")
+//        webView.loadUrl("file:///android_asset/dokit_index.html")
+        webView.loadUrl("https://www.dokit.cn")
 //        webView.loadUrl("http://xingyun.xiaojukeji.com/docs/dokit/#/intro")
     }
 

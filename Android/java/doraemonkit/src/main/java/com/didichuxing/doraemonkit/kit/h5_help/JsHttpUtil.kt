@@ -104,7 +104,7 @@ internal object JsHttpUtil {
     /**
      * 返回null 即代表返回原来的数据
      */
-    fun matchedInterceptRule(
+    fun matchedNormalInterceptRule(
         url: HttpUrl,
         path: String,
         interceptMatchedId: String,
@@ -168,7 +168,7 @@ internal object JsHttpUtil {
             //判断新的response是否有数据
             return if (newResponse.body() != null) {
                 matchedTemplateRule(newResponse, path, templateMatchedId)
-                createWebResourceResponse(newResponse)
+                createNormalWebResourceResponse(newResponse)
             } else {
                 matchedTemplateRule(oldResponse, path, templateMatchedId)
                 null
@@ -178,8 +178,93 @@ internal object JsHttpUtil {
         return null
     }
 
-    private fun createWebResourceResponse(response: Response): WebResourceResponse {
+    private fun createNormalWebResourceResponse(response: Response): WebResourceResponse {
         return WebResourceResponse(
+            response.body()?.contentType().toString(),
+            "UTF-8",
+            ConvertUtils.string2InputStream(response.bodyContent(), "UTF-8")
+        )
+    }
+
+    /**
+     * 返回null 即代表返回原来的数据
+     */
+    fun matchedX5InterceptRule(
+        url: HttpUrl,
+        path: String,
+        interceptMatchedId: String,
+        templateMatchedId: String,
+        oldRequest: Request,
+        oldResponse: Response,
+        okHttpClient: OkHttpClient
+    ): com.tencent.smtt.export.external.interfaces.WebResourceResponse? {
+        //判断是否需要重定向数据接口
+        //http https
+
+        //判断是否需要重定向数据接口
+        //http https
+        val scheme = url.scheme()
+        val interceptApiBean = DokitDbManager.getInstance().getInterceptApiByIdInMap(
+            path,
+            interceptMatchedId,
+            DokitDbManager.FROM_SDK_OTHER
+        )
+        if (interceptApiBean == null) {
+            matchedTemplateRule(oldResponse, path, templateMatchedId)
+            return null
+        }
+
+        interceptApiBean as MockInterceptApiBean
+        val selectedSceneId = interceptApiBean.selectedSceneId
+        //开关是否被打开
+        //开关是否被打开
+        if (!interceptApiBean.isOpen) {
+            matchedTemplateRule(oldResponse, path, templateMatchedId)
+            return null
+        }
+
+        //判断是否有选中的场景
+
+        //判断是否有选中的场景
+        if (TextUtils.isEmpty(selectedSceneId)) {
+            matchedTemplateRule(oldResponse, path, templateMatchedId)
+            return null
+        }
+        val sb = StringBuilder()
+        val newUrl: String
+        newUrl = if (NetworkManager.MOCK_SCHEME_HTTP.contains(scheme.toLowerCase())) {
+            sb.append(NetworkManager.MOCK_SCHEME_HTTP).append(NetworkManager.MOCK_HOST)
+                .append("/api/app/scene/").append(selectedSceneId).toString()
+        } else {
+            sb.append(NetworkManager.MOCK_SCHEME_HTTPS).append(NetworkManager.MOCK_HOST)
+                .append("/api/app/scene/").append(selectedSceneId).toString()
+        }
+
+
+        val newRequest = Request.Builder()
+            .method("GET", null)
+            .url(newUrl).build()
+        //需要提前关闭数据流 不然在某些场景下会报错
+        oldResponse.close()
+        val newResponse: Response = okHttpClient.newCall(newRequest).execute()
+        if (newResponse.code() == 200) {
+            //拦截命中提示
+            ToastUtils.showShort("接口别名:==" + interceptApiBean.mockApiName + "==已被拦截")
+            //判断新的response是否有数据
+            return if (newResponse.body() != null) {
+                matchedTemplateRule(newResponse, path, templateMatchedId)
+                createX5WebResourceResponse(newResponse)
+            } else {
+                matchedTemplateRule(oldResponse, path, templateMatchedId)
+                null
+            }
+        }
+        matchedTemplateRule(oldResponse, path, templateMatchedId)
+        return null
+    }
+
+    private fun createX5WebResourceResponse(response: Response): com.tencent.smtt.export.external.interfaces.WebResourceResponse {
+        return com.tencent.smtt.export.external.interfaces.WebResourceResponse(
             response.body()?.contentType().toString(),
             "UTF-8",
             ConvertUtils.string2InputStream(response.bodyContent(), "UTF-8")

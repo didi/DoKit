@@ -45,7 +45,14 @@
             android:id="@+id/btn_webview"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="WebView"
+            android:text="NormalWebView"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/btn_x5_webview"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="X5WebView"
             android:textAllCaps="false" />
 
         <Button

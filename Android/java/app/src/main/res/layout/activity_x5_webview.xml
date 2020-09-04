@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.didichuxing.doraemondemo.WebViewActivity">
+    android:orientation="vertical"
+    tools:context="com.didichuxing.doraemondemo.WebViewX5Activity">
 
-    <WebView
-        android:id="@+id/web_view"
+    <com.tencent.smtt.sdk.WebView
+        android:id="@+id/x5_web_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

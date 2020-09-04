@@ -29,6 +29,11 @@ object DoKitExtUtil {
     var STACK_METHOD_LEVEL = 5
 
     /**
+     * 自定义webview全限定名
+     */
+    var WEBVIEW_CLASS_NAME: String = ""
+
+    /**
      * 慢函数默认关闭
      */
     var SLOW_METHOD_SWITCH = false
@@ -149,8 +154,8 @@ object DoKitExtUtil {
      * 白名单
      */
     private val whitePackageNames = arrayOf(
-            "com.didichuxing.doraemonkit.DoraemonKit",
-            "com.didichuxing.doraemonkit.DoraemonKitReal"
+        "com.didichuxing.doraemonkit.DoraemonKit",
+        "com.didichuxing.doraemonkit.DoraemonKitReal"
     )
 
 
@@ -158,14 +163,22 @@ object DoKitExtUtil {
      * 黑名单
      */
     private val blackPackageNames = arrayOf(
-            "com.didichuxing.doraemonkit.",
-            "kotlin.",
-            "java.",
-            "android.",
-            "androidx."
+        "com.didichuxing.doraemonkit.",
+        "kotlin.",
+        "java.",
+        "android.",
+        "androidx."
     )
 
-    fun log(tag: String, className: String, methodName: String, access: Int, desc: String, signature: String, thresholdTime: Int) {
+    fun log(
+        tag: String,
+        className: String,
+        methodName: String,
+        access: Int,
+        desc: String,
+        signature: String,
+        thresholdTime: Int
+    ) {
         if (DOKIT_LOG_SWITCH) {
             println("$tag===matched====>  className===$className   methodName===$methodName   access===$access   desc===$desc   signature===$signature    thresholdTime===$thresholdTime")
         }

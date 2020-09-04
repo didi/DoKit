@@ -47,6 +47,7 @@ class H5DokitView : AbsDokitView() {
     private lateinit var mRvLocal: RecyclerView
     private lateinit var mRvSession: RecyclerView
     private lateinit var mRvWrap: LinearLayout
+    private lateinit var mMoreWrap: RelativeLayout
     private lateinit var mHolder: TextView
     private lateinit var mLocalAdapter: LocalStorageAdapter
     private lateinit var mSessionAdapter: LocalStorageAdapter
@@ -103,6 +104,7 @@ class H5DokitView : AbsDokitView() {
             }
 
             mRvWrap = it.findViewById(R.id.ll_rv_wrap)
+            mMoreWrap = it.findViewById(R.id.rl_more_wrap)
             mHolder = it.findViewById(R.id.tv_holder)
             mHolder.text = "更多"
             mHolder.setOnClickListener {
@@ -156,8 +158,10 @@ class H5DokitView : AbsDokitView() {
         val webView = performTraverseView()
         if (webView == null) {
             mTvLink.text = "当前页面不存在WebView"
+            mMoreWrap.visibility = View.GONE
         } else {
             mTvLink.text = webView.url
+            mMoreWrap.visibility = View.VISIBLE
         }
         mJsCheckBox.isChecked = DokitConstant.H5_JS_INJECT
         invalidate()
@@ -215,7 +219,7 @@ class H5DokitView : AbsDokitView() {
         normalLayoutParams?.let {
             it.width = ConvertUtils.dp2px(300.0f)
             if (isOpen) {
-                it.height = ConvertUtils.dp2px(600.0f)
+                it.height = ConvertUtils.dp2px(650.0f)
             } else {
                 it.height = DokitViewLayoutParams.WRAP_CONTENT
             }

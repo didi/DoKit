@@ -2,11 +2,9 @@ package com.didichuxing.doraemonkit.kit.h5_help
 
 import android.app.Activity
 import android.graphics.Bitmap
-import android.net.http.SslError
 import android.os.Build
 import android.os.Message
 import android.view.KeyEvent
-import android.webkit.*
 import androidx.annotation.RequiresApi
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ResourceUtils
@@ -18,6 +16,10 @@ import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.okgo.DokitOkGo
 import com.didichuxing.doraemonkit.util.LogHelper
+import com.tencent.smtt.export.external.interfaces.*
+import com.tencent.smtt.sdk.MimeTypeMap
+import com.tencent.smtt.sdk.WebView
+import com.tencent.smtt.sdk.WebViewClient
 import okhttp3.*
 import org.jsoup.Jsoup
 import java.net.URLDecoder
@@ -31,7 +33,7 @@ import java.net.URLDecoder
  * 修订历史：
  * ================================================
  */
-class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
+class DokitX5WebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
 
     private val TAG = "DokitWebViewClient"
     private val mWebViewClient: WebViewClient? = webViewClient
@@ -88,7 +90,6 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                 }
 
                 val response = DokitOkGo.get<String>(url).execute()
-
                 //注入本地网络拦截js
                 var newHtml = if (DokitConstant.H5_JS_INJECT) {
                     injectJsHook(response.body()?.string())
@@ -192,7 +193,7 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                 //是否命中拦截规则
                 if (!interceptMatchedId.isNullOrBlank()) {
                     JsHookDataManager.jsRequestMap.remove(requestBean.requestId)
-                    return JsHttpUtil.matchedNormalInterceptRule(
+                    return JsHttpUtil.matchedX5InterceptRule(
                         httpUrl,
                         path,
                         interceptMatchedId,
@@ -388,12 +389,6 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
         super.doUpdateVisitedHistory(view, url, isReload)
     }
 
-    override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onReceivedSslError(view, handler, error)
-        }
-        super.onReceivedSslError(view, handler, error)
-    }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onReceivedClientCertRequest(view: WebView?, request: ClientCertRequest?) {
@@ -448,26 +443,23 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
         super.onReceivedLoginRequest(view, realm, account, args)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onRenderProcessGone(view: WebView?, detail: RenderProcessGoneDetail?): Boolean {
-        if (mWebViewClient != null) {
-            return mWebViewClient.onRenderProcessGone(view, detail)
-        }
-        return super.onRenderProcessGone(view, detail)
-    }
 
-    @RequiresApi(Build.VERSION_CODES.O_MR1)
-    override fun onSafeBrowsingHit(
-        view: WebView?,
-        request: WebResourceRequest?,
-        threatType: Int,
-        callback: SafeBrowsingResponse?
+    override fun onReceivedSslError(
+        p0: WebView?,
+        p1: SslErrorHandler?,
+        p2: com.tencent.smtt.export.external.interfaces.SslError?
     ) {
+
         if (mWebViewClient != null) {
-            return mWebViewClient.onSafeBrowsingHit(view, request, threatType, callback)
+            return mWebViewClient.onReceivedSslError(p0, p1, p2)
         }
-        super.onSafeBrowsingHit(view, request, threatType, callback)
+        super.onReceivedSslError(p0, p1, p2)
     }
 
-
+    override fun onDetectedBlankScreen(p0: String?, p1: Int) {
+        if (mWebViewClient != null) {
+            return mWebViewClient.onDetectedBlankScreen(p0, p1)
+        }
+        super.onDetectedBlankScreen(p0, p1)
+    }
 }

@@ -146,6 +146,8 @@ dependencies {
 //    debugImplementation rootProject.ext.dependencies["leakcanary-android"]
     //百度地图定位
     implementation files('libs/BaiduLBS_Android.jar')
+    //腾讯x5
+    implementation rootProject.ext.dependencies["tbs"]
 //    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.12'
 
 }

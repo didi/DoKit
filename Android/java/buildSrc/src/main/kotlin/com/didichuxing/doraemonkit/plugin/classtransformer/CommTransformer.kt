@@ -155,15 +155,16 @@ class CommTransformer : ClassTransformer {
 
             //webView 字节码操作
             if (DoKitExtUtil.commExt.webViewSwitch) {
+                //普通的webview
                 klass.methods.forEach { method ->
                     method.instructions?.iterator()?.asIterable()
                         ?.filterIsInstance(MethodInsnNode::class.java)?.filter {
                             it.opcode == INVOKEVIRTUAL &&
-                                    it.owner == "android/webkit/WebView" &&
                                     it.name == "loadUrl" &&
-                                    it.desc == "(Ljava/lang/String;)V"
+                                    it.desc == "(Ljava/lang/String;)V" &&
+                                    isWebViewOwnerNameMatched(it.owner)
                         }?.forEach {
-                            "${context.projectDir.lastPath()}->hook WebView#loadurl method  succeed in :  ${className}_${method.name}_${method.desc}".println()
+                            "${context.projectDir.lastPath()}->hook WebView#loadurl method  succeed in :  ${className}_${method.name}_${method.desc} | ${it.owner}".println()
                             method.instructions.insertBefore(
                                 it,
                                 createWebViewInsnList()
@@ -171,7 +172,6 @@ class CommTransformer : ClassTransformer {
                         }
                 }
             }
-
 
             // url connection
             klass.methods.forEach { method ->
@@ -193,6 +193,13 @@ class CommTransformer : ClassTransformer {
         }
 
         return klass
+    }
+
+    private fun isWebViewOwnerNameMatched(ownerName: String): Boolean {
+        return ownerName == "android/webkit/WebView" ||
+                ownerName == "com/tencent/smtt/sdk/WebView" ||
+                ownerName.contentEquals("WebView") ||
+                ownerName == DoKitExtUtil.WEBVIEW_CLASS_NAME
     }
 
 
@@ -647,7 +654,7 @@ class CommTransformer : ClassTransformer {
                     INVOKESTATIC,
                     "com/didichuxing/doraemonkit/aop/WebViewHook",
                     "inject",
-                    "(Landroid/webkit/WebView;)V",
+                    "(Ljava/lang/Object;)V",
                     false
                 )
             )
