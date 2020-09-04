@@ -60,12 +60,12 @@ public class NetworkManager {
      * 线上环境
      * app 启动数据埋点
      */
-//    public static final String APP_START_DATA_PICK_URL = "https://doraemon.xiaojukeji.com/uploadAppData";
+    public static final String APP_START_DATA_PICK_URL = "https://doraemon.xiaojukeji.com/uploadAppData";
 
     /**
      * 测试环境
      */
-    public static final String APP_START_DATA_PICK_URL = "http://dokit-test.intra.xiaojukeji.com/uploadAppData";
+    //public static final String APP_START_DATA_PICK_URL = "http://dokit-test.intra.xiaojukeji.com/uploadAppData";
 
     /**
      * dokit 更多页面接口请求
