@@ -137,7 +137,7 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                         }
 
                         // web 数据mock
-                        return dealMock(requestBean, url)
+                        return dealMock(requestBean, url, view, request)
                     }
 
                 } else {
@@ -155,7 +155,9 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
      */
     private fun dealMock(
         requestBean: JsRequestBean,
-        url: HttpUrl?
+        url: HttpUrl?,
+        view: WebView?,
+        request: WebResourceRequest?
     ): WebResourceResponse? {
         url?.let { httpUrl ->
             try {
@@ -185,6 +187,12 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                         DokitDbManager.MOCK_API_TEMPLATE,
                         DokitDbManager.FROM_SDK_OTHER
                     )
+
+                //如果interceptMatchedId和templateMatchedId都为null 直接不进行操作
+                if (interceptMatchedId.isNullOrBlank() && templateMatchedId.isNullOrBlank()) {
+                    return super.shouldInterceptRequest(view, request)
+                }
+
                 val newRequest: Request =
                     JsHttpUtil.createOkHttpRequest(requestBean)
                 //发送模拟请求
@@ -218,7 +226,7 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
         }
         JsHookDataManager.jsRequestMap.remove(requestBean.requestId)
 
-        return null
+        return super.shouldInterceptRequest(view, request)
     }
 
 
