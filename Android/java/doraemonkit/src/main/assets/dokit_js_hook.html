@@ -1,0 +1,94 @@
+<script type="text/javascript">
+    function generateRandom() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    var requestID = null;
+    //hook XMLHttpRequest open method
+    XMLHttpRequest.prototype.reallyOpen = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
+        //console.log(url)
+        requestID = generateRandom();
+        var hasQuery = url.split("?")[1];
+        var urlWrap = null;
+        if(hasQuery){
+            urlWrap = url + "&" + "dokit_flag=" + requestID
+        }else{
+            urlWrap = url + "?" + "dokit_flag=" + requestID
+        }
+        //console.log(urlWrap)
+        dokitJsi.open(requestID,urlWrap,method,window.location.origin);
+        this.reallyOpen(method, urlWrap, async, user, password);
+    };
+
+    //hook XMLHttpRequest setRequestHeader method
+    XMLHttpRequest.prototype.reallySetRequestHeader = XMLHttpRequest.prototype.setRequestHeader;
+    XMLHttpRequest.prototype.setRequestHeader = function(header, value) {
+        console.log(header,value)
+        dokitJsi.setRequestHeader(requestID,header,value);
+        this.reallySetRequestHeader(header, value);
+    };
+
+    //hook XMLHttpRequest overrideMimeType method
+    XMLHttpRequest.prototype.reallyOverrideMimeType = XMLHttpRequest.prototype.overrideMimeType;
+    XMLHttpRequest.prototype.overrideMimeType = function(mimeType) {
+        dokitJsi.overrideMimeType(requestID,mimeType);
+        this.reallyOverrideMimeType(mimeType);
+    };
+
+    //hook XMLHttpRequest send method
+    XMLHttpRequest.prototype.reallySend = XMLHttpRequest.prototype.send;
+    XMLHttpRequest.prototype.send = function(body) {
+        dokitJsi.send(requestID,body);
+        //console.log(body)
+        this.reallySend(body);
+    };
+
+    //hook Storage
+    //保存一个值
+    Storage.prototype.reallySetItem = Storage.prototype.setItem;
+    Storage.prototype.setItem = function(key,value) {
+        if(this === localStorage){
+            dokitJsi.localStorageSetItem(key,value);
+        }else if(this === sessionStorage){
+            dokitJsi.sessionStorageSetItem(key,value);
+        }
+        this.reallySetItem(key,value);
+    };
+
+    //移除一个值
+    Storage.prototype.reallyRemoveItem = Storage.prototype.removeItem;
+    Storage.prototype.removeItem = function(key) {
+        if(this === localStorage){
+            dokitJsi.localStorageRemoveItem(key);
+        }else if(this === sessionStorage){
+            dokitJsi.sessionStorageRemoveItem(key,value);
+        }
+
+        this.reallyRemoveItem(key);
+    };
+
+    //清空
+    Storage.prototype.reallyClear = Storage.prototype.clear;
+    Storage.clear = function() {
+        if(this === localStorage){
+            dokitJsi.localStorageClear();
+        }else if(this === sessionStorage){
+            dokitJsi.sessionStorageClear(key,value);
+        }
+
+        this.reallyClear();
+    };
+
+    //遍历并输出localStorage里存储的名字和值
+    for(var i=0; i<localStorage.length;i++){
+        dokitJsi.localStorageSetItem(localStorage.key(i),localStorage.getItem(localStorage.key(i)));
+    }
+
+    //遍历并输出sessionStorage里存储的名字和值
+    for(var i=0; i<sessionStorage.length;i++){
+        dokitJsi.sessionStorageSetItem(sessionStorage.key(i),sessionStorage.getItem(sessionStorage.key(i)));
+    }
+
+    </script>

@@ -47,6 +47,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".WebViewNormalActivity" />
+        <activity android:name=".WebViewX5Activity" />
         <activity android:name=".SecondActivity" />
         <activity android:name=".LeakActivity" />
 

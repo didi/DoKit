@@ -28,7 +28,7 @@ class DokitManagerAdapter(kitViews: MutableList<KitWrapItem>?)
     override fun convert(holder: BaseViewHolder, item: KitWrapItem) {
         when (item.itemType) {
             KitWrapItem.TYPE_TITLE -> {
-                item.name?.let {
+                item.name.let {
                     holder.getView<TextView>(R.id.tv_title_name).text = it
                 }
             }

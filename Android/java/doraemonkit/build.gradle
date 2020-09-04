@@ -64,7 +64,7 @@ dependencies {
     implementation rootProject.ext.dependencies["cardview"]
     implementation rootProject.ext.dependencies["recyclerview"]
     implementation rootProject.ext.dependencies["kotlin"]
-
+//    implementation rootProject.ext.dependencies["webkit"]
     implementation rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]
     //函数耗时
@@ -82,6 +82,8 @@ dependencies {
     //ktor
     implementation rootProject.ext.dependencies["ktor-core"]
     implementation rootProject.ext.dependencies["ktor-cio"]
+    implementation rootProject.ext.dependencies["jsoup"]
+//    implementation rootProject.ext.dependencies["mimecraft"]
     //会合滴滴内部的spi-plugin冲突
 //    implementation rootProject.ext.dependencies["ktor-serialization"]
 //    implementation rootProject.ext.dependencies["ktor-gson"]
@@ -93,6 +95,8 @@ dependencies {
     compileOnly rootProject.ext.dependencies["picasso"]
     compileOnly rootProject.ext.dependencies["fresco"]
     compileOnly rootProject.ext.dependencies["image-loader"]
+    //腾讯x5
+    compileOnly rootProject.ext.dependencies["tbs"]
 
     //高德地图定位
     compileOnly rootProject.ext.dependencies["amap_location"]
@@ -100,6 +104,7 @@ dependencies {
     compileOnly rootProject.ext.dependencies["tencent_location"]
     //百度地图定位
     compileOnly files('libs/BaiduLBS_Android.jar')
+
 }
 
 configurations.all {

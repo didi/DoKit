@@ -76,9 +76,10 @@ public class NetworkInterpreter {
         return new InputStreamProxy(availableInputStream, responseHandler);
     }
 
-    public NetworkRecord createRecord(int requestId, NetworkInterpreter.InspectorRequest request) {
+    public NetworkRecord createRecord(int requestId, String platform, NetworkInterpreter.InspectorRequest request) {
         NetworkRecord record = new NetworkRecord();
         record.mRequestId = requestId;
+        record.mPlatform = platform;
         fetchRequestInfo(record, request);
         NetworkManager.get().addRecord(requestId, record);
         return record;

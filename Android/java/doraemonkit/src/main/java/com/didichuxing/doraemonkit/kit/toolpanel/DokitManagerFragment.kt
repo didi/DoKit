@@ -343,7 +343,7 @@ class DokitManagerFragment : BaseFragment() {
         }
 
 
-        mAdapter.setOnItemClickListener { adapter, view, position ->
+        mAdapter.setOnItemClickListener { _, _, position ->
             if (IS_EDIT) {
                 val multiKitItem = mKits[position]
                 if (multiKitItem.itemType == KitWrapItem.TYPE_KIT) {

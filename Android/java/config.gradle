@@ -40,6 +40,8 @@ ext {
                     "recyclerview"       : "com.android.support:recyclerview-v7:${android["suppotrSdkVersion"]}",
                     "design"             : "com.android.support:design:${android["suppotrSdkVersion"]}",
                     "gridlayout"         : "com.android.support:gridlayout-v7:${android["suppotrSdkVersion"]}",
+
+                    "webkit"             : "com.android.support:webkit:${android["suppotrSdkVersion"]}",
                     //constraintLayout
                     "constraintLayout"   : 'com.android.support.constraint:constraint-layout:1.1.3',
                     "kotlin"             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${android["kotlin_version"]}",
