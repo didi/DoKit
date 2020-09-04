@@ -64,7 +64,8 @@ dependencies {
     implementation rootProject.ext.dependencies["cardview"]
     implementation rootProject.ext.dependencies["recyclerview"]
     implementation rootProject.ext.dependencies["kotlin"]
-//    implementation rootProject.ext.dependencies["webkit"]
+    implementation rootProject.ext.dependencies["coroutines-core"]
+    implementation rootProject.ext.dependencies["coroutines-android"]
     implementation rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]
     //函数耗时
