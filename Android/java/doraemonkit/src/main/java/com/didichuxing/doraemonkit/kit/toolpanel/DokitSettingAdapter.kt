@@ -2,8 +2,8 @@ package com.didichuxing.doraemonkit.kit.toolpanel
 
 import android.widget.TextView
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.widget.bravh.BaseQuickAdapter
-import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
+import com.didichuxing.doraemonkit.widget.brvah.BaseQuickAdapter
+import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder
 
 /**
  * ================================================

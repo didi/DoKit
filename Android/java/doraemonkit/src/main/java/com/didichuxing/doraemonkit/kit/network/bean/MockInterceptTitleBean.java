@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit.kit.network.bean;
 
 
-import com.didichuxing.doraemonkit.widget.bravh.entity.node.BaseExpandNode;
-import com.didichuxing.doraemonkit.widget.bravh.entity.node.BaseNode;
+import com.didichuxing.doraemonkit.widget.brvah.entity.node.BaseExpandNode;
+import com.didichuxing.doraemonkit.widget.brvah.entity.node.BaseNode;
 
 import java.util.List;
 

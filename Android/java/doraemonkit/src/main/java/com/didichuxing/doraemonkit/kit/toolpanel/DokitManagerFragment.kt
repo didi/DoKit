@@ -18,8 +18,8 @@ import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.decoration.HorizontalDividerItemDecoration
 import com.didichuxing.doraemonkit.kit.toolpanel.decoration.VerticalDividerItemDecoration
 import com.didichuxing.doraemonkit.util.DokitUtil
-import com.didichuxing.doraemonkit.widget.bravh.listener.OnItemDragListener
-import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
+import com.didichuxing.doraemonkit.widget.brvah.listener.OnItemDragListener
+import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder
 import com.didichuxing.doraemonkit.widget.dialog.SimpleDialogListener
 import kotlinx.android.synthetic.main.dk_fragment_kit_manager.*
 
