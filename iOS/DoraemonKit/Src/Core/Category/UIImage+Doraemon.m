@@ -22,10 +22,8 @@
         CGFloat scale = [UIScreen mainScreen].scale;
         if (ABS(scale-3) <= 0.001){
             imageName = [NSString stringWithFormat:@"%@@3x",name];
-        }else if(ABS(scale-2) <= 0.001){
-            imageName = [NSString stringWithFormat:@"%@@2x",name];
         }else{
-            imageName = name;
+            imageName = [NSString stringWithFormat:@"%@@2x",name];
         }
         UIImage *image = [UIImage imageWithContentsOfFile:[imageBundle pathForResource:imageName ofType:@"png"]];
         if (!image) {
