@@ -19,7 +19,7 @@
     self.layer.cornerRadius = self.doraemon_width / 2.0;
     self.layer.masksToBounds = YES;
     
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage doraemon_imageNamed:@"doraemon_visual"]];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_visual"]];
     imageView.frame = self.bounds;
     [self addSubview:imageView];
 //    self.layer.borderColor = [UIColor blackColor].CGColor;

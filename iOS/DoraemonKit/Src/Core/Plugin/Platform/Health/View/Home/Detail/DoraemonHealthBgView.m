@@ -22,7 +22,7 @@
         CGFloat bg_x = kDoraemonSizeFrom750_Landscape(98);
         CGFloat bg_width = self.doraemon_width - bg_x * 2;
         _bgImgView = [[UIImageView alloc] initWithFrame:CGRectMake(bg_x,kDoraemonSizeFrom750_Landscape(89), bg_width, bg_width*16/9)];
-        [_bgImgView setImage:[UIImage doraemon_imageNamed:@"doraemon_health_bg"]];
+        [_bgImgView setImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_health_bg"]];
         [self addSubview:_bgImgView];
         self.userInteractionEnabled = NO;
         [self sendSubviewToBack:_bgImgView];

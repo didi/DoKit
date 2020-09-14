@@ -1,4 +1,4 @@
-platform:ios,’8.0’
+platform:ios,’9.0’
 #use_frameworks!
 #inhibit_all_warnings! #消除第三方仓库的警告
 # 新版本采用trunk模式，无需clone庞大的master

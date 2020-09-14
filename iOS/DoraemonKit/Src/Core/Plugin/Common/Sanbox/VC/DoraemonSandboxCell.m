@@ -51,7 +51,7 @@
     }else{
         iconName = @"doraemon_file_2";
     }
-    self.fileTypeIcon.image = [UIImage doraemon_imageNamed:iconName];
+    self.fileTypeIcon.image = [UIImage doraemon_xcassetImageNamed:iconName];
     [self.fileTypeIcon sizeToFit];
     self.fileTypeIcon.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(32), [[self class] cellHeight]/2-self.fileTypeIcon.doraemon_height/2, self.fileTypeIcon.doraemon_width, self.fileTypeIcon.doraemon_height);
     
