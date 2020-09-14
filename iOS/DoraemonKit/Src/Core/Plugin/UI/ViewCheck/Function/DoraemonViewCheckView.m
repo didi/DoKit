@@ -36,7 +36,7 @@ static CGFloat const kViewCheckSize = 62;
         self.layer.zPosition = FLT_MAX;
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:self.bounds];
-        imageView.image = [UIImage doraemon_imageNamed:@"doraemon_visual"];
+        imageView.image = [UIImage doraemon_xcassetImageNamed:@"doraemon_visual"];
         [self addSubview:imageView];
         
         _arrViewHit = [[NSMutableArray alloc] initWithCapacity:30];

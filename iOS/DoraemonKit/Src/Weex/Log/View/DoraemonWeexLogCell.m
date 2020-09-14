@@ -27,7 +27,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         _arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750(27), [[self class] cellHeightWith:nil]/2-kDoraemonSizeFrom750(25)/2, kDoraemonSizeFrom750(25), kDoraemonSizeFrom750(25))];
-        _arrowImageView.image = [UIImage doraemon_imageNamed:@"doraemon_expand_no"];
+        _arrowImageView.image = [UIImage doraemon_xcassetImageNamed:@"doraemon_expand_no"];
         _arrowImageView.contentMode = UIViewContentModeCenter;
         [self.contentView addSubview:_arrowImageView];
         
@@ -51,12 +51,12 @@
         CGSize size = [_logLabel sizeThatFits:CGSizeMake(DoraemonScreenWidth-kDoraemonSizeFrom750(32)*2-kDoraemonSizeFrom750(25)-kDoraemonSizeFrom750(12)*2, MAXFLOAT)];
         _logLabel.frame = CGRectMake(_arrowImageView.doraemon_right+kDoraemonSizeFrom750(12), [[self class] cellHeightWith:model]/2-size.height/2, size.width, size.height);
         
-        _arrowImageView.image = [UIImage doraemon_imageNamed:@"doraemon_expand"];
+        _arrowImageView.image = [UIImage doraemon_xcassetImageNamed:@"doraemon_expand"];
     }else{
         _logLabel.numberOfLines = 1;
         _logLabel.text = model.content;
         _logLabel.frame = CGRectMake(_arrowImageView.doraemon_right+kDoraemonSizeFrom750(12), [[self class] cellHeightWith:model]/2-kDoraemonSizeFrom750(34)/2,DoraemonScreenWidth-kDoraemonSizeFrom750(32)*2-kDoraemonSizeFrom750(25)-kDoraemonSizeFrom750(12)*2 , kDoraemonSizeFrom750(34));
-        _arrowImageView.image = [UIImage doraemon_imageNamed:@"doraemon_expand_no"];
+        _arrowImageView.image = [UIImage doraemon_xcassetImageNamed:@"doraemon_expand_no"];
     }
 }
 
