@@ -191,6 +191,9 @@
 - (GCDWebServerResponse *)deleteRow:(GCDWebServerDataRequest *)request {
     NSDictionary *data = [NSJSONSerialization JSONObjectWithData:request.data options:0 error:nil];
     NSString *dirPath = data[@"dirPath"];
+    if ([dirPath hasPrefix:@"/root"]) {
+        dirPath = [dirPath substringFromIndex:5];
+    }
     NSString *fileName = data[@"fileName"];
     NSString *tableName = data[@"tableName"];
     NSArray *rowDatas = data[@"rowDatas"];
@@ -241,6 +244,9 @@
 - (GCDWebServerResponse *)updateRow:(GCDWebServerDataRequest *)request {
     NSDictionary *data = [NSJSONSerialization JSONObjectWithData:request.data options:0 error:nil];
     NSString *dirPath = data[@"dirPath"];
+    if ([dirPath hasPrefix:@"/root"]) {
+        dirPath = [dirPath substringFromIndex:5];
+    }
     NSString *fileName = data[@"fileName"];
     NSString *tableName = data[@"tableName"];
     NSArray *rowDatas = data[@"rowDatas"];
@@ -305,6 +311,9 @@
 - (GCDWebServerResponse *)getTableData:(GCDWebServerRequest *)request {
     NSDictionary *query = request.query;
     NSString *dirPath = query[@"dirPath"];
+    if ([dirPath hasPrefix:@"/root"]) {
+        dirPath = [dirPath substringFromIndex:5];
+    }
     NSString *fileName = query[@"fileName"];
     NSString *tableName = query[@"tableName"];
     NSString *rootPath = NSHomeDirectory();
@@ -351,6 +360,9 @@
 - (GCDWebServerResponse *)insertRow:(GCDWebServerDataRequest *)request {
     NSDictionary *data = [NSJSONSerialization JSONObjectWithData:request.data options:0 error:nil];
     NSString *dirPath = data[@"dirPath"];
+    if ([dirPath hasPrefix:@"/root"]) {
+        dirPath = [dirPath substringFromIndex:5];
+    }
     NSString *fileName = data[@"fileName"];
     NSString *tableName = data[@"tableName"];
     NSArray *rowDatas = data[@"rowDatas"];
@@ -390,23 +402,17 @@
              tableName(key_1,key_2,key_3)
              VALUES
              (value_1,value_2,value_3),
-             (value_4,value_5,value_6);
              */
             [rowDatas enumerateObjectsUsingBlock:^(NSDictionary *  _Nonnull data, NSUInteger idx, BOOL * _Nonnull stop) {
-                NSMutableArray *arr = @[].mutableCopy;
-                [colArr enumerateObjectsUsingBlock:^(NSString *  _Nonnull colName, NSUInteger idx, BOOL * _Nonnull stop) {
-                    id value = data[colName] != nil ? data[colName] : @"NULL";
-                    if ([value isKindOfClass:[NSString class]] && ![value isEqualToString:@"NULL"]) {
-                        value = [NSString stringWithFormat:@"'%@'", value];
-                    }
-                    [arr addObject:value];
-                }];
-                NSString *values = [arr componentsJoinedByString:@","];
-                [allValues addObject:[NSString stringWithFormat:@"(%@)", values]];
+                id value = data[@"value"] ? : @"NULL";
+                if ([value isKindOfClass:[NSString class]] && ![value isEqualToString:@"NULL"]) {
+                    value = [NSString stringWithFormat:@"'%@'", value];
+                }
+                [allValues addObject:value];
             }];
         }
         
-        NSString *allValuesStr = [allValues componentsJoinedByString:@","];
+        NSString *allValuesStr = [NSString stringWithFormat:@"(%@)", [allValues componentsJoinedByString:@","]];
         [sql appendString:allValuesStr];
         [sql appendString:@";"];
         
@@ -427,6 +433,9 @@
 - (GCDWebServerResponse *)getAllTable:(GCDWebServerRequest *)request {
     NSDictionary *query = request.query;
     NSString *dirPath = query[@"dirPath"];
+    if ([dirPath hasPrefix:@"/root"]) {
+        dirPath = [dirPath substringFromIndex:5];
+    }
     NSString *fileName = query[@"fileName"];
     NSString *rootPath = NSHomeDirectory();
     NSString *targetPath = [NSString stringWithFormat:@"%@%@%@", rootPath, dirPath, fileName];
@@ -463,6 +472,9 @@
 - (GCDWebServerResponse *)saveFile:(GCDWebServerDataRequest *)request {
     NSDictionary *data = [NSJSONSerialization JSONObjectWithData:request.data options:0 error:nil];
     NSString *dirPath = data[@"dirPath"];
+    if ([dirPath hasPrefix:@"/root"]) {
+        dirPath = [dirPath substringFromIndex:5];
+    }
     NSString *fileName = data[@"fileName"];
     NSString *content = data[@"content"];
     NSString *rootPath = NSHomeDirectory();
@@ -485,6 +497,9 @@
 - (GCDWebServerResponse *)deleteFile:(GCDWebServerDataRequest *)request {
     NSDictionary *data = [NSJSONSerialization JSONObjectWithData:request.data options:0 error:nil];
     NSString *dirPath = data[@"dirPath"];
+    if ([dirPath hasPrefix:@"/root"]) {
+        dirPath = [dirPath substringFromIndex:5];
+    }
     NSString *fileName = data[@"fileName"];
     NSString *rootPath = NSHomeDirectory();
     NSString *targetPath = [NSString stringWithFormat:@"%@%@%@", rootPath, dirPath, fileName];
@@ -507,6 +522,9 @@
 - (GCDWebServerResponse *)rename:(GCDWebServerDataRequest *)request {
     NSDictionary *data = [NSJSONSerialization JSONObjectWithData:request.data options:0 error:nil];
     NSString *dirPath = data[@"dirPath"];
+    if ([dirPath hasPrefix:@"/root"]) {
+        dirPath = [dirPath substringFromIndex:5];
+    }
     NSString *oldName = data[@"oldName"];
     NSString *newName = data[@"newName"];
     NSString *rootPath = NSHomeDirectory();
@@ -545,8 +563,12 @@
     
     NSDictionary *query = request.query;
     NSString *dirPath = query[@"dirPath"];
+    NSString *realDirPath = dirPath;
+    if ([realDirPath hasPrefix:@"/root"]) {
+        realDirPath = [realDirPath substringFromIndex:5];
+    }
     NSString *rootPath = NSHomeDirectory();
-    NSString *targetPath = [NSString stringWithFormat:@"%@%@",rootPath,dirPath];
+    NSString *targetPath = [NSString stringWithFormat:@"%@%@",rootPath,realDirPath];
     
     NSMutableArray *files = @[].mutableCopy;
        NSError *error = nil;
@@ -589,6 +611,9 @@
 - (GCDWebServerResponse*)uploadFile:(GCDWebServerMultiPartFormRequest*)request{
     GCDWebServerMultiPartFile *file = [request firstFileForControlName:@"file"];
     NSString *dirPath = [[request firstArgumentForControlName:@"dirPath"] string];
+    if ([dirPath hasPrefix:@"/root"]) {
+        dirPath = [dirPath substringFromIndex:5];
+    }
     NSString *rootPath = NSHomeDirectory();
     NSString *targetPath = [NSString stringWithFormat:@"%@%@%@", rootPath, dirPath, file.fileName];
     NSError *error = nil;
@@ -614,6 +639,9 @@
 - (GCDWebServerResponse *)downloadFile:(GCDWebServerRequest *)request{
     NSString *rootPath = NSHomeDirectory();
     NSString *dirPath = [[request query] objectForKey:@"dirPath"];
+    if ([dirPath hasPrefix:@"/root"]) {
+        dirPath = [dirPath substringFromIndex:5];
+    }
     NSString *fileName = [[request query] objectForKey:@"fileName"];
     NSString *targetPath = [NSString stringWithFormat:@"%@%@%@",rootPath,dirPath,fileName];
     
@@ -635,12 +663,16 @@
 - (GCDWebServerResponse *)createFolder:(GCDWebServerDataRequest *)request{
     NSDictionary *data = [NSJSONSerialization JSONObjectWithData:request.data options:0 error:nil];
     NSString *dirPath = data[@"dirPath"];
+    if ([dirPath hasPrefix:@"/root"]) {
+        dirPath = [dirPath substringFromIndex:5];
+    }
     NSString *fileName = data[@"fileName"];
     NSString *rootPath = NSHomeDirectory();
     NSString *targetPath = [NSString stringWithFormat:@"%@%@%@",rootPath,dirPath,fileName];
+    NSError *error;
     
     NSDictionary *res;
-    if (![[NSFileManager defaultManager] createDirectoryAtPath:targetPath withIntermediateDirectories:YES attributes:nil error:nil]) {
+    if (![[NSFileManager defaultManager] createDirectoryAtPath:targetPath withIntermediateDirectories:YES attributes:nil error:&error]) {
         NSLog(@"Failed creating directory \"%@\"", targetPath);
         res = [self getCode:0 data:nil];
     } else {
@@ -655,6 +687,9 @@
 - (GCDWebServerResponse *)getFileDetail:(GCDWebServerRequest *)request{
     NSString *rootPath = NSHomeDirectory();
     NSString *dirPath = [[request query] objectForKey:@"dirPath"];
+    if ([dirPath hasPrefix:@"/root"]) {
+        dirPath = [dirPath substringFromIndex:5];
+    }
     NSString *fileName = [[request query] objectForKey:@"fileName"];
     NSString *targetPath = [NSString stringWithFormat:@"%@%@%@",rootPath,dirPath,fileName];
     
