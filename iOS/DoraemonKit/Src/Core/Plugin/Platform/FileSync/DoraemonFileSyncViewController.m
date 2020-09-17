@@ -28,7 +28,7 @@
     self.title = DoraemonLocalizedString(@"文件同步");
     
     _bannerImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, kDoraemonSizeFrom750_Landscape(422))];
-    _bannerImage.image = [UIImage doraemon_imageNamed:@"doraemon_file_sync_banner"];
+    _bannerImage.image = [UIImage doraemon_xcassetImageNamed:@"doraemon_file_sync_banner"];
     [self.view addSubview:_bannerImage];
     
     _ctrlBtn = [[UIButton alloc] init];
