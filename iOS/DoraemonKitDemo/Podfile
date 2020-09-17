@@ -3,7 +3,7 @@ platform:ios,’9.0’
 #use_frameworks!
 #inhibit_all_warnings! #消除第三方仓库的警告
 # 新版本采用trunk模式，无需clone庞大的master
-# source 'git@github.com:CocoaPods/Specs.git'
+#source 'https://github.com/CocoaPods/Specs.git'
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
@@ -22,6 +22,7 @@ target :'DoraemonKitDemo' do
   pod 'DoraemonKit', :subspecs => ['Core','WithLogger','WithGPS','WithLoad','WithDatabase', 'WithMLeaksFinder','WithWeex'], :path => '../../'
   pod 'AFNetworking','2.6.3'
   pod 'SDWebImage'
+  pod 'SocketRocket', '~> 0.5'
   pod 'SDWebImageWebPCoder'
   pod 'FBRetainCycleDetector', :git => 'https://github.com/facebook/FBRetainCycleDetector.git'
   #pod 'fishhook', :git => 'git@github.com:facebook/fishhook.git', :configurations => ['Debug']
