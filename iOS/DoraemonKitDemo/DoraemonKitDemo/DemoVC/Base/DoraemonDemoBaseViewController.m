@@ -22,7 +22,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UIImage *image = [UIImage doraemon_imageNamed:@"doraemon_back"];
+    UIImage *image = [UIImage doraemon_xcassetImageNamed:@"doraemon_back"];
     self.leftModel = [[DoraemonNavBarItemModel alloc] initWithImage:image selector:@selector(leftNavBackClick:)];
     [self setLeftNavBarItems:@[self.leftModel]];
     

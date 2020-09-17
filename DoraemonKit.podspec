@@ -7,7 +7,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DoraemonKit'
-  s.version          = '3.0.3'
+  s.version          = '3.0.4'
   s.summary          = 'iOS各式各样的工具集合'
   s.description      = <<-DESC
                           iOS各式各样的工具集合 Desc
@@ -28,6 +28,9 @@ Pod::Spec.new do |s|
     ss.resource_bundles = {
       'DoraemonKit' => 'iOS/DoraemonKit/Resource/**/*'
     }
+    ss.dependency 'GCDWebServer'
+    ss.dependency 'GCDWebServer/WebUploader'
+    ss.dependency 'GCDWebServer/WebDAV'
   end
 
   s.subspec 'WithLogger' do |ss| 

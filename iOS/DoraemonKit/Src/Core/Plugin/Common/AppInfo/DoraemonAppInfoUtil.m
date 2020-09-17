@@ -430,4 +430,15 @@
     }
     return [addresses count] ? addresses : nil;
 }
+
++ (NSString *)uuid{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSString *uuid = [ud objectForKey:@"UUID"];
+    if (!uuid) {
+        uuid = [[NSUUID UUID] UUIDString];
+        [ud setObject:uuid forKey:@"UUID"];
+        [ud synchronize];
+    }
+    return uuid;
+}
 @end

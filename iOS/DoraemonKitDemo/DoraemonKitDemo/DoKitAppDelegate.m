@@ -14,6 +14,7 @@
 #import "DoraemonUtil.h"
 #import "SDImageWebPCoder.h"
 #import <DoraemonKit/DoraemonAppInfoViewController.h>
+#import <fmdb/FMDB.h>
 
 #if __has_include(<FBRetainCycleDetector/FBRetainCycleDetector.h>)
 #define XXX 1
@@ -30,6 +31,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     //[DoraemonTimeProfiler startRecord];
+    
+//    id a = [[NSObject alloc] init];
+//    [a b];
     
     //[[self class] handleCCrashReportWrap];
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
@@ -89,7 +93,8 @@
     //[DoraemonTimeProfiler stopRecord];
     
     [self test];
-
+    
+    [self createTestDatabase];
     
     return YES;
 }
@@ -110,6 +115,33 @@
     }.mutableCopy;
     [dic setValue:@"caoweoweo" forKey:@"name"];
     NSLog(@"a == %@",dic);
+}
+
+- (void)createTestDatabase {
+    NSString *rootPath = NSHomeDirectory();
+    NSString *dBPath = [NSString stringWithFormat:@"%@/Documents/dokit_test_database.sqlite", rootPath];
+    FMDatabase *db;
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dBPath]) {
+        db = [FMDatabase databaseWithPath:dBPath];
+        db.shouldCacheStatements = YES;
+        
+        if ([db open]) {
+            NSString *sql_1 = @"CREATE TABLE IF NOT EXISTS dokit_records_table (id INTEGER PRIMARY KEY, record TEXT, record_2 INTEGER);";
+            [db executeUpdate:sql_1];
+            
+//            NSString *sql_2 = @"CREATE TABLE IF NOT EXISTS dokit_records_table_2 (id_2 INTEGER PRIMARY KEY AUTOINCREMENT, record_2 TEXT);";
+//            [db executeUpdate:sql_2];
+            
+//            NSString *sql_3 = @"SELECT * FROM sqlite_master WHERE type='table' ORDER BY name;";
+//            FMResultSet *set = [db executeQuery:sql_3];
+//            while ([set next]) {
+//                NSString *name = [set stringForColumnIndex:1];
+//                NSLog(@"-=-=-=- name = %@", name);
+//            }
+
+            [db close];
+        }
+    }
 }
 
 void uncaughtExceptionHandler(NSException*exception){

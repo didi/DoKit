@@ -23,21 +23,24 @@ PODS:
   - CocoaLumberjack (3.6.1):
     - CocoaLumberjack/Core (= 3.6.1)
   - CocoaLumberjack/Core (3.6.1)
-  - DoraemonKit/Core (3.0.3)
-  - DoraemonKit/WithDatabase (3.0.3):
+  - DoraemonKit/Core (3.0.4):
+    - GCDWebServer
+    - GCDWebServer/WebDAV
+    - GCDWebServer/WebUploader
+  - DoraemonKit/WithDatabase (3.0.4):
     - DoraemonKit/Core
     - YYDebugDatabase
-  - DoraemonKit/WithGPS (3.0.3):
+  - DoraemonKit/WithGPS (3.0.4):
     - DoraemonKit/Core
-  - DoraemonKit/WithLoad (3.0.3):
+  - DoraemonKit/WithLoad (3.0.4):
     - DoraemonKit/Core
-  - DoraemonKit/WithLogger (3.0.3):
+  - DoraemonKit/WithLogger (3.0.4):
     - CocoaLumberjack
     - DoraemonKit/Core
-  - DoraemonKit/WithMLeaksFinder (3.0.3):
+  - DoraemonKit/WithMLeaksFinder (3.0.4):
     - DoraemonKit/Core
     - FBRetainCycleDetector
-  - DoraemonKit/WithWeex (3.0.3):
+  - DoraemonKit/WithWeex (3.0.4):
     - DoraemonKit/Core
     - WeexSDK
     - WXDevtool
@@ -48,6 +51,10 @@ PODS:
   - GCDWebServer (3.5.3):
     - GCDWebServer/Core (= 3.5.3)
   - GCDWebServer/Core (3.5.3)
+  - GCDWebServer/WebDAV (3.5.3):
+    - GCDWebServer/Core
+  - GCDWebServer/WebUploader (3.5.3):
+    - GCDWebServer/Core
   - libwebp (1.1.0):
     - libwebp/demux (= 1.1.0)
     - libwebp/mux (= 1.1.0)
@@ -118,7 +125,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   CocoaLumberjack: b17ae15142558d08bbacf69775fa10c4abbebcc9
-  DoraemonKit: 847270ac1765540adb2fcc4f7d54e2bc28ba8d8e
+  DoraemonKit: 2e6545b54b294d63df09ea3eb68d72402d547620
   FBRetainCycleDetector: 46daef95c2dfa9be34b53087edf6a8f34e4c749c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: c0ab22c73e1b84f358d1e2f74bf6afd1c60829f2
@@ -130,6 +137,6 @@ SPEC CHECKSUMS:
   WXDevtool: 95b70c73c06fc3299d65bd53ba4b3e0b0087f3cb
   YYDebugDatabase: 037486297a7dd40bc50e2c6df5de7b4ad24c9c17
 
-PODFILE CHECKSUM: 7600ac86dd52c8907a023c6e1c8ab4a0e45dd813
+PODFILE CHECKSUM: 538d72175a6e0b605371aefacc496d93cb6d45e3
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.9.1
