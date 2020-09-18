@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit.aop.urlconnection
 
-import com.didichuxing.doraemonkit.okgo.DokitOkGo
 import okhttp3.OkHttpClient
 import java.util.concurrent.TimeUnit
 
@@ -14,12 +13,13 @@ import java.util.concurrent.TimeUnit
  * ================================================
  */
 object OkhttpClientUtil {
+    private val DEFAULT_MILLISECONDS: Long = 60000
     val okhttpClient: OkHttpClient by lazy {
         OkHttpClient.Builder()
-                .retryOnConnectionFailure(true)
-                .readTimeout(DokitOkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
-                .writeTimeout(DokitOkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
-                .connectTimeout(DokitOkGo.DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
-                .build()
+            .retryOnConnectionFailure(true)
+            .readTimeout(DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
+            .writeTimeout(DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
+            .connectTimeout(DEFAULT_MILLISECONDS, TimeUnit.MILLISECONDS)
+            .build()
     }
 }

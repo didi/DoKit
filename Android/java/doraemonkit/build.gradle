@@ -67,6 +67,7 @@ dependencies {
     implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["core-ktx"]
     implementation rootProject.ext.dependencies["webkit"]
+    implementation rootProject.ext.dependencies["volley"]
 
     implementation rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]

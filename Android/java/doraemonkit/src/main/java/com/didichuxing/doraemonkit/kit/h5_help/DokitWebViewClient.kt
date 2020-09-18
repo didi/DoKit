@@ -8,6 +8,8 @@ import android.os.Message
 import android.view.KeyEvent
 import android.webkit.*
 import androidx.annotation.RequiresApi
+import com.android.volley.toolbox.RequestFuture
+import com.android.volley.toolbox.StringRequest
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ResourceUtils
 import com.didichuxing.doraemonkit.constant.DokitConstant
@@ -18,6 +20,7 @@ import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.okgo.DokitOkGo
 import com.didichuxing.doraemonkit.util.LogHelper
+import com.didichuxing.doraemonkit.volley.VolleyManager
 import okhttp3.*
 import org.jsoup.Jsoup
 import java.net.URLDecoder
@@ -86,8 +89,10 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                 } else {
                     webRequest.url?.toString() + "&dokit_flag=web"
                 }
-
-                val response = DokitOkGo.get<String>(url).execute()
+                val httpRequest = Request.Builder()
+                    .url(url)
+                    .build()
+                val response = mOkHttpClient.newCall(httpRequest).execute()
 
                 //注入本地网络拦截js
                 var newHtml = if (DokitConstant.H5_JS_INJECT) {
@@ -136,7 +141,7 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                         }
 
                         // web 数据mock
-                        return dealMock(requestBean, url,view,request)
+                        return dealMock(requestBean, url, view, request)
                     }
 
                 } else {
