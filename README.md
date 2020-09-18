@@ -258,4 +258,5 @@ DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [
 3. [Mand Mobile](https://github.com/didi/mand-mobile) 一款优秀的面向金融场景的 移动端UI组件库
 4. 我们部门的技术公众号（普惠出行产品技术公众号），欢迎关注。
 公众号介绍：这里是滴滴出行旗下普惠产品技术团队对外分享的窗口，普惠出行支撑滴滴代驾、货运等业务，建设了NodeX、Dokit、卡梅隆等开源项目，始终秉承聚心成事、聚气育人的原则。欢迎各位技术同仁一起交流，共同成长。
+<br />
 ![普惠技术公众号](https://javer.oss-cn-shanghai.aliyuncs.com/2019/github/phgzh.jpg)
