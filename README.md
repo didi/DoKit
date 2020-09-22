@@ -61,7 +61,7 @@ DoraemonKit 是一个功能平台，能够让每一个 App 快速接入一些常
 
 2、DoraemonKit 内置很多常用的工具，避免重复实现，一次接入，你将会拥有强大的工具集合；
 
-3、搭配[dokit](https://www.dokit.cn)平台，方便你进行**数据mock**以及记录你的每一次**健康体检**用例。
+3、搭配dokit平台，借助[接口Mock](https://www.dokit.cn/#/index/dataMockPage)、[健康体检](https://www.dokit.cn/#/index/checkDataPage)、[文件同步助手](https://www.dokit.cn/#/index/fileSyncPage)让你方便和他人协同，极大的提升研发过程中的效率。
 
 ## 效果演示
 
