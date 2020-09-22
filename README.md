@@ -2,7 +2,7 @@
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
  <img src="https://img.shields.io/badge/Android-3.2.0-blue.svg" align=left />
- <img src="https://img.shields.io/badge/iOS-3.0.2-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/iOS-3.0.4-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
@@ -20,7 +20,7 @@
 
 > [English Readme](README_EN.md)
 
-**社区活动**
+## 社区活动
 
 **DoKit官方社区分享季**
 你想让你的才华被更多的人关注到吗？快来参加[DoKit官方社区分享季](https://github.com/didi/DoraemonKit/issues/658)活动吧
@@ -34,6 +34,20 @@
   <img src="https://pt-starimg.didistatic.com/static/starimg/img/INLjGkp9wN1597062733948.jpg" width = "250" alt="DoKit 首页效果演示" align=center />
 </div>
 
+## 外部合作
+
+**2020中国开源年会DoKit社区合作伙伴**
+[2020中国开源年会（COSCon’20）再启程：开源向善（Open Source for Good）](https://mp.weixin.qq.com/s/kgBsRZd1N3uOCX2NeSvqGQ)
+
+[COSCon’20 讲师征集令](https://mp.weixin.qq.com/s/uAGG8o4IcAk69hFzKY98IQ) 
+
+[COSCon’20 志愿者招募正式启动](https://mp.weixin.qq.com/s/gGlzZV_xJnsBuSc2HGh7Uw) 
+
+[2020中国开源年会暨阿帕奇中国路演 社区合作伙伴征集令](https://mp.weixin.qq.com/s/PJq6QYp7ahIIzX4GrOQ88g) 
+
+[百格网报名链接](https://www.bagevent.com/event/6840909)
+
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/hoEGfdsUzi1600745052153.jpg" alt="图片替换文本" width="200"  align="bottom" />
 
 ## 开发背景
 

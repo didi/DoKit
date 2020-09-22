@@ -2,8 +2,8 @@
 ### 1： Use Cocoapods to Get latest version of DoraemonKit
 
 ```
-pod 'DoraemonKit/Core', :git => "https://github.com/didi/DoraemonKit.git", :tag => '3.0.0', :configurations => ['Debug']
-pod 'DoraemonKit/WithGPS', :git => "https://github.com/didi/DoraemonKit.git", :tag => '3.0.0', :configurations => ['Debug']
+pod 'DoraemonKit/Core', :git => "https://github.com/didi/DoraemonKit.git", :tag => '3.0.4', :configurations => ['Debug']
+pod 'DoraemonKit/WithGPS', :git => "https://github.com/didi/DoraemonKit.git", :tag => '3.0.4', :configurations => ['Debug']
 ```
 
 ### 2： Access method using DoraemonKit's built-in toolset
