@@ -185,14 +185,16 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 ## 项目成员
 
-### 发起者 / 负责人
-[yixiangboy](https://github.com/yixiangboy)
+### 发起者
+[yixiangboy(易翔)](https://github.com/yixiangboy)
+### 负责人
+[jtsky(金台)](https://github.com/jtsky) 
 
 ### 内部核心成员
+[yixiangboy](https://github.com/yixiangboy)
 [jtsky](https://github.com/jtsky) 、
 [ydlsl](https://github.com/ydlsl) 、
 [jayconscious](https://github.com/jayconscious)
-
 
 ### 贡献者榜单
 [LinJZong](https://github.com/LinJZong) 、
