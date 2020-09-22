@@ -1,3 +1,6 @@
+[toc]
+
+## 简介
 <div align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
@@ -6,8 +9,6 @@
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
-
-
 <br/>
 <br/>
 <br/>
@@ -19,6 +20,7 @@
 **DoraemonKit** /'dɔ:ra:'emɔn/，简称`DoKit`，中文名 `哆啦A梦`，意味着能够像哆啦A梦一样提供给他的主人各种各样的工具。Just Do Kit
 
 > [English Readme](README_EN.md)
+
 
 ## 社区活动
 
@@ -185,18 +187,18 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 ## 项目成员
 
-### 发起者
+**发起者**
 [yixiangboy(易翔)](https://github.com/yixiangboy)
-### 负责人
+**负责人**
 [jtsky(金台)](https://github.com/jtsky) 
 
-### 内部核心成员
+**内部核心成员**
 [yixiangboy](https://github.com/yixiangboy)
 [jtsky](https://github.com/jtsky) 、
 [ydlsl](https://github.com/ydlsl) 、
 [jayconscious](https://github.com/jayconscious)
 
-### 贡献者榜单
+**贡献者榜单**
 [LinJZong](https://github.com/LinJZong) 、
 [wanglikun7342](https://github.com/wanglikun7342) 、
 [wenquanlebao](https://github.com/wenquanlebao) 、
