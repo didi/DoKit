@@ -60,6 +60,7 @@
 ## 外部合作
 
 **2020中国开源年会DoKit社区合作伙伴**
+
 [2020中国开源年会（COSCon’20）再启程：开源向善（Open Source for Good）](https://mp.weixin.qq.com/s/kgBsRZd1N3uOCX2NeSvqGQ)
 
 [COSCon’20 讲师征集令](https://mp.weixin.qq.com/s/uAGG8o4IcAk69hFzKY98IQ) 
