@@ -14,6 +14,7 @@
 - [使用手册](#使用手册)
 - [相关文档](#相关文档)
 - [更新日志](#更新日志)
+- [微信交流群](#微信交流群)
 - [QQ 交流群](#qq-交流群)
 - [微信公众号](#微信公众号)
 - [项目成员](#项目成员)
@@ -173,6 +174,30 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 - [iOS-ReleaseNotes](Doc/iOS-ReleaseNotes.md)
 - [Android-ReleaseNotes](Doc/android-ReleaseNotes.md)
 - [微信小程序-ReleaseNotes](Doc/miniapp-ReleaseNotes.md)
+
+## 微信交流群
+
+扫描以下二维码或者搜索**jintsky**加我微信入群，注意请添加备注：DoKit社区用户，否则你的申请将不会被验证通过。
+
+<div align="center">    
+ <img src="https://pt-starimg.didistatic.com/static/starimg/img/f4gsSRtscV1601274280794.jpg" width = "160"  alt="微信交流群" align=left />
+</div>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
 
 ## QQ 交流群
 
