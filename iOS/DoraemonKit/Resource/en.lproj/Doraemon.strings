@@ -146,6 +146,11 @@
     "请保证当前手机和PC处在同一个局域网内"             = "ensure phone and pc in the same wifi";
     "服务已关闭"                                   = "server is off";
     
+    //webview
+    "h5助手"                                   = "webview helper";
+    "当前页面不存在WKWebView" = "no WKWebView found in current vc";
+    "js hook和vConsole功能需要在网页加载时注入，改变状态会自动重载网页" = "js hook & vConsole are invoked when web page begin loading, change the states will cause webview reload automatically";
+    
     //FPS
     "帧率"                                      =   "FPS";
     "帧率检测"                                     = "FPS monitor";

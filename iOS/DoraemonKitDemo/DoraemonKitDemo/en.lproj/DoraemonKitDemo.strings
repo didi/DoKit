@@ -71,4 +71,7 @@
     //Other
     "block方式加入插件"                       = "Add plugins from block";
     "测试插件"                                     = "Test plugin";
+    
+    //h5助手
+    "h5助手测试"                            = "h5 helper test";
 }

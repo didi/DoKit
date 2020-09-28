@@ -238,6 +238,8 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonDatabasePlugin];
 #endif
     
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonWebViewPlugin];
+    
     #pragma mark - 性能检测
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonFPSPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonCPUPlugin];
@@ -550,6 +552,14 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    @{kAtModule:DoraemonLocalizedString(@"常用工具")},
                                    @{kBuriedPoint:@"dokit_sdk_comm_ck_userdefault"}
                            ],
+                           @(DoraemonManagerPluginType_DoraemonWebViewPlugin) : @[
+                           @{kTitle:DoraemonLocalizedString(@"h5助手")},
+                               @{kDesc:DoraemonLocalizedString(@"h5助手")},
+                               @{kIcon:@"doraemon_file_sync"},
+                               @{kPluginName:@"DoraemonWebViewPlugin"},
+                               @{kAtModule:DoraemonLocalizedString(@"常用工具")},
+                               @{kBuriedPoint:@"dokit_sdk_comm_ck_webview"}
+                               ],
                            
                            // 性能检测
                            @(DoraemonManagerPluginType_DoraemonFPSPlugin) : @[

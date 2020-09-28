@@ -19,6 +19,7 @@
 #import "UIView+Doraemon.h"
 #import "UIViewController+Doraemon.h"
 #import "DoraemonDemoMemoryLeakViewController.h"
+#import "DoraemonDemoWebViewController.h"
 
 @interface DoraemonDemoHomeViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -48,7 +49,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 9;
+    return 10;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -77,6 +78,8 @@
         txt = DoraemonDemoLocalizedString(@"通用测试Demo");
     }else if(row==8){
         txt = DoraemonDemoLocalizedString(@"内存泄漏测试");
+    } else if(row==9){
+        txt = DoraemonDemoLocalizedString(@"h5助手测试");
     }
     cell.textLabel.text = txt;
     return cell;
@@ -101,20 +104,24 @@
         vc = [[DoraemonDemoCrashViewController alloc] init];
     }else if(row == 7){
         vc = [[DoraemonDemoCommonViewController alloc] init];
-    }else{
+    }else if(row == 8){
         vc = [[DoraemonDemoMemoryLeakViewController alloc] init];
+    } else if(row == 9){
+        DoraemonDemoWebViewController *viewC = [[DoraemonDemoWebViewController alloc] init];
+        viewC.url = [NSURL URLWithString:@"https://www.baidu.com"];
+        vc = viewC;
     }
     [self.navigationController pushViewController:vc animated:YES];
- 
+    
     //产生crash
-//    NSArray *dataArray = @[@"1",@"2"];
-//    NSString *num = dataArray[2];
-//    NSLog(@"num == %@",num);
+    //    NSArray *dataArray = @[@"1",@"2"];
+    //    NSString *num = dataArray[2];
+    //    NSLog(@"num == %@",num);
 }
 
 - (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-
+    
     self.tableView.frame = [self fullscreen];
 }
 
