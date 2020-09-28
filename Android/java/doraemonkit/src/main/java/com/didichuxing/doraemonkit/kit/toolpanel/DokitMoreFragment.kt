@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
 import com.blankj.utilcode.util.GsonUtils
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.BundleKey
@@ -14,12 +16,8 @@ import com.didichuxing.doraemonkit.kit.core.UniversalActivity
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.toolpanel.bean.MorePageGroupBean
 import com.didichuxing.doraemonkit.kit.webview.WebViewManager
-import com.didichuxing.doraemonkit.okgo.DokitOkGo
+import com.didichuxing.doraemonkit.volley.VolleyManager
 import kotlinx.android.synthetic.main.dk_fragment_more.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * ================================================
@@ -47,25 +45,21 @@ class DokitMoreFragment : BaseFragment() {
      * 获取列表数据
      */
     fun getData() {
-        GlobalScope.launch(Dispatchers.Main) {
-            val groups = withContext(Dispatchers.IO) {
-                val response = DokitOkGo.get<String>(NetworkManager.DOKIT_MORE_PAGE_URL).execute()
-                if (response.isSuccessful) {
-                    val morePageGroupBean = GsonUtils.fromJson(
-                        response.body()?.string(),
-                        MorePageGroupBean::class.java
-                    )
-                    return@withContext morePageGroupBean.data.group
-                } else {
-                    return@withContext createDefaultGroups()
-                }
-            }
 
+        val request = StringRequest(
+            Request.Method.GET,
+            NetworkManager.DOKIT_MORE_PAGE_URL,
+            {
+                val morePageGroupBean = GsonUtils.fromJson(
+                    it,
+                    MorePageGroupBean::class.java
+                )
+                initView(convertGroup2normalItem(morePageGroupBean.data.group))
+            }, {
+                initView(convertGroup2normalItem(createDefaultGroups()))
+            })
+        VolleyManager.add(request)
 
-            initView(convertGroup2normalItem(groups))
-
-
-        }
     }
 
     /**

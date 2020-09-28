@@ -18,6 +18,7 @@ import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
+import com.didichuxing.doraemonkit.widget.webview.MyWebView
 
 /**
  * ================================================
@@ -53,6 +54,7 @@ class H5DokitView : AbsDokitView() {
     private lateinit var mSessionAdapter: LocalStorageAdapter
     private lateinit var mNavLocal: TextView
     private lateinit var mNavSession: TextView
+    private lateinit var mBtnReload: Button
 
     /**
      * 更多信息是否处于展开状态
@@ -75,6 +77,22 @@ class H5DokitView : AbsDokitView() {
             }
             mTvLink = it.findViewById(R.id.tv_link)
             mJsCheckBox = it.findViewById(R.id.js_switch)
+            mBtnReload = it.findViewById(R.id.btn_reload)
+            mBtnReload.setOnClickListener {
+                mWebView?.let {
+                    when (it) {
+                        is WebView -> {
+                            val webView = it as WebView
+                            webView.loadUrl(webView.url)
+                        }
+
+                        is com.tencent.smtt.sdk.WebView -> {
+                            val webView = it as com.tencent.smtt.sdk.WebView
+                            webView.loadUrl(webView.url)
+                        }
+                    }
+                }
+            }
             mJsCheckBox.isChecked = DokitConstant.H5_JS_INJECT
             mJsCheckBox.setOnCheckedChangeListener { _, isChecked ->
                 DokitConstant.H5_JS_INJECT = isChecked
@@ -152,16 +170,31 @@ class H5DokitView : AbsDokitView() {
         }
     }
 
+    var mWebView: Any? = null
+
     @SuppressLint("JavascriptInterface", "AddJavascriptInterface")
     override fun onResume() {
         super.onResume()
-        val webView = performTraverseView()
-        if (webView == null) {
+        mWebView = performTraverseView()
+        if (mWebView == null) {
             mTvLink.text = "当前页面不存在WebView"
             mMoreWrap.visibility = View.GONE
+            mBtnReload.visibility = View.GONE
         } else {
-            mTvLink.text = webView.url
+            when (mWebView) {
+                is WebView -> {
+                    mWebView as WebView
+                    mTvLink.text = (mWebView as WebView).url
+                }
+
+                is com.tencent.smtt.sdk.WebView -> {
+                    mTvLink.text = (mWebView as com.tencent.smtt.sdk.WebView).url
+                }
+            }
+
+
             mMoreWrap.visibility = View.VISIBLE
+            mBtnReload.visibility = View.VISIBLE
         }
         mJsCheckBox.isChecked = DokitConstant.H5_JS_INJECT
         invalidate()
@@ -176,10 +209,10 @@ class H5DokitView : AbsDokitView() {
     }
 
 
-    private fun performTraverseView(): WebView? {
+    private fun performTraverseView(): Any? {
         val decorView = activity.window.decorView as ViewGroup
         decorView.children.forEach {
-            if (it is WebView) {
+            if (it is WebView || it is com.tencent.smtt.sdk.WebView) {
                 return it
             } else if (it is ViewGroup) {
                 return traversView(it)

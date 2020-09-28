@@ -62,8 +62,7 @@
             android:layout_height="wrap_content"
             android:text="tips:js hook和vConsole的代码均在页面加载时注入,状态改变时需要重新加载页面才能生效"
             android:textColor="@color/dk_color_FF0006"
-            android:textSize="10sp"
-            />
+            android:textSize="10sp" />
         <!-- js hook switch-->
         <RelativeLayout
             android:id="@+id/rl_js_switch"
@@ -115,6 +114,16 @@
         </RelativeLayout>
 
         <View style="@style/DK.Divider" />
+
+        <Button
+            android:id="@+id/btn_reload"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/dk_item_btn_img"
+            android:text="Reload"
+            android:textColor="@color/dk_color_FFFFFF"
+
+            />
 
         <RelativeLayout
             android:id="@+id/rl_more_wrap"

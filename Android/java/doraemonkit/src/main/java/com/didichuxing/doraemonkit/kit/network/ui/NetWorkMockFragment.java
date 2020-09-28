@@ -16,13 +16,16 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.didichuxing.doraemonkit.widget.brvah.listener.OnLoadMoreListener;
-import com.didichuxing.doraemonkit.widget.brvah.module.BaseLoadMoreModule;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.MockApiResponseBean;
 import com.didichuxing.doraemonkit.kit.network.bean.MockInterceptTitleBean;
@@ -30,16 +33,15 @@ import com.didichuxing.doraemonkit.kit.network.bean.MockTemplateTitleBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
-import com.didichuxing.doraemonkit.okgo.DokitOkGo;
-import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
-import com.didichuxing.doraemonkit.okgo.model.Response;
-import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.util.DokitUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.volley.VolleyManager;
+import com.didichuxing.doraemonkit.widget.brvah.listener.OnLoadMoreListener;
+import com.didichuxing.doraemonkit.widget.brvah.module.BaseLoadMoreModule;
 import com.didichuxing.doraemonkit.widget.dropdown.DkDropDownMenu;
 import com.didichuxing.doraemonkit.widget.easyrefresh.EasyRefreshLayout;
 import com.didichuxing.doraemonkit.widget.easyrefresh.LoadModel;
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -446,43 +448,43 @@ public class NetWorkMockFragment extends BaseFragment {
             curPage = mTemplateApiAdapter.getData().size() / pageSize + 1;
         }
         String apiUrl = String.format(mFormatApiUrl, projectId, curPage, pageSize);
-        DokitOkGo.<String>get(apiUrl).tag(this)
-                .execute(new StringCallback() {
 
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        try {
-                            if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
-                                List<MockInterceptTitleBean> mockInterceptTitleBeans = dealInterceptResponseData(response.body());
-                                //插入拦截接口
-                                loadMoreInterceptDates(mockInterceptTitleBeans);
+        Request<String> request = new StringRequest(Request.Method.GET, apiUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
+                        List<MockInterceptTitleBean> mockInterceptTitleBeans = dealInterceptResponseData(response);
+                        //插入拦截接口
+                        loadMoreInterceptDates(mockInterceptTitleBeans);
 
-                            } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
-                                List<MockTemplateTitleBean> mockTemplateTitleBeans = dealTemplateResponseData(response.body());
-                                loadMoreTemplateDates(mockTemplateTitleBeans);
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
-                                mInterceptLoadMoreModule.loadMoreEnd();
-                            } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
-                                mTemplateLoadMoreModule.loadMoreEnd();
-                            }
-                        }
-
+                    } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
+                        List<MockTemplateTitleBean> mockTemplateTitleBeans = dealTemplateResponseData(response);
+                        loadMoreTemplateDates(mockTemplateTitleBeans);
                     }
 
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
-                            mInterceptLoadMoreModule.loadMoreEnd();
-                        } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
-                            mTemplateLoadMoreModule.loadMoreEnd();
-                        }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
+                        mInterceptLoadMoreModule.loadMoreEnd();
+                    } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
+                        mTemplateLoadMoreModule.loadMoreEnd();
                     }
-                });
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
+                    mInterceptLoadMoreModule.loadMoreEnd();
+                } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
+                    mTemplateLoadMoreModule.loadMoreEnd();
+                }
+            }
+        });
+
+        VolleyManager.INSTANCE.add(request);
+
     }
 
     /**
@@ -566,46 +568,46 @@ public class NetWorkMockFragment extends BaseFragment {
     private void initResponseApis() {
         String apiUrl = String.format(mFormatApiUrl, projectId, 1, pageSize);
         LogHelper.i(TAG, "apiUrl===>" + apiUrl);
-        DokitOkGo.<String>get(apiUrl).tag(this)
-                .execute(new StringCallback() {
 
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        try {
-                            if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
-                                List<MockInterceptTitleBean> mockInterceptTitleBeans = dealInterceptResponseData(response.body());
-                                initMenus(mockInterceptTitleBeans);
-                                attachInterceptRv(mockInterceptTitleBeans);
-                                //测试空数据
-                                //attachInterceptRv(null);
-                            } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
-                                List<MockTemplateTitleBean> mockTemplateTitleBeans = dealTemplateResponseData(response.body());
-                                attachTemplateRv(mockTemplateTitleBeans);
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
-                                mInterceptRefreshLayout.refreshComplete();
-                            } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
-                                mTemplateRefreshLayout.refreshComplete();
-                            }
-                        }
-
+        Request<String> request = new StringRequest(Request.Method.GET, apiUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
+                        List<MockInterceptTitleBean> mockInterceptTitleBeans = dealInterceptResponseData(response);
+                        initMenus(mockInterceptTitleBeans);
+                        attachInterceptRv(mockInterceptTitleBeans);
+                        //测试空数据
+                        //attachInterceptRv(null);
+                    } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
+                        List<MockTemplateTitleBean> mockTemplateTitleBeans = dealTemplateResponseData(response);
+                        attachTemplateRv(mockTemplateTitleBeans);
                     }
 
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        LogHelper.e(TAG, "error====>" + response.getException().getMessage());
-                        ToastUtils.showShort(response.getException().getMessage());
-                        if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
-                            mInterceptRefreshLayout.refreshComplete();
-                        } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
-                            mTemplateRefreshLayout.refreshComplete();
-                        }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
+                        mInterceptRefreshLayout.refreshComplete();
+                    } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
+                        mTemplateRefreshLayout.refreshComplete();
                     }
-                });
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                LogHelper.e(TAG, "error====>" + error.getMessage());
+                ToastUtils.showShort(error.getMessage());
+                if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
+                    mInterceptRefreshLayout.refreshComplete();
+                } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
+                    mTemplateRefreshLayout.refreshComplete();
+                }
+            }
+        });
+
+        VolleyManager.INSTANCE.add(request);
+
 
     }
 
