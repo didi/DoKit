@@ -205,6 +205,24 @@ static NSMutableDictionary *sessionStorage;
                 } else if ([command isEqualToString:@"synchronizeSessionStorage"]) {
                     [sessionStorage addEntriesFromDictionary:params];
                     [self.tableView reloadData];
+                } else if ([command isEqualToString:@"localStorageSetItem"]) {
+                    [localStorage setValue:params[@"value"] forKey:params[@"key"]];
+                    [self.tableView reloadData];
+                } else if ([command isEqualToString:@"sessionStorageSetItem"]) {
+                    [sessionStorage setValue:params[@"value"] forKey:params[@"key"]];
+                    [self.tableView reloadData];
+                } else if ([command isEqualToString:@"localStorageRemoveItem"]) {
+                    [localStorage removeObjectForKey:params[@"key"]];
+                    [self.tableView reloadData];
+                } else if ([command isEqualToString:@"sessionStorageRemoveItem"]) {
+                    [sessionStorage removeObjectForKey:params[@"key"]];
+                    [self.tableView reloadData];
+                } else if ([command isEqualToString:@"localStorageClear"]) {
+                    [localStorage removeAllObjects];
+                    [self.tableView reloadData];
+                } else if ([command isEqualToString:@"sessionStorageClear"]) {
+                    [sessionStorage removeAllObjects];
+                    [self.tableView reloadData];
                 }
             }
         }
