@@ -108,7 +108,7 @@
         vc = [[DoraemonDemoMemoryLeakViewController alloc] init];
     } else if(row == 9){
         DoraemonDemoWebViewController *viewC = [[DoraemonDemoWebViewController alloc] init];
-        viewC.url = [NSURL URLWithString:@"https://www.baidu.com"];
+        viewC.url = [NSURL URLWithString:@"https://www.dokit.cn"];
         vc = viewC;
     }
     [self.navigationController pushViewController:vc animated:YES];

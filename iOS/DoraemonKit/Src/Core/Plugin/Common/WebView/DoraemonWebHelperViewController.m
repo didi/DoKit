@@ -15,6 +15,7 @@
 static __weak WKWebView *hookedWebView;
 static NSArray<WKUserScript *> *originUserScripts;
 static NSString *wkJSBridgeCode = nil;
+static NSString *vConsoleCode = nil;
 
 static NSMutableDictionary *localStorage;
 static NSMutableDictionary *sessionStorage;
@@ -32,6 +33,7 @@ static NSMutableDictionary *sessionStorage;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = DoraemonLocalizedString(@"h5助手");
+    
     
     if (!localStorage) {
         localStorage = @{}.mutableCopy;
@@ -57,41 +59,45 @@ static NSMutableDictionary *sessionStorage;
     lab_2.font = [UIFont systemFontOfSize:14];
     lab_2.frame = CGRectMake(15, 170, aviW, 40);
     lab_2.numberOfLines = 0;
-    lab_2.text = DoraemonLocalizedString(@"js hook和vConsole功能需要在网页加载时注入，改变状态会自动重载网页");
+    lab_2.text = DoraemonLocalizedString(@"js hook功能需要在网页加载时注入，改变状态会自动重载网页");
     [self.view addSubview:lab_2];
     
     UILabel *lab_3 = [[UILabel alloc] init];
     lab_3.font = [UIFont systemFontOfSize:20];
     lab_3.frame = CGRectMake(15, 220, 100, 30);
     lab_3.numberOfLines = 0;
-    lab_3.text = @"js hook";
+    lab_3.text = @"vConsole";
     [self.view addSubview:lab_3];
     
-    UISwitch *sw_js = [[UISwitch alloc] init];
-    sw_js.onTintColor = UIColor.doraemon_blue;
-    [sw_js setOn:[self jsHook]];
-    sw_js.frame = CGRectMake(15 + aviW - 51, 220, 0, 0);
-    [self.view addSubview:sw_js];
-    [sw_js addTarget:self action:@selector(swJSChanged:) forControlEvents:UIControlEventValueChanged];
+    UIButton *trigger = [UIButton buttonWithType:UIButtonTypeCustom];
+    trigger.frame = CGRectMake(15 + aviW - 100, 220, 100, 30);
+    [trigger setTitle:@"trigger" forState:UIControlStateNormal];
+    [trigger setTitleColor:UIColor.doraemon_blue forState:UIControlStateNormal];
+    trigger.layer.borderColor = UIColor.doraemon_blue.CGColor;
+    trigger.layer.borderWidth = 1;
+    trigger.layer.cornerRadius = 4;
+    [self.view addSubview:trigger];
+    [trigger addTarget:self action:@selector(createVConsole) forControlEvents:UIControlEventTouchUpInside];
     
     UILabel *lab_4 = [[UILabel alloc] init];
     lab_4.font = [UIFont systemFontOfSize:20];
     lab_4.frame = CGRectMake(15, 260, 100, 30);
     lab_4.numberOfLines = 0;
-    lab_4.text = @"vConsole";
+    lab_4.text = @"js hook";
     [self.view addSubview:lab_4];
     
-    UISwitch *sw_con = [[UISwitch alloc] init];
-    sw_con.onTintColor = UIColor.doraemon_blue;
-    [sw_con setOn:[self vConsole]];
-    sw_con.frame = CGRectMake(15 + aviW - 51, 260, 0, 0);
-    [self.view addSubview:sw_con];
-    [sw_con addTarget:self action:@selector(swConChanged:) forControlEvents:UIControlEventValueChanged];
+    UISwitch *sw_js = [[UISwitch alloc] init];
+    sw_js.onTintColor = UIColor.doraemon_blue;
+    [sw_js setOn:[self jsHook]];
+    sw_js.frame = CGRectMake(15 + aviW - 51, 260, 0, 0);
+    [self.view addSubview:sw_js];
+    [sw_js addTarget:self action:@selector(swJSChanged:) forControlEvents:UIControlEventValueChanged];
     
     if (self.webView) {
         lab_1.text = self.webView.URL.absoluteString;
+        
         if ([self jsHook]) {
-            [self injectJsCode:[self jshookCode]];
+            [self injectJsHookCode];
         }
         
         UISegmentedControl *seg = [[UISegmentedControl alloc] initWithItems:@[@"LocalStorage", @"SessionStorage"]];
@@ -114,12 +120,12 @@ static NSMutableDictionary *sessionStorage;
     }
 }
 
-- (void)injectJsCode:(NSString *)code {
+- (void)injectJsHookCode {
     if (self.webView == hookedWebView) {
         return;
     }
-    
     hookedWebView = self.webView;
+    
     WKUserContentController *userContentController = self.webView.configuration.userContentController;
     
     if (!userContentController) {
@@ -129,11 +135,11 @@ static NSMutableDictionary *sessionStorage;
     
     originUserScripts = userContentController.userScripts;
     
-    WKUserScript *JSBridgeScript = [[WKUserScript alloc] initWithSource:code
+    WKUserScript *wkuScript = [[WKUserScript alloc] initWithSource:[self jshookCode]
                                                           injectionTime:WKUserScriptInjectionTimeAtDocumentStart
                                                        forMainFrameOnly:NO];
     
-    [userContentController addUserScript:JSBridgeScript];
+    [userContentController addUserScript:wkuScript];
     [userContentController addScriptMessageHandler:self name:@"handleJSMessage"];
     
     [self.webView reload];
@@ -154,21 +160,31 @@ static NSMutableDictionary *sessionStorage;
     [self.webView reload];
 }
 
+- (void)createVConsole {
+    if (self.webView) {
+        [self.webView evaluateJavaScript:[NSString stringWithFormat:@"if (vConsole == undefined) { %@; var vConsole = new VConsole(); }", [self vConsoleCode]]
+                       completionHandler:^(id _Nullable obj, NSError * _Nullable error) {
+            if (!error) {
+                [self leftNavBackClick:nil];
+            } else {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Error" message:error.localizedDescription preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                }];
+                [alert addAction:ok];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+        }];
+    }
+}
+
 - (void)swJSChanged:(UISwitch *)sender {
     [self setJsHook:sender.on];
     if (self.webView) {
         if(sender.on) {
-            [self injectJsCode:[self jshookCode]];
+            [self injectJsHookCode];
         } else {
             [self recoverUserScripts];
         }
-    }
-}
-
-- (void)swConChanged:(UISwitch *)sender {
-    [self setVConsole:sender.on];
-    if (self.webView && sender.on) {
-#warning todo
     }
 }
 
@@ -179,7 +195,7 @@ static NSMutableDictionary *sessionStorage;
         
         if ([jsMessages isKindOfClass:[NSArray class]]) {
             for (NSDictionary *message in jsMessages) {
-                NSLog(@"[Doraemon js hook]: %@", message);
+                //                NSLog(@"[Doraemon js hook]: %@", message);
                 
                 NSString *command = message[@"command"];
                 NSDictionary *params = message[@"params"];
@@ -218,6 +234,16 @@ static NSMutableDictionary *sessionStorage;
     return wkJSBridgeCode;
 }
 
+- (NSString *)vConsoleCode {
+    if (!vConsoleCode) {
+        NSString *bundle = @"DoraemonKit.bundle/vconsole.min";
+        NSString *path = [[NSBundle mainBundle] pathForResource:bundle ofType:@"js"];
+        vConsoleCode = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+    }
+    
+    return vConsoleCode;
+}
+
 - (void)segSelected:(UISegmentedControl *)sender {
     [self.tableView reloadData];
 }
@@ -233,15 +259,6 @@ static NSMutableDictionary *sessionStorage;
 
 - (BOOL)jsHook {
     return [[NSUserDefaults standardUserDefaults] boolForKey:Doraemon_JS_HOOK];
-}
-
-- (void)setVConsole:(BOOL)value {
-    [[NSUserDefaults standardUserDefaults] setBool:value forKey:Doraemon_vConsole];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (BOOL)vConsole {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:Doraemon_vConsole];
 }
 
 #pragma mark - UITableViewDataSource
@@ -262,7 +279,6 @@ static NSMutableDictionary *sessionStorage;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:Doraemon_WEB_TABLE_ID];;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     NSString *key = @"";
     NSString *value = @"";
     switch (self.seg.selectedSegmentIndex) {
