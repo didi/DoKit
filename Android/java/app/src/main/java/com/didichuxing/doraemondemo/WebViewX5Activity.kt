@@ -19,7 +19,7 @@ import com.tencent.smtt.sdk.WebViewClient
 class WebViewX5Activity : AppCompatActivity() {
     val TAG = "WebViewActivity"
     lateinit var mWebView: WebView
-//    val url = "file:///android_asset/dokit_index.html"
+    val url = "https://m.v.qq.com/index.html"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +28,9 @@ class WebViewX5Activity : AppCompatActivity() {
         initWebView(mWebView)
 //        webView.loadUrl("https://page-daily.kuaidadi.com/m/ddPage_0sTyVhyq.html")
 //        WebViewHook.inject(webView)
-        //webView.loadUrl(url)
+        mWebView.loadUrl(url)
 //        webView.loadUrl("file:///android_asset/dokit_index.html")
-        mWebView.loadUrl("https://www.dokit.cn")
+        //mWebView.loadUrl("https://www.dokit.cn")
 //        webView.loadUrl("http://xingyun.xiaojukeji.com/docs/dokit/#/intro")
     }
 

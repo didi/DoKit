@@ -1,5 +1,7 @@
 package com.didichuxing.doraemonkit.okhttp_api
 
+import android.util.Log
+import com.blankj.utilcode.util.ReflectUtils
 import okhttp3.*
 import okio.BufferedSink
 import okio.Sink
@@ -15,8 +17,56 @@ import java.net.URL
  * ================================================
  */
 object OkHttpWrap {
+    val okHttpVersion: String by lazy {
+        var version = ""
+        try {
+            version =
+                ReflectUtils.reflect("okhttp3.internal.Version").method("userAgent").get<String>()
+        } catch (e: Exception) {
+
+        }
+
+        try {
+            if (version.isEmpty()) {
+                version = ReflectUtils.reflect("okhttp3.internal.Version").field("userAgent")
+                    .get<String>()
+            }
+        } catch (e: Exception) {
+
+        }
+
+        try {
+            if (version.isEmpty()) {
+                version = ReflectUtils.reflect("okhttp3.OkHttp").field("VERSION").get<String>()
+            }
+        } catch (e: Exception) {
+
+        }
+
+        if (version.isNotEmpty()) {
+            val split = version.split("/")
+            if (split.size >= 2) {
+                version = split[split.size - 1]
+            }
+        }
+        Log.v("OkHttpWrap", "version===>$version")
+        version
+    }
+
+    private val isV4: Boolean by lazy {
+        if (okHttpVersion.startsWith("4.")) {
+            Log.v("OkHttpWrap", "isV4===>true")
+            return@lazy true
+        } else if (okHttpVersion.startsWith("3.")) {
+            Log.v("OkHttpWrap", "isV4===>false")
+            return@lazy false
+        }
+        return@lazy false
+    }
+
+
     fun createHttpUrl(url: String?): HttpUrl? {
-        return if (isV4()) {
+        return if (isV4) {
             OkHttpWrapV4.createHttpUrl(url)
         } else {
             OkHttpWrapV3.createHttpUrl(url)
@@ -26,7 +76,7 @@ object OkHttpWrap {
 
 
     fun toUrl(httpUrl: HttpUrl?): URL? {
-        return if (isV4()) {
+        return if (isV4) {
             OkHttpWrapV4.toUrl(httpUrl)
         } else {
             OkHttpWrapV3.toUrl(httpUrl)
@@ -34,7 +84,7 @@ object OkHttpWrap {
     }
 
     fun toResponseBody(response: Response?): ResponseBody? {
-        return if (isV4()) {
+        return if (isV4) {
             OkHttpWrapV4.toResponseBody(response)
         } else {
             OkHttpWrapV3.toResponseBody(response)
@@ -43,7 +93,7 @@ object OkHttpWrap {
 
 
     fun toHttpQuery(httpUrl: HttpUrl?): String? {
-        return if (isV4()) {
+        return if (isV4) {
             OkHttpWrapV4.toHttpQuery(httpUrl)
         } else {
             OkHttpWrapV3.toHttpQuery(httpUrl)
@@ -52,7 +102,7 @@ object OkHttpWrap {
 
 
     fun toEncodedPath(httpUrl: HttpUrl?): String? {
-        return if (isV4()) {
+        return if (isV4) {
             OkHttpWrapV4.toEncodedPath(httpUrl)
         } else {
             OkHttpWrapV3.toEncodedPath(httpUrl)
@@ -61,7 +111,7 @@ object OkHttpWrap {
 
 
     fun toRequestHost(httpUrl: HttpUrl?): String? {
-        return if (isV4()) {
+        return if (isV4) {
             OkHttpWrapV4.toRequestHost(httpUrl)
         } else {
             OkHttpWrapV3.toRequestHost(httpUrl)
@@ -69,7 +119,7 @@ object OkHttpWrap {
     }
 
     fun toRequestHost(request: Request): String? {
-        return if (isV4()) {
+        return if (isV4) {
             OkHttpWrapV4.toRequestHost(request)
         } else {
             OkHttpWrapV3.toRequestHost(request)
@@ -77,7 +127,7 @@ object OkHttpWrap {
     }
 
     fun toResponseHost(response: Response): String? {
-        return if (isV4()) {
+        return if (isV4) {
             OkHttpWrapV4.toResponseHost(response)
         } else {
             OkHttpWrapV3.toResponseHost(response)
@@ -86,7 +136,7 @@ object OkHttpWrap {
 
 
     fun toScheme(httpUrl: HttpUrl): String {
-        return if (isV4()) {
+        return if (isV4) {
             OkHttpWrapV4.toScheme(httpUrl)
         } else {
             OkHttpWrapV3.toScheme(httpUrl)
@@ -95,7 +145,7 @@ object OkHttpWrap {
 
 
     fun toResponseCode(response: Response): Int {
-        return if (isV4()) {
+        return if (isV4) {
             OkHttpWrapV4.toResponseCode(response)
         } else {
             OkHttpWrapV3.toResponseCode(response)
@@ -104,7 +154,7 @@ object OkHttpWrap {
 
 
     fun toMediaType(contentType: String?): MediaType? {
-        return if (isV4()) {
+        return if (isV4) {
             OkHttpWrapV4.toMediaType(contentType)
         } else {
             OkHttpWrapV3.toMediaType(contentType)
@@ -112,40 +162,20 @@ object OkHttpWrap {
     }
 
     fun toRequestBody(content: String?, mediaType: MediaType?): RequestBody? {
-        return if (isV4()) {
+        return if (isV4) {
             OkHttpWrapV4.toRequestBody(content, mediaType)
         } else {
             OkHttpWrapV3.toRequestBody(content, mediaType)
         }
     }
 
-    fun getVersion(): String? {
-        return if (isV4()) {
-            OkHttpWrapV4.getVersion()
-        } else {
-            OkHttpWrapV3.getVersion()
-        }
-    }
-
-
-    /**
-     * 判断okhttp是否是V4版本
-     */
-    fun isV4(): Boolean {
-        try {
-            Class.forName("okhttp3.OkHttp")
-            return true
-        } catch (e: ClassNotFoundException) {
-            return false
-        }
-    }
-
-
     fun createByteCountBufferedSink(sink: Sink, byteCount: Long): BufferedSink {
-        return if (isV4()) {
+        return if (isV4) {
             ByteCountBufferedSinkV4(sink, byteCount)
         } else {
             ByteCountBufferedSinkV3(sink, byteCount)
         }
     }
+
+
 }

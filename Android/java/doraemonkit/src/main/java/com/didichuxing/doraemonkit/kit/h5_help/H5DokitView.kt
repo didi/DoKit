@@ -212,15 +212,14 @@ class H5DokitView : AbsDokitView() {
                 return it
             } else if (it is ViewGroup) {
                 return traversView(it)
-
             }
         }
         return null
     }
 
-    private fun traversView(viewGroup: ViewGroup): WebView? {
+    private fun traversView(viewGroup: ViewGroup): Any? {
         viewGroup.children.forEach {
-            if (it is WebView) {
+            if (it is WebView || it is com.tencent.smtt.sdk.WebView) {
                 return it
             } else if (it is ViewGroup) {
                 return traversView(it)

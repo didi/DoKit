@@ -71,8 +71,5 @@ object OkHttpWrapV3 {
         return RequestBody.create(mediaType, content)
     }
 
-    fun getVersion(): String? {
-        val split = Version.userAgent().split("/")
-        return "V_${split[split.size - 1]}"
-    }
+
 }

@@ -32,10 +32,11 @@ import java.net.URLDecoder
  * 修订历史：
  * ================================================
  */
-class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
+class DokitWebViewClient(webViewClient: WebViewClient?, userAgent: String) : WebViewClient() {
 
     private val TAG = "DokitWebViewClient"
     private val mWebViewClient: WebViewClient? = webViewClient
+    private val mUserAgent = userAgent
     //private val mOkHttpClient = OkHttpClient()
 
     /**
@@ -88,6 +89,7 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                     webRequest.url?.toString() + "&dokit_flag=web"
                 }
                 val httpRequest = Request.Builder()
+                    .header("User-Agent", mUserAgent)
                     .url(url)
                     .build()
                 val response = OkhttpClientUtil.okhttpClient.newCall(httpRequest).execute()
@@ -268,12 +270,12 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
      */
     private fun injectVConsoleHook(html: String?): String {
         //读取本地js hook 代码
-        val vconsoleHook = ResourceUtils.readAssets2String("dokit_js_vconsole_hook.html")
+        val vConsoleHook = ResourceUtils.readAssets2String("dokit_js_vconsole_hook.html")
         val doc = Jsoup.parse(html)
         doc.outputSettings().prettyPrint(true)
         val elements = doc.getElementsByTag("head")
         if (elements.size > 0) {
-            elements[elements.size - 1].append(vconsoleHook)
+            elements[elements.size - 1].append(vConsoleHook)
         }
         return doc.toString()
     }

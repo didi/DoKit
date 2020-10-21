@@ -20,6 +20,7 @@ import okio.Timeout;
  * 可以设置每次写入大小的BufferedSink
  * <p>
  * Created by jintai on 2020-10-20 16:07
+ * 支持4.3.0+ 4.0.0 4.1.0 4.2.0 不支持
  */
 public class ByteCountBufferedSinkV4 implements BufferedSink {
 

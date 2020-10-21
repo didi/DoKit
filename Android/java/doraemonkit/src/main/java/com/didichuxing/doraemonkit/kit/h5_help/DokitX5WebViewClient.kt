@@ -34,10 +34,11 @@ import java.net.URLDecoder
  * 修订历史：
  * ================================================
  */
-class DokitX5WebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
+class DokitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : WebViewClient() {
 
     private val TAG = "DokitWebViewClient"
     private val mWebViewClient: WebViewClient? = webViewClient
+    private val mUserAgent = userAgent
 
     /**
      * 更新悬浮窗上的链接
@@ -90,6 +91,7 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                 }
 
                 val httpRequest = Request.Builder()
+                    .header("User-Agent", mUserAgent)
                     .url(url)
                     .build()
                 val response = OkhttpClientUtil.okhttpClient.newCall(httpRequest).execute()

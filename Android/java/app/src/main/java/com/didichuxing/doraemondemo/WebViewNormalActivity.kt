@@ -3,6 +3,7 @@ package com.didichuxing.doraemondemo
 import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.webkit.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 class WebViewNormalActivity : AppCompatActivity() {
     val TAG = "WebViewActivity"
     lateinit var mWebView: WebView
-//    val url = "file:///android_asset/dokit_index.html"
+    val url = "https://m.v.qq.com/index.html"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,9 +23,9 @@ class WebViewNormalActivity : AppCompatActivity() {
         initWebView(mWebView)
 //        webView.loadUrl("https://page-daily.kuaidadi.com/m/ddPage_0sTyVhyq.html")
 //        WebViewHook.inject(webView)
-        //webView.loadUrl(url)
+        mWebView.loadUrl(url)
 //        webView.loadUrl("file:///android_asset/dokit_index.html")
-        mWebView.loadUrl("https://www.dokit.cn")
+        //mWebView.loadUrl("https://www.dokit.cn")
 //        webView.loadUrl("http://xingyun.xiaojukeji.com/docs/dokit/#/intro")
     }
 
@@ -79,7 +80,19 @@ class WebViewNormalActivity : AppCompatActivity() {
 
         webView.webChromeClient = object : WebChromeClient() {
             override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
-                //LogHelper.i(TAG, "consoleMessage===>${consoleMessage?.message()}")
+                val message = consoleMessage!!.message()
+                val lineNumber = consoleMessage.lineNumber()
+                val sourceID = consoleMessage.sourceId()
+                val messageLevel = consoleMessage.message()
+
+                Log.i(
+                    TAG, String.format(
+                        "[%s] sourceID: %s lineNumber: %n message: %s",
+                        messageLevel, sourceID, lineNumber, message
+                    )
+                )
+
+                //Log.i(TAG, "consoleMessage===>${consoleMessage?.message()}")
                 return super.onConsoleMessage(consoleMessage)
             }
         }

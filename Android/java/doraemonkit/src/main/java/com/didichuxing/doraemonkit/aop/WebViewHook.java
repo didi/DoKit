@@ -47,7 +47,7 @@ public class WebViewHook {
                 settings.setJavaScriptEnabled(true);
                 settings.setAllowUniversalAccessFromFileURLs(true);
                 webView.addJavascriptInterface(new DokitJSI(), "dokitJsi");
-                webView.setWebViewClient(new DokitWebViewClient(WebViewCompat.getWebViewClient(webView)));
+                webView.setWebViewClient(new DokitWebViewClient(WebViewCompat.getWebViewClient(webView), settings.getUserAgentString()));
             }
         }
     }
@@ -63,7 +63,7 @@ public class WebViewHook {
                 settings.setJavaScriptEnabled(true);
                 settings.setAllowUniversalAccessFromFileURLs(true);
                 webView.addJavascriptInterface(new DokitJSI(), "dokitJsi");
-                webView.setWebViewClient(new DokitX5WebViewClient(webView.getWebViewClient()));
+                webView.setWebViewClient(new DokitX5WebViewClient(webView.getWebViewClient(), settings.getUserAgentString()));
             }
         }
     }
