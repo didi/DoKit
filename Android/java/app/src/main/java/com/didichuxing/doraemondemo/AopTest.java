@@ -1,5 +1,7 @@
 package com.didichuxing.doraemondemo;
 
+import java.util.HashMap;
+
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -23,9 +25,10 @@ public class AopTest {
 
 
     public void test() {
-//        setName("jint");
-//        String newName = getName();
-//        Log.i("TAG", "newName====>" + newName);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("a", "a");
+        map.put("b", "b");
+        map.put("c", "c");
 
     }
 

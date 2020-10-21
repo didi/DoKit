@@ -96,6 +96,8 @@ dokitExt {
             thresholdTime 5
             //调用栈函数入口
             enterMethods = ["com.didichuxing.doraemondemo.MainDebugActivity.test1"]
+            //黑名单 粒度最小到类 暂不支持到方法
+            methodBlacklist = ["com.facebook.drawee.backends.pipeline.Fresco"]
         }
         //普通模式配置
         normalMethod {
@@ -103,7 +105,7 @@ dokitExt {
             thresholdTime 100
             //需要针对函数插装的包名
             packageNames = ["com.didichuxing.doraemondemo"]
-            //不需要针对函数插装的包名&类名
+            //不需要针对函数插装的包名和类名
             methodBlacklist = ["com.didichuxing.doraemondemo.dokit"]
         }
     }
@@ -121,7 +123,7 @@ dependencies {
     implementation rootProject.ext.dependencies["retrofit2"]
     implementation rootProject.ext.dependencies["retrofit2_rxjava2"]
     implementation rootProject.ext.dependencies["retrofit2_gson"]
-    implementation rootProject.ext.dependencies["okhttp"]
+    implementation rootProject.ext.dependencies["okhttp_v4"]
     implementation rootProject.ext.dependencies["okgo"]
     implementation rootProject.ext.dependencies["glide"]
 //    implementation rootProject.ext.dependencies["glide_okhttp3"]
@@ -156,14 +158,15 @@ configurations.all {
     //循环每个依赖库
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         //获取当前循环到的依赖库
-        def requested = details.requested
-        //如果这个依赖库群组的名字是com.android.support
-        if (requested.group == 'com.squareup.okhttp3') {
-            //且其名字不是以multidex开头的
-            if (requested.name == "okhttp") {
-                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
-                details.useVersion '3.14.7'
-            }
-        }
+//        def requested = details.requested
+//        //如果这个依赖库群组的名字是com.android.support
+//        if (requested.group == 'com.squareup.okhttp3') {
+//            //且其名字不是以multidex开头的
+//            if (requested.name == "okhttp") {
+//                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
+//                //details.useVersion '3.14.7'
+//                details.useVersion rootProject.ext.android["okhttp_v4"]
+//            }
+//        }
     }
 }

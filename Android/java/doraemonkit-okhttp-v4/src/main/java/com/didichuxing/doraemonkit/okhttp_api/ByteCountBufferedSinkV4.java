@@ -1,6 +1,7 @@
-package com.didichuxing.doraemonkit.kit.weaknetwork;
+package com.didichuxing.doraemonkit.okhttp_api;
 
 
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -18,14 +19,15 @@ import okio.Timeout;
 /**
  * 可以设置每次写入大小的BufferedSink
  * <p>
- * Created by xiandanin on 2019-05-10 16:07
+ * Created by jintai on 2020-10-20 16:07
  */
-public class ByteCountBufferedSink implements BufferedSink {
+public class ByteCountBufferedSinkV4 implements BufferedSink {
+
     private final long mByteCount;
     private final Sink mOriginalSink;
     private final BufferedSink mDelegate;
 
-    public ByteCountBufferedSink(Sink sink, long byteCount) {
+    public ByteCountBufferedSinkV4(Sink sink, long byteCount) {
         this.mOriginalSink = sink;
         this.mDelegate = Okio.buffer(mOriginalSink);
         this.mByteCount = byteCount;
@@ -194,4 +196,15 @@ public class ByteCountBufferedSink implements BufferedSink {
         mDelegate.close();
     }
 
+    @NotNull
+    @Override
+    public Buffer getBuffer() {
+        return mDelegate.getBuffer();
+    }
+
+    @NotNull
+    @Override
+    public BufferedSink write(@NotNull ByteString byteString, int i, int i1) throws IOException {
+        return mDelegate.write(byteString, i, i1);
+    }
 }

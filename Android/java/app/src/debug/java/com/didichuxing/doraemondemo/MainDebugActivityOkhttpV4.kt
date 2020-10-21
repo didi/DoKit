@@ -49,6 +49,7 @@ import com.tencent.map.geolocation.TencentLocationRequest
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import org.json.JSONObject
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.PermissionRequest
@@ -61,7 +62,7 @@ import java.net.*
 /**
  * @author jintai
  */
-class MainDebugActivity : BaseActivity(), View.OnClickListener {
+class MainDebugActivityOkhttpV4 : BaseActivity(), View.OnClickListener {
     private var okHttpClient: OkHttpClient? = null
     private var mLocationManager: LocationManager? = null
     private var mLocationClient: AMapLocationClient? = null
@@ -324,7 +325,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                     .placeholder(R.mipmap.dk_health_bg)
                     .error(R.mipmap.dk_health_bg)
                     .into(findViewById<View>(R.id.iv_picasso) as ImageView)
-                Glide.with(this@MainDebugActivity)
+                Glide.with(this@MainDebugActivityOkhttpV4)
                     .asBitmap()
                     .load(glideImageUrl)
                     .placeholder(R.mipmap.dk_health_bg)
@@ -464,7 +465,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                     temp.createNewFile()
                 }
                 request = Request.Builder()
-                    .post(RequestBody.create(MediaType.parse(temp.name), temp))
+                    .post(RequestBody.create(temp.name.toMediaTypeOrNull(), temp))
                     .url("http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&start=0&count=1&from=360chrome")
                     .build()
             } catch (e: IOException) {
@@ -488,15 +489,15 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
             @Throws(IOException::class)
             override fun onResponse(call: Call, response: okhttp3.Response) {
                 if (!response.isSuccessful) {
-                    onFailure(call, IOException(response.message()))
+                    onFailure(call, IOException(response.message))
                     return
                 }
-                val body = response.body()
+                val body = response.body
                 if (!upload) {
                     inputStream2File(body!!.byteStream(), File(filesDir, "test.apk"))
                 }
                 dialog.cancel()
-                val requestLength = if (upload) call.request().body()!!.contentLength() else 0
+                val requestLength = if (upload) call.request().body!!.contentLength() else 0
                 val responseLength = if (body!!.contentLength() < 0) 0 else body.contentLength()
                 val endTime = SystemClock.uptimeMillis() - startTime
                 val speed = (if (upload) requestLength else responseLength) / endTime * 1000
@@ -509,7 +510,8 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
                 )
                 runOnUiThread {
                     Log.d("onResponse", message)
-                    Toast.makeText(this@MainDebugActivity, message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MainDebugActivityOkhttpV4, message, Toast.LENGTH_LONG)
+                        .show()
                 }
             }
         })
@@ -519,11 +521,11 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
         e.printStackTrace()
         runOnUiThread {
             if (e is UnknownHostException) {
-                Toast.makeText(this@MainDebugActivity, "网络异常", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainDebugActivityOkhttpV4, "网络异常", Toast.LENGTH_SHORT).show()
             } else if (e is SocketTimeoutException) {
-                Toast.makeText(this@MainDebugActivity, "请求超时", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainDebugActivityOkhttpV4, "请求超时", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this@MainDebugActivity, e.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainDebugActivityOkhttpV4, e.message, Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -546,7 +548,7 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        okHttpClient!!.dispatcher().cancelAll()
+        okHttpClient!!.dispatcher.cancelAll()
         mLocationManager!!.removeUpdates(mLocationListener)
         mTencentLocationManager!!.removeUpdates(mTencentLocationListener)
         mBaiduLocationClient!!.stop()
@@ -578,5 +580,6 @@ class MainDebugActivity : BaseActivity(), View.OnClickListener {
 
     companion object {
         const val TAG = "MainDebugActivity"
+
     }
 }

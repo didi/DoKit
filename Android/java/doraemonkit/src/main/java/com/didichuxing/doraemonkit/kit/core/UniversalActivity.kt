@@ -23,6 +23,7 @@ import com.didichuxing.doraemonkit.kit.parameter.cpu.CpuMainPageFragment
 import com.didichuxing.doraemonkit.kit.parameter.frameInfo.FrameInfoFragment
 import com.didichuxing.doraemonkit.kit.parameter.ram.RamMainPageFragment
 import com.didichuxing.doraemonkit.kit.sysinfo.SysInfoFragment
+import com.didichuxing.doraemonkit.kit.sysinfo.ThirdLibInfoFragment
 import com.didichuxing.doraemonkit.kit.timecounter.AppStartInfoFragment
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.DokitManagerFragment
@@ -51,6 +52,7 @@ open class UniversalActivity : BaseActivity() {
         var fragmentClass: Class<out BaseFragment?>? = null
         when (index) {
             FragmentIndex.FRAGMENT_SYS_INFO -> fragmentClass = SysInfoFragment::class.java
+            FragmentIndex.FRAGMENT_THIRD_LIBRARY_INFO -> fragmentClass = ThirdLibInfoFragment::class.java
             FragmentIndex.FRAGMENT_FILE_EXPLORER -> fragmentClass = FileExplorerFragment::class.java
             FragmentIndex.FRAGMENT_LOG_INFO_SETTING -> fragmentClass = LogInfoSettingFragment::class.java
             FragmentIndex.FRAGMENT_COLOR_PICKER_SETTING -> fragmentClass = ColorPickerSettingFragment::class.java

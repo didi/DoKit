@@ -90,6 +90,7 @@
 
     <string name="dk_sysinfo_device_info">手机信息</string>
     <string name="dk_sysinfo_app_info">App信息</string>
+    <string name="dk_third_library_info">三方库信息</string>
     <string name="dk_sysinfo_permission_info">权限信息</string>
     <string name="dk_sysinfo_permission_info_unreliable">权限信息 (App未做6.0权限适配，以下信息仅供参考)</string>
     <string name="dk_sysinfo_brand_and_model">手机型号</string>

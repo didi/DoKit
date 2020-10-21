@@ -18,7 +18,6 @@ import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
-import com.didichuxing.doraemonkit.widget.webview.MyWebView
 
 /**
  * ================================================
@@ -79,16 +78,13 @@ class H5DokitView : AbsDokitView() {
             mJsCheckBox = it.findViewById(R.id.js_switch)
             mBtnReload = it.findViewById(R.id.btn_reload)
             mBtnReload.setOnClickListener {
-                mWebView?.let {
-                    when (it) {
+                mWebView?.let { webView ->
+                    when (webView) {
                         is WebView -> {
-                            val webView = it as WebView
-                            webView.loadUrl(webView.url)
+                            webView.reload()
                         }
-
                         is com.tencent.smtt.sdk.WebView -> {
-                            val webView = it as com.tencent.smtt.sdk.WebView
-                            webView.loadUrl(webView.url)
+                            webView.reload()
                         }
                     }
                 }

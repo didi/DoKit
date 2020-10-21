@@ -2,10 +2,10 @@ package com.didichuxing.doraemonkit.kit.h5_help
 
 import android.webkit.JavascriptInterface
 import com.blankj.utilcode.util.ActivityUtils
+import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean
 import com.didichuxing.doraemonkit.kit.h5_help.bean.StorageBean
-import okhttp3.HttpUrl
 
 /**
  * ================================================
@@ -34,7 +34,7 @@ class DokitJSI {
         method: String?,
         origin: String?
     ) {
-        val httpUrl = HttpUrl.parse(url)
+        val httpUrl = OkHttpWrap.createHttpUrl(url)
         val newUrl = if (httpUrl == null) {
             origin + url
         } else {

@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.constant;
 
 /**
  * Created by wanglikun on 2018/10/26.
+ * modify by jintai on 2020/10/20.
  */
 
 public interface FragmentIndex {
@@ -76,4 +77,9 @@ public interface FragmentIndex {
      * Dokit 通用 webview 页面
      */
     int FRAGMENT_WEB = 32;
+
+    /**
+     * Dokit 三方库信息
+     */
+    int FRAGMENT_THIRD_LIBRARY_INFO = 33;
 }

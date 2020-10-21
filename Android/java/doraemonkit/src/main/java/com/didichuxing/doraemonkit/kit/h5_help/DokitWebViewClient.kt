@@ -8,10 +8,9 @@ import android.os.Message
 import android.view.KeyEvent
 import android.webkit.*
 import androidx.annotation.RequiresApi
-import com.android.volley.toolbox.RequestFuture
-import com.android.volley.toolbox.StringRequest
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ResourceUtils
+import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
 import com.didichuxing.doraemonkit.aop.urlconnection.OkhttpClientUtil
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
@@ -81,9 +80,9 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                     TAG,
                     "url===>${webRequest.url?.toString()}  method==>${webRequest.method} thread==>${Thread.currentThread().name}"
                 )
-                val httpUrl = HttpUrl.parse(webRequest.url?.toString())
+                val httpUrl = OkHttpWrap.createHttpUrl(webRequest.url?.toString())
 
-                val url = if (httpUrl?.url()?.query.isNullOrBlank()) {
+                val url = if (OkHttpWrap.toUrl(httpUrl)?.query.isNullOrBlank()) {
                     webRequest.url?.toString() + "?dokit_flag=web"
                 } else {
                     webRequest.url?.toString() + "&dokit_flag=web"
@@ -95,9 +94,9 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
 
                 //注入本地网络拦截js
                 var newHtml = if (DokitConstant.H5_JS_INJECT) {
-                    injectJsHook(response.body()?.string())
+                    injectJsHook(OkHttpWrap.toResponseBody(response)?.string())
                 } else {
-                    response.body()?.string()
+                    OkHttpWrap.toResponseBody(response)?.string()
                 }
                 //注入vConsole的代码
                 if (DokitConstant.H5_VCONSOLE_INJECT) {
@@ -116,8 +115,8 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                     val jsRequestBean = JsHookDataManager.jsRequestMap[jsRequestId]
                     LogHelper.i(TAG, jsRequestBean.toString())
                     jsRequestBean?.let { requestBean ->
-                        val url = HttpUrl.parse(requestBean.url)
-                        val host = url?.host()
+                        val url = OkHttpWrap.createHttpUrl(requestBean.url)
+                        val host = OkHttpWrap.toRequestHost(url)
                         //如果是dokit mock host 则不进行拦截
                         if (host.equals(NetworkManager.MOCK_HOST, true)) {
                             JsHookDataManager.jsRequestMap.remove(requestBean.requestId)
@@ -165,8 +164,8 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
     ): WebResourceResponse? {
         url?.let { httpUrl ->
             try {
-                val path = URLDecoder.decode(httpUrl.encodedPath(), "utf-8")
-                val queries = httpUrl.query()
+                val path = URLDecoder.decode(OkHttpWrap.toEncodedPath(httpUrl), "utf-8")
+                val queries = OkHttpWrap.toHttpQuery(httpUrl)
                 val jsonQuery = JsHttpUtil.transformQuery(queries)
                 val jsonRequestBody = JsHttpUtil.transformRequestBody(
                     requestBean.method,
@@ -235,9 +234,9 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
 
 
     private fun getUrlQuery(url: String, key: String): String? {
-        val httpUrl = HttpUrl.parse(url)
+        val httpUrl = OkHttpWrap.createHttpUrl(url)
 
-        val queries = httpUrl?.url()?.query?.split("&")
+        val queries = OkHttpWrap.toUrl(httpUrl)?.query?.split("&")
         val queryMap = mutableMapOf<String, String>()
 
         queries?.forEach {

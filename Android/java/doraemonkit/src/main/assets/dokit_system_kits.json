@@ -28,6 +28,11 @@
         "innerKitId": "dokit_sdk_comm_ck_appinfo"
       },
       {
+        "allClassName": "com.didichuxing.doraemonkit.kit.sysinfo.ThirdLibInfoKit",
+        "checked": true,
+        "innerKitId": "dokit_sdk_comm_ck_thirdlibinfo"
+      },
+      {
         "allClassName": "com.didichuxing.doraemonkit.kit.sysinfo.DevelopmentPageKit",
         "checked": true,
         "innerKitId": "dokit_sdk_comm_ck_devpage"
