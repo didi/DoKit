@@ -95,7 +95,7 @@ object DokitConstant {
      * h5 js 注入代码开关
      */
     @JvmField
-    var H5_JS_INJECT = true
+    var H5_JS_INJECT = false
 
 
     /**
