@@ -64,6 +64,9 @@ object OkHttpWrapV3 {
 
 
     fun toMediaType(contentType: String?): MediaType? {
+        if (contentType.isNullOrBlank()) {
+            return null
+        }
         return MediaType.parse(contentType)
     }
 

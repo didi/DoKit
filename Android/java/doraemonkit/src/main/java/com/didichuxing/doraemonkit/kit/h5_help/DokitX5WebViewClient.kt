@@ -256,7 +256,7 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
      */
     private fun injectJsHook(html: String?): String {
         //读取本地js hook 代码
-        val jsHook = ResourceUtils.readAssets2String("dokit_js_hook.html")
+        val jsHook = ResourceUtils.readAssets2String("h5help/dokit_js_hook.html")
         val doc = Jsoup.parse(html)
         doc.outputSettings().prettyPrint(true)
         val elements = doc.getElementsByTag("head")
@@ -271,7 +271,7 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
      */
     private fun injectVConsoleHook(html: String?): String {
         //读取本地js hook 代码
-        val vconsoleHook = ResourceUtils.readAssets2String("dokit_js_vconsole_hook.html")
+        val vconsoleHook = ResourceUtils.readAssets2String("h5help/dokit_js_vconsole_hook.html")
         val doc = Jsoup.parse(html)
         doc.outputSettings().prettyPrint(true)
         val elements = doc.getElementsByTag("head")
@@ -279,24 +279,6 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
             elements[elements.size - 1].append(vconsoleHook)
         }
         return doc.toString()
-    }
-
-    //get mime type by url
-    private fun getMimeType(url: String): String? {
-        var type: String? = null
-        val extension = MimeTypeMap.getFileExtensionFromUrl(url)
-        if (extension != null) {
-            when (extension) {
-                "js" -> type = "text/javascript"
-                "woff" -> type = "application/font-woff"
-                "woff2" -> type = "application/font-woff2"
-                "ttf" -> type = "application/x-font-ttf"
-                "eot" -> type = "application/vnd.ms-fontobject"
-                "svg" -> type = "text/javascript"
-                else -> type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
-            }
-        }
-        return type
     }
 
 

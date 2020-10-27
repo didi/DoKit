@@ -193,6 +193,7 @@ class H5DokitView : AbsDokitView() {
             mBtnReload.visibility = View.VISIBLE
         }
         mJsCheckBox.isChecked = DokitConstant.H5_JS_INJECT
+        mVConsoleCheckBox.isChecked = DokitConstant.H5_VCONSOLE_INJECT
         invalidate()
     }
 

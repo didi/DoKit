@@ -7,26 +7,26 @@ import android.util.Log
 import android.webkit.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.blankj.utilcode.util.PathUtils
+import com.didichuxing.doraemonkit.util.FileUtil
+import java.io.File
 
 /**
- * Created by wanglikun on 2018/11/13.
+ * Created by jintai on 2018/11/13.
  */
 class WebViewNormalActivity : AppCompatActivity() {
     val TAG = "WebViewActivity"
     lateinit var mWebView: WebView
-    val url = "https://m.v.qq.com/index.html"
+    val url = "https://jtsky.gitee.io/dokit-mock/index.html"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_normal_webview)
         mWebView = findViewById<WebView>(R.id.normal_web_view)
         initWebView(mWebView)
-//        webView.loadUrl("https://page-daily.kuaidadi.com/m/ddPage_0sTyVhyq.html")
-//        WebViewHook.inject(webView)
+
         mWebView.loadUrl(url)
-//        webView.loadUrl("file:///android_asset/dokit_index.html")
-        //mWebView.loadUrl("https://www.dokit.cn")
-//        webView.loadUrl("http://xingyun.xiaojukeji.com/docs/dokit/#/intro")
+
     }
 
 
@@ -85,12 +85,12 @@ class WebViewNormalActivity : AppCompatActivity() {
                 val sourceID = consoleMessage.sourceId()
                 val messageLevel = consoleMessage.message()
 
-                Log.i(
-                    TAG, String.format(
-                        "[%s] sourceID: %s lineNumber: %n message: %s",
-                        messageLevel, sourceID, lineNumber, message
-                    )
-                )
+//                Log.i(
+//                    TAG, String.format(
+//                        "[%s] sourceID: %s lineNumber: %n message: %s",
+//                        messageLevel, sourceID, lineNumber, message
+//                    )
+//                )
 
                 //Log.i(TAG, "consoleMessage===>${consoleMessage?.message()}")
                 return super.onConsoleMessage(consoleMessage)

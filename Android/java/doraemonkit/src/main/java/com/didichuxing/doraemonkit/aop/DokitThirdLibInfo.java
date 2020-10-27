@@ -23,7 +23,7 @@ public class DokitThirdLibInfo {
      * 注入插件配置 动态注入到DoraemonKitReal#pluginConfig方法中
      */
     public static void inject(Map config) {
-        LogHelper.i(TAG, "map====>" + config);
+        //LogHelper.i(TAG, "map====>" + config);
         THIRD_LIB_INFOS = config;
     }
 

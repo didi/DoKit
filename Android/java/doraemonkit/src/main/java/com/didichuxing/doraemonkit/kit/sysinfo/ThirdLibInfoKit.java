@@ -22,7 +22,7 @@ public class ThirdLibInfoKit extends AbstractKit {
 
     @Override
     public int getIcon() {
-        return R.mipmap.dk_sys_info;
+        return R.mipmap.dk_icon_third_lib;
     }
 
     @Override

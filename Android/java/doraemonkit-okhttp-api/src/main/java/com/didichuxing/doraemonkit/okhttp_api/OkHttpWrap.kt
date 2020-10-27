@@ -49,16 +49,16 @@ object OkHttpWrap {
                 version = split[split.size - 1]
             }
         }
-        Log.v("OkHttpWrap", "version===>$version")
+        //Log.v("OkHttpWrap", "version===>$version")
         version
     }
 
     private val isV4: Boolean by lazy {
         if (okHttpVersion.startsWith("4.")) {
-            Log.v("OkHttpWrap", "isV4===>true")
+            //Log.v("OkHttpWrap", "isV4===>true")
             return@lazy true
         } else if (okHttpVersion.startsWith("3.")) {
-            Log.v("OkHttpWrap", "isV4===>false")
+            //Log.v("OkHttpWrap", "isV4===>false")
             return@lazy false
         }
         return@lazy false

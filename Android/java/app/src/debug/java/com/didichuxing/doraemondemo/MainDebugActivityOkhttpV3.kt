@@ -359,36 +359,26 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
 //                            }
 //                        })
 
-//                val json = JSONObject()
-//                //json
-//                OkGo.get<String>("https://wanandroid.com/user_article/list/0/json")
-//                    //.upJson(json.toString())
-//                    .execute(object : StringCallback() {
-//                        override fun onSuccess(response: Response<String>?) {
-//                            response?.let {
-//                                Log.i(TAG, "okhttp====onSuccess===>" + it.body())
-//                            }
-//                        }
-//
-//                        override fun onError(response: Response<String>?) {
-//                            response?.let {
-//                                Log.i(TAG, "okhttp====onError===>" + it.message())
-//                            }
-//                        }
-//
-//                    })
-
-                OkGo.get<String>("https://m.bilibili.com/")
+                val json = JSONObject()
+                //json
+                OkGo.get<String>("https://wanandroid.com/user_article/list/0/json")
+                    //.upJson(json.toString())
                     .execute(object : StringCallback() {
                         override fun onSuccess(response: Response<String>?) {
-                            Log.i(TAG, "okhttp====onSuccess===>" + response?.body())
+                            response?.let {
+                                Log.i(TAG, "okhttp====onSuccess===>" + it.body())
+                            }
                         }
 
                         override fun onError(response: Response<String>?) {
-                            Log.i(TAG, "okhttp====onError===>" + response?.body())
+                            response?.let {
+                                Log.i(TAG, "okhttp====onError===>" + it.message())
+                            }
                         }
 
                     })
+
+
 
             }
 

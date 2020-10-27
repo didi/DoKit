@@ -28,7 +28,7 @@ public class WebViewHook {
      * webview inject java object
      */
     public static void inject(Object webView) {
-        LogHelper.i(TAG, "====inject====");
+        //LogHelper.i(TAG, "====inject====");
         if (webView != null) {
             if (webView instanceof WebView) {
                 injectNormal((WebView) webView);

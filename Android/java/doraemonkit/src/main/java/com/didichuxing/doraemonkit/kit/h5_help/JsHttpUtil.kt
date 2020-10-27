@@ -180,11 +180,24 @@ internal object JsHttpUtil {
     }
 
     private fun createNormalWebResourceResponse(response: Response): WebResourceResponse {
-        return WebResourceResponse(
-            OkHttpWrap.toResponseBody(response)?.contentType().toString(),
-            "UTF-8",
-            ConvertUtils.string2InputStream(response.bodyContent(), "UTF-8")
-        )
+        val bodyContent = response.bodyContent()
+        try {
+            //mimeType 会影响js的数据展现形式
+            JSONObject(bodyContent)
+            return WebResourceResponse(
+                "application/json",
+                "UTF-8",
+                ConvertUtils.string2InputStream(bodyContent, "UTF-8")
+            )
+        } catch (e: Exception) {
+            return WebResourceResponse(
+                response.header("Content-Type", "application/json"),
+                "UTF-8",
+                ConvertUtils.string2InputStream(bodyContent, "UTF-8")
+            )
+        }
+
+
     }
 
     /**
@@ -265,11 +278,23 @@ internal object JsHttpUtil {
     }
 
     private fun createX5WebResourceResponse(response: Response): com.tencent.smtt.export.external.interfaces.WebResourceResponse {
-        return com.tencent.smtt.export.external.interfaces.WebResourceResponse(
-            OkHttpWrap.toResponseBody(response)?.contentType().toString(),
-            "UTF-8",
-            ConvertUtils.string2InputStream(response.bodyContent(), "UTF-8")
-        )
+        val bodyContent = response.bodyContent()
+        try {
+            //mimeType 会影响js的数据展现形式
+            JSONObject(bodyContent)
+            return com.tencent.smtt.export.external.interfaces.WebResourceResponse(
+                "application/json",
+                "UTF-8",
+                ConvertUtils.string2InputStream(bodyContent, "UTF-8")
+            )
+        } catch (e: Exception) {
+            return com.tencent.smtt.export.external.interfaces.WebResourceResponse(
+                response.header("Content-Type", "application/json"),
+                "UTF-8",
+                ConvertUtils.string2InputStream(bodyContent, "UTF-8")
+            )
+        }
+
     }
 
 
@@ -342,6 +367,11 @@ internal object JsHttpUtil {
 
 
     fun createOkHttpRequest(requestBean: JsRequestBean): Request {
+        requestBean.headers?.let {
+            if (!it.containsKey("content-type")) {
+                it["content-type"] = "application/json"
+            }
+        }
         val builder = Headers.Builder()
         requestBean.headers?.forEach {
             builder.add(it.key!!, it.value!!)
@@ -356,8 +386,15 @@ internal object JsHttpUtil {
                     .build()
             }
             "POST" -> {
-                val contentType = requestBean.headers?.get("Content-Type")
-                val requestBody = OkHttpWrap.toRequestBody(requestBean.body, OkHttpWrap.toMediaType(contentType))
+                var contentType: String? = ""
+                contentType = requestBean.headers?.get("Content-Type")
+                if (contentType.isNullOrBlank()) {
+                    contentType = requestBean.headers?.get("content-type")
+                }
+
+
+                val requestBody =
+                    OkHttpWrap.toRequestBody(requestBean.body, OkHttpWrap.toMediaType(contentType))
 
                 Request.Builder()
                     .url(requestBean.url!!)

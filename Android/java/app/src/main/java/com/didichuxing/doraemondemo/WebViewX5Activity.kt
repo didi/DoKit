@@ -5,6 +5,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.blankj.utilcode.util.PathUtils
 import com.tencent.smtt.export.external.interfaces.ConsoleMessage
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse
@@ -12,6 +13,7 @@ import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebSettings
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
+import java.io.File
 
 /**
  * Created by wanglikun on 2018/11/13.
@@ -19,19 +21,14 @@ import com.tencent.smtt.sdk.WebViewClient
 class WebViewX5Activity : AppCompatActivity() {
     val TAG = "WebViewActivity"
     lateinit var mWebView: WebView
-    val url = "https://m.v.qq.com/index.html"
+    val url = "https://jtsky.gitee.io/dokit-mock/index.html"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_x5_webview)
         mWebView = findViewById<WebView>(R.id.x5_web_view)
         initWebView(mWebView)
-//        webView.loadUrl("https://page-daily.kuaidadi.com/m/ddPage_0sTyVhyq.html")
-//        WebViewHook.inject(webView)
         mWebView.loadUrl(url)
-//        webView.loadUrl("file:///android_asset/dokit_index.html")
-        //mWebView.loadUrl("https://www.dokit.cn")
-//        webView.loadUrl("http://xingyun.xiaojukeji.com/docs/dokit/#/intro")
     }
 
 

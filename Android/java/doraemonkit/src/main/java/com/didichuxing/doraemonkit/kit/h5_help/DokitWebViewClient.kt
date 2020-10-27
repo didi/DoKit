@@ -65,6 +65,10 @@ class DokitWebViewClient(webViewClient: WebViewClient?, userAgent: String) : Web
         return super.shouldOverrideUrlLoading(view, url)
     }
 
+
+    /**
+     * https://developer.android.google.cn/reference/android/webkit/WebViewClient.html#shouldInterceptRequest(android.webkit.WebView,%20android.webkit.WebResourceRequest)
+     */
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun shouldInterceptRequest(
         view: WebView?,
@@ -255,7 +259,7 @@ class DokitWebViewClient(webViewClient: WebViewClient?, userAgent: String) : Web
      */
     private fun injectJsHook(html: String?): String {
         //读取本地js hook 代码
-        val jsHook = ResourceUtils.readAssets2String("dokit_js_hook.html")
+        val jsHook = ResourceUtils.readAssets2String("h5help/dokit_js_hook.html")
         val doc = Jsoup.parse(html)
         doc.outputSettings().prettyPrint(true)
         val elements = doc.getElementsByTag("head")
@@ -270,7 +274,7 @@ class DokitWebViewClient(webViewClient: WebViewClient?, userAgent: String) : Web
      */
     private fun injectVConsoleHook(html: String?): String {
         //读取本地js hook 代码
-        val vConsoleHook = ResourceUtils.readAssets2String("dokit_js_vconsole_hook.html")
+        val vConsoleHook = ResourceUtils.readAssets2String("h5help/dokit_js_vconsole_hook.html")
         val doc = Jsoup.parse(html)
         doc.outputSettings().prettyPrint(true)
         val elements = doc.getElementsByTag("head")
@@ -280,23 +284,6 @@ class DokitWebViewClient(webViewClient: WebViewClient?, userAgent: String) : Web
         return doc.toString()
     }
 
-    //get mime type by url
-    private fun getMimeType(url: String): String? {
-        var type: String? = null
-        val extension = MimeTypeMap.getFileExtensionFromUrl(url)
-        if (extension != null) {
-            when (extension) {
-                "js" -> type = "text/javascript"
-                "woff" -> type = "application/font-woff"
-                "woff2" -> type = "application/font-woff2"
-                "ttf" -> type = "application/x-font-ttf"
-                "eot" -> type = "application/vnd.ms-fontobject"
-                "svg" -> type = "text/javascript"
-                else -> type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
-            }
-        }
-        return type
-    }
 
 
     @RequiresApi(Build.VERSION_CODES.N)
