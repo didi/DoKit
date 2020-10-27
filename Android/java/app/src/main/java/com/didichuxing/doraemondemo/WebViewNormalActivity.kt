@@ -7,9 +7,6 @@ import android.util.Log
 import android.webkit.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.blankj.utilcode.util.PathUtils
-import com.didichuxing.doraemonkit.util.FileUtil
-import java.io.File
 
 /**
  * Created by jintai on 2018/11/13.
