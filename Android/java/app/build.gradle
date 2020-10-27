@@ -86,7 +86,7 @@ dokitExt {
         //大图开关
         bigImgSwitch true
         //webView js 抓包
-        webViewSwitch true
+        //webViewSwitch true
     }
 
     slowMethod {
@@ -97,7 +97,7 @@ dokitExt {
             //调用栈函数入口
             enterMethods = ["com.didichuxing.doraemondemo.MainDebugActivity.test1"]
             //黑名单 粒度最小到类 暂不支持到方法
-            methodBlacklist = ["com.facebook.drawee.backends.pipeline.Fresco"]
+            //methodBlacklist = ["com.facebook.drawee.backends.pipeline.Fresco"]
         }
         //普通模式配置
         normalMethod {

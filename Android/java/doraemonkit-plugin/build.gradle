@@ -27,7 +27,7 @@ dependencies {
     compileOnly gradleApi()
     compileOnly localGroovy()
     //版本不能太高 否则会跟项目的as版本冲突
-    compileOnly 'com.android.tools.build:gradle:4.0.2'
+    compileOnly 'com.android.tools.build:gradle:3.5.3'
     /* 👇👇👇👇 引用这两个模块 👇👇👇👇 */
     api "com.didiglobal.booster:booster-api:${rootProject.ext.android["booster_version"]}"
     api "com.didiglobal.booster:booster-transform-asm:${rootProject.ext.android["booster_version"]}"
