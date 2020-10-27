@@ -41,8 +41,16 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //implementation rootProject.ext.dependencies["appcompat"]
     //compileOnly rootProject.ext.dependencies["okio"]
-    implementation project(":doraemonkit-okhttp-v3")
-    implementation project(":doraemonkit-okhttp-v4")
+
+    if (rootProject.ext.config["runOrPublish"] == 0) {
+        implementation project(":doraemonkit-okhttp-v3")
+        implementation project(":doraemonkit-okhttp-v4")
+    } else {
+        implementation "com.didichuxing.doraemonkit:dokitx-okhttp-v3:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        implementation "com.didichuxing.doraemonkit:dokitx-okhttp-v4:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+    }
+
+
     compileOnly rootProject.ext.dependencies["utilcode"]
 
 }

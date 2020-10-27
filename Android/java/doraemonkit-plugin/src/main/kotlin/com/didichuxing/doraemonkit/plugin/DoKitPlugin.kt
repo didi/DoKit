@@ -76,13 +76,13 @@ class DoKitPlugin : Plugin<Project> {
                         val slowMethodSwitch = project.getProperty("DOKIT_METHOD_SWITCH", false)
                         val slowMethodStrategy = project.getProperty("DOKIT_METHOD_STRATEGY", 0)
                         val methodStackLevel = project.getProperty("DOKIT_METHOD_STACK_LEVEL", 5)
-                        val webviewClassName = project.getProperty("DOKIT_WEBVIEW_CLASS_NAME", "")
+                        val webViewClassName = project.getProperty("DOKIT_WEBVIEW_CLASS_NAME", "")
                         DoKitExtUtil.DOKIT_PLUGIN_SWITCH = pluginSwitch
                         DoKitExtUtil.DOKIT_LOG_SWITCH = logSwitch
                         DoKitExtUtil.SLOW_METHOD_SWITCH = slowMethodSwitch
                         DoKitExtUtil.SLOW_METHOD_STRATEGY = slowMethodStrategy
                         DoKitExtUtil.STACK_METHOD_LEVEL = methodStackLevel
-                        DoKitExtUtil.WEBVIEW_CLASS_NAME = webviewClassName
+                        DoKitExtUtil.WEBVIEW_CLASS_NAME = webViewClassName
 
                         "application module ${project.name} is executing...".println()
 

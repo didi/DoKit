@@ -52,7 +52,11 @@ dependencies {
     implementation 'androidx.test.ext:junit:1.1.1'
     //leakCanary
     implementation rootProject.ext.dependencies["haha"]
-    compileOnly project(':doraemonkit')
+    if (rootProject.ext.config["runOrPublish"] == 0) {
+        compileOnly project(':doraemonkit')
+    } else {
+        compileOnly "com.didichuxing.doraemonkit:dokitx:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+    }
     //跨进程通信框架
     compileOnly rootProject.ext.dependencies["utilcode"]
 

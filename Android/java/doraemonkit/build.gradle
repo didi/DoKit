@@ -86,8 +86,13 @@ dependencies {
     implementation rootProject.ext.dependencies["ktor-core"]
     implementation rootProject.ext.dependencies["ktor-cio"]
     implementation rootProject.ext.dependencies["jsoup"]
-    //okhttp
-    implementation project(":doraemonkit-okhttp-api")
+    //okhttp wrap
+    if (rootProject.ext.config["runOrPublish"] == 0) {
+        implementation project(":doraemonkit-okhttp-api")
+    } else {
+        implementation "com.didichuxing.doraemonkit:dokitx-okhttp-api:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+    }
+
     //compileOnly project(":doraemonkit-okhttp_v4")
 
 //    implementation rootProject.ext.dependencies["mimecraft"]

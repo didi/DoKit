@@ -35,8 +35,7 @@ class App : Application() {
         mapKits["业务专区1"] = mutableListOf<AbstractKit>(DemoKit())
         mapKits["业务专区2"] = mutableListOf<AbstractKit>(DemoKit())
 
-        //DoraemonKit.install(this, mapKits = mapKits, productId = "749a0600b5e48dd77cf8ee680be7b1b7")
-        DoraemonKit.install(this, mapKits = mapKits, productId = "61f9ea9b7308463010d5f1c937153916")
+        DoraemonKit.install(this, mapKits = mapKits, productId = "749a0600b5e48dd77cf8ee680be7b1b7")
         DoraemonKit.setFileManagerHttpPort(9001)
         //设置加密数据库
         DoraemonKit.setDatabasePass(mapOf("Person.db" to "a_password"))

@@ -18,6 +18,11 @@ object DoKitExtUtil {
     //private var mApplicationId: String = ""
 
     /**
+     * 三方库版本信息
+     */
+    val THIRD_LIB_INFOS = mutableListOf<ThirdLibInfo>()
+
+    /**
      * dokit 插件开关 字段权限必须为public 否则无法进行赋值
      */
     var DOKIT_PLUGIN_SWITCH = true
@@ -29,9 +34,10 @@ object DoKitExtUtil {
     var STACK_METHOD_LEVEL = 5
 
     /**
-     * webview 的全限定名
+     * 自定义webview全限定名
      */
-    var WEBVIEW_CLASS_NAME = ""
+    var WEBVIEW_CLASS_NAME: String = ""
+
 
     /**
      * 慢函数默认关闭
@@ -114,6 +120,13 @@ object DoKitExtUtil {
         for (methodName in dokitEx.slowMethod.stackMethod.enterMethods) {
             slowMethodExt.stackMethod.enterMethods.add(methodName)
         }
+
+        //设置慢函数调用栈策略插装包名黑名单
+        slowMethodExt.stackMethod.methodBlacklist.clear()
+        for (blackStr in dokitEx.slowMethod.stackMethod.methodBlacklist) {
+            slowMethodExt.stackMethod.methodBlacklist.add(blackStr)
+        }
+
         /**
          * ============慢函数stack策略的配置  end==========
          */
