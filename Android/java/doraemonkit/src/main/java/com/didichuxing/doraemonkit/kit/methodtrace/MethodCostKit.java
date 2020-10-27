@@ -6,6 +6,8 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
+import com.didichuxing.doraemonkit.kit.network.NetworkManager;
+import com.didichuxing.doraemonkit.kit.webview.WebViewManager;
 
 /**
  * ================================================
@@ -31,8 +33,8 @@ public class MethodCostKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context,FragmentIndex.FRAGMENT_METHOD_COST);
-
+        WebViewManager.INSTANCE.setUrl(NetworkManager.APP_DOCUMENT_URL);
+        startUniversalActivity(context, FragmentIndex.FRAGMENT_WEB);
     }
 
     @Override

@@ -73,7 +73,11 @@ public class UserInfoDialogProvider extends DialogProvider<Object> {
 
         AppHealthInfoUtil.getInstance().setBaseInfo(caseName, userName);
         //上传数据
-        AppHealthInfoUtil.getInstance().post(uploadAppHealthCallBack);
+        try {
+            AppHealthInfoUtil.getInstance().post(uploadAppHealthCallBack);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return true;
     }
 

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/more_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dk_setting_item_background"
+    android:paddingTop="@dimen/dk_dp_5"
+    android:paddingBottom="@dimen/dk_dp_5">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/dk_color_333333"
+        android:textSize="16sp"
+        tools:text="功能管理" />
+
+    <ImageView
+        android:id="@+id/iv_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:src="@mipmap/dk_more_icon" />
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_name"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@id/iv_more"
+        android:textColor="@color/dk_color_999999"
+        android:textSize="14sp" />
+
+    <View
+        style="@style/DK.Divider"
+        android:layout_below="@id/tv_desc"
+        android:layout_marginTop="5dp" />
+
+
+</RelativeLayout>

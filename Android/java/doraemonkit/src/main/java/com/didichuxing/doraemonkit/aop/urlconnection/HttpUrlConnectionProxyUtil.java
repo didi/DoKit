@@ -1,18 +1,14 @@
 package com.didichuxing.doraemonkit.aop.urlconnection;
 
 import android.net.Uri;
-import android.util.Log;
 
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonWeakNetworkInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.LargePictureInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor;
-import com.didichuxing.doraemonkit.okgo.DokitOkGo;
 
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.util.concurrent.TimeUnit;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;

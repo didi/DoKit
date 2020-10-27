@@ -88,7 +88,11 @@ public class DoraemonInterceptor implements Interceptor {
         RequestBodyHelper requestBodyHelper = new RequestBodyHelper();
         OkHttpInspectorRequest inspectorRequest =
                 new OkHttpInspectorRequest(requestId, request, requestBodyHelper);
-        NetworkRecord record = mNetworkInterpreter.createRecord(requestId, inspectorRequest);
+        String platform = "native";
+        if (request.url().toString().contains("dokit_flag")) {
+            platform = "web";
+        }
+        NetworkRecord record = mNetworkInterpreter.createRecord(requestId, platform, inspectorRequest);
 
         NetworkInterpreter.InspectorResponse inspectorResponse = new OkHttpInspectorResponse(
                 requestId,

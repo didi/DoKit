@@ -2,9 +2,9 @@ package com.didichuxing.doraemonkit.kit.network.ui;
 
 import androidx.annotation.NonNull;
 
-import com.didichuxing.doraemonkit.widget.bravh.BaseNodeAdapter;
-import com.didichuxing.doraemonkit.widget.bravh.entity.node.BaseNode;
-import com.didichuxing.doraemonkit.widget.bravh.module.LoadMoreModule;
+import com.didichuxing.doraemonkit.widget.brvah.BaseNodeAdapter;
+import com.didichuxing.doraemonkit.widget.brvah.entity.node.BaseNode;
+import com.didichuxing.doraemonkit.widget.brvah.module.LoadMoreModule;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.MockTemplateTitleBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;

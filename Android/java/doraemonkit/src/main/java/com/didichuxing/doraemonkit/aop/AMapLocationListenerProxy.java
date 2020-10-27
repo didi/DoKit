@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.aop;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
+import com.blankj.utilcode.util.ReflectUtils;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 
 /**
@@ -26,10 +27,12 @@ public class AMapLocationListenerProxy implements AMapLocationListener {
             try {
                 mapLocation.setLatitude(GpsMockManager.getInstance().getLatitude());
                 mapLocation.setLongitude(GpsMockManager.getInstance().getLongitude());
+                //通过反射强制改变p的值 原因:看mapLocation.setErrorCode
+                ReflectUtils.reflect(mapLocation).field("p", 0);
+                mapLocation.setErrorInfo("success");
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
         if (aMapLocationListener != null) {
             aMapLocationListener.onLocationChanged(mapLocation);

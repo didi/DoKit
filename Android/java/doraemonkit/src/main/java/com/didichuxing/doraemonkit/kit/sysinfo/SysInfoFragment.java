@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.content.pm.PackageInfo;
 import android.os.Build;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +19,7 @@ import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.PhoneUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap;
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.util.DeviceUtils;
@@ -85,6 +87,7 @@ public class SysInfoFragment extends BaseFragment {
         mInfoItemAdapter.setData(sysInfoItems);
     }
 
+    //App 信息
     private void addAppData(List<SysInfoItem> sysInfoItems) {
         PackageInfo pi = DeviceUtils.getPackageInfo(getContext());
         sysInfoItems.add(new TitleItem(getString(R.string.dk_sysinfo_app_info)));
@@ -95,8 +98,25 @@ public class SysInfoFragment extends BaseFragment {
             sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_package_min_sdk), String.valueOf(getContext().getApplicationInfo().minSdkVersion)));
         }
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_package_target_sdk), String.valueOf(getContext().getApplicationInfo().targetSdkVersion)));
+        try {
+            sysInfoItems.add(new SysInfoItem("Sign MD5", AppUtils.getAppSignatureMD5()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("Sign SHA1", AppUtils.getAppSignatureSHA1()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            sysInfoItems.add(new SysInfoItem("Sign SHA256", AppUtils.getAppSignatureSHA256()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
+
+    //手机信息
     private void addDeviceData(List<SysInfoItem> sysInfoItems) throws Exception {
         sysInfoItems.add(new TitleItem(getString(R.string.dk_sysinfo_device_info)));
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_brand_and_model), Build.MANUFACTURER + " " + Build.MODEL));
@@ -146,21 +166,7 @@ public class SysInfoFragment extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        try {
-            sysInfoItems.add(new SysInfoItem("Sign MD5", AppUtils.getAppSignatureMD5()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            sysInfoItems.add(new SysInfoItem("Sign SHA1", AppUtils.getAppSignatureSHA1()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            sysInfoItems.add(new SysInfoItem("Sign SHA256", AppUtils.getAppSignatureSHA256()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 
     /**

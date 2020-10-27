@@ -12,17 +12,15 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.GlobalConfig;
 import com.didichuxing.doraemonkit.constant.DokitConstant;
-import com.didichuxing.doraemonkit.okgo.model.Response;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.util.DokitUtil;
+import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.widget.dialog.DialogListener;
 import com.didichuxing.doraemonkit.widget.dialog.DialogProvider;
 import com.didichuxing.doraemonkit.widget.dialog.UniversalDialogFragment;
-import com.didichuxing.doraemonkit.util.DokitUtil;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 /**
  * 健康体检fragment
@@ -61,8 +59,8 @@ public class HealthFragmentChild0 extends BaseFragment {
                     //上传健康体检数据
                     boolean isCheck = mUserInfoDialogProvider.uploadAppHealthInfo(new UploadAppHealthCallback() {
                         @Override
-                        public void onSuccess(Response<String> response) {
-                            LogHelper.i(TAG, "上传成功===>" + response.body());
+                        public void onSuccess(String response) {
+                            LogHelper.i(TAG, "上传成功===>" + response);
                             ToastUtils.showShort(DokitUtil.getString(R.string.dk_health_upload_successed));
                             //重置状态
                             GlobalConfig.setAppHealth(false);
@@ -75,8 +73,8 @@ public class HealthFragmentChild0 extends BaseFragment {
                         }
 
                         @Override
-                        public void onError(Response<String> response) {
-                            LogHelper.e(TAG, "error response===>" + response.message());
+                        public void onError(String response) {
+                            LogHelper.e(TAG, "error response===>" + response);
                             ToastUtils.showShort(DokitUtil.getString(R.string.dk_health_upload_failed));
                         }
                     });

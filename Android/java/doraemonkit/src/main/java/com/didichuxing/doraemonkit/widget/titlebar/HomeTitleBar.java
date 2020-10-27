@@ -48,7 +48,7 @@ public class HomeTitleBar extends FrameLayout {
 
         mIcon = findViewById(R.id.icon);
         mTitle = findViewById(R.id.title);
-
+        mTitle.setSingleLine(true);
         mIcon.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

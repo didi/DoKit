@@ -100,7 +100,7 @@ class ToolPanelDokitView : AbsDokitView() {
                 if (activity != null) {
                     val intent = Intent(activity, UniversalActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_DOKIT_SETTING)
+                    intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_DOKIT_MORE)
                     activity.startActivity(intent)
                 }
             }

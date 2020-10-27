@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.content.Intent
 import androidx.multidex.MultiDex
-import com.didichuxing.doraemondemo.WebViewActivity
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -24,10 +23,6 @@ class App : Application() {
         DoraemonKit.install(this, "a49842eeebeb1989b3f9565eb12c276b")
 
         DoraemonKit.setWebDoorCallback(WebDoorManager.WebDoorCallback { context, url ->
-            val intent = Intent(this@App, WebViewActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            intent.putExtra(WebViewActivity.KEY_URL, url)
-            startActivity(intent)
         })
 
 

@@ -65,7 +65,7 @@ public class DokitUtil {
 
         for (String p : params) {
             String[] ps = p.split("=");
-            if(ps.length == 2){
+            if (ps.length == 2) {
                 String key = ps[0];
                 String value = ps[1];
                 jsonObject.put(key, value);

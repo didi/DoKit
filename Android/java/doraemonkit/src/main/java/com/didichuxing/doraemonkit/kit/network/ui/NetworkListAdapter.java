@@ -55,6 +55,7 @@ public class NetworkListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Network
         private static final String CODE_FORMAT = "[%d]";
         private static final String UNKNOWN = "unknown";
         private TextView url;
+        private TextView platform;
         private TextView method;
         private TextView code;
         private TextView time;
@@ -68,6 +69,7 @@ public class NetworkListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Network
         @Override
         protected void getViews() {
             url = getView(R.id.network_list_url);
+            platform = getView(R.id.network_list_platform);
             method = getView(R.id.network_list_method);
             code = getView(R.id.network_list_code);
             time = getView(R.id.network_list_time_and_cost);
@@ -100,6 +102,8 @@ public class NetworkListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Network
                 code.setText(UNKNOWN);
                 method.setText(UNKNOWN);
             }
+
+            platform.setText(String.format("platform: %s", record.mPlatform));
 
             flow.setText(String.format(FLOW_FORMAT, ByteUtil.getPrintSize(record.requestLength), ByteUtil.getPrintSize(record.responseLength)));
             itemView.setOnClickListener(new View.OnClickListener() {

@@ -91,6 +91,18 @@ object DokitConstant {
     @JvmField
     var WHITE_HOSTS = mutableListOf<WhiteHostBean>()
 
+    /**
+     * h5 js 注入代码开关
+     */
+    @JvmField
+    var H5_JS_INJECT = false
+
+
+    /**
+     * h5 vConsole 注入代码开关
+     */
+    @JvmField
+    var H5_VCONSOLE_INJECT = false
 
     @JvmField
     var ACTIVITY_LIFECYCLE_INFOS = mutableMapOf<String, ActivityLifecycleInfo>()

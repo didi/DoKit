@@ -42,7 +42,7 @@ dependencies {
     //implementation rootProject.ext.dependencies["appcompat"]
     //compileOnly rootProject.ext.dependencies["okio"]
     implementation rootProject.ext.dependencies["kotlin"]
-    compileOnly rootProject.ext.dependencies["okhttp"]
+    compileOnly rootProject.ext.dependencies["okhttp_v3"]
     //三大图片框架
     compileOnly rootProject.ext.dependencies["glide"]
     compileOnly rootProject.ext.dependencies["picasso"]
