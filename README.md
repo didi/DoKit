@@ -62,16 +62,6 @@
 
 **2020中国开源年会DoKit社区合作伙伴**
 
-[2020中国开源年会（COSCon’20）再启程：开源向善（Open Source for Good）](https://mp.weixin.qq.com/s/kgBsRZd1N3uOCX2NeSvqGQ)
-
-[COSCon’20 讲师征集令](https://mp.weixin.qq.com/s/uAGG8o4IcAk69hFzKY98IQ) 
-
-[COSCon’20 志愿者招募正式启动](https://mp.weixin.qq.com/s/gGlzZV_xJnsBuSc2HGh7Uw) 
-
-[2020中国开源年会暨阿帕奇中国路演 社区合作伙伴征集令](https://mp.weixin.qq.com/s/PJq6QYp7ahIIzX4GrOQ88g) 
-
-[百格网报名链接](https://www.bagevent.com/event/6840909)
-
 <img src="https://pt-starimg.didistatic.com/static/starimg/img/hoEGfdsUzi1600745052153.jpg" alt="图片替换文本" width="200"  align="bottom" />
 
 ## 开发背景
@@ -160,10 +150,10 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 ## 相关文档
 - [iOS 研发助手 DoraemonKit 技术实现（一）](https://www.jianshu.com/p/00763123dbc4)
-- [iOS 研发助手 DoraemonKit 技术实现（二）](https://www.jianshu.com/p/4091870ca3f0)
+- [iOS 研发助手 DoraemonKit 技术实现（二）](https://blog.csdn.net/weixin_33847182/article/details/91472599)
 - [DoKit支持iOS本地crash查看功能](https://juejin.im/post/5d76184ce51d4561d106cc65)
-- [开源组件 DoraemonKit 之 Android 版本技术实现（一）](https://juejin.im/post/5c4dcfe8518825261e1f2978)
-- [开源组件 DoraemonKit 之 Android 版本技术实现（二）](https://juejin.im/post/5c73db105188256ec63f13bb)
+- [开源组件 DoraemonKit 之 Android 版本技术实现（一）](https://blog.csdn.net/weixin_33711647/article/details/88004429)
+- [开源组件 DoraemonKit 之 Android 版本技术实现（二）](https://blog.csdn.net/weixin_34148456/article/details/88004414)
 - [DoKit支持Activity启动耗时统计方案](https://juejin.im/post/5d70bc3051882571ed61e407)
 - [DoKit 微信小程序SDK对外发布](https://juejin.im/post/5d9bf252518825095c3c5e32)
 - [滴滴DoKit2.0 - 泛前端开发者的百宝箱](https://juejin.im/post/5dc3cdfa51882538d22d5948)
