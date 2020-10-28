@@ -366,16 +366,22 @@ internal object JsHttpUtil {
     }
 
 
-    fun createOkHttpRequest(requestBean: JsRequestBean): Request {
+    fun createOkHttpRequest(requestBean: JsRequestBean, userAgent: String): Request {
         requestBean.headers?.let {
             if (!it.containsKey("content-type")) {
                 it["content-type"] = "application/json"
+            }
+
+            if (!it.containsKey("User-Agent")) {
+                it["User-Agent"] = userAgent
             }
         }
         val builder = Headers.Builder()
         requestBean.headers?.forEach {
             builder.add(it.key!!, it.value!!)
         }
+
+
         val headers = builder.build()
         return when (requestBean.method?.toUpperCase()) {
             "GET" -> {
@@ -423,6 +429,7 @@ internal object JsHttpUtil {
         if (whiteHostBeans.isEmpty()) {
             return true
         }
+
         for (whiteHostBean in whiteHostBeans) {
             if (TextUtils.isEmpty(whiteHostBean.host)) {
                 continue
