@@ -126,21 +126,7 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
                             JsHookDataManager.jsRequestMap.remove(requestBean.requestId)
                             return null
                         }
-                        //web 抓包
-                        if (NetworkManager.isActive()) {
-                            try {
-                                //构建okhttp用来抓包
-                                val newRequest: Request =
-                                    JsHttpUtil.createOkHttpRequest(requestBean)
 
-                                if (!JsHttpUtil.matchWhiteHost(newRequest)) {
-                                    //发送模拟请求
-                                    OkhttpClientUtil.okhttpClient.newCall(newRequest).execute()
-                                }
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-                        }
 
                         // web 数据mock
                         return dealMock(requestBean, url, view, request)
@@ -196,11 +182,26 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
 
                 //如果interceptMatchedId和templateMatchedId都为null 直接不进行操作
                 if (interceptMatchedId.isNullOrBlank() && templateMatchedId.isNullOrBlank()) {
+                    //web 抓包
+                    if (NetworkManager.isActive()) {
+                        try {
+                            //构建okhttp用来抓包
+                            val newRequest: Request =
+                                JsHttpUtil.createOkHttpRequest(requestBean,mUserAgent)
+
+                            if (JsHttpUtil.matchWhiteHost(newRequest)) {
+                                //发送模拟请求
+                                OkhttpClientUtil.okhttpClient.newCall(newRequest).execute()
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
                     return super.shouldInterceptRequest(view, request)
                 }
 
                 val newRequest: Request =
-                    JsHttpUtil.createOkHttpRequest(requestBean)
+                    JsHttpUtil.createOkHttpRequest(requestBean,mUserAgent)
                 //发送模拟请求
                 val newResponse =
                     OkhttpClientUtil.okhttpClient.newCall(newRequest).execute()

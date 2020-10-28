@@ -1,8 +1,12 @@
 # Android Guide
+**Tip:**
+**1、In order to better support the official androidx and support of android, dokit has officially updated the sdk name from version 3.3.0. details as follows：androidx===>com.didichuxing.doraemonkit:dokitx:3.3.0; support===>com.didichuxing.doraemonkit:dokit:3.3.0;**
+
+**All the logs below use dokitx as an example. To use the support version, please change dokitx to dokit.**
 
 |DoKit|new Version|Desc|
 |-    |-      |-  |
-|support Androidx|3.2.0|support Androidx from v3.1.0|
+|support Androidx|3.3.0|support Androidx from v3.1.0|
 |supprot android support|3.0.8.0|Version 3.0.8.0 corresponds to the function of 3.2.0. Later support will be updated from time to time, mainly based on community feedback, please upgrade and adapt to Androidx as soon as possible|
 
 
@@ -10,8 +14,8 @@
 
 ```groovy
 dependencies {
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:3.2.0'
-    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:3.2.0'
+    debugImplementation 'com.didichuxing.doraemonkit:dokitx:3.3.0'
+    releaseImplementation 'com.didichuxing.doraemonkit:dokitx-no-op:3.3.0'
 }
 ```
 
@@ -21,7 +25,7 @@ dependencies {
 If you cannot download the dependent library through jcenter and report the following error
 
 ```
-ERROR: Failed to resolve: com.didichuxing.doraemonkit:doraemonkit:3.2.0
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:dokitx:3.3.0
 ```
 
 You can try again from the command line (take Mac system as an example under the project root directory)
@@ -47,7 +51,7 @@ If you need to support Weex, you can directly add the following dependencies
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit-weex:3.2.0'
+    debugImplementation 'com.didichuxing.doraemonkit:dokitx-weex:3.3.0'
     …
 }
 ```
@@ -89,7 +93,7 @@ Plugin includes the following functions:
 ```groovy
 buildscript {
     dependencies {
-        classpath 'com.didichuxing.doraemonkit:doraemonkit-plugin:3.2.0'
+        classpath 'com.didichuxing.doraemonkit:dokitx-plugin:3.3.0'
     }
 }
 ```
