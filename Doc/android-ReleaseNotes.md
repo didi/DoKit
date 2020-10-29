@@ -1,11 +1,11 @@
 DoraemonKit-Android releases
 ===
 
-## 3.3.0（dokit）
-1、由于更新了库名称，等待jcenter审核中。
+## 3.3.1（dokit 对应android support）
+1、由于更新了库名称，等待jcenter审核中，请耐心等待。
 
-## 3.3.0（dokitx）
-1、为了更好的支持android官方androidx和support，dokit从3.3.0版本开始正式对sdk名字进行更新。具体如下：androidx===>com.didichuxing.doraemonkit:dokitx:3.3.0; support===>com.didichuxing.doraemonkit:dokit:3.3.0;
+## 3.3.1（dokitx 对应androidx）
+1、为了更好的支持android官方androidx和support，dokit从3.3.1版本开始正式对sdk名字进行更新。具体如下：androidx===>com.didichuxing.doraemonkit:dokitx:3.3.1; support===>com.didichuxing.doraemonkit:dokit:3.3.1;
 2、新增H5助手功能:针对webview中的js请求进行数据Mock和抓包
 3、新增三方库信息:将项目中依赖的三方库进行统一收集展现。
 4、大量github issues 问题修复。

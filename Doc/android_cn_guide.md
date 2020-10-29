@@ -1,13 +1,13 @@
 ## 接入方式
 
 **Tip:**
-**1、为了更好的支持android官方androidx和support，dokit从3.3.0版本开始正式对sdk名字进行更新。具体如下：androidx===>com.didichuxing.doraemonkit:dokitx:3.3.0; support===>com.didichuxing.doraemonkit:dokit:3.3.0;**
+**1、为了更好的支持android官方androidx和support，dokit从3.3.1版本开始正式对sdk名字进行更新。具体如下：androidx===>com.didichuxing.doraemonkit:dokitx:3.3.1; support===>com.didichuxing.doraemonkit:dokit:3.3.1;**
 
 **下面所有的日志均用dokitx举例。要使用support版本请将dokitx改为dokit即可。**
 
 |DoKit|最新版本|描述|
 |-|-|-|
-|支持Androidx|3.3.0|从v3.3.0版本开始更名为dokitx|
+|支持Androidx|3.3.1|从v3.3.1版本开始更名为dokitx|
 |支持android support|3.0.8.0|3.0.8.0版本对应3.2.0的功能，后期support将会不定期更新，主要还是看社区的反馈，请大家尽快升级和适配Androidx|
 
 
@@ -17,8 +17,8 @@
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:dokitx:3.3.0'
-    releaseImplementation 'com.didichuxing.doraemonkit:dokitx-no-op:3.3.0'
+    debugImplementation 'com.didichuxing.doraemonkit:dokitx:3.3.1'
+    releaseImplementation 'com.didichuxing.doraemonkit:dokitx-no-op:3.3.1'
     …
 }
 ```
@@ -27,20 +27,20 @@ dependencies {
 
 滴滴内部业务线接入请将
 ```
-debugImplementation 'com.didichuxing.doraemonkit:dokitx:3.3.0'
+debugImplementation 'com.didichuxing.doraemonkit:dokitx:3.3.1'
 ```
 
 替换为
 
 ```
-debugImplementation 'com.didichuxing.doraemonkit:dokitx-rpc:3.3.0'
+debugImplementation 'com.didichuxing.doraemonkit:dokitx-rpc:3.3.1'
 ```
 
 **注意:** 
  假如你无法通过 jcenter 下载到依赖库并报了以下的错误 
 
 ```
-ERROR: Failed to resolve: com.didichuxing.doraemonkit:dokitx:3.3.0
+ERROR: Failed to resolve: com.didichuxing.doraemonkit:dokitx:3.3.1
 ```
 
 建议你可以尝试挂载VPN或通过命令行重试(以Mac系统为例 项目根目录下)
@@ -69,7 +69,7 @@ DoraemonKit目前已支持Weex工具，包括
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:dokitx-weex:3.3.0'
+    debugImplementation 'com.didichuxing.doraemonkit:dokitx-weex:3.3.1'
     …
 }
 ```
@@ -116,7 +116,7 @@ AOP包括以下几个功能:
 buildscript {
     dependencies {
         …
-        classpath 'com.didichuxing.doraemonkit:dokitx-plugin:3.3.0'
+        classpath 'com.didichuxing.doraemonkit:dokitx-plugin:3.3.1'
         …
     }
 }

@@ -1,7 +1,7 @@
 <div align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
- <img src="https://img.shields.io/badge/Android-3.3.0-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/Android-3.3.1-blue.svg" align=left />
  <img src="https://img.shields.io/badge/iOS-3.0.4-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
@@ -122,7 +122,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.1'
-        classpath 'com.didichuxing.doraemonkit:dokitx-plugin:3.3.0'
+        classpath 'com.didichuxing.doraemonkit:dokitx-plugin:3.3.1'
     }
 }
 
@@ -135,8 +135,8 @@ apply plugin: 'com.didi.dokit'
 
 and then implementation DoKit SDK
 ```
-debugImplementation "com.didichuxing.doraemonkit:dokitx:3.3.0"
-releaseImplementation "com.didichuxing.doraemonkit:dokitx-no-op:3.3.0"
+debugImplementation "com.didichuxing.doraemonkit:dokitx:3.3.1"
+releaseImplementation "com.didichuxing.doraemonkit:dokitx-no-op:3.3.1"
 ```
 
 #### 2、SDK Init
