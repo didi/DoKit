@@ -1,6 +1,7 @@
 
 package com.didichuxing.doraemonkit.kit.network.utils
 
+import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
 import okhttp3.Response
 import okio.Buffer
 import okio.GzipSource
@@ -15,10 +16,10 @@ internal fun Response.charset(): Charset {
         ?.also {
             return Charset.forName(it)
         }
-    return body()?.contentType()?.charset() ?: Charset.defaultCharset()
+    return OkHttpWrap.toResponseBody(this)?.contentType()?.charset() ?: Charset.defaultCharset()
 }
 
-internal fun Response.bodyContent(): String = body()
+internal fun Response.bodyContent(): String = OkHttpWrap.toResponseBody(this)
     ?.let { body ->
         val source = body.source()
             .apply {

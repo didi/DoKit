@@ -51,7 +51,7 @@ compileKotlin {
 dependencies {
     compileOnly localGroovy()
     compileOnly gradleApi()
-    implementation 'com.android.tools.build:gradle:3.3.0'
+    implementation 'com.android.tools.build:gradle:4.0.2'
     /* 👇👇👇👇 引用这两个模块 👇👇👇👇 */
     kapt "com.google.auto.service:auto-service:1.0-rc6"
     api "com.didiglobal.booster:booster-api:${rootProject.ext.android["booster_version"]}"

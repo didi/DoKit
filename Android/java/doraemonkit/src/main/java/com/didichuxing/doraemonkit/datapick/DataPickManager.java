@@ -3,15 +3,23 @@ package com.didichuxing.doraemonkit.datapick;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.blankj.utilcode.util.FileIOUtils;
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.PathUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.okgo.DokitOkGo;
-import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
-import com.didichuxing.doraemonkit.okgo.model.Response;
 import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.volley.VolleyManager;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -112,28 +120,27 @@ public class DataPickManager {
     private void realPost(final int from, String content) throws Exception {
         //LogHelper.i(TAG,"content===>" + content);
         //LogHelper.i(TAG, "====realPost======from==>" + from);
-        DokitOkGo.<String>post(NetworkManager.APP_DATA_PICK_URL)
-                .upJson(content)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        //LogHelper.e(TAG, "success===>" + response.body());
-                        if (from == jsonFromFile) {
-                            FileUtils.delete(filePath);
-                        }
-                        if (from == jsonFromMemory) {
-                            events.clear();
-                        }
-                    }
+        Request requset = new JsonObjectRequest(Request.Method.POST, NetworkManager.APP_DATA_PICK_URL, new JSONObject(content), new Response.Listener<JSONObject>() {
 
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        LogHelper.e(TAG, "error===>" + response.getException().getMessage());
-                        //ToastUtils.showShort("上传埋点失败");
-                    }
-                });
+            @Override
+            public void onResponse(JSONObject response) {
+                LogHelper.e(TAG, "success===>" + response.toString());
+                if (from == jsonFromFile) {
+                    FileUtils.delete(filePath);
+                }
+                if (from == jsonFromMemory) {
+                    events.clear();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                LogHelper.e(TAG, "error===>" + error.getMessage());
+                ToastUtils.showShort("上传埋点失败");
+            }
+        });
 
+        VolleyManager.INSTANCE.add(requset);
     }
 
     private String filePath = PathUtils.getInternalAppFilesPath() + File.separator + "dokit.json";

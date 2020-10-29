@@ -13,8 +13,8 @@ import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
 import com.didichuxing.doraemonkit.util.DokitUtil;
-import com.didichuxing.doraemonkit.widget.bravh.BaseQuickAdapter;
-import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder;
+import com.didichuxing.doraemonkit.widget.brvah.BaseQuickAdapter;
+import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder;
 
 import java.util.List;
 

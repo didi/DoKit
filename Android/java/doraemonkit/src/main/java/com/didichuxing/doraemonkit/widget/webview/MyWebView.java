@@ -16,6 +16,7 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.kit.webview.OnWebViewTitleChangeCallBack;
 
 /**
  * Created by wanglikun on 2019/4/8
@@ -23,6 +24,12 @@ import com.didichuxing.doraemonkit.R;
 public class MyWebView extends WebView {
     private ProgressBar mProgressBar;
     private MyWebViewClient mMyWebViewClient;
+    OnWebViewTitleChangeCallBack callBack;
+
+
+    public void setCallBack(OnWebViewTitleChangeCallBack callBack) {
+        this.callBack = callBack;
+    }
 
     public MyWebView(Context context) {
         super(getFixedContext(context));
@@ -100,6 +107,14 @@ public class MyWebView extends WebView {
                         showLoadProgress(newProgress);
                     } else {
                         hideLoadProgress();
+                    }
+                }
+
+                @Override
+                public void onReceivedTitle(WebView view, String title) {
+                    super.onReceivedTitle(view, title);
+                    if (callBack != null) {
+                        callBack.onChange(title);
                     }
                 }
             });

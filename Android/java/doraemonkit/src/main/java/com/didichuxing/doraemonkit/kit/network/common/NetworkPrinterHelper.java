@@ -36,7 +36,7 @@ public class NetworkPrinterHelper {
     }
 
     public static void updateRequest(@NonNull CommonInspectorRequest request) {
-        get().mInterpreter.createRecord(request.id(), request);
+        get().mInterpreter.createRecord(request.id(), "native", request);
     }
 
     public static void updateResponse(@NonNull CommonInspectorResponse response) {

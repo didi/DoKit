@@ -85,15 +85,11 @@ dokitExt {
         networkSwitch true
         //大图开关
         bigImgSwitch true
+        //webView js 抓包
+        webViewSwitch true
     }
 
     slowMethod {
-        //0:默认模式 打印函数调用栈 需添加指定入口  默认为application onCreate 和attachBaseContext
-        //1:普通模式 运行时打印某个函数的耗时 全局业务代码函数插入
-        strategy 1
-        //函数功能开关 已弃用
-        methodSwitch false
-
         //调用栈模式配置
         stackMethod {
             //默认值为 5ms 小于该值的函数在调用栈中不显示
@@ -124,7 +120,7 @@ dependencies {
     implementation rootProject.ext.dependencies["retrofit2"]
     implementation rootProject.ext.dependencies["retrofit2_rxjava2"]
     implementation rootProject.ext.dependencies["retrofit2_gson"]
-    implementation rootProject.ext.dependencies["okhttp"]
+    implementation rootProject.ext.dependencies["okgo"]
     implementation rootProject.ext.dependencies["glide"]
 //    implementation rootProject.ext.dependencies["glide_okhttp3"]
     annotationProcessor rootProject.ext.dependencies["glide_compiler"]
@@ -134,7 +130,7 @@ dependencies {
     implementation rootProject.ext.dependencies["image-loader"]
     implementation rootProject.ext.dependencies["room_runtime"]
     implementation rootProject.ext.dependencies["wcdb"]
-
+    implementation rootProject.ext.dependencies["jsoup"]
     //weex相关
     implementation rootProject.ext.dependencies["weex_inspector"]
     implementation rootProject.ext.dependencies["weex_sdk"]
@@ -148,6 +144,8 @@ dependencies {
 //    debugImplementation rootProject.ext.dependencies["leakcanary-android"]
     //百度地图定位
     implementation files('libs/BaiduLBS_Android.jar')
+    //腾讯x5
+    implementation rootProject.ext.dependencies["tbs"]
 //    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.12'
 
 }

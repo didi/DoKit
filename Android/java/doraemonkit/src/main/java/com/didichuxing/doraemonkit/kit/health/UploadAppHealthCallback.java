@@ -1,7 +1,5 @@
 package com.didichuxing.doraemonkit.kit.health;
 
-import com.didichuxing.doraemonkit.okgo.model.Response;
-
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -15,11 +13,11 @@ public interface UploadAppHealthCallback {
     /**
      * @param response
      */
-    void onSuccess(Response<String> response);
+    void onSuccess(String response);
 
     /**
      * @param response
      */
 
-    void onError(Response<String> response);
+    void onError(String response);
 }

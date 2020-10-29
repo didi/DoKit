@@ -28,10 +28,6 @@ public interface FragmentIndex {
      * 大图检测
      */
     int FRAGMENT_LARGE_PICTURE = 22;
-    /**
-     * 函数耗时
-     */
-    int FRAGMENT_METHOD_COST = 23;
 
     /**
      * 数据库远程调试
@@ -61,9 +57,9 @@ public interface FragmentIndex {
 
 
     /**
-     * DoKit 设置页面
+     * DoKit 更多页面
      */
-    int FRAGMENT_DOKIT_SETTING = 29;
+    int FRAGMENT_DOKIT_MORE = 29;
 
     /**
      * Dokit 功能管理页面
@@ -75,8 +71,14 @@ public interface FragmentIndex {
      */
     int FRAGMENT_FILE_TRANSFER = 31;
 
+
     /**
-     * Dokit 文件互传文档
+     * Dokit 通用 webview 页面
      */
-    int FRAGMENT_FILE_TRANSFER_DOC = 32;
+    int FRAGMENT_WEB = 32;
+
+    /**
+     * Dokit 三方库信息
+     */
+    int FRAGMENT_THIRD_LIBRARY_INFO = 33;
 }

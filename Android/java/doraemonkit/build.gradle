@@ -55,6 +55,7 @@ android {
 }
 
 dependencies {
+
     //implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
     testImplementation 'junit:junit:4.12'
@@ -64,7 +65,7 @@ dependencies {
     implementation rootProject.ext.dependencies["cardview"]
     implementation rootProject.ext.dependencies["recyclerview"]
     implementation rootProject.ext.dependencies["kotlin"]
-
+    implementation rootProject.ext.dependencies["volley"]
     implementation rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]
     //函数耗时
@@ -74,7 +75,6 @@ dependencies {
     //implementation rootProject.ext.dependencies["debug-db"]
     //implementation rootProject.ext.dependencies["debug-db-encrypt"]
     implementation rootProject.ext.dependencies["android_spinkit"]
-    implementation rootProject.ext.dependencies["okhttp"]
     implementation rootProject.ext.dependencies["okhttp_v2"]
     implementation rootProject.ext.dependencies["room_runtime"]
     //sql
@@ -82,6 +82,17 @@ dependencies {
     //ktor
     implementation rootProject.ext.dependencies["ktor-core"]
     implementation rootProject.ext.dependencies["ktor-cio"]
+    implementation rootProject.ext.dependencies["jsoup"]
+    //okhttp wrap
+    if (rootProject.ext.config["runOrPublish"] == 0) {
+        implementation project(":doraemonkit-okhttp-api")
+    } else {
+        implementation "com.didichuxing.doraemonkit:dokitx-okhttp-api:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+    }
+
+    //compileOnly project(":doraemonkit-okhttp_v4")
+
+//    implementation rootProject.ext.dependencies["mimecraft"]
     //会合滴滴内部的spi-plugin冲突
 //    implementation rootProject.ext.dependencies["ktor-serialization"]
 //    implementation rootProject.ext.dependencies["ktor-gson"]
@@ -93,6 +104,8 @@ dependencies {
     compileOnly rootProject.ext.dependencies["picasso"]
     compileOnly rootProject.ext.dependencies["fresco"]
     compileOnly rootProject.ext.dependencies["image-loader"]
+    //腾讯x5
+    compileOnly rootProject.ext.dependencies["tbs"]
 
     //高德地图定位
     compileOnly rootProject.ext.dependencies["amap_location"]
@@ -100,21 +113,33 @@ dependencies {
     compileOnly rootProject.ext.dependencies["tencent_location"]
     //百度地图定位
     compileOnly files('libs/BaiduLBS_Android.jar')
+
 }
 
 configurations.all {
     //循环每个依赖库
     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
         //获取当前循环到的依赖库
-        def requested = details.requested
-        //如果这个依赖库群组的名字是com.android.support
-        if (requested.group == 'com.squareup.okhttp3') {
-            //且其名字不是以multidex开头的
-            if (requested.name == "okhttp") {
-                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
-                details.useVersion '3.14.7'
-            }
-        }
+//        def requested = details.requested
+//        //如果这个依赖库群组的名字是com.android.support
+//        if (requested.group == 'com.squareup.okhttp3') {
+//            //且其名字不是以multidex开头的
+//            if (requested.name == "okhttp") {
+//                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
+//                //details.useVersion rootProject.ext.android["okhttp_v4"]
+//            }
+//        }
+//        else if (requested.group == 'androidx.core') {
+//            if (requested.name == "core") {
+//                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
+//                details.useVersion '1.2.0'
+//            }
+//        } else if (requested.group == 'androidx.versionedparcelable') {
+//            if (requested.name == "versionedparcelable") {
+//                //这里指定需要统一的依赖版本 比如我的需要配置成27.1.1
+//                details.useVersion '1.1.0'
+//            }
+//        }
     }
 }
 

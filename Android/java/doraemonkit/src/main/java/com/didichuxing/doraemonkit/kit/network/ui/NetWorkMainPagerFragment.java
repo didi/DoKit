@@ -16,6 +16,9 @@ import com.didichuxing.doraemonkit.widget.titlebar.TitleBar;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * http 流量监控摘要页面
+ */
 public class NetWorkMainPagerFragment extends BaseFragment implements View.OnClickListener {
     private ViewPager mViewPager;
     private NetWorkSummaryView mSummaryView;

@@ -22,8 +22,6 @@ class SecondActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.Main).launch {
                 val job = async(Dispatchers.IO) { insertPersonDB() }
                 val success = job.await()
-                LogHelper.i(TAG, "success===>$success")
-                LogHelper.i(TAG, "threadName1===>${Thread.currentThread().name}")
                 ToastUtils.showShort("插入数据成功")
 
             }
@@ -36,7 +34,6 @@ class SecondActivity : AppCompatActivity() {
      * 只非ui编程中执行操作
      */
     private fun insertPersonDB(): Boolean {
-        LogHelper.i(TAG, "threadName0===>${Thread.currentThread().name}")
         val personDBHelper = PersonDBHelper(applicationContext)
         if (personDBHelper.count() == 0) {
             for (i in 0..99) {

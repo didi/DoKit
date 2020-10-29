@@ -18,7 +18,8 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
  */
 
 public class MainIconDokitView extends AbsDokitView {
-    public static int FLOAT_SIZE = 174;
+    //public static int FLOAT_SIZE = 174;
+    //public static int FLOAT_SIZE = 58;
 
     @Override
     public void onCreate(Context context) {
@@ -53,8 +54,10 @@ public class MainIconDokitView extends AbsDokitView {
     public void initDokitViewLayoutParams(DokitViewLayoutParams params) {
         params.x = FloatIconConfig.getLastPosX();
         params.y = FloatIconConfig.getLastPosY();
-        params.width = FLOAT_SIZE;
-        params.height = FLOAT_SIZE;
+        params.width = DokitViewLayoutParams.WRAP_CONTENT;
+        params.height = DokitViewLayoutParams.WRAP_CONTENT;
+//        params.width = ConvertUtils.dp2px(FLOAT_SIZE);
+//        params.height = ConvertUtils.dp2px(FLOAT_SIZE);
     }
 
 
@@ -63,8 +66,10 @@ public class MainIconDokitView extends AbsDokitView {
         super.onResume();
         if (isNormalMode()) {
             FrameLayout.LayoutParams params = getNormalLayoutParams();
-            params.width = FLOAT_SIZE;
-            params.height = FLOAT_SIZE;
+            params.width = DokitViewLayoutParams.WRAP_CONTENT;
+            params.height = DokitViewLayoutParams.WRAP_CONTENT;
+//            params.width = ConvertUtils.dp2px(FLOAT_SIZE);
+//            params.height = ConvertUtils.dp2px(FLOAT_SIZE);
             invalidate();
         }
     }
