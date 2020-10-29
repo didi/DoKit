@@ -74,6 +74,6 @@ public class FileExplorerChooseDialog extends DialogProvider<File> {
 
     @Override
     public boolean isCancellable() {
-        return false;
+        return true;
     }
 }

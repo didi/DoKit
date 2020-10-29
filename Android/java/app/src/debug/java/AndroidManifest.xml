@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
 
-        <activity android:name=".MainDebugActivity">
+        <activity android:name=".MainDebugActivityOkhttpV3">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

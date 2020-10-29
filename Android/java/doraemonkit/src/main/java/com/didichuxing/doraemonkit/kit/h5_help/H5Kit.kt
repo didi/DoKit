@@ -21,7 +21,7 @@ class H5Kit : AbstractKit() {
         get() = R.string.dk_kit_h5_help
 
     override val icon: Int
-        get() = R.mipmap.dk_health
+        get() = R.mipmap.dk_icon_h5help
 
     override val isInnerKit: Boolean
         get() = true

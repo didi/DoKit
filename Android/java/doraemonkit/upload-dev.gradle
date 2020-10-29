@@ -6,7 +6,7 @@ if (publishArchivesType == 1) {
             mavenDeployer {
                 pom.project {
                     groupId "com.didichuxing.doraemonkit"
-                    artifactId "doraemonkit"
+                    artifactId "dokit"
                     version rootProject.ext.android["jcenterArchivesVersionName"]
                 }
 
@@ -42,7 +42,7 @@ if (publishArchivesType == 1) {
             mavenDeployer {
                 pom.project {
                     groupId "com.didichuxing.doraemonkit"
-                    artifactId "doraemonkit"
+                    artifactId "dokit"
                     version rootProject.ext.android["jcenterArchivesVersionName"]
                 }
                 pom.withXml {

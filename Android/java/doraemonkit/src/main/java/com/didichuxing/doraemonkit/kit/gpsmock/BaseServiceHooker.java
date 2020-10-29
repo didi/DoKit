@@ -42,11 +42,16 @@ public abstract class BaseServiceHooker implements InvocationHandler {
         if (mOriginService == null && proxy == null) {
             return null;
         }
-        if (getMethodHandlers().containsKey(method.getName()) && getMethodHandlers().get(method.getName()) != null) {
-            return getMethodHandlers().get(method.getName()).onInvoke(this.mOriginService, proxy, method, args);
-        } else {
-            return method.invoke(mOriginService, args);
+        try {
+            if (getMethodHandlers().containsKey(method.getName()) && getMethodHandlers().get(method.getName()) != null) {
+                return getMethodHandlers().get(method.getName()).onInvoke(this.mOriginService, proxy, method, args);
+            } else {
+                return method.invoke(mOriginService, args);
+            }
+        } catch (Exception e) {
+            return null;
         }
+
     }
 
     @SuppressWarnings("unchecked")

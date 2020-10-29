@@ -115,6 +115,16 @@
 
         <View style="@style/DK.Divider" />
 
+        <Button
+            android:id="@+id/btn_reload"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/dk_item_btn_img"
+            android:text="Reload"
+            android:textColor="@color/dk_color_FFFFFF"
+
+            />
+
         <RelativeLayout
             android:id="@+id/rl_more_wrap"
             android:layout_width="match_parent"

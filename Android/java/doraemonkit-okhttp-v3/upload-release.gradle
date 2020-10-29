@@ -2,7 +2,7 @@ apply plugin: 'com.novoda.bintray-release'
 // 配置发布 # script
 publish {
     def groupProjectID = 'com.didichuxing.doraemonkit'
-    def artifactProjectID = 'dokitx-okhttp-v3'
+    def artifactProjectID = 'dokit-okhttp-v3'
     def publishVersionID = "${rootProject.ext.android["jcenterArchivesVersionName"]}"
 
     userOrg = 'doraemonkit'

@@ -35,7 +35,6 @@ class CommWebViewFragment : BaseFragment() {
         mWebView = findViewById(R.id.webview)
         WebViewManager.url?.let { url ->
             mWebView.loadUrl(url)
-
             mWebView.setCallBack { title ->
                 title?.let {
                     mTitle.setTitle(it)

@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.kit.core;
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -409,6 +410,8 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             }
         });
         dokitRootView.setClipChildren(false);
+        dokitRootView.setClipToPadding(false);
+
         //解决无法获取返回按键的问题
         dokitRootView.setFocusable(true);
         dokitRootView.setFocusableInTouchMode(true);
@@ -428,6 +431,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         } catch (Exception e) {
             //e.printStackTrace();
         }
+        dokitParams.gravity = Gravity.BOTTOM;
         dokitRootView.setLayoutParams(dokitParams);
         //添加到DecorView中 为了不和用户自己往根布局中添加view干扰
         decorView.addView(dokitRootView);

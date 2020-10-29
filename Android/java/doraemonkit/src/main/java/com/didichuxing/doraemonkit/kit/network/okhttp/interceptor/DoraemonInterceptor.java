@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor;
 
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.didichuxing.doraemonkit.constant.DokitConstant;
@@ -38,9 +39,9 @@ public class DoraemonInterceptor implements Interceptor {
 
     private final NetworkInterpreter mNetworkInterpreter = NetworkInterpreter.get();
 
-    @NotNull
+    @NonNull
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         if (!NetworkManager.isActive()) {
             Request request = chain.request();
             try {

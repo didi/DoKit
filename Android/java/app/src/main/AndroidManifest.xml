@@ -24,8 +24,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!--用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <!--用于访问网络，网络定位需要上网-->
-    <uses-permission android:name="android.permission.INTERNET" />
     <!--用于读取手机当前的状态-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <!--用于写入缓存数据到扩展存储卡-->
@@ -34,7 +32,6 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <!-- https://blog.csdn.net/CHS007chs/article/details/85849625
        tools:replace="android:allowBackup,android:label"-->
-    <!--    android:requestLegacyExternalStorage="true" 解决sd卡没有权限的问题-->
     <application
         android:name=".App"
         android:allowBackup="false"

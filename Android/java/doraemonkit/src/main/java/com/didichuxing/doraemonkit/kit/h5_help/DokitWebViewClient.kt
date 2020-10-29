@@ -10,13 +10,14 @@ import android.view.KeyEvent
 import android.webkit.*
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ResourceUtils
+import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
+import com.didichuxing.doraemonkit.aop.urlconnection.OkhttpClientUtil
 import com.didichuxing.doraemonkit.constant.DokitConstant
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
-import com.didichuxing.doraemonkit.okgo.DokitOkGo
 import com.didichuxing.doraemonkit.util.LogHelper
 import okhttp3.*
 import org.jsoup.Jsoup
@@ -31,11 +32,12 @@ import java.net.URLDecoder
  * 修订历史：
  * ================================================
  */
-class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
+class DokitWebViewClient(webViewClient: WebViewClient?, userAgent: String) : WebViewClient() {
 
     private val TAG = "DokitWebViewClient"
     private val mWebViewClient: WebViewClient? = webViewClient
-    private val mOkHttpClient = OkHttpClient()
+    private val mUserAgent = userAgent
+    //private val mOkHttpClient = OkHttpClient()
 
     /**
      * 更新悬浮窗上的链接
@@ -63,6 +65,10 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
         return super.shouldOverrideUrlLoading(view, url)
     }
 
+
+    /**
+     * https://developer.android.google.cn/reference/android/webkit/WebViewClient.html#shouldInterceptRequest(android.webkit.WebView,%20android.webkit.WebResourceRequest)
+     */
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun shouldInterceptRequest(
         view: WebView?,
@@ -79,21 +85,24 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                     TAG,
                     "url===>${webRequest.url?.toString()}  method==>${webRequest.method} thread==>${Thread.currentThread().name}"
                 )
-                val httpUrl = HttpUrl.parse(webRequest.url?.toString())
+                val httpUrl = OkHttpWrap.createHttpUrl(webRequest.url?.toString())
 
-                val url = if (httpUrl?.url()?.query.isNullOrBlank()) {
+                val url = if (OkHttpWrap.toUrl(httpUrl)?.query.isNullOrBlank()) {
                     webRequest.url?.toString() + "?dokit_flag=web"
                 } else {
                     webRequest.url?.toString() + "&dokit_flag=web"
                 }
-
-                val response = DokitOkGo.get<String>(url).execute()
+                val httpRequest = Request.Builder()
+                    .header("User-Agent", mUserAgent)
+                    .url(url)
+                    .build()
+                val response = OkhttpClientUtil.okhttpClient.newCall(httpRequest).execute()
 
                 //注入本地网络拦截js
                 var newHtml = if (DokitConstant.H5_JS_INJECT) {
-                    injectJsHook(response.body()?.string())
+                    injectJsHook(OkHttpWrap.toResponseBody(response)?.string())
                 } else {
-                    response.body()?.string()
+                    OkHttpWrap.toResponseBody(response)?.string()
                 }
                 //注入vConsole的代码
                 if (DokitConstant.H5_VCONSOLE_INJECT) {
@@ -112,31 +121,16 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                     val jsRequestBean = JsHookDataManager.jsRequestMap[jsRequestId]
                     LogHelper.i(TAG, jsRequestBean.toString())
                     jsRequestBean?.let { requestBean ->
-                        val url = HttpUrl.parse(requestBean.url)
-                        val host = url?.host()
+                        val url = OkHttpWrap.createHttpUrl(requestBean.url)
+                        val host = OkHttpWrap.toRequestHost(url)
                         //如果是dokit mock host 则不进行拦截
                         if (host.equals(NetworkManager.MOCK_HOST, true)) {
                             JsHookDataManager.jsRequestMap.remove(requestBean.requestId)
                             return null
                         }
-                        //web 抓包
-                        if (NetworkManager.isActive()) {
-                            try {
-                                //构建okhttp用来抓包
-                                val newRequest: Request =
-                                    JsHttpUtil.createOkHttpRequest(requestBean)
-
-                                if (!JsHttpUtil.matchWhiteHost(newRequest)) {
-                                    //发送模拟请求
-                                    mOkHttpClient.newCall(newRequest).execute()
-                                }
-                            } catch (e: Exception) {
-                                e.printStackTrace()
-                            }
-                        }
 
                         // web 数据mock
-                        return dealMock(requestBean, url,view,request)
+                        return dealMock(requestBean, url, view, request)
                     }
 
                 } else {
@@ -161,8 +155,8 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
     ): WebResourceResponse? {
         url?.let { httpUrl ->
             try {
-                val path = URLDecoder.decode(httpUrl.encodedPath(), "utf-8")
-                val queries = httpUrl.query()
+                val path = URLDecoder.decode(OkHttpWrap.toEncodedPath(httpUrl), "utf-8")
+                val queries = OkHttpWrap.toHttpQuery(httpUrl)
                 val jsonQuery = JsHttpUtil.transformQuery(queries)
                 val jsonRequestBody = JsHttpUtil.transformRequestBody(
                     requestBean.method,
@@ -190,14 +184,28 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
 
                 //如果interceptMatchedId和templateMatchedId都为null 直接不进行操作
                 if (interceptMatchedId.isNullOrBlank() && templateMatchedId.isNullOrBlank()) {
+                    //web 抓包
+                    if (NetworkManager.isActive()) {
+                        try {
+                            //构建okhttp用来抓包
+                            val newRequest: Request =
+                                JsHttpUtil.createOkHttpRequest(requestBean,mUserAgent)
+                            if (JsHttpUtil.matchWhiteHost(newRequest)) {
+                                //发送模拟请求
+                                OkhttpClientUtil.okhttpClient.newCall(newRequest).execute()
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
                     return super.shouldInterceptRequest(view, request)
                 }
 
                 val newRequest: Request =
-                    JsHttpUtil.createOkHttpRequest(requestBean)
+                    JsHttpUtil.createOkHttpRequest(requestBean,mUserAgent)
                 //发送模拟请求
                 val newResponse =
-                    mOkHttpClient.newCall(newRequest).execute()
+                    OkhttpClientUtil.okhttpClient.newCall(newRequest).execute()
                 //是否命中拦截规则
                 if (!interceptMatchedId.isNullOrBlank()) {
                     JsHookDataManager.jsRequestMap.remove(requestBean.requestId)
@@ -208,7 +216,7 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
                         templateMatchedId,
                         newRequest,
                         newResponse,
-                        mOkHttpClient
+                        OkhttpClientUtil.okhttpClient
                     )
                 }
 
@@ -231,9 +239,9 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
 
 
     private fun getUrlQuery(url: String, key: String): String? {
-        val httpUrl = HttpUrl.parse(url)
+        val httpUrl = OkHttpWrap.createHttpUrl(url)
 
-        val queries = httpUrl?.url()?.query?.split("&")
+        val queries = OkHttpWrap.toUrl(httpUrl)?.query?.split("&")
         val queryMap = mutableMapOf<String, String>()
 
         queries?.forEach {
@@ -250,7 +258,7 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
      */
     private fun injectJsHook(html: String?): String {
         //读取本地js hook 代码
-        val jsHook = ResourceUtils.readAssets2String("dokit_js_hook.html")
+        val jsHook = ResourceUtils.readAssets2String("h5help/dokit_js_hook.html")
         val doc = Jsoup.parse(html)
         doc.outputSettings().prettyPrint(true)
         val elements = doc.getElementsByTag("head")
@@ -265,32 +273,14 @@ class DokitWebViewClient(webViewClient: WebViewClient?) : WebViewClient() {
      */
     private fun injectVConsoleHook(html: String?): String {
         //读取本地js hook 代码
-        val vconsoleHook = ResourceUtils.readAssets2String("dokit_js_vconsole_hook.html")
+        val vConsoleHook = ResourceUtils.readAssets2String("h5help/dokit_js_vconsole_hook.html")
         val doc = Jsoup.parse(html)
         doc.outputSettings().prettyPrint(true)
         val elements = doc.getElementsByTag("head")
         if (elements.size > 0) {
-            elements[elements.size - 1].append(vconsoleHook)
+            elements[elements.size - 1].append(vConsoleHook)
         }
         return doc.toString()
-    }
-
-    //get mime type by url
-    private fun getMimeType(url: String): String? {
-        var type: String? = null
-        val extension = MimeTypeMap.getFileExtensionFromUrl(url)
-        if (extension != null) {
-            when (extension) {
-                "js" -> type = "text/javascript"
-                "woff" -> type = "application/font-woff"
-                "woff2" -> type = "application/font-woff2"
-                "ttf" -> type = "application/x-font-ttf"
-                "eot" -> type = "application/vnd.ms-fontobject"
-                "svg" -> type = "text/javascript"
-                else -> type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
-            }
-        }
-        return type
     }
 
 

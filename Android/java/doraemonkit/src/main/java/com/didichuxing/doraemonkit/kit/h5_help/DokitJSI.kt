@@ -2,9 +2,11 @@ package com.didichuxing.doraemonkit.kit.h5_help
 
 import android.webkit.JavascriptInterface
 import com.blankj.utilcode.util.ActivityUtils
+import com.blankj.utilcode.util.GsonUtils
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean
 import com.didichuxing.doraemonkit.kit.h5_help.bean.StorageBean
+import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
 import okhttp3.HttpUrl
 
 /**
@@ -24,6 +26,48 @@ class DokitJSI {
         JsHookDataManager.jsSessionStorage.clear()
     }
 
+
+    @JavascriptInterface
+    fun fetch(
+        requestId: String?,
+        url: String?,
+        method: String?,
+        origin: String?,
+        headers: String?,
+        body: String?
+    ) {
+
+        var headerMap: MutableMap<String?, String?> = mutableMapOf()
+        headers?.let {
+            headerMap = GsonUtils.fromJson(headers, MutableMap::class.java) as MutableMap<String?, String?>
+        }
+
+        val httpUrl = OkHttpWrap.createHttpUrl(url)
+        val newUrl = if (httpUrl == null) {
+            origin + url
+        } else {
+            url
+        }
+
+//        LogHelper.i(
+//            "DokitJSI",
+//            "requestId==>$requestId,url==>$url,method==>$method,origin==>$origin,headers==>$headerMap,body==>$body"
+//        )
+        if (JsHookDataManager.jsRequestMap[requestId] == null) {
+            JsHookDataManager.jsRequestMap[requestId] =
+                JsRequestBean(requestId, newUrl, method, headerMap, null, body)
+        } else {
+            JsHookDataManager.jsRequestMap[requestId]?.apply {
+                this.requestId = requestId
+                this.url = newUrl
+                this.method = method
+                this.headers = headerMap
+                this.mimeType = null
+                this.body = body
+            }
+        }
+    }
+
     /**
      * wiki:https://developer.mozilla.org/zh-CN/docs/Web/API/XMLHttpRequest/open
      */
@@ -34,7 +78,7 @@ class DokitJSI {
         method: String?,
         origin: String?
     ) {
-        val httpUrl = HttpUrl.parse(url)
+        val httpUrl = OkHttpWrap.createHttpUrl(url)
         val newUrl = if (httpUrl == null) {
             origin + url
         } else {
@@ -55,13 +99,13 @@ class DokitJSI {
     }
 
     @JavascriptInterface
-    fun setRequestHeader(requestId: String?, key: String?, vaule: String?) {
+    fun setRequestHeader(requestId: String?, key: String?, value: String?) {
         JsHookDataManager.jsRequestMap[requestId]?.apply {
             if (this.headers == null) {
                 this.headers = mutableMapOf()
-                this.headers!![key] = vaule
+                this.headers!![key] = value
             } else {
-                this.headers!![key] = vaule
+                this.headers!![key] = value
             }
         }
 

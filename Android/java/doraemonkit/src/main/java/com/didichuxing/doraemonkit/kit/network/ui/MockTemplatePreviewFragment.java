@@ -7,20 +7,25 @@ import android.widget.TextView;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
-import com.didichuxing.doraemonkit.okgo.DokitOkGo;
-import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
-import com.didichuxing.doraemonkit.okgo.model.Response;
-import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.volley.VolleyManager;
 import com.didichuxing.doraemonkit.widget.jsonviewer.JsonRecyclerView;
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 魔板数据预览fragment
@@ -67,24 +72,28 @@ public class MockTemplatePreviewFragment extends BaseFragment {
                     return;
                 }
                 MockTemplateApiBean mockApi = DokitDbManager.getInstance().getGlobalTemplateApiBean();
-                DokitOkGo.<String>patch(TemplateMockAdapter.TEMPLATER_UPLOAD_URL)
-                        .params("projectId", mockApi.getProjectId())
-                        .params("id", mockApi.getId())
-                        .params("tempData", mockApi.getStrResponse())
-                        .execute(new StringCallback() {
-                            @Override
-                            public void onSuccess(Response<String> response) {
-                                ToastUtils.showShort("upload template succeed");
-                                LogHelper.i(TAG, "上传模板===>" + response.body());
-                            }
 
-                            @Override
-                            public void onError(Response<String> response) {
-                                super.onError(response);
-                                ToastUtils.showShort("upload template failed");
-                                LogHelper.e(TAG, "error===>" + response.body());
-                            }
-                        });
+                Map<String, String> values = new HashMap<>();
+                values.put("projectId", mockApi.getProjectId());
+                values.put("id", mockApi.getId());
+                values.put("tempData", mockApi.getStrResponse());
+
+                Request<JSONObject> request = new JsonObjectRequest(Request.Method.PATCH, TemplateMockAdapter.TEMPLATER_UPLOAD_URL, new JSONObject(values), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        ToastUtils.showShort("upload template succeed");
+                        LogHelper.i(TAG, "上传模板===>" + response.toString());
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        ToastUtils.showShort("upload template failed");
+                        LogHelper.e(TAG, "error===>" + error.getMessage());
+                    }
+                });
+
+                VolleyManager.INSTANCE.add(request);
             }
         });
 

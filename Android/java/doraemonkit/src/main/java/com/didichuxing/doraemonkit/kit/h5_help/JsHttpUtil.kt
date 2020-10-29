@@ -13,6 +13,7 @@ import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean
 import com.didichuxing.doraemonkit.kit.network.utils.bodyContent
+import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
 import com.didichuxing.doraemonkit.util.DokitUtil
 import com.didichuxing.doraemonkit.util.LogHelper
 import okhttp3.*
@@ -118,7 +119,7 @@ internal object JsHttpUtil {
 
         //判断是否需要重定向数据接口
         //http https
-        val scheme = url.scheme()
+        val scheme = OkHttpWrap.toScheme(url)
         val interceptApiBean = DokitDbManager.getInstance().getInterceptApiByIdInMap(
             path,
             interceptMatchedId,
@@ -162,11 +163,11 @@ internal object JsHttpUtil {
         //需要提前关闭数据流 不然在某些场景下会报错
         oldResponse.close()
         val newResponse: Response = okHttpClient.newCall(newRequest).execute()
-        if (newResponse.code() == 200) {
+        if (OkHttpWrap.toResponseCode(newResponse) == 200) {
             //拦截命中提示
             ToastUtils.showShort("接口别名:==" + interceptApiBean.mockApiName + "==已被拦截")
             //判断新的response是否有数据
-            return if (newResponse.body() != null) {
+            return if (OkHttpWrap.toResponseBody(newResponse) != null) {
                 matchedTemplateRule(newResponse, path, templateMatchedId)
                 createNormalWebResourceResponse(newResponse)
             } else {
@@ -179,11 +180,24 @@ internal object JsHttpUtil {
     }
 
     private fun createNormalWebResourceResponse(response: Response): WebResourceResponse {
-        return WebResourceResponse(
-            response.body()?.contentType().toString(),
-            "UTF-8",
-            ConvertUtils.string2InputStream(response.bodyContent(), "UTF-8")
-        )
+        val bodyContent = response.bodyContent()
+        try {
+            //mimeType 会影响js的数据展现形式
+            JSONObject(bodyContent)
+            return WebResourceResponse(
+                "application/json",
+                "UTF-8",
+                ConvertUtils.string2InputStream(bodyContent, "UTF-8")
+            )
+        } catch (e: Exception) {
+            return WebResourceResponse(
+                response.header("Content-Type", "application/json"),
+                "UTF-8",
+                ConvertUtils.string2InputStream(bodyContent, "UTF-8")
+            )
+        }
+
+
     }
 
     /**
@@ -203,7 +217,7 @@ internal object JsHttpUtil {
 
         //判断是否需要重定向数据接口
         //http https
-        val scheme = url.scheme()
+        val scheme = OkHttpWrap.toScheme(url)
         val interceptApiBean = DokitDbManager.getInstance().getInterceptApiByIdInMap(
             path,
             interceptMatchedId,
@@ -247,11 +261,11 @@ internal object JsHttpUtil {
         //需要提前关闭数据流 不然在某些场景下会报错
         oldResponse.close()
         val newResponse: Response = okHttpClient.newCall(newRequest).execute()
-        if (newResponse.code() == 200) {
+        if (OkHttpWrap.toResponseCode(newResponse) == 200) {
             //拦截命中提示
             ToastUtils.showShort("接口别名:==" + interceptApiBean.mockApiName + "==已被拦截")
             //判断新的response是否有数据
-            return if (newResponse.body() != null) {
+            return if (OkHttpWrap.toResponseBody(newResponse) != null) {
                 matchedTemplateRule(newResponse, path, templateMatchedId)
                 createX5WebResourceResponse(newResponse)
             } else {
@@ -264,11 +278,23 @@ internal object JsHttpUtil {
     }
 
     private fun createX5WebResourceResponse(response: Response): com.tencent.smtt.export.external.interfaces.WebResourceResponse {
-        return com.tencent.smtt.export.external.interfaces.WebResourceResponse(
-            response.body()?.contentType().toString(),
-            "UTF-8",
-            ConvertUtils.string2InputStream(response.bodyContent(), "UTF-8")
-        )
+        val bodyContent = response.bodyContent()
+        try {
+            //mimeType 会影响js的数据展现形式
+            JSONObject(bodyContent)
+            return com.tencent.smtt.export.external.interfaces.WebResourceResponse(
+                "application/json",
+                "UTF-8",
+                ConvertUtils.string2InputStream(bodyContent, "UTF-8")
+            )
+        } catch (e: Exception) {
+            return com.tencent.smtt.export.external.interfaces.WebResourceResponse(
+                response.header("Content-Type", "application/json"),
+                "UTF-8",
+                ConvertUtils.string2InputStream(bodyContent, "UTF-8")
+            )
+        }
+
     }
 
 
@@ -306,14 +332,14 @@ internal object JsHttpUtil {
      * @throws Exception
      */
     private fun saveResponse2DB(response: Response, mockApi: MockTemplateApiBean) {
-        if (response.code() != 200) {
+        if (OkHttpWrap.toResponseCode(response) != 200) {
             return
         }
-        if (response.body() == null) {
+        if (OkHttpWrap.toResponseBody(response) == null) {
             return
         }
         try {
-            val host = response.request().url().host()
+            val host = OkHttpWrap.toResponseHost(response)
             //LogHelper.i(TAG, "host====>" + host);
             //这里不能直接使用response.body().string()的方式输出日志
             //因为response.body().string()之后，response中的流会被关闭，程序会报错，我们需要创建出一
@@ -340,35 +366,51 @@ internal object JsHttpUtil {
     }
 
 
-    fun createOkHttpRequest(requestBean: JsRequestBean): Request {
+    fun createOkHttpRequest(requestBean: JsRequestBean, userAgent: String): Request {
+        requestBean.headers?.let {
+            if (!it.containsKey("content-type")) {
+                it["content-type"] = "application/json"
+            }
+
+            if (!it.containsKey("User-Agent")) {
+                it["User-Agent"] = userAgent
+            }
+        }
         val builder = Headers.Builder()
         requestBean.headers?.forEach {
-            builder.add(it.key, it.value)
+            builder.add(it.key!!, it.value!!)
         }
+
+
         val headers = builder.build()
         return when (requestBean.method?.toUpperCase()) {
             "GET" -> {
                 Request.Builder()
-                    .url(requestBean.url)
+                    .url(requestBean.url!!)
                     .headers(headers)
                     .get()
                     .build()
             }
             "POST" -> {
-                val contentType = requestBean.headers?.get("Content-Type")
-                val requestBody = RequestBody.create(
-                    MediaType.parse(contentType),
-                    requestBean.body
-                )
+                var contentType: String? = ""
+                contentType = requestBean.headers?.get("Content-Type")
+                if (contentType.isNullOrBlank()) {
+                    contentType = requestBean.headers?.get("content-type")
+                }
+
+
+                val requestBody =
+                    OkHttpWrap.toRequestBody(requestBean.body, OkHttpWrap.toMediaType(contentType))
+
                 Request.Builder()
-                    .url(requestBean.url)
+                    .url(requestBean.url!!)
                     .headers(headers)
-                    .post(requestBody)
+                    .post(requestBody!!)
                     .build()
             }
             else -> {
                 Request.Builder()
-                    .url(requestBean.url)
+                    .url(requestBean.url!!)
                     .headers(headers)
                     .get()
                     .build()
@@ -387,11 +429,12 @@ internal object JsHttpUtil {
         if (whiteHostBeans.isEmpty()) {
             return true
         }
+
         for (whiteHostBean in whiteHostBeans) {
             if (TextUtils.isEmpty(whiteHostBean.host)) {
                 continue
             }
-            val realHost = request.url().host()
+            val realHost = OkHttpWrap.toRequestHost(request)
             //正则判断
             if (whiteHostBean.host.equals(realHost, ignoreCase = true)) {
                 return true

@@ -13,6 +13,7 @@
     <string name="dk_category_weex">Weex</string>
 
     <string name="dk_kit_sysinfo">App Info</string>
+    <string name="dk_third_library_info">Third Library Info</string>
     <string name="dk_kit_develop">Developer Options</string>
     <string name="dk_kit_service_running">running service</string>
     <string name="dk_kit_local_lang">Language</string>

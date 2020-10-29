@@ -94,7 +94,7 @@ public class OkHttpHook {
      */
     private static List<Interceptor> removeDuplicate(List<Interceptor> list) {
         //保证顺序并去重
-        LinkedHashSet<Interceptor> h = new LinkedHashSet<>(list);
+        LinkedHashSet h = new LinkedHashSet<Interceptor>(list);
         list.clear();
         list.addAll(h);
         return list;
