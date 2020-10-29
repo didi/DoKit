@@ -127,7 +127,6 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
                             return null
                         }
 
-
                         // web 数据mock
                         return dealMock(requestBean, url, view, request)
                     }
@@ -187,7 +186,7 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
                         try {
                             //构建okhttp用来抓包
                             val newRequest: Request =
-                                JsHttpUtil.createOkHttpRequest(requestBean,mUserAgent)
+                                JsHttpUtil.createOkHttpRequest(requestBean, mUserAgent)
 
                             if (JsHttpUtil.matchWhiteHost(newRequest)) {
                                 //发送模拟请求
@@ -201,7 +200,7 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
                 }
 
                 val newRequest: Request =
-                    JsHttpUtil.createOkHttpRequest(requestBean,mUserAgent)
+                    JsHttpUtil.createOkHttpRequest(requestBean, mUserAgent)
                 //发送模拟请求
                 val newResponse =
                     OkhttpClientUtil.okhttpClient.newCall(newRequest).execute()

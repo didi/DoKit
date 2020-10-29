@@ -45,9 +45,9 @@
     if (@available(iOS 13.0, *)) {
         if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
             if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                self.leftModel.image = [UIImage doraemon_imageNamed:@"doraemon_back_dark"];
+                self.leftModel.image = [UIImage doraemon_xcassetImageNamed:@"doraemon_back_dark"];
             } else {
-                self.leftModel.image = [UIImage doraemon_imageNamed:@"doraemon_back"];
+                self.leftModel.image = [UIImage doraemon_xcassetImageNamed:@"doraemon_back"];
             }
         }
     }
@@ -93,11 +93,11 @@
         self.tableView.frame = CGRectMake(0, IPHONE_NAVIGATIONBAR_HEIGHT, self.view.doraemon_width, self.view.doraemon_height-IPHONE_NAVIGATIONBAR_HEIGHT);
         NSString *dirTitle =  [fm displayNameAtPath:targetPath];
         self.title = dirTitle;
-        UIImage *image = [UIImage doraemon_imageNamed:@"doraemon_back"];
+        UIImage *image = [UIImage doraemon_xcassetImageNamed:@"doraemon_back"];
 #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         if (@available(iOS 13.0, *)) {
             if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                image = [UIImage doraemon_imageNamed:@"doraemon_back_dark"];
+                image = [UIImage doraemon_xcassetImageNamed:@"doraemon_back_dark"];
             }
         }
 #endif

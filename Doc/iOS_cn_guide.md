@@ -5,13 +5,13 @@
 #### 1.1: cocoapods依赖
 
 ```
-    pod 'DoraemonKit/Core', '~> 3.0.1', :configurations => ['Debug'] //必选
-    pod 'DoraemonKit/WithLogger', '~> 3.0.1', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithGPS', '~> 3.0.1', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithLoad', '~> 3.0.1', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithWeex', '~> 3.0.1', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithDatabase', '~> 3.0.1', :configurations => ['Debug'] //可选
-    pod 'DoraemonKit/WithMLeaksFinder', '3.0.1', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/Core', '~> 3.0.4', :configurations => ['Debug'] //必选
+    pod 'DoraemonKit/WithLogger', '~> 3.0.4', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithGPS', '~> 3.0.4', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithLoad', '~> 3.0.4', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithWeex', '~> 3.0.4', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithDatabase', '~> 3.0.4', :configurations => ['Debug'] //可选
+    pod 'DoraemonKit/WithMLeaksFinder', '3.0.4', :configurations => ['Debug'] //可选
 ```
 Core subspec作为核心，必须引入。
 
@@ -30,7 +30,7 @@ Core subspec作为核心，必须引入。
 #### 1.2: Carthage依赖
 
 ```
-git "https://github.com/didi/DoraemonKit.git"  "c3.0.0"
+git "https://github.com/didi/DoraemonKit.git"  "c3.0.4"
     或者
     github "didi/DoraemonKit"
 ```

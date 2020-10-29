@@ -27,7 +27,7 @@
         
         _padding = kDoraemonSizeFrom750_Landscape(32);
         _bgImg = [[UIImageView alloc] initWithFrame:CGRectMake(_padding, 0, kDoraemonSizeFrom750_Landscape(108), kDoraemonSizeFrom750_Landscape(48))];
-        [_bgImg setImage:[UIImage doraemon_imageNamed:@"doraemon_health_cell_bg"]];
+        [_bgImg setImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_health_cell_bg"]];
         
         _title = [[UILabel alloc] initWithFrame:CGRectMake(_padding, _bgImg.doraemon_top + _bgImg.doraemon_height/8, _bgImg.doraemon_width, _padding)];
         _title.textAlignment = NSTextAlignmentCenter;

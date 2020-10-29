@@ -41,7 +41,7 @@
 
 - (void)renderUIWithTitleImg:(NSString *)title img:(NSString *)imgName{
     [_footerTitle setText:title];
-    [_footerImg setImage:[UIImage doraemon_imageNamed:imgName]];
+    [_footerImg setImage:[UIImage doraemon_xcassetImageNamed:imgName]];
 }
 
 - (void)renderUIWithTitleImg:(BOOL)top{
@@ -56,7 +56,7 @@
         icon = self.titleDictionary[@"bottom_icon"];
     }
     [_footerTitle setText:DoraemonLocalizedString(title)];
-    [_footerImg setImage:[UIImage doraemon_imageNamed:icon]];
+    [_footerImg setImage:[UIImage doraemon_xcassetImageNamed:icon]];
 }
 
 - (NSDictionary *)titleDictionary{

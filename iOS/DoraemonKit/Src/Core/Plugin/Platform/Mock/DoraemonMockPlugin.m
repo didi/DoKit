@@ -11,6 +11,7 @@
 #import "DoraemonManager.h"
 #import "DoraemonToastUtil.h"
 #import "UIViewController+Doraemon.h"
+#import "Doraemoni18NUtil.h"
 
 @implementation DoraemonMockPlugin
 
@@ -19,7 +20,7 @@
         DoraemonMockViewController *vc = [[DoraemonMockViewController alloc] init];
         [DoraemonHomeWindow openPlugin:vc];
     }else{
-        [DoraemonToastUtil showToastBlack:@"需要到www.dokit.cn上注册pId才能使用该功能" inView:[UIViewController rootViewControllerForDoraemonHomeWindow].view];
+        [DoraemonToastUtil showToastBlack:DoraemonLocalizedString(@"需要到www.dokit.cn上注册pId才能使用该功能") inView:[UIViewController rootViewControllerForDoraemonHomeWindow].view];
     }
 
 }

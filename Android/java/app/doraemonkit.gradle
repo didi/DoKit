@@ -1,7 +1,7 @@
 if (rootProject.ext.config["runType"] == 0) {
 // 引用插件
-    apply plugin: 'com.didi.dokit.debug'
-    //apply plugin: 'com.didi.dokit'
+    //apply plugin: 'com.didi.dokit.debug'
+    apply plugin: 'com.didi.dokit'
     // 这里引用正常库
     dependencies {
         //外部平台依赖
@@ -18,7 +18,6 @@ if (rootProject.ext.config["runType"] == 0) {
         debugImplementation "com.didichuxing.doraemonkit:dokitx:${rootProject.ext.android["jcenterArchivesVersionName"]}"
 //        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-leakcanary:${rootProject.ext.android["jcenterArchivesVersionName"]}"
         releaseImplementation "com.didichuxing.doraemonkit:dokitx-no-op:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-        debugImplementation "com.didichuxing.doraemonkit:dokitx-weex:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-
+//        debugImplementation "com.didichuxing.doraemonkit:dokitx-weex:${rootProject.ext.android["jcenterArchivesVersionName"]}"
     }
 }

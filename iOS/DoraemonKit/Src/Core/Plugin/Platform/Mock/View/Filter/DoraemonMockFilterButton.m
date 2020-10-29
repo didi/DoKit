@@ -42,7 +42,7 @@
     _titleLabel.text = DoraemonLocalizedString(title);
     [_titleLabel sizeToFit];
     _titleLabel.frame = CGRectMake(self.doraemon_width/2-_titleLabel.doraemon_width/3*2, self.doraemon_height/2-_titleLabel.doraemon_height/2, _titleLabel.doraemon_width, _titleLabel.doraemon_height);
-    _arrow.image = [UIImage doraemon_imageNamed:@"doraemon_mock_filter_down"];
+    _arrow.image = [UIImage doraemon_xcassetImageNamed:@"doraemon_mock_filter_down"];
     _arrow.frame = CGRectMake(_titleLabel.doraemon_right + _arrow.image.size.width, self.doraemon_height/2-_arrow.image.size.height/2, _arrow.image.size.width, _arrow.image.size.height);
 }
 
@@ -53,7 +53,7 @@
         imgName = @"doraemon_mock_filter_up";
         _down = YES;
     }
-    _arrow.image = [UIImage doraemon_imageNamed:imgName];
+    _arrow.image = [UIImage doraemon_xcassetImageNamed:imgName];
     _arrow.doraemon_width = _arrow.image.size.width;
     _arrow.doraemon_height = _arrow.image.size.height;
 }

@@ -21,7 +21,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         _healthBtn = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.doraemon_width, self.doraemon_height)];
-        [_healthBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_health_start"]];
+        [_healthBtn setImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_health_start"]];
         [self addSubview:_healthBtn];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
         [self addGestureRecognizer:tap];
@@ -40,7 +40,7 @@
     if(start){
         imgName = @"doraemon_health_end";
     }
-    [_healthBtn setImage:[UIImage doraemon_imageNamed:imgName]];
+    [_healthBtn setImage:[UIImage doraemon_xcassetImageNamed:imgName]];
 }
 
 

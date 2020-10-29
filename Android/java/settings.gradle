@@ -1,7 +1,7 @@
 //include ':empey-app'
 include ':app'
 include ':doraemonkit'
-include ':doraemonkit-rpc'
+//include ':doraemonkit-rpc'
 include ':doraemonkit-no-op'
 include ':doraemonkit-okhttp-v3'
 include ':doraemonkit-okhttp-v4'

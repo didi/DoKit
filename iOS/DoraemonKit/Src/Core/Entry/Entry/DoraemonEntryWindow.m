@@ -29,11 +29,11 @@
     if (!_entryBtn) {
         _entryBtn = [[UIButton alloc] initWithFrame:self.bounds];
         _entryBtn.backgroundColor = [UIColor clearColor];
-        UIImage *image = [UIImage doraemon_imageNamed:@"doraemon_logo"];
+        UIImage *image = [UIImage doraemon_xcassetImageNamed:@"doraemon_logo"];
 #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         if (@available(iOS 13.0, *)) {
             if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                image = [UIImage doraemon_imageNamed:@"doraemon_logo_dark"];
+                image = [UIImage doraemon_xcassetImageNamed:@"doraemon_logo_dark"];
             }
         }
 #endif
@@ -52,9 +52,9 @@
     if (@available(iOS 13.0, *)) {
         if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
             if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                [self.entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_logo_dark"] forState:UIControlStateNormal];
+                [self.entryBtn setImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_logo_dark"] forState:UIControlStateNormal];
             } else {
-                [self.entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_logo"] forState:UIControlStateNormal];
+                [self.entryBtn setImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_logo"] forState:UIControlStateNormal];
             }
         }
     }
@@ -88,17 +88,13 @@
         self.backgroundColor = [UIColor clearColor];
         self.windowLevel = UIWindowLevelStatusBar + 100.f;
         self.layer.masksToBounds = YES;
-        NSString *version= [UIDevice currentDevice].systemVersion;
-        if(version.doubleValue >=10.0) {
-            if (!self.rootViewController) {
-                self.rootViewController = [[UIViewController alloc] init];
-            }
-        }else{
-            //iOS9.0的系统中，新建的window设置的rootViewController默认没有显示状态栏
-            if (!self.rootViewController) {
-                self.rootViewController = [[DoraemonStatusBarViewController alloc] init];
-            }
+        
+        // 统一使用 DoraemonStatusBarViewController
+        // 对系统的版本处理放入 DoraemonStatusBarViewController 类中
+        if (!self.rootViewController) {
+            self.rootViewController = [[DoraemonStatusBarViewController alloc] init];
         }
+
         
         [self.rootViewController.view addSubview:self.entryBtn];
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
@@ -112,13 +108,13 @@
 }
 
 - (void)showClose:(NSNotification *)notification{
-    [_entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
+    [_entryBtn setImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_close"] forState:UIControlStateNormal];
     [_entryBtn removeTarget:self action:@selector(showClose:) forControlEvents:UIControlEventTouchUpInside];
     [_entryBtn addTarget:self action:@selector(closePluginClick:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)closePluginClick:(UIButton *)btn{
-    [_entryBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_logo"] forState:UIControlStateNormal];
+    [_entryBtn setImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_logo"] forState:UIControlStateNormal];
     [_entryBtn removeTarget:self action:@selector(closePluginClick:) forControlEvents:UIControlEventTouchUpInside];
     [_entryBtn addTarget:self action:@selector(entryClick:) forControlEvents:UIControlEventTouchUpInside];
 }

@@ -19,19 +19,19 @@ ext {
                minSdkVersion             : 16,
                targetSdkVersion          : 29,
                //app版本号
-               versionCode               : 330,
+               versionCode               : 331,
                //dokit 插件版本号
-               pluginVersionName         : "3.3.0",
+               pluginVersionName         : "3.3.1",
                //jcenter dokit版本号 打包上传时 dokit的版本名字
-               jcenterArchivesVersionName: "3.3.0",
+               jcenterArchivesVersionName: "3.3.1",
                //didi内部仓库版本号
-               versionName               : "3.3.0",
+               versionName               : "3.3.1",
                glide_version             : "4.9.0",
                kotlin_version            : "1.3.72",
                booster_version           : "2.3.0",
                okhttp_v2                 : "2.7.5",
                okhttp_v3                 : "3.14.7",
-               okhttp_v4                 : "4.9.0"
+               okhttp_v4                 : "4.7.0"
     ]
     dependencies = [// ###### android library  start ######
                     "multidex"           : 'androidx.multidex:multidex:2.0.0',
