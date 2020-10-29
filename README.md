@@ -317,12 +317,15 @@ DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [
 
 
 ## 友情链接
-1. [AoE](https://github.com/didi/AoE)，一个终端侧AI集成运行时环境 
-2. [Chameleon]( https://github.com/didi/chameleon)，简写CML，中文意思变色龙，意味着就像变色龙一样能适应不同环境的跨端整体解决方案，达到真正意义上"一套代码，多端运行"的终极目标
-3. [Mand Mobile](https://github.com/didi/mand-mobile) 一款优秀的面向金融场景的 移动端UI组件库
-4. 我们部门的技术公众号（普惠出行产品技术公众号），欢迎关注。
+1. [Chameleon]( https://github.com/didi/chameleon)，简写CML，中文意思变色龙，意味着就像变色龙一样能适应不同环境的跨端整体解决方案，达到真正意义上"一套代码，多端运行"的终极目标
    
-**公众号介绍：这里是滴滴出行旗下普惠产品技术团队对外分享的窗口，普惠出行支撑滴滴代驾、货运等业务，建设了NodeX、Dokit、卡梅隆等开源项目，始终秉承聚心成事、聚气育人的原则。欢迎各位技术同仁一起交流，共同成长。**
+2. [Booster](https://github.com/didi/booster) 是一款专门为移动应用设计的易用、轻量级且可扩展的质量优化框架，其目标主要是为了解决随着 APP 复杂度的提升而带来的性能、稳定性、包体积等一系列质量问题。Booster 提供了性能检测、多线程优化、资源索引内联、资源去冗余、资源压缩、系统 Bug 修复等一系列功能模块，可以使得稳定性能够提升 15% ~ 25%，包体积可以减小 1MB ~ 10MB。**同时DoKit插件的底层也是基于Booster进行开发的。**
 
+3. [AoE](https://github.com/didi/AoE)，一个终端侧AI集成运行时环境 
+   
+4. [Mand Mobile](https://github.com/didi/mand-mobile) 一款优秀的面向金融场景的 移动端UI组件库
+   
 
-![普惠技术公众号](https://pt-starimg.didistatic.com/static/starimg/img/oOCoP5tVJs1600416407154.jpg)
+5. 我们部门的技术公众号（普惠出行产品技术公众号），欢迎关注。
+   **公众号介绍：这里是滴滴出行旗下普惠产品技术团队对外分享的窗口，普惠出行支撑滴滴代驾、货运等业务，建设了NodeX、Dokit、卡梅隆等开源项目，始终秉承聚心成事、聚气育人的原则。欢迎各位技术同仁一起交流，共同成长。**
+  ![普惠技术公众号](https://pt-starimg.didistatic.com/static/starimg/img/oOCoP5tVJs1600416407154.jpg)
