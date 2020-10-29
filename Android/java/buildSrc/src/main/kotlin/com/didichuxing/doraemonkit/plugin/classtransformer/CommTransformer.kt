@@ -39,6 +39,9 @@ class CommTransformer : ClassTransformer {
 
         val className = klass.className
 
+        if (className.contains("didihttp")) {
+            "${context.projectDir.lastPath()}==className===>$className".println()
+        }
 
         //查找DoraemonKitReal&pluginConfig方法并插入指定字节码
 
