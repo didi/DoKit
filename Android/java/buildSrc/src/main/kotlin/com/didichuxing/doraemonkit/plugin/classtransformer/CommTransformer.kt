@@ -44,12 +44,21 @@ class CommTransformer : ClassTransformer {
         }
 
         //查找DoraemonKitReal&pluginConfig方法并插入指定字节码
+
         if (className == "com.didichuxing.doraemonkit.DoraemonKitReal") {
+            //插件配置
             klass.methods?.find {
                 it.name == "pluginConfig"
             }.let { methodNode ->
                 "${context.projectDir.lastPath()}->insert map to the DoraemonKitReal pluginConfig succeed".println()
                 methodNode?.instructions?.insert(createPluginConfigInsnList())
+            }
+            //三方库信息注入
+            klass.methods?.find {
+                it.name == "initThirdLibraryInfo"
+            }.let { methodNode ->
+                "${context.projectDir.lastPath()}->insert map to the DoraemonKitReal initThirdLibraryInfo succeed".println()
+                methodNode?.instructions?.insert(createThirdLibInfoInsnList())
             }
         }
 
@@ -367,6 +376,56 @@ class CommTransformer : ClassTransformer {
                 MethodInsnNode(
                     INVOKESTATIC,
                     "com/didichuxing/doraemonkit/aop/DokitPluginConfig",
+                    "inject",
+                    "(Ljava/util/Map;)V",
+                    false
+                )
+            )
+
+            this
+        }
+
+        //return insnList
+
+    }
+
+
+    /**
+     * 创建pluginConfig代码指令
+     */
+    private fun createThirdLibInfoInsnList(): InsnList {
+        //val insnList = InsnList()
+        return with(InsnList()) {
+            //new HashMap
+            add(TypeInsnNode(NEW, "java/util/HashMap"))
+            add(InsnNode(DUP))
+            add(MethodInsnNode(INVOKESPECIAL, "java/util/HashMap", "<init>", "()V", false))
+            //保存变量
+            add(VarInsnNode(ASTORE, 0))
+
+            for (thirdLibInfo in DoKitExtUtil.THIRD_LIB_INFOS) {
+                add(VarInsnNode(ALOAD, 0))
+                add(LdcInsnNode(thirdLibInfo.name))
+                add(LdcInsnNode(thirdLibInfo.fileSize))
+
+                add(
+                    MethodInsnNode(
+                        INVOKEINTERFACE,
+                        "java/util/Map",
+                        "put",
+                        "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;",
+                        false
+                    )
+                )
+                add(InsnNode(POP))
+            }
+//
+//            //将HashMap注入到DokitPluginConfig中
+            add(VarInsnNode(ALOAD, 0))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/DokitThirdLibInfo",
                     "inject",
                     "(Ljava/util/Map;)V",
                     false

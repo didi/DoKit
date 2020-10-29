@@ -195,7 +195,7 @@ internal class DoKitTransformInvocation(
                 multiDex = true
                 jarOutput = true
                 optimize = false
-                minSdkVersion = variant.extension.defaultConfig.targetSdkVersion.apiLevel
+                minSdkVersion = variant.extension.defaultConfig.targetSdkVersion?.apiLevel!!
                 fileNames = arrayOf(output.absolutePath)
                 outName = dex.absolutePath
             }
