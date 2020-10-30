@@ -19,6 +19,7 @@ if (rootProject.ext.config["runType"] == 0) {
 //        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-leakcanary:${rootProject.ext.android["jcenterArchivesVersionName"]}"
         releaseImplementation "com.didichuxing.doraemonkit:dokit-no-op:${rootProject.ext.android["jcenterArchivesVersionName"]}"
         debugImplementation "com.didichuxing.doraemonkit:dokit-weex:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        debugImplementation "com.didichuxing.doraemonkit:dokit-rpc:${rootProject.ext.android["jcenterArchivesVersionName"]}"
 
     }
 }
