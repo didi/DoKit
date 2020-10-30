@@ -240,6 +240,14 @@ monitoringDidFailForRegion:(nullable CLRegion *)region
     }];
 }
 
+-(void)locationManagerDidChangeAuthorization:(CLLocationManager *)manager {
+    [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(locationManagerDidChangeAuthorization:)]) {
+            [delegate locationManagerDidChangeAuthorization:manager];
+        }
+    }];
+}
+
 - (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region{
     [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(locationManager:didStartMonitoringForRegion:)]) {
