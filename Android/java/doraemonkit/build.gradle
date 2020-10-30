@@ -87,7 +87,7 @@ dependencies {
     if (rootProject.ext.config["runOrPublish"] == 0) {
         implementation project(":doraemonkit-okhttp-api")
     } else {
-        implementation "com.didichuxing.doraemonkit:dokitx-okhttp-api:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        implementation "com.didichuxing.doraemonkit:dokit-okhttp-api:${rootProject.ext.android["jcenterArchivesVersionName"]}"
     }
 
     //compileOnly project(":doraemonkit-okhttp_v4")

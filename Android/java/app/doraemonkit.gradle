@@ -15,10 +15,10 @@ if (rootProject.ext.config["runType"] == 0) {
     // 引用no-op的库
     dependencies {
         //新版线上包
-        debugImplementation "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        debugImplementation "com.didichuxing.doraemonkit:dokit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
 //        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-leakcanary:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-        releaseImplementation "com.didichuxing.doraemonkit:doraemonkit-no-op:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-weex:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        releaseImplementation "com.didichuxing.doraemonkit:dokit-no-op:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        debugImplementation "com.didichuxing.doraemonkit:dokit-weex:${rootProject.ext.android["jcenterArchivesVersionName"]}"
 
     }
 }

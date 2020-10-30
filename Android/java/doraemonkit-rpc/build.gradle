@@ -63,6 +63,12 @@ dependencies {
     if (rootProject.ext.config["runOrPublish"] == 0) {
         api project(':doraemonkit')
     } else {
-        api "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        api "com.didichuxing.doraemonkit:dokit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+    }
+
+    if (rootProject.ext.config["runOrPublish"] == 0) {
+        compileOnly project(":doraemonkit-okhttp-api")
+    } else {
+        compileOnly "com.didichuxing.doraemonkit:dokit-okhttp-api:${rootProject.ext.android["jcenterArchivesVersionName"]}"
     }
 }

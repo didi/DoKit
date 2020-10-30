@@ -46,8 +46,8 @@ dependencies {
         implementation project(":doraemonkit-okhttp-v3")
         implementation project(":doraemonkit-okhttp-v4")
     } else {
-        implementation "com.didichuxing.doraemonkit:dokitx-okhttp-v3:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-        implementation "com.didichuxing.doraemonkit:dokitx-okhttp-v4:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        implementation "com.didichuxing.doraemonkit:dokit-okhttp-v3:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        implementation "com.didichuxing.doraemonkit:dokit-okhttp-v4:${rootProject.ext.android["jcenterArchivesVersionName"]}"
     }
 
 

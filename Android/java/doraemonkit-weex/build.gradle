@@ -46,7 +46,7 @@ dependencies {
     if (rootProject.ext.config["runOrPublish"] == 0) {
         api project(':doraemonkit')
     } else {
-        api "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        api "com.didichuxing.doraemonkit:dokit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
     }
 
     compileOnly rootProject.ext.dependencies["weex_inspector"]
