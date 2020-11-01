@@ -1,10 +1,7 @@
 DoraemonKit-Android releases
 ===
 
-## 3.3.1（dokit 对应android support）
-1、由于更新了库名称，等待jcenter审核中，请耐心等待。
-
-## 3.3.1（dokitx 对应androidx）
+## 3.3.1（dokitx 对应androidx，dokit对应Android Support）
 1.为了更好的支持android官方androidx和support，dokit从3.3.1版本开始正式对sdk名字进行更新。具体如下：
 
 androidx===>com.didichuxing.doraemonkit:dokitx:3.3.1;
@@ -15,7 +12,9 @@ support===>com.didichuxing.doraemonkit:dokit:3.3.1;
 
 3.新增三方库信息:将项目中依赖的三方库进行统一收集展现。
 
-4.大量github issues 问题修复。
+4.兼容okhttp v3.+ 以及 v4.+
+
+5.大量github issues 问题修复。
 
 ## 3.2.0 & 3.0.8.0
 1.文件同步助手功能已推出。
