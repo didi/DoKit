@@ -44,6 +44,11 @@ object DoKitExtUtil {
      */
     var SLOW_METHOD_SWITCH = false
 
+    /**
+     * 三方库信息开关
+     */
+    var THIRD_LIBINFO_SWITCH = true
+
 
     /**
      * 慢函数策略 默认为函数调用栈策略
