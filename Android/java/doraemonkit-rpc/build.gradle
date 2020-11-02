@@ -43,8 +43,6 @@ allprojects {
         google()
         jcenter()
         //北京maven库
-        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public/' }
-        //北京maven库
         maven { url 'https://www.jitpack.io' }
 
     }
