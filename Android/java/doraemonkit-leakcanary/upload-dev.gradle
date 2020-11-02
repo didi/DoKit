@@ -24,9 +24,6 @@ if (publishArchivesType == 1) {
                         }
                     }
                 }
-
-
-
             }
         }
     }
