@@ -150,7 +150,6 @@ dependencies {
     implementation files('libs/BaiduLBS_Android.jar')
     //腾讯x5
     implementation rootProject.ext.dependencies["tbs"]
-//    implementation 'com.aliyun.ams:alicloud-android-hotfix:3.2.12'
 
 }
 

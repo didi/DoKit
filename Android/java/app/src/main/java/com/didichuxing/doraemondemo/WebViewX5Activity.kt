@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.blankj.utilcode.util.PathUtils
 import com.tencent.smtt.export.external.interfaces.ConsoleMessage
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse
@@ -13,7 +12,6 @@ import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebSettings
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
-import java.io.File
 
 /**
  * Created by wanglikun on 2018/11/13.

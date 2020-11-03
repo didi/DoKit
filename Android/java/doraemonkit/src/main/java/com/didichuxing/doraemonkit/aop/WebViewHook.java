@@ -10,6 +10,7 @@ import androidx.webkit.WebViewCompat;
 import com.didichuxing.doraemonkit.kit.h5_help.DokitJSI;
 import com.didichuxing.doraemonkit.kit.h5_help.DokitWebViewClient;
 import com.didichuxing.doraemonkit.kit.h5_help.DokitX5WebViewClient;
+import com.didichuxing.doraemonkit.kit.h5_help.X5WebViewUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 /**
@@ -30,10 +31,17 @@ public class WebViewHook {
     public static void inject(Object webView) {
         //LogHelper.i(TAG, "====inject====");
         if (webView != null) {
-            if (webView instanceof WebView) {
-                injectNormal((WebView) webView);
-            } else if (webView instanceof com.tencent.smtt.sdk.WebView) {
-                injectX5((com.tencent.smtt.sdk.WebView) webView);
+            //先判断是否引入了X5WebView
+            if (X5WebViewUtil.INSTANCE.hasImpX5WebViewLib()) {
+                if (webView instanceof WebView) {
+                    injectNormal((WebView) webView);
+                } else if (webView instanceof com.tencent.smtt.sdk.WebView) {
+                    injectX5((com.tencent.smtt.sdk.WebView) webView);
+                }
+            } else {
+                if (webView instanceof WebView) {
+                    injectNormal((WebView) webView);
+                }
             }
         }
     }
