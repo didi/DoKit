@@ -111,7 +111,7 @@ public class NetWokDokitView extends AbsDokitView {
 
     @Override
     public void invalidate() {
-        if (getRootView() == null) {
+        if (getDoKitView() == null) {
             return;
         }
         if (isNormalMode()) {
@@ -121,7 +121,7 @@ public class NetWokDokitView extends AbsDokitView {
             }
             layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
             layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-            getRootView().setLayoutParams(layoutParams);
+            getDoKitView().setLayoutParams(layoutParams);
         } else {
             WindowManager.LayoutParams layoutParams = getSystemLayoutParams();
             if (layoutParams == null) {
@@ -129,7 +129,7 @@ public class NetWokDokitView extends AbsDokitView {
             }
             layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
             layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-            mWindowManager.updateViewLayout(getRootView(), layoutParams);
+            mWindowManager.updateViewLayout(getDoKitView(), layoutParams);
         }
     }
 }

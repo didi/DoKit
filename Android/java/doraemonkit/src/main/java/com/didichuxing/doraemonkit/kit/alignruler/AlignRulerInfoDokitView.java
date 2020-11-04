@@ -69,7 +69,7 @@ public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerM
     }
 
     private void initView() {
-        getRootView().setOnTouchListener(new View.OnTouchListener() {
+        getDoKitView().setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return mTouchProxy.onTouchEvent(v, event);

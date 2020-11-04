@@ -11,17 +11,21 @@ import androidx.fragment.app.FragmentManager;
 
 import com.didichuxing.doraemonkit.constant.DokitConstant;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceUtil;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.model.ViewInfo;
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.PermissionUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ================================================
@@ -35,6 +39,7 @@ import java.util.List;
 class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
     private int startedActivityCounts;
     private boolean sHasRequestPermission;
+    private Map<String, DoKitOrientationEventListener> mOrientationEventListeners = new HashMap<>();
     /**
      * fragment 生命周期回调
      */
@@ -46,7 +51,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
 
 
     @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+    public void onActivityCreated(@NotNull Activity activity, Bundle savedInstanceState) {
         recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_CREATE);
         if (ignoreCurrentActivityDokitView(activity)) {
             return;
@@ -55,10 +60,18 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
             //注册fragment生命周期回调
             ((FragmentActivity) activity).getSupportFragmentManager().registerFragmentLifecycleCallbacks(sFragmentLifecycleCallbacks, true);
         }
+
+        DoKitOrientationEventListener orientationEventListener = new DoKitOrientationEventListener(activity);
+        orientationEventListener.enable();
+        mOrientationEventListeners.put(activity.getClass().getSimpleName(), orientationEventListener);
+
+
     }
 
+    private static final String TAG = "ActivityLifecycleCallback";
+
     @Override
-    public void onActivityStarted(Activity activity) {
+    public void onActivityStarted(@NotNull Activity activity) {
         if (ignoreCurrentActivityDokitView(activity)) {
             return;
         }
@@ -70,7 +83,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
     }
 
     @Override
-    public void onActivityResumed(Activity activity) {
+    public void onActivityResumed(@NotNull Activity activity) {
         recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_RESUME);
         //记录页面层级
         if (!activity.getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.kit.base.UniversalActivity")) {
@@ -93,7 +106,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
     }
 
     @Override
-    public void onActivityPaused(Activity activity) {
+    public void onActivityPaused(@NotNull Activity activity) {
         if (ignoreCurrentActivityDokitView(activity)) {
             return;
         }
@@ -106,7 +119,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
 
 
     @Override
-    public void onActivityStopped(Activity activity) {
+    public void onActivityStopped(@NotNull Activity activity) {
         recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_STOPPED);
         if (ignoreCurrentActivityDokitView(activity)) {
             return;
@@ -121,14 +134,14 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
     }
 
     @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+    public void onActivitySaveInstanceState(@NotNull Activity activity, @NotNull Bundle outState) {
         if (ignoreCurrentActivityDokitView(activity)) {
             return;
         }
     }
 
     @Override
-    public void onActivityDestroyed(Activity activity) {
+    public void onActivityDestroyed(@NotNull Activity activity) {
         recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_DESTROY);
         if (ignoreCurrentActivityDokitView(activity)) {
             return;
@@ -138,6 +151,15 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
             ((FragmentActivity) activity).getSupportFragmentManager().unregisterFragmentLifecycleCallbacks(sFragmentLifecycleCallbacks);
         }
         DokitViewManager.getInstance().onActivityDestroy(activity);
+
+        DoKitOrientationEventListener orientationEventListener = mOrientationEventListeners.get(activity.getClass().getSimpleName());
+
+        if (orientationEventListener != null) {
+            orientationEventListener.disable();
+            mOrientationEventListeners.remove(activity.getClass().getSimpleName());
+        }
+
+
     }
 
     /**
@@ -261,26 +283,26 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
      * 记录当前Activity的生命周期状态
      */
     private void recordActivityLifeCycleStatus(Activity activity, int lifeCycleStatus) {
-        ActivityLifecycleInfo activityLifecaycleInfo = DokitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
-        if (activityLifecaycleInfo == null) {
-            activityLifecaycleInfo = new ActivityLifecycleInfo();
-            activityLifecaycleInfo.setActivityName(activity.getClass().getCanonicalName());
+        ActivityLifecycleInfo activityLifeCycleInfo = DokitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
+        if (activityLifeCycleInfo == null) {
+            activityLifeCycleInfo = new ActivityLifecycleInfo();
+            activityLifeCycleInfo.setActivityName(activity.getClass().getCanonicalName());
             if (lifeCycleStatus == LIFE_CYCLE_STATUS_CREATE) {
-                activityLifecaycleInfo.setActivityLifeCycleCount(0);
+                activityLifeCycleInfo.setActivityLifeCycleCount(0);
             } else if (lifeCycleStatus == LIFE_CYCLE_STATUS_RESUME) {
-                activityLifecaycleInfo.setActivityLifeCycleCount(activityLifecaycleInfo.getActivityLifeCycleCount() + 1);
+                activityLifeCycleInfo.setActivityLifeCycleCount(activityLifeCycleInfo.getActivityLifeCycleCount() + 1);
             } else if (lifeCycleStatus == LIFE_CYCLE_STATUS_STOPPED) {
-                activityLifecaycleInfo.setInvokeStopMethod(true);
+                activityLifeCycleInfo.setInvokeStopMethod(true);
             }
-            DokitConstant.ACTIVITY_LIFECYCLE_INFOS.put(activity.getClass().getCanonicalName(), activityLifecaycleInfo);
+            DokitConstant.ACTIVITY_LIFECYCLE_INFOS.put(activity.getClass().getCanonicalName(), activityLifeCycleInfo);
         } else {
-            activityLifecaycleInfo.setActivityName(activity.getClass().getCanonicalName());
+            activityLifeCycleInfo.setActivityName(activity.getClass().getCanonicalName());
             if (lifeCycleStatus == LIFE_CYCLE_STATUS_CREATE) {
-                activityLifecaycleInfo.setActivityLifeCycleCount(0);
+                activityLifeCycleInfo.setActivityLifeCycleCount(0);
             } else if (lifeCycleStatus == LIFE_CYCLE_STATUS_RESUME) {
-                activityLifecaycleInfo.setActivityLifeCycleCount(activityLifecaycleInfo.getActivityLifeCycleCount() + 1);
+                activityLifeCycleInfo.setActivityLifeCycleCount(activityLifeCycleInfo.getActivityLifeCycleCount() + 1);
             } else if (lifeCycleStatus == LIFE_CYCLE_STATUS_STOPPED) {
-                activityLifecaycleInfo.setInvokeStopMethod(true);
+                activityLifeCycleInfo.setInvokeStopMethod(true);
             } else if (lifeCycleStatus == LIFE_CYCLE_STATUS_DESTROY) {
                 DokitConstant.ACTIVITY_LIFECYCLE_INFOS.remove(activity.getClass().getCanonicalName());
             }

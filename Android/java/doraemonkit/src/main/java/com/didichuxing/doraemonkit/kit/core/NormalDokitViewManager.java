@@ -119,6 +119,8 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             onActivityResume(activity);
         }
 
+        //判断悬浮窗是否可见
+
     }
 
     /**
@@ -241,8 +243,8 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                 }
 
                 //当前页面已存在dokitview
-                if (existDokitView != null && existDokitView.getRootView() != null) {
-                    existDokitView.getRootView().setVisibility(View.VISIBLE);
+                if (existDokitView != null && existDokitView.getDoKitView() != null) {
+                    existDokitView.getDoKitView().setVisibility(View.VISIBLE);
                     //更新位置
                     existDokitView.updateViewLayout(existDokitView.getTag(), true);
                     existDokitView.onResume();
@@ -355,9 +357,9 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
 
             //往DecorView的子RootView中添加dokitView
-            if (dokitView.getNormalLayoutParams() != null && dokitView.getRootView() != null) {
+            if (dokitView.getNormalLayoutParams() != null && dokitView.getDoKitView() != null) {
                 getDokitRootContentView(dokitIntent.activity, mDecorView)
-                        .addView(dokitView.getRootView(),
+                        .addView(dokitView.getDoKitView(),
                                 dokitView.getNormalLayoutParams());
                 //延迟100毫秒调用
                 dokitView.postDelayed(new Runnable() {
@@ -387,7 +389,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             return dokitRootView;
         }
 
-        dokitRootView = new DokitFrameLayout(mContext);
+        dokitRootView = new DokitFrameLayout(mContext, DokitFrameLayout.DoKitFrameLayoutFlag_ROOT);
         //普通模式的返回按键监听
         dokitRootView.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -480,9 +482,9 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             if (dokitView == null) {
                 continue;
             }
-            if (dokitView.getRootView() != null) {
-                dokitView.getRootView().setVisibility(View.GONE);
-                getDokitRootContentView(dokitView.getActivity(), (FrameLayout) activityKey.getWindow().getDecorView()).removeView(dokitView.getRootView());
+            if (dokitView.getDoKitView() != null) {
+                dokitView.getDoKitView().setVisibility(View.GONE);
+                getDokitRootContentView(dokitView.getActivity(), (FrameLayout) activityKey.getWindow().getDecorView()).removeView(dokitView.getDoKitView());
             }
 
             //移除指定UI
@@ -515,9 +517,9 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         if (dokitView == null) {
             return;
         }
-        if (dokitView.getRootView() != null) {
-            dokitView.getRootView().setVisibility(View.GONE);
-            getDokitRootContentView(dokitView.getActivity(), (FrameLayout) activity.getWindow().getDecorView()).removeView(dokitView.getRootView());
+        if (dokitView.getDoKitView() != null) {
+            dokitView.getDoKitView().setVisibility(View.GONE);
+            getDokitRootContentView(dokitView.getActivity(), (FrameLayout) activity.getWindow().getDecorView()).removeView(dokitView.getDoKitView());
         }
 
         //移除指定UI

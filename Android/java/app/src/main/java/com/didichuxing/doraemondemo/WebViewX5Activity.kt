@@ -14,7 +14,7 @@ import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
 
 /**
- * Created by wanglikun on 2018/11/13.
+ * Created by jintai on 2018/11/13.
  */
 class WebViewX5Activity : AppCompatActivity() {
     val TAG = "WebViewActivity"
