@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="89dp"
         app:dkIcon="@mipmap/dk_close_icon_big"
-        tools:dkTitle="@string/dk_kit_comm_webview" />
+        app:dkTitle="@string/dk_kit_comm_webview" />
 
     <com.didichuxing.doraemonkit.widget.webview.MyWebView
         android:id="@+id/webview"
