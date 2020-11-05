@@ -15,7 +15,7 @@ class CommWebViewFragment : BaseFragment() {
     private lateinit var mWebView: MyWebView
     private lateinit var mTitle: HomeTitleBar
     override fun onRequestLayout(): Int {
-        return R.layout.dk_fragment_method_cost
+        return R.layout.dk_fragment_comm_webview
     }
 
     override fun onViewCreated(

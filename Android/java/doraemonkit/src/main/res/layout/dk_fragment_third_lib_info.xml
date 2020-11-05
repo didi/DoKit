@@ -1,22 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@color/dk_color_FFFFFF">
+    android:background="@color/dk_color_FFFFFF"
+    android:orientation="vertical">
 
     <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
-        app:dkIcon="@mipmap/dk_close_icon_big"
         android:layout_height="@dimen/dk_home_title_height"
-        app:dkTitle="@string/dk_third_library_info"/>
+        app:dkIcon="@mipmap/dk_close_icon_big"
+        app:dkTitle="@string/dk_third_library_info" />
+
+    <RelativeLayout
+        android:id="@+id/rl_searchbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_bar"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+
+        <TextView
+            android:id="@+id/tv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:gravity="center"
+            android:text="@string/dk_mock_search"
+            android:textColor="@color/dk_color_337CC4"
+            android:textSize="14sp" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardview"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_margin="5dp"
+            android:layout_toLeftOf="@id/tv_search"
+            app:cardBackgroundColor="@color/dk_color_FFFFFF"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="3dp"
+            app:contentPaddingBottom="5dp"
+            app:contentPaddingLeft="12dp"
+            app:contentPaddingRight="@dimen/dk_dp_5"
+            app:contentPaddingTop="5dp">
+
+            <EditText
+                android:id="@+id/edittext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/dk_edittext_shape"
+                android:drawableLeft="@mipmap/dk_search"
+                android:drawablePadding="5dp"
+                android:hint="@string/dk_data_mock_et_hint"
+                android:textColorHint="@color/dk_color_BEBEBE"
+                android:textSize="14sp" />
+
+        </android.support.v7.widget.CardView>
+
+
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/info_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dk_dp_5"
         android:overScrollMode="never"
         android:scrollbars="none" />
 

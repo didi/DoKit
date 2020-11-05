@@ -9,7 +9,7 @@ ext {
             //0:发布到到本地localRepoURL仓库
             //1:发布到滴滴内部仓库 一般不建议使用 如果需要发布到滴滴内网仓库需要将版本号改得比较大 假如版本号跟jcenter上的一致会由于缓存导致没法下载最新的jcenter的线上代码
             //2:发布到jcenter远程仓库
-            publishArchivesType: 2,
+            publishArchivesType: 0,
             //本地仓库地址
             localRepoURL       : "/Users/didi/project/dokit_repo"
     ]
@@ -19,13 +19,13 @@ ext {
                minSdkVersion             : 16,
                targetSdkVersion          : 29,
                //app版本号
-               versionCode               : 331,
+               versionCode               : 333,
                //dokit 插件版本号
-               pluginVersionName         : "3.3.1",
+               pluginVersionName         : "3.3.3",
                //jcenter dokit版本号 打包上传时 dokit的版本名字
-               jcenterArchivesVersionName: "3.3.1",
+               jcenterArchivesVersionName: "3.3.3",
                //didi内部仓库版本号
-               versionName               : "3.3.1",
+               versionName               : "3.3.3",
                glide_version             : "4.9.0",
                kotlin_version            : "1.3.72",
                booster_version           : "2.3.0",

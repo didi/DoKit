@@ -78,12 +78,20 @@ class H5DokitView : AbsDokitView() {
             mBtnReload = it.findViewById(R.id.btn_reload)
             mBtnReload.setOnClickListener {
                 mWebView?.let { webView ->
-                    when (webView) {
-                        is WebView -> {
-                            webView.reload()
+                    if (X5WebViewUtil.hasImpX5WebViewLib()) {
+                        when (webView) {
+                            is WebView -> {
+                                webView.reload()
+                            }
+                            is com.tencent.smtt.sdk.WebView -> {
+                                webView.reload()
+                            }
                         }
-                        is com.tencent.smtt.sdk.WebView -> {
-                            webView.reload()
+                    } else {
+                        when (webView) {
+                            is WebView -> {
+                                webView.reload()
+                            }
                         }
                     }
                 }
@@ -176,18 +184,25 @@ class H5DokitView : AbsDokitView() {
             mMoreWrap.visibility = View.GONE
             mBtnReload.visibility = View.GONE
         } else {
-            when (mWebView) {
-                is WebView -> {
-                    mWebView as WebView
-                    mTvLink.text = (mWebView as WebView).url
-                }
+            if (X5WebViewUtil.hasImpX5WebViewLib()) {
+                when (mWebView) {
+                    is WebView -> {
+                        mWebView as WebView
+                        mTvLink.text = (mWebView as WebView).url
+                    }
 
-                is com.tencent.smtt.sdk.WebView -> {
-                    mTvLink.text = (mWebView as com.tencent.smtt.sdk.WebView).url
+                    is com.tencent.smtt.sdk.WebView -> {
+                        mTvLink.text = (mWebView as com.tencent.smtt.sdk.WebView).url
+                    }
+                }
+            } else {
+                when (mWebView) {
+                    is WebView -> {
+                        mWebView as WebView
+                        mTvLink.text = (mWebView as WebView).url
+                    }
                 }
             }
-
-
             mMoreWrap.visibility = View.VISIBLE
             mBtnReload.visibility = View.VISIBLE
         }
@@ -209,10 +224,17 @@ class H5DokitView : AbsDokitView() {
         val decorView = activity.window.decorView as ViewGroup
         for (index in 0 until decorView.childCount) {
             val view = decorView.getChildAt(index)
-            if (view is WebView || view is com.tencent.smtt.sdk.WebView) {
-                return view
-            } else if (view is ViewGroup) {
-                return traversView(view)
+            if (X5WebViewUtil.hasImpX5WebViewLib()) {
+                when (view) {
+                    is WebView -> return view
+                    is com.tencent.smtt.sdk.WebView -> return view
+                    is ViewGroup -> return traversView(view)
+                }
+            } else {
+                when (view) {
+                    is WebView -> return view
+                    is ViewGroup -> return traversView(view)
+                }
             }
         }
         return null
@@ -221,10 +243,17 @@ class H5DokitView : AbsDokitView() {
     private fun traversView(viewGroup: ViewGroup): Any? {
         for (index in 0 until viewGroup.childCount) {
             val view = viewGroup.getChildAt(index)
-            if (view is WebView || view is com.tencent.smtt.sdk.WebView) {
-                return view
-            } else if (view is ViewGroup) {
-                return traversView(view)
+            if (X5WebViewUtil.hasImpX5WebViewLib()) {
+                when (view) {
+                    is WebView -> return view
+                    is com.tencent.smtt.sdk.WebView -> return view
+                    is ViewGroup -> return traversView(view)
+                }
+            } else {
+                when (view) {
+                    is WebView -> return view
+                    is ViewGroup -> return traversView(view)
+                }
             }
         }
 
