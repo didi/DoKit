@@ -28,15 +28,12 @@ import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.widget.dialog.DialogProvider;
 import com.didichuxing.doraemonkit.widget.dialog.UniversalDialogFragment;
-import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.widget.titlebar.LogTitleBar;
-import com.didichuxing.doraemonkit.widget.titlebar.TitleBar;
 import com.didichuxing.doraemonkit.util.FileUtil;
 
 import java.io.File;
@@ -380,7 +377,7 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
             layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
             layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
             layoutParams.gravity = Gravity.START | Gravity.TOP;
-            getRootView().setLayoutParams(layoutParams);
+            getDoKitView().setLayoutParams(layoutParams);
         } else {
             mLogHint.setVisibility(View.VISIBLE);
             mLogRvWrap.setVisibility(View.GONE);
@@ -393,7 +390,7 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
             layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
             layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
             layoutParams.gravity = Gravity.START | Gravity.TOP;
-            mWindowManager.updateViewLayout(getRootView(), layoutParams);
+            mWindowManager.updateViewLayout(getDoKitView(), layoutParams);
         }
 
     }
@@ -415,7 +412,7 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
             layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
             layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
             layoutParams.gravity = Gravity.START | Gravity.TOP;
-            getRootView().setLayoutParams(layoutParams);
+            getDoKitView().setLayoutParams(layoutParams);
         } else {
             mLogHint.setVisibility(View.GONE);
             mLogRvWrap.setVisibility(View.VISIBLE);
@@ -427,7 +424,7 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
             layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
             layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
             layoutParams.gravity = Gravity.START | Gravity.TOP;
-            mWindowManager.updateViewLayout(getRootView(), layoutParams);
+            mWindowManager.updateViewLayout(getDoKitView(), layoutParams);
         }
 
     }

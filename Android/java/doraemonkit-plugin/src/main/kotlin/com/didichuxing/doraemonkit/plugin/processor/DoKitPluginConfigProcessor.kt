@@ -73,25 +73,28 @@ class DoKitPluginConfigProcessor : VariantProcessor {
                 DoKitExtUtil.init(doKitExt, appExt.defaultConfig.applicationId!!)
             }
 
-            //遍历三方库
-            val dependencies = variant.dependencies
-            DoKitExtUtil.THIRD_LIB_INFOS.clear()
-            for (artifactResult: ResolvedArtifactResult in dependencies) {
-                //println("三方库信息===>${artifactResult.variant.displayName}____${artifactResult.file.toString()}")
-                val paths = artifactResult.file.toString().split("/")
-                var fileName = ""
-                if (paths.size >= 4) {
-                    fileName = "${paths[paths.size - 4]}/${paths[paths.size - 1]}"
-                } else {
-                    fileName = paths[paths.size - 1]
+            if(DoKitExtUtil.THIRD_LIBINFO_SWITCH){
+                //遍历三方库
+                val dependencies = variant.dependencies
+                DoKitExtUtil.THIRD_LIB_INFOS.clear()
+                for (artifactResult: ResolvedArtifactResult in dependencies) {
+                    //println("三方库信息===>${artifactResult.variant.displayName}____${artifactResult.file.toString()}")
+                    val paths = artifactResult.file.toString().split("/")
+                    var fileName = ""
+                    if (paths.size >= 4) {
+                        fileName = "${paths[paths.size - 4]}/${paths[paths.size - 1]}"
+                    } else {
+                        fileName = paths[paths.size - 1]
+                    }
+                    val thirdLibInfo =
+                        ThirdLibInfo(
+                            fileName,
+                            DoKitPluginUtil.FileSize(artifactResult.file)
+                        )
+                    DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
                 }
-                val thirdLibInfo =
-                    ThirdLibInfo(
-                        fileName,
-                        DoKitPluginUtil.FileSize(artifactResult.file)
-                    )
-                DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
             }
+
 
         } else {
             "${variant.project.name}-不建议在Library Module下引入dokit插件".println()

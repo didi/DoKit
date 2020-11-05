@@ -131,11 +131,11 @@ public class ViewCheckDokitView extends AbsDokitView implements LifecycleListene
     private void preformFindCheckView() {
         int x, y;
         if (isNormalMode()) {
-            x = getNormalLayoutParams().leftMargin + getRootView().getWidth() / 2;
-            y = getNormalLayoutParams().topMargin + getRootView().getHeight() / 2;
+            x = getNormalLayoutParams().leftMargin + getDoKitView().getWidth() / 2;
+            y = getNormalLayoutParams().topMargin + getDoKitView().getHeight() / 2;
         } else {
-            x = getSystemLayoutParams().x + getRootView().getWidth() / 2;
-            y = getSystemLayoutParams().y + getRootView().getHeight() / 2;
+            x = getSystemLayoutParams().x + getDoKitView().getWidth() / 2;
+            y = getSystemLayoutParams().y + getDoKitView().getHeight() / 2;
         }
 
         mTraverHandler.removeCallbacks(mFindCheckViewRunnable);

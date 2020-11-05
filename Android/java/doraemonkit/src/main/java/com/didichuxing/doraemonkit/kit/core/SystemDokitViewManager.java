@@ -244,7 +244,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
             dokitView.performCreate(mContext);
             //在window上显示floatIcon
             //WindowManagerImpl具体实现
-            mWindowManager.addView(dokitView.getRootView(),
+            mWindowManager.addView(dokitView.getDoKitView(),
                     dokitView.getSystemLayoutParams());
             dokitView.onResume();
 
@@ -267,7 +267,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
         for (Iterator<AbsDokitView> it = mDokitViews.iterator(); it.hasNext(); ) {
             AbsDokitView dokitView = it.next();
             if (tag.equals(dokitView.getTag())) {
-                mWindowManager.removeView(dokitView.getRootView());
+                mWindowManager.removeView(dokitView.getDoKitView());
                 dokitView.performDestroy();
                 it.remove();
                 return;
@@ -310,7 +310,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
         }
         for (Iterator<AbsDokitView> it = mDokitViews.iterator(); it.hasNext(); ) {
             AbsDokitView dokitView = it.next();
-            mWindowManager.removeView(dokitView.getRootView());
+            mWindowManager.removeView(dokitView.getDoKitView());
             dokitView.performDestroy();
             it.remove();
         }
