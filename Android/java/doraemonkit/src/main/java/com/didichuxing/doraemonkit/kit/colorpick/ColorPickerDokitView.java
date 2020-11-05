@@ -121,7 +121,7 @@ public class ColorPickerDokitView extends AbsDokitView {
     private void captureInfo(int delay) {
         //先隐藏拾色器控件 否则会把拾色器也截图进去
         mPickerView.setVisibility(View.INVISIBLE);
-        getRootView().postDelayed(new Runnable() {
+        getDoKitView().postDelayed(new Runnable() {
             @Override
             public void run() {
                 mImageCapture.capture();

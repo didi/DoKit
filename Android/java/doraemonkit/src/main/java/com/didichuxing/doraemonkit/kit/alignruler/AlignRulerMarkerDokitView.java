@@ -55,9 +55,9 @@ public class AlignRulerMarkerDokitView extends AbsDokitView {
         super.onMove(x, y, dx, dy);
         for (OnAlignRulerMarkerPositionChangeListener listener : mPositionChangeListeners) {
             if (isNormalMode()) {
-                listener.onPositionChanged(getNormalLayoutParams().leftMargin + getRootView().getWidth() / 2, getNormalLayoutParams().topMargin + getRootView().getHeight() / 2);
+                listener.onPositionChanged(getNormalLayoutParams().leftMargin + getDoKitView().getWidth() / 2, getNormalLayoutParams().topMargin + getDoKitView().getHeight() / 2);
             } else {
-                listener.onPositionChanged(getSystemLayoutParams().x + getRootView().getWidth() / 2, getSystemLayoutParams().y + getRootView().getHeight() / 2);
+                listener.onPositionChanged(getSystemLayoutParams().x + getDoKitView().getWidth() / 2, getSystemLayoutParams().y + getDoKitView().getHeight() / 2);
             }
         }
     }
@@ -68,9 +68,9 @@ public class AlignRulerMarkerDokitView extends AbsDokitView {
         //更新标尺的位置信息
         for (OnAlignRulerMarkerPositionChangeListener listener : mPositionChangeListeners) {
             if (isNormalMode()) {
-                listener.onPositionChanged(getNormalLayoutParams().leftMargin + getRootView().getWidth() / 2, getNormalLayoutParams().topMargin + getRootView().getHeight() / 2);
+                listener.onPositionChanged(getNormalLayoutParams().leftMargin + getDoKitView().getWidth() / 2, getNormalLayoutParams().topMargin + getDoKitView().getHeight() / 2);
             } else {
-                listener.onPositionChanged(getSystemLayoutParams().x + getRootView().getWidth() / 2, getSystemLayoutParams().y + getRootView().getHeight() / 2);
+                listener.onPositionChanged(getSystemLayoutParams().x + getDoKitView().getWidth() / 2, getSystemLayoutParams().y + getDoKitView().getHeight() / 2);
             }
         }
 
@@ -85,9 +85,9 @@ public class AlignRulerMarkerDokitView extends AbsDokitView {
         //更新标尺的位置信息
         for (OnAlignRulerMarkerPositionChangeListener listener : mPositionChangeListeners) {
             if (isNormalMode()) {
-                listener.onPositionChanged(getNormalLayoutParams().leftMargin + getRootView().getWidth() / 2, getNormalLayoutParams().topMargin + getRootView().getHeight() / 2);
+                listener.onPositionChanged(getNormalLayoutParams().leftMargin + getDoKitView().getWidth() / 2, getNormalLayoutParams().topMargin + getDoKitView().getHeight() / 2);
             } else {
-                listener.onPositionChanged(getSystemLayoutParams().x + getRootView().getWidth() / 2, getSystemLayoutParams().y + getRootView().getHeight() / 2);
+                listener.onPositionChanged(getSystemLayoutParams().x + getDoKitView().getWidth() / 2, getSystemLayoutParams().y + getDoKitView().getHeight() / 2);
             }
         }
     }

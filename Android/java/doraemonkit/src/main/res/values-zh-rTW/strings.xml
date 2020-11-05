@@ -38,6 +38,7 @@
     <string name="dk_kit_ui_monitor">UI顯示實時數據</string>
     <string name="dk_kit_time_counter">啟動耗時</string>
     <string name="dk_kit_method_cost">函數耗時</string>
+    <string name="dk_kit_comm_webview">......</string>
     <string name="dk_kit_mock_template_preview">數據預覽</string>
     <string name="dk_kit_method_cost_desc">
         <![CDATA[

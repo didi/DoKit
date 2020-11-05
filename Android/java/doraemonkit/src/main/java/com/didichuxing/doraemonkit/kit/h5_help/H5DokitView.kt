@@ -79,12 +79,20 @@ class H5DokitView : AbsDokitView() {
             mBtnReload = it.findViewById(R.id.btn_reload)
             mBtnReload.setOnClickListener {
                 mWebView?.let { webView ->
-                    when (webView) {
-                        is WebView -> {
-                            webView.reload()
+                    if (X5WebViewUtil.hasImpX5WebViewLib()) {
+                        when (webView) {
+                            is WebView -> {
+                                webView.reload()
+                            }
+                            is com.tencent.smtt.sdk.WebView -> {
+                                webView.reload()
+                            }
                         }
-                        is com.tencent.smtt.sdk.WebView -> {
-                            webView.reload()
+                    } else {
+                        when (webView) {
+                            is WebView -> {
+                                webView.reload()
+                            }
                         }
                     }
                 }
@@ -177,18 +185,25 @@ class H5DokitView : AbsDokitView() {
             mMoreWrap.visibility = View.GONE
             mBtnReload.visibility = View.GONE
         } else {
-            when (mWebView) {
-                is WebView -> {
-                    mWebView as WebView
-                    mTvLink.text = (mWebView as WebView).url
-                }
+            if (X5WebViewUtil.hasImpX5WebViewLib()) {
+                when (mWebView) {
+                    is WebView -> {
+                        mWebView as WebView
+                        mTvLink.text = (mWebView as WebView).url
+                    }
 
-                is com.tencent.smtt.sdk.WebView -> {
-                    mTvLink.text = (mWebView as com.tencent.smtt.sdk.WebView).url
+                    is com.tencent.smtt.sdk.WebView -> {
+                        mTvLink.text = (mWebView as com.tencent.smtt.sdk.WebView).url
+                    }
+                }
+            } else {
+                when (mWebView) {
+                    is WebView -> {
+                        mWebView as WebView
+                        mTvLink.text = (mWebView as WebView).url
+                    }
                 }
             }
-
-
             mMoreWrap.visibility = View.VISIBLE
             mBtnReload.visibility = View.VISIBLE
         }
@@ -209,22 +224,39 @@ class H5DokitView : AbsDokitView() {
     private fun performTraverseView(): Any? {
         val decorView = activity.window.decorView as ViewGroup
         decorView.children.forEach {
-            if (it is WebView || it is com.tencent.smtt.sdk.WebView) {
-                return it
-            } else if (it is ViewGroup) {
-                return traversView(it)
+            if (X5WebViewUtil.hasImpX5WebViewLib()) {
+                when (it) {
+                    is WebView -> return it
+                    is com.tencent.smtt.sdk.WebView -> return it
+                    is ViewGroup -> return traversView(it)
+                }
+            } else {
+                when (it) {
+                    is WebView -> return it
+                    is ViewGroup -> return traversView(it)
+                }
             }
+
+
         }
         return null
     }
 
     private fun traversView(viewGroup: ViewGroup): Any? {
         viewGroup.children.forEach {
-            if (it is WebView || it is com.tencent.smtt.sdk.WebView) {
-                return it
-            } else if (it is ViewGroup) {
-                return traversView(it)
+            if (X5WebViewUtil.hasImpX5WebViewLib()) {
+                when (it) {
+                    is WebView -> return it
+                    is com.tencent.smtt.sdk.WebView -> return it
+                    is ViewGroup -> return traversView(it)
+                }
+            } else {
+                when (it) {
+                    is WebView -> return it
+                    is ViewGroup -> return traversView(it)
+                }
             }
+
         }
         return null
     }
