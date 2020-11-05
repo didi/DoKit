@@ -9,7 +9,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ConvertUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
@@ -72,7 +72,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
 
         try {
             //网络的健康体检功能 统计流量大小
-            if (DokitConstant.APP_HEALTH_RUNNING) {
+            if (DoKitConstant.APP_HEALTH_RUNNING) {
                 addNetWokInfoInAppHealth(oldRequest, oldResponse);
             }
             //是否命中拦截规则

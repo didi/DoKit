@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.PixelFormat;
-import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +27,7 @@ import android.widget.FrameLayout;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ScreenUtils;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.config.FloatIconConfig;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
@@ -877,7 +876,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
      * @return
      */
     public boolean isNormalMode() {
-        return DokitConstant.IS_NORMAL_FLOAT_MODE;
+        return DoKitConstant.IS_NORMAL_FLOAT_MODE;
     }
 
     /**

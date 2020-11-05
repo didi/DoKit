@@ -19,13 +19,13 @@ ext {
                minSdkVersion             : 16,
                targetSdkVersion          : 29,
                //app版本号
-               versionCode               : 331,
+               versionCode               : 333,
                //dokit 插件版本号
-               pluginVersionName         : "3.3.2",
+               pluginVersionName         : "3.3.3",
                //jcenter dokit版本号 打包上传时 dokit的版本名字
-               jcenterArchivesVersionName: "3.3.2",
+               jcenterArchivesVersionName: "3.3.3",
                //didi内部仓库版本号
-               versionName               : "3.3.2",
+               versionName               : "3.3.3",
                glide_version             : "4.9.0",
                kotlin_version            : "1.3.72",
                booster_version           : "2.3.0",

@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import android.view.WindowManager;
 
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.kit.health.CountDownDokitView;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
@@ -102,7 +102,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
             onMainActivityCreate(activity);
         }
 
-        ActivityLifecycleInfo activityLifecycleInfo = DokitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
+        ActivityLifecycleInfo activityLifecycleInfo = DoKitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
         //新建Activity
         if (activityLifecycleInfo != null && activityLifecycleInfo.getActivityLifeCycleCount() == ActivityLifecycleInfo.ACTIVITY_LIFECYCLE_CREATE2RESUME) {
             onActivityCreate(activity);
@@ -124,7 +124,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
      * 添加倒计时DokitView
      */
     private void attachCountDownDokitView(Activity activity) {
-        if (!DokitConstant.APP_HEALTH_RUNNING) {
+        if (!DoKitConstant.APP_HEALTH_RUNNING) {
             return;
         }
         if (activity instanceof UniversalActivity) {
@@ -141,7 +141,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
         //倒计时DokitView
         attachCountDownDokitView(activity);
 
-        if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
+        if (!DoKitConstant.AWAYS_SHOW_MAIN_ICON) {
             return;
         }
 
@@ -149,14 +149,14 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
         DokitIntent intent = new DokitIntent(MainIconDokitView.class);
         intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
         DokitViewManager.getInstance().attach(intent);
-        DokitConstant.MAIN_ICON_HAS_SHOW = true;
+        DoKitConstant.MAIN_ICON_HAS_SHOW = true;
     }
 
 
     @Override
     public void onActivityCreate(Activity activity) {
         //判断是否有MainIcon
-        if (DokitConstant.AWAYS_SHOW_MAIN_ICON && !DoraemonKit.isShow()) {
+        if (DoKitConstant.AWAYS_SHOW_MAIN_ICON && !DoraemonKit.isShow()) {
             DoraemonKit.show();
         }
         //如果倒计时浮标没显示则重新添加
@@ -191,12 +191,12 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
         //判断是否存在主入口icon
         Map<String, AbsDokitView> dokitViews = getDokitViews(activity);
         if (dokitViews == null || dokitViews.get(MainIconDokitView.class.getSimpleName()) == null) {
-            if (DokitConstant.AWAYS_SHOW_MAIN_ICON && !(activity instanceof UniversalActivity)) {
+            if (DoKitConstant.AWAYS_SHOW_MAIN_ICON && !(activity instanceof UniversalActivity)) {
                 //添加main icon
                 DokitIntent intent = new DokitIntent(MainIconDokitView.class);
                 intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
                 DokitViewManager.getInstance().attach(intent);
-                DokitConstant.MAIN_ICON_HAS_SHOW = true;
+                DoKitConstant.MAIN_ICON_HAS_SHOW = true;
             }
         }
 
@@ -248,7 +248,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
                     dokitView.getSystemLayoutParams());
             dokitView.onResume();
 
-            if (!DokitConstant.IS_NORMAL_FLOAT_MODE) {
+            if (!DoKitConstant.IS_NORMAL_FLOAT_MODE) {
                 for (DokitViewManager.DokitViewAttachedListener listener : mListeners) {
                     listener.onDokitViewAdd(dokitView);
                 }

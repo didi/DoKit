@@ -10,7 +10,7 @@ import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ResourceUtils
 import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
 import com.didichuxing.doraemonkit.aop.urlconnection.OkhttpClientUtil
-import com.didichuxing.doraemonkit.constant.DokitConstant
+import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean
@@ -18,7 +18,6 @@ import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.tencent.smtt.export.external.interfaces.*
-import com.tencent.smtt.sdk.MimeTypeMap
 import com.tencent.smtt.sdk.WebView
 import com.tencent.smtt.sdk.WebViewClient
 import okhttp3.*
@@ -72,7 +71,7 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
         request: WebResourceRequest?
     ): WebResourceResponse? {
         //开关均被关闭则不进行拦截
-        if (!DokitConstant.H5_JS_INJECT && !DokitConstant.H5_VCONSOLE_INJECT) {
+        if (!DoKitConstant.H5_JS_INJECT && !DoKitConstant.H5_VCONSOLE_INJECT) {
             return super.shouldInterceptRequest(view, request)
         }
         request?.let { webRequest ->
@@ -97,13 +96,13 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
                 val response = OkhttpClientUtil.okhttpClient.newCall(httpRequest).execute()
 
                 //注入本地网络拦截js
-                var newHtml = if (DokitConstant.H5_JS_INJECT) {
+                var newHtml = if (DoKitConstant.H5_JS_INJECT) {
                     injectJsHook(OkHttpWrap.toResponseBody(response)?.string())
                 } else {
                     OkHttpWrap.toResponseBody(response)?.string()
                 }
                 //注入vConsole的代码
-                if (DokitConstant.H5_VCONSOLE_INJECT) {
+                if (DoKitConstant.H5_VCONSOLE_INJECT) {
                     newHtml = injectVConsoleHook(newHtml)
                 }
 

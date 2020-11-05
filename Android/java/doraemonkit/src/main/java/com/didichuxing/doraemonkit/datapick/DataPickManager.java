@@ -15,6 +15,7 @@ import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.PathUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.volley.VolleyManager;
@@ -89,6 +90,10 @@ public class DataPickManager {
      * 上传埋点数据
      */
     public void postData() {
+        if (!DoKitConstant.INSTANCE.getENABLE_UPLOAD()) {
+            return;
+        }
+
         //先检查本地是否存在缓存数据
         String strJson = FileIOUtils.readFile2String(filePath);
         if (!TextUtils.isEmpty(strJson)) {
@@ -118,6 +123,8 @@ public class DataPickManager {
      * 真正需要上传的方法
      */
     private void realPost(final int from, String content) throws Exception {
+
+
         //LogHelper.i(TAG,"content===>" + content);
         //LogHelper.i(TAG, "====realPost======from==>" + from);
         Request requset = new JsonObjectRequest(Request.Method.POST, NetworkManager.APP_DATA_PICK_URL, new JSONObject(content), new Response.Listener<JSONObject>() {
@@ -136,7 +143,7 @@ public class DataPickManager {
             @Override
             public void onErrorResponse(VolleyError error) {
                 LogHelper.e(TAG, "error===>" + error.getMessage());
-                ToastUtils.showShort("上传埋点失败");
+                //ToastUtils.showShort("上传埋点失败");
             }
         });
 

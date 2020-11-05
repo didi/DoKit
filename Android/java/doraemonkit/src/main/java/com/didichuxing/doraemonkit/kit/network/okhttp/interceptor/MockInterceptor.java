@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
@@ -70,7 +70,7 @@ public class MockInterceptor implements Interceptor {
         String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_OTHER);
         try {
             //网络的健康体检功能 统计流量大小
-            if (DokitConstant.APP_HEALTH_RUNNING) {
+            if (DoKitConstant.APP_HEALTH_RUNNING) {
                 addNetWokInfoInAppHealth(oldRequest, oldResponse);
             }
 

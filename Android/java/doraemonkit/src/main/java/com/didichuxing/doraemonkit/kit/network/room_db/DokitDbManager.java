@@ -3,8 +3,7 @@ package com.didichuxing.doraemonkit.kit.network.room_db;
 import android.text.TextUtils;
 
 import com.blankj.utilcode.util.ThreadUtils;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
@@ -161,7 +160,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         //先进行全匹配
         List<T> mGlobalInterceptApis = mGlobalInterceptApiMaps.get(path);
         if (mGlobalInterceptApis == null) {
-            path = DokitConstant.dealDidiPlatformPath(path, fromSDK);
+            path = DoKitConstant.dealDidiPlatformPath(path, fromSDK);
             mGlobalInterceptApis = mGlobalInterceptApiMaps.get(path);
         }
 
@@ -191,7 +190,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
         List<T> mGlobalTemplateApis = mGlobalTemplateApiMaps.get(path);
         //先进行全匹配
         if (mGlobalTemplateApis == null) {
-            path = DokitConstant.dealDidiPlatformPath(path, fromSDK);
+            path = DoKitConstant.dealDidiPlatformPath(path, fromSDK);
             mGlobalTemplateApis = mGlobalTemplateApiMaps.get(path);
         }
         //再进行滴滴内部匹配
@@ -390,7 +389,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
             mockApis = mGlobalInterceptApiMaps.get(path);
             //滴滴内部sdk匹配
             if (mockApis == null) {
-                path = DokitConstant.dealDidiPlatformPath(path, fromSDK);
+                path = DoKitConstant.dealDidiPlatformPath(path, fromSDK);
                 mockApis = mGlobalInterceptApiMaps.get(path);
             }
         } else if (operateType == DokitDbManager.MOCK_API_TEMPLATE) {
@@ -398,7 +397,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
             mockApis = mGlobalTemplateApiMaps.get(path);
             //滴滴内部sdk匹配
             if (mockApis == null) {
-                path = DokitConstant.dealDidiPlatformPath(path, fromSDK);
+                path = DoKitConstant.dealDidiPlatformPath(path, fromSDK);
                 mockApis = mGlobalTemplateApiMaps.get(path);
             }
         }
