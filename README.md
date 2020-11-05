@@ -46,6 +46,15 @@
 
 ## 社区活动
 
+**InfoQ年度十大开源项目评选**
+
+小伙伴们，DoKit正在参加infoQ举办的年度十大开源项目评选，麻烦你们东东小手指扫描一下二维码给30号Doraemonkit投个票,谢谢.
+
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/5U2jWuIKA11604566692827.jpg" alt="图片替换文本" width="200"  align="bottom" />
+
+
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/k3HTEc305O1604566698026.jpg" alt="图片替换文本" width="200"  align="bottom" />
+
 **DoKit官方社区分享季**
 你想让你的才华被更多的人关注到吗？快来参加[DoKit官方社区分享季](https://github.com/didi/DoraemonKit/issues/658)活动吧
 
