@@ -44,6 +44,7 @@
     <string name="dk_kit_ui_monitor">UI显示实时数据</string>
     <string name="dk_kit_time_counter">启动耗时</string>
     <string name="dk_kit_method_cost">函数耗时</string>
+    <string name="dk_kit_comm_webview">......</string>
     <string name="dk_kit_mock_template_preview">数据预览</string>
     <string name="dk_kit_method_cost_desc">
         <![CDATA[

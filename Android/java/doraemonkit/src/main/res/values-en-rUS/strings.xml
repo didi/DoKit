@@ -37,6 +37,7 @@
     <string name="dk_kit_ui_monitor">Show Current Infos On UI</string>
     <string name="dk_kit_time_counter">Launch Time</string>
     <string name="dk_kit_method_cost">Time Profiler</string>
+    <string name="dk_kit_comm_webview">......</string>
     <string name="dk_kit_mock_template_preview">Data Preview</string>
     <string name="dk_kit_method_cost_desc">
         <![CDATA[

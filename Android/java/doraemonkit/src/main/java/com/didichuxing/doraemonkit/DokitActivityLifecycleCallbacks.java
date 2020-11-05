@@ -39,7 +39,7 @@ import java.util.Map;
 class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
     private int startedActivityCounts;
     private boolean sHasRequestPermission;
-    private Map<String, DoKitOrientationEventListener> mOrientationEventListeners = new HashMap<>();
+    //private Map<String, DoKitOrientationEventListener> mOrientationEventListeners = new HashMap<>();
     /**
      * fragment 生命周期回调
      */
@@ -60,10 +60,10 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
             //注册fragment生命周期回调
             ((FragmentActivity) activity).getSupportFragmentManager().registerFragmentLifecycleCallbacks(sFragmentLifecycleCallbacks, true);
         }
-
-        DoKitOrientationEventListener orientationEventListener = new DoKitOrientationEventListener(activity);
-        orientationEventListener.enable();
-        mOrientationEventListeners.put(activity.getClass().getSimpleName(), orientationEventListener);
+//暂时无法很好的解决屏幕旋转的问题
+//        DoKitOrientationEventListener orientationEventListener = new DoKitOrientationEventListener(activity);
+//        orientationEventListener.enable();
+//        mOrientationEventListeners.put(activity.getClass().getSimpleName(), orientationEventListener);
 
 
     }
@@ -152,12 +152,13 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
         }
         DokitViewManager.getInstance().onActivityDestroy(activity);
 
-        DoKitOrientationEventListener orientationEventListener = mOrientationEventListeners.get(activity.getClass().getSimpleName());
-
-        if (orientationEventListener != null) {
-            orientationEventListener.disable();
-            mOrientationEventListeners.remove(activity.getClass().getSimpleName());
-        }
+//暂时无法很好的解决屏幕旋转的问题
+//        DoKitOrientationEventListener orientationEventListener = mOrientationEventListeners.get(activity.getClass().getSimpleName());
+//
+//        if (orientationEventListener != null) {
+//            orientationEventListener.disable();
+//            mOrientationEventListeners.remove(activity.getClass().getSimpleName());
+//        }
 
 
     }
