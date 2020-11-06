@@ -26,12 +26,6 @@ if (publishArchivesType == 1) {
                 }
 
 
-                repository(url: "http://artifactory.intra.xiaojukeji.com/artifactory/libs-release/") {
-                    authentication(userName: "deployment", password: "deployment123")
-                }
-                snapshotRepository(url: "http://artifactory.intra.xiaojukeji.com/artifactory/libs-snapshot/") {
-                    authentication(userName: "deployment", password: "deployment123")
-                }
             }
         }
     }
