@@ -169,6 +169,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 - [滴滴DoKit2.0 - 泛前端开发者的百宝箱](https://juejin.im/post/5dc3cdfa51882538d22d5948)
 - [滴滴正式发布开源客户端研发助手 DoKit 3.0，新特性解读](https://juejin.im/post/5e818e29f265da4804697d25)
 - [滴滴DoKit Android核心原理揭秘之函数耗时](https://juejin.im/post/5eba5ce15188256d6f268c98)
+- [滴滴DoKit Android核心原理揭秘之AOP字节码实现](https://juejin.im/post/6891887877613944840)
 
 ## 更新日志
 
