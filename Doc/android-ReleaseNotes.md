@@ -1,5 +1,17 @@
 DoraemonKit-Android releases
 ===
+## 3.3.4（dokitx 对应androidx，dokit对应Android Support）
+
+1.为了更好的支持android官方androidx和support，dokit从3.3.1版本开始正式对sdk名字进行更新。具体如下：
+
+androidx===>com.didichuxing.doraemonkit:dokitx:3.3.4;
+
+support===>com.didichuxing.doraemonkit:dokit:3.3.4;
+
+2.兼容AS Gradle v4.1.0
+
+3.dokit v3.3.4插件底层依赖库Booster升级到 v3.0.0版本
+
 
 ## 3.3.3（dokitx 对应androidx，dokit对应Android Support）
 
