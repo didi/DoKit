@@ -18,7 +18,7 @@ import java.io.File
  * 修订历史：
  * ================================================
  */
-internal object DoKitConstant {
+object DoKitConstant {
 
     const val GROUP_ID_PLATFORM = "dk_category_platform"
     const val GROUP_ID_COMM = "dk_category_comms"
