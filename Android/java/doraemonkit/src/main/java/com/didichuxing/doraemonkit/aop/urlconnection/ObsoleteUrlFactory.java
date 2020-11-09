@@ -1109,7 +1109,12 @@ final class ObsoleteUrlFactory implements URLStreamHandlerFactory, Cloneable {
 
         @Override
         public void addRequestProperty(String field, String newValue) {
-            delegate.addRequestProperty(field, newValue);
+            try {
+                delegate.addRequestProperty(field, newValue);
+            } catch (Exception e) {
+
+            }
+
         }
 
         @Override

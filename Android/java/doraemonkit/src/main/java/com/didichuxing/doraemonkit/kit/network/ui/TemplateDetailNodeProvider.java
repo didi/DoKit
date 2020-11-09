@@ -5,25 +5,29 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.blankj.utilcode.util.ToastUtils;
-import com.didichuxing.doraemonkit.util.DokitUtil;
-import com.didichuxing.doraemonkit.widget.bravh.entity.node.BaseNode;
-import com.didichuxing.doraemonkit.widget.bravh.provider.BaseNodeProvider;
-import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
-import com.didichuxing.doraemonkit.okgo.DokitOkGo;
-import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
-import com.didichuxing.doraemonkit.okgo.model.Response;
-import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
+import com.didichuxing.doraemonkit.util.DokitUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.volley.VolleyManager;
+import com.didichuxing.doraemonkit.widget.brvah.entity.node.BaseNode;
+import com.didichuxing.doraemonkit.widget.brvah.provider.BaseNodeProvider;
+import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder;
 import com.didichuxing.doraemonkit.widget.jsonviewer.JsonRecyclerView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -105,25 +109,27 @@ public class TemplateDetailNodeProvider extends BaseNodeProvider {
             tvUpload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DokitOkGo.<String>patch(TemplateMockAdapter.TEMPLATER_UPLOAD_URL)
-                            .params("projectId", mockApi.getProjectId())
-                            .params("id", mockApi.getId())
-                            .params("tempData", mockApi.getStrResponse())
-                            .execute(new StringCallback() {
-                                @Override
-                                public void onSuccess(Response<String> response) {
-                                    LogHelper.i(TAG, "上传模板===>" + response.body());
-                                    ToastUtils.showShort("upload template succeed");
-                                }
+                    Map<String, String> values = new HashMap<>();
+                    values.put("projectId", mockApi.getProjectId());
+                    values.put("id", mockApi.getId());
+                    values.put("tempData", mockApi.getStrResponse());
 
-                                @Override
-                                public void onError(Response<String> response) {
-                                    super.onError(response);
-                                    ToastUtils.showShort("upload template failed");
-                                    LogHelper.e(TAG, "上传模板失败===>" + response.body());
-                                }
-                            });
+                    Request<JSONObject> request = new JsonObjectRequest(Request.Method.PATCH, TemplateMockAdapter.TEMPLATER_UPLOAD_URL, new JSONObject(values), new com.android.volley.Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            ToastUtils.showShort("upload template succeed");
+                            LogHelper.i(TAG, "上传模板===>" + response.toString());
+                        }
+                    }, new com.android.volley.Response.ErrorListener() {
 
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            ToastUtils.showShort("upload template failed");
+                            LogHelper.e(TAG, "error===>" + error.getMessage());
+                        }
+                    });
+
+                    VolleyManager.INSTANCE.add(request);
                 }
             });
 

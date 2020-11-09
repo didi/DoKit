@@ -53,6 +53,10 @@
     "数据上传成功"                               = "data upload successfully";
     "数据上传失败"                               = "data upload failed";
     
+    //文件同步助手
+    "文件同步"                                 = "File Sync";
+    "需要到www.dokit.cn上注册pId才能使用该功能"    =  "You need to register the pId on \"www.dokit.cn\" to use this function";
+    
     //应用设置
     "应用设置"                               = "App Settings";
     

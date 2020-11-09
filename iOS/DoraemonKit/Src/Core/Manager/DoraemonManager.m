@@ -215,6 +215,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     #pragma mark - 平台工具
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMockPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonHealthPlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonFileSyncPlugin];
     
     #pragma mark - 常用工具
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAppSettingPlugin];
@@ -721,7 +722,15 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                   @{kPluginName:@"DoraemonHealthPlugin"},
                                   @{kAtModule:DoraemonLocalizedString(@"平台工具")},
                                   @{kBuriedPoint:@"dokit_sdk_platform_ck_health"}
-                                  ]
+                                  ],
+                           @(DoraemonManagerPluginType_DoraemonFileSyncPlugin) : @[
+                                @{kTitle:DoraemonLocalizedString(@"文件同步")},
+                                    @{kDesc:DoraemonLocalizedString(@"文件同步")},
+                                    @{kIcon:@"doraemon_file_sync"},
+                                    @{kPluginName:@"DoraemonFileSyncPlugin"},
+                                    @{kAtModule:DoraemonLocalizedString(@"平台工具")},
+                                    @{kBuriedPoint:@"dokit_sdk_platform_ck_filesync"}
+                                    ]
                            }[@(pluginType)];
     
     DoraemonManagerPluginTypeModel *model = [DoraemonManagerPluginTypeModel new];

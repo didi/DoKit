@@ -37,7 +37,7 @@
 }
 
 - (void) renderTitle:(NSString *)title isSelected:(BOOL)select{
-    _img.image = [UIImage doraemon_imageNamed:@"doraemon_mock_cancle"];
+    _img.image = [UIImage doraemon_xcassetImageNamed:@"doraemon_mock_cancle"];
     _img.frame = CGRectMake(0, 0, _imgSize, _imgSize);
     
     _title.text = title;
@@ -53,13 +53,13 @@
 
 - (void) didSelected{
     _isSelected = YES;
-    _img.image = [UIImage doraemon_imageNamed:@"doraemon_mock_selected"];
+    _img.image = [UIImage doraemon_xcassetImageNamed:@"doraemon_mock_selected"];
     _title.textColor = [UIColor doraemon_blue];
 }
 
 - (void) cancelSelected{
     _isSelected = NO;
-    _img.image = [UIImage doraemon_imageNamed:@"doraemon_mock_cancle"];
+    _img.image = [UIImage doraemon_xcassetImageNamed:@"doraemon_mock_cancle"];
     _title.textColor = [UIColor doraemon_black_1];
 }
 

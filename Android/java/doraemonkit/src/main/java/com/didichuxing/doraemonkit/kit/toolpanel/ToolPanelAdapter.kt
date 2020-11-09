@@ -16,8 +16,8 @@ import com.didichuxing.doraemonkit.constant.SharedPrefsKey
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.util.DokitUtil
 import com.didichuxing.doraemonkit.util.SharedPrefsUtil
-import com.didichuxing.doraemonkit.widget.bravh.BaseMultiItemQuickAdapter
-import com.didichuxing.doraemonkit.widget.bravh.viewholder.BaseViewHolder
+import com.didichuxing.doraemonkit.widget.brvah.BaseMultiItemQuickAdapter
+import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder
 
 /**
  * ================================================

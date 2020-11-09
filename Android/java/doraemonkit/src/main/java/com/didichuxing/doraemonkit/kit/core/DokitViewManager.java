@@ -2,13 +2,15 @@ package com.didichuxing.doraemonkit.kit.core;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Point;
 import android.view.WindowManager;
 
 import androidx.room.Room;
 
+import com.blankj.utilcode.util.ScreenUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDatabase;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
@@ -27,7 +29,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
     /**
      * 每个类型在页面中的位置 只保存marginLeft 和marginTop
      */
-    private static Map<String, Point> mDokitViewPos;
+    private static Map<String, DoKitViewInfo> mDokitViewPos;
 
     private Map<String, LastDokitViewPosInfo> mLastDokitViewPosInfoMaps;
 
@@ -53,7 +55,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
 
     public void init(Context context) {
         mContext = context;
-        if (DokitConstant.IS_NORMAL_FLOAT_MODE) {
+        if (DoKitConstant.IS_NORMAL_FLOAT_MODE) {
             mDokitViewManager = new NormalDokitViewManager(context);
         } else {
             mDokitViewManager = new SystemDokitViewManager(context);
@@ -119,13 +121,28 @@ public class DokitViewManager implements DokitViewManagerInterface {
             return;
         }
 
-        if (mDokitViewPos.get(tag) == null) {
-            Point point = new Point(marginLeft, marginTop);
-            mDokitViewPos.put(tag, point);
+        int orientation = -1;
+        Point portraitPoint = new Point();
+        Point landscapePoint = new Point();
+        if (ScreenUtils.isPortrait()) {
+            orientation = Configuration.ORIENTATION_PORTRAIT;
+            portraitPoint.x = marginLeft;
+            portraitPoint.y = marginTop;
         } else {
-            Point point = mDokitViewPos.get(tag);
-            if (point != null) {
-                point.set(marginLeft, marginTop);
+            orientation = Configuration.ORIENTATION_LANDSCAPE;
+            landscapePoint.x = marginLeft;
+            landscapePoint.y = marginTop;
+        }
+
+        if (mDokitViewPos.get(tag) == null) {
+            DoKitViewInfo doKitViewInfo = new DoKitViewInfo(orientation, portraitPoint, landscapePoint);
+            mDokitViewPos.put(tag, doKitViewInfo);
+        } else {
+            DoKitViewInfo doKitViewInfo = mDokitViewPos.get(tag);
+            if (doKitViewInfo != null) {
+                doKitViewInfo.setOrientation(orientation);
+                doKitViewInfo.setPortraitPoint(portraitPoint);
+                doKitViewInfo.setLandscapePoint(landscapePoint);
             }
         }
 
@@ -141,7 +158,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
      * @param tag
      * @return
      */
-    Point getDokitViewPos(String tag) {
+    DoKitViewInfo getDokitViewPos(String tag) {
         if (mDokitViewPos == null) {
             return null;
         }
@@ -370,7 +387,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
             LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
             return;
         }
-        if (!DokitConstant.IS_NORMAL_FLOAT_MODE && mDokitViewManager instanceof SystemDokitViewManager) {
+        if (!DoKitConstant.IS_NORMAL_FLOAT_MODE && mDokitViewManager instanceof SystemDokitViewManager) {
             ((SystemDokitViewManager) mDokitViewManager).addListener(listener);
         }
     }
@@ -385,7 +402,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
             LogHelper.e("Doraemon", "mDokitViewManager == null请检查是否已在Application的onCreate中完成初始化");
             return;
         }
-        if (!DokitConstant.IS_NORMAL_FLOAT_MODE && mDokitViewManager instanceof SystemDokitViewManager) {
+        if (!DoKitConstant.IS_NORMAL_FLOAT_MODE && mDokitViewManager instanceof SystemDokitViewManager) {
             ((SystemDokitViewManager) mDokitViewManager).removeListener(listener);
         }
     }

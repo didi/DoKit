@@ -180,6 +180,7 @@
                     android:textColor="#337cc4"
                     android:textSize="@dimen/dk_font_size_16" />
 
+
                 <TextView
                     android:id="@+id/diver_format"
                     android:layout_width="wrap_content"
@@ -188,6 +189,17 @@
                     android:layout_marginRight="16dp"
                     android:gravity="center_vertical"
                     android:text="格式化"
+                    android:textColor="#337cc4"
+                    android:textSize="@dimen/dk_font_size_16" />
+
+                <TextView
+                    android:id="@+id/diver_export"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@id/diver_format"
+                    android:gravity="center_vertical"
+                    android:text="导出"
                     android:textColor="#337cc4"
                     android:textSize="@dimen/dk_font_size_16" />
             </RelativeLayout>

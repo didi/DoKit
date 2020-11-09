@@ -6,7 +6,7 @@ if (publishArchivesType == 1) {
             mavenDeployer {
                 pom.project {
                     groupId "com.didichuxing.doraemonkit"
-                    artifactId "doraemonkit-leakcanary"
+                    artifactId "dokitx-leakcanary"
                     version rootProject.ext.android["jcenterArchivesVersionName"]
                 }
 
@@ -24,14 +24,6 @@ if (publishArchivesType == 1) {
                         }
                     }
                 }
-
-
-                repository(url: "http://artifactory.intra.xiaojukeji.com/artifactory/libs-release/") {
-                    authentication(userName: "deployment", password: "deployment123")
-                }
-                snapshotRepository(url: "http://artifactory.intra.xiaojukeji.com/artifactory/libs-snapshot/") {
-                    authentication(userName: "deployment", password: "deployment123")
-                }
             }
         }
     }
@@ -42,7 +34,7 @@ if (publishArchivesType == 1) {
             mavenDeployer {
                 pom.project {
                     groupId "com.didichuxing.doraemonkit"
-                    artifactId "doraemonkit-leakcanary"
+                    artifactId "dokitx-leakcanary"
                     version rootProject.ext.android["jcenterArchivesVersionName"]
                 }
                 pom.withXml {

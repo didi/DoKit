@@ -15,16 +15,17 @@ import java.util.*
  */
 
 open class SlowMethodExt(
-        //0:打印函数调用栈  1:普通模式 运行时打印某个函数的耗时 全局业务代码函数插入
-        @Deprecated("已弃用,请在项目根目录的gradle.properties中通过DOKIT_METHOD_STRATEGY=0|1 来控制")
-        var strategy: Int = STRATEGY_STACK,
-        //函数功能开关
-        @Deprecated("已弃用,请在项目根目录的gradle.properties中通过DoKit_METHOD_SWITCH=true|false 来控制")
-        var methodSwitch: Boolean = false,
-        //函数调用栈模式
-        var stackMethod: StackMethodExt = StackMethodExt(),
-        //普通模式
-        var normalMethod: NormalMethodExt = NormalMethodExt()) {
+    //0:打印函数调用栈  1:普通模式 运行时打印某个函数的耗时 全局业务代码函数插入
+    @Deprecated("已弃用,请在项目根目录的gradle.properties中通过DOKIT_METHOD_STRATEGY=0|1 来控制")
+    var strategy: Int = STRATEGY_STACK,
+    //函数功能开关
+    @Deprecated("已弃用,请在项目根目录的gradle.properties中通过DoKit_METHOD_SWITCH=true|false 来控制")
+    var methodSwitch: Boolean = false,
+    //函数调用栈模式
+    var stackMethod: StackMethodExt = StackMethodExt(),
+    //普通模式
+    var normalMethod: NormalMethodExt = NormalMethodExt()
+) {
 
 
     /**
@@ -47,11 +48,13 @@ open class SlowMethodExt(
     }
 
     class StackMethodExt(
-            //默认阈值为5ms
-            var thresholdTime: Int = 5,
-            //入口函集合
-            var enterMethods: MutableSet<String> = mutableSetOf()) {
-
+        //默认阈值为5ms
+        var thresholdTime: Int = 5,
+        //入口函集合
+        var enterMethods: MutableSet<String> = mutableSetOf(),
+        //插桩黑名单
+        var methodBlacklist: MutableSet<String> = mutableSetOf()
+    ) {
 
         /**
          * 默认值为5ms
@@ -61,24 +64,29 @@ open class SlowMethodExt(
         }
 
 
-        fun normalMethod(enterMethods: MutableSet<String>) {
+        fun enterMethods(enterMethods: MutableSet<String>) {
             this.enterMethods = enterMethods
         }
 
+        fun methodBlacklist(methodBlacklist: MutableSet<String>) {
+            this.methodBlacklist = methodBlacklist
+        }
+
         override fun toString(): String {
-            return "StackMethodExt(thresholdTime=$thresholdTime, enterMethods=$enterMethods)"
+            return "StackMethodExt(thresholdTime=$thresholdTime, enterMethods=$enterMethods, methodBlacklist=$methodBlacklist)"
         }
 
 
     }
 
     class NormalMethodExt(
-            //默认阈值为500ms
-            var thresholdTime: Int = 500,
-            //普通函数的插装包名集合
-            var packageNames: MutableSet<String> = mutableSetOf(),
-            //插桩黑名单
-            var methodBlacklist: MutableSet<String> = mutableSetOf()) {
+        //默认阈值为500ms
+        var thresholdTime: Int = 500,
+        //普通函数的插装包名集合
+        var packageNames: MutableSet<String> = mutableSetOf(),
+        //插桩黑名单
+        var methodBlacklist: MutableSet<String> = mutableSetOf()
+    ) {
         /**
          * 默认值为500ms
          */

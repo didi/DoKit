@@ -1,5 +1,49 @@
 DoraemonKit-Android releases
 ===
+## 3.3.4（dokitx 对应androidx，dokit对应Android Support）
+
+1.为了更好的支持android官方androidx和support，dokit从3.3.1版本开始正式对sdk名字进行更新。具体如下：
+
+androidx===>com.didichuxing.doraemonkit:dokitx:3.3.4;
+
+support===>com.didichuxing.doraemonkit:dokit:3.3.4;
+
+2.兼容AS Gradle v4.1.0
+
+3.dokit v3.3.4插件底层依赖库Booster升级到 v3.0.0版本
+
+
+## 3.3.3（dokitx 对应androidx，dokit对应Android Support）
+
+1.为了更好的支持android官方androidx和support，dokit从3.3.1版本开始正式对sdk名字进行更新。具体如下：
+
+androidx===>com.didichuxing.doraemonkit:dokitx:3.3.3;
+
+support===>com.didichuxing.doraemonkit:dokit:3.3.3;
+
+2.新增三方依赖库搜索
+
+3.解决H5助手崩溃的问题
+
+4.兼容booster，dokit v3.3.3插件底层依赖booster v2.3.0版本
+
+
+
+## 3.3.1（dokitx 对应androidx，dokit对应Android Support）
+1.为了更好的支持android官方androidx和support，dokit从3.3.1版本开始正式对sdk名字进行更新。具体如下：
+
+androidx===>com.didichuxing.doraemonkit:dokitx:3.3.1;
+
+support===>com.didichuxing.doraemonkit:dokit:3.3.1;
+
+2.新增H5助手功能:针对webview中的js请求进行数据Mock和抓包
+
+3.新增三方库信息:将项目中依赖的三方库进行统一收集展现。
+
+4.兼容okhttp v3.+ 以及 v4.+
+
+5.大量github issues 问题修复。
+
 ## 3.2.0 & 3.0.8.0
 1.文件同步助手功能已推出。
 详细文档参考：

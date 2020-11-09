@@ -1,9 +1,13 @@
 package com.didichuxing.doraemonkit.kit.network.ui;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
+
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -11,20 +15,35 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.AppUtils;
+import com.blankj.utilcode.util.FileIOUtils;
+import com.blankj.utilcode.util.FileUtils;
+import com.blankj.utilcode.util.PathUtils;
+import com.blankj.utilcode.util.ThreadUtils;
+import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.kit.loginfo.LogExportDialog;
+import com.didichuxing.doraemonkit.kit.loginfo.LogLine;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 import com.didichuxing.doraemonkit.kit.network.bean.Request;
 import com.didichuxing.doraemonkit.kit.network.bean.Response;
 import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil;
+import com.didichuxing.doraemonkit.util.FileUtil;
+import com.didichuxing.doraemonkit.widget.dialog.DialogProvider;
+import com.didichuxing.doraemonkit.widget.dialog.UniversalDialogFragment;
 import com.didichuxing.doraemonkit.widget.jsonviewer.JsonRecyclerView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
@@ -45,9 +64,15 @@ public class NetworkDetailView extends LinearLayout {
     private TextView diverHeader;
     private TextView diverBody;
     /**
-     * 针对响应体
+     * 针对响应体 格式化
      */
     private TextView diverFormat;
+
+    /**
+     * 针对响应体 导出
+     */
+    private TextView diverExport;
+
     private JsonRecyclerView jsonView;
 
     private ClipboardManager mClipboard;
@@ -67,6 +92,7 @@ public class NetworkDetailView extends LinearLayout {
         diverHeader = findViewById(R.id.diver_header);
         diverBody = findViewById(R.id.diver_body);
         diverFormat = findViewById(R.id.diver_format);
+        diverExport = findViewById(R.id.diver_export);
         jsonView = findViewById(R.id.json_body);
 
         body.setOnLongClickListener(new OnLongClickListener() {
@@ -89,6 +115,7 @@ public class NetworkDetailView extends LinearLayout {
         diverHeader.setText(R.string.dk_network_detail_title_request_header);
         diverBody.setText(R.string.dk_network_detail_title_request_body);
         diverFormat.setVisibility(View.GONE);
+        diverExport.setVisibility(View.GONE);
         jsonView.setVisibility(View.GONE);
         body.setVisibility(View.VISIBLE);
         if (record.mRequest != null) {
@@ -116,12 +143,15 @@ public class NetworkDetailView extends LinearLayout {
         diverTime.setText(R.string.dk_network_detail_title_response_time);
         diverHeader.setText(R.string.dk_network_detail_title_response_header);
         diverBody.setText(R.string.dk_network_detail_title_response_body);
+        diverExport.setVisibility(View.VISIBLE);
+        diverExport.setText("导出");
         diverFormat.setVisibility(View.VISIBLE);
         diverFormat.setText("unFormat");
         jsonView.setVisibility(View.VISIBLE);
         jsonView.setTextSize(16.0f);
         jsonView.setScaleEnable(false);
         body.setVisibility(View.GONE);
+        //响应体格式化
         diverFormat.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -150,6 +180,39 @@ public class NetworkDetailView extends LinearLayout {
                 }
             }
         });
+        //响应体导出
+        diverExport.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //格式化
+                final String strBody = TextUtils.isEmpty(record.mResponseBody) ? "NULL" : record.mResponseBody;
+                if (strBody.equals("NULL")) {
+                    ToastUtils.showShort("暂无响应体可以导出");
+                    return;
+                }
+
+                LogExportDialog logExportDialog = new LogExportDialog(new Object(), null);
+                logExportDialog.setOnButtonClickListener(new LogExportDialog.OnButtonClickListener() {
+                    @Override
+                    public void onSaveClick(LogExportDialog dialog) {
+                        export2File(100, strBody);
+                        dialog.dismiss();
+
+                    }
+
+                    @Override
+                    public void onShareClick(LogExportDialog dialog) {
+                        export2File(101, strBody);
+                        dialog.dismiss();
+
+                    }
+                });
+                showDialog(logExportDialog);
+
+
+            }
+        });
+
         if (record.mResponse != null) {
             Response response = record.mResponse;
             Request request = record.mRequest;
@@ -171,5 +234,73 @@ public class NetworkDetailView extends LinearLayout {
             }
 
         }
+    }
+
+
+    /**
+     * 将响应体保存到文件
+     *
+     * @param operateType  100 保存到本地  101 保存到本地并分享
+     * @param responseBody 响应体
+     */
+    private void export2File(final int operateType, final String responseBody) {
+        ToastUtils.showShort("日志保存中,请稍后...");
+        final String logPath = PathUtils.getInternalAppFilesPath() + File.separator + AppUtils.getAppName() + "_response_" + TimeUtils.getNowString(new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss")) + ".txt";
+        final File logFile = new File(logPath);
+
+        ThreadUtils.executeByCpu(new ThreadUtils.Task<Boolean>() {
+            @Override
+            public Boolean doInBackground() throws Throwable {
+                try {
+                    FileIOUtils.writeFileFromString(logFile, responseBody, true);
+
+                    return true;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+
+            @Override
+            public void onSuccess(Boolean result) {
+                if (result) {
+                    ToastUtils.showShort("文件保存在:" + logPath);
+                    //分享
+                    if (operateType == 101) {
+                        FileUtil.systemShare(DoraemonKit.APPLICATION, logFile);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancel() {
+                if (logFile.exists()) {
+                    FileUtils.delete(logFile);
+                }
+                ToastUtils.showShort("日志保存失败");
+            }
+
+            @Override
+            public void onFail(Throwable t) {
+                if (logFile.exists()) {
+                    FileUtils.delete(logFile);
+                }
+                ToastUtils.showShort("日志保存失败");
+            }
+        });
+
+    }
+
+    private void showDialog(DialogProvider provider) {
+        if (getContext() == null || !(getContext() instanceof Activity)) {
+            return;
+        }
+
+        Activity activity = (Activity) getContext();
+
+        UniversalDialogFragment dialog = new UniversalDialogFragment();
+        provider.setHost(dialog);
+        dialog.setProvider(provider);
+        provider.show(((FragmentActivity) activity).getSupportFragmentManager());
     }
 }

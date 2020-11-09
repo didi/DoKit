@@ -17,8 +17,13 @@ import androidx.annotation.Nullable;
  * ================================================
  */
 public class DokitFrameLayout extends FrameLayout implements DokitViewInterface {
-    public DokitFrameLayout(@NonNull Context context) {
+    public static final int DoKitFrameLayoutFlag_ROOT = 100;
+    public static final int DoKitFrameLayoutFlag_CHILD = 200;
+    private int mFlag = DoKitFrameLayoutFlag_ROOT;
+
+    public DokitFrameLayout(@NonNull Context context, int flag) {
         super(context);
+        this.mFlag = flag;
     }
 
     public DokitFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs) {

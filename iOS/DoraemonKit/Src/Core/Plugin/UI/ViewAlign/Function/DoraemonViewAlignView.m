@@ -40,7 +40,7 @@ static CGFloat const kViewCheckSize = 62;
         
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(DoraemonScreenWidth/2-kViewCheckSize/2, DoraemonScreenHeight/2-kViewCheckSize/2, kViewCheckSize, kViewCheckSize)];
-        imageView.image = [UIImage doraemon_imageNamed:@"doraemon_visual"];
+        imageView.image = [UIImage doraemon_xcassetImageNamed:@"doraemon_visual"];
         [self addSubview:imageView];
         _imageView = imageView;
         

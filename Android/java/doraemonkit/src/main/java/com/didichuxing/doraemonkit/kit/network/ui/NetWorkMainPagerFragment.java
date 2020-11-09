@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.network.ui;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
@@ -16,6 +17,9 @@ import com.didichuxing.doraemonkit.widget.titlebar.TitleBar;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * http 流量监控摘要页面
+ */
 public class NetWorkMainPagerFragment extends BaseFragment implements View.OnClickListener {
     private ViewPager mViewPager;
     private NetWorkSummaryView mSummaryView;

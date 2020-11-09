@@ -176,7 +176,7 @@
     }
     cell.textLabel.textColor = [UIColor doraemon_colorWithHex:0x333333 andAlpha:1];
     cell.textLabel.font = [UIFont systemFontOfSize:kDoraemonSizeFrom750_Landscape(30)];
-    cell.imageView.image = [UIImage doraemon_imageNamed:@"doraemon_search"];
+    cell.imageView.image = [UIImage doraemon_xcassetImageNamed:@"doraemon_search"];
     return cell;
 }
 
@@ -270,7 +270,7 @@
 - (UIButton *)scanJumpBtn {
     if (!_scanJumpBtn) {
         _scanJumpBtn = [UIButton buttonWithType:(UIButtonTypeCustom)];
-        [_scanJumpBtn setBackgroundImage:[UIImage doraemon_imageNamed:@"doraemon_scan"] forState:(UIControlStateNormal)];
+        [_scanJumpBtn setBackgroundImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_scan"] forState:(UIControlStateNormal)];
         [_scanJumpBtn addTarget:self action:@selector(clickScan) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_scanJumpBtn];
     }

@@ -38,6 +38,20 @@
     return nil;
 }
 
++ (nullable UIImage *)doraemon_xcassetImageNamed:(NSString *)name {
+    if(name &&
+       ![name isEqualToString:@""]){
+        NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"DoraemonManager")];
+        NSURL *url = [bundle URLForResource:@"DoraemonKit" withExtension:@"bundle"];
+        if(!url) return [UIImage new];
+        NSBundle *imageBundle = [NSBundle bundleWithURL:url];
+        UIImage *image = [UIImage imageNamed:name inBundle:imageBundle compatibleWithTraitCollection:nil];
+        return image;
+    }
+    
+    return nil;
+}
+
 //压缩图片尺寸 等比缩放 通过计算得到缩放系数
 - (nullable UIImage*)doraemon_scaledToSize:(CGSize)newSize{
     UIImage *sourceImage = self;

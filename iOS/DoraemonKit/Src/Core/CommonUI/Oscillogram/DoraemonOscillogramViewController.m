@@ -34,7 +34,7 @@
     titleLabel.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(20), kDoraemonSizeFrom750_Landscape(10), titleLabel.doraemon_width, titleLabel.doraemon_height);
     
     UIButton *closeBtn = [[UIButton alloc] init];
-    [closeBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close_white"] forState:UIControlStateNormal];
+    [closeBtn setImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_close_white"] forState:UIControlStateNormal];
     closeBtn.frame = CGRectMake((kInterfaceOrientationPortrait ? DoraemonScreenWidth : DoraemonScreenHeight)-kDoraemonSizeFrom750_Landscape(80), 0, kDoraemonSizeFrom750_Landscape(80), kDoraemonSizeFrom750_Landscape(80));
     [closeBtn addTarget:self action:@selector(closeBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:closeBtn];

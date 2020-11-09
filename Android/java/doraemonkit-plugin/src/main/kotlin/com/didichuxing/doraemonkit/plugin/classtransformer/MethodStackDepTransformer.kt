@@ -45,6 +45,11 @@ class MethodStackDepTransformer(private val level: Int = 1) : ClassTransformer {
             return klass
         }
 
+        //命中黑名单则不插桩
+        if (!notMatchedBlackList(klass.className)) {
+            return klass
+        }
+
 
         val methodStackKeys: MutableSet<String> = MethodStackNodeUtil.METHOD_STACK_KEYS[level - 1]
 
@@ -68,18 +73,44 @@ class MethodStackDepTransformer(private val level: Int = 1) : ClassTransformer {
 
     private fun operateMethodInsn(klass: ClassNode, methodNode: MethodNode) {
         //读取全是函数调用的指令
-        methodNode.instructions.asIterable().filterIsInstance(MethodInsnNode::class.java).filter { methodInsnNode ->
-            methodInsnNode.name != "<init>"
-        }.forEach { methodInsnNode ->
-            val methodStackNode = MethodStackNode(level, methodInsnNode.ownerClassName, methodInsnNode.name, methodInsnNode.desc, klass.className, methodNode.name, methodNode.desc)
-            MethodStackNodeUtil.addMethodStackNode(level, methodStackNode)
-        }
+        methodNode.instructions.asIterable().filterIsInstance(MethodInsnNode::class.java)
+            .filter { methodInsnNode ->
+                methodInsnNode.name != "<init>"
+            }.forEach { methodInsnNode ->
+                val methodStackNode = MethodStackNode(
+                    level,
+                    methodInsnNode.ownerClassName,
+                    methodInsnNode.name,
+                    methodInsnNode.desc,
+                    klass.className,
+                    methodNode.name,
+                    methodNode.desc
+                )
+                MethodStackNodeUtil.addMethodStackNode(level, methodStackNode)
+            }
         //函数出入口插入耗时统计代码
         //方法入口插入
-        methodNode.instructions.insert(createMethodEnterInsnList(level, klass.className, methodNode.name, methodNode.desc, methodNode.access))
+        methodNode.instructions.insert(
+            createMethodEnterInsnList(
+                level,
+                klass.className,
+                methodNode.name,
+                methodNode.desc,
+                methodNode.access
+            )
+        )
         //方法出口插入
         methodNode.instructions.getMethodExitInsnNodes()?.forEach { methodExitInsnNode ->
-            methodNode.instructions.insertBefore(methodExitInsnNode, createMethodExitInsnList(level, klass.className, methodNode.name, methodNode.desc, methodNode.access))
+            methodNode.instructions.insertBefore(
+                methodExitInsnNode,
+                createMethodExitInsnList(
+                    level,
+                    klass.className,
+                    methodNode.name,
+                    methodNode.desc,
+                    methodNode.access
+                )
+            )
         }
     }
 
@@ -87,20 +118,48 @@ class MethodStackDepTransformer(private val level: Int = 1) : ClassTransformer {
     /**
      * 创建慢函数入口指令集
      */
-    private fun createMethodEnterInsnList(level: Int, className: String, methodName: String, desc: String, access: Int): InsnList {
+    private fun createMethodEnterInsnList(
+        level: Int,
+        className: String,
+        methodName: String,
+        desc: String,
+        access: Int
+    ): InsnList {
         val isStaticMethod = access and ACC_STATIC != 0
         return with(InsnList()) {
             if (isStaticMethod) {
-                add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "INSTANCE", "Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;"))
+                add(
+                    FieldInsnNode(
+                        GETSTATIC,
+                        "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil",
+                        "INSTANCE",
+                        "Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;"
+                    )
+                )
                 add(IntInsnNode(BIPUSH, DoKitExtUtil.STACK_METHOD_LEVEL))
                 add(IntInsnNode(BIPUSH, thresholdTime))
                 add(IntInsnNode(BIPUSH, level))
                 add(LdcInsnNode(className))
                 add(LdcInsnNode(methodName))
                 add(LdcInsnNode(desc))
-                add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "recodeStaticMethodCostStart", "(IIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", false))
+                add(
+                    MethodInsnNode(
+                        INVOKEVIRTUAL,
+                        "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil",
+                        "recodeStaticMethodCostStart",
+                        "(IIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+                        false
+                    )
+                )
             } else {
-                add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "INSTANCE", "Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;"))
+                add(
+                    FieldInsnNode(
+                        GETSTATIC,
+                        "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil",
+                        "INSTANCE",
+                        "Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;"
+                    )
+                )
                 add(IntInsnNode(BIPUSH, DoKitExtUtil.STACK_METHOD_LEVEL))
                 add(IntInsnNode(BIPUSH, thresholdTime))
                 add(IntInsnNode(BIPUSH, level))
@@ -108,7 +167,15 @@ class MethodStackDepTransformer(private val level: Int = 1) : ClassTransformer {
                 add(LdcInsnNode(methodName))
                 add(LdcInsnNode(desc))
                 add(VarInsnNode(ALOAD, 0))
-                add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "recodeObjectMethodCostStart", "(IIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false))
+                add(
+                    MethodInsnNode(
+                        INVOKEVIRTUAL,
+                        "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil",
+                        "recodeObjectMethodCostStart",
+                        "(IIILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V",
+                        false
+                    )
+                )
             }
             this
         }
@@ -119,30 +186,76 @@ class MethodStackDepTransformer(private val level: Int = 1) : ClassTransformer {
     /**
      * 创建慢函数退出时的指令集
      */
-    private fun createMethodExitInsnList(level: Int, className: String, methodName: String, desc: String, access: Int): InsnList {
+    private fun createMethodExitInsnList(
+        level: Int,
+        className: String,
+        methodName: String,
+        desc: String,
+        access: Int
+    ): InsnList {
         val isStaticMethod = access and ACC_STATIC != 0
         return with(InsnList()) {
             if (isStaticMethod) {
-                add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "INSTANCE", "Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;"))
+                add(
+                    FieldInsnNode(
+                        GETSTATIC,
+                        "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil",
+                        "INSTANCE",
+                        "Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;"
+                    )
+                )
                 add(IntInsnNode(BIPUSH, thresholdTime))
                 add(IntInsnNode(BIPUSH, level))
                 add(LdcInsnNode(className))
                 add(LdcInsnNode(methodName))
                 add(LdcInsnNode(desc))
-                add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "recodeStaticMethodCostEnd", "(IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V", false))
+                add(
+                    MethodInsnNode(
+                        INVOKEVIRTUAL,
+                        "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil",
+                        "recodeStaticMethodCostEnd",
+                        "(IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)V",
+                        false
+                    )
+                )
             } else {
-                add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "INSTANCE", "Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;"))
+                add(
+                    FieldInsnNode(
+                        GETSTATIC,
+                        "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil",
+                        "INSTANCE",
+                        "Lcom/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil;"
+                    )
+                )
                 add(IntInsnNode(BIPUSH, thresholdTime))
                 add(IntInsnNode(BIPUSH, level))
                 add(LdcInsnNode(className))
                 add(LdcInsnNode(methodName))
                 add(LdcInsnNode(desc))
                 add(VarInsnNode(ALOAD, 0))
-                add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil", "recodeObjectMethodCostEnd", "(IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V", false))
+                add(
+                    MethodInsnNode(
+                        INVOKEVIRTUAL,
+                        "com/didichuxing/doraemonkit/aop/method_stack/MethodStackUtil",
+                        "recodeObjectMethodCostEnd",
+                        "(IILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Object;)V",
+                        false
+                    )
+                )
             }
             this
         }
 
+    }
+
+    private fun notMatchedBlackList(className: String): Boolean {
+        for (strBlack in DoKitExtUtil.slowMethodExt.stackMethod.methodBlacklist) {
+            if (className.contains(strBlack)) {
+                return false
+            }
+        }
+
+        return true
     }
 
 }

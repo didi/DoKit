@@ -1,22 +1,25 @@
 package com.didichuxing.doraemonkit.kit.health;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.DeviceUtils;
 import com.blankj.utilcode.util.GsonUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.BuildConfig;
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.CrashCaptureConfig;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockMonitorManager;
-import com.didichuxing.doraemonkit.kit.performance.PerformanceDataManager;
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureManager;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.okgo.DokitOkGo;
-import com.didichuxing.doraemonkit.okgo.callback.StringCallback;
-import com.didichuxing.doraemonkit.okgo.model.Response;
+import com.didichuxing.doraemonkit.kit.performance.PerformanceDataManager;
+import com.didichuxing.doraemonkit.volley.VolleyManager;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,7 +69,7 @@ public class AppHealthInfoUtil {
         baseInfoBean.setPhoneMode(DeviceUtils.getModel());
         baseInfoBean.setTime(TimeUtils.getNowString());
         baseInfoBean.setSystemVersion(DeviceUtils.getSDKVersionName());
-        baseInfoBean.setpId("" + DokitConstant.PRODUCT_ID);
+        baseInfoBean.setpId("" + DoKitConstant.PRODUCT_ID);
         mAppHealthInfo.setBaseInfo(baseInfoBean);
     }
 
@@ -284,31 +287,29 @@ public class AppHealthInfoUtil {
     /**
      * 上传健康体检数据到服务器
      */
-    public void post(final UploadAppHealthCallback uploadAppHealthCallBack) {
+    public void post(final UploadAppHealthCallback uploadAppHealthCallBack) throws Exception {
         if (mAppHealthInfo == null) {
             return;
         }
         //线上地址：https://www.dokit.cn/healthCheck/addCheckData
         //测试环境地址:http://dokit-test.intra.xiaojukeji.com/healthCheck/addCheckData
-        DokitOkGo.<String>post(NetworkManager.APP_HEALTH_URL)
-                .upJson(GsonUtils.toJson(mAppHealthInfo))
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        if (uploadAppHealthCallBack != null) {
-                            uploadAppHealthCallBack.onSuccess(response);
-                        }
-                    }
 
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        if (uploadAppHealthCallBack != null) {
-                            uploadAppHealthCallBack.onError(response);
-                        }
-                    }
-                });
-
+        Request<JSONObject> request = new JsonObjectRequest(Request.Method.POST, NetworkManager.APP_HEALTH_URL, new JSONObject(GsonUtils.toJson(mAppHealthInfo)), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                if (uploadAppHealthCallBack != null) {
+                    uploadAppHealthCallBack.onSuccess(response.toString());
+                }
+            }
+        }, new com.android.volley.Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (uploadAppHealthCallBack != null) {
+                    uploadAppHealthCallBack.onError(error.getMessage());
+                }
+            }
+        });
+        VolleyManager.INSTANCE.add(request);
     }
 
     /**
@@ -340,7 +341,7 @@ public class AppHealthInfoUtil {
      * @return
      */
     public boolean isAppHealthRunning() {
-        boolean isRunning = DokitConstant.APP_HEALTH_RUNNING;
+        boolean isRunning = DoKitConstant.APP_HEALTH_RUNNING;
         if (isRunning) {
             ToastUtils.showShort("App当前处于健康体检状态,无法进行此操作");
         }

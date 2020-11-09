@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit
 
 import android.app.Application
-import com.didichuxing.doraemonkit.constant.DokitConstant
+import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 import com.didichuxing.foundation.net.rpc.http.PlatformHttpHook
@@ -116,7 +116,7 @@ object DoraemonKitRpc {
      */
     @JvmStatic
     fun setAwaysShowMainIcon(awaysShow: Boolean) {
-        DokitConstant.AWAYS_SHOW_MAIN_ICON = awaysShow
+        DoKitConstant.AWAYS_SHOW_MAIN_ICON = awaysShow
     }
 
     /**

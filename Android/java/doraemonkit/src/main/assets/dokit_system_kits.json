@@ -28,6 +28,11 @@
         "innerKitId": "dokit_sdk_comm_ck_appinfo"
       },
       {
+        "allClassName": "com.didichuxing.doraemonkit.kit.sysinfo.ThirdLibInfoKit",
+        "checked": true,
+        "innerKitId": "dokit_sdk_comm_ck_thirdlibinfo"
+      },
+      {
         "allClassName": "com.didichuxing.doraemonkit.kit.sysinfo.DevelopmentPageKit",
         "checked": true,
         "innerKitId": "dokit_sdk_comm_ck_devpage"
@@ -66,6 +71,11 @@
         "allClassName": "com.didichuxing.doraemonkit.kit.dbdebug.DbDebugKit",
         "checked": true,
         "innerKitId": "dokit_sdk_comm_ck_dbview"
+      },
+      {
+        "allClassName": "com.didichuxing.doraemonkit.kit.h5_help.H5Kit",
+        "checked": true,
+        "innerKitId": "dokit_sdk_comm_ck_h5"
       }
     ]
   },

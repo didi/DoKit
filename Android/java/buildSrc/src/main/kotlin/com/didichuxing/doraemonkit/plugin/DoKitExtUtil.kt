@@ -18,6 +18,11 @@ object DoKitExtUtil {
     //private var mApplicationId: String = ""
 
     /**
+     * 三方库版本信息
+     */
+    val THIRD_LIB_INFOS = mutableListOf<ThirdLibInfo>()
+
+    /**
      * dokit 插件开关 字段权限必须为public 否则无法进行赋值
      */
     var DOKIT_PLUGIN_SWITCH = true
@@ -29,9 +34,20 @@ object DoKitExtUtil {
     var STACK_METHOD_LEVEL = 5
 
     /**
+     * 自定义webview全限定名
+     */
+    var WEBVIEW_CLASS_NAME: String = ""
+
+
+    /**
      * 慢函数默认关闭
      */
     var SLOW_METHOD_SWITCH = false
+
+    /**
+     * 三方库信息开关
+     */
+    var THIRD_LIBINFO_SWITCH = true
 
 
     /**
@@ -109,6 +125,13 @@ object DoKitExtUtil {
         for (methodName in dokitEx.slowMethod.stackMethod.enterMethods) {
             slowMethodExt.stackMethod.enterMethods.add(methodName)
         }
+
+        //设置慢函数调用栈策略插装包名黑名单
+        slowMethodExt.stackMethod.methodBlacklist.clear()
+        for (blackStr in dokitEx.slowMethod.stackMethod.methodBlacklist) {
+            slowMethodExt.stackMethod.methodBlacklist.add(blackStr)
+        }
+
         /**
          * ============慢函数stack策略的配置  end==========
          */
@@ -149,8 +172,8 @@ object DoKitExtUtil {
      * 白名单
      */
     private val whitePackageNames = arrayOf(
-            "com.didichuxing.doraemonkit.DoraemonKit",
-            "com.didichuxing.doraemonkit.DoraemonKitReal"
+        "com.didichuxing.doraemonkit.DoraemonKit",
+        "com.didichuxing.doraemonkit.DoraemonKitReal"
     )
 
 
@@ -158,14 +181,22 @@ object DoKitExtUtil {
      * 黑名单
      */
     private val blackPackageNames = arrayOf(
-            "com.didichuxing.doraemonkit.",
-            "kotlin.",
-            "java.",
-            "android.",
-            "androidx."
+        "com.didichuxing.doraemonkit.",
+        "kotlin.",
+        "java.",
+        "android.",
+        "androidx."
     )
 
-    fun log(tag: String, className: String, methodName: String, access: Int, desc: String, signature: String, thresholdTime: Int) {
+    fun log(
+        tag: String,
+        className: String,
+        methodName: String,
+        access: Int,
+        desc: String,
+        signature: String,
+        thresholdTime: Int
+    ) {
         if (DOKIT_LOG_SWITCH) {
             println("$tag===matched====>  className===$className   methodName===$methodName   access===$access   desc===$desc   signature===$signature    thresholdTime===$thresholdTime")
         }

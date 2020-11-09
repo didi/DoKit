@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
@@ -88,7 +88,11 @@ public class DoraemonInterceptor implements Interceptor {
         RequestBodyHelper requestBodyHelper = new RequestBodyHelper();
         OkHttpInspectorRequest inspectorRequest =
                 new OkHttpInspectorRequest(requestId, request, requestBodyHelper);
-        NetworkRecord record = mNetworkInterpreter.createRecord(requestId, inspectorRequest);
+        String platform = "native";
+        if (request.url().toString().contains("dokit_flag")) {
+            platform = "web";
+        }
+        NetworkRecord record = mNetworkInterpreter.createRecord(requestId, platform, inspectorRequest);
 
         NetworkInterpreter.InspectorResponse inspectorResponse = new OkHttpInspectorResponse(
                 requestId,
@@ -126,7 +130,7 @@ public class DoraemonInterceptor implements Interceptor {
      * @return bool
      */
     private boolean matchWhiteHost(Request request) {
-        List<WhiteHostBean> whiteHostBeans = DokitConstant.WHITE_HOSTS;
+        List<WhiteHostBean> whiteHostBeans = DoKitConstant.WHITE_HOSTS;
         if (whiteHostBeans.isEmpty()) {
             return true;
         }

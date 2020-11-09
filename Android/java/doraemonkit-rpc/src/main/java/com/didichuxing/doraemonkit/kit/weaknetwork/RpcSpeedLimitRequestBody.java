@@ -2,6 +2,8 @@ package com.didichuxing.doraemonkit.kit.weaknetwork;
 
 import android.os.SystemClock;
 
+import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap;
+
 import java.io.IOException;
 
 import didihttp.MediaType;
@@ -39,7 +41,7 @@ public class RpcSpeedLimitRequestBody extends RequestBody {
         if (mBufferedSink == null) {
             //mBufferedSink = Okio.buffer(sink(sink));
             //默认8K 精确到1K
-            mBufferedSink = new ByteCountBufferedSink(sink(sink), 1024L);
+            mBufferedSink = OkHttpWrap.INSTANCE.createByteCountBufferedSink(sink(sink), 1024L);
         }
         mRequestBody.writeTo(mBufferedSink);
         mBufferedSink.close();

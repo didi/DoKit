@@ -10,8 +10,7 @@ import android.content.pm.PackageManager;
 import android.provider.Settings;
 import android.text.TextUtils;
 
-import com.blankj.utilcode.util.PhoneUtils;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 
 import java.util.List;
@@ -140,7 +139,7 @@ public class SystemUtil {
      */
     public static boolean isOnlyFirstLaunchActivity(Activity activity) {
         boolean isMainActivity = isMainLaunchActivity(activity);
-        ActivityLifecycleInfo activityLifecycleInfo = DokitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
+        ActivityLifecycleInfo activityLifecycleInfo = DoKitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
         return activityLifecycleInfo != null && isMainActivity && !activityLifecycleInfo.isInvokeStopMethod();
     }
 

@@ -43,8 +43,6 @@ allprojects {
         google()
         jcenter()
         //北京maven库
-        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public/' }
-        //北京maven库
         maven { url 'https://www.jitpack.io' }
 
     }
@@ -63,6 +61,12 @@ dependencies {
     if (rootProject.ext.config["runOrPublish"] == 0) {
         api project(':doraemonkit')
     } else {
-        api "com.didichuxing.doraemonkit:doraemonkit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        api "com.didichuxing.doraemonkit:dokitx:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+    }
+
+    if (rootProject.ext.config["runOrPublish"] == 0) {
+        compileOnly project(":doraemonkit-okhttp-api")
+    } else {
+        compileOnly "com.didichuxing.doraemonkit:dokitx-okhttp-api:${rootProject.ext.android["jcenterArchivesVersionName"]}"
     }
 }

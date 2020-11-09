@@ -12,7 +12,7 @@ import com.blankj.utilcode.util.ActivityUtils
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.BundleKey
-import com.didichuxing.doraemonkit.constant.DokitConstant
+import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.datapick.DataPickManager
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
@@ -45,7 +45,7 @@ class ToolPanelDokitView : AbsDokitView() {
     }
 
     private fun generateKits() {
-        DokitConstant.GLOBAL_KITS.forEach { group ->
+        DoKitConstant.GLOBAL_KITS.forEach { group ->
             when (group.key) {
                 DokitUtil.getString(R.string.dk_category_mode) -> {
                     mKits.add(KitWrapItem(KitWrapItem.TYPE_MODE, name = group.key, kit = null))
@@ -56,11 +56,11 @@ class ToolPanelDokitView : AbsDokitView() {
                 DokitUtil.getString(R.string.dk_category_version) -> {
                     mKits.add(KitWrapItem(KitWrapItem.TYPE_VERSION, name = group.key, kit = null))
                 }
-                DokitConstant.GROUP_ID_PLATFORM,
-                DokitConstant.GROUP_ID_COMM,
-                DokitConstant.GROUP_ID_WEEX,
-                DokitConstant.GROUP_ID_PERFORMANCE,
-                DokitConstant.GROUP_ID_UI -> {
+                DoKitConstant.GROUP_ID_PLATFORM,
+                DoKitConstant.GROUP_ID_COMM,
+                DoKitConstant.GROUP_ID_WEEX,
+                DoKitConstant.GROUP_ID_PERFORMANCE,
+                DoKitConstant.GROUP_ID_UI -> {
                     if (group.value.size != 0) {
                         mKits.add(KitWrapItem(KitWrapItem.TYPE_TITLE, name = DokitUtil.getString(DokitUtil.getStringId(group.key)), kit = null))
                         group.value.forEach { kitWrap ->
@@ -100,7 +100,7 @@ class ToolPanelDokitView : AbsDokitView() {
                 if (activity != null) {
                     val intent = Intent(activity, UniversalActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_DOKIT_SETTING)
+                    intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_DOKIT_MORE)
                     activity.startActivity(intent)
                 }
             }

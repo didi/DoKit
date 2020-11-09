@@ -13,6 +13,7 @@
     <string name="dk_category_weex">Weex</string>
 
     <string name="dk_kit_sysinfo">App信息</string>
+    <string name="dk_third_library_info">三方库信息</string>
     <string name="dk_kit_develop">開發者選項</string>
     <string name="dk_kit_service_running">運行中服務</string>
     <string name="dk_kit_local_lang">本地語言</string>
@@ -37,6 +38,7 @@
     <string name="dk_kit_ui_monitor">UI顯示實時數據</string>
     <string name="dk_kit_time_counter">啟動耗時</string>
     <string name="dk_kit_method_cost">函數耗時</string>
+    <string name="dk_kit_comm_webview">......</string>
     <string name="dk_kit_mock_template_preview">數據預覽</string>
     <string name="dk_kit_method_cost_desc">
         <![CDATA[
@@ -315,10 +317,10 @@
     <string name="dk_health_dialog_test_person">测试人</string>
     <string name="dk_health_dialog_test_person_hint">测试人</string>
     <string name="dk_kit_log_min">最小化</string>
-    <string name="dk_kit_setting">设置</string>
+    <string name="dk_kit_setting">更多</string>
     <string name="dk_category_exit">退出</string>
     <string name="dk_category_version">version</string>
-    <string name="dk_setting">设置</string>
+    <string name="dk_setting">更多</string>
     <string name="dk_edit">编辑</string>
     <string name="dk_complete">完成</string>
     <string name="dk_export">导出</string>
@@ -348,4 +350,6 @@
 
     <string name="dk_file_manager_tip_bottom">请在web端通过当前ip:port进行连接</string>
     <string name="dk_file_manager_sd_permission_tip">你当前的targetSdkVersion>=29,请在AndroidManifest.xml的application下添加android:requestLegacyExternalStorage="true" 解决sd卡没有权限的问题</string>
+    <!-- h5助手-->
+    <string name="dk_kit_h5_help">H5助手</string>
 </resources>

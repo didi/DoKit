@@ -104,7 +104,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
         // 由于父类在此方法限制了高度无法自适应，所以重新设成wrap_content以自适应
         final FrameLayout.LayoutParams params = getNormalLayoutParams();
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        getRootView().setLayoutParams(params);
+        getDoKitView().setLayoutParams(params);
     }
 
     @Override

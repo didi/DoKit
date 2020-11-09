@@ -216,7 +216,7 @@
     if (!_closeButton) {
         _closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_closeButton addTarget:self action:@selector(closeButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [_closeButton setImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
+        [_closeButton setImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_close"] forState:UIControlStateNormal];
     }
     return _closeButton;
 }
@@ -323,7 +323,7 @@
         _parentViewsButton.layer.masksToBounds = YES;
         _parentViewsButton.tintColor = [UIColor doraemon_black_1];
         _parentViewsButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
-        [_parentViewsButton setImage:[[UIImage doraemon_imageNamed:@"doraemon_hierarchy_parent"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [_parentViewsButton setImage:[[UIImage doraemon_xcassetImageNamed:@"doraemon_hierarchy_parent"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         _parentViewsButton.tag = DoraemonHierarchyInfoViewActionShowParent;
         _parentViewsButton.enabled = NO;
     }
@@ -344,7 +344,7 @@
         _subviewsButton.layer.masksToBounds = YES;
         _subviewsButton.tintColor = [UIColor doraemon_black_1];
         _subviewsButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
-        [_subviewsButton setImage:[[UIImage doraemon_imageNamed:@"doraemon_hierarchy_subview"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [_subviewsButton setImage:[[UIImage doraemon_xcassetImageNamed:@"doraemon_hierarchy_subview"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         _subviewsButton.tag = DoraemonHierarchyInfoViewActionShowSubview;
         _subviewsButton.enabled = NO;
     }
@@ -365,7 +365,7 @@
         _moreButton.layer.masksToBounds = YES;
         _moreButton.tintColor = [UIColor doraemon_black_1];
         _moreButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
-        [_moreButton setImage:[[UIImage doraemon_imageNamed:@"doraemon_hierarchy_info"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
+        [_moreButton setImage:[[UIImage doraemon_xcassetImageNamed:@"doraemon_hierarchy_info"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] forState:UIControlStateNormal];
         _moreButton.tag = DoraemonHierarchyInfoViewActionShowMoreInfo;
         _moreButton.enabled = NO;
     }

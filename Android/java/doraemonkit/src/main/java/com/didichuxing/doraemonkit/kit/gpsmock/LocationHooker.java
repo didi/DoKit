@@ -167,19 +167,26 @@ public class LocationHooker extends BaseServiceHooker {
          */
         @Override
         public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws IllegalAccessException, InvocationTargetException, NoSuchFieldException {
-            if (!GpsMockManager.getInstance().isMocking()) {
+            try {
+                if (!GpsMockManager.getInstance().isMocking()) {
+                    return method.invoke(originService, args);
+                }
+                Object listenerTransport = args[1];
+                //LocationListener mListener 类型
+                Field mListenerField = listenerTransport.getClass().getDeclaredField("mListener");
+                mListenerField.setAccessible(true);
+                LocationListener locationListener = (LocationListener) mListenerField.get(listenerTransport);
+                LocationListenerProxy locationListenerProxy = new LocationListenerProxy(locationListener);
+                //将原始的LocationListener替换为LocationListenerProxy
+                mListenerField.set(listenerTransport, locationListenerProxy);
+                mListenerField.setAccessible(false);
                 return method.invoke(originService, args);
+            } catch (Exception e) {
+                //处理定位权限未授予的情况
+                return null;
             }
-            Object listenerTransport = args[1];
-            //LocationListener mListener 类型
-            Field mListenerField = listenerTransport.getClass().getDeclaredField("mListener");
-            mListenerField.setAccessible(true);
-            LocationListener locationListener = (LocationListener) mListenerField.get(listenerTransport);
-            LocationListenerProxy locationListenerProxy = new LocationListenerProxy(locationListener);
-            //将原始的LocationListener替换为LocationListenerProxy
-            mListenerField.set(listenerTransport, locationListenerProxy);
-            mListenerField.setAccessible(false);
-            return method.invoke(originService, args);
+
+
         }
     }
 

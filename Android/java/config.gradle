@@ -19,16 +19,20 @@ ext {
                minSdkVersion             : 16,
                targetSdkVersion          : 29,
                //app版本号
-               versionCode               : 320,
+               versionCode               : 334,
                //dokit 插件版本号
-               pluginVersionName         : "3.2.0",
+               pluginVersionName         : "3.3.4",
                //jcenter dokit版本号 打包上传时 dokit的版本名字
-               jcenterArchivesVersionName: "3.2.0",
+               jcenterArchivesVersionName: "3.3.4",
                //didi内部仓库版本号
-               versionName               : "3.2.0",
+               versionName               : "3.3.4",
                glide_version             : "4.9.0",
                kotlin_version            : "1.3.72",
-               booster_version           : "2.3.0"
+               booster_version           : "3.0.0",
+               gradle_plugin_version     : "4.1.0",
+               okhttp_v2                 : "2.7.5",
+               okhttp_v3                 : "3.14.7",
+               okhttp_v4                 : "4.7.0"
     ]
     dependencies = [// ###### android library  start ######
                     "multidex"           : 'androidx.multidex:multidex:2.0.0',
@@ -38,6 +42,8 @@ ext {
                     "design"             : 'com.google.android.material:material:1.1.0',
                     "kotlin"             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${android["kotlin_version"]}",
                     "core-ktx"           : "androidx.core:core-ktx:1.3.0",
+                    "webkit"             : "androidx.webkit:webkit:1.3.0",
+                    "volley"             : "com.android.volley:volley:1.1.1",
                     //constraintLayout
                     "constraintLayout"   : 'androidx.constraintlayout:constraintlayout:1.1.3',
                     "coroutines-core"    : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7",
@@ -52,8 +58,9 @@ ext {
                     "retrofit2_rxjava2"  : "com.squareup.retrofit2:adapter-rxjava2:2.8.1",
                     "retrofit2_gson"     : "com.squareup.retrofit2:converter-gson:2.8.1",
                     //暂时不支持3.14.0以上的okhttp版本
-                    "okhttp"             : "com.squareup.okhttp3:okhttp:3.12.1",
-                    "okhttp_v2"          : "com.squareup.okhttp:okhttp:2.7.5",
+                    "okhttp_v2"          : "com.squareup.okhttp:okhttp:${android["okhttp_v2"]}",
+                    "okhttp_v3"          : "com.squareup.okhttp3:okhttp:${android["okhttp_v3"]}",
+                    "okhttp_v4"          : "com.squareup.okhttp3:okhttp:${android["okhttp_v4"]}",
                     //okSocket wiki:https://www.jianshu.com/p/8ee3ee766265
                     "oksocket"           : "com.tonystark.android:socket:4.2.2",
                     "oksocket-server"    : "com.tonystark.android:socket-server:4.2.2",
@@ -63,7 +70,7 @@ ext {
                     "ktor-jackson"       : "io.ktor:ktor-jackson:1.3.2",
                     //将urlconnection代理到okhttp
                     //"okhttp_urlconnection"    : "com.squareup.okhttp3:okhttp-urlconnection:3.12.1",
-                    //"okio"                    : "com.squareup.okio:okio:1.15.0",
+                    "okio"               : "com.squareup.okio:okio:1.17.2",
                     "utilcode"           : 'com.blankj:utilcodex:1.29.0',
                     "glide"              : "com.github.bumptech.glide:glide:${android["glide_version"]}",
                     "glide_v3"           : 'com.github.bumptech.glide:glide:3.8.0',
@@ -103,6 +110,10 @@ ext {
                     "easypermissions"    : "pub.devrel:easypermissions:2.0.1",
                     //跨进程通信框架
                     "abridge"            : "com.sjtu.yifei:abridge:1.0.1",
+                    "jsoup"              : "org.jsoup:jsoup:1.13.1",
+                    "mimecraft"          : "com.squareup.mimecraft:mimecraft:1.1.1",
+                    //tencent x5 浏览器 https://x5.tencent.com/
+                    "tbs"                : "com.tencent.tbs.tbssdk:sdk:43903",
 //                    "swipeback"    : "me.imid.swipebacklayout.lib:library:1.1.0"
 
     ]
