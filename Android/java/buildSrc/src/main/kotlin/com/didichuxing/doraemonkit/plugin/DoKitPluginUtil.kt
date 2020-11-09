@@ -17,7 +17,7 @@ object DoKitPluginUtil {
     const val MB = 1048576
     const val GB = 1073741824
 
-    fun FileSize(file: File): String? {
+    fun fileSize(file: File, precision: Int): String? {
         if (!file.isFile) {
             return "0kb"
         }
@@ -25,10 +25,10 @@ object DoKitPluginUtil {
             return "0kb"
         }
         val fileLength = file.length()
-        return byte2FitMemorySize(fileLength, 2)
+        return byte2FitMemorySize(fileLength, precision)
     }
 
-    fun byte2FitMemorySize(byteSize: Long, precision: Int): String? {
+    private fun byte2FitMemorySize(byteSize: Long, precision: Int): String? {
         require(precision >= 0) { "precision shouldn't be less than zero!" }
         return if (byteSize < 0) {
             throw IllegalArgumentException("byteSize shouldn't be less than zero!")

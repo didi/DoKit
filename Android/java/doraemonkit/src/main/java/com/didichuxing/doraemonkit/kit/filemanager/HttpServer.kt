@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.filemanager
 
-import com.didichuxing.doraemonkit.constant.DokitConstant
+import com.didichuxing.doraemonkit.constant.DoKitConstant
 import io.ktor.server.cio.CIO
 import io.ktor.server.cio.CIOApplicationEngine
 import io.ktor.server.engine.embeddedServer
@@ -16,6 +16,6 @@ import io.ktor.server.engine.embeddedServer
  */
 object HttpServer {
     val server: CIOApplicationEngine by lazy {
-        embeddedServer(CIO, port = DokitConstant.FILE_MANAGER_HTTP_PORT, module = DoKitFileRouter)
+        embeddedServer(CIO, port = DoKitConstant.FILE_MANAGER_HTTP_PORT, module = DoKitFileRouter)
     }
 }

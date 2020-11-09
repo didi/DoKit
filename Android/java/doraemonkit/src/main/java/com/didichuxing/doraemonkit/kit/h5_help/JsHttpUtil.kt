@@ -4,7 +4,7 @@ import android.text.TextUtils
 import android.webkit.WebResourceResponse
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ToastUtils
-import com.didichuxing.doraemonkit.constant.DokitConstant
+import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
@@ -425,7 +425,7 @@ internal object JsHttpUtil {
      * @return bool
      */
     fun matchWhiteHost(request: Request): Boolean {
-        val whiteHostBeans: List<WhiteHostBean> = DokitConstant.WHITE_HOSTS
+        val whiteHostBeans: List<WhiteHostBean> = DoKitConstant.WHITE_HOSTS
         if (whiteHostBeans.isEmpty()) {
             return true
         }

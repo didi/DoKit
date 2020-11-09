@@ -14,7 +14,7 @@ import android.support.annotation.NonNull;
 import com.blankj.utilcode.util.BarUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.health.CountDownDokitView;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitView;
@@ -104,7 +104,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         }
 
 
-        ActivityLifecycleInfo activityLifecycleInfo = DokitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
+        ActivityLifecycleInfo activityLifecycleInfo = DoKitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
         if (activityLifecycleInfo == null) {
             return;
         }
@@ -132,14 +132,14 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         //倒计时DokitView
         attachCountDownDokitView(activity);
 
-        if (!DokitConstant.AWAYS_SHOW_MAIN_ICON) {
-            DokitConstant.MAIN_ICON_HAS_SHOW = false;
+        if (!DoKitConstant.AWAYS_SHOW_MAIN_ICON) {
+            DoKitConstant.MAIN_ICON_HAS_SHOW = false;
             return;
         }
         DokitIntent dokitIntent = new DokitIntent(MainIconDokitView.class);
         dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
         attach(dokitIntent);
-        DokitConstant.MAIN_ICON_HAS_SHOW = true;
+        DoKitConstant.MAIN_ICON_HAS_SHOW = true;
     }
 
     /**
@@ -161,12 +161,12 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                 continue;
             }
             //是否过滤掉 入口icon
-            if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && dokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
-                DokitConstant.MAIN_ICON_HAS_SHOW = false;
+            if (!DoKitConstant.AWAYS_SHOW_MAIN_ICON && dokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
+                DoKitConstant.MAIN_ICON_HAS_SHOW = false;
                 continue;
             }
             if (dokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
-                DokitConstant.MAIN_ICON_HAS_SHOW = true;
+                DoKitConstant.MAIN_ICON_HAS_SHOW = true;
             }
 
             DokitIntent dokitIntent = new DokitIntent(dokitViewInfo.getAbsDokitViewClass());
@@ -175,7 +175,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             attach(dokitIntent);
         }
         //判断是否有MainIcon
-        if (DokitConstant.AWAYS_SHOW_MAIN_ICON && !DoraemonKit.isShow()) {
+        if (DoKitConstant.AWAYS_SHOW_MAIN_ICON && !DoraemonKit.isShow()) {
             DoraemonKit.show();
         }
 
@@ -224,13 +224,13 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                     continue;
                 }
                 //是否过滤掉 入口icon
-                if (!DokitConstant.AWAYS_SHOW_MAIN_ICON && globalSingleDokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
-                    DokitConstant.MAIN_ICON_HAS_SHOW = false;
+                if (!DoKitConstant.AWAYS_SHOW_MAIN_ICON && globalSingleDokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
+                    DoKitConstant.MAIN_ICON_HAS_SHOW = false;
                     continue;
                 }
 
                 if (globalSingleDokitViewInfo.getAbsDokitViewClass() == MainIconDokitView.class) {
-                    DokitConstant.MAIN_ICON_HAS_SHOW = true;
+                    DoKitConstant.MAIN_ICON_HAS_SHOW = true;
                 }
 
                 //LogHelper.i(TAG, " activity  resume==>" + activity.getClass().getSimpleName() + "  dokitView==>" + globalSingleDokitViewInfo.getTag());
@@ -269,7 +269,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
     private void attachMainIconDokitView(Activity activity) {
         //假如不存在全局的icon这需要全局显示主icon
-        if (DokitConstant.AWAYS_SHOW_MAIN_ICON && !(activity instanceof UniversalActivity)) {
+        if (DoKitConstant.AWAYS_SHOW_MAIN_ICON && !(activity instanceof UniversalActivity)) {
             DokitIntent dokitIntent = new DokitIntent(MainIconDokitView.class);
             dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
             attach(dokitIntent);
@@ -288,7 +288,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
      * 添加倒计时DokitView
      */
     private void attachCountDownDokitView(Activity activity) {
-        if (!DokitConstant.APP_HEALTH_RUNNING) {
+        if (!DoKitConstant.APP_HEALTH_RUNNING) {
             return;
         }
         if (activity instanceof UniversalActivity) {

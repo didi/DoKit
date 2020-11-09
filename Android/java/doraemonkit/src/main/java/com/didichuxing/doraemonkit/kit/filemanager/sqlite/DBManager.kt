@@ -2,11 +2,8 @@ package com.didichuxing.doraemonkit.kit.filemanager.sqlite
 
 import android.content.ContentValues
 import android.database.Cursor
-import com.blankj.utilcode.util.JsonUtils
 import com.didichuxing.doraemonkit.DoraemonKit
-import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.aop.DokitPluginConfig
-import com.didichuxing.doraemonkit.constant.DokitConstant
+import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.bean.RowFiledInfo
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.bean.TableFieldInfo
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.dao.SQLiteDB
@@ -31,10 +28,10 @@ object DBManager {
     private fun openDB(databasePath: String, databaseName: String): SQLiteDB? {
         var dbFactory: DBFactory = NormalDBFactory()
         val password: String?
-        if (DokitConstant.DATABASE_PASS.isEmpty()) {
+        if (DoKitConstant.DATABASE_PASS.isEmpty()) {
             password = null
         } else {
-            password = DokitConstant.DATABASE_PASS[databaseName]
+            password = DoKitConstant.DATABASE_PASS[databaseName]
             password?.let {
                 dbFactory = EncryptDBFactory()
             }

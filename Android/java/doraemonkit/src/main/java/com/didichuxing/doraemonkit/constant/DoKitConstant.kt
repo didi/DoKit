@@ -18,7 +18,7 @@ import java.io.File
  * 修订历史：
  * ================================================
  */
-object DokitConstant {
+object DoKitConstant {
 
     const val GROUP_ID_PLATFORM = "dk_category_platform"
     const val GROUP_ID_COMM = "dk_category_comms"
@@ -103,6 +103,11 @@ object DokitConstant {
      */
     @JvmField
     var H5_VCONSOLE_INJECT = false
+
+    /**
+     * 是否允许上传统计信息
+     */
+    var ENABLE_UPLOAD = true
 
     @JvmField
     var ACTIVITY_LIFECYCLE_INFOS = mutableMapOf<String, ActivityLifecycleInfo>()

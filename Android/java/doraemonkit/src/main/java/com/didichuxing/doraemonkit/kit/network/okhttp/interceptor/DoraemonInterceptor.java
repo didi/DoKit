@@ -4,7 +4,7 @@ package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
@@ -17,8 +17,6 @@ import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorRequest;
 import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorResponse;
 import com.didichuxing.doraemonkit.kit.network.utils.OkHttpResponseKt;
 import com.didichuxing.doraemonkit.util.LogHelper;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -132,7 +130,7 @@ public class DoraemonInterceptor implements Interceptor {
      * @return bool
      */
     private boolean matchWhiteHost(Request request) {
-        List<WhiteHostBean> whiteHostBeans = DokitConstant.WHITE_HOSTS;
+        List<WhiteHostBean> whiteHostBeans = DoKitConstant.WHITE_HOSTS;
         if (whiteHostBeans.isEmpty()) {
             return true;
         }

@@ -6,10 +6,9 @@ import android.text.TextUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.util.DokitUtil;
 
 
@@ -44,7 +43,7 @@ public class MockKit extends AbstractKit {
             return;
         }
 
-        if (TextUtils.isEmpty(DokitConstant.PRODUCT_ID)) {
+        if (TextUtils.isEmpty(DoKitConstant.PRODUCT_ID)) {
             ToastUtils.showShort(DokitUtil.getString(R.string.dk_platform_tip));
             return;
         }

@@ -18,7 +18,7 @@ import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.DokitMemoryConfig;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
@@ -292,7 +292,7 @@ public class PerformanceDataManager {
     private void writeCpuDataIntoFile() {
 
         //保存cpu数据到app健康体检
-        if (DokitConstant.APP_HEALTH_RUNNING) {
+        if (DoKitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastCpuRate, PERFORMANCE_TYPE_CPU);
         }
     }
@@ -300,13 +300,13 @@ public class PerformanceDataManager {
     private void writeMemoryDataIntoFile() {
 
         //保存cpu数据到app健康体检
-        if (DokitConstant.APP_HEALTH_RUNNING) {
+        if (DoKitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastMemoryRate, PERFORMANCE_TYPE_MEMORY);
         }
     }
 
     private void writeFpsDataIntoFile() {
-        if (DokitConstant.APP_HEALTH_RUNNING) {
+        if (DoKitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastFrameRate > 60 ? 60 : mLastFrameRate, PERFORMANCE_TYPE_FPS);
         }
     }

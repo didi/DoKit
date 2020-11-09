@@ -12,7 +12,7 @@ import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment;
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
@@ -128,7 +128,7 @@ public class BlockMonitorManager {
         blockInfo.time = System.currentTimeMillis();
         if (!TextUtils.isEmpty(blockInfo.concernStackString)) {
             //卡顿 debug模式下会造成卡顿
-            if (DokitConstant.APP_HEALTH_RUNNING && !Debug.isDebuggerConnected()) {
+            if (DoKitConstant.APP_HEALTH_RUNNING && !Debug.isDebuggerConnected()) {
                 addBlockInfoInAppHealth(blockInfo);
             }
             showNotification(blockInfo);

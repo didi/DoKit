@@ -9,7 +9,7 @@ import android.widget.Toast;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 
-import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
@@ -162,7 +162,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
      * @param activity
      */
     private void resumeAndAttachDokitViews(Activity activity) {
-        if (DokitConstant.IS_NORMAL_FLOAT_MODE) {
+        if (DoKitConstant.IS_NORMAL_FLOAT_MODE) {
             //显示内置dokitView icon
             DokitViewManager.getInstance().resumeAndAttachDokitViews(activity);
         }
@@ -219,7 +219,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
      */
     private void recordActivityUiLevel(Activity activity) {
         try {
-            if (!DokitConstant.APP_HEALTH_RUNNING) {
+            if (!DoKitConstant.APP_HEALTH_RUNNING) {
                 return;
             }
 
@@ -261,7 +261,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
      * 记录当前Activity的生命周期状态
      */
     private void recordActivityLifeCycleStatus(Activity activity, int lifeCycleStatus) {
-        ActivityLifecycleInfo activityLifecaycleInfo = DokitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
+        ActivityLifecycleInfo activityLifecaycleInfo = DoKitConstant.ACTIVITY_LIFECYCLE_INFOS.get(activity.getClass().getCanonicalName());
         if (activityLifecaycleInfo == null) {
             activityLifecaycleInfo = new ActivityLifecycleInfo();
             activityLifecaycleInfo.setActivityName(activity.getClass().getCanonicalName());
@@ -272,7 +272,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
             } else if (lifeCycleStatus == LIFE_CYCLE_STATUS_STOPPED) {
                 activityLifecaycleInfo.setInvokeStopMethod(true);
             }
-            DokitConstant.ACTIVITY_LIFECYCLE_INFOS.put(activity.getClass().getCanonicalName(), activityLifecaycleInfo);
+            DoKitConstant.ACTIVITY_LIFECYCLE_INFOS.put(activity.getClass().getCanonicalName(), activityLifecaycleInfo);
         } else {
             activityLifecaycleInfo.setActivityName(activity.getClass().getCanonicalName());
             if (lifeCycleStatus == LIFE_CYCLE_STATUS_CREATE) {
@@ -282,7 +282,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
             } else if (lifeCycleStatus == LIFE_CYCLE_STATUS_STOPPED) {
                 activityLifecaycleInfo.setInvokeStopMethod(true);
             } else if (lifeCycleStatus == LIFE_CYCLE_STATUS_DESTROY) {
-                DokitConstant.ACTIVITY_LIFECYCLE_INFOS.remove(activity.getClass().getCanonicalName());
+                DoKitConstant.ACTIVITY_LIFECYCLE_INFOS.remove(activity.getClass().getCanonicalName());
             }
         }
     }

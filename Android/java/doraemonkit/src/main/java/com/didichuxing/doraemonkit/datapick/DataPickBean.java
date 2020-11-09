@@ -2,10 +2,9 @@ package com.didichuxing.doraemonkit.datapick;
 
 import com.blankj.utilcode.util.AppUtils;
 import com.blankj.utilcode.util.DeviceUtils;
-import com.blankj.utilcode.util.LanguageUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.didichuxing.doraemonkit.BuildConfig;
-import com.didichuxing.doraemonkit.constant.DokitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 
 import java.util.List;
 import java.util.Locale;
@@ -48,7 +47,7 @@ public class DataPickBean {
 
     DataPickBean() {
         //初始化基础数据
-        this.pId = DokitConstant.PRODUCT_ID;
+        this.pId = DoKitConstant.PRODUCT_ID;
         this.appName = AppUtils.getAppName();
         this.appId = AppUtils.getAppPackageName();
         this.dokitVersion = BuildConfig.DOKIT_VERSION;
