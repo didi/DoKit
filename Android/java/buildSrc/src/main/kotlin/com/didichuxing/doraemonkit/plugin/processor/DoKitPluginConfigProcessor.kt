@@ -61,36 +61,12 @@ class DoKitPluginConfigProcessor : VariantProcessor {
                 "applications path====>${handler.applications}".println()
             }
 
-
             //读取插件配置
             variant.project.getAndroid<AppExtension>().let { appExt ->
                 //查找Application路径
                 val doKitExt = variant.project.extensions.getByType(DoKitExt::class.java)
                 DoKitExtUtil.init(doKitExt, appExt.defaultConfig.applicationId!!)
             }
-
-            if (DoKitExtUtil.THIRD_LIBINFO_SWITCH) {
-                //遍历三方库
-                val dependencies = variant.dependencies
-                DoKitExtUtil.THIRD_LIB_INFOS.clear()
-                for (artifactResult: ResolvedArtifactResult in dependencies) {
-                    //println("三方库信息===>${artifactResult.variant.displayName}____${artifactResult.file.toString()}")
-                    val paths = artifactResult.file.toString().split("/")
-                    var fileName = ""
-                    if (paths.size >= 4) {
-                        fileName = "${paths[paths.size - 4]}/${paths[paths.size - 1]}"
-                    } else {
-                        fileName = paths[paths.size - 1]
-                    }
-                    val thirdLibInfo =
-                        ThirdLibInfo(
-                            fileName,
-                            DoKitPluginUtil.fileSize(artifactResult.file, 2)
-                        )
-                    DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
-                }
-            }
-
 
         } else {
             "${variant.project.name}-不建议在Library Module下引入dokit插件".println()

@@ -1,9 +1,10 @@
 package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor;
 
+import androidx.annotation.NonNull;
+
 import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkManager;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
@@ -22,7 +23,7 @@ import okhttp3.Response;
 public class DoraemonWeakNetworkInterceptor implements Interceptor {
     private static final String TAG = "DoraemonWeakNetworkInterceptor";
 
-    @NotNull
+    @NonNull
     @Override
     public Response intercept(Chain chain) throws IOException {
         if (!WeakNetworkManager.get().isActive()) {
