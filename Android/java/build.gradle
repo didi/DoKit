@@ -15,9 +15,8 @@ buildscript {
         classpath "com.novoda:bintray-release:0.9.2"
         //classpath "com.didichuxing.doraemonkit:dokitx-plugin:3.3.4"
         classpath "com.didiglobal.booster:booster-gradle-plugin:${rootProject.ext.android["booster_version"]}"
-        classpath "com.didiglobal.booster:booster-transform-toast:${rootProject.ext.android["booster_version"]}"
-        classpath "com.didiglobal.booster:booster-transform-activity-thread:${rootProject.ext.android["booster_version"]}"
-        classpath "com.didiglobal.booster:booster-transform-shared-preferences:${rootProject.ext.android["booster_version"]}"
+        classpath "com.didiglobal.booster:booster-task-analyser:${rootProject.ext.android["booster_version"]}"
+        classpath "com.didiglobal.booster:booster-task-compression-pngquant:${rootProject.ext.android["booster_version"]}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${rootProject.ext.android["kotlin_version"]}"
     }
 }
