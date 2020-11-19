@@ -91,7 +91,7 @@
     if ([platform isEqualToString:@"iPhone9,2"]) return @"iPhone 7 Plus";
     if ([platform isEqualToString:@"iPhone9,4"]) return @"iPhone 7 Plus";
     if ([platform isEqualToString:@"iPhone10,1"]) return @"iPhone 8";
-    if ([platform isEqualToString:@"iPhone10.4"]) return @"iPhone 8";
+    if ([platform isEqualToString:@"iPhone10,4"]) return @"iPhone 8";
     if ([platform isEqualToString:@"iPhone10,2"]) return @"iPhone 8 Plus";
     if ([platform isEqualToString:@"iPhone10,5"]) return @"iPhone 8 Plus";
     if ([platform isEqualToString:@"iPhone10,3"]) return @"iPhone X";
@@ -103,6 +103,10 @@
     if ([platform isEqualToString:@"iPhone12,1"]) return @"iPhone 11";
     if ([platform isEqualToString:@"iPhone12,3"]) return @"iPhone 11 Pro";
     if ([platform isEqualToString:@"iPhone12,5"]) return @"iPhone 11 Pro Max";
+    if ([platform isEqualToString:@"iPhone13,1"]) return @"iPhone 12 Mini";
+    if ([platform isEqualToString:@"iPhone13,2"]) return @"iPhone 12";
+    if ([platform isEqualToString:@"iPhone13,3"]) return @"iPhone 12 Pro";
+    if ([platform isEqualToString:@"iPhone13,4"]) return @"iPhone 12 Pro Max";
     
     return platform;
 }
