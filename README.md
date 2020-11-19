@@ -26,7 +26,7 @@
 <div align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
- <img src="https://img.shields.io/badge/Android-3.3.4-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/Android-3.3.5-blue.svg" align=left />
  <img src="https://img.shields.io/badge/iOS-3.0.4-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
@@ -46,16 +46,6 @@
 
 ## 社区活动
 
-**InfoQ年度十大开源项目评选**
-
-小伙伴们，DoKit正在参加infoQ举办的年度十大开源项目评选，麻烦你们东东小手指扫描一下二维码给30号Doraemonkit投个票,谢谢.
-
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/5U2jWuIKA11604566692827.jpg" alt="图片替换文本" width="200"  align="bottom" />
-
-
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/k3HTEc305O1604566698026.jpg" alt="图片替换文本" width="200"  align="bottom" />
-
-
 **DoKit官方社区分享季**
 你想让你的才华被更多的人关注到吗？快来参加[DoKit官方社区分享季](https://github.com/didi/DoraemonKit/issues/658)活动吧
 
@@ -72,7 +62,9 @@
 
 **2020中国开源年会DoKit社区合作伙伴**
 
+<div align="center">  
 <img src="https://pt-starimg.didistatic.com/static/starimg/img/hoEGfdsUzi1600745052153.jpg" alt="图片替换文本" width="200"  align="bottom" />
+</div>
 
 ## 开发背景
 
@@ -136,7 +128,7 @@ DoraemonKit 是一个功能平台，能够让每一个 App 快速接入一些常
 1. **【颜色吸管】** 方便设计师 UI 捉虫的时候，查看每一个组件的颜色值是否设置正确；
 2. **【组件检查】** 可以抓取任意一个UI控件，查看它们的详细信息，包括控件名称、控件位置、背景色、字体颜色、字体大小；
 3. **【对齐标尺】** 参考 Android 系统自带测试工具，能够实时捕获屏幕坐标，并且可以查看组件是否对齐；
-4. **【元素边框线】** 绘制出每一个 UI 组件的边框，对于组件布局有一定的参考意义。 
+4. **【元素边框线】** 绘制出每一个 UI 组件的边框，对于组件布局有一定的参考意义。
 
 ### 五、Weex专项工具（CML专项工具）
 
