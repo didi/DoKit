@@ -3,15 +3,17 @@ package com.didichuxing.doraemonkit.plugin.processor
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariant
-import com.didichuxing.doraemonkit.plugin.*
+import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
-import com.didiglobal.booster.gradle.*
+import com.didichuxing.doraemonkit.plugin.isRelease
+import com.didichuxing.doraemonkit.plugin.println
+import com.didiglobal.booster.gradle.getAndroid
+import com.didiglobal.booster.gradle.project
 import com.didiglobal.booster.task.spi.VariantProcessor
 import com.didiglobal.booster.transform.ArtifactManager
 import com.didiglobal.booster.transform.artifacts
 import com.didiglobal.booster.transform.util.ComponentHandler
-import com.google.auto.service.AutoService
-import org.gradle.api.artifacts.result.ResolvedArtifactResult
+import org.gradle.api.Project
 import javax.xml.parsers.SAXParserFactory
 
 /**
@@ -23,8 +25,7 @@ import javax.xml.parsers.SAXParserFactory
  * 修订历史：
  * ================================================
  */
-@AutoService(VariantProcessor::class)
-class DoKitPluginConfigProcessor : VariantProcessor {
+class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
     override fun process(variant: BaseVariant) {
         if (!DoKitExtUtil.DOKIT_PLUGIN_SWITCH) {
             return
@@ -61,36 +62,12 @@ class DoKitPluginConfigProcessor : VariantProcessor {
                 "applications path====>${handler.applications}".println()
             }
 
-
             //读取插件配置
             variant.project.getAndroid<AppExtension>().let { appExt ->
                 //查找Application路径
                 val doKitExt = variant.project.extensions.getByType(DoKitExt::class.java)
                 DoKitExtUtil.init(doKitExt, appExt.defaultConfig.applicationId!!)
             }
-
-            if (DoKitExtUtil.THIRD_LIBINFO_SWITCH) {
-                //遍历三方库
-                val dependencies = variant.dependencies
-                DoKitExtUtil.THIRD_LIB_INFOS.clear()
-                for (artifactResult: ResolvedArtifactResult in dependencies) {
-                    //println("三方库信息===>${artifactResult.variant.displayName}____${artifactResult.file.toString()}")
-                    val paths = artifactResult.file.toString().split("/")
-                    var fileName = ""
-                    if (paths.size >= 4) {
-                        fileName = "${paths[paths.size - 4]}/${paths[paths.size - 1]}"
-                    } else {
-                        fileName = paths[paths.size - 1]
-                    }
-                    val thirdLibInfo =
-                        ThirdLibInfo(
-                            fileName,
-                            DoKitPluginUtil.fileSize(artifactResult.file, 2)
-                        )
-                    DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
-                }
-            }
-
 
         } else {
             "${variant.project.name}-不建议在Library Module下引入dokit插件".println()
