@@ -110,4 +110,8 @@ public class AlignRulerLineDokitView extends AbsDokitView implements AlignRulerM
     public boolean restrictBorderline() {
         return true;
     }
+
+    public AlignLineView getAlignInfoView() {
+        return mAlignInfoView;
+    }
 }

@@ -226,6 +226,7 @@
     <string name="dk_kit_layout_border">布局边框</string>
     <string name="dk_layout_level">布局层级</string>
     <string name="dk_align_info_text">位置：左%1$d 右%2$d 上%3$d 下%4$d</string>
+    <string name="dk_align_info_include_status_bar">包含状态栏高度</string>
 
     <string name="dk_item_time_counter_switch">Activity跳转耗时</string>
     <string name="dk_item_time_goto_list">查看记录</string>

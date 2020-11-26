@@ -220,6 +220,7 @@
     <string name="dk_kit_layout_border">版面配置邊界</string>
     <string name="dk_layout_level">版面階層</string>
     <string name="dk_align_info_text">位置：左%1$d 右%2$d 上%3$d 下%4$d</string>
+    <string name="dk_align_info_include_status_bar">包含狀態欄高度</string>
 
     <string name="dk_item_time_counter_switch">Activity 換頁耗時</string>
     <string name="dk_item_time_goto_list">查看紀錄</string>

@@ -248,6 +248,7 @@
     <string name="dk_layout_level">布局层级</string>
 
     <string name="dk_align_info_text">位置：左%1$d 右%2$d 上%3$d 下%4$d</string>
+    <string name="dk_align_info_include_status_bar">包含状态栏高度</string>
 
     <string name="dk_error_tips_permissions_less">请进行授权才可以使用该功能</string>
     <!--启动、跳转耗时-->

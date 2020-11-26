@@ -9,6 +9,9 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.util.UIUtils;
+
+import java.util.UUID;
 
 /**
  * Created by wanglikun on 2018/12/4.
@@ -20,6 +23,8 @@ public class AlignLineView extends View {
 
     private int mPosX = -1;
     private int mPosY = -1;
+
+    private boolean mIncludeStatusBarHeight;
 
     public AlignLineView(Context context) {
         super(context);
@@ -64,7 +69,7 @@ public class AlignLineView extends View {
         int bottom = getHeight() - mPosY;
         canvas.drawText(String.valueOf(left), left / 2, mPosY, mTextPaint);
         canvas.drawText(String.valueOf(right), (mPosX + getWidth()) / 2, mPosY, mTextPaint);
-        canvas.drawText(String.valueOf(top), mPosX, top / 2, mTextPaint);
+        canvas.drawText(String.valueOf(top + (mIncludeStatusBarHeight ? UIUtils.getStatusBarHeight() : 0)), mPosX, top / 2, mTextPaint);
         canvas.drawText(String.valueOf(bottom), mPosX, (mPosY + getHeight()) / 2, mTextPaint);
     }
 
@@ -79,6 +84,11 @@ public class AlignLineView extends View {
     public void showInfo(int x, int y) {
         mPosX = x;
         mPosY = y;
+        invalidate();
+    }
+
+    public void refreshInfo(boolean includeStatusBarHeight){
+        mIncludeStatusBarHeight = includeStatusBarHeight;
         invalidate();
     }
 }
