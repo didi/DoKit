@@ -11,7 +11,6 @@ import androidx.annotation.Nullable;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
-import java.util.UUID;
 
 /**
  * Created by wanglikun on 2018/12/4.
