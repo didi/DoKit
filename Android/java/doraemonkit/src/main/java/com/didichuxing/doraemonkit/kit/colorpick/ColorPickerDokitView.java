@@ -3,15 +3,17 @@ package com.didichuxing.doraemonkit.kit.colorpick;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
-import androidx.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import androidx.annotation.RequiresApi;
+
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
@@ -31,6 +33,8 @@ public class ColorPickerDokitView extends AbsDokitView {
     private int width;
     private int height;
     private int statusBarHeight;
+
+    private Runnable mRunnable;
 
     @Override
     public void onCreate(Context context) {
@@ -120,8 +124,7 @@ public class ColorPickerDokitView extends AbsDokitView {
      */
     private void captureInfo(int delay) {
         //先隐藏拾色器控件 否则会把拾色器也截图进去
-        mPickerView.setVisibility(View.INVISIBLE);
-        getDoKitView().postDelayed(new Runnable() {
+        mRunnable = new Runnable() {
             @Override
             public void run() {
                 mImageCapture.capture();
@@ -129,7 +132,9 @@ public class ColorPickerDokitView extends AbsDokitView {
                 mPickerView.setVisibility(View.VISIBLE);
                 showInfo();
             }
-        }, delay);
+        };
+        mPickerView.setVisibility(View.INVISIBLE);
+        getDoKitView().postDelayed(mRunnable, delay);
     }
 
 
@@ -185,6 +190,9 @@ public class ColorPickerDokitView extends AbsDokitView {
 
     @Override
     public void onEnterBackground() {
+        if (DoKitConstant.IS_NORMAL_FLOAT_MODE) {
+            getDoKitView().removeCallbacks(mRunnable);
+        }
         //不需要调用父类方法 隐藏
     }
 
