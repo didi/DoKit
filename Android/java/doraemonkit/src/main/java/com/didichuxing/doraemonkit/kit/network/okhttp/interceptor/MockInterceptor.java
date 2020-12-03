@@ -143,6 +143,18 @@ public class MockInterceptor implements Interceptor {
                 json = DokitUtil.requestBodyToString(requestBody);
                 //测试是否是json字符串
                 new JSONObject(json);
+            } else if (requestBody.contentType().toString().toLowerCase().contains(DokitDbManager.MEDIA_TYPE_PLAIN)) {
+                json = DokitUtil.requestBodyToString(requestBody);
+                //测试是否是json字符串
+                try {
+                    new JSONObject(json);
+                } catch (Exception e) {
+                    //类似 ccc=ccc&ddd=ddd
+                    json = DokitUtil.param2Json(json);
+                    if (json.equals("{}")) {
+                        json = DokitDbManager.IS_NOT_NORMAL_BODY_PARAMS;
+                    }
+                }
             } else {
                 json = DokitDbManager.IS_NOT_NORMAL_BODY_PARAMS;
             }

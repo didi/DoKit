@@ -1,5 +1,5 @@
-include ':empey-app'
-//include ':app'
+//include ':empey-app'
+include ':app'
 include ':doraemonkit'
 include ':doraemonkit-rpc'
 include ':doraemonkit-no-op'

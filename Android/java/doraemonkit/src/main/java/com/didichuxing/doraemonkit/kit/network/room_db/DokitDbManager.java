@@ -31,6 +31,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
 
     public final static String MEDIA_TYPE_FORM = "application/x-www-form-urlencoded";
     public final static String MEDIA_TYPE_JSON = "application/json";
+    public final static String MEDIA_TYPE_PLAIN = "text/plain";
 
     private static final String TAG = "DokitDbManager";
 
