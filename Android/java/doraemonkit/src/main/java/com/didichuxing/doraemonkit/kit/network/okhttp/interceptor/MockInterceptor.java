@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.EncodeUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
@@ -101,7 +102,7 @@ public class MockInterceptor implements Interceptor {
 
         try {
             //query 类似 ccc=ccc&ddd=ddd
-            json = DokitUtil.param2Json(query);
+            json = DokitUtil.param2Json(EncodeUtils.urlDecode(query));
             //测试是否是json字符串
             new JSONObject(json);
         } catch (Exception e) {
@@ -128,23 +129,23 @@ public class MockInterceptor implements Interceptor {
         }
 
         try {
-            String strBody = DokitUtil.requestBodyToString(requestBody);
+            String strBody = EncodeUtils.urlDecode(DokitUtil.requestBodyToString(requestBody));
             if (TextUtils.isEmpty(strBody)) {
                 return "";
             }
 
             if (requestBody.contentType().toString().toLowerCase().contains(DokitDbManager.MEDIA_TYPE_FORM)) {
-                String form = DokitUtil.requestBodyToString(requestBody);
+                String form = strBody;
                 //类似 ccc=ccc&ddd=ddd
                 json = DokitUtil.param2Json(form);
                 //测试是否是json字符串
                 new JSONObject(json);
             } else if (requestBody.contentType().toString().toLowerCase().contains(DokitDbManager.MEDIA_TYPE_JSON)) {
-                json = DokitUtil.requestBodyToString(requestBody);
+                json = strBody;
                 //测试是否是json字符串
                 new JSONObject(json);
             } else if (requestBody.contentType().toString().toLowerCase().contains(DokitDbManager.MEDIA_TYPE_PLAIN)) {
-                json = DokitUtil.requestBodyToString(requestBody);
+                json = strBody;
                 //测试是否是json字符串
                 try {
                     new JSONObject(json);
