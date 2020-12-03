@@ -11,6 +11,7 @@ import com.didichuxing.doraemonkit.config.FloatIconConfig;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 /**
  * 悬浮按钮
@@ -18,6 +19,7 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
  */
 
 public class MainIconDokitView extends AbsDokitView {
+    public static final String TAG = "MainIconDokitView";
     //public static int FLOAT_SIZE = 174;
     //public static int FLOAT_SIZE = 58;
 
@@ -72,5 +74,7 @@ public class MainIconDokitView extends AbsDokitView {
 //            params.height = ConvertUtils.dp2px(FLOAT_SIZE);
             invalidate();
         }
+
+
     }
 }

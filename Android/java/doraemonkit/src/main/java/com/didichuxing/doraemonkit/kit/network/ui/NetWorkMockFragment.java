@@ -57,7 +57,7 @@ import java.util.List;
  */
 public class NetWorkMockFragment extends BaseFragment {
     private String projectId = DoKitConstant.PRODUCT_ID;
-    private int pageSize = 500;
+    private int pageSize = 100;
     private String mFormatApiUrl = NetworkManager.MOCK_DOMAIN + "/api/app/interface?projectId=%s&isfull=1&curPage=%s&pageSize=%s";
     private EditText mEditText;
     private EasyRefreshLayout mInterceptRefreshLayout, mTemplateRefreshLayout;

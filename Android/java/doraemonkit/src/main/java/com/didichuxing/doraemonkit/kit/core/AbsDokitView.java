@@ -212,8 +212,8 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
                 if (!shouldDealBackKey()) {
                     //参考：http://www.shirlman.com/tec/20160426/362
                     //设置WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE会导致rootview监听不到返回按键的监听失效
-                    mWindowLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-                    mDokitViewLayoutParams.flags = DokitViewLayoutParams.FLAG_NOT_FOCUSABLE;
+                    mWindowLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
+                    mDokitViewLayoutParams.flags = DokitViewLayoutParams.FLAG_NOT_FOCUSABLE | DokitViewLayoutParams.FLAG_LAYOUT_NO_LIMITS;
                 }
                 mWindowLayoutParams.format = PixelFormat.TRANSPARENT;
                 mWindowLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
@@ -499,6 +499,8 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
         } else {
             mWindowLayoutParams.x += dx;
             mWindowLayoutParams.y += dy;
+            //限制布局边界
+            resetBorderline(mFrameLayoutParams, mWindowLayoutParams);
             mWindowManager.updateViewLayout(mDoKitView, mWindowLayoutParams);
         }
 
@@ -728,47 +730,83 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
 
 
         //portraitOrLandscape(mFrameLayoutParams);
-        resetBorderline(mFrameLayoutParams);
+        resetBorderline(mFrameLayoutParams, mWindowLayoutParams);
         mDoKitView.setLayoutParams(mFrameLayoutParams);
     }
 
     /**
      * 限制边界 调用的时候必须保证是在控件能获取到宽高德前提下
      */
-    private void resetBorderline(FrameLayout.LayoutParams normalFrameLayoutParams) {
+    private void resetBorderline(FrameLayout.LayoutParams normalFrameLayoutParams, WindowManager.LayoutParams windowLayoutParams) {
         //如果是系统模式或者手动关闭动态限制边界
-        if (!restrictBorderline() || !isNormalMode()) {
+        if (!restrictBorderline()) {
             return;
         }
-        //LogHelper.i(TAG, "topMargin==>" + normalFrameLayoutParams.topMargin + "  leftMargin====>" + normalFrameLayoutParams.leftMargin);
-        if (normalFrameLayoutParams.topMargin <= 0) {
-            normalFrameLayoutParams.topMargin = 0;
-        }
 
-        if (ScreenUtils.isPortrait()) {
-            if (normalFrameLayoutParams.topMargin >= getScreenLongSideLength() - mDokitViewHeight) {
-                normalFrameLayoutParams.topMargin = getScreenLongSideLength() - mDokitViewHeight;
+
+        //普通模式
+        if (isNormalMode()) {
+
+            if (normalFrameLayoutParams.topMargin <= 0) {
+                normalFrameLayoutParams.topMargin = 0;
+            }
+
+            if (ScreenUtils.isPortrait()) {
+                if (normalFrameLayoutParams.topMargin >= getScreenLongSideLength() - mDokitViewHeight) {
+                    normalFrameLayoutParams.topMargin = getScreenLongSideLength() - mDokitViewHeight;
+                }
+            } else {
+                if (normalFrameLayoutParams.topMargin >= getScreenShortSideLength() - mDokitViewHeight) {
+                    normalFrameLayoutParams.topMargin = getScreenShortSideLength() - mDokitViewHeight;
+                }
+            }
+
+
+            if (normalFrameLayoutParams.leftMargin <= 0) {
+                normalFrameLayoutParams.leftMargin = 0;
+            }
+
+            if (ScreenUtils.isPortrait()) {
+                if (normalFrameLayoutParams.leftMargin >= getScreenShortSideLength() - mDokitViewWidth) {
+                    normalFrameLayoutParams.leftMargin = getScreenShortSideLength() - mDokitViewWidth;
+                }
+            } else {
+                if (normalFrameLayoutParams.leftMargin >= getScreenLongSideLength() - mDokitViewWidth) {
+                    normalFrameLayoutParams.leftMargin = getScreenLongSideLength() - mDokitViewWidth;
+                }
             }
         } else {
-            if (normalFrameLayoutParams.topMargin >= getScreenShortSideLength() - mDokitViewHeight) {
-                normalFrameLayoutParams.topMargin = getScreenShortSideLength() - mDokitViewHeight;
+            //系统模式
+            if (windowLayoutParams.y <= 0) {
+                windowLayoutParams.y = 0;
+            }
+
+            if (ScreenUtils.isPortrait()) {
+                if (windowLayoutParams.y >= getScreenLongSideLength() - mDokitViewHeight) {
+                    windowLayoutParams.y = getScreenLongSideLength() - mDokitViewHeight;
+                }
+            } else {
+                if (windowLayoutParams.y >= getScreenShortSideLength() - mDokitViewHeight) {
+                    windowLayoutParams.y = getScreenShortSideLength() - mDokitViewHeight;
+                }
+            }
+
+
+            if (windowLayoutParams.x <= 0) {
+                windowLayoutParams.x = 0;
+            }
+
+            if (ScreenUtils.isPortrait()) {
+                if (windowLayoutParams.x >= getScreenShortSideLength() - mDokitViewWidth) {
+                    windowLayoutParams.x = getScreenShortSideLength() - mDokitViewWidth;
+                }
+            } else {
+                if (windowLayoutParams.x >= getScreenLongSideLength() - mDokitViewWidth) {
+                    windowLayoutParams.x = getScreenLongSideLength() - mDokitViewWidth;
+                }
             }
         }
 
-
-        if (normalFrameLayoutParams.leftMargin <= 0) {
-            normalFrameLayoutParams.leftMargin = 0;
-        }
-
-        if (ScreenUtils.isPortrait()) {
-            if (normalFrameLayoutParams.leftMargin >= getScreenShortSideLength() - mDokitViewWidth) {
-                normalFrameLayoutParams.leftMargin = getScreenShortSideLength() - mDokitViewWidth;
-            }
-        } else {
-            if (normalFrameLayoutParams.leftMargin >= getScreenLongSideLength() - mDokitViewWidth) {
-                normalFrameLayoutParams.leftMargin = getScreenLongSideLength() - mDokitViewWidth;
-            }
-        }
 
     }
 
