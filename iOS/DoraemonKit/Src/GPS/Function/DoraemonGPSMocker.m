@@ -232,6 +232,7 @@ monitoringDidFailForRegion:(nullable CLRegion *)region
     }];
 }
 
+- (void)locationManagerDidChangeAuthorization:(CLLocationManager *)manager{
 -(void)locationManagerDidChangeAuthorization:(CLLocationManager *)manager {
     [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(locationManagerDidChangeAuthorization:)]) {
