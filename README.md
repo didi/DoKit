@@ -1,6 +1,6 @@
 - [简介](#简介)
+- [使用手册](#使用手册)
 - [社区活动](#社区活动)
-- [外部合作](#外部合作)
 - [开发背景](#开发背景)
 - [效果演示](#效果演示)
 - [功能模块](#功能模块)
@@ -11,7 +11,6 @@
   - [五、Weex专项工具（CML专项工具）](#五weex专项工具cml专项工具)
   - [六、支持自定义的业务工具集成到面板中](#六支持自定义的业务工具集成到面板中)
   - [七、微信小程序专项工具](#七微信小程序专项工具)
-- [使用手册](#使用手册)
 - [相关文档](#相关文档)
 - [更新日志](#更新日志)
 - [微信交流群](#微信交流群)
@@ -20,6 +19,7 @@
 - [项目成员](#项目成员)
 - [协议](#协议)
 - [使用提醒](#使用提醒)
+- [外部合作](#外部合作)
 - [友情链接](#友情链接)
 
 ## 简介
@@ -43,6 +43,8 @@
 
 > [English Readme](README_EN.md)
 
+## 使用手册
+访问[DoKit官网](https://www.dokit.cn/)，点击"[使用中心](http://xingyun.xiaojukeji.com/docs/dokit/#/intro)"。
 
 ## 社区活动
 
@@ -58,13 +60,7 @@
   <img src="https://pt-starimg.didistatic.com/static/starimg/img/INLjGkp9wN1597062733948.jpg" width = "250" alt="DoKit 首页效果演示" align=center />
 </div>
 
-## 外部合作
 
-**2020中国开源年会DoKit社区合作伙伴**
-
-<div align="center">  
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/hoEGfdsUzi1600745052153.jpg" alt="图片替换文本" width="200"  align="bottom" />
-</div>
 
 ## 开发背景
 
@@ -85,6 +81,8 @@ DoraemonKit 是一个功能平台，能够让每一个 App 快速接入一些常
 <div align="center">    
   <img src="https://pt-starimg.didistatic.com/static/starimg/img/H1SVa0S6Zm1585189141793.jpg" width = "250" alt="DoKit 首页效果演示" align=center />
 </div>
+
+
 
 ## 功能模块
 
@@ -147,8 +145,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 详见 [Doraemon mini program debugger](https://github.com/didi/DoraemonKit/tree/master/miniapp)
 
-## 使用手册
-访问 [https://www.dokit.cn/](https://www.dokit.cn/)，点击"使用中心"。
+
 
 ## 相关文档
 - [iOS 研发助手 DoraemonKit 技术实现（一）](https://www.jianshu.com/p/00763123dbc4)
@@ -244,7 +241,8 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [wenquanlebao](https://github.com/wenquanlebao) 、
 [hiXgb](https://github.com/hiXgb) 、 
 [Chinnko](https://github.com/Chinnko) 、 
-[y644938647](https://github.com/y644938647) 、 
+[y644938647](https://github.com/y644938647) 、
+[wm219](https://github.com/wm219)、 
 [goolong](https://github.com/goolong) 、
 [miracle9312](https://github.com/miracle9312) 、
 [lwhsgz123](https://github.com/lwhsgz123)、
@@ -309,6 +307,13 @@ DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [
 
 敬请各位用户知晓。
 
+## 外部合作
+
+**2020中国开源年会DoKit社区合作伙伴**
+
+<div align="center">  
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/hoEGfdsUzi1600745052153.jpg" alt="图片替换文本" width="200"  align="bottom" />
+</div>
 
 ## 友情链接
 1. [Chameleon]( https://github.com/didi/chameleon)，简写CML，中文意思变色龙，意味着就像变色龙一样能适应不同环境的跨端整体解决方案，达到真正意义上"一套代码，多端运行"的终极目标
