@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ConvertUtils;
+import com.blankj.utilcode.util.EncodeUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
@@ -162,7 +163,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
 
         try {
             //query 类似 ccc=ccc&ddd=ddd
-            json = DokitUtil.param2Json(query);
+            json = DokitUtil.param2Json(DokitUtil.param2Json(query));
             //测试是否是json字符串
             new JSONObject(json);
         } catch (Exception e) {
@@ -188,22 +189,34 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
         }
 
         try {
-            String strBody = ConvertUtils.inputStream2String(requestBody.getContent(), "utf-8");
+            String strBody = EncodeUtils.urlDecode( ConvertUtils.inputStream2String(requestBody.getContent(), "utf-8"));
             if (TextUtils.isEmpty(strBody)) {
                 return "";
             }
 
             if (requestBody.getContentType().toString().toLowerCase().contains(DokitDbManager.MEDIA_TYPE_FORM)) {
-                String form = ConvertUtils.inputStream2String(requestBody.getContent(), "utf-8");
+                String form = strBody;
                 //类似 ccc=ccc&ddd=ddd
                 json = DokitUtil.param2Json(form);
                 //测试是否是json字符串
                 new JSONObject(json);
             } else if (requestBody.getContentType().toString().toLowerCase().contains(DokitDbManager.MEDIA_TYPE_JSON)) {
                 //类似 {"ccc":"ccc","ddd":"ddd"}
-                json = ConvertUtils.inputStream2String(requestBody.getContent(), "utf-8");
+                json = strBody;
                 //测试是否是json字符串
                 new JSONObject(json);
+            }else if (requestBody.getContentType().toString().toLowerCase().contains(DokitDbManager.MEDIA_TYPE_PLAIN)) {
+                json = strBody;
+                //测试是否是json字符串
+                try {
+                    new JSONObject(json);
+                } catch (Exception e) {
+                    //类似 ccc=ccc&ddd=ddd
+                    json = DokitUtil.param2Json(json);
+                    if (json.equals("{}")) {
+                        json = DokitDbManager.IS_NOT_NORMAL_BODY_PARAMS;
+                    }
+                }
             } else {
                 json = DokitDbManager.IS_NOT_NORMAL_BODY_PARAMS;
             }
