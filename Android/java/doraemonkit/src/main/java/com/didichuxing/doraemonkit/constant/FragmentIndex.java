@@ -82,4 +82,5 @@ public interface FragmentIndex {
      * Dokit 三方库信息
      */
     int FRAGMENT_THIRD_LIBRARY_INFO = 33;
+    int FRAGMENT_SIMPLE_CUSTOM = 101;
 }

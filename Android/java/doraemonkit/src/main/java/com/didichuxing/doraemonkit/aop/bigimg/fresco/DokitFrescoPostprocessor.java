@@ -11,6 +11,7 @@ import com.blankj.utilcode.util.ConvertUtils;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
 import com.facebook.cache.common.CacheKey;
+import com.facebook.cache.common.SimpleCacheKey;
 import com.facebook.common.references.CloseableReference;
 import com.facebook.imagepipeline.bitmaps.PlatformBitmapFactory;
 import com.facebook.imagepipeline.nativecode.Bitmaps;
@@ -33,6 +34,8 @@ public class DokitFrescoPostprocessor implements Postprocessor {
     @Nullable
     private Postprocessor mOriginalPostprocessor;
     private Uri mUri;
+    @Nullable
+    private CacheKey mCacheKey;
 
     public DokitFrescoPostprocessor(Uri uri, Postprocessor postprocessor) {
         this.mOriginalPostprocessor = postprocessor;
@@ -108,6 +111,9 @@ public class DokitFrescoPostprocessor implements Postprocessor {
         if (mOriginalPostprocessor != null) {
             return mOriginalPostprocessor.getPostprocessorCacheKey();
         }
-        return null;
+        if (mCacheKey == null) {
+            mCacheKey = new CacheKeySimple("DokitFrescoPostprocessor");
+        }
+        return mCacheKey;
     }
 }
