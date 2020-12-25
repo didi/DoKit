@@ -15,7 +15,6 @@ import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockFragment
 import com.didichuxing.doraemonkit.kit.health.HealthFragment
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureFragment
 import com.didichuxing.doraemonkit.kit.loginfo.LogInfoSettingFragment
-import com.didichuxing.doraemonkit.kit.webview.CommWebViewFragment
 import com.didichuxing.doraemonkit.kit.network.ui.MockTemplatePreviewFragment
 import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMockFragment
 import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMonitorFragment
@@ -31,6 +30,7 @@ import com.didichuxing.doraemonkit.kit.toolpanel.DokitMoreFragment
 import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkFragment
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorDefaultFragment
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorFragment
+import com.didichuxing.doraemonkit.kit.webview.CommWebViewFragment
 
 /**
  * Created by wanglikun on 2018/10/26.
@@ -79,6 +79,9 @@ open class UniversalActivity : BaseActivity() {
             FragmentIndex.FRAGMENT_APP_START -> fragmentClass = AppStartInfoFragment::class.java
             FragmentIndex.FRAGMENT_DOKIT_MORE -> fragmentClass = DokitMoreFragment::class.java
             FragmentIndex.FRAGMENT_DOKIT_MANAGER -> fragmentClass = DokitManagerFragment::class.java
+            FragmentIndex.FRAGMENT_SIMPLE_CUSTOM -> if (bundle[BundleKey.CUSTOM_FRAGMENT_CLASS] != null) {
+                fragmentClass = bundle[BundleKey.CUSTOM_FRAGMENT_CLASS] as Class<out BaseFragment?>?
+            }
             else -> {
             }
         }
