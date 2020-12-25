@@ -8,7 +8,9 @@
 ## 最新版本
 **0.2.1**
 
-[CHANGELOG](dokit_library/CHANGELOG.md)
+## Pub地址
+[dokit](https://pub.dev/packages/dokit)
+
 ## 接入
 在pubspect.yaml文件的dependencies节点添加pub依赖
 
@@ -33,7 +35,7 @@ void main() => {
 
 ```
 
-**注：谷歌提供的DevTool会折叠非主工程内实例化的widget（看起来像是根据source file位置判断的），DoKit需要实例化一个wrapper widget用以展示各种overlay，
+**注：谷歌提供的DevTool会折叠非主工程内实例化的widget（根据source file是否属于当前工程），DoKit需要实例化一个wrapper widget用以展示各种overlay，
       如果在package内去声明这个wrapper，会导致左边树全部被折叠。故这里要求在main文件内使用DoKitApp(MyApp())的方式来初始化入口**
 
 
