@@ -186,7 +186,8 @@
     DoraemonMockBaseModel *selectedApi;
     for (DoraemonMockBaseModel *api in dataArray) {
         //匹配path
-        if (([path hasSuffix:api.path]) && api.selected) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", api.path];
+        if ([predicate evaluateWithObject:path] && api.selected) {
             //匹配query
             if (api.query && api.query.allKeys.count>0 && query && query.length>0) {
                 NSDictionary *q = api.query;
