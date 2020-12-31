@@ -3,6 +3,11 @@ package com.didichuxing.doraemonkit.util;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 /**
  * Created by wanglikun on 2018/10/30.
  */
@@ -45,5 +50,20 @@ public class ImageUtil {
             return -1;
         }
         return bitmap.getPixel(x, y);
+    }
+
+    public static boolean bitmap2File(Bitmap bitmap, int quality, File output) {
+        try {
+            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(output));
+            bitmap.compress(Bitmap.CompressFormat.PNG, quality, bos);
+            bos.flush();
+            bos.close();
+            if (output.exists()){
+                return true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

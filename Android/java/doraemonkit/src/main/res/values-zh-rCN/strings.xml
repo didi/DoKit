@@ -144,6 +144,7 @@
     <string name="dk_crash_capture_look">查看Crash日志</string>
     <string name="dk_crash_capture_switch">Crash日志收集开关</string>
     <string name="dk_crash_capture_summary_title">Crash日志列表</string>
+    <string name="dk_crash_capture_screenshot">Crash截图开关</string>
 
     <!--大图检测开关-->
     <string name="dk_large_picture_switch">大图检测开关</string>

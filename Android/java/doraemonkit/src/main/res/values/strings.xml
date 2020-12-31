@@ -154,6 +154,7 @@
     <string name="dk_crash_capture_switch">Crash日志收集开关</string>
     <string name="dk_crash_capture_clean_data">一键清理Crash日志</string>
     <string name="dk_crash_capture_summary_title">Crash日志列表</string>
+    <string name="dk_crash_capture_screenshot">Crash截图开关</string>
     <string name="dk_crash_need_permission">请授权读写权限，避免crash文件丢失</string>
 
     <string name="dk_weak_network_switch">模拟弱网开关</string>
