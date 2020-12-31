@@ -1,42 +1,30 @@
 package com.didichuxing.doraemonkit.kit.sysinfo;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.content.pm.PackageInfo;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.NetworkUtils;
-import com.blankj.utilcode.util.PhoneUtils;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.aop.DokitThirdLibInfo;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap;
-import com.didichuxing.doraemonkit.util.DeviceUtils;
-import com.didichuxing.doraemonkit.util.ExecutorUtil;
-import com.didichuxing.doraemonkit.util.PermissionUtil;
-import com.didichuxing.doraemonkit.util.UIUtils;
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 /**
  * 第三方库信息
@@ -47,6 +35,7 @@ public class ThirdLibInfoFragment extends BaseFragment {
     private RecyclerView mInfoList;
     private ThirdLibInfoItemAdapter mInfoItemAdapter;
     private EditText mEditText;
+    private RadioGroup mSortGroup;
 
     @Override
     protected int onRequestLayout() {
@@ -75,16 +64,25 @@ public class ThirdLibInfoFragment extends BaseFragment {
             }
         });
         mEditText = findViewById(R.id.edittext);
-        TextView mTvSearch = findViewById(R.id.tv_search);
-        mTvSearch.setOnClickListener(new View.OnClickListener() {
+        mEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                String keyWords = mEditText.getText().toString().trim();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String keyWords = s.toString().trim();
                 if (keyWords.isEmpty()) {
                     initData();
                 } else {
                     notifyThirdKeyWordsLibInfos(keyWords);
                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -96,6 +94,14 @@ public class ThirdLibInfoFragment extends BaseFragment {
         decoration.setDrawable(getResources().getDrawable(R.drawable.dk_divider));
         mInfoList.addItemDecoration(decoration);
 
+        mSortGroup = findViewById(R.id.sort_option);
+        mSortGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                mInfoItemAdapter.setData(sortSysInfoItems(null));
+            }
+        });
+
         if (DokitThirdLibInfo.THIRD_LIB_INFOS == null || DokitThirdLibInfo.THIRD_LIB_INFOS.isEmpty()) {
             ToastUtils.showShort("检查gradle.properties中的DOKIT_THIRD_LIB_SWITCH值是否为true");
         }
@@ -105,7 +111,7 @@ public class ThirdLibInfoFragment extends BaseFragment {
     private void initData() {
         List<SysInfoItem> sysInfoItems = new ArrayList<>();
         addThirdLibInfos(sysInfoItems);
-        mInfoItemAdapter.setData(sysInfoItems);
+        mInfoItemAdapter.setData(sortSysInfoItems(sysInfoItems));
     }
 
     //添加所有三方库信息
@@ -113,34 +119,37 @@ public class ThirdLibInfoFragment extends BaseFragment {
         for (Map.Entry<String, String> entry : DokitThirdLibInfo.THIRD_LIB_INFOS.entrySet()) {
             sysInfoItems.add(new SysInfoItem(entry.getKey(), entry.getValue()));
         }
-
-        Collections.sort(sysInfoItems, new Comparator<SysInfoItem>() {
-            @Override
-            public int compare(SysInfoItem o1, SysInfoItem o2) {
-                return o1.name.compareToIgnoreCase(o2.name);
-            }
-        });
-
     }
 
+    private List<SysInfoItem> sortSysInfoItems(List<SysInfoItem> sysInfoItems) {
+        List<SysInfoItem> data = sysInfoItems == null ? mInfoItemAdapter.getData() : sysInfoItems;
+        if (mSortGroup.getCheckedRadioButtonId() == R.id.sort_size) {
+            Collections.sort(data, new Comparator<SysInfoItem>() {
+                @Override
+                public int compare(SysInfoItem o1, SysInfoItem o2) {
+                    return (int) (Long.parseLong(o2.value) - Long.parseLong(o1.value));
+                }
+            });
+        } else {
+            Collections.sort(data, new Comparator<SysInfoItem>() {
+                @Override
+                public int compare(SysInfoItem o1, SysInfoItem o2) {
+                    return o1.name.compareToIgnoreCase(o2.name);
+                }
+            });
+        }
+        return data;
+    }
 
     //添加所有三方库信息
     private void notifyThirdKeyWordsLibInfos(String keyWords) {
         List<SysInfoItem> sysInfoItems = new ArrayList<>();
         for (Map.Entry<String, String> entry : DokitThirdLibInfo.THIRD_LIB_INFOS.entrySet()) {
-            if (entry.getKey().startsWith(keyWords) || entry.getKey().contains(keyWords)) {
+            if (entry.getKey().toLowerCase().startsWith(keyWords.toLowerCase()) || entry.getKey().toLowerCase().contains(keyWords.toLowerCase())) {
                 sysInfoItems.add(new SysInfoItem(entry.getKey(), entry.getValue()));
             }
         }
-
-        Collections.sort(sysInfoItems, new Comparator<SysInfoItem>() {
-            @Override
-            public int compare(SysInfoItem o1, SysInfoItem o2) {
-                return o1.name.compareToIgnoreCase(o2.name);
-            }
-        });
-
-        mInfoItemAdapter.setData(sysInfoItems);
+        mInfoItemAdapter.setData(sortSysInfoItems(sysInfoItems));
 
     }
 

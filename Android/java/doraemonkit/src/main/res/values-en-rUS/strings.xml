@@ -133,6 +133,9 @@
     <string name="dk_item_block_goto_list">View Block History</string>
     <string name="dk_item_block_mock">Mock Block</string>
 
+    <string name="dk_third_sort_name">By Name</string>
+    <string name="dk_third_sort_size">By Size</string>
+
     <string name="dk_block_class_has_blocked">blocked %s ms</string>
     <string name="dk_block_notification_message">Click for more details</string>
 

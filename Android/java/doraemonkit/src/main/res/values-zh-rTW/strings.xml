@@ -133,6 +133,9 @@
     <string name="dk_item_block_goto_list">查看 ANR 紀錄</string>
     <string name="dk_item_block_mock">模擬 ANR</string>
 
+    <string name="dk_third_sort_name">按名稱</string>
+    <string name="dk_third_sort_size">按大小</string>
+
     <string name="dk_block_class_has_blocked">blocked %s ms</string>
     <string name="dk_block_notification_message">Click for more details</string>
 

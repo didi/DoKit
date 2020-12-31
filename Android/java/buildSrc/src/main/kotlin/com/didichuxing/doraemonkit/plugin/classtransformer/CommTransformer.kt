@@ -407,8 +407,8 @@ class CommTransformer : ClassTransformer {
 
             for (thirdLibInfo in DoKitExtUtil.THIRD_LIB_INFOS) {
                 add(VarInsnNode(ALOAD, 0))
-                add(LdcInsnNode(thirdLibInfo.name))
-                add(LdcInsnNode(thirdLibInfo.fileSize))
+                add(LdcInsnNode(thirdLibInfo.variant))
+                add(LdcInsnNode(thirdLibInfo.fileSize.toString()))
 
                 add(
                     MethodInsnNode(
