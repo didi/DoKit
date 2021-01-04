@@ -145,6 +145,7 @@
     <string name="dk_crash_capture_look">查看 Crash Log</string>
     <string name="dk_crash_capture_switch">Crash Log 收集開關</string>
     <string name="dk_crash_capture_summary_title">Crash Log 列表</string>
+    <string name="dk_crash_capture_screenshot">Crash截圖開關</string>
 
     <!--大图检测开关-->
     <string name="dk_large_picture_switch">大圖檢測開關</string>
