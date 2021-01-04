@@ -149,6 +149,9 @@
     <string name="dk_block_class_has_blocked">blocked %s ms</string>
     <string name="dk_block_notification_message">Click for more details</string>
 
+    <string name="dk_third_sort_name">按名称</string>
+    <string name="dk_third_sort_size">按大小</string>
+
     <string name="dk_crash_capture_tips">DoraemonKit正在为您记录Crash</string>
     <string name="dk_crash_capture_no_record">暂无crash记录</string>
     <string name="dk_crash_capture_switch">Crash日志收集开关</string>
