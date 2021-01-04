@@ -9,4 +9,4 @@ package com.didichuxing.doraemonkit.plugin
  * 修订历史：
  * ================================================
  */
-data class ThirdLibInfo(val name: String, val fileSize: String? = "0kb")
+data class ThirdLibInfo(val name: String, val fileSize: Long, val variant : String)

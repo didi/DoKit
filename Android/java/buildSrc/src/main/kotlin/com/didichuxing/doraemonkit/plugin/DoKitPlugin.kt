@@ -14,7 +14,6 @@ import com.didiglobal.booster.gradle.getProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.result.ResolvedArtifactResult
-import org.gradle.api.invocation.Gradle
 
 /**
  * ================================================
@@ -149,7 +148,8 @@ class DoKitPlugin : Plugin<Project> {
                                         val thirdLibInfo =
                                             ThirdLibInfo(
                                                 fileName,
-                                                DoKitPluginUtil.fileSize(artifactResult.file, 2)
+                                                    artifactResult.file.length(),
+                                                artifactResult.variant.displayName
                                             )
                                         DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
                                     }
