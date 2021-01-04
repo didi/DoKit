@@ -12,12 +12,16 @@ import android.widget.Toast;
 
 import androidx.core.view.ViewCompat;
 
+import com.blankj.utilcode.util.ActivityUtils;
+import com.blankj.utilcode.util.ScreenUtils;
+import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.CachesKey;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;
 import com.didichuxing.doraemonkit.util.CacheUtils;
 import com.didichuxing.doraemonkit.util.FileUtil;
 import com.didichuxing.doraemonkit.util.ImageUtil;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.File;
 import java.io.Serializable;
@@ -69,7 +73,7 @@ public class CrashCaptureManager implements Thread.UncaughtExceptionHandler {
     public void uncaughtException(final Thread t, final Throwable e) {
         //让log和图片统一文件名 每次生成新的文件名
         generateFilenamePrefix();
-        //异步保存崩溃截图
+        //异步保存崩溃截图在华为emui10.0上会失效 已改成同步
         asyncSaveCrashScreenshot();
         //保存崩溃信息
         CacheUtils.saveObject((Serializable) Log.getStackTraceString(e), getCrashCacheFile());
@@ -78,7 +82,7 @@ public class CrashCaptureManager implements Thread.UncaughtExceptionHandler {
         post(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(mContext, mContext.getString(R.string.dk_crash_capture_tips), Toast.LENGTH_SHORT).show();
+                ToastUtils.showShort(mContext.getString(R.string.dk_crash_capture_tips));
             }
         });
         postDelay(new Runnable() {
@@ -124,12 +128,13 @@ public class CrashCaptureManager implements Thread.UncaughtExceptionHandler {
     }
 
     public void asyncSaveCrashScreenshot() {
-        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
-            @Override
-            public void run() {
-                saveCrashScreenshot();
-            }
-        });
+        saveCrashScreenshot();
+//        AsyncTask.THREAD_POOL_EXECUTOR.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                saveCrashScreenshot();
+//            }
+//        });
     }
 
     public void saveCrashScreenshot() {

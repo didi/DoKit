@@ -112,7 +112,7 @@ public class DokitFrescoPostprocessor implements Postprocessor {
             return mOriginalPostprocessor.getPostprocessorCacheKey();
         }
         if (mCacheKey == null) {
-            mCacheKey = new CacheKeySimple("DokitFrescoPostprocessor");
+            mCacheKey = new SimpleCacheKey("DokitFrescoPostprocessor");
         }
         return mCacheKey;
     }
