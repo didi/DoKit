@@ -59,18 +59,19 @@ class ResidentPageState extends State<ResidentPage> {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
+    int topMargin = MediaQuery.of(context).orientation==Orientation.portrait ? 100 : 0;
     return Positioned(
         child: Container(
       width: width,
       color: Color(0x88000000),
-      height: height - 100,
+      height: height - topMargin,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Container(
               alignment: Alignment.topCenter,
               width: width,
-              height: height - 150,
+              height: height - topMargin - 50,
               //todo Scaffold在ios 11上会出现顶部组件点击事件失效问题（应该是在计算触摸事件的时候计算了刘海屏的高度，在这个高度内的控件不响应事件），这里修改了层级把标题放到了Scaffold内部
               child: Scaffold(
                   backgroundColor: Colors.transparent,
@@ -96,7 +97,7 @@ class ResidentPageState extends State<ResidentPage> {
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 50),
-                        height: height - 200,
+                        height: height - topMargin - 100,
                         color: Colors.white,
                         child: getPage(),
                       ),

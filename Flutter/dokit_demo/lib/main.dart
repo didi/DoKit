@@ -74,93 +74,96 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.center,
       color: Colors.white,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(4)),
-                color: Color(0xffcccccc)),
-            margin: EdgeInsets.only(bottom: 30),
-            child: FlatButton(
-              child: Text('Mock Http Post',
-                  style: TextStyle(
-                    color: Color(0xff000000),
-                    fontSize: 18,
-                  )),
-              onPressed: mockHttpPost,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  color: Color(0xffcccccc)),
+              margin: EdgeInsets.only(bottom: 30),
+              child: FlatButton(
+                child: Text('Mock Http Post',
+                    style: TextStyle(
+                      color: Color(0xff000000),
+                      fontSize: 18,
+                    )),
+                onPressed: mockHttpPost,
+              ),
             ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(4)),
-                color: Color(0xffcccccc)),
-            margin: EdgeInsets.only(bottom: 30),
-            child: FlatButton(
-              child: Text('Mock Http Get',
-                  style: TextStyle(
-                    color: Color(0xff000000),
-                    fontSize: 18,
-                  )),
-              onPressed: mockHttpGet,
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  color: Color(0xffcccccc)),
+              margin: EdgeInsets.only(bottom: 30),
+              child: FlatButton(
+                child: Text('Mock Http Get',
+                    style: TextStyle(
+                      color: Color(0xff000000),
+                      fontSize: 18,
+                    )),
+                onPressed: mockHttpGet,
+              ),
             ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(4)),
-                color: Color(0xffcccccc)),
-            margin: EdgeInsets.only(bottom: 30),
-            child: FlatButton(
-              child: Text('Test Method Channel',
-                  style: TextStyle(
-                    color: Color(0xff000000),
-                    fontSize: 18,
-                  )),
-              onPressed: () {
-                testMethodChannel();
-              },
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  color: Color(0xffcccccc)),
+              margin: EdgeInsets.only(bottom: 30),
+              child: FlatButton(
+                child: Text('Test Method Channel',
+                    style: TextStyle(
+                      color: Color(0xff000000),
+                      fontSize: 18,
+                    )),
+                onPressed: () {
+                  testMethodChannel();
+                },
+              ),
             ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(4)),
-                color: Color(0xffcccccc)),
-            margin: EdgeInsets.only(bottom: 30),
-            child: FlatButton(
-              child: Text('Open Route Page',
-                  style: TextStyle(
-                    color: Color(0xff000000),
-                    fontSize: 18,
-                  )),
-              onPressed: () {
-                Navigator.of(context, rootNavigator: false).push(
-                    new MaterialPageRoute(
-                        builder: (context) {
-                          //指定跳转的页面
-                          return new TestPage2();
-                        },
-                        settings: new RouteSettings(
-                            name: 'page1', arguments: ['test', '111'])));
-              },
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  color: Color(0xffcccccc)),
+              margin: EdgeInsets.only(bottom: 30),
+              child: FlatButton(
+                child: Text('Open Route Page',
+                    style: TextStyle(
+                      color: Color(0xff000000),
+                      fontSize: 18,
+                    )),
+                onPressed: () {
+                  Navigator.of(context, rootNavigator: false).push(
+                      new MaterialPageRoute(
+                          builder: (context) {
+                            //指定跳转的页面
+                            return new TestPage2();
+                          },
+                          settings: new RouteSettings(
+                              name: 'page1', arguments: ['test', '111'])));
+                },
+              ),
             ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(4)),
-                color: Color(0xffcccccc)),
-            margin: EdgeInsets.only(bottom: 30),
-            child: FlatButton(
-              child: Text('Stop Timer',
-                  style: TextStyle(
-                    color: Color(0xff000000),
-                    fontSize: 18,
-                  )),
-              onPressed: stopAll,
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  color: Color(0xffcccccc)),
+              margin: EdgeInsets.only(bottom: 30),
+              child: FlatButton(
+                child: Text('Stop Timer',
+                    style: TextStyle(
+                      color: Color(0xff000000),
+                      fontSize: 18,
+                    )),
+                onPressed: stopAll,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

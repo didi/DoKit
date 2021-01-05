@@ -122,6 +122,12 @@ class _FpsBarChartState extends State<FpsBarChart>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).orientation == Orientation.portrait
+        ? MediaQuery.of(context).size.width - 56
+        : MediaQuery.of(context).size.width - 30;
+    double height = MediaQuery.of(context).orientation == Orientation.portrait
+        ? MediaQuery.of(context).size.height - 200 - 140
+        : MediaQuery.of(context).size.height - 200;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -130,8 +136,8 @@ class _FpsBarChartState extends State<FpsBarChart>
           child: CustomPaint(
             painter: BarChartPainter(datas: widget.data),
             child: Container(
-              width: MediaQuery.of(context).size.width - 56,
-              height: MediaQuery.of(context).size.height - 200 - 140,
+              width: width,
+              height: height,
             ),
           ),
         )
