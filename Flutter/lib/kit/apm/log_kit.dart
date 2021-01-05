@@ -54,11 +54,10 @@ class LogManager {
   }
 
   List<IInfo> getLogs() {
-    if (ApmKitManager.instance.getKit(ApmKitName.KIT_LOG) != null) {
-      LogKit kit = ApmKitManager.instance.getKit(ApmKitName.KIT_LOG);
-      return kit.getStorage().getAll();
-    }
-    return null;
+    return ApmKitManager.instance
+        .getKit(ApmKitName.KIT_LOG)
+        ?.getStorage()
+        ?.getAll();
   }
 
   void addLog(int type, String msg) {
@@ -66,9 +65,7 @@ class LogManager {
       LogBean log = new LogBean(type, msg);
       LogKit kit = ApmKitManager.instance.getKit(ApmKitName.KIT_LOG);
       kit.save(log);
-      if (listener != null) {
-        listener.call(log);
-      }
+      listener?.call(log);
     }
   }
 
@@ -205,7 +202,7 @@ class _LogItemWidgetState extends State<LogItemWidget> {
           });
         },
         child: Container(
-          padding: EdgeInsets.only(left: 16,right: 16),
+          padding: EdgeInsets.only(left: 16, right: 16),
           decoration: BoxDecoration(
               color: widget.item.expand ? Colors.black : Colors.white,
               border: Border(

@@ -206,9 +206,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
   // }
 
   void testMethodChannel() {
-    if (timer != null) {
-      timer.cancel();
-    }
+    timer?.cancel();
     timer = new Timer.periodic(new Duration(seconds: 2), (timer) async {
       const MethodChannel _kChannel =
           MethodChannel('plugins.flutter.io/package_info');
@@ -218,16 +216,12 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
   }
 
   void stopAll() {
-    if (timer != null) {
-      timer.cancel();
-      timer = null;
-    }
+    timer?.cancel();
+    timer = null;
   }
 
   void mockHttpPost() async {
-    if (timer != null) {
-      timer.cancel();
-    }
+    timer?.cancel();
     timer = new Timer.periodic(new Duration(seconds: 2), (timer) async {
       HttpClient client = new HttpClient();
       String url = 'https://pinzhi.didichuxing.com/kop_stable/gateway?api=hhh';
@@ -245,9 +239,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
   }
 
   void mockHttpGet() async {
-    if (timer != null) {
-      timer.cancel();
-    }
+    timer?.cancel();
     timer = new Timer.periodic(new Duration(seconds: 2), (timer) async {
       HttpClient client = new HttpClient();
       String url = 'https://www.baidu.com';

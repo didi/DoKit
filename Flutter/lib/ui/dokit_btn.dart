@@ -94,11 +94,9 @@ class DoKitBtnState extends State<DoKitBtn> {
   }
 
   openDebugPage() {
-    if (debugPage == null) {
-      debugPage = new OverlayEntry(builder: (context) {
-        return ResidentPage();
-      });
-    }
+    debugPage ??= new OverlayEntry(builder: (context) {
+      return ResidentPage();
+    });
     if (showDebugPage) {
       closeDebugPage();
     } else {
