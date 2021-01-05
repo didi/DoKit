@@ -9,7 +9,7 @@
 **0.2.3**
 
 ## Pub地址
-[dokit](https://pub.dev/packages/dokit)
+[DoKit For Flutter](https://pub.dev/packages/dokit)
 
 ## 接入
 在pubspect.yaml文件的dependencies节点添加pub依赖
@@ -53,14 +53,14 @@ void main() => {
 
 ### 全部组件
 
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/VYWNgdgcKw1608690785544.png"  width="300px"  />
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/KzciZRXKfk1609765312380.jpg"  width="300px"  />
 
 当前版本DoKit支持的所有功能全览。常驻工具为显示在底部tab栏的组件，可通过拖动将组件放置或移出常驻工具。
 
 
 ### 日志查看
 
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/7iqUbQCVNF1608690784030.png"  width="300px"  />
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/apwIxs7A341609765573351.jpg"  width="300px"  />
 
 
 查看使用print方式打印出来的日志，捕获的异常会以红色显示。超过7行的日志会自动折叠，点击可展开。长按复制日志到剪贴板。
@@ -68,7 +68,7 @@ void main() => {
 
 ### 网络请求
 
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/LbOdmBBv6L1608690781821.png"  width="300px"  />
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/nEN7uos9OV1609765604202.jpg"  width="300px"  />
 
 
 可以捕获通过flutter httpclient发出的网络请求，主流的http、dio库底层也是通过httpclient实现的，也能捕获。
@@ -76,14 +76,14 @@ void main() => {
 
 ### Method Channel信息
 
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/yqeRo1TZiR1608690783902.png"  width="300px"  />
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/qH6jtyNvqp1609765652146.jpg"  width="300px"  />
 
 
 可以展示从dart端到native和从native端到dart端的方法调用、参数、返回结果。
 
 ### 路由信息
 
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/gSZsEboG8G1608690781648.png"  width="300px"  />
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/VLyiReklD41609765682140.jpg"  width="300px"  />
 
 
 展示当前页面的路由信息，当存在多层Navigator组件嵌套时，会展示多层的路由信息。
@@ -93,14 +93,14 @@ void main() => {
 
 ### 帧率
 
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/mRKVej09lo1608690779584.png"  width="300px"  />
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/Xno9FVbweg1609765703740.jpg"  width="300px"  />
 
 
 展示最近240帧的耗时情况，每次进入该页面刷新。debug模式下帧率会普遍偏高，profile和release模式下会比较正常。
 
 ### 内存
 
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/VafV3P6OPg1608690779188.png"  width="300px"  />
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/9ESwEmODlR1609765729941.jpg"  width="300px"  />
 
 
 当前已使用的内存和最大内存；底部搜索栏可以显示指定的类的对象数量和占用内存。
@@ -109,7 +109,7 @@ void main() => {
 
 ### 基本信息
 
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/1QZOYkeGNM1608690777726.png"  width="300px"  />
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/8brZZzWijZ1609765750681.jpg"  width="300px"  />
 
 
 展示当前dart虚拟机进程、cpu、版本信息；当前app包名和dart工程构建版本信息；
@@ -118,7 +118,7 @@ void main() => {
 
 ### 控件检查
 
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/kZbCtot75R1608690777222.png"  width="300px"  />
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/NEyzV9xUb51609765785021.jpg"  width="300px"  />
 
 查看当前页面上的控件信息，包含位置、大小、源码信息等。
 
