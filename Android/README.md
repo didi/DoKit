@@ -6,6 +6,7 @@
 具体如下：
 
 >androidx===>com.didichuxing.doraemonkit:dokitx:3.3.5
+>
 >support===>com.didichuxing.doraemonkit:dokit:3.3.5
 
 **下面所有的日志均用dokitx举例。要使用support版本请将dokitx改为dokit即可。**
