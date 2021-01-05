@@ -85,6 +85,19 @@ class MemoryPageState extends State<MemoryPage> {
   void initState() {
     super.initState();
     kit.update();
+    initHeaps();
+  }
+
+  void initHeaps() {
+    if (kit.getAllocationProfile() != null) {
+      kit.getAllocationProfile().members.sort(
+          (left, right) => right.bytesCurrent.compareTo(left.bytesCurrent));
+      kit.getAllocationProfile().members.forEach((element) {
+        if (heaps.length < 32) {
+          heaps.add(element);
+        }
+      });
+    }
   }
 
   @override
@@ -104,18 +117,27 @@ class MemoryPageState extends State<MemoryPage> {
                               color: Color(0xff333333),
                               fontWeight: FontWeight.bold,
                               fontSize: 16)),
-                      Container(
-                        margin: EdgeInsets.only(top: 3),
-                        alignment: Alignment.topLeft,
-                        child: VmHelper.instance.memoryInfo != null &&
-                                VmHelper.instance.memoryInfo.length > 0
-                            ? Column(
-                                children:
-                                    getMemoryInfo(VmHelper.instance.memoryInfo))
-                            : Text('获取Memory数据失败(release模式下无法获取数据)',
-                                style: TextStyle(
-                                    color: Color(0xff999999), fontSize: 12)),
-                      ),
+                      StreamBuilder(
+                        stream: Stream.periodic(Duration(seconds: 2), (value) {
+                          VmHelper.instance.dumpAllocationProfile();
+                          VmHelper.instance.updateMemoryUsage();
+                        }),
+                        builder: (context, snapshot) {
+                          return Container(
+                            margin: EdgeInsets.only(top: 3),
+                            alignment: Alignment.topLeft,
+                            child: VmHelper.instance.memoryInfo != null &&
+                                    VmHelper.instance.memoryInfo.length > 0
+                                ? Column(
+                                    children: getMemoryInfo(
+                                        VmHelper.instance.memoryInfo))
+                                : Text('获取Memory数据失败(release模式下无法获取数据)',
+                                    style: TextStyle(
+                                        color: Color(0xff999999),
+                                        fontSize: 12)),
+                          );
+                        },
+                      )
                     ]),
                 Container(
                   margin: EdgeInsets.only(top: 10),

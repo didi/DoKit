@@ -476,7 +476,6 @@ class DoKitHttpClientResponse implements HttpClientResponse {
   Future<int> get length => origin.length;
 
   bool isTextResponse() {
-    print(headers['content-type']);
     return headers != null &&
         headers['content-type'] != null &&
         (headers['content-type'].toString().contains('json') ||
