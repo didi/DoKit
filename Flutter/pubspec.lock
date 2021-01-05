@@ -58,19 +58,12 @@ packages:
     source: hosted
     version: "2.1.4"
   date_format:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: date_format
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.9"
-  dokit:
-    dependency: "direct main"
-    description:
-      path: dokit_library
-      relative: true
-    source: path
-    version: "0.2.1"
   ffi:
     dependency: transitive
     description:
@@ -100,20 +93,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  http:
-    dependency: "direct main"
-    description:
-      name: http
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.12.2"
-  http_parser:
-    dependency: transitive
-    description:
-      name: http_parser
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "3.1.4"
   image:
     dependency: transitive
     description:
@@ -143,7 +122,7 @@ packages:
     source: hosted
     version: "1.1.8"
   package_info:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: package_info
       url: "https://pub.flutter-io.cn"
@@ -177,13 +156,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.0.4+3"
-  pedantic:
-    dependency: transitive
-    description:
-      name: pedantic
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.9.0"
   petitparser:
     dependency: transitive
     description:
@@ -220,7 +192,7 @@ packages:
     source: hosted
     version: "2.1.3"
   shared_preferences:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.flutter-io.cn"
@@ -323,7 +295,7 @@ packages:
     source: hosted
     version: "2.0.8"
   vm_service:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: vm_service
       url: "https://pub.flutter-io.cn"

@@ -6,7 +6,7 @@
 1.17.5<=version<=1.22.4，其余版本未做过兼容性测试
 
 ## 最新版本
-**0.2.2**
+**0.2.3**
 
 ## Pub地址
 [dokit](https://pub.dev/packages/dokit)
@@ -16,7 +16,7 @@
 
 ```
 dependencies:
-  dokit: 0.2.2
+  dokit: 0.2.3
 ```
 
 在main函数入口初始化。<font color='red'> DoKit使用runZone的方式进行日志捕获，方法通道的捕获，如果你的app需要使用同样的方式会有冲突 </font>
