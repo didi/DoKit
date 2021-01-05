@@ -233,13 +233,14 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [jtsky(金台)](https://github.com/jtsky) 
 
 **内部核心成员**
-[yixiangboy](https://github.com/yixiangboy)
+[yixiangboy](https://github.com/yixiangboy)、
 [jtsky](https://github.com/jtsky) 、
+[LinJZong](https://github.com/LinJZong) 、
 [ydlsl](https://github.com/ydlsl) 、
 [jayconscious](https://github.com/jayconscious)
 
 **贡献者榜单**
-[LinJZong](https://github.com/LinJZong) 、
+、
 [wanglikun7342](https://github.com/wanglikun7342) 、
 [wenquanlebao](https://github.com/wenquanlebao) 、
 [hiXgb](https://github.com/hiXgb) 、 
