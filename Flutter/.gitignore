@@ -29,7 +29,6 @@
 .pub-cache/
 .pub/
 /build/
-/dokit_demo/
 
 # Web related
 lib/generated_plugin_registrant.dart

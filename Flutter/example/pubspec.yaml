@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^0.12.2
   dokit:
     path: ..
 dev_dependencies:
