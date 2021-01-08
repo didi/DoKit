@@ -19,7 +19,7 @@ dependencies:
   dokit: 0.2.5
 ```
 
-在main函数入口初始化。<font color='red'> DoKit使用runZone的方式进行日志捕获，方法通道的捕获，如果你的app需要使用同样的方式会有冲突 </font>
+在main函数入口初始化。 DoKit使用runZone的方式进行日志捕获，方法通道的捕获，如果你的app需要使用同样的方式会有冲突
 
 ```
 void main() => {
@@ -39,8 +39,8 @@ void main() => {
       如果在package内去声明这个wrapper，会导致左边树全部被折叠。故这里要求在main文件内使用DoKitApp(MyApp())的方式来初始化入口**
 
 
- 另外提供了一个异步创建入口Widget的方式，需要异步构建widget的情况。<font color='red'> (有些库会在异步构建Widget的时候调用WidgetFlutterBinding.ensureInitialized()，影响DoKit的method channel监控
- 和日志监控，需要延迟到runZone内执行) </font>
+ 另外提供了一个异步创建入口Widget的方式，需要异步构建widget的情况。(有些库会在异步构建Widget的时候调用WidgetFlutterBinding.ensureInitialized()，影响DoKit的method channel监控
+ 和日志监控，需要延迟到runZone内执行)
 ```
 void main() => {
        DoKit.runApp(
