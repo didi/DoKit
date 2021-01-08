@@ -45,8 +45,14 @@ void main() => {
 void main() => {
        DoKit.runApp(
              appCreator: () async =>
-                 DoKitApp(await Nacho.ready(designWidth: 750, app: App())));
+                 DoKitApp(await crateApp())));
     };
+
+ Widget crateApp() async{
+   // 一些初始化操作
+   await ...
+   return MyApp();
+ }
 }
 ```
 ## 功能简介
