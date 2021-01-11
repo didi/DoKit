@@ -11,13 +11,18 @@ import 'package:flutter/widgets.dart' as dart;
 import 'package:dokit/kit/kit_page.dart';
 export 'package:dokit/ui/dokit_app.dart';
 
-typedef DoKitAppCreator = Future<DoKitApp> Function();
+typedef DoKitAppCreator = Function();
+typedef LogCallback = Function(String);
+typedef ExceptionCallback = Function(dynamic, StackTrace);
 
 class DoKit {
   static final String PACKAGE_NAME = 'dokit';
 
   //默认release模式不开启该功能
   static bool release = kReleaseMode;
+
+  //记录当前zone
+  static Zone _zone;
 
   // 如果在runApp之前执行了WidgetsFlutterBinding.ensureInitialized，会导致methodchannel功能不可用，可以在runApp前先调用一下ensureDoKitBinding
   static void _ensureDoKitBinding({bool useInRelease = false}) {
@@ -31,6 +36,8 @@ class DoKit {
       {DoKitApp app,
       DoKitAppCreator appCreator,
       bool useInRelease = false,
+      LogCallback logCallback,
+      ExceptionCallback exceptionCallback,
       Function releaseAction}) async {
     assert(
         app != null || appCreator != null, 'app and appCreator are both null');
@@ -49,24 +56,25 @@ class DoKit {
     runZoned(
       () async => {
         _ensureDoKitBinding(useInRelease: useInRelease),
-        _runWrapperApp(app != null ? app : await appCreator())
+        _runWrapperApp(app != null ? app : await appCreator()),
+        _zone = Zone.current
       },
       zoneSpecification: ZoneSpecification(
         print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
           _collectLog(line); //手机日志
           parent.print(zone, line);
+          if (logCallback != null) {
+            _zone?.runUnary(logCallback, line);
+          }
         },
       ),
       onError: (Object obj, StackTrace stack) {
         _collectError(obj, stack);
-        Zone.current.handleUncaughtError(obj, stack);
+        if (exceptionCallback != null) {
+          _zone?.runBinary(exceptionCallback, obj, stack);
+        }
       },
     );
-    FlutterError.onError = (FlutterErrorDetails details) {
-      // FlutterErrorDetails.toString方法偶尔会报错
-      _collectError(details.exception, details.stack);
-      FlutterError.dumpErrorToConsole(details);
-    };
   }
 
   static void _runWrapperApp(DoKitApp wrapper) {
@@ -82,7 +90,7 @@ class DoKit {
 
   static void _collectError(Object details, Object stack) {
     LogManager.instance.addLog(
-        LogBean.TYPE_ERROR, '${details.toString()}\n${stack.toString()}');
+        LogBean.TYPE_ERROR, '${details?.toString()}\n${stack?.toString()}');
   }
 
   static void addEntrance() {

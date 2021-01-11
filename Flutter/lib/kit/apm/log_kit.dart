@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:dokit/util/util.dart';
@@ -7,6 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'apm.dart';
 
 class LogKit extends ApmKit {
+  FlutterExceptionHandler originOnError;
+
   @override
   Widget createDisplayPage() {
     return LogPage();
@@ -28,7 +33,28 @@ class LogKit extends ApmKit {
   }
 
   @override
-  void start() {}
+  void start() {
+    resetOnErrorInstance();
+  }
+
+  // dart vm会通过widget_inspector.dart structuredErrors服务替换掉FlutterError.onError，不清楚具体执行时机是什么时候,会重复执行。这里启动定时器每1秒将其替换回来。
+  // 需要保留widget_inspector注入的onError调用，否则会影响android studio的输出
+  void resetOnErrorInstance() {
+    new Timer.periodic(Duration(seconds: 1 /**/), (timer) {
+      if (FlutterError.onError != _doKitOnError) {
+        originOnError = FlutterError.onError;
+        FlutterError.onError = _doKitOnError;
+      }
+    });
+  }
+
+  void _doKitOnError(FlutterErrorDetails details) {
+    // 委托给runZone内的onError
+    Zone.current.handleUncaughtError(details.exception, details.stack);
+    if (originOnError != null) {
+      originOnError(details);
+    }
+  }
 
   @override
   void stop() {}

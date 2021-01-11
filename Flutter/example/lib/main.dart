@@ -15,7 +15,15 @@ import 'package:dokit/dokit.dart';
 import 'package:flutter/services.dart';
 
 void main() {
-  DoKit.runApp(app: DoKitApp(MyApp()), useInRelease: true);
+  DoKit.runApp(
+      app: DoKitApp(MyApp()),
+      useInRelease: true,
+      logCallback: (log) {
+        String i = log;
+      },
+      exceptionCallback: (obj, trace) {
+        print('ttt$obj');
+      });
   // runApp(MyApp());
 }
 
@@ -216,6 +224,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
   }
 
   void stopAll() {
+    print('stopAll');
     timer?.cancel();
     timer = null;
   }

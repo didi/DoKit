@@ -6,7 +6,7 @@
 1.17.5<=version<=1.22.4，其余版本未做过兼容性测试
 
 ## 最新版本
-**0.2.5**
+**0.2.6**
 
 ## Pub地址
 [DoKit For Flutter](https://pub.dev/packages/dokit)
@@ -16,10 +16,10 @@
 
 ```
 dependencies:
-  dokit: 0.2.5
+  dokit: ^0.2.6
 ```
 
-在main函数入口初始化。 DoKit使用runZone的方式进行日志捕获，方法通道的捕获，如果你的app需要使用同样的方式会有冲突
+在main函数入口初始化。 DoKit使用runZone的方式进行日志捕获，方法通道的捕获，如果你的app需要使用同样的方式会有冲突。
 
 ```
 void main() => {
@@ -55,6 +55,21 @@ void main() => {
  }
 }
 ```
+
+
+### 参数说明
+
+
+参数 | 返回类型 | 说明 | 是否必须
+---|---|---|---
+app | DoKitApp | 返回被DoKitApp类包装的根布局 | app和appCreator至少需要设置一个同时设置时app参数生效
+appCreator | DoKitAppCreator | 异步返回根布局 | 同上
+useInRelease | bool |是否在release模式下显示DoKit | x
+logCallback | LogCallback | 调用print方法打印日志时被回调 | x
+exceptionCallback | ExceptionCallback | 异常回调 | x
+releaseAction | Function | release模式下执行该函数，该值为空则会直接调用系统的runApp |x
+
+
 ## 功能简介
 
 ### 全部组件
