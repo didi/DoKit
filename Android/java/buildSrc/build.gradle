@@ -1,6 +1,5 @@
 buildscript {
     apply from: "../config.gradle"
-
     repositories {
         mavenLocal()
         mavenCentral()
@@ -51,7 +50,14 @@ compileKotlin {
 dependencies {
     compileOnly localGroovy()
     compileOnly gradleApi()
-    implementation "com.android.tools.build:gradle:${rootProject.ext.android["gradle_plugin_version"]}"
+    def archives_type = rootProject.ext.publish_config["archives_type"]
+    def gradlePluginVersion
+    if (archives_type == 2) {
+        gradlePluginVersion = rootProject.ext.android["jcenter_gradle_plugin_version"]
+    } else {
+        gradlePluginVersion = rootProject.ext.android["gradle_plugin_version"]
+    }
+    implementation "com.android.tools.build:gradle:$gradlePluginVersion"
     /* 👇👇👇👇 引用这两个模块 👇👇👇👇 */
     kapt "com.google.auto.service:auto-service:1.0-rc6"
     api "com.didiglobal.booster:booster-api:${rootProject.ext.android["booster_version"]}"

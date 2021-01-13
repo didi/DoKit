@@ -2,11 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-if (rootProject.ext.config["publishArchivesType"] == 2) {
-    apply from: 'upload-release.gradle'
-} else if (rootProject.ext.config["publishArchivesType"] == 0 || rootProject.ext.config["publishArchivesType"] == 1) {
-    apply from: 'upload-dev.gradle'
-}
+apply from: '../upload.gradle'
+
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -26,15 +23,16 @@ android {
     }
 
     buildTypes {
+        def dokitVersion = rootProject.ext.publish_config["version"]
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "DOKIT_VERSION", "\"" + rootProject.ext.android["jcenterArchivesVersionName"] + "\"")
+            buildConfigField("String", "DOKIT_VERSION", "\"" + dokitVersion + "\"")
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "DOKIT_VERSION", "\"" + rootProject.ext.android["jcenterArchivesVersionName"] + "\"")
+            buildConfigField("String", "DOKIT_VERSION", "\"" + dokitVersion + "\"")
         }
     }
 //    compileOptions {
@@ -87,13 +85,8 @@ dependencies {
     implementation rootProject.ext.dependencies["ktor-cio"]
     implementation rootProject.ext.dependencies["jsoup"]
     //okhttp wrap
-    if (rootProject.ext.config["runOrPublish"] == 0) {
-        implementation project(":doraemonkit-okhttp-api")
-    } else {
-        implementation "com.didichuxing.doraemonkit:dokitx-okhttp-api:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-    }
+    implementation project(":doraemonkit-okhttp-api")
 
-    //compileOnly project(":doraemonkit-okhttp_v4")
 
 //    implementation rootProject.ext.dependencies["mimecraft"]
     //会合滴滴内部的spi-plugin冲突
@@ -145,5 +138,7 @@ configurations.all {
 //        }
     }
 }
+
+
 
 

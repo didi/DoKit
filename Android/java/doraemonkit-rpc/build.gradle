@@ -1,11 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-if (rootProject.ext.config["publishArchivesType"] == 2) {
-    apply from: 'upload-release.gradle'
-} else if (rootProject.ext.config["publishArchivesType"] == 0 || rootProject.ext.config["publishArchivesType"] == 1) {
-    apply from: 'upload-dev.gradle'
-}
+apply from: '../upload.gradle'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -60,15 +56,10 @@ dependencies {
     compileOnly rootProject.ext.dependencies["didi_rpc"]
 
     //此处需要使用api的形式 向上暴露内部api
-    if (rootProject.ext.config["runOrPublish"] == 0) {
-        api project(':doraemonkit')
-    } else {
-        api "com.didichuxing.doraemonkit:dokitx:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-    }
+    api project(':doraemonkit')
 
-    if (rootProject.ext.config["runOrPublish"] == 0) {
-        compileOnly project(":doraemonkit-okhttp-api")
-    } else {
-        compileOnly "com.didichuxing.doraemonkit:dokitx-okhttp-api:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-    }
+    compileOnly project(":doraemonkit-okhttp-api")
+
 }
+
+uploadArchives.dependsOn(':doraemonkit:uploadArchives')

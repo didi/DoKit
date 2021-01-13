@@ -1,4 +1,3 @@
-//include ':empey-app'
 include ':app'
 include ':doraemonkit'
 include ':doraemonkit-rpc'
