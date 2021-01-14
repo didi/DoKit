@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:background="@color/dk_color_FFFFFF"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <com.didichuxing.doraemonkit.widget.titlebar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        app:dkLeftIcon="@mipmap/dk_title_back"
+        app:dkLeftText="@string/dk_back"
+        app:dkTitle="@string/dk_crash_capture_summary_title"/>
+
+    <View
+        style="@style/DK.Shadow.Bottom"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:visibility="gone"
+        android:id="@+id/crash_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/no_record_hint"
+        android:text="@string/dk_crash_capture_no_record"
+        style="@style/DK.TextBig.Dark"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>
+

@@ -81,7 +81,7 @@
 - (BOOL)limitSpeed:(NSData *)data isDown:(BOOL)is{
     BOOL result = NO;
     CGFloat speed = is ? _downFlowSpeed : _upFlowSpeed ;
-    if(0 == data.length || data.length < (kbChange(speed) ? : kbChange(2000))){
+    if(0 == data.length || data.length < (DoKitKbChange(speed) ? : DoKitKbChange(2000))){
         [self showWeakNetworkWindow:is speed:speed];
         result = YES;
     }
@@ -107,9 +107,9 @@
     NSString *str = nil;
     [self flowChange:is change:YES];
     if(is){
-        [[DoraemonWeakNetworkWindow shareInstance] updateFlowValue:str downFlow:[NSString stringWithFormat: @"%f", (kbChange(speed) ? : kbChange(2000))] fromWeak:YES];
+        [[DoraemonWeakNetworkWindow shareInstance] updateFlowValue:str downFlow:[NSString stringWithFormat: @"%f", (DoKitKbChange(speed) ? : DoKitKbChange(2000))] fromWeak:YES];
     }else{
-        [[DoraemonWeakNetworkWindow shareInstance] updateFlowValue:[NSString stringWithFormat: @"%f", (kbChange(speed) ? : kbChange(2000))] downFlow:str fromWeak:YES];
+        [[DoraemonWeakNetworkWindow shareInstance] updateFlowValue:[NSString stringWithFormat: @"%f", (DoKitKbChange(speed) ? : DoKitKbChange(2000))] downFlow:str fromWeak:YES];
     }
 }
 
@@ -130,7 +130,7 @@
     NSInteger speed = 0;
     speed = is ? _downFlowSpeed : _upFlowSpeed;
     while (true) {
-        limitedData = [_weakHandle weakFlow:data count:count size:kbChange(speed) ? : kbChange(2000)];
+        limitedData = [_weakHandle weakFlow:data count:count size:DoKitKbChange(speed) ? : DoKitKbChange(2000)];
         if([self limitSpeed:limitedData isDown:is]){
             return ;
         }

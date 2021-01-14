@@ -6,6 +6,9 @@
 //
 
 #import "DoraemonCacheManager.h"
+#import "DoraemonManager.h"
+#import "DoraemonDefine.h"
+#import "DoraemonManager.h"
 
 static NSString * const kDoraemonLoggerSwitchKey = @"doraemon_env_key";
 static NSString * const kDoraemonMockGPSSwitchKey = @"doraemon_mock_gps_key";
@@ -28,6 +31,7 @@ static NSString * const kDoraemonMemoryLeakAlertKey = @"doraemon_memory_leak_ale
 static NSString * const kDoraemonAllTestKey = @"doraemon_allTest_window_key";
 static NSString * const kDoraemonMockCacheKey = @"doraemon_mock_cache_key";
 static NSString * const kDoraemonHealthStartKey = @"doraemon_health_start_key";
+#define kDoraemonKitManagerKey [NSString stringWithFormat:@"%@_doraemon_kit_manager_key",DoKitVersion]
 
 @interface DoraemonCacheManager()
 
@@ -311,6 +315,110 @@ static NSString * const kDoraemonHealthStartKey = @"doraemon_health_start_key";
 }
 - (BOOL)healthStart{
     return [_defaults boolForKey:kDoraemonHealthStartKey];
+}
+
+// Kit Manager数据保存 只保存内部数据
+- (void)saveKitManagerData:(NSArray *)dataArray{
+    NSMutableArray *mutableDataArray = [[NSMutableArray alloc] init];
+    for (NSDictionary *dic in dataArray) {
+        NSString *moduleName = dic[@"moduleName"];
+        if (moduleName && ([moduleName isEqualToString:DoraemonLocalizedString(@"常用工具")] ||
+                           [moduleName isEqualToString:DoraemonLocalizedString(@"性能检测")] ||
+                           [moduleName isEqualToString:DoraemonLocalizedString(@"视觉工具")] ||
+                           [moduleName isEqualToString:DoraemonLocalizedString(@"平台工具")] ||
+                           [moduleName isEqualToString:@"Weex"])) {
+            NSArray *pluginArray = dic[@"pluginArray"];
+            NSMutableArray *mutablepluginArray = [[NSMutableArray alloc] init];
+            for (NSDictionary *subDic in pluginArray){
+                [mutablepluginArray addObject:subDic.mutableCopy];
+            }
+            NSMutableDictionary *mutableDic = [[NSMutableDictionary alloc] init];
+            [mutableDic setValue:dic[@"moduleName"] forKey:@"moduleName"];
+            [mutableDic setValue:mutablepluginArray forKey:@"pluginArray"];
+            
+            [mutableDataArray addObject:mutableDic];
+        }
+
+    }
+    [_defaults setObject:mutableDataArray forKey:kDoraemonKitManagerKey];
+    [_defaults synchronize];
+    [[NSNotificationCenter defaultCenter] postNotificationName:DoraemonKitManagerUpdateNotification object:nil userInfo:nil];
+}
+
+- (NSMutableArray *)kitManagerData{
+    //NSUserDefaults返回的对象都是不可变的,第一步要不他们都要变成可变的
+    NSArray *dataArray = [_defaults objectForKey:kDoraemonKitManagerKey];
+    NSMutableArray *mutableDataArray = [[NSMutableArray alloc] init];
+    for (NSDictionary *dic in dataArray) {
+        NSArray *pluginArray = dic[@"pluginArray"];
+        NSMutableArray *mutablepluginArray = [[NSMutableArray alloc] init];
+        for (NSDictionary *subDic in pluginArray){
+            [mutablepluginArray addObject:subDic.mutableCopy];
+        }
+        NSMutableDictionary *mutableDic = [[NSMutableDictionary alloc] init];
+        [mutableDic setValue:dic[@"moduleName"] forKey:@"moduleName"];
+        [mutableDic setValue:mutablepluginArray forKey:@"pluginArray"];
+        
+        [mutableDataArray addObject:mutableDic];
+    }
+    return mutableDataArray;
+}
+
+- (NSMutableArray *)kitShowManagerData{
+    //NSUserDefaults返回的对象都是不可变的,第一步要不他们都要变成可变的
+    NSArray *dataArray = [_defaults objectForKey:kDoraemonKitManagerKey];
+    NSMutableArray *mutableDataArray = [[NSMutableArray alloc] init];
+    for (NSDictionary *dic in dataArray) {
+        NSArray *pluginArray = dic[@"pluginArray"];
+        NSMutableArray *mutablepluginArray = [[NSMutableArray alloc] init];
+        for (NSDictionary *subDic in pluginArray){
+            BOOL show = [subDic[@"show"] boolValue];
+            if (show) {
+                [mutablepluginArray addObject:subDic.mutableCopy];
+            }
+        }
+        NSMutableDictionary *mutableDic = [[NSMutableDictionary alloc] init];
+        [mutableDic setValue:dic[@"moduleName"] forKey:@"moduleName"];
+        [mutableDic setValue:mutablepluginArray forKey:@"pluginArray"];
+        
+        [mutableDataArray addObject:mutableDic];
+    }
+    return mutableDataArray;
+}
+
+//外部数据+保存数据
+- (NSMutableArray *)allKitShowManagerData{
+     NSMutableArray *dataArray = [DoraemonManager shareInstance].dataArray;
+    NSMutableArray *mutableDataArray = [[NSMutableArray alloc] init];
+    if ([self kitShowManagerData].count>0) {
+        for (NSDictionary *dic in dataArray) {
+            NSString *moduleName = dic[@"moduleName"];
+            if (moduleName && ([moduleName isEqualToString:DoraemonLocalizedString(@"常用工具")] ||
+                               [moduleName isEqualToString:DoraemonLocalizedString(@"性能检测")] ||
+                               [moduleName isEqualToString:DoraemonLocalizedString(@"视觉工具")] ||
+                               [moduleName isEqualToString:DoraemonLocalizedString(@"平台工具")] ||
+                               [moduleName isEqualToString:@"Weex"])) {
+                continue;
+            }
+            
+            NSArray *pluginArray = dic[@"pluginArray"];
+            NSMutableArray *mutablepluginArray = [[NSMutableArray alloc] init];
+            for (NSDictionary *subDic in pluginArray){
+                [mutablepluginArray addObject:subDic.mutableCopy];
+            }
+            NSMutableDictionary *mutableDic = [[NSMutableDictionary alloc] init];
+            [mutableDic setValue:dic[@"moduleName"] forKey:@"moduleName"];
+            [mutableDic setValue:mutablepluginArray forKey:@"pluginArray"];
+            
+            [mutableDataArray addObject:mutableDic];
+
+        }
+        [mutableDataArray addObjectsFromArray:[self kitShowManagerData]];
+    }else{
+        mutableDataArray = dataArray;
+    }
+    
+    return mutableDataArray;
 }
 
 @end

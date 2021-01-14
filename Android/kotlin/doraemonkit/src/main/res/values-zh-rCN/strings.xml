@@ -1,0 +1,338 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="dk_app_name">DoKit</string>
+
+    <string name="dk_category_biz">业务专区</string>
+    <string name="dk_category_comms">常用工具</string>
+    <string name="dk_category_performance">性能监控</string>
+    <string name="dk_category_large_image">大图检测</string>
+    <string name="dk_category_ui">视觉工具</string>
+    <string name="dk_category_platform">平台工具</string>
+    <string name="dk_kit_network_mock">数据Mock</string>
+    <string name="dk_kit_health">健康体检</string>
+    <string name="dk_category_weex">Weex</string>
+
+    <string name="dk_kit_sysinfo">App信息</string>
+    <string name="dk_kit_develop">开发者选项</string>
+    <string name="dk_kit_service_running">运行中服务</string>
+    <string name="dk_kit_local_lang">本地语言</string>
+    <string name="dk_kit_list">工具列表</string>
+    <string name="dk_kit_demo">demo</string>
+    <string name="dk_kit_file_explorer">沙盒浏览</string>
+    <string name="dk_kit_frame_info">帧率</string>
+    <string name="dk_kit_frame_info_desc">帧率检测</string>
+    <string name="dk_kit_gps_mock">位置模拟</string>
+    <string name="dk_kit_color_picker">取色器</string>
+    <string name="dk_kit_align_ruler">对齐标尺</string>
+    <string name="dk_kit_log_info">日志</string>
+    <string name="dk_kit_web_door">H5任意门</string>
+    <string name="dk_kit_temporary_close">隐藏</string>
+    <string name="dk_kit_crash">Crash</string>
+    <string name="dk_kit_data_clean">清理缓存</string>
+    <string name="dk_kit_db_debug">DBView</string>
+    <string name="dk_kit_weak_network">模拟弱网</string>
+    <string name="dk_kit_view_check">控件检查</string>
+    <string name="dk_kit_net_monitor">网络</string>
+    <string name="dk_kit_ui_monitor">UI显示实时数据</string>
+    <string name="dk_kit_time_counter">启动耗时</string>
+    <string name="dk_kit_method_cost">函数耗时</string>
+    <string name="dk_kit_mock_template_preview">数据预览</string>
+    <string name="dk_kit_method_cost_desc">
+        <![CDATA[
+            函数耗时不提供UI操作界面,在你需要分析的代码之前插入<br/>
+            <font color="red"> MethodCost.startMethodTracing(\"doramemon\") </font> <br/>
+            或者<br />
+           <font color="red"> MethodCost.startMethodTracingSampling(\"doramemon\")</font> <br/>
+            结束的地方加上<br/>
+           <font color="red"> MethodCost.stopMethodTracingAndPrintLog(\"doramemon\")</font><br/>
+           <font color="red"> 注意:start和stop的文件名必须配对才能打印出函数耗时。</font><br/>
+            编译完成以后即可在控制台中通过MethodCost TAG过滤出函数耗时<br/>
+           <font color="red"> 分析完成以后你可以手动删除相关代码也可以保留便于下次调试因为release环境下相关代码都是空实现,并不会影响线上性能。</font><br/>
+            <font color="red">详细的操作可参考demo中的实现</font>
+        ]]>
+        </string>
+
+    <string name="dk_kit_db_debug_desc">
+        <![CDATA[
+            温馨提示:<br/>
+            <font color="red"> 请确保当前手机和PC处于同一局域网内 </font> <br/>
+            想要对当前app的数据库进行修改可以在pc上通过以下地址进行操作:
+        ]]>
+        </string>
+    <string name="dk_kit_exit">退出 DoKit</string>
+    <string name="dk_kit_version">当前版本：V%s</string>
+    <string name="dk_kit_db_detail">数据库查看</string>
+    <string name="dk_kit_top_activity">当前Activity</string>
+    <string name="dk_kit_pkg_name">包名：</string>
+    <string name="dk_kit_class_name">类名：</string>
+    <string name="dk_kit_path_name">路径：</string>
+    <string name="dk_category_mode">悬浮窗模式</string>
+    <string name="dk_kit_mode_desc">悬浮窗模式:
+        \n
+        1）系统代表系统悬浮窗(需要系统权限)
+        \n
+        2）常规代表内置浮标(不需要系统权限)
+    </string>
+    <string name="dk_kit_mode_rb_system">系统</string>
+    <string name="dk_kit_mode_rb_normal">常规</string>
+
+    <string name="dk_sysinfo_device_info">手机信息</string>
+    <string name="dk_sysinfo_app_info">App信息</string>
+    <string name="dk_sysinfo_permission_info">权限信息</string>
+    <string name="dk_sysinfo_permission_info_unreliable">权限信息 (App未做6.0权限适配，以下信息仅供参考)</string>
+    <string name="dk_sysinfo_brand_and_model">手机型号</string>
+    <string name="dk_sysinfo_android_version">系统版本</string>
+    <string name="dk_sysinfo_package_name">包名</string>
+    <string name="dk_sysinfo_package_version_name">应用版本名</string>
+    <string name="dk_sysinfo_package_version_code">应用版本号</string>
+    <string name="dk_sysinfo_package_min_sdk">最低系统版本号</string>
+    <string name="dk_sysinfo_package_target_sdk">目标系统版本号</string>
+    <string name="dk_sysinfo_ext_storage_free">sd卡剩余空间</string>
+    <string name="dk_sysinfo_rom_free">系统剩余空间</string>
+    <string name="dk_sysinfo_display_size">分辨率</string>
+    <string name="dk_sysinfo_display_inch">屏幕尺寸</string>
+    <string name="dk_sysinfo_permission_location">地理位置权限</string>
+    <string name="dk_sysinfo_permission_sdcard">磁盘权限</string>
+    <string name="dk_sysinfo_permission_camera">拍照权限</string>
+    <string name="dk_sysinfo_permission_record">麦克风权限</string>
+    <string name="dk_sysinfo_permission_read_phone">设备信息权限</string>
+    <string name="dk_sysinfo_permission_contact">通讯录权限</string>
+
+    <string name="dk_frameinfo_fps">帧率</string>
+    <string name="dk_frameinfo_cpu">CPU</string>
+    <string name="dk_frameinfo_custom">自定义</string>
+    <string name="dk_frameinfo_upstream">上行流量</string>
+    <string name="dk_frameinfo_downstream">下行流量</string>
+    <string name="dk_frameinfo_avg_value">平均值</string>
+    <string name="dk_frameinfo_big_img">大图检测</string>
+    <string name="dk_frameinfo_leakcanary">LeakCanary</string>
+    <string name="dk_tools_dbdebug">DBView</string>
+
+    <string name="dk_log_info_edt_hint">输入想要过滤的关键字</string>
+    <string name="dk_log_info_verbose">Verbose</string>
+    <string name="dk_log_info_debug">Debug</string>
+    <string name="dk_log_info_info">Info</string>
+    <string name="dk_log_info_warn">Warn</string>
+    <string name="dk_log_info_error">Error</string>
+
+    <string name="dk_web_door_hint">输入地址，点击按钮跳转</string>
+    <string name="dk_web_door_explore">点击跳转</string>
+    <string name="dk_web_door_clear_history">清空搜索歷史</string>
+
+    <string name="dk_gpsmock_open">开启模拟定位</string>
+    <string name="dk_gpsmock_tv_location">模拟</string>
+
+    <string name="dk_gpsmock_hint_longlat">请输入经纬度</string>
+
+    <!--卡顿检测-->
+    <string name="dk_kit_block_monitor">卡顿</string>
+    <string name="dk_kit_block_monitor_list">卡顿列表</string>
+    <string name="dk_kit_block_monitor_detail">卡顿详情</string>
+    <string name="dk_item_block_switch">卡顿检测开关</string>
+    <string name="dk_item_block_goto_list">查看卡顿记录</string>
+    <string name="dk_item_block_mock">模拟卡顿</string>
+
+    <string name="dk_block_class_has_blocked">blocked %s ms</string>
+    <string name="dk_block_notification_message">Click for more details</string>
+
+    <string name="dk_crash_capture_tips">DoraemonKit正在为您记录Crash</string>
+    <string name="dk_crash_capture_no_record">暂无crash记录</string>
+    <string name="dk_crash_capture_clean_data">一键清理Crash日志</string>
+    <string name="dk_crash_capture_look">查看Crash日志</string>
+    <string name="dk_crash_capture_switch">Crash日志收集开关</string>
+    <string name="dk_crash_capture_summary_title">Crash日志列表</string>
+
+    <!--大图检测开关-->
+    <string name="dk_large_picture_switch">大图检测开关</string>
+    <string name="dk_large_picture_look">大图检测记录</string>
+    <string name="dk_large_picture_list">大图列表</string>
+    <string name="dk_large_picture_threshold">大图内存检测阈值</string>
+    <string name="dk_large_picture_file_threshold">大图文件检测阈值</string>
+
+    <string name="dk_large_picture_threshold_desc">
+        <![CDATA[
+        描述:关于图片文件大小和文件被加载到内存以后的区别。<br/>
+        <font color="red">参考:https://juejin.im/post/5bc406b9f265da0aa664ea1e</font><br/>
+        ]]>
+    </string>
+
+    <string name="dk_weak_network_switch">模拟弱网开关</string>
+    <string name="dk_weak_network_off">断网</string>
+    <string name="dk_weak_network_timeout">超时</string>
+    <string name="dk_weak_network_speed_limit">限速</string>
+    <string name="dk_weak_network_request_limit">请求限速：</string>
+    <string name="dk_weak_network_response_limit">响应限速：</string>
+    <string name="dk_weak_network_limit_message">请求限速会在上传时限速，响应限速会在下载时限速，0则不限速</string>
+
+    <string name="dk_back">返回</string>
+    <string name="dk_frameinfo_ram">内存</string>
+    <string name="dk_kit_network_monitor">网络</string>
+    <string name="dk_float_permission_toast">哆啦A梦需要打开悬浮窗权限才能正常使用</string>
+    <string name="dk_gps_location_change_toast">地址变为: %1$s , %2$s</string>
+    <string name="dk_view_check_info_desc">背景颜色：%1$s</string>
+    <string name="dk_view_check_info_padding">内边距：%1$d, %2$d, %3$d, %4$d</string>
+    <string name="dk_view_check_info_margin">外边距：%1$d, %2$d, %3$d, %4$d</string>
+    <string name="dk_view_check_info_text_color">文字颜色：%1$s</string>
+    <string name="dk_view_check_info_text_size">文字大小：%1$d</string>
+    <string name="dk_view_check_info_size">控件尺寸：宽%1$d，高%2$d</string>
+    <string name="dk_view_check_info_id">控件ID：%1$s</string>
+    <string name="dk_view_check_info_class">控件类型：%1$s</string>
+    <string name="dk_view_check_info_activity">当前Activity：%1$s</string>
+    <string name="dk_view_check_info_fragment">可见Fragments：%1$s</string>
+    <string name="dk_network_get_method">GET</string>
+    <string name="dk_network_post_method">POST</string>
+    <string name="dk_network_request">请求</string>
+    <string name="dk_network_response">响应</string>
+    <string name="dk_network_method">Method</string>
+
+    <string name="dk_frameinfo_detection_switch">帧率检测开关</string>
+    <string name="dk_cpu_detection_switch">CPU检测开关</string>
+    <string name="dk_cpu_title_cache_log">检测记录</string>
+    <string name="dk_item_cache_log">查看检测记录</string>
+
+    <string name="dk_ram_detection_switch">内存检测开关</string>
+    <string name="dk_ram_detection_title">内存检测</string>
+    <string name="dk_network_summary_total_time_hour">%1$d小时%2$d分</string>
+    <string name="dk_network_summary_total_time_day">%1$d天%2$d小时</string>
+    <string name="dk_network_summary_total_time_minute">%1$d分%2$d秒</string>
+    <string name="dk_network_summary_total_time_second">%d秒</string>
+    <string name="dk_network_summary_total_time_default">0秒</string>
+    <string name="dk_network_summary_data_type">数据类型</string>
+    <string name="dk_network_summary_http_method">HTTP方法</string>
+    <string name="dk_network_summary_data_upload">数据上传</string>
+    <string name="dk_network_summary_data_down">数据下载</string>
+    <string name="dk_network_summary_total_number">抓包数量</string>
+    <string name="dk_network_summary_total_number_time_tips">总计已为您抓包</string>
+    <string name="dk_network_detail_title_response_body">响应行</string>
+    <string name="dk_network_detail_title_request_body">请求行</string>
+    <string name="dk_net_monitor_title_summary">流量监控摘要</string>
+    <string name="dk_net_monitor_list">流量监控列表</string>
+    <string name="dk_net_monitor_detection_switch">流量检测开关</string>
+    <string name="dk_net_monitor_show_summary">显示流量监控详情</string>
+    <string name="dk_network_detail_title_body">消息体</string>
+    <string name="dk_network_detail_title_size">数据大小</string>
+    <string name="dk_network_detail_title_url">链接</string>
+    <string name="dk_network_detail_title_request_time">请求时间</string>
+    <string name="dk_network_detail_title_response_time">响应时间</string>
+    <string name="dk_network_detail_title_response_header">响应头</string>
+    <string name="dk_network_detail_title_request_header">请求头</string>
+    <string name="dk_kit_network_filter_hint">支持筛选</string>
+    <string name="dk_kit_network_monitor_detail">流量监测详情</string>
+    <string name="dk_cpu_memory_remind_user">抱歉，您当前系统版本高于8.0，由于谷歌权限收紧，只能用adb的方式获取性能分析的数据，请手机连接电脑并输入adb tcpip 5555以保证功能正常运行</string>
+    <string name="dk_kit_network_time_format">%1$s 耗时:%2$s</string>
+    <string name="dk_kit_layout_border">布局边框</string>
+    <string name="dk_layout_level">布局层级</string>
+    <string name="dk_align_info_text">位置：左%1$d 右%2$d 上%3$d 下%4$d</string>
+
+    <string name="dk_item_time_counter_switch">Activity跳转耗时</string>
+    <string name="dk_item_time_goto_list">查看记录</string>
+    <string name="dk_kit_block_time_counter_list">耗时列表</string>
+    <string name="dk_delete">删除</string>
+    <string name="dk_db_tips_insert">添加</string>
+    <string name="dk_submit">提交</string>
+    <string name="dk_cancel">取消</string>
+    <string name="dk_discard">丢弃</string>
+    <string name="dk_success">成功</string>
+    <string name="dk_fail">失败</string>
+    <string name="dk_confirm">确认</string>
+    <string name="dk_post">提交</string>
+    <string name="dk_app_data_clean">确认要删除本地数据</string>
+    <string name="dk_hint">提示</string>
+    <string name="dk_share">分享</string>
+    <string name="dk_save">保存</string>
+
+    <string name="dk_platform_monitor_data_button">开始测试</string>
+    <string name="dk_platform_monitor_data_button_stop">结束测试</string>
+    <string name="dk_platform_monitor_view_stat_data">查看统计数据</string>
+    <string name="dk_platform_monitor_page_data">页面数据</string>
+    <string name="dk_log_text_loading">日志加载中...</string>
+    <string name="dk_crash_need_permission">请授权读写权限，避免crash文件丢失</string>
+    <string name="dk_data_clean_toast">清除系统资料</string>
+    <string name="dk_error_tips_permissions_less">请进行授权才可以使用该功能</string>
+    <string name="dk_kit_ui_performance">UI层级</string>
+    <string name="dk_view_render_analysis">View渲染统计</string>
+    <string name="dk_max_level">最大层级: </string>
+    <string name="dk_view_id">控件id: </string>
+    <string name="dk_total_draw_time">总绘制耗时: </string>
+    <string name="dk_max_draw_time">最大绘制耗时: </string>
+    <string name="dk_mock_search">搜索</string>
+    <!--jsonviewer-->
+    <string name="dk_jsonViewer_icon_plus">expand</string>
+    <string name="dk_jsonViewer_icon_minus">collapse</string>
+    <string name="dk_data_mock_et_hint">支持筛选</string>
+    <string name="dk_data_mock_bottom_table_mock">Mock数据</string>
+    <string name="dk_data_mock_bottom_table_template">上传模板</string>
+    <string name="dk_data_mock_switch_all">全部</string>
+    <string name="dk_data_mock_switch_opened">打开</string>
+    <string name="dk_data_mock_switch_closed">关闭</string>
+    <string name="dk_data_mock_group">接口分组</string>
+    <string name="dk_data_mock_switch_status">开关状态</string>
+    <string name="dk_health_upload_successed">上传数据成功</string>
+    <string name="dk_health_upload_failed">上传数据失败,请重新上传</string>
+    <string name="dk_health_upload_droped">本次测试用例已丢弃!</string>
+    <string name="dk_health_upload_title">健康体检</string>
+    <string name="dk_health_upload_message">是否确认开始执行健康体检?</string>
+    <string name="dk_health_funcation_start">App即将重启并开始进入体检模式</string>
+    <string name="dk_health_funcation_running">正在体检中...</string>
+    <string name="dk_health_step_index">向上滑动查看功能使用说明</string>
+    <string name="dk_health_title_step1">第一步</string>
+    <string name="dk_health_title_step2">第二步</string>
+    <string name="dk_health_title_step3">第三步</string>
+    <string name="dk_health_title_step4">第四步</string>
+    <string name="dk_health_step1">点击开始体验按钮开始本次的性能测试</string>
+    <string name="dk_health_step2">在每一个页面至少停留10秒钟，如果低于10秒钟的话，我们将会丢弃该页面收集到的数据。</string>
+    <string name="dk_health_step3">测试完毕之后，重新进入本页面并点击结束测试按钮，填写测试用例名称和测试人的名字，即可上传本次性能测试数据</string>
+    <string name="dk_health_step4">打开www.dokit.cn平台，进入app健康体检列表，即可查看本次的性能测试报告</string>
+    <string name="dk_health_back_top">回到顶部</string>
+    <string name="dk_log_btn_clean">清空日志</string>
+    <string name="dk_log_btn_export">导出</string>
+    <string name="dk_log_btn_back_top">回到顶部</string>
+    <string name="dk_log_btn_to_bottom">滚至底部</string>
+    <string name="dk_kit_net_monitor_white_host_tip">白名单(默认全部拦截,如有添加白名单则只会拦截白名单中的网络请求,同时白名单规则在关闭当前页面时生效。白名单host示例:m.baidu.com)</string>
+    <string name="dk_kit_net_monitor_white_host_edit_tip">请输入白名单host</string>
+    <string name="dk_kit_net_monitor_white_host_edit_toast">请先输入host</string>
+    <string name="dk_data_mock_plugin_toast">请先到https://www.dokit.cn申请projectId,并参考使用中心进行接入</string>
+    <string name="dk_header_reset">下拉刷新</string>
+    <string name="dk_header_pull">下拉刷新</string>
+    <string name="dk_header_pull_over">释放立即刷新</string>
+    <string name="dk_header_refreshing">正在刷新...</string>
+    <string name="dk_header_completed">刷新成功</string>
+    <string name="dk_brvah_loading">正在加载中...</string>
+    <string name="dk_brvah_load_failed">加载失败，请点我重试</string>
+    <string name="dk_brvah_load_end">没有更多数据</string>
+    <string name="dk_brvah_load_complete">点击加载更多</string>
+    <string name="dk_data_mock_template_tip">本地是否存在mock模板数据:%s</string>
+    <string name="dk_data_mock_template_upload">上传模板</string>
+    <string name="dk_weaknet_type">弱网类型:</string>
+    <string name="dk_weaknet_type_speed">限速</string>
+    <string name="dk_weaknet_type_timeout">超时</string>
+    <string name="dk_weaknet_type_off">断网</string>
+    <string name="dk_weak_network_speed_unit">K/s</string>
+    <string name="dk_health_dialog_title">结束前请完善以下信息</string>
+    <string name="dk_health_dialog_test_name">测试用例名称</string>
+    <string name="dk_health_dialog_test_name_hint">测试用例名称</string>
+    <string name="dk_health_dialog_test_person">测试人</string>
+    <string name="dk_health_dialog_test_person_hint">测试人</string>
+    <string name="dk_kit_log_min">最小化</string>
+    <string name="dk_kit_setting">设置</string>
+    <string name="dk_category_exit">退出</string>
+    <string name="dk_category_version">version</string>
+    <string name="dk_setting">设置</string>
+    <string name="dk_edit">编辑</string>
+    <string name="dk_complete">完成</string>
+    <string name="dk_export">导出</string>
+    <string name="dk_manager_kit_title">管理我的功能</string>
+    <string name="dk_kit_block_time_app_start_info">启动详情</string>
+    <string name="dk_plugin_close_tip">未引入插件或插件未开启</string>
+    <string name="dk_plugin_network_close_tip">网络插件未开启</string>
+    <string name="dk_plugin_method_close_tip">慢函数插件未开启</string>
+    <string name="dk_plugin_method_strategy_tip">请修改慢函数的插件配置等于0</string>
+    <string name="dk_plugin_big_img_close_tip">大图检测插件未开启</string>
+    <string name="dk_plugin_gps_close_tip">GPS插件未开启</string>
+    <string name="dk_platform_tip">需要到www.dokit.cn上注册pId才能使用该功能</string>
+    <string name="dk_reset">还原</string>
+    <string name="dk_toolpanel_save_complete">保存成功</string>
+    <string name="dk_toolpanel_reset_complete">功能还原成功</string>
+    <string name="dk_toolpanel_dialog_edit_tip">是否保存已编辑的内容</string>
+    <string name="dk_toolpanel_dialog_reset_tip">是否还原到初始状态</string>
+    <string name="dk_setting_kit_manager">功能管理</string>
+</resources>

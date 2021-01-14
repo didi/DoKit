@@ -68,7 +68,7 @@ static NSTimeInterval stopTime;
 + (void)printRecords {
     NSString *result = [self getRecordsResult];
     [DoraemonHealthManager sharedInstance].costDetail = result;
-    DoKitLog(@"%@",result);
+    NSLog(@"%@",result);
 }
 
 + (NSString *)getRecordsResult {

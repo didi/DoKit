@@ -1,0 +1,39 @@
+.page-box {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  background: #F5F6F7;
+  width: 100%;
+  min-height: 100%;
+  z-index: 9998;
+}
+.appinfo-header {
+  height:40rpx;
+  padding:0 32rpx;
+  line-height:40rpx;
+  font-size: 28rpx;
+  vertical-align:middle;
+  color:#337CC4;
+  margin-top: 50rpx;
+  margin-bottom: 24rpx;
+}
+.appinfo-item {
+  display:flex;
+  align-items:center;
+  font-size: 32rpx;
+  color: #333;
+  justify-content:space-between;
+  padding:0 32rpx;
+  height:104rpx;
+  border-bottom:1rpx solid #efefef;
+}
+
+.appinfo-val.img {
+  width: 80rpx;
+  height:80rpx;
+  display:inline-block;
+  overflow:hidden;
+  border-radius:50%;
+
+}

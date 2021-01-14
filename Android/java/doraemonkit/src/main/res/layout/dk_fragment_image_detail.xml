@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dk_color_FFFFFF"
+    android:orientation="vertical">
+
+    <com.didichuxing.doraemonkit.widget.titlebar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="44dp" />
+
+    <View style="@style/DK.Shadow.Bottom" />
+
+    <ImageView
+        android:id="@+id/image"
+        android:scaleType="centerInside"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

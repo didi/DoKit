@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="52dp"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+
+    <ImageView
+        android:id="@+id/iv_more"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:src="@mipmap/dk_arrow_normal" />
+
+
+    <CheckBox
+        android:id="@+id/menu_switch"
+        style="@style/DK.CheckBox"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="26dp"
+        android:layout_toLeftOf="@id/iv_more" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/menu_switch"
+        android:textColor="@color/dk_color_333333"
+        android:textSize="16sp"
+        tools:text="接口1" />
+
+    <View
+        style="@style/DK.Divider"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

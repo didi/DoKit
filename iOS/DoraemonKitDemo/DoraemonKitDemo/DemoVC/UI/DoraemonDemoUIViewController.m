@@ -55,7 +55,7 @@
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(200, 200, 200, 50)];
     button.backgroundColor = [UIColor lightGrayColor];
     button.layer.cornerRadius = 8;
-    [button setTitle:@"UIMenuController测试" forState:UIControlStateNormal];
+    [button setTitle:@"UIMenuController" forState:UIControlStateNormal];
     [button addTarget:self action:@selector(deleteBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.view addSubview:button];
@@ -73,8 +73,8 @@
     [self.view.window becomeFirstResponder];
     [self becomeFirstResponder];// 用于UIMenuController显示，缺一不可
     UIMenuController *menu = [UIMenuController sharedMenuController];
-    UIMenuItem *item1 = [[UIMenuItem alloc] initWithTitle:@"撤销" action:@selector(revokeAction)];
-    UIMenuItem *item2 = [[UIMenuItem alloc] initWithTitle:@"确认" action:@selector(sureAction)];
+    UIMenuItem *item1 = [[UIMenuItem alloc] initWithTitle:@"cancel" action:@selector(revokeAction)];
+    UIMenuItem *item2 = [[UIMenuItem alloc] initWithTitle:@"ok" action:@selector(sureAction)];
     menu.menuItems = @[item1, item2];
     menu.arrowDirection = UIMenuControllerArrowUp;
     [menu setMenuVisible:YES animated:YES];
@@ -118,13 +118,13 @@
 }
 
 - (void)revokeAction{
-    NSLog(@"选择了撤销");
+    NSLog(@"cancel");
     //UIWindow *window = [[UIApplication sharedApplication].delegate window];
     //[window.rootViewController presentViewController:[[PresentViewController alloc] init] animated:YES completion:nil];
 }
 
 - (void)sureAction{
-    NSLog(@"选择了删除");
+    NSLog(@"ok");
     
     
     //NSArray *array = [string componentsSeparatedByString:@";"]; //从字符A中分隔成2个元素的数组

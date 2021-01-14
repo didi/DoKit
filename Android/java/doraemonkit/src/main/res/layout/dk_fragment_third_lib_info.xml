@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dk_color_FFFFFF"
+    android:orientation="vertical">
+
+    <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dk_home_title_height"
+        app:dkIcon="@mipmap/dk_close_icon_big"
+        app:dkTitle="@string/dk_third_library_info" />
+
+    <RelativeLayout
+        android:id="@+id/rl_searchbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_bar"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+
+        <RadioGroup
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="8dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/sort_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:checked="true"
+                android:id="@+id/sort_name"
+                style="@style/DK.RadioButton.Left"
+                android:layout_weight="1"
+                android:text="@string/dk_third_sort_name" />
+
+            <RadioButton
+                android:id="@+id/sort_size"
+                style="@style/DK.RadioButton.Right"
+                android:layout_weight="1"
+                android:text="@string/dk_third_sort_size" />
+
+        </RadioGroup>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_margin="5dp"
+            android:layout_toLeftOf="@id/sort_option"
+            app:cardBackgroundColor="@color/dk_color_FFFFFF"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="3dp"
+            app:contentPaddingBottom="5dp"
+            app:contentPaddingLeft="12dp"
+            app:contentPaddingRight="@dimen/dk_dp_5"
+            app:contentPaddingTop="5dp">
+
+            <EditText
+                android:singleLine="true"
+                android:id="@+id/edittext"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/dk_edittext_shape"
+                android:drawableLeft="@mipmap/dk_search"
+                android:drawablePadding="5dp"
+                android:hint="@string/dk_data_mock_et_hint"
+                android:textColorHint="@color/dk_color_BEBEBE"
+                android:textSize="14sp" />
+
+        </androidx.cardview.widget.CardView>
+
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/info_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dk_dp_5"
+        android:overScrollMode="never"
+        android:scrollbars="none" />
+
+</LinearLayout>

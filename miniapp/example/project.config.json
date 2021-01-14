@@ -4,17 +4,30 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
+		"preloadBackgroundData": false,
 		"minified": true,
 		"newFeature": true,
-		"autoAudits": false
+		"coverView": true,
+		"autoAudits": false,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		},
+		"nodeModules": true
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.8.0",
-	"appid": "wxa57889692821c7b2",
-	"projectname": "example",
+	"libVersion": "2.11.3",
+	"appid": "wxdae0660715fa1bf8",
+	"projectname": "dokit-sdk-example",
 	"debugOptions": {
 		"hidedInDevtools": []
 	},
@@ -30,13 +43,28 @@
 			"current": -1,
 			"list": []
 		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
 		"game": {
 			"currentL": -1,
 			"list": []
 		},
-		"miniprogram": {
+		"gamePlugin": {
 			"current": -1,
 			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": -1,
+					"name": "dist/debug/debug",
+					"pathName": "dist/debug/debug",
+					"scene": null
+				}
+			]
 		}
 	}
 }

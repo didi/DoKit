@@ -1,0 +1,90 @@
+<view class="page-box">
+  <view class="tab-bar">
+    <view class="tab-bar-item" data-type="api" bindtap="onTabbar">接口分组</view>
+    <view class="tab-bar-item" data-type="status" bindtap="onTabbar">开关状态</view>
+  </view>
+  <view class="list-wrap">
+    <scroll-view class='list-scroll' scroll-y style="height: 100%">
+      <view hidden="{{curNav !== 'mock'}}" class="mock-list">
+        <view wx:for="{{ mockList }}" wx:key="index">
+          <view class="item-wrap">
+            <view class="list-item" data-index="{{ index }}" data-type="mock" catchtap="onExpand">
+              <view class="item-name">{{ item.name }}</view>
+              <switch class="switch" color="#337CC4" checked="{{ item.checked }}" data-index="{{ index }}" data-type="mock" catchtap="onToggleChecked" />
+            </view>
+          </view>
+          <view class="item-detail {{ mockList[index].hidden ? 'hidden' : '' }}" >
+            <view class="item-req-desc">path: {{ item.path }} </view>
+            <view class="item-req-desc">query: {{ item.query }} </view>
+            <view class="item-req-desc">body: {{ item.body }} </view>
+            <view class="item-req-desc">group: {{ item.categoryName }}</view>
+            <view class="item-req-desc">create person: {{ item.owner.name }} </view>
+            <view class="item-req-desc">modify person: {{ item.curStatus && item.curStatus.operator && item.curStatus.operator.name }} </view>
+            <block wx:if="{{ item.sceneList && item.sceneList.length }}">
+                <radio-group class="radio-group">
+                  <radio class="radio" 
+                    wx:for="{{ item.sceneList }}"
+                    catchtap="onRadioChange"
+                    wx:for-item="sceneItem" 
+                    wx:for-index="idx"
+                    data-index="{{ index }}" 
+                    data-idx="{{ idx }}" 
+                    color="#337CC4" 
+                    wx:key="idx" 
+                    value="{{ sceneItem.name }}" 
+                    checked="{{ sceneItem.checked }}">
+                    <text>{{ sceneItem.name }}</text>
+                  </radio>
+                </radio-group>
+            </block>
+          </view>
+        </view>
+      </view>
+      <view hidden="{{curNav !== 'tpl'}}" class="tpl-list">
+        <view wx:for="{{ tplList }}" wx:key="index">
+          <view class="item-wrap">
+            <view class="list-item" data-index="{{ index }}" data-type="tpl" catchtap="onExpand">
+              <view>{{ item.name }}</view>
+              <switch class="switch" color="#337CC4" checked="{{ item.checked }}" data-index="{{ index }}" data-type="tpl" catchtap="onToggleChecked" />
+            </view>
+          </view>
+          <view class="item-detail {{ tplList[index].hidden ? 'hidden' : '' }}" >
+            <view class="item-req-desc">path: {{ item.path }} </view>
+            <view class="item-req-desc">query: {{ item.query }} </view>
+            <view class="item-req-desc">body: {{ item.body }} </view>
+            <view class="item-req-desc">group: {{ item.categoryName }}</view>
+            <view class="item-req-desc">create person: {{ item.owner.name }} </view>
+            <view class="item-req-desc">modify person: {{ item.curStatus && item.curStatus.operator && item.curStatus.operator.name }} </view>
+            <view class="item-req-desc">本地是否存在mock模板数据: {{ item.templateData ? 'Y': 'N' }} </view>
+            <view class="item-btn-wrap">
+                <view class="btn-item {{ item.templateData ? 'active': '' }}" data-index="{{index}}" bindtap="onPreview">Preview</view>
+                <view class="btn-item {{ item.templateData ? 'active': '' }}" data-index="{{index}}" bindtap="onUpload">Upload</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+  <view class="nav-bar">
+    <view class="nav-bar-item {{curNav == 'mock' ? 'active':''}}" data-type="mock" bindtap="onNavChange">
+      <image class="nav-bar-icon" src="{{curNav == 'mock' ? img.mockactive:img.mock}}" lazy-load="false" />
+      <view>Mock数据</view>
+    </view>
+    <view class="nav-bar-item {{curNav == 'tpl' ? 'active':''}}" data-type="tpl" bindtap="onNavChange">
+      <image class="nav-bar-icon" src="{{curNav == 'tpl' ? img.tpluploadactive:img.tplupload}}" lazy-load="false" />
+      <view>上传模板</view>
+    </view>
+  </view>
+  <view wx:if="{{ isShow }}" class="modal">
+    <view class="modal-inner">
+      <view class="content-area">
+        {{ templateData }}
+      </view>
+      <view class="operate-area">
+        <view class="operate-item" bindtap="onUpload">上传数据</view>
+        <view class="operate-item" bindtap="onCancel">取消</view>
+      </view>
+    </view>
+  </view>
+  <back bindreturn="onGoBack"></back>
+</view>

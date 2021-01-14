@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="dkTitle" format="string" />
+    <attr name="dkBack" format="string" />
+
+    <declare-styleable name="LabelTextView">
+        <attr name="dkLabel" format="string" />
+        <attr name="dkText" format="string" />
+        <attr name="dkMaxLines" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="TitleBar">
+        <attr name="dkTitle" />
+        <attr name="dkTitleColor" format="color" />
+        <attr name="dkLeftIcon" format="reference" />
+        <attr name="dkLeftText" format="string" />
+        <attr name="dkRightIcon" format="reference" />
+        <attr name="dkRightSubIcon" format="reference" />
+        <attr name="dkTitleBackground" format="color" />
+        <attr name="dkRightText" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="LayoutBorderView">
+        <attr name="dkFill" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="HomeTitleBar">
+        <attr name="dkTitle" />
+        <attr name="dkIcon" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="LogTitleBar">
+        <attr name="dkBack" />
+        <attr name="dkTitle" />
+        <attr name="dkIcon" />
+    </declare-styleable>
+
+    <declare-styleable name="ViewfinderView">
+        <attr name="dkCornerColor" format="color" />
+        <attr name="dkLaserColor" format="color" />
+        <attr name="dkFrameColor" format="color" />
+        <attr name="dkMaskColor" format="color" />
+        <attr name="dkResultPointColor" format="color" />
+        <attr name="dkResultColor" format="color" />
+        <attr name="dkLabelTextColor" format="color" />
+        <attr name="dkLabelText" format="string" />
+        <attr name="dkLabelTextSize" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="DkDropDownMenu">
+
+        <attr name="dk_ddunderlineColor" format="color" />
+        <attr name="dk_dddividerColor" format="color" />
+        <attr name="dk_ddtextSelectedColor" format="color" />
+        <attr name="dk_ddtextUnselectedColor" format="color" />
+        <attr name="dk_ddmenuBackgroundColor" format="color" />
+        <attr name="dk_ddmaskColor" format="color" />
+        <attr name="dk_ddmenuTextSize" format="dimension" />
+        <attr name="dk_ddmenuSelectedIcon" format="reference" />
+        <attr name="dk_ddmenuUnselectedIcon" format="reference" />
+        <attr name="dk_dddividerHeight" format="dimension" />
+        <attr name="dk_ddmenuIconOrientation">
+            <flag name="left" value="0" />
+
+            <flag name="top" value="1" />
+
+            <flag name="right" value="2" />
+
+            <flag name="bottom" value="3" />
+        </attr>
+    </declare-styleable>
+
+    <!--多行RadioGroup-->
+
+
+    <declare-styleable name="dk_multi_line_radio_group">
+        <attr name="max_in_row" format="integer" />
+        <attr name="radio_buttons" format="reference" />
+        <attr name="default_button" format="string" />
+    </declare-styleable>
+
+
+</resources>

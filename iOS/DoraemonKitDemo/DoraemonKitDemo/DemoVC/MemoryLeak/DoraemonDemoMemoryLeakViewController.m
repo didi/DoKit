@@ -9,6 +9,7 @@
 #import "DoraemonDemoMemoryLeakViewController.h"
 #import "DoraemonDemoMemoryLeakModel.h"
 #import "DoraemonDemoMemoryLeakView.h"
+#import "DoraemonKitDemoi18Util.h"
 
 @interface DoraemonDemoMemoryLeakViewController ()
 
@@ -21,7 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"测试内存泄漏";
+    self.title = DoraemonDemoLocalizedString(@"内存泄漏测试");
     
     //_model = [[DoraemonDemoMemoryLeakModel alloc] init];
 //    [_model addBlock:^{

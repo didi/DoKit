@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@drawable/dk_kit_group_background"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                tools:src="@mipmap/dk_gps_mock" />
+
+            <TextView
+                android:id="@+id/name"
+                style="@style/DK.TextSmall.Dark"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="center"
+                android:singleLine="true"
+                tools:text="@string/dk_app_name" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="6dp"
+            android:src="@mipmap/dk_kit_item_checked" />
+
+        <View
+            android:id="@+id/view_mask"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#99eeeeee" />
+    </FrameLayout>
+</LinearLayout>

@@ -1,0 +1,216 @@
+.injector-container {
+    position: absolute;
+    width: 100%;
+    height:100vh;
+    box-sizing: border-box;
+    left: 0;
+    right: 0;
+    top: 0;
+    padding: 32rpx;
+    background-color: white;
+    z-index: 9998;
+}
+.injector-container .mask{
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index:10;
+}
+.injector-container .injector-content-box{
+    overflow: auto;
+    height: 800rpx;
+}
+.injector-container .add-dialog{
+    display: none;
+    position: absolute;
+    bottom: -504rpx;
+    left: 0;
+    width: 100%;
+    height: 504rpx;
+    background: #fff;
+    padding: 0 20rpx;
+    box-sizing: border-box;
+    z-index: 99;
+    transition: all .5s;
+}
+.injector-container .add-dialog-active{
+    bottom: 0;
+    display: block;
+}
+.injector-container  .title {
+    margin-right:4.2rem;
+}
+.injector-container .table-title{
+    overflow: hidden;
+    height: 68rpx;
+    display: flex;
+    text-align: center;
+    background: #337CC4;
+    line-height: 68rpx;
+    color: #FFF;
+    border-radius: 8rpx;
+}
+.injector-container .header{
+    position: relative;
+    height: 88rpx;
+}
+.injector-container .injector-manage{
+    position: absolute;
+    right:0;
+    top: 20rpx;
+}
+.injector-container .disabled {
+    opacity: 0.3;
+}
+.injector-manage-list .arrow-top{
+    width:0;
+    height:0;
+    border:16rpx solid;
+    position:absolute;
+    right:10rpx;
+    border-color:transparent transparent #fff;
+    top:-31rpx;
+}
+.injector-manage-img {
+    width: 40rpx;
+    height: 40rpx;
+}
+.injector-main .key-title,
+.injector-main .value-title{
+    position: relative;
+    flex: 5;
+}
+.injector-main .type-title{
+    position: relative;
+    flex: 3;
+}
+.injector-main .key-title:after,
+.injector-main .type-title:after{
+    content: ' ';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 2rpx;
+    height: 100%;
+    background: #FFF;
+}
+.injector-container .head-title{
+    font-size: 28rpx;
+}
+.injector-container  .injector-item {
+    display:flex;
+    flex-flow:row nowrap;
+    font-size: 24rpx;
+    height:80rpx;
+    line-height: 80rpx;
+}
+.injector-item .injector-key,
+.injector-item .injector-value{
+    flex: 5;
+    padding-left: 10rpx;
+    overflow: scroll;
+}
+.injector-item .injector-type{
+    flex: 3;
+    padding-left: 10rpx;
+}
+.injector-item .add-some-flex{
+    flex: 3.2
+}
+.injector-manage-list{
+    width: 243rpx;
+    font-size: 28rpx;
+    background: #fff;
+    padding-left: 32rpx;
+    padding-right: 24rpx;
+    box-sizing: border-box;
+    position:absolute;
+    right:0px;
+    top:46px;
+    z-index: 99;
+}
+.injector-manage-list .manage-item{
+    width: 100%;
+    height: 72rpx;
+    line-height: 72rpx;
+    border-bottom:1rpx solid #efefef;
+}
+.manage-item-img {
+    height: 40rpx;
+    width: 40rpx;
+    vertical-align:-8rpx;
+    margin-right: 21rpx;
+}
+.injector-container .operate-btn{
+    background: #fff;
+    color: #337CC4;
+    border: 1rpx solid #337CC4;
+    height: 100rpx;
+    width: 224rpx;
+    margin-right: 16rpx;
+    display: inline-block;
+}
+.injector-container .operate-btn-delete{
+    background: #D8D8D8;
+    color: #fff;
+    height: 100rpx;
+    width: 450rpx;
+    box-sizing: border-box;
+    display: inline-block;
+}
+.injector-container .delete-active{
+    background: #337CC4;
+}
+.injector-main {
+    margin-top: 30rpx;
+}
+.injector-footer {
+    position: absolute;
+    bottom: 30rpx;
+    left:32rpx;
+}
+.add-injectorkey-input{
+    width: 20%;
+    margin-right:2rem;
+}
+.add-injectorvalue-input{
+    width: 65%
+}
+.add-popup-header{
+    font-size: 28rpx;
+    height: 100rpx;
+    line-height: 100rpx;
+}
+.add-popup-header .main-title{
+    padding: 0 250rpx;
+    text-align: center;
+    font-size: 36rpx;
+}
+.add-popup-header .cancel{
+    color: #999999;
+}
+.add-popup-header .add{
+    color: #337CC4;
+}
+.add-dialog .name{
+     font-size: 24rpx;
+     color: #666666;
+     width: 100%;
+     margin-top: 40rpx;
+     margin-bottom: 24rpx;
+}
+.add-key-switch {
+    transform: scale(0.8, 0.8);
+}
+.add-name-input {
+    width: 100%;
+    border: 0;
+    border-bottom: 1rpx solid #EEEEEE;
+    padding-bottom: 16rpx;
+}
+.injection-toggle-text {
+    margin-right: 20px;
+}

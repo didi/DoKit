@@ -97,4 +97,10 @@
 // 健康体检开关
 - (void)saveHealthStart:(BOOL)on;
 - (BOOL)healthStart;
+
+// Kit Manager数据保存
+- (void)saveKitManagerData:(NSMutableArray *)dataArray;
+- (NSMutableArray *)kitManagerData;
+- (NSMutableArray *)kitShowManagerData;
+- (NSMutableArray *)allKitShowManagerData;
 @end

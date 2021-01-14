@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/dk_info_background">
+        <TextView
+            style="@style/DK.Text.Darker"
+            android:id="@+id/switch_text"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_alignParentLeft="true"
+            android:text="@string/dk_layout_level" />
+        <CheckBox
+            style="@style/DK.CheckBox"
+            android:id="@+id/switch_btn"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/switch_text"/>
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/dk_close_icon" />
+
+    </RelativeLayout>
+
+</LinearLayout>

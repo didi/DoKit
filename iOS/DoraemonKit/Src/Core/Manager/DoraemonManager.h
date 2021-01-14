@@ -11,6 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 typedef void (^DoraemonH5DoorBlock)(NSString *);
+typedef UIImage * _Nullable (^DoraemonWebpHandleBlock)(NSString *filePath);
 
 typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     #pragma mark - weex专项工具
@@ -89,7 +90,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
     #pragma mark - 平台工具
     // Mock 数据
     DoraemonManagerPluginType_DoraemonMockPlugin,
-    DoraemonManagerPluginType_DoraemonHealthPlugin
+    DoraemonManagerPluginType_DoraemonHealthPlugin,
+    DoraemonManagerPluginType_DoraemonFileSyncPlugin
 };
 
 @interface DoraemonManagerPluginTypeModel : NSObject
@@ -111,6 +113,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 @property (nonatomic, copy) NSString *pId; //产品id 平台端的工具必须填写
 
+@property (nonatomic, assign) BOOL autoDock; //dokit entry icon support autoDock，deffault yes
+
 - (void)install;
 //带有平台端功能的s初始化方式
 - (void)installWithPid:(NSString *)pId;
@@ -123,6 +127,7 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 @property (nonatomic,strong) NSMutableArray *dataArray;
 
 @property (nonatomic, copy) DoraemonH5DoorBlock h5DoorBlock;
+@property (nonatomic, copy) DoraemonWebpHandleBlock webpHandleBlock;
 
 - (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName;
 - (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName handle:(void(^)(NSDictionary *itemData))handleBlock;
@@ -134,11 +139,13 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 - (void)addStartPlugin:(NSString *)pluginName;
 
-- (void)addH5DoorBlock:(void(^)(NSString *h5Url))block;
+- (void)addH5DoorBlock:(DoraemonH5DoorBlock)block;
 
 - (void)addANRBlock:(void(^)(NSDictionary *anrDic))block;
 
 - (void)addPerformanceBlock:(void(^)(NSDictionary *performanceDic))block;
+
+- (void)addWebpHandleBlock:(DoraemonWebpHandleBlock)block;
 
 - (BOOL)isShowDoraemon;
 
@@ -153,6 +160,11 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 @property (nonatomic, copy) NSString *startClass; //如果你的启动代理不是默认的AppDelegate,需要传入才能获取正确的启动时间
 
 @property (nonatomic, copy) NSArray *vcProfilerBlackList;//使用vcProfiler的使用，兼容一些异常情况，比如issue416
+
+@property (nonatomic, strong) NSMutableDictionary *keyBlockDic;//保存key和block的关系
+
+/// DoKit 支持的旋转方向
+@property (assign, nonatomic) UIInterfaceOrientationMask supportedInterfaceOrientations;
 
 @end
 NS_ASSUME_NONNULL_END

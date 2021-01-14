@@ -6,7 +6,7 @@
 //
 #import <UIKit/UIKit.h>
 #import "DoraemonManager.h"
-#import "DoraemonEntryView.h"
+#import "DoraemonEntryWindow.h"
 #import "DoraemonCacheManager.h"
 #import "DoraemonStartPluginProtocol.h"
 #import "DoraemonDefine.h"
@@ -27,6 +27,11 @@
 #import "DoraemonNetFlowManager.h"
 #import "DoraemonHealthManager.h"
 
+#if DoraemonWithGPS
+#import "DoraemonGPSMocker.h"
+#endif
+
+
 #if DoraemonWithLogger
 #import "DoraemonCocoaLumberjackLogger.h"
 #import "DoraemonCocoaLumberjackViewController.h"
@@ -36,10 +41,6 @@
 #if DoraemonWithWeex
 #import "DoraemonWeexLogDataSource.h"
 #import "DoraemonWeexInfoDataManager.h"
-#endif
-
-#if DoraemonWithGPS
-#import "DoraemonGPSMocker.h"
 #endif
 
 
@@ -59,7 +60,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 
 @interface DoraemonManager()
 
-@property (nonatomic, strong) DoraemonEntryView *entryView;
+@property (nonatomic, strong) DoraemonEntryWindow *entryWindow;
 
 @property (nonatomic, strong) NSMutableArray *startPlugins;
 
@@ -83,6 +84,15 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
         instance = [[DoraemonManager alloc] init];
     });
     return instance;
+}
+
+- (instancetype)init{
+    self = [super init];
+    if (self) {
+        _autoDock = YES;
+        _keyBlockDic = [[NSMutableDictionary alloc] init];
+    }
+    return self;
 }
 
 - (void)install{
@@ -142,8 +152,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [[DoraemonCacheManager sharedInstance] saveFpsSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveCpuSwitch:NO];
     [[DoraemonCacheManager sharedInstance] saveMemorySwitch:NO];
-    
-    
+
 #if DoraemonWithGPS
     //开启mockGPS功能
     if ([[DoraemonCacheManager sharedInstance] mockGPSSwitch]) {
@@ -152,6 +161,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
         [[DoraemonGPSMocker shareInstance] mockPoint:loc];
     }
 #endif
+
     
     //开启NSLog监控功能
     if ([[DoraemonCacheManager sharedInstance] nsLogSwitch]) {
@@ -205,6 +215,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     #pragma mark - 平台工具
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonMockPlugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonHealthPlugin];
+    [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonFileSyncPlugin];
     
     #pragma mark - 常用工具
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonAppSettingPlugin];
@@ -213,6 +224,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 #if DoraemonWithGPS
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonGPSPlugin];
 #endif
+
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonH5Plugin];
     [self addPluginWithPluginType:DoraemonManagerPluginType_DoraemonDeleteLocalDataPlugin];
     
@@ -266,8 +278,11 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
  初始化工具入口
  */
 - (void)initEntry:(CGPoint) startingPosition{
-    _entryView = [[DoraemonEntryView alloc] initWithStartPoint:startingPosition];
-    [_entryView show];
+    _entryWindow = [[DoraemonEntryWindow alloc] initWithStartPoint:startingPosition];
+    [_entryWindow show];
+    if(_autoDock){
+        [_entryWindow setAutoDock:YES];
+    }
 }
 
 - (void)addStartPlugin:(NSString *)pluginName{
@@ -283,6 +298,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self addPluginWithTitle:model.title icon:model.icon desc:model.desc pluginName:model.pluginName atModule:model.atModule buriedPoint:model.buriedPoint];
 }
 
+// out 1
 - (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName{
     [self addPluginWithTitle:title icon:iconName desc:desc pluginName:entryName atModule:moduleName buriedPoint:@"dokit_sdk_business_ck"];
 }
@@ -290,22 +306,27 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 - (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName buriedPoint:(NSString *)buriedPoint{
     
     NSMutableDictionary *pluginDic = [self foundGroupWithModule:moduleName];
+    pluginDic[@"key"] = [NSString stringWithFormat:@"%@-%@-%@-%@",moduleName,title,iconName,desc];
     pluginDic[@"name"] = title;
     pluginDic[@"icon"] = iconName;
     pluginDic[@"desc"] = desc;
     pluginDic[@"pluginName"] = entryName;
     pluginDic[@"buriedPoint"] = buriedPoint;
+    pluginDic[@"show"] = @1;
 }
 
+// out 2
 - (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName handle:(void (^)(NSDictionary *))handleBlock
 {
     NSMutableDictionary *pluginDic = [self foundGroupWithModule:moduleName];
+    pluginDic[@"key"] = [NSString stringWithFormat:@"%@-%@-%@-%@",moduleName,title,iconName,desc];
     pluginDic[@"name"] = title;
     pluginDic[@"icon"] = iconName;
     pluginDic[@"desc"] = desc;
     pluginDic[@"pluginName"] = entryName;
-    pluginDic[@"handleBlock"] = [handleBlock copy];
+    [_keyBlockDic setValue:[handleBlock copy] forKey:pluginDic[@"key"]];
     pluginDic[@"buriedPoint"] = @"dokit_sdk_business_ck";
+    pluginDic[@"show"] = @1;
 
 }
 - (NSMutableDictionary *)foundGroupWithModule:(NSString *)module
@@ -374,18 +395,21 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
 }
 
 - (BOOL)isShowDoraemon{
-    return !_entryView.hidden;
+    if (!_entryWindow) {
+        return NO;
+    }
+    return !_entryWindow.hidden;
 }
 
 - (void)showDoraemon{
-    if (_entryView.hidden) {
-        _entryView.hidden = NO;
+    if (_entryWindow.hidden) {
+        _entryWindow.hidden = NO;
     }
 }
 
 - (void)hiddenDoraemon{
-    if (!_entryView.hidden) {
-        _entryView.hidden = YES;
+    if (!_entryWindow.hidden) {
+        _entryWindow.hidden = YES;
      }
 }
 
@@ -402,6 +426,10 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     self.performanceBlock = block;
 }
 
+- (void)addWebpHandleBlock:(UIImage *(^)(NSString *filePath))block{
+    self.webpHandleBlock = block;
+}
+
 - (void)hiddenHomeWindow{
     [[DoraemonHomeWindow shareInstance] hide];
 }
@@ -412,7 +440,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     NSArray *dataArray = @{
                            @(DoraemonManagerPluginType_DoraemonWeexLogPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"日志")},
-                                   @{kDesc:@"Weex日志显示"},
+                                   @{kDesc:@"Weex log"},
                                    @{kIcon:@"doraemon_log"},
                                    @{kPluginName:@"DoraemonWeexLogPlugin"},
                                    @{kAtModule:@"Weex"},
@@ -420,7 +448,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    ],
                            @(DoraemonManagerPluginType_DoraemonWeexStoragePlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"缓存")},
-                                   @{kDesc:@"weex storage 查看"},
+                                   @{kDesc:@"weex storage"},
                                    @{kIcon:@"doraemon_file"},
                                    @{kPluginName:@"DoraemonWeexStoragePlugin"},
                                    @{kAtModule:@"Weex"},
@@ -428,7 +456,7 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                    ],
                            @(DoraemonManagerPluginType_DoraemonWeexInfoPlugin) : @[
                                    @{kTitle:DoraemonLocalizedString(@"信息")},
-                                   @{kDesc:@"weex 信息查看"},
+                                   @{kDesc:@"weex info"},
                                    @{kIcon:@"doraemon_app_info"},
                                    @{kPluginName:@"DoraemonWeexInfoPlugin"},
                                    @{kAtModule:@"Weex"},
@@ -694,7 +722,15 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
                                   @{kPluginName:@"DoraemonHealthPlugin"},
                                   @{kAtModule:DoraemonLocalizedString(@"平台工具")},
                                   @{kBuriedPoint:@"dokit_sdk_platform_ck_health"}
-                                  ]
+                                  ],
+                           @(DoraemonManagerPluginType_DoraemonFileSyncPlugin) : @[
+                                @{kTitle:DoraemonLocalizedString(@"文件同步")},
+                                    @{kDesc:DoraemonLocalizedString(@"文件同步")},
+                                    @{kIcon:@"doraemon_file_sync"},
+                                    @{kPluginName:@"DoraemonFileSyncPlugin"},
+                                    @{kAtModule:DoraemonLocalizedString(@"平台工具")},
+                                    @{kBuriedPoint:@"dokit_sdk_platform_ck_filesync"}
+                                    ]
                            }[@(pluginType)];
     
     DoraemonManagerPluginTypeModel *model = [DoraemonManagerPluginTypeModel new];

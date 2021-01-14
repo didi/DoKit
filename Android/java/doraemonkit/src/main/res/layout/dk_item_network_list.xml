@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="73dp">
+
+    <TextView
+        android:id="@+id/network_list_url"
+        style="@style/DK.TextSmall.Dark"
+        android:ellipsize="end"
+        android:paddingRight="30dp"
+        android:singleLine="true"
+        android:textSize="@dimen/dk_font_size_10"
+        app:layout_constraintBottom_toTopOf="@+id/network_list_platform"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/network_list_platform"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:background="@drawable/dk_network_platform_bg"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:singleLine="true"
+        android:textColor="@color/dk_color_FFFFFF"
+        android:textSize="@dimen/dk_font_size_10"
+        app:layout_constraintBottom_toTopOf="@+id/network_list_method"
+        app:layout_constraintLeft_toLeftOf="@id/network_list_url"
+        app:layout_constraintTop_toBottomOf="@+id/network_list_url" />
+
+    <TextView
+        android:id="@+id/network_list_method"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dk_network_method_bg"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:textColor="@color/dk_color_FFFFFF"
+        android:textSize="@dimen/dk_font_size_10"
+        app:layout_constraintBottom_toTopOf="@+id/network_list_time_and_cost"
+        app:layout_constraintLeft_toLeftOf="@id/network_list_platform"
+        app:layout_constraintTop_toBottomOf="@+id/network_list_platform" />
+
+    <TextView
+        android:id="@+id/network_list_code"
+        style="@style/DK.TextSmall.Dark"
+        android:layout_marginLeft="5dp"
+        android:textSize="@dimen/dk_font_size_10"
+        app:layout_constraintLeft_toRightOf="@id/network_list_method"
+        app:layout_constraintTop_toBottomOf="@id/network_list_platform" />
+
+
+    <TextView
+        android:id="@+id/network_list_time_and_cost"
+        style="@style/DK.TextSmall.Dark"
+        android:textSize="@dimen/dk_font_size_10"
+        app:layout_constraintBottom_toTopOf="@+id/network_list_flow"
+        app:layout_constraintLeft_toLeftOf="@id/network_list_platform"
+        app:layout_constraintTop_toBottomOf="@+id/network_list_method" />
+
+    <TextView
+        android:id="@+id/network_list_flow"
+        style="@style/DK.TextSmall.Dark"
+        android:textSize="@dimen/dk_font_size_10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/network_list_platform"
+        app:layout_constraintTop_toBottomOf="@+id/network_list_time_and_cost" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/dk_more_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

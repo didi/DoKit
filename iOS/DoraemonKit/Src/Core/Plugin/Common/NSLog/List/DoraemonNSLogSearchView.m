@@ -24,7 +24,7 @@
         self.layer.borderWidth = kDoraemonSizeFrom750_Landscape(2);
         self.layer.borderColor = [UIColor doraemon_colorWithHex:0x999999 andAlpha:0.2].CGColor;
         
-        _searchIcon = [[UIImageView alloc] initWithImage:[UIImage doraemon_imageNamed:@"doraemon_search"]];
+        _searchIcon = [[UIImageView alloc] initWithImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_search"]];
         _searchIcon.frame = CGRectMake(kDoraemonSizeFrom750_Landscape(20), self.doraemon_height/2-_searchIcon.doraemon_height/2, _searchIcon.doraemon_width, _searchIcon.doraemon_height);
         [self addSubview:_searchIcon];
         

@@ -136,9 +136,9 @@
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json",@"text/javascript",@"text/html", nil];
         [manager GET:@"https://www.taobao.com/" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSString *string = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-            NSLog(@"请求成功 %@",string);
+            NSLog(@"request success %@",string);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"请求失败");
+            NSLog(@"request failure");
         }];
     }
 
@@ -189,7 +189,7 @@
 }
 
 - (void)anrClick{
-    NSLog(@"0.4秒钟的卡顿");
+    NSLog(@"0.4s anr");
     [NSThread sleepForTimeInterval:0.4];
     
 //    for(int i=0 ; i< 50000; i++){

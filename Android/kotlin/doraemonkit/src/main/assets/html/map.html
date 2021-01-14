@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <style type="text/css">
+    html,body{
+        width:100%;
+        height:100%;
+    }
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    body,
+    button,
+    input,
+    select,
+    textarea {
+      font: 12px/16px Verdana, Helvetica, Arial, sans-serif;
+    }
+
+    #container {
+      min-width: 600px;
+      min-height: 767px;
+    }
+    </style>
+
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp"></script>
+    <script>
+    var init = function (lat,lng) {
+
+        if(lat===0 && lng===0){
+            lat = 39.916527;
+            lng = 116.397128;
+        }
+        console.log('lat===>' + lat + "  lng===>" + lng);
+        var center = new qq.maps.LatLng(lat, lng);
+        var map= new qq.maps.Map(document.getElementById("container"), {
+            center: center,
+            zoom: 13
+        });
+        //赋值给window对象
+        window['map'] = map;
+
+        //移动地图中心位置
+        map.panBy(120, 150);
+        //创建marker
+        var marker = new qq.maps.Marker({
+            position: center,
+            map: map
+        });
+
+        window['marker'] = marker;
+
+        //设置Marker的动画属性为从落下
+        marker.setAnimation(qq.maps.MarkerAnimation.DOWN);
+        marker.setDraggable(true);
+        //当标注拖动结束时回调
+        qq.maps.event.addListener(marker, 'dragend', function (event) {
+            var latLng = event.latLng;
+            lat = latLng.getLat().toFixed(6);
+            lng = latLng.getLng().toFixed(6);
+            window.location = "doraemon://invokeNative/sendLocation?lat=" + lat + "&lng=" + lng;
+        });
+
+        window.location = "doraemon://invokeNative/sendLocation?lat=" + center.getLat().toFixed(6) + "&lng=" + center.getLng().toFixed(6);
+    }
+
+    var updateLocation = function(lat,lng){
+        var center = new qq.maps.LatLng(lat, lng);
+        if(window['map']){
+            var map = window['map'];
+            map.setCenter(center);
+            //移动地图中心位置
+            map.panBy(120, 150);
+       }
+
+       if(window['marker']){
+           var marker = window['marker'];
+           marker.setPosition(center);
+           //设置Marker的动画属性为从落下
+           marker.setAnimation(qq.maps.MarkerAnimation.DOWN);
+       }
+    }
+
+    </script>
+</head>
+<!--onload="init(0, 0)"-->
+<body >
+<div id="container"></div>
+</body>
+
+</html>

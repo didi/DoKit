@@ -12,6 +12,9 @@
 #import "DoraemonTimeProfiler.h"
 //#import <CocoaLumberjack/CocoaLumberjack.h>
 #import "DoraemonUtil.h"
+#import "SDImageWebPCoder.h"
+#import <DoraemonKit/DoraemonAppInfoViewController.h>
+#import <fmdb/FMDB.h>
 
 #if __has_include(<FBRetainCycleDetector/FBRetainCycleDetector.h>)
 #define XXX 1
@@ -29,6 +32,9 @@
     
     //[DoraemonTimeProfiler startRecord];
     
+//    id a = [[NSObject alloc] init];
+//    [a b];
+    
     //[[self class] handleCCrashReportWrap];
     NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
 
@@ -37,7 +43,7 @@
     }
     [[DoraemonManager shareInstance] addPluginWithTitle:DoraemonDemoLocalizedString(@"测试插件") icon:@"doraemon_default" desc:DoraemonDemoLocalizedString(@"测试插件") pluginName:@"TestPlugin" atModule:DoraemonDemoLocalizedString(@"业务工具")];
 
-    [[DoraemonManager shareInstance] addPluginWithTitle:DoraemonDemoLocalizedString(@"block方式加入插件") icon:@"doraemon_default" desc:@"测试插件" pluginName:@"TestPlugin" atModule:DoraemonDemoLocalizedString(@"业务工具") handle:^(NSDictionary *itemData) {
+    [[DoraemonManager shareInstance] addPluginWithTitle:DoraemonDemoLocalizedString(@"block方式加入插件") icon:@"doraemon_default" desc:@"测试插件" pluginName:@"pluginName" atModule:DoraemonDemoLocalizedString(@"业务工具") handle:^(NSDictionary *itemData) {
         NSLog(@"handle block plugin");
     }];
 
@@ -47,6 +53,7 @@
     [[DoraemonManager shareInstance] addStartPlugin:@"StartPlugin"];
     [DoraemonManager shareInstance].bigImageDetectionSize = 10 * 1024;//大图检测只检测10K以上的
     [DoraemonManager shareInstance].startClass = @"DoKitAppDelegate";
+    //[DoraemonManager shareInstance].autoDock = NO;
     [[DoraemonManager shareInstance] installWithPid:@"749a0600b5e48dd77cf8ee680be7b1b7"];
     //[[DoraemonManager shareInstance] installWithStartingPosition:CGPointMake(66, 66)];
     
@@ -54,9 +61,15 @@
         NSLog(@"anrDic == %@",anrDic);
     }];
 
-//    [[DoraemonManager shareInstance] addH5DoorBlock:^(NSString *h5Url) {
-//        NSLog(@"使用自带容器打开H5链接: %@",h5Url);
-//    }];
+    [[DoraemonManager shareInstance] addH5DoorBlock:^(NSString *h5Url) {
+        NSLog(@"使用自带容器打开H5链接: %@",h5Url);
+    }];
+    
+    [[DoraemonManager shareInstance] addWebpHandleBlock:^UIImage * _Nullable(NSString * _Nonnull filePath) {
+        NSData *data = [[NSData alloc] initWithContentsOfFile:filePath];
+        UIImage *image = [[SDImageWebPCoder sharedCoder] decodedImageWithData:data options:nil];
+        return image;
+    }];
     // 例子：移除 GPS Mock
 //    [[DoraemonManager shareInstance] installWithCustomBlock:^{
 //        [[DoraemonManager shareInstance] removePluginWithPluginName:@"DoraemonGPSPlugin" atModule:@"常用工具"];
@@ -80,18 +93,55 @@
     //[DoraemonTimeProfiler stopRecord];
     
     [self test];
-
+    
+    [self createTestDatabase];
     
     return YES;
 }
 
 - (void)test{
     [self test2];
+    
+    DoraemonAppInfoViewController.customAppInfoBlock = ^(NSMutableArray<NSDictionary *> *appInfos) {
+        [appInfos addObject:@{@"title": @"Build Time", @"value": @"2020-05-21 11:29:22"}];
+        [appInfos addObject:@{@"title": @"Commit", @"value": @"1ffa9c6"}];
+        [appInfos addObject:@{@"title": @"Branch", @"value": @"version/1.2.0"}];
+    };
 }
 
 - (void)test2{
-    
-    NSLog(@"a == %zi",XXX);
+    NSDictionary *dic = @{
+        @"name":@"yixiang"
+    }.mutableCopy;
+    [dic setValue:@"caoweoweo" forKey:@"name"];
+    NSLog(@"a == %@",dic);
+}
+
+- (void)createTestDatabase {
+    NSString *rootPath = NSHomeDirectory();
+    NSString *dBPath = [NSString stringWithFormat:@"%@/Documents/dokit_test_database.sqlite", rootPath];
+    FMDatabase *db;
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dBPath]) {
+        db = [FMDatabase databaseWithPath:dBPath];
+        db.shouldCacheStatements = YES;
+        
+        if ([db open]) {
+            NSString *sql_1 = @"CREATE TABLE IF NOT EXISTS dokit_records_table (id INTEGER PRIMARY KEY, record TEXT, record_2 INTEGER);";
+            [db executeUpdate:sql_1];
+            
+//            NSString *sql_2 = @"CREATE TABLE IF NOT EXISTS dokit_records_table_2 (id_2 INTEGER PRIMARY KEY AUTOINCREMENT, record_2 TEXT);";
+//            [db executeUpdate:sql_2];
+            
+//            NSString *sql_3 = @"SELECT * FROM sqlite_master WHERE type='table' ORDER BY name;";
+//            FMResultSet *set = [db executeQuery:sql_3];
+//            while ([set next]) {
+//                NSString *name = [set stringForColumnIndex:1];
+//                NSLog(@"-=-=-=- name = %@", name);
+//            }
+
+            [db close];
+        }
+    }
 }
 
 void uncaughtExceptionHandler(NSException*exception){

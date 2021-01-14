@@ -1,0 +1,28 @@
+<view class="page-box">
+  <view class="debug-container">
+    <view wx:for="{{tools}}" wx:key="index" class="debug-collections card">
+      <view class="debug-collections-title">{{item.title}}</view>
+      <view class="debug-collections-main">
+        <view wx:for="{{item.tools}}"
+              wx:for-index="idx"
+              wx:for-item="tool"
+              wx:key="idx"
+              data-type="{{tool.type}}"
+              bindtap="onToggle"
+              class="card-item">
+          <!-- <cover-image
+              class="debug-item-image"
+              src="{{tool.image}}"
+          ></cover-image> -->
+          <image
+              class="debug-item-image"
+              src="{{tool.image}}"
+          ></image>
+          <text class="debug-text">{{tool.title}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <back bindreturn="onGoBack"></back>
+</view>
+

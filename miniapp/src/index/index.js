@@ -1,8 +1,18 @@
 Component({
+  properties: {
+    projectId: {
+      type: String,
+      value: '',
+    }
+  },
+  data: {
+    curCom: 'dokit',
+  },
   methods: {
-      jumpToDebug() {
-          wx.navigateTo({
-              url: '../../dist/debug/debug'
+      tooggleComponent(e) {
+        const componentType = e.currentTarget.dataset.type || e.detail.componentType
+          this.setData({
+            curCom: componentType
           })
       }
   }

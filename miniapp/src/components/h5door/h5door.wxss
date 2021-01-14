@@ -1,0 +1,84 @@
+.h5door-page {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100%;
+    height:100vh;
+    background-color: white;
+    z-index: 9998;
+}
+.h5door-page .url-box{
+    height: 358rpx;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+}
+.h5door-page .area-box{
+    width: 98%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    border: 1px solid #efefef;
+    height: 358rpx;
+    position: relative;
+}
+.scaning-img {
+    position: absolute;
+    display: block;
+    right: 32rpx;
+    top: 375rpx;
+    height: 56rpx;
+    width: 56rpx;
+}
+.url-box .url-paceholder-text{
+    font-size: 32rpx;
+    color: #BEBEBE;
+}
+.h5door-page .history-list{
+    margin-top: 70rpx;
+    padding:0 20rpx;
+}
+.h5door-page .history-content{
+    max-height: 600rpx;
+    overflow: auto;
+}
+.h5door-page .history-item{
+    height: 90rpx;
+    line-height: 90rpx;
+    padding-left:57rpx;
+    position: relative;
+    font-size: 24rpx;
+    color: #333333;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    border-bottom: 1px solid #efefef;
+}
+.h5door-page .clear-all{
+    width: 100%;
+    text-align: center;
+    font-size: 24rpx;
+    margin-top: 40rpx;
+    height: 32rpx;
+    line-height: 32rpx;
+    color: #999;
+}
+.h5door-page .search-icon{
+    height: 40rpx;
+    width: 40rpx;
+    position: absolute;
+    left: 0;
+    bottom: 23rpx;
+}
+.h5door-page .go-webview-button{
+    position: absolute;
+    bottom: 30rpx;
+    left: 30rpx;
+    width: 690rpx;
+    height: 100rpx;
+    background: #337CC4;
+    border: 0;
+    color:#ffffff;
+}

@@ -1,0 +1,49 @@
+.myPosition{
+    font-size: 0.8rem;
+}
+.position-tools {
+    width: 100%;
+    height:100vh;
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    color: #333;
+    border-bottom: 1rpx solid #EEE;
+    font-size: 32rpx;
+    padding-left: 32rpx;
+    text-align: left;
+    background-color:#fff;
+    z-index: 9998;
+}
+.tools-item{
+    height: 104rpx;
+    line-height: 104rpx;
+    color: #333;
+    border-bottom: 1rpx solid #EEE;
+    font-size:32rpx;
+    padding-left: 32rpx;
+    position: relative;
+    text-align: left;
+    background-color:#fff;
+}
+.tools-item .tools-img{
+    height: 27rpx;
+    width: 16rpx;
+    position: absolute;
+    right: 32rpx;
+    top: 40rpx;
+}
+.tools-item .fast-authorization{
+    background: #fff;
+    color: #333;
+    font-size: 32rpx;
+    text-align: left;
+    padding: 0;
+    height: 104rpx;
+    line-height: 104rpx;
+}
+.tools-item .fast-authorization:after{
+    border:0
+}

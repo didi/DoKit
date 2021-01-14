@@ -1,0 +1,49 @@
+<view class="storage-container">
+    <view class="mask" wx:if="{{isShowMask}}" bindtap="closeAll"></view>
+    <view class="header">
+        <view class="head-title">大小限制：{{limitSize}}</view>
+        <view class="head-title">当前总体积：{{currentSize}}</view>
+        <view class="storage-manage" bindtap="openManageMeau">
+            <image class="storage-manage-img" src="{{ img.moreicon }}" />
+        </view>
+        <view wx:if="{{isShowManage}}" class="storage-manage-list">
+            <view class="arrow-top"></view>
+            <view class="manage-item" bindtap="showAddPopup"><image class="manage-item-img" src="{{ img.addicon }}" />新增</view>
+            <view class="manage-item" bindtap="openDeleteMode"><image class="manage-item-img" src="{{ img.deleteicon }}" />删除</view>
+            <view class="manage-item" bindtap="clearAll"><image class="manage-item-img" src="{{ img.clearallicon }}" />清除全部</view>
+        </view>
+    </view>
+    <view class="storage-main">
+        <view class="table-title"><view class="key-title">Key</view><view class="value-title">Value</view></view>
+        <checkbox-group bindchange="checkboxChange" class="storage-content-box">
+            <view class="storage-item" wx:for="{{storage}}" wx:key="key">
+                <checkbox wx:if="{{isDeleteMode}}" class="storage-check" value="{{item.key}}" checked="{{item.checked}}" color="#337cc4"/>
+                <text class="storage-key {{isDeleteMode?'':'add-some-flex'}}">{{item.key}}</text>
+                <text class="storage-value" title="{{item.value}}">{{item.value}}</text>
+                <view class="clear-single-btn" type="primary" data-key="{{item.key}}" data-value="{{item.value}}" bindtap="modifyItemValue">
+                    <image class="clear-single-img" src="{{ img.modifyicon }}" />
+                </view>
+            </view>
+        </checkbox-group>
+    </view>
+    <view class="add-dialog {{addPopupClass}}">
+        <view class="add-popup-header">
+            <text class="cancel" bindtap="closeAddPopup">取消</text>
+            <text class="main-title">{{addInfo.title}}</text>
+            <text class="add" bindtap="addStorage">确定</text>
+        </view>
+        <view class="add-key-input">
+            <view class="name">键名：Key{{addInfo.disabled?'（不可修改）':''}}</view>
+            <input class="add-dialog-input" value="{{addInfo.key}}" bindinput="bingAddInfoKey" maxlength="-1" disabled="{{addInfo.disabled}}"></input>
+        </view>
+        <view class="add-value-input">
+            <view class="name">键值：Value</view>
+            <input class="add-dialog-input" value="{{addInfo.value}}" bindinput="bingAddInfoValue"  maxlength="-1"></input>
+        </view>
+    </view>
+    <view class="storage-footer" wx:if="{{isDeleteMode}}">
+        <button class="operate-btn" bindtap="cancelDelete">取消</button>
+        <button class="operate-btn-delete {{checkedStorage.length>0?'delete-active':''}}" bindtap="clearStorage">删除</button>
+    </view>
+</view>
+<back bindreturn="onGoBack"></back>

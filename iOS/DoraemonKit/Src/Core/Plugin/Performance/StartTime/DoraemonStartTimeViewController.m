@@ -15,6 +15,7 @@
 #import <objc/runtime.h>
 #import "DoraemonHealthManager.h"
 #import "DoraemonTimeProfiler.h"
+#import "DoraemonStartTimeProfilerViewController.h"
 
 static NSTimeInterval startTime;
 static NSTimeInterval endTime;
@@ -92,6 +93,8 @@ static NSTimeInterval endTime;
 
 #pragma mark -- DoraemonCellButtonDelegate
 - (void)cellBtnClick:(id)sender{
+    DoraemonStartTimeProfilerViewController *vc = [[DoraemonStartTimeProfilerViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 

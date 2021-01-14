@@ -1,0 +1,52 @@
+<view class="injector-container">
+    <view class="mask" wx:if="{{isShowMask}}" bindtap="closeAll"></view>
+    <view class="header">
+        <view class="injection-toggle">
+            <text class="injection-toggle-text">注射器💉开关</text>
+            <switch color="#337CC4" checked="{{isInjected}}" bindchange="toggleInjectionState" />
+        </view>
+        <view class="injector-manage {{ isInjected ? 'disabled':'' }}" bindtap="openManageMenu">
+            <image class="injector-manage-img" src="{{ img.moreicon }}" />
+        </view>
+        <view wx:if="{{isShowManage}}" class="injector-manage-list">
+            <view class="arrow-top"></view>
+            <view class="manage-item" bindtap="showAddPopup"><image class="manage-item-img" src="{{ img.addicon }}" />新增</view>
+            <view class="manage-item" bindtap="clearAll"><image class="manage-item-img" src="{{ img.clearallicon }}" />清除全部</view>
+        </view>
+    </view>
+    <view class="injector-main {{ isInjected ? 'disabled':'' }}">
+        <view class="table-title">
+            <view class="key-title">Origin value</view>
+            <view class="type-title">type</view>
+            <view class="value-title">New value</view>
+        </view>
+        <checkbox-group bindchange="checkboxChange" class="injector-content-box">
+            <view class="injector-item" wx:for="{{interceptors}}" wx:key="key">
+                <text class="injector-key">{{item.key}}</text>
+                <text class="injector-type">{{item.isRegex?'Regex':'PlainText'}}</text>
+                <text class="injector-value" title="{{item.value}}">{{item.value}}</text>
+            </view>
+        </checkbox-group>
+    </view>
+    <view class="add-dialog {{addPopupClass}}">
+        <view class="add-popup-header">
+            <text class="cancel" bindtap="closeAddPopup">取消</text>
+            <text class="main-title">{{addInfo.title}}</text>
+            <text class="add" bindtap="addStorage">确定</text>
+        </view>
+        <view class="add-key-input">
+            <view class="name">
+                原始值：Key
+                (
+                    正则：<switch class="add-key-switch" color="#337CC4" type="checkbox" checked="{{addInfo.isRegex}}" bindchange="bingAddInfoIsRegex"/>
+                )
+            </view>
+            <input class="add-name-input" value="{{addInfo.key}}" bindinput="bingAddInfoKey" maxlength="-1"></input>
+        </view>
+        <view class="add-value-input">
+            <view class="name">注射值：Value</view>
+            <input class="add-name-input" value="{{addInfo.value}}" bindinput="bingAddInfoValue"  maxlength="-1"></input>
+        </view>
+    </view>
+</view>
+<back bindreturn="onGoBack"></back>

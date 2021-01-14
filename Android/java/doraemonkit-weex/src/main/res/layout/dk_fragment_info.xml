@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        app:dkIcon="@mipmap/dk_close_icon_big"
+        android:layout_height="@dimen/dk_home_title_height"
+        app:dkTitle="@string/dk_weex_info_title"/>
+
+    <ListView
+        android:id="@+id/info_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:paddingLeft="@dimen/dk_dp_15"
+        android:divider="@color/dk_color_CCCCCC"
+        android:dividerHeight="1px"/>
+
+</LinearLayout>

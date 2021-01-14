@@ -1,0 +1,73 @@
+/* 
+  DoraemonKitDemo.strings
+  DoKitSwiftDemo
+
+  Created by didi on 2020/5/13.
+  Copyright © 2020 didi. All rights reserved.
+*/
+{
+    //DoraemonKitDemo
+    
+    
+    //沙盒测试Demo
+    "沙盒测试Demo"                                 = "Sandbox test Demo";
+    "添加一条json到沙盒中"                     = "Add json into sandbox";
+    "添加一张图片到沙盒中"                   = "Add image into sandbox";
+    "添加一段mp4到沙盒中"                      = "add mp4 into sandbox";
+    "添加doc、xlsx、pdf到沙盒中"               = "Add doc、xlsx、pdf into sandbox";
+    "添加html到沙盒中"                           = "Add html into sandbox";
+    "添加DB到沙盒中"                             = "Add DB into sandbox";
+    
+    //日志测试Demo
+    "日志测试Demo"                                 = "Log test Demo";
+    "添加一条NSLog日志"                          = "Add NSLog log";
+    "添加一条CocoaLumberjack日志"                = "Add CocoaLumberjack log";
+    
+    //性能测试Demo
+    "性能测试Demo"                                 = "Performance Test Demo";
+    "低FPS操作打开"                               = "Low FPS operation";
+    "高CPU操作打开"                               = "High CPU operation";
+    "高CPU操作关闭"                               = "High CPU operation off";
+    "高内存操作打开"                            = "High memory operation";
+    "高内存操作关闭"                            = "High memory operation off";
+    "高流量操作打开"                            = "High network traffic operation";
+    "卡顿操作打开"                               = "ANR operation";
+    
+    //视觉测试Demo
+    "视觉测试Demo"                                 = "UI test Demo";
+    "我是来测试的"                               = "Test";
+    
+    //网络测试Demo
+    "网络测试Demo"                                 = "Networking test Demo";
+    "发送一条URLConnection请求"                  = "Send URLConnection request";
+    "发送一条NSURLSession请求"                   = "Send NSURLSession request";
+    "发送一条AFNetworking请求"                   = "Send AFNetworking request";
+    "发送一条AFNetworking请求2"                  = "Send AFNetworking request2";
+    "打开UIWebView"                                  = "Open UIWebView";
+    "打开WKWebView"                                  = "Open WKWebView";
+    "图片测试"                              = "Image Test";
+    "Mock测试"                              = "Mock Test";
+    "Mock测试2"                             = "Mock Test 2";
+    
+    //模拟位置Demo
+    "模拟位置Demo"                                 = "Mock GPS Demo";
+    "模拟位置"                                     = "Mock GPS";
+    
+    //crash
+    "crash触发Demo"                                  = "Crash Demo";
+    "uncaughtException"                                = "uncaughtException";
+    "signalException"                                  = "signalException";
+    
+    //通用测试Demo
+    "通用测试Demo"                                 = "Common test Demo";
+    "子线程UI操作"                                = "Sub Thread UI";
+    "显示入口"                                   = "Show Doraemon";
+    "隐藏入口"                                   = "Hidden Doraemon";
+    
+    //测试泄漏测试
+    "内存泄漏测试"                            = "Memory Leak Test";
+    
+    //Other
+    "block方式加入插件"                       = "Add plugins from block";
+    "测试插件"                                     = "Test plugin";
+}

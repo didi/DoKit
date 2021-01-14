@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginBottom="5dp"
+    android:background="@drawable/dk_item_performance_detail"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/time"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/dk_color_7FFFFFFF" />
+
+    <TextView
+        android:id="@+id/time"
+        style="@style/DK.Text.White"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/date" />
+
+    <TextView
+        android:id="@+id/parameter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/date"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="50dp"
+        android:drawableLeft="@mipmap/dk_performance_up_arrow"
+        android:textColor="@color/dk_color_79DE79" />
+</RelativeLayout>

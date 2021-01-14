@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/dk_info_background">
+
+        <FrameLayout
+            android:id="@+id/fl_pre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp">
+
+            <ImageView
+                android:id="@+id/pre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/dk_pre_icon"
+                android:layout_marginRight="12dp"/>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp">
+
+            <ImageView
+                android:id="@+id/next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/dk_next_icon"
+                android:layout_marginLeft="12dp"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/name"
+            style="@style/DK.Text.Darker"
+            android:layout_toRightOf="@id/fl_pre"
+            android:layout_toLeftOf="@id/fl_next"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="6dp"
+            android:gravity="left"/>
+
+        <TextView
+            android:id="@+id/id"
+            style="@style/DK.Text.Darker"
+            android:layout_below="@id/name"
+            android:layout_alignLeft="@id/name"
+            android:layout_alignRight="@id/name"
+            android:layout_marginBottom="6dp"
+            android:gravity="left" />
+
+        <TextView
+            android:id="@+id/position"
+            style="@style/DK.Text.Darker"
+            android:layout_below="@id/id"
+            android:layout_alignLeft="@id/id"
+            android:layout_alignRight="@id/id"
+            android:layout_marginBottom="6dp"
+            android:gravity="left"/>
+
+        <TextView
+            android:id="@+id/desc"
+            style="@style/DK.Text.Darker"
+            android:layout_below="@id/position"
+            android:layout_alignLeft="@id/position"
+            android:layout_alignRight="@id/position"
+            android:layout_marginBottom="6dp"
+            android:lineSpacingExtra="7dp"
+            android:gravity="left"/>
+
+        <TextView
+            android:id="@+id/activity"
+            style="@style/DK.Text.Darker"
+            android:layout_below="@id/desc"
+            android:layout_alignLeft="@id/desc"
+            android:layout_alignRight="@id/desc"
+            android:layout_marginBottom="6dp"
+            android:gravity="left"/>
+
+        <TextView
+            android:id="@+id/fragment"
+            style="@style/DK.Text.Darker"
+            android:layout_below="@id/activity"
+            android:layout_alignLeft="@id/activity"
+            android:layout_alignRight="@id/activity"
+            android:layout_marginBottom="6dp"
+            android:visibility="gone"
+            android:gravity="left"/>
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="14dp"
+            android:layout_marginRight="16dp"
+            android:src="@mipmap/dk_close_icon"/>
+
+    </RelativeLayout>
+</FrameLayout>

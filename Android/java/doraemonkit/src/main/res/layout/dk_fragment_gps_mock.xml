@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="89dp"
+        app:dkIcon="@mipmap/dk_close_icon_big"
+        app:dkTitle="@string/dk_kit_gps_mock" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_bar">
+
+        <com.didichuxing.doraemonkit.widget.webview.MyWebView
+            android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dk_dp_5"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="@dimen/dk_dp_5"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/setting_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#FFFFFF"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/dk_dp_15"
+                android:paddingTop="10dp"
+                android:paddingRight="@dimen/dk_dp_15"
+                android:paddingBottom="10dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp">
+
+                    <ImageView
+                        android:id="@+id/iv_search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:src="@mipmap/dk_search_icon" />
+
+                    <EditText
+                        android:id="@+id/ed_long_lat"
+                        style="@style/DK.Input"
+                        android:layout_marginRight="15dp"
+                        android:layout_toLeftOf="@id/iv_search"
+                        android:hint="@string/dk_gpsmock_hint_longlat" />
+
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:background="@color/dk_color_E5E5E5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(Example: 120.15 30.28)"
+                    android:textColor="#cfcfcf"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+</RelativeLayout>

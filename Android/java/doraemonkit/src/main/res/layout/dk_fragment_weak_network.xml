@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dk_color_FFFFFF"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/dk_dp_15"
+    android:paddingRight="@dimen/dk_dp_15">
+
+    <com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="89dp"
+        app:dkIcon="@mipmap/dk_close_icon_big"
+        app:dkTitle="@string/dk_kit_weak_network" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/setting_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_bar" />
+
+
+    <!--    模拟弱网详情View-->
+    <RelativeLayout
+        android:id="@+id/weak_network_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/setting_list"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/dk_dp_15"
+        android:paddingLeft="@dimen/dk_dp_15"
+        android:paddingRight="@dimen/dk_dp_15"
+        android:visibility="gone"
+        tools:visibility="visible">
+        <!--        radioGroup-->
+        <RadioGroup
+            android:id="@+id/weak_network_option"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dk_dp_15"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/off_network"
+                style="@style/DK.RadioButton.Left"
+                android:layout_weight="1"
+                android:text="@string/dk_weak_network_off" />
+
+            <RadioButton
+                android:id="@+id/timeout"
+                style="@style/DK.RadioButton"
+                android:layout_weight="1"
+                android:text="@string/dk_weak_network_timeout" />
+
+            <RadioButton
+                android:id="@+id/speed_limit"
+                style="@style/DK.RadioButton.Right"
+                android:layout_weight="1"
+                android:text="@string/dk_weak_network_speed_limit" />
+        </RadioGroup>
+        <!--        超时设置布局设置-->
+        <RelativeLayout
+            android:id="@+id/layout_timeout_option"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/weak_network_option"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/label_timeout"
+                style="@style/DK.TextBig.Darker"
+                android:layout_centerVertical="true"
+                android:text="Timeout：" />
+
+            <EditText
+                android:id="@+id/value_timeout"
+                style="@style/DK.Input"
+                android:layout_width="80dp"
+                android:layout_toRightOf="@id/label_timeout"
+                android:gravity="center"
+                android:hint="2000"
+                android:inputType="number"
+                android:paddingLeft="@dimen/dk_dp_5"
+                android:paddingRight="@dimen/dk_dp_5"
+                android:singleLine="true" />
+
+            <TextView
+                style="@style/DK.TextBig.Darker"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/value_timeout"
+                android:text="ms" />
+        </RelativeLayout>
+        <!--        限速设置布局-->
+        <RelativeLayout
+            android:id="@+id/layout_speed_limit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/weak_network_option"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <RelativeLayout
+                android:id="@+id/layout_limit_request"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/label_request_speed"
+                    style="@style/DK.TextBig.Darker"
+                    android:layout_centerVertical="true"
+                    android:text="@string/dk_weak_network_request_limit" />
+
+                <EditText
+                    android:id="@+id/request_speed"
+                    style="@style/DK.Input"
+                    android:layout_width="80dp"
+                    android:layout_toRightOf="@id/label_request_speed"
+                    android:gravity="center"
+                    android:hint="1"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/dk_dp_5"
+                    android:paddingRight="@dimen/dk_dp_5"
+                    android:singleLine="true" />
+
+                <TextView
+                    style="@style/DK.TextBig.Darker"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/request_speed"
+                    android:text="@string/dk_weak_network_speed_unit" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/layout_limit_response"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/layout_limit_request">
+
+                <TextView
+                    android:id="@+id/label_response_speed"
+                    style="@style/DK.TextBig.Darker"
+                    android:layout_centerVertical="true"
+                    android:text="@string/dk_weak_network_response_limit" />
+
+                <EditText
+                    android:id="@+id/response_speed"
+                    style="@style/DK.Input"
+                    android:layout_width="80dp"
+                    android:layout_toRightOf="@id/label_response_speed"
+                    android:gravity="center"
+                    android:hint="1"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/dk_dp_5"
+                    android:paddingRight="@dimen/dk_dp_5"
+                    android:singleLine="true" />
+
+                <TextView
+                    style="@style/DK.TextBig.Darker"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/response_speed"
+                    android:text="@string/dk_weak_network_speed_unit" />
+            </RelativeLayout>
+
+            <TextView
+                style="@style/DK.TextSmall"
+                android:layout_below="@id/layout_limit_response"
+                android:layout_marginTop="@dimen/dk_dp_15"
+                android:gravity="left"
+                android:text="@string/dk_weak_network_limit_message" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

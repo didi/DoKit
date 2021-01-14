@@ -82,7 +82,7 @@
     NSString *text = data;
     BOOL writeSuccess = [text writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:nil];
     if (writeSuccess) {
-        DoKitLog(@"写入成功");
+        DoKitLog(@"write success");
     }
 }
 
@@ -97,7 +97,7 @@
                                                         options:NSJSONReadingMutableContainers
                                                           error:&err];
     if(err) {
-        DoKitLog(@"json解析失败：%@",err);
+        DoKitLog(@"json read error：%@",err);
         return nil;
     }
     return dic;
@@ -114,7 +114,7 @@
                                                         options:NSJSONReadingMutableContainers
                                                           error:&err];
     if(err) {
-        DoKitLog(@"json解析失败：%@",err);
+        DoKitLog(@"json read error：%@",err);
         return nil;
     }
     return array;
@@ -200,7 +200,7 @@
          }
      }else{
          //不存在该文件path
-         DoKitLog(@"不存在该文件");
+         DoKitLog(@"file not exist");
      }
      
      return nil;
@@ -245,20 +245,28 @@
     return [UIViewController topViewControllerForKeyWindow];
 }
 
-//分享文件
-+ (void)shareFileWithPath:(NSString *)filePath formVC:(UIViewController *)vc{
-    NSURL *url = [NSURL fileURLWithPath:filePath];
-    NSArray *objectsToShare = @[url];
+//share text
++ (void)shareText:(NSString *)text formVC:(UIViewController *)vc{
+    [self share:text formVC:vc];
+}
+
+//share image
++ (void)shareImage:(UIImage *)image formVC:(UIViewController *)vc{
+    [self share:image formVC:vc];
+}
+
+//share url
++ (void)shareURL:(NSURL *)url formVC:(UIViewController *)vc{
+    [self share:url formVC:vc];
+}
+
++ (void)share:(id)object formVC:(UIViewController *)vc{
+    if (!object) {
+        return;
+    }
+    NSArray *objectsToShare = @[object];//support NSString、NSURL、UIImage
 
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare applicationActivities:nil];
-    NSArray *excludedActivities = @[UIActivityTypePostToTwitter, UIActivityTypePostToFacebook,
-                                    UIActivityTypePostToWeibo,
-                                    UIActivityTypeMessage, UIActivityTypeMail,
-                                    UIActivityTypePrint, UIActivityTypeCopyToPasteboard,
-                                    UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll,
-                                    UIActivityTypeAddToReadingList, UIActivityTypePostToFlickr,
-                                    UIActivityTypePostToVimeo, UIActivityTypePostToTencentWeibo];
-    controller.excludedActivityTypes = excludedActivities;
 
     if([DoraemonAppInfoUtil isIpad]){
         if ( [controller respondsToSelector:@selector(popoverPresentationController)] ) {
@@ -289,7 +297,13 @@
     if ([[UIApplication sharedApplication].delegate respondsToSelector:@selector(window)]) {
         keyWindow = [[UIApplication sharedApplication].delegate window];
     }else{
-        keyWindow = [UIApplication sharedApplication].windows.firstObject;
+        NSArray *windows = [UIApplication sharedApplication].windows;
+        for (UIWindow *window in windows) {
+            if (!window.hidden) {
+                keyWindow = window;
+                break;
+            }
+        }
     }
     return keyWindow;
 }

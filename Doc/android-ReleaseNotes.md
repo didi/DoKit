@@ -1,15 +1,124 @@
 DoraemonKit-Android releases
 ===
+
+## 3.3.5（dokitx 对应androidx，dokit对应Android Support）
+
+1.为了更好的支持android官方androidx和support，dokit从3.3.1版本开始正式对sdk名字进行更新。具体如下：
+
+androidx===>com.didichuxing.doraemonkit:dokitx:3.3.5;
+
+support===>com.didichuxing.doraemonkit:dokit:3.3.5;
+
+2.修复与booster的冲突。相关issues:https://github.com/didi/booster/issues/202
+
+
+## 3.3.4（dokitx 对应androidx，dokit对应Android Support）
+
+1.为了更好的支持android官方androidx和support，dokit从3.3.1版本开始正式对sdk名字进行更新。具体如下：
+
+androidx===>com.didichuxing.doraemonkit:dokitx:3.3.4;
+
+support===>com.didichuxing.doraemonkit:dokit:3.3.4;
+
+2.兼容AS Gradle v4.1.0
+
+3.dokit v3.3.4插件底层依赖库Booster升级到 v3.0.0版本
+
+
+## 3.3.3（dokitx 对应androidx，dokit对应Android Support）
+
+1.为了更好的支持android官方androidx和support，dokit从3.3.1版本开始正式对sdk名字进行更新。具体如下：
+
+androidx===>com.didichuxing.doraemonkit:dokitx:3.3.3;
+
+support===>com.didichuxing.doraemonkit:dokit:3.3.3;
+
+2.新增三方依赖库搜索
+
+3.解决H5助手崩溃的问题
+
+4.兼容booster，dokit v3.3.3插件底层依赖booster v2.3.0版本
+
+
+
+## 3.3.1（dokitx 对应androidx，dokit对应Android Support）
+1.为了更好的支持android官方androidx和support，dokit从3.3.1版本开始正式对sdk名字进行更新。具体如下：
+
+androidx===>com.didichuxing.doraemonkit:dokitx:3.3.1;
+
+support===>com.didichuxing.doraemonkit:dokit:3.3.1;
+
+2.新增H5助手功能:针对webview中的js请求进行数据Mock和抓包
+
+3.新增三方库信息:将项目中依赖的三方库进行统一收集展现。
+
+4.兼容okhttp v3.+ 以及 v4.+
+
+5.大量github issues 问题修复。
+
+## 3.2.0 & 3.0.8.0
+1.文件同步助手功能已推出。
+详细文档参考：
+http://xingyun.xiaojukeji.com/docs/dokit/#/FileList
+
+2.github issues fixed
+
+## 3.1.8 & 3.0.7.2
+1.适配AGP 4.0
+
+2.github issues fixed
+
+## 3.1.6
+1.更换dokit的底层插件框架为[booster](https://github.com/didi/booster),兼容性和编译速度得到显著提升
+
+2.github issues fixed
+
+## 3.0.6
+1.对齐androidx dokit v3.1.5 版本功能
+
+
+## 3.1.5
+1.更加精细化的插件控制(具体的插件配置信息可参考www.dokit.cn Android接入指南)
+
+2.新增用户自定义管理kit和自定义业务专区分组api(具体的插件配置信息可参考www.dokit.cn Android接入指南)
+
+3.核心Api升级成kotlin，同时欢迎大家和我一起参与dokit kotlin改造
+
+4.github issues fixed
+
+## 3.1.4
+1.DoKit项目结构调整,对外暴露的api已全部移到com.didichuxing.doraemonkit.kit.core包名下,如果你有自定义Kit，请重新引入一下包名
+
+2.修复okhttp拦截器被重复调用的问题
+
+3.github issues fixed
+
+## 3.1.3
+1.DoKit项目结构调整,对外暴露的api已全部移到com.didichuxing.doraemonkit.kit.core包名下,如果你有自定义Kit，请重新引入一下包名
+
+2.DoKit数据Mock模块支持post模式匹配
+
+3.github issues fixed
+
 ## 3.1.2
 1.安卓版本DoKit从3.1.0版本开始全面拥抱Androidx,假如你的项目还没有升级到androidx你可以选择依赖3.0.3版本
+
 2.修复大图检测圆角失效的问题
 
 ## 3.1.1
 1.修复网络工具里由于androidx的ViewPage包名不一致导致的进入页面崩溃的bug
+
 2.修复其他github issues
 
 ## 3.1.0
 1.安卓版本DoKit从3.1.0版本开始全面拥抱Androidx,假如你的项目还没有升级到androidx你可以选择依赖3.0.2版本
+
+## 3.0.5
+1.该版本为支持Android support的最后一个版本，后期也将不在提供维护，请大家尽快升级和适配Androidx
+
+2.DoKit数据Mock模块支持post模式匹配
+
+3.github issues fixed
 
 ## 3.0.3
 1.修复大图检测圆角失效的问题
@@ -19,13 +128,15 @@ DoraemonKit-Android releases
 
 ## 3.0.0
 1.优化dokit 慢函数代码插件性能
+
 2.优化大图检测实现方式，不再需要手动注入代码(支持Glide4.0+、Fresco、Picasso、ImageLoader)
+
 3.优化安卓端启动性能
+
 4.其他功能优化
 
 ## 3.0_beta3
 1.优化dokit插件
-
 
 ## 3.0_beta2
 1.新增日志一键导出功能

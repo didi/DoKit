@@ -172,6 +172,22 @@
     }];
 }
 
+- (void)locationManager:(CLLocationManager *)manager didRangeBeacons:(NSArray<CLBeacon *> *)beacons satisfyingConstraint:(CLBeaconIdentityConstraint *)beaconConstraint API_AVAILABLE(ios(13.0)) {
+    [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(locationManager:didRangeBeacons:satisfyingConstraint:)]) {
+            [delegate locationManager:manager didRangeBeacons:beacons satisfyingConstraint:beaconConstraint];
+        }
+    }];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailRangingBeaconsForConstraint:(CLBeaconIdentityConstraint *)beaconConstraint error:(NSError *)error API_AVAILABLE(ios(13.0)) {
+    [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(locationManager:didFailRangingBeaconsForConstraint:error:)]) {
+            [delegate locationManager:manager didFailRangingBeaconsForConstraint:beaconConstraint error:error];
+        }
+    }];
+}
+
 - (void)locationManager:(CLLocationManager *)manager
          didEnterRegion:(CLRegion *)region{
     [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
@@ -212,6 +228,14 @@ monitoringDidFailForRegion:(nullable CLRegion *)region
     [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
         if ([delegate respondsToSelector:@selector(locationManager:didChangeAuthorizationStatus:)]) {
             [delegate locationManager:manager didChangeAuthorizationStatus:status];
+        }
+    }];
+}
+
+-(void)locationManagerDidChangeAuthorization:(CLLocationManager *)manager {
+    [self enumDelegate:manager block:^(id<CLLocationManagerDelegate> delegate) {
+        if ([delegate respondsToSelector:@selector(locationManagerDidChangeAuthorization:)]) {
+            [delegate performSelector:@selector(locationManagerDidChangeAuthorization:) withObject:manager];
         }
     }];
 }

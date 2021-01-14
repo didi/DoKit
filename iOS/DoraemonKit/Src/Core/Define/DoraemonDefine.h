@@ -18,8 +18,8 @@
 #import "DoraemonAlertUtil.h"
 #import "DoraemonUtil.h"
 
-#define DoKitVersion @"3.0.0"
-#define kbChange(x) x * 1000
+#define DoKitVersion @"3.0.2"
+#define DoKitKbChange(x) x * 1000
 
 //#define DoKit_OpenLog
 
@@ -43,9 +43,11 @@
 //根据750*1334分辨率计算size
 #define kDoraemonSizeFrom750(x) ((x)*DoraemonScreenWidth/750)
 // 如果横屏显示
-#define kDoraemonSizeFrom750_Landscape(x) (kInterfaceOrientationPortrait ? kDoraemonSizeFrom750(x) : ((x)*DoraemonScreenHeight/750))
+#define kDoraemonSizeFrom750_Landscape(x) (kInterfaceOrientationLandscape ? ((x)*DoraemonScreenHeight/750) : kDoraemonSizeFrom750(x))
 
 #define kInterfaceOrientationPortrait UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)
+
+#define kInterfaceOrientationLandscape UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].statusBarOrientation)
 
 
 #define IS_IPHONE_X_Series [DoraemonAppInfoUtil isIPhoneXSeries]
@@ -54,10 +56,18 @@
 #define IPHONE_SAFEBOTTOMAREA_HEIGHT (IS_IPHONE_X_Series ? 34 : 0)
 #define IPHONE_TOPSENSOR_HEIGHT      (IS_IPHONE_X_Series ? 32 : 0)
 
+//判空
+#define STRING_IS_BLANK(str) (str==nil ||![str isKindOfClass:[NSString class]]|| [str length]<1)
 #define STRING_NOT_NULL(str) ((str==nil)?@"":str)
+#define DICTIONARY_IS_EMPTY(dic) ((dic)==nil || ![(dic) isKindOfClass:[NSDictionary class]] || (dic).count < 1)
+#define ARRAY_IS_NULL(array) ((array)==nil || ![(array) isKindOfClass:[NSArray class]] || ([array count]) < 1)
+#define ARRAY_IS_EMPTY(array) ((array)==nil || ![(array) isKindOfClass:[NSArray class]] || (array).count < 1)
+#define STRING_DEFAULT_BLANK(str) ((str==nil)?@"":str)
 
 
 #define DoraemonClosePluginNotification @"DoraemonClosePluginNotification"
 #define DoraemonQuickOpenLogVCNotification @"DoraemonQuickOpenLogVCNotification"
+#define DoraemonKitManagerUpdateNotification @"DoraemonKitManagerUpdateNotification"
+
 
 #endif /* DoraemonDefine_h */

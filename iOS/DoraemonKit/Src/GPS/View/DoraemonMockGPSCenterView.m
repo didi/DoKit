@@ -27,7 +27,7 @@
         _circleView.backgroundColor = [UIColor doraemon_colorWithHex:0xFFA511 andAlpha:0.37];
         [self addSubview:_circleView];
         
-        _locationIconView = [[UIImageView alloc] initWithImage:[UIImage doraemon_imageNamed:@"doraemon_location"]];
+        _locationIconView = [[UIImageView alloc] initWithImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_location"]];
         _locationIconView.frame = CGRectMake(self.circleView.center.x-_locationIconView.doraemon_width/2, self.circleView.center.y-_locationIconView.doraemon_height, _locationIconView.doraemon_width, _locationIconView.doraemon_height);
         [self addSubview:_locationIconView];
         
@@ -38,7 +38,7 @@
         _gpsLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_gpsLabel];
         
-        _arrowImageView = [[UIImageView alloc] initWithImage:[UIImage doraemon_imageNamed:@"doraemon_arrow_down"]];
+        _arrowImageView = [[UIImageView alloc] initWithImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_arrow_down"]];
         _arrowImageView.frame = CGRectMake(self.doraemon_width/2-_arrowImageView.doraemon_width/2, _locationIconView.doraemon_top-kDoraemonSizeFrom750_Landscape(20)-_arrowImageView.doraemon_height, _arrowImageView.doraemon_width, _arrowImageView.doraemon_height);
         [self addSubview:_arrowImageView];
         

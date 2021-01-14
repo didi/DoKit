@@ -32,7 +32,7 @@
         
         _searchBtn = [[UIButton alloc] initWithFrame:CGRectMake(self.doraemon_width-kDoraemonSizeFrom750_Landscape(120), 0, kDoraemonSizeFrom750_Landscape(120), kDoraemonSizeFrom750_Landscape(120))];
         _searchBtn.imageView.contentMode = UIViewContentModeCenter;
-        [_searchBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_search"] forState:UIControlStateNormal];
+        [_searchBtn setImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_search"] forState:UIControlStateNormal];
         [_searchBtn addTarget:self action:@selector(searchBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:_searchBtn];
         
@@ -63,9 +63,9 @@
     //去除首尾空格
     NSString *textSearchStr = [senderTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     if (textSearchStr.length > 0) {
-        [_searchBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_search_highlight"] forState:UIControlStateNormal];
+        [_searchBtn setImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_search_highlight"] forState:UIControlStateNormal];
     }else{
-        [_searchBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_search"] forState:UIControlStateNormal];
+        [_searchBtn setImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_search"] forState:UIControlStateNormal];
     }
 }
 

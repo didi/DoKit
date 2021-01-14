@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="DK" />
+
+    <style name="DK.Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1px</item>
+        <item name="android:background">@color/dk_color_E5E5E5</item>
+    </style>
+
+    <style name="DK.Divider.Vertical">
+        <item name="android:layout_width">1px</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/dk_color_E5E5E5</item>
+    </style>
+
+    <style name="DK.Text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/dk_font_size_14</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="DK.Text.Normal" parent="DK.Text">
+        <item name="android:textColor">@color/dk_color_666666</item>
+    </style>
+
+    <style name="DK.Text.Dark" parent="DK.Text">
+        <item name="android:textColor">@color/dk_color_151515</item>
+    </style>
+
+    <style name="DK.Text.Darker" parent="DK.Text">
+        <item name="android:textColor">@color/dk_color_333333</item>
+    </style>
+
+    <style name="DK.Text.White" parent="DK.Text">
+        <item name="android:textColor">@color/dk_color_FFFFFF</item>
+    </style>
+
+    <style name="DK.Text.Gray" parent="DK.Text">
+        <item name="android:textColor">@color/dk_color_666666</item>
+    </style>
+
+    <style name="DK.Text.Blue" parent="DK.Text">
+        <item name="android:textColor">@color/dk_color_55A8FD</item>
+    </style>
+
+
+    <style name="DK.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/dk_font_size_16</item>
+        <item name="android:textColor">@color/dk_color_324456</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DK.TitleBig">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/dk_font_size_24</item>
+        <item name="android:textColor">@color/dk_color_324456</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DK.TitleBar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/dk_font_size_18</item>
+        <item name="android:textColor">@color/dk_color_333333</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DK.TextSmall">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/dk_font_size_12</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="DK.TextSmall.Dark" parent="DK.TextSmall">
+        <item name="android:textColor">@color/dk_color_151515</item>
+    </style>
+
+    <style name="DK.TextSmall.Darker" parent="DK.TextSmall">
+        <item name="android:textColor">@color/dk_color_333333</item>
+    </style>
+
+    <style name="DK.TextBig.Dark" parent="DK.TextBig">
+        <item name="android:textColor">@color/dk_color_151515</item>
+    </style>
+
+    <style name="DK.TextBig.Darker" parent="DK.TextBig">
+        <item name="android:textColor">@color/dk_color_333333</item>
+    </style>
+
+    <style name="DK.TextBig">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/dk_font_size_16</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
+    <style name="DK.Shadow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">8dp</item>
+    </style>
+
+    <style name="DK.Shadow.Bottom">
+        <item name="android:background">@mipmap/dk_shadow_bottom</item>
+    </style>
+
+    <style name="DK.CheckBox">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/dk_switch_background</item>
+    </style>
+
+    <style name="DK.RadioButton">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/dk_font_size_14</item>
+        <item name="android:textColor">@color/dk_radio_button_text_color</item>
+        <item name="android:layout_height">34dp</item>
+        <item name="android:layout_width">70dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/dk_radio_button_background</item>
+    </style>
+
+    <style name="DK.RadioButton.Left">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/dk_font_size_14</item>
+        <item name="android:textColor">@color/dk_radio_button_text_color</item>
+        <item name="android:layout_height">34dp</item>
+        <item name="android:layout_width">70dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/dk_radio_button_background_left</item>
+    </style>
+
+
+    <style name="DK.RadioButton.middle">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/dk_font_size_14</item>
+        <item name="android:textColor">@color/dk_radio_button_text_color</item>
+        <item name="android:layout_height">34dp</item>
+        <item name="android:layout_width">70dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/dk_radio_button_background_middle</item>
+    </style>
+
+    <style name="DK.RadioButton.Right">
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/dk_font_size_14</item>
+        <item name="android:textColor">@color/dk_radio_button_text_color</item>
+        <item name="android:layout_height">34dp</item>
+        <item name="android:layout_width">70dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@drawable/dk_radio_button_background_right</item>
+    </style>
+
+    <style name="DK.Input">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:textColor">@color/dk_color_333333</item>
+        <item name="android:textColorHint">@color/dk_color_CCCCCC</item>
+        <item name="android:textSize">@dimen/dk_font_size_16</item>
+        <item name="android:background">@null</item>
+        <item name="android:textCursorDrawable">@drawable/dk_input_cursor</item>
+    </style>
+
+    <style name="DK.ConfirmButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textSize">@dimen/dk_font_size_16</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="DK.ConfirmButton.Positive" parent="DK.ConfirmButton">
+        <item name="android:background">@drawable/dk_confirm_button_background</item>
+        <item name="android:textColor">@color/dk_confirm_button_text_color</item>
+    </style>
+
+    <style name="DK.CommonItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:background">@color/dk_color_FFFFFF</item>
+    </style>
+
+    <style name="DK.CommonItemAppInfo">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:background">@color/dk_color_FFFFFF</item>
+    </style>
+
+    <style name="DK.Theme.Translucent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <!-- Note that we use the base animation style here (that is no
+             animations) because we really have no idea how this kind of
+             activity will be used. -->
+        <item name="android:windowAnimationStyle">@android:style/Animation
+        </item>
+    </style>
+
+    <style name="DK.Dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackgroundFallback">@android:color/transparent</item>
+    </style>
+
+
+</resources>

@@ -1,0 +1,16 @@
+<view class="position-tools">
+    <view class="tools-item">
+        <button class="fast-authorization" open-type="openSetting">快速授权</button>
+        <image class="tools-img" src="{{ img.rightarrowicon }}" lazy-load="false" binderror="" bindload="" />
+    </view>
+    <view bindtap="openMyPosition" class="tools-item">查看我的位置
+        <image class="tools-img" src="{{ img.rightarrowicon }}" lazy-load="false" binderror="" bindload="" />
+    </view>
+    <view bindtap="choosePosition" class="tools-item">选择我的位置
+        <image class="tools-img" src="{{ img.rightarrowicon }}" lazy-load="false" binderror="" bindload="" />
+    </view>
+    <view bindtap="resetPosition" class="tools-item">还原
+        <image class="tools-img" src="{{ img.rightarrowicon }}" lazy-load="false" binderror="" bindload="" />
+    </view>
+</view>
+<back top="50%" bindreturn="onGoBack"></back>

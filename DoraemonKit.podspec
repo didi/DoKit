@@ -7,18 +7,20 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DoraemonKit'
-  s.version          = '3.0.0'
+  s.version          = '3.0.6'
   s.summary          = 'iOS各式各样的工具集合'
   s.description      = <<-DESC
                           iOS各式各样的工具集合 Desc
                        DESC
 
   s.homepage         = 'https://github.com/didi/DoraemonKit'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
+  s.license          = { :type => 'Apache-2.0', :file => 'LICENSE' }
   s.author           = { 'yixiang' => 'javer_yi@163.com' }
-  s.source           = { :git => 'https://github.com/didi/DoraemonKit', :tag => s.version.to_s }
-  s.ios.deployment_target = '8.0'
+  s.source           = { :git => 'https://github.com/didi/DoraemonKit.git', :tag => s.version.to_s }
+  s.ios.deployment_target = '9.0'
 
+  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+  s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
   s.default_subspec = 'Core'
   
@@ -28,6 +30,10 @@ Pod::Spec.new do |s|
     ss.resource_bundles = {
       'DoraemonKit' => 'iOS/DoraemonKit/Resource/**/*'
     }
+    ss.dependency 'GCDWebServer'
+    ss.dependency 'GCDWebServer/WebUploader'
+    ss.dependency 'GCDWebServer/WebDAV'
+    ss.dependency 'FMDB'
   end
 
   s.subspec 'WithLogger' do |ss| 
@@ -81,7 +87,7 @@ Pod::Spec.new do |s|
       'GCC_PREPROCESSOR_DEFINITIONS' => '$(inherited) DoraemonWithMLeaksFinder'
     }
     ss.dependency 'DoraemonKit/Core'
-    #ss.dependency 'FBRetainCycleDetector'
+    ss.dependency 'FBRetainCycleDetector'
   end
 end
 

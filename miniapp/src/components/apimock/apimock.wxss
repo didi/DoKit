@@ -1,0 +1,161 @@
+.page-box {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height:100vh;
+    display: flex;
+    flex-direction: column;
+    background: #F5F6F7;
+    z-index: 9998;
+}
+.switch {
+    zoom: 0.8;
+}
+.tab-bar {
+    width: 100%;
+    line-height: 132rpx;
+    height: 132rpx;
+    display: flex;
+    background-color: #FFFFFF;
+    flex: 0 0 132rpx;
+}
+.tab-bar-item {
+    width: 50%;
+    height: 100%;
+    line-height: 132rpx;
+    text-align: center;
+}
+.list-wrap {
+    margin-top: 12rpx;
+    padding-top: 12rpx;
+    flex: 1;
+    position: relative;
+}
+.list-scroll {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+.item-wrap {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0 32rpx;
+    background-color: #FFFFFF;
+}
+.list-item {
+    position: relative;
+    display: flex;
+    box-sizing: border-box;
+    justify-content: space-between;
+    width: 100%;
+    height: 104rpx;
+    align-items: center;
+    border-bottom: 1rpx solid #E5E5E5;
+}
+.list-item::after {
+    position: absolute;
+    content: '＞';
+    right: 10rpx;
+    font-size: 34rpx;
+    color: #CCC;
+}
+.item-name {
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+}
+.switch {
+    margin-right: 72rpx;
+}
+.item-detail {
+    box-sizing: border-box;
+    padding: 0 32rpx;
+    transition: height 0.2s;
+    height: 400rpx;
+}
+.item-detail.hidden {
+    height: 0;
+    overflow: hidden;
+}
+.item-req-desc {
+    line-height: 46rpx;
+}
+.radio-group {
+    width: 100%;
+    margin-top: 12rpx;
+}
+.radio {
+    width: 50%;
+}
+.active-text {
+    color: #337CC4;
+}
+.nav-bar {
+    width: 100%;
+    display: flex;
+    flex: 0 0 100rpx;
+    border-top: 1rpx solid #e5e5e5;
+    background-color: white;
+}
+.nav-bar-item {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #333333;
+    font-size: 20rpx;
+}
+.nav-bar-item.active {
+    color: #337CC4;
+}
+.nav-bar-icon {
+    display: block;
+    width: 40rpx;
+    height: 40rpx;
+}
+.item-btn-wrap {
+    display: flex;
+    align-items: flex-start;
+}
+.btn-item {
+    width: 25%;
+}
+.btn-item.active {
+    color: #337CC4;
+}
+.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .5);
+}
+.modal-inner {
+    margin: 50% auto 0;
+    transform: translateY(-25%);
+    width: 80%;
+    height: 80%;
+    background-color: white;
+}
+.operate-area {
+    display: flex;
+    width: 100%;
+    height: 100rpx;
+    background-color: #337CC4;
+    position: absolute;
+    bottom: 0;
+}
+.operate-item {
+    width: 50%;
+    text-align: center;
+    line-height: 100rpx;
+    color: white;
+}
+

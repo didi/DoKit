@@ -1,0 +1,56 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+if (rootProject.ext.config["publishArchivesType"] == 2) {
+    apply from: 'upload-release.gradle'
+} else if (rootProject.ext.config["publishArchivesType"] == 0 || rootProject.ext.config["publishArchivesType"] == 1) {
+    apply from: 'upload-dev.gradle'
+}
+
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //implementation rootProject.ext.dependencies["appcompat"]
+    //compileOnly rootProject.ext.dependencies["okio"]
+
+    if (rootProject.ext.config["runOrPublish"] == 0) {
+        implementation project(":doraemonkit-okhttp-v3")
+        implementation project(":doraemonkit-okhttp-v4")
+    } else {
+        implementation "com.didichuxing.doraemonkit:dokitx-okhttp-v3:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+        implementation "com.didichuxing.doraemonkit:dokitx-okhttp-v4:${rootProject.ext.android["jcenterArchivesVersionName"]}"
+    }
+
+
+    compileOnly rootProject.ext.dependencies["utilcode"]
+
+}

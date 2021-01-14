@@ -1,7 +1,34 @@
-<view class="container">
+<!-- <view hidden="{{ curCom == 'dokit' }}">
+    <debug hidden="{{ curCom !== 'debug' }}" bindtoggle="tooggleComponent"></debug>
+    <appinformation hidden="{{ curCom !== 'appinformation' }}" bindtoggle="tooggleComponent"></appinformation>
+    <positionsimulation hidden="{{ curCom !== 'positionsimulation' }}" bindtoggle="tooggleComponent"></positionsimulation>
+    <storage hidden="{{ curCom !== 'storage' }}" bindtoggle="tooggleComponent"></storage>
+    <h5door hidden="{{ curCom !== 'h5door' }}" bindtoggle="tooggleComponent"></h5door>
+    <httpinjector hidden="{{ curCom !== 'httpinjector' }}" bindtoggle="tooggleComponent"></httpinjector>
+    <apimock hidden="{{ curCom !== 'apimock' }}" bindtoggle="tooggleComponent" projectId="{{ projectId }}"></apimock>
+</view>
+<view hidden="{{ curCom !== 'dokit' }}">
     <cover-image
-        bindtap="jumpToDebug"
+        bindtap="tooggleComponent"
+        data-type="debug"
         class="dokit-entrance"
         src="//pt-starimg.didistatic.com/static/starimg/img/W8OeOO6Pue1561556055823.png"
     ></cover-image>
-</view>
+</view> -->
+<block wx:if="{{ curCom!= 'dokit' }}">
+    <debug wx:if="{{ curCom === 'debug' }}" bindtoggle="tooggleComponent"></debug>
+    <appinformation wx:if="{{ curCom === 'appinformation' }}" bindtoggle="tooggleComponent"></appinformation>
+    <positionsimulation wx:if="{{ curCom === 'positionsimulation' }}" bindtoggle="tooggleComponent"></positionsimulation>
+    <storage wx:if="{{ curCom === 'storage' }}" bindtoggle="tooggleComponent"></storage>
+    <h5door wx:if="{{ curCom === 'h5door' }}" bindtoggle="tooggleComponent"></h5door>
+    <httpinjector wx:if="{{ curCom === 'httpinjector' }}" bindtoggle="tooggleComponent"></httpinjector>
+    <apimock wx:if="{{ curCom === 'apimock' }}" bindtoggle="tooggleComponent" projectId="{{ projectId }}"></apimock>
+</block>
+<block wx:else>
+    <cover-image
+        bindtap="tooggleComponent"
+        data-type="debug"
+        class="dokit-entrance"
+        src="//pt-starimg.didistatic.com/static/starimg/img/W8OeOO6Pue1561556055823.png"
+    ></cover-image>
+</block>

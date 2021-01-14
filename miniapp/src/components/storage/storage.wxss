@@ -1,0 +1,230 @@
+.storage-container {
+    background-color: white;
+    position: absolute;
+    width: 100%;
+    height:100vh;
+    box-sizing: border-box;
+    padding: 32rpx;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 9998;
+}
+.storage-container .mask{
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    z-index:10;
+}
+.storage-container .storage-content-box{
+    overflow: auto;
+    height: 800rpx;
+}
+.storage-container .add-dialog{
+    width: 100%;
+    height: 504rpx;
+    background: #fff;
+    padding: 0 20rpx;
+    box-sizing: border-box;
+    z-index: 99;
+    transform: translateY(504rpx);
+    transition: all .5s;
+    position: absolute;
+    bottom:0;
+    left: 0;
+}
+.storage-container .add-dialog-active{
+    transform: translateY(0);
+}
+.storage-container  .title {
+    margin-right:4.2rem;
+}
+.storage-container .table-title{
+    overflow: hidden;
+    height: 68rpx;
+}
+.storage-container .header{
+    position: relative;
+    height: 88rpx;
+}
+.storage-container .storage-manage{
+   position: absolute;
+   right:0;
+   top: 20rpx;
+}
+.storage-manage-list .arrow-top{
+    width:0;
+    height:0;
+    border:16rpx solid;
+    position:absolute;
+    right:10rpx;
+    border-color:transparent transparent #fff;
+    top:-31rpx;    
+}
+.storage-manage-img {
+    width: 40rpx;
+    height: 40rpx;
+}
+.storage-main .key-title{
+    width: 228rpx;
+    height: 68rpx;
+    float: left;
+    margin-right: 1px;
+    font-size: 28rpx;
+    line-height: 68rpx;
+    color: #fff;
+    border-radius: 8px 0 0 8px;
+    background: #337CC4;
+    text-align: center;
+}
+.storage-main .value-title{
+    width: 457rpx;
+    float: left;
+    height: 68rpx;
+    font-size: 28rpx;
+    line-height: 68rpx;
+    color: #fff;
+    border-radius: 0 8px 8px 0;
+    background: #337CC4;
+    text-align: center;
+}
+.storage-container .head-title{
+    font-size: 28rpx;
+}
+.storage-container  .storage-item {
+    display:flex;
+    flex-flow:row nowrap;
+    font-size: 24rpx;
+    height:80rpx;
+    line-height: 80rpx;
+}
+.storage-item .storage-check{
+    flex: 0.3;
+}
+.storage-item .storage-check .wx-checkbox-input {
+    width: 32rpx;
+    height: 32rpx;
+}
+.storage-item .storage-check .wx-checkbox-input.wx-checkbox-input-checked::before {
+    font-size: 24rpx;
+  }
+  /*checkbox选中后样式  */
+.storage-item .storage-check .wx-checkbox-input.wx-checkbox-input-checked {
+    background: #337CC4;
+}
+.storage-item .storage-key{
+    flex: 2.6;
+    padding-left: 10rpx;
+}
+.storage-item .storage-value{
+    flex: 6;
+    padding-left: 10rpx;
+    overflow: scroll;
+}
+.storage-item .add-some-flex{
+    flex: 3.2
+}
+.storage-manage-list{
+    width: 243rpx;
+    font-size: 28rpx;
+    background: #fff;
+    padding-left: 32rpx;
+    padding-right: 24rpx;
+    box-sizing: border-box;
+    position:absolute;
+    right:0px;
+    top:46px;
+    z-index: 99;
+}
+.storage-manage-list .manage-item{
+    width: 100%;
+    height: 72rpx;
+    line-height: 72rpx;
+    border-bottom:1rpx solid #efefef;
+}
+.manage-item-img {
+    height: 40rpx;
+    width: 40rpx;
+    vertical-align:-8rpx;
+    margin-right: 21rpx;
+}
+.storage-container .clear-single-btn{
+    flex:0.5;
+    line-height:80rpx;
+    text-align: center;
+}
+.clear-single-img {
+    height:24rpx;
+    width: 24rpx;
+}
+.storage-container .operate-btn{
+    background: #fff;
+    color: #337CC4;
+    border: 1rpx solid #337CC4;
+    height: 100rpx;
+    width: 224rpx;
+    margin-right: 16rpx;
+    display: inline-block;
+}
+.storage-container .operate-btn-delete{
+    background: #D8D8D8;
+    color: #fff;
+    height: 100rpx;
+    width: 450rpx;
+    box-sizing: border-box;
+    display: inline-block;
+}
+.storage-container .delete-active{
+    background: #337CC4;
+}
+/* .storage-container input{
+    display: inline-block;
+    border: 1px solid #555;
+} */
+.storage-main {
+    margin-top: 30rpx;
+}
+.storage-footer {
+    position: absolute;
+    bottom: 30rpx;
+    left:32rpx;
+}
+.add-storagekey-input{
+    width: 20%;
+    margin-right:2rem;
+}
+.add-storagevalue-input{
+    width: 65%
+}
+.add-popup-header{
+    font-size: 28rpx;
+    height: 100rpx;
+    line-height: 100rpx;
+}
+.add-popup-header .main-title{
+    padding: 0 250rpx;
+    text-align: center;
+    font-size: 36rpx;
+}
+.add-popup-header .cancel{
+    color: #999999;
+}
+.add-popup-header .add{
+    color: #337CC4;
+}
+.add-dialog .name{
+    font-size: 24rpx;
+    color: #666666;
+    width: 100%;
+    margin-top: 40rpx;
+    margin-bottom: 24rpx;
+}
+.add-dialog-input {
+    width: 100%;
+    border: 0;
+    border-bottom: 1rpx solid #EEEEEE;
+    padding-bottom: 16rpx;
+}

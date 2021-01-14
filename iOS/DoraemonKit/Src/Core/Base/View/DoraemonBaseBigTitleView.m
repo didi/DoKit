@@ -30,7 +30,7 @@
         
         _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kDoraemonSizeFrom750_Landscape(32), titleLabelOffsetY, self.doraemon_width-kDoraemonSizeFrom750_Landscape(32)-closeBtnH, kDoraemonSizeFrom750_Landscape(67))];
         
-        UIImage *closeImage = [UIImage doraemon_imageNamed:@"doraemon_close"];
+        UIImage *closeImage = [UIImage doraemon_xcassetImageNamed:@"doraemon_close"];
 #if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
         if (@available(iOS 13.0, *)) {
             self.backgroundColor = [UIColor systemBackgroundColor];
@@ -43,7 +43,7 @@
                 }
             }];
             if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                closeImage = [UIImage doraemon_imageNamed:@"doraemon_close_dark"];
+                closeImage = [UIImage doraemon_xcassetImageNamed:@"doraemon_close_dark"];
             }
         } else {
 #endif
@@ -76,9 +76,9 @@
     if (@available(iOS 13.0, *)) {
         if ([self.traitCollection hasDifferentColorAppearanceComparedToTraitCollection:previousTraitCollection]) {
             if (UITraitCollection.currentTraitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                [self.closeBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close_dark"] forState:UIControlStateNormal];
+                [self.closeBtn setImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_close_dark"] forState:UIControlStateNormal];
             } else {
-                [self.closeBtn setImage:[UIImage doraemon_imageNamed:@"doraemon_close"] forState:UIControlStateNormal];
+                [self.closeBtn setImage:[UIImage doraemon_xcassetImageNamed:@"doraemon_close"] forState:UIControlStateNormal];
             }
         }
     }

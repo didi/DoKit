@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/dk_color_FFFFFF"
+    android:orientation="vertical">
+
+    <com.didichuxing.doraemonkit.widget.titlebar.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        app:dkLeftIcon="@mipmap/dk_title_back"/>
+
+    <View style="@style/DK.Shadow.Bottom" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/text_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

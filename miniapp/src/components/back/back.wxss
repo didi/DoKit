@@ -1,0 +1,8 @@
+.dokit-back {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100rpx;
+  height: 100rpx;
+  z-index: 9999;
+}

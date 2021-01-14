@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"内存泄漏详情";
+    self.title = DoraemonLocalizedString(@"内存泄漏详情");
     
     _contentLabel = [[UILabel alloc] init];
     _contentLabel.textColor = [UIColor doraemon_black_2];

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dk_color_333333">#333333</color>
+    <color name="dk_color_666666">#666666</color>
+    <color name="dk_color_999999">#999999</color>
+    <color name="dk_color_33999999">#33999999</color>
+    <color name="dk_color_CCCCCC">#CCCCCC</color>
+    <color name="dk_color_E5E5E5">#E5E5E5</color>
+    <color name="dk_color_F3F4F5">#F3F4F5</color>
+    <color name="dk_color_FFFFFF">#FFFFFF</color>
+    <color name="dk_color_DDDDDD">#DDDDDD</color>
+    <color name="dk_color_33FFFFFF">#33FFFFFF</color>
+    <color name="dk_color_aa000000">#aa000000</color>
+    <color name="dk_color_000000">#000000</color>
+    <color name="dk_color_151515">#151515</color>
+    <color name="dk_color_2E2E3A">#2E2E3A</color>
+    <color name="dk_color_7AE5E5E5">#7AE5E5E5</color>
+    <color name="dk_color_FAD337">#FAD337</color>
+    <color name="dk_color_55A8FD">#55A8FD</color>
+    <color name="dk_color_BBBBBB">#BBBBBB</color>
+    <color name="dk_color_BEBEBE">#BEBEBE</color>
+    <color name="dk_color_0070BB">#0070BB</color>
+    <color name="dk_color_000a7a">#000a7a</color>
+    <color name="dk_color_0099dd">#0099dd</color>
+    <color name="dk_color_48BB31">#48BB31</color>
+    <color name="dk_color_BBBB23">#BBBB23</color>
+    <color name="dk_color_FF0006">#FF0006</color>
+    <color name="dk_color_8F0005">#8F0005</color>
+    <color name="dk_color_CC3A4B">#CC3A4B</color>
+    <color name="dk_color_30CC3A4B">#30CC3A4B</color>
+    <color name="dk_color_F5F6F7">#F5F6F7</color>
+    <color name="dk_color_324456">#324456</color>
+    <color name="dk_color_D26282">#D26282</color>
+    <color name="dk_color_F4F5F6">#F4F5F6</color>
+    <color name="dk_color_337CC4">#337CC4</color>
+    <color name="dk_color_3300E0DC">#3300E0DC</color>
+    <color name="dk_color_3300BFFF">#3300BFFF</color>
+    <color name="dk_color_33434352">#33434352</color>
+    <color name="dk_color_79DE79">#79DE79</color>
+    <color name="dk_color_EFFFFFFF">#EFFFFFFF</color>
+    <color name="dk_color_7FFFFFFF">#7FFFFFFF</color>
+    <color name="dk_color_3f3f46">#3f3f46</color>
+    <color name="dk_color_333339">#333339</color>
+    <color name="dk_color_4c00C9F4">#4c00C9F4</color>
+    <color name="dk_color_ff00C9F4">#ff00C9F4</color>
+    <color name="dk_color_60000000">#60000000</color>
+    <color name="dk_color_90FFFFFF">#90FFFFFF</color>
+
+    <color name="background_wtf">#FF999900</color>
+    <color name="background_error">#FFCC0000</color>
+    <color name="background_verbose">#FF666666</color>
+    <color name="background_debug">#FFFFFF00</color>
+    <color name="background_info">#FF00CC00</color>
+    <color name="background_warn">#FF0066CC</color>
+
+    <color name="foreground_wtf">#FFFFFFFF</color>
+    <color name="foreground_error">#FFFFFFFF</color>
+    <color name="foreground_verbose">#FFCCCCCC</color>
+    <color name="foreground_debug">#FF333333</color>
+    <color name="foreground_info">#FF333333</color>
+    <color name="foreground_warn">#FFCCCCCC</color>
+    <!--dropdownmenu-->
+    <color name="dk_drop_down_selected">#337CC4</color>
+    <color name="dk_drop_down_unselected">#333333</color>
+
+    <color name="dk_mask_color">#88000000</color>
+    <color name="dk_check_bg">#f2f2f2</color>
+    <color name="dk_un_press_color">#337CC4</color>
+</resources>

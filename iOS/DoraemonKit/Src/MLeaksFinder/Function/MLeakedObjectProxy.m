@@ -8,11 +8,14 @@
 
 #import "MLeakedObjectProxy.h"
 #import "MLeaksFinder.h"
-#import "MLeaksMessenger.h"
 #import <objc/runtime.h>
 #import <UIKit/UIKit.h>
 #import "DoraemonMemoryLeakData.h"
 #import "DoraemonCacheManager.h"
+#import "DoraemonAlertUtil.h"
+#import "UIViewController+Doraemon.h"
+#import "DoraemonAlertUtil.h"
+#import "UIViewController+Doraemon.h"
 
 #if _INTERNAL_MLF_RC_ENABLED
 #import <FBRetainCycleDetector/FBRetainCycleDetector.h>
@@ -20,7 +23,7 @@
 
 static NSMutableSet *leakedObjectPtrs;
 
-@interface MLeakedObjectProxy ()<UIAlertViewDelegate>
+@interface MLeakedObjectProxy ()
 @property (nonatomic, weak) id object;
 @property (nonatomic, strong) NSNumber *objectPtr;
 @property (nonatomic, strong) NSArray *viewStack;
@@ -61,13 +64,15 @@ static NSMutableSet *leakedObjectPtrs;
     
     if ([[DoraemonCacheManager sharedInstance] memoryLeakAlert]) {
         #if _INTERNAL_MLF_RC_ENABLED
-            [MLeaksMessenger alertWithTitle:@"Memory Leak"
-                                    message:[NSString stringWithFormat:@"%@", proxy.viewStack]
-                                   delegate:proxy
-                      additionalButtonTitle:@"Retain Cycle"];
+        [DoraemonAlertUtil handleAlertActionWithVC:[UIViewController rootViewControllerForKeyWindow] title:@"Memory Leak" text:[NSString stringWithFormat:@"%@", proxy.viewStack] ok:@"OK" cancel:@"Retain Cycle" okBlock:^{
+            
+        } cancleBlock:^{
+            [proxy searchRetainCycle];
+        }];
         #else
-            [MLeaksMessenger alertWithTitle:@"Memory Leak"
-                                    message:[NSString stringWithFormat:@"%@", proxy.viewStack]];
+            [DoraemonAlertUtil handleAlertActionWithVC:[UIViewController rootViewControllerForKeyWindow] title:@"Memory Leak" text:[NSString stringWithFormat:@"%@", proxy.viewStack] ok:@"OK" okBlock:^{
+
+            }];
         #endif
     }
 }
@@ -78,58 +83,55 @@ static NSMutableSet *leakedObjectPtrs;
     dispatch_async(dispatch_get_main_queue(), ^{
         [leakedObjectPtrs removeObject:objectPtr];
         [[DoraemonMemoryLeakData shareInstance] removeObjectPtr:objectPtr];
-        [MLeaksMessenger alertWithTitle:@"Object Deallocated"
-                                message:[NSString stringWithFormat:@"%@", viewStack]];
+        [DoraemonAlertUtil handleAlertActionWithVC:[UIViewController rootViewControllerForKeyWindow] title:@"Object Deallocated" text:[NSString stringWithFormat:@"%@", viewStack] ok:@"OK" okBlock:^{
+            
+        }];
     });
 }
 
-#pragma mark - UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (!buttonIndex) {
-        return;
-    }
-    
+- (void)searchRetainCycle{
     id object = self.object;
     if (!object) {
         return;
     }
-    
-#if _INTERNAL_MLF_RC_ENABLED
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        FBRetainCycleDetector *detector = [FBRetainCycleDetector new];
-        [detector addCandidate:self.object];
-        NSSet *retainCycles = [detector findRetainCyclesWithMaxCycleLength:20];
         
-        BOOL hasFound = NO;
-        for (NSArray *retainCycle in retainCycles) {
-            NSInteger index = 0;
-            for (FBObjectiveCGraphElement *element in retainCycle) {
-                if (element.object == object) {
-                    NSArray *shiftedRetainCycle = [self shiftArray:retainCycle toIndex:index];
+    #if _INTERNAL_MLF_RC_ENABLED
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            FBRetainCycleDetector *detector = [FBRetainCycleDetector new];
+            [detector addCandidate:self.object];
+            NSSet *retainCycles = [detector findRetainCyclesWithMaxCycleLength:20];
+            
+            BOOL hasFound = NO;
+            for (NSArray *retainCycle in retainCycles) {
+                NSInteger index = 0;
+                for (FBObjectiveCGraphElement *element in retainCycle) {
+                    if (element.object == object) {
+                        NSArray *shiftedRetainCycle = [self shiftArray:retainCycle toIndex:index];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [DoraemonAlertUtil handleAlertActionWithVC:[UIViewController rootViewControllerForKeyWindow] title:@"Retain Cycle" text:[NSString stringWithFormat:@"%@", shiftedRetainCycle] ok:@"OK" okBlock:^{
+                            
+                            }];
+                        });
+                        hasFound = YES;
+                        break;
+                    }
                     
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [MLeaksMessenger alertWithTitle:@"Retain Cycle"
-                                                message:[NSString stringWithFormat:@"%@", shiftedRetainCycle]];
-                    });
-                    hasFound = YES;
+                    ++index;
+                }
+                if (hasFound) {
                     break;
                 }
-                
-                ++index;
             }
-            if (hasFound) {
-                break;
+            if (!hasFound) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [DoraemonAlertUtil handleAlertActionWithVC:[UIViewController rootViewControllerForKeyWindow] title:@"Retain Cycle" text:@"Fail to find a retain cycle" ok:@"OK" okBlock:^{
+                        
+                    }];
+                });
             }
-        }
-        if (!hasFound) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [MLeaksMessenger alertWithTitle:@"Retain Cycle"
-                                        message:@"Fail to find a retain cycle"];
-            });
-        }
-    });
-#endif
+        });
+    #endif
 }
 
 - (NSArray *)shiftArray:(NSArray *)array toIndex:(NSInteger)index {
