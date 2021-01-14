@@ -50,6 +50,10 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+wrapper {
+    gradleVersion = '6.5'
+}
+
 //解决打包时由于javadocRelease校验引起的打包失败
 //tasks.getByPath(":doraemonkit:javadocRelease").enabled = false
 //tasks.getByPath(":doraemonkit-no-op:javadocRelease").enabled = false

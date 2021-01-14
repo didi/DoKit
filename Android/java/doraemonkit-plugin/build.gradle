@@ -19,16 +19,18 @@ compileKotlin {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
 }
 
+def archives_type = rootProject.ext.publish_config["archives_type"]
+def gradlePluginVersion
+if (archives_type == 2) {
+    gradlePluginVersion = rootProject.ext.android["jcenter_gradle_plugin_version"]
+} else {
+    gradlePluginVersion = rootProject.ext.android["gradle_plugin_version"]
+}
+
 dependencies {
     compileOnly gradleApi()
     compileOnly localGroovy()
-    def archives_type = rootProject.ext.publish_config["archives_type"]
-    def gradlePluginVersion
-    if (archives_type == 2) {
-        gradlePluginVersion = rootProject.ext.android["jcenter_gradle_plugin_version"]
-    } else {
-        gradlePluginVersion = rootProject.ext.android["gradle_plugin_version"]
-    }
+
     //版本不能太高 否则会跟项目的as版本冲突
     compileOnly "com.android.tools.build:gradle:$gradlePluginVersion"
     /* 👇👇👇👇 引用这两个模块 👇👇👇👇 */
