@@ -36,22 +36,22 @@
         if ([path hasSuffix:@".strings"] || [path hasSuffix:@".plist"]) {
             // 文本文件
             [self setContent:[[NSDictionary dictionaryWithContentsOfFile:path] description]];
-        } else if([path hasSuffix:@".DB"] || [path hasSuffix:@".db"] || [path hasSuffix:@".sqlite"] || [path hasSuffix:@".SQLITE"]){
+        } else if ([path hasSuffix:@".DB"] || [path hasSuffix:@".db"] || [path hasSuffix:@".sqlite"] || [path hasSuffix:@".SQLITE"] || [self isSQLiteFile:self.filePath]) {
             // 数据库文件
             self.title = DoraemonLocalizedString(@"数据库预览");
             [self browseDBTable];
-        } else if([[path lowercaseString] hasSuffix:@".webp"]){
+        } else if ([[path lowercaseString] hasSuffix:@".webp"]) {
             // webp文件
             DoraemonWebpHandleBlock block = [DoraemonManager shareInstance].webpHandleBlock;
             if (block) {
                 UIImage *img = [DoraemonManager shareInstance].webpHandleBlock(path);
                 [self setOriginalImage:img];
-            }else{
+            } else {
                 [self setContent:@"webp need implement webpHandleBlock in DoraemonManager"];
             }
         } else {
             // 其他文件 尝试使用 QLPreviewController 进行打开
-            QLPreviewController *previewController = [[QLPreviewController alloc]init];
+            QLPreviewController *previewController = [[QLPreviewController alloc] init];
             previewController.delegate = self;
             previewController.dataSource = self;
             [self presentViewController:previewController animated:YES completion:nil];
@@ -163,6 +163,22 @@
 }
 - (void)previewControllerDidDismiss:(QLPreviewController *)controller {
     [self leftNavBackClick:nil];
+}
+
+#pragma mark - Private Methods
+- (BOOL)isSQLiteFile:(NSString *)file {
+    NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:file];
+    if (!fileHandle) {
+        return NO;
+    }
+    NSData *data = [fileHandle readDataOfLength:16];
+    NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    [fileHandle closeFile];
+    if ([str isEqual:@"SQLite format 3\0"]) {
+        return YES;
+    } else {
+        return NO;
+    }
 }
 
 @end
