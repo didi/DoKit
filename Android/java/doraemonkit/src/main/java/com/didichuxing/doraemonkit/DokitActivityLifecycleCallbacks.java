@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -21,7 +22,6 @@ import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 import com.didichuxing.doraemonkit.util.PermissionUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
 
 
     @Override
-    public void onActivityCreated(@NotNull Activity activity, Bundle savedInstanceState) {
+    public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
         recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_CREATE);
         if (ignoreCurrentActivityDokitView(activity)) {
             return;
@@ -69,7 +69,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
     private static final String TAG = "ActivityLifecycleCallback";
 
     @Override
-    public void onActivityStarted(@NotNull Activity activity) {
+    public void onActivityStarted(@NonNull Activity activity) {
         if (ignoreCurrentActivityDokitView(activity)) {
             return;
         }
@@ -81,7 +81,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
     }
 
     @Override
-    public void onActivityResumed(@NotNull Activity activity) {
+    public void onActivityResumed(@NonNull Activity activity) {
         recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_RESUME);
         //记录页面层级
         if (!activity.getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.kit.base.UniversalActivity")) {
@@ -104,7 +104,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
     }
 
     @Override
-    public void onActivityPaused(@NotNull Activity activity) {
+    public void onActivityPaused(@NonNull Activity activity) {
         if (ignoreCurrentActivityDokitView(activity)) {
             return;
         }
@@ -117,7 +117,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
 
 
     @Override
-    public void onActivityStopped(@NotNull Activity activity) {
+    public void onActivityStopped(@NonNull Activity activity) {
         recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_STOPPED);
         if (ignoreCurrentActivityDokitView(activity)) {
             return;
@@ -132,14 +132,14 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
     }
 
     @Override
-    public void onActivitySaveInstanceState(@NotNull Activity activity, @NotNull Bundle outState) {
+    public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
         if (ignoreCurrentActivityDokitView(activity)) {
             return;
         }
     }
 
     @Override
-    public void onActivityDestroyed(@NotNull Activity activity) {
+    public void onActivityDestroyed(@NonNull Activity activity) {
         recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_DESTROY);
         if (ignoreCurrentActivityDokitView(activity)) {
             return;

@@ -4,13 +4,16 @@ import com.android.build.gradle.AppExtension
 import com.android.build.gradle.LibraryExtension
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
 import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
+import com.didichuxing.doraemonkit.plugin.processor.DoKitPluginConfigProcessor
 import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
 import com.didichuxing.doraemonkit.plugin.transform.DoKitCommTransform
 import com.didichuxing.doraemonkit.plugin.transform.DoKitDependTransform
+import com.didiglobal.booster.gradle.dependencies
 import com.didiglobal.booster.gradle.getAndroid
 import com.didiglobal.booster.gradle.getProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.artifacts.result.ResolvedArtifactResult
 
 /**
  * ================================================
@@ -113,15 +116,53 @@ class DoKitPlugin : Plugin<Project> {
                         }
 
                         //项目评估完毕回调
-                        project.afterEvaluate {
-                            loadVariantProcessors(project).let { processors ->
+                        project.afterEvaluate { project ->
+                            "===afterEvaluate===".println()
+                            androidExt.applicationVariants.forEach { variant ->
+                                DoKitPluginConfigProcessor(project).process(variant)
+                            }
+                        }
+
+                        /**
+                         * 所有项目的build.gradle执行完毕
+                         * wiki:https://juejin.im/post/6844903607679057934
+                         *
+                         * **/
+                        project.gradle.projectsEvaluated {
+                            "===projectsEvaluated===".println()
+                            if (DoKitExtUtil.THIRD_LIBINFO_SWITCH) {
                                 androidExt.applicationVariants.forEach { variant ->
-                                    processors.forEach { processor ->
-                                        processor.process(variant)
+                                    //遍历三方库
+                                    val dependencies = variant.dependencies
+                                    DoKitExtUtil.THIRD_LIB_INFOS.clear()
+                                    for (artifactResult: ResolvedArtifactResult in dependencies) {
+                                        //println("三方库信息===>${artifactResult.variant.displayName}____${artifactResult.file.toString()}")
+                                        val paths = artifactResult.file.toString().split("/")
+                                        var fileName = ""
+                                        if (paths.size >= 4) {
+                                            fileName =
+                                                "${paths[paths.size - 4]}/${paths[paths.size - 1]}"
+                                        } else {
+                                            fileName = paths[paths.size - 1]
+                                        }
+                                        val thirdLibInfo =
+                                            ThirdLibInfo(
+                                                fileName,
+                                                    artifactResult.file.length(),
+                                                artifactResult.variant.displayName
+                                            )
+                                        DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
                                     }
                                 }
                             }
                         }
+
+
+                        //task依赖关系图建立完毕
+                        project.gradle.taskGraph.whenReady {
+                            "===taskGraph.whenReady===".println()
+                        }
+
                     }
                 }
 
@@ -135,12 +176,8 @@ class DoKitPlugin : Plugin<Project> {
                             libraryExt.registerTransform(DoKitCommTransform(project))
                         }
                         project.afterEvaluate {
-                            loadVariantProcessors(project).let { processors ->
-                                libraryExt.libraryVariants.forEach { variant ->
-                                    processors.forEach { processor ->
-                                        processor.process(variant)
-                                    }
-                                }
+                            libraryExt.libraryVariants.forEach { variant ->
+                                DoKitPluginConfigProcessor(project).process(variant)
                             }
                         }
                     }
@@ -150,10 +187,9 @@ class DoKitPlugin : Plugin<Project> {
     }
 
     private fun isReleaseTask(project: Project): Boolean {
-        val release = project.gradle.startParameter.taskNames.any {
+        return project.gradle.startParameter.taskNames.any {
             it.contains("release") || it.contains("Release")
         }
-        return release
     }
 
 }

@@ -8,7 +8,6 @@ import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.ClassTransformer
 import com.didiglobal.booster.transform.asm.className
 import com.google.auto.service.AutoService
-import org.objectweb.asm.Opcodes
 import org.objectweb.asm.Opcodes.*
 import org.objectweb.asm.tree.*
 
@@ -28,6 +27,10 @@ class CommTransformer : ClassTransformer {
         "com/didichuxing/doraemonkit/aop/urlconnection/HttpUrlConnectionProxyUtil"
     private val DESC = "(Ljava/net/URLConnection;)Ljava/net/URLConnection;"
 
+
+    /**
+     * 转化
+     */
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
         if (context.isRelease()) {
             return klass
@@ -44,7 +47,6 @@ class CommTransformer : ClassTransformer {
         }
 
         //查找DoraemonKitReal&pluginConfig方法并插入指定字节码
-
         if (className == "com.didichuxing.doraemonkit.DoraemonKitReal") {
             //插件配置
             klass.methods?.find {
@@ -405,8 +407,8 @@ class CommTransformer : ClassTransformer {
 
             for (thirdLibInfo in DoKitExtUtil.THIRD_LIB_INFOS) {
                 add(VarInsnNode(ALOAD, 0))
-                add(LdcInsnNode(thirdLibInfo.name))
-                add(LdcInsnNode(thirdLibInfo.fileSize))
+                add(LdcInsnNode(thirdLibInfo.variant))
+                add(LdcInsnNode(thirdLibInfo.fileSize.toString()))
 
                 add(
                     MethodInsnNode(

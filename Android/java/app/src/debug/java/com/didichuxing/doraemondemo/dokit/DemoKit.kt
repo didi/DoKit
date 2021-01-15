@@ -6,6 +6,7 @@ import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.Category
 import com.didichuxing.doraemonkit.kit.core.DokitIntent
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 
 /**
  * ================================================
@@ -25,9 +26,7 @@ class DemoKit : AbstractKit() {
         get() = R.mipmap.dk_sys_info
 
     override fun onClick(context: Context?) {
-        val dokitIntent = DokitIntent(DemoDokitView::class.java)
-        dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE
-        DokitViewManager.getInstance().attach(dokitIntent)
+        SimpleDokitStarter.startFloating(DemoDokitView::class.java)
     }
 
     override fun onAppInit(context: Context?) {

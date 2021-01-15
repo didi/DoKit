@@ -1,6 +1,7 @@
 - [简介](#简介)
+- [使用手册](#使用手册)
+- [更新日志](#更新日志)
 - [社区活动](#社区活动)
-- [外部合作](#外部合作)
 - [开发背景](#开发背景)
 - [效果演示](#效果演示)
 - [功能模块](#功能模块)
@@ -11,23 +12,23 @@
   - [五、Weex专项工具（CML专项工具）](#五weex专项工具cml专项工具)
   - [六、支持自定义的业务工具集成到面板中](#六支持自定义的业务工具集成到面板中)
   - [七、微信小程序专项工具](#七微信小程序专项工具)
-- [使用手册](#使用手册)
 - [相关文档](#相关文档)
-- [更新日志](#更新日志)
 - [微信交流群](#微信交流群)
 - [QQ 交流群](#qq-交流群)
 - [微信公众号](#微信公众号)
 - [项目成员](#项目成员)
 - [协议](#协议)
 - [使用提醒](#使用提醒)
+- [外部合作](#外部合作)
 - [友情链接](#友情链接)
 
 ## 简介
 <div align="center">    
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
- <img src="https://img.shields.io/badge/Android-3.3.4-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/Android-3.3.5-blue.svg" align=left />
  <img src="https://img.shields.io/badge/iOS-3.0.4-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/Flutter-0.2.5-blue.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
@@ -43,18 +44,17 @@
 
 > [English Readme](README_EN.md)
 
+## 使用手册
+访问[DoKit官网](https://www.dokit.cn/)，点击"[使用中心](http://xingyun.xiaojukeji.com/docs/dokit/#/intro)"。
+
+## 更新日志
+
+- [iOS-ReleaseNotes](Doc/iOS-ReleaseNotes.md)
+- [Android-ReleaseNotes](Doc/android-ReleaseNotes.md)
+- [微信小程序-ReleaseNotes](Doc/miniapp-ReleaseNotes.md)
+- [DoKit For Flutter-ReleaseNotes](Flutter/README.md)
 
 ## 社区活动
-
-**InfoQ年度十大开源项目评选**
-
-小伙伴们，DoKit正在参加infoQ举办的年度十大开源项目评选，麻烦你们东东小手指扫描一下二维码给30号Doraemonkit投个票,谢谢.
-
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/5U2jWuIKA11604566692827.jpg" alt="图片替换文本" width="200"  align="bottom" />
-
-
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/k3HTEc305O1604566698026.jpg" alt="图片替换文本" width="200"  align="bottom" />
-
 
 **DoKit官方社区分享季**
 你想让你的才华被更多的人关注到吗？快来参加[DoKit官方社区分享季](https://github.com/didi/DoraemonKit/issues/658)活动吧
@@ -68,11 +68,7 @@
   <img src="https://pt-starimg.didistatic.com/static/starimg/img/INLjGkp9wN1597062733948.jpg" width = "250" alt="DoKit 首页效果演示" align=center />
 </div>
 
-## 外部合作
 
-**2020中国开源年会DoKit社区合作伙伴**
-
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/hoEGfdsUzi1600745052153.jpg" alt="图片替换文本" width="200"  align="bottom" />
 
 ## 开发背景
 
@@ -93,6 +89,8 @@ DoraemonKit 是一个功能平台，能够让每一个 App 快速接入一些常
 <div align="center">    
   <img src="https://pt-starimg.didistatic.com/static/starimg/img/H1SVa0S6Zm1585189141793.jpg" width = "250" alt="DoKit 首页效果演示" align=center />
 </div>
+
+
 
 ## 功能模块
 
@@ -136,7 +134,7 @@ DoraemonKit 是一个功能平台，能够让每一个 App 快速接入一些常
 1. **【颜色吸管】** 方便设计师 UI 捉虫的时候，查看每一个组件的颜色值是否设置正确；
 2. **【组件检查】** 可以抓取任意一个UI控件，查看它们的详细信息，包括控件名称、控件位置、背景色、字体颜色、字体大小；
 3. **【对齐标尺】** 参考 Android 系统自带测试工具，能够实时捕获屏幕坐标，并且可以查看组件是否对齐；
-4. **【元素边框线】** 绘制出每一个 UI 组件的边框，对于组件布局有一定的参考意义。 
+4. **【元素边框线】** 绘制出每一个 UI 组件的边框，对于组件布局有一定的参考意义。
 
 ### 五、Weex专项工具（CML专项工具）
 
@@ -155,8 +153,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 详见 [Doraemon mini program debugger](https://github.com/didi/DoraemonKit/tree/master/miniapp)
 
-## 使用手册
-访问 [https://www.dokit.cn/](https://www.dokit.cn/)，点击"使用中心"。
+
 
 ## 相关文档
 - [iOS 研发助手 DoraemonKit 技术实现（一）](https://www.jianshu.com/p/00763123dbc4)
@@ -171,11 +168,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 - [滴滴DoKit Android核心原理揭秘之函数耗时](https://juejin.im/post/5eba5ce15188256d6f268c98)
 - [滴滴DoKit Android核心原理揭秘之AOP字节码实现](https://juejin.im/post/6891887877613944840)
 
-## 更新日志
 
-- [iOS-ReleaseNotes](Doc/iOS-ReleaseNotes.md)
-- [Android-ReleaseNotes](Doc/android-ReleaseNotes.md)
-- [微信小程序-ReleaseNotes](Doc/miniapp-ReleaseNotes.md)
 
 ## 微信交流群
 
@@ -241,18 +234,20 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [jtsky(金台)](https://github.com/jtsky) 
 
 **内部核心成员**
-[yixiangboy](https://github.com/yixiangboy)
+[yixiangboy](https://github.com/yixiangboy)、
 [jtsky](https://github.com/jtsky) 、
+[LinJZong](https://github.com/LinJZong) 、
 [ydlsl](https://github.com/ydlsl) 、
 [jayconscious](https://github.com/jayconscious)
 
 **贡献者榜单**
-[LinJZong](https://github.com/LinJZong) 、
+、
 [wanglikun7342](https://github.com/wanglikun7342) 、
 [wenquanlebao](https://github.com/wenquanlebao) 、
 [hiXgb](https://github.com/hiXgb) 、 
 [Chinnko](https://github.com/Chinnko) 、 
-[y644938647](https://github.com/y644938647) 、 
+[y644938647](https://github.com/y644938647) 、
+[wm219](https://github.com/wm219)、 
 [goolong](https://github.com/goolong) 、
 [miracle9312](https://github.com/miracle9312) 、
 [lwhsgz123](https://github.com/lwhsgz123)、
@@ -317,17 +312,26 @@ DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [
 
 敬请各位用户知晓。
 
+## 外部合作
+
+**2020中国开源年会DoKit社区合作伙伴**
+
+<div align="center">  
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/hoEGfdsUzi1600745052153.jpg" alt="图片替换文本" width="200"  align="bottom" />
+</div>
 
 ## 友情链接
-1. [Chameleon]( https://github.com/didi/chameleon)，简写CML，中文意思变色龙，意味着就像变色龙一样能适应不同环境的跨端整体解决方案，达到真正意义上"一套代码，多端运行"的终极目标
-   
-2. [Booster](https://github.com/didi/booster) 是一款专门为移动应用设计的易用、轻量级且可扩展的质量优化框架，其目标主要是为了解决随着 APP 复杂度的提升而带来的性能、稳定性、包体积等一系列质量问题。Booster 提供了性能检测、多线程优化、资源索引内联、资源去冗余、资源压缩、系统 Bug 修复等一系列功能模块，可以使得稳定性能够提升 15% ~ 25%，包体积可以减小 1MB ~ 10MB。**同时DoKit插件的底层也是基于Booster进行开发的。**
+1. [Hummer](https://github.com/didi/Hummer)，Hummer 是一套高性能高可用的跨端开发框架，一套代码可以同时支持开发 Android 和 iOS 应用。现已经支持 Vue/TypeScript/JavaScript 三种语法，面向大前端开发人员，总有一款适合你。
 
-3. [AoE](https://github.com/didi/AoE)，一个终端侧AI集成运行时环境 
+2. [Chameleon]( https://github.com/didi/chameleon)，简写CML，中文意思变色龙，意味着就像变色龙一样能适应不同环境的跨端整体解决方案，达到真正意义上"一套代码，多端运行"的终极目标
    
-4. [Mand Mobile](https://github.com/didi/mand-mobile) 一款优秀的面向金融场景的 移动端UI组件库
+3. [Booster](https://github.com/didi/booster) 是一款专门为移动应用设计的易用、轻量级且可扩展的质量优化框架，其目标主要是为了解决随着 APP 复杂度的提升而带来的性能、稳定性、包体积等一系列质量问题。Booster 提供了性能检测、多线程优化、资源索引内联、资源去冗余、资源压缩、系统 Bug 修复等一系列功能模块，可以使得稳定性能够提升 15% ~ 25%，包体积可以减小 1MB ~ 10MB。**同时DoKit插件的底层也是基于Booster进行开发的。**
+
+4. [AoE](https://github.com/didi/AoE)，一个终端侧AI集成运行时环境 
+   
+5. [Mand Mobile](https://github.com/didi/mand-mobile) 一款优秀的面向金融场景的 移动端UI组件库
    
 
-5. 我们部门的技术公众号（普惠出行产品技术公众号），欢迎关注。
+6. 我们部门的技术公众号（普惠出行产品技术公众号），欢迎关注。
    **公众号介绍：这里是滴滴出行旗下普惠产品技术团队对外分享的窗口，普惠出行支撑滴滴代驾、货运等业务，建设了NodeX、Dokit、卡梅隆等开源项目，始终秉承聚心成事、聚气育人的原则。欢迎各位技术同仁一起交流，共同成长。**
   ![普惠技术公众号](https://pt-starimg.didistatic.com/static/starimg/img/oOCoP5tVJs1600416407154.jpg)

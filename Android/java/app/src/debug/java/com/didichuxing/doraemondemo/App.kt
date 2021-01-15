@@ -4,6 +4,8 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
+import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFloatViewKit
+import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit
 import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
@@ -32,7 +34,11 @@ class App : Application() {
 //        kits.add(DemoKit())
 
         val mapKits: LinkedHashMap<String, MutableList<AbstractKit>> = linkedMapOf()
-        mapKits["业务专区1"] = mutableListOf<AbstractKit>(DemoKit())
+        mapKits["业务专区1"] = mutableListOf<AbstractKit>().apply {
+            add(DemoKit())
+            add(TestSimpleDokitFloatViewKit())
+            add(TestSimpleDokitFragmentKit())
+        }
         mapKits["业务专区2"] = mutableListOf<AbstractKit>(DemoKit())
 
         DoraemonKit.install(this, mapKits = mapKits, productId = "749a0600b5e48dd77cf8ee680be7b1b7")

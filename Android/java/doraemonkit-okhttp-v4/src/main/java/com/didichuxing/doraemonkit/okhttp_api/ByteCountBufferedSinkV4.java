@@ -1,7 +1,8 @@
 package com.didichuxing.doraemonkit.okhttp_api;
 
 
-import org.jetbrains.annotations.NotNull;
+
+import androidx.annotation.NonNull;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -197,15 +198,15 @@ public class ByteCountBufferedSinkV4 implements BufferedSink {
         mDelegate.close();
     }
 
-    @NotNull
+    @NonNull
     @Override
     public Buffer getBuffer() {
         return mDelegate.getBuffer();
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public BufferedSink write(@NotNull ByteString byteString, int i, int i1) throws IOException {
+    public BufferedSink write(@NonNull ByteString byteString, int i, int i1) throws IOException {
         return mDelegate.write(byteString, i, i1);
     }
 }
