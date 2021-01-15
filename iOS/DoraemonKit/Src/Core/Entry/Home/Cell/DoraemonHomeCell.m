@@ -66,4 +66,10 @@
     self.name.text = name;
 }
 
+- (void)updateImage:(UIImage *)image {
+    if (image) {
+        self.icon.image = image;
+    }
+}
+
 @end
