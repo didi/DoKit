@@ -7,6 +7,7 @@ import 'package:dokit/util/util.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../kit.dart';
 import 'apm.dart';
 
 class LogKit extends ApmKit {

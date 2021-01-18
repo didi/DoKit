@@ -1,14 +1,11 @@
 import 'dart:ui';
 
 import 'package:dokit/dokit.dart';
-import 'package:dokit/ui/dokit_btn.dart';
-import 'package:dokit/ui/resident_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:dokit/widget/dash_decoration.dart';
 import 'package:dokit/widget/fps_chart.dart';
 
+import '../kit.dart';
 import 'apm.dart';
 
 class FpsInfo implements IInfo {

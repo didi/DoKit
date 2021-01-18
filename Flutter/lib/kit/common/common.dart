@@ -1,9 +1,8 @@
 // 视觉功能
-import 'package:dokit/kit/apm/apm.dart';
-import 'package:dokit/kit/visual/view_check.dart';
 import 'package:dokit/ui/resident_page.dart';
 import 'package:flutter/material.dart';
 
+import '../kit.dart';
 import 'basic_info.dart';
 
 abstract class CommonKit implements IKit {

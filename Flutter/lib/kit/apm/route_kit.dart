@@ -1,8 +1,8 @@
 import 'package:dokit/ui/dokit_app.dart';
 import 'package:flutter/material.dart';
-import 'package:dokit/widget/dash_decoration.dart';
 
 import '../../dokit.dart';
+import '../kit.dart';
 import 'apm.dart';
 
 class RouteKit extends ApmKit {

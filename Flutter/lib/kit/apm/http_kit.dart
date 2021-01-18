@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 import '../../dokit.dart';
+import '../kit.dart';
 import 'apm.dart';
 
 class HttpInfo implements IInfo {

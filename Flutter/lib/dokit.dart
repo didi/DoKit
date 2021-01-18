@@ -5,10 +5,9 @@ import 'package:dokit/ui/dokit_btn.dart';
 import 'package:dokit/ui/dokit_app.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'dart:core';
 import 'package:flutter/widgets.dart' as dart;
-import 'package:dokit/kit/kit_page.dart';
+import 'package:dokit/ui/kit_page.dart';
 export 'package:dokit/ui/dokit_app.dart';
 
 typedef DoKitAppCreator = Function();
@@ -16,7 +15,7 @@ typedef LogCallback = Function(String);
 typedef ExceptionCallback = Function(dynamic, StackTrace);
 
 class DoKit {
-  static final String PACKAGE_NAME = 'dokit';
+  static const String PACKAGE_NAME = 'dokit';
 
   //默认release模式不开启该功能
   static bool release = kReleaseMode;

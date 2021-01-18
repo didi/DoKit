@@ -5,12 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../dokit.dart';
-import '../kit_page.dart';
+import '../kit.dart';
 import 'apm.dart';
 
 class ChannelInfo implements IInfo {

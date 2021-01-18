@@ -1,5 +1,6 @@
 import 'package:dokit/kit/apm/apm.dart';
 import 'package:dokit/kit/common/common.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/kit/visual/visual.dart';
 import 'package:dokit/ui/resident_page.dart';
 import 'package:dokit/widget/dash_decoration.dart';
@@ -8,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../dokit.dart';
-import 'apm/method_channel_kit.dart';
 
 class KitPage extends StatefulWidget {
   @override

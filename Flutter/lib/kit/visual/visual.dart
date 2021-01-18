@@ -1,6 +1,7 @@
 // 视觉功能
-import 'package:dokit/kit/apm/apm.dart';
 import 'package:dokit/kit/visual/view_check.dart';
+
+import '../kit.dart';
 
 abstract class VisualKit implements IKit {}
 

@@ -1,6 +1,6 @@
 import 'package:dokit/kit/apm/apm.dart';
 import 'package:dokit/kit/common/common.dart';
-import 'package:dokit/kit/kit_page.dart';
+import 'package:dokit/ui/kit_page.dart';
 import 'package:flutter/material.dart';
 
 class ResidentPage extends StatefulWidget {
@@ -18,34 +18,21 @@ class ResidentPage extends StatefulWidget {
 
 class ResidentPageState extends State<ResidentPage> {
   Widget getPage() {
-    if (ResidentPage.tag == KitPageManager.KIT_ALL) {
-      return KitPage();
-    }
-    if (ApmKitManager.instance.getKit(ResidentPage.tag) != null) {
-      return ApmKitManager.instance
-          .getKit(ResidentPage.tag)
-          .createDisplayPage();
-    }
-    if (CommonKitManager.instance.getKit(ResidentPage.tag) != null) {
-      return CommonKitManager.instance
-          .getKit(ResidentPage.tag)
-          .createDisplayPage();
-    }
-    return Container(
-      alignment: Alignment.center,
-      child:
-          Text('无数据', style: TextStyle(color: Color(0xff999999), fontSize: 20)),
-    );
+    Widget page;
+    page ??=
+        ApmKitManager.instance.getKit(ResidentPage.tag)?.createDisplayPage();
+    page ??=
+        CommonKitManager.instance.getKit(ResidentPage.tag)?.createDisplayPage();
+    page ??= KitPage();
+    return page;
   }
 
   String getTitle() {
-    if (ApmKitManager.instance.getKit(ResidentPage.tag) != null) {
-      return ApmKitManager.instance.getKit(ResidentPage.tag).getKitName();
-    }
-    if (CommonKitManager.instance.getKit(ResidentPage.tag) != null) {
-      return CommonKitManager.instance.getKit(ResidentPage.tag).getKitName();
-    }
-    return 'DoKit';
+    String title;
+    title ??= ApmKitManager.instance.getKit(ResidentPage.tag)?.getKitName();
+    title ??= CommonKitManager.instance.getKit(ResidentPage.tag)?.getKitName();
+    title ??= 'DoKit';
+    return title;
   }
 
   _tapListener(String current) {
@@ -59,7 +46,8 @@ class ResidentPageState extends State<ResidentPage> {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
-    int topMargin = MediaQuery.of(context).orientation==Orientation.portrait ? 100 : 0;
+    int topMargin =
+        MediaQuery.of(context).orientation == Orientation.portrait ? 100 : 0;
     return Positioned(
         child: Container(
       width: width,

@@ -3,12 +3,11 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dokit/util/util.dart';
-import 'package:dokit/widget/dash_decoration.dart';
 import 'package:flutter/services.dart';
-import 'package:package_info/package_info.dart';
 import 'package:vm_service/vm_service.dart';
 
 import '../../dokit.dart';
+import '../kit.dart';
 import 'apm.dart';
 import 'vm_helper.dart';
 
