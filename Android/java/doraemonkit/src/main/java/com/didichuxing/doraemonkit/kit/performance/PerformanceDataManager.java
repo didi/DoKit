@@ -129,7 +129,7 @@ public class PerformanceDataManager {
                     cpuIndex = tempIndex;
                     continue;
                 }
-                if (line.startsWith(String.valueOf(Process.myPid()))) {
+                if (line.contains(String.valueOf(Process.myPid()))) {
                     if (cpuIndex == -1) {
                         continue;
                     }
