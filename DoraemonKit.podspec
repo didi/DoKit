@@ -7,7 +7,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DoraemonKit'
-  s.version          = '3.0.4'
+  s.version          = '3.0.6'
   s.summary          = 'iOS各式各样的工具集合'
   s.description      = <<-DESC
                           iOS各式各样的工具集合 Desc
@@ -19,6 +19,8 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/didi/DoraemonKit.git', :tag => s.version.to_s }
   s.ios.deployment_target = '9.0'
 
+  s.user_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
+  s.pod_target_xcconfig = { 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'arm64' }
 
   s.default_subspec = 'Core'
   

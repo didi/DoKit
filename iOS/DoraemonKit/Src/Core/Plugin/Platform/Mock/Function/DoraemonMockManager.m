@@ -64,7 +64,7 @@
             @"projectId":pId,
             @"isfull":@"1",
             @"curPage":@"1",
-            @"pageSize":@"1000"
+            @"pageSize":@"500"
         };
         
         __weak typeof(self) weakSelf = self;

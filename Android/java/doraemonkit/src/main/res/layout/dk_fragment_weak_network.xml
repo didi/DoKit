@@ -35,7 +35,7 @@
         android:paddingRight="@dimen/dk_dp_15"
         android:visibility="gone"
         tools:visibility="visible">
-        <!--        redioGroup-->
+        <!--        radioGroup-->
         <RadioGroup
             android:id="@+id/weak_network_option"
             android:layout_width="match_parent"

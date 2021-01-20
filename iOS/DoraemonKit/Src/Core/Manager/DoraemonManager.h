@@ -132,6 +132,8 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 - (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName;
 - (void)addPluginWithTitle:(NSString *)title icon:(NSString *)iconName desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName handle:(void(^)(NSDictionary *itemData))handleBlock;
 
+- (void)addPluginWithTitle:(NSString *)title image:(UIImage *)image desc:(NSString *)desc pluginName:(NSString *)entryName atModule:(NSString *)moduleName handle:(void(^ _Nullable)(NSDictionary *itemData))handleBlock;
+
 
 - (void)removePluginWithPluginType:(DoraemonManagerPluginType)pluginType;
 
