@@ -110,6 +110,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
         findViewById<View>(R.id.btn_location_amap).setOnClickListener(this)
         findViewById<View>(R.id.btn_location_tencent).setOnClickListener(this)
         findViewById<View>(R.id.btn_location_baidu).setOnClickListener(this)
+        btn_path_amap.setOnClickListener(this)
         findViewById<View>(R.id.btn_load_img).setOnClickListener(this)
         findViewById<View>(R.id.btn_okhttp_mock).setOnClickListener(this)
         findViewById<View>(R.id.btn_connection_mock).setOnClickListener(this)
@@ -309,6 +310,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
             R.id.btn_location_amap -> startAmapLocation()
             R.id.btn_location_tencent -> startTencentLocation()
             R.id.btn_location_baidu -> startBaiDuLocation()
+            R.id.btn_path_amap -> startActivity(Intent(this, AmapPathActivity::class.java))
             R.id.btn_load_img -> {
                 //Glide 加载
                 val picassoImgUrl =
@@ -377,7 +379,6 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
                         }
 
                     })
-
 
 
             }

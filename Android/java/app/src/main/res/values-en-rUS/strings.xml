@@ -11,6 +11,7 @@
     <string name="app_btn_location_amap">Location(Amap)</string>
     <string name="app_btn_location_tencent">Location(tencent)</string>
     <string name="app_btn_location_baidu">Location(baidu)</string>
+    <string name="app_btn_path_amap">Path(amap)</string>
     <string name="app_btn_load_img">Big Img</string>
     <string name="app_btn_okhttp_mock">OkHttp Mock</string>
     <string name="app_btn_urlconnection_mock">HttpURLConnection Mock</string>

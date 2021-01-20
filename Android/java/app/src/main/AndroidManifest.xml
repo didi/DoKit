@@ -47,6 +47,7 @@
         <activity android:name=".WebViewX5Activity" />
         <activity android:name=".SecondActivity" />
         <activity android:name=".LeakActivity" />
+        <activity android:name=".AmapPathActivity" />
 
         <!--        高德定位服务-->
         <service android:name="com.amap.api.location.APSService" />

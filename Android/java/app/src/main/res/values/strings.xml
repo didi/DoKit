@@ -11,6 +11,7 @@
     <string name="app_btn_location_amap">获取位置信息(高德)</string>
     <string name="app_btn_location_tencent">获取位置信息(腾讯)</string>
     <string name="app_btn_location_baidu">获取位置信息(百度)</string>
+    <string name="app_btn_path_amap">路径规划(高德)</string>
     <string name="app_btn_load_img">大图检测</string>
     <string name="app_btn_okhttp_mock">OkHttp Mock</string>
     <string name="app_btn_urlconnection_mock">HttpURLConnection Mock</string>

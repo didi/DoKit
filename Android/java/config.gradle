@@ -100,6 +100,10 @@ ext {
                     "okgo"               : "com.lzy.net:okgo:3.0.4",
                     //高德地图定位
                     "amap_location"      : 'com.amap.api:location:latest.integration',
+                    //高德地图
+                    "amap_map2d"         : 'com.amap.api:map2d:latest.integration',
+                    "amap_map3d"         : 'com.amap.api:map3d:latest.integration',
+                    "amap_search"        : 'com.amap.api:search:latest.integration',
                     //腾讯地图定位
                     "tencent_location"   : 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.5',
                     "easypermissions"    : "pub.devrel:easypermissions:2.0.1",
