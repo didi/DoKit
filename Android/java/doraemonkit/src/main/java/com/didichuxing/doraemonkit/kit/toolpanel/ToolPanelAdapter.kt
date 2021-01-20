@@ -28,8 +28,8 @@ import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder
  * 修订历史：
  * ================================================
  */
-class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?)
-    : BaseMultiItemQuickAdapter<KitWrapItem, BaseViewHolder>(kitViews) {
+class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?) :
+    BaseMultiItemQuickAdapter<KitWrapItem, BaseViewHolder>(kitViews) {
 
     init {
         addItemType(KitWrapItem.TYPE_TITLE, R.layout.dk_item_group_title)
@@ -43,7 +43,7 @@ class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?)
         when (item.itemType) {
             KitWrapItem.TYPE_TITLE -> {
                 item.name.let {
-                    if (it.equals(DokitUtil.getString(R.string.dk_category_platform))) {
+                    if (it == DokitUtil.getString(R.string.dk_category_platform)) {
                         holder.getView<TextView>(R.id.tv_sub_title_name).visibility = View.VISIBLE
                         holder.getView<TextView>(R.id.tv_sub_title_name).text = "(www.dokit.cn)"
                     } else {

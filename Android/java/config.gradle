@@ -9,7 +9,7 @@ ext {
             //1:依赖dokit远程aar运行
             run_type     : 0,
             group_id     : 'com.didichuxing.doraemonkit',
-            version      : '3.3.6-alpha05'
+            version      : '3.3.4.9'
     ]
 
     android = [compileSdkVersion            : 29,
