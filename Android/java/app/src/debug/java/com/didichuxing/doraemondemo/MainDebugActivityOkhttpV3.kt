@@ -103,6 +103,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
         findViewById<View>(R.id.btn_show_tool_panel).setOnClickListener(this)
         findViewById<View>(R.id.btn_location).setOnClickListener(this)
         findViewById<View>(R.id.btn_location_map).setOnClickListener(this)
+        findViewById<View>(R.id.btn_location_map2).setOnClickListener(this)
         findViewById<View>(R.id.btn_load_img).setOnClickListener(this)
         findViewById<View>(R.id.btn_okhttp_mock).setOnClickListener(this)
         findViewById<View>(R.id.btn_connection_mock).setOnClickListener(this)
@@ -228,6 +229,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
             }
             R.id.btn_location -> startNormaLocation()
             R.id.btn_location_map -> startActivity(Intent(this, MapActivity::class.java))
+            R.id.btn_location_map2 -> startActivity(Intent(this, MapShowingLocationActivity::class.java))
             R.id.btn_load_img -> {
                 //Glide 加载
                 val picassoImgUrl =

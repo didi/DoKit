@@ -113,6 +113,7 @@ dokitExt {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation rootProject.ext.dependencies["constraintLayout"]
     testImplementation rootProject.ext.dependencies["junit"]
     implementation rootProject.ext.dependencies["multidex"]
     implementation rootProject.ext.dependencies["appcompat"]
@@ -158,7 +159,7 @@ dependencies {
     implementation files('libs/BaiduLBS_Android.jar')
     //腾讯x5
     implementation rootProject.ext.dependencies["tbs"]
-
+    implementation rootProject.ext.dependencies["tencent-map"]
 }
 
 configurations.all {

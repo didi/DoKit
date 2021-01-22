@@ -93,6 +93,13 @@
 
 
         <Button
+            android:id="@+id/btn_location_map"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/app_btn_location_map"
+            android:textAllCaps="false" />
+
+        <Button
             android:id="@+id/btn_load_img"
             android:layout_width="match_parent"
             android:layout_height="50dp"

@@ -118,6 +118,7 @@ ext {
                     //tencent x5 浏览器 https://x5.tencent.com/
                     "tbs"                : "com.tencent.tbs.tbssdk:sdk:43903",
 //                    "swipeback"    : "me.imid.swipebacklayout.lib:library:1.1.0"
+                    "tencent-map"                : "com.tencent.map:tencent-map-vector-sdk:4.3.4",
 
     ]
 }
