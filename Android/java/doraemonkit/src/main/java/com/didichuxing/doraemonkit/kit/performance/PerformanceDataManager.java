@@ -9,7 +9,9 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
+
 import androidx.annotation.RequiresApi;
+
 import android.text.TextUtils;
 import android.view.Choreographer;
 
@@ -266,14 +268,10 @@ public class PerformanceDataManager {
     }
 
 
-
     public void stopMonitorCPUInfo() {
         DokitMemoryConfig.CPU_STATUS = false;
         mNormalHandler.removeMessages(MSG_CPU);
     }
-
-
-
 
 
     public void startMonitorMemoryInfo() {
@@ -369,8 +367,10 @@ public class PerformanceDataManager {
                     memInfo = memInfos[0];
                 }
             }
-
-            int totalPss = memInfo.getTotalPss();
+            int totalPss = 0;
+            if (memInfo != null) {
+                totalPss = memInfo.getTotalPss();
+            }
             if (totalPss >= 0) {
                 // Mem in MB
                 mem = totalPss / 1024.0F;

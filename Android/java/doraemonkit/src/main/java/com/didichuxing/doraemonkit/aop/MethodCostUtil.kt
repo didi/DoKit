@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.aop
 import android.app.Activity
 import android.app.Application
 import android.app.Service
+import android.os.SystemClock
 import android.util.Log
 import com.didichuxing.doraemonkit.aop.method_stack.StaticMethodObject
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager
@@ -35,7 +36,7 @@ object MethodCostUtil {
     @Synchronized
     fun recodeObjectMethodCostStart(thresholdTime: Int, methodName: String, classObj: Any?) {
         try {
-            METHOD_COSTS[methodName] = System.currentTimeMillis()
+            METHOD_COSTS[methodName] = SystemClock.elapsedRealtime()
             if (classObj is Application) {
                 val methods = methodName.split("&".toRegex()).toTypedArray()
                 if (methods.size == 2) {
@@ -69,7 +70,7 @@ object MethodCostUtil {
             try {
                 if (METHOD_COSTS.containsKey(methodName)) {
                     val startTime = METHOD_COSTS[methodName]!!
-                    val costTime = (System.currentTimeMillis() - startTime).toInt()
+                    val costTime = (SystemClock.elapsedRealtime() - startTime).toInt()
                     METHOD_COSTS.remove(methodName)
                     if (classObj is Application) {
                         //Application 启动时间统计
