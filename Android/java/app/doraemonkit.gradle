@@ -1,25 +1,22 @@
-if (rootProject.ext.config["runType"] == 0) {
-// 引用插件
+def runType = rootProject.ext.publish_config["run_type"]
+if (runType == 0) {
+    // 引用插件
     apply plugin: 'com.didi.dokit.debug'
-//    apply plugin: 'com.didi.dokit'
+    //apply plugin: 'com.didi.dokit'
     // 这里引用正常库
     dependencies {
         //外部平台依赖
         debugImplementation project(":doraemonkit")
         debugImplementation project(":doraemonkit-weex")
-        releaseImplementation project(":doraemonkit-no-op")
+//        releaseImplementation project(":doraemonkit-no-op")
         //debugImplementation project(":doraemonkit-leakcanary")
     }
-} else if (rootProject.ext.config["runType"] == 1) {
+} else if (runType == 1) {
     apply plugin: 'com.didi.dokit'
     // 引用no-op的库
     dependencies {
         //新版线上包
-        debugImplementation "com.didichuxing.doraemonkit:dokit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-//        debugImplementation "com.didichuxing.doraemonkit:doraemonkit-leakcanary:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-        releaseImplementation "com.didichuxing.doraemonkit:dokit-no-op:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-        debugImplementation "com.didichuxing.doraemonkit:dokit-weex:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-        debugImplementation "com.didichuxing.doraemonkit:dokit-rpc:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-
+        debugImplementation "com.didichuxing.doraemonkit:dokitx:${rootProject.ext.publish_config["version"]}"
+        releaseImplementation "com.didichuxing.doraemonkit:dokitx-no-op:${rootProject.ext.publish_config["version"]}"
     }
 }

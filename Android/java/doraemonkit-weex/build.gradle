@@ -1,9 +1,5 @@
 apply plugin: 'com.android.library'
-if (rootProject.ext.config["publishArchivesType"] == 2) {
-    apply from: 'upload-release.gradle'
-} else if (rootProject.ext.config["publishArchivesType"] == 0 || rootProject.ext.config["publishArchivesType"] == 1) {
-    apply from: 'upload-dev.gradle'
-}
+apply from: '../upload.gradle'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -43,12 +39,13 @@ dependencies {
     implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["utilcode"]
-    if (rootProject.ext.config["runOrPublish"] == 0) {
-        api project(':doraemonkit')
-    } else {
-        api "com.didichuxing.doraemonkit:dokit:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-    }
-
+    api project(':doraemonkit')
     compileOnly rootProject.ext.dependencies["weex_inspector"]
     compileOnly rootProject.ext.dependencies["weex_sdk"]
 }
+
+/**
+ * 可以作为入口打包
+ */
+uploadArchives.dependsOn(':doraemonkit:uploadArchives')
+uploadArchives.dependsOn(':doraemonkit-rpc:uploadArchives')
