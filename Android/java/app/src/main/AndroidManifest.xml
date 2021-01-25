@@ -47,7 +47,7 @@
         <activity android:name=".WebViewX5Activity" />
         <activity android:name=".SecondActivity" />
         <activity android:name=".LeakActivity" />
-        <activity android:name=".AmapPathActivity" />
+        <activity android:name=".MapActivity" />
 
         <!--        高德定位服务-->
         <service android:name="com.amap.api.location.APSService" />
@@ -60,6 +60,10 @@
         <meta-data
             android:name="TencentMapSDK"
             android:value="NTSBZ-26Q6D-4NT4A-HIVB5-T6XYE-ESBTP" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="开发者 key" />
         <!--        百度地图定位服务-->
         <service
             android:name="com.baidu.location.f"

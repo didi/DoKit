@@ -15,6 +15,10 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven{
+            url "https://oss.sonatype.org/content/groups/public"
+        }
+        mavenCentral()
         maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
@@ -38,6 +42,10 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven{
+            url "https://oss.sonatype.org/content/groups/public"
+        }
+        mavenCentral()
         maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
@@ -48,10 +56,6 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-wrapper {
-    gradleVersion = '6.5'
 }
 
 //解决打包时由于javadocRelease校验引起的打包失败

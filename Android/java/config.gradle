@@ -18,13 +18,13 @@ ext {
                minSdkVersion                : 16,
                targetSdkVersion             : 29,
                //app版本号
-               versionCode                  : 335,
-               versionName                  : "3.3.5",
+               versionCode                  : 1,
+               versionName                  : "1.0.0",
                glide_version                : "4.9.0",
                kotlin_version               : "1.3.72",
                booster_version              : "3.0.0",
                jcenter_gradle_plugin_version: "3.5.3",
-               gradle_plugin_version        : "3.5.3",
+               gradle_plugin_version        : "4.1.1",
                okhttp_v2                    : "2.7.5",
                okhttp_v3                    : "3.14.7",
                okhttp_v4                    : "4.7.0"
@@ -39,6 +39,8 @@ ext {
                     "core-ktx"           : "androidx.core:core-ktx:1.3.0",
                     "webkit"             : "androidx.webkit:webkit:1.3.0",
                     "volley"             : "com.android.volley:volley:1.1.1",
+                    "fragment"           : "androidx.fragment:fragment:1.3.0-rc01",
+                    "fragment-ktx"       : "androidx.fragment:fragment-ktx:1.3.0-rc01",
                     //constraintLayout
                     "constraintLayout"   : 'androidx.constraintlayout:constraintlayout:1.1.3',
                     "coroutines-core"    : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7",
@@ -106,6 +108,8 @@ ext {
                     "amap_search"        : 'com.amap.api:search:latest.integration',
                     //腾讯地图定位
                     "tencent_location"   : 'com.tencent.map.geolocation:TencentLocationSdk-openplatform:7.2.5',
+                    "tencent_map"        : 'com.tencent.map:tencent-map-vector-sdk:4.4.0',
+                    "tencent_map_util"   : 'com.tencent.map:sdk-utilities:1.0.6',
                     "easypermissions"    : "pub.devrel:easypermissions:2.0.1",
                     //跨进程通信框架
                     "abridge"            : "com.sjtu.yifei:abridge:1.0.1",
