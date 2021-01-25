@@ -26,6 +26,7 @@ import android.support.annotation.StringRes;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.ScreenUtils;
+import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.FloatIconConfig;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
@@ -168,6 +169,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
                     }
                 };
             }
+            mRootView.setId(R.id.dokit_rootview_id);
 //            mRootView.setClipChildren(false);
 //            mRootView.setClipToPadding(false);
             //添加根布局的layout回调
