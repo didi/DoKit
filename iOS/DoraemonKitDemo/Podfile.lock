@@ -23,25 +23,25 @@ PODS:
   - CocoaLumberjack (3.6.2):
     - CocoaLumberjack/Core (= 3.6.2)
   - CocoaLumberjack/Core (3.6.2)
-  - DoraemonKit/Core (3.0.4):
+  - DoraemonKit/Core (3.0.6):
     - FMDB
     - GCDWebServer
     - GCDWebServer/WebDAV
     - GCDWebServer/WebUploader
-  - DoraemonKit/WithDatabase (3.0.4):
+  - DoraemonKit/WithDatabase (3.0.6):
     - DoraemonKit/Core
     - YYDebugDatabase
-  - DoraemonKit/WithGPS (3.0.4):
+  - DoraemonKit/WithGPS (3.0.6):
     - DoraemonKit/Core
-  - DoraemonKit/WithLoad (3.0.4):
+  - DoraemonKit/WithLoad (3.0.6):
     - DoraemonKit/Core
-  - DoraemonKit/WithLogger (3.0.4):
+  - DoraemonKit/WithLogger (3.0.6):
     - CocoaLumberjack
     - DoraemonKit/Core
-  - DoraemonKit/WithMLeaksFinder (3.0.4):
+  - DoraemonKit/WithMLeaksFinder (3.0.6):
     - DoraemonKit/Core
     - FBRetainCycleDetector
-  - DoraemonKit/WithWeex (3.0.4):
+  - DoraemonKit/WithWeex (3.0.6):
     - DoraemonKit/Core
     - WeexSDK
     - WXDevtool
@@ -96,7 +96,7 @@ DEPENDENCIES:
   - YYDebugDatabase (from `https://github.com/y500/YYDebugDatabase.git`)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  trunk:
     - AFNetworking
     - CocoaLumberjack
     - FMDB
@@ -127,7 +127,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   CocoaLumberjack: bd155f2dd06c0e0b03f876f7a3ee55693122ec94
-  DoraemonKit: b507a1500667024070f248d648632a3f7bbb6044
+  DoraemonKit: 919709427c30af94e265532a879ac41797d296d1
   FBRetainCycleDetector: 46daef95c2dfa9be34b53087edf6a8f34e4c749c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
@@ -141,4 +141,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 6c5cced982a83d1a6dbfb6e8501724985d70d130
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.10.1
