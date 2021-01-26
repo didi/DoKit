@@ -126,7 +126,10 @@ class ChannelPageState extends State<ChannelPage> {
       if (!mounted) return;
     }
     setState(() {
-      _offsetController.jumpTo(0);
+      // 如果正在查看，就不自动滑动到底部
+      if (_offsetController.offset < 10) {
+        _offsetController.jumpTo(0);
+      }
     });
   }
 
@@ -199,6 +202,53 @@ class ChannelPageState extends State<ChannelPage> {
                                 ? Color(0xff337cc4)
                                 : Color(0xff333333),
                             fontSize: 12))),
+                GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      this.setState(() {
+                        ApmKitManager.instance
+                            .getKit<MethodChannelKit>(ApmKitName.KIT_CHANNEL)
+                            .getStorage()
+                            .clear();
+                      });
+                    },
+                    child: Container(
+                      decoration: new BoxDecoration(
+                        border:
+                            new Border.all(color: Color(0xff337cc4), width: 1),
+                        borderRadius:
+                            new BorderRadius.circular(2), // 也可控件一边圆角大小
+                      ),
+                      margin: EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.all(2),
+                      child: Text('清除本页数据',
+                          style: TextStyle(
+                              color: showSystemChannel
+                                  ? Color(0xff337cc4)
+                                  : Color(0xff333333),
+                              fontSize: 12)),
+                    )),
+                GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      _offsetController.jumpTo(0);
+                    },
+                    child: Container(
+                      decoration: new BoxDecoration(
+                        border:
+                            new Border.all(color: Color(0xff337cc4), width: 1),
+                        borderRadius:
+                            new BorderRadius.circular(2), // 也可控件一边圆角大小
+                      ),
+                      margin: EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.all(2),
+                      child: Text('滑动到底部',
+                          style: TextStyle(
+                              color: showSystemChannel
+                                  ? Color(0xff337cc4)
+                                  : Color(0xff333333),
+                              fontSize: 12)),
+                    )),
               ],
             )),
         Expanded(

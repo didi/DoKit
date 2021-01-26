@@ -144,7 +144,10 @@ class HttpPageState extends State<HttpPage> {
       if (!mounted) return;
     }
     setState(() {
-      _offsetController.jumpTo(0);
+      // 如果正在查看，就不自动滑动到底部
+      if (_offsetController.offset < 10) {
+        _offsetController.jumpTo(0);
+      }
     });
   }
 
@@ -172,22 +175,73 @@ class HttpPageState extends State<HttpPage> {
         .getAll()
         .reversed
         .toList();
-    return Container(
-        alignment: Alignment.topCenter,
-        color: Color(0xfff5f6f7),
-        child: ListView.builder(
-            controller: _offsetController,
-            itemCount: items.length,
-            reverse: true,
-            padding: EdgeInsets.only(left: 4, right: 4, bottom: 0, top: 8),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return HttpItemWidget(
-                item: items[index],
-                index: index,
-                isLast: index == items.length - 1,
-              );
-            }));
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              decoration: new BoxDecoration(
+                border: new Border.all(color: Color(0xff337cc4), width: 1),
+                borderRadius: new BorderRadius.circular(2), // 也可控件一边圆角大小
+              ),
+              margin: EdgeInsets.only(left: 16, top: 8, bottom: 8),
+              padding: EdgeInsets.all(2),
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    this.setState(() {
+                      ApmKitManager.instance
+                          .getKit<HttpKit>(ApmKitName.KIT_HTTP)
+                          .getStorage()
+                          .clear();
+                    });
+                  },
+                  child: Text('清除本页数据',
+                      style:
+                          TextStyle(color: Color(0xff333333), fontSize: 12))),
+            ),
+            Container(
+              decoration: new BoxDecoration(
+                border: new Border.all(color: Color(0xff337cc4), width: 1),
+                borderRadius: new BorderRadius.circular(2), // 也可控件一边圆角大小
+              ),
+              margin: EdgeInsets.only(left: 10, top: 8, bottom: 8),
+              padding: EdgeInsets.all(2),
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    _offsetController.jumpTo(0);
+                  },
+                  child: Text('滑动到底部',
+                      style:
+                          TextStyle(color: Color(0xff333333), fontSize: 12))),
+            ),
+          ],
+        ),
+        Expanded(
+          child: Container(
+              alignment: Alignment.topCenter,
+              color: Color(0xfff5f6f7),
+              child: ListView.builder(
+                  controller: _offsetController,
+                  itemCount: items.length,
+                  reverse: true,
+                  padding:
+                      EdgeInsets.only(left: 4, right: 4, bottom: 0, top: 8),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return HttpItemWidget(
+                      item: items[index],
+                      index: index,
+                      isLast: index == items.length - 1,
+                    );
+                  })),
+        ),
+      ],
+    );
   }
 }
 
