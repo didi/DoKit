@@ -290,7 +290,20 @@ class _HttpItemWidgetState extends State<HttpItemWidget> {
                                 height: 1.5,
                                 color: Color(0xff666666))),
                         TextSpan(
-                            text: '\nHeader: ',
+                            text: '\nRequestHeader: ',
+                            style: TextStyle(
+                                height: 1.5,
+                                fontSize: 10,
+                                color: Color(0xff333333),
+                                fontWeight: FontWeight.bold)),
+                        TextSpan(
+                            text: '${widget.item.request.header}',
+                            style: TextStyle(
+                                fontSize: 10,
+                                height: 1.5,
+                                color: Color(0xff666666))),
+                        TextSpan(
+                            text: '\nResponseHeader: ',
                             style: TextStyle(
                                 height: 1.5,
                                 fontSize: 10,

@@ -492,15 +492,15 @@ class DoKitHttpClientResponse implements HttpClientResponse {
         if (isTextResponse()) {
           if (encoding != null) {
             recordResponse(statusCode, encoding.decode(result),
-                headers?.toString(), result.length);
+                headers?.toString(), contentLength);
           } else {
-            recordResponse(statusCode, "返回结果解析失败", headers?.toString(), 0);
+            recordResponse(statusCode, "返回结果解析失败", headers?.toString(), contentLength);
           }
         } else {
-          recordResponse(statusCode, "返回结果不支持解析", headers?.toString(), 0);
+          recordResponse(statusCode, "返回结果不支持解析", headers?.toString(), contentLength);
         }
       } catch (e) {
-        recordResponse(statusCode, "返回结果解析失败", headers?.toString(), 0);
+        recordResponse(statusCode, "返回结果解析失败", headers?.toString(), contentLength);
       }
     }
 
@@ -599,17 +599,17 @@ class DoKitHttpClientResponse implements HttpClientResponse {
             recordResponse(statusCode, encoding.decode(result.toList()),
                 headers?.toString(), event.length);
           } else {
-            recordResponse(statusCode, "返回结果解析失败", headers?.toString(), 0);
+            recordResponse(statusCode, "返回结果解析失败", headers?.toString(), contentLength);
           }
         } else if (event is String) {
           recordResponse(
-              statusCode, event, headers?.toString(), event.codeUnits.length);
+              statusCode, event, headers?.toString(), contentLength);
         } else {
           recordResponse(statusCode, 'unknown type:${event.runtimeType}',
-              headers?.toString(), 0);
+              headers?.toString(), contentLength);
         }
       } else {
-        recordResponse(statusCode, "返回结果不支持解析", headers?.toString(), 0);
+        recordResponse(statusCode, "返回结果不支持解析", headers?.toString(), contentLength);
       }
     });
     return s;
