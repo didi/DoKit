@@ -47,6 +47,7 @@
 ## 使用手册
 访问[DoKit官网](https://www.dokit.cn/)，点击"[使用中心](http://xingyun.xiaojukeji.com/docs/dokit/#/intro)"。
 
+**温馨提示：** 当前DoKit的所有功能都只针对Debug环境，Release环境为经过实际验证，所以请大家按照官方文档来集成也不建议大家在Release环境上使用DoKit的任何功能。如果大家一定要在Release环境上使用，请进行充分的测试和验证，DoKit官方将不承担任何责任和损失。
 ## 更新日志
 
 - [iOS-ReleaseNotes](Doc/iOS-ReleaseNotes.md)
