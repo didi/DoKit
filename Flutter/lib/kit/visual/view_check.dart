@@ -277,6 +277,7 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
     if (fileLocation != null) {
       info += '\n源码位置: ${fileLocation}' + '【行 ${line} 列 $column】';
     }
+    // print(element.debugGetDiagnosticChain());
     return info;
   }
 

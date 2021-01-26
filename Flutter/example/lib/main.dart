@@ -10,6 +10,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:dokit/dokit.dart';
 import 'package:flutter/services.dart';
@@ -100,7 +101,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                       color: Color(0xff000000),
                       fontSize: 18,
                     )),
-                onPressed: mockHttpPost,
+                onPressed: downloadFile,
               ),
             ),
             Container(
@@ -178,40 +179,19 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
 
   Timer timer;
 
-  // downloadFile(String url, {String filename}) async {
-  //   var httpClient = http.Client();
-  //   var request = new http.Request('GET', Uri.parse(url));
-  //   var response = httpClient.send(request);
-  //   String dir = '/test/';
-  //
-  //   List<List<int>> chunks = new List();
-  //   int downloaded = 0;
-  //
-  //   response.asStream().listen((http.StreamedResponse r) {
-  //
-  //     r.stream.listen((List<int> chunk) {
-  //       // Display percentage of completion
-  //       debugPrint('downloadPercentage: ${downloaded / r.contentLength * 100}');
-  //
-  //       chunks.add(chunk);
-  //       downloaded += chunk.length;
-  //     }, onDone: () async {
-  //       // Display percentage of completion
-  //       debugPrint('downloadPercentage: ${downloaded / r.contentLength * 100}');
-  //
-  //       // Save the file
-  //       // File file = new File('$dir/$filename');
-  //       // final Uint8List bytes = Uint8List(r.contentLength);
-  //       // int offset = 0;
-  //       // for (List<int> chunk in chunks) {
-  //       //   bytes.setRange(offset, offset + chunk.length, chunk);
-  //       //   offset += chunk.length;
-  //       // }
-  //       // await file.writeAsBytes(bytes);
-  //       return;
-  //     });
-  //   });
-  // }
+  downloadFile() async {
+    Dio dio = Dio();
+    //设置连接超时时间
+    dio.options.connectTimeout = 10000;
+    //设置数据接收超时时间
+    dio.options.receiveTimeout = 10000;
+
+    Response response = await dio.download(
+        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1382126947,2589415352&fm=15&gp=0.jpg", "/storage/emulated/0/1.png");
+    if (response.statusCode == 200) {
+      print('下载请求成功');
+    }
+  }
 
   void testMethodChannel() {
     timer?.cancel();
@@ -227,6 +207,15 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
     print('stopAll');
     timer?.cancel();
     timer = null;
+  }
+
+  request() async {
+    new Image.network(
+      //图片地址
+      'https://img04.sogoucdn.com/app/a/100520093/ac75323d6b6de243-0bd502b2bdc1100a-92cef3b2299cfc6875afe7d5d0b83a7b.jpg',
+      //填充模式
+      fit: BoxFit.fitWidth,
+    );
   }
 
   void mockHttpPost() async {

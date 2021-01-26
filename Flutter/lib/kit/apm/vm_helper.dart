@@ -20,6 +20,7 @@ class VmHelper {
   VmService serviceClient;
   Version _protocolVersion;
   Version _dartIoVersion;
+  IsolateRef main;
   VM vm;
 
   // flutter版本
@@ -48,12 +49,14 @@ class VmHelper {
 
     vm = await serviceClient.getVM();
     List<IsolateRef> isolates = vm.isolates;
-    isolates.forEach((element) async {
-      MemoryUsage memoryUsage = await serviceClient.getMemoryUsage(element.id);
-      memoryInfo[element] = memoryUsage;
-    });
+    main = isolates.firstWhere((ref) => ref.name.contains('main'));
+    main ??= isolates.first;
+    serviceClient
+        .getMemoryUsage(main.id)
+        .then((value) => memoryInfo[main] = value);
     loadExtensionService();
-    PackageInfo.fromPlatform().then((value) => packageInfo=value);
+    PackageInfo.fromPlatform().then((value) => packageInfo = value);
+    getScriptList();
   }
 
   // 获取flutter版本，目前比较鸡肋，需要借助devtools向vmservice注册的服务来获取,flutter 未 attach的情况下无法使用。
@@ -159,29 +162,40 @@ class VmHelper {
         (value) => _flutterVersion = FlutterVersion.parse(value.json).version);
   }
 
+  void getScriptList() {
+    if (serviceClient != null && connected) {
+      serviceClient
+          .getScripts(main.id)
+          .then((value) => value.scripts?.forEach((value) {
+                if (value.id.contains('main.dart')) {
+                  serviceClient
+                      .getObject(main.id, value.id)
+                      .then((obj) => {print((obj as Script).source)});
+                }
+              }));
+    }
+  }
+
   Future<Response> callMethod(String method) {
     if (registeredMethodsForService.containsKey(method)) {
       return (serviceClient.callMethod(registeredMethodsForService[method].last,
-          isolateId: vm.isolates.first.id));
+          isolateId: main.id));
     }
     return null;
   }
 
   updateMemoryUsage() {
     if (serviceClient != null && connected) {
-      List<IsolateRef> isolates = vm.isolates;
-      isolates.forEach((element) {
-        serviceClient
-            .getMemoryUsage(element.id)
-            .then((value) => memoryInfo[element] = value);
-      });
+      serviceClient
+          .getMemoryUsage(main.id)
+          .then((value) => memoryInfo[main] = value);
     }
   }
 
   dumpAllocationProfile() async {
     if (serviceClient != null && connected) {
       serviceClient
-          .getAllocationProfile(vm.isolates.first.id)
+          .getAllocationProfile(main.id)
           .then((value) => allocationProfile = value);
     }
   }
@@ -197,6 +211,8 @@ class VmHelper {
       print('service client shut down');
     }
   }
+
+
 }
 
 class StdoutLog extends Log {

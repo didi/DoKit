@@ -1,5 +1,5 @@
-
 import 'package:dokit/kit/apm/fps_kit.dart';
+import 'package:dokit/kit/apm/leak_kit.dart';
 import 'package:dokit/kit/apm/log_kit.dart';
 import 'package:dokit/kit/apm/memory_kit.dart';
 import 'package:dokit/kit/apm/method_channel_kit.dart';
@@ -18,6 +18,7 @@ class ApmKitManager {
     ApmKitName.KIT_FPS: FpsKit(),
     ApmKitName.KIT_MEMORY: MemoryKit(),
     ApmKitName.KIT_HTTP: HttpKit(),
+    ApmKitName.KIT_LEAK: LeakKit()
   };
 
   ApmKitManager._privateConstructor() {}
@@ -90,4 +91,5 @@ class ApmKitName {
   static const String KIT_ROUTE = '路由信息';
   static const String KIT_CHANNEL = '方法通道';
   static const String KIT_HTTP = '网络请求';
+  static const String KIT_LEAK = '内存泄漏';
 }
