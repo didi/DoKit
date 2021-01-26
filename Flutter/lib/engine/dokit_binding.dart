@@ -63,8 +63,12 @@ class DoKitBinaryMessenger extends BinaryMessenger {
       if (info != null && result != null) {
         if (info.methodCodec != null) {
           info.results = info.methodCodec.decodeEnvelope(result);
+          info.endTimestamp = new DateTime.now().millisecondsSinceEpoch;
         } else if (info.messageCodec != null) {
           info.results = info.messageCodec.decodeMessage(result);
+          info.endTimestamp = new DateTime.now().millisecondsSinceEpoch;
+        }else{
+          info.endTimestamp = new DateTime.now().millisecondsSinceEpoch;
         }
       }
     } catch (e) {}
