@@ -143,7 +143,10 @@ class LogPageState extends State<LogPage> {
       if (!mounted) return;
     }
     setState(() {
-      _offsetController.jumpTo(0);
+      // 如果正在查看，就不自动滑动到底部
+      if (_offsetController.offset < 10) {
+        _offsetController.jumpTo(0);
+      }
     });
   }
 
@@ -162,21 +165,70 @@ class LogPageState extends State<LogPage> {
   @override
   Widget build(BuildContext context) {
     List<IInfo> items = LogManager.instance.getLogs().reversed.toList();
-    return Container(
-      alignment: Alignment.topLeft,
-      child: ListView.builder(
-          controller: _offsetController,
-          itemCount: items.length,
-          reverse: true,
-          shrinkWrap: true,
-          padding: EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0),
-          itemBuilder: (context, index) {
-            return LogItemWidget(
-              item: items[index],
-              index: index,
-              isLast: index == items.length - 1,
-            );
-          }),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              decoration: new BoxDecoration(
+                border: new Border.all(color: Color(0xff337cc4), width: 1),
+                borderRadius: new BorderRadius.circular(2), // 也可控件一边圆角大小
+              ),
+              margin: EdgeInsets.only(left: 16, top: 8, bottom: 8),
+              padding: EdgeInsets.all(2),
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    this.setState(() {
+                      ApmKitManager.instance
+                          .getKit<LogKit>(ApmKitName.KIT_LOG)
+                          .getStorage()
+                          .clear();
+                    });
+                  },
+                  child: Text('清除本页数据',
+                      style:
+                          TextStyle(color: Color(0xff333333), fontSize: 12))),
+            ),
+            Container(
+              decoration: new BoxDecoration(
+                border: new Border.all(color: Color(0xff337cc4), width: 1),
+                borderRadius: new BorderRadius.circular(2), // 也可控件一边圆角大小
+              ),
+              margin: EdgeInsets.only(left: 10, top: 8, bottom: 8),
+              padding: EdgeInsets.all(2),
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    _offsetController.jumpTo(0);
+                  },
+                  child: Text('滑动到底部',
+                      style:
+                          TextStyle(color: Color(0xff333333), fontSize: 12))),
+            ),
+          ],
+        ),
+        Expanded(
+            child: Container(
+          alignment: Alignment.topLeft,
+          child: ListView.builder(
+              controller: _offsetController,
+              itemCount: items.length,
+              reverse: true,
+              shrinkWrap: true,
+              padding: EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0),
+              itemBuilder: (context, index) {
+                return LogItemWidget(
+                  item: items[index],
+                  index: index,
+                  isLast: index == items.length - 1,
+                );
+              }),
+        )),
+      ],
     );
   }
 }
