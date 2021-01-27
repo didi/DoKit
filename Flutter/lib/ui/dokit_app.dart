@@ -12,8 +12,11 @@ class DoKitApp extends MaterialApp {
   Widget get origin => _origin;
   Widget _origin;
 
-  DoKitApp(this._origin)
-      : super(key: DoKitApp.rootKey, home: _DoKitWrapper(_origin));
+  DoKitApp(this._origin, {GlobalKey navigatorKey})
+      : super(
+            key: DoKitApp.rootKey,
+            home: _DoKitWrapper(_origin),
+            navigatorKey: navigatorKey);
 }
 
 class _DoKitWrapper extends StatelessWidget {
