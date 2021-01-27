@@ -13,7 +13,7 @@
 
 ```
 dependencies:
-  dokit: ^0.2.9
+  dokit: ^0.2.10
 ```
 
 在main函数入口初始化。 DoKit使用runZone的方式进行日志捕获，方法通道的捕获，如果你的app需要使用同样的方式会有冲突。

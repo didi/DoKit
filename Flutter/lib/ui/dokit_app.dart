@@ -48,14 +48,84 @@ class _DoKitAppState extends State<DoKitApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery(
-        data: MediaQueryData.fromWindow(WidgetsBinding.instance.window),
+    return _MediaQueryFromWindow(
         child: Directionality(
-          textDirection: TextDirection.ltr,
-          child: Overlay(
-            key: _overlayKey,
-            initialEntries: entries,
-          ),
-        ));
+      textDirection: TextDirection.ltr,
+      child: Overlay(
+        key: _overlayKey,
+        initialEntries: entries,
+      ),
+    ));
+  }
+}
+
+class _MediaQueryFromWindow extends StatefulWidget {
+  const _MediaQueryFromWindow({Key key, this.child}) : super(key: key);
+
+  final Widget child;
+
+  @override
+  _MediaQueryFromWindowsState createState() => _MediaQueryFromWindowsState();
+}
+
+class _MediaQueryFromWindowsState extends State<_MediaQueryFromWindow>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  // ACCESSIBILITY
+
+  @override
+  void didChangeAccessibilityFeatures() {
+    setState(() {
+      // The properties of window have changed. We use them in our build
+      // function, so we need setState(), but we don't cache anything locally.
+    });
+  }
+
+  // METRICS
+
+  @override
+  void didChangeMetrics() {
+    setState(() {
+      // The properties of window have changed. We use them in our build
+      // function, so we need setState(), but we don't cache anything locally.
+    });
+  }
+
+  @override
+  void didChangeTextScaleFactor() {
+    setState(() {
+      // The textScaleFactor property of window has changed. We reference
+      // window in our build function, so we need to call setState(), but
+      // we don't need to cache anything locally.
+    });
+  }
+
+  // RENDERING
+  @override
+  void didChangePlatformBrightness() {
+    setState(() {
+      // The platformBrightness property of window has changed. We reference
+      // window in our build function, so we need to call setState(), but
+      // we don't need to cache anything locally.
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MediaQuery(
+      data: MediaQueryData.fromWindow(WidgetsBinding.instance.window),
+      child: widget.child,
+    );
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 }
