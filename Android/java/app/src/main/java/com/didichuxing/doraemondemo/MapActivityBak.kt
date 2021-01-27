@@ -33,8 +33,8 @@ class MapActivityBak : AppCompatActivity(), RouteSearch.OnRouteSearchListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_amap_path)
-        amap_view.onCreate(savedInstanceState)
-        aMap = amap_view.map
+//        amap_view.onCreate(savedInstanceState)
+//        aMap = amap_view.map
         //初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
         // 连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。
         // （1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
@@ -84,22 +84,22 @@ class MapActivityBak : AppCompatActivity(), RouteSearch.OnRouteSearchListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        amap_view.onDestroy()
+       // amap_view.onDestroy()
     }
 
     override fun onResume() {
         super.onResume()
-        amap_view.onResume()
+        //amap_view.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        amap_view.onPause()
+       // amap_view.onPause()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        amap_view.onSaveInstanceState(outState)
+       // amap_view.onSaveInstanceState(outState)
     }
 
     override fun onBusRouteSearched(p0: BusRouteResult?, p1: Int) {

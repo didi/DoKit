@@ -30,6 +30,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--用于申请调用A-GPS模块-->
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+
+
     <!-- https://blog.csdn.net/CHS007chs/article/details/85849625
        tools:replace="android:allowBackup,android:label"-->
     <application
@@ -49,22 +51,22 @@
         <activity android:name=".LeakActivity" />
         <activity android:name=".MapActivity" />
 
-        <!--        高德定位服务-->
+        <!--高德定位服务-->
         <service android:name="com.amap.api.location.APSService" />
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="11f9728ee0c2a141663fc4b784c42a33" />
 
-        <!--       腾讯定位服务-->
+        <!--腾讯定位服务-->
         <meta-data
             android:name="TencentMapSDK"
-            android:value="NTSBZ-26Q6D-4NT4A-HIVB5-T6XYE-ESBTP" />
-
+            android:value="ECSBZ-ZDNCF-4K3J4-JNWQ2-TWW37-XOFNQ" />
+        <!--百度地图key-->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="开发者 key" />
-        <!--        百度地图定位服务-->
+            android:value="wqhQ1AeM0DpZbtByMBBZ3VPbXnbKZxFA" />
+        <!--百度地图定位服务-->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
