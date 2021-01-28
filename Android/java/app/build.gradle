@@ -120,6 +120,8 @@ dependencies {
     implementation rootProject.ext.dependencies["coroutines-android"]
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["kotlin"]
+    implementation rootProject.ext.dependencies["fragment"]
+    implementation rootProject.ext.dependencies["fragment-ktx"]
     implementation rootProject.ext.dependencies["retrofit2"]
     implementation rootProject.ext.dependencies["retrofit2_rxjava2"]
     implementation rootProject.ext.dependencies["retrofit2_gson"]
@@ -143,8 +145,14 @@ dependencies {
     releaseImplementation rootProject.ext.dependencies["okgo"]
     //高德地图定位
     implementation rootProject.ext.dependencies["amap_location"]
+    //高德地图
+    implementation rootProject.ext.dependencies["amap_map3d"]
+    //高德搜索
+    implementation rootProject.ext.dependencies["amap_search"]
     //腾讯地图定位
     implementation rootProject.ext.dependencies["tencent_location"]
+    implementation rootProject.ext.dependencies["tencent_map"]
+    implementation rootProject.ext.dependencies["tencent_map_util"]
 //    debugImplementation rootProject.ext.dependencies["leakcanary-android"]
     //百度地图定位
     implementation files('libs/BaiduLBS_Android.jar')

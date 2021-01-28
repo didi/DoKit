@@ -4,8 +4,8 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import androidx.multidex.MultiDex
-import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFloatViewKit
-import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit
+import com.baidu.mapapi.CoordType
+import com.baidu.mapapi.SDKInitializer
 import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
@@ -20,6 +20,9 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        //百度地图初始化
+        SDKInitializer.initialize(this)
+        SDKInitializer.setCoordType(CoordType.BD09LL)
         //测试环境:a49842eeebeb1989b3f9565eb12c276b
         //线上环境:749a0600b5e48dd77cf8ee680be7b1b7
         //DoraemonKit.disableUpload()

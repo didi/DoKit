@@ -7,10 +7,8 @@
     <string name="app_btn_app_launch_stack">app launch method stack</string>
     <string name="app_btn_show_tool_panel">Show Tool Panel</string>
     <string name="app_btn_method_cost">Method Cost Time(TAG:MethodCostUtil)</string>
-    <string name="app_btn_location">Location(system)</string>
-    <string name="app_btn_location_amap">Location(Amap)</string>
-    <string name="app_btn_location_tencent">Location(tencent)</string>
-    <string name="app_btn_location_baidu">Location(baidu)</string>
+    <string name="app_btn_location">Location(System)</string>
+    <string name="app_btn_location_map">Location((amap、baidu、tencent))</string>
     <string name="app_btn_load_img">Big Img</string>
     <string name="app_btn_okhttp_mock">OkHttp Mock</string>
     <string name="app_btn_urlconnection_mock">HttpURLConnection Mock</string>
