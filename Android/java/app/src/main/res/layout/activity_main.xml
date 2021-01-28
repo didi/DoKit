@@ -85,32 +85,12 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/btn_location_amap"
+            android:id="@+id/btn_location_map"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_location_amap"
+            android:text="@string/app_btn_location_map"
             android:textAllCaps="false" />
 
-        <Button
-            android:id="@+id/btn_location_tencent"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="@string/app_btn_location_tencent"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/btn_location_baidu"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="@string/app_btn_location_baidu"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/btn_path_amap"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:text="@string/app_btn_path_amap"
-            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_load_img"
