@@ -6,21 +6,19 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.amap.api.maps.AMap
-import com.amap.api.maps.model.BitmapDescriptor
 import com.amap.api.maps.model.MyLocationStyle
 import com.amap.api.services.route.*
 import com.baidu.location.BDAbstractLocationListener
 import com.baidu.location.BDLocation
 import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
-import com.baidu.mapapi.map.BitmapDescriptorFactory
-import com.baidu.mapapi.map.MyLocationConfiguration
-import com.baidu.mapapi.map.MyLocationData
+import com.baidu.mapapi.map.*
 import com.tencent.map.geolocation.TencentLocation
 import com.tencent.map.geolocation.TencentLocationListener
 import com.tencent.map.geolocation.TencentLocationManager
 import com.tencent.map.geolocation.TencentLocationRequest
 import com.tencent.tencentmap.mapsdk.maps.LocationSource
+import com.tencent.tencentmap.mapsdk.maps.TencentMap
 import kotlinx.android.synthetic.main.activity_amap_path.*
 import kotlinx.android.synthetic.main.activity_map.*
 
@@ -31,15 +29,20 @@ import kotlinx.android.synthetic.main.activity_map.*
 class MapActivity : AppCompatActivity() {
 
     companion object {
-        val TAG = "AmapPathActivity"
+        val TAG = "MapActivity"
+        const val ZOOM_INDEX = 14.0
+        const val BD_ZOOM_INDEX = 18.0
     }
 
-    lateinit var aMap: AMap
+    private lateinit var aMap: AMap
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
         amap_view.onCreate(savedInstanceState)
         aMap = amap_view.map
+        aMap.minZoomLevel = ZOOM_INDEX.toFloat()
         initAMapLocation()
         initTencentMapLocation()
         initBDMapLocation()
@@ -92,12 +95,20 @@ class MapActivity : AppCompatActivity() {
 
         }
 
+
+    lateinit var mBDMap: BaiduMap
+
     /**
      * 初始化百度地图的定位
      */
     private fun initBDMapLocation() {
-        bdmap_view.map.isMyLocationEnabled = true
-        bdmap_view.map.setMyLocationConfiguration(
+        mBDMap = bdmap_view.map
+        mBDMap.isMyLocationEnabled = true
+        val mapStatus: MapStatus = MapStatus.Builder()
+            .zoom(BD_ZOOM_INDEX.toFloat())
+            .build()
+        mBDMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(mapStatus))
+        mBDMap.setMyLocationConfiguration(
             MyLocationConfiguration(
                 MyLocationConfiguration.LocationMode.FOLLOWING,
                 false,
@@ -127,7 +138,7 @@ class MapActivity : AppCompatActivity() {
      */
 
     //用于访问腾讯定位服务的类, 周期性向客户端提供位置更新
-    var mTencentLocationManager: TencentLocationManager? = TencentLocationManager.getInstance(this)
+    var mTencentLocationManager: TencentLocationManager? = null
 
     //创建定位请求
     var mTencentLocationRequest: TencentLocationRequest? = TencentLocationRequest.create()
@@ -164,15 +175,21 @@ class MapActivity : AppCompatActivity() {
 
         }
     }
+
     /**
      * ========腾讯地图========
      */
+
+
+    lateinit var mTencentMap: TencentMap
 
     /**
      * 初始化腾讯地图的定位
      */
     private fun initTencentMapLocation() {
-        tencentmap_view.map.setLocationSource(object : LocationSource {
+        mTencentLocationManager = TencentLocationManager.getInstance(this)
+        mTencentMap = tencentmap_view.map
+        mTencentMap.setLocationSource(object : LocationSource {
             override fun activate(locationChangedListener: LocationSource.OnLocationChangedListener?) {
                 locationChangedListener?.let {
                     mTencentOnLocationChangedListener = it
@@ -210,8 +227,8 @@ class MapActivity : AppCompatActivity() {
             }
 
         })
-        tencentmap_view.map.isMyLocationEnabled = true
-
+        mTencentMap.isMyLocationEnabled = true
+        mTencentMap.setMinZoomLevel(ZOOM_INDEX.toInt())
 
         //设置定位周期（位置监听器回调周期）为3s
         mTencentLocationRequest?.interval = 3000

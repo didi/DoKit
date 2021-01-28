@@ -7,6 +7,8 @@ import androidx.multidex.MultiDex
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
 import com.didichuxing.doraemondemo.dokit.DemoKit
+import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFloatViewKit
+import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.facebook.drawee.backends.pipeline.Fresco
