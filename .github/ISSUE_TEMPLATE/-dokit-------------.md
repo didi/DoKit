@@ -1,7 +1,7 @@
 ---
 name: "【DoKit生态场景】-描述出现的问题"
 about: DoKit生态场景比如Android、iOS、小程序、Flutter，后面跟你需要描述的内容
-title: ''
+title: "【DoKit生态场景】-描述出现的问题"
 labels: ''
 assignees: jtsky
 
