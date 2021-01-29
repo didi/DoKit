@@ -90,7 +90,7 @@ class InfoItem extends StatelessWidget {
         padding: EdgeInsets.only(top: 14, bottom: 14),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
               label,
@@ -99,17 +99,18 @@ class InfoItem extends StatelessWidget {
                 color: Color(0xff333333),
               ),
             ),
-            Container(
-                width: MediaQuery.of(context).size.width - 130,
-                margin: EdgeInsets.only(left: 10),
-                child: Text(
-                  text ?? '-',
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Color(0xff666666),
-                  ),
-                ))
+            Expanded(
+              child: Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text(
+                    text ?? '-',
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Color(0xff666666),
+                    ),
+                  )),
+            )
           ],
         ));
   }

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // 谷歌提供的DevTool会判断入口widget是否在主工程内申明(runApp(new MyApp())，MyApp必须在主工程内定义，估计是根据source file来判断的)，
@@ -36,6 +37,7 @@ class _DoKitWrapper extends StatelessWidget {
 class _DoKitAppState extends State<DoKitApp> {
   final GlobalKey<OverlayState> _overlayKey = GlobalKey<OverlayState>();
   final List<OverlayEntry> entries = <OverlayEntry>[];
+  final supportedLocales = const <Locale>[Locale('en', 'US')];
 
   @override
   void initState() {
@@ -46,16 +48,27 @@ class _DoKitAppState extends State<DoKitApp> {
     }));
   }
 
+  Iterable<LocalizationsDelegate<dynamic>> get _localizationsDelegates sync* {
+    yield DefaultMaterialLocalizations.delegate;
+    yield DefaultCupertinoLocalizations.delegate;
+    yield DefaultWidgetsLocalizations.delegate;
+  }
+
   @override
   Widget build(BuildContext context) {
     return _MediaQueryFromWindow(
+      child: Localizations(
+        locale: supportedLocales.first,
+        delegates: _localizationsDelegates.toList(),
         child: Directionality(
-      textDirection: TextDirection.ltr,
-      child: Overlay(
-        key: _overlayKey,
-        initialEntries: entries,
+          textDirection: TextDirection.ltr,
+          child: Overlay(
+            key: _overlayKey,
+            initialEntries: entries,
+          ),
+        ),
       ),
-    ));
+    );
   }
 }
 

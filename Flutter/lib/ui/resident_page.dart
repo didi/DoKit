@@ -59,7 +59,11 @@ class ResidentPageState extends State<ResidentPage> {
     final size = MediaQuery.of(context).size;
     final width = size.width;
     final height = size.height;
-    int topMargin = MediaQuery.of(context).orientation==Orientation.portrait ? 100 : 0;
+    int topMargin =
+        MediaQuery.of(context).orientation == Orientation.portrait ? 100 : 0;
+    if (height == 0) {
+      return Container();
+    }
     return Positioned(
         child: Container(
       width: width,
