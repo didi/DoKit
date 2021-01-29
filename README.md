@@ -229,7 +229,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 ## 项目成员
 
-**发起者**
+**创始人**
 [yixiangboy(易翔)](https://github.com/yixiangboy)
 **负责人**
 [jtsky(金台)](https://github.com/jtsky) 
