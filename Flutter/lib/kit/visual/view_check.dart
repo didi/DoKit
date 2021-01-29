@@ -51,9 +51,9 @@ class ViewCheckerKit extends VisualKit {
       return;
     }
     hasShow = true;
-    Overlay.of(context).insert(focusEntry, below: entrance);
-    Overlay.of(context).insert(infoEntry, below: focusEntry);
-    Overlay.of(context).insert(rectEntry, below: infoEntry);
+    doKitOverlayKey.currentState.insert(focusEntry, below: entrance);
+    doKitOverlayKey.currentState.insert(infoEntry, below: focusEntry);
+    doKitOverlayKey.currentState.insert(rectEntry, below: infoEntry);
   }
 
   static bool hide(BuildContext context) {

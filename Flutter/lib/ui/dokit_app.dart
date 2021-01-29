@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+final GlobalKey<OverlayState> doKitOverlayKey = GlobalKey<OverlayState>();
+
 // 谷歌提供的DevTool会判断入口widget是否在主工程内申明(runApp(new MyApp())，MyApp必须在主工程内定义，估计是根据source file来判断的)，
 // 如果在package内去申明这个入口widget，则在Flutter Inspector上的左边树会被折叠，影响开发使用。故这里要求在main文件内使用DoKitApp(MyApp())的形式来初始化入口
 class DoKitApp extends StatefulWidget {
@@ -35,7 +37,6 @@ class _DoKitWrapper extends StatelessWidget {
 }
 
 class _DoKitAppState extends State<DoKitApp> {
-  final GlobalKey<OverlayState> _overlayKey = GlobalKey<OverlayState>();
   final List<OverlayEntry> entries = <OverlayEntry>[];
   final supportedLocales = const <Locale>[Locale('en', 'US')];
 
@@ -56,17 +57,19 @@ class _DoKitAppState extends State<DoKitApp> {
 
   @override
   Widget build(BuildContext context) {
-    return _MediaQueryFromWindow(
-      child: Localizations(
-        locale: supportedLocales.first,
-        delegates: _localizationsDelegates.toList(),
-        child: Directionality(
-          textDirection: TextDirection.ltr,
-          child: Overlay(
-            key: _overlayKey,
-            initialEntries: entries,
-          ),
-        ),
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: Stack(
+        children: <Widget>[
+          widget.origin,
+          _MediaQueryFromWindow(
+              child: Localizations(
+                  locale: supportedLocales.first,
+                  delegates: _localizationsDelegates.toList(),
+                  child: Overlay(
+                    key: doKitOverlayKey,
+                  )))
+        ],
       ),
     );
   }

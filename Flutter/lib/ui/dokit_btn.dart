@@ -21,7 +21,7 @@ class DoKitBtn extends StatefulWidget {
     overlayEntry = new OverlayEntry(builder: (context) {
       return this;
     });
-    OverlayState rootOverlay = Overlay.of(DoKitApp.appKey.currentContext);
+    OverlayState rootOverlay = doKitOverlayKey.currentState;
     assert(rootOverlay != null);
     rootOverlay.insert(overlayEntry);
     ApmKitManager.instance.startUp();
@@ -100,7 +100,7 @@ class DoKitBtnState extends State<DoKitBtn> {
     if (showDebugPage) {
       closeDebugPage();
     } else {
-      Overlay.of(context).insert(debugPage, below: owner);
+      doKitOverlayKey.currentState.insert(debugPage, below: owner);
       showDebugPage = true;
     }
   }

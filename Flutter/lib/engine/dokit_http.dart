@@ -489,7 +489,7 @@ class DoKitHttpClientResponse implements HttpClientResponse {
         headers.contentType.charset != null) {
       charset = headers.contentType.charset;
     } else {
-      charset = "iso-8859-1";
+      charset = "utf-8";
     }
     return Encoding.getByName(charset);
   }
