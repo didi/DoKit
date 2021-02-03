@@ -5,7 +5,6 @@ import 'package:dokit/ui/dokit_btn.dart';
 import 'package:dokit/ui/dokit_app.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'dart:core';
 import 'package:flutter/widgets.dart' as dart;
 import 'package:dokit/kit/kit_page.dart';
