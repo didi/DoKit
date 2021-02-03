@@ -28,6 +28,6 @@
 
 @property (nonatomic, copy) NSString *topVc;//流量触发时候的顶层vc
 
-+ (DoraemonNetFlowHttpModel *)dealWithResponseData:(NSData *)responseData response:(NSURLResponse*)response request:(NSURLRequest *)request;
++ (void)dealWithResponseData:(NSData *)responseData response:(NSURLResponse*)response request:(NSURLRequest *)request complete:(void (^)(DoraemonNetFlowHttpModel *model))complete;
 
 @end
