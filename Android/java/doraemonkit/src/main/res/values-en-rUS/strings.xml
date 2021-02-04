@@ -3,6 +3,7 @@
 
     <string name="dk_category_biz">Business</string>
     <string name="dk_category_comms">Common</string>
+    <string name="dk_category_lbs">LBS</string>
     <string name="dk_category_performance">Performance</string>
     <string name="dk_category_large_image">Large image detection</string>
     <string name="dk_category_ui">UI</string>
@@ -23,6 +24,9 @@
     <string name="dk_kit_file_explorer">Sandbox</string>
     <string name="dk_kit_frame_info">FPS</string>
     <string name="dk_kit_gps_mock">Mock GPS</string>
+    <string name="dk_kit_gps_mock_manual">GPS-Manual</string>
+    <string name="dk_kit_gps_mock_preset">GPS-Preset</string>
+    <string name="dk_kit_gps_mock_route">GPS-Route</string>
     <string name="dk_kit_color_picker">Color Picker</string>
     <string name="dk_kit_align_ruler">Align Ruler</string>
     <string name="dk_kit_log_info">Log</string>

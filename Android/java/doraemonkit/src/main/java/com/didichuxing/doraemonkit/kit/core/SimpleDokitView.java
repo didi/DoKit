@@ -114,6 +114,6 @@ public abstract class SimpleDokitView extends AbsDokitView {
         return true;
     }
 
-    private void initView() {
+    protected void initView() {
     }
 }

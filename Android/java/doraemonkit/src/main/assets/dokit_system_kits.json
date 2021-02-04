@@ -48,11 +48,6 @@
         "innerKitId": "dokit_sdk_comm_ck_sandbox"
       },
       {
-        "allClassName": "com.didichuxing.doraemonkit.kit.gpsmock.GpsMockKit",
-        "checked": true,
-        "innerKitId": "dokit_sdk_comm_ck_gps"
-      },
-      {
         "allClassName": "com.didichuxing.doraemonkit.kit.webdoor.WebDoorKit",
         "checked": true,
         "innerKitId": "dokit_sdk_comm_ck_h5"
@@ -76,6 +71,31 @@
         "allClassName": "com.didichuxing.doraemonkit.kit.h5_help.H5Kit",
         "checked": true,
         "innerKitId": "dokit_sdk_comm_ck_h5"
+      }
+    ]
+  },
+  {
+    "groupId": "dk_category_lbs",
+    "kits": [
+      {
+        "allClassName": "com.didichuxing.doraemonkit.kit.gpsmock.GpsMockKit",
+        "checked": true,
+        "innerKitId": "dokit_sdk_comm_ck_gps"
+      },
+      {
+        "allClassName": "com.didichuxing.doraemonkit.kit.fly.manual.FloatGpsMockKit",
+        "checked": true,
+        "innerKitId": "dokit_sdk_comm_ck_location"
+      },
+      {
+        "allClassName": "com.didichuxing.doraemonkit.kit.fly.preset.FloatGpsPresetMockKit",
+        "checked": true,
+        "innerKitId": "dokit_sdk_comm_ck_location_preset"
+      },
+      {
+        "allClassName": "com.didichuxing.doraemonkit.kit.fly.route.FloatGpsMockRouteMockKit",
+        "checked": true,
+        "innerKitId": "dokit_sdk_comm_ck_location_list"
       }
     ]
   },

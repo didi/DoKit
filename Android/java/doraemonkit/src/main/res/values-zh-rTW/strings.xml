@@ -3,6 +3,7 @@
 
     <string name="dk_category_biz">業務專區</string>
     <string name="dk_category_comms">常用工具</string>
+    <string name="dk_category_lbs">LBS</string>
     <string name="dk_category_performance">效能監控</string>
     <string name="dk_category_large_image">大圖檢測</string>
     <string name="dk_category_ui">視覺工具</string>
@@ -23,6 +24,9 @@
     <string name="dk_kit_frame_info">幀率</string>
     <string name="dk_kit_frame_info_desc">幀率檢測</string>
     <string name="dk_kit_gps_mock">位置模擬</string>
+    <string name="dk_kit_gps_mock_manual">位置-手动</string>
+    <string name="dk_kit_gps_mock_preset">位置-预设</string>
+    <string name="dk_kit_gps_mock_route">位置-路线</string>
     <string name="dk_kit_color_picker">取色器</string>
     <string name="dk_kit_align_ruler">對齊標尺</string>
     <string name="dk_kit_log_info">Log</string>

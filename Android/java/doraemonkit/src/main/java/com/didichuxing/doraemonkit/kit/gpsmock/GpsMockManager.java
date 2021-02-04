@@ -36,6 +36,11 @@ public class GpsMockManager {
         mLongitude = longitude;
     }
 
+    public void mockLocationWithNotify(double latitude, double longitude) {
+        mockLocation(latitude, longitude);
+        // TODO: 1/22/21 notify Location Listeners
+    }
+
     public boolean isMocking() {
         return isMocking && mLongitude != -1 && mLatitude != -1;
     }

@@ -8,7 +8,11 @@ import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.FragmentIndex
 
 object SimpleDokitStarter {
-    fun startFloating(targetClass: Class<out AbsDokitView?>?) = DokitViewManager.getInstance().attach(DokitIntent(targetClass))
+    @JvmStatic
+    @JvmOverloads
+    fun startFloating(targetClass: Class<out AbsDokitView?>) {
+        DokitViewManager.getInstance().attach(DokitIntent(targetClass))
+    }
 
     @JvmStatic
     @JvmOverloads
