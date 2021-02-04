@@ -1,5 +1,7 @@
 package com.didichuxing.doraemonkit.kit.fly.common;
 
+import android.util.ArrayMap;
+
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -7,7 +9,7 @@ public class LocInfo {
     public String locName;
     public double lat;
     public double lng;
-    public HashMap<String, Object> extra;
+    public ArrayMap<String, Object> extra;
 
     public LocInfo(String locName, double lat, double lng) {
         this.locName = locName;
@@ -20,18 +22,18 @@ public class LocInfo {
         return Constants.GSON.fromJson(gsonStr, LocInfo.class);
     }
 
-    public HashMap<String, Object> getExtra() {
+    public ArrayMap<String, Object> getExtra() {
         return extra;
     }
 
-    public LocInfo setExtra(HashMap extra) {
+    public LocInfo setExtra(ArrayMap extra) {
         this.extra = extra;
         return this;
     }
 
     public LocInfo putExtra(String key, Object value) {
         if (extra == null) {
-            extra = new HashMap();
+            extra = new ArrayMap();
         }
         extra.put(key, value);
         return this;

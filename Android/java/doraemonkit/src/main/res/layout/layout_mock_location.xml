@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mock_location_root_container"
-    android:layout_width="220dp"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:theme="@style/DK.Text.Dark">
 
 
@@ -48,7 +48,7 @@
 
     <SeekBar
         android:id="@+id/dk_sb_seekBar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:max="500"
@@ -157,6 +157,7 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
         android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_mock_gps_north"

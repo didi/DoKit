@@ -28,7 +28,7 @@ public class FloatGpsMockRouteKitView extends SimpleDokitView {
             routeSeekBar.setProgress(FloatGpsRouteMockCache.getMockRouteProgress());
             mockRouteTv.setText("模拟路线进度:" + FloatGpsRouteMockCache.getMockRouteProgress() + " / " + FloatGpsRouteMockCache.getRouteCount());
             if (FloatGpsRouteMockCache.getRouteCount() == 0) {
-                mockRouteTv.setText("使用 MockLocationKit.mockGpsRoute 设置模拟线路");
+                mockRouteTv.setText("使用 FloatGpsRouteMockCache.mockGpsRoute 设置模拟线路");
             }
         }
     };

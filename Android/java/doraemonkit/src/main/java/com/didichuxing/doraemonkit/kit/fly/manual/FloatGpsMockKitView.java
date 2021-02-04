@@ -1,5 +1,8 @@
 package com.didichuxing.doraemonkit.kit.fly.manual;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
@@ -19,10 +22,13 @@ import com.didichuxing.doraemonkit.model.LatLng;
 
 public class FloatGpsMockKitView extends SimpleDokitView {
     public static final String TAG = "FloatGpsMockKitView";
+    public static final int MIN_STEP = 5;
+    public static final int MAX_STEP = 500;
     private View mRootView;
-    private static int sMockSpeed = 10;
+    private static int sMockStep = 10;
     private TextView mMockSpeedTv;
     private SeekBar mSpeedSeekBar;
+    private TextView mEnvInfo = null;
 
     @Override
     protected int getLayoutId() {
@@ -71,25 +77,25 @@ public class FloatGpsMockKitView extends SimpleDokitView {
         ViewSetupHelper.setupButton(mRootView, R.id.btn_mock_gps_north, "上", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveMockLocation(sMockSpeed, 0);
+                moveMockLocation(sMockStep, 0);
             }
         });
         ViewSetupHelper.setupButton(mRootView, R.id.btn_mock_gps_south, "下", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveMockLocation(-sMockSpeed, 0);
+                moveMockLocation(-sMockStep, 0);
             }
         });
         ViewSetupHelper.setupButton(mRootView, R.id.btn_mock_gps_west, "左", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveMockLocation(0, -sMockSpeed);
+                moveMockLocation(0, -sMockStep);
             }
         });
         ViewSetupHelper.setupButton(mRootView, R.id.btn_mock_gps_east, "右", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveMockLocation(0, sMockSpeed);
+                moveMockLocation(0, sMockStep);
             }
         });
 
@@ -97,13 +103,14 @@ public class FloatGpsMockKitView extends SimpleDokitView {
         mMockSpeedTv = findViewById(R.id.tv_mock_speed);
         mSpeedSeekBar = findViewById(R.id.dk_sb_seekBar);
         updateSpeedView(mMockSpeedTv, mSpeedSeekBar);
-        mSpeedSeekBar.setMax(500);
+        mSpeedSeekBar.setMin(MIN_STEP);
+        mSpeedSeekBar.setMax(MAX_STEP);
         mSpeedSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    sMockSpeed = progress;
-                    mMockSpeedTv.setText("步进速度控制:" + sMockSpeed);
+                    sMockStep = progress;
+                    mMockSpeedTv.setText("步进速度控制:" + sMockStep);
                 }
             }
 
@@ -118,27 +125,38 @@ public class FloatGpsMockKitView extends SimpleDokitView {
         findViewById(R.id.dk_btn_downMockSpeed).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sMockSpeed -= 10;
+                sMockStep -= 10;
+                if (sMockStep < MIN_STEP) sMockStep = MIN_STEP;
                 updateSpeedView(mMockSpeedTv, mSpeedSeekBar);
             }
         });
         findViewById(R.id.dk_btn_upMockSpeed).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sMockSpeed += 10;
+                sMockStep += 10;
+                if (sMockStep > MAX_STEP) sMockStep = MAX_STEP;
                 updateSpeedView(mMockSpeedTv, mSpeedSeekBar);
+            }
+        });
+
+
+        mEnvInfo = this.findViewById(R.id.env_info3);
+        mEnvInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                copyToClipboard(mEnvInfo.getText().toString());
             }
         });
     }
 
     private void updateSpeedView(TextView mockSpeed, SeekBar seekBar) {
-        seekBar.setProgress(sMockSpeed);
-        mMockSpeedTv.setText("步进速度控制:" + sMockSpeed);
+        seekBar.setProgress(sMockStep);
+        mMockSpeedTv.setText("步进速度控制:" + sMockStep);
     }
 
     private void updateCurrentLocConfig(LocInfo currentConfig) {
-        TextView envInfo = this.findViewById(R.id.env_info3);
-        updateGsonInfo(currentConfig.toString(), envInfo);
+        if (mEnvInfo == null) return;
+        updateGsonInfo(currentConfig.toString(), mEnvInfo);
     }
 
     private void updateGsonInfo(String currentConfig, TextView envInfo) {
@@ -162,5 +180,12 @@ public class FloatGpsMockKitView extends SimpleDokitView {
         }
     }
 
+    private void copyToClipboard(String s) {
+        ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        String label = "已拷贝值剪切板，可以到别的地方直接粘贴使用了";
+        ToastUtils.showShort(label);
+        ClipData clip = ClipData.newPlainText(label, s);
+        clipboard.setPrimaryClip(clip);
+    }
 
 }
