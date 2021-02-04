@@ -13,14 +13,14 @@
 
 + (NSDictionary *)convertDicFromData:(NSData *)data;
 
-+ (NSUInteger)getRequestLength:(NSURLRequest *)request;
++ (NSUInteger)getHeadersLengthWithRequest:(NSURLRequest *)request;
+
++ (void)requestLength:(NSURLRequest *)request callBack:(void (^)(NSUInteger))callBack;
 
 + (NSUInteger)getHeadersLength:(NSDictionary *)headers ;
 
 + (NSDictionary<NSString *, NSString *> *)getCookies:(NSURLRequest *)request ;
 
 + (int64_t)getResponseLength:(NSHTTPURLResponse *)response data:(NSData *)responseData;
-
-+ (NSData *)getHttpBodyFromRequest:(NSURLRequest *)request;
 
 @end

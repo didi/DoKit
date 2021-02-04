@@ -8,6 +8,7 @@
 
 #import "DoraemonDemoURLProtocol2.h"
 #import "DoraemonUrlUtil.h"
+#import "DoraemonNetFlowManager.h"
 
 static NSString * const kDoraemonDemoUrlProtocol2Key = @"doraemon_demo_url_protocol_2_key";
 
@@ -48,10 +49,11 @@ static NSString * const kDoraemonDemoUrlProtocol2Key = @"doraemon_demo_url_proto
 
 - (void)stopLoading{
     NSLog(@"22222 == stopLoading");
-    NSData *httpBody = [DoraemonUrlUtil getHttpBodyFromRequest:self.request];
-    NSString* requestBody = [DoraemonUrlUtil convertJsonFromData:httpBody];
-    NSLog(@"22222 == requestBody = %@",requestBody);
-    [self.connection cancel];
+    [[DoraemonNetFlowManager shareInstance] httpBodyFromRequest:self.request bodyCallBack:^(NSData *httpBody) {
+        NSString* requestBody = [DoraemonUrlUtil convertJsonFromData:httpBody];
+        NSLog(@"22222 == requestBody = %@",requestBody);
+        [self.connection cancel];
+    }];
 }
 
 
