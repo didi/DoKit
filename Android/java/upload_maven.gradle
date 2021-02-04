@@ -5,11 +5,11 @@ def DOKIT_GROUP_ID = rootProject.ext.publish_config["group_id"]
 
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def LOCAL_REPOSITORY_URL = properties.getProperty('LOCAL_REPOSITORY_URL')
-def RELEASE_REPOSITORY_URL = properties.getProperty('RELEASE_REPOSITORY_URL')
-def SNAPSHOT_REPOSITORY_URL = properties.getProperty('SNAPSHOT_REPOSITORY_URL')
-def USERNAME = properties.getProperty('USERNAME')
-def PASSWORD = properties.getProperty('PASSWORD')
+def LOCAL_REPOSITORY_URL = properties.getProperty('LOCAL_REPOSITORY_URL', "")
+def RELEASE_REPOSITORY_URL = properties.getProperty('RELEASE_REPOSITORY_URL', "")
+def SNAPSHOT_REPOSITORY_URL = properties.getProperty('SNAPSHOT_REPOSITORY_URL', "")
+def USERNAME = properties.getProperty('USERNAME', "")
+def PASSWORD = properties.getProperty('PASSWORD', "")
 
 if (PUBLISH_ARCHIVES_TYPE == 1) {
     uploadArchives {
