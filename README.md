@@ -27,7 +27,7 @@
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
  <img src="https://img.shields.io/badge/Android-3.3.5-blue.svg" align=left />
- <img src="https://img.shields.io/badge/iOS-3.0.4-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/iOS-3.0.7-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/Flutter-0.2.12-blue.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
