@@ -115,7 +115,9 @@
 
 #pragma mark -- DoraemonNetworkInterceptorDelegate
 - (void)doraemonNetworkInterceptorDidReceiveData:(NSData *)data response:(NSURLResponse *)response request:(NSURLRequest *)request error:(NSError *)error startTime:(NSTimeInterval)startTime {
-    [[DoraemonWeakNetworkWindow shareInstance] updateFlowValue:[NSString stringWithFormat:@"%zi",[DoraemonUrlUtil getRequestLength:request]] downFlow:[NSString stringWithFormat:@"%lli",[DoraemonUrlUtil getResponseLength:(NSHTTPURLResponse *)response data:data]] fromWeak:NO];
+    [DoraemonUrlUtil requestLength:request callBack:^(NSUInteger length) {
+        [[DoraemonWeakNetworkWindow shareInstance] updateFlowValue:[NSString stringWithFormat:@"%zi",length] downFlow:[NSString stringWithFormat:@"%lli",[DoraemonUrlUtil getResponseLength:(NSHTTPURLResponse *)response data:data]] fromWeak:NO];
+    }];
 }
 
 - (BOOL)shouldIntercept {

@@ -1,8 +1,11 @@
 # Release Notes
 
+### 3.0.7
+1、DoKit iOS github issues bug fixed
+
+
 ### 3.0.4
 1、DoKit iOS端文件同步助手正式上线
-
 
 
 ### 3.0.2
