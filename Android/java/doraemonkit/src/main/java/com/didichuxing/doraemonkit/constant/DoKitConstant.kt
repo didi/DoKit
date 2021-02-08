@@ -25,6 +25,7 @@ object DoKitConstant {
     const val GROUP_ID_WEEX = "dk_category_weex"
     const val GROUP_ID_PERFORMANCE = "dk_category_performance"
     const val GROUP_ID_UI = "dk_category_ui"
+    const val GROUP_ID_LBS = "dk_category_lbs"
 
     val SYSTEM_KITS_BAK_PATH: String by lazy {
         "${PathUtils.getInternalAppFilesPath()}${File.separator}system_kit_bak_${BuildConfig.DOKIT_VERSION}.json"

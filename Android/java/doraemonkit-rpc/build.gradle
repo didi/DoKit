@@ -60,4 +60,4 @@ dependencies {
 
 }
 
-uploadArchives.dependsOn(':doraemonkit:uploadArchives')
+publish.dependsOn(':doraemonkit:publish')

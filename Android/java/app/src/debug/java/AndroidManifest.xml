@@ -35,10 +35,10 @@
         </activity>
 
         <!--https://lbs.qq.com/mobile/androidMapSDK/developerGuide/getKey-->
-        <meta-data
-            android:name="TencentMapSDK"
-            android:value="yourkey"
-            tools:replace="android:value" />
+<!--        <meta-data-->
+<!--            android:name="TencentMapSDK"-->
+<!--            android:value="yourkey"-->
+<!--            tools:replace="android:value" />-->
     </application>
 
 </manifest>

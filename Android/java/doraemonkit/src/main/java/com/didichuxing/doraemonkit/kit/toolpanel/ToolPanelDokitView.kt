@@ -60,6 +60,7 @@ class ToolPanelDokitView : AbsDokitView() {
                 DoKitConstant.GROUP_ID_COMM,
                 DoKitConstant.GROUP_ID_WEEX,
                 DoKitConstant.GROUP_ID_PERFORMANCE,
+                DoKitConstant.GROUP_ID_LBS,
                 DoKitConstant.GROUP_ID_UI -> {
                     if (group.value.size != 0) {
                         mKits.add(KitWrapItem(KitWrapItem.TYPE_TITLE, name = DokitUtil.getString(DokitUtil.getStringId(group.key)), kit = null))
