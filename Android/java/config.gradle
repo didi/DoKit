@@ -9,8 +9,7 @@ ext {
             //1:依赖dokit远程aar运行
             run_type     : 0,
             group_id     : 'com.didichuxing.doraemonkit',
-//            version      : '3.3.4.9'
-            version      : '3.3.1.1'
+            version      : '3.3.4.9'
     ]
 
     android = [compileSdkVersion            : 29,
@@ -119,8 +118,8 @@ ext {
                     //tencent x5 浏览器 https://x5.tencent.com/
                     "tbs"                : "com.tencent.tbs.tbssdk:sdk:43903",
 //                    "swipeback"    : "me.imid.swipebacklayout.lib:library:1.1.0"
-                    "tencent-map"                : "com.tencent.map:tencent-map-vector-sdk:4.3.4",
-                    "flexbox"                : 'com.google.android:flexbox:1.0.0',
+                    "tencent-map"        : "com.tencent.map:tencent-map-vector-sdk:4.3.4",
+                    "flexbox"            : 'com.google.android:flexbox:1.0.0',
 
     ]
 }

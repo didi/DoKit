@@ -8,10 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.amap.api.maps.AMap
 import com.amap.api.maps.model.MyLocationStyle
 import com.amap.api.services.route.*
-import com.baidu.location.BDAbstractLocationListener
-import com.baidu.location.BDLocation
-import com.baidu.location.LocationClient
-import com.baidu.location.LocationClientOption
+import com.baidu.location.*
 import com.baidu.mapapi.map.*
 import com.tencent.map.geolocation.TencentLocation
 import com.tencent.map.geolocation.TencentLocationListener
@@ -78,21 +75,17 @@ class MapActivity : AppCompatActivity() {
      */
     private lateinit var mBDLocationClient: LocationClient
 
-    private val mBDLocationListener: BDAbstractLocationListener =
-        object : BDAbstractLocationListener() {
-            override fun onReceiveLocation(location: BDLocation?) {
-                location?.let {
-                    val locData: MyLocationData = MyLocationData.Builder()
-                        .accuracy(location.radius) // 此处设置开发者获取到的方向信息，顺时针0-360
-                        .direction(location.direction)
-                        .latitude(location.latitude)
-                        .longitude(location.longitude)
-                        .build()
-                    bdmap_view.map.setMyLocationData(locData)
-                }
-
+    private val mBDLocationListener: BDLocationListener =
+        BDLocationListener { location ->
+            location?.let {
+                val locData: MyLocationData = MyLocationData.Builder()
+                    .accuracy(location.radius) // 此处设置开发者获取到的方向信息，顺时针0-360
+                    .direction(location.direction)
+                    .latitude(location.latitude)
+                    .longitude(location.longitude)
+                    .build()
+                bdmap_view.map.setMyLocationData(locData)
             }
-
         }
 
 

@@ -89,14 +89,20 @@ class CommTransformer : ClassTransformer {
             }
 
             //插入百度地图相关字节码
-            klass.methods?.find {
-                it.name == "onReceiveLocation" && it.desc == "(Lcom/baidu/location/BDLocation;)V"
-            }.let { methodNode ->
-                methodNode?.name?.let {
-                    "${context.projectDir.lastPath()}->hook baidu map  succeed: ${className}_${methodNode.name}_${methodNode.desc}".println()
-                    methodNode.instructions?.insert(createBaiduLocationInsnList())
+            if (className == "com.baidu.location.LocationClient") {
+                klass.methods?.filter {
+                    it.name == "registerLocationListener"
+                            && (it.desc == "(Lcom/baidu/location/BDLocationListener;)V" || it.desc == "(Lcom/baidu/location/BDAbstractLocationListener;)V")
+                }?.forEach { methodNode ->
+                    "${context.projectDir.lastPath()}->hook baidu map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    if (methodNode.desc == "(Lcom/baidu/location/BDLocationListener;)V") {
+                        methodNode?.instructions?.insert(createBaiduLocationListenerInsnList())
+                    } else if (methodNode.desc == "(Lcom/baidu/location/BDAbstractLocationListener;)V") {
+                        methodNode?.instructions?.insert(createBaiduLocationAbsListenerInsnList())
+                    }
                 }
             }
+
         }
 
 
@@ -488,7 +494,7 @@ class CommTransformer : ClassTransformer {
                     false
                 )
             )
-            //对第一个参数进行重新赋值
+            //对第二个参数进行重新赋值
             add(VarInsnNode(ASTORE, 2))
 
             this
@@ -496,6 +502,58 @@ class CommTransformer : ClassTransformer {
 
     }
 
+
+    /**
+     * 创建百度地图代码指令
+     */
+    private fun createBaiduLocationListenerInsnList(): InsnList {
+        return with(InsnList()) {
+            //在LocationClient的registerLocationListener方法之中插入自定义代理回调类
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/BDLocationListenerProxy"))
+            add(InsnNode(DUP))
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESPECIAL,
+                    "com/didichuxing/doraemonkit/aop/BDLocationListenerProxy",
+                    "<init>",
+                    "(Lcom/baidu/location/BDLocationListener;)V",
+                    false
+                )
+            )
+            //对第一个参数进行重新赋值
+            add(VarInsnNode(ASTORE, 1))
+
+            this
+        }
+
+    }
+
+    /**
+     * 创建百度地图代码指令
+     */
+    private fun createBaiduLocationAbsListenerInsnList(): InsnList {
+        return with(InsnList()) {
+            //在LocationClient的registerLocationListener方法之中插入自定义代理回调类
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/BDAbsLocationListenerProxy"))
+            add(InsnNode(DUP))
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESPECIAL,
+                    "com/didichuxing/doraemonkit/aop/BDAbsLocationListenerProxy",
+                    "<init>",
+                    "(Lcom/baidu/location/BDAbstractLocationListener;)V",
+                    false
+                )
+            )
+            //对第一个参数进行重新赋值
+            add(VarInsnNode(ASTORE, 1))
+            this
+        }
+    }
 
     /**
      * 创建百度地图代码指令
