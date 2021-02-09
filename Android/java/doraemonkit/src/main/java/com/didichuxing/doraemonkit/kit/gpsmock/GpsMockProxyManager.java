@@ -8,11 +8,17 @@ import com.didichuxing.doraemonkit.aop.BDLocationListenerProxy;
 import com.didichuxing.doraemonkit.aop.TencentLocationListenerProxy;
 import com.tencent.map.geolocation.TencentLocation;
 
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 存在内存泄漏的问题 暂时没想到好的解决方案
+ */
 public class GpsMockProxyManager {
-    private AMapLocationListenerProxy mAMapLocationListenerProxy = null;
-    private BDAbsLocationListenerProxy mBDAbsLocationListenerProxy = null;
-    private BDLocationListenerProxy mBDLocationListenerProxy = null;
-    private TencentLocationListenerProxy mTencentLocationListenerProxy = null;
+    private final List<AMapLocationListenerProxy> mAMapLocationListenerProxys = new ArrayList<>();
+    private final List<BDAbsLocationListenerProxy> mBDAbsLocationListenerProxys = new ArrayList<>();
+    private final List<BDLocationListenerProxy> mBDLocationListenerProxys = new ArrayList<>();
+    private final List<TencentLocationListenerProxy> mTencentLocationListenerProxys = new ArrayList<>();
 
     private GpsMockProxyManager() {
     }
@@ -21,27 +27,27 @@ public class GpsMockProxyManager {
         return Holder.INSTANCE;
     }
 
-    public void setAMapLocationListenerProxy(AMapLocationListenerProxy mAMapLocationListenerProxy) {
-        this.mAMapLocationListenerProxy = mAMapLocationListenerProxy;
+    public void addAMapLocationListenerProxy(AMapLocationListenerProxy aMapLocationListenerProxy) {
+        this.mAMapLocationListenerProxys.add(aMapLocationListenerProxy);
     }
 
-    public void setBDAbsLocationListenerProxy(BDAbsLocationListenerProxy mBDAbsLocationListenerProxy) {
-        this.mBDAbsLocationListenerProxy = mBDAbsLocationListenerProxy;
+    public void addBDAbsLocationListenerProxy(BDAbsLocationListenerProxy bdAbsLocationListenerProxy) {
+        this.mBDAbsLocationListenerProxys.add(bdAbsLocationListenerProxy);
     }
 
-    public void setBDLocationListenerProxy(BDLocationListenerProxy mBDLocationListenerProxy) {
-        this.mBDLocationListenerProxy = mBDLocationListenerProxy;
+    public void addBDLocationListenerProxy(BDLocationListenerProxy bdLocationListenerProxy) {
+        this.mBDLocationListenerProxys.add(bdLocationListenerProxy);
     }
 
-    public void setTencentLocationListenerProxy(TencentLocationListenerProxy mTencentLocationListenerProxy) {
-        this.mTencentLocationListenerProxy = mTencentLocationListenerProxy;
+    public void addTencentLocationListenerProxy(TencentLocationListenerProxy tencentLocationListenerProxy) {
+        this.mTencentLocationListenerProxys.add(tencentLocationListenerProxy);
     }
 
     public void clearProxy() {
-        mAMapLocationListenerProxy = null;
-        mBDAbsLocationListenerProxy = null;
-        mBDLocationListenerProxy = null;
-        mTencentLocationListenerProxy = null;
+        mAMapLocationListenerProxys.clear();
+        mBDAbsLocationListenerProxys.clear();
+        mBDLocationListenerProxys.clear();
+        mTencentLocationListenerProxys.clear();
     }
 
     public void mockLocationWithNotify(Location location) {
@@ -74,30 +80,38 @@ public class GpsMockProxyManager {
     }
 
     private void notifAMapLocationListenerProxy(Location location) {
-        if (mAMapLocationListenerProxy != null && location != null) {
-            mAMapLocationListenerProxy.onLocationChanged(LocationBuilder.toAMapLocation(location));
+        if (location != null) {
+            for (AMapLocationListenerProxy aMapLocationListenerProxy : mAMapLocationListenerProxys) {
+                aMapLocationListenerProxy.onLocationChanged(LocationBuilder.toAMapLocation(location));
+            }
         }
     }
 
     private void notifyBDAbsLocationListenerProxy(Location location) {
-        if (mBDAbsLocationListenerProxy != null && location != null) {
-            mBDAbsLocationListenerProxy.onReceiveLocation(LocationBuilder.toBdLocation(location));
+        if (location != null) {
+            for (BDAbsLocationListenerProxy bdAbsLocationListenerProxy : mBDAbsLocationListenerProxys) {
+                bdAbsLocationListenerProxy.onReceiveLocation(LocationBuilder.toBdLocation(location));
+            }
         }
     }
 
     private void notifyBDLocationListenerProxy(Location location) {
-        if (mBDLocationListenerProxy != null && location != null) {
-            mBDLocationListenerProxy.onReceiveLocation(LocationBuilder.toBdLocation(location));
+        if (location != null) {
+            for (BDLocationListenerProxy bdLocationListenerProxy : mBDLocationListenerProxys) {
+                bdLocationListenerProxy.onReceiveLocation(LocationBuilder.toBdLocation(location));
+            }
         }
     }
 
     private void notifyTencentLocationListenerProxy(Location location) {
-        if (mTencentLocationListenerProxy != null && location != null) {
-            mTencentLocationListenerProxy.onLocationChanged(LocationBuilder.toTencentLocation(location), TencentLocation.ERROR_OK, "");
+        if (location != null) {
+            for (TencentLocationListenerProxy tencentLocationListenerProxy : mTencentLocationListenerProxys) {
+                tencentLocationListenerProxy.onLocationChanged(LocationBuilder.toTencentLocation(location), TencentLocation.ERROR_OK, "");
+            }
         }
     }
 
     private static class Holder {
-        private static GpsMockProxyManager INSTANCE = new GpsMockProxyManager();
+        final private static GpsMockProxyManager INSTANCE = new GpsMockProxyManager();
     }
 }

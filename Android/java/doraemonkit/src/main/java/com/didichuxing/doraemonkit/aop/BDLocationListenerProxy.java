@@ -19,7 +19,7 @@ public class BDLocationListenerProxy implements BDLocationListener {
 
     public BDLocationListenerProxy(BDLocationListener bdLocationListener) {
         this.mBdLocationListener = bdLocationListener;
-        GpsMockProxyManager.getInstance().setBDLocationListenerProxy(this);
+        GpsMockProxyManager.getInstance().addBDLocationListenerProxy(this);
     }
 
 

@@ -3,12 +3,8 @@ package com.didichuxing.doraemonkit.aop;
 import com.blankj.utilcode.util.ReflectUtils;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockProxyManager;
-import com.didichuxing.doraemonkit.util.LogHelper;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
-import com.tencent.map.geolocation.TencentLocationUtils;
-
-import java.lang.reflect.Field;
 
 /**
  * ================================================
@@ -25,7 +21,7 @@ public class TencentLocationListenerProxy implements TencentLocationListener {
 
     public TencentLocationListenerProxy(TencentLocationListener tencentLocationListener) {
         this.tencentLocationListener = tencentLocationListener;
-        GpsMockProxyManager.getInstance().setTencentLocationListenerProxy(this);
+        GpsMockProxyManager.getInstance().addTencentLocationListenerProxy(this);
     }
 
     /**
