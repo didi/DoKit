@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.aop;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
+import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockProxyManager;
 
 /**
  * ================================================
@@ -18,6 +19,7 @@ public class BDLocationListenerProxy implements BDLocationListener {
 
     public BDLocationListenerProxy(BDLocationListener bdLocationListener) {
         this.mBdLocationListener = bdLocationListener;
+        GpsMockProxyManager.getInstance().setBDLocationListenerProxy(this);
     }
 
 

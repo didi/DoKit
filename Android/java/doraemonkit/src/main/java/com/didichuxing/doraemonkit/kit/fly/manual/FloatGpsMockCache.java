@@ -13,7 +13,6 @@ public class FloatGpsMockCache {
 
     public static void mockToLocation(double latitude, double longitude) {
         LogUtils.d(TAG, "⚠️ mockToLocation() called with: latitude = [" + latitude + "], longitude = [" + longitude + "]");
-        GpsMockManager.getInstance().mockLocationWithNotify(latitude, longitude);
         FloatGpsPresetMockCache.updateCustomMockLocation(latitude, longitude);
 
         Location location = new Location("dev mock");
@@ -26,5 +25,6 @@ public class FloatGpsMockCache {
             location.setBearing(sDistanceAndBearing[1]);
         }
         sLastMock = location;
+        GpsMockManager.getInstance().mockLocationWithNotify(sLastMock);
     }
 }

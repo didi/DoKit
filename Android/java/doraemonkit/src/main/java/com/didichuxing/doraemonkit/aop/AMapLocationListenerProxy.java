@@ -4,6 +4,7 @@ import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.blankj.utilcode.util.ReflectUtils;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
+import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockProxyManager;
 
 /**
  * ================================================
@@ -19,6 +20,7 @@ public class AMapLocationListenerProxy implements AMapLocationListener {
 
     public AMapLocationListenerProxy(AMapLocationListener aMapLocationListener) {
         this.aMapLocationListener = aMapLocationListener;
+        GpsMockProxyManager.getInstance().setAMapLocationListenerProxy(this);
     }
 
     @Override

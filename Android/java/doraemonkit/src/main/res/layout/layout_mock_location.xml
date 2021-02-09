@@ -155,6 +155,7 @@
         android:id="@+id/env_info3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:lines="3"
         android:textColor="@android:color/black"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"

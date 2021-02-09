@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.aop;
 
 import com.blankj.utilcode.util.ReflectUtils;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
+import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockProxyManager;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
@@ -24,10 +25,16 @@ public class TencentLocationListenerProxy implements TencentLocationListener {
 
     public TencentLocationListenerProxy(TencentLocationListener tencentLocationListener) {
         this.tencentLocationListener = tencentLocationListener;
+        GpsMockProxyManager.getInstance().setTencentLocationListenerProxy(this);
     }
 
+    /**
+     * @param tencentLocation - 新的位置, *可能*来自缓存. 定位失败时 location 无效或者为 null
+     * @param error - 错误码, 仅当错误码为 TencentLocation.ERROR_OK 时表示定位成功, 为其他值时表示定位失败
+     * @param reason - 错误描述, 简要描述错误原因
+     */
     @Override
-    public void onLocationChanged(TencentLocation tencentLocation, int i, String s) {
+    public void onLocationChanged(TencentLocation tencentLocation, int error, String reason) {
         if (GpsMockManager.getInstance().isMocking()) {
             try {
                 //tencentLocation 的 对象类型为TxLocation
@@ -45,7 +52,7 @@ public class TencentLocationListenerProxy implements TencentLocationListener {
 
         }
         if (tencentLocationListener != null) {
-            tencentLocationListener.onLocationChanged(tencentLocation, i, s);
+            tencentLocationListener.onLocationChanged(tencentLocation, error, reason);
         }
     }
 
