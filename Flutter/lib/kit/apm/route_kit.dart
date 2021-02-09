@@ -160,7 +160,7 @@ class RouteInfoPageState extends State<RouteInfoPage> {
             ]))));
       }
       route = route.parent;
-      if (route.parent != null && route.parent.parent != null) {
+      if (route != null && route.parent != null) {
         widgets.add(Container(
           margin: EdgeInsets.only(top: 10, bottom: 10),
           alignment: Alignment.center,
@@ -169,7 +169,7 @@ class RouteInfoPageState extends State<RouteInfoPage> {
         ));
       }
       // 过滤掉dokit自带的navigator
-    } while (route.parent != null && route.parent.parent != null);
+    } while (route != null);
     return widgets;
   }
 

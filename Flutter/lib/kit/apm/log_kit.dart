@@ -7,10 +7,15 @@ import 'package:dokit/util/util.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../dokit.dart';
 import 'apm.dart';
 
 class LogKit extends ApmKit {
   FlutterExceptionHandler originOnError;
+
+  CommonStorage _error = new CommonStorage();
+
+  CommonStorage get error => _error;
 
   @override
   Widget createDisplayPage() {
@@ -30,6 +35,14 @@ class LogKit extends ApmKit {
   @override
   String getIcon() {
     return 'images/dk_log_info.png';
+  }
+
+  @override
+  bool save(IInfo info) {
+    if ((info as LogBean).type == LogBean.TYPE_ERROR) {
+      _error.save(info);
+    }
+    return super.save(info);
   }
 
   @override
@@ -86,17 +99,26 @@ class LogManager {
         ?.getAll();
   }
 
+  List<IInfo> getErrors() {
+    return ApmKitManager.instance
+        .getKit<LogKit>(ApmKitName.KIT_LOG)
+        ?.error
+        ?.getAll();
+  }
+
   void addLog(int type, String msg) {
     if (ApmKitManager.instance.getKit(ApmKitName.KIT_LOG) != null) {
       LogBean log = new LogBean(type, msg);
       LogKit kit = ApmKitManager.instance.getKit(ApmKitName.KIT_LOG);
       kit.save(log);
-      listener?.call(log);
+      if (type != LogBean.TYPE_ERROR || LogPageState._showError) {
+        listener?.call(log);
+      }
     }
   }
 
   void addException(String exception) {
-    addLog(LogBean.TYPE_EXCEPTION, exception);
+    addLog(LogBean.TYPE_ERROR, exception);
   }
 }
 
@@ -106,7 +128,6 @@ class LogBean implements IInfo {
   static const int TYPE_INFO = 3;
   static const int TYPE_WARN = 4;
   static const int TYPE_ERROR = 5;
-  static const int TYPE_EXCEPTION = 6;
 
   final int type;
   final String msg;
@@ -134,6 +155,8 @@ class LogPage extends StatefulWidget {
 class LogPageState extends State<LogPage> {
   ScrollController _offsetController =
       ScrollController(); //定义ListView的controller
+  static bool _showError = false;
+
   Future<void> _listener(LogBean logBean) async {
     if (!mounted) return;
     // if there's a current frame,
@@ -164,12 +187,46 @@ class LogPageState extends State<LogPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<IInfo> items = LogManager.instance.getLogs().reversed.toList();
+    List<IInfo> items = LogPageState._showError
+        ? LogManager.instance.getErrors().reversed.toList()
+        : LogManager.instance.getLogs().reversed.toList();
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () {
+                this.setState(() {
+                  _showError = !_showError;
+                });
+              },
+              child: Container(
+                height: 44,
+                width: 44,
+                padding: EdgeInsets.only(left: 16),
+                child: Image.asset(
+                    _showError
+                        ? 'images/dk_channel_check_h.png'
+                        : 'images/dk_channel_check_n.png',
+                    package: DoKit.PACKAGE_NAME,
+                    height: 13,
+                    width: 13),
+              ),
+            ),
+            GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  this.setState(() {
+                    _showError = !_showError;
+                  });
+                },
+                child: Text('只显示异常',
+                    style: TextStyle(
+                        color:
+                            _showError ? Color(0xff337cc4) : Color(0xff333333),
+                        fontSize: 12))),
             Container(
               decoration: new BoxDecoration(
                 border: new Border.all(color: Color(0xff337cc4), width: 1),
@@ -185,6 +242,10 @@ class LogPageState extends State<LogPage> {
                       ApmKitManager.instance
                           .getKit<LogKit>(ApmKitName.KIT_LOG)
                           .getStorage()
+                          .clear();
+                      ApmKitManager.instance
+                          .getKit<LogKit>(ApmKitName.KIT_LOG)
+                          .error
                           .clear();
                     });
                   },

@@ -27,8 +27,8 @@
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
  <img src="https://img.shields.io/badge/Android-3.3.5-blue.svg" align=left />
- <img src="https://img.shields.io/badge/iOS-3.0.4-yellow.svg" align=left />
- <img src="https://img.shields.io/badge/Flutter-0.2.5-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/iOS-3.0.7-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/Flutter-0.2.12-blue.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
@@ -47,6 +47,7 @@
 ## 使用手册
 访问[DoKit官网](https://www.dokit.cn/)，点击"[使用中心](http://xingyun.xiaojukeji.com/docs/dokit/#/intro)"。
 
+**温馨提示：当前DoKit的所有功能都只针对Debug环境，Release环境未经过实际验证，所以请大家严格按照官方文档来集成，也不建议大家在Release环境上使用DoKit的任何功能。如果大家一定要在Release环境上使用，请自行进行充分的测试和验证，DoKit官方将不承担任何责任和损失。** 
 ## 更新日志
 
 - [iOS-ReleaseNotes](Doc/iOS-ReleaseNotes.md)
@@ -228,7 +229,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 ## 项目成员
 
-**发起者**
+**创始人**
 [yixiangboy(易翔)](https://github.com/yixiangboy)
 **负责人**
 [jtsky(金台)](https://github.com/jtsky) 

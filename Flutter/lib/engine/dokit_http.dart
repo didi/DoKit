@@ -311,7 +311,7 @@ class DoKitHttpClientRequest implements HttpClientRequest {
   Future<HttpClientResponse> monitor(Future<HttpClientResponse> future) async {
     HttpClientResponse response = await future;
 
-    return DoKitHttpClientResponse(response, recordResponse, encoding);
+    return DoKitHttpClientResponse(response, recordResponse);
   }
 
   void recordResponse(int code, String result, String header, int size) {
@@ -337,9 +337,8 @@ extension HttpClientRequestExt on HttpClientRequest {
 class DoKitHttpClientResponse implements HttpClientResponse {
   final HttpClientResponse origin;
   final Function(int, String, String, int) recordResponse;
-  final Encoding encoding;
 
-  DoKitHttpClientResponse(this.origin, this.recordResponse, this.encoding);
+  DoKitHttpClientResponse(this.origin, this.recordResponse);
 
   @override
   Future<bool> any(bool Function(List<int> element) test) {
@@ -483,6 +482,18 @@ class DoKitHttpClientResponse implements HttpClientResponse {
             headers['content-type'].toString().contains('xml'));
   }
 
+  Encoding getEncoding() {
+    var charset;
+    if (headers != null &&
+        headers.contentType != null &&
+        headers.contentType.charset != null) {
+      charset = headers.contentType.charset;
+    } else {
+      charset = "utf-8";
+    }
+    return Encoding.getByName(charset);
+  }
+
   @override
   StreamSubscription<List<int>> listen(void Function(List<int> event) onData,
       {Function onError, void Function() onDone, bool cancelOnError}) {
@@ -490,17 +501,20 @@ class DoKitHttpClientResponse implements HttpClientResponse {
       onData(result);
       try {
         if (isTextResponse()) {
-          if (encoding != null) {
-            recordResponse(statusCode, encoding.decode(result),
-                headers?.toString(), result.length);
+          if (getEncoding() != null) {
+            recordResponse(statusCode, getEncoding().decode(result),
+                headers?.toString(), contentLength);
           } else {
-            recordResponse(statusCode, "返回结果解析失败", headers?.toString(), 0);
+            recordResponse(
+                statusCode, "返回结果解析失败", headers?.toString(), contentLength);
           }
         } else {
-          recordResponse(statusCode, "返回结果不支持解析", headers?.toString(), 0);
+          recordResponse(
+              statusCode, "返回结果不支持解析", headers?.toString(), contentLength);
         }
       } catch (e) {
-        recordResponse(statusCode, "返回结果解析失败", headers?.toString(), 0);
+        recordResponse(
+            statusCode, "返回结果解析失败", headers?.toString(), contentLength);
       }
     }
 
@@ -595,21 +609,22 @@ class DoKitHttpClientResponse implements HttpClientResponse {
       if (isTextResponse()) {
         if (event is Uint8List) {
           Uint8List result = event;
-          if (encoding != null) {
-            recordResponse(statusCode, encoding.decode(result.toList()),
+          if (getEncoding() != null) {
+            recordResponse(statusCode, getEncoding().decode(result.toList()),
                 headers?.toString(), event.length);
           } else {
-            recordResponse(statusCode, "返回结果解析失败", headers?.toString(), 0);
+            recordResponse(
+                statusCode, "返回结果解析失败", headers?.toString(), contentLength);
           }
         } else if (event is String) {
-          recordResponse(
-              statusCode, event, headers?.toString(), event.codeUnits.length);
+          recordResponse(statusCode, event, headers?.toString(), contentLength);
         } else {
           recordResponse(statusCode, 'unknown type:${event.runtimeType}',
-              headers?.toString(), 0);
+              headers?.toString(), contentLength);
         }
       } else {
-        recordResponse(statusCode, "返回结果不支持解析", headers?.toString(), 0);
+        recordResponse(
+            statusCode, "返回结果不支持解析", headers?.toString(), contentLength);
       }
     });
     return s;

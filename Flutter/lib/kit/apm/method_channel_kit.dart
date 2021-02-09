@@ -23,7 +23,9 @@ class ChannelInfo implements IInfo {
   final String method;
 
   final dynamic arguments;
-  final int timestamp;
+  final int startTimestamp;
+  int endTimestamp = 0;
+
   final int type;
   dynamic results;
   bool expand = false;
@@ -31,7 +33,7 @@ class ChannelInfo implements IInfo {
   MessageCodec messageCodec;
 
   ChannelInfo(this.channelName, this.method, this.arguments, this.type)
-      : this.timestamp = new DateTime.now().millisecondsSinceEpoch;
+      : this.startTimestamp = new DateTime.now().millisecondsSinceEpoch;
 
   @override
   String getValue() {
@@ -69,7 +71,7 @@ class MethodChannelKit extends ApmKit {
 
   @override
   IStorage createStorage() {
-    return CommonStorage(maxCount: 120);
+    return CommonStorage(maxCount: 240);
   }
 
   @override
@@ -82,6 +84,7 @@ class MethodChannelKit extends ApmKit {
     if (!ChannelPageState.showSystemChannel &&
         ((info as ChannelInfo).type == ChannelInfo.TYPE_SYSTEM_RECEIVE ||
             (info as ChannelInfo).type == ChannelInfo.TYPE_SYSTEM_SEND)) {
+      super.save(info);
       return false;
     }
     bool result = super.save(info);
@@ -331,7 +334,7 @@ class _ChannelItemWidgetState extends State<ChannelItemWidget> {
                       text: TextSpan(children: [
                         TextSpan(
                             text:
-                                '[${TimeUtils.toTimeString(widget.item.timestamp)}]',
+                                '[${TimeUtils.toTimeString(widget.item.startTimestamp)}]',
                             style: TextStyle(
                                 fontSize: 9,
                                 color: Color(0xff333333),
@@ -352,6 +355,14 @@ class _ChannelItemWidgetState extends State<ChannelItemWidget> {
                                     color: (widget.item.type % 2 != 0
                                         ? Color(0xffd0607e)
                                         : Color(0xff337cc4))))),
+                        TextSpan(
+                            text:
+                                '  Cost:${widget.item.endTimestamp > 0 ? ((widget.item.endTimestamp - widget.item.startTimestamp).toString() + 'ms') : '-'} ',
+                            style: TextStyle(
+                              fontSize: 9,
+                              color: Color(0xff666666),
+                              height: 1.5,
+                            )),
                         TextSpan(
                             text: '\nChannelName: ',
                             style: TextStyle(
