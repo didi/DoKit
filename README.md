@@ -237,8 +237,8 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 **内部核心成员**
 [yixiangboy](https://github.com/yixiangboy)、
 [jtsky](https://github.com/jtsky) 、
-[changzuozhen](https://github.com/changzuozhen)、
 [LinJZong](https://github.com/LinJZong) 、
+[changzuozhen](https://github.com/changzuozhen)、
 [jayconscious](https://github.com/jayconscious)
 
 **贡献者榜单**
