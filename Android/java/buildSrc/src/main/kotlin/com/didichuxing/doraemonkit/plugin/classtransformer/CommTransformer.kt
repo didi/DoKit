@@ -141,7 +141,7 @@ class CommTransformer : ClassTransformer {
                     methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
                         methodNode.instructions.insertBefore(
                             it,
-                            createBDAbsLocationUnRegisterInsnList()
+                            createBDLocationUnRegisterInsnList()
                         )
                     }
                 }
