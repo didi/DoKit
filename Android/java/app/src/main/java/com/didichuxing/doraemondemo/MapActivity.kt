@@ -1,6 +1,7 @@
 package com.didichuxing.doraemondemo
 
 import android.location.Location
+import android.nfc.Tag
 import android.os.Bundle
 import android.os.Looper
 import android.widget.Toast
@@ -10,6 +11,8 @@ import com.amap.api.maps.model.MyLocationStyle
 import com.amap.api.services.route.*
 import com.baidu.location.*
 import com.baidu.mapapi.map.*
+import com.didichuxing.doraemonkit.aop.map.ThirdMapLocationListenerUtil
+import com.didichuxing.doraemonkit.util.LogHelper
 import com.tencent.map.geolocation.TencentLocation
 import com.tencent.map.geolocation.TencentLocationListener
 import com.tencent.map.geolocation.TencentLocationManager
@@ -124,7 +127,9 @@ class MapActivity : AppCompatActivity() {
         //开启地图定位图层
         mBDLocationClient.start()
 
+
     }
+
 
     /**
      * ========腾讯地图========

@@ -66,13 +66,28 @@ class CommTransformer : ClassTransformer {
 
         //gps字节码操作
         if (DoKitExtUtil.commExt.gpsSwitch) {
+
             //插入高德地图相关字节码
             if (className == "com.amap.api.location.AMapLocationClient") {
+                //设置监听器
                 klass.methods?.find {
                     it.name == "setLocationListener"
                 }.let { methodNode ->
-                    "${context.projectDir.lastPath()}->hook amap  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    "${context.projectDir.lastPath()}->hook amap map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
                     methodNode?.instructions?.insert(createAmapLocationInsnList())
+                }
+
+                //反注册监听器
+                klass.methods?.find {
+                    it.name == "unRegisterLocationListener"
+                }.let { methodNode ->
+                    "${context.projectDir.lastPath()}->hook amap map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                        methodNode.instructions.insertBefore(
+                            it,
+                            createAmapLocationUnRegisterInsnList()
+                        )
+                    }
                 }
 
             }
@@ -86,22 +101,66 @@ class CommTransformer : ClassTransformer {
                     "${context.projectDir.lastPath()}->hook tencent map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
                     methodNode?.instructions?.insert(createTencentLocationInsnList())
                 }
+
+
+                //反注册监听器
+                klass.methods?.find {
+                    it.name == "removeUpdates"
+                }.let { methodNode ->
+                    "${context.projectDir.lastPath()}->hook tencent map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                        methodNode.instructions.insertBefore(
+                            it,
+                            createTencentLocationUnRegisterInsnList()
+                        )
+                    }
+                }
             }
 
             //插入百度地图相关字节码
             if (className == "com.baidu.location.LocationClient") {
+                //拦截注册监听器
                 klass.methods?.filter {
                     it.name == "registerLocationListener"
                             && (it.desc == "(Lcom/baidu/location/BDLocationListener;)V" || it.desc == "(Lcom/baidu/location/BDAbstractLocationListener;)V")
                 }?.forEach { methodNode ->
                     "${context.projectDir.lastPath()}->hook baidu map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
                     if (methodNode.desc == "(Lcom/baidu/location/BDLocationListener;)V") {
-                        methodNode?.instructions?.insert(createBaiduLocationListenerInsnList())
+                        methodNode?.instructions?.insert(createBDLocationListenerInsnList())
                     } else if (methodNode.desc == "(Lcom/baidu/location/BDAbstractLocationListener;)V") {
-                        methodNode?.instructions?.insert(createBaiduLocationAbsListenerInsnList())
+                        methodNode?.instructions?.insert(createBDLocationAbsListenerInsnList())
+                    }
+                }
+
+
+                //反注册监听器
+                klass.methods?.find {
+                    it.name == "unRegisterLocationListener" && it.desc == "(Lcom/baidu/location/BDLocationListener;)V"
+                }.let { methodNode ->
+                    "${context.projectDir.lastPath()}->hook baidu map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                        methodNode.instructions.insertBefore(
+                            it,
+                            createBDAbsLocationUnRegisterInsnList()
+                        )
+                    }
+                }
+
+
+                //反注册监听器
+                klass.methods?.find {
+                    it.name == "unRegisterLocationListener" && it.desc == "(Lcom/baidu/location/BDAbstractLocationListener;)V"
+                }.let { methodNode ->
+                    "${context.projectDir.lastPath()}->hook baidu map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                        methodNode.instructions.insertBefore(
+                            it,
+                            createBDAbsLocationUnRegisterInsnList()
+                        )
                     }
                 }
             }
+
 
         }
 
@@ -454,14 +513,14 @@ class CommTransformer : ClassTransformer {
     private fun createAmapLocationInsnList(): InsnList {
         return with(InsnList()) {
             //在AMapLocationClient的setLocationListener方法之中插入自定义代理回调类
-            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/AMapLocationListenerProxy"))
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/map/AMapLocationListenerProxy"))
             add(InsnNode(DUP))
             //访问第一个参数
             add(VarInsnNode(ALOAD, 1))
             add(
                 MethodInsnNode(
                     INVOKESPECIAL,
-                    "com/didichuxing/doraemonkit/aop/AMapLocationListenerProxy",
+                    "com/didichuxing/doraemonkit/aop/map/AMapLocationListenerProxy",
                     "<init>",
                     "(Lcom/amap/api/location/AMapLocationListener;)V",
                     false
@@ -474,6 +533,27 @@ class CommTransformer : ClassTransformer {
 
     }
 
+    /**
+     * 创建Amap地图UnRegister代码指令
+     */
+    private fun createAmapLocationUnRegisterInsnList(): InsnList {
+        return with(InsnList()) {
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/map/ThirdMapLocationListenerUtil",
+                    "unRegisterAmapLocationListener",
+                    "(Lcom/amap/api/location/AMapLocationListener;)V",
+                    false
+                )
+            )
+            this
+        }
+
+    }
+
 
     /**
      * 创建tencent地图代码指令
@@ -481,14 +561,19 @@ class CommTransformer : ClassTransformer {
     private fun createTencentLocationInsnList(): InsnList {
         return with(InsnList()) {
             //在AMapLocationClient的setLocationListener方法之中插入自定义代理回调类
-            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/TencentLocationListenerProxy"))
+            add(
+                TypeInsnNode(
+                    NEW,
+                    "com/didichuxing/doraemonkit/aop/map/TencentLocationListenerProxy"
+                )
+            )
             add(InsnNode(DUP))
             //访问第一个参数
             add(VarInsnNode(ALOAD, 2))
             add(
                 MethodInsnNode(
                     INVOKESPECIAL,
-                    "com/didichuxing/doraemonkit/aop/TencentLocationListenerProxy",
+                    "com/didichuxing/doraemonkit/aop/map/TencentLocationListenerProxy",
                     "<init>",
                     "(Lcom/tencent/map/geolocation/TencentLocationListener;)V",
                     false
@@ -504,19 +589,41 @@ class CommTransformer : ClassTransformer {
 
 
     /**
+     * 创建Tencent地图UnRegister代码指令
+     */
+    private fun createTencentLocationUnRegisterInsnList(): InsnList {
+        return with(InsnList()) {
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/map/ThirdMapLocationListenerUtil",
+                    "unRegisterTencentLocationListener",
+                    "(Lcom/tencent/map/geolocation/TencentLocationListener;)V",
+                    false
+                )
+            )
+            this
+        }
+
+    }
+
+
+    /**
      * 创建百度地图代码指令
      */
-    private fun createBaiduLocationListenerInsnList(): InsnList {
+    private fun createBDLocationListenerInsnList(): InsnList {
         return with(InsnList()) {
             //在LocationClient的registerLocationListener方法之中插入自定义代理回调类
-            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/BDLocationListenerProxy"))
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/map/BDLocationListenerProxy"))
             add(InsnNode(DUP))
             //访问第一个参数
             add(VarInsnNode(ALOAD, 1))
             add(
                 MethodInsnNode(
                     INVOKESPECIAL,
-                    "com/didichuxing/doraemonkit/aop/BDLocationListenerProxy",
+                    "com/didichuxing/doraemonkit/aop/map/BDLocationListenerProxy",
                     "<init>",
                     "(Lcom/baidu/location/BDLocationListener;)V",
                     false
@@ -533,17 +640,17 @@ class CommTransformer : ClassTransformer {
     /**
      * 创建百度地图代码指令
      */
-    private fun createBaiduLocationAbsListenerInsnList(): InsnList {
+    private fun createBDLocationAbsListenerInsnList(): InsnList {
         return with(InsnList()) {
             //在LocationClient的registerLocationListener方法之中插入自定义代理回调类
-            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/BDAbsLocationListenerProxy"))
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/map/BDAbsLocationListenerProxy"))
             add(InsnNode(DUP))
             //访问第一个参数
             add(VarInsnNode(ALOAD, 1))
             add(
                 MethodInsnNode(
                     INVOKESPECIAL,
-                    "com/didichuxing/doraemonkit/aop/BDAbsLocationListenerProxy",
+                    "com/didichuxing/doraemonkit/aop/map/BDAbsLocationListenerProxy",
                     "<init>",
                     "(Lcom/baidu/location/BDAbstractLocationListener;)V",
                     false
@@ -553,6 +660,49 @@ class CommTransformer : ClassTransformer {
             add(VarInsnNode(ASTORE, 1))
             this
         }
+    }
+
+
+    /**
+     * 创建百度地图UnRegister代码指令
+     */
+    private fun createBDLocationUnRegisterInsnList(): InsnList {
+        return with(InsnList()) {
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/map/ThirdMapLocationListenerUtil",
+                    "unRegisterBDLocationListener",
+                    "(Lcom/baidu/location/BDLocationListener;)V",
+                    false
+                )
+            )
+            this
+        }
+
+    }
+
+    /**
+     * 创建百度地图UnRegister代码指令
+     */
+    private fun createBDAbsLocationUnRegisterInsnList(): InsnList {
+        return with(InsnList()) {
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/map/ThirdMapLocationListenerUtil",
+                    "unRegisterBDLocationListener",
+                    "(Lcom/baidu/location/BDAbstractLocationListener;)V",
+                    false
+                )
+            )
+            this
+        }
+
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.aop;
+package com.didichuxing.doraemonkit.aop.map;
 
 import com.blankj.utilcode.util.ReflectUtils;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
@@ -17,17 +17,17 @@ import com.tencent.map.geolocation.TencentLocationListener;
  */
 public class TencentLocationListenerProxy implements TencentLocationListener {
     private static final String TAG = "TencentLocationListenerProxy";
-    TencentLocationListener tencentLocationListener;
+    public TencentLocationListener mTencentLocationListener;
 
     public TencentLocationListenerProxy(TencentLocationListener tencentLocationListener) {
-        this.tencentLocationListener = tencentLocationListener;
+        this.mTencentLocationListener = tencentLocationListener;
         GpsMockProxyManager.getInstance().addTencentLocationListenerProxy(this);
     }
 
     /**
      * @param tencentLocation - 新的位置, *可能*来自缓存. 定位失败时 location 无效或者为 null
-     * @param error - 错误码, 仅当错误码为 TencentLocation.ERROR_OK 时表示定位成功, 为其他值时表示定位失败
-     * @param reason - 错误描述, 简要描述错误原因
+     * @param error           - 错误码, 仅当错误码为 TencentLocation.ERROR_OK 时表示定位成功, 为其他值时表示定位失败
+     * @param reason          - 错误描述, 简要描述错误原因
      */
     @Override
     public void onLocationChanged(TencentLocation tencentLocation, int error, String reason) {
@@ -47,15 +47,15 @@ public class TencentLocationListenerProxy implements TencentLocationListener {
             }
 
         }
-        if (tencentLocationListener != null) {
-            tencentLocationListener.onLocationChanged(tencentLocation, error, reason);
+        if (mTencentLocationListener != null) {
+            mTencentLocationListener.onLocationChanged(tencentLocation, error, reason);
         }
     }
 
     @Override
     public void onStatusUpdate(String s, int i, String s1) {
-        if (tencentLocationListener != null) {
-            tencentLocationListener.onStatusUpdate(s, i, s);
+        if (mTencentLocationListener != null) {
+            mTencentLocationListener.onStatusUpdate(s, i, s);
         }
     }
 

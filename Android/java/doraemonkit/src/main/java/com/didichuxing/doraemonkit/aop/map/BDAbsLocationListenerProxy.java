@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.aop;
+package com.didichuxing.doraemonkit.aop.map;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -15,7 +15,7 @@ import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockProxyManager;
  * ================================================
  */
 public class BDAbsLocationListenerProxy extends BDAbstractLocationListener {
-    BDAbstractLocationListener mBdLocationListener;
+    public BDAbstractLocationListener mBdLocationListener;
 
     public BDAbsLocationListenerProxy(BDAbstractLocationListener bdLocationListener) {
         this.mBdLocationListener = bdLocationListener;

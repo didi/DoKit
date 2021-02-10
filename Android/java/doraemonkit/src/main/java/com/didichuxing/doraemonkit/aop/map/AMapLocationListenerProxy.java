@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.aop;
+package com.didichuxing.doraemonkit.aop.map;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -16,7 +16,7 @@ import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockProxyManager;
  * ================================================
  */
 public class AMapLocationListenerProxy implements AMapLocationListener {
-    AMapLocationListener aMapLocationListener;
+    public AMapLocationListener aMapLocationListener;
 
     public AMapLocationListenerProxy(AMapLocationListener aMapLocationListener) {
         this.aMapLocationListener = aMapLocationListener;
