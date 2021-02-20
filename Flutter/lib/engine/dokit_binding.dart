@@ -8,6 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+List<String> blackList = [];
+
 class DoKitWidgetsFlutterBinding extends WidgetsFlutterBinding
     with DoKitServicesBinding {
   static WidgetsBinding ensureInitialized() {
@@ -44,6 +46,9 @@ class DoKitBinaryMessenger extends BinaryMessenger {
   @override
   Future<void> handlePlatformMessage(String channel, ByteData data, callback) {
     ChannelInfo info = saveMessage(channel, data, false);
+    if (info == null) {
+      return origin.handlePlatformMessage(channel, data, callback);
+    }
     PlatformMessageResponseCallback wrapper = (ByteData data) {
       resolveResult(info, data);
       callback(data);
@@ -54,6 +59,9 @@ class DoKitBinaryMessenger extends BinaryMessenger {
   @override
   Future<ByteData> send(String channel, ByteData message) async {
     ChannelInfo info = saveMessage(channel, message, true);
+    if (info == null) {
+      return origin.send(channel, message);
+    }
     ByteData result = await origin.send(channel, message);
     resolveResult(info, result);
     return result;
@@ -68,7 +76,7 @@ class DoKitBinaryMessenger extends BinaryMessenger {
         } else if (info.messageCodec != null) {
           info.results = info.messageCodec.decodeMessage(result);
           info.endTimestamp = new DateTime.now().millisecondsSinceEpoch;
-        }else{
+        } else {
           info.endTimestamp = new DateTime.now().millisecondsSinceEpoch;
         }
       }
@@ -81,6 +89,9 @@ class DoKitBinaryMessenger extends BinaryMessenger {
     MethodChannelKit kit =
         ApmKitManager.instance.getKit<MethodChannelKit>(ApmKitName.KIT_CHANNEL);
     if (kit == null) {
+      return null;
+    }
+    if (blackList != null && blackList.contains(name)) {
       return null;
     }
     ChannelInfo info;
