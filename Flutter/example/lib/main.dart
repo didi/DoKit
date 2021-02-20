@@ -17,12 +17,19 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() {
+  List<String> blackList = [
+    'plugins.flutter.io/sensors/gyroscope',
+    'plugins.flutter.io/sensors/user_accel',
+    'plugins.flutter.io/sensors/accelerometer'
+  ];
+
   DoKit.runApp(
       app: DoKitApp(MyApp()),
       useInRelease: true,
       logCallback: (log) {
         String i = log;
       },
+      methodChannelBlackList: blackList,
       exceptionCallback: (obj, trace) {
         print('ttt$obj');
       });
