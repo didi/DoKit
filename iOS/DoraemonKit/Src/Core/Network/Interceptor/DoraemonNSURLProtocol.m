@@ -98,8 +98,10 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
         });
     }else if(DoraemonWeakNetwork_WeakSpeed == [[DoraemonNetworkInterceptor shareInstance].weakDelegate weakNetSelecte]){
         DoKitLog(@"yd WeakUpFlow Net");
-        [[DoraemonNetworkInterceptor shareInstance].weakDelegate handleWeak:[DoraemonUrlUtil getHttpBodyFromRequest:self.request] isDown:NO];
-        [self.task resume];
+        [[DoraemonNetFlowManager shareInstance] httpBodyFromRequest:self.request bodyCallBack:^(NSData *body) {
+            [[DoraemonNetworkInterceptor shareInstance].weakDelegate handleWeak:body isDown:NO];
+            [self.task resume];
+        }];
     }else{
         [self.task resume];
     }
