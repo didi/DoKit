@@ -497,20 +497,21 @@ class DoKitHttpClientResponse implements HttpClientResponse {
   @override
   StreamSubscription<List<int>> listen(void Function(List<int> event) onData,
       {Function onError, void Function() onDone, bool cancelOnError}) {
+    if (!isTextResponse()) {
+      recordResponse(
+          statusCode, "返回结果不支持解析", headers?.toString(), contentLength);
+      return origin.listen(onData,
+          onError: onError, onDone: onDone, cancelOnError: cancelOnError);
+    }
     void onDataWrapper(List<int> result) {
       onData(result);
       try {
-        if (isTextResponse()) {
-          if (getEncoding() != null) {
-            recordResponse(statusCode, getEncoding().decode(result),
-                headers?.toString(), contentLength);
-          } else {
-            recordResponse(
-                statusCode, "返回结果解析失败", headers?.toString(), contentLength);
-          }
+        if (getEncoding() != null) {
+          recordResponse(statusCode, getEncoding().decode(result),
+              headers?.toString(), contentLength);
         } else {
           recordResponse(
-              statusCode, "返回结果不支持解析", headers?.toString(), contentLength);
+              statusCode, "返回结果解析失败", headers?.toString(), contentLength);
         }
       } catch (e) {
         recordResponse(
@@ -604,27 +605,27 @@ class DoKitHttpClientResponse implements HttpClientResponse {
   @override
   Stream<S> transform<S>(StreamTransformer<List<int>, S> streamTransformer) {
     Stream s = origin.transform(streamTransformer);
+    if (!isTextResponse()) {
+      recordResponse(
+          statusCode, "返回结果不支持解析", headers?.toString(), contentLength);
+      return s;
+    }
     s = s.asBroadcastStream();
     s.listen((event) {
-      if (isTextResponse()) {
-        if (event is Uint8List) {
-          Uint8List result = event;
-          if (getEncoding() != null) {
-            recordResponse(statusCode, getEncoding().decode(result.toList()),
-                headers?.toString(), event.length);
-          } else {
-            recordResponse(
-                statusCode, "返回结果解析失败", headers?.toString(), contentLength);
-          }
-        } else if (event is String) {
-          recordResponse(statusCode, event, headers?.toString(), contentLength);
+      if (event is Uint8List) {
+        Uint8List result = event;
+        if (getEncoding() != null) {
+          recordResponse(statusCode, getEncoding().decode(result.toList()),
+              headers?.toString(), event.length);
         } else {
-          recordResponse(statusCode, 'unknown type:${event.runtimeType}',
-              headers?.toString(), contentLength);
+          recordResponse(
+              statusCode, "返回结果解析失败", headers?.toString(), contentLength);
         }
+      } else if (event is String) {
+        recordResponse(statusCode, event, headers?.toString(), contentLength);
       } else {
-        recordResponse(
-            statusCode, "返回结果不支持解析", headers?.toString(), contentLength);
+        recordResponse(statusCode, 'unknown type:${event.runtimeType}',
+            headers?.toString(), contentLength);
       }
     });
     return s;
