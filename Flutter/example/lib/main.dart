@@ -14,6 +14,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:dokit/dokit.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 
 void main() {
   DoKit.runApp(
@@ -101,7 +102,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                       color: Color(0xff000000),
                       fontSize: 18,
                     )),
-                onPressed: downloadFile,
+                onPressed: mockHttpPost,
               ),
             ),
             Container(
@@ -116,6 +117,20 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                       fontSize: 18,
                     )),
                 onPressed: mockHttpGet,
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  color: Color(0xffcccccc)),
+              margin: EdgeInsets.only(bottom: 30),
+              child: FlatButton(
+                child: Text('Test Download',
+                    style: TextStyle(
+                      color: Color(0xff000000),
+                      fontSize: 18,
+                    )),
+                onPressed: testDownload,
               ),
             ),
             Container(
@@ -179,18 +194,34 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
 
   Timer timer;
 
-  downloadFile() async {
-    Dio dio = Dio();
-    //设置连接超时时间
-    dio.options.connectTimeout = 10000;
-    //设置数据接收超时时间
-    dio.options.receiveTimeout = 10000;
+  testDownload() async {
+    String url =
+        'https://pt-starfile.didistatic.com/static/starfile/node20210220/895f1e95e30aba5dd56d6f2ccf768b57/GjzGU0Pvv11613804530384.zip';
+    String savePath = await getPhoneLocalPath();
+    String zipName = 'test.zip';
+    Dio dio = new Dio();
+    print("$savePath/$zipName");
+    Response response = await dio.download(url, "$savePath/$zipName",
+        onReceiveProgress: (received, total) {
+      if (total != -1) {
+        // 当前下载的百分比
+        // print((received / total * 100).toStringAsFixed(0) + "%");
+        // print("received=$received total=$total");
+        if (received == total) {
+          print("下载完成 ✅ ");
+        }
+      } else {}
+    });
+  }
 
-    Response response = await dio.download(
-        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=1382126947,2589415352&fm=15&gp=0.jpg", "/storage/emulated/0/1.png");
-    if (response.statusCode == 200) {
-      print('下载请求成功');
-    }
+  ///获取手机的存储目录路径
+  ///getExternalStorageDirectory() 获取的是  android 的外部存储 （External Storage）
+  ///  getApplicationDocumentsDirectory 获取的是 ios 的Documents` or `Downloads` 目录
+  Future<String> getPhoneLocalPath() async {
+    final directory = Theme.of(context).platform == TargetPlatform.android
+        ? await getExternalStorageDirectory()
+        : await getApplicationDocumentsDirectory();
+    return directory.path;
   }
 
   void testMethodChannel() {

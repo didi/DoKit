@@ -12,6 +12,8 @@ dependencies:
   dokit:
     path: ..
   dio: 3.0.10
+  path_provider: 1.6.0
+
 
 dev_dependencies:
   flutter_test:
