@@ -11,6 +11,8 @@ abstract class IStorage {
   bool contains(IInfo info);
 
   List<IInfo> getAll();
+
+  void clear();
 }
 
 abstract class IKit {
@@ -44,5 +46,10 @@ class CommonStorage implements IStorage {
   @override
   bool contains(IInfo info) {
     return items.contains(info);
+  }
+
+  @override
+  void clear() {
+    return items.clear();
   }
 }
