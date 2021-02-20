@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.timecounter.counter;
 
 import android.app.Activity;
+import android.os.SystemClock;
 
 import com.blankj.utilcode.util.ActivityUtils;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
@@ -36,7 +37,7 @@ public class ActivityCounter {
     private List<CounterInfo> mCounterInfos = new ArrayList<>();
 
     public void pause() {
-        mStartTime = System.currentTimeMillis();
+        mStartTime = SystemClock.elapsedRealtime();
         mPauseCostTime = 0;
         mRenderCostTime = 0;
         mOtherCostTime = 0;
@@ -51,14 +52,14 @@ public class ActivityCounter {
     }
 
     public void paused() {
-        mPauseCostTime = System.currentTimeMillis() - mStartTime;
+        mPauseCostTime = SystemClock.elapsedRealtime() - mStartTime;
         //LogHelper.d(TAG, "pause cost：" + mPauseCostTime);
     }
 
     public void launch() {
         // 可能不走pause，直接打开新页面，比如从后台点击通知栏
         if (mStartTime == 0) {
-            mStartTime = System.currentTimeMillis();
+            mStartTime = SystemClock.elapsedRealtime();
             mPauseCostTime = 0;
             mRenderCostTime = 0;
             mOtherCostTime = 0;
@@ -66,18 +67,18 @@ public class ActivityCounter {
             mLaunchStartTime = 0;
             mTotalCostTime = 0;
         }
-        mLaunchStartTime = System.currentTimeMillis();
+        mLaunchStartTime = SystemClock.elapsedRealtime();
         mLaunchCostTime = 0;
     }
 
     public void launchEnd() {
-        mLaunchCostTime = System.currentTimeMillis() - mLaunchStartTime;
+        mLaunchCostTime = SystemClock.elapsedRealtime() - mLaunchStartTime;
         //LogHelper.d(TAG, "create cost：" + mLaunchCostTime);
         render();
     }
 
     public void render() {
-        mRenderStartTime = System.currentTimeMillis();
+        mRenderStartTime = SystemClock.elapsedRealtime();
         final Activity activity = ActivityUtils.getTopActivity();
         if (activity != null && activity.getWindow() != null) {
             mCurrentActivity = activity.getClass().getSimpleName();
@@ -105,9 +106,9 @@ public class ActivityCounter {
     }
 
     private void renderEnd() {
-        mRenderCostTime = System.currentTimeMillis() - mRenderStartTime;
+        mRenderCostTime = SystemClock.elapsedRealtime() - mRenderStartTime;
         //LogHelper.d(TAG, "render cost：" + mRenderCostTime);
-        mTotalCostTime = System.currentTimeMillis() - mStartTime;
+        mTotalCostTime = SystemClock.elapsedRealtime() - mStartTime;
         //LogHelper.d(TAG, "total cost：" + mTotalCostTime);
         mOtherCostTime = mTotalCostTime - mRenderCostTime - mPauseCostTime - mLaunchCostTime;
         print();
@@ -115,7 +116,7 @@ public class ActivityCounter {
 
     private void print() {
         CounterInfo counterInfo = new CounterInfo();
-        counterInfo.time = System.currentTimeMillis();
+        counterInfo.time = SystemClock.elapsedRealtime();
         counterInfo.type = CounterInfo.TYPE_ACTIVITY;
         counterInfo.title = mPreviousActivity + " -> " + mCurrentActivity;
         counterInfo.launchCost = mLaunchCostTime;

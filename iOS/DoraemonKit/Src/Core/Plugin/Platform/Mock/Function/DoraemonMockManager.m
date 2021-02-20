@@ -181,7 +181,8 @@
 - (DoraemonMockBaseModel *)getSelectedData:(NSURLRequest *)request dataArray:(NSArray *)dataArray{
     NSString *path = request.URL.path;
     NSString *query = request.URL.query;
-    NSData *httpBody = [DoraemonUrlUtil getHttpBodyFromRequest:request];
+    // 这里暂时使用不严谨body match
+    NSData *httpBody = request.HTTPBody;
     NSDictionary *requestBody = [DoraemonUrlUtil convertDicFromData:httpBody];
     DoraemonMockBaseModel *selectedApi;
     for (DoraemonMockBaseModel *api in dataArray) {

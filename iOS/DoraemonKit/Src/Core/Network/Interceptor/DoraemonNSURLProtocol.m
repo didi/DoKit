@@ -98,8 +98,10 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
         });
     }else if(DoraemonWeakNetwork_WeakSpeed == [[DoraemonNetworkInterceptor shareInstance].weakDelegate weakNetSelecte]){
         DoKitLog(@"yd WeakUpFlow Net");
-        [[DoraemonNetworkInterceptor shareInstance].weakDelegate handleWeak:[DoraemonUrlUtil getHttpBodyFromRequest:self.request] isDown:NO];
-        [self.task resume];
+        [[DoraemonNetFlowManager shareInstance] httpBodyFromRequest:self.request bodyCallBack:^(NSData *body) {
+            [[DoraemonNetworkInterceptor shareInstance].weakDelegate handleWeak:body isDown:NO];
+            [self.task resume];
+        }];
     }else{
         [self.task resume];
     }
@@ -201,15 +203,15 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     }
 }
 
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler {
-    assert([NSThread currentThread] == self.clientThread);
-    //判断服务器返回的证书类型, 是否是服务器信任
-    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-        //强制信任
-        NSURLCredential *card = [[NSURLCredential alloc]initWithTrust:challenge.protectionSpace.serverTrust];
-        completionHandler(NSURLSessionAuthChallengeUseCredential, card);
-    }
-}
+//- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler {
+//    assert([NSThread currentThread] == self.clientThread);
+//    //判断服务器返回的证书类型, 是否是服务器信任
+//    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+//        //强制信任
+//        NSURLCredential *card = [[NSURLCredential alloc]initWithTrust:challenge.protectionSpace.serverTrust];
+//        completionHandler(NSURLSessionAuthChallengeUseCredential, card);
+//    }
+//}
 
 // 去掉一些我们不关心的链接, 与UIWebView的兼容还是要好好考略一下
 + (BOOL)ignoreRequest:(NSURLRequest *)request{

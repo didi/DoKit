@@ -101,7 +101,7 @@ class DoKit {
   }
 
   static void dispose({@required BuildContext context}) {
-    Overlay.of(context).widget.initialEntries.forEach((element) {
+    doKitOverlayKey.currentState.widget.initialEntries.forEach((element) {
       // element.remove();
     });
   }

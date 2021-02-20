@@ -21,7 +21,9 @@ class ChannelInfo implements IInfo {
   final String method;
 
   final dynamic arguments;
-  final int timestamp;
+  final int startTimestamp;
+  int endTimestamp = 0;
+
   final int type;
   dynamic results;
   bool expand = false;
@@ -29,7 +31,7 @@ class ChannelInfo implements IInfo {
   MessageCodec messageCodec;
 
   ChannelInfo(this.channelName, this.method, this.arguments, this.type)
-      : this.timestamp = new DateTime.now().millisecondsSinceEpoch;
+      : this.startTimestamp = new DateTime.now().millisecondsSinceEpoch;
 
   @override
   String getValue() {
@@ -67,7 +69,7 @@ class MethodChannelKit extends ApmKit {
 
   @override
   IStorage createStorage() {
-    return CommonStorage(maxCount: 120);
+    return CommonStorage(maxCount: 240);
   }
 
   @override
@@ -80,6 +82,7 @@ class MethodChannelKit extends ApmKit {
     if (!ChannelPageState.showSystemChannel &&
         ((info as ChannelInfo).type == ChannelInfo.TYPE_SYSTEM_RECEIVE ||
             (info as ChannelInfo).type == ChannelInfo.TYPE_SYSTEM_SEND)) {
+      super.save(info);
       return false;
     }
     bool result = super.save(info);
@@ -124,7 +127,10 @@ class ChannelPageState extends State<ChannelPage> {
       if (!mounted) return;
     }
     setState(() {
-      _offsetController.jumpTo(0);
+      // 如果正在查看，就不自动滑动到底部
+      if (_offsetController.offset < 10) {
+        _offsetController.jumpTo(0);
+      }
     });
   }
 
@@ -197,6 +203,53 @@ class ChannelPageState extends State<ChannelPage> {
                                 ? Color(0xff337cc4)
                                 : Color(0xff333333),
                             fontSize: 12))),
+                GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      this.setState(() {
+                        ApmKitManager.instance
+                            .getKit<MethodChannelKit>(ApmKitName.KIT_CHANNEL)
+                            .getStorage()
+                            .clear();
+                      });
+                    },
+                    child: Container(
+                      decoration: new BoxDecoration(
+                        border:
+                            new Border.all(color: Color(0xff337cc4), width: 1),
+                        borderRadius:
+                            new BorderRadius.circular(2), // 也可控件一边圆角大小
+                      ),
+                      margin: EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.all(2),
+                      child: Text('清除本页数据',
+                          style: TextStyle(
+                              color: showSystemChannel
+                                  ? Color(0xff337cc4)
+                                  : Color(0xff333333),
+                              fontSize: 12)),
+                    )),
+                GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      _offsetController.jumpTo(0);
+                    },
+                    child: Container(
+                      decoration: new BoxDecoration(
+                        border:
+                            new Border.all(color: Color(0xff337cc4), width: 1),
+                        borderRadius:
+                            new BorderRadius.circular(2), // 也可控件一边圆角大小
+                      ),
+                      margin: EdgeInsets.only(left: 10),
+                      padding: EdgeInsets.all(2),
+                      child: Text('滑动到底部',
+                          style: TextStyle(
+                              color: showSystemChannel
+                                  ? Color(0xff337cc4)
+                                  : Color(0xff333333),
+                              fontSize: 12)),
+                    )),
               ],
             )),
         Expanded(
@@ -279,7 +332,7 @@ class _ChannelItemWidgetState extends State<ChannelItemWidget> {
                       text: TextSpan(children: [
                         TextSpan(
                             text:
-                                '[${TimeUtils.toTimeString(widget.item.timestamp)}]',
+                                '[${TimeUtils.toTimeString(widget.item.startTimestamp)}]',
                             style: TextStyle(
                                 fontSize: 9,
                                 color: Color(0xff333333),
@@ -300,6 +353,14 @@ class _ChannelItemWidgetState extends State<ChannelItemWidget> {
                                     color: (widget.item.type % 2 != 0
                                         ? Color(0xffd0607e)
                                         : Color(0xff337cc4))))),
+                        TextSpan(
+                            text:
+                                '  Cost:${widget.item.endTimestamp > 0 ? ((widget.item.endTimestamp - widget.item.startTimestamp).toString() + 'ms') : '-'} ',
+                            style: TextStyle(
+                              fontSize: 9,
+                              color: Color(0xff666666),
+                              height: 1.5,
+                            )),
                         TextSpan(
                             text: '\nChannelName: ',
                             style: TextStyle(

@@ -27,8 +27,8 @@
  <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
  <img src="https://img.shields.io/badge/Android-3.3.5-blue.svg" align=left />
- <img src="https://img.shields.io/badge/iOS-3.0.4-yellow.svg" align=left />
- <img src="https://img.shields.io/badge/Flutter-0.2.5-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/iOS-3.0.7-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/Flutter-0.2.12-blue.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
@@ -47,6 +47,7 @@
 ## 使用手册
 访问[DoKit官网](https://www.dokit.cn/)，点击"[使用中心](http://xingyun.xiaojukeji.com/docs/dokit/#/intro)"。
 
+**温馨提示：当前DoKit的所有功能都只针对Debug环境，Release环境未经过实际验证，所以请大家严格按照官方文档来集成，也不建议大家在Release环境上使用DoKit的任何功能。如果大家一定要在Release环境上使用，请自行进行充分的测试和验证，DoKit官方将不承担任何责任和损失。** 
 ## 更新日志
 
 - [iOS-ReleaseNotes](Doc/iOS-ReleaseNotes.md)
@@ -228,7 +229,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 ## 项目成员
 
-**发起者**
+**创始人**
 [yixiangboy(易翔)](https://github.com/yixiangboy)
 **负责人**
 [jtsky(金台)](https://github.com/jtsky) 
@@ -237,7 +238,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [yixiangboy](https://github.com/yixiangboy)、
 [jtsky](https://github.com/jtsky) 、
 [LinJZong](https://github.com/LinJZong) 、
-[ydlsl](https://github.com/ydlsl) 、
+[changzuozhen](https://github.com/changzuozhen)、
 [jayconscious](https://github.com/jayconscious)
 
 **贡献者榜单**
@@ -269,7 +270,8 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [sagdragon](https://github.com/sagdragon) 、
 [ccworld1000](https://github.com/ccworld1000) 、
 [HDB-Li](https://github.com/HDB-Li)、
-[yu-jianfeng](https://github.com/yu-jianfeng)
+[yu-jianfeng](https://github.com/yu-jianfeng)、
+[ydlsl](https://github.com/ydlsl)
 
 如何成为外部贡献者？ 提交有意义的PR，并被采纳。
 
@@ -321,15 +323,17 @@ DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [
 </div>
 
 ## 友情链接
-1. [Chameleon]( https://github.com/didi/chameleon)，简写CML，中文意思变色龙，意味着就像变色龙一样能适应不同环境的跨端整体解决方案，达到真正意义上"一套代码，多端运行"的终极目标
-   
-2. [Booster](https://github.com/didi/booster) 是一款专门为移动应用设计的易用、轻量级且可扩展的质量优化框架，其目标主要是为了解决随着 APP 复杂度的提升而带来的性能、稳定性、包体积等一系列质量问题。Booster 提供了性能检测、多线程优化、资源索引内联、资源去冗余、资源压缩、系统 Bug 修复等一系列功能模块，可以使得稳定性能够提升 15% ~ 25%，包体积可以减小 1MB ~ 10MB。**同时DoKit插件的底层也是基于Booster进行开发的。**
+1. [Hummer](https://github.com/didi/Hummer)，Hummer 是一套高性能高可用的跨端开发框架，一套代码可以同时支持开发 Android 和 iOS 应用。现已经支持 Vue/TypeScript/JavaScript 三种语法，面向大前端开发人员，总有一款适合你。
 
-3. [AoE](https://github.com/didi/AoE)，一个终端侧AI集成运行时环境 
+2. [Chameleon]( https://github.com/didi/chameleon)，简写CML，中文意思变色龙，意味着就像变色龙一样能适应不同环境的跨端整体解决方案，达到真正意义上"一套代码，多端运行"的终极目标
    
-4. [Mand Mobile](https://github.com/didi/mand-mobile) 一款优秀的面向金融场景的 移动端UI组件库
+3. [Booster](https://github.com/didi/booster) 是一款专门为移动应用设计的易用、轻量级且可扩展的质量优化框架，其目标主要是为了解决随着 APP 复杂度的提升而带来的性能、稳定性、包体积等一系列质量问题。Booster 提供了性能检测、多线程优化、资源索引内联、资源去冗余、资源压缩、系统 Bug 修复等一系列功能模块，可以使得稳定性能够提升 15% ~ 25%，包体积可以减小 1MB ~ 10MB。**同时DoKit插件的底层也是基于Booster进行开发的。**
+
+4. [AoE](https://github.com/didi/AoE)，一个终端侧AI集成运行时环境 
+   
+5. [Mand Mobile](https://github.com/didi/mand-mobile) 一款优秀的面向金融场景的 移动端UI组件库
    
 
-5. 我们部门的技术公众号（普惠出行产品技术公众号），欢迎关注。
+6. 我们部门的技术公众号（普惠出行产品技术公众号），欢迎关注。
    **公众号介绍：这里是滴滴出行旗下普惠产品技术团队对外分享的窗口，普惠出行支撑滴滴代驾、货运等业务，建设了NodeX、Dokit、卡梅隆等开源项目，始终秉承聚心成事、聚气育人的原则。欢迎各位技术同仁一起交流，共同成长。**
   ![普惠技术公众号](https://pt-starimg.didistatic.com/static/starimg/img/oOCoP5tVJs1600416407154.jpg)
