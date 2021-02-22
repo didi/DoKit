@@ -110,6 +110,11 @@ typedef void (^DoraemonPerformanceBlock)(NSDictionary *);
     [self install];
 }
 
+- (void)installWithMockDomain:(NSString *)mockDomain{
+    self.mockDomain = mockDomain;
+    [self install];
+}
+
 - (void)installWithStartingPosition:(CGPoint) position{
     _startingPosition = position;
     [self installWithCustomBlock:^{
