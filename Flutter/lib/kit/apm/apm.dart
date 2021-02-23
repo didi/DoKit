@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'http_kit.dart';
 
 class ApmKitManager {
+  ApmKitManager._privateConstructor();
+
   Map<String, ApmKit> kitMap = {
     ApmKitName.KIT_LOG: LogKit(),
     ApmKitName.KIT_CHANNEL: MethodChannelKit(),
@@ -19,8 +21,6 @@ class ApmKitManager {
     ApmKitName.KIT_MEMORY: MemoryKit(),
     ApmKitName.KIT_HTTP: HttpKit(),
   };
-
-  ApmKitManager._privateConstructor() {}
 
   static final ApmKitManager _instance = ApmKitManager._privateConstructor();
 
@@ -35,13 +35,13 @@ class ApmKitManager {
   T getKit<T extends ApmKit>(String name) {
     assert(name != null);
     if (kitMap.containsKey(name)) {
-      return kitMap[name];
+      return kitMap[name] as T;
     }
     return null;
   }
 
   void startUp() {
-    kitMap.forEach((key, kit) {
+    kitMap.forEach((String key, ApmKit kit) {
       kit.start();
     });
   }
@@ -70,10 +70,10 @@ abstract class IKit {
 }
 
 class CommonStorage implements IStorage {
-  final int maxCount;
-  Queue<IInfo> items = new Queue();
-
   CommonStorage({this.maxCount = 100});
+
+  final int maxCount;
+  Queue<IInfo> items = Queue<IInfo>();
 
   @override
   List<IInfo> getAll() {
@@ -101,6 +101,11 @@ class CommonStorage implements IStorage {
 }
 
 abstract class ApmKit implements IKit {
+  ApmKit() {
+    storage = createStorage();
+    assert(storage != null, 'storage should not be null');
+  }
+
   IStorage storage;
 
   void start();
@@ -111,19 +116,14 @@ abstract class ApmKit implements IKit {
 
   Widget createDisplayPage();
 
-  ApmKit() {
-    storage = createStorage();
-    assert(storage != null, 'storage should not be null');
-  }
-
   @override
   void tabAction() {
+    // ignore: invalid_use_of_protected_member
     ResidentPage.residentPageKey.currentState.setState(() {
       ResidentPage.tag = getKitName();
     });
   }
 
-  @override
   bool save(IInfo info) {
     return info != null &&
         storage != null &&

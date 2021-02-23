@@ -1,11 +1,9 @@
 import 'dart:ui';
 
+import 'package:dokit/util/util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dokit/util/util.dart';
-import 'package:dokit/widget/dash_decoration.dart';
 import 'package:flutter/services.dart';
-import 'package:package_info/package_info.dart';
 import 'package:vm_service/vm_service.dart';
 
 import '../../dokit.dart';
@@ -36,10 +34,12 @@ class MemoryKit extends ApmKit {
   }
 
   @override
-  void start() async {
-    VmHelper vmHelper = VmHelper.instance;
+  Future<void> start() async {
+    final VmHelper vmHelper = VmHelper.instance;
     await vmHelper.startConnect();
     vmHelper.updateMemoryUsage();
+
+    return Future<void>.value();
   }
 
   void update() {
@@ -64,7 +64,7 @@ class MemoryKit extends ApmKit {
 
   @override
   Widget createDisplayPage() {
-    return new MemoryPage();
+    return MemoryPage();
   }
 }
 
@@ -78,7 +78,7 @@ class MemoryPage extends StatefulWidget {
 class MemoryPageState extends State<MemoryPage> {
   MemoryKit kit =
       ApmKitManager.instance.getKit<MemoryKit>(ApmKitName.KIT_MEMORY);
-  List<ClassHeapStats> heaps = new List();
+  List<ClassHeapStats> heaps = <ClassHeapStats>[];
   TextEditingController editingController = TextEditingController();
 
   @override
@@ -91,8 +91,9 @@ class MemoryPageState extends State<MemoryPage> {
   void initHeaps() {
     if (kit.getAllocationProfile() != null) {
       kit.getAllocationProfile().members.sort(
-          (left, right) => right.bytesCurrent.compareTo(left.bytesCurrent));
-      kit.getAllocationProfile().members.forEach((element) {
+          (ClassHeapStats left, ClassHeapStats right) =>
+              right.bytesCurrent.compareTo(left.bytesCurrent));
+      kit.getAllocationProfile().members.forEach((ClassHeapStats element) {
         if (heaps.length < 32) {
           heaps.add(element);
         }
@@ -104,7 +105,7 @@ class MemoryPageState extends State<MemoryPage> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         child: Container(
-            margin: EdgeInsets.all(16),
+            margin: const EdgeInsets.all(16),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,26 +113,28 @@ class MemoryPageState extends State<MemoryPage> {
                 Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('Memory Info',
+                      const Text('Memory Info',
                           style: TextStyle(
                               color: Color(0xff333333),
                               fontWeight: FontWeight.bold,
                               fontSize: 16)),
-                      StreamBuilder(
-                        stream: Stream.periodic(Duration(seconds: 2), (value) {
+                      StreamBuilder<dynamic>(
+                        stream: Stream<dynamic>.periodic(
+                            const Duration(seconds: 2), (int value) {
                           VmHelper.instance.dumpAllocationProfile();
                           VmHelper.instance.updateMemoryUsage();
                         }),
-                        builder: (context, snapshot) {
+                        builder: (BuildContext context,
+                            AsyncSnapshot<dynamic> snapshot) {
                           return Container(
-                            margin: EdgeInsets.only(top: 3),
+                            margin: const EdgeInsets.only(top: 3),
                             alignment: Alignment.topLeft,
                             child: VmHelper.instance.memoryInfo != null &&
-                                    VmHelper.instance.memoryInfo.length > 0
+                                    VmHelper.instance.memoryInfo.isNotEmpty
                                 ? Column(
                                     children: getMemoryInfo(
                                         VmHelper.instance.memoryInfo))
-                                : Text('获取Memory数据失败(release模式下无法获取数据)',
+                                : const Text('获取Memory数据失败(release模式下无法获取数据)',
                                     style: TextStyle(
                                         color: Color(0xff999999),
                                         fontSize: 12)),
@@ -140,16 +143,16 @@ class MemoryPageState extends State<MemoryPage> {
                       )
                     ]),
                 Container(
-                  margin: EdgeInsets.only(top: 10),
+                  margin: const EdgeInsets.only(top: 10),
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 13),
+                  padding: const EdgeInsets.only(left: 13),
                   height: 50,
                   decoration: BoxDecoration(
                     border: Border.all(
-                        color: Color(0xff337cc4),
+                        color: const Color(0xff337cc4),
                         width: 0.5,
                         style: BorderStyle.solid),
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderRadius: const BorderRadius.all(Radius.circular(4)),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -157,14 +160,16 @@ class MemoryPageState extends State<MemoryPage> {
                       Container(
                         child: TextField(
                           controller: editingController,
-                          style:
-                              TextStyle(color: Color(0xff333333), fontSize: 16),
+                          style: const TextStyle(
+                              color: Color(0xff333333), fontSize: 16),
                           inputFormatters: [
-                            BlacklistingTextInputFormatter(RegExp(
-                                '[^\\u0020-\\u007E\\u00A0-\\u00BE\\u2E80-\\uA4CF\\uF900-\\uFAFF\\uFE30-\\uFE4F\\uFF00-\\uFFEF\\u0080-\\u009F\\u2000-\\u201f\r\n]'))
+                            FilteringTextInputFormatter.deny(
+                              RegExp(
+                                  '[^\\u0020-\\u007E\\u00A0-\\u00BE\\u2E80-\\uA4CF\\uF900-\\uFAFF\\uFE30-\\uFE4F\\uFF00-\\uFFEF\\u0080-\\u009F\\u2000-\\u201f\r\n]'),
+                            )
                           ],
-                          onSubmitted: (value) => {filterAllocations()},
-                          decoration: InputDecoration(
+                          onSubmitted: (String value) => {filterAllocations()},
+                          decoration: const InputDecoration(
                             border: InputBorder.none,
                             hintStyle: TextStyle(
                                 color: Color(0xffbebebe), fontSize: 16),
@@ -176,7 +181,7 @@ class MemoryPageState extends State<MemoryPage> {
                       Container(
                         width: 60,
                         child: FlatButton(
-                          padding: EdgeInsets.only(
+                          padding: const EdgeInsets.only(
                               left: 15, right: 0, top: 15, bottom: 15),
                           child: Image.asset('images/dk_memory_search.png',
                               package: DoKit.PACKAGE_NAME,
@@ -189,50 +194,50 @@ class MemoryPageState extends State<MemoryPage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 12),
+                  margin: const EdgeInsets.only(top: 12),
                   height: 34,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Container(
                         width: 80,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Color(0xff337cc4),
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(4),
                                 bottomLeft: Radius.circular(4))),
                         alignment: Alignment.center,
-                        child: Text('Size',
+                        child: const Text('Size',
                             style: TextStyle(
                                 color: Color(0xffffffff), fontSize: 14)),
                       ),
-                      VerticalDivider(
+                      const VerticalDivider(
                         width: 0.5,
                         color: Color(0xffffffff),
                       ),
                       Container(
                         width: 80,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Color(0xff337cc4),
                         ),
                         alignment: Alignment.center,
-                        child: Text('Count',
+                        child: const Text('Count',
                             style: TextStyle(
                                 color: Color(0xffffffff), fontSize: 14)),
                       ),
-                      VerticalDivider(
+                      const VerticalDivider(
                         width: 0.5,
                         color: Color(0xffffffff),
                       ),
                       Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               color: Color(0xff337cc4),
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(4),
                                   bottomRight: Radius.circular(4))),
                           width: MediaQuery.of(context).size.width - 193,
                           alignment: Alignment.center,
-                          child: Text('ClassName',
+                          child: const Text('ClassName',
                               style: TextStyle(
                                   color: Color(0xffffffff), fontSize: 14))),
                     ],
@@ -241,9 +246,9 @@ class MemoryPageState extends State<MemoryPage> {
                 Container(
                   height: MediaQuery.of(context).size.height - 200 - 210,
                   child: ListView.builder(
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       itemCount: heaps.length,
-                      itemBuilder: (context, index) {
+                      itemBuilder: (BuildContext context, int index) {
                         return HeapItemWidget(
                           item: heaps[index],
                           index: index,
@@ -255,60 +260,60 @@ class MemoryPageState extends State<MemoryPage> {
   }
 
   void filterAllocations() {
-    String className = editingController.text;
+    final String className = editingController.text;
     assert(className != null);
     heaps.clear();
     if (className.length >= 3 && kit.getAllocationProfile() != null) {
-      kit.getAllocationProfile().members.forEach((element) {
+      kit.getAllocationProfile().members.forEach((ClassHeapStats element) {
         if (element.classRef.name
             .toLowerCase()
             .contains(className.toLowerCase())) {
           heaps.add(element);
         }
       });
-      heaps.sort(
-          (left, right) => right.bytesCurrent.compareTo(left.bytesCurrent));
+      heaps.sort((ClassHeapStats left, ClassHeapStats right) =>
+          right.bytesCurrent.compareTo(left.bytesCurrent));
     }
     setState(() {});
   }
 
   List<Widget> getMemoryInfo(Map<IsolateRef, MemoryUsage> map) {
-    List<Widget> widgets = <Widget>[];
-    map.forEach((key, value) {
+    final List<Widget> widgets = <Widget>[];
+    map.forEach((IsolateRef key, MemoryUsage value) {
       widgets.add(RichText(
           text: TextSpan(children: [
-        TextSpan(
+        const TextSpan(
             text: 'IsolateName: ',
             style:
                 TextStyle(fontSize: 10, color: Color(0xff333333), height: 1.5)),
         TextSpan(
-            text: '${key.name}',
-            style:
-                TextStyle(fontSize: 10, height: 1.5, color: Color(0xff666666))),
-        TextSpan(
+            text: key.name,
+            style: const TextStyle(
+                fontSize: 10, height: 1.5, color: Color(0xff666666))),
+        const TextSpan(
             text: '\nHeapUsage: ',
             style:
                 TextStyle(height: 1.5, fontSize: 10, color: Color(0xff333333))),
         TextSpan(
-            text: '${ByteUtil.toByteString(value.heapUsage)}',
-            style:
-                TextStyle(fontSize: 10, height: 1.5, color: Color(0xff666666))),
-        TextSpan(
+            text: ByteUtil.toByteString(value.heapUsage),
+            style: const TextStyle(
+                fontSize: 10, height: 1.5, color: Color(0xff666666))),
+        const TextSpan(
             text: '\nHeapCapacity: ',
             style:
                 TextStyle(fontSize: 10, height: 1.5, color: Color(0xff333333))),
         TextSpan(
-            text: '${ByteUtil.toByteString(value.heapCapacity)}',
-            style:
-                TextStyle(fontSize: 10, height: 1.5, color: Color(0xff666666))),
-        TextSpan(
+            text: ByteUtil.toByteString(value.heapCapacity),
+            style: const TextStyle(
+                fontSize: 10, height: 1.5, color: Color(0xff666666))),
+        const TextSpan(
             text: '\nExternalUsage: ',
             style:
                 TextStyle(fontSize: 10, height: 1.5, color: Color(0xff333333))),
         TextSpan(
-            text: '${ByteUtil.toByteString(value.externalUsage)}',
-            style:
-                TextStyle(fontSize: 10, height: 1.5, color: Color(0xff666666))),
+            text: ByteUtil.toByteString(value.externalUsage),
+            style: const TextStyle(
+                fontSize: 10, height: 1.5, color: Color(0xff666666))),
       ])));
     });
     return widgets;
@@ -316,37 +321,38 @@ class MemoryPageState extends State<MemoryPage> {
 }
 
 class HeapItemWidget extends StatelessWidget {
+  const HeapItemWidget({Key key, @required this.item, @required this.index})
+      : super(key: key);
+
   final ClassHeapStats item;
   final int index;
-
-  HeapItemWidget({Key key, @required this.item, @required this.index})
-      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 40,
-      color: index % 2 == 1 ? Color(0xfffafafa) : Colors.white,
+      color: index % 2 == 1 ? const Color(0xfffafafa) : Colors.white,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
             width: 80,
             alignment: Alignment.center,
-            child: Text('${ByteUtil.toByteString(item.bytesCurrent)}',
-                style: TextStyle(color: Color(0xff333333), fontSize: 12)),
+            child: Text(ByteUtil.toByteString(item.bytesCurrent),
+                style: const TextStyle(color: Color(0xff333333), fontSize: 12)),
           ),
           Container(
             width: 80,
             alignment: Alignment.center,
             child: Text('${item.instancesCurrent}',
-                style: TextStyle(color: Color(0xff333333), fontSize: 12)),
+                style: const TextStyle(color: Color(0xff333333), fontSize: 12)),
           ),
           Container(
               width: MediaQuery.of(context).size.width - 193,
               alignment: Alignment.center,
-              child: Text('${item.classRef.name}',
-                  style: TextStyle(color: Color(0xff333333), fontSize: 12))),
+              child: Text(item.classRef.name,
+                  style:
+                      const TextStyle(color: Color(0xff333333), fontSize: 12))),
         ],
       ),
     );

@@ -1,22 +1,24 @@
 import 'dart:async';
+import 'dart:core';
+
 import 'package:dokit/engine/dokit_binding.dart';
 import 'package:dokit/kit/apm/log_kit.dart';
-import 'package:dokit/ui/dokit_btn.dart';
+import 'package:dokit/kit/kit_page.dart';
 import 'package:dokit/ui/dokit_app.dart';
+import 'package:dokit/ui/dokit_btn.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'dart:core';
 import 'package:flutter/widgets.dart' as dart;
-import 'package:dokit/kit/kit_page.dart';
+
 export 'package:dokit/ui/dokit_app.dart';
 
-typedef DoKitAppCreator = Function();
-typedef LogCallback = Function(String);
-typedef ExceptionCallback = Function(dynamic, StackTrace);
+typedef DoKitAppCreator = Future<IDoKitApp> Function();
+typedef LogCallback = void Function(String);
+typedef ExceptionCallback = void Function(dynamic, StackTrace);
 
+// ignore: avoid_classes_with_only_static_members
 class DoKit {
-  static final String PACKAGE_NAME = 'dokit';
+  static const String PACKAGE_NAME = 'dokit';
 
   //默认release模式不开启该功能
   static bool release = kReleaseMode;
@@ -56,7 +58,7 @@ class DoKit {
     runZoned(
       () async => {
         _ensureDoKitBinding(useInRelease: useInRelease),
-        _runWrapperApp(app != null ? app : await appCreator()),
+        _runWrapperApp(app ?? await appCreator()),
         _zone = Zone.current
       },
       zoneSpecification: ZoneSpecification(
@@ -77,8 +79,9 @@ class DoKit {
     );
   }
 
-  static void _runWrapperApp(DoKitApp wrapper) {
+  static void _runWrapperApp(IDoKitApp wrapper) {
     DoKitWidgetsFlutterBinding.ensureInitialized()
+      // ignore: invalid_use_of_protected_member
       ..scheduleAttachRootWidget(wrapper)
       ..scheduleWarmUpFrame();
     addEntrance();
@@ -95,15 +98,17 @@ class DoKit {
 
   static void addEntrance() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      DoKitBtn floatBtn = DoKitBtn();
+      final DoKitBtn floatBtn = DoKitBtn();
       floatBtn.addToOverlay();
       KitPageManager.instance.loadCache();
     });
   }
 
   static void dispose({@required BuildContext context}) {
-    doKitOverlayKey.currentState.widget.initialEntries.forEach((element) {
+    final List<OverlayEntry> initialEntries =
+        doKitOverlayKey.currentState.widget.initialEntries;
+    for (final element in initialEntries) {
       // element.remove();
-    });
+    }
   }
 }

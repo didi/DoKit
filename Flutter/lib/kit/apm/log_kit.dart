@@ -1,9 +1,9 @@
 import 'dart:async';
 
+import 'package:dokit/util/util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:dokit/util/util.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,7 +13,7 @@ import 'apm.dart';
 class LogKit extends ApmKit {
   FlutterExceptionHandler originOnError;
 
-  CommonStorage _error = new CommonStorage();
+  final CommonStorage _error = CommonStorage();
 
   CommonStorage get error => _error;
 
@@ -53,7 +53,7 @@ class LogKit extends ApmKit {
   // dart vm会通过widget_inspector.dart structuredErrors服务替换掉FlutterError.onError，不清楚具体执行时机是什么时候,会重复执行。这里启动定时器每1秒将其替换回来。
   // 需要保留widget_inspector注入的onError调用，否则会影响android studio的输出
   void resetOnErrorInstance() {
-    new Timer.periodic(Duration(seconds: 1 /**/), (timer) {
+    Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       if (FlutterError.onError != _doKitOnError) {
         originOnError = FlutterError.onError;
         FlutterError.onError = _doKitOnError;
@@ -85,7 +85,7 @@ class LogManager {
   }
 
   void unregisterListener() {
-    this.listener = null;
+    listener = null;
   }
 
   static LogManager get instance {
@@ -108,8 +108,8 @@ class LogManager {
 
   void addLog(int type, String msg) {
     if (ApmKitManager.instance.getKit(ApmKitName.KIT_LOG) != null) {
-      LogBean log = new LogBean(type, msg);
-      LogKit kit = ApmKitManager.instance.getKit(ApmKitName.KIT_LOG);
+      final LogBean log = LogBean(type, msg);
+      final LogKit kit = ApmKitManager.instance.getKit(ApmKitName.KIT_LOG);
       kit.save(log);
       if (type != LogBean.TYPE_ERROR || LogPageState._showError) {
         listener?.call(log);
@@ -135,7 +135,7 @@ class LogBean implements IInfo {
   bool expand;
 
   LogBean(this.type, this.msg) {
-    this.timestamp = new DateTime.now().millisecondsSinceEpoch;
+    timestamp = DateTime.now().millisecondsSinceEpoch;
     expand = false;
   }
 
@@ -153,17 +153,21 @@ class LogPage extends StatefulWidget {
 }
 
 class LogPageState extends State<LogPage> {
-  ScrollController _offsetController =
+  final ScrollController _offsetController =
       ScrollController(); //定义ListView的controller
   static bool _showError = false;
 
   Future<void> _listener(LogBean logBean) async {
-    if (!mounted) return;
+    if (!mounted) {
+      return Future<void>.value();
+    }
     // if there's a current frame,
     if (SchedulerBinding.instance.schedulerPhase != SchedulerPhase.idle) {
       // wait for the end of that frame.
       await SchedulerBinding.instance.endOfFrame;
-      if (!mounted) return;
+      if (!mounted) {
+        return Future<void>.value();
+      }
     }
     setState(() {
       // 如果正在查看，就不自动滑动到底部
@@ -171,6 +175,8 @@ class LogPageState extends State<LogPage> {
         _offsetController.jumpTo(0);
       }
     });
+
+    return Future<void>.value();
   }
 
   @override
@@ -187,7 +193,7 @@ class LogPageState extends State<LogPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<IInfo> items = LogPageState._showError
+    final List<IInfo> items = LogPageState._showError
         ? LogManager.instance.getErrors().reversed.toList()
         : LogManager.instance.getLogs().reversed.toList();
     return Column(
@@ -198,14 +204,14 @@ class LogPageState extends State<LogPage> {
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
-                this.setState(() {
+                setState(() {
                   _showError = !_showError;
                 });
               },
               child: Container(
                 height: 44,
                 width: 44,
-                padding: EdgeInsets.only(left: 16),
+                padding: const EdgeInsets.only(left: 16),
                 child: Image.asset(
                     _showError
                         ? 'images/dk_channel_check_h.png'
@@ -218,27 +224,28 @@ class LogPageState extends State<LogPage> {
             GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () {
-                  this.setState(() {
+                  setState(() {
                     _showError = !_showError;
                   });
                 },
                 child: Text('只显示异常',
                     style: TextStyle(
-                        color:
-                            _showError ? Color(0xff337cc4) : Color(0xff333333),
+                        color: _showError
+                            ? const Color(0xff337cc4)
+                            : const Color(0xff333333),
                         fontSize: 12))),
             Container(
-              decoration: new BoxDecoration(
-                border: new Border.all(color: Color(0xff337cc4), width: 1),
-                borderRadius: new BorderRadius.circular(2), // 也可控件一边圆角大小
+              decoration: BoxDecoration(
+                border: Border.all(color: const Color(0xff337cc4), width: 1),
+                borderRadius: BorderRadius.circular(2), // 也可控件一边圆角大小
               ),
-              margin: EdgeInsets.only(left: 16, top: 8, bottom: 8),
-              padding: EdgeInsets.all(2),
+              margin: const EdgeInsets.only(left: 16, top: 8, bottom: 8),
+              padding: const EdgeInsets.all(2),
               alignment: Alignment.centerLeft,
               child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
-                    this.setState(() {
+                    setState(() {
                       ApmKitManager.instance
                           .getKit<LogKit>(ApmKitName.KIT_LOG)
                           .getStorage()
@@ -249,62 +256,64 @@ class LogPageState extends State<LogPage> {
                           .clear();
                     });
                   },
-                  child: Text('清除本页数据',
+                  child: const Text('清除本页数据',
                       style:
                           TextStyle(color: Color(0xff333333), fontSize: 12))),
             ),
             Container(
-              decoration: new BoxDecoration(
-                border: new Border.all(color: Color(0xff337cc4), width: 1),
-                borderRadius: new BorderRadius.circular(2), // 也可控件一边圆角大小
+              decoration: BoxDecoration(
+                border: Border.all(color: const Color(0xff337cc4), width: 1),
+                borderRadius: BorderRadius.circular(2), // 也可控件一边圆角大小
               ),
-              margin: EdgeInsets.only(left: 10, top: 8, bottom: 8),
-              padding: EdgeInsets.all(2),
+              margin: const EdgeInsets.only(left: 10, top: 8, bottom: 8),
+              padding: const EdgeInsets.all(2),
               alignment: Alignment.centerLeft,
               child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
                     _offsetController.jumpTo(0);
                   },
-                  child: Text('滑动到底部',
+                  child: const Text('滑动到底部',
                       style:
                           TextStyle(color: Color(0xff333333), fontSize: 12))),
             ),
           ],
         ),
         Expanded(
-            child: Container(
-          alignment: Alignment.topLeft,
-          child: ListView.builder(
-              controller: _offsetController,
-              itemCount: items.length,
-              reverse: true,
-              shrinkWrap: true,
-              padding: EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0),
-              itemBuilder: (context, index) {
-                return LogItemWidget(
-                  item: items[index],
-                  index: index,
-                  isLast: index == items.length - 1,
-                );
-              }),
-        )),
+          child: Container(
+            alignment: Alignment.topLeft,
+            child: ListView.builder(
+                controller: _offsetController,
+                itemCount: items.length,
+                reverse: true,
+                shrinkWrap: true,
+                padding:
+                    const EdgeInsets.only(left: 0, right: 0, bottom: 0, top: 0),
+                itemBuilder: (BuildContext context, int index) {
+                  return LogItemWidget(
+                    item: items[index] as LogBean,
+                    index: index,
+                    isLast: index == items.length - 1,
+                  );
+                }),
+          ),
+        ),
       ],
     );
   }
 }
 
 class LogItemWidget extends StatefulWidget {
-  final LogBean item;
-  final int index;
-  final bool isLast;
-
-  LogItemWidget(
+  const LogItemWidget(
       {Key key,
       @required this.item,
       @required this.index,
       @required this.isLast})
       : super(key: key);
+
+  final LogBean item;
+  final int index;
+  final bool isLast;
 
   @override
   State<StatefulWidget> createState() {
@@ -313,14 +322,14 @@ class LogItemWidget extends StatefulWidget {
 }
 
 class _LogItemWidgetState extends State<LogItemWidget> {
-  static final String KEY_SHOW_LOG_EXPAND_TIPS = 'key_show_log_expand_tips';
+  static const String KEY_SHOW_LOG_EXPAND_TIPS = 'key_show_log_expand_tips';
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onLongPress: () {
           Clipboard.setData(ClipboardData(text: widget.item.msg));
-          Scaffold.of(context).showSnackBar(SnackBar(
+          Scaffold.of(context).showSnackBar(const SnackBar(
             duration: Duration(milliseconds: 500),
             content: Text('已拷贝至剪贴板'),
           ));
@@ -328,11 +337,11 @@ class _LogItemWidgetState extends State<LogItemWidget> {
         onTap: () {
           setState(() {
             widget.item.expand = !widget.item.expand;
-            SharedPreferences.getInstance().then((prefs) => {
+            SharedPreferences.getInstance().then((SharedPreferences prefs) => {
                   if (!prefs.containsKey(KEY_SHOW_LOG_EXPAND_TIPS))
                     {
                       prefs.setBool(KEY_SHOW_LOG_EXPAND_TIPS, true),
-                      Scaffold.of(context).showSnackBar(SnackBar(
+                      Scaffold.of(context).showSnackBar(const SnackBar(
                         duration: Duration(milliseconds: 2000),
                         content: Text('日志超过7行时，点击可展开日志详情'),
                       ))
@@ -341,13 +350,13 @@ class _LogItemWidgetState extends State<LogItemWidget> {
           });
         },
         child: Container(
-          padding: EdgeInsets.only(left: 16, right: 16),
+          padding: const EdgeInsets.only(left: 16, right: 16),
           decoration: BoxDecoration(
               color: widget.item.expand ? Colors.black : Colors.white,
-              border: Border(
+              border: const Border(
                   bottom: BorderSide(width: 0.5, color: Color(0xffeeeeee)))),
           child: Container(
-              margin: EdgeInsets.only(top: 10, bottom: 10),
+              margin: const EdgeInsets.only(top: 10, bottom: 10),
               child: RichText(
                 maxLines: widget.item.expand ? 9999 : 7,
                 overflow: TextOverflow.ellipsis,
@@ -360,7 +369,7 @@ class _LogItemWidgetState extends State<LogItemWidget> {
                               ? Colors.red
                               : (widget.item.expand
                                   ? Colors.white
-                                  : Color(0xff333333)),
+                                  : const Color(0xff333333)),
                           height: 1.4,
                           fontSize: 10)),
                   TextSpan(
@@ -370,7 +379,7 @@ class _LogItemWidgetState extends State<LogItemWidget> {
                               ? Colors.red
                               : (widget.item.expand
                                   ? Colors.white
-                                  : Color(0xff333333)),
+                                  : const Color(0xff333333)),
                           height: 1.4,
                           fontSize: 10))
                 ]),

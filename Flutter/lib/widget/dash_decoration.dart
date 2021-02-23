@@ -1,6 +1,7 @@
+import 'dart:math' as math;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 class DashedDecoration extends Decoration {
   /// Creates a box decoration.
@@ -194,8 +195,13 @@ class DashedDecoration extends Decoration {
 
   @override
   DashedDecoration lerpTo(Decoration b, double t) {
-    if (b == null) return scale(1.0 - t);
-    if (b is DashedDecoration) return DashedDecoration.lerp(this, b, t);
+    if (b == null) {
+      return scale(1.0 - t);
+    }
+
+    if (b is DashedDecoration) {
+      return DashedDecoration.lerp(this, b, t);
+    }
     return super.lerpTo(b, t) as DashedDecoration;
   }
 
@@ -225,11 +231,21 @@ class DashedDecoration extends Decoration {
   static DashedDecoration lerp(
       DashedDecoration a, DashedDecoration b, double t) {
     assert(t != null);
-    if (a == null && b == null) return null;
-    if (a == null) return b.scale(t);
-    if (b == null) return a.scale(1.0 - t);
-    if (t == 0.0) return a;
-    if (t == 1.0) return b;
+    if (a == null && b == null) {
+      return null;
+    }
+    if (a == null) {
+      return b.scale(t);
+    }
+    if (b == null) {
+      return a.scale(1.0 - t);
+    }
+    if (t == 0.0) {
+      return a;
+    }
+    if (t == 1.0) {
+      return b;
+    }
     return DashedDecoration(
       color: Color.lerp(a.color, b.color, t),
       image: t < 0.5 ? a.image : b.image,
@@ -442,32 +458,32 @@ class _BoxDecorationPainter extends BoxPainter {
       );
       return;
     }
-    Paint dashedPaint = Paint()
+    final Paint dashedPaint = Paint()
       ..color = _decoration.dashedColor
       ..strokeWidth = _decoration.strokeHeight
       ..style = PaintingStyle.stroke;
 
-    Path _topPath = getDashedPath(
-      a: math.Point(rect.topLeft.dx, rect.topLeft.dy),
-      b: math.Point(rect.topRight.dx, rect.topRight.dy),
+    final Path _topPath = getDashedPath(
+      a: math.Point<double>(rect.topLeft.dx, rect.topLeft.dy),
+      b: math.Point<double>(rect.topRight.dx, rect.topRight.dy),
       gap: _decoration.gap,
     );
 
-    Path _rightPath = getDashedPath(
-      a: math.Point(rect.topRight.dx, rect.topRight.dy),
-      b: math.Point(rect.bottomRight.dx, rect.bottomRight.dy),
+    final Path _rightPath = getDashedPath(
+      a: math.Point<double>(rect.topRight.dx, rect.topRight.dy),
+      b: math.Point<double>(rect.bottomRight.dx, rect.bottomRight.dy),
       gap: _decoration.gap,
     );
 
-    Path _bottomPath = getDashedPath(
-      a: math.Point(rect.bottomLeft.dx, rect.bottomLeft.dy),
-      b: math.Point(rect.bottomRight.dx, rect.bottomRight.dy),
+    final Path _bottomPath = getDashedPath(
+      a: math.Point<double>(rect.bottomLeft.dx, rect.bottomLeft.dy),
+      b: math.Point<double>(rect.bottomRight.dx, rect.bottomRight.dy),
       gap: _decoration.gap,
     );
 
-    Path _leftPath = getDashedPath(
-      a: math.Point(rect.topLeft.dx, rect.topLeft.dy),
-      b: math.Point(rect.bottomLeft.dx, rect.bottomLeft.dy),
+    final Path _leftPath = getDashedPath(
+      a: math.Point<double>(rect.topLeft.dx, rect.topLeft.dy),
+      b: math.Point<double>(rect.bottomLeft.dx, rect.bottomLeft.dy),
       gap: _decoration.gap,
     );
 
@@ -481,15 +497,15 @@ class _BoxDecorationPainter extends BoxPainter {
   Path getDashedPath({
     @required math.Point<double> a,
     @required math.Point<double> b,
-    @required gap,
+    @required num gap,
   }) {
-    Size size = Size(b.x - a.x, b.y - a.y);
-    Path path = Path();
+    final Size size = Size(b.x - a.x, b.y - a.y);
+    final Path path = Path();
     path.moveTo(a.x, a.y);
     bool shouldDraw = true;
-    math.Point currentPoint = math.Point(a.x, a.y);
+    math.Point<double> currentPoint = math.Point<double>(a.x, a.y);
 
-    num radians = math.atan(size.height / size.width);
+    final num radians = math.atan(size.height / size.width);
 
     num dx = math.cos(radians) * gap < 0
         ? math.cos(radians) * gap * -1
@@ -504,7 +520,7 @@ class _BoxDecorationPainter extends BoxPainter {
           ? path.lineTo(currentPoint.x, currentPoint.y)
           : path.moveTo(currentPoint.x, currentPoint.y);
       shouldDraw = !shouldDraw;
-      currentPoint = math.Point(
+      currentPoint = math.Point<double>(
         currentPoint.x + dx,
         currentPoint.y + dy,
       );
@@ -512,7 +528,6 @@ class _BoxDecorationPainter extends BoxPainter {
     return path;
   }
 
-  @override
   bool shouldRepaint(CustomPainter oldDelegate) {
     return true;
   }

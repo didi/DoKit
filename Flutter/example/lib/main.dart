@@ -8,20 +8,19 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
 import 'package:dokit/dokit.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 void main() {
   DoKit.runApp(
       app: DoKitApp(MyApp()),
       useInRelease: true,
-      logCallback: (log) {
-        String i = log;
+      logCallback: (String log) {
+        final String i = log;
       },
-      exceptionCallback: (obj, trace) {
+      exceptionCallback: (dynamic obj, StackTrace trace) {
         print('ttt$obj');
       });
   // runApp(MyApp());
@@ -90,12 +89,12 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
-              margin: EdgeInsets.only(bottom: 30),
+              margin: const EdgeInsets.only(bottom: 30),
               child: FlatButton(
-                child: Text('Mock Http Post',
+                child: const Text('Mock Http Post',
                     style: TextStyle(
                       color: Color(0xff000000),
                       fontSize: 18,
@@ -104,12 +103,12 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
               ),
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
-              margin: EdgeInsets.only(bottom: 30),
+              margin: const EdgeInsets.only(bottom: 30),
               child: FlatButton(
-                child: Text('Mock Http Get',
+                child: const Text('Mock Http Get',
                     style: TextStyle(
                       color: Color(0xff000000),
                       fontSize: 18,
@@ -118,12 +117,12 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
               ),
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
-              margin: EdgeInsets.only(bottom: 30),
+              margin: const EdgeInsets.only(bottom: 30),
               child: FlatButton(
-                child: Text('Test Method Channel',
+                child: const Text('Test Method Channel',
                     style: TextStyle(
                       color: Color(0xff000000),
                       fontSize: 18,
@@ -134,35 +133,37 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
               ),
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
-              margin: EdgeInsets.only(bottom: 30),
+              margin: const EdgeInsets.only(bottom: 30),
               child: FlatButton(
-                child: Text('Open Route Page',
+                child: const Text('Open Route Page',
                     style: TextStyle(
                       color: Color(0xff000000),
                       fontSize: 18,
                     )),
                 onPressed: () {
-                  Navigator.of(context, rootNavigator: false).push(
-                      new MaterialPageRoute(
-                          builder: (context) {
-                            //指定跳转的页面
-                            return new TestPage2();
-                          },
-                          settings: new RouteSettings(
-                              name: 'page1', arguments: ['test', '111'])));
+                  Navigator.of(context, rootNavigator: false).push<dynamic>(
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) {
+                        //指定跳转的页面
+                        return TestPage2();
+                      },
+                      settings: const RouteSettings(
+                          name: 'page1', arguments: ['test', '111']),
+                    ),
+                  );
                 },
               ),
             ),
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
-              margin: EdgeInsets.only(bottom: 30),
+              margin: const EdgeInsets.only(bottom: 30),
               child: FlatButton(
-                child: Text('Stop Timer',
+                child: const Text('Stop Timer',
                     style: TextStyle(
                       color: Color(0xff000000),
                       fontSize: 18,
@@ -215,7 +216,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
 
   void testMethodChannel() {
     timer?.cancel();
-    timer = new Timer.periodic(new Duration(seconds: 2), (timer) async {
+    timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) async {
       const MethodChannel _kChannel =
           MethodChannel('plugins.flutter.io/package_info');
       final Map<String, dynamic> map =
@@ -229,32 +230,33 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
     timer = null;
   }
 
-  void mockHttpPost() async {
+  void mockHttpPost() {
     timer?.cancel();
-    timer = new Timer.periodic(new Duration(seconds: 2), (timer) async {
-      HttpClient client = new HttpClient();
-      String url = 'https://pinzhi.didichuxing.com/kop_stable/gateway?api=hhh';
-      HttpClientRequest request = await client.postUrl(Uri.parse(url));
-      Map<String, String> map1 = new Map();
-      map1["v"] = "1.0";
-      map1["month"] = "7";
-      map1["day"] = "25";
-      map1["key"] = "bd6e35a2691ae5bb8425c8631e475c2a";
+    timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) async {
+      final HttpClient client = HttpClient();
+      const String url =
+          'https://pinzhi.didichuxing.com/kop_stable/gateway?api=hhh';
+      final HttpClientRequest request = await client.postUrl(Uri.parse(url));
+      final Map<String, String> map1 = <String, String>{};
+      map1['v'] = '1.0';
+      map1['month'] = '7';
+      map1['day'] = '25';
+      map1['key'] = 'bd6e35a2691ae5bb8425c8631e475c2a';
       request.add(utf8.encode(json.encode(map1)));
       request.add(utf8.encode(json.encode(map1)));
-      HttpClientResponse response = await request.close();
-      String responseBody = await response.transform(utf8.decoder).join();
+      final HttpClientResponse response = await request.close();
+      final String responseBody = await response.transform(utf8.decoder).join();
     });
   }
 
-  void mockHttpGet() async {
+  void mockHttpGet() {
     timer?.cancel();
-    timer = new Timer.periodic(new Duration(seconds: 2), (timer) async {
-      HttpClient client = new HttpClient();
-      String url = 'https://www.baidu.com';
-      HttpClientRequest request = await client.postUrl(Uri.parse(url));
-      HttpClientResponse response = await request.close();
-      String responseBody = await response.transform(utf8.decoder).join();
+    timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) async {
+      final HttpClient client = HttpClient();
+      const String url = 'https://www.baidu.com';
+      final HttpClientRequest request = await client.postUrl(Uri.parse(url));
+      final HttpClientResponse response = await request.close();
+      final String responseBody = await response.transform(utf8.decoder).join();
     });
   }
 }
@@ -295,16 +297,16 @@ class TestPageState extends State<TestPage> {
           children: <Widget>[
             GestureDetector(
               onTap: () => {
-                Navigator.of(context, rootNavigator: false).push(
-                    new MaterialPageRoute(
-                        builder: (context) {
+                Navigator.of(context, rootNavigator: false).push<dynamic>(
+                    MaterialPageRoute<dynamic>(
+                        builder: (BuildContext context) {
                           //指定跳转的页面
-                          return new TestPage2();
+                          return TestPage2();
                         },
-                        settings: new RouteSettings(
+                        settings: const RouteSettings(
                             name: 'page1', arguments: ['test', '111'])))
               },
-              child: Text(
+              child: const Text(
                 'page1:',
               ),
             ),
@@ -339,7 +341,7 @@ class TestPageState2 extends State<TestPage2> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
+              const Text(
                 'page2:',
               ),
               Text(
@@ -392,14 +394,14 @@ class TestPageState3 extends State<TestPage3> {
             GestureDetector(
               onTap: () => {
                 Navigator.of(context, rootNavigator: false)
-                    .push(new MaterialPageRoute(
-                        builder: (context) {
+                    .push<dynamic>(MaterialPageRoute<dynamic>(
+                        builder: (BuildContext context) {
                           //指定跳转的页面
-                          return new MyApp();
+                          return MyApp();
                         },
-                        settings: new RouteSettings(name: 'page3')))
+                        settings: const RouteSettings(name: 'page3')))
               },
-              child: Text(
+              child: const Text(
                 'page3:',
               ),
             ),

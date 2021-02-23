@@ -25,7 +25,7 @@ class VisualKitManager {
   T getKit<T extends IKit>(String name) {
     assert(name != null);
     if (kitMap.containsKey(name)) {
-      return kitMap[name];
+      return kitMap[name] as T;
     }
     return null;
   }
