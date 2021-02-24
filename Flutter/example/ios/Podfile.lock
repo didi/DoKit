@@ -2,6 +2,8 @@ PODS:
   - Flutter (1.0.0)
   - package_info (0.0.1):
     - Flutter
+  - path_provider (0.0.1):
+    - Flutter
   - path_provider_linux (0.0.1):
     - Flutter
   - path_provider_windows (0.0.1):
@@ -20,6 +22,7 @@ PODS:
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - path_provider_linux (from `.symlinks/plugins/path_provider_linux/ios`)
   - path_provider_windows (from `.symlinks/plugins/path_provider_windows/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
@@ -33,6 +36,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
   path_provider_linux:
     :path: ".symlinks/plugins/path_provider_linux/ios"
   path_provider_windows:
@@ -51,6 +56,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
+  path_provider: fb74bd0465e96b594bb3b5088ee4a4e7bb1f2a9d
   path_provider_linux: 4d630dc393e1f20364f3e3b4a2ff41d9674a84e4
   path_provider_windows: a2b81600c677ac1959367280991971cb9a1edb3b
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
@@ -61,4 +67,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: f32fb4e7c14f8b3ca19a369d7be425dd9241af27
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.9.3
