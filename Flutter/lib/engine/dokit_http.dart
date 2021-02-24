@@ -283,7 +283,9 @@ class DoKitHttpClientRequest implements HttpClientRequest {
       if (encoding != null) {
         httpInfo.request.add(encoding.decode(data));
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -433,7 +435,7 @@ class DoKitHttpClientResponse implements HttpClientResponse {
   }
 
   @override
-  Future forEach(void Function(List<int> element) action) {
+  Future<dynamic> forEach(void Function(List<int> element) action) {
     return origin.forEach(action);
   }
 

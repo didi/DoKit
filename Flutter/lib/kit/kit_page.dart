@@ -58,7 +58,7 @@ class _KitPage extends State<KitPage> {
                           margin: const EdgeInsets.only(
                               left: 10, top: 10, bottom: 15),
                           child: RichText(
-                              text: const TextSpan(children: [
+                              text: const TextSpan(children: <TextSpan>[
                             TextSpan(
                                 text: '常驻工具',
                                 style: TextStyle(
@@ -79,7 +79,8 @@ class _KitPage extends State<KitPage> {
                     alignment: Alignment.center,
                   ),
                 ),
-                Container(width: width, height: 12, color: Color(0xfff5f6f7)),
+                Container(
+                    width: width, height: 12, color: const Color(0xfff5f6f7)),
                 Container(
                   margin: const EdgeInsets.only(
                       left: 10, right: 10, top: 15, bottom: 10),
@@ -92,7 +93,7 @@ class _KitPage extends State<KitPage> {
                           margin: const EdgeInsets.only(
                               left: 10, top: 10, bottom: 15),
                           child: RichText(
-                              text: const TextSpan(children: [
+                              text: const TextSpan(children: <TextSpan>[
                             TextSpan(
                                 text: '其他工具',
                                 style: TextStyle(
@@ -121,12 +122,13 @@ class _KitPage extends State<KitPage> {
     if (offset == null) {
       return false;
     }
-    Size size = _residentContainerKey.currentContext.size;
-    Offset position =
+    final Size size = _residentContainerKey.currentContext.size;
+    final Offset position =
         (_residentContainerKey.currentContext.findRenderObject() as RenderBox)
             .localToGlobal(Offset.zero);
-    Rect rc1 = Rect.fromLTWH(offset.dx, offset.dy, 80, 80);
-    Rect rc2 = Rect.fromLTWH(position.dx, position.dy, size.width, size.height);
+    final Rect rc1 = Rect.fromLTWH(offset.dx, offset.dy, 80, 80);
+    final Rect rc2 =
+        Rect.fromLTWH(position.dx, position.dy, size.width, size.height);
 
     return rc1.left + rc1.width > rc2.left &&
         rc2.left + rc2.width > rc1.left &&
@@ -135,9 +137,9 @@ class _KitPage extends State<KitPage> {
   }
 
   Widget buildResidentView(BuildContext context) {
-    List<Widget> widgets = <Widget>[];
-    double round = (MediaQuery.of(context).size.width - 80 * 4 - 30) / 3;
-    KitPageManager.instance.getResidentKit().forEach((key, value) {
+    final List<Widget> widgets = <Widget>[];
+    final double round = (MediaQuery.of(context).size.width - 80 * 4 - 30) / 3;
+    KitPageManager.instance.getResidentKit().forEach((String key, IKit value) {
       widgets.add(
         Draggable<dynamic>(
           child: MaterialButton(
@@ -150,26 +152,26 @@ class _KitPage extends State<KitPage> {
               padding: const EdgeInsets.all(0),
               minWidth: 40),
           feedback: KitItem(value),
-          onDragStarted: () => {
+          onDragStarted: () {
             setState(() {
               onDrag = true;
-            })
+            });
           },
-          onDraggableCanceled: (Velocity velocity, Offset offset) => {
+          onDraggableCanceled: (Velocity velocity, Offset offset) {
             setState(() {
               onDrag = false;
               if (!inResidentContainerEdge(offset)) {
                 KitPageManager.instance.removeResidentKit(key);
               }
-            })
+            });
           },
-          onDragEnd: (DraggableDetails detail) => {
+          onDragEnd: (DraggableDetails detail) {
             setState(() {
               onDrag = false;
               if (!inResidentContainerEdge(detail.offset)) {
                 KitPageManager.instance.removeResidentKit(key);
               }
-            })
+            });
           },
         ),
       );
@@ -198,26 +200,26 @@ class _KitPage extends State<KitPage> {
               padding: const EdgeInsets.all(0),
               minWidth: 40),
           feedback: KitItem(value),
-          onDragStarted: () => {
+          onDragStarted: () {
             setState(() {
               onDrag = true;
-            })
+            });
           },
-          onDragEnd: (DraggableDetails detail) => {
+          onDragEnd: (DraggableDetails detail) {
             setState(() {
               if (inResidentContainerEdge(detail.offset)) {
                 KitPageManager.instance.addResidentKit(key);
               }
               onDrag = false;
-            })
+            });
           },
-          onDraggableCanceled: (Velocity v, Offset offset) => {
+          onDraggableCanceled: (Velocity v, Offset offset) {
             setState(() {
               if (inResidentContainerEdge(offset)) {
                 KitPageManager.instance.addResidentKit(key);
               }
               onDrag = false;
-            })
+            });
           },
         ),
       );
@@ -271,7 +273,10 @@ class KitPageManager {
 
   static const String KIT_ALL = '全部';
   static const String KEY_KIT_PAGE_CACHE = 'key_kit_page_cache';
-  List<String> residentList = [ApmKitName.KIT_LOG, ApmKitName.KIT_CHANNEL];
+  List<String> residentList = <String>[
+    ApmKitName.KIT_LOG,
+    ApmKitName.KIT_CHANNEL
+  ];
 
   static final KitPageManager _instance = KitPageManager._privateConstructor();
 
@@ -354,22 +359,20 @@ class KitPageManager {
   }
 
   void loadCache() {
-    SharedPreferences.getInstance().then((SharedPreferences prefs) => {
-          if (prefs.getString(KitPageManager.KEY_KIT_PAGE_CACHE) != null)
-            {
-              if (prefs.getString(KitPageManager.KEY_KIT_PAGE_CACHE) == '')
-                {KitPageManager.instance.residentList = []}
-              else
-                {
-                  KitPageManager.instance.residentList = prefs
-                      .getString(KitPageManager.KEY_KIT_PAGE_CACHE)
-                      .split(',')
-                }
-            },
-          if (KitPageManager.instance.residentList.isNotEmpty)
-            {ResidentPage.tag = KitPageManager.instance.residentList.first}
-          else
-            {ResidentPage.tag = KitPageManager.KIT_ALL}
-        });
+    SharedPreferences.getInstance().then<dynamic>((SharedPreferences prefs) {
+      if (prefs.getString(KitPageManager.KEY_KIT_PAGE_CACHE) != null) {
+        if (prefs.getString(KitPageManager.KEY_KIT_PAGE_CACHE) == '') {
+          KitPageManager.instance.residentList = <String>[];
+        } else {
+          KitPageManager.instance.residentList =
+              prefs.getString(KitPageManager.KEY_KIT_PAGE_CACHE).split(',');
+        }
+      }
+      if (KitPageManager.instance.residentList.isNotEmpty) {
+        ResidentPage.tag = KitPageManager.instance.residentList.first;
+      } else {
+        ResidentPage.tag = KitPageManager.KIT_ALL;
+      }
+    });
   }
 }

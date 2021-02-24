@@ -18,9 +18,9 @@ abstract class CommonKit implements IKit {
 }
 
 class CommonKitManager {
-  CommonKitManager._privateConstructor() {}
+  CommonKitManager._privateConstructor();
 
-  Map<String, CommonKit> kitMap = {
+  Map<String, CommonKit> kitMap = <String, CommonKit>{
     CommonKitName.KIT_BASIC_INFO: BasicInfoKit(),
   };
 

@@ -28,10 +28,12 @@ mixin DoKitServicesBinding on BindingBase, ServicesBinding {
 // 扩展1.20版本新增的两个方法，解决低版本编译问题
 // 扩展的方法直接调用this.同名方法，在高版本上会调用原方法，低版本上虽然会造成递归调用，但实际不会用到这个方法
 extension _BinaryMessengerExt on BinaryMessenger {
+  // ignore: unused_element
   bool checkMessageHandler(String channel, MessageHandler handler) {
     return this.checkMessageHandler(channel, handler);
   }
 
+  // ignore: unused_element
   bool checkMockMessageHandler(String channel, MessageHandler handler) {
     return this.checkMockMessageHandler(channel, handler);
   }
@@ -75,7 +77,9 @@ class DoKitBinaryMessenger extends BinaryMessenger {
           info.endTimestamp = DateTime.now().millisecondsSinceEpoch;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
     info.methodCodec = null;
     info.messageCodec = null;
   }

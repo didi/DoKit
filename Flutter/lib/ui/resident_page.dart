@@ -56,9 +56,9 @@ class ResidentPageState extends State<ResidentPage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final width = size.width;
-    final height = size.height;
+    final Size size = MediaQuery.of(context).size;
+    final double width = size.width;
+    final double height = size.height;
     final int topMargin =
         MediaQuery.of(context).orientation == Orientation.portrait ? 100 : 0;
     if (height == 0) {
@@ -80,7 +80,7 @@ class ResidentPageState extends State<ResidentPage> {
                 child: Scaffold(
                     backgroundColor: Colors.transparent,
                     body: Stack(
-                      children: [
+                      children: <Widget>[
                         Container(
                           height: 50,
                           width: width,
@@ -107,9 +107,9 @@ class ResidentPageState extends State<ResidentPage> {
                         ),
                         Container(
                           height: 0.5,
-                          color: Color(0xffeae6ea),
+                          color: const Color(0xffeae6ea),
                           width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.only(top: 50),
+                          margin: const EdgeInsets.only(top: 50),
                         )
                       ],
                     ))),
@@ -130,7 +130,7 @@ class ResidentPageState extends State<ResidentPage> {
 
   List<Widget> buildBottomWidgets() {
     final List<Widget> list = <Widget>[];
-    KitPageManager.instance.getResidentKit().forEach((key, kit) {
+    KitPageManager.instance.getResidentKit().forEach((String key, IKit kit) {
       list.add(Expanded(
         child: GestureDetector(
           child: Container(

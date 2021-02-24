@@ -2,8 +2,7 @@ import 'package:dokit/kit/apm/vm_helper.dart';
 import 'package:dokit/kit/common/common.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:vm_service/src/vm_service.dart';
+import 'package:vm_service/vm_service.dart';
 
 class BasicInfoKit extends CommonKit {
   @override
@@ -28,7 +27,7 @@ class BasicInfoPage extends StatelessWidget {
     return SingleChildScrollView(
         child: Container(
             padding: const EdgeInsets.only(left: 16, right: 16),
-            color: const Color(0xffffff),
+            color: const Color(0x00ffffff),
             child: Column(
               children: buildAppInfo(),
             )));

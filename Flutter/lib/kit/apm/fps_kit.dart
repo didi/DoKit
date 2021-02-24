@@ -87,22 +87,23 @@ class FpsPageState extends State<FpsPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
-              height: 44,
-              child: Row(
-                children: [
-                  Container(
-                    child: Image.asset('images/dk_fps_chart.png',
-                        package: DoKit.PACKAGE_NAME, height: 16, width: 16),
-                    margin: const EdgeInsets.only(left: 22, right: 6),
-                  ),
-                  const Text('最近240帧耗时',
-                      style: TextStyle(
-                          color: Color(0xff333333),
-                          fontWeight: FontWeight.normal,
-                          fontFamily: 'PingFang SC',
-                          fontSize: 14))
-                ],
-              )),
+            height: 44,
+            child: Row(
+              children: <Widget>[
+                Container(
+                  child: Image.asset('images/dk_fps_chart.png',
+                      package: DoKit.PACKAGE_NAME, height: 16, width: 16),
+                  margin: const EdgeInsets.only(left: 22, right: 6),
+                ),
+                const Text('最近240帧耗时',
+                    style: TextStyle(
+                        color: Color(0xff333333),
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'PingFang SC',
+                        fontSize: 14))
+              ],
+            ),
+          ),
           const Divider(
             height: 0.5,
             color: Color(0xffdddddd),

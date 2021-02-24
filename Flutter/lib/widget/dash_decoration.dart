@@ -188,8 +188,12 @@ class DashedDecoration extends Decoration {
 
   @override
   DashedDecoration lerpFrom(Decoration a, double t) {
-    if (a == null) return scale(t);
-    if (a is DashedDecoration) return DashedDecoration.lerp(a, this, t);
+    if (a == null) {
+      return scale(t);
+    }
+    if (a is DashedDecoration) {
+      return DashedDecoration.lerp(a, this, t);
+    }
     return super.lerpFrom(a, t) as DashedDecoration;
   }
 
@@ -261,8 +265,12 @@ class DashedDecoration extends Decoration {
 
   @override
   bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other.runtimeType != runtimeType) return false;
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other.runtimeType != runtimeType) {
+      return false;
+    }
     return other is DashedDecoration &&
         other.color == color &&
         other.image == image &&
@@ -360,7 +368,9 @@ class _BoxDecorationPainter extends BoxPainter {
       final Paint paint = Paint();
       if (_decoration.backgroundBlendMode != null)
         paint.blendMode = _decoration.backgroundBlendMode;
-      if (_decoration.color != null) paint.color = _decoration.color;
+      if (_decoration.color != null) {
+        paint.color = _decoration.color;
+      }
       if (_decoration.gradient != null) {
         paint.shader = _decoration.gradient
             .createShader(rect, textDirection: textDirection);
@@ -394,7 +404,9 @@ class _BoxDecorationPainter extends BoxPainter {
   }
 
   void _paintShadows(Canvas canvas, Rect rect, TextDirection textDirection) {
-    if (_decoration.boxShadow == null) return;
+    if (_decoration.boxShadow == null) {
+      return;
+    }
     for (final BoxShadow boxShadow in _decoration.boxShadow) {
       final Paint paint = boxShadow.toPaint();
       final Rect bounds =
@@ -414,7 +426,9 @@ class _BoxDecorationPainter extends BoxPainter {
 
   void _paintBackgroundImage(
       Canvas canvas, Rect rect, ImageConfiguration configuration) {
-    if (_decoration.image == null) return;
+    if (_decoration.image == null) {
+      return;
+    }
     _imagePainter ??= _decoration.image.createPainter(onChanged);
     Path clipPath;
     switch (_decoration.shape) {
@@ -507,11 +521,11 @@ class _BoxDecorationPainter extends BoxPainter {
 
     final num radians = math.atan(size.height / size.width);
 
-    num dx = math.cos(radians) * gap < 0
+    final num dx = math.cos(radians) * gap < 0
         ? math.cos(radians) * gap * -1
         : math.cos(radians) * gap;
 
-    num dy = math.sin(radians) * gap < 0
+    final num dy = math.sin(radians) * gap < 0
         ? math.sin(radians) * gap * -1
         : math.sin(radians) * gap;
 

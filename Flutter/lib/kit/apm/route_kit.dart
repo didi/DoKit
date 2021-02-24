@@ -45,7 +45,7 @@ class RouteInfoPageState extends State<RouteInfoPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
       final RouteInfo route = findRoute();
       if (route != null && (route.current != null)) {
         setState(() {
@@ -112,7 +112,7 @@ class RouteInfoPageState extends State<RouteInfoPage> {
             alignment: Alignment.topLeft,
             child: RichText(
               text: TextSpan(
-                children: [
+                children: <TextSpan>[
                   const TextSpan(
                       text: '路由名称: ',
                       style: TextStyle(
@@ -167,12 +167,14 @@ class RouteInfoPageState extends State<RouteInfoPage> {
       }
       route = route.parent;
       if (route != null && route.parent != null) {
-        widgets.add(Container(
-          margin: const EdgeInsets.only(top: 10, bottom: 10),
-          alignment: Alignment.center,
-          child: Image.asset('images/dk_route_arrow.png',
-              package: DoKit.PACKAGE_NAME, height: 13, width: 12),
-        ));
+        widgets.add(
+          Container(
+            margin: const EdgeInsets.only(top: 10, bottom: 10),
+            alignment: Alignment.center,
+            child: Image.asset('images/dk_route_arrow.png',
+                package: DoKit.PACKAGE_NAME, height: 13, width: 12),
+          ),
+        );
       }
       // 过滤掉dokit自带的navigator
     } while (route != null);

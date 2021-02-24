@@ -123,6 +123,11 @@ class LogManager {
 }
 
 class LogBean implements IInfo {
+  LogBean(this.type, this.msg) {
+    timestamp = DateTime.now().millisecondsSinceEpoch;
+    expand = false;
+  }
+
   static const int TYPE_LOG = 1;
   static const int TYPE_DEBUG = 2;
   static const int TYPE_INFO = 3;
@@ -133,11 +138,6 @@ class LogBean implements IInfo {
   final String msg;
   int timestamp;
   bool expand;
-
-  LogBean(this.type, this.msg) {
-    timestamp = DateTime.now().millisecondsSinceEpoch;
-    expand = false;
-  }
 
   @override
   int getValue() {
@@ -197,10 +197,10 @@ class LogPageState extends State<LogPage> {
         ? LogManager.instance.getErrors().reversed.toList()
         : LogManager.instance.getLogs().reversed.toList();
     return Column(
-      children: [
+      children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: [
+          children: <Widget>[
             GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
@@ -327,63 +327,67 @@ class _LogItemWidgetState extends State<LogItemWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onLongPress: () {
-          Clipboard.setData(ClipboardData(text: widget.item.msg));
-          Scaffold.of(context).showSnackBar(const SnackBar(
-            duration: Duration(milliseconds: 500),
-            content: Text('已拷贝至剪贴板'),
-          ));
-        },
-        onTap: () {
-          setState(() {
-            widget.item.expand = !widget.item.expand;
-            SharedPreferences.getInstance().then((SharedPreferences prefs) => {
-                  if (!prefs.containsKey(KEY_SHOW_LOG_EXPAND_TIPS))
-                    {
-                      prefs.setBool(KEY_SHOW_LOG_EXPAND_TIPS, true),
-                      Scaffold.of(context).showSnackBar(const SnackBar(
-                        duration: Duration(milliseconds: 2000),
-                        content: Text('日志超过7行时，点击可展开日志详情'),
-                      ))
-                    }
-                });
-          });
-        },
-        child: Container(
-          padding: const EdgeInsets.only(left: 16, right: 16),
-          decoration: BoxDecoration(
-              color: widget.item.expand ? Colors.black : Colors.white,
-              border: const Border(
-                  bottom: BorderSide(width: 0.5, color: Color(0xffeeeeee)))),
-          child: Container(
-              margin: const EdgeInsets.only(top: 10, bottom: 10),
-              child: RichText(
-                maxLines: widget.item.expand ? 9999 : 7,
-                overflow: TextOverflow.ellipsis,
-                text: TextSpan(children: [
-                  TextSpan(
-                      text:
-                          '[${TimeUtils.toTimeString(widget.item.timestamp)}] ',
-                      style: TextStyle(
-                          color: widget.item.type == LogBean.TYPE_ERROR
-                              ? Colors.red
-                              : (widget.item.expand
-                                  ? Colors.white
-                                  : const Color(0xff333333)),
-                          height: 1.4,
-                          fontSize: 10)),
-                  TextSpan(
-                      text: widget.item.msg,
-                      style: TextStyle(
-                          color: widget.item.type == LogBean.TYPE_ERROR
-                              ? Colors.red
-                              : (widget.item.expand
-                                  ? Colors.white
-                                  : const Color(0xff333333)),
-                          height: 1.4,
-                          fontSize: 10))
-                ]),
-              )),
+      onLongPress: () {
+        Clipboard.setData(ClipboardData(text: widget.item.msg));
+        Scaffold.of(context).showSnackBar(const SnackBar(
+          duration: Duration(milliseconds: 500),
+          content: Text('已拷贝至剪贴板'),
         ));
+      },
+      onTap: () {
+        setState(() {
+          widget.item.expand = !widget.item.expand;
+          SharedPreferences.getInstance().then<dynamic>(
+            (SharedPreferences prefs) {
+              if (!prefs.containsKey(KEY_SHOW_LOG_EXPAND_TIPS)) {
+                prefs.setBool(KEY_SHOW_LOG_EXPAND_TIPS, true);
+                Scaffold.of(context).showSnackBar(
+                  const SnackBar(
+                    duration: Duration(milliseconds: 2000),
+                    content: Text('日志超过7行时，点击可展开日志详情'),
+                  ),
+                );
+              }
+            },
+          );
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.only(left: 16, right: 16),
+        decoration: BoxDecoration(
+            color: widget.item.expand ? Colors.black : Colors.white,
+            border: const Border(
+                bottom: BorderSide(width: 0.5, color: Color(0xffeeeeee)))),
+        child: Container(
+          margin: const EdgeInsets.only(top: 10, bottom: 10),
+          child: RichText(
+            maxLines: widget.item.expand ? 9999 : 7,
+            overflow: TextOverflow.ellipsis,
+            text: TextSpan(children: <TextSpan>[
+              TextSpan(
+                  text: '[${TimeUtils.toTimeString(widget.item.timestamp)}] ',
+                  style: TextStyle(
+                      color: widget.item.type == LogBean.TYPE_ERROR
+                          ? Colors.red
+                          : (widget.item.expand
+                              ? Colors.white
+                              : const Color(0xff333333)),
+                      height: 1.4,
+                      fontSize: 10)),
+              TextSpan(
+                  text: widget.item.msg,
+                  style: TextStyle(
+                      color: widget.item.type == LogBean.TYPE_ERROR
+                          ? Colors.red
+                          : (widget.item.expand
+                              ? Colors.white
+                              : const Color(0xff333333)),
+                      height: 1.4,
+                      fontSize: 10))
+            ]),
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -34,7 +34,7 @@ class DoKit {
   }
 
   // 初始化方法,app或者appCreator必须设置一个
-  static void runApp(
+  static Future<void> runApp(
       {DoKitApp app,
       DoKitAppCreator appCreator,
       bool useInRelease = false,
@@ -56,7 +56,7 @@ class DoKit {
       return;
     }
     runZoned(
-      () async => {
+      () async => <void>{
         _ensureDoKitBinding(useInRelease: useInRelease),
         _runWrapperApp(app ?? await appCreator()),
         _zone = Zone.current
@@ -107,7 +107,8 @@ class DoKit {
   static void dispose({@required BuildContext context}) {
     final List<OverlayEntry> initialEntries =
         doKitOverlayKey.currentState.widget.initialEntries;
-    for (final element in initialEntries) {
+    // ignore: unused_local_variable
+    for (final OverlayEntry element in initialEntries) {
       // element.remove();
     }
   }

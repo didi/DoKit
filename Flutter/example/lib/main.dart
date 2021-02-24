@@ -18,6 +18,7 @@ void main() {
       app: DoKitApp(MyApp()),
       useInRelease: true,
       logCallback: (String log) {
+        // ignore: unused_local_variable
         final String i = log;
       },
       exceptionCallback: (dynamic obj, StackTrace trace) {
@@ -151,7 +152,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                         return TestPage2();
                       },
                       settings: const RouteSettings(
-                          name: 'page1', arguments: ['test', '111']),
+                          name: 'page1', arguments: <String>['test', '111']),
                     ),
                   );
                 },
@@ -219,6 +220,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
     timer = Timer.periodic(const Duration(seconds: 2), (Timer timer) async {
       const MethodChannel _kChannel =
           MethodChannel('plugins.flutter.io/package_info');
+      // ignore: unused_local_variable
       final Map<String, dynamic> map =
           await _kChannel.invokeMapMethod<String, dynamic>('getAll');
     });
@@ -245,6 +247,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
       request.add(utf8.encode(json.encode(map1)));
       request.add(utf8.encode(json.encode(map1)));
       final HttpClientResponse response = await request.close();
+      // ignore: unused_local_variable
       final String responseBody = await response.transform(utf8.decoder).join();
     });
   }
@@ -256,6 +259,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
       const String url = 'https://www.baidu.com';
       final HttpClientRequest request = await client.postUrl(Uri.parse(url));
       final HttpClientResponse response = await request.close();
+      // ignore: unused_local_variable
       final String responseBody = await response.transform(utf8.decoder).join();
     });
   }
@@ -296,15 +300,17 @@ class TestPageState extends State<TestPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             GestureDetector(
-              onTap: () => {
+              onTap: () {
                 Navigator.of(context, rootNavigator: false).push<dynamic>(
-                    MaterialPageRoute<dynamic>(
-                        builder: (BuildContext context) {
-                          //指定跳转的页面
-                          return TestPage2();
-                        },
-                        settings: const RouteSettings(
-                            name: 'page1', arguments: ['test', '111'])))
+                  MaterialPageRoute<dynamic>(
+                    builder: (BuildContext context) {
+                      //指定跳转的页面
+                      return TestPage2();
+                    },
+                    settings: const RouteSettings(
+                        name: 'page1', arguments: <String>['test', '111']),
+                  ),
+                );
               },
               child: const Text(
                 'page1:',
@@ -368,7 +374,6 @@ class TestPageState3 extends State<TestPage3> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(),
       body: Center(
@@ -392,14 +397,16 @@ class TestPageState3 extends State<TestPage3> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             GestureDetector(
-              onTap: () => {
-                Navigator.of(context, rootNavigator: false)
-                    .push<dynamic>(MaterialPageRoute<dynamic>(
-                        builder: (BuildContext context) {
-                          //指定跳转的页面
-                          return MyApp();
-                        },
-                        settings: const RouteSettings(name: 'page3')))
+              onTap: () {
+                Navigator.of(context, rootNavigator: false).push<dynamic>(
+                  MaterialPageRoute<dynamic>(
+                    builder: (BuildContext context) {
+                      //指定跳转的页面
+                      return MyApp();
+                    },
+                    settings: const RouteSettings(name: 'page3'),
+                  ),
+                );
               },
               child: const Text(
                 'page3:',

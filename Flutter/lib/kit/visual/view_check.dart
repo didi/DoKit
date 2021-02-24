@@ -132,7 +132,7 @@ class _InfoWidgetState extends State<InfoWidget> {
             feedback: getInfoView(),
             childWhenDragging: Container(),
             onDragEnd: (DraggableDetails detail) {
-              Offset offset = detail.offset;
+              final Offset offset = detail.offset;
               setState(() {
                 top = offset.dy;
                 if (top < 0) {
@@ -144,7 +144,7 @@ class _InfoWidgetState extends State<InfoWidget> {
   }
 
   Widget getInfoView() {
-    Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
     return Container(
         width: size.width - 40,
         padding: const EdgeInsets.only(left: 10, right: 16, top: 9, bottom: 24),
@@ -161,7 +161,9 @@ class _InfoWidgetState extends State<InfoWidget> {
                 child: GestureDetector(
                   child: Image.asset('images/dokit_ic_close.png',
                       package: DoKit.PACKAGE_NAME, height: 22, width: 22),
-                  onTap: () => {ViewCheckerKit.hide(context)},
+                  onTap: () {
+                    ViewCheckerKit.hide(context);
+                  },
                 )),
             Text(ViewCheckerKit._instance.info,
                 style: const TextStyle(
@@ -175,6 +177,7 @@ class _InfoWidgetState extends State<InfoWidget> {
   }
 }
 
+// ignore: must_be_immutable
 class ViewCheckerWidget extends StatefulWidget {
   OverlayEntry owner;
   OverlayEntry debugPage;
@@ -208,8 +211,8 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
             onDragEnd: (DraggableDetails detail) {
               final Offset offset = detail.offset;
               setState(() {
-                var x = offset.dx;
-                var y = offset.dy;
+                double x = offset.dx;
+                double y = offset.dy;
                 if (x < 0) {
                   x = 0;
                 }
@@ -253,7 +256,7 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
     int column;
     if (kDebugMode) {
       WidgetInspectorService.instance.selection.current = element.renderObject;
-      String nodeDesc =
+      final String nodeDesc =
           WidgetInspectorService.instance.getSelectedSummaryWidget(null, null);
       if (nodeDesc != null) {
         final Map<String, dynamic> map =
@@ -272,10 +275,10 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
 
     final Offset offset =
         (element.renderObject as RenderBox).localToGlobal(Offset.zero);
-    String info = '控件名称: ${element.widget.toString()}\n' +
+    String info = '控件名称: ${element.widget.toString()}\n'
         '控件位置: 左${offset.dx} 上${offset.dy} 宽${element.size.width} 高${element.size.height}';
     if (fileLocation != null) {
-      info += '\n源码位置: $fileLocation' + '【行 $line 列 $column】';
+      info += '\n源码位置: $fileLocation' '【行 $line 列 $column】';
     }
     return info;
   }
@@ -283,9 +286,11 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
   RenderObjectElement resolveTree() {
     Element currentPage;
     final List<RenderObjectElement> inBounds = <RenderObjectElement>[];
-    Rect focus = Rect.fromLTWH(offsetA.dx, offsetA.dy, diameter, diameter);
+    final Rect focus =
+        Rect.fromLTWH(offsetA.dx, offsetA.dy, diameter, diameter);
     // 记录根路由，用以过滤overlay
-    final ModalRoute rootRoute = ModalRoute.of(DoKitApp.appKey.currentContext);
+    final ModalRoute<dynamic> rootRoute =
+        ModalRoute.of<dynamic>(DoKitApp.appKey.currentContext);
 
     void filter(Element element) {
       // 兼容IOS，IOS的MaterialApp会在Navigator后再插入一个PositionedDirectional控件，用以处理右滑关闭手势，遍历的时候跳过该控件
@@ -293,7 +298,7 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
       if (element.widget is! PositionedDirectional) {
         if (element is RenderObjectElement &&
             element.renderObject is RenderBox) {
-          final ModalRoute route = ModalRoute.of<ModalRoute>(element);
+          final ModalRoute<dynamic> route = ModalRoute.of<dynamic>(element);
           // overlay不包含route信息，通过ModalRoute.of会获取到当前所在materialapp在其父节点内的route,此处对overlay做过滤。只能过滤掉直接添加在根MaterialApp的overlay,
           // 并且该overlay的子widget不能包含materialApp或navigator
           if (route != null && route != rootRoute) {
@@ -316,9 +321,8 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
 
     DoKitApp.appKey.currentContext.visitChildElements(filter);
     RenderObjectElement topElement;
-    final ModalRoute<dynamic> route = currentPage != null
-        ? ModalRoute.of<ModalRoute<dynamic>>(currentPage)
-        : null;
+    final ModalRoute<dynamic> route =
+        currentPage != null ? ModalRoute.of<dynamic>(currentPage) : null;
     for (final RenderObjectElement element in inBounds) {
       if ((route == null || ModalRoute.of(element) == route) &&
           checkSelected(topElement, element)) {

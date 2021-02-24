@@ -11,7 +11,7 @@ import 'package:vm_service/vm_service.dart';
 import 'package:vm_service/vm_service_io.dart';
 
 class VmHelper {
-  VmHelper._privateConstructor() {}
+  VmHelper._privateConstructor();
 
   static final VmHelper _instance = VmHelper._privateConstructor();
 
@@ -63,7 +63,7 @@ class VmHelper {
   Future<void> loadExtensionService() async {
     final String serviceStreamName = await this.serviceStreamName;
     serviceClient.onEvent(serviceStreamName).listen(handleServiceEvent);
-    final List<String> streamIds = [
+    final List<String> streamIds = <String>[
       EventStreams.kDebug,
       EventStreams.kExtension,
       EventStreams.kGC,
@@ -146,7 +146,7 @@ class VmHelper {
     if (e.kind == EventKind.kServiceRegistered) {
       final String serviceName = e.service;
       _registeredMethodsForService
-          .putIfAbsent(serviceName, () => [])
+          .putIfAbsent(serviceName, () => <String>[])
           .add(e.method);
       if (_flutterVersion == '' && serviceName == 'flutterVersion') {
         resolveFlutterVersion();

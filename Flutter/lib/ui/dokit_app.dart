@@ -49,7 +49,7 @@ class _DoKitAppState extends State<DoKitApp> {
   void initState() {
     super.initState();
     entries.clear();
-    entries.add(OverlayEntry(builder: (context) {
+    entries.add(OverlayEntry(builder: (BuildContext context) {
       return widget.origin;
     }));
   }

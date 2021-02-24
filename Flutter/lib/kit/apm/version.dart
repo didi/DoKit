@@ -50,7 +50,7 @@ class FlutterVersion extends SemanticVersion {
 
   final String dartSdkVersion;
 
-  String get flutterVersionSummary => [
+  String get flutterVersionSummary => <String>[
         if (version != 'unknown') version,
         'channel $channel',
         repositoryUrl ?? 'unknown source',

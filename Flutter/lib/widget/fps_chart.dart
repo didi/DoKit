@@ -38,7 +38,7 @@ class BarChartPainter extends CustomPainter {
   void _drawLabels(Canvas canvas, Size size) {
     const double labelFontSize = 10;
     final double sh = size.height;
-    final List<double> yAxisLabels = [];
+    final List<double> yAxisLabels = <double>[];
 
     yAxisLabels.add(16);
     yAxisLabels.add(32);
@@ -49,6 +49,7 @@ class BarChartPainter extends CustomPainter {
       (int index, double label) {
         // 标识的高度为画布高度减去标识的值
         final double top = sh - label * 2.5;
+        // ignore: unused_local_variable
         final Rect rect = Rect.fromLTWH(0, top, 4, 1);
         final Offset textOffset = Offset(
           0 - (label.toInt().toString().length == 3 ? 24 : 20).toDouble(),
@@ -96,7 +97,8 @@ class BarChartPainter extends CustomPainter {
       final double left = marginLeft + i * _barWidth + (i * _barGap) + _barGap;
 
       // 使用 Rect.fromLTWH 方法创建要绘制的矩形
-      final rect = Rect.fromLTWH(left, top, _barWidth, value * 2.5.toDouble());
+      final Rect rect =
+          Rect.fromLTWH(left, top, _barWidth, value * 2.5.toDouble());
       // 使用 drawRect 方法绘制矩形
       canvas.drawRect(rect, paint);
     }
@@ -135,7 +137,7 @@ class _FpsBarChartState extends State<FpsBarChart>
             : MediaQuery.of(context).size.height - 200;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: <Widget>[
         Container(
           margin: const EdgeInsets.only(top: 40, left: 24),
           child: CustomPaint(

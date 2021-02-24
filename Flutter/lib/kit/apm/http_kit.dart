@@ -7,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../../dokit.dart';
 import 'apm.dart';
@@ -173,17 +172,17 @@ class HttpPageState extends State<HttpPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<IInfo> items = ApmKitManager.instance
+    final List<IInfo> items = ApmKitManager.instance
         .getKit<HttpKit>(ApmKitName.KIT_HTTP)
         .getStorage()
         .getAll()
         .reversed
         .toList();
     return Column(
-      children: [
+      children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Container(
               decoration: BoxDecoration(
                 border: Border.all(color: const Color(0xff337cc4), width: 1),
@@ -304,7 +303,7 @@ class _HttpItemWidgetState extends State<HttpItemWidget> {
                 maxLines: widget.item.expand ? 9999 : 7,
                 overflow: TextOverflow.ellipsis,
                 text: TextSpan(
-                  children: [
+                  children: <InlineSpan>[
                     TextSpan(
                         text:
                             '[${TimeUtils.toTimeString(widget.item.startTimestamp)}]',

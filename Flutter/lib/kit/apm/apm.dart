@@ -13,7 +13,7 @@ import 'http_kit.dart';
 class ApmKitManager {
   ApmKitManager._privateConstructor();
 
-  Map<String, ApmKit> kitMap = {
+  Map<String, ApmKit> kitMap = <String, ApmKit>{
     ApmKitName.KIT_LOG: LogKit(),
     ApmKitName.KIT_CHANNEL: MethodChannelKit(),
     ApmKitName.KIT_ROUTE: RouteKit(),

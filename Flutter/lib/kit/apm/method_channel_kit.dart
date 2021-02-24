@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../../dokit.dart';
 import 'apm.dart';
@@ -49,7 +48,6 @@ class ChannelInfo implements IInfo {
         'method:$method\n' +
         'arguments:$arguments\n' +
         'results:$results';
-    ;
   }
 }
 
@@ -335,7 +333,7 @@ class _ChannelItemWidgetState extends State<ChannelItemWidget> {
                 child: RichText(
                     maxLines: widget.item.expand ? 9999 : 7,
                     overflow: TextOverflow.ellipsis,
-                    text: TextSpan(children: [
+                    text: TextSpan(children: <InlineSpan>[
                       TextSpan(
                           text:
                               '[${TimeUtils.toTimeString(widget.item.startTimestamp)}]',
