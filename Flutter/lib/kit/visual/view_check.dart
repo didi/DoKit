@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:dokit/dokit.dart';
 import 'package:dokit/kit/visual/visual.dart';
 import 'package:dokit/ui/dokit_app.dart';
@@ -5,41 +8,39 @@ import 'package:dokit/ui/dokit_btn.dart';
 import 'package:dokit/widget/dash_decoration.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
-import 'dart:convert';
 
 class ViewCheckerKit extends VisualKit {
-  bool hasShow;
-  OverlayEntry focusEntry;
-  OverlayEntry rectEntry;
-  OverlayEntry infoEntry;
-
-  Rect area = Rect.fromLTWH(0, 0, 0, 0);
-  String info = '移动屏幕中心焦点聚焦控件，查看控件信息';
-
   ViewCheckerKit._privateConstructor() {
-    ViewCheckerWidget widget = ViewCheckerWidget();
+    final ViewCheckerWidget widget = ViewCheckerWidget();
 
-    focusEntry = new OverlayEntry(builder: (context) {
+    focusEntry = OverlayEntry(builder: (BuildContext context) {
       return widget;
     });
 
-    rectEntry = new OverlayEntry(builder: (context) {
+    rectEntry = OverlayEntry(builder: (BuildContext context) {
       return Positioned(
         left: area.left,
         top: area.top,
         child: RectWidget(),
       );
     });
-    infoEntry = new OverlayEntry(builder: (context) {
+    infoEntry = OverlayEntry(builder: (BuildContext context) {
       return InfoWidget();
     });
     hasShow = false;
   }
 
+  bool hasShow;
+  OverlayEntry focusEntry;
+  OverlayEntry rectEntry;
+  OverlayEntry infoEntry;
+
+  Rect area = const Rect.fromLTWH(0, 0, 0, 0);
+  String info = '移动屏幕中心焦点聚焦控件，查看控件信息';
+
   static final ViewCheckerKit _instance = ViewCheckerKit._privateConstructor();
 
-  static get instance => _instance;
+  static ViewCheckerKit get instance => _instance;
 
   static void show(BuildContext context, OverlayEntry entrance) {
     _instance._show(context, entrance);
@@ -67,7 +68,7 @@ class ViewCheckerKit extends VisualKit {
     focusEntry.remove();
     rectEntry.remove();
     infoEntry.remove();
-    area = Rect.fromLTWH(0, 0, 0, 0);
+    area = const Rect.fromLTWH(0, 0, 0, 0);
     info = '移动屏幕中心焦点聚焦控件，查看控件信息';
     return true;
   }
@@ -84,7 +85,7 @@ class ViewCheckerKit extends VisualKit {
 
   @override
   void tabAction() {
-    DoKitBtnState state = DoKitBtn.doKitBtnKey.currentState;
+    final DoKitBtnState state = DoKitBtn.doKitBtnKey.currentState;
     state.closeDebugPage();
     show(DoKitBtn.doKitBtnKey.currentContext, state.owner);
   }
@@ -103,10 +104,10 @@ class _RectWidgetState extends State<RectWidget> {
     return Container(
         width: ViewCheckerKit._instance.area.width,
         height: ViewCheckerKit._instance.area.height,
-        decoration: DashedDecoration(
+        decoration: const DashedDecoration(
             dashedColor: Color(0xffCC3000),
             color: Color(0x183ca0e6),
-            borderRadius: const BorderRadius.all(Radius.circular(1))));
+            borderRadius: BorderRadius.all(Radius.circular(1))));
   }
 }
 
@@ -122,18 +123,16 @@ class _InfoWidgetState extends State<InfoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (top == null) {
-      top = MediaQuery.of(context).size.height - 250;
-    }
+    top ??= MediaQuery.of(context).size.height - 250;
     return Positioned(
         left: 20,
         top: top,
-        child: Draggable(
+        child: Draggable<dynamic>(
             child: getInfoView(),
             feedback: getInfoView(),
             childWhenDragging: Container(),
             onDragEnd: (DraggableDetails detail) {
-              Offset offset = detail.offset;
+              final Offset offset = detail.offset;
               setState(() {
                 top = offset.dy;
                 if (top < 0) {
@@ -145,13 +144,13 @@ class _InfoWidgetState extends State<InfoWidget> {
   }
 
   Widget getInfoView() {
-    Size size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
     return Container(
         width: size.width - 40,
-        padding: EdgeInsets.only(left: 10, right: 16, top: 9, bottom: 24),
+        padding: const EdgeInsets.only(left: 10, right: 16, top: 9, bottom: 24),
         decoration: BoxDecoration(
-            border: Border.all(color: Color(0xffeeeeee), width: 0.5),
-            borderRadius: BorderRadius.all(Radius.circular(4)),
+            border: Border.all(color: const Color(0xffeeeeee), width: 0.5),
+            borderRadius: const BorderRadius.all(Radius.circular(4)),
             color: Colors.white),
         alignment: Alignment.centerLeft,
         child: Column(
@@ -162,10 +161,12 @@ class _InfoWidgetState extends State<InfoWidget> {
                 child: GestureDetector(
                   child: Image.asset('images/dokit_ic_close.png',
                       package: DoKit.PACKAGE_NAME, height: 22, width: 22),
-                  onTap: () => {ViewCheckerKit.hide(context)},
+                  onTap: () {
+                    ViewCheckerKit.hide(context);
+                  },
                 )),
             Text(ViewCheckerKit._instance.info,
-                style: TextStyle(
+                style: const TextStyle(
                     color: Color(0xff333333),
                     fontFamily: 'PingFang SC',
                     fontWeight: FontWeight.normal,
@@ -176,6 +177,7 @@ class _InfoWidgetState extends State<InfoWidget> {
   }
 }
 
+// ignore: must_be_immutable
 class ViewCheckerWidget extends StatefulWidget {
   OverlayEntry owner;
   OverlayEntry debugPage;
@@ -191,26 +193,26 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final width = size.width;
-    final height = size.height;
+    final Size size = MediaQuery.of(context).size;
+    final double width = size.width;
+    final double height = size.height;
     if (offsetA == null) {
-      var x = (width - diameter) / 2;
-      var y = (height - diameter) / 2;
+      final double x = (width - diameter) / 2;
+      final double y = (height - diameter) / 2;
       offsetA = Offset(x, y);
     }
     return Positioned(
         left: offsetA.dx,
         top: offsetA.dy,
-        child: Draggable(
+        child: Draggable<dynamic>(
             child: FocusWidget(diameter),
             feedback: FocusWidget(diameter),
             childWhenDragging: Container(),
             onDragEnd: (DraggableDetails detail) {
-              Offset offset = detail.offset;
+              final Offset offset = detail.offset;
               setState(() {
-                var x = offset.dx;
-                var y = offset.dy;
+                double x = offset.dx;
+                double y = offset.dy;
                 if (x < 0) {
                   x = 0;
                 }
@@ -236,15 +238,15 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
   // 3.遍历上面记录的控件，获取控件所在路由信息和当前页面路由一致的控件，再计算(焦点悬浮窗和在控件重叠区)/(组件面积)，占比更高者作为当前聚焦组件
   // 4.debug模式下，将聚焦控件设置为选中控件，可以获取到源码信息
   void findFocusView() {
-    RenderObjectElement element = resolveTree();
+    final RenderObjectElement element = resolveTree();
     if (element != null) {
-      Offset offset =
+      final Offset offset =
           (element.renderObject as RenderBox).localToGlobal(Offset.zero);
       ViewCheckerKit._instance.area = Rect.fromLTWH(
           offset.dx, offset.dy, element.size.width, element.size.height);
       ViewCheckerKit._instance.info = toInfoString(element);
     } else {
-      ViewCheckerKit._instance.area = Rect.fromLTWH(0, 0, 0, 0);
+      ViewCheckerKit._instance.area = const Rect.fromLTWH(0, 0, 0, 0);
     }
   }
 
@@ -253,29 +255,30 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
     int line;
     int column;
     if (kDebugMode) {
-      WidgetInspectorService.instance.selection.current =
-          (element.renderObject);
-      String nodeDesc =
+      WidgetInspectorService.instance.selection.current = element.renderObject;
+      final String nodeDesc =
           WidgetInspectorService.instance.getSelectedSummaryWidget(null, null);
       if (nodeDesc != null) {
-        Map<String, dynamic> map = json.decode(nodeDesc);
+        final Map<String, dynamic> map =
+            json.decode(nodeDesc) as Map<String, dynamic>;
         if (map != null) {
-          Map<String, dynamic> location = map['creationLocation'];
+          final Map<String, dynamic> location =
+              map['creationLocation'] as Map<String, dynamic>;
           if (location != null) {
-            fileLocation = location['file'];
-            line = location['line'];
-            column = location['column'];
+            fileLocation = location['file'] as String;
+            line = location['line'] as int;
+            column = location['column'] as int;
           }
         }
       }
     }
 
-    Offset offset =
+    final Offset offset =
         (element.renderObject as RenderBox).localToGlobal(Offset.zero);
-    String info = '控件名称: ${element.widget.toString()}\n' +
+    String info = '控件名称: ${element.widget.toString()}\n'
         '控件位置: 左${offset.dx} 上${offset.dy} 宽${element.size.width} 高${element.size.height}';
     if (fileLocation != null) {
-      info += '\n源码位置: ${fileLocation}' + '【行 ${line} 列 $column】';
+      info += '\n源码位置: $fileLocation' '【行 $line 列 $column】';
     }
     // print(element.debugGetDiagnosticChain());
     return info;
@@ -283,24 +286,27 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
 
   RenderObjectElement resolveTree() {
     Element currentPage;
-    List<RenderObjectElement> inBounds = new List();
-    Rect focus = Rect.fromLTWH(offsetA.dx, offsetA.dy, diameter, diameter);
+    final List<RenderObjectElement> inBounds = <RenderObjectElement>[];
+    final Rect focus =
+        Rect.fromLTWH(offsetA.dx, offsetA.dy, diameter, diameter);
     // 记录根路由，用以过滤overlay
-    ModalRoute rootRoute = ModalRoute.of(DoKitApp.appKey.currentContext);
+    final ModalRoute<dynamic> rootRoute =
+        ModalRoute.of<dynamic>(DoKitApp.appKey.currentContext);
 
     void filter(Element element) {
       // 兼容IOS，IOS的MaterialApp会在Navigator后再插入一个PositionedDirectional控件，用以处理右滑关闭手势，遍历的时候跳过该控件
-      if (!(element.widget is PositionedDirectional)) {
+      // ignore:
+      if (element.widget is! PositionedDirectional) {
         if (element is RenderObjectElement &&
             element.renderObject is RenderBox) {
-          ModalRoute route = ModalRoute.of(element);
+          final ModalRoute<dynamic> route = ModalRoute.of<dynamic>(element);
           // overlay不包含route信息，通过ModalRoute.of会获取到当前所在materialapp在其父节点内的route,此处对overlay做过滤。只能过滤掉直接添加在根MaterialApp的overlay,
           // 并且该overlay的子widget不能包含materialApp或navigator
           if (route != null && route != rootRoute) {
             currentPage = element;
-            RenderBox renderBox = element.renderObject;
+            final RenderBox renderBox = element.renderObject as RenderBox;
             if (renderBox.hasSize && renderBox.attached) {
-              Offset offset = renderBox.localToGlobal(Offset.zero);
+              final Offset offset = renderBox.localToGlobal(Offset.zero);
               if (isOverlap(
                   focus,
                   Rect.fromLTWH(offset.dx, offset.dy, element.size.width,
@@ -316,13 +322,14 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
 
     DoKitApp.appKey.currentContext.visitChildElements(filter);
     RenderObjectElement topElement;
-    ModalRoute route = currentPage != null ? ModalRoute.of(currentPage) : null;
-    inBounds.forEach((element) {
+    final ModalRoute<dynamic> route =
+        currentPage != null ? ModalRoute.of<dynamic>(currentPage) : null;
+    for (final RenderObjectElement element in inBounds) {
       if ((route == null || ModalRoute.of(element) == route) &&
           checkSelected(topElement, element)) {
         topElement = element;
       }
-    });
+    }
     return topElement;
   }
 
@@ -336,56 +343,59 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
   }
 
   double getOverlayPercent(RenderObjectElement element) {
-    double size = element.size.width * element.size.height;
-    Offset offset =
+    final double size = element.size.width * element.size.height;
+    final Offset offset =
         (element.renderObject as RenderBox).localToGlobal(Offset.zero);
-    Rect rect = Rect.fromLTWH(
+    final Rect rect = Rect.fromLTWH(
         offset.dx, offset.dy, element.size.width, element.size.height);
-    double xc1 = max(rect.left, offsetA.dx);
-    double yc1 = max(rect.top, offsetA.dy);
-    double xc2 = min(rect.right, offsetA.dx + diameter);
-    double yc2 = min(rect.bottom, offsetA.dy + diameter);
+    final double xc1 = max(rect.left, offsetA.dx);
+    final double yc1 = max(rect.top, offsetA.dy);
+    final double xc2 = min(rect.right, offsetA.dx + diameter);
+    final double yc2 = min(rect.bottom, offsetA.dy + diameter);
     return ((xc2 - xc1) * (yc2 - yc1)) / size;
   }
 
   bool isOverlap(Rect rc1, Rect rc2) {
-    return (rc1.left + rc1.width > rc2.left &&
+    return rc1.left + rc1.width > rc2.left &&
         rc2.left + rc2.width > rc1.left &&
         rc1.top + rc1.height > rc2.top &&
-        rc2.top + rc2.height > rc1.top);
+        rc2.top + rc2.height > rc1.top;
   }
 }
 
 class FocusWidget extends StatelessWidget {
-  final double diameter;
-
   const FocusWidget(this.diameter, {Key key}) : super(key: key);
+
+  final double diameter;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: diameter,
-        height: diameter,
-        decoration: new BoxDecoration(
+      width: diameter,
+      height: diameter,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: const Color(0xff337CC4), width: 1),
+        color: const Color(0x00000000),
+      ),
+      alignment: Alignment.center,
+      child: Container(
+        width: diameter * 1 / 3,
+        height: diameter * 1 / 3,
+        decoration: const BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(color: Color(0xff337CC4), width: 1),
-          color: Color(0x00000000),
+          color: Color(0x30CC3A4B),
         ),
         alignment: Alignment.center,
         child: Container(
-            width: diameter * 1 / 3,
-            height: diameter * 1 / 3,
-            decoration: new BoxDecoration(
-              shape: BoxShape.circle,
-              color: Color(0x30CC3A4B),
-            ),
-            alignment: Alignment.center,
-            child: Container(
-                width: diameter * 1 / 6,
-                height: diameter * 1 / 6,
-                decoration: new BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xffCC3A4B),
-                ))));
+          width: diameter * 1 / 6,
+          height: diameter * 1 / 6,
+          decoration: const BoxDecoration(
+            shape: BoxShape.circle,
+            color: Color(0xffCC3A4B),
+          ),
+        ),
+      ),
+    );
   }
 }

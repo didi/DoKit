@@ -36,10 +36,23 @@
     id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
     if ([NSJSONSerialization isValidJSONObject:jsonObject]){
         jsonObj = jsonObject;
+    }else{
+        NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if (!str) return jsonObj;
+        NSArray *componentsArray =  [str componentsSeparatedByString:@"&"];
+        NSMutableDictionary *dic = @{}.mutableCopy;
+        [componentsArray enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSArray *keyValues =  [obj componentsSeparatedByString:@"="];
+            if (keyValues.count == 2) {
+                [dic setValue:keyValues.lastObject forKey:keyValues.firstObject];
+            }
+        }];
+        if (dic.allKeys.count > 0) {
+            jsonObj = dic.copy;
+        }
     }
     return jsonObj;
 }
-
 + (void)requestLength:(NSURLRequest *)request callBack:(void (^)(NSUInteger))callBack {
     NSUInteger headersLength = [self getHeadersLengthWithRequest:request];
     [[DoraemonNetFlowManager shareInstance] httpBodyFromRequest:request bodyCallBack:^(NSData *body) {
