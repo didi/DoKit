@@ -3,7 +3,7 @@ import 'package:date_format/date_format.dart';
 class TimeUtils {
   static String toTimeString(int time) {
     return formatDate(DateTime.fromMillisecondsSinceEpoch(time),
-        <String>[HH, ':', nn, ':', ss, '.', nn]);
+        <String>[HH, ":", nn, ":", ss, ".", S]);
   }
 }
 
