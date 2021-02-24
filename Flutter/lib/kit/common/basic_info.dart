@@ -1,8 +1,10 @@
-import 'package:dokit/kit/apm/vm_helper.dart';
+import 'package:dokit/kit/apm/vm/vm_helper.dart';
+import 'package:dokit/kit/apm/vm/vm_service_wrapper.dart';
 import 'package:dokit/kit/common/common.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:vm_service/vm_service.dart';
 
 class BasicInfoKit extends CommonKit {
   @override
@@ -46,19 +48,7 @@ class BasicInfoPage extends StatelessWidget {
     list.add(Divider(height: 0.5, color: Color(0xffeeeeee)));
     list.add(InfoItem('Flutter版本', VmHelper.instance.flutterVersion));
     list.add(Divider(height: 0.5, color: Color(0xffeeeeee)));
-    String isolate;
-    int index = 1;
-    VmHelper.instance.vm?.isolates?.forEach((element) {
-      if (isolate == null) {
-        isolate = '[isolate$index]: ${element.name} ${element.type}\n';
-      } else {
-        isolate += '[isolate$index]: ${element.name} ${element.type}\n';
-      }
-    });
-    if (isolate != null && isolate.length > 1) {
-      isolate = isolate.substring(0, isolate.length - 1);
-    }
-    list.add(InfoItem('Isolates', isolate));
+    list.add(IsolateItem());
     list.add(Divider(height: 0.5, color: Color(0xffeeeeee)));
 
     list.add(Container(
@@ -75,6 +65,45 @@ class BasicInfoPage extends StatelessWidget {
             : '${VmHelper.instance.packageInfo?.version}+${VmHelper.instance.packageInfo?.buildNumber}'));
     list.add(Divider(height: 0.5, color: Color(0xffeeeeee)));
     return list;
+  }
+}
+
+class IsolateItem extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _IsolateItemState();
+  }
+}
+
+class _IsolateItemState extends State<IsolateItem> {
+  VM vm;
+
+  @override
+  void initState() {
+    super.initState();
+
+    VMServiceWrapper.instance.service.getVM().then((value) => setState(() {
+          vm = value;
+        }));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    String isolate;
+    int index = 1;
+    vm?.isolates?.forEach((element) {
+      if (isolate == null) {
+        isolate = '[isolate$index]: ${element.name} ${element.type}\n';
+      } else {
+        isolate += '[isolate$index]: ${element.name} ${element.type}\n';
+      }
+      index++;
+    });
+    if (isolate != null && isolate.length > 1) {
+      isolate = isolate.substring(0, isolate.length - 1);
+    }
+    isolate ??= '-';
+    return InfoItem('Isolates', isolate);
   }
 }
 

@@ -8,13 +8,15 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:dokit/kit/apm/leak/leak_observer.dart';
 import 'package:flutter/material.dart';
 import 'package:dokit/dokit.dart';
 import 'package:flutter/services.dart';
+import 'package:memory_checker/leak_observer.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:dokit/kit/apm/vm/vm_helper.dart';
 
 void main() {
   List<String> blackList = [
@@ -58,6 +60,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      navigatorObservers: [LeakObserver(), DoKitLeakObserver()],
       home: DoKitTestPage(),
     );
   }
@@ -176,6 +179,22 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                           },
                           settings: new RouteSettings(
                               name: 'page1', arguments: ['test', '111'])));
+                },
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  color: Color(0xffcccccc)),
+              margin: EdgeInsets.only(bottom: 30),
+              child: FlatButton(
+                child: Text('Test Isolate',
+                    style: TextStyle(
+                      color: Color(0xff000000),
+                      fontSize: 18,
+                    )),
+                onPressed: () {
+                  VmHelper.instance.testIsolate();
                 },
               ),
             ),
@@ -347,7 +366,53 @@ class TestPageState extends State<TestPage> {
   }
 }
 
+class A {
+  dynamic a;
+
+  A(this.a);
+
+  aa() {}
+}
+
+class B {
+  dynamic b;
+
+  B(this.b);
+
+  bb() {}
+}
+
+class C {
+  dynamic c;
+
+  C(this.c);
+
+  cc() {}
+}
+
+class D {
+  dynamic d;
+
+  D(this.d);
+
+  dd() {}
+}
+
 class TestPage2 extends StatefulWidget {
+  @override
+  StatefulElement createElement() {
+    // TODO: implement createElement
+    StatefulElement element = super.createElement();
+    // DoKitLeakObserver.element = element;
+    // DoKitLeakObserver.test = A(B(C(D(element))));
+
+    // Future.delayed(Duration(hours: 1), () {
+    //   print(element);
+    // });
+    return element;
+    // return super.createElement();
+  }
+
   @override
   State<StatefulWidget> createState() {
     return TestPageState2();

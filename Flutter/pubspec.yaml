@@ -15,6 +15,7 @@ dependencies:
   vm_service: ^5.5.0
   package_info: ^0.4.3+2
   shared_preferences: ^0.5.12+4
+  isolate: ^2.0.3
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:dokit/kit/apm/vm/vm_service_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dokit/util/util.dart';
@@ -9,7 +10,7 @@ import 'package:vm_service/vm_service.dart';
 import '../../dokit.dart';
 import '../kit.dart';
 import 'apm.dart';
-import 'vm_helper.dart';
+import 'vm/vm_helper.dart';
 
 class MemoryInfo implements IInfo {
   int fps;
@@ -36,14 +37,16 @@ class MemoryKit extends ApmKit {
 
   @override
   void start() async {
+    VMServiceWrapper.instance.connect();
     VmHelper vmHelper = VmHelper.instance;
-    await vmHelper.startConnect();
-    vmHelper.updateMemoryUsage();
+    VMServiceWrapper.instance
+        .connect()
+        .then((value) => vmHelper.resolveVMInfo());
   }
 
   void update() {
-    VmHelper.instance.dumpAllocationProfile();
-    VmHelper.instance.resolveFlutterVersion();
+    VmHelper.instance.updateAllocationProfile();
+    VmHelper.instance.updateFlutterVersion();
     VmHelper.instance.updateMemoryUsage();
   }
 
@@ -53,7 +56,7 @@ class MemoryKit extends ApmKit {
 
   @override
   void stop() {
-    VmHelper.instance.disConnect();
+    VMServiceWrapper.instance.disConnect();
   }
 
   @override
@@ -118,7 +121,7 @@ class MemoryPageState extends State<MemoryPage> {
                               fontSize: 16)),
                       StreamBuilder(
                         stream: Stream.periodic(Duration(seconds: 2), (value) {
-                          VmHelper.instance.dumpAllocationProfile();
+                          VmHelper.instance.updateAllocationProfile();
                           VmHelper.instance.updateMemoryUsage();
                         }),
                         builder: (context, snapshot) {

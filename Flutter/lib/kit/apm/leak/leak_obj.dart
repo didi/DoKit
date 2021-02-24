@@ -1,4 +1,4 @@
-import 'package:dokit/kit/apm/vm_helper.dart';
+import 'package:dokit/kit/apm/vm/vm_service_wrapper.dart';
 import 'package:vm_service/vm_service.dart';
 
 int _key = 0;
@@ -17,12 +17,12 @@ dynamic keyToObj(String key) {
 
 /// 对象转 id
 Future<String> obj2Id(dynamic obj) async {
-  VmService service = VmHelper.instance.serviceClient;
-  String isolateId = VmHelper.instance.main.id;
+  VmService service = VMServiceWrapper.instance.service;
+  String isolateId = VMServiceWrapper.instance.main.id;
   Isolate isolate = await service.getIsolate(isolateId);
   String libraryId = isolate.libraries
       .firstWhere(
-          (element) => element.uri.contains('dokit/engine/leak_obj.dart'))
+          (element) => element.uri.contains('dokit/kit/apm/leak/leak_obj.dart'))
       .id;
 
   // 用 vm service 执行 generateNewKey 函数
