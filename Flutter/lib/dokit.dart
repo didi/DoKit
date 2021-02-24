@@ -5,7 +5,6 @@ import 'package:dokit/ui/dokit_btn.dart';
 import 'package:dokit/ui/dokit_app.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'dart:core';
 import 'package:flutter/widgets.dart' as dart;
 import 'package:dokit/kit/kit_page.dart';
@@ -38,6 +37,7 @@ class DoKit {
       bool useInRelease = false,
       LogCallback logCallback,
       ExceptionCallback exceptionCallback,
+      List<String> methodChannelBlackList=const [],
       Function releaseAction}) async {
     assert(
         app != null || appCreator != null, 'app and appCreator are both null');
@@ -53,6 +53,7 @@ class DoKit {
       }
       return;
     }
+    blackList = methodChannelBlackList;
     runZoned(
       () async => {
         _ensureDoKitBinding(useInRelease: useInRelease),
