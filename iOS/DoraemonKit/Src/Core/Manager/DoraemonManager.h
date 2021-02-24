@@ -113,11 +113,16 @@ typedef NS_ENUM(NSUInteger, DoraemonManagerPluginType) {
 
 @property (nonatomic, copy) NSString *pId; //产品id 平台端的工具必须填写
 
+@property (nonatomic, copy) NSString *mockDomain; //产品mockDomain 非必填 默认mock.dokit.cn
+
 @property (nonatomic, assign) BOOL autoDock; //dokit entry icon support autoDock，deffault yes
 
 - (void)install;
-//带有平台端功能的s初始化方式
+// 带有平台端功能的s初始化方式
 - (void)installWithPid:(NSString *)pId;
+
+// 自定义平台mockDomain初始化方式
+- (void)installWithMockDomain:(NSString *)mockDomain;
 
 // 定制起始位置 | 适用正好挡住关键位置
 - (void)installWithStartingPosition:(CGPoint) position;

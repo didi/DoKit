@@ -40,6 +40,7 @@ class DoKit {
       bool useInRelease = false,
       LogCallback logCallback,
       ExceptionCallback exceptionCallback,
+      List<String> methodChannelBlackList = const <String>[],
       Function releaseAction}) async {
     assert(
         app != null || appCreator != null, 'app and appCreator are both null');
@@ -55,6 +56,7 @@ class DoKit {
       }
       return;
     }
+    blackList = methodChannelBlackList;
     runZoned(
       () async => <void>{
         _ensureDoKitBinding(useInRelease: useInRelease),

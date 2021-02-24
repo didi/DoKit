@@ -8,6 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+List<String> blackList = <String>[];
+
 class DoKitWidgetsFlutterBinding extends WidgetsFlutterBinding
     with DoKitServicesBinding {
   static WidgetsBinding ensureInitialized() {
@@ -49,6 +51,9 @@ class DoKitBinaryMessenger extends BinaryMessenger {
   Future<void> handlePlatformMessage(
       String channel, ByteData data, PlatformMessageResponseCallback callback) {
     final ChannelInfo info = saveMessage(channel, data, false);
+    if (info == null) {
+      return origin.handlePlatformMessage(channel, data, callback);
+    }
     final PlatformMessageResponseCallback wrapper = (ByteData data) {
       resolveResult(info, data);
       callback(data);
@@ -59,6 +64,9 @@ class DoKitBinaryMessenger extends BinaryMessenger {
   @override
   Future<ByteData> send(String channel, ByteData message) async {
     final ChannelInfo info = saveMessage(channel, message, true);
+    if (info == null) {
+      return origin.send(channel, message);
+    }
     final ByteData result = await origin.send(channel, message);
     resolveResult(info, result);
     return result;
@@ -88,6 +96,9 @@ class DoKitBinaryMessenger extends BinaryMessenger {
     final MethodChannelKit kit =
         ApmKitManager.instance.getKit<MethodChannelKit>(ApmKitName.KIT_CHANNEL);
     if (kit == null) {
+      return null;
+    }
+    if (blackList != null && blackList.contains(name)) {
       return null;
     }
     ChannelInfo info;

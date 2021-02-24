@@ -18,34 +18,21 @@ class ResidentPage extends StatefulWidget {
 
 class ResidentPageState extends State<ResidentPage> {
   Widget getPage() {
-    if (ResidentPage.tag == KitPageManager.KIT_ALL) {
-      return KitPage();
-    }
-    if (ApmKitManager.instance.getKit(ResidentPage.tag) != null) {
-      return ApmKitManager.instance
-          .getKit(ResidentPage.tag)
-          .createDisplayPage();
-    }
-    if (CommonKitManager.instance.getKit(ResidentPage.tag) != null) {
-      return CommonKitManager.instance
-          .getKit(ResidentPage.tag)
-          .createDisplayPage();
-    }
-    return Container(
-      alignment: Alignment.center,
-      child: const Text('无数据',
-          style: TextStyle(color: Color(0xff999999), fontSize: 20)),
-    );
+    Widget page;
+    page ??=
+        ApmKitManager.instance.getKit(ResidentPage.tag)?.createDisplayPage();
+    page ??=
+        CommonKitManager.instance.getKit(ResidentPage.tag)?.createDisplayPage();
+    page ??= KitPage();
+    return page;
   }
 
   String getTitle() {
-    if (ApmKitManager.instance.getKit(ResidentPage.tag) != null) {
-      return ApmKitManager.instance.getKit(ResidentPage.tag).getKitName();
-    }
-    if (CommonKitManager.instance.getKit(ResidentPage.tag) != null) {
-      return CommonKitManager.instance.getKit(ResidentPage.tag).getKitName();
-    }
-    return 'DoKit';
+    String title;
+    title ??= ApmKitManager.instance.getKit(ResidentPage.tag)?.getKitName();
+    title ??= CommonKitManager.instance.getKit(ResidentPage.tag)?.getKitName();
+    title ??= 'DoKit';
+    return title;
   }
 
   void _tapListener(String current) {
