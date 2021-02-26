@@ -1,6 +1,5 @@
 // 视觉功能
 import 'package:dokit/kit/apm/apm.dart';
-import 'package:dokit/kit/visual/view_check.dart';
 import 'package:dokit/ui/resident_page.dart';
 import 'package:flutter/material.dart';
 
@@ -9,19 +8,21 @@ import 'basic_info.dart';
 abstract class CommonKit implements IKit {
   @override
   void tabAction() {
+    // ignore: invalid_use_of_protected_member
     ResidentPage.residentPageKey.currentState.setState(() {
       ResidentPage.tag = getKitName();
     });
   }
+
   Widget createDisplayPage();
 }
 
 class CommonKitManager {
-  Map<String, CommonKit> kitMap = {
+  CommonKitManager._privateConstructor();
+
+  Map<String, CommonKit> kitMap = <String, CommonKit>{
     CommonKitName.KIT_BASIC_INFO: BasicInfoKit(),
   };
-
-  CommonKitManager._privateConstructor() {}
 
   static final CommonKitManager _instance =
       CommonKitManager._privateConstructor();
@@ -37,7 +38,7 @@ class CommonKitManager {
   T getKit<T extends CommonKit>(String name) {
     assert(name != null);
     if (kitMap.containsKey(name)) {
-      return kitMap[name];
+      return kitMap[name] as T;
     }
     return null;
   }
