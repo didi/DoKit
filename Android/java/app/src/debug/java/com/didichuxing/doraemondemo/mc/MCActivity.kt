@@ -23,9 +23,9 @@ class MCActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mc)
 
-        btn_webview.setOnClickListener {
-            startActivity(Intent(this@MCActivity, WebViewActivity::class.java))
-        }
+//        btn_webview.setOnClickListener {
+//            startActivity(Intent(this@MCActivity, WebViewActivity::class.java))
+//        }
 
         btn1.setOnClickListener {
             ToastUtils.showShort("正常点击")

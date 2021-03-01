@@ -57,12 +57,12 @@
         </RadioGroup>
 
 
-        <Button
-            android:id="@+id/btn_webview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/radio_group"
-            android:text="打开WebView" />
+<!--        <Button-->
+<!--            android:id="@+id/btn_webview"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_toRightOf="@id/radio_group"-->
+<!--            android:text="打开WebView" />-->
 
         <EditText
             android:id="@+id/ed0"
