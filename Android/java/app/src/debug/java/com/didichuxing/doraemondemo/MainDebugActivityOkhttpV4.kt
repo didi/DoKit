@@ -108,9 +108,6 @@
 //        findViewById<View>(R.id.btn_app_launch_stack).setOnClickListener(this)
 //        findViewById<View>(R.id.btn_show_tool_panel).setOnClickListener(this)
 //        findViewById<View>(R.id.btn_location).setOnClickListener(this)
-//        findViewById<View>(R.id.btn_location_amap).setOnClickListener(this)
-//        findViewById<View>(R.id.btn_location_tencent).setOnClickListener(this)
-//        findViewById<View>(R.id.btn_location_baidu).setOnClickListener(this)
 //        findViewById<View>(R.id.btn_load_img).setOnClickListener(this)
 //        findViewById<View>(R.id.btn_okhttp_mock).setOnClickListener(this)
 //        findViewById<View>(R.id.btn_connection_mock).setOnClickListener(this)
@@ -307,9 +304,6 @@
 //                //MethodStackUtil.getInstance().toJson()
 //            }
 //            R.id.btn_location -> startNormaLocation()
-//            R.id.btn_location_amap -> startAmapLocation()
-//            R.id.btn_location_tencent -> startTencentLocation()
-//            R.id.btn_location_baidu -> startBaiDuLocation()
 //            R.id.btn_load_img -> {
 //                //Glide 加载
 //                val picassoImgUrl =

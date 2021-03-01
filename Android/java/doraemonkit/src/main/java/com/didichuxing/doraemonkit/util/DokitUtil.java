@@ -1,6 +1,8 @@
 package com.didichuxing.doraemonkit.util;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 
 import androidx.annotation.StringRes;
@@ -73,5 +75,16 @@ public class DokitUtil {
         }
 
         return jsonObject.toString();
+    }
+
+    /**
+     * 切换App到前台
+     */
+    public static void changeAppOnForeground(Class<Activity> clazz) {
+        Intent intent = new Intent(DoraemonKit.APPLICATION, clazz);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.setAction(Intent.ACTION_MAIN);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        DoraemonKit.APPLICATION.startActivity(intent);
     }
 }

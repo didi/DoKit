@@ -48,4 +48,5 @@ dependencies {
  * 可以作为入口打包
  */
 publish.dependsOn(':doraemonkit:publish')
+publish.dependsOn(':doraemonkit-mc:publish')
 publish.dependsOn(':doraemonkit-rpc:publish')

@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit
 import android.app.Application
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
 
 /**
@@ -133,6 +134,11 @@ object DoraemonKit {
     @JvmStatic
     fun setFileManagerHttpPort(port: Int) {
         DoraemonKitReal.setFileManagerHttpPort(port)
+    }
+
+    @JvmStatic
+    fun setMCIntercept(interceptor: MCInterceptor) {
+        DoraemonKitReal.setMCIntercept(interceptor)
     }
 
 

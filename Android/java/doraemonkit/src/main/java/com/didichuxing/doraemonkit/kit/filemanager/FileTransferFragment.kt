@@ -37,7 +37,7 @@ class FileTransferFragment : BaseFragment() {
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tv_ip.text = "${NetworkUtils.getIpAddressByWifi()}:${DoKitConstant.FILE_MANAGER_HTTP_PORT}"
+        tv_ip.text = "${DoKitConstant.IP_ADDRESS_BY_WIFI}:${DoKitConstant.FILE_MANAGER_HTTP_PORT}"
         title_bar.setListener { finish() }
         tv_tip_top.text = Html.fromHtml(DokitUtil.getString(R.string.dk_file_manager_tip_top))
         tv_tip_top.setOnClickListener {

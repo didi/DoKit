@@ -18,19 +18,14 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import com.amap.api.location.AMapLocationClient
-import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
-import com.baidu.location.BDAbstractLocationListener
-import com.baidu.location.BDLocation
-import com.baidu.location.LocationClient
-import com.baidu.location.LocationClientOption
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ThreadUtils
 import com.blankj.utilcode.util.ThreadUtils.SimpleTask
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.didichuxing.doraemondemo.mc.MCActivity
 import com.didichuxing.doraemondemo.retrofit.GithubService
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -42,10 +37,6 @@ import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
-import com.tencent.map.geolocation.TencentLocation
-import com.tencent.map.geolocation.TencentLocationListener
-import com.tencent.map.geolocation.TencentLocationManager
-import com.tencent.map.geolocation.TencentLocationRequest
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
@@ -99,6 +90,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
         btn_x5_webview.setOnClickListener(this)
         findViewById<View>(R.id.btn_method_cost).setOnClickListener(this)
         findViewById<View>(R.id.btn_jump_leak).setOnClickListener(this)
+        findViewById<View>(R.id.btn_mc).setOnClickListener(this)
         findViewById<View>(R.id.btn_app_launch_stack).setOnClickListener(this)
         findViewById<View>(R.id.btn_show_tool_panel).setOnClickListener(this)
         findViewById<View>(R.id.btn_location).setOnClickListener(this)
@@ -209,12 +201,6 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
     }
 
 
-
-
-
-
-
-
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn_method_cost -> test1()
@@ -224,12 +210,18 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
             R.id.btn_webview -> startActivity(Intent(this, WebViewNormalActivity::class.java))
             R.id.btn_x5_webview -> startActivity(Intent(this, WebViewX5Activity::class.java))
             R.id.btn_jump_leak -> startActivity(Intent(this, LeakActivity::class.java))
+            R.id.btn_mc -> startActivity(Intent(this, MCActivity::class.java))
             R.id.btn_app_launch_stack -> {
                 //MethodStackUtil.getInstance().toJson()
             }
             R.id.btn_location -> startNormaLocation()
             R.id.btn_location_map -> startActivity(Intent(this, MapActivity::class.java))
-            R.id.btn_location_map2 -> startActivity(Intent(this, MapShowingLocationActivity::class.java))
+            R.id.btn_location_map2 -> startActivity(
+                Intent(
+                    this,
+                    MapShowingLocationActivity::class.java
+                )
+            )
             R.id.btn_load_img -> {
                 //Glide 加载
                 val picassoImgUrl =

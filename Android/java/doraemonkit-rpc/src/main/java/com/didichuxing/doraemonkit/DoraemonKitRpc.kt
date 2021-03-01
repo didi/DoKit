@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit
 import android.app.Application
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 import com.didichuxing.foundation.net.rpc.http.PlatformHttpHook
 
@@ -29,7 +30,11 @@ object DoraemonKitRpc {
     }
 
     @JvmStatic
-    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, productId: String) {
+    fun install(
+        app: Application,
+        mapKits: LinkedHashMap<String, MutableList<AbstractKit>>,
+        productId: String
+    ) {
         install(app, mapKits, mutableListOf(), productId)
     }
 
@@ -50,12 +55,19 @@ object DoraemonKitRpc {
      * @param productId Dokit平台端申请的productId
      */
     @JvmStatic
-    private fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
+    private fun install(
+        app: Application,
+        mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(),
+        listKits: MutableList<AbstractKit>? = mutableListOf(),
+        productId: String? = ""
+    ) {
         APPLICATION = app
         DoraemonKit.APPLICATION = app
         try {
-            DoraemonKitReal.install(app, mapKits ?: linkedMapOf(), listKits
-                    ?: mutableListOf(), productId ?: "")
+            DoraemonKitReal.install(
+                app, mapKits ?: linkedMapOf(), listKits
+                    ?: mutableListOf(), productId ?: ""
+            )
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -133,5 +145,10 @@ object DoraemonKitRpc {
     @JvmStatic
     fun setFileManagerHttpPort(port: Int) {
         DoraemonKitReal.setFileManagerHttpPort(port)
+    }
+
+    @JvmStatic
+    fun setMCIntercept(interceptor: MCInterceptor) {
+        DoraemonKitReal.setMCIntercept(interceptor)
     }
 }

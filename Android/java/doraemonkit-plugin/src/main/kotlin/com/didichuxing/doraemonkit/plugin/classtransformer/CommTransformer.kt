@@ -41,6 +41,7 @@ class CommTransformer : ClassTransformer {
         }
 
         val className = klass.className
+        val superName = klass.formatSuperName
 
         if (className.contains("didihttp")) {
             "${context.projectDir.lastPath()}==className===>$className".println()
@@ -66,13 +67,28 @@ class CommTransformer : ClassTransformer {
 
         //gps字节码操作
         if (DoKitExtUtil.commExt.gpsSwitch) {
+
             //插入高德地图相关字节码
             if (className == "com.amap.api.location.AMapLocationClient") {
+                //设置监听器
                 klass.methods?.find {
                     it.name == "setLocationListener"
                 }.let { methodNode ->
-                    "${context.projectDir.lastPath()}->hook amap  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    "${context.projectDir.lastPath()}->hook amap map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
                     methodNode?.instructions?.insert(createAmapLocationInsnList())
+                }
+
+                //反注册监听器
+                klass.methods?.find {
+                    it.name == "unRegisterLocationListener"
+                }.let { methodNode ->
+                    "${context.projectDir.lastPath()}->hook amap map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                        methodNode.instructions.insertBefore(
+                            it,
+                            createAmapLocationUnRegisterInsnList()
+                        )
+                    }
                 }
 
             }
@@ -86,17 +102,67 @@ class CommTransformer : ClassTransformer {
                     "${context.projectDir.lastPath()}->hook tencent map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
                     methodNode?.instructions?.insert(createTencentLocationInsnList())
                 }
+
+
+                //反注册监听器
+                klass.methods?.find {
+                    it.name == "removeUpdates"
+                }.let { methodNode ->
+                    "${context.projectDir.lastPath()}->hook tencent map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                        methodNode.instructions.insertBefore(
+                            it,
+                            createTencentLocationUnRegisterInsnList()
+                        )
+                    }
+                }
             }
 
             //插入百度地图相关字节码
-            klass.methods?.find {
-                it.name == "onReceiveLocation" && it.desc == "(Lcom/baidu/location/BDLocation;)V"
-            }.let { methodNode ->
-                methodNode?.name?.let {
-                    "${context.projectDir.lastPath()}->hook baidu map  succeed: ${className}_${methodNode.name}_${methodNode.desc}".println()
-                    methodNode.instructions?.insert(createBaiduLocationInsnList())
+            if (className == "com.baidu.location.LocationClient") {
+                //拦截注册监听器
+                klass.methods?.filter {
+                    it.name == "registerLocationListener"
+                            && (it.desc == "(Lcom/baidu/location/BDLocationListener;)V" || it.desc == "(Lcom/baidu/location/BDAbstractLocationListener;)V")
+                }?.forEach { methodNode ->
+                    "${context.projectDir.lastPath()}->hook baidu map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    if (methodNode.desc == "(Lcom/baidu/location/BDLocationListener;)V") {
+                        methodNode?.instructions?.insert(createBDLocationListenerInsnList())
+                    } else if (methodNode.desc == "(Lcom/baidu/location/BDAbstractLocationListener;)V") {
+                        methodNode?.instructions?.insert(createBDLocationAbsListenerInsnList())
+                    }
+                }
+
+
+                //反注册监听器
+                klass.methods?.find {
+                    it.name == "unRegisterLocationListener" && it.desc == "(Lcom/baidu/location/BDLocationListener;)V"
+                }.let { methodNode ->
+                    "${context.projectDir.lastPath()}->hook baidu map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                        methodNode.instructions.insertBefore(
+                            it,
+                            createBDLocationUnRegisterInsnList()
+                        )
+                    }
+                }
+
+
+                //反注册监听器
+                klass.methods?.find {
+                    it.name == "unRegisterLocationListener" && it.desc == "(Lcom/baidu/location/BDAbstractLocationListener;)V"
+                }.let { methodNode ->
+                    "${context.projectDir.lastPath()}->hook baidu map  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                        methodNode.instructions.insertBefore(
+                            it,
+                            createBDAbsLocationUnRegisterInsnList()
+                        )
+                    }
                 }
             }
+
+
         }
 
 
@@ -202,6 +268,124 @@ class CommTransformer : ClassTransformer {
             }
 
         }
+
+        //hook Androidx的ComponentActivity
+        if (className != "com.didichuxing.doraemonkit.aop.mc.DoKitProxyActivity" && superName == "android.app.Activity") {
+            createComponentActivitySuperActivityImpl(klass)
+        }
+
+
+        //hook androidx的AppCompatDelegateImpl
+//        if (className == "androidx.appcompat.app.AppCompatDelegate") {
+//            klass.methods?.filter {
+//                it.name == "create"
+//                        && (it.desc == "(Landroid/app/Activity;Landroidx/appcompat/app/AppCompatCallback;)Landroidx/appcompat/app/AppCompatDelegate;"
+//                        || it.desc == "(Landroid/app/Dialog;Landroidx/appcompat/app/AppCompatCallback;)Landroidx/appcompat/app/AppCompatDelegate;"
+//                        || it.desc == "(Landroid/content/Context;Landroid/view/Window;Landroidx/appcompat/app/AppCompatCallback;)Landroidx/appcompat/app/AppCompatDelegate;"
+//                        || it.desc == "(Landroid/content/Context;Landroid/app/Activity;Landroidx/appcompat/app/AppCompatCallback;)Landroidx/appcompat/app/AppCompatDelegate;")
+//            }?.asIterable()
+//                ?.forEach { methodNode ->
+//                    //操作方法
+//                    val typeInsnNodes = methodNode.instructions
+//                        ?.iterator()
+//                        ?.asIterable()
+//                        ?.filterIsInstance(TypeInsnNode::class.java)
+//                    //操作New指令
+//                    typeInsnNodes?.filter {
+//                        it.opcode == NEW && it.desc == "androidx/appcompat/app/AppCompatDelegateImpl"
+//                    }?.forEach {
+//                        "${context.projectDir.lastPath()}->hook ${klass.name}-${methodNode.name}-${it.opcode}-${it.desc} succeed".println()
+//                        methodNode.instructions.insertBefore(
+//                            it,
+//                            createNewDoKitAppCompatDelegateImplInsnList()
+//                        )
+//                    }
+//
+//                    //操作方法
+//                    val methodInsnNodes = methodNode.instructions
+//                        ?.iterator()
+//                        ?.asIterable()
+//                        ?.filterIsInstance(MethodInsnNode::class.java)
+//
+//                    methodInsnNodes?.filter {
+//                        //"${context.projectDir.lastPath()}->hook AppCompatDelegate create matched ${it.opcode}  ${it.ownerClassName}  ${it.name}".println()
+//                        it.opcode == INVOKESPECIAL
+//                                && it.ownerClassName == "androidx.appcompat.app.AppCompatDelegateImpl"
+//                                && it.name == "<init>"
+//                    }?.forEach {
+//                        //"${context.projectDir.lastPath()}->hook AppCompatDelegate create  method succeed".println()
+//                        "${context.projectDir.lastPath()}->hook ${klass.name}-${methodNode.name}-${it.owner}-${it.name}-${it.desc} succeed".println()
+//                        methodNode.instructions.insert(
+//                            it,
+//                            MethodInsnNode(
+//                                INVOKESPECIAL,
+//                                "androidx/appcompat/app/DoKitAppCompatDelegateImpl",
+//                                "<init>",
+//                                "(Landroidx/appcompat/app/AppCompatDelegate;)V",
+//                                false
+//                            )
+//                        )
+//                    }
+//                }
+//        }
+
+        //hook 所有的view的事件
+//        klass.methods?.forEach { methodNode ->
+//            if (methodNode.name == "onClick" && methodNode.desc == "(Landroid/view/View;)V") {
+//                val insnList = with(InsnList()) {
+//                    add(VarInsnNode(ALOAD, 1))
+//                    add(
+//                        MethodInsnNode(
+//                            INVOKESTATIC,
+//                            "com/didichuxing/doraemonkit/aop/mc/DoKitListenerHelper",
+//                            "hookViewClickListener",
+//                            "(Landroid/view/View;)V",
+//                            false
+//                        )
+//                    )
+//                    this
+//                }
+//                methodNode.instructions.insert(insnList)
+//            }
+//        }
+
+
+        // hook 所有的View
+//        if (className != "com.didichuxing.doraemonkit.aop.mc.DoKitProxyView" && superName == "android.view.View") {
+//            createViewImpl(klass)
+//        }
+
+        // hook 所有的ViewGroup
+//        if (className != "com.didichuxing.doraemonkit.aop.mc.DoKitProxyViewGroup" && superName == "android.view.ViewGroup") {
+//            createViewGroupImpl(klass)
+//        }
+
+//        if (className == "androidx.appcompat.app.AppCompatDelegateImpl") {
+//            //插件配置
+//            klass.methods?.find {
+//                it.name == "onCreateView" && it.desc == "(Landroid/view/View;Ljava/lang/String;Landroid/content/Context;Landroid/util/AttributeSet;)Landroid/view/View;"
+//            }.let { method ->
+//                method?.instructions?.iterator()?.asIterable()
+//                    ?.filterIsInstance(MethodInsnNode::class.java)?.filter {
+//                        it.opcode == INVOKEVIRTUAL &&
+//                                it.owner == "androidx/appcompat/app/AppCompatDelegateImpl" &&
+//                                it.name == "createView" &&
+//                                it.desc == "(Landroid/view/View;Ljava/lang/String;Landroid/content/Context;Landroid/util/AttributeSet;)Landroid/view/View;"
+//                    }?.forEach {
+//                        "${context.projectDir.lastPath()}->hook AppCompatDelegateImpl onCreateView method succeed".println()
+//                        method.instructions.insert(
+//                            it,
+//                            MethodInsnNode(
+//                                INVOKESTATIC,
+//                                "com/didichuxing/doraemonkit/aop/mc/AppCompatDelegateImplProxy",
+//                                "onCreateView",
+//                                "(Landroid/view/View;)Landroid/view/View;",
+//                                false
+//                            )
+//                        )
+//                    }
+//            }
+//        }
 
         return klass
     }
@@ -407,8 +591,8 @@ class CommTransformer : ClassTransformer {
 
             for (thirdLibInfo in DoKitExtUtil.THIRD_LIB_INFOS) {
                 add(VarInsnNode(ALOAD, 0))
-                add(LdcInsnNode(thirdLibInfo.name))
-                add(LdcInsnNode(thirdLibInfo.fileSize))
+                add(LdcInsnNode(thirdLibInfo.variant))
+                add(LdcInsnNode(thirdLibInfo.fileSize.toString()))
 
                 add(
                     MethodInsnNode(
@@ -448,14 +632,14 @@ class CommTransformer : ClassTransformer {
     private fun createAmapLocationInsnList(): InsnList {
         return with(InsnList()) {
             //在AMapLocationClient的setLocationListener方法之中插入自定义代理回调类
-            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/AMapLocationListenerProxy"))
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/map/AMapLocationListenerProxy"))
             add(InsnNode(DUP))
             //访问第一个参数
             add(VarInsnNode(ALOAD, 1))
             add(
                 MethodInsnNode(
                     INVOKESPECIAL,
-                    "com/didichuxing/doraemonkit/aop/AMapLocationListenerProxy",
+                    "com/didichuxing/doraemonkit/aop/map/AMapLocationListenerProxy",
                     "<init>",
                     "(Lcom/amap/api/location/AMapLocationListener;)V",
                     false
@@ -468,6 +652,27 @@ class CommTransformer : ClassTransformer {
 
     }
 
+    /**
+     * 创建Amap地图UnRegister代码指令
+     */
+    private fun createAmapLocationUnRegisterInsnList(): InsnList {
+        return with(InsnList()) {
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/map/ThirdMapLocationListenerUtil",
+                    "unRegisterAmapLocationListener",
+                    "(Lcom/amap/api/location/AMapLocationListener;)V",
+                    false
+                )
+            )
+            this
+        }
+
+    }
+
 
     /**
      * 创建tencent地图代码指令
@@ -475,20 +680,25 @@ class CommTransformer : ClassTransformer {
     private fun createTencentLocationInsnList(): InsnList {
         return with(InsnList()) {
             //在AMapLocationClient的setLocationListener方法之中插入自定义代理回调类
-            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/TencentLocationListenerProxy"))
+            add(
+                TypeInsnNode(
+                    NEW,
+                    "com/didichuxing/doraemonkit/aop/map/TencentLocationListenerProxy"
+                )
+            )
             add(InsnNode(DUP))
             //访问第一个参数
             add(VarInsnNode(ALOAD, 2))
             add(
                 MethodInsnNode(
                     INVOKESPECIAL,
-                    "com/didichuxing/doraemonkit/aop/TencentLocationListenerProxy",
+                    "com/didichuxing/doraemonkit/aop/map/TencentLocationListenerProxy",
                     "<init>",
                     "(Lcom/tencent/map/geolocation/TencentLocationListener;)V",
                     false
                 )
             )
-            //对第一个参数进行重新赋值
+            //对第二个参数进行重新赋值
             add(VarInsnNode(ASTORE, 2))
 
             this
@@ -496,6 +706,123 @@ class CommTransformer : ClassTransformer {
 
     }
 
+
+    /**
+     * 创建Tencent地图UnRegister代码指令
+     */
+    private fun createTencentLocationUnRegisterInsnList(): InsnList {
+        return with(InsnList()) {
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/map/ThirdMapLocationListenerUtil",
+                    "unRegisterTencentLocationListener",
+                    "(Lcom/tencent/map/geolocation/TencentLocationListener;)V",
+                    false
+                )
+            )
+            this
+        }
+
+    }
+
+
+    /**
+     * 创建百度地图代码指令
+     */
+    private fun createBDLocationListenerInsnList(): InsnList {
+        return with(InsnList()) {
+            //在LocationClient的registerLocationListener方法之中插入自定义代理回调类
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/map/BDLocationListenerProxy"))
+            add(InsnNode(DUP))
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESPECIAL,
+                    "com/didichuxing/doraemonkit/aop/map/BDLocationListenerProxy",
+                    "<init>",
+                    "(Lcom/baidu/location/BDLocationListener;)V",
+                    false
+                )
+            )
+            //对第一个参数进行重新赋值
+            add(VarInsnNode(ASTORE, 1))
+
+            this
+        }
+
+    }
+
+    /**
+     * 创建百度地图代码指令
+     */
+    private fun createBDLocationAbsListenerInsnList(): InsnList {
+        return with(InsnList()) {
+            //在LocationClient的registerLocationListener方法之中插入自定义代理回调类
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/map/BDAbsLocationListenerProxy"))
+            add(InsnNode(DUP))
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESPECIAL,
+                    "com/didichuxing/doraemonkit/aop/map/BDAbsLocationListenerProxy",
+                    "<init>",
+                    "(Lcom/baidu/location/BDAbstractLocationListener;)V",
+                    false
+                )
+            )
+            //对第一个参数进行重新赋值
+            add(VarInsnNode(ASTORE, 1))
+            this
+        }
+    }
+
+
+    /**
+     * 创建百度地图UnRegister代码指令
+     */
+    private fun createBDLocationUnRegisterInsnList(): InsnList {
+        return with(InsnList()) {
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/map/ThirdMapLocationListenerUtil",
+                    "unRegisterBDLocationListener",
+                    "(Lcom/baidu/location/BDLocationListener;)V",
+                    false
+                )
+            )
+            this
+        }
+
+    }
+
+    /**
+     * 创建百度地图UnRegister代码指令
+     */
+    private fun createBDAbsLocationUnRegisterInsnList(): InsnList {
+        return with(InsnList()) {
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/map/ThirdMapLocationListenerUtil",
+                    "unRegisterBDLocationListener",
+                    "(Lcom/baidu/location/BDAbstractLocationListener;)V",
+                    false
+                )
+            )
+            this
+        }
+
+    }
 
     /**
      * 创建百度地图代码指令
@@ -722,4 +1049,49 @@ class CommTransformer : ClassTransformer {
             this
         }
     }
+
+    /**
+     * 创建new DoKitAppCompatDelegateImpl指令集
+     */
+    private fun createNewDoKitAppCompatDelegateImplInsnList(): InsnList {
+        return with(InsnList()) {
+            add(TypeInsnNode(NEW, "androidx/appcompat/app/DoKitAppCompatDelegateImpl"))
+            add(InsnNode(DUP))
+            this
+        }
+    }
+
+
+    /**
+     * 重置ComponentActivity的父类
+     */
+    private fun createComponentActivitySuperActivityImpl(klass: ClassNode) {
+        /**
+         * 修改继承的父类
+         */
+        klass.superName = "com/didichuxing/doraemonkit/aop/mc/DoKitProxyActivity"
+    }
+
+
+    /**
+     * 重置View的父类
+     */
+    private fun createViewImpl(klass: ClassNode) {
+        /**
+         * 修改继承的父类
+         */
+        klass.superName = "com/didichuxing/doraemonkit/aop/mc/DoKitProxyView"
+    }
+
+
+    /**
+     * 重置ViewGroup的父类
+     */
+    private fun createViewGroupImpl(klass: ClassNode) {
+        /**
+         * 修改继承的父类
+         */
+        klass.superName = "com/didichuxing/doraemonkit/aop/mc/DoKitProxyViewGroup"
+    }
+
 }

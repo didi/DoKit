@@ -1,12 +1,15 @@
 package com.didichuxing.doraemonkit.constant
 
+import com.blankj.utilcode.util.NetworkUtils
 import com.blankj.utilcode.util.PathUtils
 import com.didichuxing.doraemonkit.BuildConfig
 import com.didichuxing.doraemonkit.config.GlobalConfig
+import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.kit.toolpanel.KitWrapItem
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo
+import com.didichuxing.doraemonkit.util.LogHelper
 import java.io.File
 
 /**
@@ -19,7 +22,7 @@ import java.io.File
  * ================================================
  */
 object DoKitConstant {
-
+    const val TAG = "DoKitConstant"
     const val GROUP_ID_PLATFORM = "dk_category_platform"
     const val GROUP_ID_COMM = "dk_category_comms"
     const val GROUP_ID_WEEX = "dk_category_weex"
@@ -113,6 +116,24 @@ object DoKitConstant {
     @JvmField
     var ACTIVITY_LIFECYCLE_INFOS = mutableMapOf<String, ActivityLifecycleInfo>()
 
+    /**
+     * 一机多控自定义拦截器
+     */
+    var MC_INTERCEPT: MCInterceptor? = null
+
+    /**
+     * Wifi IP 地址
+     */
+    val IP_ADDRESS_BY_WIFI: String
+        get() {
+            try {
+
+                return NetworkUtils.getIpAddressByWifi()
+            } catch (e: Exception) {
+                LogHelper.e(TAG, "get wifi address error===>${e.message}")
+                return "0.0.0.0"
+            }
+        }
 
     /**
      * 判断接入的是否是滴滴内部的rpc sdk
@@ -122,14 +143,12 @@ object DoKitConstant {
     @JvmStatic
     val isRpcSDK: Boolean
         get() {
-            val isRpcSdk: Boolean
-            isRpcSdk = try {
+            return try {
                 Class.forName("com.didichuxing.doraemonkit.DoraemonKitRpc")
                 true
             } catch (e: ClassNotFoundException) {
                 false
             }
-            return isRpcSdk
         }
 
     /**

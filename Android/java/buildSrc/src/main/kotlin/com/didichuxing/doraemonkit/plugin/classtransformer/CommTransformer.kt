@@ -41,6 +41,7 @@ class CommTransformer : ClassTransformer {
         }
 
         val className = klass.className
+        val superName = klass.formatSuperName
 
         if (className.contains("didihttp")) {
             "${context.projectDir.lastPath()}==className===>$className".println()
@@ -267,6 +268,124 @@ class CommTransformer : ClassTransformer {
             }
 
         }
+
+        //hook Androidx的ComponentActivity
+        if (className != "com.didichuxing.doraemonkit.aop.mc.DoKitProxyActivity" && superName == "android.app.Activity") {
+            createComponentActivitySuperActivityImpl(klass)
+        }
+
+
+        //hook androidx的AppCompatDelegateImpl
+//        if (className == "androidx.appcompat.app.AppCompatDelegate") {
+//            klass.methods?.filter {
+//                it.name == "create"
+//                        && (it.desc == "(Landroid/app/Activity;Landroidx/appcompat/app/AppCompatCallback;)Landroidx/appcompat/app/AppCompatDelegate;"
+//                        || it.desc == "(Landroid/app/Dialog;Landroidx/appcompat/app/AppCompatCallback;)Landroidx/appcompat/app/AppCompatDelegate;"
+//                        || it.desc == "(Landroid/content/Context;Landroid/view/Window;Landroidx/appcompat/app/AppCompatCallback;)Landroidx/appcompat/app/AppCompatDelegate;"
+//                        || it.desc == "(Landroid/content/Context;Landroid/app/Activity;Landroidx/appcompat/app/AppCompatCallback;)Landroidx/appcompat/app/AppCompatDelegate;")
+//            }?.asIterable()
+//                ?.forEach { methodNode ->
+//                    //操作方法
+//                    val typeInsnNodes = methodNode.instructions
+//                        ?.iterator()
+//                        ?.asIterable()
+//                        ?.filterIsInstance(TypeInsnNode::class.java)
+//                    //操作New指令
+//                    typeInsnNodes?.filter {
+//                        it.opcode == NEW && it.desc == "androidx/appcompat/app/AppCompatDelegateImpl"
+//                    }?.forEach {
+//                        "${context.projectDir.lastPath()}->hook ${klass.name}-${methodNode.name}-${it.opcode}-${it.desc} succeed".println()
+//                        methodNode.instructions.insertBefore(
+//                            it,
+//                            createNewDoKitAppCompatDelegateImplInsnList()
+//                        )
+//                    }
+//
+//                    //操作方法
+//                    val methodInsnNodes = methodNode.instructions
+//                        ?.iterator()
+//                        ?.asIterable()
+//                        ?.filterIsInstance(MethodInsnNode::class.java)
+//
+//                    methodInsnNodes?.filter {
+//                        //"${context.projectDir.lastPath()}->hook AppCompatDelegate create matched ${it.opcode}  ${it.ownerClassName}  ${it.name}".println()
+//                        it.opcode == INVOKESPECIAL
+//                                && it.ownerClassName == "androidx.appcompat.app.AppCompatDelegateImpl"
+//                                && it.name == "<init>"
+//                    }?.forEach {
+//                        //"${context.projectDir.lastPath()}->hook AppCompatDelegate create  method succeed".println()
+//                        "${context.projectDir.lastPath()}->hook ${klass.name}-${methodNode.name}-${it.owner}-${it.name}-${it.desc} succeed".println()
+//                        methodNode.instructions.insert(
+//                            it,
+//                            MethodInsnNode(
+//                                INVOKESPECIAL,
+//                                "androidx/appcompat/app/DoKitAppCompatDelegateImpl",
+//                                "<init>",
+//                                "(Landroidx/appcompat/app/AppCompatDelegate;)V",
+//                                false
+//                            )
+//                        )
+//                    }
+//                }
+//        }
+
+        //hook 所有的view的事件
+//        klass.methods?.forEach { methodNode ->
+//            if (methodNode.name == "onClick" && methodNode.desc == "(Landroid/view/View;)V") {
+//                val insnList = with(InsnList()) {
+//                    add(VarInsnNode(ALOAD, 1))
+//                    add(
+//                        MethodInsnNode(
+//                            INVOKESTATIC,
+//                            "com/didichuxing/doraemonkit/aop/mc/DoKitListenerHelper",
+//                            "hookViewClickListener",
+//                            "(Landroid/view/View;)V",
+//                            false
+//                        )
+//                    )
+//                    this
+//                }
+//                methodNode.instructions.insert(insnList)
+//            }
+//        }
+
+
+        // hook 所有的View
+//        if (className != "com.didichuxing.doraemonkit.aop.mc.DoKitProxyView" && superName == "android.view.View") {
+//            createViewImpl(klass)
+//        }
+
+        // hook 所有的ViewGroup
+//        if (className != "com.didichuxing.doraemonkit.aop.mc.DoKitProxyViewGroup" && superName == "android.view.ViewGroup") {
+//            createViewGroupImpl(klass)
+//        }
+
+//        if (className == "androidx.appcompat.app.AppCompatDelegateImpl") {
+//            //插件配置
+//            klass.methods?.find {
+//                it.name == "onCreateView" && it.desc == "(Landroid/view/View;Ljava/lang/String;Landroid/content/Context;Landroid/util/AttributeSet;)Landroid/view/View;"
+//            }.let { method ->
+//                method?.instructions?.iterator()?.asIterable()
+//                    ?.filterIsInstance(MethodInsnNode::class.java)?.filter {
+//                        it.opcode == INVOKEVIRTUAL &&
+//                                it.owner == "androidx/appcompat/app/AppCompatDelegateImpl" &&
+//                                it.name == "createView" &&
+//                                it.desc == "(Landroid/view/View;Ljava/lang/String;Landroid/content/Context;Landroid/util/AttributeSet;)Landroid/view/View;"
+//                    }?.forEach {
+//                        "${context.projectDir.lastPath()}->hook AppCompatDelegateImpl onCreateView method succeed".println()
+//                        method.instructions.insert(
+//                            it,
+//                            MethodInsnNode(
+//                                INVOKESTATIC,
+//                                "com/didichuxing/doraemonkit/aop/mc/AppCompatDelegateImplProxy",
+//                                "onCreateView",
+//                                "(Landroid/view/View;)Landroid/view/View;",
+//                                false
+//                            )
+//                        )
+//                    }
+//            }
+//        }
 
         return klass
     }
@@ -930,4 +1049,49 @@ class CommTransformer : ClassTransformer {
             this
         }
     }
+
+    /**
+     * 创建new DoKitAppCompatDelegateImpl指令集
+     */
+    private fun createNewDoKitAppCompatDelegateImplInsnList(): InsnList {
+        return with(InsnList()) {
+            add(TypeInsnNode(NEW, "androidx/appcompat/app/DoKitAppCompatDelegateImpl"))
+            add(InsnNode(DUP))
+            this
+        }
+    }
+
+
+    /**
+     * 重置ComponentActivity的父类
+     */
+    private fun createComponentActivitySuperActivityImpl(klass: ClassNode) {
+        /**
+         * 修改继承的父类
+         */
+        klass.superName = "com/didichuxing/doraemonkit/aop/mc/DoKitProxyActivity"
+    }
+
+
+    /**
+     * 重置View的父类
+     */
+    private fun createViewImpl(klass: ClassNode) {
+        /**
+         * 修改继承的父类
+         */
+        klass.superName = "com/didichuxing/doraemonkit/aop/mc/DoKitProxyView"
+    }
+
+
+    /**
+     * 重置ViewGroup的父类
+     */
+    private fun createViewGroupImpl(klass: ClassNode) {
+        /**
+         * 修改继承的父类
+         */
+        klass.superName = "com/didichuxing/doraemonkit/aop/mc/DoKitProxyViewGroup"
+    }
+
 }

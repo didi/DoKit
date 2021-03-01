@@ -20,7 +20,8 @@ object DeviceInfoAction {
             val data = mutableMapOf<String, String>().apply {
                 this["deviceName"] = "${DeviceUtils.getManufacturer()}-${DeviceUtils.getModel()}"
                 this["deviceId"] = DeviceUtils.getUniqueDeviceId()
-                this["deviceIp"] = "${NetworkUtils.getIpAddressByWifi()}:${DoKitConstant.FILE_MANAGER_HTTP_PORT}"
+                this["deviceIp"] =
+                    "${DoKitConstant.WHITE_HOSTS}:${DoKitConstant.FILE_MANAGER_HTTP_PORT}"
             }
             this["data"] = data
         }

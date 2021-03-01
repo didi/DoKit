@@ -16,6 +16,11 @@
         "allClassName": "com.didichuxing.doraemonkit.kit.filemanager.FileTransferKit",
         "checked": true,
         "innerKitId": "dokit_sdk_platform_ck_filetransfer"
+      },
+      {
+        "allClassName": "com.didichuxing.doraemonkit.kit.mc.MultiControlKit",
+        "checked": true,
+        "innerKitId": "dokit_sdk_platform_ck_mc"
       }
     ]
   },
@@ -83,19 +88,19 @@
         "innerKitId": "dokit_sdk_comm_ck_gps"
       },
       {
-        "allClassName": "com.didichuxing.doraemonkit.kit.fly.manual.FloatGpsMockKit",
+        "allClassName": "com.didichuxing.doraemonkit.kit.lbs.manual.FloatGpsMockKit",
         "checked": true,
-        "innerKitId": "dokit_sdk_comm_ck_location"
+        "innerKitId": "dokit_sdk_lbs_ck_location"
       },
       {
-        "allClassName": "com.didichuxing.doraemonkit.kit.fly.preset.FloatGpsPresetMockKit",
+        "allClassName": "com.didichuxing.doraemonkit.kit.lbs.preset.FloatGpsPresetMockKit",
         "checked": true,
-        "innerKitId": "dokit_sdk_comm_ck_location_preset"
+        "innerKitId": "dokit_sdk_lbs__ck_location_preset"
       },
       {
-        "allClassName": "com.didichuxing.doraemonkit.kit.fly.route.FloatGpsMockRouteMockKit",
+        "allClassName": "com.didichuxing.doraemonkit.kit.lbs.route.FloatGpsMockRouteMockKit",
         "checked": true,
-        "innerKitId": "dokit_sdk_comm_ck_location_list"
+        "innerKitId": "dokit_sdk_lbs_ck_route"
       }
     ]
   },

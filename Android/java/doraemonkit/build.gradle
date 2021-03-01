@@ -66,6 +66,7 @@ dependencies {
     implementation rootProject.ext.dependencies["recyclerview"]
     implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["core-ktx"]
+    implementation rootProject.ext.dependencies["activity-ktx"]
     implementation rootProject.ext.dependencies["webkit"]
     implementation rootProject.ext.dependencies["volley"]
 
@@ -83,8 +84,8 @@ dependencies {
     //sql
     implementation rootProject.ext.dependencies["wcdb"]
     //ktor
-    implementation rootProject.ext.dependencies["ktor-core"]
-    implementation rootProject.ext.dependencies["ktor-cio"]
+    implementation rootProject.ext.dependencies["ktor_server_core"]
+    implementation rootProject.ext.dependencies["ktor_server_cio"]
     implementation rootProject.ext.dependencies["jsoup"]
     //okhttp wrap
     implementation project(":doraemonkit-okhttp-api")
@@ -105,8 +106,13 @@ dependencies {
     //腾讯x5
     compileOnly rootProject.ext.dependencies["tbs"]
 
+
+    //高德地图
+//    implementation rootProject.ext.dependencies["amap_map3d"]
     //高德地图定位
     compileOnly rootProject.ext.dependencies["amap_location"]
+    //高德导航
+    compileOnly rootProject.ext.dependencies["amap_navi"]
     //腾讯地图定位
     compileOnly rootProject.ext.dependencies["tencent_location"]
     //百度地图定位

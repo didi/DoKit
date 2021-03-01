@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.kit.largepicture;
 
 import com.blankj.utilcode.util.ActivityUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 

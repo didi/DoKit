@@ -3,6 +3,8 @@ package com.didichuxing.doraemondemo
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.view.View
+import android.view.accessibility.AccessibilityEvent
 import androidx.multidex.MultiDex
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
@@ -11,6 +13,7 @@ import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFloatViewKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 
@@ -48,6 +51,22 @@ class App : Application() {
 
         DoraemonKit.install(this, mapKits = mapKits, productId = "749a0600b5e48dd77cf8ee680be7b1b7")
         DoraemonKit.setFileManagerHttpPort(9001)
+        DoraemonKit.setMCIntercept(object : MCInterceptor {
+            override fun onIntercept(view: View, accessibilityEvent: AccessibilityEvent): Boolean {
+                return false
+            }
+
+            override fun serverParams(
+                view: View,
+                accessibilityEvent: AccessibilityEvent
+            ): Map<String, String> {
+                TODO("Not yet implemented")
+            }
+
+            override fun clientProcess(view: View, params: Map<String, String>): Boolean {
+                TODO("Not yet implemented")
+            }
+        })
         //设置加密数据库
         DoraemonKit.setDatabasePass(mapOf("Person.db" to "a_password"))
         val config = ImagePipelineConfig.newBuilder(this)

@@ -50,7 +50,8 @@
         <activity android:name=".SecondActivity" />
         <activity android:name=".LeakActivity" />
         <activity android:name=".MapActivity" />
-
+        <activity android:name=".mc.MCActivity" />
+        <activity android:name=".WSActivity" />
         <!--高德定位服务-->
         <service android:name="com.amap.api.location.APSService" />
 

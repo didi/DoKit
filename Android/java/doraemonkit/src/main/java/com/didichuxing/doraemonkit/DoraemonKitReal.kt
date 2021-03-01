@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit
 
+import android.app.Activity
 import android.app.Application
 import android.os.Build
 import android.text.TextUtils
@@ -18,8 +19,7 @@ import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerKit
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit
 import com.didichuxing.doraemonkit.kit.colorpick.ColorPickerKit
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager
-import com.didichuxing.doraemonkit.kit.core.UniversalActivity
+import com.didichuxing.doraemonkit.kit.core.*
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureKit
 import com.didichuxing.doraemonkit.kit.dataclean.DataCleanKit
 import com.didichuxing.doraemonkit.kit.dbdebug.DbDebugKit
@@ -88,6 +88,8 @@ object DoraemonKitReal {
         listKits: MutableList<AbstractKit>,
         productId: String
     ) {
+        registerListener()
+        //runTimeHook()
         pluginConfig()
         initThirdLibraryInfo()
         DoKitConstant.PRODUCT_ID = productId
@@ -179,6 +181,43 @@ object DoraemonKitReal {
 
         //上传埋点
         DataPickManager.getInstance().postData()
+    }
+
+
+    /**
+     * 注册全局回调
+     */
+    private fun registerListener() {
+        //前后台监听
+        AppUtils.registerAppStatusChangedListener(object : Utils.OnAppStatusChangedListener {
+            //进入前台
+            override fun onForeground(activity: Activity?) {
+                DoKitActivityOverrideManager.dispatch(
+                    DoKitActivityOverrideEnum.onForeground,
+                    activity!!
+                )
+            }
+
+            //进入后台
+            override fun onBackground(activity: Activity?) {
+                DoKitActivityOverrideManager.dispatch(
+                    DoKitActivityOverrideEnum.onBackground,
+                    activity!!
+                )
+            }
+
+        })
+        //跨模块通信监听
+        try {
+            val doKitActivityOverrideListeners = mutableListOf<DoKitActivityOverrideListener>()
+            val mcOverrideListener: DoKitActivityOverrideListener =
+                ReflectUtils.reflect("com.didichuxing.doraemonkit.kit.mc.all.McActivityOverrideImpl")
+                    .newInstance().get()
+            doKitActivityOverrideListeners.add(mcOverrideListener)
+            DoKitActivityOverrideManager.register(doKitActivityOverrideListeners)
+        } catch (e: Exception) {
+
+        }
     }
 
 
@@ -767,19 +806,32 @@ object DoraemonKitReal {
 
     private fun initAndroidUtil(app: Application) {
         Utils.init(app)
-        LogUtils.getConfig() // 设置 log 总开关，包括输出到控制台和文件，默认开
-            .setLogSwitch(true) // 设置是否输出到控制台开关，默认开
-            .setConsoleSwitch(true) // 设置 log 全局标签，默认为空，当全局标签不为空时，我们输出的 log 全部为该 tag， 为空时，如果传入的 tag 为空那就显示类名，否则显示 tag
-            .setGlobalTag("Doraemon") // 设置 log 头信息开关，默认为开
-            .setLogHeadSwitch(true) // 打印 log 时是否存到文件的开关，默认关
-            .setLog2FileSwitch(true) // 当自定义路径为空时，写入应用的/cache/log/目录中
-            .setDir("") // 当文件前缀为空时，默认为"util"，即写入文件为"util-MM-dd.txt"
-            .setFilePrefix("djx-table-log") // 输出日志是否带边框开关，默认开
-            .setBorderSwitch(true) // 一条日志仅输出一条，默认开，为美化 AS 3.1 的 Logcat
-            .setSingleTagSwitch(true) // log 的控制台过滤器，和 logcat 过滤器同理，默认 Verbose
-            .setConsoleFilter(LogUtils.V) // log 文件过滤器，和 logcat 过滤器同理，默认 Verbose
-            .setFileFilter(LogUtils.E) // log 栈深度，默认为 1
-            .setStackDeep(2).stackOffset = 0
+        LogUtils.getConfig()
+            // 设置 log 总开关，包括输出到控制台和文件，默认开
+            .setLogSwitch(true)
+            // 设置是否输出到控制台开关，默认开
+            .setConsoleSwitch(true)
+            // 设置 log 全局标签，默认为空，当全局标签不为空时，我们输出的 log 全部为该 tag， 为空时，如果传入的 tag 为空那就显示类名，否则显示 tag
+            .setGlobalTag("Doraemon")
+            // 设置 log 头信息开关，默认为开
+            .setLogHeadSwitch(true)
+            // 打印 log 时是否存到文件的开关，默认关
+            .setLog2FileSwitch(true)
+            // 当自定义路径为空时，写入应用的/cache/log/目录中
+            .setDir("")
+            // 当文件前缀为空时，默认为"util"，即写入文件为"util-MM-dd.txt"
+            .setFilePrefix("djx-table-log")
+            // 输出日志是否带边框开关，默认开
+            .setBorderSwitch(true)
+            // 一条日志仅输出一条，默认开，为美化 AS 3.1 的 Logcat
+            .setSingleTagSwitch(true)
+            // log 的控制台过滤器，和 logcat 过滤器同理，默认 Verbose
+            .setConsoleFilter(LogUtils.V)
+            // log 文件过滤器，和 logcat 过滤器同理，默认 Verbose
+            .setFileFilter(LogUtils.E)
+            // log 栈深度，默认为 1
+            .setStackDeep(2)
+            .stackOffset = 0
     }
 
     /**
@@ -843,4 +895,14 @@ object DoraemonKitReal {
     fun setFileManagerHttpPort(port: Int) {
         DoKitConstant.FILE_MANAGER_HTTP_PORT = port
     }
+
+
+    /**
+     * 设置一机多控自定义拦截器
+     */
+
+    fun setMCIntercept(interceptor: MCInterceptor) {
+        DoKitConstant.MC_INTERCEPT = interceptor
+    }
+
 }

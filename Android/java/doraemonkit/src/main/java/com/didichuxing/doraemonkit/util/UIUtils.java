@@ -181,6 +181,21 @@ public class UIUtils {
     }
 
     /**
+     * 去除前缀
+     *
+     * @param view
+     * @return
+     */
+    public static String getRealIdText(View view) {
+        String id = getIdText(view);
+        if (id.isEmpty()) {
+            return "-1";
+        } else {
+            return id.split("/")[1];
+        }
+    }
+
+    /**
      * ViewBorderFrameLayout 的str id
      */
     private final static String STR_VIEW_BORDER_Id = "app:id/dokit_view_border_id";

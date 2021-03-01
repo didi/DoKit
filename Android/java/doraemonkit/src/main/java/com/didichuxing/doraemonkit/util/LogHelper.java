@@ -31,6 +31,13 @@ public class LogHelper {
         LogUtils.v("[" + subTag + "]: " + msg);
     }
 
+    public static void json(String subTag, Object o) {
+        if (!IS_DEBUG) {
+            return;
+        }
+        LogUtils.json("[" + subTag + "]: ", o);
+    }
+
     public static void setDebug(boolean debug) {
         IS_DEBUG = debug;
     }
