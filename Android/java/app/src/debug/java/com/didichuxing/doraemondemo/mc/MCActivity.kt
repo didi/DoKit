@@ -1,8 +1,9 @@
 package com.didichuxing.doraemondemo.mc
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
