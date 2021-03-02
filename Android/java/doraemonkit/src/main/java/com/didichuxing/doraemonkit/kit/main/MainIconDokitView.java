@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.blankj.utilcode.util.ConvertUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.FloatIconConfig;
@@ -54,6 +55,13 @@ public class MainIconDokitView extends AbsDokitView {
     public void initDokitViewLayoutParams(DokitViewLayoutParams params) {
         params.x = FloatIconConfig.getLastPosX();
         params.y = FloatIconConfig.getLastPosY();
+
+        if (params.x == 0 && params.y == 0) {
+            params.x = ConvertUtils.dp2px(0);
+            params.y = ConvertUtils.dp2px(180);
+        }
+
+
         params.width = DokitViewLayoutParams.WRAP_CONTENT;
         params.height = DokitViewLayoutParams.WRAP_CONTENT;
 //        params.width = ConvertUtils.dp2px(FLOAT_SIZE);
