@@ -42,5 +42,5 @@ dependencies {
     compileOnly rootProject.ext.dependencies["utilcode"]
 }
 
-uploadArchives.dependsOn(':doraemonkit-okhttp-v3:uploadArchives')
-uploadArchives.dependsOn(':doraemonkit-okhttp-v4:uploadArchives')
+//uploadArchives.dependsOn(':doraemonkit-okhttp-v3:uploadArchives')
+//uploadArchives.dependsOn(':doraemonkit-okhttp-v4:uploadArchives')

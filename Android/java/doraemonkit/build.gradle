@@ -110,9 +110,9 @@ dependencies {
 
 }
 
-uploadArchives.dependsOn(':doraemonkit-no-op:uploadArchives')
-uploadArchives.dependsOn(':doraemonkit-plugin:uploadArchives')
-uploadArchives.dependsOn(':doraemonkit-okhttp-api:uploadArchives')
+//uploadArchives.dependsOn(':doraemonkit-no-op:uploadArchives')
+//uploadArchives.dependsOn(':doraemonkit-plugin:uploadArchives')
+//uploadArchives.dependsOn(':doraemonkit-okhttp-api:uploadArchives')
 
 configurations.all {
     //循环每个依赖库

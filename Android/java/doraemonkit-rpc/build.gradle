@@ -60,4 +60,4 @@ dependencies {
 
 }
 
-uploadArchives.dependsOn(':doraemonkit:uploadArchives')
+//uploadArchives.dependsOn(':doraemonkit:uploadArchives')
