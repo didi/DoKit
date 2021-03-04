@@ -56,6 +56,12 @@ object DoKitExtUtil {
     var SLOW_METHOD_STRATEGY = SlowMethodExt.STRATEGY_STACK
 
     private val applications: MutableSet<String> = mutableSetOf()
+
+    /**
+     * app的packageName
+     */
+    private var appPackageName: String = ""
+
     var commExt = CommExt()
         private set
     val slowMethodExt = SlowMethodExt()
@@ -80,7 +86,7 @@ object DoKitExtUtil {
      * @param dokitEx dokitExtension
      * @param appExtension   appExtension
      */
-    fun init(dokitEx: DoKitExt, applicationId: String) {
+    fun init(dokitEx: DoKitExt) {
         //设置普通的配置
         commExt = dokitEx.comm
         //slowMethodExt.strategy = dokitEx.slowMethod.strategy
@@ -95,9 +101,9 @@ object DoKitExtUtil {
             slowMethodExt.normalMethod.packageNames.add(packageName)
         }
         //添加默认的包名
-        if (applicationId.isNotEmpty()) {
+        if (appPackageName.isNotEmpty()) {
             if (slowMethodExt.normalMethod.packageNames.isEmpty()) {
-                slowMethodExt.normalMethod.packageNames.add(applicationId)
+                slowMethodExt.normalMethod.packageNames.add(appPackageName)
             }
         }
 
@@ -147,6 +153,13 @@ object DoKitExtUtil {
         for (application in applications) {
             this.applications.add(application)
         }
+    }
+
+    /**
+     * 设置packageName
+     */
+    fun setAppPackageName(packageName: String) {
+        appPackageName = packageName
     }
 
     fun ignorePackageNames(className: String): Boolean {

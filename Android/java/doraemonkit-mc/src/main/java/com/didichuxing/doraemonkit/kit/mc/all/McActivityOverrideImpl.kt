@@ -1,6 +1,9 @@
 package com.didichuxing.doraemonkit.kit.mc.all
 
 import android.app.Activity
+import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.constant.WSEType
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.DoKitActivityOverrideListener
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
 import com.didichuxing.doraemonkit.util.LogHelper
@@ -38,7 +41,7 @@ class McActivityOverrideImpl : DoKitActivityOverrideListener {
     }
 
     override fun finish(activity: Activity) {
-//        if (McConstant.WS_MODE == WSMode.HOST) {
+//        if (DoKitConstant.WS_MODE == WSMode.HOST) {
 //            val wsEvent = WSEvent(
 //                WSMode.HOST,
 //                WSEType.ACTIVITY_FINISH,
@@ -57,7 +60,7 @@ class McActivityOverrideImpl : DoKitActivityOverrideListener {
     }
 
     override fun onBackPressed(activity: Activity) {
-        if (McConstant.WS_MODE == WSMode.HOST) {
+        if (DoKitConstant.WS_MODE == WSMode.HOST) {
             val wsEvent = WSEvent(
                 WSMode.HOST,
                 WSEType.ACTIVITY_BACK_PRESSED,
@@ -79,7 +82,7 @@ class McActivityOverrideImpl : DoKitActivityOverrideListener {
     }
 
     override fun onForeground(className: String) {
-        if (McConstant.WS_MODE == WSMode.HOST) {
+        if (DoKitConstant.WS_MODE == WSMode.HOST) {
             val wsEvent = WSEvent(
                 WSMode.HOST,
                 WSEType.APP_ON_FOREGROUND,
@@ -94,7 +97,7 @@ class McActivityOverrideImpl : DoKitActivityOverrideListener {
     }
 
     override fun onBackground() {
-        if (McConstant.WS_MODE == WSMode.HOST) {
+        if (DoKitConstant.WS_MODE == WSMode.HOST) {
             val wsEvent = WSEvent(
                 WSMode.HOST,
                 WSEType.APP_ON_BACKGROUND,

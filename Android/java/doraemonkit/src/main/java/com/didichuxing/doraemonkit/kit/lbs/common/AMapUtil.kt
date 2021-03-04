@@ -1,6 +1,8 @@
 package com.didichuxing.doraemonkit.kit.lbs.common
 
 import com.amap.api.maps.model.LatLng
+import com.amap.api.navi.model.NaviLatLng
+import com.amap.api.navi.model.search.LatLonPoint
 
 /**
  * ================================================
@@ -12,17 +14,17 @@ import com.amap.api.maps.model.LatLng
  * ================================================
  */
 object AMapUtil {
-//    /**
-//     * 把LatLng对象转化为LatLonPoint对象
-//     */
-//    fun convertToLatLonPoint(latlon: LatLng): LatLonPoint {
-//        return LatLonPoint(latlon.latitude, latlon.longitude)
-//    }
-//
-//    /**
-//     * 把LatLonPoint对象转化为LatLon对象
-//     */
-//    fun convertToLatLng(latLonPoint: LatLonPoint): LatLng {
-//        return LatLng(latLonPoint.latitude, latLonPoint.longitude)
-//    }
+    /**
+     * 把LatLng对象转化为LatLonPoint对象
+     */
+    fun convertToLatLonPoint(latlng: NaviLatLng): LatLonPoint {
+        return LatLonPoint(latlng.latitude, latlng.longitude)
+    }
+
+    /**
+     * 把LatLonPoint对象转化为LatLon对象
+     */
+    fun convertToLatLng(latlng: NaviLatLng): LatLng {
+        return LatLng(latlng.latitude, latlng.longitude)
+    }
 }

@@ -29,4 +29,18 @@
         android:src="@mipmap/dk_close_icon" />
 
 
+    <TextView
+        android:id="@+id/tv_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title"
+        android:text="当前导航进度:" />
+
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_progress" />
+
+
 </RelativeLayout>

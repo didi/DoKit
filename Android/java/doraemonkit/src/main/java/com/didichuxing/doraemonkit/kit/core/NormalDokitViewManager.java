@@ -11,10 +11,12 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
+import com.blankj.utilcode.util.ActivityUtils;
 import com.blankj.utilcode.util.BarUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.constant.WSMode;
 import com.didichuxing.doraemonkit.kit.health.CountDownDokitView;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitView;
@@ -34,6 +36,7 @@ import java.util.Map;
  */
 
 class NormalDokitViewManager implements DokitViewManagerInterface {
+    private static int MC_DELAY = 100;
     private static final String TAG = "NormalDokitViewManager";
     /**
      * 每个Activity中dokitView的集合
@@ -369,7 +372,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                         //操作DecorRootView
                         dokitView.dealDecorRootView(getDokitRootContentView(dokitIntent.activity, mDecorView));
                     }
-                }, 100);
+                }, MC_DELAY);
 
             }
 
@@ -470,10 +473,25 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
      * @param tag
      */
     @Override
-    public void detach(String tag) {
+    public void detach(final String tag) {
         if (mActivityDokitViews == null) {
             return;
         }
+
+        if (DoKitConstant.INSTANCE.getWS_MODE() == WSMode.HOST) {
+            ActivityUtils.getTopActivity().getWindow().getDecorView().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    realDetach(tag);
+                }
+            }, MC_DELAY);
+        } else {
+            realDetach(tag);
+        }
+    }
+
+
+    private void realDetach(String tag) {
         //移除每个activity中指定的dokitView
         for (Activity activityKey : mActivityDokitViews.keySet()) {
             Map<String, AbsDokitView> dokitViews = mActivityDokitViews.get(activityKey);
@@ -482,6 +500,8 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             if (dokitView == null) {
                 continue;
             }
+
+
             if (dokitView.getDoKitView() != null) {
                 dokitView.getDoKitView().setVisibility(View.GONE);
                 getDokitRootContentView(dokitView.getActivity(), (FrameLayout) activityKey.getWindow().getDecorView()).removeView(dokitView.getDoKitView());
@@ -500,7 +520,6 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         if (mGlobalSingleDokitViews != null && mGlobalSingleDokitViews.containsKey(tag)) {
             mGlobalSingleDokitViews.remove(tag);
         }
-
     }
 
     @Override
@@ -508,31 +527,32 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         if (activity == null) {
             return;
         }
-        Map<String, AbsDokitView> dokitViews = mActivityDokitViews.get(activity);
-        if (dokitViews == null) {
-            return;
-        }
-        //定位到指定dokitView
-        AbsDokitView dokitView = dokitViews.get(tag);
-        if (dokitView == null) {
-            return;
-        }
-        if (dokitView.getDoKitView() != null) {
-            dokitView.getDoKitView().setVisibility(View.GONE);
-            getDokitRootContentView(dokitView.getActivity(), (FrameLayout) activity.getWindow().getDecorView()).removeView(dokitView.getDoKitView());
-        }
-
-        //移除指定UI
-        //请求重新绘制
-        activity.getWindow().getDecorView().requestLayout();
-        //执行dokitView的销毁
-        dokitView.performDestroy();
-        //移除map中的数据
-        dokitViews.remove(tag);
-
-        if (mGlobalSingleDokitViews != null && mGlobalSingleDokitViews.containsKey(tag)) {
-            mGlobalSingleDokitViews.remove(tag);
-        }
+        detach(tag);
+//        Map<String, AbsDokitView> dokitViews = mActivityDokitViews.get(activity);
+//        if (dokitViews == null) {
+//            return;
+//        }
+//        //定位到指定dokitView
+//        AbsDokitView dokitView = dokitViews.get(tag);
+//        if (dokitView == null) {
+//            return;
+//        }
+//        if (dokitView.getDoKitView() != null) {
+//            dokitView.getDoKitView().setVisibility(View.GONE);
+//            getDokitRootContentView(dokitView.getActivity(), (FrameLayout) activity.getWindow().getDecorView()).removeView(dokitView.getDoKitView());
+//        }
+//
+//        //移除指定UI
+//        //请求重新绘制
+//        activity.getWindow().getDecorView().requestLayout();
+//        //执行dokitView的销毁
+//        dokitView.performDestroy();
+//        //移除map中的数据
+//        dokitViews.remove(tag);
+//
+//        if (mGlobalSingleDokitViews != null && mGlobalSingleDokitViews.containsKey(tag)) {
+//            mGlobalSingleDokitViews.remove(tag);
+//        }
     }
 
     @Override

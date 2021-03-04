@@ -1,8 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc.server
 
-import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.ToastUtils
-import com.didichuxing.doraemonkit.kit.mc.all.WSEType
+import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 
 /**

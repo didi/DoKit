@@ -8,14 +8,16 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import com.blankj.utilcode.util.ActivityUtils
 import com.didichuxing.doraemonkit.constant.DoKitConstant
-import com.didichuxing.doraemonkit.extension.isTrue
+import com.didichuxing.doraemonkit.constant.WSEType
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
-import com.didichuxing.doraemonkit.kit.mc.all.*
-import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
+import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
+import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.AccEventInfo
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.DokitViewInfo
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
+import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
 import com.didichuxing.doraemonkit.kit.mc.util.ViewPathUtil
 import com.didichuxing.doraemonkit.util.LogHelper
 import de.robv.android.xposed.XC_MethodHook
@@ -44,7 +46,7 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
      */
     override fun afterHookedMethod(param: MethodHookParam?) {
         super.afterHookedMethod(param)
-        if (McConstant.WS_MODE != WSMode.HOST) {
+        if (DoKitConstant.WS_MODE != WSMode.HOST) {
             return
         }
         param?.let {
@@ -167,7 +169,7 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
             //针对dokit悬浮窗
             AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
                 if (view is DokitFrameLayout) {
-                    if (McConstant.WS_MODE == WSMode.HOST) {
+                    if (DoKitConstant.WS_MODE == WSMode.HOST) {
                         viewC12c = createViewC12c(view, accessibilityEvent)
                         //LogHelper.i(TAG, "viewCharacteristic===>$viewC12c")
                         val wsEvent = WSEvent(

@@ -5,12 +5,9 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.ImageView
+import android.widget.*
 import androidx.core.view.children
 import com.amap.api.maps.AMap
-import com.amap.api.maps.model.BitmapDescriptorFactory
-import com.amap.api.maps.model.MarkerOptions
 import com.amap.api.navi.AMapNavi
 import com.amap.api.navi.enums.PathPlanningStrategy
 import com.amap.api.navi.model.NaviLatLng
@@ -20,7 +17,7 @@ import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
-import com.didichuxing.doraemonkit.kit.lbs.common.AMapUtil
+import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager
 
 /**
  * ================================================
@@ -37,9 +34,9 @@ class RouteKitView : AbsDokitView() {
     }
 
     private var aMap: AMap? = null
-    private val mStartPoint = NaviLatLng(39.942295, 116.335891) //起点，116.335891,39.942295
+    private val mStartPoint = NaviLatLng(30.29659, 120.081127) //起点，116.335891,39.942295
 
-    private val mEndPoint = NaviLatLng(39.995576, 116.481288) //终点，116.481288,39.995576
+    private val mEndPoint = NaviLatLng(30.296793, 120.07527) //终点，116.481288,39.995576
 
     private var mAMapNavi: AMapNavi? = null
 
@@ -50,18 +47,55 @@ class RouteKitView : AbsDokitView() {
         return LayoutInflater.from(context).inflate(R.layout.dk_float_lbs_route, rootView, false)
     }
 
+    var index = 0
+
     override fun onViewCreated(rootView: FrameLayout?) {
         rootView?.let {
             val close = it.findViewById<ImageView>(R.id.iv_close)
+            val seekbar = it.findViewById<SeekBar>(R.id.seekbar)
+            seekbar.progress = 0
+            val tvProgress = it.findViewById<TextView>(R.id.tv_progress)
+            tvProgress.text = "当前导航进度: 0%"
             close.setOnClickListener {
                 DokitViewManager.getInstance().detach(this)
             }
+            seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
+                    tvProgress.text = "当前导航进度: $progress%"
+                    var index: Int =
+                        Math.ceil(RouterManager.mCoordList.size * progress / 100.0).toInt()
+                    if (index > RouterManager.mCoordList.size - 1) {
+                        index = RouterManager.mCoordList.size - 1
+                    }
+                    val naviLatLng = RouterManager.mCoordList[index]
+                    GpsMockManager.getInstance()
+                        .mockLocationWithNotify(naviLatLng.latitude, naviLatLng.longitude)
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                }
+
+            })
+
+
+//            btnResetPos.setOnClickListener {
+//                if (index <= RouterManager.mCoordList.size - 1) {
+//                    val naviLatLng = RouterManager.mCoordList[index]
+//                    GpsMockManager.getInstance()
+//                        .mockLocationWithNotify(naviLatLng.latitude, naviLatLng.longitude)
+//                    index++
+//                }
+//            }
 
         }
 
-
-
-//        setFromAndEndMarker()
 
     }
 
@@ -74,24 +108,6 @@ class RouteKitView : AbsDokitView() {
             it.y = 200
         }
     }
-
-
-    /**
-     * 设置起始点marker
-     */
-//    private fun setFromAndEndMarker() {
-//        aMap?.addMarker(
-//            MarkerOptions()
-//                .position(AMapUtil.convertToLatLng(mStartPoint))
-//                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.dk_lbs_start))
-//        )
-//
-//        aMap?.addMarker(
-//            MarkerOptions()
-//                .position(AMapUtil.convertToLatLng(mEndPoint))
-//                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.dk_lbs_end))
-//        )
-//    }
 
 
     override fun onResume() {
@@ -108,7 +124,9 @@ class RouteKitView : AbsDokitView() {
             null,
             PathPlanningStrategy.DRIVING_MULTIPLE_ROUTES_DEFAULT
         )
-        mAMapNavi?.addAMapNaviListener(DefaultNaviListener(mAMapNavi))
+        aMap?.let {
+            mAMapNavi?.addAMapNaviListener(DefaultNaviListener(it, mAMapNavi!!))
+        }
     }
 
     private fun findAMapView(): com.amap.api.maps.MapView? {

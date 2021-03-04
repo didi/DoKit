@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc.all
 
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.mc.server.HostInfo
 
 /**
@@ -22,11 +23,7 @@ object McConstant {
      */
     const val MULTI_CONTROL_MODE_CLIENT = 200
 
-    /**
-     * 一机多控类型
-     */
-    //@JvmField
-    var WS_MODE: WSMode = WSMode.UNKNOW
+
 
     /**
      * 主机信息

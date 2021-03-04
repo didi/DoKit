@@ -1,9 +1,9 @@
 package com.didichuxing.doraemonkit.kit.mc.server
 
 import com.blankj.utilcode.util.GsonUtils
-import com.didichuxing.doraemonkit.kit.mc.all.McConstant
+import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
-import com.didichuxing.doraemonkit.kit.mc.all.WSMode
 import io.ktor.http.cio.websocket.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
@@ -35,7 +35,7 @@ object DoKitWsServer {
     fun start(callBack: () -> Unit) {
         try {
             server.start()
-            McConstant.WS_MODE = WSMode.HOST
+            DoKitConstant.WS_MODE = WSMode.HOST
             callBack()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -46,7 +46,7 @@ object DoKitWsServer {
     fun stop() {
         try {
             server.stop(1, 1)
-            McConstant.WS_MODE = WSMode.UNKNOW
+            DoKitConstant.WS_MODE = WSMode.UNKNOW
         } catch (e: Exception) {
             e.printStackTrace()
         }

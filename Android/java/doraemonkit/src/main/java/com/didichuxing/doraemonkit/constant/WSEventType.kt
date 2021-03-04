@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.mc.all
+package com.didichuxing.doraemonkit.constant
 
 /**
  * ================================================

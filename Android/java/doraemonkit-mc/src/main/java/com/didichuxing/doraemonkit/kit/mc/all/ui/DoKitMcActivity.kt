@@ -2,9 +2,9 @@ package com.didichuxing.doraemonkit.kit.mc.all.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseActivity
-import com.didichuxing.doraemonkit.kit.mc.all.McConstant
-import com.didichuxing.doraemonkit.kit.mc.all.WSMode
 import com.didichuxing.doraemonkit.mc.R
 import kotlinx.android.synthetic.main.dk_activity_mc.*
 
@@ -31,7 +31,7 @@ class DoKitMcActivity : BaseActivity() {
         title_bar.setListener {
             finish()
         }
-        when (McConstant.WS_MODE) {
+        when (DoKitConstant.WS_MODE) {
             WSMode.UNKNOW -> {
                 changeFragment(FRAGMENT_SELECT)
             }

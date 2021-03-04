@@ -9,12 +9,10 @@ import android.view.accessibility.AccessibilityManager
 import android.widget.ImageView
 import android.widget.TextView
 import com.blankj.utilcode.util.ImageUtils
-import com.blankj.utilcode.util.NetworkUtils
 import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
-import com.didichuxing.doraemonkit.kit.mc.all.McConstant
-import com.didichuxing.doraemonkit.kit.mc.all.WSMode
 import com.didichuxing.doraemonkit.kit.mc.all.hook.AccessibilityGetInstanceMethodHook
 import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onInitializeAccessibilityEventHook
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
@@ -48,7 +46,7 @@ class DoKitMcHostFragment : BaseFragment() {
         val qCode = CodeUtils.createCode(activity, host, logo)
         tvHost.text = host
         ivCode.setImageBitmap(qCode)
-        if (McConstant.WS_MODE == WSMode.UNKNOW) {
+        if (DoKitConstant.WS_MODE == WSMode.UNKNOW) {
             DoKitWsServer.start {
                 DoKitWindowManager.hookWindowManagerGlobal()
                 runTimeHook()

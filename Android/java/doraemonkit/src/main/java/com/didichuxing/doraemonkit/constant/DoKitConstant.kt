@@ -122,6 +122,12 @@ object DoKitConstant {
     var MC_INTERCEPT: MCInterceptor? = null
 
     /**
+     * 一机多控类型
+     */
+    //@JvmField
+    var WS_MODE: WSMode = WSMode.UNKNOW
+
+    /**
      * Wifi IP 地址
      */
     val IP_ADDRESS_BY_WIFI: String

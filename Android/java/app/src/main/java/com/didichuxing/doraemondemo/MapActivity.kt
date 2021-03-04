@@ -1,18 +1,20 @@
 package com.didichuxing.doraemondemo
 
 import android.location.Location
-import android.nfc.Tag
 import android.os.Bundle
 import android.os.Looper
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.amap.api.location.AMapLocationClient
+import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.maps.AMap
+import com.amap.api.maps.CameraUpdateFactory
+import com.amap.api.maps.model.LatLng
+import com.amap.api.maps.model.MarkerOptions
 import com.amap.api.maps.model.MyLocationStyle
 import com.amap.api.services.route.*
 import com.baidu.location.*
 import com.baidu.mapapi.map.*
-import com.didichuxing.doraemonkit.aop.map.ThirdMapLocationListenerUtil
-import com.didichuxing.doraemonkit.util.LogHelper
 import com.tencent.map.geolocation.TencentLocation
 import com.tencent.map.geolocation.TencentLocationListener
 import com.tencent.map.geolocation.TencentLocationManager
@@ -27,6 +29,7 @@ import kotlinx.android.synthetic.main.activity_map.*
  * 高德地图路径规划
  */
 class MapActivity : AppCompatActivity() {
+
 
     companion object {
         val TAG = "MapActivity"
@@ -49,10 +52,33 @@ class MapActivity : AppCompatActivity() {
     }
 
 
+//    lateinit var aMapLocationClient: AMapLocationClient
+//    lateinit var aMapLocationClientOption: AMapLocationClientOption
+
     /**
      * 初始化高德地图的定位
      */
     private fun initAMapLocation() {
+//        aMapLocationClient = AMapLocationClient(this)
+//        aMapLocationClientOption = AMapLocationClientOption()
+//        aMapLocationClientOption.locationMode =
+//            AMapLocationClientOption.AMapLocationMode.Hight_Accuracy
+//        aMapLocationClientOption.interval = 2000
+//        aMapLocationClient.setLocationOption(aMapLocationClientOption)
+//        aMapLocationClient.setLocationListener {
+//            val options = MarkerOptions().position(LatLng(it.latitude, it.longitude))
+//            options.draggable(true).icon(
+//                com.amap.api.maps.model.BitmapDescriptorFactory.fromResource(
+//                    R.mipmap.ic_navi_map_gps_locked
+//                )
+//            )
+//
+//            aMap.addMarker(options)
+//            aMap.clear()
+//            aMap.animateCamera(CameraUpdateFactory.newLatLng(LatLng(it.latitude, it.longitude)))
+//        }
+//        aMapLocationClient.startLocation()
+
         //初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
         val myLocationStyle = MyLocationStyle()
         //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒
@@ -118,7 +144,7 @@ class MapActivity : AppCompatActivity() {
         val option = LocationClientOption()
         option.isOpenGps = true // 打开gps
         option.setCoorType("bd09ll") // 设置坐标类型
-        option.setScanSpan(5000)
+//        option.setScanSpan(5000)
 
         //设置locationClientOption
         mBDLocationClient.locOption = option
@@ -229,7 +255,7 @@ class MapActivity : AppCompatActivity() {
         mTencentMap.setMinZoomLevel(ZOOM_INDEX.toInt())
 
         //设置定位周期（位置监听器回调周期）为3s
-        mTencentLocationRequest?.interval = 3000
+//        mTencentLocationRequest?.interval = 3000
         mTencentLocationManager?.requestSingleFreshLocation(
             mTencentLocationRequest,
             mTencentLocationListener, Looper.myLooper()

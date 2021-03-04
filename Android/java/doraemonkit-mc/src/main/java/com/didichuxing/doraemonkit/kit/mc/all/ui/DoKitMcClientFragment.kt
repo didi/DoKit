@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.all.McConstant
-import com.didichuxing.doraemonkit.kit.mc.all.WSMode
 import com.didichuxing.doraemonkit.kit.mc.client.DoKitWsClient
 import com.didichuxing.doraemonkit.mc.R
 import kotlinx.android.synthetic.main.dk_fragment_mc_client.*

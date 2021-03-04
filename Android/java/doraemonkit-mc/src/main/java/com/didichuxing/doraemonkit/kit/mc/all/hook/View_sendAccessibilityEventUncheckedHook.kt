@@ -7,6 +7,9 @@ import android.view.accessibility.AccessibilityEvent
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.blankj.utilcode.util.ActivityUtils
+import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.constant.WSEType
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
 import com.didichuxing.doraemonkit.kit.mc.all.*
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
@@ -55,7 +58,7 @@ class View_sendAccessibilityEventUncheckedHook : XC_MethodHook() {
                 AccessibilityEvent.TYPE_VIEW_LONG_CLICKED -> {
                     viewC12c = createViewC12c(view, accessibilityEvent)
 
-                    if (McConstant.WS_MODE == WSMode.HOST) {
+                    if (DoKitConstant.WS_MODE == WSMode.HOST) {
                         //LogHelper.i(TAG, "viewCharacteristic===>$viewC12c")
                         val wsEvent = WSEvent(
                             WSMode.HOST,

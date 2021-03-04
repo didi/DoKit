@@ -1,5 +1,7 @@
 package com.didichuxing.doraemonkit.kit.mc.all
 
+import com.didichuxing.doraemonkit.constant.WSEType
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
 
 /**

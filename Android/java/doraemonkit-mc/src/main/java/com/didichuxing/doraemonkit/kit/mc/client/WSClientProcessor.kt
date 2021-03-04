@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.blankj.utilcode.util.*
 import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.extension.isFalse
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
-import com.didichuxing.doraemonkit.kit.mc.all.WSEType
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
 import com.didichuxing.doraemonkit.kit.mc.server.HostInfo

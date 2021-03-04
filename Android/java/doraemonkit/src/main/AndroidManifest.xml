@@ -26,6 +26,8 @@
     <!--leakCanary-->
     <!-- To allow starting foreground services on Android P+ - https://developer.android.com/preview/behavior-changes#fg-svc -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!--map -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 
     <!--    networkSecurityConfig 兼容android P 的网络请求

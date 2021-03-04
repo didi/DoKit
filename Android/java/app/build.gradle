@@ -39,6 +39,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+//    flavorDimensions "default"
+//    productFlavors {
+//        product0 {
+//            applicationId "com.didichuxing.doraemondemo0"
+////            resValue "string", "app_name", "DoKitDemo0"
+////            manifestPlaceholders = [CHANNEL_VALUE: "product0"
+////                                    , app_icon   : "@mipmap/logo"]
+//        }
+//        product1 {
+//            applicationId "com.didichuxing.doraemondemo1"
+////            resValue "string", "app_name", "DoKitDemo1"
+////            manifestPlaceholders = [CHANNEL_VALUE: "product1"
+////                                    , app_icon   : "@mipmap/logo"]
+//        }
+//    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

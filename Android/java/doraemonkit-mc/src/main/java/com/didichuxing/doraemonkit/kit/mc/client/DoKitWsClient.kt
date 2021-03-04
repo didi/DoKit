@@ -3,6 +3,9 @@ package com.didichuxing.doraemonkit.kit.mc.client
 import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.GsonUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.constant.WSEType
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.mc.all.*
 import com.didichuxing.doraemonkit.util.LogHelper
 import io.ktor.client.*
@@ -66,7 +69,7 @@ object DoKitWsClient {
                         }
                     }
                 ) {
-                    McConstant.WS_MODE = WSMode.CLIENT
+                    DoKitConstant.WS_MODE = WSMode.CLIENT
                     clientWebSocketSession = this
                     /**
                      * 避免ws在收到第一条消息以后 通道自动关闭的问题
@@ -135,7 +138,7 @@ object DoKitWsClient {
             )
         )
         //client.close()
-        McConstant.WS_MODE = WSMode.UNKNOW
+        DoKitConstant.WS_MODE = WSMode.UNKNOW
     }
 
 
