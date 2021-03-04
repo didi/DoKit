@@ -51,22 +51,22 @@ class App : Application() {
 
         DoraemonKit.install(this, mapKits = mapKits, productId = "749a0600b5e48dd77cf8ee680be7b1b7")
         DoraemonKit.setFileManagerHttpPort(9001)
-//        DoraemonKit.setMCIntercept(object : MCInterceptor {
-//            override fun onIntercept(view: View, accessibilityEvent: AccessibilityEvent): Boolean {
-//                return false
-//            }
-//
-//            override fun serverParams(
-//                view: View,
-//                accessibilityEvent: AccessibilityEvent
-//            ): Map<String, String> {
-//                TODO("Not yet implemented")
-//            }
-//
-//            override fun clientProcess(view: View, params: Map<String, String>): Boolean {
-//                TODO("Not yet implemented")
-//            }
-//        })
+        DoraemonKit.setMCIntercept(object : MCInterceptor {
+            override fun onIntercept(view: View, accessibilityEvent: AccessibilityEvent): Boolean {
+                return false
+            }
+
+            override fun serverParams(
+                view: View,
+                accessibilityEvent: AccessibilityEvent
+            ): Map<String, String> {
+                TODO("Not yet implemented")
+            }
+
+            override fun clientProcess(view: View, params: Map<String, String>): Boolean {
+                TODO("Not yet implemented")
+            }
+        })
         //设置加密数据库
         DoraemonKit.setDatabasePass(mapOf("Person.db" to "a_password"))
         val config = ImagePipelineConfig.newBuilder(this)
