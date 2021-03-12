@@ -37,7 +37,6 @@ class RouteKitView : AbsDokitView() {
         const val TAG = "RouteKitView"
     }
 
-    private var aMap: AMap? = null
 
     private var mAMapNavi: AMapNavi? = null
 
@@ -118,7 +117,8 @@ class RouteKitView : AbsDokitView() {
 
     override fun onResume() {
         super.onResume()
-        if (findAMapView() == null) {
+        traversAMapView(activity.window.decorView as ViewGroup)
+        if (mapView == null) {
             mSeekbar.visibility = View.GONE
             mTvTip.visibility = View.VISIBLE
             return
@@ -136,38 +136,18 @@ class RouteKitView : AbsDokitView() {
 
     }
 
-    private fun findAMapView(): com.amap.api.maps.MapView? {
-        val decorView = activity.window.decorView as ViewGroup
-        decorView.children.forEach {
-            LogHelper.i(
-                TAG, "viewId====>${
-                    UIUtils.getRealIdText(it)
-                }"
-            )
-            when (it) {
-                is com.amap.api.maps.MapView -> return it
-                is ViewGroup -> return traversAMapView(it)
-            }
+    private var mapView: com.amap.api.maps.MapView? = null
 
-        }
-        return null
-    }
-
-    private fun traversAMapView(viewGroup: ViewGroup): com.amap.api.maps.MapView? {
+    private fun traversAMapView(viewGroup: ViewGroup) {
         viewGroup.children.forEach {
-            LogHelper.i(
-                TAG, "viewId====>${
-                    UIUtils.getRealIdText(it)
-                }"
-            )
             when (it) {
-                is com.amap.api.maps.MapView -> return it
-                is ViewGroup -> return traversAMapView(it)
+                is com.amap.api.maps.MapView -> {
+                    mapView = it
+                    return
+                }
+                is ViewGroup -> traversAMapView(it)
             }
-
         }
-        return null
     }
-
 
 }
