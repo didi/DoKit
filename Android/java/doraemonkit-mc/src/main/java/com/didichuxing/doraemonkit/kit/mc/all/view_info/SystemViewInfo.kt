@@ -12,6 +12,7 @@ package com.didichuxing.doraemonkit.kit.mc.all.view_info
 data class SystemViewInfo(
     val viewClassName: String = "",
     val viewId: String = "-1",
+    val childCount: Int = -1,
     /**
      * childIndexOfViewParent = -1  代表是当前控件
      */

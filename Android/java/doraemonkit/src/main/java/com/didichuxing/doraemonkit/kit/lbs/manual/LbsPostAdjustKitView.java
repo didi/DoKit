@@ -20,7 +20,7 @@ import com.didichuxing.doraemonkit.kit.lbs.common.LocInfo;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.model.LatLng;
 
-public class FloatGpsMockKitView extends SimpleDokitView {
+public class LbsPostAdjustKitView extends SimpleDokitView {
     public static final String TAG = "FloatGpsMockKitView";
     public static final int MIN_STEP = 5;
     public static final int MAX_STEP = 500;

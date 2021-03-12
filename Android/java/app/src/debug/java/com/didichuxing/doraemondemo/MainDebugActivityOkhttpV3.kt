@@ -25,6 +25,8 @@ import com.blankj.utilcode.util.ThreadUtils.SimpleTask
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.didichuxing.doraemondemo.comm.CommLauncher
+import com.didichuxing.doraemondemo.amap.AMapRouterFragment
 import com.didichuxing.doraemondemo.mc.MCActivity
 import com.didichuxing.doraemondemo.retrofit.GithubService
 import com.didichuxing.doraemonkit.DoraemonKit
@@ -94,7 +96,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
         findViewById<View>(R.id.btn_app_launch_stack).setOnClickListener(this)
         findViewById<View>(R.id.btn_show_tool_panel).setOnClickListener(this)
         findViewById<View>(R.id.btn_location).setOnClickListener(this)
-        findViewById<View>(R.id.btn_location_map).setOnClickListener(this)
+        findViewById<View>(R.id.btn_path_amap).setOnClickListener(this)
         findViewById<View>(R.id.btn_location_map2).setOnClickListener(this)
         findViewById<View>(R.id.btn_load_img).setOnClickListener(this)
         findViewById<View>(R.id.btn_okhttp_mock).setOnClickListener(this)
@@ -215,7 +217,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
                 //MethodStackUtil.getInstance().toJson()
             }
             R.id.btn_location -> startNormaLocation()
-            R.id.btn_location_map -> startActivity(Intent(this, MapActivity::class.java))
+            R.id.btn_path_amap -> CommLauncher.startActivity(AMapRouterFragment::class.java)
             R.id.btn_location_map2 -> startActivity(
                 Intent(
                     this,

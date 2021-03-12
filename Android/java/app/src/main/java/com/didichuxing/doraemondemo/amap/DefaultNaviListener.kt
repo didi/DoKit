@@ -1,5 +1,6 @@
-package com.didichuxing.doraemonkit.kit.lbs.route
+package com.didichuxing.doraemondemo.amap
 
+import android.content.Context
 import com.amap.api.maps.AMap
 import com.amap.api.navi.AMapNavi
 import com.amap.api.navi.AMapNaviListener
@@ -16,7 +17,8 @@ import com.didichuxing.doraemonkit.util.LogHelper
  * 修订历史：
  * ================================================
  */
-class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi) : AMapNaviListener {
+class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context: Context) :
+    AMapNaviListener {
 //    private var mNaviRouteOverlay: NaviRouteOverlay? = null
 //
 //    init {
@@ -118,8 +120,8 @@ class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi) : AMapNaviLi
      */
     override fun onCalculateRouteSuccess(result: AMapCalcRouteResult?) {
         LogHelper.i(TAG, "mAMapNavi.naviPath.coordList===>${mAMapNavi.naviPath.coordList.size}")
-        RouterManager.mCoordList = mAMapNavi.naviPath.coordList
-        val naviRouteOverlay = NaviRouteOverlay(mAMap, mAMapNavi.naviPath)
+        //RouterManager.mCoordList = mAMapNavi.naviPath.coordList
+        val naviRouteOverlay = NaviRouteOverlay(mAMap, mAMapNavi.naviPath, context)
         naviRouteOverlay.setShowDefaultLineArrow(true)
         naviRouteOverlay.addToMap()
 //        naviRouteOverlay.removeFromMap()

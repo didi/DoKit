@@ -4,11 +4,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewParent
 import android.widget.ListView
+import androidx.core.view.children
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.blankj.utilcode.util.ResourceUtils
+import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.SystemViewInfo
 import com.didichuxing.doraemonkit.util.UIUtils
 
@@ -43,6 +45,11 @@ object ViewPathUtil {
                         SystemViewInfo(
                             view::class.java.canonicalName!!,
                             UIUtils.getRealIdText(view),
+                            if (view is ViewGroup) {
+                                view.childCount
+                            } else {
+                                -1
+                            },
                             -1,
                             true,
                             -1,
@@ -55,6 +62,11 @@ object ViewPathUtil {
                         SystemViewInfo(
                             view::class.java.canonicalName!!,
                             UIUtils.getRealIdText(view),
+                            if (view is ViewGroup) {
+                                view.childCount
+                            } else {
+                                -1
+                            },
                             -1,
                             false,
                             -1,
@@ -71,6 +83,7 @@ object ViewPathUtil {
                             SystemViewInfo(
                                 parent::class.java.canonicalName!!,
                                 UIUtils.getRealIdText(parent),
+                                parent.childCount,
                                 parent.indexOfChild(view),
                                 true,
                                 parent.getChildAdapterPosition(view)
@@ -83,6 +96,7 @@ object ViewPathUtil {
                             SystemViewInfo(
                                 parent::class.java.canonicalName!!,
                                 UIUtils.getRealIdText(parent),
+                                parent.childCount,
                                 parent.indexOfChild(view),
                                 true,
                                 parent.getPositionForView(view)
@@ -96,6 +110,7 @@ object ViewPathUtil {
                                 parent::class.java.canonicalName!!,
                                 UIUtils.getRealIdText(parent),
                                 parent.indexOfChild(view),
+                                parent.childCount,
                                 true,
                                 parent.currentItem
                             )
@@ -106,6 +121,7 @@ object ViewPathUtil {
                             SystemViewInfo(
                                 parent::class.java.canonicalName!!,
                                 UIUtils.getRealIdText(parent),
+                                parent.indexOfChild(view),
                                 parent.indexOfChild(view)
                             )
                         )
@@ -164,8 +180,7 @@ object ViewPathUtil {
             //decorView 特殊处理
             if (index == viewParentInfos.size - 1) {
                 if (viewParentInfo.viewClassName == decorView::class.java.canonicalName) {
-                    viewParent =
-                        decorView.getChildAt(viewParentInfo.childIndexOfViewParent) as ViewGroup
+                    viewParent = decorView.getChildAt(viewParentInfo.childIndexOfViewParent)
                 }
             } else {
                 viewParent?.let {

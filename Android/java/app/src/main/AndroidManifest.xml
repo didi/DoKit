@@ -51,7 +51,9 @@
         <activity android:name=".LeakActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".mc.MCActivity" />
-        <activity android:name=".WSActivity" />
+        <activity
+            android:name=".comm.CommFragmentActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <!--高德定位服务-->
         <service android:name="com.amap.api.location.APSService" />
 

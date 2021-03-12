@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="路径规划"
+        android:text="@string/dk_kit_gps_mock_route"
         android:textColor="@color/dk_color_333333"
         android:textSize="16sp"
         android:textStyle="bold" />
@@ -36,11 +36,26 @@
         android:layout_below="@id/tv_title"
         android:text="当前导航进度:" />
 
-    <SeekBar
-        android:id="@+id/seekbar"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_progress" />
+        android:layout_below="@id/tv_progress">
+
+        <SeekBar
+            android:id="@+id/seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="当前页面不存在导航路径"
+            android:textColor="#FF0000"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </FrameLayout>
 
 
 </RelativeLayout>

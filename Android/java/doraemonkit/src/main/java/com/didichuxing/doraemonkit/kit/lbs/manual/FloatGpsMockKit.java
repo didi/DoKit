@@ -38,7 +38,7 @@ public class FloatGpsMockKit extends AbstractKit {
             return;
         }
 
-        SimpleDokitStarter.startFloating(FloatGpsMockKitView.class);
+        SimpleDokitStarter.startFloating(LbsPostAdjustKitView.class);
     }
 
     @Override

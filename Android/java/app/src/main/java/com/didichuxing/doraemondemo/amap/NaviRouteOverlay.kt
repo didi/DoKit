@@ -1,7 +1,6 @@
-package com.didichuxing.doraemonkit.kit.lbs.route
+package com.didichuxing.doraemondemo.amap
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.amap.api.maps.AMap
 import com.amap.api.maps.model.BitmapDescriptorFactory
@@ -26,7 +25,7 @@ import com.didichuxing.doraemonkit.kit.lbs.route.NaviSettings.ROUTE_SHADOW_Z_IND
 class NaviRouteOverlay(
     private val aMap: AMap,
     aMapNaviPath: AMapNaviPath?,
-    private val mContext: Context? = DoraemonKit.APPLICATION
+    private val mContext: Context
 ) : RouteOverLay(
     aMap, aMapNaviPath, mContext
 ) {
@@ -40,7 +39,7 @@ class NaviRouteOverlay(
      *
      * @param shadow
      */
-    fun setupOptions(shadow: Boolean) {
+    private fun setupOptions(shadow: Boolean) {
         val options: RouteOverlayOptions
         if (shadow) {
             options = customShadowRouteTexture(mContext)

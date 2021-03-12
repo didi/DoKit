@@ -18,6 +18,10 @@ import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager
+import com.didichuxing.doraemonkit.util.DokitUtil
+import com.didichuxing.doraemonkit.util.LogHelper
+import com.didichuxing.doraemonkit.util.UIUtils
+import kotlin.math.ceil
 
 /**
  * ================================================
@@ -34,13 +38,11 @@ class RouteKitView : AbsDokitView() {
     }
 
     private var aMap: AMap? = null
-    private val mStartPoint = NaviLatLng(30.29659, 120.081127) //起点，116.335891,39.942295
-
-    private val mEndPoint = NaviLatLng(30.296793, 120.07527) //终点，116.481288,39.995576
 
     private var mAMapNavi: AMapNavi? = null
 
     override fun onCreate(context: Context?) {
+        mAMapNavi = AMapNavi.getInstance(activity?.application)
     }
 
     override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
@@ -49,31 +51,44 @@ class RouteKitView : AbsDokitView() {
 
     var index = 0
 
+    lateinit var mSeekbar: SeekBar
+    lateinit var mTvTip: TextView
     override fun onViewCreated(rootView: FrameLayout?) {
         rootView?.let {
             val close = it.findViewById<ImageView>(R.id.iv_close)
-            val seekbar = it.findViewById<SeekBar>(R.id.seekbar)
-            seekbar.progress = 0
+            mSeekbar = it.findViewById<SeekBar>(R.id.seekbar)
+            mTvTip = it.findViewById<TextView>(R.id.tv_tip)
+            mSeekbar.progress = 0
             val tvProgress = it.findViewById<TextView>(R.id.tv_progress)
             tvProgress.text = "当前导航进度: 0%"
             close.setOnClickListener {
                 DokitViewManager.getInstance().detach(this)
             }
-            seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+
+            mSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
                 override fun onProgressChanged(
                     seekBar: SeekBar?,
                     progress: Int,
                     fromUser: Boolean
                 ) {
                     tvProgress.text = "当前导航进度: $progress%"
-                    var index: Int =
-                        Math.ceil(RouterManager.mCoordList.size * progress / 100.0).toInt()
-                    if (index > RouterManager.mCoordList.size - 1) {
-                        index = RouterManager.mCoordList.size - 1
+                    mAMapNavi?.let { navi ->
+                        if (navi.naviPath.coordList.isEmpty()) {
+                            return
+                        }
+                        var index: Int =
+                            ceil(navi.naviPath.coordList.size * progress / 100.0).toInt()
+                        if (index > navi.naviPath.coordList.size - 1) {
+                            index = navi.naviPath.coordList.size - 1
+                        }
+                        val naviLatLng = navi.naviPath.coordList[index]
+                        GpsMockManager.getInstance()
+                            .mockLocationWithNotify(naviLatLng.latitude, naviLatLng.longitude)
+
                     }
-                    val naviLatLng = RouterManager.mCoordList[index]
-                    GpsMockManager.getInstance()
-                        .mockLocationWithNotify(naviLatLng.latitude, naviLatLng.longitude)
+
+
                 }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -84,15 +99,6 @@ class RouteKitView : AbsDokitView() {
 
             })
 
-
-//            btnResetPos.setOnClickListener {
-//                if (index <= RouterManager.mCoordList.size - 1) {
-//                    val naviLatLng = RouterManager.mCoordList[index]
-//                    GpsMockManager.getInstance()
-//                        .mockLocationWithNotify(naviLatLng.latitude, naviLatLng.longitude)
-//                    index++
-//                }
-//            }
 
         }
 
@@ -112,26 +118,32 @@ class RouteKitView : AbsDokitView() {
 
     override fun onResume() {
         super.onResume()
-        aMap = findAMapView()?.map
-        mAMapNavi = AMapNavi.getInstance(DoraemonKit.APPLICATION)
-        val startList = mutableListOf<NaviLatLng>()
-        startList.add(mStartPoint)
-        val endList = mutableListOf<NaviLatLng>()
-        endList.add(mEndPoint)
-        mAMapNavi?.calculateDriveRoute(
-            startList,
-            endList,
-            null,
-            PathPlanningStrategy.DRIVING_MULTIPLE_ROUTES_DEFAULT
-        )
-        aMap?.let {
-            mAMapNavi?.addAMapNaviListener(DefaultNaviListener(it, mAMapNavi!!))
+        if (findAMapView() == null) {
+            mSeekbar.visibility = View.GONE
+            mTvTip.visibility = View.VISIBLE
+            return
         }
+
+        mAMapNavi?.let {
+            if (it.naviPath.coordList.isEmpty()) {
+                mSeekbar.visibility = View.GONE
+                mTvTip.visibility = View.VISIBLE
+            } else {
+                mSeekbar.visibility = View.VISIBLE
+                mTvTip.visibility = View.GONE
+            }
+        }
+
     }
 
     private fun findAMapView(): com.amap.api.maps.MapView? {
         val decorView = activity.window.decorView as ViewGroup
         decorView.children.forEach {
+            LogHelper.i(
+                TAG, "viewId====>${
+                    UIUtils.getRealIdText(it)
+                }"
+            )
             when (it) {
                 is com.amap.api.maps.MapView -> return it
                 is ViewGroup -> return traversAMapView(it)
@@ -143,6 +155,11 @@ class RouteKitView : AbsDokitView() {
 
     private fun traversAMapView(viewGroup: ViewGroup): com.amap.api.maps.MapView? {
         viewGroup.children.forEach {
+            LogHelper.i(
+                TAG, "viewId====>${
+                    UIUtils.getRealIdText(it)
+                }"
+            )
             when (it) {
                 is com.amap.api.maps.MapView -> return it
                 is ViewGroup -> return traversAMapView(it)
