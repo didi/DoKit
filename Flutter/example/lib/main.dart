@@ -18,6 +18,7 @@ import 'package:memory_checker/leak_observer.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:dokit/kit/apm/vm/vm_helper.dart';
 
+
 void main() {
   List<String> blackList = [
     'plugins.flutter.io/sensors/gyroscope',
@@ -32,7 +33,7 @@ void main() {
         String i = log;
       },
       methodChannelBlackList: blackList,
-      exceptionCallback: (obj, trace) {
+      exceptionCallback: (dynamic obj, StackTrace trace) {
         print('ttt$obj');
       });
   // runApp(MyApp());
@@ -171,7 +172,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                       fontSize: 18,
                     )),
                 onPressed: () {
-                  Navigator.of(context, rootNavigator: false).push(
+                  Navigator.of(context, rootNavigator: false).push<void>(
                       new MaterialPageRoute(
                           builder: (context) {
                             //指定跳转的页面
@@ -188,13 +189,13 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                   color: Color(0xffcccccc)),
               margin: EdgeInsets.only(bottom: 30),
               child: FlatButton(
-                child: Text('Test Isolate',
+                child: Text('Test Get Page Script',
                     style: TextStyle(
                       color: Color(0xff000000),
                       fontSize: 18,
                     )),
                 onPressed: () {
-                  VmHelper.instance.testIsolate();
+                  VmHelper.instance.testPrintScript();
                 },
               ),
             ),
@@ -220,7 +221,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
 
   Timer timer;
 
-  testDownload() async {
+  void testDownload() async {
     String url =
         'https://pt-starfile.didistatic.com/static/starfile/node20210220/895f1e95e30aba5dd56d6f2ccf768b57/GjzGU0Pvv11613804530384.zip';
     String savePath = await getPhoneLocalPath();
@@ -266,7 +267,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
     timer = null;
   }
 
-  request() async {
+  void request() async {
     new Image.network(
       //图片地址
       'https://img04.sogoucdn.com/app/a/100520093/ac75323d6b6de243-0bd502b2bdc1100a-92cef3b2299cfc6875afe7d5d0b83a7b.jpg',
@@ -341,7 +342,7 @@ class TestPageState extends State<TestPage> {
           children: <Widget>[
             GestureDetector(
               onTap: () => {
-                Navigator.of(context, rootNavigator: false).push(
+                Navigator.of(context, rootNavigator: false).push<void>(
                     new MaterialPageRoute(
                         builder: (context) {
                           //指定跳转的页面
@@ -364,38 +365,6 @@ class TestPageState extends State<TestPage> {
       ),
     );
   }
-}
-
-class A {
-  dynamic a;
-
-  A(this.a);
-
-  aa() {}
-}
-
-class B {
-  dynamic b;
-
-  B(this.b);
-
-  bb() {}
-}
-
-class C {
-  dynamic c;
-
-  C(this.c);
-
-  cc() {}
-}
-
-class D {
-  dynamic d;
-
-  D(this.d);
-
-  dd() {}
 }
 
 class TestPage2 extends StatefulWidget {
@@ -484,7 +453,7 @@ class TestPageState3 extends State<TestPage3> {
             GestureDetector(
               onTap: () => {
                 Navigator.of(context, rootNavigator: false)
-                    .push(new MaterialPageRoute(
+                    .push<void>(new MaterialPageRoute(
                         builder: (context) {
                           //指定跳转的页面
                           return new MyApp();

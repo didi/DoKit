@@ -114,6 +114,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.16.1"
+  isolate:
+    dependency: transitive
+    description:
+      name: isolate
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "2.0.3"
   matcher:
     dependency: transitive
     description:
@@ -121,6 +128,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.12.10-nullsafety.1"
+  memory_checker:
+    dependency: "direct main"
+    description:
+      name: memory_checker
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.4"
   meta:
     dependency: transitive
     description:

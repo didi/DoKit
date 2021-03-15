@@ -1,11 +1,8 @@
 import 'package:dokit/kit/apm/leak/leak_checker.dart';
 import 'package:flutter/material.dart';
 
-import '../fps_kit.dart';
 
 class DoKitLeakObserver extends NavigatorObserver {
-  static dynamic element;
-  static dynamic test;
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic> previousRoute) =>
@@ -24,8 +21,7 @@ class DoKitLeakObserver extends NavigatorObserver {
   void _doCheck(Route<dynamic> route, Route<dynamic> previousRoute) async {
     final enableCheck = await this.enableCheck;
     if (!enableCheck) return;
-    dynamic obj = element;
-    element = null;
+    //TODO 需要找到正确的泄漏检测对象，合适的目标为持有_OverlayEntryWidgetState的element
     await leakCheck(route);
   }
 }

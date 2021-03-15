@@ -9,6 +9,7 @@ class BarChartPainter extends CustomPainter {
 
   List<IInfo> datas;
 
+
   @override
   bool shouldRepaint(BarChartPainter oldDelegate) => true;
 

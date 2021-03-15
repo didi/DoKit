@@ -1,6 +1,5 @@
 import 'package:dokit/kit/apm/leak/leak_obj.dart';
 import 'package:dokit/kit/apm/vm/iso_pool.dart';
-import 'package:dokit/kit/apm/vm/vm_helper.dart';
 import 'package:dokit/kit/apm/vm/vm_service_wrapper.dart';
 import 'package:vm_service/vm_service.dart';
 
@@ -39,18 +38,19 @@ Future<String> _getRetainingPath(String leakObjId) async {
     await VMServiceWrapper.instance.connect();
   }
   if (VMServiceWrapper.instance.connected) {
-    final mainId = VMServiceWrapper.instance.main.id;
-    final service = VMServiceWrapper.instance.service;
+    final String mainId = VMServiceWrapper.instance.main.id;
+    final VmService service = VMServiceWrapper.instance.service;
     RetainingPath path =
         await service.getRetainingPath(mainId, leakObjId, 10000);
     print(path);
     path.elements.forEach((element) {
       if (element.value.type == '@Instance') {
-        InstanceRef ref = element.value;
+        InstanceRef ref = element.value as InstanceRef;
         // 过滤隐藏类，一般是系统类
         if (ref.classRef != null) {
-          service.invoke(mainId, element.value.id, 'toString', []).then(
-              (value) => printElement(ref.classRef.name, value as InstanceRef));
+          service.invoke(mainId, element.value.id, 'toString', []).then<void>(
+              (Response value) =>
+                  printElement(ref.classRef.name, value as InstanceRef));
         }
       }
     });
@@ -58,7 +58,7 @@ Future<String> _getRetainingPath(String leakObjId) async {
   }
 }
 
-printElement(String className, InstanceRef value) {
+void printElement(String className, InstanceRef value) {
   print('className:$className detail:${value.valueAsString}');
 }
 
@@ -67,15 +67,17 @@ Future<String> _leakCheck(String objectId) async {
     await VMServiceWrapper.instance.connect();
   }
   if (VMServiceWrapper.instance.connected) {
-    final mainId = VMServiceWrapper.instance.main.id;
-    final service = VMServiceWrapper.instance.service;
+    final String mainId = VMServiceWrapper.instance.main.id;
+    final VmService service = VMServiceWrapper.instance.service;
     Instance instance = await service.getObject(mainId, objectId);
-    BoundField field =
+    final BoundField field =
         instance.fields.firstWhere((element) => element.decl.name == '_data');
-    instance = await service.getObject(mainId, field.value.id);
-    InstanceRef ref = instance.elements.firstWhere((element) =>
-        element != null && (element as InstanceRef).kind == 'WeakProperty');
-    instance = await service.getObject(mainId, ref.id);
+    instance =
+        await service.getObject(mainId, field.value.id as String) as Instance;
+    final InstanceRef ref = instance.elements.firstWhere((dynamic element) =>
+            element != null && (element as InstanceRef).kind == 'WeakProperty')
+        as InstanceRef;
+    instance = await service.getObject(mainId, ref.id) as Instance;
     return instance.propertyKey.id;
   }
 }

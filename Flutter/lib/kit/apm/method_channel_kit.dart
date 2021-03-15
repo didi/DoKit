@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:dokit/util/util.dart';
+import 'package:dokit/util/time_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -185,7 +185,7 @@ class ChannelPageState extends State<ChannelPage> {
                         showSystemChannel
                             ? 'images/dk_channel_check_h.png'
                             : 'images/dk_channel_check_n.png',
-                        package: DoKit.PACKAGE_NAME,
+                        package: DK_PACKAGE_NAME,
                         height: 13,
                         width: 13),
                   ),
@@ -332,7 +332,7 @@ class _ChannelItemWidgetState extends State<ChannelItemWidget> {
                       text: TextSpan(children: [
                         TextSpan(
                             text:
-                                '[${TimeUtils.toTimeString(widget.item.startTimestamp)}]',
+                                '[${toTimeString(widget.item.startTimestamp)}]',
                             style: TextStyle(
                                 fontSize: 9,
                                 color: Color(0xff333333),
@@ -418,7 +418,7 @@ class _ChannelItemWidgetState extends State<ChannelItemWidget> {
                   widget.item.expand
                       ? 'images/dk_channel_expand_h.png'
                       : 'images/dk_channel_expand_n.png',
-                  package: DoKit.PACKAGE_NAME,
+                  package: DK_PACKAGE_NAME,
                   height: 14,
                   width: 9)
             ])));

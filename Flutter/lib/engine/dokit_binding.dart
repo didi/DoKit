@@ -24,7 +24,7 @@ class DoKitWidgetsFlutterBinding extends WidgetsFlutterBinding
 mixin DoKitServicesBinding on BindingBase, ServicesBinding {
   @override
   BinaryMessenger createBinaryMessenger() {
-    return DoKitBinaryMessenger(super.createBinaryMessenger());
+    return DoKitBinaryMessenger(super.createBinaryMessenger() as BinaryMessenger);
   }
 }
 

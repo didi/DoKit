@@ -20,8 +20,8 @@
 
 analyzer:
   strong-mode:
-    implicit-casts: false
-    implicit-dynamic: false
+    implicit-casts: true
+    implicit-dynamic: true
   errors:
     # treat missing required parameters as a warning (not a hint)
     missing_required_param: warning

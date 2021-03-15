@@ -173,7 +173,7 @@ class RouteInfoPageState extends State<RouteInfoPage> {
             margin: const EdgeInsets.only(top: 10, bottom: 10),
             alignment: Alignment.center,
             child: Image.asset('images/dk_route_arrow.png',
-                package: DoKit.PACKAGE_NAME, height: 13, width: 12),
+                package: DK_PACKAGE_NAME, height: 13, width: 12),
           ),
         );
       }

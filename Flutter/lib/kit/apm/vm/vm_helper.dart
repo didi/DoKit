@@ -21,7 +21,7 @@ class VmHelper {
   // flutter版本
   String _flutterVersion = '';
 
-  VM get vm =>  VMServiceWrapper.instance.vm;
+  VM get vm => VMServiceWrapper.instance.vm;
 
   Future<void> resolveVMInfo() async {
     if (!VMServiceWrapper.instance.connected) {
@@ -58,7 +58,10 @@ class VmHelper {
       return;
     }
     VMServiceWrapper.instance.callExtensionService('flutterVersion')?.then(
-        (value) => _flutterVersion = FlutterVersion.parse(value.json).version);
+            (value) =>
+        _flutterVersion = FlutterVersion
+            .parse(value.json)
+            .version);
   }
 
   updateAllocationProfile() {
@@ -70,28 +73,26 @@ class VmHelper {
         .then((value) => allocationProfile = value);
   }
 
-  testIsolate() async {
+  testPrintScript() async {
     Script script = await IsoPool().start(getScriptList, 'main.dart');
     // Script script = await getScriptList('main.dart');
     print(script?.source);
   }
 }
 
+
 Future<Script> getScriptList(String fileName) async {
-  print('has connected:${VMServiceWrapper.instance.connected}');
   if (!VMServiceWrapper.instance.connected) {
     await VMServiceWrapper.instance.connect();
   }
   if (VMServiceWrapper.instance.service != null &&
       VMServiceWrapper.instance.connected) {
-    ScriptList scriptList = await VMServiceWrapper.instance.service
-        .getScripts(VMServiceWrapper.instance.main.id);
-    ScriptRef scriptRef = scriptList?.scripts
-        ?.firstWhere((element) => element.id.contains(fileName));
-    if (scriptRef != null) {
-      return (await VMServiceWrapper.instance.service.getObject(
-          VMServiceWrapper.instance.main.id, scriptRef.id)) as Script;
-    }
+    return VMServiceWrapper.instance.service
+        .getScripts(VMServiceWrapper.instance.main.id)
+        .then<Script>((scriptList) async =>
+    await VMServiceWrapper.instance.service.getObject(
+        VMServiceWrapper.instance.main.id, scriptList?.scripts
+        ?.firstWhere((element) => element.id.contains(fileName))
+        .id) as Script) ;
   }
-  return null;
 }

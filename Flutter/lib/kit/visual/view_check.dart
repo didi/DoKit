@@ -160,7 +160,7 @@ class _InfoWidgetState extends State<InfoWidget> {
                 width: size.width - 40,
                 child: GestureDetector(
                   child: Image.asset('images/dokit_ic_close.png',
-                      package: DoKit.PACKAGE_NAME, height: 22, width: 22),
+                      package: DK_PACKAGE_NAME, height: 22, width: 22),
                   onTap: () {
                     ViewCheckerKit.hide(context);
                   },

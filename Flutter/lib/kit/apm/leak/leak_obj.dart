@@ -8,7 +8,7 @@ String generateNewKey() {
   return "${++_key}";
 }
 
-Map<String, dynamic> _objCache = Map();
+Map<String, dynamic> _objCache = {};
 
 /// 顶级函数，根据 key 返回指定对象
 dynamic keyToObj(String key) {

@@ -10,34 +10,28 @@ import 'package:flutter/widgets.dart' as dart;
 import 'package:dokit/ui/kit_page.dart';
 export 'package:dokit/ui/dokit_app.dart';
 
-typedef DoKitAppCreator = Function();
-typedef LogCallback = Function(String);
-typedef ExceptionCallback = Function(dynamic, StackTrace);
+typedef DoKitAppCreator = Future<IDoKitApp> Function();
+typedef LogCallback = void Function(String);
+typedef ExceptionCallback = void Function(dynamic, StackTrace);
 
+const String DK_PACKAGE_NAME = 'dokit';
+
+//默认release模式不开启该功能
+const bool release = kReleaseMode;
+
+//记录当前zone
+Zone _zone;
+
+// ignore: avoid_classes_with_only_static_members
 class DoKit {
-  static const String PACKAGE_NAME = 'dokit';
-
-  //默认release模式不开启该功能
-  static bool release = kReleaseMode;
-
-  //记录当前zone
-  static Zone _zone;
-
-  // 如果在runApp之前执行了WidgetsFlutterBinding.ensureInitialized，会导致methodchannel功能不可用，可以在runApp前先调用一下ensureDoKitBinding
-  static void _ensureDoKitBinding({bool useInRelease = false}) {
-    if (!release || useInRelease) {
-      DoKitWidgetsFlutterBinding.ensureInitialized();
-    }
-  }
-
   // 初始化方法,app或者appCreator必须设置一个
-  static void runApp(
+  static Future<void> runApp(
       {DoKitApp app,
       DoKitAppCreator appCreator,
       bool useInRelease = false,
       LogCallback logCallback,
       ExceptionCallback exceptionCallback,
-      List<String> methodChannelBlackList=const [],
+      List<String> methodChannelBlackList = const <String>[],
       Function releaseAction}) async {
     assert(
         app != null || appCreator != null, 'app and appCreator are both null');
@@ -55,7 +49,7 @@ class DoKit {
     }
     blackList = methodChannelBlackList;
     runZoned(
-      () async => {
+      () async => <void>{
         _ensureDoKitBinding(useInRelease: useInRelease),
         _runWrapperApp(app != null ? app : await appCreator()),
         _zone = Zone.current
@@ -77,34 +71,42 @@ class DoKit {
       },
     );
   }
+}
 
-  static void _runWrapperApp(DoKitApp wrapper) {
-    DoKitWidgetsFlutterBinding.ensureInitialized()
-      ..scheduleAttachRootWidget(wrapper)
-      ..scheduleWarmUpFrame();
-    addEntrance();
+// 如果在runApp之前执行了WidgetsFlutterBinding.ensureInitialized，会导致methodchannel功能不可用，可以在runApp前先调用一下ensureDoKitBinding
+void _ensureDoKitBinding({bool useInRelease = false}) {
+  if (!release || useInRelease) {
+    DoKitWidgetsFlutterBinding.ensureInitialized();
   }
+}
 
-  static void _collectLog(String line) {
-    LogManager.instance.addLog(LogBean.TYPE_INFO, line);
-  }
+void _runWrapperApp(IDoKitApp wrapper) {
+  DoKitWidgetsFlutterBinding.ensureInitialized()
+// ignore: invalid_use_of_protected_member
+    ..scheduleAttachRootWidget(wrapper)
+    ..scheduleWarmUpFrame();
+  addEntrance();
+}
 
-  static void _collectError(Object details, Object stack) {
-    LogManager.instance.addLog(
-        LogBean.TYPE_ERROR, '${details?.toString()}\n${stack?.toString()}');
-  }
+void _collectLog(String line) {
+  LogManager.instance.addLog(LogBean.TYPE_INFO, line);
+}
 
-  static void addEntrance() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      DoKitBtn floatBtn = DoKitBtn();
-      floatBtn.addToOverlay();
-      KitPageManager.instance.loadCache();
-    });
-  }
+void _collectError(Object details, Object stack) {
+  LogManager.instance.addLog(
+      LogBean.TYPE_ERROR, '${details?.toString()}\n${stack?.toString()}');
+}
 
-  static void dispose({@required BuildContext context}) {
-    doKitOverlayKey.currentState.widget.initialEntries.forEach((element) {
-      // element.remove();
-    });
-  }
+void addEntrance() {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    final DoKitBtn floatBtn = DoKitBtn();
+    floatBtn.addToOverlay();
+    KitPageManager.instance.loadCache();
+  });
+}
+
+void dispose({@required BuildContext context}) {
+  doKitOverlayKey.currentState.widget.initialEntries.forEach((element) {
+// element.remove();
+  });
 }

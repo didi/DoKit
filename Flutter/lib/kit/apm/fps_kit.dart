@@ -91,7 +91,7 @@ class FpsPageState extends State<FpsPage> {
                 children: [
                   Container(
                     child: Image.asset('images/dk_fps_chart.png',
-                        package: DoKit.PACKAGE_NAME, height: 16, width: 16),
+                        package: DK_PACKAGE_NAME, height: 16, width: 16),
                     margin: EdgeInsets.only(left: 22, right: 6),
                   ),
                   Text('最近240帧耗时',

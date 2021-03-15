@@ -36,7 +36,7 @@ class ApmKitManager {
   T getKit<T extends ApmKit>(String name) {
     assert(name != null);
     if (kitMap.containsKey(name)) {
-      return kitMap[name];
+      return kitMap[name] as T;
     }
     return null;
   }

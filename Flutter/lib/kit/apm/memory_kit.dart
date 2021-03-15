@@ -1,9 +1,9 @@
 import 'dart:ui';
 
 import 'package:dokit/kit/apm/vm/vm_service_wrapper.dart';
+import 'package:dokit/util/byte_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dokit/util/util.dart';
 import 'package:flutter/services.dart';
 import 'package:vm_service/vm_service.dart';
 
@@ -181,7 +181,7 @@ class MemoryPageState extends State<MemoryPage> {
                           padding: EdgeInsets.only(
                               left: 15, right: 0, top: 15, bottom: 15),
                           child: Image.asset('images/dk_memory_search.png',
-                              package: DoKit.PACKAGE_NAME,
+                              package: DK_PACKAGE_NAME,
                               height: 16,
                               width: 16),
                           onPressed: filterAllocations,
@@ -292,7 +292,7 @@ class MemoryPageState extends State<MemoryPage> {
             style:
                 TextStyle(height: 1.5, fontSize: 10, color: Color(0xff333333))),
         TextSpan(
-            text: '${ByteUtil.toByteString(value.heapUsage)}',
+            text: '${toByteString(value.heapUsage)}',
             style:
                 TextStyle(fontSize: 10, height: 1.5, color: Color(0xff666666))),
         TextSpan(
@@ -300,7 +300,7 @@ class MemoryPageState extends State<MemoryPage> {
             style:
                 TextStyle(fontSize: 10, height: 1.5, color: Color(0xff333333))),
         TextSpan(
-            text: '${ByteUtil.toByteString(value.heapCapacity)}',
+            text: '${toByteString(value.heapCapacity)}',
             style:
                 TextStyle(fontSize: 10, height: 1.5, color: Color(0xff666666))),
         TextSpan(
@@ -308,7 +308,7 @@ class MemoryPageState extends State<MemoryPage> {
             style:
                 TextStyle(fontSize: 10, height: 1.5, color: Color(0xff333333))),
         TextSpan(
-            text: '${ByteUtil.toByteString(value.externalUsage)}',
+            text: '${toByteString(value.externalUsage)}',
             style:
                 TextStyle(fontSize: 10, height: 1.5, color: Color(0xff666666))),
       ])));
@@ -335,7 +335,7 @@ class HeapItemWidget extends StatelessWidget {
           Container(
             width: 80,
             alignment: Alignment.center,
-            child: Text('${ByteUtil.toByteString(item.bytesCurrent)}',
+            child: Text('${toByteString(item.bytesCurrent)}',
                 style: TextStyle(color: Color(0xff333333), fontSize: 12)),
           ),
           Container(
