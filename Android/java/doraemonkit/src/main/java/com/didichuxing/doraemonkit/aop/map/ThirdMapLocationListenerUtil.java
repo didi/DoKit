@@ -1,5 +1,7 @@
 package com.didichuxing.doraemonkit.aop.map;
 
+import android.location.LocationListener;
+
 import com.amap.api.location.AMapLocationListener;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocationListener;
@@ -32,5 +34,8 @@ public class ThirdMapLocationListenerUtil {
         GpsMockProxyManager.getInstance().removeBDAbsLocationListener(locationListener);
     }
 
+    public static void unRegisterLocationListener(LocationListener locationListener) {
+        GpsMockProxyManager.getInstance().removeLocationListener(locationListener);
+    }
 
 }
