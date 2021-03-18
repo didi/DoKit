@@ -15,7 +15,8 @@ if (PUBLISH_ARCHIVES_TYPE == 1) {
     uploadArchives {
         doFirst {
             def repositoryUrl = DOKIT_VERSION.endsWith('-SNAPSHOT') ? SNAPSHOT_REPOSITORY_URL : RELEASE_REPOSITORY_URL
-            System.out.println("start upload：" + repositoryUrl + DOKIT_GROUP_ID.replace(".", "/") + "/" + project.ARTIFACT_ID + "/" + DOKIT_VERSION)
+            println("DoKit====>${project.ARTIFACT_ID}==${repositoryUrl}")
+            //System.out.println("start upload：" + repositoryUrl + DOKIT_GROUP_ID.replace(".", "/") + "/" + project.ARTIFACT_ID + "/" + DOKIT_VERSION)
         }
 
         repositories {

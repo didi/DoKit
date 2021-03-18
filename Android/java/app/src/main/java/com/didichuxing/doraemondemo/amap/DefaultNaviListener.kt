@@ -126,7 +126,17 @@ class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context:
         naviRouteOverlay.addToMap()
 //        naviRouteOverlay.removeFromMap()
         mAMapNavi.setEmulatorNaviSpeed(10)
-        mAMapNavi.startNavi(NaviType.EMULATOR)
+        /**
+         * 	CRUISE
+        巡航模式（数值：3）
+        EMULATOR
+        模拟导航（数值：2）
+        GPS
+        实时导航（数值：1）
+        NONE
+        未开始导航（数值：-1）
+         */
+        mAMapNavi.startNavi(NaviType.GPS)
 
     }
 

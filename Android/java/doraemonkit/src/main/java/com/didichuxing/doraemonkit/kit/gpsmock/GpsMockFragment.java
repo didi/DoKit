@@ -12,9 +12,11 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.amap.api.location.AMapLocationClient;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.GpsMockConfig;
+import com.didichuxing.doraemonkit.hook.AMapClientLastLocationHook;
 import com.didichuxing.doraemonkit.model.LatLng;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
@@ -27,6 +29,8 @@ import com.didichuxing.doraemonkit.util.WebUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.robv.android.xposed.DexposedBridge;
 
 /**
  * Created by wanglikun on 2018/9/20.
@@ -95,7 +99,7 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
                     return;
                 }
 
-                GpsMockManager.getInstance().mockLocation(latitude, longitude);
+                GpsMockManager.getInstance().mockLocationWithNotify(latitude, longitude);
                 GpsMockConfig.saveMockLocation(new LatLng(latitude, longitude));
                 //刷新地图
                 String url = String.format("javascript:updateLocation(%s,%s)", latitude, longitude);
@@ -179,6 +183,9 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
         }
     }
 
+
+
+
     @Override
     protected int onRequestLayout() {
         return R.layout.dk_fragment_gps_mock;
@@ -211,7 +218,7 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
                 return;
             }
 
-            GpsMockManager.getInstance().mockLocation(latitude, longitude);
+            GpsMockManager.getInstance().mockLocationWithNotify(latitude, longitude);
             GpsMockConfig.saveMockLocation(new LatLng(latitude, longitude));
             ToastUtils.showShort(getString(R.string.dk_gps_location_change_toast, "" + longitude, "" + latitude));
 

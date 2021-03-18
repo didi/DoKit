@@ -39,7 +39,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_progress">
+        android:layout_below="@id/tv_progress"
+        android:layout_marginBottom="10dp">
 
         <SeekBar
             android:id="@+id/seekbar"
@@ -54,7 +55,8 @@
             android:text="当前页面不存在导航路径"
             android:textColor="#FF0000"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />
     </FrameLayout>
 
 

@@ -4,10 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.didichuxing.doraemonkit.DoraemonKit
-import com.didichuxing.doraemonkit.constant.BundleKey
-import com.didichuxing.doraemonkit.constant.FragmentIndex
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitFragment
-import com.didichuxing.doraemonkit.kit.core.UniversalActivity
 
 /**
  * ================================================

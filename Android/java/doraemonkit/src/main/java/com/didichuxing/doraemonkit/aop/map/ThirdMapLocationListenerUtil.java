@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.aop.map;
 import android.location.LocationListener;
 
 import com.amap.api.location.AMapLocationListener;
+import com.amap.api.navi.AMapNaviListener;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocationListener;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockProxyManager;
@@ -19,23 +20,27 @@ import com.tencent.map.geolocation.TencentLocationListener;
  */
 public class ThirdMapLocationListenerUtil {
     public static void unRegisterAmapLocationListener(AMapLocationListener locationListener) {
-        GpsMockProxyManager.getInstance().removeAMapLocationListener(locationListener);
+        GpsMockProxyManager.INSTANCE.removeAMapLocationListener(locationListener);
+    }
+
+    public static void unRegisterAmapNaviListener(AMapNaviListener naviListener) {
+        GpsMockProxyManager.INSTANCE.removeAMapNaviListener(naviListener);
     }
 
     public static void unRegisterTencentLocationListener(TencentLocationListener locationListener) {
-        GpsMockProxyManager.getInstance().removeTencentLocationListener(locationListener);
+        GpsMockProxyManager.INSTANCE.removeTencentLocationListener(locationListener);
     }
 
     public static void unRegisterBDLocationListener(BDLocationListener locationListener) {
-        GpsMockProxyManager.getInstance().removeBDLocationListener(locationListener);
+        GpsMockProxyManager.INSTANCE.removeBDLocationListener(locationListener);
     }
 
     public static void unRegisterBDLocationListener(BDAbstractLocationListener locationListener) {
-        GpsMockProxyManager.getInstance().removeBDAbsLocationListener(locationListener);
+        GpsMockProxyManager.INSTANCE.removeBDAbsLocationListener(locationListener);
     }
 
     public static void unRegisterLocationListener(LocationListener locationListener) {
-        GpsMockProxyManager.getInstance().removeLocationListener(locationListener);
+        GpsMockProxyManager.INSTANCE.removeLocationListener(locationListener);
     }
 
 }

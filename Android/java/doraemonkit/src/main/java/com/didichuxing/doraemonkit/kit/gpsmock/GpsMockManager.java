@@ -29,7 +29,7 @@ public class GpsMockManager {
         isMocking = false;
     }
 
-    public void mockLocation(double latitude, double longitude) {
+    private void mockLocation(double latitude, double longitude) {
         mLatitude = latitude;
         mLongitude = longitude;
     }
@@ -43,7 +43,7 @@ public class GpsMockManager {
     public void mockLocationWithNotify(Location location) {
         if (location == null) return;
         mockLocation(location.getLatitude(), location.getLongitude());
-        GpsMockProxyManager.getInstance().mockLocationWithNotify(location);
+        GpsMockProxyManager.INSTANCE.mockLocationWithNotify(location);
     }
 
     public boolean isMocking() {

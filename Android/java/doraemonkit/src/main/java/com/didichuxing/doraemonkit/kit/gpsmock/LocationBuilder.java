@@ -3,6 +3,8 @@ package com.didichuxing.doraemonkit.kit.gpsmock;
 import android.location.Location;
 
 import com.amap.api.location.AMapLocation;
+import com.amap.api.navi.model.AMapNaviLocation;
+import com.amap.api.navi.model.NaviLatLng;
 import com.baidu.location.BDLocation;
 
 public class LocationBuilder {
@@ -24,6 +26,18 @@ public class LocationBuilder {
         aMapLocation.setTime(location.getTime());
         return aMapLocation;
     }
+
+    public static AMapNaviLocation toAMapNaviLocation(Location location) {
+        AMapNaviLocation aMapNaviLocation = new AMapNaviLocation();
+        aMapNaviLocation.setSpeed(location.getSpeed());
+        aMapNaviLocation.setBearing(location.getBearing());
+        aMapNaviLocation.setAccuracy(location.getAccuracy());
+        aMapNaviLocation.setTime(location.getTime());
+        aMapNaviLocation.setCoord(new NaviLatLng(location.getLatitude(),location.getLongitude()));
+        return aMapNaviLocation;
+    }
+
+
 
     public static TencentLocationImp toTencentLocation(Location location) {
         if (location == null) return null;

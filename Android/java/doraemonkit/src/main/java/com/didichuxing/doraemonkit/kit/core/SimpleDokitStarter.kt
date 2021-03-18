@@ -16,7 +16,7 @@ object SimpleDokitStarter {
     @JvmStatic
     @JvmOverloads
     fun startFullScreen(
-        targetClass: Class<out SimpleDokitFragment?>,
+        targetClass: Class<out AbsDokitFragment?>,
         context: Context? = null,
         bundle: Bundle? = null
     ) {

@@ -20,7 +20,7 @@ public class AMapLocationListenerProxy implements AMapLocationListener {
 
     public AMapLocationListenerProxy(AMapLocationListener aMapLocationListener) {
         this.aMapLocationListener = aMapLocationListener;
-        GpsMockProxyManager.getInstance().addAMapLocationListenerProxy(this);
+        GpsMockProxyManager.INSTANCE.addAMapLocationListenerProxy(this);
     }
 
     @Override

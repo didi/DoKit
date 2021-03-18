@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.lbs.route
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -7,21 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.view.children
-import com.amap.api.maps.AMap
 import com.amap.api.navi.AMapNavi
-import com.amap.api.navi.enums.PathPlanningStrategy
-import com.amap.api.navi.model.NaviLatLng
 import com.blankj.utilcode.util.ConvertUtils
-import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager
-import com.didichuxing.doraemonkit.util.DokitUtil
-import com.didichuxing.doraemonkit.util.LogHelper
-import com.didichuxing.doraemonkit.util.UIUtils
 import kotlin.math.ceil
+
 
 /**
  * ================================================
@@ -54,6 +49,10 @@ class RouteKitView : AbsDokitView() {
     lateinit var mTvTip: TextView
     override fun onViewCreated(rootView: FrameLayout?) {
         rootView?.let {
+//            val oaY: ObjectAnimator = ObjectAnimator.ofFloat(rootView, "rotationY", 0.0f, 90.0f)
+//            oaY.duration = 100
+//            oaY.start()
+
             val close = it.findViewById<ImageView>(R.id.iv_close)
             mSeekbar = it.findViewById<SeekBar>(R.id.seekbar)
             mTvTip = it.findViewById<TextView>(R.id.tv_tip)
@@ -125,13 +124,16 @@ class RouteKitView : AbsDokitView() {
         }
 
         mAMapNavi?.let {
-            if (it.naviPath.coordList.isEmpty()) {
-                mSeekbar.visibility = View.GONE
-                mTvTip.visibility = View.VISIBLE
-            } else {
-                mSeekbar.visibility = View.VISIBLE
-                mTvTip.visibility = View.GONE
+            it.naviPath?.let { path ->
+                if (path.coordList.isEmpty()) {
+                    mSeekbar.visibility = View.GONE
+                    mTvTip.visibility = View.VISIBLE
+                } else {
+                    mSeekbar.visibility = View.VISIBLE
+                    mTvTip.visibility = View.GONE
+                }
             }
+
         }
 
     }

@@ -1,190 +1,198 @@
-package com.didichuxing.doraemonkit.kit.gpsmock;
+package com.didichuxing.doraemonkit.kit.gpsmock
 
-import android.location.Location;
-import android.location.LocationListener;
-
-import com.amap.api.location.AMapLocationListener;
-import com.baidu.location.BDAbstractLocationListener;
-import com.baidu.location.BDLocationListener;
-import com.didichuxing.doraemonkit.aop.map.AMapLocationListenerProxy;
-import com.didichuxing.doraemonkit.aop.map.BDAbsLocationListenerProxy;
-import com.didichuxing.doraemonkit.aop.map.BDLocationListenerProxy;
-import com.didichuxing.doraemonkit.aop.map.TencentLocationListenerProxy;
-import com.didichuxing.doraemonkit.kit.gpsmock.LocationHooker.LocationListenerProxy;
-import com.tencent.map.geolocation.TencentLocation;
-import com.tencent.map.geolocation.TencentLocationListener;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import android.location.Location
+import android.location.LocationListener
+import com.amap.api.location.AMapLocationListener
+import com.amap.api.navi.AMapNaviListener
+import com.baidu.location.BDAbstractLocationListener
+import com.baidu.location.BDLocationListener
+import com.didichuxing.doraemonkit.aop.map.*
+import com.didichuxing.doraemonkit.kit.gpsmock.LocationHooker.LocationListenerProxy
+import com.tencent.map.geolocation.TencentLocation
+import com.tencent.map.geolocation.TencentLocationListener
+import java.util.*
 
 /**
  * 三方地图管理类
  */
-public class GpsMockProxyManager {
-    private final List<AMapLocationListenerProxy> mAMapLocationListenerProxys = new ArrayList<>();
-    private final List<BDAbsLocationListenerProxy> mBDAbsLocationListenerProxys = new ArrayList<>();
-    private final List<BDLocationListenerProxy> mBDLocationListenerProxys = new ArrayList<>();
-    private final List<TencentLocationListenerProxy> mTencentLocationListenerProxys = new ArrayList<>();
-    private final List<LocationListenerProxy> mLocationListenerProxys = new ArrayList<>();
+object GpsMockProxyManager {
+    private val mAMapLocationListenerProxies: MutableList<AMapLocationListenerProxy?> = ArrayList()
+    private val mAMapNaviListenerProxies: MutableList<AMapNaviListenerProxy?> = ArrayList()
+    private val mBDAbsLocationListenerProxies: MutableList<BDAbsLocationListenerProxy?> =
+        ArrayList()
+    private val mBDLocationListenerProxies: MutableList<BDLocationListenerProxy?> = ArrayList()
+    private val mTencentLocationListenerProxies: MutableList<TencentLocationListenerProxy?> =
+        ArrayList()
+    private val mLocationListenerProxies: MutableList<LocationListenerProxy> = ArrayList()
 
-    private GpsMockProxyManager() {
+    fun addAMapLocationListenerProxy(aMapLocationListenerProxy: AMapLocationListenerProxy) {
+        mAMapLocationListenerProxies.add(aMapLocationListenerProxy)
     }
 
-    public static GpsMockProxyManager getInstance() {
-        return Holder.INSTANCE;
+    fun addAMapNaviListenerProxy(aMapNaviListenerProxy: AMapNaviListenerProxy) {
+        mAMapNaviListenerProxies.add(aMapNaviListenerProxy)
     }
 
-    public void addAMapLocationListenerProxy(AMapLocationListenerProxy aMapLocationListenerProxy) {
-        this.mAMapLocationListenerProxys.add(aMapLocationListenerProxy);
+    fun addBDAbsLocationListenerProxy(bdAbsLocationListenerProxy: BDAbsLocationListenerProxy) {
+        mBDAbsLocationListenerProxies.add(bdAbsLocationListenerProxy)
     }
 
-    public void addBDAbsLocationListenerProxy(BDAbsLocationListenerProxy bdAbsLocationListenerProxy) {
-        this.mBDAbsLocationListenerProxys.add(bdAbsLocationListenerProxy);
+    fun addBDLocationListenerProxy(bdLocationListenerProxy: BDLocationListenerProxy) {
+        mBDLocationListenerProxies.add(bdLocationListenerProxy)
     }
 
-    public void addBDLocationListenerProxy(BDLocationListenerProxy bdLocationListenerProxy) {
-        this.mBDLocationListenerProxys.add(bdLocationListenerProxy);
+    fun addTencentLocationListenerProxy(tencentLocationListenerProxy: TencentLocationListenerProxy) {
+        mTencentLocationListenerProxies.add(tencentLocationListenerProxy)
     }
 
-    public void addTencentLocationListenerProxy(TencentLocationListenerProxy tencentLocationListenerProxy) {
-        this.mTencentLocationListenerProxys.add(tencentLocationListenerProxy);
+    fun addLocationListenerProxy(locationListenerProxy: LocationListenerProxy) {
+        mLocationListenerProxies.add(locationListenerProxy)
     }
 
-    public void addLocationListenerProxy(LocationListenerProxy locationListenerProxy) {
-        this.mLocationListenerProxys.add(locationListenerProxy);
-    }
-
-
-    public void removeAMapLocationListener(AMapLocationListener listener) {
-        for (Iterator<AMapLocationListenerProxy> it = mAMapLocationListenerProxys.iterator(); it.hasNext(); ) {
-            AMapLocationListenerProxy proxy = it.next();
-            if (proxy.aMapLocationListener == listener) {
-                it.remove();
+    fun removeAMapLocationListener(listener: AMapLocationListener) {
+        val it = mAMapLocationListenerProxies.iterator()
+        while (it.hasNext()) {
+            val proxy = it.next()
+            if (proxy?.aMapLocationListener === listener) {
+                it.remove()
             }
         }
     }
 
-    public void removeTencentLocationListener(TencentLocationListener listener) {
-        for (Iterator<TencentLocationListenerProxy> it = mTencentLocationListenerProxys.iterator(); it.hasNext(); ) {
-            TencentLocationListenerProxy proxy = it.next();
-            if (proxy.mTencentLocationListener == listener) {
-                it.remove();
+    fun removeAMapNaviListener(listener: AMapNaviListener) {
+        val it = mAMapNaviListenerProxies.iterator()
+        while (it.hasNext()) {
+            val proxy = it.next()
+            if (proxy?.aMapNaviListener === listener) {
+                it.remove()
             }
         }
     }
 
-    public void removeBDLocationListener(BDLocationListener listener) {
-        for (Iterator<BDLocationListenerProxy> it = mBDLocationListenerProxys.iterator(); it.hasNext(); ) {
-            BDLocationListenerProxy proxy = it.next();
-            if (proxy.mBdLocationListener == listener) {
-                it.remove();
+    fun removeTencentLocationListener(listener: TencentLocationListener) {
+        val it = mTencentLocationListenerProxies.iterator()
+        while (it.hasNext()) {
+            val proxy = it.next()
+            if (proxy?.mTencentLocationListener === listener) {
+                it.remove()
             }
         }
     }
 
-    public void removeBDAbsLocationListener(BDAbstractLocationListener listener) {
-        for (Iterator<BDAbsLocationListenerProxy> it = mBDAbsLocationListenerProxys.iterator(); it.hasNext(); ) {
-            BDAbsLocationListenerProxy proxy = it.next();
-            if (proxy.mBdLocationListener == listener) {
-                it.remove();
+    fun removeBDLocationListener(listener: BDLocationListener) {
+        val it = mBDLocationListenerProxies.iterator()
+        while (it.hasNext()) {
+            val proxy = it.next()
+            if (proxy?.mBdLocationListener === listener) {
+                it.remove()
             }
         }
     }
 
-    public void removeLocationListener(LocationListener listener) {
-        for (Iterator<LocationListenerProxy> it = mLocationListenerProxys.iterator(); it.hasNext(); ) {
-            LocationListenerProxy proxy = it.next();
-            if (proxy.locationListener == listener) {
-                it.remove();
+    fun removeBDAbsLocationListener(listener: BDAbstractLocationListener) {
+        val it = mBDAbsLocationListenerProxies.iterator()
+        while (it.hasNext()) {
+            val proxy = it.next()
+            if (proxy?.mBdLocationListener === listener) {
+                it.remove()
             }
         }
     }
 
-    public void clearProxy() {
-        mAMapLocationListenerProxys.clear();
-        mBDAbsLocationListenerProxys.clear();
-        mBDLocationListenerProxys.clear();
-        mTencentLocationListenerProxys.clear();
-        mLocationListenerProxys.clear();
+    fun removeLocationListener(listener: LocationListener) {
+        val it = mLocationListenerProxies.iterator()
+        while (it.hasNext()) {
+            val proxy = it.next()
+            if (proxy.locationListener === listener) {
+                it.remove()
+            }
+        }
     }
 
-    public void mockLocationWithNotify(Location location) {
-        if (location == null) return;
+    fun clearProxy() {
+        mAMapLocationListenerProxies.clear()
+        mBDAbsLocationListenerProxies.clear()
+        mBDLocationListenerProxies.clear()
+        mTencentLocationListenerProxies.clear()
+        mLocationListenerProxies.clear()
+    }
 
+    fun mockLocationWithNotify(location: Location?) {
+        if (location == null) return
         try {
-            notifAMapLocationListenerProxy(location);
-        } catch (Exception e) {
-            e.printStackTrace();
+            notifAMapLocationListenerProxy(location)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-
         try {
-            notifyBDAbsLocationListenerProxy(location);
-        } catch (Exception e) {
-            e.printStackTrace();
+            notifyBDAbsLocationListenerProxy(location)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-
         try {
-            notifyBDLocationListenerProxy(location);
-        } catch (Exception e) {
-            e.printStackTrace();
+            notifyBDLocationListenerProxy(location)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-
         try {
-            notifyTencentLocationListenerProxy(location);
-        } catch (Exception e) {
-            e.printStackTrace();
+            notifyTencentLocationListenerProxy(location)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
-
         try {
-            notifyLocationListenerProxy(location);
-        } catch (Exception e) {
-            e.printStackTrace();
+            notifyLocationListenerProxy(location)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun notifAMapLocationListenerProxy(location: Location?) {
+        if (location != null) {
+            for (aMapLocationListenerProxy in mAMapLocationListenerProxies) {
+                aMapLocationListenerProxy?.onLocationChanged(LocationBuilder.toAMapLocation(location))
+            }
+            for (aMapNaviListenerProxy in mAMapNaviListenerProxies) {
+                aMapNaviListenerProxy?.onLocationChange(LocationBuilder.toAMapNaviLocation(location))
+            }
         }
 
     }
 
-    private void notifAMapLocationListenerProxy(Location location) {
+    private fun notifyBDAbsLocationListenerProxy(location: Location?) {
         if (location != null) {
-            for (AMapLocationListenerProxy aMapLocationListenerProxy : mAMapLocationListenerProxys) {
-                aMapLocationListenerProxy.onLocationChanged(LocationBuilder.toAMapLocation(location));
+            for (bdAbsLocationListenerProxy in mBDAbsLocationListenerProxies) {
+                bdAbsLocationListenerProxy?.onReceiveLocation(LocationBuilder.toBdLocation(location))
             }
         }
     }
 
-    private void notifyBDAbsLocationListenerProxy(Location location) {
+    private fun notifyBDLocationListenerProxy(location: Location?) {
         if (location != null) {
-            for (BDAbsLocationListenerProxy bdAbsLocationListenerProxy : mBDAbsLocationListenerProxys) {
-                bdAbsLocationListenerProxy.onReceiveLocation(LocationBuilder.toBdLocation(location));
+            for (bdLocationListenerProxy in mBDLocationListenerProxies) {
+                bdLocationListenerProxy?.onReceiveLocation(LocationBuilder.toBdLocation(location))
             }
         }
     }
 
-    private void notifyBDLocationListenerProxy(Location location) {
+    private fun notifyTencentLocationListenerProxy(location: Location?) {
         if (location != null) {
-            for (BDLocationListenerProxy bdLocationListenerProxy : mBDLocationListenerProxys) {
-                bdLocationListenerProxy.onReceiveLocation(LocationBuilder.toBdLocation(location));
+            for (tencentLocationListenerProxy in mTencentLocationListenerProxies) {
+                tencentLocationListenerProxy?.onLocationChanged(
+                    LocationBuilder.toTencentLocation(
+                        location
+                    ), TencentLocation.ERROR_OK, ""
+                )
             }
         }
     }
 
-    private void notifyTencentLocationListenerProxy(Location location) {
+    private fun notifyLocationListenerProxy(location: Location?) {
         if (location != null) {
-            for (TencentLocationListenerProxy tencentLocationListenerProxy : mTencentLocationListenerProxys) {
-                tencentLocationListenerProxy.onLocationChanged(LocationBuilder.toTencentLocation(location), TencentLocation.ERROR_OK, "");
+            for (tencentLocationListenerProxy in mLocationListenerProxies) {
+                tencentLocationListenerProxy.onLocationChanged(location)
             }
         }
     }
 
-    private void notifyLocationListenerProxy(Location location) {
-        if (location != null) {
-            for (LocationListenerProxy tencentLocationListenerProxy : mLocationListenerProxys) {
-                tencentLocationListenerProxy.onLocationChanged(location);
-            }
-        }
-    }
 
-    private static class Holder {
-        final private static GpsMockProxyManager INSTANCE = new GpsMockProxyManager();
-    }
 }

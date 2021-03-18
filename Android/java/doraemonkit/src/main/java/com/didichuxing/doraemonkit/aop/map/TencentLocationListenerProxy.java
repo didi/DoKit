@@ -21,7 +21,7 @@ public class TencentLocationListenerProxy implements TencentLocationListener {
 
     public TencentLocationListenerProxy(TencentLocationListener tencentLocationListener) {
         this.mTencentLocationListener = tencentLocationListener;
-        GpsMockProxyManager.getInstance().addTencentLocationListenerProxy(this);
+        GpsMockProxyManager.INSTANCE.addTencentLocationListenerProxy(this);
     }
 
     /**

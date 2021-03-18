@@ -115,7 +115,7 @@ public class LocationHooker extends BaseServiceHooker {
 
         private LocationListenerProxy(LocationListener locationListener) {
             this.locationListener = locationListener;
-            GpsMockProxyManager.getInstance().addLocationListenerProxy(this);
+            GpsMockProxyManager.INSTANCE.addLocationListenerProxy(this);
         }
 
         @Override

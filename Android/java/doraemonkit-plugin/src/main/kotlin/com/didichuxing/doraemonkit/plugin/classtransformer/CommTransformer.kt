@@ -68,7 +68,7 @@ class CommTransformer : ClassTransformer {
         //gps字节码操作
         if (DoKitExtUtil.commExt.gpsSwitch) {
 
-            //插入高德地图相关字节码
+            //插入高德地图定位相关字节码
             if (className == "com.amap.api.location.AMapLocationClient") {
                 //设置监听器
                 klass.methods?.find {
@@ -87,6 +87,31 @@ class CommTransformer : ClassTransformer {
                         methodNode.instructions.insertBefore(
                             it,
                             createAmapLocationUnRegisterInsnList()
+                        )
+                    }
+                }
+
+            }
+
+            //插入高德地图导航相关字节码
+            if (className == "com.amap.api.navi.AMapNavi") {
+                //设置监听器
+                klass.methods?.find {
+                    it.name == "addAMapNaviListener"
+                }.let { methodNode ->
+                    "${context.projectDir.lastPath()}->hook amap map navi  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    methodNode?.instructions?.insert(createAmapNaviInsnList())
+                }
+
+                //反注册监听器
+                klass.methods?.find {
+                    it.name == "removeAMapNaviListener"
+                }.let { methodNode ->
+                    "${context.projectDir.lastPath()}->hook amap map navi  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+                        methodNode.instructions.insertBefore(
+                            it,
+                            createAmapNaviUnRegisterInsnList()
                         )
                     }
                 }
@@ -653,6 +678,32 @@ class CommTransformer : ClassTransformer {
     }
 
     /**
+     * 创建Amap地图导航代码指令
+     */
+    private fun createAmapNaviInsnList(): InsnList {
+        return with(InsnList()) {
+            //在AMapNavi的addAMapNaviListener方法之中插入自定义代理回调类
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/map/AMapNaviListenerProxy"))
+            add(InsnNode(DUP))
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESPECIAL,
+                    "com/didichuxing/doraemonkit/aop/map/AMapNaviListenerProxy",
+                    "<init>",
+                    "(Lcom/amap/api/navi/AMapNaviListener;)V",
+                    false
+                )
+            )
+            //对第一个参数进行重新赋值
+            add(VarInsnNode(ASTORE, 1))
+            this
+        }
+
+    }
+
+    /**
      * 创建Amap地图UnRegister代码指令
      */
     private fun createAmapLocationUnRegisterInsnList(): InsnList {
@@ -665,6 +716,27 @@ class CommTransformer : ClassTransformer {
                     "com/didichuxing/doraemonkit/aop/map/ThirdMapLocationListenerUtil",
                     "unRegisterAmapLocationListener",
                     "(Lcom/amap/api/location/AMapLocationListener;)V",
+                    false
+                )
+            )
+            this
+        }
+
+    }
+
+    /**
+     * 创建Amap地图 Navi UnRegister代码指令
+     */
+    private fun createAmapNaviUnRegisterInsnList(): InsnList {
+        return with(InsnList()) {
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/map/ThirdMapLocationListenerUtil",
+                    "unRegisterAmapNaviListener",
+                    "(Lcom/amap/api/navi/AMapNaviListener;)V",
                     false
                 )
             )
