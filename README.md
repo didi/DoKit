@@ -1,9 +1,9 @@
 - [简介](#简介)
+- [领域生态](#领域生态)
 - [使用手册](#使用手册)
 - [更新日志](#更新日志)
 - [社区活动](#社区活动)
 - [开发背景](#开发背景)
-- [效果演示](#效果演示)
 - [功能模块](#功能模块)
   - [一、平台工具(www.dokit.cn)](#一平台工具wwwdokitcn)
   - [二、常用工具](#二常用工具)
@@ -24,7 +24,7 @@
 
 ## 简介
 <div align="center">    
- <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
+ <img src="https://pt-starimg.didistatic.com/static/starimg/img/NctKIA7zG81616142817466.png" width = "250"  alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
  <img src="https://img.shields.io/badge/Android-3.3.5-blue.svg" align=left />
  <img src="https://img.shields.io/badge/iOS-3.0.7-yellow.svg" align=left />
@@ -43,6 +43,12 @@
 **DoraemonKit** /'dɔ:ra:'emɔn/，简称`DoKit`，中文名 `哆啦A梦`，意味着能够像哆啦A梦一样提供给他的主人各种各样的工具。Just Do Kit
 
 > [English Readme](README_EN.md)
+
+## 领域生态
+
+<div align="center">    
+  <img src="https://pt-starimg.didistatic.com/static/starimg/img/KXYYVcUWmc1616142595262.jpg" width = "900" alt="DoKit 首页效果演示" align=center />
+</div>
 
 ## 使用手册
 访问[DoKit官网](https://www.dokit.cn/)，点击"[使用中心](http://xingyun.xiaojukeji.com/docs/dokit/#/intro)"。
@@ -85,11 +91,7 @@ DoraemonKit 是一个功能平台，能够让每一个 App 快速接入一些常
 
 3、搭配dokit平台，借助[接口Mock](https://www.dokit.cn/#/index/dataMockPage)、[健康体检](https://www.dokit.cn/#/index/checkDataPage)、[文件同步助手](https://www.dokit.cn/#/index/fileSyncPage)让你方便和他人协同，极大的提升研发过程中的效率。
 
-## 效果演示
 
-<div align="center">    
-  <img src="https://pt-starimg.didistatic.com/static/starimg/img/H1SVa0S6Zm1585189141793.jpg" width = "250" alt="DoKit 首页效果演示" align=center />
-</div>
 
 
 
