@@ -24,7 +24,7 @@
 
 ## 简介
 <div align="center">    
- <img src="https://pt-starimg.didistatic.com/static/starimg/img/NctKIA7zG81616142817466.png" width = "250"  alt="DoraemonKit" align=left />
+ <img src="https://pt-starimg.didistatic.com/static/starimg/img/J0WO7tUi9U1616143930629.png" width = "250"  alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
  <img src="https://img.shields.io/badge/Android-3.3.5-blue.svg" align=left />
  <img src="https://img.shields.io/badge/iOS-3.0.7-yellow.svg" align=left />
