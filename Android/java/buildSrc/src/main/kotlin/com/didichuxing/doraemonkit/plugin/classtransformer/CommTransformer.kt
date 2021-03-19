@@ -8,6 +8,7 @@ import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.asm.ClassTransformer
 import com.didiglobal.booster.transform.asm.className
 import com.google.auto.service.AutoService
+import org.objectweb.asm.Label
 import org.objectweb.asm.Opcodes.*
 import org.objectweb.asm.tree.*
 
@@ -91,6 +92,19 @@ class CommTransformer : ClassTransformer {
                     }
                 }
 
+                //代理getLastKnownLocation
+                klass.methods?.find {
+                    it.name == "getLastKnownLocation"
+                }.let { methodNode ->
+                    "${context.projectDir.lastPath()}->hook AMapLocationClient getLastKnownLocation  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+//                    methodNode?.instructions?.clear()
+//                    for (instruction in methodNode!!.instructions) {
+////                        methodNode.instructions.remove(instruction)
+//                        println("getLastKnownLocation===>${instruction.opcode}")
+//                    }
+                    methodNode?.instructions?.insert(createAMapClientLastKnownLocation())
+                }
+
             }
 
             //插入高德地图导航相关字节码
@@ -117,6 +131,7 @@ class CommTransformer : ClassTransformer {
                 }
 
             }
+
 
             //插入腾讯地图相关字节码
             if (className == "com.tencent.map.geolocation.TencentLocationManager") {
@@ -698,6 +713,29 @@ class CommTransformer : ClassTransformer {
             )
             //对第一个参数进行重新赋值
             add(VarInsnNode(ASTORE, 1))
+            this
+        }
+
+    }
+
+    /**
+     * 创建AMapLocationClient#LastKnownLocation 字节码替换
+     */
+    private fun createAMapClientLastKnownLocation(): InsnList {
+        return with(InsnList()) {
+            add(VarInsnNode(ALOAD, 0))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/map/AMapLocationClientProxy",
+                    "getLastKnownLocation",
+                    "(Lcom/amap/api/location/AMapLocationClient;)Lcom/amap/api/location/AMapLocation;",
+                    false
+                )
+            )
+//            add(VarInsnNode(ASTORE, 1))
+//            add(VarInsnNode(ALOAD, 1))
+            add(InsnNode(ARETURN))
             this
         }
 

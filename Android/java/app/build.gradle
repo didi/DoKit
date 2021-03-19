@@ -174,15 +174,15 @@ dependencies {
     implementation rootProject.ext.dependencies["amap_search"]
     implementation rootProject.ext.dependencies["amap_navi"]
     //腾讯地图定位
-    implementation rootProject.ext.dependencies["tencent_location"]
-    implementation rootProject.ext.dependencies["tencent_map"]
-    implementation rootProject.ext.dependencies["tencent_map_util"]
+//    implementation rootProject.ext.dependencies["tencent_location"]
+//    implementation rootProject.ext.dependencies["tencent_map"]
+//    implementation rootProject.ext.dependencies["tencent_map_util"]
 //    debugImplementation rootProject.ext.dependencies["leakcanary-android"]
     //百度地图定位
-    implementation files('libs/BaiduLBS_Android.jar')
+//    implementation files('libs/BaiduLBS_Android.jar')
     //腾讯x5
     implementation rootProject.ext.dependencies["tbs"]
-    implementation rootProject.ext.dependencies["tencent-map"]
+
 }
 
 configurations.all {

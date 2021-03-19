@@ -69,8 +69,6 @@ dependencies {
     implementation rootProject.ext.dependencies["activity-ktx"]
     implementation rootProject.ext.dependencies["webkit"]
     implementation rootProject.ext.dependencies["volley"]
-    //运行时全局hook
-    implementation rootProject.ext.dependencies["epic"]
     implementation rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]
     //函数耗时

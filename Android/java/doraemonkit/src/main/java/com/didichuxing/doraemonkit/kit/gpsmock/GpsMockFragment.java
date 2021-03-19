@@ -12,25 +12,21 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.amap.api.location.AMapLocationClient;
 import com.blankj.utilcode.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.GpsMockConfig;
-import com.didichuxing.doraemonkit.hook.AMapClientLastLocationHook;
-import com.didichuxing.doraemonkit.model.LatLng;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
+import com.didichuxing.doraemonkit.model.LatLng;
+import com.didichuxing.doraemonkit.util.WebUtil;
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.widget.webview.MyWebView;
 import com.didichuxing.doraemonkit.widget.webview.MyWebViewClient;
-import com.didichuxing.doraemonkit.util.WebUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.robv.android.xposed.DexposedBridge;
 
 /**
  * Created by wanglikun on 2018/9/20.

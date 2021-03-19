@@ -2,14 +2,9 @@ package com.didichuxing.doraemonkit
 
 import android.app.Activity
 import android.app.Application
-import android.content.Context
 import android.os.Build
-import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
-import android.view.accessibility.AccessibilityManager
-import com.amap.api.location.AMapLocationClient
-import com.amap.api.location.AMapLocationListener
 import com.blankj.utilcode.util.*
 import com.blankj.utilcode.util.NetworkUtils.OnNetworkStatusChangedListener
 import com.blankj.utilcode.util.ThreadUtils.SimpleTask
@@ -20,7 +15,6 @@ import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey
 import com.didichuxing.doraemonkit.datapick.DataPickManager
-import com.didichuxing.doraemonkit.hook.AMapClientLastLocationHook
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerKit
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit
@@ -66,8 +60,6 @@ import com.didichuxing.doraemonkit.util.DokitUtil
 import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.SharedPrefsUtil
-import com.loc.d
-import de.robv.android.xposed.DexposedBridge
 import java.io.File
 import java.util.*
 
@@ -193,21 +185,6 @@ object DoraemonKitReal {
     }
 
 
-    /**
-     * 全局运行时hook
-     */
-    private fun globalRunTimeHook() {
-        try {
-            DexposedBridge.findAndHookMethod(
-                AMapLocationClient::class.java,
-                "getLastKnownLocation",
-                AMapClientLastLocationHook()
-            )
-        } catch (e: Exception) {
-
-        }
-
-    }
 
 
     /**

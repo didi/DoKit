@@ -128,7 +128,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
 
         githubService = retrofit.create(GithubService::class.java)
 
-        AopTest().test()
+//        AopTest().test()
     }
 
     private fun test1() {
@@ -218,12 +218,8 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
             }
             R.id.btn_location -> startNormaLocation()
             R.id.btn_path_amap -> CommLauncher.startActivity(AMapRouterFragment::class.java)
-            R.id.btn_location_map2 -> startActivity(
-                Intent(
-                    this,
-                    MapShowingLocationActivity::class.java
-                )
-            )
+//            R.id.btn_location_map2 -> startActivity(Intent(
+//                    this, MapShowingLocationActivity::class.java))
             R.id.btn_load_img -> {
                 //Glide 加载
                 val picassoImgUrl =

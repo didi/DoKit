@@ -1,6 +1,11 @@
 package com.didichuxing.doraemondemo;
 
-import java.util.HashMap;
+import android.content.Context;
+
+import com.amap.api.location.AMapLocation;
+import com.didichuxing.doraemonkit.aop.map.AMapLocationClientProxy;
+import com.didichuxing.doraemonkit.util.LogHelper;
+import com.loc.d;
 
 /**
  * ================================================
@@ -12,25 +17,18 @@ import java.util.HashMap;
  * ================================================
  */
 public class AopTest {
-    private static final String TAG = "AopTest";
-    private String name;
 
-    public String getName() {
-        return name;
+
+
+    public String getLastKnownLocation() {
+        String s = getDoKit();
+        s.toString();
+        return s;
     }
 
-    public void setName(String name) {
-        this.name = name;
+
+    public String getDoKit() {
+        return "DoKit";
     }
-
-
-    public void test() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("a", "a");
-        map.put("b", "b");
-        map.put("c", "c");
-
-    }
-
 
 }

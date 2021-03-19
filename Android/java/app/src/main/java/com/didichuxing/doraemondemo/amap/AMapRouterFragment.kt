@@ -45,12 +45,13 @@ class AMapRouterFragment : CommBaseFragment() {
      * 初始化高德地图的定位
      */
     private fun initAMapLocation() {
-        mAmap.minZoomLevel = 14.0f
+        mAmap.minZoomLevel = 6.0f
 
         //初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
         val myLocationStyle = MyLocationStyle()
         //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒
-        myLocationStyle.interval(20000)
+        myLocationStyle.interval(1000L)
+        myLocationStyle.myLocationType(5)
         myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE)
         myLocationStyle.myLocationIcon(
             com.amap.api.maps.model.BitmapDescriptorFactory.fromResource(
