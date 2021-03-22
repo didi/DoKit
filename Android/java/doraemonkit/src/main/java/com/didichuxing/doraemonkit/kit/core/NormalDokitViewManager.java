@@ -358,7 +358,6 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             //得到activity window中的根布局
             final FrameLayout mDecorView = (FrameLayout) dokitIntent.activity.getWindow().getDecorView();
 
-
             //往DecorView的子RootView中添加dokitView
             if (dokitView.getNormalLayoutParams() != null && dokitView.getDoKitView() != null) {
                 getDokitRootContentView(dokitIntent.activity, mDecorView)
