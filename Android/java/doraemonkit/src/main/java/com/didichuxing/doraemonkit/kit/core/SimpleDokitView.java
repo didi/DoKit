@@ -49,6 +49,7 @@ public abstract class SimpleDokitView extends AbsDokitView {
 
     public void showContainer(boolean isChecked) {
         mFloatContainer.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+        invalidate();
     }
 
     @Override
@@ -115,5 +116,29 @@ public abstract class SimpleDokitView extends AbsDokitView {
     }
 
     protected void initView() {
+    }
+
+    @Override
+    public void invalidate() {
+        if (getDoKitView() == null) {
+            return;
+        }
+        if (isNormalMode()) {
+            FrameLayout.LayoutParams layoutParams = getNormalLayoutParams();
+            if (layoutParams == null) {
+                return;
+            }
+            layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            getDoKitView().setLayoutParams(layoutParams);
+        } else {
+            WindowManager.LayoutParams layoutParams = getSystemLayoutParams();
+            if (layoutParams == null) {
+                return;
+            }
+            layoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            mWindowManager.updateViewLayout(getDoKitView(), layoutParams);
+        }
     }
 }
