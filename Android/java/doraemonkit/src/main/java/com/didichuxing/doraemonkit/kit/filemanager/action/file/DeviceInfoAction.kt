@@ -21,7 +21,7 @@ object DeviceInfoAction {
                 this["deviceName"] = "${DeviceUtils.getManufacturer()}-${DeviceUtils.getModel()}"
                 this["deviceId"] = DeviceUtils.getUniqueDeviceId()
                 this["deviceIp"] =
-                    "${DoKitConstant.WHITE_HOSTS}:${DoKitConstant.FILE_MANAGER_HTTP_PORT}"
+                    "${DoKitConstant.IP_ADDRESS_BY_WIFI}:${DoKitConstant.FILE_MANAGER_HTTP_PORT}"
             }
             this["data"] = data
         }
