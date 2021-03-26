@@ -44,7 +44,13 @@
         }
             break;
         default:
-            screen = screen;
+        {
+            UIEdgeInsets safeAreaInsets = [self safeAreaInset];
+            CGRect frame = screen;
+            frame.origin.y = safeAreaInsets.top;
+            frame.size.height = self.view.doraemon_height - safeAreaInsets.top;
+            screen = frame;
+        }
             break;
     }
     
