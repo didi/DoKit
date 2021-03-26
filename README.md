@@ -337,4 +337,4 @@ DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [
    
 
 6. 我们团队的技术公众号【滴滴OrangeLab】，欢迎关注，我们会在这里持续输出团队内部比较有深度的技术沉淀和经验分享，欢迎一起交流。
-  ![OrangeLab公众号](https://pt-starimg.didistatic.com/static/starimg/img/cPlaMme4g81616682162304.jpg)
+  ![OrangeLab公众号](https://pt-starimg.didistatic.com/static/starimg/img/cPlaMme4g81616682162304.jpg =200x200)
