@@ -120,17 +120,10 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
       return _imageUint8List;
     }
 
-//    final start = DateTime.now();
     final RenderRepaintBoundary boundary =
         _findCurrentPageRepaintBoundaryRenderObject();
-//    final finded = DateTime.now();
     final Uint8List imageData = await _boundaryToImageUint8List(boundary);
     _imageUint8List = imageData;
-//    final end = DateTime.now();
-//    print(
-//        '获取repaintBoundary耗时：${finded.millisecondsSinceEpoch - start.millisecondsSinceEpoch}ms');
-//    print(
-//        '获取Uint8List耗时：${end.millisecondsSinceEpoch - finded.millisecondsSinceEpoch}ms');
 
     return _imageUint8List;
   }
@@ -152,21 +145,6 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
 
   // 放大镜的半径
   double get _radius => ColorPickerKit.instance.diameter / 2;
-
-  // width * height 个格子的颜色值
-//  Future<List<int>> get argbPixels async {
-//    _position ??= ScreenUtil.instance.screenCenter - Offset(_radius, _radius);
-//    final List<int> argbPixels =
-//        await _findRectARGBPixels(_position, width, height);
-//    _argbPixels = argbPixels;
-//
-//    return _argbPixels;
-//  }
-
-//  List<int> _argbPixels;
-
-//  // BackdropFilter组件的变换矩阵
-//  Matrix4 _matrix;
 
   @override
   initState() {
@@ -272,48 +250,15 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
     );
   }
 
-//  Future<List<int>> _findRectARGBPixels(
-//      Offset point, int width, int height) async {
-//    final double dpr = ui.window.devicePixelRatio;
-//    final dx = (point.dx * dpr).toInt();
-//    final dy = (point.dy * dpr).toInt();
-//
-//    if (snapshot == null) {
-//      await _updateSnapshot();
-//    }
-//
-//    final List<int> argbPixels = List<int>(width * height);
-//
-//    for (int j = 0; j < height; j++) {
-//      for (int i = 0; i < width; i++) {
-//        final int x = dx + i;
-//        final int y = dy + j;
-//        assert(snapshot.boundsSafe(x, y), '超出范围');
-//        final int abgrPixel = snapshot.getPixelSafe(x, y);
-//        final int argbPixel = _abgrToArgb(abgrPixel);
-//        argbPixels[j * width + i] = argbPixel;
-//      }
-//    }
-//
-//    return List.unmodifiable(argbPixels);
-//  }
-
   Future<void> _updateImage() async {
     _imageUint8List = null;
     final imageData = await imageUint8List;
     if (imageData == null) {
       return;
     }
-//    final startTimestamp = DateTime.now();
     _image = images.decodeImage(imageData);
-//    final imagesImageTimestamp = DateTime.now();
     final codec = await ui.instantiateImageCodec(imageData);
     final info = await codec.getNextFrame();
-//    final uiImageTimestamp = DateTime.now();
-//    print(
-//        '获取当前截图的images.Image耗时：${imagesImageTimestamp.millisecondsSinceEpoch - startTimestamp.millisecondsSinceEpoch}ms');
-//    print(
-//        '获取当前截图的ui.Image耗时：${uiImageTimestamp.millisecondsSinceEpoch - imagesImageTimestamp.millisecondsSinceEpoch}ms');
     ColorPickerKit.instance.snapshot.value = info.image;
     if (!_ready && mounted) {
       // 第一次获取Image会有耗时
@@ -417,37 +362,6 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
     int b = argbColor & 0xFF;
     return (argbColor & 0xFF00FF00) | (b << 16) | r;
   }
-
-//  void _calculateMatrix4() {
-//    if (_position == null) {
-//      return;
-//    }
-//
-//    setState(() {
-//      final double newX = _position.dx;
-//      final double newY = _position.dy;
-//
-//      final Matrix4 updatedMatrix = Matrix4.identity()
-//        ..scale(_scale, _scale)
-//        ..translate(-newX, -newY);
-//
-//      _matrix = updatedMatrix;
-//    });
-//  }
-
-//  Widget _buildMagnifier(BuildContext context) {
-//    return ClipOval(
-//      child: BackdropFilter(
-//        filter: ui.ImageFilter.matrix(_matrix.storage,
-//            filterQuality: FilterQuality.high),
-//        child: CustomPaint(
-//          painter: ColorPickerPainter(),
-//          size: Size.fromRadius(_radius),
-//        ),
-//      ),
-//    );
-//  }
-
 }
 
 class GridsPainter extends CustomPainter {
@@ -481,28 +395,6 @@ class GridsPainter extends CustomPainter {
         Rect.fromLTWH(left, top, width.toDouble(), height.toDouble());
     final distRect = Rect.fromLTWH(0, 0, size.width, size.height);
     canvas.drawImageRect(image, srcRect, distRect, paint);
-
-//    final paint = Paint()
-//      ..isAntiAlias = true
-//      ..strokeWidth = 2.0
-//      ..style = PaintingStyle.fill
-//      ..color = Color(argbPixels.first)
-//      ..invertColors = false;
-
-//    final double radius = gridSide / 2;
-//    final int width = size.width ~/ gridSide;
-//    final int height = size.height ~/ gridSide;
-//
-//    for (int j = 0; j < height; j++) {
-//      for (int i = 0; i < width; i++) {
-//        paint.color = Color(argbPixels[j * width + i]);
-//        final double dx = (i + 1 / 2) * gridSide;
-//        final double dy = (j + 1 / 2) * gridSide;
-//        final Offset center = Offset(dx, dy);
-//        final Rect rect = Rect.fromCircle(center: center, radius: radius);
-//        canvas.drawRect(rect, paint);
-//      }
-//    }
   }
 
   @override
