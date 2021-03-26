@@ -34,6 +34,8 @@ end
 
 target 'Runner' do
   # Flutter Pod
+  
+  use_frameworks!
 
   copied_flutter_dir = File.join(__dir__, 'Flutter')
   copied_framework_path = File.join(copied_flutter_dir, 'Flutter.framework')

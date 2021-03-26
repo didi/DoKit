@@ -1,7 +1,15 @@
 // 视觉功能
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/kit/visual/view_check.dart';
+import 'package:dokit/util/screen_util.dart';
 
-import '../kit.dart';
+import 'color_pick.dart';
+
+/// 可视化Kit的信息展示widget的margin
+const double infoWidgetHorizontalMargin = 20;
+
+/// 可视化Kit的信息展示widget的bottom margin
+final double infoWidgetTopMargin = ScreenUtil.instance.statusBarHeight + 20;
 
 abstract class VisualKit implements IKit {}
 
@@ -10,6 +18,7 @@ class VisualKitManager {
 
   Map<String, IKit> kitMap = <String, IKit>{
     VisualKitName.KIT_VIEW_CHECK: ViewCheckerKit.instance,
+    VisualKitName.KIT_COLOR_PICK: ColorPickerKit.instance,
   };
 
   static final VisualKitManager _instance =
@@ -34,4 +43,5 @@ class VisualKitManager {
 
 class VisualKitName {
   static const String KIT_VIEW_CHECK = '控件检查';
+  static const String KIT_COLOR_PICK = '颜色拾取';
 }

@@ -16,10 +16,13 @@ dependencies:
   package_info: ^0.4.3+2
   shared_preferences: ^0.5.12+4
   isolate: ^2.0.3
+  image: ^2.1.19
+  image_gallery_saver: 1.5.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  pedantic: ^1.9.2
 
 
 flutter:
@@ -43,3 +46,4 @@ flutter:
     - images/dk_fps_chart.png
     - images/dk_route_arrow.png
     - images/dk_memory_search.png
+    - images/dk_color_pick.png

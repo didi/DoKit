@@ -10,14 +10,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:dokit/kit/apm/leak/leak_observer.dart';
-import 'package:flutter/material.dart';
 import 'package:dokit/dokit.dart';
+import 'package:dokit/kit/apm/leak/leak_observer.dart';
+import 'package:dokit/kit/apm/vm/vm_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:memory_checker/leak_observer.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:dokit/kit/apm/vm/vm_helper.dart';
-
 
 void main() {
   List<String> blackList = [

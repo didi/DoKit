@@ -5,9 +5,11 @@ import 'package:dokit/dokit.dart';
 import 'package:dokit/kit/visual/visual.dart';
 import 'package:dokit/ui/dokit_app.dart';
 import 'package:dokit/ui/dokit_btn.dart';
+import 'package:dokit/util/screen_util.dart';
 import 'package:dokit/widget/dash_decoration.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class ViewCheckerKit extends VisualKit {
   ViewCheckerKit._privateConstructor() {
@@ -27,16 +29,23 @@ class ViewCheckerKit extends VisualKit {
     infoEntry = OverlayEntry(builder: (BuildContext context) {
       return InfoWidget();
     });
-    hasShow = false;
+    alignEntry = OverlayEntry(builder: (BuildContext context) {
+      return const AlignRulerWidget();
+    });
+    isShown = false;
   }
 
-  bool hasShow;
+  bool isShown;
   OverlayEntry focusEntry;
   OverlayEntry rectEntry;
   OverlayEntry infoEntry;
+  OverlayEntry alignEntry;
 
   Rect area = const Rect.fromLTWH(0, 0, 0, 0);
   String info = '移动屏幕中心焦点聚焦控件，查看控件信息';
+
+  final ValueNotifier<Offset> viewCheckerWidgetCenterNotifier =
+      ValueNotifier<Offset>(ScreenUtil.instance.screenCenter);
 
   static final ViewCheckerKit _instance = ViewCheckerKit._privateConstructor();
 
@@ -47,13 +56,14 @@ class ViewCheckerKit extends VisualKit {
   }
 
   void _show(BuildContext context, OverlayEntry entrance) {
-    if (hasShow) {
+    if (isShown) {
       return;
     }
-    hasShow = true;
+    isShown = true;
     doKitOverlayKey.currentState.insert(focusEntry, below: entrance);
     doKitOverlayKey.currentState.insert(infoEntry, below: focusEntry);
     doKitOverlayKey.currentState.insert(rectEntry, below: infoEntry);
+    doKitOverlayKey.currentState.insert(alignEntry, below: rectEntry);
   }
 
   static bool hide(BuildContext context) {
@@ -61,13 +71,15 @@ class ViewCheckerKit extends VisualKit {
   }
 
   bool _hide(BuildContext context) {
-    if (!hasShow) {
+    if (!isShown) {
       return false;
     }
-    hasShow = false;
+    isShown = false;
     focusEntry.remove();
     rectEntry.remove();
     infoEntry.remove();
+    alignEntry.remove();
+    viewCheckerWidgetCenterNotifier.value = ScreenUtil.instance.screenCenter;
     area = const Rect.fromLTWH(0, 0, 0, 0);
     info = '移动屏幕中心焦点聚焦控件，查看控件信息';
     return true;
@@ -125,25 +137,26 @@ class _InfoWidgetState extends State<InfoWidget> {
   Widget build(BuildContext context) {
     top ??= MediaQuery.of(context).size.height - 250;
     return Positioned(
-        left: 20,
-        top: top,
-        child: Draggable<dynamic>(
-            child: getInfoView(),
-            feedback: getInfoView(),
-            childWhenDragging: Container(),
-            onDragEnd: (DraggableDetails detail) {
-              final Offset offset = detail.offset;
-              setState(() {
-                top = offset.dy;
-                if (top < 0) {
-                  top = 0;
-                }
-              });
-            },
-            onDraggableCanceled: (Velocity velocity, Offset offset) {}));
+      left: 20,
+      top: top,
+      child: Draggable<dynamic>(
+          child: _buildInfoView(),
+          feedback: _buildInfoView(),
+          childWhenDragging: Container(),
+          onDragEnd: (DraggableDetails detail) {
+            final Offset offset = detail.offset;
+            setState(() {
+              top = offset.dy;
+              if (top < 0) {
+                top = 0;
+              }
+            });
+          },
+          onDraggableCanceled: (Velocity velocity, Offset offset) {}),
+    );
   }
 
-  Widget getInfoView() {
+  Widget _buildInfoView() {
     final Size size = MediaQuery.of(context).size;
     return Container(
         width: size.width - 40,
@@ -179,57 +192,91 @@ class _InfoWidgetState extends State<InfoWidget> {
 
 // ignore: must_be_immutable
 class ViewCheckerWidget extends StatefulWidget {
+  ViewCheckerWidget({Key key, this.diameter = 40}) : super(key: key);
+
   OverlayEntry owner;
   OverlayEntry debugPage;
   bool showDebugPage = false;
+
+  final double diameter;
 
   @override
   _ViewCheckerWidgetState createState() => _ViewCheckerWidgetState();
 }
 
 class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
-  final double diameter = 40;
-  Offset offsetA; //按钮的初始位置
+  Offset buttonOffset; // 按钮的初始位置
+  Offset touchOffset; // 手指和屏幕接触的初始位置
+  Offset get deltaOffset {
+    if (buttonOffset == null || touchOffset == null) {
+      return Offset.zero;
+    }
+    return touchOffset - buttonOffset;
+  }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final double width = size.width;
     final double height = size.height;
-    if (offsetA == null) {
-      final double x = (width - diameter) / 2;
-      final double y = (height - diameter) / 2;
-      offsetA = Offset(x, y);
-    }
+    buttonOffset ??= ScreenUtil.instance.screenCenter -
+        Offset(widget.diameter / 2, widget.diameter / 2);
     return Positioned(
-        left: offsetA.dx,
-        top: offsetA.dy,
+      left: buttonOffset.dx,
+      top: buttonOffset.dy,
+      child: Listener(
+        behavior: HitTestBehavior.opaque,
+        onPointerDown: (PointerDownEvent event) {
+          touchOffset = event.position;
+        },
+        onPointerMove: (PointerMoveEvent event) {
+          ViewCheckerKit._instance.viewCheckerWidgetCenterNotifier.value =
+              event.position -
+                  deltaOffset +
+                  Offset(widget.diameter / 2, widget.diameter / 2);
+        },
         child: Draggable<dynamic>(
-            child: FocusWidget(diameter),
-            feedback: FocusWidget(diameter),
+            child: FocusWidget(widget.diameter),
+            feedback: FocusWidget(widget.diameter),
             childWhenDragging: Container(),
             onDragEnd: (DraggableDetails detail) {
               final Offset offset = detail.offset;
+              bool needCorrect = false;
               setState(() {
                 double x = offset.dx;
                 double y = offset.dy;
-                if (x < 0) {
-                  x = 0;
+                // 避免在iOS中，按钮移动到statusBar所在区域出现无法再拖动按钮的问题
+                final double statusBarHeight =
+                    ScreenUtil.instance.statusBarHeight;
+                if (x < -widget.diameter / 2) {
+                  x = -widget.diameter / 2;
+                  needCorrect = true;
                 }
-                if (x > width - diameter) {
-                  x = width - diameter;
+                if (x > width - widget.diameter / 2) {
+                  x = width - widget.diameter / 2;
+                  needCorrect = true;
                 }
-                if (y < 0) {
-                  y = 0;
+                if (y < statusBarHeight - widget.diameter / 2) {
+                  y = statusBarHeight - widget.diameter / 2;
+                  needCorrect = true;
                 }
-                if (y > height - diameter) {
-                  y = height - diameter;
+                if (y > height - widget.diameter / 2) {
+                  y = height - widget.diameter / 2;
+                  needCorrect = true;
                 }
-                offsetA = Offset(x, y);
+                buttonOffset = Offset(x, y);
+                if (needCorrect) {
+                  ViewCheckerKit
+                          ._instance.viewCheckerWidgetCenterNotifier.value =
+                      buttonOffset +
+                          Offset(widget.diameter / 2, widget.diameter / 2);
+                }
                 findFocusView();
               });
             },
-            onDraggableCanceled: (Velocity velocity, Offset offset) {}));
+            onDraggableCanceled: (Velocity velocity, Offset offset) {}),
+      ),
+    );
   }
 
   // 找到当前聚焦控件的方式：
@@ -287,8 +334,8 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
   RenderObjectElement resolveTree() {
     Element currentPage;
     final List<RenderObjectElement> inBounds = <RenderObjectElement>[];
-    final Rect focus =
-        Rect.fromLTWH(offsetA.dx, offsetA.dy, diameter, diameter);
+    final Rect focus = Rect.fromLTWH(
+        buttonOffset.dx, buttonOffset.dy, widget.diameter, widget.diameter);
     // 记录根路由，用以过滤overlay
     final ModalRoute<dynamic> rootRoute =
         ModalRoute.of<dynamic>(DoKitApp.appKey.currentContext);
@@ -348,10 +395,10 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
         (element.renderObject as RenderBox).localToGlobal(Offset.zero);
     final Rect rect = Rect.fromLTWH(
         offset.dx, offset.dy, element.size.width, element.size.height);
-    final double xc1 = max(rect.left, offsetA.dx);
-    final double yc1 = max(rect.top, offsetA.dy);
-    final double xc2 = min(rect.right, offsetA.dx + diameter);
-    final double yc2 = min(rect.bottom, offsetA.dy + diameter);
+    final double xc1 = max(rect.left, buttonOffset.dx);
+    final double yc1 = max(rect.top, buttonOffset.dy);
+    final double xc2 = min(rect.right, buttonOffset.dx + widget.diameter);
+    final double yc2 = min(rect.bottom, buttonOffset.dy + widget.diameter);
     return ((xc2 - xc1) * (yc2 - yc1)) / size;
   }
 
@@ -398,4 +445,137 @@ class FocusWidget extends StatelessWidget {
       ),
     );
   }
+}
+
+class AlignRulerWidget extends StatelessWidget {
+  const AlignRulerWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
+
+    return ValueListenableBuilder<Offset>(
+      builder: (BuildContext context, Offset value, Widget child) {
+        return Container(
+          height: height,
+          width: width,
+          child: CustomPaint(
+            painter: AlignRulerPainter(value),
+          ),
+        );
+      },
+      valueListenable: ViewCheckerKit._instance.viewCheckerWidgetCenterNotifier,
+    );
+  }
+}
+
+class AlignRulerPainter extends CustomPainter {
+  AlignRulerPainter(this.center);
+
+  final Offset center;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    _paintVertical(canvas, size);
+    _paintHorizontal(canvas, size);
+  }
+
+  void _paintVertical(Canvas canvas, Size size) {
+    final double sh = size.height;
+
+    final Paint paint = Paint()
+      ..color = Colors.red
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
+
+    final Path path = Path()
+      ..moveTo(center.dx, 0)
+      ..lineTo(center.dx, sh);
+
+    canvas.drawPath(path, paint);
+    path.close();
+
+    final double dx = center.dx;
+    final double dy = center.dy;
+    final double top = dy;
+    final double bottom = sh - dy;
+
+    TextPainter(
+      text: TextSpan(
+        text: top.toStringAsFixed(1),
+        style: const TextStyle(fontSize: 12, color: Colors.red),
+      ),
+      textAlign: TextAlign.right,
+      textDirection: TextDirection.ltr,
+      textWidthBasis: TextWidthBasis.longestLine,
+    )
+      ..layout(minWidth: 0)
+      ..paint(canvas, Offset(dx, dy / 2));
+
+    TextPainter(
+      text: TextSpan(
+        text: bottom.toStringAsFixed(1),
+        style: const TextStyle(fontSize: 12, color: Colors.red),
+      ),
+      textAlign: TextAlign.right,
+      textDirection: TextDirection.ltr,
+      textWidthBasis: TextWidthBasis.longestLine,
+    )
+      ..layout(minWidth: 0)
+      ..paint(canvas, Offset(dx, sh - bottom / 2));
+  }
+
+  void _paintHorizontal(Canvas canvas, Size size) {
+    final double sw = size.width;
+
+    final Paint paint = Paint()
+      ..color = Colors.red
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1;
+
+    final Path path = Path()
+      ..moveTo(0, center.dy)
+      ..lineTo(sw, center.dy);
+
+    canvas.drawPath(path, paint);
+    path.close();
+
+    final double dx = center.dx;
+    final double dy = center.dy;
+    final double right = sw - dx;
+    final double left = dx;
+
+    TextPainter(
+      text: TextSpan(
+        text: right.toStringAsFixed(1),
+        style: const TextStyle(fontSize: 12, color: Colors.red),
+      ),
+      textAlign: TextAlign.right,
+      textDirection: TextDirection.ltr,
+      textWidthBasis: TextWidthBasis.longestLine,
+    )
+      ..layout(minWidth: 0)
+      ..paint(canvas, Offset(sw - right / 2, dy));
+
+    TextPainter(
+      text: TextSpan(
+        text: left.toStringAsFixed(1),
+        style: const TextStyle(fontSize: 12, color: Colors.red),
+      ),
+      textAlign: TextAlign.right,
+      textDirection: TextDirection.ltr,
+      textWidthBasis: TextWidthBasis.longestLine,
+    )
+      ..layout(minWidth: 0)
+      ..paint(canvas, Offset(dx / 2, dy));
+  }
+
+  @override
+  bool shouldRepaint(AlignRulerPainter oldDelegate) => true;
+
+  @override
+  bool hitTest(Offset position) => false;
 }
