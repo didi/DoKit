@@ -106,6 +106,16 @@ class CommTransformer : ClassTransformer {
                 }
 
             }
+            //插入高德 地图定位相关字节码
+            if (className == "com.amap.api.maps.AMap") {
+                //设置LocationSource代理
+                klass.methods?.find {
+                    it.name == "setLocationSource"
+                }.let { methodNode ->
+                    "${context.projectDir.lastPath()}->hook amap map LocationSource  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+                    methodNode?.instructions?.insert(createAmapLocationSourceInsnList())
+                }
+            }
 
             //插入高德地图导航相关字节码
             if (className == "com.amap.api.navi.AMapNavi") {
@@ -129,7 +139,6 @@ class CommTransformer : ClassTransformer {
                         )
                     }
                 }
-
             }
 
 
@@ -240,7 +249,7 @@ class CommTransformer : ClassTransformer {
             }
 
             //didi platform
-            if (className == "didihttp.DidiHttpClient\$Builder") {
+            if (className == "didihttp.DidiHttpClient\$Builder" && DoKitExtUtil.commExt.didinetSwitch) {
                 "find DidiHttpClient succeed: ${className}".println()
                 //空参数的构造方法
                 klass.methods?.find {
@@ -708,6 +717,33 @@ class CommTransformer : ClassTransformer {
                     "com/didichuxing/doraemonkit/aop/map/AMapNaviListenerProxy",
                     "<init>",
                     "(Lcom/amap/api/navi/AMapNaviListener;)V",
+                    false
+                )
+            )
+            //对第一个参数进行重新赋值
+            add(VarInsnNode(ASTORE, 1))
+            this
+        }
+
+    }
+
+
+    /**
+     * 创建Amap LocationSource代码指令
+     */
+    private fun createAmapLocationSourceInsnList(): InsnList {
+        return with(InsnList()) {
+            //在AMapNavi的addAMapNaviListener方法之中插入自定义代理回调类
+            add(TypeInsnNode(NEW, "com/didichuxing/doraemonkit/aop/map/AMapLocationSourceProxy"))
+            add(InsnNode(DUP))
+            //访问第一个参数
+            add(VarInsnNode(ALOAD, 1))
+            add(
+                MethodInsnNode(
+                    INVOKESPECIAL,
+                    "com/didichuxing/doraemonkit/aop/map/AMapLocationSourceProxy",
+                    "<init>",
+                    "(Lcom/amap/api/maps/LocationSource;)V",
                     false
                 )
             )

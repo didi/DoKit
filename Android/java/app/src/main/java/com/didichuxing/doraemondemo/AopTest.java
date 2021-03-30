@@ -1,12 +1,5 @@
 package com.didichuxing.doraemondemo;
 
-import android.content.Context;
-
-import com.amap.api.location.AMapLocation;
-import com.didichuxing.doraemonkit.aop.map.AMapLocationClientProxy;
-import com.didichuxing.doraemonkit.util.LogHelper;
-import com.loc.d;
-
 /**
  * ================================================
  * 作    者：jint（金台）

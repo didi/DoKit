@@ -138,12 +138,12 @@ class RouteKitView : AbsDokitView() {
 
     }
 
-    private var mapView: com.amap.api.maps.MapView? = null
+    private var mapView: com.amap.api.maps.BaseMapView? = null
 
     private fun traversAMapView(viewGroup: ViewGroup) {
         viewGroup.children.forEach {
             when (it) {
-                is com.amap.api.maps.MapView -> {
+                is com.amap.api.maps.BaseMapView -> {
                     mapView = it
                     return
                 }

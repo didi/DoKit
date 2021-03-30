@@ -88,14 +88,9 @@
         "innerKitId": "dokit_sdk_comm_ck_gps"
       },
       {
-        "allClassName": "com.didichuxing.doraemonkit.kit.lbs.manual.FloatGpsMockKit",
+        "allClassName": "com.didichuxing.doraemonkit.kit.lbs.manual.PosAdjustKit",
         "checked": true,
-        "innerKitId": "dokit_sdk_lbs_ck_location"
-      },
-      {
-        "allClassName": "com.didichuxing.doraemonkit.kit.lbs.preset.FloatGpsPresetMockKit",
-        "checked": true,
-        "innerKitId": "dokit_sdk_lbs__ck_location_preset"
+        "innerKitId": "dokit_sdk_lbs_ck_pos_adjust"
       },
       {
         "allClassName": "com.didichuxing.doraemonkit.kit.lbs.route.FloatGpsMockRouteMockKit",

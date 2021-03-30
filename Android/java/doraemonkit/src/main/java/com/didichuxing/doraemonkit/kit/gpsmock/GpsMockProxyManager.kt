@@ -17,6 +17,8 @@ import java.util.*
  */
 object GpsMockProxyManager {
     private val mAMapLocationListenerProxies: MutableList<AMapLocationListenerProxy?> = ArrayList()
+    private val mAMapLocationChangedListenerProxies: MutableList<AMapLocationChangedListenerProxy?> =
+        ArrayList()
     private val mAMapNaviListenerProxies: MutableList<AMapNaviListenerProxy?> = ArrayList()
     private val mBDAbsLocationListenerProxies: MutableList<BDAbsLocationListenerProxy?> =
         ArrayList()
@@ -25,8 +27,13 @@ object GpsMockProxyManager {
         ArrayList()
     private val mLocationListenerProxies: MutableList<LocationListenerProxy> = ArrayList()
 
+
     fun addAMapLocationListenerProxy(aMapLocationListenerProxy: AMapLocationListenerProxy) {
         mAMapLocationListenerProxies.add(aMapLocationListenerProxy)
+    }
+
+    fun addAMapLocationChangedListenerProxy(aMapLocationChangedListenerProxy: AMapLocationChangedListenerProxy) {
+        mAMapLocationChangedListenerProxies.add(aMapLocationChangedListenerProxy)
     }
 
     fun addAMapNaviListenerProxy(aMapNaviListenerProxy: AMapNaviListenerProxy) {
@@ -120,7 +127,7 @@ object GpsMockProxyManager {
     fun mockLocationWithNotify(location: Location?) {
         if (location == null) return
         try {
-            notifAMapLocationListenerProxy(location)
+            notifyAMapLocationListenerProxy(location)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -146,14 +153,19 @@ object GpsMockProxyManager {
         }
     }
 
-    private fun notifAMapLocationListenerProxy(location: Location?) {
+    private fun notifyAMapLocationListenerProxy(location: Location?) {
         if (location != null) {
             for (aMapLocationListenerProxy in mAMapLocationListenerProxies) {
                 aMapLocationListenerProxy?.onLocationChanged(LocationBuilder.toAMapLocation(location))
             }
+            for (aMapLocationChangedListenerProxy in mAMapLocationChangedListenerProxies) {
+                aMapLocationChangedListenerProxy?.onLocationChanged(location)
+            }
             for (aMapNaviListenerProxy in mAMapNaviListenerProxies) {
                 aMapNaviListenerProxy?.onLocationChange(LocationBuilder.toAMapNaviLocation(location))
             }
+
+
         }
 
     }

@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.kit.lbs.manual;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
@@ -20,7 +21,10 @@ import com.didichuxing.doraemonkit.kit.lbs.common.LocInfo;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.model.LatLng;
 
-public class LbsPostAdjustKitView extends SimpleDokitView {
+/**
+ * 定位微调悬浮窗
+ */
+public class PosAdjustKitView extends SimpleDokitView {
     public static final String TAG = "FloatGpsMockKitView";
     public static final int MIN_STEP = 5;
     public static final int MAX_STEP = 500;
@@ -32,7 +36,7 @@ public class LbsPostAdjustKitView extends SimpleDokitView {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.layout_mock_location;
+        return R.layout.layout_mock_pos_adjust;
     }
 
 
@@ -103,14 +107,16 @@ public class LbsPostAdjustKitView extends SimpleDokitView {
         mMockSpeedTv = findViewById(R.id.tv_mock_speed);
         mSpeedSeekBar = findViewById(R.id.dk_sb_seekBar);
         updateSpeedView(mMockSpeedTv, mSpeedSeekBar);
-        mSpeedSeekBar.setMin(MIN_STEP);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mSpeedSeekBar.setMin(MIN_STEP);
+        }
         mSpeedSeekBar.setMax(MAX_STEP);
         mSpeedSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
                     sMockStep = progress;
-                    mMockSpeedTv.setText("步进速度控制:" + sMockStep);
+                    mMockSpeedTv.setText(String.format("步进速度控制:%s米", sMockStep));
                 }
             }
 
@@ -151,7 +157,7 @@ public class LbsPostAdjustKitView extends SimpleDokitView {
 
     private void updateSpeedView(TextView mockSpeed, SeekBar seekBar) {
         seekBar.setProgress(sMockStep);
-        mMockSpeedTv.setText("步进速度控制:" + sMockStep);
+        mMockSpeedTv.setText(String.format("步进速度控制:%s米", sMockStep));
     }
 
     private void updateCurrentLocConfig(LocInfo currentConfig) {

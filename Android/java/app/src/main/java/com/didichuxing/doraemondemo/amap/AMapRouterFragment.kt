@@ -51,8 +51,8 @@ class AMapRouterFragment : CommBaseFragment() {
         val myLocationStyle = MyLocationStyle()
         //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒
         myLocationStyle.interval(1000L)
-        myLocationStyle.myLocationType(5)
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE)
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER)
+//        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE)
         myLocationStyle.myLocationIcon(
             com.amap.api.maps.model.BitmapDescriptorFactory.fromResource(
                 R.mipmap.ic_navi_map_gps_locked

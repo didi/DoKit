@@ -13,7 +13,7 @@ import com.didichuxing.doraemonkit.util.DokitUtil;
  * Created by changzuozhen on 2021年1月22日
  */
 
-public class FloatGpsMockKit extends AbstractKit {
+public class PosAdjustKit extends AbstractKit {
 
 
     @Override
@@ -38,7 +38,7 @@ public class FloatGpsMockKit extends AbstractKit {
             return;
         }
 
-        SimpleDokitStarter.startFloating(LbsPostAdjustKitView.class);
+        SimpleDokitStarter.startFloating(PosAdjustKitView.class);
     }
 
     @Override
