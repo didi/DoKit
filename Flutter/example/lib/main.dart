@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:memory_checker/leak_observer.dart';
 import 'package:path_provider/path_provider.dart';
+import 'page2.dart';
 
 void main() {
   List<String> blackList = [
@@ -366,53 +367,7 @@ class TestPageState extends State<TestPage> {
   }
 }
 
-class TestPage2 extends StatefulWidget {
-  @override
-  StatefulElement createElement() {
-    // TODO: implement createElement
-    StatefulElement element = super.createElement();
-    // DoKitLeakObserver.element = element;
-    // DoKitLeakObserver.test = A(B(C(D(element))));
 
-    // Future.delayed(Duration(hours: 1), () {
-    //   print(element);
-    // });
-    return element;
-    // return super.createElement();
-  }
-
-  @override
-  State<StatefulWidget> createState() {
-    return TestPageState2();
-  }
-}
-
-class TestPageState2 extends State<TestPage2> {
-  int index = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'page2:',
-              ),
-              Text(
-                '0',
-                style: Theme.of(context).textTheme.headline4,
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class TestPage3 extends StatefulWidget {
   @override

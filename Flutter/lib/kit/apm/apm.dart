@@ -4,6 +4,7 @@ import 'package:dokit/kit/apm/log_kit.dart';
 import 'package:dokit/kit/apm/memory_kit.dart';
 import 'package:dokit/kit/apm/method_channel_kit.dart';
 import 'package:dokit/kit/apm/route_kit.dart';
+import 'package:dokit/kit/apm/source_code_kit.dart';
 import 'package:dokit/ui/resident_page.dart';
 import 'package:flutter/material.dart';
 
@@ -18,7 +19,8 @@ class ApmKitManager {
     ApmKitName.KIT_FPS: FpsKit(),
     ApmKitName.KIT_MEMORY: MemoryKit(),
     ApmKitName.KIT_HTTP: HttpKit(),
-    ApmKitName.KIT_LEAK: LeakKit()
+    ApmKitName.KIT_LEAK: LeakKit(),
+    ApmKitName.KIT_SOURCE_CODE: SourceCodeKit()
   };
 
   ApmKitManager._privateConstructor() {}
@@ -92,4 +94,5 @@ class ApmKitName {
   static const String KIT_CHANNEL = '方法通道';
   static const String KIT_HTTP = '网络请求';
   static const String KIT_LEAK = '内存泄漏';
+  static const String KIT_SOURCE_CODE = '查看源码';
 }
