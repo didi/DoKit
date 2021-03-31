@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.blankj.utilcode.util.ResourceUtils
+import com.didichuxing.doraemonkit.util.ResourceUtils
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.SystemViewInfo
 import com.didichuxing.doraemonkit.util.UIUtils

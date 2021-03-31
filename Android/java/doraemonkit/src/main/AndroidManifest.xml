@@ -4,6 +4,7 @@
     package="com.didichuxing.doraemonkit">
 
     <!-- Window -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <!-- Network -->

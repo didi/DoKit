@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.widget.recyclerview.AbsViewBinder;
-import com.didichuxing.doraemonkit.util.FormatUtil;
+import com.didichuxing.doraemonkit.util.DoKitFormatUtil;
 
 /**
  * Created by wanglikun on 2019-06-12
@@ -48,7 +48,7 @@ public class CrashHistoryAdapter extends AbsRecyclerAdapter<AbsViewBinder<CrashI
         @Override
         public void bind(CrashInfo info) {
             mContent.setText(Log.getStackTraceString(info.tr));
-            mTime.setText(FormatUtil.format(info.time));
+            mTime.setText(DoKitFormatUtil.format(info.time));
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.kit.filemanager
 
 import android.os.Build
-import com.blankj.utilcode.util.FileUtils
+import com.didichuxing.doraemonkit.util.FileUtils
 import com.didichuxing.doraemonkit.kit.filemanager.action.RequestErrorAction
 import com.didichuxing.doraemonkit.kit.filemanager.action.file.*
 import com.didichuxing.doraemonkit.kit.filemanager.action.sql.DatabaseAction

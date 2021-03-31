@@ -8,7 +8,7 @@ import android.view.WindowManager;
 
 import androidx.room.Room;
 
-import com.blankj.utilcode.util.ScreenUtils;
+import com.didichuxing.doraemonkit.util.ScreenUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;

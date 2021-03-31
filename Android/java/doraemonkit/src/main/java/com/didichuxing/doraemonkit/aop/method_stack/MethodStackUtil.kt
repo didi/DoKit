@@ -2,8 +2,8 @@ package com.didichuxing.doraemonkit.aop.method_stack
 
 import android.app.Application
 import android.util.Log
-import com.blankj.utilcode.util.GsonUtils
-import com.blankj.utilcode.util.LogUtils
+import com.didichuxing.doraemonkit.util.GsonUtils
+import com.didichuxing.doraemonkit.util.LogUtils
 import com.didichuxing.doraemonkit.aop.MethodCostUtil
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager
 import java.util.*

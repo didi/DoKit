@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.kit.lbs.manual;
 
 import android.location.Location;
 
-import com.blankj.utilcode.util.LogUtils;
+import com.didichuxing.doraemonkit.util.LogUtils;
 import com.didichuxing.doraemonkit.kit.lbs.preset.FloatGpsPresetMockCache;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 

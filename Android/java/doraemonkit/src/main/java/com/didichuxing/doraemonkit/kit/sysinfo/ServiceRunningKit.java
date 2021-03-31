@@ -4,8 +4,7 @@ import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.util.SystemUtil;
+import com.didichuxing.doraemonkit.util.DoKitSystemUtil;
 
 /**
  * 进入开发者选项
@@ -27,7 +26,7 @@ public class ServiceRunningKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        SystemUtil.startServiceRunningActivity(context);
+        DoKitSystemUtil.startServiceRunningActivity(context);
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit.aop.map;
 
-import com.blankj.utilcode.util.ReflectUtils;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockProxyManager;
+import com.didichuxing.doraemonkit.util.ReflectUtils;
 import com.tencent.map.geolocation.TencentLocation;
 import com.tencent.map.geolocation.TencentLocationListener;
 

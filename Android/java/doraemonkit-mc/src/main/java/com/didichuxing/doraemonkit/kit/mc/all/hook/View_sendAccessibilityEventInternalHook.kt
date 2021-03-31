@@ -5,8 +5,7 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.widget.FrameLayout
 import android.widget.TextView
-import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.ReflectUtils
+import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
@@ -17,6 +16,7 @@ import com.didichuxing.doraemonkit.kit.mc.all.view_info.DokitViewInfo
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
 import com.didichuxing.doraemonkit.kit.mc.util.ViewPathUtil
 import com.didichuxing.doraemonkit.util.LogHelper
+import com.didichuxing.doraemonkit.util.ReflectUtils
 import de.robv.android.xposed.XC_MethodHook
 
 /**

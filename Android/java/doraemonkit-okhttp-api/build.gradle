@@ -39,7 +39,7 @@ dependencies {
     //compileOnly rootProject.ext.dependencies["okio"]
     implementation project(":doraemonkit-okhttp-v3")
     implementation project(":doraemonkit-okhttp-v4")
-    compileOnly rootProject.ext.dependencies["utilcode"]
+    compileOnly project(":doraemonkit-util")
 }
 
 publish.dependsOn(':doraemonkit-okhttp-v3:publish')

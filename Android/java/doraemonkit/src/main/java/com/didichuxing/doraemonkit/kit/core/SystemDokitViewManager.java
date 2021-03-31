@@ -10,7 +10,7 @@ import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.kit.health.CountDownDokitView;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
-import com.didichuxing.doraemonkit.util.SystemUtil;
+import com.didichuxing.doraemonkit.util.DoKitSystemUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,7 +98,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
             return;
         }
         //app启动
-        if (SystemUtil.isOnlyFirstLaunchActivity(activity)) {
+        if (DoKitSystemUtil.isOnlyFirstLaunchActivity(activity)) {
             onMainActivityCreate(activity);
         }
 

@@ -19,9 +19,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.amap.api.location.AMapLocationListener
-import com.blankj.utilcode.util.ConvertUtils
-import com.blankj.utilcode.util.ThreadUtils
-import com.blankj.utilcode.util.ThreadUtils.SimpleTask
+import com.didichuxing.doraemonkit.util.ConvertUtils
+import com.didichuxing.doraemonkit.util.ThreadUtils
+import com.didichuxing.doraemonkit.util.ThreadUtils.SimpleTask
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop

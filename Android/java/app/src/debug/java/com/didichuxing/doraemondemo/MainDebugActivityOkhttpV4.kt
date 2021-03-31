@@ -25,9 +25,9 @@
 //import com.baidu.location.BDLocation
 //import com.baidu.location.LocationClient
 //import com.baidu.location.LocationClientOption
-//import com.blankj.utilcode.util.ConvertUtils
-//import com.blankj.utilcode.util.ThreadUtils
-//import com.blankj.utilcode.util.ThreadUtils.SimpleTask
+//import com.didichuxing.doraemonkit.util.ConvertUtils
+//import com.didichuxing.doraemonkit.util.ThreadUtils
+//import com.didichuxing.doraemonkit.util.ThreadUtils.SimpleTask
 //import com.bumptech.glide.Glide
 //import com.bumptech.glide.load.engine.DiskCacheStrategy
 //import com.bumptech.glide.load.resource.bitmap.CircleCrop

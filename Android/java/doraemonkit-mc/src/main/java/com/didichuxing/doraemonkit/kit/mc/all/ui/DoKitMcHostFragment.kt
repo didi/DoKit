@@ -8,7 +8,7 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
 import android.widget.ImageView
 import android.widget.TextView
-import com.blankj.utilcode.util.ImageUtils
+import com.didichuxing.doraemonkit.util.ImageUtils
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment

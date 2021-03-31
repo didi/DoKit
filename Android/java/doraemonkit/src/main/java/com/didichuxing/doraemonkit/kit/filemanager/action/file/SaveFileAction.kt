@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit.kit.filemanager.action.file
 
-import com.blankj.utilcode.util.ConvertUtils
-import com.blankj.utilcode.util.FileIOUtils
-import com.blankj.utilcode.util.FileUtils
+import com.didichuxing.doraemonkit.util.ConvertUtils
+import com.didichuxing.doraemonkit.util.FileIOUtils
+import com.didichuxing.doraemonkit.util.FileUtils
 import org.json.JSONArray
 import org.json.JSONObject
 import org.xml.sax.helpers.DefaultHandler

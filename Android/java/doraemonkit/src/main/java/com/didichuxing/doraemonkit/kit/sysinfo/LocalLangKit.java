@@ -4,8 +4,7 @@ import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.util.SystemUtil;
+import com.didichuxing.doraemonkit.util.DoKitSystemUtil;
 
 /**
  * 进入本地语言设置页面
@@ -27,7 +26,7 @@ public class LocalLangKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        SystemUtil.startLocalActivity(context);
+        DoKitSystemUtil.startLocalActivity(context);
     }
 
     @Override

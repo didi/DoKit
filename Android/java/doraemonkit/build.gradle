@@ -71,9 +71,7 @@ dependencies {
     implementation rootProject.ext.dependencies["volley"]
     implementation rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]
-    //函数耗时
-    //implementation rootProject.ext.dependencies["guava"]
-    implementation rootProject.ext.dependencies["utilcode"]
+    implementation project(":doraemonkit-util")
     //远程调试db
     //implementation rootProject.ext.dependencies["debug-db"]
     //implementation rootProject.ext.dependencies["debug-db-encrypt"]

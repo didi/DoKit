@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.blankj.utilcode.util.FileIOUtils;
-import com.blankj.utilcode.util.FileUtils;
-import com.blankj.utilcode.util.GsonUtils;
-import com.blankj.utilcode.util.PathUtils;
+import com.didichuxing.doraemonkit.util.FileIOUtils;
+import com.didichuxing.doraemonkit.util.FileUtils;
+import com.didichuxing.doraemonkit.util.GsonUtils;
+import com.didichuxing.doraemonkit.util.PathUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.DokitMemoryConfig;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;

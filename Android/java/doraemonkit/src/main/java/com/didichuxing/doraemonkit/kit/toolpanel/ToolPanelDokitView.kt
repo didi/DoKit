@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.blankj.utilcode.util.ActivityUtils
+import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.BundleKey
@@ -19,7 +19,7 @@ import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity
-import com.didichuxing.doraemonkit.util.DokitUtil
+import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import com.didichuxing.doraemonkit.widget.titlebar.TitleBar
 
 /**
@@ -47,13 +47,13 @@ class ToolPanelDokitView : AbsDokitView() {
     private fun generateKits() {
         DoKitConstant.GLOBAL_KITS.forEach { group ->
             when (group.key) {
-                DokitUtil.getString(R.string.dk_category_mode) -> {
+                DoKitCommUtil.getString(R.string.dk_category_mode) -> {
                     mKits.add(KitWrapItem(KitWrapItem.TYPE_MODE, name = group.key, kit = null))
                 }
-                DokitUtil.getString(R.string.dk_category_exit) -> {
+                DoKitCommUtil.getString(R.string.dk_category_exit) -> {
                     mKits.add(KitWrapItem(KitWrapItem.TYPE_EXIT, name = group.key, kit = null))
                 }
-                DokitUtil.getString(R.string.dk_category_version) -> {
+                DoKitCommUtil.getString(R.string.dk_category_version) -> {
                     mKits.add(KitWrapItem(KitWrapItem.TYPE_VERSION, name = group.key, kit = null))
                 }
                 DoKitConstant.GROUP_ID_PLATFORM,
@@ -63,7 +63,8 @@ class ToolPanelDokitView : AbsDokitView() {
                 DoKitConstant.GROUP_ID_LBS,
                 DoKitConstant.GROUP_ID_UI -> {
                     if (group.value.size != 0) {
-                        mKits.add(KitWrapItem(KitWrapItem.TYPE_TITLE, name = DokitUtil.getString(DokitUtil.getStringId(group.key)), kit = null))
+                        mKits.add(KitWrapItem(KitWrapItem.TYPE_TITLE, name = DoKitCommUtil.getString(
+                            DoKitCommUtil.getStringId(group.key)), kit = null))
                         group.value.forEach { kitWrap ->
                             if (kitWrap.checked) {
                                 mKits.add(kitWrap)

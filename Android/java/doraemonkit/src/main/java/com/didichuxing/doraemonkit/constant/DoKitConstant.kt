@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.constant
 
-import com.blankj.utilcode.util.NetworkUtils
-import com.blankj.utilcode.util.PathUtils
+import com.didichuxing.doraemonkit.util.NetworkUtils
+import com.didichuxing.doraemonkit.util.PathUtils
 import com.didichuxing.doraemonkit.BuildConfig
 import com.didichuxing.doraemonkit.config.GlobalConfig
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor

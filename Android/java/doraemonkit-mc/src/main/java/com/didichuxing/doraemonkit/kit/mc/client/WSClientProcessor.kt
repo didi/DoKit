@@ -9,7 +9,7 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
-import com.blankj.utilcode.util.*
+import com.didichuxing.doraemonkit.util.*
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.extension.isFalse
@@ -20,7 +20,7 @@ import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
 import com.didichuxing.doraemonkit.kit.mc.server.HostInfo
 import com.didichuxing.doraemonkit.kit.mc.util.ViewPathUtil
-import com.didichuxing.doraemonkit.util.DokitUtil
+import com.didichuxing.doraemonkit.util.DoKitCommUtil
 
 
 /**
@@ -56,7 +56,7 @@ object WSClientProcessor {
                 activityName?.let {
                     val clazz: Class<Activity> =
                         Class.forName(it) as Class<Activity>
-                    DokitUtil.changeAppOnForeground(clazz)
+                    DoKitCommUtil.changeAppOnForeground(clazz)
                 }
 
             }

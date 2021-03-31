@@ -19,7 +19,7 @@ import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceUtil;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.model.ViewInfo;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
-import com.didichuxing.doraemonkit.util.PermissionUtil;
+import com.didichuxing.doraemonkit.util.DoKitPermissionUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 
@@ -221,7 +221,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
         //系统模式
         else {
             //悬浮窗权限 vivo 华为可以不需要动态权限 小米需要
-            if (PermissionUtil.canDrawOverlays(activity)) {
+            if (DoKitPermissionUtil.canDrawOverlays(activity)) {
                 DokitViewManager.getInstance().resumeAndAttachDokitViews(activity);
             } else {
                 //请求悬浮窗权限
@@ -239,10 +239,10 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
      * @param context
      */
     private void requestPermission(Context context) {
-        if (!PermissionUtil.canDrawOverlays(context) && !sHasRequestPermission) {
+        if (!DoKitPermissionUtil.canDrawOverlays(context) && !sHasRequestPermission) {
             Toast.makeText(context, context.getText(R.string.dk_float_permission_toast), Toast.LENGTH_SHORT).show();
             //请求悬浮窗权限
-            PermissionUtil.requestDrawOverlays(context);
+            DoKitPermissionUtil.requestDrawOverlays(context);
             sHasRequestPermission = true;
         }
     }

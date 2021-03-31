@@ -2,11 +2,8 @@ package com.didichuxing.doraemonkit.aop.map;
 
 import android.location.Location;
 
-import com.amap.api.location.AMapLocation;
 import com.amap.api.maps.LocationSource;
-import com.blankj.utilcode.util.ReflectUtils;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
-import com.didichuxing.doraemonkit.kit.gpsmock.LocationBuilder;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 /**

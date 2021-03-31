@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.view.View
-import com.blankj.utilcode.util.NetworkUtils
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.DoKitConstant
@@ -14,7 +13,7 @@ import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.webview.WebViewManager
-import com.didichuxing.doraemonkit.util.DokitUtil
+import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import kotlinx.android.synthetic.main.dk_fragment_db_debug.title_bar
 import kotlinx.android.synthetic.main.dk_fragment_db_debug.tv_ip
 import kotlinx.android.synthetic.main.dk_fragment_file_transfer.*
@@ -39,7 +38,7 @@ class FileTransferFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         tv_ip.text = "${DoKitConstant.IP_ADDRESS_BY_WIFI}:${DoKitConstant.FILE_MANAGER_HTTP_PORT}"
         title_bar.setListener { finish() }
-        tv_tip_top.text = Html.fromHtml(DokitUtil.getString(R.string.dk_file_manager_tip_top))
+        tv_tip_top.text = Html.fromHtml(DoKitCommUtil.getString(R.string.dk_file_manager_tip_top))
         tv_tip_top.setOnClickListener {
             WebViewManager.url = NetworkManager.FILE_MANAGER_DOCUMENT_URL
             val intent = Intent(context, UniversalActivity::class.java)

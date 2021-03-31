@@ -1,39 +1,27 @@
 package com.didichuxing.doraemonkit.kit.timecounter;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.FileIOUtils;
-import com.blankj.utilcode.util.FileUtils;
-import com.blankj.utilcode.util.PathUtils;
-import com.blankj.utilcode.util.ThreadUtils;
-import com.blankj.utilcode.util.TimeUtils;
-import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.util.AppUtils;
+import com.didichuxing.doraemonkit.util.FileIOUtils;
+import com.didichuxing.doraemonkit.util.FileUtils;
+import com.didichuxing.doraemonkit.util.PathUtils;
+import com.didichuxing.doraemonkit.util.ThreadUtils;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.kit.core.SettingItem;
-import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
-import com.didichuxing.doraemonkit.kit.loginfo.LogLine;
-import com.didichuxing.doraemonkit.util.FileUtil;
-import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
+import com.didichuxing.doraemonkit.util.DoKitFileUtil;
 import com.didichuxing.doraemonkit.widget.titlebar.TitleBar;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @desc: Activity跳转耗时检测首页
@@ -119,7 +107,7 @@ public class AppStartInfoFragment extends BaseFragment {
                 if (result) {
                     ToastUtils.showShort("启动信息文件保存在:" + logPath);
                     //分享
-                    FileUtil.systemShare(DoraemonKit.APPLICATION, logFile);
+                    DoKitFileUtil.systemShare(DoraemonKit.APPLICATION, logFile);
                 }
             }
 

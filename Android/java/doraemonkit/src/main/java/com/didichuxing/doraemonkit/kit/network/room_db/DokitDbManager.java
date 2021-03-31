@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.kit.network.room_db;
 
 import android.text.TextUtils;
 
-import com.blankj.utilcode.util.ThreadUtils;
+import com.didichuxing.doraemonkit.util.ThreadUtils;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.util.LogHelper;

@@ -10,14 +10,14 @@ import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.blankj.utilcode.util.*
+import com.didichuxing.doraemonkit.util.*
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.decoration.HorizontalDividerItemDecoration
 import com.didichuxing.doraemonkit.kit.toolpanel.decoration.VerticalDividerItemDecoration
-import com.didichuxing.doraemonkit.util.DokitUtil
+import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import com.didichuxing.doraemonkit.widget.brvah.listener.OnItemDragListener
 import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder
 import com.didichuxing.doraemonkit.widget.dialog.SimpleDialogListener
@@ -89,7 +89,8 @@ class DokitManagerFragment : BaseFragment() {
                         mKits.add(
                             KitWrapItem(
                                 KitWrapItem.TYPE_TITLE,
-                                name = DokitUtil.getString(DokitUtil.getStringId(group.key)),
+                                name = DoKitCommUtil.getString(
+                                    DoKitCommUtil.getStringId(group.key)),
                                 kit = null
                             )
                         )
@@ -123,7 +124,8 @@ class DokitManagerFragment : BaseFragment() {
                             mKits.add(
                                 KitWrapItem(
                                     KitWrapItem.TYPE_TITLE,
-                                    name = DokitUtil.getString(DokitUtil.getStringId(group.key)),
+                                    name = DoKitCommUtil.getString(
+                                        DoKitCommUtil.getStringId(group.key)),
                                     kit = null
                                 )
                             )
@@ -202,7 +204,7 @@ class DokitManagerFragment : BaseFragment() {
         if (IS_EDIT) {
             showDialog(
                 ConfirmDialogProvider(
-                    DokitUtil.getString(R.string.dk_toolpanel_dialog_edit_tip),
+                    DoKitCommUtil.getString(R.string.dk_toolpanel_dialog_edit_tip),
                     object : SimpleDialogListener() {
                         override fun onPositive(): Boolean {
                             //需要将数据保存在本地备份
@@ -235,10 +237,10 @@ class DokitManagerFragment : BaseFragment() {
 
         tv_edit.setOnClickListener {
             val textView = it as TextView
-            if (DokitUtil.getString(R.string.dk_edit) == textView.text.toString()) {
+            if (DoKitCommUtil.getString(R.string.dk_edit) == textView.text.toString()) {
                 tv_reset.visibility = View.VISIBLE
                 IS_EDIT = true
-                textView.text = DokitUtil.getString(R.string.dk_complete)
+                textView.text = DoKitCommUtil.getString(R.string.dk_complete)
                 textView.setTextColor(
                     ContextCompat.getColor(
                         DoraemonKit.APPLICATION!!,
@@ -248,10 +250,10 @@ class DokitManagerFragment : BaseFragment() {
                 mAdapter.draggableModule.isDragEnabled = true
                 //需要重新过滤数据
                 reSetKits(true)
-            } else if (DokitUtil.getString(R.string.dk_complete) == textView.text.toString()) {
+            } else if (DoKitCommUtil.getString(R.string.dk_complete) == textView.text.toString()) {
                 tv_reset.visibility = View.GONE
                 IS_EDIT = false
-                textView.text = DokitUtil.getString(R.string.dk_edit)
+                textView.text = DoKitCommUtil.getString(R.string.dk_edit)
                 textView.setTextColor(
                     ContextCompat.getColor(
                         DoraemonKit.APPLICATION!!,
@@ -266,7 +268,7 @@ class DokitManagerFragment : BaseFragment() {
                 //弹框
                 showDialog(
                     TipDialogProvider(
-                        DokitUtil.getString(R.string.dk_toolpanel_save_complete),
+                        DoKitCommUtil.getString(R.string.dk_toolpanel_save_complete),
                         null
                     )
                 )
@@ -278,7 +280,7 @@ class DokitManagerFragment : BaseFragment() {
         tv_reset.setOnClickListener {
             showDialog(
                 ConfirmDialogProvider(
-                    DokitUtil.getString(R.string.dk_toolpanel_dialog_reset_tip),
+                    DoKitCommUtil.getString(R.string.dk_toolpanel_dialog_reset_tip),
                     object : SimpleDialogListener() {
                         override fun onPositive(): Boolean {
                             val open =
@@ -292,7 +294,7 @@ class DokitManagerFragment : BaseFragment() {
 
                             tv_reset.visibility = View.GONE
                             IS_EDIT = false
-                            tv_edit.text = DokitUtil.getString(R.string.dk_edit)
+                            tv_edit.text = DoKitCommUtil.getString(R.string.dk_edit)
                             tv_edit.setTextColor(
                                 ContextCompat.getColor(
                                     DoraemonKit.APPLICATION!!,
@@ -302,7 +304,7 @@ class DokitManagerFragment : BaseFragment() {
                             mAdapter.draggableModule.isDragEnabled = false
                             showDialog(
                                 TipDialogProvider(
-                                    DokitUtil.getString(R.string.dk_toolpanel_reset_complete),
+                                    DoKitCommUtil.getString(R.string.dk_toolpanel_reset_complete),
                                     null
                                 )
                             )

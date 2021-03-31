@@ -1,15 +1,11 @@
 package com.didichuxing.doraemonkit.kit.mc.util;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.ViewParent;
 import android.view.accessibility.AccessibilityManager;
 
-import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ReflectUtils;
+import com.didichuxing.doraemonkit.util.ReflectUtils;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 

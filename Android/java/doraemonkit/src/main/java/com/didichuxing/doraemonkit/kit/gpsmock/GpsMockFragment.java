@@ -12,14 +12,14 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.GpsMockConfig;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
 import com.didichuxing.doraemonkit.model.LatLng;
-import com.didichuxing.doraemonkit.util.WebUtil;
+import com.didichuxing.doraemonkit.util.DoKitWebUtil;
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.widget.webview.MyWebView;
@@ -63,7 +63,7 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
 
     private void initWebView() {
         mWebView = findViewById(R.id.webview);
-        WebUtil.webViewLoadLocalHtml(mWebView, "map/map.html");
+        DoKitWebUtil.webViewLoadLocalHtml(mWebView, "map/map.html");
         mWebView.addInvokeListener(this);
     }
 

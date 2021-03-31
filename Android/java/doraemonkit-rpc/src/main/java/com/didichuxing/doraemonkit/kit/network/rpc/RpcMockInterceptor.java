@@ -5,11 +5,11 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.ConvertUtils;
-import com.blankj.utilcode.util.EncodeUtils;
-import com.blankj.utilcode.util.TimeUtils;
-import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
+import com.didichuxing.doraemonkit.util.ConvertUtils;
+import com.didichuxing.doraemonkit.util.EncodeUtils;
+import com.didichuxing.doraemonkit.util.TimeUtils;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
@@ -18,7 +18,7 @@ import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
 import com.didichuxing.doraemonkit.kit.network.stream.InputStreamProxy;
-import com.didichuxing.doraemonkit.util.DokitUtil;
+import com.didichuxing.doraemonkit.util.DoKitCommUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.foundation.net.MimeType;
 import com.didichuxing.foundation.net.http.HttpEntity;
@@ -163,7 +163,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
 
         try {
             //query 类似 ccc=ccc&ddd=ddd
-            json = DokitUtil.param2Json(DokitUtil.param2Json(query));
+            json = DoKitCommUtil.param2Json(DoKitCommUtil.param2Json(query));
             //测试是否是json字符串
             new JSONObject(json);
         } catch (Exception e) {
@@ -197,7 +197,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
             if (requestBody.getContentType().toString().toLowerCase().contains(DokitDbManager.MEDIA_TYPE_FORM)) {
                 String form = strBody;
                 //类似 ccc=ccc&ddd=ddd
-                json = DokitUtil.param2Json(form);
+                json = DoKitCommUtil.param2Json(form);
                 //测试是否是json字符串
                 new JSONObject(json);
             } else if (requestBody.getContentType().toString().toLowerCase().contains(DokitDbManager.MEDIA_TYPE_JSON)) {
@@ -212,7 +212,7 @@ public class RpcMockInterceptor implements RpcInterceptor<HttpRpcRequest, HttpRp
                     new JSONObject(json);
                 } catch (Exception e) {
                     //类似 ccc=ccc&ddd=ddd
-                    json = DokitUtil.param2Json(json);
+                    json = DoKitCommUtil.param2Json(json);
                     if (json.equals("{}")) {
                         json = DokitDbManager.IS_NOT_NORMAL_BODY_PARAMS;
                     }

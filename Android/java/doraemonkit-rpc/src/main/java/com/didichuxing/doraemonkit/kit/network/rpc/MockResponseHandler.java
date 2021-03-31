@@ -10,7 +10,7 @@
 package com.didichuxing.doraemonkit.kit.network.rpc;
 
 
-import com.blankj.utilcode.util.ConvertUtils;
+import com.didichuxing.doraemonkit.util.ConvertUtils;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.core.ResponseHandler;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;

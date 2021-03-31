@@ -5,9 +5,6 @@ import android.app.Application
 import android.os.Build
 import android.text.TextUtils
 import android.util.Log
-import com.blankj.utilcode.util.*
-import com.blankj.utilcode.util.NetworkUtils.OnNetworkStatusChangedListener
-import com.blankj.utilcode.util.ThreadUtils.SimpleTask
 import com.didichuxing.doraemonkit.aop.OkHttpHook
 import com.didichuxing.doraemonkit.config.GlobalConfig
 import com.didichuxing.doraemonkit.config.GpsMockConfig
@@ -56,10 +53,7 @@ import com.didichuxing.doraemonkit.kit.weaknetwork.WeakNetworkKit
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorKit
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
-import com.didichuxing.doraemonkit.util.DokitUtil
-import com.didichuxing.doraemonkit.util.DoraemonStatisticsUtil
-import com.didichuxing.doraemonkit.util.LogHelper
-import com.didichuxing.doraemonkit.util.SharedPrefsUtil
+import com.didichuxing.doraemonkit.util.*
 import java.io.File
 import java.util.*
 
@@ -102,7 +96,7 @@ object DoraemonKitReal {
         if (!ProcessUtils.isMainProcess()) {
             return
         }
-        val strDokitMode = SharedPrefsUtil.getString(SharedPrefsKey.FLOAT_START_MODE, "normal")
+        val strDokitMode = DoKitSPUtil.getString(SharedPrefsKey.FLOAT_START_MODE, "normal")
         DoKitConstant.IS_NORMAL_FLOAT_MODE = strDokitMode == "normal"
         //初始化第三方工具
         installLeakCanary(app)
@@ -131,7 +125,7 @@ object DoraemonKitReal {
                     val kitWraps: MutableList<KitWrapItem> = map.value.map {
                         KitWrapItem(
                             KitWrapItem.TYPE_KIT,
-                            DokitUtil.getString(it.name),
+                            DoKitCommUtil.getString(it.name),
                             true,
                             map.key,
                             it
@@ -146,18 +140,18 @@ object DoraemonKitReal {
                 val kitWraps: MutableList<KitWrapItem> = listKits.map {
                     KitWrapItem(
                         KitWrapItem.TYPE_KIT,
-                        DokitUtil.getString(it.name),
+                        DoKitCommUtil.getString(it.name),
                         true,
-                        DokitUtil.getString(R.string.dk_category_biz),
+                        DoKitCommUtil.getString(R.string.dk_category_biz),
                         it
                     )
                 } as MutableList<KitWrapItem>
-                DoKitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_biz)] = kitWraps
+                DoKitConstant.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_biz)] = kitWraps
             }
 
         }
         //添加自定义的kit 需要读取配置文件
-        ThreadUtils.executeByIo(object : SimpleTask<Any>() {
+        ThreadUtils.executeByIo(object : ThreadUtils.SimpleTask<Any>() {
             override fun doInBackground(): Any {
                 addInnerKit(app)
                 return Any()
@@ -242,11 +236,11 @@ object DoraemonKitReal {
 
         ToolPanelUtil.jsonConfig2InnerKits(json)
         //悬浮窗模式
-        DoKitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_mode)] = mutableListOf()
+        DoKitConstant.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_mode)] = mutableListOf()
         //添加退出项
-        DoKitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_exit)] = mutableListOf()
+        DoKitConstant.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_exit)] = mutableListOf()
         //版本号
-        DoKitConstant.GLOBAL_KITS[DokitUtil.getString(R.string.dk_category_version)] =
+        DoKitConstant.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_version)] =
             mutableListOf()
 
         //遍历初始化
@@ -270,7 +264,7 @@ object DoraemonKitReal {
         platformKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(mockKit.name),
+                DoKitCommUtil.getString(mockKit.name),
                 true,
                 "dk_category_platform",
                 mockKit
@@ -280,7 +274,7 @@ object DoraemonKitReal {
         platformKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(healKit.name),
+                DoKitCommUtil.getString(healKit.name),
                 true,
                 "dk_category_platform",
                 healKit
@@ -291,7 +285,7 @@ object DoraemonKitReal {
         platformKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(fileSyncKit.name),
+                DoKitCommUtil.getString(fileSyncKit.name),
                 true,
                 "dk_category_platform",
                 fileSyncKit
@@ -307,7 +301,7 @@ object DoraemonKitReal {
         commKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(sysInfoKit.name),
+                DoKitCommUtil.getString(sysInfoKit.name),
                 true,
                 "dk_category_comms",
                 sysInfoKit
@@ -317,7 +311,7 @@ object DoraemonKitReal {
         commKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(developmentPageKit.name),
+                DoKitCommUtil.getString(developmentPageKit.name),
                 true,
                 "dk_category_comms",
                 developmentPageKit
@@ -327,7 +321,7 @@ object DoraemonKitReal {
         commKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(localLangKit.name),
+                DoKitCommUtil.getString(localLangKit.name),
                 true,
                 "dk_category_comms",
                 localLangKit
@@ -337,7 +331,7 @@ object DoraemonKitReal {
         commKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(fileExplorerKit.name),
+                DoKitCommUtil.getString(fileExplorerKit.name),
                 true,
                 "dk_category_comms",
                 fileExplorerKit
@@ -347,7 +341,7 @@ object DoraemonKitReal {
         commKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(gpsMockKit.name),
+                DoKitCommUtil.getString(gpsMockKit.name),
                 true,
                 "dk_category_comms",
                 gpsMockKit
@@ -357,7 +351,7 @@ object DoraemonKitReal {
         commKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(webDoorKit.name),
+                DoKitCommUtil.getString(webDoorKit.name),
                 true,
                 "dk_category_comms",
                 webDoorKit
@@ -367,7 +361,7 @@ object DoraemonKitReal {
         commKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(dataCleanKit.name),
+                DoKitCommUtil.getString(dataCleanKit.name),
                 true,
                 "dk_category_comms",
                 dataCleanKit
@@ -377,7 +371,7 @@ object DoraemonKitReal {
         commKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(logInfoKit.name),
+                DoKitCommUtil.getString(logInfoKit.name),
                 true,
                 "dk_category_comms",
                 logInfoKit
@@ -387,7 +381,7 @@ object DoraemonKitReal {
         commKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(dbDebugKit.name),
+                DoKitCommUtil.getString(dbDebugKit.name),
                 true,
                 "dk_category_comms",
                 dbDebugKit
@@ -405,7 +399,7 @@ object DoraemonKitReal {
             commKits.add(
                 KitWrapItem(
                     KitWrapItem.TYPE_KIT,
-                    DokitUtil.getString(weexLogKit.name),
+                    DoKitCommUtil.getString(weexLogKit.name),
                     true,
                     "dk_category_weex",
                     weexLogKit
@@ -417,7 +411,7 @@ object DoraemonKitReal {
             commKits.add(
                 KitWrapItem(
                     KitWrapItem.TYPE_KIT,
-                    DokitUtil.getString(storageKit.name),
+                    DoKitCommUtil.getString(storageKit.name),
                     true,
                     "dk_category_weex",
                     storageKit
@@ -428,7 +422,7 @@ object DoraemonKitReal {
             commKits.add(
                 KitWrapItem(
                     KitWrapItem.TYPE_KIT,
-                    DokitUtil.getString(weexInfoKit.name),
+                    DoKitCommUtil.getString(weexInfoKit.name),
                     true,
                     "dk_category_weex",
                     weexInfoKit
@@ -440,7 +434,7 @@ object DoraemonKitReal {
             commKits.add(
                 KitWrapItem(
                     KitWrapItem.TYPE_KIT,
-                    DokitUtil.getString(devToolKit.name),
+                    DoKitCommUtil.getString(devToolKit.name),
                     true,
                     "dk_category_weex",
                     devToolKit
@@ -458,7 +452,7 @@ object DoraemonKitReal {
         performanceKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(frameInfoKit.name),
+                DoKitCommUtil.getString(frameInfoKit.name),
                 true,
                 "dk_category_performance",
                 frameInfoKit
@@ -468,7 +462,7 @@ object DoraemonKitReal {
         performanceKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(cpuKit.name),
+                DoKitCommUtil.getString(cpuKit.name),
                 true,
                 "dk_category_performance",
                 cpuKit
@@ -478,7 +472,7 @@ object DoraemonKitReal {
         performanceKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(ramKit.name),
+                DoKitCommUtil.getString(ramKit.name),
                 true,
                 "dk_category_performance",
                 ramKit
@@ -488,7 +482,7 @@ object DoraemonKitReal {
         performanceKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(networkKit.name),
+                DoKitCommUtil.getString(networkKit.name),
                 true,
                 "dk_category_performance",
                 networkKit
@@ -498,7 +492,7 @@ object DoraemonKitReal {
         performanceKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(crashCaptureKit.name),
+                DoKitCommUtil.getString(crashCaptureKit.name),
                 true,
                 "dk_category_performance",
                 crashCaptureKit
@@ -508,7 +502,7 @@ object DoraemonKitReal {
         performanceKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(blockMonitorKit.name),
+                DoKitCommUtil.getString(blockMonitorKit.name),
                 true,
                 "dk_category_performance",
                 blockMonitorKit
@@ -518,7 +512,7 @@ object DoraemonKitReal {
         performanceKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(largePictureKit.name),
+                DoKitCommUtil.getString(largePictureKit.name),
                 true,
                 "dk_category_performance",
                 largePictureKit
@@ -528,7 +522,7 @@ object DoraemonKitReal {
         performanceKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(weakNetworkKit.name),
+                DoKitCommUtil.getString(weakNetworkKit.name),
                 true,
                 "dk_category_performance",
                 weakNetworkKit
@@ -538,7 +532,7 @@ object DoraemonKitReal {
         performanceKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(timeCounterKit.name),
+                DoKitCommUtil.getString(timeCounterKit.name),
                 true,
                 "dk_category_performance",
                 timeCounterKit
@@ -548,7 +542,7 @@ object DoraemonKitReal {
         performanceKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(uiPerformanceKit.name),
+                DoKitCommUtil.getString(uiPerformanceKit.name),
                 true,
                 "dk_category_performance",
                 uiPerformanceKit
@@ -558,7 +552,7 @@ object DoraemonKitReal {
         performanceKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(methodCostKit.name),
+                DoKitCommUtil.getString(methodCostKit.name),
                 true,
                 "dk_category_performance",
                 methodCostKit
@@ -573,7 +567,7 @@ object DoraemonKitReal {
             performanceKits.add(
                 KitWrapItem(
                     KitWrapItem.TYPE_KIT,
-                    DokitUtil.getString(leakCanaryKit.name),
+                    DoKitCommUtil.getString(leakCanaryKit.name),
                     true,
                     "dk_category_performance",
                     leakCanaryKit
@@ -592,7 +586,7 @@ object DoraemonKitReal {
             uiKits.add(
                 KitWrapItem(
                     KitWrapItem.TYPE_KIT,
-                    DokitUtil.getString(colorPickerKit.name),
+                    DoKitCommUtil.getString(colorPickerKit.name),
                     true,
                     "dk_category_ui",
                     colorPickerKit
@@ -603,7 +597,7 @@ object DoraemonKitReal {
         uiKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(alignRulerKit.name),
+                DoKitCommUtil.getString(alignRulerKit.name),
                 true,
                 "dk_category_ui",
                 alignRulerKit
@@ -613,7 +607,7 @@ object DoraemonKitReal {
         uiKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(viewCheckerKit.name),
+                DoKitCommUtil.getString(viewCheckerKit.name),
                 true,
                 "dk_category_ui",
                 viewCheckerKit
@@ -623,7 +617,7 @@ object DoraemonKitReal {
         uiKits.add(
             KitWrapItem(
                 KitWrapItem.TYPE_KIT,
-                DokitUtil.getString(layoutBorderKit.name),
+                DoKitCommUtil.getString(layoutBorderKit.name),
                 true,
                 "dk_category_ui",
                 layoutBorderKit
@@ -718,7 +712,7 @@ object DoraemonKitReal {
      * https://blog.csdn.net/csdn_aiyang/article/details/80665185 内部存储和外部存储的概念
      */
     private fun startBigFileInspect() {
-        ThreadUtils.executeByIo(object : SimpleTask<Any?>() {
+        ThreadUtils.executeByIo(object : ThreadUtils.SimpleTask<Any?>() {
             @Throws(Throwable::class)
             override fun doInBackground(): Any? {
                 val externalCacheDir = APPLICATION!!.externalCacheDir
@@ -762,7 +756,8 @@ object DoraemonKitReal {
      * 注册全局的网络状态监听
      */
     private fun registerNetworkStatusChangedListener() {
-        NetworkUtils.registerNetworkStatusChangedListener(object : OnNetworkStatusChangedListener {
+        NetworkUtils.registerNetworkStatusChangedListener(object :
+            NetworkUtils.OnNetworkStatusChangedListener {
             override fun onDisconnected() {
                 //ToastUtils.showShort("当前网络已断开");
                 Log.i("Doraemon", "当前网络已断开")

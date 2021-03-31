@@ -3,10 +3,8 @@ package com.didichuxing.doraemonkit.kit.sysinfo;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.util.SystemUtil;
+import com.didichuxing.doraemonkit.util.DoKitSystemUtil;
 
 /**
  * 进入开发者选项
@@ -28,7 +26,7 @@ public class DevelopmentPageKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        SystemUtil.startDevelopmentActivity(context);
+        DoKitSystemUtil.startDevelopmentActivity(context);
     }
 
     @Override

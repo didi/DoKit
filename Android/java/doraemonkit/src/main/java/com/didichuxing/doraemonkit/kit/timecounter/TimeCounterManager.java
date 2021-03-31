@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.kit.timecounter;
 
 import android.os.Looper;
 
-import com.blankj.utilcode.util.GsonUtils;
+import com.didichuxing.doraemonkit.util.GsonUtils;
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
 import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;

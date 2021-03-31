@@ -18,7 +18,7 @@ import android.os.Bundle;
 import androidx.annotation.RequiresApi;
 import android.view.View;
 
-import com.blankj.utilcode.util.AppUtils;
+import com.didichuxing.doraemonkit.util.AppUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.UIUtils;

@@ -2,7 +2,7 @@ package com.didichuxing.doraemondemo.mc
 
 import android.widget.Button
 import android.widget.TextView
-import com.blankj.utilcode.util.ToastUtils
+import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemondemo.R
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.widget.brvah.BaseQuickAdapter

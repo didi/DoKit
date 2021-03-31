@@ -7,15 +7,15 @@ import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
-import com.blankj.utilcode.util.AppUtils
-import com.blankj.utilcode.util.BarUtils
+import com.didichuxing.doraemonkit.util.AppUtils
+import com.didichuxing.doraemonkit.util.BarUtils
 import com.didichuxing.doraemonkit.BuildConfig
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
-import com.didichuxing.doraemonkit.util.DokitUtil
-import com.didichuxing.doraemonkit.util.SharedPrefsUtil
+import com.didichuxing.doraemonkit.util.DoKitCommUtil
+import com.didichuxing.doraemonkit.util.DoKitSPUtil
 import com.didichuxing.doraemonkit.widget.brvah.BaseMultiItemQuickAdapter
 import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder
 
@@ -43,7 +43,7 @@ class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?) :
         when (item.itemType) {
             KitWrapItem.TYPE_TITLE -> {
                 item.name.let {
-                    if (it == DokitUtil.getString(R.string.dk_category_platform)) {
+                    if (it == DoKitCommUtil.getString(R.string.dk_category_platform)) {
                         holder.getView<TextView>(R.id.tv_sub_title_name).visibility = View.VISIBLE
                         holder.getView<TextView>(R.id.tv_sub_title_name).text = "(www.dokit.cn)"
                     } else {
@@ -67,10 +67,10 @@ class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?) :
                 radioGroup.setOnCheckedChangeListener { _, checkedId ->
                     if (checkedId == R.id.rb_normal) {
                         //选中normal
-                        SharedPrefsUtil.putString(SharedPrefsKey.FLOAT_START_MODE, "normal")
+                        DoKitSPUtil.putString(SharedPrefsKey.FLOAT_START_MODE, "normal")
                     } else {
                         //选中系统
-                        SharedPrefsUtil.putString(SharedPrefsKey.FLOAT_START_MODE, "system")
+                        DoKitSPUtil.putString(SharedPrefsKey.FLOAT_START_MODE, "system")
                     }
                 }
 
@@ -90,7 +90,7 @@ class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?) :
                     }, 500)
                 }
 
-                val floatMode = SharedPrefsUtil.getString(SharedPrefsKey.FLOAT_START_MODE, "normal")
+                val floatMode = DoKitSPUtil.getString(SharedPrefsKey.FLOAT_START_MODE, "normal")
                 if (floatMode == "normal") {
                     rbNormal.isChecked = true
                 } else {
@@ -113,7 +113,7 @@ class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?) :
                 if (name.parent != null) {
                     (name.parent as ViewGroup).setPadding(0, 0, 0, BarUtils.getNavBarHeight())
                 }
-                val version: String = DokitUtil.getString(R.string.dk_kit_version)
+                val version: String = DoKitCommUtil.getString(R.string.dk_kit_version)
                 name.text = String.format(version, BuildConfig.DOKIT_VERSION)
 
             }

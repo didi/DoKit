@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.kit.timecounter.counter;
 import android.app.Activity;
 import android.os.SystemClock;
 
-import com.blankj.utilcode.util.ActivityUtils;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;

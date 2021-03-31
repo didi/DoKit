@@ -10,11 +10,10 @@ import com.amap.api.maps.model.PolylineOptions
 import com.amap.api.navi.model.AMapNaviPath
 import com.amap.api.navi.model.RouteOverlayOptions
 import com.amap.api.navi.view.RouteOverLay
-import com.blankj.utilcode.util.ConvertUtils
-import com.blankj.utilcode.util.ReflectUtils
-import com.didichuxing.doraemonkit.DoraemonKit
 import com.didichuxing.doraemonkit.kit.lbs.route.NaviSettings.ROUTE_NORMAL_Z_INDEX
 import com.didichuxing.doraemonkit.kit.lbs.route.NaviSettings.ROUTE_SHADOW_Z_INDEX
+import com.didichuxing.doraemonkit.util.ConvertUtils
+import com.didichuxing.doraemonkit.util.ReflectUtils
 
 /**
  * 地图上的导航路径

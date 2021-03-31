@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.kit.filemanager
 
-import com.blankj.utilcode.util.FileUtils
-import com.blankj.utilcode.util.PathUtils
+import com.didichuxing.doraemonkit.util.FileUtils
+import com.didichuxing.doraemonkit.util.PathUtils
 
 /**
  * ================================================

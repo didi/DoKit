@@ -11,8 +11,8 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
-import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.BarUtils;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
+import com.didichuxing.doraemonkit.util.BarUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
@@ -22,7 +22,7 @@ import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitView;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.util.LogHelper;
-import com.didichuxing.doraemonkit.util.SystemUtil;
+import com.didichuxing.doraemonkit.util.DoKitSystemUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -101,7 +101,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         }
 
         //app启动
-        if (SystemUtil.isOnlyFirstLaunchActivity(activity)) {
+        if (DoKitSystemUtil.isOnlyFirstLaunchActivity(activity)) {
             onMainActivityCreate(activity);
             return;
         }

@@ -8,7 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.blankj.utilcode.util.ToastUtils
+import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemondemo.R
 import kotlinx.android.synthetic.main.activity_mc.*
 

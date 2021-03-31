@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.sysinfo;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.pm.PackageInfo;
 import android.os.Build;
@@ -14,17 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.NetworkUtils;
-import com.blankj.utilcode.util.PhoneUtils;
+import com.didichuxing.doraemonkit.util.DeviceUtils;
+import com.didichuxing.doraemonkit.util.NetworkUtils;
+import com.didichuxing.doraemonkit.util.PhoneUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap;
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
-import com.didichuxing.doraemonkit.util.DeviceUtils;
-import com.didichuxing.doraemonkit.util.ExecutorUtil;
-import com.didichuxing.doraemonkit.util.PermissionUtil;
+import com.didichuxing.doraemonkit.util.DokitDeviceUtils;
+import com.didichuxing.doraemonkit.util.DoKitExecutorUtil;
+import com.didichuxing.doraemonkit.util.DoKitPermissionUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 import java.util.ArrayList;
@@ -89,7 +89,7 @@ public class SysInfoFragment extends BaseFragment {
 
     //App 信息
     private void addAppData(List<SysInfoItem> sysInfoItems) {
-        PackageInfo pi = DeviceUtils.getPackageInfo(getContext());
+        PackageInfo pi = DokitDeviceUtils.getPackageInfo(getContext());
         sysInfoItems.add(new TitleItem(getString(R.string.dk_sysinfo_app_info)));
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_package_name), pi.packageName));
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_package_version_name), pi.versionName));
@@ -98,36 +98,37 @@ public class SysInfoFragment extends BaseFragment {
             sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_package_min_sdk), String.valueOf(getContext().getApplicationInfo().minSdkVersion)));
         }
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_package_target_sdk), String.valueOf(getContext().getApplicationInfo().targetSdkVersion)));
-        try {
-            sysInfoItems.add(new SysInfoItem("Sign MD5", AppUtils.getAppSignatureMD5()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            sysInfoItems.add(new SysInfoItem("Sign SHA1", AppUtils.getAppSignatureSHA1()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            sysInfoItems.add(new SysInfoItem("Sign SHA256", AppUtils.getAppSignatureSHA256()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            sysInfoItems.add(new SysInfoItem("Sign MD5", AppUtils.getAppSignatureMD5()));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            sysInfoItems.add(new SysInfoItem("Sign SHA1", AppUtils.getAppSignatureSHA1()));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            sysInfoItems.add(new SysInfoItem("Sign SHA256", AppUtils.getAppSignatureSHA256()));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
 
     //手机信息
+    @SuppressLint("MissingPermission")
     private void addDeviceData(List<SysInfoItem> sysInfoItems) throws Exception {
         sysInfoItems.add(new TitleItem(getString(R.string.dk_sysinfo_device_info)));
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_brand_and_model), Build.MANUFACTURER + " " + Build.MODEL));
         sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_android_version), Build.VERSION.RELEASE + " (" + Build.VERSION.SDK_INT + ")"));
         try {
-            sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_ext_storage_free), DeviceUtils.getSDCardSpace(getContext())));
+            sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_ext_storage_free), DokitDeviceUtils.getSDCardSpace(getContext())));
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_rom_free), DeviceUtils.getRomSpace(getContext())));
+            sysInfoItems.add(new SysInfoItem(getString(R.string.dk_sysinfo_rom_free), DokitDeviceUtils.getRomSpace(getContext())));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,7 +143,7 @@ public class SysInfoFragment extends BaseFragment {
             e.printStackTrace();
         }
         try {
-            sysInfoItems.add(new SysInfoItem("ROOT", String.valueOf(com.blankj.utilcode.util.DeviceUtils.isDeviceRooted())));
+            sysInfoItems.add(new SysInfoItem("ROOT", String.valueOf(DeviceUtils.isDeviceRooted())));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -157,7 +158,7 @@ public class SysInfoFragment extends BaseFragment {
             e.printStackTrace();
         }
         try {
-            sysInfoItems.add(new SysInfoItem("Mac", TextUtils.isEmpty(com.blankj.utilcode.util.DeviceUtils.getMacAddress()) ? "null" : com.blankj.utilcode.util.DeviceUtils.getMacAddress()));
+            sysInfoItems.add(new SysInfoItem("Mac", TextUtils.isEmpty(DeviceUtils.getMacAddress()) ? "null" : DeviceUtils.getMacAddress()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -173,17 +174,17 @@ public class SysInfoFragment extends BaseFragment {
      * 不可靠的检测权限方式
      */
     private void addPermissionDataUnreliable() {
-        ExecutorUtil.execute(new Runnable() {
+        DoKitExecutorUtil.execute(new Runnable() {
             @Override
             public void run() {
                 final List<SysInfoItem> list = new ArrayList<>();
                 list.add(new TitleItem(getString(R.string.dk_sysinfo_permission_info_unreliable)));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_location), PermissionUtil.checkLocationUnreliable(getContext()) ? "YES" : "NO", true));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_sdcard), PermissionUtil.checkStorageUnreliable() ? "YES" : "NO", true));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_camera), PermissionUtil.checkCameraUnreliable() ? "YES" : "NO", true));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_record), PermissionUtil.checkRecordUnreliable() ? "YES" : "NO", true));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_read_phone), PermissionUtil.checkReadPhoneUnreliable(getContext()) ? "YES" : "NO", true));
-                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_contact), PermissionUtil.checkReadContactUnreliable(getContext()) ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_location), DoKitPermissionUtil.checkLocationUnreliable(getContext()) ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_sdcard), DoKitPermissionUtil.checkStorageUnreliable() ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_camera), DoKitPermissionUtil.checkCameraUnreliable() ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_record), DoKitPermissionUtil.checkRecordUnreliable() ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_read_phone), DoKitPermissionUtil.checkReadPhoneUnreliable(getContext()) ? "YES" : "NO", true));
+                list.add(new SysInfoItem(getString(R.string.dk_sysinfo_permission_contact), DoKitPermissionUtil.checkReadContactUnreliable(getContext()) ? "YES" : "NO", true));
                 getView().post(new Runnable() {
                     @Override
                     public void run() {
@@ -230,7 +231,7 @@ public class SysInfoFragment extends BaseFragment {
 
     private String checkPermission(String... perms) {
         try {
-            return PermissionUtil.hasPermissions(getContext(), perms) ? "YES" : "NO";
+            return DoKitPermissionUtil.hasPermissions(getContext(), perms) ? "YES" : "NO";
         } catch (NullPointerException e) {
             e.printStackTrace();
         }

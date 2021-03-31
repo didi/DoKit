@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc.server
 
-import com.blankj.utilcode.util.GsonUtils
+import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent

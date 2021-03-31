@@ -50,6 +50,6 @@ dependencies {
     implementation rootProject.ext.dependencies["haha"]
     compileOnly project(':doraemonkit')
     //跨进程通信框架
-    compileOnly rootProject.ext.dependencies["utilcode"]
+    compileOnly project(":doraemonkit-util")
 
 }

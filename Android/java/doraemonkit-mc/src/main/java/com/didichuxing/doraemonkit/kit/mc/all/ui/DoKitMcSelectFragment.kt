@@ -10,8 +10,8 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.Button
-import com.blankj.utilcode.util.GsonUtils
-import com.blankj.utilcode.util.ToastUtils
+import com.didichuxing.doraemonkit.util.GsonUtils
+import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.McConstant

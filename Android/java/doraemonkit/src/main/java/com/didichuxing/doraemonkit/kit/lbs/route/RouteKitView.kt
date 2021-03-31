@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.view.children
 import com.amap.api.navi.AMapNavi
-import com.blankj.utilcode.util.ConvertUtils
+import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams

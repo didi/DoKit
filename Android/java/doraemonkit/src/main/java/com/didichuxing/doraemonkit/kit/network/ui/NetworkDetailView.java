@@ -15,22 +15,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.FileIOUtils;
-import com.blankj.utilcode.util.FileUtils;
-import com.blankj.utilcode.util.PathUtils;
-import com.blankj.utilcode.util.ThreadUtils;
-import com.blankj.utilcode.util.TimeUtils;
-import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.util.AppUtils;
+import com.didichuxing.doraemonkit.util.FileIOUtils;
+import com.didichuxing.doraemonkit.util.FileUtils;
+import com.didichuxing.doraemonkit.util.PathUtils;
+import com.didichuxing.doraemonkit.util.ThreadUtils;
+import com.didichuxing.doraemonkit.util.TimeUtils;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.loginfo.LogExportDialog;
-import com.didichuxing.doraemonkit.kit.loginfo.LogLine;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 import com.didichuxing.doraemonkit.kit.network.bean.Request;
 import com.didichuxing.doraemonkit.kit.network.bean.Response;
 import com.didichuxing.doraemonkit.kit.network.utils.ByteUtil;
-import com.didichuxing.doraemonkit.util.FileUtil;
+import com.didichuxing.doraemonkit.util.DoKitFileUtil;
 import com.didichuxing.doraemonkit.widget.dialog.DialogProvider;
 import com.didichuxing.doraemonkit.widget.dialog.UniversalDialogFragment;
 import com.didichuxing.doraemonkit.widget.jsonviewer.JsonRecyclerView;
@@ -41,9 +40,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
@@ -267,7 +264,7 @@ public class NetworkDetailView extends LinearLayout {
                     ToastUtils.showShort("文件保存在:" + logPath);
                     //分享
                     if (operateType == 101) {
-                        FileUtil.systemShare(DoraemonKit.APPLICATION, logFile);
+                        DoKitFileUtil.systemShare(DoraemonKit.APPLICATION, logFile);
                     }
                 }
             }

@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.kit.lbs.common;
 
 import android.content.Context;
 
-import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
+import com.didichuxing.doraemonkit.util.DoKitSPUtil;
 import com.google.gson.Gson;
 
 /**
@@ -27,10 +27,10 @@ public final class Constants {
     }
 
     public static String loadLocationConfigJson() {
-        return SharedPrefsUtil.getString(MOCK_LOCATION_KEY, "");
+        return DoKitSPUtil.getString(MOCK_LOCATION_KEY, "");
     }
 
     public static void saveLocationConfigJson(String locLocalConfigJson) {
-        SharedPrefsUtil.putString(MOCK_LOCATION_KEY, locLocalConfigJson);
+        DoKitSPUtil.putString(MOCK_LOCATION_KEY, locLocalConfigJson);
     }
 }

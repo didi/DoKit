@@ -1,12 +1,12 @@
 package com.didichuxing.doraemonkit.kit.filemanager.action.file
 
-import com.blankj.utilcode.util.ConvertUtils
-import com.blankj.utilcode.util.FileUtils
-import com.blankj.utilcode.util.PathUtils
-import com.blankj.utilcode.util.ToastUtils
+import com.didichuxing.doraemonkit.util.ConvertUtils
+import com.didichuxing.doraemonkit.util.FileUtils
+import com.didichuxing.doraemonkit.util.PathUtils
+import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.R as DoKitR
 import com.didichuxing.doraemonkit.kit.filemanager.FileManagerUtil
-import com.didichuxing.doraemonkit.util.DokitUtil
+import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import java.io.File
 
 /**
@@ -38,8 +38,8 @@ object FileListAction {
                 if (dirPath == FileManagerUtil.externalStorageRootPath && fileInfos.isEmpty()) {
                     this["code"] = 0
                     this["message"] =
-                        DokitUtil.getString(DoKitR.string.dk_file_manager_sd_permission_tip)
-                    ToastUtils.showShort(DokitUtil.getString(DoKitR.string.dk_file_manager_sd_permission_tip))
+                        DoKitCommUtil.getString(DoKitR.string.dk_file_manager_sd_permission_tip)
+                    ToastUtils.showShort(DoKitCommUtil.getString(DoKitR.string.dk_file_manager_sd_permission_tip))
                 }
                 this["fileList"] = fileInfos
             }

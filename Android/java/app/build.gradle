@@ -141,7 +141,7 @@ dependencies {
     implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["coroutines-core"]
     implementation rootProject.ext.dependencies["coroutines-android"]
-    implementation rootProject.ext.dependencies["design"]
+    implementation rootProject.ext.dependencies["material"]
     implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["fragment"]
     implementation rootProject.ext.dependencies["fragment-ktx"]
@@ -163,7 +163,7 @@ dependencies {
     //weex相关
     implementation rootProject.ext.dependencies["weex_inspector"]
     implementation rootProject.ext.dependencies["weex_sdk"]
-    implementation rootProject.ext.dependencies["utilcode"]
+    implementation project(":doraemonkit-util")
     implementation rootProject.ext.dependencies["easypermissions"]
     releaseImplementation rootProject.ext.dependencies["okgo"]
     //高德地图定位

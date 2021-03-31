@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.widget.recyclerview.AbsViewBinder;
-import com.didichuxing.doraemonkit.util.FileUtil;
+import com.didichuxing.doraemonkit.util.DoKitFileUtil;
 
 /**
  * Created by wanglikun on 2018/10/16.
@@ -63,11 +63,11 @@ public class FileInfoAdapter extends AbsRecyclerAdapter<AbsViewBinder<FileInfo>,
                 mIcon.setImageResource(R.mipmap.dk_dir_icon);
                 mMoreBtn.setVisibility(View.VISIBLE);
             } else {
-                if (FileUtil.getSuffix(fileInfo.file).equals(FileUtil.JPG)) {
+                if (DoKitFileUtil.getSuffix(fileInfo.file).equals(DoKitFileUtil.JPG)) {
                     mIcon.setImageResource(R.mipmap.dk_jpg_icon);
-                } else if (FileUtil.getSuffix(fileInfo.file).equals(FileUtil.TXT)) {
+                } else if (DoKitFileUtil.getSuffix(fileInfo.file).equals(DoKitFileUtil.TXT)) {
                     mIcon.setImageResource(R.mipmap.dk_txt_icon);
-                } else if (FileUtil.getSuffix(fileInfo.file).equals(FileUtil.DB)){
+                } else if (DoKitFileUtil.getSuffix(fileInfo.file).equals(DoKitFileUtil.DB)){
                     mIcon.setImageResource(R.mipmap.dk_file_db);
                 }else {
                     mIcon.setImageResource(R.mipmap.dk_file_icon);

@@ -2,7 +2,6 @@ package com.didichuxing.doraemonkit.util;
 
 import android.content.Context;
 
-import com.blankj.utilcode.util.AppUtils;
 import com.didichuxing.doraemonkit.BuildConfig;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 
@@ -30,8 +29,8 @@ public class DoraemonStatisticsUtil {
     }
 
     public static void uploadUserInfo(Context context) throws Exception {
-        String appId = SystemUtil.getPackageName(context);
-        String appName = SystemUtil.getAppName(context);
+        String appId = DoKitSystemUtil.getPackageName(context);
+        String appName = DoKitSystemUtil.getAppName(context);
         String type = "Android";
         //0 代表内部版本  1代表外部版本
         String from = "1";

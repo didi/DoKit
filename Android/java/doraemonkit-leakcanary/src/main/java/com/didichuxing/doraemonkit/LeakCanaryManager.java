@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit;
 import android.app.Application;
 import android.util.Log;
 
-import com.blankj.utilcode.util.ActivityUtils;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.abridge.AbridgeCallBack;
 import com.didichuxing.doraemonkit.abridge.IBridge;
 import com.didichuxing.doraemonkit.constant.DokitConstant;

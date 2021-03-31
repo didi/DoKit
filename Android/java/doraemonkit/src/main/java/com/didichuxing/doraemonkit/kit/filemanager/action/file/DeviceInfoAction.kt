@@ -1,8 +1,7 @@
 package com.didichuxing.doraemonkit.kit.filemanager.action.file
 
-import com.blankj.utilcode.util.DeviceUtils
-import com.blankj.utilcode.util.NetworkUtils
 import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.util.DeviceUtils
 
 /**
  * ================================================

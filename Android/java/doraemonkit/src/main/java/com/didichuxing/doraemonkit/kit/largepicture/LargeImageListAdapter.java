@@ -9,16 +9,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
-import com.blankj.utilcode.util.ConvertUtils;
-import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.util.ConvertUtils;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.picasso.MemoryPolicy;
 import com.didichuxing.doraemonkit.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.widget.recyclerview.AbsViewBinder;
-import com.didichuxing.doraemonkit.util.ClipboardUtils;
+import com.didichuxing.doraemonkit.util.DoKitClipboardUtils;
 import com.didichuxing.doraemonkit.picasso.DokitPicasso;
 
 import java.text.DecimalFormat;
@@ -120,7 +118,7 @@ public class LargeImageListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Larg
             btnCopy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ClipboardUtils.copyUri(Uri.parse(largeImageInfo.getUrl()));
+                    DoKitClipboardUtils.copyUri(Uri.parse(largeImageInfo.getUrl()));
                     ToastUtils.showShort("image url  has copied");
                 }
 

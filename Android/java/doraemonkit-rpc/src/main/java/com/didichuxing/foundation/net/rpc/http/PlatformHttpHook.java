@@ -2,7 +2,7 @@ package com.didichuxing.foundation.net.rpc.http;
 
 import android.util.Log;
 
-import com.blankj.utilcode.util.ReflectUtils;
+import com.didichuxing.doraemonkit.util;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonWeakNetworkInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor;
 import com.didichuxing.doraemonkit.kit.network.rpc.RpcMockInterceptor;

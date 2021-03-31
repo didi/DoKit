@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit;
 
-import com.blankj.utilcode.util.GsonUtils;
+import com.didichuxing.doraemonkit.util.GsonUtils;
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent;
 
 import org.junit.Test;

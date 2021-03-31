@@ -56,7 +56,7 @@ dependencies {
     implementation rootProject.ext.dependencies["recyclerview"]
     implementation rootProject.ext.dependencies["fragment"]
     implementation rootProject.ext.dependencies["zxing"]
-    implementation rootProject.ext.dependencies["utilcode"]
+    implementation project(":doraemonkit-util")
     implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["epic"]
 

@@ -2,9 +2,9 @@ package com.didichuxing.doraemonkit.aop.map;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
-import com.blankj.utilcode.util.ReflectUtils;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockProxyManager;
+import com.didichuxing.doraemonkit.util.ReflectUtils;
 
 /**
  * ================================================
