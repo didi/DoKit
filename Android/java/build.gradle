@@ -15,7 +15,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven{
+        maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
         mavenCentral()
@@ -42,7 +42,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven{
+        maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
         mavenCentral()
@@ -56,6 +56,21 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+/**
+ * 删除指定目录下的文件
+ */
+task deleteSource(type: Delete) {
+    delete './doraemonkit-plugin/src/main/kotlin'
+}
+
+/**
+ * 将buildSrc中的代码同步到doraemonkit-plugin中
+ */
+task copyPluginSource(type: Copy, dependsOn: deleteSource) {
+    from './buildSrc/src/main'
+    into './doraemonkit-plugin/src/main'
 }
 
 //解决打包时由于javadocRelease校验引起的打包失败
