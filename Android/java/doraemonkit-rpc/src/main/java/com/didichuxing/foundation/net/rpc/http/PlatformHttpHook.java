@@ -2,12 +2,10 @@ package com.didichuxing.foundation.net.rpc.http;
 
 import android.util.Log;
 
-import com.didichuxing.doraemonkit.util;
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonWeakNetworkInterceptor;
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor;
 import com.didichuxing.doraemonkit.kit.network.rpc.RpcMockInterceptor;
 import com.didichuxing.doraemonkit.kit.network.rpc.RpcMonitorInterceptor;
 import com.didichuxing.doraemonkit.kit.network.rpc.RpcWeakNetworkInterceptor;
+import com.didichuxing.doraemonkit.util.ReflectUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

@@ -18,12 +18,6 @@ import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.WindowManager;
-//import androidx.core.content.ContextCompat;
-//
-//import com.didichuxing.doraemonkit.constant.PermissionConstants;
-//import com.didichuxing.doraemonkit.util.PermissionUtils.OnRationaleListener.ShouldRequest;
-//
-//import static com.blankj.utilcode.constant.PermissionConstants.PermissionGroup;
 import com.didichuxing.doraemonkit.constant.PermissionConstants;
 
 import java.util.ArrayList;
