@@ -71,7 +71,7 @@ dependencies {
     implementation rootProject.ext.dependencies["volley"]
     implementation rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]
-    implementation project(":doraemonkit-util")
+
     //远程调试db
     //implementation rootProject.ext.dependencies["debug-db"]
     //implementation rootProject.ext.dependencies["debug-db-encrypt"]
@@ -86,6 +86,7 @@ dependencies {
     implementation rootProject.ext.dependencies["jsoup"]
     //okhttp wrap
     implementation project(":doraemonkit-okhttp-api")
+    implementation project(":doraemonkit-util")
 
 
 //    implementation rootProject.ext.dependencies["mimecraft"]
