@@ -1,5 +1,6 @@
 import 'package:dokit/kit/apm/apm.dart';
 import 'package:dokit/kit/apm/vm/vm_helper.dart';
+import 'package:dokit/widget/source_code/source_code_view.dart';
 import 'package:flutter/material.dart';
 import 'package:dokit/kit/kit.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -60,10 +61,10 @@ class _SourceCodePageState extends State<SourceCodePage> {
             final fileLocation = location['file'] as String;
             final fileName = fileLocation.split("/").last;
             getScriptList(fileName).then((value) => {
-              setState((){
-                sourceCode = value.source;
-              })
-            });
+                  setState(() {
+                    sourceCode = value.source;
+                  })
+                });
           }
         }
       }
@@ -104,7 +105,7 @@ class _SourceCodePageState extends State<SourceCodePage> {
             )
           : Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SingleChildScrollView(child: Text(sourceCode)),
+              child: SourceCodeView(sourceCode: sourceCode),
             ),
     );
   }

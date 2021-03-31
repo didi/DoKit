@@ -18,6 +18,7 @@ dependencies:
   isolate: ^2.0.3
   image: ^2.1.19
   image_gallery_saver: 1.5.0
+  google_fonts: ^1.1.1
 
 dev_dependencies:
   flutter_test:
