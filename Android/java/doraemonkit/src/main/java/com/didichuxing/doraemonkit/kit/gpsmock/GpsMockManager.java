@@ -14,6 +14,8 @@ public class GpsMockManager {
 
     private static boolean isMocking;
 
+    private static boolean mockAMapNavLocation = false;
+
     private GpsMockManager() {
     }
 
@@ -36,7 +38,6 @@ public class GpsMockManager {
 
     public void mockLocationWithNotify(double latitude, double longitude) {
         mockLocation(latitude, longitude);
-        // TODO: 1/22/21 notify Location Listeners
         mockLocationWithNotify(new LocationBuilder().setLatitude(latitude).setLongitude(longitude).build());
     }
 
@@ -63,7 +64,14 @@ public class GpsMockManager {
     }
 
     private static class Holder {
+
         private static GpsMockManager INSTANCE = new GpsMockManager();
     }
+    public static boolean mockAMapNavLocation() {
+        return mockAMapNavLocation;
+    }
 
+    public static void setMockAMapNavLocation(boolean mockAMapNavLocation) {
+        GpsMockManager.mockAMapNavLocation = mockAMapNavLocation;
+    }
 }

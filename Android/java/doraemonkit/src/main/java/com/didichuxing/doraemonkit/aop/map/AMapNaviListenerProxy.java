@@ -68,7 +68,9 @@ public class AMapNaviListenerProxy implements AMapNaviListener {
 
     @Override
     public void onLocationChange(AMapNaviLocation aMapNaviLocation) {
-        aMapNaviLocation.setCoord(new NaviLatLng(GpsMockManager.getInstance().getLatitude(), GpsMockManager.getInstance().getLongitude()));
+        if (GpsMockManager.mockAMapNavLocation()) {
+            aMapNaviLocation.setCoord(new NaviLatLng(GpsMockManager.getInstance().getLatitude(), GpsMockManager.getInstance().getLongitude()));
+        }
 //        LogHelper.i(TAG, "====aMapNaviLocation===" + aMapNaviLocation.getCoord().toString());
         if (aMapNaviListener != null) {
             aMapNaviListener.onLocationChange(aMapNaviLocation);

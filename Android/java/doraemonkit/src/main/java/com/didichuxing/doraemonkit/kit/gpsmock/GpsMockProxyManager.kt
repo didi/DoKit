@@ -161,8 +161,14 @@ object GpsMockProxyManager {
             for (aMapLocationChangedListenerProxy in mAMapLocationChangedListenerProxies) {
                 aMapLocationChangedListenerProxy?.onLocationChanged(location)
             }
-            for (aMapNaviListenerProxy in mAMapNaviListenerProxies) {
-                aMapNaviListenerProxy?.onLocationChange(LocationBuilder.toAMapNaviLocation(location))
+            if (GpsMockManager.mockAMapNavLocation()) {
+                for (aMapNaviListenerProxy in mAMapNaviListenerProxies) {
+                    aMapNaviListenerProxy?.onLocationChange(
+                        LocationBuilder.toAMapNaviLocation(
+                            location
+                        )
+                    )
+                }
             }
 
 
