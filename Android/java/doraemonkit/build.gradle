@@ -95,6 +95,10 @@ dependencies {
 //    implementation rootProject.ext.dependencies["ktor-gson"]
 
     kapt rootProject.ext.dependencies["room_compile"]
+    //auto-service
+    implementation rootProject.ext.dependencies["auto_service"]
+    kapt rootProject.ext.dependencies["auto_service"]
+
 
     //三大图片框架
     compileOnly rootProject.ext.dependencies["glide"]

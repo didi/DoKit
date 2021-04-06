@@ -146,7 +146,8 @@ object DoraemonKitReal {
                         it
                     )
                 } as MutableList<KitWrapItem>
-                DoKitConstant.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_biz)] = kitWraps
+                DoKitConstant.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_biz)] =
+                    kitWraps
             }
 
         }
@@ -179,8 +180,6 @@ object DoraemonKitReal {
     }
 
 
-
-
     /**
      * 注册全局回调
      */
@@ -189,16 +188,16 @@ object DoraemonKitReal {
         AppUtils.registerAppStatusChangedListener(object : Utils.OnAppStatusChangedListener {
             //进入前台
             override fun onForeground(activity: Activity?) {
-                DoKitActivityOverrideManager.dispatch(
-                    DoKitActivityOverrideEnum.onForeground,
+                DoKitServiceManager.dispatch(
+                    DoKitServiceEnum.onForeground,
                     activity!!
                 )
             }
 
             //进入后台
             override fun onBackground(activity: Activity?) {
-                DoKitActivityOverrideManager.dispatch(
-                    DoKitActivityOverrideEnum.onBackground,
+                DoKitServiceManager.dispatch(
+                    DoKitServiceEnum.onBackground,
                     activity!!
                 )
             }
@@ -206,12 +205,10 @@ object DoraemonKitReal {
         })
         //跨模块通信监听
         try {
-            val doKitActivityOverrideListeners = mutableListOf<DoKitActivityOverrideListener>()
-            val mcOverrideListener: DoKitActivityOverrideListener =
-                ReflectUtils.reflect("com.didichuxing.doraemonkit.kit.mc.all.McActivityOverrideImpl")
-                    .newInstance().get()
-            doKitActivityOverrideListeners.add(mcOverrideListener)
-            DoKitActivityOverrideManager.register(doKitActivityOverrideListeners)
+            val dokitServices =
+                ServiceLoader.load(DoKitServiceInterface::class.java, javaClass.classLoader)
+                    .toList()
+            DoKitServiceManager.register(dokitServices)
         } catch (e: Exception) {
 
         }
@@ -236,9 +233,11 @@ object DoraemonKitReal {
 
         ToolPanelUtil.jsonConfig2InnerKits(json)
         //悬浮窗模式
-        DoKitConstant.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_mode)] = mutableListOf()
+        DoKitConstant.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_mode)] =
+            mutableListOf()
         //添加退出项
-        DoKitConstant.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_exit)] = mutableListOf()
+        DoKitConstant.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_exit)] =
+            mutableListOf()
         //版本号
         DoKitConstant.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_version)] =
             mutableListOf()

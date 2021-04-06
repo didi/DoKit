@@ -11,7 +11,7 @@ import android.app.Activity
  * 修订历史：
  * ================================================
  */
-interface DoKitActivityOverrideListener {
+interface DoKitServiceInterface {
     /**
      * 生命周期
      */

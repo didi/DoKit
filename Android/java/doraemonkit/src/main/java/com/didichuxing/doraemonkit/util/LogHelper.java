@@ -1,7 +1,5 @@
 package com.didichuxing.doraemonkit.util;
 
-import com.didichuxing.doraemonkit.util.LogUtils;
-
 /**
  * Created by wanglikun on 2018/9/10.
  */

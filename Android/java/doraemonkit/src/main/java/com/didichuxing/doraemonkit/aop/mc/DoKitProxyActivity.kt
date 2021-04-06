@@ -2,15 +2,12 @@ package com.didichuxing.doraemonkit.aop.mc
 
 import android.app.Activity
 import android.content.res.Configuration
-import android.nfc.Tag
 import android.os.Build
 import android.os.Bundle
 import android.view.MotionEvent
 import androidx.annotation.RequiresApi
-import com.didichuxing.doraemonkit.kit.core.DoKitActivityOverrideEnum
-import com.didichuxing.doraemonkit.kit.core.DoKitActivityOverrideManager
-import com.didichuxing.doraemonkit.util.LogHelper
-import java.util.logging.Logger
+import com.didichuxing.doraemonkit.kit.core.DoKitServiceEnum
+import com.didichuxing.doraemonkit.kit.core.DoKitServiceManager
 
 
 /**
@@ -31,26 +28,26 @@ public open class DoKitProxyActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DoKitActivityOverrideManager.dispatch(DoKitActivityOverrideEnum.onCreate, this)
+        DoKitServiceManager.dispatch(DoKitServiceEnum.onCreate, this)
     }
 
 
     override fun onStart() {
         super.onStart()
-        DoKitActivityOverrideManager.dispatch(DoKitActivityOverrideEnum.onStart, this)
+        DoKitServiceManager.dispatch(DoKitServiceEnum.onStart, this)
 
     }
 
     override fun onResume() {
         super.onResume()
-        DoKitActivityOverrideManager.dispatch(DoKitActivityOverrideEnum.onResume, this)
+        DoKitServiceManager.dispatch(DoKitServiceEnum.onResume, this)
 
     }
 
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        DoKitActivityOverrideManager.dispatch(DoKitActivityOverrideEnum.dispatchTouchEvent, this)
+        DoKitServiceManager.dispatch(DoKitServiceEnum.dispatchTouchEvent, this)
 
 
         return super.dispatchTouchEvent(ev)
@@ -59,8 +56,8 @@ public open class DoKitProxyActivity : Activity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        DoKitActivityOverrideManager.dispatch(
-            DoKitActivityOverrideEnum.onConfigurationChanged,
+        DoKitServiceManager.dispatch(
+            DoKitServiceEnum.onConfigurationChanged,
             this
         )
     }
@@ -68,29 +65,29 @@ public open class DoKitProxyActivity : Activity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        DoKitActivityOverrideManager.dispatch(DoKitActivityOverrideEnum.onBackPressed, this)
+        DoKitServiceManager.dispatch(DoKitServiceEnum.onBackPressed, this)
     }
 
     override fun onPause() {
         super.onPause()
-        DoKitActivityOverrideManager.dispatch(DoKitActivityOverrideEnum.onPause, this)
+        DoKitServiceManager.dispatch(DoKitServiceEnum.onPause, this)
 
     }
 
     override fun onStop() {
         super.onStop()
-        DoKitActivityOverrideManager.dispatch(DoKitActivityOverrideEnum.onStop, this)
+        DoKitServiceManager.dispatch(DoKitServiceEnum.onStop, this)
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        DoKitActivityOverrideManager.dispatch(DoKitActivityOverrideEnum.onDestroy, this)
+        DoKitServiceManager.dispatch(DoKitServiceEnum.onDestroy, this)
     }
 
     override fun finish() {
         super.finish()
-        DoKitActivityOverrideManager.dispatch(DoKitActivityOverrideEnum.finish, this)
+        DoKitServiceManager.dispatch(DoKitServiceEnum.finish, this)
     }
 
     override fun onAttachedToWindow() {

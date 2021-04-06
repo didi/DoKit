@@ -24,7 +24,7 @@ import com.didichuxing.doraemonkit.util.ReflectUtils
 class NaviRouteOverlay(
     private val aMap: AMap,
     aMapNaviPath: AMapNaviPath?,
-    private val mContext: Context
+    val mContext: Context
 ) : RouteOverLay(
     aMap, aMapNaviPath, mContext
 ) {
@@ -41,10 +41,10 @@ class NaviRouteOverlay(
     private fun setupOptions(shadow: Boolean) {
         val options: RouteOverlayOptions
         if (shadow) {
-            options = customShadowRouteTexture(mContext)
+            options = customShadowRouteTexture()
             setZindex(ROUTE_SHADOW_Z_INDEX)
         } else {
-            options = customRouteTexture(mContext)
+            options = customRouteTexture()
             setZindex(ROUTE_NORMAL_Z_INDEX)
         }
         options.setOnRouteCameShow(false)
@@ -94,7 +94,7 @@ class NaviRouteOverlay(
         }
     }
 
-    private fun customShadowRouteTexture(context: Context?): RouteOverlayOptions {
+    private fun customShadowRouteTexture(): RouteOverlayOptions {
         val routeOverlayOptions = RouteOverlayOptions()
         var fis =
             BitmapDescriptorFactory::class.java.getResourceAsStream("/assets/img/dk_custtexture_aolr.png")
@@ -132,7 +132,7 @@ class NaviRouteOverlay(
 
     companion object {
         private const val LINE_WIDTH_DP = 14
-        fun customRouteTexture(context: Context?): RouteOverlayOptions {
+        fun customRouteTexture(): RouteOverlayOptions {
             val routeOverlayOptions = RouteOverlayOptions()
             var fis =
                 BitmapDescriptorFactory::class.java.getResourceAsStream("/assets/img/dk_custtexture_aolr.png")

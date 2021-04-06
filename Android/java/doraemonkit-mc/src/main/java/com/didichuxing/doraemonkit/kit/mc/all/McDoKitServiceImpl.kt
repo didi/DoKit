@@ -4,9 +4,10 @@ import android.app.Activity
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
-import com.didichuxing.doraemonkit.kit.core.DoKitActivityOverrideListener
+import com.didichuxing.doraemonkit.kit.core.DoKitServiceAbs
+import com.didichuxing.doraemonkit.kit.core.DoKitServiceInterface
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
-import com.didichuxing.doraemonkit.util.LogHelper
+import com.google.auto.service.AutoService
 
 /**
  * ================================================
@@ -17,47 +18,12 @@ import com.didichuxing.doraemonkit.util.LogHelper
  * 修订历史：
  * ================================================
  */
-class McActivityOverrideImpl : DoKitActivityOverrideListener {
+@AutoService(DoKitServiceInterface::class)
+class McDoKitServiceImpl : DoKitServiceAbs() {
     companion object {
         const val TAG = "McActivityOverrideImpl"
     }
 
-    override fun onCreate(activity: Activity) {
-    }
-
-    override fun onStart(activity: Activity) {
-    }
-
-    override fun onResume(activity: Activity) {
-    }
-
-    override fun onPause(activity: Activity) {
-    }
-
-    override fun onStop(activity: Activity) {
-    }
-
-    override fun onDestroy(activity: Activity) {
-    }
-
-    override fun finish(activity: Activity) {
-//        if (DoKitConstant.WS_MODE == WSMode.HOST) {
-//            val wsEvent = WSEvent(
-//                WSMode.HOST,
-//                WSEType.ACTIVITY_FINISH,
-//                mutableMapOf(
-//                    "activityName" to activity::class.java.canonicalName!!,
-//                    "command" to "finish"
-//                ),
-//                null
-//            )
-//            DoKitWsServer.send(wsEvent)
-//        }
-    }
-
-    override fun onConfigurationChanged(activity: Activity) {
-
-    }
 
     override fun onBackPressed(activity: Activity) {
         if (DoKitConstant.WS_MODE == WSMode.HOST) {
@@ -74,12 +40,6 @@ class McActivityOverrideImpl : DoKitActivityOverrideListener {
         }
     }
 
-    override fun dispatchTouchEvent(activity: Activity) {
-
-    }
-
-    override fun other(activity: Activity) {
-    }
 
     override fun onForeground(className: String) {
         if (DoKitConstant.WS_MODE == WSMode.HOST) {

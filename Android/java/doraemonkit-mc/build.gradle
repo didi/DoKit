@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply from: '../upload.gradle'
 
 android {
@@ -69,6 +70,9 @@ dependencies {
     compileOnly rootProject.ext.dependencies["ktor_server_cio"]
     //此处需要使用api的形式 向上暴露内部api
     api project(':doraemonkit')
+    //auto-service
+    implementation rootProject.ext.dependencies["auto_service"]
+    kapt rootProject.ext.dependencies["auto_service"]
 }
 
 publish.dependsOn(':doraemonkit:publish')
