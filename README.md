@@ -1,9 +1,9 @@
 - [简介](#简介)
+- [领域生态](#领域生态)
 - [使用手册](#使用手册)
 - [更新日志](#更新日志)
 - [社区活动](#社区活动)
 - [开发背景](#开发背景)
-- [效果演示](#效果演示)
 - [功能模块](#功能模块)
   - [一、平台工具(www.dokit.cn)](#一平台工具wwwdokitcn)
   - [二、常用工具](#二常用工具)
@@ -24,11 +24,11 @@
 
 ## 简介
 <div align="center">    
- <img src="https://javer.oss-cn-shanghai.aliyuncs.com/doraemon/github/DoraemonKit_github.png" width = "150" height = "150" alt="DoraemonKit" align=left />
+ <img src="https://pt-starimg.didistatic.com/static/starimg/img/J0WO7tUi9U1616143930629.png" width = "250"  alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
  <img src="https://img.shields.io/badge/Android-3.3.5-blue.svg" align=left />
- <img src="https://img.shields.io/badge/iOS-3.0.4-yellow.svg" align=left />
- <img src="https://img.shields.io/badge/Flutter-0.2.12-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/iOS-3.0.7-yellow.svg" align=left />
+ <img src="https://img.shields.io/badge/Flutter-0.2.14-blue.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" align=left />
 </div>
@@ -43,6 +43,12 @@
 **DoraemonKit** /'dɔ:ra:'emɔn/，简称`DoKit`，中文名 `哆啦A梦`，意味着能够像哆啦A梦一样提供给他的主人各种各样的工具。Just Do Kit
 
 > [English Readme](README_EN.md)
+
+## 领域生态
+
+<div align="center">    
+  <img src="https://pt-starimg.didistatic.com/static/starimg/img/KXYYVcUWmc1616142595262.jpg" width = "900" alt="DoKit 首页效果演示" align=center />
+</div>
 
 ## 使用手册
 访问[DoKit官网](https://www.dokit.cn/)，点击"[使用中心](http://xingyun.xiaojukeji.com/docs/dokit/#/intro)"。
@@ -85,11 +91,7 @@ DoraemonKit 是一个功能平台，能够让每一个 App 快速接入一些常
 
 3、搭配dokit平台，借助[接口Mock](https://www.dokit.cn/#/index/dataMockPage)、[健康体检](https://www.dokit.cn/#/index/checkDataPage)、[文件同步助手](https://www.dokit.cn/#/index/fileSyncPage)让你方便和他人协同，极大的提升研发过程中的效率。
 
-## 效果演示
 
-<div align="center">    
-  <img src="https://pt-starimg.didistatic.com/static/starimg/img/H1SVa0S6Zm1585189141793.jpg" width = "250" alt="DoKit 首页效果演示" align=center />
-</div>
 
 
 
@@ -238,11 +240,11 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [yixiangboy](https://github.com/yixiangboy)、
 [jtsky](https://github.com/jtsky) 、
 [LinJZong](https://github.com/LinJZong) 、
-[ydlsl](https://github.com/ydlsl) 、
 [jayconscious](https://github.com/jayconscious)
 
 **贡献者榜单**
 、
+[changzuozhen](https://github.com/changzuozhen)、
 [wanglikun7342](https://github.com/wanglikun7342) 、
 [wenquanlebao](https://github.com/wenquanlebao) 、
 [hiXgb](https://github.com/hiXgb) 、 
@@ -270,7 +272,8 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [sagdragon](https://github.com/sagdragon) 、
 [ccworld1000](https://github.com/ccworld1000) 、
 [HDB-Li](https://github.com/HDB-Li)、
-[yu-jianfeng](https://github.com/yu-jianfeng)
+[yu-jianfeng](https://github.com/yu-jianfeng)、
+[ydlsl](https://github.com/ydlsl)
 
 如何成为外部贡献者？ 提交有意义的PR，并被采纳。
 
@@ -333,6 +336,6 @@ DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [
 5. [Mand Mobile](https://github.com/didi/mand-mobile) 一款优秀的面向金融场景的 移动端UI组件库
    
 
-6. 我们部门的技术公众号（普惠出行产品技术公众号），欢迎关注。
-   **公众号介绍：这里是滴滴出行旗下普惠产品技术团队对外分享的窗口，普惠出行支撑滴滴代驾、货运等业务，建设了NodeX、Dokit、卡梅隆等开源项目，始终秉承聚心成事、聚气育人的原则。欢迎各位技术同仁一起交流，共同成长。**
-  ![普惠技术公众号](https://pt-starimg.didistatic.com/static/starimg/img/oOCoP5tVJs1600416407154.jpg)
+6. 我们团队的技术公众号【滴滴OrangeLab】，欢迎关注，我们会在这里持续输出团队内部比较有深度的技术沉淀和经验分享，欢迎一起交流。
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/cPlaMme4g81616682162304.jpg" width = "250" />
+ 

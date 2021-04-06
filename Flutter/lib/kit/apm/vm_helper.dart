@@ -6,12 +6,12 @@ import 'dart:developer';
 import 'package:dokit/kit/apm/version.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:vm_service/utils.dart';
 import 'package:vm_service/vm_service.dart';
 import 'package:vm_service/vm_service_io.dart';
-import 'package:vm_service/utils.dart';
 
 class VmHelper {
-  VmHelper._privateConstructor() {}
+  VmHelper._privateConstructor();
 
   static final VmHelper _instance = VmHelper._privateConstructor();
 
@@ -26,41 +26,44 @@ class VmHelper {
   String _flutterVersion = '';
 
   // 各Isolate内存使用情况
-  Map<IsolateRef, MemoryUsage> memoryInfo = new Map();
+  Map<IsolateRef, MemoryUsage> memoryInfo = <IsolateRef, MemoryUsage>{};
   bool connected;
   AllocationProfile allocationProfile;
   PackageInfo packageInfo;
 
   Map<String, List<String>> get registeredMethodsForService =>
       _registeredMethodsForService;
-  final Map<String, List<String>> _registeredMethodsForService = {};
+  final Map<String, List<String>> _registeredMethodsForService =
+      <String, List<String>>{};
 
-  startConnect() async {
-    ServiceProtocolInfo info = await Service.getInfo();
+  Future<void> startConnect() async {
+    final ServiceProtocolInfo info = await Service.getInfo();
     if (info == null || info.serverUri == null) {
-      print("service  protocol url is null,start vm service fail");
+      print('service  protocol url is null,start vm service fail');
       return;
     }
-    Uri uri = convertToWebSocketUrl(serviceProtocolUrl: info.serverUri);
+    final Uri uri = convertToWebSocketUrl(serviceProtocolUrl: info.serverUri);
     serviceClient = await vmServiceConnectUri(uri.toString(), log: StdoutLog());
     print('socket connected in service $info');
     connected = true;
 
     vm = await serviceClient.getVM();
-    List<IsolateRef> isolates = vm.isolates;
-    isolates.forEach((element) async {
-      MemoryUsage memoryUsage = await serviceClient.getMemoryUsage(element.id);
+    final List<IsolateRef> isolates = vm.isolates;
+    for (final IsolateRef element in isolates) {
+      final MemoryUsage memoryUsage =
+          await serviceClient.getMemoryUsage(element.id);
       memoryInfo[element] = memoryUsage;
-    });
+    }
+
     loadExtensionService();
-    PackageInfo.fromPlatform().then((value) => packageInfo=value);
+    PackageInfo.fromPlatform().then((PackageInfo value) => packageInfo = value);
   }
 
   // 获取flutter版本，目前比较鸡肋，需要借助devtools向vmservice注册的服务来获取,flutter 未 attach的情况下无法使用。
-  void loadExtensionService() async {
-    final serviceStreamName = await this.serviceStreamName;
+  Future<void> loadExtensionService() async {
+    final String serviceStreamName = await this.serviceStreamName;
     serviceClient.onEvent(serviceStreamName).listen(handleServiceEvent);
-    final streamIds = [
+    final List<String> streamIds = <String>[
       EventStreams.kDebug,
       EventStreams.kExtension,
       EventStreams.kGC,
@@ -81,6 +84,8 @@ class VmHelper {
       }
     }));
     resolveFlutterVersion();
+
+    return Future<void>.value();
   }
 
   String get flutterVersion {
@@ -139,9 +144,9 @@ class VmHelper {
 
   void handleServiceEvent(Event e) {
     if (e.kind == EventKind.kServiceRegistered) {
-      final serviceName = e.service;
+      final String serviceName = e.service;
       _registeredMethodsForService
-          .putIfAbsent(serviceName, () => [])
+          .putIfAbsent(serviceName, () => <String>[])
           .add(e.method);
       if (_flutterVersion == '' && serviceName == 'flutterVersion') {
         resolveFlutterVersion();
@@ -149,44 +154,44 @@ class VmHelper {
     }
 
     if (e.kind == EventKind.kServiceUnregistered) {
-      final serviceName = e.service;
+      final String serviceName = e.service;
       _registeredMethodsForService.remove(serviceName);
     }
   }
 
   void resolveFlutterVersion() {
-    callMethod('flutterVersion')?.then(
-        (value) => _flutterVersion = FlutterVersion.parse(value.json).version);
+    callMethod('flutterVersion')?.then((Response value) =>
+        _flutterVersion = FlutterVersion.parse(value.json).version);
   }
 
   Future<Response> callMethod(String method) {
     if (registeredMethodsForService.containsKey(method)) {
-      return (serviceClient.callMethod(registeredMethodsForService[method].last,
-          isolateId: vm.isolates.first.id));
+      return serviceClient.callMethod(registeredMethodsForService[method].last,
+          isolateId: vm.isolates.first.id);
     }
     return null;
   }
 
-  updateMemoryUsage() {
+  void updateMemoryUsage() {
     if (serviceClient != null && connected) {
-      List<IsolateRef> isolates = vm.isolates;
-      isolates.forEach((element) {
+      final List<IsolateRef> isolates = vm.isolates;
+      for (final IsolateRef element in isolates) {
         serviceClient
             .getMemoryUsage(element.id)
-            .then((value) => memoryInfo[element] = value);
-      });
+            .then((MemoryUsage value) => memoryInfo[element] = value);
+      }
     }
   }
 
-  dumpAllocationProfile() async {
+  void dumpAllocationProfile() {
     if (serviceClient != null && connected) {
       serviceClient
           .getAllocationProfile(vm.isolates.first.id)
-          .then((value) => allocationProfile = value);
+          .then((AllocationProfile value) => allocationProfile = value);
     }
   }
 
-  disConnect() async {
+  Future<void> disConnect() async {
     if (serviceClient != null) {
       print('waiting for client to shut down...');
       serviceClient.dispose();
@@ -196,11 +201,15 @@ class VmHelper {
       serviceClient = null;
       print('service client shut down');
     }
+
+    return Future<void>.value();
   }
 }
 
 class StdoutLog extends Log {
+  @override
   void warning(String message) => print(message);
 
+  @override
   void severe(String message) => print(message);
 }

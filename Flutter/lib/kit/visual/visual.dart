@@ -5,11 +5,11 @@ import 'package:dokit/kit/visual/view_check.dart';
 abstract class VisualKit implements IKit {}
 
 class VisualKitManager {
-  Map<String, IKit> kitMap = {
+  VisualKitManager._privateConstructor();
+
+  Map<String, IKit> kitMap = <String, IKit>{
     VisualKitName.KIT_VIEW_CHECK: ViewCheckerKit.instance,
   };
-
-  VisualKitManager._privateConstructor() {}
 
   static final VisualKitManager _instance =
       VisualKitManager._privateConstructor();
@@ -25,7 +25,7 @@ class VisualKitManager {
   T getKit<T extends IKit>(String name) {
     assert(name != null);
     if (kitMap.containsKey(name)) {
-      return kitMap[name];
+      return kitMap[name] as T;
     }
     return null;
   }

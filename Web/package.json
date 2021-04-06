@@ -1,0 +1,26 @@
+{
+  "name": "dokit-web",
+  "version": "0.0.0",
+  "description": "a web toolkit powered by Dokit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup --config rollup.config.js",
+    "dev": "rollup -w --config rollup.config.js"
+  },
+  "author": "caoenze",
+  "license": "ISC",
+  "devDependencies": {
+    "@vue/compiler-sfc": "^3.0.7",
+    "less": "^4.1.1",
+    "rollup": "^2.41.1",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-postcss": "^4.0.0",
+    "rollup-plugin-replace": "^2.2.0",
+    "rollup-plugin-vue": "^6.0.0-beta.10"
+  },
+  "dependencies": {
+    "vue": "^3.0.7"
+  }
+}

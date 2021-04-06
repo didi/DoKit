@@ -64,6 +64,7 @@ appCreator | DoKitAppCreator | 异步返回根布局 | 同上
 useInRelease | bool |是否在release模式下显示DoKit | x
 logCallback | LogCallback | 调用print方法打印日志时被回调 | x
 exceptionCallback | ExceptionCallback | 异常回调 | x
+methodChannelBlackList | List<String> | 过滤方法通道的黑名单 | x
 releaseAction | Function | release模式下执行该函数，该值为空则会直接调用系统的runApp |x
 
 
