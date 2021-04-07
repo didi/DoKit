@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.kit.core
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.FragmentIndex
 
@@ -20,7 +20,7 @@ object SimpleDokitStarter {
         context: Context? = null,
         bundle: Bundle? = null
     ) {
-        val ctx = context ?: DoraemonKit.APPLICATION!!.applicationContext
+        val ctx = context ?: DoKit.APPLICATION!!.applicationContext
         ctx.startActivity(Intent(ctx, UniversalActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
             putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_SIMPLE_CUSTOM)

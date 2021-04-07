@@ -7,13 +7,13 @@ import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
-import com.didichuxing.doraemonkit.util.AppUtils
-import com.didichuxing.doraemonkit.util.BarUtils
 import com.didichuxing.doraemonkit.BuildConfig
-import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
+import com.didichuxing.doraemonkit.util.AppUtils
+import com.didichuxing.doraemonkit.util.BarUtils
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import com.didichuxing.doraemonkit.util.DoKitSPUtil
 import com.didichuxing.doraemonkit.widget.brvah.BaseMultiItemQuickAdapter
@@ -101,7 +101,7 @@ class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?) :
             KitWrapItem.TYPE_EXIT -> {
                 holder.getView<TextView>(R.id.close).setOnClickListener {
                     DokitViewManager.getInstance().detachToolPanel()
-                    DoraemonKit.hide()
+                    DoKit.hide()
                 }
 
             }

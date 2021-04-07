@@ -59,9 +59,9 @@ import java.util.*
 
 /**
  * Created by jintai on 2019/12/18.
- * DoraemonKit 真正执行的类  不建议外部app调用
+ * DoKit 真正执行的类  不建议外部app调用
  */
-object DoraemonKitReal {
+object DoKitReal {
     private const val TAG = "Doraemon"
 
     private var APPLICATION: Application? = null
@@ -78,8 +78,8 @@ object DoraemonKitReal {
      */
     fun install(
         app: Application,
-        mapKits: LinkedHashMap<String, MutableList<AbstractKit>>,
-        listKits: MutableList<AbstractKit>,
+        mapKits: LinkedHashMap<String, List<AbstractKit>>,
+        listKits: List<AbstractKit>,
         productId: String
     ) {
         registerListener()
@@ -893,11 +893,24 @@ object DoraemonKitReal {
         DoKitConstant.FILE_MANAGER_HTTP_PORT = port
     }
 
+    /**
+     * 设置一机多控长连接端口号
+     */
+    fun setMCWSPort(port: Int) {
+        DoKitConstant.MC_WS_PORT = port
+    }
+
+    /**
+     * 是否显示主入口icon
+     */
+    fun setAwaysShowMainIcon(awaysShow: Boolean) {
+        DoKitConstant.AWAYS_SHOW_MAIN_ICON = awaysShow
+    }
+
 
     /**
      * 设置一机多控自定义拦截器
      */
-
     fun setMCIntercept(interceptor: MCInterceptor) {
         DoKitConstant.MC_INTERCEPT = interceptor
     }

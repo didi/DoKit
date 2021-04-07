@@ -41,7 +41,7 @@ class DoKitMcHostFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         val ivCode = findViewById<ImageView>(R.id.iv_code)
         val tvHost = findViewById<TextView>(R.id.tv_host)
-        val host = "ws://${DoKitConstant.IP_ADDRESS_BY_WIFI}:4444/mc"
+        val host = "ws://${DoKitConstant.IP_ADDRESS_BY_WIFI}:${DoKitConstant.MC_WS_PORT}/mc"
         val logo = ImageUtils.getBitmap(R.mipmap.dk_logo)
         val qCode = CodeUtils.createCode(activity, host, logo)
         tvHost.text = host

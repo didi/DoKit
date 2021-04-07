@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.kit.filemanager.sqlite
 
 import android.content.ContentValues
 import android.database.Cursor
-import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.bean.RowFiledInfo
 import com.didichuxing.doraemonkit.kit.filemanager.sqlite.bean.TableFieldInfo
@@ -40,7 +40,7 @@ object DBManager {
         return if (sqliteDBs.containsKey(databasePath)) {
             sqliteDBs["databasePath"]
         } else {
-            sqliteDBs["databasePath"] = dbFactory.create(DoraemonKit.APPLICATION!!.applicationContext, databasePath, password)
+            sqliteDBs["databasePath"] = dbFactory.create(DoKit.APPLICATION!!.applicationContext, databasePath, password)
             sqliteDBs["databasePath"]
         }
 

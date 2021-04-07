@@ -9,21 +9,20 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
-
-import androidx.annotation.RequiresApi;
-
 import android.text.TextUtils;
 import android.view.Choreographer;
 
-import com.didichuxing.doraemonkit.util.ActivityUtils;
-import com.didichuxing.doraemonkit.util.AppUtils;
-import com.didichuxing.doraemonkit.util.TimeUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
+import androidx.annotation.RequiresApi;
+
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.config.DokitMemoryConfig;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
+import com.didichuxing.doraemonkit.util.AppUtils;
+import com.didichuxing.doraemonkit.util.TimeUtils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -182,8 +181,8 @@ public class PerformanceDataManager {
     }
 
     public void init() {
-        mContext = DoraemonKit.APPLICATION.getApplicationContext();
-        mActivityManager = (ActivityManager) DoraemonKit.APPLICATION.getSystemService(Context.ACTIVITY_SERVICE);
+        mContext = DoKit.APPLICATION.getApplicationContext();
+        mActivityManager = (ActivityManager) DoKit.APPLICATION.getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mAboveAndroidO = true;
         }

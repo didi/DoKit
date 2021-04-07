@@ -8,17 +8,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.didichuxing.doraemonkit.DoKit;
+import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil;
+import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.util.AppUtils;
+import com.didichuxing.doraemonkit.util.DoKitFileUtil;
 import com.didichuxing.doraemonkit.util.FileIOUtils;
 import com.didichuxing.doraemonkit.util.FileUtils;
 import com.didichuxing.doraemonkit.util.PathUtils;
 import com.didichuxing.doraemonkit.util.ThreadUtils;
 import com.didichuxing.doraemonkit.util.ToastUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil;
-import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.util.DoKitFileUtil;
 import com.didichuxing.doraemonkit.widget.titlebar.TitleBar;
 
 import java.io.File;
@@ -107,7 +107,7 @@ public class AppStartInfoFragment extends BaseFragment {
                 if (result) {
                     ToastUtils.showShort("启动信息文件保存在:" + logPath);
                     //分享
-                    DoKitFileUtil.systemShare(DoraemonKit.APPLICATION, logFile);
+                    DoKitFileUtil.systemShare(DoKit.APPLICATION, logFile);
                 }
             }
 

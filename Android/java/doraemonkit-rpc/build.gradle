@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply from: '../upload.gradle'
 
 android {
@@ -56,6 +57,9 @@ dependencies {
     api project(':doraemonkit')
 
     compileOnly project(":doraemonkit-okhttp-api")
+    //auto-service
+    implementation rootProject.ext.dependencies["auto_service"]
+    kapt rootProject.ext.dependencies["auto_service"]
 
 }
 

@@ -19,22 +19,22 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.didichuxing.doraemonkit.DoKit;
+import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
+import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.util.AppUtils;
+import com.didichuxing.doraemonkit.util.DoKitFileUtil;
 import com.didichuxing.doraemonkit.util.FileIOUtils;
 import com.didichuxing.doraemonkit.util.FileUtils;
 import com.didichuxing.doraemonkit.util.PathUtils;
 import com.didichuxing.doraemonkit.util.ThreadUtils;
 import com.didichuxing.doraemonkit.util.TimeUtils;
 import com.didichuxing.doraemonkit.util.ToastUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
-import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
-import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.widget.dialog.DialogProvider;
 import com.didichuxing.doraemonkit.widget.dialog.UniversalDialogFragment;
 import com.didichuxing.doraemonkit.widget.titlebar.LogTitleBar;
-import com.didichuxing.doraemonkit.util.DoKitFileUtil;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -272,7 +272,7 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
                     ToastUtils.showShort("文件保存在:" + logPath);
                     //分享
                     if (operateType == 101) {
-                        DoKitFileUtil.systemShare(DoraemonKit.APPLICATION, logFile);
+                        DoKitFileUtil.systemShare(DoKit.APPLICATION, logFile);
                     }
                 }
             }

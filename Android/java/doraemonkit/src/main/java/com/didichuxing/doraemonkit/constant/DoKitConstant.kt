@@ -60,6 +60,11 @@ object DoKitConstant {
     var FILE_MANAGER_HTTP_PORT = 8089
 
     /**
+     * 一机多控长连接端口号
+     */
+    var MC_WS_PORT = 4444
+
+    /**
      * 产品id
      */
     @JvmField
@@ -133,7 +138,6 @@ object DoKitConstant {
     val IP_ADDRESS_BY_WIFI: String
         get() {
             try {
-
                 return NetworkUtils.getIpAddressByWifi()
             } catch (e: Exception) {
                 LogHelper.e(TAG, "get wifi address error===>${e.message}")

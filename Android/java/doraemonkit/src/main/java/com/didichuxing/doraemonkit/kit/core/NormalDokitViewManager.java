@@ -11,9 +11,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 
-import com.didichuxing.doraemonkit.util.ActivityUtils;
-import com.didichuxing.doraemonkit.util.BarUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.constant.WSMode;
@@ -21,8 +19,10 @@ import com.didichuxing.doraemonkit.kit.health.CountDownDokitView;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitView;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
-import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
+import com.didichuxing.doraemonkit.util.BarUtils;
 import com.didichuxing.doraemonkit.util.DoKitSystemUtil;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -180,8 +180,8 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
             attach(dokitIntent);
         }
         //判断是否有MainIcon
-        if (DoKitConstant.AWAYS_SHOW_MAIN_ICON && !DoraemonKit.isShow()) {
-            DoraemonKit.show();
+        if (DoKitConstant.AWAYS_SHOW_MAIN_ICON && !DoKit.isMainIconShow()) {
+            DoKit.show();
         }
 
         //倒计时DokitView

@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit
 
 import android.app.Application
-import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
@@ -9,6 +8,7 @@ import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
 /**
  * Created by jint on 2018/6/22.
  */
+@Deprecated("请用DoKit来代替")
 object DoraemonKit {
     @JvmField
     var APPLICATION: Application? = null
@@ -27,22 +27,26 @@ object DoraemonKit {
 
 
     @JvmStatic
-    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>) {
+    fun install(app: Application, mapKits: LinkedHashMap<String, List<AbstractKit>>) {
         install(app, mapKits, mutableListOf(), "")
     }
 
     @JvmStatic
-    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, productId: String) {
+    fun install(
+        app: Application,
+        mapKits: LinkedHashMap<String, List<AbstractKit>>,
+        productId: String
+    ) {
         install(app, mapKits, mutableListOf(), productId)
     }
 
     @JvmStatic
-    fun install(app: Application, listKits: MutableList<AbstractKit>) {
+    fun install(app: Application, listKits: List<AbstractKit>) {
         install(app, linkedMapOf(), listKits, "")
     }
 
     @JvmStatic
-    fun install(app: Application, listKits: MutableList<AbstractKit>, productId: String) {
+    fun install(app: Application, listKits: List<AbstractKit>, productId: String) {
         install(app, linkedMapOf(), listKits, productId)
     }
 
@@ -53,11 +57,19 @@ object DoraemonKit {
      * @param productId Dokit平台端申请的productId
      */
     @JvmStatic
-    private fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
+    private fun install(
+        app: Application,
+        mapKits: LinkedHashMap<String, List<AbstractKit>>? = linkedMapOf(),
+        listKits: List<AbstractKit>? = mutableListOf(),
+        productId: String? = ""
+    ) {
         APPLICATION = app
+        DoKit.APPLICATION = app
         try {
-            DoraemonKitReal.install(app, mapKits ?: linkedMapOf(), listKits
-                    ?: mutableListOf(), productId ?: "")
+            DoKitReal.install(
+                app, mapKits ?: linkedMapOf(), listKits
+                    ?: mutableListOf(), productId ?: ""
+            )
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -65,12 +77,12 @@ object DoraemonKit {
 
     @JvmStatic
     fun setWebDoorCallback(callback: WebDoorCallback?) {
-        DoraemonKitReal.setWebDoorCallback(callback)
+        DoKitReal.setWebDoorCallback(callback)
     }
 
     @JvmStatic
     fun show() {
-        DoraemonKitReal.show()
+        DoKitReal.show()
     }
 
     /**
@@ -78,7 +90,7 @@ object DoraemonKit {
      */
     @JvmStatic
     fun showToolPanel() {
-        DoraemonKitReal.showToolPanel()
+        DoKitReal.showToolPanel()
     }
 
     /**
@@ -86,12 +98,12 @@ object DoraemonKit {
      */
     @JvmStatic
     fun hideToolPanel() {
-        DoraemonKitReal.hideToolPanel()
+        DoKitReal.hideToolPanel()
     }
 
     @JvmStatic
     fun hide() {
-        DoraemonKitReal.hide()
+        DoKitReal.hide()
     }
 
     /**
@@ -99,16 +111,16 @@ object DoraemonKit {
      */
     @JvmStatic
     fun disableUpload() {
-        DoraemonKitReal.disableUpload()
+        DoKitReal.disableUpload()
     }
 
     @JvmStatic
     val isShow: Boolean
-        get() = DoraemonKitReal.isShow
+        get() = DoKitReal.isShow
 
     @JvmStatic
     fun setDebug(debug: Boolean) {
-        DoraemonKitReal.setDebug(debug)
+        DoKitReal.setDebug(debug)
     }
 
     /**
@@ -116,7 +128,7 @@ object DoraemonKit {
      */
     @JvmStatic
     fun setAwaysShowMainIcon(awaysShow: Boolean) {
-        DoKitConstant.AWAYS_SHOW_MAIN_ICON = awaysShow
+        DoKitReal.setAwaysShowMainIcon(awaysShow)
     }
 
     /**
@@ -124,7 +136,7 @@ object DoraemonKit {
      */
     @JvmStatic
     fun setDatabasePass(map: Map<String, String>) {
-        DoraemonKitReal.setDatabasePass(map)
+        DoKitReal.setDatabasePass(map)
     }
 
 
@@ -133,12 +145,17 @@ object DoraemonKit {
      */
     @JvmStatic
     fun setFileManagerHttpPort(port: Int) {
-        DoraemonKitReal.setFileManagerHttpPort(port)
+        DoKitReal.setFileManagerHttpPort(port)
     }
 
     @JvmStatic
     fun setMCIntercept(interceptor: MCInterceptor) {
-        DoraemonKitReal.setMCIntercept(interceptor)
+        DoKitReal.setMCIntercept(interceptor)
+    }
+
+    @JvmStatic
+    fun setMCWSPort(port: Int) {
+        DoKitReal.setMCWSPort(port)
     }
 
 

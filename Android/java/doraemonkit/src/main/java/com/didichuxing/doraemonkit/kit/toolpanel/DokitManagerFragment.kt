@@ -10,14 +10,13 @@ import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.didichuxing.doraemonkit.util.*
-import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.decoration.HorizontalDividerItemDecoration
 import com.didichuxing.doraemonkit.kit.toolpanel.decoration.VerticalDividerItemDecoration
-import com.didichuxing.doraemonkit.util.DoKitCommUtil
+import com.didichuxing.doraemonkit.util.*
 import com.didichuxing.doraemonkit.widget.brvah.listener.OnItemDragListener
 import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder
 import com.didichuxing.doraemonkit.widget.dialog.SimpleDialogListener
@@ -243,7 +242,7 @@ class DokitManagerFragment : BaseFragment() {
                 textView.text = DoKitCommUtil.getString(R.string.dk_complete)
                 textView.setTextColor(
                     ContextCompat.getColor(
-                        DoraemonKit.APPLICATION!!,
+                        DoKit.APPLICATION!!,
                         R.color.dk_color_337CC4
                     )
                 )
@@ -256,7 +255,7 @@ class DokitManagerFragment : BaseFragment() {
                 textView.text = DoKitCommUtil.getString(R.string.dk_edit)
                 textView.setTextColor(
                     ContextCompat.getColor(
-                        DoraemonKit.APPLICATION!!,
+                        DoKit.APPLICATION!!,
                         R.color.dk_color_333333
                     )
                 )
@@ -284,7 +283,7 @@ class DokitManagerFragment : BaseFragment() {
                     object : SimpleDialogListener() {
                         override fun onPositive(): Boolean {
                             val open =
-                                DoraemonKit.APPLICATION?.assets?.open("dokit_system_kits.json")
+                                DoKit.APPLICATION?.assets?.open("dokit_system_kits.json")
                             val json = ConvertUtils.inputStream2String(open, "UTF-8")
                             //设置成默认的系统控件排序
                             ToolPanelUtil.jsonConfig2InnerKits(json)
@@ -297,7 +296,7 @@ class DokitManagerFragment : BaseFragment() {
                             tv_edit.text = DoKitCommUtil.getString(R.string.dk_edit)
                             tv_edit.setTextColor(
                                 ContextCompat.getColor(
-                                    DoraemonKit.APPLICATION!!,
+                                    DoKit.APPLICATION!!,
                                     R.color.dk_color_333333
                                 )
                             )

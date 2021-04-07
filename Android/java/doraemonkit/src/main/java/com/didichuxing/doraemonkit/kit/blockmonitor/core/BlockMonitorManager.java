@@ -5,23 +5,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Debug;
 import android.os.Looper;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.didichuxing.doraemonkit.util.ActivityUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
+import androidx.annotation.NonNull;
+
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment;
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;
-import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
-import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.util.DoKitNotificationUtils;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,13 +62,10 @@ public class BlockMonitorManager {
             LogHelper.i(TAG, "start when manager is running");
             return;
         }
-        if (DoraemonKit.APPLICATION == null) {
-            LogHelper.e(TAG, "start fail, context is null");
-            return;
-        }
+
         // 卡顿检测和跳转耗时统计都使用了Printer的方式，无法同时工作
         TimeCounterManager.get().stop();
-        mContext = DoraemonKit.APPLICATION.getApplicationContext();
+        mContext = DoKit.APPLICATION.getApplicationContext();
         if (mMonitorCore == null) {
             mMonitorCore = new MonitorCore();
         }

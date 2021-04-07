@@ -9,15 +9,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.didichuxing.doraemonkit.util.ConvertUtils;
-import com.didichuxing.doraemonkit.util.ToastUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.picasso.DokitPicasso;
 import com.didichuxing.doraemonkit.picasso.MemoryPolicy;
+import com.didichuxing.doraemonkit.util.ConvertUtils;
+import com.didichuxing.doraemonkit.util.DoKitClipboardUtils;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.widget.recyclerview.AbsViewBinder;
-import com.didichuxing.doraemonkit.util.DoKitClipboardUtils;
-import com.didichuxing.doraemonkit.picasso.DokitPicasso;
 
 import java.text.DecimalFormat;
 
@@ -80,7 +80,7 @@ public class LargeImageListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Larg
         public void bind(final LargeImageInfo largeImageInfo) {
             try {
                 int resourceUrl = Integer.parseInt(largeImageInfo.getUrl());
-                DokitPicasso.with(DoraemonKit.APPLICATION)
+                DokitPicasso.with(DoKit.APPLICATION)
                         .load(resourceUrl)
                         .memoryPolicy(MemoryPolicy.NO_CACHE)
                         .resize(ConvertUtils.dp2px(100), ConvertUtils.dp2px(100))
@@ -88,7 +88,7 @@ public class LargeImageListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Larg
                         .into(iv);
                 tvLink.setText("resource id:" + resourceUrl);
             } catch (Exception e) {
-                DokitPicasso.with(DoraemonKit.APPLICATION)
+                DokitPicasso.with(DoKit.APPLICATION)
                         .load(largeImageInfo.getUrl())
                         .memoryPolicy(MemoryPolicy.NO_CACHE)
                         .resize(ConvertUtils.dp2px(100), ConvertUtils.dp2px(100))

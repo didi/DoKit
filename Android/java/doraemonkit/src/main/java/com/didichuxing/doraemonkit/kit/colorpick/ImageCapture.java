@@ -12,14 +12,13 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.RequiresApi;
-import android.view.View;
 
+import androidx.annotation.RequiresApi;
+
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.util.AppUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
@@ -42,7 +41,7 @@ public class ImageCapture {
 
     public void init(Context context, Bundle bundle, ColorPickerDokitView colorPickerDokitView) throws Exception {
         this.mColorPickerDokitView = colorPickerDokitView;
-        PackageManager packageManager = DoraemonKit.APPLICATION.getPackageManager();
+        PackageManager packageManager = DoKit.APPLICATION.getPackageManager();
         ApplicationInfo applicationInfo = packageManager.getApplicationInfo(AppUtils.getAppPackageName(), 0);
         //适配Android Q
         if (applicationInfo.targetSdkVersion >= 29) {

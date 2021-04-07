@@ -8,8 +8,7 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.didichuxing.doraemonkit.util.ActivityUtils
-import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.DoKitConstant
@@ -19,6 +18,7 @@ import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity
+import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import com.didichuxing.doraemonkit.widget.titlebar.TitleBar
 
@@ -97,7 +97,7 @@ class ToolPanelDokitView : AbsDokitView() {
 
             override fun onRightClick() {
                 if (!isNormalMode) {
-                    DoraemonKit.hideToolPanel()
+                    DoKit.hideToolPanel()
                 }
                 if (activity != null) {
                     val intent = Intent(activity, UniversalActivity::class.java)

@@ -7,7 +7,7 @@ import android.content.res.Resources;
 
 import androidx.annotation.StringRes;
 
-import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.DoKit;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,14 +29,14 @@ import okio.Buffer;
 public class DoKitCommUtil {
 
     public static String getString(@StringRes int stringId) {
-        return DoraemonKit.APPLICATION.getString(stringId);
+        return DoKit.APPLICATION.getString(stringId);
     }
 
     @StringRes
     public static int getStringId(String str) {
         try {
-            Resources r = DoraemonKit.APPLICATION.getResources();
-            return r.getIdentifier(str, "string", DoraemonKit.APPLICATION.getPackageName());
+            Resources r = DoKit.APPLICATION.getResources();
+            return r.getIdentifier(str, "string", DoKit.APPLICATION.getPackageName());
         } catch (Exception e) {
             LogHelper.e("getStringId", "getStringId===>" + str);
         }
@@ -81,10 +81,10 @@ public class DoKitCommUtil {
      * 切换App到前台
      */
     public static void changeAppOnForeground(Class<Activity> clazz) {
-        Intent intent = new Intent(DoraemonKit.APPLICATION, clazz);
+        Intent intent = new Intent(DoKit.APPLICATION, clazz);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
         intent.setAction(Intent.ACTION_MAIN);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-        DoraemonKit.APPLICATION.startActivity(intent);
+        DoKit.APPLICATION.startActivity(intent);
     }
 }

@@ -19,17 +19,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.amap.api.location.AMapLocationListener
-import com.didichuxing.doraemonkit.util.ConvertUtils
-import com.didichuxing.doraemonkit.util.ThreadUtils
-import com.didichuxing.doraemonkit.util.ThreadUtils.SimpleTask
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.didichuxing.doraemondemo.comm.CommLauncher
 import com.didichuxing.doraemondemo.amap.AMapRouterFragment
+import com.didichuxing.doraemondemo.comm.CommLauncher
 import com.didichuxing.doraemondemo.mc.MCActivity
 import com.didichuxing.doraemondemo.retrofit.GithubService
-import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.DoKit
+import com.didichuxing.doraemonkit.util.ConvertUtils
+import com.didichuxing.doraemonkit.util.ThreadUtils
+import com.didichuxing.doraemonkit.util.ThreadUtils.SimpleTask
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lzy.okgo.OkGo
@@ -207,7 +207,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
         when (v.id) {
             R.id.btn_method_cost -> test1()
             R.id.btn_show_tool_panel ->                 //直接调起工具面板
-                DoraemonKit.showToolPanel()
+                DoKit.showToolPanel()
             R.id.btn_jump -> startActivity(Intent(this, SecondActivity::class.java))
             R.id.btn_webview -> startActivity(Intent(this, WebViewNormalActivity::class.java))
             R.id.btn_x5_webview -> startActivity(Intent(this, WebViewX5Activity::class.java))
@@ -308,10 +308,10 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
                     )
             }
             R.id.btn_test_crash -> testCrash()!!.length
-            R.id.btn_show_hide_icon -> if (DoraemonKit.isShow) {
-                DoraemonKit.hide()
+            R.id.btn_show_hide_icon -> if (DoKit.isMainIconShow) {
+                DoKit.hide()
             } else {
-                DoraemonKit.show()
+                DoKit.show()
             }
             R.id.btn_create_database -> {
                 val dbHelper = MyDatabaseHelper(this, "BookStore.db", null, 1)

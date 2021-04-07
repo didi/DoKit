@@ -5,13 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.FloatIconConfig;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
-import com.didichuxing.doraemonkit.util.LogHelper;
 
 /**
  * 悬浮按钮
@@ -38,7 +37,7 @@ public class MainIconDokitView extends AbsDokitView {
             public void onClick(View v) {
                 //统计入口
                 DataPickManager.getInstance().addData("dokit_sdk_home_ck_entry");
-                DoraemonKit.showToolPanel();
+                DoKit.showToolPanel();
 
             }
         });

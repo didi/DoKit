@@ -28,7 +28,7 @@ object DoKitWsServer {
     internal val wsSessionMaps: MutableMap<String?, DefaultWebSocketServerSession> = mutableMapOf()
 
     private val server: CIOApplicationEngine by lazy {
-        embeddedServer(CIO, port = 4444, module = WSRouter)
+        embeddedServer(CIO, port = DoKitConstant.MC_WS_PORT, module = WSRouter)
     }
     //val engine
 
