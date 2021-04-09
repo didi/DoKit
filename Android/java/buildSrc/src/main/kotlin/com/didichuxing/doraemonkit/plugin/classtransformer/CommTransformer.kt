@@ -49,19 +49,19 @@ class CommTransformer : ClassTransformer {
         }
 
         //查找DoraemonKitReal&pluginConfig方法并插入指定字节码
-        if (className == "com.didichuxing.doraemonkit.DoraemonKitReal") {
+        if (className == "com.didichuxing.doraemonkit.DoKitReal") {
             //插件配置
             klass.methods?.find {
                 it.name == "pluginConfig"
             }.let { methodNode ->
-                "${context.projectDir.lastPath()}->insert map to the DoraemonKitReal pluginConfig succeed".println()
+                "${context.projectDir.lastPath()}->insert map to the DoKitReal pluginConfig succeed".println()
                 methodNode?.instructions?.insert(createPluginConfigInsnList())
             }
             //三方库信息注入
             klass.methods?.find {
                 it.name == "initThirdLibraryInfo"
             }.let { methodNode ->
-                "${context.projectDir.lastPath()}->insert map to the DoraemonKitReal initThirdLibraryInfo succeed".println()
+                "${context.projectDir.lastPath()}->insert map to the DoKitReal initThirdLibraryInfo succeed".println()
                 methodNode?.instructions?.insert(createThirdLibInfoInsnList())
             }
         }

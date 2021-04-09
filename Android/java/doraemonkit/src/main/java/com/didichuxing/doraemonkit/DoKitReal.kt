@@ -188,16 +188,16 @@ object DoKitReal {
         AppUtils.registerAppStatusChangedListener(object : Utils.OnAppStatusChangedListener {
             //进入前台
             override fun onForeground(activity: Activity?) {
-                DoKitServiceManager.dispatch(
-                    DoKitServiceEnum.onForeground,
+                DokitServiceManager.dispatch(
+                    DokitServiceEnum.onForeground,
                     activity!!
                 )
             }
 
             //进入后台
             override fun onBackground(activity: Activity?) {
-                DoKitServiceManager.dispatch(
-                    DoKitServiceEnum.onBackground,
+                DokitServiceManager.dispatch(
+                    DokitServiceEnum.onBackground,
                     activity!!
                 )
             }
@@ -206,9 +206,9 @@ object DoKitReal {
         //跨模块通信监听
         try {
             val dokitServices =
-                ServiceLoader.load(DoKitServiceInterface::class.java, javaClass.classLoader)
+                ServiceLoader.load(DokitServiceInterface::class.java, javaClass.classLoader)
                     .toList()
-            DoKitServiceManager.register(dokitServices)
+            DokitServiceManager.register(dokitServices)
         } catch (e: Exception) {
 
         }

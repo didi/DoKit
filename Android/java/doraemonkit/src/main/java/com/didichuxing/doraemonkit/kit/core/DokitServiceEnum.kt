@@ -9,7 +9,7 @@ package com.didichuxing.doraemonkit.kit.core
  * 修订历史：
  * ================================================
  */
-enum class DoKitServiceEnum {
+enum class DokitServiceEnum {
     /**
      * 页面生命周期
      */

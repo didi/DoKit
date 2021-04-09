@@ -11,7 +11,7 @@ import android.app.Activity
  * 修订历史：
  * ================================================
  */
-abstract class DoKitServiceAbs : DoKitServiceInterface {
+abstract class DokitServiceAbs : DokitServiceInterface {
     /**
      * 生命周期
      */

@@ -20,7 +20,7 @@ object SimpleDokitStarter {
         context: Context? = null,
         bundle: Bundle? = null
     ) {
-        val ctx = context ?: DoKit.APPLICATION!!.applicationContext
+        val ctx = context ?: DoKit.APPLICATION.applicationContext
         ctx.startActivity(Intent(ctx, UniversalActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
             putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_SIMPLE_CUSTOM)

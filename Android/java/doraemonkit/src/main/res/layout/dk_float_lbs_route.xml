@@ -21,6 +21,16 @@
         android:textSize="16sp"
         android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/tv_tip0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title"
+        android:layout_centerHorizontal="true"
+        android:text="当前只支持高德地图"
+        android:textColor="#FF0000"
+        android:textSize="12sp" />
+
     <ImageView
         android:id="@+id/iv_close"
         android:layout_width="wrap_content"
@@ -33,7 +43,7 @@
         android:id="@+id/tv_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_title"
+        android:layout_below="@id/tv_tip0"
         android:text="当前导航进度:" />
 
     <FrameLayout

@@ -6,8 +6,8 @@ import android.os.Build
 import android.os.Bundle
 import android.view.MotionEvent
 import androidx.annotation.RequiresApi
-import com.didichuxing.doraemonkit.kit.core.DoKitServiceEnum
-import com.didichuxing.doraemonkit.kit.core.DoKitServiceManager
+import com.didichuxing.doraemonkit.kit.core.DokitServiceEnum
+import com.didichuxing.doraemonkit.kit.core.DokitServiceManager
 
 
 /**
@@ -28,26 +28,26 @@ public open class DoKitProxyActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DoKitServiceManager.dispatch(DoKitServiceEnum.onCreate, this)
+        DokitServiceManager.dispatch(DokitServiceEnum.onCreate, this)
     }
 
 
     override fun onStart() {
         super.onStart()
-        DoKitServiceManager.dispatch(DoKitServiceEnum.onStart, this)
+        DokitServiceManager.dispatch(DokitServiceEnum.onStart, this)
 
     }
 
     override fun onResume() {
         super.onResume()
-        DoKitServiceManager.dispatch(DoKitServiceEnum.onResume, this)
+        DokitServiceManager.dispatch(DokitServiceEnum.onResume, this)
 
     }
 
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        DoKitServiceManager.dispatch(DoKitServiceEnum.dispatchTouchEvent, this)
+        DokitServiceManager.dispatch(DokitServiceEnum.dispatchTouchEvent, this)
 
 
         return super.dispatchTouchEvent(ev)
@@ -56,8 +56,8 @@ public open class DoKitProxyActivity : Activity() {
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        DoKitServiceManager.dispatch(
-            DoKitServiceEnum.onConfigurationChanged,
+        DokitServiceManager.dispatch(
+            DokitServiceEnum.onConfigurationChanged,
             this
         )
     }
@@ -65,29 +65,29 @@ public open class DoKitProxyActivity : Activity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        DoKitServiceManager.dispatch(DoKitServiceEnum.onBackPressed, this)
+        DokitServiceManager.dispatch(DokitServiceEnum.onBackPressed, this)
     }
 
     override fun onPause() {
         super.onPause()
-        DoKitServiceManager.dispatch(DoKitServiceEnum.onPause, this)
+        DokitServiceManager.dispatch(DokitServiceEnum.onPause, this)
 
     }
 
     override fun onStop() {
         super.onStop()
-        DoKitServiceManager.dispatch(DoKitServiceEnum.onStop, this)
+        DokitServiceManager.dispatch(DokitServiceEnum.onStop, this)
 
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        DoKitServiceManager.dispatch(DoKitServiceEnum.onDestroy, this)
+        DokitServiceManager.dispatch(DokitServiceEnum.onDestroy, this)
     }
 
     override fun finish() {
         super.finish()
-        DoKitServiceManager.dispatch(DoKitServiceEnum.finish, this)
+        DokitServiceManager.dispatch(DokitServiceEnum.finish, this)
     }
 
     override fun onAttachedToWindow() {

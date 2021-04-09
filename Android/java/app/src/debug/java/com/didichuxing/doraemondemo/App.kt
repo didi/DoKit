@@ -49,7 +49,7 @@ class App : Application() {
         }
         mapKits["业务专区2"] = mutableListOf<AbstractKit>(DemoKit())
 
-
+//        DoraemonKit.install(this, mapKits = mapKits, productId = "749a0600b5e48dd77cf8ee680be7b1b7")
         DoKit.Builder(this)
             .productId("749a0600b5e48dd77cf8ee680be7b1b7")
             .disableUpload()
@@ -69,11 +69,11 @@ class App : Application() {
                     view: View,
                     accessibilityEvent: AccessibilityEvent
                 ): Map<String, String> {
-                    TODO("Not yet implemented")
+                    return mapOf()
                 }
 
                 override fun clientProcess(view: View, params: Map<String, String>): Boolean {
-                    TODO("Not yet implemented")
+                    return false
                 }
             })
             .build()
