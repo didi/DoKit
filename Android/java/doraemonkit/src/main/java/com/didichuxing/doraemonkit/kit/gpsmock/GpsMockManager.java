@@ -2,6 +2,9 @@ package com.didichuxing.doraemonkit.kit.gpsmock;
 
 import android.location.Location;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 /**
  * Created by wanglikun on 2018/12/18.
  */
@@ -44,6 +47,19 @@ public class GpsMockManager {
     public void mockLocationWithNotify(Location location) {
         if (location == null) return;
         mockLocation(location.getLatitude(), location.getLongitude());
+        location.setProvider("DOKIT_MOCK");
+        Class<? extends Location> locationClass = location.getClass();
+        try {
+            Method method = locationClass.getMethod("setIsFromMockProvider", boolean.class);
+            method.setAccessible(true);
+            method.invoke(location, true);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
         GpsMockProxyManager.INSTANCE.mockLocationWithNotify(location);
     }
 
@@ -67,6 +83,7 @@ public class GpsMockManager {
 
         private static GpsMockManager INSTANCE = new GpsMockManager();
     }
+
     public static boolean mockAMapNavLocation() {
         return mockAMapNavLocation;
     }
