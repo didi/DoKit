@@ -1,5 +1,7 @@
 package com.didichuxing.doraemondemo;
 
+import com.didichuxing.doraemonkit.aop.OkHttpHook;
+
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -13,15 +15,10 @@ public class AopTest {
 
 
 
-    public String getLastKnownLocation() {
-        String s = getDoKit();
-        s.toString();
-        return s;
-    }
 
 
-    public String getDoKit() {
-        return "DoKit";
+    public void getDoKit() {
+//        OkHttpHook.addDoKitIntercept(this);
     }
 
 }

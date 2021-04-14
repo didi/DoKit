@@ -38,7 +38,7 @@ import okhttp3.ResponseBody;
  * @author jintai
  * @desc: 接口mock拦截器
  */
-public class MockInterceptor implements Interceptor {
+public class DokitMockInterceptor extends AbsDoKitInterceptor {
     public static final String TAG = "MockInterceptor";
 
 

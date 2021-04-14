@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor;
+package com.didichuxing.doraemonkit.kit.network.rpc;
 
 import android.text.TextUtils;
 
@@ -11,28 +11,23 @@ import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
 import com.didichuxing.doraemonkit.kit.network.core.DefaultResponseHandler;
 import com.didichuxing.doraemonkit.kit.network.core.NetworkInterpreter;
 import com.didichuxing.doraemonkit.kit.network.core.RequestBodyHelper;
-import com.didichuxing.doraemonkit.kit.network.okhttp.ForwardingResponseBody;
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
-import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorRequest;
-import com.didichuxing.doraemonkit.kit.network.okhttp.OkHttpInspectorResponse;
-import com.didichuxing.doraemonkit.kit.network.utils.OkHttpResponseKt;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import okhttp3.Interceptor;
-import okhttp3.MediaType;
-import okhttp3.Protocol;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import didihttp.MediaType;
+import didihttp.Protocol;
+import didihttp.Request;
+import didihttp.Response;
+import didihttp.ResponseBody;
 
 /**
  * 抓包拦截器
  */
-public class DoraemonInterceptor implements Interceptor {
+public class RpcCapInterceptor extends AbsDoKitRpcInterceptor {
     public static final String TAG = "DoraemonInterceptor";
 
     private final NetworkInterpreter mNetworkInterpreter = NetworkInterpreter.get();

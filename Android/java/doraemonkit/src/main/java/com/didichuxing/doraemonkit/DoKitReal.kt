@@ -111,8 +111,6 @@ object DoKitReal {
         ServiceHookManager.getInstance().install(app)
         //全局运行时hook
 //        globalRunTimeHook()
-        //OkHttp 拦截器 注入
-        OkHttpHook.installInterceptor()
 
         //注册全局的activity生命周期回调
         app.registerActivityLifecycleCallbacks(DokitActivityLifecycleCallbacks())

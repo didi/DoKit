@@ -5,7 +5,7 @@ import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
-import com.didichuxing.foundation.net.rpc.http.PlatformHttpHook
+import com.didichuxing.foundation.net.rpc.http.DidiHttpHook
 
 /**
  * Created by jintai on 2018/6/22.
@@ -71,8 +71,6 @@ object DoraemonKitRpc {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        //平台端 http 拦截器注入
-        PlatformHttpHook.installInterceptor()
     }
 
     @JvmStatic

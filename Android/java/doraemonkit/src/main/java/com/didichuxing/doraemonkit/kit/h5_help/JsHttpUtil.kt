@@ -9,7 +9,7 @@ import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitMockInterceptor
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean
@@ -95,7 +95,7 @@ internal object JsHttpUtil {
             //e.printStackTrace();
             json = ""
             LogHelper.e(
-                MockInterceptor.TAG,
+                DokitMockInterceptor.TAG,
                 "===body json====>$json"
             )
         }

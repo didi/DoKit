@@ -16,11 +16,11 @@ import okhttp3.Response;
 /**
  * 用于模拟弱网的拦截器
  * <p>
- * Created by xiandanin on 2019-05-09 16:29
+ * Created by jint on 2019-05-09 16:29
  *
  * @author didi
  */
-public class DoraemonWeakNetworkInterceptor implements Interceptor {
+public class DokitWeakNetworkInterceptor extends AbsDoKitInterceptor {
     private static final String TAG = "DoraemonWeakNetworkInterceptor";
 
     @NonNull

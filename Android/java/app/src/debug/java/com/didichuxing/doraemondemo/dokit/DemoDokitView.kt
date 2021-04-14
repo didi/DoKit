@@ -40,5 +40,11 @@ class DemoDokitView : AbsDokitView() {
         params.y = 200
     }
 
+    override fun onPause() {
+        super.onPause()
+    }
+
+
+
 
 }

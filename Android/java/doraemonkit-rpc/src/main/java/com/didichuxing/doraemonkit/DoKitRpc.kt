@@ -4,8 +4,7 @@ import android.app.Application
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
-import com.didichuxing.foundation.net.rpc.http.PlatformHttpHook
-import java.lang.NullPointerException
+import com.didichuxing.foundation.net.rpc.http.DidiHttpHook
 
 /**
  * ================================================
@@ -158,8 +157,6 @@ public class DoKitRpc {
 
         fun build() {
             DoKitReal.install(app, mapKits, listKits, productId)
-            //平台端 http 拦截器注入
-            PlatformHttpHook.installInterceptor()
         }
     }
 }

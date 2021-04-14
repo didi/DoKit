@@ -217,67 +217,51 @@ class CommTransformer : ClassTransformer {
 
         //网络 OkHttp&didi platform aop
         if (DoKitExtUtil.commExt.networkSwitch) {
-            //okhttp
-            if (className == "okhttp3.OkHttpClient\$Builder") {
-                //空参数的构造方法
+            //hook OkhttpClient
+            if (className == "okhttp3.OkHttpClient") {
                 klass.methods?.find {
-                    it.name == "<init>" && it.desc == "()V"
-                }.let { zeroConsMethodNode ->
-                    "${context.projectDir.lastPath()}->hook OkHttp  succeed: ${className}_${zeroConsMethodNode?.name}_${zeroConsMethodNode?.desc}".println()
-                    zeroConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        zeroConsMethodNode.instructions.insertBefore(
-                            it,
-                            createOkHttpZeroConsInsnList()
-                        )
-                    }
+                    it.name == "<init>" && it.desc != "()V"
+                }.let {
+                    "${context.projectDir.lastPath()}->hook OkhttpClient  succeed: ${className}_${it?.name}_${it?.desc}".println()
+                    it?.instructions
+                        ?.iterator()
+                        ?.asIterable()
+                        ?.filterIsInstance(FieldInsnNode::class.java)
+                        ?.filter { fieldInsnNode ->
+                            fieldInsnNode.opcode == PUTFIELD
+                                    && fieldInsnNode.owner == "okhttp3/OkHttpClient"
+                                    && fieldInsnNode.name == "networkInterceptors"
+                                    && fieldInsnNode.desc == "Ljava/util/List;"
+                        }
+                        ?.forEach { fieldInsnNode ->
+                            it.instructions.insert(fieldInsnNode, createOkHttpClientInsnList())
+                        }
                 }
-
-
-                //一个参数的构造方法
-                klass.methods?.find {
-                    it.name == "<init>" && it.desc == "(Lokhttp3/OkHttpClient;)V"
-                }.let { oneConsMethodNode ->
-                    "${context.projectDir.lastPath()}->hook OkHttp  succeed: ${className}_${oneConsMethodNode?.name}_${oneConsMethodNode?.desc}".println()
-                    oneConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        oneConsMethodNode.instructions.insertBefore(
-                            it,
-                            createOkHttpOneConsInsnList()
-                        )
-                    }
-                }
-
             }
+
 
             //didi platform
-            if (className == "didihttp.DidiHttpClient\$Builder" && DoKitExtUtil.commExt.didinetSwitch) {
-                "find DidiHttpClient succeed: ${className}".println()
-                //空参数的构造方法
+            if (className == "didihttp.DidiHttpClient" && DoKitExtUtil.commExt.didinetSwitch) {
                 klass.methods?.find {
-                    it.name == "<init>" && it.desc == "()V"
-                }.let { zeroConsMethodNode ->
-                    "${context.projectDir.lastPath()}->hook didi http  succeed: ${className}_${zeroConsMethodNode?.name}_${zeroConsMethodNode?.desc}".println()
-                    zeroConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        zeroConsMethodNode.instructions.insertBefore(
-                            it,
-                            createDidiHttpZeroConsInsnList()
-                        )
-                    }
-                }
-
-
-                //一个参数的构造方法
-                klass.methods?.find {
-                    it.name == "<init>" && it.desc == "(Ldidihttp/DidiHttpClient;)V"
-                }.let { oneConsMethodNode ->
-                    "${context.projectDir.lastPath()}->hook didi http  succeed: ${className}_${oneConsMethodNode?.name}_${oneConsMethodNode?.desc}".println()
-                    oneConsMethodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        oneConsMethodNode.instructions.insertBefore(
-                            it,
-                            createDidiHttpOneConsInsnList()
-                        )
-                    }
+                    it.name == "<init>" && it.desc != "()V"
+                }.let {
+                    "${context.projectDir.lastPath()}->hook DidiHttpClient  succeed: ${className}_${it?.name}_${it?.desc}".println()
+                    it?.instructions
+                        ?.iterator()
+                        ?.asIterable()
+                        ?.filterIsInstance(FieldInsnNode::class.java)
+                        ?.filter { fieldInsnNode ->
+                            fieldInsnNode.opcode == PUTFIELD
+                                    && fieldInsnNode.owner == "didihttp/DidiHttpClient"
+                                    && fieldInsnNode.name == "networkInterceptors"
+                                    && fieldInsnNode.desc == "Ljava/util/List;"
+                        }
+                        ?.forEach { fieldInsnNode ->
+                            it.instructions.insert(fieldInsnNode, createDidiHttpClientInsnList())
+                        }
                 }
             }
+
 
             //webView 字节码操作
             if (DoKitExtUtil.commExt.webViewSwitch) {
@@ -995,86 +979,19 @@ class CommTransformer : ClassTransformer {
 
 
     /**
-     * 创建Okhttp Build 空参数构造函数指令
+     * 创建OkhttpClient一个数构造函数指令
      */
-    private fun createOkHttpZeroConsInsnList(): InsnList {
+    private fun createOkHttpClientInsnList(): InsnList {
         return with(InsnList()) {
             //插入application 拦截器
             add(VarInsnNode(ALOAD, 0))
-            add(
-                FieldInsnNode(
-                    GETFIELD,
-                    "okhttp3/OkHttpClient\$Builder",
-                    "interceptors",
-                    "Ljava/util/List;"
-                )
-            )
-            add(
-                FieldInsnNode(
-                    GETSTATIC,
-                    "com/didichuxing/doraemonkit/aop/OkHttpHook",
-                    "globalInterceptors",
-                    "Ljava/util/List;"
-                )
-            )
-            add(
-                MethodInsnNode(
-                    INVOKEINTERFACE,
-                    "java/util/List",
-                    "addAll",
-                    "(Ljava/util/Collection;)Z",
-                    true
-                )
-            )
-            add(InsnNode(POP))
 
-            //插入NetworkInterceptor 拦截器
-            add(VarInsnNode(ALOAD, 0))
-            add(
-                FieldInsnNode(
-                    GETFIELD,
-                    "okhttp3/OkHttpClient\$Builder",
-                    "networkInterceptors",
-                    "Ljava/util/List;"
-                )
-            )
-            add(
-                FieldInsnNode(
-                    GETSTATIC,
-                    "com/didichuxing/doraemonkit/aop/OkHttpHook",
-                    "globalNetworkInterceptors",
-                    "Ljava/util/List;"
-                )
-            )
-            add(
-                MethodInsnNode(
-                    INVOKEINTERFACE,
-                    "java/util/List",
-                    "addAll",
-                    "(Ljava/util/Collection;)Z",
-                    true
-                )
-            )
-            add(InsnNode(POP))
-            this
-        }
-
-    }
-
-
-    /**
-     * 创建Okhttp Build 一个参数构造函数指令
-     */
-    private fun createOkHttpOneConsInsnList(): InsnList {
-        return with(InsnList()) {
-            add(VarInsnNode(ALOAD, 0))
-            add(VarInsnNode(ALOAD, 1))
             add(
                 MethodInsnNode(
                     INVOKESTATIC,
                     "com/didichuxing/doraemonkit/aop/OkHttpHook",
-                    "performOkhttpOneParamBuilderInit",
-                    "(Ljava/lang/Object;Ljava/lang/Object;)V",
+                    "addDoKitIntercept",
+                    "(Lokhttp3/OkHttpClient;)V",
                     false
                 )
             )
@@ -1083,95 +1000,27 @@ class CommTransformer : ClassTransformer {
 
     }
 
-
     /**
-     * 创建didiClient Build 空参数构造函数指令
+     * 创建OkhttpClient一个数构造函数指令
      */
-    private fun createDidiHttpZeroConsInsnList(): InsnList {
+    private fun createDidiHttpClientInsnList(): InsnList {
         return with(InsnList()) {
             //插入application 拦截器
             add(VarInsnNode(ALOAD, 0))
-            add(
-                FieldInsnNode(
-                    GETFIELD,
-                    "didihttp/DidiHttpClient\$Builder",
-                    "interceptors",
-                    "Ljava/util/List;"
-                )
-            )
-            add(
-                FieldInsnNode(
-                    GETSTATIC,
-                    "com/didichuxing/foundation/net/rpc/http/PlatformHttpHook",
-                    "globalInterceptors",
-                    "Ljava/util/List;"
-                )
-            )
-            add(
-                MethodInsnNode(
-                    INVOKEINTERFACE,
-                    "java/util/List",
-                    "addAll",
-                    "(Ljava/util/Collection;)Z",
-                    true
-                )
-            )
-            add(InsnNode(POP))
 
-            //插入NetworkInterceptor 拦截器
-            add(VarInsnNode(ALOAD, 0))
-            add(
-                FieldInsnNode(
-                    GETFIELD,
-                    "didihttp/DidiHttpClient\$Builder",
-                    "networkInterceptors",
-                    "Ljava/util/List;"
-                )
-            )
-            add(
-                FieldInsnNode(
-                    GETSTATIC,
-                    "com/didichuxing/foundation/net/rpc/http/PlatformHttpHook",
-                    "globalNetworkInterceptors",
-                    "Ljava/util/List;"
-                )
-            )
-            add(
-                MethodInsnNode(
-                    INVOKEINTERFACE,
-                    "java/util/List",
-                    "addAll",
-                    "(Ljava/util/Collection;)Z",
-                    true
-                )
-            )
-            add(InsnNode(POP))
-            this
-        }
-
-    }
-
-
-    /**
-     * 创建didiClient Build 一个参数构造函数指令
-     */
-    private fun createDidiHttpOneConsInsnList(): InsnList {
-        return with(InsnList()) {
-            add(VarInsnNode(ALOAD, 0))
-            add(VarInsnNode(ALOAD, 1))
             add(
                 MethodInsnNode(
                     INVOKESTATIC,
-                    "com/didichuxing/foundation/net/rpc/http/PlatformHttpHook",
-                    "performDidiHttpOneParamBuilderInit",
-                    "(Ljava/lang/Object;Ljava/lang/Object;)V",
+                    "com/didichuxing/foundation/net/rpc/http/DidiHttpHook",
+                    "addRpcIntercept",
+                    "(Ldidihttp/DidiHttpClient;)V",
                     false
                 )
             )
             this
         }
-    }
 
+    }
 
     /**
      * 创建webView函数指令集
