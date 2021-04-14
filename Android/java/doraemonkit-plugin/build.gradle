@@ -39,6 +39,24 @@ dependencies {
     kapt "com.google.auto.service:auto-service:1.0-rc6"
 }
 
+/**
+ * 删除指定目录下的文件
+ */
+task deleteSource(type: Delete) {
+    delete './src/main/kotlin'
+}
+
+/**
+ * 将buildSrc中的代码同步到doraemonkit-plugin中
+ */
+task copyPluginSource(type: Copy, dependsOn: deleteSource) {
+    println("===copyInnPluginSource===")
+    from './../buildSrc/src/main/kotlin'
+    into './src/main/kotlin'
+}
+
+uploadArchives.dependsOn(copyPluginSource)
+
 repositories {
     google()
     jcenter()

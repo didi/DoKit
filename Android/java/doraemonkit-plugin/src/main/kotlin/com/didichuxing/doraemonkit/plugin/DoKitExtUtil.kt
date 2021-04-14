@@ -186,7 +186,9 @@ object DoKitExtUtil {
      */
     private val whitePackageNames = arrayOf(
         "com.didichuxing.doraemonkit.DoraemonKit",
-        "com.didichuxing.doraemonkit.DoraemonKitReal"
+        "com.didichuxing.doraemonkit.DoKit",
+        "com.didichuxing.doraemonkit.DoKitReal"
+
     )
 
 

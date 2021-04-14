@@ -26,7 +26,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
         <activity android:name=".MapShowingLocationActivity" />
-        <activity android:name=".MainDebugActivityOkhttpV4">
+        <activity android:name=".MainDebugActivityOkhttpV3">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

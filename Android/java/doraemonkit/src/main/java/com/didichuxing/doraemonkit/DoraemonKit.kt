@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit
 
 import android.app.Application
+import android.util.Log
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback

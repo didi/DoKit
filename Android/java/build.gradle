@@ -69,8 +69,9 @@ task deleteSource(type: Delete) {
  * 将buildSrc中的代码同步到doraemonkit-plugin中
  */
 task copyPluginSource(type: Copy, dependsOn: deleteSource) {
-    from './buildSrc/src/main'
-    into './doraemonkit-plugin/src/main'
+    println("===copyPluginSource===")
+    from './buildSrc/src/main/kotlin'
+    into './doraemonkit-plugin/src/main/kotlin'
 }
 
 //解决打包时由于javadocRelease校验引起的打包失败
