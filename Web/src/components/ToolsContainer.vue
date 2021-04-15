@@ -3,11 +3,11 @@
     <div class="tools-tabs">
       <div
         v-for="tab in tabs"
-        v-bind:key="tab.dispalyName"
+        v-bind:key="tab.displayName"
         v-bind:class="['tab-button', { active: currentTab === tab.component }]"
         v-on:click="currentTab = tab.component"
       >
-        {{ tab.dispalyName }}
+        {{ tab.displayName }}
       </div>
     </div>
     <keep-alive>
@@ -30,13 +30,13 @@ export default {
     return {
       tabs: [{
         component: 'console',
-        dispalyName: 'Console'
+        displayName: 'Console'
       },{
         component: 'app-info',
-        dispalyName: 'AppInfo'
+        displayName: 'AppInfo'
       },{
         component: 'hello-world',
-        dispalyName: 'HelloWorld'
+        displayName: 'HelloWorld'
       }],
       currentTab: 'console'
     }
@@ -45,6 +45,10 @@ export default {
     currentTool () {
       return `tool-${this.currentTab}`
     }
+  },
+  created() {
+    // TODO:读取全局变量不够优雅还需要优化一下
+    this.tabs = this.tabs.concat(window.dokit.outPlugins)
   },
 }
 </script>

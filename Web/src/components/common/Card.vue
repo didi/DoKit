@@ -24,8 +24,7 @@ export default {
     color: #fff;
   }
   .dokit-card__body{
-        padding: 10px;
-
+    padding: 10px;
   }
 }
 </style>

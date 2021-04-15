@@ -1,7 +1,11 @@
+/**
+ * 拖拽指令 v-dragable
+ * 减少外部依赖
+*/
 const INIT_VALUE = 9999
 const DEFAULT_ZINDEX = 99
 const DEFAULT_OPACITY = 0.5
-const SAFE_BOTTOM = 50
+const SAFE_BOTTOM = 50 // 底部防误触
 
 export default {
   mounted (el) {

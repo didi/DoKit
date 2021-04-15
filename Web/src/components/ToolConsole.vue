@@ -1,7 +1,13 @@
 <template lang="">
-  <div class="log-container">
-    <LogItem v-for="(log, index) in logList" :key="index" :value="log" ></LogItem>
+  <div class="console-container">
+    <div class="log-container">
+      <LogItem v-for="(log, index) in logList" :key="index" :value="log" ></LogItem>
+    </div>
+    <!--
+      TODO: console input
+    -->
   </div>
+  
 </template>
 <script>
 import LogItem from './console/LogItem'

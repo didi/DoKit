@@ -1,23 +1,30 @@
 <template lang="">
   <div class="log-ltem">
-    <div class="log-preview" v-html="logPreview"></div>
-    <div class="list-item" v-if="typeof value === 'object'" v-for="key in value">
-        <div class="item-name">
-            <span>{{key}}</span>
-        </div>
+    <div class="log-preview" v-html="logPreview" @click="toggleDetail"></div>
+    <div v-if="showDetail">
+      <div class="list-item" v-if="typeof value === 'object'" v-for="(key, index) in value">
+        <Detail :detailValue="key" :detailIndex="index"></Detail>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import { getDataType, getDataStructureStr } from './../../assets/util'
+import Detail from './Detail'
 
 const DATATYPE_NOT_DISPLAY = ['Number', 'String', 'Boolean']
 
 export default {
   components: {
+    Detail
   },
   props: {
     value: [String, Number, Object]
+  },
+  data () {
+    return {
+      showDetail: false
+    }
   },
   computed: {
     logPreview () {
@@ -28,10 +35,15 @@ export default {
         if (DATATYPE_NOT_DISPLAY.indexOf(dataType) === -1) {
           html += `<span class="data-type">${dataType}</span>`
         }
-        html += `${getDataStructureStr(arg)}` 
+        html += `<span class="data-structure">${getDataStructureStr(arg, true)}</span>`
       });
       html += `</div>`
       return html
+    }
+  },
+  methods: {
+    toggleDetail () {
+      this.showDetail = !this.showDetail
     }
   }
 }
@@ -49,9 +61,13 @@ export default {
   .log-preview{
     .data-type{
       margin-left: 5px;
+      margin-right: 5px;
       font-style: italic;
       font-weight: bold;
       color: #aaa;
+    }
+    .data-structure{
+      font-style: italic;
     }
   }
 </style>

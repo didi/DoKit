@@ -24,15 +24,10 @@ export default {
       showContainer: false
     }
   },
-  computed: {
-  },
   methods: {
     toggleContainer () {
       this.showContainer = !this.showContainer
     }
-  },
-  mounted() {
-
   }
 }
 

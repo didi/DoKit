@@ -9,12 +9,13 @@
 <body>
   
 </body>
-<!-- <script src="./vue.global.js"></script> -->
 <script src="../dist/dokit.js"></script>
-<script>
-dokit.init()
+<script type="module">
+import helloPlugin from './HelloPlugin.js'
+
+dokit.registerPlugin(helloPlugin).init()
 </script>
-<script>
-console.log('a', {a: 1})
+<script type="module">
+console.log('a', {a: {aaaa: 1, b:{a: 1}, c:1, d:1, e:1, f:1, g:1, h:1}})
 </script>
 </html>
