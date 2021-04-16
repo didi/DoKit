@@ -27,8 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_title"
         android:layout_centerHorizontal="true"
-        android:text="当前只支持高德地图"
+        android:text="当前只支持高德地图\n实时导航功能需要依赖于位置模拟"
         android:textColor="#FF0000"
+        android:gravity="center"
         android:textSize="12sp" />
 
     <ImageView
