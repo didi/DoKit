@@ -15,7 +15,7 @@ public class FloatGpsMockCache {
         LogUtils.d(TAG, "⚠️ mockToLocation() called with: latitude = [" + latitude + "], longitude = [" + longitude + "]");
         FloatGpsPresetMockCache.updateCustomMockLocation(latitude, longitude);
 
-        Location location = new Location("dev mock");
+        Location location = new Location("DOKIT_MOCK");
         location.setLatitude(latitude);
         location.setLongitude(longitude);
 

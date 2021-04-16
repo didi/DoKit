@@ -105,7 +105,7 @@ public class LocationBuilder {
     }
 
     public Location build() {
-        Location dokit_mock_gps = new Location("Dokit Mock");
+        Location dokit_mock_gps = new Location("DOKIT_MOCK");
         dokit_mock_gps.setLatitude(mLatitude);
         dokit_mock_gps.setLongitude(mLongitude);
         dokit_mock_gps.setSpeed(mSpeed);
