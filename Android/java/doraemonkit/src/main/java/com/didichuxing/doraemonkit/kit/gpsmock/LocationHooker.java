@@ -194,7 +194,7 @@ public class LocationHooker extends BaseServiceHooker {
 
     private static Location buildValidLocation(String provider) {
         if (TextUtils.isEmpty(provider)) {
-            provider = "gps";
+            provider = LocationManager.GPS_PROVIDER;
         }
         Location validLocation = new Location(provider);
         validLocation.setAccuracy(5.36f);
