@@ -118,28 +118,28 @@ class CommTransformer : ClassTransformer {
             }
 
             //插入高德地图导航相关字节码
-            if (className == "com.amap.api.navi.AMapNavi") {
-                //设置监听器
-                klass.methods?.find {
-                    it.name == "addAMapNaviListener"
-                }.let { methodNode ->
-                    "${context.projectDir.lastPath()}->hook amap map navi  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-                    methodNode?.instructions?.insert(createAmapNaviInsnList())
-                }
-
-                //反注册监听器
-                klass.methods?.find {
-                    it.name == "removeAMapNaviListener"
-                }.let { methodNode ->
-                    "${context.projectDir.lastPath()}->hook amap map navi  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
-                        methodNode.instructions.insertBefore(
-                            it,
-                            createAmapNaviUnRegisterInsnList()
-                        )
-                    }
-                }
-            }
+//            if (className == "com.amap.api.navi.AMapNavi") {
+//                //设置监听器
+//                klass.methods?.find {
+//                    it.name == "addAMapNaviListener"
+//                }.let { methodNode ->
+//                    "${context.projectDir.lastPath()}->hook amap map navi  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+//                    methodNode?.instructions?.insert(createAmapNaviInsnList())
+//                }
+//
+//                //反注册监听器
+//                klass.methods?.find {
+//                    it.name == "removeAMapNaviListener"
+//                }.let { methodNode ->
+//                    "${context.projectDir.lastPath()}->hook amap map navi  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+//                    methodNode?.instructions?.getMethodExitInsnNodes()?.forEach {
+//                        methodNode.instructions.insertBefore(
+//                            it,
+//                            createAmapNaviUnRegisterInsnList()
+//                        )
+//                    }
+//                }
+//            }
 
 
             //插入腾讯地图相关字节码

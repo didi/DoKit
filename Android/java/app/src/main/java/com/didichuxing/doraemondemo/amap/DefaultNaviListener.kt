@@ -17,8 +17,7 @@ import com.didichuxing.doraemonkit.util.LogHelper
  * 修订历史：
  * ================================================
  */
-class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context: Context) :
-    AMapNaviListener {
+class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context: Context) : AMapNaviListener {
 //    private var mNaviRouteOverlay: NaviRouteOverlay? = null
 //
 //    init {
@@ -41,7 +40,11 @@ class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context:
     override fun onTrafficStatusUpdate() {
     }
 
+    /**
+     * 改变位置时自动回调
+     */
     override fun onLocationChange(p0: AMapNaviLocation?) {
+        LogHelper.i("DoKit", "Inner LatLng===>${p0?.coord}")
     }
 
     override fun onGetNavigationText(p0: Int, p1: String?) {

@@ -15,6 +15,7 @@ import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager
+import com.didichuxing.doraemonkit.util.LogHelper
 import kotlin.math.ceil
 
 
@@ -70,6 +71,10 @@ class RouteKitView : AbsDokitView() {
                     progress: Int,
                     fromUser: Boolean
                 ) {
+                    if (!GpsMockManager.getInstance().isMocking) {
+                        LogHelper.i(TAG, "实时导航功能需要依赖位置模拟功能")
+                        return
+                    }
                     tvProgress.text = "当前导航进度: $progress%"
                     mAMapNavi?.let { navi ->
                         if (navi.naviPath.coordList.isEmpty()) {
@@ -81,6 +86,7 @@ class RouteKitView : AbsDokitView() {
                             index = navi.naviPath.coordList.size - 1
                         }
                         val naviLatLng = navi.naviPath.coordList[index]
+                        LogHelper.i("DoKit", "mock LatLng===>${naviLatLng}")
                         GpsMockManager.getInstance()
                             .mockLocationWithNotify(naviLatLng.latitude, naviLatLng.longitude)
 

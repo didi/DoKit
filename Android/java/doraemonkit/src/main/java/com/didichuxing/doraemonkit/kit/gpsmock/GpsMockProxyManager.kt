@@ -155,9 +155,11 @@ object GpsMockProxyManager {
 
     private fun notifyAMapLocationListenerProxy(location: Location?) {
         if (location != null) {
+            //location
             for (aMapLocationListenerProxy in mAMapLocationListenerProxies) {
                 aMapLocationListenerProxy?.onLocationChanged(LocationBuilder.toAMapLocation(location))
             }
+            //location source
             for (aMapLocationChangedListenerProxy in mAMapLocationChangedListenerProxies) {
                 aMapLocationChangedListenerProxy?.onLocationChanged(location)
             }

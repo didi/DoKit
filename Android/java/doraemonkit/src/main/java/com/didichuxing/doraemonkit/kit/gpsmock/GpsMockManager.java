@@ -38,7 +38,10 @@ public class GpsMockManager {
 
     public void mockLocationWithNotify(double latitude, double longitude) {
         mockLocation(latitude, longitude);
-        mockLocationWithNotify(new LocationBuilder().setLatitude(latitude).setLongitude(longitude).build());
+        mockLocationWithNotify(new LocationBuilder().setLatitude(latitude)
+                .setLongitude(longitude)
+                .setTime(System.currentTimeMillis())
+                .build());
     }
 
     public void mockLocationWithNotify(Location location) {

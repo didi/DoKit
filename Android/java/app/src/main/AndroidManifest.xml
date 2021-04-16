@@ -51,6 +51,7 @@
         <activity android:name=".LeakActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".mc.MCActivity" />
+        <activity android:name="com.amap.api.navi.AmapRouteActivity" />
         <activity
             android:name=".comm.CommFragmentActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

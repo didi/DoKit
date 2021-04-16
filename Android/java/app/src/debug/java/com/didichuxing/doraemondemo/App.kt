@@ -21,6 +21,7 @@ import com.lzy.okgo.OkGo
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import kotlin.coroutines.suspendCoroutine
 
 /**
  * @author jint

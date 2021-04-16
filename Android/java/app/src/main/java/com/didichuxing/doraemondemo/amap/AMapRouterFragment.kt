@@ -1,11 +1,16 @@
 package com.didichuxing.doraemondemo.amap
 
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
 import com.amap.api.maps.AMap
 import com.amap.api.maps.MapView
+import com.amap.api.maps.model.LatLng
 import com.amap.api.maps.model.MyLocationStyle
-import com.amap.api.navi.AMapNavi
+import com.amap.api.maps.model.Poi
+import com.amap.api.navi.*
 import com.amap.api.navi.enums.PathPlanningStrategy
+import com.amap.api.navi.model.AMapNaviLocation
 import com.amap.api.navi.model.NaviLatLng
 import com.didichuxing.doraemondemo.R
 import com.didichuxing.doraemondemo.comm.CommBaseFragment
@@ -38,6 +43,82 @@ class AMapRouterFragment : CommBaseFragment() {
         mapView = findViewById(R.id.amap_view)
         mapView.onCreate(savedInstanceState)
         mAmap = mapView.map
+        val startNavi = findViewById<TextView>(R.id.tv_start)
+        startNavi.setOnClickListener {
+            val params =
+                AmapNaviParams(
+                    Poi("西溪谷", LatLng(mStartPoint.latitude, mStartPoint.longitude), ""),
+                    null,
+                    Poi("管理学院创新大楼", LatLng(mEndPoint.latitude, mEndPoint.longitude), ""),
+                    AmapNaviType.DRIVER
+                )
+            params.setUseInnerVoice(true)
+            AmapNaviPage.getInstance().showRouteActivity(activity, params, object :
+                INaviInfoCallback {
+                override fun onInitNaviFailure() {
+                }
+
+                override fun onGetNavigationText(p0: String?) {
+                }
+
+                override fun onLocationChange(p0: AMapNaviLocation?) {
+                }
+
+                override fun onArriveDestination(p0: Boolean) {
+                }
+
+                override fun onStartNavi(p0: Int) {
+                }
+
+                override fun onCalculateRouteSuccess(p0: IntArray?) {
+                }
+
+                override fun onCalculateRouteFailure(p0: Int) {
+                }
+
+                override fun onStopSpeaking() {
+                }
+
+                override fun onReCalculateRoute(p0: Int) {
+                }
+
+                override fun onExitPage(p0: Int) {
+                }
+
+                override fun onStrategyChanged(p0: Int) {
+                }
+
+                override fun onArrivedWayPoint(p0: Int) {
+                }
+
+                override fun onMapTypeChanged(p0: Int) {
+                }
+
+                override fun onNaviDirectionChanged(p0: Int) {
+                }
+
+                override fun onDayAndNightModeChanged(p0: Int) {
+                }
+
+                override fun onBroadcastModeChanged(p0: Int) {
+                }
+
+                override fun onScaleAutoChanged(p0: Boolean) {
+                }
+
+                override fun getCustomMiddleView(): View? {
+                    return null
+                }
+
+                override fun getCustomNaviView(): View? {
+                    return null
+                }
+
+                override fun getCustomNaviBottomView(): View? {
+                    return null
+                }
+            })
+        }
         initAMapLocation()
     }
 
@@ -45,14 +126,14 @@ class AMapRouterFragment : CommBaseFragment() {
      * 初始化高德地图的定位
      */
     private fun initAMapLocation() {
-        mAmap.minZoomLevel = 6.0f
+        mAmap.minZoomLevel = 10.0f
 
         //初始化定位蓝点样式类myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);//连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
         val myLocationStyle = MyLocationStyle()
         //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒
         myLocationStyle.interval(1000L)
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER)
-//        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE)
+//        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER)
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE)
         myLocationStyle.myLocationIcon(
             com.amap.api.maps.model.BitmapDescriptorFactory.fromResource(
                 R.mipmap.ic_navi_map_gps_locked
