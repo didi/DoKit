@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:layout_marginLeft="15dp"
     android:layout_marginRight="15dp"
-    android:layout_marginBottom="15dp"
     android:orientation="vertical">
 
     <TextView
@@ -17,8 +16,8 @@
         android:textSize="@dimen/dk_font_size_12" />
 
     <ImageView
-        android:layout_width="150dp"
-        android:layout_height="66dp"
+        android:layout_width="180dp"
+        android:layout_height="79.5dp"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:src="@mipmap/dk_egg" />

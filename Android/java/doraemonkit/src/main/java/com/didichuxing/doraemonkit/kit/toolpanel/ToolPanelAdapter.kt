@@ -109,7 +109,6 @@ class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?) :
             KitWrapItem.TYPE_VERSION -> {
                 val name = holder.getView<TextView>(R.id.version)
                 //适配无法准确获取底部导航栏高度的bug
-                //适配无法准确获取底部导航栏高度的bug
                 if (name.parent != null) {
                     (name.parent as ViewGroup).setPadding(0, 0, 0, BarUtils.getNavBarHeight())
                 }
