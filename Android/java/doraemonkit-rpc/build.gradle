@@ -47,7 +47,7 @@ allprojects {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(":doraemonkit-util")
+    compileOnly project(":doraemonkit-util")
     implementation rootProject.ext.dependencies["kotlin"]
     //platform http
     compileOnly rootProject.ext.dependencies["didi_http"]

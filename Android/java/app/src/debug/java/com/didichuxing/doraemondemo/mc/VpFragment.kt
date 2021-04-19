@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
-import com.didichuxing.doraemonkit.util.ToastUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemondemo.R
 
 /**

@@ -19,6 +19,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.amap.api.location.AMapLocationListener
+import com.blankj.utilcode.util.ConvertUtils
+import com.blankj.utilcode.util.ThreadUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -27,9 +29,6 @@ import com.didichuxing.doraemondemo.comm.CommLauncher
 import com.didichuxing.doraemondemo.mc.MCActivity
 import com.didichuxing.doraemondemo.retrofit.GithubService
 import com.didichuxing.doraemonkit.DoKit
-import com.didichuxing.doraemonkit.util.ConvertUtils
-import com.didichuxing.doraemonkit.util.ThreadUtils
-import com.didichuxing.doraemonkit.util.ThreadUtils.SimpleTask
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lzy.okgo.OkGo
@@ -330,7 +329,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
     }
 
     private fun requestByGet(path: String) {
-        ThreadUtils.executeByIo(object : SimpleTask<String?>() {
+        ThreadUtils.executeByIo(object : ThreadUtils.SimpleTask<String?>() {
             @Throws(Throwable::class)
             override fun doInBackground(): String {
                 try {

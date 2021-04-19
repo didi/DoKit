@@ -86,7 +86,7 @@ dependencies {
     implementation rootProject.ext.dependencies["jsoup"]
     //okhttp wrap
     implementation project(":doraemonkit-okhttp-api")
-    implementation project(":doraemonkit-util")
+    compileOnly project(":doraemonkit-util")
 
 
 //    implementation rootProject.ext.dependencies["mimecraft"]
