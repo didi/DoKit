@@ -22,9 +22,9 @@ import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
  */
 abstract class AbsDokitFragment : BaseFragment() {
     val bundle: Bundle?
-        get() = if (activity == null || activity!!.intent == null || activity!!.intent.extras == null) {
+        get() = if (activity == null || requireActivity().intent == null || requireActivity().intent.extras == null) {
             null
-        } else activity!!.intent.extras
+        } else requireActivity().intent.extras
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,14 +55,14 @@ abstract class AbsDokitFragment : BaseFragment() {
     @LayoutRes
     abstract fun layoutId(): Int
 
-    fun initTitle(): String {
+   open fun initTitle(): String {
         return this.javaClass.simpleName
     }
 
     private fun initView() {
         val homeTitleBar = findViewById<HomeTitleBar>(R.id.title_bar)
         homeTitleBar.setTitle(initTitle())
-        homeTitleBar.setListener { activity!!.finish() }
+        homeTitleBar.setListener { requireActivity().finish() }
     }
 
     companion object {

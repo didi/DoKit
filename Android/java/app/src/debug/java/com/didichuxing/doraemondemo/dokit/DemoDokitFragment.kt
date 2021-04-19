@@ -63,4 +63,8 @@ class DemoDokitFragment : AbsDokitFragment() {
     override fun layoutId(): Int {
         return R.layout.layout_demo_custom
     }
+
+    override fun initTitle(): String {
+        return "我是自定义页面"
+    }
 }
