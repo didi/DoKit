@@ -38,12 +38,12 @@ export default {
   font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
 }
 .dokit-entry-btn{
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   padding: 10px;
   box-sizing: border-box;
-  background-image: url(//pt-starimg.didistatic.com/static/starimg/img/ROnqquDh5u1574241122152.png);
-  background-size: 30px;
+  background-image: url(//pt-starimg.didistatic.com/static/starimg/img/OzaetKDzHr1618905183992.png);
+  background-size: 50px;
   background-position: center;
   background-repeat: no-repeat;
 }

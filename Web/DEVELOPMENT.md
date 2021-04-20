@@ -5,10 +5,12 @@
 TODO
 
 ### 开发
+
+#### 安装
+1. 执行 `npm run bootstrap`安装相关依赖
 #### Dev 开发
-1. `npm install` 安装相关依赖
-2. `npm run dev` 开启 Dev 服务
-3. 浏览器访问 `http://localhost:3000/playground` 即可
+1. `npm run dev:playground` 开启 Dev 服务
+2. 浏览器访问 `http://localhost:3000/playground` 即可
 
 #### Build
 1. 执行 `npm run build`即可
