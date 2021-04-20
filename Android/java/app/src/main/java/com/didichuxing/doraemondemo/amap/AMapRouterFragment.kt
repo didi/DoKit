@@ -29,7 +29,7 @@ class AMapRouterFragment : CommBaseFragment() {
     private lateinit var mapView: MapView
     private lateinit var mAMapNavi: AMapNavi
     private val mStartPoint = NaviLatLng(30.29659, 120.081127)
-    private val mEndPoint = NaviLatLng(30.296793, 120.07527)
+    private val mEndPoint = NaviLatLng(30.296793, 121.07527)
     override fun initActivityTitle(): String {
         return "高德路径规划"
     }
@@ -133,7 +133,7 @@ class AMapRouterFragment : CommBaseFragment() {
         //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒
         myLocationStyle.interval(1000L)
 //        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE_NO_CENTER)
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE)
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_FOLLOW)
         myLocationStyle.myLocationIcon(
             com.amap.api.maps.model.BitmapDescriptorFactory.fromResource(
                 R.mipmap.ic_navi_map_gps_locked

@@ -2,10 +2,14 @@ package com.didichuxing.doraemondemo.amap
 
 import android.content.Context
 import com.amap.api.maps.AMap
+import com.amap.api.maps.AMapUtils
+import com.amap.api.maps.model.LatLng
 import com.amap.api.navi.AMapNavi
 import com.amap.api.navi.AMapNaviListener
 import com.amap.api.navi.enums.NaviType
 import com.amap.api.navi.model.*
+import com.didichuxing.doraemondemo.amap.mockroute.LogUtils
+import com.didichuxing.doraemondemo.amap.mockroute.MockGPSTaskManager
 import com.didichuxing.doraemonkit.util.LogHelper
 
 /**
@@ -17,12 +21,15 @@ import com.didichuxing.doraemonkit.util.LogHelper
  * 修订历史：
  * ================================================
  */
-class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context: Context) : AMapNaviListener {
+class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context: Context) :
+    AMapNaviListener {
 //    private var mNaviRouteOverlay: NaviRouteOverlay? = null
 //
 //    init {
 //        mNaviRouteOverlay = NaviRouteOverlay(mAMap, null)
 //    }
+
+    private var mNaviLocation: AMapNaviLocation? = null
 
     companion object {
         const val TAG = "DefaultNaviListener"
@@ -43,8 +50,25 @@ class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context:
     /**
      * 改变位置时自动回调
      */
-    override fun onLocationChange(p0: AMapNaviLocation?) {
-        LogHelper.i("DoKit", "Inner LatLng===>${p0?.coord}")
+    override fun onLocationChange(location: AMapNaviLocation?) {
+        val calculateLineDistance: Float = if (mNaviLocation == null || location == null) -1f else
+            AMapUtils.calculateLineDistance(
+                LatLng(mNaviLocation!!.coord.latitude, mNaviLocation!!.coord.longitude),
+                LatLng(location.coord.latitude, location.coord.longitude)
+            )
+        if (calculateLineDistance < 0) {
+            LogUtils.v(TAG, "⚠️高德定位：" + location.getString())
+        } else if (calculateLineDistance > 50) {
+            LogUtils.w(TAG, "⚠️高德定位：跳动距离:" + calculateLineDistance + "  " + location.getString())
+        } else {
+            LogUtils.v(TAG, "⚠️高德定位：跳动距离:" + calculateLineDistance + "  " + location.getString())
+        }
+        mNaviLocation = location
+    }
+
+    private fun AMapNaviLocation?.getString(): String {
+        return if (this != null) "lat,lng:${coord?.latitude},:${coord?.longitude}, 精度:$accuracy, 速度:$speed, 方向:$bearing, 海拔:$altitude, 时间:$time"
+        else "null"
     }
 
     override fun onGetNavigationText(p0: Int, p1: String?) {
@@ -141,6 +165,7 @@ class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context:
          */
         mAMapNavi.startNavi(NaviType.GPS)
 
+        MockGPSTaskManager.startGpsMockTask(mAMapNavi.naviPath)?.subscribe()
     }
 
     override fun notifyParallelRoad(p0: Int) {
