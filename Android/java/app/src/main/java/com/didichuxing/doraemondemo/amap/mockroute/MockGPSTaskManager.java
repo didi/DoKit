@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
@@ -50,14 +51,16 @@ public class MockGPSTaskManager {
     }
 
     public Observable<Long> startGpsMockTask() {
-        return Observable.interval(0, PERIOD_UNIT * getPeriodLevel(), TimeUnit.MILLISECONDS, Schedulers.io())
+        return Observable.interval(0, PERIOD_UNIT, TimeUnit.MILLISECONDS, Schedulers.io())
+//                Observable.interval(0, PERIOD_UNIT * getPeriodLevel(), TimeUnit.MILLISECONDS, Schedulers.io())
 //                Observable.timer(PERIOD_UNIT * getPeriodLevel(), TimeUnit.MICROSECONDS)
 //                .subscribeOn(Schedulers.io())
-//                Observable.interval(0, PERIOD_UNIT, TimeUnit.MILLISECONDS, Schedulers.io())
                 .filter(new Predicate<Long>() {
                     @Override
                     public boolean test(Long aLong) throws Exception {
-                        return checkMockLocationState();
+                        boolean periodMatched = (aLong % getPeriodLevel()) == 0;
+                        return checkMockLocationState() && periodMatched;
+//                        return checkMockLocationState();
                     }
                 })
                 .doOnNext(new Consumer<Long>() {
@@ -72,6 +75,7 @@ public class MockGPSTaskManager {
                         return !mSkip && taskInfoData != null && aLong < taskInfoData.mockGPSItems.size();
                     }
                 })
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(new Consumer<Long>() {
                     private Location mLastLocation;
 
@@ -111,6 +115,7 @@ public class MockGPSTaskManager {
 
     /**
      * 根据高德导航的轨迹数据进行轨迹模拟
+     *
      * @param naviRouteInfo
      * @return
      */
