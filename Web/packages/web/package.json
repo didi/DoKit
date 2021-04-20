@@ -28,6 +28,6 @@
     "dev": "npx ../../node_modules/.bin/rollup -wc"
   },
   "dependencies": {
-    "vue": "^3.0.11"
+    "@dokit/web-core": "^0.0.0"
   }
 }

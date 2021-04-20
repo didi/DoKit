@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import { getDataType, getDataStructureStr } from './../../assets/util'
+import { getDataType, getDataStructureStr } from '../../assets/util'
 import Detail from './Detail'
 
 const DATATYPE_NOT_DISPLAY = ['Number', 'String', 'Boolean']

@@ -24,7 +24,8 @@
     "url": "git+https://github.com/didi/DoraemonKit.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "build": "env NODE_ENV=production npx ../../node_modules/.bin/rollup -c",
+    "dev": "npx ../../node_modules/.bin/rollup -wc"
   },
   "bugs": {
     "url": "https://github.com/didi/DoraemonKit/issues"

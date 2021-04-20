@@ -13,10 +13,10 @@ if(process.env.NODE_ENV === 'production'){
 export default {
   input: 'src/index.js',
   output: {
-    name: 'dokit',
-    file: 'dist/dokit.js',
-    format: 'iife'
+    file: 'dist/index.js',
+    format: 'cjs'
   },
+  external: ['vue'],
   plugins: [
     vuePlugin({
       preprocessStyles: true

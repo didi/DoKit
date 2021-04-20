@@ -8,13 +8,10 @@
   "author": "duanlikang <duanlikang@didichuxing.com>",
   "homepage": "https://github.com/didi/DoraemonKit#readme",
   "license": "ISC",
-  "main": "dist/main.js",
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
+  "main": "dist/index.js",
+  "module": "dist/index.js",
   "files": [
-    "lib"
+    "dist"
   ],
   "publishConfig": {
     "registry": "https://registry.npm.taobao.org/"
@@ -24,9 +21,14 @@
     "url": "git+https://github.com/didi/DoraemonKit.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "build": "env NODE_ENV=production npx ../../node_modules/.bin/rollup -c",
+    "dev": "npx ../../node_modules/.bin/rollup -wc"
   },
   "bugs": {
     "url": "https://github.com/didi/DoraemonKit/issues"
+  },
+  "dependencies": {
+    "vue": "^3.0.11",
+    "vue-router": "^4.0.6"
   }
 }

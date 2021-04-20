@@ -13,9 +13,9 @@ if(process.env.NODE_ENV === 'production'){
 export default {
   input: 'src/index.js',
   output: {
-    name: 'dokit',
+    name: 'dokit.js',
     file: 'dist/dokit.js',
-    format: 'iife'
+    format: 'umd'
   },
   plugins: [
     vuePlugin({

@@ -1,38 +1,19 @@
-import * as Vue  from 'vue'
-import App from './App.vue'
+import Console from './components/ToolConsole'
+import AppInfo from './components/ToolAppInfo'
+import HelloWorld from './components/ToolHelloWorld'
 
-window.dokit = {
-  app: Vue.createApp(App),
-  outPlugins: [],
-  init() {
-    // 构建挂载节点
-    let dokitRoot = document.createElement('div')
-    document.documentElement.appendChild(dokitRoot)
-
-    // dokit 容器
-    let el = document.createElement('div')
-    Object.assign(el, {
-      id: 'dokit-container',
-      contentEditable: false
-    })
-
-    this.app.mount(el)
-    dokitRoot.appendChild(el)
-  },
+import {Dokit} from '@dokit/web-core'
 
 
-
-  registerPlugin(option) {
-    if (!(option.name && option.install )) return
-
-    let component = option.install(Vue)
-    // 全局注册组件
-    this.app.component(`tool-${option.name}`, component)
-    
-    this.outPlugins.push({
-      component: option.name,
-      displayName: option.name
-    })
-    return this
-  }
-}
+new Dokit({
+  plugins: [{
+    name: '日志',
+    component: Console
+  }, {
+    name: '应用信息',
+    component: AppInfo
+  }, {
+    name: '你好',
+    component: HelloWorld
+  }]
+});
