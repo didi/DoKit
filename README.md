@@ -240,11 +240,11 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [yixiangboy](https://github.com/yixiangboy)、
 [jtsky](https://github.com/jtsky) 、
 [LinJZong](https://github.com/LinJZong) 、
-[changzuozhen](https://github.com/changzuozhen)、
 [jayconscious](https://github.com/jayconscious)
 
 **贡献者榜单**
 、
+[changzuozhen](https://github.com/changzuozhen)、
 [wanglikun7342](https://github.com/wanglikun7342) 、
 [wenquanlebao](https://github.com/wenquanlebao) 、
 [hiXgb](https://github.com/hiXgb) 、 
@@ -336,6 +336,6 @@ DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [
 5. [Mand Mobile](https://github.com/didi/mand-mobile) 一款优秀的面向金融场景的 移动端UI组件库
    
 
-6. 我们部门的技术公众号（普惠出行产品技术公众号），欢迎关注。
-   **公众号介绍：这里是滴滴出行旗下普惠产品技术团队对外分享的窗口，普惠出行支撑滴滴代驾、货运等业务，建设了NodeX、Dokit、卡梅隆等开源项目，始终秉承聚心成事、聚气育人的原则。欢迎各位技术同仁一起交流，共同成长。**
-  ![普惠技术公众号](https://pt-starimg.didistatic.com/static/starimg/img/oOCoP5tVJs1600416407154.jpg)
+6. 我们团队的技术公众号【滴滴OrangeLab】，欢迎关注，我们会在这里持续输出团队内部比较有深度的技术沉淀和经验分享，欢迎一起交流。
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/cPlaMme4g81616682162304.jpg" width = "250" />
+ 

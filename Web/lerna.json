@@ -1,0 +1,22 @@
+{
+  "packages": [
+    "packages/*"
+  ],
+  "version": "0.0.0",
+  "npmClient": "npm",
+  "command": {
+    "publish": {
+      "allowBranch": [
+        "main",
+        "release"
+      ],
+      "ignoreChanges": [
+        "lerna.json"
+      ],
+      "registry": "https://registry.npmjs.org/"
+    },
+    "npmClientArgs": [
+      "--no-lockfile"
+    ]
+  }
+}
