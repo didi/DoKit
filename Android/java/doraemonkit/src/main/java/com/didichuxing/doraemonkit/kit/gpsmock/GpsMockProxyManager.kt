@@ -126,6 +126,13 @@ object GpsMockProxyManager {
 
     fun mockLocationWithNotify(location: Location?) {
         if (location == null) return
+        
+        try {
+            notifyLocationListenerProxy(location)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         try {
             notifyAMapLocationListenerProxy(location)
         } catch (e: Exception) {
@@ -146,11 +153,7 @@ object GpsMockProxyManager {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        try {
-            notifyLocationListenerProxy(location)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+
     }
 
     private fun notifyAMapLocationListenerProxy(location: Location?) {
@@ -208,8 +211,8 @@ object GpsMockProxyManager {
 
     private fun notifyLocationListenerProxy(location: Location?) {
         if (location != null) {
-            for (tencentLocationListenerProxy in mLocationListenerProxies) {
-                tencentLocationListenerProxy.onLocationChanged(location)
+            for (systemLocationListenerProxy in mLocationListenerProxies) {
+                systemLocationListenerProxy.onLocationChanged(location)
             }
         }
     }
