@@ -165,7 +165,7 @@ class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context:
          */
         mAMapNavi.startNavi(NaviType.GPS)
 
-        MockGPSTaskManager.startGpsMockTask(mAMapNavi.naviPath)?.subscribe()
+        //MockGPSTaskManager.startGpsMockTask(mAMapNavi.naviPath)?.subscribe()
     }
 
     override fun notifyParallelRoad(p0: Int) {

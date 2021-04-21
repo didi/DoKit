@@ -95,7 +95,7 @@ ext {
                     "gson"                          : 'com.google.code.gson:gson:2.8.2',
                     "zxing"                         : 'com.google.zxing:core:3.3.0',
                     "free_reflection"               : 'me.weishu:free_reflection:2.1.0',
-                    "leakcanary-android"            : 'com.squareup.leakcanary:leakcanary-android:2.2',
+                    "leakcanary_android"            : 'com.squareup.leakcanary:leakcanary-android:2.7',
                     "haha"                          : 'com.squareup.haha:haha:2.0.4',
                     "debug-db"                      : "com.amitshekhar.android:debug-db:1.0.6",
                     "debug-db-encrypt"              : "com.amitshekhar.android:debug-db-encrypt:1.0.6",

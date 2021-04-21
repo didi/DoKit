@@ -356,11 +356,11 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                 }
             }
             //得到activity window中的根布局
-            final FrameLayout mDecorView = (FrameLayout) dokitIntent.activity.getWindow().getDecorView();
+            //final ViewGroup mDecorView = getDecorView(dokitIntent.activity);
 
             //往DecorView的子RootView中添加dokitView
             if (dokitView.getNormalLayoutParams() != null && dokitView.getDoKitView() != null) {
-                getDokitRootContentView(dokitIntent.activity, mDecorView)
+                getDoKitRootContentView(dokitIntent.activity)
                         .addView(dokitView.getDoKitView(),
                                 dokitView.getNormalLayoutParams());
                 //延迟100毫秒调用
@@ -369,7 +369,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
                     public void run() {
                         dokitView.onResume();
                         //操作DecorRootView
-                        dokitView.dealDecorRootView(getDokitRootContentView(dokitIntent.activity, mDecorView));
+                        dokitView.dealDecorRootView(getDoKitRootContentView(dokitIntent.activity));
                     }
                 }, MC_DELAY);
 
@@ -385,7 +385,8 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
     /**
      * @return rootView
      */
-    private FrameLayout getDokitRootContentView(final Activity activity, FrameLayout decorView) {
+    private FrameLayout getDoKitRootContentView(final Activity activity) {
+        ViewGroup decorView = getDecorView(activity);
         FrameLayout dokitRootView = decorView.findViewById(R.id.dokit_contentview_id);
         if (dokitRootView != null) {
             return dokitRootView;
@@ -478,7 +479,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         }
 
         if (DoKitConstant.INSTANCE.getWS_MODE() == WSMode.HOST) {
-            ActivityUtils.getTopActivity().getWindow().getDecorView().postDelayed(new Runnable() {
+            getDecorView(ActivityUtils.getTopActivity()).postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     realDetach(tag);
@@ -503,12 +504,12 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
             if (dokitView.getDoKitView() != null) {
                 dokitView.getDoKitView().setVisibility(View.GONE);
-                getDokitRootContentView(dokitView.getActivity(), (FrameLayout) activityKey.getWindow().getDecorView()).removeView(dokitView.getDoKitView());
+                getDoKitRootContentView(dokitView.getActivity()).removeView(dokitView.getDoKitView());
             }
 
             //移除指定UI
             //请求重新绘制
-            activityKey.getWindow().getDecorView().requestLayout();
+            getDecorView(activityKey).requestLayout();
             //执行dokitView的销毁
             dokitView.performDestroy();
             //移除map中的数据
@@ -578,7 +579,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         for (Activity activityKey : mActivityDokitViews.keySet()) {
             Map<String, AbsDokitView> dokitViews = mActivityDokitViews.get(activityKey);
             //移除指定UI
-            getDokitRootContentView(activityKey, (FrameLayout) activityKey.getWindow().getDecorView()).removeAllViews();
+            getDoKitRootContentView(activityKey).removeAllViews();
             //移除map中的数据
             dokitViews.clear();
         }
@@ -596,6 +597,12 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         if (mActivityDokitViews == null) {
             return;
         }
+        //移除dokit根布局
+        View dokitRootView = activity.findViewById(R.id.dokit_contentview_id);
+        if (dokitRootView != null) {
+            getDecorView(activity).removeView(dokitRootView);
+        }
+
         Map<String, AbsDokitView> dokitViewMap = getDokitViews(activity);
         if (dokitViewMap == null) {
             return;
@@ -606,6 +613,15 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         mActivityDokitViews.remove(activity);
     }
 
+    /**
+     * 获取页面根布局
+     *
+     * @param activity
+     * @return
+     */
+    private ViewGroup getDecorView(Activity activity) {
+        return (ViewGroup) activity.getWindow().getDecorView();
+    }
 
     /**
      * 获取当前页面指定的dokitView
