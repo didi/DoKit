@@ -1,4 +1,4 @@
-<template lang="">
+<template>
   <div class="console-container">
     <div class="log-container">
       <LogItem v-for="(log, index) in logList" :key="index" :value="log" ></LogItem>
@@ -23,12 +23,12 @@ export default {
   },
   created () {
     let self = this
-    let originConsole = window.console
-    ;['log'].forEach(type => {
+    let originConsole = window.console;
+    ['log'].forEach(type => {
       let origin =  originConsole[type].bind(originConsole)
       originConsole[type] = function (...args) {
-        origin(...args)
         self.logList.push(args)
+        origin(...args)
       }
     })
   }

@@ -1,18 +1,20 @@
-import * as vue from 'vue'
+import {createApp} from 'vue'
 import App from './components/app'
-import Router from './router'
+import Store from './store'
+import {getRouter} from './router'
 export class Dokit{
   constructor(options){
-    let app = vue.createApp(App);
-    let {plugins} = options; 
-    console.log('plugins1', plugins)
-    app.use(Router);
+    let app = createApp(App);
+    let {features} = options; 
+    app.use(getRouter(features));
+    app.use(Store);
+    Store.state.features = features;
+
     this.app = app;
-    this._vue = vue;
     this.init();
   }
 
-  init(options){
+  init(){
     let dokitRoot = document.createElement('div')
     dokitRoot.id = "dokit-root"
     document.documentElement.appendChild(dokitRoot);

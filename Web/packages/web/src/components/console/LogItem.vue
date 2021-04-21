@@ -1,5 +1,6 @@
-<template lang="">
+<template>
   <div class="log-ltem">
+    {{value}}
     <div class="log-preview" v-html="logPreview" @click="toggleDetail"></div>
     <div v-if="showDetail">
       <div class="list-item" v-if="typeof value === 'object'" v-for="(key, index) in value">
@@ -9,7 +10,7 @@
   </div>
 </template>
 <script>
-import { getDataType, getDataStructureStr } from '../../assets/util'
+import { getDataType, getDataStructureStr } from './../../assets/util'
 import Detail from './Detail'
 
 const DATATYPE_NOT_DISPLAY = ['Number', 'String', 'Boolean']

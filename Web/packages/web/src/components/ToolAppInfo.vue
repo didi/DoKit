@@ -1,4 +1,4 @@
-<template lang="">
+<template>
   <div class="app-info-container">
     <div class="info-wrapper">
       <Card title="Page Info">

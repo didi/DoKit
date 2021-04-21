@@ -1,4 +1,4 @@
-<template lang="">
+<template>
   <div class="hello-world">
     <div style="font-weight:bold;font-size:30px;font-style:italic;">Hello World</div>
     <div>this is a demo plugin</div>
@@ -9,7 +9,7 @@ export default {
   
 }
 </script>
-<style lang="">
+<style>
 .hello-world{
   padding:10px;
   text-align: center;
