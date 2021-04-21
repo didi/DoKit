@@ -11,6 +11,7 @@ import com.amap.api.navi.model.*
 import com.didichuxing.doraemondemo.amap.mockroute.LogUtils
 import com.didichuxing.doraemondemo.amap.mockroute.MockGPSTaskManager
 import com.didichuxing.doraemonkit.util.LogHelper
+import io.reactivex.disposables.Disposable
 
 /**
  * ================================================
@@ -29,6 +30,7 @@ class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context:
 //        mNaviRouteOverlay = NaviRouteOverlay(mAMap, null)
 //    }
 
+    private var disp: Disposable? = null
     private var mNaviLocation: AMapNaviLocation? = null
 
     companion object {
@@ -165,7 +167,7 @@ class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context:
          */
         mAMapNavi.startNavi(NaviType.GPS)
 
-        //MockGPSTaskManager.startGpsMockTask(mAMapNavi.naviPath)?.subscribe()
+//        disp = MockGPSTaskManager.startGpsMockTask(mAMapNavi.naviPath)?.subscribe()
     }
 
     override fun notifyParallelRoad(p0: Int) {
@@ -190,5 +192,11 @@ class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context:
     }
 
     override fun onGpsSignalWeak(p0: Boolean) {
+    }
+
+    fun onDestroy() {
+        if (disp != null && !disp!!.isDisposed()) {
+            disp!!.dispose()
+        }
     }
 }

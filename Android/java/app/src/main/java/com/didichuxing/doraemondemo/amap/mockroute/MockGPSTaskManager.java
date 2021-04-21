@@ -3,6 +3,8 @@ package com.didichuxing.doraemondemo.amap.mockroute;
 import android.location.Location;
 import android.location.LocationManager;
 
+import androidx.annotation.NonNull;
+
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.navi.model.AMapNaviPath;
@@ -18,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
@@ -63,10 +66,10 @@ public class MockGPSTaskManager {
 //                        return checkMockLocationState();
                     }
                 })
-                .doOnNext(new Consumer<Long>() {
+                .map(new Function<Long, Long>() {
                     @Override
-                    public void accept(Long aLong) throws Exception {
-                        mProgressIndex++;
+                    public Long apply(@NonNull Long aLong) throws Exception {
+                        return mProgressIndex++;
                     }
                 })
                 .takeWhile(new Predicate<Long>() {
