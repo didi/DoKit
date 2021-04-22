@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      navigatorObservers: [LeakObserver(), DoKitLeakObserver(),PageObserver()],
+      navigatorObservers: [LeakObserver(), DoKitLeakObserver()],
       home: DoKitTestPage(),
     );
   }
