@@ -1,7 +1,7 @@
 <template>
   <div class="hello-world">
-    <div style="font-weight:bold;font-size:30px;font-style:italic;">Hello World</div>
-    <div>this is a demo plugin</div>
+    <div style="font-weight:bold;font-size:30px;font-style:italic;">Hello Dokit</div>
+    <div>Demo Plugin</div>
   </div>
 </template>
 <script>

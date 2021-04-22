@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import dragable from "../directives/dragable";
+import dragable from "../common/directives/dragable";
 import RouterContainer from './container';
 
 export default {

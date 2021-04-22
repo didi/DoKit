@@ -6,7 +6,7 @@
   "scripts": {
     "bootstrap": "npm install && lerna bootstrap",
     "build": "lerna run build",
-    "dev": "lerna run dev",
+    "dev": "lerna run dev --parallel",
     "dev:playground": "node scripts/dev-playground.js & npm run dev",
     "clean": "lerna clean --yes && rm -rf ./packages/**/package-lock.json",
     "clean:lock": "rm -rf ./package-lock.json && rm -rf ./packages/**/package-lock.json"
