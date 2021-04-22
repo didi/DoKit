@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:dokit/kit/observer.dart';
+
 final GlobalKey<OverlayState> doKitOverlayKey = GlobalKey<OverlayState>();
 
 abstract class IDoKitApp extends Widget {
@@ -37,7 +39,28 @@ class _DoKitWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(_origin is StatelessWidget){
+      debugPrint(_origin.toStringShort());
+      Widget widget = (_origin as StatelessWidget).build(context);
+      debugPrint(widget.toStringShort());
+      if(widget is MaterialApp){
+        final navigatorObservers = widget.navigatorObservers;
+        ensureDokitObserver(navigatorObservers);
+        return widget;
+      }
+      if(widget is CupertinoApp){
+        final navigatorObservers = widget.navigatorObservers;
+        ensureDokitObserver(navigatorObservers);
+        return widget;
+      }
+    }
     return _origin;
+  }
+
+  void ensureDokitObserver(List<NavigatorObserver> navigatorObservers) {
+    if(!navigatorObservers.any((element) => element is DokitNavigatorObserver)){
+      navigatorObservers.add(DokitNavigatorObserver());
+    }
   }
 }
 
