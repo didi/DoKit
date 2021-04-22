@@ -1,5 +1,9 @@
 import {reactive} from 'vue'
 const storeKey = 'store'
+/**
+ * 简易版 Store 实现
+ * 支持直接修改 Store 数据
+ */
 export class Store{
   constructor(options){
     let {state} = options
