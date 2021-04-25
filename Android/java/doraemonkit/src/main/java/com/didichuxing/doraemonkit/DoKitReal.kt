@@ -2,19 +2,15 @@ package com.didichuxing.doraemonkit
 
 import android.app.Activity
 import android.app.Application
-import android.location.GpsStatus
-import android.location.LocationManager
 import android.os.Build
 import android.text.TextUtils
 import android.util.Log
-import android.view.accessibility.AccessibilityManager
 import com.didichuxing.doraemonkit.config.GlobalConfig
 import com.didichuxing.doraemonkit.config.GpsMockConfig
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey
 import com.didichuxing.doraemonkit.datapick.DataPickManager
-import com.didichuxing.doraemonkit.hook.LocationManagerGetGpsStatusMethodHook
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerKit
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit
@@ -57,7 +53,6 @@ import com.didichuxing.doraemonkit.kit.webdoor.WebDoorKit
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
 import com.didichuxing.doraemonkit.util.*
-import de.robv.android.xposed.DexposedBridge
 import java.io.File
 import java.util.*
 
@@ -86,8 +81,7 @@ object DoKitReal {
         listKits: List<AbstractKit>,
         productId: String
     ) {
-        //解锁系统隐藏api限制权限以及hook Instrumentation
-        HandlerHooker.doHook(app)
+
         registerListener()
         pluginConfig()
         initThirdLibraryInfo()
@@ -102,6 +96,9 @@ object DoKitReal {
         if (!ProcessUtils.isMainProcess()) {
             return
         }
+        //解锁系统隐藏api限制权限以及hook Instrumentation
+        HandlerHooker.doHook(app)
+
         val strDokitMode = DoKitSPUtil.getString(SharedPrefsKey.FLOAT_START_MODE, "normal")
         DoKitConstant.IS_NORMAL_FLOAT_MODE = strDokitMode == "normal"
         //初始化第三方工具
@@ -669,12 +666,6 @@ object DoKitReal {
      * 全局方法hook
      */
     private fun globalRunTimeHook() {
-        DexposedBridge.findAndHookMethod(
-            LocationManager::class.java,
-            "getGpsStatus",
-            GpsStatus::class.java,
-            LocationManagerGetGpsStatusMethodHook()
-        )
 
     }
 

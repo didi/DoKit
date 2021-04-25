@@ -3,7 +3,6 @@ package com.didichuxing.doraemondemo
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import androidx.multidex.MultiDex
@@ -18,10 +17,7 @@ import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.lzy.okgo.OkGo
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
-import kotlin.coroutines.suspendCoroutine
 
 /**
  * @author jint
@@ -87,7 +83,6 @@ class App : Application() {
             .productId("749a0600b5e48dd77cf8ee680be7b1b7")
             .disableUpload()
             .customKits(mapKits)
-//            .customKits(kits)
             .fileManagerHttpPort(9001)
             .databasePass(mapOf("Person.db" to "a_password"))
             .mcWSPort(5555)

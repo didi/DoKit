@@ -29,6 +29,8 @@ import com.didichuxing.doraemondemo.comm.CommLauncher
 import com.didichuxing.doraemondemo.mc.MCActivity
 import com.didichuxing.doraemondemo.retrofit.GithubService
 import com.didichuxing.doraemonkit.DoKit
+import com.didichuxing.doraemonkit.aop.location.GpsStatusUtil
+import com.didichuxing.doraemonkit.util.LogHelper
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lzy.okgo.OkGo
@@ -207,7 +209,8 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
         when (v.id) {
             R.id.btn_method_cost -> {
                 val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
-                locationManager.getGpsStatus(null)
+                val gpsStatus = locationManager.getGpsStatus(null)
+                LogHelper.i("sss", "gpsStatus==>$gpsStatus")
                 //test1()
             }
             R.id.btn_show_tool_panel ->                 //直接调起工具面板

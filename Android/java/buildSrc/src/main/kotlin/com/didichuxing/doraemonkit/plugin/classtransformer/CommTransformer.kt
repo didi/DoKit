@@ -302,6 +302,23 @@ class CommTransformer : ClassTransformer {
 
         }
 
+        // gpsStatus hook
+        klass.methods.forEach { method ->
+            method.instructions?.iterator()?.asIterable()
+                ?.filterIsInstance(MethodInsnNode::class.java)?.filter {
+                    it.opcode == INVOKEVIRTUAL &&
+                            it.owner == "android/location/LocationManager" &&
+                            it.name == "getGpsStatus" &&
+                            it.desc == "(Landroid/location/GpsStatus;)Landroid/location/GpsStatus;"
+                }?.forEach {
+                    "${context.projectDir.lastPath()}->hook LocationManager#getGpsStatus method  succeed in : ${className}_${method.name}_${method.desc}".println()
+                    method.instructions.insert(
+                        it,
+                        MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/location/GpsStatusUtil", "wrap", "(Landroid/location/GpsStatus;)Landroid/location/GpsStatus;", false)
+                    )
+                }
+        }
+
         //hook Androidx的ComponentActivity
         if (className != "com.didichuxing.doraemonkit.aop.mc.DoKitProxyActivity" && superName == "android.app.Activity") {
             createComponentActivitySuperActivityImpl(klass)

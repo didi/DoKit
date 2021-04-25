@@ -41,6 +41,8 @@ android {
 //        targetCompatibility JavaVersion.VERSION_1_8
 //    }
 
+
+
     dataBinding {
         enabled = true
     }
@@ -71,7 +73,6 @@ dependencies {
     implementation rootProject.ext.dependencies["volley"]
     implementation rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]
-    implementation rootProject.ext.dependencies["epic"]
 
     //远程调试db
     //implementation rootProject.ext.dependencies["debug-db"]
