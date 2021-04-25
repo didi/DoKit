@@ -1,6 +1,6 @@
 {
   "name": "@dokit/web",
-  "version": "0.0.0",
+  "version": "0.0.1-alpha.0",
   "description": "Dokit Web Main Entry",
   "keywords": [
     "Dokit"
@@ -30,6 +30,6 @@
     "dev": "npx ../../node_modules/.bin/rollup -wc"
   },
   "dependencies": {
-    "@dokit/web-core": "^0.0.0"
+    "@dokit/web-core": "^0.0.1-alpha.0"
   }
 }
