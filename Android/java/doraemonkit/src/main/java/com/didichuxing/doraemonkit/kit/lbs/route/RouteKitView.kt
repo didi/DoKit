@@ -86,7 +86,7 @@ class RouteKitView : AbsDokitView() {
                             index = navi.naviPath.coordList.size - 1
                         }
                         val naviLatLng = navi.naviPath.coordList[index]
-                        LogHelper.i("DoKit", "mock LatLng===>${naviLatLng}")
+                        //LogHelper.i("DoKit", "mock LatLng===>${naviLatLng}")
                         GpsMockManager.getInstance()
                             .mockLocationWithNotify(naviLatLng.latitude, naviLatLng.longitude)
 

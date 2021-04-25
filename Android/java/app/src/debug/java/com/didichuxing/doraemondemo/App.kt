@@ -115,10 +115,7 @@ class App : Application() {
 
 
         val client: OkHttpClient = OkHttpClient.Builder()
-            .addInterceptor { chain ->
-                Log.i(TAG, "===custom intercept===")
-                chain.proceed(chain.request())
-            }
+            .addInterceptor(CustomInterceptor())
             .build()
         OkGo.getInstance().init(this).okHttpClient = client
 

@@ -146,7 +146,7 @@ class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context:
      * 线路规划成功
      */
     override fun onCalculateRouteSuccess(result: AMapCalcRouteResult?) {
-        LogHelper.i(TAG, "mAMapNavi.naviPath.coordList===>${mAMapNavi.naviPath.coordList.size}")
+//        LogHelper.i(TAG, "mAMapNavi.naviPath.coordList===>${mAMapNavi.naviPath.coordList.size}")
 //        RouterManager.mCoordList = mAMapNavi.naviPath.coordList
         val naviRouteOverlay = NaviRouteOverlay(mAMap, mAMapNavi.naviPath, context)
         naviRouteOverlay.setShowDefaultLineArrow(true)
