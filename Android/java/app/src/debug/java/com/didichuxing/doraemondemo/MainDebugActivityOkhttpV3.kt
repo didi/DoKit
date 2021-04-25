@@ -202,9 +202,14 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
     }
 
 
+    @SuppressLint("MissingPermission")
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.btn_method_cost -> test1()
+            R.id.btn_method_cost -> {
+                val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+                locationManager.getGpsStatus(null)
+                //test1()
+            }
             R.id.btn_show_tool_panel ->                 //直接调起工具面板
                 DoKit.showToolPanel()
             R.id.btn_jump -> startActivity(Intent(this, SecondActivity::class.java))

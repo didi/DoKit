@@ -2,16 +2,19 @@ package com.didichuxing.doraemonkit
 
 import android.app.Activity
 import android.app.Application
+import android.location.GpsStatus
+import android.location.LocationManager
 import android.os.Build
 import android.text.TextUtils
 import android.util.Log
-import com.didichuxing.doraemonkit.aop.OkHttpHook
+import android.view.accessibility.AccessibilityManager
 import com.didichuxing.doraemonkit.config.GlobalConfig
 import com.didichuxing.doraemonkit.config.GpsMockConfig
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey
 import com.didichuxing.doraemonkit.datapick.DataPickManager
+import com.didichuxing.doraemonkit.hook.LocationManagerGetGpsStatusMethodHook
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.alignruler.AlignRulerKit
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorKit
@@ -54,6 +57,7 @@ import com.didichuxing.doraemonkit.kit.webdoor.WebDoorKit
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
 import com.didichuxing.doraemonkit.util.*
+import de.robv.android.xposed.DexposedBridge
 import java.io.File
 import java.util.*
 
@@ -64,7 +68,7 @@ import java.util.*
 object DoKitReal {
     private const val TAG = "Doraemon"
 
-    private var APPLICATION: Application? = null
+    private lateinit var APPLICATION: Application
 
     fun setDebug(debug: Boolean) {
         LogHelper.setDebug(debug)
@@ -82,6 +86,8 @@ object DoKitReal {
         listKits: List<AbstractKit>,
         productId: String
     ) {
+        //解锁系统隐藏api限制权限以及hook Instrumentation
+        HandlerHooker.doHook(app)
         registerListener()
         pluginConfig()
         initThirdLibraryInfo()
@@ -104,13 +110,10 @@ object DoKitReal {
         registerNetworkStatusChangedListener()
         startAppHealth()
         checkGPSMock()
-
-        //解锁系统隐藏api限制权限以及hook Instrumentation
-        HandlerHooker.doHook(app)
         //hook WIFI GPS Telephony系统服务
         ServiceHookManager.getInstance().install(app)
         //全局运行时hook
-//        globalRunTimeHook()
+        globalRunTimeHook()
 
         //注册全局的activity生命周期回调
         app.registerActivityLifecycleCallbacks(DokitActivityLifecycleCallbacks())
@@ -662,6 +665,19 @@ object DoKitReal {
     private fun initThirdLibraryInfo() {
     }
 
+    /**
+     * 全局方法hook
+     */
+    private fun globalRunTimeHook() {
+        DexposedBridge.findAndHookMethod(
+            LocationManager::class.java,
+            "getGpsStatus",
+            GpsStatus::class.java,
+            LocationManagerGetGpsStatusMethodHook()
+        )
+
+    }
+
     private fun checkGPSMock() {
         if (GpsMockConfig.isGPSMockOpen()) {
             GpsMockManager.getInstance().startMock()
@@ -712,12 +728,13 @@ object DoKitReal {
         ThreadUtils.executeByIo(object : ThreadUtils.SimpleTask<Any?>() {
             @Throws(Throwable::class)
             override fun doInBackground(): Any? {
-                val externalCacheDir = APPLICATION!!.externalCacheDir
+                val externalCacheDir =
+                    APPLICATION.externalCacheDir
                 if (externalCacheDir != null) {
                     val externalRootDir = externalCacheDir.parentFile
                     traverseFile(externalRootDir)
                 }
-                val innerCacheDir = APPLICATION!!.cacheDir
+                val innerCacheDir = APPLICATION.cacheDir
                 if (innerCacheDir != null) {
                     val innerRootDir = innerCacheDir.parentFile
                     traverseFile(innerRootDir)

@@ -59,7 +59,7 @@ dependencies {
     implementation rootProject.ext.dependencies["zxing"]
     compileOnly project(":doraemonkit-util")
     implementation rootProject.ext.dependencies["kotlin"]
-    implementation rootProject.ext.dependencies["epic"]
+    compileOnly rootProject.ext.dependencies["epic"]
 
     implementation rootProject.ext.dependencies["ktor_server_websockets"]
     implementation rootProject.ext.dependencies["ktor_client_websockets"]
