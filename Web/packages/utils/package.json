@@ -25,7 +25,7 @@
     "url": "git+https://github.com/didi/DoraemonKit.git"
   },
   "scripts": {
-    "build": "env NODE_ENV=production npx rollup -c",
+    "build": "npx cross-env NODE_ENV=production npx rollup -c",
     "dev": "npx rollup -wc"
   },
   "bugs": {

@@ -15,6 +15,7 @@
   "license": "ISC",
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.11",
+    "cross-env": "^7.0.3",
     "execa": "^5.0.0",
     "lerna": "^4.0.0",
     "less": "^4.1.1",
