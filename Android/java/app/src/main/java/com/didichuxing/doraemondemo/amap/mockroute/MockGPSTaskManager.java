@@ -3,6 +3,8 @@ package com.didichuxing.doraemondemo.amap.mockroute;
 import android.location.Location;
 import android.location.LocationManager;
 
+import androidx.annotation.NonNull;
+
 import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.navi.model.AMapNaviPath;
@@ -18,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
@@ -50,7 +53,7 @@ public class MockGPSTaskManager {
 
     }
 
-    public Observable<Long> startGpsMockTask() {
+    public Observable<Location> startGpsMockTask() {
         return Observable.interval(0, PERIOD_UNIT, TimeUnit.MILLISECONDS, Schedulers.io())
 //                Observable.interval(0, PERIOD_UNIT * getPeriodLevel(), TimeUnit.MILLISECONDS, Schedulers.io())
 //                Observable.timer(PERIOD_UNIT * getPeriodLevel(), TimeUnit.MICROSECONDS)
@@ -63,10 +66,10 @@ public class MockGPSTaskManager {
 //                        return checkMockLocationState();
                     }
                 })
-                .doOnNext(new Consumer<Long>() {
+                .map(new Function<Long, Long>() {
                     @Override
-                    public void accept(Long aLong) throws Exception {
-                        mProgressIndex++;
+                    public Long apply(@NonNull Long aLong) throws Exception {
+                        return mProgressIndex++;
                     }
                 })
                 .takeWhile(new Predicate<Long>() {
@@ -76,12 +79,10 @@ public class MockGPSTaskManager {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Consumer<Long>() {
+                .map(new Function<Long, Location>() {
                     private Location mLastLocation;
-
                     @Override
-                    public void accept(Long aLong) throws Exception {
-
+                    public Location apply(Long aLong) throws Exception {
                         MockGPSTaskData.MockGPSItem mockGPSItem = taskInfoData.mockGPSItems.get(aLong.intValue());
                         // 轨迹模拟
                         Location location = new Location(LocationManager.GPS_PROVIDER);
@@ -102,6 +103,7 @@ public class MockGPSTaskManager {
                         mLastLocation = location;
 
                         GpsMockManager.getInstance().mockLocationWithNotify(location);
+                        return location;
                     }
                 })
                 .doOnError(new Consumer<Throwable>() {
@@ -120,7 +122,7 @@ public class MockGPSTaskManager {
      * @return
      */
     @Nullable
-    public static Observable startGpsMockTask(@Nullable AMapNaviPath naviRouteInfo) {
+    public static Observable<Location> startGpsMockTask(@Nullable AMapNaviPath naviRouteInfo) {
         if (naviRouteInfo != null && naviRouteInfo.getCoordList() != null) {
             MockGPSTaskData mockGPSTaskData = new MockGPSTaskData();
             mockGPSTaskData.mockGPSItems = new ArrayList();

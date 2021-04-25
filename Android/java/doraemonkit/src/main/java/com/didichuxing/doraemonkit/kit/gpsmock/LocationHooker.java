@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.kit.gpsmock;
 
 import android.content.Context;
 import android.location.GnssStatus;
+import android.location.GpsSatellite;
 import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
@@ -12,10 +13,10 @@ import android.os.IBinder;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseArray;
 
 import androidx.annotation.RequiresApi;
 
-import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.ReflectUtils;
 
 import java.lang.reflect.Field;
@@ -50,7 +51,7 @@ public class LocationHooker extends BaseServiceHooker {
         methodHandlers.put("getLastLocation", new GetLastLocationMethodHandler());
 //        methodHandlers.put("getLastKnownLocation", new GetLastKnownLocationMethodHandler());
         methodHandlers.put("registerGnssStatusCallback", new registerGnssStatusCallbackMethodHandler());
-       // methodHandlers.put("getGpsStatus", new getGpsStatusMethodHandler());
+        // methodHandlers.put("getGpsStatus", new getGpsStatusMethodHandler());
         return methodHandlers;
     }
 
@@ -72,7 +73,6 @@ public class LocationHooker extends BaseServiceHooker {
 
     static class GetLastKnownLocationMethodHandler implements MethodHandler {
         /**
-         *
          * @param originObject 原始对象 即 LocationManagerService
          * @param proxyObject  生成的代理对象
          * @param method       需要被代理的方法
@@ -160,12 +160,37 @@ public class LocationHooker extends BaseServiceHooker {
                 return gpsStatus;
             }
             if (gpsStatus instanceof GpsStatus) {
-
-//                ((GpsStatus) gpsStatus).sets
+                mockGpsStatus((GpsStatus) gpsStatus);
             }
-
-
             return gpsStatus;
+        }
+    }
+
+    public static void mockGpsStatus(GpsStatus gpsStatus) {
+        try {
+            Class<GpsStatus> gpsStatusCls = (Class<GpsStatus>) gpsStatus.getClass();
+            Field mSatellitesField = gpsStatusCls.getField("mSatellites");
+            mSatellitesField.setAccessible(true);
+            SparseArray<GpsSatellite> mSatellites = new SparseArray<>();
+
+            Class<? extends GpsSatellite> satliteClass = (Class<? extends GpsSatellite>) Class.forName("android.location.GpsSatellite");
+            GpsSatellite satellite = satliteClass.newInstance();
+            Field mUsedInFixField = satliteClass.getField("mUsedInFix");
+            mUsedInFixField.setAccessible(true);
+            mUsedInFixField.set(satellite, true);
+            Field mPrnField = satliteClass.getField("mPrn");
+            mPrnField.setAccessible(true);
+            mPrnField.setInt(satellite, -5);
+
+            mSatellites.append(0, satellite);
+            mSatellites.append(0, satellite);
+            mSatellites.append(0, satellite);
+            mSatellites.append(0, satellite);
+            mSatellites.append(0, satellite);
+
+            mSatellitesField.set(gpsStatus, mSatellites);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -318,6 +343,7 @@ public class LocationHooker extends BaseServiceHooker {
             Log.i(TAG, "GnssStatusCallbackProxy===>onSatelliteStatusChanged：" + status);
             if (mCallback != null) {
                 mCallback.onSatelliteStatusChanged(status);
+
             }
         }
     }

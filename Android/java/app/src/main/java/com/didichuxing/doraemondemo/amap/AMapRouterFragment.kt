@@ -25,6 +25,7 @@ import com.didichuxing.doraemondemo.comm.CommBaseFragment
  * ================================================
  */
 class AMapRouterFragment : CommBaseFragment() {
+    private var mDefaultNaviListener: DefaultNaviListener? = null
     private lateinit var mAmap: AMap
     private lateinit var mapView: MapView
     private lateinit var mAMapNavi: AMapNavi
@@ -159,10 +160,8 @@ class AMapRouterFragment : CommBaseFragment() {
             PathPlanningStrategy.DRIVING_MULTIPLE_ROUTES_DEFAULT
         )
         mAMapNavi.addAMapNaviListener(activity?.application?.let {
-            DefaultNaviListener(
-                mAmap, mAMapNavi,
-                it
-            )
+            mDefaultNaviListener = DefaultNaviListener(mAmap, mAMapNavi, it)
+            mDefaultNaviListener
         })
     }
 
@@ -178,6 +177,7 @@ class AMapRouterFragment : CommBaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        mDefaultNaviListener?.onDestroy()
         mapView.onDestroy()
     }
 
