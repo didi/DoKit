@@ -160,38 +160,37 @@ public class LocationHooker extends BaseServiceHooker {
                 return gpsStatus;
             }
             if (gpsStatus instanceof GpsStatus) {
-
-                Class<GpsStatus> gpsStatusCls = (Class<GpsStatus>) gpsStatus.getClass();
-                try {
-                    Field mSatellitesField = gpsStatusCls.getField("mSatellites");
-                    mSatellitesField.setAccessible(true);
-                    SparseArray<GpsSatellite> mSatellites = new SparseArray<>();
-
-                    Class<? extends GpsSatellite> satliteClass = (Class<? extends GpsSatellite>) Class.forName("android.location.GpsSatellite");
-                    GpsSatellite satellite = satliteClass.newInstance();
-                    Field mUsedInFixField = satliteClass.getField("mUsedInFix");
-                    mUsedInFixField.setAccessible(true);
-                    mUsedInFixField.set(satellite, true);
-                    Field mPrnField = satliteClass.getField("mPrn");
-                    mPrnField.setAccessible(true);
-                    mPrnField.setInt(satellite, -5);
-
-                    mSatellites.append(0, satellite);
-                    mSatellites.append(0, satellite);
-                    mSatellites.append(0, satellite);
-                    mSatellites.append(0, satellite);
-                    mSatellites.append(0, satellite);
-
-                    mSatellitesField.set(gpsStatus, mSatellites);
-                } catch (NoSuchFieldException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                }
+                mockGpsStatus((GpsStatus) gpsStatus);
             }
-
-
             return gpsStatus;
+        }
+    }
+
+    public static void mockGpsStatus(GpsStatus gpsStatus) {
+        try {
+            Class<GpsStatus> gpsStatusCls = (Class<GpsStatus>) gpsStatus.getClass();
+            Field mSatellitesField = gpsStatusCls.getField("mSatellites");
+            mSatellitesField.setAccessible(true);
+            SparseArray<GpsSatellite> mSatellites = new SparseArray<>();
+
+            Class<? extends GpsSatellite> satliteClass = (Class<? extends GpsSatellite>) Class.forName("android.location.GpsSatellite");
+            GpsSatellite satellite = satliteClass.newInstance();
+            Field mUsedInFixField = satliteClass.getField("mUsedInFix");
+            mUsedInFixField.setAccessible(true);
+            mUsedInFixField.set(satellite, true);
+            Field mPrnField = satliteClass.getField("mPrn");
+            mPrnField.setAccessible(true);
+            mPrnField.setInt(satellite, -5);
+
+            mSatellites.append(0, satellite);
+            mSatellites.append(0, satellite);
+            mSatellites.append(0, satellite);
+            mSatellites.append(0, satellite);
+            mSatellites.append(0, satellite);
+
+            mSatellitesField.set(gpsStatus, mSatellites);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

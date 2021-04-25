@@ -23,6 +23,7 @@ class LocationManagerGetGpsStatusMethodHook : XC_MethodHook() {
             Log.i(TAG, "GetGpsStatus hook ===>${it.result}")
             val gpsStatus = it.result as GpsStatus
             //修改gpsStatus 的具体值
+            com.didichuxing.doraemonkit.kit.gpsmock.LocationHooker.mockGpsStatus(gpsStatus)
         }
 
         super.afterHookedMethod(param)
