@@ -1,6 +1,8 @@
 package com.didichuxing.doraemonkit.kit.gpsmock;
 
 import android.location.Location;
+import android.location.LocationManager;
+import android.os.Bundle;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -26,10 +28,12 @@ public class GpsMockManager {
 
     /**
      * 外部可以通过API得知当前定位点是否是mock的，默认不可知，如果有需要可以打开这个配置，这样外部就可以通过
+     *
      * @see Location#isFromMockProvider()
      * 得知当前定位是mock的
      */
     private static boolean isFromMockProvider = false;
+    private Bundle extras = new Bundle();
 
     private GpsMockManager() {
     }
@@ -53,16 +57,24 @@ public class GpsMockManager {
 
     public void mockLocationWithNotify(double latitude, double longitude) {
         mockLocation(latitude, longitude);
-        mockLocationWithNotify(new LocationBuilder().setLatitude(latitude)
+        mockLocationWithNotify(new LocationBuilder()
+                .setLatitude(latitude)
                 .setLongitude(longitude)
-                .setTime(System.currentTimeMillis())
                 .build());
     }
 
     public void mockLocationWithNotify(Location location) {
         if (location == null) return;
         mockLocation(location.getLatitude(), location.getLongitude());
-        location.setProvider("DOKIT_MOCK");
+        location.setProvider(LocationManager.GPS_PROVIDER);
+        if (extras.size() == 0) {
+            extras.putInt("satellites", 9);
+        }
+        location.setExtras(extras);
+
+        long currentTimeMillis = System.currentTimeMillis();
+        location.setTime(currentTimeMillis);
+        location.setElapsedRealtimeNanos(currentTimeMillis);
         if (isFromMockProvider()) {
             Class<? extends Location> locationClass = location.getClass();
             try {
