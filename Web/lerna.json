@@ -6,6 +6,9 @@
   "version": "0.0.0",
   "npmClient": "npm",
   "command": {
+    "bootstrap": {
+      "npmClientArgs": ["--no-package-lock"]
+    },
     "publish": {
       "allowBranch": [
         "master",
