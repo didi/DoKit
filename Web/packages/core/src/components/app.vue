@@ -18,7 +18,7 @@ export default {
   },
   data() {
     return {
-      showContainer: true,
+      showContainer: false,
     };
   },
   methods: {
