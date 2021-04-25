@@ -23,7 +23,6 @@ export default {
 </script>
 <style lang="less" scoped>
 .card {
-  margin-top: 15px;
   padding: 10px;
   background-color: white;
 }

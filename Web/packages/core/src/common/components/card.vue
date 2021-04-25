@@ -43,29 +43,31 @@ export default {
 </script>
 <style lang="less" scoped>
 .card {
-  margin-top: 15px;
+  margin-bottom: 10px;
   padding: 10px;
   background-color: white;
 }
 .card-title-text {
-  font-size: 17px;
+  font-size: 16px;
   color: #333333;
 }
 .item-list {
   display: flex;
   flex-wrap: wrap;
+  margin-top: 5px;
 }
 .item {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 25%;
-  margin-top: 10px;
+  margin-top: 5px;
   .item-icon-image {
-    width: 50px;
+    width: 30px;
   }
   .item-title {
-    font-size: 16px;
+    font-size: 14px;
+    margin-top: 5px;
   }
 }
 </style>

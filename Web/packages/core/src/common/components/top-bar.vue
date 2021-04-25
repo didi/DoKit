@@ -1,15 +1,16 @@
 <template>
   <div class="bar">
-    <div class="bar-back" @click="handleBackRoute">
+    <div class="bar-back" @click="handleBackRoute" v-show="canBack">
       <img class="bar-back-icon" :src="icon"/>
       <span class="bar-back-btn">返回</span>
     </div>
     <div class="bar-title">
       <span class="bar-title-text">{{title}}</span>
     </div>
-    <div class="bar-other">
+    <!-- TODO 支持切换模式 -->
+    <!-- <div class="bar-other">
       <span class="bar-other-text">更多</span>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -18,6 +19,9 @@ export default {
   props: {
     title: {
       default: 'DoKit'
+    },
+    canBack:{
+      default: true
     }
   },
   data(){
@@ -27,7 +31,11 @@ export default {
   },
   methods: {
     handleBackRoute(){
-      this.$router.back()
+      if(this.$emit('back')){
+        // 支持拦截 back
+      }else {
+        this.$router.back()
+      }
     }
   }
 }
@@ -38,31 +46,34 @@ export default {
     height: 50px;
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     padding: 0 10px;
     box-sizing: border-box;
+    position: relative;
   }
   .bar-back{
+    position: absolute;
+    left: 10px;
     display: flex;
     flex-direction: row;
     align-items: center;
   }
   .bar-back-icon{
     display: inline-block;
-    height: 20px;
+    height: 18px;
   }
   .bar-back-btn{
     color: #337CC4;
-    font-size: 19px;
+    font-size: 16px;
     margin-left: 5px;
   }
   .bar-title-text{
     color: #333333;
-    font-size: 22px;
+    font-size: 20px;
   }
   .bar-other-text{
     color:  #666666;
-    font-size: 15px;
+    font-size: 16px;
   }
 </style>
