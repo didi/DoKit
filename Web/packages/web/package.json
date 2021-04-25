@@ -8,7 +8,9 @@
   "author": "duanlikang <duanlikang@didichuxing.com>",
   "homepage": "http://dokit.cn",
   "license": "ISC",
-  "main": "dist/web.js",
+  "main": "dist/dokit.js",
+  "unpkg": "dist/dokit.js",
+  "jsdelivr": "dist/dokit.js",
   "files": [
     "dist"
   ],

@@ -28,4 +28,6 @@ export class Dokit{
 }
 
 
-export default Dokit
+export default {
+  Dokit
+}

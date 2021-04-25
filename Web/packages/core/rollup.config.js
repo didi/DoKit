@@ -12,17 +12,19 @@ if(process.env.NODE_ENV === 'production'){
 
 export default {
   input: 'src/index.js',
-  output: {
-    file: 'dist/index.js',
-    format: 'cjs'
-  },
+  output: [
+    {
+      file: 'dist/index.js',
+      format: 'es'
+    }
+  ],
   external: ['vue'],
   plugins: [
     vuePlugin({
       preprocessStyles: true
     }),
     replace({
-      'process.env.NODE_ENV': JSON.stringify('development'),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.VUE_ENV': JSON.stringify('browser')
     }),
     postcssPlugin(),

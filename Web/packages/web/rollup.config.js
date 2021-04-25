@@ -1,7 +1,6 @@
 import vuePlugin from 'rollup-plugin-vue'
 import postcssPlugin from 'rollup-plugin-postcss'
 import resolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
 import replace from 'rollup-plugin-replace'
 import {terser} from 'rollup-plugin-terser'
 
@@ -15,19 +14,20 @@ export default {
   output: {
     name: 'dokit',
     file: 'dist/dokit.js',
+    globals: {
+      vue: 'Vue'
+    },
     format: 'iife'
   },
+  external: ["vue"],
   plugins: [
-    vuePlugin({
-      preprocessStyles: true
-    }),
+    vuePlugin(),
     replace({
-      'process.env.NODE_ENV': JSON.stringify('development'),
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.VUE_ENV': JSON.stringify('browser')
     }),
     postcssPlugin(),
     resolve({ extensions: ['.vue'] }),
-    commonjs(),
     ...extendPlugins
   ]
 }
