@@ -17,7 +17,8 @@
     "lib"
   ],
   "publishConfig": {
-    "registry": "https://registry.npm.taobao.org/"
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "repository": {
     "type": "git",
@@ -29,5 +30,6 @@
   },
   "bugs": {
     "url": "https://github.com/didi/DoraemonKit/issues"
-  }
+  },
+  "gitHead": "886ea7c19806526668e5da0179da335e7df9d012"
 }
