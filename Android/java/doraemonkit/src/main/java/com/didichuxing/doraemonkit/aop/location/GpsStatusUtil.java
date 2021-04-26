@@ -33,10 +33,12 @@ public class GpsStatusUtil {
         return status;
     }
 
-    public static void modifyGpsStatus(GpsStatus gpsStatus) {
+    private static void modifyGpsStatus(GpsStatus gpsStatus) {
         try {
             checkSatellite();
-            ReflectUtils.reflect(gpsStatus).field("mSatellites", sSatellites);
+            if (sSatellites != null) {
+                ReflectUtils.reflect(gpsStatus).field("mSatellites", sSatellites);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,7 +46,7 @@ public class GpsStatusUtil {
 
     private static volatile SparseArray<GpsSatellite> sSatellites;
 
-    public static void checkSatellite() throws ClassNotFoundException, NoSuchMethodException, NoSuchFieldException, IllegalAccessException, InstantiationException, java.lang.reflect.InvocationTargetException {
+    private static void checkSatellite()  {
         if (sSatellites == null) {
             synchronized (GpsStatusUtil.class) {
                 if (sSatellites == null) {
