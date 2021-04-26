@@ -38,7 +38,7 @@ public class GpsStatusUtil {
     public static void modifyGpsStatus(GpsStatus gpsStatus) {
         try {
             Class<GpsStatus> gpsStatusCls = (Class<GpsStatus>) gpsStatus.getClass();
-            Field mSatellitesField = gpsStatusCls.getDeclaredField("sSatellites");
+            Field mSatellitesField = gpsStatusCls.getDeclaredField("mSatellites");
             mSatellitesField.setAccessible(true);
             checkSatellite();
             mSatellitesField.set(gpsStatus, sSatellites);
