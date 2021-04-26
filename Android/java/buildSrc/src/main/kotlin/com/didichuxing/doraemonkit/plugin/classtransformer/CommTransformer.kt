@@ -44,9 +44,9 @@ class CommTransformer : ClassTransformer {
         val className = klass.className
         val superName = klass.formatSuperName
 
-        if (className.contains("didihttp")) {
-            "${context.projectDir.lastPath()}==className===>$className".println()
-        }
+//        if (className.contains("didihttp")) {
+//            "${context.projectDir.lastPath()}==className===>$className".println()
+//        }
 
         //查找DoraemonKitReal&pluginConfig方法并插入指定字节码
         if (className == "com.didichuxing.doraemonkit.DoKitReal") {
@@ -68,6 +68,22 @@ class CommTransformer : ClassTransformer {
 
         //gps字节码操作
         if (DoKitExtUtil.commExt.gpsSwitch) {
+            //系统 gpsStatus hook
+            klass.methods.forEach { method ->
+                method.instructions?.iterator()?.asIterable()
+                    ?.filterIsInstance(MethodInsnNode::class.java)?.filter {
+                        it.opcode == INVOKEVIRTUAL &&
+                                it.owner == "android/location/LocationManager" &&
+                                it.name == "getGpsStatus" &&
+                                it.desc == "(Landroid/location/GpsStatus;)Landroid/location/GpsStatus;"
+                    }?.forEach {
+                        "${context.projectDir.lastPath()}->hook LocationManager#getGpsStatus method  succeed in : ${className}_${method.name}_${method.desc}".println()
+                        method.instructions.insert(
+                            it,
+                            MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/location/GpsStatusUtil", "wrap", "(Landroid/location/GpsStatus;)Landroid/location/GpsStatus;", false)
+                        )
+                    }
+            }
 
             //插入高德地图定位相关字节码
             if (className == "com.amap.api.location.AMapLocationClient") {
@@ -97,25 +113,20 @@ class CommTransformer : ClassTransformer {
                     it.name == "getLastKnownLocation"
                 }.let { methodNode ->
                     "${context.projectDir.lastPath()}->hook AMapLocationClient getLastKnownLocation  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-//                    methodNode?.instructions?.clear()
-//                    for (instruction in methodNode!!.instructions) {
-////                        methodNode.instructions.remove(instruction)
-//                        println("getLastKnownLocation===>${instruction.opcode}")
-//                    }
                     methodNode?.instructions?.insert(createAMapClientLastKnownLocation())
                 }
 
             }
             //插入高德 地图定位相关字节码
-            if (className == "com.amap.api.maps.AMap") {
-                //设置LocationSource代理
-                klass.methods?.find {
-                    it.name == "setLocationSource"
-                }.let { methodNode ->
-                    "${context.projectDir.lastPath()}->hook amap map LocationSource  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
-                    methodNode?.instructions?.insert(createAmapLocationSourceInsnList())
-                }
-            }
+//            if (className == "com.amap.api.maps.AMap") {
+//                //设置LocationSource代理
+//                klass.methods?.find {
+//                    it.name == "setLocationSource"
+//                }.let { methodNode ->
+//                    "${context.projectDir.lastPath()}->hook amap map LocationSource  succeed: ${className}_${methodNode?.name}_${methodNode?.desc}".println()
+//                    methodNode?.instructions?.insert(createAmapLocationSourceInsnList())
+//                }
+//            }
 
             //插入高德地图导航相关字节码
 //            if (className == "com.amap.api.navi.AMapNavi") {
@@ -302,22 +313,7 @@ class CommTransformer : ClassTransformer {
 
         }
 
-        // gpsStatus hook
-        klass.methods.forEach { method ->
-            method.instructions?.iterator()?.asIterable()
-                ?.filterIsInstance(MethodInsnNode::class.java)?.filter {
-                    it.opcode == INVOKEVIRTUAL &&
-                            it.owner == "android/location/LocationManager" &&
-                            it.name == "getGpsStatus" &&
-                            it.desc == "(Landroid/location/GpsStatus;)Landroid/location/GpsStatus;"
-                }?.forEach {
-                    "${context.projectDir.lastPath()}->hook LocationManager#getGpsStatus method  succeed in : ${className}_${method.name}_${method.desc}".println()
-                    method.instructions.insert(
-                        it,
-                        MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/location/GpsStatusUtil", "wrap", "(Landroid/location/GpsStatus;)Landroid/location/GpsStatus;", false)
-                    )
-                }
-        }
+
 
         //hook Androidx的ComponentActivity
         if (className != "com.didichuxing.doraemonkit.aop.mc.DoKitProxyActivity" && superName == "android.app.Activity") {
