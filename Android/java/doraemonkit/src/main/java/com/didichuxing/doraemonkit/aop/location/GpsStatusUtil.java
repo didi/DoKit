@@ -38,35 +38,46 @@ public class GpsStatusUtil {
     public static void modifyGpsStatus(GpsStatus gpsStatus) {
         try {
             Class<GpsStatus> gpsStatusCls = (Class<GpsStatus>) gpsStatus.getClass();
-            Field mSatellitesField = gpsStatusCls.getDeclaredField("mSatellites");
+            Field mSatellitesField = gpsStatusCls.getDeclaredField("sSatellites");
             mSatellitesField.setAccessible(true);
-            SparseArray<GpsSatellite> mSatellites = new SparseArray<>();
-
-            Class<? extends GpsSatellite> satliteClass = (Class<? extends GpsSatellite>) Class.forName("android.location.GpsSatellite");
-            Constructor<? extends GpsSatellite> satliteClassConstructor = satliteClass.getDeclaredConstructor(int.class);
-
-            Field mUsedInFixField = satliteClass.getDeclaredField("mUsedInFix");
-            mUsedInFixField.setAccessible(true);
-            Field mValidField = satliteClass.getDeclaredField("mValid");
-            mValidField.setAccessible(true);
-            Field mHasEphemerisField = satliteClass.getDeclaredField("mHasEphemeris");
-            mHasEphemerisField.setAccessible(true);
-            Field mHasAlmanacField = satliteClass.getDeclaredField("mHasAlmanac");
-            mHasAlmanacField.setAccessible(true);
-
-            GpsSatellite satellite = satliteClassConstructor.newInstance(-5);
-            mUsedInFixField.set(satellite, true);
-            mValidField.set(satellite, true);
-            mHasEphemerisField.set(satellite, true);
-            mHasAlmanacField.set(satellite, true);
-
-            for (int i = 0; i < 12; i++) {
-                mSatellites.append(i, satellite);
-            }
-
-            mSatellitesField.set(gpsStatus, mSatellites);
+            checkSatellite();
+            mSatellitesField.set(gpsStatus, sSatellites);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private static SparseArray<GpsSatellite> sSatellites;
+
+    public static void checkSatellite() throws ClassNotFoundException, NoSuchMethodException, NoSuchFieldException, IllegalAccessException, InstantiationException, java.lang.reflect.InvocationTargetException {
+        if (sSatellites == null) {
+            synchronized (GpsStatusUtil.class) {
+                if (sSatellites == null) {
+                    sSatellites = new SparseArray<>();
+                    Class<? extends GpsSatellite> satliteClass = (Class<? extends GpsSatellite>) Class.forName("android.location.GpsSatellite");
+                    Constructor<? extends GpsSatellite> satliteClassConstructor = satliteClass.getDeclaredConstructor(int.class);
+
+                    Field mUsedInFixField = satliteClass.getDeclaredField("mUsedInFix");
+                    mUsedInFixField.setAccessible(true);
+                    Field mValidField = satliteClass.getDeclaredField("mValid");
+                    mValidField.setAccessible(true);
+                    Field mHasEphemerisField = satliteClass.getDeclaredField("mHasEphemeris");
+                    mHasEphemerisField.setAccessible(true);
+                    Field mHasAlmanacField = satliteClass.getDeclaredField("mHasAlmanac");
+                    mHasAlmanacField.setAccessible(true);
+
+                    GpsSatellite satellite = satliteClassConstructor.newInstance(-5);
+                    mUsedInFixField.set(satellite, true);
+                    mValidField.set(satellite, true);
+                    mHasEphemerisField.set(satellite, true);
+                    mHasAlmanacField.set(satellite, true);
+
+                    for (int i = 0; i < 12; i++) {
+                        sSatellites.append(i, satellite);
+                    }
+                }
+
+            }
         }
     }
 }
