@@ -15,7 +15,7 @@ export function getRoutes(features){
       routes.push({
         path: `/${name}`,
         name: name,
-        component: component,
+        component: component.component || component,
         meta: {
           title: title,
           feature: featureTitle

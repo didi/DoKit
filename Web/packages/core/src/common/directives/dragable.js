@@ -6,7 +6,8 @@ const INIT_VALUE = 9999
 const DEFAULT_ZINDEX = 99
 const DEFAULT_OPACITY = 0.5
 const SAFE_BOTTOM = 50 // 底部防误触
-
+// TODO 拖拽事件兼容 Pc处理
+// TODO 默认初始位置为右下角
 export default {
   mounted (el) {
     // 初始化变量

@@ -9,11 +9,12 @@
   </div>
 </template>
 <script>
-import Detail from './Detail'
+import Detail from './log-detail'
 import { getDataType } from '../../assets/util'
 
 const TYPE_CAN_FOLD = ['Object', 'Array']
 export default {
+  name: "Detail",
   components: {
     Detail
   },

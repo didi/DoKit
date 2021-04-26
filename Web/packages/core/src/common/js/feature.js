@@ -1,0 +1,46 @@
+export const noop = () => {}
+
+export class BasePlugin{
+  type = ''
+  name = ''
+  nameZh = ''
+  icon = ''
+  component = null
+  _onLoad = noop
+  _onUnload = noop
+  constructor(options){
+    let {name, nameZh, icon, component, onLoad, onUnload} = options;
+    this.name = name;
+    this.nameZh = nameZh;
+    this.icon = icon;
+    this.component = component;
+    this._onLoad = onLoad || noop;
+    this._onUnload = onUnload || noop;
+  }
+  load(){
+    this._onLoad.call(this)
+  }
+  unload(){
+    this._onUnload.call(this)
+  }
+}
+
+/**
+ * 基于路由容器的插件
+ */
+export class RouterPlugin extends BasePlugin{
+  type = "RouterPlugin"
+  constructor(options){
+    super(options)
+  }
+}
+
+/**
+ * 独立容器的插件
+ */
+export class SinglePlugin extends BasePlugin{
+  type = "SinglePlugin"
+  constructor(options){
+    super(options)
+  }
+}

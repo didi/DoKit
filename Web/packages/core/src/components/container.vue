@@ -1,7 +1,6 @@
 <template>
   <div class="container">
-    <top-bar :title="title" :canBack="canBack">
-    </top-bar>
+    <top-bar :title="title" :canBack="canBack"></top-bar>
     <div class="router-container">
       <router-view v-slot="{ Component }">
         <keep-alive>
@@ -41,11 +40,13 @@ export default {
   position: absolute;
   left: 0;
   right: 0;
-  top:0;
+  top:100px;
   bottom: 0;
   background-color: #f5f6f7;
   display: flex;
   flex-direction: column;
+  z-index: 99;
+  border-radius: 10px 10px 0 0;
 }
 .router-container{
   margin-top: 5px;

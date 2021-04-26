@@ -51,6 +51,7 @@ export default {
     padding: 0 10px;
     box-sizing: border-box;
     position: relative;
+    border-radius: 10px 10px 0 0;
   }
   .bar-back{
     position: absolute;

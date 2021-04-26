@@ -1,17 +1,16 @@
 <template>
   <div class="log-ltem">
-    {{value}}
     <div class="log-preview" v-html="logPreview" @click="toggleDetail"></div>
-    <div v-if="showDetail">
-      <div class="list-item" v-if="typeof value === 'object'" v-for="(key, index) in value">
+    <div v-if="showDetail && typeof value === 'object'">
+      <div class="list-item" v-for="(key, index) in value" :key="index">
         <Detail :detailValue="key" :detailIndex="index"></Detail>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { getDataType, getDataStructureStr } from './../../assets/util'
-import Detail from './Detail'
+import { getDataType, getDataStructureStr } from '../../assets/util'
+import Detail from './log-detail'
 
 const DATATYPE_NOT_DISPLAY = ['Number', 'String', 'Boolean']
 
@@ -20,6 +19,7 @@ export default {
     Detail
   },
   props: {
+    type: [Number],
     value: [String, Number, Object]
   },
   data () {
