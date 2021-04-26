@@ -19,7 +19,7 @@ export default {
     },
     format: 'iife'
   },
-  external: ["vue"],
+  external: ["vue", "js"],
   plugins: [
     vuePlugin(),
     replace({

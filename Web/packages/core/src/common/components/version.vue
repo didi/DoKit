@@ -37,7 +37,7 @@ export default {
     margin-top: 20px;
   }
   .dokit-icon{
-    width: 300px;
+    width: 150px;
   }
 }
 </style>

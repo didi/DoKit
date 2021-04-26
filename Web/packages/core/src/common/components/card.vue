@@ -11,7 +11,7 @@
             :src="item.icon || defaultIcon"
           />
         </div>
-        <div class="item-title">{{item.title || '默认功能'}}</div>
+        <div class="item-title">{{item.nameZh || '默认功能'}}</div>
       </div>
     </div>
   </div>
