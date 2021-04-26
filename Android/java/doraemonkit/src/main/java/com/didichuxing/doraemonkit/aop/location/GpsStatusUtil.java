@@ -5,8 +5,8 @@ import android.location.GpsStatus;
 import android.util.SparseArray;
 
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
-import com.didichuxing.doraemonkit.util.ReflectUtils;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 
 /**
@@ -19,6 +19,7 @@ import java.lang.reflect.Field;
  * ================================================
  */
 public class GpsStatusUtil {
+
     /**
      * status 包装
      *
@@ -36,17 +37,34 @@ public class GpsStatusUtil {
 
     public static void modifyGpsStatus(GpsStatus gpsStatus) {
         try {
+            Class<GpsStatus> gpsStatusCls = (Class<GpsStatus>) gpsStatus.getClass();
+            Field mSatellitesField = gpsStatusCls.getDeclaredField("mSatellites");
+            mSatellitesField.setAccessible(true);
             SparseArray<GpsSatellite> mSatellites = new SparseArray<>();
-            GpsSatellite satellite = ReflectUtils.reflect("android.location.GpsSatellite").newInstance(-5).get();
 
-            ReflectUtils.reflect(satellite).field("mUsedInFix", true);
-            mSatellites.append(0, satellite);
-            mSatellites.append(0, satellite);
-            mSatellites.append(0, satellite);
-            mSatellites.append(0, satellite);
-            mSatellites.append(0, satellite);
+            Class<? extends GpsSatellite> satliteClass = (Class<? extends GpsSatellite>) Class.forName("android.location.GpsSatellite");
+            Constructor<? extends GpsSatellite> satliteClassConstructor = satliteClass.getDeclaredConstructor(int.class);
 
-            ReflectUtils.reflect(gpsStatus).field("mSatellites", mSatellites);
+            Field mUsedInFixField = satliteClass.getDeclaredField("mUsedInFix");
+            mUsedInFixField.setAccessible(true);
+            Field mValidField = satliteClass.getDeclaredField("mValid");
+            mValidField.setAccessible(true);
+            Field mHasEphemerisField = satliteClass.getDeclaredField("mHasEphemeris");
+            mHasEphemerisField.setAccessible(true);
+            Field mHasAlmanacField = satliteClass.getDeclaredField("mHasAlmanac");
+            mHasAlmanacField.setAccessible(true);
+
+            GpsSatellite satellite = satliteClassConstructor.newInstance(-5);
+            mUsedInFixField.set(satellite, true);
+            mValidField.set(satellite, true);
+            mHasEphemerisField.set(satellite, true);
+            mHasAlmanacField.set(satellite, true);
+
+            for (int i = 0; i < 12; i++) {
+                mSatellites.append(i, satellite);
+            }
+
+            mSatellitesField.set(gpsStatus, mSatellites);
         } catch (Exception e) {
             e.printStackTrace();
         }
