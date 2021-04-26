@@ -146,24 +146,6 @@ public class LocationHooker extends BaseServiceHooker {
     }
 
 
-    /**
-     * 获取Gps 状态
-     */
-    static class getGpsStatusMethodHandler implements MethodHandler {
-
-        @Override
-        public Object onInvoke(Object originObject, Object proxyObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
-            Object gpsStatus = method.invoke(originObject, args);
-            Log.i(TAG, "getGpsStatusMethodHandler===>" + gpsStatus.toString());
-            if (!GpsMockManager.getInstance().isMocking()) {
-                return gpsStatus;
-            }
-            if (gpsStatus instanceof GpsStatus) {
-                GpsStatusUtil.modifyGpsStatus((GpsStatus) gpsStatus);
-            }
-            return gpsStatus;
-        }
-    }
 
     /**
      * LocationListener代理
