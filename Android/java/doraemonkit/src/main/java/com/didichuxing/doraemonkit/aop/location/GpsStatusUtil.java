@@ -7,9 +7,6 @@ import android.util.SparseArray;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 import com.didichuxing.doraemonkit.util.ReflectUtils;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -39,7 +36,7 @@ public class GpsStatusUtil {
     public static void modifyGpsStatus(GpsStatus gpsStatus) {
         try {
             checkSatellite();
-            ReflectUtils.reflect(gpsStatus).field("mSatellites", mSatellites);
+            ReflectUtils.reflect(gpsStatus).field("mSatellites", sSatellites);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,10 +45,10 @@ public class GpsStatusUtil {
     private static volatile SparseArray<GpsSatellite> sSatellites;
 
     public static void checkSatellite() throws ClassNotFoundException, NoSuchMethodException, NoSuchFieldException, IllegalAccessException, InstantiationException, java.lang.reflect.InvocationTargetException {
-        if (mSatellites == null) {
+        if (sSatellites == null) {
             synchronized (GpsStatusUtil.class) {
-                if (mSatellites == null) {
-                    mSatellites = new SparseArray<>();
+                if (sSatellites == null) {
+                    sSatellites = new SparseArray<>();
 
                     GpsSatellite satellite = ReflectUtils.reflect("android.location.GpsSatellite").newInstance(-5).get();
                     ReflectUtils.reflect(satellite)
@@ -61,7 +58,7 @@ public class GpsStatusUtil {
                             .field("mHasAlmanac", true);
 
                     for (int i = 0; i < 12; i++) {
-                        mSatellites.append(i, satellite);
+                        sSatellites.append(i, satellite);
                     }
                 }
 
