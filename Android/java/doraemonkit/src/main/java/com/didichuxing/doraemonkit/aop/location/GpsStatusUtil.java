@@ -45,7 +45,7 @@ public class GpsStatusUtil {
         }
     }
 
-    private static SparseArray<GpsSatellite> mSatellites;
+    private static volatile SparseArray<GpsSatellite> sSatellites;
 
     public static void checkSatellite() throws ClassNotFoundException, NoSuchMethodException, NoSuchFieldException, IllegalAccessException, InstantiationException, java.lang.reflect.InvocationTargetException {
         if (mSatellites == null) {
