@@ -5,6 +5,7 @@ import android.location.GpsStatus;
 import android.util.SparseArray;
 
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
+import com.didichuxing.doraemonkit.util.ReflectUtils;
 
 import java.lang.reflect.Field;
 
@@ -35,27 +36,17 @@ public class GpsStatusUtil {
 
     public static void modifyGpsStatus(GpsStatus gpsStatus) {
         try {
-            Class<GpsStatus> gpsStatusCls = (Class<GpsStatus>) gpsStatus.getClass();
-            Field mSatellitesField = gpsStatusCls.getField("mSatellites");
-            mSatellitesField.setAccessible(true);
             SparseArray<GpsSatellite> mSatellites = new SparseArray<>();
+            GpsSatellite satellite = ReflectUtils.reflect("android.location.GpsSatellite").newInstance(-5).get();
 
-            Class<? extends GpsSatellite> satliteClass = (Class<? extends GpsSatellite>) Class.forName("android.location.GpsSatellite");
-            GpsSatellite satellite = satliteClass.newInstance();
-            Field mUsedInFixField = satliteClass.getField("mUsedInFix");
-            mUsedInFixField.setAccessible(true);
-            mUsedInFixField.set(satellite, true);
-            Field mPrnField = satliteClass.getField("mPrn");
-            mPrnField.setAccessible(true);
-            mPrnField.setInt(satellite, -5);
-
+            ReflectUtils.reflect(satellite).field("mUsedInFix", true);
             mSatellites.append(0, satellite);
             mSatellites.append(0, satellite);
             mSatellites.append(0, satellite);
             mSatellites.append(0, satellite);
             mSatellites.append(0, satellite);
 
-            mSatellitesField.set(gpsStatus, mSatellites);
+            ReflectUtils.reflect(gpsStatus).field("mSatellites", mSatellites);
         } catch (Exception e) {
             e.printStackTrace();
         }
