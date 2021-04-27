@@ -12,6 +12,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dokit/dokit.dart';
 import 'package:dokit/kit/apm/leak/leak_observer.dart';
+import 'package:dokit/kit/apm/launch/route_observer.dart';
 import 'package:dokit/kit/apm/vm/vm_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
