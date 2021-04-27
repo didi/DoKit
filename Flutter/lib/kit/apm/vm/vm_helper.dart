@@ -27,7 +27,7 @@ class VmHelper {
     if (!VMServiceWrapper.instance.connected) {
       return;
     }
-    PackageInfo.fromPlatform().then((value) => packageInfo = value);
+    await PackageInfo.fromPlatform().then((value) => packageInfo = value);
     updateMemoryUsage();
     updateFlutterVersion();
     updateAllocationProfile();
@@ -58,10 +58,8 @@ class VmHelper {
       return;
     }
     VMServiceWrapper.instance.callExtensionService('flutterVersion')?.then(
-            (value) =>
-        _flutterVersion = FlutterVersion
-            .parse(value.json)
-            .version);
+        (value) =>
+            _flutterVersion = FlutterVersion.parse(value?.json)?.version);
   }
 
   updateAllocationProfile() {
@@ -80,7 +78,6 @@ class VmHelper {
   }
 }
 
-
 Future<Script> getScriptList(String fileName) async {
   if (!VMServiceWrapper.instance.connected) {
     await VMServiceWrapper.instance.connect();
@@ -90,9 +87,12 @@ Future<Script> getScriptList(String fileName) async {
     return VMServiceWrapper.instance.service
         .getScripts(VMServiceWrapper.instance.main.id)
         .then<Script>((scriptList) async =>
-    await VMServiceWrapper.instance.service.getObject(
-        VMServiceWrapper.instance.main.id, scriptList?.scripts
-        ?.firstWhere((element) => element.id.contains(fileName))
-        .id) as Script) ;
+            await VMServiceWrapper.instance.service.getObject(
+                VMServiceWrapper.instance.main.id,
+                scriptList?.scripts
+                    ?.firstWhere((element) => element.id.contains(fileName))
+                    ?.id) as Script);
   }
+
+  return null;
 }

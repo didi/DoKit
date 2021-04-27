@@ -1,13 +1,18 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:core';
+import 'dart:io';
+
 import 'package:dokit/engine/dokit_binding.dart';
 import 'package:dokit/kit/apm/log_kit.dart';
-import 'package:dokit/ui/dokit_btn.dart';
 import 'package:dokit/ui/dokit_app.dart';
+import 'package:dokit/ui/dokit_btn.dart';
+import 'package:dokit/ui/kit_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'dart:core';
 import 'package:flutter/widgets.dart' as dart;
-import 'package:dokit/ui/kit_page.dart';
+import 'package:package_info/package_info.dart';
+
 export 'package:dokit/ui/dokit_app.dart';
 
 typedef DoKitAppCreator = Future<IDoKitApp> Function();
@@ -15,6 +20,7 @@ typedef LogCallback = void Function(String);
 typedef ExceptionCallback = void Function(dynamic, StackTrace);
 
 const String DK_PACKAGE_NAME = 'dokit';
+const String DK_PACKAGE_VERSION = '0.6.0';
 
 //默认release模式不开启该功能
 const bool release = kReleaseMode;
@@ -33,6 +39,9 @@ class DoKit {
       ExceptionCallback exceptionCallback,
       List<String> methodChannelBlackList = const <String>[],
       Function releaseAction}) async {
+    // 统计用户信息，便于了解该开源产品的使用量 (请大家放心，我们不用于任何恶意行为)
+    upLoadUserInfo();
+
     assert(
         app != null || appCreator != null, 'app and appCreator are both null');
     if (release && !useInRelease) {
@@ -48,7 +57,7 @@ class DoKit {
       return;
     }
     blackList = methodChannelBlackList;
-    runZoned(
+    await runZoned(
       () async => <void>{
         _ensureDoKitBinding(useInRelease: useInRelease),
         _runWrapperApp(app != null ? app : await appCreator()),
@@ -109,4 +118,54 @@ void dispose({@required BuildContext context}) {
   doKitOverlayKey.currentState.widget.initialEntries.forEach((element) {
 // element.remove();
   });
+}
+
+void upLoadUserInfo() async {
+  final client = HttpClient();
+  const url = 'https://doraemon.xiaojukeji.com/uploadAppData';
+  final request = await client.postUrl(Uri.parse(url));
+  final packageInfo = await PackageInfo.fromPlatform();
+
+  Locale locale;
+  void finder(Element element) {
+    if (element.widget is Localizations) {
+      locale ??= (element.widget as Localizations).locale;
+    } else {
+      element.visitChildren(finder);
+    }
+  }
+
+  DoKitApp.appKey.currentContext.visitChildElements(finder);
+
+  final appId = packageInfo.packageName;
+  // 在iOS上可能获取不到appName
+  // https://github.com/flutter/flutter/issues/42510
+  // 当info.plist文件中只有CFBundleName，没有CFBundleDisplayName时，则无法获取
+  final appName = packageInfo.appName ?? 'DoKitFlutterDefault';
+  final appVersion = packageInfo.version;
+  final version = DK_PACKAGE_VERSION;
+  final from = '1';
+  final type = 'flutter';
+  final language = locale?.toString() ?? '';
+
+  final params = <String, dynamic>{};
+  params['appId'] = appId;
+  params['appName'] = appName;
+  params['appVersion'] = appVersion;
+  params['version'] = version;
+  params['from'] = from;
+  params['type'] = type;
+  params['language'] = language;
+
+  request.headers
+    ..add('Content-Type', 'application/json')
+    ..add('Accept', 'application/json');
+  request.add(utf8.encode(json.encode(params)));
+
+  final response = await request.close();
+//  final responseBody = await response.transform(utf8.decoder).join();
+  if (response.statusCode == HttpStatus.ok) {
+//    print('用户统计数据上报成功！');
+  }
+  client.close();
 }

@@ -150,7 +150,7 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
   initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _updateImage();
+      // 第一次内部会调用_updateImage方法
       _updateColor();
     });
   }
@@ -167,18 +167,17 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
         },
         onPointerMove: (PointerMoveEvent event) {
           position = event.position - deltaOffset;
-
           _updateColor();
         },
         child: Draggable<dynamic>(
           child: _buildMagnifier(context),
           feedback: _buildMagnifier(context),
           childWhenDragging: Container(),
-          onDragStarted: () async {
+          onDragStarted: () {
             // 开始拖动时，重新获取截图快照
-            await _updateImage();
+            _updateImage();
           },
-          onDragEnd: (DraggableDetails detail) async {
+          onDragEnd: (DraggableDetails detail) {
             final Offset point = detail.offset;
             double x = point.dx;
             double y = point.dy;
@@ -367,7 +366,6 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
 class GridsPainter extends CustomPainter {
   GridsPainter();
 
-//  final List<int> argbPixels;
   double get scale => ColorPickerKit.instance.scale;
   ui.Image get image => ColorPickerKit.instance.snapshot.value;
   Offset get position => ColorPickerKit.instance.position.value;

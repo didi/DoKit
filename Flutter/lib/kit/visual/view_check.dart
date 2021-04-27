@@ -7,6 +7,7 @@ import 'package:dokit/ui/dokit_app.dart';
 import 'package:dokit/ui/dokit_btn.dart';
 import 'package:dokit/util/screen_util.dart';
 import 'package:dokit/widget/dash_decoration.dart';
+import 'package:dokit/widget/widget_build_chain/widget_build_chain_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -43,6 +44,7 @@ class ViewCheckerKit extends VisualKit {
 
   Rect area = const Rect.fromLTWH(0, 0, 0, 0);
   String info = '移动屏幕中心焦点聚焦控件，查看控件信息';
+  RenderObjectElement selectedElement;
 
   final ValueNotifier<Offset> viewCheckerWidgetCenterNotifier =
       ValueNotifier<Offset>(ScreenUtil.instance.screenCenter);
@@ -132,6 +134,7 @@ class InfoWidget extends StatefulWidget {
 
 class _InfoWidgetState extends State<InfoWidget> {
   double top;
+  WidgetBuildChainController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -167,6 +170,7 @@ class _InfoWidgetState extends State<InfoWidget> {
             color: Colors.white),
         alignment: Alignment.centerLeft,
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
                 alignment: Alignment.centerRight,
@@ -178,15 +182,40 @@ class _InfoWidgetState extends State<InfoWidget> {
                     ViewCheckerKit.hide(context);
                   },
                 )),
-            Text(ViewCheckerKit._instance.info,
-                style: const TextStyle(
-                    color: Color(0xff333333),
-                    fontFamily: 'PingFang SC',
-                    fontWeight: FontWeight.normal,
-                    decoration: TextDecoration.none,
-                    fontSize: 12))
+            Text(
+              ViewCheckerKit._instance.info,
+              style: const TextStyle(
+                  color: Color(0xff333333),
+                  fontFamily: 'PingFang SC',
+                  fontWeight: FontWeight.normal,
+                  decoration: TextDecoration.none,
+                  fontSize: 12),
+            ),
+            Offstage(
+              offstage: ViewCheckerKit._instance.selectedElement == null,
+              child: GestureDetector(
+                onTap: _openWidgetBuildChainPage,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 6),
+                  child: Text(
+                    '查看控件的build链',
+                    style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 10,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ),
+            )
           ],
         ));
+  }
+
+  void _openWidgetBuildChainPage() {
+    controller =
+        WidgetBuildChainController(ViewCheckerKit._instance.selectedElement);
+    controller.show();
   }
 }
 
@@ -286,6 +315,8 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
   // 4.debug模式下，将聚焦控件设置为选中控件，可以获取到源码信息
   void findFocusView() {
     final RenderObjectElement element = resolveTree();
+    ViewCheckerKit._instance.selectedElement = element;
+
     if (element != null) {
       final Offset offset =
           (element.renderObject as RenderBox).localToGlobal(Offset.zero);
