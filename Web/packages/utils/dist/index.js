@@ -6,8 +6,6 @@ const isFunction  = function(obj){
     return typeof obj === 'function'
 };
 
-const isPC = function(){
-  
-};
+const inBrowser = typeof window !== 'undefined';
 
-export { isFunction, isObject, isPC };
+export { inBrowser, isFunction, isObject };
