@@ -4,6 +4,7 @@
   "description": "a web toolkit powered by Dokit",
   "main": "index.js",
   "scripts": {
+    "test": "jest test",
     "bootstrap": "run-s bootstrap:project bootstrap:package",
     "bootstrap:project": "npm install",
     "bootstrap:package": "lerna bootstrap",
@@ -23,6 +24,7 @@
     "@vue/compiler-sfc": "^3.0.11",
     "cross-env": "^7.0.3",
     "execa": "^5.0.0",
+    "jest": "^26.6.3",
     "lerna": "^4.0.0",
     "less": "^4.1.1",
     "npm-run-all": "^4.1.5",
