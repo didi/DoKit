@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import Card from '../../common/Card'
+import Card from '@common/Card'
 
 export default {
   components: {

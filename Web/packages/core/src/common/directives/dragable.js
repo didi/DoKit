@@ -3,7 +3,6 @@
  * 减少外部依赖
 */
 const INIT_VALUE = 9999
-const DEFAULT_ZINDEX = 99
 const DEFAULT_OPACITY = 0.5
 const SAFE_BOTTOM = 50 // 底部防误触
 // TODO 拖拽事件兼容 Pc处理
@@ -20,7 +19,6 @@ export default {
     el.style.opacity = DEFAULT_OPACITY
     el.style.top = `${el.dokitPositionTop}px`
     el.style.left = `${el.dokitPositionLeft}px`
-    el.style.zIndex = DEFAULT_ZINDEX
 
     // 触摸事件监听
     el.ontouchstart = () => {

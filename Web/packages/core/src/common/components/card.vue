@@ -34,9 +34,7 @@ export default {
   },
   methods: {
     handleClickItem(item){
-      this.$router.push({
-        name: item.name
-      })
+      this.$emit('handleClickItem', item)
     }
   }
 };

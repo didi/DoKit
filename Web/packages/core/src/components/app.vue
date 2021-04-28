@@ -1,32 +1,45 @@
 <template>
   <div class="dokit-app">
-    <div class="dokit-entry-btn" v-dragable @click="toggleContainer"></div>
+    <div class="dokit-entry-btn" style="z-index: 10000;" v-dragable @click="toggleShowContainer"></div>
     <div class="mask" v-show="showContainer" @click="toggleContainer"></div>
     <router-container v-show="showContainer"></router-container>
+    <!-- <single-container></single-container> -->
   </div>
 </template>
 
 <script>
-import dragable from "../common/directives/dragable";
-import RouterContainer from './container';
+import dragable from "@common/directives/dragable";
+import RouterContainer from './router-container';
+import SingleContainer from './single-container';
+import {toggleContainer} from '@store/index';
 
 export default {
   components: {
-    RouterContainer
+    RouterContainer,
+    SingleContainer
   },
   directives: {
     dragable,
   },
   data() {
-    return {
-      showContainer: false,
-    };
+    return {};
+  },
+  computed: {
+    state(){
+      return this.$store.state
+    },
+    showContainer(){
+      return this.state.showContainer
+    }
   },
   methods: {
-    toggleContainer() {
-      this.showContainer = !this.showContainer;
+    toggleShowContainer() {
+      toggleContainer()
     },
   },
+  created(){
+    console.log("CurState: ",this.$store.state)
+  }
 };
 </script>
 

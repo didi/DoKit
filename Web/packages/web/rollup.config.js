@@ -3,6 +3,8 @@ import postcssPlugin from 'rollup-plugin-postcss'
 import resolve from 'rollup-plugin-node-resolve'
 import replace from 'rollup-plugin-replace'
 import {terser} from 'rollup-plugin-terser'
+import rAlias from '@rollup/plugin-alias'
+const path = require('path')
 
 const extendPlugins = []
 if(process.env.NODE_ENV === 'production'){
@@ -21,6 +23,11 @@ export default {
   },
   external: ["vue", "js"],
   plugins: [
+    rAlias({
+      entries:{
+        "@common": path.join(__dirname, './src/common')
+      }
+    }),
     vuePlugin(),
     replace({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),

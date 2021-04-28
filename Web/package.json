@@ -21,6 +21,7 @@
   "author": "caoenze",
   "license": "ISC",
   "devDependencies": {
+    "@rollup/plugin-alias": "^3.1.2",
     "@vue/compiler-sfc": "^3.0.11",
     "cross-env": "^7.0.3",
     "execa": "^5.0.0",

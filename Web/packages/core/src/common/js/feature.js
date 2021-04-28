@@ -44,3 +44,11 @@ export class SinglePlugin extends BasePlugin{
     super(options)
   }
 }
+
+export const isRouterPlugin =  function(plugin){
+  return plugin instanceof RouterPlugin
+}
+
+export const isSinglePlugin =  function(plugin){
+  return plugin instanceof SinglePlugin
+}
