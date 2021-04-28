@@ -1,4 +1,4 @@
-<template lang="">
+<template>
   <div class="app-info-container">
     <div class="info-wrapper">
       <Card title="Page Info">
@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import Card from './common/Card'
+import Card from '../../common/Card'
 
 export default {
   components: {
@@ -55,12 +55,11 @@ export default {
   },
 }
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .app-info-container{
   font-size: 14px;
   height: 100%;
-  overflow: scroll;
-  padding-bottom: 100px;
+  overflow: hidden;
 }
 .info-wrapper{
     margin: 20px 20px 0 20px;

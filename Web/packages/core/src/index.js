@@ -1,22 +1,36 @@
-import * as vue from 'vue'
+import {createApp} from 'vue'
 import App from './components/app'
-import Router from './router'
+import Store from './store'
+import {applyLifecyle, LifecycleHooks} from './common/js/lifecycle' 
+import {getRouter} from './router'
 export class Dokit{
+  options = null
   constructor(options){
-    let app = vue.createApp(App);
-    let {plugins} = options; 
-    console.log('plugins1', plugins)
-    app.use(Router);
+    this.options = options
+    let app = createApp(App);
+    let {features} = options; 
+    app.use(getRouter(features));
+    app.use(Store);
+    Store.state.features = features;
     this.app = app;
-    this._vue = vue;
     this.init();
+    this.onLoad();
   }
 
-  init(options){
+  onLoad(){
+    // Lifecycle Load
+    applyLifecyle(this.options.features, LifecycleHooks.LOAD)
+  }
+
+  onUnload(){
+    // Lifecycle UnLoad
+    applyLifecyle(this.options.features, LifecycleHooks.UNLOAD)
+  }
+
+  init(){
     let dokitRoot = document.createElement('div')
     dokitRoot.id = "dokit-root"
     document.documentElement.appendChild(dokitRoot);
-
     // dokit 容器
     let el = document.createElement('div')
     el.id = "dokit-container"
@@ -25,5 +39,9 @@ export class Dokit{
   }
 }
 
+export * from './store'
+export * from './common/js/feature'
 
-export default Dokit
+export default {
+  Dokit
+}

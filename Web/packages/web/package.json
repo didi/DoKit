@@ -1,6 +1,6 @@
 {
   "name": "@dokit/web",
-  "version": "0.0.0",
+  "version": "0.0.1-alpha.0",
   "description": "Dokit Web Main Entry",
   "keywords": [
     "Dokit"
@@ -8,12 +8,14 @@
   "author": "duanlikang <duanlikang@didichuxing.com>",
   "homepage": "http://dokit.cn",
   "license": "ISC",
-  "main": "dist/web.js",
+  "main": "dist/dokit.js",
+  "unpkg": "dist/dokit.js",
+  "jsdelivr": "dist/dokit.js",
   "files": [
     "dist"
   ],
   "publishConfig": {
-    "registry": "https://registry.npm.taobao.org/",
+    "registry": "https://registry.npmjs.org/",
     "access": "public"
   },
   "repository": {
@@ -24,10 +26,11 @@
     "url": "https://github.com/didi/DoraemonKit/issues"
   },
   "scripts": {
-    "build": "env NODE_ENV=production npx ../../node_modules/.bin/rollup -c",
-    "dev": "npx ../../node_modules/.bin/rollup -wc"
+    "build": "npx cross-env NODE_ENV=production npx rollup -c",
+    "dev": "npx rollup -wc"
   },
   "dependencies": {
-    "@dokit/web-core": "^0.0.0"
-  }
+    "@dokit/web-core": "^0.0.1-alpha.0"
+  },
+  "gitHead": "886ea7c19806526668e5da0179da335e7df9d012"
 }

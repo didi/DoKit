@@ -1,4 +1,4 @@
-<template lang="">
+<template>
   <div class="dokit-card">
     <div class="dokit-card__header">{{title}}</div>
     <div class="dokit-card__body">

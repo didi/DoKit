@@ -40,7 +40,7 @@
 <br/>
 <br/>
 
-**DoraemonKit** /'dɔ:ra:'emɔn/，简称`DoKit`，中文名 `哆啦A梦`，意味着能够像哆啦A梦一样提供给他的主人各种各样的工具。Just Do Kit
+DoKit诞生于滴滴城运服体验技术部，是一款面向泛前端产品研发全生命周期的效率平台。经过两年的发展，当前DoKit已经发展成了一个相对完整的生态，比如DoKit For Android、DoKit For iOS、DoKit For 小程序、DoKit For Flutter、DoKit For Web。同时我们的项目被BAT以及滴滴、字节、快手、京东等等头部独角兽企业广泛使用并获得良好的口碑。随着dokit.cn平台端的推出，标志着DoKit已经从单纯的效率工具正式进入了效率工具平台的阶段。与此同时我们一直都未停下持续探索的精神，积极地在更多平台领域进行尝试，不给自己设限。我们相信DoKit的未来充满无限可能。
 
 > [English Readme](README_EN.md)
 
@@ -79,19 +79,17 @@
 
 ## 开发背景
 
-每一个稍微有点规模的 App，总会自带一些线下的测试功能代码，比如环境切换功能、帧率查看功能等等，这些功能的切换入口往往放在各式各样的入口中，比如一些特殊的手势，双击 statusBar，双击某一个功能区块，或者新建一个 keyWindow 始终至于 App 最上方等等，而且每一个 App 里面的线下附带功能模块很多是相似的，比如帧率查看、内存和 CPU 监控等等，但是现在基本上都是每个 App 都是自己实现了一份，经历了以上的问题之后，DoraemonKit 就有了它存在的意义。
+每一个稍微有点规模的 App，总会自带一些线下的测试功能代码，比如环境切换功能、帧率查看功能等等，这些功能的切换入口往往放在各式各样的入口中，比如一些特殊的手势，双击 statusBar，双击某一个功能区块，或者新建一个 keyWindow 始终至于 App 最上方等等，而且每一个 App 里面的线下附带功能模块很多是相似的，比如帧率查看、内存和 CPU 监控等等，但是现在基本上都是每个 App 都是自己实现了一份，经历了以上的问题之后，DoKit 就有了它存在的意义。
 
-DoraemonKit 是一个功能平台，能够让每一个 App 快速接入一些常用的或者你没有实现的一些辅助开发工具、测试效率工具、视觉辅助工具，而且能够完美在 Doraemon 面板中接入你已经实现的与业务紧密耦合的一些非通有的辅助工具，并搭配我们的[dokit](https://www.dokit.cn)平台，让功能得到延伸，接入方便，便于扩展。
+DoKit 是一个功能平台，能够让每一个 App 快速接入一些常用的或者你没有实现的一些辅助开发工具、测试效率工具、视觉辅助工具，而且能够完美在 Doraemon 面板中接入你已经实现的与业务紧密耦合的一些非通有的辅助工具，并搭配我们的[dokit](https://www.dokit.cn)平台，让功能得到延伸，接入方便，便于扩展。
 
 **简单总结**
 
-1、DoraemonKit 能够快速让你的业务测试代码能够在这里统一管理，统一收口；  
+1、DoKit 能够快速让你的业务测试代码能够在这里统一管理，统一收口；  
 
-2、DoraemonKit 内置很多常用的工具，避免重复实现，一次接入，你将会拥有强大的工具集合；
+2、DoKit 内置很多常用的工具，避免重复实现，一次接入，你将会拥有强大的工具集合；
 
 3、搭配dokit平台，借助[接口Mock](https://www.dokit.cn/#/index/dataMockPage)、[健康体检](https://www.dokit.cn/#/index/checkDataPage)、[文件同步助手](https://www.dokit.cn/#/index/fileSyncPage)让你方便和他人协同，极大的提升研发过程中的效率。
-
-
 
 
 
@@ -159,11 +157,11 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 
 ## 相关文档
-- [iOS 研发助手 DoraemonKit 技术实现（一）](https://www.jianshu.com/p/00763123dbc4)
-- [iOS 研发助手 DoraemonKit 技术实现（二）](https://blog.csdn.net/weixin_33847182/article/details/91472599)
+- [iOS 研发助手 DoKit 技术实现（一）](https://www.jianshu.com/p/00763123dbc4)
+- [iOS 研发助手 DoKit 技术实现（二）](https://blog.csdn.net/weixin_33847182/article/details/91472599)
 - [DoKit支持iOS本地crash查看功能](https://juejin.im/post/5d76184ce51d4561d106cc65)
-- [开源组件 DoraemonKit 之 Android 版本技术实现（一）](https://blog.csdn.net/weixin_33711647/article/details/88004429)
-- [开源组件 DoraemonKit 之 Android 版本技术实现（二）](https://blog.csdn.net/weixin_34148456/article/details/88004414)
+- [开源组件 DoKit 之 Android 版本技术实现（一）](https://blog.csdn.net/weixin_33711647/article/details/88004429)
+- [开源组件 DoKit 之 Android 版本技术实现（二）](https://blog.csdn.net/weixin_34148456/article/details/88004414)
 - [DoKit支持Activity启动耗时统计方案](https://juejin.im/post/5d70bc3051882571ed61e407)
 - [DoKit 微信小程序SDK对外发布](https://juejin.im/post/5d9bf252518825095c3c5e32)
 - [滴滴DoKit2.0 - 泛前端开发者的百宝箱](https://juejin.im/post/5dc3cdfa51882538d22d5948)
@@ -282,7 +280,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 <img alt="Apache-2.0 license" src="https://www.apache.org/img/ASF20thAnniversary.jpg" width="128">
 
-DoraemonKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [协议文件](LICENSE)。
+DoKit 基于 Apache-2.0 协议进行分发和使用，更多信息参见 [协议文件](LICENSE)。
 
 ## 使用提醒
 因为SDK目前会配合[dokit.cn](http://www.dokit.cn/)平台, 会产生一些网络数据，这些信息我们收集绝不用于任何恶意用途。

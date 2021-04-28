@@ -1,15 +1,38 @@
 <template>
   <div class="container">
-    <router-view v-slot="{Component}">
-      <keep-alive>
-        <component :is="{Component}"/>
-      </keep-alive>
-    </router-view>
+    <top-bar :title="title" :canBack="canBack"></top-bar>
+    <div class="router-container">
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
+    </div>
   </div>
 </template>
 <script>
+import TopBar from "../common/components/top-bar";
+
 export default {
-  
+  components: {
+   TopBar 
+  },
+  data(){
+    return {}
+  },
+  computed:{
+    curRoute(){
+      return this.$router.currentRoute.value
+    },
+    title(){
+      return this.curRoute.meta.title || 'Dokit'
+    },
+    canBack(){
+      return this.curRoute.name !== 'index'
+    }
+  },
+  created(){
+  }
 }
 </script>
 <style lang="less" scoped>
@@ -17,8 +40,18 @@ export default {
   position: absolute;
   left: 0;
   right: 0;
-  top:0;
+  top:100px;
   bottom: 0;
-  background-color: #ffffff;
+  background-color: #f5f6f7;
+  display: flex;
+  flex-direction: column;
+  z-index: 99;
+  border-radius: 10px 10px 0 0;
+}
+.router-container{
+  margin-top: 5px;
+  background-color: white;
+  flex: 1;
+  overflow-y: scroll;
 }
 </style>

@@ -1,7 +1,7 @@
-'use strict';
+export const isObject = function(obj){
+    return Object.prototype.toString.call(obj) === '[object Object]'
+}
 
-module.exports = utils;
-
-function utils() {
-    // TODO
+export const isFunction  = function(obj){
+    return typeof obj === 'function'
 }
