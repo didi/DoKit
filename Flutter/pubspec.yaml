@@ -17,8 +17,8 @@ dependencies:
   shared_preferences: ^0.5.12+4
   isolate: ^2.0.3
   image: ^2.1.19
-  image_gallery_saver: 1.5.0
   google_fonts: ^1.1.1
+  string_scanner: ^1.0.5
 
 dev_dependencies:
   flutter_test:

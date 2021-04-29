@@ -34,50 +34,55 @@ class WidgetDetailsPage extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Widget Overview',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+      body: Scrollbar(
+        child: SingleChildScrollView(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Container(
+              padding: EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Widget Overview',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Divider(
+                    height: 0.5,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    '${element.widget.toStringDeep()}',
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'RenderObject Full Details',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Divider(
+                    height: 0.5,
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    '${element.renderObject.toStringDeep()}',
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 8),
-              Divider(
-                height: 0.5,
-              ),
-              SizedBox(height: 10),
-              Text(
-                '${element.widget.toStringDeep()}',
-                style: TextStyle(
-                  fontSize: 12,
-                ),
-              ),
-              SizedBox(height: 16),
-              Text(
-                'RenderObject Full Details',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 8),
-              Divider(
-                height: 0.5,
-              ),
-              SizedBox(height: 16),
-              Text(
-                '${element.renderObject.toStringDeep()}',
-                style: TextStyle(
-                  fontSize: 12,
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
