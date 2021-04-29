@@ -72,7 +72,7 @@ releaseAction | Function | release模式下执行该函数，该值为空则会�
 
 ### 全部组件
 
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/KzciZRXKfk1609765312380.jpg"  width="300px"  />
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/AuETMp2dp11619684586454.png"  width="300px"  />
 
 当前版本DoKit支持的所有功能全览。常驻工具为显示在底部tab栏的组件，可通过拖动将组件放置或移出常驻工具。
 
