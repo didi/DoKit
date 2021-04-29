@@ -1,6 +1,6 @@
 name: dokit
 description: 开发工具集
-version: 0.2.15
+version: 0.6.0
 homepage: https://www.dokit.cn/#/index/home
 
 
@@ -15,10 +15,16 @@ dependencies:
   vm_service: ^5.5.0
   package_info: ^0.4.3+2
   shared_preferences: ^0.5.12+4
+  isolate: ^2.0.3
+  image: ^2.1.19
+  image_gallery_saver: 1.5.0
+  google_fonts: ^1.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  pedantic: ^1.9.2
+
 
 flutter:
   uses-material-design: true
@@ -41,3 +47,6 @@ flutter:
     - images/dk_fps_chart.png
     - images/dk_route_arrow.png
     - images/dk_memory_search.png
+    - images/dk_color_pick.png
+    - images/dk_source_code.png
+    - images/dk_time_counter.png

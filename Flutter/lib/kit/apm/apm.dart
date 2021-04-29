@@ -1,26 +1,29 @@
-import 'dart:collection';
-
 import 'package:dokit/kit/apm/fps_kit.dart';
+import 'package:dokit/kit/apm/launch/page_launch_kit.dart';
 import 'package:dokit/kit/apm/log_kit.dart';
 import 'package:dokit/kit/apm/memory_kit.dart';
 import 'package:dokit/kit/apm/method_channel_kit.dart';
 import 'package:dokit/kit/apm/route_kit.dart';
+import 'package:dokit/kit/apm/source_code_kit.dart';
 import 'package:dokit/ui/resident_page.dart';
 import 'package:flutter/material.dart';
 
+import '../kit.dart';
 import 'http_kit.dart';
 
 class ApmKitManager {
-  ApmKitManager._privateConstructor();
-
-  Map<String, ApmKit> kitMap = <String, ApmKit>{
+  Map<String, ApmKit> kitMap = {
     ApmKitName.KIT_LOG: LogKit(),
     ApmKitName.KIT_CHANNEL: MethodChannelKit(),
     ApmKitName.KIT_ROUTE: RouteKit(),
     ApmKitName.KIT_FPS: FpsKit(),
     ApmKitName.KIT_MEMORY: MemoryKit(),
     ApmKitName.KIT_HTTP: HttpKit(),
+    ApmKitName.KIT_SOURCE_CODE: SourceCodeKit(),
+    ApmKitName.KIT_PAGE_LAUNCH: PageLaunchKit()
   };
+
+  ApmKitManager._privateConstructor() {}
 
   static final ApmKitManager _instance = ApmKitManager._privateConstructor();
 
@@ -41,71 +44,13 @@ class ApmKitManager {
   }
 
   void startUp() {
-    kitMap.forEach((String key, ApmKit kit) {
+    kitMap.forEach((key, kit) {
       kit.start();
     });
   }
 }
 
-abstract class IInfo {
-  dynamic getValue();
-}
-
-abstract class IStorage {
-  bool save(IInfo info);
-
-  bool contains(IInfo info);
-
-  List<IInfo> getAll();
-
-  void clear();
-}
-
-abstract class IKit {
-  String getKitName();
-
-  String getIcon();
-
-  void tabAction();
-}
-
-class CommonStorage implements IStorage {
-  CommonStorage({this.maxCount = 100});
-
-  final int maxCount;
-  Queue<IInfo> items = Queue<IInfo>();
-
-  @override
-  List<IInfo> getAll() {
-    return items.toList();
-  }
-
-  @override
-  bool save(IInfo info) {
-    if (items.length >= maxCount) {
-      items.removeFirst();
-    }
-    items.add(info);
-    return true;
-  }
-
-  @override
-  bool contains(IInfo info) {
-    return items.contains(info);
-  }
-
-  @override
-  void clear() {
-    return items.clear();
-  }
-}
-
 abstract class ApmKit implements IKit {
-  ApmKit() {
-    storage = createStorage();
-    assert(storage != null, 'storage should not be null');
-  }
-
   IStorage storage;
 
   void start();
@@ -116,14 +61,19 @@ abstract class ApmKit implements IKit {
 
   Widget createDisplayPage();
 
+  ApmKit() {
+    storage = createStorage();
+    assert(storage != null, 'storage should not be null');
+  }
+
   @override
   void tabAction() {
-    // ignore: invalid_use_of_protected_member
     ResidentPage.residentPageKey.currentState.setState(() {
       ResidentPage.tag = getKitName();
     });
   }
 
+  @override
   bool save(IInfo info) {
     return info != null &&
         storage != null &&
@@ -143,4 +93,6 @@ class ApmKitName {
   static const String KIT_ROUTE = '路由信息';
   static const String KIT_CHANNEL = '方法通道';
   static const String KIT_HTTP = '网络请求';
+  static const String KIT_SOURCE_CODE = '查看源码';
+  static const String KIT_PAGE_LAUNCH = '启动耗时';
 }

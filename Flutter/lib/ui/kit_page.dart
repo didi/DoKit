@@ -1,5 +1,6 @@
 import 'package:dokit/kit/apm/apm.dart';
 import 'package:dokit/kit/common/common.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/kit/visual/visual.dart';
 import 'package:dokit/ui/resident_page.dart';
 import 'package:dokit/widget/dash_decoration.dart';
@@ -248,7 +249,7 @@ class KitItem extends StatelessWidget {
             width: 34,
             height: 34,
             fit: BoxFit.fitWidth,
-            package: DoKit.PACKAGE_NAME,
+            package: DK_PACKAGE_NAME,
           ),
           Container(
             margin: const EdgeInsets.only(top: 6),
