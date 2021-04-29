@@ -162,7 +162,8 @@ releaseAction | Function | release模式下执行该函数，该值为空则会�
 <img src="https://pt-starimg.didistatic.com/static/starimg/img/gDkBh4a87P1619673916288.png"  width="300px"  />
 <img src="https://pt-starimg.didistatic.com/static/starimg/img/z1wWlYqZDg1619674872051.png"  width="300px"  />
 
-获取到页面的启动耗时
+获取页面的启动耗时, 
+框架已做无侵入的注入NavigatorObserver。但是在较复杂的App构建时可能失效，需要手动添加`DokitNavigatorObserver`
 
 **注：页面启动耗时信息只有在profile或release模式下才有意义**
 
