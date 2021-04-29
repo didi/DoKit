@@ -144,6 +144,7 @@ releaseAction | Function | release模式下执行该函数，该值为空则会�
 
 ### 颜色拾取
 <img src="https://pt-starimg.didistatic.com/static/starimg/img/4MYRNqqcZh1619673900891.png"  width="300px"  />
+
 查看当前页面任何位置对应的像素点的RGBA颜色值，方便UI的调试和获取像素点的颜色
 
 ### Widget层级
@@ -154,6 +155,7 @@ releaseAction | Function | release模式下执行该函数，该值为空则会�
 
 ### 页面源码查看
 <img src="https://pt-starimg.didistatic.com/static/starimg/img/e7Pbo95nJ71619665430550.jpg"  width="300px"  />
+
 查看当前所在页面的源代码，支持语法高亮显示
 
 **注：源码信息只有在debug模式下才可获取到。同路由功能，在存在Overlay的情况下功能会异常**
