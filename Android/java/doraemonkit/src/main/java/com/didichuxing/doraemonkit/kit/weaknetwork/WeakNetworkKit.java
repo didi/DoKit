@@ -8,12 +8,14 @@ import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
+import com.google.auto.service.AutoService;
 
 /**
  * 模拟弱网
  * <p>
  * Created by xiandanin on 2019/5/7 19:05
  */
+@AutoService(AbstractKit.class)
 public class WeakNetworkKit extends AbstractKit {
 
 

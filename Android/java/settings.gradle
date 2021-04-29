@@ -1,6 +1,6 @@
 include ':app'
 include ':doraemonkit-util'
-include ':doraemonkit-ws'
+include ':doraemonkit-ktor'
 include ':doraemonkit'
 include ':doraemonkit-mc'
 include ':doraemonkit-plugin'

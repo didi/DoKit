@@ -9,11 +9,12 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
+import com.google.auto.service.AutoService;
 
 /**
  * Created by wanglikun on 2018/10/9.
  */
-
+@AutoService(AbstractKit.class)
 public class LogInfoKit extends AbstractKit {
 
 

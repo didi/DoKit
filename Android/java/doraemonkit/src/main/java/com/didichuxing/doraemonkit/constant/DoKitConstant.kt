@@ -46,6 +46,9 @@ object DoKitConstant {
     @JvmField
     val GLOBAL_KITS: LinkedHashMap<String, MutableList<KitWrapItem>> = LinkedHashMap()
 
+    /**
+     * 全局系统内置kit
+     */
     @JvmField
     val GLOBAL_SYSTEM_KITS: LinkedHashMap<String, MutableList<KitWrapItem>> = LinkedHashMap()
 

@@ -10,12 +10,14 @@ import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
+import com.google.auto.service.AutoService;
 
 
 /**
  * @author jintai
  * @desc: 网络监测kit
  */
+@AutoService(AbstractKit.class)
 public class MockKit extends AbstractKit {
 
 

@@ -283,7 +283,7 @@ class DokitManagerFragment : BaseFragment() {
                     object : SimpleDialogListener() {
                         override fun onPositive(): Boolean {
                             val open =
-                                DoKit.APPLICATION?.assets?.open("dokit_system_kits.json")
+                                DoKit.APPLICATION.assets?.open("dokit_system_kits.json")
                             val json = ConvertUtils.inputStream2String(open, "UTF-8")
                             //设置成默认的系统控件排序
                             ToolPanelUtil.jsonConfig2InnerKits(json)
@@ -425,13 +425,13 @@ class DokitManagerFragment : BaseFragment() {
             }
         }
 
-        val horizontalDividerItemDecoration = HorizontalDividerItemDecoration.Builder(activity)
-            .color(ContextCompat.getColor(activity!!, R.color.dk_color_E5E5E5))
+        val horizontalDividerItemDecoration = HorizontalDividerItemDecoration.Builder(requireActivity())
+            .color(ContextCompat.getColor(requireActivity(), R.color.dk_color_E5E5E5))
             .size(1)
             .showLastDivider()
             .build()
         val verticalDividerItemDecoration = VerticalDividerItemDecoration.Builder(activity)
-            .color(ContextCompat.getColor(activity!!, R.color.dk_color_E5E5E5))
+            .color(ContextCompat.getColor(requireActivity(), R.color.dk_color_E5E5E5))
             .size(1)
             .showLastDivider()
             .build()

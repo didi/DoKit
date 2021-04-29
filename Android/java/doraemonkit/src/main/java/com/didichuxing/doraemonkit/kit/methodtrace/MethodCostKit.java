@@ -8,6 +8,7 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.webview.WebViewManager;
+import com.google.auto.service.AutoService;
 
 /**
  * ================================================
@@ -18,6 +19,7 @@ import com.didichuxing.doraemonkit.kit.webview.WebViewManager;
  * 修订历史：
  * ================================================
  */
+@AutoService(AbstractKit.class)
 public class MethodCostKit extends AbstractKit {
 
 

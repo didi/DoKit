@@ -7,11 +7,12 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
+import com.google.auto.service.AutoService;
 
 /**
  * Created by wanglikun on 2018/11/20.
  */
-
+@AutoService(AbstractKit.class)
 public class ViewCheckerKit extends AbstractKit {
 
 

@@ -4,6 +4,7 @@ import android.content.Context
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.google.auto.service.AutoService
 
 /**
  * ================================================
@@ -14,6 +15,7 @@ import com.didichuxing.doraemonkit.kit.AbstractKit
  * 修订历史：
  * ================================================
  */
+@AutoService(AbstractKit::class)
 class FileTransferKit : AbstractKit() {
     override val name: Int
         get() = R.string.dk_kit_file_transfer

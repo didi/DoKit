@@ -8,11 +8,12 @@ import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
+import com.google.auto.service.AutoService;
 
 /**
  * Created by changzuozhen on 2021年1月22日
  */
-
+@AutoService(AbstractKit.class)
 public class FloatGpsPresetMockKit extends AbstractKit {
 
 

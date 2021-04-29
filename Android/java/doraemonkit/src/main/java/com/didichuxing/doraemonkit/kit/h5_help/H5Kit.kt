@@ -5,7 +5,7 @@ import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.DokitIntent
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
-import com.didichuxing.doraemonkit.kit.loginfo.LogInfoDokitView
+import com.google.auto.service.AutoService
 
 /**
  * ================================================
@@ -16,6 +16,7 @@ import com.didichuxing.doraemonkit.kit.loginfo.LogInfoDokitView
  * 修订历史：
  * ================================================
  */
+@AutoService(AbstractKit::class)
 class H5Kit : AbstractKit() {
     override val name: Int
         get() = R.string.dk_kit_h5_help

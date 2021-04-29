@@ -5,6 +5,7 @@ import android.content.Intent
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.mc.all.ui.DoKitMcActivity
 import com.didichuxing.doraemonkit.mc.R
+import com.google.auto.service.AutoService
 
 /**
  * ================================================
@@ -15,6 +16,7 @@ import com.didichuxing.doraemonkit.mc.R
  * 修订历史：
  * ================================================
  */
+@AutoService(AbstractKit::class)
 class MultiControlKit : AbstractKit() {
     override val name: Int
         get() = R.string.dk_kit_multi_control

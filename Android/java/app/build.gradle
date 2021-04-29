@@ -93,7 +93,6 @@ android {
         //dokit ktor pickFirst
 //        pickFirst 'META-INF/io.netty.versions.properties'
 //        pickFirst 'META-INF/INDEX.LIST'
-       // exclude "lib/arm64-v8a/libepic.so"
     }
 
 

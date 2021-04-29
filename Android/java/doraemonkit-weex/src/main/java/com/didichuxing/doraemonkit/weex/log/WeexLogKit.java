@@ -8,11 +8,13 @@ import com.didichuxing.doraemonkit.kit.loginfo.LogInfoManager;
 import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.weex.R;
+import com.google.auto.service.AutoService;
 
 /**
  * @author haojianglong
  * @date 2019-06-11
  */
+@AutoService(AbstractKit.class)
 public class WeexLogKit extends AbstractKit {
 
 

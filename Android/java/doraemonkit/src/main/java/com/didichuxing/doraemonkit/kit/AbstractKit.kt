@@ -47,7 +47,8 @@ abstract class AbstractKit : IKit {
 
     /**
      * 返回kitId
-     *
+     * 内置工具必须返回而且需要和doraemonkit模块下的assets/dokit_system_kits.json文件中的innerKitId保持一致
+     * 否则该工具无法在工具面板中显示
      * @return
      */
     open fun innerKitId(): String {

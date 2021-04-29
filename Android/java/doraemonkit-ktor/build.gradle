@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 apply from: '../upload.gradle'
 
 android {
@@ -38,5 +39,6 @@ dependencies {
     //implementation rootProject.ext.dependencies["appcompat"]
     //compileOnly rootProject.ext.dependencies["okio"]
     implementation rootProject.ext.dependencies["kotlin"]
-
+    implementation rootProject.ext.dependencies["auto_service"]
+    kapt rootProject.ext.dependencies["auto_service"]
 }

@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap
  * 作    者：jint（金台）
  * 版    本：1.0
  * 创建日期：2020/4/22-15:44
- * 描    述：
+ * 描    述：自定义函数入口调用栈的耗时工具类
  * 修订历史：
  * ================================================
  */
@@ -49,7 +49,15 @@ public object MethodStackUtil {
      * @param methodName
      * @param classObj   null 代表静态函数
      */
-    fun recodeObjectMethodCostStart(totalLevel: Int, thresholdTime: Int, currentLevel: Int, className: String?, methodName: String, desc: String?, classObj: Any?) {
+    fun recodeObjectMethodCostStart(
+        totalLevel: Int,
+        thresholdTime: Int,
+        currentLevel: Int,
+        className: String?,
+        methodName: String,
+        desc: String?,
+        classObj: Any?
+    ) {
         try {
             //先创建队列
             createMethodStackList(totalLevel)
@@ -59,7 +67,8 @@ public object MethodStackUtil {
             methodInvokNode.className = className
             methodInvokNode.methodName = methodName
             methodInvokNode.level = currentLevel
-            METHOD_STACKS[currentLevel][String.format("%s&%s", className, methodName)] = methodInvokNode
+            METHOD_STACKS[currentLevel][String.format("%s&%s", className, methodName)] =
+                methodInvokNode
 
             //特殊判定
             if (currentLevel == 0) {
@@ -84,10 +93,18 @@ public object MethodStackUtil {
      * @param desc
      * @param classObj   null 代表静态函数
      */
-    fun recodeObjectMethodCostEnd(thresholdTime: Int, currentLevel: Int, className: String, methodName: String, desc: String?, classObj: Any?) {
-        synchronized(MethodCostUtil::class.java) {
+    fun recodeObjectMethodCostEnd(
+        thresholdTime: Int,
+        currentLevel: Int,
+        className: String,
+        methodName: String,
+        desc: String?,
+        classObj: Any?
+    ) {
+        synchronized(MethodStackUtil::class.java) {
             try {
-                val methodInvokNode = METHOD_STACKS[currentLevel][String.format("%s&%s", className, methodName)]
+                val methodInvokNode =
+                    METHOD_STACKS[currentLevel][String.format("%s&%s", className, methodName)]
                 if (methodInvokNode != null) {
                     methodInvokNode.setEndTimeMillis(System.currentTimeMillis())
                     bindNode(thresholdTime, currentLevel, methodInvokNode)
@@ -128,7 +145,11 @@ public object MethodStackUtil {
             }
         }
         val parentStackTraceElement = stackTraceElements[index + 1]
-        return String.format("%s&%s", parentStackTraceElement.className, parentStackTraceElement.methodName)
+        return String.format(
+            "%s&%s",
+            parentStackTraceElement.className,
+            parentStackTraceElement.methodName
+        )
     }
 
     private fun bindNode(thresholdTime: Int, currentLevel: Int, methodInvokNode: MethodInvokNode?) {
@@ -141,7 +162,10 @@ public object MethodStackUtil {
             return
         }
         if (currentLevel >= 1) {
-            val parentMethodNode = METHOD_STACKS[currentLevel - 1][getParentMethod(methodInvokNode.className, methodInvokNode.methodName)]
+            val parentMethodNode = METHOD_STACKS[currentLevel - 1][getParentMethod(
+                methodInvokNode.className,
+                methodInvokNode.methodName
+            )]
             if (parentMethodNode != null) {
                 methodInvokNode.parent = parentMethodNode
                 parentMethodNode.addChild(methodInvokNode)
@@ -149,15 +173,46 @@ public object MethodStackUtil {
         }
     }
 
-    fun recodeStaticMethodCostStart(totalLevel: Int, thresholdTime: Int, currentLevel: Int, className: String?, methodName: String, desc: String?) {
-        recodeObjectMethodCostStart(totalLevel, thresholdTime, currentLevel, className, methodName, desc, staticMethodObject)
+    fun recodeStaticMethodCostStart(
+        totalLevel: Int,
+        thresholdTime: Int,
+        currentLevel: Int,
+        className: String?,
+        methodName: String,
+        desc: String?
+    ) {
+        recodeObjectMethodCostStart(
+            totalLevel,
+            thresholdTime,
+            currentLevel,
+            className,
+            methodName,
+            desc,
+            staticMethodObject
+        )
     }
 
-    fun recodeStaticMethodCostEnd(thresholdTime: Int, currentLevel: Int, className: String, methodName: String, desc: String?) {
-        recodeObjectMethodCostEnd(thresholdTime, currentLevel, className, methodName, desc, staticMethodObject)
+    fun recodeStaticMethodCostEnd(
+        thresholdTime: Int,
+        currentLevel: Int,
+        className: String,
+        methodName: String,
+        desc: String?
+    ) {
+        recodeObjectMethodCostEnd(
+            thresholdTime,
+            currentLevel,
+            className,
+            methodName,
+            desc,
+            staticMethodObject
+        )
     }
 
-    private fun jsonTravel(methodStackBeans: MutableList<MethodStackBean>?, methodInvokNodes: List<MethodInvokNode>?) {
+    private fun jsonTravel(
+        methodStackBeans: MutableList<MethodStackBean>?,
+        methodInvokNodes: List<MethodInvokNode>?
+    ) {
         if (methodInvokNodes == null) {
             return
         }
@@ -171,12 +226,24 @@ public object MethodStackUtil {
         }
     }
 
-    private fun stackTravel(stringBuilder: StringBuilder, methodInvokNodes: List<MethodInvokNode>?) {
+    private fun stackTravel(
+        stringBuilder: StringBuilder,
+        methodInvokNodes: List<MethodInvokNode>?
+    ) {
         if (methodInvokNodes == null) {
             return
         }
         for (methodInvokNode in methodInvokNodes) {
-            stringBuilder.append(String.format("%s%s%s%s%s", methodInvokNode.level, SPACE_0, methodInvokNode.getCostTimeMillis().toString() + "ms", getSpaceString(methodInvokNode.level), methodInvokNode.className + "&" + methodInvokNode.methodName)).append("\n")
+            stringBuilder.append(
+                String.format(
+                    "%s%s%s%s%s",
+                    methodInvokNode.level,
+                    SPACE_0,
+                    methodInvokNode.getCostTimeMillis().toString() + "ms",
+                    getSpaceString(methodInvokNode.level),
+                    methodInvokNode.className + "&" + methodInvokNode.methodName
+                )
+            ).append("\n")
             stackTravel(stringBuilder, methodInvokNode.children)
         }
     }
@@ -198,8 +265,18 @@ public object MethodStackUtil {
     fun toStack(isAppStart: Boolean, methodInvokNode: MethodInvokNode) {
         val stringBuilder = StringBuilder()
         stringBuilder.append("=========DoKit函数调用栈==========").append("\n")
-        stringBuilder.append(String.format("%s    %s    %s", "level", "time", "function")).append("\n")
-        stringBuilder.append(String.format("%s%s%s%s%s", methodInvokNode.level, SPACE_0, methodInvokNode.getCostTimeMillis().toString() + "ms", getSpaceString(methodInvokNode.level), methodInvokNode.className + "&" + methodInvokNode.methodName)).append("\n")
+        stringBuilder.append(String.format("%s    %s    %s", "level", "time", "function"))
+            .append("\n")
+        stringBuilder.append(
+            String.format(
+                "%s%s%s%s%s",
+                methodInvokNode.level,
+                SPACE_0,
+                methodInvokNode.getCostTimeMillis().toString() + "ms",
+                getSpaceString(methodInvokNode.level),
+                methodInvokNode.className + "&" + methodInvokNode.methodName
+            )
+        ).append("\n")
         stackTravel(stringBuilder, methodInvokNode.children)
         Log.i(TAG, stringBuilder.toString())
         if (isAppStart && methodInvokNode.level == 0) {

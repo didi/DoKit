@@ -8,6 +8,7 @@ import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
+import com.google.auto.service.AutoService;
 
 /**
  * ================================================
@@ -18,6 +19,7 @@ import com.didichuxing.doraemonkit.util.DoKitCommUtil;
  * 修订历史：
  * ================================================
  */
+@AutoService(AbstractKit.class)
 public class LargePictureKit extends AbstractKit {
 
 

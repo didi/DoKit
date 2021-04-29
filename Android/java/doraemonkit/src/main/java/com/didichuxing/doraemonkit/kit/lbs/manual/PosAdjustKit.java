@@ -8,11 +8,12 @@ import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
+import com.google.auto.service.AutoService;
 
 /**
  * Created by changzuozhen on 2021年1月22日
  */
-
+@AutoService(AbstractKit.class)
 public class PosAdjustKit extends AbstractKit {
 
 
@@ -54,6 +55,6 @@ public class PosAdjustKit extends AbstractKit {
 
     @Override
     public String innerKitId() {
-        return "dokit_sdk_comm_ck_location";
+        return "dokit_sdk_lbs_ck_pos_adjust";
     }
 }

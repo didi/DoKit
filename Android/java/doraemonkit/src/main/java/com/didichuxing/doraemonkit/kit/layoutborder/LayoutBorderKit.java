@@ -8,10 +8,12 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
+import com.google.auto.service.AutoService;
 
 /**
  * Created by wanglikun on 2019/1/7
  */
+@AutoService(AbstractKit.class)
 public class LayoutBorderKit extends AbstractKit {
 
 

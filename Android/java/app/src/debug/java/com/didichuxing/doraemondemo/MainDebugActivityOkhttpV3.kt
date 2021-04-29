@@ -18,6 +18,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.amap.api.location.AMapLocationListener
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ThreadUtils
@@ -42,6 +43,7 @@ import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.*
 import okhttp3.*
 import org.json.JSONObject
 import pub.devrel.easypermissions.EasyPermissions
@@ -55,7 +57,7 @@ import java.net.*
 /**
  * @author jintai
  */
-class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
+class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,CoroutineScope by MainScope() {
     private var okHttpClient: OkHttpClient? = null
     private var mLocationManager: LocationManager? = null
     private val UPDATE_UI = 100
@@ -128,6 +130,19 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
         ImageLoader.getInstance().init(config)
 
         githubService = retrofit.create(GithubService::class.java)
+
+        val job = lifecycleScope.launch {
+                async {
+
+                }
+        }
+
+        lifecycleScope.launch {
+
+
+        }
+
+        MainScope()
 
 //        AopTest().test()
     }

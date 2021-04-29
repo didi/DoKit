@@ -8,11 +8,13 @@ import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
+import com.google.auto.service.AutoService;
 
 
 /**
  * @desc: 网络监测kit
  */
+@AutoService(AbstractKit.class)
 public class NetworkKit extends AbstractKit {
 
     @Override

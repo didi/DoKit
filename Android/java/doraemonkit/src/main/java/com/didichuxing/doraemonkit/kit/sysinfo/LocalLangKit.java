@@ -5,12 +5,13 @@ import android.content.Context;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.util.DoKitSystemUtil;
+import com.google.auto.service.AutoService;
 
 /**
  * 进入本地语言设置页面
  * Created by jint on 2018/6/22.
  */
-
+@AutoService(AbstractKit.class)
 public class LocalLangKit extends AbstractKit {
 
 

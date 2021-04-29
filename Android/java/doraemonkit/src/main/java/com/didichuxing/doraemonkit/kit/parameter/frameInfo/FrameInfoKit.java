@@ -6,11 +6,12 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
+import com.google.auto.service.AutoService;
 
 /**
  * Created by wanglikun on 2018/9/13.
  */
-
+@AutoService(AbstractKit.class)
 public class FrameInfoKit extends AbstractKit {
 
 

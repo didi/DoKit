@@ -1,16 +1,18 @@
 package com.didichuxing.doraemonkit.kit.lbs.route
 
 import android.content.Context
-import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter.startFloating
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
+import com.didichuxing.doraemonkit.util.ToastUtils
+import com.google.auto.service.AutoService
 
 /**
  * Created by changzuozhen on 2021年1月22日
  */
+@AutoService(AbstractKit::class)
 class FloatGpsMockRouteMockKit : AbstractKit() {
     override val name: Int
         get() = R.string.dk_kit_gps_mock_route
