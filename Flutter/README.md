@@ -149,11 +149,14 @@ releaseAction | Function | release模式下执行该函数，该值为空则会�
 ### Widget层级
 <img src="https://pt-starimg.didistatic.com/static/starimg/img/GmjvVDp4Ye1619673908393.png"  width="300px"  />
 <img src="https://pt-starimg.didistatic.com/static/starimg/img/sGd73y7uoc1619673910771.png"  width="300px"  />
+
 查看当前选中widget的树层级，以及它renderObject的详细build链等信息
 
 ### 页面源码查看
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/YUUyL2AlhK1619673913774.png"  width="300px"  />
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/e7Pbo95nJ71619665430550.jpg"  width="300px"  />
 查看当前所在页面的源代码，支持语法高亮显示
+
+**注：源码信息只有在debug模式下才可获取到。同路由功能，在存在Overlay的情况下功能会异常**
 
 ### 页面启动耗时
 <img src="https://pt-starimg.didistatic.com/static/starimg/img/gDkBh4a87P1619673916288.png"  width="300px"  />
