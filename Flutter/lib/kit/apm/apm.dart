@@ -1,9 +1,8 @@
 import 'package:dokit/kit/apm/fps_kit.dart';
-import 'package:dokit/kit/apm/leak_kit.dart';
+import 'package:dokit/kit/apm/launch/page_launch_kit.dart';
 import 'package:dokit/kit/apm/log_kit.dart';
 import 'package:dokit/kit/apm/memory_kit.dart';
 import 'package:dokit/kit/apm/method_channel_kit.dart';
-import 'package:dokit/kit/apm/launch/page_launch_kit.dart';
 import 'package:dokit/kit/apm/route_kit.dart';
 import 'package:dokit/kit/apm/source_code_kit.dart';
 import 'package:dokit/ui/resident_page.dart';
@@ -20,7 +19,6 @@ class ApmKitManager {
     ApmKitName.KIT_FPS: FpsKit(),
     ApmKitName.KIT_MEMORY: MemoryKit(),
     ApmKitName.KIT_HTTP: HttpKit(),
-    ApmKitName.KIT_LEAK: LeakKit(),
     ApmKitName.KIT_SOURCE_CODE: SourceCodeKit(),
     ApmKitName.KIT_PAGE_LAUNCH: PageLaunchKit()
   };
@@ -95,7 +93,6 @@ class ApmKitName {
   static const String KIT_ROUTE = '路由信息';
   static const String KIT_CHANNEL = '方法通道';
   static const String KIT_HTTP = '网络请求';
-  static const String KIT_LEAK = '内存泄漏';
   static const String KIT_SOURCE_CODE = '查看源码';
   static const String KIT_PAGE_LAUNCH = '启动耗时';
 }

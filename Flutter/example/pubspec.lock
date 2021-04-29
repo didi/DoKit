@@ -91,7 +91,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.2.15"
+    version: "0.6.0"
   fake_async:
     dependency: transitive
     description:
@@ -184,13 +184,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.12.10-nullsafety.1"
-  memory_checker:
-    dependency: "direct main"
-    description:
-      name: memory_checker
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.0.4"
   meta:
     dependency: transitive
     description:

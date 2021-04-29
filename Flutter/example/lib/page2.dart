@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+
 class TestPage2 extends StatefulWidget {
   @override
   StatefulElement createElement() {
     StatefulElement element = super.createElement();
-    // DoKitLeakObserver.element = element;
-    // DoKitLeakObserver.test = A(B(C(D(element))));
 
     // Future.delayed(Duration(hours: 1), () {
     //   print(element);

@@ -11,13 +11,11 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dokit/dokit.dart';
-import 'package:dokit/kit/apm/leak/leak_observer.dart';
-import 'package:dokit/kit/apm/launch/route_observer.dart';
 import 'package:dokit/kit/apm/vm/vm_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:memory_checker/leak_observer.dart';
 import 'package:path_provider/path_provider.dart';
+
 import 'page2.dart';
 
 void main() {
@@ -62,7 +60,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      navigatorObservers: [LeakObserver(), DoKitLeakObserver()],
+      navigatorObservers: [],
       home: DoKitTestPage(),
     );
   }
@@ -367,8 +365,6 @@ class TestPageState extends State<TestPage> {
     );
   }
 }
-
-
 
 class TestPage3 extends StatefulWidget {
   @override
