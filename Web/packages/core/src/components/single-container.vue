@@ -2,7 +2,7 @@
   <div class="container" style="z-index: 999;">
     <div class="plugin-container">
       <div>
-        I Am Single Container! I am the boss;
+        I Am Single Container!
       </div>
     </div>
   </div>

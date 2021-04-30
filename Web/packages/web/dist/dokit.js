@@ -15,11 +15,11 @@
       // 初始化变量
       el.dokitEntryLastX = INIT_VALUE;
       el.dokitEntryLastY = INIT_VALUE;
-      el.dokitPositionTop = localStorage.getItem('dokitPositionTop') ? parseInt(localStorage.getItem('dokitPositionTop')) : 0;
-      el.dokitPositionLeft = localStorage.getItem('dokitPositionLeft') ? parseInt(localStorage.getItem('dokitPositionLeft')) : 0;
       // 初始化样式
       el.style.position = 'fixed';
       el.style.opacity = DEFAULT_OPACITY;
+      el.dokitPositionLeft = getDefaultX();
+      el.dokitPositionTop = getDefaultY();
       el.style.top = `${el.dokitPositionTop}px`;
       el.style.left = `${el.dokitPositionLeft}px`;
 
@@ -42,8 +42,8 @@
         el.dokitEntryLastX = e.touches[0].clientX;
         el.dokitEntryLastY = e.touches[0].clientY;
 
-        el.style.top = `${el.dokitPositionTop}px`;
-        el.style.left = `${el.dokitPositionLeft}px`;
+        el.style.top = `${getAvailableTop(el)}px`;
+        el.style.left = `${getAvailableLeft(el)}px`;
       };
 
       el.ontouchend = (e) => {
@@ -75,6 +75,30 @@
       };
     }
   };
+
+  function getDefaultX(el){
+    let defaultX = Math.round(window.outerWidth/2);
+    return localStorage.getItem('dokitPositionLeft') ? parseInt(localStorage.getItem('dokitPositionLeft')) : defaultX
+  }
+  function getDefaultY(el){
+    let defaultY = Math.round(window.outerHeight/2);
+    return localStorage.getItem('dokitPositionTop') ? parseInt(localStorage.getItem('dokitPositionTop')) : defaultY
+  }
+  function getAvailableLeft(el){
+    return standardNumber(el.dokitPositionLeft, window.outerWidth - el.clientWidth)
+  }
+  function getAvailableTop(el){
+    return standardNumber(el.dokitPositionTop, window.outerHeight - el.clientHeight)
+  }
+  function standardNumber(number, max){
+    if(number < 0){
+      return 0
+    }
+    if(number >= max){
+      return max
+    }
+    return number
+  }
 
   const IconBack = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAzCAMAAADIDVqJAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAXFQTFRFAAAANX7GNHzFM3zFM3zFNn3ENYDHNHzFM3zENIDHNH7INH3ENX3GNn7GM33ENYDFNYDGM4DINH7HM3zENH3HNHzENYDGM37FM33FNH3FNn3FNX7HN4DINHzEM33HNH7FNIDGNn7GM33ENX3FNXzHNoDENH7FNH3EM3zEN33INHzFNH3FM4DHNX3HNH3GNX7ENHzENHzFNYDFNH3FM33ENn3JM33GN4DINX7EM3zEM33GNH7FM33FM33FNIDFNH3GNX3KM37HNHzFN4DINX7FNH3EOHzHNH3GM3zFM4DGM33EM3zENHzENH3EM33FOoTFgID/NHzFOIDHM3zEM3zFNoPJM33FM33ENH3FNHzENYDL////NHzENH3FM4PFM3zFOYDGNH3FM3zFN3zINHzEM33FNoDJM3zFM33FNH3ENHzFM37FNH3ENH3FM33ENH7GNX7FM33ENH3FNH7FM37ENH7FM3zFNH3EM4jMM3zE////TdHL6gAAAHl0Uk5TAEPy+vA9RPb0QEX3P0fzPkg8Sfg7SjpL+fE5TThON082Ue81UjRT++4zVO0yVjFX/OwwWOsvWi5b6i1d/eksXitf6Cph5yli/ihk5ieh3x8CoiCg4CGf4Z3iIgGc4yOaJJnkJZjlJpaVk5KQj42LioiHhYSCgHOyD3AmCqsAAAABYktHRFt0vJU0AAAACXBIWXMAAABIAAAASABGyWs+AAABPUlEQVQ4y43UxVoCUBQE4Ctgd3cXKAYoKqioINiBrdjdXby9C+6c3ZzPWf+rE2MMS4bDmY4rk5qs7FQ6ObnU5OXDFFBTCFNUTE2JmFJqysqtcVRQUymmiprqGmtq66ipF9NATSOMq4maZidMCzWtMG3t1HSI6aSmq9sat4eaHpheLzV9YvqpGRi0xuenZghmOEDNiJhRasZggiFqxiesmQxTMyVmmpoZmEiUmlmYWJyauXmYBWoWYZaWqTEr1qRW1zhaT4jaUNQm1Na2onagdjW1B7V/wFXyEOroWFEnok4VdQZ1fqGoS6ira0XdpP4x+uStKL5EY+6gYpq6h4rEFfUgKqqoRyjlkI15ggqGFfUsKqSoFyjlTY15hfIFFPUmyq+odyilhIz5gHJ7FfUpyqOoLyilYo35/rFJ/Jo/DZ3bT7fEcIgAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMjFUMTc6MzI6MjgrMDg6MDBBnT5hAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTIxVDE3OjMyOjI4KzA4OjAwMMCG3QAAAABJRU5ErkJggg==';
 
@@ -246,7 +270,7 @@
     style: {"z-index":"999"}
   };
   const _hoisted_2$2$1 = /*#__PURE__*/vue.createVNode("div", { class: "plugin-container" }, [
-    /*#__PURE__*/vue.createVNode("div", null, " I Am Single Container! I am the boss; ")
+    /*#__PURE__*/vue.createVNode("div", null, " I Am Single Container! ")
   ], -1 /* HOISTED */);
   vue.popScopeId();
 
