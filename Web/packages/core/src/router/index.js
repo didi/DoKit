@@ -1,9 +1,8 @@
-import { createRouter, createMemoryHistory } from 'vue-router'
-import {routes, getRoutes} from './routes'
+import {getRoutes} from './routes'
+import {createRouter} from './router'
 
 export function getRouter(features){
   return createRouter({
-    routes: [...routes, ...getRoutes(features)],
-    history: createMemoryHistory()
+    routes: [...getRoutes(features)],
   })
 }

@@ -2,16 +2,14 @@
   <div class="container">
     <top-bar :title="title" :canBack="canBack"></top-bar>
     <div class="router-container">
-      <router-view v-slot="{ Component }">
-        <keep-alive>
-          <component :is="Component" />
-        </keep-alive>
-      </router-view>
+      <keep-alive>
+        <component :is="component" />
+      </keep-alive>
     </div>
   </div>
 </template>
 <script>
-import TopBar from "../common/components/top-bar";
+import TopBar from "@common/components/top-bar";
 
 export default {
   components: {
@@ -21,17 +19,18 @@ export default {
     return {}
   },
   computed:{
-    curRoute(){
-      return this.$router.currentRoute.value
+    component(){
+      return this.$route.component
     },
     title(){
-      return this.curRoute.meta.title || 'Dokit'
+      return this.$route.title || 'Dokit'
     },
     canBack(){
-      return this.curRoute.name !== 'index'
+      return this.$route.name !== 'home'
     }
   },
   created(){
+    console.log(this.$router)
   }
 }
 </script>

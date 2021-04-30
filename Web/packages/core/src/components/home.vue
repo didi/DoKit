@@ -5,14 +5,16 @@
       :key="index"
       :title="item.title"
       :list="item.list"
+      @handleClickItem="handleClickItem"
     ></card>
     <version-card :version="version"></version-card>
   </div>
 </template>
 <script>
-import TopBar from "../common/components/top-bar";
-import Card from "../common/components/card";
-import VersionCard from "../common/components/version";
+import TopBar from "@common/components/top-bar";
+import Card from "@common/components/card";
+import VersionCard from "@common/components/version";
+import {pushContainer} from '@store/index';
 export default {
   components: {
     TopBar,
@@ -29,6 +31,22 @@ export default {
   computed: {
     features(){
       return this.$store.state.features
+    }
+  },
+  methods: {
+    handleClickItem(item){
+      switch(item.type){
+        case "RouterPlugin":
+          this.$router.push({
+            name: item.name
+          })
+          break;
+        case "SinglePlugin":
+          pushContainer(item)
+          break;
+        default:
+          break;
+      }
     }
   }
 };

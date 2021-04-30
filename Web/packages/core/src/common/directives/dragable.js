@@ -3,7 +3,6 @@
  * 减少外部依赖
 */
 const INIT_VALUE = 9999
-const DEFAULT_ZINDEX = 99
 const DEFAULT_OPACITY = 0.5
 const SAFE_BOTTOM = 50 // 底部防误触
 // TODO 拖拽事件兼容 Pc处理
@@ -13,14 +12,13 @@ export default {
     // 初始化变量
     el.dokitEntryLastX = INIT_VALUE
     el.dokitEntryLastY = INIT_VALUE
-    el.dokitPositionTop = localStorage.getItem('dokitPositionTop') ? parseInt(localStorage.getItem('dokitPositionTop')) : 0
-    el.dokitPositionLeft = localStorage.getItem('dokitPositionLeft') ? parseInt(localStorage.getItem('dokitPositionLeft')) : 0
     // 初始化样式
     el.style.position = 'fixed'
     el.style.opacity = DEFAULT_OPACITY
+    el.dokitPositionLeft = getDefaultX(el)
+    el.dokitPositionTop = getDefaultY(el)
     el.style.top = `${el.dokitPositionTop}px`
     el.style.left = `${el.dokitPositionLeft}px`
-    el.style.zIndex = DEFAULT_ZINDEX
 
     // 触摸事件监听
     el.ontouchstart = () => {
@@ -41,8 +39,8 @@ export default {
       el.dokitEntryLastX = e.touches[0].clientX
       el.dokitEntryLastY = e.touches[0].clientY
 
-      el.style.top = `${el.dokitPositionTop}px`
-      el.style.left = `${el.dokitPositionLeft}px`
+      el.style.top = `${getAvailableTop(el)}px`
+      el.style.left = `${getAvailableLeft(el)}px`
     }
 
     el.ontouchend = (e) => {
@@ -73,4 +71,28 @@ export default {
       el.style.opacity = 0.5
     }
   }
+}
+
+function getDefaultX(el){
+  let defaultX = Math.round(window.outerWidth/2)
+  return localStorage.getItem('dokitPositionLeft') ? parseInt(localStorage.getItem('dokitPositionLeft')) : defaultX
+}
+function getDefaultY(el){
+  let defaultY = Math.round(window.outerHeight/2)
+  return localStorage.getItem('dokitPositionTop') ? parseInt(localStorage.getItem('dokitPositionTop')) : defaultY
+}
+function getAvailableLeft(el){
+  return standardNumber(el.dokitPositionLeft, window.outerWidth - el.clientWidth)
+}
+function getAvailableTop(el){
+  return standardNumber(el.dokitPositionTop, window.outerHeight - el.clientHeight)
+}
+function standardNumber(number, max){
+  if(number < 0){
+    return 0
+  }
+  if(number >= max){
+    return max
+  }
+  return number
 }

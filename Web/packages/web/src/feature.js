@@ -1,15 +1,12 @@
 import Console from './plugins/console/index'
 import AppInfo from './plugins/app-info/index'
 import DemoPlugin from './plugins/demo-plugin/index'
+import DemoSinglePlugin from './plugins/demo-single-plugin/index'
+import H5DoorPlugin from './plugins/h5-door/index'
 import HelloWorld from './components/ToolHelloWorld'
 export const BasicFeatures = {
   title: '常用工具',
-  list: [Console, AppInfo, DemoPlugin, {
-    nameZh: 'H5任意门',
-    name: 'h5-door',
-    icon: 'https://pt-starimg.didistatic.com/static/starimg/img/FHqpI3InaS1618997548865.png',
-    component: AppInfo
-  }]
+  list: [Console, AppInfo, DemoPlugin, DemoSinglePlugin, H5DoorPlugin]
 }
 
 export const DokitFeatures = {

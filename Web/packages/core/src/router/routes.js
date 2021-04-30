@@ -1,27 +1,24 @@
-import Index from '../components/index'
-export const routes = [{
-  path: '/',
-  name: 'index',
-  component: Index
+import Home from '../components/home'
+const defaultRoute = [{
+  name: 'home',
+  component: Home
 }]
 
 export function getRoutes(features){
   let routes = []
   features.forEach(feature => {
-    let {list, title:featureTitle} = feature
+    let {list, title:zoneTitle} = feature
     list.forEach(item => {
-      // TODO 暂时只支持路由方式的插件
-      let {name, title, component} = item
+      let {name, nameZh, component} = item
       routes.push({
-        path: `/${name}`,
         name: name,
-        component: component.component || component,
+        component: component,
         meta: {
-          title: title,
-          feature: featureTitle
+          title: nameZh,
+          zone: zoneTitle
         }
       })
     })
   })
-  return routes
+  return [...defaultRoute, ...routes]
 }
