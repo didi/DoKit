@@ -86,7 +86,9 @@
             } else {
                 self.leftModel.image = [UIImage doraemon_xcassetImageNamed:@"doraemon_back"];
             }
-            [self setLeftNavBarItems:self.leftNavBarItemArray];
+            if (self.leftNavBarItemArray) {
+                [self setLeftNavBarItems:self.leftNavBarItemArray];
+            }
         }
     }
 #endif
