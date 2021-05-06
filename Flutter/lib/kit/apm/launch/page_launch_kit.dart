@@ -15,7 +15,7 @@ class PageLaunchKit extends ApmKit {
     return TimeCounter(notifier.value);
   });
 
-  static VoidCallback callback;
+  static VoidCallback? callback;
 
   static double left = ScreenUtil.instance.screenWidth / 2;
   static double top = ScreenUtil.instance.screenHeight / 2;
@@ -23,7 +23,9 @@ class PageLaunchKit extends ApmKit {
   static void closeCounter() {
     enabled = false;
     _open = false;
-    notifier.removeListener(PageLaunchKit.callback);
+    if(callback!=null){
+      notifier.removeListener(PageLaunchKit.callback!);
+    }
     _overlayEntry.remove();
   }
 
@@ -98,8 +100,8 @@ class _PageLaunchPageState extends State<PageLaunchPage> {
     PageLaunchKit.callback = () {
       PageLaunchKit._overlayEntry.markNeedsBuild();
     };
-    notifier.addListener(PageLaunchKit.callback);
-    doKitOverlayKey.currentState.insert(PageLaunchKit._overlayEntry);
+    notifier.addListener(PageLaunchKit.callback!);
+    doKitOverlayKey.currentState?.insert(PageLaunchKit._overlayEntry);
   }
 }
 

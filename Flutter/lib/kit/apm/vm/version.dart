@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class FlutterVersion extends SemanticVersion {
   FlutterVersion._({
-    @required this.version,
-    @required this.channel,
-    @required this.repositoryUrl,
-    @required this.frameworkRevision,
-    @required this.frameworkCommitDate,
-    @required this.engineRevision,
-    @required this.dartSdkVersion,
+    required this.version,
+    required this.channel,
+    required this.repositoryUrl,
+    required this.frameworkRevision,
+    required this.frameworkCommitDate,
+    required this.engineRevision,
+    required this.dartSdkVersion,
   }) {
     // Flutter versions can come in as '1.10.7-pre.42', so we strip out any
     // characters that are not digits. We do not currently have a need to know
@@ -24,9 +24,9 @@ class FlutterVersion extends SemanticVersion {
     patch = _versionParts.length > 2 ? int.tryParse(_versionParts[2]) ?? 0 : 0;
   }
 
-  factory FlutterVersion.parse(Map<String, dynamic> json) {
+  factory FlutterVersion.parse(Map<String, dynamic>? json) {
     if (json == null) {
-      return null;
+      json={};
     }
     return FlutterVersion._(
       version: json['frameworkVersion'] as String,
@@ -97,7 +97,7 @@ class SemanticVersion implements Comparable<SemanticVersion> {
 
   int patch;
 
-  bool isSupported({@required SemanticVersion supportedVersion}) =>
+  bool isSupported({required SemanticVersion supportedVersion}) =>
       compareTo(supportedVersion) >= 0;
 
   @override

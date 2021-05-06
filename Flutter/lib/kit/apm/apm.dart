@@ -51,7 +51,7 @@ class ApmKitManager {
 }
 
 abstract class ApmKit implements IKit {
-  IStorage storage;
+  late IStorage storage;
 
   void start();
 
@@ -68,7 +68,7 @@ abstract class ApmKit implements IKit {
 
   @override
   void tabAction() {
-    ResidentPage.residentPageKey.currentState.setState(() {
+    ResidentPage.residentPageKey.currentState?.setState(() {
       ResidentPage.tag = getKitName();
     });
   }

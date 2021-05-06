@@ -9,7 +9,7 @@ class SourceCodeView extends StatelessWidget {
   final double _textScaleFactor = 1.0;
 
 
-  const SourceCodeView({Key key, @required this.sourceCode})
+  const SourceCodeView({Key? key, required this.sourceCode})
       : super(key: key);
 
   @override

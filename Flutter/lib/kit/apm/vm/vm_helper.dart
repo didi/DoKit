@@ -15,13 +15,13 @@ class VmHelper {
 
   // 各Isolate内存使用情况
   Map<IsolateRef, MemoryUsage> memoryInfo = new Map();
-  AllocationProfile allocationProfile;
-  PackageInfo packageInfo;
+  AllocationProfile? allocationProfile;
+  PackageInfo? packageInfo;
 
   // flutter版本
   String _flutterVersion = '';
 
-  VM get vm => VMServiceWrapper.instance.vm;
+  VM? get vm => VMServiceWrapper.instance.vm;
 
   Future<void> resolveVMInfo() async {
     if (!VMServiceWrapper.instance.connected) {
@@ -45,53 +45,58 @@ class VmHelper {
   }
 
   updateMemoryUsage() {
-    if (!VMServiceWrapper.instance.connected) {
+    var mainId = VMServiceWrapper.instance.main?.id;
+    if (!VMServiceWrapper.instance.connected || mainId == null) {
       return;
     }
     VMServiceWrapper.instance.service
-        .getMemoryUsage(VMServiceWrapper.instance.main.id)
-        .then((value) => memoryInfo[VMServiceWrapper.instance.main] = value);
+        ?.getMemoryUsage(mainId)
+        .then((value) => memoryInfo[VMServiceWrapper.instance.main!] = value);
   }
 
   updateFlutterVersion() {
     if (!VMServiceWrapper.instance.connected) {
       return;
     }
-    VMServiceWrapper.instance.callExtensionService('flutterVersion')?.then(
-        (value) =>
-            _flutterVersion = FlutterVersion.parse(value?.json)?.version);
+    VMServiceWrapper.instance.callExtensionService('flutterVersion').then(
+        (value) => _flutterVersion = FlutterVersion.parse(value.json).version);
   }
 
   updateAllocationProfile() {
-    if (!VMServiceWrapper.instance.connected) {
+    var mainId = VMServiceWrapper.instance.main?.id;
+    if (!VMServiceWrapper.instance.connected || mainId == null) {
       return;
     }
     VMServiceWrapper.instance.service
-        .getAllocationProfile(VMServiceWrapper.instance.main.id)
+        ?.getAllocationProfile(mainId)
         .then((value) => allocationProfile = value);
   }
 
   testPrintScript() async {
-    Script script = await compute(getScriptList, 'main.dart');
-    // Script script = await getScriptList('main.dart');
-    print(script?.source);
+    // Script script = await compute(getScriptList, 'main.dart');
+    Script? script = await getScriptList('main.dart');
+    print(script?.source ?? "null");
   }
 }
 
-Future<Script> getScriptList(String fileName) async {
+Future<Script?> getScriptList(String fileName) async {
   if (!VMServiceWrapper.instance.connected) {
     await VMServiceWrapper.instance.connect();
   }
-  if (VMServiceWrapper.instance.service != null &&
-      VMServiceWrapper.instance.connected) {
+  var mainId = VMServiceWrapper.instance.main?.id;
+  if (VMServiceWrapper.instance.connected && mainId != null) {
     return VMServiceWrapper.instance.service
-        .getScripts(VMServiceWrapper.instance.main.id)
-        .then<Script>((scriptList) async =>
-            await VMServiceWrapper.instance.service.getObject(
-                VMServiceWrapper.instance.main.id,
-                scriptList?.scripts
-                    ?.firstWhere((element) => element.id.contains(fileName))
-                    ?.id) as Script);
+        ?.getScripts(mainId)
+        .then<Script>((scriptList) async {
+      String? id = scriptList.scripts
+          ?.firstWhere((element) => element.id?.contains(fileName) == true)
+          .id;
+      if (id == null) {
+        return Future.value(null);
+      }
+      return await VMServiceWrapper.instance.service?.getObject(mainId, id)
+          as Script;
+    });
   }
 
   return null;

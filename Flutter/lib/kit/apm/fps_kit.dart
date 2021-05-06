@@ -9,11 +9,11 @@ import '../kit.dart';
 import 'apm.dart';
 
 class FpsInfo implements IInfo {
-  int fps;
-  String pageName;
+  int? fps;
+  String? pageName;
 
   @override
-  int getValue() {
+  int? getValue() {
     return fps;
   }
 }
@@ -28,7 +28,7 @@ class FpsKit extends ApmKit {
 
   @override
   void start() {
-    WidgetsBinding.instance.addTimingsCallback((timings) {
+    WidgetsBinding.instance?.addTimingsCallback((timings) {
       int fps = 0;
       timings.forEach((element) {
         FrameTiming frameTiming = element;
@@ -75,8 +75,8 @@ class FpsPage extends StatefulWidget {
 class FpsPageState extends State<FpsPage> {
   @override
   Widget build(BuildContext context) {
-    FpsKit kit = ApmKitManager.instance.getKit<FpsKit>(ApmKitName.KIT_FPS);
-    List<IInfo> list = new List();
+    FpsKit? kit = ApmKitManager.instance.getKit<FpsKit>(ApmKitName.KIT_FPS);
+    List<IInfo> list = [];
     if (kit != null) {
       list = kit.storage.getAll();
     }

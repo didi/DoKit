@@ -14,13 +14,13 @@ class VMServiceWrapper {
 
   static VMServiceWrapper get instance => _instance;
 
-  VmService service;
+  VmService? service;
 
-  IsolateRef main;
+  IsolateRef? main;
 
-  VM vm;
+  VM? vm;
 
-  ExtensionService _extensionService;
+  ExtensionService? _extensionService;
   bool connected = false;
 
   Future<VmService> getService(info) async {
@@ -36,33 +36,34 @@ class VMServiceWrapper {
     }
     service = await getService(info);
     print('socket connected in service $info');
-    vm = await service.getVM();
-    List<IsolateRef> isolates = vm.isolates;
-    main = isolates.firstWhere((ref) => ref.name.contains('main'));
-    main ??= isolates.first;
+    vm = await service?.getVM();
+    List<IsolateRef>? isolates = vm?.isolates;
+    main = isolates?.firstWhere((ref) => ref.name?.contains('main') == true);
+    main ??= isolates?.first;
     connected = true;
   }
 
   Future<Response> callExtensionService(String method) async {
-    if (_extensionService == null) {
-      _extensionService = new ExtensionService(service, main);
-      await _extensionService.loadExtensionService();
+    if (_extensionService == null && service != null && main != null) {
+      _extensionService = new ExtensionService(service!, main!);
+      await _extensionService?.loadExtensionService();
     }
-    return _extensionService.callMethod(method);
+    return _extensionService!.callMethod(method);
   }
 
   gc() {
-    if (connected) {
-      service.getAllocationProfile(main.id, gc: true);
+    var isolateId = main?.id;
+    if (connected && isolateId != null) {
+      service?.getAllocationProfile(isolateId, gc: true);
     }
   }
 
   disConnect() async {
     if (service != null) {
       print('waiting for client to shut down...');
-      service.dispose();
+      service?.dispose();
 
-      await service.onDone;
+      await service?.onDone;
       connected = false;
       service = null;
       print('service client shut down');
@@ -73,8 +74,8 @@ class VMServiceWrapper {
 class ExtensionService {
   final VmService serviceClient;
   final IsolateRef main;
-  Version _protocolVersion;
-  Version _dartIoVersion;
+  Version? _protocolVersion;
+  Version? _dartIoVersion;
 
   Map<String, List<String>> get registeredMethodsForService =>
       _registeredMethodsForService;
@@ -115,38 +116,41 @@ class ExtensionService {
           : '_Service';
 
   Future<bool> isProtocolVersionSupported({
-    @required SemanticVersion supportedVersion,
+    required SemanticVersion supportedVersion,
   }) async {
     _protocolVersion ??= await serviceClient.getVersion();
     return isProtocolVersionSupportedNow(supportedVersion: supportedVersion);
   }
 
   bool isProtocolVersionSupportedNow({
-    @required SemanticVersion supportedVersion,
+    required SemanticVersion supportedVersion,
   }) {
+    if (_protocolVersion == null) {
+      return false;
+    }
     return _versionSupported(
-      version: _protocolVersion,
+      version: _protocolVersion!,
       supportedVersion: supportedVersion,
     );
   }
 
   bool _versionSupported({
-    @required Version version,
-    @required SemanticVersion supportedVersion,
+    required Version version,
+    required SemanticVersion supportedVersion,
   }) {
     return SemanticVersion(
-      major: version.major,
-      minor: version.minor,
+      major: version.major ?? 0,
+      minor: version.minor ?? 0,
     ).isSupported(supportedVersion: supportedVersion);
   }
 
   Future<bool> isDartIoVersionSupported({
-    @required SemanticVersion supportedVersion,
-    @required String isolateId,
+    required SemanticVersion supportedVersion,
+    required String isolateId,
   }) async {
     _dartIoVersion ??= await getDartIOVersion(isolateId);
     return _versionSupported(
-      version: _dartIoVersion,
+      version: _dartIoVersion!,
       supportedVersion: supportedVersion,
     );
   }
@@ -155,11 +159,11 @@ class ExtensionService {
       serviceClient.getDartIOVersion(isolateId);
 
   void handleServiceEvent(Event e) {
-    if (e.kind == EventKind.kServiceRegistered) {
-      final serviceName = e.service;
+    if (e.kind == EventKind.kServiceRegistered && e.method != null) {
+      final serviceName = e.service ?? '';
       _registeredMethodsForService
           .putIfAbsent(serviceName, () => [])
-          .add(e.method);
+          .add(e.method!);
     }
 
     if (e.kind == EventKind.kServiceUnregistered) {
@@ -170,10 +174,11 @@ class ExtensionService {
 
   Future<Response> callMethod(String method) {
     if (registeredMethodsForService.containsKey(method)) {
-      return (serviceClient.callMethod(registeredMethodsForService[method].last,
+      return (serviceClient.callMethod(
+          registeredMethodsForService[method]!.last,
           isolateId: main.id));
     }
-    return null;
+    return Future.value(null);
   }
 }
 

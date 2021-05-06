@@ -8,7 +8,7 @@ import 'basic_info.dart';
 abstract class CommonKit implements IKit {
   @override
   void tabAction() {
-    ResidentPage.residentPageKey.currentState.setState(() {
+    ResidentPage.residentPageKey.currentState?.setState(() {
       ResidentPage.tag = getKitName();
     });
   }
@@ -33,10 +33,9 @@ class CommonKitManager {
     kitMap[tag] = kit;
   }
 
-  T getKit<T extends CommonKit>(String name) {
-    assert(name != null);
+  T? getKit<T extends CommonKit?>(String name) {
     if (kitMap.containsKey(name)) {
-      return kitMap[name];
+      return kitMap[name] as T;
     }
     return null;
   }

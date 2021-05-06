@@ -32,7 +32,7 @@ class VisualKitManager {
     kitMap[tag] = kit;
   }
 
-  T getKit<T extends IKit>(String name) {
+  T? getKit<T extends IKit>(String name) {
     assert(name != null);
     if (kitMap.containsKey(name)) {
       return kitMap[name] as T;

@@ -13,11 +13,11 @@ import 'apm.dart';
 import 'vm/vm_helper.dart';
 
 class MemoryInfo implements IInfo {
-  int fps;
-  String pageName;
+  int? fps;
+  String? pageName;
 
   @override
-  int getValue() {
+  int? getValue() {
     return fps;
   }
 }
@@ -50,7 +50,7 @@ class MemoryKit extends ApmKit {
     VmHelper.instance.updateMemoryUsage();
   }
 
-  AllocationProfile getAllocationProfile() {
+  AllocationProfile? getAllocationProfile() {
     return VmHelper.instance.allocationProfile;
   }
 
@@ -78,23 +78,23 @@ class MemoryPage extends StatefulWidget {
 }
 
 class MemoryPageState extends State<MemoryPage> {
-  MemoryKit kit =
+  MemoryKit? kit =
       ApmKitManager.instance.getKit<MemoryKit>(ApmKitName.KIT_MEMORY);
-  List<ClassHeapStats> heaps = new List();
+  List<ClassHeapStats> heaps = [];
   TextEditingController editingController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    kit.update();
+    kit?.update();
     initHeaps();
   }
 
   void initHeaps() {
-    if (kit.getAllocationProfile() != null) {
-      kit.getAllocationProfile().members.sort(
-          (left, right) => right.bytesCurrent.compareTo(left.bytesCurrent));
-      kit.getAllocationProfile().members.forEach((element) {
+    if (kit?.getAllocationProfile() != null) {
+      kit!.getAllocationProfile()?.members?.sort((left, right) =>
+          right.bytesCurrent?.compareTo(left.bytesCurrent ?? 0) ?? 0);
+      kit?.getAllocationProfile()?.members?.forEach((element) {
         if (heaps.length < 32) {
           heaps.add(element);
         }
@@ -181,9 +181,7 @@ class MemoryPageState extends State<MemoryPage> {
                           padding: EdgeInsets.only(
                               left: 15, right: 0, top: 15, bottom: 15),
                           child: Image.asset('images/dk_memory_search.png',
-                              package: DK_PACKAGE_NAME,
-                              height: 16,
-                              width: 16),
+                              package: DK_PACKAGE_NAME, height: 16, width: 16),
                           onPressed: filterAllocations,
                         ),
                       )
@@ -260,16 +258,17 @@ class MemoryPageState extends State<MemoryPage> {
     String className = editingController.text;
     assert(className != null);
     heaps.clear();
-    if (className.length >= 3 && kit.getAllocationProfile() != null) {
-      kit.getAllocationProfile().members.forEach((element) {
-        if (element.classRef.name
-            .toLowerCase()
-            .contains(className.toLowerCase())) {
+    if (className.length >= 3 && kit?.getAllocationProfile() != null) {
+      kit?.getAllocationProfile()?.members?.forEach((element) {
+        if (element.classRef?.name
+                ?.toLowerCase()
+                .contains(className.toLowerCase()) ==
+            true) {
           heaps.add(element);
         }
       });
-      heaps.sort(
-          (left, right) => right.bytesCurrent.compareTo(left.bytesCurrent));
+      heaps.sort((left, right) =>
+          right.bytesCurrent?.compareTo(left.bytesCurrent ?? 0) ?? 0);
     }
     setState(() {});
   }
@@ -321,7 +320,7 @@ class HeapItemWidget extends StatelessWidget {
   final ClassHeapStats item;
   final int index;
 
-  HeapItemWidget({Key key, @required this.item, @required this.index})
+  HeapItemWidget({Key? key, required this.item, required this.index})
       : super(key: key);
 
   @override
@@ -347,7 +346,7 @@ class HeapItemWidget extends StatelessWidget {
           Container(
               width: MediaQuery.of(context).size.width - 193,
               alignment: Alignment.center,
-              child: Text('${item.classRef.name}',
+              child: Text('${item.classRef?.name}',
                   style: TextStyle(color: Color(0xff333333), fontSize: 12))),
         ],
       ),

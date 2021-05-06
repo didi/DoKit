@@ -41,16 +41,16 @@ class SourceCodePage extends StatefulWidget {
 }
 
 class _SourceCodePageState extends State<SourceCodePage> {
-  String sourceCode;
+  String? sourceCode;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       var renderObject = findTopRenderObject();
       WidgetInspectorService.instance.selection.current = renderObject;
       final String nodeDesc =
-          WidgetInspectorService.instance.getSelectedSummaryWidget(null, null);
+          WidgetInspectorService.instance.getSelectedSummaryWidget('', '');
       if (nodeDesc != null) {
         final Map<String, dynamic> map =
             json.decode(nodeDesc) as Map<String, dynamic>;
@@ -62,7 +62,7 @@ class _SourceCodePageState extends State<SourceCodePage> {
             final fileName = fileLocation.split("/").last;
             getScriptList(fileName).then((value) => {
                   setState(() {
-                    sourceCode = value.source;
+                    sourceCode = value!.source;
                   })
                 });
           }
@@ -71,15 +71,18 @@ class _SourceCodePageState extends State<SourceCodePage> {
     });
   }
 
-  RenderObject findTopRenderObject() {
-    Element topElement;
-    final ModalRoute<dynamic> rootRoute =
-        ModalRoute.of(DoKitApp.appKey.currentContext);
+  RenderObject? findTopRenderObject() {
+    Element? topElement;
+    var context = DoKitApp.appKey.currentContext;
+    if (context == null) {
+      return null;
+    }
+    final ModalRoute<dynamic>? rootRoute = ModalRoute.of(context);
     void listTopView(Element element) {
       if (element.widget is! PositionedDirectional) {
         if (element is RenderObjectElement &&
             element.renderObject is RenderBox) {
-          final ModalRoute<dynamic> route = ModalRoute.of(element);
+          final ModalRoute<dynamic>? route = ModalRoute.of(element);
           if (route != null && route != rootRoute) {
             topElement = element;
           }
@@ -88,9 +91,9 @@ class _SourceCodePageState extends State<SourceCodePage> {
       }
     }
 
-    DoKitApp.appKey.currentContext.visitChildElements(listTopView);
+    context.visitChildElements(listTopView);
     if (topElement != null) {
-      return topElement.renderObject;
+      return topElement!.renderObject;
     }
     return null;
   }
@@ -105,7 +108,7 @@ class _SourceCodePageState extends State<SourceCodePage> {
             )
           : Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SourceCodeView(sourceCode: sourceCode),
+              child: SourceCodeView(sourceCode: sourceCode??''),
             ),
     );
   }

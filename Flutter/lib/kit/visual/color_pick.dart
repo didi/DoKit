@@ -17,37 +17,40 @@ class ColorPickerKit extends VisualKit {
     _initPosition =
         ScreenUtil.instance.screenCenter - Offset(diameter / 2, diameter / 2);
     _position = ValueNotifier<Offset>(initPosition);
-    _focusEntry = OverlayEntry(builder: (BuildContext context) {
-      return ColorPickerWidget();
-    });
-    _infoEntry = OverlayEntry(builder: (BuildContext context) {
-      return ColorPickerInfoWidget();
-    });
-    isShown = false;
   }
+
   static final ColorPickerKit _instance = ColorPickerKit._privateConstructor();
+
   static ColorPickerKit get instance => _instance;
 
-  bool isShown;
+  bool isShown = false;
+
   // 选中的颜色
   final ValueNotifier<Color> color = ValueNotifier<Color>(Colors.white);
 
   // 当前屏幕的截图快照
-  final ValueNotifier<ui.Image> snapshot = ValueNotifier<ui.Image>(null);
+  final ValueNotifier<ui.Image?> snapshot = ValueNotifier<ui.Image?>(null);
 
   // 放大镜当前位置（左上角）
-  ValueNotifier<Offset> _position;
+  late ValueNotifier<Offset> _position;
+
   ValueNotifier<Offset> get position => _position;
 
   // 放大镜的直径
   final double diameter = 170;
+
   // 像素点放大的倍数
   final double scale = 8;
-  Offset _initPosition;
+  late Offset _initPosition;
+
   Offset get initPosition => _initPosition;
 
-  OverlayEntry _focusEntry;
-  OverlayEntry _infoEntry;
+  OverlayEntry _focusEntry = OverlayEntry(builder: (BuildContext context) {
+    return ColorPickerWidget();
+  });
+  OverlayEntry _infoEntry = OverlayEntry(builder: (BuildContext context) {
+    return ColorPickerInfoWidget();
+  });
 
   @override
   String getIcon() {
@@ -61,22 +64,22 @@ class ColorPickerKit extends VisualKit {
 
   @override
   void tabAction() {
-    final DoKitBtnState state = DoKitBtn.doKitBtnKey.currentState;
-    state.closeDebugPage();
-    show(DoKitBtn.doKitBtnKey.currentContext, state.owner);
+    final DoKitBtnState? state = DoKitBtn.doKitBtnKey.currentState;
+    state?.closeDebugPage();
+    show(DoKitBtn.doKitBtnKey.currentContext, state?.owner);
   }
 
-  static void show(BuildContext context, OverlayEntry entrance) {
+  static void show(BuildContext? context, OverlayEntry? entrance) {
     _instance._show(context, entrance);
   }
 
-  void _show(BuildContext context, OverlayEntry entrance) {
+  void _show(BuildContext? context, OverlayEntry? entrance) {
     if (isShown) {
       return;
     }
     isShown = true;
-    doKitOverlayKey.currentState.insert(_focusEntry, below: entrance);
-    doKitOverlayKey.currentState.insert(_infoEntry, below: _focusEntry);
+    doKitOverlayKey.currentState?.insert(_focusEntry, below: entrance);
+    doKitOverlayKey.currentState?.insert(_infoEntry, below: _focusEntry);
   }
 
   static bool hide(BuildContext context) {
@@ -101,10 +104,11 @@ class ColorPickerWidget extends StatefulWidget {
 
 class ColorPickerWidgetState extends State<ColorPickerWidget> {
   // 当前页面的截图快照
-  images.Image _image;
-  Future<images.Image> get image async {
+  images.Image? _image;
+
+  Future<images.Image?> get image async {
     if (_image != null) {
-      return _image;
+      return _image!;
     }
     await _updateImage();
 
@@ -114,15 +118,16 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
   // 是否做好显示颜色拾取器的准备
   bool _ready = false;
 
-  Uint8List _imageUint8List;
-  Future<Uint8List> get imageUint8List async {
+  Uint8List? _imageUint8List;
+
+  Future<Uint8List?> get imageUint8List async {
     if (_imageUint8List != null) {
-      return _imageUint8List;
+      return _imageUint8List!;
     }
 
-    final RenderRepaintBoundary boundary =
+    final RenderRepaintBoundary? boundary =
         _findCurrentPageRepaintBoundaryRenderObject();
-    final Uint8List imageData = await _boundaryToImageUint8List(boundary);
+    final Uint8List? imageData = await _boundaryToImageUint8List(boundary);
     _imageUint8List = imageData;
 
     return _imageUint8List;
@@ -130,17 +135,20 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
 
   // 放大镜左上角的位置
   Offset get position => ColorPickerKit.instance.position.value;
+
   set position(Offset point) => ColorPickerKit.instance.position.value = point;
 
   // 手指和屏幕接触的初始位置
-  Offset _touchPoint;
+  Offset? _touchPoint;
+
   // 手指和屏幕接触时，放大镜左上角的位置
   Offset _lastPosition = ColorPickerKit.instance.position.value;
+
   Offset get deltaOffset {
-    if (_touchPoint == null || _lastPosition == null) {
+    if (_touchPoint == null) {
       return Offset.zero;
     }
-    return _touchPoint - _lastPosition;
+    return _touchPoint! - _lastPosition;
   }
 
   // 放大镜的半径
@@ -149,7 +157,7 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
   @override
   initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
       // 第一次内部会调用_updateImage方法
       _updateColor();
     });
@@ -169,7 +177,7 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
           position = event.position - deltaOffset;
           _updateColor();
         },
-        child: Draggable<dynamic>(
+        child: Draggable<Object>(
           child: _buildMagnifier(context),
           feedback: _buildMagnifier(context),
           childWhenDragging: Container(),
@@ -225,11 +233,11 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
             children: [
               ValueListenableBuilder<Offset>(
                 valueListenable: ColorPickerKit.instance.position,
-                builder: (BuildContext context, Offset value, Widget child) {
-                  return ValueListenableBuilder<ui.Image>(
+                builder: (BuildContext context, Offset value, Widget? child) {
+                  return ValueListenableBuilder<ui.Image?>(
                     valueListenable: ColorPickerKit.instance.snapshot,
                     builder:
-                        (BuildContext context, ui.Image value, Widget child) {
+                        (BuildContext context, ui.Image? value, Widget? child) {
                       return CustomPaint(
                         painter: GridsPainter(),
                         size: Size.fromRadius(_radius),
@@ -271,18 +279,21 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
   Future<void> _updateColor() async {
     final double dpr = ui.window.devicePixelRatio;
     final center = (position + Offset(_radius, _radius)) * dpr;
-    final images.Image image = await this.image;
-    final abgrPixel = image.getPixelSafe(center.dx.toInt(), center.dy.toInt());
-    final int argbPixel = _abgrToArgb(abgrPixel);
-    ColorPickerKit.instance.color.value = Color(argbPixel);
+    final images.Image? image = await this.image;
+    if (image != null) {
+      final abgrPixel =
+          image.getPixelSafe(center.dx.toInt(), center.dy.toInt());
+      final int argbPixel = _abgrToArgb(abgrPixel);
+      ColorPickerKit.instance.color.value = Color(argbPixel);
+    }
   }
 
-  RenderRepaintBoundary _findCurrentPageRepaintBoundaryRenderObject() {
+  RenderRepaintBoundary? _findCurrentPageRepaintBoundaryRenderObject() {
     final owner = context.findRenderObject()?.owner;
     assert(owner != null, '当前正在build，无法获取当前页面的RepaintBoundary！');
 
-    bool isRepaintBoundaryTo_ModalScopeStatus(String desc) {
-      if (desc?.isEmpty ?? true) {
+    bool isRepaintBoundaryTo_ModalScopeStatus(String? desc) {
+      if (desc == null || desc.isEmpty) {
         return false;
       }
       final creators = desc.split(' ← ');
@@ -309,20 +320,20 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
       return true;
     }
 
-    final ModalRoute<dynamic> rootRoute =
-        ModalRoute.of<dynamic>(DoKitApp.appKey.currentContext);
+    final ModalRoute<dynamic>? rootRoute =
+        ModalRoute.of<dynamic>(DoKitApp.appKey.currentContext!);
 
     // 当前页面的_ModalScopeStatus下的RepaintBoundary的RenderObject
-    RenderRepaintBoundary currentPageRepaintBoundary;
+    RenderRepaintBoundary? currentPageRepaintBoundary;
     void filter(Element element) {
       if (element is RenderObjectElement && element.renderObject is RenderBox) {
-        final ModalRoute<dynamic> route = ModalRoute.of<dynamic>(element);
+        final ModalRoute<dynamic>? route = ModalRoute.of<dynamic>(element);
         if (route != null && route != rootRoute) {
           final RenderBox renderBox = element.renderObject as RenderBox;
           if (renderBox.hasSize &&
               renderBox.attached &&
               renderBox.isRepaintBoundary) {
-            String desc;
+            String? desc;
             if (!kReleaseMode) {
               desc = element.renderObject.debugCreator.toString();
             }
@@ -336,21 +347,21 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
       element.visitChildren(filter);
     }
 
-    DoKitApp.appKey.currentContext.visitChildElements(filter);
+    DoKitApp.appKey.currentContext?.visitChildElements(filter);
 
     return currentPageRepaintBoundary;
   }
 
-  Future<Uint8List> _boundaryToImageUint8List(
-      RenderRepaintBoundary boundary) async {
+  Future<Uint8List?> _boundaryToImageUint8List(
+      RenderRepaintBoundary? boundary) async {
     if (boundary == null) {
       return null;
     }
     final double dpr = ui.window.devicePixelRatio;
     final ui.Image image = await boundary.toImage(pixelRatio: dpr);
-    final ByteData byteData =
+    final ByteData? byteData =
         await image.toByteData(format: ui.ImageByteFormat.png);
-    final Uint8List pngBytes = byteData.buffer.asUint8List();
+    final Uint8List? pngBytes = byteData?.buffer.asUint8List();
 
     return pngBytes;
   }
@@ -367,8 +378,11 @@ class GridsPainter extends CustomPainter {
   GridsPainter();
 
   double get scale => ColorPickerKit.instance.scale;
-  ui.Image get image => ColorPickerKit.instance.snapshot.value;
+
+  ui.Image? get image => ColorPickerKit.instance.snapshot.value;
+
   Offset get position => ColorPickerKit.instance.position.value;
+
   double get radius => ColorPickerKit.instance.diameter / 2;
 
   // 水平方向上显示多少个颜色格子
@@ -392,7 +406,7 @@ class GridsPainter extends CustomPainter {
     final srcRect =
         Rect.fromLTWH(left, top, width.toDouble(), height.toDouble());
     final distRect = Rect.fromLTWH(0, 0, size.width, size.height);
-    canvas.drawImageRect(image, srcRect, distRect, paint);
+    canvas.drawImageRect(image!, srcRect, distRect, paint);
   }
 
   @override
@@ -460,16 +474,17 @@ class ColorPickerInfoWidget extends StatefulWidget {
 
 class _ColorPickerInfoWidgetState extends State<ColorPickerInfoWidget> {
   double top = infoWidgetTopMargin;
-  Color color;
+  Color? color;
+
   String get colorDesc =>
-      '#${color?.value?.toRadixString(16)?.padLeft(8, '0')?.toUpperCase() ?? ''}';
+      '#${color?.value.toRadixString(16).padLeft(8, '0').toUpperCase() ?? ''}';
 
   @override
   Widget build(BuildContext context) {
     return Positioned(
       left: infoWidgetHorizontalMargin,
       top: top,
-      child: Draggable<dynamic>(
+      child: Draggable<Object>(
           child: _buildInfoView(),
           feedback: _buildInfoView(),
           childWhenDragging: Container(),
@@ -511,7 +526,7 @@ class _ColorPickerInfoWidgetState extends State<ColorPickerInfoWidget> {
           children: <Widget>[
             ValueListenableBuilder<Color>(
               valueListenable: ColorPickerKit.instance.color,
-              builder: (BuildContext context, Color value, Widget child) {
+              builder: (BuildContext context, Color value, Widget? child) {
                 color = value;
                 return Row(
                   crossAxisAlignment: CrossAxisAlignment.center,

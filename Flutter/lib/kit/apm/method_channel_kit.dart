@@ -55,7 +55,7 @@ class ChannelInfo implements IInfo {
 }
 
 class MethodChannelKit extends ApmKit {
-  Function listener;
+  Function? listener;
 
   @override
   Widget createDisplayPage() {
@@ -78,7 +78,7 @@ class MethodChannelKit extends ApmKit {
   }
 
   @override
-  bool save(IInfo info) {
+  bool save(IInfo? info) {
     if (!ChannelPageState.showSystemChannel &&
         ((info as ChannelInfo).type == ChannelInfo.TYPE_SYSTEM_RECEIVE ||
             (info as ChannelInfo).type == ChannelInfo.TYPE_SYSTEM_SEND)) {
@@ -122,8 +122,8 @@ class ChannelPageState extends State<ChannelPage> {
 
   Future<void> _listener() async {
     if (!mounted) return;
-    if (SchedulerBinding.instance.schedulerPhase != SchedulerPhase.idle) {
-      await SchedulerBinding.instance.endOfFrame;
+    if (SchedulerBinding.instance?.schedulerPhase != SchedulerPhase.idle) {
+      await SchedulerBinding.instance?.endOfFrame;
       if (!mounted) return;
     }
     setState(() {
@@ -139,7 +139,7 @@ class ChannelPageState extends State<ChannelPage> {
     super.initState();
     ApmKitManager.instance
         .getKit<MethodChannelKit>(ApmKitName.KIT_CHANNEL)
-        .registerListener(_listener);
+        ?.registerListener(_listener);
   }
 
   @override
@@ -147,14 +147,14 @@ class ChannelPageState extends State<ChannelPage> {
     super.dispose();
     ApmKitManager.instance
         .getKit<MethodChannelKit>(ApmKitName.KIT_CHANNEL)
-        .unregisterListener();
+        ?.unregisterListener();
   }
 
   @override
   Widget build(BuildContext context) {
-    List<IInfo> items = ApmKitManager.instance
+    List<IInfo>? items = ApmKitManager.instance
         .getKit<MethodChannelKit>(ApmKitName.KIT_CHANNEL)
-        .getStorage()
+        ?.getStorage()
         .getAll()
         .reversed
         .where((element) => showSystemChannel
@@ -209,7 +209,7 @@ class ChannelPageState extends State<ChannelPage> {
                       this.setState(() {
                         ApmKitManager.instance
                             .getKit<MethodChannelKit>(ApmKitName.KIT_CHANNEL)
-                            .getStorage()
+                            ?.getStorage()
                             .clear();
                       });
                     },
@@ -256,20 +256,22 @@ class ChannelPageState extends State<ChannelPage> {
           child: Container(
               alignment: Alignment.topCenter,
               color: Color(0xfff5f6f7),
-              child: ListView.builder(
-                  controller: _offsetController,
-                  itemCount: items.length,
-                  padding:
-                      EdgeInsets.only(left: 4, right: 4, bottom: 0, top: 0),
-                  reverse: true,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return ChannelItemWidget(
-                      item: items[index],
-                      index: index,
-                      isLast: index == items.length - 1,
-                    );
-                  })),
+              child: items == null
+                  ? null
+                  : ListView.builder(
+                      controller: _offsetController,
+                      itemCount: items.length,
+                      padding:
+                          EdgeInsets.only(left: 4, right: 4, bottom: 0, top: 0),
+                      reverse: true,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return ChannelItemWidget(
+                          item: items[index] as ChannelInfo,
+                          index: index,
+                          isLast: index == items.length - 1,
+                        );
+                      })),
         )
       ],
     );
@@ -282,10 +284,7 @@ class ChannelItemWidget extends StatefulWidget {
   final bool isLast;
 
   ChannelItemWidget(
-      {Key key,
-      @required this.item,
-      @required this.index,
-      @required this.isLast})
+      {Key? key, required this.item, required this.index, required this.isLast})
       : super(key: key);
 
   @override
