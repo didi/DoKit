@@ -4,15 +4,15 @@ version: 0.0.1
 homepage: http://flutter.intra.xiaojukeji.com/index.php
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   dokit:
     path: ..
-  dio: 3.0.10
-  path_provider: 1.6.0
+  dio: 4.0.0
+  path_provider: ^2.0.1
 
 dev_dependencies:
   flutter_test:
