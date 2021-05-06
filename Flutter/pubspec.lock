@@ -149,13 +149,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.16.1"
-  isolate:
-    dependency: "direct main"
-    description:
-      name: isolate
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.0.3"
   matcher:
     dependency: transitive
     description:

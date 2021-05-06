@@ -15,7 +15,6 @@ dependencies:
   vm_service: ^5.5.0
   package_info: ^0.4.3+2
   shared_preferences: ^0.5.12+4
-  isolate: ^2.0.3
   image: ^2.1.19
   google_fonts: ^1.1.1
   string_scanner: ^1.0.5

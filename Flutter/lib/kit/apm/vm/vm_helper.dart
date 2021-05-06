@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:dokit/kit/apm/vm/iso_pool.dart';
 import 'package:dokit/kit/apm/vm/version.dart';
 import 'package:dokit/kit/apm/vm/vm_service_wrapper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:package_info/package_info.dart';
 import 'package:vm_service/vm_service.dart';
 
@@ -72,7 +72,7 @@ class VmHelper {
   }
 
   testPrintScript() async {
-    Script script = await IsoPool().start(getScriptList, 'main.dart');
+    Script script = await compute(getScriptList, 'main.dart');
     // Script script = await getScriptList('main.dart');
     print(script?.source);
   }
