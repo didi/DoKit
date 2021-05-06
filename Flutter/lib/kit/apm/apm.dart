@@ -35,7 +35,7 @@ class ApmKitManager {
     kitMap[tag] = kit;
   }
 
-  T getKit<T extends ApmKit>(String name) {
+  T? getKit<T extends ApmKit>(String name) {
     assert(name != null);
     if (kitMap.containsKey(name)) {
       return kitMap[name] as T;
@@ -74,7 +74,7 @@ abstract class ApmKit implements IKit {
   }
 
   @override
-  bool save(IInfo info) {
+  bool save(IInfo? info) {
     return info != null &&
         storage != null &&
         !storage.contains(info) &&

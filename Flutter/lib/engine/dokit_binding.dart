@@ -13,7 +13,7 @@ List<String> blackList = <String>[];
 
 class DoKitWidgetsFlutterBinding extends WidgetsFlutterBinding
     with DoKitServicesBinding {
-  static WidgetsBinding ensureInitialized() {
+  static WidgetsBinding? ensureInitialized() {
     if (WidgetsBinding.instance == null) {
       DoKitWidgetsFlutterBinding();
     }
@@ -24,7 +24,8 @@ class DoKitWidgetsFlutterBinding extends WidgetsFlutterBinding
 mixin DoKitServicesBinding on BindingBase, ServicesBinding {
   @override
   BinaryMessenger createBinaryMessenger() {
-    return DoKitBinaryMessenger(super.createBinaryMessenger() as BinaryMessenger);
+    return DoKitBinaryMessenger(
+        super.createBinaryMessenger() as BinaryMessenger);
   }
 }
 
@@ -49,38 +50,37 @@ class DoKitBinaryMessenger extends BinaryMessenger {
   final BinaryMessenger origin;
 
   @override
-  Future<void> handlePlatformMessage(
-      String channel, ByteData data, PlatformMessageResponseCallback callback) {
-    final ChannelInfo info = saveMessage(channel, data, false);
+  Future<void> handlePlatformMessage(String channel, ByteData? data, callback) {
+    final ChannelInfo? info = saveMessage(channel, data, false);
     if (info == null) {
       return origin.handlePlatformMessage(channel, data, callback);
     }
-    final PlatformMessageResponseCallback wrapper = (ByteData data) {
+    final PlatformMessageResponseCallback wrapper = (ByteData? data) {
       resolveResult(info, data);
-      callback(data);
+      callback?.call(data);
     };
     return origin.handlePlatformMessage(channel, data, wrapper);
   }
 
   @override
-  Future<ByteData> send(String channel, ByteData message) async {
-    final ChannelInfo info = saveMessage(channel, message, true);
+  Future<ByteData?>? send(String channel, ByteData? message) async {
+    final ChannelInfo? info = saveMessage(channel, message, true);
     if (info == null) {
       return origin.send(channel, message);
     }
-    final ByteData result = await origin.send(channel, message);
+    final ByteData? result = await origin.send(channel, message);
     resolveResult(info, result);
     return result;
   }
 
-  void resolveResult(ChannelInfo info, ByteData result) {
+  void resolveResult(ChannelInfo? info, ByteData? result) {
     try {
       if (info != null && result != null) {
         if (info.methodCodec != null) {
-          info.results = info.methodCodec.decodeEnvelope(result);
+          info.results = info.methodCodec?.decodeEnvelope(result);
           info.endTimestamp = DateTime.now().millisecondsSinceEpoch;
         } else if (info.messageCodec != null) {
-          info.results = info.messageCodec.decodeMessage(result);
+          info.results = info.messageCodec?.decodeMessage(result);
           info.endTimestamp = DateTime.now().millisecondsSinceEpoch;
         } else {
           info.endTimestamp = DateTime.now().millisecondsSinceEpoch;
@@ -89,20 +89,20 @@ class DoKitBinaryMessenger extends BinaryMessenger {
     } catch (e) {
       print(e);
     }
-    info.methodCodec = null;
-    info.messageCodec = null;
+    info?.methodCodec = null;
+    info?.messageCodec = null;
   }
 
-  ChannelInfo saveMessage(String name, ByteData data, bool send) {
-    final MethodChannelKit kit =
+  ChannelInfo? saveMessage(String name, ByteData? data, bool send) {
+    final MethodChannelKit? kit =
         ApmKitManager.instance.getKit<MethodChannelKit>(ApmKitName.KIT_CHANNEL);
     if (kit == null) {
       return null;
     }
-    if (blackList != null && blackList.contains(name)) {
+    if (blackList.contains(name)) {
       return null;
     }
-    ChannelInfo info;
+    ChannelInfo? info;
     try {
       info = filterSystemChannel(name, data, send) as ChannelInfo;
       if (info == null) {
@@ -120,28 +120,26 @@ class DoKitBinaryMessenger extends BinaryMessenger {
   }
 
   @override
-  void setMessageHandler(
-      String channel, Future<ByteData> Function(ByteData message) handler) {
+  void setMessageHandler(String channel, handler) {
     origin.setMessageHandler(channel, handler);
   }
 
   @override
-  void setMockMessageHandler(
-      String channel, Future<ByteData> Function(ByteData message) handler) {
+  void setMockMessageHandler(String channel, handler) {
     origin.setMockMessageHandler(channel, handler);
   }
 
   @override
-  bool checkMessageHandler(String channel, MessageHandler handler) {
+  bool checkMessageHandler(String channel, handler) {
     return origin.checkMessageHandler(channel, handler);
   }
 
   @override
-  bool checkMockMessageHandler(String channel, MessageHandler handler) {
+  bool checkMockMessageHandler(String channel, MessageHandler? handler) {
     return origin.checkMockMessageHandler(channel, handler);
   }
 
-  IInfo filterSystemChannel(String name, ByteData data, bool send) {
+  IInfo? filterSystemChannel(String name, ByteData? data, bool send) {
     if (name == SystemChannels.lifecycle.name) {
       return decodeMessage(name, data, SystemChannels.lifecycle.codec, send);
     }
@@ -177,20 +175,27 @@ class DoKitBinaryMessenger extends BinaryMessenger {
     return null;
   }
 
-  IInfo decodeByteMessage(String name, ByteData data, bool send) {
-    return ChannelInfo(name, null, utf8.decode(data.buffer.asUint8List()),
-        send ? ChannelInfo.TYPE_SYSTEM_SEND : ChannelInfo.TYPE_SYSTEM_RECEIVE);
+  IInfo? decodeByteMessage(String name, ByteData? data, bool send) {
+    var arguments = data==null?null:utf8.decode(data.buffer.asUint8List());
+    return ChannelInfo(
+        name,
+        null,
+        arguments,
+        send
+            ? ChannelInfo.TYPE_SYSTEM_SEND
+            : ChannelInfo.TYPE_SYSTEM_RECEIVE);
   }
 
   IInfo decodeMessage(
-      String name, ByteData data, MessageCodec<dynamic> codec, bool send) {
+      String name, ByteData? data, MessageCodec<dynamic> codec, bool send) {
     final dynamic call = codec.decodeMessage(data);
     return ChannelInfo(name, call.toString(), null,
         send ? ChannelInfo.TYPE_SYSTEM_SEND : ChannelInfo.TYPE_SYSTEM_RECEIVE)
       ..messageCodec = codec;
   }
 
-  IInfo decodeMethod(String name, ByteData data, MethodCodec codec, bool send) {
+  IInfo decodeMethod(
+      String name, ByteData? data, MethodCodec codec, bool send) {
     final MethodCall call = codec.decodeMethodCall(data);
     return ChannelInfo(name, call.method, call.arguments,
         send ? ChannelInfo.TYPE_SYSTEM_SEND : ChannelInfo.TYPE_SYSTEM_RECEIVE)

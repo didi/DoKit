@@ -18,7 +18,7 @@ class ChannelInfo implements IInfo {
   static const int TYPE_SYSTEM_RECEIVE = 3;
   final String channelName;
 
-  final String method;
+  final String? method;
 
   final dynamic arguments;
   final int startTimestamp;
@@ -27,8 +27,8 @@ class ChannelInfo implements IInfo {
   final int type;
   dynamic results;
   bool expand = false;
-  MethodCodec methodCodec;
-  MessageCodec messageCodec;
+  MethodCodec? methodCodec;
+  MessageCodec? messageCodec;
 
   ChannelInfo(this.channelName, this.method, this.arguments, this.type)
       : this.startTimestamp = new DateTime.now().millisecondsSinceEpoch;

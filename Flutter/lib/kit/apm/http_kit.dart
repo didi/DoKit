@@ -23,13 +23,13 @@ class HttpInfo implements IInfo {
       ..response.update(-1, '', '', 0);
   }
 
-  final Uri uri;
+  final Uri? uri;
 
   final String method;
 
   final int startTimestamp;
 
-  String error;
+  String? error;
   HttpRequest request = HttpRequest();
   HttpResponse response = HttpResponse();
 
@@ -46,26 +46,26 @@ class HttpInfo implements IInfo {
 
 class HttpRequest {
   List<String> parameters = <String>[];
-  String header;
+  String? header;
 
   void add(String parameter) {
     parameters.add(parameter);
-    final HttpKit kit = ApmKitManager.instance.getKit(ApmKitName.KIT_HTTP);
+    final HttpKit? kit = ApmKitManager.instance.getKit(ApmKitName.KIT_HTTP);
     kit?.listener?.call();
   }
 }
 
 class HttpResponse {
-  String _result;
+  String? _result;
 
-  String get result => _result;
+  String? get result => _result;
   int _code = 0;
 
   int get code => _code;
 
-  String _header;
+  String? _header;
 
-  String get header => _header;
+  String? get header => _header;
   int endTimestamp = 0;
   int size = 0;
 
@@ -75,7 +75,7 @@ class HttpResponse {
     _header = header;
     this.size = size;
     endTimestamp = DateTime.now().millisecondsSinceEpoch;
-    final HttpKit kit = ApmKitManager.instance.getKit(ApmKitName.KIT_HTTP);
+    final HttpKit? kit = ApmKitManager.instance.getKit(ApmKitName.KIT_HTTP);
     kit?.listener?.call();
   }
 
@@ -91,7 +91,7 @@ class HttpKit extends ApmKit {
     return HttpPage();
   }
 
-  Function listener;
+  Function? listener;
 
   @override
   String getIcon() {
@@ -110,7 +110,7 @@ class HttpKit extends ApmKit {
 
   @override
   void start() {
-    final HttpOverrides origin = HttpOverrides.current;
+    final HttpOverrides? origin = HttpOverrides.current;
     HttpOverrides.global = DoKitHttpOverrides(origin);
   }
 
@@ -142,8 +142,8 @@ class HttpPageState extends State<HttpPage> {
     if (!mounted) {
       return;
     }
-    if (SchedulerBinding.instance.schedulerPhase != SchedulerPhase.idle) {
-      await SchedulerBinding.instance.endOfFrame;
+    if (SchedulerBinding.instance?.schedulerPhase != SchedulerPhase.idle) {
+      await SchedulerBinding.instance?.endOfFrame;
       if (!mounted) {
         return;
       }
@@ -161,7 +161,7 @@ class HttpPageState extends State<HttpPage> {
     super.initState();
     ApmKitManager.instance
         .getKit<HttpKit>(ApmKitName.KIT_HTTP)
-        .registerListener(_listener);
+        ?.registerListener(_listener);
   }
 
   @override
@@ -169,17 +169,17 @@ class HttpPageState extends State<HttpPage> {
     super.dispose();
     ApmKitManager.instance
         .getKit<HttpKit>(ApmKitName.KIT_HTTP)
-        .unregisterListener();
+        ?.unregisterListener();
   }
 
   @override
   Widget build(BuildContext context) {
     final List<IInfo> items = ApmKitManager.instance
         .getKit<HttpKit>(ApmKitName.KIT_HTTP)
-        .getStorage()
+        ?.getStorage()
         .getAll()
         .reversed
-        .toList();
+        .toList()??[];
     return Column(
       children: <Widget>[
         Row(
@@ -199,7 +199,7 @@ class HttpPageState extends State<HttpPage> {
                     setState(() {
                       ApmKitManager.instance
                           .getKit<HttpKit>(ApmKitName.KIT_HTTP)
-                          .getStorage()
+                          ?.getStorage()
                           .clear();
                     });
                   },
@@ -254,10 +254,10 @@ class HttpPageState extends State<HttpPage> {
 
 class HttpItemWidget extends StatefulWidget {
   const HttpItemWidget(
-      {Key key,
-      @required this.item,
-      @required this.index,
-      @required this.isLast})
+      {Key? key,
+      required this.item,
+      required this.index,
+      required this.isLast})
       : super(key: key);
 
   final HttpInfo item;
