@@ -28,7 +28,7 @@ public class WeexInfoKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        DKCommonActivity.startWith(context, WeexInfoFragment.class);
+        startUniversalActivity(WeexInfoFragment.class, context, null,true);
     }
 
     @Override

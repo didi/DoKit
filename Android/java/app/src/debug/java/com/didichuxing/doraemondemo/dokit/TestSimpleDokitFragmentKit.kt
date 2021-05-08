@@ -22,7 +22,7 @@ class TestSimpleDokitFragmentKit : AbstractKit() {
     override fun onClick(context: Context?) {
         val bundle = Bundle()
         bundle.putString("test", "test")
-        SimpleDokitStarter.startFullScreen(DemoDokitFragment::class.java, context)
+        startUniversalActivity(DemoDokitFragment::class.java, context, bundle)
     }
 
     override fun onAppInit(context: Context?) {

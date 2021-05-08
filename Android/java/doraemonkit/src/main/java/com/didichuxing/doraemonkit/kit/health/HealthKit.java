@@ -21,7 +21,6 @@ import com.google.auto.service.AutoService;
 public class HealthKit extends AbstractKit {
 
 
-
     @Override
     public int getName() {
         return R.string.dk_kit_health;
@@ -54,7 +53,8 @@ public class HealthKit extends AbstractKit {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_platform_tip));
             return;
         }
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_HEALTH);
+
+        startUniversalActivity(HealthFragment.class, context, null,true);
     }
 
     @Override

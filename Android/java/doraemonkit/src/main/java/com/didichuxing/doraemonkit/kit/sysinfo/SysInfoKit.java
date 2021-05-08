@@ -29,7 +29,7 @@ public class SysInfoKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context,FragmentIndex.FRAGMENT_SYS_INFO);
+        startUniversalActivity(SysInfoFragment.class, context, null,true);
     }
 
     @Override

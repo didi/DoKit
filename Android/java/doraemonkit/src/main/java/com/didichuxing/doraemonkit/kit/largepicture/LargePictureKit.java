@@ -46,7 +46,7 @@ public class LargePictureKit extends AbstractKit {
         }
 
 
-        startUniversalActivity(context,FragmentIndex.FRAGMENT_LARGE_PICTURE);
+        startUniversalActivity(LargePictureFragment.class, context, null,true);
     }
 
     @Override

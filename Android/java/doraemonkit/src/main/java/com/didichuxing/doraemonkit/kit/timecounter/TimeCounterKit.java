@@ -27,7 +27,7 @@ public class TimeCounterKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context,FragmentIndex.FRAGMENT_TIME_COUNTER);
+        startUniversalActivity(TimeCounterFragment.class, context, null,true);
     }
 
     @Override

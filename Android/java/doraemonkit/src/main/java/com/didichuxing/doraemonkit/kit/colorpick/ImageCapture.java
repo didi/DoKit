@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.colorpick;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -49,9 +50,10 @@ public class ImageCapture {
                 colorPickerDokitView.onScreenServiceReady();
             } else {
                 try {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && (bundle.getParcelable("data") instanceof Intent)) {
+                        Intent dataIntent = bundle.getParcelable("data");
                         Intent intent = new Intent(context, ScreenRecorderService.class);
-                        intent.putExtra("data", bundle.getParcelable("data"));
+                        intent.putExtra("data", dataIntent);
                         context.startForegroundService(intent);
                     }
                 } catch (Exception e) {
@@ -70,6 +72,7 @@ public class ImageCapture {
     /**
      *
      */
+    @SuppressLint("WrongConstant")
     void initImageRead(MediaProjection mediaProjection) {
         if (mediaProjection == null) {
             LogHelper.e(TAG, "mediaProjection == null");

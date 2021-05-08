@@ -29,7 +29,7 @@ public class BlockMonitorKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_BLOCK_MONITOR);
+        startUniversalActivity(BlockMonitorFragment.class, context, null,true);
     }
 
     @Override

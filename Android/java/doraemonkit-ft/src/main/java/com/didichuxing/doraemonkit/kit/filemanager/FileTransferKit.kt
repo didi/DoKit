@@ -23,7 +23,7 @@ class FileTransferKit : AbstractKit() {
         get() = R.mipmap.dk_icon_file_manager
 
     override fun onClick(context: Context?) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_FILE_TRANSFER)
+        startUniversalActivity(FileTransferFragment::class.java, context)
     }
 
     override fun onAppInit(context: Context?) {
@@ -33,6 +33,6 @@ class FileTransferKit : AbstractKit() {
         get() = true
 
     override fun innerKitId(): String {
-        return "dokit_sdk_platform_ck_file_sync"
+        return "dokit_sdk_platform_ck_filetransfer"
     }
 }

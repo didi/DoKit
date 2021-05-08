@@ -7,6 +7,7 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.google.auto.service.AutoService;
 
 /**
@@ -30,17 +31,10 @@ public class ViewCheckerKit extends AbstractKit {
     public void onClick(Context context) {
         DokitViewManager.getInstance().detachToolPanel();
 
-        DokitIntent intent = new DokitIntent(ViewCheckDokitView.class);
-        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(intent);
+        SimpleDokitStarter.startFloating(ViewCheckDokitView.class);
+        SimpleDokitStarter.startFloating(ViewCheckDrawDokitView.class);
+        SimpleDokitStarter.startFloating(ViewCheckInfoDokitView.class);
 
-        intent = new DokitIntent(ViewCheckDrawDokitView.class);
-        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(intent);
-
-        intent = new DokitIntent(ViewCheckInfoDokitView.class);
-        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(intent);
     }
 
     @Override

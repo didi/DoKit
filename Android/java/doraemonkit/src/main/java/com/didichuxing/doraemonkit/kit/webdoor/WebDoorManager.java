@@ -6,7 +6,9 @@ import android.content.Intent;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.CachesKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
+import com.didichuxing.doraemonkit.kit.webview.WebViewManager;
 import com.didichuxing.doraemonkit.util.DoKitCacheUtils;
 
 import java.util.ArrayList;
@@ -80,11 +82,9 @@ public class WebDoorManager {
 
         @Override
         public void overrideUrlLoading(Context context, String url) {
-            Intent intent = new Intent(context, UniversalActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_WEB_DOOR_DEFAULT);
-            intent.putExtra(BundleKey.KEY_URL, url);
-            context.startActivity(intent);
+            WebViewManager.INSTANCE.setUrl(url);
+            SimpleDokitStarter.startFullScreen(WebDoorDefaultFragment.class, context);
+
         }
     }
 }

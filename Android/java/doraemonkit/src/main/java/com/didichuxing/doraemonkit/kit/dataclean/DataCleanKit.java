@@ -27,7 +27,7 @@ public class DataCleanKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_DATA_CLEAN);
+        startUniversalActivity(DataCleanFragment.class, context, null,true);
     }
 
     @Override

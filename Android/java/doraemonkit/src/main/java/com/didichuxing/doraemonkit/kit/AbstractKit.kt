@@ -2,17 +2,18 @@ package com.didichuxing.doraemonkit.kit
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
+import android.os.Bundle
 import com.didichuxing.doraemonkit.util.ActivityUtils
-import com.didichuxing.doraemonkit.constant.BundleKey
-import com.didichuxing.doraemonkit.kit.core.UniversalActivity
+import com.didichuxing.doraemonkit.kit.core.BaseFragment
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 
 /**
  * ================================================
  * 作    者：jint（金台）
  * 版    本：1.0
  * 创建日期：2019-11-20-15:29
- * 描    述：
+ * 描    述：内置工具必须重写innerKitId而且需要和doraemonkit模块下的assets/dokit_system_kits.json文件中的innerKitId保持一致
+ * 否则该工具无法在工具面板中显示
  * 修订历史：
  * ================================================
  */
@@ -20,17 +21,20 @@ abstract class AbstractKit : IKit {
     /**
      * 启动UniversalActivity
      *
+     * @param fragmentClass
      * @param context
-     * @param fragmentIndex
+     * @param bundle
+     * @param isSystemFragment 是否是内置kit
      */
-    fun startUniversalActivity(context: Context?, fragmentIndex: Int) {
-        context?.let {
-            val intent = Intent(context, UniversalActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            intent.putExtra(BundleKey.FRAGMENT_INDEX, fragmentIndex)
-            it.startActivity(intent)
-        }
+    fun startUniversalActivity(
+        fragmentClass: Class<out BaseFragment>,
+        context: Context?,
+        bundle: Bundle? = null,
+        isSystemFragment: Boolean = false
+    ) {
+        SimpleDokitStarter.startFullScreen(fragmentClass, context, bundle, isSystemFragment)
     }
+
 
     /**
      * 是否是内置kit 外部kit不需要实现

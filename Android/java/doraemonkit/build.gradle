@@ -42,7 +42,6 @@ android {
 //    }
 
 
-
     dataBinding {
         enabled = true
     }
@@ -71,7 +70,7 @@ dependencies {
     implementation rootProject.ext.dependencies["activity-ktx"]
     implementation rootProject.ext.dependencies["webkit"]
     implementation rootProject.ext.dependencies["volley"]
-    implementation rootProject.ext.dependencies["gson"]
+    api rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]
 
     //远程调试db
@@ -80,11 +79,7 @@ dependencies {
     implementation rootProject.ext.dependencies["android_spinkit"]
     implementation rootProject.ext.dependencies["okhttp_v2"]
     implementation rootProject.ext.dependencies["room_runtime"]
-    //sql
-    implementation rootProject.ext.dependencies["wcdb"]
-    //ktor
-    implementation rootProject.ext.dependencies["ktor_server_core"]
-    implementation rootProject.ext.dependencies["ktor_server_cio"]
+
     implementation rootProject.ext.dependencies["jsoup"]
     //okhttp wrap
     implementation project(":doraemonkit-okhttp-api")

@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.kit.network;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMockFragment;
 import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
@@ -19,7 +20,6 @@ import com.google.auto.service.AutoService;
  */
 @AutoService(AbstractKit.class)
 public class MockKit extends AbstractKit {
-
 
 
     @Override
@@ -50,7 +50,7 @@ public class MockKit extends AbstractKit {
             return;
         }
 
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_NETWORK_MOCK);
+        startUniversalActivity(NetWorkMockFragment.class, context, null,true);
     }
 
     @Override

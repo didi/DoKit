@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.kit.network;
 
 import android.content.Context;
 
+import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMonitorFragment;
 import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
@@ -40,7 +41,7 @@ public class NetworkKit extends AbstractKit {
             return;
         }
 
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_NETWORK_MONITOR);
+        startUniversalActivity(NetWorkMonitorFragment.class, context, null,true);
     }
 
     @Override

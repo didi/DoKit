@@ -24,7 +24,7 @@ public class CpuKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_CPU);
+        startUniversalActivity(CpuMainPageFragment.class, context, null, true);
     }
 
     @Override

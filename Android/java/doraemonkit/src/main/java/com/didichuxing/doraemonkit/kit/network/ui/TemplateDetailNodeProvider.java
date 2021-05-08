@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
@@ -99,10 +100,9 @@ public class TemplateDetailNodeProvider extends BaseNodeProvider {
                     }
                     //保存到全局
                     DokitDbManager.getInstance().setGlobalTemplateApiBean(mockApi);
-                    Intent intent = new Intent(tvView.getContext(), UniversalActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_MOCK_TEMPLATE_PREVIEW);
-                    tvView.getContext().startActivity(intent);
+
+                    SimpleDokitStarter.startFullScreen(MockTemplatePreviewFragment.class, tvView.getContext());
+
                 }
             });
             TextView tvUpload = holder.getView(R.id.tv_upload);

@@ -27,7 +27,7 @@ public class FrameInfoKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_FRAME_INFO);
+        startUniversalActivity(FrameInfoFragment.class, context, null, true);
     }
 
     @Override

@@ -16,7 +16,6 @@ import com.google.auto.service.AutoService;
 public class WeexStorageKit extends AbstractKit {
 
 
-
     @Override
     public int getName() {
         return R.string.dk_storage_cache_name;
@@ -29,7 +28,7 @@ public class WeexStorageKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        DKCommonActivity.startWith(context, StorageFragment.class);
+        startUniversalActivity(StorageFragment.class, context, null,true);
     }
 
     @Override

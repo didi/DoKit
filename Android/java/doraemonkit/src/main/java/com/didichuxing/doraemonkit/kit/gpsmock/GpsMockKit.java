@@ -40,7 +40,7 @@ public class GpsMockKit extends AbstractKit {
         }
 
 
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_GPS_MOCK);
+        startUniversalActivity(GpsMockFragment.class, context, null,true);
     }
 
     @Override

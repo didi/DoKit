@@ -27,7 +27,7 @@ public class FileExplorerKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_FILE_EXPLORER);
+        startUniversalActivity(FileExplorerFragment.class, context, null,true);
     }
 
     @Override

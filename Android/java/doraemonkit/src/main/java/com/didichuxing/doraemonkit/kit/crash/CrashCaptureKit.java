@@ -27,7 +27,7 @@ public class CrashCaptureKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_CRASH);
+        startUniversalActivity(CrashCaptureMainFragment.class, context, null,true);
     }
 
     @Override

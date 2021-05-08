@@ -38,7 +38,7 @@ class DemoDokitFragment : AbsDokitFragment() {
         ViewSetupHelper.setupButton(rootView, R.id.test1, "TestSimpleDokitFragment") { v: View? ->
             val bundle = Bundle()
             bundle.putString("test", "test")
-            startFullScreen(DemoDokitFragment::class.java, context)
+            startFullScreen(DemoDokitFragment::class.java, context, isSystemFragment = false)
         }
 
         // 隐藏

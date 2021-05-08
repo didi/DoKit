@@ -27,7 +27,8 @@ public class WebDoorKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context,FragmentIndex.FRAGMENT_WEB_DOOR);
+
+        startUniversalActivity(WebDoorFragment.class, context, null,true);
     }
 
     @Override

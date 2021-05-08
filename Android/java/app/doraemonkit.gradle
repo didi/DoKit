@@ -6,8 +6,10 @@ if (runType == 0) {
     // 这里引用正常库
     dependencies {
         //外部平台依赖
-        debugImplementation project(":doraemonkit-mc")
         debugImplementation project(":doraemonkit")
+        debugImplementation project(":doraemonkit-mc")
+        debugImplementation project(":doraemonkit-ft")
+        debugImplementation project(":doraemonkit-weex")
 //        debugImplementation project(":doraemonkit-weex")
 //        releaseImplementation project(":doraemonkit-no-op")
         //debugImplementation project(":doraemonkit-leakcanary")

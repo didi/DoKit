@@ -57,10 +57,8 @@ dependencies {
     implementation rootProject.ext.dependencies["recyclerview"]
     implementation rootProject.ext.dependencies["fragment"]
     implementation rootProject.ext.dependencies["zxing"]
-    compileOnly project(":doraemonkit-util")
     implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["epic"]
-
     implementation rootProject.ext.dependencies["ktor_server_websockets"]
     implementation rootProject.ext.dependencies["ktor_client_websockets"]
     //默认客户端websocket引擎
@@ -68,6 +66,7 @@ dependencies {
     //备用客户端websocket引擎
     compileOnly rootProject.ext.dependencies["ktor_client_okhttp"]
     compileOnly rootProject.ext.dependencies["ktor_server_cio"]
+    compileOnly project(":doraemonkit-util")
     //此处需要使用api的形式 向上暴露内部api
     api project(':doraemonkit')
     //auto-service

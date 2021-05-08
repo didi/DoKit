@@ -4,7 +4,7 @@ import android.content.Context
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter.startFloating
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.google.auto.service.AutoService
@@ -28,7 +28,7 @@ class FloatGpsMockRouteMockKit : AbstractKit() {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_gps_close_tip))
             return
         }
-        startFloating(RouteKitView::class.java)
+        SimpleDokitStarter.startFloating(RouteKitView::class.java)
     }
 
     override fun onAppInit(context: Context?) {}

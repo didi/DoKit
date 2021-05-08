@@ -5,6 +5,7 @@ import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.DokitIntent
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 import com.google.auto.service.AutoService
 
 /**
@@ -28,15 +29,13 @@ class H5Kit : AbstractKit() {
         get() = true
 
     override fun onClick(context: Context?) {
-        val intent = DokitIntent(H5DokitView::class.java)
-        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE
-        DokitViewManager.getInstance().attach(intent)
+        SimpleDokitStarter.startFloating(H5DokitView::class.java)
     }
 
     override fun onAppInit(context: Context?) {
     }
 
     override fun innerKitId(): String {
-        return "dokit_sdk_comm_ck_h5"
+        return "dokit_sdk_comm_ck_h5kit"
     }
 }

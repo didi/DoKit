@@ -16,6 +16,7 @@ import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment;
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
@@ -144,7 +145,10 @@ public class BlockMonitorManager {
     private void showNotification(BlockInfo info) {
         String contentTitle = mContext.getString(R.string.dk_block_class_has_blocked, info.timeStart);
         String contentText = mContext.getString(R.string.dk_block_notification_message);
+
+
         Intent intent = new Intent(mContext, UniversalActivity.class);
+
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_BLOCK_MONITOR);
         intent.putExtra(BlockMonitorFragment.KEY_JUMP_TO_LIST, true);

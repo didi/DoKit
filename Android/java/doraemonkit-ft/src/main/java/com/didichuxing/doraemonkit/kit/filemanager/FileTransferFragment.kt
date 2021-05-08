@@ -1,21 +1,15 @@
 package com.didichuxing.doraemonkit.kit.filemanager
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.text.Html
 import android.view.View
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.DoKitConstant
-import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.core.UniversalActivity
-import com.didichuxing.doraemonkit.kit.network.NetworkManager
-import com.didichuxing.doraemonkit.kit.webview.WebViewManager
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
+import com.didichuxing.doraemonkit.kit.webview.CommWebViewFragment
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
-import kotlinx.android.synthetic.main.dk_fragment_db_debug.title_bar
-import kotlinx.android.synthetic.main.dk_fragment_db_debug.tv_ip
 import kotlinx.android.synthetic.main.dk_fragment_file_transfer.*
 import java.net.BindException
 
@@ -40,11 +34,11 @@ class FileTransferFragment : BaseFragment() {
         title_bar.setListener { finish() }
         tv_tip_top.text = Html.fromHtml(DoKitCommUtil.getString(R.string.dk_file_manager_tip_top))
         tv_tip_top.setOnClickListener {
-            WebViewManager.url = NetworkManager.FILE_MANAGER_DOCUMENT_URL
-            val intent = Intent(context, UniversalActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_WEB)
-            startActivity(intent)
+            SimpleDokitStarter.startFullScreen(
+                CommWebViewFragment::class.java,
+                context,
+                isSystemFragment = true
+            )
         }
         initKtor()
     }

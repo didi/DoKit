@@ -20,7 +20,6 @@ public class ColorPickerKit extends AbstractKit {
     private static final String TAG = "ColorPicker";
 
 
-
     @Override
     public int getName() {
         return R.string.dk_kit_color_picker;
@@ -33,7 +32,6 @@ public class ColorPickerKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-
         Intent intent = new Intent(context, TranslucentActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_COLOR_PICKER_SETTING);

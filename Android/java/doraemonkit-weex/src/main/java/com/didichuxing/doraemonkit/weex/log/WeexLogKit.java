@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.didichuxing.doraemonkit.kit.loginfo.LogInfoManager;
 import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
@@ -30,9 +31,8 @@ public class WeexLogKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        DokitIntent intent = new DokitIntent(WeexLogInfoDokitView.class);
-        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(intent);
+        SimpleDokitStarter.startFloating(WeexLogInfoDokitView.class);
+
         //开启日志服务
         LogInfoManager.getInstance().start();
     }

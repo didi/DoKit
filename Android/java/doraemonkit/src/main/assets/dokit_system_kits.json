@@ -68,14 +68,9 @@
         "innerKitId": "dokit_sdk_comm_ck_log"
       },
       {
-        "allClassName": "com.didichuxing.doraemonkit.kit.dbdebug.DbDebugKit",
-        "checked": true,
-        "innerKitId": "dokit_sdk_comm_ck_dbview"
-      },
-      {
         "allClassName": "com.didichuxing.doraemonkit.kit.h5_help.H5Kit",
         "checked": true,
-        "innerKitId": "dokit_sdk_comm_ck_h5"
+        "innerKitId": "dokit_sdk_comm_ck_h5kit"
       }
     ]
   },

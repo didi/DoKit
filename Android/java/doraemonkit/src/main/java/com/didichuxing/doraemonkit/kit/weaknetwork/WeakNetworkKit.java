@@ -40,7 +40,8 @@ public class WeakNetworkKit extends AbstractKit {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_network_close_tip));
             return;
         }
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_WEAK_NETWORK);
+
+        startUniversalActivity(WeakNetworkFragment.class, context, null,true);
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.google.auto.service.AutoService;
 
 /**
@@ -32,13 +33,10 @@ public class UIPerformanceKit extends AbstractKit {
         UIPerformanceManager.getInstance().start(context);
 
         DokitViewManager.getInstance().detachToolPanel();
-        DokitIntent intent = new DokitIntent(UIPerformanceDisplayDokitView.class);
-        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(intent);
 
-        DokitIntent intentInfo = new DokitIntent(UIPerformanceInfoDokitView.class);
-        intentInfo.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(intentInfo);
+        SimpleDokitStarter.startFloating(UIPerformanceDisplayDokitView.class);
+        SimpleDokitStarter.startFloating(UIPerformanceInfoDokitView.class);
+
         //直接显示层级
         UIPerformanceManager.getInstance().initRefresh();
     }

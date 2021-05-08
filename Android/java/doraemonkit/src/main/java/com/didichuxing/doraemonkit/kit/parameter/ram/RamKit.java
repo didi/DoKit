@@ -24,7 +24,7 @@ public class RamKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context,FragmentIndex.FRAGMENT_RAM);
+        startUniversalActivity(RamMainPageFragment.class, context, null,true);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class ThirdLibInfoKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_THIRD_LIBRARY_INFO);
+        startUniversalActivity(ThirdLibInfoFragment.class, context, null,true);
     }
 
     @Override

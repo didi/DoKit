@@ -8,6 +8,7 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.google.auto.service.AutoService;
 
 /**
@@ -33,9 +34,8 @@ public class LayoutBorderKit extends AbstractKit {
         //隐藏当前工具dokitview
         DokitViewManager.getInstance().detachToolPanel();
 
-        DokitIntent intent = new DokitIntent(LayoutLevelDokitView.class);
-        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(intent);
+        SimpleDokitStarter.startFloating(LayoutLevelDokitView.class);
+
 
         LayoutBorderManager.getInstance().start();
 
