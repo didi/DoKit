@@ -2,11 +2,10 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-if (rootProject.ext.config["publishArchivesType"] == 2) {
-    apply from: 'upload-release.gradle'
-} else if (rootProject.ext.config["publishArchivesType"] == 0 || rootProject.ext.config["publishArchivesType"] == 1) {
-    apply from: 'upload-dev.gradle'
-}
+apply from: '../upload.gradle'
+
+def archivesType = rootProject.ext.publish_config["archives_type"]
+def dokitVersion = rootProject.ext.publish_config["version"]
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -29,18 +28,19 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "DOKIT_VERSION", "\"" + rootProject.ext.android["jcenterArchivesVersionName"] + "\"")
+            buildConfigField("String", "DOKIT_VERSION", "\"" + dokitVersion + "\"")
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            buildConfigField("String", "DOKIT_VERSION", "\"" + rootProject.ext.android["jcenterArchivesVersionName"] + "\"")
+            buildConfigField("String", "DOKIT_VERSION", "\"" + dokitVersion + "\"")
         }
     }
 //    compileOptions {
 //        sourceCompatibility JavaVersion.VERSION_1_8
 //        targetCompatibility JavaVersion.VERSION_1_8
 //    }
+
 
     dataBinding {
         enabled = true
@@ -60,40 +60,31 @@ dependencies {
     //noinspection GradleCompatible
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'junit:junit:4.12'
+    implementation rootProject.ext.dependencies["flexbox"]
     implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["cardview"]
     implementation rootProject.ext.dependencies["recyclerview"]
     implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["core-ktx"]
+    implementation rootProject.ext.dependencies["activity-ktx"]
     implementation rootProject.ext.dependencies["webkit"]
     implementation rootProject.ext.dependencies["volley"]
-
-    implementation rootProject.ext.dependencies["gson"]
+    api rootProject.ext.dependencies["gson"]
     implementation rootProject.ext.dependencies["zxing"]
-    //函数耗时
-    //implementation rootProject.ext.dependencies["guava"]
-    implementation rootProject.ext.dependencies["utilcode"]
+
     //远程调试db
     //implementation rootProject.ext.dependencies["debug-db"]
     //implementation rootProject.ext.dependencies["debug-db-encrypt"]
     implementation rootProject.ext.dependencies["android_spinkit"]
     implementation rootProject.ext.dependencies["okhttp_v2"]
     implementation rootProject.ext.dependencies["room_runtime"]
-    //sql
-    implementation rootProject.ext.dependencies["wcdb"]
-    //ktor
-    implementation rootProject.ext.dependencies["ktor-core"]
-    implementation rootProject.ext.dependencies["ktor-cio"]
+
     implementation rootProject.ext.dependencies["jsoup"]
     //okhttp wrap
-    if (rootProject.ext.config["runOrPublish"] == 0) {
-        implementation project(":doraemonkit-okhttp-api")
-    } else {
-        implementation "com.didichuxing.doraemonkit:dokitx-okhttp-api:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-    }
+    implementation project(":doraemonkit-okhttp-api")
+    compileOnly project(":doraemonkit-util")
 
-    //compileOnly project(":doraemonkit-okhttp_v4")
 
 //    implementation rootProject.ext.dependencies["mimecraft"]
     //会合滴滴内部的spi-plugin冲突
@@ -101,6 +92,10 @@ dependencies {
 //    implementation rootProject.ext.dependencies["ktor-gson"]
 
     kapt rootProject.ext.dependencies["room_compile"]
+    //auto-service
+    implementation rootProject.ext.dependencies["auto_service"]
+    kapt rootProject.ext.dependencies["auto_service"]
+
 
     //三大图片框架
     compileOnly rootProject.ext.dependencies["glide"]
@@ -110,14 +105,20 @@ dependencies {
     //腾讯x5
     compileOnly rootProject.ext.dependencies["tbs"]
 
+
+    //高德地图
+//    implementation rootProject.ext.dependencies["amap_map3d"]
     //高德地图定位
     compileOnly rootProject.ext.dependencies["amap_location"]
+    //高德导航
+    compileOnly rootProject.ext.dependencies["amap_navi"]
     //腾讯地图定位
     compileOnly rootProject.ext.dependencies["tencent_location"]
     //百度地图定位
     compileOnly files('libs/BaiduLBS_Android.jar')
 
 }
+
 
 configurations.all {
     //循环每个依赖库
@@ -145,5 +146,19 @@ configurations.all {
 //        }
     }
 }
+
+task preparePublish(dependsOn: 'assembleRelease') {
+    doFirst {
+        println("===doraemonkit assembleRelease start===")
+    }
+
+    doLast {
+        println("===doraemonkit assembleRelease end===")
+    }
+
+}
+
+
+
 
 

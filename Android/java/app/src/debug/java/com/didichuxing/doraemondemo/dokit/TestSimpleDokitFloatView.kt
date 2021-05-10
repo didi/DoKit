@@ -14,7 +14,7 @@ import com.didichuxing.doraemonkit.kit.core.ViewSetupHelper
  * @Author: changzuozhen
  * @Date: 2020-12-22
  * 切换全屏与否只需要调整继承关系即可
- * @see TestSimpleDokitFragment
+ * @see DemoDokitFragment
  * @see TestSimpleDokitFloatView
  *
  * 悬浮窗，支持折叠
@@ -23,7 +23,7 @@ import com.didichuxing.doraemonkit.kit.core.ViewSetupHelper
  * @see com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter.startFloating
  *
  * 全屏页面
- * @see com.didichuxing.doraemonkit.kit.core.SimpleDokitFragment
+ * @see com.didichuxing.doraemonkit.kit.core.AbsDokitFragment
  * 启动工具函数
  * @see com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter.startFullScreen(java.lang.Class<? extends com.didichuxing.doraemonkit.kit.core.SimpleDokitFragment>, android.content.Context, android.os.Bundle)
  *
@@ -39,7 +39,7 @@ class TestSimpleDokitFloatView : SimpleDokitView() {
         ViewSetupHelper.setupButton(rootView, R.id.test1, "TestSimpleDokitFragment", View.OnClickListener {
             val bundle = Bundle()
             bundle.putString("test", "test")
-            SimpleDokitStarter.startFullScreen(TestSimpleDokitFragment::class.java, context)
+            SimpleDokitStarter.startFullScreen(DemoDokitFragment::class.java, context)
         })
 
         // 隐藏

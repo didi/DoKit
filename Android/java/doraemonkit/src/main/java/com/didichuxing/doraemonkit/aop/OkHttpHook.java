@@ -2,11 +2,12 @@ package com.didichuxing.doraemonkit.aop;
 
 import android.util.Log;
 
-import com.blankj.utilcode.util.ReflectUtils;
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonInterceptor;
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonWeakNetworkInterceptor;
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.LargePictureInterceptor;
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.AbsDoKitInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitCapInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitWeakNetworkInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitLargePicInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitMockInterceptor;
+import com.didichuxing.doraemonkit.util.ReflectUtils;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -42,62 +43,20 @@ public class OkHttpHook {
 //    访问Connection该请求。
 
 
-    public static List<Interceptor> globalInterceptors = new ArrayList<>();
-    public static List<Interceptor> globalNetworkInterceptors = new ArrayList<>();
-    private static boolean IS_INSTALL = false;
-
-    public static void installInterceptor() {
-        if (IS_INSTALL) {
-            return;
-        }
-        try {
-            //可能存在用户没有引入okhttp的情况
-            globalInterceptors.add(new MockInterceptor());
-            globalInterceptors.add(new LargePictureInterceptor());
-            globalInterceptors.add(new DoraemonInterceptor());
-            globalNetworkInterceptors.add(new DoraemonWeakNetworkInterceptor());
-            IS_INSTALL = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
     /**
-     * @param builder      真实的对象为okHttpClient.Builder
-     * @param okHttpClient 真实的对象为okHttpClient
+     * 添加dokit 的拦截器 通过字节码插入
      */
-    public static void performOkhttpOneParamBuilderInit(Object builder, Object okHttpClient) {
-        try {
-            if (builder instanceof OkHttpClient.Builder) {
-                OkHttpClient.Builder localBuild = (OkHttpClient.Builder) builder;
-                //防止注入失败
-                localBuild.interceptors().addAll(globalInterceptors);
-                localBuild.networkInterceptors().addAll(globalNetworkInterceptors);
-
-                List<Interceptor> interceptors = removeDuplicate(localBuild.interceptors());
-                List<Interceptor> networkInterceptors = removeDuplicate(localBuild.networkInterceptors());
-                ReflectUtils.reflect(localBuild).field("interceptors", interceptors);
-                ReflectUtils.reflect(localBuild).field("networkInterceptors", networkInterceptors);
-            }
-        } catch (Exception e) {
-            Log.i("Doraemon", "" + e.getMessage());
-        }
-
+    public static void addDoKitIntercept(OkHttpClient client) {
+        List<Interceptor> interceptors = new ArrayList<>(client.interceptors());
+        List<Interceptor> networkInterceptors = new ArrayList<>(client.networkInterceptors());
+        interceptors.add(new DokitMockInterceptor());
+        interceptors.add(new DokitLargePicInterceptor());
+        interceptors.add(new DokitCapInterceptor());
+        networkInterceptors.add(new DokitWeakNetworkInterceptor());
+        //需要用反射重新赋值 因为源码中创建了一个不可变的list
+        ReflectUtils.reflect(client).field("interceptors", interceptors);
+        ReflectUtils.reflect(client).field("networkInterceptors", networkInterceptors);
     }
 
-    /**
-     * 保证顺序并去重
-     *
-     * @param list
-     * @return
-     */
-    private static List<Interceptor> removeDuplicate(List<Interceptor> list) {
-        //保证顺序并去重
-        LinkedHashSet h = new LinkedHashSet<Interceptor>(list);
-        list.clear();
-        list.addAll(h);
-        return list;
-    }
 
 }

@@ -5,9 +5,9 @@ import android.graphics.drawable.BitmapDrawable;
 
 import androidx.annotation.Nullable;
 
-import com.blankj.utilcode.constant.MemoryConstants;
-import com.blankj.utilcode.util.ConvertUtils;
-import com.blankj.utilcode.util.ImageUtils;
+import com.didichuxing.doraemonkit.constant.MemoryConstants;
+import com.didichuxing.doraemonkit.util.ConvertUtils;
+import com.didichuxing.doraemonkit.util.ImageUtils;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;

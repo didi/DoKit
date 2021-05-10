@@ -1,9 +1,5 @@
 apply plugin: 'com.android.library'
-if (rootProject.ext.config["publishArchivesType"] == 2) {
-    apply from: 'upload-release.gradle'
-} else if (rootProject.ext.config["publishArchivesType"] == 0 || rootProject.ext.config["publishArchivesType"] == 1) {
-    apply from: 'upload-dev.gradle'
-}
+apply from: '../upload.gradle'
 
 /**
  * 必须配置git path 否则会报Error:(29, 0) CreateProcess error=2, The system cannot find the file specified 错误
@@ -49,15 +45,11 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation rootProject.ext.dependencies["appcompat"]
-    implementation 'androidx.test.ext:junit:1.1.1'
+    implementation 'androidx.test.ext:junit:1.1.2'
     //leakCanary
     implementation rootProject.ext.dependencies["haha"]
-    if (rootProject.ext.config["runOrPublish"] == 0) {
-        compileOnly project(':doraemonkit')
-    } else {
-        compileOnly "com.didichuxing.doraemonkit:dokitx:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-    }
+    compileOnly project(':doraemonkit')
     //跨进程通信框架
-    compileOnly rootProject.ext.dependencies["utilcode"]
+    compileOnly project(":doraemonkit-util")
 
 }

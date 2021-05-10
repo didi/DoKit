@@ -5,11 +5,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ActivityUtils;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.AlignRulerConfig;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
@@ -24,9 +26,15 @@ import com.didichuxing.doraemonkit.util.UIUtils;
 public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerMarkerDokitView.OnAlignRulerMarkerPositionChangeListener {
     private TextView mAlignHex;
     private ImageView mClose;
+
     private AlignRulerMarkerDokitView mMarker;
     private int mWindowWidth;
     private int mWindowHeight;
+
+    private CheckBox mIncludeStatusBarHeight;
+    private OnCheckedChangeListener mListener;
+
+    private int left, right, top, bottom;
 
     @Override
     public void onCreate(Context context) {
@@ -51,7 +59,7 @@ public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerM
         params.width = getScreenShortSideLength();
         params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         params.x = 0;
-        params.y = UIUtils.getHeightPixels() - UIUtils.dp2px(95);
+        params.y = UIUtils.getHeightPixels() - UIUtils.dp2px(150);
     }
 
     @Override
@@ -87,17 +95,43 @@ public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerM
                 DokitViewManager.getInstance().detach(AlignRulerInfoDokitView.class.getSimpleName());
             }
         });
+
+        mIncludeStatusBarHeight = findViewById(R.id.cb_status_bar);
+        mIncludeStatusBarHeight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (mListener != null) {
+                    mListener.onCheckedChanged(isChecked);
+                }
+                setTextInfo(isChecked);
+            }
+        });
     }
 
+    public void setCheckBoxListener(OnCheckedChangeListener mListener) {
+        this.mListener = mListener;
+    }
+
+
+    public interface OnCheckedChangeListener {
+        void onCheckedChanged(boolean isChecked);
+    }
 
     @Override
     public void onPositionChanged(int x, int y) {
-        int left = x;
-        int top = y;
-        int right = mWindowWidth - left;
-        int bottom = mWindowHeight - top;
-        mAlignHex.setText(getResources().getString(R.string.dk_align_info_text, left, right, top, bottom));
+        left = x;
+        top = y;
+        right = mWindowWidth - left;
+        bottom = mWindowHeight - top;
+        setTextInfo(mIncludeStatusBarHeight.isChecked());
     }
 
 
+    private void setTextInfo(boolean includeStatusBar) {
+        if (includeStatusBar) {
+            mAlignHex.setText(getResources().getString(R.string.dk_align_info_text, left, right, top + UIUtils.getStatusBarHeight(), bottom));
+        } else {
+            mAlignHex.setText(getResources().getString(R.string.dk_align_info_text, left, right, top, bottom));
+        }
+    }
 }

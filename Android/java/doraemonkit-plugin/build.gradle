@@ -1,10 +1,6 @@
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-kapt'
-if (rootProject.ext.config["publishArchivesType"] == 2) {
-    apply from: 'upload-release.gradle'
-} else if (rootProject.ext.config["publishArchivesType"] == 0 || rootProject.ext.config["publishArchivesType"] == 1) {
-    apply from: 'upload-dev.gradle'
-}
+apply from: '../upload.gradle'
 
 sourceSets {
     main {
@@ -23,20 +19,58 @@ compileKotlin {
     kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
 }
 
+def archives_type = rootProject.ext.publish_config["archives_type"]
+def gradlePluginVersion
+if (archives_type == 2) {
+    gradlePluginVersion = rootProject.ext.android["jcenter_gradle_plugin_version"]
+} else {
+    gradlePluginVersion = rootProject.ext.android["gradle_plugin_version"]
+}
+
 dependencies {
     compileOnly gradleApi()
     compileOnly localGroovy()
+
     //版本不能太高 否则会跟项目的as版本冲突
-    compileOnly "com.android.tools.build:gradle:${rootProject.ext.android["gradle_plugin_version"]}"
+    compileOnly "com.android.tools.build:gradle:$gradlePluginVersion"
     /* 👇👇👇👇 引用这两个模块 👇👇👇👇 */
     api "com.didiglobal.booster:booster-api:${rootProject.ext.android["booster_version"]}"
     api "com.didiglobal.booster:booster-transform-asm:${rootProject.ext.android["booster_version"]}"
-    kapt "com.google.auto.service:auto-service:1.0-rc6"
+    kapt "com.google.auto.service:auto-service:1.0-rc7"
 }
+
+/**
+ * 删除指定目录下的文件
+ */
+task deleteSource(type: Delete) {
+    delete './src/main/kotlin'
+}
+
+/**
+ * 将buildSrc中的代码同步到doraemonkit-plugin中
+ */
+task copyPluginSource(type: Copy, dependsOn: deleteSource) {
+    println("===copyInnPluginSource===")
+    from './../buildSrc/src/main/kotlin'
+    into './src/main/kotlin'
+}
+
+publish.dependsOn(['copyPluginSource'])
 
 repositories {
     google()
-    jcenter()
+//    jcenter()
     mavenCentral()
+}
+
+task preparePublish(dependsOn: 'assemble') {
+    doFirst {
+        println("===doraemonkit-plugin assemble start===")
+    }
+
+    doLast {
+        println("===doraemonkit-plugin assemble end===")
+    }
+
 }
 

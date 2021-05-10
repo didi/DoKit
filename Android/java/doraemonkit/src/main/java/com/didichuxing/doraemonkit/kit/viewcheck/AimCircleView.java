@@ -50,11 +50,15 @@ public class AimCircleView extends View {
 
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(getResources().getColor(R.color.dk_color_FFFFFF));
+        mPaint.setAlpha(100);
         canvas.drawCircle(cx, cy, radius, mPaint);
+
         radius = getResources().getDimensionPixelSize(R.dimen.dk_dp_40) / 2;
         mPaint.setColor(getResources().getColor(R.color.dk_color_30CC3A4B));
+        mPaint.setAlpha(50);
         canvas.drawCircle(cx, cy, radius, mPaint);
-        radius = getResources().getDimensionPixelSize(R.dimen.dk_dp_20) / 2;
+
+        radius = getResources().getDimensionPixelSize(R.dimen.dk_dp_5) / 2;
         mPaint.setColor(getResources().getColor(R.color.dk_color_CC3A4B));
         canvas.drawCircle(cx, cy, radius, mPaint);
 
@@ -62,6 +66,7 @@ public class AimCircleView extends View {
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(4);
         mPaint.setColor(getResources().getColor(R.color.dk_color_337CC4));
+        mPaint.setAlpha(100);
         canvas.drawCircle(cx, cy, radius - 2, mPaint);
     }
 }

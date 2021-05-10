@@ -20,7 +20,7 @@ import android.content.Intent;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
-import com.blankj.utilcode.util.Utils;
+import com.didichuxing.doraemonkit.util.Utils;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.squareup.leakcanary.R;
 import com.squareup.leakcanary.AbstractAnalysisResultService;

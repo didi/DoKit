@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit.datapick;
 
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.DeviceUtils;
-import com.blankj.utilcode.util.TimeUtils;
+import com.didichuxing.doraemonkit.util.AppUtils;
+import com.didichuxing.doraemonkit.util.DeviceUtils;
+import com.didichuxing.doraemonkit.util.TimeUtils;
 import com.didichuxing.doraemonkit.BuildConfig;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 

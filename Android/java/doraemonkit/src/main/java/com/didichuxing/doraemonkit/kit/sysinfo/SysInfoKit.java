@@ -6,12 +6,13 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
+import com.google.auto.service.AutoService;
 
 /**
  * 设备、app信息
  * Created by zhangweida on 2018/6/22.
  */
-
+@AutoService(AbstractKit.class)
 public class SysInfoKit extends AbstractKit {
 
 
@@ -28,7 +29,7 @@ public class SysInfoKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context,FragmentIndex.FRAGMENT_SYS_INFO);
+        startUniversalActivity(SysInfoFragment.class, context, null,true);
     }
 
     @Override

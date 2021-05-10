@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit.kit.h5_help
 
 import android.webkit.JavascriptInterface
-import com.blankj.utilcode.util.ActivityUtils
-import com.blankj.utilcode.util.GsonUtils
+import com.didichuxing.doraemonkit.util.ActivityUtils
+import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean

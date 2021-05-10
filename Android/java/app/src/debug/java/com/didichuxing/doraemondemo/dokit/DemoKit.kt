@@ -4,8 +4,6 @@ import android.content.Context
 import com.didichuxing.doraemondemo.R
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.Category
-import com.didichuxing.doraemonkit.kit.core.DokitIntent
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 
 /**

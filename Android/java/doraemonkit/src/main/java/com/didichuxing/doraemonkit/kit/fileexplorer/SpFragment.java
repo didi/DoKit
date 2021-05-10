@@ -16,14 +16,14 @@ import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.SpInputType;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.widget.titlebar.TitleBar;
-import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
+import com.didichuxing.doraemonkit.util.DoKitSPUtil;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static com.didichuxing.doraemonkit.util.FileUtil.XML;
+import static com.didichuxing.doraemonkit.util.DoKitFileUtil.XML;
 
 public class SpFragment extends BaseFragment {
     private SharedPreferences.Editor edit;
@@ -43,7 +43,7 @@ public class SpFragment extends BaseFragment {
             return spBeans;
         }
         spTableName = mFile.getName().replace(XML, "");
-        SharedPreferences sp = SharedPrefsUtil.getSharedPrefs(spTableName);
+        SharedPreferences sp = DoKitSPUtil.getSharedPrefs(spTableName);
         edit = sp.edit();
         Map<String, ?> all = sp.getAll();
         if (all.isEmpty()) {
@@ -99,19 +99,19 @@ public class SpFragment extends BaseFragment {
         String key = bean.key;
         switch (bean.value.getClass().getSimpleName()) {
             case SpInputType.STRING:
-                SharedPrefsUtil.putString(key, bean.value.toString());
+                DoKitSPUtil.putString(key, bean.value.toString());
                 break;
             case SpInputType.BOOLEAN:
-                SharedPrefsUtil.putBoolean(spTableName, key, (Boolean) bean.value);
+                DoKitSPUtil.putBoolean(spTableName, key, (Boolean) bean.value);
                 break;
             case SpInputType.INTEGER:
-                SharedPrefsUtil.putInt(spTableName, key, (Integer) bean.value);
+                DoKitSPUtil.putInt(spTableName, key, (Integer) bean.value);
                 break;
             case SpInputType.FLOAT:
-                SharedPrefsUtil.putFloat(spTableName, key, (Float) bean.value);
+                DoKitSPUtil.putFloat(spTableName, key, (Float) bean.value);
                 break;
             case SpInputType.LONG:
-                SharedPrefsUtil.putLong(spTableName, key, (Long) bean.value);
+                DoKitSPUtil.putLong(spTableName, key, (Long) bean.value);
                 break;
             default:
                 break;

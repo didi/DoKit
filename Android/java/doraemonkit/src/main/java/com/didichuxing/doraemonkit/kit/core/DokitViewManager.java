@@ -8,14 +8,14 @@ import android.view.WindowManager;
 
 import androidx.room.Room;
 
-import com.blankj.utilcode.util.ScreenUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDatabase;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelDokitView;
 import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.util.ScreenUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -76,7 +76,7 @@ public class DokitViewManager implements DokitViewManagerInterface {
             return mDB;
         }
 
-        mDB = Room.databaseBuilder(DoraemonKit.APPLICATION,
+        mDB = Room.databaseBuilder(DoKit.APPLICATION,
                 DokitDatabase.class,
                 "dokit-database")
                 //下面注释表示允许主线程进行数据库操作，但是不推荐这样做。

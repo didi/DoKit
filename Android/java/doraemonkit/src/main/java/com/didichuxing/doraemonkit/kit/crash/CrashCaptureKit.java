@@ -7,10 +7,12 @@ import com.didichuxing.doraemonkit.config.CrashCaptureConfig;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
+import com.google.auto.service.AutoService;
 
 /**
  * Created by wanglikun on 2019/6/12
  */
+@AutoService(AbstractKit.class)
 public class CrashCaptureKit extends AbstractKit {
 
     @Override
@@ -25,7 +27,7 @@ public class CrashCaptureKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_CRASH);
+        startUniversalActivity(CrashCaptureMainFragment.class, context, null,true);
     }
 
     @Override

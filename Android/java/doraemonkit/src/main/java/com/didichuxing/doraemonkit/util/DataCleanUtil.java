@@ -6,8 +6,6 @@ import android.content.Context;
 import android.os.Environment;
 import android.text.format.Formatter;
 
-import com.blankj.utilcode.util.PathUtils;
-
 /**
  * Created by wanglikun on 2018/11/17.
  */
@@ -19,28 +17,28 @@ public class DataCleanUtil {
      * @param context
      */
     public static void cleanInternalCache(Context context) {
-        FileUtil.deleteDirectory(context.getCacheDir());
+        DoKitFileUtil.deleteDirectory(context.getCacheDir());
     }
 
     /**
      * @param context
      */
     public static void cleanDatabases(Context context) {
-        FileUtil.deleteDirectory(new File(context.getFilesDir().getParent() + "/databases"));
+        DoKitFileUtil.deleteDirectory(new File(context.getFilesDir().getParent() + "/databases"));
     }
 
     /**
      * @param context
      */
     public static void cleanSharedPreference(Context context) {
-        FileUtil.deleteDirectory(new File(context.getFilesDir().getParent() + "/shared_prefs"));
+        DoKitFileUtil.deleteDirectory(new File(context.getFilesDir().getParent() + "/shared_prefs"));
     }
 
     /**
      * @param context
      */
     public static void cleanFiles(Context context) {
-        FileUtil.deleteDirectory(context.getFilesDir());
+        DoKitFileUtil.deleteDirectory(context.getFilesDir());
     }
 
     /**
@@ -49,7 +47,7 @@ public class DataCleanUtil {
     public static void cleanExternalCache(Context context) {
         if (Environment.getExternalStorageState().equals(
                 Environment.MEDIA_MOUNTED)) {
-            FileUtil.deleteDirectory(context.getExternalCacheDir());
+            DoKitFileUtil.deleteDirectory(context.getExternalCacheDir());
         }
     }
 
@@ -57,7 +55,7 @@ public class DataCleanUtil {
      * @param filePath
      */
     public static void cleanCustomCache(String filePath) {
-        FileUtil.deleteDirectory(new File(filePath));
+        DoKitFileUtil.deleteDirectory(new File(filePath));
     }
 
     /**
@@ -90,7 +88,7 @@ public class DataCleanUtil {
 //        size += FileUtil.getDirectorySize(new File(context.getFilesDir().getParent() + "/shared_prefs"));
 //        // files
 //        size += FileUtil.getDirectorySize(context.getFilesDir());
-        return FileUtil.getDirectorySize(new File(PathUtils.getInternalAppDataPath()));
+        return DoKitFileUtil.getDirectorySize(new File(PathUtils.getInternalAppDataPath()));
     }
 
     public static String getApplicationDataSizeStr(Context context) {

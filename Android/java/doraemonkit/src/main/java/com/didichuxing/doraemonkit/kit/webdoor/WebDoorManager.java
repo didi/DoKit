@@ -6,8 +6,10 @@ import android.content.Intent;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.CachesKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
-import com.didichuxing.doraemonkit.util.CacheUtils;
+import com.didichuxing.doraemonkit.kit.webview.WebViewManager;
+import com.didichuxing.doraemonkit.util.DoKitCacheUtils;
 
 import java.util.ArrayList;
 
@@ -34,7 +36,7 @@ public class WebDoorManager {
 
     public void saveHistory(String text) {
         if (mHistory == null) {
-            mHistory = (ArrayList<String>) CacheUtils.readObject(CachesKey.WEB_DOOR_HISTORY);
+            mHistory = (ArrayList<String>) DoKitCacheUtils.readObject(CachesKey.WEB_DOOR_HISTORY);
         }
         if (mHistory == null) {
             mHistory = new ArrayList<>();
@@ -46,12 +48,12 @@ public class WebDoorManager {
             mHistory.remove(0);
         }
         mHistory.add(text);
-        CacheUtils.saveObject(CachesKey.WEB_DOOR_HISTORY, mHistory);
+        DoKitCacheUtils.saveObject(CachesKey.WEB_DOOR_HISTORY, mHistory);
     }
 
     public ArrayList<String> getHistory() {
         if (mHistory == null) {
-            mHistory = (ArrayList<String>) CacheUtils.readObject(CachesKey.WEB_DOOR_HISTORY);
+            mHistory = (ArrayList<String>) DoKitCacheUtils.readObject(CachesKey.WEB_DOOR_HISTORY);
         }
         if (mHistory == null) {
             mHistory = new ArrayList<>();
@@ -61,7 +63,7 @@ public class WebDoorManager {
 
     public void clearHistory() {
         mHistory.clear();
-        CacheUtils.saveObject(CachesKey.WEB_DOOR_HISTORY, mHistory);
+        DoKitCacheUtils.saveObject(CachesKey.WEB_DOOR_HISTORY, mHistory);
     }
 
     private static class Holder {
@@ -80,11 +82,9 @@ public class WebDoorManager {
 
         @Override
         public void overrideUrlLoading(Context context, String url) {
-            Intent intent = new Intent(context, UniversalActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_WEB_DOOR_DEFAULT);
-            intent.putExtra(BundleKey.KEY_URL, url);
-            context.startActivity(intent);
+            WebViewManager.INSTANCE.setUrl(url);
+            SimpleDokitStarter.startFullScreen(WebDoorDefaultFragment.class, context);
+
         }
     }
 }

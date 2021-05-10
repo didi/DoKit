@@ -2,7 +2,8 @@ package com.didichuxing.doraemonkit.kit.performance;
 
 import android.content.Context;
 
-import com.blankj.utilcode.util.ActivityUtils;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
@@ -33,9 +34,7 @@ public class PerformanceDokitViewManager {
     public static void open(int performanceType, String title, int interval, PerformanceFragmentCloseListener listener) {
         PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
         if (performanceDokitView == null) {
-            DokitIntent dokitIntent = new DokitIntent(PerformanceDokitView.class);
-            dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-            DokitViewManager.getInstance().attach(dokitIntent);
+            SimpleDokitStarter.startFloating(PerformanceDokitView.class);
             performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
             performanceDokitView.addItem(performanceType, title, interval);
         } else {

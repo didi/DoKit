@@ -5,23 +5,25 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Debug;
 import android.os.Looper;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
-import com.blankj.utilcode.util.ActivityUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
+import androidx.annotation.NonNull;
+
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment;
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager;
-import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
+import com.didichuxing.doraemonkit.util.DoKitNotificationUtils;
 import com.didichuxing.doraemonkit.util.LogHelper;
-import com.didichuxing.doraemonkit.util.NotificationUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,13 +63,10 @@ public class BlockMonitorManager {
             LogHelper.i(TAG, "start when manager is running");
             return;
         }
-        if (DoraemonKit.APPLICATION == null) {
-            LogHelper.e(TAG, "start fail, context is null");
-            return;
-        }
+
         // 卡顿检测和跳转耗时统计都使用了Printer的方式，无法同时工作
         TimeCounterManager.get().stop();
-        mContext = DoraemonKit.APPLICATION.getApplicationContext();
+        mContext = DoKit.APPLICATION.getApplicationContext();
         if (mMonitorCore == null) {
             mMonitorCore = new MonitorCore();
         }
@@ -89,7 +88,7 @@ public class BlockMonitorManager {
             mMonitorCore.shutDown();
             mMonitorCore = null;
         }
-        NotificationUtils.cancelNotification(mContext, NotificationUtils.ID_SHOW_BLOCK_NOTIFICATION);
+        DoKitNotificationUtils.cancelNotification(mContext, DoKitNotificationUtils.ID_SHOW_BLOCK_NOTIFICATION);
         mIsRunning = false;
         mContext = null;
     }
@@ -146,12 +145,15 @@ public class BlockMonitorManager {
     private void showNotification(BlockInfo info) {
         String contentTitle = mContext.getString(R.string.dk_block_class_has_blocked, info.timeStart);
         String contentText = mContext.getString(R.string.dk_block_notification_message);
+
+
         Intent intent = new Intent(mContext, UniversalActivity.class);
+
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_BLOCK_MONITOR);
         intent.putExtra(BlockMonitorFragment.KEY_JUMP_TO_LIST, true);
         PendingIntent pendingIntent = PendingIntent.getActivity(mContext, 1, intent, FLAG_UPDATE_CURRENT);
-        NotificationUtils.setInfoNotification(mContext, NotificationUtils.ID_SHOW_BLOCK_NOTIFICATION,
+        DoKitNotificationUtils.setInfoNotification(mContext, DoKitNotificationUtils.ID_SHOW_BLOCK_NOTIFICATION,
                 contentTitle, contentText, contentText, pendingIntent);
     }
 

@@ -19,7 +19,7 @@ import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceUtil;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.model.ViewInfo;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
-import com.didichuxing.doraemonkit.util.PermissionUtil;
+import com.didichuxing.doraemonkit.util.DoKitPermissionUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 
@@ -50,18 +50,22 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
-        recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_CREATE);
-        if (ignoreCurrentActivityDokitView(activity)) {
-            return;
+        try {
+            recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_CREATE);
+            if (ignoreCurrentActivityDokitView(activity)) {
+                return;
+            }
+            if (activity instanceof FragmentActivity) {
+                //注册fragment生命周期回调
+                ((FragmentActivity) activity).getSupportFragmentManager().registerFragmentLifecycleCallbacks(sFragmentLifecycleCallbacks, true);
+            }
+            //暂时无法很好的解决屏幕旋转的问题
+            //DoKitOrientationEventListener orientationEventListener = new DoKitOrientationEventListener(activity);
+            //orientationEventListener.enable();
+            //mOrientationEventListeners.put(activity.getClass().getSimpleName(), orientationEventListener);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if (activity instanceof FragmentActivity) {
-            //注册fragment生命周期回调
-            ((FragmentActivity) activity).getSupportFragmentManager().registerFragmentLifecycleCallbacks(sFragmentLifecycleCallbacks, true);
-        }
-//暂时无法很好的解决屏幕旋转的问题
-//        DoKitOrientationEventListener orientationEventListener = new DoKitOrientationEventListener(activity);
-//        orientationEventListener.enable();
-//        mOrientationEventListeners.put(activity.getClass().getSimpleName(), orientationEventListener);
 
 
     }
@@ -70,95 +74,122 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
 
     @Override
     public void onActivityStarted(@NonNull Activity activity) {
-        if (ignoreCurrentActivityDokitView(activity)) {
-            return;
-        }
-        if (startedActivityCounts == 0) {
-            DokitViewManager.getInstance().notifyForeground();
+        try {
+            if (ignoreCurrentActivityDokitView(activity)) {
+                return;
+            }
+            if (startedActivityCounts == 0) {
+                DokitViewManager.getInstance().notifyForeground();
 
+            }
+            startedActivityCounts++;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        startedActivityCounts++;
+
     }
 
     @Override
     public void onActivityResumed(@NonNull Activity activity) {
-        recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_RESUME);
-        //记录页面层级
-        if (!activity.getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.kit.base.UniversalActivity")) {
-            recordActivityUiLevel(activity);
-        }
-        //如果是leakCanary页面不进行添加
-        if (ignoreCurrentActivityDokitView(activity)) {
-            return;
-        }
+        try {
+            recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_RESUME);
+            //记录页面层级
+            if (!activity.getClass().getCanonicalName().equals("com.didichuxing.doraemonkit.kit.base.UniversalActivity")) {
+                recordActivityUiLevel(activity);
+            }
+            //如果是leakCanary页面不进行添加
+            if (ignoreCurrentActivityDokitView(activity)) {
+                return;
+            }
 
 
-        //设置app的直接子view的Id
-        UIUtils.getDokitAppContentView(activity);
-        //添加DokitView
-        resumeAndAttachDokitViews(activity);
+            //设置app的直接子view的Id
+            UIUtils.getDokitAppContentView(activity);
+            //添加DokitView
+            resumeAndAttachDokitViews(activity);
 
-        for (LifecycleListenerUtil.LifecycleListener listener : LifecycleListenerUtil.LIFECYCLE_LISTENERS) {
-            listener.onActivityResumed(activity);
+            for (LifecycleListenerUtil.LifecycleListener listener : LifecycleListenerUtil.LIFECYCLE_LISTENERS) {
+                listener.onActivityResumed(activity);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override
     public void onActivityPaused(@NonNull Activity activity) {
-        if (ignoreCurrentActivityDokitView(activity)) {
-            return;
-        }
-        for (LifecycleListenerUtil.LifecycleListener listener : LifecycleListenerUtil.LIFECYCLE_LISTENERS) {
-            listener.onActivityPaused(activity);
+        try {
+            if (ignoreCurrentActivityDokitView(activity)) {
+                return;
+            }
+            for (LifecycleListenerUtil.LifecycleListener listener : LifecycleListenerUtil.LIFECYCLE_LISTENERS) {
+                listener.onActivityPaused(activity);
+            }
+
+            DokitViewManager.getInstance().onActivityPause(activity);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        DokitViewManager.getInstance().onActivityPause(activity);
     }
 
 
     @Override
     public void onActivityStopped(@NonNull Activity activity) {
-        recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_STOPPED);
-        if (ignoreCurrentActivityDokitView(activity)) {
-            return;
+        try {
+            recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_STOPPED);
+            if (ignoreCurrentActivityDokitView(activity)) {
+                return;
+            }
+            startedActivityCounts--;
+            //通知app退出到后台
+            if (startedActivityCounts == 0) {
+                DokitViewManager.getInstance().notifyBackground();
+                //app 切换到后台 上传埋点数据
+                DataPickManager.getInstance().postData();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        startedActivityCounts--;
-        //通知app退出到后台
-        if (startedActivityCounts == 0) {
-            DokitViewManager.getInstance().notifyBackground();
-            //app 切换到后台 上传埋点数据
-            DataPickManager.getInstance().postData();
-        }
+
     }
 
     @Override
     public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
-        if (ignoreCurrentActivityDokitView(activity)) {
-            return;
+        try {
+            if (ignoreCurrentActivityDokitView(activity)) {
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override
     public void onActivityDestroyed(@NonNull Activity activity) {
-        recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_DESTROY);
-        if (ignoreCurrentActivityDokitView(activity)) {
-            return;
+        try {
+            recordActivityLifeCycleStatus(activity, LIFE_CYCLE_STATUS_DESTROY);
+            if (ignoreCurrentActivityDokitView(activity)) {
+                return;
+            }
+            //注销fragment的生命周期回调
+            if (activity instanceof FragmentActivity) {
+                ((FragmentActivity) activity).getSupportFragmentManager().unregisterFragmentLifecycleCallbacks(sFragmentLifecycleCallbacks);
+            }
+            DokitViewManager.getInstance().onActivityDestroy(activity);
+
+            //暂时无法很好的解决屏幕旋转的问题
+            //DoKitOrientationEventListener orientationEventListener = mOrientationEventListeners.get(activity.getClass().getSimpleName());
+
+            //if (orientationEventListener != null) {
+            //orientationEventListener.disable();
+            //mOrientationEventListeners.remove(activity.getClass().getSimpleName());
+            //}
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        //注销fragment的生命周期回调
-        if (activity instanceof FragmentActivity) {
-            ((FragmentActivity) activity).getSupportFragmentManager().unregisterFragmentLifecycleCallbacks(sFragmentLifecycleCallbacks);
-        }
-        DokitViewManager.getInstance().onActivityDestroy(activity);
-
-//暂时无法很好的解决屏幕旋转的问题
-//        DoKitOrientationEventListener orientationEventListener = mOrientationEventListeners.get(activity.getClass().getSimpleName());
-//
-//        if (orientationEventListener != null) {
-//            orientationEventListener.disable();
-//            mOrientationEventListeners.remove(activity.getClass().getSimpleName());
-//        }
-
-
     }
 
     /**
@@ -190,7 +221,7 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
         //系统模式
         else {
             //悬浮窗权限 vivo 华为可以不需要动态权限 小米需要
-            if (PermissionUtil.canDrawOverlays(activity)) {
+            if (DoKitPermissionUtil.canDrawOverlays(activity)) {
                 DokitViewManager.getInstance().resumeAndAttachDokitViews(activity);
             } else {
                 //请求悬浮窗权限
@@ -208,10 +239,10 @@ class DokitActivityLifecycleCallbacks implements Application.ActivityLifecycleCa
      * @param context
      */
     private void requestPermission(Context context) {
-        if (!PermissionUtil.canDrawOverlays(context) && !sHasRequestPermission) {
+        if (!DoKitPermissionUtil.canDrawOverlays(context) && !sHasRequestPermission) {
             Toast.makeText(context, context.getText(R.string.dk_float_permission_toast), Toast.LENGTH_SHORT).show();
             //请求悬浮窗权限
-            PermissionUtil.requestDrawOverlays(context);
+            DoKitPermissionUtil.requestDrawOverlays(context);
             sHasRequestPermission = true;
         }
     }

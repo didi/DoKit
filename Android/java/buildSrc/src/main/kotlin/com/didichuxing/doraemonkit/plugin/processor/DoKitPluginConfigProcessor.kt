@@ -14,6 +14,7 @@ import com.didiglobal.booster.transform.ArtifactManager
 import com.didiglobal.booster.transform.artifacts
 import com.didiglobal.booster.transform.util.ComponentHandler
 import org.gradle.api.Project
+import java.lang.NullPointerException
 import javax.xml.parsers.SAXParserFactory
 
 /**
@@ -56,17 +57,25 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
             //查找AndroidManifest.xml 文件路径
             variant.artifacts.get(ArtifactManager.MERGED_MANIFESTS).forEach { manifest ->
                 val parser = SAXParserFactory.newInstance().newSAXParser()
-                val handler = ComponentHandler()
+                val handler = DoKitComponentHandler()
+                "App Manifest path====>$manifest".println()
                 parser.parse(manifest, handler)
+                "App PackageName is====>${handler.appPackageName}".println()
+                "App Application path====>${handler.applications}".println()
+                DoKitExtUtil.setAppPackageName(handler.appPackageName)
                 DoKitExtUtil.setApplications(handler.applications)
-                "applications path====>${handler.applications}".println()
             }
 
             //读取插件配置
             variant.project.getAndroid<AppExtension>().let { appExt ->
                 //查找Application路径
                 val doKitExt = variant.project.extensions.getByType(DoKitExt::class.java)
-                DoKitExtUtil.init(doKitExt, appExt.defaultConfig.applicationId!!)
+                DoKitExtUtil.init(doKitExt)
+//                "App ApplicationId is====>${appExt.defaultConfig.applicationId}".println()
+//                appExt.defaultConfig.applicationId?.let {
+//                    DoKitExtUtil.init(doKitExt)
+//                } ?: throw NullPointerException("applicationId is null，applicationId暂不支持动态配置的方式读取")
+
             }
 
         } else {

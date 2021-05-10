@@ -6,11 +6,13 @@ import android.content.Intent;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.weex.R;
+import com.google.auto.service.AutoService;
 
 /**
  * @author haojianglong
  * @date 2019-06-11
  */
+@AutoService(AbstractKit.class)
 public class WeexDevToolKit extends AbstractKit {
 
 

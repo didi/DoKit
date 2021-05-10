@@ -3,21 +3,22 @@ package com.didichuxing.doraemonkit.kit.health;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.util.DokitUtil;
+import com.didichuxing.doraemonkit.util.DoKitCommUtil;
+import com.google.auto.service.AutoService;
 
 
 /**
  * @author jintai
  * @desc: 一键体检kit
  */
+@AutoService(AbstractKit.class)
 public class HealthKit extends AbstractKit {
-
 
 
     @Override
@@ -34,25 +35,26 @@ public class HealthKit extends AbstractKit {
     @Override
     public void onClick(Context context) {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
-            ToastUtils.showShort(DokitUtil.getString(R.string.dk_plugin_close_tip));
+            ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip));
             return;
         }
 
         if (!DokitPluginConfig.SWITCH_NETWORK) {
-            ToastUtils.showShort(DokitUtil.getString(R.string.dk_plugin_network_close_tip));
+            ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_network_close_tip));
             return;
         }
 
         if (!DokitPluginConfig.SWITCH_METHOD) {
-            ToastUtils.showShort(DokitUtil.getString(R.string.dk_plugin_method_close_tip));
+            ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_method_close_tip));
             return;
         }
 
         if (TextUtils.isEmpty(DoKitConstant.PRODUCT_ID)) {
-            ToastUtils.showShort(DokitUtil.getString(R.string.dk_platform_tip));
+            ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_platform_tip));
             return;
         }
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_HEALTH);
+
+        startUniversalActivity(HealthFragment.class, context, null,true);
     }
 
     @Override
