@@ -2,12 +2,15 @@ def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
 
 if (PUBLISH_ARCHIVES_TYPE == 0 || PUBLISH_ARCHIVES_TYPE == 1) {
     System.out.println("==project.name===${project.name}====")
-    def projectName = project.name
-    if (projectName == 'doraemonkit-plugin') {
-        apply from: '../upload_maven_plugin.gradle'
-    } else {
-        apply from: '../upload_maven.gradle'
-    }
+   // def projectName = project.name
+    apply from: '../upload_maven.gradle'
+//    if (projectName == 'doraemonkit-plugin') {
+//        apply from: '../upload_maven_plugin.gradle'
+//    } else {
+//        apply from: '../upload_maven.gradle'
+//    }
 } else if (PUBLISH_ARCHIVES_TYPE == 2) {
     apply from: '../upload_jcenter.gradle'
+}else if (PUBLISH_ARCHIVES_TYPE == 3) {
+    apply from: '../upload_maven_central.gradle'
 }

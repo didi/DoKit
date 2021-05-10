@@ -55,11 +55,22 @@ task copyPluginSource(type: Copy, dependsOn: deleteSource) {
     into './src/main/kotlin'
 }
 
-uploadArchives.dependsOn(copyPluginSource)
+publish.dependsOn(['copyPluginSource'])
 
 repositories {
     google()
-    jcenter()
+//    jcenter()
     mavenCentral()
+}
+
+task preparePublish(dependsOn: 'assemble') {
+    doFirst {
+        println("===doraemonkit-plugin assemble start===")
+    }
+
+    doLast {
+        println("===doraemonkit-plugin assemble end===")
+    }
+
 }
 

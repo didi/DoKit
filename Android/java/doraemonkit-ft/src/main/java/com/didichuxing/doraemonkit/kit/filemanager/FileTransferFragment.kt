@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Html
 import android.view.View
-import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.ft.R
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 import com.didichuxing.doraemonkit.kit.webview.CommWebViewFragment

@@ -2,21 +2,11 @@ import org.gradle.api.internal.artifacts.dependencies.DefaultProjectDependency
 import org.json.JSONObject
 
 apply plugin: 'maven-publish'
-def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
+apply plugin: 'signing'
+
+//def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
 def DOKIT_VERSION = rootProject.ext.publish_config["version"]
 def DOKIT_GROUP_ID = rootProject.ext.publish_config["group_id"]
-
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-def LOCAL_REPOSITORY_URL = properties.getProperty('LOCAL_REPOSITORY_URL', "")
-def RELEASE_REPOSITORY_URL = properties.getProperty('RELEASE_REPOSITORY_URL', "")
-def SNAPSHOT_REPOSITORY_URL = properties.getProperty('SNAPSHOT_REPOSITORY_URL', "")
-def USERNAME = properties.getProperty('USERNAME', "")
-def PASSWORD = properties.getProperty('PASSWORD', "")
-
-//读取module和ARTIFACT_ID的映射文件
-def MODULE_JSONOBJECT = new JSONObject(new File("${rootProject.rootDir}/dokit_module.json").text)
-
 
 //生成源码注释
 task packageSourcesJar(type: Jar) {
@@ -28,7 +18,6 @@ task packageSourcesJar(type: Jar) {
     }
 
 }
-
 if (project.ARTIFACT_ID == "dokitx-plugin") {
     task packageJavadoc(type: Jar) {
         classifier = 'javadoc'
@@ -36,15 +25,45 @@ if (project.ARTIFACT_ID == "dokitx-plugin") {
     }
 }
 
+
+ext["signing.keyId"] = ''
+ext["signing.password"] = ''
+ext["signing.secretKeyRingFile"] = ''
+ext["ossrhUsername"] = ''
+ext["ossrhPassword"] = ''
+
+
+File secretPropsFile = project.rootProject.file('local.properties')
+if (secretPropsFile.exists()) {
+    println "Found secret props file, loading props"
+    Properties p = new Properties()
+    p.load(new FileInputStream(secretPropsFile))
+    p.each { name, value ->
+        ext[name] = value
+    }
+    println "Found secret props file, loading props"
+} else {
+    throw NullPointerException("no local.properties exists")
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def USERNAME = properties.getProperty('MAVEN_CENTRAL_USERNAME', "")
+def PASSWORD = properties.getProperty('MAVEN_CENTRAL_PASSWORD', "")
+
+//读取module和ARTIFACT_ID的映射文件
+def MODULE_JSONOBJECT = new JSONObject(new File("${rootProject.rootDir}/dokit_module.json").text)
+//println("jsonObject==>${MODULE_JSONOBJECT.getString("doraemonkit")}")
+
 afterEvaluate {
     publishing {
         publications {
             release(MavenPublication) {
-                groupId = DOKIT_GROUP_ID
-                artifactId = project.ARTIFACT_ID
-                version = DOKIT_VERSION
-                // 上传source，这样使用放可以看到方法注释
-
+                // The coordinates of the library, being set from variables that
+                // we'll set up in a moment
+                groupId DOKIT_GROUP_ID
+                artifactId project.ARTIFACT_ID
+                version DOKIT_VERSION
                 artifact packageSourcesJar
                 // Two artifacts, the `aar` and the sources
                 if (project.ARTIFACT_ID == "dokitx-plugin") {
@@ -53,6 +72,8 @@ afterEvaluate {
                 } else {
                     artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
                 }
+
+
                 // Self-explanatory metadata for the most part
                 pom {
                     name = project.ARTIFACT_ID
@@ -83,7 +104,6 @@ afterEvaluate {
                     withXml {
                         def dependenciesNode = asNode().appendNode('dependencies')
                         project.configurations.implementation.allDependencies.each { dependency ->
-                            println("${project.name} dependency is ===>${dependency.group}:${dependency.name}:${dependency.version}")
                             if (!dependency.name.isEmpty() && dependency.name != "unspecified") {
                                 def dependencyNode = dependenciesNode.appendNode('dependency')
                                 if (dependency instanceof DefaultProjectDependency) {
@@ -120,20 +140,32 @@ afterEvaluate {
             }
         }
         repositories {
+            // The repository to publish to, Sonatype/MavenCentral
             maven {
-                if (PUBLISH_ARCHIVES_TYPE == 0) {
-                    url = uri(LOCAL_REPOSITORY_URL)
-                } else if (PUBLISH_ARCHIVES_TYPE == 1) {
-                    def REPOSITORY_URL = DOKIT_VERSION.endsWith('SNAPSHOT') ? SNAPSHOT_REPOSITORY_URL : RELEASE_REPOSITORY_URL
-                    println("DoKit====>${project.ARTIFACT_ID}_${DOKIT_VERSION}==${REPOSITORY_URL}")
-                    url = uri(REPOSITORY_URL)
-                    //认证用户和密码
-                    credentials {
-                        username USERNAME
-                        password PASSWORD
-                    }
+                // This is an arbitrary name, you may also use "mavencentral" or
+                // any other name that's descriptive for you
+                name = "mavenCentral"
+
+                def releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                def snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                // You only need this if you want to publish snapshots, otherwise just set the URL
+                // to the release repo directly
+                url = DOKIT_VERSION.endsWith('-SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+                // 用于打印url，方便查看aar是否存在
+                def searchUrl = "https://search.maven.org/artifact/"
+                System.out.println("aar url：" + searchUrl + DOKIT_GROUP_ID + "/" + project.ARTIFACT_ID + "/" + DOKIT_VERSION + "/aar")
+
+                // The username and password we've fetched earlier
+                credentials {
+                    username USERNAME
+                    password PASSWORD
                 }
             }
         }
     }
+}
+
+signing {
+    sign publishing.publications
 }

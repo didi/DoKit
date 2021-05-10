@@ -63,4 +63,3 @@ dependencies {
 
 }
 
-publish.dependsOn(':doraemonkit:publish')

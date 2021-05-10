@@ -50,9 +50,22 @@ dependencies {
     kapt rootProject.ext.dependencies["auto_service"]
 }
 
-/**
- * 可以作为入口打包
- */
-publish.dependsOn(':doraemonkit:publish')
-publish.dependsOn(':doraemonkit-mc:publish')
-publish.dependsOn(':doraemonkit-rpc:publish')
+
+//publish.dependsOn([':doraemonkit-plugin:assemble',
+//              ':doraemonkit:assembleRelease',
+//              ':doraemonkit-ft:assembleRelease',
+//              ':doraemonkit-mc:assembleRelease',
+//              ':doraemonkit-rpc:assembleRelease',
+//              ':doraemonkit-weex:assembleRelease',
+//              ':doraemonkit-no-op:assembleRelease',
+//              ':doraemonkit-no-op:publish',
+//              ':doraemonkit-util:publish',
+//              ':doraemonkit-plugin:publish',
+//              ':doraemonkit-okhttp-v3:publish',
+//              ':doraemonkit-okhttp-v4:publish',
+//              ':doraemonkit-okhttp-api:publish',
+//              ':doraemonkit:publish',
+//              ':doraemonkit-mc:publish',
+//              ':doraemonkit-rpc:publish',
+//              ':doraemonkit-ft:publish'])
+

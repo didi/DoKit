@@ -119,9 +119,6 @@ dependencies {
 
 }
 
-publish.dependsOn(':doraemonkit-no-op:publish')
-publish.dependsOn(':doraemonkit-okhttp-api:publish')
-publish.dependsOn(':doraemonkit-plugin:uploadArchives')
 
 configurations.all {
     //循环每个依赖库
@@ -149,6 +146,18 @@ configurations.all {
 //        }
     }
 }
+
+task preparePublish(dependsOn: 'assembleRelease') {
+    doFirst {
+        println("===doraemonkit assembleRelease start===")
+    }
+
+    doLast {
+        println("===doraemonkit assembleRelease end===")
+    }
+
+}
+
 
 
 

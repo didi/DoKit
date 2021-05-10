@@ -35,18 +35,6 @@ android {
 
 }
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        //北京maven库
-        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public/' }
-        //北京maven库
-        maven { url 'https://www.jitpack.io' }
-
-    }
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
@@ -68,10 +56,8 @@ dependencies {
     compileOnly rootProject.ext.dependencies["ktor_server_cio"]
     compileOnly project(":doraemonkit-util")
     //此处需要使用api的形式 向上暴露内部api
-    api project(':doraemonkit')
+    implementation project(':doraemonkit')
     //auto-service
     implementation rootProject.ext.dependencies["auto_service"]
     kapt rootProject.ext.dependencies["auto_service"]
 }
-
-publish.dependsOn(':doraemonkit:publish')

@@ -42,6 +42,3 @@ dependencies {
     implementation project(":doraemonkit-util")
 }
 
-publish.dependsOn(':doraemonkit-util:publish')
-publish.dependsOn(':doraemonkit-okhttp-v3:publish')
-publish.dependsOn(':doraemonkit-okhttp-v4:publish')

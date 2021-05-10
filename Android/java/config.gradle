@@ -4,12 +4,15 @@ ext {
             //0:发布到到本地localRepoURL仓库
             //1:发布到滴滴内部仓库 一般不建议使用 如果需要发布到滴滴内网仓库需要将版本号改得比较大 假如版本号跟jcenter上的一致会由于缓存导致没法下载最新的jcenter的线上代码
             //2:发布到jcenter远程仓库
+            //3:发布到maven_central远程仓库
             archives_type: 0,
             //0:依赖dokit本地module运行
             //1:依赖dokit远程aar运行
             run_type     : 0,
-            group_id     : 'com.didichuxing.doraemonkit',
-            version      : '3.3.6.1-SNAPSHOT'
+//            group_id     : 'com.didichuxing.doraemonkit',
+            group_id     : 'io.github.didi.dokit',
+//            version      : '3.4.0-SNAPSHOT'
+            version      : '3.4.0-alpha02'
     ]
 
     android = [compileSdkVersion            : 29,
