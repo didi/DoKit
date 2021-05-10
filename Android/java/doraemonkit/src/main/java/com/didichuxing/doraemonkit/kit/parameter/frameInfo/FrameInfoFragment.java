@@ -49,7 +49,7 @@ public class FrameInfoFragment extends AbsParameterFragment {
     @Override
     protected Collection<SettingItem> getSettingItems(List<SettingItem> list) {
         list.add(new SettingItem(R.string.dk_frameinfo_detection_switch, DokitMemoryConfig.FPS_STATUS));
-        //list.add(new SettingItem(R.string.dk_item_cache_log, R.drawable.dk_more_icon));
+        list.add(new SettingItem(R.string.dk_item_cache_log, R.mipmap.dk_more_icon));
         return list;
     }
 
