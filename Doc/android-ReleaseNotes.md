@@ -4,6 +4,7 @@ DoraemonKit-Android releases
 ## 3.4.0-alpha02（dokitx 对应androidx，dokit对应Android Support）
 
 由于jcenter事件的影响，我们需要将DoKit For Android迁移到mavenCentral，但是需要更改groupId.所以大家要注意一下，具体的更新信息如下：
+
 1、变更GroupId(io.github.didi.dokit)
 
  //核心模块
