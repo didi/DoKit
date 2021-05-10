@@ -7,18 +7,23 @@ DoraemonKit-Android releases
 1、变更GroupId(io.github.didi.dokit)
 
  //核心模块
+
 debugImplementation "io.github.didi.dokit:dokitx:3.4.0-alpha02"
 
 //文件同步模块
+
 debugImplementation "io.github.didi.dokit:dokitx-ft:3.4.0-alpha02"
 
 //一机多控模块
+
 debugImplementation "io.github.didi.dokit:dokitx-mc:3.4.0-alpha02"
 
 //weex模块
+
 debugImplementation "io.github.didi.dokit:dokitx-weex:3.4.0-alpha02"
 
 //no-op 模块
+
 releaseImplementation "io.github.didi.dokit:dokitx-no-op:3.4.0-alpha02"
 
 2、适配AS4.2
@@ -31,11 +36,13 @@ releaseImplementation "io.github.didi.dokit:dokitx-no-op:3.4.0-alpha02"
 
 6、其他github issuebug修复
 
-tips:
+**tips:**
 
-1、记得添加mavenCentral()仓库
+**1、v.3.3.5及以前的版本还是在jcenter维护，所以无需变更GroupId，3.4.0及以后的版本需要将GroupId变更为：io.github.didi.dokit**
 
-2、由于本次内部框架变更比较多，所以当前是alpha02版本，欢迎大家给我提Bug
+**2、需要添加mavenCentral()仓库**
+
+**3、由于本次内部框架变更比较多，所以当前是alpha02版本，欢迎大家给我提Bug**
 
 
 ## 3.3.5（dokitx 对应androidx，dokit对应Android Support）
