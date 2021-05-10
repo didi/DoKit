@@ -1,26 +1,24 @@
 package com.didichuxing.doraemonkit.kit.dataclean
 
 import android.os.Bundle
-import android.os.FileUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.blankj.utilcode.util.PathUtils
+import com.didichuxing.doraemonkit.util.PathUtils
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.SettingItem
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter
 import com.didichuxing.doraemonkit.util.DataCleanUtil
-import com.didichuxing.doraemonkit.util.DokitUtil
-import com.didichuxing.doraemonkit.util.FileUtil
+import com.didichuxing.doraemonkit.util.DoKitCommUtil
+import com.didichuxing.doraemonkit.util.DoKitFileUtil
 import com.didichuxing.doraemonkit.widget.dialog.DialogInfo
 import com.didichuxing.doraemonkit.widget.dialog.SimpleDialogListener
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
-import kotlinx.android.synthetic.main.dk_label_text_view.view.*
 import java.io.File
 import java.util.*
 
@@ -50,7 +48,7 @@ class DataCleanFragment : BaseFragment() {
         mSettingList = findViewById(R.id.setting_list)
         mItemWrap = findViewById(R.id.item_wrap)
         mBtnClean = findViewById(R.id.btn_clean)
-        dirs = mutableListOf(DokitUtil.getString(R.string.dk_kit_cache_check_all))
+        dirs = mutableListOf(DoKitCommUtil.getString(R.string.dk_kit_cache_check_all))
         val innerDirs = File(PathUtils.getInternalAppDataPath()).listFiles()?.filter { file ->
             file.isDirectory
         }?.map { file ->
@@ -64,7 +62,7 @@ class DataCleanFragment : BaseFragment() {
             item.setOnClickListener { innerItem ->
                 val switch = innerItem.findViewById<Switch>(R.id.switch_btn)
                 val name = innerItem.findViewById<TextView>(R.id.tv_name)
-                if (name.text == DokitUtil.getString(R.string.dk_kit_cache_check_all)) {
+                if (name.text == DoKitCommUtil.getString(R.string.dk_kit_cache_check_all)) {
                     if (switch.isChecked) {
                         mItemWrap.children.forEach {
                             it.findViewById<Switch>(R.id.switch_btn).isChecked = false
@@ -121,7 +119,7 @@ class DataCleanFragment : BaseFragment() {
             if (switch.isChecked) {
                 val file = File(PathUtils.getInternalAppDataPath() + File.separator + name.text)
                 if (file.isDirectory) {
-                    FileUtil.deleteDirectory(file)
+                    DoKitFileUtil.deleteDirectory(file)
                 }
             }
         }

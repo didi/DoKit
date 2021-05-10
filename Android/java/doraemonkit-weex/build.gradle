@@ -1,9 +1,8 @@
 apply plugin: 'com.android.library'
-if (rootProject.ext.config["publishArchivesType"] == 2) {
-    apply from: 'upload-release.gradle'
-} else if (rootProject.ext.config["publishArchivesType"] == 0 || rootProject.ext.config["publishArchivesType"] == 1) {
-    apply from: 'upload-dev.gradle'
-}
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply from: '../upload.gradle'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -41,14 +40,32 @@ dependencies {
 
     implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["constraintLayout"]
-    implementation rootProject.ext.dependencies["design"]
-    implementation rootProject.ext.dependencies["utilcode"]
-    if (rootProject.ext.config["runOrPublish"] == 0) {
-        api project(':doraemonkit')
-    } else {
-        api "com.didichuxing.doraemonkit:dokitx:${rootProject.ext.android["jcenterArchivesVersionName"]}"
-    }
-
+    implementation rootProject.ext.dependencies["material"]
+    compileOnly project(":doraemonkit-util")
+    api project(':doraemonkit')
     compileOnly rootProject.ext.dependencies["weex_inspector"]
     compileOnly rootProject.ext.dependencies["weex_sdk"]
+    //auto-service
+    implementation rootProject.ext.dependencies["auto_service"]
+    kapt rootProject.ext.dependencies["auto_service"]
 }
+
+
+//publish.dependsOn([':doraemonkit-plugin:assemble',
+//              ':doraemonkit:assembleRelease',
+//              ':doraemonkit-ft:assembleRelease',
+//              ':doraemonkit-mc:assembleRelease',
+//              ':doraemonkit-rpc:assembleRelease',
+//              ':doraemonkit-weex:assembleRelease',
+//              ':doraemonkit-no-op:assembleRelease',
+//              ':doraemonkit-no-op:publish',
+//              ':doraemonkit-util:publish',
+//              ':doraemonkit-plugin:publish',
+//              ':doraemonkit-okhttp-v3:publish',
+//              ':doraemonkit-okhttp-v4:publish',
+//              ':doraemonkit-okhttp-api:publish',
+//              ':doraemonkit:publish',
+//              ':doraemonkit-mc:publish',
+//              ':doraemonkit-rpc:publish',
+//              ':doraemonkit-ft:publish'])
+

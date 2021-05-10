@@ -13,7 +13,8 @@ open class CommExt(
     var gpsSwitch: Boolean = true,
     var networkSwitch: Boolean = true,
     var bigImgSwitch: Boolean = true,
-    var webViewSwitch: Boolean = true
+    var webViewSwitch: Boolean = true,
+    var didinetSwitch: Boolean = true
 ) {
 
     fun gpsSwitch(gpsSwitch: Boolean) {
@@ -22,6 +23,10 @@ open class CommExt(
 
     fun networkSwitch(networkSwitch: Boolean) {
         this.networkSwitch = networkSwitch
+    }
+
+    fun didinetSwitch(didinetSwitch: Boolean) {
+        this.didinetSwitch = didinetSwitch
     }
 
 
@@ -34,7 +39,7 @@ open class CommExt(
     }
 
     override fun toString(): String {
-        return "CommExt(gpsSwitch=$gpsSwitch, networkSwitch=$networkSwitch, bigImgSwitch=$bigImgSwitch, webviewSwitch=$webViewSwitch)"
+        return "CommExt(gpsSwitch=$gpsSwitch, networkSwitch=$networkSwitch,didinetSwitch=$didinetSwitch, bigImgSwitch=$bigImgSwitch, webviewSwitch=$webViewSwitch)"
     }
 
 

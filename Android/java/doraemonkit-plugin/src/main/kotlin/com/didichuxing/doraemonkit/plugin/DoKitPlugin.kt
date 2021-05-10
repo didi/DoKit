@@ -14,7 +14,6 @@ import com.didiglobal.booster.gradle.getProperty
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.result.ResolvedArtifactResult
-import org.gradle.api.invocation.Gradle
 
 /**
  * ================================================
@@ -117,12 +116,12 @@ class DoKitPlugin : Plugin<Project> {
                         }
 
                         //项目评估完毕回调
-                        project.afterEvaluate { project ->
-                            "===afterEvaluate===".println()
-                            androidExt.applicationVariants.forEach { variant ->
-                                DoKitPluginConfigProcessor(project).process(variant)
-                            }
-                        }
+//                        project.afterEvaluate { project ->
+//                            "===afterEvaluate===".println()
+//                            androidExt.applicationVariants.forEach { variant ->
+//                                DoKitPluginConfigProcessor(project).process(variant)
+//                            }
+//                        }
 
                         /**
                          * 所有项目的build.gradle执行完毕
@@ -131,6 +130,9 @@ class DoKitPlugin : Plugin<Project> {
                          * **/
                         project.gradle.projectsEvaluated {
                             "===projectsEvaluated===".println()
+                            androidExt.applicationVariants.forEach { variant ->
+                                DoKitPluginConfigProcessor(project).process(variant)
+                            }
                             if (DoKitExtUtil.THIRD_LIBINFO_SWITCH) {
                                 androidExt.applicationVariants.forEach { variant ->
                                     //遍历三方库
@@ -149,7 +151,8 @@ class DoKitPlugin : Plugin<Project> {
                                         val thirdLibInfo =
                                             ThirdLibInfo(
                                                 fileName,
-                                                DoKitPluginUtil.fileSize(artifactResult.file, 2)
+                                                artifactResult.file.length(),
+                                                artifactResult.variant.displayName
                                             )
                                         DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
                                     }

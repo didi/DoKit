@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.colorpick;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,14 +13,13 @@ import android.media.Image;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
-import android.nfc.Tag;
 import android.os.Build;
 import android.os.Bundle;
-import androidx.annotation.RequiresApi;
-import android.view.View;
 
-import com.blankj.utilcode.util.AppUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
+import androidx.annotation.RequiresApi;
+
+import com.didichuxing.doraemonkit.DoKit;
+import com.didichuxing.doraemonkit.util.AppUtils;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
@@ -42,7 +42,7 @@ public class ImageCapture {
 
     public void init(Context context, Bundle bundle, ColorPickerDokitView colorPickerDokitView) throws Exception {
         this.mColorPickerDokitView = colorPickerDokitView;
-        PackageManager packageManager = DoraemonKit.APPLICATION.getPackageManager();
+        PackageManager packageManager = DoKit.APPLICATION.getPackageManager();
         ApplicationInfo applicationInfo = packageManager.getApplicationInfo(AppUtils.getAppPackageName(), 0);
         //适配Android Q
         if (applicationInfo.targetSdkVersion >= 29) {
@@ -50,9 +50,10 @@ public class ImageCapture {
                 colorPickerDokitView.onScreenServiceReady();
             } else {
                 try {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && (bundle.getParcelable("data") instanceof Intent)) {
+                        Intent dataIntent = bundle.getParcelable("data");
                         Intent intent = new Intent(context, ScreenRecorderService.class);
-                        intent.putExtra("data", bundle.getParcelable("data"));
+                        intent.putExtra("data", dataIntent);
                         context.startForegroundService(intent);
                     }
                 } catch (Exception e) {
@@ -71,6 +72,7 @@ public class ImageCapture {
     /**
      *
      */
+    @SuppressLint("WrongConstant")
     void initImageRead(MediaProjection mediaProjection) {
         if (mediaProjection == null) {
             LogHelper.e(TAG, "mediaProjection == null");

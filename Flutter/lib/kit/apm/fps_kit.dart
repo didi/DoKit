@@ -1,11 +1,11 @@
 import 'dart:ui';
 
 import 'package:dokit/dokit.dart';
-import 'package:dokit/widget/fps_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
+import 'package:dokit/widget/fps_chart.dart';
 
+import '../kit.dart';
 import 'apm.dart';
 
 class FpsInfo implements IInfo {
@@ -28,17 +28,17 @@ class FpsKit extends ApmKit {
 
   @override
   void start() {
-    WidgetsBinding.instance.addTimingsCallback((List<FrameTiming> timings) {
+    WidgetsBinding.instance.addTimingsCallback((timings) {
       int fps = 0;
-      for (final FrameTiming element in timings) {
-        final FrameTiming frameTiming = element;
+      timings.forEach((element) {
+        FrameTiming frameTiming = element;
         fps = frameTiming.totalSpan.inMilliseconds;
         if (checkValid(fps)) {
-          final FpsInfo fpsInfo = FpsInfo();
+          FpsInfo fpsInfo = new FpsInfo();
           fpsInfo.fps = fps;
           save(fpsInfo);
         }
-      }
+      });
     });
   }
 
@@ -56,7 +56,7 @@ class FpsKit extends ApmKit {
 
   @override
   Widget createDisplayPage() {
-    return FpsPage();
+    return new FpsPage();
   }
 
   @override
@@ -75,9 +75,8 @@ class FpsPage extends StatefulWidget {
 class FpsPageState extends State<FpsPage> {
   @override
   Widget build(BuildContext context) {
-    final FpsKit kit =
-        ApmKitManager.instance.getKit<FpsKit>(ApmKitName.KIT_FPS);
-    List<IInfo> list = <IInfo>[];
+    FpsKit kit = ApmKitManager.instance.getKit<FpsKit>(ApmKitName.KIT_FPS);
+    List<IInfo> list = new List();
     if (kit != null) {
       list = kit.storage.getAll();
     }
@@ -87,24 +86,23 @@ class FpsPageState extends State<FpsPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
-            height: 44,
-            child: Row(
-              children: <Widget>[
-                Container(
-                  child: Image.asset('images/dk_fps_chart.png',
-                      package: DoKit.PACKAGE_NAME, height: 16, width: 16),
-                  margin: const EdgeInsets.only(left: 22, right: 6),
-                ),
-                const Text('最近240帧耗时',
-                    style: TextStyle(
-                        color: Color(0xff333333),
-                        fontWeight: FontWeight.normal,
-                        fontFamily: 'PingFang SC',
-                        fontSize: 14))
-              ],
-            ),
-          ),
-          const Divider(
+              height: 44,
+              child: Row(
+                children: [
+                  Container(
+                    child: Image.asset('images/dk_fps_chart.png',
+                        package: DK_PACKAGE_NAME, height: 16, width: 16),
+                    margin: EdgeInsets.only(left: 22, right: 6),
+                  ),
+                  Text('最近240帧耗时',
+                      style: TextStyle(
+                          color: Color(0xff333333),
+                          fontWeight: FontWeight.normal,
+                          fontFamily: 'PingFang SC',
+                          fontSize: 14))
+                ],
+              )),
+          Divider(
             height: 0.5,
             color: Color(0xffdddddd),
             indent: 16,

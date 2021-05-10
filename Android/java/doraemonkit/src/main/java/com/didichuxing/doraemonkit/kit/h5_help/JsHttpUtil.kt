@@ -2,19 +2,19 @@ package com.didichuxing.doraemonkit.kit.h5_help
 
 import android.text.TextUtils
 import android.webkit.WebResourceResponse
-import com.blankj.utilcode.util.ConvertUtils
-import com.blankj.utilcode.util.ToastUtils
+import com.didichuxing.doraemonkit.util.ConvertUtils
+import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitMockInterceptor
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean
 import com.didichuxing.doraemonkit.kit.network.utils.bodyContent
-import com.didichuxing.doraemonkit.util.DokitUtil
+import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import com.didichuxing.doraemonkit.util.LogHelper
 import okhttp3.*
 import org.json.JSONObject
@@ -41,7 +41,7 @@ internal object JsHttpUtil {
         }
         try {
             //query 类似 ccc=ccc&ddd=ddd
-            json = DokitUtil.param2Json(query)
+            json = DoKitCommUtil.param2Json(query)
             //测试是否是json字符串
             JSONObject(json)
         } catch (e: Exception) {
@@ -81,7 +81,7 @@ internal object JsHttpUtil {
                 //表单类型的post
                 if (contentType.contains(DokitDbManager.MEDIA_TYPE_FORM)) {
                     //类似 ccc=ccc&ddd=ddd
-                    json = DokitUtil.param2Json(requestBody)
+                    json = DoKitCommUtil.param2Json(requestBody)
                     //测试是否是json字符串
                     JSONObject(json)
                 } else if (contentType.contains(DokitDbManager.MEDIA_TYPE_JSON)) {
@@ -95,7 +95,7 @@ internal object JsHttpUtil {
             //e.printStackTrace();
             json = ""
             LogHelper.e(
-                MockInterceptor.TAG,
+                DokitMockInterceptor.TAG,
                 "===body json====>$json"
             )
         }

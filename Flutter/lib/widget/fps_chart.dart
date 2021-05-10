@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +8,7 @@ class BarChartPainter extends CustomPainter {
   BarChartPainter({@required this.datas});
 
   List<IInfo> datas;
+
 
   @override
   bool shouldRepaint(BarChartPainter oldDelegate) => true;

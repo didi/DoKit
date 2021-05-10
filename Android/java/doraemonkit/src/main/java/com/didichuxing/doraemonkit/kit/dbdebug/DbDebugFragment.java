@@ -11,7 +11,7 @@
 //import com.amitshekhar.DebugDB;
 //import com.amitshekhar.debug.encrypt.sqlite.DebugDBEncryptFactory;
 //import com.amitshekhar.debug.sqlite.DebugDBFactory;
-//import com.blankj.utilcode.util.NetworkUtils;
+//import com.didichuxing.doraemonkit.util.NetworkUtils;
 //import com.didichuxing.doraemonkit.DoraemonKit;
 //import com.didichuxing.doraemonkit.R;
 //import com.didichuxing.doraemonkit.kit.core.BaseFragment;

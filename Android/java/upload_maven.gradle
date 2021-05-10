@@ -1,0 +1,139 @@
+import org.gradle.api.internal.artifacts.dependencies.DefaultProjectDependency
+import org.json.JSONObject
+
+apply plugin: 'maven-publish'
+def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
+def DOKIT_VERSION = rootProject.ext.publish_config["version"]
+def DOKIT_GROUP_ID = rootProject.ext.publish_config["group_id"]
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def LOCAL_REPOSITORY_URL = properties.getProperty('LOCAL_REPOSITORY_URL', "")
+def RELEASE_REPOSITORY_URL = properties.getProperty('RELEASE_REPOSITORY_URL', "")
+def SNAPSHOT_REPOSITORY_URL = properties.getProperty('SNAPSHOT_REPOSITORY_URL', "")
+def USERNAME = properties.getProperty('USERNAME', "")
+def PASSWORD = properties.getProperty('PASSWORD', "")
+
+//读取module和ARTIFACT_ID的映射文件
+def MODULE_JSONOBJECT = new JSONObject(new File("${rootProject.rootDir}/dokit_module.json").text)
+
+
+//生成源码注释
+task packageSourcesJar(type: Jar) {
+    classifier 'sources'
+    if (project.ARTIFACT_ID == "dokitx-plugin") {
+        from project.kotlin.sourceSets.main.kotlin.source
+    } else {
+        from project.android.sourceSets.main.java.source
+    }
+
+}
+
+if (project.ARTIFACT_ID == "dokitx-plugin") {
+    task packageJavadoc(type: Jar) {
+        classifier = 'javadoc'
+        from javadoc
+    }
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId = DOKIT_GROUP_ID
+                artifactId = project.ARTIFACT_ID
+                version = DOKIT_VERSION
+                // 上传source，这样使用放可以看到方法注释
+
+                artifact packageSourcesJar
+                // Two artifacts, the `aar` and the sources
+                if (project.ARTIFACT_ID == "dokitx-plugin") {
+                    artifact packageJavadoc
+                    artifact("$buildDir/libs/${project.getName()}.jar")
+                } else {
+                    artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+                }
+                // Self-explanatory metadata for the most part
+                pom {
+                    name = project.ARTIFACT_ID
+                    description = 'DoKit is an efficiency platform for the entire life cycle of general front-end product research and development.'
+                    // If your project has a dedicated site, use its URL here
+                    url = 'https://github.com/didi/DoraemonKit'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'OrangeLab'
+                            name = 'Orange Lab'
+                            email = 'orange-lab@didiglobal.com'
+                        }
+                    }
+                    // Version control info, if you're using GitHub, follow the format as seen here
+                    scm {
+                        connection = 'scm:git:git://github.com/didi/DoraemonKit.git'
+                        developerConnection = 'scm:git:ssh://github.com/didi/DoraemonKit.git'
+                        url = 'https://github.com/didi/DoraemonKit/tree/master'
+                    }
+                    // A slightly hacky fix so that your POM will include any transitive dependencies
+                    // that your library builds upon
+                    withXml {
+                        def dependenciesNode = asNode().appendNode('dependencies')
+                        project.configurations.implementation.allDependencies.each { dependency ->
+                            println("${project.name} dependency is ===>${dependency.group}:${dependency.name}:${dependency.version}")
+                            if (!dependency.name.isEmpty() && dependency.name != "unspecified") {
+                                def dependencyNode = dependenciesNode.appendNode('dependency')
+                                if (dependency instanceof DefaultProjectDependency) {
+                                    //统一project 前缀
+                                    if (dependency.name.startsWith("doraemonkit")) {
+                                        dependencyNode.appendNode('groupId', DOKIT_GROUP_ID)
+                                        dependencyNode.appendNode('artifactId', MODULE_JSONOBJECT.getString(dependency.name))
+                                        dependencyNode.appendNode('version', DOKIT_VERSION)
+                                    }
+                                } else {
+                                    dependencyNode.appendNode('groupId', dependency.group)
+                                    dependencyNode.appendNode('artifactId', dependency.name)
+                                    dependencyNode.appendNode('version', dependency.version)
+                                }
+                            }
+
+
+//                            println("${project.name} dependency is ===>${dependency}")
+//                            println("${project.name} dependency is ===>${dependency.group}:${dependency.name}:${dependency.version}")
+//                            if(!it.name.isEmpty() && it.name != "unspecified"){
+//                                def dependencyNode = dependenciesNode.appendNode('dependency')
+//                                if(it.name.startsWith("doraemonkit-")){
+//
+//                                }
+//
+//                                dependencyNode.appendNode('groupId', it.group)
+//                                dependencyNode.appendNode('artifactId', it.name)
+//                                dependencyNode.appendNode('version', it.version)
+//                            }
+
+                        }
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                if (PUBLISH_ARCHIVES_TYPE == 0) {
+                    url = uri(LOCAL_REPOSITORY_URL)
+                } else if (PUBLISH_ARCHIVES_TYPE == 1) {
+                    def REPOSITORY_URL = DOKIT_VERSION.endsWith('SNAPSHOT') ? SNAPSHOT_REPOSITORY_URL : RELEASE_REPOSITORY_URL
+                    println("DoKit====>${project.ARTIFACT_ID}_${DOKIT_VERSION}==${REPOSITORY_URL}")
+                    url = uri(REPOSITORY_URL)
+                    //认证用户和密码
+                    credentials {
+                        username USERNAME
+                        password PASSWORD
+                    }
+                }
+            }
+        }
+    }
+}

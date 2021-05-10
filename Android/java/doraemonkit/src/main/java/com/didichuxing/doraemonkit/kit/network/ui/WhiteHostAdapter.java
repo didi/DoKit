@@ -9,10 +9,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
-import com.didichuxing.doraemonkit.util.DokitUtil;
+import com.didichuxing.doraemonkit.util.DoKitCommUtil;
 import com.didichuxing.doraemonkit.widget.brvah.BaseQuickAdapter;
 import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder;
 
@@ -69,7 +69,7 @@ public class WhiteHostAdapter extends BaseQuickAdapter<WhiteHostBean, BaseViewHo
                 if (text.equals("+")) {
                     String editText = helper.<EditText>getView(R.id.ed_host).getText().toString();
                     if (TextUtils.isEmpty(editText)) {
-                        ToastUtils.showShort(DokitUtil.getString(R.string.dk_kit_net_monitor_white_host_edit_toast));
+                        ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_kit_net_monitor_white_host_edit_toast));
                         return;
                     }
                     for (WhiteHostBean hostBean : hostBeans) {

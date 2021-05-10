@@ -6,7 +6,7 @@ import android.os.Message;
 
 import com.didichuxing.doraemonkit.kit.loginfo.reader.LogcatReader;
 import com.didichuxing.doraemonkit.kit.loginfo.reader.LogcatReaderLoader;
-import com.didichuxing.doraemonkit.util.ExecutorUtil;
+import com.didichuxing.doraemonkit.util.DoKitExecutorUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.IOException;
@@ -43,7 +43,7 @@ public class LogInfoManager {
             mLogCatchTask.stop();
         }
         mLogCatchTask = new LogCatchRunnable();
-        ExecutorUtil.execute(mLogCatchTask);
+        DoKitExecutorUtil.execute(mLogCatchTask);
     }
 
     public void stop() {

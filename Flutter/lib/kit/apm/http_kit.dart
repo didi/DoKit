@@ -2,13 +2,15 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:dokit/engine/dokit_http.dart';
-import 'package:dokit/util/util.dart';
+import 'package:dokit/util/byte_util.dart';
+import 'package:dokit/util/time_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
 import '../../dokit.dart';
+import '../kit.dart';
 import 'apm.dart';
 
 class HttpInfo implements IInfo {
@@ -306,7 +308,7 @@ class _HttpItemWidgetState extends State<HttpItemWidget> {
                   children: <InlineSpan>[
                     TextSpan(
                         text:
-                            '[${TimeUtils.toTimeString(widget.item.startTimestamp)}]',
+                            '[${toTimeString(widget.item.startTimestamp)}]',
                         style: const TextStyle(
                             fontSize: 9,
                             color: Color(0xff333333),
@@ -331,7 +333,7 @@ class _HttpItemWidgetState extends State<HttpItemWidget> {
                     TextSpan(
                         text: '  ${widget.item.method}'
                             '  Cost:${widget.item.response.endTimestamp > 0 ? ((widget.item.response.endTimestamp - widget.item.startTimestamp).toString() + 'ms') : '-'} '
-                            '  Size:${widget.item.response.size > 0 ? (ByteUtil.toByteString(widget.item.response.size)) : '-'}',
+                            '  Size:${widget.item.response.size > 0 ? (toByteString(widget.item.response.size)) : '-'}',
                         style: const TextStyle(
                           fontSize: 9,
                           color: Color(0xff666666),
@@ -410,7 +412,7 @@ class _HttpItemWidgetState extends State<HttpItemWidget> {
                 widget.item.expand
                     ? 'images/dk_channel_expand_h.png'
                     : 'images/dk_channel_expand_n.png',
-                package: DoKit.PACKAGE_NAME,
+                package: DK_PACKAGE_NAME,
                 height: 14,
                 width: 9),
           ],

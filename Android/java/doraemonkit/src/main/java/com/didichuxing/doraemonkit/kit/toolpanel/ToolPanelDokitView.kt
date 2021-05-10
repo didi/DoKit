@@ -1,25 +1,19 @@
 package com.didichuxing.doraemonkit.kit.toolpanel
 
 import android.content.Context
-import android.content.Intent
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.blankj.utilcode.util.ActivityUtils
-import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.DoKitConstant
-import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.datapick.DataPickManager
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView
-import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager
-import com.didichuxing.doraemonkit.kit.core.UniversalActivity
-import com.didichuxing.doraemonkit.util.DokitUtil
+import com.didichuxing.doraemonkit.kit.core.*
+import com.didichuxing.doraemonkit.util.ActivityUtils
+import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import com.didichuxing.doraemonkit.widget.titlebar.TitleBar
 
 /**
@@ -47,22 +41,29 @@ class ToolPanelDokitView : AbsDokitView() {
     private fun generateKits() {
         DoKitConstant.GLOBAL_KITS.forEach { group ->
             when (group.key) {
-                DokitUtil.getString(R.string.dk_category_mode) -> {
+                DoKitCommUtil.getString(R.string.dk_category_mode) -> {
                     mKits.add(KitWrapItem(KitWrapItem.TYPE_MODE, name = group.key, kit = null))
                 }
-                DokitUtil.getString(R.string.dk_category_exit) -> {
+                DoKitCommUtil.getString(R.string.dk_category_exit) -> {
                     mKits.add(KitWrapItem(KitWrapItem.TYPE_EXIT, name = group.key, kit = null))
                 }
-                DokitUtil.getString(R.string.dk_category_version) -> {
+                DoKitCommUtil.getString(R.string.dk_category_version) -> {
                     mKits.add(KitWrapItem(KitWrapItem.TYPE_VERSION, name = group.key, kit = null))
                 }
                 DoKitConstant.GROUP_ID_PLATFORM,
                 DoKitConstant.GROUP_ID_COMM,
                 DoKitConstant.GROUP_ID_WEEX,
                 DoKitConstant.GROUP_ID_PERFORMANCE,
+                DoKitConstant.GROUP_ID_LBS,
                 DoKitConstant.GROUP_ID_UI -> {
                     if (group.value.size != 0) {
-                        mKits.add(KitWrapItem(KitWrapItem.TYPE_TITLE, name = DokitUtil.getString(DokitUtil.getStringId(group.key)), kit = null))
+                        mKits.add(
+                            KitWrapItem(
+                                KitWrapItem.TYPE_TITLE, name = DoKitCommUtil.getString(
+                                    DoKitCommUtil.getStringId(group.key)
+                                ), kit = null
+                            )
+                        )
                         group.value.forEach { kitWrap ->
                             if (kitWrap.checked) {
                                 mKits.add(kitWrap)
@@ -95,13 +96,14 @@ class ToolPanelDokitView : AbsDokitView() {
 
             override fun onRightClick() {
                 if (!isNormalMode) {
-                    DoraemonKit.hideToolPanel()
+                    DoKit.hideToolPanel()
                 }
                 if (activity != null) {
-                    val intent = Intent(activity, UniversalActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_DOKIT_MORE)
-                    activity.startActivity(intent)
+                    SimpleDokitStarter.startFullScreen(
+                        DokitMoreFragment::class.java,
+                        activity,
+                        isSystemFragment = true
+                    )
                 }
             }
         })

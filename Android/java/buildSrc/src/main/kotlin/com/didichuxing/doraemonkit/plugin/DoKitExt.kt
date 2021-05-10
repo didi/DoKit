@@ -3,10 +3,7 @@ package com.didichuxing.doraemonkit.plugin
 import com.android.build.gradle.api.BaseVariant
 import com.didiglobal.booster.transform.TransformContext
 import org.objectweb.asm.Opcodes.*
-import org.objectweb.asm.tree.InsnList
-import org.objectweb.asm.tree.InsnNode
-import org.objectweb.asm.tree.MethodInsnNode
-import org.objectweb.asm.tree.MethodNode
+import org.objectweb.asm.tree.*
 import java.io.File
 
 /**
@@ -107,8 +104,11 @@ fun String.println() {
 
 fun File.lastPath(): String {
     return this.path.split("/").last()
-
 }
 
 val MethodInsnNode.ownerClassName: String
     get() = owner.replace('/', '.')
+
+
+val ClassNode.formatSuperName: String
+    get() = superName.replace('/', '.')

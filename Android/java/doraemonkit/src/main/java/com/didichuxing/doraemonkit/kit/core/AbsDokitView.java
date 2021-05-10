@@ -25,8 +25,8 @@ import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.ScreenUtils;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
+import com.didichuxing.doraemonkit.util.ScreenUtils;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.config.FloatIconConfig;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
@@ -55,7 +55,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
     /**
      * 创建FrameLayout#LayoutParams 内置悬浮窗调用
      */
-    private FrameLayout.LayoutParams mFrameLayoutParams;
+    private FrameLayout.LayoutParams mNormalLayoutParams;
     /**
      * 创建FrameLayout#LayoutParams 系统悬浮窗调用
      */
@@ -167,6 +167,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
                                 return onBackPressed();
                             }
                         }
+
                         return super.dispatchKeyEvent(event);
                     }
                 };
@@ -198,8 +199,8 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
             mDokitViewLayoutParams = new DokitViewLayoutParams();
             //分别创建对应的LayoutParams
             if (isNormalMode()) {
-                mFrameLayoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-                mFrameLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
+                mNormalLayoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+                mNormalLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
                 mDokitViewLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
             } else {
                 mWindowLayoutParams = new WindowManager.LayoutParams();
@@ -209,11 +210,17 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
                 } else {
                     mWindowLayoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
                 }
-                if (!shouldDealBackKey()) {
+                //shouldDealBackKey : fasle 不自己收返回事件处理
+                if (shouldDealBackKey()) {
+                    //自己处理返回按键
+                    mWindowLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
+                    mDokitViewLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | DokitViewLayoutParams.FLAG_LAYOUT_NO_LIMITS;
+                } else {
                     //参考：http://www.shirlman.com/tec/20160426/362
-                    //设置WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE会导致rootview监听不到返回按键的监听失效
-                    mWindowLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
-                    mDokitViewLayoutParams.flags = DokitViewLayoutParams.FLAG_NOT_FOCUSABLE;
+                    //设置WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE会导致RootView监听不到返回按键的监听失效 系统处理返回按键
+                    mWindowLayoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
+                    mDokitViewLayoutParams.flags = DokitViewLayoutParams.FLAG_NOT_FOCUSABLE | DokitViewLayoutParams.FLAG_LAYOUT_NO_LIMITS;
+
                 }
                 mWindowLayoutParams.format = PixelFormat.TRANSPARENT;
                 mWindowLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
@@ -224,11 +231,12 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
             }
             initDokitViewLayoutParams(mDokitViewLayoutParams);
             if (isNormalMode()) {
-                onNormalLayoutParamsCreated(mFrameLayoutParams);
+                onNormalLayoutParamsCreated(mNormalLayoutParams);
             } else {
                 onSystemLayoutParamsCreated(mWindowLayoutParams);
             }
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             LogHelper.e(TAG, "e===>" + e.getMessage());
             e.printStackTrace();
         }
@@ -349,8 +357,8 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
 
         if (mTag.equals(MainIconDokitView.class.getSimpleName())) {
             if (isNormalMode()) {
-                FloatIconConfig.saveLastPosX(mFrameLayoutParams.leftMargin);
-                FloatIconConfig.saveLastPosY(mFrameLayoutParams.topMargin);
+                FloatIconConfig.saveLastPosX(mNormalLayoutParams.leftMargin);
+                FloatIconConfig.saveLastPosY(mNormalLayoutParams.topMargin);
             } else {
                 FloatIconConfig.saveLastPosX(mWindowLayoutParams.x);
                 FloatIconConfig.saveLastPosY(mWindowLayoutParams.y);
@@ -378,27 +386,27 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
 
         if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
             if (doKitViewInfo.getLandscapePoint() == null) {
-                mFrameLayoutParams.leftMargin = 0;
-                mFrameLayoutParams.topMargin = 0;
+                mNormalLayoutParams.leftMargin = 0;
+                mNormalLayoutParams.topMargin = 0;
             } else {
-                mFrameLayoutParams.leftMargin = doKitViewInfo.getLandscapePoint().y;
-                mFrameLayoutParams.topMargin = doKitViewInfo.getLandscapePoint().x;
+                mNormalLayoutParams.leftMargin = doKitViewInfo.getLandscapePoint().y;
+                mNormalLayoutParams.topMargin = doKitViewInfo.getLandscapePoint().x;
             }
 
 
         } else if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
             if (doKitViewInfo.getPortraitPoint() == null) {
-                mFrameLayoutParams.leftMargin = 0;
-                mFrameLayoutParams.topMargin = 0;
+                mNormalLayoutParams.leftMargin = 0;
+                mNormalLayoutParams.topMargin = 0;
             } else {
-                mFrameLayoutParams.leftMargin = doKitViewInfo.getPortraitPoint().y;
-                mFrameLayoutParams.topMargin = doKitViewInfo.getPortraitPoint().x;
+                mNormalLayoutParams.leftMargin = doKitViewInfo.getPortraitPoint().y;
+                mNormalLayoutParams.topMargin = doKitViewInfo.getPortraitPoint().x;
             }
         }
 
-        DokitViewManager.getInstance().saveDokitViewPos(mTag, mFrameLayoutParams.leftMargin, mFrameLayoutParams.topMargin);
-        LogHelper.i(TAG, "currentOrientation==>" + currentOrientation + "mFrameLayoutParams==>" + mFrameLayoutParams.leftMargin + "  " + mFrameLayoutParams.topMargin);
-        mDoKitView.setLayoutParams(mFrameLayoutParams);
+        DokitViewManager.getInstance().saveDokitViewPos(mTag, mNormalLayoutParams.leftMargin, mNormalLayoutParams.topMargin);
+        LogHelper.i(TAG, "currentOrientation==>" + currentOrientation + "mFrameLayoutParams==>" + mNormalLayoutParams.leftMargin + "  " + mNormalLayoutParams.topMargin);
+        mDoKitView.setLayoutParams(mNormalLayoutParams);
 
     }
 
@@ -455,7 +463,11 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
     }
 
     /**
-     * 搭配shouldDealBackKey使用
+     * 搭配shouldDealBackKey使用 自定义处理完以后需要返回true
+     * 默认模式的onBackPressed 拦截在NormalDokitViewManager#getDokitRootContentView中被处理
+     * 系统模式下的onBackPressed 在当前类的performCreate 初始话DoKitView时被处理
+     * 返回false 表示交由系统处理
+     * 返回 true 表示当前的返回事件已由自己处理 并拦截了改返回事件
      */
     @Override
     public boolean onBackPressed() {
@@ -492,13 +504,15 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
             return;
         }
         if (isNormalMode()) {
-            mFrameLayoutParams.leftMargin += dx;
-            mFrameLayoutParams.topMargin += dy;
+            mNormalLayoutParams.leftMargin += dx;
+            mNormalLayoutParams.topMargin += dy;
             //更新图标位置
             updateViewLayout(mTag, false);
         } else {
             mWindowLayoutParams.x += dx;
             mWindowLayoutParams.y += dy;
+            //限制布局边界
+            resetBorderline(mNormalLayoutParams, mWindowLayoutParams);
             mWindowManager.updateViewLayout(mDoKitView, mWindowLayoutParams);
         }
 
@@ -520,8 +534,8 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
 
         if (mTag.equals(MainIconDokitView.class.getSimpleName())) {
             if (isNormalMode()) {
-                FloatIconConfig.saveLastPosX(mFrameLayoutParams.leftMargin);
-                FloatIconConfig.saveLastPosY(mFrameLayoutParams.topMargin);
+                FloatIconConfig.saveLastPosX(mNormalLayoutParams.leftMargin);
+                FloatIconConfig.saveLastPosY(mNormalLayoutParams.topMargin);
             } else {
                 FloatIconConfig.saveLastPosX(mWindowLayoutParams.x);
                 FloatIconConfig.saveLastPosY(mWindowLayoutParams.y);
@@ -529,7 +543,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
         }
         //保存在内存中
         if (isNormalMode()) {
-            DokitViewManager.getInstance().saveDokitViewPos(mTag, mFrameLayoutParams.leftMargin, mFrameLayoutParams.topMargin);
+            DokitViewManager.getInstance().saveDokitViewPos(mTag, mNormalLayoutParams.leftMargin, mNormalLayoutParams.topMargin);
         } else {
             DokitViewManager.getInstance().saveDokitViewPos(mTag, mWindowLayoutParams.x, mWindowLayoutParams.y);
         }
@@ -578,6 +592,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
                 }
             }
         }
+
     }
 
     /**
@@ -659,7 +674,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
     }
 
     public FrameLayout.LayoutParams getNormalLayoutParams() {
-        return mFrameLayoutParams;
+        return mNormalLayoutParams;
     }
 
     public WindowManager.LayoutParams getSystemLayoutParams() {
@@ -691,84 +706,120 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
      * @param isActivityResume 是否是从其他页面返回时更新的位置
      */
     public void updateViewLayout(String tag, boolean isActivityResume) {
-        if (mDoKitView == null || mChildView == null || mFrameLayoutParams == null || !isNormalMode()) {
+        if (mDoKitView == null || mChildView == null || mNormalLayoutParams == null || !isNormalMode()) {
             return;
         }
         if (isActivityResume) {
             if (tag.equals(MainIconDokitView.class.getSimpleName())) {
-                mFrameLayoutParams.leftMargin = FloatIconConfig.getLastPosX();
-                mFrameLayoutParams.topMargin = FloatIconConfig.getLastPosY();
+                mNormalLayoutParams.leftMargin = FloatIconConfig.getLastPosX();
+                mNormalLayoutParams.topMargin = FloatIconConfig.getLastPosY();
             } else {
                 DoKitViewInfo doKitViewInfo = DokitViewManager.getInstance().getDokitViewPos(tag);
                 if (doKitViewInfo != null) {
                     if (doKitViewInfo.getOrientation() == Configuration.ORIENTATION_PORTRAIT) {
-                        mFrameLayoutParams.leftMargin = doKitViewInfo.getPortraitPoint().x;
-                        mFrameLayoutParams.topMargin = doKitViewInfo.getPortraitPoint().y;
+                        mNormalLayoutParams.leftMargin = doKitViewInfo.getPortraitPoint().x;
+                        mNormalLayoutParams.topMargin = doKitViewInfo.getPortraitPoint().y;
                     } else {
-                        mFrameLayoutParams.leftMargin = doKitViewInfo.getLandscapePoint().x;
-                        mFrameLayoutParams.topMargin = doKitViewInfo.getLandscapePoint().y;
+                        mNormalLayoutParams.leftMargin = doKitViewInfo.getLandscapePoint().x;
+                        mNormalLayoutParams.topMargin = doKitViewInfo.getLandscapePoint().y;
                     }
                 }
             }
         } else {
             //非页面切换的时候保存当前位置信息
             mLastDokitViewPosInfo.setPortrait();
-            mLastDokitViewPosInfo.setLeftMargin(mFrameLayoutParams.leftMargin);
-            mLastDokitViewPosInfo.setTopMargin(mFrameLayoutParams.topMargin);
+            mLastDokitViewPosInfo.setLeftMargin(mNormalLayoutParams.leftMargin);
+            mLastDokitViewPosInfo.setTopMargin(mNormalLayoutParams.topMargin);
         }
         if (tag.equals(MainIconDokitView.class.getSimpleName())) {
-            mFrameLayoutParams.width = DokitViewLayoutParams.WRAP_CONTENT;
-            mFrameLayoutParams.height = DokitViewLayoutParams.WRAP_CONTENT;
+            mNormalLayoutParams.width = DokitViewLayoutParams.WRAP_CONTENT;
+            mNormalLayoutParams.height = DokitViewLayoutParams.WRAP_CONTENT;
 //            mFrameLayoutParams.width = ConvertUtils.dp2px(MainIconDokitView.FLOAT_SIZE);
 //            mFrameLayoutParams.height = ConvertUtils.dp2px(MainIconDokitView.FLOAT_SIZE);
         } else {
-            mFrameLayoutParams.width = mDokitViewWidth;
-            mFrameLayoutParams.height = mDokitViewHeight;
+            mNormalLayoutParams.width = mDokitViewWidth;
+            mNormalLayoutParams.height = mDokitViewHeight;
         }
 
 
         //portraitOrLandscape(mFrameLayoutParams);
-        resetBorderline(mFrameLayoutParams);
-        mDoKitView.setLayoutParams(mFrameLayoutParams);
+        resetBorderline(mNormalLayoutParams, mWindowLayoutParams);
+        mDoKitView.setLayoutParams(mNormalLayoutParams);
     }
 
     /**
      * 限制边界 调用的时候必须保证是在控件能获取到宽高德前提下
      */
-    private void resetBorderline(FrameLayout.LayoutParams normalFrameLayoutParams) {
+    private void resetBorderline(FrameLayout.LayoutParams normalFrameLayoutParams, WindowManager.LayoutParams windowLayoutParams) {
         //如果是系统模式或者手动关闭动态限制边界
-        if (!restrictBorderline() || !isNormalMode()) {
+        if (!restrictBorderline()) {
             return;
         }
-        //LogHelper.i(TAG, "topMargin==>" + normalFrameLayoutParams.topMargin + "  leftMargin====>" + normalFrameLayoutParams.leftMargin);
-        if (normalFrameLayoutParams.topMargin <= 0) {
-            normalFrameLayoutParams.topMargin = 0;
-        }
 
-        if (ScreenUtils.isPortrait()) {
-            if (normalFrameLayoutParams.topMargin >= getScreenLongSideLength() - mDokitViewHeight) {
-                normalFrameLayoutParams.topMargin = getScreenLongSideLength() - mDokitViewHeight;
+
+        //普通模式
+        if (isNormalMode()) {
+
+            if (normalFrameLayoutParams.topMargin <= 0) {
+                normalFrameLayoutParams.topMargin = 0;
+            }
+
+            if (ScreenUtils.isPortrait()) {
+                if (normalFrameLayoutParams.topMargin >= getScreenLongSideLength() - mDokitViewHeight) {
+                    normalFrameLayoutParams.topMargin = getScreenLongSideLength() - mDokitViewHeight;
+                }
+            } else {
+                if (normalFrameLayoutParams.topMargin >= getScreenShortSideLength() - mDokitViewHeight) {
+                    normalFrameLayoutParams.topMargin = getScreenShortSideLength() - mDokitViewHeight;
+                }
+            }
+
+
+            if (normalFrameLayoutParams.leftMargin <= 0) {
+                normalFrameLayoutParams.leftMargin = 0;
+            }
+
+            if (ScreenUtils.isPortrait()) {
+                if (normalFrameLayoutParams.leftMargin >= getScreenShortSideLength() - mDokitViewWidth) {
+                    normalFrameLayoutParams.leftMargin = getScreenShortSideLength() - mDokitViewWidth;
+                }
+            } else {
+                if (normalFrameLayoutParams.leftMargin >= getScreenLongSideLength() - mDokitViewWidth) {
+                    normalFrameLayoutParams.leftMargin = getScreenLongSideLength() - mDokitViewWidth;
+                }
             }
         } else {
-            if (normalFrameLayoutParams.topMargin >= getScreenShortSideLength() - mDokitViewHeight) {
-                normalFrameLayoutParams.topMargin = getScreenShortSideLength() - mDokitViewHeight;
+            //系统模式
+            if (windowLayoutParams.y <= 0) {
+                windowLayoutParams.y = 0;
+            }
+
+            if (ScreenUtils.isPortrait()) {
+                if (windowLayoutParams.y >= getScreenLongSideLength() - mDokitViewHeight) {
+                    windowLayoutParams.y = getScreenLongSideLength() - mDokitViewHeight;
+                }
+            } else {
+                if (windowLayoutParams.y >= getScreenShortSideLength() - mDokitViewHeight) {
+                    windowLayoutParams.y = getScreenShortSideLength() - mDokitViewHeight;
+                }
+            }
+
+
+            if (windowLayoutParams.x <= 0) {
+                windowLayoutParams.x = 0;
+            }
+
+            if (ScreenUtils.isPortrait()) {
+                if (windowLayoutParams.x >= getScreenShortSideLength() - mDokitViewWidth) {
+                    windowLayoutParams.x = getScreenShortSideLength() - mDokitViewWidth;
+                }
+            } else {
+                if (windowLayoutParams.x >= getScreenLongSideLength() - mDokitViewWidth) {
+                    windowLayoutParams.x = getScreenLongSideLength() - mDokitViewWidth;
+                }
             }
         }
 
-
-        if (normalFrameLayoutParams.leftMargin <= 0) {
-            normalFrameLayoutParams.leftMargin = 0;
-        }
-
-        if (ScreenUtils.isPortrait()) {
-            if (normalFrameLayoutParams.leftMargin >= getScreenShortSideLength() - mDokitViewWidth) {
-                normalFrameLayoutParams.leftMargin = getScreenShortSideLength() - mDokitViewWidth;
-            }
-        } else {
-            if (normalFrameLayoutParams.leftMargin >= getScreenLongSideLength() - mDokitViewWidth) {
-                normalFrameLayoutParams.leftMargin = getScreenLongSideLength() - mDokitViewWidth;
-            }
-        }
 
     }
 
@@ -883,12 +934,35 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
      * 强制刷新当前dokitview
      */
     public void invalidate() {
-        if (mDoKitView != null && mFrameLayoutParams != null) {
-            mDoKitView.setLayoutParams(mFrameLayoutParams);
+        if (getDoKitView() == null) {
+            return;
+        }
+//        if (mDoKitView != null && mNormalLayoutParams != null) {
+//            mDoKitView.setLayoutParams(mNormalLayoutParams);
+//        }
+        if (isNormalMode()) {
+            if (mNormalLayoutParams == null) {
+                return;
+            }
+            mNormalLayoutParams.width = FrameLayout.LayoutParams.WRAP_CONTENT;
+            mNormalLayoutParams.height = FrameLayout.LayoutParams.WRAP_CONTENT;
+            getDoKitView().setLayoutParams(mNormalLayoutParams);
+        } else {
+            if (mWindowLayoutParams == null) {
+                return;
+            }
+            mWindowLayoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            mWindowLayoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+            mWindowManager.updateViewLayout(getDoKitView(), mWindowLayoutParams);
         }
     }
 
-
+    /**
+     * 只控件在布局边界发生大小变化被裁剪的原因：
+     * https://juejin.cn/post/6844903624452079623
+     *
+     * @return
+     */
     public DokitFrameLayout getRootView() {
         if (isNormalMode() && mDoKitView != null) {
             return (DokitFrameLayout) mDoKitView.getParent();

@@ -1,10 +1,12 @@
 package com.didichuxing.doraemonkit.kit.toolpanel
 
-import com.blankj.utilcode.util.GsonUtils
+import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.util.DokitUtil
+import com.didichuxing.doraemonkit.kit.core.DokitServiceInterface
+import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import java.lang.Exception
+import java.util.*
 
 /**
  * ================================================
@@ -22,17 +24,31 @@ class ToolPanelUtil {
          * json 转系统kit
          */
         fun jsonConfig2InnerKits(json: String) {
-            val localKits: MutableList<KitGroupBean> = GsonUtils.fromJson(json, GsonUtils.getListType(KitGroupBean::class.java))
-            localKits.forEach { group ->
+            val doKitInnerKits =
+                ServiceLoader.load(AbstractKit::class.java, javaClass.classLoader).toList()
+
+            val doKitInnerKitMaps = mutableMapOf<String, AbstractKit>()
+            doKitInnerKits.forEach {
+                doKitInnerKitMaps[it.innerKitId()] = it
+            }
+
+            val localConfigs: MutableList<KitGroupBean> =
+                GsonUtils.fromJson(json, GsonUtils.getListType(KitGroupBean::class.java))
+
+            localConfigs.forEach { group ->
                 DoKitConstant.GLOBAL_SYSTEM_KITS[group.groupId] = mutableListOf()
                 group.kits.forEach { kitBean ->
-                    try {
-                        //有可能不存在该模块
-                        val kit: AbstractKit = Class.forName(kitBean.allClassName).newInstance() as AbstractKit
-                        val kitWrapItem = KitWrapItem(KitWrapItem.TYPE_KIT, DokitUtil.getString(kit.name), kitBean.checked, group.groupId, kit)
+                    //有可能不存在该模块
+                    val kit: AbstractKit? = doKitInnerKitMaps[kitBean.innerKitId]
+                    kit?.let {
+                        val kitWrapItem = KitWrapItem(
+                            KitWrapItem.TYPE_KIT,
+                            DoKitCommUtil.getString(kit.name),
+                            kitBean.checked,
+                            group.groupId,
+                            kit
+                        )
                         DoKitConstant.GLOBAL_SYSTEM_KITS[group.groupId]?.add(kitWrapItem)
-                    } catch (e: Exception) {
-
                     }
                 }
             }

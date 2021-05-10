@@ -3,25 +3,20 @@ package com.didichuxing.doraemonkit.kit.crash;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.core.view.ViewCompat;
 
-import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.ScreenUtils;
-import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.CachesKey;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;
-import com.didichuxing.doraemonkit.util.CacheUtils;
-import com.didichuxing.doraemonkit.util.FileUtil;
-import com.didichuxing.doraemonkit.util.ImageUtil;
-import com.didichuxing.doraemonkit.util.LogHelper;
+import com.didichuxing.doraemonkit.util.DoKitCacheUtils;
+import com.didichuxing.doraemonkit.util.DoKitFileUtil;
+import com.didichuxing.doraemonkit.util.DoKitImageUtil;
 
 import java.io.File;
 import java.io.Serializable;
@@ -76,7 +71,7 @@ public class CrashCaptureManager implements Thread.UncaughtExceptionHandler {
         //异步保存崩溃截图在华为emui10.0上会失效 已改成同步
         asyncSaveCrashScreenshot();
         //保存崩溃信息
-        CacheUtils.saveObject((Serializable) Log.getStackTraceString(e), getCrashCacheFile());
+        DoKitCacheUtils.saveObject((Serializable) Log.getStackTraceString(e), getCrashCacheFile());
         //保存埋点数据
         DataPickManager.getInstance().saveData2Local();
         post(new Runnable() {
@@ -120,7 +115,7 @@ public class CrashCaptureManager implements Thread.UncaughtExceptionHandler {
     }
 
     public void clearCacheHistory() {
-        FileUtil.deleteDirectory(getCrashCacheDir());
+        DoKitFileUtil.deleteDirectory(getCrashCacheDir());
     }
 
     private void generateFilenamePrefix() {
@@ -156,7 +151,7 @@ public class CrashCaptureManager implements Thread.UncaughtExceptionHandler {
                         rootView.draw(canvas);
 
                         File output = getCrashCacheScreenshotFile(i);
-                        ImageUtil.bitmap2File(bitmap, 100, output);
+                        DoKitImageUtil.bitmap2File(bitmap, 100, output);
                     }
                 }
             }

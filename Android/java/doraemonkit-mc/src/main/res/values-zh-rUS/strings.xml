@@ -1,0 +1,7 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string name="dk_kit_multi_control">MultiControl</string>
+    <string name="dk_kit_multi_control_host">Host</string>
+    <string name="dk_kit_multi_control_client">Client</string>
+    <string name="dokit_access_desc">DoKit Access</string>
+</resources>

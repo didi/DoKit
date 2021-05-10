@@ -10,6 +10,7 @@ import com.didichuxing.doraemondemo.R
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
+import com.didichuxing.doraemonkit.util.LogHelper
 
 /**
  * ================================================
@@ -38,4 +39,12 @@ class DemoDokitView : AbsDokitView() {
         params.x = 200
         params.y = 200
     }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+
+
+
 }

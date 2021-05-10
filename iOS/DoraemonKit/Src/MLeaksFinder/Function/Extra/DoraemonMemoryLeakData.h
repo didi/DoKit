@@ -9,9 +9,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^DoraemonLeakManagerBlock)(NSDictionary *leakInfo);
+
 @interface DoraemonMemoryLeakData : NSObject
 
 + (DoraemonMemoryLeakData *)shareInstance;
+
+- (void)addLeakBlock:(DoraemonLeakManagerBlock)block;
 
 - (void)addObject:(id)object;
 

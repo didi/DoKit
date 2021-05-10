@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dokit/util/util.dart';
+import 'package:dokit/util/time_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../dokit.dart';
+import '../kit.dart';
 import 'apm.dart';
 
 class LogKit extends ApmKit {
@@ -216,7 +217,7 @@ class LogPageState extends State<LogPage> {
                     _showError
                         ? 'images/dk_channel_check_h.png'
                         : 'images/dk_channel_check_n.png',
-                    package: DoKit.PACKAGE_NAME,
+                    package: DK_PACKAGE_NAME,
                     height: 13,
                     width: 13),
               ),
@@ -365,7 +366,7 @@ class _LogItemWidgetState extends State<LogItemWidget> {
             overflow: TextOverflow.ellipsis,
             text: TextSpan(children: <TextSpan>[
               TextSpan(
-                  text: '[${TimeUtils.toTimeString(widget.item.timestamp)}] ',
+                  text: '[${toTimeString(widget.item.timestamp)}] ',
                   style: TextStyle(
                       color: widget.item.type == LogBean.TYPE_ERROR
                           ? Colors.red

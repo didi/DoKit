@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit
 
 import android.app.Application
 import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 
 /**
@@ -103,5 +104,9 @@ object DoraemonKit {
      */
     @JvmStatic
     fun setFileManagerHttpPort(port: Int) {
+    }
+
+    @JvmStatic
+    fun setMCIntercept(interceptor: MCInterceptor) {
     }
 }

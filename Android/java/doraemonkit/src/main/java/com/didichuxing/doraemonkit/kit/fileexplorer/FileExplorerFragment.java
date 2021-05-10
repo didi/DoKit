@@ -13,7 +13,7 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.widget.titlebar.TitleBar;
-import com.didichuxing.doraemonkit.util.FileUtil;
+import com.didichuxing.doraemonkit.util.DoKitFileUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -53,13 +53,13 @@ public class FileExplorerFragment extends BaseFragment {
                 if (fileInfo.file.isFile()) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(BundleKey.FILE_KEY, fileInfo.file);
-                    if (FileUtil.isImage(fileInfo.file)) {
+                    if (DoKitFileUtil.isImage(fileInfo.file)) {
                         showContent(ImageDetailFragment.class, bundle);
-                    } else if (FileUtil.isDB(fileInfo.file)) {
+                    } else if (DoKitFileUtil.isDB(fileInfo.file)) {
                         showContent(DatabaseDetailFragment.class, bundle);
-                    } else if (FileUtil.isVideo(fileInfo.file)) {
+                    } else if (DoKitFileUtil.isVideo(fileInfo.file)) {
                         showContent(VideoPlayFragment.class, bundle);
-                    } else if (FileUtil.isSp(fileInfo.file)) {
+                    } else if (DoKitFileUtil.isSp(fileInfo.file)) {
                         showContent(SpFragment.class, bundle);
                     } else {
                         showContent(TextDetailFragment.class, bundle);
@@ -79,7 +79,7 @@ public class FileExplorerFragment extends BaseFragment {
                 dialog.setOnButtonClickListener(new FileExplorerChooseDialog.OnButtonClickListener() {
                     @Override
                     public void onDeleteClick(FileExplorerChooseDialog dialog) {
-                        FileUtil.deleteDirectory(fileInfo.file);
+                        DoKitFileUtil.deleteDirectory(fileInfo.file);
                         dialog.dismiss();
 
                         if (mCurDir != null) {
@@ -91,7 +91,7 @@ public class FileExplorerFragment extends BaseFragment {
 
                     @Override
                     public void onShareClick(FileExplorerChooseDialog dialog) {
-                        FileUtil.systemShare(getContext(), fileInfo.file);
+                        DoKitFileUtil.systemShare(getContext(), fileInfo.file);
                         dialog.dismiss();
 
                     }

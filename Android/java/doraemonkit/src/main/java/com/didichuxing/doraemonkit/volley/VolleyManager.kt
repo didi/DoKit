@@ -2,9 +2,8 @@ package com.didichuxing.doraemonkit.volley
 
 import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.toolbox.RequestFuture
 import com.android.volley.toolbox.Volley
-import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.DoKit
 
 /**
  * ================================================
@@ -17,7 +16,7 @@ import com.didichuxing.doraemonkit.DoraemonKit
  */
 object VolleyManager {
     private val requestQueue: RequestQueue by lazy {
-        Volley.newRequestQueue(DoraemonKit.APPLICATION)
+        Volley.newRequestQueue(DoKit.APPLICATION)
     }
 
     fun <T> add(request: Request<T>) {

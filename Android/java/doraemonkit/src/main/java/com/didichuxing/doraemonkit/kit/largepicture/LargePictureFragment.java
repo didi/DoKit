@@ -13,7 +13,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
-import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;

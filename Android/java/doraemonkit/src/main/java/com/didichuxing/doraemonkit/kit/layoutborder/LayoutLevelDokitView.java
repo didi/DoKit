@@ -13,8 +13,8 @@ import android.widget.FrameLayout;
 
 import androidx.fragment.app.Fragment;
 
-import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
 import com.didichuxing.doraemonkit.datapick.DataPickManager;

@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:dokit/kit/apm/apm.dart';
 import 'package:dokit/kit/apm/method_channel_kit.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -23,7 +24,7 @@ class DoKitWidgetsFlutterBinding extends WidgetsFlutterBinding
 mixin DoKitServicesBinding on BindingBase, ServicesBinding {
   @override
   BinaryMessenger createBinaryMessenger() {
-    return DoKitBinaryMessenger(super.createBinaryMessenger());
+    return DoKitBinaryMessenger(super.createBinaryMessenger() as BinaryMessenger);
   }
 }
 

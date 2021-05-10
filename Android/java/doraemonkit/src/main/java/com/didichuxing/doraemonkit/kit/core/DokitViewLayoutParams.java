@@ -17,6 +17,12 @@ public class DokitViewLayoutParams {
      * 悬浮窗不能获取焦点
      */
     public static int FLAG_NOT_FOCUSABLE = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+    public static int FLAG_NOT_TOUCHABLE = WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
+    /**
+     * wiki:https://blog.csdn.net/hnlgzb/article/details/108520716
+     * 是否允许超出屏幕
+     */
+    public static int FLAG_LAYOUT_NO_LIMITS = WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
     /**
      * 悬浮窗不能获取焦点并且不相应触摸
      */

@@ -10,14 +10,13 @@ import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.blankj.utilcode.util.*
-import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.decoration.HorizontalDividerItemDecoration
 import com.didichuxing.doraemonkit.kit.toolpanel.decoration.VerticalDividerItemDecoration
-import com.didichuxing.doraemonkit.util.DokitUtil
+import com.didichuxing.doraemonkit.util.*
 import com.didichuxing.doraemonkit.widget.brvah.listener.OnItemDragListener
 import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder
 import com.didichuxing.doraemonkit.widget.dialog.SimpleDialogListener
@@ -58,6 +57,7 @@ class DokitManagerFragment : BaseFragment() {
                 DoKitConstant.GROUP_ID_COMM,
                 DoKitConstant.GROUP_ID_WEEX,
                 DoKitConstant.GROUP_ID_PERFORMANCE,
+                DoKitConstant.GROUP_ID_LBS,
                 DoKitConstant.GROUP_ID_UI -> {
                     mBakGlobalKits[group]?.clear()
                 }
@@ -82,9 +82,17 @@ class DokitManagerFragment : BaseFragment() {
                 DoKitConstant.GROUP_ID_COMM,
                 DoKitConstant.GROUP_ID_WEEX,
                 DoKitConstant.GROUP_ID_PERFORMANCE,
+                DoKitConstant.GROUP_ID_LBS,
                 DoKitConstant.GROUP_ID_UI -> {
                     if (group.value.size != 0) {
-                        mKits.add(KitWrapItem(KitWrapItem.TYPE_TITLE, name = DokitUtil.getString(DokitUtil.getStringId(group.key)), kit = null))
+                        mKits.add(
+                            KitWrapItem(
+                                KitWrapItem.TYPE_TITLE,
+                                name = DoKitCommUtil.getString(
+                                    DoKitCommUtil.getStringId(group.key)),
+                                kit = null
+                            )
+                        )
                         group.value.forEach { kitWrap ->
                             if (kitWrap.checked) {
                                 mKits.add(kitWrap)
@@ -109,9 +117,17 @@ class DokitManagerFragment : BaseFragment() {
                     DoKitConstant.GROUP_ID_COMM,
                     DoKitConstant.GROUP_ID_WEEX,
                     DoKitConstant.GROUP_ID_PERFORMANCE,
+                    DoKitConstant.GROUP_ID_LBS,
                     DoKitConstant.GROUP_ID_UI -> {
                         if (group.value.size != 0) {
-                            mKits.add(KitWrapItem(KitWrapItem.TYPE_TITLE, name = DokitUtil.getString(DokitUtil.getStringId(group.key)), kit = null))
+                            mKits.add(
+                                KitWrapItem(
+                                    KitWrapItem.TYPE_TITLE,
+                                    name = DoKitCommUtil.getString(
+                                        DoKitCommUtil.getStringId(group.key)),
+                                    kit = null
+                                )
+                            )
                             group.value.forEach { kitWrap ->
                                 mKits.add(kitWrap)
                             }
@@ -138,11 +154,18 @@ class DokitManagerFragment : BaseFragment() {
                 DoKitConstant.GROUP_ID_COMM,
                 DoKitConstant.GROUP_ID_WEEX,
                 DoKitConstant.GROUP_ID_PERFORMANCE,
+                DoKitConstant.GROUP_ID_LBS,
                 DoKitConstant.GROUP_ID_UI -> {
                     val groupBean = KitGroupBean(group.key, mutableListOf())
                     localKits.add(groupBean)
                     group.value.forEach {
-                        groupBean.kits.add(KitBean(it.kit!!.javaClass.canonicalName!!, it.checked, it.kit.innerKitId()))
+                        groupBean.kits.add(
+                            KitBean(
+                                it.kit!!.javaClass.canonicalName!!,
+                                it.checked,
+                                it.kit.innerKitId()
+                            )
+                        )
                     }
                 }
             }
@@ -163,6 +186,7 @@ class DokitManagerFragment : BaseFragment() {
                 DoKitConstant.GROUP_ID_COMM,
                 DoKitConstant.GROUP_ID_WEEX,
                 DoKitConstant.GROUP_ID_PERFORMANCE,
+                DoKitConstant.GROUP_ID_LBS,
                 DoKitConstant.GROUP_ID_UI ->
                     DoKitConstant.GLOBAL_KITS[group]?.clear()
             }
@@ -177,22 +201,26 @@ class DokitManagerFragment : BaseFragment() {
 
     private fun dealBack() {
         if (IS_EDIT) {
-            showDialog(ConfirmDialogProvider(DokitUtil.getString(R.string.dk_toolpanel_dialog_edit_tip), object : SimpleDialogListener() {
-                override fun onPositive(): Boolean {
-                    //需要将数据保存在本地备份
-                    saveSystemKits()
-                    finish()
-                    return true
-                }
+            showDialog(
+                ConfirmDialogProvider(
+                    DoKitCommUtil.getString(R.string.dk_toolpanel_dialog_edit_tip),
+                    object : SimpleDialogListener() {
+                        override fun onPositive(): Boolean {
+                            //需要将数据保存在本地备份
+                            saveSystemKits()
+                            finish()
+                            return true
+                        }
 
 
-                override fun onNegative(): Boolean {
-                    DoKitConstant.GLOBAL_KITS.putAll(mBakGlobalKits)
-                    finish()
-                    return true
-                }
+                        override fun onNegative(): Boolean {
+                            DoKitConstant.GLOBAL_KITS.putAll(mBakGlobalKits)
+                            finish()
+                            return true
+                        }
 
-            }))
+                    })
+            )
         } else {
             finish()
         }
@@ -208,56 +236,86 @@ class DokitManagerFragment : BaseFragment() {
 
         tv_edit.setOnClickListener {
             val textView = it as TextView
-            if (DokitUtil.getString(R.string.dk_edit) == textView.text.toString()) {
+            if (DoKitCommUtil.getString(R.string.dk_edit) == textView.text.toString()) {
                 tv_reset.visibility = View.VISIBLE
                 IS_EDIT = true
-                textView.text = DokitUtil.getString(R.string.dk_complete)
-                textView.setTextColor(ContextCompat.getColor(DoraemonKit.APPLICATION!!, R.color.dk_color_337CC4))
+                textView.text = DoKitCommUtil.getString(R.string.dk_complete)
+                textView.setTextColor(
+                    ContextCompat.getColor(
+                        DoKit.APPLICATION!!,
+                        R.color.dk_color_337CC4
+                    )
+                )
                 mAdapter.draggableModule.isDragEnabled = true
                 //需要重新过滤数据
                 reSetKits(true)
-            } else if (DokitUtil.getString(R.string.dk_complete) == textView.text.toString()) {
+            } else if (DoKitCommUtil.getString(R.string.dk_complete) == textView.text.toString()) {
                 tv_reset.visibility = View.GONE
                 IS_EDIT = false
-                textView.text = DokitUtil.getString(R.string.dk_edit)
-                textView.setTextColor(ContextCompat.getColor(DoraemonKit.APPLICATION!!, R.color.dk_color_333333))
+                textView.text = DoKitCommUtil.getString(R.string.dk_edit)
+                textView.setTextColor(
+                    ContextCompat.getColor(
+                        DoKit.APPLICATION!!,
+                        R.color.dk_color_333333
+                    )
+                )
                 mAdapter.draggableModule.isDragEnabled = false
                 //需要重新过滤数据
                 reSetKits(false)
                 //需要将数据保存在本地备份
                 saveSystemKits()
                 //弹框
-                showDialog(TipDialogProvider(DokitUtil.getString(R.string.dk_toolpanel_save_complete), null))
+                showDialog(
+                    TipDialogProvider(
+                        DoKitCommUtil.getString(R.string.dk_toolpanel_save_complete),
+                        null
+                    )
+                )
             }
 
             mAdapter.notifyDataSetChanged()
         }
         //还原
         tv_reset.setOnClickListener {
-            showDialog(ConfirmDialogProvider(DokitUtil.getString(R.string.dk_toolpanel_dialog_reset_tip), object : SimpleDialogListener() {
-                override fun onPositive(): Boolean {
-                    val open = DoraemonKit.APPLICATION?.assets?.open("dokit_system_kits.json")
-                    val json = ConvertUtils.inputStream2String(open, "UTF-8")
-                    //设置成默认的系统控件排序
-                    ToolPanelUtil.jsonConfig2InnerKits(json)
-                    generateData()
-                    mAdapter.notifyDataSetChanged()
-                    saveSystemKits()
+            showDialog(
+                ConfirmDialogProvider(
+                    DoKitCommUtil.getString(R.string.dk_toolpanel_dialog_reset_tip),
+                    object : SimpleDialogListener() {
+                        override fun onPositive(): Boolean {
+                            val open =
+                                DoKit.APPLICATION.assets?.open("dokit_system_kits.json")
+                            val json = ConvertUtils.inputStream2String(open, "UTF-8")
+                            //设置成默认的系统控件排序
+                            ToolPanelUtil.jsonConfig2InnerKits(json)
+                            generateData()
+                            mAdapter.notifyDataSetChanged()
+                            saveSystemKits()
 
-                    tv_reset.visibility = View.GONE
-                    IS_EDIT = false
-                    tv_edit.text = DokitUtil.getString(R.string.dk_edit)
-                    tv_edit.setTextColor(ContextCompat.getColor(DoraemonKit.APPLICATION!!, R.color.dk_color_333333))
-                    mAdapter.draggableModule.isDragEnabled = false
-                    showDialog(TipDialogProvider(DokitUtil.getString(R.string.dk_toolpanel_reset_complete), null))
-                    return true
-                }
+                            tv_reset.visibility = View.GONE
+                            IS_EDIT = false
+                            tv_edit.text = DoKitCommUtil.getString(R.string.dk_edit)
+                            tv_edit.setTextColor(
+                                ContextCompat.getColor(
+                                    DoKit.APPLICATION!!,
+                                    R.color.dk_color_333333
+                                )
+                            )
+                            mAdapter.draggableModule.isDragEnabled = false
+                            showDialog(
+                                TipDialogProvider(
+                                    DoKitCommUtil.getString(R.string.dk_toolpanel_reset_complete),
+                                    null
+                                )
+                            )
+                            return true
+                        }
 
-                override fun onNegative(): Boolean {
-                    return true
-                }
+                        override fun onNegative(): Boolean {
+                            return true
+                        }
 
-            }))
+                    })
+            )
 
 
         }
@@ -290,7 +348,11 @@ class DokitManagerFragment : BaseFragment() {
              * 针对drag状态，当前target对应的item是否允许移动
              * 我们一般用drag来做一些换位置的操作，就是当前对应的target对应的Item可以移动
              */
-            override fun canDropOver(recyclerView: RecyclerView, current: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+            override fun canDropOver(
+                recyclerView: RecyclerView,
+                current: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
                 //如果当前分组只存在一个item 不允许移动
                 val groupName = mKits[current.adapterPosition].groupName
                 if (DoKitConstant.GLOBAL_KITS[groupName]?.size == 1) {
@@ -300,7 +362,12 @@ class DokitManagerFragment : BaseFragment() {
                 return true
             }
 
-            override fun onItemDragMoving(source: RecyclerView.ViewHolder?, from: Int, target: RecyclerView.ViewHolder?, to: Int) {
+            override fun onItemDragMoving(
+                source: RecyclerView.ViewHolder?,
+                from: Int,
+                target: RecyclerView.ViewHolder?,
+                to: Int
+            ) {
 
             }
 
@@ -358,16 +425,16 @@ class DokitManagerFragment : BaseFragment() {
             }
         }
 
-        val horizontalDividerItemDecoration = HorizontalDividerItemDecoration.Builder(activity)
-                .color(ContextCompat.getColor(activity!!, R.color.dk_color_E5E5E5))
-                .size(1)
-                .showLastDivider()
-                .build()
+        val horizontalDividerItemDecoration = HorizontalDividerItemDecoration.Builder(requireActivity())
+            .color(ContextCompat.getColor(requireActivity(), R.color.dk_color_E5E5E5))
+            .size(1)
+            .showLastDivider()
+            .build()
         val verticalDividerItemDecoration = VerticalDividerItemDecoration.Builder(activity)
-                .color(ContextCompat.getColor(activity!!, R.color.dk_color_E5E5E5))
-                .size(1)
-                .showLastDivider()
-                .build()
+            .color(ContextCompat.getColor(requireActivity(), R.color.dk_color_E5E5E5))
+            .size(1)
+            .showLastDivider()
+            .build()
         rv_kits.addItemDecoration(horizontalDividerItemDecoration)
         rv_kits.addItemDecoration(verticalDividerItemDecoration)
         rv_kits.layoutManager = gridLayoutManager

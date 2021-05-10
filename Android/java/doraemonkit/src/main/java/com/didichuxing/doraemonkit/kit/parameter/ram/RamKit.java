@@ -6,7 +6,9 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
+import com.google.auto.service.AutoService;
 
+@AutoService(AbstractKit.class)
 public class RamKit extends AbstractKit {
 
 
@@ -22,7 +24,7 @@ public class RamKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context,FragmentIndex.FRAGMENT_RAM);
+        startUniversalActivity(RamMainPageFragment.class, context, null,true);
     }
 
     @Override
