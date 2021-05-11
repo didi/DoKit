@@ -31,7 +31,7 @@ class FlutterVersion extends SemanticVersion {
     return FlutterVersion._(
       version: json['frameworkVersion'] as String,
       channel: json['channel'] as String,
-      repositoryUrl: json['repositoryUrl'] as String,
+      repositoryUrl: json['repositoryUrl'] as String? ?? 'unknown source',
       frameworkRevision: json['frameworkRevisionShort'] as String,
       frameworkCommitDate: json['frameworkCommitDate'] as String,
       engineRevision: json['engineRevisionShort'] as String,
@@ -56,7 +56,7 @@ class FlutterVersion extends SemanticVersion {
   String get flutterVersionSummary => <String>[
         if (version != 'unknown') version,
         'channel $channel',
-        repositoryUrl ?? 'unknown source',
+        repositoryUrl,
       ].join(' • ');
 
   String get frameworkVersionSummary =>
