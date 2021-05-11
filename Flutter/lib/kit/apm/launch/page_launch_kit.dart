@@ -1,12 +1,11 @@
+import 'package:dokit/kit/apm/apm.dart';
 import 'package:dokit/kit/apm/launch/model.dart';
+import 'package:dokit/kit/apm/launch/route_observer.dart';
 import 'package:dokit/kit/kit.dart';
-import 'package:dokit/util/screen_util.dart';
-
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/material.dart';
-import '../apm.dart';
 import 'package:dokit/ui/dokit_app.dart';
-import 'route_observer.dart';
+import 'package:dokit/util/screen_util.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
 class PageLaunchKit extends ApmKit {
   static bool _open = false;
@@ -23,7 +22,7 @@ class PageLaunchKit extends ApmKit {
   static void closeCounter() {
     enabled = false;
     _open = false;
-    if(callback!=null){
+    if (callback != null) {
       notifier.removeListener(PageLaunchKit.callback!);
     }
     _overlayEntry.remove();

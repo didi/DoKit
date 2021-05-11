@@ -1,7 +1,6 @@
+import 'package:dokit/kit/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:dokit/kit/observer.dart';
 
 final GlobalKey<OverlayState> doKitOverlayKey = GlobalKey<OverlayState>();
 
@@ -109,7 +108,8 @@ class _DoKitAppState extends State<DoKitApp> {
 }
 
 class _MediaQueryFromWindow extends StatefulWidget {
-  const _MediaQueryFromWindow({Key key, this.child}) : super(key: key);
+  const _MediaQueryFromWindow({Key? key, required this.child})
+      : super(key: key);
 
   final Widget child;
 
@@ -122,7 +122,7 @@ class _MediaQueryFromWindowsState extends State<_MediaQueryFromWindow>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   // ACCESSIBILITY
@@ -167,14 +167,14 @@ class _MediaQueryFromWindowsState extends State<_MediaQueryFromWindow>
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
-      data: MediaQueryData.fromWindow(WidgetsBinding.instance.window),
+      data: MediaQueryData.fromWindow(WidgetsBinding.instance!.window),
       child: widget.child,
     );
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 }

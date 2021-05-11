@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:dokit/kit/apm/vm/version.dart';
-import 'package:flutter/foundation.dart';
 import 'package:vm_service/utils.dart';
 import 'package:vm_service/vm_service.dart';
 import 'package:vm_service/vm_service_io.dart';
@@ -30,7 +29,7 @@ class VMServiceWrapper {
 
   Future<void> connect() async {
     ServiceProtocolInfo info = await Service.getInfo();
-    if (info == null || info.serverUri == null) {
+    if (info.serverUri == null) {
       print("service  protocol url is null,start vm service fail");
       return;
     }
@@ -45,7 +44,7 @@ class VMServiceWrapper {
 
   Future<Response> callExtensionService(String method) async {
     if (_extensionService == null && service != null && main != null) {
-      _extensionService = new ExtensionService(service!, main!);
+      _extensionService = ExtensionService(service!, main!);
       await _extensionService?.loadExtensionService();
     }
     return _extensionService!.callMethod(method);
@@ -61,7 +60,7 @@ class VMServiceWrapper {
   disConnect() async {
     if (service != null) {
       print('waiting for client to shut down...');
-      service?.dispose();
+      await service?.dispose();
 
       await service?.onDone;
       connected = false;

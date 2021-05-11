@@ -21,4 +21,5 @@ if [[ ! -e $FLUTTER_BIN ]]; then
     unzip -qo $ZIP_DIST -d $FLUTTER_DEST
     echo "Flutter Wrapper: $VERSION is installed."
 fi
+# shellcheck disable=SC2068
 $FLUTTER_BIN $@

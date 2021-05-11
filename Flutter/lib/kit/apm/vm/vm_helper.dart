@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dokit/kit/apm/vm/version.dart';
 import 'package:dokit/kit/apm/vm/vm_service_wrapper.dart';
-import 'package:flutter/foundation.dart';
 import 'package:package_info/package_info.dart';
 import 'package:vm_service/vm_service.dart';
 
@@ -14,7 +13,7 @@ class VmHelper {
   static VmHelper get instance => _instance;
 
   // 各Isolate内存使用情况
-  Map<IsolateRef, MemoryUsage> memoryInfo = new Map();
+  final memoryInfo = <IsolateRef, MemoryUsage>{};
   AllocationProfile? allocationProfile;
   PackageInfo? packageInfo;
 

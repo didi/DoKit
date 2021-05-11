@@ -1,16 +1,15 @@
 import 'dart:ui';
 
+import 'package:dokit/dokit.dart';
+import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/apm/vm/vm_helper.dart';
 import 'package:dokit/kit/apm/vm/vm_service_wrapper.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/util/byte_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vm_service/vm_service.dart';
-
-import '../../dokit.dart';
-import '../kit.dart';
-import 'apm.dart';
-import 'vm/vm_helper.dart';
 
 class MemoryInfo implements IInfo {
   int? fps;
@@ -36,7 +35,7 @@ class MemoryKit extends ApmKit {
   }
 
   @override
-  void start() async {
+  void start() {
     VMServiceWrapper.instance.connect();
     VmHelper vmHelper = VmHelper.instance;
     VMServiceWrapper.instance
@@ -66,7 +65,7 @@ class MemoryKit extends ApmKit {
 
   @override
   Widget createDisplayPage() {
-    return new MemoryPage();
+    return MemoryPage();
   }
 }
 

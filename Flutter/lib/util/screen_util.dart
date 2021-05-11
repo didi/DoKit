@@ -25,19 +25,19 @@ class ScreenUtil {
   double _statusBarHeight = 0.0;
   double _bottomBarHeight = 0.0;
   double _appBarHeight = 0.0;
-  MediaQueryData _mediaQueryData;
+  MediaQueryData? _mediaQueryData;
 
-  Offset _screenCenter;
+  Offset? _screenCenter;
   Offset get screenCenter {
     if (_screenCenter == null) {
-      final Size size = _mediaQueryData.size;
+      final Size size = _mediaQueryData!.size;
       final double width = size.width;
       final double height = size.height;
       final double x = width / 2;
       final double y = height / 2;
       _screenCenter = Offset(x, y);
     }
-    return _screenCenter;
+    return _screenCenter!;
   }
 
   /// 屏幕的宽度

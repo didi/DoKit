@@ -1,15 +1,14 @@
 import 'package:dokit/kit/apm/fps_kit.dart';
+import 'package:dokit/kit/apm/http_kit.dart';
 import 'package:dokit/kit/apm/launch/page_launch_kit.dart';
 import 'package:dokit/kit/apm/log_kit.dart';
 import 'package:dokit/kit/apm/memory_kit.dart';
 import 'package:dokit/kit/apm/method_channel_kit.dart';
 import 'package:dokit/kit/apm/route_kit.dart';
 import 'package:dokit/kit/apm/source_code_kit.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/ui/resident_page.dart';
 import 'package:flutter/material.dart';
-
-import '../kit.dart';
-import 'http_kit.dart';
 
 class ApmKitManager {
   Map<String, ApmKit> kitMap = {
@@ -31,12 +30,10 @@ class ApmKitManager {
 
   // 如果想要自定义实现，可以用这个方式进行覆盖。后续扩展入口
   void addKit(String tag, ApmKit kit) {
-    assert(tag != null && kit != null);
     kitMap[tag] = kit;
   }
 
   T? getKit<T extends ApmKit>(String name) {
-    assert(name != null);
     if (kitMap.containsKey(name)) {
       return kitMap[name] as T;
     }
@@ -63,7 +60,6 @@ abstract class ApmKit implements IKit {
 
   ApmKit() {
     storage = createStorage();
-    assert(storage != null, 'storage should not be null');
   }
 
   @override
@@ -75,10 +71,7 @@ abstract class ApmKit implements IKit {
 
   @override
   bool save(IInfo? info) {
-    return info != null &&
-        storage != null &&
-        !storage.contains(info) &&
-        storage.save(info);
+    return info != null && !storage.contains(info) && storage.save(info);
   }
 
   IStorage getStorage() {

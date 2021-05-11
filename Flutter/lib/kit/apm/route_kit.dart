@@ -1,9 +1,8 @@
+import 'package:dokit/dokit.dart';
+import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/ui/dokit_app.dart';
 import 'package:flutter/material.dart';
-
-import '../../dokit.dart';
-import '../kit.dart';
-import 'apm.dart';
 
 class RouteKit extends ApmKit {
   @override

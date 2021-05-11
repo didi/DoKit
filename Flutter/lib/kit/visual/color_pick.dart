@@ -17,14 +17,18 @@ class ColorPickerKit extends VisualKit {
     _initPosition =
         ScreenUtil.instance.screenCenter - Offset(diameter / 2, diameter / 2);
     _position = ValueNotifier<Offset>(initPosition);
+    _focusEntry = OverlayEntry(builder: (BuildContext context) {
+      return ColorPickerWidget();
+    });
+    _infoEntry = OverlayEntry(builder: (BuildContext context) {
+      return ColorPickerInfoWidget();
+    });
+    isShown = false;
   }
-
   static final ColorPickerKit _instance = ColorPickerKit._privateConstructor();
-
   static ColorPickerKit get instance => _instance;
 
-  bool isShown = false;
-
+  late bool isShown;
   // 选中的颜色
   final ValueNotifier<Color> color = ValueNotifier<Color>(Colors.white);
 
@@ -33,24 +37,17 @@ class ColorPickerKit extends VisualKit {
 
   // 放大镜当前位置（左上角）
   late ValueNotifier<Offset> _position;
-
   ValueNotifier<Offset> get position => _position;
 
   // 放大镜的直径
   final double diameter = 170;
-
   // 像素点放大的倍数
   final double scale = 8;
   late Offset _initPosition;
-
   Offset get initPosition => _initPosition;
 
-  OverlayEntry _focusEntry = OverlayEntry(builder: (BuildContext context) {
-    return ColorPickerWidget();
-  });
-  OverlayEntry _infoEntry = OverlayEntry(builder: (BuildContext context) {
-    return ColorPickerInfoWidget();
-  });
+  late OverlayEntry _focusEntry;
+  late OverlayEntry _infoEntry;
 
   @override
   String getIcon() {
@@ -105,7 +102,6 @@ class ColorPickerWidget extends StatefulWidget {
 class ColorPickerWidgetState extends State<ColorPickerWidget> {
   // 当前页面的截图快照
   images.Image? _image;
-
   Future<images.Image?> get image async {
     if (_image != null) {
       return _image!;
@@ -119,7 +115,6 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
   bool _ready = false;
 
   Uint8List? _imageUint8List;
-
   Future<Uint8List?> get imageUint8List async {
     if (_imageUint8List != null) {
       return _imageUint8List!;
@@ -135,15 +130,12 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
 
   // 放大镜左上角的位置
   Offset get position => ColorPickerKit.instance.position.value;
-
   set position(Offset point) => ColorPickerKit.instance.position.value = point;
 
   // 手指和屏幕接触的初始位置
   Offset? _touchPoint;
-
   // 手指和屏幕接触时，放大镜左上角的位置
   Offset _lastPosition = ColorPickerKit.instance.position.value;
-
   Offset get deltaOffset {
     if (_touchPoint == null) {
       return Offset.zero;
@@ -177,7 +169,7 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
           position = event.position - deltaOffset;
           _updateColor();
         },
-        child: Draggable<Object>(
+        child: Draggable(
           child: _buildMagnifier(context),
           feedback: _buildMagnifier(context),
           childWhenDragging: Container(),
@@ -234,6 +226,9 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
               ValueListenableBuilder<Offset>(
                 valueListenable: ColorPickerKit.instance.position,
                 builder: (BuildContext context, Offset value, Widget? child) {
+                  if (ColorPickerKit.instance.snapshot.value == null) {
+                    return Container();
+                  }
                   return ValueListenableBuilder<ui.Image?>(
                     valueListenable: ColorPickerKit.instance.snapshot,
                     builder:
@@ -280,12 +275,12 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
     final double dpr = ui.window.devicePixelRatio;
     final center = (position + Offset(_radius, _radius)) * dpr;
     final images.Image? image = await this.image;
-    if (image != null) {
-      final abgrPixel =
-          image.getPixelSafe(center.dx.toInt(), center.dy.toInt());
-      final int argbPixel = _abgrToArgb(abgrPixel);
-      ColorPickerKit.instance.color.value = Color(argbPixel);
+    final abgrPixel = image?.getPixelSafe(center.dx.toInt(), center.dy.toInt());
+    if (abgrPixel == null) {
+      return;
     }
+    final int argbPixel = _abgrToArgb(abgrPixel);
+    ColorPickerKit.instance.color.value = Color(argbPixel);
   }
 
   RenderRepaintBoundary? _findCurrentPageRepaintBoundaryRenderObject() {
@@ -293,20 +288,23 @@ class ColorPickerWidgetState extends State<ColorPickerWidget> {
     assert(owner != null, '当前正在build，无法获取当前页面的RepaintBoundary！');
 
     bool isRepaintBoundaryTo_ModalScopeStatus(String? desc) {
-      if (desc == null || desc.isEmpty) {
+      if (desc?.isEmpty ?? true) {
         return false;
       }
-      final creators = desc.split(' ← ');
+      final creators = desc!.split(' ← ');
       const sampleCreators = [
         'RepaintBoundary',
         '_FocusMarker',
         'Semantics',
         'FocusScope',
+        'PrimaryScrollController', // flutter2.0+特有
         '_ActionsMarker',
         'Actions',
+        'Builder', // flutter2.0+特有
         'PageStorage',
         'Offstage',
         '_ModalScopeStatus',
+        'UnmanagedRestorationScope', // flutter2.0+特有
       ];
       for (int i = 0; i < sampleCreators.length; i++) {
         if (creators.length < i + 1) {
@@ -378,11 +376,8 @@ class GridsPainter extends CustomPainter {
   GridsPainter();
 
   double get scale => ColorPickerKit.instance.scale;
-
   ui.Image? get image => ColorPickerKit.instance.snapshot.value;
-
   Offset get position => ColorPickerKit.instance.position.value;
-
   double get radius => ColorPickerKit.instance.diameter / 2;
 
   // 水平方向上显示多少个颜色格子
@@ -393,7 +388,7 @@ class GridsPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    if (image == null || position == null) {
+    if (image == null) {
       return;
     }
 
@@ -475,7 +470,6 @@ class ColorPickerInfoWidget extends StatefulWidget {
 class _ColorPickerInfoWidgetState extends State<ColorPickerInfoWidget> {
   double top = infoWidgetTopMargin;
   Color? color;
-
   String get colorDesc =>
       '#${color?.value.toRadixString(16).padLeft(8, '0').toUpperCase() ?? ''}';
 
@@ -484,7 +478,7 @@ class _ColorPickerInfoWidgetState extends State<ColorPickerInfoWidget> {
     return Positioned(
       left: infoWidgetHorizontalMargin,
       top: top,
-      child: Draggable<Object>(
+      child: Draggable(
           child: _buildInfoView(),
           feedback: _buildInfoView(),
           childWhenDragging: Container(),

@@ -1,15 +1,14 @@
 import 'dart:ui';
 
+import 'package:dokit/dokit.dart';
+import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/util/time_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
-
-import '../../dokit.dart';
-import '../kit.dart';
-import 'apm.dart';
 
 class ChannelInfo implements IInfo {
   static const int TYPE_USER_SEND = 0;

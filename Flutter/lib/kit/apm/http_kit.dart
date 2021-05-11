@@ -1,17 +1,16 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:dokit/dokit.dart';
 import 'package:dokit/engine/dokit_http.dart';
+import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/util/byte_util.dart';
 import 'package:dokit/util/time_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-
-import '../../dokit.dart';
-import '../kit.dart';
-import 'apm.dart';
 
 class HttpInfo implements IInfo {
   HttpInfo(this.uri, this.method)
@@ -175,11 +174,12 @@ class HttpPageState extends State<HttpPage> {
   @override
   Widget build(BuildContext context) {
     final List<IInfo> items = ApmKitManager.instance
-        .getKit<HttpKit>(ApmKitName.KIT_HTTP)
-        ?.getStorage()
-        .getAll()
-        .reversed
-        .toList()??[];
+            .getKit<HttpKit>(ApmKitName.KIT_HTTP)
+            ?.getStorage()
+            .getAll()
+            .reversed
+            .toList() ??
+        [];
     return Column(
       children: <Widget>[
         Row(
@@ -254,10 +254,7 @@ class HttpPageState extends State<HttpPage> {
 
 class HttpItemWidget extends StatefulWidget {
   const HttpItemWidget(
-      {Key? key,
-      required this.item,
-      required this.index,
-      required this.isLast})
+      {Key? key, required this.item, required this.index, required this.isLast})
       : super(key: key);
 
   final HttpInfo item;
@@ -307,8 +304,7 @@ class _HttpItemWidgetState extends State<HttpItemWidget> {
                 text: TextSpan(
                   children: <InlineSpan>[
                     TextSpan(
-                        text:
-                            '[${toTimeString(widget.item.startTimestamp)}]',
+                        text: '[${toTimeString(widget.item.startTimestamp)}]',
                         style: const TextStyle(
                             fontSize: 9,
                             color: Color(0xff333333),

@@ -1,11 +1,12 @@
+import 'dart:convert';
+
+import 'package:dokit/dokit.dart';
 import 'package:dokit/kit/apm/apm.dart';
 import 'package:dokit/kit/apm/vm/vm_helper.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/widget/source_code/source_code_view.dart';
 import 'package:flutter/material.dart';
-import 'package:dokit/kit/kit.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:dokit/dokit.dart';
-import 'dart:convert';
 
 class SourceCodeKit extends ApmKit {
   @override
@@ -43,15 +44,34 @@ class SourceCodePage extends StatefulWidget {
 class _SourceCodePageState extends State<SourceCodePage> {
   String? sourceCode;
 
+  static const String _dokitSourceCodeGroup = 'dokit_source_code-group';
+
+  @override
+  void dispose() {
+    // ignore: invalid_use_of_protected_member
+    WidgetInspectorService.instance.disposeGroup(_dokitSourceCodeGroup);
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       var renderObject = findTopRenderObject();
+      if (renderObject == null) {
+        return;
+      }
       WidgetInspectorService.instance.selection.current = renderObject;
-      final String nodeDesc =
-          WidgetInspectorService.instance.getSelectedSummaryWidget('', '');
-      if (nodeDesc != null) {
+      final id = WidgetInspectorService.instance
+          // ignore: invalid_use_of_protected_member
+          .toId(renderObject.toDiagnosticsNode(), _dokitSourceCodeGroup);
+      if (id == null) {
+        return;
+      }
+      final nodeDesc = WidgetInspectorService.instance
+          .getSelectedSummaryWidget(id, _dokitSourceCodeGroup);
+
+      if (nodeDesc.isNotEmpty) {
         final Map<String, dynamic> map =
             json.decode(nodeDesc) as Map<String, dynamic>;
         if (map != null) {
@@ -108,7 +128,7 @@ class _SourceCodePageState extends State<SourceCodePage> {
             )
           : Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SourceCodeView(sourceCode: sourceCode??''),
+              child: SourceCodeView(sourceCode: sourceCode ?? ''),
             ),
     );
   }

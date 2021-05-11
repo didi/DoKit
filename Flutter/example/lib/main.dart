@@ -218,12 +218,12 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
     );
   }
 
-  Timer timer;
+  Timer? timer;
 
   void testDownload() async {
     String url =
         'https://pt-starfile.didistatic.com/static/starfile/node20210220/895f1e95e30aba5dd56d6f2ccf768b57/GjzGU0Pvv11613804530384.zip';
-    String savePath = await getPhoneLocalPath();
+    String? savePath = await getPhoneLocalPath();
     String zipName = 'test.zip';
     Dio dio = new Dio();
     print("$savePath/$zipName");
@@ -243,11 +243,11 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
   ///获取手机的存储目录路径
   ///getExternalStorageDirectory() 获取的是  android 的外部存储 （External Storage）
   ///  getApplicationDocumentsDirectory 获取的是 ios 的Documents` or `Downloads` 目录
-  Future<String> getPhoneLocalPath() async {
+  Future<String?> getPhoneLocalPath() async {
     final directory = Theme.of(context).platform == TargetPlatform.android
         ? await getExternalStorageDirectory()
         : await getApplicationDocumentsDirectory();
-    return directory.path;
+    return directory?.path;
   }
 
   void testMethodChannel() {
@@ -255,7 +255,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
     timer = new Timer.periodic(new Duration(seconds: 2), (timer) async {
       const MethodChannel _kChannel =
           MethodChannel('plugins.flutter.io/package_info');
-      final Map<String, dynamic> map =
+      final Map<String, dynamic>? map =
           await _kChannel.invokeMapMethod<String, dynamic>('getAll');
     });
   }

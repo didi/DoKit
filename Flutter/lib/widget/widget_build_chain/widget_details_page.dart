@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class WidgetDetailsPage extends StatelessWidget {
   final Element element;
 
-  const WidgetDetailsPage({Key key, this.element}) : super(key: key);
+  const WidgetDetailsPage({Key? key, required this.element}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class WidgetDetailsPage extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    '${element.renderObject.toStringDeep()}',
+                    '${element.renderObject?.toStringDeep() ?? '-'}',
                     style: TextStyle(
                       fontSize: 12,
                     ),

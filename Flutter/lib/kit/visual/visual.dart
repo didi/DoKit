@@ -1,9 +1,8 @@
 // 视觉功能
 import 'package:dokit/kit/kit.dart';
+import 'package:dokit/kit/visual/color_pick.dart';
 import 'package:dokit/kit/visual/view_check.dart';
 import 'package:dokit/util/screen_util.dart';
-
-import 'color_pick.dart';
 
 /// 可视化Kit的信息展示widget的margin
 const double infoWidgetHorizontalMargin = 20;

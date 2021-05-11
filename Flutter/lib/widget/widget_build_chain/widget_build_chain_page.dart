@@ -5,7 +5,7 @@ import 'package:dokit/widget/widget_build_chain/widget_details_page.dart';
 import 'package:flutter/material.dart';
 
 class WidgetBuildChainController {
-  OverlayEntry _overlayEntry;
+  OverlayEntry? _overlayEntry;
   final Element element;
 
   WidgetBuildChainController(this.element);
@@ -19,7 +19,7 @@ class WidgetBuildChainController {
     });
     final rootOverlay = doKitOverlayKey.currentState;
     assert(rootOverlay != null);
-    rootOverlay.insert(_overlayEntry);
+    rootOverlay!.insert(_overlayEntry!);
   }
 
   void remove() {
@@ -32,7 +32,8 @@ class WidgetBuildChainPage extends StatefulWidget {
   final Element element;
   final WidgetBuildChainController controller;
 
-  WidgetBuildChainPage({Key key, this.element, this.controller})
+  WidgetBuildChainPage(
+      {Key? key, required this.element, required this.controller})
       : super(key: key);
 
   @override
@@ -40,16 +41,16 @@ class WidgetBuildChainPage extends StatefulWidget {
 }
 
 class _WidgetBuildChainPageState extends State<WidgetBuildChainPage> {
-  FocusNode _focusNode;
-  TextEditingController _queryTextController;
-  List<Element> _buildChainWidgets;
+  late FocusNode _focusNode;
+  late TextEditingController _queryTextController;
+  List<Element>? _buildChainWidgets;
   List<Element> get buildChainWidgets {
     _buildChainWidgets ??= widget.element.debugGetDiagnosticChain();
-    return _buildChainWidgets;
+    return _buildChainWidgets!;
   }
 
-  List<CellBean> cells;
-  String queryString;
+  late List<CellBean> cells;
+  String? queryString;
   List<CellBean> get filterCells => cells
       .where((e) =>
           e.title.toLowerCase().contains(queryString?.toLowerCase() ?? ''))
@@ -67,7 +68,7 @@ class _WidgetBuildChainPageState extends State<WidgetBuildChainPage> {
     Colors.purple,
     Colors.yellow,
   ];
-  Color _lastCellLeadingColor;
+  Color? _lastCellLeadingColor;
   Color get cellLeadingColor {
     Color diffColor;
     do {
@@ -100,10 +101,6 @@ class _WidgetBuildChainPageState extends State<WidgetBuildChainPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.element == null) {
-      return Container();
-    }
-
     return MaterialApp(
       home: GestureDetector(
         onTap: () => _focusNode.unfocus(),

@@ -1,9 +1,8 @@
 // 视觉功能
+import 'package:dokit/kit/common/basic_info.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/ui/resident_page.dart';
 import 'package:flutter/material.dart';
-
-import '../kit.dart';
-import 'basic_info.dart';
 
 abstract class CommonKit implements IKit {
   @override
@@ -12,6 +11,7 @@ abstract class CommonKit implements IKit {
       ResidentPage.tag = getKitName();
     });
   }
+
   Widget createDisplayPage();
 }
 

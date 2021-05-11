@@ -1,15 +1,14 @@
 import 'dart:async';
 
+import 'package:dokit/dokit.dart';
+import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/util/time_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../dokit.dart';
-import '../kit.dart';
-import 'apm.dart';
 
 class LogKit extends ApmKit {
   FlutterExceptionHandler? originOnError;
@@ -198,8 +197,9 @@ class LogPageState extends State<LogPage> {
   @override
   Widget build(BuildContext context) {
     final List<IInfo> items = (LogPageState._showError
-        ? LogManager.instance.getErrors()?.reversed.toList()
-        : LogManager.instance.getLogs()?.reversed.toList())??[];
+            ? LogManager.instance.getErrors()?.reversed.toList()
+            : LogManager.instance.getLogs()?.reversed.toList()) ??
+        [];
     return Column(
       children: <Widget>[
         Row(
@@ -309,10 +309,7 @@ class LogPageState extends State<LogPage> {
 
 class LogItemWidget extends StatefulWidget {
   const LogItemWidget(
-      {Key? key,
-      required this.item,
-      required this.index,
-      required this.isLast})
+      {Key? key, required this.item, required this.index, required this.isLast})
       : super(key: key);
 
   final LogBean item;
