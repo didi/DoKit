@@ -57,8 +57,12 @@ class VmHelper {
     if (!VMServiceWrapper.instance.connected) {
       return;
     }
-    VMServiceWrapper.instance.callExtensionService('flutterVersion').then(
-        (value) => _flutterVersion = FlutterVersion.parse(value.json).version);
+    VMServiceWrapper.instance
+        .callExtensionService('flutterVersion')
+        .then((value) => {
+              if (value != null)
+                {_flutterVersion = FlutterVersion.parse(value.json).version}
+            });
   }
 
   updateAllocationProfile() {

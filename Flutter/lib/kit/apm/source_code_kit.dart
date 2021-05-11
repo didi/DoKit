@@ -70,13 +70,12 @@ class _SourceCodePageState extends State<SourceCodePage> {
       }
       final nodeDesc = WidgetInspectorService.instance
           .getSelectedSummaryWidget(id, _dokitSourceCodeGroup);
-
       if (nodeDesc.isNotEmpty) {
-        final Map<String, dynamic> map =
-            json.decode(nodeDesc) as Map<String, dynamic>;
+        final Map<String, dynamic>? map =
+            json.decode(nodeDesc) as Map<String, dynamic>?;
         if (map != null) {
-          final Map<String, dynamic> location =
-              map['creationLocation'] as Map<String, dynamic>;
+          final Map<String, dynamic>? location =
+              map['creationLocation'] as Map<String, dynamic>?;
           if (location != null) {
             final fileLocation = location['file'] as String;
             final fileName = fileLocation.split("/").last;

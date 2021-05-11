@@ -42,7 +42,7 @@ class VMServiceWrapper {
     connected = true;
   }
 
-  Future<Response> callExtensionService(String method) async {
+  Future<Response?> callExtensionService(String method) async {
     if (_extensionService == null && service != null && main != null) {
       _extensionService = ExtensionService(service!, main!);
       await _extensionService?.loadExtensionService();
@@ -171,7 +171,7 @@ class ExtensionService {
     }
   }
 
-  Future<Response> callMethod(String method) {
+  Future<Response?> callMethod(String method) {
     if (registeredMethodsForService.containsKey(method)) {
       return (serviceClient.callMethod(
           registeredMethodsForService[method]!.last,
