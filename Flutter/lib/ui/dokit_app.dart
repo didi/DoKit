@@ -8,7 +8,7 @@ abstract class IDoKitApp extends Widget {
   Widget get origin;
 }
 
-// 谷歌提供的DevTool会判断入口widget是否在主工程内申明(runApp(new MyApp())，MyApp必须在主工程内定义，估计是根据source file来判断的)，
+// 谷歌提供的DevTool会判断入口widget是否在主工程内申明(runApp(MyApp())，MyApp必须在主工程内定义，估计是根据source file来判断的)，
 // 如果在package内去申明这个入口widget，则在Flutter Inspector上的左边树会被折叠，影响开发使用。故这里要求在main文件内使用DoKitApp(MyApp())的形式来初始化入口
 class DoKitApp extends StatefulWidget implements IDoKitApp {
   DoKitApp(Widget widget)

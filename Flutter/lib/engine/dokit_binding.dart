@@ -104,7 +104,7 @@ class DoKitBinaryMessenger extends BinaryMessenger {
     }
     ChannelInfo? info;
     try {
-      info = filterSystemChannel(name, data, send) as ChannelInfo;
+      info = filterSystemChannel(name, data, send) as ChannelInfo?;
       if (info == null) {
         final MethodCall call = codec.decodeMethodCall(data);
         info = ChannelInfo(name, call.method, call.arguments,
@@ -176,14 +176,10 @@ class DoKitBinaryMessenger extends BinaryMessenger {
   }
 
   IInfo? decodeByteMessage(String name, ByteData? data, bool send) {
-    var arguments = data==null?null:utf8.decode(data.buffer.asUint8List());
-    return ChannelInfo(
-        name,
-        null,
-        arguments,
-        send
-            ? ChannelInfo.TYPE_SYSTEM_SEND
-            : ChannelInfo.TYPE_SYSTEM_RECEIVE);
+    var arguments =
+        data == null ? null : utf8.decode(data.buffer.asUint8List());
+    return ChannelInfo(name, null, arguments,
+        send ? ChannelInfo.TYPE_SYSTEM_SEND : ChannelInfo.TYPE_SYSTEM_RECEIVE);
   }
 
   IInfo decodeMessage(

@@ -33,7 +33,7 @@ class DashedDecoration extends Decoration {
   });
 
   /// Creates a copy of this object but with the given fields replaced with the
-  /// new values.
+  /// values.
   DashedDecoration copyWith({
     Color? color,
     DecorationImage? image,
@@ -169,7 +169,7 @@ class DashedDecoration extends Decoration {
     return clipPath;
   }
 
-  /// Returns a new box decoration that is scaled by the given factor.
+  /// Returns a box decoration that is scaled by the given factor.
   DashedDecoration scale(double factor) {
     return DashedDecoration(
       color: Color.lerp(null, color, factor)!,

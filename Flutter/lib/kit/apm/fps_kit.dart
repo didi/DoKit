@@ -33,7 +33,7 @@ class FpsKit extends ApmKit {
         FrameTiming frameTiming = element;
         fps = frameTiming.totalSpan.inMilliseconds;
         if (checkValid(fps)) {
-          FpsInfo fpsInfo = new FpsInfo();
+          FpsInfo fpsInfo = FpsInfo();
           fpsInfo.fps = fps;
           save(fpsInfo);
         }
@@ -55,7 +55,7 @@ class FpsKit extends ApmKit {
 
   @override
   Widget createDisplayPage() {
-    return new FpsPage();
+    return FpsPage();
   }
 
   @override

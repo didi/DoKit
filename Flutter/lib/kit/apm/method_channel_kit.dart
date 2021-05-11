@@ -139,6 +139,7 @@ class ChannelPageState extends State<ChannelPage> {
     ApmKitManager.instance
         .getKit<MethodChannelKit>(ApmKitName.KIT_CHANNEL)
         ?.registerListener(_listener);
+    _offsetController.dispose();
   }
 
   @override
@@ -213,11 +214,9 @@ class ChannelPageState extends State<ChannelPage> {
                       });
                     },
                     child: Container(
-                      decoration: new BoxDecoration(
-                        border:
-                            new Border.all(color: Color(0xff337cc4), width: 1),
-                        borderRadius:
-                            new BorderRadius.circular(2), // 也可控件一边圆角大小
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Color(0xff337cc4), width: 1),
+                        borderRadius: BorderRadius.circular(2), // 也可控件一边圆角大小
                       ),
                       margin: EdgeInsets.only(left: 10),
                       padding: EdgeInsets.all(2),
@@ -234,11 +233,9 @@ class ChannelPageState extends State<ChannelPage> {
                       _offsetController.jumpTo(0);
                     },
                     child: Container(
-                      decoration: new BoxDecoration(
-                        border:
-                            new Border.all(color: Color(0xff337cc4), width: 1),
-                        borderRadius:
-                            new BorderRadius.circular(2), // 也可控件一边圆角大小
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Color(0xff337cc4), width: 1),
+                        borderRadius: BorderRadius.circular(2), // 也可控件一边圆角大小
                       ),
                       margin: EdgeInsets.only(left: 10),
                       padding: EdgeInsets.all(2),

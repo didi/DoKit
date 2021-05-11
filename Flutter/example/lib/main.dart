@@ -172,12 +172,12 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                     )),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: false).push<void>(
-                      new MaterialPageRoute(
+                      MaterialPageRoute(
                           builder: (context) {
                             //指定跳转的页面
-                            return new TestPage2();
+                            return TestPage2();
                           },
-                          settings: new RouteSettings(
+                          settings: RouteSettings(
                               name: 'page1', arguments: ['test', '111'])));
                 },
               ),
@@ -225,7 +225,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
         'https://pt-starfile.didistatic.com/static/starfile/node20210220/895f1e95e30aba5dd56d6f2ccf768b57/GjzGU0Pvv11613804530384.zip';
     String? savePath = await getPhoneLocalPath();
     String zipName = 'test.zip';
-    Dio dio = new Dio();
+    Dio dio = Dio();
     print("$savePath/$zipName");
     Response response = await dio.download(url, "$savePath/$zipName",
         onReceiveProgress: (received, total) {
@@ -252,7 +252,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
 
   void testMethodChannel() {
     timer?.cancel();
-    timer = new Timer.periodic(new Duration(seconds: 2), (timer) async {
+    timer = Timer.periodic(Duration(seconds: 2), (timer) async {
       const MethodChannel _kChannel =
           MethodChannel('plugins.flutter.io/package_info');
       final Map<String, dynamic>? map =
@@ -267,7 +267,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
   }
 
   void request() async {
-    new Image.network(
+    Image.network(
       //图片地址
       'https://img04.sogoucdn.com/app/a/100520093/ac75323d6b6de243-0bd502b2bdc1100a-92cef3b2299cfc6875afe7d5d0b83a7b.jpg',
       //填充模式
@@ -277,11 +277,11 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
 
   void mockHttpPost() async {
     timer?.cancel();
-    timer = new Timer.periodic(new Duration(seconds: 2), (timer) async {
-      HttpClient client = new HttpClient();
+    timer = Timer.periodic(Duration(seconds: 2), (timer) async {
+      HttpClient client = HttpClient();
       String url = 'https://pinzhi.didichuxing.com/kop_stable/gateway?api=hhh';
       HttpClientRequest request = await client.postUrl(Uri.parse(url));
-      Map<String, String> map1 = new Map();
+      Map<String, String> map1 = Map();
       map1["v"] = "1.0";
       map1["month"] = "7";
       map1["day"] = "25";
@@ -295,8 +295,8 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
 
   void mockHttpGet() async {
     timer?.cancel();
-    timer = new Timer.periodic(new Duration(seconds: 2), (timer) async {
-      HttpClient client = new HttpClient();
+    timer = Timer.periodic(Duration(seconds: 2), (timer) async {
+      HttpClient client = HttpClient();
       String url = 'https://www.baidu.com';
       HttpClientRequest request = await client.postUrl(Uri.parse(url));
       HttpClientResponse response = await request.close();
@@ -342,12 +342,12 @@ class TestPageState extends State<TestPage> {
             GestureDetector(
               onTap: () => {
                 Navigator.of(context, rootNavigator: false).push<void>(
-                    new MaterialPageRoute(
+                    MaterialPageRoute(
                         builder: (context) {
                           //指定跳转的页面
-                          return new TestPage2();
+                          return TestPage2();
                         },
-                        settings: new RouteSettings(
+                        settings: RouteSettings(
                             name: 'page1', arguments: ['test', '111'])))
               },
               child: Text(
@@ -404,12 +404,12 @@ class TestPageState3 extends State<TestPage3> {
             GestureDetector(
               onTap: () => {
                 Navigator.of(context, rootNavigator: false)
-                    .push<void>(new MaterialPageRoute(
+                    .push<void>(MaterialPageRoute(
                         builder: (context) {
                           //指定跳转的页面
-                          return new MyApp();
+                          return MyApp();
                         },
-                        settings: new RouteSettings(name: 'page3')))
+                        settings: RouteSettings(name: 'page3')))
               },
               child: Text(
                 'page3:',
