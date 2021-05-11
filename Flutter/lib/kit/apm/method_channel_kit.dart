@@ -139,7 +139,6 @@ class ChannelPageState extends State<ChannelPage> {
     ApmKitManager.instance
         .getKit<MethodChannelKit>(ApmKitName.KIT_CHANNEL)
         ?.registerListener(_listener);
-    _offsetController.dispose();
   }
 
   @override
@@ -148,6 +147,7 @@ class ChannelPageState extends State<ChannelPage> {
     ApmKitManager.instance
         .getKit<MethodChannelKit>(ApmKitName.KIT_CHANNEL)
         ?.unregisterListener();
+    _offsetController.dispose();
   }
 
   @override
