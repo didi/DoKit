@@ -47,7 +47,7 @@ DoKit诞生于滴滴城运服体验技术部，是一款面向泛前端产品研
 ## 领域生态
 
 <div align="center">    
-  <img src="https://pt-starimg.didistatic.com/static/starimg/img/KXYYVcUWmc1616142595262.jpg" width = "900" alt="DoKit 首页效果演示" align=center />
+  <img src="https://pt-starimg.didistatic.com/static/starimg/img/unPTylwUYV1620702241393.jpg" width = "900" alt="DoKit 首页效果演示" align=center />
 </div>
 
 ## 使用手册
