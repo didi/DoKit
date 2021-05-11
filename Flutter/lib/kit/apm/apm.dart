@@ -64,12 +64,12 @@ abstract class ApmKit implements IKit {
 
   @override
   void tabAction() {
+    // ignore: invalid_use_of_protected_member
     ResidentPage.residentPageKey.currentState?.setState(() {
       ResidentPage.tag = getKitName();
     });
   }
 
-  @override
   bool save(IInfo? info) {
     return info != null && !storage.contains(info) && storage.save(info);
   }

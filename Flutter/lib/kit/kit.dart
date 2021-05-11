@@ -1,4 +1,3 @@
-
 import 'dart:collection';
 
 abstract class IInfo {
@@ -25,7 +24,7 @@ abstract class IKit {
 
 class CommonStorage implements IStorage {
   final int maxCount;
-  Queue<IInfo> items = new Queue();
+  Queue<IInfo> items = Queue();
 
   CommonStorage({this.maxCount = 100});
 

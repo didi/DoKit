@@ -141,7 +141,8 @@ void upLoadUserInfo() async {
   // 在iOS上可能获取不到appName
   // https://github.com/flutter/flutter/issues/42510
   // 当info.plist文件中只有CFBundleName，没有CFBundleDisplayName时，则无法获取
-  final appName = packageInfo.appName ?? 'DoKitFlutterDefault';
+  final appName =
+      packageInfo.appName.isEmpty ? 'DoKitFlutterDefault' : packageInfo.appName;
   final appVersion = packageInfo.version;
   final version = DK_PACKAGE_VERSION;
   final from = '1';
