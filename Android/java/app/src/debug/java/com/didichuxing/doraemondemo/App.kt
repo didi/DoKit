@@ -8,16 +8,20 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.multidex.MultiDex
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
+import com.didichuxing.doraemondemo.amap.mockroute.LogUtils
 import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFloatViewKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.lzy.okgo.OkGo
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 
 /**
  * @author jint
@@ -36,6 +40,14 @@ class App : Application() {
         //是否显示入口icon
         // DoraemonKit.setAwaysShowMainIcon(false);
 
+        // Dikit 网络扩展拦截器的使用
+        /*DokitExtInterceptor.dokitExtInterceptorProxy =
+            object : DokitExtInterceptor.DokitExtInterceptorProxy {
+                override fun intercept(chain: Interceptor.Chain): Response {
+                    LogUtils.e(DokitExtInterceptor.TAG, chain.request().url().toString())
+                    return chain.proceed(chain.request())
+                }
+            }*/
 
         val kits: MutableList<AbstractKit> = ArrayList()
         kits.add(DemoKit())

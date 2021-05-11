@@ -1,16 +1,13 @@
 package com.didichuxing.doraemonkit.aop;
 
-import android.util.Log;
-
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.AbsDoKitInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitCapInterceptor;
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitWeakNetworkInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitLargePicInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitMockInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitWeakNetworkInterceptor;
 import com.didichuxing.doraemonkit.util.ReflectUtils;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 import okhttp3.Interceptor;
@@ -52,6 +49,7 @@ public class OkHttpHook {
         interceptors.add(new DokitMockInterceptor());
         interceptors.add(new DokitLargePicInterceptor());
         interceptors.add(new DokitCapInterceptor());
+        interceptors.add(new DokitExtInterceptor());
         networkInterceptors.add(new DokitWeakNetworkInterceptor());
         //需要用反射重新赋值 因为源码中创建了一个不可变的list
         ReflectUtils.reflect(client).field("interceptors", interceptors);
