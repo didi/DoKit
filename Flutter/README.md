@@ -3,7 +3,7 @@
 内测版本，目前提供了日志、method channel信息、路由信息、网络抓包、帧率、设备与内存信息查看、控件信息查看、颜色拾取、启动耗时、查看源码、查看widget的build链以及对齐标尺的功能.
 
 ## 支持flutter版本
-1.17.5<=version<=1.22.4，其余版本未做过兼容性测试。支持flutter2.0的分支为`0.8.0-nullsafety.0`，后期维护主要会基于该版本进行。
+version\>=2.0.0，其余版本未做过兼容性测试。支持flutter2.0的分支为`0.8.0-nullsafety.0`，后期维护主要会基于该版本进行。
 
 ## Pub地址
 [DoKit For Flutter](https://pub.dev/packages/dokit)
