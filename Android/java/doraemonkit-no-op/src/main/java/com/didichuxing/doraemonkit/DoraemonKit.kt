@@ -3,6 +3,8 @@ package com.didichuxing.doraemonkit
 import android.app.Application
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
+import com.didichuxing.doraemonkit.kit.performance.PerformanceValueListener
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 
 /**
@@ -108,5 +110,19 @@ object DoraemonKit {
 
     @JvmStatic
     fun setMCIntercept(interceptor: MCInterceptor) {
+    }
+
+    /**
+     * 设置扩展网络拦截器的代理对象
+     */
+    @JvmStatic
+    fun setNetExtInterceptor(extInterceptorProxy: DokitExtInterceptor.DokitExtInterceptorProxy){
+    }
+
+    /**
+     * 设置CPU、内存、FPS每次采集后的回调
+     */
+    @JvmStatic
+    fun setPerformanceValueListener(performanceValueListener: PerformanceValueListener){
     }
 }

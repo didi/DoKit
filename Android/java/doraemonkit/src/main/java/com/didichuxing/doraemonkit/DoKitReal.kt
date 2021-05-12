@@ -17,6 +17,9 @@ import com.didichuxing.doraemonkit.kit.gpsmock.ServiceHookManager
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.BigFileBean
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
+import com.didichuxing.doraemonkit.kit.performance.PerformanceDataManager
+import com.didichuxing.doraemonkit.kit.performance.PerformanceValueListener
 import com.didichuxing.doraemonkit.kit.timecounter.instrumentation.HandlerHooker
 import com.didichuxing.doraemonkit.kit.toolpanel.KitWrapItem
 import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelUtil
@@ -501,6 +504,20 @@ object DoKitReal {
      */
     fun setMCIntercept(interceptor: MCInterceptor) {
         DoKitConstant.MC_INTERCEPT = interceptor
+    }
+
+    /**
+     * 设置扩展网络拦截器的代理对象
+     */
+    fun setNetExtInterceptor(extInterceptorProxy: DokitExtInterceptor.DokitExtInterceptorProxy){
+        DokitExtInterceptor.dokitExtInterceptorProxy = extInterceptorProxy
+    }
+
+    /**
+     * 设置CPU、内存、FPS每次采集后的回调
+     */
+    fun setPerformanceValueListener(performanceValueListener: PerformanceValueListener) {
+        PerformanceDataManager.getInstance().setPerformanceValueListener(performanceValueListener)
     }
 
 }

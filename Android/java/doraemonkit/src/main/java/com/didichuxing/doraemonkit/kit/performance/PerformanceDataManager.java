@@ -613,15 +613,6 @@ public class PerformanceDataManager {
 
     }
 
-    /**
-     * cpu 内存 FPS 的回调监听
-     */
-    public interface PerformanceValueListener {
-        void onGetMemory(float value);
-        void onGetCPU(float value);
-        void onGetFPS(float value);
-    }
-
     public void setPerformanceValueListener(PerformanceValueListener performanceValueListener) {
         this.performanceValueListener = performanceValueListener;
     }
