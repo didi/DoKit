@@ -21,6 +21,7 @@ import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 /**
@@ -139,9 +140,7 @@ public class WeakNetworkFragment extends BaseFragment implements TextWatcher {
         WeakNetworkManager.get().setActive(enabled);
         updateUIState();
         if (enabled) {
-            DokitIntent dokitIntent = new DokitIntent(NetWokDokitView.class);
-            dokitIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-            DokitViewManager.getInstance().attach(dokitIntent);
+            SimpleDokitStarter.startFloating(NetWokDokitView.class);
         } else {
             DokitViewManager.getInstance().detach(NetWokDokitView.class);
         }

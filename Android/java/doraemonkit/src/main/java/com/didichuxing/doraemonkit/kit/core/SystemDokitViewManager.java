@@ -5,12 +5,12 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
-import com.didichuxing.doraemonkit.DoraemonKit;
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
-import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
 import com.didichuxing.doraemonkit.kit.health.CountDownDokitView;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
-import com.didichuxing.doraemonkit.util.SystemUtil;
+import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
+import com.didichuxing.doraemonkit.util.DoKitSystemUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,7 +98,7 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
             return;
         }
         //app启动
-        if (SystemUtil.isOnlyFirstLaunchActivity(activity)) {
+        if (DoKitSystemUtil.isOnlyFirstLaunchActivity(activity)) {
             onMainActivityCreate(activity);
         }
 
@@ -156,8 +156,8 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
     @Override
     public void onActivityCreate(Activity activity) {
         //判断是否有MainIcon
-        if (DoKitConstant.AWAYS_SHOW_MAIN_ICON && !DoraemonKit.isShow()) {
-            DoraemonKit.show();
+        if (DoKitConstant.AWAYS_SHOW_MAIN_ICON && !DoKit.isMainIconShow()) {
+            DoKit.show();
         }
         //如果倒计时浮标没显示则重新添加
         AbsDokitView countDownDokitView = getDokitView(activity, CountDownDokitView.class.getSimpleName());

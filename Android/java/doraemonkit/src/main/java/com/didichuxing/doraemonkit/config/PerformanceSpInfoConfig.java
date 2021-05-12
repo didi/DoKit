@@ -1,11 +1,8 @@
 package com.didichuxing.doraemonkit.config;
 
-import android.content.Context;
-
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
-import com.didichuxing.doraemonkit.util.SharedPrefsUtil;
+import com.didichuxing.doraemonkit.util.DoKitSPUtil;
 
 /**
  * Created by wanglikun on 2018/9/14.
@@ -20,7 +17,7 @@ public class PerformanceSpInfoConfig {
      * @return
      */
     public static boolean isLargeImgOpen() {
-        return SharedPrefsUtil.getBoolean(SharedPrefsKey.LARGE_IMG_OPEN, false);
+        return DoKitSPUtil.getBoolean(SharedPrefsKey.LARGE_IMG_OPEN, false);
     }
 
     /**
@@ -29,7 +26,7 @@ public class PerformanceSpInfoConfig {
      * @param open
      */
     public static void setLargeImgOpen(boolean open) {
-        SharedPrefsUtil.putBoolean(SharedPrefsKey.LARGE_IMG_OPEN, open);
+        DoKitSPUtil.putBoolean(SharedPrefsKey.LARGE_IMG_OPEN, open);
     }
 
 
@@ -39,7 +36,7 @@ public class PerformanceSpInfoConfig {
      * @param threshold
      */
     public static void setLargeImgMemoryThreshold(float threshold) {
-        SharedPrefsUtil.putFloat(SharedPrefsKey.LARGE_IMG_MEMORY_THRESHOLD, threshold);
+        DoKitSPUtil.putFloat(SharedPrefsKey.LARGE_IMG_MEMORY_THRESHOLD, threshold);
         LargePictureManager.getInstance().setMemoryThreshold(threshold);
     }
 
@@ -50,7 +47,7 @@ public class PerformanceSpInfoConfig {
      * @param threshold
      */
     public static double getLargeImgMemoryThreshold(float threshold) {
-        return SharedPrefsUtil.getFloat(SharedPrefsKey.LARGE_IMG_MEMORY_THRESHOLD, threshold);
+        return DoKitSPUtil.getFloat(SharedPrefsKey.LARGE_IMG_MEMORY_THRESHOLD, threshold);
     }
 
     /**
@@ -59,7 +56,7 @@ public class PerformanceSpInfoConfig {
      * @param threshold
      */
     public static void setLargeImgFileThreshold(float threshold) {
-        SharedPrefsUtil.putFloat(SharedPrefsKey.LARGE_IMG_FILE_THRESHOLD, threshold);
+        DoKitSPUtil.putFloat(SharedPrefsKey.LARGE_IMG_FILE_THRESHOLD, threshold);
         LargePictureManager.getInstance().setFileThreshold(threshold);
     }
 
@@ -69,7 +66,7 @@ public class PerformanceSpInfoConfig {
      * @param threshold
      */
     public static double getLargeImgFileThreshold(float threshold) {
-        return SharedPrefsUtil.getFloat(SharedPrefsKey.LARGE_IMG_FILE_THRESHOLD, threshold);
+        return DoKitSPUtil.getFloat(SharedPrefsKey.LARGE_IMG_FILE_THRESHOLD, threshold);
     }
 
 }

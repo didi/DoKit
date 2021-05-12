@@ -10,11 +10,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
-import com.blankj.utilcode.util.FileIOUtils;
-import com.blankj.utilcode.util.FileUtils;
-import com.blankj.utilcode.util.GsonUtils;
-import com.blankj.utilcode.util.PathUtils;
-import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.util.FileIOUtils;
+import com.didichuxing.doraemonkit.util.FileUtils;
+import com.didichuxing.doraemonkit.util.GsonUtils;
+import com.didichuxing.doraemonkit.util.PathUtils;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.util.LogHelper;
@@ -124,14 +124,13 @@ public class DataPickManager {
      */
     private void realPost(final int from, String content) throws Exception {
 
-
         //LogHelper.i(TAG,"content===>" + content);
         //LogHelper.i(TAG, "====realPost======from==>" + from);
         Request requset = new JsonObjectRequest(Request.Method.POST, NetworkManager.APP_DATA_PICK_URL, new JSONObject(content), new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
-                LogHelper.e(TAG, "success===>" + response.toString());
+//                LogHelper.e(TAG, "success===>" + response.toString());
                 if (from == jsonFromFile) {
                     FileUtils.delete(filePath);
                 }

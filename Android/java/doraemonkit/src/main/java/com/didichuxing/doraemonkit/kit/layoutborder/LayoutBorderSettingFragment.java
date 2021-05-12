@@ -15,6 +15,7 @@ import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 /**
@@ -57,9 +58,8 @@ public class LayoutBorderSettingFragment extends BaseFragment {
                     LayoutBorderConfig.setLayoutBorderOpen(on);
                 } else if (data.desc == R.string.dk_layout_level) {
                     if (on) {
-                        DokitIntent intent = new DokitIntent(LayoutLevelDokitView.class);
-                        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-                        DokitViewManager.getInstance().attach(intent);
+
+                        SimpleDokitStarter.startFloating(LayoutLevelDokitView.class);
                     } else {
                         DokitViewManager.getInstance().detach(LayoutLevelDokitView.class);
                     }

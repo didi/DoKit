@@ -25,9 +25,9 @@
 //import com.baidu.location.BDLocation
 //import com.baidu.location.LocationClient
 //import com.baidu.location.LocationClientOption
-//import com.blankj.utilcode.util.ConvertUtils
-//import com.blankj.utilcode.util.ThreadUtils
-//import com.blankj.utilcode.util.ThreadUtils.SimpleTask
+//import com.didichuxing.doraemonkit.util.ConvertUtils
+//import com.didichuxing.doraemonkit.util.ThreadUtils
+//import com.didichuxing.doraemonkit.util.ThreadUtils.SimpleTask
 //import com.bumptech.glide.Glide
 //import com.bumptech.glide.load.engine.DiskCacheStrategy
 //import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -42,10 +42,6 @@
 //import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 //import com.squareup.picasso.MemoryPolicy
 //import com.squareup.picasso.Picasso
-//import com.tencent.map.geolocation.TencentLocation
-//import com.tencent.map.geolocation.TencentLocationListener
-//import com.tencent.map.geolocation.TencentLocationManager
-//import com.tencent.map.geolocation.TencentLocationRequest
 //import io.reactivex.schedulers.Schedulers
 //import kotlinx.android.synthetic.main.activity_main.*
 //import okhttp3.*
@@ -65,11 +61,6 @@
 //class MainDebugActivityOkhttpV4 : BaseActivity(), View.OnClickListener {
 //    private var okHttpClient: OkHttpClient? = null
 //    private var mLocationManager: LocationManager? = null
-//    private var mLocationClient: AMapLocationClient? = null
-//    private var mBaiduLocationClient: LocationClient? = null
-//    private var mMapOption: AMapLocationClientOption? = null
-//    private var mTencentLocationRequest: TencentLocationRequest? = null
-//    private var mTencentLocationManager: TencentLocationManager? = null
 //    private val UPDATE_UI = 100
 //
 //    private val retrofit = Retrofit.Builder()
@@ -108,9 +99,6 @@
 //        findViewById<View>(R.id.btn_app_launch_stack).setOnClickListener(this)
 //        findViewById<View>(R.id.btn_show_tool_panel).setOnClickListener(this)
 //        findViewById<View>(R.id.btn_location).setOnClickListener(this)
-//        findViewById<View>(R.id.btn_location_amap).setOnClickListener(this)
-//        findViewById<View>(R.id.btn_location_tencent).setOnClickListener(this)
-//        findViewById<View>(R.id.btn_location_baidu).setOnClickListener(this)
 //        findViewById<View>(R.id.btn_load_img).setOnClickListener(this)
 //        findViewById<View>(R.id.btn_okhttp_mock).setOnClickListener(this)
 //        findViewById<View>(R.id.btn_connection_mock).setOnClickListener(this)
@@ -124,24 +112,7 @@
 //        okHttpClient = OkHttpClient().newBuilder().build()
 //        //获取定位服务
 //        mLocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-//        //高德定位服务
-//        mLocationClient = AMapLocationClient(applicationContext)
-//        mMapOption = AMapLocationClientOption()
-//        //腾讯地图
-//        mTencentLocationRequest = TencentLocationRequest.create()
-//        mTencentLocationManager = TencentLocationManager.getInstance(applicationContext)
-//        //百度地图
-//        mBaiduLocationClient = LocationClient(this)
-//        //通过LocationClientOption设置LocationClient相关参数
-//        val option = LocationClientOption()
-//        // 打开gps
-//        option.isOpenGps = true
-//        // 设置坐标类型
-//        option.setCoorType("bd09ll")
-//        option.setScanSpan(5000)
-//        mBaiduLocationClient!!.locOption = option
 //        //获取获取当前单次定位
-//        mBaiduLocationClient!!.registerLocationListener(mbdLocationListener)
 //        EasyPermissions.requestPermissions(
 //            PermissionRequest.Builder(
 //                this, 200,
@@ -158,7 +129,6 @@
 //
 //        githubService = retrofit.create(GithubService::class.java)
 //
-//        AopTest().test()
 //    }
 //
 //    private fun test1() {
@@ -220,78 +190,9 @@
 //        )
 //    }
 //
-//    /**
-//     * 启动高德定位服务
-//     */
-//    private var mapLocationListener = AMapLocationListener { aMapLocation ->
-//        val errorCode = aMapLocation.errorCode
-//        val errorInfo = aMapLocation.errorInfo
-//        Log.i(
-//            TAG,
-//            "高德定位===lat==>" + aMapLocation.latitude + "   lng==>" + aMapLocation.longitude + "  errorCode===>" + errorCode + "   errorInfo===>" + errorInfo
-//        )
-//    }
 //
-//    /**
-//     * 启动高德地图定位
-//     */
-//    private fun startAmapLocation() {
-//        mLocationClient!!.setLocationListener(mapLocationListener)
-//        mMapOption!!.locationMode = AMapLocationClientOption.AMapLocationMode.Hight_Accuracy
-//        mMapOption!!.isOnceLocation = true
-//        mLocationClient!!.setLocationOption(mMapOption)
-//        mLocationClient!!.stopLocation()
-//        mLocationClient!!.startLocation()
-//    }
 //
-//    private var mTencentLocationListener: TencentLocationListener =
-//        object : TencentLocationListener {
-//            override fun onLocationChanged(
-//                tencentLocation: TencentLocation,
-//                error: Int,
-//                errorInfo: String
-//            ) {
-//                Log.i(
-//                    TAG,
-//                    "腾讯定位===onLocationChanged===lat==>" + tencentLocation.latitude + "   lng==>" + tencentLocation.longitude + "  error===>" + error + "  errorInfo===>" + errorInfo
-//                )
-//            }
 //
-//            override fun onStatusUpdate(name: String, status: Int, desc: String) {
-//                Log.i(TAG, "腾讯定位===onStatusUpdate==>  name===>$name status===$status  desc===$desc")
-//            }
-//        }
-//
-//    /**
-//     * 启动腾讯地图定位
-//     */
-//    private fun startTencentLocation() {
-//        //mTencentLocationManager.requestLocationUpdates(mTencentLocationRequest, mTencentLocationListener);
-//        //获取获取当前单次定位
-//        mTencentLocationManager!!.requestSingleFreshLocation(
-//            mTencentLocationRequest,
-//            mTencentLocationListener,
-//            Looper.myLooper()
-//        )
-//    }
-//
-//    private var mbdLocationListener: BDAbstractLocationListener =
-//        object : BDAbstractLocationListener() {
-//            override fun onReceiveLocation(bdLocation: BDLocation) {
-//                Log.i(
-//                    TAG,
-//                    "百度定位===onReceiveLocation===lat==>" + bdLocation.latitude + "   lng==>" + bdLocation.longitude
-//                )
-//            }
-//        }
-//
-//    /**
-//     * 启动百度地图定位
-//     */
-//    private fun startBaiDuLocation() {
-//        mBaiduLocationClient!!.stop()
-//        mBaiduLocationClient!!.start()
-//    }
 //
 //
 //    override fun onClick(v: View) {
@@ -307,9 +208,6 @@
 //                //MethodStackUtil.getInstance().toJson()
 //            }
 //            R.id.btn_location -> startNormaLocation()
-//            R.id.btn_location_amap -> startAmapLocation()
-//            R.id.btn_location_tencent -> startTencentLocation()
-//            R.id.btn_location_baidu -> startBaiDuLocation()
 //            R.id.btn_load_img -> {
 //                //Glide 加载
 //                val picassoImgUrl =
@@ -550,8 +448,6 @@
 //        super.onDestroy()
 //        okHttpClient!!.dispatcher.cancelAll()
 //        mLocationManager!!.removeUpdates(mLocationListener)
-//        mTencentLocationManager!!.removeUpdates(mTencentLocationListener)
-//        mBaiduLocationClient!!.stop()
 //    }
 //
 //    private fun requestImage(urlStr: String) {

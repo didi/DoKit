@@ -15,6 +15,7 @@ import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 /**
@@ -49,9 +50,8 @@ public class LogInfoSettingFragment extends BaseFragment {
             public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
                 if (data.desc == R.string.dk_kit_log_info) {
                     if (on) {
-                        DokitIntent intent = new DokitIntent(LogInfoDokitView.class);
-                        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-                        DokitViewManager.getInstance().attach(intent);
+                        SimpleDokitStarter.startFloating(LogInfoDokitView.class);
+
                         //开启日志服务
                         LogInfoManager.getInstance().start();
                     } else {

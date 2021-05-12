@@ -12,18 +12,18 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.GpsMockConfig;
-import com.didichuxing.doraemonkit.model.LatLng;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
+import com.didichuxing.doraemonkit.model.LatLng;
+import com.didichuxing.doraemonkit.util.DoKitWebUtil;
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.widget.webview.MyWebView;
 import com.didichuxing.doraemonkit.widget.webview.MyWebViewClient;
-import com.didichuxing.doraemonkit.util.WebUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +63,7 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
 
     private void initWebView() {
         mWebView = findViewById(R.id.webview);
-        WebUtil.webViewLoadLocalHtml(mWebView, "map/map.html");
+        DoKitWebUtil.webViewLoadLocalHtml(mWebView, "map/map.html");
         mWebView.addInvokeListener(this);
     }
 
@@ -81,28 +81,33 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
         mIvSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!checkInput()) {
-                    return;
-                }
-                String strLongLat = mEdLongLat.getText().toString();
-                String[] longAndLat = strLongLat.split(" ");
-                double longitude, latitude;
-                try {
-                    longitude = Double.valueOf(longAndLat[0]);
-                    latitude = Double.valueOf(longAndLat[1]);
-                } catch (Exception e) {
-                    ToastUtils.showShort("经纬度必须为数字");
-                    return;
-                }
-
-                GpsMockManager.getInstance().mockLocation(latitude, longitude);
-                GpsMockConfig.saveMockLocation(new LatLng(latitude, longitude));
-                //刷新地图
-                String url = String.format("javascript:updateLocation(%s,%s)", latitude, longitude);
-                mWebView.loadUrl(url);
-                ToastUtils.showShort(getString(R.string.dk_gps_location_change_toast, "" + longitude, "" + latitude));
+                performMock();
             }
         });
+    }
+
+
+    private void performMock() {
+        if (!checkInput()) {
+            return;
+        }
+        String strLongLat = mEdLongLat.getText().toString();
+        String[] longAndLat = strLongLat.split(" ");
+        double longitude, latitude;
+        try {
+            longitude = Double.parseDouble(longAndLat[0]);
+            latitude = Double.parseDouble(longAndLat[1]);
+        } catch (Exception e) {
+            ToastUtils.showShort("经纬度必须为数字");
+            return;
+        }
+
+        GpsMockManager.getInstance().mockLocationWithNotify(latitude, longitude);
+        GpsMockConfig.saveMockLocation(new LatLng(latitude, longitude));
+        //刷新地图
+        String url = String.format("javascript:updateLocation(%s,%s)", latitude, longitude);
+        mWebView.loadUrl(url);
+        ToastUtils.showShort(getString(R.string.dk_gps_location_change_toast, "" + longitude, "" + latitude));
     }
 
     private boolean checkInput() {
@@ -125,8 +130,8 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
         }
         double longitude, latitude;
         try {
-            longitude = Double.valueOf(longAndLat[0]);
-            latitude = Double.valueOf(longAndLat[1]);
+            longitude = Double.parseDouble(longAndLat[0]);
+            latitude = Double.parseDouble(longAndLat[1]);
         } catch (Exception e) {
             ToastUtils.showShort("经纬度必须为数字");
             return false;
@@ -171,6 +176,7 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
     public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
         if (data.desc == R.string.dk_gpsmock_open) {
             if (on) {
+                performMock();
                 GpsMockManager.getInstance().startMock();
             } else {
                 GpsMockManager.getInstance().stopMock();
@@ -178,6 +184,7 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
             GpsMockConfig.setGPSMockOpen(on);
         }
     }
+
 
     @Override
     protected int onRequestLayout() {
@@ -211,7 +218,7 @@ public class GpsMockFragment extends BaseFragment implements SettingItemAdapter.
                 return;
             }
 
-            GpsMockManager.getInstance().mockLocation(latitude, longitude);
+            GpsMockManager.getInstance().mockLocationWithNotify(latitude, longitude);
             GpsMockConfig.saveMockLocation(new LatLng(latitude, longitude));
             ToastUtils.showShort(getString(R.string.dk_gps_location_change_toast, "" + longitude, "" + latitude));
 

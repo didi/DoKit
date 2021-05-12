@@ -26,7 +26,7 @@
 <div align="center">    
  <img src="https://pt-starimg.didistatic.com/static/starimg/img/J0WO7tUi9U1616143930629.png" width = "250"  alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
- <img src="https://img.shields.io/badge/Android-3.3.5-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/Android-3.4.0-alpha02-blue.svg" align=left />
  <img src="https://img.shields.io/badge/iOS-3.0.7-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/Flutter-0.6.0-blue.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
@@ -47,7 +47,7 @@ DoKit诞生于滴滴城运服体验技术部，是一款面向泛前端产品研
 ## 领域生态
 
 <div align="center">    
-  <img src="https://pt-starimg.didistatic.com/static/starimg/img/KXYYVcUWmc1616142595262.jpg" width = "900" alt="DoKit 首页效果演示" align=center />
+  <img src="https://pt-starimg.didistatic.com/static/starimg/img/unPTylwUYV1620702241393.jpg" width = "900" alt="DoKit 首页效果演示" align=center />
 </div>
 
 ## 使用手册

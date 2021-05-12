@@ -4,7 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
-import com.didichuxing.doraemonkit.util.SystemUtil;
+import com.didichuxing.doraemonkit.util.DoKitSystemUtil;
 
 public final class BlockCanaryUtils {
 
@@ -40,7 +40,7 @@ public final class BlockCanaryUtils {
     private static String concernStackString(Context context, String line) {
         if (!sProcessNameFirstGetFlag) {
             sProcessNameFirstGetFlag = true;
-            sProcessName = SystemUtil.obtainProcessName(context);
+            sProcessName = DoKitSystemUtil.obtainProcessName(context);
         }
         if (line.startsWith(sProcessName) || line.startsWith(CURRENT_PACKAGE)) {
             return classSimpleName(line);

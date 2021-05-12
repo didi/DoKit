@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public abstract class SimpleDokitView extends AbsDokitView {
     private WindowManager mWindowManager;
     private FrameLayout mFloatContainer;
     private Switch mShowSwitch;
+    private Context mContext;
 
     @Override
     public void onEnterForeground() {
@@ -49,6 +51,7 @@ public abstract class SimpleDokitView extends AbsDokitView {
 
     public void showContainer(boolean isChecked) {
         mFloatContainer.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+        invalidate();
     }
 
     @Override
@@ -64,11 +67,17 @@ public abstract class SimpleDokitView extends AbsDokitView {
 
     @Override
     public View onCreateView(Context context, FrameLayout rootView) {
-        ConstraintLayout root = (ConstraintLayout) LayoutInflater.from(context).inflate(R.layout.dk_layout_simple_dokit_float_view, rootView, false);
-        mFloatContainer = root.findViewById(R.id.floatContainer);
-        mShowSwitch = root.findViewById(R.id.showHideSwitch);
-        TextView title = root.findViewById(R.id.floatPageTitle);
-        ImageButton close = root.findViewById(R.id.floatClose);
+        mContext = context;
+        return LayoutInflater.from(context).inflate(R.layout.dk_layout_simple_dokit_float_view, rootView, false);
+    }
+
+    @Override
+    public void onViewCreated(FrameLayout rootView) {
+        mFloatContainer = findViewById(R.id.floatContainer);
+        LayoutInflater.from(mContext).inflate(getLayoutId(), mFloatContainer);
+        mShowSwitch = findViewById(R.id.showHideSwitch);
+        TextView title = findViewById(R.id.floatPageTitle);
+        ImageView close = findViewById(R.id.floatClose);
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,12 +91,6 @@ public abstract class SimpleDokitView extends AbsDokitView {
                 showContainer(isChecked);
             }
         });
-        LayoutInflater.from(context).inflate(getLayoutId(), mFloatContainer);
-        return root;
-    }
-
-    @Override
-    public void onViewCreated(FrameLayout rootView) {
         initView();
     }
 
@@ -106,7 +109,7 @@ public abstract class SimpleDokitView extends AbsDokitView {
     @Override
     public boolean onBackPressed() {
         mShowSwitch.setChecked(false);
-        return super.onBackPressed();
+        return false;
     }
 
     @Override
@@ -114,6 +117,8 @@ public abstract class SimpleDokitView extends AbsDokitView {
         return true;
     }
 
-    private void initView() {
+    protected void initView() {
     }
+
+
 }

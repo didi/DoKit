@@ -9,19 +9,21 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
-import androidx.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.view.Choreographer;
 
-import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.TimeUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
+import androidx.annotation.RequiresApi;
+
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.config.DokitMemoryConfig;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
+import com.didichuxing.doraemonkit.util.AppUtils;
+import com.didichuxing.doraemonkit.util.FileManager;
+import com.didichuxing.doraemonkit.util.TimeUtils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -29,7 +31,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,6 +54,9 @@ public class PerformanceDataManager {
     private String memoryFileName = "memory.txt";
     private String cpuFileName = "cpu.txt";
     private String fpsFileName = "fps.txt";
+
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 
     //private int mLastSkippedFrames;
     /**
@@ -180,8 +187,8 @@ public class PerformanceDataManager {
     }
 
     public void init() {
-        mContext = DoraemonKit.APPLICATION.getApplicationContext();
-        mActivityManager = (ActivityManager) DoraemonKit.APPLICATION.getSystemService(Context.ACTIVITY_SERVICE);
+        mContext = DoKit.APPLICATION.getApplicationContext();
+        mActivityManager = (ActivityManager) DoKit.APPLICATION.getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mAboveAndroidO = true;
         }
@@ -266,14 +273,10 @@ public class PerformanceDataManager {
     }
 
 
-
     public void stopMonitorCPUInfo() {
         DokitMemoryConfig.CPU_STATUS = false;
         mNormalHandler.removeMessages(MSG_CPU);
     }
-
-
-
 
 
     public void startMonitorMemoryInfo() {
@@ -295,20 +298,38 @@ public class PerformanceDataManager {
         if (DoKitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastCpuRate, PERFORMANCE_TYPE_CPU);
         }
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(mLastCpuRate);
+        stringBuilder.append(" ");
+        stringBuilder.append(simpleDateFormat.format(new Date(System.currentTimeMillis())));
+        FileManager.writeTxtToFile(stringBuilder.toString(), getFilePath(mContext), cpuFileName);
     }
 
     private void writeMemoryDataIntoFile() {
 
-        //保存cpu数据到app健康体检
+        //保存内存数据到app健康体检
         if (DoKitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastMemoryRate, PERFORMANCE_TYPE_MEMORY);
         }
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(mLastMemoryRate);
+        stringBuilder.append(" ");
+        stringBuilder.append(simpleDateFormat.format(new Date(System.currentTimeMillis())));
+        FileManager.writeTxtToFile(stringBuilder.toString(), getFilePath(mContext), memoryFileName);
     }
 
     private void writeFpsDataIntoFile() {
         if (DoKitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastFrameRate > 60 ? 60 : mLastFrameRate, PERFORMANCE_TYPE_FPS);
         }
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(mLastFrameRate);
+        stringBuilder.append(" ");
+        stringBuilder.append(simpleDateFormat.format(new Date(System.currentTimeMillis())));
+        FileManager.writeTxtToFile(stringBuilder.toString(), getFilePath(mContext), fpsFileName);
     }
 
     /**
@@ -369,8 +390,10 @@ public class PerformanceDataManager {
                     memInfo = memInfos[0];
                 }
             }
-
-            int totalPss = memInfo.getTotalPss();
+            int totalPss = 0;
+            if (memInfo != null) {
+                totalPss = memInfo.getTotalPss();
+            }
             if (totalPss >= 0) {
                 // Mem in MB
                 mem = totalPss / 1024.0F;

@@ -24,7 +24,7 @@ import didihttp.ResponseBody;
  *
  * @author didi
  */
-public class RpcWeakNetworkInterceptor implements Interceptor {
+public class RpcWeakNetworkInterceptor extends AbsDoKitRpcInterceptor {
     private static final String TAG = "DoraemonWeakNetworkInterceptor";
 
     @Override

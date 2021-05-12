@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.util.ImageUtil;
+import com.didichuxing.doraemonkit.util.DoKitImageUtil;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -64,7 +64,7 @@ public class ImageDetailFragment extends BaseFragment {
 
         @Override
         protected Bitmap doInBackground(File... files) {
-            return ImageUtil.decodeSampledBitmapFromFilePath(files[0].getPath(), 1080, 1920);
+            return DoKitImageUtil.decodeSampledBitmapFromFilePath(files[0].getPath(), 1080, 1920);
         }
 
         @Override
