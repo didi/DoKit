@@ -77,7 +77,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.8.0"
+    version: "0.8.0-nullsafety.0"
   fake_async:
     dependency: transitive
     description:
