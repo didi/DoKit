@@ -1,3 +1,12 @@
+// Copyright© Dokit for Flutter.
+//
+// visual.dart
+// Flutter
+//
+// Created by linusflow on 2021/3/05
+// Modified by linusflow on 2021/5/11 下午4:35
+//
+
 // 视觉功能
 import 'package:dokit/kit/kit.dart';
 import 'package:dokit/kit/visual/color_pick.dart';

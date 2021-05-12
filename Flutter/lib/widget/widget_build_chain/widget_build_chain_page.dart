@@ -1,3 +1,12 @@
+// Copyright© Dokit for Flutter.
+//
+// widget_build_chain_page.dart
+// Flutter
+//
+// Created by linusflow on 2021/4/30
+// Modified by linusflow on 2021/5/11 下午4:50
+//
+
 import 'dart:math';
 
 import 'package:dokit/ui/dokit_app.dart';

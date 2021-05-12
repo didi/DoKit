@@ -1,3 +1,12 @@
+// Copyright© Dokit for Flutter.
+//
+// view_check.dart
+// Flutter
+//
+// Created by linjizong on 2021/3/05
+// Modified by linusflow on 2021/5/12 下午2:51
+//
+
 import 'dart:convert';
 import 'dart:math';
 
@@ -352,10 +361,10 @@ class _ViewCheckerWidgetState extends State<ViewCheckerWidget> {
       if (id == null) {
         return '';
       }
-      final nodeDesc = WidgetInspectorService.instance
+      final String? nodeDesc = WidgetInspectorService.instance
           .getSelectedSummaryWidget(id, _dokitViewCheckGroup);
 
-      if (nodeDesc.isNotEmpty) {
+      if (nodeDesc != null) {
         final Map<String, dynamic>? map =
             json.decode(nodeDesc) as Map<String, dynamic>;
         if (map != null) {

@@ -1,3 +1,12 @@
+// Copyright© Dokit for Flutter. All rights reserved.
+//
+// dokit_app.dart
+// Flutter
+//
+// Created by linusflow on 2021/3/05
+// Modified by linusflow on 2021/5/11 下午8:08
+//
+
 import 'package:dokit/kit/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

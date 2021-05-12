@@ -1,3 +1,12 @@
+// Copyright© Dokit for Flutter.
+//
+// color_pick.dart
+// Flutter
+//
+// Created by linusflow on 2021/5/12
+// Modified by linusflow on 2021/5/12 下午2:28
+//
+
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 

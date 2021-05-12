@@ -68,9 +68,9 @@ class _SourceCodePageState extends State<SourceCodePage> {
       if (id == null) {
         return;
       }
-      final nodeDesc = WidgetInspectorService.instance
+      final String? nodeDesc = WidgetInspectorService.instance
           .getSelectedSummaryWidget(id, _dokitSourceCodeGroup);
-      if (nodeDesc.isNotEmpty) {
+      if (nodeDesc != null) {
         final Map<String, dynamic>? map =
             json.decode(nodeDesc) as Map<String, dynamic>?;
         if (map != null) {

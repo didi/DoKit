@@ -1,3 +1,12 @@
+// Copyright© Dokit for Flutter.
+//
+// dokit.dart
+// Flutter
+//
+// Created by linusflow on 2021/3/05
+// Modified by linusflow on 2021/5/12 下午2:05
+//
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
@@ -5,6 +14,7 @@ import 'dart:io';
 
 import 'package:dokit/engine/dokit_binding.dart';
 import 'package:dokit/kit/apm/log_kit.dart';
+import 'package:dokit/kit/apm/vm/version.dart';
 import 'package:dokit/ui/dokit_app.dart';
 import 'package:dokit/ui/dokit_btn.dart';
 import 'package:dokit/ui/kit_page.dart';
@@ -12,6 +22,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart' as dart;
 import 'package:package_info/package_info.dart';
+
+import 'kit/apm/vm/vm_service_wrapper.dart';
 
 export 'package:dokit/ui/dokit_app.dart';
 
@@ -146,8 +158,27 @@ void upLoadUserInfo() async {
   final appVersion = packageInfo.version;
   final version = DK_PACKAGE_VERSION;
   final from = '1';
-  final type = 'flutter';
+  var type = 'flutter_';
+  if (Platform.isIOS) {
+    type += 'iOS';
+  } else if (Platform.isAndroid) {
+    type += 'android';
+  } else {
+    type += 'other';
+  }
   final language = locale?.toString() ?? '';
+  final playload = <String, dynamic>{};
+  await VMServiceWrapper.instance
+      .callExtensionService('flutterVersion')
+      .then((value) {
+    if (value != null) {
+      final flutter = FlutterVersion.parse(value.json);
+      playload['flutter_version'] = flutter.version;
+      playload['dart_sdk_version'] = flutter.dartSdkVersion;
+      type +=
+          '-flutter_version_${flutter.version}-dart_sdk_version_${flutter.dartSdkVersion}';
+    }
+  });
 
   final params = <String, dynamic>{};
   params['appId'] = appId;
@@ -157,6 +188,7 @@ void upLoadUserInfo() async {
   params['from'] = from;
   params['type'] = type;
   params['language'] = language;
+  params['playload'] = playload;
 
   request.headers
     ..add('Content-Type', 'application/json')
