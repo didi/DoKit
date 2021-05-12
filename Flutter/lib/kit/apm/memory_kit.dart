@@ -127,8 +127,7 @@ class MemoryPageState extends State<MemoryPage> {
                           return Container(
                             margin: EdgeInsets.only(top: 3),
                             alignment: Alignment.topLeft,
-                            child: VmHelper.instance.memoryInfo != null &&
-                                    VmHelper.instance.memoryInfo.length > 0
+                            child: VmHelper.instance.memoryInfo.isNotEmpty
                                 ? Column(
                                     children: getMemoryInfo(
                                         VmHelper.instance.memoryInfo))
@@ -161,7 +160,7 @@ class MemoryPageState extends State<MemoryPage> {
                           style:
                               TextStyle(color: Color(0xff333333), fontSize: 16),
                           inputFormatters: [
-                            BlacklistingTextInputFormatter(RegExp(
+                            FilteringTextInputFormatter.deny(RegExp(
                                 '[^\\u0020-\\u007E\\u00A0-\\u00BE\\u2E80-\\uA4CF\\uF900-\\uFAFF\\uFE30-\\uFE4F\\uFF00-\\uFFEF\\u0080-\\u009F\\u2000-\\u201f\r\n]'))
                           ],
                           onSubmitted: (value) => {filterAllocations()},
@@ -176,9 +175,11 @@ class MemoryPageState extends State<MemoryPage> {
                       ),
                       Container(
                         width: 60,
-                        child: FlatButton(
-                          padding: EdgeInsets.only(
-                              left: 15, right: 0, top: 15, bottom: 15),
+                        child: TextButton(
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all(EdgeInsets.only(
+                                left: 15, right: 0, top: 15, bottom: 15)),
+                          ),
                           child: Image.asset('images/dk_memory_search.png',
                               package: DK_PACKAGE_NAME, height: 16, width: 16),
                           onPressed: filterAllocations,
@@ -255,7 +256,6 @@ class MemoryPageState extends State<MemoryPage> {
 
   void filterAllocations() {
     String className = editingController.text;
-    assert(className != null);
     heaps.clear();
     if (className.length >= 3 && kit?.getAllocationProfile() != null) {
       kit?.getAllocationProfile()?.members?.forEach((element) {

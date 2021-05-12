@@ -145,7 +145,7 @@ class DashedDecoration extends Decoration {
   final double strokeHeight;
   final double gap;
   final Color? dashedColor;
-  final bool dawDashed;
+  final bool? dawDashed;
 
   @override
   EdgeInsetsGeometry? get padding => border?.dimensions;
@@ -333,9 +333,9 @@ class DashedDecoration extends Decoration {
         final Offset center = size.center(Offset.zero);
         final double distance = (position - center).distance;
         return distance <= math.min(size.width, size.height) / 2.0;
+      default:
+        return false;
     }
-    assert(shape != null);
-    return false;
   }
 
   @override
@@ -356,7 +356,6 @@ class _BoxDecorationPainter extends BoxPainter {
   Rect? _rectForCachedBackgroundPaint;
 
   Paint _getBackgroundPaint(Rect rect, TextDirection textDirection) {
-    assert(rect != null);
     assert(
         _decoration.gradient != null || _rectForCachedBackgroundPaint == null);
 
@@ -399,6 +398,8 @@ class _BoxDecorationPainter extends BoxPainter {
               paint);
         }
         break;
+      default:
+        return;
     }
   }
 
@@ -443,6 +444,8 @@ class _BoxDecorationPainter extends BoxPainter {
                 .toRRect(rect));
         }
         break;
+      default:
+        return;
     }
     _imagePainter!.paint(canvas, rect, clipPath, configuration);
   }
@@ -462,7 +465,7 @@ class _BoxDecorationPainter extends BoxPainter {
     _paintShadows(canvas, rect, textDirection);
     _paintBackgroundColor(canvas, rect, textDirection);
     _paintBackgroundImage(canvas, rect, configuration);
-    if (_decoration.dawDashed != null && !_decoration.dawDashed) {
+    if (_decoration.dawDashed != null && !(_decoration.dawDashed ?? true)) {
       _decoration.border?.paint(
         canvas,
         rect,

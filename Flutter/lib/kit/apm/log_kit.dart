@@ -330,7 +330,7 @@ class _LogItemWidgetState extends State<LogItemWidget> {
     return GestureDetector(
       onLongPress: () {
         Clipboard.setData(ClipboardData(text: widget.item.msg));
-        Scaffold.of(context).showSnackBar(const SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           duration: Duration(milliseconds: 500),
           content: Text('已拷贝至剪贴板'),
         ));
@@ -342,12 +342,10 @@ class _LogItemWidgetState extends State<LogItemWidget> {
             (SharedPreferences prefs) {
               if (!prefs.containsKey(KEY_SHOW_LOG_EXPAND_TIPS)) {
                 prefs.setBool(KEY_SHOW_LOG_EXPAND_TIPS, true);
-                Scaffold.of(context).showSnackBar(
-                  const SnackBar(
-                    duration: Duration(milliseconds: 2000),
-                    content: Text('日志超过7行时，点击可展开日志详情'),
-                  ),
-                );
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  duration: Duration(milliseconds: 2000),
+                  content: Text('日志超过7行时，点击可展开日志详情'),
+                ));
               }
             },
           );

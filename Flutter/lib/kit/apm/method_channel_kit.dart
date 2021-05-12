@@ -45,7 +45,6 @@ class ChannelInfo implements IInfo {
         'method:${method}\n' +
         'arguments:${arguments}\n' +
         'results:${results}';
-    ;
   }
 
   factory ChannelInfo.error(String channelName, int type) {

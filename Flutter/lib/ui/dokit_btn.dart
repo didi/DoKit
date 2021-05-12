@@ -47,8 +47,10 @@ class DoKitBtnState extends State<DoKitBtn> {
               width: 70,
               height: 70,
               alignment: Alignment.center,
-              child: FlatButton(
-                padding: const EdgeInsets.all(0),
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
                 child: Image.asset('images/dokit_flutter_btn.png',
                     package: DK_PACKAGE_NAME, height: 70, width: 70),
                 onPressed: openDebugPage,
@@ -58,8 +60,10 @@ class DoKitBtnState extends State<DoKitBtn> {
               width: 70,
               height: 70,
               alignment: Alignment.center,
-              child: FlatButton(
-                padding: const EdgeInsets.all(0),
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
                 child: Image.asset('images/dokit_flutter_btn.png',
                     package: DK_PACKAGE_NAME, height: 70, width: 70),
                 onPressed: openDebugPage,

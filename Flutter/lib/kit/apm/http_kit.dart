@@ -278,7 +278,7 @@ class _HttpItemWidgetState extends State<HttpItemWidget> {
       onLongPress: () {
         if (widget.item.response.result != null) {
           Clipboard.setData(ClipboardData(text: widget.item.response.result));
-          Scaffold.of(context).showSnackBar(const SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             duration: Duration(milliseconds: 500),
             content: Text('请求返回已拷贝至剪贴板'),
           ));

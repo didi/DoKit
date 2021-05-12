@@ -214,7 +214,7 @@ class RouteInfoPageState extends State<RouteInfoPage> {
     final NavigatorState? navigatorState =
         element.findAncestorStateOfType<NavigatorState>();
 
-    if (navigatorState != null && navigatorState.context != null) {
+    if (navigatorState != null) {
       final RouteInfo parent = RouteInfo();
       parent.current = ModalRoute.of(navigatorState.context);
       routeInfo.parent = parent;

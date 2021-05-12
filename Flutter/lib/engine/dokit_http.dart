@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:dokit/kit/apm/apm.dart';
 import 'package:dokit/kit/apm/http_kit.dart';
+import 'package:pedantic/pedantic.dart';
 
 class DoKitHttpOverrides extends HttpOverrides {
   DoKitHttpOverrides(this.origin);
@@ -26,7 +27,6 @@ class DoKitHttpOverrides extends HttpOverrides {
 class DoKitHttpClient implements HttpClient {
   DoKitHttpClient(this.origin);
 
-
   final HttpClient origin;
   HttpInfo? httpInfo;
 
@@ -44,7 +44,6 @@ class DoKitHttpClient implements HttpClient {
 
   @override
   set connectionTimeout(Duration? value) => origin.connectionTimeout = value;
-
 
   @override
   Duration? get connectionTimeout => origin.connectionTimeout;
@@ -74,7 +73,8 @@ class DoKitHttpClient implements HttpClient {
   }
 
   @override
-  set authenticate(Future<bool> Function(Uri url, String scheme, String realm)? f) {
+  set authenticate(
+      Future<bool> Function(Uri url, String scheme, String realm)? f) {
     origin.authenticate = f;
   }
 
@@ -102,13 +102,13 @@ class DoKitHttpClient implements HttpClient {
   }
 
   Future<HttpClientRequest> monitor(Future<HttpClientRequest> future) async {
-    future.catchError((dynamic error, [StackTrace? stackTrace]) {
+    unawaited(future.catchError((dynamic error, [StackTrace? stackTrace]) {
       if (httpInfo == null) {
         httpInfo = HttpInfo.error(error.toString());
         final HttpKit? kit = ApmKitManager.instance.getKit(ApmKitName.KIT_HTTP);
         kit?.save(httpInfo);
       }
-    });
+    }));
     final HttpClientRequest request = await future;
     httpInfo ??= HttpInfo(request.uri, request.method);
     final HttpKit? kit = ApmKitManager.instance.getKit(ApmKitName.KIT_HTTP);
@@ -281,9 +281,7 @@ class DoKitHttpClientRequest implements HttpClientRequest {
   void recordParameter(List<int> data) {
     try {
       httpInfo?.request.header = headers.toString();
-      if (encoding != null) {
-        httpInfo?.request.add(encoding.decode(data));
-      }
+      httpInfo?.request.add(encoding.decode(data));
     } catch (e) {
       print(e);
     }
@@ -353,12 +351,11 @@ class DoKitHttpClientResponse implements HttpClientResponse {
     return origin.asBroadcastStream(onListen: onListen, onCancel: onCancel);
   }
 
-
-
   @override
   Stream<E> asyncExpand<E>(Stream<E>? Function(List<int> event) convert) {
     return asyncExpand(convert);
   }
+
   @override
   Stream<E> asyncMap<E>(FutureOr<E> Function(List<int> event) convert) {
     return asyncMap(convert);
@@ -430,7 +427,6 @@ class DoKitHttpClientResponse implements HttpClientResponse {
     return origin.firstWhere(test, orElse: orElse);
   }
 
-
   @override
   Future<S> fold<S>(
       S initialValue, S Function(S previous, List<int> element) combine) {
@@ -478,8 +474,7 @@ class DoKitHttpClientResponse implements HttpClientResponse {
   Future<int> get length => origin.length;
 
   bool isTextResponse() {
-    return headers != null &&
-        headers['content-type'] != null &&
+    return headers['content-type'] != null &&
         (headers['content-type'].toString().contains('json') ||
             headers['content-type'].toString().contains('text') ||
             headers['content-type'].toString().contains('xml'));
@@ -487,9 +482,7 @@ class DoKitHttpClientResponse implements HttpClientResponse {
 
   Encoding? getEncoding() {
     String charset;
-    if (
-        headers.contentType != null &&
-        headers.contentType?.charset != null) {
+    if (headers.contentType != null && headers.contentType?.charset != null) {
       charset = headers.contentType!.charset!;
     } else {
       charset = 'utf-8';

@@ -1,6 +1,6 @@
 name: dokit_demo
 description: dokit测试工程
-version: 0.0.1
+version: 0.8.0
 homepage: http://flutter.intra.xiaojukeji.com/index.php
 
 environment:

@@ -104,12 +104,16 @@ class _DoKitAppState extends State<DoKitApp> {
         children: <Widget>[
           widget.origin,
           _MediaQueryFromWindow(
-              child: Localizations(
-                  locale: supportedLocales.first,
-                  delegates: _localizationsDelegates.toList(),
-                  child: Overlay(
-                    key: doKitOverlayKey,
-                  )))
+            child: Localizations(
+              locale: supportedLocales.first,
+              delegates: _localizationsDelegates.toList(),
+              child: ScaffoldMessenger(
+                child: Overlay(
+                  key: doKitOverlayKey,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );

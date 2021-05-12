@@ -1,10 +1,10 @@
-// Copyright© Dokit for Flutter.
+// Copyright© Dokit for Flutter. All rights reserved.
 //
 // dokit.dart
 // Flutter
 //
 // Created by linusflow on 2021/3/05
-// Modified by linusflow on 2021/5/12 下午2:05
+// Modified by linusflow on 2021/5/12 下午3:47
 //
 
 import 'dart:async';
@@ -69,11 +69,18 @@ class DoKit {
       return;
     }
     blackList = methodChannelBlackList;
-    await runZoned(
+
+    await runZonedGuarded(
       () async => <void>{
         _ensureDoKitBinding(useInRelease: useInRelease),
         _runWrapperApp(app != null ? app : await appCreator!()),
         _zone = Zone.current
+      },
+      (Object obj, StackTrace stack) {
+        _collectError(obj, stack);
+        if (exceptionCallback != null) {
+          _zone?.runBinary(exceptionCallback, obj, stack);
+        }
       },
       zoneSpecification: ZoneSpecification(
         print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
@@ -84,12 +91,6 @@ class DoKit {
           }
         },
       ),
-      onError: (Object obj, StackTrace stack) {
-        _collectError(obj, stack);
-        if (exceptionCallback != null) {
-          _zone?.runBinary(exceptionCallback, obj, stack);
-        }
-      },
     );
   }
 }

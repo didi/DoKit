@@ -314,7 +314,6 @@ class KitPageManager {
   }
 
   bool removeResidentKit(String tag) {
-    assert(tag != null);
     if (residentList.contains(tag)) {
       residentList.remove(tag);
       SharedPreferences.getInstance().then((SharedPreferences prefs) =>

@@ -29,7 +29,7 @@ void main() {
       app: DoKitApp(MyApp()),
       useInRelease: true,
       logCallback: (log) {
-        String i = log;
+//        String i = log;
       },
       methodChannelBlackList: blackList,
       exceptionCallback: (dynamic obj, StackTrace trace) {
@@ -106,7 +106,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
               margin: EdgeInsets.only(bottom: 30),
-              child: FlatButton(
+              child: TextButton(
                 child: Text('Mock Http Post',
                     style: TextStyle(
                       color: Color(0xff000000),
@@ -120,7 +120,10 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
               margin: EdgeInsets.only(bottom: 30),
-              child: FlatButton(
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
                 child: Text('Mock Http Get',
                     style: TextStyle(
                       color: Color(0xff000000),
@@ -134,7 +137,10 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
               margin: EdgeInsets.only(bottom: 30),
-              child: FlatButton(
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
                 child: Text('Test Download',
                     style: TextStyle(
                       color: Color(0xff000000),
@@ -148,7 +154,10 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
               margin: EdgeInsets.only(bottom: 30),
-              child: FlatButton(
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
                 child: Text('Test Method Channel',
                     style: TextStyle(
                       color: Color(0xff000000),
@@ -164,7 +173,10 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
               margin: EdgeInsets.only(bottom: 30),
-              child: FlatButton(
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
                 child: Text('Open Route Page',
                     style: TextStyle(
                       color: Color(0xff000000),
@@ -187,7 +199,10 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
               margin: EdgeInsets.only(bottom: 30),
-              child: FlatButton(
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
                 child: Text('Test Get Page Script',
                     style: TextStyle(
                       color: Color(0xff000000),
@@ -203,7 +218,10 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
               margin: EdgeInsets.only(bottom: 30),
-              child: FlatButton(
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
                 child: Text('Stop Timer',
                     style: TextStyle(
                       color: Color(0xff000000),

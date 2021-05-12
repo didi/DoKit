@@ -22,7 +22,7 @@ class ApmKitManager {
     ApmKitName.KIT_PAGE_LAUNCH: PageLaunchKit()
   };
 
-  ApmKitManager._privateConstructor() {}
+  ApmKitManager._privateConstructor();
 
   static final ApmKitManager _instance = ApmKitManager._privateConstructor();
 
