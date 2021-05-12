@@ -5,7 +5,6 @@ import 'dart:typed_data';
 
 import 'package:dokit/kit/apm/apm.dart';
 import 'package:dokit/kit/apm/http_kit.dart';
-import 'package:pedantic/pedantic.dart';
 
 class DoKitHttpOverrides extends HttpOverrides {
   DoKitHttpOverrides(this.origin);
@@ -102,13 +101,13 @@ class DoKitHttpClient implements HttpClient {
   }
 
   Future<HttpClientRequest> monitor(Future<HttpClientRequest> future) async {
-    unawaited(future.catchError((dynamic error, [StackTrace? stackTrace]) {
+    future = future.catchError((dynamic error, [StackTrace? stackTrace]) {
       if (httpInfo == null) {
         httpInfo = HttpInfo.error(error.toString());
         final HttpKit? kit = ApmKitManager.instance.getKit(ApmKitName.KIT_HTTP);
         kit?.save(httpInfo);
       }
-    }));
+    });
     final HttpClientRequest request = await future;
     httpInfo ??= HttpInfo(request.uri, request.method);
     final HttpKit? kit = ApmKitManager.instance.getKit(ApmKitName.KIT_HTTP);
