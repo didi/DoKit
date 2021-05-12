@@ -19,7 +19,7 @@ class ResidentPage extends StatefulWidget {
 
 class ResidentPageState extends State<ResidentPage> {
   Widget getPage() {
-    Widget page;
+    Widget? page;
     page ??=
         ApmKitManager.instance.getKit(ResidentPage.tag)?.createDisplayPage();
     page ??=
@@ -29,7 +29,7 @@ class ResidentPageState extends State<ResidentPage> {
   }
 
   String getTitle() {
-    String title;
+    String? title;
     title ??= ApmKitManager.instance.getKit(ResidentPage.tag)?.getKitName();
     title ??= CommonKitManager.instance.getKit(ResidentPage.tag)?.getKitName();
     title ??= 'DoKit';

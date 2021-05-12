@@ -1,3 +1,4 @@
+import 'package:dokit/dokit.dart';
 import 'package:dokit/kit/apm/apm.dart';
 import 'package:dokit/kit/common/common.dart';
 import 'package:dokit/kit/kit.dart';
@@ -7,8 +8,6 @@ import 'package:dokit/widget/dash_decoration.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../dokit.dart';
 
 class KitPage extends StatefulWidget {
   @override
@@ -119,13 +118,14 @@ class _KitPage extends State<KitPage> {
             )));
   }
 
-  bool inResidentContainerEdge(Offset offset) {
-    if (offset == null) {
+  bool inResidentContainerEdge(Offset? offset) {
+    final Size? size = _residentContainerKey.currentContext?.size;
+    if (offset == null || size == null) {
       return false;
     }
-    final Size size = _residentContainerKey.currentContext.size;
+
     final Offset position =
-        (_residentContainerKey.currentContext.findRenderObject() as RenderBox)
+        (_residentContainerKey.currentContext?.findRenderObject() as RenderBox)
             .localToGlobal(Offset.zero);
     final Rect rc1 = Rect.fromLTWH(offset.dx, offset.dy, 80, 80);
     final Rect rc2 =
@@ -142,7 +142,7 @@ class _KitPage extends State<KitPage> {
     final double round = (MediaQuery.of(context).size.width - 80 * 4 - 30) / 3;
     KitPageManager.instance.getResidentKit().forEach((String key, IKit value) {
       widgets.add(
-        Draggable<dynamic>(
+        Draggable(
           child: MaterialButton(
               child: KitItem(value),
               onPressed: () {
@@ -190,7 +190,7 @@ class _KitPage extends State<KitPage> {
     final double round = (MediaQuery.of(context).size.width - 80 * 4 - 30) / 3;
     KitPageManager.instance.getOtherKit().forEach((String key, IKit value) {
       widgets.add(
-        Draggable<dynamic>(
+        Draggable(
           child: MaterialButton(
               child: KitItem(value),
               onPressed: () {
@@ -283,29 +283,29 @@ class KitPageManager {
 
   static KitPageManager get instance => _instance;
 
-  String listToString(List<String> list) {
+  String listToString(List<String>? list) {
     if (list == null || list.isEmpty) {
       return '';
     }
-    String result;
+    String? result;
     for (final String item in list) {
       if (result == null) {
         result = item;
       } else {
-        result = '$result,$item';
+        result = '${result},${item}';
       }
     }
 
     return result.toString();
   }
 
-  bool addResidentKit(String tag) {
+  bool addResidentKit(String? tag) {
     assert(tag != null);
     if (!residentList.contains(tag)) {
       if (residentList.length >= 4) {
         return false;
       }
-      residentList.add(tag);
+      residentList.add(tag!);
       SharedPreferences.getInstance().then((SharedPreferences prefs) =>
           prefs.setString(KEY_KIT_PAGE_CACHE, listToString(residentList)));
       return true;
@@ -314,7 +314,6 @@ class KitPageManager {
   }
 
   bool removeResidentKit(String tag) {
-    assert(tag != null);
     if (residentList.contains(tag)) {
       residentList.remove(tag);
       SharedPreferences.getInstance().then((SharedPreferences prefs) =>
@@ -349,11 +348,11 @@ class KitPageManager {
 
     for (final String element in residentList) {
       if (ApmKitManager.instance.getKit(element) != null) {
-        kits[element] = ApmKitManager.instance.getKit(element);
+        kits[element] = ApmKitManager.instance.getKit(element)!;
       } else if (VisualKitManager.instance.getKit(element) != null) {
-        kits[element] = VisualKitManager.instance.getKit(element);
+        kits[element] = VisualKitManager.instance.getKit(element)!;
       } else if (CommonKitManager.instance.getKit(element) != null) {
-        kits[element] = CommonKitManager.instance.getKit(element);
+        kits[element] = CommonKitManager.instance.getKit(element)!;
       }
     }
     return kits;
@@ -366,7 +365,8 @@ class KitPageManager {
           KitPageManager.instance.residentList = <String>[];
         } else {
           KitPageManager.instance.residentList =
-              prefs.getString(KitPageManager.KEY_KIT_PAGE_CACHE).split(',');
+              prefs.getString(KitPageManager.KEY_KIT_PAGE_CACHE)?.split(',') ??
+                  [];
         }
       }
       if (KitPageManager.instance.residentList.isNotEmpty) {

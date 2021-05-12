@@ -1,19 +1,18 @@
 import 'dart:ui';
 
 import 'package:dokit/dokit.dart';
+import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/kit.dart';
+import 'package:dokit/widget/fps_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dokit/widget/fps_chart.dart';
-
-import '../kit.dart';
-import 'apm.dart';
 
 class FpsInfo implements IInfo {
-  int fps;
-  String pageName;
+  int? fps;
+  String? pageName;
 
   @override
-  int getValue() {
+  int? getValue() {
     return fps;
   }
 }
@@ -28,13 +27,13 @@ class FpsKit extends ApmKit {
 
   @override
   void start() {
-    WidgetsBinding.instance.addTimingsCallback((timings) {
+    WidgetsBinding.instance?.addTimingsCallback((timings) {
       int fps = 0;
       timings.forEach((element) {
         FrameTiming frameTiming = element;
         fps = frameTiming.totalSpan.inMilliseconds;
         if (checkValid(fps)) {
-          FpsInfo fpsInfo = new FpsInfo();
+          FpsInfo fpsInfo = FpsInfo();
           fpsInfo.fps = fps;
           save(fpsInfo);
         }
@@ -56,7 +55,7 @@ class FpsKit extends ApmKit {
 
   @override
   Widget createDisplayPage() {
-    return new FpsPage();
+    return FpsPage();
   }
 
   @override
@@ -75,8 +74,8 @@ class FpsPage extends StatefulWidget {
 class FpsPageState extends State<FpsPage> {
   @override
   Widget build(BuildContext context) {
-    FpsKit kit = ApmKitManager.instance.getKit<FpsKit>(ApmKitName.KIT_FPS);
-    List<IInfo> list = new List();
+    FpsKit? kit = ApmKitManager.instance.getKit<FpsKit>(ApmKitName.KIT_FPS);
+    List<IInfo> list = [];
     if (kit != null) {
       list = kit.storage.getAll();
     }

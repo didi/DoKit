@@ -8,7 +8,7 @@ class DokitNavigatorObserver extends NavigatorObserver {
 
 
   @override
-  void didPush(Route route, Route previousRoute) {
+  void didPush(Route route, Route? previousRoute) {
     super.didPush(route, previousRoute);
     _observers.forEach((element) {
       element.didPush(route, previousRoute);
@@ -16,7 +16,7 @@ class DokitNavigatorObserver extends NavigatorObserver {
   }
 
   @override
-  void didPop(Route route, Route previousRoute) {
+  void didPop(Route route, Route? previousRoute) {
     super.didPop(route, previousRoute);
     _observers.forEach((element) {
       element.didPop(route, previousRoute);
@@ -24,7 +24,7 @@ class DokitNavigatorObserver extends NavigatorObserver {
   }
 
   @override
-  void didRemove(Route route, Route previousRoute) {
+  void didRemove(Route route, Route? previousRoute) {
     super.didRemove(route, previousRoute);
     _observers.forEach((element) {
       element.didRemove(route, previousRoute);
@@ -32,7 +32,7 @@ class DokitNavigatorObserver extends NavigatorObserver {
   }
 
   @override
-  void didReplace({Route newRoute, Route oldRoute}) {
+  void didReplace({Route? newRoute, Route? oldRoute}) {
     super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
     _observers.forEach((element) {
       element.didReplace(newRoute: newRoute, oldRoute: oldRoute);
@@ -40,7 +40,7 @@ class DokitNavigatorObserver extends NavigatorObserver {
   }
 
   @override
-  void didStartUserGesture(Route route, Route previousRoute) {
+  void didStartUserGesture(Route route, Route? previousRoute) {
     super.didStartUserGesture(route, previousRoute);
     _observers.forEach((element) {
       element.didStartUserGesture(route, previousRoute);

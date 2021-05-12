@@ -1,7 +1,15 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+// Copyright© Dokit for Flutter. All rights reserved.
+//
+// dokit_app.dart
+// Flutter
+//
+// Created by linusflow on 2021/3/05
+// Modified by linusflow on 2021/5/11 下午8:08
+//
 
 import 'package:dokit/kit/observer.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 final GlobalKey<OverlayState> doKitOverlayKey = GlobalKey<OverlayState>();
 
@@ -9,7 +17,7 @@ abstract class IDoKitApp extends Widget {
   Widget get origin;
 }
 
-// 谷歌提供的DevTool会判断入口widget是否在主工程内申明(runApp(new MyApp())，MyApp必须在主工程内定义，估计是根据source file来判断的)，
+// 谷歌提供的DevTool会判断入口widget是否在主工程内申明(runApp(MyApp())，MyApp必须在主工程内定义，估计是根据source file来判断的)，
 // 如果在package内去申明这个入口widget，则在Flutter Inspector上的左边树会被折叠，影响开发使用。故这里要求在main文件内使用DoKitApp(MyApp())的形式来初始化入口
 class DoKitApp extends StatefulWidget implements IDoKitApp {
   DoKitApp(Widget widget)
@@ -96,12 +104,16 @@ class _DoKitAppState extends State<DoKitApp> {
         children: <Widget>[
           widget.origin,
           _MediaQueryFromWindow(
-              child: Localizations(
-                  locale: supportedLocales.first,
-                  delegates: _localizationsDelegates.toList(),
-                  child: Overlay(
-                    key: doKitOverlayKey,
-                  )))
+            child: Localizations(
+              locale: supportedLocales.first,
+              delegates: _localizationsDelegates.toList(),
+              child: ScaffoldMessenger(
+                child: Overlay(
+                  key: doKitOverlayKey,
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -109,7 +121,8 @@ class _DoKitAppState extends State<DoKitApp> {
 }
 
 class _MediaQueryFromWindow extends StatefulWidget {
-  const _MediaQueryFromWindow({Key key, this.child}) : super(key: key);
+  const _MediaQueryFromWindow({Key? key, required this.child})
+      : super(key: key);
 
   final Widget child;
 
@@ -122,7 +135,7 @@ class _MediaQueryFromWindowsState extends State<_MediaQueryFromWindow>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   // ACCESSIBILITY
@@ -167,14 +180,14 @@ class _MediaQueryFromWindowsState extends State<_MediaQueryFromWindow>
   @override
   Widget build(BuildContext context) {
     return MediaQuery(
-      data: MediaQueryData.fromWindow(WidgetsBinding.instance.window),
+      data: MediaQueryData.fromWindow(WidgetsBinding.instance!.window),
       child: widget.child,
     );
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 }

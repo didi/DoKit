@@ -1,23 +1,22 @@
 import 'dart:ui';
 
+import 'package:dokit/dokit.dart';
+import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/apm/vm/vm_helper.dart';
 import 'package:dokit/kit/apm/vm/vm_service_wrapper.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/util/byte_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vm_service/vm_service.dart';
 
-import '../../dokit.dart';
-import '../kit.dart';
-import 'apm.dart';
-import 'vm/vm_helper.dart';
-
 class MemoryInfo implements IInfo {
-  int fps;
-  String pageName;
+  int? fps;
+  String? pageName;
 
   @override
-  int getValue() {
+  int? getValue() {
     return fps;
   }
 }
@@ -36,7 +35,7 @@ class MemoryKit extends ApmKit {
   }
 
   @override
-  void start() async {
+  void start() {
     VMServiceWrapper.instance.connect();
     VmHelper vmHelper = VmHelper.instance;
     VMServiceWrapper.instance
@@ -50,7 +49,7 @@ class MemoryKit extends ApmKit {
     VmHelper.instance.updateMemoryUsage();
   }
 
-  AllocationProfile getAllocationProfile() {
+  AllocationProfile? getAllocationProfile() {
     return VmHelper.instance.allocationProfile;
   }
 
@@ -66,7 +65,7 @@ class MemoryKit extends ApmKit {
 
   @override
   Widget createDisplayPage() {
-    return new MemoryPage();
+    return MemoryPage();
   }
 }
 
@@ -78,23 +77,23 @@ class MemoryPage extends StatefulWidget {
 }
 
 class MemoryPageState extends State<MemoryPage> {
-  MemoryKit kit =
+  MemoryKit? kit =
       ApmKitManager.instance.getKit<MemoryKit>(ApmKitName.KIT_MEMORY);
-  List<ClassHeapStats> heaps = new List();
+  List<ClassHeapStats> heaps = [];
   TextEditingController editingController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    kit.update();
+    kit?.update();
     initHeaps();
   }
 
   void initHeaps() {
-    if (kit.getAllocationProfile() != null) {
-      kit.getAllocationProfile().members.sort(
-          (left, right) => right.bytesCurrent.compareTo(left.bytesCurrent));
-      kit.getAllocationProfile().members.forEach((element) {
+    if (kit?.getAllocationProfile() != null) {
+      kit!.getAllocationProfile()?.members?.sort((left, right) =>
+          right.bytesCurrent?.compareTo(left.bytesCurrent ?? 0) ?? 0);
+      kit?.getAllocationProfile()?.members?.forEach((element) {
         if (heaps.length < 32) {
           heaps.add(element);
         }
@@ -128,8 +127,7 @@ class MemoryPageState extends State<MemoryPage> {
                           return Container(
                             margin: EdgeInsets.only(top: 3),
                             alignment: Alignment.topLeft,
-                            child: VmHelper.instance.memoryInfo != null &&
-                                    VmHelper.instance.memoryInfo.length > 0
+                            child: VmHelper.instance.memoryInfo.isNotEmpty
                                 ? Column(
                                     children: getMemoryInfo(
                                         VmHelper.instance.memoryInfo))
@@ -162,7 +160,7 @@ class MemoryPageState extends State<MemoryPage> {
                           style:
                               TextStyle(color: Color(0xff333333), fontSize: 16),
                           inputFormatters: [
-                            BlacklistingTextInputFormatter(RegExp(
+                            FilteringTextInputFormatter.deny(RegExp(
                                 '[^\\u0020-\\u007E\\u00A0-\\u00BE\\u2E80-\\uA4CF\\uF900-\\uFAFF\\uFE30-\\uFE4F\\uFF00-\\uFFEF\\u0080-\\u009F\\u2000-\\u201f\r\n]'))
                           ],
                           onSubmitted: (value) => {filterAllocations()},
@@ -177,13 +175,13 @@ class MemoryPageState extends State<MemoryPage> {
                       ),
                       Container(
                         width: 60,
-                        child: FlatButton(
-                          padding: EdgeInsets.only(
-                              left: 15, right: 0, top: 15, bottom: 15),
+                        child: TextButton(
+                          style: ButtonStyle(
+                            padding: MaterialStateProperty.all(EdgeInsets.only(
+                                left: 15, right: 0, top: 15, bottom: 15)),
+                          ),
                           child: Image.asset('images/dk_memory_search.png',
-                              package: DK_PACKAGE_NAME,
-                              height: 16,
-                              width: 16),
+                              package: DK_PACKAGE_NAME, height: 16, width: 16),
                           onPressed: filterAllocations,
                         ),
                       )
@@ -258,18 +256,18 @@ class MemoryPageState extends State<MemoryPage> {
 
   void filterAllocations() {
     String className = editingController.text;
-    assert(className != null);
     heaps.clear();
-    if (className.length >= 3 && kit.getAllocationProfile() != null) {
-      kit.getAllocationProfile().members.forEach((element) {
-        if (element.classRef.name
-            .toLowerCase()
-            .contains(className.toLowerCase())) {
+    if (className.length >= 3 && kit?.getAllocationProfile() != null) {
+      kit?.getAllocationProfile()?.members?.forEach((element) {
+        if (element.classRef?.name
+                ?.toLowerCase()
+                .contains(className.toLowerCase()) ==
+            true) {
           heaps.add(element);
         }
       });
-      heaps.sort(
-          (left, right) => right.bytesCurrent.compareTo(left.bytesCurrent));
+      heaps.sort((left, right) =>
+          right.bytesCurrent?.compareTo(left.bytesCurrent ?? 0) ?? 0);
     }
     setState(() {});
   }
@@ -321,7 +319,7 @@ class HeapItemWidget extends StatelessWidget {
   final ClassHeapStats item;
   final int index;
 
-  HeapItemWidget({Key key, @required this.item, @required this.index})
+  HeapItemWidget({Key? key, required this.item, required this.index})
       : super(key: key);
 
   @override
@@ -347,7 +345,7 @@ class HeapItemWidget extends StatelessWidget {
           Container(
               width: MediaQuery.of(context).size.width - 193,
               alignment: Alignment.center,
-              child: Text('${item.classRef.name}',
+              child: Text('${item.classRef?.name}',
                   style: TextStyle(color: Color(0xff333333), fontSize: 12))),
         ],
       ),

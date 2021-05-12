@@ -1,11 +1,12 @@
+import 'dart:convert';
+
+import 'package:dokit/dokit.dart';
 import 'package:dokit/kit/apm/apm.dart';
 import 'package:dokit/kit/apm/vm/vm_helper.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/widget/source_code/source_code_view.dart';
 import 'package:flutter/material.dart';
-import 'package:dokit/kit/kit.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:dokit/dokit.dart';
-import 'dart:convert';
 
 class SourceCodeKit extends ApmKit {
   @override
@@ -41,28 +42,46 @@ class SourceCodePage extends StatefulWidget {
 }
 
 class _SourceCodePageState extends State<SourceCodePage> {
-  String sourceCode;
+  String? sourceCode;
+
+  static const String _dokitSourceCodeGroup = 'dokit_source_code-group';
+
+  @override
+  void dispose() {
+    // ignore: invalid_use_of_protected_member
+    WidgetInspectorService.instance.disposeGroup(_dokitSourceCodeGroup);
+    super.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       var renderObject = findTopRenderObject();
+      if (renderObject == null) {
+        return;
+      }
       WidgetInspectorService.instance.selection.current = renderObject;
-      final String nodeDesc =
-          WidgetInspectorService.instance.getSelectedSummaryWidget(null, null);
+      final id = WidgetInspectorService.instance
+          // ignore: invalid_use_of_protected_member
+          .toId(renderObject.toDiagnosticsNode(), _dokitSourceCodeGroup);
+      if (id == null) {
+        return;
+      }
+      final String? nodeDesc = WidgetInspectorService.instance
+          .getSelectedSummaryWidget(id, _dokitSourceCodeGroup);
       if (nodeDesc != null) {
-        final Map<String, dynamic> map =
-            json.decode(nodeDesc) as Map<String, dynamic>;
+        final Map<String, dynamic>? map =
+            json.decode(nodeDesc) as Map<String, dynamic>?;
         if (map != null) {
-          final Map<String, dynamic> location =
-              map['creationLocation'] as Map<String, dynamic>;
+          final Map<String, dynamic>? location =
+              map['creationLocation'] as Map<String, dynamic>?;
           if (location != null) {
             final fileLocation = location['file'] as String;
             final fileName = fileLocation.split("/").last;
             getScriptList(fileName).then((value) => {
                   setState(() {
-                    sourceCode = value.source;
+                    sourceCode = value!.source;
                   })
                 });
           }
@@ -71,15 +90,18 @@ class _SourceCodePageState extends State<SourceCodePage> {
     });
   }
 
-  RenderObject findTopRenderObject() {
-    Element topElement;
-    final ModalRoute<dynamic> rootRoute =
-        ModalRoute.of(DoKitApp.appKey.currentContext);
+  RenderObject? findTopRenderObject() {
+    Element? topElement;
+    var context = DoKitApp.appKey.currentContext;
+    if (context == null) {
+      return null;
+    }
+    final ModalRoute<dynamic>? rootRoute = ModalRoute.of(context);
     void listTopView(Element element) {
       if (element.widget is! PositionedDirectional) {
         if (element is RenderObjectElement &&
             element.renderObject is RenderBox) {
-          final ModalRoute<dynamic> route = ModalRoute.of(element);
+          final ModalRoute<dynamic>? route = ModalRoute.of(element);
           if (route != null && route != rootRoute) {
             topElement = element;
           }
@@ -88,9 +110,9 @@ class _SourceCodePageState extends State<SourceCodePage> {
       }
     }
 
-    DoKitApp.appKey.currentContext.visitChildElements(listTopView);
+    context.visitChildElements(listTopView);
     if (topElement != null) {
-      return topElement.renderObject;
+      return topElement!.renderObject;
     }
     return null;
   }
@@ -105,7 +127,7 @@ class _SourceCodePageState extends State<SourceCodePage> {
             )
           : Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SourceCodeView(sourceCode: sourceCode),
+              child: SourceCodeView(sourceCode: sourceCode ?? ''),
             ),
     );
   }

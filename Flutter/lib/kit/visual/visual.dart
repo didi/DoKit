@@ -1,9 +1,17 @@
+// Copyright© Dokit for Flutter.
+//
+// visual.dart
+// Flutter
+//
+// Created by linusflow on 2021/3/05
+// Modified by linusflow on 2021/5/11 下午4:35
+//
+
 // 视觉功能
 import 'package:dokit/kit/kit.dart';
+import 'package:dokit/kit/visual/color_pick.dart';
 import 'package:dokit/kit/visual/view_check.dart';
 import 'package:dokit/util/screen_util.dart';
-
-import 'color_pick.dart';
 
 /// 可视化Kit的信息展示widget的margin
 const double infoWidgetHorizontalMargin = 20;
@@ -28,12 +36,10 @@ class VisualKitManager {
 
   // 如果想要自定义实现，可以用这个方式进行覆盖。后续扩展入口
   void addKit(String tag, IKit kit) {
-    assert(tag != null && kit != null);
     kitMap[tag] = kit;
   }
 
-  T getKit<T extends IKit>(String name) {
-    assert(name != null);
+  T? getKit<T extends IKit>(String name) {
     if (kitMap.containsKey(name)) {
       return kitMap[name] as T;
     }

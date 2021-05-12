@@ -1,3 +1,12 @@
+// Copyright© Dokit for Flutter. All rights reserved.
+//
+// dokit.dart
+// Flutter
+//
+// Created by linusflow on 2021/3/05
+// Modified by linusflow on 2021/5/12 下午3:47
+//
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
@@ -5,6 +14,7 @@ import 'dart:io';
 
 import 'package:dokit/engine/dokit_binding.dart';
 import 'package:dokit/kit/apm/log_kit.dart';
+import 'package:dokit/kit/apm/vm/version.dart';
 import 'package:dokit/ui/dokit_app.dart';
 import 'package:dokit/ui/dokit_btn.dart';
 import 'package:dokit/ui/kit_page.dart';
@@ -13,6 +23,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart' as dart;
 import 'package:package_info/package_info.dart';
 
+import 'kit/apm/vm/vm_service_wrapper.dart';
+
 export 'package:dokit/ui/dokit_app.dart';
 
 typedef DoKitAppCreator = Future<IDoKitApp> Function();
@@ -20,25 +32,25 @@ typedef LogCallback = void Function(String);
 typedef ExceptionCallback = void Function(dynamic, StackTrace);
 
 const String DK_PACKAGE_NAME = 'dokit';
-const String DK_PACKAGE_VERSION = '0.6.0';
+const String DK_PACKAGE_VERSION = '0.8.0-nullsafety.0';
 
 //默认release模式不开启该功能
 const bool release = kReleaseMode;
 
 //记录当前zone
-Zone _zone;
+Zone? _zone;
 
 // ignore: avoid_classes_with_only_static_members
 class DoKit {
   // 初始化方法,app或者appCreator必须设置一个
   static Future<void> runApp(
-      {DoKitApp app,
-      DoKitAppCreator appCreator,
+      {DoKitApp? app,
+      DoKitAppCreator? appCreator,
       bool useInRelease = false,
-      LogCallback logCallback,
-      ExceptionCallback exceptionCallback,
+      LogCallback? logCallback,
+      ExceptionCallback? exceptionCallback,
       List<String> methodChannelBlackList = const <String>[],
-      Function releaseAction}) async {
+      Function? releaseAction}) async {
     // 统计用户信息，便于了解该开源产品的使用量 (请大家放心，我们不用于任何恶意行为)
     upLoadUserInfo();
 
@@ -51,17 +63,24 @@ class DoKit {
         if (app != null) {
           dart.runApp(app.origin);
         } else {
-          dart.runApp((await appCreator())?.origin);
+          dart.runApp((await appCreator!()).origin);
         }
       }
       return;
     }
     blackList = methodChannelBlackList;
-    await runZoned(
+
+    await runZonedGuarded(
       () async => <void>{
         _ensureDoKitBinding(useInRelease: useInRelease),
-        _runWrapperApp(app != null ? app : await appCreator()),
+        _runWrapperApp(app != null ? app : await appCreator!()),
         _zone = Zone.current
+      },
+      (Object obj, StackTrace stack) {
+        _collectError(obj, stack);
+        if (exceptionCallback != null) {
+          _zone?.runBinary(exceptionCallback, obj, stack);
+        }
       },
       zoneSpecification: ZoneSpecification(
         print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
@@ -72,12 +91,6 @@ class DoKit {
           }
         },
       ),
-      onError: (Object obj, StackTrace stack) {
-        _collectError(obj, stack);
-        if (exceptionCallback != null) {
-          _zone?.runBinary(exceptionCallback, obj, stack);
-        }
-      },
     );
   }
 }
@@ -92,7 +105,7 @@ void _ensureDoKitBinding({bool useInRelease = false}) {
 void _runWrapperApp(IDoKitApp wrapper) {
   DoKitWidgetsFlutterBinding.ensureInitialized()
 // ignore: invalid_use_of_protected_member
-    ..scheduleAttachRootWidget(wrapper)
+    ?..scheduleAttachRootWidget(wrapper)
     ..scheduleWarmUpFrame();
   addEntrance();
 }
@@ -101,21 +114,21 @@ void _collectLog(String line) {
   LogManager.instance.addLog(LogBean.TYPE_INFO, line);
 }
 
-void _collectError(Object details, Object stack) {
+void _collectError(Object? details, Object? stack) {
   LogManager.instance.addLog(
       LogBean.TYPE_ERROR, '${details?.toString()}\n${stack?.toString()}');
 }
 
 void addEntrance() {
-  WidgetsBinding.instance.addPostFrameCallback((_) {
+  WidgetsBinding.instance?.addPostFrameCallback((_) {
     final DoKitBtn floatBtn = DoKitBtn();
     floatBtn.addToOverlay();
     KitPageManager.instance.loadCache();
   });
 }
 
-void dispose({@required BuildContext context}) {
-  doKitOverlayKey.currentState.widget.initialEntries.forEach((element) {
+void dispose({required BuildContext context}) {
+  doKitOverlayKey.currentState?.widget.initialEntries.forEach((element) {
 // element.remove();
   });
 }
@@ -126,7 +139,7 @@ void upLoadUserInfo() async {
   final request = await client.postUrl(Uri.parse(url));
   final packageInfo = await PackageInfo.fromPlatform();
 
-  Locale locale;
+  Locale? locale;
   void finder(Element element) {
     if (element.widget is Localizations) {
       locale ??= (element.widget as Localizations).locale;
@@ -135,18 +148,38 @@ void upLoadUserInfo() async {
     }
   }
 
-  DoKitApp.appKey.currentContext.visitChildElements(finder);
+  DoKitApp.appKey.currentContext?.visitChildElements(finder);
 
   final appId = packageInfo.packageName;
   // 在iOS上可能获取不到appName
   // https://github.com/flutter/flutter/issues/42510
   // 当info.plist文件中只有CFBundleName，没有CFBundleDisplayName时，则无法获取
-  final appName = packageInfo.appName ?? 'DoKitFlutterDefault';
+  final appName =
+      packageInfo.appName.isEmpty ? 'DoKitFlutterDefault' : packageInfo.appName;
   final appVersion = packageInfo.version;
   final version = DK_PACKAGE_VERSION;
   final from = '1';
-  final type = 'flutter';
+  var type = 'flutter_';
+  if (Platform.isIOS) {
+    type += 'iOS';
+  } else if (Platform.isAndroid) {
+    type += 'android';
+  } else {
+    type += 'other';
+  }
   final language = locale?.toString() ?? '';
+  final playload = <String, dynamic>{};
+  await VMServiceWrapper.instance
+      .callExtensionService('flutterVersion')
+      .then((value) {
+    if (value != null) {
+      final flutter = FlutterVersion.parse(value.json);
+      playload['flutter_version'] = flutter.version;
+      playload['dart_sdk_version'] = flutter.dartSdkVersion;
+      type +=
+          '-flutter_version_${flutter.version}-dart_sdk_version_${flutter.dartSdkVersion}';
+    }
+  });
 
   final params = <String, dynamic>{};
   params['appId'] = appId;
@@ -156,6 +189,7 @@ void upLoadUserInfo() async {
   params['from'] = from;
   params['type'] = type;
   params['language'] = language;
+  params['playload'] = playload;
 
   request.headers
     ..add('Content-Type', 'application/json')

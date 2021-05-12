@@ -2,265 +2,331 @@
   "configVersion": 2,
   "packages": [
     {
-      "name": "async",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/async-2.5.0-nullsafety",
+      "name": "archive",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/archive-3.1.2",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "async",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/async-2.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "boolean_selector",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/boolean_selector-2.1.0-nullsafety",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/boolean_selector-2.1.0",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "characters",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/characters-1.1.0-nullsafety.2",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/characters-1.1.0",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "charcode",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/charcode-1.2.0-nullsafety",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/charcode-1.2.0",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "clock",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/clock-1.1.0-nullsafety",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/clock-1.1.0",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "collection",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/collection-1.15.0-nullsafety.2",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/collection-1.15.0",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "crypto",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/crypto-3.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "date_format",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/date_format-1.0.9",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/date_format-2.0.2",
       "packageUri": "lib/",
-      "languageVersion": "2.0"
+      "languageVersion": "2.12"
     },
     {
       "name": "fake_async",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/fake_async-1.1.0-nullsafety",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/fake_async-1.2.0",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "ffi",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/ffi-0.1.3",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/ffi-1.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.6"
+      "languageVersion": "2.12"
     },
     {
       "name": "file",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/file-5.2.1",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/file-6.1.0",
       "packageUri": "lib/",
-      "languageVersion": "2.2"
+      "languageVersion": "2.12"
     },
     {
       "name": "flutter",
-      "rootUri": "file:///Users/didi/flutter/packages/flutter",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/packages/flutter",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "flutter_test",
-      "rootUri": "file:///Users/didi/flutter/packages/flutter_test",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/packages/flutter_test",
       "packageUri": "lib/",
-      "languageVersion": "2.2"
+      "languageVersion": "2.12"
     },
     {
       "name": "flutter_web_plugins",
-      "rootUri": "file:///Users/didi/flutter/packages/flutter_web_plugins",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
-      "languageVersion": "2.0"
+      "languageVersion": "2.12"
     },
     {
-      "name": "intl",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/intl-0.16.1",
+      "name": "google_fonts",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/google_fonts-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.5"
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "http",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/http-0.13.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "http_parser",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/http_parser-4.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "image",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/image-3.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "js",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/js-0.6.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "matcher",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/matcher-0.12.10-nullsafety",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/matcher-0.12.10",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "meta",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/meta-1.3.0-nullsafety.2",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/meta-1.3.0",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "package_info",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/package_info-0.4.3+2",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/package_info-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.1"
+      "languageVersion": "2.12"
     },
     {
       "name": "path",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/path-1.8.0-nullsafety",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/path-1.8.0",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "path_provider",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/path_provider-2.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "path_provider_linux",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/path_provider_linux-0.0.1+2",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/path_provider_linux-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.1"
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "path_provider_macos",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/path_provider_macos-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "path_provider_platform_interface",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/path_provider_platform_interface-1.0.4",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/path_provider_platform_interface-2.0.1",
       "packageUri": "lib/",
-      "languageVersion": "2.1"
+      "languageVersion": "2.12"
     },
     {
       "name": "path_provider_windows",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/path_provider_windows-0.0.4+3",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/path_provider_windows-2.0.1",
       "packageUri": "lib/",
-      "languageVersion": "2.1"
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "pedantic",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/pedantic-1.11.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "petitparser",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/petitparser-4.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "platform",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/platform-2.2.1",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/platform-3.0.0",
       "packageUri": "lib/",
-      "languageVersion": "1.24"
+      "languageVersion": "2.12"
     },
     {
       "name": "plugin_platform_interface",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/plugin_platform_interface-1.0.3",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/plugin_platform_interface-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.1"
+      "languageVersion": "2.12"
     },
     {
       "name": "process",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/process-3.0.13",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/process-4.2.1",
       "packageUri": "lib/",
-      "languageVersion": "2.0"
+      "languageVersion": "2.12"
     },
     {
       "name": "shared_preferences",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences-0.5.12+4",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences-2.0.5",
       "packageUri": "lib/",
-      "languageVersion": "2.1"
+      "languageVersion": "2.12"
     },
     {
       "name": "shared_preferences_linux",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_linux-0.0.2+4",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_linux-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.1"
+      "languageVersion": "2.12"
     },
     {
       "name": "shared_preferences_macos",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_macos-0.0.1+11",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_macos-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.1"
+      "languageVersion": "2.12"
     },
     {
       "name": "shared_preferences_platform_interface",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_platform_interface-1.0.4",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_platform_interface-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.1"
+      "languageVersion": "2.12"
     },
     {
       "name": "shared_preferences_web",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_web-0.1.2+7",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_web-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.1"
+      "languageVersion": "2.12"
     },
     {
       "name": "shared_preferences_windows",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_windows-0.0.1+3",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/shared_preferences_windows-2.0.0",
       "packageUri": "lib/",
-      "languageVersion": "2.1"
+      "languageVersion": "2.12"
     },
     {
       "name": "sky_engine",
-      "rootUri": "file:///Users/didi/flutter/bin/cache/pkg/sky_engine",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
-      "languageVersion": "1.11"
+      "languageVersion": "2.12"
     },
     {
       "name": "source_span",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/source_span-1.8.0-nullsafety",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/source_span-1.8.0",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "stack_trace",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/stack_trace-1.10.0-nullsafety",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/stack_trace-1.10.0",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "stream_channel",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/stream_channel-2.1.0-nullsafety",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/stream_channel-2.1.0",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "string_scanner",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/string_scanner-1.1.0-nullsafety",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/string_scanner-1.1.0",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "term_glyph",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/term_glyph-1.2.0-nullsafety",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/term_glyph-1.2.0",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "test_api",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/test_api-0.2.19-nullsafety",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/test_api-0.2.19",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "typed_data",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/typed_data-1.3.0-nullsafety.2",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/typed_data-1.3.0",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "vector_math",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/vector_math-2.1.0-nullsafety.2",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/vector_math-2.1.0",
       "packageUri": "lib/",
-      "languageVersion": "2.10"
+      "languageVersion": "2.12"
     },
     {
       "name": "vm_service",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/vm_service-5.5.0",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/vm_service-6.2.0",
       "packageUri": "lib/",
-      "languageVersion": "2.6"
+      "languageVersion": "2.12"
     },
     {
       "name": "win32",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/win32-1.7.4",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/win32-2.0.5",
       "packageUri": "lib/",
-      "languageVersion": "2.7"
+      "languageVersion": "2.12"
     },
     {
       "name": "xdg_directories",
-      "rootUri": "file:///Users/didi/.pub-cache/hosted/pub.flutter-io.cn/xdg_directories-0.1.0",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/xdg_directories-0.2.0",
       "packageUri": "lib/",
-      "languageVersion": "2.3"
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "xml",
+      "rootUri": "file:///Users/didi/.taco/flutter/2.0.6/flutter/.pub-cache/hosted/pub.flutter-io.cn/xml-5.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "dokit",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.7"
+      "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-01-15T08:45:49.720469Z",
+  "generated": "2021-05-12T09:37:49.657914Z",
   "generator": "pub",
-  "generatorVersion": "2.10.0-11.0.dev"
+  "generatorVersion": "2.12.3"
 }

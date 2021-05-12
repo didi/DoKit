@@ -1,18 +1,21 @@
+// Copyright© Dokit for Flutter.
+//
+// widget_details_page.dart
+// Flutter
+//
+// Created by linusflow on 2021/4/30
+// Modified by linusflow on 2021/5/12 下午3:09
+//
+
 import 'package:flutter/material.dart';
 
 class WidgetDetailsPage extends StatelessWidget {
   final Element element;
 
-  const WidgetDetailsPage({Key key, this.element}) : super(key: key);
+  const WidgetDetailsPage({Key? key, required this.element}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-//    final chain = element.debugGetDiagnosticChain();
-//    final renderObjectDesc = element.renderObject.toString();
-//    final renderObjectDeepDesc = element.renderObject.toStringDeep();
-//    final elementDesc = element.toStringDeep();
-//    final widgetDesc = element.widget.toStringDeep();
-
     return Scaffold(
       appBar: AppBar(
         title: RichText(
@@ -75,7 +78,7 @@ class WidgetDetailsPage extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    '${element.renderObject.toStringDeep()}',
+                    '${element.renderObject?.toStringDeep() ?? '-'}',
                     style: TextStyle(
                       fontSize: 12,
                     ),

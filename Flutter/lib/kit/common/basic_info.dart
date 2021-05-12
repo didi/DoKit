@@ -76,31 +76,32 @@ class IsolateItem extends StatefulWidget {
 }
 
 class _IsolateItemState extends State<IsolateItem> {
-  VM vm;
+  VM? vm;
 
   @override
   void initState() {
     super.initState();
 
-    VMServiceWrapper.instance.service.getVM().then((value) => setState(() {
+    VMServiceWrapper.instance.service?.getVM().then((value) => setState(() {
           vm = value;
         }));
   }
 
   @override
   Widget build(BuildContext context) {
-    String isolate;
+    String? isolate;
     int index = 1;
     vm?.isolates?.forEach((element) {
       if (isolate == null) {
         isolate = '[isolate$index]: ${element.name} ${element.type}\n';
       } else {
-        isolate += '[isolate$index]: ${element.name} ${element.type}\n';
+        isolate =
+            isolate! + '[isolate$index]: ${element.name} ${element.type}\n';
       }
       index++;
     });
-    if (isolate != null && isolate.length > 1) {
-      isolate = isolate.substring(0, isolate.length - 1);
+    if (isolate != null && (isolate?.length ?? 0) > 1) {
+      isolate = isolate!.substring(0, isolate!.length - 1);
     }
     isolate ??= '-';
     return InfoItem('Isolates', isolate);
@@ -109,7 +110,7 @@ class _IsolateItemState extends State<IsolateItem> {
 
 class InfoItem extends StatelessWidget {
   final String label;
-  final String text;
+  final String? text;
 
   InfoItem(this.label, this.text);
 

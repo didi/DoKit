@@ -1,12 +1,11 @@
+import 'package:dokit/kit/apm/apm.dart';
 import 'package:dokit/kit/apm/launch/model.dart';
+import 'package:dokit/kit/apm/launch/route_observer.dart';
 import 'package:dokit/kit/kit.dart';
-import 'package:dokit/util/screen_util.dart';
-
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/material.dart';
-import '../apm.dart';
 import 'package:dokit/ui/dokit_app.dart';
-import 'route_observer.dart';
+import 'package:dokit/util/screen_util.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
 
 class PageLaunchKit extends ApmKit {
   static bool _open = false;
@@ -15,7 +14,7 @@ class PageLaunchKit extends ApmKit {
     return TimeCounter(notifier.value);
   });
 
-  static VoidCallback callback;
+  static VoidCallback? callback;
 
   static double left = ScreenUtil.instance.screenWidth / 2;
   static double top = ScreenUtil.instance.screenHeight / 2;
@@ -23,7 +22,9 @@ class PageLaunchKit extends ApmKit {
   static void closeCounter() {
     enabled = false;
     _open = false;
-    notifier.removeListener(PageLaunchKit.callback);
+    if (callback != null) {
+      notifier.removeListener(PageLaunchKit.callback!);
+    }
     _overlayEntry.remove();
   }
 
@@ -98,8 +99,8 @@ class _PageLaunchPageState extends State<PageLaunchPage> {
     PageLaunchKit.callback = () {
       PageLaunchKit._overlayEntry.markNeedsBuild();
     };
-    notifier.addListener(PageLaunchKit.callback);
-    doKitOverlayKey.currentState.insert(PageLaunchKit._overlayEntry);
+    notifier.addListener(PageLaunchKit.callback!);
+    doKitOverlayKey.currentState?.insert(PageLaunchKit._overlayEntry);
   }
 }
 

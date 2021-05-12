@@ -1,16 +1,13 @@
-
+import 'package:dokit/widget/source_code/syntax_highlighter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'syntax_highlighter.dart';
 
 class SourceCodeView extends StatelessWidget {
   final String sourceCode;
   final double _textScaleFactor = 1.0;
 
-
-  const SourceCodeView({Key key, @required this.sourceCode})
-      : super(key: key);
+  const SourceCodeView({Key? key, required this.sourceCode}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +17,9 @@ class SourceCodeView extends StatelessWidget {
   Widget _getCodeView(String codeContent, BuildContext context) {
     codeContent = codeContent.replaceAll('\r\n', '\n');
     final SyntaxHighlighterStyle style =
-    Theme.of(context).brightness == Brightness.dark
-        ? SyntaxHighlighterStyle.darkThemeStyle()
-        : SyntaxHighlighterStyle.lightThemeStyle();
+        Theme.of(context).brightness == Brightness.dark
+            ? SyntaxHighlighterStyle.darkThemeStyle()
+            : SyntaxHighlighterStyle.lightThemeStyle();
     return Container(
       constraints: BoxConstraints.expand(),
       child: Scrollbar(
@@ -44,7 +41,4 @@ class SourceCodeView extends StatelessWidget {
       ),
     );
   }
-
 }
-
-

@@ -7,17 +7,15 @@ bool enabled = false;
 
 class LaunchObserver extends NavigatorObserver {
   @override
-  void didPush(Route route, Route previousRoute) {
+  void didPush(Route route, Route? previousRoute) {
     super.didPush(route, previousRoute);
     if (enabled) {
       int before = DateTime.now().millisecondsSinceEpoch;
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
         int now = DateTime.now().millisecondsSinceEpoch;
         notifier.value = LaunchInfo(
-            now - before, previousRoute.settings.name, route.settings.name);
+            now - before, previousRoute?.settings.name, route.settings.name);
       });
     }
-
-    // route.settings.name
   }
 }

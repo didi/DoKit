@@ -1,9 +1,8 @@
+import 'package:dokit/dokit.dart';
 import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/ui/dokit_app.dart';
+import 'package:dokit/ui/resident_page.dart';
 import 'package:flutter/material.dart';
-
-import '../dokit.dart';
-import 'dokit_app.dart';
-import 'resident_page.dart';
 
 // 入口btn
 // ignore: must_be_immutable
@@ -11,19 +10,19 @@ class DoKitBtn extends StatefulWidget {
   DoKitBtn() : super(key: doKitBtnKey);
 
   static GlobalKey<DoKitBtnState> doKitBtnKey = GlobalKey<DoKitBtnState>();
-  OverlayEntry overlayEntry;
+  OverlayEntry? overlayEntry;
 
   @override
-  DoKitBtnState createState() => DoKitBtnState(overlayEntry);
+  DoKitBtnState createState() => DoKitBtnState(overlayEntry!);
 
   void addToOverlay() {
     assert(overlayEntry == null);
     overlayEntry = OverlayEntry(builder: (BuildContext context) {
       return this;
     });
-    final OverlayState rootOverlay = doKitOverlayKey.currentState;
+    final OverlayState? rootOverlay = doKitOverlayKey.currentState;
     assert(rootOverlay != null);
-    rootOverlay.insert(overlayEntry);
+    rootOverlay?.insert(overlayEntry!);
     ApmKitManager.instance.startUp();
   }
 }
@@ -31,9 +30,9 @@ class DoKitBtn extends StatefulWidget {
 class DoKitBtnState extends State<DoKitBtn> {
   DoKitBtnState(this.owner);
 
-  Offset offsetA; //按钮的初始位置
-  OverlayEntry owner;
-  OverlayEntry debugPage;
+  Offset? offsetA; //按钮的初始位置
+  final OverlayEntry owner;
+  OverlayEntry? debugPage;
   bool showDebugPage = false;
 
   @override
@@ -43,13 +42,15 @@ class DoKitBtnState extends State<DoKitBtn> {
         top: offsetA?.dy,
         right: offsetA == null ? 20 : null,
         bottom: offsetA == null ? 120 : null,
-        child: Draggable<dynamic>(
+        child: Draggable(
             child: Container(
               width: 70,
               height: 70,
               alignment: Alignment.center,
-              child: FlatButton(
-                padding: const EdgeInsets.all(0),
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
                 child: Image.asset('images/dokit_flutter_btn.png',
                     package: DK_PACKAGE_NAME, height: 70, width: 70),
                 onPressed: openDebugPage,
@@ -59,8 +60,10 @@ class DoKitBtnState extends State<DoKitBtn> {
               width: 70,
               height: 70,
               alignment: Alignment.center,
-              child: FlatButton(
-                padding: const EdgeInsets.all(0),
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
                 child: Image.asset('images/dokit_flutter_btn.png',
                     package: DK_PACKAGE_NAME, height: 70, width: 70),
                 onPressed: openDebugPage,
@@ -100,14 +103,14 @@ class DoKitBtnState extends State<DoKitBtn> {
     if (showDebugPage) {
       closeDebugPage();
     } else {
-      doKitOverlayKey.currentState.insert(debugPage, below: owner);
+      doKitOverlayKey.currentState?.insert(debugPage!, below: owner);
       showDebugPage = true;
     }
   }
 
   void closeDebugPage() {
     if (showDebugPage && debugPage != null) {
-      debugPage.remove();
+      debugPage!.remove();
       showDebugPage = false;
     }
   }

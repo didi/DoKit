@@ -1,9 +1,8 @@
+import 'package:dokit/dokit.dart';
+import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/ui/dokit_app.dart';
 import 'package:flutter/material.dart';
-
-import '../../dokit.dart';
-import '../kit.dart';
-import 'apm.dart';
 
 class RouteKit extends ApmKit {
   @override
@@ -41,13 +40,13 @@ class RouteInfoPage extends StatefulWidget {
 }
 
 class RouteInfoPageState extends State<RouteInfoPage> {
-  RouteInfo route;
+  RouteInfo? route;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((Duration timeStamp) {
-      final RouteInfo route = findRoute();
+    WidgetsBinding.instance?.addPostFrameCallback((Duration timeStamp) {
+      final RouteInfo? route = findRoute();
       if (route != null && (route.current != null)) {
         setState(() {
           this.route = route;
@@ -97,12 +96,12 @@ class RouteInfoPageState extends State<RouteInfoPage> {
 
   List<Widget> buildRouteInfoWidget() {
     final List<Widget> widgets = <Widget>[];
-    RouteInfo route = this.route;
+    RouteInfo? route = this.route;
     if (route == null) {
       return widgets;
     }
     do {
-      if (route.current != null) {
+      if (route?.current != null) {
         widgets.add(
           Container(
             padding: const EdgeInsets.all(12),
@@ -122,7 +121,7 @@ class RouteInfoPageState extends State<RouteInfoPage> {
                           height: 1.5,
                           fontWeight: FontWeight.bold)),
                   TextSpan(
-                      text: route.current.settings.name,
+                      text: route?.current?.settings.name,
                       style: const TextStyle(
                           fontSize: 10, height: 1.5, color: Color(0xff666666))),
                   const TextSpan(
@@ -133,7 +132,7 @@ class RouteInfoPageState extends State<RouteInfoPage> {
                           color: Color(0xff333333),
                           fontWeight: FontWeight.bold)),
                   TextSpan(
-                      text: '${route.current.settings.arguments}',
+                      text: '${route?.current?.settings.arguments}',
                       style: const TextStyle(
                           fontSize: 10, height: 1.5, color: Color(0xff666666))),
                   const TextSpan(
@@ -144,8 +143,8 @@ class RouteInfoPageState extends State<RouteInfoPage> {
                           color: Color(0xff333333),
                           fontWeight: FontWeight.bold)),
                   TextSpan(
-                      text: route.parentNavigator != null
-                          ? route.parentNavigator.toString()
+                      text: route?.parentNavigator != null
+                          ? route?.parentNavigator.toString()
                           : '未知',
                       style: const TextStyle(
                           fontSize: 10, height: 1.5, color: Color(0xff666666))),
@@ -157,7 +156,7 @@ class RouteInfoPageState extends State<RouteInfoPage> {
                           color: Color(0xff333333),
                           fontWeight: FontWeight.bold)),
                   TextSpan(
-                      text: route.current.toString(),
+                      text: route?.current.toString(),
                       style: const TextStyle(
                           fontSize: 10, height: 1.5, color: Color(0xff666666))),
                 ],
@@ -166,7 +165,7 @@ class RouteInfoPageState extends State<RouteInfoPage> {
           ),
         );
       }
-      route = route.parent;
+      route = route?.parent;
       if (route != null && route.parent != null) {
         widgets.add(
           Container(
@@ -182,15 +181,16 @@ class RouteInfoPageState extends State<RouteInfoPage> {
     return widgets;
   }
 
-  RouteInfo findRoute() {
-    Element topElement;
-    final ModalRoute<dynamic> rootRoute =
-        ModalRoute.of(DoKitApp.appKey.currentContext);
+  RouteInfo? findRoute() {
+    Element? topElement;
+    var context = DoKitApp.appKey.currentContext;
+    if (context == null) return null;
+    final ModalRoute<dynamic>? rootRoute = ModalRoute.of(context);
     void listTopView(Element element) {
       if (element.widget is! PositionedDirectional) {
         if (element is RenderObjectElement &&
             element.renderObject is RenderBox) {
-          final ModalRoute<dynamic> route = ModalRoute.of(element);
+          final ModalRoute<dynamic>? route = ModalRoute.of(element);
           if (route != null && route != rootRoute) {
             topElement = element;
           }
@@ -199,11 +199,11 @@ class RouteInfoPageState extends State<RouteInfoPage> {
       }
     }
 
-    DoKitApp.appKey.currentContext.visitChildElements(listTopView);
+    context.visitChildElements(listTopView);
     if (topElement != null) {
       final RouteInfo routeInfo = RouteInfo();
-      routeInfo.current = ModalRoute.of(topElement);
-      buildNavigatorTree(topElement, routeInfo);
+      routeInfo.current = ModalRoute.of(topElement!);
+      buildNavigatorTree(topElement!, routeInfo);
       return routeInfo;
     }
     return null;
@@ -211,10 +211,10 @@ class RouteInfoPageState extends State<RouteInfoPage> {
 
   /// 反向遍历生成路由树
   void buildNavigatorTree(Element element, RouteInfo routeInfo) {
-    final NavigatorState navigatorState =
+    final NavigatorState? navigatorState =
         element.findAncestorStateOfType<NavigatorState>();
 
-    if (navigatorState != null && navigatorState.context != null) {
+    if (navigatorState != null) {
       final RouteInfo parent = RouteInfo();
       parent.current = ModalRoute.of(navigatorState.context);
       routeInfo.parent = parent;
@@ -225,9 +225,9 @@ class RouteInfoPageState extends State<RouteInfoPage> {
 }
 
 class RouteInfo extends IInfo {
-  ModalRoute<dynamic> current;
-  Widget parentNavigator;
-  RouteInfo parent;
+  ModalRoute<dynamic>? current;
+  Widget? parentNavigator;
+  RouteInfo? parent;
 
   @override
   int getValue() {

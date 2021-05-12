@@ -1,3 +1,11 @@
+// Copyright© Dokit for Flutter.
+//
+// kit.dart
+// Flutter
+//
+// Created by linusflow on 2021/3/05
+// Modified by linusflow on 2021/5/11 下午7:40
+//
 
 import 'dart:collection';
 
@@ -25,7 +33,7 @@ abstract class IKit {
 
 class CommonStorage implements IStorage {
   final int maxCount;
-  Queue<IInfo> items = new Queue();
+  Queue<IInfo> items = Queue();
 
   CommonStorage({this.maxCount = 100});
 

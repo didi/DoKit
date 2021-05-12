@@ -5,10 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BarChartPainter extends CustomPainter {
-  BarChartPainter({@required this.datas});
+  BarChartPainter({required this.datas});
 
   List<IInfo> datas;
-
 
   @override
   bool shouldRepaint(BarChartPainter oldDelegate) => true;
@@ -115,7 +114,7 @@ class BarChartPainter extends CustomPainter {
 
 class FpsBarChart extends StatefulWidget {
   const FpsBarChart({
-    @required this.data,
+    required this.data,
   });
 
   final List<IInfo> data;

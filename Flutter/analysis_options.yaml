@@ -1,5 +1,5 @@
 #  default Google rule(pedantic)
-include: package:pedantic/analysis_options.1.7.0.yaml
+include: package:pedantic/analysis_options.yaml
 
 analyzer:
   enable-experiment:
