@@ -23,7 +23,7 @@ import org.objectweb.asm.tree.*
  */
 @Priority(0)
 @AutoService(ClassTransformer::class)
-class CommTransformer : ClassTransformer {
+class CommTransformer : AbsClassTransformer() {
     private val SHADOW_URL =
         "com/didichuxing/doraemonkit/aop/urlconnection/HttpUrlConnectionProxyUtil"
     private val DESC = "(Ljava/net/URLConnection;)Ljava/net/URLConnection;"
@@ -33,13 +33,11 @@ class CommTransformer : ClassTransformer {
      * 转化
      */
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
-        if (context.isRelease()) {
+
+        if (onCommInterceptor(context, klass)) {
             return klass
         }
 
-        if (!DoKitExtUtil.dokitPluginSwitchOpen()) {
-            return klass
-        }
 
         val className = klass.className
         val superName = klass.formatSuperName
@@ -80,7 +78,13 @@ class CommTransformer : ClassTransformer {
                         "${context.projectDir.lastPath()}->hook LocationManager#getGpsStatus method  succeed in : ${className}_${method.name}_${method.desc}".println()
                         method.instructions.insert(
                             it,
-                            MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/location/GpsStatusUtil", "wrap", "(Landroid/location/GpsStatus;)Landroid/location/GpsStatus;", false)
+                            MethodInsnNode(
+                                INVOKESTATIC,
+                                "com/didichuxing/doraemonkit/aop/location/GpsStatusUtil",
+                                "wrap",
+                                "(Landroid/location/GpsStatus;)Landroid/location/GpsStatus;",
+                                false
+                            )
                         )
                     }
             }
@@ -312,7 +316,6 @@ class CommTransformer : ClassTransformer {
             }
 
         }
-
 
 
         //hook Androidx的ComponentActivity
