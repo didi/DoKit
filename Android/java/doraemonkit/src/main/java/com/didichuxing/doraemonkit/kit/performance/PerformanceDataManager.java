@@ -57,6 +57,10 @@ public class PerformanceDataManager {
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+    /**
+     * 外部可以设置cpu 内存 fps的监听回调
+     */
+    private PerformanceValueListener performanceValueListener = null;
 
     //private int mLastSkippedFrames;
     /**
@@ -98,11 +102,13 @@ public class PerformanceDataManager {
     private void executeCpuData() {
         if (mAboveAndroidO) {
             mLastCpuRate = getCpuDataForO();
-            writeCpuDataIntoFile();
         } else {
             mLastCpuRate = getCPUData();
-            writeCpuDataIntoFile();
         }
+        if (performanceValueListener != null){
+            performanceValueListener.onGetCPU(mLastCpuRate);
+        }
+        writeCpuDataIntoFile();
     }
 
     /**
@@ -110,6 +116,9 @@ public class PerformanceDataManager {
      */
     private void executeMemoryData() {
         mLastMemoryRate = getMemoryData();
+        if (performanceValueListener != null){
+            performanceValueListener.onGetMemory(mLastMemoryRate);
+        }
         writeMemoryDataIntoFile();
     }
 
@@ -495,6 +504,9 @@ public class PerformanceDataManager {
             }
             //保存fps数据
             if (AppUtils.isAppForeground()) {
+                if (performanceValueListener != null){
+                    performanceValueListener.onGetFPS(mLastFrameRate);
+                }
                 writeFpsDataIntoFile();
             }
             totalFramesPerSecond = 0;
@@ -601,5 +613,8 @@ public class PerformanceDataManager {
 
     }
 
+    public void setPerformanceValueListener(PerformanceValueListener performanceValueListener) {
+        this.performanceValueListener = performanceValueListener;
+    }
 
 }

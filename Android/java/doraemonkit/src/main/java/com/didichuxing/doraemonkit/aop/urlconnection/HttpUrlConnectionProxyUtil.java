@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.aop.urlconnection;
 import android.net.Uri;
 
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitCapInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitWeakNetworkInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitLargePicInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitMockInterceptor;
@@ -94,7 +95,9 @@ public class HttpUrlConnectionProxyUtil {
                 //添加dokit拦截器
                 .addInterceptor(new DokitCapInterceptor())
                 //添加弱网 拦截器
-                .addNetworkInterceptor(new DokitWeakNetworkInterceptor());
+                .addNetworkInterceptor(new DokitWeakNetworkInterceptor())
+                // 添加扩展拦截器
+                .addInterceptor(new DokitExtInterceptor());
     }
 
     /**
