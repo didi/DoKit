@@ -26,16 +26,13 @@ import org.objectweb.asm.tree.MethodInsnNode
  */
 //@Priority(1)
 //@AutoService(ClassTransformer::class)
-class UrlConnectionTransformer : ClassTransformer {
-    private val SHADOW_URL = "com/didichuxing/doraemonkit/aop/urlconnection/HttpUrlConnectionProxyUtil"
+class UrlConnectionTransformer : AbsClassTransformer() {
+    private val SHADOW_URL =
+        "com/didichuxing/doraemonkit/aop/urlconnection/HttpUrlConnectionProxyUtil"
     private val DESC = "(Ljava/net/URLConnection;)Ljava/net/URLConnection;"
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
-        if (context.isRelease()) {
-            return klass
-        }
-
-        if (!DoKitExtUtil.dokitPluginSwitchOpen()) {
+        if (onCommInterceptor(context, klass)) {
             return klass
         }
 
@@ -48,15 +45,19 @@ class UrlConnectionTransformer : ClassTransformer {
         }
 
         klass.methods.forEach { method ->
-            method.instructions?.iterator()?.asIterable()?.filterIsInstance(MethodInsnNode::class.java)?.filter {
-                it.opcode == INVOKEVIRTUAL &&
-                        it.owner == "java/net/URL" &&
-                        it.name == "openConnection" &&
-                        it.desc == "()Ljava/net/URLConnection;"
-            }?.forEach {
-                "${context.projectDir.lastPath()}-> hook urlconnection succeed:${klass.name}_${it.name}_${it.desc}".println()
-                method.instructions.insert(it, MethodInsnNode(INVOKESTATIC, SHADOW_URL, "proxy", DESC, false))
-            }
+            method.instructions?.iterator()?.asIterable()
+                ?.filterIsInstance(MethodInsnNode::class.java)?.filter {
+                    it.opcode == INVOKEVIRTUAL &&
+                            it.owner == "java/net/URL" &&
+                            it.name == "openConnection" &&
+                            it.desc == "()Ljava/net/URLConnection;"
+                }?.forEach {
+                    "${context.projectDir.lastPath()}-> hook urlconnection succeed:${klass.name}_${it.name}_${it.desc}".println()
+                    method.instructions.insert(
+                        it,
+                        MethodInsnNode(INVOKESTATIC, SHADOW_URL, "proxy", DESC, false)
+                    )
+                }
         }
 
         return klass

@@ -21,17 +21,14 @@ import org.objectweb.asm.tree.*
  * 原理:transform()方法的调用是无序的  原因:哪一个class会先被transformer执行是不确定的  但是每一个class被transformer执行顺序是遵循transformer的Priority规则的
  * ================================================
  */
-class MethodStackDepTransformer(private val level: Int = 1) : ClassTransformer {
+class MethodStackDepTransformer(private val level: Int = 1) : AbsClassTransformer() {
 
     private val thresholdTime = DoKitExtUtil.slowMethodExt.stackMethod.thresholdTime
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
-        if (context.isRelease()) {
+        if (onCommInterceptor(context, klass)) {
             return klass
         }
 
-        if (!DoKitExtUtil.dokitPluginSwitchOpen()) {
-            return klass
-        }
 
         if (!DoKitExtUtil.dokitSlowMethodSwitchOpen()) {
             return klass

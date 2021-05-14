@@ -25,16 +25,14 @@ import org.objectweb.asm.tree.*
  */
 @Priority(3)
 @AutoService(ClassTransformer::class)
-class EnterMethodStackTransformer : ClassTransformer {
+class EnterMethodStackTransformer : AbsClassTransformer() {
 
     private val thresholdTime = DoKitExtUtil.slowMethodExt.stackMethod.thresholdTime
     private val level = 0
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
-        if (context.isRelease()) {
-            return klass
-        }
 
-        if (!DoKitExtUtil.dokitPluginSwitchOpen()) {
+
+        if (onCommInterceptor(context, klass)) {
             return klass
         }
 
