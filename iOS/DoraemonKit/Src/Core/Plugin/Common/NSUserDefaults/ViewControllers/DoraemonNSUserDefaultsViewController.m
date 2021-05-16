@@ -69,7 +69,7 @@
     searchTextField.rightView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 10.0, 36.0)];
     
     searchTextField.leftViewMode = UITextFieldViewModeAlways;
-    searchTextField.rightViewMode = UITextFieldViewModeAlways;
+    searchTextField.rightViewMode = UITextFieldViewModeUnlessEditing;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
