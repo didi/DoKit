@@ -14,7 +14,7 @@
 import TopBar from "@common/components/top-bar";
 import Card from "@common/components/card";
 import VersionCard from "@common/components/version";
-import {pushContainer} from '@store/index';
+import {addIndependPlugin} from '@store/index';
 export default {
   components: {
     TopBar,
@@ -41,8 +41,9 @@ export default {
             name: item.name
           })
           break;
-        case "SinglePlugin":
-          pushContainer(item)
+        case "IndependPlugin":
+          addIndependPlugin(item)
+          this.$store.state.showContainer = false
           break;
         default:
           break;

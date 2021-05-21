@@ -1,4 +1,4 @@
-import { pushScopeId, popScopeId, openBlock, createBlock, withDirectives, createVNode, vShow, toDisplayString, createCommentVNode, withScopeId, resolveComponent, KeepAlive, resolveDynamicComponent, reactive, resolveDirective, Fragment, renderList, shallowRef, unref, createApp } from 'vue';
+import { pushScopeId, popScopeId, openBlock, createBlock, withDirectives, createVNode, vShow, toDisplayString, createCommentVNode, withScopeId, resolveComponent, KeepAlive, resolveDynamicComponent, toRaw, Fragment, renderList, reactive, resolveDirective, shallowRef, unref, createApp } from 'vue';
 
 /**
  * 拖拽指令 v-dragable
@@ -132,7 +132,7 @@ const _withId$6 = /*#__PURE__*/withScopeId("data-v-29d70086");
 
 pushScopeId("data-v-29d70086");
 const _hoisted_1$6 = { class: "bar" };
-const _hoisted_2$4 = /*#__PURE__*/createVNode("span", { class: "bar-back-btn" }, "返回", -1 /* HOISTED */);
+const _hoisted_2$3 = /*#__PURE__*/createVNode("span", { class: "bar-back-btn" }, "返回", -1 /* HOISTED */);
 const _hoisted_3$2 = { class: "bar-title" };
 const _hoisted_4$1 = { class: "bar-title-text" };
 popScopeId();
@@ -147,7 +147,7 @@ const render$6 = /*#__PURE__*/_withId$6((_ctx, _cache, $props, $setup, $data, $o
         class: "bar-back-icon",
         src: $data.icon
       }, null, 8 /* PROPS */, ["src"]),
-      _hoisted_2$4
+      _hoisted_2$3
     ], 512 /* NEED_PATCH */), [
       [vShow, $props.canBack]
     ]),
@@ -220,7 +220,7 @@ const _withId$5 = /*#__PURE__*/withScopeId("data-v-8dfbe6e6");
 
 pushScopeId("data-v-8dfbe6e6");
 const _hoisted_1$5 = { class: "container" };
-const _hoisted_2$3 = { class: "router-container" };
+const _hoisted_2$2 = { class: "router-container" };
 popScopeId();
 
 const render$5 = /*#__PURE__*/_withId$5((_ctx, _cache, $props, $setup, $data, $options) => {
@@ -231,7 +231,7 @@ const render$5 = /*#__PURE__*/_withId$5((_ctx, _cache, $props, $setup, $data, $o
       title: $options.title,
       canBack: $options.canBack
     }, null, 8 /* PROPS */, ["title", "canBack"]),
-    createVNode("div", _hoisted_2$3, [
+    createVNode("div", _hoisted_2$2, [
       (openBlock(), createBlock(KeepAlive, null, [
         (openBlock(), createBlock(resolveDynamicComponent($options.component)))
       ], 1024 /* DYNAMIC_SLOTS */))
@@ -239,7 +239,7 @@ const render$5 = /*#__PURE__*/_withId$5((_ctx, _cache, $props, $setup, $data, $o
   ]))
 });
 
-var css_248z$5 = ".container[data-v-8dfbe6e6] {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 100px;\n  bottom: 0;\n  background-color: #f5f6f7;\n  display: flex;\n  flex-direction: column;\n  z-index: 99;\n  border-radius: 10px 10px 0 0;\n}\n.router-container[data-v-8dfbe6e6] {\n  margin-top: 5px;\n  background-color: white;\n  flex: 1;\n  overflow-y: scroll;\n}\n";
+var css_248z$5 = ".container[data-v-8dfbe6e6] {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 100px;\n  bottom: 0;\n  background-color: #f5f6f7;\n  display: flex;\n  flex-direction: column;\n  z-index: 999;\n  border-radius: 10px 10px 0 0;\n}\n.router-container[data-v-8dfbe6e6] {\n  margin-top: 5px;\n  background-color: white;\n  flex: 1;\n  overflow-y: scroll;\n}\n";
 styleInject(css_248z$5);
 
 script$5.render = render$5;
@@ -252,39 +252,43 @@ var script$4 = {
     return {}
   },
   computed:{
-    singlePlugins(){
-      return this.$store.state.singlePlugins
+    independPlugins(){
+      return this.$store.state.independPlugins
     }
   },
   created(){
     console.log(this.$router);
+  },
+  methods: {
+    toRaw: toRaw
   }
 };
 
-const _withId$4 = /*#__PURE__*/withScopeId("data-v-1e3e6168");
+const _withId$4 = /*#__PURE__*/withScopeId("data-v-53a49d15");
 
-pushScopeId("data-v-1e3e6168");
+pushScopeId("data-v-53a49d15");
 const _hoisted_1$4 = {
   class: "container",
-  style: {"z-index":"999"}
+  style: {"z-index":"998"}
 };
-const _hoisted_2$2 = /*#__PURE__*/createVNode("div", { class: "plugin-container" }, [
-  /*#__PURE__*/createVNode("div", null, " I Am Single Container! ")
-], -1 /* HOISTED */);
 popScopeId();
 
 const render$4 = /*#__PURE__*/_withId$4((_ctx, _cache, $props, $setup, $data, $options) => {
   return (openBlock(), createBlock("div", _hoisted_1$4, [
-    _hoisted_2$2
+    (openBlock(true), createBlock(Fragment, null, renderList($options.independPlugins, (plugin) => {
+      return (openBlock(), createBlock(resolveDynamicComponent($options.toRaw(plugin.component)), {
+        key: plugin.name
+      }))
+    }), 128 /* KEYED_FRAGMENT */))
   ]))
 });
 
-var css_248z$4 = ".container[data-v-1e3e6168] {\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  top: 0;\n}\n.plugin-container[data-v-1e3e6168] {\n  background-color: #ffffff;\n  box-shadow: 1px 1px 2px #333333;\n}\n";
+var css_248z$4 = ".container[data-v-53a49d15] {\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  top: 0;\n}\n";
 styleInject(css_248z$4);
 
 script$4.render = render$4;
-script$4.__scopeId = "data-v-1e3e6168";
-script$4.__file = "src/components/single-container.vue";
+script$4.__scopeId = "data-v-53a49d15";
+script$4.__file = "src/components/independ-container.vue";
 
 const storeKey = 'store';
 /**
@@ -317,7 +321,7 @@ class Store{
 const store = new Store({
   state: {
     showContainer: false,
-    singlePlugins: [],
+    independPlugins: [],
     features: []
   }
 });
@@ -340,19 +344,27 @@ function toggleContainer(flag){
   }
 }
 
-function pushContainer(plugin){
+function addIndependPlugin(plugin){
   // Unique Container
-  store.state.singlePlugins.push(plugin);
-  console.log(store.state.singlePlugins);
+  let index = store.state.independPlugins.findIndex(ele => {
+    return ele.name === plugin.name
+  });
+  if (index > -1) return
+  store.state.independPlugins.push(plugin);
 }
-function popContainer(){
-  store.state.singlePlugins.pop();
+
+function removeIndependPlugin(name){
+  let index = store.state.independPlugins.findIndex(ele => {
+    return ele.name === name
+  });
+  if (index === -1) return
+  store.state.independPlugins.splice(index, 1);
 }
 
 var script$3 = {
   components: {
     RouterContainer: script$5,
-    SingleContainer: script$4
+    IndependContainer: script$4
   },
   directives: {
     dragable,
@@ -366,6 +378,9 @@ var script$3 = {
     },
     showContainer(){
       return this.state.showContainer
+    },
+    independPlugins(){
+      return this.$store.state.independPlugins
     }
   },
   methods: {
@@ -386,6 +401,7 @@ popScopeId();
 
 const render$3 = /*#__PURE__*/_withId$3((_ctx, _cache, $props, $setup, $data, $options) => {
   const _component_router_container = resolveComponent("router-container");
+  const _component_independ_container = resolveComponent("independ-container");
   const _directive_dragable = resolveDirective("dragable");
 
   return (openBlock(), createBlock("div", _hoisted_1$3, [
@@ -405,7 +421,9 @@ const render$3 = /*#__PURE__*/_withId$3((_ctx, _cache, $props, $setup, $data, $o
     withDirectives(createVNode(_component_router_container, null, null, 512 /* NEED_PATCH */), [
       [vShow, $options.showContainer]
     ]),
-    createCommentVNode(" <single-container></single-container> ")
+    withDirectives(createVNode(_component_independ_container, null, null, 512 /* NEED_PATCH */), [
+      [vShow, $options.independPlugins.length]
+    ])
   ]))
 });
 
@@ -566,8 +584,9 @@ var script = {
             name: item.name
           });
           break;
-        case "SinglePlugin":
-          pushContainer(item);
+        case "IndependPlugin":
+          addIndependPlugin(item);
+          this.$store.state.showContainer = false;
           break;
       }
     }
@@ -758,8 +777,8 @@ class RouterPlugin extends BasePlugin{
 /**
  * 独立容器的插件
  */
-class SinglePlugin extends BasePlugin{
-  type = "SinglePlugin"
+class IndependPlugin extends BasePlugin{
+  type = "IndependPlugin"
   constructor(options){
     super(options);
   }
@@ -769,8 +788,8 @@ const isRouterPlugin =  function(plugin){
   return plugin instanceof RouterPlugin
 };
 
-const isSinglePlugin =  function(plugin){
-  return plugin instanceof SinglePlugin
+const isIndependPlugin =  function(plugin){
+  return plugin instanceof IndependPlugin
 };
 
 class Dokit{
@@ -814,4 +833,4 @@ var index = {
 };
 
 export default index;
-export { BasePlugin, Dokit, RouterPlugin, SinglePlugin, getGlobalData, isRouterPlugin, isSinglePlugin, noop, popContainer, pushContainer, toggleContainer, updateGlobalData };
+export { BasePlugin, Dokit, IndependPlugin, RouterPlugin, addIndependPlugin, getGlobalData, isIndependPlugin, isRouterPlugin, noop, removeIndependPlugin, toggleContainer, updateGlobalData };

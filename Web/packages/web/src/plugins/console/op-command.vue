@@ -52,8 +52,13 @@ export default {
       if(!this.command){
         return
       }
-      let ret = excuteScript(this.command)
-      console.log(ret)
+      try {
+        let ret = excuteScript(this.command)
+        console.log(ret)
+      } catch (error) {
+        console.error(error)
+      }
+      this.command = ''
     }
   }
 };

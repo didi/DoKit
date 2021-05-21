@@ -44,7 +44,7 @@ export default {
   background-color: #f5f6f7;
   display: flex;
   flex-direction: column;
-  z-index: 99;
+  z-index: 999;
   border-radius: 10px 10px 0 0;
 }
 .router-container{

@@ -3,20 +3,20 @@
     <div class="dokit-entry-btn" style="z-index: 10000;" v-dragable @click="toggleShowContainer"></div>
     <div class="mask" v-show="showContainer" @click="toggleContainer"></div>
     <router-container v-show="showContainer"></router-container>
-    <!-- <single-container></single-container> -->
+    <independ-container v-show="independPlugins.length"></independ-container>
   </div>
 </template>
 
 <script>
 import dragable from "@common/directives/dragable";
 import RouterContainer from './router-container';
-import SingleContainer from './single-container';
+import IndependContainer from './independ-container';
 import {toggleContainer} from '@store/index';
 
 export default {
   components: {
     RouterContainer,
-    SingleContainer
+    IndependContainer
   },
   directives: {
     dragable,
@@ -30,6 +30,9 @@ export default {
     },
     showContainer(){
       return this.state.showContainer
+    },
+    independPlugins(){
+      return this.$store.state.independPlugins
     }
   },
   methods: {
