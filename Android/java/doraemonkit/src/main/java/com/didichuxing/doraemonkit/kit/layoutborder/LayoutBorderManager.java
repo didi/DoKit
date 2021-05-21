@@ -7,7 +7,7 @@ import android.view.Window;
 
 import androidx.fragment.app.Fragment;
 
-import com.blankj.utilcode.util.ActivityUtils;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.util.LifecycleListenerUtil;
 

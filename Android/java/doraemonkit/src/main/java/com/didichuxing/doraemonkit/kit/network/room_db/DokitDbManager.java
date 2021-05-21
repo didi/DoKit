@@ -2,7 +2,7 @@ package com.didichuxing.doraemonkit.kit.network.room_db;
 
 import android.text.TextUtils;
 
-import com.blankj.utilcode.util.ThreadUtils;
+import com.didichuxing.doraemonkit.util.ThreadUtils;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.util.LogHelper;
@@ -31,6 +31,7 @@ public class DokitDbManager<T extends AbsMockApiBean> {
 
     public final static String MEDIA_TYPE_FORM = "application/x-www-form-urlencoded";
     public final static String MEDIA_TYPE_JSON = "application/json";
+    public final static String MEDIA_TYPE_PLAIN = "text/plain";
 
     private static final String TAG = "DokitDbManager";
 

@@ -6,11 +6,13 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
+import com.google.auto.service.AutoService;
 
 
 /**
  * @desc: 卡顿检测kit
  */
+@AutoService(AbstractKit.class)
 public class BlockMonitorKit extends AbstractKit {
 
 
@@ -27,7 +29,7 @@ public class BlockMonitorKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_BLOCK_MONITOR);
+        startUniversalActivity(BlockMonitorFragment.class, context, null,true);
     }
 
     @Override

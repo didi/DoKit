@@ -18,21 +18,20 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import com.amap.api.location.AMapLocationClient
-import com.amap.api.location.AMapLocationClientOption
+import androidx.lifecycle.lifecycleScope
 import com.amap.api.location.AMapLocationListener
-import com.baidu.location.BDAbstractLocationListener
-import com.baidu.location.BDLocation
-import com.baidu.location.LocationClient
-import com.baidu.location.LocationClientOption
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ThreadUtils
-import com.blankj.utilcode.util.ThreadUtils.SimpleTask
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.didichuxing.doraemondemo.amap.AMapRouterFragment
+import com.didichuxing.doraemondemo.comm.CommLauncher
+import com.didichuxing.doraemondemo.mc.MCActivity
 import com.didichuxing.doraemondemo.retrofit.GithubService
-import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.DoKit
+import com.didichuxing.doraemonkit.aop.location.GpsStatusUtil
+import com.didichuxing.doraemonkit.util.LogHelper
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lzy.okgo.OkGo
@@ -42,12 +41,9 @@ import com.nostra13.universalimageloader.core.ImageLoader
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
-import com.tencent.map.geolocation.TencentLocation
-import com.tencent.map.geolocation.TencentLocationListener
-import com.tencent.map.geolocation.TencentLocationManager
-import com.tencent.map.geolocation.TencentLocationRequest
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.*
 import okhttp3.*
 import org.json.JSONObject
 import pub.devrel.easypermissions.EasyPermissions
@@ -61,14 +57,9 @@ import java.net.*
 /**
  * @author jintai
  */
-class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
+class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,CoroutineScope by MainScope() {
     private var okHttpClient: OkHttpClient? = null
     private var mLocationManager: LocationManager? = null
-    private var mLocationClient: AMapLocationClient? = null
-    private var mBaiduLocationClient: LocationClient? = null
-    private var mMapOption: AMapLocationClientOption? = null
-    private var mTencentLocationRequest: TencentLocationRequest? = null
-    private var mTencentLocationManager: TencentLocationManager? = null
     private val UPDATE_UI = 100
 
     private val retrofit = Retrofit.Builder()
@@ -104,12 +95,12 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
         btn_x5_webview.setOnClickListener(this)
         findViewById<View>(R.id.btn_method_cost).setOnClickListener(this)
         findViewById<View>(R.id.btn_jump_leak).setOnClickListener(this)
+        findViewById<View>(R.id.btn_mc).setOnClickListener(this)
         findViewById<View>(R.id.btn_app_launch_stack).setOnClickListener(this)
         findViewById<View>(R.id.btn_show_tool_panel).setOnClickListener(this)
         findViewById<View>(R.id.btn_location).setOnClickListener(this)
-        findViewById<View>(R.id.btn_location_amap).setOnClickListener(this)
-        findViewById<View>(R.id.btn_location_tencent).setOnClickListener(this)
-        findViewById<View>(R.id.btn_location_baidu).setOnClickListener(this)
+        findViewById<View>(R.id.btn_path_amap).setOnClickListener(this)
+        findViewById<View>(R.id.btn_location_map2).setOnClickListener(this)
         findViewById<View>(R.id.btn_load_img).setOnClickListener(this)
         findViewById<View>(R.id.btn_okhttp_mock).setOnClickListener(this)
         findViewById<View>(R.id.btn_connection_mock).setOnClickListener(this)
@@ -124,23 +115,6 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
         //获取定位服务
         mLocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         //高德定位服务
-        mLocationClient = AMapLocationClient(applicationContext)
-        mMapOption = AMapLocationClientOption()
-        //腾讯地图
-        mTencentLocationRequest = TencentLocationRequest.create()
-        mTencentLocationManager = TencentLocationManager.getInstance(applicationContext)
-        //百度地图
-        mBaiduLocationClient = LocationClient(this)
-        //通过LocationClientOption设置LocationClient相关参数
-        val option = LocationClientOption()
-        // 打开gps
-        option.isOpenGps = true
-        // 设置坐标类型
-        option.setCoorType("bd09ll")
-        option.setScanSpan(5000)
-        mBaiduLocationClient!!.locOption = option
-        //获取获取当前单次定位
-        mBaiduLocationClient!!.registerLocationListener(mbdLocationListener)
         EasyPermissions.requestPermissions(
             PermissionRequest.Builder(
                 this, 200,
@@ -157,7 +131,20 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
 
         githubService = retrofit.create(GithubService::class.java)
 
-        AopTest().test()
+        val job = lifecycleScope.launch {
+                async {
+
+                }
+        }
+
+        lifecycleScope.launch {
+
+
+        }
+
+        MainScope()
+
+//        AopTest().test()
     }
 
     private fun test1() {
@@ -231,94 +218,40 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
         )
     }
 
-    /**
-     * 启动高德地图定位
-     */
-    private fun startAmapLocation() {
-        mLocationClient!!.setLocationListener(mapLocationListener)
-        mMapOption!!.locationMode = AMapLocationClientOption.AMapLocationMode.Hight_Accuracy
-        mMapOption!!.isOnceLocation = true
-        mLocationClient!!.setLocationOption(mMapOption)
-        mLocationClient!!.stopLocation()
-        mLocationClient!!.startLocation()
-    }
 
-    private var mTencentLocationListener: TencentLocationListener =
-        object : TencentLocationListener {
-            override fun onLocationChanged(
-                tencentLocation: TencentLocation,
-                error: Int,
-                errorInfo: String
-            ) {
-                Log.i(
-                    TAG,
-                    "腾讯定位===onLocationChanged===lat==>" + tencentLocation.latitude + "   lng==>" + tencentLocation.longitude + "  error===>" + error + "  errorInfo===>" + errorInfo
-                )
-            }
-
-            override fun onStatusUpdate(name: String, status: Int, desc: String) {
-                Log.i(TAG, "腾讯定位===onStatusUpdate==>  name===>$name status===$status  desc===$desc")
-            }
-        }
-
-    /**
-     * 启动腾讯地图定位
-     */
-    private fun startTencentLocation() {
-        //mTencentLocationManager.requestLocationUpdates(mTencentLocationRequest, mTencentLocationListener);
-        //获取获取当前单次定位
-        mTencentLocationManager!!.requestSingleFreshLocation(
-            mTencentLocationRequest,
-            mTencentLocationListener,
-            Looper.myLooper()
-        )
-    }
-
-    private var mbdLocationListener: BDAbstractLocationListener =
-        object : BDAbstractLocationListener() {
-            override fun onReceiveLocation(bdLocation: BDLocation) {
-                Log.i(
-                    TAG,
-                    "百度定位===onReceiveLocation===lat==>" + bdLocation.latitude + "   lng==>" + bdLocation.longitude
-                )
-            }
-        }
-
-    /**
-     * 启动百度地图定位
-     */
-    private fun startBaiDuLocation() {
-        mBaiduLocationClient!!.stop()
-        mBaiduLocationClient!!.start()
-    }
-
-
+    @SuppressLint("MissingPermission")
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.btn_method_cost -> test1()
+            R.id.btn_method_cost -> {
+                val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+                val gpsStatus = locationManager.getGpsStatus(null)
+                LogHelper.i("sss", "gpsStatus==>$gpsStatus")
+                //test1()
+            }
             R.id.btn_show_tool_panel ->                 //直接调起工具面板
-                DoraemonKit.showToolPanel()
+                DoKit.showToolPanel()
             R.id.btn_jump -> startActivity(Intent(this, SecondActivity::class.java))
             R.id.btn_webview -> startActivity(Intent(this, WebViewNormalActivity::class.java))
             R.id.btn_x5_webview -> startActivity(Intent(this, WebViewX5Activity::class.java))
             R.id.btn_jump_leak -> startActivity(Intent(this, LeakActivity::class.java))
+            R.id.btn_mc -> startActivity(Intent(this, MCActivity::class.java))
             R.id.btn_app_launch_stack -> {
                 //MethodStackUtil.getInstance().toJson()
             }
             R.id.btn_location -> startNormaLocation()
-            R.id.btn_location_amap -> startAmapLocation()
-            R.id.btn_location_tencent -> startTencentLocation()
-            R.id.btn_location_baidu -> startBaiDuLocation()
+            R.id.btn_path_amap -> CommLauncher.startActivity(AMapRouterFragment::class.java)
+//            R.id.btn_location_map2 -> startActivity(Intent(
+//                    this, MapShowingLocationActivity::class.java))
             R.id.btn_load_img -> {
                 //Glide 加载
                 val picassoImgUrl =
-                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1585832555614&di=ea70ed1254b3242803d7dde56eedfe9f&imgtype=0&src=http%3A%2F%2Ft9.baidu.com%2Fit%2Fu%3D2268908537%2C2815455140%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D719"
+                    "https://gimg2.baidu.com/image_search/src=http%3A%2F%2F2c.zol-img.com.cn%2Fproduct%2F124_500x2000%2F748%2FceZOdKgDAFsq2.jpg&refer=http%3A%2F%2F2c.zol-img.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1621652979&t=850e537c70eaa7753e892bc8b4d05f57"
                 val glideImageUrl =
-                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662890&di=bc7b18d8b4efa73fb88ddef4f6f56acc&imgtype=0&src=http%3A%2F%2Ft9.baidu.com%2Fit%2Fu%3D583874135%2C70653437%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D3607%26h%3D2408"
+                    "https://gimg2.baidu.com/image_search/src=http%3A%2F%2F1812.img.pp.sohu.com.cn%2Fimages%2Fblog%2F2009%2F11%2F18%2F18%2F8%2F125b6560a6ag214.jpg&refer=http%3A%2F%2F1812.img.pp.sohu.com.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1621652979&t=76d35d35d9c510f1c24a422e9e02fd46"
                 val frescoImageUrl =
-                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662890&di=09318a918fe9ea73a8e27c80291bf669&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D1484500186%2C1503043093%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1280%26h%3D853"
+                    "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fyouimg1.c-ctrip.com%2Ftarget%2Ftg%2F035%2F063%2F726%2F3ea4031f045945e1843ae5156749d64c.jpg&refer=http%3A%2F%2Fyouimg1.c-ctrip.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1621652979&t=7150aaa2071d512cf2f6b556e126dd66"
                 val imageLoaderImageUrl =
-                    "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584969662891&di=acaf549645e58b6c67c231d495e18271&imgtype=0&src=http%3A%2F%2Ft8.baidu.com%2Fit%2Fu%3D3571592872%2C3353494284%26fm%3D79%26app%3D86%26f%3DJPEG%3Fw%3D1200%26h%3D1290"
+                    "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fyouimg1.c-ctrip.com%2Ftarget%2Ftg%2F004%2F531%2F381%2F4339f96900344574a0c8ca272a7b8f27.jpg&refer=http%3A%2F%2Fyouimg1.c-ctrip.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1621652979&t=b7e83ecc987c64cc31079469d292eb56"
                 Picasso.get().load(picassoImgUrl)
                     .memoryPolicy(MemoryPolicy.NO_CACHE)
                     .placeholder(R.mipmap.dk_health_bg)
@@ -379,7 +312,6 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
                     })
 
 
-
             }
 
 
@@ -398,10 +330,10 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
                     )
             }
             R.id.btn_test_crash -> testCrash()!!.length
-            R.id.btn_show_hide_icon -> if (DoraemonKit.isShow) {
-                DoraemonKit.hide()
+            R.id.btn_show_hide_icon -> if (DoKit.isMainIconShow) {
+                DoKit.hide()
             } else {
-                DoraemonKit.show()
+                DoKit.show()
             }
             R.id.btn_create_database -> {
                 val dbHelper = MyDatabaseHelper(this, "BookStore.db", null, 1)
@@ -420,7 +352,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
     }
 
     private fun requestByGet(path: String) {
-        ThreadUtils.executeByIo(object : SimpleTask<String?>() {
+        ThreadUtils.executeByIo(object : ThreadUtils.SimpleTask<String?>() {
             @Throws(Throwable::class)
             override fun doInBackground(): String {
                 try {
@@ -552,8 +484,6 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener {
         super.onDestroy()
         okHttpClient!!.dispatcher().cancelAll()
         mLocationManager!!.removeUpdates(mLocationListener)
-        mTencentLocationManager!!.removeUpdates(mTencentLocationListener)
-        mBaiduLocationClient!!.stop()
     }
 
     private fun requestImage(urlStr: String) {

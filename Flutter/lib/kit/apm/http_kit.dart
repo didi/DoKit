@@ -1,15 +1,16 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:dokit/dokit.dart';
 import 'package:dokit/engine/dokit_http.dart';
-import 'package:dokit/util/util.dart';
+import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/kit.dart';
+import 'package:dokit/util/byte_util.dart';
+import 'package:dokit/util/time_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-
-import '../../dokit.dart';
-import 'apm.dart';
 
 class HttpInfo implements IInfo {
   HttpInfo(this.uri, this.method)
@@ -21,13 +22,13 @@ class HttpInfo implements IInfo {
       ..response.update(-1, '', '', 0);
   }
 
-  final Uri uri;
+  final Uri? uri;
 
   final String method;
 
   final int startTimestamp;
 
-  String error;
+  String? error;
   HttpRequest request = HttpRequest();
   HttpResponse response = HttpResponse();
 
@@ -44,26 +45,26 @@ class HttpInfo implements IInfo {
 
 class HttpRequest {
   List<String> parameters = <String>[];
-  String header;
+  String? header;
 
   void add(String parameter) {
     parameters.add(parameter);
-    final HttpKit kit = ApmKitManager.instance.getKit(ApmKitName.KIT_HTTP);
+    final HttpKit? kit = ApmKitManager.instance.getKit(ApmKitName.KIT_HTTP);
     kit?.listener?.call();
   }
 }
 
 class HttpResponse {
-  String _result;
+  String? _result;
 
-  String get result => _result;
+  String? get result => _result;
   int _code = 0;
 
   int get code => _code;
 
-  String _header;
+  String? _header;
 
-  String get header => _header;
+  String? get header => _header;
   int endTimestamp = 0;
   int size = 0;
 
@@ -73,7 +74,7 @@ class HttpResponse {
     _header = header;
     this.size = size;
     endTimestamp = DateTime.now().millisecondsSinceEpoch;
-    final HttpKit kit = ApmKitManager.instance.getKit(ApmKitName.KIT_HTTP);
+    final HttpKit? kit = ApmKitManager.instance.getKit(ApmKitName.KIT_HTTP);
     kit?.listener?.call();
   }
 
@@ -89,7 +90,7 @@ class HttpKit extends ApmKit {
     return HttpPage();
   }
 
-  Function listener;
+  Function? listener;
 
   @override
   String getIcon() {
@@ -108,7 +109,7 @@ class HttpKit extends ApmKit {
 
   @override
   void start() {
-    final HttpOverrides origin = HttpOverrides.current;
+    final HttpOverrides? origin = HttpOverrides.current;
     HttpOverrides.global = DoKitHttpOverrides(origin);
   }
 
@@ -140,8 +141,8 @@ class HttpPageState extends State<HttpPage> {
     if (!mounted) {
       return;
     }
-    if (SchedulerBinding.instance.schedulerPhase != SchedulerPhase.idle) {
-      await SchedulerBinding.instance.endOfFrame;
+    if (SchedulerBinding.instance?.schedulerPhase != SchedulerPhase.idle) {
+      await SchedulerBinding.instance?.endOfFrame;
       if (!mounted) {
         return;
       }
@@ -159,7 +160,7 @@ class HttpPageState extends State<HttpPage> {
     super.initState();
     ApmKitManager.instance
         .getKit<HttpKit>(ApmKitName.KIT_HTTP)
-        .registerListener(_listener);
+        ?.registerListener(_listener);
   }
 
   @override
@@ -167,17 +168,18 @@ class HttpPageState extends State<HttpPage> {
     super.dispose();
     ApmKitManager.instance
         .getKit<HttpKit>(ApmKitName.KIT_HTTP)
-        .unregisterListener();
+        ?.unregisterListener();
   }
 
   @override
   Widget build(BuildContext context) {
     final List<IInfo> items = ApmKitManager.instance
-        .getKit<HttpKit>(ApmKitName.KIT_HTTP)
-        .getStorage()
-        .getAll()
-        .reversed
-        .toList();
+            .getKit<HttpKit>(ApmKitName.KIT_HTTP)
+            ?.getStorage()
+            .getAll()
+            .reversed
+            .toList() ??
+        [];
     return Column(
       children: <Widget>[
         Row(
@@ -197,7 +199,7 @@ class HttpPageState extends State<HttpPage> {
                     setState(() {
                       ApmKitManager.instance
                           .getKit<HttpKit>(ApmKitName.KIT_HTTP)
-                          .getStorage()
+                          ?.getStorage()
                           .clear();
                     });
                   },
@@ -252,10 +254,7 @@ class HttpPageState extends State<HttpPage> {
 
 class HttpItemWidget extends StatefulWidget {
   const HttpItemWidget(
-      {Key key,
-      @required this.item,
-      @required this.index,
-      @required this.isLast})
+      {Key? key, required this.item, required this.index, required this.isLast})
       : super(key: key);
 
   final HttpInfo item;
@@ -279,7 +278,7 @@ class _HttpItemWidgetState extends State<HttpItemWidget> {
       onLongPress: () {
         if (widget.item.response.result != null) {
           Clipboard.setData(ClipboardData(text: widget.item.response.result));
-          Scaffold.of(context).showSnackBar(const SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             duration: Duration(milliseconds: 500),
             content: Text('请求返回已拷贝至剪贴板'),
           ));
@@ -305,8 +304,7 @@ class _HttpItemWidgetState extends State<HttpItemWidget> {
                 text: TextSpan(
                   children: <InlineSpan>[
                     TextSpan(
-                        text:
-                            '[${TimeUtils.toTimeString(widget.item.startTimestamp)}]',
+                        text: '[${toTimeString(widget.item.startTimestamp)}]',
                         style: const TextStyle(
                             fontSize: 9,
                             color: Color(0xff333333),
@@ -331,7 +329,7 @@ class _HttpItemWidgetState extends State<HttpItemWidget> {
                     TextSpan(
                         text: '  ${widget.item.method}'
                             '  Cost:${widget.item.response.endTimestamp > 0 ? ((widget.item.response.endTimestamp - widget.item.startTimestamp).toString() + 'ms') : '-'} '
-                            '  Size:${widget.item.response.size > 0 ? (ByteUtil.toByteString(widget.item.response.size)) : '-'}',
+                            '  Size:${widget.item.response.size > 0 ? (toByteString(widget.item.response.size)) : '-'}',
                         style: const TextStyle(
                           fontSize: 9,
                           color: Color(0xff666666),
@@ -410,7 +408,7 @@ class _HttpItemWidgetState extends State<HttpItemWidget> {
                 widget.item.expand
                     ? 'images/dk_channel_expand_h.png'
                     : 'images/dk_channel_expand_n.png',
-                package: DoKit.PACKAGE_NAME,
+                package: DK_PACKAGE_NAME,
                 height: 14,
                 width: 9),
           ],

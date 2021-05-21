@@ -18,7 +18,7 @@ import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
-import com.didichuxing.doraemonkit.util.FileUtil;
+import com.didichuxing.doraemonkit.util.DoKitFileUtil;
 
 public class CrashCaptureMainFragment extends BaseFragment {
     @Override
@@ -46,7 +46,7 @@ public class CrashCaptureMainFragment extends BaseFragment {
         mSettingItemAdapter.append(new SettingItem(R.string.dk_crash_capture_switch, CrashCaptureConfig.isCrashCaptureOpen()));
         mSettingItemAdapter.append(new SettingItem(R.string.dk_crash_capture_look, R.mipmap.dk_more_icon));
         SettingItem item = new SettingItem(R.string.dk_crash_capture_clean_data);
-        item.rightDesc = Formatter.formatFileSize(getContext(), FileUtil.getDirectorySize(CrashCaptureManager.getInstance().getCrashCacheDir()));
+        item.rightDesc = Formatter.formatFileSize(getContext(), DoKitFileUtil.getDirectorySize(CrashCaptureManager.getInstance().getCrashCacheDir()));
         mSettingItemAdapter.append(item);
         mSettingItemAdapter.setOnSettingItemSwitchListener(new SettingItemAdapter.OnSettingItemSwitchListener() {
             @Override
@@ -70,7 +70,7 @@ public class CrashCaptureMainFragment extends BaseFragment {
                     showContent(FileExplorerFragment.class, bundle);
                 } else if (data.desc == R.string.dk_crash_capture_clean_data) {
                     CrashCaptureManager.getInstance().clearCacheHistory();
-                    data.rightDesc = Formatter.formatFileSize(getContext(), FileUtil.getDirectorySize(CrashCaptureManager.getInstance().getCrashCacheDir()));
+                    data.rightDesc = Formatter.formatFileSize(getContext(), DoKitFileUtil.getDirectorySize(CrashCaptureManager.getInstance().getCrashCacheDir()));
                     mSettingItemAdapter.notifyDataSetChanged();
                     showToast(R.string.dk_crash_capture_clean_data);
                 }

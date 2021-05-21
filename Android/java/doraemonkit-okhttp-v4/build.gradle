@@ -1,11 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-if (rootProject.ext.config["publishArchivesType"] == 2) {
-    apply from: 'upload-release.gradle'
-} else if (rootProject.ext.config["publishArchivesType"] == 0 || rootProject.ext.config["publishArchivesType"] == 1) {
-    apply from: 'upload-dev.gradle'
-}
+apply from: '../upload.gradle'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
@@ -41,5 +37,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.annotation:annotation:1.1.0'
     //implementation rootProject.ext.dependencies["appcompat"]
+//    compileOnly rootProject.ext.dependencies["okhttp_v4"]
     compileOnly rootProject.ext.dependencies["okhttp_v4"]
 }
+

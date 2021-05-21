@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit;
 
+import org.json.JSONObject;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -14,8 +15,10 @@ public class ExampleUnitTest {
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
         //System.out.println("ssss");
-        String newPath = dealPath("/kop_stable/a/b/gateway", 2);
-        System.out.println("newPath===>" + newPath);
+        JSONObject object = new JSONObject();
+        System.out.println("object===>" + object.toString());
+//        String newPath = dealPath("/kop_stable/a/b/gateway", 2);
+//        System.out.println("newPath===>" + newPath);
     }
 
     private String dealPath(String oldPath, int fromSDK) {

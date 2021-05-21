@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.aop
 import android.app.Activity
 import android.app.Application
 import android.app.Service
+import android.os.SystemClock
 import android.util.Log
 import com.didichuxing.doraemonkit.aop.method_stack.StaticMethodObject
 import com.didichuxing.doraemonkit.kit.timecounter.TimeCounterManager
@@ -13,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap
  * 作    者：jint（金台）
  * 版    本：1.0
  * 创建日期：2020/2/29-15:31
- * 描    述：
+ * 描    述：全局的函数耗时工具类
  * 修订历史：
  * ================================================
  */
@@ -35,7 +36,7 @@ object MethodCostUtil {
     @Synchronized
     fun recodeObjectMethodCostStart(thresholdTime: Int, methodName: String, classObj: Any?) {
         try {
-            METHOD_COSTS[methodName] = System.currentTimeMillis()
+            METHOD_COSTS[methodName] = SystemClock.elapsedRealtime()
             if (classObj is Application) {
                 val methods = methodName.split("&".toRegex()).toTypedArray()
                 if (methods.size == 2) {
@@ -64,12 +65,12 @@ object MethodCostUtil {
      * @param methodName
      * @param classObj      调用该函数的对象
      */
-    fun recodeObjectMethodCostEnd(thresholdTime: Int, methodName: String, classObj: Any?) {
+    private fun recodeObjectMethodCostEnd(thresholdTime: Int, methodName: String, classObj: Any?) {
         synchronized(MethodCostUtil::class.java) {
             try {
                 if (METHOD_COSTS.containsKey(methodName)) {
                     val startTime = METHOD_COSTS[methodName]!!
-                    val costTime = (System.currentTimeMillis() - startTime).toInt()
+                    val costTime = (SystemClock.elapsedRealtime() - startTime).toInt()
                     METHOD_COSTS.remove(methodName)
                     if (classObj is Application) {
                         //Application 启动时间统计
@@ -95,16 +96,23 @@ object MethodCostUtil {
                     if (costTime >= thresholdTime) {
                         val threadName = Thread.currentThread().name
                         Log.i(TAG, "================Dokit================")
-                        Log.i(TAG, "\t methodName===>$methodName  threadName==>$threadName  thresholdTime===>$thresholdTime   costTime===>$costTime")
+                        Log.i(
+                            TAG,
+                            "\t methodName===>$methodName  threadName==>$threadName  thresholdTime===>$thresholdTime   costTime===>$costTime"
+                        )
                         val stackTraceElements = Thread.currentThread().stackTrace
                         for (stackTraceElement in stackTraceElements) {
                             if (stackTraceElement.toString().contains("MethodCostUtil")) {
                                 continue
                             }
-                            if (stackTraceElement.toString().contains("dalvik.system.VMStack.getThreadStackTrace")) {
+                            if (stackTraceElement.toString()
+                                    .contains("dalvik.system.VMStack.getThreadStackTrace")
+                            ) {
                                 continue
                             }
-                            if (stackTraceElement.toString().contains("java.lang.Thread.getStackTrace")) {
+                            if (stackTraceElement.toString()
+                                    .contains("java.lang.Thread.getStackTrace")
+                            ) {
                                 continue
                             }
                             Log.i(TAG, "\tat $stackTraceElement")
@@ -124,7 +132,9 @@ object MethodCostUtil {
             if (stackTraceElement.toString().contains("MethodCostUtil")) {
                 continue
             }
-            if (stackTraceElement.toString().contains("dalvik.system.VMStack.getThreadStackTrace")) {
+            if (stackTraceElement.toString()
+                    .contains("dalvik.system.VMStack.getThreadStackTrace")
+            ) {
                 continue
             }
             if (stackTraceElement.toString().contains("java.lang.Thread.getStackTrace")) {
@@ -143,7 +153,9 @@ object MethodCostUtil {
             if (stackTraceElement.toString().contains("MethodCostUtil")) {
                 continue
             }
-            if (stackTraceElement.toString().contains("dalvik.system.VMStack.getThreadStackTrace")) {
+            if (stackTraceElement.toString()
+                    .contains("dalvik.system.VMStack.getThreadStackTrace")
+            ) {
                 continue
             }
             if (stackTraceElement.toString().contains("java.lang.Thread.getStackTrace")) {

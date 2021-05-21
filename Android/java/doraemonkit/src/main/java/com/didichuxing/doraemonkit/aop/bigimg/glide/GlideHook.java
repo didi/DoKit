@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit.aop.bigimg.glide;
 
-import com.blankj.utilcode.util.ReflectUtils;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.SingleRequest;
+import com.didichuxing.doraemonkit.util.ReflectUtils;
 
 import java.util.ArrayList;
 import java.util.List;

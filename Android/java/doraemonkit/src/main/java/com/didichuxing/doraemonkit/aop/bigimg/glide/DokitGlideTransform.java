@@ -5,14 +5,14 @@ import android.graphics.Bitmap;
 
 import androidx.annotation.NonNull;
 
-import com.blankj.utilcode.constant.MemoryConstants;
-import com.blankj.utilcode.util.ConvertUtils;
-import com.blankj.utilcode.util.ReflectUtils;
+import com.didichuxing.doraemonkit.constant.MemoryConstants;
+import com.didichuxing.doraemonkit.util.ConvertUtils;
 import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.load.Transformation;
 import com.bumptech.glide.load.engine.Resource;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
+import com.didichuxing.doraemonkit.util.ReflectUtils;
 
 import java.security.MessageDigest;
 

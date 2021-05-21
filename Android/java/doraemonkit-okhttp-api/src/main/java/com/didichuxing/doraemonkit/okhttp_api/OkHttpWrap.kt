@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.okhttp_api
 
-import android.util.Log
-import com.blankj.utilcode.util.ReflectUtils
+import com.didichuxing.doraemonkit.util.ReflectUtils
 import okhttp3.*
 import okio.BufferedSink
 import okio.Sink

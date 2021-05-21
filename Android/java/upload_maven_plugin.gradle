@@ -1,0 +1,53 @@
+apply plugin: 'maven-publish'
+def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
+def DOKIT_VERSION = rootProject.ext.publish_config["version"]
+def DOKIT_GROUP_ID = rootProject.ext.publish_config["group_id"]
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def LOCAL_REPOSITORY_URL = properties.getProperty('LOCAL_REPOSITORY_URL', "")
+def RELEASE_REPOSITORY_URL = properties.getProperty('RELEASE_REPOSITORY_URL', "")
+def SNAPSHOT_REPOSITORY_URL = properties.getProperty('SNAPSHOT_REPOSITORY_URL', "")
+def USERNAME = properties.getProperty('USERNAME', "")
+def PASSWORD = properties.getProperty('PASSWORD', "")
+
+//生成源码注释
+task androidSourcesJar(type: Jar) {
+    if (project.ARTIFACT_ID == "dokitx-plugin") {
+        from project.kotlin.sourceSets.main.kotlin.source
+    } else {
+        from project.android.sourceSets.main.java.source
+    }
+    classifier 'sources'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                //from components.release
+                groupId = DOKIT_GROUP_ID
+                artifactId = project.ARTIFACT_ID
+                version = DOKIT_VERSION
+                // 上传source，这样使用放可以看到方法注释
+                artifact androidSourcesJar
+            }
+        }
+        repositories {
+            maven {
+                if (PUBLISH_ARCHIVES_TYPE == 0) {
+                    url = uri(LOCAL_REPOSITORY_URL)
+                } else if (PUBLISH_ARCHIVES_TYPE == 1) {
+                    def REPOSITORY_URL = DOKIT_VERSION.endsWith('SNAPSHOT') ? SNAPSHOT_REPOSITORY_URL : RELEASE_REPOSITORY_URL
+                    println("DoKit====>${project.ARTIFACT_ID}_${DOKIT_VERSION}==${REPOSITORY_URL}")
+                    url = uri(REPOSITORY_URL)
+                    //认证用户和密码
+                    credentials {
+                        username USERNAME
+                        password PASSWORD
+                    }
+                }
+            }
+        }
+    }
+}

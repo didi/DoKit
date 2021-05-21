@@ -2,10 +2,11 @@ package com.didichuxing.doraemonkit.aop.urlconnection;
 
 import android.net.Uri;
 
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonInterceptor;
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DoraemonWeakNetworkInterceptor;
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.LargePictureInterceptor;
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.MockInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitCapInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitWeakNetworkInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitLargePicInterceptor;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitMockInterceptor;
 
 import java.net.URL;
 import java.net.URLConnection;
@@ -81,20 +82,22 @@ public class HttpUrlConnectionProxyUtil {
     private static void addInterceptor(OkHttpClient.Builder builder) {
         // 判断当前是否已经添加了拦截器，如果已添加则返回
         for (Interceptor interceptor : builder.interceptors()) {
-            if (interceptor instanceof MockInterceptor) {
+            if (interceptor instanceof DokitMockInterceptor) {
                 return;
             }
         }
 
         builder
                 //添加mock拦截器
-                .addInterceptor(new MockInterceptor())
+                .addInterceptor(new DokitMockInterceptor())
                 //添加大图检测拦截器
-                .addInterceptor(new LargePictureInterceptor())
+                .addInterceptor(new DokitLargePicInterceptor())
                 //添加dokit拦截器
-                .addInterceptor(new DoraemonInterceptor())
+                .addInterceptor(new DokitCapInterceptor())
                 //添加弱网 拦截器
-                .addNetworkInterceptor(new DoraemonWeakNetworkInterceptor());
+                .addNetworkInterceptor(new DokitWeakNetworkInterceptor())
+                // 添加扩展拦截器
+                .addInterceptor(new DokitExtInterceptor());
     }
 
     /**

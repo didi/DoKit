@@ -9,6 +9,7 @@ public interface BundleKey {
     String DIR_KEY = "dir_key";
     String FRAGMENT_INDEX = "fragment_index";
     String CUSTOM_FRAGMENT_CLASS = "custom_fragment_class";
+    String SYSTEM_FRAGMENT_CLASS = "system_fragment_class";
     String ACCESSIBILITY_DATA = "accessibility_data";
     String PERFORMANCE_TYPE = "performance_type";
     String KEY_URL = "key_url";

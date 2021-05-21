@@ -1,6 +1,7 @@
 import 'package:dokit/kit/apm/apm.dart';
 import 'package:dokit/kit/common/common.dart';
-import 'package:dokit/kit/kit_page.dart';
+import 'package:dokit/kit/kit.dart';
+import 'package:dokit/ui/kit_page.dart';
 import 'package:flutter/material.dart';
 
 class ResidentPage extends StatefulWidget {
@@ -18,7 +19,7 @@ class ResidentPage extends StatefulWidget {
 
 class ResidentPageState extends State<ResidentPage> {
   Widget getPage() {
-    Widget page;
+    Widget? page;
     page ??=
         ApmKitManager.instance.getKit(ResidentPage.tag)?.createDisplayPage();
     page ??=
@@ -28,7 +29,7 @@ class ResidentPageState extends State<ResidentPage> {
   }
 
   String getTitle() {
-    String title;
+    String? title;
     title ??= ApmKitManager.instance.getKit(ResidentPage.tag)?.getKitName();
     title ??= CommonKitManager.instance.getKit(ResidentPage.tag)?.getKitName();
     title ??= 'DoKit';

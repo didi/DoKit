@@ -3,8 +3,8 @@ package com.didichuxing.doraemonkit.aop.bigimg.picasso;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
-import com.blankj.utilcode.constant.MemoryConstants;
-import com.blankj.utilcode.util.ConvertUtils;
+import com.didichuxing.doraemonkit.constant.MemoryConstants;
+import com.didichuxing.doraemonkit.util.ConvertUtils;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
 import com.squareup.picasso.Transformation;

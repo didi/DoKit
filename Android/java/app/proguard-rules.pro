@@ -19,3 +19,13 @@
 # If you keep the line number information, uncomment this to
 # hide the original from file name.
 #-renamesourcefileattribute SourceFile
+
+# start 腾讯地图 SDK
+-keep class com.tencent.tencentmap.**{*;}
+-keep class com.tencent.map.**{*;}
+-keep class com.tencent.beacontmap.**{*;}
+-keep class navsns.**{*;}
+-dontwarn com.qq.**
+-dontwarn com.tencent.**
+# end 腾讯地图 SDK
+

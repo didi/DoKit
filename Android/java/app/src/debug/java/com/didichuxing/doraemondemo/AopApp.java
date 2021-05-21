@@ -6,6 +6,7 @@ import android.content.Context;
 import androidx.multidex.MultiDex;
 
 import com.didichuxing.doraemondemo.dokit.DemoKit;
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -39,8 +40,10 @@ public class AopApp extends Application {
 
         //是否显示入口icon
         // DoraemonKit.setAwaysShowMainIcon(false);
-        DoraemonKit.disableUpload();
-        DoraemonKit.install(this, "749a0600b5e48dd77cf8ee680be7b1b7");
+
+        new DoKit.Builder(this)
+                .productId("749a0600b5e48dd77cf8ee680be7b1b7")
+                .build();
         //DoraemonKit.install(this, kits, "70e78c27f9174d68668d8a66a2b66483")
     }
 

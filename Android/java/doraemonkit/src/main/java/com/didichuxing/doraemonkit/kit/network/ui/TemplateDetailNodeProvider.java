@@ -8,14 +8,15 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
-import com.didichuxing.doraemonkit.util.DokitUtil;
+import com.didichuxing.doraemonkit.util.DoKitCommUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.volley.VolleyManager;
 import com.didichuxing.doraemonkit.widget.brvah.entity.node.BaseNode;
@@ -99,10 +100,9 @@ public class TemplateDetailNodeProvider extends BaseNodeProvider {
                     }
                     //保存到全局
                     DokitDbManager.getInstance().setGlobalTemplateApiBean(mockApi);
-                    Intent intent = new Intent(tvView.getContext(), UniversalActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_MOCK_TEMPLATE_PREVIEW);
-                    tvView.getContext().startActivity(intent);
+
+                    SimpleDokitStarter.startFullScreen(MockTemplatePreviewFragment.class, tvView.getContext());
+
                 }
             });
             TextView tvUpload = holder.getView(R.id.tv_upload);
@@ -144,7 +144,7 @@ public class TemplateDetailNodeProvider extends BaseNodeProvider {
                 tvUpload.setClickable(false);
                 tvUpload.setTextColor(tvUpload.getContext().getResources().getColor(R.color.dk_color_999999));
             }
-            tvHasLocalMockData.setText(String.format(DokitUtil.getString(R.string.dk_data_mock_template_tip), hasLocalMockData));
+            tvHasLocalMockData.setText(String.format(DoKitCommUtil.getString(R.string.dk_data_mock_template_tip), hasLocalMockData));
 
         }
 

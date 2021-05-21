@@ -1,11 +1,11 @@
 import 'dart:math';
 
-import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BarChartPainter extends CustomPainter {
-  BarChartPainter({@required this.datas});
+  BarChartPainter({required this.datas});
 
   List<IInfo> datas;
 
@@ -114,7 +114,7 @@ class BarChartPainter extends CustomPainter {
 
 class FpsBarChart extends StatefulWidget {
   const FpsBarChart({
-    @required this.data,
+    required this.data,
   });
 
   final List<IInfo> data;

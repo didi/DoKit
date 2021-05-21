@@ -3,16 +3,15 @@ package com.didichuxing.doraemonkit.kit.sysinfo;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.util.SystemUtil;
+import com.didichuxing.doraemonkit.util.DoKitSystemUtil;
+import com.google.auto.service.AutoService;
 
 /**
  * 进入开发者选项
  * Created by jint on 2018/6/22.
  */
-
+@AutoService(AbstractKit.class)
 public class DevelopmentPageKit extends AbstractKit {
 
 
@@ -28,7 +27,7 @@ public class DevelopmentPageKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        SystemUtil.startDevelopmentActivity(context);
+        DoKitSystemUtil.startDevelopmentActivity(context);
     }
 
     @Override

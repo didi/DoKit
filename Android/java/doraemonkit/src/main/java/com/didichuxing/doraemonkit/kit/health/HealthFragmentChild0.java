@@ -10,13 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.util.AppUtils;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.GlobalConfig;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.util.DokitUtil;
+import com.didichuxing.doraemonkit.util.DoKitCommUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.widget.dialog.DialogListener;
 import com.didichuxing.doraemonkit.widget.dialog.DialogProvider;
@@ -61,7 +61,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                         @Override
                         public void onSuccess(String response) {
                             LogHelper.i(TAG, "上传成功===>" + response);
-                            ToastUtils.showShort(DokitUtil.getString(R.string.dk_health_upload_successed));
+                            ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_health_upload_successed));
                             //重置状态
                             GlobalConfig.setAppHealth(false);
                             DoKitConstant.APP_HEALTH_RUNNING = false;
@@ -75,7 +75,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                         @Override
                         public void onError(String response) {
                             LogHelper.e(TAG, "error response===>" + response);
-                            ToastUtils.showShort(DokitUtil.getString(R.string.dk_health_upload_failed));
+                            ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_health_upload_failed));
                         }
                     });
 
@@ -94,7 +94,7 @@ public class HealthFragmentChild0 extends BaseFragment {
 
             @Override
             public void onCancel() {
-                ToastUtils.showShort(DokitUtil.getString(R.string.dk_health_upload_droped));
+                ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_health_upload_droped));
                 //重置状态
                 GlobalConfig.setAppHealth(false);
                 DoKitConstant.APP_HEALTH_RUNNING = false;
@@ -118,15 +118,15 @@ public class HealthFragmentChild0 extends BaseFragment {
                     }
                 } else {
                     new AlertDialog.Builder(getActivity())
-                            .setTitle(DokitUtil.getString(R.string.dk_health_upload_title))
-                            .setMessage(DokitUtil.getString(R.string.dk_health_upload_message))
+                            .setTitle(DoKitCommUtil.getString(R.string.dk_health_upload_title))
+                            .setMessage(DoKitCommUtil.getString(R.string.dk_health_upload_message))
                             .setCancelable(false)
                             .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     dialog.dismiss();
                                     if (mController != null) {
-                                        ToastUtils.showShort(DokitUtil.getString(R.string.dk_health_funcation_start));
+                                        ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_health_funcation_start));
                                         GlobalConfig.setAppHealth(true);
                                         DoKitConstant.APP_HEALTH_RUNNING = true;
                                         //重启app

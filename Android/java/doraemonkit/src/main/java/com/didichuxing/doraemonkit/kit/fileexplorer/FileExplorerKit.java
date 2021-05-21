@@ -6,10 +6,12 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
+import com.google.auto.service.AutoService;
 
 /**
  * Created by zhangweida on 2018/6/26.
  */
+@AutoService(AbstractKit.class)
 public class FileExplorerKit extends AbstractKit {
 
 
@@ -25,7 +27,7 @@ public class FileExplorerKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context, FragmentIndex.FRAGMENT_FILE_EXPLORER);
+        startUniversalActivity(FileExplorerFragment.class, context, null,true);
     }
 
     @Override

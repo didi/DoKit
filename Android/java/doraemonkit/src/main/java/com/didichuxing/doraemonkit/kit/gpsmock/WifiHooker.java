@@ -2,11 +2,8 @@ package com.didichuxing.doraemonkit.kit.gpsmock;
 
 import android.content.Context;
 import android.net.wifi.ScanResult;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
-
-import com.blankj.utilcode.util.ReflectUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

@@ -1,17 +1,17 @@
 import 'dart:async';
 
-import 'package:dokit/util/util.dart';
+import 'package:dokit/dokit.dart';
+import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/kit.dart';
+import 'package:dokit/util/time_util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../dokit.dart';
-import 'apm.dart';
-
 class LogKit extends ApmKit {
-  FlutterExceptionHandler originOnError;
+  FlutterExceptionHandler? originOnError;
 
   final CommonStorage _error = CommonStorage();
 
@@ -38,7 +38,7 @@ class LogKit extends ApmKit {
   }
 
   @override
-  bool save(IInfo info) {
+  bool save(IInfo? info) {
     if ((info as LogBean).type == LogBean.TYPE_ERROR) {
       _error.save(info);
     }
@@ -63,9 +63,12 @@ class LogKit extends ApmKit {
 
   void _doKitOnError(FlutterErrorDetails details) {
     // 委托给runZone内的onError
-    Zone.current.handleUncaughtError(details.exception, details.stack);
+    var stack = details.stack;
+    if (stack != null) {
+      Zone.current.handleUncaughtError(details.exception, stack);
+    }
     if (originOnError != null) {
-      originOnError(details);
+      originOnError?.call(details);
     }
   }
 
@@ -78,7 +81,7 @@ class LogManager {
 
   static final LogManager _instance = LogManager._privateConstructor();
 
-  Function listener;
+  Function? listener;
 
   void registerListener(Function listener) {
     this.listener = listener;
@@ -92,25 +95,25 @@ class LogManager {
     return _instance;
   }
 
-  List<IInfo> getLogs() {
+  List<IInfo>? getLogs() {
     return ApmKitManager.instance
         .getKit(ApmKitName.KIT_LOG)
         ?.getStorage()
-        ?.getAll();
+        .getAll();
   }
 
-  List<IInfo> getErrors() {
+  List<IInfo>? getErrors() {
     return ApmKitManager.instance
         .getKit<LogKit>(ApmKitName.KIT_LOG)
         ?.error
-        ?.getAll();
+        .getAll();
   }
 
   void addLog(int type, String msg) {
     if (ApmKitManager.instance.getKit(ApmKitName.KIT_LOG) != null) {
       final LogBean log = LogBean(type, msg);
-      final LogKit kit = ApmKitManager.instance.getKit(ApmKitName.KIT_LOG);
-      kit.save(log);
+      final LogKit? kit = ApmKitManager.instance.getKit(ApmKitName.KIT_LOG);
+      kit?.save(log);
       if (type != LogBean.TYPE_ERROR || LogPageState._showError) {
         listener?.call(log);
       }
@@ -136,8 +139,8 @@ class LogBean implements IInfo {
 
   final int type;
   final String msg;
-  int timestamp;
-  bool expand;
+  late int timestamp;
+  late bool expand;
 
   @override
   int getValue() {
@@ -162,9 +165,9 @@ class LogPageState extends State<LogPage> {
       return Future<void>.value();
     }
     // if there's a current frame,
-    if (SchedulerBinding.instance.schedulerPhase != SchedulerPhase.idle) {
+    if (SchedulerBinding.instance?.schedulerPhase != SchedulerPhase.idle) {
       // wait for the end of that frame.
-      await SchedulerBinding.instance.endOfFrame;
+      await SchedulerBinding.instance?.endOfFrame;
       if (!mounted) {
         return Future<void>.value();
       }
@@ -193,9 +196,10 @@ class LogPageState extends State<LogPage> {
 
   @override
   Widget build(BuildContext context) {
-    final List<IInfo> items = LogPageState._showError
-        ? LogManager.instance.getErrors().reversed.toList()
-        : LogManager.instance.getLogs().reversed.toList();
+    final List<IInfo> items = (LogPageState._showError
+            ? LogManager.instance.getErrors()?.reversed.toList()
+            : LogManager.instance.getLogs()?.reversed.toList()) ??
+        [];
     return Column(
       children: <Widget>[
         Row(
@@ -216,7 +220,7 @@ class LogPageState extends State<LogPage> {
                     _showError
                         ? 'images/dk_channel_check_h.png'
                         : 'images/dk_channel_check_n.png',
-                    package: DoKit.PACKAGE_NAME,
+                    package: DK_PACKAGE_NAME,
                     height: 13,
                     width: 13),
               ),
@@ -248,11 +252,11 @@ class LogPageState extends State<LogPage> {
                     setState(() {
                       ApmKitManager.instance
                           .getKit<LogKit>(ApmKitName.KIT_LOG)
-                          .getStorage()
+                          ?.getStorage()
                           .clear();
                       ApmKitManager.instance
                           .getKit<LogKit>(ApmKitName.KIT_LOG)
-                          .error
+                          ?.error
                           .clear();
                     });
                   },
@@ -305,10 +309,7 @@ class LogPageState extends State<LogPage> {
 
 class LogItemWidget extends StatefulWidget {
   const LogItemWidget(
-      {Key key,
-      @required this.item,
-      @required this.index,
-      @required this.isLast})
+      {Key? key, required this.item, required this.index, required this.isLast})
       : super(key: key);
 
   final LogBean item;
@@ -329,7 +330,7 @@ class _LogItemWidgetState extends State<LogItemWidget> {
     return GestureDetector(
       onLongPress: () {
         Clipboard.setData(ClipboardData(text: widget.item.msg));
-        Scaffold.of(context).showSnackBar(const SnackBar(
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           duration: Duration(milliseconds: 500),
           content: Text('已拷贝至剪贴板'),
         ));
@@ -341,12 +342,10 @@ class _LogItemWidgetState extends State<LogItemWidget> {
             (SharedPreferences prefs) {
               if (!prefs.containsKey(KEY_SHOW_LOG_EXPAND_TIPS)) {
                 prefs.setBool(KEY_SHOW_LOG_EXPAND_TIPS, true);
-                Scaffold.of(context).showSnackBar(
-                  const SnackBar(
-                    duration: Duration(milliseconds: 2000),
-                    content: Text('日志超过7行时，点击可展开日志详情'),
-                  ),
-                );
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  duration: Duration(milliseconds: 2000),
+                  content: Text('日志超过7行时，点击可展开日志详情'),
+                ));
               }
             },
           );
@@ -365,7 +364,7 @@ class _LogItemWidgetState extends State<LogItemWidget> {
             overflow: TextOverflow.ellipsis,
             text: TextSpan(children: <TextSpan>[
               TextSpan(
-                  text: '[${TimeUtils.toTimeString(widget.item.timestamp)}] ',
+                  text: '[${toTimeString(widget.item.timestamp)}] ',
                   style: TextStyle(
                       color: widget.item.type == LogBean.TYPE_ERROR
                           ? Colors.red

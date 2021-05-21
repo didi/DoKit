@@ -37,9 +37,9 @@ public class ServiceHookManager {
     }
 
     private void init() {
-        mHookers.add(new WifiHooker());
+        //mHookers.add(new WifiHooker());
         mHookers.add(new LocationHooker());
-        mHookers.add(new TelephonyHooker());
+        //mHookers.add(new TelephonyHooker());
     }
 
     @SuppressLint("PrivateApi")

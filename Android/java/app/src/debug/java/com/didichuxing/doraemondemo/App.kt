@@ -3,14 +3,25 @@ package com.didichuxing.doraemondemo
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.view.View
+import android.view.accessibility.AccessibilityEvent
 import androidx.multidex.MultiDex
+import com.baidu.mapapi.CoordType
+import com.baidu.mapapi.SDKInitializer
+import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFloatViewKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit
-import com.didichuxing.doraemondemo.dokit.DemoKit
-import com.didichuxing.doraemonkit.DoraemonKit
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.didichuxing.doraemonkit.kit.core.MCInterceptor
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
+import com.didichuxing.doraemonkit.kit.performance.PerformanceValueListener
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
+import com.lzy.okgo.OkGo
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Response
 
 /**
  * @author jint
@@ -20,31 +31,110 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        //百度地图初始化
+        SDKInitializer.initialize(this)
+        SDKInitializer.setCoordType(CoordType.BD09LL)
         //测试环境:a49842eeebeb1989b3f9565eb12c276b
         //线上环境:749a0600b5e48dd77cf8ee680be7b1b7
         //DoraemonKit.disableUpload()
         //是否显示入口icon
         // DoraemonKit.setAwaysShowMainIcon(false);
 
+        val kits: MutableList<AbstractKit> = ArrayList()
+        kits.add(DemoKit())
+        kits.add(TestSimpleDokitFloatViewKit())
+        kits.add(TestSimpleDokitFragmentKit())
 
-//        val kits: MutableList<AbstractKit> = ArrayList()
-//        kits.add(DemoKit())
-//        kits.add(DemoKit())
-//        kits.add(DemoKit())
-//        kits.add(DemoKit())
-
-        val mapKits: LinkedHashMap<String, MutableList<AbstractKit>> = linkedMapOf()
+        val mapKits: LinkedHashMap<String, List<AbstractKit>> = linkedMapOf()
         mapKits["业务专区1"] = mutableListOf<AbstractKit>().apply {
             add(DemoKit())
             add(TestSimpleDokitFloatViewKit())
             add(TestSimpleDokitFragmentKit())
         }
-        mapKits["业务专区2"] = mutableListOf<AbstractKit>(DemoKit())
 
-        DoraemonKit.install(this, mapKits = mapKits, productId = "749a0600b5e48dd77cf8ee680be7b1b7")
-        DoraemonKit.setFileManagerHttpPort(9001)
-        //设置加密数据库
-        DoraemonKit.setDatabasePass(mapOf("Person.db" to "a_password"))
+        mapKits["业务专区2"] = mutableListOf<AbstractKit>(DemoKit())
+        //老的初始化方式
+//        DoraemonKit.setDatabasePass(mapOf("Person.db" to "a_password"))
+//        DoraemonKit.disableUpload()
+//        DoraemonKit.setFileManagerHttpPort(9001)
+//        DoraemonKit.setDatabasePass(mapOf("Person.db" to "a_password"))
+//        DoraemonKit.setMCIntercept(object : MCInterceptor {
+//            override fun onIntercept(
+//                view: View,
+//                accessibilityEvent: AccessibilityEvent
+//            ): Boolean {
+//                return false
+//            }
+//
+//            override fun serverParams(
+//                view: View,
+//                accessibilityEvent: AccessibilityEvent
+//            ): Map<String, String> {
+//                return mapOf()
+//            }
+//
+//            override fun clientProcess(view: View, params: Map<String, String>): Boolean {
+//                return false
+//            }
+//        })
+//        DoraemonKit.setMCWSPort(5555)
+//        DoraemonKit.install(this, mapKits = mapKits, productId = "749a0600b5e48dd77cf8ee680be7b1b7")
+//
+
+
+        DoKit.Builder(this)
+            .productId("749a0600b5e48dd77cf8ee680be7b1b7")
+            .disableUpload()
+            .customKits(mapKits)
+            .fileManagerHttpPort(9001)
+            .databasePass(mapOf("Person.db" to "a_password"))
+            .mcWSPort(5555)
+            .awaysShowMainIcon(true)
+            .mcIntercept(object : MCInterceptor {
+                override fun onIntercept(
+                    view: View,
+                    accessibilityEvent: AccessibilityEvent
+                ): Boolean {
+                    return false
+                }
+
+                override fun serverParams(
+                    view: View,
+                    accessibilityEvent: AccessibilityEvent
+                ): Map<String, String> {
+                    return mapOf()
+                }
+
+                override fun clientProcess(view: View, params: Map<String, String>): Boolean {
+                    return false
+                }
+            })
+            .setNetExtInterceptor(object : DokitExtInterceptor.DokitExtInterceptorProxy{
+                override fun intercept(chain: Interceptor.Chain): Response {
+                    //LogUtils.e(DokitExtInterceptor.TAG, chain.request().url().toString())
+                    return chain.proceed(chain.request())
+                }
+
+            })
+            .setPerformanceValueListener(object : PerformanceValueListener{
+                override fun onGetMemory(value: Float) {
+                }
+
+                override fun onGetCPU(value: Float) {
+                }
+
+                override fun onGetFPS(value: Float) {
+                }
+
+            })
+            .build()
+
+
+        val client: OkHttpClient = OkHttpClient.Builder()
+            .addInterceptor(CustomInterceptor())
+            .build()
+        OkGo.getInstance().init(this).okHttpClient = client
+
         val config = ImagePipelineConfig.newBuilder(this)
             .setDiskCacheEnabled(false)
             .build()
