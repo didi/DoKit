@@ -5,6 +5,7 @@
       :key="index"
       :value="log.value"
       :type="log.type"
+      :logType="log.name"
     ></log-item>
   </div>
 </template>

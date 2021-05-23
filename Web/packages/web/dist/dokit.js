@@ -5,21 +5,21 @@
    * 拖拽指令 v-dragable
    * 减少外部依赖
   */
-  const INIT_VALUE = 9999;
-  const DEFAULT_OPACITY = 0.5;
-  const SAFE_BOTTOM = 50; // 底部防误触
+  const INIT_VALUE$1 = 9999;
+  const DEFAULT_OPACITY$1 = 0.5;
+  const SAFE_BOTTOM$1 = 50; // 底部防误触
   // TODO 拖拽事件兼容 Pc处理
   // TODO 默认初始位置为右下角
-  var dragable = {
+  var dragable$1 = {
     mounted (el) {
       // 初始化变量
-      el.dokitEntryLastX = INIT_VALUE;
-      el.dokitEntryLastY = INIT_VALUE;
+      el.dokitEntryLastX = INIT_VALUE$1;
+      el.dokitEntryLastY = INIT_VALUE$1;
       // 初始化样式
       el.style.position = 'fixed';
-      el.style.opacity = DEFAULT_OPACITY;
-      el.dokitPositionLeft = getDefaultX();
-      el.dokitPositionTop = getDefaultY();
+      el.style.opacity = DEFAULT_OPACITY$1;
+      el.dokitPositionLeft = getDefaultX$1();
+      el.dokitPositionTop = getDefaultY$1();
       el.style.top = `${el.dokitPositionTop}px`;
       el.style.left = `${el.dokitPositionLeft}px`;
 
@@ -31,7 +31,7 @@
       el.ontouchmove = (e) => {
         e.preventDefault();
         
-        if (el.dokitEntryLastX === INIT_VALUE) {
+        if (el.dokitEntryLastX === INIT_VALUE$1) {
           el.dokitEntryLastX = e.touches[0].clientX;
           el.dokitEntryLastY = e.touches[0].clientY;
           return
@@ -42,8 +42,8 @@
         el.dokitEntryLastX = e.touches[0].clientX;
         el.dokitEntryLastY = e.touches[0].clientY;
 
-        el.style.top = `${getAvailableTop(el)}px`;
-        el.style.left = `${getAvailableLeft(el)}px`;
+        el.style.top = `${getAvailableTop$1(el)}px`;
+        el.style.left = `${getAvailableLeft$1(el)}px`;
       };
 
       el.ontouchend = (e) => {
@@ -61,36 +61,36 @@
             el.dokitPositionTop = 0;
             el.style.top = `${el.dokitPositionTop}px`;
 
-          } else if (el.dokitPositionTop + e.target.clientHeight + SAFE_BOTTOM > window.screen.availHeight) {
-            el.dokitPositionTop = window.screen.availHeight - e.target.clientHeight - SAFE_BOTTOM;
+          } else if (el.dokitPositionTop + e.target.clientHeight + SAFE_BOTTOM$1 > window.screen.availHeight) {
+            el.dokitPositionTop = window.screen.availHeight - e.target.clientHeight - SAFE_BOTTOM$1;
             el.style.top = `${el.dokitPositionTop}px`;
 
           }
           localStorage.setItem('dokitPositionTop', el.dokitPositionTop);
           localStorage.setItem('dokitPositionLeft', el.dokitPositionLeft);
         }, 100);
-        el.dokitEntryLastX = INIT_VALUE;
-        el.dokitEntryLastY = INIT_VALUE;
+        el.dokitEntryLastX = INIT_VALUE$1;
+        el.dokitEntryLastY = INIT_VALUE$1;
         el.style.opacity = 0.5;
       };
     }
   };
 
-  function getDefaultX(el){
+  function getDefaultX$1(el){
     let defaultX = Math.round(window.outerWidth/2);
     return localStorage.getItem('dokitPositionLeft') ? parseInt(localStorage.getItem('dokitPositionLeft')) : defaultX
   }
-  function getDefaultY(el){
+  function getDefaultY$1(el){
     let defaultY = Math.round(window.outerHeight/2);
     return localStorage.getItem('dokitPositionTop') ? parseInt(localStorage.getItem('dokitPositionTop')) : defaultY
   }
-  function getAvailableLeft(el){
-    return standardNumber(el.dokitPositionLeft, window.outerWidth - el.clientWidth)
+  function getAvailableLeft$1(el){
+    return standardNumber$1(el.dokitPositionLeft, window.outerWidth - el.clientWidth)
   }
-  function getAvailableTop(el){
-    return standardNumber(el.dokitPositionTop, window.outerHeight - el.clientHeight)
+  function getAvailableTop$1(el){
+    return standardNumber$1(el.dokitPositionTop, window.outerHeight - el.clientHeight)
   }
-  function standardNumber(number, max){
+  function standardNumber$1(number, max){
     if(number < 0){
       return 0
     }
@@ -133,7 +133,7 @@
 
   vue.pushScopeId("data-v-29d70086");
   const _hoisted_1$6$1 = { class: "bar" };
-  const _hoisted_2$4$1 = /*#__PURE__*/vue.createVNode("span", { class: "bar-back-btn" }, "返回", -1 /* HOISTED */);
+  const _hoisted_2$3$1 = /*#__PURE__*/vue.createVNode("span", { class: "bar-back-btn" }, "返回", -1 /* HOISTED */);
   const _hoisted_3$2$1 = { class: "bar-title" };
   const _hoisted_4$1$1 = { class: "bar-title-text" };
   vue.popScopeId();
@@ -148,7 +148,7 @@
           class: "bar-back-icon",
           src: $data.icon
         }, null, 8 /* PROPS */, ["src"]),
-        _hoisted_2$4$1
+        _hoisted_2$3$1
       ], 512 /* NEED_PATCH */), [
         [vue.vShow, $props.canBack]
       ]),
@@ -221,7 +221,7 @@
 
   vue.pushScopeId("data-v-8dfbe6e6");
   const _hoisted_1$5$1 = { class: "container" };
-  const _hoisted_2$3$1 = { class: "router-container" };
+  const _hoisted_2$2$1 = { class: "router-container" };
   vue.popScopeId();
 
   const render$5$1 = /*#__PURE__*/_withId$5$1((_ctx, _cache, $props, $setup, $data, $options) => {
@@ -232,7 +232,7 @@
         title: $options.title,
         canBack: $options.canBack
       }, null, 8 /* PROPS */, ["title", "canBack"]),
-      vue.createVNode("div", _hoisted_2$3$1, [
+      vue.createVNode("div", _hoisted_2$2$1, [
         (vue.openBlock(), vue.createBlock(vue.KeepAlive, null, [
           (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($options.component)))
         ], 1024 /* DYNAMIC_SLOTS */))
@@ -240,7 +240,7 @@
     ]))
   });
 
-  var css_248z$5$1 = ".container[data-v-8dfbe6e6] {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 100px;\n  bottom: 0;\n  background-color: #f5f6f7;\n  display: flex;\n  flex-direction: column;\n  z-index: 99;\n  border-radius: 10px 10px 0 0;\n}\n.router-container[data-v-8dfbe6e6] {\n  margin-top: 5px;\n  background-color: white;\n  flex: 1;\n  overflow-y: scroll;\n}\n";
+  var css_248z$5$1 = ".container[data-v-8dfbe6e6] {\n  position: absolute;\n  left: 0;\n  right: 0;\n  top: 100px;\n  bottom: 0;\n  background-color: #f5f6f7;\n  display: flex;\n  flex-direction: column;\n  z-index: 999;\n  border-radius: 10px 10px 0 0;\n}\n.router-container[data-v-8dfbe6e6] {\n  margin-top: 5px;\n  background-color: white;\n  flex: 1;\n  overflow-y: scroll;\n}\n";
   styleInject$1(css_248z$5$1);
 
   script$5$1.render = render$5$1;
@@ -253,39 +253,43 @@
       return {}
     },
     computed:{
-      singlePlugins(){
-        return this.$store.state.singlePlugins
+      independPlugins(){
+        return this.$store.state.independPlugins
       }
     },
     created(){
       console.log(this.$router);
+    },
+    methods: {
+      toRaw: vue.toRaw
     }
   };
 
-  const _withId$4$1 = /*#__PURE__*/vue.withScopeId("data-v-1e3e6168");
+  const _withId$4$1 = /*#__PURE__*/vue.withScopeId("data-v-53a49d15");
 
-  vue.pushScopeId("data-v-1e3e6168");
+  vue.pushScopeId("data-v-53a49d15");
   const _hoisted_1$4$1 = {
     class: "container",
-    style: {"z-index":"999"}
+    style: {"z-index":"998"}
   };
-  const _hoisted_2$2$1 = /*#__PURE__*/vue.createVNode("div", { class: "plugin-container" }, [
-    /*#__PURE__*/vue.createVNode("div", null, " I Am Single Container! ")
-  ], -1 /* HOISTED */);
   vue.popScopeId();
 
   const render$4$1 = /*#__PURE__*/_withId$4$1((_ctx, _cache, $props, $setup, $data, $options) => {
     return (vue.openBlock(), vue.createBlock("div", _hoisted_1$4$1, [
-      _hoisted_2$2$1
+      (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($options.independPlugins, (plugin) => {
+        return (vue.openBlock(), vue.createBlock(vue.resolveDynamicComponent($options.toRaw(plugin.component)), {
+          key: plugin.name
+        }))
+      }), 128 /* KEYED_FRAGMENT */))
     ]))
   });
 
-  var css_248z$4$1 = ".container[data-v-1e3e6168] {\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  top: 0;\n}\n.plugin-container[data-v-1e3e6168] {\n  background-color: #ffffff;\n  box-shadow: 1px 1px 2px #333333;\n}\n";
+  var css_248z$4$1 = ".container[data-v-53a49d15] {\n  position: absolute;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  top: 0;\n}\n";
   styleInject$1(css_248z$4$1);
 
   script$4$1.render = render$4$1;
-  script$4$1.__scopeId = "data-v-1e3e6168";
-  script$4$1.__file = "src/components/single-container.vue";
+  script$4$1.__scopeId = "data-v-53a49d15";
+  script$4$1.__file = "src/components/independ-container.vue";
 
   const storeKey = 'store';
   /**
@@ -318,7 +322,7 @@
   const store = new Store({
     state: {
       showContainer: false,
-      singlePlugins: [],
+      independPlugins: [],
       features: []
     }
   });
@@ -336,19 +340,30 @@
     }
   }
 
-  function pushContainer(plugin){
+  function addIndependPlugin(plugin){
     // Unique Container
-    store.state.singlePlugins.push(plugin);
-    console.log(store.state.singlePlugins);
+    let index = store.state.independPlugins.findIndex(ele => {
+      return ele.name === plugin.name
+    });
+    if (index > -1) return
+    store.state.independPlugins.push(plugin);
+  }
+
+  function removeIndependPlugin(name){
+    let index = store.state.independPlugins.findIndex(ele => {
+      return ele.name === name
+    });
+    if (index === -1) return
+    store.state.independPlugins.splice(index, 1);
   }
 
   var script$3$1 = {
     components: {
       RouterContainer: script$5$1,
-      SingleContainer: script$4$1
+      IndependContainer: script$4$1
     },
     directives: {
-      dragable,
+      dragable: dragable$1,
     },
     data() {
       return {};
@@ -359,6 +374,9 @@
       },
       showContainer(){
         return this.state.showContainer
+      },
+      independPlugins(){
+        return this.$store.state.independPlugins
       }
     },
     methods: {
@@ -379,6 +397,7 @@
 
   const render$3$1 = /*#__PURE__*/_withId$3$1((_ctx, _cache, $props, $setup, $data, $options) => {
     const _component_router_container = vue.resolveComponent("router-container");
+    const _component_independ_container = vue.resolveComponent("independ-container");
     const _directive_dragable = vue.resolveDirective("dragable");
 
     return (vue.openBlock(), vue.createBlock("div", _hoisted_1$3$1, [
@@ -398,7 +417,9 @@
       vue.withDirectives(vue.createVNode(_component_router_container, null, null, 512 /* NEED_PATCH */), [
         [vue.vShow, $options.showContainer]
       ]),
-      vue.createCommentVNode(" <single-container></single-container> ")
+      vue.withDirectives(vue.createVNode(_component_independ_container, null, null, 512 /* NEED_PATCH */), [
+        [vue.vShow, $options.independPlugins.length]
+      ])
     ]))
   });
 
@@ -508,14 +529,14 @@
 
   vue.pushScopeId("data-v-b7dc930c");
   const _hoisted_1$1$1 = { class: "card version" };
-  const _hoisted_2$a = { class: "version-text" };
+  const _hoisted_2$9 = { class: "version-text" };
   const _hoisted_3$9 = { class: "version-image" };
   vue.popScopeId();
 
   const render$1$1 = /*#__PURE__*/_withId$1$1((_ctx, _cache, $props, $setup, $data, $options) => {
     return (vue.openBlock(), vue.createBlock("div", _hoisted_1$1$1, [
       vue.createVNode("div", null, [
-        vue.createVNode("span", _hoisted_2$a, "当前版本：V" + vue.toDisplayString($props.version), 1 /* TEXT */)
+        vue.createVNode("span", _hoisted_2$9, "当前版本：V" + vue.toDisplayString($props.version), 1 /* TEXT */)
       ]),
       vue.createVNode("div", _hoisted_3$9, [
         vue.createVNode("img", {
@@ -559,8 +580,9 @@
               name: item.name
             });
             break;
-          case "SinglePlugin":
-            pushContainer(item);
+          case "IndependPlugin":
+            addIndependPlugin(item);
+            this.$store.state.showContainer = false;
             break;
         }
       }
@@ -751,8 +773,8 @@
   /**
    * 独立容器的插件
    */
-  class SinglePlugin extends BasePlugin{
-    type = "SinglePlugin"
+  class IndependPlugin extends BasePlugin{
+    type = "IndependPlugin"
     constructor(options){
       super(options);
     }
@@ -818,13 +840,13 @@
 
   vue.pushScopeId("data-v-9d220f86");
   const _hoisted_1$a = { class: "tab-container" };
-  const _hoisted_2$9 = { class: "tab-list" };
+  const _hoisted_2$8 = { class: "tab-list" };
   const _hoisted_3$8 = { class: "tab-item-text" };
   vue.popScopeId();
 
   const render$b = /*#__PURE__*/_withId$5((_ctx, _cache, $props, $setup, $data, $options) => {
     return (vue.openBlock(), vue.createBlock("div", _hoisted_1$a, [
-      vue.createVNode("div", _hoisted_2$9, [
+      vue.createVNode("div", _hoisted_2$8, [
         (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.tabs, (item, index) => {
           return (vue.openBlock(), vue.createBlock("div", {
             class: ["tab-item", $data.curIndex === index? 'tab-active': 'tab-default'],
@@ -1006,15 +1028,15 @@
   script$a.__scopeId = "data-v-151438cc";
   script$a.__file = "src/plugins/console/log-detail.vue";
 
-  const DATATYPE_NOT_DISPLAY = ['Number', 'String', 'Boolean'];
-
+  const DATATYPE_NOT_DISPLAY = ['Number', 'String', 'Boolean', 'Undefined', 'Null'];
   var script$9 = {
     components: {
       Detail: script$a
     },
     props: {
       type: [Number],
-      value: [String, Number, Object]
+      value: [String, Number, Object],
+      logType: [String]
     },
     data () {
       return {
@@ -1024,16 +1046,46 @@
     computed: {
       logPreview () {
         let dataType = '';
+        let func = null;
         let html = `<div>`;
-        this.value.forEach(arg => {
-          dataType = getDataType(arg);
-          if (DATATYPE_NOT_DISPLAY.indexOf(dataType) === -1) {
-            html += `<span class="data-type">${dataType}</span>`;
-          }
-          html += `<span class="data-structure">${getDataStructureStr(arg, true)}</span>`;
-        });
+        if (this.logType === 'log' || this.logType === 'info') {
+          func = arg => {
+            dataType = getDataType(arg);
+            if (DATATYPE_NOT_DISPLAY.indexOf(dataType) === -1) {
+              html += `<span class="data-type">${dataType}</span>`;
+            }
+            html += `<span class="data-structure">${getDataStructureStr(arg, true)}</span>`;
+          };
+          // this.value.forEach(arg => {
+          //   dataType = getDataType(arg)
+          //   if (DATATYPE_NOT_DISPLAY.indexOf(dataType) === -1) {
+          //     html += `<span class="data-type">${dataType}</span>`
+          //   }
+          //   html += `<span class="data-structure">${getDataStructureStr(arg, true)}</span>`
+          // });
+        } else if (this.logType === 'error' || this.logType === 'warn') {
+          func = arg => {
+            if (arg.stack) {
+              html += `<span style="white-space: pre-wrap;">${arg.stack}</span>`;
+            } else {
+              dataType = getDataType(arg);
+              if (DATATYPE_NOT_DISPLAY.indexOf(dataType) === -1) {
+                html += `<span class="data-type">${dataType}</span>`;
+              }
+              html += `<span class="data-structure">${getDataStructureStr(arg, true)}</span>`;
+            }
+          };
+        } else ;
+        
+        this.value.forEach(func);
+
         html += `</div>`;
         return html
+      },
+      canShowDetail () {
+        return this.showDetail 
+          && typeof this.value === 'object'
+          && !this.value.stack
       }
     },
     methods: {
@@ -1043,20 +1095,21 @@
     }
   };
 
-  const _hoisted_1$9 = { class: "log-ltem" };
-  const _hoisted_2$8 = { key: 0 };
+  const _hoisted_1$9 = { key: 0 };
 
   function render$9(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Detail = vue.resolveComponent("Detail");
 
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$9, [
+    return (vue.openBlock(), vue.createBlock("div", {
+      class: ["log-ltem", $props.logType]
+    }, [
       vue.createVNode("div", {
         class: "log-preview",
         innerHTML: $options.logPreview,
         onClick: _cache[1] || (_cache[1] = (...args) => ($options.toggleDetail && $options.toggleDetail(...args)))
       }, null, 8 /* PROPS */, ["innerHTML"]),
-      ($data.showDetail && typeof $props.value === 'object')
-        ? (vue.openBlock(), vue.createBlock("div", _hoisted_2$8, [
+      ($options.canShowDetail)
+        ? (vue.openBlock(), vue.createBlock("div", _hoisted_1$9, [
             (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.value, (key, index) => {
               return (vue.openBlock(), vue.createBlock("div", {
                 class: "list-item",
@@ -1070,10 +1123,10 @@
             }), 128 /* KEYED_FRAGMENT */))
           ]))
         : vue.createCommentVNode("v-if", true)
-    ]))
+    ], 2 /* CLASS */))
   }
 
-  var css_248z$9 = ".log-ltem {\n  padding: 5px;\n  border-top: 1px solid #eee;\n  text-align: left;\n  font-size: 12px;\n}\n.log-ltem:first-child {\n  border: none;\n}\n.log-preview .data-type {\n  margin-left: 5px;\n  margin-right: 5px;\n  font-style: italic;\n  font-weight: bold;\n  color: #aaa;\n}\n.log-preview .data-structure {\n  font-style: italic;\n}\n";
+  var css_248z$9 = ".log-ltem {\n  padding: 5px;\n  padding-left: 20px;\n  border-top: 1px solid #eee;\n  text-align: left;\n  font-size: 12px;\n}\n.info {\n  background-color: #ECF1F7;\n  position: relative;\n}\n.info::before {\n  content: \"\";\n  background: url(\"https://pt-starimg.didistatic.com/static/starimg/img/M3nz7HYPH21621412737959.png\") no-repeat;\n  background-size: 10px 10px;\n  width: 10px;\n  height: 10px;\n  position: absolute;\n  top: 7px;\n  left: 8px;\n}\n.warn {\n  background-color: #FFFBE4;\n  color: #5C3C01;\n  position: relative;\n}\n.warn::before {\n  content: \"\";\n  background: url(\"https://pt-starimg.didistatic.com/static/starimg/img/39hzJzObhZ1621411397522.png\") no-repeat;\n  background-size: 10px 10px;\n  width: 10px;\n  height: 10px;\n  position: absolute;\n  top: 7px;\n  left: 8px;\n}\n.error {\n  background-color: #FEF0F0;\n  color: #FF161A;\n  position: relative;\n}\n.error::before {\n  content: \"\";\n  background: url(\"https://pt-starimg.didistatic.com/static/starimg/img/z6EndYs29d1621411397532.png\") no-repeat;\n  background-size: 10px 10px;\n  width: 10px;\n  height: 10px;\n  position: absolute;\n  top: 7px;\n  left: 8px;\n}\n.log-ltem:first-child {\n  border: none;\n}\n.log-preview .data-type {\n  margin-left: 5px;\n  margin-right: 5px;\n  font-style: italic;\n  font-weight: bold;\n  color: #aaa;\n}\n.log-preview .data-structure {\n  font-style: italic;\n}\n";
   styleInject(css_248z$9);
 
   script$9.render = render$9;
@@ -1108,8 +1161,9 @@
         return (vue.openBlock(), vue.createBlock(_component_log_item, {
           key: index,
           value: log.value,
-          type: log.type
-        }, null, 8 /* PROPS */, ["value", "type"]))
+          type: log.type,
+          logType: log.name
+        }, null, 8 /* PROPS */, ["value", "type", "logType"]))
       }), 128 /* KEYED_FRAGMENT */))
     ]))
   });
@@ -1201,8 +1255,13 @@
         if(!this.command){
           return
         }
-        let ret = excuteScript(this.command);
-        console.log(ret);
+        try {
+          let ret = excuteScript(this.command);
+          console.log(ret);
+        } catch (error) {
+          console.error(error);
+        }
+        this.command = '';
       }
     }
   };
@@ -1479,29 +1538,143 @@
     component: script$3
   });
 
+  /**
+   * 拖拽指令 v-dragable
+   * 减少外部依赖
+  */
+  const INIT_VALUE = 9999;
+  const DEFAULT_OPACITY = 0.5;
+  const SAFE_BOTTOM = 50; // 底部防误触
+  // TODO 拖拽事件兼容 Pc处理
+  // TODO 默认初始位置为右下角
+  var dragable = {
+    mounted (el) {
+      // 初始化变量
+      el.dokitEntryLastX = INIT_VALUE;
+      el.dokitEntryLastY = INIT_VALUE;
+      // 初始化样式
+      el.style.position = 'fixed';
+      el.style.opacity = DEFAULT_OPACITY;
+      el.dokitPositionLeft = getDefaultX();
+      el.dokitPositionTop = getDefaultY();
+      el.style.top = `${el.dokitPositionTop}px`;
+      el.style.left = `${el.dokitPositionLeft}px`;
+
+      // 触摸事件监听
+      el.ontouchstart = () => {
+        el.style.opacity = 1;
+      };
+
+      el.ontouchmove = (e) => {
+        e.preventDefault();
+        
+        if (el.dokitEntryLastX === INIT_VALUE) {
+          el.dokitEntryLastX = e.touches[0].clientX;
+          el.dokitEntryLastY = e.touches[0].clientY;
+          return
+        }
+
+        el.dokitPositionTop += (e.touches[0].clientY - el.dokitEntryLastY);
+        el.dokitPositionLeft += (e.touches[0].clientX - el.dokitEntryLastX);
+        el.dokitEntryLastX = e.touches[0].clientX;
+        el.dokitEntryLastY = e.touches[0].clientY;
+
+        el.style.top = `${getAvailableTop(el)}px`;
+        el.style.left = `${getAvailableLeft(el)}px`;
+      };
+
+      el.ontouchend = (e) => {
+        setTimeout(() => {
+          if (el.dokitPositionLeft < 0) {
+            el.dokitPositionLeft = 0;
+            el.style.left = `${el.dokitPositionLeft}px`;
+          } else if (el.dokitPositionLeft + e.target.clientWidth > window.screen.availWidth) {
+            el.dokitPositionLeft = window.screen.availWidth - e.target.clientWidth;
+            el.style.left = `${el.dokitPositionLeft}px`;
+
+          }
+          
+          if (el.dokitPositionTop < 0) {
+            el.dokitPositionTop = 0;
+            el.style.top = `${el.dokitPositionTop}px`;
+
+          } else if (el.dokitPositionTop + e.target.clientHeight + SAFE_BOTTOM > window.screen.availHeight) {
+            el.dokitPositionTop = window.screen.availHeight - e.target.clientHeight - SAFE_BOTTOM;
+            el.style.top = `${el.dokitPositionTop}px`;
+
+          }
+          localStorage.setItem('dokitPositionTop', el.dokitPositionTop);
+          localStorage.setItem('dokitPositionLeft', el.dokitPositionLeft);
+        }, 100);
+        el.dokitEntryLastX = INIT_VALUE;
+        el.dokitEntryLastY = INIT_VALUE;
+        el.style.opacity = 0.5;
+      };
+    }
+  };
+
+  function getDefaultX(el){
+    let defaultX = Math.round(window.outerWidth/2);
+    return localStorage.getItem('dokitPositionLeft') ? parseInt(localStorage.getItem('dokitPositionLeft')) : defaultX
+  }
+  function getDefaultY(el){
+    let defaultY = Math.round(window.outerHeight/2);
+    return localStorage.getItem('dokitPositionTop') ? parseInt(localStorage.getItem('dokitPositionTop')) : defaultY
+  }
+  function getAvailableLeft(el){
+    return standardNumber(el.dokitPositionLeft, window.outerWidth - el.clientWidth)
+  }
+  function getAvailableTop(el){
+    return standardNumber(el.dokitPositionTop, window.outerHeight - el.clientHeight)
+  }
+  function standardNumber(number, max){
+    if(number < 0){
+      return 0
+    }
+    if(number >= max){
+      return max
+    }
+    return number
+  }
+
   var script$2 = {
-    
+    directives: {
+      dragable,
+    },
+    methods: {
+      remove() {
+        removeIndependPlugin('test');
+      }
+    }
   };
 
   const _hoisted_1$2 = { class: "hello-world" };
   const _hoisted_2$2 = /*#__PURE__*/vue.createVNode("div", { style: {"font-weight":"bold","font-size":"30px","font-style":"italic"} }, "Hello Dokit", -1 /* HOISTED */);
-  const _hoisted_3$2 = /*#__PURE__*/vue.createVNode("div", null, "Demo Plugin", -1 /* HOISTED */);
+  const _hoisted_3$2 = /*#__PURE__*/vue.createVNode("div", null, "Demo Independ Plugin", -1 /* HOISTED */);
 
   function render$2(_ctx, _cache, $props, $setup, $data, $options) {
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$2, [
+    const _directive_dragable = vue.resolveDirective("dragable");
+
+    return vue.withDirectives((vue.openBlock(), vue.createBlock("div", _hoisted_1$2, [
       _hoisted_2$2,
-      _hoisted_3$2
-    ]))
+      _hoisted_3$2,
+      vue.createVNode("div", {
+        onClick: _cache[1] || (_cache[1] = (...args) => ($options.remove && $options.remove(...args))),
+        style: {"background-color":"red"}
+      }, "点击移除当前独立插件")
+    ], 512 /* NEED_PATCH */)), [
+      [_directive_dragable]
+    ])
   }
 
-  var css_248z$2 = "\n.hello-world{\n  padding:10px;\n  text-align: center;\n}\n";
+  var css_248z$2 = "\n.hello-world{\n  display: inline-block;\n  padding:10px;\n  text-align: center;\n  background-color: white;\n  border-radius: 20px;\n  box-shadow: 0 8px 12px #ebedf0;\n}\n";
   styleInject(css_248z$2);
 
   script$2.render = render$2;
-  script$2.__file = "src/plugins/demo-single-plugin/ToolHelloWorld.vue";
+  script$2.__file = "src/plugins/demo-single-plugin/IndependPluginDemo.vue";
 
-  var DemoSinglePlugin = new SinglePlugin({
-    nameZh: '独立 Single',
+  var DemoIndependPlugin = new IndependPlugin({
+    nameZh: '独立插件',
     name: 'test',
     icon: 'https://pt-starimg.didistatic.com/static/starimg/img/z1346TQD531618997547642.png',
     component: script$2
@@ -1558,7 +1731,7 @@
 
   const BasicFeatures = {
     title: '常用工具',
-    list: [Console, AppInfo, DemoPlugin, DemoSinglePlugin, H5DoorPlugin]
+    list: [Console, AppInfo, DemoPlugin, DemoIndependPlugin, H5DoorPlugin]
   };
 
   const DokitFeatures = {

@@ -38,8 +38,8 @@ export class RouterPlugin extends BasePlugin{
 /**
  * 独立容器的插件
  */
-export class SinglePlugin extends BasePlugin{
-  type = "SinglePlugin"
+export class IndependPlugin extends BasePlugin{
+  type = "IndependPlugin"
   constructor(options){
     super(options)
   }
@@ -49,6 +49,6 @@ export const isRouterPlugin =  function(plugin){
   return plugin instanceof RouterPlugin
 }
 
-export const isSinglePlugin =  function(plugin){
-  return plugin instanceof SinglePlugin
+export const isIndependPlugin =  function(plugin){
+  return plugin instanceof IndependPlugin
 }

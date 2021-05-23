@@ -3,7 +3,7 @@ import { Store } from "../common/js/store";
 const store = new Store({
   state: {
     showContainer: false,
-    singlePlugins: [],
+    independPlugins: [],
     features: []
   }
 })
@@ -26,13 +26,21 @@ export function toggleContainer(flag){
   }
 }
 
-export function pushContainer(plugin){
+export function addIndependPlugin(plugin){
   // Unique Container
-  store.state.singlePlugins.push(plugin)
-  console.log(store.state.singlePlugins)
+  let index = store.state.independPlugins.findIndex(ele => {
+    return ele.name === plugin.name
+  })
+  if (index > -1) return
+  store.state.independPlugins.push(plugin)
 }
-export function popContainer(){
-  store.state.singlePlugins.pop()
+
+export function removeIndependPlugin(name){
+  let index = store.state.independPlugins.findIndex(ele => {
+    return ele.name === name
+  })
+  if (index === -1) return
+  store.state.independPlugins.splice(index, 1)
 }
 
 export default store
