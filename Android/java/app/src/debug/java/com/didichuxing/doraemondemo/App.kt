@@ -16,10 +16,13 @@ import com.didichuxing.doraemonkit.DoKitCallBack
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.lzy.okgo.OkGo
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 
 /**
  * @author jint
@@ -105,6 +108,12 @@ class App : Application() {
                 override fun onNetworkCallBack(record: NetworkRecord) {
                     super.onNetworkCallBack(record)
                 }
+            })
+            .netExtInterceptor(object : DokitExtInterceptor.DokitExtInterceptorProxy {
+                override fun intercept(chain: Interceptor.Chain): Response {
+                    return chain.proceed(chain.request())
+                }
+
             })
             .mcIntercept(object : MCInterceptor {
                 override fun onIntercept(

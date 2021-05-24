@@ -165,12 +165,10 @@ public class DoKit {
         /**
          * 设置扩展网络拦截器的代理对象
          */
-        fun setNetExtInterceptor(extInterceptorProxy: DokitExtInterceptor.DokitExtInterceptorProxy): Builder {
+        fun netExtInterceptor(extInterceptorProxy: DokitExtInterceptor.DokitExtInterceptorProxy): Builder {
             DoKitReal.setNetExtInterceptor(extInterceptorProxy)
             return this
         }
-
-
 
 
         fun build() {
