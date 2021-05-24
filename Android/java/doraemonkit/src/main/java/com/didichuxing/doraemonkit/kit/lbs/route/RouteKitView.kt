@@ -50,10 +50,6 @@ class RouteKitView : AbsDokitView() {
     lateinit var mTvTip: TextView
     override fun onViewCreated(rootView: FrameLayout?) {
         rootView?.let {
-//            val oaY: ObjectAnimator = ObjectAnimator.ofFloat(rootView, "rotationY", 0.0f, 90.0f)
-//            oaY.duration = 100
-//            oaY.start()
-
             val close = it.findViewById<ImageView>(R.id.iv_close)
             mSeekbar = it.findViewById<SeekBar>(R.id.seekbar)
             mTvTip = it.findViewById<TextView>(R.id.tv_tip)

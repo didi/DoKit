@@ -235,8 +235,7 @@ public abstract class AbsDokitView implements DokitView, TouchProxy.OnTouchEvent
             } else {
                 onSystemLayoutParamsCreated(mWindowLayoutParams);
             }
-        } catch (
-                Exception e) {
+        } catch (Exception e) {
             LogHelper.e(TAG, "e===>" + e.getMessage());
             e.printStackTrace();
         }
