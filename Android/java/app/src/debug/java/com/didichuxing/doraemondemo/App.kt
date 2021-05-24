@@ -12,8 +12,10 @@ import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFloatViewKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit
 import com.didichuxing.doraemonkit.DoKit
+import com.didichuxing.doraemonkit.DoKitCallBack
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
+import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.lzy.okgo.OkGo
@@ -87,6 +89,23 @@ class App : Application() {
             .databasePass(mapOf("Person.db" to "a_password"))
             .mcWSPort(5555)
             .awaysShowMainIcon(true)
+            .callBack(object : DoKitCallBack {
+                override fun onCpuCallBack(value: Float, filePath: String) {
+                    super.onCpuCallBack(value, filePath)
+                }
+
+                override fun onFpsCallBack(value: Float, filePath: String) {
+                    super.onFpsCallBack(value, filePath)
+                }
+
+                override fun onMemoryCallBack(value: Float, filePath: String) {
+                    super.onMemoryCallBack(value, filePath)
+                }
+
+                override fun onNetworkCallBack(record: NetworkRecord) {
+                    super.onNetworkCallBack(record)
+                }
+            })
             .mcIntercept(object : MCInterceptor {
                 override fun onIntercept(
                     view: View,

@@ -153,6 +153,15 @@ public class DoKit {
             return this
         }
 
+        /**
+         *设置dokit的性能监控全局回调
+         */
+        fun callBack(callback: DoKitCallBack): Builder {
+            DoKitReal.setCallBack(callback)
+            return this
+        }
+
+
         fun build() {
             DoKitReal.install(app, mapKits, listKits, productId)
         }

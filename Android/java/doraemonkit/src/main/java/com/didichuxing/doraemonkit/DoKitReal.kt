@@ -503,4 +503,11 @@ object DoKitReal {
         DoKitConstant.MC_INTERCEPT = interceptor
     }
 
+    /**
+     * 设置一机多控自定义拦截器
+     */
+    fun setCallBack(callback: DoKitCallBack) {
+        DoKitConstant.CALLBACK = callback
+    }
+
 }

@@ -131,6 +131,13 @@ public class DoKit {
             return this
         }
 
+        /**
+         * 设置dokit的性能监控全局回调
+         */
+        fun callBack(callback: DoKitCallBack): Builder {
+            return this
+        }
+
         fun build() {
         }
     }

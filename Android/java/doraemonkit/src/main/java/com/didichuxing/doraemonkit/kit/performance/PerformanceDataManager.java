@@ -287,6 +287,9 @@ public class PerformanceDataManager {
     }
 
     private void writeCpuDataIntoFile() {
+        if (DoKitConstant.INSTANCE.getCALLBACK() != null) {
+            DoKitConstant.INSTANCE.getCALLBACK().onCpuCallBack(mLastCpuRate, getCpuFilePath());
+        }
 
         //保存cpu数据到app健康体检
         if (DoKitConstant.APP_HEALTH_RUNNING) {
@@ -295,7 +298,9 @@ public class PerformanceDataManager {
     }
 
     private void writeMemoryDataIntoFile() {
-
+        if (DoKitConstant.INSTANCE.getCALLBACK() != null) {
+            DoKitConstant.INSTANCE.getCALLBACK().onMemoryCallBack(mLastMemoryRate, getMemoryFilePath());
+        }
         //保存cpu数据到app健康体检
         if (DoKitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastMemoryRate, PERFORMANCE_TYPE_MEMORY);
@@ -303,6 +308,9 @@ public class PerformanceDataManager {
     }
 
     private void writeFpsDataIntoFile() {
+        if (DoKitConstant.INSTANCE.getCALLBACK() != null) {
+            DoKitConstant.INSTANCE.getCALLBACK().onFpsCallBack(mLastFrameRate, getFpsFilePath());
+        }
         if (DoKitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastFrameRate > 60 ? 60 : mLastFrameRate, PERFORMANCE_TYPE_FPS);
         }
