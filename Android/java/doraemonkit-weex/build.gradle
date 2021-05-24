@@ -8,7 +8,7 @@ android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
     defaultConfig {
-        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        minSdkVersion rootProject.ext.android["minSdkVersion_16"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
@@ -51,21 +51,17 @@ dependencies {
 }
 
 
-//publish.dependsOn([':doraemonkit-plugin:assemble',
-//              ':doraemonkit:assembleRelease',
-//              ':doraemonkit-ft:assembleRelease',
-//              ':doraemonkit-mc:assembleRelease',
-//              ':doraemonkit-rpc:assembleRelease',
-//              ':doraemonkit-weex:assembleRelease',
-//              ':doraemonkit-no-op:assembleRelease',
-//              ':doraemonkit-no-op:publish',
-//              ':doraemonkit-util:publish',
-//              ':doraemonkit-plugin:publish',
-//              ':doraemonkit-okhttp-v3:publish',
-//              ':doraemonkit-okhttp-v4:publish',
-//              ':doraemonkit-okhttp-api:publish',
-//              ':doraemonkit:publish',
-//              ':doraemonkit-mc:publish',
-//              ':doraemonkit-rpc:publish',
-//              ':doraemonkit-ft:publish'])
+def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
+if (PUBLISH_ARCHIVES_TYPE == 0 || PUBLISH_ARCHIVES_TYPE == 1) {
+    publish.dependsOn([':doraemonkit-util:publish',
+                       ':doraemonkit-plugin:uploadArchives',
+                       ':doraemonkit-okhttp-v3:publish',
+                       ':doraemonkit-okhttp-v4:publish',
+                       ':doraemonkit-okhttp-api:publish',
+                       ':doraemonkit:publish',
+                       ':doraemonkit-mc:publish',
+                       ':doraemonkit-rpc:publish',
+                       ':doraemonkit-ft:publish'])
+}
+
 

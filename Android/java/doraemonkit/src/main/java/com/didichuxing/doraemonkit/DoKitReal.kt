@@ -520,4 +520,11 @@ object DoKitReal {
         PerformanceDataManager.getInstance().setPerformanceValueListener(performanceValueListener)
     }
 
+    /**
+     * 设置一机多控自定义拦截器
+     */
+    fun setCallBack(callback: DoKitCallBack) {
+        DoKitConstant.CALLBACK = callback
+    }
+
 }

@@ -1,7 +1,5 @@
 package com.didichuxing.doraemonkit.kit.loginfo.helper;
 
-import com.didichuxing.doraemonkit.util.LogHelper;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -58,7 +56,7 @@ public class LogcatHelper {
         } finally {
             if (dumpLogcatProcess != null) {
                 RuntimeHelper.destroy(dumpLogcatProcess);
-               // LogHelper.d(TAG,"destroyed 1 dump logcat process");
+                // LogHelper.d(TAG,"destroyed 1 dump logcat process");
             }
 
         }

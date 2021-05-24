@@ -7,7 +7,7 @@ android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
     defaultConfig {
-        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        minSdkVersion rootProject.ext.android["minSdkVersion_16"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]

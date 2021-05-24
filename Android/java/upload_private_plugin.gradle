@@ -1,0 +1,102 @@
+//本地或者滴滴内部仓库打包脚本(插件需要单独区分)
+apply plugin: 'maven'
+def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
+def DOKIT_VERSION = rootProject.ext.publish_config["version"]
+def DOKIT_GROUP_ID = rootProject.ext.publish_config["group_id"]
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def LOCAL_REPOSITORY_URL = properties.getProperty('LOCAL_REPOSITORY_URL', "")
+def RELEASE_REPOSITORY_URL = properties.getProperty('RELEASE_REPOSITORY_URL', "")
+def SNAPSHOT_REPOSITORY_URL = properties.getProperty('SNAPSHOT_REPOSITORY_URL', "")
+def USERNAME = properties.getProperty('USERNAME', "")
+def PASSWORD = properties.getProperty('PASSWORD', "")
+
+if (PUBLISH_ARCHIVES_TYPE == 1) {
+    uploadArchives {
+        doFirst {
+            def repositoryUrl = DOKIT_VERSION.endsWith('-SNAPSHOT') ? SNAPSHOT_REPOSITORY_URL : RELEASE_REPOSITORY_URL
+            println("DoKit====>${project.ARTIFACT_ID}==${repositoryUrl}")
+            //System.out.println("start upload：" + repositoryUrl + DOKIT_GROUP_ID.replace(".", "/") + "/" + project.ARTIFACT_ID + "/" + DOKIT_VERSION)
+        }
+
+        repositories {
+            mavenDeployer {
+                pom.project {
+                    groupId DOKIT_GROUP_ID
+                    artifactId project.ARTIFACT_ID
+                    version DOKIT_VERSION
+                }
+
+                def parentProjectName = project.getParent().getName()
+
+                pom.withXml {
+                    def node = it.asElement()
+                    def nodeList = node.getElementsByTagName('dependency')
+                    for (int i = 0; i < nodeList.length; i++) {
+                        def dependencyItem = nodeList.item(i)
+
+                        def child = dependencyItem.firstChild
+                        while (child) {
+                            if (child.nodeName == "groupId") {
+                                if (child.textContent == parentProjectName) {
+                                    child.setTextContent(DOKIT_GROUP_ID)
+                                }
+                            }
+                            if (child.nodeName == "version") {
+                                if (child.textContent == "unspecified") {
+                                    child.setTextContent(DOKIT_VERSION)
+                                }
+                            }
+                            child = child.nextSibling
+                        }
+                    }
+                }
+
+                repository(url: RELEASE_REPOSITORY_URL) {
+                    authentication(userName: USERNAME, password: PASSWORD)
+                }
+                snapshotRepository(url: SNAPSHOT_REPOSITORY_URL) {
+                    authentication(userName: USERNAME, password: PASSWORD)
+                }
+            }
+        }
+    }
+} else if (PUBLISH_ARCHIVES_TYPE == 0) {
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                pom.project {
+                    groupId DOKIT_GROUP_ID
+                    artifactId project.ARTIFACT_ID
+                    version DOKIT_VERSION
+                }
+                def parentProjectName = project.getParent().getName()
+
+                pom.withXml {
+                    def node = it.asElement()
+                    def nodeList = node.getElementsByTagName('dependency')
+                    for (int i = 0; i < nodeList.length; i++) {
+                        def dependencyItem = nodeList.item(i)
+
+                        def child = dependencyItem.firstChild
+                        while (child) {
+                            if (child.nodeName == "groupId") {
+                                if (child.textContent == parentProjectName) {
+                                    child.setTextContent(DOKIT_GROUP_ID)
+                                }
+                            }
+                            if (child.nodeName == "version") {
+                                if (child.textContent == "unspecified") {
+                                    child.setTextContent(DOKIT_VERSION)
+                                }
+                            }
+                            child = child.nextSibling
+                        }
+                    }
+                }
+                repository(url: uri(LOCAL_REPOSITORY_URL))
+            }
+        }
+    }
+}

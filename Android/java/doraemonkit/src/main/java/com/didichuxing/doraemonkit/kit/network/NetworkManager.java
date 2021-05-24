@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.didichuxing.doraemonkit.BuildConfig;
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class NetworkManager {
     public static final String MOCK_SCHEME_HTTPS = "https://";
     //    private static final String MOCK_HOST_DEBUG = "xyrd.intra.xiaojukeji.com";
     private static final String MOCK_HOST_DEBUG = "mock.dokit.cn";
+//    private static final String MOCK_HOST_DEBUG = "pre.dokit.cn";
     private static final String MOCK_HOST_RELEASE = "mock.dokit.cn";
     private static final String MOCK_DEBUG_DOMAIN = MOCK_SCHEME_HTTPS + MOCK_HOST_DEBUG;
     private static final String MOCK_RELEASE_DOMAIN = MOCK_SCHEME_HTTPS + MOCK_HOST_RELEASE;
@@ -129,23 +131,25 @@ public class NetworkManager {
         }
         mTotalCount++;
         mRecords.add(record);
+
         updateRecord(record, true);
     }
 
     public void updateRecord(final NetworkRecord record, final boolean add) {
-        if (mOnNetworkInfoUpdateListener != null) {
-            /**
-             * post to main thread
-             */
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (mOnNetworkInfoUpdateListener != null) {
-                        mOnNetworkInfoUpdateListener.onNetworkInfoUpdate(record, add);
-                    }
+        /**
+         * post to main thread
+         */
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (DoKitConstant.INSTANCE.getCALLBACK() != null && add) {
+                    DoKitConstant.INSTANCE.getCALLBACK().onNetworkCallBack(record);
                 }
-            });
-        }
+                if (mOnNetworkInfoUpdateListener != null) {
+                    mOnNetworkInfoUpdateListener.onNetworkInfoUpdate(record, add);
+                }
+            }
+        });
     }
 
     public void startMonitor() {

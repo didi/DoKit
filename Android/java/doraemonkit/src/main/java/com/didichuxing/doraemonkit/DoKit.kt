@@ -155,6 +155,15 @@ public class DoKit {
         }
 
         /**
+         *设置dokit的性能监控全局回调
+         */
+        fun callBack(callback: DoKitCallBack): Builder {
+            DoKitReal.setCallBack(callback)
+            return this
+        }
+
+
+        /**
          * 设置扩展网络拦截器的代理对象
          */
         fun setNetExtInterceptor(extInterceptorProxy: DokitExtInterceptor.DokitExtInterceptorProxy): Builder {

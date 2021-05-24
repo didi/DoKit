@@ -12,16 +12,14 @@ import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFloatViewKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit
 import com.didichuxing.doraemonkit.DoKit
+import com.didichuxing.doraemonkit.DoKitCallBack
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
-import com.didichuxing.doraemonkit.kit.performance.PerformanceValueListener
+import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.lzy.okgo.OkGo
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 
 /**
  * @author jint
@@ -39,6 +37,7 @@ class App : Application() {
         //DoraemonKit.disableUpload()
         //是否显示入口icon
         // DoraemonKit.setAwaysShowMainIcon(false);
+
 
         val kits: MutableList<AbstractKit> = ArrayList()
         kits.add(DemoKit())
@@ -90,6 +89,23 @@ class App : Application() {
             .databasePass(mapOf("Person.db" to "a_password"))
             .mcWSPort(5555)
             .awaysShowMainIcon(true)
+            .callBack(object : DoKitCallBack {
+                override fun onCpuCallBack(value: Float, filePath: String) {
+                    super.onCpuCallBack(value, filePath)
+                }
+
+                override fun onFpsCallBack(value: Float, filePath: String) {
+                    super.onFpsCallBack(value, filePath)
+                }
+
+                override fun onMemoryCallBack(value: Float, filePath: String) {
+                    super.onMemoryCallBack(value, filePath)
+                }
+
+                override fun onNetworkCallBack(record: NetworkRecord) {
+                    super.onNetworkCallBack(record)
+                }
+            })
             .mcIntercept(object : MCInterceptor {
                 override fun onIntercept(
                     view: View,
@@ -108,24 +124,6 @@ class App : Application() {
                 override fun clientProcess(view: View, params: Map<String, String>): Boolean {
                     return false
                 }
-            })
-            .setNetExtInterceptor(object : DokitExtInterceptor.DokitExtInterceptorProxy{
-                override fun intercept(chain: Interceptor.Chain): Response {
-                    //LogUtils.e(DokitExtInterceptor.TAG, chain.request().url().toString())
-                    return chain.proceed(chain.request())
-                }
-
-            })
-            .setPerformanceValueListener(object : PerformanceValueListener{
-                override fun onGetMemory(value: Float) {
-                }
-
-                override fun onGetCPU(value: Float) {
-                }
-
-                override fun onGetFPS(value: Float) {
-                }
-
             })
             .build()
 

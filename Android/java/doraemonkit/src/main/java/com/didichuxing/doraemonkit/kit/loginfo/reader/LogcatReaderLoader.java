@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+/**
+ * https://github.com/plusCubed/matlog
+ */
 public class LogcatReaderLoader implements Parcelable {
 
     public static final Parcelable.Creator<LogcatReaderLoader> CREATOR = new Parcelable.Creator<LogcatReaderLoader>() {
