@@ -4,7 +4,6 @@ import android.app.Application
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
-import com.didichuxing.doraemonkit.kit.performance.PerformanceValueListener
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 
 /**
@@ -171,13 +170,7 @@ public class DoKit {
             return this
         }
 
-        /**
-         * 设置CPU、内存、FPS每次采集后的回调
-         */
-        fun setPerformanceValueListener(performanceValueListener: PerformanceValueListener): Builder {
-            DoKitReal.setPerformanceValueListener(performanceValueListener)
-            return this
-        }
+
 
 
         fun build() {

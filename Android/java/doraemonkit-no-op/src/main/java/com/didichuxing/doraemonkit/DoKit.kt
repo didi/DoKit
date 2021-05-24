@@ -140,12 +140,7 @@ public class DoKit {
             return this
         }
 
-        /**
-         * 设置CPU、内存、FPS每次采集后的回调
-         */
-        fun setPerformanceValueListener(performanceValueListener: PerformanceValueListener): Builder {
-            return this
-        }
+
 
         /**
          * 设置dokit的性能监控全局回调

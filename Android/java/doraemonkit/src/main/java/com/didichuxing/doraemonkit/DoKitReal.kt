@@ -18,8 +18,6 @@ import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.BigFileBean
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
-import com.didichuxing.doraemonkit.kit.performance.PerformanceDataManager
-import com.didichuxing.doraemonkit.kit.performance.PerformanceValueListener
 import com.didichuxing.doraemonkit.kit.timecounter.instrumentation.HandlerHooker
 import com.didichuxing.doraemonkit.kit.toolpanel.KitWrapItem
 import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelUtil
@@ -513,12 +511,7 @@ object DoKitReal {
         DokitExtInterceptor.dokitExtInterceptorProxy = extInterceptorProxy
     }
 
-    /**
-     * 设置CPU、内存、FPS每次采集后的回调
-     */
-    fun setPerformanceValueListener(performanceValueListener: PerformanceValueListener) {
-        PerformanceDataManager.getInstance().setPerformanceValueListener(performanceValueListener)
-    }
+
 
     /**
      * 设置一机多控自定义拦截器

@@ -4,7 +4,6 @@ import android.app.Application
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
-import com.didichuxing.doraemonkit.kit.performance.PerformanceValueListener
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
 
 /**
@@ -161,19 +160,19 @@ object DoraemonKit {
     }
 
     /**
-     * 设置扩展网络拦截器的代理对象
+     *设置dokit的性能监控全局回调
      */
     @JvmStatic
-    fun setNetExtInterceptor(extInterceptorProxy: DokitExtInterceptor.DokitExtInterceptorProxy){
-        DoKitReal.setNetExtInterceptor(extInterceptorProxy)
+    fun setCallBack(callback: DoKitCallBack) {
+        DoKitReal.setCallBack(callback)
     }
 
     /**
-     * 设置CPU、内存、FPS每次采集后的回调
+     * 设置扩展网络拦截器的代理对象
      */
     @JvmStatic
-    fun setPerformanceValueListener(performanceValueListener: PerformanceValueListener){
-        DoKitReal.setPerformanceValueListener(performanceValueListener)
+    fun setNetExtInterceptor(extInterceptorProxy: DokitExtInterceptor.DokitExtInterceptorProxy) {
+        DoKitReal.setNetExtInterceptor(extInterceptorProxy)
     }
 
 
