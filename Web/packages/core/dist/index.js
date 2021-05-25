@@ -3,100 +3,155 @@ import { pushScopeId, popScopeId, openBlock, createBlock, withDirectives, create
 /**
  * 拖拽指令 v-dragable
  * 减少外部依赖
+ * 默认使用v-dragable
+ * 也接受传入一个config对象 v-dragable="config"
+ * config支持 name opacity left top safeBottom 等属性
 */
 const INIT_VALUE = 9999;
-const DEFAULT_OPACITY = 0.5;
-const SAFE_BOTTOM = 50; // 底部防误触
+// const SAFE_BOTTOM = 50 // 底部防误触
+
+let MOUSE_DOWN_FLAG = false;
+
+const DEFAULT_EL_CONF = {
+  name: '',         // 名称 用于存储位置storage的标识，没有则不存储
+  opacity: 1,       // 默认透明度
+  left: '',         // 初始位置, 没有则居中
+  top: '',          // 初始位置, 没有则居中
+  safeBottom: 0
+};
+
 // TODO 拖拽事件兼容 Pc处理
 // TODO 默认初始位置为右下角
-var dragable = {
-  mounted (el) {
+const dragable = {
+  mounted (el, binding) {
+    el.config = {
+      ...DEFAULT_EL_CONF,
+      ...binding.value
+    };
     // 初始化变量
     el.dokitEntryLastX = INIT_VALUE;
     el.dokitEntryLastY = INIT_VALUE;
     // 初始化样式
     el.style.position = 'fixed';
-    el.style.opacity = DEFAULT_OPACITY;
-    el.dokitPositionLeft = getDefaultX();
-    el.dokitPositionTop = getDefaultY();
+    el.style.opacity = el.config.opacity;
+    el.dokitPositionLeft = getDefaultX(el);
+    el.dokitPositionTop = getDefaultY(el);
     el.style.top = `${el.dokitPositionTop}px`;
     el.style.left = `${el.dokitPositionLeft}px`;
 
+    adjustPosition(el);
+
     // 触摸事件监听
     el.ontouchstart = () => {
-      el.style.opacity = 1;
+      moveStart(el);
     };
-
     el.ontouchmove = (e) => {
       e.preventDefault();
-      
-      if (el.dokitEntryLastX === INIT_VALUE) {
-        el.dokitEntryLastX = e.touches[0].clientX;
-        el.dokitEntryLastY = e.touches[0].clientY;
-        return
-      }
-
-      el.dokitPositionTop += (e.touches[0].clientY - el.dokitEntryLastY);
-      el.dokitPositionLeft += (e.touches[0].clientX - el.dokitEntryLastX);
-      el.dokitEntryLastX = e.touches[0].clientX;
-      el.dokitEntryLastY = e.touches[0].clientY;
-
-      el.style.top = `${getAvailableTop(el)}px`;
-      el.style.left = `${getAvailableLeft(el)}px`;
+      moving(el, e);
     };
-
     el.ontouchend = (e) => {
-      setTimeout(() => {
-        if (el.dokitPositionLeft < 0) {
-          el.dokitPositionLeft = 0;
-          el.style.left = `${el.dokitPositionLeft}px`;
-        } else if (el.dokitPositionLeft + e.target.clientWidth > window.screen.availWidth) {
-          el.dokitPositionLeft = window.screen.availWidth - e.target.clientWidth;
-          el.style.left = `${el.dokitPositionLeft}px`;
-
-        }
-        
-        if (el.dokitPositionTop < 0) {
-          el.dokitPositionTop = 0;
-          el.style.top = `${el.dokitPositionTop}px`;
-
-        } else if (el.dokitPositionTop + e.target.clientHeight + SAFE_BOTTOM > window.screen.availHeight) {
-          el.dokitPositionTop = window.screen.availHeight - e.target.clientHeight - SAFE_BOTTOM;
-          el.style.top = `${el.dokitPositionTop}px`;
-
-        }
-        localStorage.setItem('dokitPositionTop', el.dokitPositionTop);
-        localStorage.setItem('dokitPositionLeft', el.dokitPositionLeft);
-      }, 100);
-      el.dokitEntryLastX = INIT_VALUE;
-      el.dokitEntryLastY = INIT_VALUE;
-      el.style.opacity = 0.5;
+      moveEnd(el);
     };
+    // PC鼠标事件
+    el.onmousedown = (e) => {
+      e.preventDefault();
+      moveStart(el);
+      MOUSE_DOWN_FLAG = true;
+    };
+
+    window.addEventListener('mousemove', (e)=> {
+      if (MOUSE_DOWN_FLAG) moving(el, e);
+    });
+
+    window.addEventListener('mouseup', (e)=> {
+      if (MOUSE_DOWN_FLAG) {
+        moveEnd(el);
+        MOUSE_DOWN_FLAG = false;
+      }
+    });
+
+    window.addEventListener('resize', ()=> {
+      adjustPosition(el);
+    });
   }
 };
 
+function moveStart(el) {
+  el.style.opacity = 1;
+}
+
+function moving(el, e) {
+  let target = e.touches ? e.touches[0] : e;
+  if (el.dokitEntryLastX === INIT_VALUE) {
+    el.dokitEntryLastX = target.clientX;
+    el.dokitEntryLastY = target.clientY;
+    return
+  }
+
+  el.dokitPositionTop += (target.clientY - el.dokitEntryLastY);
+  el.dokitPositionLeft += (target.clientX - el.dokitEntryLastX);
+  el.dokitEntryLastX = target.clientX;
+  el.dokitEntryLastY = target.clientY;
+
+  // el.style.top = `${getAvailableTop(el)}px`
+  // el.style.left = `${getAvailableLeft(el)}px`
+  el.style.top = `${el.dokitPositionTop}px`;
+  el.style.left = `${el.dokitPositionLeft}px`;
+}
+
+function moveEnd(el, e) {
+  setTimeout(() => {
+    adjustPosition(el);
+    el.config.name && localStorage.setItem(`dokitPositionTop_${el.config.name}`, el.dokitPositionTop);
+    el.config.name && localStorage.setItem(`dokitPositionLeft_${el.config.name}`, el.dokitPositionLeft);
+  }, 100);
+  el.dokitEntryLastX = INIT_VALUE;
+  el.dokitEntryLastY = INIT_VALUE;
+  el.style.opacity = el.config.opacity;
+}
+
 function getDefaultX(el){
-  let defaultX = Math.round(window.outerWidth/2);
-  return localStorage.getItem('dokitPositionLeft') ? parseInt(localStorage.getItem('dokitPositionLeft')) : defaultX
+  let defaultX = el.config.left || Math.round(window.innerWidth/2);
+  return localStorage.getItem(`dokitPositionLeft_${el.config.name}`) ? parseInt(localStorage.getItem(`dokitPositionLeft_${el.config.name}`)) : defaultX
 }
 function getDefaultY(el){
-  let defaultY = Math.round(window.outerHeight/2);
-  return localStorage.getItem('dokitPositionTop') ? parseInt(localStorage.getItem('dokitPositionTop')) : defaultY
+  let defaultY = el.config.top || Math.round(window.innerHeight/2);
+  return localStorage.getItem(`dokitPositionTop_${el.config.name}`) ? parseInt(localStorage.getItem(`dokitPositionTop_${el.config.name}`)) : defaultY
 }
-function getAvailableLeft(el){
-  return standardNumber(el.dokitPositionLeft, window.outerWidth - el.clientWidth)
-}
-function getAvailableTop(el){
-  return standardNumber(el.dokitPositionTop, window.outerHeight - el.clientHeight)
-}
-function standardNumber(number, max){
-  if(number < 0){
-    return 0
+
+// function getAvailableLeft(el){
+//   return standardNumber(el.dokitPositionLeft, window.innerWidth - el.clientWidth)
+// }
+// function getAvailableTop(el){
+//   return standardNumber(el.dokitPositionTop, window.innerHeight - el.clientHeight)
+// }
+// function standardNumber(number, max){
+//   if(number < 0){
+//     return 0
+//   }
+//   if(number >= max){
+//     return max
+//   }
+//   return number
+// }
+
+function adjustPosition(el) {
+  if (el.dokitPositionLeft < 0) {
+    el.dokitPositionLeft = 0;
+    el.style.left = `${el.dokitPositionLeft}px`;
+  } else if (el.dokitPositionLeft + el.getBoundingClientRect().width > window.innerWidth) {
+    el.dokitPositionLeft = window.innerWidth - el.getBoundingClientRect().width;
+    el.style.left = `${el.dokitPositionLeft}px`;
   }
-  if(number >= max){
-    return max
+  
+  if (el.dokitPositionTop < 0) {
+    el.dokitPositionTop = 0;
+    el.style.top = `${el.dokitPositionTop}px`;
+
+  } else if (el.dokitPositionTop + el.getBoundingClientRect().height + el.config.safeBottom > window.innerHeight) {
+    el.dokitPositionTop = window.innerHeight - el.getBoundingClientRect().height - el.config.safeBottom;
+    el.style.top = `${el.dokitPositionTop}px`;
   }
-  return number
 }
 
 const IconBack = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAzCAMAAADIDVqJAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAXFQTFRFAAAANX7GNHzFM3zFM3zFNn3ENYDHNHzFM3zENIDHNH7INH3ENX3GNn7GM33ENYDFNYDGM4DINH7HM3zENH3HNHzENYDGM37FM33FNH3FNn3FNX7HN4DINHzEM33HNH7FNIDGNn7GM33ENX3FNXzHNoDENH7FNH3EM3zEN33INHzFNH3FM4DHNX3HNH3GNX7ENHzENHzFNYDFNH3FM33ENn3JM33GN4DINX7EM3zEM33GNH7FM33FM33FNIDFNH3GNX3KM37HNHzFN4DINX7FNH3EOHzHNH3GM3zFM4DGM33EM3zENHzENH3EM33FOoTFgID/NHzFOIDHM3zEM3zFNoPJM33FM33ENH3FNHzENYDL////NHzENH3FM4PFM3zFOYDGNH3FM3zFN3zINHzEM33FNoDJM3zFM33FNH3ENHzFM37FNH3ENH3FM33ENH7GNX7FM33ENH3FNH7FM37ENH7FM3zFNH3EM4jMM3zE////TdHL6gAAAHl0Uk5TAEPy+vA9RPb0QEX3P0fzPkg8Sfg7SjpL+fE5TThON082Ue81UjRT++4zVO0yVjFX/OwwWOsvWi5b6i1d/eksXitf6Cph5yli/ihk5ieh3x8CoiCg4CGf4Z3iIgGc4yOaJJnkJZjlJpaVk5KQj42LioiHhYSCgHOyD3AmCqsAAAABYktHRFt0vJU0AAAACXBIWXMAAABIAAAASABGyWs+AAABPUlEQVQ4y43UxVoCUBQE4Ctgd3cXKAYoKqioINiBrdjdXby9C+6c3ZzPWf+rE2MMS4bDmY4rk5qs7FQ6ObnU5OXDFFBTCFNUTE2JmFJqysqtcVRQUymmiprqGmtq66ipF9NATSOMq4maZidMCzWtMG3t1HSI6aSmq9sat4eaHpheLzV9YvqpGRi0xuenZghmOEDNiJhRasZggiFqxiesmQxTMyVmmpoZmEiUmlmYWJyauXmYBWoWYZaWqTEr1qRW1zhaT4jaUNQm1Na2onagdjW1B7V/wFXyEOroWFEnok4VdQZ1fqGoS6ira0XdpP4x+uStKL5EY+6gYpq6h4rEFfUgKqqoRyjlkI15ggqGFfUsKqSoFyjlTY15hfIFFPUmyq+odyilhIz5gHJ7FfUpyqOoLyilYo35/rFJ/Jo/DZ3bT7fEcIgAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMjFUMTc6MzI6MjgrMDg6MDBBnT5hAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTIxVDE3OjMyOjI4KzA4OjAwMMCG3QAAAABJRU5ErkJggg==';
@@ -370,7 +425,15 @@ var script$3 = {
     dragable,
   },
   data() {
-    return {};
+    return {
+      btnConfig: {
+        name: 'dokit_entry',
+        opacity: 0.5,
+        left: window.innerWidth - 50,
+        top: window.innerHeight - 100,
+        safeBottom: 50
+      }
+    };
   },
   computed: {
     state(){
@@ -410,7 +473,7 @@ const render$3 = /*#__PURE__*/_withId$3((_ctx, _cache, $props, $setup, $data, $o
       style: {"z-index":"10000"},
       onClick: _cache[1] || (_cache[1] = (...args) => ($options.toggleShowContainer && $options.toggleShowContainer(...args)))
     }, null, 512 /* NEED_PATCH */), [
-      [_directive_dragable]
+      [_directive_dragable, $data.btnConfig]
     ]),
     withDirectives(createVNode("div", {
       class: "mask",

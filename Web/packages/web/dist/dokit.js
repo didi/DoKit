@@ -4,100 +4,155 @@
   /**
    * 拖拽指令 v-dragable
    * 减少外部依赖
+   * 默认使用v-dragable
+   * 也接受传入一个config对象 v-dragable="config"
+   * config支持 name opacity left top safeBottom 等属性
   */
   const INIT_VALUE$1 = 9999;
-  const DEFAULT_OPACITY$1 = 0.5;
-  const SAFE_BOTTOM$1 = 50; // 底部防误触
+  // const SAFE_BOTTOM = 50 // 底部防误触
+
+  let MOUSE_DOWN_FLAG$1 = false;
+
+  const DEFAULT_EL_CONF$1 = {
+    name: '',         // 名称 用于存储位置storage的标识，没有则不存储
+    opacity: 1,       // 默认透明度
+    left: '',         // 初始位置, 没有则居中
+    top: '',          // 初始位置, 没有则居中
+    safeBottom: 0
+  };
+
   // TODO 拖拽事件兼容 Pc处理
   // TODO 默认初始位置为右下角
-  var dragable$1 = {
-    mounted (el) {
+  const dragable$1 = {
+    mounted (el, binding) {
+      el.config = {
+        ...DEFAULT_EL_CONF$1,
+        ...binding.value
+      };
       // 初始化变量
       el.dokitEntryLastX = INIT_VALUE$1;
       el.dokitEntryLastY = INIT_VALUE$1;
       // 初始化样式
       el.style.position = 'fixed';
-      el.style.opacity = DEFAULT_OPACITY$1;
-      el.dokitPositionLeft = getDefaultX$1();
-      el.dokitPositionTop = getDefaultY$1();
+      el.style.opacity = el.config.opacity;
+      el.dokitPositionLeft = getDefaultX$1(el);
+      el.dokitPositionTop = getDefaultY$1(el);
       el.style.top = `${el.dokitPositionTop}px`;
       el.style.left = `${el.dokitPositionLeft}px`;
 
+      adjustPosition$1(el);
+
       // 触摸事件监听
       el.ontouchstart = () => {
-        el.style.opacity = 1;
+        moveStart$1(el);
       };
-
       el.ontouchmove = (e) => {
         e.preventDefault();
-        
-        if (el.dokitEntryLastX === INIT_VALUE$1) {
-          el.dokitEntryLastX = e.touches[0].clientX;
-          el.dokitEntryLastY = e.touches[0].clientY;
-          return
-        }
-
-        el.dokitPositionTop += (e.touches[0].clientY - el.dokitEntryLastY);
-        el.dokitPositionLeft += (e.touches[0].clientX - el.dokitEntryLastX);
-        el.dokitEntryLastX = e.touches[0].clientX;
-        el.dokitEntryLastY = e.touches[0].clientY;
-
-        el.style.top = `${getAvailableTop$1(el)}px`;
-        el.style.left = `${getAvailableLeft$1(el)}px`;
+        moving$1(el, e);
       };
-
       el.ontouchend = (e) => {
-        setTimeout(() => {
-          if (el.dokitPositionLeft < 0) {
-            el.dokitPositionLeft = 0;
-            el.style.left = `${el.dokitPositionLeft}px`;
-          } else if (el.dokitPositionLeft + e.target.clientWidth > window.screen.availWidth) {
-            el.dokitPositionLeft = window.screen.availWidth - e.target.clientWidth;
-            el.style.left = `${el.dokitPositionLeft}px`;
-
-          }
-          
-          if (el.dokitPositionTop < 0) {
-            el.dokitPositionTop = 0;
-            el.style.top = `${el.dokitPositionTop}px`;
-
-          } else if (el.dokitPositionTop + e.target.clientHeight + SAFE_BOTTOM$1 > window.screen.availHeight) {
-            el.dokitPositionTop = window.screen.availHeight - e.target.clientHeight - SAFE_BOTTOM$1;
-            el.style.top = `${el.dokitPositionTop}px`;
-
-          }
-          localStorage.setItem('dokitPositionTop', el.dokitPositionTop);
-          localStorage.setItem('dokitPositionLeft', el.dokitPositionLeft);
-        }, 100);
-        el.dokitEntryLastX = INIT_VALUE$1;
-        el.dokitEntryLastY = INIT_VALUE$1;
-        el.style.opacity = 0.5;
+        moveEnd$1(el);
       };
+      // PC鼠标事件
+      el.onmousedown = (e) => {
+        e.preventDefault();
+        moveStart$1(el);
+        MOUSE_DOWN_FLAG$1 = true;
+      };
+
+      window.addEventListener('mousemove', (e)=> {
+        if (MOUSE_DOWN_FLAG$1) moving$1(el, e);
+      });
+
+      window.addEventListener('mouseup', (e)=> {
+        if (MOUSE_DOWN_FLAG$1) {
+          moveEnd$1(el);
+          MOUSE_DOWN_FLAG$1 = false;
+        }
+      });
+
+      window.addEventListener('resize', ()=> {
+        adjustPosition$1(el);
+      });
     }
   };
 
+  function moveStart$1(el) {
+    el.style.opacity = 1;
+  }
+
+  function moving$1(el, e) {
+    let target = e.touches ? e.touches[0] : e;
+    if (el.dokitEntryLastX === INIT_VALUE$1) {
+      el.dokitEntryLastX = target.clientX;
+      el.dokitEntryLastY = target.clientY;
+      return
+    }
+
+    el.dokitPositionTop += (target.clientY - el.dokitEntryLastY);
+    el.dokitPositionLeft += (target.clientX - el.dokitEntryLastX);
+    el.dokitEntryLastX = target.clientX;
+    el.dokitEntryLastY = target.clientY;
+
+    // el.style.top = `${getAvailableTop(el)}px`
+    // el.style.left = `${getAvailableLeft(el)}px`
+    el.style.top = `${el.dokitPositionTop}px`;
+    el.style.left = `${el.dokitPositionLeft}px`;
+  }
+
+  function moveEnd$1(el, e) {
+    setTimeout(() => {
+      adjustPosition$1(el);
+      el.config.name && localStorage.setItem(`dokitPositionTop_${el.config.name}`, el.dokitPositionTop);
+      el.config.name && localStorage.setItem(`dokitPositionLeft_${el.config.name}`, el.dokitPositionLeft);
+    }, 100);
+    el.dokitEntryLastX = INIT_VALUE$1;
+    el.dokitEntryLastY = INIT_VALUE$1;
+    el.style.opacity = el.config.opacity;
+  }
+
   function getDefaultX$1(el){
-    let defaultX = Math.round(window.outerWidth/2);
-    return localStorage.getItem('dokitPositionLeft') ? parseInt(localStorage.getItem('dokitPositionLeft')) : defaultX
+    let defaultX = el.config.left || Math.round(window.innerWidth/2);
+    return localStorage.getItem(`dokitPositionLeft_${el.config.name}`) ? parseInt(localStorage.getItem(`dokitPositionLeft_${el.config.name}`)) : defaultX
   }
   function getDefaultY$1(el){
-    let defaultY = Math.round(window.outerHeight/2);
-    return localStorage.getItem('dokitPositionTop') ? parseInt(localStorage.getItem('dokitPositionTop')) : defaultY
+    let defaultY = el.config.top || Math.round(window.innerHeight/2);
+    return localStorage.getItem(`dokitPositionTop_${el.config.name}`) ? parseInt(localStorage.getItem(`dokitPositionTop_${el.config.name}`)) : defaultY
   }
-  function getAvailableLeft$1(el){
-    return standardNumber$1(el.dokitPositionLeft, window.outerWidth - el.clientWidth)
-  }
-  function getAvailableTop$1(el){
-    return standardNumber$1(el.dokitPositionTop, window.outerHeight - el.clientHeight)
-  }
-  function standardNumber$1(number, max){
-    if(number < 0){
-      return 0
+
+  // function getAvailableLeft(el){
+  //   return standardNumber(el.dokitPositionLeft, window.innerWidth - el.clientWidth)
+  // }
+  // function getAvailableTop(el){
+  //   return standardNumber(el.dokitPositionTop, window.innerHeight - el.clientHeight)
+  // }
+  // function standardNumber(number, max){
+  //   if(number < 0){
+  //     return 0
+  //   }
+  //   if(number >= max){
+  //     return max
+  //   }
+  //   return number
+  // }
+
+  function adjustPosition$1(el) {
+    if (el.dokitPositionLeft < 0) {
+      el.dokitPositionLeft = 0;
+      el.style.left = `${el.dokitPositionLeft}px`;
+    } else if (el.dokitPositionLeft + el.getBoundingClientRect().width > window.innerWidth) {
+      el.dokitPositionLeft = window.innerWidth - el.getBoundingClientRect().width;
+      el.style.left = `${el.dokitPositionLeft}px`;
     }
-    if(number >= max){
-      return max
+    
+    if (el.dokitPositionTop < 0) {
+      el.dokitPositionTop = 0;
+      el.style.top = `${el.dokitPositionTop}px`;
+
+    } else if (el.dokitPositionTop + el.getBoundingClientRect().height + el.config.safeBottom > window.innerHeight) {
+      el.dokitPositionTop = window.innerHeight - el.getBoundingClientRect().height - el.config.safeBottom;
+      el.style.top = `${el.dokitPositionTop}px`;
     }
-    return number
   }
 
   const IconBack = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAzCAMAAADIDVqJAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAXFQTFRFAAAANX7GNHzFM3zFM3zFNn3ENYDHNHzFM3zENIDHNH7INH3ENX3GNn7GM33ENYDFNYDGM4DINH7HM3zENH3HNHzENYDGM37FM33FNH3FNn3FNX7HN4DINHzEM33HNH7FNIDGNn7GM33ENX3FNXzHNoDENH7FNH3EM3zEN33INHzFNH3FM4DHNX3HNH3GNX7ENHzENHzFNYDFNH3FM33ENn3JM33GN4DINX7EM3zEM33GNH7FM33FM33FNIDFNH3GNX3KM37HNHzFN4DINX7FNH3EOHzHNH3GM3zFM4DGM33EM3zENHzENH3EM33FOoTFgID/NHzFOIDHM3zEM3zFNoPJM33FM33ENH3FNHzENYDL////NHzENH3FM4PFM3zFOYDGNH3FM3zFN3zINHzEM33FNoDJM3zFM33FNH3ENHzFM37FNH3ENH3FM33ENH7GNX7FM33ENH3FNH7FM37ENH7FM3zFNH3EM4jMM3zE////TdHL6gAAAHl0Uk5TAEPy+vA9RPb0QEX3P0fzPkg8Sfg7SjpL+fE5TThON082Ue81UjRT++4zVO0yVjFX/OwwWOsvWi5b6i1d/eksXitf6Cph5yli/ihk5ieh3x8CoiCg4CGf4Z3iIgGc4yOaJJnkJZjlJpaVk5KQj42LioiHhYSCgHOyD3AmCqsAAAABYktHRFt0vJU0AAAACXBIWXMAAABIAAAASABGyWs+AAABPUlEQVQ4y43UxVoCUBQE4Ctgd3cXKAYoKqioINiBrdjdXby9C+6c3ZzPWf+rE2MMS4bDmY4rk5qs7FQ6ObnU5OXDFFBTCFNUTE2JmFJqysqtcVRQUymmiprqGmtq66ipF9NATSOMq4maZidMCzWtMG3t1HSI6aSmq9sat4eaHpheLzV9YvqpGRi0xuenZghmOEDNiJhRasZggiFqxiesmQxTMyVmmpoZmEiUmlmYWJyauXmYBWoWYZaWqTEr1qRW1zhaT4jaUNQm1Na2onagdjW1B7V/wFXyEOroWFEnok4VdQZ1fqGoS6ira0XdpP4x+uStKL5EY+6gYpq6h4rEFfUgKqqoRyjlkI15ggqGFfUsKqSoFyjlTY15hfIFFPUmyq+odyilhIz5gHJ7FfUpyqOoLyilYo35/rFJ/Jo/DZ3bT7fEcIgAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjEtMDQtMjFUMTc6MzI6MjgrMDg6MDBBnT5hAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIxLTA0LTIxVDE3OjMyOjI4KzA4OjAwMMCG3QAAAABJRU5ErkJggg==';
@@ -129,7 +184,7 @@
     }
   };
 
-  const _withId$6 = /*#__PURE__*/vue.withScopeId("data-v-29d70086");
+  const _withId$6$1 = /*#__PURE__*/vue.withScopeId("data-v-29d70086");
 
   vue.pushScopeId("data-v-29d70086");
   const _hoisted_1$6$1 = { class: "bar" };
@@ -138,7 +193,7 @@
   const _hoisted_4$1$1 = { class: "bar-title-text" };
   vue.popScopeId();
 
-  const render$6$1 = /*#__PURE__*/_withId$6((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$6$1 = /*#__PURE__*/_withId$6$1((_ctx, _cache, $props, $setup, $data, $options) => {
     return (vue.openBlock(), vue.createBlock("div", _hoisted_1$6$1, [
       vue.withDirectives(vue.createVNode("div", {
         class: "bar-back",
@@ -366,7 +421,15 @@
       dragable: dragable$1,
     },
     data() {
-      return {};
+      return {
+        btnConfig: {
+          name: 'dokit_entry',
+          opacity: 0.5,
+          left: window.innerWidth - 50,
+          top: window.innerHeight - 100,
+          safeBottom: 50
+        }
+      };
     },
     computed: {
       state(){
@@ -406,7 +469,7 @@
         style: {"z-index":"10000"},
         onClick: _cache[1] || (_cache[1] = (...args) => ($options.toggleShowContainer && $options.toggleShowContainer(...args)))
       }, null, 512 /* NEED_PATCH */), [
-        [_directive_dragable]
+        [_directive_dragable, $data.btnConfig]
       ]),
       vue.withDirectives(vue.createVNode("div", {
         class: "mask",
@@ -836,7 +899,7 @@
     },
   };
 
-  const _withId$5 = /*#__PURE__*/vue.withScopeId("data-v-9d220f86");
+  const _withId$6 = /*#__PURE__*/vue.withScopeId("data-v-9d220f86");
 
   vue.pushScopeId("data-v-9d220f86");
   const _hoisted_1$a = { class: "tab-container" };
@@ -844,7 +907,7 @@
   const _hoisted_3$8 = { class: "tab-item-text" };
   vue.popScopeId();
 
-  const render$b = /*#__PURE__*/_withId$5((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$b = /*#__PURE__*/_withId$6((_ctx, _cache, $props, $setup, $data, $options) => {
     return (vue.openBlock(), vue.createBlock("div", _hoisted_1$a, [
       vue.createVNode("div", _hoisted_2$8, [
         (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.tabs, (item, index) => {
@@ -994,9 +1057,9 @@
     }
   };
 
-  const _withId$4 = /*#__PURE__*/vue.withScopeId("data-v-151438cc");
+  const _withId$5 = /*#__PURE__*/vue.withScopeId("data-v-151438cc");
 
-  const render$a = /*#__PURE__*/_withId$4((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$a = /*#__PURE__*/_withId$5((_ctx, _cache, $props, $setup, $data, $options) => {
     const _component_Detail = vue.resolveComponent("Detail");
 
     return (vue.openBlock(), vue.createBlock("div", {
@@ -1147,13 +1210,13 @@
     }
   };
 
-  const _withId$3 = /*#__PURE__*/vue.withScopeId("data-v-722c5870");
+  const _withId$4 = /*#__PURE__*/vue.withScopeId("data-v-722c5870");
 
   vue.pushScopeId("data-v-722c5870");
   const _hoisted_1$8 = { class: "log-container" };
   vue.popScopeId();
 
-  const render$8 = /*#__PURE__*/_withId$3((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$8 = /*#__PURE__*/_withId$4((_ctx, _cache, $props, $setup, $data, $options) => {
     const _component_log_item = vue.resolveComponent("log-item");
 
     return (vue.openBlock(), vue.createBlock("div", _hoisted_1$8, [
@@ -1266,7 +1329,7 @@
     }
   };
 
-  const _withId$2 = /*#__PURE__*/vue.withScopeId("data-v-f469c502");
+  const _withId$3 = /*#__PURE__*/vue.withScopeId("data-v-f469c502");
 
   vue.pushScopeId("data-v-f469c502");
   const _hoisted_1$7 = { class: "operation" };
@@ -1274,7 +1337,7 @@
   const _hoisted_3$7 = /*#__PURE__*/vue.createVNode("span", null, "Excute", -1 /* HOISTED */);
   vue.popScopeId();
 
-  const render$7 = /*#__PURE__*/_withId$2((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$7 = /*#__PURE__*/_withId$3((_ctx, _cache, $props, $setup, $data, $options) => {
     return (vue.openBlock(), vue.createBlock("div", _hoisted_1$7, [
       vue.createVNode("div", _hoisted_2$7, [
         vue.withDirectives(vue.createVNode("input", {
@@ -1334,7 +1397,7 @@
     }
   };
 
-  const _withId$1 = /*#__PURE__*/vue.withScopeId("data-v-35ae264e");
+  const _withId$2 = /*#__PURE__*/vue.withScopeId("data-v-35ae264e");
 
   vue.pushScopeId("data-v-35ae264e");
   const _hoisted_1$6 = { class: "console-container" };
@@ -1343,7 +1406,7 @@
   const _hoisted_4$1 = { class: "operation-container" };
   vue.popScopeId();
 
-  const render$6 = /*#__PURE__*/_withId$1((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$6 = /*#__PURE__*/_withId$2((_ctx, _cache, $props, $setup, $data, $options) => {
     const _component_console_tap = vue.resolveComponent("console-tap");
     const _component_log_container = vue.resolveComponent("log-container");
     const _component_operation_command = vue.resolveComponent("operation-command");
@@ -1436,7 +1499,7 @@
     },
   };
 
-  const _withId = /*#__PURE__*/vue.withScopeId("data-v-756cbe6c");
+  const _withId$1 = /*#__PURE__*/vue.withScopeId("data-v-756cbe6c");
 
   vue.pushScopeId("data-v-756cbe6c");
   const _hoisted_1$4 = { class: "app-info-container" };
@@ -1451,13 +1514,13 @@
   const _hoisted_10 = /*#__PURE__*/vue.createVNode("td", null, "viewport", -1 /* HOISTED */);
   vue.popScopeId();
 
-  const render$4 = /*#__PURE__*/_withId((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$4 = /*#__PURE__*/_withId$1((_ctx, _cache, $props, $setup, $data, $options) => {
     const _component_Card = vue.resolveComponent("Card");
 
     return (vue.openBlock(), vue.createBlock("div", _hoisted_1$4, [
       vue.createVNode("div", _hoisted_2$4, [
         vue.createVNode(_component_Card, { title: "Page Info" }, {
-          default: _withId(() => [
+          default: _withId$1(() => [
             vue.createVNode("table", _hoisted_3$4, [
               vue.createVNode("tr", null, [
                 _hoisted_4,
@@ -1474,7 +1537,7 @@
       ]),
       vue.createVNode("div", _hoisted_6, [
         vue.createVNode(_component_Card, { title: "Device Info" }, {
-          default: _withId(() => [
+          default: _withId$1(() => [
             vue.createVNode("table", _hoisted_7, [
               vue.createVNode("tr", null, [
                 _hoisted_8,
@@ -1541,100 +1604,155 @@
   /**
    * 拖拽指令 v-dragable
    * 减少外部依赖
+   * 默认使用v-dragable
+   * 也接受传入一个config对象 v-dragable="config"
+   * config支持 name opacity left top safeBottom 等属性
   */
   const INIT_VALUE = 9999;
-  const DEFAULT_OPACITY = 0.5;
-  const SAFE_BOTTOM = 50; // 底部防误触
+  // const SAFE_BOTTOM = 50 // 底部防误触
+
+  let MOUSE_DOWN_FLAG = false;
+
+  const DEFAULT_EL_CONF = {
+    name: '',         // 名称 用于存储位置storage的标识，没有则不存储
+    opacity: 1,       // 默认透明度
+    left: '',         // 初始位置, 没有则居中
+    top: '',          // 初始位置, 没有则居中
+    safeBottom: 0
+  };
+
   // TODO 拖拽事件兼容 Pc处理
   // TODO 默认初始位置为右下角
-  var dragable = {
-    mounted (el) {
+  const dragable = {
+    mounted (el, binding) {
+      el.config = {
+        ...DEFAULT_EL_CONF,
+        ...binding.value
+      };
       // 初始化变量
       el.dokitEntryLastX = INIT_VALUE;
       el.dokitEntryLastY = INIT_VALUE;
       // 初始化样式
       el.style.position = 'fixed';
-      el.style.opacity = DEFAULT_OPACITY;
-      el.dokitPositionLeft = getDefaultX();
-      el.dokitPositionTop = getDefaultY();
+      el.style.opacity = el.config.opacity;
+      el.dokitPositionLeft = getDefaultX(el);
+      el.dokitPositionTop = getDefaultY(el);
       el.style.top = `${el.dokitPositionTop}px`;
       el.style.left = `${el.dokitPositionLeft}px`;
 
+      adjustPosition(el);
+
       // 触摸事件监听
       el.ontouchstart = () => {
-        el.style.opacity = 1;
+        moveStart(el);
       };
-
       el.ontouchmove = (e) => {
         e.preventDefault();
-        
-        if (el.dokitEntryLastX === INIT_VALUE) {
-          el.dokitEntryLastX = e.touches[0].clientX;
-          el.dokitEntryLastY = e.touches[0].clientY;
-          return
-        }
-
-        el.dokitPositionTop += (e.touches[0].clientY - el.dokitEntryLastY);
-        el.dokitPositionLeft += (e.touches[0].clientX - el.dokitEntryLastX);
-        el.dokitEntryLastX = e.touches[0].clientX;
-        el.dokitEntryLastY = e.touches[0].clientY;
-
-        el.style.top = `${getAvailableTop(el)}px`;
-        el.style.left = `${getAvailableLeft(el)}px`;
+        moving(el, e);
       };
-
       el.ontouchend = (e) => {
-        setTimeout(() => {
-          if (el.dokitPositionLeft < 0) {
-            el.dokitPositionLeft = 0;
-            el.style.left = `${el.dokitPositionLeft}px`;
-          } else if (el.dokitPositionLeft + e.target.clientWidth > window.screen.availWidth) {
-            el.dokitPositionLeft = window.screen.availWidth - e.target.clientWidth;
-            el.style.left = `${el.dokitPositionLeft}px`;
-
-          }
-          
-          if (el.dokitPositionTop < 0) {
-            el.dokitPositionTop = 0;
-            el.style.top = `${el.dokitPositionTop}px`;
-
-          } else if (el.dokitPositionTop + e.target.clientHeight + SAFE_BOTTOM > window.screen.availHeight) {
-            el.dokitPositionTop = window.screen.availHeight - e.target.clientHeight - SAFE_BOTTOM;
-            el.style.top = `${el.dokitPositionTop}px`;
-
-          }
-          localStorage.setItem('dokitPositionTop', el.dokitPositionTop);
-          localStorage.setItem('dokitPositionLeft', el.dokitPositionLeft);
-        }, 100);
-        el.dokitEntryLastX = INIT_VALUE;
-        el.dokitEntryLastY = INIT_VALUE;
-        el.style.opacity = 0.5;
+        moveEnd(el);
       };
+      // PC鼠标事件
+      el.onmousedown = (e) => {
+        e.preventDefault();
+        moveStart(el);
+        MOUSE_DOWN_FLAG = true;
+      };
+
+      window.addEventListener('mousemove', (e)=> {
+        if (MOUSE_DOWN_FLAG) moving(el, e);
+      });
+
+      window.addEventListener('mouseup', (e)=> {
+        if (MOUSE_DOWN_FLAG) {
+          moveEnd(el);
+          MOUSE_DOWN_FLAG = false;
+        }
+      });
+
+      window.addEventListener('resize', ()=> {
+        adjustPosition(el);
+      });
     }
   };
 
+  function moveStart(el) {
+    el.style.opacity = 1;
+  }
+
+  function moving(el, e) {
+    let target = e.touches ? e.touches[0] : e;
+    if (el.dokitEntryLastX === INIT_VALUE) {
+      el.dokitEntryLastX = target.clientX;
+      el.dokitEntryLastY = target.clientY;
+      return
+    }
+
+    el.dokitPositionTop += (target.clientY - el.dokitEntryLastY);
+    el.dokitPositionLeft += (target.clientX - el.dokitEntryLastX);
+    el.dokitEntryLastX = target.clientX;
+    el.dokitEntryLastY = target.clientY;
+
+    // el.style.top = `${getAvailableTop(el)}px`
+    // el.style.left = `${getAvailableLeft(el)}px`
+    el.style.top = `${el.dokitPositionTop}px`;
+    el.style.left = `${el.dokitPositionLeft}px`;
+  }
+
+  function moveEnd(el, e) {
+    setTimeout(() => {
+      adjustPosition(el);
+      el.config.name && localStorage.setItem(`dokitPositionTop_${el.config.name}`, el.dokitPositionTop);
+      el.config.name && localStorage.setItem(`dokitPositionLeft_${el.config.name}`, el.dokitPositionLeft);
+    }, 100);
+    el.dokitEntryLastX = INIT_VALUE;
+    el.dokitEntryLastY = INIT_VALUE;
+    el.style.opacity = el.config.opacity;
+  }
+
   function getDefaultX(el){
-    let defaultX = Math.round(window.outerWidth/2);
-    return localStorage.getItem('dokitPositionLeft') ? parseInt(localStorage.getItem('dokitPositionLeft')) : defaultX
+    let defaultX = el.config.left || Math.round(window.innerWidth/2);
+    return localStorage.getItem(`dokitPositionLeft_${el.config.name}`) ? parseInt(localStorage.getItem(`dokitPositionLeft_${el.config.name}`)) : defaultX
   }
   function getDefaultY(el){
-    let defaultY = Math.round(window.outerHeight/2);
-    return localStorage.getItem('dokitPositionTop') ? parseInt(localStorage.getItem('dokitPositionTop')) : defaultY
+    let defaultY = el.config.top || Math.round(window.innerHeight/2);
+    return localStorage.getItem(`dokitPositionTop_${el.config.name}`) ? parseInt(localStorage.getItem(`dokitPositionTop_${el.config.name}`)) : defaultY
   }
-  function getAvailableLeft(el){
-    return standardNumber(el.dokitPositionLeft, window.outerWidth - el.clientWidth)
-  }
-  function getAvailableTop(el){
-    return standardNumber(el.dokitPositionTop, window.outerHeight - el.clientHeight)
-  }
-  function standardNumber(number, max){
-    if(number < 0){
-      return 0
+
+  // function getAvailableLeft(el){
+  //   return standardNumber(el.dokitPositionLeft, window.innerWidth - el.clientWidth)
+  // }
+  // function getAvailableTop(el){
+  //   return standardNumber(el.dokitPositionTop, window.innerHeight - el.clientHeight)
+  // }
+  // function standardNumber(number, max){
+  //   if(number < 0){
+  //     return 0
+  //   }
+  //   if(number >= max){
+  //     return max
+  //   }
+  //   return number
+  // }
+
+  function adjustPosition(el) {
+    if (el.dokitPositionLeft < 0) {
+      el.dokitPositionLeft = 0;
+      el.style.left = `${el.dokitPositionLeft}px`;
+    } else if (el.dokitPositionLeft + el.getBoundingClientRect().width > window.innerWidth) {
+      el.dokitPositionLeft = window.innerWidth - el.getBoundingClientRect().width;
+      el.style.left = `${el.dokitPositionLeft}px`;
     }
-    if(number >= max){
-      return max
+    
+    if (el.dokitPositionTop < 0) {
+      el.dokitPositionTop = 0;
+      el.style.top = `${el.dokitPositionTop}px`;
+
+    } else if (el.dokitPositionTop + el.getBoundingClientRect().height + el.config.safeBottom > window.innerHeight) {
+      el.dokitPositionTop = window.innerHeight - el.getBoundingClientRect().height - el.config.safeBottom;
+      el.style.top = `${el.dokitPositionTop}px`;
     }
-    return number
   }
 
   var script$2 = {
@@ -1643,16 +1761,20 @@
     },
     methods: {
       remove() {
-        removeIndependPlugin('test');
-      }
-    }
+        removeIndependPlugin("test");
+      },
+    },
   };
 
-  const _hoisted_1$2 = { class: "hello-world" };
-  const _hoisted_2$2 = /*#__PURE__*/vue.createVNode("div", { style: {"font-weight":"bold","font-size":"30px","font-style":"italic"} }, "Hello Dokit", -1 /* HOISTED */);
-  const _hoisted_3$2 = /*#__PURE__*/vue.createVNode("div", null, "Demo Independ Plugin", -1 /* HOISTED */);
+  const _withId = /*#__PURE__*/vue.withScopeId("data-v-0274cd90");
 
-  function render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  vue.pushScopeId("data-v-0274cd90");
+  const _hoisted_1$2 = { class: "hello-independ" };
+  const _hoisted_2$2 = /*#__PURE__*/vue.createVNode("div", { style: {"font-weight":"bold","font-size":"30px","font-style":"italic"} }, " Hello Dokit ", -1 /* HOISTED */);
+  const _hoisted_3$2 = /*#__PURE__*/vue.createVNode("div", null, "Demo Independ Plugin", -1 /* HOISTED */);
+  vue.popScopeId();
+
+  const render$2 = /*#__PURE__*/_withId((_ctx, _cache, $props, $setup, $data, $options) => {
     const _directive_dragable = vue.resolveDirective("dragable");
 
     return vue.withDirectives((vue.openBlock(), vue.createBlock("div", _hoisted_1$2, [
@@ -1660,17 +1782,18 @@
       _hoisted_3$2,
       vue.createVNode("div", {
         onClick: _cache[1] || (_cache[1] = (...args) => ($options.remove && $options.remove(...args))),
-        style: {"background-color":"red"}
-      }, "点击移除当前独立插件")
+        style: {"background-color":"red","color":"white","margin-top":"10px"}
+      }, " 点击移除当前独立插件 ")
     ], 512 /* NEED_PATCH */)), [
       [_directive_dragable]
     ])
-  }
+  });
 
-  var css_248z$2 = "\n.hello-world{\n  display: inline-block;\n  padding:10px;\n  text-align: center;\n  background-color: white;\n  border-radius: 20px;\n  box-shadow: 0 8px 12px #ebedf0;\n}\n";
+  var css_248z$2 = "\n.hello-independ[data-v-0274cd90] {\n  display: inline-block;\n  width: 200px;\n  /* padding: 10px; */\n  text-align: center;\n  background-color: white;\n  border-radius: 20px;\n  box-shadow: 0 8px 12px #ebedf0;\n  overflow: hidden;\n  border: 1px solid red;\n}\n";
   styleInject(css_248z$2);
 
   script$2.render = render$2;
+  script$2.__scopeId = "data-v-0274cd90";
   script$2.__file = "src/plugins/demo-single-plugin/IndependPluginDemo.vue";
 
   var DemoIndependPlugin = new IndependPlugin({
