@@ -69,14 +69,5 @@ repositories {
     mavenCentral()
 }
 
-task preparePublish(dependsOn: 'assemble') {
-    doFirst {
-        println("===doraemonkit-plugin assemble start===")
-    }
 
-    doLast {
-        println("===doraemonkit-plugin assemble end===")
-    }
-
-}
 

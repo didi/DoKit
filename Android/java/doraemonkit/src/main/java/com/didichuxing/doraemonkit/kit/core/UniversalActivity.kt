@@ -27,8 +27,10 @@ open class UniversalActivity : BaseActivity() {
         }
 
         when (index) {
-            FragmentIndex.FRAGMENT_COLOR_PICKER_SETTING -> mFragmentClass = ColorPickerSettingFragment::class.java
-            FragmentIndex.FRAGMENT_BLOCK_MONITOR -> mFragmentClass = BlockMonitorFragment::class.java
+            FragmentIndex.FRAGMENT_COLOR_PICKER_SETTING -> mFragmentClass =
+                ColorPickerSettingFragment::class.java
+            FragmentIndex.FRAGMENT_BLOCK_MONITOR -> mFragmentClass =
+                BlockMonitorFragment::class.java
             FragmentIndex.FRAGMENT_SYSTEM -> if (bundle[BundleKey.SYSTEM_FRAGMENT_CLASS] != null) {
                 mFragmentClass = bundle[BundleKey.SYSTEM_FRAGMENT_CLASS] as Class<out BaseFragment>
             }
@@ -47,6 +49,6 @@ open class UniversalActivity : BaseActivity() {
             ).show()
             return
         }
-        showContent(mFragmentClass, bundle)
+        showContent(mFragmentClass!!, bundle)
     }
 }

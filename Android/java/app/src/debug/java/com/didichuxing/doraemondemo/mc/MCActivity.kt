@@ -1,16 +1,16 @@
 package com.didichuxing.doraemondemo.mc
 
 import android.os.Bundle
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.TextView
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemondemo.R
-import kotlinx.android.synthetic.main.activity_mc.*
 
 /**
  * 一机多控Demo Activity
@@ -28,11 +28,11 @@ class MCActivity : AppCompatActivity() {
 //            startActivity(Intent(this@MCActivity, WebViewActivity::class.java))
 //        }
 
-        btn1.setOnClickListener {
+        findViewById<View>(R.id.btn1).setOnClickListener {
             ToastUtils.showShort("正常点击")
         }
 
-        btn2.setOnClickListener {
+        findViewById<View>(R.id.btn2).setOnClickListener {
             AlertDialog.Builder(this)
                 .setMessage("我是弹框")
                 .setPositiveButton(
@@ -67,24 +67,35 @@ class MCActivity : AppCompatActivity() {
                 ToastUtils.showShort("${(it as TextView).text}")
             }
             tv.text = "sc item $index"
-            ll.addView(item)
+            findViewById<LinearLayout>(R.id.ll).addView(item)
             rvDatas.add("rv item $index")
             lvDatas.add("lv item $index")
         }
 
-        lv.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lvDatas)
+        findViewById<ListView>(R.id.lv)
+            .apply {
+                adapter = ArrayAdapter<String>(
+                    this@MCActivity,
+                    android.R.layout.simple_list_item_1,
+                    lvDatas
+                )
 
-        lv.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            ToastUtils.showShort(lvDatas[position])
-        }
+                onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+                    ToastUtils.showShort(lvDatas[position])
+                }
+            }
 
 
-        rv.layoutManager = LinearLayoutManager(this)
+
         adapter = RVAdapter(R.layout.item_rv, rvDatas)
         adapter.setOnItemClickListener { adapter, _, position ->
             ToastUtils.showShort("rv item  click ==>$position")
         }
-        rv.adapter = adapter
+        findViewById<RecyclerView>(R.id.rv).apply {
+            layoutManager = LinearLayoutManager(this@MCActivity)
+            adapter = adapter
+        }
+
 
         val fragments = mutableListOf<Fragment>()
         fragments.add(VpFragment(0))
@@ -92,7 +103,7 @@ class MCActivity : AppCompatActivity() {
         fragments.add(VpFragment(2))
         fragments.add(VpFragment(3))
 
-        vp.adapter = VPAdapter(fragments, supportFragmentManager)
+        findViewById<ViewPager>(R.id.vp).adapter = VPAdapter(fragments, supportFragmentManager)
 
     }
 

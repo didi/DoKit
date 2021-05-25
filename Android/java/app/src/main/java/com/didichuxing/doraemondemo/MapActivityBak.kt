@@ -13,7 +13,6 @@ import com.amap.api.services.route.RouteSearch.FromAndTo
 import com.didichuxing.doraemondemo.amap.AMapUtil
 import com.didichuxing.doraemondemo.amap.DrivingRouteOverLay
 import com.didichuxing.doraemonkit.util.LogHelper
-import kotlinx.android.synthetic.main.activity_amap_path.*
 
 
 /**

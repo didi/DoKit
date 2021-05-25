@@ -129,7 +129,7 @@ public class FileExplorerFragment extends BaseFragment {
     }
 
     @Override
-    protected boolean onBackPressed() {
+    public boolean onBackPressed() {
         if (mCurDir == null) {
             finish();
             return true;

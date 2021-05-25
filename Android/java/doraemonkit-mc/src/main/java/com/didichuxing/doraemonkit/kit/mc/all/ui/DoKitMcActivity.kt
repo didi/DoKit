@@ -6,7 +6,7 @@ import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseActivity
 import com.didichuxing.doraemonkit.mc.R
-import kotlinx.android.synthetic.main.dk_activity_mc.*
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
 
 /**
  * ================================================
@@ -28,7 +28,7 @@ class DoKitMcActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dk_activity_mc)
-        title_bar.setListener {
+        findViewById<HomeTitleBar>(R.id.title_bar).setListener {
             finish()
         }
         when (DoKitConstant.WS_MODE) {

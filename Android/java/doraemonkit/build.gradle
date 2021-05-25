@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply from: '../upload.gradle'
 
@@ -47,12 +46,13 @@ android {
     }
 
 
-    dataBinding {
-        enabled = true
+    /**
+     * 支持ViewBinding
+     */
+    buildFeatures {
+//        viewBinding = true
+        dataBinding = true
     }
-
-
-
 
 
 }
@@ -63,6 +63,7 @@ dependencies {
     //noinspection GradleCompatible
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'junit:junit:4.12'
+    implementation rootProject.ext.dependencies["lifecycle-comm"]
     implementation rootProject.ext.dependencies["flexbox"]
     implementation rootProject.ext.dependencies["constraintLayout"]
     implementation rootProject.ext.dependencies["appcompat"]
