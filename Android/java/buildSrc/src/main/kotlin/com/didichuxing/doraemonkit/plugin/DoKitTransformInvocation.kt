@@ -206,29 +206,11 @@ internal class DoKitTransformInvocation(
     private fun doVerify() {
         outputs.sortedBy(File::nameWithoutExtension).forEach { output ->
             val out = temporaryDir.file(output.name)
-            val args = Main.Arguments().apply {
-                numThreads = NCPU
-                debug = true
-                warnings = true
-                emptyOk = true
-                multiDex = true
-                jarOutput = true
-                optimize = false
-                minSdkVersion = variant.extension.defaultConfig.targetSdkVersion?.apiLevel!!
-                fileNames = arrayOf(output.absolutePath)
-                outName = out.absolutePath
-            }
-            val rc = try {
-                Main.run(args)
-            } catch (t: Throwable) {
-                t.printStackTrace()
-                -1
-            }
-//            val rc = out.dex(
-//                output,
-//                variant.extension.defaultConfig.targetSdkVersion?.apiLevel
-//                    ?: DexFormat.API_NO_EXTENDED_OPCODES
-//            )
+            val rc = out.dex(
+                output,
+                variant.extension.defaultConfig.targetSdkVersion?.apiLevel
+                    ?: DexFormat.API_NO_EXTENDED_OPCODES
+            )
             println("${if (rc != 0) red("✗") else green("✓")} $output")
             out.deleteRecursively()
         }
