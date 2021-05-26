@@ -12,7 +12,7 @@ ext {
 //            group_id     : 'com.didichuxing.doraemonkit',
             group_id     : 'io.github.didi.dokit',
 //            version      : '3.4.0-SNAPSHOT'
-            version      : '3.4.0-alpha02'
+            version      : '3.4.0-alpha03'
     ]
 
     android = [compileSdkVersion            : 29,

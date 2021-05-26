@@ -12,8 +12,6 @@ import com.amap.api.navi.model.RouteOverlayOptions
 import com.amap.api.navi.view.RouteOverLay
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ReflectUtils
-import com.didichuxing.doraemonkit.kit.lbs.route.NaviSettings.ROUTE_NORMAL_Z_INDEX
-import com.didichuxing.doraemonkit.kit.lbs.route.NaviSettings.ROUTE_SHADOW_Z_INDEX
 
 /**
  * 地图上的导航路径
@@ -42,10 +40,10 @@ class NaviRouteOverlay(
         val options: RouteOverlayOptions
         if (shadow) {
             options = customShadowRouteTexture()
-            setZindex(ROUTE_SHADOW_Z_INDEX)
+            //setZindex(ROUTE_SHADOW_Z_INDEX)
         } else {
             options = customRouteTexture()
-            setZindex(ROUTE_NORMAL_Z_INDEX)
+            //setZindex(ROUTE_NORMAL_Z_INDEX)
         }
         options.setOnRouteCameShow(false)
         routeOverlayOptions = options
