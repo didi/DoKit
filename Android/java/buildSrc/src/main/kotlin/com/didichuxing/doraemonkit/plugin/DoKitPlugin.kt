@@ -7,7 +7,6 @@ import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
 import com.didichuxing.doraemonkit.plugin.processor.DoKitPluginConfigProcessor
 import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
 import com.didichuxing.doraemonkit.plugin.transform.*
-import com.didichuxing.doraemonkit.plugin.transform.DoKitCommTransformV34
 import com.didiglobal.booster.gradle.GTE_V3_4
 import com.didiglobal.booster.gradle.dependencies
 import com.didiglobal.booster.gradle.getAndroid

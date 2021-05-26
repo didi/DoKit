@@ -18,7 +18,7 @@ import com.didichuxing.doraemondemo.R
 class MCActivity : AppCompatActivity() {
     val TAG = "MCActivity"
 
-    lateinit var adapter: RVAdapter
+    lateinit var mAdapter: RVAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,11 +51,16 @@ class MCActivity : AppCompatActivity() {
 
 
         }
+        findViewById<RadioGroup>(R.id.radio_group).setOnCheckedChangeListener { _, checkedId ->
+            ToastUtils.showLong("checkedId===>${checkedId}")
+        }
+
         initData()
 
     }
 
     private fun initData() {
+
         val rvDatas = mutableListOf<String>()
         val lvDatas = mutableListOf<String>()
 
@@ -87,13 +92,13 @@ class MCActivity : AppCompatActivity() {
 
 
 
-        adapter = RVAdapter(R.layout.item_rv, rvDatas)
-        adapter.setOnItemClickListener { adapter, _, position ->
+        mAdapter = RVAdapter(R.layout.item_rv, rvDatas)
+        mAdapter.setOnItemClickListener { adapter, _, position ->
             ToastUtils.showShort("rv item  click ==>$position")
         }
         findViewById<RecyclerView>(R.id.rv).apply {
             layoutManager = LinearLayoutManager(this@MCActivity)
-            adapter = adapter
+            adapter = mAdapter
         }
 
 

@@ -1,5 +1,4 @@
 ext {
-
     publish_config = [
             //0:发布到到本地localRepoURL仓库
             //1:发布到滴滴内部仓库 一般不建议使用 如果需要发布到滴滴内网仓库需要将版本号改得比较大 假如版本号跟jcenter上的一致会由于缓存导致没法下载最新的jcenter的线上代码
@@ -25,11 +24,11 @@ ext {
                versionCode                  : 1,
                versionName                  : "1.0.0",
                glide_version                : "4.9.0",
-               kotlin_version               : "1.4.20",
+               kotlin_version               : "1.5.10",
                booster_version              : "3.3.1",
                jcenter_gradle_plugin_version: "3.5.3",
                gradle_plugin_version        : "4.2.1",
-               ktor                         : "1.5.1",
+               ktor                         : "1.5.4",
                okhttp_v2                    : "2.7.5",
                okhttp_v3                    : "3.14.7",
                okhttp_v4                    : "4.7.0"

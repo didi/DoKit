@@ -18,10 +18,10 @@
     <application
         android:name=".App"
         android:allowBackup="false"
-        android:icon="@mipmap/dk_app_icon"
+        android:icon="@mipmap/dk_logo"
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
-        android:roundIcon="@mipmap/dk_app_icon"
+        android:roundIcon="@mipmap/dk_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:allowBackup">
