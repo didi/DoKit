@@ -4,9 +4,9 @@ DoraemonKit-Android releases
 
 1、去掉kotlin-android-exensions插件
 
-2、开发dokit性能数据(cpu、fps、内存、网络)，通过入口函数callback接口返回
+2、开放dokit性能数据(cpu、fps、内存、网络)，通过入口函数callback接口返回，具体参考android接入文档
 
-3、新增debug环境okhttp 扩展拦截器，通过入口函数netExtInterceptor设置
+3、新增debug环境okhttp 扩展拦截器，通过入口函数netExtInterceptor设置，具体参考android接入文档
 
 
 ## 3.4.0-alpha02（dokitx 对应androidx，dokit对应Android Support）
