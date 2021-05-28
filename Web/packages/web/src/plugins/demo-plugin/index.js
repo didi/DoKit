@@ -4,7 +4,7 @@ import {RouterPlugin} from '@dokit/web-core'
 export default new RouterPlugin({
   nameZh: '测试',
   name: 'test',
-  icon: 'https://pt-starimg.didistatic.com/static/starimg/img/z1346TQD531618997547642.png',
+  icon: 'https://pt-starimg.didistatic.com/static/starimg/img/6WONqJCVks1621926657356.png',
   component: HelloWorld
 })
 

@@ -2,32 +2,32 @@
   <div class="app-info-container">
     <div class="info-wrapper">
       <Card title="Page Info">
-        <table border="1">
+        <table>
           <tr>
-            <td>UA</td>
-            <td>{{ua}}</td>
+            <td class="key">UA</td>
+            <td class="value">{{ua}}</td>
           </tr>
           <tr>
-            <td>URL</td>
-            <td>{{url}}</td>
+            <td class="key">URL</td>
+            <td class="value">{{url}}</td>
           </tr>
         </table>
       </Card>
     </div>
-    <div class="info-wrapper">
+    <div class="info-wrapper" style="margin-top:20px">
       <Card title="Device Info">
-        <table border="1">
+        <table>
           <tr>
-            <td>设备缩放比</td>
-            <td>{{ratio}}</td>
+            <td class="key">设备缩放比</td>
+            <td class="value">{{ratio}}</td>
           </tr>
           <tr>
-            <td>screen</td>
-            <td>{{screen.width}}X{{screen.height}}</td>
+            <td class="key">screen</td>
+            <td>{{screen.width}} X {{screen.height}}</td>
           </tr>
           <tr>
-            <td>viewport</td>
-            <td>{{viewport.width}}X{{viewport.height}}</td>
+            <td class="key">viewport</td>
+            <td>{{viewport.width}} X {{viewport.height}}</td>
           </tr>
         </table>
       </Card>
@@ -62,7 +62,10 @@ export default {
   overflow: hidden;
 }
 .info-wrapper{
-    margin: 20px 20px 0 20px;
+    margin: 5px 5px 0 5px;
+    .key{
+      font-weight: bold;
+    }
   }
   table{
     border-color: #eee;

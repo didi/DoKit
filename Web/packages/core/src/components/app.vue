@@ -1,6 +1,6 @@
 <template>
   <div class="dokit-app">
-    <div class="dokit-entry-btn" style="z-index: 10000;" v-dragable @click="toggleShowContainer"></div>
+    <div class="dokit-entry-btn" style="z-index: 10000;" v-dragable="btnConfig" @click="toggleShowContainer"></div>
     <div class="mask" v-show="showContainer" @click="toggleContainer"></div>
     <router-container v-show="showContainer"></router-container>
     <independ-container v-show="independPlugins.length"></independ-container>
@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import dragable from "@common/directives/dragable";
+import { dragable } from '@dokit/web-utils';
 import RouterContainer from './router-container';
 import IndependContainer from './independ-container';
-import {toggleContainer} from '@store/index';
+import { toggleContainer } from '@store/index';
 
 export default {
   components: {
@@ -22,7 +22,15 @@ export default {
     dragable,
   },
   data() {
-    return {};
+    return {
+      btnConfig: {
+        name: 'dokit_entry',
+        opacity: 0.5,
+        left: window.innerWidth - 50,
+        top: window.innerHeight - 100,
+        safeBottom: 50
+      }
+    };
   },
   computed: {
     state(){
