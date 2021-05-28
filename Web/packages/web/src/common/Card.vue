@@ -15,16 +15,19 @@ export default {
 </script>
 <style lang="less">
 .dokit-card {
-  border-radius: 10px;
+  background-color: #d9e1e8;
+  border-radius: 5px;
   box-shadow: 0 8px 12px #ebedf0;
   overflow: hidden;
   .dokit-card__header{
-    background-color: #337cc4;
-    padding: 10px;
+    background-color: #2b90d9;
+    padding: 5px;
     color: #fff;
+    font-weight: bold;
+    font-style: italic;
   }
   .dokit-card__body{
-    padding: 10px;
+    padding: 5px;
   }
 }
 </style>

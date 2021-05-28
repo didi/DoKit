@@ -540,9 +540,9 @@
   const _hoisted_1$2$1 = { class: "card" };
   const _hoisted_2$1$1 = { class: "card-title" };
   const _hoisted_3$1$1 = { class: "card-title-text" };
-  const _hoisted_4$2 = { class: "item-list" };
-  const _hoisted_5$1 = { class: "item-icon" };
-  const _hoisted_6$1 = { class: "item-title" };
+  const _hoisted_4$3 = { class: "item-list" };
+  const _hoisted_5$2 = { class: "item-icon" };
+  const _hoisted_6$2 = { class: "item-title" };
   vue.popScopeId();
 
   const render$2$1 = /*#__PURE__*/_withId$2$1((_ctx, _cache, $props, $setup, $data, $options) => {
@@ -550,20 +550,20 @@
       vue.createVNode("div", _hoisted_2$1$1, [
         vue.createVNode("span", _hoisted_3$1$1, vue.toDisplayString($props.title), 1 /* TEXT */)
       ]),
-      vue.createVNode("div", _hoisted_4$2, [
+      vue.createVNode("div", _hoisted_4$3, [
         (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.list, (item, index) => {
           return (vue.openBlock(), vue.createBlock("div", {
             class: "item",
             key: index,
             onClick: $event => ($options.handleClickItem(item))
           }, [
-            vue.createVNode("div", _hoisted_5$1, [
+            vue.createVNode("div", _hoisted_5$2, [
               vue.createVNode("img", {
                 class: "item-icon-image",
                 src: item.icon || $data.defaultIcon
               }, null, 8 /* PROPS */, ["src"])
             ]),
-            vue.createVNode("div", _hoisted_6$1, vue.toDisplayString(item.nameZh || '默认功能'), 1 /* TEXT */)
+            vue.createVNode("div", _hoisted_6$2, vue.toDisplayString(item.nameZh || '默认功能'), 1 /* TEXT */)
           ], 8 /* PROPS */, ["onClick"]))
         }), 128 /* KEYED_FRAGMENT */))
       ])
@@ -592,16 +592,16 @@
 
   vue.pushScopeId("data-v-b7dc930c");
   const _hoisted_1$1$1 = { class: "card version" };
-  const _hoisted_2$9 = { class: "version-text" };
-  const _hoisted_3$9 = { class: "version-image" };
+  const _hoisted_2$a = { class: "version-text" };
+  const _hoisted_3$a = { class: "version-image" };
   vue.popScopeId();
 
   const render$1$1 = /*#__PURE__*/_withId$1$1((_ctx, _cache, $props, $setup, $data, $options) => {
     return (vue.openBlock(), vue.createBlock("div", _hoisted_1$1$1, [
       vue.createVNode("div", null, [
-        vue.createVNode("span", _hoisted_2$9, "当前版本：V" + vue.toDisplayString($props.version), 1 /* TEXT */)
+        vue.createVNode("span", _hoisted_2$a, "当前版本：V" + vue.toDisplayString($props.version), 1 /* TEXT */)
       ]),
-      vue.createVNode("div", _hoisted_3$9, [
+      vue.createVNode("div", _hoisted_3$a, [
         vue.createVNode("img", {
           class: "dokit-icon",
           src: $data.dokitIcon
@@ -617,7 +617,7 @@
   script$1$1.__scopeId = "data-v-b7dc930c";
   script$1$1.__file = "src/common/components/version.vue";
 
-  var script$c = {
+  var script$h = {
     components: {
       TopBar: script$6$1,
       Card: script$2$1,
@@ -655,14 +655,14 @@
   const _withId$7 = /*#__PURE__*/vue.withScopeId("data-v-957c9522");
 
   vue.pushScopeId("data-v-957c9522");
-  const _hoisted_1$b = { class: "index-container" };
+  const _hoisted_1$f = { class: "index-container" };
   vue.popScopeId();
 
-  const render$c = /*#__PURE__*/_withId$7((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$h = /*#__PURE__*/_withId$7((_ctx, _cache, $props, $setup, $data, $options) => {
     const _component_card = vue.resolveComponent("card");
     const _component_version_card = vue.resolveComponent("version-card");
 
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$b, [
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$f, [
       (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($options.features, (item, index) => {
         return (vue.openBlock(), vue.createBlock(_component_card, {
           key: index,
@@ -675,16 +675,16 @@
     ]))
   });
 
-  var css_248z$c = ".index-container[data-v-957c9522] {\n  background-color: #f5f6f7;\n}\n";
-  styleInject$1(css_248z$c);
+  var css_248z$e = ".index-container[data-v-957c9522] {\n  background-color: #f5f6f7;\n}\n";
+  styleInject$1(css_248z$e);
 
-  script$c.render = render$c;
-  script$c.__scopeId = "data-v-957c9522";
-  script$c.__file = "src/components/home.vue";
+  script$h.render = render$h;
+  script$h.__scopeId = "data-v-957c9522";
+  script$h.__file = "src/components/home.vue";
 
   const defaultRoute = [{
     name: 'home',
-    component: script$c
+    component: script$h
   }];
 
   function getRoutes(features){
@@ -879,7 +879,7 @@
     }
   }
 
-  var script$b = {
+  var script$g = {
     props: {
       tabs: {
         type: Array
@@ -902,21 +902,21 @@
   const _withId$6 = /*#__PURE__*/vue.withScopeId("data-v-9d220f86");
 
   vue.pushScopeId("data-v-9d220f86");
-  const _hoisted_1$a = { class: "tab-container" };
-  const _hoisted_2$8 = { class: "tab-list" };
-  const _hoisted_3$8 = { class: "tab-item-text" };
+  const _hoisted_1$e = { class: "tab-container" };
+  const _hoisted_2$9 = { class: "tab-list" };
+  const _hoisted_3$9 = { class: "tab-item-text" };
   vue.popScopeId();
 
-  const render$b = /*#__PURE__*/_withId$6((_ctx, _cache, $props, $setup, $data, $options) => {
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$a, [
-      vue.createVNode("div", _hoisted_2$8, [
+  const render$g = /*#__PURE__*/_withId$6((_ctx, _cache, $props, $setup, $data, $options) => {
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$e, [
+      vue.createVNode("div", _hoisted_2$9, [
         (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.tabs, (item, index) => {
           return (vue.openBlock(), vue.createBlock("div", {
             class: ["tab-item", $data.curIndex === index? 'tab-active': 'tab-default'],
             key: index,
             onClick: $event => ($options.handleClickTab(item, index))
           }, [
-            vue.createVNode("span", _hoisted_3$8, vue.toDisplayString(item.name), 1 /* TEXT */)
+            vue.createVNode("span", _hoisted_3$9, vue.toDisplayString(item.name), 1 /* TEXT */)
           ], 10 /* CLASS, PROPS */, ["onClick"]))
         }), 128 /* KEYED_FRAGMENT */))
       ])
@@ -950,12 +950,12 @@
     }
   }
 
-  var css_248z$b = ".tab-container[data-v-9d220f86] .tab-list[data-v-9d220f86] {\n  display: flex;\n  height: 38px;\n  justify-content: space-between;\n  align-items: center;\n  border: 1px solid #f5f6f7;\n}\n.tab-container[data-v-9d220f86] .tab-item[data-v-9d220f86] {\n  flex: 1;\n  height: 38px;\n  line-height: 38px;\n  text-align: center;\n}\n.tab-container[data-v-9d220f86] .tab-item-text[data-v-9d220f86] {\n  font-size: 16px;\n  color: #333333;\n}\n.tab-container[data-v-9d220f86] .tab-active[data-v-9d220f86] {\n  border-bottom: 1px solid #1485ee;\n}\n.tab-container[data-v-9d220f86] .tab-default[data-v-9d220f86] {\n  border: none;\n}\n";
-  styleInject(css_248z$b);
+  var css_248z$d = ".tab-container[data-v-9d220f86] .tab-list[data-v-9d220f86] {\n  display: flex;\n  height: 38px;\n  justify-content: space-between;\n  align-items: center;\n  border: 1px solid #f5f6f7;\n}\n.tab-container[data-v-9d220f86] .tab-item[data-v-9d220f86] {\n  flex: 1;\n  height: 38px;\n  line-height: 38px;\n  text-align: center;\n}\n.tab-container[data-v-9d220f86] .tab-item-text[data-v-9d220f86] {\n  font-size: 16px;\n  color: #333333;\n}\n.tab-container[data-v-9d220f86] .tab-active[data-v-9d220f86] {\n  border-bottom: 1px solid #1485ee;\n}\n.tab-container[data-v-9d220f86] .tab-default[data-v-9d220f86] {\n  border: none;\n}\n";
+  styleInject(css_248z$d);
 
-  script$b.render = render$b;
-  script$b.__scopeId = "data-v-9d220f86";
-  script$b.__file = "src/plugins/console/console-tap.vue";
+  script$g.render = render$g;
+  script$g.__scopeId = "data-v-9d220f86";
+  script$g.__file = "src/plugins/console/console-tap.vue";
 
   const getDataType = function (arg) {
     if (arg === null ) {
@@ -1011,10 +1011,10 @@
   };
 
   const TYPE_CAN_FOLD = ['Object', 'Array'];
-  var script$a = {
+  var script$f = {
     name: "Detail",
     components: {
-      Detail: script$a
+      Detail: script$f
     },
     props: {
       detailValue: [String, Number, Object],
@@ -1059,7 +1059,7 @@
 
   const _withId$5 = /*#__PURE__*/vue.withScopeId("data-v-151438cc");
 
-  const render$a = /*#__PURE__*/_withId$5((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$f = /*#__PURE__*/_withId$5((_ctx, _cache, $props, $setup, $data, $options) => {
     const _component_Detail = vue.resolveComponent("Detail");
 
     return (vue.openBlock(), vue.createBlock("div", {
@@ -1084,17 +1084,17 @@
     ], 2 /* CLASS */))
   });
 
-  var css_248z$a = ".detail-container[data-v-151438cc] {\n  font-size: 12px;\n  margin-left: 24px;\n  position: relative;\n}\n.can-unfold[data-v-151438cc][data-v-151438cc]::before {\n  content: \"\";\n  width: 0;\n  height: 0;\n  border: 4px solid transparent;\n  position: absolute;\n  border-left-color: #333;\n  left: -12px;\n  top: 3px;\n}\n.unfolded[data-v-151438cc][data-v-151438cc]::before {\n  border: 4px solid transparent;\n  border-top-color: #333;\n  top: 6px;\n}\n";
-  styleInject(css_248z$a);
+  var css_248z$c = ".detail-container[data-v-151438cc] {\n  font-size: 12px;\n  margin-left: 24px;\n  position: relative;\n}\n.can-unfold[data-v-151438cc][data-v-151438cc]::before {\n  content: \"\";\n  width: 0;\n  height: 0;\n  border: 4px solid transparent;\n  position: absolute;\n  border-left-color: #333;\n  left: -12px;\n  top: 3px;\n}\n.unfolded[data-v-151438cc][data-v-151438cc]::before {\n  border: 4px solid transparent;\n  border-top-color: #333;\n  top: 6px;\n}\n";
+  styleInject(css_248z$c);
 
-  script$a.render = render$a;
-  script$a.__scopeId = "data-v-151438cc";
-  script$a.__file = "src/plugins/console/log-detail.vue";
+  script$f.render = render$f;
+  script$f.__scopeId = "data-v-151438cc";
+  script$f.__file = "src/plugins/console/log-detail.vue";
 
   const DATATYPE_NOT_DISPLAY = ['Number', 'String', 'Boolean', 'Undefined', 'Null'];
-  var script$9 = {
+  var script$e = {
     components: {
-      Detail: script$a
+      Detail: script$f
     },
     props: {
       type: [Number],
@@ -1158,9 +1158,9 @@
     }
   };
 
-  const _hoisted_1$9 = { key: 0 };
+  const _hoisted_1$d = { key: 0 };
 
-  function render$9(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$e(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Detail = vue.resolveComponent("Detail");
 
     return (vue.openBlock(), vue.createBlock("div", {
@@ -1172,7 +1172,7 @@
         onClick: _cache[1] || (_cache[1] = (...args) => ($options.toggleDetail && $options.toggleDetail(...args)))
       }, null, 8 /* PROPS */, ["innerHTML"]),
       ($options.canShowDetail)
-        ? (vue.openBlock(), vue.createBlock("div", _hoisted_1$9, [
+        ? (vue.openBlock(), vue.createBlock("div", _hoisted_1$d, [
             (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.value, (key, index) => {
               return (vue.openBlock(), vue.createBlock("div", {
                 class: "list-item",
@@ -1189,15 +1189,15 @@
     ], 2 /* CLASS */))
   }
 
-  var css_248z$9 = ".log-ltem {\n  padding: 5px;\n  padding-left: 20px;\n  border-top: 1px solid #eee;\n  text-align: left;\n  font-size: 12px;\n}\n.info {\n  background-color: #ECF1F7;\n  position: relative;\n}\n.info::before {\n  content: \"\";\n  background: url(\"https://pt-starimg.didistatic.com/static/starimg/img/M3nz7HYPH21621412737959.png\") no-repeat;\n  background-size: 10px 10px;\n  width: 10px;\n  height: 10px;\n  position: absolute;\n  top: 7px;\n  left: 8px;\n}\n.warn {\n  background-color: #FFFBE4;\n  color: #5C3C01;\n  position: relative;\n}\n.warn::before {\n  content: \"\";\n  background: url(\"https://pt-starimg.didistatic.com/static/starimg/img/39hzJzObhZ1621411397522.png\") no-repeat;\n  background-size: 10px 10px;\n  width: 10px;\n  height: 10px;\n  position: absolute;\n  top: 7px;\n  left: 8px;\n}\n.error {\n  background-color: #FEF0F0;\n  color: #FF161A;\n  position: relative;\n}\n.error::before {\n  content: \"\";\n  background: url(\"https://pt-starimg.didistatic.com/static/starimg/img/z6EndYs29d1621411397532.png\") no-repeat;\n  background-size: 10px 10px;\n  width: 10px;\n  height: 10px;\n  position: absolute;\n  top: 7px;\n  left: 8px;\n}\n.log-ltem:first-child {\n  border: none;\n}\n.log-preview .data-type {\n  margin-left: 5px;\n  margin-right: 5px;\n  font-style: italic;\n  font-weight: bold;\n  color: #aaa;\n}\n.log-preview .data-structure {\n  font-style: italic;\n}\n";
-  styleInject(css_248z$9);
+  var css_248z$b = ".log-ltem {\n  padding: 5px;\n  padding-left: 20px;\n  border-top: 1px solid #eee;\n  text-align: left;\n  font-size: 12px;\n}\n.info {\n  background-color: #ECF1F7;\n  position: relative;\n}\n.info::before {\n  content: \"\";\n  background: url(\"https://pt-starimg.didistatic.com/static/starimg/img/M3nz7HYPH21621412737959.png\") no-repeat;\n  background-size: 10px 10px;\n  width: 10px;\n  height: 10px;\n  position: absolute;\n  top: 7px;\n  left: 8px;\n}\n.warn {\n  background-color: #FFFBE4;\n  color: #5C3C01;\n  position: relative;\n}\n.warn::before {\n  content: \"\";\n  background: url(\"https://pt-starimg.didistatic.com/static/starimg/img/39hzJzObhZ1621411397522.png\") no-repeat;\n  background-size: 10px 10px;\n  width: 10px;\n  height: 10px;\n  position: absolute;\n  top: 7px;\n  left: 8px;\n}\n.error {\n  background-color: #FEF0F0;\n  color: #FF161A;\n  position: relative;\n}\n.error::before {\n  content: \"\";\n  background: url(\"https://pt-starimg.didistatic.com/static/starimg/img/z6EndYs29d1621411397532.png\") no-repeat;\n  background-size: 10px 10px;\n  width: 10px;\n  height: 10px;\n  position: absolute;\n  top: 7px;\n  left: 8px;\n}\n.log-ltem:first-child {\n  border: none;\n}\n.log-preview .data-type {\n  margin-left: 5px;\n  margin-right: 5px;\n  font-style: italic;\n  font-weight: bold;\n  color: #aaa;\n}\n.log-preview .data-structure {\n  font-style: italic;\n}\n";
+  styleInject(css_248z$b);
 
-  script$9.render = render$9;
-  script$9.__file = "src/plugins/console/log-item.vue";
+  script$e.render = render$e;
+  script$e.__file = "src/plugins/console/log-item.vue";
 
-  var script$8 = {
+  var script$d = {
     components: {
-      LogItem: script$9
+      LogItem: script$e
     },
     props: {
       logList: {
@@ -1213,13 +1213,13 @@
   const _withId$4 = /*#__PURE__*/vue.withScopeId("data-v-722c5870");
 
   vue.pushScopeId("data-v-722c5870");
-  const _hoisted_1$8 = { class: "log-container" };
+  const _hoisted_1$c = { class: "log-container" };
   vue.popScopeId();
 
-  const render$8 = /*#__PURE__*/_withId$4((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$d = /*#__PURE__*/_withId$4((_ctx, _cache, $props, $setup, $data, $options) => {
     const _component_log_item = vue.resolveComponent("log-item");
 
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$8, [
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$c, [
       (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.logList, (log, index) => {
         return (vue.openBlock(), vue.createBlock(_component_log_item, {
           key: index,
@@ -1231,12 +1231,12 @@
     ]))
   });
 
-  var css_248z$8 = ".tab-container[data-v-722c5870] .tab-list[data-v-722c5870] {\n  display: flex;\n  height: 38px;\n  justify-content: space-between;\n  align-items: center;\n  border: 1px solid #f5f6f7;\n}\n.tab-container[data-v-722c5870] .tab-item[data-v-722c5870] {\n  flex: 1;\n  height: 38px;\n  line-height: 38px;\n  text-align: center;\n}\n.tab-container[data-v-722c5870] .tab-item-text[data-v-722c5870] {\n  font-size: 16px;\n  color: #333333;\n}\n.tab-container[data-v-722c5870] .tab-active[data-v-722c5870] {\n  border-bottom: 1px solid #1485ee;\n}\n.tab-container[data-v-722c5870] .tab-default[data-v-722c5870] {\n  border: none;\n}\n";
-  styleInject(css_248z$8);
+  var css_248z$a = ".tab-container[data-v-722c5870] .tab-list[data-v-722c5870] {\n  display: flex;\n  height: 38px;\n  justify-content: space-between;\n  align-items: center;\n  border: 1px solid #f5f6f7;\n}\n.tab-container[data-v-722c5870] .tab-item[data-v-722c5870] {\n  flex: 1;\n  height: 38px;\n  line-height: 38px;\n  text-align: center;\n}\n.tab-container[data-v-722c5870] .tab-item-text[data-v-722c5870] {\n  font-size: 16px;\n  color: #333333;\n}\n.tab-container[data-v-722c5870] .tab-active[data-v-722c5870] {\n  border-bottom: 1px solid #1485ee;\n}\n.tab-container[data-v-722c5870] .tab-default[data-v-722c5870] {\n  border: none;\n}\n";
+  styleInject(css_248z$a);
 
-  script$8.render = render$8;
-  script$8.__scopeId = "data-v-722c5870";
-  script$8.__file = "src/plugins/console/log-container.vue";
+  script$d.render = render$d;
+  script$d.__scopeId = "data-v-722c5870";
+  script$d.__file = "src/plugins/console/log-container.vue";
 
   const LogMap = {
     0: 'All',
@@ -1307,7 +1307,7 @@
     });
   };
 
-  var script$7 = {
+  var script$c = {
     data(){
       return {
         command: ""
@@ -1332,14 +1332,14 @@
   const _withId$3 = /*#__PURE__*/vue.withScopeId("data-v-f469c502");
 
   vue.pushScopeId("data-v-f469c502");
-  const _hoisted_1$7 = { class: "operation" };
-  const _hoisted_2$7 = { class: "input-wrapper" };
-  const _hoisted_3$7 = /*#__PURE__*/vue.createVNode("span", null, "Excute", -1 /* HOISTED */);
+  const _hoisted_1$b = { class: "operation" };
+  const _hoisted_2$8 = { class: "input-wrapper" };
+  const _hoisted_3$8 = /*#__PURE__*/vue.createVNode("span", null, "Excute", -1 /* HOISTED */);
   vue.popScopeId();
 
-  const render$7 = /*#__PURE__*/_withId$3((_ctx, _cache, $props, $setup, $data, $options) => {
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$7, [
-      vue.createVNode("div", _hoisted_2$7, [
+  const render$c = /*#__PURE__*/_withId$3((_ctx, _cache, $props, $setup, $data, $options) => {
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$b, [
+      vue.createVNode("div", _hoisted_2$8, [
         vue.withDirectives(vue.createVNode("input", {
           class: "input",
           placeholder: "Command……",
@@ -1352,23 +1352,23 @@
         class: "button-wrapper",
         onClick: _cache[2] || (_cache[2] = (...args) => ($options.excuteCommand && $options.excuteCommand(...args)))
       }, [
-        _hoisted_3$7
+        _hoisted_3$8
       ])
     ]))
   });
 
-  var css_248z$7 = ".operation[data-v-f469c502] {\n  height: 50px;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.input-wrapper[data-v-f469c502] {\n  flex: 1;\n  height: 100%;\n}\n.input-wrapper[data-v-f469c502] .input[data-v-f469c502] {\n  height: 100%;\n  width: 100%;\n  outline: none;\n  border: none;\n  line-height: 100%;\n  padding: 0 10px;\n  font-size: 18px;\n}\n.button-wrapper[data-v-f469c502] {\n  height: 100%;\n  line-height: 100%;\n  margin-left: 10px;\n  padding: 0 10px;\n  border-left: 1px solid #f5f6f7;\n  display: flex;\n  align-items: center;\n}\n";
-  styleInject(css_248z$7);
+  var css_248z$9 = ".operation[data-v-f469c502] {\n  height: 50px;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.input-wrapper[data-v-f469c502] {\n  flex: 1;\n  height: 100%;\n}\n.input-wrapper[data-v-f469c502] .input[data-v-f469c502] {\n  height: 100%;\n  width: 100%;\n  outline: none;\n  border: none;\n  line-height: 100%;\n  padding: 0 10px;\n  font-size: 18px;\n}\n.button-wrapper[data-v-f469c502] {\n  height: 100%;\n  line-height: 100%;\n  margin-left: 10px;\n  padding: 0 10px;\n  border-left: 1px solid #f5f6f7;\n  display: flex;\n  align-items: center;\n}\n";
+  styleInject(css_248z$9);
 
-  script$7.render = render$7;
-  script$7.__scopeId = "data-v-f469c502";
-  script$7.__file = "src/plugins/console/op-command.vue";
+  script$c.render = render$c;
+  script$c.__scopeId = "data-v-f469c502";
+  script$c.__file = "src/plugins/console/op-command.vue";
 
-  var script$6 = {
+  var script$b = {
     components: {
-      ConsoleTap: script$b,
-      LogContainer: script$8,
-      OperationCommand: script$7
+      ConsoleTap: script$g,
+      LogContainer: script$d,
+      OperationCommand: script$c
     },
     data() {
       return {
@@ -1400,44 +1400,44 @@
   const _withId$2 = /*#__PURE__*/vue.withScopeId("data-v-35ae264e");
 
   vue.pushScopeId("data-v-35ae264e");
-  const _hoisted_1$6 = { class: "console-container" };
-  const _hoisted_2$6 = { class: "log-container" };
-  const _hoisted_3$6 = { class: "info-container" };
-  const _hoisted_4$1 = { class: "operation-container" };
+  const _hoisted_1$a = { class: "console-container" };
+  const _hoisted_2$7 = { class: "log-container" };
+  const _hoisted_3$7 = { class: "info-container" };
+  const _hoisted_4$2 = { class: "operation-container" };
   vue.popScopeId();
 
-  const render$6 = /*#__PURE__*/_withId$2((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$b = /*#__PURE__*/_withId$2((_ctx, _cache, $props, $setup, $data, $options) => {
     const _component_console_tap = vue.resolveComponent("console-tap");
     const _component_log_container = vue.resolveComponent("log-container");
     const _component_operation_command = vue.resolveComponent("operation-command");
 
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$6, [
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$a, [
       vue.createVNode(_component_console_tap, {
         tabs: $data.logTabs,
         onChangeTap: $options.handleChangeTab
       }, null, 8 /* PROPS */, ["tabs", "onChangeTap"]),
-      vue.createVNode("div", _hoisted_2$6, [
-        vue.createVNode("div", _hoisted_3$6, [
+      vue.createVNode("div", _hoisted_2$7, [
+        vue.createVNode("div", _hoisted_3$7, [
           vue.createVNode(_component_log_container, { logList: $options.curLogList }, null, 8 /* PROPS */, ["logList"])
         ]),
-        vue.createVNode("div", _hoisted_4$1, [
+        vue.createVNode("div", _hoisted_4$2, [
           vue.createVNode(_component_operation_command)
         ])
       ])
     ]))
   });
 
-  var css_248z$6 = ".console-container[data-v-35ae264e] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.log-container[data-v-35ae264e] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n}\n.log-container[data-v-35ae264e] .info-container[data-v-35ae264e] {\n  flex: 1;\n  background-color: #ffffff;\n  border-bottom: 1px solid #f5f6f7;\n  overflow-y: scroll;\n}\n";
-  styleInject(css_248z$6);
+  var css_248z$8 = ".console-container[data-v-35ae264e] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.log-container[data-v-35ae264e] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n}\n.log-container[data-v-35ae264e] .info-container[data-v-35ae264e] {\n  flex: 1;\n  background-color: #ffffff;\n  border-bottom: 1px solid #f5f6f7;\n  overflow-y: scroll;\n}\n";
+  styleInject(css_248z$8);
 
-  script$6.render = render$6;
-  script$6.__scopeId = "data-v-35ae264e";
-  script$6.__file = "src/plugins/console/main.vue";
+  script$b.render = render$b;
+  script$b.__scopeId = "data-v-35ae264e";
+  script$b.__file = "src/plugins/console/main.vue";
 
   var Console = new RouterPlugin({
     name: 'console',
     nameZh: '日志',
-    component: script$6,
+    component: script$b,
     icon: 'https://pt-starimg.didistatic.com/static/starimg/img/PbNXVyzTbq1618997544543.png',
     onLoad(){
       console.log('Load');
@@ -1456,34 +1456,34 @@
     }
   });
 
-  var script$5 = {
+  var script$a = {
     props: {
       title: String
     }
   };
 
-  const _hoisted_1$5 = { class: "dokit-card" };
-  const _hoisted_2$5 = { class: "dokit-card__header" };
-  const _hoisted_3$5 = { class: "dokit-card__body" };
+  const _hoisted_1$9 = { class: "dokit-card" };
+  const _hoisted_2$6 = { class: "dokit-card__header" };
+  const _hoisted_3$6 = { class: "dokit-card__body" };
 
-  function render$5(_ctx, _cache, $props, $setup, $data, $options) {
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$5, [
-      vue.createVNode("div", _hoisted_2$5, vue.toDisplayString($props.title), 1 /* TEXT */),
-      vue.createVNode("div", _hoisted_3$5, [
+  function render$a(_ctx, _cache, $props, $setup, $data, $options) {
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$9, [
+      vue.createVNode("div", _hoisted_2$6, vue.toDisplayString($props.title), 1 /* TEXT */),
+      vue.createVNode("div", _hoisted_3$6, [
         vue.renderSlot(_ctx.$slots, "default")
       ])
     ]))
   }
 
-  var css_248z$5 = ".dokit-card {\n  border-radius: 10px;\n  box-shadow: 0 8px 12px #ebedf0;\n  overflow: hidden;\n}\n.dokit-card .dokit-card__header {\n  background-color: #337cc4;\n  padding: 10px;\n  color: #fff;\n}\n.dokit-card .dokit-card__body {\n  padding: 10px;\n}\n";
-  styleInject(css_248z$5);
+  var css_248z$7 = ".dokit-card {\n  background-color: #d9e1e8;\n  border-radius: 5px;\n  box-shadow: 0 8px 12px #ebedf0;\n  overflow: hidden;\n}\n.dokit-card .dokit-card__header {\n  background-color: #2b90d9;\n  padding: 5px;\n  color: #fff;\n  font-weight: bold;\n  font-style: italic;\n}\n.dokit-card .dokit-card__body {\n  padding: 5px;\n}\n";
+  styleInject(css_248z$7);
 
-  script$5.render = render$5;
-  script$5.__file = "src/common/Card.vue";
+  script$a.render = render$a;
+  script$a.__file = "src/common/Card.vue";
 
-  var script$4 = {
+  var script$9 = {
     components: {
-      Card: script$5
+      Card: script$a
     },
     data() {
       return {
@@ -1502,54 +1502,58 @@
   const _withId$1 = /*#__PURE__*/vue.withScopeId("data-v-756cbe6c");
 
   vue.pushScopeId("data-v-756cbe6c");
-  const _hoisted_1$4 = { class: "app-info-container" };
-  const _hoisted_2$4 = { class: "info-wrapper" };
-  const _hoisted_3$4 = { border: "1" };
-  const _hoisted_4 = /*#__PURE__*/vue.createVNode("td", null, "UA", -1 /* HOISTED */);
-  const _hoisted_5 = /*#__PURE__*/vue.createVNode("td", null, "URL", -1 /* HOISTED */);
-  const _hoisted_6 = { class: "info-wrapper" };
-  const _hoisted_7 = { border: "1" };
-  const _hoisted_8 = /*#__PURE__*/vue.createVNode("td", null, "设备缩放比", -1 /* HOISTED */);
-  const _hoisted_9 = /*#__PURE__*/vue.createVNode("td", null, "screen", -1 /* HOISTED */);
-  const _hoisted_10 = /*#__PURE__*/vue.createVNode("td", null, "viewport", -1 /* HOISTED */);
+  const _hoisted_1$8 = { class: "app-info-container" };
+  const _hoisted_2$5 = { class: "info-wrapper" };
+  const _hoisted_3$5 = /*#__PURE__*/vue.createVNode("td", { class: "key" }, "UA", -1 /* HOISTED */);
+  const _hoisted_4$1 = { class: "value" };
+  const _hoisted_5$1 = /*#__PURE__*/vue.createVNode("td", { class: "key" }, "URL", -1 /* HOISTED */);
+  const _hoisted_6$1 = { class: "value" };
+  const _hoisted_7$1 = {
+    class: "info-wrapper",
+    style: {"margin-top":"20px"}
+  };
+  const _hoisted_8$1 = /*#__PURE__*/vue.createVNode("td", { class: "key" }, "设备缩放比", -1 /* HOISTED */);
+  const _hoisted_9$1 = { class: "value" };
+  const _hoisted_10$1 = /*#__PURE__*/vue.createVNode("td", { class: "key" }, "screen", -1 /* HOISTED */);
+  const _hoisted_11$1 = /*#__PURE__*/vue.createVNode("td", { class: "key" }, "viewport", -1 /* HOISTED */);
   vue.popScopeId();
 
-  const render$4 = /*#__PURE__*/_withId$1((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$9 = /*#__PURE__*/_withId$1((_ctx, _cache, $props, $setup, $data, $options) => {
     const _component_Card = vue.resolveComponent("Card");
 
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$4, [
-      vue.createVNode("div", _hoisted_2$4, [
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$8, [
+      vue.createVNode("div", _hoisted_2$5, [
         vue.createVNode(_component_Card, { title: "Page Info" }, {
           default: _withId$1(() => [
-            vue.createVNode("table", _hoisted_3$4, [
+            vue.createVNode("table", null, [
               vue.createVNode("tr", null, [
-                _hoisted_4,
-                vue.createVNode("td", null, vue.toDisplayString($data.ua), 1 /* TEXT */)
+                _hoisted_3$5,
+                vue.createVNode("td", _hoisted_4$1, vue.toDisplayString($data.ua), 1 /* TEXT */)
               ]),
               vue.createVNode("tr", null, [
-                _hoisted_5,
-                vue.createVNode("td", null, vue.toDisplayString($data.url), 1 /* TEXT */)
+                _hoisted_5$1,
+                vue.createVNode("td", _hoisted_6$1, vue.toDisplayString($data.url), 1 /* TEXT */)
               ])
             ])
           ]),
           _: 1 /* STABLE */
         })
       ]),
-      vue.createVNode("div", _hoisted_6, [
+      vue.createVNode("div", _hoisted_7$1, [
         vue.createVNode(_component_Card, { title: "Device Info" }, {
           default: _withId$1(() => [
-            vue.createVNode("table", _hoisted_7, [
+            vue.createVNode("table", null, [
               vue.createVNode("tr", null, [
-                _hoisted_8,
-                vue.createVNode("td", null, vue.toDisplayString($data.ratio), 1 /* TEXT */)
+                _hoisted_8$1,
+                vue.createVNode("td", _hoisted_9$1, vue.toDisplayString($data.ratio), 1 /* TEXT */)
               ]),
               vue.createVNode("tr", null, [
-                _hoisted_9,
-                vue.createVNode("td", null, vue.toDisplayString($data.screen.width) + "X" + vue.toDisplayString($data.screen.height), 1 /* TEXT */)
+                _hoisted_10$1,
+                vue.createVNode("td", null, vue.toDisplayString($data.screen.width) + " X " + vue.toDisplayString($data.screen.height), 1 /* TEXT */)
               ]),
               vue.createVNode("tr", null, [
-                _hoisted_10,
-                vue.createVNode("td", null, vue.toDisplayString($data.viewport.width) + "X" + vue.toDisplayString($data.viewport.height), 1 /* TEXT */)
+                _hoisted_11$1,
+                vue.createVNode("td", null, vue.toDisplayString($data.viewport.width) + " X " + vue.toDisplayString($data.viewport.height), 1 /* TEXT */)
               ])
             ])
           ]),
@@ -1559,18 +1563,404 @@
     ]))
   });
 
-  var css_248z$4 = ".app-info-container[data-v-756cbe6c] {\n  font-size: 14px;\n  height: 100%;\n  overflow: hidden;\n}\n.info-wrapper[data-v-756cbe6c] {\n  margin: 20px 20px 0 20px;\n}\ntable[data-v-756cbe6c] {\n  border-color: #eee;\n  width: 100%;\n  border-collapse: collapse;\n  border-spacing: 0;\n}\ntr[data-v-756cbe6c] {\n  width: 100%;\n}\ntd[data-v-756cbe6c],\nth[data-v-756cbe6c] {\n  padding: 5px;\n}\n";
-  styleInject(css_248z$4);
+  var css_248z$6 = ".app-info-container[data-v-756cbe6c] {\n  font-size: 14px;\n  height: 100%;\n  overflow: hidden;\n}\n.info-wrapper[data-v-756cbe6c] {\n  margin: 5px 5px 0 5px;\n}\n.info-wrapper[data-v-756cbe6c] .key[data-v-756cbe6c] {\n  font-weight: bold;\n}\ntable[data-v-756cbe6c] {\n  border-color: #eee;\n  width: 100%;\n  border-collapse: collapse;\n  border-spacing: 0;\n}\ntr[data-v-756cbe6c] {\n  width: 100%;\n}\ntd[data-v-756cbe6c],\nth[data-v-756cbe6c] {\n  padding: 5px;\n}\n";
+  styleInject(css_248z$6);
 
-  script$4.render = render$4;
-  script$4.__scopeId = "data-v-756cbe6c";
-  script$4.__file = "src/plugins/app-info/ToolAppInfo.vue";
+  script$9.render = render$9;
+  script$9.__scopeId = "data-v-756cbe6c";
+  script$9.__file = "src/plugins/app-info/ToolAppInfo.vue";
 
   var AppInfo = new RouterPlugin({
     nameZh: '应用信息',
     name: 'app-info',
     icon: 'https://pt-starimg.didistatic.com/static/starimg/img/z1346TQD531618997547642.png',
-    component: script$4
+    component: script$9
+  });
+
+  var script$8 = {
+    props: {
+      title: {
+        default: "",
+      },
+      infoMap: {
+        default: {},
+      },
+    },
+    data() {
+      return {
+        keyword: "",
+      };
+    },
+    computed: {
+      filteredMap() {
+        if (this.keyword) {
+          let map = Object.create({});
+          for (const key in this.infoMap) {
+            if (Object.hasOwnProperty.call(this.infoMap, key)) {
+              if(this.infoMap[key].indexOf(this.keyword) > -1 || key.indexOf(this.keyword) > -1) {
+                map[key] = this.infoMap[key];
+              }
+            }
+          }
+          return map
+        } else {
+          return this.infoMap
+        }
+        
+      }
+    },
+    methods: {
+      removeItem(key) {
+        this.$emit("removeItem", key);
+      },
+      openPrompt() {
+        this.keyword = window.prompt(
+          "请输入过滤关键词",
+          this.keyword ? this.keyword : ""
+        );
+      },
+      clearAll() {
+        if (window.confirm(`将清空所有${this.title}数据，是否确认清空？`)) {
+          this.$emit("clear");
+        }
+      },
+      refresh() {
+        console.log('refresh');
+        this.$emit("refresh");
+      },
+    },
+  };
+
+  const _hoisted_1$7 = { class: "info-card" };
+  const _hoisted_2$4 = { class: "info-card-header" };
+  const _hoisted_3$4 = { class: "info-card-header__title" };
+  const _hoisted_4 = { class: "info-card-header__opt" };
+  const _hoisted_5 = { class: "filter-text" };
+  const _hoisted_6 = { class: "info-card-body" };
+  const _hoisted_7 = { class: "info-key" };
+  const _hoisted_8 = { class: "info-value" };
+  const _hoisted_9 = { class: "info-opt" };
+  const _hoisted_10 = { class: "empty" };
+  const _hoisted_11 = /*#__PURE__*/vue.createVNode("span", null, "empty", -1 /* HOISTED */);
+
+  function render$8(_ctx, _cache, $props, $setup, $data, $options) {
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$7, [
+      vue.createVNode("div", _hoisted_2$4, [
+        vue.createVNode("div", _hoisted_3$4, vue.toDisplayString($props.title), 1 /* TEXT */),
+        vue.createVNode("div", _hoisted_4, [
+          vue.createVNode("div", {
+            class: ["filter-box", $data.keyword ? 'filter-box-actived' : '']
+          }, [
+            vue.createVNode("span", _hoisted_5, vue.toDisplayString($data.keyword), 1 /* TEXT */),
+            vue.createVNode("span", {
+              class: "filter opt-icon",
+              onClick: _cache[1] || (_cache[1] = (...args) => ($options.openPrompt && $options.openPrompt(...args)))
+            })
+          ], 2 /* CLASS */),
+          vue.createVNode("span", {
+            class: "clear-all opt-icon",
+            onClick: _cache[2] || (_cache[2] = (...args) => ($options.clearAll && $options.clearAll(...args)))
+          }),
+          vue.createVNode("span", {
+            class: "refresh opt-icon",
+            onClick: _cache[3] || (_cache[3] = (...args) => ($options.refresh && $options.refresh(...args)))
+          })
+        ])
+      ]),
+      vue.createVNode("div", _hoisted_6, [
+        vue.withDirectives(vue.createVNode("table", null, [
+          vue.createVNode("tbody", null, [
+            (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($options.filteredMap, (value, key) => {
+              return (vue.openBlock(), vue.createBlock("tr", {
+                class: "",
+                key: key
+              }, [
+                vue.createVNode("td", _hoisted_7, vue.toDisplayString(key), 1 /* TEXT */),
+                vue.createVNode("td", _hoisted_8, vue.toDisplayString(value), 1 /* TEXT */),
+                vue.createVNode("td", _hoisted_9, [
+                  vue.createVNode("span", {
+                    class: "info-delete",
+                    onClick: $event => ($options.removeItem(key))
+                  }, null, 8 /* PROPS */, ["onClick"])
+                ])
+              ]))
+            }), 128 /* KEYED_FRAGMENT */))
+          ])
+        ], 512 /* NEED_PATCH */), [
+          [vue.vShow, Object.keys($options.filteredMap).length]
+        ]),
+        vue.withDirectives(vue.createVNode("div", _hoisted_10, [
+          _hoisted_11
+        ], 512 /* NEED_PATCH */), [
+          [vue.vShow, Object.keys($options.filteredMap).length === 0]
+        ])
+      ])
+    ]))
+  }
+
+  var css_248z$5 = ".info-card {\n  border-radius: 5px;\n  background-color: #d9e1e8;\n  overflow: hidden;\n}\n.info-card-header {\n  border-bottom: 1px solid #eeeeee;\n  background-color: #2b90d9;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  color: white;\n}\n.info-card-header .info-card-header__title {\n  padding: 5px;\n  font-size: 14px;\n  font-weight: bold;\n  font-style: italic;\n}\n.info-card-header .info-card-header__opt {\n  display: flex;\n}\n.info-card-header .info-card-header__opt .opt-icon {\n  display: inline-block;\n  width: 15px;\n  height: 15px;\n  background-size: 15px;\n  background-repeat: no-repeat;\n  margin: 0 10px;\n}\n.info-card-header .info-card-header__opt .refresh {\n  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAMAAACahl6sAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAr5QTFRFAAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////0dICkAAAAOl0Uk5TAAcuVXuiwcjQ2N/n7/b+8eXLv7KlmYx/USMgYJO54PXHaz4QndnhqghEjsqpWRR9zGUYZ7azVDbwxGY9oNZ4GajoiStMr/qS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');\n}\n.info-card-header .info-card-header__opt .clear-all {\n  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAMAAACahl6sAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAvRQTFRFAAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////ScVxIwAAAPt0Uk5TAB41BcjfTK71YpV5fJCmE0m9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');\n}\n.info-card-header .info-card-header__opt .filter-box {\n  padding-left: 10px;\n  display: inline-flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.info-card-header .info-card-header__opt .filter-box .filter-text {\n  font-size: 12px;\n}\n.info-card-header .info-card-header__opt .filter-box-actived {\n  border-radius: 10px;\n  border: 1px solid #d9e1e8;\n}\n.info-card-header .info-card-header__opt .filter {\n  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADICAMAAACahl6sAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAspQTFRFAAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////17LOWQAAAO10Uk5TADFiiK2/n3ZVFBCE99pmUta5KkH11DDhKbWsWTPFjlHoC387avCa8sDVtqYv4JfQozrroEVUXZ1P6hsS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');\n}\n.info-card-body table {\n  width: 100%;\n}\n.info-card-body td {\n  padding: 5px;\n  font-size: 12px;\n}\n.info-card-body .empty {\n  padding: 10px;\n  text-align: center;\n  line-height: 20px;\n  color: #9baec8;\n  font-weight: bold;\n}\n.info-card-body .info-key {\n  font-weight: bolder;\n  max-width: 150px;\n  overflow-x: scroll;\n}\n.info-card-body .info-opt {\n  width: 15px;\n}\n.info-card-body .info-opt span {\n  display: inline-block;\n  width: 15px;\n  height: 15px;\n  background-image: url(\"data:image/png;base64,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\");\n  background-size: 15px;\n  background-repeat: no-repeat;\n}\n";
+  styleInject(css_248z$5);
+
+  script$8.render = render$8;
+  script$8.__file = "src/common/info-card.vue";
+
+  const overrideLocalStorage = function(callback) {
+    const originSetItem = localStorage.setItem.bind(localStorage);
+    localStorage.setItem = function (key, value) {
+      // if (!isStr(key) || !isStr(value)) return;
+      originSetItem(key, value);
+      callback({type: 'setItem'});
+    };
+
+    const originRemoveItem = localStorage.removeItem.bind(localStorage);
+    localStorage.removeItem = function (key) {
+      originRemoveItem(key);
+      callback({type: 'removeItem'});
+    };
+
+    const originClear = localStorage.clear.bind(localStorage);
+    localStorage.clear = function (key) {
+      originClear();
+      callback({type: 'clear'});
+    };
+  };
+
+  const overrideSessionStorage = function(callback) {
+    const originSetItem = sessionStorage.setItem.bind(sessionStorage);
+    sessionStorage.setItem = function (key, value) {
+      // if (!isStr(key) || !isStr(value)) return;
+      originSetItem(key, value);
+      callback({type: 'setItem'});
+    };
+
+    const originRemoveItem = sessionStorage.removeItem.bind(sessionStorage);
+    sessionStorage.removeItem = function (key) {
+      originRemoveItem(key);
+      callback({type: 'removeItem'});
+    };
+
+    const originClear = sessionStorage.clear.bind(sessionStorage);
+    sessionStorage.clear = function (key) {
+      originClear();
+      callback({type: 'clear'});
+    };
+  };
+
+  const clearCookie = function () {
+    let cookieMap = getCookieMap();
+    for (const key in cookieMap) {
+      if (cookieMap.hasOwnProperty.call(cookieMap, key)) {
+        removeCookieItem(key);
+      }
+    }
+  };
+
+  const removeCookieItem = function (key) {
+    document.cookie = encodeURIComponent(key) + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  };
+
+  const getCookieMap = function (params) {
+    const cookieMap = Object.create({});
+    const cookie = document.cookie;
+    if (cookie.trim() !== '') {
+      cookie.split(';').forEach(ele => {
+        ele = ele.split('=');
+        const key = ele.shift().trim();
+        ele = decodeURIComponent(ele.join('='));
+        cookieMap[key] = ele;
+      });
+    }
+
+    return cookieMap;
+  };
+
+  var script$7 = {
+    components: {
+      InfoCard: script$8
+    },
+    data () {
+      return {
+        storageMap: {}
+      }
+    },
+    created() {
+      overrideLocalStorage(() => {
+        this.updateList();
+      });
+      this.updateList();
+    },
+    methods: {
+      updateList() {
+        let storageMap = {...window.localStorage};
+        // 有一些属性不需要展示
+        for (const key in storageMap) {
+          if (Object.hasOwnProperty.call(storageMap, key)) {
+            if (~key.indexOf('dokit') || typeof storageMap[key] !== 'string') delete storageMap[key];
+          }
+        }
+        this.storageMap = storageMap;
+      },
+      removeItem(key) {
+        window.localStorage.removeItem(key);
+      },
+      clear() {
+        window.localStorage.clear();
+      }
+    },
+  };
+
+  function render$7(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_InfoCard = vue.resolveComponent("InfoCard");
+
+    return (vue.openBlock(), vue.createBlock("div", null, [
+      vue.createVNode(_component_InfoCard, {
+        infoMap: $data.storageMap,
+        title: "localStorage",
+        onRefresh: $options.updateList,
+        onClear: $options.clear,
+        onRemoveItem: $options.removeItem
+      }, null, 8 /* PROPS */, ["infoMap", "onRefresh", "onClear", "onRemoveItem"])
+    ]))
+  }
+
+  script$7.render = render$7;
+  script$7.__file = "src/plugins/storage/local-storage.vue";
+
+  var script$6 = {
+    components: {
+      InfoCard: script$8
+    },
+    data () {
+      return {
+        storageMap: {}
+      }
+    },
+    created() {
+      overrideSessionStorage(() => {
+        this.updateList();
+      });
+      this.updateList();
+    },
+    methods: {
+      updateList() {
+        let storageMap = {...window.sessionStorage};
+        // 有一些属性不需要展示
+        for (const key in storageMap) {
+          if (Object.hasOwnProperty.call(storageMap, key)) {
+            if (~key.indexOf('dokit') || typeof storageMap[key] !== 'string') delete storageMap[key];
+          }
+        }
+        this.storageMap = storageMap;
+      },
+      removeItem(key) {
+        window.sessionStorage.removeItem(key);
+      },
+      clear() {
+        window.sessionStorage.clear();
+      }
+    },
+  };
+
+  const _hoisted_1$6 = { style: {"margin-top":"20px"} };
+
+  function render$6(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_InfoCard = vue.resolveComponent("InfoCard");
+
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$6, [
+      vue.createVNode(_component_InfoCard, {
+        infoMap: $data.storageMap,
+        title: "sessionStorage",
+        onRefresh: $options.updateList,
+        onClear: $options.clear,
+        onRemoveItem: $options.removeItem
+      }, null, 8 /* PROPS */, ["infoMap", "onRefresh", "onClear", "onRemoveItem"])
+    ]))
+  }
+
+  script$6.render = render$6;
+  script$6.__file = "src/plugins/storage/session-storage.vue";
+
+  var script$5 = {
+    components: {
+      InfoCard: script$8
+    },
+    data () {
+      return {
+        storageMap: {}
+      }
+    },
+    created() {
+      this.updateList();
+    },
+    methods: {
+      updateList() {
+        this.storageMap = getCookieMap();
+      },
+      removeItem(key) {
+        removeCookieItem(key);
+        this.updateList();
+      },
+      clear() {
+        clearCookie();
+        this.updateList();
+      }
+    },
+  };
+
+  const _hoisted_1$5 = { style: {"margin-top":"20px"} };
+
+  function render$5(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_InfoCard = vue.resolveComponent("InfoCard");
+
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$5, [
+      vue.createVNode(_component_InfoCard, {
+        infoMap: $data.storageMap,
+        title: "Cookie",
+        onRefresh: $options.updateList,
+        onClear: $options.clear,
+        onRemoveItem: $options.removeItem
+      }, null, 8 /* PROPS */, ["infoMap", "onRefresh", "onClear", "onRemoveItem"])
+    ]))
+  }
+
+  script$5.render = render$5;
+  script$5.__file = "src/plugins/storage/cookie.vue";
+
+  var script$4 = {
+    components: {
+      localStorage: script$7,
+      sessionStorage: script$6,
+      cookie: script$5
+    }
+  };
+
+  const _hoisted_1$4 = { class: "storage-plugin" };
+
+  function render$4(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_localStorage = vue.resolveComponent("localStorage");
+    const _component_sessionStorage = vue.resolveComponent("sessionStorage");
+    const _component_cookie = vue.resolveComponent("cookie");
+
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$4, [
+      vue.createVNode(_component_localStorage),
+      vue.createVNode(_component_sessionStorage),
+      vue.createVNode(_component_cookie)
+    ]))
+  }
+
+  var css_248z$4 = "\n.storage-plugin{\n  padding: 5px;\n}\n";
+  styleInject(css_248z$4);
+
+  script$4.render = render$4;
+  script$4.__file = "src/plugins/storage/main.vue";
+
+  var Storage = new RouterPlugin({
+    name: 'Storage',
+    nameZh: '存储',
+    component: script$4,
+    icon: 'https://pt-starimg.didistatic.com/static/starimg/img/LM74BpA9bS1621926286444.png',
+    onLoad(){},
+    onUnload(){}
   });
 
   var script$3 = {
@@ -1597,7 +1987,7 @@
   var DemoPlugin = new RouterPlugin({
     nameZh: '测试',
     name: 'test',
-    icon: 'https://pt-starimg.didistatic.com/static/starimg/img/z1346TQD531618997547642.png',
+    icon: 'https://pt-starimg.didistatic.com/static/starimg/img/6WONqJCVks1621926657356.png',
     component: script$3
   });
 
@@ -1854,37 +2244,32 @@
 
   const BasicFeatures = {
     title: '常用工具',
-    list: [Console, AppInfo, DemoPlugin, DemoIndependPlugin, H5DoorPlugin]
+    list: [Console, AppInfo, Storage, DemoPlugin, DemoIndependPlugin, H5DoorPlugin]
   };
 
   const DokitFeatures = {
     title: '平台功能',
-    list: [{
+    list: [new RouterPlugin({
       nameZh: 'Mock数据',
       name: 'mock',
       icon: 'https://pt-starimg.didistatic.com/static/starimg/img/aDn77poRDB1618997545078.png',
       component: script
-    }]
+    })]
   };
 
   const UIFeatures = {
     title: '视觉功能',
-    list: [{
-      nameZh: '取色器',
-      name: 'color-selector',
-      icon: 'https://pt-starimg.didistatic.com/static/starimg/img/QYUvEE8FnN1618997536890.png',
-      component: script
-    }, {
+    list: [new RouterPlugin({
       nameZh: '对齐标尺',
       name: 'align-ruler',
       icon: 'https://pt-starimg.didistatic.com/static/starimg/img/a5UTjMn6lO1618997535798.png',
       component: script
-    }, {
+    }), new RouterPlugin({
       nameZh: 'UI结构',
       name: 'view-selector',
       icon: 'https://pt-starimg.didistatic.com/static/starimg/img/XNViIWzG7N1618997548483.png',
       component: script
-    }]
+    })]
   };
   const Features = [BasicFeatures, DokitFeatures, UIFeatures];
 
