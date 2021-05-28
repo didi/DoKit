@@ -88,7 +88,7 @@ public class DatabaseDetailFragment extends BaseFragment {
     }
 
     @Override
-    protected boolean onBackPressed() {
+    public boolean onBackPressed() {
         if (table.getVisibility() == View.VISIBLE) {
             table.setVisibility(View.GONE);
             tableListView.setVisibility(View.VISIBLE);

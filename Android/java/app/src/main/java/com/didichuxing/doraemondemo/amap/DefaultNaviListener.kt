@@ -10,7 +10,6 @@ import com.amap.api.navi.enums.NaviType
 import com.amap.api.navi.model.*
 import com.didichuxing.doraemondemo.amap.mockroute.LogUtils
 import com.didichuxing.doraemondemo.amap.mockroute.MockGPSTaskManager
-import com.didichuxing.doraemonkit.util.LogHelper
 import io.reactivex.disposables.Disposable
 
 /**

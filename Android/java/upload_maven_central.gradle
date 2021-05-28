@@ -1,6 +1,6 @@
 import org.gradle.api.internal.artifacts.dependencies.DefaultProjectDependency
 import org.json.JSONObject
-
+// mavenCentral 打包脚本
 apply plugin: 'maven-publish'
 apply plugin: 'signing'
 

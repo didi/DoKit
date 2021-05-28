@@ -1,14 +1,15 @@
 package com.didichuxing.doraemondemo.comm
 
 import android.os.Bundle
+import android.view.View
 import android.view.Window
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.SavedStateViewModelFactory
 import com.didichuxing.doraemondemo.R
-import kotlinx.android.synthetic.main.activity_comm.*
 
 /**
  * ================================================
@@ -49,13 +50,13 @@ class CommFragmentActivity : AppCompatActivity() {
     }
 
     private fun initTitleBar() {
-        iv_back.setOnClickListener {
+        findViewById<View>(R.id.iv_back).setOnClickListener {
             finish()
         }
 
         viewModel.getTitle().observe(this,
             Observer<String> {
-                tv_title.text = it
+                findViewById<TextView>(R.id.tv_title).text = it
             })
     }
 

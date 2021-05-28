@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
@@ -20,7 +21,6 @@ import com.didichuxing.doraemonkit.util.*
 import com.didichuxing.doraemonkit.widget.brvah.listener.OnItemDragListener
 import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder
 import com.didichuxing.doraemonkit.widget.dialog.SimpleDialogListener
-import kotlinx.android.synthetic.main.dk_fragment_kit_manager.*
 
 /**
  * ================================================
@@ -89,7 +89,8 @@ class DokitManagerFragment : BaseFragment() {
                             KitWrapItem(
                                 KitWrapItem.TYPE_TITLE,
                                 name = DoKitCommUtil.getString(
-                                    DoKitCommUtil.getStringId(group.key)),
+                                    DoKitCommUtil.getStringId(group.key)
+                                ),
                                 kit = null
                             )
                         )
@@ -124,7 +125,8 @@ class DokitManagerFragment : BaseFragment() {
                                 KitWrapItem(
                                     KitWrapItem.TYPE_TITLE,
                                     name = DoKitCommUtil.getString(
-                                        DoKitCommUtil.getStringId(group.key)),
+                                        DoKitCommUtil.getStringId(group.key)
+                                    ),
                                     kit = null
                                 )
                             )
@@ -229,15 +231,15 @@ class DokitManagerFragment : BaseFragment() {
     }
 
     private fun dealTitleBar() {
-        tv_reset.visibility = View.GONE
-        ll_back.setOnClickListener {
+        findViewById<View>(R.id.tv_reset).visibility = View.GONE
+        findViewById<View>(R.id.ll_back).setOnClickListener {
             dealBack()
         }
 
-        tv_edit.setOnClickListener {
+        findViewById<View>(R.id.tv_edit).setOnClickListener {
             val textView = it as TextView
             if (DoKitCommUtil.getString(R.string.dk_edit) == textView.text.toString()) {
-                tv_reset.visibility = View.VISIBLE
+                findViewById<View>(R.id.tv_reset).visibility = View.VISIBLE
                 IS_EDIT = true
                 textView.text = DoKitCommUtil.getString(R.string.dk_complete)
                 textView.setTextColor(
@@ -250,7 +252,7 @@ class DokitManagerFragment : BaseFragment() {
                 //需要重新过滤数据
                 reSetKits(true)
             } else if (DoKitCommUtil.getString(R.string.dk_complete) == textView.text.toString()) {
-                tv_reset.visibility = View.GONE
+                findViewById<View>(R.id.tv_reset).visibility = View.GONE
                 IS_EDIT = false
                 textView.text = DoKitCommUtil.getString(R.string.dk_edit)
                 textView.setTextColor(
@@ -276,7 +278,7 @@ class DokitManagerFragment : BaseFragment() {
             mAdapter.notifyDataSetChanged()
         }
         //还原
-        tv_reset.setOnClickListener {
+        findViewById<View>(R.id.tv_reset).setOnClickListener {
             showDialog(
                 ConfirmDialogProvider(
                     DoKitCommUtil.getString(R.string.dk_toolpanel_dialog_reset_tip),
@@ -291,15 +293,19 @@ class DokitManagerFragment : BaseFragment() {
                             mAdapter.notifyDataSetChanged()
                             saveSystemKits()
 
-                            tv_reset.visibility = View.GONE
+                            findViewById<View>(R.id.tv_reset).visibility = View.GONE
                             IS_EDIT = false
-                            tv_edit.text = DoKitCommUtil.getString(R.string.dk_edit)
-                            tv_edit.setTextColor(
-                                ContextCompat.getColor(
-                                    DoKit.APPLICATION!!,
-                                    R.color.dk_color_333333
+
+                            findViewById<EditText>(R.id.tv_edit).apply {
+                                setText(DoKitCommUtil.getString(R.string.dk_edit))
+                                setTextColor(
+                                    ContextCompat.getColor(
+                                        DoKit.APPLICATION,
+                                        R.color.dk_color_333333
+                                    )
                                 )
-                            )
+                            }
+
                             mAdapter.draggableModule.isDragEnabled = false
                             showDialog(
                                 TipDialogProvider(
@@ -425,20 +431,25 @@ class DokitManagerFragment : BaseFragment() {
             }
         }
 
-        val horizontalDividerItemDecoration = HorizontalDividerItemDecoration.Builder(requireActivity())
-            .color(ContextCompat.getColor(requireActivity(), R.color.dk_color_E5E5E5))
-            .size(1)
-            .showLastDivider()
-            .build()
+        val horizontalDividerItemDecoration =
+            HorizontalDividerItemDecoration.Builder(requireActivity())
+                .color(ContextCompat.getColor(requireActivity(), R.color.dk_color_E5E5E5))
+                .size(1)
+                .showLastDivider()
+                .build()
         val verticalDividerItemDecoration = VerticalDividerItemDecoration.Builder(activity)
             .color(ContextCompat.getColor(requireActivity(), R.color.dk_color_E5E5E5))
             .size(1)
             .showLastDivider()
             .build()
-        rv_kits.addItemDecoration(horizontalDividerItemDecoration)
-        rv_kits.addItemDecoration(verticalDividerItemDecoration)
-        rv_kits.layoutManager = gridLayoutManager
-        rv_kits.adapter = mAdapter
+        findViewById<RecyclerView>(R.id.rv_kits)
+            .apply {
+                addItemDecoration(horizontalDividerItemDecoration)
+                addItemDecoration(verticalDividerItemDecoration)
+                layoutManager = gridLayoutManager
+                adapter = mAdapter
+            }
+
     }
 
     override fun onBackPressed(): Boolean {

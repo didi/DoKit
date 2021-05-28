@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.constant
 import com.didichuxing.doraemonkit.util.NetworkUtils
 import com.didichuxing.doraemonkit.util.PathUtils
 import com.didichuxing.doraemonkit.BuildConfig
+import com.didichuxing.doraemonkit.DoKitCallBack
 import com.didichuxing.doraemonkit.config.GlobalConfig
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
@@ -128,6 +129,11 @@ object DoKitConstant {
      * 一机多控自定义拦截器
      */
     var MC_INTERCEPT: MCInterceptor? = null
+
+    /**
+     * 全局回调
+     */
+    var CALLBACK: DoKitCallBack? = null
 
     /**
      * 一机多控类型

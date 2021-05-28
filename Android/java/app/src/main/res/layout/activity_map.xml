@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.didichuxing.doraemondemo.MapActivity">
+    android:orientation="vertical">
 
 
     <Button
@@ -33,12 +32,6 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-
-        <com.tencent.tencentmap.mapsdk.maps.MapView
-            android:id="@+id/tencentmap_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
 
     </LinearLayout>
 

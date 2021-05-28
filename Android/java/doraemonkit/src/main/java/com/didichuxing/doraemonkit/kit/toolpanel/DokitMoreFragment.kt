@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.didichuxing.doraemonkit.util.GsonUtils
@@ -19,7 +20,7 @@ import com.didichuxing.doraemonkit.kit.toolpanel.bean.MorePageGroupBean
 import com.didichuxing.doraemonkit.kit.webview.CommWebViewFragment
 import com.didichuxing.doraemonkit.kit.webview.WebViewManager
 import com.didichuxing.doraemonkit.volley.VolleyManager
-import kotlinx.android.synthetic.main.dk_fragment_more.*
+import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
 
 /**
  * ================================================
@@ -103,14 +104,17 @@ class DokitMoreFragment : BaseFragment() {
 
     fun initView(items: MutableList<MorePageGroupBean.DataBean.GroupBean.ListBean>) {
         allItems = items
-        title_bar.setListener {
+        findViewById<HomeTitleBar>(R.id.title_bar).setListener {
             finish()
         }
 
         mAdapter =
             DokitMoreAdapter(R.layout.dk_item_more_header, R.layout.dk_item_more_content, items)
-        setting_list.adapter = mAdapter
-        setting_list.layoutManager = LinearLayoutManager(activity)
+        findViewById<RecyclerView>(R.id.setting_list).apply {
+            adapter = mAdapter
+            layoutManager = LinearLayoutManager(activity)
+        }
+
         mAdapter.setOnItemChildClickListener { _, _, position ->
 
             val item = allItems?.get(position)

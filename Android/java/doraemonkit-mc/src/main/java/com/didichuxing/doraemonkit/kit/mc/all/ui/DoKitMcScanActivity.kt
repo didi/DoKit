@@ -7,7 +7,6 @@ import androidx.annotation.IdRes
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
 import com.didichuxing.doraemonkit.zxing.activity.CaptureActivity
-import kotlinx.android.synthetic.main.dk_activity_mc.*
 
 /**
  * ================================================
