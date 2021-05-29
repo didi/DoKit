@@ -1,68 +1,22 @@
-export const LogMap = {
-  0: 'All',
-  1: 'Log',
-  2: 'Info',
-  3: 'Warn',
-  4: 'Error'
-}
-export const LogEnum = {
-  ALL: 0,
-  LOG: 1,
-  INFO: 2,
-  WARN: 3,
-  ERROR: 4
-}
+import {EventEmitter} from '@dokit/web-core'
 
-export const ConsoleLogMap = {
-  'log': LogEnum.LOG,
-  'info': LogEnum.INFO,
-  'warn': LogEnum.WARN,
-  'error': LogEnum.ERROR
-}
-
-export const CONSOLE_METHODS = ["log", "info", 'warn', 'error']
-
-export const LogTabs = Object.keys(LogMap).map(key => {
-  return {
-    type: parseInt(key),
-    name: LogMap[key]
+class Request extends EventEmitter{
+  constructor(){
+    super()
+    this.initialize()
   }
-})
-
-export const excuteScript = function(command){
-  let ret 
-  try{
-    ret = eval.call(window, `(${command})`)
-  }catch(e){
-    ret = eval.call(window, command)
+  initialize(){
+    let _this = this
+    let {send:originSend, open:originOpen} = window.XMLHttpRequest.prototype;
+    // TODO 增加请求拦截器，增加单测
+    window.XMLHttpRequest.prototype.open = function(method, url){
+      originOpen.apply(this, arguments);
+    }
+    window.XMLHttpRequest.prototype.send = function(){
+      originSend.apply(this, arguments);
+    }
   }
-  return ret
 }
 
-export const origConsole = {}
-export const noop = () => {}
-export const overrideConsole = function(callback) {
-  const winConsole = window.console
-  CONSOLE_METHODS.forEach((name) => {
-    let origin = (origConsole[name] = noop)
-    if (winConsole[name]) {
-      origin = origConsole[name] = winConsole[name].bind(winConsole)
-    }
-
-    winConsole[name] = (...args) => {
-      callback({
-        name: name,
-        type: ConsoleLogMap[name],
-        value: args
-      })
-      origin(...args)
-    }
-  })
-}
-
-export const restoreConsole = function(){
-  const winConsole = window.console
-  CONSOLE_METHODS.forEach((name) => {
-    winConsole[name] = origConsole[name]
-  })
-}
+// 单例，保证有且只有一个
+export default new Request()
