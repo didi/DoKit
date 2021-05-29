@@ -3,10 +3,12 @@ import AppInfo from './plugins/app-info/index'
 import DemoPlugin from './plugins/demo-plugin/index'
 import DemoSinglePlugin from './plugins/demo-single-plugin/index'
 import H5DoorPlugin from './plugins/h5-door/index'
+import Network from './plugins/network/index'
 import HelloWorld from './components/ToolHelloWorld'
+
 export const BasicFeatures = {
   title: '常用工具',
-  list: [Console, AppInfo, DemoPlugin, DemoSinglePlugin, H5DoorPlugin]
+  list: [Console, AppInfo, DemoPlugin, DemoSinglePlugin, H5DoorPlugin, Network]
 }
 
 export const DokitFeatures = {

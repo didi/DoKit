@@ -129,7 +129,7 @@
     }
   };
 
-  const _withId$6 = /*#__PURE__*/vue.withScopeId("data-v-29d70086");
+  const _withId$6$1 = /*#__PURE__*/vue.withScopeId("data-v-29d70086");
 
   vue.pushScopeId("data-v-29d70086");
   const _hoisted_1$6$1 = { class: "bar" };
@@ -138,7 +138,7 @@
   const _hoisted_4$1$1 = { class: "bar-title-text" };
   vue.popScopeId();
 
-  const render$6$1 = /*#__PURE__*/_withId$6((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$6$1 = /*#__PURE__*/_withId$6$1((_ctx, _cache, $props, $setup, $data, $options) => {
     return (vue.openBlock(), vue.createBlock("div", _hoisted_1$6$1, [
       vue.withDirectives(vue.createVNode("div", {
         class: "bar-back",
@@ -456,9 +456,9 @@
   const _hoisted_1$2$1 = { class: "card" };
   const _hoisted_2$1$1 = { class: "card-title" };
   const _hoisted_3$1$1 = { class: "card-title-text" };
-  const _hoisted_4$2 = { class: "item-list" };
-  const _hoisted_5$1 = { class: "item-icon" };
-  const _hoisted_6$1 = { class: "item-title" };
+  const _hoisted_4$4 = { class: "item-list" };
+  const _hoisted_5$3 = { class: "item-icon" };
+  const _hoisted_6$2 = { class: "item-title" };
   vue.popScopeId();
 
   const render$2$1 = /*#__PURE__*/_withId$2$1((_ctx, _cache, $props, $setup, $data, $options) => {
@@ -466,20 +466,20 @@
       vue.createVNode("div", _hoisted_2$1$1, [
         vue.createVNode("span", _hoisted_3$1$1, vue.toDisplayString($props.title), 1 /* TEXT */)
       ]),
-      vue.createVNode("div", _hoisted_4$2, [
+      vue.createVNode("div", _hoisted_4$4, [
         (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.list, (item, index) => {
           return (vue.openBlock(), vue.createBlock("div", {
             class: "item",
             key: index,
             onClick: $event => ($options.handleClickItem(item))
           }, [
-            vue.createVNode("div", _hoisted_5$1, [
+            vue.createVNode("div", _hoisted_5$3, [
               vue.createVNode("img", {
                 class: "item-icon-image",
                 src: item.icon || $data.defaultIcon
               }, null, 8 /* PROPS */, ["src"])
             ]),
-            vue.createVNode("div", _hoisted_6$1, vue.toDisplayString(item.nameZh || '默认功能'), 1 /* TEXT */)
+            vue.createVNode("div", _hoisted_6$2, vue.toDisplayString(item.nameZh || '默认功能'), 1 /* TEXT */)
           ], 8 /* PROPS */, ["onClick"]))
         }), 128 /* KEYED_FRAGMENT */))
       ])
@@ -508,16 +508,16 @@
 
   vue.pushScopeId("data-v-b7dc930c");
   const _hoisted_1$1$1 = { class: "card version" };
-  const _hoisted_2$a = { class: "version-text" };
-  const _hoisted_3$9 = { class: "version-image" };
+  const _hoisted_2$d = { class: "version-text" };
+  const _hoisted_3$c = { class: "version-image" };
   vue.popScopeId();
 
   const render$1$1 = /*#__PURE__*/_withId$1$1((_ctx, _cache, $props, $setup, $data, $options) => {
     return (vue.openBlock(), vue.createBlock("div", _hoisted_1$1$1, [
       vue.createVNode("div", null, [
-        vue.createVNode("span", _hoisted_2$a, "当前版本：V" + vue.toDisplayString($props.version), 1 /* TEXT */)
+        vue.createVNode("span", _hoisted_2$d, "当前版本：V" + vue.toDisplayString($props.version), 1 /* TEXT */)
       ]),
-      vue.createVNode("div", _hoisted_3$9, [
+      vue.createVNode("div", _hoisted_3$c, [
         vue.createVNode("img", {
           class: "dokit-icon",
           src: $data.dokitIcon
@@ -533,7 +533,7 @@
   script$1$1.__scopeId = "data-v-b7dc930c";
   script$1$1.__file = "src/common/components/version.vue";
 
-  var script$c = {
+  var script$g = {
     components: {
       TopBar: script$6$1,
       Card: script$2$1,
@@ -567,17 +567,17 @@
     }
   };
 
-  const _withId$7 = /*#__PURE__*/vue.withScopeId("data-v-957c9522");
+  const _withId$9 = /*#__PURE__*/vue.withScopeId("data-v-957c9522");
 
   vue.pushScopeId("data-v-957c9522");
-  const _hoisted_1$b = { class: "index-container" };
+  const _hoisted_1$f = { class: "index-container" };
   vue.popScopeId();
 
-  const render$c = /*#__PURE__*/_withId$7((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$g = /*#__PURE__*/_withId$9((_ctx, _cache, $props, $setup, $data, $options) => {
     const _component_card = vue.resolveComponent("card");
     const _component_version_card = vue.resolveComponent("version-card");
 
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$b, [
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$f, [
       (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($options.features, (item, index) => {
         return (vue.openBlock(), vue.createBlock(_component_card, {
           key: index,
@@ -590,16 +590,16 @@
     ]))
   });
 
-  var css_248z$c = ".index-container[data-v-957c9522] {\n  background-color: #f5f6f7;\n}\n";
-  styleInject$1(css_248z$c);
+  var css_248z$g = ".index-container[data-v-957c9522] {\n  background-color: #f5f6f7;\n}\n";
+  styleInject$1(css_248z$g);
 
-  script$c.render = render$c;
-  script$c.__scopeId = "data-v-957c9522";
-  script$c.__file = "src/components/home.vue";
+  script$g.render = render$g;
+  script$g.__scopeId = "data-v-957c9522";
+  script$g.__file = "src/components/home.vue";
 
   const defaultRoute = [{
     name: 'home',
-    component: script$c
+    component: script$g
   }];
 
   function getRoutes(features){
@@ -794,7 +794,7 @@
     }
   }
 
-  var script$b = {
+  var script$f = {
     props: {
       tabs: {
         type: Array
@@ -814,24 +814,24 @@
     },
   };
 
-  const _withId$5 = /*#__PURE__*/vue.withScopeId("data-v-9d220f86");
+  const _withId$8 = /*#__PURE__*/vue.withScopeId("data-v-9d220f86");
 
   vue.pushScopeId("data-v-9d220f86");
-  const _hoisted_1$a = { class: "tab-container" };
-  const _hoisted_2$9 = { class: "tab-list" };
-  const _hoisted_3$8 = { class: "tab-item-text" };
+  const _hoisted_1$e = { class: "tab-container" };
+  const _hoisted_2$c = { class: "tab-list" };
+  const _hoisted_3$b = { class: "tab-item-text" };
   vue.popScopeId();
 
-  const render$b = /*#__PURE__*/_withId$5((_ctx, _cache, $props, $setup, $data, $options) => {
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$a, [
-      vue.createVNode("div", _hoisted_2$9, [
+  const render$f = /*#__PURE__*/_withId$8((_ctx, _cache, $props, $setup, $data, $options) => {
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$e, [
+      vue.createVNode("div", _hoisted_2$c, [
         (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.tabs, (item, index) => {
           return (vue.openBlock(), vue.createBlock("div", {
             class: ["tab-item", $data.curIndex === index? 'tab-active': 'tab-default'],
             key: index,
             onClick: $event => ($options.handleClickTab(item, index))
           }, [
-            vue.createVNode("span", _hoisted_3$8, vue.toDisplayString(item.name), 1 /* TEXT */)
+            vue.createVNode("span", _hoisted_3$b, vue.toDisplayString(item.name), 1 /* TEXT */)
           ], 10 /* CLASS, PROPS */, ["onClick"]))
         }), 128 /* KEYED_FRAGMENT */))
       ])
@@ -865,12 +865,12 @@
     }
   }
 
-  var css_248z$b = ".tab-container[data-v-9d220f86] .tab-list[data-v-9d220f86] {\n  display: flex;\n  height: 38px;\n  justify-content: space-between;\n  align-items: center;\n  border: 1px solid #f5f6f7;\n}\n.tab-container[data-v-9d220f86] .tab-item[data-v-9d220f86] {\n  flex: 1;\n  height: 38px;\n  line-height: 38px;\n  text-align: center;\n}\n.tab-container[data-v-9d220f86] .tab-item-text[data-v-9d220f86] {\n  font-size: 16px;\n  color: #333333;\n}\n.tab-container[data-v-9d220f86] .tab-active[data-v-9d220f86] {\n  border-bottom: 1px solid #1485ee;\n}\n.tab-container[data-v-9d220f86] .tab-default[data-v-9d220f86] {\n  border: none;\n}\n";
-  styleInject(css_248z$b);
+  var css_248z$f = ".tab-container[data-v-9d220f86] .tab-list[data-v-9d220f86] {\n  display: flex;\n  height: 38px;\n  justify-content: space-between;\n  align-items: center;\n  border: 1px solid #f5f6f7;\n}\n.tab-container[data-v-9d220f86] .tab-item[data-v-9d220f86] {\n  flex: 1;\n  height: 38px;\n  line-height: 38px;\n  text-align: center;\n}\n.tab-container[data-v-9d220f86] .tab-item-text[data-v-9d220f86] {\n  font-size: 16px;\n  color: #333333;\n}\n.tab-container[data-v-9d220f86] .tab-active[data-v-9d220f86] {\n  border-bottom: 1px solid #1485ee;\n}\n.tab-container[data-v-9d220f86] .tab-default[data-v-9d220f86] {\n  border: none;\n}\n";
+  styleInject(css_248z$f);
 
-  script$b.render = render$b;
-  script$b.__scopeId = "data-v-9d220f86";
-  script$b.__file = "src/plugins/console/console-tap.vue";
+  script$f.render = render$f;
+  script$f.__scopeId = "data-v-9d220f86";
+  script$f.__file = "src/plugins/console/console-tap.vue";
 
   const getDataType = function (arg) {
     if (arg === null ) {
@@ -926,10 +926,10 @@
   };
 
   const TYPE_CAN_FOLD = ['Object', 'Array'];
-  var script$a = {
+  var script$e = {
     name: "Detail",
     components: {
-      Detail: script$a
+      Detail: script$e
     },
     props: {
       detailValue: [String, Number, Object],
@@ -972,9 +972,9 @@
     }
   };
 
-  const _withId$4 = /*#__PURE__*/vue.withScopeId("data-v-151438cc");
+  const _withId$7 = /*#__PURE__*/vue.withScopeId("data-v-151438cc");
 
-  const render$a = /*#__PURE__*/_withId$4((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$e = /*#__PURE__*/_withId$7((_ctx, _cache, $props, $setup, $data, $options) => {
     const _component_Detail = vue.resolveComponent("Detail");
 
     return (vue.openBlock(), vue.createBlock("div", {
@@ -999,18 +999,18 @@
     ], 2 /* CLASS */))
   });
 
-  var css_248z$a = ".detail-container[data-v-151438cc] {\n  font-size: 12px;\n  margin-left: 24px;\n  position: relative;\n}\n.can-unfold[data-v-151438cc][data-v-151438cc]::before {\n  content: \"\";\n  width: 0;\n  height: 0;\n  border: 4px solid transparent;\n  position: absolute;\n  border-left-color: #333;\n  left: -12px;\n  top: 3px;\n}\n.unfolded[data-v-151438cc][data-v-151438cc]::before {\n  border: 4px solid transparent;\n  border-top-color: #333;\n  top: 6px;\n}\n";
-  styleInject(css_248z$a);
+  var css_248z$e = ".detail-container[data-v-151438cc] {\n  font-size: 12px;\n  margin-left: 24px;\n  position: relative;\n}\n.can-unfold[data-v-151438cc][data-v-151438cc]::before {\n  content: \"\";\n  width: 0;\n  height: 0;\n  border: 4px solid transparent;\n  position: absolute;\n  border-left-color: #333;\n  left: -12px;\n  top: 3px;\n}\n.unfolded[data-v-151438cc][data-v-151438cc]::before {\n  border: 4px solid transparent;\n  border-top-color: #333;\n  top: 6px;\n}\n";
+  styleInject(css_248z$e);
 
-  script$a.render = render$a;
-  script$a.__scopeId = "data-v-151438cc";
-  script$a.__file = "src/plugins/console/log-detail.vue";
+  script$e.render = render$e;
+  script$e.__scopeId = "data-v-151438cc";
+  script$e.__file = "src/plugins/console/log-detail.vue";
 
   const DATATYPE_NOT_DISPLAY = ['Number', 'String', 'Boolean'];
 
-  var script$9 = {
+  var script$d = {
     components: {
-      Detail: script$a
+      Detail: script$e
     },
     props: {
       type: [Number],
@@ -1043,20 +1043,20 @@
     }
   };
 
-  const _hoisted_1$9 = { class: "log-ltem" };
-  const _hoisted_2$8 = { key: 0 };
+  const _hoisted_1$d = { class: "log-ltem" };
+  const _hoisted_2$b = { key: 0 };
 
-  function render$9(_ctx, _cache, $props, $setup, $data, $options) {
+  function render$d(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Detail = vue.resolveComponent("Detail");
 
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$9, [
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$d, [
       vue.createVNode("div", {
         class: "log-preview",
         innerHTML: $options.logPreview,
         onClick: _cache[1] || (_cache[1] = (...args) => ($options.toggleDetail && $options.toggleDetail(...args)))
       }, null, 8 /* PROPS */, ["innerHTML"]),
       ($data.showDetail && typeof $props.value === 'object')
-        ? (vue.openBlock(), vue.createBlock("div", _hoisted_2$8, [
+        ? (vue.openBlock(), vue.createBlock("div", _hoisted_2$b, [
             (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.value, (key, index) => {
               return (vue.openBlock(), vue.createBlock("div", {
                 class: "list-item",
@@ -1073,15 +1073,15 @@
     ]))
   }
 
-  var css_248z$9 = ".log-ltem {\n  padding: 5px;\n  border-top: 1px solid #eee;\n  text-align: left;\n  font-size: 12px;\n}\n.log-ltem:first-child {\n  border: none;\n}\n.log-preview .data-type {\n  margin-left: 5px;\n  margin-right: 5px;\n  font-style: italic;\n  font-weight: bold;\n  color: #aaa;\n}\n.log-preview .data-structure {\n  font-style: italic;\n}\n";
-  styleInject(css_248z$9);
+  var css_248z$d = ".log-ltem {\n  padding: 5px;\n  border-top: 1px solid #eee;\n  text-align: left;\n  font-size: 12px;\n}\n.log-ltem:first-child {\n  border: none;\n}\n.log-preview .data-type {\n  margin-left: 5px;\n  margin-right: 5px;\n  font-style: italic;\n  font-weight: bold;\n  color: #aaa;\n}\n.log-preview .data-structure {\n  font-style: italic;\n}\n";
+  styleInject(css_248z$d);
 
-  script$9.render = render$9;
-  script$9.__file = "src/plugins/console/log-item.vue";
+  script$d.render = render$d;
+  script$d.__file = "src/plugins/console/log-item.vue";
 
-  var script$8 = {
+  var script$c = {
     components: {
-      LogItem: script$9
+      LogItem: script$d
     },
     props: {
       logList: {
@@ -1094,16 +1094,16 @@
     }
   };
 
-  const _withId$3 = /*#__PURE__*/vue.withScopeId("data-v-722c5870");
+  const _withId$6 = /*#__PURE__*/vue.withScopeId("data-v-722c5870");
 
   vue.pushScopeId("data-v-722c5870");
-  const _hoisted_1$8 = { class: "log-container" };
+  const _hoisted_1$c = { class: "log-container" };
   vue.popScopeId();
 
-  const render$8 = /*#__PURE__*/_withId$3((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$c = /*#__PURE__*/_withId$6((_ctx, _cache, $props, $setup, $data, $options) => {
     const _component_log_item = vue.resolveComponent("log-item");
 
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$8, [
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$c, [
       (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.logList, (log, index) => {
         return (vue.openBlock(), vue.createBlock(_component_log_item, {
           key: index,
@@ -1114,12 +1114,12 @@
     ]))
   });
 
-  var css_248z$8 = ".tab-container[data-v-722c5870] .tab-list[data-v-722c5870] {\n  display: flex;\n  height: 38px;\n  justify-content: space-between;\n  align-items: center;\n  border: 1px solid #f5f6f7;\n}\n.tab-container[data-v-722c5870] .tab-item[data-v-722c5870] {\n  flex: 1;\n  height: 38px;\n  line-height: 38px;\n  text-align: center;\n}\n.tab-container[data-v-722c5870] .tab-item-text[data-v-722c5870] {\n  font-size: 16px;\n  color: #333333;\n}\n.tab-container[data-v-722c5870] .tab-active[data-v-722c5870] {\n  border-bottom: 1px solid #1485ee;\n}\n.tab-container[data-v-722c5870] .tab-default[data-v-722c5870] {\n  border: none;\n}\n";
-  styleInject(css_248z$8);
+  var css_248z$c = ".tab-container[data-v-722c5870] .tab-list[data-v-722c5870] {\n  display: flex;\n  height: 38px;\n  justify-content: space-between;\n  align-items: center;\n  border: 1px solid #f5f6f7;\n}\n.tab-container[data-v-722c5870] .tab-item[data-v-722c5870] {\n  flex: 1;\n  height: 38px;\n  line-height: 38px;\n  text-align: center;\n}\n.tab-container[data-v-722c5870] .tab-item-text[data-v-722c5870] {\n  font-size: 16px;\n  color: #333333;\n}\n.tab-container[data-v-722c5870] .tab-active[data-v-722c5870] {\n  border-bottom: 1px solid #1485ee;\n}\n.tab-container[data-v-722c5870] .tab-default[data-v-722c5870] {\n  border: none;\n}\n";
+  styleInject(css_248z$c);
 
-  script$8.render = render$8;
-  script$8.__scopeId = "data-v-722c5870";
-  script$8.__file = "src/plugins/console/log-container.vue";
+  script$c.render = render$c;
+  script$c.__scopeId = "data-v-722c5870";
+  script$c.__file = "src/plugins/console/log-container.vue";
 
   const LogMap = {
     0: 'All',
@@ -1190,7 +1190,7 @@
     });
   };
 
-  var script$7 = {
+  var script$b = {
     data(){
       return {
         command: ""
@@ -1207,17 +1207,17 @@
     }
   };
 
-  const _withId$2 = /*#__PURE__*/vue.withScopeId("data-v-f469c502");
+  const _withId$5 = /*#__PURE__*/vue.withScopeId("data-v-f469c502");
 
   vue.pushScopeId("data-v-f469c502");
-  const _hoisted_1$7 = { class: "operation" };
-  const _hoisted_2$7 = { class: "input-wrapper" };
-  const _hoisted_3$7 = /*#__PURE__*/vue.createVNode("span", null, "Excute", -1 /* HOISTED */);
+  const _hoisted_1$b = { class: "operation" };
+  const _hoisted_2$a = { class: "input-wrapper" };
+  const _hoisted_3$a = /*#__PURE__*/vue.createVNode("span", null, "Excute", -1 /* HOISTED */);
   vue.popScopeId();
 
-  const render$7 = /*#__PURE__*/_withId$2((_ctx, _cache, $props, $setup, $data, $options) => {
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$7, [
-      vue.createVNode("div", _hoisted_2$7, [
+  const render$b = /*#__PURE__*/_withId$5((_ctx, _cache, $props, $setup, $data, $options) => {
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$b, [
+      vue.createVNode("div", _hoisted_2$a, [
         vue.withDirectives(vue.createVNode("input", {
           class: "input",
           placeholder: "Command……",
@@ -1230,23 +1230,23 @@
         class: "button-wrapper",
         onClick: _cache[2] || (_cache[2] = (...args) => ($options.excuteCommand && $options.excuteCommand(...args)))
       }, [
-        _hoisted_3$7
+        _hoisted_3$a
       ])
     ]))
   });
 
-  var css_248z$7 = ".operation[data-v-f469c502] {\n  height: 50px;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.input-wrapper[data-v-f469c502] {\n  flex: 1;\n  height: 100%;\n}\n.input-wrapper[data-v-f469c502] .input[data-v-f469c502] {\n  height: 100%;\n  width: 100%;\n  outline: none;\n  border: none;\n  line-height: 100%;\n  padding: 0 10px;\n  font-size: 18px;\n}\n.button-wrapper[data-v-f469c502] {\n  height: 100%;\n  line-height: 100%;\n  margin-left: 10px;\n  padding: 0 10px;\n  border-left: 1px solid #f5f6f7;\n  display: flex;\n  align-items: center;\n}\n";
-  styleInject(css_248z$7);
+  var css_248z$b = ".operation[data-v-f469c502] {\n  height: 50px;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n.input-wrapper[data-v-f469c502] {\n  flex: 1;\n  height: 100%;\n}\n.input-wrapper[data-v-f469c502] .input[data-v-f469c502] {\n  height: 100%;\n  width: 100%;\n  outline: none;\n  border: none;\n  line-height: 100%;\n  padding: 0 10px;\n  font-size: 18px;\n}\n.button-wrapper[data-v-f469c502] {\n  height: 100%;\n  line-height: 100%;\n  margin-left: 10px;\n  padding: 0 10px;\n  border-left: 1px solid #f5f6f7;\n  display: flex;\n  align-items: center;\n}\n";
+  styleInject(css_248z$b);
 
-  script$7.render = render$7;
-  script$7.__scopeId = "data-v-f469c502";
-  script$7.__file = "src/plugins/console/op-command.vue";
+  script$b.render = render$b;
+  script$b.__scopeId = "data-v-f469c502";
+  script$b.__file = "src/plugins/console/op-command.vue";
 
-  var script$6 = {
+  var script$a = {
     components: {
-      ConsoleTap: script$b,
-      LogContainer: script$8,
-      OperationCommand: script$7
+      ConsoleTap: script$f,
+      LogContainer: script$c,
+      OperationCommand: script$b
     },
     data() {
       return {
@@ -1275,50 +1275,49 @@
     }
   };
 
-  const _withId$1 = /*#__PURE__*/vue.withScopeId("data-v-35ae264e");
+  const _withId$4 = /*#__PURE__*/vue.withScopeId("data-v-35ae264e");
 
   vue.pushScopeId("data-v-35ae264e");
-  const _hoisted_1$6 = { class: "console-container" };
-  const _hoisted_2$6 = { class: "log-container" };
-  const _hoisted_3$6 = { class: "info-container" };
-  const _hoisted_4$1 = { class: "operation-container" };
+  const _hoisted_1$a = { class: "console-container" };
+  const _hoisted_2$9 = { class: "log-container" };
+  const _hoisted_3$9 = { class: "info-container" };
+  const _hoisted_4$3 = { class: "operation-container" };
   vue.popScopeId();
 
-  const render$6 = /*#__PURE__*/_withId$1((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$a = /*#__PURE__*/_withId$4((_ctx, _cache, $props, $setup, $data, $options) => {
     const _component_console_tap = vue.resolveComponent("console-tap");
     const _component_log_container = vue.resolveComponent("log-container");
     const _component_operation_command = vue.resolveComponent("operation-command");
 
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$6, [
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$a, [
       vue.createVNode(_component_console_tap, {
         tabs: $data.logTabs,
         onChangeTap: $options.handleChangeTab
       }, null, 8 /* PROPS */, ["tabs", "onChangeTap"]),
-      vue.createVNode("div", _hoisted_2$6, [
-        vue.createVNode("div", _hoisted_3$6, [
+      vue.createVNode("div", _hoisted_2$9, [
+        vue.createVNode("div", _hoisted_3$9, [
           vue.createVNode(_component_log_container, { logList: $options.curLogList }, null, 8 /* PROPS */, ["logList"])
         ]),
-        vue.createVNode("div", _hoisted_4$1, [
+        vue.createVNode("div", _hoisted_4$3, [
           vue.createVNode(_component_operation_command)
         ])
       ])
     ]))
   });
 
-  var css_248z$6 = ".console-container[data-v-35ae264e] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.log-container[data-v-35ae264e] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n}\n.log-container[data-v-35ae264e] .info-container[data-v-35ae264e] {\n  flex: 1;\n  background-color: #ffffff;\n  border-bottom: 1px solid #f5f6f7;\n  overflow-y: scroll;\n}\n";
-  styleInject(css_248z$6);
+  var css_248z$a = ".console-container[data-v-35ae264e] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.log-container[data-v-35ae264e] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n}\n.log-container[data-v-35ae264e] .info-container[data-v-35ae264e] {\n  flex: 1;\n  background-color: #ffffff;\n  border-bottom: 1px solid #f5f6f7;\n  overflow-y: scroll;\n}\n";
+  styleInject(css_248z$a);
 
-  script$6.render = render$6;
-  script$6.__scopeId = "data-v-35ae264e";
-  script$6.__file = "src/plugins/console/main.vue";
+  script$a.render = render$a;
+  script$a.__scopeId = "data-v-35ae264e";
+  script$a.__file = "src/plugins/console/main.vue";
 
   var Console = new RouterPlugin({
     name: 'console',
     nameZh: '日志',
-    component: script$6,
+    component: script$a,
     icon: 'https://pt-starimg.didistatic.com/static/starimg/img/PbNXVyzTbq1618997544543.png',
     onLoad(){
-      console.log('Load');
       overrideConsole(({name, type, value}) => {
         let state = getGlobalData();
         state.logList = state.logList || [];
@@ -1334,34 +1333,34 @@
     }
   });
 
-  var script$5 = {
+  var script$9 = {
     props: {
       title: String
     }
   };
 
-  const _hoisted_1$5 = { class: "dokit-card" };
-  const _hoisted_2$5 = { class: "dokit-card__header" };
-  const _hoisted_3$5 = { class: "dokit-card__body" };
+  const _hoisted_1$9 = { class: "dokit-card" };
+  const _hoisted_2$8 = { class: "dokit-card__header" };
+  const _hoisted_3$8 = { class: "dokit-card__body" };
 
-  function render$5(_ctx, _cache, $props, $setup, $data, $options) {
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$5, [
-      vue.createVNode("div", _hoisted_2$5, vue.toDisplayString($props.title), 1 /* TEXT */),
-      vue.createVNode("div", _hoisted_3$5, [
+  function render$9(_ctx, _cache, $props, $setup, $data, $options) {
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$9, [
+      vue.createVNode("div", _hoisted_2$8, vue.toDisplayString($props.title), 1 /* TEXT */),
+      vue.createVNode("div", _hoisted_3$8, [
         vue.renderSlot(_ctx.$slots, "default")
       ])
     ]))
   }
 
-  var css_248z$5 = ".dokit-card {\n  border-radius: 10px;\n  box-shadow: 0 8px 12px #ebedf0;\n  overflow: hidden;\n}\n.dokit-card .dokit-card__header {\n  background-color: #337cc4;\n  padding: 10px;\n  color: #fff;\n}\n.dokit-card .dokit-card__body {\n  padding: 10px;\n}\n";
-  styleInject(css_248z$5);
+  var css_248z$9 = ".dokit-card {\n  border-radius: 10px;\n  box-shadow: 0 8px 12px #ebedf0;\n  overflow: hidden;\n}\n.dokit-card .dokit-card__header {\n  background-color: #337cc4;\n  padding: 10px;\n  color: #fff;\n}\n.dokit-card .dokit-card__body {\n  padding: 10px;\n}\n";
+  styleInject(css_248z$9);
 
-  script$5.render = render$5;
-  script$5.__file = "src/common/Card.vue";
+  script$9.render = render$9;
+  script$9.__file = "src/common/Card.vue";
 
-  var script$4 = {
+  var script$8 = {
     components: {
-      Card: script$5
+      Card: script$9
     },
     data() {
       return {
@@ -1377,35 +1376,35 @@
     },
   };
 
-  const _withId = /*#__PURE__*/vue.withScopeId("data-v-756cbe6c");
+  const _withId$3 = /*#__PURE__*/vue.withScopeId("data-v-756cbe6c");
 
   vue.pushScopeId("data-v-756cbe6c");
-  const _hoisted_1$4 = { class: "app-info-container" };
-  const _hoisted_2$4 = { class: "info-wrapper" };
-  const _hoisted_3$4 = { border: "1" };
-  const _hoisted_4 = /*#__PURE__*/vue.createVNode("td", null, "UA", -1 /* HOISTED */);
-  const _hoisted_5 = /*#__PURE__*/vue.createVNode("td", null, "URL", -1 /* HOISTED */);
-  const _hoisted_6 = { class: "info-wrapper" };
-  const _hoisted_7 = { border: "1" };
+  const _hoisted_1$8 = { class: "app-info-container" };
+  const _hoisted_2$7 = { class: "info-wrapper" };
+  const _hoisted_3$7 = { border: "1" };
+  const _hoisted_4$2 = /*#__PURE__*/vue.createVNode("td", null, "UA", -1 /* HOISTED */);
+  const _hoisted_5$2 = /*#__PURE__*/vue.createVNode("td", null, "URL", -1 /* HOISTED */);
+  const _hoisted_6$1 = { class: "info-wrapper" };
+  const _hoisted_7$1 = { border: "1" };
   const _hoisted_8 = /*#__PURE__*/vue.createVNode("td", null, "设备缩放比", -1 /* HOISTED */);
   const _hoisted_9 = /*#__PURE__*/vue.createVNode("td", null, "screen", -1 /* HOISTED */);
   const _hoisted_10 = /*#__PURE__*/vue.createVNode("td", null, "viewport", -1 /* HOISTED */);
   vue.popScopeId();
 
-  const render$4 = /*#__PURE__*/_withId((_ctx, _cache, $props, $setup, $data, $options) => {
+  const render$8 = /*#__PURE__*/_withId$3((_ctx, _cache, $props, $setup, $data, $options) => {
     const _component_Card = vue.resolveComponent("Card");
 
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$4, [
-      vue.createVNode("div", _hoisted_2$4, [
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$8, [
+      vue.createVNode("div", _hoisted_2$7, [
         vue.createVNode(_component_Card, { title: "Page Info" }, {
-          default: _withId(() => [
-            vue.createVNode("table", _hoisted_3$4, [
+          default: _withId$3(() => [
+            vue.createVNode("table", _hoisted_3$7, [
               vue.createVNode("tr", null, [
-                _hoisted_4,
+                _hoisted_4$2,
                 vue.createVNode("td", null, vue.toDisplayString($data.ua), 1 /* TEXT */)
               ]),
               vue.createVNode("tr", null, [
-                _hoisted_5,
+                _hoisted_5$2,
                 vue.createVNode("td", null, vue.toDisplayString($data.url), 1 /* TEXT */)
               ])
             ])
@@ -1413,10 +1412,10 @@
           _: 1 /* STABLE */
         })
       ]),
-      vue.createVNode("div", _hoisted_6, [
+      vue.createVNode("div", _hoisted_6$1, [
         vue.createVNode(_component_Card, { title: "Device Info" }, {
-          default: _withId(() => [
-            vue.createVNode("table", _hoisted_7, [
+          default: _withId$3(() => [
+            vue.createVNode("table", _hoisted_7$1, [
               vue.createVNode("tr", null, [
                 _hoisted_8,
                 vue.createVNode("td", null, vue.toDisplayString($data.ratio), 1 /* TEXT */)
@@ -1437,102 +1436,508 @@
     ]))
   });
 
-  var css_248z$4 = ".app-info-container[data-v-756cbe6c] {\n  font-size: 14px;\n  height: 100%;\n  overflow: hidden;\n}\n.info-wrapper[data-v-756cbe6c] {\n  margin: 20px 20px 0 20px;\n}\ntable[data-v-756cbe6c] {\n  border-color: #eee;\n  width: 100%;\n  border-collapse: collapse;\n  border-spacing: 0;\n}\ntr[data-v-756cbe6c] {\n  width: 100%;\n}\ntd[data-v-756cbe6c],\nth[data-v-756cbe6c] {\n  padding: 5px;\n}\n";
-  styleInject(css_248z$4);
+  var css_248z$8 = ".app-info-container[data-v-756cbe6c] {\n  font-size: 14px;\n  height: 100%;\n  overflow: hidden;\n}\n.info-wrapper[data-v-756cbe6c] {\n  margin: 20px 20px 0 20px;\n}\ntable[data-v-756cbe6c] {\n  border-color: #eee;\n  width: 100%;\n  border-collapse: collapse;\n  border-spacing: 0;\n}\ntr[data-v-756cbe6c] {\n  width: 100%;\n}\ntd[data-v-756cbe6c],\nth[data-v-756cbe6c] {\n  padding: 5px;\n}\n";
+  styleInject(css_248z$8);
 
-  script$4.render = render$4;
-  script$4.__scopeId = "data-v-756cbe6c";
-  script$4.__file = "src/plugins/app-info/ToolAppInfo.vue";
+  script$8.render = render$8;
+  script$8.__scopeId = "data-v-756cbe6c";
+  script$8.__file = "src/plugins/app-info/ToolAppInfo.vue";
 
   var AppInfo = new RouterPlugin({
     nameZh: '应用信息',
     name: 'app-info',
     icon: 'https://pt-starimg.didistatic.com/static/starimg/img/z1346TQD531618997547642.png',
-    component: script$4
+    component: script$8
   });
 
-  var script$3 = {
+  var script$7 = {
     
   };
 
-  const _hoisted_1$3 = { class: "hello-world" };
-  const _hoisted_2$3 = /*#__PURE__*/vue.createVNode("div", { style: {"font-weight":"bold","font-size":"30px","font-style":"italic"} }, "Hello Dokit", -1 /* HOISTED */);
-  const _hoisted_3$3 = /*#__PURE__*/vue.createVNode("div", null, "Demo Plugin", -1 /* HOISTED */);
+  const _hoisted_1$7 = { class: "hello-world" };
+  const _hoisted_2$6 = /*#__PURE__*/vue.createVNode("div", { style: {"font-weight":"bold","font-size":"30px","font-style":"italic"} }, "Hello Dokit", -1 /* HOISTED */);
+  const _hoisted_3$6 = /*#__PURE__*/vue.createVNode("div", null, "Demo Plugin", -1 /* HOISTED */);
 
-  function render$3(_ctx, _cache, $props, $setup, $data, $options) {
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$3, [
-      _hoisted_2$3,
-      _hoisted_3$3
+  function render$7(_ctx, _cache, $props, $setup, $data, $options) {
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$7, [
+      _hoisted_2$6,
+      _hoisted_3$6
     ]))
   }
 
-  var css_248z$3 = "\n.hello-world{\n  padding:10px;\n  text-align: center;\n}\n";
-  styleInject(css_248z$3);
+  var css_248z$7 = "\n.hello-world{\n  padding:10px;\n  text-align: center;\n}\n";
+  styleInject(css_248z$7);
 
-  script$3.render = render$3;
-  script$3.__file = "src/plugins/demo-plugin/ToolHelloWorld.vue";
+  script$7.render = render$7;
+  script$7.__file = "src/plugins/demo-plugin/ToolHelloWorld.vue";
 
   var DemoPlugin = new RouterPlugin({
     nameZh: '测试',
     name: 'test',
     icon: 'https://pt-starimg.didistatic.com/static/starimg/img/z1346TQD531618997547642.png',
-    component: script$3
+    component: script$7
   });
 
-  var script$2 = {
+  var script$6 = {
     
   };
 
-  const _hoisted_1$2 = { class: "hello-world" };
-  const _hoisted_2$2 = /*#__PURE__*/vue.createVNode("div", { style: {"font-weight":"bold","font-size":"30px","font-style":"italic"} }, "Hello Dokit", -1 /* HOISTED */);
-  const _hoisted_3$2 = /*#__PURE__*/vue.createVNode("div", null, "Demo Plugin", -1 /* HOISTED */);
+  const _hoisted_1$6 = { class: "hello-world" };
+  const _hoisted_2$5 = /*#__PURE__*/vue.createVNode("div", { style: {"font-weight":"bold","font-size":"30px","font-style":"italic"} }, "Hello Dokit", -1 /* HOISTED */);
+  const _hoisted_3$5 = /*#__PURE__*/vue.createVNode("div", null, "Demo Plugin", -1 /* HOISTED */);
 
-  function render$2(_ctx, _cache, $props, $setup, $data, $options) {
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$2, [
-      _hoisted_2$2,
-      _hoisted_3$2
+  function render$6(_ctx, _cache, $props, $setup, $data, $options) {
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$6, [
+      _hoisted_2$5,
+      _hoisted_3$5
     ]))
   }
 
-  var css_248z$2 = "\n.hello-world{\n  padding:10px;\n  text-align: center;\n}\n";
-  styleInject(css_248z$2);
+  var css_248z$6 = "\n.hello-world{\n  padding:10px;\n  text-align: center;\n}\n";
+  styleInject(css_248z$6);
 
-  script$2.render = render$2;
-  script$2.__file = "src/plugins/demo-single-plugin/ToolHelloWorld.vue";
+  script$6.render = render$6;
+  script$6.__file = "src/plugins/demo-single-plugin/ToolHelloWorld.vue";
 
   var DemoSinglePlugin = new SinglePlugin({
     nameZh: '独立 Single',
     name: 'test',
     icon: 'https://pt-starimg.didistatic.com/static/starimg/img/z1346TQD531618997547642.png',
-    component: script$2
+    component: script$6
   });
 
-  var script$1 = {
+  var script$5 = {
     
   };
 
-  const _hoisted_1$1 = { class: "hello-world" };
-  const _hoisted_2$1 = /*#__PURE__*/vue.createVNode("div", { style: {"font-weight":"bold","font-size":"30px","font-style":"italic"} }, "Hello Dokit", -1 /* HOISTED */);
-  const _hoisted_3$1 = /*#__PURE__*/vue.createVNode("div", null, "Demo Plugin", -1 /* HOISTED */);
+  const _hoisted_1$5 = { class: "hello-world" };
+  const _hoisted_2$4 = /*#__PURE__*/vue.createVNode("div", { style: {"font-weight":"bold","font-size":"30px","font-style":"italic"} }, "Hello Dokit", -1 /* HOISTED */);
+  const _hoisted_3$4 = /*#__PURE__*/vue.createVNode("div", null, "Demo Plugin", -1 /* HOISTED */);
 
-  function render$1(_ctx, _cache, $props, $setup, $data, $options) {
-    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$1, [
-      _hoisted_2$1,
-      _hoisted_3$1
+  function render$5(_ctx, _cache, $props, $setup, $data, $options) {
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$5, [
+      _hoisted_2$4,
+      _hoisted_3$4
     ]))
   }
 
-  var css_248z$1 = "\n.hello-world{\n  padding:10px;\n  text-align: center;\n}\n";
-  styleInject(css_248z$1);
+  var css_248z$5 = "\n.hello-world{\n  padding:10px;\n  text-align: center;\n}\n";
+  styleInject(css_248z$5);
 
-  script$1.render = render$1;
-  script$1.__file = "src/plugins/h5-door/ToolHelloWorld.vue";
+  script$5.render = render$5;
+  script$5.__file = "src/plugins/h5-door/ToolHelloWorld.vue";
 
   var H5DoorPlugin = new RouterPlugin({
     nameZh: '任意门',
     name: 'h5-door',
     icon: 'https://pt-starimg.didistatic.com/static/starimg/img/FHqpI3InaS1618997548865.png',
-    component: script$1
+    component: script$5
+  });
+
+  var script$4 = {
+    components: {
+
+    },
+    props: {
+      reqDetail: {
+        type: Object,
+        default: function () {
+          return {}
+        }
+      }
+    },
+    data () {
+      return {
+        request: this.reqDetail,
+      }
+    },
+    computed: {
+      displayRequestHeader () {
+        let reqHeaders = this.reqDetail.reqHeaders;
+        let value = '<tbody>';
+        if(!reqHeaders){
+          value = '<tbody><tr><td>Empty</td></tr></tbody>';
+          return value
+        }
+        for(var key in reqHeaders){
+          value += '<tr>';
+          value += '<td class="header-key">'+key+'</td>';
+          value += '<td>'+reqHeaders[key]+'</td>';
+          value += '</tr>';
+        }
+        value += '</tbody>';
+        return value
+      },
+      displayResponseHeader () {
+        let resHeaders = this.reqDetail.resHeaders;
+        let value = '<tbody>';
+        for(var key in resHeaders){
+          value += '<tr>';
+          value += '<td class="header-key">'+key+'</td>';
+          value += '<td>'+resHeaders[key]+'</td>';
+          value += '</tr>';
+        }
+        value += '</tbody>';
+        return value
+      }
+    },
+    methods: {
+      hideDetail(){
+        this.$parent.hideDetail();
+      }
+    }
+  };
+
+  const _withId$2 = /*#__PURE__*/vue.withScopeId("data-v-5de00d90");
+
+  vue.pushScopeId("data-v-5de00d90");
+  const _hoisted_1$4 = { class: "request-detail" };
+  const _hoisted_2$3 = { class: "request-url" };
+  const _hoisted_3$3 = { class: "request-data" };
+  const _hoisted_4$1 = { class: "request-headers-section" };
+  const _hoisted_5$1 = /*#__PURE__*/vue.createVNode("h2", null, "Request Headers", -1 /* HOISTED */);
+  const _hoisted_6 = /*#__PURE__*/vue.createVNode("h2", null, "Response Headers", -1 /* HOISTED */);
+  const _hoisted_7 = { class: "request-data" };
+  vue.popScopeId();
+
+  const render$4 = /*#__PURE__*/_withId$2((_ctx, _cache, $props, $setup, $data, $options) => {
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$4, [
+      vue.createVNode("div", null, [
+        vue.createVNode("div", _hoisted_2$3, vue.toDisplayString($data.request.url), 1 /* TEXT */),
+        vue.createVNode("pre", _hoisted_3$3, vue.toDisplayString($data.request.data), 1 /* TEXT */),
+        vue.createVNode("div", _hoisted_4$1, [
+          _hoisted_5$1,
+          vue.createVNode("table", {
+            class: "request-headers",
+            innerHTML: $options.displayRequestHeader
+          }, null, 8 /* PROPS */, ["innerHTML"]),
+          _hoisted_6,
+          vue.createVNode("table", {
+            class: "request-headers",
+            innerHTML: $options.displayResponseHeader
+          }, null, 8 /* PROPS */, ["innerHTML"])
+        ]),
+        vue.createVNode("pre", _hoisted_7, vue.toDisplayString($data.request.resTxt), 1 /* TEXT */)
+      ]),
+      vue.createVNode("div", {
+        class: "detail-back",
+        onClick: _cache[1] || (_cache[1] = (...args) => ($options.hideDetail && $options.hideDetail(...args)))
+      }, "返回列表")
+    ]))
+  });
+
+  var css_248z$4 = ".request-detail[data-v-5de00d90] {\n  font-size: 12px;\n  position: relative;\n  width: 100%;\n  height: 100%;\n  left: 0;\n  top: 0;\n  z-index: 10;\n  padding-bottom: 40px;\n  background: #fff;\n}\n.request-url[data-v-5de00d90] {\n  background: #f3f3f3;\n  color: #333;\n  -webkit-user-select: text;\n  -moz-user-select: text;\n  -ms-user-select: text;\n  user-select: text;\n  margin-bottom: 10px;\n  word-break: break-all;\n  padding: 10px;\n  font-size: 16px;\n  min-height: 40px;\n  border-bottom: 1px solid #ccc;\n}\n.request-headers-section[data-v-5de00d90] {\n  border-top: 1px solid #ccc;\n  border-bottom: 1px solid #ccc;\n  margin-bottom: 10px;\n}\n.request-headers-section h2[data-v-5de00d90] {\n  margin: 2px 0;\n  background: #f3f3f3;\n  color: #333;\n  padding: 10px;\n  font-size: 14px;\n}\npre.request-data[data-v-5de00d90] {\n  -webkit-user-select: text;\n  -moz-user-select: text;\n  -ms-user-select: text;\n  user-select: text;\n  overflow-x: auto;\n  -webkit-overflow-scrolling: touch;\n  padding: 10px;\n  font-size: 12px;\n  margin-bottom: 10px;\n  white-space: pre-wrap;\n  border-top: 1px solid #ccc;\n  color: #333;\n  border-bottom: 1px solid #ccc;\n}\n.detail-back[data-v-5de00d90] {\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  color: #333;\n  width: 100%;\n  border-top: 1px solid #ccc;\n  background: #f3f3f3;\n  display: block;\n  height: 40px;\n  line-height: 40px;\n  text-decoration: none;\n  text-align: center;\n  margin-top: 10px;\n  transition: background 0.3s;\n  cursor: pointer;\n}\ntable.request-headers[data-v-5de00d90] {\n  border-collapse: collapse;\n  border-spacing: 0;\n  color: #333;\n}\ntable.request-headers[data-v-5de00d90] tbody,\ntable.request-headers[data-v-5de00d90] tr {\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font-size: 100%;\n  font: inherit;\n  vertical-align: baseline;\n}\ntable.request-headers[data-v-5de00d90] td {\n  font-size: 12px;\n  padding: 5px 10px;\n  word-break: break-all;\n}\ntable.request-headers[data-v-5de00d90] td.header-key {\n  white-space: nowrap;\n  font-weight: 700;\n  color: #1a73e8;\n}\n";
+  styleInject(css_248z$4);
+
+  script$4.render = render$4;
+  script$4.__scopeId = "data-v-5de00d90";
+  script$4.__file = "src/plugins/network/request-detail.vue";
+
+  var script$3 = {
+    components: {
+      
+    },
+    props: {
+      requestItemData: {
+        type: Object,
+        default: function () {
+          return {}
+        }
+      }
+    },
+    data () {
+      return {
+        request: this.requestItemData
+      }
+    },
+    computed: {
+      
+    },
+    methods: {
+      showDetail(id){
+        this.$parent.$parent.showDetail(id);
+      }
+    }
+  };
+
+  const _hoisted_1$3 = { class: "request-url" };
+  const _hoisted_2$2 = { class: "request-status" };
+  const _hoisted_3$2 = { class: "request-time" };
+
+  function render$3(_ctx, _cache, $props, $setup, $data, $options) {
+    return (vue.openBlock(), vue.createBlock("div", {
+      class: "request-item",
+      onClick: _cache[1] || (_cache[1] = $event => ($options.showDetail($data.request.id)))
+    }, [
+      vue.createVNode("span", _hoisted_1$3, vue.toDisplayString($data.request.url), 1 /* TEXT */),
+      vue.createVNode("span", _hoisted_2$2, vue.toDisplayString($data.request.status), 1 /* TEXT */),
+      vue.createCommentVNode(" <span class=\"request-method\">{{request.method}}</span>\n    <span class=\"request-type\">{{request.type}}</span>\n    <span class=\"request-size\">{{request.size}}</span> "),
+      vue.createVNode("span", _hoisted_3$2, vue.toDisplayString($data.request.time) + "ms", 1 /* TEXT */)
+    ]))
+  }
+
+  var css_248z$3 = ".request-item {\n  text-align: left;\n  font-size: 13px;\n  display: flex;\n  width: 100%;\n  cursor: pointer;\n  border-bottom: 1px solid #ccc;\n  height: 41px;\n  color: #333;\n  white-space: nowrap;\n}\n.request-item:first-child {\n  border-top: none;\n}\n.request-url {\n  flex: 1;\n}\n.request-status {\n  width: 40px;\n}\n.request-method {\n  width: 50px;\n}\n.request-type {\n  width: 50px;\n}\n.request-size {\n  width: 70px;\n}\n.request-time {\n  width: 60px;\n  padding-right: 10px;\n}\n.request-item span {\n  display: block;\n  line-height: 40px;\n  height: 40px;\n  padding: 0 5px;\n  font-size: 12px;\n  text-align: center;\n  text-overflow: ellipsis;\n  overflow: hidden;\n}\n";
+  styleInject(css_248z$3);
+
+  script$3.render = render$3;
+  script$3.__file = "src/plugins/network/request-item.vue";
+
+  var script$2 = {
+    components: {
+      RequestItem: script$3
+    },
+    props: {
+      reqList: {
+        type: Array,
+        default: [],
+      },
+    },
+    data() {
+      return {};
+    }
+  };
+
+  const _withId$1 = /*#__PURE__*/vue.withScopeId("data-v-16e3716a");
+
+  vue.pushScopeId("data-v-16e3716a");
+  const _hoisted_1$2 = { class: "request-container" };
+  vue.popScopeId();
+
+  const render$2 = /*#__PURE__*/_withId$1((_ctx, _cache, $props, $setup, $data, $options) => {
+    const _component_request_item = vue.resolveComponent("request-item");
+
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$2, [
+      (vue.openBlock(true), vue.createBlock(vue.Fragment, null, vue.renderList($props.reqList, (request, index) => {
+        return (vue.openBlock(), vue.createBlock(_component_request_item, {
+          key: index,
+          requestItemData: request
+        }, null, 8 /* PROPS */, ["requestItemData"]))
+      }), 128 /* KEYED_FRAGMENT */))
+    ]))
+  });
+
+  var css_248z$2 = ".request-container[data-v-16e3716a] {\n  overflow-y: auto;\n  -webkit-overflow-scrolling: touch;\n  height: 100%;\n  margin-bottom: 10px;\n}\n";
+  styleInject(css_248z$2);
+
+  script$2.render = render$2;
+  script$2.__scopeId = "data-v-16e3716a";
+  script$2.__file = "src/plugins/network/request-container.vue";
+
+  var script$1 = {
+    components: {
+      RequestContainer: script$2,
+      RequestDetail: script$4
+    },
+    props: {
+      
+    },
+    computed: {
+     
+    },
+    data() {
+      return {
+        detailShowed: false,
+        reqList: this.$store.state.reqList || [],
+        curReq: {}
+        // reqMap: this.$store.state.reqMap,
+        // curReq: this.$store.state.reqMap.get(this.$store.state.reqList[0].id)
+      };
+    },
+    methods: {
+      showDetail(id){
+        this.curReq = this.reqList[id];
+        this.detailShowed = true;
+        console.log("现在的reqid: "+id);
+      },
+      hideDetail(){
+        this.detailShowed = false;
+      }
+    }
+  };
+
+  const _withId = /*#__PURE__*/vue.withScopeId("data-v-1a06d26e");
+
+  vue.pushScopeId("data-v-1a06d26e");
+  const _hoisted_1$1 = { class: "network-container" };
+  const _hoisted_2$1 = /*#__PURE__*/vue.createVNode("div", { class: "network-title" }, [
+    /*#__PURE__*/vue.createTextVNode(" 请求捕获 "),
+    /*#__PURE__*/vue.createCommentVNode(" <div {{{class 'btn clear-request'}}}>\n        <span {{{class 'icon-clear'}}}></span>\n      </div> "),
+    /*#__PURE__*/vue.createCommentVNode(" <img class=\"item-icon-image\" :src=\"defaultIcon\"/> ")
+  ], -1 /* HOISTED */);
+  const _hoisted_3$1 = { class: "network-info" };
+  const _hoisted_4 = { key: 0 };
+  const _hoisted_5 = { key: 1 };
+  vue.popScopeId();
+
+  const render$1 = /*#__PURE__*/_withId((_ctx, _cache, $props, $setup, $data, $options) => {
+    const _component_request_container = vue.resolveComponent("request-container");
+    const _component_request_detail = vue.resolveComponent("request-detail");
+
+    return (vue.openBlock(), vue.createBlock("div", _hoisted_1$1, [
+      _hoisted_2$1,
+      vue.createVNode("div", _hoisted_3$1, [
+        (!$data.detailShowed)
+          ? (vue.openBlock(), vue.createBlock("div", _hoisted_4, [
+              vue.createVNode(_component_request_container, { reqList: $data.reqList }, null, 8 /* PROPS */, ["reqList"])
+            ]))
+          : vue.createCommentVNode("v-if", true),
+        ($data.detailShowed)
+          ? (vue.openBlock(), vue.createBlock("div", _hoisted_5, [
+              vue.createVNode(_component_request_detail, { reqDetail: $data.curReq }, null, 8 /* PROPS */, ["reqDetail"])
+            ]))
+          : vue.createCommentVNode("v-if", true)
+      ])
+    ]))
+  });
+
+  var css_248z$1 = ".network-container[data-v-1a06d26e] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.network-title[data-v-1a06d26e] {\n  font-size: 14px;\n  position: relative;\n  width: 100%;\n  left: 0;\n  top: 0;\n  background: #f3f3f3;\n  padding: 10px;\n  color: #333;\n  box-sizing: border-box;\n  pointer-events: all;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  display: block;\n  -webkit-tap-highlight-color: transparent;\n  -webkit-text-size-adjust: none;\n  border-bottom: 1px solid #ccc;\n}\n.network-info[data-v-1a06d26e] {\n  display: flex;\n  flex-direction: column;\n  overflow: hidden;\n  flex: 1;\n  background-color: #ffffff;\n  overflow-y: scroll;\n}\n";
+  styleInject(css_248z$1);
+
+  script$1.render = render$1;
+  script$1.__scopeId = "data-v-1a06d26e";
+  script$1.__file = "src/plugins/network/network-container.vue";
+
+  // export const XHR_NETWORK_METHODS = ["open", "send", 'setRequestHeader']
+  const mockData = function(callback) {
+    const request = {
+      name: "qqq",
+      url: "https://www.modeben.com/free/week?appid=68852321&appsecret=BgGLDVc7",
+      status: '200',
+      type: 'plain',
+      subType: '',
+      size: 2,
+      data: {},
+      method: 'GET',
+      startTime: 0,
+      time: 139,
+      resTxt: {
+          "cityid": "101010100",
+          "city": "\u5317\u4eac",
+          "update_time": "2021-05-28 20:29:16",
+          "data": [{
+              "date": "2021-05-28",
+              "wea": "\u9634\u8f6c\u591a\u4e91",
+              "wea_img": "yun",
+              "tem_day": "28",
+              "tem_night": "16",
+              "win": "\u5317\u98ce",
+              "win_speed": "3-4\u7ea7"
+          }, {
+              "date": "2021-05-29",
+              "wea": "\u591a\u4e91",
+              "wea_img": "yun",
+              "tem_day": "27",
+              "tem_night": "15",
+              "win": "\u4e1c\u5317\u98ce",
+              "win_speed": "3-4\u7ea7\u8f6c<3\u7ea7"
+          }, {
+              "date": "2021-05-30",
+              "wea": "\u591a\u4e91",
+              "wea_img": "yun",
+              "tem_day": "27",
+              "tem_night": "14",
+              "win": "\u4e1c\u5357\u98ce",
+              "win_speed": "<3\u7ea7"
+          }, {
+              "date": "2021-05-31",
+              "wea": "\u591a\u4e91",
+              "wea_img": "yun",
+              "tem_day": "26",
+              "tem_night": "16",
+              "win": "\u4e1c\u5357\u98ce",
+              "win_speed": "<3\u7ea7"
+          }, {
+              "date": "2021-06-01",
+              "wea": "\u9634\u8f6c\u96f7\u9635\u96e8",
+              "wea_img": "yu",
+              "tem_day": "29",
+              "tem_night": "17",
+              "win": "\u4e1c\u5357\u98ce",
+              "win_speed": "3-4\u7ea7"
+          }, {
+              "date": "2021-06-02",
+              "wea": "\u6674\u8f6c\u591a\u4e91",
+              "wea_img": "yun",
+              "tem_day": "28",
+              "tem_night": "18",
+              "win": "\u897f\u5357\u98ce",
+              "win_speed": "3-4\u7ea7"
+          }, {
+              "date": "2021-06-03",
+              "wea": "\u591a\u4e91\u8f6c\u6674",
+              "wea_img": "yun",
+              "tem_day": "29",
+              "tem_night": "19",
+              "win": "\u5317\u98ce",
+              "win_speed": "4-5\u7ea7\u8f6c3-4\u7ea7"
+          }]
+      },
+      done: false,
+      reqHeaders: {
+          
+      },
+      resHeaders: {
+          "Content-Type": "application/json",
+          "Content-Type1": "application/json",
+          "Content-Type2": "application/json",
+      },
+      hasErr: false,
+      response: {},
+      headers: {},
+      displayTime: 1,
+    };
+
+    callback({
+      value: request
+    });
+  };
+
+  /*
+   * @Author: yanghui 
+   * @Date: 2021-05-28 20:53:35 
+   * @Last Modified by: yanghui
+   * @Last Modified time: 2021-05-29 17:17:10
+   */
+
+  var Network = new RouterPlugin({
+    nameZh: '请求捕获',
+    name: 'network',
+    icon: 'https://pt-starimg.didistatic.com/static/starimg/img/z1346TQD531618997547642.png',
+    component: script$1,
+    onLoad(){
+      //获取拦截到的请求列表，存到state中
+      mockData(({value}) => {
+        let state = getGlobalData();
+        state.reqList = state.reqList || [];
+        value.id = state.reqList.length;
+        state.reqList.push(value);
+        let value2 = {
+          name: "collect",
+          url: "https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7",
+          status: '200',
+          type: 'plain',
+          subType: '',
+          size: 2,
+          data: {},
+          method: 'GET',
+          startTime: 0,
+          time: 139,
+          resTxt: '',
+          done: false,
+          reqHeaders: {},
+          resHeaders: {},
+          hasErr: false,
+          response: {},
+          headers: {},
+          displayTime: 1,
+        };
+        value2.id = state.reqList.length;
+        state.reqList.push(value2);
+      });
+    },
+    onUnload(){
+      // restoreNetwork()
+    }
   });
 
   var script = {
@@ -1558,7 +1963,7 @@
 
   const BasicFeatures = {
     title: '常用工具',
-    list: [Console, AppInfo, DemoPlugin, DemoSinglePlugin, H5DoorPlugin]
+    list: [Console, AppInfo, DemoPlugin, DemoSinglePlugin, H5DoorPlugin, Network]
   };
 
   const DokitFeatures = {

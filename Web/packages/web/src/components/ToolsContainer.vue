@@ -18,12 +18,14 @@
 <script>
 import ToolConsole from './ToolConsole'
 import ToolAppInfo from './ToolAppInfo'
+import ToolNetwork from './ToolNetwork'
 import ToolHelloWorld from './ToolHelloWorld'
 
 export default {
   components: {
     ToolConsole,
     ToolHelloWorld,
+    ToolNetwork,
     ToolAppInfo
   },
   data() {
@@ -34,6 +36,9 @@ export default {
       },{
         component: 'app-info',
         displayName: 'AppInfo'
+      },{
+        component: 'network',
+        displayName: 'Network'
       },{
         component: 'hello-world',
         displayName: 'HelloWorld'
