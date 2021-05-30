@@ -1,18 +1,8 @@
 package com.didichuxing.doraemonkit.plugin
 
-import com.android.build.api.transform.Context
-import com.android.build.api.transform.DirectoryInput
-import com.android.build.api.transform.Format
-import com.android.build.api.transform.JarInput
-import com.android.build.api.transform.QualifiedContent
-import com.android.build.api.transform.SecondaryInput
-import com.android.build.api.transform.Status.ADDED
-import com.android.build.api.transform.Status.CHANGED
-import com.android.build.api.transform.Status.NOTCHANGED
-import com.android.build.api.transform.Status.REMOVED
-import com.android.build.api.transform.TransformInput
-import com.android.build.api.transform.TransformInvocation
-import com.android.build.api.transform.TransformOutputProvider
+import com.android.build.api.transform.*
+import com.android.build.api.transform.Status.*
+import com.android.dex.DexFormat
 import com.android.dx.command.dexer.Main
 import com.didichuxing.doraemonkit.plugin.transform.DoKitBaseTransform
 import com.didiglobal.booster.gradle.*
@@ -35,8 +25,8 @@ import java.util.concurrent.*
  * @author johnsonlee
  */
 internal class DoKitTransformInvocation(
-        private val delegate: TransformInvocation,
-        internal val transform: DoKitBaseTransform
+    private val delegate: TransformInvocation,
+    internal val transform: DoKitBaseTransform
 ) : TransformInvocation by delegate, TransformContext, ArtifactManager {
 
     private val project = transform.project
@@ -61,7 +51,14 @@ internal class DoKitTransformInvocation(
 
     override val artifacts = this
 
-    override val klassPool: AbstractKlassPool = object : AbstractKlassPool(compileClasspath, transform.bootKlassPool) {}
+    override val dependencies: Collection<String> by lazy {
+        ResolvedArtifactResults(variant).map {
+            it.id.displayName
+        }
+    }
+
+    override val klassPool: AbstractKlassPool =
+        object : AbstractKlassPool(compileClasspath, transform.bootKlassPool) {}
 
     override val applicationId = delegate.applicationId
 
@@ -73,9 +70,7 @@ internal class DoKitTransformInvocation(
 
     override fun hasProperty(name: String) = project.hasProperty(name)
 
-    @Suppress("UNCHECKED_CAST")
-    override fun <T> getProperty(name: String, default: T): T = project.properties[name] as? T
-            ?: default
+    override fun <T> getProperty(name: String, default: T): T = project.getProperty(name, default)
 
     override fun get(type: String) = variant.artifacts.get(type)
 
@@ -123,7 +118,14 @@ internal class DoKitTransformInvocation(
             val format = if (input is DirectoryInput) Format.DIRECTORY else Format.JAR
             outputProvider?.let { provider ->
                 project.logger.info("Transforming ${input.file}")
-                input.transform(provider.getContentLocation(input.name, input.contentTypes, input.scopes, format))
+                input.transform(
+                    provider.getContentLocation(
+                        input.name,
+                        input.contentTypes,
+                        input.scopes,
+                        format
+                    )
+                )
             }
         }
     }
@@ -148,7 +150,14 @@ internal class DoKitTransformInvocation(
             CHANGED, ADDED -> {
                 project.logger.info("Transforming ${jarInput.file}")
                 outputProvider?.let { provider ->
-                    jarInput.transform(provider.getContentLocation(jarInput.name, jarInput.contentTypes, jarInput.scopes, Format.JAR))
+                    jarInput.transform(
+                        provider.getContentLocation(
+                            jarInput.name,
+                            jarInput.contentTypes,
+                            jarInput.scopes,
+                            Format.JAR
+                        )
+                    )
                 }
             }
         }
@@ -161,18 +170,28 @@ internal class DoKitTransformInvocation(
                 REMOVED -> {
                     project.logger.info("Deleting $file")
                     outputProvider?.let { provider ->
-                        provider.getContentLocation(dirInput.name, dirInput.contentTypes, dirInput.scopes, Format.DIRECTORY).parentFile.listFiles()?.asSequence()
-                                ?.filter { it.isDirectory }
-                                ?.map { File(it, dirInput.file.toURI().relativize(file.toURI()).path) }
-                                ?.filter { it.exists() }
-                                ?.forEach { it.delete() }
+                        provider.getContentLocation(
+                            dirInput.name,
+                            dirInput.contentTypes,
+                            dirInput.scopes,
+                            Format.DIRECTORY
+                        ).parentFile.listFiles()?.asSequence()
+                            ?.filter { it.isDirectory }
+                            ?.map { File(it, dirInput.file.toURI().relativize(file.toURI()).path) }
+                            ?.filter { it.exists() }
+                            ?.forEach { it.delete() }
                     }
                     file.delete()
                 }
                 ADDED, CHANGED -> {
                     project.logger.info("Transforming $file")
                     outputProvider?.let { provider ->
-                        val root = provider.getContentLocation(dirInput.name, dirInput.contentTypes, dirInput.scopes, Format.DIRECTORY)
+                        val root = provider.getContentLocation(
+                            dirInput.name,
+                            dirInput.contentTypes,
+                            dirInput.scopes,
+                            Format.DIRECTORY
+                        )
                         val output = File(root, base.relativize(file.toURI()).path)
                         outputs += output
                         file.transform(output) { bytecode ->
@@ -186,28 +205,14 @@ internal class DoKitTransformInvocation(
 
     private fun doVerify() {
         outputs.sortedBy(File::nameWithoutExtension).forEach { output ->
-            val dex = temporaryDir.file(output.name)
-            val args = Main.Arguments().apply {
-                numThreads = NCPU
-                debug = true
-                warnings = true
-                emptyOk = true
-                multiDex = true
-                jarOutput = true
-                optimize = false
-                minSdkVersion = variant.extension.defaultConfig.targetSdkVersion?.apiLevel!!
-                fileNames = arrayOf(output.absolutePath)
-                outName = dex.absolutePath
-            }
-            val rc = try {
-                Main.run(args)
-            } catch (t: Throwable) {
-                t.printStackTrace()
-                -1
-            }
-
+            val out = temporaryDir.file(output.name)
+            val rc = out.dex(
+                output,
+                variant.extension.defaultConfig.targetSdkVersion?.apiLevel
+                    ?: DexFormat.API_NO_EXTENDED_OPCODES
+            )
             println("${if (rc != 0) red("✗") else green("✓")} $output")
-            dex.deleteRecursively()
+            out.deleteRecursively()
         }
     }
 

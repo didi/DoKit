@@ -22,15 +22,11 @@ import org.objectweb.asm.tree.*
  */
 @Priority(2)
 @AutoService(ClassTransformer::class)
-class GlobalSlowMethodTransformer : ClassTransformer {
+class GlobalSlowMethodTransformer : AbsClassTransformer() {
     val thresholdTime = DoKitExtUtil.slowMethodExt.normalMethod.thresholdTime
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
-        if (context.isRelease()) {
-            return klass
-        }
-
-        if (!DoKitExtUtil.dokitPluginSwitchOpen()) {
+        if (onCommInterceptor(context, klass)) {
             return klass
         }
 

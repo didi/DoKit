@@ -2,18 +2,25 @@ package com.didichuxing.doraemondemo;
 
 import android.app.Application;
 import android.content.Context;
+import android.view.accessibility.AccessibilityEvent;
 
 import androidx.multidex.MultiDex;
 
 import com.didichuxing.doraemondemo.dokit.DemoKit;
 import com.didichuxing.doraemonkit.DoKit;
+import com.didichuxing.doraemonkit.DoKitCallBack;
 import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
+import com.didichuxing.doraemonkit.kit.core.MCInterceptor;
+import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ================================================
@@ -43,6 +50,33 @@ public class AopApp extends Application {
 
         new DoKit.Builder(this)
                 .productId("749a0600b5e48dd77cf8ee680be7b1b7")
+                .disableUpload()
+                .fileManagerHttpPort(9001)
+                .mcWSPort(5555)
+                .awaysShowMainIcon(true)
+                .callBack(new DoKitCallBack() {
+                    @Override
+                    public void onNetworkCallBack(@NotNull NetworkRecord record) {
+
+                    }
+
+                    @Override
+                    public void onCpuCallBack(float value, @NotNull String filePath) {
+
+                    }
+
+                    @Override
+                    public void onFpsCallBack(float value, @NotNull String filePath) {
+
+                    }
+
+                    @Override
+                    public void onMemoryCallBack(float value, @NotNull String filePath) {
+
+                    }
+
+
+                })
                 .build();
         //DoraemonKit.install(this, kits, "70e78c27f9174d68668d8a66a2b66483")
     }

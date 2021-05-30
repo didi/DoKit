@@ -1,9 +1,14 @@
 package com.didichuxing.doraemonkit.aop.urlconnection;
 
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+
+import com.didichuxing.doraemonkit.kit.network.utils.StreamUtil;
+import com.didichuxing.doraemonkit.util.ConvertUtils;
+import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -453,9 +458,17 @@ final class ObsoleteUrlFactory implements URLStreamHandlerFactory, Cloneable {
             }
 
             Response response = getResponse(false);
-            if (response.code() >= HTTP_BAD_REQUEST)
-                throw new FileNotFoundException(url.toString());
-            return response.body().byteStream();
+            if (response.code() >= HTTP_BAD_REQUEST) {
+                Log.e("DoKit", "FileNotFoundException:" + url.toString());
+                return ConvertUtils.string2InputStream("FileNotFoundException:" + url.toString(), "utf-8");
+            }
+
+            if (response.body() != null) {
+                return response.body().byteStream();
+            } else {
+                return ConvertUtils.string2InputStream("response.body() is null:" + url.toString(), "utf-8");
+            }
+
         }
 
         @Override

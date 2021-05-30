@@ -12,22 +12,23 @@ ext {
 //            group_id     : 'com.didichuxing.doraemonkit',
             group_id     : 'io.github.didi.dokit',
 //            version      : '3.4.0-SNAPSHOT'
-            version      : '3.4.0-alpha02'
+            version      : '3.4.0-alpha03'
     ]
 
     android = [compileSdkVersion            : 29,
                suppotrSdkVersion            : "28.0.0",
                applicationId                : "com.didichuxing.doraemondemo",
-               minSdkVersion                : 21,
+               minSdkVersion_16             : 16,
+               minSdkVersion_21             : 21,
                targetSdkVersion             : 29,
                //app版本号
                versionCode                  : 1,
                versionName                  : "1.0.0",
                glide_version                : "4.9.0",
-               kotlin_version               : "1.3.72",
-               booster_version              : "3.2.0",
+               kotlin_version               : "1.4.20",
+               booster_version              : "3.3.1",
                jcenter_gradle_plugin_version: "3.5.3",
-               gradle_plugin_version        : "4.1.3",
+               gradle_plugin_version        : "4.2.1",
                ktor                         : "1.5.1",
                okhttp_v2                    : "2.7.5",
                okhttp_v3                    : "3.14.7",
@@ -53,7 +54,8 @@ ext {
                     "coroutines-core"               : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7",
                     "coroutines-android"            : "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7",
                     //lifecycle
-                    "lifecycle-viewmodel-savedstate": "androidx.lifecycle:lifecycle-viewmodel-savedstate:+",
+                    "lifecycle-viewmodel-savedstate": "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1",
+                    "lifecycle-comm"                : "androidx.lifecycle:lifecycle-common-java8:2.3.1",
                     //test
                     "junit"                         : "junit:junit:4.12",
                     //第三方

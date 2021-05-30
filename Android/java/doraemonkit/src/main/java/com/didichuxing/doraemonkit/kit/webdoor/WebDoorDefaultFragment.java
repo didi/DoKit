@@ -45,7 +45,7 @@ public class WebDoorDefaultFragment extends BaseFragment {
     }
 
     @Override
-    protected boolean onBackPressed() {
+    public boolean onBackPressed() {
         if (mWebView.canGoBack()) {
             mWebView.goBack();
             return true;

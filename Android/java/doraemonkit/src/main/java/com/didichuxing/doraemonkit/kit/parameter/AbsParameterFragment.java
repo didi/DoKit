@@ -19,6 +19,7 @@ import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitViewManager;
 import com.didichuxing.doraemonkit.kit.performance.PerformanceFragmentCloseListener;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 import java.util.ArrayList;
@@ -124,7 +125,7 @@ public abstract class AbsParameterFragment extends BaseFragment implements Perfo
         if (requestCode == REQUEST_EXTERNAL_STORAGE) {
             for (int grantResult : grantResults) {
                 if (grantResult == -1) {
-                    showToast(R.string.dk_error_tips_permissions_less);
+                    ToastUtils.showShort(R.string.dk_error_tips_permissions_less);
                 }
             }
         }

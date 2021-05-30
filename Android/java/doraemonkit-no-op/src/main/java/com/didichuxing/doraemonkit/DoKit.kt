@@ -136,14 +136,16 @@ public class DoKit {
         /**
          * 设置扩展网络拦截器的代理对象
          */
-        fun setNetExtInterceptor(extInterceptorProxy: DokitExtInterceptor.DokitExtInterceptorProxy): Builder {
+        fun netExtInterceptor(extInterceptorProxy: DokitExtInterceptor.DokitExtInterceptorProxy): Builder {
             return this
         }
 
+
+
         /**
-         * 设置CPU、内存、FPS每次采集后的回调
+         * 设置dokit的性能监控全局回调
          */
-        fun setPerformanceValueListener(performanceValueListener: PerformanceValueListener): Builder {
+        fun callBack(callback: DoKitCallBack): Builder {
             return this
         }
 

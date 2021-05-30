@@ -12,8 +12,6 @@ import com.amap.api.services.route.RouteSearch.DriveRouteQuery
 import com.amap.api.services.route.RouteSearch.FromAndTo
 import com.didichuxing.doraemondemo.amap.AMapUtil
 import com.didichuxing.doraemondemo.amap.DrivingRouteOverLay
-import com.didichuxing.doraemonkit.util.LogHelper
-import kotlinx.android.synthetic.main.activity_amap_path.*
 
 
 /**
@@ -111,7 +109,6 @@ class MapActivityBak : AppCompatActivity(), RouteSearch.OnRouteSearchListener {
      * 驾车路径规划完成
      */
     override fun onDriveRouteSearched(result: DriveRouteResult?, errorCode: Int) {
-        LogHelper.i(TAG, "===onDriveRouteSearched===")
         if (errorCode == AMapException.CODE_AMAP_SUCCESS) {
             result?.let {
                 val drivePath = it.paths[0]

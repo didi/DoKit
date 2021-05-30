@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply from: '../upload.gradle'
 
@@ -8,7 +7,7 @@ android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
     defaultConfig {
-        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        minSdkVersion rootProject.ext.android["minSdkVersion_21"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
@@ -31,6 +30,13 @@ android {
 
     lintOptions {
         abortOnError false
+    }
+
+    /**
+     * 支持ViewBinding
+     */
+    buildFeatures {
+        //viewBinding = true
     }
 
 }

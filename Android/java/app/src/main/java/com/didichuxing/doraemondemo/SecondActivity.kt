@@ -1,10 +1,10 @@
 package com.didichuxing.doraemondemo
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemondemo.db.room.PersonDBHelper
-import kotlinx.android.synthetic.main.activity_second.*
 import kotlinx.coroutines.*
 
 class SecondActivity : AppCompatActivity() {
@@ -16,7 +16,7 @@ class SecondActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-        tv.setOnClickListener {
+        findViewById<View>(R.id.tv).setOnClickListener {
             // Create Person encrypted database
             CoroutineScope(Dispatchers.Main).launch {
                 val job = async(Dispatchers.IO) { insertPersonDB() }

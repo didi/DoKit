@@ -19,6 +19,7 @@ import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 
 /**
  * @author wanglikun
@@ -59,7 +60,7 @@ public class ColorPickerSettingFragment extends BaseFragment {
             }
             showColorPicker(data);
         } else {
-            showToast("start color pick fail");
+            ToastUtils.showShort("start color pick fail");
             finish();
         }
     }

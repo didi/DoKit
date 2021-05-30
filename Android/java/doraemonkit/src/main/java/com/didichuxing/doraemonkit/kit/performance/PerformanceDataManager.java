@@ -22,7 +22,6 @@ import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.util.AppUtils;
-import com.didichuxing.doraemonkit.util.FileManager;
 import com.didichuxing.doraemonkit.util.TimeUtils;
 
 import java.io.BufferedReader;
@@ -31,9 +30,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -54,13 +51,6 @@ public class PerformanceDataManager {
     private String memoryFileName = "memory.txt";
     private String cpuFileName = "cpu.txt";
     private String fpsFileName = "fps.txt";
-
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-    /**
-     * 外部可以设置cpu 内存 fps的监听回调
-     */
-    private PerformanceValueListener performanceValueListener = null;
 
     //private int mLastSkippedFrames;
     /**
@@ -102,13 +92,11 @@ public class PerformanceDataManager {
     private void executeCpuData() {
         if (mAboveAndroidO) {
             mLastCpuRate = getCpuDataForO();
+            writeCpuDataIntoFile();
         } else {
             mLastCpuRate = getCPUData();
+            writeCpuDataIntoFile();
         }
-        if (performanceValueListener != null){
-            performanceValueListener.onGetCPU(mLastCpuRate);
-        }
-        writeCpuDataIntoFile();
     }
 
     /**
@@ -116,9 +104,6 @@ public class PerformanceDataManager {
      */
     private void executeMemoryData() {
         mLastMemoryRate = getMemoryData();
-        if (performanceValueListener != null){
-            performanceValueListener.onGetMemory(mLastMemoryRate);
-        }
         writeMemoryDataIntoFile();
     }
 
@@ -302,43 +287,33 @@ public class PerformanceDataManager {
     }
 
     private void writeCpuDataIntoFile() {
+        if (DoKitConstant.INSTANCE.getCALLBACK() != null) {
+            DoKitConstant.INSTANCE.getCALLBACK().onCpuCallBack(mLastCpuRate, getCpuFilePath());
+        }
 
         //保存cpu数据到app健康体检
         if (DoKitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastCpuRate, PERFORMANCE_TYPE_CPU);
         }
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(mLastCpuRate);
-        stringBuilder.append(" ");
-        stringBuilder.append(simpleDateFormat.format(new Date(System.currentTimeMillis())));
-        FileManager.writeTxtToFile(stringBuilder.toString(), getFilePath(mContext), cpuFileName);
     }
 
     private void writeMemoryDataIntoFile() {
-
-        //保存内存数据到app健康体检
+        if (DoKitConstant.INSTANCE.getCALLBACK() != null) {
+            DoKitConstant.INSTANCE.getCALLBACK().onMemoryCallBack(mLastMemoryRate, getMemoryFilePath());
+        }
+        //保存cpu数据到app健康体检
         if (DoKitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastMemoryRate, PERFORMANCE_TYPE_MEMORY);
         }
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(mLastMemoryRate);
-        stringBuilder.append(" ");
-        stringBuilder.append(simpleDateFormat.format(new Date(System.currentTimeMillis())));
-        FileManager.writeTxtToFile(stringBuilder.toString(), getFilePath(mContext), memoryFileName);
     }
 
     private void writeFpsDataIntoFile() {
+        if (DoKitConstant.INSTANCE.getCALLBACK() != null) {
+            DoKitConstant.INSTANCE.getCALLBACK().onFpsCallBack(mLastFrameRate, getFpsFilePath());
+        }
         if (DoKitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastFrameRate > 60 ? 60 : mLastFrameRate, PERFORMANCE_TYPE_FPS);
         }
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(mLastFrameRate);
-        stringBuilder.append(" ");
-        stringBuilder.append(simpleDateFormat.format(new Date(System.currentTimeMillis())));
-        FileManager.writeTxtToFile(stringBuilder.toString(), getFilePath(mContext), fpsFileName);
     }
 
     /**
@@ -504,9 +479,6 @@ public class PerformanceDataManager {
             }
             //保存fps数据
             if (AppUtils.isAppForeground()) {
-                if (performanceValueListener != null){
-                    performanceValueListener.onGetFPS(mLastFrameRate);
-                }
                 writeFpsDataIntoFile();
             }
             totalFramesPerSecond = 0;
@@ -613,8 +585,5 @@ public class PerformanceDataManager {
 
     }
 
-    public void setPerformanceValueListener(PerformanceValueListener performanceValueListener) {
-        this.performanceValueListener = performanceValueListener;
-    }
 
 }

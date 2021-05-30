@@ -55,7 +55,13 @@ task copyPluginSource(type: Copy, dependsOn: deleteSource) {
     into './src/main/kotlin'
 }
 
-publish.dependsOn(['copyPluginSource'])
+def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
+if (PUBLISH_ARCHIVES_TYPE == 0 || PUBLISH_ARCHIVES_TYPE == 1) {
+    uploadArchives.dependsOn(copyPluginSource)
+} else {
+    publish.dependsOn(['copyPluginSource'])
+}
+
 
 repositories {
     google()
@@ -63,14 +69,5 @@ repositories {
     mavenCentral()
 }
 
-task preparePublish(dependsOn: 'assemble') {
-    doFirst {
-        println("===doraemonkit-plugin assemble start===")
-    }
 
-    doLast {
-        println("===doraemonkit-plugin assemble end===")
-    }
-
-}
 

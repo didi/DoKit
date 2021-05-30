@@ -1,7 +1,5 @@
 package com.didichuxing.doraemondemo;
 
-import com.didichuxing.doraemonkit.aop.OkHttpHook;
-
 /**
  * ================================================
  * 作    者：jint（金台）

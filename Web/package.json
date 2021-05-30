@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest test",
-    "bootstrap": "run-s bootstrap:project bootstrap:package",
-    "bootstrap:project": "npm install",
-    "bootstrap:package": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "dev": "lerna run dev --parallel",
     "dev:playground": "run-p serve:playground dev",

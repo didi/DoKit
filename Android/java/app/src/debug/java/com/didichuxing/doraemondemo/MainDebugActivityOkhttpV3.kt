@@ -18,7 +18,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
 import com.amap.api.location.AMapLocationListener
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ThreadUtils
@@ -27,10 +26,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.didichuxing.doraemondemo.amap.AMapRouterFragment
 import com.didichuxing.doraemondemo.comm.CommLauncher
+import com.didichuxing.doraemondemo.databinding.ActivityMainBinding
 import com.didichuxing.doraemondemo.mc.MCActivity
 import com.didichuxing.doraemondemo.retrofit.GithubService
 import com.didichuxing.doraemonkit.DoKit
-import com.didichuxing.doraemonkit.aop.location.GpsStatusUtil
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
@@ -42,7 +41,6 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import okhttp3.*
 import org.json.JSONObject
@@ -57,7 +55,8 @@ import java.net.*
 /**
  * @author jintai
  */
-class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,CoroutineScope by MainScope() {
+class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
+    CoroutineScope by MainScope() {
     private var okHttpClient: OkHttpClient? = null
     private var mLocationManager: LocationManager? = null
     private val UPDATE_UI = 100
@@ -85,14 +84,15 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,Coroutine
         }
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val tvEnv = findViewById<TextView>(R.id.tv_env)
         tvEnv.text = "${getString(R.string.app_build_types)}:Debug"
-        btn_jump.setOnClickListener(this)
-        btn_webview.setOnClickListener(this)
-        btn_x5_webview.setOnClickListener(this)
+        findViewById<View>(R.id.btn_jump).setOnClickListener(this)
+        findViewById<View>(R.id.btn_webview).setOnClickListener(this)
+        findViewById<View>(R.id.btn_x5_webview).setOnClickListener(this)
         findViewById<View>(R.id.btn_method_cost).setOnClickListener(this)
         findViewById<View>(R.id.btn_jump_leak).setOnClickListener(this)
         findViewById<View>(R.id.btn_mc).setOnClickListener(this)
@@ -105,7 +105,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,Coroutine
         findViewById<View>(R.id.btn_okhttp_mock).setOnClickListener(this)
         findViewById<View>(R.id.btn_connection_mock).setOnClickListener(this)
         //        findViewById(R.id.btn_rpc_mock).setOnClickListener(this);
-        btn_retrofit_mock.setOnClickListener(this)
+        findViewById<View>(R.id.btn_retrofit_mock).setOnClickListener(this)
         findViewById<View>(R.id.btn_test_crash).setOnClickListener(this)
         findViewById<View>(R.id.btn_show_hide_icon).setOnClickListener(this)
         findViewById<View>(R.id.btn_create_database).setOnClickListener(this)
@@ -131,18 +131,6 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,Coroutine
 
         githubService = retrofit.create(GithubService::class.java)
 
-        val job = lifecycleScope.launch {
-                async {
-
-                }
-        }
-
-        lifecycleScope.launch {
-
-
-        }
-
-        MainScope()
 
 //        AopTest().test()
     }

@@ -47,7 +47,8 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
 
     override fun isCacheable() = !verifyEnabled
 
-    override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> = TransformManager.CONTENT_CLASS
+    override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> =
+        TransformManager.CONTENT_CLASS
 
     override fun getScopes(): MutableSet<in QualifiedContent.Scope> = when {
         transformers.isEmpty() -> mutableSetOf()
@@ -77,6 +78,8 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
             }
         }
     }
+
+
 
 }
 

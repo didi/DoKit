@@ -65,7 +65,5 @@ abstract class AbsDokitFragment : BaseFragment() {
         homeTitleBar.setListener { requireActivity().finish() }
     }
 
-    companion object {
-        private const val TAG = "SimpleFragment"
-    }
+
 }

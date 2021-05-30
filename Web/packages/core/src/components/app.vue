@@ -1,28 +1,36 @@
 <template>
   <div class="dokit-app">
-    <div class="dokit-entry-btn" style="z-index: 10000;" v-dragable @click="toggleShowContainer"></div>
+    <div class="dokit-entry-btn" style="z-index: 10000;" v-dragable="btnConfig" @click="toggleShowContainer"></div>
     <div class="mask" v-show="showContainer" @click="toggleContainer"></div>
     <router-container v-show="showContainer"></router-container>
-    <!-- <single-container></single-container> -->
+    <independ-container v-show="independPlugins.length"></independ-container>
   </div>
 </template>
 
 <script>
-import dragable from "@common/directives/dragable";
+import { dragable } from '@dokit/web-utils';
 import RouterContainer from './router-container';
-import SingleContainer from './single-container';
-import {toggleContainer} from '@store/index';
+import IndependContainer from './independ-container';
+import { toggleContainer } from '@store/index';
 
 export default {
   components: {
     RouterContainer,
-    SingleContainer
+    IndependContainer
   },
   directives: {
     dragable,
   },
   data() {
-    return {};
+    return {
+      btnConfig: {
+        name: 'dokit_entry',
+        opacity: 0.5,
+        left: window.innerWidth - 50,
+        top: window.innerHeight - 100,
+        safeBottom: 50
+      }
+    };
   },
   computed: {
     state(){
@@ -30,6 +38,9 @@ export default {
     },
     showContainer(){
       return this.state.showContainer
+    },
+    independPlugins(){
+      return this.$store.state.independPlugins
     }
   },
   methods: {

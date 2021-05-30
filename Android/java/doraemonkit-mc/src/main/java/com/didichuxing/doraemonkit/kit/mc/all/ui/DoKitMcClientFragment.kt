@@ -2,11 +2,11 @@ package com.didichuxing.doraemonkit.kit.mc.all.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.all.McConstant
 import com.didichuxing.doraemonkit.kit.mc.client.DoKitWsClient
 import com.didichuxing.doraemonkit.mc.R
-import kotlinx.android.synthetic.main.dk_fragment_mc_client.*
 
 /**
  * ================================================
@@ -25,10 +25,10 @@ class DoKitMcClientFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tv_host_info.text = "当前设备已连接主机:【${McConstant.HOST_INFO?.deviceName}】"
-        btn_close.setOnClickListener {
+        findViewById<TextView>(R.id.tv_host_info).text =
+            "当前设备已连接主机:【${McConstant.HOST_INFO?.deviceName}】"
+        findViewById<View>(R.id.btn_close).setOnClickListener {
             DoKitWsClient.close()
-
             if (activity is DoKitMcActivity) {
                 (activity as DoKitMcActivity).changeFragment(DoKitMcActivity.FRAGMENT_SELECT)
             }
