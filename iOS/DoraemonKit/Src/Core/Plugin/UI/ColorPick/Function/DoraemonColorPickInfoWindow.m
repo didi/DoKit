@@ -91,8 +91,6 @@
 
 - (void)setCurrentColor:(NSString *)hexColor {
     [self.pickInfoView setCurrentColor:hexColor];
-    NSLog(@"hhahhha%@",[DoraemonColorPickInfoWindow shareInstance]);
-    NSLog(@"eeeeee%@",self);
 }
 
 #pragma mark - Actions

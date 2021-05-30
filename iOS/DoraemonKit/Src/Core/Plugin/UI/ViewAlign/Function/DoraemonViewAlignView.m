@@ -30,31 +30,34 @@ static CGFloat const kViewCheckSize = 62;
 
 @implementation DoraemonViewAlignView
 
-
-
 -(instancetype)init{
     self = [super init];
     if (self) {
         self.frame = CGRectMake(0, 0, DoraemonScreenWidth, DoraemonScreenHeight);
         self.backgroundColor = [UIColor clearColor];
         self.layer.zPosition = FLT_MAX;
+        //self.userInteractionEnabled = NO;
+        
+        
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(DoraemonScreenWidth/2-kViewCheckSize/2, DoraemonScreenHeight/2-kViewCheckSize/2, kViewCheckSize, kViewCheckSize)];
         imageView.image = [UIImage doraemon_xcassetImageNamed:@"doraemon_visual"];
         [self addSubview:imageView];
         _imageView = imageView;
+        
         imageView.userInteractionEnabled = YES;
         UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
         [imageView addGestureRecognizer:pan];
+        
         _horizontalLine = [[UIView alloc] initWithFrame:CGRectMake(0, imageView.doraemon_centerY-0.25, self.doraemon_width, 0.5)];
         _horizontalLine.backgroundColor = [UIColor doraemon_colorWithHexString:ALIGN_COLOR];
         [self addSubview:_horizontalLine];
+        
         _verticalLine = [[UIView alloc] initWithFrame:CGRectMake(imageView.doraemon_centerX-0.25, 0, 0.5, self.doraemon_height)];
         _verticalLine.backgroundColor = [UIColor doraemon_colorWithHexString:ALIGN_COLOR];
         [self addSubview:_verticalLine];
+        
         [self bringSubviewToFront:_imageView];
         
-        
-        //标签初始化，设置字体 颜色 文字 大小 位置
         _leftLabel = [[UILabel alloc] init];
         _leftLabel.font = [UIFont systemFontOfSize:12];
         _leftLabel.textColor = [UIColor doraemon_colorWithHexString:ALIGN_COLOR];
@@ -86,7 +89,7 @@ static CGFloat const kViewCheckSize = 62;
         [self addSubview:_bottomLabel];
         [_bottomLabel sizeToFit];
         _bottomLabel.frame = CGRectMake(imageView.doraemon_centerX-_bottomLabel.doraemon_width, imageView.doraemon_centerY+(self.doraemon_height - imageView.doraemon_centerY)/2, _bottomLabel.doraemon_width, _bottomLabel.doraemon_height);
-        //把inforWindow放在最下面，得处理好将其放在“黑杠”的上面，防止被遮挡
+        
         CGRect infoWindowFrame = CGRectZero;
         if (kInterfaceOrientationPortrait) {
             infoWindowFrame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - kDoraemonSizeFrom750_Landscape(100) - kDoraemonSizeFrom750_Landscape(30), DoraemonScreenWidth - 2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(100));
@@ -101,9 +104,6 @@ static CGFloat const kViewCheckSize = 62;
     return self;
 }
 
-
-
-//pan:平移 拖动
 - (void)pan:(UIPanGestureRecognizer *)sender{
     //1、获得拖动位移
     CGPoint offsetPoint = [sender translationInView:sender.view];
@@ -117,7 +117,6 @@ static CGFloat const kViewCheckSize = 62;
     CGPoint centerPoint = CGPointMake(newX, newY);
     panView.center = centerPoint;
     
-    //得到中心点位置后，可调整其他参数或View的位置
     _horizontalLine.frame = CGRectMake(0, _imageView.doraemon_centerY-0.25, self.doraemon_width, 0.5);
     _verticalLine.frame = CGRectMake(_imageView.doraemon_centerX-0.25, 0, 0.5, self.doraemon_height);
     
@@ -147,8 +146,6 @@ static CGFloat const kViewCheckSize = 62;
     return NO;
 }
 
-
-//inforWindow中显示的信息
 - (void)configInfoLblText {
     _infoWindow.infoText = [NSString stringWithFormat:DoraemonLocalizedString(@"位置：左%@  右%@  上%@  下%@"), _leftLabel.text, _rightLabel.text, _topLabel.text, _bottomLabel.text];
 }

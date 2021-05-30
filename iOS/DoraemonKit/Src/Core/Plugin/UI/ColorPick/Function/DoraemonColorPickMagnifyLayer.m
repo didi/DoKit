@@ -145,8 +145,6 @@ static NSInteger const kPixelSkip = 1; // 采集像素颜色时像素的间隔
 
 #pragma mark - Getter
 
-
-//对正方形进行裁剪绘制圆形放大镜
 - (struct CGPath *)gridCirclePath {
     if (_gridCirclePath == NULL) {
         CGMutablePathRef circlePath = CGPathCreateMutable();

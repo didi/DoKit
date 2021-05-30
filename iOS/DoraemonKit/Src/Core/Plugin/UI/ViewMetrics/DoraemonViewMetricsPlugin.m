@@ -11,8 +11,6 @@
 
 @implementation DoraemonViewMetricsPlugin
 
-
-//plugin初始化一个VC， 再将其替换为home的根VC
 - (void)pluginDidLoad{
     DoraemonMetricsViewController *vc = [[DoraemonMetricsViewController alloc] init];
     [DoraemonHomeWindow openPlugin:vc];

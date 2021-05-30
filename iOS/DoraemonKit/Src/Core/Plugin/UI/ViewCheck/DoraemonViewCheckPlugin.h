@@ -11,4 +11,3 @@
 @interface DoraemonViewCheckPlugin : NSObject<DoraemonPluginProtocol>
 
 @end
-

@@ -83,11 +83,11 @@ DEPENDENCIES:
   - DoraemonKit/WithLogger (from `../../`)
   - DoraemonKit/WithMLeaksFinder (from `../../`)
   - DoraemonKit/WithWeex (from `../../`)
-  - FBRetainCycleDetector (from `https://github.com/facebook/FBRetainCycleDetector.git`)
+  - FBRetainCycleDetector (from `git://github.com/facebook/FBRetainCycleDetector.git`)
   - SDWebImage
   - SDWebImageWebPCoder
   - SocketRocket (~> 0.5)
-  - YYDebugDatabase (from `https://github.com/y500/YYDebugDatabase.git`)
+  - YYDebugDatabase (from `git://github.com/y500/YYDebugDatabase.git`)
 
 SPEC REPOS:
   trunk:
@@ -106,17 +106,17 @@ EXTERNAL SOURCES:
   DoraemonKit:
     :path: "../../"
   FBRetainCycleDetector:
-    :git: https://github.com/facebook/FBRetainCycleDetector.git
+    :git: git://github.com/facebook/FBRetainCycleDetector.git
   YYDebugDatabase:
-    :git: https://github.com/y500/YYDebugDatabase.git
+    :git: git://github.com/y500/YYDebugDatabase.git
 
 CHECKOUT OPTIONS:
   FBRetainCycleDetector:
     :commit: 32c4afc1fc17553f9b69e4edd82cfa3c73dbb331
-    :git: https://github.com/facebook/FBRetainCycleDetector.git
+    :git: git://github.com/facebook/FBRetainCycleDetector.git
   YYDebugDatabase:
     :commit: 87f4214ab9656b75dd74dfcc042cc3b5067ebab6
-    :git: https://github.com/y500/YYDebugDatabase.git
+    :git: git://github.com/y500/YYDebugDatabase.git
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
@@ -133,6 +133,6 @@ SPEC CHECKSUMS:
   WXDevtool: 95b70c73c06fc3299d65bd53ba4b3e0b0087f3cb
   YYDebugDatabase: e684a7f79fca2e3673a23347cefb822f911f3124
 
-PODFILE CHECKSUM: a955cdaf3e59b0dc21224f229ea928cf97cc0173
+PODFILE CHECKSUM: 4be3b4825e8e8b07134dc007e7028e251ce6f09a
 
 COCOAPODS: 1.10.1

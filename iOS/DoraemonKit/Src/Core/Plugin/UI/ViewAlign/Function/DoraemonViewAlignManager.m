@@ -12,15 +12,12 @@
 
 @interface DoraemonViewAlignManager()
 
-
-//持有2个UIVIEW，1个UIIMAGE,4个UILabel,管理其显示和隐藏等
 @property (nonatomic, strong) DoraemonViewAlignView *alignView;
 
 @end
 
 @implementation DoraemonViewAlignManager
 
-//维护单例
 + (DoraemonViewAlignManager *)shareInstance{
     static dispatch_once_t once;
     static DoraemonViewAlignManager *instance;
@@ -30,8 +27,6 @@
     return instance;
 }
 
-
-//1.监听被关闭的事件，2.监听rootCV被更改的事件，目标是把其持有的alignView提到最前面
 - (instancetype)init{
     self = [super init];
     if (self) {
@@ -41,13 +36,9 @@
     return self;
 }
 
-
-//防止内存泄漏
 - (void)dealloc {
      [[DoraemonUtil getKeyWindow] removeObserver:self forKeyPath:@"rootViewController"];
 }
-
-
 
 - (void)show{
     if (!_alignView) {
@@ -69,8 +60,6 @@
     [self hidden];
 }
 
-
-//把alignView放到最前面
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     [[DoraemonUtil getKeyWindow] bringSubviewToFront:self.alignView];
 }

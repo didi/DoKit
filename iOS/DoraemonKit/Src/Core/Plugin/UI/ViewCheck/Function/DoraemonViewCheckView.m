@@ -56,12 +56,7 @@ static CGFloat const kViewCheckSize = 62;
         _infoWindow = [[DoraemonVisualInfoWindow alloc] initWithFrame:infoWindowFrame];
         
     }
-//    self.webView.delegate = self;
-//    [self.webView  loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://image.baidu.com/wisebrowse/index?tag1=%E7%BE%8E%E5%A5%B3&tag2=%E5%85%A8%E9%83%A8&tag3=&pn=0&rn=10&from=index&fmpage=index&pos=magic#/home"]]];
-//    UILongPressGestureRecognizer * longPressed = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressed:)];
-//    longPressed.delegate = self;
-//    [self.webView addGestureRecognizer:longPressed];
-//    }
+     
     return self;
 }
 
@@ -266,24 +261,4 @@ static CGFloat const kViewCheckSize = 62;
     return hex;
 }
 
-//- (void)longPressed:(UITapGestureRecognizer*)recognizer{
-////只在长按手势开始的时候才去获取图片的url
-//if (recognizer.state != UIGestureRecognizerStateBegan) {
-//return;
-//}
-//CGPoint touchPoint = [recognizer locationInView:self.webView];
-//NSString *js = [NSString stringWithFormat:@"document.elementFromPoint(%f, %f).src", touchPoint.x, touchPoint.y];
-//NSString *urlToSave = [self.webView stringByEvaluatingJavaScriptFromString:js];
-//if (urlToSave.length == 0) {
-//return;
-//}
-//NSLog(@"获取到图片地址：%@",urlToSave);
-//}
-////可以识别多个手势
-//-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-//{
-//return YES;
-//}
-//
 @end
-
