@@ -43,14 +43,17 @@
     if (statusBarWindow && [self isDescendantOfView:statusBarWindow]) {
         return;
     }
-
+    
+    //深度优先搜索，调用每一个子视图
     for (UIView *subView in self.subviews) {
         [subView doraemonMetricsRecursiveEnable:enable];
     }
     
+    //边框颜色未指定则设为随机色
     if (enable) {
         if (!self.metricsBorderLayer) {
             UIColor *borderColor = DoraemonViewMetricsConfig.defaultConfig.borderColor ? DoraemonViewMetricsConfig.defaultConfig.borderColor : UIColor.doraemon_randomColor;
+            //闭包，初试化一个LAYER，在把它加到视图里
             self.metricsBorderLayer = ({
                 CALayer *layer = CALayer.new;
                 layer.borderWidth = DoraemonViewMetricsConfig.defaultConfig.borderWidth;
@@ -59,7 +62,7 @@
             });
             [self.layer addSublayer:self.metricsBorderLayer];
         }
-        
+        //设置图层的位置和范围
         self.metricsBorderLayer.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
         self.metricsBorderLayer.hidden = NO;
     } else if (self.metricsBorderLayer) {
@@ -67,6 +70,8 @@
     }
 }
 
+
+//重写setsetMetricsBorderLayer,setAssociatedObject,关联一个对象，key-value,@selector(metricsBorderLayer)，metricsBorderLayer函数 key,value是函数的参数
 - (void)setMetricsBorderLayer:(CALayer *)metricsBorderLayer
 {
     objc_setAssociatedObject(self, @selector(metricsBorderLayer), metricsBorderLayer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);

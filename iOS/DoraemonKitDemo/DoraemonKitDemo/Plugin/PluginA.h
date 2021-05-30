@@ -1,8 +1,9 @@
 //
-//  DoraemonViewCheckPlugin.h
-//  DoraemonKit-DoraemonKit
+//  PluginA.h
+//  DoraemonKitDemo
 //
-//  Created by yixiang on 2018/3/28.
+//  Created by qian on 2021/4/24.
+//  Copyright © 2021 yixiang. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -11,4 +12,10 @@
 @interface DoraemonViewCheckPlugin : NSObject<DoraemonPluginProtocol>
 
 @end
+
+
+
+
+
+
 

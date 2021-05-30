@@ -45,7 +45,7 @@
 /** Y value of the object's center **/
 @property (nonatomic, assign) CGFloat   doraemon_centerY;
 
-- (UIViewController *)doraemon_viewController;
+- (UIViewController*)viewController;
 
 @end
 

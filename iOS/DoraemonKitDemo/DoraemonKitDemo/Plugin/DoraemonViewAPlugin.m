@@ -1,20 +1,22 @@
 //
-//  DoraemonViewCheckView.m
-//  DoraemonKit-DoraemonKit
+//  DoraemonViewAPlugin.m
+//  DoraemonKitDemo
 //
-//  Created by yixiang on 2018/3/28.
+//  Created by qian on 2021/5/2.
+//  Copyright © 2021 yixiang. All rights reserved.
 //
 
-#import "DoraemonViewCheckView.h"
+#import "DoraemonViewAPlugin.h"
 #import "DoraemonDefine.h"
 #import "Doraemoni18NUtil.h"
 #import "DoraemonVisualInfoWindow.h"
 #import <objc/runtime.h>
 
 
+
 static CGFloat const kViewCheckSize = 62;
 
-@interface DoraemonViewCheckView()
+@interface DoraemonViewAPlugin()
 
 @property (nonatomic, strong) UIView *viewBound;//当前需要探测的view的边框
 @property (nonatomic, strong) DoraemonVisualInfoWindow *infoWindow;//顶部被探测到的view的信息显示的UIwindow
@@ -26,12 +28,32 @@ static CGFloat const kViewCheckSize = 62;
 
 @end
 
-@implementation DoraemonViewCheckView
+@implementation DoraemonViewAPlugin
+
+
++ (instancetype)shareInstance {
+    static id _shareInstance = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _shareInstance = [[self alloc] init];
+        
+    });
+    return _shareInstance;
+}
+
+-(void)setInfo:(UIView *)view{
+    NSLog(@"YOYO");
+    NSLog(@"www%f",_left);
+    NSLog(@"wwww%f",_top);
+    _infoWindow.infoAttributedText = [self viewInfo:view];
+    NSLog(@"HAHA");
+}
+//初始化位置放在屏幕中间
 
 -(instancetype)init{
     self = [super init];
     if (self) {
-        self.frame = CGRectMake(DoraemonScreenWidth/2-kViewCheckSize/2, DoraemonScreenHeight/2-kViewCheckSize/2, kViewCheckSize, kViewCheckSize);
+        self.frame = CGRectMake(DoraemonScreenWidth/2-kViewCheckSize/2+30, DoraemonScreenHeight/2-kViewCheckSize/2, kViewCheckSize, kViewCheckSize);
         self.backgroundColor = [UIColor clearColor];
         self.layer.zPosition = FLT_MAX;
         
@@ -44,27 +66,20 @@ static CGFloat const kViewCheckSize = 62;
         _viewBound = [[UIView alloc] init];
         _viewBound.layer.masksToBounds = YES;
         _viewBound.layer.borderWidth = 2.;
-        _viewBound.layer.borderColor = [UIColor doraemon_colorWithHex:0xCC3A4B].CGColor;
+        _viewBound.layer.borderColor = [UIColor doraemon_colorWithHex:0xFF00FF].CGColor;
         _viewBound.layer.zPosition = FLT_MAX;
         
         CGRect infoWindowFrame = CGRectZero;
         if (kInterfaceOrientationPortrait) {
-            infoWindowFrame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - kDoraemonSizeFrom750_Landscape(180) - kDoraemonSizeFrom750_Landscape(30), DoraemonScreenWidth - 2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(180));
+            infoWindowFrame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - kDoraemonSizeFrom750_Landscape(180) - kDoraemonSizeFrom750_Landscape(30)-100+100, DoraemonScreenWidth - 2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(180));
         } else {
-            infoWindowFrame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - kDoraemonSizeFrom750_Landscape(180) - kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - 2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(180));
+            infoWindowFrame = CGRectMake(kDoraemonSizeFrom750_Landscape(30), DoraemonScreenHeight - kDoraemonSizeFrom750_Landscape(180) - kDoraemonSizeFrom750_Landscape(30)-100+100, DoraemonScreenHeight - 2*kDoraemonSizeFrom750_Landscape(30), kDoraemonSizeFrom750_Landscape(180));
         }
         _infoWindow = [[DoraemonVisualInfoWindow alloc] initWithFrame:infoWindowFrame];
-        
     }
-//    self.webView.delegate = self;
-//    [self.webView  loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://image.baidu.com/wisebrowse/index?tag1=%E7%BE%8E%E5%A5%B3&tag2=%E5%85%A8%E9%83%A8&tag3=&pn=0&rn=10&from=index&fmpage=index&pos=magic#/home"]]];
-//    UILongPressGestureRecognizer * longPressed = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressed:)];
-//    longPressed.delegate = self;
-//    [self.webView addGestureRecognizer:longPressed];
-//    }
     return self;
 }
-
+// 四个函数相当于平移检测器pan,改变self.frame
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:self];
@@ -91,7 +106,11 @@ static CGFloat const kViewCheckSize = 62;
     CGRect frame = [self.window convertRect:view.bounds fromView:view];
     _viewBound.frame = frame;
     if ([self needRefresh:view]) {
+        NSLog(@"eee%f",_left);
+        NSLog(@"eee%f",_top);
         _infoWindow.infoAttributedText = [self viewInfo:view];
+        NSLog(@"共享%@",[DoraemonViewAPlugin shareInstance]);
+        NSLog(@"自己%@",self);
     }
 }
 
@@ -103,6 +122,8 @@ static CGFloat const kViewCheckSize = 62;
     [_viewBound removeFromSuperview];
 }
 
+
+
 -(UIView*)topView:(UIView*)view Point:(CGPoint) point{
     [_arrViewHit removeAllObjects];
     [self hitTest:view Point:point];
@@ -110,6 +131,7 @@ static CGFloat const kViewCheckSize = 62;
     [_arrViewHit removeAllObjects];
     return viewTop;
 }
+
 
 -(void)hitTest:(UIView*)view Point:(CGPoint) point{
     if([view isKindOfClass:[UIScrollView class]])
@@ -152,6 +174,22 @@ static CGFloat const kViewCheckSize = 62;
     return needRefresh;
 }
 
+- (CGRect)relativeFrameForScreenWithView:(UIView *)view{
+    
+    CGFloat x = .0;
+    CGFloat y = .0;
+    while (view != [UIApplication sharedApplication].keyWindow && nil != view) {
+        x += view.frame.origin.x;
+        y += view.frame.origin.y;
+        view = view.superview;
+        if ([view isKindOfClass:[UIScrollView class]]) {
+            x -= ((UIScrollView *) view).contentOffset.x;
+            y -= ((UIScrollView *) view).contentOffset.y;
+        }
+    }
+    return CGRectMake(x, y, self.frame.size.width, self.frame.size.height);
+}
+
 -(NSMutableAttributedString *)viewInfo:(UIView *)view{
     if (view) {
         //获取属性名
@@ -171,6 +209,8 @@ static CGFloat const kViewCheckSize = 62;
         if (!ivarName) {
             ivarName = [self nameWithInstance:view inTarger:view.viewController];
         }
+        //CGRect CR=[self relativeFrameForScreenWithView];
+        
         
         NSMutableString *showString = [[NSMutableString alloc] init];
         NSString *tempString = nil;
@@ -179,11 +219,18 @@ static CGFloat const kViewCheckSize = 62;
         }else{
             tempString = [NSString stringWithFormat:@"%@:%@",DoraemonLocalizedString(@"控件名称"),NSStringFromClass([view class])];
         }
-        NSLog(@"tempString == %@",tempString);
         [showString appendString:tempString];
+        //CGFloat xx2=[_viewCheckViewB xleft];
         
-        tempString = [NSString stringWithFormat:DoraemonLocalizedString(@"\n控件位置：左%0.1lf  上%0.1lf  宽%0.1lf  高%0.1lf"),view.frame.origin.x,view.frame.origin.y,view.frame.size.width,view.frame.size.height];
+        //CGFloat yy2=[_viewCheckViewB ytop];
+        //NSLog(@"%f",yy2);
+        //CGFloat width2=[_viewCheckViewB xwidth];
+        //CGFloat height2=[_viewCheckViewB yheight];
+        
+        CGRect CR=[self relativeFrameForScreenWithView:view];
+        tempString = [NSString stringWithFormat:DoraemonLocalizedString(@"\n控件位置：左%0.1lf  上%0.1lf  宽%0.1lf  高%0.1lf"),CR.origin.x,CR.origin.y,CR.size.width,CR.size.height];
         [showString appendString:tempString];
+    
         
         if([view isKindOfClass:[UILabel class]]){
             UILabel *vLabel = (UILabel *)view;
@@ -266,24 +313,4 @@ static CGFloat const kViewCheckSize = 62;
     return hex;
 }
 
-//- (void)longPressed:(UITapGestureRecognizer*)recognizer{
-////只在长按手势开始的时候才去获取图片的url
-//if (recognizer.state != UIGestureRecognizerStateBegan) {
-//return;
-//}
-//CGPoint touchPoint = [recognizer locationInView:self.webView];
-//NSString *js = [NSString stringWithFormat:@"document.elementFromPoint(%f, %f).src", touchPoint.x, touchPoint.y];
-//NSString *urlToSave = [self.webView stringByEvaluatingJavaScriptFromString:js];
-//if (urlToSave.length == 0) {
-//return;
-//}
-//NSLog(@"获取到图片地址：%@",urlToSave);
-//}
-////可以识别多个手势
-//-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-//{
-//return YES;
-//}
-//
 @end
-

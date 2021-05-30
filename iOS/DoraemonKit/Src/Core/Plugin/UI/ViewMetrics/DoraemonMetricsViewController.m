@@ -12,12 +12,14 @@
 
 @interface DoraemonMetricsViewController () <DoraemonSwitchViewDelegate>
 
+//开关
 @property (nonatomic, strong) DoraemonCellSwitch *switchView;
 
 @end
 
 @implementation DoraemonMetricsViewController
 
+//开关布局，打开关闭
 - (void)viewDidLoad {
     [super viewDidLoad];
     

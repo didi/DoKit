@@ -14,28 +14,28 @@ PODS:
   - AFNetworking/Serialization (4.0.1)
   - AFNetworking/UIKit (4.0.1):
     - AFNetworking/NSURLSession
-  - CocoaLumberjack (3.7.0):
-    - CocoaLumberjack/Core (= 3.7.0)
-  - CocoaLumberjack/Core (3.7.0)
-  - DoraemonKit/Core (3.0.6):
+  - CocoaLumberjack (3.7.2):
+    - CocoaLumberjack/Core (= 3.7.2)
+  - CocoaLumberjack/Core (3.7.2)
+  - DoraemonKit/Core (3.0.7):
     - FMDB
     - GCDWebServer
     - GCDWebServer/WebDAV
     - GCDWebServer/WebUploader
-  - DoraemonKit/WithDatabase (3.0.6):
+  - DoraemonKit/WithDatabase (3.0.7):
     - DoraemonKit/Core
     - YYDebugDatabase
-  - DoraemonKit/WithGPS (3.0.6):
+  - DoraemonKit/WithGPS (3.0.7):
     - DoraemonKit/Core
-  - DoraemonKit/WithLoad (3.0.6):
+  - DoraemonKit/WithLoad (3.0.7):
     - DoraemonKit/Core
-  - DoraemonKit/WithLogger (3.0.6):
+  - DoraemonKit/WithLogger (3.0.7):
     - CocoaLumberjack
     - DoraemonKit/Core
-  - DoraemonKit/WithMLeaksFinder (3.0.6):
+  - DoraemonKit/WithMLeaksFinder (3.0.7):
     - DoraemonKit/Core
     - FBRetainCycleDetector
-  - DoraemonKit/WithWeex (3.0.6):
+  - DoraemonKit/WithWeex (3.0.7):
     - DoraemonKit/Core
     - WeexSDK
     - WXDevtool
@@ -50,19 +50,19 @@ PODS:
     - GCDWebServer/Core
   - GCDWebServer/WebUploader (3.5.4):
     - GCDWebServer/Core
-  - libwebp (1.1.0):
-    - libwebp/demux (= 1.1.0)
-    - libwebp/mux (= 1.1.0)
-    - libwebp/webp (= 1.1.0)
-  - libwebp/demux (1.1.0):
+  - libwebp (1.2.0):
+    - libwebp/demux (= 1.2.0)
+    - libwebp/mux (= 1.2.0)
+    - libwebp/webp (= 1.2.0)
+  - libwebp/demux (1.2.0):
     - libwebp/webp
-  - libwebp/mux (1.1.0):
+  - libwebp/mux (1.2.0):
     - libwebp/demux
-  - libwebp/webp (1.1.0)
-  - SDWebImage (5.10.4):
-    - SDWebImage/Core (= 5.10.4)
-  - SDWebImage/Core (5.10.4)
-  - SDWebImageWebPCoder (0.8.2):
+  - libwebp/webp (1.2.0)
+  - SDWebImage (5.11.1):
+    - SDWebImage/Core (= 5.11.1)
+  - SDWebImage/Core (5.11.1)
+  - SDWebImageWebPCoder (0.8.3):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.10)
   - SocketRocket (0.5.1)
@@ -120,14 +120,14 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
-  CocoaLumberjack: e8955b9d337ac307103b0a34fd141c32f27e53c5
-  DoraemonKit: 919709427c30af94e265532a879ac41797d296d1
+  CocoaLumberjack: b7e05132ff94f6ae4dfa9d5bce9141893a21d9da
+  DoraemonKit: 32fb97f3aa82efa133111d193080ca5462cef135
   FBRetainCycleDetector: 46daef95c2dfa9be34b53087edf6a8f34e4c749c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GCDWebServer: 2c156a56c8226e2d5c0c3f208a3621ccffbe3ce4
-  libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
-  SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
-  SDWebImageWebPCoder: f56ab499e3ea57dfeb6c3187dce183b10e160db0
+  libwebp: 6bac0a99ba5a6bb7449a951ff22c484201985f68
+  SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
+  SDWebImageWebPCoder: bbf46e29fb8d1980a78ad3d5e9b4123c77f10ebc
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   WeexSDK: 78861d2f8b78f67e30580c15a54f5b420456db39
   WXDevtool: 95b70c73c06fc3299d65bd53ba4b3e0b0087f3cb
@@ -135,4 +135,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: a955cdaf3e59b0dc21224f229ea928cf97cc0173
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.10.1

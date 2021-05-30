@@ -23,8 +23,11 @@ static CGFloat const kColorPickWindowSize = 150;
 // 这里先屏蔽掉，先使用layer自带的圆圈
 //@property (nonatomic, strong) DoraemonColorPickView *colorPickView;
 
+
+//放大图层
 @property (nonatomic, strong) DoraemonColorPickMagnifyLayer *magnifyLayer;
 
+//screenShotImage 定位的图片，相当于视图的截屏
 @property (nonatomic, strong) UIImage *screenShotImage;
 
 @end
@@ -56,6 +59,7 @@ static CGFloat const kColorPickWindowSize = 150;
             }
         #endif
         self.backgroundColor = [UIColor clearColor];
+        //windowLevel+1,防止被挡住
         self.windowLevel = UIWindowLevelStatusBar + 1.f;
         if (!self.rootViewController) {
             self.rootViewController = [[UIViewController alloc] init];
@@ -65,6 +69,7 @@ static CGFloat const kColorPickWindowSize = 150;
         //        colorPickView.backgroundColor = [UIColor clearColor];
         //        [self.rootViewController.view addSubview:colorPickView];
         //        self.colorPickView = colorPickView;
+        
         
         self.magnifyLayer.frame = self.bounds;
         __weak __typeof(self)weakSelf = self;
@@ -101,7 +106,12 @@ static CGFloat const kColorPickWindowSize = 150;
 }
 
 #pragma mark - Private
-
+/*
+ 1.拿到一个上下文，相当于一个白板
+ 2.拿到keyWindow,把keyWindow的图层渲染在白板上
+ 3.把上文的内容导出成图片
+ 4.
+ */
 - (void)updateScreeShotImage {
     UIGraphicsBeginImageContext([UIScreen mainScreen].bounds.size);
     [[DoraemonUtil getKeyWindow].layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -111,14 +121,18 @@ static CGFloat const kColorPickWindowSize = 150;
     self.screenShotImage = image;
 }
 
+/*取得图像的某一个点的16进制表示：1.如果图像没有或者图像超过大小返回nil;
+ Create a 1x1 pixel byte array and bitmap context to draw the pixel into.
+ 2. 绘制一个1*1的像素点
+ 
+*/
+
+
+
 - (NSString *)colorAtPoint:(CGPoint)point inImage:(UIImage *)image {
-    // Cancel if point is outside image coordinates
     if (!image || !CGRectContainsPoint(CGRectMake(0.0f, 0.0f, image.size.width, image.size.height), point)) {
         return nil;
     }
-    
-    // Create a 1x1 pixel byte array and bitmap context to draw the pixel into.
-    // Reference: http://stackoverflow.com/questions/1042830/retrieving-a-pixel-alpha-value-for-a-uiimage
     NSInteger pointX = trunc(point.x);
     NSInteger pointY = trunc(point.y);
     CGImageRef cgImage = image.CGImage;
@@ -139,7 +153,6 @@ static CGFloat const kColorPickWindowSize = 150;
     CGColorSpaceRelease(colorSpace);
     CGContextSetBlendMode(context, kCGBlendModeCopy);
     
-    // Draw the pixel we are interested in onto the bitmap context
     CGContextTranslateCTM(context, -pointX, pointY-(CGFloat)height);
     CGContextDrawImage(context, CGRectMake(0.0f, 0.0f, (CGFloat)width, (CGFloat)height), cgImage);
     CGContextRelease(context);
@@ -172,11 +185,6 @@ static CGFloat const kColorPickWindowSize = 150;
     panView.center = centerPoint;
     
     self.magnifyLayer.targetPoint = centerPoint;
-    
-    // update positions
-    //    self.magnifyLayer.position = centerPoint;
-    
-    // Make magnifyLayer sharp on screen
     CGRect magnifyFrame     = self.magnifyLayer.frame;
     magnifyFrame.origin     = CGPointMake(round(magnifyFrame.origin.x), round(magnifyFrame.origin.y));
     self.magnifyLayer.frame = magnifyFrame;
@@ -205,3 +213,4 @@ static CGFloat const kColorPickWindowSize = 150;
 }
 
 @end
+

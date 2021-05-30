@@ -17,6 +17,9 @@
 		0AA262E1240F8AC400BF144F /* DoraemonDemoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA262E0240F8AC400BF144F /* DoraemonDemoBaseViewController.m */; };
 		0AC7509C246A8EE100F87363 /* WebpDemo.webp in Resources */ = {isa = PBXBuildFile; fileRef = 0AC7509B246A8B4900F87363 /* WebpDemo.webp */; };
 		0AFBC55223BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFBC55023BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m */; };
+		30254170265E8CC700444158 /* RelativePositionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3025416F265E8CC700444158 /* RelativePositionPlugin.m */; };
+		30254173265E8CFA00444158 /* RelativePositionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 30254172265E8CFA00444158 /* RelativePositionManager.m */; };
+		30254176265E8D4C00444158 /* RelativePositionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 30254175265E8D4C00444158 /* RelativePositionView.m */; };
 		B65C2263AF96F94C50A222DF /* libPods-DoraemonKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E964A2D92411C9DC5482EF /* libPods-DoraemonKitDemo.a */; };
 		DA0C6F331FDEBC2E00F43588 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA0C6F311FDEBC2E00F43588 /* LaunchScreen.storyboard */; };
 		DA0C6F3A1FDEBE3800F43588 /* TestPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C6F391FDEBE3800F43588 /* TestPlugin.m */; };
@@ -69,6 +72,12 @@
 		0AFBC55023BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoNetTableViewCell.m; sourceTree = "<group>"; };
 		0AFBC55123BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoNetTableViewCell.h; sourceTree = "<group>"; };
 		29E964A2D92411C9DC5482EF /* libPods-DoraemonKitDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DoraemonKitDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3025416E265E8CC700444158 /* RelativePositionPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RelativePositionPlugin.h; sourceTree = "<group>"; };
+		3025416F265E8CC700444158 /* RelativePositionPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RelativePositionPlugin.m; sourceTree = "<group>"; };
+		30254171265E8CFA00444158 /* RelativePositionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RelativePositionManager.h; sourceTree = "<group>"; };
+		30254172265E8CFA00444158 /* RelativePositionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RelativePositionManager.m; sourceTree = "<group>"; };
+		30254174265E8D4C00444158 /* RelativePositionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RelativePositionView.h; sourceTree = "<group>"; };
+		30254175265E8D4C00444158 /* RelativePositionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RelativePositionView.m; sourceTree = "<group>"; };
 		DA0C6F321FDEBC2E00F43588 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA0C6F381FDEBE3800F43588 /* TestPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestPlugin.h; sourceTree = "<group>"; };
 		DA0C6F391FDEBE3800F43588 /* TestPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestPlugin.m; sourceTree = "<group>"; };
@@ -176,6 +185,17 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		30A14EA5263E471D009EBA77 /* Function */ = {
+			isa = PBXGroup;
+			children = (
+				30254171265E8CFA00444158 /* RelativePositionManager.h */,
+				30254172265E8CFA00444158 /* RelativePositionManager.m */,
+				30254174265E8D4C00444158 /* RelativePositionView.h */,
+				30254175265E8D4C00444158 /* RelativePositionView.m */,
+			);
+			path = Function;
+			sourceTree = "<group>";
+		};
 		6BF226158409D1338AF520EC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -200,6 +220,9 @@
 				DA0C6F391FDEBE3800F43588 /* TestPlugin.m */,
 				DAD46BD81FE6B7AF00E3E7BC /* StartPlugin.h */,
 				DAD46BD91FE6B7AF00E3E7BC /* StartPlugin.m */,
+				3025416E265E8CC700444158 /* RelativePositionPlugin.h */,
+				3025416F265E8CC700444158 /* RelativePositionPlugin.m */,
+				30A14EA5263E471D009EBA77 /* Function */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -559,11 +582,13 @@
 				DABBE3B221D3AA260070518E /* DoraemonUIWebViewViewController.m in Sources */,
 				0A5399852349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.m in Sources */,
 				0A5399882349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.m in Sources */,
+				30254170265E8CC700444158 /* RelativePositionPlugin.m in Sources */,
 				DAFE052C21BD4A4D00F97A59 /* DoraemonDemoCommonViewController.m in Sources */,
 				0AFBC55223BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m in Sources */,
 				0AA262E1240F8AC400BF144F /* DoraemonDemoBaseViewController.m in Sources */,
 				DAFE052A21BD4A4D00F97A59 /* DoraemonDemoCrashMRCView.m in Sources */,
 				0A6CF27C2438BDDD00A2CBF4 /* DoraemonKitDemoi18Util.m in Sources */,
+				30254173265E8CFA00444158 /* RelativePositionManager.m in Sources */,
 				DAC3FA7622B8DD7400871E5C /* DoraemonDemoImageViewController.m in Sources */,
 				DAC3FA7922B8E0EE00871E5C /* DoraemonDemoImageShowViewController.m in Sources */,
 				DAC8A87C1FDE2C3B00F03E6F /* DoKitAppDelegate.m in Sources */,
@@ -572,6 +597,7 @@
 				DAFE052F21BD4A4D00F97A59 /* DoraemonDemoPerformanceViewController.m in Sources */,
 				0A6C9CED2423219400BAEF5E /* DoraemonDemoURLProtocol2.m in Sources */,
 				0A53998B2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m in Sources */,
+				30254176265E8D4C00444158 /* RelativePositionView.m in Sources */,
 				DAFE052521BD4A4D00F97A59 /* DoraemonDemoUIViewController.m in Sources */,
 				DAD46BDA1FE6B7AF00E3E7BC /* StartPlugin.m in Sources */,
 			);
@@ -655,7 +681,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -708,6 +734,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -721,7 +748,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = GHY772XDU7;
+				DEVELOPMENT_TEAM = T8N8L5G8JJ;
 				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DoraemonKitDemo/DoraemonKitDemo-PrefixHeader.pch";
@@ -742,7 +769,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GHY772XDU7;
+				DEVELOPMENT_TEAM = T8N8L5G8JJ;
 				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DoraemonKitDemo/DoraemonKitDemo-PrefixHeader.pch";
