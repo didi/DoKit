@@ -1,3 +1,9 @@
+// 
+// 功能: 对齐标尺
+// 作者: foolbit (唐斌)
+// 时间v2021-5-30
+// 
+
 import AlignRuler from './align-ruler.vue'
 import {IndependPlugin} from '@dokit/web-core'
 
