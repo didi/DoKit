@@ -133,7 +133,7 @@ const render$5 = /*#__PURE__*/_withId$5((_ctx, _cache, $props, $setup, $data, $o
       createVNode("span", _hoisted_4$1, toDisplayString($props.title), 1 /* TEXT */)
     ]),
     createCommentVNode(" TODO 支持切换模式 "),
-    createCommentVNode(" <div class=\"bar-other\">\n      <span class=\"bar-other-text\">更多</span>\n    </div> ")
+    createCommentVNode(" <div class=\"bar-other\">\r\n      <span class=\"bar-other-text\">更多</span>\r\n    </div> ")
   ]))
 });
 
@@ -348,8 +348,37 @@ const isFunction = function(ob){
   return typeof ob === 'function'
 };
 
+function getDevtoolsGlobalHook() {
+    return getTarget().__VUE_DEVTOOLS_GLOBAL_HOOK__;
+}
+function getTarget() {
+    // @ts-ignore
+    return typeof navigator !== 'undefined'
+        ? window
+        : typeof global !== 'undefined'
+            ? global
+            : {};
+}
+
+const HOOK_SETUP = 'devtools-plugin:setup';
+
+function setupDevtoolsPlugin(pluginDescriptor, setupFn) {
+    const hook = getDevtoolsGlobalHook();
+    if (hook) {
+        hook.emit(HOOK_SETUP, pluginDescriptor, setupFn);
+    }
+    else {
+        const target = getTarget();
+        const list = target.__VUE_DEVTOOLS_PLUGINS__ = target.__VUE_DEVTOOLS_PLUGINS__ || [];
+        list.push({
+            pluginDescriptor,
+            setupFn
+        });
+    }
+}
+
 /*!
-  * vue-router v4.0.6
+  * vue-router v4.0.8
   * (c) 2021 Eduardo San Martin Morote
   * @license MIT
   */
@@ -708,6 +737,7 @@ function createMemoryHistory(base = '') {
     const routerHistory = {
         // rewritten by Object.defineProperty
         location: START,
+        // TODO: should be kept in queue
         state: {},
         base,
         createHref: createHref.bind(null, base),
@@ -729,6 +759,8 @@ function createMemoryHistory(base = '') {
         },
         destroy() {
             listeners = [];
+            queue = [START];
+            position = 0;
         },
         go(delta, shouldTrigger = true) {
             const from = this.location;
@@ -747,6 +779,7 @@ function createMemoryHistory(base = '') {
         },
     };
     Object.defineProperty(routerHistory, 'location', {
+        enumerable: true,
         get: () => queue[position],
     });
     return routerHistory;
@@ -830,6 +863,7 @@ const ErrorTypeMessages = {
     },
 };
 function createRouterError(type, params) {
+    // keep full error messages in cjs versions
     {
         return assign(new Error(ErrorTypeMessages[type](params)), {
             type,
@@ -1740,6 +1774,10 @@ function parseQuery(search) {
         // allow the = character
         let eqPos = searchParam.indexOf('=');
         let key = decode(eqPos < 0 ? searchParam : searchParam.slice(0, eqPos));
+        // this ignores ?__proto__&toString
+        if (Object.prototype.hasOwnProperty(key)) {
+            continue;
+        }
         let value = eqPos < 0 ? null : decode(searchParam.slice(eqPos + 1));
         if (key in query) {
             // an extra variable for ts types
@@ -1767,26 +1805,29 @@ function parseQuery(search) {
 function stringifyQuery(query) {
     let search = '';
     for (let key in query) {
-        if (search.length)
-            search += '&';
         const value = query[key];
         key = encodeQueryKey(key);
         if (value == null) {
             // only null adds the value
-            if (value !== undefined)
-                search += key;
+            if (value !== undefined) {
+                search += (search.length ? '&' : '') + key;
+            }
             continue;
         }
         // keep null values
         let values = Array.isArray(value)
             ? value.map(v => v && encodeQueryValue(v))
             : [value && encodeQueryValue(value)];
-        for (let i = 0; i < values.length; i++) {
-            // only append & with i > 0
-            search += (i ? '&' : '') + key;
-            if (values[i] != null)
-                search += ('=' + values[i]);
-        }
+        values.forEach(value => {
+            // skip undefined values in arrays as if they were not present
+            // smaller code than using filter
+            if (value !== undefined) {
+                // only append & with non-empty search
+                search += (search.length ? '&' : '') + key;
+                if (value != null)
+                    search += '=' + value;
+            }
+        });
     }
     return search;
 }
@@ -2068,7 +2109,8 @@ const RouterLinkImpl = /*#__PURE__*/ defineComponent({
             // )]: !link.isExactActive,
             [getLinkClass(props.exactActiveClass, options.linkExactActiveClass, 'router-link-exact-active')]: link.isExactActive,
         }));
-        {
+        // devtools only
+        if (isBrowser) {
             const instance = getCurrentInstance();
             watchEffect(() => {
                 if (!instance)
@@ -2281,35 +2323,6 @@ function warnDeprecatedUsage() {
             `    <component :is="Component" />\n` +
             `  </${comp}>\n` +
             `</router-view>`);
-    }
-}
-
-function getDevtoolsGlobalHook() {
-    return getTarget().__VUE_DEVTOOLS_GLOBAL_HOOK__;
-}
-function getTarget() {
-    // @ts-ignore
-    return typeof navigator !== 'undefined'
-        ? window
-        : typeof global !== 'undefined'
-            ? global
-            : {};
-}
-
-const HOOK_SETUP = 'devtools-plugin:setup';
-
-function setupDevtoolsPlugin(pluginDescriptor, setupFn) {
-    const hook = getDevtoolsGlobalHook();
-    if (hook) {
-        hook.emit(HOOK_SETUP, pluginDescriptor, setupFn);
-    }
-    else {
-        const target = getTarget();
-        const list = target.__VUE_DEVTOOLS_PLUGINS__ = target.__VUE_DEVTOOLS_PLUGINS__ || [];
-        list.push({
-            pluginDescriptor,
-            setupFn
-        });
     }
 }
 
@@ -2655,8 +2668,11 @@ function formatRouteRecordForInspector(route) {
     }
     // add an id to be able to select it. Using the `path` is not possible because
     // empty path children would collide with their parents
-    let id = String(routeRecordId++);
-    record.__vd_id = id;
+    let id = record.__vd_id;
+    if (id == null) {
+        id = String(routeRecordId++);
+        record.__vd_id = id;
+    }
     return {
         id,
         label: record.path,
@@ -2985,7 +3001,7 @@ function createRouter(options) {
     // TODO: refactor the whole before guards by internally using router.beforeEach
     function navigate(to, from) {
         let guards;
-        const [leavingRecords, updatingRecords, enteringRecords,] = extractChangingRecords(to, from);
+        const [leavingRecords, updatingRecords, enteringRecords] = extractChangingRecords(to, from);
         // all components here have been resolved once because we are leaving
         guards = extractComponentsGuards(leavingRecords.reverse(), 'beforeRouteLeave', to, from);
         // leavingRecords is already reversed
@@ -3237,6 +3253,7 @@ function createRouter(options) {
             app.component('RouterView', RouterView);
             app.config.globalProperties.$router = router;
             Object.defineProperty(app.config.globalProperties, '$route', {
+                enumerable: true,
                 get: () => unref(currentRoute),
             });
             // this initial navigation is only necessary on client, on server it doesn't
@@ -3273,7 +3290,7 @@ function createRouter(options) {
                 }
                 unmountApp();
             };
-            {
+            if (isBrowser) {
                 addDevtools(app, router, matcher);
             }
         },

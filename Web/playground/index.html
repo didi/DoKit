@@ -11,6 +11,23 @@
 <body>
   <h1>Dokit For Web</h1>
   <h2>Playground</h2>
+  <div class="FPS">
+  </div>
+  <script>
+    (function(){
+      var script=document.createElement('script');
+      script.onload=function(){
+        var stats=new Stats();
+        document.body.appendChild(stats.dom);
+        requestAnimationFrame(function loop(){
+          stats.update();
+          requestAnimationFrame(loop)
+        });
+      };
+      script.src="../packages/web/src/plugins/fps-info/fpsinfo.js";
+      document.head.appendChild(script);
+    })()
+  </script>
 </body>
 <script src="https://unpkg.com/vue@next"></script>
 <script src="../packages/web/dist/dokit.js"></script>
