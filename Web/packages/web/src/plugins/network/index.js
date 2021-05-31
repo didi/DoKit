@@ -1,25 +1,54 @@
-import Console from './main.vue'
-import {overrideConsole,restoreConsole} from './js/console'
+/*
+ * @Author: yanghui 
+ * @Date: 2021-05-28 20:53:35 
+ * @Last Modified by: yanghui
+ * @Last Modified time: 2021-05-31 15:54:01
+ */
+
+import Network from './network-container.vue'
+import {mockData, enable} from './js/network'
 import {getGlobalData, RouterPlugin} from '@dokit/web-core'
 
 export default new RouterPlugin({
-  name: 'console',
-  nameZh: '日志',
-  component: Console,
-  icon: 'https://pt-starimg.didistatic.com/static/starimg/img/bZhn7wsssA1621588946807.png',
+  nameZh: '请求捕获',
+  name: 'network',
+  icon: 'https://pt-starimg.didistatic.com/static/starimg/img/z1346TQD531618997547642.png',
+  component: Network,
   onLoad(){
-    console.log('Load')
-    overrideConsole(({name, type, value}) => {
+    //获取拦截到的请求列表，存到state中
+    mockData(({value}) => {
       let state = getGlobalData();
-      state.logList = state.logList || [];
-      state.logList.push({
-        type: type,
-        name: name,
-        value: value
-      });
+      state.reqList = state.reqList || [];
+      value.id = state.reqList.length
+      state.reqList.push(value);
+      let value2 = {
+        name: "collect",
+        url: "https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7",
+        status: '200',
+        type: 'plain',
+        subType: '',
+        size: 2,
+        data: {},
+        method: 'GET',
+        startTime: 0,
+        time: 139,
+        resTxt: '',
+        done: false,
+        reqHeaders: {},
+        resHeaders: {},
+        hasErr: false,
+        response: {},
+        headers: {},
+        displayTime: 1,
+      }
+      value2.id = state.reqList.length
+      state.reqList.push(value2);
     });
+
+   
+    // enable();
   },
   onUnload(){
-    restoreConsole()
+    restoreNetwork()
   }
 })
