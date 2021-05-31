@@ -5,11 +5,12 @@ import DemoPlugin from './plugins/demo-plugin/index'
 import DemoIndependPlugin from './plugins/demo-single-plugin/index'
 import H5DoorPlugin from './plugins/h5-door/index'
 import HelloWorld from './components/ToolHelloWorld'
+import Resource from './plugins/resources/index'
 import {IndependPlugin, RouterPlugin} from '@dokit/web-core'
 
 export const BasicFeatures = {
   title: '常用工具',
-  list: [Console, AppInfo, Storage, DemoPlugin, DemoIndependPlugin, H5DoorPlugin]
+  list: [Console, AppInfo, Resource, Storage, DemoPlugin, DemoIndependPlugin, H5DoorPlugin]
 }
 
 export const DokitFeatures = {
