@@ -2,11 +2,11 @@
  * @Author: yanghui 
  * @Date: 2021-05-28 20:53:35 
  * @Last Modified by: yanghui
- * @Last Modified time: 2021-05-30 12:01:52
+ * @Last Modified time: 2021-05-31 15:54:01
  */
 
 import Network from './network-container.vue'
-import {mockData} from './js/network'
+import {mockData, enable} from './js/network'
 import {getGlobalData, RouterPlugin} from '@dokit/web-core'
 
 export default new RouterPlugin({
@@ -44,8 +44,11 @@ export default new RouterPlugin({
       value2.id = state.reqList.length
       state.reqList.push(value2);
     });
+
+   
+    // enable();
   },
   onUnload(){
-    // restoreNetwork()
+    restoreNetwork()
   }
 })
