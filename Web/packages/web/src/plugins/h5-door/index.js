@@ -1,4 +1,3 @@
-import HelloWorld from './ToolHelloWorld.vue'
 import {RouterPlugin} from '@dokit/web-core'
 import H5Door from './ToolH5Door.vue'
 
