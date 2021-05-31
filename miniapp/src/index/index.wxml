@@ -23,6 +23,7 @@
     <h5door wx:if="{{ curCom === 'h5door' }}" bindtoggle="tooggleComponent"></h5door>
     <httpinjector wx:if="{{ curCom === 'httpinjector' }}" bindtoggle="tooggleComponent"></httpinjector>
     <apimock wx:if="{{ curCom === 'apimock' }}" bindtoggle="tooggleComponent" projectId="{{ projectId }}"></apimock>
+    <looklogs wx:if="{{ curCom === 'looklogs' }}" bindtoggle="tooggleComponent"></looklogs>
 </block>
 <block wx:else>
     <cover-image

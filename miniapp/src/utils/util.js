@@ -56,7 +56,23 @@ const deepClone = obj => {
   }
   return newObj;
 }
-
+const obj2str = function(obj){
+  if(obj === null) return 'null';
+  let res = '';
+  if(typeof obj !="object"){
+      return res + String(obj);
+  }
+  res += '{\n ';
+  for (var key in obj) {
+    res += key + ':' + obj2str(obj[key]) +'\n';
+  }
+  var objSymbols = Object.getOwnPropertySymbols(obj);
+  for(let i = 0; i < objSymbols.length; i++){
+    res += String(objSymbols[i]) + ':' + obj2str(obj[objSymbols[i]]) + '\n';
+  }
+  res += '}';
+  return res; 
+}
 
 
 module.exports = {
@@ -65,5 +81,6 @@ module.exports = {
   search2Json,
   getPartUrlByParam,
   isArray,
-  deepClone
+  deepClone,
+  obj2str
 }
