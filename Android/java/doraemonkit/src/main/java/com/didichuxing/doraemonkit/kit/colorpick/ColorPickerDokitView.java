@@ -11,13 +11,13 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.RequiresApi;
 
-import com.blankj.utilcode.util.ActivityUtils;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
-import com.didichuxing.doraemonkit.util.ImageUtil;
+import com.didichuxing.doraemonkit.util.DoKitImageUtil;
 import com.didichuxing.doraemonkit.util.UIUtils;
 
 /**
@@ -114,7 +114,7 @@ public class ColorPickerDokitView extends AbsDokitView {
         }
         int xCenter = bitmap.getWidth() / 2;
         int yCenter = bitmap.getHeight() / 2;
-        int colorInt = ImageUtil.getPixel(bitmap, xCenter, yCenter);
+        int colorInt = DoKitImageUtil.getPixel(bitmap, xCenter, yCenter);
         mPickerView.setBitmap(bitmap, colorInt, startX, startY);
         mInfoDokitView.showInfo(colorInt, startX, startY);
     }

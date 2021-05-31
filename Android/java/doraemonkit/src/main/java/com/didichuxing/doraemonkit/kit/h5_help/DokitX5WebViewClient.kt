@@ -6,8 +6,8 @@ import android.os.Build
 import android.os.Message
 import android.view.KeyEvent
 import androidx.annotation.RequiresApi
-import com.blankj.utilcode.util.ConvertUtils
-import com.blankj.utilcode.util.ResourceUtils
+import com.didichuxing.doraemonkit.util.ConvertUtils
+import com.didichuxing.doraemonkit.util.ResourceUtils
 import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
 import com.didichuxing.doraemonkit.aop.urlconnection.OkhttpClientUtil
 import com.didichuxing.doraemonkit.constant.DoKitConstant

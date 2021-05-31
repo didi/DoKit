@@ -7,16 +7,20 @@ if (runType == 0) {
     dependencies {
         //外部平台依赖
         debugImplementation project(":doraemonkit")
-//        debugImplementation project(":doraemonkit-weex")
+        debugImplementation project(":doraemonkit-mc")
+        debugImplementation project(":doraemonkit-ft")
+        debugImplementation project(":doraemonkit-weex")
 //        releaseImplementation project(":doraemonkit-no-op")
-        //debugImplementation project(":doraemonkit-leakcanary")
     }
 } else if (runType == 1) {
     apply plugin: 'com.didi.dokit'
     // 引用no-op的库
     dependencies {
         //新版线上包
-        debugImplementation "com.didichuxing.doraemonkit:dokitx:${rootProject.ext.publish_config["version"]}"
-        releaseImplementation "com.didichuxing.doraemonkit:dokitx-no-op:${rootProject.ext.publish_config["version"]}"
+        debugImplementation "io.github.didi.dokit:dokitx:${rootProject.ext.publish_config["version"]}"
+        debugImplementation "io.github.didi.dokit:dokitx-ft:${rootProject.ext.publish_config["version"]}"
+        debugImplementation "io.github.didi.dokit:dokitx-mc:${rootProject.ext.publish_config["version"]}"
+        debugImplementation "io.github.didi.dokit:dokitx-weex:${rootProject.ext.publish_config["version"]}"
+        releaseImplementation "io.github.didi.dokit:dokitx-no-op:${rootProject.ext.publish_config["version"]}"
     }
 }

@@ -22,15 +22,11 @@ import org.objectweb.asm.tree.*
  */
 @Priority(2)
 @AutoService(ClassTransformer::class)
-class GlobalSlowMethodTransformer : ClassTransformer {
+class GlobalSlowMethodTransformer : AbsClassTransformer() {
     val thresholdTime = DoKitExtUtil.slowMethodExt.normalMethod.thresholdTime
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
-        if (context.isRelease()) {
-            return klass
-        }
-
-        if (!DoKitExtUtil.dokitPluginSwitchOpen()) {
+        if (onCommInterceptor(context, klass)) {
             return klass
         }
 
@@ -48,7 +44,7 @@ class GlobalSlowMethodTransformer : ClassTransformer {
 
 
         val className = klass.className
-        //没有自定义设置插装包名 默认是以applicationId为包名 即全局业务代码插桩
+        //没有自定义设置插装包名 默认是以packageName为包名 即全局业务代码插桩
         DoKitExtUtil.slowMethodExt.normalMethod.packageNames.forEach { packageName ->
             //包含在白名单中且不在黑名单中
             if (className.contains(packageName) && notMatchedBlackList(className)) {
@@ -58,16 +54,31 @@ class GlobalSlowMethodTransformer : ClassTransformer {
                             !methodNode.isSingleMethod() &&
                             !methodNode.isGetSetMethod()
                 }.forEach { methodNode ->
-                    methodNode.instructions.asIterable().filterIsInstance(MethodInsnNode::class.java).let { methodInsnNodes ->
-                        if (methodInsnNodes.isNotEmpty()) {
-                            //方法入口插入
-                            methodNode.instructions.insert(createMethodEnterInsnList(className, methodNode.name, methodNode.access))
-                            //方法出口插入
-                            methodNode.instructions.getMethodExitInsnNodes()?.forEach { methodExitInsnNode ->
-                                methodNode.instructions.insertBefore(methodExitInsnNode, createMethodExitInsnList(className, methodNode.name, methodNode.access))
+                    methodNode.instructions.asIterable()
+                        .filterIsInstance(MethodInsnNode::class.java).let { methodInsnNodes ->
+                            if (methodInsnNodes.isNotEmpty()) {
+                                //方法入口插入
+                                methodNode.instructions.insert(
+                                    createMethodEnterInsnList(
+                                        className,
+                                        methodNode.name,
+                                        methodNode.access
+                                    )
+                                )
+                                //方法出口插入
+                                methodNode.instructions.getMethodExitInsnNodes()
+                                    ?.forEach { methodExitInsnNode ->
+                                        methodNode.instructions.insertBefore(
+                                            methodExitInsnNode,
+                                            createMethodExitInsnList(
+                                                className,
+                                                methodNode.name,
+                                                methodNode.access
+                                            )
+                                        )
+                                    }
                             }
                         }
-                    }
                 }
             }
         }
@@ -88,20 +99,54 @@ class GlobalSlowMethodTransformer : ClassTransformer {
     /**
      * 创建慢函数入口指令集
      */
-    private fun createMethodEnterInsnList(className: String, methodName: String, access: Int): InsnList {
+    private fun createMethodEnterInsnList(
+        className: String,
+        methodName: String,
+        access: Int
+    ): InsnList {
         val isStaticMethod = access and ACC_STATIC != 0
         return with(InsnList()) {
             if (isStaticMethod) {
-                add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "INSTANCE", "Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;"))
+                add(
+                    FieldInsnNode(
+                        GETSTATIC,
+                        "com/didichuxing/doraemonkit/aop/MethodCostUtil",
+                        "INSTANCE",
+                        "Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;"
+                    )
+                )
                 add(IntInsnNode(SIPUSH, thresholdTime))
                 add(LdcInsnNode("$className&$methodName"))
-                add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeStaticMethodCostStart", "(ILjava/lang/String;)V", false))
+                add(
+                    MethodInsnNode(
+                        INVOKEVIRTUAL,
+                        "com/didichuxing/doraemonkit/aop/MethodCostUtil",
+                        "recodeStaticMethodCostStart",
+                        "(ILjava/lang/String;)V",
+                        false
+                    )
+                )
             } else {
-                add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "INSTANCE", "Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;"))
+                add(
+                    FieldInsnNode(
+                        GETSTATIC,
+                        "com/didichuxing/doraemonkit/aop/MethodCostUtil",
+                        "INSTANCE",
+                        "Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;"
+                    )
+                )
                 add(IntInsnNode(SIPUSH, thresholdTime))
                 add(LdcInsnNode("$className&$methodName"))
                 add(VarInsnNode(ALOAD, 0))
-                add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeObjectMethodCostStart", "(ILjava/lang/String;Ljava/lang/Object;)V", false))
+                add(
+                    MethodInsnNode(
+                        INVOKEVIRTUAL,
+                        "com/didichuxing/doraemonkit/aop/MethodCostUtil",
+                        "recodeObjectMethodCostStart",
+                        "(ILjava/lang/String;Ljava/lang/Object;)V",
+                        false
+                    )
+                )
             }
 
             this
@@ -113,20 +158,54 @@ class GlobalSlowMethodTransformer : ClassTransformer {
     /**
      * 创建慢函数退出时的指令集
      */
-    private fun createMethodExitInsnList(className: String, methodName: String, access: Int): InsnList {
+    private fun createMethodExitInsnList(
+        className: String,
+        methodName: String,
+        access: Int
+    ): InsnList {
         val isStaticMethod = access and ACC_STATIC != 0
         return with(InsnList()) {
             if (isStaticMethod) {
-                add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "INSTANCE", "Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;"))
+                add(
+                    FieldInsnNode(
+                        GETSTATIC,
+                        "com/didichuxing/doraemonkit/aop/MethodCostUtil",
+                        "INSTANCE",
+                        "Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;"
+                    )
+                )
                 add(IntInsnNode(SIPUSH, thresholdTime))
                 add(LdcInsnNode("$className&$methodName"))
-                add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeStaticMethodCostEnd", "(ILjava/lang/String;)V", false))
+                add(
+                    MethodInsnNode(
+                        INVOKEVIRTUAL,
+                        "com/didichuxing/doraemonkit/aop/MethodCostUtil",
+                        "recodeStaticMethodCostEnd",
+                        "(ILjava/lang/String;)V",
+                        false
+                    )
+                )
             } else {
-                add(FieldInsnNode(GETSTATIC, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "INSTANCE", "Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;"))
+                add(
+                    FieldInsnNode(
+                        GETSTATIC,
+                        "com/didichuxing/doraemonkit/aop/MethodCostUtil",
+                        "INSTANCE",
+                        "Lcom/didichuxing/doraemonkit/aop/MethodCostUtil;"
+                    )
+                )
                 add(IntInsnNode(SIPUSH, thresholdTime))
                 add(LdcInsnNode("$className&$methodName"))
                 add(VarInsnNode(ALOAD, 0))
-                add(MethodInsnNode(INVOKEVIRTUAL, "com/didichuxing/doraemonkit/aop/MethodCostUtil", "recodeObjectMethodCostEnd", "(ILjava/lang/String;Ljava/lang/Object;)V", false))
+                add(
+                    MethodInsnNode(
+                        INVOKEVIRTUAL,
+                        "com/didichuxing/doraemonkit/aop/MethodCostUtil",
+                        "recodeObjectMethodCostEnd",
+                        "(ILjava/lang/String;Ljava/lang/Object;)V",
+                        false
+                    )
+                )
             }
             this
         }

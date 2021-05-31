@@ -1,6 +1,8 @@
 package com.didichuxing.doraemonkit.kit.gpsmock;
 
 import android.content.Context;
+import android.location.GnssStatus;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -9,6 +11,12 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.text.TextUtils;
+import android.util.Log;
+
+import androidx.annotation.RequiresApi;
+
+import com.didichuxing.doraemonkit.aop.location.GpsStatusUtil;
+import com.didichuxing.doraemonkit.util.ReflectUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -40,7 +48,9 @@ public class LocationHooker extends BaseServiceHooker {
         //methodHandlers.put("removeUpdates", new RemoveUpdatesMethodHandler());
         methodHandlers.put("requestLocationUpdates", new RequestLocationUpdatesMethodHandler());
         methodHandlers.put("getLastLocation", new GetLastLocationMethodHandler());
-        methodHandlers.put("getLastKnownLocation", new GetLastKnownLocationMethodHandler());
+//        methodHandlers.put("getLastKnownLocation", new GetLastKnownLocationMethodHandler());
+        methodHandlers.put("registerGnssStatusCallback", new registerGnssStatusCallbackMethodHandler());
+        // methodHandlers.put("getGpsStatus", new getGpsStatusMethodHandler());
         return methodHandlers;
     }
 
@@ -61,7 +71,16 @@ public class LocationHooker extends BaseServiceHooker {
     }
 
     static class GetLastKnownLocationMethodHandler implements MethodHandler {
-
+        /**
+         * @param originObject 原始对象 即 LocationManagerService
+         * @param proxyObject  生成的代理对象
+         * @param method       需要被代理的方法
+         * @param args         代理方法的参数
+         * @return
+         * @throws InvocationTargetException
+         * @throws IllegalAccessException
+         * @throws NoSuchMethodException
+         */
         @Override
         public Object onInvoke(Object originObject, Object proxyObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
             if (!GpsMockManager.getInstance().isMocking()) {
@@ -81,6 +100,7 @@ public class LocationHooker extends BaseServiceHooker {
             return lastKnownLocation;
         }
     }
+
 
     static class GetLastLocationMethodHandler implements MethodHandler {
 
@@ -103,11 +123,34 @@ public class LocationHooker extends BaseServiceHooker {
         }
     }
 
+    /**
+     * 注册全球定位系统的
+     */
+    static class registerGnssStatusCallbackMethodHandler implements MethodHandler {
+
+        @Override
+        public Object onInvoke(Object originObject, Object proxyObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+            Log.i(TAG, "registerGnssStatusCallbackMethodHandler====>registerGnssStatus  " + originObject.toString() + "  proxyObject===>" + proxyObject.toString());
+            if (!GpsMockManager.getInstance().isMocking()) {
+                return method.invoke(originObject, args);
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                Object gnssStatusListenerTransport = args[0];
+                GnssStatus.Callback callback = ReflectUtils.reflect(gnssStatusListenerTransport).field("mGnssCallback").get();
+                GnssStatusCallbackProxy callbackProxy = new GnssStatusCallbackProxy(callback);
+                ReflectUtils.reflect(gnssStatusListenerTransport).field("mGnssCallback", callbackProxy);
+            }
+
+            return method.invoke(originObject, args);
+        }
+    }
+
+
 
     /**
      * LocationListener代理
      */
-    private static class LocationListenerProxy implements LocationListener {
+    public static class LocationListenerProxy implements LocationListener {
         /**
          * 原始LocationListener
          */
@@ -115,6 +158,7 @@ public class LocationHooker extends BaseServiceHooker {
 
         private LocationListenerProxy(LocationListener locationListener) {
             this.locationListener = locationListener;
+            GpsMockProxyManager.INSTANCE.addLocationListenerProxy(this);
         }
 
         @Override
@@ -193,7 +237,7 @@ public class LocationHooker extends BaseServiceHooker {
 
     private static Location buildValidLocation(String provider) {
         if (TextUtils.isEmpty(provider)) {
-            provider = "gps";
+            provider = LocationManager.GPS_PROVIDER;
         }
         Location validLocation = new Location(provider);
         validLocation.setAccuracy(5.36f);
@@ -214,4 +258,47 @@ public class LocationHooker extends BaseServiceHooker {
         }
         return validLocation;
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private static class GnssStatusCallbackProxy extends GnssStatus.Callback {
+        GnssStatus.Callback mCallback;
+
+        public GnssStatusCallbackProxy(GnssStatus.Callback mCallback) {
+            this.mCallback = mCallback;
+        }
+
+        @Override
+        public void onStarted() {
+            Log.i(TAG, "GnssStatusCallbackProxy===>onStarted");
+            if (mCallback != null) {
+                mCallback.onStarted();
+            }
+        }
+
+        @Override
+        public void onStopped() {
+            Log.i(TAG, "GnssStatusCallbackProxy===>onStopped");
+            if (mCallback != null) {
+                mCallback.onStopped();
+            }
+        }
+
+        @Override
+        public void onFirstFix(int ttffMillis) {
+            Log.i(TAG, "GnssStatusCallbackProxy===>onFirstFix：" + ttffMillis);
+            if (mCallback != null) {
+                mCallback.onFirstFix(ttffMillis);
+            }
+        }
+
+        @Override
+        public void onSatelliteStatusChanged(GnssStatus status) {
+            Log.i(TAG, "GnssStatusCallbackProxy===>onSatelliteStatusChanged：" + status);
+            if (mCallback != null) {
+                mCallback.onSatelliteStatusChanged(status);
+
+            }
+        }
+    }
+
 }

@@ -36,12 +36,38 @@ dependencies {
     /* 👇👇👇👇 引用这两个模块 👇👇👇👇 */
     api "com.didiglobal.booster:booster-api:${rootProject.ext.android["booster_version"]}"
     api "com.didiglobal.booster:booster-transform-asm:${rootProject.ext.android["booster_version"]}"
-    kapt "com.google.auto.service:auto-service:1.0-rc6"
+    kapt "com.google.auto.service:auto-service:1.0-rc7"
 }
+
+/**
+ * 删除指定目录下的文件
+ */
+task deleteSource(type: Delete) {
+    delete './src/main/kotlin'
+}
+
+/**
+ * 将buildSrc中的代码同步到doraemonkit-plugin中
+ */
+task copyPluginSource(type: Copy, dependsOn: deleteSource) {
+    println("===copyInnPluginSource===")
+    from './../buildSrc/src/main/kotlin'
+    into './src/main/kotlin'
+}
+
+def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
+if (PUBLISH_ARCHIVES_TYPE == 0 || PUBLISH_ARCHIVES_TYPE == 1) {
+    uploadArchives.dependsOn(copyPluginSource)
+} else {
+    publish.dependsOn(['copyPluginSource'])
+}
+
 
 repositories {
     google()
-    jcenter()
+//    jcenter()
     mavenCentral()
 }
+
+
 

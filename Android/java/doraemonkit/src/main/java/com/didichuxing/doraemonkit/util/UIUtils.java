@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.Rect;
-import androidx.annotation.AnyRes;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -16,9 +15,9 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.blankj.utilcode.util.ConvertUtils;
-import com.blankj.utilcode.util.ScreenUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
+import androidx.annotation.AnyRes;
+
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.layoutborder.ViewBorderFrameLayout;
 
@@ -50,7 +49,7 @@ public class UIUtils {
 
     public static int getWidthPixels() {
         DisplayMetrics metrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) DoraemonKit.APPLICATION.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) DoKit.APPLICATION.getSystemService(Context.WINDOW_SERVICE);
         if (windowManager == null) {
             return 0;
         }
@@ -63,7 +62,7 @@ public class UIUtils {
     }
 
     public static int getRealHeightPixels() {
-        WindowManager windowManager = (WindowManager) DoraemonKit.APPLICATION.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) DoKit.APPLICATION.getSystemService(Context.WINDOW_SERVICE);
         int height = 0;
         Display display = windowManager.getDefaultDisplay();
         DisplayMetrics dm = new DisplayMetrics();
@@ -80,7 +79,7 @@ public class UIUtils {
     }
 
     public static int getStatusBarHeight() {
-        Resources resources = DoraemonKit.APPLICATION.getResources();
+        Resources resources = DoKit.APPLICATION.getResources();
         int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
         int height = resources.getDimensionPixelSize(resourceId);
         return height;
@@ -178,6 +177,21 @@ public class UIUtils {
             }
         }
         return TextUtils.isEmpty(out.toString()) ? "" : out.toString();
+    }
+
+    /**
+     * 去除前缀
+     *
+     * @param view
+     * @return
+     */
+    public static String getRealIdText(View view) {
+        String id = getIdText(view);
+        if (id.isEmpty()) {
+            return "-1";
+        } else {
+            return id.split("/")[1];
+        }
     }
 
     /**

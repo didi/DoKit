@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.blankj.utilcode.util.ConvertUtils
+import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView

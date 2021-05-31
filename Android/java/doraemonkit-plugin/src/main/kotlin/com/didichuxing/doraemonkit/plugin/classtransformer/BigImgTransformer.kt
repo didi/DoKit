@@ -23,16 +23,13 @@ import org.objectweb.asm.tree.VarInsnNode
  */
 @Priority(1)
 @AutoService(ClassTransformer::class)
-class BigImgTransformer : ClassTransformer {
+class BigImgTransformer : AbsClassTransformer() {
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {
-        if (context.isRelease()) {
+        if (onCommInterceptor(context, klass)) {
             return klass
         }
 
-        if (!DoKitExtUtil.dokitPluginSwitchOpen()) {
-            return klass
-        }
 
         if (!DoKitExtUtil.commExt.bigImgSwitch) {
             return klass
@@ -101,7 +98,15 @@ class BigImgTransformer : ClassTransformer {
     private fun createGlideInsnList(): InsnList {
         return with(InsnList()) {
             add(VarInsnNode(ALOAD, 0))
-            add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/glide/GlideHook", "proxy", "(Ljava/lang/Object;)V", false))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/bigimg/glide/GlideHook",
+                    "proxy",
+                    "(Ljava/lang/Object;)V",
+                    false
+                )
+            )
             this
         }
     }
@@ -112,7 +117,15 @@ class BigImgTransformer : ClassTransformer {
     private fun createPicassoInsnList(): InsnList {
         return with(InsnList()) {
             add(VarInsnNode(ALOAD, 0))
-            add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/picasso/PicassoHook", "proxy", "(Ljava/lang/Object;)V", false))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/bigimg/picasso/PicassoHook",
+                    "proxy",
+                    "(Ljava/lang/Object;)V",
+                    false
+                )
+            )
             this
         }
 
@@ -126,11 +139,43 @@ class BigImgTransformer : ClassTransformer {
         return with(InsnList()) {
             add(VarInsnNode(ALOAD, 1))
             add(VarInsnNode(ALOAD, 1))
-            add(MethodInsnNode(INVOKEVIRTUAL, "com/facebook/imagepipeline/request/ImageRequestBuilder", "getSourceUri", "()Landroid/net/Uri;", false))
+            add(
+                MethodInsnNode(
+                    INVOKEVIRTUAL,
+                    "com/facebook/imagepipeline/request/ImageRequestBuilder",
+                    "getSourceUri",
+                    "()Landroid/net/Uri;",
+                    false
+                )
+            )
             add(VarInsnNode(ALOAD, 1))
-            add(MethodInsnNode(INVOKEVIRTUAL, "com/facebook/imagepipeline/request/ImageRequestBuilder", "getPostprocessor", "()Lcom/facebook/imagepipeline/request/Postprocessor;", false))
-            add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/fresco/FrescoHook", "proxy", "(Landroid/net/Uri;Lcom/facebook/imagepipeline/request/Postprocessor;)Lcom/facebook/imagepipeline/request/Postprocessor;", false))
-            add(MethodInsnNode(INVOKEVIRTUAL, "com/facebook/imagepipeline/request/ImageRequestBuilder", "setPostprocessor", "(Lcom/facebook/imagepipeline/request/Postprocessor;)Lcom/facebook/imagepipeline/request/ImageRequestBuilder;", false))
+            add(
+                MethodInsnNode(
+                    INVOKEVIRTUAL,
+                    "com/facebook/imagepipeline/request/ImageRequestBuilder",
+                    "getPostprocessor",
+                    "()Lcom/facebook/imagepipeline/request/Postprocessor;",
+                    false
+                )
+            )
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/bigimg/fresco/FrescoHook",
+                    "proxy",
+                    "(Landroid/net/Uri;Lcom/facebook/imagepipeline/request/Postprocessor;)Lcom/facebook/imagepipeline/request/Postprocessor;",
+                    false
+                )
+            )
+            add(
+                MethodInsnNode(
+                    INVOKEVIRTUAL,
+                    "com/facebook/imagepipeline/request/ImageRequestBuilder",
+                    "setPostprocessor",
+                    "(Lcom/facebook/imagepipeline/request/Postprocessor;)Lcom/facebook/imagepipeline/request/ImageRequestBuilder;",
+                    false
+                )
+            )
             this
         }
 
@@ -143,7 +188,15 @@ class BigImgTransformer : ClassTransformer {
     private fun createImageLoaderInsnList(): InsnList {
         return with(InsnList()) {
             add(VarInsnNode(ALOAD, 6))
-            add(MethodInsnNode(INVOKESTATIC, "com/didichuxing/doraemonkit/aop/bigimg/imageloader/ImageLoaderHook", "proxy", "(Lcom/nostra13/universalimageloader/core/listener/ImageLoadingListener;)Lcom/nostra13/universalimageloader/core/listener/ImageLoadingListener;", false))
+            add(
+                MethodInsnNode(
+                    INVOKESTATIC,
+                    "com/didichuxing/doraemonkit/aop/bigimg/imageloader/ImageLoaderHook",
+                    "proxy",
+                    "(Lcom/nostra13/universalimageloader/core/listener/ImageLoadingListener;)Lcom/nostra13/universalimageloader/core/listener/ImageLoadingListener;",
+                    false
+                )
+            )
             add(VarInsnNode(ASTORE, 6))
             this
         }

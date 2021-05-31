@@ -2,6 +2,9 @@ package com.didichuxing.doraemonkit
 
 import android.app.Application
 import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.didichuxing.doraemonkit.kit.core.MCInterceptor
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
+import com.didichuxing.doraemonkit.kit.performance.PerformanceValueListener
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 
 /**
@@ -21,7 +24,11 @@ object DoraemonKit {
     }
 
     @JvmStatic
-    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, productId: String) {
+    fun install(
+        app: Application,
+        mapKits: LinkedHashMap<String, MutableList<AbstractKit>>,
+        productId: String
+    ) {
     }
 
     @JvmStatic
@@ -39,7 +46,12 @@ object DoraemonKit {
      * @param productId Dokit平台端申请的productId
      */
     @JvmStatic
-    private fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
+    private fun install(
+        app: Application,
+        mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(),
+        listKits: MutableList<AbstractKit>? = mutableListOf(),
+        productId: String? = ""
+    ) {
 
     }
 
@@ -103,5 +115,23 @@ object DoraemonKit {
      */
     @JvmStatic
     fun setFileManagerHttpPort(port: Int) {
+    }
+
+    @JvmStatic
+    fun setMCIntercept(interceptor: MCInterceptor) {
+    }
+
+    /**
+     * 设置扩展网络拦截器的代理对象
+     */
+    @JvmStatic
+    fun setNetExtInterceptor(extInterceptorProxy: DokitExtInterceptor.DokitExtInterceptorProxy) {
+    }
+
+    /**
+     *设置dokit的性能监控全局回调
+     */
+    @JvmStatic
+    fun setCallBack(callback: DoKitCallBack) {
     }
 }

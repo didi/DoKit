@@ -8,20 +8,31 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'package:dokit/dokit.dart';
+import 'package:dokit/kit/apm/vm/vm_helper.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
+
+import 'page2.dart';
 
 void main() {
+  List<String> blackList = [
+    'plugins.flutter.io/sensors/gyroscope',
+    'plugins.flutter.io/sensors/user_accel',
+    'plugins.flutter.io/sensors/accelerometer'
+  ];
+
   DoKit.runApp(
       app: DoKitApp(MyApp()),
       useInRelease: true,
       logCallback: (log) {
-        String i = log;
+//        String i = log;
       },
-      exceptionCallback: (obj, trace) {
+      methodChannelBlackList: blackList,
+      exceptionCallback: (dynamic obj, StackTrace trace) {
         print('ttt$obj');
       });
   // runApp(MyApp());
@@ -49,6 +60,7 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      navigatorObservers: [],
       home: DoKitTestPage(),
     );
   }
@@ -94,7 +106,7 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
               margin: EdgeInsets.only(bottom: 30),
-              child: FlatButton(
+              child: TextButton(
                 child: Text('Mock Http Post',
                     style: TextStyle(
                       color: Color(0xff000000),
@@ -108,7 +120,10 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
               margin: EdgeInsets.only(bottom: 30),
-              child: FlatButton(
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
                 child: Text('Mock Http Get',
                     style: TextStyle(
                       color: Color(0xff000000),
@@ -122,7 +137,27 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
               margin: EdgeInsets.only(bottom: 30),
-              child: FlatButton(
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
+                child: Text('Test Download',
+                    style: TextStyle(
+                      color: Color(0xff000000),
+                      fontSize: 18,
+                    )),
+                onPressed: testDownload,
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  color: Color(0xffcccccc)),
+              margin: EdgeInsets.only(bottom: 30),
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
                 child: Text('Test Method Channel',
                     style: TextStyle(
                       color: Color(0xff000000),
@@ -138,20 +173,23 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
               margin: EdgeInsets.only(bottom: 30),
-              child: FlatButton(
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
                 child: Text('Open Route Page',
                     style: TextStyle(
                       color: Color(0xff000000),
                       fontSize: 18,
                     )),
                 onPressed: () {
-                  Navigator.of(context, rootNavigator: false).push(
-                      new MaterialPageRoute(
+                  Navigator.of(context, rootNavigator: false).push<void>(
+                      MaterialPageRoute(
                           builder: (context) {
                             //指定跳转的页面
-                            return new TestPage2();
+                            return TestPage2();
                           },
-                          settings: new RouteSettings(
+                          settings: RouteSettings(
                               name: 'page1', arguments: ['test', '111'])));
                 },
               ),
@@ -161,7 +199,29 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   color: Color(0xffcccccc)),
               margin: EdgeInsets.only(bottom: 30),
-              child: FlatButton(
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
+                child: Text('Test Get Page Script',
+                    style: TextStyle(
+                      color: Color(0xff000000),
+                      fontSize: 18,
+                    )),
+                onPressed: () {
+                  VmHelper.instance.testPrintScript();
+                },
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  color: Color(0xffcccccc)),
+              margin: EdgeInsets.only(bottom: 30),
+              child: TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(EdgeInsets.all(0)),
+                ),
                 child: Text('Stop Timer',
                     style: TextStyle(
                       color: Color(0xff000000),
@@ -176,49 +236,44 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
     );
   }
 
-  Timer timer;
+  Timer? timer;
 
-  // downloadFile(String url, {String filename}) async {
-  //   var httpClient = http.Client();
-  //   var request = new http.Request('GET', Uri.parse(url));
-  //   var response = httpClient.send(request);
-  //   String dir = '/test/';
-  //
-  //   List<List<int>> chunks = new List();
-  //   int downloaded = 0;
-  //
-  //   response.asStream().listen((http.StreamedResponse r) {
-  //
-  //     r.stream.listen((List<int> chunk) {
-  //       // Display percentage of completion
-  //       debugPrint('downloadPercentage: ${downloaded / r.contentLength * 100}');
-  //
-  //       chunks.add(chunk);
-  //       downloaded += chunk.length;
-  //     }, onDone: () async {
-  //       // Display percentage of completion
-  //       debugPrint('downloadPercentage: ${downloaded / r.contentLength * 100}');
-  //
-  //       // Save the file
-  //       // File file = new File('$dir/$filename');
-  //       // final Uint8List bytes = Uint8List(r.contentLength);
-  //       // int offset = 0;
-  //       // for (List<int> chunk in chunks) {
-  //       //   bytes.setRange(offset, offset + chunk.length, chunk);
-  //       //   offset += chunk.length;
-  //       // }
-  //       // await file.writeAsBytes(bytes);
-  //       return;
-  //     });
-  //   });
-  // }
+  void testDownload() async {
+    String url =
+        'https://pt-starfile.didistatic.com/static/starfile/node20210220/895f1e95e30aba5dd56d6f2ccf768b57/GjzGU0Pvv11613804530384.zip';
+    String? savePath = await getPhoneLocalPath();
+    String zipName = 'test.zip';
+    Dio dio = Dio();
+    print("$savePath/$zipName");
+    Response response = await dio.download(url, "$savePath/$zipName",
+        onReceiveProgress: (received, total) {
+      if (total != -1) {
+        // 当前下载的百分比
+        // print((received / total * 100).toStringAsFixed(0) + "%");
+        // print("received=$received total=$total");
+        if (received == total) {
+          print("下载完成 ✅ ");
+        }
+      } else {}
+    });
+  }
+
+  ///获取手机的存储目录路径
+  ///getExternalStorageDirectory() 获取的是  android 的外部存储 （External Storage）
+  ///  getApplicationDocumentsDirectory 获取的是 ios 的Documents` or `Downloads` 目录
+  Future<String?> getPhoneLocalPath() async {
+    final directory = Theme.of(context).platform == TargetPlatform.android
+        ? await getExternalStorageDirectory()
+        : await getApplicationDocumentsDirectory();
+    return directory?.path;
+  }
 
   void testMethodChannel() {
     timer?.cancel();
-    timer = new Timer.periodic(new Duration(seconds: 2), (timer) async {
+    timer = Timer.periodic(Duration(seconds: 2), (timer) async {
       const MethodChannel _kChannel =
           MethodChannel('plugins.flutter.io/package_info');
-      final Map<String, dynamic> map =
+      final Map<String, dynamic>? map =
           await _kChannel.invokeMapMethod<String, dynamic>('getAll');
     });
   }
@@ -229,13 +284,22 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
     timer = null;
   }
 
+  void request() async {
+    Image.network(
+      //图片地址
+      'https://img04.sogoucdn.com/app/a/100520093/ac75323d6b6de243-0bd502b2bdc1100a-92cef3b2299cfc6875afe7d5d0b83a7b.jpg',
+      //填充模式
+      fit: BoxFit.fitWidth,
+    );
+  }
+
   void mockHttpPost() async {
     timer?.cancel();
-    timer = new Timer.periodic(new Duration(seconds: 2), (timer) async {
-      HttpClient client = new HttpClient();
+    timer = Timer.periodic(Duration(seconds: 2), (timer) async {
+      HttpClient client = HttpClient();
       String url = 'https://pinzhi.didichuxing.com/kop_stable/gateway?api=hhh';
       HttpClientRequest request = await client.postUrl(Uri.parse(url));
-      Map<String, String> map1 = new Map();
+      Map<String, String> map1 = Map();
       map1["v"] = "1.0";
       map1["month"] = "7";
       map1["day"] = "25";
@@ -249,8 +313,8 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
 
   void mockHttpGet() async {
     timer?.cancel();
-    timer = new Timer.periodic(new Duration(seconds: 2), (timer) async {
-      HttpClient client = new HttpClient();
+    timer = Timer.periodic(Duration(seconds: 2), (timer) async {
+      HttpClient client = HttpClient();
       String url = 'https://www.baidu.com';
       HttpClientRequest request = await client.postUrl(Uri.parse(url));
       HttpClientResponse response = await request.close();
@@ -295,13 +359,13 @@ class TestPageState extends State<TestPage> {
           children: <Widget>[
             GestureDetector(
               onTap: () => {
-                Navigator.of(context, rootNavigator: false).push(
-                    new MaterialPageRoute(
+                Navigator.of(context, rootNavigator: false).push<void>(
+                    MaterialPageRoute(
                         builder: (context) {
                           //指定跳转的页面
-                          return new TestPage2();
+                          return TestPage2();
                         },
-                        settings: new RouteSettings(
+                        settings: RouteSettings(
                             name: 'page1', arguments: ['test', '111'])))
               },
               child: Text(
@@ -314,40 +378,6 @@ class TestPageState extends State<TestPage> {
             ),
             Container(height: 100, width: 300)
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class TestPage2 extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return TestPageState2();
-  }
-}
-
-class TestPageState2 extends State<TestPage2> {
-  int index = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'page2:',
-              ),
-              Text(
-                '0',
-                style: Theme.of(context).textTheme.headline4,
-              )
-            ],
-          ),
         ),
       ),
     );
@@ -392,12 +422,12 @@ class TestPageState3 extends State<TestPage3> {
             GestureDetector(
               onTap: () => {
                 Navigator.of(context, rootNavigator: false)
-                    .push(new MaterialPageRoute(
+                    .push<void>(MaterialPageRoute(
                         builder: (context) {
                           //指定跳转的页面
-                          return new MyApp();
+                          return MyApp();
                         },
-                        settings: new RouteSettings(name: 'page3')))
+                        settings: RouteSettings(name: 'page3')))
               },
               child: Text(
                 'page3:',

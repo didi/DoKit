@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply from: 'doraemonkit.gradle'
 
@@ -8,10 +7,13 @@ android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     defaultConfig {
         applicationId rootProject.ext.android["applicationId"]
-        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        minSdkVersion rootProject.ext.android["minSdkVersion_21"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
+        ndk {
+            abiFilters "armeabi", "arm64-v8a"
+        }
         multiDexEnabled true
     }
     signingConfigs {
@@ -39,6 +41,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+//    flavorDimensions "default"
+//    productFlavors {
+//        product0 {
+//            applicationId "com.didichuxing.doraemondemo0"
+////            resValue "string", "app_name", "DoKitDemo0"
+////            manifestPlaceholders = [CHANNEL_VALUE: "product0"
+////                                    , app_icon   : "@mipmap/logo"]
+//        }
+//        product1 {
+//            applicationId "com.didichuxing.doraemondemo1"
+////            resValue "string", "app_name", "DoKitDemo1"
+////            manifestPlaceholders = [CHANNEL_VALUE: "product1"
+////                                    , app_icon   : "@mipmap/logo"]
+//        }
+//    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -66,9 +83,20 @@ android {
         abortOnError false
     }
 
-//    dataBinding {
-//        enabled = true
-//    }
+    /**
+     * 支持ViewBinding
+     */
+    buildFeatures {
+        viewBinding = true
+    }
+
+
+
+    packagingOptions {
+        //dokit ktor pickFirst
+//        pickFirst 'META-INF/io.netty.versions.properties'
+//        pickFirst 'META-INF/INDEX.LIST'
+    }
 
 
 }
@@ -116,10 +144,11 @@ dependencies {
     testImplementation rootProject.ext.dependencies["constraintLayout"]
     testImplementation rootProject.ext.dependencies["junit"]
     implementation rootProject.ext.dependencies["multidex"]
+    implementation rootProject.ext.dependencies["lifecycle-viewmodel-savedstate"]
     implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["coroutines-core"]
     implementation rootProject.ext.dependencies["coroutines-android"]
-    implementation rootProject.ext.dependencies["design"]
+    implementation rootProject.ext.dependencies["material"]
     implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["fragment"]
     implementation rootProject.ext.dependencies["fragment-ktx"]
@@ -142,30 +171,34 @@ dependencies {
     implementation rootProject.ext.dependencies["weex_inspector"]
     implementation rootProject.ext.dependencies["weex_sdk"]
     implementation rootProject.ext.dependencies["utilcode"]
+
     implementation rootProject.ext.dependencies["easypermissions"]
     releaseImplementation rootProject.ext.dependencies["okgo"]
     //高德地图定位
     implementation rootProject.ext.dependencies["amap_location"]
     //高德地图
-    implementation rootProject.ext.dependencies["amap_map3d"]
+//    implementation rootProject.ext.dependencies["amap_map3d"]
     //高德搜索
     implementation rootProject.ext.dependencies["amap_search"]
+    implementation rootProject.ext.dependencies["amap_navi"]
     //腾讯地图定位
-    implementation rootProject.ext.dependencies["tencent_location"]
-    implementation rootProject.ext.dependencies["tencent_map"]
-    implementation rootProject.ext.dependencies["tencent_map_util"]
+//    implementation rootProject.ext.dependencies["tencent_location"]
+//    implementation rootProject.ext.dependencies["tencent_map"]
+//    implementation rootProject.ext.dependencies["tencent_map_util"]
 //    debugImplementation rootProject.ext.dependencies["leakcanary-android"]
     //百度地图定位
-    implementation files('libs/BaiduLBS_Android.jar')
+//    implementation files('libs/BaiduLBS_Android.jar')
     //腾讯x5
     implementation rootProject.ext.dependencies["tbs"]
-    implementation rootProject.ext.dependencies["tencent-map"]
+    debugImplementation rootProject.ext.dependencies["leakcanary_android"]
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
 }
 
-configurations.all {
-    //循环每个依赖库
-    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-        //获取当前循环到的依赖库
+//configurations.all {
+//    //循环每个依赖库
+//    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+//        //获取当前循环到的依赖库
 //        def requested = details.requested
 //        //如果这个依赖库群组的名字是com.android.support
 //        if (requested.group == 'com.squareup.okhttp3') {
@@ -176,5 +209,5 @@ configurations.all {
 //                details.useVersion rootProject.ext.android["okhttp_v4"]
 //            }
 //        }
-    }
-}
+//    }
+//}

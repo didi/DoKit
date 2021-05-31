@@ -1,0 +1,6 @@
+#  default Google rule(pedantic)
+include: package:pedantic/analysis_options.yaml
+
+analyzer:
+  enable-experiment:
+    - extension-methods

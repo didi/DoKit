@@ -1,7 +1,5 @@
 package com.didichuxing.doraemondemo;
 
-import java.util.HashMap;
-
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -12,25 +10,13 @@ import java.util.HashMap;
  * ================================================
  */
 public class AopTest {
-    private static final String TAG = "AopTest";
-    private String name;
 
-    public String getName() {
-        return name;
+
+
+
+
+    public void getDoKit() {
+//        OkHttpHook.addDoKitIntercept(this);
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-    public void test() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("a", "a");
-        map.put("b", "b");
-        map.put("c", "c");
-
-    }
-
 
 }

@@ -9,21 +9,20 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
-
-import androidx.annotation.RequiresApi;
-
 import android.text.TextUtils;
 import android.view.Choreographer;
 
-import com.blankj.utilcode.util.ActivityUtils;
-import com.blankj.utilcode.util.AppUtils;
-import com.blankj.utilcode.util.TimeUtils;
-import com.didichuxing.doraemonkit.DoraemonKit;
+import androidx.annotation.RequiresApi;
+
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.config.DokitMemoryConfig;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
+import com.didichuxing.doraemonkit.util.AppUtils;
+import com.didichuxing.doraemonkit.util.TimeUtils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -182,8 +181,8 @@ public class PerformanceDataManager {
     }
 
     public void init() {
-        mContext = DoraemonKit.APPLICATION.getApplicationContext();
-        mActivityManager = (ActivityManager) DoraemonKit.APPLICATION.getSystemService(Context.ACTIVITY_SERVICE);
+        mContext = DoKit.APPLICATION.getApplicationContext();
+        mActivityManager = (ActivityManager) DoKit.APPLICATION.getSystemService(Context.ACTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mAboveAndroidO = true;
         }
@@ -288,6 +287,9 @@ public class PerformanceDataManager {
     }
 
     private void writeCpuDataIntoFile() {
+        if (DoKitConstant.INSTANCE.getCALLBACK() != null) {
+            DoKitConstant.INSTANCE.getCALLBACK().onCpuCallBack(mLastCpuRate, getCpuFilePath());
+        }
 
         //保存cpu数据到app健康体检
         if (DoKitConstant.APP_HEALTH_RUNNING) {
@@ -296,7 +298,9 @@ public class PerformanceDataManager {
     }
 
     private void writeMemoryDataIntoFile() {
-
+        if (DoKitConstant.INSTANCE.getCALLBACK() != null) {
+            DoKitConstant.INSTANCE.getCALLBACK().onMemoryCallBack(mLastMemoryRate, getMemoryFilePath());
+        }
         //保存cpu数据到app健康体检
         if (DoKitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastMemoryRate, PERFORMANCE_TYPE_MEMORY);
@@ -304,6 +308,9 @@ public class PerformanceDataManager {
     }
 
     private void writeFpsDataIntoFile() {
+        if (DoKitConstant.INSTANCE.getCALLBACK() != null) {
+            DoKitConstant.INSTANCE.getCALLBACK().onFpsCallBack(mLastFrameRate, getFpsFilePath());
+        }
         if (DoKitConstant.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastFrameRate > 60 ? 60 : mLastFrameRate, PERFORMANCE_TYPE_FPS);
         }

@@ -6,8 +6,8 @@ import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
-import com.blankj.utilcode.constant.MemoryConstants;
-import com.blankj.utilcode.util.ConvertUtils;
+import com.didichuxing.doraemonkit.constant.MemoryConstants;
+import com.didichuxing.doraemonkit.util.ConvertUtils;
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig;
 import com.didichuxing.doraemonkit.kit.largepicture.LargePictureManager;
 import com.facebook.cache.common.CacheKey;

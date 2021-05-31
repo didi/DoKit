@@ -4,14 +4,14 @@ import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.util.SystemUtil;
+import com.didichuxing.doraemonkit.util.DoKitSystemUtil;
+import com.google.auto.service.AutoService;
 
 /**
  * 进入开发者选项
  * Created by jint on 2018/6/22.
  */
-
+@AutoService(AbstractKit.class)
 public class ServiceRunningKit extends AbstractKit {
 
 
@@ -27,7 +27,7 @@ public class ServiceRunningKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        SystemUtil.startServiceRunningActivity(context);
+        DoKitSystemUtil.startServiceRunningActivity(context);
     }
 
     @Override

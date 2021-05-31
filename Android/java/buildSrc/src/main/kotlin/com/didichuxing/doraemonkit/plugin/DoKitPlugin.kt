@@ -6,8 +6,9 @@ import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
 import com.didichuxing.doraemonkit.plugin.extension.SlowMethodExt
 import com.didichuxing.doraemonkit.plugin.processor.DoKitPluginConfigProcessor
 import com.didichuxing.doraemonkit.plugin.stack_method.MethodStackNodeUtil
-import com.didichuxing.doraemonkit.plugin.transform.DoKitCommTransform
-import com.didichuxing.doraemonkit.plugin.transform.DoKitDependTransform
+import com.didichuxing.doraemonkit.plugin.transform.*
+import com.didichuxing.doraemonkit.plugin.transform.DoKitCommTransformV34
+import com.didiglobal.booster.gradle.GTE_V3_4
 import com.didiglobal.booster.gradle.dependencies
 import com.didiglobal.booster.gradle.getAndroid
 import com.didiglobal.booster.gradle.getProperty
@@ -94,7 +95,7 @@ class DoKitPlugin : Plugin<Project> {
                         MethodStackNodeUtil.METHOD_STACK_KEYS.clear()
                         if (DoKitExtUtil.DOKIT_PLUGIN_SWITCH) {
                             //注册transform
-                            androidExt.registerTransform(DoKitCommTransform(project))
+                            androidExt.registerTransform(commNewInstance(project))
                             if (slowMethodSwitch && slowMethodStrategy == SlowMethodExt.STRATEGY_STACK) {
                                 MethodStackNodeUtil.METHOD_STACK_KEYS.add(0, mutableSetOf<String>())
                                 val methodStackRange = 1 until methodStackLevel
@@ -105,10 +106,7 @@ class DoKitPlugin : Plugin<Project> {
                                             mutableSetOf<String>()
                                         )
                                         androidExt.registerTransform(
-                                            DoKitDependTransform(
-                                                project,
-                                                index
-                                            )
+                                            dependNewInstance(project, index)
                                         )
                                     }
                                 }
@@ -116,12 +114,12 @@ class DoKitPlugin : Plugin<Project> {
                         }
 
                         //项目评估完毕回调
-                        project.afterEvaluate { project ->
-                            "===afterEvaluate===".println()
-                            androidExt.applicationVariants.forEach { variant ->
-                                DoKitPluginConfigProcessor(project).process(variant)
-                            }
-                        }
+//                        project.afterEvaluate { project ->
+//                            "===afterEvaluate===".println()
+//                            androidExt.applicationVariants.forEach { variant ->
+//                                DoKitPluginConfigProcessor(project).process(variant)
+//                            }
+//                        }
 
                         /**
                          * 所有项目的build.gradle执行完毕
@@ -130,6 +128,9 @@ class DoKitPlugin : Plugin<Project> {
                          * **/
                         project.gradle.projectsEvaluated {
                             "===projectsEvaluated===".println()
+                            androidExt.applicationVariants.forEach { variant ->
+                                DoKitPluginConfigProcessor(project).process(variant)
+                            }
                             if (DoKitExtUtil.THIRD_LIBINFO_SWITCH) {
                                 androidExt.applicationVariants.forEach { variant ->
                                     //遍历三方库
@@ -148,7 +149,7 @@ class DoKitPlugin : Plugin<Project> {
                                         val thirdLibInfo =
                                             ThirdLibInfo(
                                                 fileName,
-                                                    artifactResult.file.length(),
+                                                artifactResult.file.length(),
                                                 artifactResult.variant.displayName
                                             )
                                         DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
@@ -173,7 +174,7 @@ class DoKitPlugin : Plugin<Project> {
                     project.getAndroid<LibraryExtension>().let { libraryExt ->
                         "library module ${project.name} is executing...".println()
                         if (DoKitExtUtil.DOKIT_PLUGIN_SWITCH) {
-                            libraryExt.registerTransform(DoKitCommTransform(project))
+                            libraryExt.registerTransform(commNewInstance(project))
                         }
                         project.afterEvaluate {
                             libraryExt.libraryVariants.forEach { variant ->
@@ -191,5 +192,16 @@ class DoKitPlugin : Plugin<Project> {
             it.contains("release") || it.contains("Release")
         }
     }
+
+    private fun commNewInstance(project: Project): DoKitBaseTransform = when {
+        GTE_V3_4 -> DoKitCommTransformV34(project)
+        else -> DoKitCommTransform(project)
+    }
+
+    private fun dependNewInstance(project: Project, index: Int): DoKitBaseTransform = when {
+        GTE_V3_4 -> DoKitDependTransformV34(project, index)
+        else -> DoKitDependTransform(project, index)
+    }
+
 
 }

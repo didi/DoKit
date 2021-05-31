@@ -1,20 +1,57 @@
-## 接入方式
+# Android接入指南
 
-**Tip:**
+## DoKit Android 最新版本
 
-为了更好的支持android官方androidx和support，dokit从3.3.1版本开始正式对sdk名字进行更新。
-具体如下：
+**3.4.0-alpha03**
 
->androidx===>com.didichuxing.doraemonkit:dokitx:3.3.5
->support===>com.didichuxing.doraemonkit:dokit:3.3.5
+## DoKit Android模块信息
+
+**Tip:为了更好的支持android官方androidx和support，dokit从3.3.1版本开始正式对sdk名字进行更新。**
+**具体如下：**
+
+v3.3.5以前版本
+
+```
+androidx===>com.didichuxing.doraemonkit:dokitx:3.3.5
+
+support===>com.didichuxing.doraemonkit:dokit:3.3.5
+```
+
+由于jcenter事件的影响，我们需要将DoKit For Android迁移到mavenCentral，但是需要更改groupId.所以大家要注意一下，具体的更新信息如下：
+
+v3.4.0-alpha02以后的版本(需要添加mavenCentral)
+
+```
+//核心模块
+
+debugImplementation "io.github.didi.dokit:dokitx:lastversion"
+
+//文件同步模块
+
+debugImplementation "io.github.didi.dokit:dokitx-ft:lastversion"
+
+//一机多控模块
+
+debugImplementation "io.github.didi.dokit:dokitx-mc:lastversion"
+
+//weex模块
+
+debugImplementation "io.github.didi.dokit:dokitx-weex:lastversion"
+
+//no-op 模块
+
+releaseImplementation "io.github.didi.dokit:dokitx-no-op:lastversion"
+```
+
+**debugImplementation 需要根据自己的构建改成对应的productFlavor**
+
 
 **下面所有的日志均用dokitx举例。要使用support版本请将dokitx改为dokit即可。**
 
 |DoKit|最新版本|描述|
 |-|-|-|
-|支持Androidx|3.3.5|从v3.3.1版本开始更名为dokitx|
-|支持android support|3.3.5|3.0.8.0版本对应3.2.0的功能，后期support将会不定期更新，主要还是看社区的反馈，请大家尽快升级和适配Androidx|
-
+|支持Androidx|3.4.0-alpha03|从v3.3.1版本开始更名为dokitx,dokitx的library和plugin的版本号保持一致|
+|支持android support|3.3.5|后期support将会不定期更新，主要还是看社区的反馈，请大家尽快升级和适配Androidx|
 
 
 #### 1. Gradle 依赖
@@ -22,65 +59,24 @@
 ```groovy
 dependencies {
     …
-    debugImplementation 'com.didichuxing.doraemonkit:dokitx:3.3.5'
-    releaseImplementation 'com.didichuxing.doraemonkit:dokitx-no-op:3.3.5'
+    debugImplementation 'io.github.didi.dokit:dokitx:lastversion'
+    releaseImplementation 'io.github.didi.dokit:dokitx-no-op:lastversion'
     …
 }
 ```
 
 **滴滴内部业务:**
 
-滴滴内部业务线接入请将
-```
-debugImplementation 'com.didichuxing.doraemonkit:dokitx:3.3.5'
-```
+滴滴内部业务线接入请添加模块
 
-替换为
 
 ```
-debugImplementation 'com.didichuxing.doraemonkit:dokitx-rpc:3.3.5'
+debugImplementation 'io.github.didi.dokit:dokitx-rpc:lastversion'
 ```
 
-**注意:** 
- 假如你无法通过 jcenter 下载到依赖库并报了以下的错误 
-
-```
-ERROR: Failed to resolve: com.didichuxing.doraemonkit:dokitx:3.3.5
-```
-
-建议你可以尝试挂载VPN或通过命令行重试(以Mac系统为例 项目根目录下)
-
-```
-./gradlew clean assembleDebug
-```
 
 
 最新版本参见[这里](https://github.com/didi/DoraemonKit/blob/master/Doc/android-ReleaseNotes.md)。
-
-**注意:**
-
->安卓版本DoKit从3.1.0版本开始全面拥抱Androidx,假如你的项目还没有升级到androidx你可以选择依赖3.0.2版本
-安卓版DoKit从3.0.2版本开始将逐渐放弃对Android Support版本的支持，请大家全面拥抱androidx吧
-
-DoraemonKit目前已支持Weex工具，包括
-
-* Console 日志查看
-* Storage 缓存查看
-* 容器信息
-* DevTool
-
-如果有需要支持Weex的需求可以直接添加下面依赖
-
-```groovy
-dependencies {
-    …
-    debugImplementation 'com.didichuxing.doraemonkit:dokitx-weex:3.3.5'
-    …
-}
-```
-
-
-`LeakCanary` 已经被废弃 大家可以自行集成leakCanary的2.0+版本。
 
 
 #### 2. 初始化
@@ -91,18 +87,10 @@ dependencies {
 @Override
 public void onCreate() {
    
-    DoraemonKit.install(application,null,"pId");
+   DoKit.Builder(this)
+            .productId("需要使用平台功能的话，需要到dokit.cn平台申请id")
+            .build()
    
-} 
-```
-**滴滴内部业务**
-
-```Java
-@Override
-public void onCreate() {
-   
-    DoraemonKitRpc.install(application,null,"pId")
-  
 } 
 ```
 
@@ -121,7 +109,7 @@ AOP包括以下几个功能:
 buildscript {
     dependencies {
         …
-        classpath 'com.didichuxing.doraemonkit:dokitx-plugin:3.3.5'
+        classpath 'io.github.didi.dokit:dokitx-plugin:lastversion'
         …
     }
 }
@@ -151,50 +139,57 @@ dokitExt {
     }
 
     slowMethod {
-        //0:默认模式 打印函数调用栈 需添加指定入口  默认为application onCreate 和attachBaseContext
-        //1:普通模式 运行时打印某个函数的耗时 全局业务代码函数插入
-        strategy 0
-        //函数功能开关
-        methodSwitch true
-
-        //调用栈模式配置
+        //调用栈模式配置 对应gradle.properties中DOKIT_METHOD_STRATEGY=0
         stackMethod {
             //默认值为 5ms 小于该值的函数在调用栈中不显示
             thresholdTime 10
-            //调用栈函数入口
+            //调用栈函数入口 千万不要用我默认的配置 如果有特殊需求修改成项目中自己的入口 假如不需要可以去掉该字段
             enterMethods = ["com.didichuxing.doraemondemo.MainDebugActivity.test1"]
-            //黑名单 粒度最小到类 暂不支持到方法
+            //黑名单 粒度最小到类 暂不支持到方法  千万不要用我默认的配置 如果有特殊需求修改成项目中自己的入口 假如不需要可以去掉该字段
             methodBlacklist = ["com.facebook.drawee.backends.pipeline.Fresco"]
         }
-        //普通模式配置
+        //普通模式配置 对应gradle.properties中DOKIT_METHOD_STRATEGY=1
         normalMethod {
             //默认值为 500ms 小于该值的函数在运行时不会在控制台中被打印
             thresholdTime 500
-            //需要针对函数插装的包名
+            //需要针对函数插装的包名 千万不要用我默认的配置 如果有特殊需求修改成项目中自己的项目包名 假如不需要可以去掉该字段
             packageNames = ["com.didichuxing.doraemondemo"]
-            //不需要针对函数插装的包名&类名
+            //不需要针对函数插装的包名&类名 千万不要用我默认的配置 如果有特殊需求修改成项目中自己的项目包名 假如不需要可以去掉该字段
             methodBlacklist = ["com.didichuxing.doraemondemo.dokit"]
         }
     }
 }
 ```
-项目根目录下的gradle.properties文件进行以下配置
+
+其中**strategy**和**methodSwitch**配置项已经弃用。新的配置开关位于项目根目录下的**gradle.properties**中。
+
+具体的配置如下所示：
 ```
-#dokit全局配置
-# 插件开关
+// dokit全局配置
+// 插件开关
 DOKIT_PLUGIN_SWITCH=true
-# 插件日志
-# 自定义Webview的全限定名
-DOKIT_WEBVIEW_CLASS_NAME=com/didichuxing/doraemonkit/widget/webview/MyWebView
+// DOKIT读取三方库会和booster冲突 如果你的项目中也集成了booster 建议将开关改成false
+DOKIT_THIRD_LIB_SWITCH=true
+// 插件日志
 DOKIT_LOG_SWITCH=true
-#dokit 慢函数开关
+// 自定义Webview的全限定名 主要是作用于h5 js抓包和数据mock
+DOKIT_WEBVIEW_CLASS_NAME=com/didichuxing/doraemonkit/widget/webview/MyWebView
+// dokit 慢函数开关
 DOKIT_METHOD_SWITCH=true
-#dokit 函数调用栈层级
+// dokit 函数调用栈层级
 DOKIT_METHOD_STACK_LEVEL=4
-#0:默认模式 打印函数调用栈 需添加指定入口  默认为application onCreate 和attachBaseContext
-#1:普通模式 运行时打印某个函数的耗时 全局业务代码函数插入
+// 0:默认模式 打印函数调用栈 需添加指定入口  默认为application onCreate 和attachBaseContext
+// 1:普通模式 运行时打印某个函数的耗时 全局业务代码函数插入
 DOKIT_METHOD_STRATEGY=0
 ```
+
+**理由**:
+为了减少项目的编译时间，所以慢函数的默认开关为false。再加上plugin的transform注册必须早于project.afterEvaluate。所以无法通过原先的配置项拿到配置信息，只能通过在全局的gradle.properties中的配置可以拿到。
+
+**tips：**
+当修改完DoKit插件的相关配置以后一定要clean一下重新编译才能生效。这是AS的缓存增量编译导致的，暂时没有其他好的解决方案。
+
+
 
 #### 4. 自定义功能组件（可选）
 
@@ -237,113 +232,177 @@ public class EnvSwitchKit extends AbstractKit {
 ```Java
 @Override
 public void onCreate() {
-    kits.add(new EnvSwitchKit());
-    DoraemonKit.install(application, kits);
+    DoKit.Builder(this)
+            .productId("需要使用平台功能的话，需要到dokit.cn平台申请id")
+	    .customKits(mapKits)
+            .build()
     …
 }
 ```
 
-**DoraemonKit入口api**
+**DoKit入口api**
 ```
-object DoraemonKit {
-    @JvmStatic
-    fun install(app: Application) {
+public class DoKit {
+    companion object {
+
+        lateinit var APPLICATION: Application
+
+        /**
+         * 主icon是否处于显示状态
+         */
+        @JvmStatic
+        val isMainIconShow: Boolean
+            get() = DoKitReal.isShow
+
+
+        /**
+         * 显示主icon
+         */
+        @JvmStatic
+        fun show() {
+            DoKitReal.show()
+        }
+
+        /**
+         * 直接显示工具面板页面
+         */
+        @JvmStatic
+        fun showToolPanel() {
+            DoKitReal.showToolPanel()
+        }
+
+        /**
+         * 直接隐藏工具面板
+         */
+        @JvmStatic
+        fun hideToolPanel() {
+            DoKitReal.hideToolPanel()
+        }
+
+        /**
+         * 隐藏主icon
+         */
+        @JvmStatic
+        fun hide() {
+            DoKitReal.hide()
+        }
     }
 
-    @JvmStatic
-    fun install(app: Application, productId: String) {
-    }
 
-    @JvmStatic
-    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>) {
-    }
+    class Builder(private val app: Application) {
+        private var productId: String = ""
+        private var mapKits: LinkedHashMap<String, List<AbstractKit>> = linkedMapOf()
+        private var listKits: List<AbstractKit> = arrayListOf()
 
-    @JvmStatic
-    fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>, productId: String) {
-    }
+        init {
+            APPLICATION = app
+        }
 
-    @JvmStatic
-    fun install(app: Application, listKits: MutableList<AbstractKit>) {
-    }
+        fun productId(productId: String): Builder {
+            this.productId = productId
+            return this
+        }
 
-    @JvmStatic
-    fun install(app: Application, listKits: MutableList<AbstractKit>, productId: String) {
-    }
+        /**
+         * mapKits & listKits 二选一
+         */
+        fun customKits(mapKits: LinkedHashMap<String, List<AbstractKit>>): Builder {
+            this.mapKits = mapKits
+            return this
+        }
 
-    /**
-     * @param app
-     * @param mapKits  自定义kits  根据用户传进来的分组 建议优先选择mapKits 两者都传的话会选择mapKits
-     * @param listKits  自定义kits 兼容原先老的api
-     * @param productId Dokit平台端申请的productId
-     */
-    @JvmStatic
-    private fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
+        /**
+         * mapKits & listKits 二选一
+         */
+        fun customKits(listKits: List<AbstractKit>): Builder {
+            this.listKits = listKits
+            return this
+        }
 
-    }
+        /**
+         * H5任意门全局回调
+         */
+        fun webDoorCallback(callback: WebDoorManager.WebDoorCallback): Builder {
+            DoKitReal.setWebDoorCallback(callback)
+            return this
+        }
 
-    @JvmStatic
-    fun setWebDoorCallback(callback: WebDoorManager.WebDoorCallback?) {
-    }
+        /**
+         * 禁用app信息上传开关，该上传信息只为做DoKit接入量的统计，如果用户需要保护app隐私，可调用该方法进行禁用
+         */
+        fun disableUpload(): Builder {
+            DoKitReal.disableUpload()
+            return this
+        }
 
-    @JvmStatic
-    fun show() {
-    }
+        fun debug(debug: Boolean): Builder {
+            DoKitReal.setDebug(debug)
+            return this
+        }
 
-    /**
-     * 直接显示工具面板页面
-     */
-    @JvmStatic
-    fun showToolPanel() {
-    }
+        /**
+         * 是否显示主入口icon
+         */
+        fun awaysShowMainIcon(awaysShow: Boolean): Builder {
+            DoKitReal.setAwaysShowMainIcon(awaysShow)
+            return this
+        }
 
-    /**
-     * 直接隐藏工具面板
-     */
-    @JvmStatic
-    fun hideToolPanel() {
-    }
+        /**
+         * 设置加密数据库密码
+         */
+        fun databasePass(map: Map<String, String>): Builder {
+            DoKitReal.setDatabasePass(map)
+            return this
+        }
 
-    @JvmStatic
-    fun hide() {
-    }
+        /**
+         * 设置文件管理助手http端口号
+         */
+        fun fileManagerHttpPort(port: Int): Builder {
+            DoKitReal.setFileManagerHttpPort(port)
+            return this
+        }
 
-    /**
-     * 禁用app信息上传开关，该上传信息只为做DoKit接入量的统计，如果用户需要保护app隐私，可调用该方法进行禁用
-     */
-    @JvmStatic
-    fun disableUpload() {
-    }
+        /**
+         * 一机多控端口号
+         */
+        fun mcWSPort(port: Int): Builder {
+            DoKitReal.setMCWSPort(port)
+            return this
+        }
 
-    @JvmStatic
-    val isShow: Boolean
-        get() = false
+        /**
+         * 一机多控自定义拦截器
+         */
+        fun mcIntercept(interceptor: MCInterceptor): Builder {
+            DoKitReal.setMCIntercept(interceptor)
+            return this
+        }
 
-    @JvmStatic
-    fun setDebug(debug: Boolean) {
-    }
+        /**
+         *设置dokit的性能监控全局回调
+         */
+        fun callBack(callback: DoKitCallBack): Builder {
+            DoKitReal.setCallBack(callback)
+            return this
+        }
 
-    /**
-     * 是否显示主入口icon
-     */
-    @JvmStatic
-    fun setAwaysShowMainIcon(awaysShow: Boolean) {
-    }
 
-    /**
-     * 设置加密数据库密码
-     */
-    @JvmStatic
-    fun setDatabasePass(map: Map<String, String>) {
-    }
+        /**
+         * 设置扩展网络拦截器的代理对象
+         */
+        fun netExtInterceptor(extInterceptorProxy: DokitExtInterceptor.DokitExtInterceptorProxy): Builder {
+            DoKitReal.setNetExtInterceptor(extInterceptorProxy)
+            return this
+        }
 
-    /**
-     * 设置文件管理助手http端口号
-     */
-    @JvmStatic
-    fun setFileManagerHttpPort(port: Int) {
+
+        fun build() {
+            DoKitReal.install(app, mapKits, listKits, productId)
+        }
     }
 }
-
 ```
 
 

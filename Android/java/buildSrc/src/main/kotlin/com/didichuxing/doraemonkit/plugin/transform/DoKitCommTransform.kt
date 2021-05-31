@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.plugin.transform
 
+import com.didiglobal.booster.gradle.GTE_V3_4
 import org.gradle.api.Project
 
 /**
@@ -8,5 +9,6 @@ import org.gradle.api.Project
  * @author johnsonlee
  */
 class DoKitCommTransform(androidProject: Project) : DoKitBaseTransform(androidProject) {
+
 
 }

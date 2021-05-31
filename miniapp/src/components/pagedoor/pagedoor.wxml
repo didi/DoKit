@@ -1,0 +1,53 @@
+<view class="pagedoor-page">
+
+  <view class="panel-box">
+    <view class="big-label">页面路径</view>   
+    <view class="area-box">
+        <textarea  class="url-box"  placeholder="请输入page绝对路径，以/开头" maxlength="140" placeholder-class="url-paceholder-text"
+        bindinput="textareaChange" value="{{pageUrl}}">
+        </textarea>
+    </view>
+    <picker bindchange="bindPickerChange" value="{{index}}" range="{{pageList}}">
+      <view class="pagedoor-button">
+        自动填写
+      </view>
+    </picker>    
+  </view>
+
+  <view class="panel-box">
+    <view class="big-label">参数列表</view>
+    <block wx:for="{{parmList}}">
+      <view class="parm-list">
+        <view class="parm-box">
+          <label>key：</label>
+          <input class="input-box" value="{{item.key}}" bindinput='changeParmkey' data-index='{{index}}'></input>
+        </view>
+        <view class="parm-box">
+          <label>value：</label>
+          <input class="input-box" value="{{item.value}}" bindinput='changeParmValue' data-index='{{index}}'></input>
+        </view>
+      </view>
+    </block>
+    <view class="pagedoor-button" bindtap='addParm'>
+      添加参数
+    </view>
+  </view>
+
+  <view class="panel-box">
+    <view class="big-label">跳转方式</view>
+    <view>
+      <radio-group bindchange="radioChange">
+        <view wx:for="{{typeList}}" class="radio-group">         
+            <radio value="{{item.value}}" checked="{{item.checked}}"></radio> 
+            <text>{{item.name}}</text>
+        </view>
+      </radio-group>
+    </view>
+  </view>
+  
+  <button class="go-page-button" bindtap="goPage" size="default" type="" plain="default" hover-stop-propagation="false">
+      点击跳转
+  </button>
+</view>
+
+<back top="80%" bindreturn="onGoBack"></back>

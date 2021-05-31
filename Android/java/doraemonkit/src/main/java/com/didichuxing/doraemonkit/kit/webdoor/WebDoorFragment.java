@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 import com.didichuxing.doraemonkit.zxing.activity.CaptureActivity;
@@ -165,7 +166,7 @@ public class WebDoorFragment extends BaseFragment {
         if (requestCode == REQUEST_CAMERA) {
             for (int grantResult : grantResults) {
                 if (grantResult == -1) {
-                    showToast(R.string.dk_error_tips_permissions_less);
+                    ToastUtils.showShort(R.string.dk_error_tips_permissions_less);
                 }
             }
         }

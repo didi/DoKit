@@ -271,6 +271,8 @@
     if([DoraemonAppInfoUtil isIpad]){
         if ( [controller respondsToSelector:@selector(popoverPresentationController)] ) {
             controller.popoverPresentationController.sourceView = vc.view;
+            controller.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+            controller.popoverPresentationController.sourceRect = CGRectMake(vc.view.frame.size.width/2.0, vc.view.frame.size.height/2.0, 1.0, 1.0);
         }
         [vc presentViewController:controller animated:YES completion:nil];
     }else{

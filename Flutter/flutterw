@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -e
+ZIP_DIST="$HOME/.taco/flutter/2.0.6/2.0.6.zip"
+ZIP_URL="https://storage.flutter-io.cn/flutter_infra/releases/stable/macos/flutter_macos_2.0.6-stable.zip"
+FLUTTER_HOME="$HOME/.taco/flutter/2.0.6/flutter"
+FLUTTER_DEST="$HOME/.taco/flutter/2.0.6"
+FLUTTER_BIN="$HOME/.taco/flutter/2.0.6/flutter/bin/flutter"
+VERSION="2.0.6"
+
+echo "Using Flutter Wrapper: $VERSION"
+#
+if [[ ! -e $FLUTTER_BIN ]]; then
+    echo "Flutter Wrapper: $VERSION, is not installed."
+    rm -rf $FLUTTER_HOME
+    mkdir -p $FLUTTER_HOME
+    # if [[ ! -e $ZIP_DIST ]]; then
+    	echo "Downloading Flutter $VERSION..."
+        curl -C - -L -o $ZIP_DIST $ZIP_URL
+    # fi
+    echo "Unzipping Flutter..."
+    unzip -qo $ZIP_DIST -d $FLUTTER_DEST
+    echo "Flutter Wrapper: $VERSION is installed."
+fi
+# shellcheck disable=SC2068
+$FLUTTER_BIN $@

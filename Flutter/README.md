@@ -1,12 +1,9 @@
 # DoKit Flutter版
 
-内测版本，目前提供了日志、method channel信息、路由信息、网络抓包、帧率、设备与内存信息查看、控件信息查看功能.
+内测版本，目前提供了日志、method channel信息、路由信息、网络抓包、帧率、设备与内存信息查看、控件信息查看、颜色拾取、启动耗时、查看源码、查看widget的build链以及对齐标尺的功能.
 
 ## 支持flutter版本
-1.17.5<=version<=1.22.4，其余版本未做过兼容性测试
-
-## 最新版本
-**0.2.6**
+version>=1.17.5，其余版本未做过兼容性测试。支持flutter2.0的分支为`0.8.0-nullsafety.0`，后期维护主要会基于该版本进行。
 
 ## Pub地址
 [DoKit For Flutter](https://pub.dev/packages/dokit)
@@ -16,7 +13,7 @@
 
 ```
 dependencies:
-  dokit: ^0.2.6
+  dokit: ^0.8.0-nullsafety.0
 ```
 
 在main函数入口初始化。 DoKit使用runZone的方式进行日志捕获，方法通道的捕获，如果你的app需要使用同样的方式会有冲突。
@@ -67,6 +64,7 @@ appCreator | DoKitAppCreator | 异步返回根布局 | 同上
 useInRelease | bool |是否在release模式下显示DoKit | x
 logCallback | LogCallback | 调用print方法打印日志时被回调 | x
 exceptionCallback | ExceptionCallback | 异常回调 | x
+methodChannelBlackList | List<String> | 过滤方法通道的黑名单 | x
 releaseAction | Function | release模式下执行该函数，该值为空则会直接调用系统的runApp |x
 
 
@@ -74,7 +72,7 @@ releaseAction | Function | release模式下执行该函数，该值为空则会�
 
 ### 全部组件
 
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/KzciZRXKfk1609765312380.jpg"  width="300px"  />
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/AuETMp2dp11619684586454.png"  width="300px"  />
 
 当前版本DoKit支持的所有功能全览。常驻工具为显示在底部tab栏的组件，可通过拖动将组件放置或移出常驻工具。
 
@@ -138,11 +136,38 @@ releaseAction | Function | release模式下执行该函数，该值为空则会�
 **注：该功能通过VMService获取数据，release模式下无法使用。flutter版本号需要flutter attach后才可获取**
 
 ### 控件检查
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/qXec9UMCfi1619673904927.png"  width="300px"  />
 
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/NEyzV9xUb51609765785021.jpg"  width="300px"  />
-
-查看当前页面上的控件信息，包含位置、大小、源码信息等。
+查看当前页面上的控件信息，包含位置、大小、源码信息、对齐标尺和查看build链等。
 
 **注：源码信息只有在debug模式下才可获取到。同路由功能，在存在Overlay的情况下功能会异常**
+
+### 颜色拾取
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/4MYRNqqcZh1619673900891.png"  width="300px"  />
+
+查看当前页面任何位置对应的像素点的RGBA颜色值，方便UI的调试和获取像素点的颜色
+
+### Widget层级
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/GmjvVDp4Ye1619673908393.png"  width="300px"  />
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/sGd73y7uoc1619673910771.png"  width="300px"  />
+
+查看当前选中widget的树层级，以及它renderObject的详细build链等信息
+
+### 页面源码查看
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/e7Pbo95nJ71619665430550.jpg"  width="300px"  />
+
+查看当前所在页面的源代码，支持语法高亮显示
+
+**注：源码信息只有在debug模式下才可获取到。同路由功能，在存在Overlay的情况下功能会异常**
+
+### 页面启动耗时
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/gDkBh4a87P1619673916288.png"  width="300px"  />
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/z1wWlYqZDg1619674872051.png"  width="300px"  />
+
+获取页面的启动耗时, 
+框架已做无侵入的注入NavigatorObserver。但是在较复杂的App构建时可能失效，需要手动添加`DokitNavigatorObserver`
+
+**注：页面启动耗时信息只有在profile或release模式下才有意义**
+
 
 

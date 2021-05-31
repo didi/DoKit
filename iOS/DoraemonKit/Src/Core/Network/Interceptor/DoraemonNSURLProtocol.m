@@ -11,6 +11,7 @@
 #import "DoraemonNetFlowManager.h"
 #import "DoraemonURLSessionDemux.h"
 #import "DoraemonNetworkInterceptor.h"
+#import "DoraemonManager.h"
 #import "DoraemonMockManager.h"
 #import "DoraemonDefine.h"
 #import "DoraemonUrlUtil.h"
@@ -78,8 +79,10 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     NSMutableURLRequest *mutableReqeust = [request mutableCopy];
     [NSURLProtocol setProperty:@YES forKey:kDoraemonProtocolKey inRequest:mutableReqeust];
     if ([[DoraemonMockManager sharedInstance] needMock:request]) {
+        NSString *mockDomain = [DoraemonManager shareInstance].mockDomain ? [DoraemonManager shareInstance].mockDomain : @"https://mock.dokit.cn/";
+        NSString *mockSceneUrl = [mockDomain stringByAppendingString:@"api/app/scene/%@"];
         NSString *sceneId = [[DoraemonMockManager sharedInstance] getSceneId:request];
-        NSString *urlString = [NSString stringWithFormat:@"https://mock.dokit.cn/api/app/scene/%@",sceneId];
+        NSString *urlString = [NSString stringWithFormat:mockSceneUrl, sceneId];
         DoKitLog(@"MOCK URL == %@",urlString);
         mutableReqeust = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -98,8 +101,10 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
         });
     }else if(DoraemonWeakNetwork_WeakSpeed == [[DoraemonNetworkInterceptor shareInstance].weakDelegate weakNetSelecte]){
         DoKitLog(@"yd WeakUpFlow Net");
-        [[DoraemonNetworkInterceptor shareInstance].weakDelegate handleWeak:[DoraemonUrlUtil getHttpBodyFromRequest:self.request] isDown:NO];
-        [self.task resume];
+        [[DoraemonNetFlowManager shareInstance] httpBodyFromRequest:self.request bodyCallBack:^(NSData *body) {
+            [[DoraemonNetworkInterceptor shareInstance].weakDelegate handleWeak:body isDown:NO];
+            [self.task resume];
+        }];
     }else{
         [self.task resume];
     }
@@ -201,15 +206,15 @@ static NSString * const kDoraemonProtocolKey = @"doraemon_protocol_key";
     }
 }
 
-- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler {
-    assert([NSThread currentThread] == self.clientThread);
-    //判断服务器返回的证书类型, 是否是服务器信任
-    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
-        //强制信任
-        NSURLCredential *card = [[NSURLCredential alloc]initWithTrust:challenge.protectionSpace.serverTrust];
-        completionHandler(NSURLSessionAuthChallengeUseCredential, card);
-    }
-}
+//- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler {
+//    assert([NSThread currentThread] == self.clientThread);
+//    //判断服务器返回的证书类型, 是否是服务器信任
+//    if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+//        //强制信任
+//        NSURLCredential *card = [[NSURLCredential alloc]initWithTrust:challenge.protectionSpace.serverTrust];
+//        completionHandler(NSURLSessionAuthChallengeUseCredential, card);
+//    }
+//}
 
 // 去掉一些我们不关心的链接, 与UIWebView的兼容还是要好好考略一下
 + (BOOL)ignoreRequest:(NSURLRequest *)request{

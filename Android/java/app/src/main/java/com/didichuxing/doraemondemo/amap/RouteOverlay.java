@@ -101,7 +101,7 @@ public class RouteOverlay {
 	 * @since V2.1.0
 	 */
 	protected BitmapDescriptor getBusBitmapDescriptor() {
-		return BitmapDescriptorFactory.fromResource(R.mipmap.amap_bus);
+		return BitmapDescriptorFactory.fromResource(R.mipmap.dk_lbs_bus);
 	}
 	/**
 	 * 给步行Marker设置图标，并返回更换图标的图片。如不用默认图片，需要重写此方法。
@@ -109,11 +109,11 @@ public class RouteOverlay {
 	 * @since V2.1.0
 	 */
 	protected BitmapDescriptor getWalkBitmapDescriptor() {
-		return BitmapDescriptorFactory.fromResource(R.mipmap.amap_man);
+		return BitmapDescriptorFactory.fromResource(R.mipmap.dk_lbs_man);
 	}
 
 	protected BitmapDescriptor getDriveBitmapDescriptor() {
-		return BitmapDescriptorFactory.fromResource(R.mipmap.amap_car);
+		return BitmapDescriptorFactory.fromResource(R.mipmap.dk_lbs_car);
 	}
 
 	protected void addStartAndEndMarker() {

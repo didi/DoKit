@@ -1,13 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply from: '../upload.gradle'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
     defaultConfig {
-        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        minSdkVersion rootProject.ext.android["minSdkVersion_16"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
@@ -39,8 +38,6 @@ dependencies {
     //compileOnly rootProject.ext.dependencies["okio"]
     implementation project(":doraemonkit-okhttp-v3")
     implementation project(":doraemonkit-okhttp-v4")
-    compileOnly rootProject.ext.dependencies["utilcode"]
+    implementation project(":doraemonkit-util")
 }
 
-uploadArchives.dependsOn(':doraemonkit-okhttp-v3:uploadArchives')
-uploadArchives.dependsOn(':doraemonkit-okhttp-v4:uploadArchives')

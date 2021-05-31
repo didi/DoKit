@@ -1,11 +1,13 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply from: '../upload.gradle'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 
     defaultConfig {
-        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        minSdkVersion rootProject.ext.android["minSdkVersion_16"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
@@ -30,6 +32,13 @@ android {
         abortOnError false
     }
 
+    /**
+     * 支持ViewBinding
+     */
+    buildFeatures {
+        //viewBinding = true
+    }
+
 }
 
 dependencies {
@@ -37,15 +46,28 @@ dependencies {
 
     implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["constraintLayout"]
-    implementation rootProject.ext.dependencies["design"]
-    implementation rootProject.ext.dependencies["utilcode"]
+    implementation rootProject.ext.dependencies["material"]
+    compileOnly project(":doraemonkit-util")
     api project(':doraemonkit')
     compileOnly rootProject.ext.dependencies["weex_inspector"]
     compileOnly rootProject.ext.dependencies["weex_sdk"]
+    //auto-service
+    implementation rootProject.ext.dependencies["auto_service"]
+    kapt rootProject.ext.dependencies["auto_service"]
 }
 
-/**
- * 可以作为入口打包
- */
-uploadArchives.dependsOn(':doraemonkit:uploadArchives')
-uploadArchives.dependsOn(':doraemonkit-rpc:uploadArchives')
+
+def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
+if (PUBLISH_ARCHIVES_TYPE == 0 || PUBLISH_ARCHIVES_TYPE == 1) {
+    publish.dependsOn([':doraemonkit-util:publish',
+                       ':doraemonkit-plugin:uploadArchives',
+                       ':doraemonkit-okhttp-v3:publish',
+                       ':doraemonkit-okhttp-v4:publish',
+                       ':doraemonkit-okhttp-api:publish',
+                       ':doraemonkit:publish',
+                       ':doraemonkit-mc:publish',
+                       ':doraemonkit-rpc:publish',
+                       ':doraemonkit-ft:publish'])
+}
+
+

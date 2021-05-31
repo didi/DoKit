@@ -1,7 +1,8 @@
 <resources>
-    <string name="app_name">DoKitJavaDemo</string>
+    <string name="app_name">DoKitDemo</string>
     <string name="app_build_types">BuildType</string>
     <string name="app_btn_jump">Jump Other Activity</string>
+    <string name="app_btn_mc">MC</string>
     <string name="app_btn_show_hide_icon">Show/Hide Dokit icon</string>
     <string name="app_btn_leak">Memory Leaks</string>
     <string name="app_btn_app_launch_stack">app launch method stack</string>

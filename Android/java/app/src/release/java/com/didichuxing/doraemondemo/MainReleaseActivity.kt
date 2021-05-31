@@ -28,10 +28,8 @@ import com.baidu.location.LocationClient
 import com.baidu.location.LocationClientOption
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ThreadUtils
-import com.blankj.utilcode.util.ThreadUtils.SimpleTask
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.didichuxing.doraemondemo.MainReleaseActivity
 import com.didichuxing.doraemonkit.DoraemonKit
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
@@ -41,10 +39,6 @@ import com.lzy.okgo.model.Response
 import com.nostra13.universalimageloader.core.ImageLoader
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
-import com.tencent.map.geolocation.TencentLocation
-import com.tencent.map.geolocation.TencentLocationListener
-import com.tencent.map.geolocation.TencentLocationManager
-import com.tencent.map.geolocation.TencentLocationRequest
 import okhttp3.*
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.PermissionRequest
@@ -60,8 +54,6 @@ class MainReleaseActivity : AppCompatActivity(), View.OnClickListener {
     private var mLocationClient: AMapLocationClient? = null
     private var mBaiduLocationClient: LocationClient? = null
     private var mMapOption: AMapLocationClientOption? = null
-    private var mTencentLocationRequest: TencentLocationRequest? = null
-    private var mTencentLocationManager: TencentLocationManager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -71,9 +63,6 @@ class MainReleaseActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<View>(R.id.btn_jump).setOnClickListener(this)
         findViewById<View>(R.id.btn_show_tool_panel).setOnClickListener(this)
         findViewById<View>(R.id.btn_location).setOnClickListener(this)
-        findViewById<View>(R.id.btn_location_amap).setOnClickListener(this)
-        findViewById<View>(R.id.btn_location_tencent).setOnClickListener(this)
-        findViewById<View>(R.id.btn_location_baidu).setOnClickListener(this)
         findViewById<View>(R.id.btn_load_img).setOnClickListener(this)
         findViewById<View>(R.id.btn_okhttp_mock).setOnClickListener(this)
         findViewById<View>(R.id.btn_connection_mock).setOnClickListener(this)
@@ -90,8 +79,6 @@ class MainReleaseActivity : AppCompatActivity(), View.OnClickListener {
         mLocationClient = AMapLocationClient(applicationContext)
         mMapOption = AMapLocationClientOption()
         //腾讯地图
-        mTencentLocationRequest = TencentLocationRequest.create()
-        mTencentLocationManager = TencentLocationManager.getInstance(applicationContext)
         //百度地图
         mBaiduLocationClient = LocationClient(this)
         //通过LocationClientOption设置LocationClient相关参数
@@ -189,24 +176,7 @@ class MainReleaseActivity : AppCompatActivity(), View.OnClickListener {
         mLocationClient!!.startLocation()
     }
 
-    private var mTencentLocationListener: TencentLocationListener = object : TencentLocationListener {
-        override fun onLocationChanged(tencentLocation: TencentLocation, error: Int, errorInfo: String) {
-            Log.i(TAG, "腾讯定位===onLocationChanged===lat==>" + tencentLocation.latitude + "   lng==>" + tencentLocation.longitude + "  error===>" + error + "  errorInfo===>" + errorInfo)
-        }
 
-        override fun onStatusUpdate(name: String, status: Int, desc: String) {
-            Log.i(TAG, "腾讯定位===onStatusUpdate==>  name===>$name status===$status  desc===$desc")
-        }
-    }
-
-    /**
-     * 启动腾讯地图定位
-     */
-    private fun startTencentLocation() {
-        //mTencentLocationManager.requestLocationUpdates(mTencentLocationRequest, mTencentLocationListener);
-        //获取获取当前单次定位
-        mTencentLocationManager!!.requestSingleFreshLocation(mTencentLocationRequest, mTencentLocationListener, Looper.myLooper())
-    }
 
     private var mbdLocationListener: BDAbstractLocationListener = object : BDAbstractLocationListener() {
         override fun onReceiveLocation(bdLocation: BDLocation) {
@@ -229,9 +199,6 @@ class MainReleaseActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_show_tool_panel ->                 //直接调起工具面板
                 DoraemonKit.showToolPanel()
             R.id.btn_location -> startNormaLocation()
-            R.id.btn_location_amap -> startAmapLocation()
-            R.id.btn_location_tencent -> startTencentLocation()
-            R.id.btn_location_baidu -> startBaiDuLocation()
             R.id.btn_load_img -> {
                 //Glide 加载
                 val picassoImgUrl = "http://b-ssl.duitang.com/uploads/item/201808/27/20180827043223_twunu.jpg"
@@ -289,7 +256,7 @@ class MainReleaseActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun requestByGet(path: String) {
-        ThreadUtils.executeByIo(object : SimpleTask<String?>() {
+        ThreadUtils.executeByIo(object : ThreadUtils.SimpleTask<String?>() {
             @Throws(Throwable::class)
             override fun doInBackground(): String {
                 try {
@@ -412,7 +379,6 @@ class MainReleaseActivity : AppCompatActivity(), View.OnClickListener {
         super.onDestroy()
         okHttpClient!!.dispatcher().cancelAll()
         mLocationManager!!.removeUpdates(mLocationListener)
-        mTencentLocationManager!!.removeUpdates(mTencentLocationListener)
         mBaiduLocationClient!!.stop()
     }
 

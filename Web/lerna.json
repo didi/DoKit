@@ -1,0 +1,29 @@
+{
+  "tagVersionPrefix": "web_",
+  "packages": [
+    "packages/*"
+  ],
+  "version": "0.0.1-alpha.0",
+  "npmClient": "npm",
+  "command": {
+    "bootstrap": {
+      "npmClientArgs": [
+        "--no-package-lock"
+      ]
+    },
+    "publish": {
+      "allowBranch": [
+        "master",
+        "release"
+      ],
+      "ignoreChanges": [
+        "*.md",
+        "lerna.json"
+      ],
+      "registry": "https://registry.npmjs.org/"
+    },
+    "npmClientArgs": [
+      "--no-lockfile"
+    ]
+  }
+}

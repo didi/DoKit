@@ -18,6 +18,8 @@ import com.didichuxing.doraemonkit.constant.RequestCode;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 
 /**
  * @author wanglikun
@@ -44,6 +46,7 @@ public class ColorPickerSettingFragment extends BaseFragment {
         if (mediaProjectionManager == null) {
             return false;
         }
+
         startActivityForResult(mediaProjectionManager.createScreenCaptureIntent(), RequestCode.CAPTURE_SCREEN);
         return true;
     }
@@ -57,7 +60,7 @@ public class ColorPickerSettingFragment extends BaseFragment {
             }
             showColorPicker(data);
         } else {
-            showToast("start color pick fail");
+            ToastUtils.showShort("start color pick fail");
             finish();
         }
     }
@@ -65,21 +68,17 @@ public class ColorPickerSettingFragment extends BaseFragment {
     /**
      * 显示颜色拾取器
      *
-     * @param data
+     * @param intent
      */
-    private void showColorPicker(Intent data) {
+    private void showColorPicker(Intent intent) {
         DokitViewManager.getInstance().detachToolPanel();
 
-        DokitIntent pageIntent = new DokitIntent(ColorPickerInfoDokitView.class);
-        pageIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(pageIntent);
+        SimpleDokitStarter.startFloating(ColorPickerInfoDokitView.class);
 
-        pageIntent = new DokitIntent(ColorPickerDokitView.class);
+
         Bundle bundle = new Bundle();
-        bundle.putParcelable("data", data);
-        pageIntent.bundle = bundle;
-        pageIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(pageIntent);
+        bundle.putParcelable("data", intent);
+        SimpleDokitStarter.startFloating(ColorPickerDokitView.class, bundle);
 
     }
 

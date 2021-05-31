@@ -10,14 +10,14 @@ import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.core.TranslucentActivity;
+import com.google.auto.service.AutoService;
 
 /**
  * Created by wanglikun on 2018/9/13.
  */
-
+@AutoService(AbstractKit.class)
 public class ColorPickerKit extends AbstractKit {
     private static final String TAG = "ColorPicker";
-
 
 
     @Override
@@ -32,7 +32,6 @@ public class ColorPickerKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-
         Intent intent = new Intent(context, TranslucentActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_COLOR_PICKER_SETTING);

@@ -55,9 +55,15 @@ Component({
                             "type": "apimock"
                         },
                         {
+
                             "title": "查看日志",
                             "image": img.apimockicon,
                             "type": "looklogs"
+                        },
+                        {
+                            "title": "page任意门",
+                            "image": img.h5dooricon,
+                            "type": "pagedoor"
                         }
                     ]
                 }

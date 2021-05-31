@@ -6,6 +6,7 @@
 //
 
 #import "DoraemonUrlUtil.h"
+#import "DoraemonNetFlowManager.h"
 
 @implementation DoraemonUrlUtil
 
@@ -35,11 +36,32 @@
     id jsonObject = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
     if ([NSJSONSerialization isValidJSONObject:jsonObject]){
         jsonObj = jsonObject;
+    }else{
+        NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        if (!str) return jsonObj;
+        NSArray *componentsArray =  [str componentsSeparatedByString:@"&"];
+        NSMutableDictionary *dic = @{}.mutableCopy;
+        [componentsArray enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSArray *keyValues =  [obj componentsSeparatedByString:@"="];
+            if (keyValues.count == 2) {
+                [dic setValue:keyValues.lastObject forKey:keyValues.firstObject];
+            }
+        }];
+        if (dic.allKeys.count > 0) {
+            jsonObj = dic.copy;
+        }
     }
     return jsonObj;
 }
++ (void)requestLength:(NSURLRequest *)request callBack:(void (^)(NSUInteger))callBack {
+    NSUInteger headersLength = [self getHeadersLengthWithRequest:request];
+    [[DoraemonNetFlowManager shareInstance] httpBodyFromRequest:request bodyCallBack:^(NSData *body) {
+        NSUInteger bodyLength = [body length];
+        callBack(headersLength + bodyLength);
+    }];
+}
 
-+ (NSUInteger)getRequestLength:(NSURLRequest *)request{
++ (NSUInteger)getHeadersLengthWithRequest:(NSURLRequest *)request {
     NSDictionary<NSString *, NSString *> *headerFields = request.allHTTPHeaderFields;
     NSDictionary<NSString *, NSString *> *cookiesHeader = [self getCookies:request];
     if (cookiesHeader.count) {
@@ -47,11 +69,7 @@
         [headerFieldsWithCookies addEntriesFromDictionary:cookiesHeader];
         headerFields = [headerFieldsWithCookies copy];
     }
-    
-    NSUInteger headersLength = [self getHeadersLength:headerFields];
-    NSData *httpBody = [[self class] getHttpBodyFromRequest:request];
-    NSUInteger bodyLength = [httpBody length];
-    return headersLength + bodyLength;
+    return [self getHeadersLength:headerFields];
 }
 
 + (NSUInteger)getHeadersLength:(NSDictionary *)headers {
@@ -95,28 +113,4 @@
     return responseLength;
 }
 
-+ (NSData *)getHttpBodyFromRequest:(NSURLRequest *)request{
-    NSData *httpBody;
-    if (request.HTTPBody) {
-        httpBody = request.HTTPBody;
-    }else{
-        if ([request.HTTPMethod isEqualToString:@"POST"]) {
-            if (!request.HTTPBody) {
-                uint8_t d[1024] = {0};
-                NSInputStream *stream = request.HTTPBodyStream;
-                NSMutableData *data = [[NSMutableData alloc] init];
-                [stream open];
-                while ([stream hasBytesAvailable]) {
-                    NSInteger len = [stream read:d maxLength:1024];
-                    if (len > 0 && stream.streamError == nil) {
-                        [data appendBytes:(void *)d length:len];
-                    }
-                }
-                httpBody = [data copy];
-                [stream close];
-            }
-        }
-    }
-    return httpBody;
-}
 @end

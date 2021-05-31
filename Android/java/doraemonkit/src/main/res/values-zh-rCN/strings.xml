@@ -24,9 +24,9 @@
     <string name="dk_kit_frame_info">帧率</string>
     <string name="dk_kit_frame_info_desc">帧率检测</string>
     <string name="dk_kit_gps_mock">位置模拟</string>
-    <string name="dk_kit_gps_mock_manual">位置-手动</string>
-    <string name="dk_kit_gps_mock_preset">位置-预设</string>
-    <string name="dk_kit_gps_mock_route">位置-路线</string>
+    <string name="dk_kit_gps_mock_manual">位置微调</string>
+    <string name="dk_kit_gps_mock_preset">位置预设</string>
+    <string name="dk_kit_gps_mock_route">实时导航</string>
     <string name="dk_kit_color_picker">取色器</string>
     <string name="dk_kit_align_ruler">对齐标尺</string>
     <string name="dk_kit_log_info">日志</string>

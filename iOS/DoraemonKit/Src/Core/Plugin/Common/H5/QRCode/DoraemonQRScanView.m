@@ -135,21 +135,21 @@ static NSString *const scanLineAnimationName = @"scanLineAnimation";
 
 - (BOOL)statusCheck{
     if (![DoraemonQRScanView isCameraAvailable]){
-        [DoraemonAlertUtil handleAlertActionWithVC:[self viewController] text:DoraemonLocalizedString(@"设备无相机——设备无相机功能，无法进行扫描")  okBlock:^{
+        [DoraemonAlertUtil handleAlertActionWithVC:[self doraemon_viewController] text:DoraemonLocalizedString(@"设备无相机——设备无相机功能，无法进行扫描")  okBlock:^{
             
         }];
         return NO;
     }
     
     if (![DoraemonQRScanView isRearCameraAvailable] && ![DoraemonQRScanView isFrontCameraAvailable]) {
-        [DoraemonAlertUtil handleAlertActionWithVC:[self viewController] text:DoraemonLocalizedString(@"设备相机错误——无法启用相机，请检查")  okBlock:^{
+        [DoraemonAlertUtil handleAlertActionWithVC:[self doraemon_viewController] text:DoraemonLocalizedString(@"设备相机错误——无法启用相机，请检查")  okBlock:^{
             
         }];
         return NO;
     }
     
     if (![self isCameraAuthStatusCorrect]) {
-        [DoraemonAlertUtil handleAlertActionWithVC:[self viewController] text:DoraemonLocalizedString(@"相机权限未开启，请到「设置-隐私-相机」中允许DoKit访问您的相机")  okBlock:^{
+        [DoraemonAlertUtil handleAlertActionWithVC:[self doraemon_viewController] text:DoraemonLocalizedString(@"相机权限未开启，请到「设置-隐私-相机」中允许DoKit访问您的相机")  okBlock:^{
             [DoraemonUtil openAppSetting];
         } cancleBlock:^{
             if(self.unopenCameraAuth){

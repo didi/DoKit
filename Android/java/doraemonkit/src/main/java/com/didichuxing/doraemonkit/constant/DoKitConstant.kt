@@ -1,12 +1,16 @@
 package com.didichuxing.doraemonkit.constant
 
-import com.blankj.utilcode.util.PathUtils
+import com.didichuxing.doraemonkit.util.NetworkUtils
+import com.didichuxing.doraemonkit.util.PathUtils
 import com.didichuxing.doraemonkit.BuildConfig
+import com.didichuxing.doraemonkit.DoKitCallBack
 import com.didichuxing.doraemonkit.config.GlobalConfig
+import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.kit.toolpanel.KitWrapItem
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo
+import com.didichuxing.doraemonkit.util.LogHelper
 import java.io.File
 
 /**
@@ -19,12 +23,13 @@ import java.io.File
  * ================================================
  */
 object DoKitConstant {
-
+    const val TAG = "DoKitConstant"
     const val GROUP_ID_PLATFORM = "dk_category_platform"
     const val GROUP_ID_COMM = "dk_category_comms"
     const val GROUP_ID_WEEX = "dk_category_weex"
     const val GROUP_ID_PERFORMANCE = "dk_category_performance"
     const val GROUP_ID_UI = "dk_category_ui"
+    const val GROUP_ID_LBS = "dk_category_lbs"
 
     val SYSTEM_KITS_BAK_PATH: String by lazy {
         "${PathUtils.getInternalAppFilesPath()}${File.separator}system_kit_bak_${BuildConfig.DOKIT_VERSION}.json"
@@ -42,6 +47,9 @@ object DoKitConstant {
     @JvmField
     val GLOBAL_KITS: LinkedHashMap<String, MutableList<KitWrapItem>> = LinkedHashMap()
 
+    /**
+     * 全局系统内置kit
+     */
     @JvmField
     val GLOBAL_SYSTEM_KITS: LinkedHashMap<String, MutableList<KitWrapItem>> = LinkedHashMap()
 
@@ -54,6 +62,11 @@ object DoKitConstant {
      * 平台端文件管理端口号
      */
     var FILE_MANAGER_HTTP_PORT = 8089
+
+    /**
+     * 一机多控长连接端口号
+     */
+    var MC_WS_PORT = 4444
 
     /**
      * 产品id
@@ -112,6 +125,34 @@ object DoKitConstant {
     @JvmField
     var ACTIVITY_LIFECYCLE_INFOS = mutableMapOf<String, ActivityLifecycleInfo>()
 
+    /**
+     * 一机多控自定义拦截器
+     */
+    var MC_INTERCEPT: MCInterceptor? = null
+
+    /**
+     * 全局回调
+     */
+    var CALLBACK: DoKitCallBack? = null
+
+    /**
+     * 一机多控类型
+     */
+    //@JvmField
+    var WS_MODE: WSMode = WSMode.UNKNOW
+
+    /**
+     * Wifi IP 地址
+     */
+    val IP_ADDRESS_BY_WIFI: String
+        get() {
+            try {
+                return NetworkUtils.getIpAddressByWifi()
+            } catch (e: Exception) {
+                LogHelper.e(TAG, "get wifi address error===>${e.message}")
+                return "0.0.0.0"
+            }
+        }
 
     /**
      * 判断接入的是否是滴滴内部的rpc sdk
@@ -121,14 +162,12 @@ object DoKitConstant {
     @JvmStatic
     val isRpcSDK: Boolean
         get() {
-            val isRpcSdk: Boolean
-            isRpcSdk = try {
+            return try {
                 Class.forName("com.didichuxing.doraemonkit.DoraemonKitRpc")
                 true
             } catch (e: ClassNotFoundException) {
                 false
             }
-            return isRpcSdk
         }
 
     /**

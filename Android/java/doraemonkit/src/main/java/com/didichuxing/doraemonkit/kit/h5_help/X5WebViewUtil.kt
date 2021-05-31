@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.h5_help
 
-import com.blankj.utilcode.util.ReflectUtils
+import com.didichuxing.doraemonkit.util.ReflectUtils
 
 /**
  * ================================================

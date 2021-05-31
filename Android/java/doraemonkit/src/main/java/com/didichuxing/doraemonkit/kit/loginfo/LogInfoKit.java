@@ -4,18 +4,15 @@ import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LogInfoConfig;
-import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.kit.core.DokitIntent;
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.google.auto.service.AutoService;
 
 /**
  * Created by wanglikun on 2018/10/9.
  */
-
+@AutoService(AbstractKit.class)
 public class LogInfoKit extends AbstractKit {
-
 
 
     @Override
@@ -30,12 +27,9 @@ public class LogInfoKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        DokitIntent intent = new DokitIntent(LogInfoDokitView.class);
-        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(intent);
+        SimpleDokitStarter.startFloating(LogInfoDokitView.class);
         //开启日志服务
         LogInfoManager.getInstance().start();
-        //startUniversalActivity(context, FragmentIndex.FRAGMENT_LOG_INFO_SETTING);
 
     }
 

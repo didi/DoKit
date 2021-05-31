@@ -6,11 +6,12 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
+import com.google.auto.service.AutoService;
 
 /**
  * Created by wanglikun on 2018/10/10.
  */
-
+@AutoService(AbstractKit.class)
 public class WebDoorKit extends AbstractKit {
 
 
@@ -26,7 +27,8 @@ public class WebDoorKit extends AbstractKit {
 
     @Override
     public void onClick(Context context) {
-        startUniversalActivity(context,FragmentIndex.FRAGMENT_WEB_DOOR);
+
+        startUniversalActivity(WebDoorFragment.class, context, null,true);
     }
 
     @Override

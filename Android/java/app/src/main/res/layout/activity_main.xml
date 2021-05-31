@@ -40,6 +40,12 @@
             android:layout_height="50dp"
             android:text="@string/app_btn_jump"
             android:textAllCaps="false" />
+        <Button
+            android:id="@+id/btn_mc"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/app_btn_mc"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/btn_webview"
@@ -85,10 +91,10 @@
             android:textAllCaps="false" />
 
         <Button
-            android:id="@+id/btn_location_map"
+            android:id="@+id/btn_path_amap"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:text="@string/app_btn_location_map"
+            android:text="@string/app_btn_path_amap"
             android:textAllCaps="false" />
 
 

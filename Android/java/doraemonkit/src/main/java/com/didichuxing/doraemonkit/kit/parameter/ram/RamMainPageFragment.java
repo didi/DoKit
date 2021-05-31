@@ -46,6 +46,7 @@ public class RamMainPageFragment extends AbsParameterFragment {
     @Override
     protected Collection<SettingItem> getSettingItems(List<SettingItem> list) {
         list.add(new SettingItem(R.string.dk_ram_detection_switch, DokitMemoryConfig.RAM_STATUS));
+        list.add(new SettingItem(R.string.dk_item_cache_log, R.mipmap.dk_more_icon));
         return list;
     }
 

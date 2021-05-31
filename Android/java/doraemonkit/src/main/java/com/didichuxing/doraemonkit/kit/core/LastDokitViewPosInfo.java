@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.core;
 
-import com.blankj.utilcode.util.ScreenUtils;
+import com.didichuxing.doraemonkit.util.ScreenUtils;
 
 /**
  * ================================================

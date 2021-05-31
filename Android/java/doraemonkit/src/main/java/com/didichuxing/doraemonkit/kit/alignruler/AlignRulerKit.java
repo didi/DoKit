@@ -2,17 +2,19 @@ package com.didichuxing.doraemonkit.kit.alignruler;
 
 import android.content.Context;
 
-import com.blankj.utilcode.util.ActivityUtils;
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.AlignRulerConfig;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
+import com.google.auto.service.AutoService;
 
 /**
  * Created by wanglikun on 2018/9/19.
  */
-
+@AutoService(AbstractKit.class)
 public class AlignRulerKit extends AbstractKit {
 
 
@@ -30,17 +32,10 @@ public class AlignRulerKit extends AbstractKit {
     public void onClick(Context context) {
         DokitViewManager.getInstance().detachToolPanel();
 
-        DokitIntent pageIntent = new DokitIntent(AlignRulerMarkerDokitView.class);
-        pageIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(pageIntent);
+        SimpleDokitStarter.startFloating(AlignRulerMarkerDokitView.class);
+        SimpleDokitStarter.startFloating(AlignRulerLineDokitView.class);
+        SimpleDokitStarter.startFloating(AlignRulerInfoDokitView.class);
 
-        pageIntent = new DokitIntent(AlignRulerLineDokitView.class);
-        pageIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(pageIntent);
-
-        pageIntent = new DokitIntent(AlignRulerInfoDokitView.class);
-        pageIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE;
-        DokitViewManager.getInstance().attach(pageIntent);
 
         AlignRulerInfoDokitView alignRulerInfoDokitView = (AlignRulerInfoDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), AlignRulerInfoDokitView.class.getSimpleName());
         alignRulerInfoDokitView.setCheckBoxListener(new AlignRulerInfoDokitView.OnCheckedChangeListener() {

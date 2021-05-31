@@ -20,9 +20,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.blankj.utilcode.util.ConvertUtils;
-import com.blankj.utilcode.util.GsonUtils;
-import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.util.ConvertUtils;
+import com.didichuxing.doraemonkit.util.GsonUtils;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
@@ -33,7 +33,7 @@ import com.didichuxing.doraemonkit.kit.network.bean.MockTemplateTitleBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
-import com.didichuxing.doraemonkit.util.DokitUtil;
+import com.didichuxing.doraemonkit.util.DoKitCommUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.volley.VolleyManager;
 import com.didichuxing.doraemonkit.widget.brvah.listener.OnLoadMoreListener;
@@ -70,8 +70,8 @@ public class NetWorkMockFragment extends BaseFragment {
     private FrameLayout mRvWrap;
     private TextView mTvMock, mTvTemplate;
     private ImageView mIvMock, mIvTemplate;
-    private String[] mMenuHeaders = {DokitUtil.getString(R.string.dk_data_mock_group),
-            DokitUtil.getString(R.string.dk_data_mock_switch_status)};
+    private String[] mMenuHeaders = {DoKitCommUtil.getString(R.string.dk_data_mock_group),
+            DoKitCommUtil.getString(R.string.dk_data_mock_switch_status)};
 
     private DkDropDownMenu mDropDownMenu;
     /**
@@ -80,9 +80,9 @@ public class NetWorkMockFragment extends BaseFragment {
     private ListDropDownAdapter mGroupMenuAdapter, mSwitchMenuAdapter;
 
 
-    private String[] mSwitchMenus = {DokitUtil.getString(R.string.dk_data_mock_switch_all),
-            DokitUtil.getString(R.string.dk_data_mock_switch_opened),
-            DokitUtil.getString(R.string.dk_data_mock_switch_closed)};
+    private String[] mSwitchMenus = {DoKitCommUtil.getString(R.string.dk_data_mock_switch_all),
+            DoKitCommUtil.getString(R.string.dk_data_mock_switch_opened),
+            DoKitCommUtil.getString(R.string.dk_data_mock_switch_closed)};
     private List<View> popupViews = new ArrayList<>();
 
     private FilterConditionBean mInterceptFilterBean, mTemplateFilterBean;
@@ -116,7 +116,7 @@ public class NetWorkMockFragment extends BaseFragment {
             }
         });
         if (TextUtils.isEmpty(projectId)) {
-            ToastUtils.showLong(DokitUtil.getString(R.string.dk_data_mock_plugin_toast));
+            ToastUtils.showLong(DoKitCommUtil.getString(R.string.dk_data_mock_plugin_toast));
             return;
         }
         mEditText = findViewById(R.id.edittext);
@@ -281,7 +281,7 @@ public class NetWorkMockFragment extends BaseFragment {
             }
 
             //设置数据条数
-            mHomeTitleBar.setTitle(DokitUtil.getString(R.string.dk_kit_network_mock) + "(" + interceptTitleBeans.size() + ")");
+            mHomeTitleBar.setTitle(DoKitCommUtil.getString(R.string.dk_kit_network_mock) + "(" + interceptTitleBeans.size() + ")");
         } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
             List<MockTemplateTitleBean> templateTitleBeans = new ArrayList<>();
             for (MockTemplateTitleBean templateTitleBean : mTemplateTitleBeans) {
@@ -337,7 +337,7 @@ public class NetWorkMockFragment extends BaseFragment {
                 mTemplateApiAdapter.setEmptyView(R.layout.dk_rv_empty_layout2);
             }
             //设置数据条数
-            mHomeTitleBar.setTitle(DokitUtil.getString(R.string.dk_kit_network_mock) + "(" + templateTitleBeans.size() + ")");
+            mHomeTitleBar.setTitle(DoKitCommUtil.getString(R.string.dk_kit_network_mock) + "(" + templateTitleBeans.size() + ")");
         }
     }
 
@@ -508,7 +508,7 @@ public class NetWorkMockFragment extends BaseFragment {
      */
     private void initMenus(List<MockInterceptTitleBean> mockInterceptTitleBeans) {
         final List<String> groups = new ArrayList<>();
-        groups.add(DokitUtil.getString(R.string.dk_data_mock_group));
+        groups.add(DoKitCommUtil.getString(R.string.dk_data_mock_group));
         for (MockInterceptTitleBean mockInterceptTitleBean : mockInterceptTitleBeans) {
             MockInterceptApiBean mockInterceptApiBean = (MockInterceptApiBean) mockInterceptTitleBean.getChildNode().get(0);
             if (!groups.contains(mockInterceptApiBean.getGroup())) {
@@ -529,10 +529,10 @@ public class NetWorkMockFragment extends BaseFragment {
                 //保存删选状态
                 if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
                     mInterceptFilterBean.setGroupIndex(position);
-                    mStrInterceptGroup = groups.get(position).equals(DokitUtil.getString(R.string.dk_data_mock_group)) ? "" : groups.get(position);
+                    mStrInterceptGroup = groups.get(position).equals(DoKitCommUtil.getString(R.string.dk_data_mock_group)) ? "" : groups.get(position);
                 } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
                     mTemplateFilterBean.setGroupIndex(position);
-                    mStrTemplateGroup = groups.get(position).equals(DokitUtil.getString(R.string.dk_data_mock_group)) ? "" : groups.get(position);
+                    mStrTemplateGroup = groups.get(position).equals(DoKitCommUtil.getString(R.string.dk_data_mock_group)) ? "" : groups.get(position);
                 }
 
                 filterAndNotifyData();
@@ -615,7 +615,7 @@ public class NetWorkMockFragment extends BaseFragment {
                             List<MockInterceptTitleBean> mockInterceptTitleBeans = dealInterceptResponseData(initMockInterceptResponse);
                             initMenus(mockInterceptTitleBeans);
                             attachInterceptRv(mockInterceptTitleBeans);
-                            mHomeTitleBar.setTitle(DokitUtil.getString(R.string.dk_kit_network_mock) + "(" + mockInterceptTitleBeans.size() + ")");
+                            mHomeTitleBar.setTitle(DoKitCommUtil.getString(R.string.dk_kit_network_mock) + "(" + mockInterceptTitleBeans.size() + ")");
                         } else {
                             MockApiResponseBean AllMockApiResponseBean = GsonUtils.fromJson(initMockInterceptResponse, MockApiResponseBean.class);
                             initResponseApis(AllMockApiResponseBean.getData().getDatalist().size() / pageSize + 1);
@@ -638,7 +638,7 @@ public class NetWorkMockFragment extends BaseFragment {
                         if (lists.size() < pageSize) {
                             List<MockTemplateTitleBean> mockInterceptTitleBeans = dealTemplateResponseData(initTemplateInterceptResponse);
                             attachTemplateRv(mockInterceptTitleBeans);
-                            mHomeTitleBar.setTitle(DokitUtil.getString(R.string.dk_kit_network_mock) + "(" + mockInterceptTitleBeans.size() + ")");
+                            mHomeTitleBar.setTitle(DoKitCommUtil.getString(R.string.dk_kit_network_mock) + "(" + mockInterceptTitleBeans.size() + ")");
                         } else {
                             MockApiResponseBean AllMockApiResponseBean = GsonUtils.fromJson(initTemplateInterceptResponse, MockApiResponseBean.class);
                             initResponseApis(AllMockApiResponseBean.getData().getDatalist().size() / pageSize + 1);
@@ -649,10 +649,10 @@ public class NetWorkMockFragment extends BaseFragment {
                     e.printStackTrace();
                     if (mSelectedTableIndex == BOTTOM_TAB_INDEX_0) {
                         mInterceptRefreshLayout.refreshComplete();
-                        mHomeTitleBar.setTitle(DokitUtil.getString(R.string.dk_kit_network_mock) + "(0)");
+                        mHomeTitleBar.setTitle(DoKitCommUtil.getString(R.string.dk_kit_network_mock) + "(0)");
                     } else if (mSelectedTableIndex == BOTTOM_TAB_INDEX_1) {
                         mTemplateRefreshLayout.refreshComplete();
-                        mHomeTitleBar.setTitle(DokitUtil.getString(R.string.dk_kit_network_mock) + "(0)");
+                        mHomeTitleBar.setTitle(DoKitCommUtil.getString(R.string.dk_kit_network_mock) + "(0)");
                     }
                 }
             }
@@ -959,7 +959,7 @@ public class NetWorkMockFragment extends BaseFragment {
                 mSelectedTableIndex = BOTTOM_TAB_INDEX_0;
                 //设置数据条数
                 if (mInterceptApiAdapter != null) {
-                    mHomeTitleBar.setTitle(DokitUtil.getString(R.string.dk_kit_network_mock) + "(" + mInterceptApiAdapter.getData().size() + ")");
+                    mHomeTitleBar.setTitle(DoKitCommUtil.getString(R.string.dk_kit_network_mock) + "(" + mInterceptApiAdapter.getData().size() + ")");
                 }
                 break;
             case 1:
@@ -976,7 +976,7 @@ public class NetWorkMockFragment extends BaseFragment {
                 //设置数据条数
                 //设置数据条数
                 if (mTemplateApiAdapter != null) {
-                    mHomeTitleBar.setTitle(DokitUtil.getString(R.string.dk_kit_network_mock) + "(" + mTemplateApiAdapter.getData().size() + ")");
+                    mHomeTitleBar.setTitle(DoKitCommUtil.getString(R.string.dk_kit_network_mock) + "(" + mTemplateApiAdapter.getData().size() + ")");
                 }
                 break;
             default:
