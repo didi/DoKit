@@ -1,0 +1,40 @@
+<!--dist/components/looklogs/looklogs.wxml-->
+<view class="log-container">
+    <view class="mask" wx:if="{{isShowMask}}" bindtap="closeAll"></view>
+    <view class="header">
+        <view class="log-toggle">
+            <text class="log-toggle-text">日志开关</text>
+            <switch color="#337CC4" checked="{{lookLog}}" bindchange="toggleLookLog" />
+        </view>
+        <view class="log-manage {{ lookLog ? 'disabled':'' }}" bindtap="openManageMenu">
+            <image class="log-manage-img" src="{{ img.moreicon }}" />
+        </view>
+        <view wx:if="{{isShowManage}}" class="log-manage-list">
+            <view class="arrow-top"></view>
+            <view class="manage-item" bindtap="clearAll"><image class="manage-item-img" src="{{ img.clearallicon }}" />清除全部</view>
+        </view>
+    </view>
+    <input class="search-input" confirm-type="search" bindinput="searchLog" placeholder="请输入要搜索的关键词或正则表达式"/>
+    <view class="list-wrap">
+      <view class="table-title">
+        <block wx:for="{{logKinds}}" wx:key="index">
+          <view class="title-item {{currentKind === item.type ? 'touched': ''}}" data-type="{{item.type}}" bindtap="chooseList">{{ item.kind }}</view>
+        </block>
+        </view>
+    <scroll-view class='list-scroll' scroll-y style="height: 100%">
+      <view>
+        <view wx:for="{{logs[currentKind]}}" wx:key= "index">
+          <view class="item-wrap">
+            <view class="list-item" data-index="{{index}}" catchtap="onExpand">
+              <view class="item-name">{{item.time+' '+item.para}}</view>
+            </view>
+          </view>
+          <view class="item-detail {{ logs[currentKind][index].hidden ? 'hidden' : '' }}" >
+            <text>{{item.para}}</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+<back bindreturn="onGoBack"></back>
