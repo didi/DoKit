@@ -18,6 +18,8 @@
 ## Build generated
 build/
 DerivedData/
+Web/dist
+Web/packages/*/dist/
 
 ## Various settings
 *.pbxuser
