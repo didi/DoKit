@@ -1,5 +1,4 @@
 {
-  "navigationBarTitleText": "数据Mock",
   "component": true,
   "usingComponents": {
     "back": "../../components/back/back"

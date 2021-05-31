@@ -8,6 +8,8 @@
     "storage": "../components/storage/storage",
     "h5door": "../components/h5door/h5door",
     "httpinjector": "../components/httpinjector/httpinjector",
-    "apimock": "../components/apimock/apimock"
+    "apimock": "../components/apimock/apimock",
+    "looklogs" : "../components/looklogs/looklogs",
+    "pagedoor":"../components/pagedoor/pagedoor"
   }
 }
