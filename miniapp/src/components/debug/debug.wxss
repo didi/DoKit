@@ -29,7 +29,7 @@
     text-align: center;
     margin-right:75rpx;
 }
-.card-item:nth-child(4){
+.card-item:nth-child(4n+4){
     margin-right:0;
 }
 .debug-item-image {

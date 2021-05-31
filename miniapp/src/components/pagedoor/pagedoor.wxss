@@ -1,0 +1,74 @@
+.pagedoor-page {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height:100vh;
+  background-color: white;
+  z-index: 9998;
+}
+.pagedoor-page .url-box{
+  height: 358rpx;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+.pagedoor-page .area-box{
+  width: 98%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  border: 1px solid #efefef;
+  height: 358rpx;
+  position: relative;
+}
+.url-box .url-paceholder-text{
+  font-size: 32rpx;
+  color: #BEBEBE;
+}
+.pagedoor-page .go-page-button{
+  margin-top: 200rpx;
+  margin-bottom: 100rpx;
+  width: 600rpx;
+  height: 100rpx;
+  background: #337CC4;
+  border: 0;
+  color:#ffffff;
+}
+.pagedoor-page .radio-group{
+  margin: 20rpx 10rpx;
+}
+.panel-box{
+  margin-bottom: 40rpx ;
+}
+.big-label{
+  font-size: 40rpx;
+  color:#337CC4;
+  margin: 20rpx 0;
+}
+.parm-list{
+  display: flex;
+  justify-content: space-around;
+}
+.parm-box{
+  display: flex;
+  justify-content: center;
+  margin: 10rpx 0;
+}
+.input-box{
+  background-color:whitesmoke;
+  width: 250rpx;
+  border: 1rpx solid black;
+}
+.pagedoor-button{
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  margin:40rpx auto;
+  width: 200rpx;
+  height: 70rpx;
+  color:whitesmoke;
+  background-color:#337CC4;
+}

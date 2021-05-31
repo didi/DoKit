@@ -53,6 +53,11 @@ Component({
                             "title": "数据模拟",
                             "image": img.apimockicon,
                             "type": "apimock"
+                        },
+                        {
+                            "title": "page任意门",
+                            "image": img.h5dooricon,
+                            "type": "pagedoor"
                         }
                     ]
                 }
