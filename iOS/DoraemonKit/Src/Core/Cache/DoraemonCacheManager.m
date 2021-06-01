@@ -415,29 +415,7 @@ static NSString * const kDoraemonHealthStartKey = @"doraemon_health_start_key";
         }
         [mutableDataArray addObjectsFromArray:[self kitShowManagerData]];
     }else{
-        NSMutableDictionary *mutableDic = [[NSMutableDictionary alloc] init];
-        for (NSDictionary *dic in dataArray) {
-            NSString *moduleName = dic[@"moduleName"];
-            if (moduleName && ([moduleName isEqualToString:DoraemonLocalizedString(@"常用工具")] ||
-                               [moduleName isEqualToString:DoraemonLocalizedString(@"性能检测")] ||
-                               [moduleName isEqualToString:DoraemonLocalizedString(@"视觉工具")] ||
-                               [moduleName isEqualToString:DoraemonLocalizedString(@"平台工具")] ||
-                               [moduleName isEqualToString:@"Weex"])) {
-                [mutableDataArray addObject:dic];
-                continue;
-            }
-            
-            NSArray *pluginArray = dic[@"pluginArray"];
-            NSMutableArray *mutablepluginArray = [[NSMutableArray alloc] init];
-            for (NSDictionary *subDic in pluginArray){
-                [mutablepluginArray addObject:subDic.mutableCopy];
-            }
-            [mutableDic setValue:dic[@"moduleName"] forKey:@"moduleName"];
-            [mutableDic setValue:mutablepluginArray forKey:@"pluginArray"];
-        }
-        if (mutableDic.allKeys.count) {
-            [mutableDataArray insertObject:mutableDic atIndex:0];
-        }
+        mutableDataArray = dataArray;
     }
     
     return mutableDataArray;

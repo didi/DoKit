@@ -1,4 +1,3 @@
-
 platform:ios,’9.0’
 
 #use_frameworks!
@@ -25,8 +24,8 @@ target :'DoraemonKitDemo' do
   pod 'SDWebImage'
   pod 'SocketRocket', '~> 0.5'
   pod 'SDWebImageWebPCoder'
-  pod 'FBRetainCycleDetector', :git => 'https://github.com/facebook/FBRetainCycleDetector.git'
+  pod 'FBRetainCycleDetector', :git => 'git://github.com/facebook/FBRetainCycleDetector.git'
   #pod 'fishhook', :git => 'git@github.com:facebook/fishhook.git', :configurations => ['Debug']
-  pod 'YYDebugDatabase', :git => 'https://github.com/y500/YYDebugDatabase.git'
+  pod 'YYDebugDatabase', :git => 'git://github.com/y500/YYDebugDatabase.git'
   #pod 'YYDebugDatabase', '2.'
 end

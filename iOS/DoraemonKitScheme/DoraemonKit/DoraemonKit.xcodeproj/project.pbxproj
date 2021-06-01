@@ -503,6 +503,7 @@
 		0AE7ED74242F3CD600CDE16D /* DoraemonThreadSafeMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AE7ED6E242F3CD600CDE16D /* DoraemonThreadSafeMutableArray.m */; };
 		0AE7ED76242F3CDD00CDE16D /* doraemon_fishhook.c in Sources */ = {isa = PBXBuildFile; fileRef = 0AE7ED75242F3CDD00CDE16D /* doraemon_fishhook.c */; };
 		0AE7ED78242F3CE100CDE16D /* doraemon_fishhook.h in Headers */ = {isa = PBXBuildFile; fileRef = 0AE7ED77242F3CE000CDE16D /* doraemon_fishhook.h */; };
+		C4DF8A9726089218003FE5CF /* DoraemonKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C4DF8A9626089218003FE5CF /* DoraemonKit.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1017,6 +1018,7 @@
 		0AE7ED6E242F3CD600CDE16D /* DoraemonThreadSafeMutableArray.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DoraemonThreadSafeMutableArray.m; path = ../../DoraemonKit/Src/Core/Util/DoraemonThreadSafeMutableArray.m; sourceTree = "<group>"; };
 		0AE7ED75242F3CDD00CDE16D /* doraemon_fishhook.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = doraemon_fishhook.c; path = ../../DoraemonKit/Src/Core/Util/fishhook/doraemon_fishhook.c; sourceTree = "<group>"; };
 		0AE7ED77242F3CE000CDE16D /* doraemon_fishhook.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = doraemon_fishhook.h; path = ../../DoraemonKit/Src/Core/Util/fishhook/doraemon_fishhook.h; sourceTree = "<group>"; };
+		C4DF8A9626089218003FE5CF /* DoraemonKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DoraemonKit.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1041,6 +1043,7 @@
 		0A341657236817DC006F4E55 = {
 			isa = PBXGroup;
 			children = (
+				C4DF8A9626089218003FE5CF /* DoraemonKit.bundle */,
 				0AE7ED77242F3CE000CDE16D /* doraemon_fishhook.h */,
 				0AE7ED75242F3CDD00CDE16D /* doraemon_fishhook.c */,
 				0AE7ED6D242F3CD600CDE16D /* Doraemoni18NUtil.m */,
@@ -1908,6 +1911,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0A341BF723684142006F4E55 /* DoraemonKit.bundle in Resources */,
+				C4DF8A9726089218003FE5CF /* DoraemonKit.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,6 +17,9 @@
 		0AA262E1240F8AC400BF144F /* DoraemonDemoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA262E0240F8AC400BF144F /* DoraemonDemoBaseViewController.m */; };
 		0AC7509C246A8EE100F87363 /* WebpDemo.webp in Resources */ = {isa = PBXBuildFile; fileRef = 0AC7509B246A8B4900F87363 /* WebpDemo.webp */; };
 		0AFBC55223BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFBC55023BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m */; };
+		3051D448266377CA00D832CD /* RelativePositionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3051D446266377C900D832CD /* RelativePositionManager.m */; };
+		3051D449266377CA00D832CD /* RelativePositionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3051D447266377CA00D832CD /* RelativePositionView.m */; };
+		3051D44C266379D100D832CD /* RelativePositionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3051D44B266379D100D832CD /* RelativePositionPlugin.m */; };
 		B65C2263AF96F94C50A222DF /* libPods-DoraemonKitDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 29E964A2D92411C9DC5482EF /* libPods-DoraemonKitDemo.a */; };
 		DA0C6F331FDEBC2E00F43588 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA0C6F311FDEBC2E00F43588 /* LaunchScreen.storyboard */; };
 		DA0C6F3A1FDEBE3800F43588 /* TestPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = DA0C6F391FDEBE3800F43588 /* TestPlugin.m */; };
@@ -69,6 +72,12 @@
 		0AFBC55023BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoNetTableViewCell.m; sourceTree = "<group>"; };
 		0AFBC55123BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoNetTableViewCell.h; sourceTree = "<group>"; };
 		29E964A2D92411C9DC5482EF /* libPods-DoraemonKitDemo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DoraemonKitDemo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3051D444266377C700D832CD /* RelativePositionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelativePositionView.h; sourceTree = "<group>"; };
+		3051D445266377C800D832CD /* RelativePositionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RelativePositionManager.h; sourceTree = "<group>"; };
+		3051D446266377C900D832CD /* RelativePositionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelativePositionManager.m; sourceTree = "<group>"; };
+		3051D447266377CA00D832CD /* RelativePositionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelativePositionView.m; sourceTree = "<group>"; };
+		3051D44A266379CA00D832CD /* RelativePositionPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RelativePositionPlugin.h; sourceTree = "<group>"; };
+		3051D44B266379D100D832CD /* RelativePositionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelativePositionPlugin.m; sourceTree = "<group>"; };
 		DA0C6F321FDEBC2E00F43588 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DA0C6F381FDEBE3800F43588 /* TestPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestPlugin.h; sourceTree = "<group>"; };
 		DA0C6F391FDEBE3800F43588 /* TestPlugin.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestPlugin.m; sourceTree = "<group>"; };
@@ -176,6 +185,17 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		3051D4402663773F00D832CD /* Function */ = {
+			isa = PBXGroup;
+			children = (
+				3051D445266377C800D832CD /* RelativePositionManager.h */,
+				3051D446266377C900D832CD /* RelativePositionManager.m */,
+				3051D444266377C700D832CD /* RelativePositionView.h */,
+				3051D447266377CA00D832CD /* RelativePositionView.m */,
+			);
+			path = Function;
+			sourceTree = "<group>";
+		};
 		6BF226158409D1338AF520EC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -200,6 +220,9 @@
 				DA0C6F391FDEBE3800F43588 /* TestPlugin.m */,
 				DAD46BD81FE6B7AF00E3E7BC /* StartPlugin.h */,
 				DAD46BD91FE6B7AF00E3E7BC /* StartPlugin.m */,
+				3051D44A266379CA00D832CD /* RelativePositionPlugin.h */,
+				3051D44B266379D100D832CD /* RelativePositionPlugin.m */,
+				3051D4402663773F00D832CD /* Function */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -568,11 +591,14 @@
 				DAC3FA7922B8E0EE00871E5C /* DoraemonDemoImageShowViewController.m in Sources */,
 				DAC8A87C1FDE2C3B00F03E6F /* DoKitAppDelegate.m in Sources */,
 				DAFE052821BD4A4D00F97A59 /* DoraemonDemoLoggerViewController.m in Sources */,
+				3051D44C266379D100D832CD /* RelativePositionPlugin.m in Sources */,
 				DAFE052E21BD4A4D00F97A59 /* DoraemonDemoMockGPSViewController.m in Sources */,
 				DAFE052F21BD4A4D00F97A59 /* DoraemonDemoPerformanceViewController.m in Sources */,
 				0A6C9CED2423219400BAEF5E /* DoraemonDemoURLProtocol2.m in Sources */,
+				3051D448266377CA00D832CD /* RelativePositionManager.m in Sources */,
 				0A53998B2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m in Sources */,
 				DAFE052521BD4A4D00F97A59 /* DoraemonDemoUIViewController.m in Sources */,
+				3051D449266377CA00D832CD /* RelativePositionView.m in Sources */,
 				DAD46BDA1FE6B7AF00E3E7BC /* StartPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -721,7 +747,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = GHY772XDU7;
+				DEVELOPMENT_TEAM = T8N8L5G8JJ;
 				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DoraemonKitDemo/DoraemonKitDemo-PrefixHeader.pch";
@@ -742,7 +768,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = GHY772XDU7;
+				DEVELOPMENT_TEAM = T8N8L5G8JJ;
 				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DoraemonKitDemo/DoraemonKitDemo-PrefixHeader.pch";

@@ -152,7 +152,7 @@ static CGFloat const kViewCheckSize = 62;
         //获取属性名
         UIView *tempView = view;
         NSString *ivarName = nil;
-        while(tempView != nil && tempView != self.doraemon_viewController.view) {
+        while(tempView != nil && tempView != self.viewController.view) {
             ivarName =  [self nameWithInstance:view inTarger:tempView.superview];
             if (ivarName) {
                 break;
@@ -160,11 +160,11 @@ static CGFloat const kViewCheckSize = 62;
             tempView = tempView.superview;
         }
         if (!ivarName) {
-            ivarName = [self nameWithInstance:view inTarger:self.doraemon_viewController.view];
+            ivarName = [self nameWithInstance:view inTarger:self.viewController.view];
         }
         
         if (!ivarName) {
-            ivarName = [self nameWithInstance:view inTarger:view.doraemon_viewController];
+            ivarName = [self nameWithInstance:view inTarger:view.viewController];
         }
         
         NSMutableString *showString = [[NSMutableString alloc] init];
