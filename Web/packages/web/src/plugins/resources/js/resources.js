@@ -58,7 +58,7 @@ export const getResourceEntries = function(callback) {
         arr.forEach((entry) => {
             let entryType = ResourceEntriesMap['other']
             Resource_METHODS.forEach((type) => {
-                if (entry.initiatorType === type || (type === "img" && entry.initiatorType === "css" && isImg(entry.name)) || (type === "css" && isCss(entry.name))) {
+                if (entry.initiatorType === type || (type === "img" && entry.initiatorType === "css" && isImg(entry.name)) || (type === "css" && entry.initiatorType === "link" && isCss(entry.name))) {
                     entryType = ResourceEntriesMap[type];
                 }
             })
