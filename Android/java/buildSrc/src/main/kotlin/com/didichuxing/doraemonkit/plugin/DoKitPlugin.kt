@@ -130,31 +130,7 @@ class DoKitPlugin : Plugin<Project> {
                             androidExt.applicationVariants.forEach { variant ->
                                 DoKitPluginConfigProcessor(project).process(variant)
                             }
-                            if (DoKitExtUtil.THIRD_LIBINFO_SWITCH) {
-                                androidExt.applicationVariants.forEach { variant ->
-                                    //遍历三方库
-                                    val dependencies = variant.dependencies
-                                    DoKitExtUtil.THIRD_LIB_INFOS.clear()
-                                    for (artifactResult: ResolvedArtifactResult in dependencies) {
-                                        //println("三方库信息===>${artifactResult.variant.displayName}____${artifactResult.file.toString()}")
-                                        val paths = artifactResult.file.toString().split("/")
-                                        var fileName = ""
-                                        if (paths.size >= 4) {
-                                            fileName =
-                                                "${paths[paths.size - 4]}/${paths[paths.size - 1]}"
-                                        } else {
-                                            fileName = paths[paths.size - 1]
-                                        }
-                                        val thirdLibInfo =
-                                            ThirdLibInfo(
-                                                fileName,
-                                                artifactResult.file.length(),
-                                                artifactResult.variant.displayName
-                                            )
-                                        DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
-                                    }
-                                }
-                            }
+
                         }
 
 

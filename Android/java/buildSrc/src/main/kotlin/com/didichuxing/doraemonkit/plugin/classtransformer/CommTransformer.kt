@@ -637,8 +637,7 @@ class CommTransformer : AbsClassTransformer() {
             add(MethodInsnNode(INVOKESPECIAL, "java/util/HashMap", "<init>", "()V", false))
             //保存变量
             add(VarInsnNode(ASTORE, 0))
-
-            for (thirdLibInfo in DoKitExtUtil.THIRD_LIB_INFOS) {
+            DoKitExtUtil.THIRD_LIB_INFOS.forEach { thirdLibInfo ->
                 add(VarInsnNode(ALOAD, 0))
                 add(LdcInsnNode(thirdLibInfo.variant))
                 add(LdcInsnNode(thirdLibInfo.fileSize.toString()))
@@ -654,8 +653,9 @@ class CommTransformer : AbsClassTransformer() {
                 )
                 add(InsnNode(POP))
             }
-//
-//            //将HashMap注入到DokitPluginConfig中
+
+
+            //将HashMap注入到DokitPluginConfig中
             add(VarInsnNode(ALOAD, 0))
             add(
                 MethodInsnNode(

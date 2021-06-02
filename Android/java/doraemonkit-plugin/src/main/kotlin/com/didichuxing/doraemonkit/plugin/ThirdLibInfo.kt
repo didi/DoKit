@@ -9,4 +9,14 @@ package com.didichuxing.doraemonkit.plugin
  * 修订历史：
  * ================================================
  */
-data class ThirdLibInfo(val name: String, val fileSize: Long, val variant : String)
+//data class ThirdLibInfo(
+//    val groupId: String,
+//    val artifactId: String,
+//    val version: String,
+//    val fileName: String,
+//    val fileSize: Long,
+//    val variant: String
+//)
+
+data class ThirdLibInfo(val variant: String, val fileSize: Long)
+

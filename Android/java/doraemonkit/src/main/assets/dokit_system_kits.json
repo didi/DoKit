@@ -88,9 +88,9 @@
         "innerKitId": "dokit_sdk_lbs_ck_pos_adjust"
       },
       {
-        "allClassName": "com.didichuxing.doraemonkit.kit.lbs.route.FloatGpsMockRouteMockKit",
+        "allClassName": "com.didichuxing.doraemonkit.kit.lbs.route.RealNavMockKit",
         "checked": true,
-        "innerKitId": "dokit_sdk_lbs_ck_route"
+        "innerKitId": "dokit_sdk_lbs_ck_nav"
       }
     ]
   },

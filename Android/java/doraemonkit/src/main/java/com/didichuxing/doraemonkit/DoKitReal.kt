@@ -160,6 +160,8 @@ object DoKitReal {
 
         //上传埋点
         DataPickManager.getInstance().postData()
+
+
     }
 
 
@@ -507,10 +509,9 @@ object DoKitReal {
     /**
      * 设置扩展网络拦截器的代理对象
      */
-    fun setNetExtInterceptor(extInterceptorProxy: DokitExtInterceptor.DokitExtInterceptorProxy){
+    fun setNetExtInterceptor(extInterceptorProxy: DokitExtInterceptor.DokitExtInterceptorProxy) {
         DokitExtInterceptor.dokitExtInterceptorProxy = extInterceptorProxy
     }
-
 
 
     /**
