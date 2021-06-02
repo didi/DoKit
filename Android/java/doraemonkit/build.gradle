@@ -63,6 +63,7 @@ dependencies {
     //noinspection GradleCompatible
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'junit:junit:4.12'
+    implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["lifecycle-comm"]
     implementation rootProject.ext.dependencies["flexbox"]
     implementation rootProject.ext.dependencies["constraintLayout"]
@@ -118,6 +119,7 @@ dependencies {
     compileOnly rootProject.ext.dependencies["amap_navi"]
     //腾讯地图定位
     compileOnly rootProject.ext.dependencies["tencent_location"]
+//    compileOnly rootProject.ext.dependencies["tencent_map"]
     //百度地图定位
     compileOnly files('libs/BaiduLBS_Android.jar')
 

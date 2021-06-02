@@ -3,7 +3,9 @@ package com.didichuxing.doraemonkit.aop;
 import com.didichuxing.doraemonkit.util.LogHelper;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 /**
  * ================================================
@@ -17,6 +19,10 @@ import java.util.Map;
 public class DokitThirdLibInfo {
     private static final String TAG = "DokitThirdLibInfo";
     public static Map<String, String> THIRD_LIB_INFOS = new HashMap<>();
+    /**
+     * key===>groupId:artifactId
+     */
+    public static Map<String, String> THIRD_LIB_INFOS_SIMPLE = new HashMap<>();
 
 
     /**
@@ -25,7 +31,20 @@ public class DokitThirdLibInfo {
     public static void inject(Map config) {
         //LogHelper.i(TAG, "map====>" + config);
         THIRD_LIB_INFOS = config;
+        THIRD_LIB_INFOS_SIMPLE.clear();
+        Iterator entries = THIRD_LIB_INFOS.entrySet().iterator();
+        while (entries.hasNext()) {
+            Map.Entry entry = (Map.Entry) entries.next();
+            String key = (String) entry.getKey();
+            String[] keys = key.split(":");
+            if (keys.length == 3) {
+                String groupId = keys[0];
+                String artifactId = keys[1];
+                String newKey = groupId + ":" + artifactId;
+                String value = (String) entry.getValue();
+                THIRD_LIB_INFOS_SIMPLE.put(newKey, value);
+            }
+
+        }
     }
-
-
 }

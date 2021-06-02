@@ -1,20 +1,22 @@
 package com.didichuxing.doraemonkit.kit.lbs.route
 
-import android.animation.ObjectAnimator
 import android.content.Context
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.SeekBar
+import android.widget.TextView
 import androidx.core.view.children
 import com.amap.api.navi.AMapNavi
-import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager
+import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 import kotlin.math.ceil
 
@@ -28,7 +30,7 @@ import kotlin.math.ceil
  * 修订历史：
  * ================================================
  */
-class RouteKitView : AbsDokitView() {
+class AMapRealNavMockView : AbsDokitView() {
     companion object {
         const val TAG = "RouteKitView"
     }

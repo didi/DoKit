@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.extension
 
+import com.didichuxing.doraemonkit.aop.DokitThirdLibInfo
 import com.didichuxing.doraemonkit.util.LogHelper
 
 /**
@@ -17,7 +18,6 @@ import com.didichuxing.doraemonkit.util.LogHelper
 val err = fun(a: String, b: String) {
 
 }
-
 
 
 /**
@@ -48,5 +48,17 @@ fun Boolean?.isFalse(
     }
     if (this == false) {
         action()
+    }
+}
+
+/**
+ * 查找三方库时候存在
+ */
+fun hasThirdLib(groupId: String, artifactId: String): Boolean {
+    return try {
+        val value = DokitThirdLibInfo.THIRD_LIB_INFOS_SIMPLE["${groupId}:${artifactId}"]
+        value != null
+    } catch (e: Exception) {
+        false
     }
 }

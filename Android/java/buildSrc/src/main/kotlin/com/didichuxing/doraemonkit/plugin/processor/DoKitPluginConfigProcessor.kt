@@ -3,10 +3,9 @@ package com.didichuxing.doraemonkit.plugin.processor
 import com.android.build.gradle.AppExtension
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariant
-import com.didichuxing.doraemonkit.plugin.DoKitExtUtil
+import com.didichuxing.doraemonkit.plugin.*
 import com.didichuxing.doraemonkit.plugin.extension.DoKitExt
-import com.didichuxing.doraemonkit.plugin.isRelease
-import com.didichuxing.doraemonkit.plugin.println
+import com.didiglobal.booster.gradle.dependencies
 import com.didiglobal.booster.gradle.getAndroid
 import com.didiglobal.booster.gradle.project
 import com.didiglobal.booster.task.spi.VariantProcessor
@@ -14,6 +13,7 @@ import com.didiglobal.booster.transform.ArtifactManager
 import com.didiglobal.booster.transform.artifacts
 import com.didiglobal.booster.transform.util.ComponentHandler
 import org.gradle.api.Project
+import org.gradle.api.artifacts.result.ResolvedArtifactResult
 import java.lang.NullPointerException
 import javax.xml.parsers.SAXParserFactory
 
@@ -34,6 +34,76 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
 
         if (variant.isRelease()) {
             return
+        }
+
+        //统计三方库信息
+        if (DoKitExtUtil.THIRD_LIBINFO_SWITCH) {
+            //遍历三方库
+            val dependencies = variant.dependencies
+            DoKitExtUtil.THIRD_LIB_INFOS.clear()
+            for (artifactResult: ResolvedArtifactResult in dependencies) {
+                //println("三方库信息===>${artifactResult.variant.displayName}____${artifactResult.file.toString()}")
+                ///Users/didi/project/android/dokit_github/DoraemonKit/Android/java/app/libs/BaiduLBS_Android.jar
+                ///Users/didi/.gradle/caches/modules-2/files-2.1/androidx.activity/activity-ktx/1.2.0/c16aac66e6c4617b01118ab2509f009bb7919b3b/activity-ktx-1.2.0.aar
+                //println("三方库信息===>${artifactResult.variant.displayName}____${artifactResult.file.toString()}")
+//                "artifactResult===>${artifactResult.file}|${artifactResult.variant}|${artifactResult.id}|${artifactResult.type}".println()
+                //"artifactResult===>${artifactResult.variant.owner}|${artifactResult.variant.attributes}|${artifactResult.variant.displayName}|${artifactResult.variant.capabilities}|${artifactResult.variant.externalVariant}".println()
+                "artifactResult===>${artifactResult.variant.displayName}".println()
+                val variants = artifactResult.variant.displayName.split(" ")
+                var thirdLibInfo: ThirdLibInfo? = null
+                if (variants.size == 3) {
+                    thirdLibInfo = ThirdLibInfo(
+                        variants[0],
+                        artifactResult.file.length()
+                    )
+                    DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
+                } else if (variants.size == 4) {
+                    thirdLibInfo = ThirdLibInfo(
+                        "porject ${variants[1]}",
+                        artifactResult.file.length()
+                    )
+                    DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
+                }
+
+
+                //                val paths = artifactResult.file.toString().split("/")
+//                var fileName: String = ""
+//                var groupId: String = ""
+//                var artifactId: String = ""
+//                var version: String = ""
+//                if (artifactResult.file.toString().contains(".gradle/caches")) {
+//                    if (paths.size >= 5) {
+//                        groupId = paths[paths.size - 5]
+//                        artifactId = paths[paths.size - 4]
+//                        version = paths[paths.size - 3]
+//                        fileName =
+//                            "$groupId:$artifactId:$version"
+//                    } else {
+//                        fileName = paths[paths.size - 1]
+//                    }
+//                } else {
+//                    fileName = paths[paths.size - 1]
+//                }
+//
+//                val thirdLibInfo =
+//                    ThirdLibInfo(
+//                        groupId,
+//                        artifactId,
+//                        version,
+//                        fileName,
+//                        artifactResult.file.length(),
+//                        artifactResult.variant.displayName
+//                    )
+//                val key = "$groupId:$artifactId"
+//                if (DoKitExtUtil.THIRD_LIB_INFOS[key] == null) {
+//                    DoKitExtUtil.THIRD_LIB_INFOS[key] = thirdLibInfo
+//                } else {
+//                    val libInfo = DoKitExtUtil.THIRD_LIB_INFOS[key]
+//                    if (DoKitPluginUtil.compareVersion(thirdLibInfo.version, libInfo!!.version) > 0) {
+//                        DoKitExtUtil.THIRD_LIB_INFOS[key] = thirdLibInfo
+//                    }
+//                }
+            }
         }
 
 

@@ -20,6 +20,8 @@ object DoKitExtUtil {
     /**
      * 三方库版本信息
      */
+//    val THIRD_LIB_INFOS = mutableMapOf<String, ThirdLibInfo>()
+
     val THIRD_LIB_INFOS = mutableListOf<ThirdLibInfo>()
 
     /**
