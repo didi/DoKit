@@ -42,6 +42,7 @@ export class Dokit{
 export * from './store'
 export * from './common/js/feature'
 
+//其他模块加载该模块时，import命令可以为该匿名函数指定任意名字
 export default {
   Dokit
 }
