@@ -1,7 +1,7 @@
 {
   "name": "dokit-web",
   "version": "0.0.0",
-  "description": "a web toolkit powered by Dokit",
+  "description": "a web toolkit powered by DoKit",
   "main": "index.js",
   "scripts": {
     "test": "jest test",
