@@ -95,6 +95,9 @@ public class ColorPickerDokitView extends AbsDokitView {
         mImageCapture.destroy();
     }
 
+    /**
+     * 显示像素信息
+     */
     private void showInfo() {
         int x, y;
         if (isNormalMode()) {
@@ -123,7 +126,7 @@ public class ColorPickerDokitView extends AbsDokitView {
      * 捕捉截图信息
      */
     private void captureInfo(int delay) {
-        //先隐藏拾色器控件 否则会把拾色器也截图进去
+
         mRunnable = new Runnable() {
             @Override
             public void run() {
@@ -133,6 +136,7 @@ public class ColorPickerDokitView extends AbsDokitView {
                 showInfo();
             }
         };
+        //先隐藏拾色器控件 否则会把拾色器也截图进去
         mPickerView.setVisibility(View.INVISIBLE);
         getDoKitView().postDelayed(mRunnable, delay);
     }

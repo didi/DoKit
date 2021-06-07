@@ -39,6 +39,13 @@ public class DoKitImageUtil {
         return inSampleSize;
     }
 
+    /**
+     * 获得像素点的信息
+     * @param bitmap
+     * @param x
+     * @param y
+     * @return
+     */
     public static int getPixel(Bitmap bitmap, int x, int y) {
         if (bitmap == null) {
             return -1;

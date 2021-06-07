@@ -42,6 +42,7 @@ public class ColorPickerSettingFragment extends BaseFragment {
         if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
             return false;
         }
+        //截图与录屏
         MediaProjectionManager mediaProjectionManager = (MediaProjectionManager) getContext().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
         if (mediaProjectionManager == null) {
             return false;

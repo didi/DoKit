@@ -81,6 +81,7 @@ public class ImageCapture {
         int width = UIUtils.getWidthPixels();
         int height = UIUtils.getRealHeightPixels();
         int dpi = UIUtils.getDensityDpi();
+        //wiki:https://www.jianshu.com/p/d7eb518195fd
         mImageReader = ImageReader.newInstance(width, height, PixelFormat.RGBA_8888, 2);
         /**
          * 获取getSurface
@@ -91,6 +92,9 @@ public class ImageCapture {
                 mImageReader.getSurface(), null, null);
     }
 
+    /**
+     * 截取最后一帧的bitmap
+     */
     void capture() {
         if (isCapturing) {
             return;
@@ -99,6 +103,7 @@ public class ImageCapture {
             return;
         }
         isCapturing = true;
+        //获取image对象
         Image image = mImageReader.acquireLatestImage();
         if (image == null) {
             return;

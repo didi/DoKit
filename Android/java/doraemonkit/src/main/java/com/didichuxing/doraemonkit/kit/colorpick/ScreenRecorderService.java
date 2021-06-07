@@ -28,7 +28,6 @@ import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
  * 修订历史：
  * ================================================
  *
- * @author didi
  */
 public class ScreenRecorderService extends Service {
 
