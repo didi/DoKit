@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Protocol;
 import okhttp3.Request;
@@ -33,7 +32,6 @@ import okhttp3.ResponseBody;
  * 抓包拦截器
  */
 public class DokitCapInterceptor extends AbsDoKitInterceptor {
-    public static final String TAG = "DoraemonInterceptor";
 
     private final NetworkInterpreter mNetworkInterpreter = NetworkInterpreter.get();
 
@@ -62,7 +60,7 @@ public class DokitCapInterceptor extends AbsDoKitInterceptor {
         try {
             response = chain.proceed(request);
         } catch (Exception e) {
-            LogHelper.e(TAG, "e===>" + e.getMessage());
+            LogHelper.e(getTAG(), "e===>" + e.getMessage());
             mNetworkInterpreter.httpExchangeFailed(requestId, e.toString());
             ResponseBody responseBody = ResponseBody.create(MediaType.parse("application/json;charset=utf-8"), "" + e.getMessage());
             return new Response.Builder()

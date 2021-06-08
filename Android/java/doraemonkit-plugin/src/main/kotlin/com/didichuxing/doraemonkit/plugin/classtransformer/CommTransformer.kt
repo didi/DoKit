@@ -21,9 +21,11 @@ import org.objectweb.asm.tree.*
  * 修订历史：
  * ================================================
  */
-@Priority(0)
-@AutoService(ClassTransformer::class)
+//@Priority(0)
+//@AutoService(ClassTransformer::class)
 class CommTransformer : AbsClassTransformer() {
+
+
     private val SHADOW_URL =
         "com/didichuxing/doraemonkit/aop/urlconnection/HttpUrlConnectionProxyUtil"
     private val DESC = "(Ljava/net/URLConnection;)Ljava/net/URLConnection;"
@@ -247,8 +249,7 @@ class CommTransformer : AbsClassTransformer() {
                                     && fieldInsnNode.owner == "okhttp3/OkHttpClient"
                                     && fieldInsnNode.name == "networkInterceptors"
                                     && fieldInsnNode.desc == "Ljava/util/List;"
-                        }
-                        ?.forEach { fieldInsnNode ->
+                        }?.forEach { fieldInsnNode ->
                             it.instructions.insert(fieldInsnNode, createOkHttpClientInsnList())
                         }
                 }

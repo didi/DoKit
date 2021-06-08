@@ -13,6 +13,7 @@ import java.io.IOException
 class DokitExtInterceptor : AbsDoKitInterceptor() {
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
+
         return dokitExtInterceptorProxy?.intercept(chain) ?: chain.proceed(chain.request())
     }
 
@@ -21,7 +22,6 @@ class DokitExtInterceptor : AbsDoKitInterceptor() {
     }
 
     companion object {
-        const val TAG = "DokitExtInterceptor"
         var dokitExtInterceptorProxy: DokitExtInterceptorProxy? = null
     }
 }

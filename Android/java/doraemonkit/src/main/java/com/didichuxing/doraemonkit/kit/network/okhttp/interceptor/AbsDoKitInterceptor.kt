@@ -1,6 +1,7 @@
-package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor;
+package com.didichuxing.doraemonkit.kit.network.okhttp.interceptor
 
-import okhttp3.Interceptor;
+import android.nfc.Tag
+import okhttp3.Interceptor
 
 /**
  * ================================================
@@ -11,6 +12,6 @@ import okhttp3.Interceptor;
  * 修订历史：
  * ================================================
  */
-
-public abstract class AbsDoKitInterceptor implements Interceptor {
+abstract class AbsDoKitInterceptor : Interceptor {
+    val TAG = this.javaClass.simpleName
 }

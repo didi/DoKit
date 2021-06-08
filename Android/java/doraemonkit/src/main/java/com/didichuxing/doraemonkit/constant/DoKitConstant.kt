@@ -5,6 +5,7 @@ import com.didichuxing.doraemonkit.util.PathUtils
 import com.didichuxing.doraemonkit.BuildConfig
 import com.didichuxing.doraemonkit.DoKitCallBack
 import com.didichuxing.doraemonkit.config.GlobalConfig
+import com.didichuxing.doraemonkit.kit.core.DokitAbility
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
@@ -30,6 +31,11 @@ object DoKitConstant {
     const val GROUP_ID_PERFORMANCE = "dk_category_performance"
     const val GROUP_ID_UI = "dk_category_ui"
     const val GROUP_ID_LBS = "dk_category_lbs"
+
+    /**
+     * DoKit 模块能力
+     */
+    val DOKIT_MODULE_ABILITIES = mutableMapOf<String, DokitAbility>()
 
     val SYSTEM_KITS_BAK_PATH: String by lazy {
         "${PathUtils.getInternalAppFilesPath()}${File.separator}system_kit_bak_${BuildConfig.DOKIT_VERSION}.json"

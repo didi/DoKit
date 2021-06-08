@@ -9,6 +9,7 @@ import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.tree.ClassNode
 import java.lang.management.ManagementFactory
 import java.lang.management.ThreadMXBean
+import java.util.*
 
 /**
  * ================================================
@@ -24,16 +25,26 @@ open class BaseDoKitAsmTransformer : Transformer {
 
     private val durations = mutableMapOf<ClassTransformer, Long>()
 
-    internal val transformers: Collection<ClassTransformer>
+    private val classLoader: ClassLoader
 
-    /**
-     * For unit test only
-     */
-    constructor(vararg transformers: ClassTransformer) {
-        this.transformers = transformers.sortedBy {
+    internal val transformers: Iterable<ClassTransformer>
+
+    constructor() : this(Thread.currentThread().contextClassLoader)
+
+    constructor(classLoader: ClassLoader = Thread.currentThread().contextClassLoader) : this(
+        ServiceLoader.load(ClassTransformer::class.java, classLoader).sortedBy {
             it.javaClass.getAnnotation(Priority::class.java)?.value ?: 0
-        }
+        }, classLoader
+    )
+
+    constructor(
+        transformers: Iterable<ClassTransformer>,
+        classLoader: ClassLoader = Thread.currentThread().contextClassLoader
+    ) {
+        this.classLoader = classLoader
+        this.transformers = transformers
     }
+
 
     override fun onPreTransform(context: TransformContext) {
         this.transformers.forEach { transformer ->

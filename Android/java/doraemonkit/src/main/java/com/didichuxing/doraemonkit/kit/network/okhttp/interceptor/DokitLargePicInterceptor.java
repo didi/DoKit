@@ -21,9 +21,6 @@ import okhttp3.Response;
  * 大图拦截器
  */
 public class DokitLargePicInterceptor extends AbsDoKitInterceptor {
-    public static final String TAG = "LargePictureInterceptor";
-
-
 
     @NonNull
     @Override

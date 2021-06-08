@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply from: 'doraemonkit.gradle'
-apply plugin: 'com.didiglobal.booster'
+//apply plugin: 'com.didiglobal.booster'
 
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]

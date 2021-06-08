@@ -39,12 +39,12 @@ import okhttp3.ResponseBody;
  * @desc: 接口mock拦截器
  */
 public class DokitMockInterceptor extends AbsDoKitInterceptor {
-    public static final String TAG = "MockInterceptor";
 
 
     @NonNull
     @Override
     public Response intercept(Chain chain) throws IOException {
+        LogHelper.i(getTAG(), "DokitMockInterceptor===>" + this.toString());
         Request oldRequest = chain.request();
         Response oldResponse = chain.proceed(oldRequest);
         String contentType = oldResponse.header("Content-Type");
@@ -162,7 +162,7 @@ public class DokitMockInterceptor extends AbsDoKitInterceptor {
         } catch (Exception e) {
             //e.printStackTrace();
             json = "";
-            LogHelper.e(TAG, "===body json====>" + json);
+            LogHelper.e(getTAG(), "===body json====>" + json);
         }
 
         return json;

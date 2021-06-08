@@ -7,6 +7,7 @@ import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.didichuxing.doraemonkit.plugin.DoKitTransformInvocation
 import com.didichuxing.doraemonkit.plugin.loadTransformers
+import com.didichuxing.doraemonkit.plugin.println
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.gradle.*
 import com.didiglobal.booster.transform.AbstractKlassPool
@@ -19,8 +20,9 @@ import org.gradle.api.Project
  */
 open class DoKitBaseTransform(val project: Project) : Transform() {
 
-    /*
+    /*transformers
      * Preload transformers as List to fix NoSuchElementException caused by ServiceLoader in parallel mode
+     * booster 的默认出炉逻辑 DoKit已重写自处理
      */
     internal open val transformers = loadTransformers(project.buildscript.classLoader).sortedBy {
         it.javaClass.getAnnotation(Priority::class.java)?.value ?: 0
@@ -69,6 +71,10 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
     }
 
     final override fun transform(invocation: TransformInvocation) {
+        transformers.forEach {
+            "transform====>${this::class.simpleName}====>${it}}".println()
+        }
+
         DoKitTransformInvocation(invocation, this).apply {
             if (isIncremental) {
                 doIncrementalTransform()
@@ -78,7 +84,6 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
             }
         }
     }
-
 
 
 }

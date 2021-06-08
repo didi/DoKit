@@ -60,7 +60,7 @@ dependencies {
 
     implementation "com.android.tools.build:gradle:$gradlePluginVersion"
     /* 👇👇👇👇 引用这两个模块 👇👇👇👇 */
-    kapt "com.google.auto.service:auto-service:1.0-rc7"
+//    kapt "com.google.auto.service:auto-service:1.0-rc7"
     api "com.didiglobal.booster:booster-api:${rootProject.ext.android["booster_version"]}"
     api "com.didiglobal.booster:booster-transform-asm:${rootProject.ext.android["booster_version"]}"
 }

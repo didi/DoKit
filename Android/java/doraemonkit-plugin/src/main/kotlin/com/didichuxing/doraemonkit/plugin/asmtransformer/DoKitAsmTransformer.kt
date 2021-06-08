@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.plugin.asmtransformer
 
-import com.didichuxing.doraemonkit.plugin.classtransformer.MethodStackDepTransformer
+import com.didiglobal.booster.transform.asm.ClassTransformer
 
 /**
  * ================================================
@@ -11,6 +11,5 @@ import com.didichuxing.doraemonkit.plugin.classtransformer.MethodStackDepTransfo
  * 修订历史：
  * ================================================
  */
-class DoKitAsmTransformer(private val level: Int) : BaseDoKitAsmTransformer(MethodStackDepTransformer(level)) {
-
-}
+class DoKitAsmTransformer(transformers: Iterable<ClassTransformer>) :
+    BaseDoKitAsmTransformer(transformers)

@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.plugin.transform
 
 import com.didichuxing.doraemonkit.plugin.asmtransformer.DoKitAsmTransformer
+import com.didichuxing.doraemonkit.plugin.classtransformer.MethodStackDepTransformer
 import com.didiglobal.booster.transform.Transformer
 import org.gradle.api.Project
 
@@ -9,9 +10,10 @@ import org.gradle.api.Project
  * DoKitCommTransform 作用于 CommTransformer、BigImgTransformer、UrlConnectionTransformer、GlobalSlowMethodTransformer
  * @author johnsonlee
  */
-open class DoKitDependTransform(androidProject: Project, private val level: Int) : DoKitBaseTransform(androidProject) {
+open class DoKitDependTransform(androidProject: Project, private val level: Int) :
+    DoKitBaseTransform(androidProject) {
 
-    internal override val transformers = mutableListOf<Transformer>(DoKitAsmTransformer(level))
+    override val transformers = listOf<Transformer>(DoKitAsmTransformer(listOf(MethodStackDepTransformer(level))))
 
     override fun getName(): String {
         return "${this.javaClass.simpleName}_$level"

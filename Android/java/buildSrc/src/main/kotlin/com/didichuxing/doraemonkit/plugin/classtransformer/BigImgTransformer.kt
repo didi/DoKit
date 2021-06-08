@@ -21,8 +21,8 @@ import org.objectweb.asm.tree.VarInsnNode
  * 修订历史：
  * ================================================
  */
-@Priority(1)
-@AutoService(ClassTransformer::class)
+//@Priority(1)
+//@AutoService(ClassTransformer::class)
 class BigImgTransformer : AbsClassTransformer() {
 
     override fun transform(context: TransformContext, klass: ClassNode): ClassNode {

@@ -48,7 +48,7 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
                 //println("三方库信息===>${artifactResult.variant.displayName}____${artifactResult.file.toString()}")
 //                "artifactResult===>${artifactResult.file}|${artifactResult.variant}|${artifactResult.id}|${artifactResult.type}".println()
                 //"artifactResult===>${artifactResult.variant.owner}|${artifactResult.variant.attributes}|${artifactResult.variant.displayName}|${artifactResult.variant.capabilities}|${artifactResult.variant.externalVariant}".println()
-                "artifactResult===>${artifactResult.variant.displayName}".println()
+                //"artifactResult===>${artifactResult.variant.displayName}".println()
                 val variants = artifactResult.variant.displayName.split(" ")
                 var thirdLibInfo: ThirdLibInfo? = null
                 if (variants.size == 3) {

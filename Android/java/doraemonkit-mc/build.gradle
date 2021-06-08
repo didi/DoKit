@@ -62,8 +62,10 @@ dependencies {
     //备用客户端websocket引擎
     compileOnly rootProject.ext.dependencies["ktor_client_okhttp"]
     compileOnly project(":doraemonkit-util")
+    compileOnly project(":doraemonkit-okhttp-api")
     //此处需要使用api的形式 向上暴露内部api
     implementation project(':doraemonkit')
+    //okhttp wrap
     //auto-service
     implementation rootProject.ext.dependencies["auto_service"]
     kapt rootProject.ext.dependencies["auto_service"]

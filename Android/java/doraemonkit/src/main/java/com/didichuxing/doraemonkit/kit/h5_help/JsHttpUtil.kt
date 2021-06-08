@@ -29,6 +29,8 @@ import org.json.JSONObject
  * ================================================
  */
 internal object JsHttpUtil {
+    val TAG = "JsHttpUtil"
+
     /**
      * 将request query 转化成json字符串
      *
@@ -95,8 +97,7 @@ internal object JsHttpUtil {
             //e.printStackTrace();
             json = ""
             LogHelper.e(
-                DokitMockInterceptor.TAG,
-                "===body json====>$json"
+                TAG, "===body json====>$json"
             )
         }
         return json

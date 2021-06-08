@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.plugin.transform
 
 import com.android.build.api.variant.VariantInfo
 import com.didichuxing.doraemonkit.plugin.asmtransformer.DoKitAsmTransformer
+import com.didichuxing.doraemonkit.plugin.classtransformer.MethodStackDepTransformer
 import com.didiglobal.booster.transform.Transformer
 import org.gradle.api.Project
 
@@ -12,6 +13,12 @@ import org.gradle.api.Project
  */
 open class DoKitDependTransformV34(androidProject: Project, private val level: Int) :
     DoKitBaseTransform(androidProject) {
+
+    override val transformers = listOf<Transformer>(DoKitAsmTransformer(listOf(MethodStackDepTransformer(level))))
+
+    override fun getName(): String {
+        return "${this.javaClass.simpleName}_$level"
+    }
 
     @Suppress("UnstableApiUsage")
     override fun applyToVariant(variant: VariantInfo): Boolean {
@@ -28,9 +35,5 @@ open class DoKitDependTransformV34(androidProject: Project, private val level: I
         get() = project.findProperty("booster.transform.${buildTypeName}.enabled")?.toString()
             ?.toBoolean() ?: true
 
-    internal override val transformers = mutableListOf<Transformer>(DoKitAsmTransformer(level))
 
-    override fun getName(): String {
-        return "${this.javaClass.simpleName}_$level"
-    }
 }

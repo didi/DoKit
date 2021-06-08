@@ -71,6 +71,13 @@ object DoKitReal {
         if (!ProcessUtils.isMainProcess()) {
             return
         }
+
+        val doKitAbilities =
+            ServiceLoader.load(DokitAbility::class.java, javaClass.classLoader).toList()
+        doKitAbilities.forEach {
+            DoKitConstant.DOKIT_MODULE_ABILITIES[it.moduleName()] = it
+        }
+
         //解锁系统隐藏api限制权限以及hook Instrumentation
         HandlerHooker.doHook(app)
 

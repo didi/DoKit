@@ -21,7 +21,6 @@ import okhttp3.Response;
  * @author didi
  */
 public class DokitWeakNetworkInterceptor extends AbsDoKitInterceptor {
-    private static final String TAG = "DoraemonWeakNetworkInterceptor";
 
     @NonNull
     @Override
