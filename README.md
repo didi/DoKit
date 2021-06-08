@@ -26,7 +26,7 @@
 <div align="center">    
  <img src="https://pt-starimg.didistatic.com/static/starimg/img/J0WO7tUi9U1616143930629.png" width = "250"  alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
- <img src="https://img.shields.io/badge/Android-3.4.0-alpha03-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/Android-3.4.0-alpha04-blue.svg" align=left />
  <img src="https://img.shields.io/badge/iOS-3.0.7-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/Flutter-0.6.0-blue.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />
@@ -56,8 +56,8 @@ DoKit诞生于滴滴城运服体验技术部，是一款面向泛前端产品研
 **温馨提示：当前DoKit的所有功能都只针对Debug环境，Release环境未经过实际验证，所以请大家严格按照官方文档来集成，也不建议大家在Release环境上使用DoKit的任何功能。如果大家一定要在Release环境上使用，请自行进行充分的测试和验证，DoKit官方将不承担任何责任和损失。** 
 ## 更新日志
 
+- [Android-ReleaseNotes](http://xingyun.xiaojukeji.com/docs/dokit/#/AndroidReleaseNote)
 - [iOS-ReleaseNotes](Doc/iOS-ReleaseNotes.md)
-- [Android-ReleaseNotes](Doc/android-ReleaseNotes.md)
 - [微信小程序-ReleaseNotes](Doc/miniapp-ReleaseNotes.md)
 - [DoKit For Flutter-ReleaseNotes](Flutter/README.md)
 

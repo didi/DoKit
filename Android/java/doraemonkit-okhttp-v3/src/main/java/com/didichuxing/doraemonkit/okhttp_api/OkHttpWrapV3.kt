@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.okhttp_api
 
 import okhttp3.*
-import okhttp3.internal.Version
 import java.net.URL
 
 /**

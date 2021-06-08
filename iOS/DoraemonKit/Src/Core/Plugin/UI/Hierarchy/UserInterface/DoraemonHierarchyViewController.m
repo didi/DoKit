@@ -8,21 +8,21 @@
 #import "DoraemonHierarchyViewController.h"
 #import "DoraemonHierarchyDetailViewController.h"
 #import "UIViewController+DoraemonHierarchy.h"
-#import "DoraemonHierarchyPickerView.h"
+#import "DKHierarchyPickerView.h"
 #import "NSObject+DoraemonHierarchy.h"
-#import "DoraemonHierarchyInfoView.h"
+#import "DKHierarchyInfoView.h"
 #import "DoraemonHierarchyHelper.h"
 #import "DoraemonHierarchyWindow.h"
 #import "UIView+Doraemon.h"
 #import "DoraemonDefine.h"
 
-@interface DoraemonHierarchyViewController ()<DoraemonHierarchyViewDelegate, DoraemonHierarchyInfoViewDelegate>
+@interface DoraemonHierarchyViewController ()<DKHierarchyViewDelegate, DKHierarchyInfoViewDelegate>
 
 @property (nonatomic, strong) UIView *borderView;
 
-@property (nonatomic, strong) DoraemonHierarchyPickerView *pickerView;
+@property (nonatomic, strong) DKHierarchyPickerView *pickerView;
 
-@property (nonatomic, strong) DoraemonHierarchyInfoView *infoView;
+@property (nonatomic, strong) DKHierarchyInfoView *infoView;
 
 @property (nonatomic, strong) NSMutableSet *observeViews;
 
@@ -39,13 +39,13 @@
     self.borderViews = [[NSMutableDictionary alloc] init];
     
     CGFloat height = 100;
-    self.infoView = [[DoraemonHierarchyInfoView alloc] initWithFrame:CGRectMake(10, DoraemonScreenHeight - 10 * 2 - height, DoraemonScreenWidth - 10 * 2, height)];
+    self.infoView = [[DKHierarchyInfoView alloc] initWithFrame:CGRectMake(10, DoraemonScreenHeight - 10 * 2 - height, DoraemonScreenWidth - 10 * 2, height)];
     self.infoView.delegate = self;
     [self.view addSubview:self.infoView];
     
     [self.view addSubview:self.borderView];
     
-    self.pickerView = [[DoraemonHierarchyPickerView alloc] initWithFrame:CGRectMake((self.view.doraemon_width - 60) / 2.0, (self.view.doraemon_height - 60) / 2.0, 60, 60)];
+    self.pickerView = [[DKHierarchyPickerView alloc] initWithFrame:CGRectMake((self.view.doraemon_width - 60) / 2.0, (self.view.doraemon_height - 60) / 2.0, 60, 60)];
     self.pickerView.delegate = self;
     [self.view addSubview:self.pickerView];
 }
@@ -151,7 +151,7 @@
 }
 
 #pragma mark - LLHierarchyPickerViewDelegate
-- (void)doraemonHierarchyView:(DoraemonHierarchyPickerView *)view didMoveTo:(NSArray <UIView *>*)selectedViews {
+- (void)hierarchyView:(DKHierarchyPickerView *)view didMoveTo:(NSArray <UIView *>*)selectedViews {
     
     @synchronized (self) {
         for (UIView *view in self.observeViews) {
@@ -174,28 +174,28 @@
 }
 
 #pragma mark - DoraemonHierarchyInfoViewDelegate
-- (void)doraemonHierarchyInfoView:(DoraemonHierarchyInfoView *)view didSelectAt:(DoraemonHierarchyInfoViewAction)action {
+- (void)hierarchyInfoView:(DKHierarchyInfoView *)view didSelectAt:(DKHierarchyInfoViewAction)action {
     UIView *selectView = self.infoView.selectedView;
     if (selectView == nil) {
         return;
     }
     switch (action) {
-        case DoraemonHierarchyInfoViewActionShowMoreInfo:{
+        case DKHierarchyInfoViewActionShowMoreInfo:{
             [self showHierarchyInfo:selectView];
         }
             break;
-        case DoraemonHierarchyInfoViewActionShowParent: {
+        case DKHierarchyInfoViewActionShowParent: {
             [self showParentSheet:selectView];
         }
             break;
-        case DoraemonHierarchyInfoViewActionShowSubview: {
+        case DKHierarchyInfoViewActionShowSubview: {
             [self showSubviewSheet:selectView];
         }
             break;
     }
 }
 
-- (void)doraemonHierarchyInfoViewDidSelectCloseButton:(DoraemonHierarchyInfoView *)view {
+- (void)hierarchyInfoViewDidSelectCloseButton:(DKHierarchyInfoView *)view {
     [[DoraemonHierarchyHelper shared].window hide];
     [DoraemonHierarchyHelper shared].window = nil;
 }
@@ -232,7 +232,7 @@
 }
 
 - (void)setNewSelectView:(UIView *)view {
-    [self doraemonHierarchyView:self.pickerView didMoveTo:@[view]];
+    [self hierarchyView:self.pickerView didMoveTo:@[view]];
 }
 
 #pragma mark - Getters and setters

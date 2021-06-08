@@ -72,6 +72,7 @@ export default {
   .bar-title-text{
     color: #333333;
     font-size: 20px;
+    font-weight: bold;
   }
   .bar-other-text{
     color:  #666666;

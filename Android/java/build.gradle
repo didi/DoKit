@@ -19,7 +19,7 @@ buildscript {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-        //maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
+       // maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
             url uri('/Users/didi/project/dokit_repo')
@@ -36,6 +36,8 @@ buildscript {
         }
         //classpath "com.didiglobal.booster:booster-task-compression-pngquant:${rootProject.ext.android["booster_version"]}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "com.didiglobal.booster:booster-gradle-plugin:3.3.1"
+        classpath "com.didiglobal.booster:booster-task-analyser:3.3.1"
     }
 
 }
@@ -48,7 +50,7 @@ allprojects {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-        //maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
+     //   maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
             url uri('/Users/didi/project/dokit_repo')

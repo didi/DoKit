@@ -2,7 +2,10 @@
 
 ## DoKit Android 最新版本
 
-**3.4.0-alpha03**
+|DoKit|最新版本|描述|
+|-|-|-|
+|支持Androidx|3.4.0-alpha04|从v3.3.1版本开始更名为dokitx,dokitx的library和plugin的版本号保持一致|
+|支持android support|3.3.5|后期support将会不定期更新，主要还是看社区的反馈，请大家尽快升级和适配Androidx|
 
 ## DoKit Android模块信息
 
@@ -46,12 +49,9 @@ releaseImplementation "io.github.didi.dokit:dokitx-no-op:lastversion"
 **debugImplementation 需要根据自己的构建改成对应的productFlavor**
 
 
-**下面所有的日志均用dokitx举例。要使用support版本请将dokitx改为dokit即可。**
+**下面所有的例子均用dokitx举例。要使用support版本请将dokitx改为dokit即可。**
 
-|DoKit|最新版本|描述|
-|-|-|-|
-|支持Androidx|3.4.0-alpha03|从v3.3.1版本开始更名为dokitx,dokitx的library和plugin的版本号保持一致|
-|支持android support|3.3.5|后期support将会不定期更新，主要还是看社区的反馈，请大家尽快升级和适配Androidx|
+
 
 
 #### 1. Gradle 依赖
@@ -406,7 +406,6 @@ public class DoKit {
 ```
 
 
-
 #### 5. FAQ
 
-参考[这里](http://xingyun.xiaojukeji.com/docs/dokit#/SDKProblems)
+参考[这里](SDKProblems.md)

@@ -34,6 +34,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation rootProject.ext.dependencies["kotlin"]
     //implementation rootProject.ext.dependencies["appcompat"]
     //compileOnly rootProject.ext.dependencies["okio"]
     api rootProject.ext.dependencies["okhttp_v3"]

@@ -166,6 +166,8 @@ object WSClientProcessor {
             AccessibilityEvent.TYPE_VIEW_CLICKED -> {
                 if (target is Switch) {
                     target.toggle()
+                } else if (target is RadioButton) {
+                    target.isChecked = true
                 } else {
                     if (target.hasOnClickListeners()) {
                         target.performClick().isFalse {

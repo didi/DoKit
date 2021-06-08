@@ -45,6 +45,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'junit:junit:4.12'
+    implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["core-ktx"]
     implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["cardview"]
@@ -55,11 +56,11 @@ dependencies {
     implementation rootProject.ext.dependencies["epic"]
     implementation rootProject.ext.dependencies["ktor_server_websockets"]
     implementation rootProject.ext.dependencies["ktor_client_websockets"]
+    implementation rootProject.ext.dependencies["ktor_server_cio"]
     //默认客户端websocket引擎
     implementation rootProject.ext.dependencies["ktor_client_cio"]
     //备用客户端websocket引擎
     compileOnly rootProject.ext.dependencies["ktor_client_okhttp"]
-    compileOnly rootProject.ext.dependencies["ktor_server_cio"]
     compileOnly project(":doraemonkit-util")
     //此处需要使用api的形式 向上暴露内部api
     implementation project(':doraemonkit')

@@ -36,6 +36,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //implementation rootProject.ext.dependencies["appcompat"]
     //compileOnly rootProject.ext.dependencies["okio"]
+    implementation rootProject.ext.dependencies["kotlin"]
     implementation project(":doraemonkit-okhttp-v3")
     implementation project(":doraemonkit-okhttp-v4")
     implementation project(":doraemonkit-util")

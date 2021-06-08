@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.kit.mc.client
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
+import com.didichuxing.doraemonkit.extension.hasThirdLib
 import com.didichuxing.doraemonkit.kit.mc.all.*
 import com.didichuxing.doraemonkit.util.*
 import io.ktor.client.*
@@ -35,6 +36,11 @@ object DoKitWsClient {
     const val CONNECT_FAIL = 0
 
     private val client: HttpClient by lazy {
+
+//        if (hasThirdLib("io.ktor", "ktor-client-okhttp")) {
+//          这里没有用显示判断的原因是因为需要插件的支持
+//        }
+
         try {
             Class.forName("io.ktor.client.engine.okhttp.OkHttp")
             LogHelper.i(TAG, "client engine is OkHttp")
