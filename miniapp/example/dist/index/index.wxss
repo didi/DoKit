@@ -1,9 +1,0 @@
-.dokit-entrance {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 0;
-  width: 200rpx;
-  height: 200rpx;
-  z-index: 9999
-}
