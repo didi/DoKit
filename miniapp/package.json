@@ -22,7 +22,11 @@
     "postcss-font-base64": "^1.0.5",
     "through2": "^2.0.3"
   },
-  "files": ["dist/*", "src/*", "docs/*"],
+  "files": [
+    "dist/*",
+    "src/*",
+    "docs/*"
+  ],
   "scripts": {
     "start": "cross-env NODE_ENV=development gulp",
     "build": "cross-env NODE_ENV=production gulp build"
