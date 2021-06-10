@@ -16,7 +16,6 @@ import okhttp3.Response
  */
 class DokitMcInterceptor : AbsDoKitInterceptor() {
     override fun intercept(chain: Interceptor.Chain): Response {
-        LogHelper.i(TAG, "McInterceptor===>${this}")
         return chain.proceed(chain.request())
     }
 }

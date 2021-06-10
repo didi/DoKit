@@ -42,7 +42,7 @@ public class TelephonyHooker extends BaseServiceHooker {
     static class GetAllCellInfoMethodHandler implements MethodHandler {
 
         @Override
-        public Object onInvoke(Object originObject, Object proxyObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        public Object onInvoke(Object originObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
             if (!GpsMockManager.getInstance().isMocking()) {
                 return method.invoke(originObject, args);
             }
@@ -53,7 +53,7 @@ public class TelephonyHooker extends BaseServiceHooker {
     static class GetCellLocationMethodHandler implements MethodHandler {
 
         @Override
-        public Object onInvoke(Object originObject, Object proxyObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        public Object onInvoke(Object originObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
             if (!GpsMockManager.getInstance().isMocking()) {
                 return method.invoke(originObject, args);
             }
@@ -64,7 +64,7 @@ public class TelephonyHooker extends BaseServiceHooker {
 
     static class ListenMethodHandler implements MethodHandler {
         @Override
-        public Object onInvoke(Object originObject, Object proxyObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        public Object onInvoke(Object originObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
             if (!GpsMockManager.getInstance().isMocking()) {
                 return method.invoke(originObject, args);
             }

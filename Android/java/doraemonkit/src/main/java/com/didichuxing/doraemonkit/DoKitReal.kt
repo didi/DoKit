@@ -56,7 +56,6 @@ object DoKitReal {
         listKits: List<AbstractKit>,
         productId: String
     ) {
-
         registerModuleListener()
         pluginConfig()
         initThirdLibraryInfo()
@@ -89,7 +88,7 @@ object DoKitReal {
         registerNetworkStatusChangedListener()
         startAppHealth()
         checkGPSMock()
-        //hook WIFI GPS Telephony系统服务
+        //Hook WIFI GPS Telephony系统服务
         ServiceHookManager.getInstance().install(app)
         //全局运行时hook
         globalRunTimeHook()

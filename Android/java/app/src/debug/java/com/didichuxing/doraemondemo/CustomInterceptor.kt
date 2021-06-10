@@ -1,6 +1,6 @@
 package com.didichuxing.doraemondemo
 
-import android.util.Log
+import com.didichuxing.doraemonkit.util.LogHelper
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -15,7 +15,7 @@ import okhttp3.Response
  */
 class CustomInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        Log.i("CustomInterceptor", "===custom intercept===")
+        LogHelper.i("CustomInterceptor", "===custom intercept===")
         return chain.proceed(chain.request())
     }
 }

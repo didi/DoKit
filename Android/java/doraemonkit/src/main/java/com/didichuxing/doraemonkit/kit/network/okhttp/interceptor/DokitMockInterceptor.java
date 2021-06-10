@@ -44,7 +44,6 @@ public class DokitMockInterceptor extends AbsDoKitInterceptor {
     @NonNull
     @Override
     public Response intercept(Chain chain) throws IOException {
-        LogHelper.i(getTAG(), "DokitMockInterceptor===>" + this.toString());
         Request oldRequest = chain.request();
         Response oldResponse = chain.proceed(oldRequest);
         String contentType = oldResponse.header("Content-Type");

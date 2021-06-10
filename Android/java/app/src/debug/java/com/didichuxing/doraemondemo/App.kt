@@ -137,10 +137,10 @@ class App : Application() {
             .build()
 
 
-//        val client: OkHttpClient = OkHttpClient.Builder()
-//            .addInterceptor(CustomInterceptor())
-//            .build()
-//        OkGo.getInstance().init(this).okHttpClient = client
+        val client: OkHttpClient = OkHttpClient.Builder()
+            .addInterceptor(CustomInterceptor())
+            .build()
+        OkGo.getInstance().init(this).okHttpClient = client
 
         val config = ImagePipelineConfig.newBuilder(this)
             .setDiskCacheEnabled(false)

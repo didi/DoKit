@@ -52,7 +52,7 @@ public class WifiHooker extends BaseServiceHooker {
     static class GetScanResultsMethodHandler implements MethodHandler {
 
         @Override
-        public Object onInvoke(Object originService, Object proxy, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        public Object onInvoke(Object originService, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
             if (!GpsMockManager.getInstance().isMocking()) {
                 return method.invoke(originService, args);
             }
@@ -63,7 +63,7 @@ public class WifiHooker extends BaseServiceHooker {
     static class GetConnectionInfoMethodHandler implements MethodHandler {
 
         @Override
-        public Object onInvoke(Object originObject, Object proxyObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        public Object onInvoke(Object originObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
             if (!GpsMockManager.getInstance().isMocking()) {
                 return method.invoke(originObject, args);
             }
