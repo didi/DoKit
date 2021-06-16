@@ -186,7 +186,8 @@ public class DokitMockInterceptor extends AbsDoKitInterceptor {
                 upSize = request.body().contentLength();
             }
             if (response.body() != null) {
-                downSize = response.body().contentLength();
+                ResponseBody peekBody = response.peekBody(Long.MAX_VALUE);
+                downSize = peekBody.bytes().length;
             }
 
 
