@@ -38,11 +38,14 @@ public final class BlockCanaryUtils {
 
 
     private static String concernStackString(Context context, String line) {
+        if (line == null) {
+            return null;
+        }
         if (!sProcessNameFirstGetFlag) {
             sProcessNameFirstGetFlag = true;
             sProcessName = DoKitSystemUtil.obtainProcessName(context);
         }
-        if (line.startsWith(sProcessName) || line.startsWith(CURRENT_PACKAGE)) {
+        if (sProcessName == null || line.startsWith(sProcessName) || line.startsWith(CURRENT_PACKAGE)) {
             return classSimpleName(line);
         }
         return null;

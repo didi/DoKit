@@ -35,6 +35,13 @@
             android:textAllCaps="false" />
 
         <Button
+            android:id="@+id/btn_installed_app"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/app_btn_installed_app"
+            android:textAllCaps="false" />
+
+        <Button
             android:id="@+id/btn_jump"
             android:layout_width="match_parent"
             android:layout_height="50dp"

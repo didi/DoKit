@@ -1,9 +1,6 @@
 package com.didichuxing.doraemondemo.comm
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 
 /**
  * ================================================
@@ -32,6 +29,7 @@ class CommViewModel(private val state: SavedStateHandle) : ViewModel() {
     }
 
     fun saveTitle(title: String) {
+
         state.set(KEY_TITLE, title)
     }
 

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.location.Location
@@ -18,6 +19,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.amap.api.location.AMapLocationListener
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ThreadUtils
@@ -91,6 +93,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         tvEnv.text = "${getString(R.string.app_build_types)}:Debug"
         findViewById<View>(R.id.btn_jump).setOnClickListener(this)
         findViewById<View>(R.id.btn_webview).setOnClickListener(this)
+        findViewById<View>(R.id.btn_installed_app).setOnClickListener(this)
         findViewById<View>(R.id.btn_x5_webview).setOnClickListener(this)
         findViewById<View>(R.id.btn_method_cost).setOnClickListener(this)
         findViewById<View>(R.id.btn_jump_leak).setOnClickListener(this)
@@ -130,6 +133,9 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
 
         githubService = retrofit.create(GithubService::class.java)
 
+        lifecycleScope.launch {
+
+        }
 
 //        AopTest().test()
     }
@@ -218,6 +224,10 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
             R.id.btn_show_tool_panel ->                 //直接调起工具面板
                 DoKit.showToolPanel()
             R.id.btn_jump -> startActivity(Intent(this, SecondActivity::class.java))
+            R.id.btn_installed_app -> {
+                val apps =
+                    packageManager.getInstalledApplications(PackageManager.MATCH_UNINSTALLED_PACKAGES)
+            }
             R.id.btn_webview -> startActivity(Intent(this, WebViewNormalActivity::class.java))
             R.id.btn_x5_webview -> startActivity(Intent(this, WebViewX5Activity::class.java))
             R.id.btn_jump_leak -> startActivity(Intent(this, LeakActivity::class.java))

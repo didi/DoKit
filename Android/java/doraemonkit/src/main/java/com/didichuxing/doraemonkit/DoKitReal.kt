@@ -89,7 +89,7 @@ object DoKitReal {
         startAppHealth()
         checkGPSMock()
         //Hook WIFI GPS Telephony系统服务
-        ServiceHookManager.getInstance().install(app)
+        ServiceHookManager.install(app)
         //全局运行时hook
         globalRunTimeHook()
 
@@ -166,7 +166,6 @@ object DoKitReal {
 
         //上传埋点
         DataPickManager.getInstance().postData()
-
 
     }
 

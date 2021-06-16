@@ -5,6 +5,10 @@ import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
 
+import com.didichuxing.doraemonkit.util.ReflectUtils;
+
+import org.jetbrains.annotations.Nullable;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -17,17 +21,17 @@ import java.util.Map;
  */
 public class WifiHooker extends BaseServiceHooker {
     @Override
-    public String getServiceName() {
+    public String serviceName() {
         return Context.WIFI_SERVICE;
     }
 
     @Override
-    public String getStubName() {
+    public String stubName() {
         return "android.net.wifi.IWifiManager$Stub";
     }
 
     @Override
-    public Map<String, MethodHandler> getMethodHandlers() {
+    public Map<String, MethodHandler> registerMethodHandlers() {
         Map<String, MethodHandler> methodHandlers = new HashMap<>();
         methodHandlers.put("getScanResults", new GetScanResultsMethodHandler());
         methodHandlers.put("getConnectionInfo", new GetConnectionInfoMethodHandler());
@@ -35,7 +39,7 @@ public class WifiHooker extends BaseServiceHooker {
     }
 
     @Override
-    public void replaceBinder(Context context, IBinder proxy) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
+    public void replaceBinderProxy(Context context, IBinder proxy) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
         WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (wifiManager == null) {
             return;
@@ -43,13 +47,13 @@ public class WifiHooker extends BaseServiceHooker {
         Class<?> wifiManagerClass = wifiManager.getClass();
         Field mServiceField = wifiManagerClass.getDeclaredField("mService");
         mServiceField.setAccessible(true);
-        Class stub = Class.forName(getStubName());
-        Method asInterface = stub.getDeclaredMethod(METHOD_ASINTERFACE, IBinder.class);
+        Class stub = Class.forName(stubName());
+        Method asInterface = stub.getDeclaredMethod("asInterface", IBinder.class);
         mServiceField.set(wifiManager, asInterface.invoke(null, proxy));
         mServiceField.setAccessible(false);
     }
 
-    static class GetScanResultsMethodHandler implements MethodHandler {
+    static class GetScanResultsMethodHandler extends MethodHandler {
 
         @Override
         public Object onInvoke(Object originService, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
@@ -58,9 +62,11 @@ public class WifiHooker extends BaseServiceHooker {
             }
             return new ArrayList<ScanResult>();
         }
+
+
     }
 
-    static class GetConnectionInfoMethodHandler implements MethodHandler {
+    static class GetConnectionInfoMethodHandler extends MethodHandler {
 
         @Override
         public Object onInvoke(Object originObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {

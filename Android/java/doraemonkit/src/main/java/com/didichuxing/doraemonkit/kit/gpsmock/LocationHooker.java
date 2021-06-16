@@ -2,7 +2,6 @@ package com.didichuxing.doraemonkit.kit.gpsmock;
 
 import android.content.Context;
 import android.location.GnssStatus;
-import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -12,12 +11,9 @@ import android.os.IBinder;
 import android.os.IInterface;
 import android.os.SystemClock;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-import com.didichuxing.doraemonkit.aop.location.GpsStatusUtil;
-import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.ReflectUtils;
 
 import java.lang.reflect.Field;
@@ -36,7 +32,7 @@ public class LocationHooker extends BaseServiceHooker {
 //    private LocationListener mHookLocationListener = null;
 
     @Override
-    public String getServiceName() {
+    public String serviceName() {
         return Context.LOCATION_SERVICE;
     }
 
@@ -46,43 +42,34 @@ public class LocationHooker extends BaseServiceHooker {
      * @return
      */
     @Override
-    public String getStubName() {
+    public String stubName() {
         return "android.location.ILocationManager$Stub";
     }
 
     @Override
-    public Map<String, MethodHandler> getMethodHandlers() {
+    public Map<String, MethodHandler> registerMethodHandlers() {
         Map<String, MethodHandler> methodHandlers = new HashMap<>();
         //methodHandlers.put("removeUpdates", new RemoveUpdatesMethodHandler());
         methodHandlers.put("requestLocationUpdates", new RequestLocationUpdatesMethodHandler());
         methodHandlers.put("getLastLocation", new GetLastLocationMethodHandler());
 //        methodHandlers.put("getLastKnownLocation", new GetLastKnownLocationMethodHandler());
-        methodHandlers.put("registerGnssStatusCallback", new registerGnssStatusCallbackMethodHandler());
+        methodHandlers.put("registerGnssStatusCallback", new RegisterGnssStatusCallbackMethodHandler());
         // methodHandlers.put("getGpsStatus", new getGpsStatusMethodHandler());
         return methodHandlers;
     }
 
     @Override
-    public void replaceBinder(Context context, IBinder proxy) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
+    public void replaceBinderProxy(Context context,  IBinder proxy) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InvocationTargetException {
         //在 frameworks/base/core/java/android/app/SystemServiceRegistry.java中初始化
+        //替换具体服务中的mService
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager == null) {
-            return;
-        }
 
-        LogHelper.i(TAG, "proxy ====>" + proxy);
-        //测试代码
-        //由于 asInterface 每次都会返回一个新的代理对象 所以会和proxy 不一致
-//        Object service = ReflectUtils.reflect(locationManager).field("mService").get();
-//        LogHelper.i(TAG, "service in locationManager====>" + service);
-
-        IInterface customService = ReflectUtils.reflect(getStubName()).method("asInterface", proxy).get();
-
+        IInterface customService = ReflectUtils.reflect(stubName()).method("asInterface", proxy).get();
         ReflectUtils.reflect(locationManager).field("mService", customService);
 
     }
 
-    static class GetLastKnownLocationMethodHandler implements MethodHandler {
+    static class GetLastKnownLocationMethodHandler extends MethodHandler {
         /**
          * @param originObject 原始对象 即 LocationManagerService
          * @param method       需要被代理的方法
@@ -93,7 +80,7 @@ public class LocationHooker extends BaseServiceHooker {
          * @throws NoSuchMethodException
          */
         @Override
-        public Object onInvoke(Object originObject,  Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        public Object onInvoke(Object originObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
             if (!GpsMockManager.getInstance().isMocking()) {
                 return method.invoke(originObject, args);
             }
@@ -113,10 +100,10 @@ public class LocationHooker extends BaseServiceHooker {
     }
 
 
-    static class GetLastLocationMethodHandler implements MethodHandler {
+    static class GetLastLocationMethodHandler extends MethodHandler {
 
         @Override
-        public Object onInvoke(Object originObject,  Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        public Object onInvoke(Object originObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
             if (!GpsMockManager.getInstance().isMocking()) {
                 return method.invoke(originObject, args);
             }
@@ -137,10 +124,10 @@ public class LocationHooker extends BaseServiceHooker {
     /**
      * 注册全球定位系统的
      */
-    static class registerGnssStatusCallbackMethodHandler implements MethodHandler {
+    static class RegisterGnssStatusCallbackMethodHandler extends MethodHandler {
 
         @Override
-        public Object onInvoke(Object originObject,  Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
+        public Object onInvoke(Object originObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
             //Log.i(TAG, "registerGnssStatusCallbackMethodHandler====>registerGnssStatus  " + originObject.toString() + "  proxyObject===>" + proxyObject.toString());
             if (!GpsMockManager.getInstance().isMocking()) {
                 return method.invoke(originObject, args);
@@ -208,7 +195,7 @@ public class LocationHooker extends BaseServiceHooker {
     /**
      * transport:ListenerTransport 内部包含LocationListener
      */
-    static class RequestLocationUpdatesMethodHandler implements MethodHandler {
+    static class RequestLocationUpdatesMethodHandler extends MethodHandler {
         /**
          * @param originService 原始对象 LocationManager#mService
          * @param method        需要被代理的方法 LocationManager#mService.requestLocationUpdates(request, transport, intent, packageName)
@@ -278,7 +265,7 @@ public class LocationHooker extends BaseServiceHooker {
 
         @Override
         public void onStarted() {
-            Log.i(TAG, "GnssStatusCallbackProxy===>onStarted");
+            //Log.i(TAG, "GnssStatusCallbackProxy===>onStarted");
             if (mCallback != null) {
                 mCallback.onStarted();
             }
@@ -286,7 +273,7 @@ public class LocationHooker extends BaseServiceHooker {
 
         @Override
         public void onStopped() {
-            Log.i(TAG, "GnssStatusCallbackProxy===>onStopped");
+            //Log.i(TAG, "GnssStatusCallbackProxy===>onStopped");
             if (mCallback != null) {
                 mCallback.onStopped();
             }
@@ -294,7 +281,7 @@ public class LocationHooker extends BaseServiceHooker {
 
         @Override
         public void onFirstFix(int ttffMillis) {
-            Log.i(TAG, "GnssStatusCallbackProxy===>onFirstFix：" + ttffMillis);
+            // Log.i(TAG, "GnssStatusCallbackProxy===>onFirstFix：" + ttffMillis);
             if (mCallback != null) {
                 mCallback.onFirstFix(ttffMillis);
             }
@@ -302,7 +289,7 @@ public class LocationHooker extends BaseServiceHooker {
 
         @Override
         public void onSatelliteStatusChanged(GnssStatus status) {
-            Log.i(TAG, "GnssStatusCallbackProxy===>onSatelliteStatusChanged：" + status);
+            // Log.i(TAG, "GnssStatusCallbackProxy===>onSatelliteStatusChanged：" + status);
             if (mCallback != null) {
                 mCallback.onSatelliteStatusChanged(status);
 

@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.kit.gpsmock;
 
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 
 import java.lang.reflect.InvocationTargetException;
@@ -74,7 +75,9 @@ public class GpsMockManager {
 
         long currentTimeMillis = System.currentTimeMillis();
         location.setTime(currentTimeMillis);
-        location.setElapsedRealtimeNanos(currentTimeMillis);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            location.setElapsedRealtimeNanos(currentTimeMillis);
+        }
         if (isFromMockProvider()) {
             Class<? extends Location> locationClass = location.getClass();
             try {
@@ -105,7 +108,7 @@ public class GpsMockManager {
     }
 
     public boolean isMockEnable() {
-        return ServiceHookManager.getInstance().isHookSuccess();
+        return ServiceHookManager.INSTANCE.isHookSuccess();
     }
 
     private static class Holder {

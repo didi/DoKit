@@ -89,7 +89,7 @@ class ToolPanelDokitView : AbsDokitView() {
 
     private fun initView() {
         val titleBar = findViewById<TitleBar>(R.id.title_bar)
-        titleBar.setOnTitleBarClickListener(object : TitleBar.OnTitleBarClickListener {
+        titleBar?.setOnTitleBarClickListener(object : TitleBar.OnTitleBarClickListener {
             override fun onLeftClick() {
                 detach()
             }
@@ -98,13 +98,11 @@ class ToolPanelDokitView : AbsDokitView() {
                 if (!isNormalMode) {
                     DoKit.hideToolPanel()
                 }
-                if (activity != null) {
-                    SimpleDokitStarter.startFullScreen(
-                        DokitMoreFragment::class.java,
-                        activity,
-                        isSystemFragment = true
-                    )
-                }
+                SimpleDokitStarter.startFullScreen(
+                    DokitMoreFragment::class.java,
+                    activity,
+                    isSystemFragment = true
+                )
             }
         })
         mAdapter = ToolPanelAdapter(mKits)
@@ -135,8 +133,8 @@ class ToolPanelDokitView : AbsDokitView() {
             }
         }
         val rvKits = findViewById<RecyclerView>(R.id.rv_kits)
-        rvKits.layoutManager = gridLayoutManager
-        rvKits.adapter = mAdapter
+        rvKits?.layoutManager = gridLayoutManager
+        rvKits?.adapter = mAdapter
 
     }
 

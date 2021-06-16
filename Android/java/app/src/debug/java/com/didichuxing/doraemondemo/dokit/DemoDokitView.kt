@@ -11,6 +11,7 @@ import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.util.LogHelper
+import kotlinx.coroutines.launch
 
 /**
  * ================================================
@@ -28,9 +29,11 @@ class DemoDokitView : AbsDokitView() {
     }
 
     override fun onViewCreated(rootView: FrameLayout) {
+
         val tvClose = findViewById<TextView>(R.id.tv_close)
-        tvClose.setOnClickListener { DokitViewManager.getInstance().detach(this@DemoDokitView) }
+        tvClose?.setOnClickListener { DokitViewManager.getInstance().detach(this@DemoDokitView) }
     }
+
 
     override fun initDokitViewLayoutParams(params: DokitViewLayoutParams) {
         params.width = DokitViewLayoutParams.WRAP_CONTENT
@@ -39,12 +42,6 @@ class DemoDokitView : AbsDokitView() {
         params.x = 200
         params.y = 200
     }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-
 
 
 }

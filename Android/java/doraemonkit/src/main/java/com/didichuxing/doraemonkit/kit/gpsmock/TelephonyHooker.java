@@ -5,6 +5,8 @@ import android.os.IBinder;
 import android.telephony.CellInfo;
 import android.telephony.gsm.GsmCellLocation;
 
+import com.didichuxing.doraemonkit.util.ReflectUtils;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -16,17 +18,17 @@ import java.util.Map;
  */
 public class TelephonyHooker extends BaseServiceHooker {
     @Override
-    public String getServiceName() {
+    public String serviceName() {
         return Context.TELEPHONY_SERVICE;
     }
 
     @Override
-    public String getStubName() {
+    public String stubName() {
         return "com.android.internal.telephony.ITelephony$Stub";
     }
 
     @Override
-    public Map<String, MethodHandler> getMethodHandlers() {
+    public Map<String, MethodHandler> registerMethodHandlers() {
         Map<String, MethodHandler> methodHandlers = new HashMap<>();
         methodHandlers.put("getAllCellInfo", new GetAllCellInfoMethodHandler());
         methodHandlers.put("getCellLocation", new GetCellLocationMethodHandler());
@@ -35,11 +37,11 @@ public class TelephonyHooker extends BaseServiceHooker {
     }
 
     @Override
-    public void replaceBinder(Context context, IBinder proxy) {
+    public void replaceBinderProxy(Context context, IBinder proxy) {
 
     }
 
-    static class GetAllCellInfoMethodHandler implements MethodHandler {
+    static class GetAllCellInfoMethodHandler extends MethodHandler {
 
         @Override
         public Object onInvoke(Object originObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
@@ -50,7 +52,7 @@ public class TelephonyHooker extends BaseServiceHooker {
         }
     }
 
-    static class GetCellLocationMethodHandler implements MethodHandler {
+    static class GetCellLocationMethodHandler extends MethodHandler {
 
         @Override
         public Object onInvoke(Object originObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
@@ -62,7 +64,7 @@ public class TelephonyHooker extends BaseServiceHooker {
         }
     }
 
-    static class ListenMethodHandler implements MethodHandler {
+    static class ListenMethodHandler extends MethodHandler {
         @Override
         public Object onInvoke(Object originObject, Method method, Object[] args) throws InvocationTargetException, IllegalAccessException {
             if (!GpsMockManager.getInstance().isMocking()) {

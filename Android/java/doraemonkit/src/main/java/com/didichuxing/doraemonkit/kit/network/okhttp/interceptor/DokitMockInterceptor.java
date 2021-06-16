@@ -176,6 +176,10 @@ public class DokitMockInterceptor extends AbsDoKitInterceptor {
      */
     private void addNetWokInfoInAppHealth(@NonNull Request request, @NonNull Response response) {
         try {
+            if (ActivityUtils.getTopActivity() == null) {
+                return;
+            }
+
             long upSize = -1;
             long downSize = -1;
             if (request.body() != null) {

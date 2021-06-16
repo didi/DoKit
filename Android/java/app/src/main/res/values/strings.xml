@@ -8,6 +8,7 @@
     <string name="app_btn_leak">模拟内存泄漏</string>
     <string name="app_btn_app_launch_stack">app启动函数调用栈</string>
     <string name="app_btn_show_tool_panel">显示工具面板</string>
+    <string name="app_btn_installed_app">获取已安装的app</string>
     <string name="app_btn_method_cost">函数调用耗时(TAG:MethodCostUtil)</string>
     <string name="app_btn_location">获取位置信息(系统)</string>
     <string name="app_btn_path_amap">高德路径规划</string>
