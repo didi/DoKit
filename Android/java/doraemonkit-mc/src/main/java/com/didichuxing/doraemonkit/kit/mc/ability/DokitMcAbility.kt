@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc.ability
 
+import com.didichuxing.doraemonkit.constant.DoKitModule
 import com.didichuxing.doraemonkit.kit.core.DokitAbility
 import com.google.auto.service.AutoService
 
@@ -14,11 +15,12 @@ import com.google.auto.service.AutoService
  */
 @AutoService(DokitAbility::class)
 class DokitMcAbility : DokitAbility {
-    override fun moduleName(): String {
-        return "DoKit_MC"
+    override fun moduleName(): DoKitModule {
+        return DoKitModule.MODULE_MC
     }
 
-    override fun getModuleFunctions(): Map<String, Any> {
-        return mapOf("okhttp_interceptor" to DokitMcInterceptor())
+    override fun getModuleProcessor(): DokitAbility.DokitModuleProcessor {
+        return DokitMcModuleProcessor()
     }
+
 }

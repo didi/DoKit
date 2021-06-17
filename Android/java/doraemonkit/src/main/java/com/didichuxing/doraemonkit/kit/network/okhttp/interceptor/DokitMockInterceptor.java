@@ -338,7 +338,7 @@ public class DokitMockInterceptor extends AbsDoKitInterceptor {
         //这里不能直接使用response.body().string()的方式输出日志
         //因为response.body().string()之后，response中的流会被关闭，程序会报错，我们需要创建出一
         //个新的response给应用层处理
-        ResponseBody responseBody = response.peekBody(1024 * 1024);
+        ResponseBody responseBody = response.peekBody(Long.MAX_VALUE);
 
         String strResponseBody = responseBody.string();
         if (TextUtils.isEmpty(strResponseBody)) {

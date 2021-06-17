@@ -172,6 +172,7 @@ dependencies {
     implementation rootProject.ext.dependencies["weex_inspector"]
     implementation rootProject.ext.dependencies["weex_sdk"]
     implementation rootProject.ext.dependencies["utilcode"]
+    implementation rootProject.ext.dependencies["brvah"]
 
     implementation rootProject.ext.dependencies["easypermissions"]
     releaseImplementation rootProject.ext.dependencies["okgo"]

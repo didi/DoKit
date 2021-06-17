@@ -4,8 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 import com.didichuxing.doraemonkit.kit.mc.all.McConstant
+import com.didichuxing.doraemonkit.kit.mc.client.ClientDokitView
 import com.didichuxing.doraemonkit.kit.mc.client.DoKitWsClient
+import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
 import com.didichuxing.doraemonkit.mc.R
 
 /**
@@ -33,6 +36,8 @@ class DoKitMcClientFragment : BaseFragment() {
                 (activity as DoKitMcActivity).changeFragment(DoKitMcActivity.FRAGMENT_SELECT)
             }
         }
+        //启动悬浮窗
+        SimpleDokitStarter.startFloating(ClientDokitView::class.java)
     }
 
 

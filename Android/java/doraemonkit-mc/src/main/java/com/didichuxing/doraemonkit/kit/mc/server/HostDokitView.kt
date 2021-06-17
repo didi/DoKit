@@ -1,0 +1,40 @@
+package com.didichuxing.doraemonkit.kit.mc.server
+
+import android.content.Context
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.widget.FrameLayout
+import com.didichuxing.doraemonkit.kit.core.AbsDokitView
+import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
+import com.didichuxing.doraemonkit.mc.R
+import com.didichuxing.doraemonkit.util.ConvertUtils
+
+/**
+ * ================================================
+ * 作    者：jint（金台）
+ * 版    本：1.0
+ * 创建日期：2021/6/17-14:37
+ * 描    述：
+ * 修订历史：
+ * ================================================
+ */
+class HostDokitView : AbsDokitView() {
+    override fun onCreate(context: Context?) {
+    }
+
+    override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
+        return LayoutInflater.from(context).inflate(R.layout.dk_dokitview_host, rootView, false)
+    }
+
+    override fun onViewCreated(rootView: FrameLayout?) {
+    }
+
+    override fun initDokitViewLayoutParams(params: DokitViewLayoutParams) {
+        params.width = DokitViewLayoutParams.WRAP_CONTENT
+        params.height = DokitViewLayoutParams.WRAP_CONTENT
+        params.gravity = Gravity.TOP or Gravity.LEFT
+        params.x = ConvertUtils.dp2px(280f)
+        params.y = ConvertUtils.dp2px(25f)
+    }
+}

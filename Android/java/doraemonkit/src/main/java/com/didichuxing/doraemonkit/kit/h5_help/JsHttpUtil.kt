@@ -345,7 +345,7 @@ internal object JsHttpUtil {
             //这里不能直接使用response.body().string()的方式输出日志
             //因为response.body().string()之后，response中的流会被关闭，程序会报错，我们需要创建出一
             //个新的response给应用层处理
-            val responseBody = response.peekBody(1024 * 1024.toLong())
+            val responseBody = response.peekBody(Long.MAX_VALUE)
             val strResponseBody = responseBody.string()
             if (TextUtils.isEmpty(strResponseBody)) {
                 return

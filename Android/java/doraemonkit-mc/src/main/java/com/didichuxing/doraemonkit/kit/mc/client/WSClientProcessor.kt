@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.view.ViewParent
 import android.view.accessibility.AccessibilityEvent
 import android.widget.*
+import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
@@ -260,6 +261,12 @@ object WSClientProcessor {
 
         when (targetView) {
             is ScrollView -> {
+                viewC12c.accEventInfo?.let { accEventInfo ->
+                    targetView.smoothScrollTo(accEventInfo.scrollX!!, accEventInfo.scrollY!!)
+                }
+            }
+
+            is NestedScrollView -> {
                 viewC12c.accEventInfo?.let { accEventInfo ->
                     targetView.smoothScrollTo(accEventInfo.scrollX!!, accEventInfo.scrollY!!)
                 }

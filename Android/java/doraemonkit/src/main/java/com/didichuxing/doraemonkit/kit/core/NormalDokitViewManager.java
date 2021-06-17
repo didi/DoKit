@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitModule;
 import com.didichuxing.doraemonkit.constant.WSMode;
 import com.didichuxing.doraemonkit.kit.health.CountDownDokitView;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
@@ -30,14 +31,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.meta.When;
+
 /**
  * Created by jintai on 2018/10/23.
  * 每个activity悬浮窗管理类
  */
 
-class NormalDokitViewManager implements DokitViewManagerInterface {
+class NormalDokitViewManager extends AbsDokitViewManager {
     private static int MC_DELAY = 100;
-    private static final String TAG = "NormalDokitViewManager";
     /**
      * 每个Activity中dokitView的集合
      */
@@ -136,6 +138,8 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         }
         //倒计时DokitView
         attachCountDownDokitView(activity);
+        //启动一机多控悬浮窗
+        attachMcDokitView(activity);
 
         if (!DoKitConstant.AWAYS_SHOW_MAIN_ICON) {
             DoKitConstant.MAIN_ICON_HAS_SHOW = false;
@@ -186,6 +190,8 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
 
         //倒计时DokitView
         attachCountDownDokitView(activity);
+        //启动一机多控悬浮窗
+        attachMcDokitView(activity);
     }
 
     /**
@@ -270,6 +276,8 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         }
 
         attachCountDownDokitView(activity);
+        //启动一机多控悬浮窗
+        attachMcDokitView(activity);
     }
 
     private void attachMainIconDokitView(Activity activity) {
@@ -289,20 +297,7 @@ class NormalDokitViewManager implements DokitViewManagerInterface {
         }
     }
 
-    /**
-     * 添加倒计时DokitView
-     */
-    private void attachCountDownDokitView(Activity activity) {
-        if (!DoKitConstant.APP_HEALTH_RUNNING) {
-            return;
-        }
-        if (activity instanceof UniversalActivity) {
-            return;
-        }
-        DokitIntent dokitIntent = new DokitIntent(CountDownDokitView.class);
-        dokitIntent.mode = DokitIntent.MODE_ONCE;
-        attach(dokitIntent);
-    }
+
 
 
     /**

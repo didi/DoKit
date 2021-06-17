@@ -7,6 +7,8 @@ import android.view.WindowManager;
 
 import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitModule;
+import com.didichuxing.doraemonkit.constant.WSMode;
 import com.didichuxing.doraemonkit.kit.health.CountDownDokitView;
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView;
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo;
@@ -23,8 +25,7 @@ import java.util.Map;
  * 系统悬浮窗管理类
  */
 
-class SystemDokitViewManager implements DokitViewManagerInterface {
-    private static final String TAG = "FloatPageManager";
+class SystemDokitViewManager extends AbsDokitViewManager {
     /**
      * 参考:
      * https://blog.csdn.net/awenyini/article/details/78265284
@@ -120,26 +121,12 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
         }
     }
 
-    /**
-     * 添加倒计时DokitView
-     */
-    private void attachCountDownDokitView(Activity activity) {
-        if (!DoKitConstant.APP_HEALTH_RUNNING) {
-            return;
-        }
-        if (activity instanceof UniversalActivity) {
-            return;
-        }
-        DokitIntent dokitIntent = new DokitIntent(CountDownDokitView.class);
-        dokitIntent.mode = DokitIntent.MODE_ONCE;
-        attach(dokitIntent);
-    }
-
 
     @Override
     public void onMainActivityCreate(Activity activity) {
         //倒计时DokitView
         attachCountDownDokitView(activity);
+        attachMcDokitView(activity);
 
         if (!DoKitConstant.AWAYS_SHOW_MAIN_ICON) {
             return;
@@ -174,6 +161,8 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
                 ((CountDownDokitView) countDownDokitView).resetTime();
             }
         }
+
+        attachMcDokitView(activity);
     }
 
 
@@ -187,6 +176,8 @@ class SystemDokitViewManager implements DokitViewManagerInterface {
             //重置倒计时
             ((CountDownDokitView) countDownDokitView).resetTime();
         }
+
+        attachMcDokitView(activity);
 
         //判断是否存在主入口icon
         Map<String, AbsDokitView> dokitViews = getDokitViews(activity);

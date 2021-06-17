@@ -1,5 +1,7 @@
 package com.didichuxing.doraemonkit.kit.core
 
+import com.didichuxing.doraemonkit.constant.DoKitModule
+
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -14,10 +16,21 @@ interface DokitAbility {
     /**
      * 模块名
      */
-    fun moduleName(): String
+    fun moduleName(): DoKitModule
 
-    /**
-     *注册模块能力
-     */
-    fun getModuleFunctions(): Map<String, Any>
+//    /**
+//     *注册模块能力
+//     */
+//    fun getModuleFunctions(): Map<String, Any>
+
+    fun getModuleProcessor(): DokitModuleProcessor
+
+
+
+    interface DokitModuleProcessor {
+
+        fun values(): Map<String, Any>
+
+        fun proceed(actions: Map<String, Any>? = null): Map<String, Any>
+    }
 }

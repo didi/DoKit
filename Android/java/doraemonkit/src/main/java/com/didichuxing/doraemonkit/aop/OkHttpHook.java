@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.aop;
 
 import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitModule;
 import com.didichuxing.doraemonkit.kit.core.DokitAbility;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.AbsDoKitInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitCapInterceptor;
@@ -15,8 +16,6 @@ import java.util.List;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-
-import static com.baidu.location.e.m.as;
 
 /**
  * ================================================
@@ -52,9 +51,10 @@ public class OkHttpHook {
         List<Interceptor> interceptors = new ArrayList<>(client.interceptors());
         List<Interceptor> networkInterceptors = new ArrayList<>(client.networkInterceptors());
         try {
-            if (DoKitConstant.INSTANCE.getDOKIT_MODULE_ABILITIES().get("DoKit_MC") != null) {
-                DokitAbility ability = DoKitConstant.INSTANCE.getDOKIT_MODULE_ABILITIES().get("DoKit_MC");
-                Object interceptor = ability.getModuleFunctions().get("okhttp_interceptor");
+
+            DokitAbility.DokitModuleProcessor processor = DoKitConstant.INSTANCE.getModuleProcessor(DoKitModule.MODULE_MC);
+            if (processor != null) {
+                Object interceptor = processor.values().get("okhttp_interceptor");
                 if (interceptor instanceof AbsDoKitInterceptor) {
                     interceptors.add((AbsDoKitInterceptor) interceptor);
                 }

@@ -8,17 +8,19 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
 import android.widget.ImageView
 import android.widget.TextView
-import com.didichuxing.doraemonkit.util.ImageUtils
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.hook.AccessibilityGetInstanceMethodHook
 import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onInitializeAccessibilityEventHook
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
+import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
 import com.didichuxing.doraemonkit.kit.mc.util.CodeUtils
 import com.didichuxing.doraemonkit.kit.mc.util.McUtil
 import com.didichuxing.doraemonkit.mc.R
+import com.didichuxing.doraemonkit.util.ImageUtils
 import de.robv.android.xposed.DexposedBridge
 import de.robv.android.xposed.XposedHelpers
 
@@ -50,6 +52,8 @@ class DoKitMcHostFragment : BaseFragment() {
             DoKitWsServer.start {
                 DoKitWindowManager.hookWindowManagerGlobal()
                 runTimeHook()
+                //启动悬浮窗
+                SimpleDokitStarter.startFloating(HostDokitView::class.java)
             }
         }
     }

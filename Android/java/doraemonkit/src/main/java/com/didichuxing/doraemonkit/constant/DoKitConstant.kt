@@ -32,10 +32,23 @@ object DoKitConstant {
     const val GROUP_ID_UI = "dk_category_ui"
     const val GROUP_ID_LBS = "dk_category_lbs"
 
+
     /**
      * DoKit 模块能力
      */
-    val DOKIT_MODULE_ABILITIES = mutableMapOf<String, DokitAbility>()
+    val DOKIT_MODULE_ABILITIES = mutableMapOf<DoKitModule, DokitAbility.DokitModuleProcessor>()
+
+
+    /**
+     * 获取ModuleProcessor
+     */
+    fun getModuleProcessor(module: DoKitModule): DokitAbility.DokitModuleProcessor? {
+        if (DOKIT_MODULE_ABILITIES[module] == null) {
+            return null
+        }
+        return DOKIT_MODULE_ABILITIES[module]
+    }
+
 
     val SYSTEM_KITS_BAK_PATH: String by lazy {
         "${PathUtils.getInternalAppFilesPath()}${File.separator}system_kit_bak_${BuildConfig.DOKIT_VERSION}.json"

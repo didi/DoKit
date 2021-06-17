@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit.kit.filemanager.ability
 
-import com.didichuxing.doraemonkit.constant.DoKitModule
 import com.didichuxing.doraemonkit.kit.core.DokitAbility
 import com.google.auto.service.AutoService
 
@@ -13,14 +12,14 @@ import com.google.auto.service.AutoService
  * 修订历史：
  * ================================================
  */
-@AutoService(DokitAbility::class)
-class DokitFtAbility : DokitAbility {
-    override fun moduleName(): DoKitModule {
-        return DoKitModule.MODULE_FT
+class DokitFtModuleProcessor : DokitAbility.DokitModuleProcessor {
+
+
+    override fun values(): Map<String, Any> {
+        return mapOf()
     }
 
-    override fun getModuleProcessor(): DokitAbility.DokitModuleProcessor {
-        return DokitFtModuleProcessor()
+    override fun proceed(actions: Map<String, Any>?): Map<String, Any> {
+        return mapOf()
     }
-
 }

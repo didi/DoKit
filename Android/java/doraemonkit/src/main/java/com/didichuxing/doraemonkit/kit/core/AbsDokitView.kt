@@ -20,7 +20,6 @@ import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import com.didichuxing.doraemonkit.config.FloatIconConfig
 import com.didichuxing.doraemonkit.constant.DoKitConstant
-import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
 import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.util.LogHelper
@@ -41,7 +40,7 @@ import java.lang.ref.WeakReference
 abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
     DokitViewManager.DokitViewAttachedListener {
 
-    val dokitScope = MainScope().plus(CoroutineName(this.javaClass.simpleName))
+    val doKitViewScope = MainScope().plus(CoroutineName(this.javaClass.simpleName))
 
     val TAG = this.javaClass.simpleName
 
@@ -432,7 +431,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
         }
         DokitViewManager.getInstance().removeLastDokitViewPosInfo(tag)
         mAttachActivity = null
-        dokitScope.cancel()
+        doKitViewScope.cancel()
     }
 
     /**

@@ -19,7 +19,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.amap.api.location.AMapLocationListener
 import com.blankj.utilcode.util.ConvertUtils
 import com.blankj.utilcode.util.ThreadUtils
@@ -28,10 +29,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.didichuxing.doraemondemo.amap.AMapRouterFragment
 import com.didichuxing.doraemondemo.comm.CommLauncher
+import com.didichuxing.doraemondemo.dokit.DemoDokitView
 import com.didichuxing.doraemondemo.mc.MCActivity
 import com.didichuxing.doraemondemo.retrofit.GithubService
 import com.didichuxing.doraemonkit.DoKit
-import com.didichuxing.doraemonkit.util.LogHelper
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
+import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
+import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lzy.okgo.OkGo
@@ -44,7 +48,6 @@ import com.squareup.picasso.Picasso
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
 import okhttp3.*
-import org.json.JSONObject
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.PermissionRequest
 import retrofit2.Retrofit
@@ -61,6 +64,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
     private var okHttpClient: OkHttpClient? = null
     private var mLocationManager: LocationManager? = null
     private val UPDATE_UI = 100
+    private lateinit var mAdapter: MainAdapter
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("https://api.github.com/")
@@ -86,33 +90,147 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
     }
 
 
+    val datas = mutableListOf(
+        "显示/隐藏Dokit入口",
+        "显示工具面板",
+        "获取已安装的app",
+        "跳转其他Activity",
+        "一机多控",
+        "NormalWebView",
+        "X5WebView",
+        "模拟内存泄漏",
+        "函数调用耗时(TAG:MethodCostUtil)",
+        "获取位置信息(系统)",
+        "高德路径规划",
+        "OkHttp Mock",
+        "HttpURLConnection Mock",
+        "Retrofit Mock",
+        "模拟Crash",
+        "创建数据库",
+        "上传文件",
+        "下载文件"
+    )
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val tvEnv = findViewById<TextView>(R.id.tv_env)
         tvEnv.text = "${getString(R.string.app_build_types)}:Debug"
-        findViewById<View>(R.id.btn_jump).setOnClickListener(this)
-        findViewById<View>(R.id.btn_webview).setOnClickListener(this)
-        findViewById<View>(R.id.btn_installed_app).setOnClickListener(this)
-        findViewById<View>(R.id.btn_x5_webview).setOnClickListener(this)
-        findViewById<View>(R.id.btn_method_cost).setOnClickListener(this)
-        findViewById<View>(R.id.btn_jump_leak).setOnClickListener(this)
-        findViewById<View>(R.id.btn_mc).setOnClickListener(this)
-        findViewById<View>(R.id.btn_app_launch_stack).setOnClickListener(this)
-        findViewById<View>(R.id.btn_show_tool_panel).setOnClickListener(this)
-        findViewById<View>(R.id.btn_location).setOnClickListener(this)
-        findViewById<View>(R.id.btn_path_amap).setOnClickListener(this)
-        findViewById<View>(R.id.btn_location_map2).setOnClickListener(this)
+        val rv = findViewById<RecyclerView>(R.id.rv)
+        rv.layoutManager = LinearLayoutManager(this)
+        mAdapter = MainAdapter(R.layout.item_main_rv, datas)
+        rv.adapter = mAdapter
+        mAdapter.setOnItemClickListener { _, _, position ->
+            when (datas[position]) {
+                "显示/隐藏Dokit入口" -> {
+//                    if (DoKit.isMainIconShow) {
+//                        DoKit.hide()
+//                    } else {
+//                        DoKit.show()
+//                    }
+
+                    SimpleDokitStarter.startFloating(RecordingDokitView::class.java)
+
+                }
+                "显示工具面板" -> {
+                    DoKit.showToolPanel()
+                }
+                "获取已安装的app" -> {
+                    packageManager.getInstalledApplications(PackageManager.MATCH_UNINSTALLED_PACKAGES)
+                }
+                "跳转其他Activity" -> {
+                    startActivity(Intent(this, SecondActivity::class.java))
+                }
+                "一机多控" -> {
+                    startActivity(Intent(this, MCActivity::class.java))
+                }
+                "NormalWebView" -> {
+                    startActivity(Intent(this, WebViewNormalActivity::class.java))
+                }
+                "X5WebView" -> {
+                    startActivity(Intent(this, WebViewX5Activity::class.java))
+                }
+
+                "模拟内存泄漏" -> {
+                    startActivity(Intent(this, LeakActivity::class.java))
+                }
+
+                "函数调用耗时(TAG:MethodCostUtil)" -> {
+                    test1()
+                }
+                "获取位置信息(系统)" -> {
+                    startNormaLocation()
+                }
+                "高德路径规划" -> {
+                    CommLauncher.startActivity(AMapRouterFragment::class.java)
+                }
+                "OkHttp Mock" -> {
+                    OkGo.get<String>("https://wanandroid.com/user_article/list/0/json")
+                        //.upJson(json.toString())
+                        .execute(object : StringCallback() {
+                            override fun onSuccess(response: Response<String>?) {
+                                response?.let {
+                                    Log.i(
+                                        MainDebugActivityOkhttpV3.TAG,
+                                        "okhttp====onSuccess===>" + it.body()
+                                    )
+                                }
+                            }
+
+                            override fun onError(response: Response<String>?) {
+                                response?.let {
+                                    Log.i(
+                                        MainDebugActivityOkhttpV3.TAG,
+                                        "okhttp====onError===>" + it.message()
+                                    )
+                                }
+                            }
+
+                        })
+                }
+                "HttpURLConnection Mock" -> {
+                    requestByGet("https://wanandroid.com/user_article/list/0/json")
+                }
+                "Retrofit Mock" -> {
+                    githubService?.githubUserInfo("jtsky")
+                        ?.subscribeOn(Schedulers.io())
+                        ?.subscribe(
+                            {
+                                Log.i(
+                                    MainDebugActivityOkhttpV3.TAG,
+                                    "githubUserInfo===>${it.login}"
+                                )
+                            },
+                            {
+                                Log.e(
+                                    MainDebugActivityOkhttpV3.TAG,
+                                    "Request failed by retrofit mock",
+                                    it
+                                )
+                            }
+                        )
+                }
+                "模拟Crash" -> {
+                    testCrash()!!.length
+                }
+                "创建数据库" -> {
+                    val dbHelper = MyDatabaseHelper(this, "BookStore.db", null, 1)
+                    dbHelper.writableDatabase
+                    dbHelper.close()
+                }
+                "上传文件" -> {
+                    requestByFile(true)
+                }
+                "下载文件" -> {
+                    requestByFile(false)
+                }
+                else -> {
+                }
+            }
+        }
         findViewById<View>(R.id.btn_load_img).setOnClickListener(this)
-        findViewById<View>(R.id.btn_okhttp_mock).setOnClickListener(this)
-        findViewById<View>(R.id.btn_connection_mock).setOnClickListener(this)
-        //        findViewById(R.id.btn_rpc_mock).setOnClickListener(this);
-        findViewById<View>(R.id.btn_retrofit_mock).setOnClickListener(this)
-        findViewById<View>(R.id.btn_test_crash).setOnClickListener(this)
-        findViewById<View>(R.id.btn_show_hide_icon).setOnClickListener(this)
-        findViewById<View>(R.id.btn_create_database).setOnClickListener(this)
-        findViewById<View>(R.id.btn_upload_test).setOnClickListener(this)
-        findViewById<View>(R.id.btn_download_test).setOnClickListener(this)
+
         okHttpClient = OkHttpClient().newBuilder().build()
         //获取定位服务
         mLocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -133,11 +251,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
 
         githubService = retrofit.create(GithubService::class.java)
 
-        lifecycleScope.launch {
 
-        }
-
-//        AopTest().test()
     }
 
     private fun test1() {
@@ -215,30 +329,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
     @SuppressLint("MissingPermission")
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.btn_method_cost -> {
-                val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
-                val gpsStatus = locationManager.getGpsStatus(null)
-                LogHelper.i("sss", "gpsStatus==>$gpsStatus")
-                //test1()
-            }
-            R.id.btn_show_tool_panel ->                 //直接调起工具面板
-                DoKit.showToolPanel()
-            R.id.btn_jump -> startActivity(Intent(this, SecondActivity::class.java))
-            R.id.btn_installed_app -> {
-                val apps =
-                    packageManager.getInstalledApplications(PackageManager.MATCH_UNINSTALLED_PACKAGES)
-            }
-            R.id.btn_webview -> startActivity(Intent(this, WebViewNormalActivity::class.java))
-            R.id.btn_x5_webview -> startActivity(Intent(this, WebViewX5Activity::class.java))
-            R.id.btn_jump_leak -> startActivity(Intent(this, LeakActivity::class.java))
-            R.id.btn_mc -> startActivity(Intent(this, MCActivity::class.java))
-            R.id.btn_app_launch_stack -> {
-                //MethodStackUtil.getInstance().toJson()
-            }
-            R.id.btn_location -> startNormaLocation()
-            R.id.btn_path_amap -> CommLauncher.startActivity(AMapRouterFragment::class.java)
-//            R.id.btn_location_map2 -> startActivity(Intent(
-//                    this, MapShowingLocationActivity::class.java))
+
             R.id.btn_load_img -> {
                 //Glide 加载
                 val picassoImgUrl =
@@ -274,71 +365,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                 // combines above two lines
                 imagePipeline.clearCaches()
             }
-            R.id.btn_okhttp_mock -> {
-                //DokitOkGo.<String>get("https://www.tianqiapi.com/api")
-//                DokitOkGo.post<String>("http://www.v2ex.com/api/topics/hot.json?aaa=aaa&bbb=bbb")
-//                        .params("ccc", "ccc")
-//                        .params("ddd", "ddd")
-//                        .execute(object : StringCallback() {
-//                            override fun onSuccess(response: Response<String>) {
-//                                Log.i(TAG, "okhttp====onSuccess===>" + response.body())
-//                            }
-//
-//                            override fun onError(response: Response<String>) {
-//                                Log.i(TAG, "okhttp====onError===>" + response.message())
-//                            }
-//                        })
 
-                val json = JSONObject()
-                //json
-                OkGo.get<String>("https://wanandroid.com/user_article/list/0/json")
-                    //.upJson(json.toString())
-                    .execute(object : StringCallback() {
-                        override fun onSuccess(response: Response<String>?) {
-                            response?.let {
-                                Log.i(TAG, "okhttp====onSuccess===>" + it.body())
-                            }
-                        }
-
-                        override fun onError(response: Response<String>?) {
-                            response?.let {
-                                Log.i(TAG, "okhttp====onError===>" + it.message())
-                            }
-                        }
-
-                    })
-
-
-            }
-
-
-            R.id.btn_connection_mock -> {
-                //requestByGet("https://www.v2ex.com/api/topics/hot.json");
-                //requestByGet("https://gank.io/api/today?a=哈哈&b=bb")
-                requestByGet("https://wanandroid.com/user_article/list/0/json")
-                //requestByGet("https://ant.pingan.com.cn/c.gif?title=非车险产品dock&url=http://com.pingan.lifecircle/feiche_AllProductPage&eventName=pageview&refererUrlTime=400&referer=http://com.pingan.lifecircle/personal_MainPage&siteId=QRM79jeIRrN2B565&userProperty=%7B\"userIdType\":\"aopsId\"%7D&resolution=1080*2340&userAgent=Dalvik/2.1.0(Linux;U;Android9;RedmiNote8ProMIUI/V11.0.6.0.PGGCNXM)&language=zh&apiv=2&seStartTime=1592363736562&eventTime=1592363794558&userId=138068825&netType=4G&customerVar=%7B\"sdkVersion\":\"2.2.8.6\",\"macAddress\":\"A4:45:19:38:4A:5A\",\"gpsFlag\":\"0\",\"imei\":\"\"%7D&uaOs=Android&uaOsMajor=&uaOsMinor=&uaDevice=RedmiNote8Pro&downloadChannel=ch1&appVersion=1.13.1&deviceId=b69a044c294af87f&sessionId=8416a37db255daa4&projectId=OCUTeffvo02r7nmj")
-            }
-            R.id.btn_retrofit_mock -> {
-                githubService?.githubUserInfo("jtsky")
-                    ?.subscribeOn(Schedulers.io())
-                    ?.subscribe(
-                        { Log.i(TAG, "githubUserInfo===>${it.login}") },
-                        { Log.e(TAG, "Request failed by retrofit mock", it) }
-                    )
-            }
-            R.id.btn_test_crash -> testCrash()!!.length
-            R.id.btn_show_hide_icon -> if (DoKit.isMainIconShow) {
-                DoKit.hide()
-            } else {
-                DoKit.show()
-            }
-            R.id.btn_create_database -> {
-                val dbHelper = MyDatabaseHelper(this, "BookStore.db", null, 1)
-                dbHelper.writableDatabase
-                dbHelper.close()
-            }
-            R.id.btn_upload_test -> requestByFile(true)
-            R.id.btn_download_test -> requestByFile(false)
             else -> {
             }
         }
@@ -456,7 +483,8 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
             } else if (e is SocketTimeoutException) {
                 Toast.makeText(this@MainDebugActivityOkhttpV3, "请求超时", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this@MainDebugActivityOkhttpV3, e.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainDebugActivityOkhttpV3, e.message, Toast.LENGTH_LONG)
+                    .show()
             }
         }
     }

@@ -63,7 +63,7 @@ class CountDownDokitView : AbsDokitView() {
             }
         }
 
-        countDownJob = dokitScope.launch {
+        countDownJob = doKitViewScope.launch {
             countDownFlow.collect {
                 withContext(Dispatchers.Main) {
                     mNum?.text = it.toString()
