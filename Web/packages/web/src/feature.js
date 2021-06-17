@@ -7,6 +7,8 @@ import H5DoorPlugin from './plugins/h5-door/index'
 import AlignRuler from './plugins/align-ruler/index'
 import HelloWorld from './components/ToolHelloWorld'
 import Resource from './plugins/resources/index'
+import ApiMock from './plugins/api-mock/index'
+
 import {IndependPlugin, RouterPlugin} from '@dokit/web-core'
 
 export const BasicFeatures = {
@@ -16,12 +18,7 @@ export const BasicFeatures = {
 
 export const DokitFeatures = {
   title: '平台功能',
-  list: [new RouterPlugin({
-    nameZh: 'Mock数据',
-    name: 'mock',
-    icon: 'https://pt-starimg.didistatic.com/static/starimg/img/aDn77poRDB1618997545078.png',
-    component: HelloWorld
-  })]
+  list: [ApiMock]
 }
 
 export const UIFeatures = {

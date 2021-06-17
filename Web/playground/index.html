@@ -14,4 +14,26 @@
 </body>
 <script src="https://unpkg.com/vue@next"></script>
 <script src="../packages/web/dist/dokit.js"></script>
+<script>
+  Dokit.setProductId('379cca45571436f86c31d687578541fc')
+</script>
+<script>
+  setTimeout(() => {
+    // fetch('https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7')
+    //   .then((response) => {
+    //     let weatherInfo = response.json();
+    //     return weatherInfo;
+    //   })
+    //   .then((info) => {
+    //   });
+
+    function reqListener () {
+      console.log('asasdasd', this.responseText);
+    }
+    var oReq = new XMLHttpRequest();
+    oReq.addEventListener("load", reqListener);
+    oReq.open("GET", "https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7");
+    oReq.send();
+  }, 5000);
+</script>
 </html>

@@ -12,3 +12,10 @@ export const isMobile = function() {
   }
   return false
 }
+
+export const getPartUrlByParam = (url, param) => {
+  const reg = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/;
+  const res = reg.exec(url)
+  const fields = ['url', 'scheme', 'slash', 'host', 'port', 'path', 'query', 'hash'];
+  return res[fields.indexOf(param)]
+}

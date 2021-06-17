@@ -1,6 +1,7 @@
 export const LifecycleHooks = {
   LOAD: 'load',
-  UNLOAD: 'unload'
+  UNLOAD: 'unload',
+  PRODUCT_READY: 'productReady'
 }
 
 export const applyLifecyle = function(features, lifecycle){
