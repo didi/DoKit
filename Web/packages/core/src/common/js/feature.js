@@ -8,20 +8,25 @@ export class BasePlugin{
   component = null
   _onLoad = noop
   _onUnload = noop
+  _onProductReady = noop
   constructor(options){
-    let {name, nameZh, icon, component, onLoad, onUnload} = options;
+    let {name, nameZh, icon, component, onLoad, onUnload, onProductReady} = options;
     this.name = name;
     this.nameZh = nameZh;
     this.icon = icon;
     this.component = component;
     this._onLoad = onLoad || noop;
     this._onUnload = onUnload || noop;
+    this._onProductReady = onProductReady || noop
   }
   load(){
     this._onLoad.call(this)
   }
   unload(){
     this._onUnload.call(this)
+  }
+  productReady(){
+    this._onProductReady.call(this)
   }
 }
 

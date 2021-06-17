@@ -27,6 +27,10 @@ export class Dokit{
     applyLifecyle(this.options.features, LifecycleHooks.UNLOAD)
   }
 
+  onProductReady() {
+    applyLifecyle(this.options.features, LifecycleHooks.PRODUCT_READY)
+  }
+
   init(){
     let dokitRoot = document.createElement('div')
     dokitRoot.id = "dokit-root"
@@ -36,6 +40,12 @@ export class Dokit{
     el.id = "dokit-container"
     this.app.mount(el)
     dokitRoot.appendChild(el)
+  }
+
+  setProductId(productId) {
+    this.productId = productId
+    Store.state.productId = productId
+    this.onProductReady()
   }
 }
 
