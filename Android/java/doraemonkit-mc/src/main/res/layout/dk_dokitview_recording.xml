@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/dk_info_background"
@@ -20,10 +21,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:text="Mock数据抓取中..."
+        android:text="Mock数据抓取中"
         android:textColor="@color/dk_color_333333"
         android:textSize="14sp"
         android:textStyle="bold" />
 
-
+    <TextView
+        android:id="@+id/tv_extend"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/dk_color_333333"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        tools:text="..." />
 </LinearLayout>

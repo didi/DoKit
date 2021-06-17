@@ -5,6 +5,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.TextView
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.mc.R
@@ -28,6 +29,7 @@ import kotlinx.coroutines.withContext
  */
 class RecordingDokitView : AbsDokitView() {
     private var mRedDot: View? = null
+    private var mExtend: TextView? = null
     override fun onCreate(context: Context?) {
     }
 
@@ -38,6 +40,7 @@ class RecordingDokitView : AbsDokitView() {
 
     override fun onViewCreated(rootView: FrameLayout?) {
         mRedDot = findViewById<View>(R.id.red_dot)
+        mExtend = findViewById<TextView>(R.id.tv_extend)
         doKitViewScope.launch {
             flow {
                 while (true) {
@@ -50,9 +53,30 @@ class RecordingDokitView : AbsDokitView() {
                 }
             }.flowOn(Dispatchers.IO)
                 .collect {
-                    withContext(Dispatchers.Main) {
-                        mRedDot?.visibility = View.VISIBLE
+                    mRedDot?.visibility = View.VISIBLE
+                }
+        }
+
+
+        doKitViewScope.launch {
+            flow {
+                while (true) {
+                    (0..3).forEach {
+                        emit(it)
+                        delay(500)
                     }
+                }
+            }.flowOn(Dispatchers.IO)
+                .collect {
+                    when (it) {
+                        0 -> mExtend?.text = ""
+                        1 -> mExtend?.text = "."
+                        2 -> mExtend?.text = ".."
+                        3 -> mExtend?.text = "..."
+                        else -> {
+                        }
+                    }
+
                 }
         }
 
