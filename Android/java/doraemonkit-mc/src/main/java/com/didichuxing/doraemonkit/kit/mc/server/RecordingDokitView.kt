@@ -10,8 +10,10 @@ import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.ConvertUtils
+import com.didichuxing.doraemonkit.util.LogHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -39,21 +41,24 @@ class RecordingDokitView : AbsDokitView() {
     }
 
     override fun onViewCreated(rootView: FrameLayout?) {
-        mRedDot = findViewById<View>(R.id.red_dot)
-        mExtend = findViewById<TextView>(R.id.tv_extend)
+        mRedDot = findViewById(R.id.red_dot)
+        mExtend = findViewById(R.id.tv_extend)
         doKitViewScope.launch {
             flow {
                 while (true) {
-                    emit(-1)
+                    emit(0)
                     delay(500)
-                    withContext(Dispatchers.Main) {
-                        mRedDot?.visibility = View.INVISIBLE
-                    }
+                    emit(1)
                     delay(500)
                 }
             }.flowOn(Dispatchers.IO)
                 .collect {
-                    mRedDot?.visibility = View.VISIBLE
+                    when (it) {
+                        0 -> mRedDot?.visibility = View.VISIBLE
+                        1 -> mRedDot?.visibility = View.INVISIBLE
+                        else -> {
+                        }
+                    }
                 }
         }
 

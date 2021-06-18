@@ -1,5 +1,8 @@
 package com.didichuxing.doraemonkit.kit.mc.ability
 
+import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.constant.WSEType
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.AbsDoKitInterceptor
 import com.didichuxing.doraemonkit.util.LogHelper
 import okhttp3.Interceptor
@@ -16,6 +19,17 @@ import okhttp3.Response
  */
 class DokitMcInterceptor : AbsDoKitInterceptor() {
     override fun intercept(chain: Interceptor.Chain): Response {
+
+        when (DoKitConstant.WS_MODE) {
+            WSMode.RECORDING -> {
+                //数据采集
+            }
+            WSMode.HOST,
+            WSMode.CLIENT -> {
+            }
+        }
+
+
         return chain.proceed(chain.request())
     }
 }

@@ -10,13 +10,17 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.Button
+import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.McConstant
 import com.didichuxing.doraemonkit.kit.mc.client.DoKitWsClient
 import com.didichuxing.doraemonkit.kit.mc.server.HostInfo
+import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
 import com.didichuxing.doraemonkit.kit.mc.util.McUtil
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.LogHelper
@@ -67,6 +71,17 @@ class DoKitMcSelectFragment : BaseFragment() {
                 startScan()
             }
         }
+        val record = findViewById<Button>(R.id.tv_record)
+        record.setOnClickListener {
+            DoKitConstant.WS_MODE = WSMode.RECORDING
+            SimpleDokitStarter.startFloating(RecordingDokitView::class.java)
+        }
+
+        val datas = findViewById<Button>(R.id.tv_datas)
+        datas.setOnClickListener {
+            //SimpleDokitStarter.startFloating(RecordingDokitView::class.java)
+        }
+
     }
 
     /**

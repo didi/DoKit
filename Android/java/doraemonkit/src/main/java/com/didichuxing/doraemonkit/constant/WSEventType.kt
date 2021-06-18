@@ -25,10 +25,16 @@ enum class WSMode {
      */
     HOST,
 
+
     /**
      * 从机
      */
-    CLIENT
+    CLIENT,
+
+    /**
+     *数据抓取中...
+     */
+    RECORDING,
 }
 
 /**

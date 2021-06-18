@@ -19,6 +19,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amap.api.location.AMapLocationListener
@@ -36,6 +37,7 @@ import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
 import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
+import com.didichuxing.doraemonkit.util.LogHelper
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lzy.okgo.OkGo
@@ -91,6 +93,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
 
 
     val datas = mutableListOf(
+        "测试",
         "显示/隐藏Dokit入口",
         "显示工具面板",
         "获取已安装的app",
@@ -123,6 +126,15 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         rv.adapter = mAdapter
         mAdapter.setOnItemClickListener { _, _, position ->
             when (datas[position]) {
+                "测试" -> {
+                    lifecycleScope.launch {
+                        val helloworld = async {
+                            "Hello world!!"
+                        }.await()
+
+                        LogHelper.i(TAG, helloworld)
+                    }
+                }
                 "显示/隐藏Dokit入口" -> {
 //                    if (DoKit.isMainIconShow) {
 //                        DoKit.hide()

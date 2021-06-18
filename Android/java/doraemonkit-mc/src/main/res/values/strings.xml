@@ -3,5 +3,8 @@
     <string name="dk_kit_multi_control">一机多控</string>
     <string name="dk_kit_multi_control_host">主机</string>
     <string name="dk_kit_multi_control_client">从机</string>
+    <string name="dk_kit_multi_control_record">用例采集</string>
+    <string name="dk_kit_multi_control_upload">用例上传</string>
+    <string name="dk_kit_multi_control_list">用例列表</string>
     <string name="dokit_access_desc">DoKit一机多控</string>
 </resources>
