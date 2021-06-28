@@ -28,13 +28,12 @@ export class EventEmitter{
       this._events[event].splice(index, 1)
     }
   }
-  emit(event){
+  emit(event, info){
     if(!this._events[event] || this._events[event].length === 0){
       return
     }
-    var args = arguments.slice(1)
     this._events[event].forEach(listener => {
-      listener.apply(this, args)
+      listener.call(this, info)
     })
     return this
   }

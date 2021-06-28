@@ -1,5 +1,6 @@
 import {createApp} from 'vue'
 import App from './components/app'
+import DokitUi from './common/components/dokit-ui'
 import Store from './store'
 import {applyLifecyle, LifecycleHooks} from './common/js/lifecycle' 
 import {getRouter} from './router'
@@ -8,7 +9,8 @@ export class Dokit{
   constructor(options){
     this.options = options
     let app = createApp(App);
-    let {features} = options; 
+    let {features} = options;
+    app.use(DokitUi);
     app.use(getRouter(features));
     app.use(Store);
     Store.state.features = features;

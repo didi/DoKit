@@ -1,33 +1,47 @@
 <template>
-  <div class="dokit-card">
-    <div class="dokit-card__header">{{title}}</div>
-    <div class="dokit-card__body">
-      <slot/>
+  <div class="common-card">
+    <div class="common-card-header">
+      <div class="common-card-header__title">{{ title }}</div>
+      <div class="common-card-header__extra-info">
+        <slot name="extra"></slot>
+      </div>
+    </div>
+    <div class="common-card-body">
+      <slot name="body"></slot>
     </div>
   </div>
 </template>
 <script>
 export default {
   props: {
-    title: String
+    title: {
+      default: ""
+    }
   }
-}
+};
 </script>
 <style lang="less">
-.dokit-card {
-  background-color: #d9e1e8;
+.common-card {
   border-radius: 5px;
-  box-shadow: 0 8px 12px #ebedf0;
   overflow: hidden;
-  .dokit-card__header{
-    background-color: #2b90d9;
-    padding: 5px;
-    color: #fff;
-    font-weight: bold;
-    font-style: italic;
+  border: 1px solid #d6e4ef;
+
+}
+
+.common-card-header {
+  border-bottom: 1px solid #d6e4ef;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .common-card-header__title {
+    padding: 8px;
+    font-size: 18px;
+    color:#2c405a;
   }
-  .dokit-card__body{
-    padding: 5px;
-  }
+  
+}
+
+.common-card-body {
+  padding: 8px;
 }
 </style>

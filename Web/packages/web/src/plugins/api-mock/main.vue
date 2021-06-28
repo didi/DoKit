@@ -26,7 +26,7 @@ export default {
     }
   },
   created() {
-    localStorage.setItem('dokit-interface-list', JSON.stringify(this.$store.state.interfaceList))
+    localStorage.setItem('dokit-interface-list', JSON.stringify(this.$store.state.interfaceList || []))
   },
   methods: {
     toggleInterfaceSwitch(info) {

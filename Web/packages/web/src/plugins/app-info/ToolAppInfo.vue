@@ -2,34 +2,35 @@
   <div class="app-info-container">
     <div class="info-wrapper">
       <Card title="Page Info">
-        <table>
-          <tr>
-            <td class="key">UA</td>
-            <td class="value">{{ua}}</td>
-          </tr>
-          <tr>
-            <td class="key">URL</td>
-            <td class="value">{{url}}</td>
-          </tr>
-        </table>
+        <template v-slot:body>
+          <DoRow class="app-info-item">
+            <DoCol :span=8>UA</DoCol>
+            <DoCol :span=16>{{ua}}</DoCol>
+          </DoRow>
+          <DoRow class="app-info-item">
+            <DoCol :span=8>URL</DoCol>
+            <DoCol :span=16>{{url}}</DoCol>
+          </DoRow>
+        </template>
+        
       </Card>
     </div>
     <div class="info-wrapper" style="margin-top:20px">
       <Card title="Device Info">
-        <table>
-          <tr>
-            <td class="key">设备缩放比</td>
-            <td class="value">{{ratio}}</td>
-          </tr>
-          <tr>
-            <td class="key">screen</td>
-            <td>{{screen.width}} X {{screen.height}}</td>
-          </tr>
-          <tr>
-            <td class="key">viewport</td>
-            <td>{{viewport.width}} X {{viewport.height}}</td>
-          </tr>
-        </table>
+        <template v-slot:body>
+          <DoRow class="app-info-item">
+            <DoCol :span=8>设备缩放比</DoCol>
+            <DoCol :span=16>{{ratio}}</DoCol>
+          </DoRow>
+          <DoRow class="app-info-item">
+            <DoCol :span=8>screen</DoCol>
+            <DoCol :span=16>{{screen.width}} X {{screen.height}}</DoCol>
+          </DoRow>
+          <DoRow class="app-info-item">
+            <DoCol :span=8>viewport</DoCol>
+            <DoCol :span=16>{{viewport.width}} X {{viewport.height}}</DoCol>
+          </DoRow>
+        </template>
       </Card>
     </div>
   </div>
@@ -65,6 +66,9 @@ export default {
     margin: 5px 5px 0 5px;
     .key{
       font-weight: bold;
+    }
+    .app-info-item{
+      padding: 5px 0;
     }
   }
   table{
