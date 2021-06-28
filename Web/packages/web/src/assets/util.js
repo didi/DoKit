@@ -1,5 +1,3 @@
-import {EventEmitter} from '@dokit/web-core'
-
 export const getDataType = function (arg) {
   if (arg === null ) {
     return 'Null'

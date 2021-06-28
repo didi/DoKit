@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import InfoCard from '@common/info-card'
+import InfoCard from './info-card'
 import { clearCookie, removeCookieItem, getCookieMap } from './js/storage'
 
 export default {
