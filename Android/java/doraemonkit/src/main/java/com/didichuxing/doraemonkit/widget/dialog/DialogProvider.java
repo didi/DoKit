@@ -91,7 +91,7 @@ public abstract class DialogProvider<T> {
     private void onPositive() {
         boolean dismiss = true;
         if (mDialogListener != null) {
-            dismiss = mDialogListener.onPositive();
+            dismiss = mDialogListener.onPositive(this);
         }
         if (dismiss) {
             dismiss();
@@ -101,7 +101,7 @@ public abstract class DialogProvider<T> {
     private void onNegative() {
         boolean dismiss = true;
         if (mDialogListener != null) {
-            dismiss = mDialogListener.onNegative();
+            dismiss = mDialogListener.onNegative(this);
         }
         if (dismiss) {
             dismiss();
@@ -119,13 +119,13 @@ public abstract class DialogProvider<T> {
     protected void cancel() {
         dismiss();
         if (mDialogListener != null) {
-            mDialogListener.onCancel();
+            mDialogListener.onCancel(this);
         }
     }
 
     void onCancel() {
         if (mDialogListener != null) {
-            mDialogListener.onCancel();
+            mDialogListener.onCancel(this);
         }
     }
 

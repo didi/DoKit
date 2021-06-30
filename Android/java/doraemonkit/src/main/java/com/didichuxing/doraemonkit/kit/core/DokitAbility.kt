@@ -13,6 +13,8 @@ import com.didichuxing.doraemonkit.constant.DoKitModule
  */
 interface DokitAbility {
 
+    fun init()
+
     /**
      * 模块名
      */
@@ -24,7 +26,6 @@ interface DokitAbility {
 //    fun getModuleFunctions(): Map<String, Any>
 
     fun getModuleProcessor(): DokitModuleProcessor
-
 
 
     interface DokitModuleProcessor {

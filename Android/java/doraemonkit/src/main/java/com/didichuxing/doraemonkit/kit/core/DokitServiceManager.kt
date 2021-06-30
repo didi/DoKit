@@ -1,6 +1,9 @@
 package com.didichuxing.doraemonkit.kit.core
 
 import android.app.Activity
+import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.constant.DoKitModule
+import com.didichuxing.doraemonkit.constant.WSMode
 
 /**
  * ================================================
@@ -12,35 +15,30 @@ import android.app.Activity
  * ================================================
  */
 object DokitServiceManager {
-    private var mDokitServices: List<DokitServiceInterface>? = null
-
-    fun register(dokitServices: List<DokitServiceInterface>) {
-        mDokitServices = dokitServices
+    val lifecycle: DokitLifecycleInterface? by lazy {
+        DoKitConstant.getModuleProcessor(DoKitModule.MODULE_MC)?.values()
+            ?.get("lifecycle") as DokitLifecycleInterface
     }
 
     fun dispatch(activityOverrideEnum: DokitServiceEnum, activity: Activity) {
-        if (mDokitServices == null) {
-            return
-        }
-        mDokitServices?.forEach {
-            when (activityOverrideEnum) {
-                DokitServiceEnum.onCreate -> it.onCreate(activity)
-                DokitServiceEnum.onStart -> it.onStart(activity)
-                DokitServiceEnum.onResume -> it.onResume(activity)
-                DokitServiceEnum.onPause -> it.onPause(activity)
-                DokitServiceEnum.onStop -> it.onStop(activity)
-                DokitServiceEnum.onDestroy -> it.onDestroy(activity)
-                DokitServiceEnum.finish -> it.finish(activity)
-                DokitServiceEnum.onConfigurationChanged -> it.onConfigurationChanged(
-                    activity
-                )
-                DokitServiceEnum.onBackPressed -> it.onBackPressed(activity)
-                DokitServiceEnum.dispatchTouchEvent -> it.dispatchTouchEvent(activity)
-                DokitServiceEnum.onBackground -> it.onBackground()
-                DokitServiceEnum.onForeground -> it.onForeground(activity::class.java.canonicalName!!)
-                else -> it.other(activity)
+        when (activityOverrideEnum) {
+            DokitServiceEnum.onCreate -> lifecycle?.onCreate(activity)
+            DokitServiceEnum.onStart -> lifecycle?.onStart(activity)
+            DokitServiceEnum.onResume -> lifecycle?.onResume(activity)
+            DokitServiceEnum.onPause -> lifecycle?.onPause(activity)
+            DokitServiceEnum.onStop -> lifecycle?.onStop(activity)
+            DokitServiceEnum.onDestroy -> lifecycle?.onDestroy(activity)
+            DokitServiceEnum.finish -> lifecycle?.finish(activity)
+            DokitServiceEnum.onConfigurationChanged -> lifecycle?.onConfigurationChanged(
+                activity
+            )
+            DokitServiceEnum.onBackPressed -> lifecycle?.onBackPressed(activity)
+            DokitServiceEnum.dispatchTouchEvent -> lifecycle?.dispatchTouchEvent(activity)
+            DokitServiceEnum.onBackground -> lifecycle?.onBackground()
+            DokitServiceEnum.onForeground -> lifecycle?.onForeground(activity::class.java.canonicalName!!)
+            else -> lifecycle?.other(activity)
 
-            }
         }
+
     }
 }

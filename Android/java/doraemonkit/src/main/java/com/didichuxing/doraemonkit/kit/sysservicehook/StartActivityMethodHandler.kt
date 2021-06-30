@@ -15,7 +15,7 @@ import java.lang.reflect.Method
  */
 class StartActivityMethodHandler : MethodHandler() {
     override fun onInvoke(originObject: Any, method: Method, args: Array<Any>?): Any? {
-        LogHelper.i(TAG, "===method===$method  $args")
+        //LogHelper.i(TAG, "===method===$method  $args")
         return if (args == null) {
             method.invoke(originObject, null)
         } else {

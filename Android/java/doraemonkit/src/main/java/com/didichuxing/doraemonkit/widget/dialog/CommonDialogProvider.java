@@ -9,13 +9,13 @@ import com.didichuxing.doraemonkit.R;
 /**
  * Created by wanglikun on 2019/4/12
  */
-public class CommonDialogProvider extends DialogProvider<DialogInfo> {
+public class CommonDialogProvider<T extends DialogInfo> extends DialogProvider<T> {
     private TextView mPositive;
     private TextView mNegative;
     private TextView mTitle;
     private TextView mDesc;
 
-    public CommonDialogProvider(DialogInfo data, DialogListener listener) {
+    public CommonDialogProvider(T data, DialogListener listener) {
         super(data, listener);
     }
 
@@ -33,7 +33,7 @@ public class CommonDialogProvider extends DialogProvider<DialogInfo> {
     }
 
     @Override
-    protected void bindData(DialogInfo data) {
+    protected void bindData(T data) {
         mTitle.setText(data.title);
         if (TextUtils.isEmpty(data.desc)) {
             mDesc.setVisibility(View.GONE);

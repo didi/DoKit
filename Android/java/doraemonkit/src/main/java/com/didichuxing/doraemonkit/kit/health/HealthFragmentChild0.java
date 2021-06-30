@@ -54,7 +54,7 @@ public class HealthFragmentChild0 extends BaseFragment {
         }
         mUserInfoDialogProvider = new UserInfoDialogProvider(null, new DialogListener() {
             @Override
-            public boolean onPositive() {
+            public boolean onPositive(DialogProvider<?> dialogProvider) {
                 if (mUserInfoDialogProvider != null) {
                     //上传健康体检数据
                     boolean isCheck = mUserInfoDialogProvider.uploadAppHealthInfo(new UploadAppHealthCallback() {
@@ -88,12 +88,12 @@ public class HealthFragmentChild0 extends BaseFragment {
             }
 
             @Override
-            public boolean onNegative() {
+            public boolean onNegative(DialogProvider<?> dialogProvider) {
                 return true;
             }
 
             @Override
-            public void onCancel() {
+            public void onCancel(DialogProvider<?> dialogProvider) {
                 ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_health_upload_droped));
                 //重置状态
                 GlobalConfig.setAppHealth(false);

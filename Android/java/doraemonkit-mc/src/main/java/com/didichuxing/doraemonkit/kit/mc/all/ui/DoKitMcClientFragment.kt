@@ -3,6 +3,8 @@ package com.didichuxing.doraemonkit.kit.mc.all.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 import com.didichuxing.doraemonkit.kit.mc.all.McConstant
@@ -33,7 +35,7 @@ class DoKitMcClientFragment : BaseFragment() {
         findViewById<View>(R.id.btn_close).setOnClickListener {
             DoKitWsClient.close()
             if (activity is DoKitMcActivity) {
-                (activity as DoKitMcActivity).changeFragment(DoKitMcActivity.FRAGMENT_SELECT)
+                (activity as DoKitMcActivity).changeFragment(WSMode.UNKNOW)
             }
         }
         //启动悬浮窗

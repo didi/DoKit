@@ -48,10 +48,7 @@ public open class DoKitProxyActivity : Activity() {
     @RequiresApi(Build.VERSION_CODES.M)
     override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
         DokitServiceManager.dispatch(DokitServiceEnum.dispatchTouchEvent, this)
-
-
         return super.dispatchTouchEvent(ev)
-
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

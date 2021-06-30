@@ -15,6 +15,10 @@ import com.google.auto.service.AutoService
  */
 @AutoService(DokitAbility::class)
 class DokitMcAbility : DokitAbility {
+    override fun init() {
+
+    }
+
     override fun moduleName(): DoKitModule {
         return DoKitModule.MODULE_MC
     }

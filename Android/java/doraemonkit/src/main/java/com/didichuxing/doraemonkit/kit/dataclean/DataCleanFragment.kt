@@ -16,6 +16,8 @@ import com.didichuxing.doraemonkit.util.DataCleanUtil
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import com.didichuxing.doraemonkit.util.DoKitFileUtil
 import com.didichuxing.doraemonkit.widget.dialog.DialogInfo
+import com.didichuxing.doraemonkit.widget.dialog.DialogListener
+import com.didichuxing.doraemonkit.widget.dialog.DialogProvider
 import com.didichuxing.doraemonkit.widget.dialog.SimpleDialogListener
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
@@ -56,7 +58,8 @@ class DataCleanFragment : BaseFragment() {
         }?.asIterable()
         dirs.addAll(innerDirs!!)
         dirs.forEach {
-            val item: RelativeLayout = LayoutInflater.from(activity).inflate(R.layout.dk_item_data_clean, null) as RelativeLayout
+            val item: RelativeLayout = LayoutInflater.from(activity)
+                .inflate(R.layout.dk_item_data_clean, null) as RelativeLayout
             item.findViewById<TextView>(R.id.tv_name).text = it
             item.findViewById<Switch>(R.id.switch_btn).isChecked = false
             item.setOnClickListener { innerItem ->
@@ -91,15 +94,16 @@ class DataCleanFragment : BaseFragment() {
             val dialogInfo = DialogInfo()
             dialogInfo.title = getString(R.string.dk_hint)
             dialogInfo.desc = getString(R.string.dk_app_data_clean)
-            dialogInfo.listener = object : SimpleDialogListener() {
-                override fun onPositive(): Boolean {
+            dialogInfo.listener = object : DialogListener {
+                override fun onPositive(dialogProvider: DialogProvider<*>): Boolean {
                     cleanCache()
-                    mSettingItemAdapter.data[0].rightDesc = DataCleanUtil.getApplicationDataSizeStr(context)
+                    mSettingItemAdapter.data[0].rightDesc =
+                        DataCleanUtil.getApplicationDataSizeStr(context)
                     mSettingItemAdapter.notifyDataSetChanged()
                     return true
                 }
 
-                override fun onNegative(): Boolean {
+                override fun onNegative(dialogProvider: DialogProvider<*>): Boolean {
                     return true
                 }
             }

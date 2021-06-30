@@ -174,4 +174,7 @@ class ToolPanelDokitView : AbsDokitView() {
         generateKits()
     }
 
+    override fun restrictBorderline(): Boolean {
+        return false
+    }
 }

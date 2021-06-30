@@ -20,6 +20,8 @@ import com.didichuxing.doraemonkit.kit.toolpanel.decoration.VerticalDividerItemD
 import com.didichuxing.doraemonkit.util.*
 import com.didichuxing.doraemonkit.widget.brvah.listener.OnItemDragListener
 import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder
+import com.didichuxing.doraemonkit.widget.dialog.DialogListener
+import com.didichuxing.doraemonkit.widget.dialog.DialogProvider
 import com.didichuxing.doraemonkit.widget.dialog.SimpleDialogListener
 
 /**
@@ -206,8 +208,8 @@ class DokitManagerFragment : BaseFragment() {
             showDialog(
                 ConfirmDialogProvider(
                     DoKitCommUtil.getString(R.string.dk_toolpanel_dialog_edit_tip),
-                    object : SimpleDialogListener() {
-                        override fun onPositive(): Boolean {
+                    object : DialogListener {
+                        override fun onPositive(dialogProvider: DialogProvider<*>): Boolean {
                             //需要将数据保存在本地备份
                             saveSystemKits()
                             finish()
@@ -215,7 +217,7 @@ class DokitManagerFragment : BaseFragment() {
                         }
 
 
-                        override fun onNegative(): Boolean {
+                        override fun onNegative(dialogProvider: DialogProvider<*>): Boolean {
                             DoKitConstant.GLOBAL_KITS.putAll(mBakGlobalKits)
                             finish()
                             return true
@@ -282,8 +284,8 @@ class DokitManagerFragment : BaseFragment() {
             showDialog(
                 ConfirmDialogProvider(
                     DoKitCommUtil.getString(R.string.dk_toolpanel_dialog_reset_tip),
-                    object : SimpleDialogListener() {
-                        override fun onPositive(): Boolean {
+                    object : DialogListener {
+                        override fun onPositive(dialogProvider: DialogProvider<*>): Boolean {
                             val open =
                                 DoKit.APPLICATION.assets?.open("dokit_system_kits.json")
                             val json = ConvertUtils.inputStream2String(open, "UTF-8")
@@ -316,7 +318,7 @@ class DokitManagerFragment : BaseFragment() {
                             return true
                         }
 
-                        override fun onNegative(): Boolean {
+                        override fun onNegative(dialogProvider: DialogProvider<*>): Boolean {
                             return true
                         }
 

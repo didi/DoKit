@@ -19,45 +19,31 @@ import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
  */
 class DoKitMcActivity : BaseActivity() {
 
-    companion object {
-        const val FRAGMENT_HOST = 100
-        const val FRAGMENT_CLIENT = 101
-        const val FRAGMENT_SELECT = 102
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dk_activity_mc)
         findViewById<HomeTitleBar>(R.id.title_bar).setListener {
             finish()
         }
-        when (DoKitConstant.WS_MODE) {
-            WSMode.UNKNOW -> {
-                changeFragment(FRAGMENT_SELECT)
-            }
-            WSMode.HOST -> {
-                changeFragment(FRAGMENT_HOST)
-            }
-            WSMode.CLIENT -> {
-                changeFragment(FRAGMENT_CLIENT)
-            }
-        }
+
+        changeFragment(DoKitConstant.WS_MODE)
     }
 
 
-    fun changeFragment(fragmentType: Int) {
-        val fragment: Fragment = when (fragmentType) {
-            FRAGMENT_HOST -> {
+    fun changeFragment(wsMode: WSMode) {
+        val fragment: Fragment = when (wsMode) {
+            WSMode.RECORDING,
+            WSMode.UNKNOW -> {
+                DoKitMcMainFragment()
+            }
+            WSMode.HOST -> {
                 DoKitMcHostFragment()
             }
-            FRAGMENT_CLIENT -> {
+            WSMode.CLIENT -> {
                 DoKitMcClientFragment()
             }
-            FRAGMENT_SELECT -> {
-                DoKitMcSelectFragment()
-            }
             else -> {
-                DoKitMcSelectFragment()
+                DoKitMcMainFragment()
             }
         }
 

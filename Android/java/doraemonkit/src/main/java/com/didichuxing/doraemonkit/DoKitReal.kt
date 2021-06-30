@@ -10,6 +10,7 @@ import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey
 import com.didichuxing.doraemonkit.datapick.DataPickManager
+import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.*
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager
@@ -24,10 +25,7 @@ import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelUtil
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager.WebDoorCallback
 import com.didichuxing.doraemonkit.util.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.io.File
 import java.util.*
 
@@ -39,6 +37,7 @@ object DoKitReal {
     private const val TAG = "Doraemon"
 
     private lateinit var APPLICATION: Application
+
 
     fun setDebug(debug: Boolean) {
         LogHelper.setDebug(debug)
@@ -71,9 +70,11 @@ object DoKitReal {
             return
         }
 
+        //跨模块通信
         val doKitAbilities =
             ServiceLoader.load(DokitAbility::class.java, javaClass.classLoader).toList()
         doKitAbilities.forEach {
+            it.init()
             DoKitConstant.DOKIT_MODULE_ABILITIES[it.moduleName()] = it.getModuleProcessor()
         }
 
@@ -132,13 +133,10 @@ object DoKitReal {
         }
 
         //添加自定义的kit 需要读取配置文件
-        val job = MainScope().launch {
+        doKitGlobalScope.launch {
             addInnerKit(app)
         }
 
-        job.invokeOnCompletion {
-            job.cancel()
-        }
 
         //添加自定义的kit 需要读取配置文件
 //        ThreadUtils.executeByIo(object : ThreadUtils.SimpleTask<Any>() {
@@ -193,15 +191,6 @@ object DoKitReal {
             }
 
         })
-        //跨模块通信监听
-        try {
-            val dokitServices =
-                ServiceLoader.load(DokitServiceInterface::class.java, javaClass.classLoader)
-                    .toList()
-            DokitServiceManager.register(dokitServices)
-        } catch (e: Exception) {
-
-        }
     }
 
 

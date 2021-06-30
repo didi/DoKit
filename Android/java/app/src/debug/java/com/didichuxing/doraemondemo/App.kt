@@ -8,6 +8,8 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.multidex.MultiDex
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
+import com.blankj.utilcode.util.FileUtils
+import com.blankj.utilcode.util.PathUtils
 import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFloatViewKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit
@@ -20,9 +22,11 @@ import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterc
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.lzy.okgo.OkGo
+import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import java.io.File
 
 /**
  * @author jint
@@ -139,6 +143,7 @@ class App : Application() {
 
         val client: OkHttpClient = OkHttpClient.Builder()
             .addInterceptor(CustomInterceptor())
+            .cache(Cache(File("${PathUtils.getInternalAppCachePath()}/dokit"), 1024 * 1024 * 100))
             .build()
         OkGo.getInstance().init(this).okHttpClient = client
 

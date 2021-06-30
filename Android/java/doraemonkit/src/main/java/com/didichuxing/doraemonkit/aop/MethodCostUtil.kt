@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap
  * 修订历史：
  * ================================================
  */
-object MethodCostUtil {
+public object MethodCostUtil {
     private const val TAG = "DOKIT_SLOW_METHOD"
 
     /**
@@ -65,7 +65,7 @@ object MethodCostUtil {
      * @param methodName
      * @param classObj      调用该函数的对象
      */
-    private fun recodeObjectMethodCostEnd(thresholdTime: Int, methodName: String, classObj: Any?) {
+    fun recodeObjectMethodCostEnd(thresholdTime: Int, methodName: String, classObj: Any?) {
         synchronized(MethodCostUtil::class.java) {
             try {
                 if (METHOD_COSTS.containsKey(methodName)) {

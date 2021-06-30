@@ -56,7 +56,7 @@ public class DoKitCommUtil {
     }
 
     /**
-     * 字符串对转json
+     * 键值对字符串转json
      *
      * @param param
      * @return
@@ -76,6 +76,8 @@ public class DoKitCommUtil {
 
         return jsonObject.toString();
     }
+
+
 
     /**
      * 切换App到前台

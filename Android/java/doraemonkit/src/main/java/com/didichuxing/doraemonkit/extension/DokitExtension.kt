@@ -1,7 +1,15 @@
 package com.didichuxing.doraemonkit.extension
 
 import com.didichuxing.doraemonkit.aop.DokitThirdLibInfo
+import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
+import com.didichuxing.doraemonkit.util.EncodeUtils
 import com.didichuxing.doraemonkit.util.LogHelper
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.plus
+import okhttp3.RequestBody
+import okio.Buffer
+import java.util.*
 
 /**
  * ================================================
@@ -12,12 +20,9 @@ import com.didichuxing.doraemonkit.util.LogHelper
  * 修订历史：
  * ================================================
  */
-/**
- * 命名函数
- */
-val err = fun(a: String, b: String) {
 
-}
+
+val doKitGlobalScope = MainScope() + CoroutineName("DoKit")
 
 
 /**
@@ -62,3 +67,69 @@ fun hasThirdLib(groupId: String, artifactId: String): Boolean {
         false
     }
 }
+
+/**
+ * a=aa&b=bb&c=cc
+ * query键值对字符串转成Map
+ */
+fun String.toMap(): MutableMap<String, String> {
+
+    val map = mutableMapOf<String, String>()
+
+    if (this.isBlank()) {
+        return map
+    }
+    val params = this.split("&")
+    params.forEach { kv ->
+        val kvs = kv.split("=")
+        if (kvs.size == 2) {
+            map[kvs[0]] = kvs[1]
+        }
+    }
+    return map
+}
+
+/**
+ * queryBody转成Map
+ */
+fun RequestBody?.toMap(): MutableMap<String, String> {
+    val map = mutableMapOf<String, String>()
+    if (this == null || this.contentType() == null) {
+        return map
+    }
+
+    val buffer = Buffer()
+    this.writeTo(buffer)
+    val strBody = EncodeUtils.urlDecode(buffer.readUtf8())
+    strBody?.let {
+        val contentType = this.contentType().toString().toLowerCase(Locale.ROOT)
+        when {
+            contentType.contains(DokitDbManager.MEDIA_TYPE_FORM) -> {
+                return strBody.toMap()
+            }
+            contentType.contains(DokitDbManager.MEDIA_TYPE_JSON) -> {
+                map["json"] = strBody
+                return map
+            }
+            contentType.contains(DokitDbManager.MEDIA_TYPE_PLAIN) -> {
+                map["plain"] = strBody
+                return map
+            }
+            else -> {
+                map["other"] = strBody
+                return map
+            }
+        }
+    }
+
+    return map
+}
+
+
+/**
+ * 对map 针对key进行排序
+ */
+fun MutableMap<String, String>.sortedByKey(): Map<String, String> {
+    return this.toList().sortedBy { (key, _) -> key }.toMap()
+}
+

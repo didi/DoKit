@@ -49,7 +49,10 @@ import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import okhttp3.*
+import org.json.JSONObject
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.PermissionRequest
 import retrofit2.Retrofit
@@ -57,6 +60,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.*
 import java.net.*
+import kotlin.coroutines.resume
 
 /**
  * @author jintai
@@ -114,6 +118,16 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         "下载文件"
     )
 
+    suspend fun sleep() = suspendCancellableCoroutine<String> {
+        Thread.sleep(5000)
+        it.resume("sleep 1000ms")
+    }
+
+
+    fun sleep2(): String {
+        Thread.sleep(5000)
+        return "sleep 1000ms"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -127,22 +141,43 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
         mAdapter.setOnItemClickListener { _, _, position ->
             when (datas[position]) {
                 "测试" -> {
-                    lifecycleScope.launch {
-                        val helloworld = async {
-                            "Hello world!!"
-                        }.await()
-
-                        LogHelper.i(TAG, helloworld)
-                    }
-                }
-                "显示/隐藏Dokit入口" -> {
-//                    if (DoKit.isMainIconShow) {
-//                        DoKit.hide()
-//                    } else {
-//                        DoKit.show()
+                    lifecycleScope
+//                    lifecycleScope.launch {
+//                        val helloworld = async {
+//                            "Hello world!!"
+//                        }.await()
+//
+//                        LogHelper.i(TAG, helloworld)
+//                    }
+//
+//                    flow<Int> {
+//                        List(5) {
+//                            emit(it)
+//                        }
+//                    }.map {
+//                        it * 2
 //                    }
 
-                    SimpleDokitStarter.startFloating(RecordingDokitView::class.java)
+                    lifecycleScope.launch {
+                        //withContext(Dispatchers.IO) {
+                        val sleepDeferred = async {
+                            sleep2()
+                        }
+
+                        val string = sleepDeferred.await()
+
+                        LogHelper.i(TAG, string)
+
+                        //}
+                    }
+
+                }
+                "显示/隐藏Dokit入口" -> {
+                    if (DoKit.isMainIconShow) {
+                        DoKit.hide()
+                    } else {
+                        DoKit.show()
+                    }
 
                 }
                 "显示工具面板" -> {
@@ -178,28 +213,40 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                     CommLauncher.startActivity(AMapRouterFragment::class.java)
                 }
                 "OkHttp Mock" -> {
-                    OkGo.get<String>("https://wanandroid.com/user_article/list/0/json")
-                        //.upJson(json.toString())
-                        .execute(object : StringCallback() {
-                            override fun onSuccess(response: Response<String>?) {
-                                response?.let {
-                                    Log.i(
-                                        MainDebugActivityOkhttpV3.TAG,
-                                        "okhttp====onSuccess===>" + it.body()
-                                    )
-                                }
-                            }
+                    val jsonObject = JSONObject()
+                    jsonObject.put("c", "cc")
+                    jsonObject.put("d", "dd")
+                    OkGo.post<String>("https://wanandroid.com/user_article/list/0/json?b=bb&a=aa")
+                        .upJson(jsonObject)
+                        .execute()
 
-                            override fun onError(response: Response<String>?) {
-                                response?.let {
-                                    Log.i(
-                                        MainDebugActivityOkhttpV3.TAG,
-                                        "okhttp====onError===>" + it.message()
-                                    )
-                                }
-                            }
 
-                        })
+//                    OkGo.post<String>("https://wanandroid.com/user_article/list/0/json?b=bb&a=aa")
+//                        .params("c", "cc")
+//                        .params("d", "dd")
+//                        .execute()
+//                    OkGo.get<String>("https://wanandroid.com/user_article/list/0/json?a=aa&b=bb")
+//                        //.upJson(json.toString())
+//                        .execute(object : StringCallback() {
+//                            override fun onSuccess(response: Response<String>?) {
+//                                response?.let {
+//                                    Log.i(
+//                                        MainDebugActivityOkhttpV3.TAG,
+//                                        "okhttp====onSuccess===>" + it.body()
+//                                    )
+//                                }
+//                            }
+//
+//                            override fun onError(response: Response<String>?) {
+//                                response?.let {
+//                                    Log.i(
+//                                        MainDebugActivityOkhttpV3.TAG,
+//                                        "okhttp====onError===>" + it.message()
+//                                    )
+//                                }
+//                            }
+//
+//                        })
                 }
                 "HttpURLConnection Mock" -> {
                     requestByGet("https://wanandroid.com/user_article/list/0/json")

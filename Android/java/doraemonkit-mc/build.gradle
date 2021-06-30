@@ -47,6 +47,7 @@ dependencies {
     androidTestImplementation 'junit:junit:4.12'
     implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["core-ktx"]
+    implementation rootProject.ext.dependencies["fragment-ktx"]
     implementation rootProject.ext.dependencies["appcompat"]
     implementation rootProject.ext.dependencies["cardview"]
     implementation rootProject.ext.dependencies["recyclerview"]
@@ -54,6 +55,7 @@ dependencies {
     implementation rootProject.ext.dependencies["zxing"]
     implementation rootProject.ext.dependencies["kotlin"]
     implementation rootProject.ext.dependencies["epic"]
+    implementation rootProject.ext.dependencies["volley"]
     implementation rootProject.ext.dependencies["ktor_server_websockets"]
     implementation rootProject.ext.dependencies["ktor_client_websockets"]
     implementation rootProject.ext.dependencies["ktor_server_cio"]

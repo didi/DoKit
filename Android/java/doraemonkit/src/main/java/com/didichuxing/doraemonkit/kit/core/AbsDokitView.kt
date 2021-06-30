@@ -712,59 +712,70 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
             return
         }
 
-
         //普通模式
         if (isNormalMode) {
-            if (normalFrameLayoutParams!!.topMargin <= 0) {
-                normalFrameLayoutParams.topMargin = 0
-            }
-            if (ScreenUtils.isPortrait()) {
-                if (normalFrameLayoutParams.topMargin >= screenLongSideLength - mDokitViewHeight) {
-                    normalFrameLayoutParams.topMargin = screenLongSideLength - mDokitViewHeight
+            if (normalFrameLayoutParams != null) {
+                if (ScreenUtils.isPortrait()) {
+                    if (normalFrameLayoutParams.topMargin >= screenLongSideLength - mDokitViewHeight) {
+                        normalFrameLayoutParams.topMargin = screenLongSideLength - mDokitViewHeight
+                    }
+                } else {
+                    if (normalFrameLayoutParams.topMargin >= screenShortSideLength - mDokitViewHeight) {
+                        normalFrameLayoutParams.topMargin = screenShortSideLength - mDokitViewHeight
+                    }
                 }
-            } else {
-                if (normalFrameLayoutParams.topMargin >= screenShortSideLength - mDokitViewHeight) {
-                    normalFrameLayoutParams.topMargin = screenShortSideLength - mDokitViewHeight
+
+                if (ScreenUtils.isPortrait()) {
+                    if (normalFrameLayoutParams.leftMargin >= screenShortSideLength - mDokitViewWidth) {
+                        normalFrameLayoutParams.leftMargin = screenShortSideLength - mDokitViewWidth
+                    }
+                } else {
+                    if (normalFrameLayoutParams.leftMargin >= screenLongSideLength - mDokitViewWidth) {
+                        normalFrameLayoutParams.leftMargin = screenLongSideLength - mDokitViewWidth
+                    }
+                }
+
+                if (normalFrameLayoutParams.topMargin <= 0) {
+                    normalFrameLayoutParams.topMargin = 0
+                }
+
+                if (normalFrameLayoutParams.leftMargin <= 0) {
+                    normalFrameLayoutParams.leftMargin = 0
                 }
             }
-            if (normalFrameLayoutParams.leftMargin <= 0) {
-                normalFrameLayoutParams.leftMargin = 0
-            }
-            if (ScreenUtils.isPortrait()) {
-                if (normalFrameLayoutParams.leftMargin >= screenShortSideLength - mDokitViewWidth) {
-                    normalFrameLayoutParams.leftMargin = screenShortSideLength - mDokitViewWidth
-                }
-            } else {
-                if (normalFrameLayoutParams.leftMargin >= screenLongSideLength - mDokitViewWidth) {
-                    normalFrameLayoutParams.leftMargin = screenLongSideLength - mDokitViewWidth
-                }
-            }
+
         } else {
-            //系统模式
-            if (windowLayoutParams!!.y <= 0) {
-                windowLayoutParams.y = 0
-            }
-            if (ScreenUtils.isPortrait()) {
-                if (windowLayoutParams.y >= screenLongSideLength - mDokitViewHeight) {
-                    windowLayoutParams.y = screenLongSideLength - mDokitViewHeight
+            if (windowLayoutParams != null) {
+                if (ScreenUtils.isPortrait()) {
+                    if (windowLayoutParams.y >= screenLongSideLength - mDokitViewHeight) {
+                        windowLayoutParams.y = screenLongSideLength - mDokitViewHeight
+                    }
+                } else {
+                    if (windowLayoutParams.y >= screenShortSideLength - mDokitViewHeight) {
+                        windowLayoutParams.y = screenShortSideLength - mDokitViewHeight
+                    }
                 }
-            } else {
-                if (windowLayoutParams.y >= screenShortSideLength - mDokitViewHeight) {
-                    windowLayoutParams.y = screenShortSideLength - mDokitViewHeight
+
+                if (ScreenUtils.isPortrait()) {
+                    if (windowLayoutParams.x >= screenShortSideLength - mDokitViewWidth) {
+                        windowLayoutParams.x = screenShortSideLength - mDokitViewWidth
+                    }
+                } else {
+                    if (windowLayoutParams.x >= screenLongSideLength - mDokitViewWidth) {
+                        windowLayoutParams.x = screenLongSideLength - mDokitViewWidth
+                    }
+                }
+
+                //系统模式
+                if (windowLayoutParams.y <= 0) {
+                    windowLayoutParams.y = 0
+                }
+
+                if (windowLayoutParams.x <= 0) {
+                    windowLayoutParams.x = 0
                 }
             }
-            if (windowLayoutParams.x <= 0) {
-                windowLayoutParams.x = 0
-            }
-            if (ScreenUtils.isPortrait()) {
-                if (windowLayoutParams.x >= screenShortSideLength - mDokitViewWidth) {
-                    windowLayoutParams.x = screenShortSideLength - mDokitViewWidth
-                }
-            } else {
-                if (windowLayoutParams.x >= screenLongSideLength - mDokitViewWidth) {
-                    windowLayoutParams.x = screenLongSideLength - mDokitViewWidth
-                }
-            }
+
         }
     }
 

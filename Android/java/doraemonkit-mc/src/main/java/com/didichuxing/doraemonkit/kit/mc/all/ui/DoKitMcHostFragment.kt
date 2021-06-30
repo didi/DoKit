@@ -48,7 +48,7 @@ class DoKitMcHostFragment : BaseFragment() {
         val qCode = CodeUtils.createCode(activity, host, logo)
         tvHost.text = host
         ivCode.setImageBitmap(qCode)
-        if (DoKitConstant.WS_MODE == WSMode.UNKNOW) {
+        if (DoKitConstant.WS_MODE != WSMode.HOST) {
             DoKitWsServer.start {
                 DoKitWindowManager.hookWindowManagerGlobal()
                 runTimeHook()

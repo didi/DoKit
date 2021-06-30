@@ -15,14 +15,14 @@ import com.didichuxing.doraemonkit.widget.dialog.DialogProvider;
  * 完善健康体检用户信息dialog
  * @author jintai
  */
-public class UserInfoDialogProvider extends DialogProvider<Object> {
+public class UserInfoDialogProvider<T> extends DialogProvider<T> {
     private TextView mPositive;
     private TextView mNegative;
     private TextView mClose;
     private EditText mCaseName;
     private EditText mUserName;
 
-    UserInfoDialogProvider(Object data, DialogListener listener) {
+    UserInfoDialogProvider(T data, DialogListener listener) {
         super(data, listener);
     }
 

@@ -20,7 +20,10 @@ import com.google.auto.service.AutoService
 class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
 
     override fun values(): Map<String, Any> {
-        return mapOf("okhttp_interceptor" to DokitMcInterceptor())
+        return mapOf(
+            "okhttp_interceptor" to DokitMcInterceptor(),
+            "lifecycle" to McDokitLifecycleImpl()
+        )
     }
 
     override fun proceed(actions: Map<String, Any>?): Map<String, Any> {

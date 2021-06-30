@@ -1,13 +1,12 @@
-package com.didichuxing.doraemonkit.kit.mc.all
+package com.didichuxing.doraemonkit.kit.mc.ability
 
 import android.app.Activity
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
-import com.didichuxing.doraemonkit.kit.core.DokitServiceAbs
-import com.didichuxing.doraemonkit.kit.core.DokitServiceInterface
+import com.didichuxing.doraemonkit.kit.core.DokitLifecycleInterface
+import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
-import com.google.auto.service.AutoService
 
 /**
  * ================================================
@@ -18,8 +17,7 @@ import com.google.auto.service.AutoService
  * 修订历史：
  * ================================================
  */
-@AutoService(DokitServiceInterface::class)
-class McDokitServiceImpl : DokitServiceAbs() {
+class McDokitLifecycleImpl : DokitLifecycleInterface {
     companion object {
         const val TAG = "McActivityOverrideImpl"
     }
