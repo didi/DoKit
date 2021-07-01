@@ -257,12 +257,12 @@ class DoKitMcMainFragment : BaseFragment() {
 
                 if (caseName.isBlank()) {
                     ToastUtils.showShort("用例名称不能为空")
-                    return true
+                    return false
                 }
 
                 if (personName.isBlank()) {
                     ToastUtils.showShort("用例采集人不能为空")
-                    return true
+                    return false
                 }
 
                 it.resume(McCaseInfoDialogProvider.CaseInfo(caseName, personName))
