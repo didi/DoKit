@@ -24,8 +24,10 @@ ext {
                versionCode                  : 1,
                versionName                  : "1.0.0",
                glide_version                : "4.9.0",
-//               kotlin_version               : "1.4.32",
-               kotlin_version               : "1.3.72",
+               kotlin_version               : "1.4.32",
+//               kotlin_version               : "1.3.72",
+//               kotlinx_coroutines_version   : "1.3.7",
+               kotlinx_coroutines_version   : "1.4.3",
                booster_version              : "3.3.1",
                jcenter_gradle_plugin_version: "3.5.3",
                gradle_plugin_version        : "4.2.1",
@@ -42,6 +44,8 @@ ext {
                     "material"                      : 'com.google.android.material:material:1.1.0',
                     "annotation"                    : "androidx.annotation:annotation:1.1.0",
                     "kotlin"                        : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${android["kotlin_version"]}",
+                    "coroutines-core"               : "org.jetbrains.kotlinx:kotlinx-coroutines-core:${android["kotlinx_coroutines_version"]}",
+                    "coroutines-android"            : "org.jetbrains.kotlinx:kotlinx-coroutines-android:${android["kotlinx_coroutines_version"]}",
                     "core-ktx"                      : "androidx.core:core-ktx:1.3.0",
                     "activity-ktx"                  : "androidx.activity:activity-ktx:1.2.0",
                     "webkit"                        : "androidx.webkit:webkit:1.3.0",
@@ -51,8 +55,7 @@ ext {
                     "drawerlayout"                  : "androidx.drawerlayout:drawerlayout:1.1.1",
                     //constraintLayout
                     "constraintLayout"              : 'androidx.constraintlayout:constraintlayout:1.1.3',
-                    "coroutines-core"               : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7",
-                    "coroutines-android"            : "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7",
+
                     //lifecycle
                     "lifecycle-viewmodel-savedstate": "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.3.1",
                     "lifecycle-comm"                : "androidx.lifecycle:lifecycle-common-java8:2.3.1",
