@@ -18,15 +18,17 @@ import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
  * ================================================
  */
 class DoKitMcActivity : BaseActivity() {
-
+    lateinit var mTitlebar: HomeTitleBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dk_activity_mc)
-        findViewById<HomeTitleBar>(R.id.title_bar).setListener {
+
+        mTitlebar = findViewById(R.id.title_bar)
+        mTitlebar.setListener {
             finish()
         }
 
-        changeFragment(DoKitConstant.WS_MODE)
+        changeFragment(WSMode.UNKNOW)
     }
 
 
@@ -34,15 +36,24 @@ class DoKitMcActivity : BaseActivity() {
         val fragment: Fragment = when (wsMode) {
             WSMode.RECORDING,
             WSMode.UNKNOW -> {
+                mTitlebar.setTitle("一机多控（主页）")
                 DoKitMcMainFragment()
             }
             WSMode.HOST -> {
+                mTitlebar.setTitle("一机多控（主机）")
                 DoKitMcHostFragment()
             }
             WSMode.CLIENT -> {
+                mTitlebar.setTitle("一机多控（从机）")
                 DoKitMcClientFragment()
             }
+
+            WSMode.MC_CASELIST -> {
+                mTitlebar.setTitle("一机多控（用例列表）")
+                DoKitMcDatasFragment()
+            }
             else -> {
+                mTitlebar.setTitle("一机多控（主页）")
                 DoKitMcMainFragment()
             }
         }

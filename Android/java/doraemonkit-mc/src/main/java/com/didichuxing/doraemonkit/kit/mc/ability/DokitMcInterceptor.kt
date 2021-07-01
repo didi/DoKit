@@ -80,7 +80,7 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
                         strResponseBody
                     )
 
-                    val resulit = McHttpManager.uploadHttpInfo(httInfo)
+                    val resulit = McHttpManager.uploadHttpInfo<Any>(httInfo)
 
                 }
 

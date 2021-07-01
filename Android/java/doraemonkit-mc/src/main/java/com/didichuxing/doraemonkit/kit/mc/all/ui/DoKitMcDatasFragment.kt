@@ -1,33 +1,14 @@
 package com.didichuxing.doraemonkit.kit.mc.all.ui
 
-import android.Manifest
-import android.app.Activity
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.View
-import android.widget.Button
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.didichuxing.doraemonkit.constant.DoKitConstant
-import com.didichuxing.doraemonkit.constant.WSMode
-import com.didichuxing.doraemonkit.util.GsonUtils
-import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
-import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
-import com.didichuxing.doraemonkit.kit.mc.all.McConstant
-import com.didichuxing.doraemonkit.kit.mc.client.DoKitWsClient
-import com.didichuxing.doraemonkit.kit.mc.server.HostInfo
-import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
-import com.didichuxing.doraemonkit.kit.mc.util.McUtil
 import com.didichuxing.doraemonkit.mc.R
-import com.didichuxing.doraemonkit.util.LogHelper
-import com.didichuxing.doraemonkit.zxing.activity.CaptureActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.didichuxing.doraemonkit.util.TimeUtils
+import com.didichuxing.doraemonkit.util.ToastUtils
+import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration
 
 /**
  * ================================================
@@ -40,6 +21,8 @@ import kotlinx.coroutines.withContext
  */
 class DoKitMcDatasFragment : BaseFragment() {
     lateinit var mRv: RecyclerView
+    lateinit var mAdapter: McCaseListAdapter
+
     override fun onRequestLayout(): Int {
         return R.layout.dk_fragment_mc_datas
     }
@@ -48,8 +31,35 @@ class DoKitMcDatasFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mRv = findViewById(R.id.rv)
-
+        mRv.layoutManager = LinearLayoutManager(requireActivity())
+        val decoration = DividerItemDecoration(DividerItemDecoration.VERTICAL)
+        decoration.setDrawable(resources.getDrawable(R.drawable.dk_divider))
+        mRv.addItemDecoration(decoration)
+        mAdapter = McCaseListAdapter(createCaseList())
+        mAdapter.setOnItemClickListener { adapter, _, pos ->
+            for (i in adapter.data) {
+                (i as McCaseInfo).isChecked = false
+            }
+            val item = adapter.data[pos] as McCaseInfo
+            item.isChecked = true
+            adapter.notifyDataSetChanged()
+            ToastUtils.showShort("用例${item.caseName}已被选中")
+        }
+        mRv.adapter = mAdapter
     }
 
+
+    private fun createCaseList(): MutableList<McCaseInfo> {
+        val list: MutableList<McCaseInfo> = mutableListOf()
+        for (index in 0..100) {
+            if (index == 0) {
+                list.add(McCaseInfo("item $index", "jintai", TimeUtils.getNowString(), true))
+            } else {
+                list.add(McCaseInfo("item $index", "jintai", TimeUtils.getNowString(), false))
+
+            }
+        }
+        return list
+    }
 
 }

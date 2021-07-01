@@ -19,6 +19,7 @@ import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager
+import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager.RESPONSE_OK
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.McConstant
 import com.didichuxing.doraemonkit.kit.mc.client.DoKitWsClient
@@ -28,13 +29,13 @@ import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.widget.dialog.DialogListener
 import com.didichuxing.doraemonkit.widget.dialog.DialogProvider
-import com.didichuxing.doraemonkit.widget.dialog.SimpleDialogListener
 import com.didichuxing.doraemonkit.zxing.activity.CaptureActivity
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import org.xml.sax.ErrorHandler
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -50,6 +51,10 @@ import kotlin.coroutines.suspendCoroutine
 class DoKitMcMainFragment : BaseFragment() {
     private val REQUEST_CODE_CAMERA = 0x100
     private val REQUEST_CODE_SCAN = 0x101
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        LogHelper.e(TAG, "error message: ${throwable.message}")
+    }
+
     override fun onRequestLayout(): Int {
         return R.layout.dk_fragment_mc_select
     }
@@ -57,12 +62,9 @@ class DoKitMcMainFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val server = findViewById<Button>(R.id.tv_host)
         server.setOnClickListener {
-//            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-//                ToastUtils.showShort("暂不支持Android 9以下的系统作为主机")
-//                return@setOnClickListener
-//            }
             if (DoKitConstant.WS_MODE == WSMode.RECORDING) {
                 ToastUtils.showShort("当前处于数据录制状态，请先执行上传操作")
                 return@setOnClickListener
@@ -92,23 +94,30 @@ class DoKitMcMainFragment : BaseFragment() {
         }
         val record = findViewById<Button>(R.id.tv_record)
         record.setOnClickListener {
-            //请求一个CaseId
-            lifecycleScope.launch {
+            if (DoKitConstant.PRODUCT_ID.isEmpty()) {
+                ToastUtils.showShort("DoKit初始化时未传入产品id")
+                return@setOnClickListener
+            }
 
+            //请求一个CaseId
+            lifecycleScope.launch(exceptionHandler) {
                 if (interceptDialogResult()) {
-                    //                try {
-//                    val result = McHttpManager.mockStart()
-//                    DoKitConstant.WS_MODE = WSMode.RECORDING
-//                    SimpleDokitStarter.startFloating(RecordingDokitView::class.java)
-//                    LogHelper.i(TAG, "result===>$result")
-//                } catch (e: Exception) {
-//                    DoKitConstant.WS_MODE = WSMode.UNKNOW
-//                    ToastUtils.showShort("用例采集启动失败")
-//                    LogHelper.i(TAG, "e===>${e.message}  thread===>${Thread.currentThread().name}")
-//                }
-                    DoKitConstant.WS_MODE = WSMode.RECORDING
-                    SimpleDokitStarter.startFloating(RecordingDokitView::class.java)
-                    ToastUtils.showShort("用例开始采集")
+                    try {
+                        val resInfo = McHttpManager.mockStart<Any>()
+                        if (resInfo.code == RESPONSE_OK) {
+                            SimpleDokitStarter.startFloating(RecordingDokitView::class.java)
+                            LogHelper.i(TAG, "result===>$resInfo")
+                            DoKitConstant.WS_MODE = WSMode.RECORDING
+                            ToastUtils.showShort("用例开始采集")
+                        }
+
+                    } catch (e: Exception) {
+                        DoKitConstant.WS_MODE = WSMode.UNKNOW
+                        ToastUtils.showShort("用例采集启动失败")
+                        LogHelper.i(
+                            TAG, "e===>${e.message}  thread===>${Thread.currentThread().name}"
+                        )
+                    }
                 } else {
                     ToastUtils.showShort("取消用例采集")
                 }
@@ -121,21 +130,39 @@ class DoKitMcMainFragment : BaseFragment() {
 
         val upload = findViewById<Button>(R.id.tv_upload)
         upload.setOnClickListener {
-            lifecycleScope.launch {
-                try {
-                    val result = McHttpManager.mockStop(mcCaseInfoDialog())
-                    LogHelper.i(TAG, "result===>$result")
-                } catch (e: Exception) {
-                    ToastUtils.showShort(e.message)
-                    LogHelper.i(TAG, "e===>${e.message}  thread===>${Thread.currentThread().name}")
-                }
+            if (DoKitConstant.PRODUCT_ID.isEmpty()) {
+                ToastUtils.showShort("DoKit初始化时未传入产品id")
+                return@setOnClickListener
+            }
+            lifecycleScope.launch(exceptionHandler) {
+                val result = McHttpManager.mockStop<Any>(mcCaseInfoDialog())
+                LogHelper.i(TAG, "result===>$result")
+
             }
         }
 
         val datas = findViewById<Button>(R.id.tv_datas)
         datas.setOnClickListener {
-            //SimpleDokitStarter.startFloating(RecordingDokitView::class.java)
+            if (DoKitConstant.PRODUCT_ID.isEmpty()) {
+                ToastUtils.showShort("DoKit初始化时未传入产品id")
+                return@setOnClickListener
+            }
+            (requireActivity() as DoKitMcActivity).changeFragment(WSMode.MC_CASELIST)
         }
+
+        //加载exclude key
+        if (DoKitConstant.PRODUCT_ID.isNotEmpty()) {
+            lifecycleScope.launch(exceptionHandler) {
+                val config = McHttpManager.getMcConfig<Boolean>()
+                if (config.code == RESPONSE_OK) {
+                    LogHelper.i(TAG, "config===>$config")
+                } else {
+                    ToastUtils.showShort(config.msg)
+                }
+
+            }
+        }
+
 
     }
 

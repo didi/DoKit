@@ -30,7 +30,7 @@ ext {
                kotlinx_coroutines_version   : "1.4.3",
                booster_version              : "3.3.1",
                jcenter_gradle_plugin_version: "3.5.3",
-               gradle_plugin_version        : "4.2.1",
+               gradle_plugin_version        : "4.2.2",
                ktor                         : "1.5.4",
                okhttp_v2                    : "2.7.5",
                okhttp_v3                    : "3.14.7",

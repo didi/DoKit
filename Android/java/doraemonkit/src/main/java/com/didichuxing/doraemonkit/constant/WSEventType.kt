@@ -35,6 +35,11 @@ enum class WSMode {
      *数据抓取中...
      */
     RECORDING,
+
+    /**
+     * 查看用例列表
+     */
+    MC_CASELIST
 }
 
 /**

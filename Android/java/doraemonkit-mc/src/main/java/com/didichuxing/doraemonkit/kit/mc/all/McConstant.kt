@@ -24,11 +24,12 @@ object McConstant {
     const val MULTI_CONTROL_MODE_CLIENT = 200
 
 
-
     /**
      * 主机信息
      */
     var HOST_INFO: HostInfo? = null
+
+    var MC_CASE_ID: String = ""
 
 
 }

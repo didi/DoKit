@@ -6,6 +6,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.mc.all.ui.McCaseInfoDialogProvider
+import com.didichuxing.doraemonkit.kit.mc.all.ui.McResInfo
 import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.volley.VolleyManager
@@ -27,7 +28,9 @@ import kotlin.coroutines.suspendCoroutine
  * ================================================
  */
 object McHttpManager {
+    const val RESPONSE_OK = 200
 
+    const val host = "http://dokit-test.intra.xiaojukeji.com"
 
     val mHttpInfoMap: MutableMap<String, HttpInfo> by lazy {
         mutableMapOf<String, HttpInfo>()
@@ -52,14 +55,14 @@ object McHttpManager {
 
 
     @Throws(Exception::class)
-    suspend fun mcConfig() = suspendCoroutine<JSONObject> {
+    suspend fun <T> getMcConfig(): McResInfo<T> = suspendCoroutine {
         val jsonObject = JSONObject()
         jsonObject.put("pId", DoKitConstant.PRODUCT_ID)
         val request = JsonObjectRequest(
-            "",
+            "$host/app/multiControl/getConfig",
             jsonObject,
             { response ->
-                it.resume(response)
+                it.resume(convert2McResInfo(response))
             }, { error ->
                 it.resumeWithException(error)
             })
@@ -68,12 +71,12 @@ object McHttpManager {
 
 
     @Throws(Exception::class)
-    suspend fun mockStart() = suspendCoroutine<JSONObject> {
+    suspend fun <T> mockStart(): McResInfo<T> = suspendCoroutine {
         val request = JsonObjectRequest(
-            "",
+            "$host/app/multiControl/startRecord",
             JSONObject(GsonUtils.toJson(AppInfo())),
             { response ->
-                it.resume(response)
+                it.resume(convert2McResInfo(response))
             }, { error ->
                 it.resumeWithException(error)
             })
@@ -82,13 +85,12 @@ object McHttpManager {
 
 
     @Throws(Exception::class)
-    suspend fun uploadHttpInfo(httpInfo: HttpInfo) = suspendCoroutine<JSONObject> {
-
+    suspend fun <T> uploadHttpInfo(httpInfo: HttpInfo): McResInfo<T> = suspendCoroutine {
         val request = JsonObjectRequest(
-            "",
+            "$host/app/multiControl/uploadApiInfo",
             JSONObject(GsonUtils.toJson(httpInfo)),
             { response ->
-                it.resume(response)
+                it.resume(convert2McResInfo(response))
             }, { error ->
                 it.resumeWithException(error)
             })
@@ -96,15 +98,13 @@ object McHttpManager {
     }
 
     @Throws(Exception::class)
-    suspend fun mockStop(caseInfo: McCaseInfoDialogProvider.CaseInfo) =
-        suspendCoroutine<JSONObject> {
-
-
+    suspend fun <T> mockStop(caseInfo: McCaseInfoDialogProvider.CaseInfo): McResInfo<T> =
+        suspendCoroutine {
             val request = JsonObjectRequest(
-                "",
+                "$host/app/multiControl/endRecord",
                 JSONObject(GsonUtils.toJson(caseInfo)),
                 { response ->
-                    it.resume(response)
+                    it.resume(convert2McResInfo(response))
                 }, { error ->
                     it.resumeWithException(error)
                 })
@@ -113,12 +113,12 @@ object McHttpManager {
 
 
     @Throws(Exception::class)
-    suspend fun mockCaseList() = suspendCoroutine<String> {
+    suspend fun <T> mockCaseList(): McResInfo<T> = suspendCoroutine {
         val request = StringRequest(
             Request.Method.GET,
-            "",
+            "$host/app/multiControl/caseList",
             { response ->
-                it.resume(response)
+                it.resume(convert2McResInfo(JSONObject(response)))
             }, { error ->
                 it.resumeWithException(error)
             })
@@ -127,18 +127,23 @@ object McHttpManager {
 
 
     @Throws(Exception::class)
-    suspend fun httpMatch(requestKey: String) = suspendCoroutine<JSONObject> {
+    suspend fun <T> httpMatch(requestKey: String): McResInfo<T> = suspendCoroutine {
         val jsonObject = JSONObject()
         jsonObject.put("key", requestKey)
         jsonObject.put("caseId", "caseId")
         val request = JsonObjectRequest(
-            "",
+            "$host/app/multiControl/getCaseApiInfo",
             jsonObject,
             { response ->
-                it.resume(response)
+                it.resume(convert2McResInfo(response))
             }, { error ->
                 it.resumeWithException(error)
             })
         VolleyManager.add(request)
+    }
+
+
+    private fun <T> convert2McResInfo(response: JSONObject): McResInfo<T> {
+        return GsonUtils.fromJson(response.toString(), McResInfo::class.java) as McResInfo<T>
     }
 }

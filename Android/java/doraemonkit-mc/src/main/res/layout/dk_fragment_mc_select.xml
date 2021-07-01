@@ -11,18 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
-        android:src="@mipmap/dk_file_manager_banner" />
+        android:src="@mipmap/dk_mc_banner" />
 
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/iv_banner">
+        android:layout_below="@id/iv_banner"
+
+        android:scrollbars="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <Button
@@ -34,7 +36,9 @@
                 android:textAllCaps="false"
                 android:textColor="@color/dk_color_FFFFFF"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+                />
 
             <Button
                 android:id="@+id/tv_client"
@@ -84,6 +88,6 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
-    </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>
