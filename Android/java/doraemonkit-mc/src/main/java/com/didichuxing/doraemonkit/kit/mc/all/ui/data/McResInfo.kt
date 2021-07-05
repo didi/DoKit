@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.mc.all.ui
+package com.didichuxing.doraemonkit.kit.mc.all.ui.data
 
 /**
  * ================================================
@@ -9,4 +9,4 @@ package com.didichuxing.doraemonkit.kit.mc.all.ui
  * 修订历史：
  * ================================================
  */
-data class McResInfo<T>(val code: Int = 0, val data: T? = null, val msg: String = "")
+data class McResInfo<T>(val code: Int = 0, val msg: String = "", var data: T? = null)

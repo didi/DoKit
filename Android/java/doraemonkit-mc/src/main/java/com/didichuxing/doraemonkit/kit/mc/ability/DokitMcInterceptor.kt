@@ -5,6 +5,7 @@ import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.extension.sortedByKey
 import com.didichuxing.doraemonkit.extension.toMap
+import com.didichuxing.doraemonkit.kit.mc.all.McConstant
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.AbsDoKitInterceptor
@@ -69,7 +70,7 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
                 doKitGlobalScope.launch {
                     val httInfo = HttpInfo(
                         DoKitConstant.PRODUCT_ID,
-                        "caseId",
+                        McConstant.MC_CASE_ID,
                         key,
                         method,
                         path,
@@ -80,7 +81,10 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
                         strResponseBody
                     )
 
-                    val resulit = McHttpManager.uploadHttpInfo<Any>(httInfo)
+                    val result = McHttpManager.uploadHttpInfo<Any>(httInfo)
+                    if (result.code != McHttpManager.RESPONSE_OK) {
+                        LogHelper.e(TAG, "e===>${result.msg}")
+                    }
 
                 }
 

@@ -2,13 +2,15 @@ package com.didichuxing.doraemonkit.kit.mc.all.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
+import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager
 import com.didichuxing.doraemonkit.mc.R
-import com.didichuxing.doraemonkit.util.TimeUtils
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration
+import kotlinx.coroutines.launch
 
 /**
  * ================================================
@@ -35,7 +37,7 @@ class DoKitMcDatasFragment : BaseFragment() {
         val decoration = DividerItemDecoration(DividerItemDecoration.VERTICAL)
         decoration.setDrawable(resources.getDrawable(R.drawable.dk_divider))
         mRv.addItemDecoration(decoration)
-        mAdapter = McCaseListAdapter(createCaseList())
+        mAdapter = McCaseListAdapter(mutableListOf<McCaseInfo>())
         mAdapter.setOnItemClickListener { adapter, _, pos ->
             for (i in adapter.data) {
                 (i as McCaseInfo).isChecked = false
@@ -46,20 +48,12 @@ class DoKitMcDatasFragment : BaseFragment() {
             ToastUtils.showShort("用例${item.caseName}已被选中")
         }
         mRv.adapter = mAdapter
-    }
-
-
-    private fun createCaseList(): MutableList<McCaseInfo> {
-        val list: MutableList<McCaseInfo> = mutableListOf()
-        for (index in 0..100) {
-            if (index == 0) {
-                list.add(McCaseInfo("item $index", "jintai", TimeUtils.getNowString(), true))
-            } else {
-                list.add(McCaseInfo("item $index", "jintai", TimeUtils.getNowString(), false))
-
-            }
+        lifecycleScope.launch {
+            val data = McHttpManager.caseList<MutableList<McCaseInfo>>().data
+            mAdapter.setList(data)
         }
-        return list
+
     }
+
 
 }

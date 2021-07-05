@@ -30,6 +30,7 @@ val doKitGlobalScope = MainScope() + CoroutineName("DoKit")
  */
 fun Boolean?.isTrue(
     error: (String) -> Unit = { LogHelper.e("DoKit", it) },
+    isFalse: () -> Unit = {},
     action: () -> Unit
 ) {
     if (this == null) {
@@ -37,6 +38,23 @@ fun Boolean?.isTrue(
     }
     if (this == true) {
         action()
+    } else {
+        isFalse()
+    }
+}
+
+suspend fun Boolean?.isTrueWithCor(
+    error: suspend (String) -> Unit = { LogHelper.e("DoKit", it) },
+    isFalse: suspend () -> Unit = {},
+    action: suspend () -> Unit
+) {
+    if (this == null) {
+        error("Boolean is null")
+    }
+    if (this == true) {
+        action()
+    } else {
+        isFalse()
     }
 }
 
@@ -46,6 +64,7 @@ fun Boolean?.isTrue(
  */
 fun Boolean?.isFalse(
     error: (String) -> Unit = { LogHelper.e("DoKit", it) },
+    isTrue: () -> Unit = {},
     action: () -> Unit
 ) {
     if (this == null) {
@@ -53,6 +72,26 @@ fun Boolean?.isFalse(
     }
     if (this == false) {
         action()
+    } else {
+        isTrue()
+    }
+}
+
+/**
+ * Boolean 扩展函数
+ */
+suspend fun Boolean?.isFalseWithCor(
+    error: suspend (String) -> Unit = { LogHelper.e("DoKit", it) },
+    isTrue: suspend () -> Unit = {},
+    action: suspend () -> Unit
+) {
+    if (this == null) {
+        error("Boolean is null")
+    }
+    if (this == false) {
+        action()
+    } else {
+        isTrue()
     }
 }
 

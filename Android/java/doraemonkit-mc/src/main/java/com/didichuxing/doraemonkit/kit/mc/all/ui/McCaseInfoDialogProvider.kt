@@ -1,9 +1,10 @@
 package com.didichuxing.doraemonkit.kit.mc.all.ui
 
-import android.text.TextUtils
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.mc.all.McConstant
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.widget.dialog.DialogListener
 import com.didichuxing.doraemonkit.widget.dialog.DialogProvider
@@ -18,7 +19,7 @@ class McCaseInfoDialogProvider internal constructor(data: Any?, listener: Dialog
     private lateinit var mPositive: TextView
     private lateinit var mNegative: TextView
     private lateinit var mCaseName: EditText
-    private lateinit var mUserName: EditText
+    private lateinit var mPersonName: EditText
     override fun getLayoutId(): Int {
         return R.layout.dk_dialog_mc_case_info
     }
@@ -27,7 +28,7 @@ class McCaseInfoDialogProvider internal constructor(data: Any?, listener: Dialog
         mPositive = view.findViewById(R.id.positive)
         mNegative = view.findViewById(R.id.negative)
         mCaseName = view.findViewById(R.id.edit_case_name)
-        mUserName = view.findViewById(R.id.edit_user_name)
+        mPersonName = view.findViewById(R.id.edit_user_name)
     }
 
 
@@ -44,12 +45,20 @@ class McCaseInfoDialogProvider internal constructor(data: Any?, listener: Dialog
     }
 
     fun getCaseInfo(): CaseInfo {
-        return CaseInfo(mCaseName.text.toString(), mUserName.text.toString())
+        return CaseInfo(
+            caseName = mCaseName.text.toString(),
+            personName = mPersonName.text.toString()
+        )
     }
 
     override fun isCancellable(): Boolean {
         return false
     }
 
-    data class CaseInfo(val caseName: String, val personName: String)
+    data class CaseInfo(
+        val pId: String = DoKitConstant.PRODUCT_ID,
+        val caseId: String = McConstant.MC_CASE_ID,
+        val caseName: String,
+        val personName: String
+    )
 }

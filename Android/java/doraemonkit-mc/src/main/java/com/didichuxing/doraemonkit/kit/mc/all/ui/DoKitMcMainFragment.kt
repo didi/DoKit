@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.WSMode
+import com.didichuxing.doraemonkit.extension.isTrueWithCor
 import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
@@ -22,6 +23,7 @@ import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager
 import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager.RESPONSE_OK
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.McConstant
+import com.didichuxing.doraemonkit.kit.mc.all.ui.data.McCaseInfo
 import com.didichuxing.doraemonkit.kit.mc.client.DoKitWsClient
 import com.didichuxing.doraemonkit.kit.mc.server.HostInfo
 import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
@@ -34,8 +36,6 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.json.JSONObject
-import org.xml.sax.ErrorHandler
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -99,31 +99,33 @@ class DoKitMcMainFragment : BaseFragment() {
                 return@setOnClickListener
             }
 
-            //请求一个CaseId
-            lifecycleScope.launch(exceptionHandler) {
-                if (interceptDialogResult()) {
-                    try {
-                        val resInfo = McHttpManager.mockStart<Any>()
-                        if (resInfo.code == RESPONSE_OK) {
-                            SimpleDokitStarter.startFloating(RecordingDokitView::class.java)
-                            LogHelper.i(TAG, "result===>$resInfo")
-                            DoKitConstant.WS_MODE = WSMode.RECORDING
-                            ToastUtils.showShort("用例开始采集")
-                        }
-
-                    } catch (e: Exception) {
-                        DoKitConstant.WS_MODE = WSMode.UNKNOW
-                        ToastUtils.showShort("用例采集启动失败")
-                        LogHelper.i(
-                            TAG, "e===>${e.message}  thread===>${Thread.currentThread().name}"
-                        )
-                    }
-                } else {
-                    ToastUtils.showShort("取消用例采集")
-                }
-
+            if (DoKitConstant.WS_MODE == WSMode.RECORDING) {
+                ToastUtils.showShort("当前已处于录制状态")
+                return@setOnClickListener
             }
 
+            //请求一个CaseId
+            lifecycleScope.launch(exceptionHandler) {
+
+                interceptDialogResult().isTrueWithCor(isFalse = {
+                    ToastUtils.showShort("取消用例采集")
+                }) {
+                    try {
+                        val resInfo = McHttpManager.mockStart<McCaseInfo>()
+                        if (resInfo.code == RESPONSE_OK) {
+                            val configInfo = resInfo.data
+                            McConstant.MC_CASE_ID = configInfo?.caseId ?: ""
+                            SimpleDokitStarter.startFloating(RecordingDokitView::class.java)
+                            DoKitConstant.WS_MODE = WSMode.RECORDING
+                            ToastUtils.showShort("开始用例采集")
+                        }
+                    } catch (e: Exception) {
+                        LogHelper.e(TAG, "e===>${e.message}")
+                        DoKitConstant.WS_MODE = WSMode.UNKNOW
+                        ToastUtils.showShort("用例采集启动失败")
+                    }
+                }
+            }
 
         }
 
@@ -153,9 +155,9 @@ class DoKitMcMainFragment : BaseFragment() {
         //加载exclude key
         if (DoKitConstant.PRODUCT_ID.isNotEmpty()) {
             lifecycleScope.launch(exceptionHandler) {
-                val config = McHttpManager.getMcConfig<Boolean>()
+                val config = McHttpManager.getMcConfig<Any>()
                 if (config.code == RESPONSE_OK) {
-                    LogHelper.i(TAG, "config===>$config")
+                    //LogHelper.i(TAG, "config===>$config")
                 } else {
                     ToastUtils.showShort(config.msg)
                 }
@@ -292,7 +294,12 @@ class DoKitMcMainFragment : BaseFragment() {
                     return false
                 }
 
-                it.resume(McCaseInfoDialogProvider.CaseInfo(caseName, personName))
+                it.resume(
+                    McCaseInfoDialogProvider.CaseInfo(
+                        caseName = caseName,
+                        personName = personName
+                    )
+                )
 
                 return true
             }
