@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'biz_page1.dart';
 import 'page2.dart';
 
 void main() {
@@ -33,8 +34,27 @@ void main() {
       },
       methodChannelBlackList: blackList,
       exceptionCallback: (dynamic obj, StackTrace trace) {
-        print('ttt$obj');
+        print('dokit exception callback: $obj');
       });
+
+  BizKitManager.instance.addKitWith(
+      name: 'test1',
+      group: 'biz',
+      kitBuilder: () => Container(color: Colors.orange));
+  BizKitManager.instance.addKitWith(name: 'noAction', group: 'biz');
+  BizKitManager.instance.addKitWith(
+    key: 'biz1_goBizPage1',
+    name: 'goBizPage1',
+    group: 'biz1',
+    kitBuilder: () => TestBizPage1(),
+  );
+
+  BizKitManager.instance.addKitGroupTip('biz1', 'dokit test biz1');
+
+  Future.delayed(Duration(seconds: 1), () {
+    BizKitManager.instance.open('biz1_goBizPage1');
+  });
+
   // runApp(MyApp());
 }
 

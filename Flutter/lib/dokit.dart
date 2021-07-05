@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart' as dart;
 import 'package:package_info/package_info.dart';
 
+export 'package:dokit/kit/biz/biz.dart';
 export 'package:dokit/ui/dokit_app.dart';
 
 typedef DoKitAppCreator = Future<IDoKitApp> Function();
@@ -20,7 +21,7 @@ typedef LogCallback = void Function(String);
 typedef ExceptionCallback = void Function(dynamic, StackTrace);
 
 const String DK_PACKAGE_NAME = 'dokit';
-const String DK_PACKAGE_VERSION = '0.6.0';
+const String DK_PACKAGE_VERSION = '0.6.1';
 
 //默认release模式不开启该功能
 const bool release = kReleaseMode;

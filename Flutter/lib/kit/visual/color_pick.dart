@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:dokit/dokit.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/kit/visual/visual.dart';
 import 'package:dokit/ui/dokit_btn.dart';
 import 'package:dokit/util/screen_util.dart';
@@ -50,21 +51,17 @@ class ColorPickerKit extends VisualKit {
   OverlayEntry _infoEntry;
 
   @override
-  String getIcon() {
-    return 'images/dk_color_pick.png';
-  }
+  String get icon => 'images/dk_color_pick.png';
 
   @override
-  String getKitName() {
-    return VisualKitName.KIT_COLOR_PICK;
-  }
+  String get name => VisualKitName.KIT_COLOR_PICK;
 
   @override
-  void tabAction() {
-    final DoKitBtnState state = DoKitBtn.doKitBtnKey.currentState;
-    state.closeDebugPage();
-    show(DoKitBtn.doKitBtnKey.currentContext, state.owner);
-  }
+  VoidCallback get tapAction => () {
+        final DoKitBtnState state = DoKitBtn.doKitBtnKey.currentState;
+        state.closeDebugPage();
+        show(DoKitBtn.doKitBtnKey.currentContext, state.owner);
+      };
 
   static void show(BuildContext context, OverlayEntry entrance) {
     _instance._show(context, entrance);
@@ -92,6 +89,10 @@ class ColorPickerKit extends VisualKit {
     _infoEntry.remove();
     return true;
   }
+
+  @override
+  // TODO: implement kitType
+  KitType get type => throw UnimplementedError();
 }
 
 class ColorPickerWidget extends StatefulWidget {

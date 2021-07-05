@@ -1,5 +1,26 @@
-
 import 'dart:collection';
+
+import 'package:flutter/cupertino.dart';
+
+const String BUILTIN_DEFAULT_GROUP = '__builtin__';
+const String BIZ_DEFAULT_GROUP = '__biz__';
+const String UNKNOWN_GROUP = '__unknown__';
+const double kitIconSize = 34.0;
+const String defaultIcon = 'images/dk_sys_info.png';
+
+enum KitType {
+  builtin,
+  biz,
+}
+
+extension KitTypeExt on KitType {
+  String get defaultGroup {
+    if (KitType.builtin == this) {
+      return BUILTIN_DEFAULT_GROUP;
+    }
+    return BIZ_DEFAULT_GROUP;
+  }
+}
 
 abstract class IInfo {
   dynamic getValue();
@@ -16,11 +37,39 @@ abstract class IStorage {
 }
 
 abstract class IKit {
-  String getKitName();
+  String get name;
 
-  String getIcon();
+  String get icon;
 
-  void tabAction();
+  KitType get type;
+
+  String get group => type?.defaultGroup ?? UNKNOWN_GROUP;
+
+  VoidCallback get tapAction;
+}
+
+abstract class IKitManager<T> {
+  Map<String, T> get kitMap;
+
+  void addKit<S extends T>(String name, S kit) {
+    assert(name != null && kit != null);
+    if (kitMap == null) {
+      return;
+    }
+    kitMap[name] = kit;
+  }
+
+  S getKit<S extends T>(String name) {
+    assert(name != null);
+    if (kitMap == null) {
+      return null;
+    }
+    if (kitMap.containsKey(name)) {
+      return kitMap[name] as S;
+    }
+
+    return null;
+  }
 }
 
 class CommonStorage implements IStorage {

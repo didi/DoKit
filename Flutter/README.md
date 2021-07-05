@@ -13,7 +13,7 @@
 
 ```
 dependencies:
-  dokit: ^0.6.0
+  dokit: ^0.6.1
 ```
 
 在main函数入口初始化。 DoKit使用runZone的方式进行日志捕获，方法通道的捕获，如果你的app需要使用同样的方式会有冲突。
@@ -75,6 +75,44 @@ releaseAction | Function | release模式下执行该函数，该值为空则会�
 <img src="https://pt-starimg.didistatic.com/static/starimg/img/AuETMp2dp11619684586454.png"  width="300px"  />
 
 当前版本DoKit支持的所有功能全览。常驻工具为显示在底部tab栏的组件，可通过拖动将组件放置或移出常驻工具。
+
+### 第三方业务入口
+
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/apwIxs7A341609765573351.jpg"  width="300px"  />
+
+添加第三方业务入口，目前只支持跳转页面，对要跳转的页面只要求是Widget即可，添加第三方业务入口的代码推荐写在main函数中，下面是添加第三方入口的示例：
+```
+  // 注册新的第三方业务入口，不可重复注册，否则报错
+  BizKitManager.instance.addKitWith(
+      name: 'test1',
+      group: 'biz',
+      kitBuilder: () => Container(color: Colors.orange));
+  BizKitManager.instance.addKitWith(name: 'noAction', group: 'biz');
+  BizKitManager.instance.addKitWith(
+    key: 'biz1_goBizPage1',
+    name: 'goBizPage1',
+    group: 'biz1',
+    kitBuilder: () => TestBizPage1(),
+  );
+
+  // 添加业务分组的tip信息（需先注册对应的group，否则报错）
+  BizKitManager.instance.addKitGroupTip('biz1', 'dokit test biz1');
+
+  // 通过注册的key来手动通过代码打开一个业务入口对应的页面
+  Future.delayed(Duration(seconds: 1), () {
+    BizKitManager.instance.open('biz1_goBizPage1');
+    // 安全打开一个kitPage，和open的区别在于不会报错
+    // BizKitManager.instance.safeOpen();
+  });
+  
+  // 隐藏kitPage，不会删除上一次的打开记录
+  BizKitManager.instance.hide();
+  // 关闭kitPage，会删除上一次的打开记录
+  BizKitManager.instance.close();
+  
+  // 如果传入的kitBuilder中的widget层级中没有包含Navigator（MaterialApp、WidgetApp等组件默认包含Navigator），则推荐使用，否则无法关闭
+  Navigator.of(context).pop();
+```
 
 
 ### 日志查看

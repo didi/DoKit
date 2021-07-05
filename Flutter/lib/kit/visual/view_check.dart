@@ -88,21 +88,17 @@ class ViewCheckerKit extends VisualKit {
   }
 
   @override
-  String getIcon() {
-    return 'images/dk_view_check.png';
-  }
+  String get icon => 'images/dk_view_check.png';
 
   @override
-  String getKitName() {
-    return VisualKitName.KIT_VIEW_CHECK;
-  }
+  String get name => VisualKitName.KIT_VIEW_CHECK;
 
   @override
-  void tabAction() {
-    final DoKitBtnState state = DoKitBtn.doKitBtnKey.currentState;
-    state.closeDebugPage();
-    show(DoKitBtn.doKitBtnKey.currentContext, state.owner);
-  }
+  VoidCallback get tapAction => () {
+        final DoKitBtnState state = DoKitBtn.doKitBtnKey.currentState;
+        state.closeDebugPage();
+        show(DoKitBtn.doKitBtnKey.currentContext, state.owner);
+      };
 }
 
 class RectWidget extends StatefulWidget {

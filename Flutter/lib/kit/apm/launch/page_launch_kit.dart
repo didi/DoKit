@@ -1,11 +1,11 @@
-import 'package:dokit/kit/apm/launch/model.dart';
 import 'package:dokit/kit/kit.dart';
-import 'package:dokit/util/screen_util.dart';
-
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/material.dart';
-import '../apm.dart';
 import 'package:dokit/ui/dokit_app.dart';
+import 'package:dokit/util/screen_util.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
+
+import '../apm.dart';
+import 'model.dart';
 import 'route_observer.dart';
 
 class PageLaunchKit extends ApmKit {
@@ -38,14 +38,10 @@ class PageLaunchKit extends ApmKit {
   }
 
   @override
-  String getIcon() {
-    return 'images/dk_time_counter.png';
-  }
+  String get icon => 'images/dk_time_counter.png';
 
   @override
-  String getKitName() {
-    return ApmKitName.KIT_PAGE_LAUNCH;
-  }
+  String get name => ApmKitName.KIT_PAGE_LAUNCH;
 
   @override
   void start() {}

@@ -17,7 +17,5 @@ class LaunchObserver extends NavigatorObserver {
             now - before, previousRoute.settings.name, route.settings.name);
       });
     }
-
-    // route.settings.name
   }
 }

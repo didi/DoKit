@@ -1,7 +1,6 @@
+import 'package:dokit/kit/observer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:dokit/kit/observer.dart';
 
 final GlobalKey<OverlayState> doKitOverlayKey = GlobalKey<OverlayState>();
 
@@ -96,12 +95,14 @@ class _DoKitAppState extends State<DoKitApp> {
         children: <Widget>[
           widget.origin,
           _MediaQueryFromWindow(
-              child: Localizations(
-                  locale: supportedLocales.first,
-                  delegates: _localizationsDelegates.toList(),
-                  child: Overlay(
-                    key: doKitOverlayKey,
-                  )))
+            child: Localizations(
+              locale: supportedLocales.first,
+              delegates: _localizationsDelegates.toList(),
+              child: Overlay(
+                key: doKitOverlayKey,
+              ),
+            ),
+          )
         ],
       ),
     );

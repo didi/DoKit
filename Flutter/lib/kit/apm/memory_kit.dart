@@ -26,14 +26,10 @@ class MemoryKit extends ApmKit {
   int lastFrame = 0;
 
   @override
-  String getKitName() {
-    return ApmKitName.KIT_MEMORY;
-  }
+  String get name => ApmKitName.KIT_MEMORY;
 
   @override
-  String getIcon() {
-    return 'images/dk_ram.png';
-  }
+  String get icon => 'images/dk_ram.png';
 
   @override
   void start() async {
@@ -181,9 +177,7 @@ class MemoryPageState extends State<MemoryPage> {
                           padding: EdgeInsets.only(
                               left: 15, right: 0, top: 15, bottom: 15),
                           child: Image.asset('images/dk_memory_search.png',
-                              package: DK_PACKAGE_NAME,
-                              height: 16,
-                              width: 16),
+                              package: DK_PACKAGE_NAME, height: 16, width: 16),
                           onPressed: filterAllocations,
                         ),
                       )

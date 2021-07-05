@@ -8,14 +8,10 @@ import 'package:vm_service/vm_service.dart';
 
 class BasicInfoKit extends CommonKit {
   @override
-  String getIcon() {
-    return 'images/dk_sys_info.png';
-  }
+  String get icon => 'images/dk_sys_info.png';
 
   @override
-  String getKitName() {
-    return CommonKitName.KIT_BASIC_INFO;
-  }
+  String get name => CommonKitName.KIT_BASIC_INFO;
 
   @override
   Widget createDisplayPage() {

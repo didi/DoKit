@@ -30,8 +30,8 @@ class ResidentPageState extends State<ResidentPage> {
 
   String getTitle() {
     String title;
-    title ??= ApmKitManager.instance.getKit(ResidentPage.tag)?.getKitName();
-    title ??= CommonKitManager.instance.getKit(ResidentPage.tag)?.getKitName();
+    title ??= ApmKitManager.instance.getKit(ResidentPage.tag)?.name;
+    title ??= CommonKitManager.instance.getKit(ResidentPage.tag)?.name;
     title ??= 'DoKit';
     return title;
   }
@@ -135,7 +135,7 @@ class ResidentPageState extends State<ResidentPage> {
                     fontSize: 13)),
           ),
           onTap: () {
-            kit.tabAction();
+            kit.tapAction();
           },
           behavior: HitTestBehavior.opaque,
         ),

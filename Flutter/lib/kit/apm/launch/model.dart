@@ -1,5 +1,4 @@
-
-class LaunchInfo{
+class LaunchInfo {
   final int costTime;
   final String previousPage;
   final String newPage;

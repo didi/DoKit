@@ -112,3 +112,12 @@ class DoKitBtnState extends State<DoKitBtn> {
     }
   }
 }
+
+void hideDebugPage() {
+  if (DoKitBtn.doKitBtnKey.currentState == null) {
+    return;
+  }
+  if (DoKitBtn.doKitBtnKey.currentState.showDebugPage) {
+    DoKitBtn.doKitBtnKey.currentState.closeDebugPage();
+  }
+}

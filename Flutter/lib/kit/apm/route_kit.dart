@@ -17,14 +17,10 @@ class RouteKit extends ApmKit {
   }
 
   @override
-  String getKitName() {
-    return ApmKitName.KIT_ROUTE;
-  }
+  String get name => ApmKitName.KIT_ROUTE;
 
   @override
-  String getIcon() {
-    return 'images/dk_view_route.png';
-  }
+  String get icon => 'images/dk_view_route.png';
 
   @override
   void start() {}

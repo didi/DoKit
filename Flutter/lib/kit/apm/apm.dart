@@ -1,18 +1,18 @@
-import 'package:dokit/kit/apm/fps_kit.dart';
-import 'package:dokit/kit/apm/launch/page_launch_kit.dart';
-import 'package:dokit/kit/apm/log_kit.dart';
-import 'package:dokit/kit/apm/memory_kit.dart';
-import 'package:dokit/kit/apm/method_channel_kit.dart';
 import 'package:dokit/kit/apm/route_kit.dart';
 import 'package:dokit/kit/apm/source_code_kit.dart';
 import 'package:dokit/ui/resident_page.dart';
 import 'package:flutter/material.dart';
 
 import '../kit.dart';
+import 'fps_kit.dart';
 import 'http_kit.dart';
+import 'launch/page_launch_kit.dart';
+import 'log_kit.dart';
+import 'memory_kit.dart';
+import 'method_channel_kit.dart';
 
-class ApmKitManager {
-  Map<String, ApmKit> kitMap = {
+class ApmKitManager extends IKitManager<ApmKit> {
+  Map<String, ApmKit> _kitMap = {
     ApmKitName.KIT_LOG: LogKit(),
     ApmKitName.KIT_CHANNEL: MethodChannelKit(),
     ApmKitName.KIT_ROUTE: RouteKit(),
@@ -23,34 +23,23 @@ class ApmKitManager {
     ApmKitName.KIT_PAGE_LAUNCH: PageLaunchKit()
   };
 
-  ApmKitManager._privateConstructor() {}
+  ApmKitManager._();
 
-  static final ApmKitManager _instance = ApmKitManager._privateConstructor();
+  static final ApmKitManager _instance = ApmKitManager._();
 
   static ApmKitManager get instance => _instance;
-
-  // 如果想要自定义实现，可以用这个方式进行覆盖。后续扩展入口
-  void addKit(String tag, ApmKit kit) {
-    assert(tag != null && kit != null);
-    kitMap[tag] = kit;
-  }
-
-  T getKit<T extends ApmKit>(String name) {
-    assert(name != null);
-    if (kitMap.containsKey(name)) {
-      return kitMap[name] as T;
-    }
-    return null;
-  }
 
   void startUp() {
     kitMap.forEach((key, kit) {
       kit.start();
     });
   }
+
+  @override
+  Map<String, ApmKit> get kitMap => _kitMap;
 }
 
-abstract class ApmKit implements IKit {
+abstract class ApmKit extends IKit {
   IStorage storage;
 
   void start();
@@ -67,13 +56,13 @@ abstract class ApmKit implements IKit {
   }
 
   @override
-  void tabAction() {
-    ResidentPage.residentPageKey.currentState.setState(() {
-      ResidentPage.tag = getKitName();
-    });
-  }
+  VoidCallback get tapAction => () {
+        // ignore: invalid_use_of_protected_member
+        ResidentPage.residentPageKey.currentState.setState(() {
+          ResidentPage.tag = name;
+        });
+      };
 
-  @override
   bool save(IInfo info) {
     return info != null &&
         storage != null &&
@@ -84,6 +73,9 @@ abstract class ApmKit implements IKit {
   IStorage getStorage() {
     return storage;
   }
+
+  @override
+  KitType get type => KitType.builtin;
 }
 
 class ApmKitName {

@@ -1,11 +1,12 @@
+import 'dart:convert';
+
+import 'package:dokit/dokit.dart';
 import 'package:dokit/kit/apm/apm.dart';
 import 'package:dokit/kit/apm/vm/vm_helper.dart';
+import 'package:dokit/kit/kit.dart';
 import 'package:dokit/widget/source_code/source_code_view.dart';
 import 'package:flutter/material.dart';
-import 'package:dokit/kit/kit.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:dokit/dokit.dart';
-import 'dart:convert';
 
 class SourceCodeKit extends ApmKit {
   @override
@@ -19,14 +20,10 @@ class SourceCodeKit extends ApmKit {
   }
 
   @override
-  String getIcon() {
-    return 'images/dk_source_code.png';
-  }
+  String get icon => 'images/dk_source_code.png';
 
   @override
-  String getKitName() {
-    return ApmKitName.KIT_SOURCE_CODE;
-  }
+  String get name => ApmKitName.KIT_SOURCE_CODE;
 
   @override
   void start() {}

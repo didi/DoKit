@@ -1,6 +1,6 @@
 name: dokit
 description: 开发工具集
-version: 0.6.0
+version: 0.6.1
 homepage: https://www.dokit.cn/#/index/home
 
 
@@ -22,7 +22,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ^1.9.2
+  pedantic: 1.9.0
 
 
 flutter:

@@ -1,6 +1,6 @@
 name: dokit_demo
 description: dokit测试工程
-version: 0.0.1
+version: 0.0.2
 homepage: http://flutter.intra.xiaojukeji.com/index.php
 
 environment:
@@ -21,3 +21,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - images/dk_nav_back.png
+    - images/dk_nav_close.png

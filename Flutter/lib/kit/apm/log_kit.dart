@@ -29,14 +29,10 @@ class LogKit extends ApmKit {
   }
 
   @override
-  String getKitName() {
-    return ApmKitName.KIT_LOG;
-  }
+  String get name => ApmKitName.KIT_LOG;
 
   @override
-  String getIcon() {
-    return 'images/dk_log_info.png';
-  }
+  String get icon => 'images/dk_log_info.png';
 
   @override
   bool save(IInfo info) {

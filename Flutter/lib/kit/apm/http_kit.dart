@@ -94,9 +94,7 @@ class HttpKit extends ApmKit {
   Function listener;
 
   @override
-  String getIcon() {
-    return 'images/dk_net_monitor.png';
-  }
+  String get icon => 'images/dk_net_monitor.png';
 
   @override
   IStorage createStorage() {
@@ -104,9 +102,7 @@ class HttpKit extends ApmKit {
   }
 
   @override
-  String getKitName() {
-    return ApmKitName.KIT_HTTP;
-  }
+  String get name => ApmKitName.KIT_HTTP;
 
   @override
   void start() {
@@ -307,8 +303,7 @@ class _HttpItemWidgetState extends State<HttpItemWidget> {
                 text: TextSpan(
                   children: <InlineSpan>[
                     TextSpan(
-                        text:
-                            '[${toTimeString(widget.item.startTimestamp)}]',
+                        text: '[${toTimeString(widget.item.startTimestamp)}]',
                         style: const TextStyle(
                             fontSize: 9,
                             color: Color(0xff333333),

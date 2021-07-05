@@ -1,9 +1,9 @@
 import 'dart:ui';
 
 import 'package:dokit/dokit.dart';
+import 'package:dokit/widget/fps_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:dokit/widget/fps_chart.dart';
 
 import '../kit.dart';
 import 'apm.dart';
@@ -22,9 +22,7 @@ class FpsKit extends ApmKit {
   int lastFrame = 0;
 
   @override
-  String getKitName() {
-    return ApmKitName.KIT_FPS;
-  }
+  String get name => ApmKitName.KIT_FPS;
 
   @override
   void start() {
@@ -56,13 +54,11 @@ class FpsKit extends ApmKit {
 
   @override
   Widget createDisplayPage() {
-    return new FpsPage();
+    return FpsPage();
   }
 
   @override
-  String getIcon() {
-    return 'images/dk_frame_hist.png';
-  }
+  String get icon => 'images/dk_frame_hist.png';
 }
 
 class FpsPage extends StatefulWidget {
@@ -76,7 +72,7 @@ class FpsPageState extends State<FpsPage> {
   @override
   Widget build(BuildContext context) {
     FpsKit kit = ApmKitManager.instance.getKit<FpsKit>(ApmKitName.KIT_FPS);
-    List<IInfo> list = new List();
+    List<IInfo> list = List();
     if (kit != null) {
       list = kit.storage.getAll();
     }

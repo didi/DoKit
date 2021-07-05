@@ -1,26 +1,8 @@
 buildscript {
-    ext.kotlin_version = '1.3.72'
+    ext.kotlin_version = '1.3.50'
     repositories {
-        maven {
-            url 'http://artifactory.intra.xiaojukeji.com/artifactory/public/'
-        }
-        maven {
-            url 'http://maven.aliyun.com/nexus/content/groups/public/'
-        }
-        maven {
-            url "https://storage.googleapis.com/download.flutter.io"
-        }
-        mavenCentral()
-        mavenLocal()
-//        maven {
-//            // 引入rn本地aar
-//            url '/Users/didi/AndroidStudioProjects/BeetlesSDK/lib/local'
-//        }
-//        maven {
-//            url "$rootDir/component/local" // 引入rn本地aar
-//        }
-        maven { url "https://jitpack.io" }
         google()
+        jcenter()
     }
 
     dependencies {
@@ -31,26 +13,8 @@ buildscript {
 
 allprojects {
     repositories {
-        maven {
-            url 'http://artifactory.intra.xiaojukeji.com/artifactory/public/'
-        }
-        maven {
-            url 'http://maven.aliyun.com/nexus/content/groups/public/'
-        }
-        maven {
-            url "https://storage.googleapis.com/download.flutter.io"
-        }
-        mavenCentral()
-        mavenLocal()
-//        maven {
-//            // 引入rn本地aar
-//            url '/Users/didi/AndroidStudioProjects/BeetlesSDK/lib/local'
-//        }
-//        maven {
-//            url "$rootDir/component/local" // 引入rn本地aar
-//        }
-        maven { url "https://jitpack.io" }
         google()
+        jcenter()
     }
 }
 

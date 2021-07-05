@@ -63,9 +63,7 @@ class MethodChannelKit extends ApmKit {
   }
 
   @override
-  String getIcon() {
-    return 'images/dk_method_channel.png';
-  }
+  String get icon => 'images/dk_method_channel.png';
 
   @override
   IStorage createStorage() {
@@ -73,9 +71,7 @@ class MethodChannelKit extends ApmKit {
   }
 
   @override
-  String getKitName() {
-    return ApmKitName.KIT_CHANNEL;
-  }
+  String get name => ApmKitName.KIT_CHANNEL;
 
   @override
   bool save(IInfo info) {

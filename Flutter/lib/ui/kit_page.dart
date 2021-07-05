@@ -1,4 +1,5 @@
 import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/kit/biz/biz.dart';
 import 'package:dokit/kit/common/common.dart';
 import 'package:dokit/kit/kit.dart';
 import 'package:dokit/kit/visual/visual.dart';
@@ -38,6 +39,7 @@ class _KitPage extends State<KitPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                ..._buildBizGroupKits(),
                 Container(
                   margin: const EdgeInsets.only(
                       left: 10, right: 10, top: 15, bottom: 10),
@@ -119,6 +121,28 @@ class _KitPage extends State<KitPage> {
             )));
   }
 
+  List<Widget> _buildBizGroupKits() {
+    final kitGroupMap = BizKitManager.instance.kitGroupMap;
+    final kitEntries = List<Widget>();
+    kitGroupMap.keys.forEach((group) {
+      final tips = BizKitManager.instance.kitGroupTips;
+      final kitEntry = KitGroup(
+        title: group,
+        tips: tips[group],
+        kits: kitGroupMap[group],
+      );
+      final divider = Container(
+        width: MediaQuery.of(context).size.width,
+        height: 12,
+        color: const Color(0xfff5f6f7),
+      );
+      kitEntries.add(kitEntry);
+      kitEntries.add(divider);
+    });
+
+    return kitEntries;
+  }
+
   bool inResidentContainerEdge(Offset offset) {
     if (offset == null) {
       return false;
@@ -147,7 +171,7 @@ class _KitPage extends State<KitPage> {
               child: KitItem(value),
               onPressed: () {
                 setState(() {
-                  value.tabAction();
+                  value.tapAction();
                 });
               },
               padding: const EdgeInsets.all(0),
@@ -195,7 +219,7 @@ class _KitPage extends State<KitPage> {
               child: KitItem(value),
               onPressed: () {
                 setState(() {
-                  value.tabAction();
+                  value.tapAction();
                 });
               },
               padding: const EdgeInsets.all(0),
@@ -234,6 +258,93 @@ class _KitPage extends State<KitPage> {
   }
 }
 
+class KitGroup extends StatelessWidget {
+  final String title;
+  final String tips;
+  final List<IKit> kits;
+
+  const KitGroup({Key key, this.title, this.tips, this.kits})
+      : assert(title != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildTitle(),
+          _buildItems(context),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 12,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTitle() {
+    final textSpanList = <TextSpan>[];
+
+    final titleTextSpan = TextSpan(
+      text: title,
+      style: TextStyle(
+          fontSize: 16, color: Color(0xff333333), fontWeight: FontWeight.bold),
+    );
+    textSpanList.add(titleTextSpan);
+
+    if (tips?.isNotEmpty ?? false) {
+      final tipsTextSpan = TextSpan(
+        text: '  [$tips]',
+        style: TextStyle(
+          fontSize: 12,
+          color: Color(0xff333333),
+        ),
+      );
+      textSpanList.add(tipsTextSpan);
+    }
+
+    return Container(
+      alignment: Alignment.topLeft,
+      margin: const EdgeInsets.only(left: 10, top: 10, bottom: 15),
+      child: RichText(
+        text: TextSpan(children: textSpanList),
+      ),
+    );
+  }
+
+  Widget _buildItems(BuildContext context) {
+    if (kits?.isEmpty ?? true) {
+      return Container(
+        height: 40,
+      );
+    }
+
+    final double round = (MediaQuery.of(context).size.width - 80 * 4 - 30) / 3;
+
+    final widgets = kits.map((e) {
+      final button = MaterialButton(
+          child: KitItem(e),
+          onPressed: () {
+            e.tapAction();
+          },
+          padding: const EdgeInsets.all(0),
+          minWidth: 40);
+      return button;
+    }).toList();
+
+    final wrap = Wrap(
+      spacing: round,
+      runSpacing: 15,
+      children: widgets,
+    );
+
+    return wrap;
+  }
+}
+
 class KitItem extends StatelessWidget {
   const KitItem(this.kit);
 
@@ -245,15 +356,15 @@ class KitItem extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Image.asset(
-            kit.getIcon(),
-            width: 34,
-            height: 34,
+            kit.icon,
+            width: kitIconSize,
+            height: kitIconSize,
             fit: BoxFit.fitWidth,
             package: DK_PACKAGE_NAME,
           ),
           Container(
             margin: const EdgeInsets.only(top: 6),
-            child: Text(kit.getKitName(),
+            child: Text(kit.name,
                 style: const TextStyle(
                     fontFamily: 'PingFang SC',
                     fontSize: 12,
@@ -270,7 +381,7 @@ class KitItem extends StatelessWidget {
 }
 
 class KitPageManager {
-  KitPageManager._privateConstructor();
+  KitPageManager._();
 
   static const String KIT_ALL = '全部';
   static const String KEY_KIT_PAGE_CACHE = 'key_kit_page_cache';
@@ -279,7 +390,7 @@ class KitPageManager {
     ApmKitName.KIT_CHANNEL
   ];
 
-  static final KitPageManager _instance = KitPageManager._privateConstructor();
+  static final KitPageManager _instance = KitPageManager._();
 
   static KitPageManager get instance => _instance;
 

@@ -1,45 +1,37 @@
-// 视觉功能
 import 'package:dokit/ui/resident_page.dart';
 import 'package:flutter/material.dart';
 
 import '../kit.dart';
 import 'basic_info.dart';
 
-abstract class CommonKit implements IKit {
+abstract class CommonKit extends IKit {
   @override
-  void tabAction() {
-    ResidentPage.residentPageKey.currentState.setState(() {
-      ResidentPage.tag = getKitName();
-    });
-  }
+  VoidCallback get tapAction => () {
+        // ignore: invalid_use_of_protected_member
+        ResidentPage.residentPageKey.currentState.setState(() {
+          ResidentPage.tag = name;
+        });
+      };
+
   Widget createDisplayPage();
+
+  @override
+  KitType get type => KitType.builtin;
 }
 
-class CommonKitManager {
-  Map<String, CommonKit> kitMap = {
+class CommonKitManager extends IKitManager<CommonKit> {
+  Map<String, CommonKit> _kitMap = {
     CommonKitName.KIT_BASIC_INFO: BasicInfoKit(),
   };
 
-  CommonKitManager._privateConstructor() {}
+  CommonKitManager._();
 
-  static final CommonKitManager _instance =
-      CommonKitManager._privateConstructor();
+  static final CommonKitManager _instance = CommonKitManager._();
 
   static CommonKitManager get instance => _instance;
 
-  // 如果想要自定义实现，可以用这个方式进行覆盖。后续扩展入口
-  void addKit(String tag, CommonKit kit) {
-    assert(tag != null && kit != null);
-    kitMap[tag] = kit;
-  }
-
-  T getKit<T extends CommonKit>(String name) {
-    assert(name != null);
-    if (kitMap.containsKey(name)) {
-      return kitMap[name];
-    }
-    return null;
-  }
+  @override
+  Map<String, CommonKit> get kitMap => _kitMap;
 }
 
 class CommonKitName {

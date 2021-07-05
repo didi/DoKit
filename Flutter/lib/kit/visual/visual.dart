@@ -11,34 +11,25 @@ const double infoWidgetHorizontalMargin = 20;
 /// 可视化Kit的信息展示widget的bottom margin
 final double infoWidgetTopMargin = ScreenUtil.instance.statusBarHeight + 20;
 
-abstract class VisualKit implements IKit {}
+abstract class VisualKit extends IKit {
+  @override
+  KitType get type => KitType.builtin;
+}
 
-class VisualKitManager {
-  VisualKitManager._privateConstructor();
+class VisualKitManager extends IKitManager<VisualKit> {
+  VisualKitManager._();
 
-  Map<String, IKit> kitMap = <String, IKit>{
+  Map<String, VisualKit> _kitMap = {
     VisualKitName.KIT_VIEW_CHECK: ViewCheckerKit.instance,
     VisualKitName.KIT_COLOR_PICK: ColorPickerKit.instance,
   };
 
-  static final VisualKitManager _instance =
-      VisualKitManager._privateConstructor();
+  static final VisualKitManager _instance = VisualKitManager._();
 
   static VisualKitManager get instance => _instance;
 
-  // 如果想要自定义实现，可以用这个方式进行覆盖。后续扩展入口
-  void addKit(String tag, IKit kit) {
-    assert(tag != null && kit != null);
-    kitMap[tag] = kit;
-  }
-
-  T getKit<T extends IKit>(String name) {
-    assert(name != null);
-    if (kitMap.containsKey(name)) {
-      return kitMap[name] as T;
-    }
-    return null;
-  }
+  @override
+  Map<String, VisualKit> get kitMap => _kitMap;
 }
 
 class VisualKitName {
