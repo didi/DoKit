@@ -78,7 +78,7 @@ releaseAction | Function | release模式下执行该函数，该值为空则会�
 
 ### 第三方业务入口
 
-<img src="https://pt-starimg.didistatic.com/static/starimg/img/apwIxs7A341609765573351.jpg"  width="300px"  />
+<img src="https://pt-starimg.didistatic.com/static/starimg/img/5MpDXMunC21625488769022.png"  width="300px"  />
 
 添加第三方业务入口，目前只支持跳转页面，对要跳转的页面只要求是Widget即可，添加第三方业务入口的代码推荐写在main函数中，下面是添加第三方入口的示例：
 ```
