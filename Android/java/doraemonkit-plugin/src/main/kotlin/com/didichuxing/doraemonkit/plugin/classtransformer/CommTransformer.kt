@@ -255,9 +255,8 @@ class CommTransformer : AbsClassTransformer() {
                 }
             }
 
-
-            //didi platform
-            if (className == "didihttp.DidiHttpClient" && DoKitExtUtil.commExt.didinetSwitch) {
+            //didi platform 判断是否引入了dokit-rpc模块
+            if (className == "didihttp.DidiHttpClient" && DoKitExtUtil.commExt.didinetSwitch && DoKitExtUtil.HAS_DOKIT_RPC_MODULE) {
                 klass.methods?.find {
                     it.name == "<init>" && it.desc != "()V"
                 }.let {
@@ -273,7 +272,10 @@ class CommTransformer : AbsClassTransformer() {
                                     && fieldInsnNode.desc == "Ljava/util/List;"
                         }
                         ?.forEach { fieldInsnNode ->
-                            it.instructions.insert(fieldInsnNode, createDidiHttpClientInsnList())
+                            it.instructions.insert(
+                                fieldInsnNode,
+                                createDidiHttpClientInsnList()
+                            )
                         }
                 }
             }

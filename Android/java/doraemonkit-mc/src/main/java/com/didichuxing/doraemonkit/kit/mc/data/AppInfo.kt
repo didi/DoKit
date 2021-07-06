@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.mc.ability
+package com.didichuxing.doraemonkit.kit.mc.data
 
 import com.didichuxing.doraemonkit.BuildConfig
 import com.didichuxing.doraemonkit.constant.DoKitConstant

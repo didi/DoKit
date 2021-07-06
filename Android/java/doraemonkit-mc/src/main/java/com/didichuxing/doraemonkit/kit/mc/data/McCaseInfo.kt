@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.mc.all.ui.data
+package com.didichuxing.doraemonkit.kit.mc.data
 
 import com.google.gson.annotations.Expose
 

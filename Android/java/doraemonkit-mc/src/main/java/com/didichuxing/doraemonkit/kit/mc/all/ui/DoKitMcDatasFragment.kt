@@ -2,12 +2,15 @@ package com.didichuxing.doraemonkit.kit.mc.all.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager
+import com.didichuxing.doraemonkit.kit.mc.all.McConstant
 import com.didichuxing.doraemonkit.mc.R
+import com.didichuxing.doraemonkit.util.SPUtils
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.widget.recyclerview.DividerItemDecoration
 import kotlinx.coroutines.launch
@@ -23,6 +26,7 @@ import kotlinx.coroutines.launch
  */
 class DoKitMcDatasFragment : BaseFragment() {
     lateinit var mRv: RecyclerView
+    lateinit var mEmpty: TextView
     lateinit var mAdapter: McCaseListAdapter
 
     override fun onRequestLayout(): Int {
@@ -33,6 +37,7 @@ class DoKitMcDatasFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mRv = findViewById(R.id.rv)
+        mEmpty = findViewById(R.id.tv_empty)
         mRv.layoutManager = LinearLayoutManager(requireActivity())
         val decoration = DividerItemDecoration(DividerItemDecoration.VERTICAL)
         decoration.setDrawable(resources.getDrawable(R.drawable.dk_divider))
@@ -46,13 +51,41 @@ class DoKitMcDatasFragment : BaseFragment() {
             item.isChecked = true
             adapter.notifyDataSetChanged()
             ToastUtils.showShort("用例${item.caseName}已被选中")
+            saveCaseId(item.caseId)
         }
         mRv.adapter = mAdapter
         lifecycleScope.launch {
-            val data = McHttpManager.caseList<MutableList<McCaseInfo>>().data
-            mAdapter.setList(data)
+            val data = McHttpManager.caseList<McCaseInfo>().data
+
+            data?.let {
+                if (it.isEmpty()) {
+                    mEmpty.visibility = View.VISIBLE
+                } else {
+                    val caseId = loadCaseId()
+                    it.forEach { info ->
+                        info.isChecked = caseId == info.caseId
+                    }
+                    mAdapter.setList(it)
+                }
+
+            }
         }
 
+    }
+
+    private fun saveCaseId(caseId: String) {
+        McConstant.MC_CASE_ID = caseId
+        SPUtils.getInstance().put("mc_case_id", caseId)
+    }
+
+    private fun loadCaseId(): String {
+        return if (McConstant.MC_CASE_ID.isEmpty()) {
+            val caseId = SPUtils.getInstance().getString("mc_case_id", "")
+            McConstant.MC_CASE_ID = caseId
+            McConstant.MC_CASE_ID
+        } else {
+            McConstant.MC_CASE_ID
+        }
     }
 
 

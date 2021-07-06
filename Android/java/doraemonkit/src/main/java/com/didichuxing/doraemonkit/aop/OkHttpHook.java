@@ -9,6 +9,7 @@ import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterc
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitLargePicInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitMockInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitWeakNetworkInterceptor;
+import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.ReflectUtils;
 
 import java.util.ArrayList;
@@ -51,28 +52,42 @@ public class OkHttpHook {
         List<Interceptor> interceptors = new ArrayList<>(client.interceptors());
         List<Interceptor> networkInterceptors = new ArrayList<>(client.networkInterceptors());
         try {
-
             DokitAbility.DokitModuleProcessor processor = DoKitConstant.INSTANCE.getModuleProcessor(DoKitModule.MODULE_MC);
             if (processor != null) {
                 Object interceptor = processor.values().get("okhttp_interceptor");
                 if (interceptor instanceof AbsDoKitInterceptor) {
-                    interceptors.add((AbsDoKitInterceptor) interceptor);
+                    noDuplicateAdd(interceptors, (AbsDoKitInterceptor) interceptor);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-        interceptors.add(new DokitMockInterceptor());
-        interceptors.add(new DokitLargePicInterceptor());
-        interceptors.add(new DokitCapInterceptor());
-        interceptors.add(new DokitExtInterceptor());
-        networkInterceptors.add(new DokitWeakNetworkInterceptor());
+        noDuplicateAdd(interceptors, new DokitMockInterceptor());
+        noDuplicateAdd(interceptors, new DokitLargePicInterceptor());
+        noDuplicateAdd(interceptors, new DokitCapInterceptor());
+        noDuplicateAdd(interceptors, new DokitExtInterceptor());
+        noDuplicateAdd(networkInterceptors, new DokitWeakNetworkInterceptor());
         //需要用反射重新赋值 因为源码中创建了一个不可变的list
         ReflectUtils.reflect(client).field("interceptors", interceptors);
         ReflectUtils.reflect(client).field("networkInterceptors", networkInterceptors);
     }
 
+    //list判断是否重复添加
+    private static void noDuplicateAdd(List<Interceptor> interceptors, AbsDoKitInterceptor interceptor) {
+        boolean hasInterceptor = false;
+        for (Interceptor i : interceptors) {
+            if (i instanceof AbsDoKitInterceptor) {
+                if (((AbsDoKitInterceptor) i).getTAG().equals(interceptor.getTAG())) {
+                    hasInterceptor = true;
+                    break;
+                }
+            }
+        }
+        if (!hasInterceptor) {
+            interceptors.add(interceptor);
+        }
+
+    }
 
 }

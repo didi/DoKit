@@ -23,8 +23,9 @@ import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager
 import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager.RESPONSE_OK
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.McConstant
-import com.didichuxing.doraemonkit.kit.mc.all.ui.data.McCaseInfo
+import com.didichuxing.doraemonkit.kit.mc.data.McCaseInfo
 import com.didichuxing.doraemonkit.kit.mc.client.DoKitWsClient
+import com.didichuxing.doraemonkit.kit.mc.data.McConfigInfo
 import com.didichuxing.doraemonkit.kit.mc.server.HostInfo
 import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
 import com.didichuxing.doraemonkit.mc.R
@@ -69,9 +70,23 @@ class DoKitMcMainFragment : BaseFragment() {
                 ToastUtils.showShort("当前处于数据录制状态，请先执行上传操作")
                 return@setOnClickListener
             }
-            if (activity is DoKitMcActivity) {
-                (activity as DoKitMcActivity).changeFragment(WSMode.HOST)
+            if (McConstant.MC_CASE_ID.isEmpty()) {
+                lifecycleScope.launch(exceptionHandler) {
+                    privacyInterceptDialog(
+                        "操作提醒",
+                        "当前未选中任何的数据用例，请确认要否要以数据不同步模式运行？"
+                    ).isTrueWithCor {
+                        if (activity is DoKitMcActivity) {
+                            (activity as DoKitMcActivity).changeFragment(WSMode.HOST)
+                        }
+                    }
+                }
+            } else {
+                if (activity is DoKitMcActivity) {
+                    (activity as DoKitMcActivity).changeFragment(WSMode.HOST)
+                }
             }
+
         }
         val client = findViewById<Button>(R.id.tv_client)
         client.setOnClickListener {
@@ -81,16 +96,19 @@ class DoKitMcMainFragment : BaseFragment() {
                 return@setOnClickListener
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (activity?.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-                    val permissions = arrayOf(Manifest.permission.CAMERA)
-                    requestPermissions(permissions, REQUEST_CODE_CAMERA)
-                } else {
-                    startScan()
+            if (McConstant.MC_CASE_ID.isEmpty()) {
+                lifecycleScope.launch(exceptionHandler) {
+                    privacyInterceptDialog(
+                        "操作提醒",
+                        "当前未选中任何的数据用例，请确认要否要以数据不同步模式运行？"
+                    ).isTrueWithCor {
+                        performScan()
+                    }
                 }
             } else {
-                startScan()
+                performScan()
             }
+
         }
         val record = findViewById<Button>(R.id.tv_record)
         record.setOnClickListener {
@@ -106,10 +124,13 @@ class DoKitMcMainFragment : BaseFragment() {
 
             //请求一个CaseId
             lifecycleScope.launch(exceptionHandler) {
-
-                interceptDialogResult().isTrueWithCor(isFalse = {
-                    ToastUtils.showShort("取消用例采集")
-                }) {
+                privacyInterceptDialog(
+                    "隐私提醒",
+                    "用例采集会实时录制并上传接口数据到dokit.cn平台,请确认是否要开启？"
+                ).isTrueWithCor(
+                    isFalse = {
+                        ToastUtils.showShort("取消用例采集")
+                    }) {
                     try {
                         val resInfo = McHttpManager.mockStart<McCaseInfo>()
                         if (resInfo.code == RESPONSE_OK) {
@@ -136,9 +157,22 @@ class DoKitMcMainFragment : BaseFragment() {
                 ToastUtils.showShort("DoKit初始化时未传入产品id")
                 return@setOnClickListener
             }
+
+            if (McConstant.MC_CASE_ID.isEmpty()) {
+                ToastUtils.showShort("请先开始执行用例采集")
+                return@setOnClickListener
+            }
+
             lifecycleScope.launch(exceptionHandler) {
                 val result = McHttpManager.mockStop<Any>(mcCaseInfoDialog())
-                LogHelper.i(TAG, "result===>$result")
+                if (result.code == RESPONSE_OK) {
+                    DoKitConstant.WS_MODE = WSMode.UNKNOW
+
+                    SimpleDokitStarter.removeFloating(RecordingDokitView::class.java)
+                    ToastUtils.showShort("用例上传成功")
+                } else {
+                    LogHelper.e(TAG, "error msg===>${result.msg}")
+                }
 
             }
         }
@@ -153,11 +187,13 @@ class DoKitMcMainFragment : BaseFragment() {
         }
 
         //加载exclude key
-        if (DoKitConstant.PRODUCT_ID.isNotEmpty()) {
+        if (DoKitConstant.PRODUCT_ID.isNotBlank()) {
             lifecycleScope.launch(exceptionHandler) {
-                val config = McHttpManager.getMcConfig<Any>()
+                val config = McHttpManager.getMcConfig<McConfigInfo>()
                 if (config.code == RESPONSE_OK) {
-                    //LogHelper.i(TAG, "config===>$config")
+                    config.data?.multiControl?.exclude?.let {
+                        McHttpManager.mExcludeKey = it
+                    }
                 } else {
                     ToastUtils.showShort(config.msg)
                 }
@@ -166,6 +202,23 @@ class DoKitMcMainFragment : BaseFragment() {
         }
 
 
+    }
+
+
+    /**
+     * 执行扫描
+     */
+    private fun performScan() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (activity?.checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+                val permissions = arrayOf(Manifest.permission.CAMERA)
+                requestPermissions(permissions, REQUEST_CODE_CAMERA)
+            } else {
+                startScan()
+            }
+        } else {
+            startScan()
+        }
     }
 
     /**
@@ -258,31 +311,32 @@ class DoKitMcMainFragment : BaseFragment() {
     /**
      * 处理dialog返回值
      */
-    private suspend fun interceptDialogResult() = suspendCoroutine<Boolean> {
-        AlertDialog.Builder(requireActivity())
-            .setTitle("隐私提醒")
-            .setMessage("开启用例采集会实时录制并上传接口数据到dokit.cn平台!!!")
-            .setPositiveButton("开启") { dialog, _ ->
-                dialog.dismiss()
-                it.resume(true)
-            }
-            .setNegativeButton("取消") { dialog, _ ->
-                dialog.dismiss()
-                it.resume(false)
-            }
-            .show()
+    private suspend fun privacyInterceptDialog(title: String, content: String): Boolean =
+        suspendCoroutine {
+            AlertDialog.Builder(requireActivity())
+                .setTitle(title)
+                .setMessage(content)
+                .setPositiveButton("开启") { dialog, _ ->
+                    dialog.dismiss()
+                    it.resume(true)
+                }
+                .setNegativeButton("取消") { dialog, _ ->
+                    dialog.dismiss()
+                    it.resume(false)
+                }
+                .show()
 
-    }
+        }
 
 
     /**
      * 确认用例信息
      */
-    private suspend fun mcCaseInfoDialog() = suspendCoroutine<McCaseInfoDialogProvider.CaseInfo> {
+    private suspend fun mcCaseInfoDialog(): McCaseInfoDialogProvider.CaseInfo = suspendCoroutine {
         showDialog(McCaseInfoDialogProvider(null, object : DialogListener {
             override fun onPositive(dialogProvider: DialogProvider<*>): Boolean {
                 val provider = dialogProvider as McCaseInfoDialogProvider
-                val (caseName, personName) = provider.getCaseInfo()
+                val (_, _, caseName, personName) = provider.getCaseInfo()
 
                 if (caseName.isBlank()) {
                     ToastUtils.showShort("用例名称不能为空")

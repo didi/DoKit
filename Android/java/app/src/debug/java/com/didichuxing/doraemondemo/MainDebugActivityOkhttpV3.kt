@@ -218,7 +218,14 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                     jsonObject.put("d", "dd")
                     OkGo.post<String>("https://wanandroid.com/user_article/list/0/json?b=bb&a=aa")
                         .upJson(jsonObject)
-                        .execute()
+                        .execute(object : StringCallback() {
+                            override fun onSuccess(response: Response<String>?) {
+                                response?.let {
+                                    Log.i(TAG, "okhttp====onSuccess===>" + it.body())
+                                }
+                            }
+
+                        })
 
 
 //                    OkGo.post<String>("https://wanandroid.com/user_article/list/0/json?b=bb&a=aa")

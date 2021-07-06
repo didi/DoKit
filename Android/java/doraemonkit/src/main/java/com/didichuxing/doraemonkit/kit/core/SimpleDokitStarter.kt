@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.FragmentIndex
+import kotlin.reflect.KClass
 
 /**
  * 悬浮窗和全屏启动器
@@ -26,6 +27,13 @@ object SimpleDokitStarter {
         doKitIntent.mode = mode
         doKitIntent.bundle = bundle
         DokitViewManager.getInstance().attach(doKitIntent)
+    }
+
+    @JvmStatic
+    fun removeFloating(
+        targetClass: Class<out AbsDokitView?>,
+    ) {
+        DokitViewManager.getInstance().detach(targetClass)
     }
 
 

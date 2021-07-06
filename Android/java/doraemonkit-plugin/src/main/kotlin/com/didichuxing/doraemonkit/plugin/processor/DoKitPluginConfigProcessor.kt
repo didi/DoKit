@@ -56,12 +56,20 @@ class DoKitPluginConfigProcessor(val project: Project) : VariantProcessor {
                         variants[0],
                         artifactResult.file.length()
                     )
+                    if (thirdLibInfo.variant.contains("dokitx-rpc")) {
+                        DoKitExtUtil.HAS_DOKIT_RPC_MODULE = true
+                    }
+//                    "thirdLibInfo.variant===>${thirdLibInfo.variant}".println()
                     DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
                 } else if (variants.size == 4) {
                     thirdLibInfo = ThirdLibInfo(
                         "porject ${variants[1]}",
                         artifactResult.file.length()
                     )
+                    if (thirdLibInfo.variant.contains("doraemonkit-rpc")) {
+                        DoKitExtUtil.HAS_DOKIT_RPC_MODULE = true
+                    }
+//                    "thirdLibInfo.variant===>${thirdLibInfo.variant}".println()
                     DoKitExtUtil.THIRD_LIB_INFOS.add(thirdLibInfo)
                 }
 

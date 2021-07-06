@@ -15,6 +15,11 @@ import org.gradle.api.Project
  * ================================================
  */
 object DoKitExtUtil {
+
+    /**
+     * 是否包含dokitx-rpc模块
+     */
+    var HAS_DOKIT_RPC_MODULE = false
     //private var mApplicationId: String = ""
 
     /**

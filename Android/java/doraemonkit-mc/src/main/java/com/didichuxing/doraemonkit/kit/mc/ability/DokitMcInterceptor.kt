@@ -6,13 +6,15 @@ import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.extension.sortedByKey
 import com.didichuxing.doraemonkit.extension.toMap
 import com.didichuxing.doraemonkit.kit.mc.all.McConstant
+import com.didichuxing.doraemonkit.kit.mc.data.HttpMatchedInfo
+import com.didichuxing.doraemonkit.kit.mc.data.HttpUploadInfo
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.AbsDoKitInterceptor
-import com.didichuxing.doraemonkit.util.EncodeUtils
 import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import okhttp3.*
 import okio.ByteString
 import java.net.URLDecoder
@@ -34,6 +36,7 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
         val response = chain.proceed(request)
         val url = request.url()
         val host: String = url.host()
+        val scheme = url.scheme()
         val contentType = response.header("Content-Type") ?: response.header("content-type")
         //如果是图片则不进行拦截
         if (InterceptorUtil.isImg(contentType)) {
@@ -43,6 +46,15 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
         if (host.equals(NetworkManager.MOCK_HOST, ignoreCase = true)) {
             return response
         }
+
+        if ("$scheme://$host".equals(McHttpManager.host, ignoreCase = true)) {
+            val strResponseBody = response.peekBody(Long.MAX_VALUE).string()
+            LogHelper.i(TAG, "========DoKit SDK 接口数据 Start url:$url ========")
+            LogHelper.json(TAG, strResponseBody)
+            LogHelper.i(TAG, "========DoKit SDK 接口数据 End url:$url ========")
+            return response
+        }
+
         //不包含query字段
         val method = request.method()
         val path = URLDecoder.decode(url.encodedPath(), "utf-8")
@@ -59,6 +71,9 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
         val requestBodyMap = createRequestBodyMap(request)
         val strRequestBody = GsonUtils.toJson(requestBodyMap)
         val strResponseBody = response.peekBody(Long.MAX_VALUE).string()
+        LogHelper.i(TAG, "========业务接口 Start url:$url ========")
+        LogHelper.json(TAG, strResponseBody)
+        LogHelper.i(TAG, "========业务接口 End url:$url ========")
         val k =
             "method=$method&path=$path&fragment=$fragment&query=$strQuery&contentType=$requestContentType&requestBody=$strRequestBody"
         val key = ByteString.encodeUtf8(k).md5().hex()
@@ -68,7 +83,7 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
                 // val responseBody4Base64 = String(EncodeUtils.base64Encode(strResponseBody))
                 //todo: 实时发送网络请求
                 doKitGlobalScope.launch {
-                    val httInfo = HttpInfo(
+                    val httInfo = HttpUploadInfo(
                         DoKitConstant.PRODUCT_ID,
                         McConstant.MC_CASE_ID,
                         key,
@@ -92,19 +107,34 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
             }
             WSMode.HOST,
             WSMode.CLIENT -> {
-                if (McHttpManager.mHttpInfoMap[key] != null) {
-                    val responseBodyBytes =
-                        EncodeUtils.base64Decode(McHttpManager.mHttpInfoMap[key]?.responseBody4base64)
-                    val responseBody =
-                        ResponseBody.create(response.body()?.contentType(), responseBodyBytes)
-                    return response.newBuilder()
-                        .code(response.code())
-                        .request(request)
-                        .message(response.message())
-                        .protocol(response.protocol())
-                        .headers(response.headers())
-                        .body(responseBody)
-                        .build()
+                if (McConstant.MC_CASE_ID.isNotBlank() && DoKitConstant.PRODUCT_ID.isNotBlank()) {
+                    //将挂起函数转为阻塞调用 等待协程返回值
+                    return runBlocking {
+                        try {
+                            val result = McHttpManager.httpMatch<HttpMatchedInfo>(key)
+                            if (result.code == McHttpManager.RESPONSE_OK && result.data != null) {
+                                val responseBody =
+                                    ResponseBody.create(
+                                        response.body()?.contentType(),
+                                        result.data!!.responseBody
+                                    )
+                                return@runBlocking response.newBuilder()
+                                    .code(response.code())
+                                    .request(request)
+                                    .message(response.message())
+                                    .protocol(response.protocol())
+                                    .headers(response.headers())
+                                    .body(responseBody)
+                                    .build()
+                            } else {
+                                return@runBlocking response
+                            }
+                        } catch (e: Exception) {
+                            LogHelper.e(TAG, "e===>${e.message}")
+                            return@runBlocking response
+                        }
+
+                    }
                 }
             }
             else -> {

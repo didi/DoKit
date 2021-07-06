@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.mc.ability
+package com.didichuxing.doraemonkit.kit.mc.data
 
 /**
  * ================================================
@@ -9,7 +9,7 @@ package com.didichuxing.doraemonkit.kit.mc.ability
  * 修订历史：
  * ================================================
  */
-data class HttpInfo(
+data class HttpUploadInfo(
     val pId: String,
     val caseId: String,
     val key: String,
@@ -19,5 +19,5 @@ data class HttpInfo(
     val contentType: String?,
     val query: Map<String, String>?,
     val requestBody: Map<String, String>?,
-    val responseBody4base64: String
+    val responseBody: String
 )

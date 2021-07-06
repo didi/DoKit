@@ -20,7 +20,7 @@ class McCaseListAdapter(caseList: MutableList<McCaseInfo>) :
 
     override fun convert(holder: BaseViewHolder, item: McCaseInfo) {
         holder.getView<TextView>(R.id.tv_name).text = "用例名:${item.caseName}"
-        holder.getView<TextView>(R.id.tv_person).text = "采集人:${item.person}"
+        holder.getView<TextView>(R.id.tv_person).text = "采集人:${item.personName}"
         holder.getView<TextView>(R.id.tv_time).text = "采集时间:${item.time}"
         holder.getView<RadioButton>(R.id.rb).isChecked = item.isChecked
     }
@@ -29,7 +29,8 @@ class McCaseListAdapter(caseList: MutableList<McCaseInfo>) :
 
 data class McCaseInfo(
     val caseName: String,
-    val person: String,
+    val personName: String,
     val time: String,
-    var isChecked: Boolean
+    var isChecked: Boolean,
+    val caseId: String
 )
