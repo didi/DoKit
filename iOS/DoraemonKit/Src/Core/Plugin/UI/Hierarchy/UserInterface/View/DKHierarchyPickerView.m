@@ -42,24 +42,28 @@ NS_ASSUME_NONNULL_END
 
 - (NSArray<UIView *> *)recursiveSubviewsAtPoint:(CGPoint)pointInView inView:(UIView *)view skipHiddenViews:(BOOL)skipHidden {
     NSMutableArray<UIView *> *subviewsAtPoint = [NSMutableArray array];
-    for (UIView *subview in view.subviews) {
+    NSEnumerator<__kindof UIView *> *enumerator = [view.subviews reverseObjectEnumerator];
+    UIView *subview = nil;
+    while ((subview = enumerator.nextObject)) {
         BOOL isHidden = subview.hidden || subview.alpha < 0.01;
         if (skipHidden && isHidden) {
             continue;
         }
-
+        
         BOOL subviewContainsPoint = CGRectContainsPoint(subview.frame, pointInView);
         if (subviewContainsPoint) {
             [subviewsAtPoint addObject:subview];
         }
-
+        
         // If this view doesn't clip to its bounds, we need to check its subviews even if it doesn't contain the selection point.
         // They may be visible and contain the selection point.
         if (subviewContainsPoint || !subview.clipsToBounds) {
             CGPoint pointInSubview = [view convertPoint:pointInView toView:subview];
             [subviewsAtPoint addObjectsFromArray:[self recursiveSubviewsAtPoint:pointInSubview inView:subview skipHiddenViews:skipHidden]];
+            break;
         }
     }
+    
     return subviewsAtPoint;
 }
 
