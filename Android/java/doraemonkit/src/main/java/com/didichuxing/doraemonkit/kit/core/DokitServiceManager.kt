@@ -15,12 +15,17 @@ import com.didichuxing.doraemonkit.constant.WSMode
  * ================================================
  */
 object DokitServiceManager {
-    val lifecycle: DokitLifecycleInterface? by lazy {
-        DoKitConstant.getModuleProcessor(DoKitModule.MODULE_MC)?.values()
-            ?.get("lifecycle") as DokitLifecycleInterface
-    }
+    var lifecycle: DokitLifecycleInterface? = null
 
     fun dispatch(activityOverrideEnum: DokitServiceEnum, activity: Activity) {
+        if (lifecycle == null) {
+            val life = DoKitConstant.getModuleProcessor(DoKitModule.MODULE_MC)?.values()
+                ?.get("lifecycle")
+            if (life != null) {
+                lifecycle = life as DokitLifecycleInterface
+            }
+        }
+
         when (activityOverrideEnum) {
             DokitServiceEnum.onCreate -> lifecycle?.onCreate(activity)
             DokitServiceEnum.onStart -> lifecycle?.onStart(activity)

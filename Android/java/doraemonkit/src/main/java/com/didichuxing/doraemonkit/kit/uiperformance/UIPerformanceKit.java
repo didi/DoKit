@@ -10,6 +10,8 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Created by wanglikun on 2019-06-27
  * UI渲染性能kit
@@ -29,7 +31,7 @@ public class UIPerformanceKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(@Nullable Context context) {
         UIPerformanceManager.getInstance().start(context);
 
         DokitViewManager.getInstance().detachToolPanel();
@@ -39,7 +41,9 @@ public class UIPerformanceKit extends AbstractKit {
 
         //直接显示层级
         UIPerformanceManager.getInstance().initRefresh();
+        return true;
     }
+
 
     @Override
     public void onAppInit(Context context) {

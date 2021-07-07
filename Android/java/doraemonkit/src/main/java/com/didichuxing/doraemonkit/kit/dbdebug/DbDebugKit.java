@@ -6,6 +6,8 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -30,11 +32,10 @@ public class DbDebugKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
-        //startUniversalActivity(context, FragmentIndex.FRAGMENT_DB_DEBUG);
-        //指向文件同步助手
-        //startUniversalActivity(FileTransferFragment.class, context, null);
+    public boolean onClickWithReturn(@Nullable Context context) {
+        return true;
     }
+
 
     @Override
     public void onAppInit(Context context) {

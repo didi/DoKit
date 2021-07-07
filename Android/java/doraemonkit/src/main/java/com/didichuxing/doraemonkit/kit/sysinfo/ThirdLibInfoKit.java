@@ -3,9 +3,14 @@ package com.didichuxing.doraemonkit.kit.sysinfo;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
+import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
+import com.didichuxing.doraemonkit.util.DoKitCommUtil;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.google.auto.service.AutoService;
+
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 设备、app信息
@@ -27,9 +32,16 @@ public class ThirdLibInfoKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
-        startUniversalActivity(ThirdLibInfoFragment.class, context, null,true);
+    public boolean onClickWithReturn(@Nullable Context context) {
+        if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
+            ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip));
+            return false;
+        }
+        startUniversalActivity(ThirdLibInfoFragment.class, context, null, true);
+        return true;
     }
+
+
 
     @Override
     public void onAppInit(Context context) {

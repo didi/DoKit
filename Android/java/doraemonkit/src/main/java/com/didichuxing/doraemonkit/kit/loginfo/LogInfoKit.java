@@ -26,11 +26,11 @@ public class LogInfoKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(Context context) {
         SimpleDokitStarter.startFloating(LogInfoDokitView.class);
         //开启日志服务
         LogInfoManager.getInstance().start();
-
+        return true;
     }
 
     @Override

@@ -34,6 +34,10 @@ class DokitMcInterceptor : AbsDoKitInterceptor() {
         //数据采集
         val request = chain.request()
         val response = chain.proceed(request)
+
+        if (DoKitConstant.WS_MODE == WSMode.UNKNOW) {
+            return response
+        }
         val url = request.url()
         val host: String = url.host()
         val scheme = url.scheme()

@@ -12,4 +12,5 @@ import didihttp.Interceptor
  * ================================================
  */
 abstract class AbsDoKitRpcInterceptor : Interceptor {
+    val TAG = this.javaClass.simpleName
 }

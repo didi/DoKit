@@ -27,10 +27,11 @@ public class WeexDevToolKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(Context context) {
         Intent intent = new Intent(context, DevToolActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+        return true;
     }
 
     @Override

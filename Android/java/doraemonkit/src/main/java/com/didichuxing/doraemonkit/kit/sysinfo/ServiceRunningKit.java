@@ -7,6 +7,8 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.util.DoKitSystemUtil;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * 进入开发者选项
  * Created by jint on 2018/6/22.
@@ -26,9 +28,11 @@ public class ServiceRunningKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(@Nullable Context context) {
         DoKitSystemUtil.startServiceRunningActivity(context);
+        return true;
     }
+
 
     @Override
     public void onAppInit(Context context) {

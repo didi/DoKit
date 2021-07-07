@@ -22,22 +22,23 @@ class RealNavMockKit : AbstractKit() {
     override val icon: Int
         get() = R.mipmap.dk_mock_location_route
 
-    override fun onClick(context: Context?) {
+    override fun onClickWithReturn(context: Context?): Boolean {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip))
-            return
+            return false
         }
         if (!DokitPluginConfig.SWITCH_GPS) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_gps_close_tip))
-            return
+            return false
         }
 
 
 
-        when {
+        return when {
             //高德地图导航
             hasThirdLib("com.amap.api", "navi-3dmap") -> {
                 SimpleDokitStarter.startFloating(AMapRealNavMockView::class.java)
+                true
             }
 //            //腾讯地图导航
 //            hasThirdLib("com.amap.api", "navi-3dmap") -> {
@@ -55,10 +56,9 @@ class RealNavMockKit : AbstractKit() {
 
             else -> {
                 ToastUtils.showShort("未检测到导航模块")
+                false
             }
         }
-
-
     }
 
     override fun onAppInit(context: Context?) {}

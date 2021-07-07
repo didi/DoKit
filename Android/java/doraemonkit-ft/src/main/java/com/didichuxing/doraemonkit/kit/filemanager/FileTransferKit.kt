@@ -22,8 +22,9 @@ class FileTransferKit : AbstractKit() {
     override val icon: Int
         get() = R.mipmap.dk_icon_file_manager
 
-    override fun onClick(context: Context?) {
+    override fun onClickWithReturn(context: Context?): Boolean {
         startUniversalActivity(FileTransferFragment::class.java, context)
+        return true
     }
 
     override fun onAppInit(context: Context?) {

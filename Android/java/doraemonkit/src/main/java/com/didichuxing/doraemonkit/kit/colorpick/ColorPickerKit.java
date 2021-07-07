@@ -12,6 +12,8 @@ import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.core.TranslucentActivity;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Created by wanglikun on 2018/9/13.
  */
@@ -31,12 +33,14 @@ public class ColorPickerKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(@Nullable Context context) {
         Intent intent = new Intent(context, TranslucentActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_COLOR_PICKER_SETTING);
         context.startActivity(intent);
+        return true;
     }
+
 
     @Override
     public void onAppInit(Context context) {

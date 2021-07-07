@@ -68,8 +68,10 @@ if (PUBLISH_ARCHIVES_TYPE == 0 || PUBLISH_ARCHIVES_TYPE == 1) {
             ':doraemonkit-okhttp-api:publish',
             ':doraemonkit:publish',
             ':doraemonkit-mc:publish',
+            ':doraemonkit-ft:publish',
             ':doraemonkit-rpc:publish',
-            ':doraemonkit-ft:publish'])
+            ':doraemonkit-rpc-mc:publish'
+    ])
 }
 
 

@@ -30,11 +30,12 @@ public class WeexLogKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(Context context) {
         SimpleDokitStarter.startFloating(WeexLogInfoDokitView.class);
 
         //开启日志服务
         LogInfoManager.getInstance().start();
+        return true;
     }
 
     @Override

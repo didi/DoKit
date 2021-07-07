@@ -17,7 +17,7 @@ import java.lang.NullPointerException
  * 修订历史：
  * ================================================
  */
-public class DoKit {
+public class DoKit private constructor() {
     companion object {
 
 
@@ -139,7 +139,6 @@ public class DoKit {
         fun netExtInterceptor(extInterceptorProxy: DokitExtInterceptor.DokitExtInterceptorProxy): Builder {
             return this
         }
-
 
 
         /**

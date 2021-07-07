@@ -1,5 +1,10 @@
 package com.didichuxing.foundation.net.rpc.http;
 
+import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.constant.DoKitModule;
+import com.didichuxing.doraemonkit.kit.core.DokitAbility;
+import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.AbsDoKitInterceptor;
+import com.didichuxing.doraemonkit.kit.network.rpc.AbsDoKitRpcInterceptor;
 import com.didichuxing.doraemonkit.kit.network.rpc.RpcCapInterceptor;
 import com.didichuxing.doraemonkit.kit.network.rpc.RpcMockInterceptor;
 import com.didichuxing.doraemonkit.kit.network.rpc.RpcWeakNetworkInterceptor;
@@ -29,11 +34,39 @@ public class DidiHttpHook {
     public static void addRpcIntercept(DidiHttpClient client) {
         List<Interceptor> interceptors = new ArrayList<>(client.interceptors());
         List<Interceptor> networkInterceptors = new ArrayList<>(client.networkInterceptors());
-        interceptors.add(new RpcMockInterceptor());
-        interceptors.add(new RpcCapInterceptor());
-        networkInterceptors.add(new RpcWeakNetworkInterceptor());
+        try {
+            DokitAbility.DokitModuleProcessor processor = DoKitConstant.INSTANCE.getModuleProcessor(DoKitModule.MODULE_RPC_MC);
+            if (processor != null) {
+                Object interceptor = processor.values().get("rpc_interceptor");
+                if (interceptor instanceof AbsDoKitRpcInterceptor) {
+                    noDuplicateAdd(interceptors, (AbsDoKitRpcInterceptor) interceptor);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        noDuplicateAdd(interceptors, new RpcMockInterceptor());
+        noDuplicateAdd(interceptors, new RpcCapInterceptor());
+        noDuplicateAdd(networkInterceptors, new RpcWeakNetworkInterceptor());
         //需要用反射重新赋值 因为源码中创建了一个不可变的list
         ReflectUtils.reflect(client).field("interceptors", interceptors);
         ReflectUtils.reflect(client).field("networkInterceptors", networkInterceptors);
+    }
+
+    //list判断是否重复添加
+    private static void noDuplicateAdd(List<Interceptor> interceptors, AbsDoKitRpcInterceptor interceptor) {
+        boolean hasInterceptor = false;
+        for (Interceptor i : interceptors) {
+            if (i instanceof AbsDoKitRpcInterceptor) {
+                if (((AbsDoKitRpcInterceptor) i).getTAG().equals(interceptor.getTAG())) {
+                    hasInterceptor = true;
+                    break;
+                }
+            }
+        }
+        if (!hasInterceptor) {
+            interceptors.add(interceptor);
+        }
+
     }
 }

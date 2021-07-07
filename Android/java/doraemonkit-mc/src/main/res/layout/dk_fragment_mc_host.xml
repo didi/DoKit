@@ -30,5 +30,17 @@
             tools:text="ws://192.168.0.1:88888" />
     </LinearLayout>
 
-
+    <Button
+        android:id="@+id/btn_close"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/dk_btn_mc_bg"
+        android:text="断开"
+        android:textAllCaps="false"
+        android:textColor="@color/dk_color_FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 </RelativeLayout>

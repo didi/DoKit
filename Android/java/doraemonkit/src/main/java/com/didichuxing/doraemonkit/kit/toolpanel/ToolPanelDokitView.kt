@@ -115,21 +115,27 @@ class ToolPanelDokitView : AbsDokitView() {
             }
         }
         mAdapter.setOnItemClickListener { _, _, position ->
-            val multiKitItem = mKits[position]
-            if (multiKitItem.itemType == KitWrapItem.TYPE_KIT) {
-                //常规模式下点击常用工具不隐藏工具面板
-                DokitViewManager.getInstance().detachToolPanel()
-                multiKitItem.kit?.onClick(ActivityUtils.getTopActivity())
-                try {
-                    //添加埋点
-                    if (multiKitItem.kit?.isInnerKit!! && !TextUtils.isEmpty(multiKitItem.kit.innerKitId())) {
-                        DataPickManager.getInstance().addData(multiKitItem.kit.innerKitId())
-                    } else {
-                        DataPickManager.getInstance().addData("dokit_sdk_business_ck")
+            try {
+                val multiKitItem = mKits[position]
+                if (multiKitItem.itemType == KitWrapItem.TYPE_KIT) {
+                    multiKitItem.kit?.let {
+                        //常规模式下点击常用工具不隐藏工具面板
+                        it.onClick(ActivityUtils.getTopActivity())
+                        if (it.onClickWithReturn(ActivityUtils.getTopActivity())) {
+                            DokitViewManager.getInstance().detachToolPanel()
+                        }
+
+                        //添加埋点
+                        if (it.isInnerKit && !TextUtils.isEmpty(it.innerKitId())) {
+                            DataPickManager.getInstance().addData(it.innerKitId())
+                        } else {
+                            DataPickManager.getInstance().addData("dokit_sdk_business_ck")
+                        }
+
                     }
-                } catch (e: Exception) {
-                    e.printStackTrace()
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
         val rvKits = findViewById<RecyclerView>(R.id.rv_kits)

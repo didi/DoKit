@@ -6,12 +6,15 @@ import android.os.Bundle
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityManager
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
+import com.didichuxing.doraemonkit.kit.mc.ability.DokitMcAbility
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.hook.AccessibilityGetInstanceMethodHook
 import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onInitializeAccessibilityEventHook
@@ -21,8 +24,11 @@ import com.didichuxing.doraemonkit.kit.mc.util.CodeUtils
 import com.didichuxing.doraemonkit.kit.mc.util.McUtil
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.ImageUtils
+import com.didichuxing.doraemonkit.util.LogHelper
 import de.robv.android.xposed.DexposedBridge
 import de.robv.android.xposed.XposedHelpers
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.launch
 
 /**
  * ================================================
@@ -34,6 +40,10 @@ import de.robv.android.xposed.XposedHelpers
  * ================================================
  */
 class DoKitMcHostFragment : BaseFragment() {
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        LogHelper.e(TAG, "error message: ${throwable.message}")
+    }
+
     override fun onRequestLayout(): Int {
         return R.layout.dk_fragment_mc_host
     }
@@ -43,6 +53,17 @@ class DoKitMcHostFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         val ivCode = findViewById<ImageView>(R.id.iv_code)
         val tvHost = findViewById<TextView>(R.id.tv_host)
+        val btnClose = findViewById<Button>(R.id.btn_close)
+        btnClose.setOnClickListener {
+            lifecycleScope.launch(exceptionHandler) {
+                DoKitWsServer.stop {
+                    SimpleDokitStarter.removeFloating(HostDokitView::class.java)
+                    if (activity is DoKitMcActivity) {
+                        (activity as DoKitMcActivity).changeFragment(WSMode.UNKNOW)
+                    }
+                }
+            }
+        }
         val host = "ws://${DoKitConstant.IP_ADDRESS_BY_WIFI}:${DoKitConstant.MC_WS_PORT}/mc"
         val logo = ImageUtils.getBitmap(R.mipmap.dk_logo)
         val qCode = CodeUtils.createCode(activity, host, logo)

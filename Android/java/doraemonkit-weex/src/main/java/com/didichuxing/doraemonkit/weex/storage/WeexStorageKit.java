@@ -8,6 +8,8 @@ import com.didichuxing.doraemonkit.weex.R;
 import com.didichuxing.doraemonkit.weex.common.DKCommonActivity;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * @author haojianglong
  * @date 2019-06-11
@@ -27,9 +29,11 @@ public class WeexStorageKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
-        startUniversalActivity(StorageFragment.class, context, null,true);
+    public boolean onClickWithReturn(@Nullable Context context) {
+        startUniversalActivity(StorageFragment.class, context, null, true);
+        return true;
     }
+
 
     @Override
     public void onAppInit(Context context) {

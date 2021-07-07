@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.mc.server
 
 import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.util.GsonUtils
@@ -9,6 +10,7 @@ import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import io.ktor.websocket.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
@@ -25,7 +27,7 @@ object DoKitWsServer {
     /**
      * 所有的连接
      */
-    internal val wsSessionMaps: MutableMap<String?, DefaultWebSocketServerSession> = mutableMapOf()
+    val wsSessionMaps: MutableMap<String?, DefaultWebSocketServerSession> = mutableMapOf()
 
     private val server: CIOApplicationEngine by lazy {
         embeddedServer(CIO, port = DoKitConstant.MC_WS_PORT, module = WSRouter)
@@ -43,10 +45,17 @@ object DoKitWsServer {
     }
 
 
-    fun stop() {
+    suspend fun stop(callBack: () -> Unit) {
         try {
-            server.stop(1, 1)
+            send(WSEvent(WSMode.HOST, WSEType.WSE_HOST_CLOSE, null, null, false, null))
+            delay(1000)
+            wsSessionMaps.forEach {
+                it.value.close()
+            }
+            wsSessionMaps.clear()
+            //server.stop(1, 1)
             DoKitConstant.WS_MODE = WSMode.UNKNOW
+            callBack()
         } catch (e: Exception) {
             e.printStackTrace()
         }

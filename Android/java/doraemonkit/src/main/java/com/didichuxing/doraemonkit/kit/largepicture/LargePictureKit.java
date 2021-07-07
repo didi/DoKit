@@ -10,6 +10,8 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * ================================================
  * 作    者：jint（金台）
@@ -33,20 +35,22 @@ public class LargePictureKit extends AbstractKit {
         return R.mipmap.dk_performance_large_picture;
     }
 
+
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(@Nullable Context context) {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip));
-            return;
+            return false;
         }
 
         if (!DokitPluginConfig.SWITCH_BIG_IMG) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_big_img_close_tip));
-            return;
+            return false;
         }
 
+        startUniversalActivity(LargePictureFragment.class, context, null, true);
 
-        startUniversalActivity(LargePictureFragment.class, context, null,true);
+        return true;
     }
 
     @Override
@@ -63,4 +67,6 @@ public class LargePictureKit extends AbstractKit {
     public String innerKitId() {
         return "dokit_sdk_performance_ck_img";
     }
+
+
 }

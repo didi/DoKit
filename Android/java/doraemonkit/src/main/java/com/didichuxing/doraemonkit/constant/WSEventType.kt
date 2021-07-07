@@ -82,6 +82,11 @@ enum class WSEType {
     WSE_CLOSE,
 
     /**
+     * WS HOST 断开连接
+     */
+    WSE_HOST_CLOSE,
+
+    /**
      * 辅助模式手势事件
      */
     WSE_ACCESS_EVENT

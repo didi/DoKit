@@ -2,9 +2,12 @@ package com.didichuxing.doraemonkit.kit.mc
 
 import android.content.Context
 import android.content.Intent
+import com.didichuxing.doraemonkit.aop.DokitPluginConfig
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.mc.all.ui.DoKitMcActivity
 import com.didichuxing.doraemonkit.mc.R
+import com.didichuxing.doraemonkit.util.DoKitCommUtil
+import com.didichuxing.doraemonkit.util.ToastUtils
 import com.google.auto.service.AutoService
 
 /**
@@ -23,12 +26,18 @@ class MultiControlKit : AbstractKit() {
     override val icon: Int
         get() = R.mipmap.dk_icon_mc
 
-    override fun onClick(context: Context?) {
+    override fun onClickWithReturn(context: Context?): Boolean {
+        if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
+            ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip))
+            return false
+        }
         context?.let {
             val intent = Intent(context, DoKitMcActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             it.startActivity(intent)
         }
+
+        return true
     }
 
     override fun onAppInit(context: Context?) {

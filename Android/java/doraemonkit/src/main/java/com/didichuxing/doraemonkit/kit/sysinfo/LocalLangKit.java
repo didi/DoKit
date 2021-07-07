@@ -26,8 +26,9 @@ public class LocalLangKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(Context context) {
         DoKitSystemUtil.startLocalActivity(context);
+        return true;
     }
 
     @Override

@@ -23,6 +23,7 @@ object WSServerProcessor {
                 //ToastUtils.showShort(wsEvent.message)
             }
 
+
             WSEType.WSE_CONNECTED -> {
                 //ToastUtils.showShort(wsEvent.message)
             }

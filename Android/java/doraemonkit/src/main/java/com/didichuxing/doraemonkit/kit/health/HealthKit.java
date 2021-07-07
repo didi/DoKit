@@ -33,28 +33,30 @@ public class HealthKit extends AbstractKit {
 
 
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(Context context) {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip));
-            return;
+            return false;
         }
 
         if (!DokitPluginConfig.SWITCH_NETWORK) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_network_close_tip));
-            return;
+            return false;
         }
 
         if (!DokitPluginConfig.SWITCH_METHOD) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_method_close_tip));
-            return;
+            return false;
         }
 
         if (TextUtils.isEmpty(DoKitConstant.PRODUCT_ID)) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_platform_tip));
-            return;
+            return false;
         }
 
-        startUniversalActivity(HealthFragment.class, context, null,true);
+        startUniversalActivity(HealthFragment.class, context, null, true);
+
+        return true;
     }
 
     @Override

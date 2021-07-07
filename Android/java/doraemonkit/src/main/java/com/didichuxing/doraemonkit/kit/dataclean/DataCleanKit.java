@@ -26,8 +26,9 @@ public class DataCleanKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(Context context) {
         startUniversalActivity(DataCleanFragment.class, context, null,true);
+        return true;
     }
 
     @Override

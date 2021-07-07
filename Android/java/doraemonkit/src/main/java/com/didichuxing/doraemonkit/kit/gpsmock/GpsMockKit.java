@@ -10,6 +10,8 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Created by wanglikun on 2018/9/20.
  */
@@ -28,20 +30,21 @@ public class GpsMockKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(@Nullable Context context) {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip));
-            return;
+            return false;
         }
 
         if (!DokitPluginConfig.SWITCH_GPS) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_gps_close_tip));
-            return;
+            return false;
         }
 
-
-        startUniversalActivity(GpsMockFragment.class, context, null,true);
+        startUniversalActivity(GpsMockFragment.class, context, null, true);
+        return true;
     }
+
 
     @Override
     public void onAppInit(Context context) {

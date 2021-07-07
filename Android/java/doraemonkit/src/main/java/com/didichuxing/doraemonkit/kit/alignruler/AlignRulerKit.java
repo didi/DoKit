@@ -29,7 +29,7 @@ public class AlignRulerKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(Context context) {
         DokitViewManager.getInstance().detachToolPanel();
 
         SimpleDokitStarter.startFloating(AlignRulerMarkerDokitView.class);
@@ -46,6 +46,7 @@ public class AlignRulerKit extends AbstractKit {
             }
         });
         AlignRulerConfig.setAlignRulerOpen(true);
+        return true;
     }
 
     @Override

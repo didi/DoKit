@@ -28,8 +28,9 @@ public class SysInfoKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
-        startUniversalActivity(SysInfoFragment.class, context, null,true);
+    public boolean onClickWithReturn(Context context) {
+        startUniversalActivity(SysInfoFragment.class, context, null, true);
+        return true;
     }
 
     @Override

@@ -6,6 +6,8 @@ import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.Nullable;
+
 @AutoService(AbstractKit.class)
 public class CpuKit extends AbstractKit {
 
@@ -19,9 +21,11 @@ public class CpuKit extends AbstractKit {
         return R.mipmap.dk_cpu;
     }
 
+
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(@Nullable Context context) {
         startUniversalActivity(CpuMainPageFragment.class, context, null, true);
+        return true;
     }
 
     @Override

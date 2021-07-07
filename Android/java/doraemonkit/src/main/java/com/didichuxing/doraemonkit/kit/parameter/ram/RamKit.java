@@ -23,8 +23,9 @@ public class RamKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
-        startUniversalActivity(RamMainPageFragment.class, context, null,true);
+    public boolean onClickWithReturn(Context context) {
+        startUniversalActivity(RamMainPageFragment.class, context, null, true);
+        return true;
     }
 
     @Override

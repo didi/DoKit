@@ -11,6 +11,8 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Created by wanglikun on 2019/1/7
  */
@@ -29,8 +31,7 @@ public class LayoutBorderKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
-
+    public boolean onClickWithReturn(@Nullable Context context) {
         //隐藏当前工具dokitview
         DokitViewManager.getInstance().detachToolPanel();
 
@@ -41,7 +42,9 @@ public class LayoutBorderKit extends AbstractKit {
 
         LayoutBorderConfig.setLayoutBorderOpen(true);
         LayoutBorderConfig.setLayoutLevelOpen(true);
+        return true;
     }
+
 
     @Override
     public void onAppInit(Context context) {

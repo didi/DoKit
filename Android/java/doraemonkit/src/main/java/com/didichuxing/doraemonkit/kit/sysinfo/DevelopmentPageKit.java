@@ -26,8 +26,9 @@ public class DevelopmentPageKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(Context context) {
         DoKitSystemUtil.startDevelopmentActivity(context);
+        return true;
     }
 
     @Override

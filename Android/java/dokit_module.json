@@ -8,7 +8,8 @@
   "doraemonkit-okhttp-v3": "dokitx-okhttp-v3",
   "doraemonkit-okhttp-v4": "dokitx-okhttp-v4",
   "doraemonkit-plugin": "dokitx-plugin",
-  "doraemonkit-rpc": "dokitx-rpc",
   "doraemonkit-util": "dokitx-util",
-  "doraemonkit-weex": "dokitx-weex"
+  "doraemonkit-weex": "dokitx-weex",
+  "doraemonkit-rpc": "dokitx-rpc",
+  "doraemonkit-rpc-mc": "dokitx-rpc-mc"
 }

@@ -8,6 +8,8 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Created by wanglikun on 2018/10/10.
  */
@@ -26,10 +28,11 @@ public class WebDoorKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
-
-        startUniversalActivity(WebDoorFragment.class, context, null,true);
+    public boolean onClickWithReturn(@Nullable Context context) {
+        startUniversalActivity(WebDoorFragment.class, context, null, true);
+        return true;
     }
+
 
     @Override
     public void onAppInit(Context context) {

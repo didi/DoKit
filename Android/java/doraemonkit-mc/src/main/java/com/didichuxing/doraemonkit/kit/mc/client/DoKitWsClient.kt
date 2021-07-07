@@ -74,6 +74,7 @@ object DoKitWsClient {
                 ) {
                     DoKitConstant.WS_MODE = WSMode.CLIENT
                     clientWebSocketSession = this
+
                     /**
                      * 避免ws在收到第一条消息以后 通道自动关闭的问题
                      * https://github.com/ktorio/ktor/issues/402
@@ -131,17 +132,23 @@ object DoKitWsClient {
         }
     }
 
-    fun close() {
-        send(
-            WSEvent(
-                WSMode.CLIENT,
-                WSEType.WSE_CLOSE,
-                mutableMapOf("command" to "bye"),
-                null
+    suspend fun close() {
+        try {
+            send(
+                WSEvent(
+                    WSMode.CLIENT,
+                    WSEType.WSE_CLOSE,
+                    mutableMapOf("command" to "bye"),
+                    null
+                )
             )
-        )
-        //client.close()
-        DoKitConstant.WS_MODE = WSMode.UNKNOW
+            clientWebSocketSession?.close()
+//            client.close()
+            DoKitConstant.WS_MODE = WSMode.UNKNOW
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
     }
 
 

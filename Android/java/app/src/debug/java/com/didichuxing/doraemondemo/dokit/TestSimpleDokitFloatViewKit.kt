@@ -18,8 +18,9 @@ class TestSimpleDokitFloatViewKit : AbstractKit() {
     override val icon: Int
         get() = R.mipmap.dk_sys_info
 
-    override fun onClick(context: Context?) {
+    override fun onClickWithReturn(context: Context?): Boolean {
         SimpleDokitStarter.startFloating(TestSimpleDokitFloatView::class.java)
+        return true
     }
 
     override fun onAppInit(context: Context?) {

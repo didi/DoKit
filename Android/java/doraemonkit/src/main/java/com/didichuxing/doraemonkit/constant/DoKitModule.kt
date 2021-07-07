@@ -11,5 +11,6 @@ package com.didichuxing.doraemonkit.constant
  */
 enum class DoKitModule {
     MODULE_FT,
-    MODULE_MC
+    MODULE_MC,
+    MODULE_RPC_MC,
 }

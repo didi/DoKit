@@ -35,9 +35,10 @@ public class MethodCostKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(Context context) {
         WebViewManager.INSTANCE.setUrl(NetworkManager.APP_DOCUMENT_URL);
-        startUniversalActivity(CommWebViewFragment.class, context, null,true);
+        startUniversalActivity(CommWebViewFragment.class, context, null, true);
+        return true;
     }
 
     @Override

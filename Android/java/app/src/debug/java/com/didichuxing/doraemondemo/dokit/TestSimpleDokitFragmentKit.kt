@@ -19,10 +19,11 @@ class TestSimpleDokitFragmentKit : AbstractKit() {
     override val icon: Int
         get() = R.mipmap.dk_sys_info
 
-    override fun onClick(context: Context?) {
+    override fun onClickWithReturn(context: Context?): Boolean {
         val bundle = Bundle()
         bundle.putString("test", "test")
         startUniversalActivity(DemoDokitFragment::class.java, context, bundle)
+        return true
     }
 
     override fun onAppInit(context: Context?) {

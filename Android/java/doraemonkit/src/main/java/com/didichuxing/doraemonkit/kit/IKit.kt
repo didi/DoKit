@@ -37,7 +37,17 @@ internal interface IKit {
      *
      * @param context
      */
-    fun onClick(context: Context?)
+    @Deprecated("请使用onClickWithReturn代替")
+    fun onClick(context: Context?) {
+    }
+
+    /**
+     * 点击回调 带返回值
+     * @return true 隐藏面板 false 不隐藏面板
+     */
+    fun onClickWithReturn(context: Context?): Boolean {
+        return true
+    }
 
     /**
      * app 初始化时调用

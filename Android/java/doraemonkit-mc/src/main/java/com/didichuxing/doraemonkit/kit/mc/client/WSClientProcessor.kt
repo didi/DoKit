@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.view.ViewParent
 import android.view.accessibility.AccessibilityEvent
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,15 +14,20 @@ import androidx.viewpager.widget.ViewPager
 import com.didichuxing.doraemonkit.util.*
 import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.WSEType
+import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.extension.isFalse
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
+import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
+import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
 import com.didichuxing.doraemonkit.kit.mc.server.HostInfo
 import com.didichuxing.doraemonkit.kit.mc.util.ViewPathUtil
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
+import kotlinx.coroutines.launch
+import kotlin.coroutines.resume
 
 
 /**
@@ -49,6 +55,26 @@ object WSClientProcessor {
                 //ToastUtils.showShort(wsEvent.message)
             }
 
+            //主机断开
+            WSEType.WSE_HOST_CLOSE -> {
+                doKitGlobalScope.launch {
+                    DoKitWsClient.close()
+                }
+                SimpleDokitStarter.removeFloating(ClientDokitView::class.java)
+                if (ActivityUtils.getTopActivity() != null) {
+                    AlertDialog.Builder(ActivityUtils.getTopActivity())
+                        .setTitle("一机多控")
+                        .setMessage("主机已断开连接！")
+                        .setPositiveButton("确认") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .setNegativeButton("取消") { dialog, _ ->
+                            dialog.dismiss()
+                        }
+                        .show()
+                }
+
+            }
             /**
              * 切换到前台
              */
@@ -142,6 +168,8 @@ object WSClientProcessor {
 
                 }
                     ?: ToastUtils.showShort("无法获取手势控件信息")
+            }
+            else -> {
             }
         }
     }

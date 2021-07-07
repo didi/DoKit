@@ -31,7 +31,7 @@ object SimpleDokitStarter {
 
     @JvmStatic
     fun removeFloating(
-        targetClass: Class<out AbsDokitView?>,
+        targetClass: Class<out AbsDokitView?>
     ) {
         DokitViewManager.getInstance().detach(targetClass)
     }

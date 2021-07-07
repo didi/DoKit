@@ -68,6 +68,7 @@ abstract class AbstractKit : IKit {
         return ActivityUtils.getTopActivity()
     }
 
+
     override val category: Int
         get() = Category.DEFAULT
 

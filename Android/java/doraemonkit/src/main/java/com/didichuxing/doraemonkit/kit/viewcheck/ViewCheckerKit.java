@@ -10,6 +10,8 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Created by wanglikun on 2018/11/20.
  */
@@ -28,14 +30,16 @@ public class ViewCheckerKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
+    public boolean onClickWithReturn(@Nullable Context context) {
         DokitViewManager.getInstance().detachToolPanel();
 
         SimpleDokitStarter.startFloating(ViewCheckDokitView.class);
         SimpleDokitStarter.startFloating(ViewCheckDrawDokitView.class);
         SimpleDokitStarter.startFloating(ViewCheckInfoDokitView.class);
 
+        return true;
     }
+
 
     @Override
     public void onAppInit(Context context) {

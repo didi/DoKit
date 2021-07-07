@@ -6,11 +6,11 @@ import com.android.build.api.transform.TransformInvocation
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.internal.pipeline.TransformManager
 import com.didichuxing.doraemonkit.plugin.DoKitTransformInvocation
-import com.didichuxing.doraemonkit.plugin.loadTransformers
 import com.didichuxing.doraemonkit.plugin.println
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.gradle.*
 import com.didiglobal.booster.transform.AbstractKlassPool
+import com.didiglobal.booster.transform.Transformer
 import org.gradle.api.Project
 
 /**
@@ -24,9 +24,7 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
      * Preload transformers as List to fix NoSuchElementException caused by ServiceLoader in parallel mode
      * booster 的默认出炉逻辑 DoKit已重写自处理
      */
-    internal open val transformers = loadTransformers(project.buildscript.classLoader).sortedBy {
-        it.javaClass.getAnnotation(Priority::class.java)?.value ?: 0
-    }
+    internal open val transformers = listOf<Transformer>()
 
     internal val verifyEnabled = project.getProperty(OPT_TRANSFORM_VERIFY, false)
 

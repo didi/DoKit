@@ -28,8 +28,9 @@ class H5Kit : AbstractKit() {
     override val isInnerKit: Boolean
         get() = true
 
-    override fun onClick(context: Context?) {
+    override fun onClickWithReturn(context: Context?): Boolean {
         SimpleDokitStarter.startFloating(H5DokitView::class.java)
+        return true
     }
 
     override fun onAppInit(context: Context?) {

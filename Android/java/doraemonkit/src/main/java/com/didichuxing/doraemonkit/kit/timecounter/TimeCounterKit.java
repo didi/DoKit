@@ -26,8 +26,9 @@ public class TimeCounterKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
-        startUniversalActivity(TimeCounterFragment.class, context, null,true);
+    public boolean onClickWithReturn(Context context) {
+        startUniversalActivity(TimeCounterFragment.class, context, null, true);
+        return true;
     }
 
     @Override

@@ -8,6 +8,8 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Created by zhangweida on 2018/6/26.
  */
@@ -26,9 +28,11 @@ public class FileExplorerKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
-        startUniversalActivity(FileExplorerFragment.class, context, null,true);
+    public boolean onClickWithReturn(@Nullable Context context) {
+        startUniversalActivity(FileExplorerFragment.class, context, null, true);
+        return true;
     }
+
 
     @Override
     public void onAppInit(Context context) {

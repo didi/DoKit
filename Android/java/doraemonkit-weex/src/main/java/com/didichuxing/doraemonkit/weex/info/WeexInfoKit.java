@@ -4,9 +4,12 @@ import android.content.Context;
 
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
+import com.didichuxing.doraemonkit.kit.parameter.cpu.CpuMainPageFragment;
 import com.didichuxing.doraemonkit.weex.R;
 import com.didichuxing.doraemonkit.weex.common.DKCommonActivity;
 import com.google.auto.service.AutoService;
+
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author haojianglong
@@ -27,8 +30,9 @@ public class WeexInfoKit extends AbstractKit {
     }
 
     @Override
-    public void onClick(Context context) {
-        startUniversalActivity(WeexInfoFragment.class, context, null,true);
+    public boolean onClickWithReturn(@Nullable Context context) {
+        startUniversalActivity(CpuMainPageFragment.class, context, null, true);
+        return true;
     }
 
     @Override
