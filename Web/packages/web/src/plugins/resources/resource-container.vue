@@ -2,7 +2,7 @@
   <div class="resource-container">
     <resource-item
       v-for="(item, index) in resourceList"
-      :key="index"
+      :key="item.entryName"
       :index="index"
       :type="item.type"
       :initiatorType="item.initiatorType"
@@ -13,7 +13,9 @@
 </template>
 <style lang="less" scoped>
 @import "./css/var.less";
-
+.resource-container{
+  padding: 0 5px;
+}
 </style>
 <script>
 import ResourceItem from "./resource-item"

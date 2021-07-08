@@ -1,25 +1,38 @@
 <template>
-  <div class="resource-ltem">
-    <div class="resource-preview" v-html="resourcePreview" @click="toggleDetail"></div>
-    <div v-if="canShowDetail">
+  <div class="resource-item">
+    <do-row>
+      <do-col :span="22">
+        <div
+          class="resource-preview"
+          v-html="resourcePreview"
+          @click="toggleDetail"
+        ></div>
+      </do-col>
+      <do-col :span="2">
+        <div class="resource-toggle-icon">
+          <span v-if="!showContent">▸</span>
+          <span v-else>▾</span>
+        </div>
+      </do-col>
+    </do-row>
+    <div v-if="showContent">
       <div class="resource-detail">
-        <div class="type" v-html="detailType"></div>
-        <div class="code" v-if="isCode" v-html="detailCode"></div>
-        <div class="img-thumb" v-if="isImg" v-html="detailImgThumb"></div>
-        <div class="img-size" v-if="isImg" v-html="detailImgSize"></div>
+        <div v-html="detailHtml"></div>
+        <div class="resource-empty" v-if="!detailHtml">Loading ~</div>
       </div>
-      
     </div>
   </div>
 </template>
 <script>
-import {ResourceMap, imgLoad, url2blobPromise,trimLeft} from './js/resources'
-
+import {
+  ResourceMap,
+  imgLoad,
+  url2blobPromise,
+  trimLeft,
+} from "./js/resources";
 
 export default {
-  components: {
-
-  },
+  components: {},
   props: {
     index: [Number],
     type: [Number],
@@ -27,188 +40,114 @@ export default {
     entryName: [String],
     base64: [String],
   },
-  data () {
+  data() {
     return {
-      showDetail: false,
-      codehtml: `Loading...`,
-      imghtml: `Loading...`,
-      sizehtml: `Loading...`,
-      base64img:'',
-    }
+      showContent: false,
+      detailImgThumb: "",
+    };
   },
+
   computed: {
-    isImg(){
-      return ResourceMap[this.type]==="img"
+    resourcePreview() {
+      let index = this.index;
+      let url = this.entryName;
+      let html = `<div>${index + 1}.${url}</div>`;
+      return html;
     },
-    isCode(){
-      return ResourceMap[this.type]==="css" || ResourceMap[this.type]==="script"
-    },
-    canShowDetail () {
-      return this.showDetail
-    },
-    detailType(){
-      let typehtml = `initiatorType:${this.initiatorType}`
-      return typehtml
-    },
-    detailImgThumb(){
-      let url;
-      if(this.base64 !== ""){
-        url = this.base64
-      }else{
-        url = this.entryName
-      }
-      this.imghtml = `<img src = "${url}" style="object-fit: cover;height:100px" />`
-      return this.imghtml
-    },
-    detailImgSize(){
-      let url;
-      if(this.base64 !== ""){
-        url = this.base64
-      }else{
-        url = this.entryName
-      }
-      imgLoad(url, (w, h) =>{
-        this.sizehtml =  `${w}*${h}`
-      })
-      return this.sizehtml
-    },
-    detailCode(){
-      url2blobPromise(this.entryName).then((res)=>{
-          res = res.replace(/</g,'&lt;')
-          res = res.replace(/>/g,'&gt;')
-          let tmp = res
-          tmp = tmp.split('\n')
-          let len  = tmp.length
-          let r = ``
-          for(let i=0; i<len; i=i+1){
-            tmp[i] = trimLeft(tmp[i])
-            r += `<div class="codeline" style="display:flex;"><div class="codeindex" style="min-width: 40px;color: #1485ee;">${i+1}</div><div class="codevalue">${tmp[i]}</div></div>`
-          }
-          this.codehtml = r
-          
-        }).catch(()=>{
-          this.codehtml = `fail to load resource`
-        })
-      return this.codehtml
-    },
-    resourcePreview () {
-      let index = this.index
-      let url = this.entryName
-      let html = `<div>${index+1}.${url}</div>`
-      return html
-    },
-    resourceDetail () {
-     
-      let type = ResourceMap[this.type]
-      let url = this.entryName
-      let initiatorType = this.initiatorType
-      let typehtml = `<div class="type">initiatorType:${initiatorType}</div>`
-
-      
-      if(type === 'script' || type === 'css'){
-        
-        url2blobPromise(url).then((res)=>{
-          res = res.replace(/</g,'&lt;')
-          res = res.replace(/>/g,'&gt;')
-          let tmp = res
-          tmp = tmp.split('\n')
-          let len  = tmp.length
-          let r = ``
-          for(let i=0; i<len; i=i+1){
-            tmp[i] = trimLeft(tmp[i])
-            r += `<div class="codeline"><div class="codeindex">${i+1}</div><div class="codevalue">${tmp[i]}</div></div>`
-          }
-          this.codehtml = `<div class="code">`+r+`</div>`
-        }).catch(()=>{
-          this.codehtml = `<div class="code">fail to load resource</div>`
-        })
-        return typehtml + this.codehtml
-        
-      }
-      
-      else if(type === 'img'){
-        
-        if(this.base64 !== ""){
-          this.imghtml = `<img src = "${this.base64}" class = "img-thumb" />`
-          imgLoad(this.base64, (w, h) =>{
-            this.sizehtml =  `<div class="img-size">${w}*${h}</div>`
-          })
-        }
-        else{
-          this.imghtml = `<img src = "${url}" class = "img-thumb" />`
-          imgLoad(url, (w, h) =>{
-            this.sizehtml =  `<div class="img-size">${w}*${h}</div>`
-          })
-        }
-        return typehtml+this.imghtml+this.sizehtml
-      }
-      else if(type === 'other'){
-        typehtml = `<div class="type" style="border:0">initiatorType:${initiatorType}</div>`
-        return typehtml
-      }
-      
-    }
   },
-
   methods: {
-    toggleDetail () {
-      this.showDetail = !this.showDetail
+    toggleDetail() {
+      this.showContent = !this.showContent;
+      if (this.detailHtml) return;
+
+      if (ResourceMap[this.type] === "img") {
+        this.getDetailImgThumb((htmlSrc) => {
+          this.detailHtml = htmlSrc;
+        });
+      } else {
+        this.getDetailCode((htmlSrc) => {
+          this.detailHtml =
+            `<div style="max-height: 300px;overflow-y: scroll;overflow-x:hidden;word-break:break-all;text-align: left;">` +
+            htmlSrc +
+            `</div>`;
+        });
+      }
     },
-  }
-}
+    getDetailImgThumb(callback) {
+      let url;
+      if (this.base64 !== "") {
+        url = this.base64;
+      } else {
+        url = this.entryName;
+      }
+      let htmlSrc = "";
+      htmlSrc = `<img src = "${url}" style="object-fit: cover;height:100px" />`;
+      this.getDetailImgSize((r) => {
+        htmlSrc += r;
+        callback(htmlSrc);
+      });
+    },
+    getDetailImgSize(callback) {
+      let url;
+      if (this.base64 !== "") {
+        url = this.base64;
+      } else {
+        url = this.entryName;
+      }
+      imgLoad(url, (w, h) => {
+        callback(`<div>${w}*${h}</div>`);
+      });
+    },
+    getDetailCode(callback) {
+      url2blobPromise(this.entryName)
+        .then((res) => {
+          res = res.replace(/</g, "&lt;");
+          res = res.replace(/>/g, "&gt;");
+          let tmp = res;
+          tmp = tmp.split("\n");
+          let len = tmp.length;
+          let r = ``;
+          for (let i = 0; i < len; i = i + 1) {
+            tmp[i] = trimLeft(tmp[i]);
+            r += `
+              <div class="codeline" style="display:flex;line-height:14px;">
+                <div class="codeindex" style="min-width: 40px;background-color:#F0F0F0;color: #808080;text-align:right;padding-right:5px;">${i + 1}</div>
+                <div class="codevalue">${tmp[i]}</div>
+              </div>
+            `;
+          }
+          callback(r);
+        })
+        .catch(() => {
+          callback(`fail to load resource`);
+        });
+    },
+  },
+};
 </script>
 <style lang="less" scoped>
-  .resource-ltem{
-    padding: 10px 20px;
-    border-top: 1px solid #eee;
-    text-align: left;
-    font-size: 12px;
-  }
-  .resource-ltem:first-child {
-    border: none;
-  }
-  .resource-ltem:nth-of-type(odd){
-    background:#f3f3f3;
-  }
-  .resource-preview{
-    
-  }
+.resource-item {
+  margin-top: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 1px solid #d6e4ef;
+  font-size: 12px;
+}
+.resource-preview {
+  word-break: break-all;
+  color: #1485ee;
+  padding: 5px;
+}
+.resource-toggle-icon {
+  line-height: 24px;
+}
 
-  .resource-detail {
-    margin: 5px 10px;
-    border: 1px solid gray;
-    text-align: center;
-    .type  {
-      padding: 5px 10px;
-      font-size: 12px;
-      text-align: center;
-    }
-    .code{
-      border-top: 1px solid gray;
-      padding: 10px 10px;
-      max-height: 300px;
-      overflow-y: scroll;
-      text-align: left;
-      .codeline{
-        display: flex;
-        flex: 1;
-        .codeindex{
-          min-width: 40px;
-          color: #1485ee;
-        }
-        .codevalue{
-          
-        }
-      }
-    }
-    .img-thumb{
-      border-top: 1px solid gray;
-      padding: 5px 0px;
-      height: 100px;
-    }
-    .img-size{
-      padding:5px 0px;
-    }
+.resource-detail {
+  border-top: 1px solid #d6e4ef;
+  text-align: center;
+  .resource-empty {
+    padding: 10px;
+    font-size: 16px;
   }
-  
+}
 </style>

@@ -2,7 +2,7 @@ export const ResourceMap = {
     0: 'css',
     1: 'script',
     2: 'img',
-    3: 'other',
+    // 3: 'other',
 }
 export const ResourceEnum = {
     CSS: 0,
@@ -15,7 +15,7 @@ export const ResourceEntriesMap = {
     'css': ResourceEnum.CSS,
     'script': ResourceEnum.SCRIPT,
     'img': ResourceEnum.IMG,
-    'other': ResourceEnum.OTHER,
+    // 'other': ResourceEnum.OTHER,
 }
 
 export const Resource_METHODS = ["css", "script", "img"]
@@ -62,23 +62,29 @@ export const getResourceEntries = function(callback) {
                     entryType = ResourceEntriesMap[type];
                 }
             })
-            if (entryType === ResourceEntriesMap['img']) {
-                getBase64Image(entry.name, (res) => {
-                    callback({
-                        type: entryType,
-                        initiatorType: entry.initiatorType,
-                        entryName: entry.name,
-                        base64: res
-                    })
-                })
-            } else {
-                callback({
-                    type: entryType,
-                    initiatorType: entry.initiatorType,
-                    entryName: entry.name,
-                    base64: ''
-                })
-            }
+            callback({
+                type: entryType,
+                initiatorType: entry.initiatorType,
+                entryName: entry.name,
+                base64: ''
+            })
+            // if (entryType === ResourceEntriesMap['img']) {
+            //     getBase64Image(entry.name, (res) => {
+            //         callback({
+            //             type: entryType,
+            //             initiatorType: entry.initiatorType,
+            //             entryName: entry.name,
+            //             base64: res
+            //         })
+            //     })
+            // } else {
+            //     callback({
+            //         type: entryType,
+            //         initiatorType: entry.initiatorType,
+            //         entryName: entry.name,
+            //         base64: ''
+            //     })
+            // }
         })
     }
 }
@@ -141,11 +147,10 @@ export const url2blob = function(file_url, callback) {
 export const url2blobPromise = function(file_url) {
     return new Promise(function(resolve, reject) {
         let xhr = new XMLHttpRequest();
-        xhr.open("get", file_url, true);
+        xhr.open("get", file_url);
         xhr.responseType = "blob";
-        xhr.onload = function() {
+        xhr.addEventListener('load', function() {
             if (this.status == 200) {
-                //console.log(this.response)
                 const reader = new FileReader()
                 reader.onload = function() {
                     resolve(reader.result)
@@ -154,12 +159,13 @@ export const url2blobPromise = function(file_url) {
             } else {
                 reject()
             }
-        };
-        xhr.onerror = function(e) {
-            reject()
-        }
-        xhr.send();
+        })
 
+        xhr.addEventListener('error', function() {
+            reject()
+        })
+
+        xhr.send();
     });
 }
 
