@@ -8,16 +8,16 @@ export default new RouterPlugin({
   component: Console,
   icon: 'https://pt-starimg.didistatic.com/static/starimg/img/PbNXVyzTbq1618997544543.png',
   onLoad(){
-    // console.log('Load')
-    // overrideConsole(({name, type, value}) => {
-    //   let state = getGlobalData();
-    //   state.logList = state.logList || [];
-    //   state.logList.push({
-    //     type: type,
-    //     name: name,
-    //     value: value
-    //   });
-    // });
+    console.log('Load')
+    overrideConsole(({name, type, value}) => {
+      let state = getGlobalData();
+      state.logList = state.logList || [];
+      state.logList.push({
+        type: type,
+        name: name,
+        value: value
+      });
+    });
   },
   onUnload(){
     restoreConsole()
