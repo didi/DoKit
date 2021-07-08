@@ -72,7 +72,7 @@ class H5DokitView : AbsDokitView() {
         rootView?.let {
             val close = it.findViewById<ImageView>(R.id.iv_close)
             close.setOnClickListener {
-                DokitViewManager.getInstance().detach(this)
+                DokitViewManager.instance.detach(this)
             }
             mTvLink = it.findViewById(R.id.tv_link)
             mJsCheckBox = it.findViewById(R.id.js_switch)

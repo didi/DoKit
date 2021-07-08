@@ -84,8 +84,6 @@ class RpcMcInterceptor : AbsDoKitRpcInterceptor() {
         when (DoKitConstant.WS_MODE) {
             WSMode.RECORDING -> {
                 //数据采集
-                // val responseBody4Base64 = String(EncodeUtils.base64Encode(strResponseBody))
-                //todo: 实时发送网络请求
                 doKitGlobalScope.launch {
                     val httInfo = HttpUploadInfo(
                         DoKitConstant.PRODUCT_ID,

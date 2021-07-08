@@ -224,7 +224,7 @@ class DokitJSI {
      * 更新本地localStorage的adapter
      */
     private fun updateStorageAdapter(type: Int) {
-        val h5DokitView = DokitViewManager.getInstance().getDokitView(
+        val h5DokitView = DokitViewManager.instance.getDokitView(
             ActivityUtils.getTopActivity(),
             H5DokitView::class.java.simpleName
         )

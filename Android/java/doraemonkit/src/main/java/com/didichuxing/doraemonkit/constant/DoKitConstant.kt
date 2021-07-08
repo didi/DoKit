@@ -1,7 +1,5 @@
 package com.didichuxing.doraemonkit.constant
 
-import com.didichuxing.doraemonkit.util.NetworkUtils
-import com.didichuxing.doraemonkit.util.PathUtils
 import com.didichuxing.doraemonkit.BuildConfig
 import com.didichuxing.doraemonkit.DoKitCallBack
 import com.didichuxing.doraemonkit.config.GlobalConfig
@@ -12,7 +10,11 @@ import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.kit.toolpanel.KitWrapItem
 import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo
 import com.didichuxing.doraemonkit.util.LogHelper
+import com.didichuxing.doraemonkit.util.NetworkUtils
+import com.didichuxing.doraemonkit.util.PathUtils
 import java.io.File
+import java.util.*
+import kotlin.collections.LinkedHashMap
 
 /**
  * ================================================
@@ -24,6 +26,8 @@ import java.io.File
  * ================================================
  */
 object DoKitConstant {
+    const val MC_CASE_ID_KEY = "MC_CASE_ID"
+    const val MC_CASE_RECODING_KEY = "MC_CASE_RECODING"
     const val TAG = "DoKitConstant"
     const val GROUP_ID_PLATFORM = "dk_category_platform"
     const val GROUP_ID_COMM = "dk_category_comms"
@@ -36,7 +40,8 @@ object DoKitConstant {
     /**
      * DoKit 模块能力
      */
-    val DOKIT_MODULE_ABILITIES = mutableMapOf<DoKitModule, DokitAbility.DokitModuleProcessor>()
+    private val DOKIT_MODULE_ABILITIES =
+        mutableMapOf<DoKitModule, DokitAbility.DokitModuleProcessor>()
 
 
     /**
@@ -47,6 +52,21 @@ object DoKitConstant {
             return null
         }
         return DOKIT_MODULE_ABILITIES[module]
+    }
+
+    /**
+     * 加载跨模块通信能力
+     */
+    fun loadDoKitModuleAbilities() {
+        val doKitAbilities =
+            ServiceLoader.load(DokitAbility::class.java, javaClass.classLoader).toList()
+        doKitAbilities.forEach {
+            it.init()
+            DOKIT_MODULE_ABILITIES[it.moduleName()] = it.getModuleProcessor()
+        }
+
+        //添加录制中的悬浮窗
+        LogHelper.i(TAG, "====loadDoKitModuleAbilities===")
     }
 
 
@@ -159,6 +179,11 @@ object DoKitConstant {
      */
     //@JvmField
     var WS_MODE: WSMode = WSMode.UNKNOW
+
+    /**
+     * 是否处于录制状态
+     */
+    var IS_MC_RECODING = false
 
     /**
      * Wifi IP 地址

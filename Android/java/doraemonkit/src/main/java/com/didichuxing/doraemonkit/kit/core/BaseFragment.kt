@@ -63,7 +63,7 @@ abstract class BaseFragment : Fragment() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        DokitViewManager.getInstance().detach(MainIconDokitView::class.java)
+        DokitViewManager.instance.detach(MainIconDokitView::class.java)
     }
 
 

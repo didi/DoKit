@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager
 import com.didichuxing.doraemonkit.kit.mc.all.McConstant
@@ -75,12 +76,12 @@ class DoKitMcDatasFragment : BaseFragment() {
 
     private fun saveCaseId(caseId: String) {
         McConstant.MC_CASE_ID = caseId
-        SPUtils.getInstance().put("mc_case_id", caseId)
+        SPUtils.getInstance().put(DoKitConstant.MC_CASE_ID_KEY, caseId)
     }
 
     private fun loadCaseId(): String {
         return if (McConstant.MC_CASE_ID.isEmpty()) {
-            val caseId = SPUtils.getInstance().getString("mc_case_id", "")
+            val caseId = SPUtils.getInstance().getString(DoKitConstant.MC_CASE_ID_KEY, "")
             McConstant.MC_CASE_ID = caseId
             McConstant.MC_CASE_ID
         } else {

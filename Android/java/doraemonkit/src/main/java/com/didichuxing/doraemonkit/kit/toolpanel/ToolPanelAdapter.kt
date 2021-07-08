@@ -100,7 +100,7 @@ class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?) :
 
             KitWrapItem.TYPE_EXIT -> {
                 holder.getView<TextView>(R.id.close).setOnClickListener {
-                    DokitViewManager.getInstance().detachToolPanel()
+                    DokitViewManager.instance.detachToolPanel()
                     DoKit.hide()
                 }
 

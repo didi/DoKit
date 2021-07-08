@@ -13,6 +13,7 @@ import com.didichuxing.doraemonkit.constant.DoKitModule
  */
 interface DokitAbility {
 
+
     fun init()
 
     /**
@@ -29,6 +30,8 @@ interface DokitAbility {
 
 
     interface DokitModuleProcessor {
+        val TAG: String
+            get() = this.javaClass.simpleName
 
         fun values(): Map<String, Any>
 

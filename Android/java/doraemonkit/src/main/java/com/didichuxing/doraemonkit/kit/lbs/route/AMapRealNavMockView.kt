@@ -59,7 +59,7 @@ class AMapRealNavMockView : AbsDokitView() {
             val tvProgress = it.findViewById<TextView>(R.id.tv_progress)
             tvProgress.text = "当前导航进度: 0%"
             close.setOnClickListener {
-                DokitViewManager.getInstance().detach(this)
+                DokitViewManager.instance.detach(this)
             }
 
 

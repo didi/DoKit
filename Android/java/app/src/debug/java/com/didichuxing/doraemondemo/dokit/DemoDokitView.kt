@@ -31,7 +31,7 @@ class DemoDokitView : AbsDokitView() {
     override fun onViewCreated(rootView: FrameLayout) {
 
         val tvClose = findViewById<TextView>(R.id.tv_close)
-        tvClose?.setOnClickListener { DokitViewManager.getInstance().detach(this@DemoDokitView) }
+        tvClose?.setOnClickListener { DokitViewManager.instance.detach(this@DemoDokitView) }
     }
 
 

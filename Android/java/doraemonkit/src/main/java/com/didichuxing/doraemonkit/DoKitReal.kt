@@ -71,12 +71,8 @@ object DoKitReal {
         }
 
         //跨模块通信
-        val doKitAbilities =
-            ServiceLoader.load(DokitAbility::class.java, javaClass.classLoader).toList()
-        doKitAbilities.forEach {
-            it.init()
-            DoKitConstant.DOKIT_MODULE_ABILITIES[it.moduleName()] = it.getModuleProcessor()
-        }
+
+        DoKitConstant.loadDoKitModuleAbilities()
 
         //解锁系统隐藏api限制权限以及hook Instrumentation
         HandlerHooker.doHook(app)
@@ -151,7 +147,7 @@ object DoKitReal {
 
         //addSystemKitForTest(app)
         //初始化悬浮窗管理类
-        DokitViewManager.getInstance().init(app)
+        DokitViewManager.instance.init(app)
         //上传app基本信息便于统计
         if (DoKitConstant.ENABLE_UPLOAD) {
             try {
@@ -426,7 +422,7 @@ object DoKitReal {
         if (!DoKitConstant.AWAYS_SHOW_MAIN_ICON) {
             return
         }
-        DokitViewManager.getInstance().attachMainIcon()
+        DokitViewManager.instance.attachMainIcon()
         DoKitConstant.MAIN_ICON_HAS_SHOW = true
     }
 
@@ -441,17 +437,17 @@ object DoKitReal {
      * 直接显示工具面板页面
      */
     fun showToolPanel() {
-        DokitViewManager.getInstance().attachToolPanel()
+        DokitViewManager.instance.attachToolPanel()
     }
 
     fun hideToolPanel() {
-        DokitViewManager.getInstance().detachToolPanel()
+        DokitViewManager.instance.detachToolPanel()
     }
 
     fun hide() {
         DoKitConstant.MAIN_ICON_HAS_SHOW = false
         DoKitConstant.AWAYS_SHOW_MAIN_ICON = false
-        DokitViewManager.getInstance().detachMainIcon()
+        DokitViewManager.instance.detachMainIcon()
     }
 
     /**

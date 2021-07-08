@@ -13,6 +13,8 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.constant.DoKitConstant.MC_CASE_ID_KEY
+import com.didichuxing.doraemonkit.constant.DoKitConstant.MC_CASE_RECODING_KEY
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.isTrueWithCor
 import com.didichuxing.doraemonkit.util.GsonUtils
@@ -30,6 +32,7 @@ import com.didichuxing.doraemonkit.kit.mc.server.HostInfo
 import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.LogHelper
+import com.didichuxing.doraemonkit.util.SPUtils
 import com.didichuxing.doraemonkit.widget.dialog.DialogListener
 import com.didichuxing.doraemonkit.widget.dialog.DialogProvider
 import com.didichuxing.doraemonkit.zxing.activity.CaptureActivity
@@ -50,6 +53,7 @@ import kotlin.coroutines.suspendCoroutine
  * ================================================
  */
 class DoKitMcMainFragment : BaseFragment() {
+
     private val REQUEST_CODE_CAMERA = 0x100
     private val REQUEST_CODE_SCAN = 0x101
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
@@ -132,13 +136,9 @@ class DoKitMcMainFragment : BaseFragment() {
                         ToastUtils.showShort("取消用例采集")
                     }) {
                     try {
-                        val resInfo = McHttpManager.mockStart<McCaseInfo>()
-                        if (resInfo.code == RESPONSE_OK) {
-                            val configInfo = resInfo.data
-                            McConstant.MC_CASE_ID = configInfo?.caseId ?: ""
-                            SimpleDokitStarter.startFloating(RecordingDokitView::class.java)
-                            DoKitConstant.WS_MODE = WSMode.RECORDING
-                            ToastUtils.showShort("开始用例采集")
+                        val caseInfo = McHttpManager.mockStart<McCaseInfo>()
+                        if (caseInfo.code == RESPONSE_OK) {
+                            saveRecodingStatus(caseInfo.data)
                         }
                     } catch (e: Exception) {
                         LogHelper.e(TAG, "e===>${e.message}")
@@ -167,8 +167,8 @@ class DoKitMcMainFragment : BaseFragment() {
                 val result = McHttpManager.mockStop<Any>(mcCaseInfoDialog())
                 if (result.code == RESPONSE_OK) {
                     DoKitConstant.WS_MODE = WSMode.UNKNOW
-
                     SimpleDokitStarter.removeFloating(RecordingDokitView::class.java)
+                    SPUtils.getInstance().put(MC_CASE_RECODING_KEY, false)
                     ToastUtils.showShort("用例上传成功")
                 } else {
                     LogHelper.e(TAG, "error msg===>${result.msg}")
@@ -201,6 +201,21 @@ class DoKitMcMainFragment : BaseFragment() {
             }
         }
 
+
+    }
+
+    /**
+     * 持久化录制状态 方便重启继续录制
+     */
+    private fun saveRecodingStatus(configInfo: McCaseInfo?) {
+        configInfo?.let {
+            McConstant.MC_CASE_ID = it.caseId
+            SimpleDokitStarter.startFloating(RecordingDokitView::class.java)
+            DoKitConstant.WS_MODE = WSMode.RECORDING
+            SPUtils.getInstance().put(MC_CASE_ID_KEY, McConstant.MC_CASE_ID)
+            SPUtils.getInstance().put(MC_CASE_RECODING_KEY, true)
+            ToastUtils.showShort("开始用例采集")
+        }
 
     }
 

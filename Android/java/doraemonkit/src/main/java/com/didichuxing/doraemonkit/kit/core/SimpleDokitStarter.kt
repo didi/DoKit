@@ -26,14 +26,14 @@ object SimpleDokitStarter {
         val doKitIntent = DokitIntent(targetClass)
         doKitIntent.mode = mode
         doKitIntent.bundle = bundle
-        DokitViewManager.getInstance().attach(doKitIntent)
+        DokitViewManager.instance.attach(doKitIntent)
     }
 
     @JvmStatic
     fun removeFloating(
         targetClass: Class<out AbsDokitView?>
     ) {
-        DokitViewManager.getInstance().detach(targetClass)
+        DokitViewManager.instance.detach(targetClass)
     }
 
 

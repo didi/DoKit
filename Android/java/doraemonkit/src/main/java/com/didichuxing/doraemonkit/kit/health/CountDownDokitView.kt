@@ -37,9 +37,9 @@ class CountDownDokitView : AbsDokitView() {
             .onCompletion {
                 withContext(Dispatchers.Main) {
                     if (isNormalMode) {
-                        DokitViewManager.getInstance().detach(activity, this@CountDownDokitView)
+                        DokitViewManager.instance.detach(activity, this@CountDownDokitView)
                     } else {
-                        DokitViewManager.getInstance().detach(this@CountDownDokitView)
+                        DokitViewManager.instance.detach(this@CountDownDokitView)
                     }
                 }
             }
