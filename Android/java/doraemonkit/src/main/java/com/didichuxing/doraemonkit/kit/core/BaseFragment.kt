@@ -10,6 +10,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.widget.dialog.CommonDialogProvider
@@ -63,7 +64,7 @@ abstract class BaseFragment : Fragment() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        DokitViewManager.instance.detach(MainIconDokitView::class.java)
+        DokitViewManager.instance.detach(MainIconDokitView::class.tagName)
     }
 
 

@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.uiperformance;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
@@ -10,6 +11,7 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -31,10 +33,10 @@ public class UIPerformanceKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(@Nullable Context context) {
-        UIPerformanceManager.getInstance().start(context);
+    public boolean onClickWithReturn(@NotNull Activity activity) {
+        UIPerformanceManager.getInstance().start(activity);
 
-        DokitViewManager.getInstance().detachToolPanel();
+        DokitViewManager.getInstance().detachToolPanel(activity);
 
         SimpleDokitStarter.startFloating(UIPerformanceDisplayDokitView.class);
         SimpleDokitStarter.startFloating(UIPerformanceInfoDokitView.class);

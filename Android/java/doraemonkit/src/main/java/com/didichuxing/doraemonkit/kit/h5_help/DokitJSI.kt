@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.h5_help
 
 import android.webkit.JavascriptInterface
+import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
@@ -226,7 +227,7 @@ class DokitJSI {
     private fun updateStorageAdapter(type: Int) {
         val h5DokitView = DokitViewManager.instance.getDokitView(
             ActivityUtils.getTopActivity(),
-            H5DokitView::class.java.simpleName
+            H5DokitView::class.tagName
         )
         if (h5DokitView != null) {
             h5DokitView as H5DokitView

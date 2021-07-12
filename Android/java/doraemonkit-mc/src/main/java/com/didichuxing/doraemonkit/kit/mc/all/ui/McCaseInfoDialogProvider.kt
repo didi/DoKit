@@ -3,8 +3,8 @@ package com.didichuxing.doraemonkit.kit.mc.all.ui
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import com.didichuxing.doraemonkit.constant.DoKitConstant
-import com.didichuxing.doraemonkit.kit.mc.all.McConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
+import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.widget.dialog.DialogListener
 import com.didichuxing.doraemonkit.widget.dialog.DialogProvider
@@ -56,8 +56,8 @@ class McCaseInfoDialogProvider internal constructor(data: Any?, listener: Dialog
     }
 
     data class CaseInfo(
-        val pId: String = DoKitConstant.PRODUCT_ID,
-        val caseId: String = McConstant.MC_CASE_ID,
+        val pId: String = DoKitManager.PRODUCT_ID,
+        val caseId: String = DoKitMcManager.MC_CASE_ID,
         val caseName: String,
         val personName: String
     )

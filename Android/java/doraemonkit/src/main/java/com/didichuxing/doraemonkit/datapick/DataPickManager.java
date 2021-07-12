@@ -4,18 +4,15 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.JsonRequest;
 import com.didichuxing.doraemonkit.util.FileIOUtils;
 import com.didichuxing.doraemonkit.util.FileUtils;
 import com.didichuxing.doraemonkit.util.GsonUtils;
 import com.didichuxing.doraemonkit.util.PathUtils;
-import com.didichuxing.doraemonkit.util.ToastUtils;
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.volley.VolleyManager;
@@ -90,7 +87,7 @@ public class DataPickManager {
      * 上传埋点数据
      */
     public void postData() {
-        if (!DoKitConstant.INSTANCE.getENABLE_UPLOAD()) {
+        if (!DoKitManager.INSTANCE.getENABLE_UPLOAD()) {
             return;
         }
 

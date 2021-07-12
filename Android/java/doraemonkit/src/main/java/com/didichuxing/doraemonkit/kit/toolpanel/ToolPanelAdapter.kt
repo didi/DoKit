@@ -12,10 +12,7 @@ import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
-import com.didichuxing.doraemonkit.util.AppUtils
-import com.didichuxing.doraemonkit.util.BarUtils
-import com.didichuxing.doraemonkit.util.DoKitCommUtil
-import com.didichuxing.doraemonkit.util.DoKitSPUtil
+import com.didichuxing.doraemonkit.util.*
 import com.didichuxing.doraemonkit.widget.brvah.BaseMultiItemQuickAdapter
 import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder
 
@@ -100,7 +97,7 @@ class ToolPanelAdapter(kitViews: MutableList<KitWrapItem>?) :
 
             KitWrapItem.TYPE_EXIT -> {
                 holder.getView<TextView>(R.id.close).setOnClickListener {
-                    DokitViewManager.instance.detachToolPanel()
+                    DokitViewManager.instance.detachToolPanel(ActivityUtils.getTopActivity())
                     DoKit.hide()
                 }
 

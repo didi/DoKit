@@ -16,7 +16,7 @@ import androidx.annotation.RequiresApi;
 
 import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.config.DokitMemoryConfig;
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
@@ -287,31 +287,31 @@ public class PerformanceDataManager {
     }
 
     private void writeCpuDataIntoFile() {
-        if (DoKitConstant.INSTANCE.getCALLBACK() != null) {
-            DoKitConstant.INSTANCE.getCALLBACK().onCpuCallBack(mLastCpuRate, getCpuFilePath());
+        if (DoKitManager.INSTANCE.getCALLBACK() != null) {
+            DoKitManager.INSTANCE.getCALLBACK().onCpuCallBack(mLastCpuRate, getCpuFilePath());
         }
 
         //保存cpu数据到app健康体检
-        if (DoKitConstant.APP_HEALTH_RUNNING) {
+        if (DoKitManager.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastCpuRate, PERFORMANCE_TYPE_CPU);
         }
     }
 
     private void writeMemoryDataIntoFile() {
-        if (DoKitConstant.INSTANCE.getCALLBACK() != null) {
-            DoKitConstant.INSTANCE.getCALLBACK().onMemoryCallBack(mLastMemoryRate, getMemoryFilePath());
+        if (DoKitManager.INSTANCE.getCALLBACK() != null) {
+            DoKitManager.INSTANCE.getCALLBACK().onMemoryCallBack(mLastMemoryRate, getMemoryFilePath());
         }
         //保存cpu数据到app健康体检
-        if (DoKitConstant.APP_HEALTH_RUNNING) {
+        if (DoKitManager.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastMemoryRate, PERFORMANCE_TYPE_MEMORY);
         }
     }
 
     private void writeFpsDataIntoFile() {
-        if (DoKitConstant.INSTANCE.getCALLBACK() != null) {
-            DoKitConstant.INSTANCE.getCALLBACK().onFpsCallBack(mLastFrameRate, getFpsFilePath());
+        if (DoKitManager.INSTANCE.getCALLBACK() != null) {
+            DoKitManager.INSTANCE.getCALLBACK().onFpsCallBack(mLastFrameRate, getFpsFilePath());
         }
-        if (DoKitConstant.APP_HEALTH_RUNNING) {
+        if (DoKitManager.APP_HEALTH_RUNNING) {
             addPerformanceDataInAppHealth(mLastFrameRate > 60 ? 60 : mLastFrameRate, PERFORMANCE_TYPE_FPS);
         }
     }
@@ -544,7 +544,7 @@ public class PerformanceDataManager {
             } else {//不是第一次启动
                 String lastPageKey = lastPerformanceInfo.getPageKey();
                 //同一个页面
-                if (lastPageKey.equals(ActivityUtils.getTopActivity().toString())) {
+                if (ActivityUtils.getTopActivity() != null && lastPageKey.equals(ActivityUtils.getTopActivity().toString())) {
                     List<AppHealthInfo.DataBean.PerformanceBean.ValuesBean> valuesBeans = lastPerformanceInfo.getValues();
                     int valueSize = valuesBeans.size();
                     //判断是否需要上传数据

@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.colorpick;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -12,6 +13,7 @@ import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.kit.core.TranslucentActivity;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -33,11 +35,11 @@ public class ColorPickerKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(@Nullable Context context) {
-        Intent intent = new Intent(context, TranslucentActivity.class);
+    public boolean onClickWithReturn(@NotNull Activity activity) {
+        Intent intent = new Intent(activity, TranslucentActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(BundleKey.FRAGMENT_INDEX, FragmentIndex.FRAGMENT_COLOR_PICKER_SETTING);
-        context.startActivity(intent);
+        activity.startActivity(intent);
         return true;
     }
 

@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit
 
+import android.app.Activity
 import android.content.Context
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -45,7 +46,7 @@ internal interface IKit {
      * 点击回调 带返回值
      * @return true 隐藏面板 false 不隐藏面板
      */
-    fun onClickWithReturn(context: Context?): Boolean {
+    fun onClickWithReturn(activity: Activity): Boolean {
         return true
     }
 

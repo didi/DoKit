@@ -12,7 +12,8 @@ import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.ResourceUtils
 import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
 import com.didichuxing.doraemonkit.aop.urlconnection.OkhttpClientUtil
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.extension.tagName
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean
@@ -47,7 +48,7 @@ class DokitWebViewClient(webViewClient: WebViewClient?, userAgent: String) : Web
             if (it.context is Activity) {
                 val activity = it.context as Activity
                 val absDokitView: AbsDokitView? = DokitViewManager.instance
-                    .getDokitView(activity, H5DokitView::class.java.simpleName)
+                    .getDokitView(activity, H5DokitView::class.tagName)
                 absDokitView?.let { h5DokitView ->
                     (h5DokitView as H5DokitView).updateUrl(url)
                 }
@@ -75,7 +76,7 @@ class DokitWebViewClient(webViewClient: WebViewClient?, userAgent: String) : Web
         request: WebResourceRequest?
     ): WebResourceResponse? {
         //开关均被关闭则不进行拦截
-        if (!DoKitConstant.H5_JS_INJECT && !DoKitConstant.H5_VCONSOLE_INJECT) {
+        if (!DoKitManager.H5_JS_INJECT && !DoKitManager.H5_VCONSOLE_INJECT) {
             return super.shouldInterceptRequest(view, request)
         }
         request?.let { webRequest ->
@@ -99,13 +100,13 @@ class DokitWebViewClient(webViewClient: WebViewClient?, userAgent: String) : Web
                 val response = OkhttpClientUtil.okhttpClient.newCall(httpRequest).execute()
 
                 //注入本地网络拦截js
-                var newHtml = if (DoKitConstant.H5_JS_INJECT) {
+                var newHtml = if (DoKitManager.H5_JS_INJECT) {
                     injectJsHook(OkHttpWrap.toResponseBody(response)?.string())
                 } else {
                     OkHttpWrap.toResponseBody(response)?.string()
                 }
                 //注入vConsole的代码
-                if (DoKitConstant.H5_VCONSOLE_INJECT) {
+                if (DoKitManager.H5_VCONSOLE_INJECT) {
                     newHtml = injectVConsoleHook(newHtml)
                 }
 

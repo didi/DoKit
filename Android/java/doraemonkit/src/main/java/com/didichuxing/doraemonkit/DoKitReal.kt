@@ -7,7 +7,7 @@ import android.util.Log
 import com.didichuxing.doraemonkit.config.GlobalConfig
 import com.didichuxing.doraemonkit.config.GpsMockConfig
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey
 import com.didichuxing.doraemonkit.datapick.DataPickManager
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
@@ -58,8 +58,8 @@ object DoKitReal {
         registerModuleListener()
         pluginConfig()
         initThirdLibraryInfo()
-        DoKitConstant.PRODUCT_ID = productId
-        DoKitConstant.APP_HEALTH_RUNNING = GlobalConfig.getAppHealth()
+        DoKitManager.PRODUCT_ID = productId
+        DoKitManager.APP_HEALTH_RUNNING = GlobalConfig.getAppHealth()
 
         //赋值
         APPLICATION = app
@@ -70,15 +70,11 @@ object DoKitReal {
             return
         }
 
-        //跨模块通信
-
-        DoKitConstant.loadDoKitModuleAbilities()
-
         //解锁系统隐藏api限制权限以及hook Instrumentation
         HandlerHooker.doHook(app)
 
         val strDokitMode = DoKitSPUtil.getString(SharedPrefsKey.FLOAT_START_MODE, "normal")
-        DoKitConstant.IS_NORMAL_FLOAT_MODE = strDokitMode == "normal"
+        DoKitManager.IS_NORMAL_FLOAT_MODE = strDokitMode == "normal"
         //初始化第三方工具
         installLeakCanary(app)
         checkLargeImgIsOpen()
@@ -93,7 +89,7 @@ object DoKitReal {
         //注册全局的activity生命周期回调
         app.registerActivityLifecycleCallbacks(DokitActivityLifecycleCallbacks())
         //DokitConstant.KIT_MAPS.clear()
-        DoKitConstant.GLOBAL_KITS.clear()
+        DoKitManager.GLOBAL_KITS.clear()
         //添加用户的自定义kit
         when {
             mapKits.isNotEmpty() -> {
@@ -108,7 +104,7 @@ object DoKitReal {
                         )
                     } as MutableList<KitWrapItem>
 
-                    DoKitConstant.GLOBAL_KITS[map.key] = kitWraps
+                    DoKitManager.GLOBAL_KITS[map.key] = kitWraps
                 }
             }
 
@@ -122,7 +118,7 @@ object DoKitReal {
                         it
                     )
                 } as MutableList<KitWrapItem>
-                DoKitConstant.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_biz)] =
+                DoKitManager.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_biz)] =
                     kitWraps
             }
 
@@ -147,9 +143,9 @@ object DoKitReal {
 
         //addSystemKitForTest(app)
         //初始化悬浮窗管理类
-        DokitViewManager.instance.init(app)
+        DokitViewManager.instance.init()
         //上传app基本信息便于统计
-        if (DoKitConstant.ENABLE_UPLOAD) {
+        if (DoKitManager.ENABLE_UPLOAD) {
             try {
                 DoraemonStatisticsUtil.uploadUserInfo(app)
             } catch (e: Exception) {
@@ -195,8 +191,8 @@ object DoKitReal {
      */
     private suspend fun addInnerKit(application: Application) = withContext(Dispatchers.IO) {
         var json: String?
-        if (FileUtils.isFileExists(DoKitConstant.SYSTEM_KITS_BAK_PATH)) {
-            json = FileIOUtils.readFile2String(DoKitConstant.SYSTEM_KITS_BAK_PATH)
+        if (FileUtils.isFileExists(DoKitManager.SYSTEM_KITS_BAK_PATH)) {
+            json = FileIOUtils.readFile2String(DoKitManager.SYSTEM_KITS_BAK_PATH)
             if (TextUtils.isEmpty(json) || json == "[]") {
                 val open = application.assets.open("dokit_system_kits.json")
                 json = ConvertUtils.inputStream2String(open, "UTF-8")
@@ -208,17 +204,17 @@ object DoKitReal {
 
         ToolPanelUtil.jsonConfig2InnerKits(json)
         //悬浮窗模式
-        DoKitConstant.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_mode)] =
+        DoKitManager.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_mode)] =
             mutableListOf()
         //添加退出项
-        DoKitConstant.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_exit)] =
+        DoKitManager.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_exit)] =
             mutableListOf()
         //版本号
-        DoKitConstant.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_version)] =
+        DoKitManager.GLOBAL_KITS[DoKitCommUtil.getString(R.string.dk_category_version)] =
             mutableListOf()
 
         //遍历初始化
-        DoKitConstant.GLOBAL_KITS.forEach { map ->
+        DoKitManager.GLOBAL_KITS.forEach { map ->
             map.value.forEach { kitWrap ->
                 kitWrap.kit?.onAppInit(application)
             }
@@ -316,10 +312,10 @@ object DoKitReal {
      * 开启健康体检
      */
     private fun startAppHealth() {
-        if (!DoKitConstant.APP_HEALTH_RUNNING) {
+        if (!DoKitManager.APP_HEALTH_RUNNING) {
             return
         }
-        if (TextUtils.isEmpty(DoKitConstant.PRODUCT_ID)) {
+        if (TextUtils.isEmpty(DoKitManager.PRODUCT_ID)) {
             ToastUtils.showShort("要使用健康体检功能必须先去平台端注册")
             return
         }
@@ -416,18 +412,11 @@ object DoKitReal {
      * 显示系统悬浮窗icon
      */
     private fun showMainIcon() {
-        if (ActivityUtils.getTopActivity() is UniversalActivity) {
-            return
-        }
-        if (!DoKitConstant.AWAYS_SHOW_MAIN_ICON) {
-            return
-        }
-        DokitViewManager.instance.attachMainIcon()
-        DoKitConstant.MAIN_ICON_HAS_SHOW = true
+        DokitViewManager.instance.attachMainIcon(ActivityUtils.getTopActivity())
     }
 
     fun show() {
-        DoKitConstant.AWAYS_SHOW_MAIN_ICON = true
+        DoKitManager.AWAYS_SHOW_MAIN_ICON = true
         if (!isShow) {
             showMainIcon()
         }
@@ -437,55 +426,55 @@ object DoKitReal {
      * 直接显示工具面板页面
      */
     fun showToolPanel() {
-        DokitViewManager.instance.attachToolPanel()
+        DokitViewManager.instance.attachToolPanel(ActivityUtils.getTopActivity())
     }
 
     fun hideToolPanel() {
-        DokitViewManager.instance.detachToolPanel()
+        DokitViewManager.instance.detachToolPanel(ActivityUtils.getTopActivity())
     }
 
     fun hide() {
-        DoKitConstant.MAIN_ICON_HAS_SHOW = false
-        DoKitConstant.AWAYS_SHOW_MAIN_ICON = false
-        DokitViewManager.instance.detachMainIcon()
+        DoKitManager.MAIN_ICON_HAS_SHOW = false
+        DoKitManager.AWAYS_SHOW_MAIN_ICON = false
+        DokitViewManager.instance.detachMainIcon(ActivityUtils.getTopActivity())
     }
 
     /**
      * 禁用app信息上传开关，该上传信息只为做DoKit接入量的统计，如果用户需要保护app隐私，可调用该方法进行禁用
      */
     fun disableUpload() {
-        DoKitConstant.ENABLE_UPLOAD = false
+        DoKitManager.ENABLE_UPLOAD = false
     }
 
     val isShow: Boolean
-        get() = DoKitConstant.MAIN_ICON_HAS_SHOW
+        get() = DoKitManager.MAIN_ICON_HAS_SHOW
 
     /**
      * 设置加密数据库的密码
      */
     fun setDatabasePass(map: Map<String, String>) {
-        DoKitConstant.DATABASE_PASS = map
+        DoKitManager.DATABASE_PASS = map
     }
 
     /**
      * 设置平台端文件管理端口号
      */
     fun setFileManagerHttpPort(port: Int) {
-        DoKitConstant.FILE_MANAGER_HTTP_PORT = port
+        DoKitManager.FILE_MANAGER_HTTP_PORT = port
     }
 
     /**
      * 设置一机多控长连接端口号
      */
     fun setMCWSPort(port: Int) {
-        DoKitConstant.MC_WS_PORT = port
+        DoKitManager.MC_WS_PORT = port
     }
 
     /**
      * 是否显示主入口icon
      */
     fun setAwaysShowMainIcon(awaysShow: Boolean) {
-        DoKitConstant.AWAYS_SHOW_MAIN_ICON = awaysShow
+        DoKitManager.AWAYS_SHOW_MAIN_ICON = awaysShow
     }
 
 
@@ -493,7 +482,7 @@ object DoKitReal {
      * 设置一机多控自定义拦截器
      */
     fun setMCIntercept(interceptor: MCInterceptor) {
-        DoKitConstant.MC_INTERCEPT = interceptor
+        DoKitManager.MC_INTERCEPT = interceptor
     }
 
     /**
@@ -508,7 +497,7 @@ object DoKitReal {
      * 设置一机多控自定义拦截器
      */
     fun setCallBack(callback: DoKitCallBack) {
-        DoKitConstant.CALLBACK = callback
+        DoKitManager.CALLBACK = callback
     }
 
 }

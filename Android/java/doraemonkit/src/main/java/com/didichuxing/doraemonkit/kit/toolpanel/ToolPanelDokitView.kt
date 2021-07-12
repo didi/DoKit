@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.datapick.DataPickManager
 import com.didichuxing.doraemonkit.kit.core.*
 import com.didichuxing.doraemonkit.util.ActivityUtils
@@ -39,7 +39,7 @@ class ToolPanelDokitView : AbsDokitView() {
     }
 
     private fun generateKits() {
-        DoKitConstant.GLOBAL_KITS.forEach { group ->
+        DoKitManager.GLOBAL_KITS.forEach { group ->
             when (group.key) {
                 DoKitCommUtil.getString(R.string.dk_category_mode) -> {
                     mKits.add(KitWrapItem(KitWrapItem.TYPE_MODE, name = group.key, kit = null))
@@ -50,12 +50,12 @@ class ToolPanelDokitView : AbsDokitView() {
                 DoKitCommUtil.getString(R.string.dk_category_version) -> {
                     mKits.add(KitWrapItem(KitWrapItem.TYPE_VERSION, name = group.key, kit = null))
                 }
-                DoKitConstant.GROUP_ID_PLATFORM,
-                DoKitConstant.GROUP_ID_COMM,
-                DoKitConstant.GROUP_ID_WEEX,
-                DoKitConstant.GROUP_ID_PERFORMANCE,
-                DoKitConstant.GROUP_ID_LBS,
-                DoKitConstant.GROUP_ID_UI -> {
+                DoKitManager.GROUP_ID_PLATFORM,
+                DoKitManager.GROUP_ID_COMM,
+                DoKitManager.GROUP_ID_WEEX,
+                DoKitManager.GROUP_ID_PERFORMANCE,
+                DoKitManager.GROUP_ID_LBS,
+                DoKitManager.GROUP_ID_UI -> {
                     if (group.value.size != 0) {
                         mKits.add(
                             KitWrapItem(
@@ -122,7 +122,7 @@ class ToolPanelDokitView : AbsDokitView() {
                         //常规模式下点击常用工具不隐藏工具面板
                         it.onClick(ActivityUtils.getTopActivity())
                         if (it.onClickWithReturn(ActivityUtils.getTopActivity())) {
-                            DokitViewManager.instance.detachToolPanel()
+                            DokitViewManager.instance.detachToolPanel(ActivityUtils.getTopActivity())
                         }
 
                         //添加埋点

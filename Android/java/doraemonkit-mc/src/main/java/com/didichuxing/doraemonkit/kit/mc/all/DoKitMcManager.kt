@@ -12,7 +12,7 @@ import com.didichuxing.doraemonkit.kit.mc.server.HostInfo
  * 修订历史：
  * ================================================
  */
-object McConstant {
+object DoKitMcManager {
     /**
      * 主机
      */
@@ -22,6 +22,14 @@ object McConstant {
      * 从机
      */
     const val MULTI_CONTROL_MODE_CLIENT = 200
+
+    const val MC_CASE_ID_KEY = "MC_CASE_ID"
+    const val MC_CASE_RECODING_KEY = "MC_CASE_RECODING"
+
+    /**
+     * 是否处于录制状态
+     */
+    var IS_MC_RECODING = false
 
 
     /**

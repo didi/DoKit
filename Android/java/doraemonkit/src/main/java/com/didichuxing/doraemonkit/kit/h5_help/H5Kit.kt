@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.h5_help
 
+import android.app.Activity
 import android.content.Context
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.AbstractKit
@@ -28,7 +29,7 @@ class H5Kit : AbstractKit() {
     override val isInnerKit: Boolean
         get() = true
 
-    override fun onClickWithReturn(context: Context?): Boolean {
+    override fun onClickWithReturn(activity: Activity): Boolean {
         SimpleDokitStarter.startFloating(H5DokitView::class.java)
         return true
     }

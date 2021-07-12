@@ -63,8 +63,8 @@ public class AlignRulerMarkerDokitView extends AbsDokitView {
     }
 
     @Override
-    public void updateViewLayout(String tag, boolean isActivityResume) {
-        super.updateViewLayout(tag, isActivityResume);
+    public void updateViewLayout(String tag, boolean isActivityBackResume) {
+        super.updateViewLayout(tag, isActivityBackResume);
         //更新标尺的位置信息
         for (OnAlignRulerMarkerPositionChangeListener listener : mPositionChangeListeners) {
             if (isNormalMode()) {

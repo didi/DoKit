@@ -67,7 +67,7 @@ public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerM
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                mMarker = (AlignRulerMarkerDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), AlignRulerMarkerDokitView.class.getSimpleName());
+                mMarker = (AlignRulerMarkerDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), AlignRulerMarkerDokitView.class.getCanonicalName());
                 if (mMarker != null) {
                     mMarker.addPositionChangeListener(AlignRulerInfoDokitView.this);
                 }
@@ -90,9 +90,9 @@ public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerM
             @Override
             public void onClick(View v) {
                 AlignRulerConfig.setAlignRulerOpen(false);
-                DokitViewManager.getInstance().detach(AlignRulerMarkerDokitView.class.getSimpleName());
-                DokitViewManager.getInstance().detach(AlignRulerLineDokitView.class.getSimpleName());
-                DokitViewManager.getInstance().detach(AlignRulerInfoDokitView.class.getSimpleName());
+                DokitViewManager.getInstance().detach(AlignRulerMarkerDokitView.class.getCanonicalName());
+                DokitViewManager.getInstance().detach(AlignRulerLineDokitView.class.getCanonicalName());
+                DokitViewManager.getInstance().detach(AlignRulerInfoDokitView.class.getCanonicalName());
             }
         });
 

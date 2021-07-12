@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.network;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.kit.network.ui.NetWorkMonitorFragment;
@@ -30,7 +31,7 @@ public class NetworkKit extends AbstractKit {
 
 
     @Override
-    public boolean onClickWithReturn(Context context) {
+    public boolean onClickWithReturn(Activity activity) {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip));
             return false;
@@ -41,7 +42,7 @@ public class NetworkKit extends AbstractKit {
             return false;
         }
 
-        startUniversalActivity(NetWorkMonitorFragment.class, context, null, true);
+        startUniversalActivity(NetWorkMonitorFragment.class, activity, null, true);
         return true;
     }
 

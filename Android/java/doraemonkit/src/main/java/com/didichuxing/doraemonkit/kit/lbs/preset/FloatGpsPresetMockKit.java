@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.lbs.preset;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.util.ToastUtils;
@@ -9,6 +10,8 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
 import com.google.auto.service.AutoService;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by changzuozhen on 2021年1月22日
@@ -28,7 +31,7 @@ public class FloatGpsPresetMockKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(Context context) {
+    public boolean onClickWithReturn(@NotNull Activity activity) {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip));
             return false;

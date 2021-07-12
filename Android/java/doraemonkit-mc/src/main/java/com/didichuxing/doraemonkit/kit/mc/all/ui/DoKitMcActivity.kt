@@ -2,7 +2,6 @@ package com.didichuxing.doraemonkit.kit.mc.all.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseActivity
 import com.didichuxing.doraemonkit.mc.R

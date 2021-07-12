@@ -5,11 +5,10 @@ import android.webkit.WebResourceResponse
 import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitMockInterceptor
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean
@@ -426,7 +425,7 @@ internal object JsHttpUtil {
      * @return bool
      */
     fun matchWhiteHost(request: Request): Boolean {
-        val whiteHostBeans: List<WhiteHostBean> = DoKitConstant.WHITE_HOSTS
+        val whiteHostBeans: List<WhiteHostBean> = DoKitManager.WHITE_HOSTS
         if (whiteHostBeans.isEmpty()) {
             return true
         }

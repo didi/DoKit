@@ -7,9 +7,10 @@ import android.view.accessibility.AccessibilityEvent
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.didichuxing.doraemonkit.util.ActivityUtils
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
+import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
@@ -46,7 +47,7 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
      */
     override fun afterHookedMethod(param: MethodHookParam?) {
         super.afterHookedMethod(param)
-        if (DoKitConstant.WS_MODE != WSMode.HOST) {
+        if (DoKitManager.WS_MODE != WSMode.HOST) {
             return
         }
         param?.let {
@@ -63,7 +64,7 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
             }
 
 
-            DoKitConstant.MC_INTERCEPT?.let { interceptor ->
+            DoKitManager.MC_INTERCEPT?.let { interceptor ->
                 if (interceptor.onIntercept(view, accessibilityEvent)) {
                     //拦截
                     custom(view, accessibilityEvent, interceptor)
@@ -92,9 +93,9 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
             WSEType.WSE_ACCESS_EVENT,
             mutableMapOf(
                 "activityName" to if (view.context is Activity) {
-                    "${view.context::class.java.canonicalName}"
+                    view.context::class.tagName
                 } else {
-                    "${ActivityUtils.getTopActivity()::class.java.canonicalName}"
+                    ActivityUtils.getTopActivity()::class.tagName
                 }
             ),
             viewC12c,
@@ -126,9 +127,9 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
                     WSEType.WSE_ACCESS_EVENT,
                     mutableMapOf(
                         "activityName" to if (view.context is Activity) {
-                            "${view.context::class.java.canonicalName}"
+                            view.context::class.tagName
                         } else {
-                            "${ActivityUtils.getTopActivity()::class.java.canonicalName}"
+                            ActivityUtils.getTopActivity()::class.tagName
                         }
                     ),
                     viewC12c
@@ -154,9 +155,9 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
                     WSEType.WSE_ACCESS_EVENT,
                     mutableMapOf(
                         "activityName" to if (view.context is Activity) {
-                            "${view.context::class.java.canonicalName}"
+                            view.context::class.tagName
                         } else {
-                            "${ActivityUtils.getTopActivity()::class.java.canonicalName}"
+                            ActivityUtils.getTopActivity()::class.tagName
                         }
                     ),
                     viewC12c
@@ -169,7 +170,7 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
             //针对dokit悬浮窗
             AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED -> {
                 if (view is DokitFrameLayout) {
-                    if (DoKitConstant.WS_MODE == WSMode.HOST) {
+                    if (DoKitManager.WS_MODE == WSMode.HOST) {
                         viewC12c = createViewC12c(view, accessibilityEvent)
                         //LogHelper.i(TAG, "viewCharacteristic===>$viewC12c")
                         val wsEvent = WSEvent(
@@ -177,9 +178,9 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
                             WSEType.WSE_ACCESS_EVENT,
                             mapOf(
                                 "activityName" to if (view.context is Activity) {
-                                    "${view.context::class.java.canonicalName}"
+                                    view.context::class.tagName
                                 } else {
-                                    "${ActivityUtils.getTopActivity()::class.java.canonicalName}"
+                                    ActivityUtils.getTopActivity()::class.tagName
                                 }
                             ),
                             viewC12c

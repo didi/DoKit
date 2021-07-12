@@ -19,7 +19,7 @@ import android.widget.FrameLayout
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import com.didichuxing.doraemonkit.config.FloatIconConfig
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
 import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.util.LogHelper
@@ -40,11 +40,17 @@ import java.lang.ref.WeakReference
 abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
     DokitViewManager.DokitViewAttachedListener {
 
-    val doKitViewScope = MainScope().plus(CoroutineName(this.javaClass.simpleName))
+    val doKitViewScope = MainScope().plus(CoroutineName(this.toString()))
 
-    val TAG = this.javaClass.simpleName
 
-    val isNormalMode = DoKitConstant.IS_NORMAL_FLOAT_MODE
+    val TAG = this.tagName
+
+    /**
+     * 页面启动模式
+     */
+    var mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE
+
+    val isNormalMode = DoKitManager.IS_NORMAL_FLOAT_MODE
 
     /**
      * 手势代理
@@ -72,7 +78,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
     /**
      * 当前dokitViewName 用来当做map的key 和dokitViewIntent的tag一致
      */
-    var tag = TAG
+    var tag = this.tagName
     var bundle: Bundle? = null
 
     /**
@@ -80,10 +86,19 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
      */
     private var mAttachActivity: WeakReference<Activity>? = null
 
+    val activity: Activity
+        get() = if (mAttachActivity != null) {
+            mAttachActivity!!.get()!!
+        } else ActivityUtils.getTopActivity()
+
+    fun setActivity(activity: Activity) {
+        mAttachActivity = WeakReference(activity)
+    }
+
     /**
      * 整个悬浮窗的View
      */
-    private var mDoKitView: FrameLayout? = null
+    private var mRootView: FrameLayout? = null
 
     /**
      * rootView的直接子View 一般是用户的xml布局 被添加到mRootView中
@@ -122,7 +137,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
 
     private val mOnGlobalLayoutListener: OnGlobalLayoutListener = OnGlobalLayoutListener {
         //每次布局发生变动的时候重新赋值
-        mDoKitView?.let {
+        mRootView?.let {
             mDokitViewWidth = it.measuredWidth
             mDokitViewHeight = it.measuredHeight
             mLastDokitViewPosInfo.dokitViewWidth = mDokitViewWidth
@@ -131,10 +146,6 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
 
     }
 
-    /**
-     * 页面启动模式
-     */
-    var mode = 0
 
     /**
      * 执行floatPage create
@@ -149,7 +160,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
             if (!isNormalMode) {
                 DokitViewManager.instance.addDokitViewAttachedListener(this)
             }
-            mDoKitView = if (isNormalMode) {
+            mRootView = if (isNormalMode) {
                 DokitFrameLayout(context, DokitFrameLayout.DoKitFrameLayoutFlag_CHILD)
             } else {
                 //系统悬浮窗的返回按键监听
@@ -169,11 +180,11 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
             addViewTreeObserverListener()
 
             //调用onCreateView抽象方法
-            mChildView = onCreateView(context, mDoKitView)
+            mChildView = onCreateView(context, mRootView)
             //将子View添加到rootview中
-            mDoKitView?.addView(mChildView)
+            mRootView?.addView(mChildView)
             //设置根布局的手势拦截
-            mDoKitView?.setOnTouchListener { v, event ->
+            mRootView?.setOnTouchListener { v, event ->
                 if (doKitView != null) {
                     mTouchProxy.onTouchEvent(v, event)
                 } else {
@@ -181,7 +192,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
                 }
             }
             //调用onViewCreated回调
-            onViewCreated(mDoKitView)
+            onViewCreated(mRootView)
             mDokitViewLayoutParams = DokitViewLayoutParams()
             //分别创建对应的LayoutParams
             if (isNormalMode) {
@@ -228,11 +239,11 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
             initDokitViewLayoutParams(mDokitViewLayoutParams)
             if (isNormalMode) {
                 normalLayoutParams?.let {
-                    onNormalLayoutParamsCreated(it)
+                    onNormalLayoutParamsCreated()
                 }
             } else {
                 systemLayoutParams?.let {
-                    onSystemLayoutParamsCreated(it)
+                    onSystemLayoutParamsCreated()
                 }
             }
         } catch (e: Exception) {
@@ -248,13 +259,14 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
         //移除布局监听
         removeViewTreeObserverListener()
         mHandler = null
-        mDoKitView = null
+        mRootView = null
+        mAttachActivity = null
         onDestroy()
     }
 
     private fun addViewTreeObserverListener() {
-        if (mViewTreeObserver == null && mDoKitView != null) {
-            mViewTreeObserver = mDoKitView!!.viewTreeObserver
+        if (mViewTreeObserver == null && mRootView != null) {
+            mViewTreeObserver = mRootView!!.viewTreeObserver
             mViewTreeObserver?.addOnGlobalLayoutListener(mOnGlobalLayoutListener)
         }
     }
@@ -274,84 +286,86 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
      *
      * @param params
      */
-    private fun onNormalLayoutParamsCreated(params: FrameLayout.LayoutParams) {
+    private fun onNormalLayoutParamsCreated() {
         //如果有上一个页面的位置记录 这更新位置
-        params.width = mDokitViewLayoutParams.width
-        params.height = mDokitViewLayoutParams.height
-        params.gravity = mDokitViewLayoutParams.gravity
+        normalLayoutParams?.width = mDokitViewLayoutParams.width
+        normalLayoutParams?.height = mDokitViewLayoutParams.height
+        normalLayoutParams?.gravity = mDokitViewLayoutParams.gravity
         val doKitViewInfo = DokitViewManager.instance.getDoKitViewPos(tag)
         if (doKitViewInfo != null) {
             //竖向
             if (doKitViewInfo.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                params.leftMargin = doKitViewInfo.portraitPoint.x
-                params.topMargin = doKitViewInfo.portraitPoint.y
+                normalLayoutParams?.leftMargin = doKitViewInfo.portraitPoint.x
+                normalLayoutParams?.topMargin = doKitViewInfo.portraitPoint.y
             } else if (doKitViewInfo.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                params.leftMargin = doKitViewInfo.landscapePoint.x
-                params.topMargin = doKitViewInfo.landscapePoint.y
+                normalLayoutParams?.leftMargin = doKitViewInfo.landscapePoint.x
+                normalLayoutParams?.topMargin = doKitViewInfo.landscapePoint.y
             }
         } else {
-            params.leftMargin = mDokitViewLayoutParams.x
-            params.topMargin = mDokitViewLayoutParams.y
+            normalLayoutParams?.leftMargin = mDokitViewLayoutParams.x
+            normalLayoutParams?.topMargin = mDokitViewLayoutParams.y
         }
-        portraitOrLandscape(params)
+        portraitOrLandscape()
     }
 
     /**
      * 用于普通模式下的横竖屏切换
      */
-    private fun portraitOrLandscape(params: FrameLayout.LayoutParams) {
+    private fun portraitOrLandscape() {
         val doKitViewInfo = DokitViewManager.instance.getDoKitViewPos(tag)
         if (doKitViewInfo != null) {
             //横竖屏切换兼容
             if (ScreenUtils.isPortrait()) {
                 if (mLastDokitViewPosInfo.isPortrait) {
-                    params.leftMargin = doKitViewInfo.portraitPoint.x
-                    params.topMargin = doKitViewInfo.portraitPoint.y
+                    normalLayoutParams?.leftMargin = doKitViewInfo.portraitPoint.x
+                    normalLayoutParams?.topMargin = doKitViewInfo.portraitPoint.y
                 } else {
-                    params.leftMargin =
+                    normalLayoutParams?.leftMargin =
                         (doKitViewInfo.landscapePoint.x * mLastDokitViewPosInfo.leftMarginPercent).toInt()
-                    params.topMargin =
+                    normalLayoutParams?.topMargin =
                         (doKitViewInfo.landscapePoint.y * mLastDokitViewPosInfo.topMarginPercent).toInt()
                 }
             } else {
                 if (mLastDokitViewPosInfo.isPortrait) {
-                    params.leftMargin =
+                    normalLayoutParams?.leftMargin =
                         (doKitViewInfo.portraitPoint.x * mLastDokitViewPosInfo.leftMarginPercent).toInt()
-                    params.topMargin =
+                    normalLayoutParams?.topMargin =
                         (doKitViewInfo.portraitPoint.y * mLastDokitViewPosInfo.topMarginPercent).toInt()
                 } else {
-                    params.leftMargin = doKitViewInfo.landscapePoint.x
-                    params.topMargin = doKitViewInfo.landscapePoint.y
+                    normalLayoutParams?.leftMargin = doKitViewInfo.landscapePoint.x
+                    normalLayoutParams?.topMargin = doKitViewInfo.landscapePoint.y
                 }
             }
         } else {
             //横竖屏切换兼容
             if (ScreenUtils.isPortrait()) {
                 if (mLastDokitViewPosInfo.isPortrait) {
-                    params.leftMargin = mDokitViewLayoutParams.x
-                    params.topMargin = mDokitViewLayoutParams.y
+                    normalLayoutParams?.leftMargin = mDokitViewLayoutParams.x
+                    normalLayoutParams?.topMargin = mDokitViewLayoutParams.y
                 } else {
-                    params.leftMargin =
+                    normalLayoutParams?.leftMargin =
                         (mDokitViewLayoutParams.x * mLastDokitViewPosInfo.leftMarginPercent).toInt()
-                    params.topMargin =
+                    normalLayoutParams?.topMargin =
                         (mDokitViewLayoutParams.y * mLastDokitViewPosInfo.topMarginPercent).toInt()
                 }
             } else {
                 if (mLastDokitViewPosInfo.isPortrait) {
-                    params.leftMargin =
+                    normalLayoutParams?.leftMargin =
                         (mDokitViewLayoutParams.x * mLastDokitViewPosInfo.leftMarginPercent).toInt()
-                    params.topMargin =
+                    normalLayoutParams?.topMargin =
                         (mDokitViewLayoutParams.y * mLastDokitViewPosInfo.topMarginPercent).toInt()
                 } else {
-                    params.leftMargin = mDokitViewLayoutParams.x
-                    params.topMargin = mDokitViewLayoutParams.y
+                    normalLayoutParams?.leftMargin = mDokitViewLayoutParams.x
+                    normalLayoutParams?.topMargin = mDokitViewLayoutParams.y
                 }
             }
         }
         mLastDokitViewPosInfo.setPortrait()
-        mLastDokitViewPosInfo.setLeftMargin(params.leftMargin)
-        mLastDokitViewPosInfo.setTopMargin(params.topMargin)
-        if (tag == MainIconDokitView::class.java.simpleName) {
+        normalLayoutParams?.let {
+            mLastDokitViewPosInfo.setLeftMargin(it.leftMargin)
+            mLastDokitViewPosInfo.setTopMargin(it.topMargin)
+        }
+        if (tag == MainIconDokitView::class.tagName) {
             if (isNormalMode) {
                 normalLayoutParams?.let {
                     FloatIconConfig.saveLastPosX(it.leftMargin)
@@ -365,43 +379,14 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
 
             }
         }
-        DokitViewManager.instance.saveDokitViewPos(tag, params.leftMargin, params.topMargin)
+
+        DokitViewManager.instance.saveDokitViewPos(
+            tag,
+            normalLayoutParams?.leftMargin ?: 0,
+            normalLayoutParams?.topMargin ?: 0
+        )
     }
 
-    @Deprecated("")
-    fun portraitOrLandscape(currentOrientation: Int) {
-        if (!isNormalMode) {
-            return
-        }
-        if (mDoKitView == null) {
-            return
-        }
-        normalLayoutParams?.apply {
-            val (_, portraitPoint, landscapePoint) = DokitViewManager.instance
-                .getDoKitViewPos(tag) ?: return
-            if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
-                if (landscapePoint == null) {
-                    this.leftMargin = 0
-                    this.topMargin = 0
-                } else {
-                    this.leftMargin = landscapePoint.y
-                    this.topMargin = landscapePoint.x
-                }
-            } else if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
-                if (portraitPoint == null) {
-                    this.leftMargin = 0
-                    this.topMargin = 0
-                } else {
-                    this.leftMargin = portraitPoint.y
-                    this.topMargin = portraitPoint.x
-                }
-            }
-            DokitViewManager.instance
-                .saveDokitViewPos(tag, this.leftMargin, this.topMargin)
-            mDoKitView?.layoutParams = this
-        }
-
-    }
 
     /**
      * 确定系统浮标的初始位置
@@ -410,28 +395,30 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
      *
      * @param params
      */
-    private fun onSystemLayoutParamsCreated(params: WindowManager.LayoutParams) {
+    private fun onSystemLayoutParamsCreated() {
         //如果有上一个页面的位置记录 这更新位置
-        params.flags = mDokitViewLayoutParams.flags
-        params.gravity = mDokitViewLayoutParams.gravity
-        params.width = mDokitViewLayoutParams.width
-        params.height = mDokitViewLayoutParams.height
+        systemLayoutParams?.flags = mDokitViewLayoutParams.flags
+        systemLayoutParams?.gravity = mDokitViewLayoutParams.gravity
+        systemLayoutParams?.width = mDokitViewLayoutParams.width
+        systemLayoutParams?.height = mDokitViewLayoutParams.height
         val doKitViewInfo = DokitViewManager.instance.getDoKitViewPos(
             tag
         )
         if (doKitViewInfo != null) {
             if (ScreenUtils.isPortrait()) {
-                params.x = doKitViewInfo.portraitPoint.x
-                params.y = doKitViewInfo.portraitPoint.y
+                systemLayoutParams?.x = doKitViewInfo.portraitPoint.x
+                systemLayoutParams?.y = doKitViewInfo.portraitPoint.y
             } else if (ScreenUtils.isLandscape()) {
-                params.x = doKitViewInfo.landscapePoint.x
-                params.y = doKitViewInfo.landscapePoint.y
+                systemLayoutParams?.x = doKitViewInfo.landscapePoint.x
+                systemLayoutParams?.y = doKitViewInfo.landscapePoint.y
             }
         } else {
-            params.x = mDokitViewLayoutParams.x
-            params.y = mDokitViewLayoutParams.y
+            systemLayoutParams?.x = mDokitViewLayoutParams.x
+            systemLayoutParams?.y = mDokitViewLayoutParams.y
         }
-        DokitViewManager.instance.saveDokitViewPos(tag, params.x, params.y)
+        systemLayoutParams?.let {
+            DokitViewManager.instance.saveDokitViewPos(tag, it.x, it.y)
+        }
     }
 
     override fun onDestroy() {
@@ -473,7 +460,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
     }
 
     override fun onEnterBackground() {
-        mDoKitView?.let {
+        mRootView?.let {
             if (!isNormalMode) {
                 it.visibility = View.GONE
             }
@@ -482,7 +469,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
     }
 
     override fun onEnterForeground() {
-        mDoKitView?.let {
+        mRootView?.let {
             if (!isNormalMode) {
                 it.visibility = View.VISIBLE
             }
@@ -509,7 +496,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
             }
             //限制布局边界
             resetBorderline(normalLayoutParams, systemLayoutParams)
-            mWindowManager.updateViewLayout(mDoKitView, systemLayoutParams)
+            mWindowManager.updateViewLayout(mRootView, systemLayoutParams)
         }
     }
 
@@ -523,7 +510,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
         if (!canDrag()) {
             return
         }
-        if (tag == MainIconDokitView::class.java.simpleName) {
+        if (tag == MainIconDokitView::class.tagName) {
             if (isNormalMode) {
                 normalLayoutParams?.let {
                     FloatIconConfig.saveLastPosX(it.leftMargin)
@@ -601,7 +588,10 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
      * @param dokitView
      */
     override fun onDokitViewAdd(dokitView: AbsDokitView?) {}
-    override fun onResume() {}
+    override fun onResume() {
+        invalidate()
+    }
+
     override fun onPause() {}
 
     /**
@@ -610,8 +600,8 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
      * @return
      */
     val context: Context?
-        get() = if (mDoKitView != null) {
-            mDoKitView!!.context
+        get() = if (mRootView != null) {
+            mRootView!!.context
         } else {
             null
         }
@@ -628,17 +618,17 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
     }
 
     val isShow: Boolean
-        get() = mDoKitView!!.isShown
+        get() = mRootView!!.isShown
 
     protected fun <T : View> findViewById(@IdRes id: Int): T? {
-        if (mDoKitView == null) {
+        if (mRootView == null) {
             return null
         }
-        return mDoKitView?.findViewById(id)
+        return mRootView?.findViewById(id)
     }
 
     val doKitView: View?
-        get() = mDoKitView
+        get() = mRootView
 
     /**
      * 将当前dokitView于activity解绑
@@ -662,15 +652,15 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
     /**
      * 更新view的位置
      *
-     * @param isActivityResume 是否是从其他页面返回时更新的位置
+     * @param isActivityBackResume 是否是从其他页面返回时更新的位置
      */
-    open fun updateViewLayout(tag: String, isActivityResume: Boolean) {
-        if (mDoKitView == null || mChildView == null || normalLayoutParams == null || !isNormalMode) {
+    open fun updateViewLayout(tag: String, isActivityBackResume: Boolean) {
+        if (mRootView == null || mChildView == null || normalLayoutParams == null || !isNormalMode) {
             return
         }
         normalLayoutParams?.apply {
-            if (isActivityResume) {
-                if (tag == MainIconDokitView::class.java.simpleName) {
+            if (isActivityBackResume) {
+                if (tag == MainIconDokitView::class.tagName) {
 
                     this.leftMargin = FloatIconConfig.getLastPosX()
                     this.topMargin = FloatIconConfig.getLastPosY()
@@ -692,7 +682,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
                 mLastDokitViewPosInfo.setLeftMargin(this.leftMargin)
                 mLastDokitViewPosInfo.setTopMargin(this.topMargin)
             }
-            if (tag == MainIconDokitView::class.java.simpleName) {
+            if (tag == MainIconDokitView::class.tagName) {
                 this.width = DokitViewLayoutParams.WRAP_CONTENT
                 this.height = DokitViewLayoutParams.WRAP_CONTENT
                 //            mFrameLayoutParams.width = ConvertUtils.dp2px(MainIconDokitView.FLOAT_SIZE);
@@ -702,9 +692,8 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
                 this.height = mDokitViewHeight
             }
 
-            //portraitOrLandscape(mFrameLayoutParams);
             resetBorderline(this, systemLayoutParams)
-            mDoKitView!!.layoutParams = this
+            mRootView?.layoutParams = this
         }
 
     }
@@ -797,14 +786,6 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
         return true
     }
 
-    val activity: Activity
-        get() = if (mAttachActivity != null) {
-            mAttachActivity!!.get()!!
-        } else ActivityUtils.getTopActivity()
-
-    fun setActivity(activity: Activity) {
-        mAttachActivity = WeakReference(activity)
-    }
 
     fun post(run: Runnable) {
         mHandler?.post(run)
@@ -872,7 +853,6 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
                 this.height = WindowManager.LayoutParams.WRAP_CONTENT
                 mWindowManager.updateViewLayout(doKitView, this)
             }
-
         }
     }
 
@@ -883,14 +863,9 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
      * @return
      */
     val rootView: DokitFrameLayout?
-        get() = if (isNormalMode && mDoKitView != null) {
-            mDoKitView!!.parent as DokitFrameLayout
+        get() = if (isNormalMode && mRootView != null) {
+            mRootView!!.parent as DokitFrameLayout
         } else null
 
-    /**
-     * 构造函数
-     */
-    init {
 
-    }
 }

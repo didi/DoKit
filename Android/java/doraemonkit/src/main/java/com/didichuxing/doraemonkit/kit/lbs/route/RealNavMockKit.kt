@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.lbs.route
 
+import android.app.Activity
 import android.content.Context
 import android.view.ViewGroup
 import androidx.core.view.children
@@ -22,7 +23,7 @@ class RealNavMockKit : AbstractKit() {
     override val icon: Int
         get() = R.mipmap.dk_mock_location_route
 
-    override fun onClickWithReturn(context: Context?): Boolean {
+    override fun onClickWithReturn(activity: Activity): Boolean {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip))
             return false

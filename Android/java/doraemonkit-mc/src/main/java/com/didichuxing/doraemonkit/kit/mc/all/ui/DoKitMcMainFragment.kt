@@ -12,9 +12,7 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
-import com.didichuxing.doraemonkit.constant.DoKitConstant
-import com.didichuxing.doraemonkit.constant.DoKitConstant.MC_CASE_ID_KEY
-import com.didichuxing.doraemonkit.constant.DoKitConstant.MC_CASE_RECODING_KEY
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.isTrueWithCor
 import com.didichuxing.doraemonkit.util.GsonUtils
@@ -24,7 +22,7 @@ import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager
 import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager.RESPONSE_OK
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
-import com.didichuxing.doraemonkit.kit.mc.all.McConstant
+import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.data.McCaseInfo
 import com.didichuxing.doraemonkit.kit.mc.client.DoKitWsClient
 import com.didichuxing.doraemonkit.kit.mc.data.McConfigInfo
@@ -70,11 +68,11 @@ class DoKitMcMainFragment : BaseFragment() {
 
         val server = findViewById<Button>(R.id.tv_host)
         server.setOnClickListener {
-            if (DoKitConstant.WS_MODE == WSMode.RECORDING) {
+            if (DoKitManager.WS_MODE == WSMode.RECORDING) {
                 ToastUtils.showShort("当前处于数据录制状态，请先执行上传操作")
                 return@setOnClickListener
             }
-            if (McConstant.MC_CASE_ID.isEmpty()) {
+            if (DoKitMcManager.MC_CASE_ID.isEmpty()) {
                 lifecycleScope.launch(exceptionHandler) {
                     privacyInterceptDialog(
                         "操作提醒",
@@ -95,12 +93,12 @@ class DoKitMcMainFragment : BaseFragment() {
         val client = findViewById<Button>(R.id.tv_client)
         client.setOnClickListener {
 
-            if (DoKitConstant.WS_MODE == WSMode.RECORDING) {
+            if (DoKitManager.WS_MODE == WSMode.RECORDING) {
                 ToastUtils.showShort("当前处于数据录制状态，请先执行上传操作")
                 return@setOnClickListener
             }
 
-            if (McConstant.MC_CASE_ID.isEmpty()) {
+            if (DoKitMcManager.MC_CASE_ID.isEmpty()) {
                 lifecycleScope.launch(exceptionHandler) {
                     privacyInterceptDialog(
                         "操作提醒",
@@ -116,12 +114,12 @@ class DoKitMcMainFragment : BaseFragment() {
         }
         val record = findViewById<Button>(R.id.tv_record)
         record.setOnClickListener {
-            if (DoKitConstant.PRODUCT_ID.isEmpty()) {
+            if (DoKitManager.PRODUCT_ID.isEmpty()) {
                 ToastUtils.showShort("DoKit初始化时未传入产品id")
                 return@setOnClickListener
             }
 
-            if (DoKitConstant.WS_MODE == WSMode.RECORDING) {
+            if (DoKitManager.WS_MODE == WSMode.RECORDING) {
                 ToastUtils.showShort("当前已处于录制状态")
                 return@setOnClickListener
             }
@@ -142,7 +140,7 @@ class DoKitMcMainFragment : BaseFragment() {
                         }
                     } catch (e: Exception) {
                         LogHelper.e(TAG, "e===>${e.message}")
-                        DoKitConstant.WS_MODE = WSMode.UNKNOW
+                        DoKitManager.WS_MODE = WSMode.UNKNOW
                         ToastUtils.showShort("用例采集启动失败")
                     }
                 }
@@ -153,12 +151,12 @@ class DoKitMcMainFragment : BaseFragment() {
 
         val upload = findViewById<Button>(R.id.tv_upload)
         upload.setOnClickListener {
-            if (DoKitConstant.PRODUCT_ID.isEmpty()) {
+            if (DoKitManager.PRODUCT_ID.isEmpty()) {
                 ToastUtils.showShort("DoKit初始化时未传入产品id")
                 return@setOnClickListener
             }
 
-            if (McConstant.MC_CASE_ID.isEmpty()) {
+            if (DoKitMcManager.MC_CASE_ID.isEmpty()) {
                 ToastUtils.showShort("请先开始执行用例采集")
                 return@setOnClickListener
             }
@@ -166,9 +164,10 @@ class DoKitMcMainFragment : BaseFragment() {
             lifecycleScope.launch(exceptionHandler) {
                 val result = McHttpManager.mockStop<Any>(mcCaseInfoDialog())
                 if (result.code == RESPONSE_OK) {
-                    DoKitConstant.WS_MODE = WSMode.UNKNOW
                     SimpleDokitStarter.removeFloating(RecordingDokitView::class.java)
-                    SPUtils.getInstance().put(MC_CASE_RECODING_KEY, false)
+                    SPUtils.getInstance().put(DoKitMcManager.MC_CASE_RECODING_KEY, false)
+                    DoKitManager.WS_MODE = WSMode.UNKNOW
+                    DoKitMcManager.IS_MC_RECODING = false
                     ToastUtils.showShort("用例上传成功")
                 } else {
                     LogHelper.e(TAG, "error msg===>${result.msg}")
@@ -179,7 +178,7 @@ class DoKitMcMainFragment : BaseFragment() {
 
         val datas = findViewById<Button>(R.id.tv_datas)
         datas.setOnClickListener {
-            if (DoKitConstant.PRODUCT_ID.isEmpty()) {
+            if (DoKitManager.PRODUCT_ID.isEmpty()) {
                 ToastUtils.showShort("DoKit初始化时未传入产品id")
                 return@setOnClickListener
             }
@@ -187,7 +186,7 @@ class DoKitMcMainFragment : BaseFragment() {
         }
 
         //加载exclude key
-        if (DoKitConstant.PRODUCT_ID.isNotBlank()) {
+        if (DoKitManager.PRODUCT_ID.isNotBlank()) {
             lifecycleScope.launch(exceptionHandler) {
                 val config = McHttpManager.getMcConfig<McConfigInfo>()
                 if (config.code == RESPONSE_OK) {
@@ -209,11 +208,11 @@ class DoKitMcMainFragment : BaseFragment() {
      */
     private fun saveRecodingStatus(configInfo: McCaseInfo?) {
         configInfo?.let {
-            McConstant.MC_CASE_ID = it.caseId
+            DoKitMcManager.MC_CASE_ID = it.caseId
             SimpleDokitStarter.startFloating(RecordingDokitView::class.java)
-            DoKitConstant.WS_MODE = WSMode.RECORDING
-            SPUtils.getInstance().put(MC_CASE_ID_KEY, McConstant.MC_CASE_ID)
-            SPUtils.getInstance().put(MC_CASE_RECODING_KEY, true)
+            DoKitManager.WS_MODE = WSMode.RECORDING
+            SPUtils.getInstance().put(DoKitMcManager.MC_CASE_ID_KEY, DoKitMcManager.MC_CASE_ID)
+            SPUtils.getInstance().put(DoKitMcManager.MC_CASE_RECODING_KEY, true)
             ToastUtils.showShort("开始用例采集")
         }
 
@@ -306,7 +305,7 @@ class DoKitMcMainFragment : BaseFragment() {
                 when (code) {
                     DoKitWsClient.CONNECT_SUCCEED -> {
                         DoKitWindowManager.hookWindowManagerGlobal()
-                        McConstant.HOST_INFO =
+                        DoKitMcManager.HOST_INFO =
                             GsonUtils.fromJson<HostInfo>(message, HostInfo::class.java)
                         if (activity is DoKitMcActivity) {
                             (activity as DoKitMcActivity).changeFragment(WSMode.CLIENT)

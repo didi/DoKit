@@ -39,8 +39,8 @@ public class UIPerformanceInfoDokitView extends AbsDokitView implements UIPerfor
         mClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DokitViewManager.getInstance().detach(UIPerformanceDisplayDokitView.class.getSimpleName());
-                DokitViewManager.getInstance().detach(UIPerformanceInfoDokitView.class.getSimpleName());
+                DokitViewManager.getInstance().detach(UIPerformanceDisplayDokitView.class.getCanonicalName());
+                DokitViewManager.getInstance().detach(UIPerformanceInfoDokitView.class.getCanonicalName());
                 UIPerformanceManager.getInstance().stop();
             }
         });

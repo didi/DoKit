@@ -13,7 +13,7 @@ import androidx.annotation.RequiresApi;
 
 import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
@@ -39,7 +39,7 @@ public class ColorPickerDokitView extends AbsDokitView {
     @Override
     public void onCreate(Context context) {
         ColorPickManager.getInstance().setColorPickerDokitView(this);
-        mInfoDokitView = (ColorPickerInfoDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), ColorPickerInfoDokitView.class.getSimpleName());
+        mInfoDokitView = (ColorPickerInfoDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), ColorPickerInfoDokitView.class.getCanonicalName());
         mImageCapture = new ImageCapture();
         try {
             mImageCapture.init(context, getBundle(), this);
@@ -151,10 +151,12 @@ public class ColorPickerDokitView extends AbsDokitView {
     @Override
     public void onMove(int x, int y, int dx, int dy) {
         super.onMove(x, y, dx, dy);
-        if (isNormalMode()) {
+        if (isNormalMode() && getNormalLayoutParams() != null) {
             checkBound(getNormalLayoutParams());
         } else {
-            checkBound(getSystemLayoutParams());
+            if (getSystemLayoutParams() != null) {
+                checkBound(getSystemLayoutParams());
+            }
         }
         showInfo();
     }
@@ -194,7 +196,7 @@ public class ColorPickerDokitView extends AbsDokitView {
 
     @Override
     public void onEnterBackground() {
-        if (DoKitConstant.IS_NORMAL_FLOAT_MODE) {
+        if (DoKitManager.IS_NORMAL_FLOAT_MODE) {
             getDoKitView().removeCallbacks(mRunnable);
         }
         //不需要调用父类方法 隐藏

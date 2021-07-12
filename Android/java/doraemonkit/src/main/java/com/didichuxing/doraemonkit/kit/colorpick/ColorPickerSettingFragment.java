@@ -13,12 +13,12 @@ import android.view.View;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.ColorPickConfig;
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.constant.RequestCode;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.util.ToastUtils;
 
 /**
@@ -56,7 +56,7 @@ public class ColorPickerSettingFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RequestCode.CAPTURE_SCREEN && resultCode == Activity.RESULT_OK) {
-            if (!DoKitConstant.IS_NORMAL_FLOAT_MODE) {
+            if (!DoKitManager.IS_NORMAL_FLOAT_MODE) {
                 finish();
             }
             showColorPicker(data);
@@ -72,7 +72,7 @@ public class ColorPickerSettingFragment extends BaseFragment {
      * @param intent
      */
     private void showColorPicker(Intent intent) {
-        DokitViewManager.getInstance().detachToolPanel();
+        DokitViewManager.getInstance().detachToolPanel(ActivityUtils.getTopActivity());
 
         SimpleDokitStarter.startFloating(ColorPickerInfoDokitView.class);
 

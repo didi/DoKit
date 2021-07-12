@@ -1,11 +1,14 @@
 package com.didichuxing.doraemonkit.kit.sysinfo;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.util.DoKitSystemUtil;
 import com.google.auto.service.AutoService;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 进入本地语言设置页面
@@ -26,8 +29,8 @@ public class LocalLangKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(Context context) {
-        DoKitSystemUtil.startLocalActivity(context);
+    public boolean onClickWithReturn(@NotNull Activity activity) {
+        DoKitSystemUtil.startLocalActivity(activity);
         return true;
     }
 

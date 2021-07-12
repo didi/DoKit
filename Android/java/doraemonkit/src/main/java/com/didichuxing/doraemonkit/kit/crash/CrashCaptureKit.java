@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.crash;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
@@ -8,6 +9,8 @@ import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.google.auto.service.AutoService;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by wanglikun on 2019/6/12
@@ -26,8 +29,8 @@ public class CrashCaptureKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(Context context) {
-        startUniversalActivity(CrashCaptureMainFragment.class, context, null, true);
+    public boolean onClickWithReturn(@NotNull Activity activity) {
+        startUniversalActivity(CrashCaptureMainFragment.class, activity, null, true);
         return true;
     }
 

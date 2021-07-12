@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.BundleKey
 import com.didichuxing.doraemonkit.constant.FragmentIndex
+import com.didichuxing.doraemonkit.extension.tagName
 import kotlin.reflect.KClass
 
 /**
@@ -21,7 +22,7 @@ object SimpleDokitStarter {
     fun startFloating(
         targetClass: Class<out AbsDokitView?>,
         bundle: Bundle? = null,
-        mode: Int = DokitIntent.MODE_SINGLE_INSTANCE
+        mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE
     ) {
         val doKitIntent = DokitIntent(targetClass)
         doKitIntent.mode = mode
@@ -33,7 +34,29 @@ object SimpleDokitStarter {
     fun removeFloating(
         targetClass: Class<out AbsDokitView?>
     ) {
-        DokitViewManager.instance.detach(targetClass)
+        DokitViewManager.instance.detach(targetClass.tagName)
+    }
+
+
+    /**
+     * @JvmStatic:允许使用java的静态方法的方式调用
+     * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+     */
+    @JvmStatic
+    @JvmOverloads
+    fun startFloating(
+        targetClass: KClass<out AbsDokitView>,
+        bundle: Bundle? = null,
+        mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE
+    ) {
+        startFloating(targetClass.java, bundle, mode)
+    }
+
+    @JvmStatic
+    fun removeFloating(
+        targetClass: KClass<out AbsDokitView>
+    ) {
+        removeFloating(targetClass)
     }
 
 
@@ -63,6 +86,21 @@ object SimpleDokitStarter {
                 putExtras(bundle)
             }
         })
+    }
+
+    /**
+     * @JvmStatic:允许使用java的静态方法的方式调用
+     * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+     */
+    @JvmStatic
+    @JvmOverloads
+    fun startFullScreen(
+        targetClass: KClass<out BaseFragment>,
+        context: Context? = null,
+        bundle: Bundle? = null,
+        isSystemFragment: Boolean = false
+    ) {
+        startFullScreen(targetClass.java, context, bundle, isSystemFragment)
     }
 
 

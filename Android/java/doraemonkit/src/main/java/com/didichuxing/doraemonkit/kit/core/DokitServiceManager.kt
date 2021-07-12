@@ -1,9 +1,8 @@
 package com.didichuxing.doraemonkit.kit.core
 
 import android.app.Activity
-import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.DoKitModule
-import com.didichuxing.doraemonkit.constant.WSMode
+import com.didichuxing.doraemonkit.extension.tagName
 
 /**
  * ================================================
@@ -19,7 +18,7 @@ object DokitServiceManager {
 
     fun dispatch(activityOverrideEnum: DokitServiceEnum, activity: Activity) {
         if (lifecycle == null) {
-            val life = DoKitConstant.getModuleProcessor(DoKitModule.MODULE_MC)?.values()
+            val life = DoKitManager.getModuleProcessor(DoKitModule.MODULE_MC)?.values()
                 ?.get("lifecycle")
             if (life != null) {
                 lifecycle = life as DokitLifecycleInterface
@@ -40,7 +39,7 @@ object DokitServiceManager {
             DokitServiceEnum.onBackPressed -> lifecycle?.onBackPressed(activity)
             DokitServiceEnum.dispatchTouchEvent -> lifecycle?.dispatchTouchEvent(activity)
             DokitServiceEnum.onBackground -> lifecycle?.onBackground()
-            DokitServiceEnum.onForeground -> lifecycle?.onForeground(activity::class.java.canonicalName!!)
+            DokitServiceEnum.onForeground -> lifecycle?.onForeground(activity::class.tagName)
             else -> lifecycle?.other(activity)
 
         }

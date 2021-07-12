@@ -12,22 +12,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.didichuxing.doraemonkit.util.*
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.extension.isFalse
+import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
-import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
 import com.didichuxing.doraemonkit.kit.mc.server.HostInfo
 import com.didichuxing.doraemonkit.kit.mc.util.ViewPathUtil
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import kotlinx.coroutines.launch
-import kotlin.coroutines.resume
 
 
 /**
@@ -112,7 +111,7 @@ object WSClientProcessor {
              */
             WSEType.ACTIVITY_BACK_PRESSED -> {
                 val topActivity = ActivityUtils.getTopActivity()
-                if (wsEvent.commParams?.get("activityName") == topActivity::class.java.canonicalName) {
+                if (wsEvent.commParams?.get("activityName") == topActivity::class.tagName) {
                     topActivity.onBackPressed()
                 }
 
@@ -120,7 +119,7 @@ object WSClientProcessor {
 
             WSEType.ACTIVITY_FINISH -> {
                 val topActivity = ActivityUtils.getTopActivity()
-                if (wsEvent.commParams?.get("activityName") == topActivity::class.java.canonicalName) {
+                if (wsEvent.commParams?.get("activityName") == topActivity::class.tagName) {
                     topActivity.finish()
                 }
             }
@@ -131,7 +130,7 @@ object WSClientProcessor {
 //                        TAG,
 //                        "ServerActivityName===${it["activityName"]}    ClientActivityName===>${ActivityUtils.getTopActivity()::class.java.canonicalName}"
 //                    )
-                    if (it["activityName"] != ActivityUtils.getTopActivity()::class.java.canonicalName) {
+                    if (it["activityName"] != ActivityUtils.getTopActivity()::class.tagName) {
                         ToastUtils.showShort("当前测试和主机不处于同一个页面，请手动调整同步")
                         return
                     }
@@ -153,7 +152,7 @@ object WSClientProcessor {
                         val targetView: View? =
                             ViewPathUtil.findViewByViewParentInfo(decorView, viewC12c.viewPaths)
                         targetView?.let { target ->
-                            DoKitConstant.MC_INTERCEPT?.let { interceptor ->
+                            DoKitManager.MC_INTERCEPT?.let { interceptor ->
                                 if (wsEvent.isIntercept) {
                                     custom(interceptor, target, wsEvent.customParams)
                                 } else {

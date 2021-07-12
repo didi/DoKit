@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.toolpanel.decoration.HorizontalDividerItemDecoration
 import com.didichuxing.doraemonkit.kit.toolpanel.decoration.VerticalDividerItemDecoration
@@ -22,7 +22,6 @@ import com.didichuxing.doraemonkit.widget.brvah.listener.OnItemDragListener
 import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder
 import com.didichuxing.doraemonkit.widget.dialog.DialogListener
 import com.didichuxing.doraemonkit.widget.dialog.DialogProvider
-import com.didichuxing.doraemonkit.widget.dialog.SimpleDialogListener
 
 /**
  * ================================================
@@ -55,20 +54,20 @@ class DokitManagerFragment : BaseFragment() {
         //更新备份数据 需要深度拷贝
         for (group in mBakGlobalKits.keys) {
             when (group) {
-                DoKitConstant.GROUP_ID_PLATFORM,
-                DoKitConstant.GROUP_ID_COMM,
-                DoKitConstant.GROUP_ID_WEEX,
-                DoKitConstant.GROUP_ID_PERFORMANCE,
-                DoKitConstant.GROUP_ID_LBS,
-                DoKitConstant.GROUP_ID_UI -> {
+                DoKitManager.GROUP_ID_PLATFORM,
+                DoKitManager.GROUP_ID_COMM,
+                DoKitManager.GROUP_ID_WEEX,
+                DoKitManager.GROUP_ID_PERFORMANCE,
+                DoKitManager.GROUP_ID_LBS,
+                DoKitManager.GROUP_ID_UI -> {
                     mBakGlobalKits[group]?.clear()
                 }
             }
         }
 
-        for (group in DoKitConstant.GLOBAL_KITS.keys) {
+        for (group in DoKitManager.GLOBAL_KITS.keys) {
             mBakGlobalKits[group] = mutableListOf()
-            DoKitConstant.GLOBAL_KITS[group]?.forEach { it ->
+            DoKitManager.GLOBAL_KITS[group]?.forEach { it ->
                 mBakGlobalKits[group]?.add(it.clone())
             }
         }
@@ -78,14 +77,14 @@ class DokitManagerFragment : BaseFragment() {
     private fun generateData() {
         updateGlobalBakKits()
         mKits.clear()
-        DoKitConstant.GLOBAL_KITS.forEach { group ->
+        DoKitManager.GLOBAL_KITS.forEach { group ->
             when (group.key) {
-                DoKitConstant.GROUP_ID_PLATFORM,
-                DoKitConstant.GROUP_ID_COMM,
-                DoKitConstant.GROUP_ID_WEEX,
-                DoKitConstant.GROUP_ID_PERFORMANCE,
-                DoKitConstant.GROUP_ID_LBS,
-                DoKitConstant.GROUP_ID_UI -> {
+                DoKitManager.GROUP_ID_PLATFORM,
+                DoKitManager.GROUP_ID_COMM,
+                DoKitManager.GROUP_ID_WEEX,
+                DoKitManager.GROUP_ID_PERFORMANCE,
+                DoKitManager.GROUP_ID_LBS,
+                DoKitManager.GROUP_ID_UI -> {
                     if (group.value.size != 0) {
                         mKits.add(
                             KitWrapItem(
@@ -114,14 +113,14 @@ class DokitManagerFragment : BaseFragment() {
         mKits.clear()
         if (isEdit) {
             //全显示
-            DoKitConstant.GLOBAL_KITS.forEach { group ->
+            DoKitManager.GLOBAL_KITS.forEach { group ->
                 when (group.key) {
-                    DoKitConstant.GROUP_ID_PLATFORM,
-                    DoKitConstant.GROUP_ID_COMM,
-                    DoKitConstant.GROUP_ID_WEEX,
-                    DoKitConstant.GROUP_ID_PERFORMANCE,
-                    DoKitConstant.GROUP_ID_LBS,
-                    DoKitConstant.GROUP_ID_UI -> {
+                    DoKitManager.GROUP_ID_PLATFORM,
+                    DoKitManager.GROUP_ID_COMM,
+                    DoKitManager.GROUP_ID_WEEX,
+                    DoKitManager.GROUP_ID_PERFORMANCE,
+                    DoKitManager.GROUP_ID_LBS,
+                    DoKitManager.GROUP_ID_UI -> {
                         if (group.value.size != 0) {
                             mKits.add(
                                 KitWrapItem(
@@ -152,14 +151,14 @@ class DokitManagerFragment : BaseFragment() {
      */
     private fun saveSystemKits() {
         val localKits: MutableList<KitGroupBean> = mutableListOf()
-        DoKitConstant.GLOBAL_KITS.forEach { group ->
+        DoKitManager.GLOBAL_KITS.forEach { group ->
             when (group.key) {
-                DoKitConstant.GROUP_ID_PLATFORM,
-                DoKitConstant.GROUP_ID_COMM,
-                DoKitConstant.GROUP_ID_WEEX,
-                DoKitConstant.GROUP_ID_PERFORMANCE,
-                DoKitConstant.GROUP_ID_LBS,
-                DoKitConstant.GROUP_ID_UI -> {
+                DoKitManager.GROUP_ID_PLATFORM,
+                DoKitManager.GROUP_ID_COMM,
+                DoKitManager.GROUP_ID_WEEX,
+                DoKitManager.GROUP_ID_PERFORMANCE,
+                DoKitManager.GROUP_ID_LBS,
+                DoKitManager.GROUP_ID_UI -> {
                     val groupBean = KitGroupBean(group.key, mutableListOf())
                     localKits.add(groupBean)
                     group.value.forEach {
@@ -176,7 +175,7 @@ class DokitManagerFragment : BaseFragment() {
         }
 
         val json = GsonUtils.toJson(localKits)
-        FileIOUtils.writeFileFromString(DoKitConstant.SYSTEM_KITS_BAK_PATH, json, false)
+        FileIOUtils.writeFileFromString(DoKitManager.SYSTEM_KITS_BAK_PATH, json, false)
     }
 
     /**
@@ -184,21 +183,21 @@ class DokitManagerFragment : BaseFragment() {
      */
     private fun reGroupForKit() {
         //先清空分组内的数据
-        for (group: String in DoKitConstant.GLOBAL_KITS.keys) {
+        for (group: String in DoKitManager.GLOBAL_KITS.keys) {
             when (group) {
-                DoKitConstant.GROUP_ID_PLATFORM,
-                DoKitConstant.GROUP_ID_COMM,
-                DoKitConstant.GROUP_ID_WEEX,
-                DoKitConstant.GROUP_ID_PERFORMANCE,
-                DoKitConstant.GROUP_ID_LBS,
-                DoKitConstant.GROUP_ID_UI ->
-                    DoKitConstant.GLOBAL_KITS[group]?.clear()
+                DoKitManager.GROUP_ID_PLATFORM,
+                DoKitManager.GROUP_ID_COMM,
+                DoKitManager.GROUP_ID_WEEX,
+                DoKitManager.GROUP_ID_PERFORMANCE,
+                DoKitManager.GROUP_ID_LBS,
+                DoKitManager.GROUP_ID_UI ->
+                    DoKitManager.GLOBAL_KITS[group]?.clear()
             }
         }
 
         mKits.forEach {
             if (it.itemType == KitWrapItem.TYPE_KIT) {
-                DoKitConstant.GLOBAL_KITS[it.groupName]?.add(it)
+                DoKitManager.GLOBAL_KITS[it.groupName]?.add(it)
             }
         }
     }
@@ -218,7 +217,7 @@ class DokitManagerFragment : BaseFragment() {
 
 
                         override fun onNegative(dialogProvider: DialogProvider<*>): Boolean {
-                            DoKitConstant.GLOBAL_KITS.putAll(mBakGlobalKits)
+                            DoKitManager.GLOBAL_KITS.putAll(mBakGlobalKits)
                             finish()
                             return true
                         }
@@ -363,7 +362,7 @@ class DokitManagerFragment : BaseFragment() {
             ): Boolean {
                 //如果当前分组只存在一个item 不允许移动
                 val groupName = mKits[current.adapterPosition].groupName
-                if (DoKitConstant.GLOBAL_KITS[groupName]?.size == 1) {
+                if (DoKitManager.GLOBAL_KITS[groupName]?.size == 1) {
                     ToastUtils.showShort("分组中必须存在一个元素")
                     return false
                 }
@@ -424,7 +423,7 @@ class DokitManagerFragment : BaseFragment() {
                 if (multiKitItem.itemType == KitWrapItem.TYPE_KIT) {
                     multiKitItem.checked = !multiKitItem.checked
                     mAdapter.notifyDataSetChanged()
-                    DoKitConstant.GLOBAL_KITS[multiKitItem.groupName]?.forEach {
+                    DoKitManager.GLOBAL_KITS[multiKitItem.groupName]?.forEach {
                         if (it.kit?.innerKitId() == multiKitItem.kit?.innerKitId()) {
                             it.checked = multiKitItem.checked
                         }

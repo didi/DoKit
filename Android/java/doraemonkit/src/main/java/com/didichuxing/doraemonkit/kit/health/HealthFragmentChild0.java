@@ -14,7 +14,7 @@ import com.didichuxing.doraemonkit.util.AppUtils;
 import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.GlobalConfig;
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
@@ -45,7 +45,7 @@ public class HealthFragmentChild0 extends BaseFragment {
 
         mTitle = findViewById(R.id.tv_title);
         mController = findViewById(R.id.iv_btn);
-        if (DoKitConstant.APP_HEALTH_RUNNING) {
+        if (DoKitManager.APP_HEALTH_RUNNING) {
             mTitle.setVisibility(View.VISIBLE);
             mController.setImageResource(R.mipmap.dk_health_stop);
         } else {
@@ -64,7 +64,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_health_upload_successed));
                             //重置状态
                             GlobalConfig.setAppHealth(false);
-                            DoKitConstant.APP_HEALTH_RUNNING = false;
+                            DoKitManager.APP_HEALTH_RUNNING = false;
                             mTitle.setVisibility(View.INVISIBLE);
                             mController.setImageResource(R.mipmap.dk_health_start);
                             //关闭健康体检监控
@@ -97,7 +97,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                 ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_health_upload_droped));
                 //重置状态
                 GlobalConfig.setAppHealth(false);
-                DoKitConstant.APP_HEALTH_RUNNING = false;
+                DoKitManager.APP_HEALTH_RUNNING = false;
                 mTitle.setVisibility(View.INVISIBLE);
                 mController.setImageResource(R.mipmap.dk_health_start);
                 //关闭健康体检监控
@@ -112,7 +112,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                     return;
                 }
                 //当前处于健康体检状态
-                if (DoKitConstant.APP_HEALTH_RUNNING) {
+                if (DoKitManager.APP_HEALTH_RUNNING) {
                     if (mUserInfoDialogProvider != null) {
                         showDialog(mUserInfoDialogProvider);
                     }
@@ -128,7 +128,7 @@ public class HealthFragmentChild0 extends BaseFragment {
                                     if (mController != null) {
                                         ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_health_funcation_start));
                                         GlobalConfig.setAppHealth(true);
-                                        DoKitConstant.APP_HEALTH_RUNNING = true;
+                                        DoKitManager.APP_HEALTH_RUNNING = true;
                                         //重启app
                                         mController.postDelayed(new Runnable() {
                                             @Override

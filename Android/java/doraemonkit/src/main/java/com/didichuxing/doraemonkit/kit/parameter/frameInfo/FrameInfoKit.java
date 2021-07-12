@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.parameter.frameInfo;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
@@ -7,6 +8,8 @@ import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.google.auto.service.AutoService;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by wanglikun on 2018/9/13.
@@ -26,8 +29,8 @@ public class FrameInfoKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(Context context) {
-        startUniversalActivity(FrameInfoFragment.class, context, null, true);
+    public boolean onClickWithReturn(@NotNull Activity activity) {
+        startUniversalActivity(FrameInfoFragment.class, activity, null, true);
         return true;
     }
 

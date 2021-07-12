@@ -1,9 +1,8 @@
 package com.didichuxing.foundation.net.rpc.http;
 
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.constant.DoKitModule;
 import com.didichuxing.doraemonkit.kit.core.DokitAbility;
-import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.AbsDoKitInterceptor;
 import com.didichuxing.doraemonkit.kit.network.rpc.AbsDoKitRpcInterceptor;
 import com.didichuxing.doraemonkit.kit.network.rpc.RpcCapInterceptor;
 import com.didichuxing.doraemonkit.kit.network.rpc.RpcMockInterceptor;
@@ -35,7 +34,7 @@ public class DidiHttpHook {
         List<Interceptor> interceptors = new ArrayList<>(client.interceptors());
         List<Interceptor> networkInterceptors = new ArrayList<>(client.networkInterceptors());
         try {
-            DokitAbility.DokitModuleProcessor processor = DoKitConstant.INSTANCE.getModuleProcessor(DoKitModule.MODULE_RPC_MC);
+            DokitAbility.DokitModuleProcessor processor = DoKitManager.INSTANCE.getModuleProcessor(DoKitModule.MODULE_RPC_MC);
             if (processor != null) {
                 Object interceptor = processor.values().get("rpc_interceptor");
                 if (interceptor instanceof AbsDoKitRpcInterceptor) {

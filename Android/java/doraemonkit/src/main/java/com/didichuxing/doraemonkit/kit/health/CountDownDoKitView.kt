@@ -11,6 +11,7 @@ import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.util.ConvertUtils
+import com.didichuxing.doraemonkit.util.LogHelper
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
@@ -23,7 +24,7 @@ import kotlinx.coroutines.flow.*
  * 修订历史：
  * ================================================
  */
-class CountDownDokitView : AbsDokitView() {
+class CountDownDoKitView : AbsDokitView() {
     private var mNum: TextView? = null
     private lateinit var countDownFlow: Flow<Int>
     private var countDownJob: Job? = null
@@ -37,12 +38,13 @@ class CountDownDokitView : AbsDokitView() {
             .onCompletion {
                 withContext(Dispatchers.Main) {
                     if (isNormalMode) {
-                        DokitViewManager.instance.detach(activity, this@CountDownDokitView)
+                        DokitViewManager.instance.detach(activity, this@CountDownDoKitView)
                     } else {
-                        DokitViewManager.instance.detach(this@CountDownDokitView)
+                        DokitViewManager.instance.detach(this@CountDownDoKitView)
                     }
                 }
             }
+
 
     }
 
@@ -62,9 +64,10 @@ class CountDownDokitView : AbsDokitView() {
                 it.cancel()
             }
         }
-
+        LogHelper.i(TAG, "doKitViewScope===>${doKitViewScope}")
         countDownJob = doKitViewScope.launch {
             countDownFlow.collect {
+                LogHelper.i(TAG, "${this@CountDownDoKitView}===>$it")
                 withContext(Dispatchers.Main) {
                     mNum?.text = it.toString()
                 }
@@ -74,6 +77,7 @@ class CountDownDokitView : AbsDokitView() {
         }
 
     }
+
 
     /**
      * 重置倒计时 系统倒计时需要

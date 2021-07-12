@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.weex.storage;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.kit.AbstractKit;
@@ -8,6 +9,7 @@ import com.didichuxing.doraemonkit.weex.R;
 import com.didichuxing.doraemonkit.weex.common.DKCommonActivity;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -29,8 +31,8 @@ public class WeexStorageKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(@Nullable Context context) {
-        startUniversalActivity(StorageFragment.class, context, null, true);
+    public boolean onClickWithReturn(@NotNull Activity activity) {
+        startUniversalActivity(StorageFragment.class, activity, null, true);
         return true;
     }
 

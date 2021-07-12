@@ -88,7 +88,7 @@ public class WeakNetworkFragment extends BaseFragment implements TextWatcher {
                 }
 
                 if (mNetWorkDokitView == null) {
-                    mNetWorkDokitView = DokitViewManager.getInstance().getDokitView(getActivity(), NetWokDokitView.class.getSimpleName());
+                    mNetWorkDokitView = DokitViewManager.getInstance().getDokitView(getActivity(), NetWokDokitView.class.getCanonicalName());
                 }
                 if (mNetWorkDokitView != null) {
                     //重新调用刷新

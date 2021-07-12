@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.filemanager.action.file
 
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.util.DeviceUtils
 
 /**
@@ -20,7 +20,7 @@ object DeviceInfoAction {
                 this["deviceName"] = "${DeviceUtils.getManufacturer()}-${DeviceUtils.getModel()}"
                 this["deviceId"] = DeviceUtils.getUniqueDeviceId()
                 this["deviceIp"] =
-                    "${DoKitConstant.IP_ADDRESS_BY_WIFI}:${DoKitConstant.FILE_MANAGER_HTTP_PORT}"
+                    "${DoKitManager.IP_ADDRESS_BY_WIFI}:${DoKitManager.FILE_MANAGER_HTTP_PORT}"
             }
             this["data"] = data
         }

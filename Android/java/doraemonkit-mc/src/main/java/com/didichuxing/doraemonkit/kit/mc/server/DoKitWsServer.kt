@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc.server
 
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
@@ -30,14 +30,14 @@ object DoKitWsServer {
     val wsSessionMaps: MutableMap<String?, DefaultWebSocketServerSession> = mutableMapOf()
 
     private val server: CIOApplicationEngine by lazy {
-        embeddedServer(CIO, port = DoKitConstant.MC_WS_PORT, module = WSRouter)
+        embeddedServer(CIO, port = DoKitManager.MC_WS_PORT, module = WSRouter)
     }
     //val engine
 
     fun start(callBack: () -> Unit) {
         try {
             server.start()
-            DoKitConstant.WS_MODE = WSMode.HOST
+            DoKitManager.WS_MODE = WSMode.HOST
             callBack()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -54,7 +54,7 @@ object DoKitWsServer {
             }
             wsSessionMaps.clear()
             //server.stop(1, 1)
-            DoKitConstant.WS_MODE = WSMode.UNKNOW
+            DoKitManager.WS_MODE = WSMode.UNKNOW
             callBack()
         } catch (e: Exception) {
             e.printStackTrace()

@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.alignruler;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
@@ -10,6 +11,8 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.google.auto.service.AutoService;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by wanglikun on 2018/9/19.
@@ -29,19 +32,19 @@ public class AlignRulerKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(Context context) {
-        DokitViewManager.getInstance().detachToolPanel();
+    public boolean onClickWithReturn(@NotNull Activity activity) {
+        DokitViewManager.getInstance().detachToolPanel(activity);
 
         SimpleDokitStarter.startFloating(AlignRulerMarkerDokitView.class);
         SimpleDokitStarter.startFloating(AlignRulerLineDokitView.class);
         SimpleDokitStarter.startFloating(AlignRulerInfoDokitView.class);
 
 
-        AlignRulerInfoDokitView alignRulerInfoDokitView = (AlignRulerInfoDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), AlignRulerInfoDokitView.class.getSimpleName());
+        AlignRulerInfoDokitView alignRulerInfoDokitView = (AlignRulerInfoDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), AlignRulerInfoDokitView.class.getCanonicalName());
         alignRulerInfoDokitView.setCheckBoxListener(new AlignRulerInfoDokitView.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(boolean isChecked) {
-                AlignRulerLineDokitView alignRulerLineDokitView = (AlignRulerLineDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), AlignRulerLineDokitView.class.getSimpleName());
+                AlignRulerLineDokitView alignRulerLineDokitView = (AlignRulerLineDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), AlignRulerLineDokitView.class.getCanonicalName());
                 alignRulerLineDokitView.getAlignInfoView().refreshInfo(isChecked);
             }
         });

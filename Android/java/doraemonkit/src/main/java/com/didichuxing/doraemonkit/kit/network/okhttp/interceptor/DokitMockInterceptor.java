@@ -9,7 +9,7 @@ import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.util.EncodeUtils;
 import com.didichuxing.doraemonkit.util.TimeUtils;
 import com.didichuxing.doraemonkit.util.ToastUtils;
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -69,7 +68,7 @@ public class DokitMockInterceptor extends AbsDoKitInterceptor {
         String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_OTHER);
         try {
             //网络的健康体检功能 统计流量大小
-            if (DoKitConstant.APP_HEALTH_RUNNING) {
+            if (DoKitManager.APP_HEALTH_RUNNING) {
                 addNetWokInfoInAppHealth(oldRequest, oldResponse);
             }
 

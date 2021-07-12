@@ -6,21 +6,18 @@ import android.text.TextUtils
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.DoKit.Companion.isMainIconShow
 import com.didichuxing.doraemonkit.DoKit.Companion.show
-import com.didichuxing.doraemonkit.constant.DoKitConstant
-import com.didichuxing.doraemonkit.constant.DoKitConstant.getModuleProcessor
-import com.didichuxing.doraemonkit.constant.DoKitModule
-import com.didichuxing.doraemonkit.kit.health.CountDownDokitView
+import com.didichuxing.doraemonkit.extension.tagName
+import com.didichuxing.doraemonkit.kit.health.CountDownDoKitView
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
-import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo
+import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelDokitView
 import com.didichuxing.doraemonkit.util.DoKitSystemUtil
-import com.didichuxing.doraemonkit.util.SPUtils
-import java.util.*
+import kotlin.reflect.KClass
 
 /**
  * Created by wanglikun on 2018/10/23.
  * 系统悬浮窗管理类
  */
-internal class SystemDokitViewManager : AbsDokitViewManager() {
+internal class SystemDoKitViewManager : AbsDokitViewManager() {
     /**
      * 参考:
      * https://blog.csdn.net/awenyini/article/details/78265284
@@ -28,7 +25,7 @@ internal class SystemDokitViewManager : AbsDokitViewManager() {
      */
     private val mWindowManager = DokitViewManager.instance.windowManager
     private val mContext: Context by lazy { DoKit.APPLICATION }
-    private val mDokitViews: MutableList<AbsDokitView> by lazy { mutableListOf() }
+    private val mDoKitViews: MutableList<AbsDokitView> by lazy { mutableListOf() }
     private val mListeners: MutableList<DokitViewManager.DokitViewAttachedListener> by lazy { mutableListOf() }
 
     /**
@@ -37,21 +34,19 @@ internal class SystemDokitViewManager : AbsDokitViewManager() {
      * @return map
      */
     override fun getDokitViews(activity: Activity): Map<String, AbsDokitView> {
-
-        val dokitViewMaps: MutableMap<String, AbsDokitView> = mutableMapOf()
-        for (dokitView in mDokitViews) {
-            dokitViewMaps[dokitView.tag] = dokitView
+        val doKitViewMaps: MutableMap<String, AbsDokitView> = mutableMapOf()
+        for (doKitView in mDoKitViews) {
+            doKitViewMaps[doKitView.tag] = doKitView
         }
-        return dokitViewMaps
+        return doKitViewMaps
     }
 
     /**
      * 当app进入后台时调用
      */
     override fun notifyBackground() {
-
-        for (dokitView in mDokitViews) {
-            dokitView.onEnterBackground()
+        for (doKitView in mDoKitViews) {
+            doKitView.onEnterBackground()
         }
     }
 
@@ -59,8 +54,7 @@ internal class SystemDokitViewManager : AbsDokitViewManager() {
      * 当app进入前台时调用
      */
     override fun notifyForeground() {
-
-        for (page in mDokitViews) {
+        for (page in mDoKitViews) {
             page.onEnterForeground()
         }
     }
@@ -68,111 +62,124 @@ internal class SystemDokitViewManager : AbsDokitViewManager() {
     /**
      * @param activity
      */
-    override fun resumeAndAttachDokitViews(activity: Activity) {
+    override fun dispatchOnActivityResumed(activity: Activity) {
         if (activity is UniversalActivity) {
-            val countDownDokitView =
-                getDokitView(activity, CountDownDokitView::class.java.simpleName)
-            if (countDownDokitView != null) {
+            val countDownDoKitView =
+                getDokitView(activity, CountDownDoKitView::class.tagName)
+            if (countDownDoKitView != null) {
                 DokitViewManager.instance.detach(
-                    CountDownDokitView::class.java.simpleName
+                    CountDownDoKitView::class.tagName
                 )
             }
             return
         }
         //app启动
         if (DoKitSystemUtil.isOnlyFirstLaunchActivity(activity)) {
-            onMainActivityCreate(activity)
-        }
-        val activityLifecycleInfo =
-            DoKitConstant.ACTIVITY_LIFECYCLE_INFOS[activity.javaClass.canonicalName]
-        //新建Activity
-        if (activityLifecycleInfo != null && activityLifecycleInfo.activityLifeCycleCount == ActivityLifecycleInfo.ACTIVITY_LIFECYCLE_CREATE2RESUME) {
-            onActivityCreate(activity)
+            onMainActivityResume(activity)
         }
 
-        //activity resume
-        if (activityLifecycleInfo != null && activityLifecycleInfo.activityLifeCycleCount > ActivityLifecycleInfo.ACTIVITY_LIFECYCLE_CREATE2RESUME) {
-            onActivityResume(activity)
+
+        DoKitManager.ACTIVITY_LIFECYCLE_INFOS[activity.javaClass.canonicalName]?.let {
+            //新建Activity
+            if (it.lifeCycleStatus == DoKitLifeCycleStatus.RESUME && it.isInvokeStopMethod == false) {
+                onActivityResume(activity)
+                return
+            }
+
+            //activity resume
+            if (it.lifeCycleStatus == DoKitLifeCycleStatus.RESUME && it.isInvokeStopMethod == true) {
+                onActivityBackResume(activity)
+            }
         }
 
-        //生命周期回调
+
+        //需要手动调用 生命周期回调
         val dokitViewMap = getDokitViews(activity)
         for (absDokitView in dokitViewMap.values) {
-            absDokitView!!.onResume()
+            absDokitView.onResume()
         }
     }
 
-    override fun onMainActivityCreate(activity: Activity) {
+
+    override fun attachMainIcon(activity: Activity) {
+        //假如不存在全局的icon这需要全局显示主icon
+        if (DoKitManager.AWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
+            attach(DokitIntent(MainIconDokitView::class.java))
+            DoKitManager.MAIN_ICON_HAS_SHOW = true
+        } else {
+            DoKitManager.MAIN_ICON_HAS_SHOW = false
+        }
+    }
+
+    override fun detachMainIcon(activity: Activity) {
+        detach(MainIconDokitView::class.tagName)
+    }
+
+    override fun attachToolPanel(activity: Activity) {
+        attach(DokitIntent(ToolPanelDokitView::class.java))
+    }
+
+    override fun detachToolPanel(activity: Activity) {
+        detach(activity, ToolPanelDokitView::class.tagName)
+    }
+
+    override fun onMainActivityResume(activity: Activity) {
+        attachMainIcon(activity)
         //倒计时DokitView
-        attachCountDownDokitView(activity)
-        attachMcDokitView(activity)
-        if (!DoKitConstant.AWAYS_SHOW_MAIN_ICON) {
-            return
-        }
+        attachCountDownDoKitView(activity)
+        attachMcRecodingDoKitView(activity)
 
-        //添加main icon
-        val intent = DokitIntent(
-            MainIconDokitView::class.java
-        )
-        intent.mode = DokitIntent.MODE_SINGLE_INSTANCE
-        DokitViewManager.instance.attach(intent)
-        DoKitConstant.MAIN_ICON_HAS_SHOW = true
-
-        //添加录制中的悬浮窗
-        if (SPUtils.getInstance().getBoolean(DoKitConstant.MC_CASE_RECODING_KEY, false)) {
-            val action: MutableMap<String, String> = HashMap()
-            action["action"] = "launch_recoding_view"
-            getModuleProcessor(DoKitModule.MODULE_MC)!!.proceed(action)
-        }
+//        if (SPUtils.getInstance().getBoolean(DoKitConstant.MC_CASE_RECODING_KEY, false)) {
+//            val action: Map<String, String> = mapOf("action" to "launch_recoding_view")
+//            DoKitConstant.getModuleProcessor(DoKitModule.MODULE_MC)?.proceed(action)
+//        }
     }
 
-    override fun onActivityCreate(activity: Activity) {
+    override fun onActivityResume(activity: Activity) {
         //判断是否有MainIcon
-        if (DoKitConstant.AWAYS_SHOW_MAIN_ICON && !isMainIconShow) {
+        if (DoKitManager.AWAYS_SHOW_MAIN_ICON && !isMainIconShow) {
             show()
         }
         //如果倒计时浮标没显示则重新添加
-        val countDownDokitView = getDokitView(activity, CountDownDokitView::class.java.simpleName)
+        val countDownDokitView = getDokitView(activity, CountDownDoKitView::class.tagName)
         if (countDownDokitView == null) {
             if (activity is UniversalActivity) {
                 return
             }
-            attachCountDownDokitView(activity)
+            attachCountDownDoKitView(activity)
         } else {
             if (activity is UniversalActivity) {
                 DokitViewManager.instance.detach(
-                    CountDownDokitView::class.java.simpleName
+                    CountDownDoKitView::class.tagName
                 )
             } else {
                 //重置倒计时
-                (countDownDokitView as CountDownDokitView).resetTime()
+                (countDownDokitView as CountDownDoKitView).resetTime()
             }
         }
-        attachMcDokitView(activity)
     }
 
-    override fun onActivityResume(activity: Activity) {
+    override fun onActivityBackResume(activity: Activity) {
         //移除倒计时浮标
-        val countDownDokitView = getDokitView(activity, CountDownDokitView::class.java.simpleName)
+        val countDownDokitView = getDokitView(activity, CountDownDoKitView::class.tagName)
         if (countDownDokitView == null) {
-            attachCountDownDokitView(activity)
+            attachCountDownDoKitView(activity)
         } else {
             //重置倒计时
-            (countDownDokitView as CountDownDokitView).resetTime()
+            (countDownDokitView as CountDownDoKitView).resetTime()
         }
-        attachMcDokitView(activity)
 
         //判断是否存在主入口icon
         val dokitViews = getDokitViews(activity)
-        if (dokitViews[MainIconDokitView::class.java.simpleName] == null) {
-            if (DoKitConstant.AWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
+        if (dokitViews[MainIconDokitView::class.tagName] == null) {
+            if (DoKitManager.AWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
                 //添加main icon
                 val intent = DokitIntent(
                     MainIconDokitView::class.java
                 )
-                intent.mode = DokitIntent.MODE_SINGLE_INSTANCE
+                intent.mode = DoKitViewLaunchMode.SINGLE_INSTANCE
                 DokitViewManager.instance.attach(intent)
-                DoKitConstant.MAIN_ICON_HAS_SHOW = true
+                DoKitManager.MAIN_ICON_HAS_SHOW = true
             }
         }
     }
@@ -191,11 +198,9 @@ internal class SystemDokitViewManager : AbsDokitViewManager() {
      */
     override fun attach(pageIntent: DokitIntent) {
         try {
-            if (pageIntent.targetClass == null) {
-                return
-            }
-            if (pageIntent.mode == DokitIntent.MODE_SINGLE_INSTANCE) {
-                for (dokitView in mDokitViews) {
+
+            if (pageIntent.mode == DoKitViewLaunchMode.SINGLE_INSTANCE) {
+                for (dokitView in mDoKitViews) {
                     //如果当前page对象已经存在 则直接返回
                     if (pageIntent.targetClass.isInstance(dokitView)) {
                         return
@@ -207,7 +212,7 @@ internal class SystemDokitViewManager : AbsDokitViewManager() {
             dokitView.bundle = pageIntent.bundle
             //page.setTag(pageIntent.tag);
             //添加进page列表
-            mDokitViews.add(dokitView)
+            mDoKitViews.add(dokitView)
             dokitView.performCreate(mContext)
             //在window上显示floatIcon
             //WindowManagerImpl具体实现
@@ -216,7 +221,7 @@ internal class SystemDokitViewManager : AbsDokitViewManager() {
                 dokitView.systemLayoutParams
             )
             dokitView.onResume()
-            if (!DoKitConstant.IS_NORMAL_FLOAT_MODE) {
+            if (!DoKitManager.IS_NORMAL_FLOAT_MODE) {
                 for (listener in mListeners) {
                     listener.onDokitViewAdd(dokitView)
                 }
@@ -230,7 +235,7 @@ internal class SystemDokitViewManager : AbsDokitViewManager() {
         if (TextUtils.isEmpty(tag)) {
             return
         }
-        val it = mDokitViews.iterator()
+        val it = mDoKitViews.iterator()
         while (it.hasNext()) {
             val dokitView = it.next()
             if (tag == dokitView.tag) {
@@ -242,24 +247,37 @@ internal class SystemDokitViewManager : AbsDokitViewManager() {
         }
     }
 
-    override fun detach(activity: Activity, tag: String) {}
+    override fun detach(activity: Activity, tag: String) {
+        detach(tag)
+    }
     override fun detach(dokitView: AbsDokitView) {
-        detach(dokitView!!.javaClass.simpleName)
+        detach(dokitView.tagName)
     }
 
-    override fun detach(activity: Activity, dokitView: AbsDokitView) {}
-    override fun detach(dokitViewClass: Class<out AbsDokitView>) {
-        detach(dokitViewClass.simpleName)
+    override fun detach(activity: Activity, doKitView: AbsDokitView) {}
+
+    override fun detach(doKitViewClass: KClass<out AbsDokitView>) {
+        detach(doKitViewClass.tagName)
     }
 
-    override fun detach(activity: Activity, dokitViewClass: Class<out AbsDokitView>) {}
+    override fun detach(doKitViewClass: Class<out AbsDokitView>) {
+        detach(doKitViewClass.tagName)
+    }
+
+    override fun detach(activity: Activity, doKitViewClass: KClass<out AbsDokitView>) {
+        detach(activity,doKitViewClass.tagName)
+    }
+    override fun detach(activity: Activity, doKitViewClass: Class<out AbsDokitView>) {
+        detach(activity,doKitViewClass.tagName)
+    }
+
     override fun detachAll() {
 
-        val it = mDokitViews.iterator()
+        val it = mDoKitViews.iterator()
         while (it.hasNext()) {
-            val dokitView = it.next()
-            mWindowManager.removeView(dokitView.doKitView)
-            dokitView.performDestroy()
+            val doKitView = it.next()
+            mWindowManager.removeView(doKitView.doKitView)
+            doKitView.performDestroy()
             it.remove()
         }
     }
@@ -269,7 +287,7 @@ internal class SystemDokitViewManager : AbsDokitViewManager() {
         if (TextUtils.isEmpty(tag)) {
             return null
         }
-        for (dokitView in mDokitViews) {
+        for (dokitView in mDoKitViews) {
             if (tag == dokitView.tag) {
                 return dokitView
             }

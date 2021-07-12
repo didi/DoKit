@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit
 import android.app.Activity
 import android.content.res.Configuration
 import android.view.OrientationEventListener
+import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
 import com.didichuxing.doraemonkit.util.LogHelper
@@ -47,7 +48,7 @@ class DoKitOrientationEventListener(context: Activity) : OrientationEventListene
             //针对dokitView的根布局进行旋转操作
             //LogHelper.i(TAG, "innerOrientation===>$innerOrientation")
             val dokitView = DokitViewManager.instance
-                .getDokitView(mActivity, MainIconDokitView::class.java.simpleName)
+                .getDokitView(mActivity, MainIconDokitView::class.tagName)
 
 
             var currentOrientation = Configuration.ORIENTATION_PORTRAIT

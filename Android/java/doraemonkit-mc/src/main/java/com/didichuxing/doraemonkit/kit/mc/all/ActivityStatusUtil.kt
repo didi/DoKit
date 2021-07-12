@@ -2,6 +2,7 @@ package com.didichuxing.doraemonkit.kit.mc.all
 
 import android.app.Activity
 import android.view.View
+import com.didichuxing.doraemonkit.extension.tagName
 
 /**
  * ================================================
@@ -29,7 +30,7 @@ object ActivityStatusUtil {
     fun isActivityOnResume(view: View): Boolean {
         if (view.context is Activity) {
             val activity = view.context as Activity
-            val status = ActivityStatusUtil.activityStatus[activity::class.java.simpleName]
+            val status = ActivityStatusUtil.activityStatus[activity::class.tagName]
             if (status == ActivityStatusUtil.ACTIVITY_STATUS_ONRESUME) {
                 return true
             }

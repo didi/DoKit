@@ -16,7 +16,7 @@ import com.didichuxing.doraemonkit.util.GsonUtils;
 import com.didichuxing.doraemonkit.util.PathUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.DokitMemoryConfig;
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
 import com.didichuxing.doraemonkit.kit.parameter.AbsParameterFragment;
@@ -99,17 +99,17 @@ public class NetWorkMonitorFragment extends AbsParameterFragment {
         });
         mHostRv = findViewById(R.id.host_list);
         mHostRv.setLayoutManager(new LinearLayoutManager(getActivity()));
-        if (DoKitConstant.WHITE_HOSTS.isEmpty()) {
+        if (DoKitManager.WHITE_HOSTS.isEmpty()) {
             String whiteHostArray = FileIOUtils.readFile2String(whiteHostPath);
             if (TextUtils.isEmpty(whiteHostArray)) {
                 mHostBeans.add(new WhiteHostBean("", true));
             } else {
                 mHostBeans = GsonUtils.fromJson(whiteHostArray, GsonUtils.getListType(WhiteHostBean.class));
-                DoKitConstant.WHITE_HOSTS.clear();
-                DoKitConstant.WHITE_HOSTS.addAll(mHostBeans);
+                DoKitManager.WHITE_HOSTS.clear();
+                DoKitManager.WHITE_HOSTS.addAll(mHostBeans);
             }
         } else {
-            mHostBeans.addAll(DoKitConstant.WHITE_HOSTS);
+            mHostBeans.addAll(DoKitManager.WHITE_HOSTS);
         }
 
         mHostAdapter = new WhiteHostAdapter(R.layout.dk_item_white_host, mHostBeans);
@@ -134,12 +134,12 @@ public class NetWorkMonitorFragment extends AbsParameterFragment {
         //保存白名单
         List<WhiteHostBean> hostBeans = mHostAdapter.getData();
         if (hostBeans.size() == 1 && TextUtils.isEmpty(hostBeans.get(0).getHost())) {
-            DoKitConstant.WHITE_HOSTS.clear();
+            DoKitManager.WHITE_HOSTS.clear();
             FileUtils.delete(whiteHostPath);
             return;
         }
-        DoKitConstant.WHITE_HOSTS.clear();
-        DoKitConstant.WHITE_HOSTS.addAll(hostBeans);
+        DoKitManager.WHITE_HOSTS.clear();
+        DoKitManager.WHITE_HOSTS.addAll(hostBeans);
         String hostArray = GsonUtils.toJson(hostBeans);
         //保存到本地
         FileUtils.delete(whiteHostPath);

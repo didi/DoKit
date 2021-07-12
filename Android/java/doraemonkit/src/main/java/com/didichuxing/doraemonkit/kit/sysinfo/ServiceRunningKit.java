@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.sysinfo;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
@@ -7,6 +8,7 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.util.DoKitSystemUtil;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -28,8 +30,8 @@ public class ServiceRunningKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(@Nullable Context context) {
-        DoKitSystemUtil.startServiceRunningActivity(context);
+    public boolean onClickWithReturn(@NotNull Activity activity) {
+        DoKitSystemUtil.startServiceRunningActivity(activity);
         return true;
     }
 

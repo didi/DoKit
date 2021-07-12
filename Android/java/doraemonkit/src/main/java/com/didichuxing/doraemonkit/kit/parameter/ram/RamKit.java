@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.parameter.ram;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
@@ -7,6 +8,8 @@ import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.google.auto.service.AutoService;
+
+import org.jetbrains.annotations.NotNull;
 
 @AutoService(AbstractKit.class)
 public class RamKit extends AbstractKit {
@@ -23,8 +26,8 @@ public class RamKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(Context context) {
-        startUniversalActivity(RamMainPageFragment.class, context, null, true);
+    public boolean onClickWithReturn(@NotNull Activity activity) {
+        startUniversalActivity(RamMainPageFragment.class, activity, null, true);
         return true;
     }
 

@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean;
@@ -125,7 +125,7 @@ public class RpcCapInterceptor extends AbsDoKitRpcInterceptor {
      * @return bool
      */
     private boolean matchWhiteHost(Request request) {
-        List<WhiteHostBean> whiteHostBeans = DoKitConstant.WHITE_HOSTS;
+        List<WhiteHostBean> whiteHostBeans = DoKitManager.WHITE_HOSTS;
         if (whiteHostBeans.isEmpty()) {
             return true;
         }

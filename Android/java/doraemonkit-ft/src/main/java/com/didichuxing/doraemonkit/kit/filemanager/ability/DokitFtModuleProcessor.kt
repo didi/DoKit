@@ -19,7 +19,7 @@ class DokitFtModuleProcessor : DokitAbility.DokitModuleProcessor {
         return mapOf()
     }
 
-    override fun proceed(actions: Map<String, Any>?): Map<String, Any> {
+    override  fun proceed(actions: Map<String, Any>?): Map<String, Any> {
         return mapOf()
     }
 }

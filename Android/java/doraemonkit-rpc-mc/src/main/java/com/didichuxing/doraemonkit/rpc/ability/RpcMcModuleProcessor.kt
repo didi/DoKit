@@ -19,8 +19,7 @@ class RpcMcModuleProcessor : DokitAbility.DokitModuleProcessor {
         )
     }
 
-    override fun proceed(actions: Map<String, Any>?): Map<String, Any> {
-
+    override  fun proceed(actions: Map<String, Any>?): Map<String, Any> {
         return mapOf()
     }
 }

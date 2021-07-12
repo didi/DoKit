@@ -59,38 +59,12 @@ class App : Application() {
         }
 
         mapKits["业务专区2"] = mutableListOf<AbstractKit>(DemoKit())
-        //老的初始化方式
-//        DoraemonKit.setDatabasePass(mapOf("Person.db" to "a_password"))
-//        DoraemonKit.disableUpload()
-//        DoraemonKit.setFileManagerHttpPort(9001)
-//        DoraemonKit.setDatabasePass(mapOf("Person.db" to "a_password"))
-//        DoraemonKit.setMCIntercept(object : MCInterceptor {
-//            override fun onIntercept(
-//                view: View,
-//                accessibilityEvent: AccessibilityEvent
-//            ): Boolean {
-//                return false
-//            }
-//
-//            override fun serverParams(
-//                view: View,
-//                accessibilityEvent: AccessibilityEvent
-//            ): Map<String, String> {
-//                return mapOf()
-//            }
-//
-//            override fun clientProcess(view: View, params: Map<String, String>): Boolean {
-//                return false
-//            }
-//        })
-//        DoraemonKit.setMCWSPort(5555)
-//        DoraemonKit.install(this, mapKits = mapKits, productId = "749a0600b5e48dd77cf8ee680be7b1b7")
-//
+
 
 
         DoKit.Builder(this)
-            //.productId("749a0600b5e48dd77cf8ee680be7b1b7")
-            .productId("277016abcc33bff1e6a4f1afdf14b8e1")
+            .productId("749a0600b5e48dd77cf8ee680be7b1b7")
+//            .productId("277016abcc33bff1e6a4f1afdf14b8e1")
             .disableUpload()
             .customKits(mapKits)
             .fileManagerHttpPort(9001)

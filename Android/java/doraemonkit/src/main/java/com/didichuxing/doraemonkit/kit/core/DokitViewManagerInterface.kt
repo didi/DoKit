@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.core
 
 import android.app.Activity
+import kotlin.reflect.KClass
 
 /**
  * ================================================
@@ -29,9 +30,9 @@ interface DokitViewManagerInterface {
     /**
      * 移除每个activity指定的dokitView
      * @param activity
-     * @param dokitView
+     * @param doKitView
      */
-    fun detach(activity: Activity, dokitView: AbsDokitView)
+    fun detach(activity: Activity, doKitView: AbsDokitView)
 
     /**
      * 移除每个activity指定的dokitView tag
@@ -50,17 +51,21 @@ interface DokitViewManagerInterface {
     /**
      * 移除指定的dokitView
      *
-     * @param dokitViewClass
+     * @param doKitViewClass
      */
-    fun detach(dokitViewClass: Class<out AbsDokitView>)
+    fun detach(doKitViewClass: KClass<out AbsDokitView>)
+
+    fun detach(doKitViewClass: Class<out AbsDokitView>)
 
     /**
      * 移除指定activity的dokitview
      *
      * @param activity
-     * @param dokitViewClass
+     * @param doKitViewClass
      */
-    fun detach(activity: Activity, dokitViewClass: Class<out AbsDokitView>)
+    fun detach(activity: Activity, doKitViewClass: KClass<out AbsDokitView>)
+
+    fun detach(activity: Activity, doKitViewClass: Class<out AbsDokitView>)
 
     /**
      * 移除所有activity的所有dokitView
@@ -102,33 +107,12 @@ interface DokitViewManagerInterface {
     fun onActivityDestroy(activity: Activity)
 
     /**
-     * 只有普通的浮标才需要调用
-     * 添加activity关联的所有dokitView activity resume的时候回调
      *
      * @param activity
      */
-    fun resumeAndAttachDokitViews(activity: Activity)
+    fun dispatchOnActivityResumed(activity: Activity)
 
-    /**
-     * main activity 创建时回调
-     *
-     * @param activity
-     */
-    fun onMainActivityCreate(activity: Activity)
 
-    /**
-     * 除main activity 以外 其他activty 创建时回调
-     *
-     * @param activity
-     */
-    fun onActivityCreate(activity: Activity)
-
-    /**
-     * 页面回退的时候调用
-     *
-     * @param activity
-     */
-    fun onActivityResume(activity: Activity)
 
     /**
      * 页面onPause时调用

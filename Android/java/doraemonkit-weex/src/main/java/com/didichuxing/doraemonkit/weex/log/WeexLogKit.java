@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.weex.log;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.kit.AbstractKit;
@@ -10,6 +11,8 @@ import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.weex.R;
 import com.google.auto.service.AutoService;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author haojianglong
@@ -30,7 +33,7 @@ public class WeexLogKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(Context context) {
+    public boolean onClickWithReturn(@NotNull Activity activity) {
         SimpleDokitStarter.startFloating(WeexLogInfoDokitView.class);
 
         //开启日志服务

@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit.kit.filemanager
 
+import android.app.Activity
 import android.content.Context
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.google.auto.service.AutoService
 
@@ -22,8 +22,8 @@ class FileTransferKit : AbstractKit() {
     override val icon: Int
         get() = R.mipmap.dk_icon_file_manager
 
-    override fun onClickWithReturn(context: Context?): Boolean {
-        startUniversalActivity(FileTransferFragment::class.java, context)
+    override fun onClickWithReturn(activity: Activity): Boolean {
+        startUniversalActivity(FileTransferFragment::class.java, activity)
         return true
     }
 

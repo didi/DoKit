@@ -13,12 +13,10 @@ import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 /**
  * ================================================
@@ -94,4 +92,14 @@ class RecordingDokitView : AbsDokitView() {
         params.x = ConvertUtils.dp2px(25f)
         params.y = ConvertUtils.dp2px(25f)
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//        LogHelper.i(TAG, "before===> ${this.TAG} ${doKitView?.width}  ${doKitView?.height}   ${doKitView?.measuredWidth}  ${doKitView?.measuredHeight}")
+//        if (isNormalMode) {
+//            invalidate()
+//        }
+//
+//        LogHelper.i(TAG, "after===> ${this.TAG} ${doKitView?.width}  ${doKitView?.height}   ${doKitView?.measuredWidth}  ${doKitView?.measuredHeight}")
+//    }
 }

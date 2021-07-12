@@ -62,8 +62,8 @@ public class ColorPickerInfoDokitView extends AbsDokitView {
             public void onClick(View v) {
                 ColorPickManager.getInstance().setColorPickerDokitView(null);
                 ColorPickConfig.setColorPickOpen(false);
-                DokitViewManager.getInstance().detach(ColorPickerDokitView.class.getSimpleName());
-                DokitViewManager.getInstance().detach(ColorPickerInfoDokitView.class.getSimpleName());
+                DokitViewManager.getInstance().detach(ColorPickerDokitView.class.getCanonicalName());
+                DokitViewManager.getInstance().detach(ColorPickerInfoDokitView.class.getCanonicalName());
                 //取色器kit是依赖在当前透明的Activity上的 所以关闭控件时需要finish
                 if (ActivityUtils.getTopActivity() != null && ActivityUtils.getTopActivity() instanceof TranslucentActivity) {
                     ActivityUtils.getTopActivity().finish();

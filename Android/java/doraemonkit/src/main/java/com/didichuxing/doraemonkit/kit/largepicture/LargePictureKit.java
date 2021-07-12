@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.largepicture;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.util.ToastUtils;
@@ -10,6 +11,7 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -37,7 +39,7 @@ public class LargePictureKit extends AbstractKit {
 
 
     @Override
-    public boolean onClickWithReturn(@Nullable Context context) {
+    public boolean onClickWithReturn(@NotNull Activity activity) {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip));
             return false;
@@ -48,7 +50,7 @@ public class LargePictureKit extends AbstractKit {
             return false;
         }
 
-        startUniversalActivity(LargePictureFragment.class, context, null, true);
+        startUniversalActivity(LargePictureFragment.class, activity, null, true);
 
         return true;
     }

@@ -1,11 +1,13 @@
 package com.didichuxing.doraemonkit.kit.dbdebug;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -32,7 +34,7 @@ public class DbDebugKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(@Nullable Context context) {
+    public boolean onClickWithReturn(@NotNull Activity activity) {
         return true;
     }
 

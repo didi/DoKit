@@ -7,12 +7,10 @@ import android.graphics.Point
 import android.view.WindowManager
 import androidx.room.Room
 import com.didichuxing.doraemonkit.DoKit
-import com.didichuxing.doraemonkit.constant.DoKitConstant
-import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDatabase
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
-import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelDokitView
 import com.didichuxing.doraemonkit.util.ScreenUtils
+import kotlin.reflect.KClass
 
 /**
  * Created by jintai on 2018/10/23.
@@ -38,11 +36,11 @@ class DokitViewManager : DokitViewManagerInterface {
     private val mLastDoKitViewPosInfoMaps: MutableMap<String, LastDokitViewPosInfo> by lazy {
         mutableMapOf()
     }
-    private val mDoKitViewManager: DokitViewManagerInterface by lazy {
-        if (DoKitConstant.IS_NORMAL_FLOAT_MODE) {
-            NormalDokitViewManager()
+    private val mDoKitViewManager: AbsDokitViewManager by lazy {
+        if (DoKitManager.IS_NORMAL_FLOAT_MODE) {
+            NormalDoKitViewManager()
         } else {
-            SystemDokitViewManager()
+            SystemDoKitViewManager()
         }
     }
 
@@ -61,16 +59,8 @@ class DokitViewManager : DokitViewManagerInterface {
             .build()
     }
 
-    private var mContext: Context? = null
 
-    /**
-     * 数据库操作类
-     */
-    private var mDB: DokitDatabase? = null
-
-
-    fun init(context: Context?) {
-        mContext = context
+    fun init() {
         //获取所有的intercept apis
         DokitDbManager.getInstance().getAllInterceptApis()
 
@@ -143,13 +133,10 @@ class DokitViewManager : DokitViewManagerInterface {
      *
      * @param activity
      */
-    override fun resumeAndAttachDokitViews(activity: Activity) {
-        mDoKitViewManager.resumeAndAttachDokitViews(activity)
+    override fun dispatchOnActivityResumed(activity: Activity) {
+        mDoKitViewManager.dispatchOnActivityResumed(activity)
     }
 
-    override fun onMainActivityCreate(activity: Activity) {}
-    override fun onActivityCreate(activity: Activity) {}
-    override fun onActivityResume(activity: Activity) {}
     override fun onActivityPause(activity: Activity) {
         mDoKitViewManager.onActivityPause(activity)
     }
@@ -166,37 +153,29 @@ class DokitViewManager : DokitViewManagerInterface {
     /**
      * 隐藏工具列表dokitView
      */
-    fun detachToolPanel() {
-        detach(ToolPanelDokitView::class.java.simpleName)
+    fun detachToolPanel(activity: Activity) {
+        mDoKitViewManager.detachToolPanel(activity)
     }
 
     /**
      * 显示工具列表dokitView
      */
-    fun attachToolPanel() {
-        val toolPanelIntent = DokitIntent(
-            ToolPanelDokitView::class.java
-        )
-        toolPanelIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE
-        attach(toolPanelIntent)
+    fun attachToolPanel(activity: Activity) {
+        mDoKitViewManager.attachToolPanel(activity)
     }
 
     /**
      * 显示主图标 dokitView
      */
-    fun attachMainIcon() {
-        val mainIconIntent = DokitIntent(
-            MainIconDokitView::class.java
-        )
-        mainIconIntent.mode = DokitIntent.MODE_SINGLE_INSTANCE
-        attach(mainIconIntent)
+    fun attachMainIcon(activity: Activity) {
+        mDoKitViewManager.attachMainIcon(activity)
     }
 
     /**
      * 隐藏首页图标
      */
-    fun detachMainIcon() {
-        detach(MainIconDokitView::class.java.simpleName)
+    fun detachMainIcon(activity: Activity) {
+        mDoKitViewManager.detachMainIcon(activity)
     }
 
     /**
@@ -217,16 +196,24 @@ class DokitViewManager : DokitViewManagerInterface {
         mDoKitViewManager.detach(dokitView)
     }
 
-    override fun detach(activity: Activity, dokitView: AbsDokitView) {
-        mDoKitViewManager.detach(activity, dokitView)
+    override fun detach(activity: Activity, doKitView: AbsDokitView) {
+        mDoKitViewManager.detach(activity, doKitView)
     }
 
-    override fun detach(dokitViewClass: Class<out AbsDokitView>) {
-        mDoKitViewManager.detach(dokitViewClass)
+    override fun detach(doKitViewClass: KClass<out AbsDokitView>) {
+        mDoKitViewManager.detach(doKitViewClass)
     }
 
-    override fun detach(activity: Activity, dokitViewClass: Class<out AbsDokitView>) {
-        mDoKitViewManager.detach(activity, dokitViewClass)
+    override fun detach(doKitViewClass: Class<out AbsDokitView>) {
+        mDoKitViewManager.detach(doKitViewClass)
+    }
+
+    override fun detach(activity: Activity, doKitViewClass: KClass<out AbsDokitView>) {
+        mDoKitViewManager.detach(activity, doKitViewClass)
+    }
+
+    override fun detach(activity: Activity, doKitViewClass: Class<out AbsDokitView>) {
+        mDoKitViewManager.detach(activity, doKitViewClass)
     }
 
     /**
@@ -277,8 +264,8 @@ class DokitViewManager : DokitViewManagerInterface {
      */
     fun addDokitViewAttachedListener(listener: DokitViewAttachedListener?) {
 
-        if (!DoKitConstant.IS_NORMAL_FLOAT_MODE && mDoKitViewManager is SystemDokitViewManager) {
-            (mDoKitViewManager as SystemDokitViewManager).addListener(listener!!)
+        if (!DoKitManager.IS_NORMAL_FLOAT_MODE && mDoKitViewManager is SystemDoKitViewManager) {
+            (mDoKitViewManager as SystemDoKitViewManager).addListener(listener!!)
         }
     }
 
@@ -289,8 +276,8 @@ class DokitViewManager : DokitViewManagerInterface {
      */
     fun removeDokitViewAttachedListener(listener: DokitViewAttachedListener?) {
 
-        if (!DoKitConstant.IS_NORMAL_FLOAT_MODE && mDoKitViewManager is SystemDokitViewManager) {
-            (mDoKitViewManager as SystemDokitViewManager).removeListener(listener!!)
+        if (!DoKitManager.IS_NORMAL_FLOAT_MODE && mDoKitViewManager is SystemDoKitViewManager) {
+            (mDoKitViewManager as SystemDoKitViewManager).removeListener(listener!!)
         }
     }
 

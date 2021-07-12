@@ -53,7 +53,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
+        ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
         if (dokitView != null) {
             dokitView.removeViewSelectListener(this);
         }
@@ -81,7 +81,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
+                ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
                 if (dokitView != null) {
                     dokitView.setViewSelectListener(ViewCheckInfoDokitView.this);
                 }
@@ -99,8 +99,8 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
     }
 
     @Override
-    public void updateViewLayout(String tag, boolean isActivityResume) {
-        super.updateViewLayout(tag, isActivityResume);
+    public void updateViewLayout(String tag, boolean isActivityBackResume) {
+        super.updateViewLayout(tag, isActivityBackResume);
         // 由于父类在此方法限制了高度无法自适应，所以重新设成wrap_content以自适应
         final FrameLayout.LayoutParams params = getNormalLayoutParams();
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -110,18 +110,18 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
     @Override
     public void onClick(View v) {
         if (v == mClose) {
-            DokitViewManager.getInstance().detach(ViewCheckDrawDokitView.class.getSimpleName());
-            DokitViewManager.getInstance().detach(ViewCheckInfoDokitView.class.getSimpleName());
-            DokitViewManager.getInstance().detach(ViewCheckDokitView.class.getSimpleName());
+            DokitViewManager.getInstance().detach(ViewCheckDrawDokitView.class.getCanonicalName());
+            DokitViewManager.getInstance().detach(ViewCheckInfoDokitView.class.getCanonicalName());
+            DokitViewManager.getInstance().detach(ViewCheckDokitView.class.getCanonicalName());
         }
         if (v == mNext) {
-            ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
+            ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
             if (dokitView != null) {
                 dokitView.preformNextCheckView();
             }
         }
         if (v == mPre) {
-            ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getSimpleName());
+            ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
             if (dokitView != null) {
                 dokitView.preformPreCheckView();
             }
@@ -140,7 +140,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
             mPosition.setText("");
             mDesc.setText("");
         } else {
-            mName.setText(getResources().getString(R.string.dk_view_check_info_class, current.getClass().getSimpleName()));
+            mName.setText(getResources().getString(R.string.dk_view_check_info_class, current.getClass().getCanonicalName()));
             String idText = getResources().getString(R.string.dk_view_check_info_id, UIUtils.getIdText(current));
             mId.setText(idText);
             String positionText = getResources().getString(R.string.dk_view_check_info_size, current.getWidth(), current.getHeight());

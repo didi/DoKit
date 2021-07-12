@@ -1,6 +1,9 @@
 package com.didichuxing.doraemonkit.extension
 
+import android.app.Activity
+import android.util.Log
 import com.didichuxing.doraemonkit.aop.DokitThirdLibInfo
+import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.util.EncodeUtils
 import com.didichuxing.doraemonkit.util.LogHelper
@@ -9,7 +12,9 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.plus
 import okhttp3.RequestBody
 import okio.Buffer
+import org.checkerframework.common.returnsreceiver.qual.This
 import java.util.*
+import kotlin.reflect.KClass
 
 /**
  * ================================================
@@ -23,6 +28,31 @@ import java.util.*
 
 
 val doKitGlobalScope = MainScope() + CoroutineName("DoKit")
+
+
+val Activity.tagName: String
+    get() {
+        Log.i("Extension","Activity===>${this.javaClass.canonicalName}  ${this.javaClass.simpleName}")
+        return this.javaClass.canonicalName ?: ""
+    }
+
+val AbsDokitView.tagName: String
+    get() {
+        Log.i("Extension","AbsDokitView===>${this.javaClass.canonicalName}  ${this.javaClass.simpleName}")
+        return this.javaClass.canonicalName ?: ""
+    }
+
+val KClass<out Any>.tagName: String
+    get() {
+        Log.i("Extension","KClass===>${this.java.canonicalName}  ${this.java.simpleName}")
+        return this.java.canonicalName ?: ""
+    }
+
+val Class<out Any>.tagName: String
+    get() {
+        Log.i("Extension","Class===>${this.canonicalName}  ${this.simpleName}")
+        return this.canonicalName ?: ""
+    }
 
 
 /**

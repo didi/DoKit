@@ -61,19 +61,4 @@ public class MainIconDokitView extends AbsDokitView {
 //        params.height = ConvertUtils.dp2px(FLOAT_SIZE);
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (isNormalMode()) {
-            FrameLayout.LayoutParams params = getNormalLayoutParams();
-            params.width = DokitViewLayoutParams.WRAP_CONTENT;
-            params.height = DokitViewLayoutParams.WRAP_CONTENT;
-//            params.width = ConvertUtils.dp2px(FLOAT_SIZE);
-//            params.height = ConvertUtils.dp2px(FLOAT_SIZE);
-            invalidate();
-        }
-
-
-    }
 }

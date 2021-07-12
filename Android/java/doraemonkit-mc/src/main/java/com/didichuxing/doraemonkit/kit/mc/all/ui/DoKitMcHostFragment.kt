@@ -10,11 +10,10 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
-import com.didichuxing.doraemonkit.kit.mc.ability.DokitMcAbility
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.hook.AccessibilityGetInstanceMethodHook
 import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onInitializeAccessibilityEventHook
@@ -64,12 +63,12 @@ class DoKitMcHostFragment : BaseFragment() {
                 }
             }
         }
-        val host = "ws://${DoKitConstant.IP_ADDRESS_BY_WIFI}:${DoKitConstant.MC_WS_PORT}/mc"
+        val host = "ws://${DoKitManager.IP_ADDRESS_BY_WIFI}:${DoKitManager.MC_WS_PORT}/mc"
         val logo = ImageUtils.getBitmap(R.mipmap.dk_logo)
         val qCode = CodeUtils.createCode(activity, host, logo)
         tvHost.text = host
         ivCode.setImageBitmap(qCode)
-        if (DoKitConstant.WS_MODE != WSMode.HOST) {
+        if (DoKitManager.WS_MODE != WSMode.HOST) {
             DoKitWsServer.start {
                 DoKitWindowManager.hookWindowManagerGlobal()
                 runTimeHook()

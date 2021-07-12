@@ -6,13 +6,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.didichuxing.doraemonkit.util.AppUtils;
 import com.didichuxing.doraemonkit.util.DeviceUtils;
-import com.didichuxing.doraemonkit.util.DokitDeviceUtils;
 import com.didichuxing.doraemonkit.util.GsonUtils;
 import com.didichuxing.doraemonkit.util.TimeUtils;
 import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.BuildConfig;
 import com.didichuxing.doraemonkit.config.CrashCaptureConfig;
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.blockmonitor.core.BlockMonitorManager;
 import com.didichuxing.doraemonkit.kit.crash.CrashCaptureManager;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
@@ -70,7 +69,7 @@ public class AppHealthInfoUtil {
         baseInfoBean.setPhoneMode(DeviceUtils.getModel());
         baseInfoBean.setTime(TimeUtils.getNowString());
         baseInfoBean.setSystemVersion(DeviceUtils.getSDKVersionName());
-        baseInfoBean.setpId("" + DoKitConstant.PRODUCT_ID);
+        baseInfoBean.setpId("" + DoKitManager.PRODUCT_ID);
         mAppHealthInfo.setBaseInfo(baseInfoBean);
     }
 
@@ -342,7 +341,7 @@ public class AppHealthInfoUtil {
      * @return
      */
     public boolean isAppHealthRunning() {
-        boolean isRunning = DoKitConstant.APP_HEALTH_RUNNING;
+        boolean isRunning = DoKitManager.APP_HEALTH_RUNNING;
         if (isRunning) {
             ToastUtils.showShort("App当前处于健康体检状态,无法进行此操作");
         }

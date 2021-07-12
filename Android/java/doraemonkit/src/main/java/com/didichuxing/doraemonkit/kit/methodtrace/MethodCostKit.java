@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.methodtrace;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
@@ -10,6 +11,8 @@ import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.webview.CommWebViewFragment;
 import com.didichuxing.doraemonkit.kit.webview.WebViewManager;
 import com.google.auto.service.AutoService;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * ================================================
@@ -35,9 +38,9 @@ public class MethodCostKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(Context context) {
+    public boolean onClickWithReturn(@NotNull Activity activity) {
         WebViewManager.INSTANCE.setUrl(NetworkManager.APP_DOCUMENT_URL);
-        startUniversalActivity(CommWebViewFragment.class, context, null, true);
+        startUniversalActivity(CommWebViewFragment.class, activity, null, true);
         return true;
     }
 

@@ -32,10 +32,10 @@ public class PerformanceDokitViewManager {
     }
 
     public static void open(int performanceType, String title, int interval, PerformanceFragmentCloseListener listener) {
-        PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
+        PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getCanonicalName());
         if (performanceDokitView == null) {
             SimpleDokitStarter.startFloating(PerformanceDokitView.class);
-            performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
+            performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getCanonicalName());
             performanceDokitView.addItem(performanceType, title, interval);
         } else {
             performanceDokitView.addItem(performanceType, title, interval);
@@ -50,7 +50,7 @@ public class PerformanceDokitViewManager {
      * @param listener
      */
     public static void onPerformanceSettingFragmentDestroy(PerformanceFragmentCloseListener listener) {
-        PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
+        PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getCanonicalName());
         if (performanceDokitView != null) {
             performanceDokitView.removePerformanceFragmentCloseListener(listener);
         }
@@ -60,7 +60,7 @@ public class PerformanceDokitViewManager {
      * @param performanceType 参考 DataSourceFactory
      */
     public static void close(int performanceType, String title) {
-        PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getSimpleName());
+        PerformanceDokitView performanceDokitView = (PerformanceDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceDokitView.class.getCanonicalName());
         if (performanceDokitView != null) {
             performanceDokitView.removeItem(performanceType);
         }

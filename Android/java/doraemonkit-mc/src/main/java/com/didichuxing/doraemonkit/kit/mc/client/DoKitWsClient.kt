@@ -1,9 +1,8 @@
 package com.didichuxing.doraemonkit.kit.mc.client
 
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
-import com.didichuxing.doraemonkit.extension.hasThirdLib
 import com.didichuxing.doraemonkit.kit.mc.all.*
 import com.didichuxing.doraemonkit.util.*
 import io.ktor.client.*
@@ -72,7 +71,7 @@ object DoKitWsClient {
                         }
                     }
                 ) {
-                    DoKitConstant.WS_MODE = WSMode.CLIENT
+                    DoKitManager.WS_MODE = WSMode.CLIENT
                     clientWebSocketSession = this
 
                     /**
@@ -106,7 +105,7 @@ object DoKitWsClient {
                                                 "Server said BYE"
                                             )
                                         )
-                                        ToastUtils.showShort("已从主机【${McConstant.HOST_INFO?.deviceName}】断开")
+                                        ToastUtils.showShort("已从主机【${DoKitMcManager.HOST_INFO?.deviceName}】断开")
                                     }
 
 
@@ -144,7 +143,7 @@ object DoKitWsClient {
             )
             clientWebSocketSession?.close()
 //            client.close()
-            DoKitConstant.WS_MODE = WSMode.UNKNOW
+            DoKitManager.WS_MODE = WSMode.UNKNOW
         } catch (e: Exception) {
             e.printStackTrace()
         }

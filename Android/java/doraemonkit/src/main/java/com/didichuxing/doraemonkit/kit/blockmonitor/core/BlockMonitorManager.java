@@ -12,11 +12,10 @@ import androidx.annotation.NonNull;
 import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.constant.BundleKey;
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.constant.FragmentIndex;
 import com.didichuxing.doraemonkit.kit.blockmonitor.BlockMonitorFragment;
 import com.didichuxing.doraemonkit.kit.blockmonitor.bean.BlockInfo;
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
@@ -127,7 +126,7 @@ public class BlockMonitorManager {
         blockInfo.time = System.currentTimeMillis();
         if (!TextUtils.isEmpty(blockInfo.concernStackString)) {
             //卡顿 debug模式下会造成卡顿
-            if (DoKitConstant.APP_HEALTH_RUNNING && !Debug.isDebuggerConnected()) {
+            if (DoKitManager.APP_HEALTH_RUNNING && !Debug.isDebuggerConnected()) {
                 addBlockInfoInAppHealth(blockInfo);
             }
             showNotification(blockInfo);

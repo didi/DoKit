@@ -1,13 +1,13 @@
 package com.didichuxing.doraemonkit.kit.health;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 
 import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
-import com.didichuxing.doraemonkit.constant.FragmentIndex;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
 import com.google.auto.service.AutoService;
@@ -33,7 +33,7 @@ public class HealthKit extends AbstractKit {
 
 
     @Override
-    public boolean onClickWithReturn(Context context) {
+    public boolean onClickWithReturn(Activity activity) {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip));
             return false;
@@ -49,12 +49,12 @@ public class HealthKit extends AbstractKit {
             return false;
         }
 
-        if (TextUtils.isEmpty(DoKitConstant.PRODUCT_ID)) {
+        if (TextUtils.isEmpty(DoKitManager.PRODUCT_ID)) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_platform_tip));
             return false;
         }
 
-        startUniversalActivity(HealthFragment.class, context, null, true);
+        startUniversalActivity(HealthFragment.class, activity, null, true);
 
         return true;
     }

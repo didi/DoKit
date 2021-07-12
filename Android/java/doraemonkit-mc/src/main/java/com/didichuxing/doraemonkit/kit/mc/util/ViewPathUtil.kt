@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.util.ResourceUtils
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.SystemViewInfo
@@ -43,7 +44,7 @@ object ViewPathUtil {
                 is RecyclerView -> {
                     systemViewInfos.add(
                         SystemViewInfo(
-                            view::class.java.canonicalName!!,
+                            view::class.tagName,
                             UIUtils.getRealIdText(view),
                             if (view is ViewGroup) {
                                 view.childCount
@@ -60,7 +61,7 @@ object ViewPathUtil {
                 else -> {
                     systemViewInfos.add(
                         SystemViewInfo(
-                            view::class.java.canonicalName!!,
+                            view::class.tagName,
                             UIUtils.getRealIdText(view),
                             if (view is ViewGroup) {
                                 view.childCount
@@ -81,7 +82,7 @@ object ViewPathUtil {
                     is RecyclerView -> {
                         systemViewInfos.add(
                             SystemViewInfo(
-                                parent::class.java.canonicalName!!,
+                                parent::class.tagName,
                                 UIUtils.getRealIdText(parent),
                                 parent.childCount,
                                 parent.indexOfChild(view),
@@ -94,7 +95,7 @@ object ViewPathUtil {
                     is ListView -> {
                         systemViewInfos.add(
                             SystemViewInfo(
-                                parent::class.java.canonicalName!!,
+                                parent::class.tagName,
                                 UIUtils.getRealIdText(parent),
                                 parent.childCount,
                                 parent.indexOfChild(view),
@@ -107,7 +108,7 @@ object ViewPathUtil {
                     is ViewPager -> {
                         systemViewInfos.add(
                             SystemViewInfo(
-                                parent::class.java.canonicalName!!,
+                                parent::class.tagName,
                                 UIUtils.getRealIdText(parent),
                                 parent.indexOfChild(view),
                                 parent.childCount,
@@ -119,7 +120,7 @@ object ViewPathUtil {
                     else -> {
                         systemViewInfos.add(
                             SystemViewInfo(
-                                parent::class.java.canonicalName!!,
+                                parent::class.tagName,
                                 UIUtils.getRealIdText(parent),
                                 parent.indexOfChild(view),
                                 parent.indexOfChild(view)
@@ -149,7 +150,7 @@ object ViewPathUtil {
         if (parentViewGroup is ViewGroup) {
             addSpecialSystemViewInfo(systemViewInfos, parentViewGroup, view, 1)
         }
-        while (parentViewGroup != null && parentViewGroup::class.java.canonicalName != "android.view.ViewRootImpl") {
+        while (parentViewGroup != null && parentViewGroup::class.tagName != "android.view.ViewRootImpl") {
             if (parentViewGroup is ViewGroup) {
                 val currentView: ViewGroup = parentViewGroup
                 if (parentViewGroup.parent is ViewGroup) {
@@ -179,7 +180,7 @@ object ViewPathUtil {
             val viewParentInfo = viewParentInfos[index]
             //decorView 特殊处理
             if (index == viewParentInfos.size - 1) {
-                if (viewParentInfo.viewClassName == decorView::class.java.canonicalName) {
+                if (viewParentInfo.viewClassName == decorView::class.tagName) {
                     viewParent = decorView.getChildAt(viewParentInfo.childIndexOfViewParent)
                 }
             } else {
@@ -188,7 +189,7 @@ object ViewPathUtil {
                         //处理特殊view
                         if (viewParentInfo.isSpecialView) {
                             //判断当前的view是否和数组的第一个info信息匹配
-                            if (viewParentInfos[index].isCurrentEventView && it::class.java.canonicalName == viewParentInfos[0].viewClassName
+                            if (viewParentInfos[index].isCurrentEventView && it::class.tagName == viewParentInfos[0].viewClassName
                                 && UIUtils.getRealIdText(it) == viewParentInfos[0].viewId
                             ) {
                                 targetView = it
@@ -197,7 +198,7 @@ object ViewPathUtil {
                             }
                         } else {
                             //判断当前的view是否和数组的第一个info信息匹配
-                            if (viewParentInfos[index].isCurrentEventView && it::class.java.canonicalName == viewParentInfos[0].viewClassName
+                            if (viewParentInfos[index].isCurrentEventView && it::class.tagName == viewParentInfos[0].viewClassName
                                 && UIUtils.getRealIdText(it) == viewParentInfos[0].viewId
                             ) {
                                 targetView = it
@@ -210,7 +211,7 @@ object ViewPathUtil {
 
                     } else {
                         //判断当前的view是否和数组的第一个info信息匹配
-                        if (viewParentInfos[index].isCurrentEventView && it::class.java.canonicalName == viewParentInfos[0].viewClassName
+                        if (viewParentInfos[index].isCurrentEventView && it::class.tagName == viewParentInfos[0].viewClassName
                             && UIUtils.getRealIdText(it) == viewParentInfos[0].viewId
                         ) {
                             targetView = it

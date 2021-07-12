@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 final class CameraConfigurationManager {
 
-    private static final String TAG = CameraConfigurationManager.class.getSimpleName();
+    private static final String TAG = CameraConfigurationManager.class.getCanonicalName();
 
     private static final int TEN_DESIRED_ZOOM = 27;
     private static final int DESIRED_SHARPNESS = 30;

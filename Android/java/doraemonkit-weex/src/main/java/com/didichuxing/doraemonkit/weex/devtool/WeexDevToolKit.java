@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.weex.devtool;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -7,6 +8,8 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.didichuxing.doraemonkit.weex.R;
 import com.google.auto.service.AutoService;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author haojianglong
@@ -27,10 +30,10 @@ public class WeexDevToolKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(Context context) {
-        Intent intent = new Intent(context, DevToolActivity.class);
+    public boolean onClickWithReturn(@NotNull Activity activity) {
+        Intent intent = new Intent(activity, DevToolActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        activity.startActivity(intent);
         return true;
     }
 

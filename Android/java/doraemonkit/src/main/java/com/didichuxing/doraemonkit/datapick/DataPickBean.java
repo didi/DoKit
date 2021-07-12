@@ -4,7 +4,7 @@ import com.didichuxing.doraemonkit.util.AppUtils;
 import com.didichuxing.doraemonkit.util.DeviceUtils;
 import com.didichuxing.doraemonkit.util.TimeUtils;
 import com.didichuxing.doraemonkit.BuildConfig;
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 
 import java.util.List;
 import java.util.Locale;
@@ -47,7 +47,7 @@ public class DataPickBean {
 
     DataPickBean() {
         //初始化基础数据
-        this.pId = DoKitConstant.PRODUCT_ID;
+        this.pId = DoKitManager.PRODUCT_ID;
         this.appName = AppUtils.getAppName();
         this.appId = AppUtils.getAppPackageName();
         this.dokitVersion = BuildConfig.DOKIT_VERSION;

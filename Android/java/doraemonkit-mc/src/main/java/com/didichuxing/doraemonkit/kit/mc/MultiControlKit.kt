@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig
@@ -26,16 +27,14 @@ class MultiControlKit : AbstractKit() {
     override val icon: Int
         get() = R.mipmap.dk_icon_mc
 
-    override fun onClickWithReturn(context: Context?): Boolean {
+    override fun onClickWithReturn(activity: Activity): Boolean {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip))
             return false
         }
-        context?.let {
-            val intent = Intent(context, DoKitMcActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            it.startActivity(intent)
-        }
+        val intent = Intent(activity, DoKitMcActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        activity.startActivity(intent)
 
         return true
     }

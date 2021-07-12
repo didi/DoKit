@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.webdoor;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
@@ -8,6 +9,7 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.kit.Category;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -28,8 +30,8 @@ public class WebDoorKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(@Nullable Context context) {
-        startUniversalActivity(WebDoorFragment.class, context, null, true);
+    public boolean onClickWithReturn(@NotNull Activity activity) {
+        startUniversalActivity(WebDoorFragment.class, activity, null, true);
         return true;
     }
 

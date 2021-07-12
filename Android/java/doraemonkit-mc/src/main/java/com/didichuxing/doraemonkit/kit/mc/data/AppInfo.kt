@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.kit.mc.data
 
 import com.didichuxing.doraemonkit.BuildConfig
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.util.AppUtils
 import com.didichuxing.doraemonkit.util.DeviceUtils
 import com.didichuxing.doraemonkit.util.TimeUtils
@@ -23,5 +23,5 @@ data class AppInfo(
     val appVersion: String = AppUtils.getAppVersionName(),
     val dokitVersion: String = BuildConfig.DOKIT_VERSION,
     //产品id
-    val pId: String? = DoKitConstant.PRODUCT_ID
+    val pId: String? = DoKitManager.PRODUCT_ID
 )

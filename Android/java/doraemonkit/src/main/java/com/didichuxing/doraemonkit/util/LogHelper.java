@@ -5,7 +5,7 @@ package com.didichuxing.doraemonkit.util;
  */
 
 public class LogHelper {
-    private static final String TAG = "DoraemonKit";
+    private static final String TAG = "DoKit";
     private static boolean IS_DEBUG = true;
 
     public static void d(String subTag, String msg) {

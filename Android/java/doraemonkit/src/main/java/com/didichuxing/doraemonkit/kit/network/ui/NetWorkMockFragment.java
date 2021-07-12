@@ -24,7 +24,7 @@ import com.didichuxing.doraemonkit.util.ConvertUtils;
 import com.didichuxing.doraemonkit.util.GsonUtils;
 import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.bean.MockApiResponseBean;
@@ -56,7 +56,7 @@ import java.util.List;
  * @author jintai
  */
 public class NetWorkMockFragment extends BaseFragment {
-    private String projectId = DoKitConstant.PRODUCT_ID;
+    private String projectId = DoKitManager.PRODUCT_ID;
     private int pageSize = 50;
     private String mFormatApiUrl = NetworkManager.MOCK_DOMAIN + "/api/app/interface?projectId=%s&isfull=1&curPage=%s&pageSize=%s";
     private EditText mEditText;

@@ -442,7 +442,7 @@ public class LogInfoDokitView extends AbsDokitView implements LogInfoManager.OnL
     @Override
     public void onResume() {
         super.onResume();
-        if (getActivity() != null && !getActivity().getClass().getSimpleName().equals(UniversalActivity.class.getSimpleName())) {
+        if (!getActivity().getClass().getCanonicalName().equals(UniversalActivity.class.getCanonicalName())) {
             minimize();
         }
         LogInfoManager.getInstance().registerListener(this);

@@ -239,7 +239,7 @@ public class PerformanceDokitView extends AbsDokitView implements PerformanceClo
      */
     private void showSystemPerfoemanceCloseDokitView() {
         SimpleDokitStarter.startFloating(PerformanceCloseDokitView.class);
-        mPerformanceCloseDokitView = (PerformanceCloseDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceCloseDokitView.class.getSimpleName());
+        mPerformanceCloseDokitView = (PerformanceCloseDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceCloseDokitView.class.getCanonicalName());
         if (mPerformanceCloseDokitView != null) {
             mPerformanceCloseDokitView.setPerformanceCloseListener(PerformanceDokitView.this);
         }

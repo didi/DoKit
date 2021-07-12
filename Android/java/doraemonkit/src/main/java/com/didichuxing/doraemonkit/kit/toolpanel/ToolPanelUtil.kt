@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.kit.toolpanel
 
 import com.didichuxing.doraemonkit.util.GsonUtils
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import java.util.*
@@ -34,7 +34,7 @@ class ToolPanelUtil {
                 GsonUtils.fromJson(json, GsonUtils.getListType(KitGroupBean::class.java))
 
             localConfigs.forEach { group ->
-                DoKitConstant.GLOBAL_SYSTEM_KITS[group.groupId] = mutableListOf()
+                DoKitManager.GLOBAL_SYSTEM_KITS[group.groupId] = mutableListOf()
                 group.kits.forEach { kitBean ->
                     //有可能不存在该模块
                     val kit: AbstractKit? = doKitInnerKitMaps[kitBean.innerKitId]
@@ -46,14 +46,14 @@ class ToolPanelUtil {
                             group.groupId,
                             kit
                         )
-                        DoKitConstant.GLOBAL_SYSTEM_KITS[group.groupId]?.add(kitWrapItem)
+                        DoKitManager.GLOBAL_SYSTEM_KITS[group.groupId]?.add(kitWrapItem)
                     }
                 }
             }
 
 
-            for (groupId: String in DoKitConstant.GLOBAL_SYSTEM_KITS.keys) {
-                DoKitConstant.GLOBAL_KITS[groupId] = DoKitConstant.GLOBAL_SYSTEM_KITS[groupId]!!
+            for (groupId: String in DoKitManager.GLOBAL_SYSTEM_KITS.keys) {
+                DoKitManager.GLOBAL_KITS[groupId] = DoKitManager.GLOBAL_SYSTEM_KITS[groupId]!!
             }
         }
 

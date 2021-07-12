@@ -1,5 +1,6 @@
 package com.didichuxing.doraemondemo.dokit
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import com.didichuxing.doraemondemo.R
@@ -19,10 +20,10 @@ class TestSimpleDokitFragmentKit : AbstractKit() {
     override val icon: Int
         get() = R.mipmap.dk_sys_info
 
-    override fun onClickWithReturn(context: Context?): Boolean {
+    override fun onClickWithReturn(activity: Activity): Boolean {
         val bundle = Bundle()
         bundle.putString("test", "test")
-        startUniversalActivity(DemoDokitFragment::class.java, context, bundle)
+        startUniversalActivity(DemoDokitFragment::class.java, activity, bundle)
         return true
     }
 

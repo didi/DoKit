@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.layoutborder;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
@@ -11,6 +12,7 @@ import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -31,9 +33,9 @@ public class LayoutBorderKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(@Nullable Context context) {
+    public boolean onClickWithReturn(@NotNull Activity activity) {
         //隐藏当前工具dokitview
-        DokitViewManager.getInstance().detachToolPanel();
+        DokitViewManager.getInstance().detachToolPanel(activity);
 
         SimpleDokitStarter.startFloating(LayoutLevelDokitView.class);
 

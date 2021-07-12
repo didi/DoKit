@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
-import com.didichuxing.doraemonkit.constant.DoKitConstant
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
-import com.didichuxing.doraemonkit.kit.mc.all.McConstant
+import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.client.ClientDokitView
 import com.didichuxing.doraemonkit.kit.mc.client.DoKitWsClient
-import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
 import com.didichuxing.doraemonkit.mc.R
 import kotlinx.coroutines.launch
 
@@ -33,7 +31,7 @@ class DoKitMcClientFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findViewById<TextView>(R.id.tv_host_info).text =
-            "当前设备已连接主机:【${McConstant.HOST_INFO?.deviceName}】"
+            "当前设备已连接主机:【${DoKitMcManager.HOST_INFO?.deviceName}】"
         findViewById<View>(R.id.btn_close).setOnClickListener {
             lifecycleScope.launch {
                 SimpleDokitStarter.removeFloating(ClientDokitView::class.java)

@@ -5,7 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.didichuxing.doraemonkit.BuildConfig;
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 
 import java.util.ArrayList;
@@ -142,8 +142,8 @@ public class NetworkManager {
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (DoKitConstant.INSTANCE.getCALLBACK() != null && add) {
-                    DoKitConstant.INSTANCE.getCALLBACK().onNetworkCallBack(record);
+                if (DoKitManager.INSTANCE.getCALLBACK() != null && add) {
+                    DoKitManager.INSTANCE.getCALLBACK().onNetworkCallBack(record);
                 }
                 if (mOnNetworkInfoUpdateListener != null) {
                     mOnNetworkInfoUpdateListener.onNetworkInfoUpdate(record, add);

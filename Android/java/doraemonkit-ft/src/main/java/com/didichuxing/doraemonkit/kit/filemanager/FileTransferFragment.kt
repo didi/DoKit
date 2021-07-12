@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.text.Html
 import android.view.View
 import android.widget.TextView
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.ft.R
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
@@ -32,7 +32,7 @@ class FileTransferFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         findViewById<TextView>(R.id.tv_ip).text =
-            "${DoKitConstant.IP_ADDRESS_BY_WIFI}:${DoKitConstant.FILE_MANAGER_HTTP_PORT}"
+            "${DoKitManager.IP_ADDRESS_BY_WIFI}:${DoKitManager.FILE_MANAGER_HTTP_PORT}"
         findViewById<HomeTitleBar>(R.id.title_bar).setListener { finish() }
         findViewById<TextView>(R.id.tv_tip_top).apply {
             text = Html.fromHtml(DoKitCommUtil.getString(R.string.dk_file_manager_tip_top))

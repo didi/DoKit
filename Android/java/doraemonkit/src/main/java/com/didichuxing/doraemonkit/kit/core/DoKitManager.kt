@@ -1,14 +1,13 @@
-package com.didichuxing.doraemonkit.constant
+package com.didichuxing.doraemonkit.kit.core
 
 import com.didichuxing.doraemonkit.BuildConfig
 import com.didichuxing.doraemonkit.DoKitCallBack
 import com.didichuxing.doraemonkit.config.GlobalConfig
-import com.didichuxing.doraemonkit.kit.core.DokitAbility
-import com.didichuxing.doraemonkit.kit.core.MCInterceptor
+import com.didichuxing.doraemonkit.constant.DoKitModule
+import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.network.bean.WhiteHostBean
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager
 import com.didichuxing.doraemonkit.kit.toolpanel.KitWrapItem
-import com.didichuxing.doraemonkit.model.ActivityLifecycleInfo
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.NetworkUtils
 import com.didichuxing.doraemonkit.util.PathUtils
@@ -25,9 +24,7 @@ import kotlin.collections.LinkedHashMap
  * 修订历史：
  * ================================================
  */
-object DoKitConstant {
-    const val MC_CASE_ID_KEY = "MC_CASE_ID"
-    const val MC_CASE_RECODING_KEY = "MC_CASE_RECODING"
+object DoKitManager {
     const val TAG = "DoKitConstant"
     const val GROUP_ID_PLATFORM = "dk_category_platform"
     const val GROUP_ID_COMM = "dk_category_comms"
@@ -40,33 +37,26 @@ object DoKitConstant {
     /**
      * DoKit 模块能力
      */
-    private val DOKIT_MODULE_ABILITIES =
-        mutableMapOf<DoKitModule, DokitAbility.DokitModuleProcessor>()
+    private val mDokitModuleAbilityMap: MutableMap<DoKitModule, DokitAbility.DokitModuleProcessor> by lazy {
+        val doKitAbilities =
+            ServiceLoader.load(DokitAbility::class.java, javaClass.classLoader).toList()
+        val abilityMap = mutableMapOf<DoKitModule, DokitAbility.DokitModuleProcessor>()
+        doKitAbilities.forEach {
+            it.init()
+            abilityMap[it.moduleName()] = it.getModuleProcessor()
+        }
+        abilityMap
+    }
 
 
     /**
      * 获取ModuleProcessor
      */
     fun getModuleProcessor(module: DoKitModule): DokitAbility.DokitModuleProcessor? {
-        if (DOKIT_MODULE_ABILITIES[module] == null) {
+        if (mDokitModuleAbilityMap[module] == null) {
             return null
         }
-        return DOKIT_MODULE_ABILITIES[module]
-    }
-
-    /**
-     * 加载跨模块通信能力
-     */
-    fun loadDoKitModuleAbilities() {
-        val doKitAbilities =
-            ServiceLoader.load(DokitAbility::class.java, javaClass.classLoader).toList()
-        doKitAbilities.forEach {
-            it.init()
-            DOKIT_MODULE_ABILITIES[it.moduleName()] = it.getModuleProcessor()
-        }
-
-        //添加录制中的悬浮窗
-        LogHelper.i(TAG, "====loadDoKitModuleAbilities===")
+        return mDokitModuleAbilityMap[module]
     }
 
 
@@ -160,9 +150,9 @@ object DoKitConstant {
      * 是否允许上传统计信息
      */
     var ENABLE_UPLOAD = true
-
-    @JvmField
-    var ACTIVITY_LIFECYCLE_INFOS = mutableMapOf<String, ActivityLifecycleInfo>()
+    val ACTIVITY_LIFECYCLE_INFOS: MutableMap<String, ActivityLifecycleStatusInfo?> by lazy {
+        mutableMapOf()
+    }
 
     /**
      * 一机多控自定义拦截器
@@ -180,10 +170,7 @@ object DoKitConstant {
     //@JvmField
     var WS_MODE: WSMode = WSMode.UNKNOW
 
-    /**
-     * 是否处于录制状态
-     */
-    var IS_MC_RECODING = false
+
 
     /**
      * Wifi IP 地址

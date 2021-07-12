@@ -1,11 +1,13 @@
 package com.didichuxing.doraemonkit.kit.parameter.cpu;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @AutoService(AbstractKit.class)
@@ -23,8 +25,8 @@ public class CpuKit extends AbstractKit {
 
 
     @Override
-    public boolean onClickWithReturn(@Nullable Context context) {
-        startUniversalActivity(CpuMainPageFragment.class, context, null, true);
+    public boolean onClickWithReturn(@NotNull Activity activity) {
+        startUniversalActivity(CpuMainPageFragment.class, activity, null, true);
         return true;
     }
 

@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.kit.network.bean;
 
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 
 import java.util.List;
@@ -147,8 +147,8 @@ public class MockApiResponseBean {
              * @return path
              */
             public String getPath() {
-                if (DoKitConstant.isRpcSDK()) {
-                    path = DoKitConstant.dealDidiPlatformPath(path, DokitDbManager.FROM_SDK_DIDI);
+                if (DoKitManager.isRpcSDK()) {
+                    path = DoKitManager.dealDidiPlatformPath(path, DokitDbManager.FROM_SDK_DIDI);
                 }
                 return path;
             }

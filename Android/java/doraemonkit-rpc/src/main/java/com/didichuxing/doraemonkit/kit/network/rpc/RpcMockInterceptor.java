@@ -7,34 +7,23 @@ import androidx.annotation.NonNull;
 
 import com.didichuxing.doraemonkit.kit.network.okhttp.InterceptorUtil;
 import com.didichuxing.doraemonkit.util.ActivityUtils;
-import com.didichuxing.doraemonkit.util.ConvertUtils;
 import com.didichuxing.doraemonkit.util.EncodeUtils;
 import com.didichuxing.doraemonkit.util.TimeUtils;
 import com.didichuxing.doraemonkit.util.ToastUtils;
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo;
 import com.didichuxing.doraemonkit.kit.network.NetworkManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockInterceptApiBean;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
-import com.didichuxing.doraemonkit.kit.network.stream.InputStreamProxy;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
 import com.didichuxing.doraemonkit.util.LogHelper;
-import com.didichuxing.foundation.net.MimeType;
-import com.didichuxing.foundation.net.http.HttpEntity;
-import com.didichuxing.foundation.net.http.HttpMethod;
-import com.didichuxing.foundation.net.rpc.http.HttpRpcRequest;
-import com.didichuxing.foundation.net.rpc.http.HttpRpcResponse;
-import com.didichuxing.foundation.rpc.RpcInterceptor;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URLDecoder;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +71,7 @@ public class RpcMockInterceptor extends AbsDoKitRpcInterceptor {
         String templateMatchedId = DokitDbManager.getInstance().isMockMatched(path, jsonQuery, jsonRequestBody, DokitDbManager.MOCK_API_TEMPLATE, DokitDbManager.FROM_SDK_DIDI);
         try {
             //网络的健康体检功能 统计流量大小
-            if (DoKitConstant.APP_HEALTH_RUNNING) {
+            if (DoKitManager.APP_HEALTH_RUNNING) {
                 addNetWokInfoInAppHealth(oldRequest, oldResponse);
             }
 

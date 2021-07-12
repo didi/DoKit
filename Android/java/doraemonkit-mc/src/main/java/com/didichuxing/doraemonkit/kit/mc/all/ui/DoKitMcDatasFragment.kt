@@ -6,10 +6,10 @@ import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
 import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager
-import com.didichuxing.doraemonkit.kit.mc.all.McConstant
+import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.SPUtils
 import com.didichuxing.doraemonkit.util.ToastUtils
@@ -75,17 +75,17 @@ class DoKitMcDatasFragment : BaseFragment() {
     }
 
     private fun saveCaseId(caseId: String) {
-        McConstant.MC_CASE_ID = caseId
-        SPUtils.getInstance().put(DoKitConstant.MC_CASE_ID_KEY, caseId)
+        DoKitMcManager.MC_CASE_ID = caseId
+        SPUtils.getInstance().put(DoKitMcManager.MC_CASE_ID_KEY, caseId)
     }
 
     private fun loadCaseId(): String {
-        return if (McConstant.MC_CASE_ID.isEmpty()) {
-            val caseId = SPUtils.getInstance().getString(DoKitConstant.MC_CASE_ID_KEY, "")
-            McConstant.MC_CASE_ID = caseId
-            McConstant.MC_CASE_ID
+        return if (DoKitMcManager.MC_CASE_ID.isEmpty()) {
+            val caseId = SPUtils.getInstance().getString(DoKitMcManager.MC_CASE_ID_KEY, "")
+            DoKitMcManager.MC_CASE_ID = caseId
+            DoKitMcManager.MC_CASE_ID
         } else {
-            McConstant.MC_CASE_ID
+            DoKitMcManager.MC_CASE_ID
         }
     }
 

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
@@ -97,15 +97,15 @@ class H5DokitView : AbsDokitView() {
                     }
                 }
             }
-            mJsCheckBox.isChecked = DoKitConstant.H5_JS_INJECT
+            mJsCheckBox.isChecked = DoKitManager.H5_JS_INJECT
             mJsCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                DoKitConstant.H5_JS_INJECT = isChecked
+                DoKitManager.H5_JS_INJECT = isChecked
             }
 
             mVConsoleCheckBox = it.findViewById(R.id.vConsole_switch)
-            mVConsoleCheckBox.isChecked = DoKitConstant.H5_VCONSOLE_INJECT
+            mVConsoleCheckBox.isChecked = DoKitManager.H5_VCONSOLE_INJECT
             mVConsoleCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                DoKitConstant.H5_VCONSOLE_INJECT = isChecked
+                DoKitManager.H5_VCONSOLE_INJECT = isChecked
             }
 
             mNavLocal = it.findViewById(R.id.tv_nav_local)
@@ -207,8 +207,8 @@ class H5DokitView : AbsDokitView() {
             mMoreWrap.visibility = View.VISIBLE
             mBtnReload.visibility = View.VISIBLE
         }
-        mJsCheckBox.isChecked = DoKitConstant.H5_JS_INJECT
-        mVConsoleCheckBox.isChecked = DoKitConstant.H5_VCONSOLE_INJECT
+        mJsCheckBox.isChecked = DoKitManager.H5_JS_INJECT
+        mVConsoleCheckBox.isChecked = DoKitManager.H5_VCONSOLE_INJECT
         invalidate()
     }
 

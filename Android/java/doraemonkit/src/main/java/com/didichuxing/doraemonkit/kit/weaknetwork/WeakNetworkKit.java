@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.weaknetwork;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.didichuxing.doraemonkit.util.ToastUtils;
@@ -10,6 +11,7 @@ import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
 import com.google.auto.service.AutoService;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -32,7 +34,7 @@ public class WeakNetworkKit extends AbstractKit {
     }
 
     @Override
-    public boolean onClickWithReturn(@Nullable Context context) {
+    public boolean onClickWithReturn(@NotNull Activity activity) {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip));
             return false;
@@ -42,7 +44,7 @@ public class WeakNetworkKit extends AbstractKit {
             ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_network_close_tip));
             return false;
         }
-        startUniversalActivity(WeakNetworkFragment.class, context, null, true);
+        startUniversalActivity(WeakNetworkFragment.class, activity, null, true);
         return true;
     }
 

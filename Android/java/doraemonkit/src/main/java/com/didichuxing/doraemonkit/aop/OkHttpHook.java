@@ -1,6 +1,6 @@
 package com.didichuxing.doraemonkit.aop;
 
-import com.didichuxing.doraemonkit.constant.DoKitConstant;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.constant.DoKitModule;
 import com.didichuxing.doraemonkit.kit.core.DokitAbility;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.AbsDoKitInterceptor;
@@ -9,7 +9,6 @@ import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterc
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitLargePicInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitMockInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitWeakNetworkInterceptor;
-import com.didichuxing.doraemonkit.util.LogHelper;
 import com.didichuxing.doraemonkit.util.ReflectUtils;
 
 import java.util.ArrayList;
@@ -52,7 +51,7 @@ public class OkHttpHook {
         List<Interceptor> interceptors = new ArrayList<>(client.interceptors());
         List<Interceptor> networkInterceptors = new ArrayList<>(client.networkInterceptors());
         try {
-            DokitAbility.DokitModuleProcessor processor = DoKitConstant.INSTANCE.getModuleProcessor(DoKitModule.MODULE_MC);
+            DokitAbility.DokitModuleProcessor processor = DoKitManager.INSTANCE.getModuleProcessor(DoKitModule.MODULE_MC);
             if (processor != null) {
                 Object interceptor = processor.values().get("okhttp_interceptor");
                 if (interceptor instanceof AbsDoKitInterceptor) {

@@ -1,10 +1,10 @@
 package com.didichuxing.doraemonkit.rpc.ability
 
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager
-import com.didichuxing.doraemonkit.kit.mc.all.McConstant
+import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.data.HttpMatchedInfo
 import com.didichuxing.doraemonkit.kit.mc.data.HttpUploadInfo
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
@@ -35,7 +35,7 @@ class RpcMcInterceptor : AbsDoKitRpcInterceptor() {
         //数据采集
         val request = chain.request()
         val response = chain.proceed(request)
-        if (DoKitConstant.WS_MODE == WSMode.UNKNOW) {
+        if (DoKitManager.WS_MODE == WSMode.UNKNOW) {
             return response
         }
         val url = request.url()
@@ -81,13 +81,13 @@ class RpcMcInterceptor : AbsDoKitRpcInterceptor() {
         val k =
             "method=$method&path=$path&fragment=$fragment&query=$strQuery&contentType=$requestContentType&requestBody=$strRequestBody"
         val key = ByteString.encodeUtf8(k).md5().hex()
-        when (DoKitConstant.WS_MODE) {
+        when (DoKitManager.WS_MODE) {
             WSMode.RECORDING -> {
                 //数据采集
                 doKitGlobalScope.launch {
                     val httInfo = HttpUploadInfo(
-                        DoKitConstant.PRODUCT_ID,
-                        McConstant.MC_CASE_ID,
+                        DoKitManager.PRODUCT_ID,
+                        DoKitMcManager.MC_CASE_ID,
                         key,
                         method,
                         path,
@@ -109,7 +109,7 @@ class RpcMcInterceptor : AbsDoKitRpcInterceptor() {
             }
             WSMode.HOST,
             WSMode.CLIENT -> {
-                if (McConstant.MC_CASE_ID.isNotBlank() && DoKitConstant.PRODUCT_ID.isNotBlank()) {
+                if (DoKitMcManager.MC_CASE_ID.isNotBlank() && DoKitManager.PRODUCT_ID.isNotBlank()) {
                     //将挂起函数转为阻塞调用 等待协程返回值
                     return runBlocking {
                         try {

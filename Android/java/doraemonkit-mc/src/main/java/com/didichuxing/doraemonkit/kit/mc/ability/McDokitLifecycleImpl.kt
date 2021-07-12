@@ -1,9 +1,10 @@
 package com.didichuxing.doraemonkit.kit.mc.ability
 
 import android.app.Activity
-import com.didichuxing.doraemonkit.constant.DoKitConstant
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
+import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DokitLifecycleInterface
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
@@ -24,12 +25,12 @@ class McDokitLifecycleImpl : DokitLifecycleInterface {
 
 
     override fun onBackPressed(activity: Activity) {
-        if (DoKitConstant.WS_MODE == WSMode.HOST) {
+        if (DoKitManager.WS_MODE == WSMode.HOST) {
             val wsEvent = WSEvent(
                 WSMode.HOST,
                 WSEType.ACTIVITY_BACK_PRESSED,
                 mutableMapOf(
-                    "activityName" to activity::class.java.canonicalName!!,
+                    "activityName" to activity::class.tagName,
                     "command" to "onBackPressed"
                 ),
                 null
@@ -40,7 +41,7 @@ class McDokitLifecycleImpl : DokitLifecycleInterface {
 
 
     override fun onForeground(className: String) {
-        if (DoKitConstant.WS_MODE == WSMode.HOST) {
+        if (DoKitManager.WS_MODE == WSMode.HOST) {
             val wsEvent = WSEvent(
                 WSMode.HOST,
                 WSEType.APP_ON_FOREGROUND,
@@ -55,7 +56,7 @@ class McDokitLifecycleImpl : DokitLifecycleInterface {
     }
 
     override fun onBackground() {
-        if (DoKitConstant.WS_MODE == WSMode.HOST) {
+        if (DoKitManager.WS_MODE == WSMode.HOST) {
             val wsEvent = WSEvent(
                 WSMode.HOST,
                 WSEType.APP_ON_BACKGROUND,

@@ -1,5 +1,6 @@
 package com.didichuxing.doraemondemo.dokit
 
+import android.app.Activity
 import android.content.Context
 import com.didichuxing.doraemondemo.R
 import com.didichuxing.doraemonkit.kit.AbstractKit
@@ -23,7 +24,7 @@ class DemoKit : AbstractKit() {
     override val icon: Int
         get() = R.mipmap.dk_sys_info
 
-    override fun onClickWithReturn(context: Context?): Boolean {
+    override fun onClickWithReturn(activity: Activity): Boolean {
         SimpleDokitStarter.startFloating(DemoDokitView::class.java)
         return true
     }

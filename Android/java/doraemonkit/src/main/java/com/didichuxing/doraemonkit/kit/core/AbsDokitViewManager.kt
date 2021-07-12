@@ -1,10 +1,8 @@
 package com.didichuxing.doraemonkit.kit.core
 
 import android.app.Activity
-import com.didichuxing.doraemonkit.constant.DoKitConstant
-import com.didichuxing.doraemonkit.constant.DoKitConstant.WS_MODE
-import com.didichuxing.doraemonkit.constant.WSMode
-import com.didichuxing.doraemonkit.kit.health.CountDownDokitView
+import com.didichuxing.doraemonkit.constant.DoKitModule
+import com.didichuxing.doraemonkit.kit.health.CountDownDoKitView
 
 /**
  * ================================================
@@ -21,16 +19,14 @@ abstract class AbsDokitViewManager : DokitViewManagerInterface {
     /**
      * 添加倒计时DokitView
      */
-    fun attachCountDownDokitView(activity: Activity) {
-        if (!DoKitConstant.APP_HEALTH_RUNNING) {
+    fun attachCountDownDoKitView(activity: Activity) {
+        if (!DoKitManager.APP_HEALTH_RUNNING) {
             return
         }
         if (activity is UniversalActivity) {
             return
         }
-        val dokitIntent = DokitIntent(CountDownDokitView::class.java)
-        dokitIntent.mode = DokitIntent.MODE_ONCE
-        attach(dokitIntent)
+        attach(DokitIntent(CountDownDoKitView::class.java))
     }
 
     /**
@@ -38,9 +34,52 @@ abstract class AbsDokitViewManager : DokitViewManagerInterface {
      *
      * @param activity
      */
-    fun attachMcDokitView(activity: Activity) {
-        if (WS_MODE === WSMode.UNKNOW) {
-            return
-        }
+    fun attachMcRecodingDoKitView(activity: Activity) {
+
+        val action: Map<String, String> = mapOf("action" to "launch_recoding_view")
+        DoKitManager.getModuleProcessor(DoKitModule.MODULE_MC)?.proceed(action)
+
     }
+
+    /**
+     * 添加主icon
+     */
+    abstract fun attachMainIcon(activity: Activity)
+
+    /**
+     * 移除主icon
+     */
+    abstract fun detachMainIcon(activity: Activity)
+
+    /**
+     * 添加toolPanel
+     */
+    abstract fun attachToolPanel(activity: Activity)
+
+    /**
+     * 移除toolPanel
+     */
+    abstract fun detachToolPanel(activity: Activity)
+
+
+    /**
+     * main activity 创建时回调
+     *
+     * @param activity
+     */
+    abstract fun onMainActivityResume(activity: Activity)
+
+    /**
+     * Activity 创建时回调
+     *
+     * @param activity
+     */
+    abstract fun onActivityResume(activity: Activity)
+
+    /**
+     * Activity 页面回退的时候回调
+     *
+     * @param activity
+     */
+    abstract fun onActivityBackResume(activity: Activity)
 }
