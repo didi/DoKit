@@ -51,7 +51,7 @@ class DoKitMcDatasFragment : BaseFragment() {
             val item = adapter.data[pos] as McCaseInfo
             item.isChecked = true
             adapter.notifyDataSetChanged()
-            ToastUtils.showShort("用例${item.caseName}已被选中")
+            ToastUtils.showShort("用例: ${item.caseName} 已被选中")
             saveCaseId(item.caseId)
         }
         mRv.adapter = mAdapter

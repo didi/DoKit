@@ -19,8 +19,9 @@ class McCaseListAdapter(caseList: MutableList<McCaseInfo>) :
     BaseQuickAdapter<McCaseInfo, BaseViewHolder>(R.layout.dk_item_mc_case, caseList) {
 
     override fun convert(holder: BaseViewHolder, item: McCaseInfo) {
-        holder.getView<TextView>(R.id.tv_name).text = "用例名:${item.caseName}"
+        holder.getView<TextView>(R.id.tv_name).text = "用例名称:${item.caseName}"
         holder.getView<TextView>(R.id.tv_person).text = "采集人:${item.personName}"
+        holder.getView<TextView>(R.id.tv_caseid).text = "caseId:${item.caseId}"
         holder.getView<TextView>(R.id.tv_time).text = "采集时间:${item.time}"
         holder.getView<RadioButton>(R.id.rb).isChecked = item.isChecked
     }
