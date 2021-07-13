@@ -93,13 +93,10 @@ class RecordingDokitView : AbsDokitView() {
         params.y = ConvertUtils.dp2px(25f)
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        LogHelper.i(TAG, "before===> ${this.TAG} ${doKitView?.width}  ${doKitView?.height}   ${doKitView?.measuredWidth}  ${doKitView?.measuredHeight}")
-//        if (isNormalMode) {
-//            invalidate()
-//        }
-//
-//        LogHelper.i(TAG, "after===> ${this.TAG} ${doKitView?.width}  ${doKitView?.height}   ${doKitView?.measuredWidth}  ${doKitView?.measuredHeight}")
-//    }
+    override fun onResume() {
+        super.onResume()
+        if (isNormalMode) {
+            invalidate()
+        }
+    }
 }
