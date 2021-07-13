@@ -24,5 +24,5 @@ enum class DoKitViewLaunchMode {
     /**
      * 倒计时
      */
-    OTHER
+    COUNTDOWN
 }

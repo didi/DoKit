@@ -39,7 +39,7 @@ public class ColorPickerDokitView extends AbsDokitView {
     @Override
     public void onCreate(Context context) {
         ColorPickManager.getInstance().setColorPickerDokitView(this);
-        mInfoDokitView = (ColorPickerInfoDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), ColorPickerInfoDokitView.class.getCanonicalName());
+        mInfoDokitView = (ColorPickerInfoDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), ColorPickerInfoDokitView.class.getCanonicalName());
         mImageCapture = new ImageCapture();
         try {
             mImageCapture.init(context, getBundle(), this);

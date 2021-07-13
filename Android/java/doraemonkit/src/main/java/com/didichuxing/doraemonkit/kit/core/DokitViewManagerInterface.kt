@@ -27,12 +27,6 @@ interface DokitViewManagerInterface {
      */
     fun detach(dokitView: AbsDokitView)
 
-    /**
-     * 移除每个activity指定的dokitView
-     * @param activity
-     * @param doKitView
-     */
-    fun detach(activity: Activity, doKitView: AbsDokitView)
 
     /**
      * 移除每个activity指定的dokitView tag
@@ -41,12 +35,6 @@ interface DokitViewManagerInterface {
      */
     fun detach(tag: String)
 
-    /**
-     * 移除每个activity指定的dokitView
-     * @param activity
-     * @param tag
-     */
-    fun detach(activity: Activity, tag: String)
 
     /**
      * 移除指定的dokitView
@@ -57,15 +45,6 @@ interface DokitViewManagerInterface {
 
     fun detach(doKitViewClass: Class<out AbsDokitView>)
 
-    /**
-     * 移除指定activity的dokitview
-     *
-     * @param activity
-     * @param doKitViewClass
-     */
-    fun detach(activity: Activity, doKitViewClass: KClass<out AbsDokitView>)
-
-    fun detach(activity: Activity, doKitViewClass: Class<out AbsDokitView>)
 
     /**
      * 移除所有activity的所有dokitView
@@ -79,7 +58,7 @@ interface DokitViewManagerInterface {
      * @param tag
      * @return
      */
-    fun getDokitView(activity: Activity, tag: String): AbsDokitView?
+    fun getDoKitView(activity: Activity, tag: String): AbsDokitView?
 
     /**
      * 获取页面上所有的dokitView
@@ -87,7 +66,7 @@ interface DokitViewManagerInterface {
      * @param activity
      * @return
      */
-    fun getDokitViews(activity: Activity): Map<String, AbsDokitView>?
+    fun getDoKitViews(activity: Activity): Map<String, AbsDokitView>?
 
     /**
      * 当app进入后台时调用
@@ -104,7 +83,19 @@ interface DokitViewManagerInterface {
      *
      * @param activity
      */
-    fun onActivityDestroy(activity: Activity)
+    fun onActivityDestroyed(activity: Activity)
+
+    /**
+     * 页面onPause时调用
+     *
+     * @param activity
+     */
+    fun onActivityPaused(activity: Activity)
+
+    /**
+     * 页面onStop时调用
+     */
+    fun onActivityStopped(activity: Activity)
 
     /**
      *
@@ -113,11 +104,4 @@ interface DokitViewManagerInterface {
     fun dispatchOnActivityResumed(activity: Activity)
 
 
-
-    /**
-     * 页面onPause时调用
-     *
-     * @param activity
-     */
-    fun onActivityPause(activity: Activity)
 }

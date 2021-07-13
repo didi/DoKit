@@ -33,7 +33,6 @@ public class ViewCheckerKit extends AbstractKit {
 
     @Override
     public boolean onClickWithReturn(@NotNull Activity activity) {
-        DokitViewManager.getInstance().detachToolPanel(activity);
 
         SimpleDokitStarter.startFloating(ViewCheckDokitView.class);
         SimpleDokitStarter.startFloating(ViewCheckDrawDokitView.class);

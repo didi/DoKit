@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.*
  * 修订历史：
  * ================================================
  */
-class CountDownDoKitView : AbsDokitView() {
+class CountDownDoKitView : AbsCountDownDoKitView() {
     private var mNum: TextView? = null
     private lateinit var countDownFlow: Flow<Int>
     private var countDownJob: Job? = null
@@ -37,15 +37,9 @@ class CountDownDoKitView : AbsDokitView() {
         }.flowOn(Dispatchers.IO)
             .onCompletion {
                 withContext(Dispatchers.Main) {
-                    if (isNormalMode) {
-                        DokitViewManager.instance.detach(activity, this@CountDownDoKitView)
-                    } else {
-                        DokitViewManager.instance.detach(this@CountDownDoKitView)
-                    }
+                    DokitViewManager.instance.detach(this@CountDownDoKitView)
                 }
             }
-
-
     }
 
 
@@ -64,10 +58,9 @@ class CountDownDoKitView : AbsDokitView() {
                 it.cancel()
             }
         }
-        LogHelper.i(TAG, "doKitViewScope===>${doKitViewScope}")
         countDownJob = doKitViewScope.launch {
             countDownFlow.collect {
-                LogHelper.i(TAG, "${this@CountDownDoKitView}===>$it")
+                //LogHelper.i(TAG, "$activity  ${this@CountDownDoKitView}===>$it")
                 withContext(Dispatchers.Main) {
                     mNum?.text = it.toString()
                 }
@@ -78,11 +71,17 @@ class CountDownDoKitView : AbsDokitView() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (isNormalMode) {
+            invalidate()
+        }
+    }
 
     /**
      * 重置倒计时 系统倒计时需要
      */
-    fun resetTime() {
+    override fun reset() {
         startCountDown()
     }
 

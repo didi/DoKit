@@ -137,8 +137,12 @@ class DokitViewManager : DokitViewManagerInterface {
         mDoKitViewManager.dispatchOnActivityResumed(activity)
     }
 
-    override fun onActivityPause(activity: Activity) {
-        mDoKitViewManager.onActivityPause(activity)
+    override fun onActivityPaused(activity: Activity) {
+        mDoKitViewManager.onActivityPaused(activity)
+    }
+
+    override fun onActivityStopped(activity: Activity) {
+        mDoKitViewManager.onActivityStopped(activity)
     }
 
     /**
@@ -153,8 +157,8 @@ class DokitViewManager : DokitViewManagerInterface {
     /**
      * 隐藏工具列表dokitView
      */
-    fun detachToolPanel(activity: Activity) {
-        mDoKitViewManager.detachToolPanel(activity)
+    fun detachToolPanel() {
+        mDoKitViewManager.detachToolPanel()
     }
 
     /**
@@ -174,8 +178,8 @@ class DokitViewManager : DokitViewManagerInterface {
     /**
      * 隐藏首页图标
      */
-    fun detachMainIcon(activity: Activity) {
-        mDoKitViewManager.detachMainIcon(activity)
+    fun detachMainIcon() {
+        mDoKitViewManager.detachMainIcon()
     }
 
     /**
@@ -185,9 +189,6 @@ class DokitViewManager : DokitViewManagerInterface {
         mDoKitViewManager.detach(tag)
     }
 
-    override fun detach(activity: Activity, tag: String) {
-        mDoKitViewManager.detach(activity, tag)
-    }
 
     /**
      * 移除每个activity指定的dokitView
@@ -196,9 +197,6 @@ class DokitViewManager : DokitViewManagerInterface {
         mDoKitViewManager.detach(dokitView)
     }
 
-    override fun detach(activity: Activity, doKitView: AbsDokitView) {
-        mDoKitViewManager.detach(activity, doKitView)
-    }
 
     override fun detach(doKitViewClass: KClass<out AbsDokitView>) {
         mDoKitViewManager.detach(doKitViewClass)
@@ -208,13 +206,6 @@ class DokitViewManager : DokitViewManagerInterface {
         mDoKitViewManager.detach(doKitViewClass)
     }
 
-    override fun detach(activity: Activity, doKitViewClass: KClass<out AbsDokitView>) {
-        mDoKitViewManager.detach(activity, doKitViewClass)
-    }
-
-    override fun detach(activity: Activity, doKitViewClass: Class<out AbsDokitView>) {
-        mDoKitViewManager.detach(activity, doKitViewClass)
-    }
 
     /**
      * 移除所有activity的所有dokitView
@@ -226,8 +217,8 @@ class DokitViewManager : DokitViewManagerInterface {
     /**
      * Activity销毁时调用
      */
-    override fun onActivityDestroy(activity: Activity) {
-        mDoKitViewManager.onActivityDestroy(activity)
+    override fun onActivityDestroyed(activity: Activity) {
+        mDoKitViewManager.onActivityDestroyed(activity)
     }
 
     /**
@@ -237,17 +228,17 @@ class DokitViewManager : DokitViewManagerInterface {
      * @param tag
      * @return
      */
-    override fun getDokitView(activity: Activity, tag: String): AbsDokitView? {
+    override fun getDoKitView(activity: Activity, tag: String): AbsDokitView? {
 
-        return mDoKitViewManager.getDokitView(activity, tag)
+        return mDoKitViewManager.getDoKitView(activity, tag)
     }
 
     /**
      * @param activity
      * @return
      */
-    override fun getDokitViews(activity: Activity): Map<String, AbsDokitView>? {
-        return mDoKitViewManager.getDokitViews(activity)
+    override fun getDoKitViews(activity: Activity): Map<String, AbsDokitView>? {
+        return mDoKitViewManager.getDoKitViews(activity)
     }
 
     /**

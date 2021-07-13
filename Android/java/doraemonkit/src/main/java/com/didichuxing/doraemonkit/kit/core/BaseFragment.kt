@@ -5,13 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import com.didichuxing.doraemonkit.extension.tagName
-import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
+import com.didichuxing.doraemonkit.kit.main.MainIconDoKitView
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.widget.dialog.CommonDialogProvider
 import com.didichuxing.doraemonkit.widget.dialog.DialogInfo
@@ -64,7 +63,7 @@ abstract class BaseFragment : Fragment() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        DokitViewManager.instance.detach(MainIconDokitView::class.tagName)
+        DokitViewManager.instance.detach(MainIconDoKitView::class.tagName)
     }
 
 

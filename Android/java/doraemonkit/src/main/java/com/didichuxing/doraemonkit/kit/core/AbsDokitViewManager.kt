@@ -26,7 +26,9 @@ abstract class AbsDokitViewManager : DokitViewManagerInterface {
         if (activity is UniversalActivity) {
             return
         }
-        attach(DokitIntent(CountDownDoKitView::class.java))
+        val dokitIntent = DokitIntent(CountDownDoKitView::class.java)
+        dokitIntent.mode = DoKitViewLaunchMode.COUNTDOWN
+        attach(dokitIntent)
     }
 
     /**
@@ -49,7 +51,7 @@ abstract class AbsDokitViewManager : DokitViewManagerInterface {
     /**
      * 移除主icon
      */
-    abstract fun detachMainIcon(activity: Activity)
+    abstract fun detachMainIcon()
 
     /**
      * 添加toolPanel
@@ -59,7 +61,7 @@ abstract class AbsDokitViewManager : DokitViewManagerInterface {
     /**
      * 移除toolPanel
      */
-    abstract fun detachToolPanel(activity: Activity)
+    abstract fun detachToolPanel()
 
 
     /**

@@ -53,7 +53,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
+        ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDoKitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
         if (dokitView != null) {
             dokitView.removeViewSelectListener(this);
         }
@@ -81,7 +81,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
+                ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDoKitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
                 if (dokitView != null) {
                     dokitView.setViewSelectListener(ViewCheckInfoDokitView.this);
                 }
@@ -115,13 +115,13 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
             DokitViewManager.getInstance().detach(ViewCheckDokitView.class.getCanonicalName());
         }
         if (v == mNext) {
-            ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
+            ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDoKitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
             if (dokitView != null) {
                 dokitView.preformNextCheckView();
             }
         }
         if (v == mPre) {
-            ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDokitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
+            ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDoKitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
             if (dokitView != null) {
                 dokitView.preformPreCheckView();
             }

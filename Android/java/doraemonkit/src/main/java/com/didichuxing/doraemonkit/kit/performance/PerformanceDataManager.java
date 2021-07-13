@@ -524,6 +524,9 @@ public class PerformanceDataManager {
      * 保存cpu数据到健康体检中 统计有问题
      */
     private synchronized void addPerformanceDataInAppHealth(float performanceValue, int performanceType) {
+        if (ActivityUtils.getTopActivity() == null) {
+            return;
+        }
         try {
             AppHealthInfo.DataBean.PerformanceBean lastPerformanceInfo = AppHealthInfoUtil.getInstance().getLastPerformanceInfo(performanceType);
             //第一次启动

@@ -72,7 +72,6 @@ public class ColorPickerSettingFragment extends BaseFragment {
      * @param intent
      */
     private void showColorPicker(Intent intent) {
-        DokitViewManager.getInstance().detachToolPanel(ActivityUtils.getTopActivity());
 
         SimpleDokitStarter.startFloating(ColorPickerInfoDokitView.class);
 

@@ -8,8 +8,8 @@ import com.didichuxing.doraemonkit.DoKit.Companion.isMainIconShow
 import com.didichuxing.doraemonkit.DoKit.Companion.show
 import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.health.CountDownDoKitView
-import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
-import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelDokitView
+import com.didichuxing.doraemonkit.kit.main.MainIconDoKitView
+import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelDoKitView
 import com.didichuxing.doraemonkit.util.DoKitSystemUtil
 import kotlin.reflect.KClass
 
@@ -33,7 +33,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
      *
      * @return map
      */
-    override fun getDokitViews(activity: Activity): Map<String, AbsDokitView> {
+    override fun getDoKitViews(activity: Activity): Map<String, AbsDokitView> {
         val doKitViewMaps: MutableMap<String, AbsDokitView> = mutableMapOf()
         for (doKitView in mDoKitViews) {
             doKitViewMaps[doKitView.tag] = doKitView
@@ -65,7 +65,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
     override fun dispatchOnActivityResumed(activity: Activity) {
         if (activity is UniversalActivity) {
             val countDownDoKitView =
-                getDokitView(activity, CountDownDoKitView::class.tagName)
+                getDoKitView(activity, CountDownDoKitView::class.tagName)
             if (countDownDoKitView != null) {
                 DokitViewManager.instance.detach(
                     CountDownDoKitView::class.tagName
@@ -94,7 +94,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
 
 
         //需要手动调用 生命周期回调
-        val dokitViewMap = getDokitViews(activity)
+        val dokitViewMap = getDoKitViews(activity)
         for (absDokitView in dokitViewMap.values) {
             absDokitView.onResume()
         }
@@ -104,23 +104,23 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
     override fun attachMainIcon(activity: Activity) {
         //假如不存在全局的icon这需要全局显示主icon
         if (DoKitManager.AWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
-            attach(DokitIntent(MainIconDokitView::class.java))
+            attach(DokitIntent(MainIconDoKitView::class.java))
             DoKitManager.MAIN_ICON_HAS_SHOW = true
         } else {
             DoKitManager.MAIN_ICON_HAS_SHOW = false
         }
     }
 
-    override fun detachMainIcon(activity: Activity) {
-        detach(MainIconDokitView::class.tagName)
+    override fun detachMainIcon() {
+        detach(MainIconDoKitView::class.tagName)
     }
 
     override fun attachToolPanel(activity: Activity) {
-        attach(DokitIntent(ToolPanelDokitView::class.java))
+        attach(DokitIntent(ToolPanelDoKitView::class.java))
     }
 
-    override fun detachToolPanel(activity: Activity) {
-        detach(activity, ToolPanelDokitView::class.tagName)
+    override fun detachToolPanel() {
+        detach(ToolPanelDoKitView::class.tagName)
     }
 
     override fun onMainActivityResume(activity: Activity) {
@@ -141,7 +141,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
             show()
         }
         //如果倒计时浮标没显示则重新添加
-        val countDownDokitView = getDokitView(activity, CountDownDoKitView::class.tagName)
+        val countDownDokitView = getDoKitView(activity, CountDownDoKitView::class.tagName)
         if (countDownDokitView == null) {
             if (activity is UniversalActivity) {
                 return
@@ -154,41 +154,41 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
                 )
             } else {
                 //重置倒计时
-                (countDownDokitView as CountDownDoKitView).resetTime()
+                (countDownDokitView as CountDownDoKitView).reset()
             }
         }
     }
 
     override fun onActivityBackResume(activity: Activity) {
         //移除倒计时浮标
-        val countDownDokitView = getDokitView(activity, CountDownDoKitView::class.tagName)
+        val countDownDokitView = getDoKitView(activity, CountDownDoKitView::class.tagName)
         if (countDownDokitView == null) {
             attachCountDownDoKitView(activity)
         } else {
             //重置倒计时
-            (countDownDokitView as CountDownDoKitView).resetTime()
+            (countDownDokitView as CountDownDoKitView).reset()
         }
 
         //判断是否存在主入口icon
-        val dokitViews = getDokitViews(activity)
-        if (dokitViews[MainIconDokitView::class.tagName] == null) {
+        val dokitViews = getDoKitViews(activity)
+        if (dokitViews[MainIconDoKitView::class.tagName] == null) {
             if (DoKitManager.AWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
                 //添加main icon
-                val intent = DokitIntent(
-                    MainIconDokitView::class.java
-                )
-                intent.mode = DoKitViewLaunchMode.SINGLE_INSTANCE
+                val intent = DokitIntent(MainIconDoKitView::class.java)
                 DokitViewManager.instance.attach(intent)
                 DoKitManager.MAIN_ICON_HAS_SHOW = true
             }
         }
     }
 
-    override fun onActivityPause(activity: Activity) {
-        val dokitViews = getDokitViews(activity)
+    override fun onActivityPaused(activity: Activity) {
+        val dokitViews = getDoKitViews(activity)
         for (absDokitView in dokitViews.values) {
             absDokitView.onPause()
         }
+    }
+
+    override fun onActivityStopped(activity: Activity) {
     }
 
     /**
@@ -199,12 +199,10 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
     override fun attach(pageIntent: DokitIntent) {
         try {
 
-            if (pageIntent.mode == DoKitViewLaunchMode.SINGLE_INSTANCE) {
-                for (dokitView in mDoKitViews) {
-                    //如果当前page对象已经存在 则直接返回
-                    if (pageIntent.targetClass.isInstance(dokitView)) {
-                        return
-                    }
+            for (dokitView in mDoKitViews) {
+                //如果当前page对象已经存在 则直接返回
+                if (pageIntent.targetClass.isInstance(dokitView)) {
+                    return
                 }
             }
             //通过newInstance方式创建floatPage
@@ -247,14 +245,11 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
         }
     }
 
-    override fun detach(activity: Activity, tag: String) {
-        detach(tag)
-    }
+
     override fun detach(dokitView: AbsDokitView) {
         detach(dokitView.tagName)
     }
 
-    override fun detach(activity: Activity, doKitView: AbsDokitView) {}
 
     override fun detach(doKitViewClass: KClass<out AbsDokitView>) {
         detach(doKitViewClass.tagName)
@@ -264,12 +259,6 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
         detach(doKitViewClass.tagName)
     }
 
-    override fun detach(activity: Activity, doKitViewClass: KClass<out AbsDokitView>) {
-        detach(activity,doKitViewClass.tagName)
-    }
-    override fun detach(activity: Activity, doKitViewClass: Class<out AbsDokitView>) {
-        detach(activity,doKitViewClass.tagName)
-    }
 
     override fun detachAll() {
 
@@ -282,14 +271,14 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
         }
     }
 
-    override fun getDokitView(activity: Activity, tag: String): AbsDokitView? {
+    override fun getDoKitView(activity: Activity, tag: String): AbsDokitView? {
 
         if (TextUtils.isEmpty(tag)) {
             return null
         }
-        for (dokitView in mDoKitViews) {
-            if (tag == dokitView.tag) {
-                return dokitView
+        for (doKitView in mDoKitViews) {
+            if (tag == doKitView.tag) {
+                return doKitView
             }
         }
         return null
@@ -298,7 +287,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
     /**
      * Activity销毁时调用 不需要实现 为了统一api
      */
-    override fun onActivityDestroy(activity: Activity) {}
+    override fun onActivityDestroyed(activity: Activity) {}
 
     /**
      * 在每一个float page创建时 添加监听器

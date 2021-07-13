@@ -34,14 +34,9 @@ public class LayoutBorderKit extends AbstractKit {
 
     @Override
     public boolean onClickWithReturn(@NotNull Activity activity) {
-        //隐藏当前工具dokitview
-        DokitViewManager.getInstance().detachToolPanel(activity);
 
         SimpleDokitStarter.startFloating(LayoutLevelDokitView.class);
-
-
         LayoutBorderManager.getInstance().start();
-
         LayoutBorderConfig.setLayoutBorderOpen(true);
         LayoutBorderConfig.setLayoutLevelOpen(true);
         return true;

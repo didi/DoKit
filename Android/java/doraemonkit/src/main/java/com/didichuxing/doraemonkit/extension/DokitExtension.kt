@@ -32,25 +32,21 @@ val doKitGlobalScope = MainScope() + CoroutineName("DoKit")
 
 val Activity.tagName: String
     get() {
-        Log.i("Extension","Activity===>${this.javaClass.canonicalName}  ${this.javaClass.simpleName}")
         return this.javaClass.canonicalName ?: ""
     }
 
 val AbsDokitView.tagName: String
     get() {
-        Log.i("Extension","AbsDokitView===>${this.javaClass.canonicalName}  ${this.javaClass.simpleName}")
         return this.javaClass.canonicalName ?: ""
     }
 
 val KClass<out Any>.tagName: String
     get() {
-        Log.i("Extension","KClass===>${this.java.canonicalName}  ${this.java.simpleName}")
         return this.java.canonicalName ?: ""
     }
 
 val Class<out Any>.tagName: String
     get() {
-        Log.i("Extension","Class===>${this.canonicalName}  ${this.simpleName}")
         return this.canonicalName ?: ""
     }
 

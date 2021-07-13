@@ -120,7 +120,7 @@ public class TimeCounterManager {
             return;
         }
         mIsRunning = true;
-        DokitViewManager.getInstance().detachToolPanel(ActivityUtils.getTopActivity());
+        DokitViewManager.getInstance().detachToolPanel();
 
         SimpleDokitStarter.startFloating(TimeCounterDokitView.class);
 

@@ -20,7 +20,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import com.didichuxing.doraemonkit.config.FloatIconConfig
 import com.didichuxing.doraemonkit.extension.tagName
-import com.didichuxing.doraemonkit.kit.main.MainIconDokitView
+import com.didichuxing.doraemonkit.kit.main.MainIconDoKitView
 import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.ScreenUtils
@@ -40,7 +40,7 @@ import java.lang.ref.WeakReference
 abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
     DokitViewManager.DokitViewAttachedListener {
 
-    val doKitViewScope = MainScope().plus(CoroutineName(this.toString()))
+    val doKitViewScope = MainScope() + CoroutineName(this.toString())
 
 
     val TAG = this.tagName
@@ -365,7 +365,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
             mLastDokitViewPosInfo.setLeftMargin(it.leftMargin)
             mLastDokitViewPosInfo.setTopMargin(it.topMargin)
         }
-        if (tag == MainIconDokitView::class.tagName) {
+        if (tag == MainIconDoKitView::class.tagName) {
             if (isNormalMode) {
                 normalLayoutParams?.let {
                     FloatIconConfig.saveLastPosX(it.leftMargin)
@@ -510,7 +510,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
         if (!canDrag()) {
             return
         }
-        if (tag == MainIconDokitView::class.tagName) {
+        if (tag == MainIconDoKitView::class.tagName) {
             if (isNormalMode) {
                 normalLayoutParams?.let {
                     FloatIconConfig.saveLastPosX(it.leftMargin)
@@ -589,7 +589,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
      */
     override fun onDokitViewAdd(dokitView: AbsDokitView?) {}
     override fun onResume() {
-        invalidate()
+        //invalidate()
     }
 
     override fun onPause() {}
@@ -660,7 +660,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
         }
         normalLayoutParams?.apply {
             if (isActivityBackResume) {
-                if (tag == MainIconDokitView::class.tagName) {
+                if (tag == MainIconDoKitView::class.tagName) {
 
                     this.leftMargin = FloatIconConfig.getLastPosX()
                     this.topMargin = FloatIconConfig.getLastPosY()
@@ -682,7 +682,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
                 mLastDokitViewPosInfo.setLeftMargin(this.leftMargin)
                 mLastDokitViewPosInfo.setTopMargin(this.topMargin)
             }
-            if (tag == MainIconDokitView::class.tagName) {
+            if (tag == MainIconDoKitView::class.tagName) {
                 this.width = DokitViewLayoutParams.WRAP_CONTENT
                 this.height = DokitViewLayoutParams.WRAP_CONTENT
                 //            mFrameLayoutParams.width = ConvertUtils.dp2px(MainIconDokitView.FLOAT_SIZE);

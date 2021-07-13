@@ -48,7 +48,7 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
             if (it.context is Activity) {
                 val activity = it.context as Activity
                 val absDokitView: AbsDokitView? = DokitViewManager.instance
-                    .getDokitView(activity, H5DokitView::class.tagName)
+                    .getDoKitView(activity, H5DokitView::class.tagName)
                 absDokitView?.let { h5DokitView ->
                     (h5DokitView as H5DokitView).updateUrl(url)
                 }

@@ -8,7 +8,6 @@ import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.AlignRulerConfig;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.google.auto.service.AutoService;
 
@@ -33,18 +32,17 @@ public class AlignRulerKit extends AbstractKit {
 
     @Override
     public boolean onClickWithReturn(@NotNull Activity activity) {
-        DokitViewManager.getInstance().detachToolPanel(activity);
 
         SimpleDokitStarter.startFloating(AlignRulerMarkerDokitView.class);
         SimpleDokitStarter.startFloating(AlignRulerLineDokitView.class);
         SimpleDokitStarter.startFloating(AlignRulerInfoDokitView.class);
 
 
-        AlignRulerInfoDokitView alignRulerInfoDokitView = (AlignRulerInfoDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), AlignRulerInfoDokitView.class.getCanonicalName());
+        AlignRulerInfoDokitView alignRulerInfoDokitView = (AlignRulerInfoDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), AlignRulerInfoDokitView.class.getCanonicalName());
         alignRulerInfoDokitView.setCheckBoxListener(new AlignRulerInfoDokitView.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(boolean isChecked) {
-                AlignRulerLineDokitView alignRulerLineDokitView = (AlignRulerLineDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), AlignRulerLineDokitView.class.getCanonicalName());
+                AlignRulerLineDokitView alignRulerLineDokitView = (AlignRulerLineDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), AlignRulerLineDokitView.class.getCanonicalName());
                 alignRulerLineDokitView.getAlignInfoView().refreshInfo(isChecked);
             }
         });

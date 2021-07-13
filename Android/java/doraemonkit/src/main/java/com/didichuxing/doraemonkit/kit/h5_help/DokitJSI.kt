@@ -8,7 +8,6 @@ import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.h5_help.bean.JsRequestBean
 import com.didichuxing.doraemonkit.kit.h5_help.bean.StorageBean
-import com.didichuxing.doraemonkit.util.LogHelper
 
 /**
  * ================================================
@@ -225,7 +224,7 @@ class DokitJSI {
      * 更新本地localStorage的adapter
      */
     private fun updateStorageAdapter(type: Int) {
-        val h5DokitView = DokitViewManager.instance.getDokitView(
+        val h5DokitView = DokitViewManager.instance.getDoKitView(
             ActivityUtils.getTopActivity(),
             H5DokitView::class.tagName
         )

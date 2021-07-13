@@ -141,7 +141,7 @@ public class ActivityCounter {
 
         mCounterInfos.add(counterInfo);
 
-        TimeCounterDokitView dokitView = (TimeCounterDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), TimeCounterDokitView.class.getCanonicalName());
+        TimeCounterDokitView dokitView = (TimeCounterDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), TimeCounterDokitView.class.getCanonicalName());
         if (dokitView != null) {
             dokitView.showInfo(counterInfo);
         }

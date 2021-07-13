@@ -21,7 +21,7 @@ import com.didichuxing.doraemonkit.widget.titlebar.TitleBar
  * Created by jintai on 2019/09/26.
  * 新的工具面板弹窗
  */
-class ToolPanelDokitView : AbsDokitView() {
+class ToolPanelDoKitView : AbsDokitView() {
     private lateinit var mAdapter: ToolPanelAdapter
     private var mKits: MutableList<KitWrapItem> = mutableListOf()
 
@@ -122,7 +122,7 @@ class ToolPanelDokitView : AbsDokitView() {
                         //常规模式下点击常用工具不隐藏工具面板
                         it.onClick(ActivityUtils.getTopActivity())
                         if (it.onClickWithReturn(ActivityUtils.getTopActivity())) {
-                            DokitViewManager.instance.detachToolPanel(ActivityUtils.getTopActivity())
+                            DokitViewManager.instance.detachToolPanel()
                         }
 
                         //添加埋点

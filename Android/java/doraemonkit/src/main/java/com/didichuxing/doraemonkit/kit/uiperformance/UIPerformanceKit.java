@@ -36,8 +36,6 @@ public class UIPerformanceKit extends AbstractKit {
     public boolean onClickWithReturn(@NotNull Activity activity) {
         UIPerformanceManager.getInstance().start(activity);
 
-        DokitViewManager.getInstance().detachToolPanel(activity);
-
         SimpleDokitStarter.startFloating(UIPerformanceDisplayDokitView.class);
         SimpleDokitStarter.startFloating(UIPerformanceInfoDokitView.class);
 

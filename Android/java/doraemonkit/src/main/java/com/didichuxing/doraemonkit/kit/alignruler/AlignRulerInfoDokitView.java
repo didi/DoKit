@@ -67,7 +67,7 @@ public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerM
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                mMarker = (AlignRulerMarkerDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), AlignRulerMarkerDokitView.class.getCanonicalName());
+                mMarker = (AlignRulerMarkerDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), AlignRulerMarkerDokitView.class.getCanonicalName());
                 if (mMarker != null) {
                     mMarker.addPositionChangeListener(AlignRulerInfoDokitView.this);
                 }

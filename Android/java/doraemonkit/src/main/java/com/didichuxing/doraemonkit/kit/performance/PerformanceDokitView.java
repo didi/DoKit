@@ -12,7 +12,6 @@ import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.DokitMemoryConfig;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
-import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.performance.datasource.DataSourceFactory;
@@ -239,7 +238,7 @@ public class PerformanceDokitView extends AbsDokitView implements PerformanceClo
      */
     private void showSystemPerfoemanceCloseDokitView() {
         SimpleDokitStarter.startFloating(PerformanceCloseDokitView.class);
-        mPerformanceCloseDokitView = (PerformanceCloseDokitView) DokitViewManager.getInstance().getDokitView(ActivityUtils.getTopActivity(), PerformanceCloseDokitView.class.getCanonicalName());
+        mPerformanceCloseDokitView = (PerformanceCloseDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), PerformanceCloseDokitView.class.getCanonicalName());
         if (mPerformanceCloseDokitView != null) {
             mPerformanceCloseDokitView.setPerformanceCloseListener(PerformanceDokitView.this);
         }

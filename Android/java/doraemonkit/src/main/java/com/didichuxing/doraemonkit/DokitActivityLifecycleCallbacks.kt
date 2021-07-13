@@ -106,7 +106,7 @@ class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
             for (listener in LifecycleListenerUtil.LIFECYCLE_LISTENERS) {
                 listener.onActivityPaused(activity)
             }
-            instance.onActivityPause(activity)
+            instance.onActivityPaused(activity)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -125,6 +125,7 @@ class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
                 //app 切换到后台 上传埋点数据
                 DataPickManager.getInstance().postData()
             }
+            instance.onActivityStopped(activity)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -152,7 +153,7 @@ class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
                     sFragmentLifecycleCallbacks
                 )
             }
-            instance.onActivityDestroy(activity)
+            instance.onActivityDestroyed(activity)
 
             //暂时无法很好的解决屏幕旋转的问题
             //DoKitOrientationEventListener orientationEventListener = mOrientationEventListeners.get(activity.getClass().getSimpleName());

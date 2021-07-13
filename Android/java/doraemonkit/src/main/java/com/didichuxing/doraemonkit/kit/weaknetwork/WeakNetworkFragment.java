@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
@@ -88,7 +87,7 @@ public class WeakNetworkFragment extends BaseFragment implements TextWatcher {
                 }
 
                 if (mNetWorkDokitView == null) {
-                    mNetWorkDokitView = DokitViewManager.getInstance().getDokitView(getActivity(), NetWokDokitView.class.getCanonicalName());
+                    mNetWorkDokitView = DokitViewManager.getInstance().getDoKitView(getActivity(), NetWokDokitView.class.getCanonicalName());
                 }
                 if (mNetWorkDokitView != null) {
                     //重新调用刷新

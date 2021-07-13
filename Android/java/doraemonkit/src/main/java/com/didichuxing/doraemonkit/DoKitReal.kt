@@ -430,13 +430,13 @@ object DoKitReal {
     }
 
     fun hideToolPanel() {
-        DokitViewManager.instance.detachToolPanel(ActivityUtils.getTopActivity())
+        DokitViewManager.instance.detachToolPanel()
     }
 
     fun hide() {
         DoKitManager.MAIN_ICON_HAS_SHOW = false
         DoKitManager.AWAYS_SHOW_MAIN_ICON = false
-        DokitViewManager.instance.detachMainIcon(ActivityUtils.getTopActivity())
+        DokitViewManager.instance.detachMainIcon()
     }
 
     /**
