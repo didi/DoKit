@@ -8,12 +8,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.widget.tableview.utils.DensityUtils;
@@ -40,18 +37,18 @@ public abstract class SimpleDokitView extends AbsDokitView {
     @Override
     public void onEnterForeground() {
         super.onEnterForeground();
-        getRootView().setVisibility(View.VISIBLE);
+        getParentView().setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onEnterBackground() {
         super.onEnterBackground();
-        getRootView().setVisibility(View.GONE);
+        getParentView().setVisibility(View.GONE);
     }
 
     public void showContainer(boolean isChecked) {
         mFloatContainer.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-        invalidate();
+        immInvalidate();
     }
 
     @Override

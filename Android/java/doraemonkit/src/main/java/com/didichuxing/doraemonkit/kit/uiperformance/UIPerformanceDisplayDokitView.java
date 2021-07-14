@@ -28,7 +28,7 @@ public class UIPerformanceDisplayDokitView extends AbsDokitView implements UIPer
     public void onViewCreated(FrameLayout view) {
         mLayoutBorderView = findViewById(R.id.rect_view);
         //设置不响应触摸事件
-        setDokitViewNotResponseTouchEvent(getDoKitView());
+        setDoKitViewNotResponseTouchEvent(getDoKitView());
     }
 
 

@@ -100,10 +100,24 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
      */
     private var mRootView: FrameLayout? = null
 
+    val doKitView: View?
+        get() = mRootView
+
     /**
      * rootView的直接子View 一般是用户的xml布局 被添加到mRootView中
      */
     private var mChildView: View? = null
+
+    /**
+     * 只控件在布局边界发生大小变化被裁剪的原因：
+     * https://juejin.cn/post/6844903624452079623
+     *
+     */
+    val parentView: DokitFrameLayout?
+        get() = if (isNormalMode && mRootView != null) {
+            mRootView!!.parent as DokitFrameLayout
+        } else null
+
 
     /**
      * 用来保存rootview的LayoutParams
@@ -184,13 +198,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
             //将子View添加到rootview中
             mRootView?.addView(mChildView)
             //设置根布局的手势拦截
-            mRootView?.setOnTouchListener { v, event ->
-                if (doKitView != null) {
-                    mTouchProxy.onTouchEvent(v, event)
-                } else {
-                    false
-                }
-            }
+            mRootView?.setOnTouchListener { v, event -> mTouchProxy.onTouchEvent(v, event) }
             //调用onViewCreated回调
             onViewCreated(mRootView)
             mDokitViewLayoutParams = DokitViewLayoutParams()
@@ -588,8 +596,9 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
      * @param dokitView
      */
     override fun onDokitViewAdd(dokitView: AbsDokitView?) {}
+
     override fun onResume() {
-        //invalidate()
+        mRootView?.requestLayout()
     }
 
     override fun onPause() {}
@@ -627,8 +636,6 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
         return mRootView?.findViewById(id)
     }
 
-    val doKitView: View?
-        get() = mRootView
 
     /**
      * 将当前dokitView于activity解绑
@@ -661,7 +668,6 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
         normalLayoutParams?.apply {
             if (isActivityBackResume) {
                 if (tag == MainIconDoKitView::class.tagName) {
-
                     this.leftMargin = FloatIconConfig.getLastPosX()
                     this.topMargin = FloatIconConfig.getLastPosY()
                 } else {
@@ -688,8 +694,12 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
                 //            mFrameLayoutParams.width = ConvertUtils.dp2px(MainIconDokitView.FLOAT_SIZE);
 //            mFrameLayoutParams.height = ConvertUtils.dp2px(MainIconDokitView.FLOAT_SIZE);
             } else {
-                this.width = mDokitViewWidth
-                this.height = mDokitViewHeight
+                if (mDokitViewWidth != 0) {
+                    this.width = mDokitViewWidth
+                }
+                if (mDokitViewHeight != 0) {
+                    this.height = mDokitViewHeight
+                }
             }
 
             resetBorderline(this, systemLayoutParams)
@@ -800,7 +810,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
      * 控件默认响应触摸事件
      * 需要在子view的onViewCreated中调用
      */
-    fun setDokitViewNotResponseTouchEvent(view: View?) {
+    fun setDoKitViewNotResponseTouchEvent(view: View?) {
         if (isNormalMode) {
             view?.setOnTouchListener { v, event -> false }
         } else {
@@ -837,35 +847,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
     /**
      * 强制刷新当前dokitview
      */
-    open fun invalidate() {
-        if (doKitView == null) {
-            return
-        }
-        if (isNormalMode) {
-            normalLayoutParams?.apply {
-                this.width = FrameLayout.LayoutParams.WRAP_CONTENT
-                this.height = FrameLayout.LayoutParams.WRAP_CONTENT
-                doKitView?.layoutParams = this
-            }
-        } else {
-            systemLayoutParams?.apply {
-                this.width = WindowManager.LayoutParams.WRAP_CONTENT
-                this.height = WindowManager.LayoutParams.WRAP_CONTENT
-                mWindowManager.updateViewLayout(doKitView, this)
-            }
-        }
+    open fun immInvalidate() {
+        mRootView?.requestLayout()
     }
-
-    /**
-     * 只控件在布局边界发生大小变化被裁剪的原因：
-     * https://juejin.cn/post/6844903624452079623
-     *
-     * @return
-     */
-    val rootView: DokitFrameLayout?
-        get() = if (isNormalMode && mRootView != null) {
-            mRootView!!.parent as DokitFrameLayout
-        } else null
-
-
 }

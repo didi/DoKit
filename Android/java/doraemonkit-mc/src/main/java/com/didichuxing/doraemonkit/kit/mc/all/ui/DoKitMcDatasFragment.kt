@@ -26,9 +26,9 @@ import kotlinx.coroutines.launch
  * ================================================
  */
 class DoKitMcDatasFragment : BaseFragment() {
-    lateinit var mRv: RecyclerView
-    lateinit var mEmpty: TextView
-    lateinit var mAdapter: McCaseListAdapter
+    private lateinit var mRv: RecyclerView
+    private lateinit var mEmpty: TextView
+    private lateinit var mAdapter: McCaseListAdapter
 
     override fun onRequestLayout(): Int {
         return R.layout.dk_fragment_mc_datas
@@ -45,19 +45,27 @@ class DoKitMcDatasFragment : BaseFragment() {
         mRv.addItemDecoration(decoration)
         mAdapter = McCaseListAdapter(mutableListOf<McCaseInfo>())
         mAdapter.setOnItemClickListener { adapter, _, pos ->
-            for (i in adapter.data) {
-                (i as McCaseInfo).isChecked = false
-            }
             val item = adapter.data[pos] as McCaseInfo
-            item.isChecked = true
+            if (item.isChecked) {
+                for (i in adapter.data) {
+                    (i as McCaseInfo).isChecked = false
+                }
+                saveCaseId("")
+            } else {
+                for (i in adapter.data) {
+                    (i as McCaseInfo).isChecked = false
+                }
+                item.isChecked = true
+                saveCaseId(item.caseId)
+                ToastUtils.showShort("用例: ${item.caseName} 已被选中")
+            }
+
             adapter.notifyDataSetChanged()
-            ToastUtils.showShort("用例: ${item.caseName} 已被选中")
-            saveCaseId(item.caseId)
+
         }
         mRv.adapter = mAdapter
         lifecycleScope.launch {
             val data = McHttpManager.caseList<McCaseInfo>().data
-
             data?.let {
                 if (it.isEmpty()) {
                     mEmpty.visibility = View.VISIBLE
@@ -79,15 +87,16 @@ class DoKitMcDatasFragment : BaseFragment() {
         SPUtils.getInstance().put(DoKitMcManager.MC_CASE_ID_KEY, caseId)
     }
 
-    private fun loadCaseId(): String {
-        return if (DoKitMcManager.MC_CASE_ID.isEmpty()) {
+
+    private fun loadCaseId(): String = when {
+        DoKitMcManager.MC_CASE_ID.isEmpty() -> {
             val caseId = SPUtils.getInstance().getString(DoKitMcManager.MC_CASE_ID_KEY, "")
             DoKitMcManager.MC_CASE_ID = caseId
             DoKitMcManager.MC_CASE_ID
-        } else {
+        }
+        else -> {
             DoKitMcManager.MC_CASE_ID
         }
     }
-
 
 }

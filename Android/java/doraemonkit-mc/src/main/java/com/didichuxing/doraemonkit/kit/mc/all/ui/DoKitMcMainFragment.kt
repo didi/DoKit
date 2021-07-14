@@ -330,6 +330,7 @@ class DoKitMcMainFragment : BaseFragment() {
             AlertDialog.Builder(requireActivity())
                 .setTitle(title)
                 .setMessage(content)
+                .setCancelable(false)
                 .setPositiveButton("开启") { dialog, _ ->
                     dialog.dismiss()
                     it.resume(true)

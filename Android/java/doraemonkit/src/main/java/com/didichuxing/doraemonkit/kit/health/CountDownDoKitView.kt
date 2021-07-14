@@ -7,11 +7,9 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.util.ConvertUtils
-import com.didichuxing.doraemonkit.util.LogHelper
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
@@ -74,7 +72,7 @@ class CountDownDoKitView : AbsCountDownDoKitView() {
     override fun onResume() {
         super.onResume()
         if (isNormalMode) {
-            invalidate()
+            immInvalidate()
         }
     }
 

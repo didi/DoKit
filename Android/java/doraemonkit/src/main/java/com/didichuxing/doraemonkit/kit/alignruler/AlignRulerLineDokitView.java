@@ -57,7 +57,7 @@ public class AlignRulerLineDokitView extends AbsDokitView implements AlignRulerM
                 }
             }
         }, 100);
-        setDokitViewNotResponseTouchEvent(getDoKitView());
+        setDoKitViewNotResponseTouchEvent(getDoKitView());
         mAlignInfoView = findViewById(R.id.info_view);
     }
 

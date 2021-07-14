@@ -93,10 +93,4 @@ class RecordingDokitView : AbsDokitView() {
         params.y = ConvertUtils.dp2px(25f)
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (isNormalMode) {
-            invalidate()
-        }
-    }
 }

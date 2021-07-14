@@ -175,11 +175,11 @@ public class PerformanceDokitView extends AbsDokitView implements PerformanceClo
         mIvClose1 = findViewById(R.id.iv_close1);
         mIvClose2 = findViewById(R.id.iv_close2);
         mIvClose3 = findViewById(R.id.iv_close3);
-        setDokitViewNotResponseTouchEvent(getDoKitView());
-        setDokitViewNotResponseTouchEvent(mLineChart0);
-        setDokitViewNotResponseTouchEvent(mLineChart1);
-        setDokitViewNotResponseTouchEvent(mLineChart2);
-        setDokitViewNotResponseTouchEvent(mLineChart3);
+        setDoKitViewNotResponseTouchEvent(getDoKitView());
+        setDoKitViewNotResponseTouchEvent(mLineChart0);
+        setDoKitViewNotResponseTouchEvent(mLineChart1);
+        setDoKitViewNotResponseTouchEvent(mLineChart2);
+        setDoKitViewNotResponseTouchEvent(mLineChart3);
         if (isNormalMode()) {
             mIvClose0.setVisibility(View.VISIBLE);
             mIvClose1.setVisibility(View.VISIBLE);

@@ -240,10 +240,6 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
     private fun detachCountDownDoKitView(activity: Activity) {
         val countDownDoKitView = mutableListOf<AbsDokitView>()
         mActivityDoKitViewMap[activity]?.forEach {
-            LogHelper.i(
-                TAG,
-                "===detachCountDownDoKitView===$activity  ${it.value.tag}  ${it.value.mode}"
-            )
             if (it.value.mode == DoKitViewLaunchMode.COUNTDOWN) {
                 countDownDoKitView.add(it.value)
             }

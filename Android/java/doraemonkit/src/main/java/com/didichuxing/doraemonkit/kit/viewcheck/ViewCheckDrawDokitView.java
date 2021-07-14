@@ -54,7 +54,7 @@ public class ViewCheckDrawDokitView extends AbsDokitView implements ViewCheckDok
     @Override
     public void onViewCreated(FrameLayout view) {
         mLayoutBorderView = findViewById(R.id.rect_view);
-        setDokitViewNotResponseTouchEvent(getDoKitView());
+        setDoKitViewNotResponseTouchEvent(getDoKitView());
         postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -87,7 +87,7 @@ public class ViewCheckDrawDokitView extends AbsDokitView implements ViewCheckDok
             params.setMargins(0, 0, 0, 0);
             params.width = FrameLayout.LayoutParams.MATCH_PARENT;
             params.height = FrameLayout.LayoutParams.MATCH_PARENT;
-            invalidate();
+            immInvalidate();
         }
     }
 

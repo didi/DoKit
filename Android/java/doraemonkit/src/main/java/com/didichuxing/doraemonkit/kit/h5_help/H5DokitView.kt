@@ -139,7 +139,7 @@ class H5DokitView : AbsDokitView() {
                     mHolder.text = "收起"
                     isOpen = true
                 }
-                invalidate()
+                immInvalidate()
             }
 
 
@@ -209,7 +209,7 @@ class H5DokitView : AbsDokitView() {
         }
         mJsCheckBox.isChecked = DoKitManager.H5_JS_INJECT
         mVConsoleCheckBox.isChecked = DoKitManager.H5_VCONSOLE_INJECT
-        invalidate()
+        immInvalidate()
     }
 
     /**
@@ -217,7 +217,7 @@ class H5DokitView : AbsDokitView() {
      */
     fun updateUrl(url: String?) {
         mTvLink.text = url
-        invalidate()
+        immInvalidate()
     }
 
 
@@ -276,7 +276,7 @@ class H5DokitView : AbsDokitView() {
     }
 
 
-    override fun invalidate() {
+    override fun immInvalidate() {
         normalLayoutParams?.let {
             it.width = ConvertUtils.dp2px(300.0f)
             if (isOpen) {
@@ -286,7 +286,7 @@ class H5DokitView : AbsDokitView() {
             }
 
         }
-        super.invalidate()
+        super.immInvalidate()
     }
 
     /**

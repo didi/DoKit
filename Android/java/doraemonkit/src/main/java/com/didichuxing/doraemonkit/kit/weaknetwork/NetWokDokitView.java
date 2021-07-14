@@ -105,12 +105,12 @@ public class NetWokDokitView extends AbsDokitView {
             e.printStackTrace();
         }
 
-        invalidate();
+        immInvalidate();
     }
 
 
     @Override
-    public void invalidate() {
+    public void immInvalidate() {
         if (getDoKitView() == null) {
             return;
         }

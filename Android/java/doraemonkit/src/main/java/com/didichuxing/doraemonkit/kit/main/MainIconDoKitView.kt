@@ -45,7 +45,7 @@ class MainIconDoKitView : AbsDokitView() {
     override fun onResume() {
         super.onResume()
         if (isNormalMode) {
-            invalidate()
+            immInvalidate()
         }
     }
 }

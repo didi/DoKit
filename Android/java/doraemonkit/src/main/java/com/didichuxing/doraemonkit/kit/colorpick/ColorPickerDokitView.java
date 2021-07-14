@@ -176,7 +176,7 @@ public class ColorPickerDokitView extends AbsDokitView {
         }
         layoutParams.width = ColorPickConstants.PICK_VIEW_SIZE;
         layoutParams.height = ColorPickConstants.PICK_VIEW_SIZE;
-        invalidate();
+        immInvalidate();
     }
 
     private void checkBound(WindowManager.LayoutParams layoutParams) {
