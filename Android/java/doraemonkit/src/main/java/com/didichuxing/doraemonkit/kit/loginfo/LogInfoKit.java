@@ -6,7 +6,7 @@ import android.content.Context;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LogInfoConfig;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.google.auto.service.AutoService;
 
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +30,7 @@ public class LogInfoKit extends AbstractKit {
 
     @Override
     public boolean onClickWithReturn(@NotNull Activity activity) {
-        SimpleDokitStarter.startFloating(LogInfoDokitView.class);
+        SimpleDoKitStarter.startFloating(LogInfoDokitView.class);
         //开启日志服务
         LogInfoManager.getInstance().start();
         return true;

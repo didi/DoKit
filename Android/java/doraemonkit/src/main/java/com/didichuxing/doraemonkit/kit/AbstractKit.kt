@@ -5,7 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 
 /**
  * ================================================
@@ -32,7 +32,7 @@ abstract class AbstractKit : IKit {
         bundle: Bundle? = null,
         isSystemFragment: Boolean = false
     ) {
-        SimpleDokitStarter.startFullScreen(fragmentClass, context, bundle, isSystemFragment)
+        SimpleDoKitStarter.startFullScreen(fragmentClass, context, bundle, isSystemFragment)
     }
 
 

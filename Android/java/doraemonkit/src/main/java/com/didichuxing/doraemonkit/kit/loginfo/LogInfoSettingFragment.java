@@ -11,11 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LogInfoConfig;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 /**
@@ -50,7 +49,7 @@ public class LogInfoSettingFragment extends BaseFragment {
             public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
                 if (data.desc == R.string.dk_kit_log_info) {
                     if (on) {
-                        SimpleDokitStarter.startFloating(LogInfoDokitView.class);
+                        SimpleDoKitStarter.startFloating(LogInfoDokitView.class);
 
                         //开启日志服务
                         LogInfoManager.getInstance().start();

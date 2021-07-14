@@ -1,6 +1,7 @@
 package com.didichuxing.doraemondemo.amap
 
 import android.content.Context
+import android.util.Log
 import com.amap.api.maps.AMap
 import com.amap.api.maps.AMapUtils
 import com.amap.api.maps.model.LatLng
@@ -8,8 +9,6 @@ import com.amap.api.navi.AMapNavi
 import com.amap.api.navi.AMapNaviListener
 import com.amap.api.navi.enums.NaviType
 import com.amap.api.navi.model.*
-import com.didichuxing.doraemondemo.amap.mockroute.LogUtils
-import com.didichuxing.doraemondemo.amap.mockroute.MockGPSTaskManager
 import io.reactivex.disposables.Disposable
 
 /**
@@ -58,11 +57,11 @@ class DefaultNaviListener(val mAMap: AMap, val mAMapNavi: AMapNavi, val context:
                 LatLng(location.coord.latitude, location.coord.longitude)
             )
         if (calculateLineDistance < 0) {
-            LogUtils.v(TAG, "⚠️高德定位：" + location.getString())
+            Log.v(TAG, "⚠️高德定位：" + location.getString())
         } else if (calculateLineDistance > 50) {
-            LogUtils.w(TAG, "⚠️高德定位：跳动距离:" + calculateLineDistance + "  " + location.getString())
+            Log.w(TAG, "⚠️高德定位：跳动距离:" + calculateLineDistance + "  " + location.getString())
         } else {
-            LogUtils.v(TAG, "⚠️高德定位：跳动距离:" + calculateLineDistance + "  " + location.getString())
+            Log.v(TAG, "⚠️高德定位：跳动距离:" + calculateLineDistance + "  " + location.getString())
         }
         mNaviLocation = location
     }

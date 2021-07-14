@@ -19,7 +19,7 @@ import com.didichuxing.doraemonkit.extension.isFalse
 import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
@@ -59,7 +59,7 @@ object WSClientProcessor {
                 doKitGlobalScope.launch {
                     DoKitWsClient.close()
                 }
-                SimpleDokitStarter.removeFloating(ClientDokitView::class.java)
+                SimpleDoKitStarter.removeFloating(ClientDokitView::class.java)
                 if (ActivityUtils.getTopActivity() != null) {
                     AlertDialog.Builder(ActivityUtils.getTopActivity())
                         .setTitle("一机多控")

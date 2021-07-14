@@ -2,8 +2,7 @@ package com.didichuxing.doraemonkit.kit.timecounter;
 
 import android.os.Looper;
 
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
-import com.didichuxing.doraemonkit.util.ActivityUtils;
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.didichuxing.doraemonkit.util.GsonUtils;
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
 import com.didichuxing.doraemonkit.aop.method_stack.MethodStackUtil;
@@ -14,7 +13,6 @@ import com.didichuxing.doraemonkit.kit.methodtrace.AppHealthMethodCostBeanWrap;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.ActivityCounter;
 import com.didichuxing.doraemonkit.kit.timecounter.counter.AppCounter;
-import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 
 import java.util.ArrayList;
@@ -122,7 +120,7 @@ public class TimeCounterManager {
         mIsRunning = true;
         DokitViewManager.getInstance().detachToolPanel();
 
-        SimpleDokitStarter.startFloating(TimeCounterDokitView.class);
+        SimpleDoKitStarter.startFloating(TimeCounterDokitView.class);
 
     }
 

@@ -41,7 +41,7 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                     if (DoKitMcManager.IS_MC_RECODING ||
                         SPUtils.getInstance().getBoolean(DoKitMcManager.MC_CASE_RECODING_KEY, false)
                     ) {
-                        SimpleDokitStarter.startFloating(RecordingDokitView::class.java)
+                        SimpleDoKitStarter.startFloating(RecordingDokitView::class.java)
                         DoKitMcManager.IS_MC_RECODING = true
                         DoKitMcManager.MC_CASE_ID =
                             SPUtils.getInstance().getString(DoKitMcManager.MC_CASE_ID_KEY)

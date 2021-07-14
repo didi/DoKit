@@ -5,14 +5,10 @@ import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.kit.core.DokitIntent;
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.google.auto.service.AutoService;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by wanglikun on 2019-06-27
@@ -36,8 +32,8 @@ public class UIPerformanceKit extends AbstractKit {
     public boolean onClickWithReturn(@NotNull Activity activity) {
         UIPerformanceManager.getInstance().start(activity);
 
-        SimpleDokitStarter.startFloating(UIPerformanceDisplayDokitView.class);
-        SimpleDokitStarter.startFloating(UIPerformanceInfoDokitView.class);
+        SimpleDoKitStarter.startFloating(UIPerformanceDisplayDokitView.class);
+        SimpleDoKitStarter.startFloating(UIPerformanceInfoDokitView.class);
 
         //直接显示层级
         UIPerformanceManager.getInstance().initRefresh();

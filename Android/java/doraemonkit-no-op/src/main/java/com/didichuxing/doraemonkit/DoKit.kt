@@ -20,7 +20,6 @@ import java.lang.NullPointerException
 public class DoKit private constructor() {
     companion object {
 
-
         /**
          * 主icon是否处于显示状态
          */

@@ -22,7 +22,7 @@ import com.didichuxing.doraemonkit.widget.tableview.utils.DensityUtils;
  * 悬浮窗，支持折叠
  * @see com.didichuxing.doraemonkit.kit.core.SimpleDokitView
  * 启动工具函数
- * @see com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter.startFloating
+ * @see com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter.startFloating
  */
 public abstract class SimpleDokitView extends AbsDokitView {
     private static final String TAG = "SimpleBaseFloatPage";

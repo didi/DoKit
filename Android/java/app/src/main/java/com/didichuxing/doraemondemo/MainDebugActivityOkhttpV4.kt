@@ -1,4 +1,4 @@
-//package com.didichuxing.doraemondemo
+package com.didichuxing.doraemondemo//package com.didichuxing.doraemondemo
 //
 //import android.Manifest
 //import android.annotation.SuppressLint

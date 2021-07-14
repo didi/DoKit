@@ -5,14 +5,10 @@ import android.content.Context;
 
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.kit.core.DokitIntent;
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.google.auto.service.AutoService;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by wanglikun on 2018/11/20.
@@ -34,9 +30,9 @@ public class ViewCheckerKit extends AbstractKit {
     @Override
     public boolean onClickWithReturn(@NotNull Activity activity) {
 
-        SimpleDokitStarter.startFloating(ViewCheckDokitView.class);
-        SimpleDokitStarter.startFloating(ViewCheckDrawDokitView.class);
-        SimpleDokitStarter.startFloating(ViewCheckInfoDokitView.class);
+        SimpleDoKitStarter.startFloating(ViewCheckDokitView.class);
+        SimpleDoKitStarter.startFloating(ViewCheckDrawDokitView.class);
+        SimpleDoKitStarter.startFloating(ViewCheckInfoDokitView.class);
 
         return true;
     }

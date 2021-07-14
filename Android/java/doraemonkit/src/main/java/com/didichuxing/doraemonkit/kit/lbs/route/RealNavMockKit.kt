@@ -2,13 +2,11 @@ package com.didichuxing.doraemonkit.kit.lbs.route
 
 import android.app.Activity
 import android.content.Context
-import android.view.ViewGroup
-import androidx.core.view.children
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig
 import com.didichuxing.doraemonkit.extension.hasThirdLib
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.google.auto.service.AutoService
@@ -38,7 +36,7 @@ class RealNavMockKit : AbstractKit() {
         return when {
             //高德地图导航
             hasThirdLib("com.amap.api", "navi-3dmap") -> {
-                SimpleDokitStarter.startFloating(AMapRealNavMockView::class.java)
+                SimpleDoKitStarter.startFloating(AMapRealNavMockView::class.java)
                 true
             }
 //            //腾讯地图导航

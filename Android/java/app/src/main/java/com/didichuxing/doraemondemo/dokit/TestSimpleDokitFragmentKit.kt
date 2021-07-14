@@ -6,7 +6,6 @@ import android.os.Bundle
 import com.didichuxing.doraemondemo.R
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.Category
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 
 /**
  * @Author: changzuozhen

@@ -7,7 +7,7 @@ import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
 import com.google.auto.service.AutoService;
 
@@ -42,7 +42,7 @@ public class PosAdjustKit extends AbstractKit {
             return false;
         }
 
-        SimpleDokitStarter.startFloating(PosAdjustKitView.class);
+        SimpleDoKitStarter.startFloating(PosAdjustKitView.class);
         return true;
     }
 

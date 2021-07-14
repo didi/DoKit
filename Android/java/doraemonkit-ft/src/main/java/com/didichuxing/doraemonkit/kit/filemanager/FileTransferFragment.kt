@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.ft.R
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 import com.didichuxing.doraemonkit.kit.webview.CommWebViewFragment
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
@@ -37,7 +37,7 @@ class FileTransferFragment : BaseFragment() {
         findViewById<TextView>(R.id.tv_tip_top).apply {
             text = Html.fromHtml(DoKitCommUtil.getString(R.string.dk_file_manager_tip_top))
             setOnClickListener {
-                SimpleDokitStarter.startFullScreen(
+                SimpleDoKitStarter.startFullScreen(
                     CommWebViewFragment::class.java,
                     context,
                     isSystemFragment = true

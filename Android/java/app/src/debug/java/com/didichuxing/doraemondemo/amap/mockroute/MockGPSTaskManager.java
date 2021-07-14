@@ -9,7 +9,6 @@ import com.amap.api.maps.AMapUtils;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.navi.model.AMapNaviPath;
 import com.amap.api.navi.model.NaviLatLng;
-import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -102,7 +101,7 @@ public class MockGPSTaskManager {
                         }
                         mLastLocation = location;
 
-                        GpsMockManager.getInstance().mockLocationWithNotify(location);
+                        //GpsMockManager.getInstance().mockLocationWithNotify(location);
                         return location;
                     }
                 })

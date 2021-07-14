@@ -30,14 +30,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.didichuxing.doraemondemo.amap.AMapRouterFragment
 import com.didichuxing.doraemondemo.comm.CommLauncher
-import com.didichuxing.doraemondemo.dokit.DemoDokitView
 import com.didichuxing.doraemondemo.mc.MCActivity
 import com.didichuxing.doraemondemo.retrofit.GithubService
 import com.didichuxing.doraemonkit.DoKit
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
-import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
-import com.didichuxing.doraemonkit.kit.mc.server.RecordingDokitView
-import com.didichuxing.doraemonkit.util.LogHelper
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.view.SimpleDraweeView
 import com.lzy.okgo.OkGo
@@ -49,8 +44,6 @@ import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import okhttp3.*
 import org.json.JSONObject
 import pub.devrel.easypermissions.EasyPermissions
@@ -166,7 +159,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
 
                         val string = sleepDeferred.await()
 
-                        LogHelper.i(TAG, string)
+                        Log.i(TAG, string)
 
                         //}
                     }
@@ -408,14 +401,14 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                     "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fyouimg1.c-ctrip.com%2Ftarget%2Ftg%2F004%2F531%2F381%2F4339f96900344574a0c8ca272a7b8f27.jpg&refer=http%3A%2F%2Fyouimg1.c-ctrip.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1621652979&t=b7e83ecc987c64cc31079469d292eb56"
                 Picasso.get().load(picassoImgUrl)
                     .memoryPolicy(MemoryPolicy.NO_CACHE)
-                    .placeholder(R.mipmap.dk_health_bg)
-                    .error(R.mipmap.dk_health_bg)
+                    .placeholder(R.mipmap.cat)
+                    .error(R.mipmap.cat)
                     .into(findViewById<View>(R.id.iv_picasso) as ImageView)
                 Glide.with(this@MainDebugActivityOkhttpV3)
                     .asBitmap()
                     .load(glideImageUrl)
-                    .placeholder(R.mipmap.dk_health_bg)
-                    .error(R.mipmap.dk_health_bg)
+                    .placeholder(R.mipmap.cat)
+                    .error(R.mipmap.cat)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
                     .transform(CircleCrop())

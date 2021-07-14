@@ -2,6 +2,9 @@ package com.didichuxing.doraemonkit.kit
 
 import android.app.Activity
 import android.content.Context
+import android.os.Bundle
+import com.didichuxing.doraemonkit.kit.core.BaseFragment
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 
 /**
  * ================================================
@@ -16,12 +19,19 @@ abstract class AbstractKit : IKit {
     /**
      * 启动UniversalActivity
      *
+     * @param fragmentClass
      * @param context
-     * @param fragmentIndex
+     * @param bundle
+     * @param isSystemFragment 是否是内置kit
      */
-    fun startUniversalActivity(context: Context, fragmentIndex: Int) {
-
+    fun startUniversalActivity(
+        fragmentClass: Class<out BaseFragment>,
+        context: Context?,
+        bundle: Bundle? = null,
+        isSystemFragment: Boolean = false
+    ) {
     }
+
 
     /**
      * 是否是内置kit 外部kit不需要实现
@@ -38,7 +48,8 @@ abstract class AbstractKit : IKit {
 
     /**
      * 返回kitId
-     *
+     * 内置工具必须返回而且需要和doraemonkit模块下的assets/dokit_system_kits.json文件中的innerKitId保持一致
+     * 否则该工具无法在工具面板中显示
      * @return
      */
     open fun innerKitId(): String {
@@ -53,6 +64,7 @@ abstract class AbstractKit : IKit {
     fun currentActivity(): Activity? {
         return null
     }
+
 
     override val category: Int
         get() = Category.DEFAULT

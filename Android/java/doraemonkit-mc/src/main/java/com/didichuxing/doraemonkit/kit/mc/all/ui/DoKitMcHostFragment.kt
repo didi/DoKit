@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.hook.AccessibilityGetInstanceMethodHook
 import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onInitializeAccessibilityEventHook
@@ -56,7 +56,7 @@ class DoKitMcHostFragment : BaseFragment() {
         btnClose.setOnClickListener {
             lifecycleScope.launch(exceptionHandler) {
                 DoKitWsServer.stop {
-                    SimpleDokitStarter.removeFloating(HostDokitView::class.java)
+                    SimpleDoKitStarter.removeFloating(HostDokitView::class.java)
                     if (activity is DoKitMcActivity) {
                         (activity as DoKitMcActivity).changeFragment(WSMode.UNKNOW)
                     }
@@ -73,7 +73,7 @@ class DoKitMcHostFragment : BaseFragment() {
                 DoKitWindowManager.hookWindowManagerGlobal()
                 runTimeHook()
                 //启动悬浮窗
-                SimpleDokitStarter.startFloating(HostDokitView::class.java)
+                SimpleDoKitStarter.startFloating(HostDokitView::class.java)
             }
         }
     }

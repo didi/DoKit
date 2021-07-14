@@ -3,7 +3,7 @@ package com.didichuxing.doraemonkit.kit.alignruler;
 import android.app.Activity;
 import android.content.Context;
 
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.AlignRulerConfig;
@@ -33,9 +33,9 @@ public class AlignRulerKit extends AbstractKit {
     @Override
     public boolean onClickWithReturn(@NotNull Activity activity) {
 
-        SimpleDokitStarter.startFloating(AlignRulerMarkerDokitView.class);
-        SimpleDokitStarter.startFloating(AlignRulerLineDokitView.class);
-        SimpleDokitStarter.startFloating(AlignRulerInfoDokitView.class);
+        SimpleDoKitStarter.startFloating(AlignRulerMarkerDokitView.class);
+        SimpleDoKitStarter.startFloating(AlignRulerLineDokitView.class);
+        SimpleDoKitStarter.startFloating(AlignRulerInfoDokitView.class);
 
 
         AlignRulerInfoDokitView alignRulerInfoDokitView = (AlignRulerInfoDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), AlignRulerInfoDokitView.class.getCanonicalName());

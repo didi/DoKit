@@ -8,8 +8,6 @@ import java.io.Serializable;
  * @desc: 一条网络请求记录
  */
 public class NetworkRecord implements Serializable {
-    private static final String METHOD_GET = "get";
-    private static final String METHOD_POST = "post";
 
     public int mRequestId;
     public Request mRequest;

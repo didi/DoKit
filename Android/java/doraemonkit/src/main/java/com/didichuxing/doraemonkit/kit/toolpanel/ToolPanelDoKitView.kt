@@ -98,7 +98,7 @@ class ToolPanelDoKitView : AbsDokitView() {
                 if (!isNormalMode) {
                     DoKit.hideToolPanel()
                 }
-                SimpleDokitStarter.startFullScreen(
+                SimpleDoKitStarter.startFullScreen(
                     DokitMoreFragment::class.java,
                     activity,
                     isSystemFragment = true

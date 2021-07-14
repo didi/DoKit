@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit.kit.toolpanel
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.LayoutRes
@@ -10,11 +9,8 @@ import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.constant.BundleKey
-import com.didichuxing.doraemonkit.constant.FragmentIndex
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
-import com.didichuxing.doraemonkit.kit.core.UniversalActivity
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.toolpanel.bean.MorePageGroupBean
 import com.didichuxing.doraemonkit.kit.webview.CommWebViewFragment
@@ -123,7 +119,7 @@ class DokitMoreFragment : BaseFragment() {
                     "native" -> {
                         if (item.link == "dokit://native/function_manager") {
                             activity?.let {
-                                SimpleDokitStarter.startFullScreen(
+                                SimpleDoKitStarter.startFullScreen(
                                     DokitManagerFragment::class.java,
                                     it
                                 )
@@ -135,7 +131,7 @@ class DokitMoreFragment : BaseFragment() {
                     "web" -> {
                         activity?.let {
                             WebViewManager.url = item.link
-                            SimpleDokitStarter.startFullScreen(
+                            SimpleDoKitStarter.startFullScreen(
                                 CommWebViewFragment::class.java,
                                 it
                             )

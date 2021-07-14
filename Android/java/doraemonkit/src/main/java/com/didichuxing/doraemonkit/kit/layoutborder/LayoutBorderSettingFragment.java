@@ -11,11 +11,10 @@ import android.view.View;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.kit.core.DokitIntent;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 /**
@@ -59,7 +58,7 @@ public class LayoutBorderSettingFragment extends BaseFragment {
                 } else if (data.desc == R.string.dk_layout_level) {
                     if (on) {
 
-                        SimpleDokitStarter.startFloating(LayoutLevelDokitView.class);
+                        SimpleDoKitStarter.startFloating(LayoutLevelDokitView.class);
                     } else {
                         DokitViewManager.getInstance().detach(LayoutLevelDokitView.class);
                     }

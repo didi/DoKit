@@ -10,8 +10,6 @@ import com.didichuxing.doraemondemo.R
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
-import com.didichuxing.doraemonkit.util.LogHelper
-import kotlinx.coroutines.launch
 
 /**
  * ================================================

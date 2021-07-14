@@ -6,14 +6,10 @@ import android.content.Context;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.kit.core.DokitIntent;
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.google.auto.service.AutoService;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by wanglikun on 2019/1/7
@@ -35,7 +31,7 @@ public class LayoutBorderKit extends AbstractKit {
     @Override
     public boolean onClickWithReturn(@NotNull Activity activity) {
 
-        SimpleDokitStarter.startFloating(LayoutLevelDokitView.class);
+        SimpleDoKitStarter.startFloating(LayoutLevelDokitView.class);
         LayoutBorderManager.getInstance().start();
         LayoutBorderConfig.setLayoutBorderOpen(true);
         LayoutBorderConfig.setLayoutLevelOpen(true);

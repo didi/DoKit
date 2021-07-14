@@ -36,16 +36,7 @@ object DoraemonKitRpc {
     fun install(app: Application, listKits: MutableList<AbstractKit>, productId: String) {
     }
 
-    /**
-     * @param app
-     * @param mapKits  自定义kits  根据用户传进来的分组 建议优先选择mapKits 两者都传的话会选择mapKits
-     * @param listKits  自定义kits 兼容原先老的api
-     * @param productId Dokit平台端申请的productId
-     */
-    @JvmStatic
-    private fun install(app: Application, mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(), listKits: MutableList<AbstractKit>? = mutableListOf(), productId: String? = "") {
 
-    }
 
     @JvmStatic
     fun setWebDoorCallback(callback: WebDoorManager.WebDoorCallback?) {

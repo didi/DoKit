@@ -1,6 +1,5 @@
 package com.didichuxing.doraemonkit.kit.network.ui;
 
-import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -8,12 +7,9 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.constant.BundleKey;
-import com.didichuxing.doraemonkit.constant.FragmentIndex;
-import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
 import com.didichuxing.doraemonkit.kit.network.room_db.MockTemplateApiBean;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
@@ -101,7 +97,7 @@ public class TemplateDetailNodeProvider extends BaseNodeProvider {
                     //保存到全局
                     DokitDbManager.getInstance().setGlobalTemplateApiBean(mockApi);
 
-                    SimpleDokitStarter.startFullScreen(MockTemplatePreviewFragment.class, tvView.getContext());
+                    SimpleDoKitStarter.startFullScreen(MockTemplatePreviewFragment.class, tvView.getContext());
 
                 }
             });

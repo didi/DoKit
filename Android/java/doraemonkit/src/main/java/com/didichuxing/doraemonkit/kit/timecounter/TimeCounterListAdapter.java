@@ -1,7 +1,6 @@
 package com.didichuxing.doraemonkit.kit.timecounter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.constant.BundleKey;
-import com.didichuxing.doraemonkit.constant.FragmentIndex;
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
-import com.didichuxing.doraemonkit.kit.core.UniversalActivity;
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
 import com.didichuxing.doraemonkit.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.widget.recyclerview.AbsViewBinder;
@@ -79,7 +75,7 @@ public class TimeCounterListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Cou
                     showDetail(info);
                     if (info.type == CounterInfo.TYPE_APP && mContext != null) {
                         //跳转启动耗时详情页
-                        SimpleDokitStarter.startFullScreen(AppStartInfoFragment.class,mContext);
+                        SimpleDoKitStarter.startFullScreen(AppStartInfoFragment.class,mContext);
                     }
                 }
             });

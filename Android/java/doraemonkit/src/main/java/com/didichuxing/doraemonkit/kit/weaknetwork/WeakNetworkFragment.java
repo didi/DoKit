@@ -20,7 +20,7 @@ import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter;
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 /**
@@ -139,7 +139,7 @@ public class WeakNetworkFragment extends BaseFragment implements TextWatcher {
         WeakNetworkManager.get().setActive(enabled);
         updateUIState();
         if (enabled) {
-            SimpleDokitStarter.startFloating(NetWokDokitView.class);
+            SimpleDoKitStarter.startFloating(NetWokDokitView.class);
         } else {
             DokitViewManager.getInstance().detach(NetWokDokitView.class);
         }

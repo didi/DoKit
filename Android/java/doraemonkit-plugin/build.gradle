@@ -49,14 +49,16 @@ task deleteSource(type: Delete) {
  * 将buildSrc中的代码同步到doraemonkit-plugin中
  */
 task copyPluginSource(type: Copy, dependsOn: deleteSource) {
-    println("===copyInnPluginSource===")
+    println("===copySource start===")
     from './../buildSrc/src/main/kotlin'
     into './src/main/kotlin'
+    println("===copySource end===")
 }
 
 def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
 if (PUBLISH_ARCHIVES_TYPE == 0 || PUBLISH_ARCHIVES_TYPE == 1) {
     uploadArchives.dependsOn(copyPluginSource)
+    publishReleasePublicationToMavenCentralRepository
 } else {
     publish.dependsOn(['copyPluginSource'])
 }

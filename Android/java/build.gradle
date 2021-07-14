@@ -66,17 +66,27 @@ task clean(type: Delete) {
  * 删除指定目录下的文件
  */
 task deleteSource(type: Delete) {
-    delete './doraemonkit-plugin/src/main/kotlin'
+    delete "${project.rootDir}/doraemonkit-plugin/src/main/kotlin"
 }
 
 /**
  * 将buildSrc中的代码同步到doraemonkit-plugin中
  */
 task copyPluginSource(type: Copy, dependsOn: deleteSource) {
-    println("===copyPluginSource===")
-    from './buildSrc/src/main/kotlin'
-    into './doraemonkit-plugin/src/main/kotlin'
+    println("===copyPluginSource start===${project.rootDir}")
+    from "${project.rootDir}/buildSrc/src/main/kotlin"
+    into "${project.rootDir}/doraemonkit-plugin/src/main/kotlin"
+    include('**/*')
+    println("===copyPluginSource end===")
 }
+
+
+
+//project.tasks.whenTaskAdded { Task theTask ->
+//    if (theTask.name == 'assembleRelease') {
+//        theTask.mustRunAfter(":doraemonkit-plugin:assemble")
+//    }
+//}
 
 //解决打包时由于javadocRelease校验引起的打包失败
 //tasks.getByPath(":doraemonkit:javadocRelease").enabled = false

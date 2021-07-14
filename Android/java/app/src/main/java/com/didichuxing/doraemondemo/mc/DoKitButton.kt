@@ -2,9 +2,7 @@ package com.didichuxing.doraemondemo.mc
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.widget.AppCompatButton
-import com.didichuxing.doraemonkit.util.LogHelper
 
 /**
  * ================================================

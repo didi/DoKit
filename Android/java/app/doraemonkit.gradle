@@ -9,8 +9,8 @@ if (runType == 0) {
         debugImplementation project(":doraemonkit-mc")
         debugImplementation project(":doraemonkit-ft")
         debugImplementation project(":doraemonkit-weex")
-//        debugImplementation project(":doraemonkit-rpc")
-//        releaseImplementation project(":doraemonkit-no-op")
+        debugImplementation project(":doraemonkit-rpc")
+        releaseImplementation project(":doraemonkit-no-op")
     }
 } else if (runType == 1) {
     apply plugin: 'com.didi.dokit'

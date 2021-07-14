@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Context
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.core.DokitIntent
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 import com.google.auto.service.AutoService
 
 /**
@@ -30,7 +28,7 @@ class H5Kit : AbstractKit() {
         get() = true
 
     override fun onClickWithReturn(activity: Activity): Boolean {
-        SimpleDokitStarter.startFloating(H5DokitView::class.java)
+        SimpleDoKitStarter.startFloating(H5DokitView::class.java)
         return true
     }
 

@@ -45,15 +45,7 @@ object DoraemonKit {
      * @param listKits  自定义kits 兼容原先老的api
      * @param productId Dokit平台端申请的productId
      */
-    @JvmStatic
-    private fun install(
-        app: Application,
-        mapKits: LinkedHashMap<String, MutableList<AbstractKit>>? = linkedMapOf(),
-        listKits: MutableList<AbstractKit>? = mutableListOf(),
-        productId: String? = ""
-    ) {
 
-    }
 
     @JvmStatic
     fun setWebDoorCallback(callback: WebDoorManager.WebDoorCallback?) {

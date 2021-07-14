@@ -4,7 +4,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.all.WSEventProcessor
 import com.didichuxing.doraemonkit.util.*
@@ -13,9 +12,7 @@ import io.ktor.features.*
 import io.ktor.http.cio.websocket.*
 import io.ktor.routing.*
 import io.ktor.websocket.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.withContext
 import java.time.Duration
 import kotlin.collections.set
 

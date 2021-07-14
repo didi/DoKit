@@ -3,9 +3,9 @@ package com.didichuxing.doraemondemo.mc
 import android.widget.Button
 import android.widget.TextView
 import com.blankj.utilcode.util.ToastUtils
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.didichuxing.doraemondemo.R
-import com.didichuxing.doraemonkit.widget.brvah.BaseQuickAdapter
-import com.didichuxing.doraemonkit.widget.brvah.viewholder.BaseViewHolder
 
 /**
  * ================================================

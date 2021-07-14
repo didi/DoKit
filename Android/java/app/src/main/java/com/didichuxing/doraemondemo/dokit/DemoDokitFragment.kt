@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.CompoundButton
 import com.didichuxing.doraemondemo.R
 import com.didichuxing.doraemonkit.kit.core.AbsDokitFragment
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter.startFullScreen
+import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter.startFullScreen
 import com.didichuxing.doraemonkit.kit.core.ViewSetupHelper
 
 /**
@@ -22,7 +22,7 @@ import com.didichuxing.doraemonkit.kit.core.ViewSetupHelper
  * @see com.didichuxing.doraemonkit.kit.core.SimpleDokitView
  * 启动工具函数
  *
- * @see com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter.startFloating
+ * @see com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter.startFloating
  *
  *
  * 全屏页面
@@ -30,7 +30,7 @@ import com.didichuxing.doraemonkit.kit.core.ViewSetupHelper
  * @see com.didichuxing.doraemonkit.kit.core.AbsDokitFragment
  * 启动工具函数
  *
- * @see com.didichuxing.doraemonkit.kit.core.SimpleDokitStarter.startFullScreen
+ * @see com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter.startFullScreen
  */
 class DemoDokitFragment : AbsDokitFragment() {
     override fun onViewCreated(rootView: View?) {

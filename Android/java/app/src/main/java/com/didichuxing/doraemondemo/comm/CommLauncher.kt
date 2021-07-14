@@ -3,7 +3,6 @@ package com.didichuxing.doraemondemo.comm
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.didichuxing.doraemonkit.DoKit
 
 /**
  * ================================================
@@ -22,8 +21,7 @@ object CommLauncher {
         context: Context? = null,
         bundle: Bundle? = null
     ) {
-        val ctx = context ?: DoKit.APPLICATION.applicationContext
-        ctx.startActivity(Intent(ctx, CommFragmentActivity::class.java).apply {
+        context?.startActivity(Intent(context, CommFragmentActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
             putExtra(FRAGMENT_CLASS, targetClass)
             if (bundle != null) {
