@@ -245,6 +245,7 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [changzuozhen](https://github.com/changzuozhen)、
 [wanglikun7342](https://github.com/wanglikun7342) 、
 [wenquanlebao](https://github.com/wenquanlebao) 、
+[xukaibin](https://github.com/xu984386604) 、 
 [hiXgb](https://github.com/hiXgb) 、 
 [Chinnko](https://github.com/Chinnko) 、 
 [y644938647](https://github.com/y644938647) 、
