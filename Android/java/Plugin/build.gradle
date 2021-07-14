@@ -1,6 +1,6 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    apply from: "config.gradle"
+    apply from: "../config.gradle"
     def archives_type = rootProject.ext.publish_config["archives_type"]
     def runType = rootProject.ext.publish_config["run_type"]
     def dokitPluginVersion = rootProject.ext.publish_config["version"]
@@ -11,18 +11,16 @@ buildscript {
     } else {
         gradlePluginVersion = rootProject.ext.android["gradle_plugin_version"]
     }
-
     repositories {
         maven {
             url 'https://maven.aliyun.com/repository/central/'
         }
-        google()
-        mavenCentral()
-        jcenter()
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-      //  maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
+        google()
+        mavenCentral()
+        //  maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
             url uri('/Users/didi/project/dokit_repo')
@@ -31,7 +29,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$gradlePluginVersion"
         //jcenter
-        classpath "com.novoda:bintray-release:0.9.2"
+        // classpath "com.novoda:bintray-release:0.9.2"
         // MavenCentral
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:1.4.30"
         if (runType == 1) {
@@ -42,12 +40,6 @@ buildscript {
 //        classpath "com.didiglobal.booster:booster-gradle-plugin:3.3.1"
 //        classpath "com.didiglobal.booster:booster-task-analyser:3.3.1"
     }
-
-}
-
-plugins {
-    // 这个 id 就是在 versionPlugin 文件夹下 build.gradle 文件内定义的id apply fasle  代表当前build不引入
-    id "com.didi.dokit.debug" apply false
 }
 
 allprojects {
@@ -57,51 +49,9 @@ allprojects {
         }
         google()
         mavenCentral()
-        jcenter()
-        maven {
-            url "https://oss.sonatype.org/content/groups/public"
-        }
-       // maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
-        maven {
-            //本地插件地址
-            url uri('/Users/didi/project/dokit_repo')
-        }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-/**
- * 删除指定目录下的文件
- */
-task deleteSource(type: Delete) {
-    delete "${project.rootDir}/doraemonkit-plugin/src/main/kotlin"
-}
-
-/**
- * 将buildSrc中的代码同步到doraemonkit-plugin中
- */
-task copyPluginSource(type: Copy, dependsOn: deleteSource) {
-    println("===copyPluginSource start===")
-    from "${project.rootDir}/buildSrc/src/main/kotlin"
-    into "${project.rootDir}/doraemonkit-plugin/src/main/kotlin"
-    include('**/*')
-    println("===copyPluginSource end===")
-}
-
-
-
-//project.tasks.whenTaskAdded { Task theTask ->
-//    if (theTask.name == 'assembleRelease') {
-//        theTask.mustRunAfter(":doraemonkit-plugin:assemble")
-//    }
-//}
-
-//解决打包时由于javadocRelease校验引起的打包失败
-//tasks.getByPath(":doraemonkit:javadocRelease").enabled = false
-//tasks.getByPath(":doraemonkit-no-op:javadocRelease").enabled = false
-//tasks.getByPath(":doraemonkit-leakcanary:javadocRelease").enabled = false
-//tasks.getByPath(":doraemonkit-weex:javadocRelease").enabled = false
-//tasks.getByPath(":doraemonkit-rpc:javadocRelease").enabled = false
