@@ -73,7 +73,7 @@ task deleteSource(type: Delete) {
  * 将buildSrc中的代码同步到doraemonkit-plugin中
  */
 task copyPluginSource(type: Copy, dependsOn: deleteSource) {
-    println("===copyPluginSource start===${project.rootDir}")
+    println("===copyPluginSource start===")
     from "${project.rootDir}/buildSrc/src/main/kotlin"
     into "${project.rootDir}/doraemonkit-plugin/src/main/kotlin"
     include('**/*')
