@@ -58,7 +58,6 @@ task copyPluginSource(type: Copy, dependsOn: deleteSource) {
 def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
 if (PUBLISH_ARCHIVES_TYPE == 0 || PUBLISH_ARCHIVES_TYPE == 1) {
     uploadArchives.dependsOn(copyPluginSource)
-    publishReleasePublicationToMavenCentralRepository
 } else {
     publish.dependsOn(['copyPluginSource'])
 }
