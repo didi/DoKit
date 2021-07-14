@@ -20,7 +20,7 @@
     UIGestureRecognizerState state = 0;
     
     if ([gusture isKindOfClass:[UIPanGestureRecognizer class]]) {
-         UIPanGestureRecognizer *panGes = (UIPanGestureRecognizer *)self;
+         UIPanGestureRecognizer *panGes = (UIPanGestureRecognizer *)gusture;
           p = [panGes translationInView:gusture.view];
         state = panGes.state;
         velocityP = [panGes velocityInView:gusture.view];
@@ -35,7 +35,7 @@
         objc_property_t property = propertyList[i];
         const char *cName = property_getName(property);
         NSString *name = [NSString stringWithUTF8String:cName];
-        NSObject *value = [self valueForKey:name];
+        NSObject *value = [gusture valueForKey:name];
         if ([value isKindOfClass:[NSString class]] || [value isKindOfClass:[NSNumber class]]) {
             dictM[name] = value?:@"null";
         }
@@ -51,10 +51,8 @@
     NSInteger gesIndex =  [gusture.view.gestureRecognizers indexOfObject:gusture];
     
     return @{
-        @"type" : @"gesture",
         @"gesIndex":@(gesIndex),
-        @"ctlState": @(stateCtl),
-        @"firstResponder":@(gusture.view.isFirstResponder),
+        @"ctlState":@(stateCtl),
         @"data" : @{
                 @"offsetX": @(p.x/[UIScreen mainScreen].bounds.size.width),
                 @"offsetY": @(p.y/[UIScreen mainScreen].bounds.size.height),
@@ -117,11 +115,7 @@
             [ctl setHighlighted:YES];
         }
     }
-    if ([eventInfo[@"firstResponder"] boolValue] && gusture.view.isFirstResponder == NO) {
-        [gusture.view becomeFirstResponder];
-    }else if ([eventInfo[@"firstResponder"] boolValue] == NO && gusture.view.isFirstResponder) {
-        [gusture.view resignFirstResponder];
-    }
+
 }
 
 @end

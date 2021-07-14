@@ -56,6 +56,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 根据当前的xPath信息查找到对应的view
 - (UIView *)fetchView;
 
+// 获取view所在控制器
++ (UIViewController *)ownerVCWithView:(UIView *)view ;
+
 @end
 
 NS_ASSUME_NONNULL_END
