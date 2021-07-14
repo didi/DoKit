@@ -19,7 +19,12 @@
 </script>
 <script>
   setTimeout(() => {
-    // fetch('https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7')
+    // fetch('https://www.tianqiapi.com/free/day?appid=68852321&appsecret=BgGLDVc7', {
+    //   body: JSON.stringify({
+    //     a:1
+    //   }),
+    //   method: 'get',
+    // })
     //   .then((response) => {
     //     let weatherInfo = response.json();
     //     return weatherInfo;
@@ -33,8 +38,10 @@
     }
     var oReq = new XMLHttpRequest();
     oReq.addEventListener("load", reqListener);
-    oReq.open("GET", "https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7");
-    oReq.send();
+    oReq.open("post", "https://www.tianqiapi.com/free/week?appid=68852321&appsecret=BgGLDVc7");
+    oReq.send(JSON.stringify({
+      a:1
+    }));
   }, 5000);
 </script>
 </html>

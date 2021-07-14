@@ -1,3 +1,7 @@
+import { Request } from "@dokit/web-utils";
+
+export const request = new Request()
+
 export const getDataType = function (arg) {
   if (arg === null ) {
     return 'Null'

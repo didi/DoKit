@@ -1,6 +1,6 @@
 <template>
   <div class="all-resources-container">
-    <resource-tap :tabs="resourceTabs" @changeTap="handleChangeTab"></resource-tap>
+    <resource-tap :tabs="resourceTabs" @changeTap="handleChangeTab" @refreshResource="refreshResource"></resource-tap>
     <div class="resource-container">
       <resource-container :resourceList = "curResourceList"></resource-container>
     </div>
@@ -37,12 +37,19 @@ export default {
   },
   created () {
     //console.log(window.performance.now())
+    this.$nextTick(()=>{
+      this.refreshResource()
+    })
   },
   mounted (){
     
   },
-  activated(){
-    this.$nextTick(()=>{
+  methods: {
+    handleChangeTab(type){
+      this.curTab = type
+      //console.log(this.$store.state.resourceList)
+    },
+    refreshResource() {
       let resourceList = [];
       getResourceEntries(({ type, initiatorType, entryName, base64}) => {
         resourceList.push({
@@ -54,13 +61,8 @@ export default {
       })
       
       this.$store.state.resourceList = resourceList
-    })
-  },
-  methods: {
-    handleChangeTab(type){
-      this.curTab = type
-      //console.log(this.$store.state.resourceList)
     }
+
   }
 }
 </script>
@@ -71,16 +73,5 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
-}
-.resource-container{
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  word-break: break-all;
-  overflow-y: scroll;
-  
-    background-color: @background-color;
-    border-bottom: 1px solid @border-color;
-    
 }
 </style>

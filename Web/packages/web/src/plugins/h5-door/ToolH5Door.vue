@@ -90,7 +90,6 @@ export default {
   },
   methods: {
     jumpToTarget() {
-      console.log(this.url)
       if (!URL_REG.test(this.url)) {
         window.alert('输入的地址不符合URL规则')
         return

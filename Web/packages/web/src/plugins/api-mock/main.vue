@@ -11,7 +11,6 @@
   </div>
 </template>
 <script>
-import { request, getPartUrlByParam } from "@dokit/web-utils";
 import interfaceItem from "./interface-item";
 
 const mockBaseUrl = "https://pre.dokit.cn";
