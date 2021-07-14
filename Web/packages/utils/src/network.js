@@ -36,7 +36,6 @@ export class Request extends EventEmitter{
       originSetRequestHeader.apply(this, arguments);
     }
     window.XMLHttpRequest.prototype.open = function (...args) {
-      console.
       args = Req.hookXhrConfig.onBeforeOpen && Req.hookXhrConfig.onBeforeOpen(args) || args
       const xhr = this;
       this.reqConf = {
@@ -72,7 +71,6 @@ export class Request extends EventEmitter{
     };
 
     window.XMLHttpRequest.prototype.send = function(){
-      console.log('sendsendsendsendsend')
       if (arguments.length) {
         this.reqConf.requestInfo.body = arguments[0]
       }
@@ -151,16 +149,7 @@ export class Request extends EventEmitter{
   handleDone(xhr) {
     const resType = xhr.responseType;
     let resTxt = '';
-    console.log('handledone')
     const update = () => {
-      console.log('update', {
-        id: xhr.reqConf.id,
-        responseInfo: {
-          resRaw: resTxt,
-          contentType: xhr.getResponseHeader('Content-Type'),
-          status: xhr.status,
-        }
-      })
       this.emit('REQUEST.DONE', {
         id: xhr.reqConf.id,
         responseInfo: {
@@ -169,7 +158,6 @@ export class Request extends EventEmitter{
           status: xhr.status,
         }
       })
-      console.log('after update')
     };
 
     const type = this.getType(xhr.getResponseHeader('Content-Type') || '');

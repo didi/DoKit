@@ -91,13 +91,7 @@ export default {
     return {
       showContent: false
     }
-  },
-  created() {
-    let { requestInfo: {url} } = this.requestItem
-
-    let path = getPartUrlByParam(url, 'path')
-    console.log(this.requestItem)
-  },
+  }
 }
 </script>
 <style lang="less" scoped>

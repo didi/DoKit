@@ -17,9 +17,6 @@ export default {
       return this.$store.state.independPlugins
     }
   },
-  created(){
-    console.log(this.$router)
-  },
   methods: {
     toRaw: toRaw
   }

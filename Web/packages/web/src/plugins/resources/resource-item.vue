@@ -44,6 +44,7 @@ export default {
     return {
       showContent: false,
       detailImgThumb: "",
+      detailHtml: ""
     };
   },
 
