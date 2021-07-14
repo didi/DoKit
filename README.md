@@ -238,13 +238,14 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 [yixiangboy](https://github.com/yixiangboy)、
 [jtsky](https://github.com/jtsky) 、
 [LinJZong](https://github.com/LinJZong) 、
-[jayconscious](https://github.com/jayconscious)
+[jayconscious](https://github.com/jayconscious) 、
+[xukaibin](https://github.com/xu984386604)
 
 **贡献者榜单**
 、
 [changzuozhen](https://github.com/changzuozhen)、
 [wanglikun7342](https://github.com/wanglikun7342) 、
-[wenquanlebao](https://github.com/wenquanlebao) 、
+[wenquanlebao](https://github.com/wenquanlebao) 、 
 [hiXgb](https://github.com/hiXgb) 、 
 [Chinnko](https://github.com/Chinnko) 、 
 [y644938647](https://github.com/y644938647) 、
