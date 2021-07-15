@@ -62,18 +62,18 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
             if (view is DokitFrameLayout && accessibilityEvent.eventType == AccessibilityEvent.TYPE_VIEW_FOCUSED) {
                 return
             }
-
-
-            DoKitManager.MC_INTERCEPT?.let { interceptor ->
-                if (interceptor.onIntercept(view, accessibilityEvent)) {
+            val intercept = DoKitManager.MC_INTERCEPT
+            if (intercept != null) {
+                if (intercept.onIntercept(view, accessibilityEvent)) {
                     //拦截
-                    custom(view, accessibilityEvent, interceptor)
+                    custom(view, accessibilityEvent, intercept)
                 } else {
                     //通用
                     comm(view, accessibilityEvent)
                 }
-            } ?: comm(view, accessibilityEvent)
-
+            } else {
+                comm(view, accessibilityEvent)
+            }
         }
 
     }
