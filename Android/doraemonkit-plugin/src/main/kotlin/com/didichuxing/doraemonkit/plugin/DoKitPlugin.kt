@@ -73,7 +73,6 @@ class DoKitPlugin : Plugin<Project> {
             project.plugins.hasPlugin("com.android.application") || project.plugins.hasPlugin("com.android.dynamic-feature") -> {
                 if (!isReleaseTask(project)) {
                     project.getAndroid<AppExtension>().let { androidExt ->
-
                         val pluginSwitch = project.getProperty("DOKIT_PLUGIN_SWITCH", true)
                         val logSwitch = project.getProperty("DOKIT_LOG_SWITCH", false)
                         val slowMethodSwitch = project.getProperty("DOKIT_METHOD_SWITCH", false)
