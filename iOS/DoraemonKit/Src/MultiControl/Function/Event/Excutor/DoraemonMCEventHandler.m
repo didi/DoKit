@@ -16,6 +16,12 @@
 
 - (void)handleEvent:(DoraemonMCMessage*)eventInfo {
     self.messageInfo = eventInfo;
+    self.targetView = [self fetchTargetView];
+    if (self.messageInfo.isFirstResponder && self.targetView.isFirstResponder == NO) {
+        [self.targetView becomeFirstResponder];
+    }else if (self.messageInfo.isFirstResponder == NO && self.targetView.isFirstResponder) {
+        [self.targetView resignFirstResponder];
+    }
 }
 
 - (UIView *)fetchTargetView {
@@ -30,7 +36,7 @@
     
     [super handleEvent:eventInfo];
     
-    UIView *targetView = [self fetchTargetView];
+    UIView *targetView = self.targetView;
     
     NSDictionary *data = self.messageInfo.eventInfo;
     NSInteger gesIndex = [data[@"gesIndex"] intValue];
@@ -54,7 +60,7 @@
 - (void)handleEvent:(DoraemonMCMessage*)eventInfo {
     [super handleEvent:eventInfo];
 
-    UIView *rootView = [self fetchTargetView];
+    UIView *rootView = self.targetView;
     NSDictionary *data = self.messageInfo.eventInfo;
 
     SEL action = NSSelectorFromString(data[@"action"]);
@@ -80,7 +86,7 @@
     [super handleEvent:eventInfo];
     NSDictionary *data = self.messageInfo.eventInfo;
 
-    UIView *rootView = [self fetchTargetView];
+    UIView *rootView = self.targetView;
     
     if ([rootView isKindOfClass:[UITableView class]]) {
         UITableView *tableView =  (UITableView *)rootView ;
@@ -95,7 +101,7 @@
 
 - (void)handleEvent:(DoraemonMCMessage *)eventInfo {
     [super handleEvent:eventInfo];
-    UIView *rootView = [self fetchTargetView];
+    UIView *rootView = self.targetView;
     NSDictionary *data = self.messageInfo.eventInfo;
 
     if ([rootView isKindOfClass:[UIControl class]]) {
@@ -116,13 +122,6 @@
             [ctl setEnabled:NO];
         }else {
             [ctl setHighlighted:YES];
-        }
-        
-        
-        if ([data[@"firstResponder"] boolValue] && rootView.isFirstResponder == NO) {
-            [ctl becomeFirstResponder];
-        }else if ([data[@"firstResponder"] boolValue] == NO && rootView.isFirstResponder) {
-            [ctl resignFirstResponder];
         }
     }
     

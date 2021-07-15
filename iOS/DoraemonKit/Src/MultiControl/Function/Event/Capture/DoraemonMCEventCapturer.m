@@ -9,6 +9,7 @@
 #import "DoraemonMCServer.h"
 #import <objc/runtime.h>
 #import "DoraemonMCXPathSerializer.h"
+#import "DoraemonMCCommandGenerator.h"
 
 @implementation UIApplication (DoraemonMCSupport)
 
@@ -29,37 +30,11 @@
             senderV = [ges view];
             [ges do_mc_handleGestureSend:sender];
         }else if ([senderV isKindOfClass:[UIView class]]) {
-            UIWindow *currentWindow = nil;
-            if ([senderV isKindOfClass:[UIWindow class]]) {
-                currentWindow = (UIWindow *)senderV;
-            }else {
-                currentWindow = senderV.window;
-            }
-            NSInteger windowIndex = [[[UIApplication sharedApplication] windows] indexOfObject:currentWindow];
-            if (windowIndex == NSNotFound) {
-                windowIndex = -1 ;
-            }
-
-            NSString *str = @"";
-            UIView *currentV = senderV;
-            while (currentV && [currentV isKindOfClass:[UIView class]]) {
-                if (currentV.superview) {
-                    str = [[NSString stringWithFormat:@"/%zd", [currentV.superview.subviews indexOfObject:currentV]] stringByAppendingString:str];
-                }
-                currentV = currentV.superview;
-            }
-            
-            NSDictionary *map = @{
-                @"type" : @"control",
-                @"xPath": str,
-                @"windowIndex":@(windowIndex),
-                @"firstResponder":@(senderV.isFirstResponder),
-                @"data" : @{
-                        @"action": NSStringFromSelector(action)?:@"",
-                }
-            };
-            NSString *payload = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:map options:NSJSONWritingFragmentsAllowed error:NULL] encoding:NSUTF8StringEncoding];
-            [DoraemonMCServer sendMessage:payload];
+            [DoraemonMCCommandGenerator sendMessageWithView:senderV
+                                                    gusture:nil
+                                                     action:action
+                                                  indexPath:nil
+                                                messageType:DoraemonMCMessageTypeControl];
         }
     }
     
@@ -162,78 +137,11 @@
 }
 
 - (void)do_mc_handleGestureSend:(id)sender {
-    UIWindow *currentWindow =  nil;
-    if ([self.view isKindOfClass:[UIWindow class]]) {
-        currentWindow = (UIWindow *)self.view;
-    }else {
-        currentWindow = self.view.window;
-    }
-    NSInteger windowIndex = [[[UIApplication sharedApplication] windows] indexOfObject:currentWindow];
-    if (windowIndex == NSNotFound) {
-        windowIndex = -1 ;
-    }
-    NSInteger gesIndex =  [self.view.gestureRecognizers indexOfObject:self];
-    NSString *str = @"";
-    UIView *currentV = self.view;
-    while (currentV) {
-        if (currentV.superview) {
-            str = [[NSString stringWithFormat:@"/%zd", [currentV.superview.subviews indexOfObject:currentV]] stringByAppendingString:str];
-        }
-        currentV = currentV.superview;
-    }
-
-    CGPoint p = CGPointZero;
-    CGPoint velocityP = CGPointZero;
-    UIGestureRecognizerState state = 0;
-    if ([self isKindOfClass:[UIPanGestureRecognizer class]]) {
-         UIPanGestureRecognizer *panGes = (UIPanGestureRecognizer *)self;
-          p = [panGes translationInView:self.view];
-        state = panGes.state;
-        velocityP = [panGes velocityInView:self.view];
-    }
-    
-    NSMutableDictionary *dictM = [NSMutableDictionary dictionary];
-    unsigned int count;
-    objc_property_t *propertyList = class_copyPropertyList([self class], &count);
-    
-    
-    for (int i = 0; i < count; i++) {
-        objc_property_t property = propertyList[i];
-        const char *cName = property_getName(property);
-        NSString *name = [NSString stringWithUTF8String:cName];
-        if ([self respondsToSelector:NSSelectorFromString(name)]) {
-            NSObject *value = [self valueForKey:name];
-            if ([value isKindOfClass:[NSString class]] || [value isKindOfClass:[NSNumber class]]) {
-                dictM[name] = value?:@"null";
-            }
-        }
-    }
-    free(propertyList);
- 
-    UIControlState stateCtl = -1;
-    if ([self.view isKindOfClass:[UIControl class]]) {
-        UIControl *ctl = (UIControl *)self.view;
-        stateCtl = ctl.state;
-    }
-    
-    NSDictionary *map = @{
-        @"type" : @"gesture",
-        @"xPath": str,
-        @"gesIndex":@(gesIndex),
-        @"windowIndex":@(windowIndex),
-        @"ctlState": @(stateCtl),
-        @"firstResponder":@(self.view.isFirstResponder),
-        @"data" : @{
-                @"offsetX": @(p.x/[UIScreen mainScreen].bounds.size.width),
-                @"offsetY": @(p.y/[UIScreen mainScreen].bounds.size.height),
-                @"state":@(state),
-                @"velocityX":  @(velocityP.x/[UIScreen mainScreen].bounds.size.width),
-                @"velocityY":  @(velocityP.y/[UIScreen mainScreen].bounds.size.height),
-        },
-        @"pps" : dictM.copy
-    };
-    NSString *payload = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:map options:NSJSONWritingFragmentsAllowed error:NULL] encoding:NSUTF8StringEncoding];
-    [DoraemonMCServer sendMessage:payload];
+    [DoraemonMCCommandGenerator sendMessageWithView:self.view
+                                            gusture:self
+                                             action:nil
+                                          indexPath:nil
+                                        messageType:DoraemonMCMessageTypeGuesture];
 }
 
 - (void)do_mc_action:(id)sender {
@@ -298,6 +206,9 @@
 }
 
 
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key {}
+- (id)valueForUndefinedKey:(NSString *)key {return nil;}
+
 @end
 
 
@@ -337,34 +248,11 @@
         return;
         
     }
-    
-    UIWindow *currentWindow = self.window;
-    NSInteger windowIndex = [[[UIApplication sharedApplication] windows] indexOfObject:currentWindow];
-    if (windowIndex == NSNotFound) {
-        windowIndex = -1 ;
-    }
-
-    NSString *str = @"";
-    UIView *currentV = self;
-    while (currentV) {
-        if (currentV.superview) {
-            str = [[NSString stringWithFormat:@"/%zd", [currentV.superview.subviews indexOfObject:currentV]] stringByAppendingString:str];
-        }
-        currentV = currentV.superview;
-    }
-
-    NSDictionary *map = @{
-        @"type" : @"TextFiled",
-        @"xPath": str,
-        @"windowIndex":@(windowIndex),
-        @"ctlState": @(self.state),
-        @"firstResponder":@(self.isFirstResponder),
-    };
-    if (payload) {
-        map = payload(map);
-    }
-    NSString *payloadStr = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:map options:NSJSONWritingFragmentsAllowed error:NULL] encoding:NSUTF8StringEncoding];
-    [DoraemonMCServer sendMessage:payloadStr];
+    [DoraemonMCCommandGenerator sendMessageWithView:self
+                                            gusture:nil
+                                             action:nil
+                                          indexPath:nil
+                                        messageType:DoraemonMCMessageTypeTextInput];
 }
 
 - (void)do_mc_UIControlEventEditingDidEndHandle {
@@ -396,33 +284,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([DoraemonMCServer isServer]) {
-        UIWindow *currentWindow = tableView.window;
-
-        NSInteger windowIndex = [[[UIApplication sharedApplication] windows] indexOfObject:currentWindow];
-        if (windowIndex == NSNotFound) {
-            windowIndex = -1 ;
-        }
-
-        NSString *str = @"";
-        UIView *currentV = tableView;
-        while (currentV) {
-            if (currentV.superview) {
-                str = [[NSString stringWithFormat:@"/%zd", [currentV.superview.subviews indexOfObject:currentV]] stringByAppendingString:str];
-            }
-            currentV = currentV.superview;
-        }
-        
-        NSDictionary *map = @{
-            @"type" : @"tableView",
-            @"windowIndex":@(windowIndex),
-            @"xPath": str,
-            @"data" : @{
-                    @"section": @(indexPath.section),
-                    @"row": @(indexPath.row)
-            }
-        };
-        NSString *payload = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:map options:NSJSONWritingFragmentsAllowed error:NULL] encoding:NSUTF8StringEncoding];
-        [DoraemonMCServer sendMessage:payload];
+        [DoraemonMCCommandGenerator sendMessageWithView:tableView
+                                                gusture:nil
+                                                 action:nil
+                                              indexPath:indexPath
+                                            messageType:DoraemonMCMessageTypeDidSelectCell];
     }
     if (self.do_mc_temp_delegate) {
         [self.do_mc_temp_delegate tableView:tableView didSelectRowAtIndexPath:indexPath];

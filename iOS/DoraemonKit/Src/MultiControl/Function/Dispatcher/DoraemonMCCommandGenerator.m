@@ -6,14 +6,24 @@
 //
 
 #import "DoraemonMCCommandGenerator.h"
+#import "DoraemonMCMessagePackager.h"
+#import "DoraemonMCServer.h"
 
 @implementation DoraemonMCCommandGenerator
 
 + (DoraemonMCMessage *)sendMessageWithView:(UIView *)view
-                                    gusture:(UIGestureRecognizer *)gusture
-                                     action:(SEL)action
-                                  indexPath:(NSIndexPath *)indexPath {
-    DoraemonMCMessage *message = [[DoraemonMCMessage alloc] init];
+                                   gusture:(UIGestureRecognizer *)gusture
+                                    action:(SEL)action
+                                 indexPath:(NSIndexPath *)indexPath
+                               messageType:(DoraemonMCMessageType)type {
+    
+    DoraemonMCMessage *message = [DoraemonMCMessagePackager packageMessageWithView:view
+                                                                           gusture:gusture
+                                                                            action:action
+                                                                         indexPath:indexPath
+                                                                       messageType:type];
+    
+    [DoraemonMCServer sendMessage:message.toMessageString];
     return message;
 }
 @end

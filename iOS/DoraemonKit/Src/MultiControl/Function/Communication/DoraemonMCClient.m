@@ -68,7 +68,7 @@
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message {
-    [DoraemonMCCommandExcutor excuteMessage:message];
+    [DoraemonMCCommandExcutor excuteMessageStrFromNet:message];
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error {

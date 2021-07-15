@@ -32,6 +32,10 @@ typedef NS_ENUM(NSInteger , DoraemonMCMessageType) {
 // 当前消息对应的事件信息
 @property (nonatomic , copy  ) NSDictionary *eventInfo;
 
+// 当前所在的页面类名
+@property (nonatomic , copy  ) NSString *currentVCClassName;
+
+@property (nonatomic , assign) BOOL isFirstResponder;
 - (NSString *)toMessageString;
 
 @end
@@ -41,7 +45,11 @@ typedef NS_ENUM(NSInteger , DoraemonMCMessageType) {
 /**
  根据类型,xPath和事件信息组装消息字符串,用于发送到网络
  */
-+ (NSString *)packageMessageWithType:(DoraemonMCMessageType)type xPath:(NSString *)xPath eventInfo:(NSDictionary *)eventInfo;
++ (DoraemonMCMessage *)packageMessageWithView:(UIView *)view
+                             gusture:(UIGestureRecognizer *)gusture
+                              action:(SEL)action
+                           indexPath:(NSIndexPath *)indexPath
+                        messageType:(DoraemonMCMessageType)type;
 
 /***
  根据从网络上获取的消息字符串, 解析出消息对象
