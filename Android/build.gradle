@@ -13,16 +13,13 @@ buildscript {
     }
 
     repositories {
-        maven {
-            url 'https://maven.aliyun.com/repository/central/'
-        }
         google()
         mavenCentral()
         jcenter()
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-      //  maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
+        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
             url uri('/Users/didi/project/dokit_repo')
@@ -45,23 +42,15 @@ buildscript {
 
 }
 
-plugins {
-    // 这个 id 就是在 versionPlugin 文件夹下 build.gradle 文件内定义的id apply fasle  代表当前build不引入
-    id "com.didi.dokit.debug" apply false
-}
-
 allprojects {
     repositories {
-        maven {
-            url 'https://maven.aliyun.com/repository/central/'
-        }
         google()
         mavenCentral()
         jcenter()
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-       // maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
+        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
             url uri('/Users/didi/project/dokit_repo')
