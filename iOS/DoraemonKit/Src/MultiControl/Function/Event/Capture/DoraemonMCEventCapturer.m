@@ -10,6 +10,7 @@
 #import <objc/runtime.h>
 #import "DoraemonMCXPathSerializer.h"
 #import "DoraemonMCCommandGenerator.h"
+#import "DoraemonMCReuseViewDelegateProxy.h"
 
 @implementation UIApplication (DoraemonMCSupport)
 
@@ -22,7 +23,7 @@
 
 - (BOOL)do_mc_sendAction:(SEL)action to:(id)target from:(id)sender forEvent:(UIEvent *)event {
     
-    if ([DoraemonMCServer isServer]) {
+    if ([DoraemonMCServer isOpen]) {
         
         UIView *senderV = sender;
         if ([sender isKindOfClass:[UIGestureRecognizer class]]) {
@@ -145,7 +146,7 @@
 }
 
 - (void)do_mc_action:(id)sender {
-    if ([DoraemonMCServer isServer]) {
+    if ([DoraemonMCServer isOpen]) {
         [self do_mc_handleGestureSend:sender];
     }
 
@@ -240,7 +241,7 @@
 }
 
 - (void)do_mc_sendPayload:(NSDictionary*(^)(NSDictionary*))payload {
-    if (![DoraemonMCServer isServer]) {
+    if (![DoraemonMCServer isOpen]) {
         return;
     }
     if (![self isKindOfClass:[UITextField class]] &&
@@ -261,9 +262,7 @@
 
 @end
 
-@interface UITableView (DoraemonMCSupport) <UITableViewDelegate>
-
-@property (nonatomic , weak) id<UITableViewDelegate> do_mc_temp_delegate;
+@interface UITableView (DoraemonMCSupport)
 
 @end
 
@@ -276,32 +275,33 @@
     });
 }
 
-
 - (void)do_mc_setDelegate:(id<UITableViewDelegate>)delegate {
-    self.do_mc_temp_delegate = delegate;
-    [self do_mc_setDelegate:self];
+
+    DoraemonMCReuseViewDelegateProxy *delegateProxy = [DoraemonMCReuseViewDelegateProxy proxyWithTarget:delegate];
+    objc_setAssociatedObject(self, _cmd, delegateProxy, OBJC_ASSOCIATION_RETAIN);
+    [self do_mc_setDelegate:delegateProxy];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([DoraemonMCServer isServer]) {
-        [DoraemonMCCommandGenerator sendMessageWithView:tableView
-                                                gusture:nil
-                                                 action:nil
-                                              indexPath:indexPath
-                                            messageType:DoraemonMCMessageTypeDidSelectCell];
-    }
-    if (self.do_mc_temp_delegate) {
-        [self.do_mc_temp_delegate tableView:tableView didSelectRowAtIndexPath:indexPath];
-    }
+@end
+
+
+@interface UICollectionView (DoraemonMCSupport) <UICollectionViewDelegate>
+
+@end
+
+@implementation UICollectionView (DoraemonMCSupport)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(setDelegate:) swizzledSel:@selector(do_mc_setDelegate:)];
+    });
 }
 
-- (void)setDo_mc_temp_delegate:(id<UITableViewDelegate>)do_mc_temp_delegate {
-    objc_setAssociatedObject(self, @selector(do_mc_temp_delegate), do_mc_temp_delegate, OBJC_ASSOCIATION_ASSIGN);
-
-}
-
-- (id<UITableViewDelegate>)do_mc_temp_delegate {
-    return objc_getAssociatedObject(self, _cmd);
+- (void)do_mc_setDelegate:(id<UICollectionViewDelegate>)delegate {
+    DoraemonMCReuseViewDelegateProxy *delegateProxy = [DoraemonMCReuseViewDelegateProxy proxyWithTarget:delegate];
+    objc_setAssociatedObject(self, _cmd, delegateProxy, OBJC_ASSOCIATION_RETAIN);
+    [self do_mc_setDelegate:delegateProxy];
 }
 
 @end

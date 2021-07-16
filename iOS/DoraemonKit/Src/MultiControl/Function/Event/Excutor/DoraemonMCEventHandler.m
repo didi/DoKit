@@ -12,16 +12,26 @@
 #import "DoraemonMCXPathSerializer.h"
 #import "DoraemonMCGustureSerializer.h"
 
+#define DoraemonMCEventHandler_call_super_handle_event if (![super handleEvent:eventInfo]) {\
+        return NO;\
+    }
+
 @implementation DoraemonMCEventHandler
 
-- (void)handleEvent:(DoraemonMCMessage*)eventInfo {
+- (BOOL)handleEvent:(DoraemonMCMessage*)eventInfo {
     self.messageInfo = eventInfo;
     self.targetView = [self fetchTargetView];
+    // 页面类名校验
+    if (eventInfo.currentVCClassName.length > 0 &&
+        ![[DoraemonMCXPathSerializer ownerVCWithView:self.targetView] isKindOfClass:NSClassFromString(eventInfo.currentVCClassName)]) {
+        return NO;
+    }
     if (self.messageInfo.isFirstResponder && self.targetView.isFirstResponder == NO) {
         [self.targetView becomeFirstResponder];
     }else if (self.messageInfo.isFirstResponder == NO && self.targetView.isFirstResponder) {
         [self.targetView resignFirstResponder];
     }
+    return YES;
 }
 
 - (UIView *)fetchTargetView {
@@ -32,9 +42,9 @@
 
 @implementation DoraemonMCGestureRecognizerEventHandler
 
-- (void)handleEvent:(DoraemonMCMessage*)eventInfo {
-    
-    [super handleEvent:eventInfo];
+- (BOOL)handleEvent:(DoraemonMCMessage*)eventInfo {
+   
+    DoraemonMCEventHandler_call_super_handle_event
     
     UIView *targetView = self.targetView;
     
@@ -43,7 +53,7 @@
     
     if (targetView.gestureRecognizers.count <= gesIndex) {
         NSLog(@"gestureRecognizer has not found %@",eventInfo);
-        return ;
+        return NO;
     }
     
     UIGestureRecognizer *ges = targetView.gestureRecognizers[gesIndex];
@@ -51,15 +61,16 @@
     [DoraemonMCGustureSerializer syncInfoToGusture:ges withDict:data];
 
     [ges do_mc_manual_doAction];
+    return YES;
 }
 
 @end
 
 @implementation DoraemonMCControlEventHandler
 
-- (void)handleEvent:(DoraemonMCMessage*)eventInfo {
-    [super handleEvent:eventInfo];
-
+- (BOOL)handleEvent:(DoraemonMCMessage*)eventInfo {
+    DoraemonMCEventHandler_call_super_handle_event
+    
     UIView *rootView = self.targetView;
     NSDictionary *data = self.messageInfo.eventInfo;
 
@@ -76,22 +87,31 @@
             }
         }];
     }
+    return YES;
 }
 
 @end
 
-@implementation DoraemonMCTableViewEventHandler
+@implementation DoraemonMCReuseCellEventHandler
 
-- (void)handleEvent:(DoraemonMCMessage*)eventInfo {
-    [super handleEvent:eventInfo];
+- (BOOL)handleEvent:(DoraemonMCMessage*)eventInfo {
+    DoraemonMCEventHandler_call_super_handle_event
+    
     NSDictionary *data = self.messageInfo.eventInfo;
 
     UIView *rootView = self.targetView;
     
     if ([rootView isKindOfClass:[UITableView class]]) {
         UITableView *tableView =  (UITableView *)rootView ;
-        [tableView.delegate tableView:tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:[data[@"row"] intValue] inSection:[data[@"section"] intValue]]];
+        [tableView.delegate tableView:tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:[data[@"row"] intValue]
+                                                                                           inSection:[data[@"section"] intValue]]];
+    }else if ([rootView isKindOfClass:[UICollectionView class]]) {
+        UICollectionView *collectionView =  (UICollectionView *)rootView ;
+        [collectionView.delegate collectionView:collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForRow:[data[@"row"] intValue]
+                                                                                                           inSection:[data[@"section"] intValue]]];
     }
+    
+    return YES;
 }
 
 @end
@@ -99,8 +119,9 @@
 
 @implementation DoraemonMCTextFiledEventHandler
 
-- (void)handleEvent:(DoraemonMCMessage *)eventInfo {
-    [super handleEvent:eventInfo];
+- (BOOL)handleEvent:(DoraemonMCMessage *)eventInfo {
+    DoraemonMCEventHandler_call_super_handle_event
+
     UIView *rootView = self.targetView;
     NSDictionary *data = self.messageInfo.eventInfo;
 
@@ -140,6 +161,8 @@
             tVView.text = data[@"text"];
         }
     }
+    
+    return YES;
 }
 
 

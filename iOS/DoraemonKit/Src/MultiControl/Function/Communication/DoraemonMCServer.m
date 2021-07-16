@@ -6,22 +6,14 @@
 //
 
 #import "DoraemonMCServer.h"
-#if __has_include(<ONEBus/HTTPServer.h>)
-#import <ONEBus/HTTPServer.h>
-#import <ONEBus/HTTPConnection.h>
-#import <ONEBus/WebSocket.h>
-#import <ONEBus/HTTPMessage.h>
-#import <ONEBus/HTTPDynamicFileResponse.h>
-#else
 #import <CocoaHTTPServer/HTTPServer.h>
 #import <CocoaHTTPServer/HTTPConnection.h>
 #import <CocoaHTTPServer/WebSocket.h>
 #import <CocoaHTTPServer/HTTPMessage.h>
 #import <CocoaHTTPServer/HTTPDynamicFileResponse.h>
-#endif
-
 #import <CocoaAsyncSocket/GCDAsyncSocket.h>
 #import <DoraemonKit/DoraemonToastUtil.h>
+#import "DoraemonHomeWindow.h"
 
 NSInteger const kDoraemonMCServerPort = 8088;
 
@@ -36,7 +28,6 @@ NSInteger const kDoraemonMCServerPort = 8088;
 
 @interface DoraemonMCServer ()
 @property (nonatomic , strong) HTTPServer *server;
-@property (nonatomic , assign) BOOL isServer;
 @end
 
 @implementation DoraemonMCServer
@@ -52,6 +43,14 @@ NSInteger const kDoraemonMCServerPort = 8088;
 
 + (BOOL)startServerWithError:(NSError *__autoreleasing  _Nullable *)error {
     return [[self shareInstance] startServerWithError:error];
+}
+
++ (void)close {
+    [[self shareInstance] close];
+}
+
++ (NSInteger)connectCount {
+    return [[self shareInstance] connectCount];
 }
 
 - (BOOL)startServerWithError:(NSError *__autoreleasing  _Nullable *)error  {
@@ -70,11 +69,24 @@ NSInteger const kDoraemonMCServerPort = 8088;
             }
             return NO;
         }else {
-            self.isServer = YES;
             return YES;
         }
     }
     return YES;
+}
+
+- (void)close {
+    if (self.server) {
+        [self.server stop];
+        self.server = nil;
+        UIWindow *currentWindow = nil;
+        if ([DoraemonHomeWindow shareInstance].hidden) {
+            currentWindow = [UIApplication sharedApplication].keyWindow;
+        }else {
+            currentWindow = [DoraemonHomeWindow shareInstance];
+        }
+        [DoraemonToastUtil showToastBlack:@"服务已关闭" inView:currentWindow];
+    }
 }
 
 - (void)sendMessage:(NSString *)message {
@@ -83,13 +95,19 @@ NSInteger const kDoraemonMCServerPort = 8088;
     }];
 }
 
+- (NSInteger)connectCount {
+    return [[self.server valueForKey:@"webSockets"] count];
+}
+
 + (void)sendMessage:(NSString *)message {
     [[self shareInstance] sendMessage:message];
 }
 
-+ (BOOL)isServer {
-    return [[self shareInstance] isServer];
+
++ (BOOL)isOpen {
+    return [[self shareInstance] server].isRunning;
 }
+
 @end
 
 

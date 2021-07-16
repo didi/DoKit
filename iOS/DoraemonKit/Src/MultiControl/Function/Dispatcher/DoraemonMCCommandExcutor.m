@@ -22,7 +22,7 @@
     dispatch_once(&onceToken, ^{
         eventHandlerMap = @{
             @(DoraemonMCMessageTypeControl): [DoraemonMCControlEventHandler new],
-            @(DoraemonMCMessageTypeDidSelectCell) : [DoraemonMCTableViewEventHandler new],
+            @(DoraemonMCMessageTypeDidSelectCell) : [DoraemonMCReuseCellEventHandler new],
             @(DoraemonMCMessageTypeGuesture) : [DoraemonMCGestureRecognizerEventHandler new],
             @(DoraemonMCMessageTypeTextInput) : [DoraemonMCTextFiledEventHandler new]
         };
