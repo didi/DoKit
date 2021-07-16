@@ -19,6 +19,7 @@
 #import "UIView+Doraemon.h"
 #import "UIViewController+Doraemon.h"
 #import "DoraemonDemoMemoryLeakViewController.h"
+#import "DoraemonDemoMultiControlViewController.h"
 
 @interface DoraemonDemoHomeViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -48,7 +49,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 9;
+    return 11;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -79,6 +80,8 @@
         txt = DoraemonDemoLocalizedString(@"内存泄漏测试");
     }else if(row==9){
         txt = DoraemonDemoLocalizedString(@"test alert view");
+    }else if(row == 10){
+        txt = DoraemonDemoLocalizedString(@"一机多控制测试");
     }
     cell.textLabel.text = txt;
     return cell;
@@ -103,7 +106,9 @@
         vc = [[DoraemonDemoCrashViewController alloc] init];
     }else if(row == 7){
         vc = [[DoraemonDemoCommonViewController alloc] init];
-    }else if(row==9){
+    }else if(row == 8){
+        vc = [[DoraemonDemoMemoryLeakViewController alloc] init];
+    }else if(row == 9){
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"alert" message:@"alert message" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             NSLog(@"confirm");
@@ -115,9 +120,8 @@
         [alert addAction:action];
         [alert addAction:cancelAction];
         [self.navigationController presentViewController:alert animated:YES completion:nil];
-        
-    }else{
-        vc = [[DoraemonDemoMemoryLeakViewController alloc] init];
+    }else if(row == 10){
+        vc = [[DoraemonDemoMultiControlViewController alloc] init];
     }
     if (vc) {
         [self.navigationController pushViewController:vc animated:YES];

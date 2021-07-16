@@ -45,11 +45,41 @@
 @end
 
 
+@implementation UIResponder (DoraemonMCSupport)
+
++ (void)load {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+//            [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(pressesBegan:withEvent:) swizzledSel:@selector(do_mc_pressesBegan:withEvent:)];
+//
+//            [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(touchesBegan:withEvent:) swizzledSel:@selector(do_mc_touchesBegan:withEvent:)];
+        });
+}
+
+- (void)do_mc_touchesBegan:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event
+{
+    return [self do_mc_touchesBegan:touches withEvent:event];
+}
+- (void)do_mc_pressesBegan:(NSSet<UIPress *> *)presses withEvent:(nullable UIPressesEvent *)event
+{
+    if ([DoraemonMCServer isServer]) {
+        
+        
+    }
+
+    return [self do_mc_pressesBegan:presses withEvent:event];
+}
+
+
+@end
+
+
 
 @implementation UIPanGestureRecognizer (DoraemonMCSupport)
 
 
 + (void)load {
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(translationInView:) swizzledSel:@selector(do_mc_translationInView:)];

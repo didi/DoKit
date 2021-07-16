@@ -17,6 +17,7 @@
     }
     CGPoint p = CGPointZero;
     CGPoint velocityP = CGPointZero;
+    CGPoint centerP  = CGPointZero;
     UIGestureRecognizerState state = 0;
     
     if ([gusture isKindOfClass:[UIPanGestureRecognizer class]]) {
@@ -24,6 +25,7 @@
           p = [panGes translationInView:gusture.view];
         state = panGes.state;
         velocityP = [panGes velocityInView:gusture.view];
+        centerP = CGPointMake(gusture.view.center.x, gusture.view.center.y);
     }
     
     NSMutableDictionary *dictM = [NSMutableDictionary dictionary];
@@ -59,6 +61,10 @@
                 @"state":@(state),
                 @"velocityX":  @(velocityP.x/[UIScreen mainScreen].bounds.size.width),
                 @"velocityY":  @(velocityP.y/[UIScreen mainScreen].bounds.size.height),
+                @"velocityX":  @(velocityP.x),
+                @"velocityY":  @(velocityP.y),
+                @"pointX":@(centerP.x),
+                @"pointY":@(centerP.y),
         },
         @"pps" : dictM.copy
     };
@@ -77,7 +83,8 @@
         pan.state = [data[@"state"] intValue];
         CGPoint translation = CGPointMake([data[@"offsetX"] doubleValue] * [UIScreen mainScreen].bounds.size.width, [data[@"offsetY"] doubleValue] * [UIScreen mainScreen].bounds.size.height);
         CGPoint volP = CGPointMake([data[@"velocityX"] doubleValue] * [UIScreen mainScreen].bounds.size.width, [data[@"velocityY"] doubleValue] * [UIScreen mainScreen].bounds.size.height);
-        [pan setTranslation:translation inView:pan.view];
+        CGPoint point = CGPointMake([data[@"pointX"] floatValue] , [data[@"pointY"] floatValue] );
+        pan.view.center = CGPointMake(point.x, point.y);
         if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
             pan.do_mc_temp_p = CGPointZero;
         }else {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0977CCE0269F394100A6463E /* DoraemonDemoMultiControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0977CCDF269F394000A6463E /* DoraemonDemoMultiControlViewController.m */; };
 		0A5399852349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A5399842349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.m */; };
 		0A5399882349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A5399872349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.m */; };
 		0A53998B2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A53998A2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m */; };
@@ -48,6 +49,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0977CCDE269F394000A6463E /* DoraemonDemoMultiControlViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMultiControlViewController.h; sourceTree = "<group>"; };
+		0977CCDF269F394000A6463E /* DoraemonDemoMultiControlViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMultiControlViewController.m; sourceTree = "<group>"; };
 		0A5399832349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMemoryLeakViewController.h; sourceTree = "<group>"; };
 		0A5399842349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMemoryLeakViewController.m; sourceTree = "<group>"; };
 		0A5399862349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMemoryLeakModel.h; sourceTree = "<group>"; };
@@ -134,6 +137,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0977CCDD269F38F500A6463E /* MultiControl */ = {
+			isa = PBXGroup;
+			children = (
+				0977CCDE269F394000A6463E /* DoraemonDemoMultiControlViewController.h */,
+				0977CCDF269F394000A6463E /* DoraemonDemoMultiControlViewController.m */,
+			);
+			path = MultiControl;
+			sourceTree = "<group>";
+		};
 		0A5399822349ECF000C47CB3 /* MemoryLeak */ = {
 			isa = PBXGroup;
 			children = (
@@ -290,6 +302,7 @@
 		DAFE050521BD4A4C00F97A59 /* DemoVC */ = {
 			isa = PBXGroup;
 			children = (
+				0977CCDD269F38F500A6463E /* MultiControl */,
 				0AA262DE240F8A7700BF144F /* Base */,
 				0A5399822349ECF000C47CB3 /* MemoryLeak */,
 				DAFE050621BD4A4C00F97A59 /* UI */,
@@ -553,6 +566,7 @@
 				DAFE052721BD4A4D00F97A59 /* DoraemonDemoNetViewController.m in Sources */,
 				DAE7BFAD20205C20008D49D8 /* NSObject+Runtime.m in Sources */,
 				DABBE3B521D3AA4D0070518E /* DoraemonWKWebViewViewController.m in Sources */,
+				0977CCE0269F394100A6463E /* DoraemonDemoMultiControlViewController.m in Sources */,
 				DAFE052D21BD4A4D00F97A59 /* DoraemonDemoMockGPSAnnotation.m in Sources */,
 				DAFE052921BD4A4D00F97A59 /* DoraemonDemoCrashViewController.m in Sources */,
 				DA0C6F3A1FDEBE3800F43588 /* TestPlugin.m in Sources */,
