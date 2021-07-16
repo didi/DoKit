@@ -2,9 +2,8 @@ package com.didichuxing.doraemonkit
 
 import android.app.Application
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.core.MCInterceptor
+import com.didichuxing.doraemonkit.kit.core.McClientProcessor
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
-import com.didichuxing.foundation.net.rpc.http.DidiHttpHook
 
 /**
  * ================================================
@@ -150,7 +149,7 @@ public class DoKitRpc {
         /**
          * 一机多控自定义拦截器
          */
-        fun mcIntercept(interceptor: MCInterceptor): Builder {
+        fun mcIntercept(interceptor: McClientProcessor): Builder {
             DoKitReal.setMCIntercept(interceptor)
             return this
         }

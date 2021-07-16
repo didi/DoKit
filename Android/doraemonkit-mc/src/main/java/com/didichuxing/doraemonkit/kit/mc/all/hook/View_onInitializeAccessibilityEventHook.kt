@@ -12,7 +12,7 @@ import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
-import com.didichuxing.doraemonkit.kit.core.MCInterceptor
+import com.didichuxing.doraemonkit.kit.core.McClientProcessor
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.AccEventInfo
@@ -62,51 +62,14 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
             if (view is DokitFrameLayout && accessibilityEvent.eventType == AccessibilityEvent.TYPE_VIEW_FOCUSED) {
                 return
             }
-            val intercept = DoKitManager.MC_INTERCEPT
-            if (intercept != null) {
-                if (intercept.onIntercept(view, accessibilityEvent)) {
-                    //拦截
-                    custom(view, accessibilityEvent, intercept)
-                } else {
-                    //通用
-                    comm(view, accessibilityEvent)
-                }
-            } else {
-                comm(view, accessibilityEvent)
-            }
+
+            //通用
+            comm(view, accessibilityEvent)
+
         }
 
     }
 
-
-    /**
-     * 用户自定义的信息处理
-     */
-    private fun custom(
-        view: View,
-        accessibilityEvent: AccessibilityEvent,
-        interceptor: MCInterceptor
-    ) {
-        val viewC12c = createViewC12c(view, accessibilityEvent)
-        val wsEvent = WSEvent(
-            WSMode.HOST,
-            WSEType.WSE_ACCESS_EVENT,
-            mutableMapOf(
-                "activityName" to if (view.context is Activity) {
-                    view.context::class.tagName
-                } else {
-                    ActivityUtils.getTopActivity()::class.tagName
-                }
-            ),
-            viewC12c,
-            true,
-            interceptor.serverParams(view, accessibilityEvent)
-        )
-        LogHelper.json(
-            TAG, wsEvent
-        )
-        DoKitWsServer.send(wsEvent)
-    }
 
     /**
      * 通用的ws信息处理
@@ -124,7 +87,7 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
                 //LogHelper.i(TAG, "viewCharacteristic===>$viewC12c")
                 val wsEvent = WSEvent(
                     WSMode.HOST,
-                    WSEType.WSE_ACCESS_EVENT,
+                    WSEType.WSE_COMM_EVENT,
                     mutableMapOf(
                         "activityName" to if (view.context is Activity) {
                             view.context::class.tagName
@@ -152,7 +115,7 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
                 //LogHelper.i(TAG, "viewCharacteristic===>$viewC12c")
                 val wsEvent = WSEvent(
                     WSMode.HOST,
-                    WSEType.WSE_ACCESS_EVENT,
+                    WSEType.WSE_COMM_EVENT,
                     mutableMapOf(
                         "activityName" to if (view.context is Activity) {
                             view.context::class.tagName
@@ -175,7 +138,7 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
                         //LogHelper.i(TAG, "viewCharacteristic===>$viewC12c")
                         val wsEvent = WSEvent(
                             WSMode.HOST,
-                            WSEType.WSE_ACCESS_EVENT,
+                            WSEType.WSE_COMM_EVENT,
                             mapOf(
                                 "activityName" to if (view.context is Activity) {
                                     view.context::class.tagName
@@ -220,16 +183,16 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
             }
         }
         return ViewC12c(
-            acc.eventType,
-            viewRootImplIndex,
-            ViewPathUtil.createViewPathOfWindow(view),
-            transformAccEventInfo(acc),
-            if (view is TextView) {
+            commEventType = acc.eventType,
+            viewRootImplIndex = viewRootImplIndex,
+            viewPaths = ViewPathUtil.createViewPathOfWindow(view),
+            accEventInfo = transformAccEventInfo(acc),
+            text = if (view is TextView) {
                 view.text.toString()
             } else {
                 ""
             },
-            createDokitViewInfo(view)
+            dokitViewPosInfo = createDokitViewInfo(view)
         )
     }
 

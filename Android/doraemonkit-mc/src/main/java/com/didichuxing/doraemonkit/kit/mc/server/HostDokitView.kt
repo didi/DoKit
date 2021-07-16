@@ -31,8 +31,8 @@ class HostDokitView : AbsDokitView() {
     }
 
     override fun initDokitViewLayoutParams(params: DokitViewLayoutParams) {
-        params.width = DokitViewLayoutParams.WRAP_CONTENT
-        params.height = DokitViewLayoutParams.WRAP_CONTENT
+        params.width = ConvertUtils.dp2px(70.0f)
+        params.height = ConvertUtils.dp2px(70.0f)
         params.gravity = Gravity.TOP or Gravity.LEFT
         params.x = ConvertUtils.dp2px(280f)
         params.y = ConvertUtils.dp2px(25f)

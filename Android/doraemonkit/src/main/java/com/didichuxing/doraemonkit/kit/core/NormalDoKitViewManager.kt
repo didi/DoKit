@@ -393,7 +393,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
      * @param tag
      */
     override fun detach(tag: String) {
-        if (WS_MODE === WSMode.HOST) {
+        if (WS_MODE == WSMode.HOST) {
             getDecorView(ActivityUtils.getTopActivity()).postDelayed(
                 { realDetach(tag) }, MC_DELAY.toLong()
             )

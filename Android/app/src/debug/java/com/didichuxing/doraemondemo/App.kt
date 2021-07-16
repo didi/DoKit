@@ -4,19 +4,19 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.view.View
-import android.view.accessibility.AccessibilityEvent
 import androidx.multidex.MultiDex
 import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
-import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.PathUtils
+import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFloatViewKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit
+import com.didichuxing.doraemondemo.mc.SlideBar
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.DoKitCallBack
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.core.MCInterceptor
+import com.didichuxing.doraemonkit.kit.core.McClientProcessor
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -94,24 +94,33 @@ class App : Application() {
                 }
 
             })
-            .mcIntercept(object : MCInterceptor {
-                override fun onIntercept(
-                    view: View,
-                    accessibilityEvent: AccessibilityEvent
-                ): Boolean {
-                    return false
+            .mcClientProcess(object : McClientProcessor {
+                override fun process(
+                    activity: Activity?,
+                    view: View?,
+                    eventType: String,
+                    params: Map<String, String>
+                ) {
+                    when (eventType) {
+                        "un_lock" -> {
+                            ToastUtils.showShort(params["unlock"])
+                        }
+                        "lock_process" -> {
+                            val leftMargin = params["progress"]?.toInt()
+                            leftMargin?.let {
+                                if (view is SlideBar) {
+                                    view.setMarginLeftExtra(it)
+                                }
+                            }
+
+                        }
+                        else -> {
+
+                        }
+                    }
+
                 }
 
-                override fun serverParams(
-                    view: View,
-                    accessibilityEvent: AccessibilityEvent
-                ): Map<String, String> {
-                    return mapOf()
-                }
-
-                override fun clientProcess(view: View, params: Map<String, String>): Boolean {
-                    return false
-                }
             })
             .build()
 

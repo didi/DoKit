@@ -87,9 +87,15 @@ enum class WSEType {
     WSE_HOST_CLOSE,
 
     /**
-     * 辅助模式手势事件
+     * 通用手势事件
      */
-    WSE_ACCESS_EVENT
+    WSE_COMM_EVENT,
+
+    /**
+     * 自定义手势事件
+     */
+    WSE_CUSTOM_EVENT,
+
 }
 
 

@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.didichuxing.doraemondemo.mc.MCActivity"
-    tools:ignore="MissingDefaultResource">
+    android:orientation="vertical">
 
+    <com.didichuxing.doraemondemo.mc.SlideBar
+        android:id="@+id/unlock_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="8dp"
+        android:layout_marginTop="10dp"
+        app:label="右滑" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -57,12 +64,12 @@
         </RadioGroup>
 
 
-<!--        <Button-->
-<!--            android:id="@+id/btn_webview"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_toRightOf="@id/radio_group"-->
-<!--            android:text="打开WebView" />-->
+        <!--        <Button-->
+        <!--            android:id="@+id/btn_webview"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_toRightOf="@id/radio_group"-->
+        <!--            android:text="打开WebView" />-->
 
         <EditText
             android:id="@+id/ed0"
@@ -120,3 +127,4 @@
 
 
 </LinearLayout>
+

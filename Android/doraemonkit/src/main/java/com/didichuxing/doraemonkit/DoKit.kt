@@ -1,13 +1,11 @@
 package com.didichuxing.doraemonkit
 
 import android.app.Application
+import android.view.View
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.core.MCInterceptor
+import com.didichuxing.doraemonkit.kit.core.McClientProcessor
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
-import kotlinx.coroutines.CoroutineName
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.plus
 
 /**
  * ================================================
@@ -62,6 +60,18 @@ public class DoKit private constructor() {
         @JvmStatic
         fun hide() {
             DoKitReal.hide()
+        }
+
+        /**
+         * 发送自定义一机多控事件
+         */
+        @JvmStatic
+        fun sendCustomEvent(
+            eventType: String,
+            view: View? = null,
+            param: Map<String, String>? = null
+        ) {
+            DoKitReal.sendCustomEvent(eventType, view, param)
         }
     }
 
@@ -152,7 +162,7 @@ public class DoKit private constructor() {
         /**
          * 一机多控自定义拦截器
          */
-        fun mcIntercept(interceptor: MCInterceptor): Builder {
+        fun mcClientProcess(interceptor: McClientProcessor): Builder {
             DoKitReal.setMCIntercept(interceptor)
             return this
         }

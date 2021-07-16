@@ -33,8 +33,8 @@ interface DokitAbility {
         val TAG: String
             get() = this.javaClass.simpleName
 
-        fun values(): Map<String, Any>
+        fun values(): Map<String, Any?>
 
-        fun proceed(actions: Map<String, Any>? = null): Map<String, Any>
+        fun proceed(actions: Map<String, Any?>? = null): Map<String, Any>
     }
 }

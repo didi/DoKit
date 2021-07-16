@@ -18,7 +18,7 @@ import java.util.List;
  * 修订历史：
  * ================================================
  */
-public class McUtil {
+public class McHookUtil {
     public static final String TAG = "McUtil";
 
     /**

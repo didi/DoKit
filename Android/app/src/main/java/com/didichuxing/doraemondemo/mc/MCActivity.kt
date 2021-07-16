@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.blankj.utilcode.util.ToastUtils
 import com.didichuxing.doraemondemo.R
+import com.didichuxing.doraemonkit.DoKit
 
 /**
  * 一机多控Demo Activity
@@ -24,13 +25,37 @@ class MCActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mc)
 
+
 //        btn_webview.setOnClickListener {
 //            startActivity(Intent(this@MCActivity, WebViewActivity::class.java))
 //        }
 
+        findViewById<SlideBar>(R.id.unlock_bar).setOnUnlockListener(object :
+            SlideBar.OnUnlockListener {
+            override fun onUnlock(view: View?) {
+                DoKit.sendCustomEvent(
+                    "un_lock",
+                    view,
+                    mapOf("unlock" to "custom unlock")
+                )
+            }
+
+            override fun progress(view: View?, leftMargin: Int) {
+                DoKit.sendCustomEvent(
+                    "lock_process",
+                    view,
+                    mapOf("progress" to "$leftMargin")
+                )
+            }
+
+        })
+
+
+
         findViewById<View>(R.id.btn1).setOnClickListener {
             ToastUtils.showShort("正常点击")
         }
+
 
         findViewById<View>(R.id.btn2).setOnClickListener {
             AlertDialog.Builder(this)

@@ -2,16 +2,13 @@ package com.didichuxing.doraemondemo;
 
 import android.app.Application;
 import android.content.Context;
-import android.view.accessibility.AccessibilityEvent;
 
 import androidx.multidex.MultiDex;
 
 import com.didichuxing.doraemondemo.dokit.DemoKit;
 import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.DoKitCallBack;
-import com.didichuxing.doraemonkit.DoraemonKit;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.core.MCInterceptor;
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
@@ -20,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * ================================================

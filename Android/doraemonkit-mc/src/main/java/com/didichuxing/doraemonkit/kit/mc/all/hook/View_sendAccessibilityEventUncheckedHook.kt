@@ -63,7 +63,7 @@ class View_sendAccessibilityEventUncheckedHook : XC_MethodHook() {
                         //LogHelper.i(TAG, "viewCharacteristic===>$viewC12c")
                         val wsEvent = WSEvent(
                             WSMode.HOST,
-                            WSEType.WSE_ACCESS_EVENT,
+                            WSEType.WSE_COMM_EVENT,
                             mutableMapOf(
                                 "activityName" to if (view.context is Activity) {
                                     view.context::class.tagName
@@ -120,17 +120,7 @@ class View_sendAccessibilityEventUncheckedHook : XC_MethodHook() {
                 viewRootImplIndex = it.indexOf(view.rootView.parent)
             }
         }
-        return ViewC12c(
-            acc.eventType,
-            viewRootImplIndex,
-            ViewPathUtil.createViewPathOfWindow(view),
-            transformAccEventInfo(acc),
-            if (view is TextView) {
-                view.text.toString()
-            } else {
-                ""
-            }, createDokitViewInfo(view)
-        )
+        return ViewC12c()
     }
 
 

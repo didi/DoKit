@@ -4,9 +4,11 @@ import android.app.Activity
 import android.app.Application
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import com.didichuxing.doraemonkit.config.GlobalConfig
 import com.didichuxing.doraemonkit.config.GpsMockConfig
 import com.didichuxing.doraemonkit.config.PerformanceSpInfoConfig
+import com.didichuxing.doraemonkit.constant.DoKitModule
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.SharedPrefsKey
 import com.didichuxing.doraemonkit.datapick.DataPickManager
@@ -439,6 +441,16 @@ object DoKitReal {
         DokitViewManager.instance.detachMainIcon()
     }
 
+    fun sendCustomEvent(eventType: String, view: View? = null, param: Map<String, String>? = null) {
+        val map = mapOf(
+            "action" to "mc_custom_event",
+            "eventType" to eventType,
+            "view" to view,
+            "param" to param
+        )
+        DoKitManager.getModuleProcessor(DoKitModule.MODULE_MC)?.proceed(map)
+    }
+
     /**
      * 禁用app信息上传开关，该上传信息只为做DoKit接入量的统计，如果用户需要保护app隐私，可调用该方法进行禁用
      */
@@ -481,8 +493,8 @@ object DoKitReal {
     /**
      * 设置一机多控自定义拦截器
      */
-    fun setMCIntercept(interceptor: MCInterceptor) {
-        DoKitManager.MC_INTERCEPT = interceptor
+    fun setMCIntercept(interceptor: McClientProcessor) {
+        DoKitManager.MC_CLIENT_PROCESSOR = interceptor
     }
 
     /**

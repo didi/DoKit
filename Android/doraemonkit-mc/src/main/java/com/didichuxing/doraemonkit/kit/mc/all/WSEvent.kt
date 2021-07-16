@@ -16,8 +16,6 @@ import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
 data class WSEvent(
     val from: WSMode,
     val eventType: WSEType,
-    val commParams: Map<String, String>?,
-    val viewC12c: ViewC12c?,
-    val isIntercept: Boolean = false,
-    val customParams: Map<String, String>? = null
+    val commParams: Map<String, String>? = null,
+    val viewC12c: ViewC12c? = null,
 )

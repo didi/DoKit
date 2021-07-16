@@ -13,4 +13,12 @@
 <!--        <item name="android:windowFullscreen">true</item>-->
     </style>
 
+    <declare-styleable name="UnlockBar">
+        <attr name="label" format="string" />
+        <attr name="textAlign">
+            <enum name="center" value="0" />
+            <enum name="centerExceptThumb" value="1" />
+        </attr>
+    </declare-styleable>
+
 </resources>

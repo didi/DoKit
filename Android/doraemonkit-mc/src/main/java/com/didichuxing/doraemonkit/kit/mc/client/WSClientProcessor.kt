@@ -11,21 +11,19 @@ import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
-import com.didichuxing.doraemonkit.util.*
-import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.extension.isFalse
 import com.didichuxing.doraemonkit.extension.tagName
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
-import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
 import com.didichuxing.doraemonkit.kit.mc.server.HostInfo
 import com.didichuxing.doraemonkit.kit.mc.util.ViewPathUtil
-import com.didichuxing.doraemonkit.util.DoKitCommUtil
+import com.didichuxing.doraemonkit.util.*
 import kotlinx.coroutines.launch
 
 
@@ -52,6 +50,77 @@ object WSClientProcessor {
         when (wsEvent.eventType) {
             WSEType.WSE_TEST -> {
                 //ToastUtils.showShort(wsEvent.message)
+            }
+
+            WSEType.WSE_CUSTOM_EVENT -> {
+                if (DoKitManager.MC_CLIENT_PROCESSOR == null) {
+                    return
+                }
+
+                wsEvent.viewC12c?.let { viewC12c ->
+                    if (viewC12c.viewPaths == null) {
+                        DoKitManager.MC_CLIENT_PROCESSOR?.process(
+                            ActivityUtils.getTopActivity(),
+                            null,
+                            viewC12c.customEventType,
+                            GsonUtils.fromJson(
+                                viewC12c.customParams,
+                                Map::class.java
+                            ) as Map<String, String>
+                        )
+                        return
+                    }
+
+                    if (DoKitWindowManager.ROOT_VIEWS == null || viewC12c.viewRootImplIndex == -1) {
+                        ToastUtils.showShort("匹配控件失败，请手动操作")
+                        return
+                    }
+                    var viewRootImpl: ViewParent? = null
+                    DoKitWindowManager.ROOT_VIEWS?.let { rootViews ->
+                        viewRootImpl = rootViews[viewC12c.viewRootImplIndex]
+                    }
+                    viewRootImpl?.let {
+                        val decorView: ViewGroup =
+                            ReflectUtils.reflect(it).field("mView").get<View>() as ViewGroup
+                        val targetView: View? =
+                            ViewPathUtil.findViewByViewParentInfo(decorView, viewC12c.viewPaths)
+                        targetView?.let { target ->
+                            DoKitManager.MC_CLIENT_PROCESSOR?.process(
+                                ActivityUtils.getTopActivity(),
+                                target,
+                                viewC12c.customEventType,
+                                GsonUtils.fromJson(
+                                    viewC12c.customParams,
+                                    Map::class.java
+                                ) as Map<String, String>
+                            )
+                        } ?: run {
+                            DoKitManager.MC_CLIENT_PROCESSOR?.process(
+                                ActivityUtils.getTopActivity(),
+                                null,
+                                viewC12c.customEventType,
+                                GsonUtils.fromJson(
+                                    viewC12c.customParams,
+                                    Map::class.java
+                                ) as Map<String, String>
+                            )
+                            ToastUtils.showShort("匹配控件失败，请手动操作")
+                        }
+                    } ?: run {
+                        DoKitManager.MC_CLIENT_PROCESSOR?.process(
+                            ActivityUtils.getTopActivity(),
+                            null,
+                            viewC12c.customEventType,
+                            GsonUtils.fromJson(
+                                viewC12c.customParams,
+                                Map::class.java
+                            ) as Map<String, String>
+                        )
+                        ToastUtils.showShort("无法确定当前控件所属窗口")
+                    }
+
+                } ?: run { ToastUtils.showShort("解析长连接数据失败") }
+
             }
 
             //主机断开
@@ -124,7 +193,7 @@ object WSClientProcessor {
                 }
             }
 
-            WSEType.WSE_ACCESS_EVENT -> {
+            WSEType.WSE_COMM_EVENT -> {
                 wsEvent.commParams?.let {
 //                    LogHelper.json(
 //                        TAG,
@@ -151,22 +220,10 @@ object WSClientProcessor {
                             ReflectUtils.reflect(it).field("mView").get<View>() as ViewGroup
                         val targetView: View? =
                             ViewPathUtil.findViewByViewParentInfo(decorView, viewC12c.viewPaths)
-                        targetView?.let { target ->
-                            DoKitManager.MC_INTERCEPT?.let { interceptor ->
-                                if (wsEvent.isIntercept) {
-                                    custom(interceptor, target, wsEvent.customParams)
-                                } else {
-                                    comm(viewC12c, target)
-                                }
-                            } ?: comm(viewC12c, target)
-
-
-                        } ?: ToastUtils.showShort("匹配控件失败，请手动操作")
-
-                    } ?: ToastUtils.showShort("无法确定当前控件所属窗口")
-
-                }
-                    ?: ToastUtils.showShort("无法获取手势控件信息")
+                        targetView?.let { target -> comm(viewC12c, target) }
+                            ?: run { ToastUtils.showShort("匹配控件失败，请手动操作") }
+                    } ?: run { ToastUtils.showShort("无法确定当前控件所属窗口") }
+                } ?: run { ToastUtils.showShort("无法获取手势控件信息") }
             }
             else -> {
             }
@@ -175,21 +232,10 @@ object WSClientProcessor {
 
 
     /**
-     * 自定义的处理方式
-     */
-    private fun custom(interceptor: MCInterceptor, target: View, param: Map<String, String>?) {
-        param?.let {
-            interceptor.clientProcess(target, it).isFalse {
-                ToastUtils.showShort("该控件手势未被自定义拦截处理")
-            }
-        }
-    }
-
-    /**
      * 通用的处理方式
      */
     private fun comm(viewC12c: ViewC12c, target: View) {
-        when (viewC12c.eventType) {
+        when (viewC12c.commEventType) {
             //单击
             AccessibilityEvent.TYPE_VIEW_CLICKED -> {
                 if (target is Switch) {
@@ -238,7 +284,6 @@ object WSClientProcessor {
             AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED -> {
                 if (target is TextView) {
                     target.text = viewC12c.text
-                } else {
                 }
             }
             //EditText 光标变动
@@ -248,8 +293,6 @@ object WSClientProcessor {
                         viewC12c.accEventInfo?.fromIndex!!,
                         viewC12c.accEventInfo.toIndex!!
                     )
-                } else {
-
                 }
             }
             //滚动
@@ -268,10 +311,7 @@ object WSClientProcessor {
                     layoutParams.topMargin =
                         viewC12c.dokitViewPosInfo.topMargin
                     target.layoutParams = layoutParams
-                } else {
-
                 }
-
 
             }
             else -> {
@@ -307,12 +347,16 @@ object WSClientProcessor {
 
             is RecyclerView -> {
                 viewC12c.accEventInfo?.let { accEventInfo ->
-                    if (accEventInfo.fromIndex!! == 0) {
-                        targetView.smoothScrollToPosition(0)
-                    } else if (accEventInfo.toIndex!! + 1 == targetView.adapter?.itemCount) {
-                        targetView.smoothScrollToPosition(accEventInfo.toIndex)
-                    } else {
-                        moveToPosition(targetView, accEventInfo.fromIndex)
+                    when {
+                        accEventInfo.fromIndex!! == 0 -> {
+                            targetView.smoothScrollToPosition(0)
+                        }
+                        accEventInfo.toIndex!! + 1 == targetView.adapter?.itemCount -> {
+                            targetView.smoothScrollToPosition(accEventInfo.toIndex)
+                        }
+                        else -> {
+                            moveToPosition(targetView, accEventInfo.fromIndex)
+                        }
                     }
 
                     //targetView.smoothScrollToPosition(accEventInfo.fromIndex!!)
@@ -321,12 +365,16 @@ object WSClientProcessor {
 
             is ListView -> {
                 viewC12c.accEventInfo?.let { accEventInfo ->
-                    if (accEventInfo.fromIndex!! == 0) {
-                        targetView.smoothScrollToPosition(0)
-                    } else if (accEventInfo.toIndex!! + 1 == targetView.adapter?.count) {
-                        targetView.smoothScrollToPosition(accEventInfo.toIndex)
-                    } else {
-                        moveToPosition(targetView, accEventInfo.fromIndex)
+                    when {
+                        accEventInfo.fromIndex!! == 0 -> {
+                            targetView.smoothScrollToPosition(0)
+                        }
+                        accEventInfo.toIndex!! + 1 == targetView.adapter?.count -> {
+                            targetView.smoothScrollToPosition(accEventInfo.toIndex)
+                        }
+                        else -> {
+                            moveToPosition(targetView, accEventInfo.fromIndex)
+                        }
                     }
 
                     //targetView.smoothScrollToPosition(accEventInfo.fromIndex!!)

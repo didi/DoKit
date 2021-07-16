@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit
 
 import android.app.Application
+import android.view.View
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.core.MCInterceptor
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
@@ -54,6 +55,17 @@ public class DoKit private constructor() {
          */
         @JvmStatic
         fun hide() {
+        }
+
+        /**
+         * 发送自定义一机多控事件
+         */
+        @JvmStatic
+        fun sendCustomEvent(
+            eventType: String,
+            view: View? = null,
+            param: Map<String, String>? = null
+        ) {
         }
     }
 

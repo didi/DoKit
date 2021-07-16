@@ -47,7 +47,7 @@ object DoKitWsServer {
 
     suspend fun stop(callBack: () -> Unit) {
         try {
-            send(WSEvent(WSMode.HOST, WSEType.WSE_HOST_CLOSE, null, null, false, null))
+            send(WSEvent(WSMode.HOST, WSEType.WSE_HOST_CLOSE))
             delay(1000)
             wsSessionMaps.forEach {
                 it.value.close()

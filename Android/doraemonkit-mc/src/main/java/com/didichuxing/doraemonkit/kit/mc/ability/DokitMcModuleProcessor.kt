@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.kit.mc.ability
 
+import android.view.View
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.*
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
@@ -26,7 +27,7 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
         )
     }
 
-    override fun proceed(actions: Map<String, Any>?): Map<String, Any> {
+    override fun proceed(actions: Map<String, Any?>?): Map<String, Any> {
         actions?.let {
             when (actions["action"]) {
                 "launch_host_view" -> {
@@ -47,8 +48,13 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
                             SPUtils.getInstance().getString(DoKitMcManager.MC_CASE_ID_KEY)
                         DoKitManager.WS_MODE = WSMode.RECORDING
                     }
-
-
+                }
+                "mc_custom_event" -> {
+                    DoKitMcManager.sendCustomEvent(
+                        actions["eventType"] as String,
+                        actions["view"] as View?,
+                        actions["param"] as Map<String, String>?
+                    )
                 }
                 else -> {
 

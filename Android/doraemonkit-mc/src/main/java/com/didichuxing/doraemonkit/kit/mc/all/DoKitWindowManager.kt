@@ -1,7 +1,7 @@
 package com.didichuxing.doraemonkit.kit.mc.all
 
 import android.view.ViewParent
-import com.didichuxing.doraemonkit.kit.mc.util.McUtil
+import com.didichuxing.doraemonkit.kit.mc.util.McHookUtil
 
 /**
  * ================================================
@@ -16,6 +16,6 @@ public object DoKitWindowManager {
     var ROOT_VIEWS: List<ViewParent>? = null
 
     fun hookWindowManagerGlobal() {
-        ROOT_VIEWS = McUtil.getRootViewsFromWmg()
+        ROOT_VIEWS = McHookUtil.getRootViewsFromWmg()
     }
 }

@@ -12,9 +12,11 @@ package com.didichuxing.doraemonkit.kit.mc.all.view_info
 
 data class ViewC12c(
     /**
-     * 事件类型
+     * 通用事件类型
      */
-    val eventType: Int,
+    val commEventType: Int = -9999,
+    val customEventType: String = "",
+    val customParams: String = "",
     /**
      * window index
      */
@@ -23,10 +25,10 @@ data class ViewC12c(
      * view 相对于window的path
      */
     val viewPaths: MutableList<SystemViewInfo>? = null,
-    val accEventInfo: AccEventInfo?,
+    val accEventInfo: AccEventInfo? = null,
     var text: String? = "",
     /**
      * dokit 悬浮窗信息
      */
-    val dokitViewPosInfo: DokitViewInfo?
+    val dokitViewPosInfo: DokitViewInfo?=null
 )

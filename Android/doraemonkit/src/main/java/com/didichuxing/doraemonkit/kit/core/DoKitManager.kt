@@ -155,9 +155,9 @@ object DoKitManager {
     }
 
     /**
-     * 一机多控自定义拦截器
+     * 一机多控从机自定义处理器
      */
-    var MC_INTERCEPT: MCInterceptor? = null
+    var MC_CLIENT_PROCESSOR: McClientProcessor? = null
 
     /**
      * 全局回调
@@ -167,9 +167,7 @@ object DoKitManager {
     /**
      * 一机多控类型
      */
-    //@JvmField
     var WS_MODE: WSMode = WSMode.UNKNOW
-
 
 
     /**
@@ -177,11 +175,11 @@ object DoKitManager {
      */
     val IP_ADDRESS_BY_WIFI: String
         get() {
-            try {
-                return NetworkUtils.getIpAddressByWifi()
+            return try {
+                NetworkUtils.getIpAddressByWifi()
             } catch (e: Exception) {
                 LogHelper.e(TAG, "get wifi address error===>${e.message}")
-                return "0.0.0.0"
+                "0.0.0.0"
             }
         }
 

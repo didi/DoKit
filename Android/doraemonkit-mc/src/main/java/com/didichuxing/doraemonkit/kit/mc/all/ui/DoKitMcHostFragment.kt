@@ -20,7 +20,7 @@ import com.didichuxing.doraemonkit.kit.mc.all.hook.View_onInitializeAccessibilit
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
 import com.didichuxing.doraemonkit.kit.mc.server.HostDokitView
 import com.didichuxing.doraemonkit.kit.mc.util.CodeUtils
-import com.didichuxing.doraemonkit.kit.mc.util.McUtil
+import com.didichuxing.doraemonkit.kit.mc.util.McHookUtil
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.ImageUtils
 import com.didichuxing.doraemonkit.util.LogHelper
@@ -85,7 +85,7 @@ class DoKitMcHostFragment : BaseFragment() {
         try {
             //对于Android9.0以下的系统 需要反射将AccessibilityManager.mIsEnabled变量改成true
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-                McUtil.hookAccessibilityManager(activity)
+                McHookUtil.hookAccessibilityManager(activity)
 //                val sendAccessibilityEventInternalMethod = XposedHelpers.findMethodExact(
 //                    View::class.java,
 //                    "sendAccessibilityEventInternal",
@@ -135,6 +135,15 @@ class DoKitMcHostFragment : BaseFragment() {
                 onInitializeAccessibilityEventMethod,
                 View_onInitializeAccessibilityEventHook()
             )
+
+            //hook OnTouchListener#onTouch
+//            val onTouchEventMethod = XposedHelpers.findMethodExact(
+//                View::class.java,
+//                "onTouchEvent",
+//                MotionEvent::class.java
+//            )
+//
+//            DexposedBridge.hookMethod(onTouchEventMethod, View_onTouchEventHook())
 
 
         } catch (e: Exception) {
