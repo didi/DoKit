@@ -1,5 +1,17 @@
 DoraemonKit-Android releases
 ===
+
+## 3.4.0
+
+1、升级DoKit kotlin编译插件版本为1.4.32
+
+2、一机多控新增数据录制功能，主要解决页面一致性问题
+
+3、一机多控新增自定义事件接口和回调，主要解决特殊控件的手势和特殊事件
+
+4、bug fixed
+
+
 ## 3.4.0-alpha03（dokitx 对应androidx，dokit对应Android Support）
 
 1、去掉kotlin-android-exensions插件

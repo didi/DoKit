@@ -1,8 +1,8 @@
 package com.didichuxing.doraemonkit.kit.core
 
+import android.R
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.didichuxing.doraemonkit.R
 import java.util.*
 
 /**
