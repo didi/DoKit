@@ -1,66 +1,54 @@
 # Android接入指南
 
 ## DoKit Android 最新版本
+**由于jcenter事件的影响，我们需要将DoKit For Android迁移到mavenCentral()，但是需要更改groupId.所以大家要注意一下，具体的更新信息如下：**
+
+**lastversion:3.4.0**
 
 |DoKit|最新版本|描述|
 |-|-|-|
-|支持Androidx|3.4.0-alpha04|从v3.3.1版本开始更名为dokitx,dokitx的library和plugin的版本号保持一致|
-|支持android support|3.3.5|后期support将会不定期更新，主要还是看社区的反馈，请大家尽快升级和适配Androidx|
+|3.3.5及以后的Androidx|debugImplementation "io.github.didi.dokit:${aarNme}: ${lastversion}"|(1)dokitx的library和plugin的groupId及版本号需要保持一致;(2)AGP最低版本要求3.3.0+|
+|3.3.5及以前的Androidx版本|debugImplementation "com.didichuxing.doraemonkit:${aarNme}:3.3.5"|（1）dokitx的library和plugin的groupId及版本号需要保持一致； (2)AGP最低版本要求3.3.0+|
+|支持android support|debugImplementation "com.didichuxing.doraemonkit:${aarNme}:3.3.5"|support放弃更新，请大家尽快升级和适配Androidx|
 
-## DoKit Android模块信息
-
-**Tip:为了更好的支持android官方androidx和support，dokit从3.3.1版本开始正式对sdk名字进行更新。**
-**具体如下：**
-
-v3.3.5以前版本
-
-```
-androidx===>com.didichuxing.doraemonkit:dokitx:3.3.5
-
-support===>com.didichuxing.doraemonkit:dokit:3.3.5
-```
-
-由于jcenter事件的影响，我们需要将DoKit For Android迁移到mavenCentral，但是需要更改groupId.所以大家要注意一下，具体的更新信息如下：
-
-v3.4.0-alpha02以后的版本(需要添加mavenCentral)
-
+**${aarNmae}需要改为指定的名称，参考如下:**
 ```
 //核心模块
 
-debugImplementation "io.github.didi.dokit:dokitx:lastversion"
+debugImplementation "io.github.didi.dokit:dokitx:${lastversion}"
 
 //文件同步模块
 
-debugImplementation "io.github.didi.dokit:dokitx-ft:lastversion"
+debugImplementation "io.github.didi.dokit:dokitx-ft:${lastversion}"
 
 //一机多控模块
 
-debugImplementation "io.github.didi.dokit:dokitx-mc:lastversion"
+debugImplementation "io.github.didi.dokit:dokitx-mc:${lastversion}"
 
 //weex模块
 
-debugImplementation "io.github.didi.dokit:dokitx-weex:lastversion"
+debugImplementation "io.github.didi.dokit:dokitx-weex:${lastversion}"
 
 //no-op 模块
 
-releaseImplementation "io.github.didi.dokit:dokitx-no-op:lastversion"
+releaseImplementation "io.github.didi.dokit:dokitx-no-op:${lastversion}"
 ```
 
 **debugImplementation 需要根据自己的构建改成对应的productFlavor**
 
 
-**下面所有的例子均用dokitx举例。要使用support版本请将dokitx改为dokit即可。**
+**下面所有的例子均用dokitx举例。要使用support版本请将dokitx改为dokit即可。
+v3.3.5以后的版本需要添加mavenCentral()仓库**
 
 
-
-
+## 接入步骤
 #### 1. Gradle 依赖
 
 ```groovy
 dependencies {
     …
-    debugImplementation 'io.github.didi.dokit:dokitx:lastversion'
-    releaseImplementation 'io.github.didi.dokit:dokitx-no-op:lastversion'
+    debugImplementation 'io.github.didi.dokit:dokitx:${lastversion}'
+    releaseImplementation 'io.github.didi.dokit:dokitx-no-op:${lastversion}'
     …
 }
 ```
@@ -71,7 +59,9 @@ dependencies {
 
 
 ```
-debugImplementation 'io.github.didi.dokit:dokitx-rpc:lastversion'
+debugImplementation 'io.github.didi.dokit:dokitx-rpc:${lastversion}'
+//一机多控内部网络库支持
+debugImplementation 'io.github.didi.dokit:dokitx-rpc-mc:${lastversion}'
 ```
 
 
@@ -109,7 +99,7 @@ AOP包括以下几个功能:
 buildscript {
     dependencies {
         …
-        classpath 'io.github.didi.dokit:dokitx-plugin:lastversion'
+        classpath 'io.github.didi.dokit:dokitx-plugin:${lastversion}'
         …
     }
 }
@@ -198,32 +188,22 @@ DOKIT_METHOD_STRATEGY=0
 以代驾乘客端为例，实现环境切换组件如下。
 
 ```Java
-public class EnvSwitchKit extends AbstractKit {
-    @Override
-    public int getCategory() {
-        return Category.BIZ;
+class DemoKit : AbstractKit() {
+    override val category: Int
+        get() = Category.BIZ
+    override val name: Int
+        get() = R.string.dk_kit_demo
+    override val icon: Int
+        get() = R.mipmap.dk_sys_info
+
+    override fun onClickWithReturn(activity: Activity): Boolean {
+        SimpleDoKitStarter.startFloating(DemoDokitView::class.java)
+        return true
     }
- 
-    @Override
-    public int getName() {
-        return R.string.bh_env_switch;
+
+    override fun onAppInit(context: Context?) {
     }
- 
-    @Override
-    public int getIcon() {
-        return R.drawable.bh_roadbit;
-    }
- 
-    @Override
-    public void onClick(Context context) {
-        DebugService service = ServiceManager.getInstance().getService(context, DebugService.class);
-        PageManager.getInstance().startFragment(service.getContainer(), EnvSwitchFragment.class);
-    }
- 
-    @Override
-    public void onAppInit(Context context) {
-    
-    }
+
 }
 ```
 
@@ -231,7 +211,7 @@ public class EnvSwitchKit extends AbstractKit {
 
 ```Java
 @Override
-public void onCreate() {
+override fun onCreate() {
     DoKit.Builder(this)
             .productId("需要使用平台功能的话，需要到dokit.cn平台申请id")
 	    .customKits(mapKits)
@@ -242,7 +222,8 @@ public void onCreate() {
 
 **DoKit入口api**
 ```
-public class DoKit {
+public class DoKit private constructor() {
+
     companion object {
 
         lateinit var APPLICATION: Application
@@ -285,6 +266,18 @@ public class DoKit {
         @JvmStatic
         fun hide() {
             DoKitReal.hide()
+        }
+
+        /**
+         * 发送自定义一机多控事件
+         */
+        @JvmStatic
+        fun sendCustomEvent(
+            eventType: String,
+            view: View? = null,
+            param: Map<String, String>? = null
+        ) {
+            DoKitReal.sendCustomEvent(eventType, view, param)
         }
     }
 
@@ -375,7 +368,7 @@ public class DoKit {
         /**
          * 一机多控自定义拦截器
          */
-        fun mcIntercept(interceptor: MCInterceptor): Builder {
+        fun mcClientProcess(interceptor: McClientProcessor): Builder {
             DoKitReal.setMCIntercept(interceptor)
             return this
         }
@@ -408,4 +401,4 @@ public class DoKit {
 
 #### 5. FAQ
 
-参考[这里](SDKProblems.md)
+参考[这里](http://xingyun.xiaojukeji.com/docs/dokit/#/SDKProblems)
