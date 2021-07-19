@@ -3,7 +3,7 @@
 ## DoKit Android 最新版本
 **由于jcenter事件的影响，我们需要将DoKit For Android迁移到mavenCentral()，但是需要更改groupId.所以大家要注意一下，具体的更新信息如下：**
 
-**lastversion:3.4.0**
+**lastversion:3.4.1**
 
 |DoKit|最新版本|描述|
 |-|-|-|
@@ -46,10 +46,8 @@ v3.3.5以后的版本需要添加mavenCentral()仓库**
 
 ```groovy
 dependencies {
-    …
     debugImplementation 'io.github.didi.dokit:dokitx:${lastversion}'
     releaseImplementation 'io.github.didi.dokit:dokitx-no-op:${lastversion}'
-    …
 }
 ```
 
@@ -73,14 +71,11 @@ debugImplementation 'io.github.didi.dokit:dokitx-rpc-mc:${lastversion}'
 
 在 App 启动的时候进行初始化。
 
-```Java
-@Override
-public void onCreate() {
-   
+```kotlin
+overide fun onCreate() { 
    DoKit.Builder(this)
             .productId("需要使用平台功能的话，需要到dokit.cn平台申请id")
             .build()
-   
 } 
 ```
 
@@ -98,9 +93,7 @@ AOP包括以下几个功能:
 ```groovy
 buildscript {
     dependencies {
-        …
         classpath 'io.github.didi.dokit:dokitx-plugin:${lastversion}'
-        …
     }
 }
 ```
@@ -187,7 +180,7 @@ DOKIT_METHOD_STRATEGY=0
 
 以代驾乘客端为例，实现环境切换组件如下。
 
-```Java
+```kotlin
 class DemoKit : AbstractKit() {
     override val category: Int
         get() = Category.BIZ
@@ -209,20 +202,18 @@ class DemoKit : AbstractKit() {
 
 在初始化的时候注册自定义组件。
 
-```Java
-@Override
+```kotlin
 override fun onCreate() {
     DoKit.Builder(this)
             .productId("需要使用平台功能的话，需要到dokit.cn平台申请id")
 	    .customKits(mapKits)
             .build()
-    …
 }
 ```
 
 **DoKit入口api**
-```
-public class DoKit private constructor() {
+```kotlin
+class DoKit private constructor() {
 
     companion object {
 
