@@ -9,8 +9,8 @@ if (runType == 0) {
         debugImplementation project(":doraemonkit-mc")
         debugImplementation project(":doraemonkit-ft")
         debugImplementation project(":doraemonkit-weex")
-        debugImplementation project(":doraemonkit-rpc")
-        debugImplementation project(":doraemonkit-rpc-mc")
+//        debugImplementation project(":doraemonkit-rpc")
+//        debugImplementation project(":doraemonkit-rpc-mc")
         releaseImplementation project(":doraemonkit-no-op")
     }
 } else if (runType == 1) {
