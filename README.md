@@ -89,7 +89,7 @@ DoKit 是一个功能平台，能够让每一个 App 快速接入一些常用的
 
 2、DoKit 内置很多常用的工具，避免重复实现，一次接入，你将会拥有强大的工具集合；
 
-3、搭配dokit平台，借助[接口Mock](https://www.dokit.cn/#/index/dataMockPage)、[健康体检](https://www.dokit.cn/#/index/checkDataPage)、[文件同步助手](https://www.dokit.cn/#/index/fileSyncPage)让你方便和他人协同，极大的提升研发过程中的效率。
+3、搭配dokit平台，借助[接口Mock](https://www.dokit.cn/#/index/dataMockPage)、[健康体检](https://www.dokit.cn/#/index/checkDataPage)、[文件同步助手](https://www.dokit.cn/#/index/fileSyncPage)、[一机多控]()让你方便和他人协同，极大的提升研发过程中的效率。
 
 
 
@@ -99,6 +99,7 @@ DoKit 是一个功能平台，能够让每一个 App 快速接入一些常用的
 1. **【数据Mock】** App接口Mock解决方案，提供一套基于App网络拦截的接口Mock方案，无需修改代码即可完成对于接口数据的Mock。
 2. **【健康体检】** 一键式操作，整合DoKit多项工具，数据可视化，快速准确定位问题，让你对app的性能了如指掌。
 3. **【文件同步助手】** 通过终端服务，让你的终端空间在平台端完整的展现并提供强大的文件以及数据库操作能力。
+4. **【一机多控】** 主从同步，释放人力，让研发测试效率提升看得见
 
 ### 二、常用工具
 
