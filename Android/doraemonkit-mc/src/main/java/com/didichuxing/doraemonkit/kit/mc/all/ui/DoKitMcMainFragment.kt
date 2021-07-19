@@ -54,7 +54,7 @@ class DoKitMcMainFragment : BaseFragment() {
 
     private val REQUEST_CODE_CAMERA = 0x100
     private val REQUEST_CODE_SCAN = 0x101
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    private val mExceptionHandler = CoroutineExceptionHandler { _, throwable ->
         LogHelper.e(TAG, "error message: ${throwable.message}")
     }
 
@@ -73,7 +73,7 @@ class DoKitMcMainFragment : BaseFragment() {
                 return@setOnClickListener
             }
             if (DoKitMcManager.MC_CASE_ID.isEmpty()) {
-                lifecycleScope.launch(exceptionHandler) {
+                lifecycleScope.launch(mExceptionHandler) {
                     privacyInterceptDialog(
                         "操作提醒",
                         "当前未选中任何的数据用例，请确认要否要以数据不同步模式运行？"
@@ -99,7 +99,7 @@ class DoKitMcMainFragment : BaseFragment() {
             }
 
             if (DoKitMcManager.MC_CASE_ID.isEmpty()) {
-                lifecycleScope.launch(exceptionHandler) {
+                lifecycleScope.launch(mExceptionHandler) {
                     privacyInterceptDialog(
                         "操作提醒",
                         "当前未选中任何的数据用例，请确认要否要以数据不同步模式运行？"
@@ -125,10 +125,12 @@ class DoKitMcMainFragment : BaseFragment() {
             }
 
             //请求一个CaseId
-            lifecycleScope.launch(exceptionHandler) {
+            lifecycleScope.launch(mExceptionHandler) {
                 privacyInterceptDialog(
                     "隐私提醒",
-                    "用例采集会实时录制并上传接口数据到dokit.cn平台,请确认是否要开启？"
+                    """1.用例采集会实时录制并上传接口数据到dokit.cn平台,请确认是否要开启？
+2. 请确认已在dokit.cn平台一机多控模块添加诸如token、sign等无法确认接口唯一性的exclude字段(字段作用于全部录制接口)。
+                            """
                 ).isTrueWithCor(
                     isFalse = {
                         ToastUtils.showShort("取消用例采集")
@@ -161,7 +163,7 @@ class DoKitMcMainFragment : BaseFragment() {
                 return@setOnClickListener
             }
 
-            lifecycleScope.launch(exceptionHandler) {
+            lifecycleScope.launch(mExceptionHandler) {
                 val result = McHttpManager.mockStop<Any>(mcCaseInfoDialog())
                 if (result.code == RESPONSE_OK) {
                     SimpleDoKitStarter.removeFloating(RecordingDokitView::class.java)
@@ -187,7 +189,7 @@ class DoKitMcMainFragment : BaseFragment() {
 
         //加载exclude key
         if (DoKitManager.PRODUCT_ID.isNotBlank()) {
-            lifecycleScope.launch(exceptionHandler) {
+            lifecycleScope.launch(mExceptionHandler) {
                 val config = McHttpManager.getMcConfig<McConfigInfo>()
                 if (config.code == RESPONSE_OK) {
                     config.data?.multiControl?.exclude?.let {

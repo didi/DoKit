@@ -28,23 +28,10 @@ import kotlin.coroutines.suspendCoroutine
 object McHttpManager {
     const val RESPONSE_OK = 200
 
-    //    const val host = "http://dokit-test.intra.xiaojukeji.com"
-    const val host = "https://pre.dokit.cn"
+    const val host = "https://www.dokit.cn"
+//    const val host = "https://pre.dokit.cn"
 
     var mExcludeKey: List<String> = mutableListOf()
-
-
-//    /**
-//     * 上传数据
-//     */
-//    @Throws(Exception::class)
-//    suspend fun upload(): String {
-//        val client = HttpClient(CIO)
-//        return client.post<String> {
-//            url("")
-//            body = GsonUtils.toJson(mUserCaseInfo)
-//        }
-//    }
 
 
     suspend inline fun <reified T> getMcConfig(): McResInfo<T> = suspendCoroutine {

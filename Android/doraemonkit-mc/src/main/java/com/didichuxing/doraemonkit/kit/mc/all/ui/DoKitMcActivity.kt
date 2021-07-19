@@ -17,7 +17,7 @@ import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
  * ================================================
  */
 class DoKitMcActivity : BaseActivity() {
-    lateinit var mTitlebar: HomeTitleBar
+    private lateinit var mTitlebar: HomeTitleBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.dk_activity_mc)

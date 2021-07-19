@@ -125,9 +125,9 @@ class View_onInitializeAccessibilityEventHook : XC_MethodHook() {
                     ),
                     viewC12c
                 )
-                LogHelper.json(
-                    TAG, wsEvent
-                )
+//                LogHelper.json(
+//                    TAG, wsEvent
+//                )
                 DoKitWsServer.send(wsEvent)
             }
             //针对dokit悬浮窗

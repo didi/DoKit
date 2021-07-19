@@ -10,7 +10,6 @@ import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.mc.R
 import com.didichuxing.doraemonkit.util.ConvertUtils
-import com.didichuxing.doraemonkit.util.LogHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect

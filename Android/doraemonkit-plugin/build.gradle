@@ -27,6 +27,8 @@ if (archives_type == 2) {
     gradlePluginVersion = rootProject.ext.android["gradle_plugin_version"]
 }
 
+
+
 dependencies {
     compileOnly gradleApi()
     compileOnly localGroovy()

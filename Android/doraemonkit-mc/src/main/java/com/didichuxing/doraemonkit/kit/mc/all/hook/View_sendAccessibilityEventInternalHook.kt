@@ -15,8 +15,6 @@ import com.didichuxing.doraemonkit.kit.mc.all.*
 import com.didichuxing.doraemonkit.kit.mc.server.DoKitWsServer
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.DokitViewInfo
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
-import com.didichuxing.doraemonkit.kit.mc.util.ViewPathUtil
-import com.didichuxing.doraemonkit.util.LogHelper
 import com.didichuxing.doraemonkit.util.ReflectUtils
 import de.robv.android.xposed.XC_MethodHook
 
@@ -71,9 +69,9 @@ class View_sendAccessibilityEventInternalHook : XC_MethodHook() {
                             ),
                             viewC12c
                         )
-                        LogHelper.json(
-                            TAG, wsEvent
-                        )
+//                        LogHelper.json(
+//                            TAG, wsEvent
+//                        )
                         DoKitWsServer.send(wsEvent)
                     }
 
