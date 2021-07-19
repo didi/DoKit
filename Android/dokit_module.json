@@ -1,0 +1,15 @@
+{
+  "doraemonkit": "dokitx",
+  "doraemonkit-ft": "dokitx-ft",
+  "doraemonkit-leakcanary": "dokitx-leakcanary",
+  "doraemonkit-mc": "dokitx-mc",
+  "doraemonkit-no-op": "dokitx-no-op",
+  "doraemonkit-okhttp-api": "dokitx-okhttp-api",
+  "doraemonkit-okhttp-v3": "dokitx-okhttp-v3",
+  "doraemonkit-okhttp-v4": "dokitx-okhttp-v4",
+  "doraemonkit-plugin": "dokitx-plugin",
+  "doraemonkit-util": "dokitx-util",
+  "doraemonkit-weex": "dokitx-weex",
+  "doraemonkit-rpc": "dokitx-rpc",
+  "doraemonkit-rpc-mc": "dokitx-rpc-mc"
+}

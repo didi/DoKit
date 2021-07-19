@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">DoKitDemo</string>
+    <string name="dk_kit_demo">demo</string>
+    <string name="dk_titlebar_back">&#060;</string>
+    <string name="app_build_types">当前编译环境</string>
+    <string name="app_btn_jump">跳转其他Activity</string>
+    <string name="app_btn_mc">一机多控</string>
+    <string name="app_btn_show_hide_icon">显示/隐藏Dokit入口</string>
+    <string name="app_btn_leak">模拟内存泄漏</string>
+    <string name="app_btn_app_launch_stack">app启动函数调用栈</string>
+    <string name="app_btn_show_tool_panel">显示工具面板</string>
+    <string name="app_btn_installed_app">获取已安装的app</string>
+    <string name="app_btn_method_cost">函数调用耗时(TAG:MethodCostUtil)</string>
+    <string name="app_btn_location">获取位置信息(系统)</string>
+    <string name="app_btn_path_amap">高德路径规划</string>
+    <string name="app_btn_location_map">获取位置信息(三方地图)</string>
+    <string name="app_btn_location_map2">地图展示定位</string>
+    <string name="app_btn_load_img">大图检测</string>
+    <string name="app_btn_okhttp_mock">OkHttp Mock</string>
+    <string name="app_btn_urlconnection_mock">HttpURLConnection Mock</string>
+    <string name="app_btn_retrofit_mock">Retrofit Mock</string>
+    <string name="app_btn_custom_mock">其他网络库(自定义抓包)</string>
+    <string name="app_btn_crash_test">模拟Crash</string>
+    <string name="app_btn_create_database">创建数据库</string>
+    <string name="app_btn_upload_file">上传文件</string>
+    <string name="app_btn_download_file">下载文件</string>
+    <string name="dk_kit_simple_float" translatable="false">自定义悬浮</string>
+    <string name="dk_kit_fullscreen" translatable="false">自定义全屏</string>
+
+</resources>

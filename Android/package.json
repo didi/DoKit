@@ -1,0 +1,16 @@
+{
+  "name": "plugin_debug",
+  "version": "1.0.0",
+  "description": "调试plugin",
+  "scripts": {
+    "start": "./gradlew clean -Dorg.gradle.daemon=false -Dorg.gradle.debug=true",
+    "clean": "./gradlew clean",
+    "copy": "./gradlew copyPluginSource",
+    "pluginAssemble": "./gradlew :doraemonkit-plugin:assemble",
+    "assemble": "./gradlew assembleRelease",
+    "publish": "./gradlew publishReleasePublicationToMavenCentralRepository",
+    "upload": "npm run clean && npm run copy && npm run pluginAssemble && npm run assemble && npm run publish"
+  },
+  "author": "jintai <704167880@qq.com>",
+  "license": "MIT"
+}
