@@ -24,6 +24,7 @@
 - (BOOL)do_mc_sendAction:(SEL)action to:(id)target from:(id)sender forEvent:(UIEvent *)event {
     
     if ([DoraemonMCServer isOpen]) {
+        
         UIView *senderV = sender;
         if ([sender isKindOfClass:[UIGestureRecognizer class]]) {
             UIGestureRecognizer *ges = sender;
@@ -44,10 +45,14 @@
 @end
 
 
+
+
+
 @implementation UIPanGestureRecognizer (DoraemonMCSupport)
 
 
 + (void)load {
+
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(translationInView:) swizzledSel:@selector(do_mc_translationInView:)];
@@ -68,6 +73,7 @@
     }
     return self.do_mc_temp_Vol;
 }
+
 
 @end
 
@@ -101,6 +107,30 @@
 
 @end
 
+@interface UILongPressGestureRecognizer (DoraemonMCSupport)
+
+@end
+
+@implementation UILongPressGestureRecognizer (DoraemonMCSupport)
+
+
++ (void)load {
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(locationInView:) swizzledSel:@selector(do_mc_locationInView:)];
+    });
+}
+
+- (CGPoint)do_mc_locationInView:(UIView *)view{
+    if (CGPointEqualToPoint(CGPointZero, self.do_mc_temp_location)) {
+        return [self do_mc_locationInView:view];
+    }
+    return self.do_mc_temp_location;
+}
+
+
+@end
 
 @implementation UIGestureRecognizer (DoraemonMCSupport)
 
@@ -110,7 +140,7 @@
         [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(initWithTarget:action:) swizzledSel:@selector(do_mc_initWithTarget:action:)];
         [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(removeTarget:action:) swizzledSel:@selector(do_mc_removeTarget:action:)];
         [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(addTarget:action:) swizzledSel:@selector(do_mc_addTarget:action:)];
-
+        [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(locationInView:) swizzledSel:@selector(do_mc_locationInView:)];
     });
 }
 
@@ -132,7 +162,18 @@
     if (!existed) {
         [self.do_mc_targetActionPairs addObject:[[DoraemonMCGestureTargetActionPair alloc] initWithTarget:target action:action sender:self]];
     }
-    [self do_mc_addTarget:target action:action];
+//    if ([NSStringFromClass([target class]) isEqualToString:@"UIInterfaceActionSelectionTrackingController"]) {
+//        NSLog(@"UIInterfaceActionSelectionTrackingController");
+//    }else 
+        [self do_mc_addTarget:target action:action];
+//    }
+}
+
+- (CGPoint)do_mc_locationInView:(UIView *)view{
+    if (CGPointEqualToPoint(CGPointZero, self.do_mc_temp_location)) {
+        return [self do_mc_locationInView:view];
+    }
+    return self.do_mc_temp_location;
 }
 
 - (void)do_mc_handleGestureSend:(id)sender {
@@ -147,6 +188,12 @@
     if ([DoraemonMCServer isOpen]) {
         [self do_mc_handleGestureSend:sender];
     }
+//    [self.do_mc_targetActionPairs enumerateObjectsUsingBlock:^(DoraemonMCGestureTargetActionPair * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        if ([NSStringFromClass([obj.target class]) isEqualToString:@"UIInterfaceActionSelectionTrackingController"]) {
+////            NSLog(@"UIInterfaceActionSelectionTrackingController");
+//            [obj doAction];
+//        }
+//    }];
 
 }
 
@@ -156,6 +203,7 @@
             [obj doAction];
         }
     }];
+    self.do_mc_temp_location = CGPointZero;
 }
 
 - (void)do_mc_removeTarget:(id)target action:(SEL)action {
@@ -204,6 +252,14 @@
     return [value CGPointValue];
 }
 
+- (void)setDo_mc_temp_location:(CGPoint)do_mc_temp_location {
+    objc_setAssociatedObject(self, @selector(do_mc_temp_location), [NSValue valueWithCGPoint:do_mc_temp_location], OBJC_ASSOCIATION_RETAIN);
+}
+
+- (CGPoint)do_mc_temp_location {
+    id value = objc_getAssociatedObject(self, _cmd);
+    return [value CGPointValue];
+}
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {}
 - (id)valueForUndefinedKey:(NSString *)key {return nil;}

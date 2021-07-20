@@ -18,12 +18,11 @@
     CGPoint p = CGPointZero;
     CGPoint velocityP = CGPointZero;
     CGPoint centerP  = CGPointZero;
-    UIGestureRecognizerState state = 0;
-    
+    UIGestureRecognizerState state = gusture.state;
+    CGPoint locationP = [gusture locationInView:gusture.view];
     if ([gusture isKindOfClass:[UIPanGestureRecognizer class]]) {
          UIPanGestureRecognizer *panGes = (UIPanGestureRecognizer *)gusture;
           p = [panGes translationInView:gusture.view];
-        state = panGes.state;
         velocityP = [panGes velocityInView:gusture.view];
         centerP = CGPointMake(gusture.view.center.x, gusture.view.center.y);
     }
@@ -55,10 +54,14 @@
     return @{
         @"gesIndex":@(gesIndex),
         @"ctlState":@(stateCtl),
+        @"state":@(state),
+        @"lp" : @{
+                @"x":@(locationP.x),
+                @"y" : @(locationP.y)
+        },
         @"data" : @{
                 @"offsetX": @(p.x/[UIScreen mainScreen].bounds.size.width),
                 @"offsetY": @(p.y/[UIScreen mainScreen].bounds.size.height),
-                @"state":@(state),
                 @"velocityX":  @(velocityP.x/[UIScreen mainScreen].bounds.size.width),
                 @"velocityY":  @(velocityP.y/[UIScreen mainScreen].bounds.size.height),
                 @"velocityX":  @(velocityP.x),
@@ -80,7 +83,6 @@
     NSDictionary *data = eventInfo[@"data"];
     if (data && [gusture isKindOfClass:[UIPanGestureRecognizer class]]) {
          pan = (UIPanGestureRecognizer *)gusture;
-        pan.state = [data[@"state"] intValue];
         CGPoint translation = CGPointMake([data[@"offsetX"] doubleValue] * [UIScreen mainScreen].bounds.size.width, [data[@"offsetY"] doubleValue] * [UIScreen mainScreen].bounds.size.height);
         CGPoint volP = CGPointMake([data[@"velocityX"] doubleValue] * [UIScreen mainScreen].bounds.size.width, [data[@"velocityY"] doubleValue] * [UIScreen mainScreen].bounds.size.height);
         CGPoint point = CGPointMake([data[@"pointX"] floatValue] , [data[@"pointY"] floatValue] );
@@ -92,6 +94,11 @@
             pan.do_mc_temp_Vol = volP;
         }
     }
+    
+    CGPoint locationP = CGPointMake([eventInfo[@"lp"][@"x"] doubleValue], [eventInfo[@"lp"][@"y"] doubleValue]);
+    gusture.do_mc_temp_location = locationP;
+    gusture.state = [eventInfo[@"state"] intValue];
+
     NSDictionary *pps = eventInfo[@"pps"];
     [pps enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         if ([obj isKindOfClass:[NSString class]] && [obj isEqualToString:@"null"]) {
