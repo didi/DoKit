@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , strong) DoraemonMCMessage *messageInfo;
 
 @property (nonatomic , strong) UIView *targetView;
+
 - (BOOL)handleEvent:(DoraemonMCMessage*)eventInfo;
 
 @end
@@ -31,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface DoraemonMCReuseCellEventHandler : DoraemonMCEventHandler
+
 
 
 @end

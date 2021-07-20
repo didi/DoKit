@@ -90,7 +90,6 @@ Pod::Spec.new do |s|
     ss.dependency 'FBRetainCycleDetector'
   end
 
-
     #一机多控
     s.subspec 'WithMultiControl' do |ss|
       ss.source_files = 'iOS/DoraemonKit/Src/MultiControl/**/*{.h,.m}'

@@ -158,7 +158,6 @@
         self.scanView = scaner;
         [scaner startScanning];
 #endif
-
     }
 
 }

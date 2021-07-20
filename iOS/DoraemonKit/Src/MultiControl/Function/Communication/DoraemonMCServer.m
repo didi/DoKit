@@ -6,6 +6,7 @@
 //
 
 #import "DoraemonMCServer.h"
+
 #import <CocoaHTTPServer/HTTPServer.h>
 #import <CocoaHTTPServer/HTTPConnection.h>
 #import <CocoaHTTPServer/WebSocket.h>
@@ -14,6 +15,7 @@
 #import <CocoaAsyncSocket/GCDAsyncSocket.h>
 #import <DoraemonKit/DoraemonToastUtil.h>
 #import "DoraemonHomeWindow.h"
+
 
 NSInteger const kDoraemonMCServerPort = 8088;
 
@@ -89,6 +91,7 @@ NSInteger const kDoraemonMCServerPort = 8088;
     }
 }
 
+
 - (void)sendMessage:(NSString *)message {
     [[self.server valueForKey:@"webSockets"] enumerateObjectsUsingBlock:^(MyWebSocket  *_Nonnull ws, NSUInteger idx, BOOL * _Nonnull stop) {
         [ws sendMessage:message];
@@ -98,6 +101,7 @@ NSInteger const kDoraemonMCServerPort = 8088;
 - (NSInteger)connectCount {
     return [[self.server valueForKey:@"webSockets"] count];
 }
+
 
 + (void)sendMessage:(NSString *)message {
     [[self shareInstance] sendMessage:message];

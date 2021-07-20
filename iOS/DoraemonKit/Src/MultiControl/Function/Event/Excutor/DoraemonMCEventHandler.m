@@ -26,6 +26,7 @@
         ![[DoraemonMCXPathSerializer ownerVCWithView:self.targetView] isKindOfClass:NSClassFromString(eventInfo.currentVCClassName)]) {
         return NO;
     }
+
     if (self.messageInfo.isFirstResponder && self.targetView.isFirstResponder == NO) {
         [self.targetView becomeFirstResponder];
     }else if (self.messageInfo.isFirstResponder == NO && self.targetView.isFirstResponder) {
@@ -160,8 +161,7 @@
         if (data[@"text"]) {
             tVView.text = data[@"text"];
         }
-    }
-    
+    }    
     return YES;
 }
 

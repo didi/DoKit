@@ -24,7 +24,6 @@
 - (BOOL)do_mc_sendAction:(SEL)action to:(id)target from:(id)sender forEvent:(UIEvent *)event {
     
     if ([DoraemonMCServer isOpen]) {
-        
         UIView *senderV = sender;
         if ([sender isKindOfClass:[UIGestureRecognizer class]]) {
             UIGestureRecognizer *ges = sender;
@@ -45,14 +44,10 @@
 @end
 
 
-
-
-
 @implementation UIPanGestureRecognizer (DoraemonMCSupport)
 
 
 + (void)load {
-
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(translationInView:) swizzledSel:@selector(do_mc_translationInView:)];
