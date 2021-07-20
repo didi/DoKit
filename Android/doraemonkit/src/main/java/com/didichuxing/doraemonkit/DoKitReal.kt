@@ -419,7 +419,7 @@ object DoKitReal {
     }
 
     fun show() {
-        DoKitManager.AWAYS_SHOW_MAIN_ICON = true
+        DoKitManager.ALWAYS_SHOW_MAIN_ICON = true
         if (!isShow) {
             showMainIcon()
         }
@@ -438,7 +438,7 @@ object DoKitReal {
 
     fun hide() {
         DoKitManager.MAIN_ICON_HAS_SHOW = false
-        DoKitManager.AWAYS_SHOW_MAIN_ICON = false
+        DoKitManager.ALWAYS_SHOW_MAIN_ICON = false
         DokitViewManager.instance.detachMainIcon()
     }
 
@@ -486,8 +486,8 @@ object DoKitReal {
     /**
      * 是否显示主入口icon
      */
-    fun setAwaysShowMainIcon(awaysShow: Boolean) {
-        DoKitManager.AWAYS_SHOW_MAIN_ICON = awaysShow
+    fun setAlwaysShowMainIcon(alwaysShow: Boolean) {
+        DoKitManager.ALWAYS_SHOW_MAIN_ICON = alwaysShow
     }
 
 

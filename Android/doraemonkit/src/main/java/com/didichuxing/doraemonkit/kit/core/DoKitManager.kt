@@ -119,7 +119,7 @@ object DoKitManager {
      * 是否显示icon主入口
      */
     @JvmField
-    var AWAYS_SHOW_MAIN_ICON = true
+    var ALWAYS_SHOW_MAIN_ICON = true
 
     /**
      * icon主入口是否处于显示状态

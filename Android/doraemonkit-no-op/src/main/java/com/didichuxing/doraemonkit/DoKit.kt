@@ -227,7 +227,7 @@ public class DoKit private constructor() {
         /**
          * 是否显示主入口icon
          */
-        fun awaysShowMainIcon(awaysShow: Boolean): Builder {
+        fun alwaysShowMainIcon(alwaysShow: Boolean): Builder {
             return this
         }
 

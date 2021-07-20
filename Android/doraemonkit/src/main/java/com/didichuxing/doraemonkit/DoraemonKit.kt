@@ -128,8 +128,8 @@ object DoraemonKit {
      * 是否显示主入口icon
      */
     @JvmStatic
-    fun setAwaysShowMainIcon(awaysShow: Boolean) {
-        DoKitReal.setAwaysShowMainIcon(awaysShow)
+    fun setAlwaysShowMainIcon(alwaysShow: Boolean) {
+        DoKitReal.setAlwaysShowMainIcon(alwaysShow)
     }
 
     /**

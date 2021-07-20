@@ -11,7 +11,6 @@ import com.didichuxing.doraemonkit.kit.health.CountDownDoKitView
 import com.didichuxing.doraemonkit.kit.main.MainIconDoKitView
 import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelDoKitView
 import com.didichuxing.doraemonkit.util.DoKitSystemUtil
-import kotlin.reflect.KClass
 
 /**
  * Created by wanglikun on 2018/10/23.
@@ -103,7 +102,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
 
     override fun attachMainIcon(activity: Activity) {
         //假如不存在全局的icon这需要全局显示主icon
-        if (DoKitManager.AWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
+        if (DoKitManager.ALWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
             attach(DokitIntent(MainIconDoKitView::class.java))
             DoKitManager.MAIN_ICON_HAS_SHOW = true
         } else {
@@ -137,7 +136,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
 
     override fun onActivityResume(activity: Activity) {
         //判断是否有MainIcon
-        if (DoKitManager.AWAYS_SHOW_MAIN_ICON && !isMainIconShow) {
+        if (DoKitManager.ALWAYS_SHOW_MAIN_ICON && !isMainIconShow) {
             show()
         }
         //如果倒计时浮标没显示则重新添加
@@ -172,7 +171,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
         //判断是否存在主入口icon
         val dokitViews = getDoKitViews(activity)
         if (dokitViews[MainIconDoKitView::class.tagName] == null) {
-            if (DoKitManager.AWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
+            if (DoKitManager.ALWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
                 //添加main icon
                 val intent = DokitIntent(MainIconDoKitView::class.java)
                 attach(intent)

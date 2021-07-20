@@ -70,7 +70,7 @@ class App : Application() {
             .fileManagerHttpPort(9001)
             .databasePass(mapOf("Person.db" to "a_password"))
             .mcWSPort(5555)
-            .awaysShowMainIcon(true)
+            .alwaysShowMainIcon(true)
             .callBack(object : DoKitCallBack {
                 override fun onCpuCallBack(value: Float, filePath: String) {
                     super.onCpuCallBack(value, filePath)

@@ -92,7 +92,7 @@ object DoraemonKit {
      * 是否显示主入口icon
      */
     @JvmStatic
-    fun setAwaysShowMainIcon(awaysShow: Boolean) {
+    fun setAlwaysShowMainIcon(alwaysShow: Boolean) {
     }
 
     /**

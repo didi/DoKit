@@ -18,13 +18,15 @@ import androidx.annotation.LayoutRes
  * @see com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter.startFullScreen
  */
 abstract class AbsDokitFragment : BaseFragment() {
+    val bundle: Bundle?
+        get() = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return null
     }
 
@@ -42,7 +44,7 @@ abstract class AbsDokitFragment : BaseFragment() {
     abstract fun layoutId(): Int
 
     open fun initTitle(): String {
-        return this.javaClass.simpleName
+        return ""
     }
 
 

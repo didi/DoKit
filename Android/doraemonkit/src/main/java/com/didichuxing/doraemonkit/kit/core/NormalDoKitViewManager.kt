@@ -18,7 +18,6 @@ import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitView
 import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelDoKitView
 import com.didichuxing.doraemonkit.util.*
 import java.util.*
-import kotlin.reflect.KClass
 
 /**
  * Created by jintai on 2018/10/23.
@@ -97,7 +96,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
 
     override fun attachMainIcon(activity: Activity) {
         //假如不存在全局的icon这需要全局显示主icon
-        if (DoKitManager.AWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
+        if (DoKitManager.ALWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
             attach(DokitIntent(MainIconDoKitView::class.java))
             DoKitManager.MAIN_ICON_HAS_SHOW = true
         } else {
@@ -147,7 +146,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
                 continue
             }
             //是否过滤掉 入口icon
-            if (!DoKitManager.AWAYS_SHOW_MAIN_ICON && dokitViewInfo.absDokitViewClass == MainIconDoKitView::class.java) {
+            if (!DoKitManager.ALWAYS_SHOW_MAIN_ICON && dokitViewInfo.absDokitViewClass == MainIconDoKitView::class.java) {
                 DoKitManager.MAIN_ICON_HAS_SHOW = false
                 continue
             }
@@ -187,7 +186,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
                     continue
                 }
                 //是否过滤掉 入口icon
-                if (!DoKitManager.AWAYS_SHOW_MAIN_ICON && gDoKitViewInfo.absDokitViewClass == MainIconDoKitView::class.java) {
+                if (!DoKitManager.ALWAYS_SHOW_MAIN_ICON && gDoKitViewInfo.absDokitViewClass == MainIconDoKitView::class.java) {
                     DoKitManager.MAIN_ICON_HAS_SHOW = false
                     continue
                 }
