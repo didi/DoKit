@@ -159,7 +159,6 @@ object DoKitReal {
 
         //上传埋点
         DataPickManager.getInstance().postData()
-
     }
 
 

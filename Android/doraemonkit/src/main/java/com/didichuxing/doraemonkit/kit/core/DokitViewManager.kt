@@ -29,12 +29,12 @@ internal class DokitViewManager : DokitViewManagerInterface {
          * 每个类型在页面中的位置 只保存marginLeft 和marginTop
          */
         private val mDoKitViewPos: MutableMap<String, DoKitViewInfo> by lazy {
-            mutableMapOf()
+            mutableMapOf<String, DoKitViewInfo>()
         }
     }
 
     private val mLastDoKitViewPosInfoMaps: MutableMap<String, LastDokitViewPosInfo> by lazy {
-        mutableMapOf()
+        mutableMapOf<String, LastDokitViewPosInfo>()
     }
     private val mDoKitViewManager: AbsDokitViewManager by lazy {
         if (DoKitManager.IS_NORMAL_FLOAT_MODE) {

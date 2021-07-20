@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemondemo.R;
 import com.didichuxing.doraemonkit.DoKit;
-import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
@@ -51,12 +51,8 @@ public class FloatGpsPresetMockKit extends AbstractKit {
 
     @Override
     public boolean isInnerKit() {
-        return true;
+        return false;
     }
 
 
-    @Override
-    public String innerKitId() {
-        return "dokit_sdk_comm_ck_location_preset";
-    }
 }

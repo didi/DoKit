@@ -9,6 +9,7 @@ import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
 import com.blankj.utilcode.util.PathUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.didichuxing.doraemondemo.amap.FloatGpsPresetMockKit
 import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFloatViewKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit

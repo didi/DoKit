@@ -151,7 +151,7 @@ object DoKitManager {
      */
     var ENABLE_UPLOAD = true
     val ACTIVITY_LIFECYCLE_INFOS: MutableMap<String, ActivityLifecycleStatusInfo?> by lazy {
-        mutableMapOf()
+        mutableMapOf<String, ActivityLifecycleStatusInfo?>()
     }
 
     /**

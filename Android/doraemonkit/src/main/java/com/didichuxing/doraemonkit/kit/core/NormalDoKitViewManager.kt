@@ -33,14 +33,14 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
      *
      */
     private val mActivityDoKitViewMap: MutableMap<Activity, MutableMap<String, AbsDokitView>> by lazy {
-        mutableMapOf()
+        mutableMapOf<Activity, MutableMap<String, AbsDokitView>>()
     }
 
     /**
      * 只用来记录全局的同步  只有用户手动移除时才会remove
      */
     private val mGlobalSingleDoKitViewInfoMap: MutableMap<String, GlobalSingleDokitViewInfo> by lazy {
-        mutableMapOf()
+        mutableMapOf<String, GlobalSingleDokitViewInfo>()
     }
 
     private val mContext: Context by lazy { DoKit.APPLICATION }
@@ -304,7 +304,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
                         doKitView.normalLayoutParams
                     )
                 //延迟100毫秒调用
-                doKitView.postDelayed({
+                doKitView.postDelayed(Runnable {
                     doKitView.onResume()
                     //操作DecorRootView
                     doKitView.dealDecorRootView(getDoKitRootContentView(doKitIntent.activity))
@@ -495,10 +495,6 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
     private fun getDecorView(activity: Activity): ViewGroup {
         return activity.window.decorView as ViewGroup
     }
-
-
-
-
 
 
     /**

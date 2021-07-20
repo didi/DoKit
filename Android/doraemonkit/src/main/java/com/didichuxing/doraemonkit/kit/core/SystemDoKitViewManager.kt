@@ -24,8 +24,8 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
      */
     private val mWindowManager = DokitViewManager.instance.windowManager
     private val mContext: Context by lazy { DoKit.APPLICATION }
-    private val mDoKitViews: MutableList<AbsDokitView> by lazy { mutableListOf() }
-    private val mListeners: MutableList<DokitViewManager.DokitViewAttachedListener> by lazy { mutableListOf() }
+    private val mDoKitViews: MutableList<AbsDokitView> by lazy { mutableListOf<AbsDokitView>() }
+    private val mListeners: MutableList<DokitViewManager.DokitViewAttachedListener> by lazy { mutableListOf<DokitViewManager.DokitViewAttachedListener>() }
 
     /**
      * 获取页面上所有的dokitViews

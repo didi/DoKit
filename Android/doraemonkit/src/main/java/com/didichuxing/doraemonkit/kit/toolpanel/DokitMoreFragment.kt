@@ -124,6 +124,7 @@ class DokitMoreFragment : BaseFragment() {
                                     it
                                 )
                             }
+                        } else {
                         }
                     }
                     "web" -> {
