@@ -3,6 +3,7 @@ package com.didichuxing.doraemondemo.comm
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.didichuxing.doraemonkit.DoKit
 
 /**
  * ================================================
@@ -18,7 +19,7 @@ object CommLauncher {
 
     fun startActivity(
         targetClass: Class<out CommBaseFragment?>,
-        context: Context? = null,
+        context: Context,
         bundle: Bundle? = null
     ) {
         context?.startActivity(Intent(context, CommFragmentActivity::class.java).apply {

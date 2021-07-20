@@ -16,7 +16,7 @@ import kotlin.reflect.KClass
  * Created by jintai on 2018/10/23.
  * 浮标管理类
  */
-class DokitViewManager : DokitViewManagerInterface {
+internal class DokitViewManager : DokitViewManagerInterface {
 
     companion object {
         @JvmStatic
@@ -29,12 +29,12 @@ class DokitViewManager : DokitViewManagerInterface {
          * 每个类型在页面中的位置 只保存marginLeft 和marginTop
          */
         private val mDoKitViewPos: MutableMap<String, DoKitViewInfo> by lazy {
-            mutableMapOf()
+            mutableMapOf<String, DoKitViewInfo>()
         }
     }
 
     private val mLastDoKitViewPosInfoMaps: MutableMap<String, LastDokitViewPosInfo> by lazy {
-        mutableMapOf()
+        mutableMapOf<String, LastDokitViewPosInfo>()
     }
     private val mDoKitViewManager: AbsDokitViewManager by lazy {
         if (DoKitManager.IS_NORMAL_FLOAT_MODE) {
@@ -198,10 +198,6 @@ class DokitViewManager : DokitViewManagerInterface {
     }
 
 
-    override fun detach(doKitViewClass: KClass<out AbsDokitView>) {
-        mDoKitViewManager.detach(doKitViewClass)
-    }
-
     override fun detach(doKitViewClass: Class<out AbsDokitView>) {
         mDoKitViewManager.detach(doKitViewClass)
     }
@@ -215,23 +211,26 @@ class DokitViewManager : DokitViewManagerInterface {
     }
 
     /**
-     * Activity销毁时调用
-     */
-    override fun onActivityDestroyed(activity: Activity) {
-        mDoKitViewManager.onActivityDestroyed(activity)
-    }
-
-    /**
      * 获取页面上指定的dokitView
      *
      * @param activity 如果是系统浮标 activity可以为null
      * @param tag
      * @return
      */
-    override fun getDoKitView(activity: Activity, tag: String): AbsDokitView? {
-
-        return mDoKitViewManager.getDoKitView(activity, tag)
+    override fun <T : AbsDokitView> getDoKitView(
+        activity: Activity,
+        clazz: Class<T>
+    ): AbsDokitView? {
+        return mDoKitViewManager.getDoKitView(activity, clazz)
     }
+
+    /**
+     * Activity销毁时调用
+     */
+    override fun onActivityDestroyed(activity: Activity) {
+        mDoKitViewManager.onActivityDestroyed(activity)
+    }
+
 
     /**
      * @param activity

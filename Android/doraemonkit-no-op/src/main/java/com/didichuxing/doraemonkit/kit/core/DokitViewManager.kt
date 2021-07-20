@@ -68,9 +68,7 @@ class DokitViewManager : DokitViewManagerInterface {
     override fun detachAll() {
     }
 
-    override fun getDokitView(activity: Activity?, tag: String?): AbsDokitView? {
-        return null
-    }
+
 
     override fun getDokitViews(activity: Activity?): MutableMap<String, AbsDokitView> {
         return mutableMapOf()

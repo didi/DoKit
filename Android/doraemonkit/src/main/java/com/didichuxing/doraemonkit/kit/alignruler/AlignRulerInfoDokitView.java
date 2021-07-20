@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.AlignRulerConfig;
@@ -67,7 +68,7 @@ public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerM
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                mMarker = (AlignRulerMarkerDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), AlignRulerMarkerDokitView.class.getCanonicalName());
+                mMarker = DoKit.getDoKitView(ActivityUtils.getTopActivity(), AlignRulerMarkerDokitView.class);
                 if (mMarker != null) {
                     mMarker.addPositionChangeListener(AlignRulerInfoDokitView.this);
                 }
@@ -90,9 +91,9 @@ public class AlignRulerInfoDokitView extends AbsDokitView implements AlignRulerM
             @Override
             public void onClick(View v) {
                 AlignRulerConfig.setAlignRulerOpen(false);
-                DokitViewManager.getInstance().detach(AlignRulerMarkerDokitView.class.getCanonicalName());
-                DokitViewManager.getInstance().detach(AlignRulerLineDokitView.class.getCanonicalName());
-                DokitViewManager.getInstance().detach(AlignRulerInfoDokitView.class.getCanonicalName());
+                DoKit.removeFloating(AlignRulerMarkerDokitView.class);
+                DoKit.removeFloating(AlignRulerLineDokitView.class);
+                DoKit.removeFloating(AlignRulerInfoDokitView.class);
             }
         });
 

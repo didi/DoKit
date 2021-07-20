@@ -203,7 +203,7 @@ class MainDebugActivityOkhttpV3 : BaseActivity(), View.OnClickListener,
                     startNormaLocation()
                 }
                 "高德路径规划" -> {
-                    CommLauncher.startActivity(AMapRouterFragment::class.java)
+                    CommLauncher.startActivity(AMapRouterFragment::class.java, this)
                 }
                 "OkHttp Mock" -> {
                     val jsonObject = JSONObject()

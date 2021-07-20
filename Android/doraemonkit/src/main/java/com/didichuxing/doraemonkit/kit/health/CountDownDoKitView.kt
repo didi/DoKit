@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager
@@ -35,7 +36,7 @@ class CountDownDoKitView : AbsCountDownDoKitView() {
         }.flowOn(Dispatchers.IO)
             .onCompletion {
                 withContext(Dispatchers.Main) {
-                    DokitViewManager.instance.detach(this@CountDownDoKitView)
+                    DoKit.removeFloating(CountDownDoKitView::class)
                 }
             }
     }

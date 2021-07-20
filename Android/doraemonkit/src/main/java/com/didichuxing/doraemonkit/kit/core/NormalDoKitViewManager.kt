@@ -18,7 +18,6 @@ import com.didichuxing.doraemonkit.kit.performance.PerformanceDokitView
 import com.didichuxing.doraemonkit.kit.toolpanel.ToolPanelDoKitView
 import com.didichuxing.doraemonkit.util.*
 import java.util.*
-import kotlin.reflect.KClass
 
 /**
  * Created by jintai on 2018/10/23.
@@ -34,14 +33,14 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
      *
      */
     private val mActivityDoKitViewMap: MutableMap<Activity, MutableMap<String, AbsDokitView>> by lazy {
-        mutableMapOf()
+        mutableMapOf<Activity, MutableMap<String, AbsDokitView>>()
     }
 
     /**
      * 只用来记录全局的同步  只有用户手动移除时才会remove
      */
     private val mGlobalSingleDoKitViewInfoMap: MutableMap<String, GlobalSingleDokitViewInfo> by lazy {
-        mutableMapOf()
+        mutableMapOf<String, GlobalSingleDokitViewInfo>()
     }
 
     private val mContext: Context by lazy { DoKit.APPLICATION }
@@ -97,7 +96,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
 
     override fun attachMainIcon(activity: Activity) {
         //假如不存在全局的icon这需要全局显示主icon
-        if (DoKitManager.AWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
+        if (DoKitManager.ALWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
             attach(DokitIntent(MainIconDoKitView::class.java))
             DoKitManager.MAIN_ICON_HAS_SHOW = true
         } else {
@@ -147,7 +146,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
                 continue
             }
             //是否过滤掉 入口icon
-            if (!DoKitManager.AWAYS_SHOW_MAIN_ICON && dokitViewInfo.absDokitViewClass == MainIconDoKitView::class.java) {
+            if (!DoKitManager.ALWAYS_SHOW_MAIN_ICON && dokitViewInfo.absDokitViewClass == MainIconDoKitView::class.java) {
                 DoKitManager.MAIN_ICON_HAS_SHOW = false
                 continue
             }
@@ -187,7 +186,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
                     continue
                 }
                 //是否过滤掉 入口icon
-                if (!DoKitManager.AWAYS_SHOW_MAIN_ICON && gDoKitViewInfo.absDokitViewClass == MainIconDoKitView::class.java) {
+                if (!DoKitManager.ALWAYS_SHOW_MAIN_ICON && gDoKitViewInfo.absDokitViewClass == MainIconDoKitView::class.java) {
                     DoKitManager.MAIN_ICON_HAS_SHOW = false
                     continue
                 }
@@ -305,7 +304,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
                         doKitView.normalLayoutParams
                     )
                 //延迟100毫秒调用
-                doKitView.postDelayed({
+                doKitView.postDelayed(Runnable {
                     doKitView.onResume()
                     //操作DecorRootView
                     doKitView.dealDecorRootView(getDoKitRootContentView(doKitIntent.activity))
@@ -428,10 +427,6 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
     }
 
 
-    override fun detach(doKitViewClass: KClass<out AbsDokitView>) {
-        detach(doKitViewClass.tagName)
-    }
-
     override fun detach(doKitViewClass: Class<out AbsDokitView>) {
         detach(doKitViewClass.tagName)
     }
@@ -451,6 +446,26 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
             doKitViewMap?.clear()
         }
         mGlobalSingleDoKitViewInfoMap.clear()
+    }
+
+    /**
+     * 获取当前页面指定的dokitView
+     *
+     * @param activity
+     * @param tag
+     * @return AbsDokitView
+     */
+    override fun <T : AbsDokitView> getDoKitView(
+        activity: Activity,
+        clazz: Class<T>
+    ): AbsDokitView? {
+        if (TextUtils.isEmpty(clazz.tagName)) {
+            return null
+        }
+
+        return if (mActivityDoKitViewMap[activity] == null) {
+            null
+        } else mActivityDoKitViewMap[activity]?.get(clazz.tagName)
     }
 
     /**
@@ -481,22 +496,6 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
         return activity.window.decorView as ViewGroup
     }
 
-    /**
-     * 获取当前页面指定的dokitView
-     *
-     * @param activity
-     * @param tag
-     * @return
-     */
-    override fun getDoKitView(activity: Activity, tag: String): AbsDokitView? {
-        if (TextUtils.isEmpty(tag)) {
-            return null
-        }
-
-        return if (mActivityDoKitViewMap[activity] == null) {
-            null
-        } else mActivityDoKitViewMap[activity]?.get(tag)
-    }
 
     /**
      * 获取当前页面所有的dokitView

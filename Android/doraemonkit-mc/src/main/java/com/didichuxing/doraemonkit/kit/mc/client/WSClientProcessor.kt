@@ -11,13 +11,13 @@ import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.WSEType
 import com.didichuxing.doraemonkit.extension.doKitGlobalScope
 import com.didichuxing.doraemonkit.extension.isFalse
 import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.kit.core.DokitFrameLayout
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
 import com.didichuxing.doraemonkit.kit.mc.all.WSEvent
 import com.didichuxing.doraemonkit.kit.mc.all.view_info.ViewC12c
@@ -128,7 +128,7 @@ object WSClientProcessor {
                 doKitGlobalScope.launch {
                     DoKitWsClient.close()
                 }
-                SimpleDoKitStarter.removeFloating(ClientDokitView::class.java)
+                DoKit.removeFloating(ClientDokitView::class)
                 if (ActivityUtils.getTopActivity() != null) {
                     AlertDialog.Builder(ActivityUtils.getTopActivity())
                         .setTitle("一机多控")

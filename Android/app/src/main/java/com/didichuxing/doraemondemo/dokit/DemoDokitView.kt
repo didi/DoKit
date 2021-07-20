@@ -7,9 +7,9 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.didichuxing.doraemondemo.R
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 
 /**
  * ================================================
@@ -29,7 +29,9 @@ class DemoDokitView : AbsDokitView() {
     override fun onViewCreated(rootView: FrameLayout) {
 
         val tvClose = findViewById<TextView>(R.id.tv_close)
-        tvClose?.setOnClickListener { DokitViewManager.instance.detach(this@DemoDokitView) }
+        tvClose?.setOnClickListener {
+            DoKit.removeFloating(DemoDokitView::class)
+        }
     }
 
 

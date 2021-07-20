@@ -3,9 +3,9 @@ package com.didichuxing.doraemondemo.dokit
 import android.app.Activity
 import android.content.Context
 import com.didichuxing.doraemondemo.R
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.Category
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 
 /**
  * ================================================
@@ -25,7 +25,7 @@ class DemoKit : AbstractKit() {
         get() = R.mipmap.dk_sys_info
 
     override fun onClickWithReturn(activity: Activity): Boolean {
-        SimpleDoKitStarter.startFloating(DemoDokitView::class.java)
+        DoKit.launchFloating(DemoDokitView::class.java)
         return true
     }
 

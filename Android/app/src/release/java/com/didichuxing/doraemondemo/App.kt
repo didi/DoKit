@@ -16,7 +16,7 @@ import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.DoKitCallBack
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.core.MCInterceptor
+import com.didichuxing.doraemonkit.kit.core.McClientProcessor
 import com.didichuxing.doraemonkit.kit.network.bean.NetworkRecord
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -70,7 +70,7 @@ class App : Application() {
             .fileManagerHttpPort(9001)
             .databasePass(mapOf("Person.db" to "a_password"))
             .mcWSPort(5555)
-            .awaysShowMainIcon(true)
+            .alwaysShowMainIcon(true)
             .callBack(object : DoKitCallBack {
                 override fun onCpuCallBack(value: Float, filePath: String) {
                     super.onCpuCallBack(value, filePath)
@@ -94,24 +94,15 @@ class App : Application() {
                 }
 
             })
-            .mcIntercept(object : MCInterceptor {
-                override fun onIntercept(
-                    view: View,
-                    accessibilityEvent: AccessibilityEvent
-                ): Boolean {
-                    return false
+            .mcClientProcess(object : McClientProcessor {
+                override fun process(
+                    activity: Activity?,
+                    view: View?,
+                    eventType: String,
+                    params: Map<String, String>
+                ) {
                 }
 
-                override fun serverParams(
-                    view: View,
-                    accessibilityEvent: AccessibilityEvent
-                ): Map<String, String> {
-                    return mapOf()
-                }
-
-                override fun clientProcess(view: View, params: Map<String, String>): Boolean {
-                    return false
-                }
             })
             .build()
 

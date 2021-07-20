@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Message
 import android.view.KeyEvent
 import androidx.annotation.RequiresApi
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.util.ResourceUtils
 import com.didichuxing.doraemonkit.okhttp_api.OkHttpWrap
@@ -47,8 +48,7 @@ class DokitX5WebViewClient(webViewClient: WebViewClient?, userAgent: String) : W
         view?.let { it ->
             if (it.context is Activity) {
                 val activity = it.context as Activity
-                val absDokitView: AbsDokitView? = DokitViewManager.instance
-                    .getDoKitView(activity, H5DokitView::class.tagName)
+                val absDokitView: AbsDokitView? = DoKit.getDoKitView<H5DokitView>(activity, H5DokitView::class)
                 absDokitView?.let { h5DokitView ->
                     (h5DokitView as H5DokitView).updateUrl(url)
                 }

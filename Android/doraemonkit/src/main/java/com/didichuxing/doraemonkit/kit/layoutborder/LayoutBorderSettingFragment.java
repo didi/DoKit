@@ -8,13 +8,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 /**
@@ -57,10 +56,9 @@ public class LayoutBorderSettingFragment extends BaseFragment {
                     LayoutBorderConfig.setLayoutBorderOpen(on);
                 } else if (data.desc == R.string.dk_layout_level) {
                     if (on) {
-
-                        SimpleDoKitStarter.startFloating(LayoutLevelDokitView.class);
+                        DoKit.launchFloating(LayoutLevelDokitView.class);
                     } else {
-                        DokitViewManager.getInstance().detach(LayoutLevelDokitView.class);
+                        DoKit.removeFloating(LayoutLevelDokitView.class);
                     }
                     LayoutBorderConfig.setLayoutLevelOpen(on);
                 }

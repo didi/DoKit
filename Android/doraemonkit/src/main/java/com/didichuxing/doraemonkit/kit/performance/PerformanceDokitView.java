@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.DokitMemoryConfig;
@@ -237,8 +237,8 @@ public class PerformanceDokitView extends AbsDokitView implements PerformanceClo
      * 系统模式下显示单独的关闭按钮
      */
     private void showSystemPerfoemanceCloseDokitView() {
-        SimpleDoKitStarter.startFloating(PerformanceCloseDokitView.class);
-        mPerformanceCloseDokitView = (PerformanceCloseDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), PerformanceCloseDokitView.class.getCanonicalName());
+        DoKit.launchFloating(PerformanceCloseDokitView.class);
+        mPerformanceCloseDokitView = DoKit.getDoKitView(ActivityUtils.getTopActivity(), PerformanceCloseDokitView.class);
         if (mPerformanceCloseDokitView != null) {
             mPerformanceCloseDokitView.setPerformanceCloseListener(PerformanceDokitView.this);
         }

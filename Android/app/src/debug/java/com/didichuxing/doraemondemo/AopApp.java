@@ -49,7 +49,7 @@ public class AopApp extends Application {
                 .disableUpload()
                 .fileManagerHttpPort(9001)
                 .mcWSPort(5555)
-                .awaysShowMainIcon(true)
+                .alwaysShowMainIcon(true)
                 .callBack(new DoKitCallBack() {
                     @Override
                     public void onNetworkCallBack(@NotNull NetworkRecord record) {

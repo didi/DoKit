@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.model.ViewInfo;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
@@ -39,8 +40,8 @@ public class UIPerformanceInfoDokitView extends AbsDokitView implements UIPerfor
         mClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DokitViewManager.getInstance().detach(UIPerformanceDisplayDokitView.class.getCanonicalName());
-                DokitViewManager.getInstance().detach(UIPerformanceInfoDokitView.class.getCanonicalName());
+                DoKit.removeFloating(UIPerformanceDisplayDokitView.class);
+                DoKit.removeFloating(UIPerformanceInfoDokitView.class);
                 UIPerformanceManager.getInstance().stop();
             }
         });

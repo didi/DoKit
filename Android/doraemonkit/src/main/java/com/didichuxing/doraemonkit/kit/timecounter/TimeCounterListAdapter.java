@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.didichuxing.doraemonkit.kit.timecounter.bean.CounterInfo;
 import com.didichuxing.doraemonkit.widget.recyclerview.AbsRecyclerAdapter;
 import com.didichuxing.doraemonkit.widget.recyclerview.AbsViewBinder;
@@ -75,7 +75,7 @@ public class TimeCounterListAdapter extends AbsRecyclerAdapter<AbsViewBinder<Cou
                     showDetail(info);
                     if (info.type == CounterInfo.TYPE_APP && mContext != null) {
                         //跳转启动耗时详情页
-                        SimpleDoKitStarter.startFullScreen(AppStartInfoFragment.class,mContext);
+                        DoKit.launchFullScreen(AppStartInfoFragment.class,mContext);
                     }
                 }
             });

@@ -118,7 +118,7 @@ public class DoKitRpc {
          * 是否显示主入口icon
          */
         fun awaysShowMainIcon(awaysShow: Boolean): Builder {
-            DoKitReal.setAwaysShowMainIcon(awaysShow)
+            DoKitReal.setAlwaysShowMainIcon(awaysShow)
             return this
         }
 

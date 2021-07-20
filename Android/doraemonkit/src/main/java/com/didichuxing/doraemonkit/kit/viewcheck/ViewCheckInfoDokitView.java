@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
@@ -53,7 +55,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDoKitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
+        ViewCheckDokitView dokitView = DoKit.getDoKitView(getActivity(), ViewCheckDokitView.class);
         if (dokitView != null) {
             dokitView.removeViewSelectListener(this);
         }
@@ -81,7 +83,7 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDoKitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
+                ViewCheckDokitView dokitView = DoKit.getDoKitView(getActivity(), ViewCheckDokitView.class);
                 if (dokitView != null) {
                     dokitView.setViewSelectListener(ViewCheckInfoDokitView.this);
                 }
@@ -110,18 +112,18 @@ public class ViewCheckInfoDokitView extends AbsDokitView implements
     @Override
     public void onClick(View v) {
         if (v == mClose) {
-            DokitViewManager.getInstance().detach(ViewCheckDrawDokitView.class.getCanonicalName());
-            DokitViewManager.getInstance().detach(ViewCheckInfoDokitView.class.getCanonicalName());
-            DokitViewManager.getInstance().detach(ViewCheckDokitView.class.getCanonicalName());
+            DoKit.removeFloating(ViewCheckDrawDokitView.class);
+            DoKit.removeFloating(ViewCheckInfoDokitView.class);
+            DoKit.removeFloating(ViewCheckDokitView.class);
         }
         if (v == mNext) {
-            ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDoKitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
+            ViewCheckDokitView dokitView = DoKit.getDoKitView(getActivity(), ViewCheckDokitView.class);
             if (dokitView != null) {
                 dokitView.preformNextCheckView();
             }
         }
         if (v == mPre) {
-            ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDoKitView(getActivity(), ViewCheckDokitView.class.getCanonicalName());
+            ViewCheckDokitView dokitView = DoKit.getDoKitView(getActivity(), ViewCheckDokitView.class);
             if (dokitView != null) {
                 dokitView.preformPreCheckView();
             }

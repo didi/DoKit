@@ -5,7 +5,7 @@
     android:id="@+id/mock_location_root_container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:theme="@style/DK.Text.Dark">
+    android:background="@color/dk_color_FFFFFF">
 
 
     <Button

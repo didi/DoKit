@@ -1,11 +1,18 @@
 package com.didichuxing.doraemonkit
 
+import android.app.Activity
 import android.app.Application
+import android.content.Context
+import android.os.Bundle
 import android.view.View
 import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.didichuxing.doraemonkit.kit.core.AbsDokitView
+import com.didichuxing.doraemonkit.kit.core.BaseFragment
+import com.didichuxing.doraemonkit.kit.core.DoKitViewLaunchMode
 import com.didichuxing.doraemonkit.kit.core.McClientProcessor
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
+import kotlin.reflect.KClass
 
 /**
  * ================================================
@@ -19,6 +26,7 @@ import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 public class DoKit private constructor() {
 
     companion object {
+        const val TAG = "DoKit"
 
         lateinit var APPLICATION: Application
 
@@ -60,6 +68,117 @@ public class DoKit private constructor() {
         @JvmStatic
         fun hide() {
             DoKitReal.hide()
+        }
+
+        /**
+         * 启动悬浮窗
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun launchFloating(
+            targetClass: Class<out AbsDokitView>,
+            mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE,
+            bundle: Bundle? = null
+        ) {
+            DoKitReal.launchFloating(targetClass, mode, bundle)
+        }
+
+
+        /**
+         * 启动悬浮窗
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun launchFloating(
+            targetClass: KClass<out AbsDokitView>,
+            mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE,
+            bundle: Bundle? = null
+        ) {
+            launchFloating(targetClass.java, mode, bundle)
+        }
+
+        /**
+         * 移除悬浮窗
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        fun removeFloating(targetClass: Class<out AbsDokitView>) {
+            DoKitReal.removeFloating(targetClass)
+        }
+
+        /**
+         * 移除悬浮窗
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        fun removeFloating(targetClass: KClass<out AbsDokitView>) {
+            removeFloating(targetClass.java)
+        }
+
+        /**
+         * 移除悬浮窗
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        fun removeFloating(dokitView: AbsDokitView) {
+            DoKitReal.removeFloating(dokitView)
+        }
+
+
+        /**
+         * 启动全屏页面
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun launchFullScreen(
+            targetClass: Class<out BaseFragment>,
+            context: Context? = null,
+            bundle: Bundle? = null,
+            isSystemFragment: Boolean = false
+        ) {
+            DoKitReal.launchFullScreen(targetClass, context, bundle, isSystemFragment)
+        }
+
+        /**
+         * 启动全屏页面
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun launchFullScreen(
+            targetClass: KClass<out BaseFragment>,
+            context: Context? = null,
+            bundle: Bundle? = null,
+            isSystemFragment: Boolean = false
+        ) {
+            launchFullScreen(targetClass.java, context, bundle, isSystemFragment)
+        }
+
+
+        @JvmStatic
+        fun <T : AbsDokitView> getDoKitView(
+            activity: Activity,
+            clazz: Class<out T>
+        ): T? {
+            return DoKitReal.getDoKitView<T>(activity, clazz)
+        }
+
+        @JvmStatic
+        fun <T : AbsDokitView> getDoKitView(
+            activity: Activity,
+            clazz: KClass<out T>
+        ): T? {
+            return getDoKitView(activity, clazz.java)
         }
 
         /**
@@ -130,8 +249,8 @@ public class DoKit private constructor() {
         /**
          * 是否显示主入口icon
          */
-        fun awaysShowMainIcon(awaysShow: Boolean): Builder {
-            DoKitReal.setAwaysShowMainIcon(awaysShow)
+        fun alwaysShowMainIcon(alwaysShow: Boolean): Builder {
+            DoKitReal.setAlwaysShowMainIcon(alwaysShow)
             return this
         }
 

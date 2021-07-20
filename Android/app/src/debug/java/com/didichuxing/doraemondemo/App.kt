@@ -9,6 +9,7 @@ import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
 import com.blankj.utilcode.util.PathUtils
 import com.blankj.utilcode.util.ToastUtils
+import com.didichuxing.doraemondemo.amap.FloatGpsPresetMockKit
 import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFloatViewKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit
@@ -70,7 +71,7 @@ class App : Application() {
             .fileManagerHttpPort(9001)
             .databasePass(mapOf("Person.db" to "a_password"))
             .mcWSPort(5555)
-            .awaysShowMainIcon(true)
+            .alwaysShowMainIcon(true)
             .callBack(object : DoKitCallBack {
                 override fun onCpuCallBack(value: Float, filePath: String) {
                     super.onCpuCallBack(value, filePath)

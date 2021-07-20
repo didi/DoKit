@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 
 import androidx.fragment.app.Fragment;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
@@ -140,7 +141,7 @@ public class LayoutLevelDokitView extends AbsDokitView {
                 LayoutBorderConfig.setLayoutBorderOpen(false);
                 LayoutBorderManager.getInstance().stop();
 
-                DokitViewManager.getInstance().detach(LayoutLevelDokitView.this);
+                DoKit.removeFloating(LayoutLevelDokitView.class);
             }
         });
 

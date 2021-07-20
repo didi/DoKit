@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import com.didichuxing.doraemondemo.R
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.Category
 
@@ -22,7 +23,7 @@ class TestSimpleDokitFragmentKit : AbstractKit() {
     override fun onClickWithReturn(activity: Activity): Boolean {
         val bundle = Bundle()
         bundle.putString("test", "test")
-        startUniversalActivity(DemoDokitFragment::class.java, activity, bundle)
+        DoKit.launchFullScreen(CustomDokitFragment::class, activity, bundle)
         return true
     }
 

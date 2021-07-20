@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.RequiresApi;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.core.DoKitManager;
@@ -39,7 +40,7 @@ public class ColorPickerDokitView extends AbsDokitView {
     @Override
     public void onCreate(Context context) {
         ColorPickManager.getInstance().setColorPickerDokitView(this);
-        mInfoDokitView = (ColorPickerInfoDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), ColorPickerInfoDokitView.class.getCanonicalName());
+        mInfoDokitView = DoKit.getDoKitView(ActivityUtils.getTopActivity(), ColorPickerInfoDokitView.class);
         mImageCapture = new ImageCapture();
         try {
             mImageCapture.init(context, getBundle(), this);

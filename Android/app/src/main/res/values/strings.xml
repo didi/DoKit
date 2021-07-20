@@ -13,6 +13,7 @@
     <string name="app_btn_method_cost">函数调用耗时(TAG:MethodCostUtil)</string>
     <string name="app_btn_location">获取位置信息(系统)</string>
     <string name="app_btn_path_amap">高德路径规划</string>
+    <string name="dk_kit_gps_mock_preset">位置预设</string>
     <string name="app_btn_location_map">获取位置信息(三方地图)</string>
     <string name="app_btn_location_map2">地图展示定位</string>
     <string name="app_btn_load_img">大图检测</string>

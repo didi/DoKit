@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
@@ -58,7 +59,7 @@ public class NetWokDokitView extends AbsDokitView {
             @Override
             public void onClick(View v) {
                 WeakNetworkManager.get().setActive(false);
-                DokitViewManager.getInstance().detach(NetWokDokitView.class);
+                DoKit.removeFloating(NetWokDokitView.class);
             }
         });
     }

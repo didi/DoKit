@@ -2,8 +2,8 @@ package com.didichuxing.doraemonkit.kit.webdoor;
 
 import android.content.Context;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.constant.CachesKey;
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.didichuxing.doraemonkit.kit.webview.WebViewManager;
 import com.didichuxing.doraemonkit.util.DoKitCacheUtils;
 
@@ -79,7 +79,7 @@ public class WebDoorManager {
         @Override
         public void overrideUrlLoading(Context context, String url) {
             WebViewManager.INSTANCE.setUrl(url);
-            SimpleDoKitStarter.startFullScreen(WebDoorDefaultFragment.class, context);
+            DoKit.launchFullScreen(WebDoorDefaultFragment.class, context);
 
         }
     }

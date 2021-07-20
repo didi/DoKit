@@ -1,6 +1,7 @@
 package com.didichuxing.doraemonkit.kit.mc.ability
 
 import android.view.View
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.*
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
@@ -31,18 +32,17 @@ class DokitMcModuleProcessor : DokitAbility.DokitModuleProcessor {
         actions?.let {
             when (actions["action"]) {
                 "launch_host_view" -> {
-                    val dokitIntent = DokitIntent(HostDokitView::class.java)
-                    DokitViewManager.instance.attach(dokitIntent)
+                    DoKit.launchFloating(HostDokitView::class)
+
                 }
                 "launch_client_view" -> {
-                    val dokitIntent = DokitIntent(ClientDokitView::class.java)
-                    DokitViewManager.instance.attach(dokitIntent)
+                    DoKit.launchFloating(ClientDokitView::class)
                 }
                 "launch_recoding_view" -> {
                     if (DoKitMcManager.IS_MC_RECODING ||
                         SPUtils.getInstance().getBoolean(DoKitMcManager.MC_CASE_RECODING_KEY, false)
                     ) {
-                        SimpleDoKitStarter.startFloating(RecordingDokitView::class.java)
+                        DoKit.launchFloating(RecordingDokitView::class)
                         DoKitMcManager.IS_MC_RECODING = true
                         DoKitMcManager.MC_CASE_ID =
                             SPUtils.getInstance().getString(DoKitMcManager.MC_CASE_ID_KEY)

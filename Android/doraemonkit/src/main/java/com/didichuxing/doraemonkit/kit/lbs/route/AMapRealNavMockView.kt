@@ -11,6 +11,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.core.view.children
 import com.amap.api.navi.AMapNavi
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView
 import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
@@ -39,7 +40,7 @@ class AMapRealNavMockView : AbsDokitView() {
     private var mAMapNavi: AMapNavi? = null
 
     override fun onCreate(context: Context?) {
-        mAMapNavi = AMapNavi.getInstance(activity?.application)
+        mAMapNavi = AMapNavi.getInstance(activity.application)
     }
 
     override fun onCreateView(context: Context?, rootView: FrameLayout?): View {
@@ -59,7 +60,7 @@ class AMapRealNavMockView : AbsDokitView() {
             val tvProgress = it.findViewById<TextView>(R.id.tv_progress)
             tvProgress.text = "当前导航进度: 0%"
             close.setOnClickListener {
-                DokitViewManager.instance.detach(this)
+                DoKit.removeFloating(this)
             }
 
 

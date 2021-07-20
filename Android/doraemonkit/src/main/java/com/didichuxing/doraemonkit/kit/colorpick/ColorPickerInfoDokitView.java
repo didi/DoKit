@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.ColorPickConfig;
@@ -62,8 +63,8 @@ public class ColorPickerInfoDokitView extends AbsDokitView {
             public void onClick(View v) {
                 ColorPickManager.getInstance().setColorPickerDokitView(null);
                 ColorPickConfig.setColorPickOpen(false);
-                DokitViewManager.getInstance().detach(ColorPickerDokitView.class.getCanonicalName());
-                DokitViewManager.getInstance().detach(ColorPickerInfoDokitView.class.getCanonicalName());
+                DoKit.removeFloating(ColorPickerDokitView.class);
+                DoKit.removeFloating(ColorPickerInfoDokitView.class);
                 //取色器kit是依赖在当前透明的Activity上的 所以关闭控件时需要finish
                 if (ActivityUtils.getTopActivity() != null && ActivityUtils.getTopActivity() instanceof TranslucentActivity) {
                     ActivityUtils.getTopActivity().finish();
