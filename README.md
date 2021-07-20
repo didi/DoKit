@@ -172,9 +172,9 @@ tips ： 如果使用我们滴滴优秀的开源跨端方案 [chameleon](https:/
 
 
 
-## 微信交流群
+## 微信交流群(已满员，近期不会开设二群，看后期人数)
 
-扫描以下二维码或者搜索**jintsky**加我微信入群，注意请添加备注：DoKit社区用户，否则你的申请将不会被验证通过。
+扫描以下二维码或者搜索**jintsky**加我微信好友，注意请添加备注：昵称-DoKit社区用户，否则你的申请将不会被验证通过。
 
 <div align="center">    
  <img src="https://pt-starimg.didistatic.com/static/starimg/img/f4gsSRtscV1601274280794.jpg" width = "160"  alt="微信交流群" align=left />
