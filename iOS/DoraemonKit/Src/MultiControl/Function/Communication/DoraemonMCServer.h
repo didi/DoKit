@@ -17,7 +17,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (void)sendMessage:(NSString *)message;
 
-+ (BOOL)isServer;
++ (BOOL)isOpen;
+
++ (void)close;
+
++ (NSInteger)connectCount;
+
 
 @end
 

@@ -39,8 +39,9 @@
     [super viewDidLoad];
     
     [self setupUI];
-    [self startServer];
-    
+    if ([self isServer]) {
+        [self startServer];
+    }
 }
 
 - (UIActivityIndicatorView *)loadingView {
@@ -87,20 +88,21 @@
 }
 
 - (void)setupUI {
-    self.title = [self isServer] ? @"主机服务二维码" : @"扫码连接主机" ;
+    self.title = [self isServer] ? @"主机服务二维码" : @"连接主机" ;
     if ([self isServer]) {
         self.qrCodeImage = [[UIImageView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width/2.0 - 150, 100, 300, 300)];
         [self.view addSubview:self.qrCodeImage];
-        self.qrCodeImage.image = [self.class QRCodeFromString:[NSString stringWithFormat:@"http://%@:%zd/MyWs",[DoraemonAppInfoUtil getIPAddress:YES] , kDoraemonMCServerPort] size:300];
+        NSString *url = [NSString stringWithFormat:@"http://%@:%zd/MyWs",[DoraemonAppInfoUtil getIPAddress:YES] , kDoraemonMCServerPort];
+        self.qrCodeImage.image = [self.class QRCodeFromString:url size:300];
         
-        self.bottomTip = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(self.qrCodeImage.frame) + 50, self.view.bounds.size.width - 60, 50)];
+        self.bottomTip = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(self.qrCodeImage.frame) + 50, self.view.bounds.size.width - 60, 100)];
         self.bottomTip.font = [UIFont systemFontOfSize:15];
         self.bottomTip.numberOfLines = 0 ;
         self.bottomTip.textColor = [UIColor doraemon_blue];
         self.bottomTip.textAlignment = NSTextAlignmentCenter;
         
         [self.view addSubview:self.bottomTip];
-        self.bottomTip.text = @"请用其他手机的一机多控功能扫描以上二维码,连接该机器";
+        self.bottomTip.text = [NSString stringWithFormat: @"请用其他手机的一机多控功能扫描以上二维码,连接该机器\n连接地址:%@",url];
     }
 }
 
@@ -129,6 +131,23 @@
     [super viewWillAppear:animated];
     
     if (![self isServer]) {
+        
+#if TARGET_IPHONE_SIMULATOR  //模拟器
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"连接主机" message:@"请输入主机Ip地址,点击确定,连接主机" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSString *ip = [alert textFields].firstObject.text;
+            NSString *url = [NSString stringWithFormat:@"http://%@:%zd/MyWs", ip , kDoraemonMCServerPort];
+            [self dealUrl:url];
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action];
+        [alert addAction:cancelAction];
+        [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.placeholder = @"请输入主机ip地址";
+        }];
+        [self presentViewController:alert animated:YES completion:nil];
+#else      //真机
         DoraemonQRScanView *scaner = [[DoraemonQRScanView alloc] initWithFrame:CGRectMake(0, self.bigTitleView.doraemon_bottom, self.view.doraemon_width, self.view.doraemon_height-self.bigTitleView.doraemon_bottom)];
         scaner.delegate = self;
         scaner.showScanLine = YES;
@@ -138,6 +157,7 @@
         [self.view addSubview:scaner];
         self.scanView = scaner;
         [scaner startScanning];
+#endif
     }
 
 }
@@ -158,8 +178,8 @@
 }
 
 - (void)dealUrl:(NSString *)URL{
-    [DoraemonMCClient connectWithUrl:URL];
     [self leftNavBackClick:nil];
+    [DoraemonMCClient connectWithUrl:URL];
 }
 
 - (BOOL)needBigTitleView{

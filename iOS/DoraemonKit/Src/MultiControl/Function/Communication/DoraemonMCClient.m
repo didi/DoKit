@@ -9,6 +9,7 @@
 #import <SocketRocket/SocketRocket.h>
 #import "DoraemonToastUtil.h"
 #import "DoraemonMCCommandExcutor.h"
+#import "DoraemonHomeWindow.h"
 
 @interface DoraemonMCClient () <SRWebSocketDelegate>
 
@@ -41,18 +42,15 @@
     [[self shareInstance] disConnect];
 }
 
-- (BOOL)isConnected {
-    return self.isConnected;
-}
 
 - (void)disConnect {
     [self.wsInstance close];
     self.wsInstance = nil;
+    self.isConnected = NO;
 }
 
 - (void)connectWithUrl:(NSString *)url {
     [self disConnect];
-    
     NSURL *URL = [NSURL URLWithString:url];
     self.wsInstance = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:URL]];
     self.wsInstance.delegate = self;
@@ -85,11 +83,17 @@
         toastContent.length == 0) {
         return;
     }
+    UIWindow *currentWindow = nil;
+    if ([DoraemonHomeWindow shareInstance].hidden) {
+        currentWindow = [UIApplication sharedApplication].keyWindow;
+    }else {
+        currentWindow = [DoraemonHomeWindow shareInstance];
+    }
     if ([NSThread currentThread].isMainThread) {
-        [DoraemonToastUtil showToastBlack:toastContent inView:[UIApplication sharedApplication].keyWindow];
+        [DoraemonToastUtil showToastBlack:toastContent inView:currentWindow];
     }else {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [DoraemonToastUtil showToastBlack:toastContent inView:[UIApplication sharedApplication].keyWindow];
+            [DoraemonToastUtil showToastBlack:toastContent inView:currentWindow];
         });
     }
 }

@@ -73,22 +73,27 @@
     UIView *currentV = view;
     BOOL isOnCell = NO;
     while (currentV && currentV != currentWindow) {
-        if ([currentV isKindOfClass:[UITableViewCell class]]) {
+        NSDictionary *reuseViewMap = @{
+            NSStringFromClass(UICollectionViewCell.class) : UICollectionView.class,
+            NSStringFromClass(UITableViewCell.class) : UITableView.class,
+        };
+        __block Class resueViewCls =  reuseViewMap[NSStringFromClass(currentV.class)];
+        if (resueViewCls) {
             isOnCell = YES;
-            UITableViewCell *cell = (UITableViewCell *)currentV;
-            UITableView *tableView = nil;
+            UIView *cell = (UITableViewCell *)currentV;
+            UIView *reuseViewInstance = nil;
             UIView *superV = cell.superview;
             while (superV) {
-                if ([superV isKindOfClass:[UITableView class]]) {
-                    tableView = (UITableView *)superV;
+                if ([superV isKindOfClass:resueViewCls]) {
+                    reuseViewInstance = (UITableView *)superV;
                     break;
                 }
                 superV = superV.superview;
             }
-            if (tableView) {
-                self.cellIndexPath = [tableView indexPathForCell:cell];
+            if (reuseViewInstance && [reuseViewInstance respondsToSelector:@selector(indexPathForCell:)]) {
+                self.cellIndexPath = [reuseViewInstance performSelector:@selector(indexPathForCell:) withObject:cell];
             }
-            currentV = tableView;
+            currentV = reuseViewInstance;
             self.pathNodeList = currentPathNodeList.copy;
             [currentPathNodeList removeAllObjects];
             

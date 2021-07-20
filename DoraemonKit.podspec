@@ -100,5 +100,6 @@ Pod::Spec.new do |s|
       ss.dependency 'CocoaLumberjack'
       ss.dependency 'CocoaHTTPServer'
     end
+
 end
 
