@@ -3,7 +3,8 @@
 ## DoKit Android 最新版本
 **由于jcenter事件的影响，我们需要将DoKit For Android迁移到mavenCentral()，但是需要更改groupId.所以大家要注意一下，具体的更新信息如下：**
 
-**lastversion:3.4.1**
+**lastversion:3.4.2；kotlin编译插件为1.4.32 ；支持Gradle 6.8及以上**
+**lastversion:3.4.2.1； kotlin编译插件为1.3.72； 支持Gradle 6.8及以下**
 
 |DoKit|最新版本|描述|
 |-|-|-|
@@ -213,18 +214,17 @@ override fun onCreate() {
 
 **DoKit入口api**
 ```kotlin
-class DoKit private constructor() {
-
+public class DoKit private constructor() {
     companion object {
+        
 
-        lateinit var APPLICATION: Application
 
         /**
          * 主icon是否处于显示状态
          */
         @JvmStatic
         val isMainIconShow: Boolean
-            get() = DoKitReal.isShow
+            get() = false
 
 
         /**
@@ -232,7 +232,6 @@ class DoKit private constructor() {
          */
         @JvmStatic
         fun show() {
-            DoKitReal.show()
         }
 
         /**
@@ -240,7 +239,6 @@ class DoKit private constructor() {
          */
         @JvmStatic
         fun showToolPanel() {
-            DoKitReal.showToolPanel()
         }
 
         /**
@@ -248,7 +246,6 @@ class DoKit private constructor() {
          */
         @JvmStatic
         fun hideToolPanel() {
-            DoKitReal.hideToolPanel()
         }
 
         /**
@@ -256,7 +253,110 @@ class DoKit private constructor() {
          */
         @JvmStatic
         fun hide() {
-            DoKitReal.hide()
+        }
+
+        /**
+         * 启动悬浮窗
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun launchFloating(
+            targetClass: Class<out AbsDokitView>,
+            mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE,
+            bundle: Bundle? = null
+        ) {
+        }
+
+
+        /**
+         * 启动悬浮窗
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun launchFloating(
+            targetClass: KClass<out AbsDokitView>,
+            mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE,
+            bundle: Bundle? = null
+        ) {
+        }
+
+        /**
+         * 移除悬浮窗
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        fun removeFloating(targetClass: Class<out AbsDokitView>) {
+        }
+
+        /**
+         * 移除悬浮窗
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        fun removeFloating(targetClass: KClass<out AbsDokitView>) {
+        }
+
+        /**
+         * 移除悬浮窗
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        fun removeFloating(dokitView: AbsDokitView) {
+        }
+
+
+        /**
+         * 启动全屏页面
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun launchFullScreen(
+            targetClass: Class<out BaseFragment>,
+            context: Context? = null,
+            bundle: Bundle? = null,
+            isSystemFragment: Boolean = false
+        ) {
+        }
+
+        /**
+         * 启动全屏页面
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun launchFullScreen(
+            targetClass: KClass<out BaseFragment>,
+            context: Context? = null,
+            bundle: Bundle? = null,
+            isSystemFragment: Boolean = false
+        ) {
+        }
+
+
+        @JvmStatic
+        fun <T : AbsDokitView> getDoKitView(
+            activity: Activity,
+            clazz: Class<out T>
+        ): T? {
+            return null
+        }
+
+        @JvmStatic
+        fun <T : AbsDokitView> getDoKitView(
+            activity: Activity,
+            clazz: KClass<out T>
+        ): T? {
+            return null
         }
 
         /**
@@ -268,7 +368,6 @@ class DoKit private constructor() {
             view: View? = null,
             param: Map<String, String>? = null
         ) {
-            DoKitReal.sendCustomEvent(eventType, view, param)
         }
     }
 
@@ -279,11 +378,9 @@ class DoKit private constructor() {
         private var listKits: List<AbstractKit> = arrayListOf()
 
         init {
-            APPLICATION = app
         }
 
         fun productId(productId: String): Builder {
-            this.productId = productId
             return this
         }
 
@@ -291,7 +388,6 @@ class DoKit private constructor() {
          * mapKits & listKits 二选一
          */
         fun customKits(mapKits: LinkedHashMap<String, List<AbstractKit>>): Builder {
-            this.mapKits = mapKits
             return this
         }
 
@@ -299,7 +395,6 @@ class DoKit private constructor() {
          * mapKits & listKits 二选一
          */
         fun customKits(listKits: List<AbstractKit>): Builder {
-            this.listKits = listKits
             return this
         }
 
@@ -307,7 +402,6 @@ class DoKit private constructor() {
          * H5任意门全局回调
          */
         fun webDoorCallback(callback: WebDoorManager.WebDoorCallback): Builder {
-            DoKitReal.setWebDoorCallback(callback)
             return this
         }
 
@@ -315,20 +409,17 @@ class DoKit private constructor() {
          * 禁用app信息上传开关，该上传信息只为做DoKit接入量的统计，如果用户需要保护app隐私，可调用该方法进行禁用
          */
         fun disableUpload(): Builder {
-            DoKitReal.disableUpload()
             return this
         }
 
         fun debug(debug: Boolean): Builder {
-            DoKitReal.setDebug(debug)
             return this
         }
 
         /**
          * 是否显示主入口icon
          */
-        fun awaysShowMainIcon(awaysShow: Boolean): Builder {
-            DoKitReal.setAwaysShowMainIcon(awaysShow)
+        fun alwaysShowMainIcon(alwaysShow: Boolean): Builder {
             return this
         }
 
@@ -336,7 +427,6 @@ class DoKit private constructor() {
          * 设置加密数据库密码
          */
         fun databasePass(map: Map<String, String>): Builder {
-            DoKitReal.setDatabasePass(map)
             return this
         }
 
@@ -344,7 +434,6 @@ class DoKit private constructor() {
          * 设置文件管理助手http端口号
          */
         fun fileManagerHttpPort(port: Int): Builder {
-            DoKitReal.setFileManagerHttpPort(port)
             return this
         }
 
@@ -352,7 +441,6 @@ class DoKit private constructor() {
          * 一机多控端口号
          */
         fun mcWSPort(port: Int): Builder {
-            DoKitReal.setMCWSPort(port)
             return this
         }
 
@@ -360,7 +448,6 @@ class DoKit private constructor() {
          * 一机多控自定义拦截器
          */
         fun mcClientProcess(interceptor: McClientProcessor): Builder {
-            DoKitReal.setMCIntercept(interceptor)
             return this
         }
 
@@ -368,7 +455,6 @@ class DoKit private constructor() {
          *设置dokit的性能监控全局回调
          */
         fun callBack(callback: DoKitCallBack): Builder {
-            DoKitReal.setCallBack(callback)
             return this
         }
 
@@ -377,13 +463,11 @@ class DoKit private constructor() {
          * 设置扩展网络拦截器的代理对象
          */
         fun netExtInterceptor(extInterceptorProxy: DokitExtInterceptor.DokitExtInterceptorProxy): Builder {
-            DoKitReal.setNetExtInterceptor(extInterceptorProxy)
             return this
         }
 
 
         fun build() {
-            DoKitReal.install(app, mapKits, listKits, productId)
         }
     }
 }

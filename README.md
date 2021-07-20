@@ -13,7 +13,7 @@
   - [六、支持自定义的业务工具集成到面板中](#六支持自定义的业务工具集成到面板中)
   - [七、微信小程序专项工具](#七微信小程序专项工具)
 - [相关文档](#相关文档)
-- [微信交流群](#微信交流群)
+- [微信交流群(已满员，近期不会开设二群，看后期人数)](#微信交流群已满员近期不会开设二群看后期人数)
 - [QQ 交流群](#qq-交流群)
 - [微信公众号](#微信公众号)
 - [项目成员](#项目成员)
@@ -26,7 +26,7 @@
 <div align="center">    
  <img src="https://pt-starimg.didistatic.com/static/starimg/img/J0WO7tUi9U1616143930629.png" width = "250"  alt="DoraemonKit" align=left />
  <img src="https://img.shields.io/github/license/didi/DoraemonKit.svg" align=left />
- <img src="https://img.shields.io/badge/Android-3.4.1-blue.svg" align=left />
+ <img src="https://img.shields.io/badge/Android-3.4.2-blue.svg" align=left />
  <img src="https://img.shields.io/badge/iOS-3.0.7-yellow.svg" align=left />
  <img src="https://img.shields.io/badge/Flutter-0.6.0-blue.svg" align=left />
  <img src="https://img.shields.io/badge/miniapp-0.0.1-red.svg" align=left />

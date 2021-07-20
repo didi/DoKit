@@ -74,6 +74,7 @@ public class AopApp extends Application {
 
                 })
                 .build();
+
         //DoraemonKit.install(this, kits, "70e78c27f9174d68668d8a66a2b66483")
     }
 
