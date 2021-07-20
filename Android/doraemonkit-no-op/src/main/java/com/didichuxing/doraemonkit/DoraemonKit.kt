@@ -2,10 +2,10 @@ package com.didichuxing.doraemonkit
 
 import android.app.Application
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.core.MCInterceptor
+import com.didichuxing.doraemonkit.kit.core.McClientProcessor
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
-import com.didichuxing.doraemonkit.kit.performance.PerformanceValueListener
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
+
 
 /**
  * Created by jint on 2018/6/22.
@@ -110,7 +110,7 @@ object DoraemonKit {
     }
 
     @JvmStatic
-    fun setMCIntercept(interceptor: MCInterceptor) {
+    fun setMCIntercept(interceptor: McClientProcessor) {
     }
 
     /**

@@ -2,9 +2,9 @@ package com.didichuxing.doraemonkit.kit.h5_help
 
 import android.app.Activity
 import android.content.Context
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 import com.google.auto.service.AutoService
 
 /**
@@ -28,7 +28,7 @@ class H5Kit : AbstractKit() {
         get() = true
 
     override fun onClickWithReturn(activity: Activity): Boolean {
-        SimpleDoKitStarter.startFloating(H5DokitView::class.java)
+        DoKit.launchFloating(H5DokitView::class)
         return true
     }
 

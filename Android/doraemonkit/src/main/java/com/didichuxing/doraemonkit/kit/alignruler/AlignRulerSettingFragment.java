@@ -8,13 +8,13 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.AlignRulerConfig;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 /**
@@ -50,11 +50,11 @@ public class AlignRulerSettingFragment extends BaseFragment {
             public void onSettingItemSwitch(View view, SettingItem data, boolean on) {
                 if (data.desc == R.string.dk_kit_align_ruler) {
                     if (on) {
-                        SimpleDoKitStarter.startFloating(AlignRulerMarkerDokitView.class);
-                        SimpleDoKitStarter.startFloating(AlignRulerLineDokitView.class);
+                        DoKit.launchFloating(AlignRulerMarkerDokitView.class);
+                        DoKit.launchFloating(AlignRulerLineDokitView.class);
                     } else {
-                        DokitViewManager.getInstance().detach(AlignRulerMarkerDokitView.class);
-                        DokitViewManager.getInstance().detach(AlignRulerLineDokitView.class);
+                        DoKit.removeFloating(AlignRulerMarkerDokitView.class);
+                        DoKit.removeFloating(AlignRulerLineDokitView.class);
                     }
                     AlignRulerConfig.setAlignRulerOpen(on);
                 }

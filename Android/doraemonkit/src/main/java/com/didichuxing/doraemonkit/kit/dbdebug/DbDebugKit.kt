@@ -1,14 +1,9 @@
-package com.didichuxing.doraemonkit.kit.dbdebug;
+package com.didichuxing.doraemonkit.kit.dbdebug
 
-import android.app.Activity;
-import android.content.Context;
-
-import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.google.auto.service.AutoService;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import android.app.Activity
+import android.content.Context
+import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.kit.AbstractKit
 
 /**
  * ================================================
@@ -20,37 +15,21 @@ import org.jetbrains.annotations.Nullable;
  * ================================================
  */
 //@AutoService(AbstractKit.class)
-public class DbDebugKit extends AbstractKit {
+class DbDebugKit : AbstractKit() {
+    override val name: Int
+        get() = R.string.dk_tools_dbdebug
+    override val icon: Int
+        get() = R.mipmap.dk_db_view
 
-
-    @Override
-    public int getName() {
-        return R.string.dk_tools_dbdebug;
+    override fun onClickWithReturn(activity: Activity): Boolean {
+        return true
     }
 
-    @Override
-    public int getIcon() {
-        return R.mipmap.dk_db_view;
-    }
+    override fun onAppInit(context: Context?) {}
+    override val isInnerKit: Boolean
+        get() = true
 
-    @Override
-    public boolean onClickWithReturn(@NotNull Activity activity) {
-        return true;
-    }
-
-
-    @Override
-    public void onAppInit(Context context) {
-
-    }
-
-    @Override
-    public boolean isInnerKit() {
-        return true;
-    }
-
-    @Override
-    public String innerKitId() {
-        return "dokit_sdk_comm_ck_dbview";
+    override fun innerKitId(): String {
+        return "dokit_sdk_comm_ck_dbview"
     }
 }

@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitMcManager
 import com.didichuxing.doraemonkit.kit.mc.client.ClientDokitView
 import com.didichuxing.doraemonkit.kit.mc.client.DoKitWsClient
@@ -34,7 +34,7 @@ class DoKitMcClientFragment : BaseFragment() {
             "当前设备已连接主机:【${DoKitMcManager.HOST_INFO?.deviceName}】"
         findViewById<View>(R.id.btn_close).setOnClickListener {
             lifecycleScope.launch {
-                SimpleDoKitStarter.removeFloating(ClientDokitView::class.java)
+                DoKit.removeFloating(ClientDokitView::class)
                 DoKitWsClient.close()
                 if (activity is DoKitMcActivity) {
                     (activity as DoKitMcActivity).changeFragment(WSMode.UNKNOW)
@@ -43,7 +43,7 @@ class DoKitMcClientFragment : BaseFragment() {
 
         }
         //启动悬浮窗
-        SimpleDoKitStarter.startFloating(ClientDokitView::class.java)
+        DoKit.launchFloating(ClientDokitView::class)
     }
 
 

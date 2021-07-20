@@ -4,25 +4,22 @@ import android.os.Bundle
 import android.view.View
 import android.widget.CompoundButton
 import com.didichuxing.doraemondemo.R
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.core.AbsDokitFragment
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter.startFullScreen
-import com.didichuxing.doraemonkit.kit.core.ViewSetupHelper
 
 /**
  * @Author: changzuozhen
  * @Date: 2020-12-22
  * 切换全屏与否只需要调整继承关系即可
- * @see DemoDokitFragment
+ * @see CustomDokitFragment
  *
  * @see TestSimpleDokitFloatView
  *
  *
  * 悬浮窗，支持折叠
  *
- * @see com.didichuxing.doraemonkit.kit.core.SimpleDokitView
  * 启动工具函数
  *
- * @see com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter.startFloating
  *
  *
  * 全屏页面
@@ -30,15 +27,14 @@ import com.didichuxing.doraemonkit.kit.core.ViewSetupHelper
  * @see com.didichuxing.doraemonkit.kit.core.AbsDokitFragment
  * 启动工具函数
  *
- * @see com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter.startFullScreen
  */
-class DemoDokitFragment : AbsDokitFragment() {
+class CustomDokitFragment : AbsDokitFragment() {
     override fun onViewCreated(rootView: View?) {
         super.onViewCreated(view)
         ViewSetupHelper.setupButton(rootView, R.id.test1, "TestSimpleDokitFragment") { v: View? ->
             val bundle = Bundle()
             bundle.putString("test", "test")
-            startFullScreen(DemoDokitFragment::class.java, context, isSystemFragment = false)
+            DoKit.launchFullScreen(CustomDokitFragment::class.java, context, isSystemFragment = false)
         }
 
         // 隐藏

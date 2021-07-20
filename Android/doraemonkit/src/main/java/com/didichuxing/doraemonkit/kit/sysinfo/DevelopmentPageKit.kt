@@ -1,52 +1,33 @@
-package com.didichuxing.doraemonkit.kit.sysinfo;
+package com.didichuxing.doraemonkit.kit.sysinfo
 
-import android.app.Activity;
-import android.content.Context;
-
-import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.util.DoKitSystemUtil;
-import com.google.auto.service.AutoService;
-
-import org.jetbrains.annotations.NotNull;
+import android.app.Activity
+import android.content.Context
+import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.didichuxing.doraemonkit.util.DoKitSystemUtil
+import com.google.auto.service.AutoService
 
 /**
  * 进入开发者选项
  * Created by jint on 2018/6/22.
  */
-@AutoService(AbstractKit.class)
-public class DevelopmentPageKit extends AbstractKit {
+@AutoService(AbstractKit::class)
+class DevelopmentPageKit : AbstractKit() {
+    override val name: Int
+        get() = R.string.dk_kit_develop
+    override val icon: Int
+        get() = R.mipmap.dk_kit_devlop
 
-
-    @Override
-    public int getName() {
-        return R.string.dk_kit_develop;
+    override fun onClickWithReturn(activity: Activity): Boolean {
+        DoKitSystemUtil.startDevelopmentActivity(activity)
+        return true
     }
 
-    @Override
-    public int getIcon() {
-        return R.mipmap.dk_kit_devlop;
-    }
+    override fun onAppInit(context: Context?) {}
+    override val isInnerKit: Boolean
+        get() = true
 
-    @Override
-    public boolean onClickWithReturn(@NotNull Activity activity) {
-        DoKitSystemUtil.startDevelopmentActivity(activity);
-        return true;
-    }
-
-    @Override
-    public void onAppInit(Context context) {
-
-    }
-
-
-    @Override
-    public boolean isInnerKit() {
-        return true;
-    }
-
-    @Override
-    public String innerKitId() {
-        return "dokit_sdk_comm_ck_devpage";
+    override fun innerKitId(): String {
+        return "dokit_sdk_comm_ck_devpage"
     }
 }

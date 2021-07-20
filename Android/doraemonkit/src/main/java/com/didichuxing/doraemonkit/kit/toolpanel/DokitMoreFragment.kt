@@ -7,14 +7,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
-import com.didichuxing.doraemonkit.util.GsonUtils
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 import com.didichuxing.doraemonkit.kit.network.NetworkManager
 import com.didichuxing.doraemonkit.kit.toolpanel.bean.MorePageGroupBean
 import com.didichuxing.doraemonkit.kit.webview.CommWebViewFragment
 import com.didichuxing.doraemonkit.kit.webview.WebViewManager
+import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.volley.VolleyManager
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar
 
@@ -119,19 +119,17 @@ class DokitMoreFragment : BaseFragment() {
                     "native" -> {
                         if (item.link == "dokit://native/function_manager") {
                             activity?.let {
-                                SimpleDoKitStarter.startFullScreen(
+                                DoKit.launchFullScreen(
                                     DokitManagerFragment::class.java,
                                     it
                                 )
                             }
-                        } else {
-
                         }
                     }
                     "web" -> {
                         activity?.let {
                             WebViewManager.url = item.link
-                            SimpleDoKitStarter.startFullScreen(
+                            DoKit.launchFullScreen(
                                 CommWebViewFragment::class.java,
                                 it
                             )

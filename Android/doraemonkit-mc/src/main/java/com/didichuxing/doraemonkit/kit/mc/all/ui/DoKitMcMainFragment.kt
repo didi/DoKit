@@ -12,13 +12,13 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.constant.WSMode
 import com.didichuxing.doraemonkit.extension.isTrueWithCor
 import com.didichuxing.doraemonkit.util.GsonUtils
 import com.didichuxing.doraemonkit.util.ToastUtils
 import com.didichuxing.doraemonkit.kit.core.BaseFragment
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager
 import com.didichuxing.doraemonkit.kit.mc.ability.McHttpManager.RESPONSE_OK
 import com.didichuxing.doraemonkit.kit.mc.all.DoKitWindowManager
@@ -166,7 +166,7 @@ class DoKitMcMainFragment : BaseFragment() {
             lifecycleScope.launch(mExceptionHandler) {
                 val result = McHttpManager.mockStop<Any>(mcCaseInfoDialog())
                 if (result.code == RESPONSE_OK) {
-                    SimpleDoKitStarter.removeFloating(RecordingDokitView::class.java)
+                    DoKit.removeFloating(RecordingDokitView::class)
                     SPUtils.getInstance().put(DoKitMcManager.MC_CASE_RECODING_KEY, false)
                     DoKitManager.WS_MODE = WSMode.UNKNOW
                     DoKitMcManager.IS_MC_RECODING = false
@@ -211,7 +211,7 @@ class DoKitMcMainFragment : BaseFragment() {
     private fun saveRecodingStatus(configInfo: McCaseInfo?) {
         configInfo?.let {
             DoKitMcManager.MC_CASE_ID = it.caseId
-            SimpleDoKitStarter.startFloating(RecordingDokitView::class.java)
+            DoKit.launchFloating(RecordingDokitView::class.java)
             DoKitManager.WS_MODE = WSMode.RECORDING
             SPUtils.getInstance().put(DoKitMcManager.MC_CASE_ID_KEY, DoKitMcManager.MC_CASE_ID)
             SPUtils.getInstance().put(DoKitMcManager.MC_CASE_RECODING_KEY, true)

@@ -36,13 +36,6 @@ interface DokitViewManagerInterface {
     fun detach(tag: String)
 
 
-    /**
-     * 移除指定的dokitView
-     *
-     * @param doKitViewClass
-     */
-    fun detach(doKitViewClass: KClass<out AbsDokitView>)
-
     fun detach(doKitViewClass: Class<out AbsDokitView>)
 
 
@@ -58,7 +51,8 @@ interface DokitViewManagerInterface {
      * @param tag
      * @return
      */
-    fun getDoKitView(activity: Activity, tag: String): AbsDokitView?
+    fun <T:AbsDokitView> getDoKitView(activity: Activity, clazz: Class<T>): AbsDokitView?
+
 
     /**
      * 获取页面上所有的dokitView

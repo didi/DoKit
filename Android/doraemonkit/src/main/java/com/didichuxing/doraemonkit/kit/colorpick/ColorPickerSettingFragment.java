@@ -11,12 +11,13 @@ import androidx.annotation.Nullable;
 
 import android.view.View;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.config.ColorPickConfig;
 import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.constant.RequestCode;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
+import com.didichuxing.doraemonkit.kit.core.DoKitViewLaunchMode;
 import com.didichuxing.doraemonkit.util.ToastUtils;
 
 /**
@@ -71,12 +72,12 @@ public class ColorPickerSettingFragment extends BaseFragment {
      */
     private void showColorPicker(Intent intent) {
 
-        SimpleDoKitStarter.startFloating(ColorPickerInfoDokitView.class);
+        DoKit.launchFloating(ColorPickerInfoDokitView.class);
 
 
         Bundle bundle = new Bundle();
         bundle.putParcelable("data", intent);
-        SimpleDoKitStarter.startFloating(ColorPickerDokitView.class, bundle);
+        DoKit.launchFloating(ColorPickerDokitView.class, DoKitViewLaunchMode.SINGLE_INSTANCE, bundle);
 
     }
 

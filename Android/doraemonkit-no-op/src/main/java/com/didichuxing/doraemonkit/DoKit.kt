@@ -1,13 +1,17 @@
 package com.didichuxing.doraemonkit
 
+import android.app.Activity
 import android.app.Application
+import android.content.Context
+import android.os.Bundle
 import android.view.View
 import com.didichuxing.doraemonkit.kit.AbstractKit
-import com.didichuxing.doraemonkit.kit.core.MCInterceptor
+import com.didichuxing.doraemonkit.kit.core.*
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterceptor
 import com.didichuxing.doraemonkit.kit.performance.PerformanceValueListener
 import com.didichuxing.doraemonkit.kit.webdoor.WebDoorManager
 import java.lang.NullPointerException
+import kotlin.reflect.KClass
 
 /**
  * ================================================
@@ -20,6 +24,8 @@ import java.lang.NullPointerException
  */
 public class DoKit private constructor() {
     companion object {
+        const val TAG = "DoKit"
+
 
         /**
          * 主icon是否处于显示状态
@@ -58,6 +64,110 @@ public class DoKit private constructor() {
         }
 
         /**
+         * 启动悬浮窗
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun launchFloating(
+            targetClass: Class<out AbsDokitView>,
+            mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE,
+            bundle: Bundle? = null
+        ) {
+        }
+
+
+        /**
+         * 启动悬浮窗
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun launchFloating(
+            targetClass: KClass<out AbsDokitView>,
+            mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE,
+            bundle: Bundle? = null
+        ) {
+        }
+
+        /**
+         * 移除悬浮窗
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        fun removeFloating(targetClass: Class<out AbsDokitView>) {
+        }
+
+        /**
+         * 移除悬浮窗
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        fun removeFloating(targetClass: KClass<out AbsDokitView>) {
+        }
+
+        /**
+         * 移除悬浮窗
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        fun removeFloating(dokitView: AbsDokitView) {
+        }
+
+
+        /**
+         * 启动全屏页面
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun launchFullScreen(
+            targetClass: Class<out BaseFragment>,
+            context: Context? = null,
+            bundle: Bundle? = null,
+            isSystemFragment: Boolean = false
+        ) {
+        }
+
+        /**
+         * 启动全屏页面
+         * @JvmStatic:允许使用java的静态方法的方式调用
+         * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun launchFullScreen(
+            targetClass: KClass<out BaseFragment>,
+            context: Context? = null,
+            bundle: Bundle? = null,
+            isSystemFragment: Boolean = false
+        ) {
+        }
+
+
+        @JvmStatic
+        fun <T : AbsDokitView> getDoKitView(
+            activity: Activity,
+            clazz: Class<out T>
+        ): T? {
+            return null
+        }
+
+        @JvmStatic
+        fun <T : AbsDokitView> getDoKitView(
+            activity: Activity,
+            clazz: KClass<out T>
+        ): T? {
+            return null
+        }
+
+        /**
          * 发送自定义一机多控事件
          */
         @JvmStatic
@@ -70,8 +180,13 @@ public class DoKit private constructor() {
     }
 
 
-    class Builder(val app: Application) {
+    class Builder(private val app: Application) {
+        private var productId: String = ""
+        private var mapKits: LinkedHashMap<String, List<AbstractKit>> = linkedMapOf()
+        private var listKits: List<AbstractKit> = arrayListOf()
 
+        init {
+        }
 
         fun productId(productId: String): Builder {
             return this
@@ -140,9 +255,17 @@ public class DoKit private constructor() {
         /**
          * 一机多控自定义拦截器
          */
-        fun mcIntercept(interceptor: MCInterceptor): Builder {
+        fun mcClientProcess(interceptor: McClientProcessor): Builder {
             return this
         }
+
+        /**
+         *设置dokit的性能监控全局回调
+         */
+        fun callBack(callback: DoKitCallBack): Builder {
+            return this
+        }
+
 
         /**
          * 设置扩展网络拦截器的代理对象
@@ -151,13 +274,6 @@ public class DoKit private constructor() {
             return this
         }
 
-
-        /**
-         * 设置dokit的性能监控全局回调
-         */
-        fun callBack(callback: DoKitCallBack): Builder {
-            return this
-        }
 
         fun build() {
         }

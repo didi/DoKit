@@ -65,9 +65,9 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
     override fun dispatchOnActivityResumed(activity: Activity) {
         if (activity is UniversalActivity) {
             val countDownDoKitView =
-                getDoKitView(activity, CountDownDoKitView::class.tagName)
+                DoKit.getDoKitView<CountDownDoKitView>(activity, CountDownDoKitView::class)
             if (countDownDoKitView != null) {
-                DokitViewManager.instance.detach(
+                detach(
                     CountDownDoKitView::class.tagName
                 )
             }
@@ -141,7 +141,8 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
             show()
         }
         //如果倒计时浮标没显示则重新添加
-        val countDownDokitView = getDoKitView(activity, CountDownDoKitView::class.tagName)
+        val countDownDokitView =
+            DoKit.getDoKitView<CountDownDoKitView>(activity, CountDownDoKitView::class)
         if (countDownDokitView == null) {
             if (activity is UniversalActivity) {
                 return
@@ -149,9 +150,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
             attachCountDownDoKitView(activity)
         } else {
             if (activity is UniversalActivity) {
-                DokitViewManager.instance.detach(
-                    CountDownDoKitView::class.tagName
-                )
+                detach(CountDownDoKitView::class.tagName)
             } else {
                 //重置倒计时
                 (countDownDokitView as CountDownDoKitView).reset()
@@ -161,7 +160,8 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
 
     override fun onActivityBackResume(activity: Activity) {
         //移除倒计时浮标
-        val countDownDokitView = getDoKitView(activity, CountDownDoKitView::class.tagName)
+        val countDownDokitView =
+            DoKit.getDoKitView<CountDownDoKitView>(activity, CountDownDoKitView::class)
         if (countDownDokitView == null) {
             attachCountDownDoKitView(activity)
         } else {
@@ -175,7 +175,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
             if (DoKitManager.AWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
                 //添加main icon
                 val intent = DokitIntent(MainIconDoKitView::class.java)
-                DokitViewManager.instance.attach(intent)
+                attach(intent)
                 DoKitManager.MAIN_ICON_HAS_SHOW = true
             }
         }
@@ -251,10 +251,6 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
     }
 
 
-    override fun detach(doKitViewClass: KClass<out AbsDokitView>) {
-        detach(doKitViewClass.tagName)
-    }
-
     override fun detach(doKitViewClass: Class<out AbsDokitView>) {
         detach(doKitViewClass.tagName)
     }
@@ -271,18 +267,20 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
         }
     }
 
-    override fun getDoKitView(activity: Activity, tag: String): AbsDokitView? {
-
-        if (TextUtils.isEmpty(tag)) {
+    override fun <T : AbsDokitView> getDoKitView(activity: Activity, clazz: Class<T>): AbsDokitView? {
+        if (TextUtils.isEmpty(clazz.tagName)) {
             return null
         }
-        for (doKitView in mDoKitViews) {
-            if (tag == doKitView.tag) {
-                return doKitView
+        for (dokitView in mDoKitViews) {
+            if (clazz.tagName == dokitView.tag) {
+                return dokitView
             }
         }
         return null
     }
+
+
+
 
     /**
      * Activity销毁时调用 不需要实现 为了统一api

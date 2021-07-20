@@ -2,6 +2,8 @@ package com.didichuxing.doraemonkit
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
+import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
@@ -36,7 +38,6 @@ import java.util.*
  * DoKit 真正执行的类  不建议外部app调用
  */
 object DoKitReal {
-    private const val TAG = "Doraemon"
 
     private lateinit var APPLICATION: Application
 
@@ -511,5 +512,65 @@ object DoKitReal {
     fun setCallBack(callback: DoKitCallBack) {
         DoKitManager.CALLBACK = callback
     }
+
+
+    /**
+     * 启动悬浮窗
+     * @JvmStatic:允许使用java的静态方法的方式调用
+     * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+     */
+    fun launchFloating(
+        targetClass: Class<out AbsDokitView>,
+        mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE,
+        bundle: Bundle? = null
+    ) {
+        SimpleDoKitLauncher.launchFloating(targetClass, mode, bundle)
+    }
+
+
+    /**
+     * 移除悬浮窗
+     * @JvmStatic:允许使用java的静态方法的方式调用
+     * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+     */
+    fun removeFloating(targetClass: Class<out AbsDokitView>) {
+        SimpleDoKitLauncher.removeFloating(targetClass)
+    }
+
+    /**
+     * 移除悬浮窗
+     * @JvmStatic:允许使用java的静态方法的方式调用
+     * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+     */
+    fun removeFloating(dokitView: AbsDokitView) {
+        SimpleDoKitLauncher.removeFloating(dokitView)
+    }
+
+    /**
+     * 启动全屏页面
+     * @JvmStatic:允许使用java的静态方法的方式调用
+     * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
+     */
+    fun launchFullScreen(
+        targetClass: Class<out BaseFragment>,
+        context: Context? = null,
+        bundle: Bundle? = null,
+        isSystemFragment: Boolean = false
+    ) {
+        SimpleDoKitLauncher.launchFullScreen(targetClass, context, bundle, isSystemFragment)
+    }
+
+    @JvmStatic
+    fun <T : AbsDokitView> getDoKitView(
+        activity: Activity,
+        clazz: Class<out T>
+    ): T? {
+        return if (DokitViewManager.instance.getDoKitView(activity, clazz) == null) {
+            null
+        } else {
+            DokitViewManager.instance.getDoKitView(activity, clazz) as T
+        }
+    }
+
 
 }

@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.core;
+package com.didichuxing.doraemondemo.dokit;
 
 import android.text.TextUtils;
 import android.view.View;

@@ -31,11 +31,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
 
     val isNormalMode = false
 
-    /**
-     * 手势代理
-     */
-    @JvmField
-    var mTouchProxy = TouchProxy(this)
+
 
     @JvmField
     protected var mWindowManager = null

@@ -1,58 +1,40 @@
-package com.didichuxing.doraemonkit.kit.layoutborder;
+package com.didichuxing.doraemonkit.kit.layoutborder
 
-import android.app.Activity;
-import android.content.Context;
-
-import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.config.LayoutBorderConfig;
-import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
-import com.google.auto.service.AutoService;
-
-import org.jetbrains.annotations.NotNull;
+import android.app.Activity
+import android.content.Context
+import com.didichuxing.doraemonkit.DoKit.Companion.launchFloating
+import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.config.LayoutBorderConfig
+import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.google.auto.service.AutoService
 
 /**
  * Created by wanglikun on 2019/1/7
  */
-@AutoService(AbstractKit.class)
-public class LayoutBorderKit extends AbstractKit {
+@AutoService(AbstractKit::class)
+class LayoutBorderKit : AbstractKit() {
+    override val name: Int
+        get() = R.string.dk_kit_layout_border
+    override val icon: Int
+        get() = R.mipmap.dk_view_border
 
-
-    @Override
-    public int getName() {
-        return R.string.dk_kit_layout_border;
+    override fun onClickWithReturn(activity: Activity): Boolean {
+        launchFloating(LayoutLevelDokitView::class.java)
+        LayoutBorderManager.getInstance().start()
+        LayoutBorderConfig.setLayoutBorderOpen(true)
+        LayoutBorderConfig.setLayoutLevelOpen(true)
+        return true
     }
 
-    @Override
-    public int getIcon() {
-        return R.mipmap.dk_view_border;
+    override fun onAppInit(context: Context?) {
+        LayoutBorderConfig.setLayoutBorderOpen(false)
+        LayoutBorderConfig.setLayoutLevelOpen(false)
     }
 
-    @Override
-    public boolean onClickWithReturn(@NotNull Activity activity) {
+    override val isInnerKit: Boolean
+        get() = true
 
-        SimpleDoKitStarter.startFloating(LayoutLevelDokitView.class);
-        LayoutBorderManager.getInstance().start();
-        LayoutBorderConfig.setLayoutBorderOpen(true);
-        LayoutBorderConfig.setLayoutLevelOpen(true);
-        return true;
-    }
-
-
-    @Override
-    public void onAppInit(Context context) {
-        LayoutBorderConfig.setLayoutBorderOpen(false);
-        LayoutBorderConfig.setLayoutLevelOpen(false);
-    }
-
-    @Override
-    public boolean isInnerKit() {
-        return true;
-    }
-
-
-    @Override
-    public String innerKitId() {
-        return "dokit_sdk_ui_ck_border";
+    override fun innerKitId(): String {
+        return "dokit_sdk_ui_ck_border"
     }
 }

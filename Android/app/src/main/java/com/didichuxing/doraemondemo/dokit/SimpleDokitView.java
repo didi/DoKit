@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.core;
+package com.didichuxing.doraemondemo.dokit;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
@@ -12,17 +12,19 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.widget.tableview.utils.DensityUtils;
+import com.blankj.utilcode.util.ConvertUtils;
+import com.didichuxing.doraemondemo.R;
+import com.didichuxing.doraemonkit.DoKit;
+import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
+import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
 
 /**
  * @Author: changzuozhen
  * @Date: 2020-12-22
  * <p>
  * 悬浮窗，支持折叠
- * @see com.didichuxing.doraemonkit.kit.core.SimpleDokitView
+ * @see SimpleDokitView
  * 启动工具函数
- * @see com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter.startFloating
  */
 public abstract class SimpleDokitView extends AbsDokitView {
     private static final String TAG = "SimpleBaseFloatPage";
@@ -56,7 +58,7 @@ public abstract class SimpleDokitView extends AbsDokitView {
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
         mWindowManager.getDefaultDisplay().getMetrics(outMetrics);
-        mDp50InPx = DensityUtils.dp2px(context, 50);
+        mDp50InPx = ConvertUtils.dp2px(50);
         mWidth = outMetrics.widthPixels - mDp50InPx;
         mHeight = outMetrics.heightPixels - mDp50InPx;
     }
@@ -75,12 +77,7 @@ public abstract class SimpleDokitView extends AbsDokitView {
         mShowSwitch = findViewById(R.id.showHideSwitch);
         TextView title = findViewById(R.id.floatPageTitle);
         ImageView close = findViewById(R.id.floatClose);
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DokitViewManager.getInstance().detach(SimpleDokitView.this);
-            }
-        });
+        close.setOnClickListener(v -> DoKit.removeFloating(this));
         title.setText(getTag());
         mShowSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

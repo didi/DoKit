@@ -3,6 +3,7 @@ package com.didichuxing.doraemonkit.kit.timecounter.counter;
 import android.app.Activity;
 import android.os.SystemClock;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil;
@@ -141,7 +142,7 @@ public class ActivityCounter {
 
         mCounterInfos.add(counterInfo);
 
-        TimeCounterDokitView dokitView = (TimeCounterDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), TimeCounterDokitView.class.getCanonicalName());
+        TimeCounterDokitView dokitView = DoKit.getDoKitView(ActivityUtils.getTopActivity(), TimeCounterDokitView.class);
         if (dokitView != null) {
             dokitView.showInfo(counterInfo);
         }

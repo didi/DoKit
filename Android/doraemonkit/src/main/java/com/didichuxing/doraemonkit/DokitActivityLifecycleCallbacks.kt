@@ -11,7 +11,7 @@ import com.didichuxing.doraemonkit.datapick.DataPickManager
 import com.didichuxing.doraemonkit.kit.core.ActivityLifecycleStatusInfo
 import com.didichuxing.doraemonkit.kit.core.DoKitLifeCycleStatus
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager.Companion.instance
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.kit.health.AppHealthInfoUtil
 import com.didichuxing.doraemonkit.kit.health.model.AppHealthInfo.DataBean.UiLevelBean
 import com.didichuxing.doraemonkit.kit.uiperformance.UIPerformanceUtil
@@ -66,7 +66,7 @@ class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
                 return
             }
             if (startedActivityCounts == 0) {
-                instance.notifyForeground()
+                DokitViewManager.instance.notifyForeground()
             }
             startedActivityCounts++
         } catch (e: Exception) {
@@ -106,7 +106,7 @@ class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
             for (listener in LifecycleListenerUtil.LIFECYCLE_LISTENERS) {
                 listener.onActivityPaused(activity)
             }
-            instance.onActivityPaused(activity)
+            DokitViewManager.instance.onActivityPaused(activity)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -121,11 +121,11 @@ class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
             startedActivityCounts--
             //通知app退出到后台
             if (startedActivityCounts == 0) {
-                instance.notifyBackground()
+                DokitViewManager.instance.notifyBackground()
                 //app 切换到后台 上传埋点数据
                 DataPickManager.getInstance().postData()
             }
-            instance.onActivityStopped(activity)
+            DokitViewManager.instance.onActivityStopped(activity)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -153,7 +153,7 @@ class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
                     sFragmentLifecycleCallbacks
                 )
             }
-            instance.onActivityDestroyed(activity)
+            DokitViewManager.instance.onActivityDestroyed(activity)
 
             //暂时无法很好的解决屏幕旋转的问题
             //DoKitOrientationEventListener orientationEventListener = mOrientationEventListeners.get(activity.getClass().getSimpleName());
@@ -175,11 +175,11 @@ class DokitActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
     private fun dispatchOnActivityResumed(activity: Activity) {
         if (DoKitManager.IS_NORMAL_FLOAT_MODE) {
             //显示内置dokitView icon
-            instance.dispatchOnActivityResumed(activity)
+            DokitViewManager.instance.dispatchOnActivityResumed(activity)
         } else {
             //悬浮窗权限 vivo 华为可以不需要动态权限 小米需要
             if (DoKitPermissionUtil.canDrawOverlays(activity)) {
-                instance.dispatchOnActivityResumed(activity)
+                DokitViewManager.instance.dispatchOnActivityResumed(activity)
             } else {
                 //请求悬浮窗权限
                 requestPermission(activity)

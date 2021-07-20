@@ -14,13 +14,13 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
 import com.didichuxing.doraemonkit.kit.core.BaseFragment;
 import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
 import com.didichuxing.doraemonkit.kit.core.SettingItem;
 import com.didichuxing.doraemonkit.kit.core.SettingItemAdapter;
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.didichuxing.doraemonkit.widget.titlebar.HomeTitleBar;
 
 /**
@@ -87,7 +87,7 @@ public class WeakNetworkFragment extends BaseFragment implements TextWatcher {
                 }
 
                 if (mNetWorkDokitView == null) {
-                    mNetWorkDokitView = DokitViewManager.getInstance().getDoKitView(getActivity(), NetWokDokitView.class.getCanonicalName());
+                    mNetWorkDokitView = DoKit.getDoKitView(getActivity(), NetWokDokitView.class);
                 }
                 if (mNetWorkDokitView != null) {
                     //重新调用刷新
@@ -139,9 +139,9 @@ public class WeakNetworkFragment extends BaseFragment implements TextWatcher {
         WeakNetworkManager.get().setActive(enabled);
         updateUIState();
         if (enabled) {
-            SimpleDoKitStarter.startFloating(NetWokDokitView.class);
+            DoKit.launchFloating(NetWokDokitView.class);
         } else {
-            DokitViewManager.getInstance().detach(NetWokDokitView.class);
+            DoKit.removeFloating(NetWokDokitView.class);
         }
     }
 

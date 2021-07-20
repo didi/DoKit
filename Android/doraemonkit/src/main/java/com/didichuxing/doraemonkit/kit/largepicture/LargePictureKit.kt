@@ -1,18 +1,13 @@
-package com.didichuxing.doraemonkit.kit.largepicture;
+package com.didichuxing.doraemonkit.kit.largepicture
 
-import android.app.Activity;
-import android.content.Context;
-
-import com.didichuxing.doraemonkit.util.ToastUtils;
-import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
-import com.didichuxing.doraemonkit.constant.FragmentIndex;
-import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.util.DoKitCommUtil;
-import com.google.auto.service.AutoService;
-
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import android.app.Activity
+import android.content.Context
+import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.aop.DokitPluginConfig
+import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.didichuxing.doraemonkit.util.DoKitCommUtil
+import com.didichuxing.doraemonkit.util.ToastUtils
+import com.google.auto.service.AutoService
 
 /**
  * ================================================
@@ -23,52 +18,31 @@ import org.jetbrains.annotations.Nullable;
  * 修订历史：
  * ================================================
  */
-@AutoService(AbstractKit.class)
-public class LargePictureKit extends AbstractKit {
+@AutoService(AbstractKit::class)
+class LargePictureKit : AbstractKit() {
+    override val name: Int
+        get() = R.string.dk_frameinfo_big_img
+    override val icon: Int
+        get() = R.mipmap.dk_performance_large_picture
 
-
-    @Override
-    public int getName() {
-        return R.string.dk_frameinfo_big_img;
-    }
-
-    @Override
-    public int getIcon() {
-        return R.mipmap.dk_performance_large_picture;
-    }
-
-
-    @Override
-    public boolean onClickWithReturn(@NotNull Activity activity) {
+    override fun onClickWithReturn(activity: Activity): Boolean {
         if (!DokitPluginConfig.SWITCH_DOKIT_PLUGIN) {
-            ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip));
-            return false;
+            ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_close_tip))
+            return false
         }
-
         if (!DokitPluginConfig.SWITCH_BIG_IMG) {
-            ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_big_img_close_tip));
-            return false;
+            ToastUtils.showShort(DoKitCommUtil.getString(R.string.dk_plugin_big_img_close_tip))
+            return false
         }
-
-        startUniversalActivity(LargePictureFragment.class, activity, null, true);
-
-        return true;
+        startUniversalActivity(LargePictureFragment::class.java, activity, null, true)
+        return true
     }
 
-    @Override
-    public void onAppInit(Context context) {
+    override fun onAppInit(context: Context?) {}
+    override val isInnerKit: Boolean
+        get() = true
 
+    override fun innerKitId(): String {
+        return "dokit_sdk_performance_ck_img"
     }
-
-    @Override
-    public boolean isInnerKit() {
-        return true;
-    }
-
-    @Override
-    public String innerKitId() {
-        return "dokit_sdk_performance_ck_img";
-    }
-
-
 }

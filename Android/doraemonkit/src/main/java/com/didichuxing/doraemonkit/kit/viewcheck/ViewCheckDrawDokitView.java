@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.model.ViewInfo;
@@ -31,7 +32,7 @@ public class ViewCheckDrawDokitView extends AbsDokitView implements ViewCheckDok
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ViewCheckDokitView page = (ViewCheckDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), ViewCheckDokitView.class.getCanonicalName());
+        ViewCheckDokitView page = (ViewCheckDokitView) DoKit.getDoKitView(ActivityUtils.getTopActivity(), ViewCheckDokitView.class);
         if (page != null) {
             page.removeViewSelectListener(this);
         }
@@ -58,7 +59,7 @@ public class ViewCheckDrawDokitView extends AbsDokitView implements ViewCheckDok
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                ViewCheckDokitView dokitView = (ViewCheckDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), ViewCheckDokitView.class.getCanonicalName());
+                ViewCheckDokitView dokitView = DoKit.getDoKitView(ActivityUtils.getTopActivity(), ViewCheckDokitView.class);
                 if (dokitView != null) {
                     dokitView.setViewSelectListener(ViewCheckDrawDokitView.this);
                 }

@@ -18,6 +18,7 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.FrameLayout
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.config.FloatIconConfig
 import com.didichuxing.doraemonkit.extension.tagName
 import com.didichuxing.doraemonkit.kit.main.MainIconDoKitView
@@ -641,7 +642,7 @@ abstract class AbsDokitView : DokitView, TouchProxy.OnTouchEventListener,
      * 将当前dokitView于activity解绑
      */
     fun detach() {
-        DokitViewManager.instance.detach(this)
+        DoKit.removeFloating(this)
     }
 
     /**

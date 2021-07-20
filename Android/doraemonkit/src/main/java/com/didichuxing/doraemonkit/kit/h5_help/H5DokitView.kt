@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.util.ConvertUtils
 import com.didichuxing.doraemonkit.R
 import com.didichuxing.doraemonkit.kit.core.DoKitManager
@@ -72,7 +73,7 @@ class H5DokitView : AbsDokitView() {
         rootView?.let {
             val close = it.findViewById<ImageView>(R.id.iv_close)
             close.setOnClickListener {
-                DokitViewManager.instance.detach(this)
+                DoKit.removeFloating(this)
             }
             mTvLink = it.findViewById(R.id.tv_link)
             mJsCheckBox = it.findViewById(R.id.js_switch)

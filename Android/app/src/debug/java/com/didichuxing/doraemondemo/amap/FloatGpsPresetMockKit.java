@@ -1,22 +1,20 @@
-package com.didichuxing.doraemonkit.kit.lbs.preset;
+package com.didichuxing.doraemondemo.amap;
 
 import android.app.Activity;
 import android.content.Context;
 
-import com.didichuxing.doraemonkit.util.ToastUtils;
+import com.blankj.utilcode.util.ToastUtils;
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.aop.DokitPluginConfig;
 import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
 import com.didichuxing.doraemonkit.util.DoKitCommUtil;
-import com.google.auto.service.AutoService;
 
 import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by changzuozhen on 2021年1月22日
  */
-@AutoService(AbstractKit.class)
 public class FloatGpsPresetMockKit extends AbstractKit {
 
 
@@ -42,7 +40,7 @@ public class FloatGpsPresetMockKit extends AbstractKit {
             return false;
         }
 
-        SimpleDoKitStarter.startFloating(FloatGpsPresetMockKitView.class);
+        DoKit.launchFloating(FloatGpsPresetMockKitView.class);
         return true;
     }
 

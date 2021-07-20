@@ -4,6 +4,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Build;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
@@ -11,20 +13,19 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.config.GpsMockConfig;
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitView;
-import com.didichuxing.doraemonkit.kit.core.ViewSetupHelper;
-import com.didichuxing.doraemonkit.kit.lbs.route.FloatGpsRouteMockCache;
-import com.didichuxing.doraemonkit.kit.lbs.common.LocInfo;
+import com.didichuxing.doraemonkit.kit.core.AbsDokitView;
+import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams;
 import com.didichuxing.doraemonkit.kit.gpsmock.GpsMockManager;
-import com.didichuxing.doraemonkit.model.LatLng;
+import com.didichuxing.doraemonkit.kit.lbs.common.LocInfo;
+import com.didichuxing.doraemonkit.kit.lbs.route.FloatGpsRouteMockCache;
+import com.didichuxing.doraemonkit.util.ToastUtils;
 
 /**
  * 定位微调悬浮窗
+ * 功能缺陷
  */
-public class PosAdjustKitView extends SimpleDokitView {
+public class PosAdjustKitView extends AbsDokitView {
     public static final String TAG = "FloatGpsMockKitView";
     public static final int MIN_STEP = 5;
     public static final int MAX_STEP = 500;
@@ -34,17 +35,30 @@ public class PosAdjustKitView extends SimpleDokitView {
     private SeekBar mSpeedSeekBar;
     private TextView mEnvInfo = null;
 
+
     @Override
-    protected int getLayoutId() {
-        return R.layout.layout_mock_pos_adjust;
+    public void onCreate(Context context) {
+
     }
 
+    @Override
+    public View onCreateView(Context context, FrameLayout rootView) {
+        return LayoutInflater.from(context).inflate(R.layout.layout_mock_pos_adjust, rootView, false);
+    }
 
     @Override
     public void onViewCreated(FrameLayout rootView) {
-        super.onViewCreated(rootView);
         mRootView = rootView;
         setMockLocationConfig();
+    }
+
+    @Override
+    public void initDokitViewLayoutParams(DokitViewLayoutParams params) {
+        params.width = DokitViewLayoutParams.WRAP_CONTENT;
+        params.height = DokitViewLayoutParams.WRAP_CONTENT;
+        params.gravity = Gravity.TOP | Gravity.LEFT;
+        params.x = 200;
+        params.y = 200;
     }
 
     private void setMockLocationConfig() {
@@ -64,44 +78,44 @@ public class PosAdjustKitView extends SimpleDokitView {
             }
         });
 
-        ViewSetupHelper.setupButton(mRootView, R.id.btn_reset, "重试", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LatLng mocLoc = GpsMockConfig.getMockLocation();
-                if (mocLoc != null) {
-                    FloatGpsMockCache.mockToLocation(mocLoc.latitude, mocLoc.longitude);
-                } else {
-                    ToastUtils.showShort("没有设置过模拟位置");
-                }
-//                FloatGpsMockCache.mockToLocation(GpsMockManager.getInstance().getLatitude(), GpsMockManager.getInstance().getLongitude());
-            }
-        });
+//        ViewSetupHelper.setupButton(mRootView, R.id.btn_reset, "重试", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LatLng mocLoc = GpsMockConfig.getMockLocation();
+//                if (mocLoc != null) {
+//                    FloatGpsMockCache.mockToLocation(mocLoc.latitude, mocLoc.longitude);
+//                } else {
+//                    ToastUtils.showShort("没有设置过模拟位置");
+//                }
+////                FloatGpsMockCache.mockToLocation(GpsMockManager.getInstance().getLatitude(), GpsMockManager.getInstance().getLongitude());
+//            }
+//        });
 
         // 单点步进调节功能按钮
-        ViewSetupHelper.setupButton(mRootView, R.id.btn_mock_gps_north, "上", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moveMockLocation(sMockStep, 0);
-            }
-        });
-        ViewSetupHelper.setupButton(mRootView, R.id.btn_mock_gps_south, "下", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moveMockLocation(-sMockStep, 0);
-            }
-        });
-        ViewSetupHelper.setupButton(mRootView, R.id.btn_mock_gps_west, "左", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moveMockLocation(0, -sMockStep);
-            }
-        });
-        ViewSetupHelper.setupButton(mRootView, R.id.btn_mock_gps_east, "右", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                moveMockLocation(0, sMockStep);
-            }
-        });
+//        ViewSetupHelper.setupButton(mRootView, R.id.btn_mock_gps_north, "上", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                moveMockLocation(sMockStep, 0);
+//            }
+//        });
+//        ViewSetupHelper.setupButton(mRootView, R.id.btn_mock_gps_south, "下", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                moveMockLocation(-sMockStep, 0);
+//            }
+//        });
+//        ViewSetupHelper.setupButton(mRootView, R.id.btn_mock_gps_west, "左", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                moveMockLocation(0, -sMockStep);
+//            }
+//        });
+//        ViewSetupHelper.setupButton(mRootView, R.id.btn_mock_gps_east, "右", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                moveMockLocation(0, sMockStep);
+//            }
+//        });
 
         // 单点步进速度控制
         mMockSpeedTv = findViewById(R.id.tv_mock_speed);

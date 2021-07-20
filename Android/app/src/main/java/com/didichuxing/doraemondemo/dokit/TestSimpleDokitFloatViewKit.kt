@@ -3,9 +3,9 @@ package com.didichuxing.doraemondemo.dokit
 import android.app.Activity
 import android.content.Context
 import com.didichuxing.doraemondemo.R
+import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.kit.AbstractKit
 import com.didichuxing.doraemonkit.kit.Category
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter
 
 /**
  * @Author: changzuozhen
@@ -23,7 +23,7 @@ class TestSimpleDokitFloatViewKit : AbstractKit() {
     }
 
     override fun onClickWithReturn(activity: Activity): Boolean {
-        SimpleDoKitStarter.startFloating(TestSimpleDokitFloatView::class.java)
+        DoKit.launchFloating(TestSimpleDokitFloatView::class.java)
         return true
     }
 

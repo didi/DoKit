@@ -1,53 +1,38 @@
-package com.didichuxing.doraemonkit.kit.loginfo;
+package com.didichuxing.doraemonkit.kit.loginfo
 
-import android.app.Activity;
-import android.content.Context;
-
-import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.config.LogInfoConfig;
-import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
-import com.google.auto.service.AutoService;
-
-import org.jetbrains.annotations.NotNull;
+import android.app.Activity
+import android.content.Context
+import com.didichuxing.doraemonkit.DoKit.Companion.launchFloating
+import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.config.LogInfoConfig
+import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.google.auto.service.AutoService
 
 /**
  * Created by wanglikun on 2018/10/9.
  */
-@AutoService(AbstractKit.class)
-public class LogInfoKit extends AbstractKit {
+@AutoService(AbstractKit::class)
+class LogInfoKit : AbstractKit() {
+    override val name: Int
+        get() = R.string.dk_kit_log_info
+    override val icon: Int
+        get() = R.mipmap.dk_log_info
 
-
-    @Override
-    public int getName() {
-        return R.string.dk_kit_log_info;
-    }
-
-    @Override
-    public int getIcon() {
-        return R.mipmap.dk_log_info;
-    }
-
-    @Override
-    public boolean onClickWithReturn(@NotNull Activity activity) {
-        SimpleDoKitStarter.startFloating(LogInfoDokitView.class);
+    override fun onClickWithReturn(activity: Activity): Boolean {
+        launchFloating(LogInfoDokitView::class.java)
         //开启日志服务
-        LogInfoManager.getInstance().start();
-        return true;
+        LogInfoManager.getInstance().start()
+        return true
     }
 
-    @Override
-    public void onAppInit(Context context) {
-        LogInfoConfig.setLogInfoOpen(false);
+    override fun onAppInit(context: Context?) {
+        LogInfoConfig.setLogInfoOpen(false)
     }
 
-    @Override
-    public boolean isInnerKit() {
-        return true;
-    }
+    override val isInnerKit: Boolean
+        get() = true
 
-    @Override
-    public String innerKitId() {
-        return "dokit_sdk_comm_ck_log";
+    override fun innerKitId(): String {
+        return "dokit_sdk_comm_ck_log"
     }
 }

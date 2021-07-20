@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.lbs.preset;
+package com.didichuxing.doraemondemo.amap;
 
 import android.util.Log;
 import android.view.View;
@@ -7,10 +7,12 @@ import android.widget.FrameLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitView;
+import com.didichuxing.doraemondemo.R;
+import com.didichuxing.doraemondemo.dokit.SimpleDokitView;
 import com.didichuxing.doraemonkit.kit.lbs.common.LocInfo;
 import com.didichuxing.doraemonkit.kit.lbs.manual.FloatGpsMockCache;
+import com.didichuxing.doraemonkit.kit.lbs.preset.FloatGpsPresetMockCache;
+import com.didichuxing.doraemonkit.kit.lbs.preset.MockLocList;
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class FloatGpsPresetMockKitView extends SimpleDokitView {
 
         LocInfo config = FloatGpsPresetMockCache.getMockLocConfig();
         if (config != null) {
-            Log.i(TAG, "⚠️setMockLocationConfig() setSelection called" + config.locName);
+            Log.i(getTAG(), "⚠️setMockLocationConfig() setSelection called" + config.locName);
             updateCurrentLocConfig(config);
         }
 
@@ -59,7 +61,7 @@ public class FloatGpsPresetMockKitView extends SimpleDokitView {
                 @Override
                 public void onClick(View v) {
                     try {
-                        Log.d(TAG, "⚠️onNewItemSelected() called with: locInfo = [" + locInfo + "]");
+                        Log.d(getTAG(), "⚠️onNewItemSelected() called with: locInfo = [" + locInfo + "]");
                         FloatGpsMockCache.mockToLocation(locInfo.lat, locInfo.lng);
                         ((Switch) findViewById(R.id.env_switch3)).setChecked(true);
                         updateCurrentLocConfig(locInfo);

@@ -1,67 +1,48 @@
-package com.didichuxing.doraemonkit.kit.alignruler;
+package com.didichuxing.doraemonkit.kit.alignruler
 
-import android.app.Activity;
-import android.content.Context;
-
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
-import com.didichuxing.doraemonkit.util.ActivityUtils;
-import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.config.AlignRulerConfig;
-import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.core.DokitViewManager;
-import com.google.auto.service.AutoService;
-
-import org.jetbrains.annotations.NotNull;
+import android.app.Activity
+import android.content.Context
+import com.didichuxing.doraemonkit.DoKit.Companion.getDoKitView
+import com.didichuxing.doraemonkit.DoKit.Companion.launchFloating
+import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.config.AlignRulerConfig
+import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.didichuxing.doraemonkit.util.ActivityUtils
+import com.google.auto.service.AutoService
 
 /**
  * Created by wanglikun on 2018/9/19.
  */
-@AutoService(AbstractKit.class)
-public class AlignRulerKit extends AbstractKit {
+@AutoService(AbstractKit::class)
+class AlignRulerKit : AbstractKit() {
+    override val name: Int
+        get() = R.string.dk_kit_align_ruler
+    override val icon: Int
+        get() = R.mipmap.dk_align_ruler
 
-
-    @Override
-    public int getName() {
-        return R.string.dk_kit_align_ruler;
+    override fun onClickWithReturn(activity: Activity): Boolean {
+        launchFloating(AlignRulerMarkerDokitView::class.java)
+        launchFloating(AlignRulerLineDokitView::class.java)
+        launchFloating(AlignRulerInfoDokitView::class.java)
+        val alignRulerInfoDokitView =
+            getDoKitView(ActivityUtils.getTopActivity(), AlignRulerInfoDokitView::class.java)!!
+        alignRulerInfoDokitView.setCheckBoxListener { isChecked ->
+            val alignRulerLineDokitView =
+                getDoKitView(ActivityUtils.getTopActivity(), AlignRulerLineDokitView::class.java)!!
+            alignRulerLineDokitView.alignInfoView.refreshInfo(isChecked)
+        }
+        AlignRulerConfig.setAlignRulerOpen(true)
+        return true
     }
 
-    @Override
-    public int getIcon() {
-        return R.mipmap.dk_align_ruler;
+    override fun onAppInit(context: Context?) {
+        AlignRulerConfig.setAlignRulerOpen(false)
     }
 
-    @Override
-    public boolean onClickWithReturn(@NotNull Activity activity) {
+    override val isInnerKit: Boolean
+        get() = true
 
-        SimpleDoKitStarter.startFloating(AlignRulerMarkerDokitView.class);
-        SimpleDoKitStarter.startFloating(AlignRulerLineDokitView.class);
-        SimpleDoKitStarter.startFloating(AlignRulerInfoDokitView.class);
-
-
-        AlignRulerInfoDokitView alignRulerInfoDokitView = (AlignRulerInfoDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), AlignRulerInfoDokitView.class.getCanonicalName());
-        alignRulerInfoDokitView.setCheckBoxListener(new AlignRulerInfoDokitView.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(boolean isChecked) {
-                AlignRulerLineDokitView alignRulerLineDokitView = (AlignRulerLineDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), AlignRulerLineDokitView.class.getCanonicalName());
-                alignRulerLineDokitView.getAlignInfoView().refreshInfo(isChecked);
-            }
-        });
-        AlignRulerConfig.setAlignRulerOpen(true);
-        return true;
-    }
-
-    @Override
-    public void onAppInit(Context context) {
-        AlignRulerConfig.setAlignRulerOpen(false);
-    }
-
-    @Override
-    public boolean isInnerKit() {
-        return true;
-    }
-
-    @Override
-    public String innerKitId() {
-        return "dokit_sdk_ui_ck_aligin_scaleplate";
+    override fun innerKitId(): String {
+        return "dokit_sdk_ui_ck_aligin_scaleplate"
     }
 }

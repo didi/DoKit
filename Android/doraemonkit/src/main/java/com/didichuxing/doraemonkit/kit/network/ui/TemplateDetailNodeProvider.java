@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.util.ToastUtils;
 import com.didichuxing.doraemonkit.R;
 import com.didichuxing.doraemonkit.kit.network.room_db.DokitDbManager;
@@ -97,7 +97,7 @@ public class TemplateDetailNodeProvider extends BaseNodeProvider {
                     //保存到全局
                     DokitDbManager.getInstance().setGlobalTemplateApiBean(mockApi);
 
-                    SimpleDoKitStarter.startFullScreen(MockTemplatePreviewFragment.class, tvView.getContext());
+                    DoKit.launchFullScreen(MockTemplatePreviewFragment.class, tvView.getContext());
 
                 }
             });

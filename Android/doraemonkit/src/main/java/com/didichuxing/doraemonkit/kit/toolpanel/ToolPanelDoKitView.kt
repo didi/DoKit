@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.didichuxing.doraemonkit.DoKit
 import com.didichuxing.doraemonkit.R
-import com.didichuxing.doraemonkit.kit.core.DoKitManager
 import com.didichuxing.doraemonkit.datapick.DataPickManager
-import com.didichuxing.doraemonkit.kit.core.*
+import com.didichuxing.doraemonkit.kit.core.AbsDokitView
+import com.didichuxing.doraemonkit.kit.core.DoKitManager
+import com.didichuxing.doraemonkit.kit.core.DokitViewLayoutParams
+import com.didichuxing.doraemonkit.kit.core.DokitViewManager
 import com.didichuxing.doraemonkit.util.ActivityUtils
 import com.didichuxing.doraemonkit.util.DoKitCommUtil
 import com.didichuxing.doraemonkit.widget.titlebar.TitleBar
@@ -98,7 +100,7 @@ class ToolPanelDoKitView : AbsDokitView() {
                 if (!isNormalMode) {
                     DoKit.hideToolPanel()
                 }
-                SimpleDoKitStarter.startFullScreen(
+                DoKit.launchFullScreen(
                     DokitMoreFragment::class.java,
                     activity,
                     isSystemFragment = true

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.util.ActivityUtils;
 import com.didichuxing.doraemonkit.util.ConvertUtils;
 import com.didichuxing.doraemonkit.util.ScreenUtils;
@@ -51,7 +52,7 @@ public class AlignRulerLineDokitView extends AbsDokitView implements AlignRulerM
         postDelayed(new Runnable() {
             @Override
             public void run() {
-                mMarker = (AlignRulerMarkerDokitView) DokitViewManager.getInstance().getDoKitView(ActivityUtils.getTopActivity(), AlignRulerMarkerDokitView.class.getCanonicalName());
+                mMarker = DoKit.getDoKitView(ActivityUtils.getTopActivity(), AlignRulerMarkerDokitView.class);
                 if (mMarker != null) {
                     mMarker.addPositionChangeListener(AlignRulerLineDokitView.this);
                 }

@@ -428,10 +428,6 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
     }
 
 
-    override fun detach(doKitViewClass: KClass<out AbsDokitView>) {
-        detach(doKitViewClass.tagName)
-    }
-
     override fun detach(doKitViewClass: Class<out AbsDokitView>) {
         detach(doKitViewClass.tagName)
     }
@@ -451,6 +447,26 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
             doKitViewMap?.clear()
         }
         mGlobalSingleDoKitViewInfoMap.clear()
+    }
+
+    /**
+     * 获取当前页面指定的dokitView
+     *
+     * @param activity
+     * @param tag
+     * @return AbsDokitView
+     */
+    override fun <T : AbsDokitView> getDoKitView(
+        activity: Activity,
+        clazz: Class<T>
+    ): AbsDokitView? {
+        if (TextUtils.isEmpty(clazz.tagName)) {
+            return null
+        }
+
+        return if (mActivityDoKitViewMap[activity] == null) {
+            null
+        } else mActivityDoKitViewMap[activity]?.get(clazz.tagName)
     }
 
     /**
@@ -481,22 +497,10 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
         return activity.window.decorView as ViewGroup
     }
 
-    /**
-     * 获取当前页面指定的dokitView
-     *
-     * @param activity
-     * @param tag
-     * @return
-     */
-    override fun getDoKitView(activity: Activity, tag: String): AbsDokitView? {
-        if (TextUtils.isEmpty(tag)) {
-            return null
-        }
 
-        return if (mActivityDoKitViewMap[activity] == null) {
-            null
-        } else mActivityDoKitViewMap[activity]?.get(tag)
-    }
+
+
+
 
     /**
      * 获取当前页面所有的dokitView

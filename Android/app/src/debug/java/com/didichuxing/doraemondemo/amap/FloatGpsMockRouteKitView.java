@@ -1,4 +1,4 @@
-package com.didichuxing.doraemonkit.kit.lbs.route;
+package com.didichuxing.doraemondemo.amap;
 
 import android.content.Context;
 import android.os.Handler;
@@ -9,8 +9,9 @@ import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.kit.core.SimpleDokitView;
+import com.didichuxing.doraemondemo.R;
+import com.didichuxing.doraemondemo.dokit.SimpleDokitView;
+import com.didichuxing.doraemonkit.kit.lbs.route.FloatGpsRouteMockCache;
 
 public class FloatGpsMockRouteKitView extends SimpleDokitView {
     public static final String TAG = "FloatGpsMockRoutKitView";

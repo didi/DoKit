@@ -46,8 +46,7 @@ class DoKitOrientationEventListener(context: Activity) : OrientationEventListene
         if (lastOrientation != innerOrientation) {
             //针对dokitView的根布局进行旋转操作
             //LogHelper.i(TAG, "innerOrientation===>$innerOrientation")
-            val dokitView = DokitViewManager.instance
-                .getDoKitView(mActivity, MainIconDoKitView::class.tagName)
+            val dokitView = DoKit.getDoKitView<MainIconDoKitView>(mActivity, MainIconDoKitView::class)
 
 
             var currentOrientation = Configuration.ORIENTATION_PORTRAIT

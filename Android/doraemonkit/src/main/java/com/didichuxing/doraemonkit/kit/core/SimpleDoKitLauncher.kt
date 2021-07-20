@@ -12,17 +12,15 @@ import kotlin.reflect.KClass
 /**
  * 悬浮窗和全屏启动器
  */
-object SimpleDoKitStarter {
+internal object SimpleDoKitLauncher {
     /**
      * @JvmStatic:允许使用java的静态方法的方式调用
      * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
      */
-    @JvmStatic
-    @JvmOverloads
-    fun startFloating(
-        targetClass: Class<out AbsDokitView?>,
-        bundle: Bundle? = null,
-        mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE
+    fun launchFloating(
+        targetClass: Class<out AbsDokitView>,
+        mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE,
+        bundle: Bundle? = null
     ) {
         val doKitIntent = DokitIntent(targetClass)
         doKitIntent.mode = mode
@@ -30,43 +28,25 @@ object SimpleDoKitStarter {
         DokitViewManager.instance.attach(doKitIntent)
     }
 
-    @JvmStatic
     fun removeFloating(
-        targetClass: Class<out AbsDokitView?>
+        targetClass: Class<out AbsDokitView>
     ) {
         DokitViewManager.instance.detach(targetClass.tagName)
     }
 
-
-    /**
-     * @JvmStatic:允许使用java的静态方法的方式调用
-     * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
-     */
-    @JvmStatic
-    @JvmOverloads
-    fun startFloating(
-        targetClass: KClass<out AbsDokitView>,
-        bundle: Bundle? = null,
-        mode: DoKitViewLaunchMode = DoKitViewLaunchMode.SINGLE_INSTANCE
-    ) {
-        startFloating(targetClass.java, bundle, mode)
-    }
-
-    @JvmStatic
     fun removeFloating(
-        targetClass: KClass<out AbsDokitView>
+        dokitView:  AbsDokitView
     ) {
-        removeFloating(targetClass)
+        DokitViewManager.instance.detach(dokitView)
     }
+
 
 
     /**
      * @JvmStatic:允许使用java的静态方法的方式调用
      * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
      */
-    @JvmStatic
-    @JvmOverloads
-    fun startFullScreen(
+    fun launchFullScreen(
         targetClass: Class<out BaseFragment?>,
         context: Context? = null,
         bundle: Bundle? = null,
@@ -88,20 +68,7 @@ object SimpleDoKitStarter {
         })
     }
 
-    /**
-     * @JvmStatic:允许使用java的静态方法的方式调用
-     * @JvmOverloads :在有默认参数值的方法中使用@JvmOverloads注解，则Kotlin就会暴露多个重载方法。
-     */
-    @JvmStatic
-    @JvmOverloads
-    fun startFullScreen(
-        targetClass: KClass<out BaseFragment>,
-        context: Context? = null,
-        bundle: Bundle? = null,
-        isSystemFragment: Boolean = false
-    ) {
-        startFullScreen(targetClass.java, context, bundle, isSystemFragment)
-    }
+
 
 
 }

@@ -51,14 +51,7 @@ public interface DokitViewManagerInterface {
     void detachAll();
 
 
-    /**
-     * 获取页面上指定的dokitView
-     *
-     * @param activity
-     * @param tag
-     * @return
-     */
-    AbsDokitView getDokitView(Activity activity, String tag);
+
 
 
     /**

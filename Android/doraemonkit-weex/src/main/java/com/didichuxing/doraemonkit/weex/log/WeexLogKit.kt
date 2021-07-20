@@ -1,55 +1,37 @@
-package com.didichuxing.doraemonkit.weex.log;
+package com.didichuxing.doraemonkit.weex.log
 
-import android.app.Activity;
-import android.content.Context;
-
-import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.core.SimpleDoKitStarter;
-import com.didichuxing.doraemonkit.kit.loginfo.LogInfoManager;
-import com.didichuxing.doraemonkit.weex.R;
-import com.google.auto.service.AutoService;
-
-import org.jetbrains.annotations.NotNull;
+import android.app.Activity
+import android.content.Context
+import com.didichuxing.doraemonkit.DoKit.Companion.launchFloating
+import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.didichuxing.doraemonkit.kit.loginfo.LogInfoManager
+import com.didichuxing.doraemonkit.weex.R
+import com.google.auto.service.AutoService
 
 /**
  * @author haojianglong
  * @date 2019-06-11
  */
-@AutoService(AbstractKit.class)
-public class WeexLogKit extends AbstractKit {
+@AutoService(AbstractKit::class)
+class WeexLogKit : AbstractKit() {
+    override val name: Int
+        get() = R.string.dk_console_log_name
+    override val icon: Int
+        get() = R.mipmap.dk_log_info
 
-
-    @Override
-    public int getName() {
-        return R.string.dk_console_log_name;
-    }
-
-    @Override
-    public int getIcon() {
-        return R.mipmap.dk_log_info;
-    }
-
-    @Override
-    public boolean onClickWithReturn(@NotNull Activity activity) {
-        SimpleDoKitStarter.startFloating(WeexLogInfoDokitView.class);
+    override fun onClickWithReturn(activity: Activity): Boolean {
+        launchFloating(WeexLogInfoDokitView::class.java)
 
         //开启日志服务
-        LogInfoManager.getInstance().start();
-        return true;
+        LogInfoManager.getInstance().start()
+        return true
     }
 
-    @Override
-    public void onAppInit(Context context) {
+    override fun onAppInit(context: Context?) {}
+    override val isInnerKit: Boolean
+        get() = true
 
-    }
-
-    @Override
-    public boolean isInnerKit() {
-        return true;
-    }
-
-    @Override
-    public String innerKitId() {
-        return "dokit_sdk_weex_ck_log";
+    override fun innerKitId(): String {
+        return "dokit_sdk_weex_ck_log"
     }
 }

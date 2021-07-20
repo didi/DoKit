@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:maxWidth="220dp"
-    android:theme="@style/DK.Text.Dark">
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_mock_route_container"

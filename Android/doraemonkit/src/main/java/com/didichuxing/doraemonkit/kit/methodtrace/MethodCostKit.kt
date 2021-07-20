@@ -1,18 +1,13 @@
-package com.didichuxing.doraemonkit.kit.methodtrace;
+package com.didichuxing.doraemonkit.kit.methodtrace
 
-import android.app.Activity;
-import android.content.Context;
-
-import com.didichuxing.doraemonkit.R;
-import com.didichuxing.doraemonkit.constant.FragmentIndex;
-import com.didichuxing.doraemonkit.kit.AbstractKit;
-import com.didichuxing.doraemonkit.kit.Category;
-import com.didichuxing.doraemonkit.kit.network.NetworkManager;
-import com.didichuxing.doraemonkit.kit.webview.CommWebViewFragment;
-import com.didichuxing.doraemonkit.kit.webview.WebViewManager;
-import com.google.auto.service.AutoService;
-
-import org.jetbrains.annotations.NotNull;
+import android.app.Activity
+import android.content.Context
+import com.didichuxing.doraemonkit.R
+import com.didichuxing.doraemonkit.kit.AbstractKit
+import com.didichuxing.doraemonkit.kit.network.NetworkManager
+import com.didichuxing.doraemonkit.kit.webview.CommWebViewFragment
+import com.didichuxing.doraemonkit.kit.webview.WebViewManager.url
+import com.google.auto.service.AutoService
 
 /**
  * ================================================
@@ -23,39 +18,24 @@ import org.jetbrains.annotations.NotNull;
  * 修订历史：
  * ================================================
  */
-@AutoService(AbstractKit.class)
-public class MethodCostKit extends AbstractKit {
+@AutoService(AbstractKit::class)
+class MethodCostKit : AbstractKit() {
+    override val name: Int
+        get() = R.string.dk_kit_method_cost
+    override val icon: Int
+        get() = R.mipmap.dk_method_cost
 
-
-    @Override
-    public int getName() {
-        return R.string.dk_kit_method_cost;
+    override fun onClickWithReturn(activity: Activity): Boolean {
+        url = NetworkManager.APP_DOCUMENT_URL
+        startUniversalActivity(CommWebViewFragment::class.java, activity, null, true)
+        return true
     }
 
-    @Override
-    public int getIcon() {
-        return R.mipmap.dk_method_cost;
-    }
+    override fun onAppInit(context: Context?) {}
+    override val isInnerKit: Boolean
+        get() = true
 
-    @Override
-    public boolean onClickWithReturn(@NotNull Activity activity) {
-        WebViewManager.INSTANCE.setUrl(NetworkManager.APP_DOCUMENT_URL);
-        startUniversalActivity(CommWebViewFragment.class, activity, null, true);
-        return true;
-    }
-
-    @Override
-    public void onAppInit(Context context) {
-
-    }
-
-    @Override
-    public boolean isInnerKit() {
-        return true;
-    }
-
-    @Override
-    public String innerKitId() {
-        return "dokit_sdk_performance_ck_method_coast";
+    override fun innerKitId(): String {
+        return "dokit_sdk_performance_ck_method_coast"
     }
 }

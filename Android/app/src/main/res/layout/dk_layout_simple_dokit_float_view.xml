@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
-        android:background="@drawable/dk_close_25"
+        android:background="@mipmap/dk_close_25"
         app:layout_constraintBottom_toBottomOf="@+id/showHideSwitch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/showHideSwitch" />
