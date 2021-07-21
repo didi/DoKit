@@ -9,7 +9,6 @@ import com.baidu.mapapi.CoordType
 import com.baidu.mapapi.SDKInitializer
 import com.blankj.utilcode.util.PathUtils
 import com.blankj.utilcode.util.ToastUtils
-import com.didichuxing.doraemondemo.amap.FloatGpsPresetMockKit
 import com.didichuxing.doraemondemo.dokit.DemoKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFloatViewKit
 import com.didichuxing.doraemondemo.dokit.TestSimpleDokitFragmentKit
@@ -23,7 +22,6 @@ import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterc
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.lzy.okgo.OkGo
-import com.stripe.android.PaymentConfiguration
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
