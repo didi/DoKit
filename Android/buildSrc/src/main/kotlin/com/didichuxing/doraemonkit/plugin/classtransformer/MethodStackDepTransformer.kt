@@ -54,7 +54,8 @@ class MethodStackDepTransformer(private val level: Int = 1) : AbsClassTransforme
             methodNode.name != "<init>" &&
                     !methodNode.isEmptyMethod() &&
                     !methodNode.isSingleMethod() &&
-                    !methodNode.isGetSetMethod()
+                    !methodNode.isGetSetMethod() &&
+                    !methodNode.isMainMethod(klass.className)
         }.forEach { methodNode ->
             val key = "${klass.className}&${methodNode.name}&${methodNode.desc}"
             if (methodStackKeys.contains(key)) {

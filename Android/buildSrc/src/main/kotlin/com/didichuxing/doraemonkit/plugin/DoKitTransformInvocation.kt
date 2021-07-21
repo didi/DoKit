@@ -218,7 +218,7 @@ internal class DoKitTransformInvocation(
 
     private fun QualifiedContent.transform(output: File) {
         outputs += output
-        this.file.transform(output) { bytecode ->
+        this.file.dokitTransform(output) { bytecode ->
             bytecode.transform()
         }
     }

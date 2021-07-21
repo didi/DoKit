@@ -23,6 +23,7 @@ import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitExtInterc
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
 import com.lzy.okgo.OkGo
+import com.stripe.android.PaymentConfiguration
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -136,6 +137,11 @@ class App : Application() {
             .setDiskCacheEnabled(false)
             .build()
         Fresco.initialize(this, config)
+
+//        PaymentConfiguration.init(
+//            this,
+//            "pk_test_TYooMQauvdEDq54NiTphI7jx"
+//        )
 
         //严格检查模式
         //StrictMode.enableDefaults();

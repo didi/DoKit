@@ -52,7 +52,8 @@ class GlobalSlowMethodTransformer : AbsClassTransformer() {
                     methodNode.name != "<init>" &&
                             !methodNode.isEmptyMethod() &&
                             !methodNode.isSingleMethod() &&
-                            !methodNode.isGetSetMethod()
+                            !methodNode.isGetSetMethod() &&
+                            !methodNode.isMainMethod(className)
                 }.forEach { methodNode ->
                     methodNode.instructions.asIterable()
                         .filterIsInstance(MethodInsnNode::class.java).let { methodInsnNodes ->

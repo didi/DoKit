@@ -62,7 +62,7 @@ class EnterMethodStackTransformer : AbsClassTransformer() {
                 }
             }
         }
-        
+
         return klass
     }
 

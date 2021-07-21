@@ -33,10 +33,6 @@ open class AbsClassTransformer : ClassTransformer {
             return true
         }
 
-        if (klass.className.contains("LICENSE",ignoreCase = false)) {
-            return true
-        }
-
         return false
     }
 }

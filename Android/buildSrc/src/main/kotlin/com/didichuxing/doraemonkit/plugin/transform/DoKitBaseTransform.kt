@@ -69,10 +69,6 @@ open class DoKitBaseTransform(val project: Project) : Transform() {
     }
 
     final override fun transform(invocation: TransformInvocation) {
-        transformers.forEach {
-            "transform====>${this::class.simpleName}====>${it}}".println()
-        }
-
         DoKitTransformInvocation(invocation, this).apply {
             if (isIncremental) {
                 doIncrementalTransform()

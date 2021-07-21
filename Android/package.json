@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "调试plugin",
   "scripts": {
-    "start": "./gradlew clean -Dorg.gradle.daemon=false -Dorg.gradle.debug=true",
+    "debug": "./gradlew clean -Dorg.gradle.daemon=false -Dorg.gradle.debug=true",
     "clean": "./gradlew clean",
     "copy": "./gradlew copyPluginSource",
     "pluginAssemble": "./gradlew :doraemonkit-plugin:assemble",

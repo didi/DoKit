@@ -1,5 +1,6 @@
 package com.didichuxing.doraemonkit.plugin.asmtransformer
 
+import com.didichuxing.doraemonkit.plugin.println
 import com.didiglobal.booster.annotations.Priority
 import com.didiglobal.booster.transform.TransformContext
 import com.didiglobal.booster.transform.Transformer
