@@ -28,7 +28,6 @@ if (archives_type == 2) {
 }
 
 
-
 dependencies {
     compileOnly gradleApi()
     compileOnly localGroovy()
@@ -44,24 +43,27 @@ dependencies {
  * 删除指定目录下的文件
  */
 task deleteSource(type: Delete) {
-    delete './src/main/kotlin'
+    doLast {
+        delete './src/main/kotlin'
+    }
 }
 
 /**
  * 将buildSrc中的代码同步到doraemonkit-plugin中
  */
 task copyPluginSource(type: Copy, dependsOn: deleteSource) {
-    println("===copySource start===")
-    from './../buildSrc/src/main/kotlin'
-    into './src/main/kotlin'
-    println("===copySource end===")
+    doLast {
+        println("===Copy Plugin Source Start===")
+        from './../buildSrc/src/main/kotlin'
+        into './src/main/kotlin'
+        println("===Copy Plugin Source End===")
+    }
+
 }
 
 def PUBLISH_ARCHIVES_TYPE = rootProject.ext.publish_config["archives_type"]
 if (PUBLISH_ARCHIVES_TYPE == 0 || PUBLISH_ARCHIVES_TYPE == 1) {
     uploadArchives.dependsOn(copyPluginSource)
-} else {
-    publish.dependsOn(['copyPluginSource'])
 }
 
 

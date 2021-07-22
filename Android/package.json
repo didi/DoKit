@@ -4,12 +4,13 @@
   "description": "调试plugin",
   "scripts": {
     "debug": "./gradlew clean -Dorg.gradle.daemon=false -Dorg.gradle.debug=true",
+    "check": "./gradlew checkUploadConfig",
     "clean": "./gradlew clean",
     "copy": "./gradlew copyPluginSource",
     "pluginAssemble": "./gradlew :doraemonkit-plugin:assemble",
     "assemble": "./gradlew assembleRelease",
     "publish": "./gradlew publishReleasePublicationToMavenCentralRepository",
-    "upload": "npm run clean && npm run copy && npm run pluginAssemble && npm run assemble && npm run publish"
+    "upload": "npm run check && npm run clean && npm run copy && npm run pluginAssemble && npm run assemble && npm run publish"
   },
   "author": "jintai <704167880@qq.com>",
   "license": "MIT"

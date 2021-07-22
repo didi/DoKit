@@ -59,27 +59,45 @@ allprojects {
 }
 
 task clean(type: Delete) {
-    delete rootProject.buildDir
+    doLast {
+        delete rootProject.buildDir
+    }
 }
 
 /**
  * 删除指定目录下的文件
  */
 task deleteSource(type: Delete) {
-    delete "${project.rootDir}/doraemonkit-plugin/src/main/kotlin"
+    doLast {
+        println("===delete Plugin Source start===")
+        delete "${project.rootDir}/doraemonkit-plugin/src/main/kotlin"
+        println("===delete Plugin Source end===")
+    }
 }
 
 /**
  * 将buildSrc中的代码同步到doraemonkit-plugin中
  */
 task copyPluginSource(type: Copy, dependsOn: deleteSource) {
-    println("===copyPluginSource start===")
-    from "${project.rootDir}/buildSrc/src/main/kotlin"
-    into "${project.rootDir}/doraemonkit-plugin/src/main/kotlin"
-    include('**/*')
-    println("===copyPluginSource end===")
+    doLast {
+        println("===copy Plugin Source start===")
+        from "${project.rootDir}/buildSrc/src/main/kotlin"
+        into "${project.rootDir}/doraemonkit-plugin/src/main/kotlin"
+        include('**/*')
+        println("===copy Plugin Source end===")
+    }
 }
 
+/**
+ * 打包上传配置检查
+ */
+task checkUploadConfig() {
+    doLast {
+        if (rootProject.ext.publish_config["archives_type"] != 3) {
+            throw new RuntimeException("执行打包上传任务必须修改config.gradle配置中的archives_type = 3。")
+        }
+    }
+}
 
 
 //project.tasks.whenTaskAdded { Task theTask ->
