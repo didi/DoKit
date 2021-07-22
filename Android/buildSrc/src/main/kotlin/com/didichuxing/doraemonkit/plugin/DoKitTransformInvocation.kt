@@ -218,9 +218,15 @@ internal class DoKitTransformInvocation(
 
     private fun QualifiedContent.transform(output: File) {
         outputs += output
-        this.file.dokitTransform(output) { bytecode ->
-            bytecode.transform()
+        try {
+            this.file.dokitTransform(output) { bytecode ->
+                bytecode.transform()
+            }
+        } catch (e: Exception) {
+            "e===>${e.message}".println()
+            e.printStackTrace()
         }
+
     }
 
     private fun ByteArray.transform(): ByteArray {
