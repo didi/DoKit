@@ -86,12 +86,7 @@ public class ActivityCounter {
             activity.getWindow().getDecorView().post(new Runnable() {
                 @Override
                 public void run() {
-                    activity.getWindow().getDecorView().post(new Runnable() {
-                        @Override
-                        public void run() {
-                            renderEnd();
-                        }
-                    });
+                    renderEnd();
                 }
             });
         } else {
