@@ -57,6 +57,9 @@
 
 @property (nonatomic , assign) CGPoint do_mc_temp_location;
 
+@property (nonatomic , assign) CGPoint do_mc_host_temp_p;
+
+
 @property (nonatomic , assign) CGPoint do_mc_temp_Vol;
 
 @end

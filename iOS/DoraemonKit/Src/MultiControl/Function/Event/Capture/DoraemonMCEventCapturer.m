@@ -266,8 +266,8 @@
 
 @end
 
+@implementation UITextField (support)
 
-@implementation UIControl (support)
 
 + (void)load {
     static dispatch_once_t onceToken;
@@ -298,8 +298,7 @@
     if (![DoraemonMCServer isOpen]) {
         return;
     }
-    if (![self isKindOfClass:[UITextField class]] &&
-        ![self isKindOfClass:[UITextView class]]) {
+    if (![self isKindOfClass:[UITextField class]]) {
         return;
         
     }
@@ -315,6 +314,52 @@
 }
 
 @end
+
+
+@implementation UITextView (support)
+
+
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self do_mc_swizzleInstanceMethodWithOriginSel:@selector(initWithFrame:) swizzledSel:@selector(do_mc_initWithFrame:)];
+    });
+}
+
+- (instancetype)do_mc_initWithFrame:(CGRect)frame {
+    id instance = [self do_mc_initWithFrame:frame];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(do_mc_sendTextViewPayload:) name:UITextViewTextDidChangeNotification object:nil];
+
+    return instance;
+}
+
+
+
+- (void)do_mc_sendTextViewPayload:(NSDictionary*(^)(NSDictionary*))payload {
+  if (![DoraemonMCServer isOpen]) {
+        return;
+    }
+    if (![self isKindOfClass:[UITextView class]]) {
+        return;
+
+    }
+    [DoraemonMCCommandGenerator sendMessageWithView:self
+                                            gusture:nil
+                                             action:nil
+                                          indexPath:nil
+                                        messageType:DoraemonMCMessageTypeTextInput];
+}
+
+
+
+
+@end
+
+
+
+
+
 
 @interface UITableView (DoraemonMCSupport)
 
