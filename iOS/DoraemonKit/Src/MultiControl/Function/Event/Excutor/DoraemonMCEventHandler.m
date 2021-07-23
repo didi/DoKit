@@ -155,7 +155,7 @@
         }
     }
     
-    if ([rootView isKindOfClass:[UITextField class]]) {
+    if ([rootView isKindOfClass:[UITextView class]]) {
         UITextView *tVView =  (UITextView *)rootView ;
         
         if (data[@"text"]) {

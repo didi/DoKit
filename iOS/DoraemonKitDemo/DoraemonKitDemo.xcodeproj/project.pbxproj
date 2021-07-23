@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		0977CCE0269F394100A6463E /* DoraemonDemoMultiControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0977CCDF269F394000A6463E /* DoraemonDemoMultiControlViewController.m */; };
+		09B042C526A8585500045D2A /* DoraemonDemoMultiConLongPressGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 09B042C426A8585500045D2A /* DoraemonDemoMultiConLongPressGesture.m */; };
+		09B042C926A860B400045D2A /* DoraemonDemoMultiConPinchGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 09B042C826A860B400045D2A /* DoraemonDemoMultiConPinchGesture.m */; };
+		09B042CD26A8760E00045D2A /* DoraemonDemoMultiConRotationGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 09B042CC26A8760E00045D2A /* DoraemonDemoMultiConRotationGesture.m */; };
+		09B042D126A8777900045D2A /* DoraemonDemoMultiConSwipeGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 09B042D026A8777900045D2A /* DoraemonDemoMultiConSwipeGesture.m */; };
+		09B042D526A877ED00045D2A /* DoraemonDemoMultiConScreenEdgePanGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 09B042D426A877ED00045D2A /* DoraemonDemoMultiConScreenEdgePanGesture.m */; };
+		09B042D926A8781A00045D2A /* DoraemonDemoMultiConTapGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 09B042D826A8781A00045D2A /* DoraemonDemoMultiConTapGesture.m */; };
 		0A5399852349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A5399842349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.m */; };
 		0A5399882349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A5399872349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.m */; };
 		0A53998B2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A53998A2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m */; };
@@ -51,6 +57,18 @@
 /* Begin PBXFileReference section */
 		0977CCDE269F394000A6463E /* DoraemonDemoMultiControlViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMultiControlViewController.h; sourceTree = "<group>"; };
 		0977CCDF269F394000A6463E /* DoraemonDemoMultiControlViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMultiControlViewController.m; sourceTree = "<group>"; };
+		09B042C326A8585500045D2A /* DoraemonDemoMultiConLongPressGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMultiConLongPressGesture.h; sourceTree = "<group>"; };
+		09B042C426A8585500045D2A /* DoraemonDemoMultiConLongPressGesture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMultiConLongPressGesture.m; sourceTree = "<group>"; };
+		09B042C726A860B400045D2A /* DoraemonDemoMultiConPinchGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMultiConPinchGesture.h; sourceTree = "<group>"; };
+		09B042C826A860B400045D2A /* DoraemonDemoMultiConPinchGesture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMultiConPinchGesture.m; sourceTree = "<group>"; };
+		09B042CB26A8760E00045D2A /* DoraemonDemoMultiConRotationGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMultiConRotationGesture.h; sourceTree = "<group>"; };
+		09B042CC26A8760E00045D2A /* DoraemonDemoMultiConRotationGesture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMultiConRotationGesture.m; sourceTree = "<group>"; };
+		09B042CF26A8777900045D2A /* DoraemonDemoMultiConSwipeGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMultiConSwipeGesture.h; sourceTree = "<group>"; };
+		09B042D026A8777900045D2A /* DoraemonDemoMultiConSwipeGesture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMultiConSwipeGesture.m; sourceTree = "<group>"; };
+		09B042D326A877ED00045D2A /* DoraemonDemoMultiConScreenEdgePanGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMultiConScreenEdgePanGesture.h; sourceTree = "<group>"; };
+		09B042D426A877ED00045D2A /* DoraemonDemoMultiConScreenEdgePanGesture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMultiConScreenEdgePanGesture.m; sourceTree = "<group>"; };
+		09B042D726A8781A00045D2A /* DoraemonDemoMultiConTapGesture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMultiConTapGesture.h; sourceTree = "<group>"; };
+		09B042D826A8781A00045D2A /* DoraemonDemoMultiConTapGesture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMultiConTapGesture.m; sourceTree = "<group>"; };
 		0A5399832349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMemoryLeakViewController.h; sourceTree = "<group>"; };
 		0A5399842349ED5B00C47CB3 /* DoraemonDemoMemoryLeakViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoraemonDemoMemoryLeakViewController.m; sourceTree = "<group>"; };
 		0A5399862349EE7E00C47CB3 /* DoraemonDemoMemoryLeakModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DoraemonDemoMemoryLeakModel.h; sourceTree = "<group>"; };
@@ -142,6 +160,18 @@
 			children = (
 				0977CCDE269F394000A6463E /* DoraemonDemoMultiControlViewController.h */,
 				0977CCDF269F394000A6463E /* DoraemonDemoMultiControlViewController.m */,
+				09B042C326A8585500045D2A /* DoraemonDemoMultiConLongPressGesture.h */,
+				09B042C426A8585500045D2A /* DoraemonDemoMultiConLongPressGesture.m */,
+				09B042C726A860B400045D2A /* DoraemonDemoMultiConPinchGesture.h */,
+				09B042C826A860B400045D2A /* DoraemonDemoMultiConPinchGesture.m */,
+				09B042CB26A8760E00045D2A /* DoraemonDemoMultiConRotationGesture.h */,
+				09B042CC26A8760E00045D2A /* DoraemonDemoMultiConRotationGesture.m */,
+				09B042CF26A8777900045D2A /* DoraemonDemoMultiConSwipeGesture.h */,
+				09B042D026A8777900045D2A /* DoraemonDemoMultiConSwipeGesture.m */,
+				09B042D326A877ED00045D2A /* DoraemonDemoMultiConScreenEdgePanGesture.h */,
+				09B042D426A877ED00045D2A /* DoraemonDemoMultiConScreenEdgePanGesture.m */,
+				09B042D726A8781A00045D2A /* DoraemonDemoMultiConTapGesture.h */,
+				09B042D826A8781A00045D2A /* DoraemonDemoMultiConTapGesture.m */,
 			);
 			path = MultiControl;
 			sourceTree = "<group>";
@@ -576,14 +606,20 @@
 				DAFE052C21BD4A4D00F97A59 /* DoraemonDemoCommonViewController.m in Sources */,
 				0AFBC55223BAE6F80099A8BD /* DoraemonDemoNetTableViewCell.m in Sources */,
 				0AA262E1240F8AC400BF144F /* DoraemonDemoBaseViewController.m in Sources */,
+				09B042D526A877ED00045D2A /* DoraemonDemoMultiConScreenEdgePanGesture.m in Sources */,
 				DAFE052A21BD4A4D00F97A59 /* DoraemonDemoCrashMRCView.m in Sources */,
 				0A6CF27C2438BDDD00A2CBF4 /* DoraemonKitDemoi18Util.m in Sources */,
+				09B042C926A860B400045D2A /* DoraemonDemoMultiConPinchGesture.m in Sources */,
+				09B042CD26A8760E00045D2A /* DoraemonDemoMultiConRotationGesture.m in Sources */,
 				DAC3FA7622B8DD7400871E5C /* DoraemonDemoImageViewController.m in Sources */,
+				09B042C526A8585500045D2A /* DoraemonDemoMultiConLongPressGesture.m in Sources */,
+				09B042D926A8781A00045D2A /* DoraemonDemoMultiConTapGesture.m in Sources */,
 				DAC3FA7922B8E0EE00871E5C /* DoraemonDemoImageShowViewController.m in Sources */,
 				DAC8A87C1FDE2C3B00F03E6F /* DoKitAppDelegate.m in Sources */,
 				DAFE052821BD4A4D00F97A59 /* DoraemonDemoLoggerViewController.m in Sources */,
 				DAFE052E21BD4A4D00F97A59 /* DoraemonDemoMockGPSViewController.m in Sources */,
 				DAFE052F21BD4A4D00F97A59 /* DoraemonDemoPerformanceViewController.m in Sources */,
+				09B042D126A8777900045D2A /* DoraemonDemoMultiConSwipeGesture.m in Sources */,
 				0A6C9CED2423219400BAEF5E /* DoraemonDemoURLProtocol2.m in Sources */,
 				0A53998B2349EE9500C47CB3 /* DoraemonDemoMemoryLeakView.m in Sources */,
 				DAFE052521BD4A4D00F97A59 /* DoraemonDemoUIViewController.m in Sources */,
@@ -735,14 +771,14 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 46A29A7ADN;
+				DEVELOPMENT_TEAM = 7M2BQXS6D5;
 				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DoraemonKitDemo/DoraemonKitDemo-PrefixHeader.pch";
 				INFOPLIST_FILE = DoraemonKitDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.didi.dokit.demo.lth;
+				PRODUCT_BUNDLE_IDENTIFIER = com.didi.dokit.demo.123;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -756,14 +792,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 46A29A7ADN;
+				DEVELOPMENT_TEAM = 7M2BQXS6D5;
 				ENABLE_BITCODE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DoraemonKitDemo/DoraemonKitDemo-PrefixHeader.pch";
 				INFOPLIST_FILE = DoraemonKitDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.didi.dokit.demo.lth;
+				PRODUCT_BUNDLE_IDENTIFIER = com.didi.dokit.demo.123;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
