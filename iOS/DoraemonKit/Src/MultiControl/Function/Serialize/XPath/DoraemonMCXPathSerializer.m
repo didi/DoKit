@@ -7,6 +7,7 @@
 
 #import "DoraemonMCXPathSerializer.h"
 
+static NSUInteger const kDoraemonMCXPathUseKeyWindowIndex = 99999;
 @interface DoraemonMCXPathSerializer ()
 
 // 如果isOneCell为true , 这个字段有值 列表容器的XPath 例如 UITableView , UICollectionView
@@ -67,7 +68,10 @@
     self.vcCls = [self.class ownerVCWithView:view];
     
     self.windowIndex = [[[UIApplication sharedApplication] windows] indexOfObject:currentWindow];
-
+    if (self.windowIndex == NSNotFound &&
+        [UIApplication sharedApplication].keyWindow == currentWindow) {
+        self.windowIndex = kDoraemonMCXPathUseKeyWindowIndex;
+    }
     NSMutableArray<DoraemonMCXPathNode *> *currentPathNodeList = [NSMutableArray array];
     
     UIView *currentV = view;
@@ -222,6 +226,9 @@
     UIWindow *rootWidow = nil;
     if ([UIApplication sharedApplication].windows.count > self.windowIndex) {
         rootWidow = [[UIApplication sharedApplication].windows objectAtIndex:self.windowIndex];
+    }
+    if (kDoraemonMCXPathUseKeyWindowIndex == self.windowIndex) {
+        rootWidow = [UIApplication sharedApplication].keyWindow;
     }
     
     if (rootWidow == nil) {

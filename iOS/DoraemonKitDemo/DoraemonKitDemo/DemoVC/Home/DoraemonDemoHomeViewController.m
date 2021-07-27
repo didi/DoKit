@@ -78,9 +78,7 @@
         txt = DoraemonDemoLocalizedString(@"通用测试Demo");
     }else if(row==8){
         txt = DoraemonDemoLocalizedString(@"内存泄漏测试");
-    }else if(row==9){
-        txt = DoraemonDemoLocalizedString(@"test alert view");
-    }else if(row == 10){
+    }else if(row == 9){
         txt = DoraemonDemoLocalizedString(@"一机多控制测试");
     }
     cell.textLabel.text = txt;
@@ -109,18 +107,6 @@
     }else if(row == 8){
         vc = [[DoraemonDemoMemoryLeakViewController alloc] init];
     }else if(row == 9){
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"alert" message:@"alert message" preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            NSLog(@"confirm");
-        }];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            NSLog(@"cancel");
-        }];
-        
-        [alert addAction:action];
-        [alert addAction:cancelAction];
-        [self.navigationController presentViewController:alert animated:YES completion:nil];
-    }else if(row == 10){
         vc = [[DoraemonDemoMultiControlViewController alloc] init];
     }
     if (vc) {

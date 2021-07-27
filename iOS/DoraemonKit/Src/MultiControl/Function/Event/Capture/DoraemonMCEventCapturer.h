@@ -43,6 +43,11 @@
 
 + (void)do_mc_swizzleInstanceMethodWithOriginSel:(SEL)oriSel swizzledSel:(SEL)swiSel cls:(Class)cls;
 
+/// 获取key对应的关联对象的值 自动解包成CGPoint
+- (CGPoint)do_mc_point_value_forkey:(const void * _Nonnull)key ;
+
+/// 获取key对应的关联对象的值 自动解包成CGRect
+- (CGRect)do_mc_rect_value_forkey:(const void * _Nonnull)key ;
 @end
 
 @interface UIGestureRecognizer (DoraemonMCSupport)
@@ -53,14 +58,9 @@
 
 - (void)do_mc_handleGestureSend:(id)sender;
 
-@property (nonatomic , assign) CGPoint do_mc_temp_p;
+/// 主机上 手势的触摸坐标
+@property (nonatomic , assign) CGPoint do_mc_location_at_host;
 
-@property (nonatomic , assign) CGPoint do_mc_temp_location;
-
-@property (nonatomic , assign) CGPoint do_mc_host_temp_p;
-
-
-@property (nonatomic , assign) CGPoint do_mc_temp_Vol;
 
 @end
 
@@ -69,6 +69,15 @@
 @end
 
 @interface UIPanGestureRecognizer (DoraemonMCSupport)
+
+/// 主机上 平移手势的偏移距离
+@property (nonatomic , assign) CGPoint do_mc_translation_at_host;
+/// 主机上平移手势的加速度
+@property (nonatomic , assign) CGPoint do_mc_vol_at_host;
+
+@end
+
+@interface UILongPressGestureRecognizer (DoraemonMCSupport)
 
 @end
 
