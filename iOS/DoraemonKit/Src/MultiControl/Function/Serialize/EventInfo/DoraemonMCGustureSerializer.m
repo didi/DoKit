@@ -88,15 +88,15 @@
         CGPoint point = CGPointMake([data[@"pointX"] floatValue] , [data[@"pointY"] floatValue] );
         pan.view.center = CGPointMake(point.x, point.y);
         if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled) {
-            pan.do_mc_temp_p = CGPointZero;
+            pan.do_mc_translation_at_host = CGPointZero;
         }else {
-            pan.do_mc_temp_p = translation;
-            pan.do_mc_temp_Vol = volP;
+            pan.do_mc_translation_at_host = translation;
+            pan.do_mc_vol_at_host = volP;
         }
     }
     
     CGPoint locationP = CGPointMake([eventInfo[@"lp"][@"x"] doubleValue], [eventInfo[@"lp"][@"y"] doubleValue]);
-    gusture.do_mc_temp_location = locationP;
+    gusture.do_mc_location_at_host = locationP;
     gusture.state = [eventInfo[@"state"] intValue];
 
     NSDictionary *pps = eventInfo[@"pps"];

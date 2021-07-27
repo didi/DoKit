@@ -60,18 +60,37 @@
     });
 }
 
+
+- (void)setDo_mc_vol_at_host:(CGPoint)do_mc_vol_at_host
+{
+    objc_setAssociatedObject(self, @selector(do_mc_vol_at_host), [NSValue valueWithCGPoint:do_mc_vol_at_host], OBJC_ASSOCIATION_RETAIN);
+}
+
+- (CGPoint)do_mc_vol_at_host {
+    return [self do_mc_point_value_forkey:_cmd];
+}
+
+
+- (void)setDo_mc_translation_at_host:(CGPoint)do_mc_translation_at_host {
+    objc_setAssociatedObject(self, @selector(do_mc_translation_at_host), [NSValue valueWithCGPoint:do_mc_translation_at_host], OBJC_ASSOCIATION_RETAIN);
+}
+
+- (CGPoint)do_mc_translation_at_host {
+    return [self do_mc_point_value_forkey:_cmd];
+}
+
 - (CGPoint)do_mc_translationInView:(UIView *)view {
-    if (CGPointEqualToPoint(CGPointZero, self.do_mc_temp_p)) {
+    if (CGPointEqualToPoint(CGPointZero, self.do_mc_location_at_host)) {
         return [self do_mc_translationInView:view];
     }
-    return self.do_mc_temp_p;
+    return self.do_mc_location_at_host;
 }
 
 - (CGPoint)do_mc_velocityInView:(UIView *)view{
-    if (CGPointEqualToPoint(CGPointZero, self.do_mc_temp_Vol)) {
+    if (CGPointEqualToPoint(CGPointZero, self.do_mc_vol_at_host)) {
         return [self do_mc_translationInView:view];
     }
-    return self.do_mc_temp_Vol;
+    return self.do_mc_vol_at_host;
 }
 
 
@@ -107,9 +126,6 @@
 
 @end
 
-@interface UILongPressGestureRecognizer (DoraemonMCSupport)
-
-@end
 
 @implementation UILongPressGestureRecognizer (DoraemonMCSupport)
 
@@ -123,10 +139,10 @@
 }
 
 - (CGPoint)do_mc_locationInView:(UIView *)view{
-    if (CGPointEqualToPoint(CGPointZero, self.do_mc_temp_location)) {
+    if (CGPointEqualToPoint(CGPointZero, self.do_mc_location_at_host)) {
         return [self do_mc_locationInView:view];
     }
-    return self.do_mc_temp_location;
+    return self.do_mc_location_at_host;
 }
 
 
@@ -162,18 +178,15 @@
     if (!existed) {
         [self.do_mc_targetActionPairs addObject:[[DoraemonMCGestureTargetActionPair alloc] initWithTarget:target action:action sender:self]];
     }
-//    if ([NSStringFromClass([target class]) isEqualToString:@"UIInterfaceActionSelectionTrackingController"]) {
-//        NSLog(@"UIInterfaceActionSelectionTrackingController");
-//    }else 
-        [self do_mc_addTarget:target action:action];
-//    }
+
+    [self do_mc_addTarget:target action:action];
 }
 
 - (CGPoint)do_mc_locationInView:(UIView *)view{
-    if (CGPointEqualToPoint(CGPointZero, self.do_mc_temp_location)) {
+    if (CGPointEqualToPoint(CGPointZero, self.do_mc_location_at_host)) {
         return [self do_mc_locationInView:view];
     }
-    return self.do_mc_temp_location;
+    return self.do_mc_location_at_host;
 }
 
 - (void)do_mc_handleGestureSend:(id)sender {
@@ -188,12 +201,6 @@
     if ([DoraemonMCServer isOpen]) {
         [self do_mc_handleGestureSend:sender];
     }
-//    [self.do_mc_targetActionPairs enumerateObjectsUsingBlock:^(DoraemonMCGestureTargetActionPair * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        if ([NSStringFromClass([obj.target class]) isEqualToString:@"UIInterfaceActionSelectionTrackingController"]) {
-////            NSLog(@"UIInterfaceActionSelectionTrackingController");
-//            [obj doAction];
-//        }
-//    }];
 
 }
 
@@ -203,7 +210,7 @@
             [obj doAction];
         }
     }];
-    self.do_mc_temp_location = CGPointZero;
+    self.do_mc_location_at_host = CGPointZero;
 }
 
 - (void)do_mc_removeTarget:(id)target action:(SEL)action {
@@ -233,32 +240,12 @@
 }
 
 
-- (void)setDo_mc_temp_p:(CGPoint)do_mc_temp_p {
-    objc_setAssociatedObject(self, @selector(do_mc_temp_p), [NSValue valueWithCGPoint:do_mc_temp_p], OBJC_ASSOCIATION_RETAIN);
+- (void)setDo_mc_location_at_host:(CGPoint)do_mc_location_at_host {
+    objc_setAssociatedObject(self, @selector(do_mc_location_at_host), [NSValue valueWithCGPoint:do_mc_location_at_host], OBJC_ASSOCIATION_RETAIN);
 }
 
-- (CGPoint)do_mc_temp_p {
-    id value = objc_getAssociatedObject(self, _cmd);
-    return [value CGPointValue];
-}
-
-- (void)setDo_mc_temp_Vol:(CGPoint)temp_Vol
-{
-    objc_setAssociatedObject(self, @selector(do_mc_temp_Vol), [NSValue valueWithCGPoint:temp_Vol], OBJC_ASSOCIATION_RETAIN);
-}
-
-- (CGPoint)do_mc_temp_Vol {
-    id value = objc_getAssociatedObject(self, _cmd);
-    return [value CGPointValue];
-}
-
-- (void)setDo_mc_temp_location:(CGPoint)do_mc_temp_location {
-    objc_setAssociatedObject(self, @selector(do_mc_temp_location), [NSValue valueWithCGPoint:do_mc_temp_location], OBJC_ASSOCIATION_RETAIN);
-}
-
-- (CGPoint)do_mc_temp_location {
-    id value = objc_getAssociatedObject(self, _cmd);
-    return [value CGPointValue];
+- (CGPoint)do_mc_location_at_host {
+    return [self do_mc_point_value_forkey:_cmd];
 }
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key {}
@@ -453,6 +440,22 @@
 }
 
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key{}
+
+- (CGPoint)do_mc_point_value_forkey:(const void * _Nonnull)key {
+   NSValue *value = objc_getAssociatedObject(self, key);
+    if (![value isKindOfClass:[NSValue class]]) {
+        return CGPointZero;
+    }
+    return [value CGPointValue];
+}
+
+- (CGRect)do_mc_rect_value_forkey:(const void * _Nonnull)key {
+   NSValue *value = objc_getAssociatedObject(self, key);
+    if (![value isKindOfClass:[NSValue class]]) {
+        return CGRectZero;
+    }
+    return [value CGRectValue];;
+}
 
 @end
 
