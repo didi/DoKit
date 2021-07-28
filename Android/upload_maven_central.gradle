@@ -108,7 +108,7 @@ afterEvaluate {
                                 def dependencyNode = dependenciesNode.appendNode('dependency')
                                 if (dependency instanceof DefaultProjectDependency) {
                                     //统一project 前缀
-                                    if (dependency.name.startsWith("doraemonkit")) {
+                                    if (dependency.name.startsWith("dokit")) {
                                         dependencyNode.appendNode('groupId', DOKIT_GROUP_ID)
                                         dependencyNode.appendNode('artifactId', MODULE_JSONOBJECT.getString(dependency.name))
                                         dependencyNode.appendNode('version', DOKIT_VERSION)
@@ -125,7 +125,7 @@ afterEvaluate {
 //                            println("${project.name} dependency is ===>${dependency.group}:${dependency.name}:${dependency.version}")
 //                            if(!it.name.isEmpty() && it.name != "unspecified"){
 //                                def dependencyNode = dependenciesNode.appendNode('dependency')
-//                                if(it.name.startsWith("doraemonkit-")){
+//                                if(it.name.startsWith("dokit-")){
 //
 //                                }
 //

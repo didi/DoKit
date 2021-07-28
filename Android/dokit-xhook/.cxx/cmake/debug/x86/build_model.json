@@ -1,0 +1,214 @@
+{
+  "abi": "X86",
+  "info": {
+    "abi": "X86",
+    "bitness": 32,
+    "deprecated": false,
+    "default": true
+  },
+  "originalCxxBuildFolder": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/.cxx/cmake/debug/x86",
+  "cxxBuildFolder": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/.cxx/cmake/debug/x86",
+  "abiPlatformVersion": 16,
+  "cmake": {
+    "cmakeWrappingBaseFolder": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/.cxx/cxx/debug/x86",
+    "cmakeArtifactsBaseFolder": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/.cxx/cmake/debug/x86",
+    "effectiveConfiguration": {
+      "name": "traditional-android-studio-cmake-environment",
+      "description": "Composite reified CMakeSettings configuration",
+      "generator": "Ninja",
+      "inheritEnvironments": [
+        "ndk"
+      ],
+      "buildRoot": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/.cxx/cmake/debug/x86",
+      "cmakeToolchain": "/Users/didi/Library/Android/sdk/ndk/21.4.7075529/build/cmake/android.toolchain.cmake",
+      "cmakeExecutable": "/Users/didi/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake",
+      "variables": [
+        {
+          "name": "CMAKE_FIND_ROOT_PATH",
+          "value": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/.cxx/cmake/debug/prefab/x86/prefab"
+        },
+        {
+          "name": "CMAKE_BUILD_TYPE",
+          "value": "Debug"
+        },
+        {
+          "name": "CMAKE_TOOLCHAIN_FILE",
+          "value": "/Users/didi/Library/Android/sdk/ndk/21.4.7075529/build/cmake/android.toolchain.cmake"
+        },
+        {
+          "name": "ANDROID_ABI",
+          "value": "x86"
+        },
+        {
+          "name": "ANDROID_NDK",
+          "value": "/Users/didi/Library/Android/sdk/ndk/21.4.7075529"
+        },
+        {
+          "name": "ANDROID_PLATFORM",
+          "value": "android-16"
+        },
+        {
+          "name": "CMAKE_ANDROID_ARCH_ABI",
+          "value": "x86"
+        },
+        {
+          "name": "CMAKE_ANDROID_NDK",
+          "value": "/Users/didi/Library/Android/sdk/ndk/21.4.7075529"
+        },
+        {
+          "name": "CMAKE_EXPORT_COMPILE_COMMANDS",
+          "value": "ON"
+        },
+        {
+          "name": "CMAKE_LIBRARY_OUTPUT_DIRECTORY",
+          "value": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/build/intermediates/cmake/debug/obj/x86"
+        },
+        {
+          "name": "CMAKE_RUNTIME_OUTPUT_DIRECTORY",
+          "value": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/build/intermediates/cmake/debug/obj/x86"
+        },
+        {
+          "name": "CMAKE_MAKE_PROGRAM",
+          "value": "/Users/didi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja"
+        },
+        {
+          "name": "CMAKE_SYSTEM_NAME",
+          "value": "Android"
+        },
+        {
+          "name": "CMAKE_SYSTEM_VERSION",
+          "value": "16"
+        }
+      ]
+    },
+    "cmakeServerLogFile": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/.cxx/cmake/debug/x86/cmake_server_log.txt"
+  },
+  "variant": {
+    "buildSystemArgumentList": [],
+    "cFlagsList": [],
+    "cppFlagsList": [],
+    "variantName": "debug",
+    "objFolder": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/build/intermediates/cmake/debug/obj",
+    "soFolder": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/build/intermediates/cmake/debug/lib",
+    "isDebuggableEnabled": true,
+    "validAbiList": [
+      "ARMEABI_V7A",
+      "ARM64_V8A",
+      "X86",
+      "X86_64"
+    ],
+    "buildTargetSet": [],
+    "implicitBuildTargetSet": [],
+    "cmakeSettingsConfiguration": "android-gradle-plugin-predetermined-name",
+    "module": {
+      "cxxFolder": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/.cxx",
+      "splitsAbiFilterSet": [],
+      "intermediatesFolder": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/build/intermediates",
+      "gradleModulePathName": ":dokit-xhook",
+      "moduleRootFolder": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook",
+      "moduleBuildFile": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/build.gradle",
+      "makeFile": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/CMakeLists.txt",
+      "buildSystem": "CMAKE",
+      "ndkFolder": "/Users/didi/Library/Android/sdk/ndk/21.4.7075529",
+      "ndkVersion": "21.4.7075529",
+      "ndkSupportedAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultAbiList": [
+        "ARMEABI_V7A",
+        "ARM64_V8A",
+        "X86",
+        "X86_64"
+      ],
+      "ndkDefaultStl": "LIBCXX_STATIC",
+      "ndkMetaPlatforms": {
+        "min": 16,
+        "max": 30,
+        "aliases": {
+          "20": 19,
+          "25": 24,
+          "J": 16,
+          "J-MR1": 17,
+          "J-MR2": 18,
+          "K": 19,
+          "L": 21,
+          "L-MR1": 22,
+          "M": 23,
+          "N": 24,
+          "N-MR1": 24,
+          "O": 26,
+          "O-MR1": 27,
+          "P": 28,
+          "Q": 29,
+          "R": 30
+        }
+      },
+      "ndkMetaAbiList": [
+        {
+          "abi": "ARMEABI_V7A",
+          "bitness": 32,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "ARM64_V8A",
+          "bitness": 64,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "X86",
+          "bitness": 32,
+          "deprecated": false,
+          "default": true
+        },
+        {
+          "abi": "X86_64",
+          "bitness": 64,
+          "deprecated": false,
+          "default": true
+        }
+      ],
+      "originalCmakeToolchainFile": "/Users/didi/Library/Android/sdk/ndk/21.4.7075529/build/cmake/android.toolchain.cmake",
+      "cmakeToolchainFile": "/Users/didi/Library/Android/sdk/ndk/21.4.7075529/build/cmake/android.toolchain.cmake",
+      "cmake": {
+        "isValidCmakeAvailable": true,
+        "cmakeExe": "/Users/didi/Library/Android/sdk/cmake/3.10.2.4988404/bin/cmake",
+        "minimumCmakeVersion": "3.10.2",
+        "ninjaExe": "/Users/didi/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja",
+        "isPreferCmakeFileApiEnabled": true
+      },
+      "stlSharedObjectMap": {
+        "LIBCXX_SHARED": {
+          "ARMEABI_V7A": "/Users/didi/Library/Android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/arm-linux-androideabi/libc++_shared.so",
+          "ARM64_V8A": "/Users/didi/Library/Android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/libc++_shared.so",
+          "X86": "/Users/didi/Library/Android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/i686-linux-android/libc++_shared.so",
+          "X86_64": "/Users/didi/Library/Android/sdk/ndk/21.4.7075529/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/x86_64-linux-android/libc++_shared.so"
+        },
+        "LIBCXX_STATIC": {},
+        "NONE": {},
+        "SYSTEM": {}
+      },
+      "project": {
+        "rootBuildGradleFolder": "/Users/didi/project/android/dokit_github/DoraemonKit/Android",
+        "cxxFolder": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/.cxx",
+        "compilerSettingsCacheFolder": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/.cxx",
+        "sdkFolder": "/Users/didi/Library/Android/sdk",
+        "isNativeCompilerSettingsCacheEnabled": false,
+        "isBuildOnlyTargetAbiEnabled": true,
+        "isCmakeBuildCohabitationEnabled": false,
+        "isPrefabEnabled": false,
+        "isV2NativeModelEnabled": true
+      },
+      "nativeBuildOutputLevel": "QUIET"
+    },
+    "prefabDirectory": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/.cxx/cmake/debug/prefab"
+  },
+  "buildSettings": {
+    "environmentVariables": []
+  },
+  "prefabFolder": "/Users/didi/project/android/dokit_github/DoraemonKit/Android/dokit-xhook/.cxx/cmake/debug/prefab/x86"
+}

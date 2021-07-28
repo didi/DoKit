@@ -19,7 +19,7 @@ buildscript {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-//        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
+        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
             url uri('/Users/didi/project/dokit_repo')
@@ -50,7 +50,7 @@ allprojects {
         maven {
             url "https://oss.sonatype.org/content/groups/public"
         }
-//        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
+        maven { url 'http://artifactory.intra.xiaojukeji.com/artifactory/public' }
         maven {
             //本地插件地址
             url uri('/Users/didi/project/dokit_repo')
@@ -70,7 +70,7 @@ task clean(type: Delete) {
 task deleteSource(type: Delete) {
     doLast {
         println("===delete Plugin Source start===")
-        delete "${project.rootDir}/doraemonkit-plugin/src/main/kotlin"
+        delete "${project.rootDir}/dokit-plugin/src/main/kotlin"
         println("===delete Plugin Source end===")
     }
 }
@@ -82,7 +82,7 @@ task copyPluginSource(type: Copy, dependsOn: deleteSource) {
     doLast {
         println("===copy Plugin Source start===")
         from "${project.rootDir}/buildSrc/src/main/kotlin"
-        into "${project.rootDir}/doraemonkit-plugin/src/main/kotlin"
+        into "${project.rootDir}/dokit-plugin/src/main/kotlin"
         include('**/*')
         println("===copy Plugin Source end===")
     }
@@ -102,7 +102,7 @@ task checkUploadConfig() {
 
 //project.tasks.whenTaskAdded { Task theTask ->
 //    if (theTask.name == 'assembleRelease') {
-//        theTask.mustRunAfter(":doraemonkit-plugin:assemble")
+//        theTask.mustRunAfter(":dokit-plugin:assemble")
 //    }
 //}
 

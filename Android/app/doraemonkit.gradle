@@ -5,13 +5,13 @@ if (runType == 0) {
     // 这里引用正常库
     dependencies {
         //外部平台依赖
-        debugImplementation project(":doraemonkit")
-        debugImplementation project(":doraemonkit-mc")
-        debugImplementation project(":doraemonkit-ft")
-        debugImplementation project(":doraemonkit-weex")
-//        debugImplementation project(":doraemonkit-rpc")
-//        debugImplementation project(":doraemonkit-rpc-mc")
-        releaseImplementation project(":doraemonkit-no-op")
+        debugImplementation project(":dokit")
+        debugImplementation project(":dokit-mc")
+        debugImplementation project(":dokit-ft")
+        debugImplementation project(":dokit-weex")
+//        debugImplementation project(":dokit-rpc")
+//        debugImplementation project(":dokit-rpc-mc")
+        releaseImplementation project(":dokit-no-op")
     }
 } else if (runType == 1) {
     apply plugin: 'com.didi.dokit'

@@ -7,7 +7,7 @@
     "check": "./gradlew checkUploadConfig",
     "clean": "./gradlew clean",
     "copy": "./gradlew copyPluginSource",
-    "pluginAssemble": "./gradlew :doraemonkit-plugin:assemble",
+    "pluginAssemble": "./gradlew :dokit-plugin:assemble",
     "assemble": "./gradlew assembleRelease",
     "publish": "./gradlew publishReleasePublicationToMavenCentralRepository",
     "upload": "npm run check && npm run clean && npm run copy && npm run pluginAssemble && npm run assemble && npm run publish"

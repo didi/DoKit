@@ -54,7 +54,7 @@ if (PUBLISH_ARCHIVES_TYPE == 1) {
                     groupId = DOKIT_GROUP_ID
                     artifactId = project.ARTIFACT_ID
                     version = DOKIT_VERSION
-                    // 上传source，这样使用放可以看到方法注释
+                    // 上传source，这样使用可以看到方法注释
                     artifact androidSourcesJar
                 }
             }
