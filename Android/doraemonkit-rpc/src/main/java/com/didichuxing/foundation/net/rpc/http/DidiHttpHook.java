@@ -31,9 +31,9 @@ public class DidiHttpHook {
      * 添加 didi 的拦截器 通过字节码插入
      */
     public static void addRpcIntercept(DidiHttpClient client) {
-        List<Interceptor> interceptors = new ArrayList<>(client.interceptors());
-        List<Interceptor> networkInterceptors = new ArrayList<>(client.networkInterceptors());
         try {
+            List<Interceptor> interceptors = new ArrayList<>(client.interceptors());
+            List<Interceptor> networkInterceptors = new ArrayList<>(client.networkInterceptors());
             DokitAbility.DokitModuleProcessor processor = DoKitManager.INSTANCE.getModuleProcessor(DoKitModule.MODULE_RPC_MC);
             if (processor != null) {
                 Object interceptor = processor.values().get("rpc_interceptor");
@@ -41,15 +41,16 @@ public class DidiHttpHook {
                     noDuplicateAdd(interceptors, (AbsDoKitRpcInterceptor) interceptor);
                 }
             }
+            noDuplicateAdd(interceptors, new RpcMockInterceptor());
+            noDuplicateAdd(interceptors, new RpcCapInterceptor());
+            noDuplicateAdd(networkInterceptors, new RpcWeakNetworkInterceptor());
+            //需要用反射重新赋值 因为源码中创建了一个不可变的list
+            ReflectUtils.reflect(client).field("interceptors", interceptors);
+            ReflectUtils.reflect(client).field("networkInterceptors", networkInterceptors);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        noDuplicateAdd(interceptors, new RpcMockInterceptor());
-        noDuplicateAdd(interceptors, new RpcCapInterceptor());
-        noDuplicateAdd(networkInterceptors, new RpcWeakNetworkInterceptor());
-        //需要用反射重新赋值 因为源码中创建了一个不可变的list
-        ReflectUtils.reflect(client).field("interceptors", interceptors);
-        ReflectUtils.reflect(client).field("networkInterceptors", networkInterceptors);
+
     }
 
     //list判断是否重复添加

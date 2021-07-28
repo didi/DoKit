@@ -48,9 +48,9 @@ public class OkHttpHook {
      * 添加dokit 的拦截器 通过字节码插入
      */
     public static void addDoKitIntercept(OkHttpClient client) {
-        List<Interceptor> interceptors = new ArrayList<>(client.interceptors());
-        List<Interceptor> networkInterceptors = new ArrayList<>(client.networkInterceptors());
         try {
+            List<Interceptor> interceptors = new ArrayList<>(client.interceptors());
+            List<Interceptor> networkInterceptors = new ArrayList<>(client.networkInterceptors());
             DokitAbility.DokitModuleProcessor processor = DoKitManager.INSTANCE.getModuleProcessor(DoKitModule.MODULE_MC);
             if (processor != null) {
                 Object interceptor = processor.values().get("okhttp_interceptor");
@@ -58,18 +58,19 @@ public class OkHttpHook {
                     noDuplicateAdd(interceptors, (AbsDoKitInterceptor) interceptor);
                 }
             }
+            noDuplicateAdd(interceptors, new DokitMockInterceptor());
+            noDuplicateAdd(interceptors, new DokitLargePicInterceptor());
+            noDuplicateAdd(interceptors, new DokitCapInterceptor());
+            noDuplicateAdd(interceptors, new DokitExtInterceptor());
+            noDuplicateAdd(networkInterceptors, new DokitWeakNetworkInterceptor());
+            //需要用反射重新赋值 因为源码中创建了一个不可变的list
+            ReflectUtils.reflect(client).field("interceptors", interceptors);
+            ReflectUtils.reflect(client).field("networkInterceptors", networkInterceptors);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        noDuplicateAdd(interceptors, new DokitMockInterceptor());
-        noDuplicateAdd(interceptors, new DokitLargePicInterceptor());
-        noDuplicateAdd(interceptors, new DokitCapInterceptor());
-        noDuplicateAdd(interceptors, new DokitExtInterceptor());
-        noDuplicateAdd(networkInterceptors, new DokitWeakNetworkInterceptor());
-        //需要用反射重新赋值 因为源码中创建了一个不可变的list
-        ReflectUtils.reflect(client).field("interceptors", interceptors);
-        ReflectUtils.reflect(client).field("networkInterceptors", networkInterceptors);
+
     }
 
     //list判断是否重复添加
