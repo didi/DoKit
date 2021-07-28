@@ -1,9 +1,38 @@
 import 'package:dokit/kit/apm/apm.dart';
+import 'package:dokit/util/screen_util.dart';
 import 'package:flutter/material.dart';
 
 import '../dokit.dart';
 import 'dokit_app.dart';
 import 'resident_page.dart';
+
+final ValueNotifier<Offset> _dokitBtnPositionNotifier =
+    ValueNotifier<Offset>(null);
+
+void setDoKitBtnPosition(Offset newPosition) {
+  if (newPosition == null) {
+    _dokitBtnPositionNotifier.value == null;
+    return;
+  }
+
+  double dx = newPosition.dx;
+  double dy = newPosition.dy;
+
+  if (dx < 0) {
+    dx = 0;
+  }
+  if (dx > ScreenUtil.instance.screenWidth - 80) {
+    dx = ScreenUtil.instance.screenWidth - 80;
+  }
+  if (dy < 0) {
+    dy = 0;
+  }
+  if (dy > ScreenUtil.instance.screenHeight - 26) {
+    dy = ScreenUtil.instance.screenHeight - 26;
+  }
+
+  _dokitBtnPositionNotifier.value = Offset(dx, dy);
+}
 
 // 入口btn
 // ignore: must_be_immutable
@@ -38,59 +67,46 @@ class DoKitBtnState extends State<DoKitBtn> {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-        left: offsetA?.dx,
-        top: offsetA?.dy,
-        right: offsetA == null ? 20 : null,
-        bottom: offsetA == null ? 120 : null,
-        child: Draggable<dynamic>(
-            child: Container(
-              width: 70,
-              height: 70,
-              alignment: Alignment.center,
-              child: FlatButton(
-                padding: const EdgeInsets.all(0),
-                child: Image.asset('images/dokit_flutter_btn.png',
-                    package: DK_PACKAGE_NAME, height: 70, width: 70),
-                onPressed: openDebugPage,
-              ),
-            ),
-            feedback: Container(
-              width: 70,
-              height: 70,
-              alignment: Alignment.center,
-              child: FlatButton(
-                padding: const EdgeInsets.all(0),
-                child: Image.asset('images/dokit_flutter_btn.png',
-                    package: DK_PACKAGE_NAME, height: 70, width: 70),
-                onPressed: openDebugPage,
-              ),
-            ),
-            childWhenDragging: Container(),
-            onDragEnd: (DraggableDetails detail) {
-              final Offset offset = detail.offset;
-              setState(() {
-                final Size size = MediaQuery.of(context).size;
-                final double width = size.width;
-                final double height = size.height;
-                double x = offset.dx;
-                double y = offset.dy;
-                if (x < 0) {
-                  x = 0;
-                }
-                if (x > width - 80) {
-                  x = width - 80;
-                }
-                if (y < 0) {
-                  y = 0;
-                }
-                if (y > height - 26) {
-                  y = height - 26;
-                }
-                offsetA = Offset(x, y);
-              });
-            },
-            onDraggableCanceled: (Velocity velocity, Offset offset) {}));
+    return ValueListenableBuilder<Offset>(
+        valueListenable: _dokitBtnPositionNotifier,
+        builder: (BuildContext context, Offset value, Widget child) {
+          offsetA = value;
+
+          return Positioned(
+              left: offsetA?.dx,
+              top: offsetA?.dy,
+              right: offsetA == null ? 20 : null,
+              bottom: offsetA == null ? 120 : null,
+              child: Draggable<dynamic>(
+                  child: Container(
+                    width: 70,
+                    height: 70,
+                    alignment: Alignment.center,
+                    child: FlatButton(
+                      padding: const EdgeInsets.all(0),
+                      child: Image.asset('images/dokit_flutter_btn.png',
+                          package: DK_PACKAGE_NAME, height: 70, width: 70),
+                      onPressed: openDebugPage,
+                    ),
+                  ),
+                  feedback: Container(
+                    width: 70,
+                    height: 70,
+                    alignment: Alignment.center,
+                    child: FlatButton(
+                      padding: const EdgeInsets.all(0),
+                      child: Image.asset('images/dokit_flutter_btn.png',
+                          package: DK_PACKAGE_NAME, height: 70, width: 70),
+                      onPressed: openDebugPage,
+                    ),
+                  ),
+                  childWhenDragging: Container(),
+                  onDragEnd: (DraggableDetails detail) {
+                    final Offset offset = detail.offset;
+                    setDoKitBtnPosition(offset);
+                  },
+                  onDraggableCanceled: (Velocity velocity, Offset offset) {}));
+        });
   }
 
   void openDebugPage() {

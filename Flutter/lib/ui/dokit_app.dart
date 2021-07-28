@@ -39,9 +39,14 @@ class _DoKitWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (_origin is StatelessWidget) {
-      debugPrint(_origin.toStringShort());
-      Widget widget = (_origin as StatelessWidget).build(context);
-      debugPrint(widget.toStringShort());
+      Widget widget;
+      try {
+        widget = (_origin as StatelessWidget).build(context);
+      } catch (_) {
+        widget = null;
+        print('开启dokit的路由监控，请添加DokitNavigatorObserver');
+      }
+
       if (widget is MaterialApp) {
         final navigatorObservers = widget.navigatorObservers;
         if (navigatorObservers != null) {

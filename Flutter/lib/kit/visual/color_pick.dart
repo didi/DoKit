@@ -2,8 +2,8 @@ import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:dokit/dokit.dart';
-import 'package:dokit/kit/kit.dart';
 import 'package:dokit/kit/visual/visual.dart';
+import 'package:dokit/ui/dokit_app.dart';
 import 'package:dokit/ui/dokit_btn.dart';
 import 'package:dokit/util/screen_util.dart';
 import 'package:flutter/foundation.dart';
@@ -89,10 +89,6 @@ class ColorPickerKit extends VisualKit {
     _infoEntry.remove();
     return true;
   }
-
-  @override
-  // TODO: implement kitType
-  KitType get type => throw UnimplementedError();
 }
 
 class ColorPickerWidget extends StatefulWidget {

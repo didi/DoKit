@@ -67,6 +67,20 @@ exceptionCallback | ExceptionCallback | 异常回调 | x
 methodChannelBlackList | List<String> | 过滤方法通道的黑名单 | x
 releaseAction | Function | release模式下执行该函数，该值为空则会直接调用系统的runApp |x
 
+### 新增接口说明
+```
+// 所有暴露出来的接口都在_DoKitInterfaces中，通过DoKit.i来访问
+// 除dokit.dart文件外的接口都不建议直接访问，暴露出来的接口统一收口在_DoKitInterfaces
+  
+// 当前是否有dokit页面显示
+DoKit.i.isDoKitPageShow();
+
+// 设置dokit悬浮按钮的位置
+DoKit.i.setPosition(Offset(100, 100));
+
+// BizKitManager.instance相关的接口统一迁移到DoKit.i
+```
+
 
 ## 功能简介
 
@@ -83,12 +97,12 @@ releaseAction | Function | release模式下执行该函数，该值为空则会�
 添加第三方业务入口，目前只支持跳转页面，对要跳转的页面只要求是Widget即可，添加第三方业务入口的代码推荐写在main函数中，下面是添加第三方入口的示例：
 ```
   // 注册新的第三方业务入口，不可重复注册，否则报错
-  BizKitManager.instance.addKitWith(
+  DoKit.i.addKitWith(
       name: 'test1',
       group: 'biz',
       kitBuilder: () => Container(color: Colors.orange));
-  BizKitManager.instance.addKitWith(name: 'noAction', group: 'biz');
-  BizKitManager.instance.addKitWith(
+  DoKit.i.addKitWith(name: 'noAction', group: 'biz');
+  DoKit.i.addKitWith(
     key: 'biz1_goBizPage1',
     name: 'goBizPage1',
     group: 'biz1',
@@ -96,19 +110,19 @@ releaseAction | Function | release模式下执行该函数，该值为空则会�
   );
 
   // 添加业务分组的tip信息（需先注册对应的group，否则报错）
-  BizKitManager.instance.addKitGroupTip('biz1', 'dokit test biz1');
+  DoKit.i.addKitGroupTip('biz1', 'dokit test biz1');
 
   // 通过注册的key来手动通过代码打开一个业务入口对应的页面
   Future.delayed(Duration(seconds: 1), () {
-    BizKitManager.instance.open('biz1_goBizPage1');
+    DoKit.i.open('biz1_goBizPage1');
     // 安全打开一个kitPage，和open的区别在于不会报错
-    // BizKitManager.instance.safeOpen();
+    // DoKit.i.safeOpen();
   });
   
   // 隐藏kitPage，不会删除上一次的打开记录
-  BizKitManager.instance.hide();
+  DoKit.i.hide();
   // 关闭kitPage，会删除上一次的打开记录
-  BizKitManager.instance.close();
+  DoKit.i.close();
   
   // 如果传入的kitBuilder中的widget层级中没有包含Navigator（MaterialApp、WidgetApp等组件默认包含Navigator），则推荐使用，否则无法关闭
   Navigator.of(context).pop();
@@ -204,6 +218,7 @@ releaseAction | Function | release模式下执行该函数，该值为空则会�
 
 获取页面的启动耗时, 
 框架已做无侵入的注入NavigatorObserver。但是在较复杂的App构建时可能失效，需要手动添加`DokitNavigatorObserver`
+无侵入注入是需要传入的widget是StatelessWidget类型的，且实现了build函数，如项目中使用了nested依赖库则需要手动注入。
 
 **注：页面启动耗时信息只有在profile或release模式下才有意义**
 

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -e
-ZIP_DIST="$HOME/.taco/flutter/1.20.4/1.20.4.zip"
-ZIP_URL="https://storage.flutter-io.cn/flutter_infra/releases/stable/macos/flutter_macos_1.20.4-stable.zip"
-FLUTTER_HOME="$HOME/.taco/flutter/1.20.4/flutter"
-FLUTTER_DEST="$HOME/.taco/flutter/1.20.4"
-FLUTTER_BIN="$HOME/.taco/flutter/1.20.4/flutter/bin/flutter"
-VERSION="1.20.4"
+ZIP_DIST="$HOME/.taco/flutter/1.22.4/1.22.4.zip"
+ZIP_URL="https://storage.flutter-io.cn/flutter_infra/releases/stable/macos/flutter_macos_1.22.4-stable.zip"
+FLUTTER_HOME="$HOME/.taco/flutter/1.22.4/flutter"
+FLUTTER_DEST="$HOME/.taco/flutter/1.22.4"
+FLUTTER_BIN="$HOME/.taco/flutter/1.22.4/flutter/bin/flutter"
+VERSION="1.22.4"
 
 echo "Using Flutter Wrapper: $VERSION"
 #
