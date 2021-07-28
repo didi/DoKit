@@ -8,6 +8,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:dokit/dokit.dart';
@@ -37,22 +38,22 @@ void main() {
         print('dokit exception callback: $obj');
       });
 
-  BizKitManager.instance.addKitWith(
+  DoKit.i.addKitWith(
       name: 'test1',
       group: 'biz',
       kitBuilder: () => Container(color: Colors.orange));
-  BizKitManager.instance.addKitWith(name: 'noAction', group: 'biz');
-  BizKitManager.instance.addKitWith(
+  DoKit.i.addKitWith(name: 'noAction', group: 'biz');
+  DoKit.i.addKitWith(
     key: 'biz1_goBizPage1',
     name: 'goBizPage1',
     group: 'biz1',
     kitBuilder: () => TestBizPage1(),
   );
 
-  BizKitManager.instance.addKitGroupTip('biz1', 'dokit test biz1');
+  DoKit.i.addKitGroupTip('biz1', 'dokit test biz1');
 
   Future.delayed(Duration(seconds: 1), () {
-    BizKitManager.instance.open('biz1_goBizPage1');
+    DoKit.i.open('biz1_goBizPage1');
   });
 
   // runApp(MyApp());
@@ -104,6 +105,12 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
   @override
   void initState() {
     super.initState();
+
+//    Timer.periodic(new Duration(seconds: 1), (timer) async {
+//      if (DoKit.i.isDoKitPageShow()) {
+//        print('DoKit Page is Show.');
+//      }
+//    });
   }
 
   @override
@@ -232,6 +239,20 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
                 onPressed: stopAll,
               ),
             ),
+            Container(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  color: Color(0xffcccccc)),
+              margin: EdgeInsets.only(bottom: 30),
+              child: FlatButton(
+                child: Text('Change DoKit Btn Position',
+                    style: TextStyle(
+                      color: Color(0xff000000),
+                      fontSize: 18,
+                    )),
+                onPressed: changeDoKitBtnPosition,
+              ),
+            ),
           ],
         ),
       ),
@@ -278,6 +299,12 @@ class _DoKitTestPageState extends State<DoKitTestPage> {
       final Map<String, dynamic> map =
           await _kChannel.invokeMapMethod<String, dynamic>('getAll');
     });
+  }
+
+  void changeDoKitBtnPosition() {
+    double dx = Random().nextDouble() * 1000;
+    double dy = Random().nextDouble() * 2000;
+    DoKit.i.setPosition(Offset(dx, dy));
   }
 
   void stopAll() {
