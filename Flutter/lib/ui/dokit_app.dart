@@ -44,7 +44,7 @@ class _DoKitWrapper extends StatelessWidget {
         widget = (_origin as StatelessWidget).build(context);
       } catch (_) {
         widget = null;
-        print('开启dokit的路由监控，请添加DokitNavigatorObserver');
+        print('开启dokit的路由监控，请添加DokitNavigatorObserver，否则启动耗时功能无法正常使用');
       }
 
       if (widget is MaterialApp) {
@@ -68,7 +68,12 @@ class _DoKitWrapper extends StatelessWidget {
   void ensureDokitObserver(List<NavigatorObserver> navigatorObservers) {
     if (!navigatorObservers
         .any((element) => element is DokitNavigatorObserver)) {
-      navigatorObservers.add(DokitNavigatorObserver());
+      try {
+        // If navigatorObservers actual type is _ImmutableList.
+        navigatorObservers.add(DokitNavigatorObserver());
+      } catch (_) {
+        print('开启dokit的路由监控，请添加DokitNavigatorObserver，否则启动耗时功能无法正常使用');
+      }
     }
   }
 }
