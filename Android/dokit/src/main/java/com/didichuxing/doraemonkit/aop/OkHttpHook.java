@@ -1,7 +1,8 @@
 package com.didichuxing.doraemonkit.aop;
 
-import com.didichuxing.doraemonkit.kit.core.DoKitManager;
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.constant.DoKitModule;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.core.DokitAbility;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.AbsDoKitInterceptor;
 import com.didichuxing.doraemonkit.kit.network.okhttp.interceptor.DokitCapInterceptor;
@@ -48,6 +49,9 @@ public class OkHttpHook {
      * 添加dokit 的拦截器 通过字节码插入
      */
     public static void addDoKitIntercept(OkHttpClient client) {
+        if (!DoKit.isInit()) {
+            return;
+        }
         try {
             List<Interceptor> interceptors = new ArrayList<>(client.interceptors());
             List<Interceptor> networkInterceptors = new ArrayList<>(client.networkInterceptors());

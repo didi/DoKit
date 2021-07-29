@@ -51,7 +51,7 @@ interface DokitViewManagerInterface {
      * @param tag
      * @return
      */
-    fun <T:AbsDokitView> getDoKitView(activity: Activity, clazz: Class<T>): AbsDokitView?
+    fun <T:AbsDokitView> getDoKitView(activity: Activity?, clazz: Class<T>): AbsDokitView?
 
 
     /**
@@ -60,7 +60,7 @@ interface DokitViewManagerInterface {
      * @param activity
      * @return
      */
-    fun getDoKitViews(activity: Activity): Map<String, AbsDokitView>?
+    fun getDoKitViews(activity: Activity?): Map<String, AbsDokitView>?
 
     /**
      * 当app进入后台时调用
@@ -77,25 +77,25 @@ interface DokitViewManagerInterface {
      *
      * @param activity
      */
-    fun onActivityDestroyed(activity: Activity)
+    fun onActivityDestroyed(activity: Activity?)
 
     /**
      * 页面onPause时调用
      *
      * @param activity
      */
-    fun onActivityPaused(activity: Activity)
+    fun onActivityPaused(activity: Activity?)
 
     /**
      * 页面onStop时调用
      */
-    fun onActivityStopped(activity: Activity)
+    fun onActivityStopped(activity: Activity?)
 
     /**
      *
      * @param activity
      */
-    fun dispatchOnActivityResumed(activity: Activity)
+    fun dispatchOnActivityResumed(activity: Activity?)
 
 
 }

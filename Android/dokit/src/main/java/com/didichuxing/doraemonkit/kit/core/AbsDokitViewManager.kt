@@ -37,7 +37,6 @@ abstract class AbsDokitViewManager : DokitViewManagerInterface {
      * @param activity
      */
     fun attachMcRecodingDoKitView(activity: Activity) {
-
         val action: Map<String, String> = mapOf("action" to "launch_recoding_view")
         DoKitManager.getModuleProcessor(DoKitModule.MODULE_MC)?.proceed(action)
 
@@ -46,7 +45,7 @@ abstract class AbsDokitViewManager : DokitViewManagerInterface {
     /**
      * 添加主icon
      */
-    abstract fun attachMainIcon(activity: Activity)
+    abstract fun attachMainIcon(activity: Activity?)
 
     /**
      * 移除主icon
@@ -56,7 +55,7 @@ abstract class AbsDokitViewManager : DokitViewManagerInterface {
     /**
      * 添加toolPanel
      */
-    abstract fun attachToolPanel(activity: Activity)
+    abstract fun attachToolPanel(activity: Activity?)
 
     /**
      * 移除toolPanel
@@ -69,19 +68,19 @@ abstract class AbsDokitViewManager : DokitViewManagerInterface {
      *
      * @param activity
      */
-    abstract fun onMainActivityResume(activity: Activity)
+    abstract fun onMainActivityResume(activity: Activity?)
 
     /**
      * Activity 创建时回调
      *
      * @param activity
      */
-    abstract fun onActivityResume(activity: Activity)
+    abstract fun onActivityResume(activity: Activity?)
 
     /**
      * Activity 页面回退的时候回调
      *
      * @param activity
      */
-    abstract fun onActivityBackResume(activity: Activity)
+    abstract fun onActivityBackResume(activity: Activity?)
 }

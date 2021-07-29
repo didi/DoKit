@@ -1,7 +1,8 @@
 package com.didichuxing.foundation.net.rpc.http;
 
-import com.didichuxing.doraemonkit.kit.core.DoKitManager;
+import com.didichuxing.doraemonkit.DoKit;
 import com.didichuxing.doraemonkit.constant.DoKitModule;
+import com.didichuxing.doraemonkit.kit.core.DoKitManager;
 import com.didichuxing.doraemonkit.kit.core.DokitAbility;
 import com.didichuxing.doraemonkit.kit.network.rpc.AbsDoKitRpcInterceptor;
 import com.didichuxing.doraemonkit.kit.network.rpc.RpcCapInterceptor;
@@ -31,6 +32,10 @@ public class DidiHttpHook {
      * 添加 didi 的拦截器 通过字节码插入
      */
     public static void addRpcIntercept(DidiHttpClient client) {
+        if (!DoKit.isInit()) {
+            return;
+        }
+
         try {
             List<Interceptor> interceptors = new ArrayList<>(client.interceptors());
             List<Interceptor> networkInterceptors = new ArrayList<>(client.networkInterceptors());

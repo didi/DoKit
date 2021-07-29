@@ -73,7 +73,11 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
      *
      * @param activity
      */
-    override fun dispatchOnActivityResumed(activity: Activity) {
+    override fun dispatchOnActivityResumed(activity: Activity?) {
+        if (activity == null) {
+            return
+        }
+
         //app启动
         if (DoKitSystemUtil.isOnlyFirstLaunchActivity(activity)) {
             onMainActivityResume(activity)
@@ -94,7 +98,11 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
     }
 
 
-    override fun attachMainIcon(activity: Activity) {
+    override fun attachMainIcon(activity: Activity?) {
+        if (activity == null) {
+            return
+        }
+
         //假如不存在全局的icon这需要全局显示主icon
         if (DoKitManager.ALWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
             attach(DokitIntent(MainIconDoKitView::class.java))
@@ -108,7 +116,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
         detach(MainIconDoKitView::class.tagName)
     }
 
-    override fun attachToolPanel(activity: Activity) {
+    override fun attachToolPanel(activity: Activity?) {
         attach(DokitIntent(ToolPanelDoKitView::class.java))
     }
 
@@ -119,7 +127,11 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
     /**
      * 应用启动
      */
-    override fun onMainActivityResume(activity: Activity) {
+    override fun onMainActivityResume(activity: Activity?) {
+        if (activity == null) {
+            return
+        }
+
         if (activity is UniversalActivity) {
             return
         }
@@ -137,7 +149,10 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
      *
      * @param activity
      */
-    override fun onActivityResume(activity: Activity) {
+    override fun onActivityResume(activity: Activity?) {
+        if (activity == null) {
+            return
+        }
 
         //将所有的dokitView添加到新建的Activity中去
         for (dokitViewInfo: GlobalSingleDokitViewInfo in mGlobalSingleDoKitViewInfoMap.values) {
@@ -176,7 +191,11 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
      *
      * @param activity
      */
-    override fun onActivityBackResume(activity: Activity) {
+    override fun onActivityBackResume(activity: Activity?) {
+        if (activity == null) {
+            return
+        }
+
         val existDoKitViews: Map<String, AbsDokitView>? = mActivityDoKitViewMap[activity]
         //更新所有全局DokitView的位置
         if (mGlobalSingleDoKitViewInfoMap.isNotEmpty()) {
@@ -226,7 +245,11 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
     }
 
 
-    override fun onActivityPaused(activity: Activity) {
+    override fun onActivityPaused(activity: Activity?) {
+        if (activity == null) {
+            return
+        }
+
         val doKitViews = getDoKitViews(activity)
         doKitViews.let {
             for (doKitView: AbsDokitView in it.values) {
@@ -248,7 +271,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
         }
     }
 
-    override fun onActivityStopped(activity: Activity) {
+    override fun onActivityStopped(activity: Activity?) {
 
     }
 
@@ -456,7 +479,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
      * @return AbsDokitView
      */
     override fun <T : AbsDokitView> getDoKitView(
-        activity: Activity,
+        activity: Activity?,
         clazz: Class<T>
     ): AbsDokitView? {
         if (TextUtils.isEmpty(clazz.tagName)) {
@@ -471,7 +494,11 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
     /**
      * Activity销毁时调用
      */
-    override fun onActivityDestroyed(activity: Activity) {
+    override fun onActivityDestroyed(activity: Activity?) {
+        if (activity == null) {
+            return
+        }
+
         //移除dokit根布局
         val doKitRootView = activity.findViewById<View>(R.id.dokit_contentview_id)
         if (doKitRootView != null) {
@@ -503,7 +530,7 @@ internal class NormalDoKitViewManager : AbsDokitViewManager() {
      * @param activity
      * @return
      */
-    override fun getDoKitViews(activity: Activity): Map<String, AbsDokitView> {
+    override fun getDoKitViews(activity: Activity?): Map<String, AbsDokitView> {
         return mActivityDoKitViewMap[activity] ?: emptyMap()
     }
 

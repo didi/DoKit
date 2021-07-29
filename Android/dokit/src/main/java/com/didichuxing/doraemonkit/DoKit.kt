@@ -37,6 +37,13 @@ public class DoKit private constructor() {
         val isMainIconShow: Boolean
             get() = DoKitReal.isShow
 
+        /**
+         * 是否已完成初始化
+         */
+        @JvmStatic
+        val isInit: Boolean
+            get() = DoKitReal.isInit
+
 
         /**
          * 显示主icon

@@ -32,7 +32,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
      *
      * @return map
      */
-    override fun getDoKitViews(activity: Activity): Map<String, AbsDokitView> {
+    override fun getDoKitViews(activity: Activity?): Map<String, AbsDokitView> {
         val doKitViewMaps: MutableMap<String, AbsDokitView> = mutableMapOf()
         for (doKitView in mDoKitViews) {
             doKitViewMaps[doKitView.tag] = doKitView
@@ -61,7 +61,11 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
     /**
      * @param activity
      */
-    override fun dispatchOnActivityResumed(activity: Activity) {
+    override fun dispatchOnActivityResumed(activity: Activity?) {
+        if (activity == null) {
+            return
+        }
+
         if (activity is UniversalActivity) {
             val countDownDoKitView =
                 DoKit.getDoKitView<CountDownDoKitView>(activity, CountDownDoKitView::class)
@@ -100,7 +104,10 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
     }
 
 
-    override fun attachMainIcon(activity: Activity) {
+    override fun attachMainIcon(activity: Activity?) {
+        if (activity == null) {
+            return
+        }
         //假如不存在全局的icon这需要全局显示主icon
         if (DoKitManager.ALWAYS_SHOW_MAIN_ICON && activity !is UniversalActivity) {
             attach(DokitIntent(MainIconDoKitView::class.java))
@@ -114,7 +121,7 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
         detach(MainIconDoKitView::class.tagName)
     }
 
-    override fun attachToolPanel(activity: Activity) {
+    override fun attachToolPanel(activity: Activity?) {
         attach(DokitIntent(ToolPanelDoKitView::class.java))
     }
 
@@ -122,7 +129,10 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
         detach(ToolPanelDoKitView::class.tagName)
     }
 
-    override fun onMainActivityResume(activity: Activity) {
+    override fun onMainActivityResume(activity: Activity?) {
+        if (activity == null) {
+            return
+        }
         attachMainIcon(activity)
         //倒计时DokitView
         attachCountDownDoKitView(activity)
@@ -134,7 +144,11 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
 //        }
     }
 
-    override fun onActivityResume(activity: Activity) {
+    override fun onActivityResume(activity: Activity?) {
+        if (activity == null) {
+            return
+        }
+
         //判断是否有MainIcon
         if (DoKitManager.ALWAYS_SHOW_MAIN_ICON && !isMainIconShow) {
             show()
@@ -157,7 +171,11 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
         }
     }
 
-    override fun onActivityBackResume(activity: Activity) {
+    override fun onActivityBackResume(activity: Activity?) {
+        if (activity == null) {
+            return
+        }
+
         //移除倒计时浮标
         val countDownDokitView =
             DoKit.getDoKitView<CountDownDoKitView>(activity, CountDownDoKitView::class)
@@ -180,14 +198,18 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
         }
     }
 
-    override fun onActivityPaused(activity: Activity) {
+    override fun onActivityPaused(activity: Activity?) {
+        if (activity == null) {
+            return
+        }
+
         val dokitViews = getDoKitViews(activity)
         for (absDokitView in dokitViews.values) {
             absDokitView.onPause()
         }
     }
 
-    override fun onActivityStopped(activity: Activity) {
+    override fun onActivityStopped(activity: Activity?) {
     }
 
     /**
@@ -266,7 +288,10 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
         }
     }
 
-    override fun <T : AbsDokitView> getDoKitView(activity: Activity, clazz: Class<T>): AbsDokitView? {
+    override fun <T : AbsDokitView> getDoKitView(
+        activity: Activity?,
+        clazz: Class<T>
+    ): AbsDokitView? {
         if (TextUtils.isEmpty(clazz.tagName)) {
             return null
         }
@@ -279,12 +304,10 @@ internal class SystemDoKitViewManager : AbsDokitViewManager() {
     }
 
 
-
-
     /**
      * Activity销毁时调用 不需要实现 为了统一api
      */
-    override fun onActivityDestroyed(activity: Activity) {}
+    override fun onActivityDestroyed(activity: Activity?) {}
 
     /**
      * 在每一个float page创建时 添加监听器

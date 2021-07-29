@@ -19,13 +19,22 @@ public class GlobalConfig {
      * @param isRunning
      */
     public static void setAppHealth(boolean isRunning) {
-        DoKitSPUtil.putBoolean(SharedPrefsKey.APP_HEALTH, isRunning);
+        try {
+            DoKitSPUtil.putBoolean(SharedPrefsKey.APP_HEALTH, isRunning);
+        } catch (Exception e) {
+
+        }
+
     }
 
     /**
      * 获得app 健康体检功能的本地状态
      */
     public static boolean getAppHealth() {
-        return DoKitSPUtil.getBoolean(SharedPrefsKey.APP_HEALTH, false);
+        try {
+            return DoKitSPUtil.getBoolean(SharedPrefsKey.APP_HEALTH, false);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

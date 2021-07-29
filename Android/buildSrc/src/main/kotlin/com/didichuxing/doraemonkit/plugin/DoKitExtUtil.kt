@@ -207,8 +207,7 @@ object DoKitExtUtil {
         "kotlin.",
         "java.",
         "android.",
-        "androidx.",
-        "com.stripe.android",
+        "androidx."
     )
 
     fun log(

@@ -133,16 +133,22 @@ internal class DokitViewManager : DokitViewManagerInterface {
      *
      * @param activity
      */
-    override fun dispatchOnActivityResumed(activity: Activity) {
-        mDoKitViewManager.dispatchOnActivityResumed(activity)
+    override fun dispatchOnActivityResumed(activity: Activity?) {
+        activity?.let {
+            mDoKitViewManager.dispatchOnActivityResumed(it)
+        }
     }
 
-    override fun onActivityPaused(activity: Activity) {
-        mDoKitViewManager.onActivityPaused(activity)
+    override fun onActivityPaused(activity: Activity?) {
+        activity?.let {
+            mDoKitViewManager.onActivityPaused(it)
+        }
     }
 
-    override fun onActivityStopped(activity: Activity) {
-        mDoKitViewManager.onActivityStopped(activity)
+    override fun onActivityStopped(activity: Activity?) {
+        activity?.let {
+            mDoKitViewManager.onActivityStopped(it)
+        }
     }
 
     /**
@@ -218,17 +224,24 @@ internal class DokitViewManager : DokitViewManagerInterface {
      * @return
      */
     override fun <T : AbsDokitView> getDoKitView(
-        activity: Activity,
+        activity: Activity?,
         clazz: Class<T>
     ): AbsDokitView? {
-        return mDoKitViewManager.getDoKitView(activity, clazz)
+        return if (activity != null) {
+            mDoKitViewManager.getDoKitView(activity, clazz)
+        } else {
+            null
+        }
+
     }
 
     /**
      * Activity销毁时调用
      */
-    override fun onActivityDestroyed(activity: Activity) {
-        mDoKitViewManager.onActivityDestroyed(activity)
+    override fun onActivityDestroyed(activity: Activity?) {
+        activity?.let {
+            mDoKitViewManager.onActivityDestroyed(it)
+        }
     }
 
 
@@ -236,8 +249,12 @@ internal class DokitViewManager : DokitViewManagerInterface {
      * @param activity
      * @return
      */
-    override fun getDoKitViews(activity: Activity): Map<String, AbsDokitView>? {
-        return mDoKitViewManager.getDoKitViews(activity)
+    override fun getDoKitViews(activity: Activity?): Map<String, AbsDokitView>? {
+        return if (activity != null) {
+            mDoKitViewManager.getDoKitViews(activity)
+        } else {
+            null
+        }
     }
 
     /**

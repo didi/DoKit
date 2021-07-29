@@ -40,7 +40,7 @@ import java.util.*
 object DoKitReal {
 
     private lateinit var APPLICATION: Application
-
+    var isInit = false
 
     fun setDebug(debug: Boolean) {
         LogHelper.setDebug(debug)
@@ -58,16 +58,17 @@ object DoKitReal {
         listKits: List<AbstractKit>,
         productId: String
     ) {
-        registerModuleListener()
+
         pluginConfig()
         initThirdLibraryInfo()
         DoKitManager.PRODUCT_ID = productId
         DoKitManager.APP_HEALTH_RUNNING = GlobalConfig.getAppHealth()
-
         //赋值
         APPLICATION = app
         //初始化工具类
         initAndroidUtil(app)
+
+
         //判断进程名
         if (!ProcessUtils.isMainProcess()) {
             return
@@ -91,6 +92,8 @@ object DoKitReal {
 
         //注册全局的activity生命周期回调
         app.registerActivityLifecycleCallbacks(DokitActivityLifecycleCallbacks())
+        //注册App前后台切换监听
+        registerAppStatusChangedListener()
         //DokitConstant.KIT_MAPS.clear()
         DoKitManager.GLOBAL_KITS.clear()
         //添加用户的自定义kit
@@ -159,13 +162,14 @@ object DoKitReal {
 
         //上传埋点
         DataPickManager.getInstance().postData()
+        isInit = true
     }
 
 
     /**
-     * 注册模块之间通信
+     * 注册App前后台切换监听
      */
-    private fun registerModuleListener() {
+    private fun registerAppStatusChangedListener() {
         //前后台监听
         AppUtils.registerAppStatusChangedListener(object : Utils.OnAppStatusChangedListener {
             //进入前台
@@ -561,7 +565,7 @@ object DoKitReal {
 
     @JvmStatic
     fun <T : AbsDokitView> getDoKitView(
-        activity: Activity,
+        activity: Activity?,
         clazz: Class<out T>
     ): T? {
         return if (DokitViewManager.instance.getDoKitView(activity, clazz) == null) {
