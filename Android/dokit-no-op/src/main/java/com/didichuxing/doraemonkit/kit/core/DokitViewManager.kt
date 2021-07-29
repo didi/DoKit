@@ -30,31 +30,25 @@ class DokitViewManager : DokitViewManagerInterface {
     override fun notifyForeground() {
     }
 
-    override fun onActivityDestroy(activity: Activity?) {
+    override fun onActivityDestroyed(activity: Activity?) {
     }
 
-    override fun resumeAndAttachDokitViews(activity: Activity?) {
+    override fun onActivityPaused(activity: Activity?) {
     }
 
-    override fun onMainActivityCreate(activity: Activity?) {
+    override fun onActivityStopped(activity: Activity?) {
     }
 
-    override fun onActivityCreate(activity: Activity?) {
+    override fun dispatchOnActivityResumed(activity: Activity?) {
     }
 
-    override fun onActivityResume(activity: Activity?) {
+    override fun attach(dokitIntent: DokitIntent) {
     }
 
-    override fun onActivityPause(activity: Activity?) {
+    override fun detach(dokitView: AbsDokitView) {
     }
 
-    override fun attach(dokitIntent: DokitIntent?) {
-    }
-
-    override fun detach(dokitView: AbsDokitView?) {
-    }
-
-    override fun detach(tag: String?) {
+    override fun detach(tag: String) {
     }
 
 
@@ -68,12 +62,16 @@ class DokitViewManager : DokitViewManagerInterface {
     override fun detachAll() {
     }
 
-
-
-    override fun getDokitViews(activity: Activity?): MutableMap<String, AbsDokitView> {
-        return mutableMapOf()
+    override fun <T : AbsDokitView> getDoKitView(
+        activity: Activity?,
+        clazz: Class<T>
+    ): AbsDokitView? {
+        return null
     }
 
+    override fun getDoKitViews(activity: Activity?): Map<String, AbsDokitView>? {
+        return null
+    }
 
 
     /**

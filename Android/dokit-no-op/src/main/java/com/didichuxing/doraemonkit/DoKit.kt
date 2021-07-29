@@ -153,7 +153,7 @@ public class DoKit private constructor() {
 
         @JvmStatic
         fun <T : AbsDokitView> getDoKitView(
-            activity: Activity,
+            activity: Activity?,
             clazz: Class<out T>
         ): T? {
             return null
@@ -161,7 +161,7 @@ public class DoKit private constructor() {
 
         @JvmStatic
         fun <T : AbsDokitView> getDoKitView(
-            activity: Activity,
+            activity: Activity?,
             clazz: KClass<out T>
         ): T? {
             return null

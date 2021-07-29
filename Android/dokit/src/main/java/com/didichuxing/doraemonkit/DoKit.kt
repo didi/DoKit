@@ -174,7 +174,7 @@ public class DoKit private constructor() {
 
         @JvmStatic
         fun <T : AbsDokitView> getDoKitView(
-            activity: Activity,
+            activity: Activity?,
             clazz: Class<out T>
         ): T? {
             return DoKitReal.getDoKitView<T>(activity, clazz)
@@ -182,7 +182,7 @@ public class DoKit private constructor() {
 
         @JvmStatic
         fun <T : AbsDokitView> getDoKitView(
-            activity: Activity,
+            activity: Activity?,
             clazz: KClass<out T>
         ): T? {
             return getDoKitView(activity, clazz.java)
